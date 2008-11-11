@@ -175,6 +175,7 @@ Partial Class frmMain
         Me.imgMain.ImageStream = CType(resources.GetObject("imgMain.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.imgMain.TransparentColor = System.Drawing.Color.Transparent
         Me.imgMain.Images.SetKeyName(0, "main_big2.ico")
+        Me.imgMain.Images.SetKeyName(1, "noicon32")
         '
         'panelActions1
         '

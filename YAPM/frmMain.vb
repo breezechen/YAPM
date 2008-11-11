@@ -156,8 +156,12 @@ Public Class frmMain
                     .SubItems(6).Text = gProc.PriorityClass.ToString
                     .SubItems(8).Text = gProc.StartTime.ToLongDateString & " -- " & gProc.StartTime.ToLongTimeString
                 End With
+
+                lvi.Tag = Nothing
+
             Catch ex As Exception
-                ' Access denied
+                ' Access denied or ?
+                lvi.Tag = ex
             End Try
 
         Next
@@ -168,86 +172,126 @@ Public Class frmMain
         refreshProcessList()
     End Sub
 
-    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        refreshProcessList()
-    End Sub
-
     Private Sub lvProcess_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvProcess.SelectedIndexChanged
         ' New process selected
         If lvProcess.SelectedItems.Count > 0 Then
             Dim it As ListViewItem = lvProcess.SelectedItems.Item(0)
-            Try
-                Dim proc As Process = Process.GetProcessById(CInt(it.SubItems(1).Text))
 
-                Me.lblProcessName.Text = "Process name : " & it.Text
-                Me.lblProcessPath.Text = "Process path : " & it.SubItems(7).Text
-                Me.cbPriority.Text = proc.PriorityClass.ToString
+            Me.lblProcessName.Text = "Process name : " & it.Text
+            Me.lblProcessPath.Text = "Unable to retrieve path"
 
-                ' Description
+            If it.Tag Is Nothing Then
+
+                Try
+                    Dim proc As Process = Process.GetProcessById(CInt(it.SubItems(1).Text))
+
+                    Me.cbPriority.Text = proc.PriorityClass.ToString
+
+                    ' Description
+                    Dim s As String = ""
+                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b File property\b0\par"
+                    s = s & "\tab File name :\tab\tab " & it.Text & "\par"
+                    s = s & "\tab Path :\tab\tab\tab " & Replace(it.SubItems(7).Text, "\", "\\") & "\par"
+                    s = s & "\tab Description :\tab\tab " & proc.MainModule.FileVersionInfo.FileDescription & "\par"
+                    s = s & "\tab Company name :\tab\tab " & proc.MainModule.FileVersionInfo.CompanyName & "\par"
+                    s = s & "\tab Version :\tab\tab " & proc.MainModule.FileVersionInfo.FileVersion & "\par"
+                    s = s & "\tab Copyright :\tab\tab " & proc.MainModule.FileVersionInfo.LegalCopyright & "\par"
+                    s = s & "\par"
+                    s = s & "  \b Process description\b0\par"
+                    s = s & "\tab PID :\tab\tab\tab " & it.SubItems(1).Text & "\par"
+                    s = s & "\tab Threads :\tab\tab " & it.SubItems(5).Text & "\par"
+                    s = s & "\tab Start time :\tab\tab " & it.SubItems(8).Text & "\par"
+                    s = s & "\tab Priority :\tab\tab\tab " & it.SubItems(6).Text & "\par"
+                    s = s & "\tab User :\tab\tab\tab " & it.SubItems(2).Text & "\par"
+                    s = s & "\tab Processor time :\tab\tab " & it.SubItems(3).Text & "\par"
+                    s = s & "\tab Memory :\tab\tab " & it.SubItems(4).Text & "\par"
+                    s = s & "\par"
+                    s = s & "  \b On line informations\b0\par"
+                    s = s & "\tab Description :\tab\tab " & "Here is the online description" & "\par"
+                    s = s & "\tab State :\tab\tab\tab " & "Here is the online state" & "\par"
+
+                    If chkModules.Checked Then
+                        ' Retrieve modules
+                        s = s & "\par"
+                        s = s & "  \b Loaded modules\b0\par"
+                        Dim p As ProcessModuleCollection = proc.Modules
+                        Dim m As ProcessModule
+                        For Each m In p
+                            s = s & "\tab " & Replace(m.FileVersionInfo.FileName, "\", "\\") & "\par"
+                        Next
+
+                        ' Retrieve threads infos
+                        s = s & "\par"
+                        s = s & "  \b Threads\b0\par"
+                        Dim t As ProcessThreadCollection = proc.Threads
+                        Dim pt As ProcessThread
+                        For Each pt In t
+                            s = s & "\tab " & CStr(pt.Id) & "\par"
+                            s = s & "\tab\tab " & "Priority level : " & CStr(pt.PriorityLevel.ToString) & "\par"
+                            Dim tsp As TimeSpan = pt.TotalProcessorTime
+                            Dim s2 As String = String.Format("{0:00}", tsp.TotalHours) & ":" & _
+                                String.Format("{0:00}", tsp.Minutes) & ":" & _
+                                String.Format("{0:00}", tsp.Seconds)
+                            s = s & "\tab\tab " & "Start address : " & CStr(pt.StartAddress) & "\par"
+                            s = s & "\tab\tab " & "Start time : " & pt.StartTime.ToLongDateString & " -- " & pt.StartTime.ToLongTimeString & "\par"
+                            s = s & "\tab\tab " & "State : " & CStr(pt.ThreadState.ToString) & "\par"
+                            s = s & "\tab\tab " & "Processor time : " & s2 & "\par"
+                        Next
+                    End If
+                    s = s & "}"
+
+                    rtb.Rtf = s
+
+                    ' Icons
+                    Try
+                        pctBigIcon.Image = GetIcon(it.SubItems(7).Text, False).ToBitmap
+                        pctSmallIcon.Image = GetIcon(it.SubItems(7).Text, True).ToBitmap
+                    Catch ex As Exception
+                        pctSmallIcon.Image = Me.imgProcess.Images("noicon")
+                        pctBigIcon.Image = Me.imgMain.Images("noicon32")
+                    End Try
+
+                    Me.lblProcessName.Text = "Process name : " & it.Text
+                    Me.lblProcessPath.Text = "Process path : " & it.SubItems(7).Text
+
+                Catch ex As Exception
+                    Dim s As String = ""
+                    Dim er As Exception = ex
+
+                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+                    s = s & "\tab Message :\tab " & er.Message & "\par"
+                    s = s & "\tab Source :\tab\tab " & er.Source & "\par"
+                    If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
+                    s = s & "}"
+
+                    rtb.Rtf = s
+
+                    pctSmallIcon.Image = Me.imgProcess.Images("noicon")
+                    pctBigIcon.Image = Me.imgMain.Images("noicon32")
+                End Try
+
+            Else
+                ' Error
                 Dim s As String = ""
+                Dim er As Exception = CType(it.Tag, Exception)
+
                 s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b File property\b0\par"
-                s = s & "\tab File name :\tab\tab " & it.Text & "\par"
-                s = s & "\tab Path :\tab\tab\tab " & Replace(it.SubItems(7).Text, "\", "\\") & "\par"
-                s = s & "\tab Description :\tab\tab " & proc.MainModule.FileVersionInfo.FileDescription & "\par"
-                s = s & "\tab Company name :\tab\tab " & proc.MainModule.FileVersionInfo.CompanyName & "\par"
-                s = s & "\tab Version :\tab\tab " & proc.MainModule.FileVersionInfo.FileVersion & "\par"
-                s = s & "\tab Copyright :\tab\tab " & proc.MainModule.FileVersionInfo.LegalCopyright & "\par"
-                s = s & "\par"
-                s = s & "  \b Process description\b0\par"
-                s = s & "\tab PID :\tab\tab\tab " & it.SubItems(1).Text & "\par"
-                s = s & "\tab Threads :\tab\tab " & it.SubItems(5).Text & "\par"
-                s = s & "\tab Start time :\tab\tab " & it.SubItems(8).Text & "\par"
-                s = s & "\tab Priority :\tab\tab\tab " & it.SubItems(6).Text & "\par"
-                s = s & "\tab User :\tab\tab\tab " & it.SubItems(2).Text & "\par"
-                s = s & "\tab Processor time :\tab\tab " & it.SubItems(3).Text & "\par"
-                s = s & "\tab Memory :\tab\tab " & it.SubItems(4).Text & "\par"
-                s = s & "\par"
-                s = s & "  \b On line informations\b0\par"
-                s = s & "\tab Description :\tab\tab " & "Here is the online description" & "\par"
-                s = s & "\tab State :\tab\tab\tab " & "Here is the online state" & "\par"
-
-                If chkModules.Checked Then
-                    ' Retrieve modules
-                    s = s & "\par"
-                    s = s & "  \b Loaded modules\b0\par"
-                    Dim p As ProcessModuleCollection = proc.Modules
-                    Dim m As ProcessModule
-                    For Each m In p
-                        s = s & "\tab " & Replace(m.FileVersionInfo.FileName, "\", "\\") & "\par"
-                    Next
-
-                    ' Retrieve threads infos
-                    s = s & "\par"
-                    s = s & "  \b Threads\b0\par"
-                    Dim t As ProcessThreadCollection = proc.Threads
-                    Dim pt As ProcessThread
-                    For Each pt In t
-                        s = s & "\tab " & CStr(pt.Id) & "\par"
-                        s = s & "\tab\tab " & "Priority level : " & CStr(pt.PriorityLevel.ToString) & "\par"
-                        Dim tsp As TimeSpan = pt.TotalProcessorTime
-                        Dim s2 As String = String.Format("{0:00}", tsp.TotalHours) & ":" & _
-                            String.Format("{0:00}", tsp.Minutes) & ":" & _
-                            String.Format("{0:00}", tsp.Seconds)
-                        s = s & "\tab\tab " & "Start address : " & CStr(pt.StartAddress) & "\par"
-                        s = s & "\tab\tab " & "Start time : " & pt.StartTime.ToLongDateString & " -- " & pt.StartTime.ToLongTimeString & "\par"
-                        s = s & "\tab\tab " & "State : " & CStr(pt.ThreadState.ToString) & "\par"
-                        s = s & "\tab\tab " & "Processor time : " & s2 & "\par"
-                    Next
-                End If
+                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+                s = s & "\tab Message :\tab " & er.Message & "\par"
+                s = s & "\tab Source :\tab\tab " & er.Source & "\par"
+                If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
                 s = s & "}"
 
                 rtb.Rtf = s
 
-                ' Icons
-                pctBigIcon.Image = GetIcon(it.SubItems(7).Text, False).ToBitmap
-                pctSmallIcon.Image = GetIcon(it.SubItems(7).Text, True).ToBitmap
-
-            Catch ex As Exception
-                '
-            End Try
+                pctSmallIcon.Image = Me.imgProcess.Images("noicon")
+                pctBigIcon.Image = Me.imgMain.Images("noicon32")
+            End If
 
         End If
+
     End Sub
 
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
