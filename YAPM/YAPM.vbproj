@@ -136,6 +136,7 @@
     <Content Include="process.ico" />
     <Content Include="process31.ico" />
     <Content Include="process32.ico" />
+    <None Include="Resources\process1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

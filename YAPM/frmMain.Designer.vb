@@ -24,12 +24,12 @@ Partial Class frmMain
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.panelActions1 = New System.Windows.Forms.Panel
         Me.cmdSetPriority = New System.Windows.Forms.Button
@@ -75,7 +75,6 @@ Partial Class frmMain
         Me.txtSearch = New System.Windows.Forms.TextBox
         Me.chkModules = New System.Windows.Forms.CheckBox
         Me.timerProcess = New System.Windows.Forms.Timer(Me.components)
-        Me.panelMain5 = New System.Windows.Forms.Panel
         Me.panelMain2 = New System.Windows.Forms.Panel
         Me.lvServices = New System.Windows.Forms.ListView
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
@@ -103,10 +102,8 @@ Partial Class frmMain
         Me.Label3 = New System.Windows.Forms.Label
         Me.timerServices = New System.Windows.Forms.Timer(Me.components)
         Me.lblProcessName = New System.Windows.Forms.Label
-        Me.pctBigIcon = New System.Windows.Forms.PictureBox
         Me.menuCopyPctbig = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem
-        Me.pctSmallIcon = New System.Windows.Forms.PictureBox
         Me.menuCopyPctSmall = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripMenuItem
         Me.rtb = New System.Windows.Forms.RichTextBox
@@ -130,10 +127,6 @@ Partial Class frmMain
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.saveDial = New System.Windows.Forms.SaveFileDialog
-        Me.pctHelp = New System.Windows.Forms.PictureBox
-        Me.pctService = New System.Windows.Forms.PictureBox
-        Me.pctProcess = New System.Windows.Forms.PictureBox
-        Me.pctJobs = New System.Windows.Forms.PictureBox
         Me.lblProcess = New System.Windows.Forms.Label
         Me.lblServices = New System.Windows.Forms.Label
         Me.lblAddJobs = New System.Windows.Forms.Label
@@ -144,6 +137,13 @@ Partial Class frmMain
         Me.tv = New System.Windows.Forms.TreeView
         Me.rtb2 = New System.Windows.Forms.RichTextBox
         Me.lblServiceName = New System.Windows.Forms.Label
+        Me.pctSmallIcon = New System.Windows.Forms.PictureBox
+        Me.pctBigIcon = New System.Windows.Forms.PictureBox
+        Me.pctJobs = New System.Windows.Forms.PictureBox
+        Me.pctProcess = New System.Windows.Forms.PictureBox
+        Me.pctService = New System.Windows.Forms.PictureBox
+        Me.pctHelp = New System.Windows.Forms.PictureBox
+        Me.WBHelp = New System.Windows.Forms.WebBrowser
         Me.panelActions1.SuspendLayout()
         Me.gpProc2.SuspendLayout()
         Me.gpProc1.SuspendLayout()
@@ -151,23 +151,24 @@ Partial Class frmMain
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
         Me.panelMain2.SuspendLayout()
+        Me.panelMain4.SuspendLayout()
         Me.panelMain3.SuspendLayout()
         Me.panelActions2.SuspendLayout()
         Me.panelActions3.SuspendLayout()
         Me.panelActions4.SuspendLayout()
         Me.panelActions5.SuspendLayout()
-        CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.menuCopyPctbig.SuspendLayout()
-        CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.menuCopyPctSmall.SuspendLayout()
         Me.panelInfos.SuspendLayout()
         Me.menuTooltip.SuspendLayout()
         Me.mainMenu.SuspendLayout()
-        CType(Me.pctHelp, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pctService, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pctProcess, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pctJobs, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.panelInfos2.SuspendLayout()
+        CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pctJobs, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pctProcess, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pctService, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pctHelp, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'imgMain
@@ -312,11 +313,11 @@ Partial Class frmMain
         Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c6, Me.c7, Me.c8, Me.c9})
         Me.lvProcess.ContextMenuStrip = Me.menuProc
         Me.lvProcess.FullRowSelect = True
-        ListViewGroup1.Header = "Processes"
-        ListViewGroup1.Name = "gpOther"
-        ListViewGroup2.Header = "Search result"
-        ListViewGroup2.Name = "gpSearch"
-        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup7.Header = "Processes"
+        ListViewGroup7.Name = "gpOther"
+        ListViewGroup8.Header = "Search result"
+        ListViewGroup8.Name = "gpSearch"
+        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
         Me.lvProcess.HideSelection = False
         Me.lvProcess.Location = New System.Drawing.Point(3, 3)
         Me.lvProcess.Name = "lvProcess"
@@ -506,13 +507,6 @@ Partial Class frmMain
         Me.timerProcess.Enabled = True
         Me.timerProcess.Interval = 1000
         '
-        'panelMain5
-        '
-        Me.panelMain5.Location = New System.Drawing.Point(114, 166)
-        Me.panelMain5.Name = "panelMain5"
-        Me.panelMain5.Size = New System.Drawing.Size(560, 240)
-        Me.panelMain5.TabIndex = 13
-        '
         'panelMain2
         '
         Me.panelMain2.Controls.Add(Me.lvServices)
@@ -527,11 +521,11 @@ Partial Class frmMain
         Me.lvServices.AllowColumnReorder = True
         Me.lvServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader11})
         Me.lvServices.FullRowSelect = True
-        ListViewGroup3.Header = "Services"
-        ListViewGroup3.Name = "gpOther"
-        ListViewGroup4.Header = "Search result"
-        ListViewGroup4.Name = "gpSearch"
-        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup1.Header = "Services"
+        ListViewGroup1.Name = "gpOther"
+        ListViewGroup2.Header = "Search result"
+        ListViewGroup2.Name = "gpSearch"
+        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvServices.HideSelection = False
         Me.lvServices.Location = New System.Drawing.Point(3, 3)
         Me.lvServices.Name = "lvServices"
@@ -581,6 +575,7 @@ Partial Class frmMain
         '
         'panelMain4
         '
+        Me.panelMain4.Controls.Add(Me.WBHelp)
         Me.panelMain4.Location = New System.Drawing.Point(130, 182)
         Me.panelMain4.Name = "panelMain4"
         Me.panelMain4.Size = New System.Drawing.Size(560, 240)
@@ -601,11 +596,11 @@ Partial Class frmMain
         Me.lvJobs.AllowColumnReorder = True
         Me.lvJobs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader4, Me.ColumnHeader5, Me.ColumnHeader6})
         Me.lvJobs.FullRowSelect = True
-        ListViewGroup5.Header = "Past jobs"
-        ListViewGroup5.Name = "gp1"
-        ListViewGroup6.Header = "Future jobs"
-        ListViewGroup6.Name = "gp2"
-        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
+        ListViewGroup3.Header = "Past jobs"
+        ListViewGroup3.Name = "gp1"
+        ListViewGroup4.Header = "Future jobs"
+        ListViewGroup4.Name = "gp2"
+        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvJobs.HideSelection = False
         Me.lvJobs.Location = New System.Drawing.Point(3, 3)
         Me.lvJobs.Name = "lvJobs"
@@ -727,15 +722,6 @@ Partial Class frmMain
         Me.lblProcessName.TabIndex = 4
         Me.lblProcessName.Text = "Process name :"
         '
-        'pctBigIcon
-        '
-        Me.pctBigIcon.ContextMenuStrip = Me.menuCopyPctbig
-        Me.pctBigIcon.Location = New System.Drawing.Point(525, 3)
-        Me.pctBigIcon.Name = "pctBigIcon"
-        Me.pctBigIcon.Size = New System.Drawing.Size(32, 32)
-        Me.pctBigIcon.TabIndex = 1
-        Me.pctBigIcon.TabStop = False
-        '
         'menuCopyPctbig
         '
         Me.menuCopyPctbig.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem6})
@@ -747,15 +733,6 @@ Partial Class frmMain
         Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
         Me.ToolStripMenuItem6.Size = New System.Drawing.Size(169, 22)
         Me.ToolStripMenuItem6.Text = "Copy to clipboard"
-        '
-        'pctSmallIcon
-        '
-        Me.pctSmallIcon.ContextMenuStrip = Me.menuCopyPctSmall
-        Me.pctSmallIcon.Location = New System.Drawing.Point(503, 19)
-        Me.pctSmallIcon.Name = "pctSmallIcon"
-        Me.pctSmallIcon.Size = New System.Drawing.Size(16, 16)
-        Me.pctSmallIcon.TabIndex = 2
-        Me.pctSmallIcon.TabStop = False
         '
         'menuCopyPctSmall
         '
@@ -930,45 +907,6 @@ Partial Class frmMain
         Me.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
         Me.saveDial.SupportMultiDottedExtensions = True
         '
-        'pctHelp
-        '
-        Me.pctHelp.BackColor = System.Drawing.SystemColors.Control
-        Me.pctHelp.Image = Global.YAPM.My.Resources.Resources.help
-        Me.pctHelp.Location = New System.Drawing.Point(8, 223)
-        Me.pctHelp.Name = "pctHelp"
-        Me.pctHelp.Size = New System.Drawing.Size(66, 66)
-        Me.pctHelp.TabIndex = 31
-        Me.pctHelp.TabStop = False
-        '
-        'pctService
-        '
-        Me.pctService.BackColor = System.Drawing.SystemColors.Control
-        Me.pctService.Image = Global.YAPM.My.Resources.Resources.application
-        Me.pctService.Location = New System.Drawing.Point(8, 91)
-        Me.pctService.Name = "pctService"
-        Me.pctService.Size = New System.Drawing.Size(66, 66)
-        Me.pctService.TabIndex = 32
-        Me.pctService.TabStop = False
-        '
-        'pctProcess
-        '
-        Me.pctProcess.BackColor = System.Drawing.Color.White
-        Me.pctProcess.Location = New System.Drawing.Point(8, 25)
-        Me.pctProcess.Name = "pctProcess"
-        Me.pctProcess.Size = New System.Drawing.Size(66, 66)
-        Me.pctProcess.TabIndex = 34
-        Me.pctProcess.TabStop = False
-        '
-        'pctJobs
-        '
-        Me.pctJobs.BackColor = System.Drawing.SystemColors.Control
-        Me.pctJobs.Image = Global.YAPM.My.Resources.Resources.business_user_add
-        Me.pctJobs.Location = New System.Drawing.Point(8, 157)
-        Me.pctJobs.Name = "pctJobs"
-        Me.pctJobs.Size = New System.Drawing.Size(66, 66)
-        Me.pctJobs.TabIndex = 35
-        Me.pctJobs.TabStop = False
-        '
         'lblProcess
         '
         Me.lblProcess.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1081,12 +1019,83 @@ Partial Class frmMain
         Me.lblServiceName.TabIndex = 4
         Me.lblServiceName.Text = "Service name :"
         '
+        'pctSmallIcon
+        '
+        Me.pctSmallIcon.ContextMenuStrip = Me.menuCopyPctSmall
+        Me.pctSmallIcon.Location = New System.Drawing.Point(503, 19)
+        Me.pctSmallIcon.Name = "pctSmallIcon"
+        Me.pctSmallIcon.Size = New System.Drawing.Size(16, 16)
+        Me.pctSmallIcon.TabIndex = 2
+        Me.pctSmallIcon.TabStop = False
+        '
+        'pctBigIcon
+        '
+        Me.pctBigIcon.ContextMenuStrip = Me.menuCopyPctbig
+        Me.pctBigIcon.Location = New System.Drawing.Point(525, 3)
+        Me.pctBigIcon.Name = "pctBigIcon"
+        Me.pctBigIcon.Size = New System.Drawing.Size(32, 32)
+        Me.pctBigIcon.TabIndex = 1
+        Me.pctBigIcon.TabStop = False
+        '
+        'pctJobs
+        '
+        Me.pctJobs.BackColor = System.Drawing.SystemColors.Control
+        Me.pctJobs.Image = Global.YAPM.My.Resources.Resources.business_user_add
+        Me.pctJobs.Location = New System.Drawing.Point(8, 157)
+        Me.pctJobs.Name = "pctJobs"
+        Me.pctJobs.Size = New System.Drawing.Size(66, 66)
+        Me.pctJobs.TabIndex = 35
+        Me.pctJobs.TabStop = False
+        '
+        'pctProcess
+        '
+        Me.pctProcess.BackColor = System.Drawing.Color.White
+        Me.pctProcess.Image = Global.YAPM.My.Resources.Resources.process
+        Me.pctProcess.Location = New System.Drawing.Point(8, 25)
+        Me.pctProcess.Name = "pctProcess"
+        Me.pctProcess.Size = New System.Drawing.Size(66, 66)
+        Me.pctProcess.TabIndex = 34
+        Me.pctProcess.TabStop = False
+        '
+        'pctService
+        '
+        Me.pctService.BackColor = System.Drawing.SystemColors.Control
+        Me.pctService.Image = Global.YAPM.My.Resources.Resources.application
+        Me.pctService.Location = New System.Drawing.Point(8, 91)
+        Me.pctService.Name = "pctService"
+        Me.pctService.Size = New System.Drawing.Size(66, 66)
+        Me.pctService.TabIndex = 32
+        Me.pctService.TabStop = False
+        '
+        'pctHelp
+        '
+        Me.pctHelp.BackColor = System.Drawing.SystemColors.Control
+        Me.pctHelp.Image = Global.YAPM.My.Resources.Resources.help
+        Me.pctHelp.Location = New System.Drawing.Point(8, 223)
+        Me.pctHelp.Name = "pctHelp"
+        Me.pctHelp.Size = New System.Drawing.Size(66, 66)
+        Me.pctHelp.TabIndex = 31
+        Me.pctHelp.TabStop = False
+        '
+        'WBHelp
+        '
+        Me.WBHelp.AllowWebBrowserDrop = False
+        Me.WBHelp.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.WBHelp.IsWebBrowserContextMenuEnabled = False
+        Me.WBHelp.Location = New System.Drawing.Point(0, 0)
+        Me.WBHelp.MinimumSize = New System.Drawing.Size(20, 20)
+        Me.WBHelp.Name = "WBHelp"
+        Me.WBHelp.Size = New System.Drawing.Size(560, 240)
+        Me.WBHelp.TabIndex = 0
+        Me.WBHelp.Url = New System.Uri("", System.UriKind.Relative)
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.WhiteSmoke
         Me.ClientSize = New System.Drawing.Size(771, 553)
+        Me.Controls.Add(Me.panelMain4)
         Me.Controls.Add(Me.panelInfos2)
         Me.Controls.Add(Me.panelInfos)
         Me.Controls.Add(Me.lblServices)
@@ -1103,8 +1112,6 @@ Partial Class frmMain
         Me.Controls.Add(Me.panelActions2)
         Me.Controls.Add(Me.panelMain2)
         Me.Controls.Add(Me.panelMain3)
-        Me.Controls.Add(Me.panelMain4)
-        Me.Controls.Add(Me.panelMain5)
         Me.Controls.Add(Me.panelMain)
         Me.Controls.Add(Me.panelMenu)
         Me.Controls.Add(Me.mainMenu)
@@ -1127,6 +1134,7 @@ Partial Class frmMain
         Me.panelMenu.ResumeLayout(False)
         Me.panelMenu.PerformLayout()
         Me.panelMain2.ResumeLayout(False)
+        Me.panelMain4.ResumeLayout(False)
         Me.panelMain3.ResumeLayout(False)
         Me.panelActions2.ResumeLayout(False)
         Me.panelActions2.PerformLayout()
@@ -1136,21 +1144,21 @@ Partial Class frmMain
         Me.panelActions4.PerformLayout()
         Me.panelActions5.ResumeLayout(False)
         Me.panelActions5.PerformLayout()
-        CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).EndInit()
         Me.menuCopyPctbig.ResumeLayout(False)
-        CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).EndInit()
         Me.menuCopyPctSmall.ResumeLayout(False)
         Me.panelInfos.ResumeLayout(False)
         Me.panelInfos.PerformLayout()
         Me.menuTooltip.ResumeLayout(False)
         Me.mainMenu.ResumeLayout(False)
         Me.mainMenu.PerformLayout()
-        CType(Me.pctHelp, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pctService, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pctProcess, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pctJobs, System.ComponentModel.ISupportInitialize).EndInit()
         Me.panelInfos2.ResumeLayout(False)
         Me.panelInfos2.PerformLayout()
+        CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pctJobs, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pctProcess, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pctService, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pctHelp, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1182,7 +1190,6 @@ Partial Class frmMain
     Friend WithEvents cmdFileProperties As System.Windows.Forms.Button
     Friend WithEvents cmdAffinity As System.Windows.Forms.Button
     Friend WithEvents imgMain As System.Windows.Forms.ImageList
-    Friend WithEvents panelMain5 As System.Windows.Forms.Panel
     Friend WithEvents panelMain2 As System.Windows.Forms.Panel
     Friend WithEvents lvServices As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
@@ -1269,5 +1276,6 @@ Partial Class frmMain
     Friend WithEvents tv As System.Windows.Forms.TreeView
     Friend WithEvents rtb2 As System.Windows.Forms.RichTextBox
     Friend WithEvents lblServiceName As System.Windows.Forms.Label
+    Friend WithEvents WBHelp As System.Windows.Forms.WebBrowser
 
 End Class

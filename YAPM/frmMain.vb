@@ -4,6 +4,8 @@ Public Class frmMain
 
     Private bProcessHover As Boolean = True
 
+    Private Const HELP_PATH As String = "C:\Users\Admin\Desktop\YAPM\YAPM\Help\help.htm"
+
     ' Refresh process list in listview
     Private Sub refreshProcessList()
 
@@ -97,6 +99,7 @@ Public Class frmMain
                         Catch ex As Exception
                             it.ImageKey = "noicon"
                             lsub7.Text = "N/A"
+                            it.ForeColor = Color.Gray
                             lsub8.Text = "N/A"
                         End Try
 
@@ -170,11 +173,12 @@ Public Class frmMain
 
     Private Sub timerProcess_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerProcess.Tick
         refreshProcessList()
+        Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
     End Sub
 
     Private Sub lvProcess_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvProcess.SelectedIndexChanged
         ' New process selected
-        If lvProcess.SelectedItems.Count > 0 Then
+        If lvProcess.SelectedItems.Count = 1 Then
             Dim it As ListViewItem = lvProcess.SelectedItems.Item(0)
 
             Me.lblProcessName.Text = "Process name : " & it.Text
@@ -296,6 +300,7 @@ Public Class frmMain
 
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Call Me.pctProcess_Click(Nothing, Nothing)
+
         refreshProcessList()
         refreshServiceList()
         With Me
@@ -303,7 +308,6 @@ Public Class frmMain
             .panelActions2.BackColor = .BackColor
             .panelActions3.BackColor = .BackColor
             .panelActions4.BackColor = .BackColor
-            .panelActions5.BackColor = .BackColor
             .gpProc1.BackColor = .BackColor
             .gpProc2.BackColor = .BackColor
         End With
@@ -330,6 +334,15 @@ Public Class frmMain
         SetToolTip(Me.cmdTray, "Hide main form (double click on icon on tray to restore).")
         SetToolTip(Me.tv, "Selected service depends on this.")
         SetToolTip(Me.tv2, "This services depend on selected service.")
+
+        ' Load help file
+        Dim path As String = HELP_PATH
+        If IO.File.Exists(path) = False Then
+            WBHelp.Document.Write("<body link=blue vlink=purple><span>Help file cannot be found. <p></span><span>Please download help file at <a href=" & Chr(34) & "http://sourceforge.net/projects/yaprocmon/" & Chr(34) & ">http://sourceforge.net/projects/yaprocmon</a> and save it in Help directory.</span></body>")
+        Else
+            WBHelp.Navigate(path)
+        End If
+
     End Sub
 
     Private Sub txtSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearch.Click
@@ -437,8 +450,6 @@ Public Class frmMain
         Me.panelMain3.Top = 34 + 27
         Me.panelMain4.Left = 206
         Me.panelMain4.Top = 34 + 27
-        Me.panelMain5.Left = 206
-        Me.panelMain5.Top = 34 + 27
         Me.panelActions1.Left = 3
         Me.panelActions1.Top = 266 + 27
         Me.panelActions2.Left = 3
@@ -459,6 +470,7 @@ Public Class frmMain
         ' Kill selected processes
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
+            If it.SubItems(7).Text <> "N/A" Then _
             Process.GetProcessById(CInt(it.SubItems(1).Text)).Kill()
         Next
     End Sub
@@ -467,6 +479,7 @@ Public Class frmMain
         ' Resume selected processes
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
+            If it.SubItems(7).Text <> "N/A" Then _
             ResumeProcess(CInt(it.SubItems(1).Text))
         Next
     End Sub
@@ -475,6 +488,7 @@ Public Class frmMain
         ' Stop selected processes
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
+            If it.SubItems(7).Text <> "N/A" Then _
             SuspendProcess(CInt(it.SubItems(1).Text))
         Next
     End Sub
@@ -484,6 +498,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
             'INSERT CODE HERE
+            'If it.SubItems(7).Text <> "N/A" Then _
             'http://www.vbfrance.com/codes/AFFINITE-PROCESSUS-THREADS_42365.aspx
         Next
     End Sub
@@ -493,6 +508,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
             If IO.File.Exists(it.SubItems(7).Text) Then
+                If it.SubItems(7).Text <> "N/A" Then _
                 ShowFileProperty(it.SubItems(7).Text)
             End If
         Next
@@ -502,6 +518,7 @@ Public Class frmMain
         ' Open directory of selected processes
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
+            If it.SubItems(7).Text <> "N/A" Then _
             OpenDirectory(it.SubItems(7).Text)
         Next
     End Sub
@@ -527,6 +544,7 @@ Public Class frmMain
                 Case 5
                     p = ProcessPriorityClass.RealTime
             End Select
+            If it.SubItems(7).Text <> "N/A" Then _
             SetProcessPriority(CInt(it.SubItems(1).Text), p)
         Next
     End Sub
@@ -742,7 +760,6 @@ Public Class frmMain
         Me.panelMain2.Visible = False
         Me.panelMain3.Visible = False
         Me.panelMain4.Visible = False
-        Me.panelMain5.Visible = False
         Me.panelActions1.Visible = True
         Me.panelActions2.Visible = False
         Me.panelActions3.Visible = False
@@ -767,7 +784,6 @@ Public Class frmMain
         Me.panelMain2.Visible = True
         Me.panelMain3.Visible = False
         Me.panelMain4.Visible = False
-        Me.panelMain5.Visible = False
         Me.panelActions1.Visible = False
         Me.panelActions2.Visible = True
         Me.panelActions3.Visible = False
@@ -792,7 +808,6 @@ Public Class frmMain
         Me.panelMain2.Visible = False
         Me.panelMain3.Visible = True
         Me.panelMain4.Visible = False
-        Me.panelMain5.Visible = False
         Me.panelActions1.Visible = False
         Me.panelActions2.Visible = False
         Me.panelActions3.Visible = True
@@ -814,7 +829,6 @@ Public Class frmMain
         Me.panelMain2.Visible = False
         Me.panelMain3.Visible = False
         Me.panelMain4.Visible = True
-        Me.panelMain5.Visible = False
         Me.panelActions1.Visible = False
         Me.panelActions2.Visible = False
         Me.panelActions3.Visible = False
@@ -868,8 +882,14 @@ Public Class frmMain
     End Sub
 
     Private Sub TakeFullPowerToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TakeFullPowerToolStripMenuItem.Click
-        Me.TakeFullPowerToolStripMenuItem.Checked = True
-        MsgBox(mdlPrivileges.SetDebuPrivilege())
+        If TakeFullPowerToolStripMenuItem.Checked = False Then
+            Me.TakeFullPowerToolStripMenuItem.Checked = True
+            Me.Visible = False
+            Call mdlPrivileges.SetDebuPrivilege()
+            Me.lvProcess.Items.Clear()
+            refreshProcessList()
+            Me.Visible = True
+        End If
     End Sub
 
     Private Sub ToolStripMenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem3.Click
@@ -922,6 +942,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
             Try
+                If it.SubItems(7).Text <> "N/A" Then _
                 Process.GetProcessById(CInt(Val(it.SubItems(1).Text))).Kill()
             Catch ex As Exception
             End Try
@@ -932,6 +953,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
             Try
+                If it.SubItems(7).Text <> "N/A" Then _
                 mdlProcess.SuspendProcess(CInt(Val(it.SubItems(1).Text)))
             Catch ex As Exception
             End Try
@@ -942,6 +964,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
             Try
+                If it.SubItems(7).Text <> "N/A" Then _
                 mdlProcess.ResumeProcess(CInt(Val(it.SubItems(1).Text)))
             Catch ex As Exception
             End Try
@@ -952,6 +975,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
             Try
+                If it.SubItems(7).Text <> "N/A" Then _
                 Process.GetProcessById(CInt(Val(it.SubItems(1).Text))).PriorityClass = ProcessPriorityClass.Idle
             Catch ex As Exception
             End Try
@@ -962,6 +986,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
             Try
+                If it.SubItems(7).Text <> "N/A" Then _
                 Process.GetProcessById(CInt(Val(it.SubItems(1).Text))).PriorityClass = ProcessPriorityClass.BelowNormal
             Catch ex As Exception
             End Try
@@ -972,6 +997,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
             Try
+                If it.SubItems(7).Text <> "N/A" Then _
                 Process.GetProcessById(CInt(Val(it.SubItems(1).Text))).PriorityClass = ProcessPriorityClass.Normal
             Catch ex As Exception
             End Try
@@ -982,6 +1008,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
             Try
+                If it.SubItems(7).Text <> "N/A" Then _
                 Process.GetProcessById(CInt(Val(it.SubItems(1).Text))).PriorityClass = ProcessPriorityClass.AboveNormal
             Catch ex As Exception
             End Try
@@ -992,6 +1019,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
             Try
+                If it.SubItems(7).Text <> "N/A" Then _
                 Process.GetProcessById(CInt(Val(it.SubItems(1).Text))).PriorityClass = ProcessPriorityClass.High
             Catch ex As Exception
             End Try
@@ -1002,6 +1030,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
             Try
+                If it.SubItems(7).Text <> "N/A" Then _
                 Process.GetProcessById(CInt(Val(it.SubItems(1).Text))).PriorityClass = ProcessPriorityClass.RealTime
             Catch ex As Exception
             End Try
@@ -1012,6 +1041,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
             If IO.File.Exists(it.SubItems(7).Text) Then
+                If it.SubItems(7).Text <> "N/A" Then _
                 ShowFileProperty(it.SubItems(7).Text)
             End If
         Next
@@ -1020,6 +1050,7 @@ Public Class frmMain
     Private Sub OpenFirectoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpenFirectoryToolStripMenuItem.Click
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
+            If it.SubItems(7).Text <> "N/A" Then _
             OpenDirectory(it.SubItems(7).Text)
         Next
     End Sub
