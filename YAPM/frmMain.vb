@@ -577,7 +577,7 @@ Public Class frmMain
 
     Private Sub lvServices_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvServices.SelectedIndexChanged
         ' New process selected
-        If lvServices.SelectedItems.Count > 0 Then
+        If lvServices.SelectedItems.Count = 1 Then
             Dim it As ListViewItem = lvServices.SelectedItems.Item(0)
             Try
                 'Dim proc As Process = Process.GetProcessById(CInt(it.SubItems(1).Text))
