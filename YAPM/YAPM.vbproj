@@ -12,7 +12,8 @@
     <AssemblyName>YAPM</AssemblyName>
     <MyType>WindowsForms</MyType>
     <OptionStrict>On</OptionStrict>
-    <ApplicationIcon>process32.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -58,7 +59,6 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationEvents.vb" />
     <Compile Include="cProc.vb" />
     <Compile Include="frmAbout.Designer.vb">
       <DependentUpon>frmAbout.vb</DependentUpon>
@@ -133,9 +133,8 @@
     <None Include="Resources\business_user_add.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="process.ico" />
-    <Content Include="process31.ico" />
-    <Content Include="process32.ico" />
+    <None Include="Resources\folder_info.png" />
+    <None Include="Resources\info.png" />
     <None Include="Resources\process1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />

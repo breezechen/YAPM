@@ -61,4 +61,23 @@ Module mdlFile
         Return r
     End Function
 
+    ' Open a file/URL
+    Public Function ShellOpenFile(ByVal file As String) As Boolean
+        Dim SEI As SHELLEXECUTEINFO = Nothing
+        With SEI
+            .fMask = SEE_MASK_NOCLOSEPROCESS Or SEE_MASK_INVOKEIDLIST Or _
+                SEE_MASK_FLAG_NO_UI
+            .cbSize = System.Runtime.InteropServices.Marshal.SizeOf(SEI)
+            .hwnd = frmMain.Handle
+            .lpVerb = vbNullChar
+            .lpFile = file
+            .lpParameters = vbNullChar
+            .lpDirectory = vbNullChar
+            .nShow = 0
+            .hInstApp = IntPtr.Zero
+            .lpIDList = IntPtr.Zero
+        End With
+
+        Return ShellExecuteEx(SEI)
+    End Function
 End Module

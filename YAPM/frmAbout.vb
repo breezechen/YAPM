@@ -87,4 +87,8 @@ Public Class frmAbout
         s &= "}"
         Me.rtb.Rtf = s
     End Sub
+
+    Private Sub lnklblSF_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnklblSF.LinkClicked
+        mdlFile.ShellOpenFile("http://yaprocmon.sourceforge.net/")
+    End Sub
 End Class

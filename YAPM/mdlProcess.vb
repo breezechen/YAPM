@@ -320,6 +320,32 @@ Module mdlProcess
         Return s
     End Function
 
+    Public Function GetServiceStartTypeFromInt(ByVal i As Integer) As String
+        Dim s As String = vbNullString
+
+        Select Case i
+            Case 0  'SERVICE_BOOT_START
+                s = "Boot Start"
+            Case 1  'SERVICE_SYSTEM_START
+                s = "System Start"
+            Case 2  'SERVICE_AUTO_START
+                s = "Auto Start"
+            Case 3  'SERVICE_DEMAND_START
+                s = "Demand Start"
+            Case 4  'SERVICE_DISABLED
+                s = "Disabled"
+        End Select
+
+        Return s
+    End Function
+
+    ' Retrieve information about a service from registry
+    Public Function GetServiceInfo(ByVal service As String, ByVal info As String) As String
+        Return CStr(My.Computer.Registry.GetValue( _
+                    "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\" & service, _
+                    info, ""))
+    End Function
+
 #Region "Functions for process affinity"
     ' Comming from http://www.vbfrance.com/codes/AFFINITE-PROCESSUS-THREADS_42365.aspx
     Public Function GetCpuCount() As Integer

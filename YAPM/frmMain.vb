@@ -194,7 +194,7 @@ Public Class frmMain
                     ' Description
                     Dim s As String = ""
                     s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b File property\b0\par"
+                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b File properties\b0\par"
                     s = s & "\tab File name :\tab\tab " & it.Text & "\par"
                     s = s & "\tab Path :\tab\tab\tab " & Replace(it.SubItems(7).Text, "\", "\\") & "\par"
                     s = s & "\tab Description :\tab\tab " & proc.MainModule.FileVersionInfo.FileDescription & "\par"
@@ -308,8 +308,8 @@ Public Class frmMain
             .panelActions2.BackColor = .BackColor
             .panelActions3.BackColor = .BackColor
             .panelActions4.BackColor = .BackColor
+            .pctInfo.BackColor = .BackColor
             .gpProc1.BackColor = .BackColor
-            .gpProc2.BackColor = .BackColor
         End With
 
         If mdlPrivileges.IsAdministrator = False Then
@@ -329,8 +329,8 @@ Public Class frmMain
         SetToolTip(Me.cmdPause, "Suspend selected processes.")
         SetToolTip(Me.cmdResume, "Resume selected processes.")
         SetToolTip(Me.cmdAffinity, "Change affinity of selected processes.")
-        SetToolTip(Me.cmdOpenDir, "Open file location of selected processes.")
-        SetToolTip(Me.cmdFileProperties, "Open property box for selected processes.")
+        SetToolTip(Me.lnkOpenDir, "Open file location of selected processes.")
+        SetToolTip(Me.lnkProp, "Open property box for selected processes.")
         SetToolTip(Me.cmdTray, "Hide main form (double click on icon on tray to restore).")
         SetToolTip(Me.tv, "Selected service depends on this.")
         SetToolTip(Me.tv2, "This services depend on selected service.")
@@ -364,7 +364,7 @@ Public Class frmMain
             Dim it As ListViewItem
             For Each it In lvServices.Items
                 If InStr(LCase(it.Text), LCase(txtSearch.Text)) = 0 And _
-                        InStr(LCase(it.SubItems.Item(4).Text), LCase(txtSearch.Text)) = 0 Then
+                        InStr(LCase(it.SubItems.Item(1).Text), LCase(txtSearch.Text)) = 0 Then
                     it.Group = lvServices.Groups(0)
                 Else
                     it.Group = lvServices.Groups(1)
@@ -458,8 +458,6 @@ Public Class frmMain
         Me.panelActions3.Top = 266 + 27
         Me.panelActions4.Left = 3
         Me.panelActions4.Top = 266 + 27
-        Me.panelActions5.Left = 3
-        Me.panelActions5.Top = 266 + 27
         Me.panelInfos.Left = 206
         Me.panelInfos.Top = 280 + 27
         Me.panelInfos2.Left = 206
@@ -500,26 +498,6 @@ Public Class frmMain
             'INSERT CODE HERE
             'If it.SubItems(7).Text <> "N/A" Then _
             'http://www.vbfrance.com/codes/AFFINITE-PROCESSUS-THREADS_42365.aspx
-        Next
-    End Sub
-
-    Private Sub cmdFileProperties_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdFileProperties.Click
-        ' File properties for selected processes
-        Dim it As ListViewItem
-        For Each it In Me.lvProcess.SelectedItems
-            If IO.File.Exists(it.SubItems(7).Text) Then
-                If it.SubItems(7).Text <> "N/A" Then _
-                ShowFileProperty(it.SubItems(7).Text)
-            End If
-        Next
-    End Sub
-
-    Private Sub cmdOpenDir_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdOpenDir.Click
-        ' Open directory of selected processes
-        Dim it As ListViewItem
-        For Each it In Me.lvProcess.SelectedItems
-            If it.SubItems(7).Text <> "N/A" Then _
-            OpenDirectory(it.SubItems(7).Text)
         Next
     End Sub
 
@@ -568,10 +546,15 @@ Public Class frmMain
             Dim lsub4 As New ListViewItem.ListViewSubItem
             Dim lsub5 As New ListViewItem.ListViewSubItem
 
-            lsub1.Text = "c:\windows\explorer.exe"
+            Dim path As String = CStr(My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\" & it.Text, "ImagePath", ""))
+            If path.Chars(0) = Chr(34) Then
+                path = path.Substring(1, path.Length - 2)
+            End If
+
+            lsub4.Text = path
             lsub2.Text = o1.Status.ToString
-            lsub3.Text = "Boot"
-            lsub4.Text = o1.DisplayName
+            lsub3.Text = mdlProcess.GetServiceStartTypeFromInt(CInt(Val(My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\" & it.Text, "Start", ""))))
+            lsub1.Text = o1.DisplayName
             lsub5.Text = CStr(IIf(o1.CanPauseAndContinue, "Pause/Continue ", "")) & _
                         CStr(IIf(o1.CanShutdown, "Shutdown ", "")) & _
                         CStr(IIf(o1.CanStop, "Stop ", ""))
@@ -600,18 +583,36 @@ Public Class frmMain
                 'Dim proc As Process = Process.GetProcessById(CInt(it.SubItems(1).Text))
 
                 Me.lblServiceName.Text = "Service name : " & it.Text
-                Me.lblServicePath.Text = "Service path : " & it.SubItems(1).Text
+                Me.lblServicePath.Text = "Service path : " & it.SubItems(4).Text
 
                 ' Description
-                Dim s As String = ""
-                's = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                's = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b File property\b0\par"
-                's = s & "\tab File name :\tab\tab " & it.Text & "\par"
-                's = s & "\tab Path :\tab\tab\tab " & Replace(it.SubItems(7).Text, "\", "\\") & "\par"
-                's = s & "\tab Description :\tab\tab " & proc.MainModule.FileVersionInfo.FileDescription & "\par"
-                's = s & "\tab Company name :\tab\tab " & proc.MainModule.FileVersionInfo.CompanyName & "\par"
-                's = s & "\tab Version :\tab\tab " & proc.MainModule.FileVersionInfo.FileVersion & "\par"
-                's = s & "\tab Copyright :\tab\tab " & proc.MainModule.FileVersionInfo.LegalCopyright & "\par"
+                Dim s As String = vbNullString
+                Dim description As String = vbNullString
+                Dim diagnosticsMessageFile As String = vbNullString
+                Dim group As String = vbNullString
+                Dim objectName As String = vbNullString
+                Dim tag As String = vbNullString
+
+                s = GetServiceInfo(it.Text, "ImagePath")
+                description = GetServiceInfo(it.Text, "Description")
+                diagnosticsMessageFile = GetServiceInfo(it.Text, "DiagnosticsMessageFile")
+                group = GetServiceInfo(it.Text, "Group")
+                objectName = GetServiceInfo(it.Text, "ObjectName")
+
+                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Service properties\b0\par"
+                s = s & "\tab Name :\tab\tab\tab " & it.Text & "\par"
+                s = s & "\tab Common name :\tab\tab " & it.SubItems(1).Text & "\par"
+                If Len(it.SubItems(4).Text) > 0 Then s = s & "\tab Path :\tab\tab\tab " & Replace(it.SubItems(4).Text, "\", "\\") & "\par"
+                If Len(description) > 0 Then s = s & "\tab Description :\tab\tab " & description & "\par"
+                If Len(group) > 0 Then s = s & "\tab Group :\tab\tab\tab " & group & "\par"
+                If Len(objectName) > 0 Then s = s & "\tab ObjectName :\tab\tab " & objectName & "\par"
+                If Len(diagnosticsMessageFile) > 0 Then s = s & "\tab DiagnosticsMessageFile :\tab\tab " & diagnosticsMessageFile & "\par"
+                If Len(it.SubItems(2).Text) > 0 Then s = s & "\tab State :\tab\tab\tab " & it.SubItems(2).Text & "\par"
+                If Len(it.SubItems(3).Text) > 0 Then s = s & "\tab Startup :\tab\tab " & it.SubItems(3).Text & "\par"
+                If Len(it.SubItems(5).Text) > 0 Then s = s & "\tab Availables actions :\tab " & it.SubItems(5).Text & "\par"
+
+
                 's = s & "\par"
                 's = s & "  \b Process description\b0\par"
                 's = s & "\tab PID :\tab\tab\tab " & it.SubItems(1).Text & "\par"
@@ -626,17 +627,7 @@ Public Class frmMain
                 's = s & "\tab Description :\tab\tab " & "Here is the online description" & "\par"
                 's = s & "\tab State :\tab\tab\tab " & "Here is the online state" & "\par"
 
-                'If chkModules.Checked Then
-                '    ' Retrieve modules
-                '    s = s & "\par"
-                '    s = s & "  \b Loaded modules\b0\par"
-                '    Dim p As ProcessModuleCollection = proc.Modules
-                '    Dim m As ProcessModule
-                '    For Each m In p
-                '        s = s & "\tab " & Replace(m.FileVersionInfo.FileName, "\", "\\") & "\par"
-                '    Next
-                'End If
-                's = s & "}"
+                s = s & "}"
 
                 rtb2.Rtf = s
 
@@ -670,7 +661,17 @@ Public Class frmMain
                 If n3.Nodes.Count > 0 Then n3.ImageKey = "ko" Else n3.ImageKey = "ok"
 
             Catch ex As Exception
-                '
+                Dim s As String = ""
+                Dim er As Exception = ex
+
+                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+                s = s & "\tab Message :\tab " & er.Message & "\par"
+                s = s & "\tab Source :\tab\tab " & er.Source & "\par"
+                If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
+                s = s & "}"
+
+                rtb2.Rtf = s
             End Try
 
         End If
@@ -764,7 +765,6 @@ Public Class frmMain
         Me.panelActions2.Visible = False
         Me.panelActions3.Visible = False
         Me.panelActions4.Visible = False
-        Me.panelActions5.Visible = False
         Me.panelInfos.Visible = True
         Me.panelInfos2.Visible = False
         Me.lblProcess.Enabled = True
@@ -788,7 +788,6 @@ Public Class frmMain
         Me.panelActions2.Visible = True
         Me.panelActions3.Visible = False
         Me.panelActions4.Visible = False
-        Me.panelActions5.Visible = False
         Me.panelInfos.Visible = False
         Me.panelInfos2.Visible = True
         Me.lblProcess.Enabled = False
@@ -812,7 +811,6 @@ Public Class frmMain
         Me.panelActions2.Visible = False
         Me.panelActions3.Visible = True
         Me.panelActions4.Visible = False
-        Me.panelActions5.Visible = False
         Me.lblProcess.Enabled = False
         Me.lblProcess.ForeColor = Color.Black
         Me.lblServices.Enabled = False
@@ -833,7 +831,6 @@ Public Class frmMain
         Me.panelActions2.Visible = False
         Me.panelActions3.Visible = False
         Me.panelActions4.Visible = True
-        Me.panelActions5.Visible = False
         Me.lblProcess.Enabled = False
         Me.lblProcess.ForeColor = Color.Black
         Me.lblServices.Enabled = False
@@ -1088,5 +1085,45 @@ Public Class frmMain
             Me.txtSearch.Left = 4
             Me.txtSearch.Width = 515
         End If
+    End Sub
+
+    Private Sub lnkProp_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkProp.LinkClicked
+        ' File properties for selected processes
+        Dim it As ListViewItem
+        For Each it In Me.lvProcess.SelectedItems
+            If IO.File.Exists(it.SubItems(7).Text) Then
+                If it.SubItems(7).Text <> "N/A" Then _
+                ShowFileProperty(it.SubItems(7).Text)
+            End If
+        Next
+    End Sub
+
+    Private Sub lnkOpenDir_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkOpenDir.LinkClicked
+        ' Open directory of selected processes
+        Dim it As ListViewItem
+        For Each it In Me.lvProcess.SelectedItems
+            If it.SubItems(7).Text <> "N/A" Then _
+            OpenDirectory(it.SubItems(7).Text)
+        Next
+    End Sub
+
+    Private Sub cmdAbout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdAbout.Click
+        frmAbout.ShowDialog()
+    End Sub
+
+    Private Sub lnkProjectPage_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkProjectPage.LinkClicked
+        mdlFile.ShellOpenFile("http://sourceforge.net/projects/yaprocmon")
+    End Sub
+
+    Private Sub lnkWebsite_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkWebsite.LinkClicked
+        mdlFile.ShellOpenFile("http://yaprocmon.sourceforge.net/")
+    End Sub
+
+    Private Sub cmdUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdUpdate.Click
+        MsgBox("YAPM is up to date !", MsgBoxStyle.Information, "No new update available")
+    End Sub
+
+    Private Sub cmdDonate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdDonate.Click
+        MsgBox("You just gave 500$ to me...", MsgBoxStyle.Information, "Thanks you !")
     End Sub
 End Class
