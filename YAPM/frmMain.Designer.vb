@@ -24,12 +24,12 @@ Partial Class frmMain
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.panelActions1 = New System.Windows.Forms.Panel
         Me.pctInfo = New System.Windows.Forms.PictureBox
@@ -83,6 +83,17 @@ Partial Class frmMain
         Me.ColumnHeader9 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
+        Me.menuService = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ToolStripMenuItem9 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem10 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem11 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem12 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem13 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem14 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem15 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
+        Me.ToolStripMenuItem20 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem21 = New System.Windows.Forms.ToolStripMenuItem
         Me.imgServices = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain4 = New System.Windows.Forms.Panel
         Me.WBHelp = New System.Windows.Forms.WebBrowser
@@ -98,6 +109,11 @@ Partial Class frmMain
         Me.panelActions3 = New System.Windows.Forms.Panel
         Me.label78 = New System.Windows.Forms.Label
         Me.panelActions4 = New System.Windows.Forms.Panel
+        Me.cmdDonate = New System.Windows.Forms.Button
+        Me.cmdUpdate = New System.Windows.Forms.Button
+        Me.lnkProjectPage = New System.Windows.Forms.LinkLabel
+        Me.lnkWebsite = New System.Windows.Forms.LinkLabel
+        Me.cmdAbout = New System.Windows.Forms.Button
         Me.timerServices = New System.Windows.Forms.Timer(Me.components)
         Me.lblProcessName = New System.Windows.Forms.Label
         Me.menuCopyPctbig = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -141,11 +157,7 @@ Partial Class frmMain
         Me.pctProcess = New System.Windows.Forms.PictureBox
         Me.pctService = New System.Windows.Forms.PictureBox
         Me.pctHelp = New System.Windows.Forms.PictureBox
-        Me.cmdAbout = New System.Windows.Forms.Button
-        Me.lnkWebsite = New System.Windows.Forms.LinkLabel
-        Me.lnkProjectPage = New System.Windows.Forms.LinkLabel
-        Me.cmdUpdate = New System.Windows.Forms.Button
-        Me.cmdDonate = New System.Windows.Forms.Button
+        Me.ShutdownToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.panelActions1.SuspendLayout()
         CType(Me.pctInfo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gpProc1.SuspendLayout()
@@ -153,6 +165,7 @@ Partial Class frmMain
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
         Me.panelMain2.SuspendLayout()
+        Me.menuService.SuspendLayout()
         Me.panelMain4.SuspendLayout()
         Me.panelMain3.SuspendLayout()
         Me.panelActions2.SuspendLayout()
@@ -317,11 +330,11 @@ Partial Class frmMain
         Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c6, Me.c7, Me.c8, Me.c9})
         Me.lvProcess.ContextMenuStrip = Me.menuProc
         Me.lvProcess.FullRowSelect = True
-        ListViewGroup3.Header = "Processes"
-        ListViewGroup3.Name = "gpOther"
-        ListViewGroup4.Header = "Search result"
-        ListViewGroup4.Name = "gpSearch"
-        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup1.Header = "Processes"
+        ListViewGroup1.Name = "gpOther"
+        ListViewGroup2.Header = "Search result"
+        ListViewGroup2.Name = "gpSearch"
+        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvProcess.HideSelection = False
         Me.lvProcess.Location = New System.Drawing.Point(3, 3)
         Me.lvProcess.Name = "lvProcess"
@@ -378,31 +391,31 @@ Partial Class frmMain
         '
         Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem})
         Me.menuProc.Name = "menuProc"
-        Me.menuProc.Size = New System.Drawing.Size(151, 164)
+        Me.menuProc.Size = New System.Drawing.Size(154, 164)
         '
         'KillToolStripMenuItem
         '
         Me.KillToolStripMenuItem.Name = "KillToolStripMenuItem"
-        Me.KillToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.KillToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
         Me.KillToolStripMenuItem.Text = "Kill"
         '
         'StopToolStripMenuItem
         '
         Me.StopToolStripMenuItem.Name = "StopToolStripMenuItem"
-        Me.StopToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.StopToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
         Me.StopToolStripMenuItem.Text = "Stop"
         '
         'ResumeToolStripMenuItem
         '
         Me.ResumeToolStripMenuItem.Name = "ResumeToolStripMenuItem"
-        Me.ResumeToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.ResumeToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
         Me.ResumeToolStripMenuItem.Text = "Resume"
         '
         'PriotiyToolStripMenuItem
         '
         Me.PriotiyToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.IdleToolStripMenuItem, Me.BelowNormalToolStripMenuItem, Me.NormalToolStripMenuItem, Me.AboveNormalToolStripMenuItem, Me.HighToolStripMenuItem, Me.RealTimeToolStripMenuItem})
         Me.PriotiyToolStripMenuItem.Name = "PriotiyToolStripMenuItem"
-        Me.PriotiyToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.PriotiyToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
         Me.PriotiyToolStripMenuItem.Text = "Priotiy"
         '
         'IdleToolStripMenuItem
@@ -444,25 +457,25 @@ Partial Class frmMain
         'SetAffinityToolStripMenuItem
         '
         Me.SetAffinityToolStripMenuItem.Name = "SetAffinityToolStripMenuItem"
-        Me.SetAffinityToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.SetAffinityToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
         Me.SetAffinityToolStripMenuItem.Text = "Set affinity..."
         '
         'ToolStripMenuItem8
         '
         Me.ToolStripMenuItem8.Name = "ToolStripMenuItem8"
-        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(147, 6)
+        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(150, 6)
         '
         'PropertiesToolStripMenuItem
         '
         Me.PropertiesToolStripMenuItem.Name = "PropertiesToolStripMenuItem"
-        Me.PropertiesToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
-        Me.PropertiesToolStripMenuItem.Text = "Properties"
+        Me.PropertiesToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.PropertiesToolStripMenuItem.Text = "File properties"
         '
         'OpenFirectoryToolStripMenuItem
         '
         Me.OpenFirectoryToolStripMenuItem.Name = "OpenFirectoryToolStripMenuItem"
-        Me.OpenFirectoryToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
-        Me.OpenFirectoryToolStripMenuItem.Text = "Open firectory"
+        Me.OpenFirectoryToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.OpenFirectoryToolStripMenuItem.Text = "Open directory"
         '
         'imgProcess
         '
@@ -524,12 +537,13 @@ Partial Class frmMain
         '
         Me.lvServices.AllowColumnReorder = True
         Me.lvServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader11})
+        Me.lvServices.ContextMenuStrip = Me.menuService
         Me.lvServices.FullRowSelect = True
-        ListViewGroup5.Header = "Services"
-        ListViewGroup5.Name = "gpOther"
-        ListViewGroup6.Header = "Search result"
-        ListViewGroup6.Name = "gpSearch"
-        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
+        ListViewGroup3.Header = "Services"
+        ListViewGroup3.Name = "gpOther"
+        ListViewGroup4.Header = "Search result"
+        ListViewGroup4.Name = "gpSearch"
+        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvServices.HideSelection = False
         Me.lvServices.Location = New System.Drawing.Point(3, 3)
         Me.lvServices.Name = "lvServices"
@@ -568,6 +582,72 @@ Partial Class frmMain
         '
         Me.ColumnHeader11.Text = "Actions"
         Me.ColumnHeader11.Width = 150
+        '
+        'menuService
+        '
+        Me.menuService.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem9, Me.ToolStripMenuItem10, Me.ShutdownToolStripMenuItem, Me.ToolStripMenuItem11, Me.ToolStripMenuItem12, Me.ToolStripSeparator2, Me.ToolStripMenuItem20, Me.ToolStripMenuItem21})
+        Me.menuService.Name = "menuProc"
+        Me.menuService.Size = New System.Drawing.Size(154, 186)
+        '
+        'ToolStripMenuItem9
+        '
+        Me.ToolStripMenuItem9.Name = "ToolStripMenuItem9"
+        Me.ToolStripMenuItem9.Size = New System.Drawing.Size(153, 22)
+        Me.ToolStripMenuItem9.Text = "Pause"
+        '
+        'ToolStripMenuItem10
+        '
+        Me.ToolStripMenuItem10.Name = "ToolStripMenuItem10"
+        Me.ToolStripMenuItem10.Size = New System.Drawing.Size(153, 22)
+        Me.ToolStripMenuItem10.Text = "Stop"
+        '
+        'ToolStripMenuItem11
+        '
+        Me.ToolStripMenuItem11.Name = "ToolStripMenuItem11"
+        Me.ToolStripMenuItem11.Size = New System.Drawing.Size(153, 22)
+        Me.ToolStripMenuItem11.Text = "Start"
+        '
+        'ToolStripMenuItem12
+        '
+        Me.ToolStripMenuItem12.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem13, Me.ToolStripMenuItem14, Me.ToolStripMenuItem15})
+        Me.ToolStripMenuItem12.Name = "ToolStripMenuItem12"
+        Me.ToolStripMenuItem12.Size = New System.Drawing.Size(153, 22)
+        Me.ToolStripMenuItem12.Text = "Type of start"
+        '
+        'ToolStripMenuItem13
+        '
+        Me.ToolStripMenuItem13.Name = "ToolStripMenuItem13"
+        Me.ToolStripMenuItem13.Size = New System.Drawing.Size(152, 22)
+        Me.ToolStripMenuItem13.Text = "Disabled"
+        '
+        'ToolStripMenuItem14
+        '
+        Me.ToolStripMenuItem14.Name = "ToolStripMenuItem14"
+        Me.ToolStripMenuItem14.Size = New System.Drawing.Size(152, 22)
+        Me.ToolStripMenuItem14.Text = "Auto start"
+        '
+        'ToolStripMenuItem15
+        '
+        Me.ToolStripMenuItem15.Name = "ToolStripMenuItem15"
+        Me.ToolStripMenuItem15.Size = New System.Drawing.Size(152, 22)
+        Me.ToolStripMenuItem15.Text = "On demand"
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(150, 6)
+        '
+        'ToolStripMenuItem20
+        '
+        Me.ToolStripMenuItem20.Name = "ToolStripMenuItem20"
+        Me.ToolStripMenuItem20.Size = New System.Drawing.Size(153, 22)
+        Me.ToolStripMenuItem20.Text = "File properties"
+        '
+        'ToolStripMenuItem21
+        '
+        Me.ToolStripMenuItem21.Name = "ToolStripMenuItem21"
+        Me.ToolStripMenuItem21.Size = New System.Drawing.Size(153, 22)
+        Me.ToolStripMenuItem21.Text = "Open directory"
         '
         'imgServices
         '
@@ -612,11 +692,11 @@ Partial Class frmMain
         Me.lvJobs.AllowColumnReorder = True
         Me.lvJobs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader4, Me.ColumnHeader5, Me.ColumnHeader6})
         Me.lvJobs.FullRowSelect = True
-        ListViewGroup7.Header = "Past jobs"
-        ListViewGroup7.Name = "gp1"
-        ListViewGroup8.Header = "Future jobs"
-        ListViewGroup8.Name = "gp2"
-        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
+        ListViewGroup5.Header = "Past jobs"
+        ListViewGroup5.Name = "gp1"
+        ListViewGroup6.Header = "Future jobs"
+        ListViewGroup6.Name = "gp2"
+        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvJobs.HideSelection = False
         Me.lvJobs.Location = New System.Drawing.Point(3, 3)
         Me.lvJobs.Name = "lvJobs"
@@ -699,6 +779,54 @@ Partial Class frmMain
         Me.panelActions4.Name = "panelActions4"
         Me.panelActions4.Size = New System.Drawing.Size(200, 200)
         Me.panelActions4.TabIndex = 21
+        '
+        'cmdDonate
+        '
+        Me.cmdDonate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdDonate.Location = New System.Drawing.Point(15, 89)
+        Me.cmdDonate.Name = "cmdDonate"
+        Me.cmdDonate.Size = New System.Drawing.Size(85, 30)
+        Me.cmdDonate.TabIndex = 5
+        Me.cmdDonate.Text = "Donate !"
+        Me.cmdDonate.UseVisualStyleBackColor = True
+        '
+        'cmdUpdate
+        '
+        Me.cmdUpdate.Location = New System.Drawing.Point(15, 52)
+        Me.cmdUpdate.Name = "cmdUpdate"
+        Me.cmdUpdate.Size = New System.Drawing.Size(85, 30)
+        Me.cmdUpdate.TabIndex = 4
+        Me.cmdUpdate.Text = "Check update"
+        Me.cmdUpdate.UseVisualStyleBackColor = True
+        '
+        'lnkProjectPage
+        '
+        Me.lnkProjectPage.AutoSize = True
+        Me.lnkProjectPage.Location = New System.Drawing.Point(15, 159)
+        Me.lnkProjectPage.Name = "lnkProjectPage"
+        Me.lnkProjectPage.Size = New System.Drawing.Size(174, 13)
+        Me.lnkProjectPage.TabIndex = 3
+        Me.lnkProjectPage.TabStop = True
+        Me.lnkProjectPage.Text = "YAPM project page on sourceforge"
+        '
+        'lnkWebsite
+        '
+        Me.lnkWebsite.AutoSize = True
+        Me.lnkWebsite.Location = New System.Drawing.Point(15, 134)
+        Me.lnkWebsite.Name = "lnkWebsite"
+        Me.lnkWebsite.Size = New System.Drawing.Size(150, 13)
+        Me.lnkWebsite.TabIndex = 2
+        Me.lnkWebsite.TabStop = True
+        Me.lnkWebsite.Text = "YAPM website on sourceforge"
+        '
+        'cmdAbout
+        '
+        Me.cmdAbout.Location = New System.Drawing.Point(15, 16)
+        Me.cmdAbout.Name = "cmdAbout"
+        Me.cmdAbout.Size = New System.Drawing.Size(85, 30)
+        Me.cmdAbout.TabIndex = 1
+        Me.cmdAbout.Text = "About YAPM"
+        Me.cmdAbout.UseVisualStyleBackColor = True
         '
         'timerServices
         '
@@ -910,7 +1038,7 @@ Partial Class frmMain
         'AboutToolStripMenuItem
         '
         Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
-        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(107, 22)
         Me.AboutToolStripMenuItem.Text = "&About"
         '
         'saveDial
@@ -1070,53 +1198,11 @@ Partial Class frmMain
         Me.pctHelp.TabIndex = 31
         Me.pctHelp.TabStop = False
         '
-        'cmdAbout
+        'ShutdownToolStripMenuItem
         '
-        Me.cmdAbout.Location = New System.Drawing.Point(15, 16)
-        Me.cmdAbout.Name = "cmdAbout"
-        Me.cmdAbout.Size = New System.Drawing.Size(85, 30)
-        Me.cmdAbout.TabIndex = 1
-        Me.cmdAbout.Text = "About YAPM"
-        Me.cmdAbout.UseVisualStyleBackColor = True
-        '
-        'lnkWebsite
-        '
-        Me.lnkWebsite.AutoSize = True
-        Me.lnkWebsite.Location = New System.Drawing.Point(15, 134)
-        Me.lnkWebsite.Name = "lnkWebsite"
-        Me.lnkWebsite.Size = New System.Drawing.Size(150, 13)
-        Me.lnkWebsite.TabIndex = 2
-        Me.lnkWebsite.TabStop = True
-        Me.lnkWebsite.Text = "YAPM website on sourceforge"
-        '
-        'lnkProjectPage
-        '
-        Me.lnkProjectPage.AutoSize = True
-        Me.lnkProjectPage.Location = New System.Drawing.Point(15, 159)
-        Me.lnkProjectPage.Name = "lnkProjectPage"
-        Me.lnkProjectPage.Size = New System.Drawing.Size(174, 13)
-        Me.lnkProjectPage.TabIndex = 3
-        Me.lnkProjectPage.TabStop = True
-        Me.lnkProjectPage.Text = "YAPM project page on sourceforge"
-        '
-        'cmdUpdate
-        '
-        Me.cmdUpdate.Location = New System.Drawing.Point(15, 52)
-        Me.cmdUpdate.Name = "cmdUpdate"
-        Me.cmdUpdate.Size = New System.Drawing.Size(85, 30)
-        Me.cmdUpdate.TabIndex = 4
-        Me.cmdUpdate.Text = "Check update"
-        Me.cmdUpdate.UseVisualStyleBackColor = True
-        '
-        'cmdDonate
-        '
-        Me.cmdDonate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdDonate.Location = New System.Drawing.Point(15, 89)
-        Me.cmdDonate.Name = "cmdDonate"
-        Me.cmdDonate.Size = New System.Drawing.Size(85, 30)
-        Me.cmdDonate.TabIndex = 5
-        Me.cmdDonate.Text = "Donate !"
-        Me.cmdDonate.UseVisualStyleBackColor = True
+        Me.ShutdownToolStripMenuItem.Name = "ShutdownToolStripMenuItem"
+        Me.ShutdownToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.ShutdownToolStripMenuItem.Text = "Shutdown"
         '
         'frmMain
         '
@@ -1124,6 +1210,7 @@ Partial Class frmMain
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.ClientSize = New System.Drawing.Size(771, 553)
+        Me.Controls.Add(Me.panelActions1)
         Me.Controls.Add(Me.panelActions4)
         Me.Controls.Add(Me.panelMain4)
         Me.Controls.Add(Me.panelInfos2)
@@ -1135,7 +1222,6 @@ Partial Class frmMain
         Me.Controls.Add(Me.pctService)
         Me.Controls.Add(Me.pctHelp)
         Me.Controls.Add(Me.cmdTray)
-        Me.Controls.Add(Me.panelActions1)
         Me.Controls.Add(Me.panelActions3)
         Me.Controls.Add(Me.panelActions2)
         Me.Controls.Add(Me.panelMain2)
@@ -1162,6 +1248,7 @@ Partial Class frmMain
         Me.panelMenu.ResumeLayout(False)
         Me.panelMenu.PerformLayout()
         Me.panelMain2.ResumeLayout(False)
+        Me.menuService.ResumeLayout(False)
         Me.panelMain4.ResumeLayout(False)
         Me.panelMain3.ResumeLayout(False)
         Me.panelActions2.ResumeLayout(False)
@@ -1305,5 +1392,17 @@ Partial Class frmMain
     Friend WithEvents cmdUpdate As System.Windows.Forms.Button
     Friend WithEvents lnkProjectPage As System.Windows.Forms.LinkLabel
     Friend WithEvents lnkWebsite As System.Windows.Forms.LinkLabel
+    Friend WithEvents menuService As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents ToolStripMenuItem9 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem10 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem11 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem12 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem13 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem14 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem15 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripMenuItem20 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem21 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ShutdownToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

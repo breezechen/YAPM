@@ -529,7 +529,7 @@ Public Class frmMain
 
     ' Refresh service list
     Private Sub refreshServiceList()
-
+        lvServices.Items.Clear()
         Dim o As System.ServiceProcess.ServiceController() = System.ServiceProcess.ServiceController.GetServices()
         Dim o1 As System.ServiceProcess.ServiceController
 
@@ -572,7 +572,38 @@ Public Class frmMain
     End Sub
 
     Private Sub timerServices_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerServices.Tick
-        ' refreshServiceList()
+        refreshServiceList()
+    End Sub
+
+    Private Sub lvServices_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseUp
+        If lvServices.SelectedItems.Count = 1 Then
+            Dim s As String = lvServices.SelectedItems.Item(0).SubItems(2).Text
+            Dim s2 As String = lvServices.SelectedItems.Item(0).SubItems(3).Text
+            Dim s3 As String = lvServices.SelectedItems.Item(0).SubItems(5).Text
+            ToolStripMenuItem9.Text = CStr(IIf(s = "Running", "Pause", "Resume"))
+            ToolStripMenuItem9.Enabled = ((InStr(s3, "Pause") + InStr(s3, "Resume")) > 0)
+            ToolStripMenuItem11.Enabled = (s3.Length = 0)
+            ToolStripMenuItem10.Enabled = (InStr(s3, "Stop") > 0)
+            ShutdownToolStripMenuItem.Enabled = (InStr(s3, "Shutdown") > 0)
+            ToolStripMenuItem13.Checked = (s2 = "Disabled")
+            ToolStripMenuItem13.Enabled = Not (ToolStripMenuItem13.Checked)
+            ToolStripMenuItem14.Checked = (s2 = "Auto Start")
+            ToolStripMenuItem14.Enabled = Not (ToolStripMenuItem14.Checked)
+            ToolStripMenuItem15.Checked = (s2 = "Demand Start")
+            ToolStripMenuItem15.Enabled = Not (ToolStripMenuItem15.Checked)
+        ElseIf lvServices.SelectedItems.Count > 1 Then
+            ToolStripMenuItem9.Text = "Pause"
+            ToolStripMenuItem9.Enabled = True
+            ToolStripMenuItem11.Enabled = True
+            ToolStripMenuItem10.Enabled = True
+            ShutdownToolStripMenuItem.Enabled = True
+            ToolStripMenuItem13.Checked = True
+            ToolStripMenuItem13.Enabled = True
+            ToolStripMenuItem14.Checked = True
+            ToolStripMenuItem14.Enabled = True
+            ToolStripMenuItem15.Checked = True
+            ToolStripMenuItem15.Enabled = True
+        End If
     End Sub
 
     Private Sub lvServices_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvServices.SelectedIndexChanged
@@ -611,21 +642,6 @@ Public Class frmMain
                 If Len(it.SubItems(2).Text) > 0 Then s = s & "\tab State :\tab\tab\tab " & it.SubItems(2).Text & "\par"
                 If Len(it.SubItems(3).Text) > 0 Then s = s & "\tab Startup :\tab\tab " & it.SubItems(3).Text & "\par"
                 If Len(it.SubItems(5).Text) > 0 Then s = s & "\tab Availables actions :\tab " & it.SubItems(5).Text & "\par"
-
-
-                's = s & "\par"
-                's = s & "  \b Process description\b0\par"
-                's = s & "\tab PID :\tab\tab\tab " & it.SubItems(1).Text & "\par"
-                's = s & "\tab Threads :\tab\tab " & it.SubItems(5).Text & "\par"
-                's = s & "\tab Start time :\tab\tab " & it.SubItems(8).Text & "\par"
-                's = s & "\tab Priority :\tab\tab\tab " & it.SubItems(6).Text & "\par"
-                's = s & "\tab User :\tab\tab\tab " & it.SubItems(2).Text & "\par"
-                's = s & "\tab Processor time :\tab\tab " & it.SubItems(3).Text & "\par"
-                's = s & "\tab Memory :\tab\tab " & it.SubItems(4).Text & "\par"
-                's = s & "\par"
-                's = s & "  \b On line informations\b0\par"
-                's = s & "\tab Description :\tab\tab " & "Here is the online description" & "\par"
-                's = s & "\tab State :\tab\tab\tab " & "Here is the online state" & "\par"
 
                 s = s & "}"
 
@@ -1126,4 +1142,106 @@ Public Class frmMain
     Private Sub cmdDonate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdDonate.Click
         MsgBox("You just gave 500$ to me...", MsgBoxStyle.Information, "Thanks you !")
     End Sub
+
+    Private Sub ToolStripMenuItem20_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem20.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            If IO.File.Exists(it.SubItems(4).Text) Then
+                If it.SubItems(4).Text <> "N/A" Then _
+                ShowFileProperty(mdlProcess.getfilenamefromspecial(it.SubItems(4).Text))
+            End If
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem21_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem21.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            If it.SubItems(4).Text <> "N/A" Then _
+            OpenDirectory(mdlProcess.getfilenamefromspecial(it.SubItems(4).Text))
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem9_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem9.Click
+        Dim it As ListViewItem
+
+        For Each it In Me.lvServices.SelectedItems
+            Try
+                If Me.ToolStripMenuItem9.Text = "Pause" Then
+                    mdlProcess.PauseService(it.Text)
+                Else
+                    mdlProcess.ResumeService(it.Text)
+                End If
+            Catch ex As Exception
+                '
+            End Try
+        Next
+
+    End Sub
+
+    Private Sub ToolStripMenuItem10_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem10.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            Try
+                mdlProcess.StopService(it.Text)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem11_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem11.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            Try
+                mdlProcess.StartService(it.Text)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem13_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem13.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            Try
+                mdlProcess.SetServiceStartType(it.Text, ServiceProcess.ServiceStartMode.Disabled)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem14_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem14.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            Try
+                mdlProcess.SetServiceStartType(it.Text, ServiceProcess.ServiceStartMode.Automatic)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem15_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem15.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            Try
+                mdlProcess.SetServiceStartType(it.Text, ServiceProcess.ServiceStartMode.Manual)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub ShutdownToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShutdownToolStripMenuItem.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            Try
+                mdlProcess.ShutDownService(it.Text)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
 End Class
