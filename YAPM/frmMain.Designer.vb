@@ -24,12 +24,12 @@ Partial Class frmMain
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.panelActions1 = New System.Windows.Forms.Panel
         Me.pctInfo = New System.Windows.Forms.PictureBox
@@ -159,6 +159,7 @@ Partial Class frmMain
         Me.pctProcess = New System.Windows.Forms.PictureBox
         Me.pctService = New System.Windows.Forms.PictureBox
         Me.pctHelp = New System.Windows.Forms.PictureBox
+        Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.panelActions1.SuspendLayout()
         CType(Me.pctInfo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gpProc1.SuspendLayout()
@@ -331,11 +332,11 @@ Partial Class frmMain
         Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c6, Me.c7, Me.c8, Me.c9})
         Me.lvProcess.ContextMenuStrip = Me.menuProc
         Me.lvProcess.FullRowSelect = True
-        ListViewGroup3.Header = "Processes"
-        ListViewGroup3.Name = "gpOther"
-        ListViewGroup4.Header = "Search result"
-        ListViewGroup4.Name = "gpSearch"
-        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup5.Header = "Processes"
+        ListViewGroup5.Name = "gpOther"
+        ListViewGroup6.Header = "Search result"
+        ListViewGroup6.Name = "gpSearch"
+        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvProcess.HideSelection = False
         Me.lvProcess.Location = New System.Drawing.Point(3, 3)
         Me.lvProcess.Name = "lvProcess"
@@ -540,11 +541,11 @@ Partial Class frmMain
         Me.lvServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader11})
         Me.lvServices.ContextMenuStrip = Me.menuService
         Me.lvServices.FullRowSelect = True
-        ListViewGroup5.Header = "Services"
-        ListViewGroup5.Name = "gpOther"
-        ListViewGroup6.Header = "Search result"
-        ListViewGroup6.Name = "gpSearch"
-        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
+        ListViewGroup7.Header = "Services"
+        ListViewGroup7.Name = "gpOther"
+        ListViewGroup8.Header = "Search result"
+        ListViewGroup8.Name = "gpSearch"
+        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
         Me.lvServices.HideSelection = False
         Me.lvServices.Location = New System.Drawing.Point(3, 3)
         Me.lvServices.Name = "lvServices"
@@ -699,11 +700,11 @@ Partial Class frmMain
         Me.lvJobs.AllowColumnReorder = True
         Me.lvJobs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader4, Me.ColumnHeader5, Me.ColumnHeader6})
         Me.lvJobs.FullRowSelect = True
-        ListViewGroup7.Header = "Past jobs"
-        ListViewGroup7.Name = "gp1"
-        ListViewGroup8.Header = "Future jobs"
-        ListViewGroup8.Name = "gp2"
-        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
+        ListViewGroup1.Header = "Past jobs"
+        ListViewGroup1.Name = "gp1"
+        ListViewGroup2.Header = "Future jobs"
+        ListViewGroup2.Name = "gp2"
+        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvJobs.HideSelection = False
         Me.lvJobs.Location = New System.Drawing.Point(3, 3)
         Me.lvJobs.Name = "lvJobs"
@@ -837,7 +838,6 @@ Partial Class frmMain
         '
         'timerServices
         '
-        Me.timerServices.Enabled = True
         Me.timerServices.Interval = 6000
         '
         'lblProcessName
@@ -999,7 +999,7 @@ Partial Class frmMain
         '
         'FdToolStripMenuItem
         '
-        Me.FdToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExecuteToolStripMenuItem, Me.OptionsToolStripMenuItem, Me.TakeFullPowerToolStripMenuItem, Me.ToolStripMenuItem1, Me.QuitToolStripMenuItem})
+        Me.FdToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExecuteToolStripMenuItem, Me.OptionsToolStripMenuItem, Me.TakeFullPowerToolStripMenuItem, Me.RefreshToolStripMenuItem, Me.ToolStripMenuItem1, Me.QuitToolStripMenuItem})
         Me.FdToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FdToolStripMenuItem.Name = "FdToolStripMenuItem"
         Me.FdToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
@@ -1216,6 +1216,14 @@ Partial Class frmMain
         Me.pctHelp.TabIndex = 31
         Me.pctHelp.TabStop = False
         '
+        'RefreshToolStripMenuItem
+        '
+        Me.RefreshToolStripMenuItem.Name = "RefreshToolStripMenuItem"
+        Me.RefreshToolStripMenuItem.ShortcutKeyDisplayString = "F5"
+        Me.RefreshToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5
+        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
+        Me.RefreshToolStripMenuItem.Text = "Refresh"
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1417,5 +1425,6 @@ Partial Class frmMain
     Friend WithEvents ToolStripMenuItem21 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ShutdownToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents cmdCopyServiceToCp As System.Windows.Forms.Button
+    Friend WithEvents RefreshToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

@@ -3,6 +3,7 @@ Option Strict On
 Public Class frmMain
 
     Private bProcessHover As Boolean = True
+    Private bServiceHover As Boolean = False
 
     Private Const HELP_PATH As String = "C:\Users\Admin\Desktop\YAPM\YAPM\Help\help.htm"
 
@@ -463,7 +464,7 @@ Public Class frmMain
                 End If
             Next
             Me.lblResCount.Text = CStr(lvProcess.Groups(1).Items.Count)
-        Else
+        ElseIf bServiceHover Then
             Dim it As ListViewItem
             For Each it In lvServices.Items
                 If InStr(LCase(it.Text), LCase(txtSearch.Text)) = 0 And _
@@ -765,6 +766,7 @@ Public Class frmMain
 
     Private Sub pctProcess_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pctProcess.Click
         Me.bProcessHover = True
+        Me.bServiceHover = False
         Me.panelMain.Visible = True
         Me.panelMain2.Visible = False
         Me.panelMain3.Visible = False
@@ -788,6 +790,7 @@ Public Class frmMain
 
     Private Sub pctService_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pctService.Click
         Me.bProcessHover = False
+        Me.bServiceHover = True
         Me.panelMain.Visible = False
         Me.panelMain2.Visible = True
         Me.panelMain3.Visible = False
@@ -811,6 +814,7 @@ Public Class frmMain
 
     Private Sub pctJobs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pctJobs.Click
         Me.bProcessHover = False
+        Me.bServiceHover = False
         Me.panelMain.Visible = False
         Me.panelMain2.Visible = False
         Me.panelMain3.Visible = True
@@ -831,6 +835,7 @@ Public Class frmMain
 
     Private Sub pctHelp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pctHelp.Click
         Me.bProcessHover = False
+        Me.bServiceHover = False
         Me.panelMain.Visible = False
         Me.panelMain2.Visible = False
         Me.panelMain3.Visible = False
@@ -1067,7 +1072,7 @@ Public Class frmMain
                 System.Windows.Forms.SendKeys.Send(Me.lvProcess.Groups(1).Items(0).Text)
             Catch ex As Exception
             End Try
-        Else
+        ElseIf bServiceHover Then
             Me.lvServices.Focus()
             Try
                 System.Windows.Forms.SendKeys.Send(Me.lvServices.Groups(1).Items(0).Text)
@@ -1260,5 +1265,13 @@ Public Class frmMain
 
     Private Sub tv_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tv.AfterSelect
         tv.SelectedImageKey = tv.SelectedNode.ImageKey
+    End Sub
+
+    Private Sub RefreshToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshToolStripMenuItem.Click
+        If bProcessHover Then
+            Me.refreshProcessList()
+        ElseIf bServiceHover Then
+            Me.refreshServiceList()
+        End If
     End Sub
 End Class
