@@ -444,7 +444,7 @@ Public Class frmMain
         ' Load help file
         Dim path As String = HELP_PATH
         If IO.File.Exists(path) = False Then
-            WBHelp.Document.Write("<body link=blue vlink=purple><span>Help file cannot be found. <p></span><span>Please download help file at <a href=" & Chr(34) & "http://sourceforge.net/projects/yaprocmon/" & Chr(34) & ">http://sourceforge.net/projects/yaprocmon</a> and save it in Help directory.</span></body>")
+            WBHelp.Document.Write("<body link=blue vlink=purple><span>Help file cannot be found. <p></span><span>Please download help file at <a href=" & Chr(34) & "http://sourceforge.net/projects/yaprocmon/" & Chr(34) & ">http://sourceforge.net/projects/yaprocmon</a> and save it in the Help directory.</span></body>")
         Else
             WBHelp.Navigate(path)
         End If
@@ -481,13 +481,13 @@ Public Class frmMain
     End Sub
 
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
-        Me.panelMain.Left = 206
+        Me.panelMain.Left = 212
         Me.panelMain.Top = 61
-        Me.panelMain2.Left = 206
+        Me.panelMain2.Left = 212
         Me.panelMain2.Top = 61
-        Me.panelMain3.Left = 206
+        Me.panelMain3.Left = 212
         Me.panelMain3.Top = 61
-        Me.panelMain4.Left = 206
+        Me.panelMain4.Left = 212
         Me.panelMain4.Top = 61
         Me.panelActions1.Left = 3
         Me.panelActions1.Top = 293
@@ -497,9 +497,9 @@ Public Class frmMain
         Me.panelActions3.Top = 293
         Me.panelActions4.Left = 3
         Me.panelActions4.Top = 293
-        Me.panelInfos.Left = 206
+        Me.panelInfos.Left = 208
         Me.panelInfos.Top = 307
-        Me.panelInfos2.Left = 206
+        Me.panelInfos2.Left = 208
         Me.panelInfos2.Top = 307
         Me.cmdTray.Top = Me.Height - 69
 

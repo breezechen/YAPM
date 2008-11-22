@@ -105,10 +105,6 @@ Partial Class frmMain
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
-        Me.panelActions2 = New System.Windows.Forms.Panel
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.panelActions3 = New System.Windows.Forms.Panel
-        Me.label78 = New System.Windows.Forms.Label
         Me.panelActions4 = New System.Windows.Forms.Panel
         Me.cmdDonate = New System.Windows.Forms.Button
         Me.cmdUpdate = New System.Windows.Forms.Button
@@ -160,6 +156,20 @@ Partial Class frmMain
         Me.pctProcess = New System.Windows.Forms.PictureBox
         Me.pctService = New System.Windows.Forms.PictureBox
         Me.pctHelp = New System.Windows.Forms.PictureBox
+        Me.panelActions2 = New System.Windows.Forms.Panel
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox
+        Me.cmdResPauseService = New System.Windows.Forms.Button
+        Me.lnkServProp = New System.Windows.Forms.LinkLabel
+        Me.cmdShutdownService = New System.Windows.Forms.Button
+        Me.cbStartType = New System.Windows.Forms.ComboBox
+        Me.cmdStartService = New System.Windows.Forms.Button
+        Me.cmdStopService = New System.Windows.Forms.Button
+        Me.lnkServOpenDir = New System.Windows.Forms.LinkLabel
+        Me.cmdSetStartType = New System.Windows.Forms.Button
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.Label2 = New System.Windows.Forms.Label
+        Me.panelActions3 = New System.Windows.Forms.Panel
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox
         Me.panelActions1.SuspendLayout()
         CType(Me.pctInfo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gpProc1.SuspendLayout()
@@ -170,8 +180,6 @@ Partial Class frmMain
         Me.menuService.SuspendLayout()
         Me.panelMain4.SuspendLayout()
         Me.panelMain3.SuspendLayout()
-        Me.panelActions2.SuspendLayout()
-        Me.panelActions3.SuspendLayout()
         Me.panelActions4.SuspendLayout()
         Me.menuCopyPctbig.SuspendLayout()
         Me.menuCopyPctSmall.SuspendLayout()
@@ -185,6 +193,10 @@ Partial Class frmMain
         CType(Me.pctProcess, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pctService, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pctHelp, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.panelActions2.SuspendLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox1.SuspendLayout()
+        Me.panelActions3.SuspendLayout()
         Me.SuspendLayout()
         '
         'imgMain
@@ -742,42 +754,6 @@ Partial Class frmMain
         Me.ColumnHeader6.Text = "Time"
         Me.ColumnHeader6.Width = 130
         '
-        'panelActions2
-        '
-        Me.panelActions2.BackColor = System.Drawing.Color.White
-        Me.panelActions2.Controls.Add(Me.Label1)
-        Me.panelActions2.Location = New System.Drawing.Point(92, 507)
-        Me.panelActions2.Name = "panelActions2"
-        Me.panelActions2.Size = New System.Drawing.Size(200, 200)
-        Me.panelActions2.TabIndex = 19
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(9, 11)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(41, 13)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Priority"
-        '
-        'panelActions3
-        '
-        Me.panelActions3.BackColor = System.Drawing.Color.White
-        Me.panelActions3.Controls.Add(Me.label78)
-        Me.panelActions3.Location = New System.Drawing.Point(24, 518)
-        Me.panelActions3.Name = "panelActions3"
-        Me.panelActions3.Size = New System.Drawing.Size(200, 200)
-        Me.panelActions3.TabIndex = 20
-        '
-        'label78
-        '
-        Me.label78.AutoSize = True
-        Me.label78.Location = New System.Drawing.Point(9, 11)
-        Me.label78.Name = "label78"
-        Me.label78.Size = New System.Drawing.Size(41, 13)
-        Me.label78.TabIndex = 0
-        Me.label78.Text = "Priority"
-        '
         'panelActions4
         '
         Me.panelActions4.BackColor = System.Drawing.Color.White
@@ -1227,26 +1203,168 @@ Partial Class frmMain
         Me.pctHelp.TabIndex = 31
         Me.pctHelp.TabStop = False
         '
+        'panelActions2
+        '
+        Me.panelActions2.BackColor = System.Drawing.Color.White
+        Me.panelActions2.Controls.Add(Me.PictureBox1)
+        Me.panelActions2.Controls.Add(Me.lnkServProp)
+        Me.panelActions2.Controls.Add(Me.cbStartType)
+        Me.panelActions2.Controls.Add(Me.lnkServOpenDir)
+        Me.panelActions2.Controls.Add(Me.cmdSetStartType)
+        Me.panelActions2.Controls.Add(Me.GroupBox1)
+        Me.panelActions2.Controls.Add(Me.Label2)
+        Me.panelActions2.Location = New System.Drawing.Point(297, 304)
+        Me.panelActions2.Name = "panelActions2"
+        Me.panelActions2.Size = New System.Drawing.Size(200, 200)
+        Me.panelActions2.TabIndex = 42
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.BackColor = System.Drawing.SystemColors.Control
+        Me.PictureBox1.Image = Global.YAPM.My.Resources.Resources.folder_info
+        Me.PictureBox1.Location = New System.Drawing.Point(12, 114)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(40, 40)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox1.TabIndex = 46
+        Me.PictureBox1.TabStop = False
+        '
+        'cmdResPauseService
+        '
+        Me.cmdResPauseService.Location = New System.Drawing.Point(6, 43)
+        Me.cmdResPauseService.Name = "cmdResPauseService"
+        Me.cmdResPauseService.Size = New System.Drawing.Size(83, 21)
+        Me.cmdResPauseService.TabIndex = 7
+        Me.cmdResPauseService.Text = "Resume"
+        Me.cmdResPauseService.UseVisualStyleBackColor = True
+        '
+        'lnkServProp
+        '
+        Me.lnkServProp.AutoSize = True
+        Me.lnkServProp.Location = New System.Drawing.Point(65, 119)
+        Me.lnkServProp.Name = "lnkServProp"
+        Me.lnkServProp.Size = New System.Drawing.Size(75, 13)
+        Me.lnkServProp.TabIndex = 44
+        Me.lnkServProp.TabStop = True
+        Me.lnkServProp.Text = "File properties"
+        '
+        'cmdShutdownService
+        '
+        Me.cmdShutdownService.Location = New System.Drawing.Point(96, 43)
+        Me.cmdShutdownService.Name = "cmdShutdownService"
+        Me.cmdShutdownService.Size = New System.Drawing.Size(83, 21)
+        Me.cmdShutdownService.TabIndex = 8
+        Me.cmdShutdownService.Text = "Shutdown"
+        Me.cmdShutdownService.UseVisualStyleBackColor = True
+        '
+        'cbStartType
+        '
+        Me.cbStartType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbStartType.FormattingEnabled = True
+        Me.cbStartType.Items.AddRange(New Object() {"Auto Start", "Demand Start", "Disabled"})
+        Me.cbStartType.Location = New System.Drawing.Point(71, 8)
+        Me.cbStartType.Name = "cbStartType"
+        Me.cbStartType.Size = New System.Drawing.Size(79, 21)
+        Me.cbStartType.TabIndex = 41
+        '
+        'cmdStartService
+        '
+        Me.cmdStartService.Location = New System.Drawing.Point(95, 16)
+        Me.cmdStartService.Name = "cmdStartService"
+        Me.cmdStartService.Size = New System.Drawing.Size(83, 21)
+        Me.cmdStartService.TabIndex = 6
+        Me.cmdStartService.Text = "Start"
+        Me.cmdStartService.UseVisualStyleBackColor = True
+        '
+        'cmdStopService
+        '
+        Me.cmdStopService.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdStopService.Location = New System.Drawing.Point(6, 16)
+        Me.cmdStopService.Name = "cmdStopService"
+        Me.cmdStopService.Size = New System.Drawing.Size(83, 21)
+        Me.cmdStopService.TabIndex = 5
+        Me.cmdStopService.Text = "Stop"
+        Me.cmdStopService.UseVisualStyleBackColor = True
+        '
+        'lnkServOpenDir
+        '
+        Me.lnkServOpenDir.AutoSize = True
+        Me.lnkServOpenDir.Location = New System.Drawing.Point(65, 141)
+        Me.lnkServOpenDir.Name = "lnkServOpenDir"
+        Me.lnkServOpenDir.Size = New System.Drawing.Size(79, 13)
+        Me.lnkServOpenDir.TabIndex = 45
+        Me.lnkServOpenDir.TabStop = True
+        Me.lnkServOpenDir.Text = "Open directory"
+        '
+        'cmdSetStartType
+        '
+        Me.cmdSetStartType.Location = New System.Drawing.Point(156, 8)
+        Me.cmdSetStartType.Name = "cmdSetStartType"
+        Me.cmdSetStartType.Size = New System.Drawing.Size(38, 21)
+        Me.cmdSetStartType.TabIndex = 43
+        Me.cmdSetStartType.Text = "Set"
+        Me.cmdSetStartType.UseVisualStyleBackColor = True
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.cmdShutdownService)
+        Me.GroupBox1.Controls.Add(Me.cmdResPauseService)
+        Me.GroupBox1.Controls.Add(Me.cmdStartService)
+        Me.GroupBox1.Controls.Add(Me.cmdStopService)
+        Me.GroupBox1.Location = New System.Drawing.Point(9, 35)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(185, 71)
+        Me.GroupBox1.TabIndex = 42
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Service"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(9, 11)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(56, 13)
+        Me.Label2.TabIndex = 40
+        Me.Label2.Text = "Start type"
+        '
+        'panelActions3
+        '
+        Me.panelActions3.BackColor = System.Drawing.Color.White
+        Me.panelActions3.Controls.Add(Me.CheckBox1)
+        Me.panelActions3.Location = New System.Drawing.Point(297, 185)
+        Me.panelActions3.Name = "panelActions3"
+        Me.panelActions3.Size = New System.Drawing.Size(200, 200)
+        Me.panelActions3.TabIndex = 43
+        '
+        'CheckBox1
+        '
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Location = New System.Drawing.Point(70, 33)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(79, 17)
+        Me.CheckBox1.TabIndex = 0
+        Me.CheckBox1.Text = "CheckBox1"
+        Me.CheckBox1.UseVisualStyleBackColor = True
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.ClientSize = New System.Drawing.Size(795, 570)
+        Me.Controls.Add(Me.panelActions3)
+        Me.Controls.Add(Me.panelActions2)
+        Me.Controls.Add(Me.panelActions1)
         Me.Controls.Add(Me.cmdTray)
         Me.Controls.Add(Me.panelMain4)
         Me.Controls.Add(Me.panelInfos)
         Me.Controls.Add(Me.panelInfos2)
-        Me.Controls.Add(Me.panelActions1)
-        Me.Controls.Add(Me.panelActions4)
         Me.Controls.Add(Me.lblServices)
         Me.Controls.Add(Me.lblProcess)
         Me.Controls.Add(Me.pctJobs)
         Me.Controls.Add(Me.pctProcess)
         Me.Controls.Add(Me.pctService)
         Me.Controls.Add(Me.pctHelp)
-        Me.Controls.Add(Me.panelActions3)
-        Me.Controls.Add(Me.panelActions2)
         Me.Controls.Add(Me.panelMain2)
         Me.Controls.Add(Me.panelMain3)
         Me.Controls.Add(Me.panelMain)
@@ -1254,6 +1372,7 @@ Partial Class frmMain
         Me.Controls.Add(Me.mainMenu)
         Me.Controls.Add(Me.lblAddJobs)
         Me.Controls.Add(Me.lblHelp)
+        Me.Controls.Add(Me.panelActions4)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.mainMenu
@@ -1274,10 +1393,6 @@ Partial Class frmMain
         Me.menuService.ResumeLayout(False)
         Me.panelMain4.ResumeLayout(False)
         Me.panelMain3.ResumeLayout(False)
-        Me.panelActions2.ResumeLayout(False)
-        Me.panelActions2.PerformLayout()
-        Me.panelActions3.ResumeLayout(False)
-        Me.panelActions3.PerformLayout()
         Me.panelActions4.ResumeLayout(False)
         Me.panelActions4.PerformLayout()
         Me.menuCopyPctbig.ResumeLayout(False)
@@ -1295,6 +1410,12 @@ Partial Class frmMain
         CType(Me.pctProcess, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pctService, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pctHelp, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.panelActions2.ResumeLayout(False)
+        Me.panelActions2.PerformLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.panelActions3.ResumeLayout(False)
+        Me.panelActions3.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1337,10 +1458,6 @@ Partial Class frmMain
     Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader5 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader6 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents panelActions2 As System.Windows.Forms.Panel
-    Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents panelActions3 As System.Windows.Forms.Panel
-    Friend WithEvents label78 As System.Windows.Forms.Label
     Friend WithEvents panelActions4 As System.Windows.Forms.Panel
     Friend WithEvents cmdSetPriority As System.Windows.Forms.Button
     Friend WithEvents timerServices As System.Windows.Forms.Timer
@@ -1429,5 +1546,19 @@ Partial Class frmMain
     Friend WithEvents ShutdownToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents cmdCopyServiceToCp As System.Windows.Forms.Button
     Friend WithEvents RefreshToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents panelActions2 As System.Windows.Forms.Panel
+    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
+    Friend WithEvents lnkServProp As System.Windows.Forms.LinkLabel
+    Friend WithEvents cbStartType As System.Windows.Forms.ComboBox
+    Friend WithEvents lnkServOpenDir As System.Windows.Forms.LinkLabel
+    Friend WithEvents cmdSetStartType As System.Windows.Forms.Button
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents cmdShutdownService As System.Windows.Forms.Button
+    Friend WithEvents cmdResPauseService As System.Windows.Forms.Button
+    Friend WithEvents cmdStartService As System.Windows.Forms.Button
+    Friend WithEvents cmdStopService As System.Windows.Forms.Button
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents panelActions3 As System.Windows.Forms.Panel
+    Friend WithEvents CheckBox1 As System.Windows.Forms.CheckBox
 
 End Class
