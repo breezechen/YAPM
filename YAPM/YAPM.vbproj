@@ -12,8 +12,7 @@
     <AssemblyName>YAPM</AssemblyName>
     <MyType>WindowsForms</MyType>
     <OptionStrict>On</OptionStrict>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>process.ico</ApplicationIcon>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -138,6 +137,9 @@
     <None Include="Resources\folder_info.png" />
     <None Include="Resources\info.png" />
     <None Include="Resources\process1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="process.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

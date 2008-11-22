@@ -480,25 +480,29 @@ Public Class frmMain
 
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
         Me.panelMain.Left = 206
-        Me.panelMain.Top = 34 + 27
+        Me.panelMain.Top = 61
         Me.panelMain2.Left = 206
-        Me.panelMain2.Top = 34 + 27
+        Me.panelMain2.Top = 61
         Me.panelMain3.Left = 206
-        Me.panelMain3.Top = 34 + 27
+        Me.panelMain3.Top = 61
         Me.panelMain4.Left = 206
-        Me.panelMain4.Top = 34 + 27
+        Me.panelMain4.Top = 61
         Me.panelActions1.Left = 3
-        Me.panelActions1.Top = 266 + 27
+        Me.panelActions1.Top = 293
         Me.panelActions2.Left = 3
-        Me.panelActions2.Top = 266 + 27
+        Me.panelActions2.Top = 293
         Me.panelActions3.Left = 3
-        Me.panelActions3.Top = 266 + 27
+        Me.panelActions3.Top = 293
         Me.panelActions4.Left = 3
-        Me.panelActions4.Top = 266 + 27
+        Me.panelActions4.Top = 293
         Me.panelInfos.Left = 206
-        Me.panelInfos.Top = 280 + 27
+        Me.panelInfos.Top = 307
         Me.panelInfos2.Left = 206
-        Me.panelInfos2.Top = 280 + 27
+        Me.panelInfos2.Top = 307
+
+        ' Help resizement
+        Me.panelMain4.Height = Me.Height - panelMain4.Top - 44
+        Me.panelMain4.Width = Me.Width - panelMain4.Left - 20
     End Sub
 
     Private Sub cmdKill_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdKill.Click
@@ -852,6 +856,7 @@ Public Class frmMain
         Me.lblAddJobs.ForeColor = Color.Black
         Me.lblHelp.Enabled = True
         Me.lblHelp.ForeColor = Color.Red
+        Me.panelMain4.Height = Me.Height - panelMain4.Top - 44
     End Sub
 
     Private Sub pctService_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles pctService.MouseEnter
