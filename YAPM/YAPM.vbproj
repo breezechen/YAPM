@@ -12,7 +12,7 @@
     <AssemblyName>YAPM</AssemblyName>
     <MyType>WindowsForms</MyType>
     <OptionStrict>On</OptionStrict>
-    <ApplicationIcon>process.ico</ApplicationIcon>
+    <ApplicationIcon>process_custom.ico</ApplicationIcon>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -140,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="process.ico" />
+    <Content Include="process_custom.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
