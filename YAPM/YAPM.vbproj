@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="cProc.vb" />
+    <Compile Include="cService.vb" />
     <Compile Include="frmAbout.Designer.vb">
       <DependentUpon>frmAbout.vb</DependentUpon>
     </Compile>
@@ -133,6 +134,7 @@
     <None Include="Resources\business_user_add.png" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="mdlService.vb" />
     <None Include="Resources\folder_info.png" />
     <None Include="Resources\info.png" />
     <None Include="Resources\process1.png" />

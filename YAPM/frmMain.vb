@@ -6,6 +6,108 @@ Public Class frmMain
 
     Private Const HELP_PATH As String = "C:\Users\Admin\Desktop\YAPM\YAPM\Help\help.htm"
 
+    ' Refresh service list
+    Private Sub refreshServiceList()
+
+        Dim lvi As ListViewItem
+        Dim exist As Boolean = False
+        Dim serv() As cService
+        Dim p As cService
+
+        ReDim serv(0)
+        mdlService.Enumerate(serv)
+
+        ' Refresh (or suppress) all services displayed in listview
+        For Each lvi In Me.lvServices.Items
+
+            ' Test if process exist
+            For Each p In serv
+                If p.Name = lvi.Text Then
+                    exist = True
+                    p.IsDisplayed = True
+                    Exit For
+                End If
+            Next
+
+            If exist = False Then
+                ' Process no longer exists
+                lvi.Remove()
+            Else
+
+                ' Refresh process informations
+                exist = exist
+            End If
+            exist = False
+        Next
+
+
+        ' Add all non displayed services (new services)
+        For Each p In serv
+
+            If p.IsDisplayed = False Then
+
+                p.IsDisplayed = True
+
+                Dim it As New ListViewItem
+
+                it.Text = p.Name
+                it.ImageKey = "service"
+
+                Dim lsub1 As New ListViewItem.ListViewSubItem
+                Dim lsub2 As New ListViewItem.ListViewSubItem
+                Dim lsub3 As New ListViewItem.ListViewSubItem
+                Dim lsub4 As New ListViewItem.ListViewSubItem
+                Dim lsub5 As New ListViewItem.ListViewSubItem
+
+                Dim path As String = CStr(My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\" & it.Text, "ImagePath", ""))
+                If path.Chars(0) = Chr(34) Then
+                    path = path.Substring(1, path.Length - 2)
+                End If
+
+                lsub4.Text = path
+                lsub2.Text = p.Status.ToString
+                lsub3.Text = mdlService.GetServiceStartTypeFromInt(CInt(Val(My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\" & it.Text, "Start", ""))))
+                lsub1.Text = p.LongName
+                lsub5.Text = CStr(IIf(p.CanPauseAndContinue, "Pause/Continue ", "")) & _
+                            CStr(IIf(p.CanShutdown, "Shutdown ", "")) & _
+                            CStr(IIf(p.CanStop, "Stop ", ""))
+
+                it.SubItems.Add(lsub1)
+                it.SubItems.Add(lsub2)
+                it.SubItems.Add(lsub3)
+                it.SubItems.Add(lsub4)
+                it.SubItems.Add(lsub5)
+
+                lvServices.Items.Add(it)
+            End If
+
+        Next
+
+        ' Here we retrieve some informations for all our displayed services
+        ' This a VERY BAD WAY to refresh informations (TOO MUCH CPU TIME !!)
+        Dim o As System.ServiceProcess.ServiceController() = System.ServiceProcess.ServiceController.GetServices()
+        Dim o1 As System.ServiceProcess.ServiceController
+
+        For Each lvi In Me.lvServices.Items
+            Try
+                For Each o1 In o
+                    If o1.ServiceName = lvi.Text Then
+                        lvi.SubItems(2).Text = o1.Status.ToString
+                        lvi.SubItems(5).Text = CStr(IIf(o1.CanPauseAndContinue, "Pause/Continue ", "")) & _
+                            CStr(IIf(o1.CanShutdown, "Shutdown ", "")) & _
+                            CStr(IIf(o1.CanStop, "Stop ", ""))
+                        lvi.SubItems(3).Text = mdlService.GetServiceStartTypeFromInt(CInt(Val(My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\" & lvi.Text, "Start", ""))))
+                        Exit For
+                    End If
+                Next
+
+            Catch ex As Exception
+                '
+            End Try
+        Next
+
+    End Sub
+
     ' Refresh process list in listview
     Private Sub refreshProcessList()
 
@@ -321,6 +423,7 @@ Public Class frmMain
         SetToolTip(Me.txtSearch, "Enter text here to search a process/service.")
         SetToolTip(Me.chkModules, "Check if you want to retrieve modules and threads infos when you click on listview.")
         SetToolTip(Me.cmdInfosToClipB, "Copy process informations to clipboard. Use left click to copy as text, right click to copy as rtf (preserve text style).")
+        SetToolTip(Me.cmdCopyServiceToCp, "Copy services informations to clipboard. Use left click to copy as text, right click to copy as rtf (preserve text style).")
         SetToolTip(Me.lblProcessPath, "Path of the main executable.")
         SetToolTip(Me.lblServicePath, "Path of the main executable of the service.")
         SetToolTip(Me.cbPriority, "Change selected processes priority.")
@@ -332,7 +435,7 @@ Public Class frmMain
         SetToolTip(Me.lnkOpenDir, "Open file location of selected processes.")
         SetToolTip(Me.lnkProp, "Open property box for selected processes.")
         SetToolTip(Me.cmdTray, "Hide main form (double click on icon on tray to restore).")
-        SetToolTip(Me.tv, "Selected service depends on this.")
+        SetToolTip(Me.tv, "Selected service depends on these services.")
         SetToolTip(Me.tv2, "This services depend on selected service.")
 
         ' Load help file
@@ -373,73 +476,6 @@ Public Class frmMain
             Me.lblResCount.Text = CStr(lvServices.Groups(1).Items.Count)
         End If
     End Sub
-
-    'Private Sub lvMain_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvMain.SelectedIndexChanged
-    '    If lvMain.SelectedItems.Count > 0 Then
-    '        Dim it As ListViewItem = lvMain.SelectedItems.Item(0)
-    '        Select Case it.Index
-    '            Case 0
-    '                Me.panelMain.Visible = True
-    '                Me.panelMain2.Visible = False
-    '                Me.panelMain3.Visible = False
-    '                Me.panelMain4.Visible = False
-    '                Me.panelMain5.Visible = False
-    '                Me.panelActions1.Visible = True
-    '                Me.panelActions2.Visible = False
-    '                Me.panelActions3.Visible = False
-    '                Me.panelActions4.Visible = False
-    '                Me.panelActions5.Visible = False
-    '                Me.panelInfos.Visible = True
-    '                Me.panelInfos2.Visible = False
-    '            Case 1
-    '                Me.panelMain.Visible = False
-    '                Me.panelMain2.Visible = True
-    '                Me.panelMain3.Visible = False
-    '                Me.panelMain4.Visible = False
-    '                Me.panelMain5.Visible = False
-    '                Me.panelActions1.Visible = False
-    '                Me.panelActions2.Visible = True
-    '                Me.panelActions3.Visible = False
-    '                Me.panelActions4.Visible = False
-    '                Me.panelActions5.Visible = False
-    '                Me.panelInfos.Visible = False
-    '                Me.panelInfos2.Visible = True
-    '            Case 2
-    '                Me.panelMain.Visible = False
-    '                Me.panelMain2.Visible = False
-    '                Me.panelMain3.Visible = True
-    '                Me.panelMain4.Visible = False
-    '                Me.panelMain5.Visible = False
-    '                Me.panelActions1.Visible = False
-    '                Me.panelActions2.Visible = False
-    '                Me.panelActions3.Visible = True
-    '                Me.panelActions4.Visible = False
-    '                Me.panelActions5.Visible = False
-    '            Case 3
-    '                Me.panelMain.Visible = False
-    '                Me.panelMain2.Visible = False
-    '                Me.panelMain3.Visible = False
-    '                Me.panelMain4.Visible = True
-    '                Me.panelMain5.Visible = False
-    '                Me.panelActions1.Visible = False
-    '                Me.panelActions2.Visible = False
-    '                Me.panelActions3.Visible = False
-    '                Me.panelActions4.Visible = True
-    '                Me.panelActions5.Visible = False
-    '            Case 4
-    '                Me.panelMain.Visible = False
-    '                Me.panelMain2.Visible = False
-    '                Me.panelMain3.Visible = False
-    '                Me.panelMain4.Visible = False
-    '                Me.panelMain5.Visible = True
-    '                Me.panelActions1.Visible = False
-    '                Me.panelActions2.Visible = False
-    '                Me.panelActions3.Visible = False
-    '                Me.panelActions4.Visible = False
-    '                Me.panelActions5.Visible = True
-    '        End Select
-    '    End If
-    'End Sub
 
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
         Me.panelMain.Left = 206
@@ -525,50 +561,6 @@ Public Class frmMain
             If it.SubItems(7).Text <> "N/A" Then _
             SetProcessPriority(CInt(it.SubItems(1).Text), p)
         Next
-    End Sub
-
-    ' Refresh service list
-    Private Sub refreshServiceList()
-        lvServices.Items.Clear()
-        Dim o As System.ServiceProcess.ServiceController() = System.ServiceProcess.ServiceController.GetServices()
-        Dim o1 As System.ServiceProcess.ServiceController
-
-        For Each o1 In o
-
-            Dim it As New ListViewItem
-
-            it.Text = o1.ServiceName
-            it.ImageKey = "service"
-
-            Dim lsub1 As New ListViewItem.ListViewSubItem
-            Dim lsub2 As New ListViewItem.ListViewSubItem
-            Dim lsub3 As New ListViewItem.ListViewSubItem
-            Dim lsub4 As New ListViewItem.ListViewSubItem
-            Dim lsub5 As New ListViewItem.ListViewSubItem
-
-            Dim path As String = CStr(My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\" & it.Text, "ImagePath", ""))
-            If path.Chars(0) = Chr(34) Then
-                path = path.Substring(1, path.Length - 2)
-            End If
-
-            lsub4.Text = path
-            lsub2.Text = o1.Status.ToString
-            lsub3.Text = mdlProcess.GetServiceStartTypeFromInt(CInt(Val(My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\" & it.Text, "Start", ""))))
-            lsub1.Text = o1.DisplayName
-            lsub5.Text = CStr(IIf(o1.CanPauseAndContinue, "Pause/Continue ", "")) & _
-                        CStr(IIf(o1.CanShutdown, "Shutdown ", "")) & _
-                        CStr(IIf(o1.CanStop, "Stop ", ""))
-
-            it.SubItems.Add(lsub1)
-            it.SubItems.Add(lsub2)
-            it.SubItems.Add(lsub3)
-            it.SubItems.Add(lsub4)
-            it.SubItems.Add(lsub5)
-
-            lvServices.Items.Add(it)
-
-        Next
-
     End Sub
 
     Private Sub timerServices_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerServices.Tick
@@ -1148,7 +1140,7 @@ Public Class frmMain
         For Each it In Me.lvServices.SelectedItems
             If IO.File.Exists(it.SubItems(4).Text) Then
                 If it.SubItems(4).Text <> "N/A" Then _
-                ShowFileProperty(mdlProcess.getfilenamefromspecial(it.SubItems(4).Text))
+                ShowFileProperty(mdlService.GetFileNameFromSpecial(it.SubItems(4).Text))
             End If
         Next
     End Sub
@@ -1157,7 +1149,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
             If it.SubItems(4).Text <> "N/A" Then _
-            OpenDirectory(mdlProcess.getfilenamefromspecial(it.SubItems(4).Text))
+            OpenDirectory(mdlService.GetFileNameFromSpecial(it.SubItems(4).Text))
         Next
     End Sub
 
@@ -1167,9 +1159,9 @@ Public Class frmMain
         For Each it In Me.lvServices.SelectedItems
             Try
                 If Me.ToolStripMenuItem9.Text = "Pause" Then
-                    mdlProcess.PauseService(it.Text)
+                    mdlService.PauseService(it.Text)
                 Else
-                    mdlProcess.ResumeService(it.Text)
+                    mdlService.ResumeService(it.Text)
                 End If
             Catch ex As Exception
                 '
@@ -1182,7 +1174,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
             Try
-                mdlProcess.StopService(it.Text)
+                mdlService.StopService(it.Text)
             Catch ex As Exception
                 '
             End Try
@@ -1193,7 +1185,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
             Try
-                mdlProcess.StartService(it.Text)
+                mdlService.StartService(it.Text)
             Catch ex As Exception
                 '
             End Try
@@ -1204,7 +1196,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
             Try
-                mdlProcess.SetServiceStartType(it.Text, ServiceProcess.ServiceStartMode.Disabled)
+                mdlService.SetServiceStartType(it.Text, ServiceProcess.ServiceStartMode.Disabled)
             Catch ex As Exception
                 '
             End Try
@@ -1215,7 +1207,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
             Try
-                mdlProcess.SetServiceStartType(it.Text, ServiceProcess.ServiceStartMode.Automatic)
+                mdlService.SetServiceStartType(it.Text, ServiceProcess.ServiceStartMode.Automatic)
             Catch ex As Exception
                 '
             End Try
@@ -1226,7 +1218,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
             Try
-                mdlProcess.SetServiceStartType(it.Text, ServiceProcess.ServiceStartMode.Manual)
+                mdlService.SetServiceStartType(it.Text, ServiceProcess.ServiceStartMode.Manual)
             Catch ex As Exception
                 '
             End Try
@@ -1237,11 +1229,36 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
             Try
-                mdlProcess.ShutDownService(it.Text)
+                mdlService.ShutDownService(it.Text)
             Catch ex As Exception
                 '
             End Try
         Next
     End Sub
 
+    Private Sub cmdCopyServiceToCp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdCopyServiceToCp.Click
+        If Me.rtb2.Text.Length > 0 Then
+            My.Computer.Clipboard.SetText(Me.rtb2.Text, TextDataFormat.Text)
+        End If
+    End Sub
+
+    Private Sub cmdCopyServiceToCp_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles cmdCopyServiceToCp.MouseDown
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            If Me.rtb2.Rtf.Length > 0 Then
+                My.Computer.Clipboard.SetText(Me.rtb2.Rtf, TextDataFormat.Rtf)
+            End If
+        End If
+    End Sub
+
+    Private Sub rtb2_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rtb2.TextChanged
+        Me.cmdCopyServiceToCp.Enabled = (rtb2.Rtf.Length > 0)
+    End Sub
+
+    Private Sub tv2_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tv2.AfterSelect
+        tv2.SelectedImageKey = tv2.SelectedNode.ImageKey
+    End Sub
+
+    Private Sub tv_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tv.AfterSelect
+        tv.SelectedImageKey = tv.SelectedNode.ImageKey
+    End Sub
 End Class

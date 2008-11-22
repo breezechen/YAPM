@@ -24,12 +24,12 @@ Partial Class frmMain
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.panelActions1 = New System.Windows.Forms.Panel
         Me.pctInfo = New System.Windows.Forms.PictureBox
@@ -86,6 +86,7 @@ Partial Class frmMain
         Me.menuService = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem9 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem10 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ShutdownToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem11 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem12 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem13 = New System.Windows.Forms.ToolStripMenuItem
@@ -148,6 +149,7 @@ Partial Class frmMain
         Me.lblAddJobs = New System.Windows.Forms.Label
         Me.lblHelp = New System.Windows.Forms.Label
         Me.panelInfos2 = New System.Windows.Forms.Panel
+        Me.cmdCopyServiceToCp = New System.Windows.Forms.Button
         Me.lblServicePath = New System.Windows.Forms.TextBox
         Me.tv2 = New System.Windows.Forms.TreeView
         Me.tv = New System.Windows.Forms.TreeView
@@ -157,7 +159,6 @@ Partial Class frmMain
         Me.pctProcess = New System.Windows.Forms.PictureBox
         Me.pctService = New System.Windows.Forms.PictureBox
         Me.pctHelp = New System.Windows.Forms.PictureBox
-        Me.ShutdownToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.panelActions1.SuspendLayout()
         CType(Me.pctInfo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gpProc1.SuspendLayout()
@@ -330,11 +331,11 @@ Partial Class frmMain
         Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c6, Me.c7, Me.c8, Me.c9})
         Me.lvProcess.ContextMenuStrip = Me.menuProc
         Me.lvProcess.FullRowSelect = True
-        ListViewGroup1.Header = "Processes"
-        ListViewGroup1.Name = "gpOther"
-        ListViewGroup2.Header = "Search result"
-        ListViewGroup2.Name = "gpSearch"
-        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup3.Header = "Processes"
+        ListViewGroup3.Name = "gpOther"
+        ListViewGroup4.Header = "Search result"
+        ListViewGroup4.Name = "gpSearch"
+        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvProcess.HideSelection = False
         Me.lvProcess.Location = New System.Drawing.Point(3, 3)
         Me.lvProcess.Name = "lvProcess"
@@ -539,11 +540,11 @@ Partial Class frmMain
         Me.lvServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader11})
         Me.lvServices.ContextMenuStrip = Me.menuService
         Me.lvServices.FullRowSelect = True
-        ListViewGroup3.Header = "Services"
-        ListViewGroup3.Name = "gpOther"
-        ListViewGroup4.Header = "Search result"
-        ListViewGroup4.Name = "gpSearch"
-        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup5.Header = "Services"
+        ListViewGroup5.Name = "gpOther"
+        ListViewGroup6.Header = "Search result"
+        ListViewGroup6.Name = "gpSearch"
+        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvServices.HideSelection = False
         Me.lvServices.Location = New System.Drawing.Point(3, 3)
         Me.lvServices.Name = "lvServices"
@@ -587,7 +588,7 @@ Partial Class frmMain
         '
         Me.menuService.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem9, Me.ToolStripMenuItem10, Me.ShutdownToolStripMenuItem, Me.ToolStripMenuItem11, Me.ToolStripMenuItem12, Me.ToolStripSeparator2, Me.ToolStripMenuItem20, Me.ToolStripMenuItem21})
         Me.menuService.Name = "menuProc"
-        Me.menuService.Size = New System.Drawing.Size(154, 186)
+        Me.menuService.Size = New System.Drawing.Size(154, 164)
         '
         'ToolStripMenuItem9
         '
@@ -600,6 +601,12 @@ Partial Class frmMain
         Me.ToolStripMenuItem10.Name = "ToolStripMenuItem10"
         Me.ToolStripMenuItem10.Size = New System.Drawing.Size(153, 22)
         Me.ToolStripMenuItem10.Text = "Stop"
+        '
+        'ShutdownToolStripMenuItem
+        '
+        Me.ShutdownToolStripMenuItem.Name = "ShutdownToolStripMenuItem"
+        Me.ShutdownToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.ShutdownToolStripMenuItem.Text = "Shutdown"
         '
         'ToolStripMenuItem11
         '
@@ -617,19 +624,19 @@ Partial Class frmMain
         'ToolStripMenuItem13
         '
         Me.ToolStripMenuItem13.Name = "ToolStripMenuItem13"
-        Me.ToolStripMenuItem13.Size = New System.Drawing.Size(152, 22)
+        Me.ToolStripMenuItem13.Size = New System.Drawing.Size(137, 22)
         Me.ToolStripMenuItem13.Text = "Disabled"
         '
         'ToolStripMenuItem14
         '
         Me.ToolStripMenuItem14.Name = "ToolStripMenuItem14"
-        Me.ToolStripMenuItem14.Size = New System.Drawing.Size(152, 22)
+        Me.ToolStripMenuItem14.Size = New System.Drawing.Size(137, 22)
         Me.ToolStripMenuItem14.Text = "Auto start"
         '
         'ToolStripMenuItem15
         '
         Me.ToolStripMenuItem15.Name = "ToolStripMenuItem15"
-        Me.ToolStripMenuItem15.Size = New System.Drawing.Size(152, 22)
+        Me.ToolStripMenuItem15.Size = New System.Drawing.Size(137, 22)
         Me.ToolStripMenuItem15.Text = "On demand"
         '
         'ToolStripSeparator2
@@ -692,11 +699,11 @@ Partial Class frmMain
         Me.lvJobs.AllowColumnReorder = True
         Me.lvJobs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader4, Me.ColumnHeader5, Me.ColumnHeader6})
         Me.lvJobs.FullRowSelect = True
-        ListViewGroup5.Header = "Past jobs"
-        ListViewGroup5.Name = "gp1"
-        ListViewGroup6.Header = "Future jobs"
-        ListViewGroup6.Name = "gp2"
-        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
+        ListViewGroup7.Header = "Past jobs"
+        ListViewGroup7.Name = "gp1"
+        ListViewGroup8.Header = "Future jobs"
+        ListViewGroup8.Name = "gp2"
+        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
         Me.lvJobs.HideSelection = False
         Me.lvJobs.Location = New System.Drawing.Point(3, 3)
         Me.lvJobs.Name = "lvJobs"
@@ -1092,6 +1099,7 @@ Partial Class frmMain
         '
         'panelInfos2
         '
+        Me.panelInfos2.Controls.Add(Me.cmdCopyServiceToCp)
         Me.panelInfos2.Controls.Add(Me.lblServicePath)
         Me.panelInfos2.Controls.Add(Me.tv2)
         Me.panelInfos2.Controls.Add(Me.tv)
@@ -1103,6 +1111,16 @@ Partial Class frmMain
         Me.panelInfos2.TabIndex = 41
         Me.panelInfos2.Visible = False
         '
+        'cmdCopyServiceToCp
+        '
+        Me.cmdCopyServiceToCp.Enabled = False
+        Me.cmdCopyServiceToCp.Location = New System.Drawing.Point(453, 18)
+        Me.cmdCopyServiceToCp.Name = "cmdCopyServiceToCp"
+        Me.cmdCopyServiceToCp.Size = New System.Drawing.Size(99, 21)
+        Me.cmdCopyServiceToCp.TabIndex = 10
+        Me.cmdCopyServiceToCp.Text = "Copy to clipboard"
+        Me.cmdCopyServiceToCp.UseVisualStyleBackColor = True
+        '
         'lblServicePath
         '
         Me.lblServicePath.BackColor = System.Drawing.Color.WhiteSmoke
@@ -1111,7 +1129,7 @@ Partial Class frmMain
         Me.lblServicePath.Location = New System.Drawing.Point(7, 24)
         Me.lblServicePath.Name = "lblServicePath"
         Me.lblServicePath.ReadOnly = True
-        Me.lblServicePath.Size = New System.Drawing.Size(520, 14)
+        Me.lblServicePath.Size = New System.Drawing.Size(440, 14)
         Me.lblServicePath.TabIndex = 9
         '
         'tv2
@@ -1120,7 +1138,7 @@ Partial Class frmMain
         Me.tv2.ImageList = Me.imgServices
         Me.tv2.Location = New System.Drawing.Point(407, 41)
         Me.tv2.Name = "tv2"
-        Me.tv2.SelectedImageIndex = 0
+        Me.tv2.SelectedImageIndex = 2
         Me.tv2.Size = New System.Drawing.Size(150, 95)
         Me.tv2.TabIndex = 8
         '
@@ -1198,22 +1216,16 @@ Partial Class frmMain
         Me.pctHelp.TabIndex = 31
         Me.pctHelp.TabStop = False
         '
-        'ShutdownToolStripMenuItem
-        '
-        Me.ShutdownToolStripMenuItem.Name = "ShutdownToolStripMenuItem"
-        Me.ShutdownToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
-        Me.ShutdownToolStripMenuItem.Text = "Shutdown"
-        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.ClientSize = New System.Drawing.Size(771, 553)
+        Me.Controls.Add(Me.panelInfos2)
         Me.Controls.Add(Me.panelActions1)
         Me.Controls.Add(Me.panelActions4)
         Me.Controls.Add(Me.panelMain4)
-        Me.Controls.Add(Me.panelInfos2)
         Me.Controls.Add(Me.panelInfos)
         Me.Controls.Add(Me.lblServices)
         Me.Controls.Add(Me.lblProcess)
@@ -1404,5 +1416,6 @@ Partial Class frmMain
     Friend WithEvents ToolStripMenuItem20 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem21 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ShutdownToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents cmdCopyServiceToCp As System.Windows.Forms.Button
 
 End Class
