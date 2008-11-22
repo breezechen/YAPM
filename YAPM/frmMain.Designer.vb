@@ -139,6 +139,7 @@ Partial Class frmMain
         Me.ExecuteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.TakeFullPowerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
         Me.QuitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
@@ -159,7 +160,6 @@ Partial Class frmMain
         Me.pctProcess = New System.Windows.Forms.PictureBox
         Me.pctService = New System.Windows.Forms.PictureBox
         Me.pctHelp = New System.Windows.Forms.PictureBox
-        Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.panelActions1.SuspendLayout()
         CType(Me.pctInfo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gpProc1.SuspendLayout()
@@ -331,6 +331,7 @@ Partial Class frmMain
         Me.lvProcess.AllowColumnReorder = True
         Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c6, Me.c7, Me.c8, Me.c9})
         Me.lvProcess.ContextMenuStrip = Me.menuProc
+        Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.FullRowSelect = True
         ListViewGroup5.Header = "Processes"
         ListViewGroup5.Name = "gpOther"
@@ -338,9 +339,9 @@ Partial Class frmMain
         ListViewGroup6.Name = "gpSearch"
         Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvProcess.HideSelection = False
-        Me.lvProcess.Location = New System.Drawing.Point(3, 3)
+        Me.lvProcess.Location = New System.Drawing.Point(0, 0)
         Me.lvProcess.Name = "lvProcess"
-        Me.lvProcess.Size = New System.Drawing.Size(554, 234)
+        Me.lvProcess.Size = New System.Drawing.Size(560, 240)
         Me.lvProcess.SmallImageList = Me.imgProcess
         Me.lvProcess.TabIndex = 1
         Me.lvProcess.UseCompatibleStateImageBehavior = False
@@ -540,6 +541,7 @@ Partial Class frmMain
         Me.lvServices.AllowColumnReorder = True
         Me.lvServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader11})
         Me.lvServices.ContextMenuStrip = Me.menuService
+        Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvServices.FullRowSelect = True
         ListViewGroup7.Header = "Services"
         ListViewGroup7.Name = "gpOther"
@@ -547,9 +549,9 @@ Partial Class frmMain
         ListViewGroup8.Name = "gpSearch"
         Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
         Me.lvServices.HideSelection = False
-        Me.lvServices.Location = New System.Drawing.Point(3, 3)
+        Me.lvServices.Location = New System.Drawing.Point(0, 0)
         Me.lvServices.Name = "lvServices"
-        Me.lvServices.Size = New System.Drawing.Size(554, 234)
+        Me.lvServices.Size = New System.Drawing.Size(560, 240)
         Me.lvServices.SmallImageList = Me.imgServices
         Me.lvServices.TabIndex = 0
         Me.lvServices.UseCompatibleStateImageBehavior = False
@@ -699,6 +701,7 @@ Partial Class frmMain
         '
         Me.lvJobs.AllowColumnReorder = True
         Me.lvJobs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader4, Me.ColumnHeader5, Me.ColumnHeader6})
+        Me.lvJobs.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvJobs.FullRowSelect = True
         ListViewGroup1.Header = "Past jobs"
         ListViewGroup1.Name = "gp1"
@@ -706,9 +709,9 @@ Partial Class frmMain
         ListViewGroup2.Name = "gp2"
         Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvJobs.HideSelection = False
-        Me.lvJobs.Location = New System.Drawing.Point(3, 3)
+        Me.lvJobs.Location = New System.Drawing.Point(0, 0)
         Me.lvJobs.Name = "lvJobs"
-        Me.lvJobs.Size = New System.Drawing.Size(554, 234)
+        Me.lvJobs.Size = New System.Drawing.Size(560, 240)
         Me.lvJobs.SmallImageList = Me.imgProcess
         Me.lvJobs.TabIndex = 0
         Me.lvJobs.UseCompatibleStateImageBehavior = False
@@ -944,7 +947,7 @@ Partial Class frmMain
         'cmdTray
         '
         Me.cmdTray.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdTray.Location = New System.Drawing.Point(17, 504)
+        Me.cmdTray.Location = New System.Drawing.Point(17, 529)
         Me.cmdTray.Name = "cmdTray"
         Me.cmdTray.Size = New System.Drawing.Size(180, 29)
         Me.cmdTray.TabIndex = 26
@@ -993,7 +996,7 @@ Partial Class frmMain
         Me.mainMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FdToolStripMenuItem, Me.ToolStripMenuItem2})
         Me.mainMenu.Location = New System.Drawing.Point(0, 0)
         Me.mainMenu.Name = "mainMenu"
-        Me.mainMenu.Size = New System.Drawing.Size(771, 24)
+        Me.mainMenu.Size = New System.Drawing.Size(795, 24)
         Me.mainMenu.TabIndex = 27
         Me.mainMenu.Text = "mnu"
         '
@@ -1023,6 +1026,14 @@ Partial Class frmMain
         Me.TakeFullPowerToolStripMenuItem.Name = "TakeFullPowerToolStripMenuItem"
         Me.TakeFullPowerToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
         Me.TakeFullPowerToolStripMenuItem.Text = "&Take full power"
+        '
+        'RefreshToolStripMenuItem
+        '
+        Me.RefreshToolStripMenuItem.Name = "RefreshToolStripMenuItem"
+        Me.RefreshToolStripMenuItem.ShortcutKeyDisplayString = "F5"
+        Me.RefreshToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5
+        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
+        Me.RefreshToolStripMenuItem.Text = "Refresh"
         '
         'ToolStripMenuItem1
         '
@@ -1114,7 +1125,7 @@ Partial Class frmMain
         'cmdCopyServiceToCp
         '
         Me.cmdCopyServiceToCp.Enabled = False
-        Me.cmdCopyServiceToCp.Location = New System.Drawing.Point(453, 18)
+        Me.cmdCopyServiceToCp.Location = New System.Drawing.Point(453, 17)
         Me.cmdCopyServiceToCp.Name = "cmdCopyServiceToCp"
         Me.cmdCopyServiceToCp.Size = New System.Drawing.Size(99, 21)
         Me.cmdCopyServiceToCp.TabIndex = 10
@@ -1216,32 +1227,24 @@ Partial Class frmMain
         Me.pctHelp.TabIndex = 31
         Me.pctHelp.TabStop = False
         '
-        'RefreshToolStripMenuItem
-        '
-        Me.RefreshToolStripMenuItem.Name = "RefreshToolStripMenuItem"
-        Me.RefreshToolStripMenuItem.ShortcutKeyDisplayString = "F5"
-        Me.RefreshToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5
-        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
-        Me.RefreshToolStripMenuItem.Text = "Refresh"
-        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
-        Me.ClientSize = New System.Drawing.Size(771, 553)
+        Me.ClientSize = New System.Drawing.Size(795, 570)
+        Me.Controls.Add(Me.cmdTray)
+        Me.Controls.Add(Me.panelMain4)
+        Me.Controls.Add(Me.panelInfos)
         Me.Controls.Add(Me.panelInfos2)
         Me.Controls.Add(Me.panelActions1)
         Me.Controls.Add(Me.panelActions4)
-        Me.Controls.Add(Me.panelMain4)
-        Me.Controls.Add(Me.panelInfos)
         Me.Controls.Add(Me.lblServices)
         Me.Controls.Add(Me.lblProcess)
         Me.Controls.Add(Me.pctJobs)
         Me.Controls.Add(Me.pctProcess)
         Me.Controls.Add(Me.pctService)
         Me.Controls.Add(Me.pctHelp)
-        Me.Controls.Add(Me.cmdTray)
         Me.Controls.Add(Me.panelActions3)
         Me.Controls.Add(Me.panelActions2)
         Me.Controls.Add(Me.panelMain2)

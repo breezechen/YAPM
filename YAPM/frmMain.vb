@@ -413,6 +413,8 @@ Public Class frmMain
             .panelActions4.BackColor = .BackColor
             .pctInfo.BackColor = .BackColor
             .gpProc1.BackColor = .BackColor
+            .lblServicePath.BackColor = .BackColor
+            .lblProcessPath.BackColor = .BackColor
         End With
 
         If mdlPrivileges.IsAdministrator = False Then
@@ -499,10 +501,52 @@ Public Class frmMain
         Me.panelInfos.Top = 307
         Me.panelInfos2.Left = 206
         Me.panelInfos2.Top = 307
+        Me.cmdTray.Top = Me.Height - 69
 
         ' Help resizement
-        Me.panelMain4.Height = Me.Height - panelMain4.Top - 44
+        Me.panelMain4.Height = Me.Height - panelMain4.Top - 41
         Me.panelMain4.Width = Me.Width - panelMain4.Left - 20
+
+        ' Jobs resizement
+        Me.panelMain3.Height = Me.panelMain4.Height
+        Me.panelMain3.Width = Me.panelMain4.Width - 2
+
+        ' Process
+        Dim i As Integer = CInt((Me.Height - 103) / 2)
+        Me.panelInfos.Height = CInt(IIf(i < 340, i, 340))
+        Me.panelMain.Height = Me.Height - Me.panelInfos.Height - 101
+        Me.panelInfos.Top = Me.panelMain.Top + Me.panelMain.Height + 3
+        Me.panelMain.Width = Me.Width - Me.panelMain.Left - 21
+        Me.panelInfos.Width = Me.panelMain.Width
+
+        Me.rtb.Width = Me.panelInfos.Width - 5
+        Me.rtb.Height = Me.panelInfos.Height - 45
+        Me.pctBigIcon.Left = Me.panelInfos.Width - 35
+        Me.pctSmallIcon.Left = Me.panelInfos.Width - 57
+        Me.cmdInfosToClipB.Left = Me.panelInfos.Width - 165
+        Me.lblProcessPath.Width = Me.panelInfos.Width - 175
+        Me.lblProcessName.Width = Me.panelInfos.Width - 175
+
+        ' Services
+        Me.panelInfos2.Height = CInt(IIf(i < 200, i, 200))
+        Me.panelMain2.Height = Me.Height - Me.panelInfos2.Height - 101
+        Me.panelInfos2.Top = Me.panelMain2.Top + Me.panelMain2.Height + 3
+        Me.panelMain2.Width = Me.panelMain.Width
+        Me.panelInfos2.Width = Me.panelInfos.Width
+
+        Me.lblServiceName.Width = Me.panelInfos2.Width - 140
+        Me.lblServicePath.Width = Me.lblServiceName.Width
+        Me.cmdCopyServiceToCp.Left = Me.panelInfos2.Width - 107
+        Me.tv2.Height = CInt((Me.panelInfos2.Height - 48) / 2)
+        Me.tv.Height = Me.tv2.Height
+        Me.tv.Top = Me.tv2.Top + 3 + Me.tv2.Height
+        Me.tv2.Left = Me.panelInfos2.Width - 151
+        Me.tv.Left = Me.tv2.Left
+        Me.rtb2.Height = Me.panelInfos2.Height - 45
+        Me.rtb2.Width = Me.panelInfos2.Width - 157
+
+        Me.Text = CStr(Me.panelInfos2.Width & "  " & Me.panelInfos2.Height)
+
     End Sub
 
     Private Sub cmdKill_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdKill.Click
@@ -823,6 +867,7 @@ Public Class frmMain
         Me.panelMain2.Visible = False
         Me.panelMain3.Visible = True
         Me.panelMain4.Visible = False
+        Me.panelMain3.BringToFront()
         Me.panelActions1.Visible = False
         Me.panelActions2.Visible = False
         Me.panelActions3.Visible = True
@@ -844,6 +889,7 @@ Public Class frmMain
         Me.panelMain2.Visible = False
         Me.panelMain3.Visible = False
         Me.panelMain4.Visible = True
+        Me.panelMain4.BringToFront()
         Me.panelActions1.Visible = False
         Me.panelActions2.Visible = False
         Me.panelActions3.Visible = False
@@ -856,7 +902,6 @@ Public Class frmMain
         Me.lblAddJobs.ForeColor = Color.Black
         Me.lblHelp.Enabled = True
         Me.lblHelp.ForeColor = Color.Red
-        Me.panelMain4.Height = Me.Height - panelMain4.Top - 44
     End Sub
 
     Private Sub pctService_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles pctService.MouseEnter
