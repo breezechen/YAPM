@@ -1324,4 +1324,87 @@ Public Class frmMain
             Me.refreshServiceList()
         End If
     End Sub
+
+    Private Sub cmdStopService_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdStopService.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            Try
+                mdlService.StopService(it.Text)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub cmdStartService_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdStartService.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            Try
+                mdlService.StartService(it.Text)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub cmdResPauseService_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdResPauseService.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            Try
+                mdlService.ResumeService(it.Text)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub cmdShutdownService_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdShutdownService.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            Try
+                mdlService.ShutDownService(it.Text)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub cmdSetStartType_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSetStartType.Click
+        Dim it As ListViewItem
+        Dim t As ServiceProcess.ServiceStartMode
+        Select Case Me.cbStartType.Text
+            Case "Auto Start"
+                t = ServiceProcess.ServiceStartMode.Automatic
+            Case "Demand Start"
+                t = ServiceProcess.ServiceStartMode.Manual
+            Case "Disabled"
+                t = ServiceProcess.ServiceStartMode.Disabled
+        End Select
+
+        For Each it In Me.lvServices.SelectedItems
+            Try
+                mdlService.SetServiceStartType(it.Text, t)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub lnkServProp_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkServProp.LinkClicked
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            If IO.File.Exists(it.SubItems(4).Text) Then
+                If it.SubItems(4).Text <> "N/A" Then _
+                ShowFileProperty(mdlService.GetFileNameFromSpecial(it.SubItems(4).Text))
+            End If
+        Next
+    End Sub
+
+    Private Sub lnkServOpenDir_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkServOpenDir.LinkClicked
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            If it.SubItems(4).Text <> "N/A" Then _
+            OpenDirectory(mdlService.GetFileNameFromSpecial(it.SubItems(4).Text))
+        Next
+    End Sub
 End Class

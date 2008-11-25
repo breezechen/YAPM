@@ -24,12 +24,12 @@ Partial Class frmMain
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.panelActions1 = New System.Windows.Forms.Panel
         Me.pctInfo = New System.Windows.Forms.PictureBox
@@ -158,18 +158,21 @@ Partial Class frmMain
         Me.pctHelp = New System.Windows.Forms.PictureBox
         Me.panelActions2 = New System.Windows.Forms.Panel
         Me.PictureBox1 = New System.Windows.Forms.PictureBox
-        Me.cmdResPauseService = New System.Windows.Forms.Button
         Me.lnkServProp = New System.Windows.Forms.LinkLabel
-        Me.cmdShutdownService = New System.Windows.Forms.Button
         Me.cbStartType = New System.Windows.Forms.ComboBox
-        Me.cmdStartService = New System.Windows.Forms.Button
-        Me.cmdStopService = New System.Windows.Forms.Button
         Me.lnkServOpenDir = New System.Windows.Forms.LinkLabel
         Me.cmdSetStartType = New System.Windows.Forms.Button
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.cmdShutdownService = New System.Windows.Forms.Button
+        Me.cmdResPauseService = New System.Windows.Forms.Button
+        Me.cmdStartService = New System.Windows.Forms.Button
+        Me.cmdStopService = New System.Windows.Forms.Button
         Me.Label2 = New System.Windows.Forms.Label
         Me.panelActions3 = New System.Windows.Forms.Panel
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox
+        Me.cmdSaveJobs = New System.Windows.Forms.Button
+        Me.cmdOpenJobs = New System.Windows.Forms.Button
+        Me.cmdAddJob = New System.Windows.Forms.Button
         Me.panelActions1.SuspendLayout()
         CType(Me.pctInfo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gpProc1.SuspendLayout()
@@ -197,6 +200,7 @@ Partial Class frmMain
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         Me.panelActions3.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
         '
         'imgMain
@@ -345,11 +349,11 @@ Partial Class frmMain
         Me.lvProcess.ContextMenuStrip = Me.menuProc
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.FullRowSelect = True
-        ListViewGroup5.Header = "Processes"
-        ListViewGroup5.Name = "gpOther"
-        ListViewGroup6.Header = "Search result"
-        ListViewGroup6.Name = "gpSearch"
-        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
+        ListViewGroup1.Header = "Processes"
+        ListViewGroup1.Name = "gpOther"
+        ListViewGroup2.Header = "Search result"
+        ListViewGroup2.Name = "gpSearch"
+        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvProcess.HideSelection = False
         Me.lvProcess.Location = New System.Drawing.Point(0, 0)
         Me.lvProcess.Name = "lvProcess"
@@ -555,11 +559,11 @@ Partial Class frmMain
         Me.lvServices.ContextMenuStrip = Me.menuService
         Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvServices.FullRowSelect = True
-        ListViewGroup7.Header = "Services"
-        ListViewGroup7.Name = "gpOther"
-        ListViewGroup8.Header = "Search result"
-        ListViewGroup8.Name = "gpSearch"
-        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
+        ListViewGroup3.Header = "Services"
+        ListViewGroup3.Name = "gpOther"
+        ListViewGroup4.Header = "Search result"
+        ListViewGroup4.Name = "gpSearch"
+        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvServices.HideSelection = False
         Me.lvServices.Location = New System.Drawing.Point(0, 0)
         Me.lvServices.Name = "lvServices"
@@ -715,11 +719,11 @@ Partial Class frmMain
         Me.lvJobs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader4, Me.ColumnHeader5, Me.ColumnHeader6})
         Me.lvJobs.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvJobs.FullRowSelect = True
-        ListViewGroup1.Header = "Past jobs"
-        ListViewGroup1.Name = "gp1"
-        ListViewGroup2.Header = "Future jobs"
-        ListViewGroup2.Name = "gp2"
-        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup5.Header = "Past jobs"
+        ListViewGroup5.Name = "gp1"
+        ListViewGroup6.Header = "Future jobs"
+        ListViewGroup6.Name = "gp2"
+        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvJobs.HideSelection = False
         Me.lvJobs.Location = New System.Drawing.Point(0, 0)
         Me.lvJobs.Name = "lvJobs"
@@ -1229,15 +1233,6 @@ Partial Class frmMain
         Me.PictureBox1.TabIndex = 46
         Me.PictureBox1.TabStop = False
         '
-        'cmdResPauseService
-        '
-        Me.cmdResPauseService.Location = New System.Drawing.Point(6, 43)
-        Me.cmdResPauseService.Name = "cmdResPauseService"
-        Me.cmdResPauseService.Size = New System.Drawing.Size(83, 21)
-        Me.cmdResPauseService.TabIndex = 7
-        Me.cmdResPauseService.Text = "Resume"
-        Me.cmdResPauseService.UseVisualStyleBackColor = True
-        '
         'lnkServProp
         '
         Me.lnkServProp.AutoSize = True
@@ -1248,15 +1243,6 @@ Partial Class frmMain
         Me.lnkServProp.TabStop = True
         Me.lnkServProp.Text = "File properties"
         '
-        'cmdShutdownService
-        '
-        Me.cmdShutdownService.Location = New System.Drawing.Point(96, 43)
-        Me.cmdShutdownService.Name = "cmdShutdownService"
-        Me.cmdShutdownService.Size = New System.Drawing.Size(83, 21)
-        Me.cmdShutdownService.TabIndex = 8
-        Me.cmdShutdownService.Text = "Shutdown"
-        Me.cmdShutdownService.UseVisualStyleBackColor = True
-        '
         'cbStartType
         '
         Me.cbStartType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
@@ -1266,25 +1252,6 @@ Partial Class frmMain
         Me.cbStartType.Name = "cbStartType"
         Me.cbStartType.Size = New System.Drawing.Size(79, 21)
         Me.cbStartType.TabIndex = 41
-        '
-        'cmdStartService
-        '
-        Me.cmdStartService.Location = New System.Drawing.Point(95, 16)
-        Me.cmdStartService.Name = "cmdStartService"
-        Me.cmdStartService.Size = New System.Drawing.Size(83, 21)
-        Me.cmdStartService.TabIndex = 6
-        Me.cmdStartService.Text = "Start"
-        Me.cmdStartService.UseVisualStyleBackColor = True
-        '
-        'cmdStopService
-        '
-        Me.cmdStopService.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdStopService.Location = New System.Drawing.Point(6, 16)
-        Me.cmdStopService.Name = "cmdStopService"
-        Me.cmdStopService.Size = New System.Drawing.Size(83, 21)
-        Me.cmdStopService.TabIndex = 5
-        Me.cmdStopService.Text = "Stop"
-        Me.cmdStopService.UseVisualStyleBackColor = True
         '
         'lnkServOpenDir
         '
@@ -1318,6 +1285,43 @@ Partial Class frmMain
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Service"
         '
+        'cmdShutdownService
+        '
+        Me.cmdShutdownService.Location = New System.Drawing.Point(96, 43)
+        Me.cmdShutdownService.Name = "cmdShutdownService"
+        Me.cmdShutdownService.Size = New System.Drawing.Size(83, 21)
+        Me.cmdShutdownService.TabIndex = 8
+        Me.cmdShutdownService.Text = "Shutdown"
+        Me.cmdShutdownService.UseVisualStyleBackColor = True
+        '
+        'cmdResPauseService
+        '
+        Me.cmdResPauseService.Location = New System.Drawing.Point(6, 43)
+        Me.cmdResPauseService.Name = "cmdResPauseService"
+        Me.cmdResPauseService.Size = New System.Drawing.Size(83, 21)
+        Me.cmdResPauseService.TabIndex = 7
+        Me.cmdResPauseService.Text = "Resume"
+        Me.cmdResPauseService.UseVisualStyleBackColor = True
+        '
+        'cmdStartService
+        '
+        Me.cmdStartService.Location = New System.Drawing.Point(95, 16)
+        Me.cmdStartService.Name = "cmdStartService"
+        Me.cmdStartService.Size = New System.Drawing.Size(83, 21)
+        Me.cmdStartService.TabIndex = 6
+        Me.cmdStartService.Text = "Start"
+        Me.cmdStartService.UseVisualStyleBackColor = True
+        '
+        'cmdStopService
+        '
+        Me.cmdStopService.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdStopService.Location = New System.Drawing.Point(6, 16)
+        Me.cmdStopService.Name = "cmdStopService"
+        Me.cmdStopService.Size = New System.Drawing.Size(83, 21)
+        Me.cmdStopService.TabIndex = 5
+        Me.cmdStopService.Text = "Stop"
+        Me.cmdStopService.UseVisualStyleBackColor = True
+        '
         'Label2
         '
         Me.Label2.AutoSize = True
@@ -1330,21 +1334,53 @@ Partial Class frmMain
         'panelActions3
         '
         Me.panelActions3.BackColor = System.Drawing.Color.White
-        Me.panelActions3.Controls.Add(Me.CheckBox1)
+        Me.panelActions3.Controls.Add(Me.GroupBox2)
+        Me.panelActions3.Controls.Add(Me.cmdAddJob)
         Me.panelActions3.Location = New System.Drawing.Point(297, 185)
         Me.panelActions3.Name = "panelActions3"
         Me.panelActions3.Size = New System.Drawing.Size(200, 200)
         Me.panelActions3.TabIndex = 43
         '
-        'CheckBox1
+        'GroupBox2
         '
-        Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(70, 33)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(79, 17)
-        Me.CheckBox1.TabIndex = 0
-        Me.CheckBox1.Text = "CheckBox1"
-        Me.CheckBox1.UseVisualStyleBackColor = True
+        Me.GroupBox2.Controls.Add(Me.cmdSaveJobs)
+        Me.GroupBox2.Controls.Add(Me.cmdOpenJobs)
+        Me.GroupBox2.Location = New System.Drawing.Point(8, 50)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(185, 71)
+        Me.GroupBox2.TabIndex = 7
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "Jobs"
+        '
+        'cmdSaveJobs
+        '
+        Me.cmdSaveJobs.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdSaveJobs.Location = New System.Drawing.Point(6, 43)
+        Me.cmdSaveJobs.Name = "cmdSaveJobs"
+        Me.cmdSaveJobs.Size = New System.Drawing.Size(173, 21)
+        Me.cmdSaveJobs.TabIndex = 6
+        Me.cmdSaveJobs.Text = "Save job list..."
+        Me.cmdSaveJobs.UseVisualStyleBackColor = True
+        '
+        'cmdOpenJobs
+        '
+        Me.cmdOpenJobs.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdOpenJobs.Location = New System.Drawing.Point(6, 16)
+        Me.cmdOpenJobs.Name = "cmdOpenJobs"
+        Me.cmdOpenJobs.Size = New System.Drawing.Size(173, 21)
+        Me.cmdOpenJobs.TabIndex = 5
+        Me.cmdOpenJobs.Text = "Open job list..."
+        Me.cmdOpenJobs.UseVisualStyleBackColor = True
+        '
+        'cmdAddJob
+        '
+        Me.cmdAddJob.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdAddJob.Location = New System.Drawing.Point(11, 9)
+        Me.cmdAddJob.Name = "cmdAddJob"
+        Me.cmdAddJob.Size = New System.Drawing.Size(179, 26)
+        Me.cmdAddJob.TabIndex = 6
+        Me.cmdAddJob.Text = "Add new job"
+        Me.cmdAddJob.UseVisualStyleBackColor = True
         '
         'frmMain
         '
@@ -1415,7 +1451,7 @@ Partial Class frmMain
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.panelActions3.ResumeLayout(False)
-        Me.panelActions3.PerformLayout()
+        Me.GroupBox2.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1559,6 +1595,9 @@ Partial Class frmMain
     Friend WithEvents cmdStopService As System.Windows.Forms.Button
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents panelActions3 As System.Windows.Forms.Panel
-    Friend WithEvents CheckBox1 As System.Windows.Forms.CheckBox
+    Friend WithEvents cmdAddJob As System.Windows.Forms.Button
+    Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
+    Friend WithEvents cmdSaveJobs As System.Windows.Forms.Button
+    Friend WithEvents cmdOpenJobs As System.Windows.Forms.Button
 
 End Class
