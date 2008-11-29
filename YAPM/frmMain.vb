@@ -1506,4 +1506,9 @@ Public Class frmMain
                 mdlProcess.ResumeProcess(pid)
         End Select
     End Sub
+
+    Private Sub chkJob_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkJob.CheckedChanged
+        bEnableJobs = chkJob.Checked
+        timerJobs.Enabled = bEnableJobs
+    End Sub
 End Class
