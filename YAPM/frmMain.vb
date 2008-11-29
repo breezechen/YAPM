@@ -1511,4 +1511,9 @@ Public Class frmMain
         bEnableJobs = chkJob.Checked
         timerJobs.Enabled = bEnableJobs
     End Sub
+
+    Private Sub AlwaysDisplayToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AlwaysDisplayToolStripMenuItem.Click
+        Me.AlwaysDisplayToolStripMenuItem.Checked = Not (Me.AlwaysDisplayToolStripMenuItem.Checked)
+        Me.TopMost = Me.AlwaysDisplayToolStripMenuItem.Checked
+    End Sub
 End Class

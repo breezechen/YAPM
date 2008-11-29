@@ -169,13 +169,14 @@ Partial Class frmMain
         Me.cmdStopService = New System.Windows.Forms.Button
         Me.Label2 = New System.Windows.Forms.Label
         Me.panelActions3 = New System.Windows.Forms.Panel
+        Me.chkJob = New System.Windows.Forms.CheckBox
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
         Me.cmdSaveJobs = New System.Windows.Forms.Button
         Me.cmdOpenJobs = New System.Windows.Forms.Button
         Me.cmdAddJob = New System.Windows.Forms.Button
         Me.openDial = New System.Windows.Forms.OpenFileDialog
-        Me.chkJob = New System.Windows.Forms.CheckBox
         Me.timerJobs = New System.Windows.Forms.Timer(Me.components)
+        Me.AlwaysDisplayToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.panelActions1.SuspendLayout()
         CType(Me.pctInfo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gpProc1.SuspendLayout()
@@ -985,7 +986,7 @@ Partial Class frmMain
         '
         'FdToolStripMenuItem
         '
-        Me.FdToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExecuteToolStripMenuItem, Me.OptionsToolStripMenuItem, Me.TakeFullPowerToolStripMenuItem, Me.RefreshToolStripMenuItem, Me.ToolStripMenuItem1, Me.QuitToolStripMenuItem})
+        Me.FdToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExecuteToolStripMenuItem, Me.OptionsToolStripMenuItem, Me.TakeFullPowerToolStripMenuItem, Me.RefreshToolStripMenuItem, Me.AlwaysDisplayToolStripMenuItem, Me.ToolStripMenuItem1, Me.QuitToolStripMenuItem})
         Me.FdToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FdToolStripMenuItem.Name = "FdToolStripMenuItem"
         Me.FdToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
@@ -1345,6 +1346,16 @@ Partial Class frmMain
         Me.panelActions3.Size = New System.Drawing.Size(200, 200)
         Me.panelActions3.TabIndex = 43
         '
+        'chkJob
+        '
+        Me.chkJob.AutoSize = True
+        Me.chkJob.Location = New System.Drawing.Point(9, 133)
+        Me.chkJob.Name = "chkJob"
+        Me.chkJob.Size = New System.Drawing.Size(89, 17)
+        Me.chkJob.TabIndex = 8
+        Me.chkJob.Text = "Activate jobs"
+        Me.chkJob.UseVisualStyleBackColor = True
+        '
         'GroupBox2
         '
         Me.GroupBox2.Controls.Add(Me.cmdSaveJobs)
@@ -1392,20 +1403,16 @@ Partial Class frmMain
         Me.openDial.CheckPathExists = False
         Me.openDial.SupportMultiDottedExtensions = True
         '
-        'chkJob
-        '
-        Me.chkJob.AutoSize = True
-        Me.chkJob.Location = New System.Drawing.Point(9, 133)
-        Me.chkJob.Name = "chkJob"
-        Me.chkJob.Size = New System.Drawing.Size(89, 17)
-        Me.chkJob.TabIndex = 8
-        Me.chkJob.Text = "Activate jobs"
-        Me.chkJob.UseVisualStyleBackColor = True
-        '
         'timerJobs
         '
         Me.timerJobs.Enabled = True
         Me.timerJobs.Interval = 90
+        '
+        'AlwaysDisplayToolStripMenuItem
+        '
+        Me.AlwaysDisplayToolStripMenuItem.Name = "AlwaysDisplayToolStripMenuItem"
+        Me.AlwaysDisplayToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
+        Me.AlwaysDisplayToolStripMenuItem.Text = "Always display"
         '
         'frmMain
         '
@@ -1628,5 +1635,6 @@ Partial Class frmMain
     Friend WithEvents openDial As System.Windows.Forms.OpenFileDialog
     Friend WithEvents chkJob As System.Windows.Forms.CheckBox
     Friend WithEvents timerJobs As System.Windows.Forms.Timer
+    Friend WithEvents AlwaysDisplayToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
