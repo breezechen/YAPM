@@ -25,8 +25,8 @@ Public Class frmPreferences
     Private Sub cmdSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSave.Click
         ' Save
         With frmMain.Pref
-            .serviceIntervall = CInt(Me.txtServiceIntervall.Text)
-            .procIntervall = CInt(Me.txtProcessIntervall.Text)
+            .serviceIntervall = CInt(Val(Me.txtServiceIntervall.Text))
+            .procIntervall = CInt(Val(Me.txtProcessIntervall.Text))
             .startJobs = CBool(Me.chkJobs.Checked)
             .startChkModules = CBool(Me.chkModules.Checked)
             .startup = CBool(Me.chkStart.Checked)
@@ -79,8 +79,8 @@ Public Class frmPreferences
         Me.chkStart.Checked = False
         Me.chkModules.Checked = True
         Me.chkJobs.Checked = True
-        Me.txtProcessIntervall.Text = "2000"
-        Me.txtServiceIntervall.Text = "10000"
+        Me.txtProcessIntervall.Text = CStr(frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES)
+        Me.txtServiceIntervall.Text = CStr(frmMain.DEFAULT_TIMER_INTERVAL_SERVICES)
         Me.chkTopMost.Checked = False
     End Sub
 

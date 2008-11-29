@@ -93,8 +93,8 @@ Public Class Pref
     Public Sub Apply()
         Static first As Boolean = True
         frmMain.chkModules.Checked = startChkModules
-        frmMain.timerProcess.Interval = procIntervall
-        frmMain.timerServices.Interval = serviceIntervall
+        frmMain.timerProcess.Interval = CInt(IIf(procIntervall > 0, procIntervall, frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES))
+        frmMain.timerServices.Interval = CInt(IIf(serviceIntervall > 0, serviceIntervall, frmMain.DEFAULT_TIMER_INTERVAL_SERVICES))
         frmMain.chkJob.Checked = startJobs
         If first Then
             first = False

@@ -11,6 +11,9 @@ Public Class frmMain
     Public Const HELP_PATH As String = "C:\Users\Admin\Desktop\YAPM\YAPM\Help\help.htm"
     Public Const PREF_PATH As String = "C:\Users\Admin\Desktop\YAPM\YAPM\Config\config.xml"
 
+    Public Const DEFAULT_TIMER_INTERVAL_PROCESSES As Integer = 2000
+    Public Const DEFAULT_TIMER_INTERVAL_SERVICES As Integer = 10000
+
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
 
 
@@ -478,8 +481,8 @@ Public Class frmMain
             MsgBox("Preference file is missing or corrupted and will be now recreated.", MsgBoxStyle.Critical, "Startup error")
             With Pref
                 .lang = "English"
-                .procIntervall = 2000
-                .serviceIntervall = 10000
+                .procIntervall = DEFAULT_TIMER_INTERVAL_PROCESSES
+                .serviceIntervall = DEFAULT_TIMER_INTERVAL_SERVICES
                 .startChkModules = True
                 .startHidden = False
                 .startJobs = True
