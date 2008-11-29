@@ -413,14 +413,7 @@ Public Class frmMain
 
     End Sub
 
-
-    Private Sub frmMain_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Enter
-
-    End Sub
-
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
-        Me.WindowState = FormWindowState.Minimized
 
         refreshProcessList()
         refreshServiceList()
@@ -1563,7 +1556,13 @@ Public Class frmMain
         Static first As Boolean = True
         If first Then
             first = False
-            If Pref.startHidden Then Me.Hide()
+            If Pref.startHidden Then
+                Me.Hide()
+                Me.WindowState = FormWindowState.Minimized
+            Else
+                Me.Show()
+                Me.WindowState = FormWindowState.Normal
+            End If
         End If
     End Sub
 End Class

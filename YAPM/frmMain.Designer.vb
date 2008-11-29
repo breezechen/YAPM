@@ -1471,6 +1471,7 @@ Partial Class frmMain
         Me.Name = "frmMain"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Yet Another Process Monitor"
+        Me.WindowState = System.Windows.Forms.FormWindowState.Minimized
         Me.panelActions1.ResumeLayout(False)
         Me.panelActions1.PerformLayout()
         CType(Me.pctInfo, System.ComponentModel.ISupportInitialize).EndInit()
