@@ -12,6 +12,7 @@ Public Class frmPreferences
     '		<lang>english</lang>
     '		<startjobs>true</startjobs>
     '		<startchkmodules>true</startchkmodules>
+    '       <topmost>false</topmost>
     '	</config>
     '</yapm>
 
@@ -30,13 +31,8 @@ Public Class frmPreferences
             .startChkModules = CBool(Me.chkModules.Checked)
             .startup = CBool(Me.chkStart.Checked)
             .startHidden = CBool(Me.chkStartTray.Checked)
-        End With
-
-        With frmMain
-            .chkModules.Checked = .Pref.startChkModules
-            .timerProcess.Interval = .Pref.procIntervall
-            .timerServices.Interval = .Pref.serviceIntervall
-            .chkJob.Checked = .Pref.startJobs
+            .topmost = CBool(Me.chkTopMost.Checked)
+            .Apply()
         End With
 
         ' Save XML
@@ -61,6 +57,7 @@ Public Class frmPreferences
             .SetToolTip(Me.cmdSave, "Save configuration")
             .SetToolTip(Me.cmdQuit, "Quit without saving")
             .SetToolTip(Me.cmdDefaut, "Set default configuration")
+            .SetToolTip(Me.chkTopMost, "Start YAPM topmost")
         End With
 
         ' Set control's values
@@ -71,6 +68,7 @@ Public Class frmPreferences
             Me.chkModules.Checked = .startChkModules
             Me.chkStart.Checked = .startup
             Me.chkStartTray.Checked = .startHidden
+            Me.chkTopMost.Checked = .topmost
         End With
 
     End Sub
@@ -83,6 +81,7 @@ Public Class frmPreferences
         Me.chkJobs.Checked = True
         Me.txtProcessIntervall.Text = "2000"
         Me.txtServiceIntervall.Text = "10000"
+        Me.chkTopMost.Checked = False
     End Sub
 
 End Class

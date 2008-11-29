@@ -472,6 +472,7 @@ Public Class frmMain
         ' Load preferences
         Try
             Pref.Load()
+            Pref.Apply()
         Catch ex As Exception
             ' Preference file corrupted/missing
             MsgBox("Preference file is missing or corrupted and will be now recreated.", MsgBoxStyle.Critical, "Startup error")
@@ -483,6 +484,7 @@ Public Class frmMain
                 .startHidden = False
                 .startJobs = True
                 .startup = False
+                .topmost = False
                 .Save()
                 .Apply()
             End With
