@@ -4,8 +4,11 @@ Public Class frmMain
 
     Private bProcessHover As Boolean = True
     Private bServiceHover As Boolean = False
+    Private bEnableJobs As Boolean = True
 
     Private Const HELP_PATH As String = "C:\Users\Admin\Desktop\YAPM\YAPM\Help\help.htm"
+
+    Private Declare Function GetTickCount Lib "kernel32" () As Integer
 
     ' Refresh service list
     Private Sub refreshServiceList()
@@ -117,6 +120,8 @@ Public Class frmMain
         Dim lvi As ListViewItem
         Dim x As Integer = 0
         Dim exist As Boolean = False
+
+        Dim test As Integer = GetTickCount
 
         ' Here is the list of the differents columns :
         ' Name
@@ -271,6 +276,9 @@ Public Class frmMain
             End Try
 
         Next
+
+        test = GetTickCount - test
+        ' Me.Text = CStr(test)
 
     End Sub
 
@@ -794,6 +802,8 @@ Public Class frmMain
     End Sub
 
     Private Sub OptionsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OptionsToolStripMenuItem.Click
+        saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
+        saveDial.Title = "Save report"
         saveDial.ShowDialog()
         Dim s As String = saveDial.FileName
         If Len(s) > 0 Then
@@ -1406,5 +1416,94 @@ Public Class frmMain
             If it.SubItems(4).Text <> "N/A" Then _
             OpenDirectory(mdlService.GetFileNameFromSpecial(it.SubItems(4).Text))
         Next
+    End Sub
+
+    Private Sub cmdOpenJobs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdOpenJobs.Click
+        ' Here we open a Job file
+        openDial.Filter = "Job File (*.job)|*.job"
+        openDial.Title = "Open job file"
+        openDial.ShowDialog()
+        Dim s As String = openDial.FileName
+        If Len(s) > 0 Then
+            MsgBox(s)
+        End If
+    End Sub
+
+    Private Sub cmdSaveJobs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSaveJobs.Click
+        ' Save job list
+        Me.saveDial.Filter = "Job File (*.job)|*.job"
+        openDial.Title = "Save job file"
+        saveDial.ShowDialog()
+        Dim s As String = saveDial.FileName
+        If Len(s) > 0 Then
+            MsgBox(s)
+        End If
+    End Sub
+
+    Private Sub timerJobs_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerJobs.Tick
+        ' Job processing
+        Dim it As ListViewItem
+        Dim p As ListViewItem
+        Dim tAction As String = vbNullString
+        Dim tTime As String = vbNullString
+        Dim tPid As Integer = 0
+        Dim tProcess As String = vbNullString
+        Dim tName As String = vbNullString
+
+        For Each it In Me.lvJobs.Items
+            ' Name
+            ' ProcessID
+            ' ProcessName
+            ' Action
+            ' Time
+            With it
+                tPid = CInt(.SubItems(1).Text)
+                tProcess = .SubItems(2).Text
+                tAction = .SubItems(3).Text
+                tTime = .SubItems(4).Text
+            End With
+
+            ' Firstly, we check if time implies to process job now
+            If tTime = "Every second" Or tTime = DateTime.Now.ToLongDateString & "-" & DateTime.Now.ToLongTimeString Then
+
+                If tPid > 0 Then
+                    ' Check PID
+                    If Len(tProcess) > 0 Then
+                        ' Check process name too
+                        For Each p In lvProcess.Items
+                            If p.Text = tName And CInt(p.SubItems(1).Text) = tPid Then
+                                ProcessJob(tPid, tAction)
+                            End If
+                        Next
+                    Else
+                        ' Check only pid
+                        For Each p In lvProcess.Items
+                            If CInt(p.SubItems(1).Text) = tPid Then
+                                ProcessJob(tPid, tAction)
+                            End If
+                        Next
+                    End If
+                Else
+                    ' Check only process name
+                    For Each p In lvProcess.Items
+                        If p.Text = tProcess And CInt(p.SubItems(1).Text) = tPid Then
+                            ProcessJob(CInt(p.SubItems(1).Text), tAction)
+                        End If
+                    Next
+                End If
+            End If
+        Next
+    End Sub
+
+    ' Process a job
+    Private Sub ProcessJob(ByVal pid As Integer, ByVal action As String)
+        Select Case action
+            Case "Kill"
+                mdlProcess.Kill(pid)
+            Case "Pause"
+                mdlProcess.SuspendProcess(pid)
+            Case "Resume"
+                mdlProcess.ResumeProcess(pid)
+        End Select
     End Sub
 End Class

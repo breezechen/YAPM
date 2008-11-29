@@ -37,9 +37,12 @@ Module mdlProcess
     Private Declare Function Thread32First Lib "kernel32.dll" (ByVal hSnapshot As Integer, ByRef lpte As THREADENTRY32) As Boolean
     Private Declare Function Thread32Next Lib "kernel32.dll" (ByVal hSnapshot As Integer, ByRef lpte As THREADENTRY32) As Boolean
 
+    Private Declare Function TerminateProcess Lib "kernel32" (ByVal hProcess As Integer, ByVal uExitCode As Integer) As Integer
+
     Private Const PROCESS_SET_INFORMATION As Integer = &H200
     Private Const PROCESS_SUSPEND_RESUME As Integer = &H800
     Private Const PROCESS_QUERY_INFORMATION As Integer = &H400
+    Private Const PROCESS_TERMINATE As Integer = &H1
 
     Private Const THREAD_SET_INFORMATION As Integer = &H20
     Private Const THREAD_QUERY_INFORMATION As Integer = &H40
@@ -318,6 +321,18 @@ Module mdlProcess
         End Select
 
         Return s
+    End Function
+
+    ' Kill a process
+    Public Function Kill(ByVal pid As Integer) As Integer
+        Dim hProcess As Integer
+        Dim ret As Integer = -1
+        hProcess = OpenProcess(PROCESS_TERMINATE, 0, pid)
+        If hProcess > 0 Then
+            ret = TerminateProcess(hProcess, 0)
+            CloseHandle(hProcess)
+        End If
+        Return ret
     End Function
 
 
