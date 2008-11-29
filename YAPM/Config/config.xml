@@ -1,0 +1,11 @@
+<YAPM>
+  <config>
+    <procintervall>2000</procintervall>
+    <serviceintervall>10000</serviceintervall>
+    <startup>False</startup>
+    <starthidden>False</starthidden>
+    <lang>English</lang>
+    <startjobs>True</startjobs>
+    <startchkmodules>True</startchkmodules>
+  </config>
+</YAPM>

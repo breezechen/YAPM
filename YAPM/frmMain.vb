@@ -5,10 +5,14 @@ Public Class frmMain
     Private bProcessHover As Boolean = True
     Private bServiceHover As Boolean = False
     Private bEnableJobs As Boolean = True
+    Public Pref As New Pref
 
-    Private Const HELP_PATH As String = "C:\Users\Admin\Desktop\YAPM\YAPM\Help\help.htm"
+    ' Not a good way to configure paths...
+    Public Const HELP_PATH As String = "C:\Users\Admin\Desktop\YAPM\YAPM\Help\help.htm"
+    Public Const PREF_PATH As String = "C:\Users\Admin\Desktop\YAPM\YAPM\Config\config.xml"
 
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
+
 
     ' Refresh service list
     Private Sub refreshServiceList()
@@ -410,10 +414,14 @@ Public Class frmMain
     End Sub
 
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Call Me.pctProcess_Click(Nothing, Nothing)
 
         refreshProcessList()
         refreshServiceList()
+
+
+        Call Me.pctProcess_Click(Nothing, Nothing)
+
+
         With Me
             .panelActions1.BackColor = .BackColor
             .panelActions2.BackColor = .BackColor
@@ -425,9 +433,11 @@ Public Class frmMain
             .lblProcessPath.BackColor = .BackColor
         End With
 
+
         If mdlPrivileges.IsAdministrator = False Then
             MsgBox("You are not logged as an administrator. You cannot retrieve informations for system processes.", MsgBoxStyle.Critical, "You are not part of administrator group")
         End If
+
 
         ' Create tooltips
         SetToolTip(Me.lblResCount, "Number of results. Click on the number to view results.")
@@ -449,6 +459,7 @@ Public Class frmMain
         SetToolTip(Me.tv, "Selected service depends on these services.")
         SetToolTip(Me.tv2, "This services depend on selected service.")
 
+
         ' Load help file
         Dim path As String = HELP_PATH
         If IO.File.Exists(path) = False Then
@@ -457,6 +468,25 @@ Public Class frmMain
             WBHelp.Navigate(path)
         End If
 
+
+        ' Load preferences
+        Try
+            Pref.Load()
+        Catch ex As Exception
+            ' Preference file corrupted/missing
+            MsgBox("Preference file is missing or corrupted and will be now recreated.", MsgBoxStyle.Critical, "Startup error")
+            With Pref
+                .lang = "English"
+                .procIntervall = 2000
+                .serviceIntervall = 10000
+                .startChkModules = True
+                .startHidden = False
+                .startJobs = True
+                .startup = False
+                .Save()
+                .Apply()
+            End With
+        End Try
     End Sub
 
     Private Sub txtSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearch.Click
@@ -1141,7 +1171,7 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub SetToolTip(ByVal ctrl As Control, ByVal text As String)
+    Public Sub SetToolTip(ByVal ctrl As Control, ByVal text As String)
         Dim tToolTip As ToolTip = New System.Windows.Forms.ToolTip(Me.components)
         With ttooltip
             .SetToolTip(ctrl, text)
@@ -1327,14 +1357,6 @@ Public Class frmMain
         tv.SelectedImageKey = tv.SelectedNode.ImageKey
     End Sub
 
-    Private Sub RefreshToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshToolStripMenuItem.Click
-        If bProcessHover Then
-            Me.refreshProcessList()
-        ElseIf bServiceHover Then
-            Me.refreshServiceList()
-        End If
-    End Sub
-
     Private Sub cmdStopService_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdStopService.Click
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
@@ -1516,4 +1538,18 @@ Public Class frmMain
         Me.AlwaysDisplayToolStripMenuItem.Checked = Not (Me.AlwaysDisplayToolStripMenuItem.Checked)
         Me.TopMost = Me.AlwaysDisplayToolStripMenuItem.Checked
     End Sub
+
+    Private Sub RefreshToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshToolStripMenuItem.Click
+        If bProcessHover Then
+            Me.refreshProcessList()
+        ElseIf bServiceHover Then
+            Me.refreshServiceList()
+        End If
+    End Sub
+
+    ' Preferences
+    Private Sub PreferencesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PreferencesToolStripMenuItem.Click
+        frmPreferences.ShowDialog()
+    End Sub
+
 End Class
