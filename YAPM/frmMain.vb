@@ -413,7 +413,14 @@ Public Class frmMain
 
     End Sub
 
+
+    Private Sub frmMain_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Enter
+
+    End Sub
+
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        Me.WindowState = FormWindowState.Minimized
 
         refreshProcessList()
         refreshServiceList()
@@ -472,7 +479,6 @@ Public Class frmMain
         ' Load preferences
         Try
             Pref.Load()
-            Pref.Apply()
         Catch ex As Exception
             ' Preference file corrupted/missing
             MsgBox("Preference file is missing or corrupted and will be now recreated.", MsgBoxStyle.Critical, "Startup error")
@@ -583,8 +589,6 @@ Public Class frmMain
         Me.tv.Left = Me.tv2.Left
         Me.rtb2.Height = Me.panelInfos2.Height - 45
         Me.rtb2.Width = Me.panelInfos2.Width - 157
-
-        Me.Text = CStr(Me.panelInfos2.Width & "  " & Me.panelInfos2.Height)
 
     End Sub
 
@@ -822,6 +826,7 @@ Public Class frmMain
 
     Private Sub Tray_MouseDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Tray.MouseDoubleClick
         Me.Show()
+        Me.WindowState = FormWindowState.Normal
     End Sub
 
     Private Sub QuitToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles QuitToolStripMenuItem.Click
@@ -995,6 +1000,7 @@ Public Class frmMain
 
     Private Sub ToolStripMenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem3.Click
         Me.Show()
+        Me.WindowState = FormWindowState.Normal
     End Sub
 
     Private Sub ToolStripMenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem4.Click
@@ -1553,4 +1559,11 @@ Public Class frmMain
         frmPreferences.ShowDialog()
     End Sub
 
+    Private Sub frmMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
+        Static first As Boolean = True
+        If first Then
+            first = False
+            If Pref.startHidden Then Me.Hide()
+        End If
+    End Sub
 End Class
