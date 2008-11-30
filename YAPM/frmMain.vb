@@ -8,8 +8,11 @@ Public Class frmMain
     Public Pref As New Pref
 
     ' Not a good way to configure paths...
-    Public Const HELP_PATH As String = "C:\Users\Admin\Desktop\YAPM\YAPM\Help\help.htm"
-    Public Const PREF_PATH As String = "C:\Users\Admin\Desktop\YAPM\YAPM\Config\config.xml"
+    'Public Const HELP_PATH As String = "C:\Users\Admin\Desktop\YAPM\YAPM\Help\help.htm"
+    'Public Const PREF_PATH As String = "C:\Users\Admin\Desktop\YAPM\YAPM\Config\config.xml"
+
+    Public HELP_PATH As String = My.Application.Info.DirectoryPath & "\Help\help.htm"
+    Public PREF_PATH As String = My.Application.Info.DirectoryPath & "\Config\config.xml"
 
     Public Const DEFAULT_TIMER_INTERVAL_PROCESSES As Integer = 2000
     Public Const DEFAULT_TIMER_INTERVAL_SERVICES As Integer = 10000
