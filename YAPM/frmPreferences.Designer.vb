@@ -39,10 +39,14 @@ Partial Class frmPreferences
         Me.cmdSave = New System.Windows.Forms.Button
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
+        Me.txtUpdate = New System.Windows.Forms.TextBox
+        Me.cmdCheckUpdate = New System.Windows.Forms.Button
+        Me.cmdDownload = New System.Windows.Forms.Button
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        Me.TabPage2.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -178,6 +182,9 @@ Partial Class frmPreferences
         '
         'TabPage2
         '
+        Me.TabPage2.Controls.Add(Me.cmdDownload)
+        Me.TabPage2.Controls.Add(Me.cmdCheckUpdate)
+        Me.TabPage2.Controls.Add(Me.txtUpdate)
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
@@ -214,6 +221,35 @@ Partial Class frmPreferences
         Me.cmdDefaut.Text = "Default"
         Me.cmdDefaut.UseVisualStyleBackColor = True
         '
+        'txtUpdate
+        '
+        Me.txtUpdate.BackColor = System.Drawing.Color.White
+        Me.txtUpdate.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.txtUpdate.Location = New System.Drawing.Point(6, 6)
+        Me.txtUpdate.Multiline = True
+        Me.txtUpdate.Name = "txtUpdate"
+        Me.txtUpdate.ReadOnly = True
+        Me.txtUpdate.Size = New System.Drawing.Size(316, 184)
+        Me.txtUpdate.TabIndex = 0
+        '
+        'cmdCheckUpdate
+        '
+        Me.cmdCheckUpdate.Location = New System.Drawing.Point(6, 196)
+        Me.cmdCheckUpdate.Name = "cmdCheckUpdate"
+        Me.cmdCheckUpdate.Size = New System.Drawing.Size(158, 25)
+        Me.cmdCheckUpdate.TabIndex = 1
+        Me.cmdCheckUpdate.Text = "Check is YAPM is up to date"
+        Me.cmdCheckUpdate.UseVisualStyleBackColor = True
+        '
+        'cmdDownload
+        '
+        Me.cmdDownload.Location = New System.Drawing.Point(186, 196)
+        Me.cmdDownload.Name = "cmdDownload"
+        Me.cmdDownload.Size = New System.Drawing.Size(136, 25)
+        Me.cmdDownload.TabIndex = 2
+        Me.cmdDownload.Text = "Go to download page"
+        Me.cmdDownload.UseVisualStyleBackColor = True
+        '
         'frmPreferences
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -240,6 +276,8 @@ Partial Class frmPreferences
         Me.GroupBox2.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        Me.TabPage2.ResumeLayout(False)
+        Me.TabPage2.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -260,4 +298,7 @@ Partial Class frmPreferences
     Friend WithEvents txtServiceIntervall As System.Windows.Forms.TextBox
     Friend WithEvents txtProcessIntervall As System.Windows.Forms.TextBox
     Friend WithEvents chkTopMost As System.Windows.Forms.CheckBox
+    Friend WithEvents cmdDownload As System.Windows.Forms.Button
+    Friend WithEvents cmdCheckUpdate As System.Windows.Forms.Button
+    Friend WithEvents txtUpdate As System.Windows.Forms.TextBox
 End Class

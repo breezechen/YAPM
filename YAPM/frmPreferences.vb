@@ -47,6 +47,7 @@ Public Class frmPreferences
 
     Private Sub frmPreferences_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
+        Me.txtUpdate.Text = "This function is not available for now."
         With frmMain
             .SetToolTip(Me.chkJobs, "Start jobs processing on YAPM startup.")
             .SetToolTip(Me.chkModules, "Check 'Retrieve modules/threads' option on YAPM startup.")
@@ -58,6 +59,8 @@ Public Class frmPreferences
             .SetToolTip(Me.cmdQuit, "Quit without saving.")
             .SetToolTip(Me.cmdDefaut, "Set default configuration.")
             .SetToolTip(Me.chkTopMost, "Start YAPM topmost.")
+            .SetToolTip(Me.cmdCheckUpdate, "Check if new updates are availables.")
+            .SetToolTip(Me.cmdDownload, "Go to download page of YAPM.")
         End With
 
         ' Set control's values
@@ -84,4 +87,54 @@ Public Class frmPreferences
         Me.chkTopMost.Checked = False
     End Sub
 
+    Private Sub cmdCheckUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdCheckUpdate.Click
+        MsgBox("YAPM will connect to Internet and will check if new updates are availables.", MsgBoxStyle.Information, "Check for an update")
+        If checkUpdate() = False Then
+            MsgBox("Cannot connect to Internet or cannot retrieve informations.", MsgBoxStyle.Exclamation, "Error")
+        End If
+    End Sub
+
+    Private Function checkUpdate() As Boolean
+        ' Check if new updates are availables
+        ' 1) Download source code of download page on sourceforge.net
+        ' 2) Parse code to retrieve last versiob
+        ' 3) Display results
+
+        Dim cVersion As Integer = 0
+        With My.Application.Info.Version
+            cVersion = .Major * 10000 + .Build * 1000 + .Minor * 100 + .MinorRevision
+        End With
+        Dim lVersion As Integer = 0
+        Dim sInfo As String = vbNullString
+
+        Dim s As String
+        s = "Downloading informations on sourceforge.net webpage..."
+        Me.txtUpdate.Text = s
+        My.Application.DoEvents()
+
+        'download code
+
+        s = "Retrieve last version number from downloaded informations..."
+        Me.txtUpdate.Text = Me.txtUpdate.Text & vbNewLine & s
+        My.Application.DoEvents()
+
+        ' parse code, retrive last update info and if necessary changelog
+
+        s = "Last version is : " & lVersion & vbNewLine
+        s &= "Your version is : " & cVersion & vbNewLine
+
+        If lVersion > cVersion Then
+            s &= "Result : A NEW UPDATE IS AVAILABLE" & vbNewLine & vbNewLine
+            s &= "Informations about new version : " & vbNewLine & sInfo
+        Else
+            s &= "Result : YOUR VERSION IS UP TO DATE"
+        End If
+
+        Me.txtUpdate.Text = Me.txtUpdate.Text & vbNewLine & s
+
+    End Function
+
+    Private Sub cmdDownload_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdDownload.Click
+        mdlFile.ShellOpenFile("https://sourceforge.net/project/showfiles.php?group_id=244697")
+    End Sub
 End Class

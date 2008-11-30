@@ -894,6 +894,7 @@ Public Class frmMain
         Me.lblHelp.Enabled = False
         Me.lblHelp.ForeColor = Color.Black
         Me.chkModules.Visible = True
+        Me.panelMenu.Visible = True
     End Sub
 
     Private Sub pctService_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pctService.Click
@@ -918,6 +919,7 @@ Public Class frmMain
         Me.lblHelp.Enabled = False
         Me.lblHelp.ForeColor = Color.Black
         Me.chkModules.Visible = False
+        Me.panelMenu.Visible = True
     End Sub
 
     Private Sub pctJobs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pctJobs.Click
@@ -940,6 +942,7 @@ Public Class frmMain
         Me.lblAddJobs.ForeColor = Color.Red
         Me.lblHelp.Enabled = False
         Me.lblHelp.ForeColor = Color.Black
+        Me.panelMenu.Visible = False
     End Sub
 
     Private Sub pctHelp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pctHelp.Click
@@ -962,6 +965,7 @@ Public Class frmMain
         Me.lblAddJobs.ForeColor = Color.Black
         Me.lblHelp.Enabled = True
         Me.lblHelp.ForeColor = Color.Red
+        Me.panelMenu.Visible = False
     End Sub
 
     Private Sub pctService_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles pctService.MouseEnter
