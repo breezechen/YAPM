@@ -24,12 +24,12 @@ Partial Class frmMain
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.panelActions1 = New System.Windows.Forms.Panel
         Me.pctInfo = New System.Windows.Forms.PictureBox
@@ -107,7 +107,6 @@ Partial Class frmMain
         Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
         Me.panelActions4 = New System.Windows.Forms.Panel
         Me.cmdDonate = New System.Windows.Forms.Button
-        Me.cmdUpdate = New System.Windows.Forms.Button
         Me.lnkProjectPage = New System.Windows.Forms.LinkLabel
         Me.lnkWebsite = New System.Windows.Forms.LinkLabel
         Me.cmdAbout = New System.Windows.Forms.Button
@@ -356,11 +355,11 @@ Partial Class frmMain
         Me.lvProcess.ContextMenuStrip = Me.menuProc
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.FullRowSelect = True
-        ListViewGroup1.Header = "Processes"
-        ListViewGroup1.Name = "gpOther"
-        ListViewGroup2.Header = "Search result"
-        ListViewGroup2.Name = "gpSearch"
-        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup5.Header = "Processes"
+        ListViewGroup5.Name = "gpOther"
+        ListViewGroup6.Header = "Search result"
+        ListViewGroup6.Name = "gpSearch"
+        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvProcess.HideSelection = False
         Me.lvProcess.Location = New System.Drawing.Point(0, 0)
         Me.lvProcess.Name = "lvProcess"
@@ -566,11 +565,11 @@ Partial Class frmMain
         Me.lvServices.ContextMenuStrip = Me.menuService
         Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvServices.FullRowSelect = True
-        ListViewGroup3.Header = "Services"
-        ListViewGroup3.Name = "gpOther"
-        ListViewGroup4.Header = "Search result"
-        ListViewGroup4.Name = "gpSearch"
-        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup7.Header = "Services"
+        ListViewGroup7.Name = "gpOther"
+        ListViewGroup8.Header = "Search result"
+        ListViewGroup8.Name = "gpSearch"
+        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
         Me.lvServices.HideSelection = False
         Me.lvServices.Location = New System.Drawing.Point(0, 0)
         Me.lvServices.Name = "lvServices"
@@ -726,11 +725,11 @@ Partial Class frmMain
         Me.lvJobs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader4, Me.ColumnHeader5, Me.ColumnHeader6})
         Me.lvJobs.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvJobs.FullRowSelect = True
-        ListViewGroup5.Header = "Past jobs"
-        ListViewGroup5.Name = "gp1"
-        ListViewGroup6.Header = "Future jobs"
-        ListViewGroup6.Name = "gp2"
-        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
+        ListViewGroup1.Header = "Past jobs"
+        ListViewGroup1.Name = "gp1"
+        ListViewGroup2.Header = "Future jobs"
+        ListViewGroup2.Name = "gp2"
+        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvJobs.HideSelection = False
         Me.lvJobs.Location = New System.Drawing.Point(0, 0)
         Me.lvJobs.Name = "lvJobs"
@@ -769,7 +768,6 @@ Partial Class frmMain
         '
         Me.panelActions4.BackColor = System.Drawing.Color.White
         Me.panelActions4.Controls.Add(Me.cmdDonate)
-        Me.panelActions4.Controls.Add(Me.cmdUpdate)
         Me.panelActions4.Controls.Add(Me.lnkProjectPage)
         Me.panelActions4.Controls.Add(Me.lnkWebsite)
         Me.panelActions4.Controls.Add(Me.cmdAbout)
@@ -781,26 +779,17 @@ Partial Class frmMain
         'cmdDonate
         '
         Me.cmdDonate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdDonate.Location = New System.Drawing.Point(15, 89)
+        Me.cmdDonate.Location = New System.Drawing.Point(15, 60)
         Me.cmdDonate.Name = "cmdDonate"
         Me.cmdDonate.Size = New System.Drawing.Size(85, 30)
         Me.cmdDonate.TabIndex = 5
         Me.cmdDonate.Text = "Donate !"
         Me.cmdDonate.UseVisualStyleBackColor = True
         '
-        'cmdUpdate
-        '
-        Me.cmdUpdate.Location = New System.Drawing.Point(15, 52)
-        Me.cmdUpdate.Name = "cmdUpdate"
-        Me.cmdUpdate.Size = New System.Drawing.Size(85, 30)
-        Me.cmdUpdate.TabIndex = 4
-        Me.cmdUpdate.Text = "Check update"
-        Me.cmdUpdate.UseVisualStyleBackColor = True
-        '
         'lnkProjectPage
         '
         Me.lnkProjectPage.AutoSize = True
-        Me.lnkProjectPage.Location = New System.Drawing.Point(15, 159)
+        Me.lnkProjectPage.Location = New System.Drawing.Point(15, 130)
         Me.lnkProjectPage.Name = "lnkProjectPage"
         Me.lnkProjectPage.Size = New System.Drawing.Size(174, 13)
         Me.lnkProjectPage.TabIndex = 3
@@ -810,7 +799,7 @@ Partial Class frmMain
         'lnkWebsite
         '
         Me.lnkWebsite.AutoSize = True
-        Me.lnkWebsite.Location = New System.Drawing.Point(15, 134)
+        Me.lnkWebsite.Location = New System.Drawing.Point(15, 105)
         Me.lnkWebsite.Name = "lnkWebsite"
         Me.lnkWebsite.Size = New System.Drawing.Size(150, 13)
         Me.lnkWebsite.TabIndex = 2
@@ -1443,11 +1432,12 @@ Partial Class frmMain
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.ClientSize = New System.Drawing.Size(795, 570)
+        Me.Controls.Add(Me.panelActions2)
+        Me.Controls.Add(Me.panelActions1)
+        Me.Controls.Add(Me.panelActions4)
         Me.Controls.Add(Me.panelActions3)
         Me.Controls.Add(Me.panelMain3)
-        Me.Controls.Add(Me.panelActions2)
         Me.Controls.Add(Me.panelMain4)
-        Me.Controls.Add(Me.panelActions1)
         Me.Controls.Add(Me.cmdTray)
         Me.Controls.Add(Me.panelInfos)
         Me.Controls.Add(Me.panelInfos2)
@@ -1463,7 +1453,6 @@ Partial Class frmMain
         Me.Controls.Add(Me.mainMenu)
         Me.Controls.Add(Me.lblAddJobs)
         Me.Controls.Add(Me.lblHelp)
-        Me.Controls.Add(Me.panelActions4)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.mainMenu
@@ -1621,7 +1610,6 @@ Partial Class frmMain
     Friend WithEvents pctInfo As System.Windows.Forms.PictureBox
     Friend WithEvents cmdAbout As System.Windows.Forms.Button
     Friend WithEvents cmdDonate As System.Windows.Forms.Button
-    Friend WithEvents cmdUpdate As System.Windows.Forms.Button
     Friend WithEvents lnkProjectPage As System.Windows.Forms.LinkLabel
     Friend WithEvents lnkWebsite As System.Windows.Forms.LinkLabel
     Friend WithEvents menuService As System.Windows.Forms.ContextMenuStrip

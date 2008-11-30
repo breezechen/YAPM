@@ -456,11 +456,27 @@ Public Class frmMain
         SetToolTip(Me.cmdPause, "Suspend selected processes.")
         SetToolTip(Me.cmdResume, "Resume selected processes.")
         SetToolTip(Me.cmdAffinity, "Change affinity of selected processes.")
-        SetToolTip(Me.lnkOpenDir, "Open file location of selected processes.")
-        SetToolTip(Me.lnkProp, "Open property box for selected processes.")
         SetToolTip(Me.cmdTray, "Hide main form (double click on icon on tray to restore).")
         SetToolTip(Me.tv, "Selected service depends on these services.")
         SetToolTip(Me.tv2, "This services depend on selected service.")
+        SetToolTip(Me.cmdAbout, "About YAPM.")
+        SetToolTip(Me.lnkWebsite, "Show YAPM website.")
+        SetToolTip(Me.lnkProjectPage, "Show YAPM project page on sourceforge.net.")
+        SetToolTip(Me.lnkOpenDir, "Open directory of selected processes.")
+        SetToolTip(Me.lnkProp, "Open property form of selected processes.")
+        SetToolTip(Me.lnkServOpenDir, "Open directory of selected services.")
+        SetToolTip(Me.lnkServProp, "Open property form of selected services.")
+        SetToolTip(Me.cmdDonate, "Open webpage to make a donation to me.")
+        SetToolTip(Me.cmdAddJob, "Add a new job to list.")
+        SetToolTip(Me.cmdOpenJobs, "Open a job list.")
+        SetToolTip(Me.cmdSaveJobs, "Save a job list.")
+        SetToolTip(Me.chkJob, "Enable jobs processing.")
+        SetToolTip(Me.cmdStopService, "Stop selected services.")
+        SetToolTip(Me.cmdStartService, "Start selected services.")
+        SetToolTip(Me.cmdResPauseService, "Pause (if running) or resume (if paused) selected services.")
+        SetToolTip(Me.cmdShutdownService, "Shutdown selected services.")
+        SetToolTip(Me.cbStartType, "Type of start for selected services.")
+        SetToolTip(Me.cmdSetStartType, "Set selectes start type to selected services.")
 
 
         ' Load help file
@@ -1227,12 +1243,9 @@ Public Class frmMain
         mdlFile.ShellOpenFile("http://yaprocmon.sourceforge.net/")
     End Sub
 
-    Private Sub cmdUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdUpdate.Click
-        MsgBox("YAPM is up to date !", MsgBoxStyle.Information, "No new update available")
-    End Sub
-
     Private Sub cmdDonate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdDonate.Click
-        MsgBox("You just gave 500$ to me...", MsgBoxStyle.Information, "Thanks you !")
+        MsgBox("You will be redirected on my sourceforge.net donation page.", MsgBoxStyle.Information, "Donation procedure")
+        mdlFile.ShellOpenFile("https://sourceforge.net/donate/index.php?user_id=1590933#donate")
     End Sub
 
     Private Sub ToolStripMenuItem20_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem20.Click

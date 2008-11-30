@@ -48,16 +48,16 @@ Public Class frmPreferences
     Private Sub frmPreferences_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         With frmMain
-            .SetToolTip(Me.chkJobs, "Start jobs processing on YAPM startup")
-            .SetToolTip(Me.chkModules, "Check 'Retrieve modules/threads' option on YAPM startup")
-            .SetToolTip(Me.chkStart, "Start YAPM on Windows startup")
-            .SetToolTip(Me.chkStartTray, "Start YAPM hidden (only in tray system)")
-            .SetToolTip(Me.txtProcessIntervall, "Set intervall (milliseconds) between two refreshments of processes list")
-            .SetToolTip(Me.txtServiceIntervall, "Set intervall (milliseconds) between two refreshments of services list")
-            .SetToolTip(Me.cmdSave, "Save configuration")
-            .SetToolTip(Me.cmdQuit, "Quit without saving")
-            .SetToolTip(Me.cmdDefaut, "Set default configuration")
-            .SetToolTip(Me.chkTopMost, "Start YAPM topmost")
+            .SetToolTip(Me.chkJobs, "Start jobs processing on YAPM startup.")
+            .SetToolTip(Me.chkModules, "Check 'Retrieve modules/threads' option on YAPM startup.")
+            .SetToolTip(Me.chkStart, "Start YAPM on Windows startup.")
+            .SetToolTip(Me.chkStartTray, "Start YAPM hidden (only in tray system).")
+            .SetToolTip(Me.txtProcessIntervall, "Set intervall (milliseconds) between two refreshments of processes list.")
+            .SetToolTip(Me.txtServiceIntervall, "Set intervall (milliseconds) between two refreshments of services list.")
+            .SetToolTip(Me.cmdSave, "Save configuration.")
+            .SetToolTip(Me.cmdQuit, "Quit without saving.")
+            .SetToolTip(Me.cmdDefaut, "Set default configuration.")
+            .SetToolTip(Me.chkTopMost, "Start YAPM topmost.")
         End With
 
         ' Set control's values

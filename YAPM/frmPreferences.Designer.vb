@@ -131,9 +131,9 @@ Partial Class frmPreferences
         Me.chkTopMost.AutoSize = True
         Me.chkTopMost.Location = New System.Drawing.Point(9, 114)
         Me.chkTopMost.Name = "chkTopMost"
-        Me.chkTopMost.Size = New System.Drawing.Size(121, 17)
+        Me.chkTopMost.Size = New System.Drawing.Size(122, 17)
         Me.chkTopMost.TabIndex = 4
-        Me.chkTopMost.Text = "Load YAPM topmost"
+        Me.chkTopMost.Text = "Start YAPM topmost"
         Me.chkTopMost.UseVisualStyleBackColor = True
         '
         'chkModules
@@ -171,9 +171,9 @@ Partial Class frmPreferences
         Me.chkStart.AutoSize = True
         Me.chkStart.Location = New System.Drawing.Point(9, 20)
         Me.chkStart.Name = "chkStart"
-        Me.chkStart.Size = New System.Drawing.Size(146, 17)
+        Me.chkStart.Size = New System.Drawing.Size(179, 17)
         Me.chkStart.TabIndex = 0
-        Me.chkStart.Text = "Load at Windows startup"
+        Me.chkStart.Text = "Start YAPM on Windows startup"
         Me.chkStart.UseVisualStyleBackColor = True
         '
         'TabPage2
