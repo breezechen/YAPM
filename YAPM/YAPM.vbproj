@@ -100,6 +100,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmAbout.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmBox.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmBox.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmMain.vb</DependentUpon>
@@ -139,6 +143,12 @@
     <None Include="Resources\business_user_add.png" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmBox.Designer.vb">
+      <DependentUpon>frmBox.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmBox.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmPreferences.Designer.vb">
       <DependentUpon>frmPreferences.vb</DependentUpon>
     </Compile>

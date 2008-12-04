@@ -75,9 +75,7 @@ Public Class frmMain
                 Dim lsub5 As New ListViewItem.ListViewSubItem
 
                 Dim path As String = CStr(My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\" & it.Text, "ImagePath", ""))
-                If path.Chars(0) = Chr(34) Then
-                    path = path.Substring(1, path.Length - 2)
-                End If
+                path = Replace(path, Chr(34), vbNullString)
 
                 lsub4.Text = path
                 lsub2.Text = p.Status.ToString
@@ -1260,19 +1258,66 @@ Public Class frmMain
 
     Private Sub ToolStripMenuItem20_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem20.Click
         Dim it As ListViewItem
+        Dim s As String = vbNullString
         For Each it In Me.lvServices.SelectedItems
-            If IO.File.Exists(it.SubItems(4).Text) Then
-                If it.SubItems(4).Text <> "N/A" Then _
-                ShowFileProperty(mdlService.GetFileNameFromSpecial(it.SubItems(4).Text))
+            If it.SubItems(4).Text <> "N/A" Then
+                s = mdlService.GetFileNameFromSpecial(it.SubItems(4).Text)
+                If IO.File.Exists(s) Then
+                    ShowFileProperty(s)
+                Else
+                    ' Cannot retrieve a good path
+                    Dim box As New frmBox
+                    With box
+                        .txtMsg1.Text = "The file path cannot be extracted. Please edit it and then click 'OK' to open file properties box, or click 'Cancel' to cancel."
+                        .txtMsg1.Height = 35
+                        .txtMsg2.Top = 50
+                        .txtMsg2.Height = 25
+                        .txtMsg2.Text = s
+                        .txtMsg2.ReadOnly = False
+                        .txtMsg2.BackColor = Color.White
+                        .Text = "Show file properties box"
+                        .Height = 150
+                        .ShowDialog()
+                        If .DialogResult = Windows.Forms.DialogResult.OK Then
+                            If IO.File.Exists(.MsgResult2) Then _
+                                ShowFileProperty(.MsgResult2)
+                        End If
+                    End With
+                End If
             End If
         Next
     End Sub
 
     Private Sub ToolStripMenuItem21_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem21.Click
         Dim it As ListViewItem
+        Dim s As String = vbNullString
         For Each it In Me.lvServices.SelectedItems
-            If it.SubItems(4).Text <> "N/A" Then _
-            OpenDirectory(mdlService.GetFileNameFromSpecial(it.SubItems(4).Text))
+            If it.SubItems(4).Text <> "N/A" Then
+                s = mdlFile.GetParentDir(it.SubItems(4).Text)
+                If IO.Directory.Exists(s) Then
+                    OpenDirectory2(s)
+                Else
+                    ' Cannot retrieve a good path
+                    Dim box As New frmBox
+                    With box
+                        .txtMsg1.Text = "The file directory cannot be extracted. Please edit it and then click 'OK' to open directory, or click 'Cancel' to cancel."
+                        .txtMsg1.Height = 35
+                        .txtMsg2.Top = 50
+                        .txtMsg2.Height = 25
+                        .txtMsg2.Text = s
+                        .txtMsg2.ReadOnly = False
+                        .txtMsg2.BackColor = Color.White
+                        .Text = "Open directory"
+                        .Height = 150
+                        .ShowDialog()
+                        If .DialogResult = Windows.Forms.DialogResult.OK Then
+                            If IO.Directory.Exists(.MsgResult2) Then
+                                OpenDirectory2(.MsgResult2)
+                            End If
+                        End If
+                    End With
+                End If
+            End If
         Next
     End Sub
 
@@ -1476,21 +1521,11 @@ Public Class frmMain
     End Sub
 
     Private Sub lnkServProp_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkServProp.LinkClicked
-        Dim it As ListViewItem
-        For Each it In Me.lvServices.SelectedItems
-            If IO.File.Exists(it.SubItems(4).Text) Then
-                If it.SubItems(4).Text <> "N/A" Then _
-                ShowFileProperty(mdlService.GetFileNameFromSpecial(it.SubItems(4).Text))
-            End If
-        Next
+        Call ToolStripMenuItem20_Click(Nothing, Nothing)
     End Sub
 
     Private Sub lnkServOpenDir_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkServOpenDir.LinkClicked
-        Dim it As ListViewItem
-        For Each it In Me.lvServices.SelectedItems
-            If it.SubItems(4).Text <> "N/A" Then _
-            OpenDirectory(mdlService.GetFileNameFromSpecial(it.SubItems(4).Text))
-        Next
+        Call ToolStripMenuItem21_Click(Nothing, Nothing)
     End Sub
 
     Private Sub cmdOpenJobs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdOpenJobs.Click

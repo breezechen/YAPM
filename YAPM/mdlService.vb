@@ -9,37 +9,6 @@ Module mdlService
     Private Declare Function apiStartService Lib "advapi32.dll" Alias "StartServiceA" (ByVal hService As IntPtr, ByVal dwNumServiceArgs As Integer, ByVal lpServiceArgVectors As Integer) As Integer
     Private Declare Function OpenSCManager Lib "advapi32.dll" Alias "OpenSCManagerA" (ByVal lpMachineName As String, ByVal lpDatabaseName As String, ByVal dwDesiredAccess As Integer) As IntPtr
 
-    '<DllImport("AdvApi32", CharSet:=CharSet.Auto, entrypoint:="ChangeServiceConfigA")> _
-    '    Private Function ChangeServiceConfig(ByVal hService As IntPtr, ByVal dwServiceType As Integer, ByVal dwStartType As Integer, ByVal dwErrorControl As Integer, ByVal lpBinaryPathName As String, ByVal lpLoadOrderGroup As String, ByVal lpdwTagId As Integer, ByVal lpDependencies As String, ByVal lpServiceStartName As String, ByVal lpPassword As String, ByVal lpDisplayName As String) As Boolean
-    'End Function
-
-    'Private Declare Function ChangeServiceConfig Lib "advapi32.dll" Alias "ChangeServiceConfigW" ( _
-    'ByVal hService As Integer, _
-    'ByVal dwServiceType As Integer, _
-    'ByVal dwStartType As Integer, _
-    'ByVal dwErrorControl As Integer, _
-    'ByRef lpBinaryPathName As Integer, _
-    'ByRef lpLoadOrderGroup As Integer, _
-    'ByRef lpdwTagId As Integer, _
-    'ByRef lpDependencies As Integer, _
-    'ByRef lpServiceStartName As Integer, _
-    'ByRef lpPassword As Integer, _
-    'ByRef lpDisplayName As Integer) As Integer
-
-
-    'Public Declare Function ChangeServiceConfig Lib "advapi32.dll" Alias "ChangeServiceConfigW" ( _
-    '   ByVal hService As Int32, _
-    '   ByVal dwServiceType As Int32, _
-    '   ByVal dwStartType As Int32, _
-    '   ByVal dwErrorControl As Int32, _
-    '   <MarshalAs(UnmanagedType.LPTStr)> ByVal lpBinaryPathName As String, _
-    '   <MarshalAs(UnmanagedType.LPTStr)> ByVal lpLoadOrderGroup As String, _
-    '   ByVal lpdwTagId As Int32, _
-    '   <MarshalAs(UnmanagedType.LPTStr)> ByVal lpDependencies As String, _
-    '   <MarshalAs(UnmanagedType.LPTStr)> ByVal lpServiceStartName As String, _
-    '   <MarshalAs(UnmanagedType.LPTStr)> ByVal lpPassword As String, _
-    '   <MarshalAs(UnmanagedType.LPTStr)> ByVal lpDisplayName As String) As Int32
-
     <DllImport("advapi32.dll", CharSet:=CharSet.Auto, entrypoint:="ChangeServiceConfigA", SetLastError:=True)> _
     Public Function ChangeServiceConfig(ByVal hService As Integer, ByVal dwServiceType As ServiceType, ByVal dwStartType As ServiceStartType, ByVal dwErrorControl As ServiceErrorControl, ByVal lpBinaryPathName As String, ByVal lpLoadOrderGroup As String, ByVal lpdwTagId As Integer, ByVal lpDependencies As String, <MarshalAs(UnmanagedType.LPStr)> ByVal lpServiceStartName As String, <MarshalAs(UnmanagedType.LPStr)> ByVal lpPassword As String, <MarshalAs(UnmanagedType.LPStr)> ByVal lpDisplayName As String) As Boolean
     End Function
@@ -194,7 +163,21 @@ Module mdlService
 
     ' Retrieve file name from a path with arguments
     Public Function GetFileNameFromSpecial(ByVal path As String) As String
-        Return ""
+        Dim s As String = path
+        Dim i As Integer = 0
+
+        ' Get lower case
+        s.ToLowerInvariant()
+
+        ' Get the left part of the exe (look for ".exe" substring)
+        i = InStr(s, ".exe", CompareMethod.Binary)
+
+        If i > 0 Then
+            Return s.Substring(0, i + 3)
+        Else
+            Return path
+        End If
+
     End Function
 
     ' Start a service

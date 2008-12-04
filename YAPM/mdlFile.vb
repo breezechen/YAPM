@@ -61,6 +61,26 @@ Module mdlFile
         Return r
     End Function
 
+    ' Open directory2
+    Public Function OpenDirectory2(ByVal dir As String) As Integer
+        Dim r As Integer = -1
+        If IO.Directory.Exists(dir) Then
+            r = Shell("explorer.exe " & dir, _
+                AppWinStyle.NormalFocus) ' This is some kind of shit, but it's the simpliest way
+        End If
+        Return r
+    End Function
+
+    ' Get parent dir
+    Public Function GetParentDir(ByVal path As String) As String
+        Dim i As Integer = InStrRev(path, "\", , CompareMethod.Binary)
+        If i > 0 Then
+            Return path.Substring(0, i)
+        Else
+            Return path
+        End If
+    End Function
+
     ' Open a file/URL
     Public Function ShellOpenFile(ByVal file As String) As Boolean
         Dim SEI As SHELLEXECUTEINFO = Nothing
