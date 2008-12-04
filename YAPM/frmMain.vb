@@ -726,8 +726,15 @@ Public Class frmMain
                 Dim objectName As String = vbNullString
                 Dim tag As String = vbNullString
 
+                ' OK it's not the best way to retrive the description...
                 s = GetServiceInfo(it.Text, "ImagePath")
-                description = GetServiceInfo(it.Text, "Description")
+                Dim sTemp As String = GetServiceInfo(it.Text, "Description")
+                If InStr(sTemp, "@", CompareMethod.Binary) > 0 Then
+                    description = mdlFile.IntelligentPathRetrieving(sTemp)
+                Else
+                    description = sTemp
+                End If
+
                 diagnosticsMessageFile = GetServiceInfo(it.Text, "DiagnosticsMessageFile")
                 group = GetServiceInfo(it.Text, "Group")
                 objectName = GetServiceInfo(it.Text, "ObjectName")
