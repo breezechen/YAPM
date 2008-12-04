@@ -80,7 +80,7 @@ Public Class frmPreferences
         ' Defaut settings
         Me.chkStartTray.Checked = False
         Me.chkStart.Checked = False
-        Me.chkModules.Checked = True
+        Me.chkModules.Checked = False
         Me.chkJobs.Checked = True
         Me.txtProcessIntervall.Text = CStr(frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES)
         Me.txtServiceIntervall.Text = CStr(frmMain.DEFAULT_TIMER_INTERVAL_SERVICES)

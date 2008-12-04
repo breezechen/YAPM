@@ -92,13 +92,13 @@ Public Class Pref
     ' Apply pref
     Public Sub Apply()
         Static first As Boolean = True
-        frmMain.chkModules.Checked = startChkModules
         frmMain.timerProcess.Interval = CInt(IIf(procIntervall > 0, procIntervall, frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES))
         frmMain.timerServices.Interval = CInt(IIf(serviceIntervall > 0, serviceIntervall, frmMain.DEFAULT_TIMER_INTERVAL_SERVICES))
-        frmMain.chkJob.Checked = startJobs
         If first Then
             first = False
             frmMain.TopMost = topmost
+            frmMain.chkModules.Checked = startChkModules
+            frmMain.chkJob.Checked = startJobs
             frmMain.AlwaysDisplayToolStripMenuItem.Checked = topmost
         End If
         If startHidden Then

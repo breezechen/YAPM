@@ -9,9 +9,48 @@ Module mdlService
     Private Declare Function apiStartService Lib "advapi32.dll" Alias "StartServiceA" (ByVal hService As IntPtr, ByVal dwNumServiceArgs As Integer, ByVal lpServiceArgVectors As Integer) As Integer
     Private Declare Function OpenSCManager Lib "advapi32.dll" Alias "OpenSCManagerA" (ByVal lpMachineName As String, ByVal lpDatabaseName As String, ByVal dwDesiredAccess As Integer) As IntPtr
 
-    <DllImport("AdvApi32", CharSet:=CharSet.Auto, entrypoint:="ChangeServiceConfigA")> _
-        Private Function ChangeServiceConfig(ByVal hService As IntPtr, ByVal dwServiceType As Integer, ByVal dwStartType As Integer, ByVal dwErrorControl As Integer, ByVal lpBinaryPathName As String, ByVal lpLoadOrderGroup As String, ByVal lpdwTagId As Integer, ByVal lpDependencies As String, ByVal lpServiceStartName As String, ByVal lpPassword As String, ByVal lpDisplayName As String) As Boolean
+    '<DllImport("AdvApi32", CharSet:=CharSet.Auto, entrypoint:="ChangeServiceConfigA")> _
+    '    Private Function ChangeServiceConfig(ByVal hService As IntPtr, ByVal dwServiceType As Integer, ByVal dwStartType As Integer, ByVal dwErrorControl As Integer, ByVal lpBinaryPathName As String, ByVal lpLoadOrderGroup As String, ByVal lpdwTagId As Integer, ByVal lpDependencies As String, ByVal lpServiceStartName As String, ByVal lpPassword As String, ByVal lpDisplayName As String) As Boolean
+    'End Function
+
+    'Private Declare Function ChangeServiceConfig Lib "advapi32.dll" Alias "ChangeServiceConfigW" ( _
+    'ByVal hService As Integer, _
+    'ByVal dwServiceType As Integer, _
+    'ByVal dwStartType As Integer, _
+    'ByVal dwErrorControl As Integer, _
+    'ByRef lpBinaryPathName As Integer, _
+    'ByRef lpLoadOrderGroup As Integer, _
+    'ByRef lpdwTagId As Integer, _
+    'ByRef lpDependencies As Integer, _
+    'ByRef lpServiceStartName As Integer, _
+    'ByRef lpPassword As Integer, _
+    'ByRef lpDisplayName As Integer) As Integer
+
+
+    'Public Declare Function ChangeServiceConfig Lib "advapi32.dll" Alias "ChangeServiceConfigW" ( _
+    '   ByVal hService As Int32, _
+    '   ByVal dwServiceType As Int32, _
+    '   ByVal dwStartType As Int32, _
+    '   ByVal dwErrorControl As Int32, _
+    '   <MarshalAs(UnmanagedType.LPTStr)> ByVal lpBinaryPathName As String, _
+    '   <MarshalAs(UnmanagedType.LPTStr)> ByVal lpLoadOrderGroup As String, _
+    '   ByVal lpdwTagId As Int32, _
+    '   <MarshalAs(UnmanagedType.LPTStr)> ByVal lpDependencies As String, _
+    '   <MarshalAs(UnmanagedType.LPTStr)> ByVal lpServiceStartName As String, _
+    '   <MarshalAs(UnmanagedType.LPTStr)> ByVal lpPassword As String, _
+    '   <MarshalAs(UnmanagedType.LPTStr)> ByVal lpDisplayName As String) As Int32
+
+    <DllImport("advapi32.dll", CharSet:=CharSet.Auto, entrypoint:="ChangeServiceConfigA", SetLastError:=True)> _
+    Public Function ChangeServiceConfig(ByVal hService As Integer, ByVal dwServiceType As ServiceType, ByVal dwStartType As ServiceStartType, ByVal dwErrorControl As ServiceErrorControl, ByVal lpBinaryPathName As String, ByVal lpLoadOrderGroup As String, ByVal lpdwTagId As Integer, ByVal lpDependencies As String, <MarshalAs(UnmanagedType.LPStr)> ByVal lpServiceStartName As String, <MarshalAs(UnmanagedType.LPStr)> ByVal lpPassword As String, <MarshalAs(UnmanagedType.LPStr)> ByVal lpDisplayName As String) As Boolean
     End Function
+
+    <DllImport("advapi32.dll", CharSet:=CharSet.Auto)> _
+        Public Function LockServiceDatabase(ByVal hSCManager As Integer) As Integer
+    End Function
+    <DllImport("advapi32.dll", CharSet:=CharSet.Auto)> _
+    Public Function UnlockServiceDatabase(ByVal hSCManager As Integer) As Boolean
+    End Function
+
     <DllImport("advapi32.dll", SetLastError:=True)> _
     Private Function ControlService(ByVal hService As IntPtr, ByVal dwControl As SERVICE_CONTROL, ByRef lpServiceStatus As SERVICE_STATUS) As Boolean
     End Function
@@ -36,8 +75,36 @@ Module mdlService
         _POWEREVENT = 13
         _SESSIONCHANGE = 14
     End Enum
+    Public Enum ServiceType As Integer
+        SERVICE_KERNEL_DRIVER = &H1
+        SERVICE_FILE_SYSTEM_DRIVER = &H2
+        SERVICE_WIN32_OWN_PROCESS = &H10
+        SERVICE_WIN32_SHARE_PROCESS = &H20
+        SERVICE_INTERACTIVE_PROCESS = &H100
+        SERVICETYPE_NO_CHANGE = SERVICE_NO_CHANGE
+    End Enum
+    Public Enum ServiceStartType As Integer
+        SERVICE_BOOT_START = &H0
+        SERVICE_SYSTEM_START = &H1
+        SERVICE_AUTO_START = &H2
+        SERVICE_DEMAND_START = &H3
+        SERVICE_DISABLED = &H4
+        SERVICESTARTTYPE_NO_CHANGE = SERVICE_NO_CHANGE
+    End Enum
+    Public Enum ServiceErrorControl As Integer
+        SERVICE_ERROR_IGNORE = &H0
+        SERVICE_ERROR_NORMAL = &H1
+        SERVICE_ERROR_SEVERE = &H2
+        SERVICE_ERROR_CRITICAL = &H3
+        SERVICEERRORCONTROL_NO_CHANGE = SERVICE_NO_CHANGE
+    End Enum
 
-    Private Const STANDARD_RIGHTS_REQUIRED As Integer = &HF0000
+    Private Const SERVICE_CONTROL_STOP As Integer = &H1
+    Private Const SERVICE_CONTROL_CONTINUE As Integer = &H3
+    Private Const SERVICE_CONTROL_INTERROGATE As Integer = &H4
+    Private Const SERVICE_CONTROL_SHUTDOWN As Integer = &H5
+    Private Const SERVICE_CONTROL_PAUSE As Integer = &H2
+    Private Const SERVICE_NO_CHANGE As Integer = &HFFFFFFFF
     Private Const SERVICE_QUERY_CONFIG As Integer = &H1
     Private Const SERVICE_CHANGE_CONFIG As Integer = &H2
     Private Const SERVICE_QUERY_STATUS As Integer = &H4
@@ -47,13 +114,9 @@ Module mdlService
     Private Const SERVICE_PAUSE_CONTINUE As Integer = &H40
     Private Const SERVICE_INTERROGATE As Integer = &H80
     Private Const SERVICE_USER_DEFINED_CONTROL As Integer = &H100
-    Private Const SERVICE_ALL_ACCESS As Integer = (STANDARD_RIGHTS_REQUIRED + SERVICE_QUERY_CONFIG + SERVICE_CHANGE_CONFIG + SERVICE_QUERY_STATUS + SERVICE_ENUMERATE_DEPENDENTS + SERVICE_START + SERVICE_STOP + SERVICE_PAUSE_CONTINUE + SERVICE_INTERROGATE + SERVICE_USER_DEFINED_CONTROL)
-    Private Const SERVICE_CONTROL_STOP As Integer = &H1
-    Private Const SERVICE_CONTROL_CONTINUE As Integer = &H3
-    Private Const SERVICE_CONTROL_INTERROGATE As Integer = &H4
-    Private Const SERVICE_CONTROL_SHUTDOWN As Integer = &H5
-    Private Const SERVICE_CONTROL_PAUSE As Integer = &H2
-    Private Const SERVICE_NO_CHANGE As Integer = &HFFFF
+    Private Const STANDARD_RIGHTS_REQUIRED As Integer = &HF0000
+    Private Const SERVICE_ALL_ACCESS As Integer = (STANDARD_RIGHTS_REQUIRED Or SERVICE_QUERY_CONFIG Or SERVICE_CHANGE_CONFIG Or SERVICE_QUERY_STATUS Or SERVICE_ENUMERATE_DEPENDENTS Or SERVICE_START Or SERVICE_STOP Or SERVICE_PAUSE_CONTINUE Or SERVICE_INTERROGATE Or SERVICE_USER_DEFINED_CONTROL)
+
     Private Const SC_MANAGER_CONNECT As Integer = &H1
     Private Const SC_MANAGER_CREATE_SERVICE As Integer = &H2
     Private Const SC_MANAGER_ENUMERATE_SERVICE As Integer = &H4
@@ -220,30 +283,23 @@ Module mdlService
     End Sub
 
     ' Set service start type
-    Public Sub SetServiceStartType(ByVal service As String, ByVal type As ServiceProcess.ServiceStartMode)
+    Public Sub SetServiceStartType(ByVal service As String, ByVal type As ServiceStartType)
         Dim hSCManager As IntPtr
         Dim lServ As IntPtr
-        Dim st As Integer
-
-        Select Case type
-            Case ServiceProcess.ServiceStartMode.Automatic
-                st = 2
-            Case ServiceProcess.ServiceStartMode.Disabled
-                st = 4
-            Case ServiceProcess.ServiceStartMode.Manual
-                st = 3
-        End Select
+        Dim hLockSCManager As Integer
 
         hSCManager = OpenSCManager(vbNullString, vbNullString, SC_MANAGER_ALL_ACCESS)
+        hLockSCManager = LockServiceDatabase(CInt(hSCManager))
 
         If hSCManager <> IntPtr.Zero Then
             lServ = OpenService(hSCManager, service, SERVICE_ALL_ACCESS)
             If lServ <> IntPtr.Zero Then
-                ChangeServiceConfig(lServ, SERVICE_NO_CHANGE, st, _
-                    SERVICE_NO_CHANGE, vbNullString, vbNullString, 0, _
+                Dim ret As Boolean = ChangeServiceConfig(CInt(lServ), ServiceType.SERVICETYPE_NO_CHANGE, type, _
+                    ServiceErrorControl.SERVICEERRORCONTROL_NO_CHANGE, vbNullString, vbNullString, Nothing, _
                     vbNullString, vbNullString, vbNullString, vbNullString)
                 CloseServiceHandle(lServ)
             End If
+            UnlockServiceDatabase(hLockSCManager)
             CloseServiceHandle(hSCManager)
         End If
 

@@ -11,11 +11,12 @@ Public Class frmMain
     'Public Const HELP_PATH As String = "C:\Users\Admin\Desktop\YAPM\YAPM\Help\help.htm"
     'Public Const PREF_PATH As String = "C:\Users\Admin\Desktop\YAPM\YAPM\Config\config.xml"
 
+    ' Better way...
     Public HELP_PATH As String = My.Application.Info.DirectoryPath & "\Help\help.htm"
     Public PREF_PATH As String = My.Application.Info.DirectoryPath & "\Config\config.xml"
 
-    Public Const DEFAULT_TIMER_INTERVAL_PROCESSES As Integer = 2000
-    Public Const DEFAULT_TIMER_INTERVAL_SERVICES As Integer = 10000
+    Public Const DEFAULT_TIMER_INTERVAL_PROCESSES As Integer = 2500
+    Public Const DEFAULT_TIMER_INTERVAL_SERVICES As Integer = 15000
 
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
 
@@ -476,7 +477,8 @@ Public Class frmMain
         SetToolTip(Me.chkJob, "Enable jobs processing.")
         SetToolTip(Me.cmdStopService, "Stop selected services.")
         SetToolTip(Me.cmdStartService, "Start selected services.")
-        SetToolTip(Me.cmdResPauseService, "Pause (if running) or resume (if paused) selected services.")
+        SetToolTip(Me.cmdResPauseService, "Resume selected services (if resumables).")
+        SetToolTip(Me.cmdPauseService, "Pause selected services (if pausables).")
         SetToolTip(Me.cmdShutdownService, "Shutdown selected services.")
         SetToolTip(Me.cbStartType, "Type of start for selected services.")
         SetToolTip(Me.cmdSetStartType, "Set selectes start type to selected services.")
@@ -714,6 +716,7 @@ Public Class frmMain
             Try
                 'Dim proc As Process = Process.GetProcessById(CInt(it.SubItems(1).Text))
 
+                Me.cbStartType.Text = it.SubItems(3).Text
                 Me.lblServiceName.Text = "Service name : " & it.Text
                 Me.lblServicePath.Text = "Service path : " & it.SubItems(4).Text
 
@@ -1288,6 +1291,9 @@ Public Class frmMain
             End Try
         Next
 
+        Call Me.refreshServiceList()
+        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
+
     End Sub
 
     Private Sub ToolStripMenuItem10_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem10.Click
@@ -1299,6 +1305,8 @@ Public Class frmMain
                 '
             End Try
         Next
+        Call Me.refreshServiceList()
+        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
     Private Sub ToolStripMenuItem11_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem11.Click
@@ -1310,39 +1318,47 @@ Public Class frmMain
                 '
             End Try
         Next
+        Call Me.refreshServiceList()
+        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
     Private Sub ToolStripMenuItem13_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem13.Click
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
             Try
-                mdlService.SetServiceStartType(it.Text, ServiceProcess.ServiceStartMode.Disabled)
+                mdlService.SetServiceStartType(it.Text, ServiceStartType.SERVICE_DISABLED)
             Catch ex As Exception
                 '
             End Try
         Next
+        Call Me.refreshServiceList()
+        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
     Private Sub ToolStripMenuItem14_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem14.Click
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
             Try
-                mdlService.SetServiceStartType(it.Text, ServiceProcess.ServiceStartMode.Automatic)
+                mdlService.SetServiceStartType(it.Text, ServiceStartType.SERVICE_AUTO_START)
             Catch ex As Exception
                 '
             End Try
         Next
+        Call Me.refreshServiceList()
+        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
     Private Sub ToolStripMenuItem15_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem15.Click
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
             Try
-                mdlService.SetServiceStartType(it.Text, ServiceProcess.ServiceStartMode.Manual)
+                mdlService.SetServiceStartType(it.Text, ServiceStartType.SERVICE_DEMAND_START)
             Catch ex As Exception
                 '
             End Try
         Next
+        Call Me.refreshServiceList()
+        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
     Private Sub ShutdownToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShutdownToolStripMenuItem.Click
@@ -1354,6 +1370,8 @@ Public Class frmMain
                 '
             End Try
         Next
+        Call Me.refreshServiceList()
+        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
     Private Sub cmdCopyServiceToCp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdCopyServiceToCp.Click
@@ -1391,6 +1409,8 @@ Public Class frmMain
                 '
             End Try
         Next
+        Call Me.refreshServiceList()
+        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
     Private Sub cmdStartService_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdStartService.Click
@@ -1402,6 +1422,8 @@ Public Class frmMain
                 '
             End Try
         Next
+        Call Me.refreshServiceList()
+        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
     Private Sub cmdResPauseService_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdResPauseService.Click
@@ -1413,6 +1435,8 @@ Public Class frmMain
                 '
             End Try
         Next
+        Call Me.refreshServiceList()
+        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
     Private Sub cmdShutdownService_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdShutdownService.Click
@@ -1424,18 +1448,20 @@ Public Class frmMain
                 '
             End Try
         Next
+        Call Me.refreshServiceList()
+        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
     Private Sub cmdSetStartType_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSetStartType.Click
         Dim it As ListViewItem
-        Dim t As ServiceProcess.ServiceStartMode
+        Dim t As ServiceStartType
         Select Case Me.cbStartType.Text
             Case "Auto Start"
-                t = ServiceProcess.ServiceStartMode.Automatic
+                t = ServiceStartType.SERVICE_AUTO_START
             Case "Demand Start"
-                t = ServiceProcess.ServiceStartMode.Manual
+                t = ServiceStartType.SERVICE_DEMAND_START
             Case "Disabled"
-                t = ServiceProcess.ServiceStartMode.Disabled
+                t = ServiceStartType.SERVICE_DISABLED
         End Select
 
         For Each it In Me.lvServices.SelectedItems
@@ -1445,6 +1471,8 @@ Public Class frmMain
                 '
             End Try
         Next
+        Call Me.refreshServiceList()
+        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
     Private Sub lnkServProp_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkServProp.LinkClicked
@@ -1589,5 +1617,18 @@ Public Class frmMain
                 Me.WindowState = FormWindowState.Normal
             End If
         End If
+    End Sub
+
+    Private Sub cmdPauseService_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdPauseService.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            Try
+                mdlService.PauseService(it.Text)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+        Call Me.refreshServiceList()
+        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 End Class
