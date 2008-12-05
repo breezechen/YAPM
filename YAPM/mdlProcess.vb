@@ -39,6 +39,11 @@ Module mdlProcess
 
     Private Declare Function TerminateProcess Lib "kernel32" (ByVal hProcess As Integer, ByVal uExitCode As Integer) As Integer
 
+    Private Declare Function GetSecurityInfo Lib "advapi32.dll" (ByVal hObject As Integer, ByVal ObjectType As Integer, ByVal SecurityInformation As Integer, ByVal ppsidOwner As Integer, ByVal ppsidGroup As Integer, ByVal ppDacl As Integer, ByVal ppSacl As Integer, ByVal ppSecurityDescriptor As Integer) As Integer
+    Private Declare Function LookupAccountSid Lib "advapi32.dll" Alias "LookupAccountSidA" (ByVal lpSystemName As String, ByVal Sid As Integer, ByVal name As String, ByVal cbName As Integer, ByVal ReferencedDomainName As String, ByVal cbReferencedDomainName As Integer, ByVal peUse As Integer) As Integer
+    Private Declare Function OpenProcessToken Lib "advapi32.dll" (ByVal ProcessHandle As Integer, ByVal DesiredAccess As Integer, ByVal TokenHandle As Integer) As Integer
+    Private Declare Function GetTokenInformation Lib "advapi32.dll" (ByVal TokenHandle As Integer, ByVal TokenInformationClass As Integer, ByVal TokenInformation As TOKEN_GROUPS, ByVal TokenInformationLength As Integer, ByVal ReturnLength As Integer) As Integer
+
     Private Const PROCESS_SET_INFORMATION As Integer = &H200
     Private Const PROCESS_SUSPEND_RESUME As Integer = &H800
     Private Const PROCESS_QUERY_INFORMATION As Integer = &H400
@@ -49,6 +54,13 @@ Module mdlProcess
 
     Private Const PROCESS_VM_READ As Integer = 16
     Private Const TH32CS_SNAPPROCESS As Integer = &H2
+
+    Private Const SE_KERNEL_OBJECT As Integer = 6
+    Private Const OWNER_SECURITY_INFORMATION As Integer = 1
+    Private Const GROUP_SECURITY_INFORMATION As Integer = 2
+    Private Const PROCESS_READ_CONTROL As Integer = &H20000
+    Private Const TokenUser As Integer = 1
+    Private Const TokenGroups As Integer = 2
 
     Public Structure THREADENTRY32
         Dim dwSize As Integer
@@ -143,6 +155,18 @@ Module mdlProcess
         Dim ThreadsCount As Integer
         Dim ProcessorTime As String
     End Structure
+
+    Private Structure SID_AND_ATTRIBUTES
+        Dim Sid As Integer
+        Dim Attributes As Integer
+    End Structure
+
+    Private Structure TOKEN_GROUPS
+        Dim GroupCount As Integer
+        Dim Groups() As SID_AND_ATTRIBUTES
+    End Structure
+
+
 
     ' Suspend a process
     Public Function SuspendProcess(ByVal pid As Integer) As Integer
@@ -462,5 +486,57 @@ Module mdlProcess
 
     End Function
 #End Region
+
+    ' Get process username
+    Public Function GetUserName(ByVal pid As Integer) As String
+        Dim hToken As Integer
+        Dim hProcess As Integer
+        Dim cbBuff As Integer
+        Dim TG As TOKEN_GROUPS
+        Dim UserName As String
+        Dim DomainName As String
+        Dim UserNameLenght As Integer
+        Dim DomainNameLenght As Integer
+        Dim peUse As Integer
+        Dim ppsidGroup As Integer
+        Dim res As String = vbNullString
+
+        ReDim TG.Groups(500)
+
+        hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, pid)
+
+        If hProcess > 0 Then
+            If OpenProcessToken(hProcess, &H8, hToken) > 0 Then
+                CloseHandle(hProcess)
+                'GetTokenInformation(hToken, TokenUser, TG, 0, cbBuff)
+                If GetTokenInformation(hToken, TokenUser, TG, cbBuff, 0) > 0 Then
+                    CloseHandle(hToken)
+                    UserNameLenght = 255
+                    UserName = Space$(UserNameLenght)
+                    DomainName = UserName 'Space$(255)
+                    DomainNameLenght = UserNameLenght
+                    LookupAccountSid(vbNullString, TG.GroupCount, UserName, UserNameLenght, DomainName, DomainNameLenght, peUse)
+                    res = Left$(UserName, UserNameLenght)
+                End If
+            Else
+                CloseHandle(hProcess)
+                hProcess = OpenProcess(PROCESS_READ_CONTROL, 0, pid)
+                If hProcess > 0 Then
+                    If GetSecurityInfo(hProcess, SE_KERNEL_OBJECT, GROUP_SECURITY_INFORMATION, 0, ppsidGroup, 0, 0, 0) = 0 Then
+                        CloseHandle(hProcess)
+                        UserNameLenght = 255
+                        UserName = Space$(UserNameLenght)
+                        DomainName = UserName
+                        DomainNameLenght = UserNameLenght
+                        LookupAccountSid(vbNullString, ppsidGroup, UserName, UserNameLenght, DomainName, DomainNameLenght, peUse)
+                        res = Left$(UserName, UserNameLenght)
+                    End If
+                End If
+            End If
+            CloseHandle(hProcess)
+        End If
+
+        Return res
+    End Function
 
 End Module

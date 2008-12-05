@@ -24,12 +24,12 @@ Partial Class frmMain
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.panelActions1 = New System.Windows.Forms.Panel
         Me.pctInfo = New System.Windows.Forms.PictureBox
@@ -166,6 +166,7 @@ Partial Class frmMain
         Me.lnkServOpenDir = New System.Windows.Forms.LinkLabel
         Me.cmdSetStartType = New System.Windows.Forms.Button
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.cmdPauseService = New System.Windows.Forms.Button
         Me.cmdShutdownService = New System.Windows.Forms.Button
         Me.cmdResPauseService = New System.Windows.Forms.Button
         Me.cmdStartService = New System.Windows.Forms.Button
@@ -179,7 +180,13 @@ Partial Class frmMain
         Me.cmdAddJob = New System.Windows.Forms.Button
         Me.openDial = New System.Windows.Forms.OpenFileDialog
         Me.timerJobs = New System.Windows.Forms.Timer(Me.components)
-        Me.cmdPauseService = New System.Windows.Forms.Button
+        Me.OpaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnu10 = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnu30 = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnu50 = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnu70 = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnu90 = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnu100 = New System.Windows.Forms.ToolStripMenuItem
         Me.panelActions1.SuspendLayout()
         CType(Me.pctInfo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gpProc1.SuspendLayout()
@@ -356,11 +363,11 @@ Partial Class frmMain
         Me.lvProcess.ContextMenuStrip = Me.menuProc
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.FullRowSelect = True
-        ListViewGroup1.Header = "Processes"
-        ListViewGroup1.Name = "gpOther"
-        ListViewGroup2.Header = "Search result"
-        ListViewGroup2.Name = "gpSearch"
-        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup5.Header = "Processes"
+        ListViewGroup5.Name = "gpOther"
+        ListViewGroup6.Header = "Search result"
+        ListViewGroup6.Name = "gpSearch"
+        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvProcess.HideSelection = False
         Me.lvProcess.Location = New System.Drawing.Point(0, 0)
         Me.lvProcess.Name = "lvProcess"
@@ -566,11 +573,11 @@ Partial Class frmMain
         Me.lvServices.ContextMenuStrip = Me.menuService
         Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvServices.FullRowSelect = True
-        ListViewGroup3.Header = "Services"
-        ListViewGroup3.Name = "gpOther"
-        ListViewGroup4.Header = "Search result"
-        ListViewGroup4.Name = "gpSearch"
-        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup7.Header = "Services"
+        ListViewGroup7.Name = "gpOther"
+        ListViewGroup8.Header = "Search result"
+        ListViewGroup8.Name = "gpSearch"
+        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
         Me.lvServices.HideSelection = False
         Me.lvServices.Location = New System.Drawing.Point(0, 0)
         Me.lvServices.Name = "lvServices"
@@ -726,11 +733,11 @@ Partial Class frmMain
         Me.lvJobs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader4, Me.ColumnHeader5, Me.ColumnHeader6})
         Me.lvJobs.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvJobs.FullRowSelect = True
-        ListViewGroup5.Header = "Past jobs"
-        ListViewGroup5.Name = "gp1"
-        ListViewGroup6.Header = "Future jobs"
-        ListViewGroup6.Name = "gp2"
-        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
+        ListViewGroup1.Header = "Past jobs"
+        ListViewGroup1.Name = "gp1"
+        ListViewGroup2.Header = "Future jobs"
+        ListViewGroup2.Name = "gp2"
+        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvJobs.HideSelection = False
         Me.lvJobs.Location = New System.Drawing.Point(0, 0)
         Me.lvJobs.Name = "lvJobs"
@@ -1017,7 +1024,7 @@ Partial Class frmMain
         '
         'DisplayToolStripMenuItem
         '
-        Me.DisplayToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RefreshToolStripMenuItem, Me.AlwaysDisplayToolStripMenuItem})
+        Me.DisplayToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RefreshToolStripMenuItem, Me.AlwaysDisplayToolStripMenuItem, Me.OpaToolStripMenuItem})
         Me.DisplayToolStripMenuItem.Name = "DisplayToolStripMenuItem"
         Me.DisplayToolStripMenuItem.Size = New System.Drawing.Size(57, 20)
         Me.DisplayToolStripMenuItem.Text = "Display"
@@ -1027,13 +1034,13 @@ Partial Class frmMain
         Me.RefreshToolStripMenuItem.Name = "RefreshToolStripMenuItem"
         Me.RefreshToolStripMenuItem.ShortcutKeyDisplayString = "F5"
         Me.RefreshToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5
-        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
+        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.RefreshToolStripMenuItem.Text = "Refresh"
         '
         'AlwaysDisplayToolStripMenuItem
         '
         Me.AlwaysDisplayToolStripMenuItem.Name = "AlwaysDisplayToolStripMenuItem"
-        Me.AlwaysDisplayToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
+        Me.AlwaysDisplayToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.AlwaysDisplayToolStripMenuItem.Text = "Always display"
         '
         'OptionsToolStripMenuItem1
@@ -1046,7 +1053,7 @@ Partial Class frmMain
         'PreferencesToolStripMenuItem
         '
         Me.PreferencesToolStripMenuItem.Name = "PreferencesToolStripMenuItem"
-        Me.PreferencesToolStripMenuItem.Size = New System.Drawing.Size(135, 22)
+        Me.PreferencesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.PreferencesToolStripMenuItem.Text = "&Preferences"
         '
         'ToolStripMenuItem2
@@ -1059,7 +1066,7 @@ Partial Class frmMain
         'AboutToolStripMenuItem
         '
         Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
-        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(107, 22)
+        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.AboutToolStripMenuItem.Text = "&About"
         '
         'saveDial
@@ -1309,6 +1316,15 @@ Partial Class frmMain
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Service"
         '
+        'cmdPauseService
+        '
+        Me.cmdPauseService.Location = New System.Drawing.Point(95, 43)
+        Me.cmdPauseService.Name = "cmdPauseService"
+        Me.cmdPauseService.Size = New System.Drawing.Size(83, 21)
+        Me.cmdPauseService.TabIndex = 9
+        Me.cmdPauseService.Text = "Resume"
+        Me.cmdPauseService.UseVisualStyleBackColor = True
+        '
         'cmdShutdownService
         '
         Me.cmdShutdownService.Location = New System.Drawing.Point(6, 70)
@@ -1428,14 +1444,50 @@ Partial Class frmMain
         Me.timerJobs.Enabled = True
         Me.timerJobs.Interval = 90
         '
-        'cmdPauseService
+        'OpaToolStripMenuItem
         '
-        Me.cmdPauseService.Location = New System.Drawing.Point(95, 43)
-        Me.cmdPauseService.Name = "cmdPauseService"
-        Me.cmdPauseService.Size = New System.Drawing.Size(83, 21)
-        Me.cmdPauseService.TabIndex = 9
-        Me.cmdPauseService.Text = "Resume"
-        Me.cmdPauseService.UseVisualStyleBackColor = True
+        Me.OpaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnu10, Me.mnu30, Me.mnu50, Me.mnu70, Me.mnu90, Me.mnu100})
+        Me.OpaToolStripMenuItem.Name = "OpaToolStripMenuItem"
+        Me.OpaToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.OpaToolStripMenuItem.Text = "Opacity"
+        '
+        'mnu10
+        '
+        Me.mnu10.Name = "mnu10"
+        Me.mnu10.Size = New System.Drawing.Size(152, 22)
+        Me.mnu10.Text = "10%"
+        '
+        'mnu30
+        '
+        Me.mnu30.Name = "mnu30"
+        Me.mnu30.Size = New System.Drawing.Size(152, 22)
+        Me.mnu30.Text = "30%"
+        '
+        'mnu50
+        '
+        Me.mnu50.Name = "mnu50"
+        Me.mnu50.Size = New System.Drawing.Size(152, 22)
+        Me.mnu50.Text = "50%"
+        '
+        'mnu70
+        '
+        Me.mnu70.Name = "mnu70"
+        Me.mnu70.Size = New System.Drawing.Size(152, 22)
+        Me.mnu70.Text = "70%"
+        '
+        'mnu90
+        '
+        Me.mnu90.Name = "mnu90"
+        Me.mnu90.Size = New System.Drawing.Size(152, 22)
+        Me.mnu90.Text = "90%"
+        '
+        'mnu100
+        '
+        Me.mnu100.Checked = True
+        Me.mnu100.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.mnu100.Name = "mnu100"
+        Me.mnu100.Size = New System.Drawing.Size(152, 22)
+        Me.mnu100.Text = "100%"
         '
         'frmMain
         '
@@ -1662,5 +1714,12 @@ Partial Class frmMain
     Friend WithEvents OptionsToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PreferencesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents cmdPauseService As System.Windows.Forms.Button
+    Friend WithEvents OpaToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnu10 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnu30 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnu50 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnu70 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnu90 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnu100 As System.Windows.Forms.ToolStripMenuItem
 
 End Class

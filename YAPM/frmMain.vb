@@ -196,7 +196,7 @@ Public Class frmMain
 
                     If p.Pid > 4 Then
 
-                        lsub2.Text = "N/A"
+                        lsub2.Text = GetUserName(p.Pid)
 
                         ' Add icon
                         Try
@@ -216,7 +216,7 @@ Public Class frmMain
                         Catch ex As Exception
                             it.ImageKey = "noicon"
                             lsub7.Text = "N/A"
-                            it.ForeColor = Color.Gray
+                            it.ForeColor = Drawing.Color.Gray
                             lsub8.Text = "N/A"
                         End Try
 
@@ -874,7 +874,7 @@ Public Class frmMain
 
     Private Sub pctJobs_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles pctJobs.MouseEnter
         Me.pctJobs.BorderStyle = BorderStyle.None
-        Me.pctJobs.BackColor = Color.White
+        Me.pctJobs.BackColor = Drawing.Color.White
         Me.pctHelp.BorderStyle = BorderStyle.None
         Me.pctHelp.BackColor = Me.BackColor
         Me.pctService.BorderStyle = BorderStyle.None
@@ -897,13 +897,13 @@ Public Class frmMain
         Me.panelInfos.Visible = True
         Me.panelInfos2.Visible = False
         Me.lblProcess.Enabled = True
-        Me.lblProcess.ForeColor = Color.Red
+        Me.lblProcess.ForeColor = Drawing.Color.Red
         Me.lblServices.Enabled = False
-        Me.lblServices.ForeColor = Color.Black
+        Me.lblServices.ForeColor = Drawing.Color.Black
         Me.lblAddJobs.Enabled = False
-        Me.lblAddJobs.ForeColor = Color.Black
+        Me.lblAddJobs.ForeColor = Drawing.Color.Black
         Me.lblHelp.Enabled = False
-        Me.lblHelp.ForeColor = Color.Black
+        Me.lblHelp.ForeColor = Drawing.Color.Black
         Me.chkModules.Visible = True
         Me.panelMenu.Visible = True
     End Sub
@@ -922,13 +922,13 @@ Public Class frmMain
         Me.panelInfos.Visible = False
         Me.panelInfos2.Visible = True
         Me.lblProcess.Enabled = False
-        Me.lblProcess.ForeColor = Color.Black
+        Me.lblProcess.ForeColor = Drawing.Color.Black
         Me.lblServices.Enabled = True
-        Me.lblServices.ForeColor = Color.Red
+        Me.lblServices.ForeColor = Drawing.Color.Red
         Me.lblAddJobs.Enabled = False
-        Me.lblAddJobs.ForeColor = Color.Black
+        Me.lblAddJobs.ForeColor = Drawing.Color.Black
         Me.lblHelp.Enabled = False
-        Me.lblHelp.ForeColor = Color.Black
+        Me.lblHelp.ForeColor = Drawing.Color.Black
         Me.chkModules.Visible = False
         Me.panelMenu.Visible = True
     End Sub
@@ -946,13 +946,13 @@ Public Class frmMain
         Me.panelActions3.Visible = True
         Me.panelActions4.Visible = False
         Me.lblProcess.Enabled = False
-        Me.lblProcess.ForeColor = Color.Black
+        Me.lblProcess.ForeColor = Drawing.Color.Black
         Me.lblServices.Enabled = False
-        Me.lblServices.ForeColor = Color.Black
+        Me.lblServices.ForeColor = Drawing.Color.Black
         Me.lblAddJobs.Enabled = True
-        Me.lblAddJobs.ForeColor = Color.Red
+        Me.lblAddJobs.ForeColor = Drawing.Color.Red
         Me.lblHelp.Enabled = False
-        Me.lblHelp.ForeColor = Color.Black
+        Me.lblHelp.ForeColor = Drawing.Color.Black
         Me.panelMenu.Visible = False
     End Sub
 
@@ -969,13 +969,13 @@ Public Class frmMain
         Me.panelActions3.Visible = False
         Me.panelActions4.Visible = True
         Me.lblProcess.Enabled = False
-        Me.lblProcess.ForeColor = Color.Black
+        Me.lblProcess.ForeColor = Drawing.Color.Black
         Me.lblServices.Enabled = False
-        Me.lblServices.ForeColor = Color.Black
+        Me.lblServices.ForeColor = Drawing.Color.Black
         Me.lblAddJobs.Enabled = False
-        Me.lblAddJobs.ForeColor = Color.Black
+        Me.lblAddJobs.ForeColor = Drawing.Color.Black
         Me.lblHelp.Enabled = True
-        Me.lblHelp.ForeColor = Color.Red
+        Me.lblHelp.ForeColor = Drawing.Color.Red
         Me.panelMenu.Visible = False
     End Sub
 
@@ -985,7 +985,7 @@ Public Class frmMain
         Me.pctHelp.BorderStyle = BorderStyle.None
         Me.pctHelp.BackColor = Me.BackColor
         Me.pctService.BorderStyle = BorderStyle.None
-        Me.pctService.BackColor = Color.White
+        Me.pctService.BackColor = Drawing.Color.White
         Me.pctProcess.BorderStyle = BorderStyle.None
         Me.pctProcess.BackColor = Me.BackColor
     End Sub
@@ -998,14 +998,14 @@ Public Class frmMain
         Me.pctService.BorderStyle = BorderStyle.None
         Me.pctService.BackColor = Me.BackColor
         Me.pctProcess.BorderStyle = BorderStyle.None
-        Me.pctProcess.BackColor = Color.White
+        Me.pctProcess.BackColor = Drawing.Color.White
     End Sub
 
     Private Sub pctHelp_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles pctHelp.MouseEnter
         Me.pctJobs.BorderStyle = BorderStyle.None
         Me.pctJobs.BackColor = Me.BackColor
         Me.pctHelp.BorderStyle = BorderStyle.None
-        Me.pctHelp.BackColor = Color.White
+        Me.pctHelp.BackColor = Drawing.Color.White
         Me.pctService.BorderStyle = BorderStyle.None
         Me.pctService.BackColor = Me.BackColor
         Me.pctProcess.BorderStyle = BorderStyle.None
@@ -1281,7 +1281,7 @@ Public Class frmMain
                         .txtMsg2.Height = 25
                         .txtMsg2.Text = s
                         .txtMsg2.ReadOnly = False
-                        .txtMsg2.BackColor = Color.White
+                        .txtMsg2.BackColor = Drawing.Color.White
                         .Text = "Show file properties box"
                         .Height = 150
                         .ShowDialog()
@@ -1313,7 +1313,7 @@ Public Class frmMain
                         .txtMsg2.Height = 25
                         .txtMsg2.Text = s
                         .txtMsg2.ReadOnly = False
-                        .txtMsg2.BackColor = Color.White
+                        .txtMsg2.BackColor = Drawing.Color.White
                         .Text = "Open directory"
                         .Height = 150
                         .ShowDialog()
@@ -1672,5 +1672,65 @@ Public Class frmMain
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
+    End Sub
+
+    Private Sub mnu100_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnu100.Click
+        Me.Opacity = 1
+        Me.mnu10.Checked = False
+        Me.mnu30.Checked = False
+        Me.mnu50.Checked = False
+        Me.mnu70.Checked = False
+        Me.mnu90.Checked = False
+        Me.mnu100.Checked = True
+    End Sub
+
+    Private Sub mnu90_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnu90.Click
+        Me.Opacity = 0.9
+        Me.mnu10.Checked = False
+        Me.mnu30.Checked = False
+        Me.mnu50.Checked = False
+        Me.mnu70.Checked = False
+        Me.mnu90.Checked = True
+        Me.mnu100.Checked = False
+    End Sub
+
+    Private Sub mnu70_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnu70.Click
+        Me.Opacity = 0.7
+        Me.mnu10.Checked = False
+        Me.mnu30.Checked = False
+        Me.mnu50.Checked = False
+        Me.mnu70.Checked = True
+        Me.mnu90.Checked = False
+        Me.mnu100.Checked = False
+    End Sub
+
+    Private Sub mnu50_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnu50.Click
+        Me.Opacity = 0.5
+        Me.mnu10.Checked = False
+        Me.mnu30.Checked = False
+        Me.mnu50.Checked = True
+        Me.mnu70.Checked = False
+        Me.mnu90.Checked = False
+        Me.mnu100.Checked = False
+    End Sub
+
+    Private Sub mnu30_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnu30.Click
+        Me.Opacity = 0.3
+        Me.mnu10.Checked = False
+        Me.mnu30.Checked = True
+        Me.mnu50.Checked = False
+        Me.mnu70.Checked = False
+        Me.mnu90.Checked = False
+        Me.mnu100.Checked = False
+    End Sub
+
+    Private Sub mnu10_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnu10.Click
+        Me.Opacity = 0.1
+        Me.mnu10.Checked = True
+        Me.mnu30.Checked = False
+        Me.mnu50.Checked = False
+        Me.mnu70.Checked = False
+        Me.mnu90.Checked = False
+        Me.mnu100.Checked = False
     End Sub
 End Class
