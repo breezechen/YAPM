@@ -24,12 +24,12 @@ Partial Class frmMain
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain = New System.Windows.Forms.Panel
         Me.lvProcess = New System.Windows.Forms.ListView
@@ -103,6 +103,8 @@ Partial Class frmMain
         Me.panelInfos = New System.Windows.Forms.Panel
         Me.lblProcessPath = New System.Windows.Forms.TextBox
         Me.cmdInfosToClipB = New System.Windows.Forms.Button
+        Me.pctSmallIcon = New System.Windows.Forms.PictureBox
+        Me.pctBigIcon = New System.Windows.Forms.PictureBox
         Me.Tray = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.menuTooltip = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem
@@ -122,25 +124,8 @@ Partial Class frmMain
         Me.Ribbon = New System.Windows.Forms.Ribbon
         Me.ProcessTab = New System.Windows.Forms.RibbonTab
         Me.RBProcessDisplay = New System.Windows.Forms.RibbonPanel
-        Me.RBProcessActions = New System.Windows.Forms.RibbonPanel
-        Me.RBProcessPriority = New System.Windows.Forms.RibbonPanel
-        Me.RBProcessExecutable = New System.Windows.Forms.RibbonPanel
-        Me.ServiceTab = New System.Windows.Forms.RibbonTab
-        Me.RBServiceDisplay = New System.Windows.Forms.RibbonPanel
-        Me.RBServiceAction = New System.Windows.Forms.RibbonPanel
-        Me.RBServiceStartType = New System.Windows.Forms.RibbonPanel
-        Me.RBServiceFile = New System.Windows.Forms.RibbonPanel
-        Me.JobsTab = New System.Windows.Forms.RibbonTab
-        Me.RBAdd = New System.Windows.Forms.RibbonPanel
-        Me.RBJobsOpenSave = New System.Windows.Forms.RibbonPanel
-        Me.ReportTab = New System.Windows.Forms.RibbonTab
-        Me.RBSaveReport = New System.Windows.Forms.RibbonPanel
-        Me.RBOthers = New System.Windows.Forms.RibbonPanel
-        Me.HelpTab = New System.Windows.Forms.RibbonTab
-        Me.RBHelpAction = New System.Windows.Forms.RibbonPanel
-        Me.RBHelpWeb = New System.Windows.Forms.RibbonPanel
-        Me.cmdTray = New System.Windows.Forms.Button
         Me.butProcessRerfresh = New System.Windows.Forms.RibbonButton
+        Me.RBProcessActions = New System.Windows.Forms.RibbonPanel
         Me.butNewProcess = New System.Windows.Forms.RibbonButton
         Me.butKillProcess = New System.Windows.Forms.RibbonButton
         Me.butStopProcess = New System.Windows.Forms.RibbonButton
@@ -148,6 +133,7 @@ Partial Class frmMain
         Me.butProcessOtherActions = New System.Windows.Forms.RibbonButton
         Me.butProcessAffinity = New System.Windows.Forms.RibbonButton
         Me.butProcessLimitCPU = New System.Windows.Forms.RibbonButton
+        Me.RBProcessPriority = New System.Windows.Forms.RibbonPanel
         Me.butProcessPriority = New System.Windows.Forms.RibbonButton
         Me.butIdle = New System.Windows.Forms.RibbonButton
         Me.butBelowNormal = New System.Windows.Forms.RibbonButton
@@ -155,34 +141,50 @@ Partial Class frmMain
         Me.butAboveNormal = New System.Windows.Forms.RibbonButton
         Me.butHigh = New System.Windows.Forms.RibbonButton
         Me.butRealTime = New System.Windows.Forms.RibbonButton
+        Me.RBProcessExecutable = New System.Windows.Forms.RibbonPanel
         Me.butProcessFileProp = New System.Windows.Forms.RibbonButton
         Me.butProcessDirOpen = New System.Windows.Forms.RibbonButton
+        Me.ServiceTab = New System.Windows.Forms.RibbonTab
+        Me.RBServiceDisplay = New System.Windows.Forms.RibbonPanel
         Me.butServiceRefresh = New System.Windows.Forms.RibbonButton
+        Me.RBServiceAction = New System.Windows.Forms.RibbonPanel
         Me.butStopService = New System.Windows.Forms.RibbonButton
         Me.butStartService = New System.Windows.Forms.RibbonButton
         Me.butPauseService = New System.Windows.Forms.RibbonButton
         Me.butResumeService = New System.Windows.Forms.RibbonButton
         Me.butShutdownService = New System.Windows.Forms.RibbonButton
+        Me.RBServiceStartType = New System.Windows.Forms.RibbonPanel
         Me.butServiceStartType = New System.Windows.Forms.RibbonButton
         Me.butAutomaticStart = New System.Windows.Forms.RibbonButton
         Me.butOnDemandStart = New System.Windows.Forms.RibbonButton
         Me.butDisabledStart = New System.Windows.Forms.RibbonButton
+        Me.RBServiceFile = New System.Windows.Forms.RibbonPanel
         Me.butServiceFileProp = New System.Windows.Forms.RibbonButton
         Me.butServiceOpenDir = New System.Windows.Forms.RibbonButton
+        Me.JobsTab = New System.Windows.Forms.RibbonTab
+        Me.RBAdd = New System.Windows.Forms.RibbonPanel
         Me.butAddJob = New System.Windows.Forms.RibbonButton
+        Me.RBJobsOpenSave = New System.Windows.Forms.RibbonPanel
         Me.butOpenJobList = New System.Windows.Forms.RibbonButton
         Me.butSaveJobList = New System.Windows.Forms.RibbonButton
+        Me.ReportTab = New System.Windows.Forms.RibbonTab
+        Me.RBSaveReport = New System.Windows.Forms.RibbonPanel
         Me.butSaveProcessReport = New System.Windows.Forms.RibbonButton
         Me.butSaveServiceReport = New System.Windows.Forms.RibbonButton
+        Me.RBOthers = New System.Windows.Forms.RibbonPanel
         Me.butTakeFullPower = New System.Windows.Forms.RibbonButton
         Me.butOptions = New System.Windows.Forms.RibbonButton
+        Me.RBDisplay = New System.Windows.Forms.RibbonPanel
+        Me.butTopMost = New System.Windows.Forms.RibbonButton
+        Me.HelpTab = New System.Windows.Forms.RibbonTab
+        Me.RBHelpAction = New System.Windows.Forms.RibbonPanel
         Me.butDonate = New System.Windows.Forms.RibbonButton
         Me.butAbout = New System.Windows.Forms.RibbonButton
+        Me.RBHelpWeb = New System.Windows.Forms.RibbonPanel
         Me.butWebite = New System.Windows.Forms.RibbonButton
         Me.butProjectPage = New System.Windows.Forms.RibbonButton
         Me.butDownload = New System.Windows.Forms.RibbonButton
-        Me.pctSmallIcon = New System.Windows.Forms.PictureBox
-        Me.pctBigIcon = New System.Windows.Forms.PictureBox
+        Me.cmdTray = New System.Windows.Forms.Button
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
@@ -194,10 +196,10 @@ Partial Class frmMain
         Me.menuCopyPctbig.SuspendLayout()
         Me.menuCopyPctSmall.SuspendLayout()
         Me.panelInfos.SuspendLayout()
-        Me.menuTooltip.SuspendLayout()
-        Me.panelInfos2.SuspendLayout()
         CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.menuTooltip.SuspendLayout()
+        Me.panelInfos2.SuspendLayout()
         Me.SuspendLayout()
         '
         'imgMain
@@ -222,11 +224,11 @@ Partial Class frmMain
         Me.lvProcess.ContextMenuStrip = Me.menuProc
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.FullRowSelect = True
-        ListViewGroup5.Header = "Processes"
-        ListViewGroup5.Name = "gpOther"
-        ListViewGroup6.Header = "Search result"
-        ListViewGroup6.Name = "gpSearch"
-        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
+        ListViewGroup1.Header = "Processes"
+        ListViewGroup1.Name = "gpOther"
+        ListViewGroup2.Header = "Search result"
+        ListViewGroup2.Name = "gpSearch"
+        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvProcess.HideSelection = False
         Me.lvProcess.Location = New System.Drawing.Point(0, 0)
         Me.lvProcess.Name = "lvProcess"
@@ -432,11 +434,11 @@ Partial Class frmMain
         Me.lvServices.ContextMenuStrip = Me.menuService
         Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvServices.FullRowSelect = True
-        ListViewGroup7.Header = "Services"
-        ListViewGroup7.Name = "gpOther"
-        ListViewGroup8.Header = "Search result"
-        ListViewGroup8.Name = "gpSearch"
-        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
+        ListViewGroup3.Header = "Services"
+        ListViewGroup3.Name = "gpOther"
+        ListViewGroup4.Header = "Search result"
+        ListViewGroup4.Name = "gpSearch"
+        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvServices.HideSelection = False
         Me.lvServices.Location = New System.Drawing.Point(0, 0)
         Me.lvServices.Name = "lvServices"
@@ -592,11 +594,11 @@ Partial Class frmMain
         Me.lvJobs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader4, Me.ColumnHeader5, Me.ColumnHeader6})
         Me.lvJobs.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvJobs.FullRowSelect = True
-        ListViewGroup1.Header = "Past jobs"
-        ListViewGroup1.Name = "gp1"
-        ListViewGroup2.Header = "Future jobs"
-        ListViewGroup2.Name = "gp2"
-        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup5.Header = "Past jobs"
+        ListViewGroup5.Name = "gp1"
+        ListViewGroup6.Header = "Future jobs"
+        ListViewGroup6.Name = "gp2"
+        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvJobs.HideSelection = False
         Me.lvJobs.Location = New System.Drawing.Point(0, 0)
         Me.lvJobs.Name = "lvJobs"
@@ -716,6 +718,24 @@ Partial Class frmMain
         Me.cmdInfosToClipB.TabIndex = 7
         Me.cmdInfosToClipB.Text = "Copy to clipboard"
         Me.cmdInfosToClipB.UseVisualStyleBackColor = True
+        '
+        'pctSmallIcon
+        '
+        Me.pctSmallIcon.ContextMenuStrip = Me.menuCopyPctSmall
+        Me.pctSmallIcon.Location = New System.Drawing.Point(503, 19)
+        Me.pctSmallIcon.Name = "pctSmallIcon"
+        Me.pctSmallIcon.Size = New System.Drawing.Size(16, 16)
+        Me.pctSmallIcon.TabIndex = 2
+        Me.pctSmallIcon.TabStop = False
+        '
+        'pctBigIcon
+        '
+        Me.pctBigIcon.ContextMenuStrip = Me.menuCopyPctbig
+        Me.pctBigIcon.Location = New System.Drawing.Point(525, 3)
+        Me.pctBigIcon.Name = "pctBigIcon"
+        Me.pctBigIcon.Size = New System.Drawing.Size(32, 32)
+        Me.pctBigIcon.TabIndex = 1
+        Me.pctBigIcon.TabStop = False
         '
         'Tray
         '
@@ -880,166 +900,6 @@ Partial Class frmMain
         Me.RBProcessDisplay.Tag = Nothing
         Me.RBProcessDisplay.Text = "Display"
         '
-        'RBProcessActions
-        '
-        Me.RBProcessActions.ButtonMoreEnabled = False
-        Me.RBProcessActions.ButtonMoreVisible = False
-        Me.RBProcessActions.Items.Add(Me.butNewProcess)
-        Me.RBProcessActions.Items.Add(Me.butKillProcess)
-        Me.RBProcessActions.Items.Add(Me.butStopProcess)
-        Me.RBProcessActions.Items.Add(Me.butResumeProcess)
-        Me.RBProcessActions.Items.Add(Me.butProcessOtherActions)
-        Me.RBProcessActions.Tag = Nothing
-        Me.RBProcessActions.Text = "Process actions"
-        '
-        'RBProcessPriority
-        '
-        Me.RBProcessPriority.ButtonMoreEnabled = False
-        Me.RBProcessPriority.ButtonMoreVisible = False
-        Me.RBProcessPriority.Items.Add(Me.butProcessPriority)
-        Me.RBProcessPriority.Tag = Nothing
-        Me.RBProcessPriority.Text = "Priority"
-        '
-        'RBProcessExecutable
-        '
-        Me.RBProcessExecutable.ButtonMoreEnabled = False
-        Me.RBProcessExecutable.ButtonMoreVisible = False
-        Me.RBProcessExecutable.Items.Add(Me.butProcessFileProp)
-        Me.RBProcessExecutable.Items.Add(Me.butProcessDirOpen)
-        Me.RBProcessExecutable.Tag = Nothing
-        Me.RBProcessExecutable.Text = "Executable"
-        '
-        'ServiceTab
-        '
-        Me.ServiceTab.Panels.Add(Me.RBServiceDisplay)
-        Me.ServiceTab.Panels.Add(Me.RBServiceAction)
-        Me.ServiceTab.Panels.Add(Me.RBServiceStartType)
-        Me.ServiceTab.Panels.Add(Me.RBServiceFile)
-        Me.ServiceTab.Tag = Nothing
-        Me.ServiceTab.Text = "Services"
-        '
-        'RBServiceDisplay
-        '
-        Me.RBServiceDisplay.ButtonMoreEnabled = False
-        Me.RBServiceDisplay.ButtonMoreVisible = False
-        Me.RBServiceDisplay.Items.Add(Me.butServiceRefresh)
-        Me.RBServiceDisplay.Tag = Nothing
-        Me.RBServiceDisplay.Text = "Display"
-        '
-        'RBServiceAction
-        '
-        Me.RBServiceAction.ButtonMoreEnabled = False
-        Me.RBServiceAction.ButtonMoreVisible = False
-        Me.RBServiceAction.Items.Add(Me.butStopService)
-        Me.RBServiceAction.Items.Add(Me.butStartService)
-        Me.RBServiceAction.Items.Add(Me.butPauseService)
-        Me.RBServiceAction.Items.Add(Me.butResumeService)
-        Me.RBServiceAction.Items.Add(Me.butShutdownService)
-        Me.RBServiceAction.Tag = Nothing
-        Me.RBServiceAction.Text = "Service actions"
-        '
-        'RBServiceStartType
-        '
-        Me.RBServiceStartType.ButtonMoreEnabled = False
-        Me.RBServiceStartType.ButtonMoreVisible = False
-        Me.RBServiceStartType.Items.Add(Me.butServiceStartType)
-        Me.RBServiceStartType.Tag = Nothing
-        Me.RBServiceStartType.Text = "Start type"
-        '
-        'RBServiceFile
-        '
-        Me.RBServiceFile.ButtonMoreEnabled = False
-        Me.RBServiceFile.ButtonMoreVisible = False
-        Me.RBServiceFile.Items.Add(Me.butServiceFileProp)
-        Me.RBServiceFile.Items.Add(Me.butServiceOpenDir)
-        Me.RBServiceFile.Tag = Nothing
-        Me.RBServiceFile.Text = "Executable"
-        '
-        'JobsTab
-        '
-        Me.JobsTab.Panels.Add(Me.RBAdd)
-        Me.JobsTab.Panels.Add(Me.RBJobsOpenSave)
-        Me.JobsTab.Tag = Nothing
-        Me.JobsTab.Text = "Jobs"
-        '
-        'RBAdd
-        '
-        Me.RBAdd.ButtonMoreEnabled = False
-        Me.RBAdd.ButtonMoreVisible = False
-        Me.RBAdd.Items.Add(Me.butAddJob)
-        Me.RBAdd.Tag = Nothing
-        Me.RBAdd.Text = "Job management"
-        '
-        'RBJobsOpenSave
-        '
-        Me.RBJobsOpenSave.ButtonMoreEnabled = False
-        Me.RBJobsOpenSave.ButtonMoreVisible = False
-        Me.RBJobsOpenSave.Items.Add(Me.butOpenJobList)
-        Me.RBJobsOpenSave.Items.Add(Me.butSaveJobList)
-        Me.RBJobsOpenSave.Tag = Nothing
-        Me.RBJobsOpenSave.Text = "Job list"
-        '
-        'ReportTab
-        '
-        Me.ReportTab.Panels.Add(Me.RBSaveReport)
-        Me.ReportTab.Panels.Add(Me.RBOthers)
-        Me.ReportTab.Tag = Nothing
-        Me.ReportTab.Text = "Misc"
-        '
-        'RBSaveReport
-        '
-        Me.RBSaveReport.ButtonMoreEnabled = False
-        Me.RBSaveReport.ButtonMoreVisible = False
-        Me.RBSaveReport.Items.Add(Me.butSaveProcessReport)
-        Me.RBSaveReport.Items.Add(Me.butSaveServiceReport)
-        Me.RBSaveReport.Tag = Nothing
-        Me.RBSaveReport.Text = "Save report"
-        '
-        'RBOthers
-        '
-        Me.RBOthers.ButtonMoreEnabled = False
-        Me.RBOthers.ButtonMoreVisible = False
-        Me.RBOthers.Items.Add(Me.butTakeFullPower)
-        Me.RBOthers.Items.Add(Me.butOptions)
-        Me.RBOthers.Tag = Nothing
-        Me.RBOthers.Text = "Other"
-        '
-        'HelpTab
-        '
-        Me.HelpTab.Panels.Add(Me.RBHelpAction)
-        Me.HelpTab.Panels.Add(Me.RBHelpWeb)
-        Me.HelpTab.Tag = Nothing
-        Me.HelpTab.Text = "Help"
-        '
-        'RBHelpAction
-        '
-        Me.RBHelpAction.ButtonMoreEnabled = False
-        Me.RBHelpAction.ButtonMoreVisible = False
-        Me.RBHelpAction.Items.Add(Me.butDonate)
-        Me.RBHelpAction.Items.Add(Me.butAbout)
-        Me.RBHelpAction.Tag = Nothing
-        Me.RBHelpAction.Text = "Actions"
-        '
-        'RBHelpWeb
-        '
-        Me.RBHelpWeb.ButtonMoreEnabled = False
-        Me.RBHelpWeb.ButtonMoreVisible = False
-        Me.RBHelpWeb.Items.Add(Me.butWebite)
-        Me.RBHelpWeb.Items.Add(Me.butProjectPage)
-        Me.RBHelpWeb.Items.Add(Me.butDownload)
-        Me.RBHelpWeb.Tag = Nothing
-        Me.RBHelpWeb.Text = "YAPM on Internet"
-        '
-        'cmdTray
-        '
-        Me.cmdTray.Font = New System.Drawing.Font("Tahoma", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdTray.Image = Global.YAPM.My.Resources.Resources.down
-        Me.cmdTray.Location = New System.Drawing.Point(5, 2)
-        Me.cmdTray.Name = "cmdTray"
-        Me.cmdTray.Size = New System.Drawing.Size(38, 20)
-        Me.cmdTray.TabIndex = 45
-        Me.cmdTray.UseVisualStyleBackColor = True
-        '
         'butProcessRerfresh
         '
         Me.butProcessRerfresh.AltKey = Nothing
@@ -1052,6 +912,18 @@ Partial Class frmMain
         Me.butProcessRerfresh.ToolTip = Nothing
         Me.butProcessRerfresh.ToolTipImage = Nothing
         Me.butProcessRerfresh.ToolTipTitle = Nothing
+        '
+        'RBProcessActions
+        '
+        Me.RBProcessActions.ButtonMoreEnabled = False
+        Me.RBProcessActions.ButtonMoreVisible = False
+        Me.RBProcessActions.Items.Add(Me.butNewProcess)
+        Me.RBProcessActions.Items.Add(Me.butKillProcess)
+        Me.RBProcessActions.Items.Add(Me.butStopProcess)
+        Me.RBProcessActions.Items.Add(Me.butResumeProcess)
+        Me.RBProcessActions.Items.Add(Me.butProcessOtherActions)
+        Me.RBProcessActions.Tag = Nothing
+        Me.RBProcessActions.Text = "Process actions"
         '
         'butNewProcess
         '
@@ -1145,6 +1017,14 @@ Partial Class frmMain
         Me.butProcessLimitCPU.ToolTip = Nothing
         Me.butProcessLimitCPU.ToolTipImage = Nothing
         Me.butProcessLimitCPU.ToolTipTitle = Nothing
+        '
+        'RBProcessPriority
+        '
+        Me.RBProcessPriority.ButtonMoreEnabled = False
+        Me.RBProcessPriority.ButtonMoreVisible = False
+        Me.RBProcessPriority.Items.Add(Me.butProcessPriority)
+        Me.RBProcessPriority.Tag = Nothing
+        Me.RBProcessPriority.Text = "Priority"
         '
         'butProcessPriority
         '
@@ -1243,6 +1123,15 @@ Partial Class frmMain
         Me.butRealTime.ToolTipImage = Nothing
         Me.butRealTime.ToolTipTitle = Nothing
         '
+        'RBProcessExecutable
+        '
+        Me.RBProcessExecutable.ButtonMoreEnabled = False
+        Me.RBProcessExecutable.ButtonMoreVisible = False
+        Me.RBProcessExecutable.Items.Add(Me.butProcessFileProp)
+        Me.RBProcessExecutable.Items.Add(Me.butProcessDirOpen)
+        Me.RBProcessExecutable.Tag = Nothing
+        Me.RBProcessExecutable.Text = "Executable"
+        '
         'butProcessFileProp
         '
         Me.butProcessFileProp.AltKey = Nothing
@@ -1269,6 +1158,23 @@ Partial Class frmMain
         Me.butProcessDirOpen.ToolTipImage = Nothing
         Me.butProcessDirOpen.ToolTipTitle = Nothing
         '
+        'ServiceTab
+        '
+        Me.ServiceTab.Panels.Add(Me.RBServiceDisplay)
+        Me.ServiceTab.Panels.Add(Me.RBServiceAction)
+        Me.ServiceTab.Panels.Add(Me.RBServiceStartType)
+        Me.ServiceTab.Panels.Add(Me.RBServiceFile)
+        Me.ServiceTab.Tag = Nothing
+        Me.ServiceTab.Text = "Services"
+        '
+        'RBServiceDisplay
+        '
+        Me.RBServiceDisplay.ButtonMoreEnabled = False
+        Me.RBServiceDisplay.ButtonMoreVisible = False
+        Me.RBServiceDisplay.Items.Add(Me.butServiceRefresh)
+        Me.RBServiceDisplay.Tag = Nothing
+        Me.RBServiceDisplay.Text = "Display"
+        '
         'butServiceRefresh
         '
         Me.butServiceRefresh.AltKey = Nothing
@@ -1281,6 +1187,18 @@ Partial Class frmMain
         Me.butServiceRefresh.ToolTip = Nothing
         Me.butServiceRefresh.ToolTipImage = Nothing
         Me.butServiceRefresh.ToolTipTitle = Nothing
+        '
+        'RBServiceAction
+        '
+        Me.RBServiceAction.ButtonMoreEnabled = False
+        Me.RBServiceAction.ButtonMoreVisible = False
+        Me.RBServiceAction.Items.Add(Me.butStopService)
+        Me.RBServiceAction.Items.Add(Me.butStartService)
+        Me.RBServiceAction.Items.Add(Me.butPauseService)
+        Me.RBServiceAction.Items.Add(Me.butResumeService)
+        Me.RBServiceAction.Items.Add(Me.butShutdownService)
+        Me.RBServiceAction.Tag = Nothing
+        Me.RBServiceAction.Text = "Service actions"
         '
         'butStopService
         '
@@ -1347,6 +1265,14 @@ Partial Class frmMain
         Me.butShutdownService.ToolTipImage = Nothing
         Me.butShutdownService.ToolTipTitle = Nothing
         '
+        'RBServiceStartType
+        '
+        Me.RBServiceStartType.ButtonMoreEnabled = False
+        Me.RBServiceStartType.ButtonMoreVisible = False
+        Me.RBServiceStartType.Items.Add(Me.butServiceStartType)
+        Me.RBServiceStartType.Tag = Nothing
+        Me.RBServiceStartType.Text = "Start type"
+        '
         'butServiceStartType
         '
         Me.butServiceStartType.AltKey = Nothing
@@ -1402,6 +1328,15 @@ Partial Class frmMain
         Me.butDisabledStart.ToolTipImage = Nothing
         Me.butDisabledStart.ToolTipTitle = Nothing
         '
+        'RBServiceFile
+        '
+        Me.RBServiceFile.ButtonMoreEnabled = False
+        Me.RBServiceFile.ButtonMoreVisible = False
+        Me.RBServiceFile.Items.Add(Me.butServiceFileProp)
+        Me.RBServiceFile.Items.Add(Me.butServiceOpenDir)
+        Me.RBServiceFile.Tag = Nothing
+        Me.RBServiceFile.Text = "Executable"
+        '
         'butServiceFileProp
         '
         Me.butServiceFileProp.AltKey = Nothing
@@ -1428,6 +1363,21 @@ Partial Class frmMain
         Me.butServiceOpenDir.ToolTipImage = Nothing
         Me.butServiceOpenDir.ToolTipTitle = Nothing
         '
+        'JobsTab
+        '
+        Me.JobsTab.Panels.Add(Me.RBAdd)
+        Me.JobsTab.Panels.Add(Me.RBJobsOpenSave)
+        Me.JobsTab.Tag = Nothing
+        Me.JobsTab.Text = "Jobs"
+        '
+        'RBAdd
+        '
+        Me.RBAdd.ButtonMoreEnabled = False
+        Me.RBAdd.ButtonMoreVisible = False
+        Me.RBAdd.Items.Add(Me.butAddJob)
+        Me.RBAdd.Tag = Nothing
+        Me.RBAdd.Text = "Job management"
+        '
         'butAddJob
         '
         Me.butAddJob.AltKey = Nothing
@@ -1440,6 +1390,15 @@ Partial Class frmMain
         Me.butAddJob.ToolTip = Nothing
         Me.butAddJob.ToolTipImage = Nothing
         Me.butAddJob.ToolTipTitle = Nothing
+        '
+        'RBJobsOpenSave
+        '
+        Me.RBJobsOpenSave.ButtonMoreEnabled = False
+        Me.RBJobsOpenSave.ButtonMoreVisible = False
+        Me.RBJobsOpenSave.Items.Add(Me.butOpenJobList)
+        Me.RBJobsOpenSave.Items.Add(Me.butSaveJobList)
+        Me.RBJobsOpenSave.Tag = Nothing
+        Me.RBJobsOpenSave.Text = "Job list"
         '
         'butOpenJobList
         '
@@ -1467,6 +1426,23 @@ Partial Class frmMain
         Me.butSaveJobList.ToolTipImage = Nothing
         Me.butSaveJobList.ToolTipTitle = Nothing
         '
+        'ReportTab
+        '
+        Me.ReportTab.Panels.Add(Me.RBSaveReport)
+        Me.ReportTab.Panels.Add(Me.RBOthers)
+        Me.ReportTab.Panels.Add(Me.RBDisplay)
+        Me.ReportTab.Tag = Nothing
+        Me.ReportTab.Text = "Misc"
+        '
+        'RBSaveReport
+        '
+        Me.RBSaveReport.ButtonMoreEnabled = False
+        Me.RBSaveReport.ButtonMoreVisible = False
+        Me.RBSaveReport.Items.Add(Me.butSaveProcessReport)
+        Me.RBSaveReport.Items.Add(Me.butSaveServiceReport)
+        Me.RBSaveReport.Tag = Nothing
+        Me.RBSaveReport.Text = "Save report"
+        '
         'butSaveProcessReport
         '
         Me.butSaveProcessReport.AltKey = Nothing
@@ -1492,6 +1468,15 @@ Partial Class frmMain
         Me.butSaveServiceReport.ToolTip = Nothing
         Me.butSaveServiceReport.ToolTipImage = Nothing
         Me.butSaveServiceReport.ToolTipTitle = Nothing
+        '
+        'RBOthers
+        '
+        Me.RBOthers.ButtonMoreEnabled = False
+        Me.RBOthers.ButtonMoreVisible = False
+        Me.RBOthers.Items.Add(Me.butTakeFullPower)
+        Me.RBOthers.Items.Add(Me.butOptions)
+        Me.RBOthers.Tag = Nothing
+        Me.RBOthers.Text = "Other"
         '
         'butTakeFullPower
         '
@@ -1519,6 +1504,43 @@ Partial Class frmMain
         Me.butOptions.ToolTipImage = Nothing
         Me.butOptions.ToolTipTitle = Nothing
         '
+        'RBDisplay
+        '
+        Me.RBDisplay.ButtonMoreEnabled = False
+        Me.RBDisplay.ButtonMoreVisible = False
+        Me.RBDisplay.Items.Add(Me.butTopMost)
+        Me.RBDisplay.Tag = Nothing
+        Me.RBDisplay.Text = "Display settings"
+        '
+        'butTopMost
+        '
+        Me.butTopMost.AltKey = Nothing
+        Me.butTopMost.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butTopMost.Image = CType(resources.GetObject("butTopMost.Image"), System.Drawing.Image)
+        Me.butTopMost.SmallImage = CType(resources.GetObject("butTopMost.SmallImage"), System.Drawing.Image)
+        Me.butTopMost.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butTopMost.Tag = Nothing
+        Me.butTopMost.Text = "Always display"
+        Me.butTopMost.ToolTip = Nothing
+        Me.butTopMost.ToolTipImage = Nothing
+        Me.butTopMost.ToolTipTitle = Nothing
+        '
+        'HelpTab
+        '
+        Me.HelpTab.Panels.Add(Me.RBHelpAction)
+        Me.HelpTab.Panels.Add(Me.RBHelpWeb)
+        Me.HelpTab.Tag = Nothing
+        Me.HelpTab.Text = "Help"
+        '
+        'RBHelpAction
+        '
+        Me.RBHelpAction.ButtonMoreEnabled = False
+        Me.RBHelpAction.ButtonMoreVisible = False
+        Me.RBHelpAction.Items.Add(Me.butDonate)
+        Me.RBHelpAction.Items.Add(Me.butAbout)
+        Me.RBHelpAction.Tag = Nothing
+        Me.RBHelpAction.Text = "Actions"
+        '
         'butDonate
         '
         Me.butDonate.AltKey = Nothing
@@ -1544,6 +1566,16 @@ Partial Class frmMain
         Me.butAbout.ToolTip = Nothing
         Me.butAbout.ToolTipImage = Nothing
         Me.butAbout.ToolTipTitle = Nothing
+        '
+        'RBHelpWeb
+        '
+        Me.RBHelpWeb.ButtonMoreEnabled = False
+        Me.RBHelpWeb.ButtonMoreVisible = False
+        Me.RBHelpWeb.Items.Add(Me.butWebite)
+        Me.RBHelpWeb.Items.Add(Me.butProjectPage)
+        Me.RBHelpWeb.Items.Add(Me.butDownload)
+        Me.RBHelpWeb.Tag = Nothing
+        Me.RBHelpWeb.Text = "YAPM on Internet"
         '
         'butWebite
         '
@@ -1584,23 +1616,15 @@ Partial Class frmMain
         Me.butDownload.ToolTipImage = Nothing
         Me.butDownload.ToolTipTitle = Nothing
         '
-        'pctSmallIcon
+        'cmdTray
         '
-        Me.pctSmallIcon.ContextMenuStrip = Me.menuCopyPctSmall
-        Me.pctSmallIcon.Location = New System.Drawing.Point(503, 19)
-        Me.pctSmallIcon.Name = "pctSmallIcon"
-        Me.pctSmallIcon.Size = New System.Drawing.Size(16, 16)
-        Me.pctSmallIcon.TabIndex = 2
-        Me.pctSmallIcon.TabStop = False
-        '
-        'pctBigIcon
-        '
-        Me.pctBigIcon.ContextMenuStrip = Me.menuCopyPctbig
-        Me.pctBigIcon.Location = New System.Drawing.Point(525, 3)
-        Me.pctBigIcon.Name = "pctBigIcon"
-        Me.pctBigIcon.Size = New System.Drawing.Size(32, 32)
-        Me.pctBigIcon.TabIndex = 1
-        Me.pctBigIcon.TabStop = False
+        Me.cmdTray.Font = New System.Drawing.Font("Tahoma", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdTray.Image = Global.YAPM.My.Resources.Resources.down
+        Me.cmdTray.Location = New System.Drawing.Point(5, 2)
+        Me.cmdTray.Name = "cmdTray"
+        Me.cmdTray.Size = New System.Drawing.Size(38, 20)
+        Me.cmdTray.TabIndex = 45
+        Me.cmdTray.UseVisualStyleBackColor = True
         '
         'RibbonButton1
         '
@@ -1649,11 +1673,11 @@ Partial Class frmMain
         Me.menuCopyPctSmall.ResumeLayout(False)
         Me.panelInfos.ResumeLayout(False)
         Me.panelInfos.PerformLayout()
+        CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).EndInit()
         Me.menuTooltip.ResumeLayout(False)
         Me.panelInfos2.ResumeLayout(False)
         Me.panelInfos2.PerformLayout()
-        CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1812,5 +1836,7 @@ Partial Class frmMain
     Friend WithEvents butTakeFullPower As System.Windows.Forms.RibbonButton
     Friend WithEvents butOptions As System.Windows.Forms.RibbonButton
     Friend WithEvents cmdTray As System.Windows.Forms.Button
+    Friend WithEvents RBDisplay As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butTopMost As System.Windows.Forms.RibbonButton
 
 End Class

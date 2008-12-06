@@ -1574,4 +1574,18 @@ Public Class frmMain
     Private Sub cmdTray_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdTray.Click
         Me.Hide()
     End Sub
+
+    Private Sub butNewProcess_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butNewProcess.Click
+        mdlFile.ShowRunBox(Me.Handle.ToInt32, "Start a new process", "Enter the path of the process you want to start.")
+    End Sub
+
+    Private Sub butDownload_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butDownload.Click
+        mdlFile.ShellOpenFile("http://sourceforge.net/project/showfiles.php?group_id=244697")
+    End Sub
+
+    Private Sub butTopMost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butTopMost.Click
+        Me.butTopMost.Checked = Not (Me.butTopMost.Checked)
+        Me.bAlwaysDisplay = Me.butTopMost.Checked
+        Me.TopMost = Me.bAlwaysDisplay
+    End Sub
 End Class

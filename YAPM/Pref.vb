@@ -99,6 +99,7 @@ Public Class Pref
             frmMain.TopMost = topmost
             frmMain.chkModules.Checked = startChkModules
             frmMain.bAlwaysDisplay = topmost
+            frmMain.butTopMost.Checked = topmost
         End If
         If startHidden Then
             frmMain.WindowState = FormWindowState.Minimized
