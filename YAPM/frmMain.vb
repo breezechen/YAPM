@@ -567,6 +567,15 @@ Public Class frmMain
         Me.rtb2.Height = Me.panelInfos2.Height - 45
         Me.rtb2.Width = Me.panelInfos2.Width - 157
 
+        ' Economize CPU :-)
+        If Me.WindowState = FormWindowState.Minimized Then
+            Me.timerProcess.Enabled = False
+            Me.timerServices.Enabled = False
+        Else
+            Me.timerProcess.Enabled = True
+            Me.timerServices.Enabled = True
+        End If
+
     End Sub
 
     Private Sub timerServices_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerServices.Tick
@@ -1587,5 +1596,9 @@ Public Class frmMain
         Me.butTopMost.Checked = Not (Me.butTopMost.Checked)
         Me.bAlwaysDisplay = Me.butTopMost.Checked
         Me.TopMost = Me.bAlwaysDisplay
+    End Sub
+
+    Private Sub chkModules_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkModules.CheckedChanged
+
     End Sub
 End Class
