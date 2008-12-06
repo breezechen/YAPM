@@ -5,6 +5,7 @@ Public Class frmMain
     Private bProcessHover As Boolean = True
     Private bServiceHover As Boolean = False
     Private bEnableJobs As Boolean = True
+    Public bAlwaysDisplay As Boolean = False
     Public Pref As New Pref
 
     ' Not a good way to configure paths...
@@ -309,8 +310,7 @@ Public Class frmMain
                 Try
                     Dim proc As Process = Process.GetProcessById(CInt(it.SubItems(1).Text))
 
-                    Me.cbPriority.Text = proc.PriorityClass.ToString
-
+                    
                     ' Description
                     Dim s As String = ""
                     s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
@@ -423,17 +423,7 @@ Public Class frmMain
         refreshProcessList()
         refreshServiceList()
 
-
-        Call Me.pctProcess_Click(Nothing, Nothing)
-
-
         With Me
-            .panelActions1.BackColor = .BackColor
-            .panelActions2.BackColor = .BackColor
-            .panelActions3.BackColor = .BackColor
-            .panelActions4.BackColor = .BackColor
-            .pctInfo.BackColor = .BackColor
-            .gpProc1.BackColor = .BackColor
             .lblServicePath.BackColor = .BackColor
             .lblProcessPath.BackColor = .BackColor
         End With
@@ -452,34 +442,9 @@ Public Class frmMain
         SetToolTip(Me.cmdCopyServiceToCp, "Copy services informations to clipboard. Use left click to copy as text, right click to copy as rtf (preserve text style).")
         SetToolTip(Me.lblProcessPath, "Path of the main executable.")
         SetToolTip(Me.lblServicePath, "Path of the main executable of the service.")
-        SetToolTip(Me.cbPriority, "Change selected processes priority.")
-        SetToolTip(Me.cmdSetPriority, "Set priority.")
-        SetToolTip(Me.cmdKill, "Kill selected processes.")
-        SetToolTip(Me.cmdPause, "Suspend selected processes.")
-        SetToolTip(Me.cmdResume, "Resume selected processes.")
-        SetToolTip(Me.cmdAffinity, "Change affinity of selected processes.")
-        SetToolTip(Me.cmdTray, "Hide main form (double click on icon on tray to restore).")
         SetToolTip(Me.tv, "Selected service depends on these services.")
         SetToolTip(Me.tv2, "This services depend on selected service.")
-        SetToolTip(Me.cmdAbout, "About YAPM.")
-        SetToolTip(Me.lnkWebsite, "Show YAPM website.")
-        SetToolTip(Me.lnkProjectPage, "Show YAPM project page on sourceforge.net.")
-        SetToolTip(Me.lnkOpenDir, "Open directory of selected processes.")
-        SetToolTip(Me.lnkProp, "Open property form of selected processes.")
-        SetToolTip(Me.lnkServOpenDir, "Open directory of selected services.")
-        SetToolTip(Me.lnkServProp, "Open property form of selected services.")
-        SetToolTip(Me.cmdDonate, "Open webpage to make a donation to me.")
-        SetToolTip(Me.cmdAddJob, "Add a new job to list.")
-        SetToolTip(Me.cmdOpenJobs, "Open a job list.")
-        SetToolTip(Me.cmdSaveJobs, "Save a job list.")
-        SetToolTip(Me.chkJob, "Enable jobs processing.")
-        SetToolTip(Me.cmdStopService, "Stop selected services.")
-        SetToolTip(Me.cmdStartService, "Start selected services.")
-        SetToolTip(Me.cmdResPauseService, "Resume selected services (if resumables).")
-        SetToolTip(Me.cmdPauseService, "Pause selected services (if pausables).")
-        SetToolTip(Me.cmdShutdownService, "Shutdown selected services.")
-        SetToolTip(Me.cbStartType, "Type of start for selected services.")
-        SetToolTip(Me.cmdSetStartType, "Set selectes start type to selected services.")
+        SetToolTip(Me.cmdTray, "Hide YAPM (double click on icon on tray to show main form).")
 
 
         ' Load help file
@@ -540,30 +505,25 @@ Public Class frmMain
             Next
             Me.lblResCount.Text = CStr(lvServices.Groups(1).Items.Count)
         End If
+        Me.lblResCount.Text = Me.lblResCount.Text & " result(s)"
     End Sub
 
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
-        Me.panelMain.Left = 212
-        Me.panelMain.Top = 61
-        Me.panelMain2.Left = 212
-        Me.panelMain2.Top = 61
-        Me.panelMain3.Left = 212
-        Me.panelMain3.Top = 61
-        Me.panelMain4.Left = 212
-        Me.panelMain4.Top = 61
-        Me.panelActions1.Left = 3
-        Me.panelActions1.Top = 293
-        Me.panelActions2.Left = 3
-        Me.panelActions2.Top = 293
-        Me.panelActions3.Left = 3
-        Me.panelActions3.Top = 293
-        Me.panelActions4.Left = 3
-        Me.panelActions4.Top = 293
-        Me.panelInfos.Left = 208
+        Me.panelMain.Left = 5
+        Me.panelMain.Top = 145
+        Me.panelMain2.Left = 5
+        Me.panelMain2.Top = 145
+        Me.panelMain3.Left = 5
+        Me.panelMain3.Top = 120
+        Me.panelMain4.Left = 5
+        Me.panelMain4.Top = 120
+        Me.panelInfos.Left = 5
         Me.panelInfos.Top = 307
-        Me.panelInfos2.Left = 208
+        Me.panelInfos2.Left = 5
         Me.panelInfos2.Top = 307
-        Me.cmdTray.Top = Me.Height - 69
+
+        Me.panelMenu.Top = 117
+        Me.panelMenu.Left = 5
 
         ' Help resizement
         Me.panelMain4.Height = Me.Height - panelMain4.Top - 41
@@ -574,9 +534,9 @@ Public Class frmMain
         Me.panelMain3.Width = Me.panelMain4.Width - 2
 
         ' Process
-        Dim i As Integer = CInt((Me.Height - 103) / 2)
+        Dim i As Integer = CInt((Me.Height - 250) / 2)
         Me.panelInfos.Height = CInt(IIf(i < 340, i, 340))
-        Me.panelMain.Height = Me.Height - Me.panelInfos.Height - 101
+        Me.panelMain.Height = Me.Height - Me.panelInfos.Height - 187
         Me.panelInfos.Top = Me.panelMain.Top + Me.panelMain.Height + 3
         Me.panelMain.Width = Me.Width - Me.panelMain.Left - 21
         Me.panelInfos.Width = Me.panelMain.Width
@@ -590,8 +550,8 @@ Public Class frmMain
         Me.lblProcessName.Width = Me.panelInfos.Width - 175
 
         ' Services
-        Me.panelInfos2.Height = CInt(IIf(i < 200, i, 200))
-        Me.panelMain2.Height = Me.Height - Me.panelInfos2.Height - 101
+        Me.panelInfos2.Height = CInt(IIf(i < 210, i, 210))
+        Me.panelMain2.Height = Me.Height - Me.panelInfos2.Height - 187
         Me.panelInfos2.Top = Me.panelMain2.Top + Me.panelMain2.Height + 3
         Me.panelMain2.Width = Me.panelMain.Width
         Me.panelInfos2.Width = Me.panelInfos.Width
@@ -607,69 +567,6 @@ Public Class frmMain
         Me.rtb2.Height = Me.panelInfos2.Height - 45
         Me.rtb2.Width = Me.panelInfos2.Width - 157
 
-    End Sub
-
-    Private Sub cmdKill_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdKill.Click
-        ' Kill selected processes
-        Dim it As ListViewItem
-        For Each it In Me.lvProcess.SelectedItems
-            If it.SubItems(7).Text <> "N/A" Then _
-            Process.GetProcessById(CInt(it.SubItems(1).Text)).Kill()
-        Next
-    End Sub
-
-    Private Sub cmdResume_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdResume.Click
-        ' Resume selected processes
-        Dim it As ListViewItem
-        For Each it In Me.lvProcess.SelectedItems
-            If it.SubItems(7).Text <> "N/A" Then _
-            ResumeProcess(CInt(it.SubItems(1).Text))
-        Next
-    End Sub
-
-    Private Sub cmdPause_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdPause.Click
-        ' Stop selected processes
-        Dim it As ListViewItem
-        For Each it In Me.lvProcess.SelectedItems
-            If it.SubItems(7).Text <> "N/A" Then _
-            SuspendProcess(CInt(it.SubItems(1).Text))
-        Next
-    End Sub
-
-    Private Sub cmdAffinity_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdAffinity.Click
-        ' Choose affinity for selected processes
-        Dim it As ListViewItem
-        For Each it In Me.lvProcess.SelectedItems
-            'INSERT CODE HERE
-            'If it.SubItems(7).Text <> "N/A" Then _
-            'http://www.vbfrance.com/codes/AFFINITE-PROCESSUS-THREADS_42365.aspx
-        Next
-    End Sub
-
-    Private Sub cmdSetPriority_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSetPriority.Click
-        ' Set priority to selected processes
-        Dim it As ListViewItem
-        For Each it In Me.lvProcess.SelectedItems
-            Dim p As ProcessPriorityClass
-            Select Case cbPriority.SelectedIndex
-                Case -1
-                    Exit Sub
-                Case 0
-                    p = ProcessPriorityClass.Idle
-                Case 1
-                    p = ProcessPriorityClass.BelowNormal
-                Case 2
-                    p = ProcessPriorityClass.Normal
-                Case 3
-                    p = ProcessPriorityClass.AboveNormal
-                Case 4
-                    p = ProcessPriorityClass.High
-                Case 5
-                    p = ProcessPriorityClass.RealTime
-            End Select
-            If it.SubItems(7).Text <> "N/A" Then _
-            SetProcessPriority(CInt(it.SubItems(1).Text), p)
-        Next
     End Sub
 
     Private Sub timerServices_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerServices.Tick
@@ -714,7 +611,6 @@ Public Class frmMain
             Try
                 'Dim proc As Process = Process.GetProcessById(CInt(it.SubItems(1).Text))
 
-                Me.cbStartType.Text = it.SubItems(3).Text
                 Me.lblServiceName.Text = "Service name : " & it.Text
                 Me.lblServicePath.Text = "Service path : " & it.SubItems(4).Text
 
@@ -845,186 +741,13 @@ Public Class frmMain
         End Try
     End Sub
 
-    Private Sub cmdTray_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdTray.Click
-        Me.Hide()
-    End Sub
-
     Private Sub Tray_MouseDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Tray.MouseDoubleClick
         Me.Show()
         Me.WindowState = FormWindowState.Normal
     End Sub
 
-    Private Sub QuitToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles QuitToolStripMenuItem.Click
+    Private Sub QuitToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Me.Close()
-    End Sub
-
-    Private Sub AboutToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AboutToolStripMenuItem.Click
-        frmAbout.ShowDialog()
-    End Sub
-
-    Private Sub OptionsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OptionsToolStripMenuItem.Click
-        saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
-        saveDial.Title = "Save report"
-        saveDial.ShowDialog()
-        Dim s As String = saveDial.FileName
-        If Len(s) > 0 Then
-            MsgBox(s)
-        End If
-    End Sub
-
-    Private Sub pctJobs_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles pctJobs.MouseEnter
-        Me.pctJobs.BorderStyle = BorderStyle.None
-        Me.pctJobs.BackColor = Drawing.Color.White
-        Me.pctHelp.BorderStyle = BorderStyle.None
-        Me.pctHelp.BackColor = Me.BackColor
-        Me.pctService.BorderStyle = BorderStyle.None
-        Me.pctService.BackColor = Me.BackColor
-        Me.pctProcess.BorderStyle = BorderStyle.None
-        Me.pctProcess.BackColor = Me.BackColor
-    End Sub
-
-    Private Sub pctProcess_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pctProcess.Click
-        Me.bProcessHover = True
-        Me.bServiceHover = False
-        Me.panelMain.Visible = True
-        Me.panelMain2.Visible = False
-        Me.panelMain3.Visible = False
-        Me.panelMain4.Visible = False
-        Me.panelActions1.Visible = True
-        Me.panelActions2.Visible = False
-        Me.panelActions3.Visible = False
-        Me.panelActions4.Visible = False
-        Me.panelInfos.Visible = True
-        Me.panelInfos2.Visible = False
-        Me.lblProcess.Enabled = True
-        Me.lblProcess.ForeColor = Drawing.Color.Red
-        Me.lblServices.Enabled = False
-        Me.lblServices.ForeColor = Drawing.Color.Black
-        Me.lblAddJobs.Enabled = False
-        Me.lblAddJobs.ForeColor = Drawing.Color.Black
-        Me.lblHelp.Enabled = False
-        Me.lblHelp.ForeColor = Drawing.Color.Black
-        Me.chkModules.Visible = True
-        Me.panelMenu.Visible = True
-    End Sub
-
-    Private Sub pctService_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pctService.Click
-        Me.bProcessHover = False
-        Me.bServiceHover = True
-        Me.panelMain.Visible = False
-        Me.panelMain2.Visible = True
-        Me.panelMain3.Visible = False
-        Me.panelMain4.Visible = False
-        Me.panelActions1.Visible = False
-        Me.panelActions2.Visible = True
-        Me.panelActions3.Visible = False
-        Me.panelActions4.Visible = False
-        Me.panelInfos.Visible = False
-        Me.panelInfos2.Visible = True
-        Me.lblProcess.Enabled = False
-        Me.lblProcess.ForeColor = Drawing.Color.Black
-        Me.lblServices.Enabled = True
-        Me.lblServices.ForeColor = Drawing.Color.Red
-        Me.lblAddJobs.Enabled = False
-        Me.lblAddJobs.ForeColor = Drawing.Color.Black
-        Me.lblHelp.Enabled = False
-        Me.lblHelp.ForeColor = Drawing.Color.Black
-        Me.chkModules.Visible = False
-        Me.panelMenu.Visible = True
-    End Sub
-
-    Private Sub pctJobs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pctJobs.Click
-        Me.bProcessHover = False
-        Me.bServiceHover = False
-        Me.panelMain.Visible = False
-        Me.panelMain2.Visible = False
-        Me.panelMain3.Visible = True
-        Me.panelMain4.Visible = False
-        Me.panelMain3.BringToFront()
-        Me.panelActions1.Visible = False
-        Me.panelActions2.Visible = False
-        Me.panelActions3.Visible = True
-        Me.panelActions4.Visible = False
-        Me.lblProcess.Enabled = False
-        Me.lblProcess.ForeColor = Drawing.Color.Black
-        Me.lblServices.Enabled = False
-        Me.lblServices.ForeColor = Drawing.Color.Black
-        Me.lblAddJobs.Enabled = True
-        Me.lblAddJobs.ForeColor = Drawing.Color.Red
-        Me.lblHelp.Enabled = False
-        Me.lblHelp.ForeColor = Drawing.Color.Black
-        Me.panelMenu.Visible = False
-    End Sub
-
-    Private Sub pctHelp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pctHelp.Click
-        Me.bProcessHover = False
-        Me.bServiceHover = False
-        Me.panelMain.Visible = False
-        Me.panelMain2.Visible = False
-        Me.panelMain3.Visible = False
-        Me.panelMain4.Visible = True
-        Me.panelMain4.BringToFront()
-        Me.panelActions1.Visible = False
-        Me.panelActions2.Visible = False
-        Me.panelActions3.Visible = False
-        Me.panelActions4.Visible = True
-        Me.lblProcess.Enabled = False
-        Me.lblProcess.ForeColor = Drawing.Color.Black
-        Me.lblServices.Enabled = False
-        Me.lblServices.ForeColor = Drawing.Color.Black
-        Me.lblAddJobs.Enabled = False
-        Me.lblAddJobs.ForeColor = Drawing.Color.Black
-        Me.lblHelp.Enabled = True
-        Me.lblHelp.ForeColor = Drawing.Color.Red
-        Me.panelMenu.Visible = False
-    End Sub
-
-    Private Sub pctService_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles pctService.MouseEnter
-        Me.pctJobs.BorderStyle = BorderStyle.None
-        Me.pctJobs.BackColor = Me.BackColor
-        Me.pctHelp.BorderStyle = BorderStyle.None
-        Me.pctHelp.BackColor = Me.BackColor
-        Me.pctService.BorderStyle = BorderStyle.None
-        Me.pctService.BackColor = Drawing.Color.White
-        Me.pctProcess.BorderStyle = BorderStyle.None
-        Me.pctProcess.BackColor = Me.BackColor
-    End Sub
-
-    Private Sub pctProcess_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles pctProcess.MouseEnter
-        Me.pctJobs.BorderStyle = BorderStyle.None
-        Me.pctJobs.BackColor = Me.BackColor
-        Me.pctHelp.BorderStyle = BorderStyle.None
-        Me.pctHelp.BackColor = Me.BackColor
-        Me.pctService.BorderStyle = BorderStyle.None
-        Me.pctService.BackColor = Me.BackColor
-        Me.pctProcess.BorderStyle = BorderStyle.None
-        Me.pctProcess.BackColor = Drawing.Color.White
-    End Sub
-
-    Private Sub pctHelp_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles pctHelp.MouseEnter
-        Me.pctJobs.BorderStyle = BorderStyle.None
-        Me.pctJobs.BackColor = Me.BackColor
-        Me.pctHelp.BorderStyle = BorderStyle.None
-        Me.pctHelp.BackColor = Drawing.Color.White
-        Me.pctService.BorderStyle = BorderStyle.None
-        Me.pctService.BackColor = Me.BackColor
-        Me.pctProcess.BorderStyle = BorderStyle.None
-        Me.pctProcess.BackColor = Me.BackColor
-    End Sub
-
-    Private Sub ExecuteToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExecuteToolStripMenuItem.Click
-        '
-    End Sub
-
-    Private Sub TakeFullPowerToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TakeFullPowerToolStripMenuItem.Click
-        If TakeFullPowerToolStripMenuItem.Checked = False Then
-            Me.TakeFullPowerToolStripMenuItem.Checked = True
-            Me.Visible = False
-            Call mdlPrivileges.SetDebuPrivilege()
-            Me.lvProcess.Items.Clear()
-            refreshProcessList()
-            Me.Visible = True
-        End If
     End Sub
 
     Private Sub ToolStripMenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem3.Click
@@ -1033,7 +756,7 @@ Public Class frmMain
     End Sub
 
     Private Sub ToolStripMenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem4.Click
-        Me.AboutToolStripMenuItem_Click(Nothing, Nothing)
+        Me.butAbout_Click(Nothing, Nothing)
     End Sub
 
     Private Sub ToolStripMenuItem5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem5.Click
@@ -1219,48 +942,11 @@ Public Class frmMain
     Private Sub chkModules_VisibleChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkModules.VisibleChanged
         If Me.chkModules.Visible Then
             Me.txtSearch.Left = 157
-            Me.txtSearch.Width = 362
+            Me.txtSearch.Width = 433
         Else
             Me.txtSearch.Left = 4
-            Me.txtSearch.Width = 515
+            Me.txtSearch.Width = 586
         End If
-    End Sub
-
-    Private Sub lnkProp_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkProp.LinkClicked
-        ' File properties for selected processes
-        Dim it As ListViewItem
-        For Each it In Me.lvProcess.SelectedItems
-            If IO.File.Exists(it.SubItems(7).Text) Then
-                If it.SubItems(7).Text <> "N/A" Then _
-                ShowFileProperty(it.SubItems(7).Text)
-            End If
-        Next
-    End Sub
-
-    Private Sub lnkOpenDir_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkOpenDir.LinkClicked
-        ' Open directory of selected processes
-        Dim it As ListViewItem
-        For Each it In Me.lvProcess.SelectedItems
-            If it.SubItems(7).Text <> "N/A" Then _
-            OpenDirectory(it.SubItems(7).Text)
-        Next
-    End Sub
-
-    Private Sub cmdAbout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdAbout.Click
-        frmAbout.ShowDialog()
-    End Sub
-
-    Private Sub lnkProjectPage_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkProjectPage.LinkClicked
-        mdlFile.ShellOpenFile("http://sourceforge.net/projects/yaprocmon")
-    End Sub
-
-    Private Sub lnkWebsite_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkWebsite.LinkClicked
-        mdlFile.ShellOpenFile("http://yaprocmon.sourceforge.net/")
-    End Sub
-
-    Private Sub cmdDonate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdDonate.Click
-        MsgBox("You will be redirected on my sourceforge.net donation page.", MsgBoxStyle.Information, "Donation procedure")
-        mdlFile.ShellOpenFile("https://sourceforge.net/donate/index.php?user_id=1590933#donate")
     End Sub
 
     Private Sub ToolStripMenuItem20_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem20.Click
@@ -1452,111 +1138,6 @@ Public Class frmMain
         tv.SelectedImageKey = tv.SelectedNode.ImageKey
     End Sub
 
-    Private Sub cmdStopService_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdStopService.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvServices.SelectedItems
-            Try
-                mdlService.StopService(it.Text)
-            Catch ex As Exception
-                '
-            End Try
-        Next
-        Call Me.refreshServiceList()
-        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
-    End Sub
-
-    Private Sub cmdStartService_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdStartService.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvServices.SelectedItems
-            Try
-                mdlService.StartService(it.Text)
-            Catch ex As Exception
-                '
-            End Try
-        Next
-        Call Me.refreshServiceList()
-        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
-    End Sub
-
-    Private Sub cmdResPauseService_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdResPauseService.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvServices.SelectedItems
-            Try
-                mdlService.ResumeService(it.Text)
-            Catch ex As Exception
-                '
-            End Try
-        Next
-        Call Me.refreshServiceList()
-        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
-    End Sub
-
-    Private Sub cmdShutdownService_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdShutdownService.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvServices.SelectedItems
-            Try
-                mdlService.ShutDownService(it.Text)
-            Catch ex As Exception
-                '
-            End Try
-        Next
-        Call Me.refreshServiceList()
-        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
-    End Sub
-
-    Private Sub cmdSetStartType_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSetStartType.Click
-        Dim it As ListViewItem
-        Dim t As ServiceStartType
-        Select Case Me.cbStartType.Text
-            Case "Auto Start"
-                t = ServiceStartType.SERVICE_AUTO_START
-            Case "Demand Start"
-                t = ServiceStartType.SERVICE_DEMAND_START
-            Case "Disabled"
-                t = ServiceStartType.SERVICE_DISABLED
-        End Select
-
-        For Each it In Me.lvServices.SelectedItems
-            Try
-                mdlService.SetServiceStartType(it.Text, t)
-            Catch ex As Exception
-                '
-            End Try
-        Next
-        Call Me.refreshServiceList()
-        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
-    End Sub
-
-    Private Sub lnkServProp_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkServProp.LinkClicked
-        Call ToolStripMenuItem20_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub lnkServOpenDir_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkServOpenDir.LinkClicked
-        Call ToolStripMenuItem21_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub cmdOpenJobs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdOpenJobs.Click
-        ' Here we open a Job file
-        openDial.Filter = "Job File (*.job)|*.job"
-        openDial.Title = "Open job file"
-        openDial.ShowDialog()
-        Dim s As String = openDial.FileName
-        If Len(s) > 0 Then
-            MsgBox(s)
-        End If
-    End Sub
-
-    Private Sub cmdSaveJobs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSaveJobs.Click
-        ' Save job list
-        Me.saveDial.Filter = "Job File (*.job)|*.job"
-        openDial.Title = "Save job file"
-        saveDial.ShowDialog()
-        Dim s As String = saveDial.FileName
-        If Len(s) > 0 Then
-            MsgBox(s)
-        End If
-    End Sub
-
     Private Sub timerJobs_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerJobs.Tick
         ' Job processing
         Dim it As ListViewItem
@@ -1624,29 +1205,6 @@ Public Class frmMain
         End Select
     End Sub
 
-    Private Sub chkJob_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkJob.CheckedChanged
-        bEnableJobs = chkJob.Checked
-        timerJobs.Enabled = bEnableJobs
-    End Sub
-
-    Private Sub AlwaysDisplayToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AlwaysDisplayToolStripMenuItem.Click
-        Me.AlwaysDisplayToolStripMenuItem.Checked = Not (Me.AlwaysDisplayToolStripMenuItem.Checked)
-        Me.TopMost = Me.AlwaysDisplayToolStripMenuItem.Checked
-    End Sub
-
-    Private Sub RefreshToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshToolStripMenuItem.Click
-        If bProcessHover Then
-            Me.refreshProcessList()
-        ElseIf bServiceHover Then
-            Me.refreshServiceList()
-        End If
-    End Sub
-
-    ' Preferences
-    Private Sub PreferencesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PreferencesToolStripMenuItem.Click
-        frmPreferences.ShowDialog()
-    End Sub
-
     Private Sub frmMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         Static first As Boolean = True
         If first Then
@@ -1661,7 +1219,244 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub cmdPauseService_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdPauseService.Click
+    Private Sub butKill_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butKillProcess.Click
+        ' Kill selected processes
+        Dim it As ListViewItem
+        For Each it In Me.lvProcess.SelectedItems
+            If it.SubItems(7).Text <> "N/A" Then _
+            Process.GetProcessById(CInt(it.SubItems(1).Text)).Kill()
+        Next
+    End Sub
+
+    Private Sub butSaveProcessReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butSaveProcessReport.Click
+        saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
+        saveDial.Title = "Save report"
+        saveDial.ShowDialog()
+        Dim s As String = saveDial.FileName
+        If Len(s) > 0 Then
+            MsgBox(s)
+        End If
+    End Sub
+
+    Private Sub butSaveServiceReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butSaveServiceReport.Click
+        saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
+        saveDial.Title = "Save report"
+        saveDial.ShowDialog()
+        Dim s As String = saveDial.FileName
+        If Len(s) > 0 Then
+            MsgBox(s)
+        End If
+    End Sub
+
+    Private Sub butAbout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butAbout.Click
+        frmAbout.ShowDialog()
+    End Sub
+
+    Private Sub butOptions_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butOptions.Click
+        frmPreferences.ShowDialog()
+    End Sub
+
+    Private Sub butProcessRerfresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessRerfresh.Click
+        Me.refreshProcessList()
+    End Sub
+
+    Private Sub butServiceRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butServiceRefresh.Click
+        Me.refreshServiceList()
+    End Sub
+
+    Private Sub butTakeFullPower_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butTakeFullPower.Click
+        Me.Visible = False
+        Call mdlPrivileges.SetDebuPrivilege()
+        Me.lvProcess.Items.Clear()
+        refreshProcessList()
+        Me.Visible = True
+    End Sub
+
+    Private Sub butOpenJobList_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butOpenJobList.Click
+        ' Here we open a Job file
+        openDial.Filter = "Job File (*.job)|*.job"
+        openDial.Title = "Open job file"
+        openDial.ShowDialog()
+        Dim s As String = openDial.FileName
+        If Len(s) > 0 Then
+            MsgBox(s)
+        End If
+    End Sub
+
+    Private Sub butSaveJobList_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butSaveJobList.Click
+        ' Save job list
+        Me.saveDial.Filter = "Job File (*.job)|*.job"
+        openDial.Title = "Save job file"
+        saveDial.ShowDialog()
+        Dim s As String = saveDial.FileName
+        If Len(s) > 0 Then
+            MsgBox(s)
+        End If
+    End Sub
+
+    Private Sub butDonate_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butDonate.Click
+        MsgBox("You will be redirected on my sourceforge.net donation page.", MsgBoxStyle.Information, "Donation procedure")
+        mdlFile.ShellOpenFile("https://sourceforge.net/donate/index.php?user_id=1590933#donate")
+    End Sub
+
+    Private Sub butWebite_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWebite.Click
+        mdlFile.ShellOpenFile("http://yaprocmon.sourceforge.net/")
+    End Sub
+
+    Private Sub butProjectPage_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProjectPage.Click
+        mdlFile.ShellOpenFile("http://sourceforge.net/projects/yaprocmon")
+    End Sub
+
+    Private Sub butProcessFileProp_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessFileProp.Click
+        ' File properties for selected processes
+        Dim it As ListViewItem
+        For Each it In Me.lvProcess.SelectedItems
+            If IO.File.Exists(it.SubItems(7).Text) Then
+                If it.SubItems(7).Text <> "N/A" Then _
+                ShowFileProperty(it.SubItems(7).Text)
+            End If
+        Next
+    End Sub
+
+    Private Sub butProcessDirOpen_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessDirOpen.Click
+        ' Open directory of selected processes
+        Dim it As ListViewItem
+        For Each it In Me.lvProcess.SelectedItems
+            If it.SubItems(7).Text <> "N/A" Then _
+            OpenDirectory(it.SubItems(7).Text)
+        Next
+    End Sub
+
+    Private Sub butServiceFileProp_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butServiceFileProp.Click
+        Call ToolStripMenuItem20_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butServiceOpenDir_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butServiceOpenDir.Click
+        Call ToolStripMenuItem21_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butStopProcess_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butStopProcess.Click
+        ' Stop selected processes
+        Dim it As ListViewItem
+        For Each it In Me.lvProcess.SelectedItems
+            If it.SubItems(7).Text <> "N/A" Then _
+            SuspendProcess(CInt(it.SubItems(1).Text))
+        Next
+    End Sub
+
+    Private Sub butProcessAffinity_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessAffinity.Click
+        ' Choose affinity for selected processes
+        Dim it As ListViewItem
+        For Each it In Me.lvProcess.SelectedItems
+            'INSERT CODE HERE
+            'If it.SubItems(7).Text <> "N/A" Then _
+            'http://www.vbfrance.com/codes/AFFINITE-PROCESSUS-THREADS_42365.aspx
+        Next
+    End Sub
+
+    Private Sub butResumeProcess_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butResumeProcess.Click
+        ' Resume selected processes
+        Dim it As ListViewItem
+        For Each it In Me.lvProcess.SelectedItems
+            If it.SubItems(7).Text <> "N/A" Then _
+            ResumeProcess(CInt(it.SubItems(1).Text))
+        Next
+    End Sub
+
+    Private Sub butIdle_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butIdle.Click
+        ' Set priority to selected processes
+        Dim it As ListViewItem
+        For Each it In Me.lvProcess.SelectedItems
+            If it.SubItems(7).Text <> "N/A" Then _
+            SetProcessPriority(CInt(it.SubItems(1).Text), ProcessPriorityClass.Idle)
+        Next
+    End Sub
+
+    Private Sub butHigh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butHigh.Click
+        ' Set priority to selected processes
+        Dim it As ListViewItem
+        For Each it In Me.lvProcess.SelectedItems
+            If it.SubItems(7).Text <> "N/A" Then _
+            SetProcessPriority(CInt(it.SubItems(1).Text), ProcessPriorityClass.High)
+        Next
+    End Sub
+
+    Private Sub butNormal_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butNormal.Click
+        ' Set priority to selected processes
+        Dim it As ListViewItem
+        For Each it In Me.lvProcess.SelectedItems
+            If it.SubItems(7).Text <> "N/A" Then _
+            SetProcessPriority(CInt(it.SubItems(1).Text), ProcessPriorityClass.Normal)
+        Next
+    End Sub
+
+    Private Sub butRealTime_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butRealTime.Click
+        ' Set priority to selected processes
+        Dim it As ListViewItem
+        For Each it In Me.lvProcess.SelectedItems
+            If it.SubItems(7).Text <> "N/A" Then _
+            SetProcessPriority(CInt(it.SubItems(1).Text), ProcessPriorityClass.RealTime)
+        Next
+    End Sub
+
+    Private Sub butBelowNormal_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butBelowNormal.Click
+        ' Set priority to selected processes
+        Dim it As ListViewItem
+        For Each it In Me.lvProcess.SelectedItems
+            If it.SubItems(7).Text <> "N/A" Then _
+            SetProcessPriority(CInt(it.SubItems(1).Text), ProcessPriorityClass.BelowNormal)
+        Next
+    End Sub
+
+    Private Sub butAboveNormal_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butAboveNormal.Click
+        ' Set priority to selected processes
+        Dim it As ListViewItem
+        For Each it In Me.lvProcess.SelectedItems
+            If it.SubItems(7).Text <> "N/A" Then _
+            SetProcessPriority(CInt(it.SubItems(1).Text), ProcessPriorityClass.AboveNormal)
+        Next
+    End Sub
+
+    Private Sub butStopService_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butStopService.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            Try
+                mdlService.StopService(it.Text)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+        Call Me.refreshServiceList()
+        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
+    End Sub
+
+    Private Sub butStartService_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butStartService.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            Try
+                mdlService.StartService(it.Text)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+        Call Me.refreshServiceList()
+        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
+    End Sub
+
+    Private Sub butShutdownService_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butShutdownService.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            Try
+                mdlService.ShutDownService(it.Text)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+        Call Me.refreshServiceList()
+        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
+    End Sub
+
+    Private Sub butPauseService_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butPauseService.Click
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
             Try
@@ -1674,63 +1469,109 @@ Public Class frmMain
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
-    Private Sub mnu100_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnu100.Click
-        Me.Opacity = 1
-        Me.mnu10.Checked = False
-        Me.mnu30.Checked = False
-        Me.mnu50.Checked = False
-        Me.mnu70.Checked = False
-        Me.mnu90.Checked = False
-        Me.mnu100.Checked = True
+    Private Sub butAutomaticStart_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butAutomaticStart.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            Try
+                mdlService.SetServiceStartType(it.Text, ServiceStartType.SERVICE_AUTO_START)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+        Call Me.refreshServiceList()
+        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
-    Private Sub mnu90_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnu90.Click
-        Me.Opacity = 0.9
-        Me.mnu10.Checked = False
-        Me.mnu30.Checked = False
-        Me.mnu50.Checked = False
-        Me.mnu70.Checked = False
-        Me.mnu90.Checked = True
-        Me.mnu100.Checked = False
+    Private Sub butDisabledStart_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butDisabledStart.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            Try
+                mdlService.SetServiceStartType(it.Text, ServiceStartType.SERVICE_DISABLED)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+        Call Me.refreshServiceList()
+        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
-    Private Sub mnu70_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnu70.Click
-        Me.Opacity = 0.7
-        Me.mnu10.Checked = False
-        Me.mnu30.Checked = False
-        Me.mnu50.Checked = False
-        Me.mnu70.Checked = True
-        Me.mnu90.Checked = False
-        Me.mnu100.Checked = False
+    Private Sub butOnDemandStart_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butOnDemandStart.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            Try
+                mdlService.SetServiceStartType(it.Text, ServiceStartType.SERVICE_DEMAND_START)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+        Call Me.refreshServiceList()
+        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
-    Private Sub mnu50_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnu50.Click
-        Me.Opacity = 0.5
-        Me.mnu10.Checked = False
-        Me.mnu30.Checked = False
-        Me.mnu50.Checked = True
-        Me.mnu70.Checked = False
-        Me.mnu90.Checked = False
-        Me.mnu100.Checked = False
+    Private Sub butResumeService_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butResumeService.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            Try
+                mdlService.ResumeService(it.Text)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+        Call Me.refreshServiceList()
+        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
-    Private Sub mnu30_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnu30.Click
-        Me.Opacity = 0.3
-        Me.mnu10.Checked = False
-        Me.mnu30.Checked = True
-        Me.mnu50.Checked = False
-        Me.mnu70.Checked = False
-        Me.mnu90.Checked = False
-        Me.mnu100.Checked = False
+    Private Sub Ribbon_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Ribbon.MouseMove
+        Static currentText As String = vbNullString
+
+        If Not (Ribbon.ActiveTab.Text = currentText) Then
+            currentText = Ribbon.ActiveTab.Text
+            Select Case currentText
+                Case "Services"
+                    Me.bProcessHover = False
+                    Me.bServiceHover = True
+                    Me.panelMain.Visible = False
+                    Me.panelMain2.Visible = True
+                    Me.panelMain3.Visible = False
+                    Me.panelMain4.Visible = False
+                    Me.panelInfos.Visible = False
+                    Me.panelInfos2.Visible = True
+                    Me.chkModules.Visible = False
+                    Me.panelMenu.Visible = True
+                Case "Processes"
+                    Me.bProcessHover = True
+                    Me.bServiceHover = False
+                    Me.panelMain.Visible = True
+                    Me.panelMain2.Visible = False
+                    Me.panelMain3.Visible = False
+                    Me.panelMain4.Visible = False
+                    Me.panelInfos.Visible = True
+                    Me.panelInfos2.Visible = False
+                    Me.chkModules.Visible = True
+                    Me.panelMenu.Visible = True
+                Case "Jobs"
+                    Me.bProcessHover = False
+                    Me.bServiceHover = False
+                    Me.panelMain.Visible = False
+                    Me.panelMain2.Visible = False
+                    Me.panelMain3.Visible = True
+                    Me.panelMain4.Visible = False
+                    Me.panelMain3.BringToFront()
+                    Me.panelMenu.Visible = False
+                Case "Help"
+                    Me.bProcessHover = False
+                    Me.bServiceHover = False
+                    Me.panelMain.Visible = False
+                    Me.panelMain2.Visible = False
+                    Me.panelMain3.Visible = False
+                    Me.panelMain4.Visible = True
+                    Me.panelMain4.BringToFront()
+                    Me.panelMenu.Visible = False
+            End Select
+        End If
     End Sub
 
-    Private Sub mnu10_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnu10.Click
-        Me.Opacity = 0.1
-        Me.mnu10.Checked = True
-        Me.mnu30.Checked = False
-        Me.mnu50.Checked = False
-        Me.mnu70.Checked = False
-        Me.mnu90.Checked = False
-        Me.mnu100.Checked = False
+    Private Sub cmdTray_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdTray.Click
+        Me.Hide()
     End Sub
 End Class

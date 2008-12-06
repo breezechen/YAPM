@@ -31,18 +31,6 @@ Partial Class frmMain
         Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
-        Me.panelActions1 = New System.Windows.Forms.Panel
-        Me.pctInfo = New System.Windows.Forms.PictureBox
-        Me.lnkOpenDir = New System.Windows.Forms.LinkLabel
-        Me.lnkProp = New System.Windows.Forms.LinkLabel
-        Me.cmdSetPriority = New System.Windows.Forms.Button
-        Me.gpProc1 = New System.Windows.Forms.GroupBox
-        Me.cmdAffinity = New System.Windows.Forms.Button
-        Me.cmdResume = New System.Windows.Forms.Button
-        Me.cmdPause = New System.Windows.Forms.Button
-        Me.cmdKill = New System.Windows.Forms.Button
-        Me.cbPriority = New System.Windows.Forms.ComboBox
-        Me.lblPriority = New System.Windows.Forms.Label
         Me.panelMain = New System.Windows.Forms.Panel
         Me.lvProcess = New System.Windows.Forms.ListView
         Me.c1 = New System.Windows.Forms.ColumnHeader
@@ -105,11 +93,6 @@ Partial Class frmMain
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
-        Me.panelActions4 = New System.Windows.Forms.Panel
-        Me.cmdDonate = New System.Windows.Forms.Button
-        Me.lnkProjectPage = New System.Windows.Forms.LinkLabel
-        Me.lnkWebsite = New System.Windows.Forms.LinkLabel
-        Me.cmdAbout = New System.Windows.Forms.Button
         Me.timerServices = New System.Windows.Forms.Timer(Me.components)
         Me.lblProcessName = New System.Windows.Forms.Label
         Me.menuCopyPctbig = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -120,34 +103,13 @@ Partial Class frmMain
         Me.panelInfos = New System.Windows.Forms.Panel
         Me.lblProcessPath = New System.Windows.Forms.TextBox
         Me.cmdInfosToClipB = New System.Windows.Forms.Button
-        Me.pctSmallIcon = New System.Windows.Forms.PictureBox
-        Me.pctBigIcon = New System.Windows.Forms.PictureBox
-        Me.cmdTray = New System.Windows.Forms.Button
         Me.Tray = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.menuTooltip = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem
-        Me.mainMenu = New System.Windows.Forms.MenuStrip
-        Me.FdToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ExecuteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.TakeFullPowerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
-        Me.QuitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.DisplayToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.AlwaysDisplayToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.OptionsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.PreferencesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
-        Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.saveDial = New System.Windows.Forms.SaveFileDialog
-        Me.lblProcess = New System.Windows.Forms.Label
-        Me.lblServices = New System.Windows.Forms.Label
-        Me.lblAddJobs = New System.Windows.Forms.Label
-        Me.lblHelp = New System.Windows.Forms.Label
         Me.panelInfos2 = New System.Windows.Forms.Panel
         Me.cmdCopyServiceToCp = New System.Windows.Forms.Button
         Me.lblServicePath = New System.Windows.Forms.TextBox
@@ -155,41 +117,73 @@ Partial Class frmMain
         Me.tv = New System.Windows.Forms.TreeView
         Me.rtb2 = New System.Windows.Forms.RichTextBox
         Me.lblServiceName = New System.Windows.Forms.Label
-        Me.pctJobs = New System.Windows.Forms.PictureBox
-        Me.pctProcess = New System.Windows.Forms.PictureBox
-        Me.pctService = New System.Windows.Forms.PictureBox
-        Me.pctHelp = New System.Windows.Forms.PictureBox
-        Me.panelActions2 = New System.Windows.Forms.Panel
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox
-        Me.lnkServProp = New System.Windows.Forms.LinkLabel
-        Me.cbStartType = New System.Windows.Forms.ComboBox
-        Me.lnkServOpenDir = New System.Windows.Forms.LinkLabel
-        Me.cmdSetStartType = New System.Windows.Forms.Button
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox
-        Me.cmdPauseService = New System.Windows.Forms.Button
-        Me.cmdShutdownService = New System.Windows.Forms.Button
-        Me.cmdResPauseService = New System.Windows.Forms.Button
-        Me.cmdStartService = New System.Windows.Forms.Button
-        Me.cmdStopService = New System.Windows.Forms.Button
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.panelActions3 = New System.Windows.Forms.Panel
-        Me.chkJob = New System.Windows.Forms.CheckBox
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox
-        Me.cmdSaveJobs = New System.Windows.Forms.Button
-        Me.cmdOpenJobs = New System.Windows.Forms.Button
-        Me.cmdAddJob = New System.Windows.Forms.Button
         Me.openDial = New System.Windows.Forms.OpenFileDialog
         Me.timerJobs = New System.Windows.Forms.Timer(Me.components)
-        Me.OpaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnu10 = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnu30 = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnu50 = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnu70 = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnu90 = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnu100 = New System.Windows.Forms.ToolStripMenuItem
-        Me.panelActions1.SuspendLayout()
-        CType(Me.pctInfo, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gpProc1.SuspendLayout()
+        Me.Ribbon = New System.Windows.Forms.Ribbon
+        Me.ProcessTab = New System.Windows.Forms.RibbonTab
+        Me.RBProcessDisplay = New System.Windows.Forms.RibbonPanel
+        Me.RBProcessActions = New System.Windows.Forms.RibbonPanel
+        Me.RBProcessPriority = New System.Windows.Forms.RibbonPanel
+        Me.RBProcessExecutable = New System.Windows.Forms.RibbonPanel
+        Me.ServiceTab = New System.Windows.Forms.RibbonTab
+        Me.RBServiceDisplay = New System.Windows.Forms.RibbonPanel
+        Me.RBServiceAction = New System.Windows.Forms.RibbonPanel
+        Me.RBServiceStartType = New System.Windows.Forms.RibbonPanel
+        Me.RBServiceFile = New System.Windows.Forms.RibbonPanel
+        Me.JobsTab = New System.Windows.Forms.RibbonTab
+        Me.RBAdd = New System.Windows.Forms.RibbonPanel
+        Me.RBJobsOpenSave = New System.Windows.Forms.RibbonPanel
+        Me.ReportTab = New System.Windows.Forms.RibbonTab
+        Me.RBSaveReport = New System.Windows.Forms.RibbonPanel
+        Me.RBOthers = New System.Windows.Forms.RibbonPanel
+        Me.HelpTab = New System.Windows.Forms.RibbonTab
+        Me.RBHelpAction = New System.Windows.Forms.RibbonPanel
+        Me.RBHelpWeb = New System.Windows.Forms.RibbonPanel
+        Me.cmdTray = New System.Windows.Forms.Button
+        Me.butProcessRerfresh = New System.Windows.Forms.RibbonButton
+        Me.butNewProcess = New System.Windows.Forms.RibbonButton
+        Me.butKillProcess = New System.Windows.Forms.RibbonButton
+        Me.butStopProcess = New System.Windows.Forms.RibbonButton
+        Me.butResumeProcess = New System.Windows.Forms.RibbonButton
+        Me.butProcessOtherActions = New System.Windows.Forms.RibbonButton
+        Me.butProcessAffinity = New System.Windows.Forms.RibbonButton
+        Me.butProcessLimitCPU = New System.Windows.Forms.RibbonButton
+        Me.butProcessPriority = New System.Windows.Forms.RibbonButton
+        Me.butIdle = New System.Windows.Forms.RibbonButton
+        Me.butBelowNormal = New System.Windows.Forms.RibbonButton
+        Me.butNormal = New System.Windows.Forms.RibbonButton
+        Me.butAboveNormal = New System.Windows.Forms.RibbonButton
+        Me.butHigh = New System.Windows.Forms.RibbonButton
+        Me.butRealTime = New System.Windows.Forms.RibbonButton
+        Me.butProcessFileProp = New System.Windows.Forms.RibbonButton
+        Me.butProcessDirOpen = New System.Windows.Forms.RibbonButton
+        Me.butServiceRefresh = New System.Windows.Forms.RibbonButton
+        Me.butStopService = New System.Windows.Forms.RibbonButton
+        Me.butStartService = New System.Windows.Forms.RibbonButton
+        Me.butPauseService = New System.Windows.Forms.RibbonButton
+        Me.butResumeService = New System.Windows.Forms.RibbonButton
+        Me.butShutdownService = New System.Windows.Forms.RibbonButton
+        Me.butServiceStartType = New System.Windows.Forms.RibbonButton
+        Me.butAutomaticStart = New System.Windows.Forms.RibbonButton
+        Me.butOnDemandStart = New System.Windows.Forms.RibbonButton
+        Me.butDisabledStart = New System.Windows.Forms.RibbonButton
+        Me.butServiceFileProp = New System.Windows.Forms.RibbonButton
+        Me.butServiceOpenDir = New System.Windows.Forms.RibbonButton
+        Me.butAddJob = New System.Windows.Forms.RibbonButton
+        Me.butOpenJobList = New System.Windows.Forms.RibbonButton
+        Me.butSaveJobList = New System.Windows.Forms.RibbonButton
+        Me.butSaveProcessReport = New System.Windows.Forms.RibbonButton
+        Me.butSaveServiceReport = New System.Windows.Forms.RibbonButton
+        Me.butTakeFullPower = New System.Windows.Forms.RibbonButton
+        Me.butOptions = New System.Windows.Forms.RibbonButton
+        Me.butDonate = New System.Windows.Forms.RibbonButton
+        Me.butAbout = New System.Windows.Forms.RibbonButton
+        Me.butWebite = New System.Windows.Forms.RibbonButton
+        Me.butProjectPage = New System.Windows.Forms.RibbonButton
+        Me.butDownload = New System.Windows.Forms.RibbonButton
+        Me.pctSmallIcon = New System.Windows.Forms.PictureBox
+        Me.pctBigIcon = New System.Windows.Forms.PictureBox
+        Me.RibbonButton1 = New System.Windows.Forms.RibbonButton
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -197,24 +191,13 @@ Partial Class frmMain
         Me.menuService.SuspendLayout()
         Me.panelMain4.SuspendLayout()
         Me.panelMain3.SuspendLayout()
-        Me.panelActions4.SuspendLayout()
         Me.menuCopyPctbig.SuspendLayout()
         Me.menuCopyPctSmall.SuspendLayout()
         Me.panelInfos.SuspendLayout()
+        Me.menuTooltip.SuspendLayout()
+        Me.panelInfos2.SuspendLayout()
         CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.menuTooltip.SuspendLayout()
-        Me.mainMenu.SuspendLayout()
-        Me.panelInfos2.SuspendLayout()
-        CType(Me.pctJobs, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pctProcess, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pctService, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pctHelp, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.panelActions2.SuspendLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox1.SuspendLayout()
-        Me.panelActions3.SuspendLayout()
-        Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
         '
         'imgMain
@@ -223,130 +206,6 @@ Partial Class frmMain
         Me.imgMain.TransparentColor = System.Drawing.Color.Transparent
         Me.imgMain.Images.SetKeyName(0, "main_big2.ico")
         Me.imgMain.Images.SetKeyName(1, "noicon32")
-        '
-        'panelActions1
-        '
-        Me.panelActions1.BackColor = System.Drawing.Color.White
-        Me.panelActions1.Controls.Add(Me.pctInfo)
-        Me.panelActions1.Controls.Add(Me.lnkOpenDir)
-        Me.panelActions1.Controls.Add(Me.lnkProp)
-        Me.panelActions1.Controls.Add(Me.cmdSetPriority)
-        Me.panelActions1.Controls.Add(Me.gpProc1)
-        Me.panelActions1.Controls.Add(Me.cbPriority)
-        Me.panelActions1.Controls.Add(Me.lblPriority)
-        Me.panelActions1.Location = New System.Drawing.Point(12, 290)
-        Me.panelActions1.Name = "panelActions1"
-        Me.panelActions1.Size = New System.Drawing.Size(200, 200)
-        Me.panelActions1.TabIndex = 1
-        '
-        'pctInfo
-        '
-        Me.pctInfo.BackColor = System.Drawing.SystemColors.Control
-        Me.pctInfo.Image = Global.YAPM.My.Resources.Resources.folder_info
-        Me.pctInfo.Location = New System.Drawing.Point(12, 114)
-        Me.pctInfo.Name = "pctInfo"
-        Me.pctInfo.Size = New System.Drawing.Size(40, 40)
-        Me.pctInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.pctInfo.TabIndex = 32
-        Me.pctInfo.TabStop = False
-        '
-        'lnkOpenDir
-        '
-        Me.lnkOpenDir.AutoSize = True
-        Me.lnkOpenDir.Location = New System.Drawing.Point(65, 141)
-        Me.lnkOpenDir.Name = "lnkOpenDir"
-        Me.lnkOpenDir.Size = New System.Drawing.Size(79, 13)
-        Me.lnkOpenDir.TabIndex = 11
-        Me.lnkOpenDir.TabStop = True
-        Me.lnkOpenDir.Text = "Open directory"
-        '
-        'lnkProp
-        '
-        Me.lnkProp.AutoSize = True
-        Me.lnkProp.Location = New System.Drawing.Point(65, 119)
-        Me.lnkProp.Name = "lnkProp"
-        Me.lnkProp.Size = New System.Drawing.Size(75, 13)
-        Me.lnkProp.TabIndex = 10
-        Me.lnkProp.TabStop = True
-        Me.lnkProp.Text = "File properties"
-        '
-        'cmdSetPriority
-        '
-        Me.cmdSetPriority.Location = New System.Drawing.Point(156, 8)
-        Me.cmdSetPriority.Name = "cmdSetPriority"
-        Me.cmdSetPriority.Size = New System.Drawing.Size(38, 21)
-        Me.cmdSetPriority.TabIndex = 9
-        Me.cmdSetPriority.Text = "Set"
-        Me.cmdSetPriority.UseVisualStyleBackColor = True
-        '
-        'gpProc1
-        '
-        Me.gpProc1.Controls.Add(Me.cmdAffinity)
-        Me.gpProc1.Controls.Add(Me.cmdResume)
-        Me.gpProc1.Controls.Add(Me.cmdPause)
-        Me.gpProc1.Controls.Add(Me.cmdKill)
-        Me.gpProc1.Location = New System.Drawing.Point(9, 35)
-        Me.gpProc1.Name = "gpProc1"
-        Me.gpProc1.Size = New System.Drawing.Size(185, 71)
-        Me.gpProc1.TabIndex = 5
-        Me.gpProc1.TabStop = False
-        Me.gpProc1.Text = "Process"
-        '
-        'cmdAffinity
-        '
-        Me.cmdAffinity.Location = New System.Drawing.Point(96, 43)
-        Me.cmdAffinity.Name = "cmdAffinity"
-        Me.cmdAffinity.Size = New System.Drawing.Size(83, 21)
-        Me.cmdAffinity.TabIndex = 8
-        Me.cmdAffinity.Text = "Affinity"
-        Me.cmdAffinity.UseVisualStyleBackColor = True
-        '
-        'cmdResume
-        '
-        Me.cmdResume.Location = New System.Drawing.Point(6, 43)
-        Me.cmdResume.Name = "cmdResume"
-        Me.cmdResume.Size = New System.Drawing.Size(83, 21)
-        Me.cmdResume.TabIndex = 7
-        Me.cmdResume.Text = "Resume"
-        Me.cmdResume.UseVisualStyleBackColor = True
-        '
-        'cmdPause
-        '
-        Me.cmdPause.Location = New System.Drawing.Point(95, 16)
-        Me.cmdPause.Name = "cmdPause"
-        Me.cmdPause.Size = New System.Drawing.Size(83, 21)
-        Me.cmdPause.TabIndex = 6
-        Me.cmdPause.Text = "Stop"
-        Me.cmdPause.UseVisualStyleBackColor = True
-        '
-        'cmdKill
-        '
-        Me.cmdKill.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdKill.Location = New System.Drawing.Point(6, 16)
-        Me.cmdKill.Name = "cmdKill"
-        Me.cmdKill.Size = New System.Drawing.Size(83, 21)
-        Me.cmdKill.TabIndex = 5
-        Me.cmdKill.Text = "Kill"
-        Me.cmdKill.UseVisualStyleBackColor = True
-        '
-        'cbPriority
-        '
-        Me.cbPriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cbPriority.FormattingEnabled = True
-        Me.cbPriority.Items.AddRange(New Object() {"Idle", "BelowNormal", "Normal", "AboveNormal", "High", "RealTime"})
-        Me.cbPriority.Location = New System.Drawing.Point(56, 8)
-        Me.cbPriority.Name = "cbPriority"
-        Me.cbPriority.Size = New System.Drawing.Size(94, 21)
-        Me.cbPriority.TabIndex = 1
-        '
-        'lblPriority
-        '
-        Me.lblPriority.AutoSize = True
-        Me.lblPriority.Location = New System.Drawing.Point(9, 11)
-        Me.lblPriority.Name = "lblPriority"
-        Me.lblPriority.Size = New System.Drawing.Size(41, 13)
-        Me.lblPriority.TabIndex = 0
-        Me.lblPriority.Text = "Priority"
         '
         'panelMain
         '
@@ -521,15 +380,15 @@ Partial Class frmMain
         Me.panelMenu.Controls.Add(Me.lblResCount)
         Me.panelMenu.Controls.Add(Me.txtSearch)
         Me.panelMenu.Controls.Add(Me.chkModules)
-        Me.panelMenu.Location = New System.Drawing.Point(215, 27)
+        Me.panelMenu.Location = New System.Drawing.Point(12, 121)
         Me.panelMenu.Name = "panelMenu"
-        Me.panelMenu.Size = New System.Drawing.Size(560, 28)
+        Me.panelMenu.Size = New System.Drawing.Size(766, 28)
         Me.panelMenu.TabIndex = 4
         '
         'lblResCount
         '
         Me.lblResCount.AutoSize = True
-        Me.lblResCount.Location = New System.Drawing.Point(527, 6)
+        Me.lblResCount.Location = New System.Drawing.Point(596, 6)
         Me.lblResCount.Name = "lblResCount"
         Me.lblResCount.Size = New System.Drawing.Size(13, 13)
         Me.lblResCount.TabIndex = 2
@@ -539,7 +398,7 @@ Partial Class frmMain
         '
         Me.txtSearch.Location = New System.Drawing.Point(157, 3)
         Me.txtSearch.Name = "txtSearch"
-        Me.txtSearch.Size = New System.Drawing.Size(362, 21)
+        Me.txtSearch.Size = New System.Drawing.Size(433, 21)
         Me.txtSearch.TabIndex = 1
         '
         'chkModules
@@ -772,57 +631,6 @@ Partial Class frmMain
         Me.ColumnHeader6.Text = "Time"
         Me.ColumnHeader6.Width = 130
         '
-        'panelActions4
-        '
-        Me.panelActions4.BackColor = System.Drawing.Color.White
-        Me.panelActions4.Controls.Add(Me.cmdDonate)
-        Me.panelActions4.Controls.Add(Me.lnkProjectPage)
-        Me.panelActions4.Controls.Add(Me.lnkWebsite)
-        Me.panelActions4.Controls.Add(Me.cmdAbout)
-        Me.panelActions4.Location = New System.Drawing.Point(6, 368)
-        Me.panelActions4.Name = "panelActions4"
-        Me.panelActions4.Size = New System.Drawing.Size(200, 200)
-        Me.panelActions4.TabIndex = 21
-        '
-        'cmdDonate
-        '
-        Me.cmdDonate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdDonate.Location = New System.Drawing.Point(15, 60)
-        Me.cmdDonate.Name = "cmdDonate"
-        Me.cmdDonate.Size = New System.Drawing.Size(85, 30)
-        Me.cmdDonate.TabIndex = 5
-        Me.cmdDonate.Text = "Donate !"
-        Me.cmdDonate.UseVisualStyleBackColor = True
-        '
-        'lnkProjectPage
-        '
-        Me.lnkProjectPage.AutoSize = True
-        Me.lnkProjectPage.Location = New System.Drawing.Point(15, 130)
-        Me.lnkProjectPage.Name = "lnkProjectPage"
-        Me.lnkProjectPage.Size = New System.Drawing.Size(174, 13)
-        Me.lnkProjectPage.TabIndex = 3
-        Me.lnkProjectPage.TabStop = True
-        Me.lnkProjectPage.Text = "YAPM project page on sourceforge"
-        '
-        'lnkWebsite
-        '
-        Me.lnkWebsite.AutoSize = True
-        Me.lnkWebsite.Location = New System.Drawing.Point(15, 105)
-        Me.lnkWebsite.Name = "lnkWebsite"
-        Me.lnkWebsite.Size = New System.Drawing.Size(150, 13)
-        Me.lnkWebsite.TabIndex = 2
-        Me.lnkWebsite.TabStop = True
-        Me.lnkWebsite.Text = "YAPM website on sourceforge"
-        '
-        'cmdAbout
-        '
-        Me.cmdAbout.Location = New System.Drawing.Point(15, 16)
-        Me.cmdAbout.Name = "cmdAbout"
-        Me.cmdAbout.Size = New System.Drawing.Size(85, 30)
-        Me.cmdAbout.TabIndex = 1
-        Me.cmdAbout.Text = "About YAPM"
-        Me.cmdAbout.UseVisualStyleBackColor = True
-        '
         'timerServices
         '
         Me.timerServices.Interval = 6000
@@ -887,7 +695,6 @@ Partial Class frmMain
         Me.panelInfos.Name = "panelInfos"
         Me.panelInfos.Size = New System.Drawing.Size(560, 240)
         Me.panelInfos.TabIndex = 3
-        Me.panelInfos.Visible = False
         '
         'lblProcessPath
         '
@@ -909,34 +716,6 @@ Partial Class frmMain
         Me.cmdInfosToClipB.TabIndex = 7
         Me.cmdInfosToClipB.Text = "Copy to clipboard"
         Me.cmdInfosToClipB.UseVisualStyleBackColor = True
-        '
-        'pctSmallIcon
-        '
-        Me.pctSmallIcon.ContextMenuStrip = Me.menuCopyPctSmall
-        Me.pctSmallIcon.Location = New System.Drawing.Point(503, 19)
-        Me.pctSmallIcon.Name = "pctSmallIcon"
-        Me.pctSmallIcon.Size = New System.Drawing.Size(16, 16)
-        Me.pctSmallIcon.TabIndex = 2
-        Me.pctSmallIcon.TabStop = False
-        '
-        'pctBigIcon
-        '
-        Me.pctBigIcon.ContextMenuStrip = Me.menuCopyPctbig
-        Me.pctBigIcon.Location = New System.Drawing.Point(525, 3)
-        Me.pctBigIcon.Name = "pctBigIcon"
-        Me.pctBigIcon.Size = New System.Drawing.Size(32, 32)
-        Me.pctBigIcon.TabIndex = 1
-        Me.pctBigIcon.TabStop = False
-        '
-        'cmdTray
-        '
-        Me.cmdTray.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdTray.Location = New System.Drawing.Point(17, 529)
-        Me.cmdTray.Name = "cmdTray"
-        Me.cmdTray.Size = New System.Drawing.Size(180, 29)
-        Me.cmdTray.TabIndex = 26
-        Me.cmdTray.Text = "Minimize to tray"
-        Me.cmdTray.UseVisualStyleBackColor = True
         '
         'Tray
         '
@@ -975,148 +754,10 @@ Partial Class frmMain
         Me.ToolStripMenuItem5.Size = New System.Drawing.Size(143, 22)
         Me.ToolStripMenuItem5.Text = "Quitter"
         '
-        'mainMenu
-        '
-        Me.mainMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FdToolStripMenuItem, Me.DisplayToolStripMenuItem, Me.OptionsToolStripMenuItem1, Me.ToolStripMenuItem2})
-        Me.mainMenu.Location = New System.Drawing.Point(0, 0)
-        Me.mainMenu.Name = "mainMenu"
-        Me.mainMenu.Size = New System.Drawing.Size(795, 24)
-        Me.mainMenu.TabIndex = 27
-        Me.mainMenu.Text = "mnu"
-        '
-        'FdToolStripMenuItem
-        '
-        Me.FdToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExecuteToolStripMenuItem, Me.OptionsToolStripMenuItem, Me.TakeFullPowerToolStripMenuItem, Me.ToolStripMenuItem1, Me.QuitToolStripMenuItem})
-        Me.FdToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FdToolStripMenuItem.Name = "FdToolStripMenuItem"
-        Me.FdToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
-        Me.FdToolStripMenuItem.Text = "&File"
-        '
-        'ExecuteToolStripMenuItem
-        '
-        Me.ExecuteToolStripMenuItem.Name = "ExecuteToolStripMenuItem"
-        Me.ExecuteToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
-        Me.ExecuteToolStripMenuItem.Text = "&Execute..."
-        '
-        'OptionsToolStripMenuItem
-        '
-        Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
-        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
-        Me.OptionsToolStripMenuItem.Text = "&Save report..."
-        '
-        'TakeFullPowerToolStripMenuItem
-        '
-        Me.TakeFullPowerToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TakeFullPowerToolStripMenuItem.Name = "TakeFullPowerToolStripMenuItem"
-        Me.TakeFullPowerToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
-        Me.TakeFullPowerToolStripMenuItem.Text = "&Take full power"
-        '
-        'ToolStripMenuItem1
-        '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(158, 6)
-        '
-        'QuitToolStripMenuItem
-        '
-        Me.QuitToolStripMenuItem.Name = "QuitToolStripMenuItem"
-        Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
-        Me.QuitToolStripMenuItem.Text = "&Quit"
-        '
-        'DisplayToolStripMenuItem
-        '
-        Me.DisplayToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RefreshToolStripMenuItem, Me.AlwaysDisplayToolStripMenuItem, Me.OpaToolStripMenuItem})
-        Me.DisplayToolStripMenuItem.Name = "DisplayToolStripMenuItem"
-        Me.DisplayToolStripMenuItem.Size = New System.Drawing.Size(57, 20)
-        Me.DisplayToolStripMenuItem.Text = "Display"
-        '
-        'RefreshToolStripMenuItem
-        '
-        Me.RefreshToolStripMenuItem.Name = "RefreshToolStripMenuItem"
-        Me.RefreshToolStripMenuItem.ShortcutKeyDisplayString = "F5"
-        Me.RefreshToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5
-        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.RefreshToolStripMenuItem.Text = "Refresh"
-        '
-        'AlwaysDisplayToolStripMenuItem
-        '
-        Me.AlwaysDisplayToolStripMenuItem.Name = "AlwaysDisplayToolStripMenuItem"
-        Me.AlwaysDisplayToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.AlwaysDisplayToolStripMenuItem.Text = "Always display"
-        '
-        'OptionsToolStripMenuItem1
-        '
-        Me.OptionsToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PreferencesToolStripMenuItem})
-        Me.OptionsToolStripMenuItem1.Name = "OptionsToolStripMenuItem1"
-        Me.OptionsToolStripMenuItem1.Size = New System.Drawing.Size(61, 20)
-        Me.OptionsToolStripMenuItem1.Text = "Options"
-        '
-        'PreferencesToolStripMenuItem
-        '
-        Me.PreferencesToolStripMenuItem.Name = "PreferencesToolStripMenuItem"
-        Me.PreferencesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.PreferencesToolStripMenuItem.Text = "&Preferences"
-        '
-        'ToolStripMenuItem2
-        '
-        Me.ToolStripMenuItem2.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AboutToolStripMenuItem})
-        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(24, 20)
-        Me.ToolStripMenuItem2.Text = "&?"
-        '
-        'AboutToolStripMenuItem
-        '
-        Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
-        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.AboutToolStripMenuItem.Text = "&About"
-        '
         'saveDial
         '
         Me.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
         Me.saveDial.SupportMultiDottedExtensions = True
-        '
-        'lblProcess
-        '
-        Me.lblProcess.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblProcess.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.lblProcess.Location = New System.Drawing.Point(82, 28)
-        Me.lblProcess.Name = "lblProcess"
-        Me.lblProcess.Size = New System.Drawing.Size(124, 63)
-        Me.lblProcess.TabIndex = 36
-        Me.lblProcess.Text = "Display processes runing on system"
-        Me.lblProcess.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'lblServices
-        '
-        Me.lblServices.Enabled = False
-        Me.lblServices.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblServices.Location = New System.Drawing.Point(82, 91)
-        Me.lblServices.Name = "lblServices"
-        Me.lblServices.Size = New System.Drawing.Size(124, 63)
-        Me.lblServices.TabIndex = 37
-        Me.lblServices.Text = "Display services runing on system"
-        Me.lblServices.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'lblAddJobs
-        '
-        Me.lblAddJobs.Enabled = False
-        Me.lblAddJobs.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblAddJobs.Location = New System.Drawing.Point(82, 157)
-        Me.lblAddJobs.Name = "lblAddJobs"
-        Me.lblAddJobs.Size = New System.Drawing.Size(124, 63)
-        Me.lblAddJobs.TabIndex = 39
-        Me.lblAddJobs.Text = "Add scheduled jobs"
-        Me.lblAddJobs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'lblHelp
-        '
-        Me.lblHelp.Enabled = False
-        Me.lblHelp.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblHelp.Location = New System.Drawing.Point(82, 223)
-        Me.lblHelp.Name = "lblHelp"
-        Me.lblHelp.Size = New System.Drawing.Size(124, 63)
-        Me.lblHelp.TabIndex = 40
-        Me.lblHelp.Text = "Display help"
-        Me.lblHelp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'panelInfos2
         '
@@ -1197,242 +838,6 @@ Partial Class frmMain
         Me.lblServiceName.TabIndex = 4
         Me.lblServiceName.Text = "Service name :"
         '
-        'pctJobs
-        '
-        Me.pctJobs.BackColor = System.Drawing.SystemColors.Control
-        Me.pctJobs.Image = Global.YAPM.My.Resources.Resources.business_user_add
-        Me.pctJobs.Location = New System.Drawing.Point(8, 157)
-        Me.pctJobs.Name = "pctJobs"
-        Me.pctJobs.Size = New System.Drawing.Size(66, 66)
-        Me.pctJobs.TabIndex = 35
-        Me.pctJobs.TabStop = False
-        '
-        'pctProcess
-        '
-        Me.pctProcess.BackColor = System.Drawing.Color.White
-        Me.pctProcess.Image = Global.YAPM.My.Resources.Resources.process
-        Me.pctProcess.Location = New System.Drawing.Point(8, 25)
-        Me.pctProcess.Name = "pctProcess"
-        Me.pctProcess.Size = New System.Drawing.Size(66, 66)
-        Me.pctProcess.TabIndex = 34
-        Me.pctProcess.TabStop = False
-        '
-        'pctService
-        '
-        Me.pctService.BackColor = System.Drawing.SystemColors.Control
-        Me.pctService.Image = Global.YAPM.My.Resources.Resources.application
-        Me.pctService.Location = New System.Drawing.Point(8, 91)
-        Me.pctService.Name = "pctService"
-        Me.pctService.Size = New System.Drawing.Size(66, 66)
-        Me.pctService.TabIndex = 32
-        Me.pctService.TabStop = False
-        '
-        'pctHelp
-        '
-        Me.pctHelp.BackColor = System.Drawing.SystemColors.Control
-        Me.pctHelp.Image = Global.YAPM.My.Resources.Resources.help
-        Me.pctHelp.Location = New System.Drawing.Point(8, 223)
-        Me.pctHelp.Name = "pctHelp"
-        Me.pctHelp.Size = New System.Drawing.Size(66, 66)
-        Me.pctHelp.TabIndex = 31
-        Me.pctHelp.TabStop = False
-        '
-        'panelActions2
-        '
-        Me.panelActions2.BackColor = System.Drawing.Color.White
-        Me.panelActions2.Controls.Add(Me.PictureBox1)
-        Me.panelActions2.Controls.Add(Me.lnkServProp)
-        Me.panelActions2.Controls.Add(Me.cbStartType)
-        Me.panelActions2.Controls.Add(Me.lnkServOpenDir)
-        Me.panelActions2.Controls.Add(Me.cmdSetStartType)
-        Me.panelActions2.Controls.Add(Me.GroupBox1)
-        Me.panelActions2.Controls.Add(Me.Label2)
-        Me.panelActions2.Location = New System.Drawing.Point(297, 304)
-        Me.panelActions2.Name = "panelActions2"
-        Me.panelActions2.Size = New System.Drawing.Size(200, 200)
-        Me.panelActions2.TabIndex = 42
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.BackColor = System.Drawing.SystemColors.Control
-        Me.PictureBox1.Image = Global.YAPM.My.Resources.Resources.folder_info
-        Me.PictureBox1.Location = New System.Drawing.Point(12, 142)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(40, 40)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox1.TabIndex = 46
-        Me.PictureBox1.TabStop = False
-        '
-        'lnkServProp
-        '
-        Me.lnkServProp.AutoSize = True
-        Me.lnkServProp.Location = New System.Drawing.Point(65, 147)
-        Me.lnkServProp.Name = "lnkServProp"
-        Me.lnkServProp.Size = New System.Drawing.Size(75, 13)
-        Me.lnkServProp.TabIndex = 44
-        Me.lnkServProp.TabStop = True
-        Me.lnkServProp.Text = "File properties"
-        '
-        'cbStartType
-        '
-        Me.cbStartType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cbStartType.FormattingEnabled = True
-        Me.cbStartType.Items.AddRange(New Object() {"Auto Start", "Demand Start", "Disabled"})
-        Me.cbStartType.Location = New System.Drawing.Point(46, 8)
-        Me.cbStartType.Name = "cbStartType"
-        Me.cbStartType.Size = New System.Drawing.Size(104, 21)
-        Me.cbStartType.TabIndex = 41
-        '
-        'lnkServOpenDir
-        '
-        Me.lnkServOpenDir.AutoSize = True
-        Me.lnkServOpenDir.Location = New System.Drawing.Point(65, 169)
-        Me.lnkServOpenDir.Name = "lnkServOpenDir"
-        Me.lnkServOpenDir.Size = New System.Drawing.Size(79, 13)
-        Me.lnkServOpenDir.TabIndex = 45
-        Me.lnkServOpenDir.TabStop = True
-        Me.lnkServOpenDir.Text = "Open directory"
-        '
-        'cmdSetStartType
-        '
-        Me.cmdSetStartType.Location = New System.Drawing.Point(156, 8)
-        Me.cmdSetStartType.Name = "cmdSetStartType"
-        Me.cmdSetStartType.Size = New System.Drawing.Size(38, 21)
-        Me.cmdSetStartType.TabIndex = 43
-        Me.cmdSetStartType.Text = "Set"
-        Me.cmdSetStartType.UseVisualStyleBackColor = True
-        '
-        'GroupBox1
-        '
-        Me.GroupBox1.Controls.Add(Me.cmdPauseService)
-        Me.GroupBox1.Controls.Add(Me.cmdShutdownService)
-        Me.GroupBox1.Controls.Add(Me.cmdResPauseService)
-        Me.GroupBox1.Controls.Add(Me.cmdStartService)
-        Me.GroupBox1.Controls.Add(Me.cmdStopService)
-        Me.GroupBox1.Location = New System.Drawing.Point(9, 35)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(185, 101)
-        Me.GroupBox1.TabIndex = 42
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Service"
-        '
-        'cmdPauseService
-        '
-        Me.cmdPauseService.Location = New System.Drawing.Point(95, 43)
-        Me.cmdPauseService.Name = "cmdPauseService"
-        Me.cmdPauseService.Size = New System.Drawing.Size(83, 21)
-        Me.cmdPauseService.TabIndex = 9
-        Me.cmdPauseService.Text = "Resume"
-        Me.cmdPauseService.UseVisualStyleBackColor = True
-        '
-        'cmdShutdownService
-        '
-        Me.cmdShutdownService.Location = New System.Drawing.Point(6, 70)
-        Me.cmdShutdownService.Name = "cmdShutdownService"
-        Me.cmdShutdownService.Size = New System.Drawing.Size(83, 21)
-        Me.cmdShutdownService.TabIndex = 8
-        Me.cmdShutdownService.Text = "Shutdown"
-        Me.cmdShutdownService.UseVisualStyleBackColor = True
-        '
-        'cmdResPauseService
-        '
-        Me.cmdResPauseService.Location = New System.Drawing.Point(6, 43)
-        Me.cmdResPauseService.Name = "cmdResPauseService"
-        Me.cmdResPauseService.Size = New System.Drawing.Size(83, 21)
-        Me.cmdResPauseService.TabIndex = 7
-        Me.cmdResPauseService.Text = "Resume"
-        Me.cmdResPauseService.UseVisualStyleBackColor = True
-        '
-        'cmdStartService
-        '
-        Me.cmdStartService.Location = New System.Drawing.Point(95, 16)
-        Me.cmdStartService.Name = "cmdStartService"
-        Me.cmdStartService.Size = New System.Drawing.Size(83, 21)
-        Me.cmdStartService.TabIndex = 6
-        Me.cmdStartService.Text = "Start"
-        Me.cmdStartService.UseVisualStyleBackColor = True
-        '
-        'cmdStopService
-        '
-        Me.cmdStopService.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdStopService.Location = New System.Drawing.Point(6, 16)
-        Me.cmdStopService.Name = "cmdStopService"
-        Me.cmdStopService.Size = New System.Drawing.Size(83, 21)
-        Me.cmdStopService.TabIndex = 5
-        Me.cmdStopService.Text = "Stop"
-        Me.cmdStopService.UseVisualStyleBackColor = True
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(9, 11)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(31, 13)
-        Me.Label2.TabIndex = 40
-        Me.Label2.Text = "Start"
-        '
-        'panelActions3
-        '
-        Me.panelActions3.BackColor = System.Drawing.Color.White
-        Me.panelActions3.Controls.Add(Me.chkJob)
-        Me.panelActions3.Controls.Add(Me.GroupBox2)
-        Me.panelActions3.Controls.Add(Me.cmdAddJob)
-        Me.panelActions3.Location = New System.Drawing.Point(297, 185)
-        Me.panelActions3.Name = "panelActions3"
-        Me.panelActions3.Size = New System.Drawing.Size(200, 200)
-        Me.panelActions3.TabIndex = 43
-        '
-        'chkJob
-        '
-        Me.chkJob.AutoSize = True
-        Me.chkJob.Location = New System.Drawing.Point(9, 133)
-        Me.chkJob.Name = "chkJob"
-        Me.chkJob.Size = New System.Drawing.Size(89, 17)
-        Me.chkJob.TabIndex = 8
-        Me.chkJob.Text = "Activate jobs"
-        Me.chkJob.UseVisualStyleBackColor = True
-        '
-        'GroupBox2
-        '
-        Me.GroupBox2.Controls.Add(Me.cmdSaveJobs)
-        Me.GroupBox2.Controls.Add(Me.cmdOpenJobs)
-        Me.GroupBox2.Location = New System.Drawing.Point(8, 50)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(185, 71)
-        Me.GroupBox2.TabIndex = 7
-        Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "Jobs"
-        '
-        'cmdSaveJobs
-        '
-        Me.cmdSaveJobs.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdSaveJobs.Location = New System.Drawing.Point(6, 43)
-        Me.cmdSaveJobs.Name = "cmdSaveJobs"
-        Me.cmdSaveJobs.Size = New System.Drawing.Size(173, 21)
-        Me.cmdSaveJobs.TabIndex = 6
-        Me.cmdSaveJobs.Text = "Save job list..."
-        Me.cmdSaveJobs.UseVisualStyleBackColor = True
-        '
-        'cmdOpenJobs
-        '
-        Me.cmdOpenJobs.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdOpenJobs.Location = New System.Drawing.Point(6, 16)
-        Me.cmdOpenJobs.Name = "cmdOpenJobs"
-        Me.cmdOpenJobs.Size = New System.Drawing.Size(173, 21)
-        Me.cmdOpenJobs.TabIndex = 5
-        Me.cmdOpenJobs.Text = "Open job list..."
-        Me.cmdOpenJobs.UseVisualStyleBackColor = True
-        '
-        'cmdAddJob
-        '
-        Me.cmdAddJob.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdAddJob.Location = New System.Drawing.Point(11, 9)
-        Me.cmdAddJob.Name = "cmdAddJob"
-        Me.cmdAddJob.Size = New System.Drawing.Size(179, 26)
-        Me.cmdAddJob.TabIndex = 6
-        Me.cmdAddJob.Text = "Add new job"
-        Me.cmdAddJob.UseVisualStyleBackColor = True
-        '
         'openDial
         '
         Me.openDial.CheckFileExists = False
@@ -1444,90 +849,794 @@ Partial Class frmMain
         Me.timerJobs.Enabled = True
         Me.timerJobs.Interval = 90
         '
-        'OpaToolStripMenuItem
+        'Ribbon
         '
-        Me.OpaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnu10, Me.mnu30, Me.mnu50, Me.mnu70, Me.mnu90, Me.mnu100})
-        Me.OpaToolStripMenuItem.Name = "OpaToolStripMenuItem"
-        Me.OpaToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.OpaToolStripMenuItem.Text = "Opacity"
+        Me.Ribbon.Location = New System.Drawing.Point(0, 0)
+        Me.Ribbon.Minimized = False
+        Me.Ribbon.Name = "Ribbon"
+        Me.Ribbon.Size = New System.Drawing.Size(795, 115)
+        Me.Ribbon.TabIndex = 44
+        Me.Ribbon.Tabs.Add(Me.ProcessTab)
+        Me.Ribbon.Tabs.Add(Me.ServiceTab)
+        Me.Ribbon.Tabs.Add(Me.JobsTab)
+        Me.Ribbon.Tabs.Add(Me.ReportTab)
+        Me.Ribbon.Tabs.Add(Me.HelpTab)
+        Me.Ribbon.TabSpacing = 6
         '
-        'mnu10
+        'ProcessTab
         '
-        Me.mnu10.Name = "mnu10"
-        Me.mnu10.Size = New System.Drawing.Size(152, 22)
-        Me.mnu10.Text = "10%"
+        Me.ProcessTab.Panels.Add(Me.RBProcessDisplay)
+        Me.ProcessTab.Panels.Add(Me.RBProcessActions)
+        Me.ProcessTab.Panels.Add(Me.RBProcessPriority)
+        Me.ProcessTab.Panels.Add(Me.RBProcessExecutable)
+        Me.ProcessTab.Tag = Nothing
+        Me.ProcessTab.Text = "Processes"
         '
-        'mnu30
+        'RBProcessDisplay
         '
-        Me.mnu30.Name = "mnu30"
-        Me.mnu30.Size = New System.Drawing.Size(152, 22)
-        Me.mnu30.Text = "30%"
+        Me.RBProcessDisplay.ButtonMoreEnabled = False
+        Me.RBProcessDisplay.ButtonMoreVisible = False
+        Me.RBProcessDisplay.Items.Add(Me.butProcessRerfresh)
+        Me.RBProcessDisplay.Tag = Nothing
+        Me.RBProcessDisplay.Text = "Display"
         '
-        'mnu50
+        'RBProcessActions
         '
-        Me.mnu50.Name = "mnu50"
-        Me.mnu50.Size = New System.Drawing.Size(152, 22)
-        Me.mnu50.Text = "50%"
+        Me.RBProcessActions.ButtonMoreEnabled = False
+        Me.RBProcessActions.ButtonMoreVisible = False
+        Me.RBProcessActions.Items.Add(Me.butNewProcess)
+        Me.RBProcessActions.Items.Add(Me.butKillProcess)
+        Me.RBProcessActions.Items.Add(Me.butStopProcess)
+        Me.RBProcessActions.Items.Add(Me.butResumeProcess)
+        Me.RBProcessActions.Items.Add(Me.butProcessOtherActions)
+        Me.RBProcessActions.Tag = Nothing
+        Me.RBProcessActions.Text = "Process actions"
         '
-        'mnu70
+        'RBProcessPriority
         '
-        Me.mnu70.Name = "mnu70"
-        Me.mnu70.Size = New System.Drawing.Size(152, 22)
-        Me.mnu70.Text = "70%"
+        Me.RBProcessPriority.ButtonMoreEnabled = False
+        Me.RBProcessPriority.ButtonMoreVisible = False
+        Me.RBProcessPriority.Items.Add(Me.butProcessPriority)
+        Me.RBProcessPriority.Tag = Nothing
+        Me.RBProcessPriority.Text = "Priority"
         '
-        'mnu90
+        'RBProcessExecutable
         '
-        Me.mnu90.Name = "mnu90"
-        Me.mnu90.Size = New System.Drawing.Size(152, 22)
-        Me.mnu90.Text = "90%"
+        Me.RBProcessExecutable.ButtonMoreEnabled = False
+        Me.RBProcessExecutable.ButtonMoreVisible = False
+        Me.RBProcessExecutable.Items.Add(Me.butProcessFileProp)
+        Me.RBProcessExecutable.Items.Add(Me.butProcessDirOpen)
+        Me.RBProcessExecutable.Tag = Nothing
+        Me.RBProcessExecutable.Text = "Executable"
         '
-        'mnu100
+        'ServiceTab
         '
-        Me.mnu100.Checked = True
-        Me.mnu100.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.mnu100.Name = "mnu100"
-        Me.mnu100.Size = New System.Drawing.Size(152, 22)
-        Me.mnu100.Text = "100%"
+        Me.ServiceTab.Panels.Add(Me.RBServiceDisplay)
+        Me.ServiceTab.Panels.Add(Me.RBServiceAction)
+        Me.ServiceTab.Panels.Add(Me.RBServiceStartType)
+        Me.ServiceTab.Panels.Add(Me.RBServiceFile)
+        Me.ServiceTab.Tag = Nothing
+        Me.ServiceTab.Text = "Services"
+        '
+        'RBServiceDisplay
+        '
+        Me.RBServiceDisplay.ButtonMoreEnabled = False
+        Me.RBServiceDisplay.ButtonMoreVisible = False
+        Me.RBServiceDisplay.Items.Add(Me.butServiceRefresh)
+        Me.RBServiceDisplay.Tag = Nothing
+        Me.RBServiceDisplay.Text = "Display"
+        '
+        'RBServiceAction
+        '
+        Me.RBServiceAction.ButtonMoreEnabled = False
+        Me.RBServiceAction.ButtonMoreVisible = False
+        Me.RBServiceAction.Items.Add(Me.butStopService)
+        Me.RBServiceAction.Items.Add(Me.butStartService)
+        Me.RBServiceAction.Items.Add(Me.butPauseService)
+        Me.RBServiceAction.Items.Add(Me.butResumeService)
+        Me.RBServiceAction.Items.Add(Me.butShutdownService)
+        Me.RBServiceAction.Tag = Nothing
+        Me.RBServiceAction.Text = "Service actions"
+        '
+        'RBServiceStartType
+        '
+        Me.RBServiceStartType.ButtonMoreEnabled = False
+        Me.RBServiceStartType.ButtonMoreVisible = False
+        Me.RBServiceStartType.Items.Add(Me.butServiceStartType)
+        Me.RBServiceStartType.Tag = Nothing
+        Me.RBServiceStartType.Text = "Start type"
+        '
+        'RBServiceFile
+        '
+        Me.RBServiceFile.ButtonMoreEnabled = False
+        Me.RBServiceFile.ButtonMoreVisible = False
+        Me.RBServiceFile.Items.Add(Me.butServiceFileProp)
+        Me.RBServiceFile.Items.Add(Me.butServiceOpenDir)
+        Me.RBServiceFile.Tag = Nothing
+        Me.RBServiceFile.Text = "Executable"
+        '
+        'JobsTab
+        '
+        Me.JobsTab.Panels.Add(Me.RBAdd)
+        Me.JobsTab.Panels.Add(Me.RBJobsOpenSave)
+        Me.JobsTab.Tag = Nothing
+        Me.JobsTab.Text = "Jobs"
+        '
+        'RBAdd
+        '
+        Me.RBAdd.ButtonMoreEnabled = False
+        Me.RBAdd.ButtonMoreVisible = False
+        Me.RBAdd.Items.Add(Me.butAddJob)
+        Me.RBAdd.Tag = Nothing
+        Me.RBAdd.Text = "Job management"
+        '
+        'RBJobsOpenSave
+        '
+        Me.RBJobsOpenSave.ButtonMoreEnabled = False
+        Me.RBJobsOpenSave.ButtonMoreVisible = False
+        Me.RBJobsOpenSave.Items.Add(Me.butOpenJobList)
+        Me.RBJobsOpenSave.Items.Add(Me.butSaveJobList)
+        Me.RBJobsOpenSave.Tag = Nothing
+        Me.RBJobsOpenSave.Text = "Job list"
+        '
+        'ReportTab
+        '
+        Me.ReportTab.Panels.Add(Me.RBSaveReport)
+        Me.ReportTab.Panels.Add(Me.RBOthers)
+        Me.ReportTab.Tag = Nothing
+        Me.ReportTab.Text = "Misc"
+        '
+        'RBSaveReport
+        '
+        Me.RBSaveReport.ButtonMoreEnabled = False
+        Me.RBSaveReport.ButtonMoreVisible = False
+        Me.RBSaveReport.Items.Add(Me.butSaveProcessReport)
+        Me.RBSaveReport.Items.Add(Me.butSaveServiceReport)
+        Me.RBSaveReport.Tag = Nothing
+        Me.RBSaveReport.Text = "Save report"
+        '
+        'RBOthers
+        '
+        Me.RBOthers.ButtonMoreEnabled = False
+        Me.RBOthers.ButtonMoreVisible = False
+        Me.RBOthers.Items.Add(Me.butTakeFullPower)
+        Me.RBOthers.Items.Add(Me.butOptions)
+        Me.RBOthers.Tag = Nothing
+        Me.RBOthers.Text = "Other"
+        '
+        'HelpTab
+        '
+        Me.HelpTab.Panels.Add(Me.RBHelpAction)
+        Me.HelpTab.Panels.Add(Me.RBHelpWeb)
+        Me.HelpTab.Tag = Nothing
+        Me.HelpTab.Text = "Help"
+        '
+        'RBHelpAction
+        '
+        Me.RBHelpAction.ButtonMoreEnabled = False
+        Me.RBHelpAction.ButtonMoreVisible = False
+        Me.RBHelpAction.Items.Add(Me.butDonate)
+        Me.RBHelpAction.Items.Add(Me.butAbout)
+        Me.RBHelpAction.Tag = Nothing
+        Me.RBHelpAction.Text = "Actions"
+        '
+        'RBHelpWeb
+        '
+        Me.RBHelpWeb.ButtonMoreEnabled = False
+        Me.RBHelpWeb.ButtonMoreVisible = False
+        Me.RBHelpWeb.Items.Add(Me.butWebite)
+        Me.RBHelpWeb.Items.Add(Me.butProjectPage)
+        Me.RBHelpWeb.Items.Add(Me.butDownload)
+        Me.RBHelpWeb.Tag = Nothing
+        Me.RBHelpWeb.Text = "YAPM on Internet"
+        '
+        'cmdTray
+        '
+        Me.cmdTray.Font = New System.Drawing.Font("Tahoma", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdTray.Image = Global.YAPM.My.Resources.Resources.down
+        Me.cmdTray.Location = New System.Drawing.Point(5, 2)
+        Me.cmdTray.Name = "cmdTray"
+        Me.cmdTray.Size = New System.Drawing.Size(38, 20)
+        Me.cmdTray.TabIndex = 45
+        Me.cmdTray.UseVisualStyleBackColor = True
+        '
+        'butProcessRerfresh
+        '
+        Me.butProcessRerfresh.AltKey = Nothing
+        Me.butProcessRerfresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessRerfresh.Image = CType(resources.GetObject("butProcessRerfresh.Image"), System.Drawing.Image)
+        Me.butProcessRerfresh.SmallImage = CType(resources.GetObject("butProcessRerfresh.SmallImage"), System.Drawing.Image)
+        Me.butProcessRerfresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessRerfresh.Tag = Nothing
+        Me.butProcessRerfresh.Text = "Refresh"
+        Me.butProcessRerfresh.ToolTip = Nothing
+        Me.butProcessRerfresh.ToolTipImage = Nothing
+        Me.butProcessRerfresh.ToolTipTitle = Nothing
+        '
+        'butNewProcess
+        '
+        Me.butNewProcess.AltKey = Nothing
+        Me.butNewProcess.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butNewProcess.Image = CType(resources.GetObject("butNewProcess.Image"), System.Drawing.Image)
+        Me.butNewProcess.SmallImage = CType(resources.GetObject("butNewProcess.SmallImage"), System.Drawing.Image)
+        Me.butNewProcess.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butNewProcess.Tag = Nothing
+        Me.butNewProcess.Text = "New..."
+        Me.butNewProcess.ToolTip = Nothing
+        Me.butNewProcess.ToolTipImage = Nothing
+        Me.butNewProcess.ToolTipTitle = Nothing
+        '
+        'butKillProcess
+        '
+        Me.butKillProcess.AltKey = Nothing
+        Me.butKillProcess.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butKillProcess.Image = CType(resources.GetObject("butKillProcess.Image"), System.Drawing.Image)
+        Me.butKillProcess.SmallImage = CType(resources.GetObject("butKillProcess.SmallImage"), System.Drawing.Image)
+        Me.butKillProcess.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butKillProcess.Tag = Nothing
+        Me.butKillProcess.Text = "Kill"
+        Me.butKillProcess.ToolTip = Nothing
+        Me.butKillProcess.ToolTipImage = Nothing
+        Me.butKillProcess.ToolTipTitle = Nothing
+        '
+        'butStopProcess
+        '
+        Me.butStopProcess.AltKey = Nothing
+        Me.butStopProcess.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butStopProcess.Image = CType(resources.GetObject("butStopProcess.Image"), System.Drawing.Image)
+        Me.butStopProcess.SmallImage = CType(resources.GetObject("butStopProcess.SmallImage"), System.Drawing.Image)
+        Me.butStopProcess.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butStopProcess.Tag = Nothing
+        Me.butStopProcess.Text = "Stop"
+        Me.butStopProcess.ToolTip = Nothing
+        Me.butStopProcess.ToolTipImage = Nothing
+        Me.butStopProcess.ToolTipTitle = Nothing
+        '
+        'butResumeProcess
+        '
+        Me.butResumeProcess.AltKey = Nothing
+        Me.butResumeProcess.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butResumeProcess.Image = CType(resources.GetObject("butResumeProcess.Image"), System.Drawing.Image)
+        Me.butResumeProcess.SmallImage = CType(resources.GetObject("butResumeProcess.SmallImage"), System.Drawing.Image)
+        Me.butResumeProcess.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butResumeProcess.Tag = Nothing
+        Me.butResumeProcess.Text = "Resume"
+        Me.butResumeProcess.ToolTip = Nothing
+        Me.butResumeProcess.ToolTipImage = Nothing
+        Me.butResumeProcess.ToolTipTitle = Nothing
+        '
+        'butProcessOtherActions
+        '
+        Me.butProcessOtherActions.AltKey = Nothing
+        Me.butProcessOtherActions.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessOtherActions.DropDownItems.Add(Me.butProcessAffinity)
+        Me.butProcessOtherActions.DropDownItems.Add(Me.butProcessLimitCPU)
+        Me.butProcessOtherActions.Image = CType(resources.GetObject("butProcessOtherActions.Image"), System.Drawing.Image)
+        Me.butProcessOtherActions.SmallImage = CType(resources.GetObject("butProcessOtherActions.SmallImage"), System.Drawing.Image)
+        Me.butProcessOtherActions.Style = System.Windows.Forms.RibbonButtonStyle.DropDown
+        Me.butProcessOtherActions.Tag = Nothing
+        Me.butProcessOtherActions.Text = "Other actions"
+        Me.butProcessOtherActions.ToolTip = Nothing
+        Me.butProcessOtherActions.ToolTipImage = Nothing
+        Me.butProcessOtherActions.ToolTipTitle = Nothing
+        '
+        'butProcessAffinity
+        '
+        Me.butProcessAffinity.AltKey = Nothing
+        Me.butProcessAffinity.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessAffinity.Image = CType(resources.GetObject("butProcessAffinity.Image"), System.Drawing.Image)
+        Me.butProcessAffinity.SmallImage = CType(resources.GetObject("butProcessAffinity.SmallImage"), System.Drawing.Image)
+        Me.butProcessAffinity.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessAffinity.Tag = Nothing
+        Me.butProcessAffinity.Text = "Affinity"
+        Me.butProcessAffinity.ToolTip = Nothing
+        Me.butProcessAffinity.ToolTipImage = Nothing
+        Me.butProcessAffinity.ToolTipTitle = Nothing
+        '
+        'butProcessLimitCPU
+        '
+        Me.butProcessLimitCPU.AltKey = Nothing
+        Me.butProcessLimitCPU.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessLimitCPU.Image = CType(resources.GetObject("butProcessLimitCPU.Image"), System.Drawing.Image)
+        Me.butProcessLimitCPU.SmallImage = CType(resources.GetObject("butProcessLimitCPU.SmallImage"), System.Drawing.Image)
+        Me.butProcessLimitCPU.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessLimitCPU.Tag = Nothing
+        Me.butProcessLimitCPU.Text = "Limit CPU usage"
+        Me.butProcessLimitCPU.ToolTip = Nothing
+        Me.butProcessLimitCPU.ToolTipImage = Nothing
+        Me.butProcessLimitCPU.ToolTipTitle = Nothing
+        '
+        'butProcessPriority
+        '
+        Me.butProcessPriority.AltKey = Nothing
+        Me.butProcessPriority.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessPriority.DropDownItems.Add(Me.butIdle)
+        Me.butProcessPriority.DropDownItems.Add(Me.butBelowNormal)
+        Me.butProcessPriority.DropDownItems.Add(Me.butNormal)
+        Me.butProcessPriority.DropDownItems.Add(Me.butAboveNormal)
+        Me.butProcessPriority.DropDownItems.Add(Me.butHigh)
+        Me.butProcessPriority.DropDownItems.Add(Me.butRealTime)
+        Me.butProcessPriority.Image = CType(resources.GetObject("butProcessPriority.Image"), System.Drawing.Image)
+        Me.butProcessPriority.SmallImage = CType(resources.GetObject("butProcessPriority.SmallImage"), System.Drawing.Image)
+        Me.butProcessPriority.Style = System.Windows.Forms.RibbonButtonStyle.DropDown
+        Me.butProcessPriority.Tag = Nothing
+        Me.butProcessPriority.Text = "Priority"
+        Me.butProcessPriority.ToolTip = Nothing
+        Me.butProcessPriority.ToolTipImage = Nothing
+        Me.butProcessPriority.ToolTipTitle = Nothing
+        '
+        'butIdle
+        '
+        Me.butIdle.AltKey = Nothing
+        Me.butIdle.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butIdle.Image = CType(resources.GetObject("butIdle.Image"), System.Drawing.Image)
+        Me.butIdle.SmallImage = CType(resources.GetObject("butIdle.SmallImage"), System.Drawing.Image)
+        Me.butIdle.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butIdle.Tag = Nothing
+        Me.butIdle.Text = "Idle"
+        Me.butIdle.ToolTip = Nothing
+        Me.butIdle.ToolTipImage = Nothing
+        Me.butIdle.ToolTipTitle = Nothing
+        '
+        'butBelowNormal
+        '
+        Me.butBelowNormal.AltKey = Nothing
+        Me.butBelowNormal.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butBelowNormal.Image = CType(resources.GetObject("butBelowNormal.Image"), System.Drawing.Image)
+        Me.butBelowNormal.SmallImage = CType(resources.GetObject("butBelowNormal.SmallImage"), System.Drawing.Image)
+        Me.butBelowNormal.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butBelowNormal.Tag = Nothing
+        Me.butBelowNormal.Text = "Below Normal"
+        Me.butBelowNormal.ToolTip = Nothing
+        Me.butBelowNormal.ToolTipImage = Nothing
+        Me.butBelowNormal.ToolTipTitle = Nothing
+        '
+        'butNormal
+        '
+        Me.butNormal.AltKey = Nothing
+        Me.butNormal.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butNormal.Image = CType(resources.GetObject("butNormal.Image"), System.Drawing.Image)
+        Me.butNormal.SmallImage = CType(resources.GetObject("butNormal.SmallImage"), System.Drawing.Image)
+        Me.butNormal.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butNormal.Tag = Nothing
+        Me.butNormal.Text = "Normal"
+        Me.butNormal.ToolTip = Nothing
+        Me.butNormal.ToolTipImage = Nothing
+        Me.butNormal.ToolTipTitle = Nothing
+        '
+        'butAboveNormal
+        '
+        Me.butAboveNormal.AltKey = Nothing
+        Me.butAboveNormal.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butAboveNormal.Image = CType(resources.GetObject("butAboveNormal.Image"), System.Drawing.Image)
+        Me.butAboveNormal.SmallImage = CType(resources.GetObject("butAboveNormal.SmallImage"), System.Drawing.Image)
+        Me.butAboveNormal.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butAboveNormal.Tag = Nothing
+        Me.butAboveNormal.Text = "Above Normal"
+        Me.butAboveNormal.ToolTip = Nothing
+        Me.butAboveNormal.ToolTipImage = Nothing
+        Me.butAboveNormal.ToolTipTitle = Nothing
+        '
+        'butHigh
+        '
+        Me.butHigh.AltKey = Nothing
+        Me.butHigh.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butHigh.Image = CType(resources.GetObject("butHigh.Image"), System.Drawing.Image)
+        Me.butHigh.SmallImage = CType(resources.GetObject("butHigh.SmallImage"), System.Drawing.Image)
+        Me.butHigh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butHigh.Tag = Nothing
+        Me.butHigh.Text = "High"
+        Me.butHigh.ToolTip = Nothing
+        Me.butHigh.ToolTipImage = Nothing
+        Me.butHigh.ToolTipTitle = Nothing
+        '
+        'butRealTime
+        '
+        Me.butRealTime.AltKey = Nothing
+        Me.butRealTime.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butRealTime.Image = CType(resources.GetObject("butRealTime.Image"), System.Drawing.Image)
+        Me.butRealTime.SmallImage = CType(resources.GetObject("butRealTime.SmallImage"), System.Drawing.Image)
+        Me.butRealTime.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butRealTime.Tag = Nothing
+        Me.butRealTime.Text = "Real Time"
+        Me.butRealTime.ToolTip = Nothing
+        Me.butRealTime.ToolTipImage = Nothing
+        Me.butRealTime.ToolTipTitle = Nothing
+        '
+        'butProcessFileProp
+        '
+        Me.butProcessFileProp.AltKey = Nothing
+        Me.butProcessFileProp.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessFileProp.Image = CType(resources.GetObject("butProcessFileProp.Image"), System.Drawing.Image)
+        Me.butProcessFileProp.SmallImage = CType(resources.GetObject("butProcessFileProp.SmallImage"), System.Drawing.Image)
+        Me.butProcessFileProp.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessFileProp.Tag = Nothing
+        Me.butProcessFileProp.Text = "Show file properties"
+        Me.butProcessFileProp.ToolTip = Nothing
+        Me.butProcessFileProp.ToolTipImage = Nothing
+        Me.butProcessFileProp.ToolTipTitle = Nothing
+        '
+        'butProcessDirOpen
+        '
+        Me.butProcessDirOpen.AltKey = Nothing
+        Me.butProcessDirOpen.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessDirOpen.Image = CType(resources.GetObject("butProcessDirOpen.Image"), System.Drawing.Image)
+        Me.butProcessDirOpen.SmallImage = CType(resources.GetObject("butProcessDirOpen.SmallImage"), System.Drawing.Image)
+        Me.butProcessDirOpen.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessDirOpen.Tag = Nothing
+        Me.butProcessDirOpen.Text = "Open file      directory"
+        Me.butProcessDirOpen.ToolTip = Nothing
+        Me.butProcessDirOpen.ToolTipImage = Nothing
+        Me.butProcessDirOpen.ToolTipTitle = Nothing
+        '
+        'butServiceRefresh
+        '
+        Me.butServiceRefresh.AltKey = Nothing
+        Me.butServiceRefresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butServiceRefresh.Image = CType(resources.GetObject("butServiceRefresh.Image"), System.Drawing.Image)
+        Me.butServiceRefresh.SmallImage = CType(resources.GetObject("butServiceRefresh.SmallImage"), System.Drawing.Image)
+        Me.butServiceRefresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butServiceRefresh.Tag = Nothing
+        Me.butServiceRefresh.Text = "Refresh"
+        Me.butServiceRefresh.ToolTip = Nothing
+        Me.butServiceRefresh.ToolTipImage = Nothing
+        Me.butServiceRefresh.ToolTipTitle = Nothing
+        '
+        'butStopService
+        '
+        Me.butStopService.AltKey = Nothing
+        Me.butStopService.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butStopService.Image = CType(resources.GetObject("butStopService.Image"), System.Drawing.Image)
+        Me.butStopService.SmallImage = CType(resources.GetObject("butStopService.SmallImage"), System.Drawing.Image)
+        Me.butStopService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butStopService.Tag = Nothing
+        Me.butStopService.Text = "Stop"
+        Me.butStopService.ToolTip = Nothing
+        Me.butStopService.ToolTipImage = Nothing
+        Me.butStopService.ToolTipTitle = Nothing
+        '
+        'butStartService
+        '
+        Me.butStartService.AltKey = Nothing
+        Me.butStartService.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butStartService.Image = CType(resources.GetObject("butStartService.Image"), System.Drawing.Image)
+        Me.butStartService.SmallImage = CType(resources.GetObject("butStartService.SmallImage"), System.Drawing.Image)
+        Me.butStartService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butStartService.Tag = Nothing
+        Me.butStartService.Text = "Start"
+        Me.butStartService.ToolTip = Nothing
+        Me.butStartService.ToolTipImage = Nothing
+        Me.butStartService.ToolTipTitle = Nothing
+        '
+        'butPauseService
+        '
+        Me.butPauseService.AltKey = Nothing
+        Me.butPauseService.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butPauseService.Image = CType(resources.GetObject("butPauseService.Image"), System.Drawing.Image)
+        Me.butPauseService.SmallImage = CType(resources.GetObject("butPauseService.SmallImage"), System.Drawing.Image)
+        Me.butPauseService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butPauseService.Tag = Nothing
+        Me.butPauseService.Text = "Pause"
+        Me.butPauseService.ToolTip = Nothing
+        Me.butPauseService.ToolTipImage = Nothing
+        Me.butPauseService.ToolTipTitle = Nothing
+        '
+        'butResumeService
+        '
+        Me.butResumeService.AltKey = Nothing
+        Me.butResumeService.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butResumeService.Image = CType(resources.GetObject("butResumeService.Image"), System.Drawing.Image)
+        Me.butResumeService.SmallImage = CType(resources.GetObject("butResumeService.SmallImage"), System.Drawing.Image)
+        Me.butResumeService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butResumeService.Tag = Nothing
+        Me.butResumeService.Text = "Resume"
+        Me.butResumeService.ToolTip = Nothing
+        Me.butResumeService.ToolTipImage = Nothing
+        Me.butResumeService.ToolTipTitle = Nothing
+        '
+        'butShutdownService
+        '
+        Me.butShutdownService.AltKey = Nothing
+        Me.butShutdownService.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butShutdownService.Image = CType(resources.GetObject("butShutdownService.Image"), System.Drawing.Image)
+        Me.butShutdownService.SmallImage = CType(resources.GetObject("butShutdownService.SmallImage"), System.Drawing.Image)
+        Me.butShutdownService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butShutdownService.Tag = Nothing
+        Me.butShutdownService.Text = "Shutdown"
+        Me.butShutdownService.ToolTip = Nothing
+        Me.butShutdownService.ToolTipImage = Nothing
+        Me.butShutdownService.ToolTipTitle = Nothing
+        '
+        'butServiceStartType
+        '
+        Me.butServiceStartType.AltKey = Nothing
+        Me.butServiceStartType.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butServiceStartType.DropDownItems.Add(Me.butAutomaticStart)
+        Me.butServiceStartType.DropDownItems.Add(Me.butOnDemandStart)
+        Me.butServiceStartType.DropDownItems.Add(Me.butDisabledStart)
+        Me.butServiceStartType.Image = CType(resources.GetObject("butServiceStartType.Image"), System.Drawing.Image)
+        Me.butServiceStartType.SmallImage = CType(resources.GetObject("butServiceStartType.SmallImage"), System.Drawing.Image)
+        Me.butServiceStartType.Style = System.Windows.Forms.RibbonButtonStyle.DropDown
+        Me.butServiceStartType.Tag = Nothing
+        Me.butServiceStartType.Text = "Start Type"
+        Me.butServiceStartType.ToolTip = Nothing
+        Me.butServiceStartType.ToolTipImage = Nothing
+        Me.butServiceStartType.ToolTipTitle = Nothing
+        '
+        'butAutomaticStart
+        '
+        Me.butAutomaticStart.AltKey = Nothing
+        Me.butAutomaticStart.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butAutomaticStart.Image = Nothing
+        Me.butAutomaticStart.SmallImage = CType(resources.GetObject("butAutomaticStart.SmallImage"), System.Drawing.Image)
+        Me.butAutomaticStart.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butAutomaticStart.Tag = Nothing
+        Me.butAutomaticStart.Text = "Automatic"
+        Me.butAutomaticStart.ToolTip = Nothing
+        Me.butAutomaticStart.ToolTipImage = Nothing
+        Me.butAutomaticStart.ToolTipTitle = Nothing
+        '
+        'butOnDemandStart
+        '
+        Me.butOnDemandStart.AltKey = Nothing
+        Me.butOnDemandStart.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butOnDemandStart.Image = CType(resources.GetObject("butOnDemandStart.Image"), System.Drawing.Image)
+        Me.butOnDemandStart.SmallImage = CType(resources.GetObject("butOnDemandStart.SmallImage"), System.Drawing.Image)
+        Me.butOnDemandStart.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butOnDemandStart.Tag = Nothing
+        Me.butOnDemandStart.Text = "On Demand"
+        Me.butOnDemandStart.ToolTip = Nothing
+        Me.butOnDemandStart.ToolTipImage = Nothing
+        Me.butOnDemandStart.ToolTipTitle = Nothing
+        '
+        'butDisabledStart
+        '
+        Me.butDisabledStart.AltKey = Nothing
+        Me.butDisabledStart.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butDisabledStart.Image = CType(resources.GetObject("butDisabledStart.Image"), System.Drawing.Image)
+        Me.butDisabledStart.SmallImage = CType(resources.GetObject("butDisabledStart.SmallImage"), System.Drawing.Image)
+        Me.butDisabledStart.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butDisabledStart.Tag = Nothing
+        Me.butDisabledStart.Text = "Disabled"
+        Me.butDisabledStart.ToolTip = Nothing
+        Me.butDisabledStart.ToolTipImage = Nothing
+        Me.butDisabledStart.ToolTipTitle = Nothing
+        '
+        'butServiceFileProp
+        '
+        Me.butServiceFileProp.AltKey = Nothing
+        Me.butServiceFileProp.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butServiceFileProp.Image = CType(resources.GetObject("butServiceFileProp.Image"), System.Drawing.Image)
+        Me.butServiceFileProp.SmallImage = CType(resources.GetObject("butServiceFileProp.SmallImage"), System.Drawing.Image)
+        Me.butServiceFileProp.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butServiceFileProp.Tag = Nothing
+        Me.butServiceFileProp.Text = "Show file properties"
+        Me.butServiceFileProp.ToolTip = Nothing
+        Me.butServiceFileProp.ToolTipImage = Nothing
+        Me.butServiceFileProp.ToolTipTitle = Nothing
+        '
+        'butServiceOpenDir
+        '
+        Me.butServiceOpenDir.AltKey = Nothing
+        Me.butServiceOpenDir.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butServiceOpenDir.Image = CType(resources.GetObject("butServiceOpenDir.Image"), System.Drawing.Image)
+        Me.butServiceOpenDir.SmallImage = CType(resources.GetObject("butServiceOpenDir.SmallImage"), System.Drawing.Image)
+        Me.butServiceOpenDir.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butServiceOpenDir.Tag = Nothing
+        Me.butServiceOpenDir.Text = "Open file   directory"
+        Me.butServiceOpenDir.ToolTip = Nothing
+        Me.butServiceOpenDir.ToolTipImage = Nothing
+        Me.butServiceOpenDir.ToolTipTitle = Nothing
+        '
+        'butAddJob
+        '
+        Me.butAddJob.AltKey = Nothing
+        Me.butAddJob.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butAddJob.Image = CType(resources.GetObject("butAddJob.Image"), System.Drawing.Image)
+        Me.butAddJob.SmallImage = CType(resources.GetObject("butAddJob.SmallImage"), System.Drawing.Image)
+        Me.butAddJob.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butAddJob.Tag = Nothing
+        Me.butAddJob.Text = "New job"
+        Me.butAddJob.ToolTip = Nothing
+        Me.butAddJob.ToolTipImage = Nothing
+        Me.butAddJob.ToolTipTitle = Nothing
+        '
+        'butOpenJobList
+        '
+        Me.butOpenJobList.AltKey = Nothing
+        Me.butOpenJobList.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butOpenJobList.Image = CType(resources.GetObject("butOpenJobList.Image"), System.Drawing.Image)
+        Me.butOpenJobList.SmallImage = CType(resources.GetObject("butOpenJobList.SmallImage"), System.Drawing.Image)
+        Me.butOpenJobList.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butOpenJobList.Tag = Nothing
+        Me.butOpenJobList.Text = "Open"
+        Me.butOpenJobList.ToolTip = Nothing
+        Me.butOpenJobList.ToolTipImage = Nothing
+        Me.butOpenJobList.ToolTipTitle = Nothing
+        '
+        'butSaveJobList
+        '
+        Me.butSaveJobList.AltKey = Nothing
+        Me.butSaveJobList.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butSaveJobList.Image = CType(resources.GetObject("butSaveJobList.Image"), System.Drawing.Image)
+        Me.butSaveJobList.SmallImage = CType(resources.GetObject("butSaveJobList.SmallImage"), System.Drawing.Image)
+        Me.butSaveJobList.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butSaveJobList.Tag = Nothing
+        Me.butSaveJobList.Text = "Save"
+        Me.butSaveJobList.ToolTip = Nothing
+        Me.butSaveJobList.ToolTipImage = Nothing
+        Me.butSaveJobList.ToolTipTitle = Nothing
+        '
+        'butSaveProcessReport
+        '
+        Me.butSaveProcessReport.AltKey = Nothing
+        Me.butSaveProcessReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butSaveProcessReport.Image = CType(resources.GetObject("butSaveProcessReport.Image"), System.Drawing.Image)
+        Me.butSaveProcessReport.SmallImage = CType(resources.GetObject("butSaveProcessReport.SmallImage"), System.Drawing.Image)
+        Me.butSaveProcessReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butSaveProcessReport.Tag = Nothing
+        Me.butSaveProcessReport.Text = "Process report"
+        Me.butSaveProcessReport.ToolTip = Nothing
+        Me.butSaveProcessReport.ToolTipImage = Nothing
+        Me.butSaveProcessReport.ToolTipTitle = Nothing
+        '
+        'butSaveServiceReport
+        '
+        Me.butSaveServiceReport.AltKey = Nothing
+        Me.butSaveServiceReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butSaveServiceReport.Image = CType(resources.GetObject("butSaveServiceReport.Image"), System.Drawing.Image)
+        Me.butSaveServiceReport.SmallImage = CType(resources.GetObject("butSaveServiceReport.SmallImage"), System.Drawing.Image)
+        Me.butSaveServiceReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butSaveServiceReport.Tag = Nothing
+        Me.butSaveServiceReport.Text = "Service report"
+        Me.butSaveServiceReport.ToolTip = Nothing
+        Me.butSaveServiceReport.ToolTipImage = Nothing
+        Me.butSaveServiceReport.ToolTipTitle = Nothing
+        '
+        'butTakeFullPower
+        '
+        Me.butTakeFullPower.AltKey = Nothing
+        Me.butTakeFullPower.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butTakeFullPower.Image = CType(resources.GetObject("butTakeFullPower.Image"), System.Drawing.Image)
+        Me.butTakeFullPower.SmallImage = CType(resources.GetObject("butTakeFullPower.SmallImage"), System.Drawing.Image)
+        Me.butTakeFullPower.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butTakeFullPower.Tag = Nothing
+        Me.butTakeFullPower.Text = "Full power"
+        Me.butTakeFullPower.ToolTip = Nothing
+        Me.butTakeFullPower.ToolTipImage = Nothing
+        Me.butTakeFullPower.ToolTipTitle = Nothing
+        '
+        'butOptions
+        '
+        Me.butOptions.AltKey = Nothing
+        Me.butOptions.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butOptions.Image = CType(resources.GetObject("butOptions.Image"), System.Drawing.Image)
+        Me.butOptions.SmallImage = CType(resources.GetObject("butOptions.SmallImage"), System.Drawing.Image)
+        Me.butOptions.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butOptions.Tag = Nothing
+        Me.butOptions.Text = "Preferences"
+        Me.butOptions.ToolTip = Nothing
+        Me.butOptions.ToolTipImage = Nothing
+        Me.butOptions.ToolTipTitle = Nothing
+        '
+        'butDonate
+        '
+        Me.butDonate.AltKey = Nothing
+        Me.butDonate.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butDonate.Image = CType(resources.GetObject("butDonate.Image"), System.Drawing.Image)
+        Me.butDonate.SmallImage = CType(resources.GetObject("butDonate.SmallImage"), System.Drawing.Image)
+        Me.butDonate.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butDonate.Tag = Nothing
+        Me.butDonate.Text = "Donate"
+        Me.butDonate.ToolTip = Nothing
+        Me.butDonate.ToolTipImage = Nothing
+        Me.butDonate.ToolTipTitle = Nothing
+        '
+        'butAbout
+        '
+        Me.butAbout.AltKey = Nothing
+        Me.butAbout.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butAbout.Image = CType(resources.GetObject("butAbout.Image"), System.Drawing.Image)
+        Me.butAbout.SmallImage = CType(resources.GetObject("butAbout.SmallImage"), System.Drawing.Image)
+        Me.butAbout.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butAbout.Tag = Nothing
+        Me.butAbout.Text = "About"
+        Me.butAbout.ToolTip = Nothing
+        Me.butAbout.ToolTipImage = Nothing
+        Me.butAbout.ToolTipTitle = Nothing
+        '
+        'butWebite
+        '
+        Me.butWebite.AltKey = Nothing
+        Me.butWebite.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butWebite.Image = CType(resources.GetObject("butWebite.Image"), System.Drawing.Image)
+        Me.butWebite.SmallImage = CType(resources.GetObject("butWebite.SmallImage"), System.Drawing.Image)
+        Me.butWebite.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butWebite.Tag = Nothing
+        Me.butWebite.Text = "Website"
+        Me.butWebite.ToolTip = Nothing
+        Me.butWebite.ToolTipImage = Nothing
+        Me.butWebite.ToolTipTitle = Nothing
+        '
+        'butProjectPage
+        '
+        Me.butProjectPage.AltKey = Nothing
+        Me.butProjectPage.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProjectPage.Image = CType(resources.GetObject("butProjectPage.Image"), System.Drawing.Image)
+        Me.butProjectPage.SmallImage = CType(resources.GetObject("butProjectPage.SmallImage"), System.Drawing.Image)
+        Me.butProjectPage.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProjectPage.Tag = Nothing
+        Me.butProjectPage.Text = "Project page on Sourceforge.net"
+        Me.butProjectPage.ToolTip = Nothing
+        Me.butProjectPage.ToolTipImage = Nothing
+        Me.butProjectPage.ToolTipTitle = Nothing
+        '
+        'butDownload
+        '
+        Me.butDownload.AltKey = Nothing
+        Me.butDownload.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butDownload.Image = CType(resources.GetObject("butDownload.Image"), System.Drawing.Image)
+        Me.butDownload.SmallImage = CType(resources.GetObject("butDownload.SmallImage"), System.Drawing.Image)
+        Me.butDownload.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butDownload.Tag = Nothing
+        Me.butDownload.Text = "Downloads"
+        Me.butDownload.ToolTip = Nothing
+        Me.butDownload.ToolTipImage = Nothing
+        Me.butDownload.ToolTipTitle = Nothing
+        '
+        'pctSmallIcon
+        '
+        Me.pctSmallIcon.ContextMenuStrip = Me.menuCopyPctSmall
+        Me.pctSmallIcon.Location = New System.Drawing.Point(503, 19)
+        Me.pctSmallIcon.Name = "pctSmallIcon"
+        Me.pctSmallIcon.Size = New System.Drawing.Size(16, 16)
+        Me.pctSmallIcon.TabIndex = 2
+        Me.pctSmallIcon.TabStop = False
+        '
+        'pctBigIcon
+        '
+        Me.pctBigIcon.ContextMenuStrip = Me.menuCopyPctbig
+        Me.pctBigIcon.Location = New System.Drawing.Point(525, 3)
+        Me.pctBigIcon.Name = "pctBigIcon"
+        Me.pctBigIcon.Size = New System.Drawing.Size(32, 32)
+        Me.pctBigIcon.TabIndex = 1
+        Me.pctBigIcon.TabStop = False
+        '
+        'RibbonButton1
+        '
+        Me.RibbonButton1.AltKey = Nothing
+        Me.RibbonButton1.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.RibbonButton1.Image = CType(resources.GetObject("RibbonButton1.Image"), System.Drawing.Image)
+        Me.RibbonButton1.SmallImage = CType(resources.GetObject("RibbonButton1.SmallImage"), System.Drawing.Image)
+        Me.RibbonButton1.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.RibbonButton1.Tag = Nothing
+        Me.RibbonButton1.Text = "Stop"
+        Me.RibbonButton1.ToolTip = Nothing
+        Me.RibbonButton1.ToolTipImage = Nothing
+        Me.RibbonButton1.ToolTipTitle = Nothing
         '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
-        Me.ClientSize = New System.Drawing.Size(795, 570)
-        Me.Controls.Add(Me.panelActions2)
-        Me.Controls.Add(Me.panelActions1)
-        Me.Controls.Add(Me.panelActions4)
-        Me.Controls.Add(Me.panelActions3)
+        Me.ClientSize = New System.Drawing.Size(795, 603)
+        Me.Controls.Add(Me.panelInfos)
+        Me.Controls.Add(Me.panelMenu)
+        Me.Controls.Add(Me.cmdTray)
+        Me.Controls.Add(Me.Ribbon)
         Me.Controls.Add(Me.panelMain3)
         Me.Controls.Add(Me.panelMain4)
-        Me.Controls.Add(Me.cmdTray)
-        Me.Controls.Add(Me.panelInfos)
         Me.Controls.Add(Me.panelInfos2)
-        Me.Controls.Add(Me.lblServices)
-        Me.Controls.Add(Me.lblProcess)
-        Me.Controls.Add(Me.pctJobs)
-        Me.Controls.Add(Me.pctProcess)
-        Me.Controls.Add(Me.pctService)
-        Me.Controls.Add(Me.pctHelp)
         Me.Controls.Add(Me.panelMain2)
         Me.Controls.Add(Me.panelMain)
-        Me.Controls.Add(Me.panelMenu)
-        Me.Controls.Add(Me.mainMenu)
-        Me.Controls.Add(Me.lblAddJobs)
-        Me.Controls.Add(Me.lblHelp)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.MainMenuStrip = Me.mainMenu
         Me.MinimumSize = New System.Drawing.Size(787, 589)
         Me.Name = "frmMain"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Yet Another Process Monitor"
         Me.WindowState = System.Windows.Forms.FormWindowState.Minimized
-        Me.panelActions1.ResumeLayout(False)
-        Me.panelActions1.PerformLayout()
-        CType(Me.pctInfo, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gpProc1.ResumeLayout(False)
         Me.panelMain.ResumeLayout(False)
         Me.menuProc.ResumeLayout(False)
         Me.panelMenu.ResumeLayout(False)
@@ -1536,35 +1645,18 @@ Partial Class frmMain
         Me.menuService.ResumeLayout(False)
         Me.panelMain4.ResumeLayout(False)
         Me.panelMain3.ResumeLayout(False)
-        Me.panelActions4.ResumeLayout(False)
-        Me.panelActions4.PerformLayout()
         Me.menuCopyPctbig.ResumeLayout(False)
         Me.menuCopyPctSmall.ResumeLayout(False)
         Me.panelInfos.ResumeLayout(False)
         Me.panelInfos.PerformLayout()
-        CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).EndInit()
         Me.menuTooltip.ResumeLayout(False)
-        Me.mainMenu.ResumeLayout(False)
-        Me.mainMenu.PerformLayout()
         Me.panelInfos2.ResumeLayout(False)
         Me.panelInfos2.PerformLayout()
-        CType(Me.pctJobs, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pctProcess, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pctService, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pctHelp, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.panelActions2.ResumeLayout(False)
-        Me.panelActions2.PerformLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox1.ResumeLayout(False)
-        Me.panelActions3.ResumeLayout(False)
-        Me.panelActions3.PerformLayout()
-        Me.GroupBox2.ResumeLayout(False)
+        CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
-    Friend WithEvents panelActions1 As System.Windows.Forms.Panel
     Friend WithEvents panelMain As System.Windows.Forms.Panel
     Friend WithEvents panelMenu As System.Windows.Forms.Panel
     Friend WithEvents lvProcess As System.Windows.Forms.ListView
@@ -1580,13 +1672,6 @@ Partial Class frmMain
     Friend WithEvents imgProcess As System.Windows.Forms.ImageList
     Friend WithEvents chkModules As System.Windows.Forms.CheckBox
     Friend WithEvents txtSearch As System.Windows.Forms.TextBox
-    Friend WithEvents lblPriority As System.Windows.Forms.Label
-    Friend WithEvents cbPriority As System.Windows.Forms.ComboBox
-    Friend WithEvents gpProc1 As System.Windows.Forms.GroupBox
-    Friend WithEvents cmdResume As System.Windows.Forms.Button
-    Friend WithEvents cmdPause As System.Windows.Forms.Button
-    Friend WithEvents cmdKill As System.Windows.Forms.Button
-    Friend WithEvents cmdAffinity As System.Windows.Forms.Button
     Friend WithEvents imgMain As System.Windows.Forms.ImageList
     Friend WithEvents panelMain2 As System.Windows.Forms.Panel
     Friend WithEvents lvServices As System.Windows.Forms.ListView
@@ -1602,8 +1687,6 @@ Partial Class frmMain
     Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader5 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader6 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents panelActions4 As System.Windows.Forms.Panel
-    Friend WithEvents cmdSetPriority As System.Windows.Forms.Button
     Friend WithEvents timerServices As System.Windows.Forms.Timer
     Friend WithEvents c9 As System.Windows.Forms.ColumnHeader
     Friend WithEvents lblProcessName As System.Windows.Forms.Label
@@ -1614,26 +1697,8 @@ Partial Class frmMain
     Friend WithEvents imgServices As System.Windows.Forms.ImageList
     Friend WithEvents ColumnHeader10 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader11 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents cmdTray As System.Windows.Forms.Button
     Friend WithEvents Tray As System.Windows.Forms.NotifyIcon
-    Friend WithEvents mainMenu As System.Windows.Forms.MenuStrip
-    Friend WithEvents FdToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ExecuteToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents QuitToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents OptionsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents AboutToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents saveDial As System.Windows.Forms.SaveFileDialog
-    Friend WithEvents pctHelp As System.Windows.Forms.PictureBox
-    Friend WithEvents pctService As System.Windows.Forms.PictureBox
-    Friend WithEvents pctProcess As System.Windows.Forms.PictureBox
-    Friend WithEvents pctJobs As System.Windows.Forms.PictureBox
-    Friend WithEvents lblProcess As System.Windows.Forms.Label
-    Friend WithEvents lblServices As System.Windows.Forms.Label
-    Friend WithEvents lblAddJobs As System.Windows.Forms.Label
-    Friend WithEvents lblHelp As System.Windows.Forms.Label
-    Friend WithEvents TakeFullPowerToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuTooltip As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem3 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
@@ -1668,13 +1733,6 @@ Partial Class frmMain
     Friend WithEvents rtb2 As System.Windows.Forms.RichTextBox
     Friend WithEvents lblServiceName As System.Windows.Forms.Label
     Friend WithEvents WBHelp As System.Windows.Forms.WebBrowser
-    Friend WithEvents lnkOpenDir As System.Windows.Forms.LinkLabel
-    Friend WithEvents lnkProp As System.Windows.Forms.LinkLabel
-    Friend WithEvents pctInfo As System.Windows.Forms.PictureBox
-    Friend WithEvents cmdAbout As System.Windows.Forms.Button
-    Friend WithEvents cmdDonate As System.Windows.Forms.Button
-    Friend WithEvents lnkProjectPage As System.Windows.Forms.LinkLabel
-    Friend WithEvents lnkWebsite As System.Windows.Forms.LinkLabel
     Friend WithEvents menuService As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem9 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem10 As System.Windows.Forms.ToolStripMenuItem
@@ -1688,38 +1746,71 @@ Partial Class frmMain
     Friend WithEvents ToolStripMenuItem21 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ShutdownToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents cmdCopyServiceToCp As System.Windows.Forms.Button
-    Friend WithEvents panelActions2 As System.Windows.Forms.Panel
-    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
-    Friend WithEvents lnkServProp As System.Windows.Forms.LinkLabel
-    Friend WithEvents cbStartType As System.Windows.Forms.ComboBox
-    Friend WithEvents lnkServOpenDir As System.Windows.Forms.LinkLabel
-    Friend WithEvents cmdSetStartType As System.Windows.Forms.Button
-    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-    Friend WithEvents cmdShutdownService As System.Windows.Forms.Button
-    Friend WithEvents cmdResPauseService As System.Windows.Forms.Button
-    Friend WithEvents cmdStartService As System.Windows.Forms.Button
-    Friend WithEvents cmdStopService As System.Windows.Forms.Button
-    Friend WithEvents Label2 As System.Windows.Forms.Label
-    Friend WithEvents panelActions3 As System.Windows.Forms.Panel
-    Friend WithEvents cmdAddJob As System.Windows.Forms.Button
-    Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
-    Friend WithEvents cmdSaveJobs As System.Windows.Forms.Button
-    Friend WithEvents cmdOpenJobs As System.Windows.Forms.Button
     Friend WithEvents openDial As System.Windows.Forms.OpenFileDialog
-    Friend WithEvents chkJob As System.Windows.Forms.CheckBox
     Friend WithEvents timerJobs As System.Windows.Forms.Timer
-    Friend WithEvents DisplayToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents RefreshToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents AlwaysDisplayToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents OptionsToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents PreferencesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents cmdPauseService As System.Windows.Forms.Button
-    Friend WithEvents OpaToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents mnu10 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents mnu30 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents mnu50 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents mnu70 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents mnu90 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents mnu100 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents Ribbon As System.Windows.Forms.Ribbon
+    Friend WithEvents ProcessTab As System.Windows.Forms.RibbonTab
+    Friend WithEvents ServiceTab As System.Windows.Forms.RibbonTab
+    Friend WithEvents JobsTab As System.Windows.Forms.RibbonTab
+    Friend WithEvents HelpTab As System.Windows.Forms.RibbonTab
+    Friend WithEvents RBProcessActions As System.Windows.Forms.RibbonPanel
+    Friend WithEvents RBProcessExecutable As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butStopProcess As System.Windows.Forms.RibbonButton
+    Friend WithEvents butResumeProcess As System.Windows.Forms.RibbonButton
+    Friend WithEvents butProcessOtherActions As System.Windows.Forms.RibbonButton
+    Friend WithEvents RBProcessPriority As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butProcessFileProp As System.Windows.Forms.RibbonButton
+    Friend WithEvents butProcessDirOpen As System.Windows.Forms.RibbonButton
+    Friend WithEvents butKillProcess As System.Windows.Forms.RibbonButton
+    Friend WithEvents RibbonButton1 As System.Windows.Forms.RibbonButton
+    Friend WithEvents butProcessPriority As System.Windows.Forms.RibbonButton
+    Friend WithEvents butNewProcess As System.Windows.Forms.RibbonButton
+    Friend WithEvents butProcessAffinity As System.Windows.Forms.RibbonButton
+    Friend WithEvents butProcessLimitCPU As System.Windows.Forms.RibbonButton
+    Friend WithEvents butIdle As System.Windows.Forms.RibbonButton
+    Friend WithEvents butBelowNormal As System.Windows.Forms.RibbonButton
+    Friend WithEvents butNormal As System.Windows.Forms.RibbonButton
+    Friend WithEvents butAboveNormal As System.Windows.Forms.RibbonButton
+    Friend WithEvents butHigh As System.Windows.Forms.RibbonButton
+    Friend WithEvents butRealTime As System.Windows.Forms.RibbonButton
+    Friend WithEvents RBServiceAction As System.Windows.Forms.RibbonPanel
+    Friend WithEvents RBServiceFile As System.Windows.Forms.RibbonPanel
+    Friend WithEvents RBServiceStartType As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butStopService As System.Windows.Forms.RibbonButton
+    Friend WithEvents butStartService As System.Windows.Forms.RibbonButton
+    Friend WithEvents butPauseService As System.Windows.Forms.RibbonButton
+    Friend WithEvents butResumeService As System.Windows.Forms.RibbonButton
+    Friend WithEvents butShutdownService As System.Windows.Forms.RibbonButton
+    Friend WithEvents butServiceStartType As System.Windows.Forms.RibbonButton
+    Friend WithEvents butAutomaticStart As System.Windows.Forms.RibbonButton
+    Friend WithEvents butOnDemandStart As System.Windows.Forms.RibbonButton
+    Friend WithEvents butDisabledStart As System.Windows.Forms.RibbonButton
+    Friend WithEvents butServiceFileProp As System.Windows.Forms.RibbonButton
+    Friend WithEvents butServiceOpenDir As System.Windows.Forms.RibbonButton
+    Friend WithEvents RBAdd As System.Windows.Forms.RibbonPanel
+    Friend WithEvents RBJobsOpenSave As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butAddJob As System.Windows.Forms.RibbonButton
+    Friend WithEvents butOpenJobList As System.Windows.Forms.RibbonButton
+    Friend WithEvents butSaveJobList As System.Windows.Forms.RibbonButton
+    Friend WithEvents RBProcessDisplay As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butProcessRerfresh As System.Windows.Forms.RibbonButton
+    Friend WithEvents RBServiceDisplay As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butServiceRefresh As System.Windows.Forms.RibbonButton
+    Friend WithEvents RBHelpAction As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butDonate As System.Windows.Forms.RibbonButton
+    Friend WithEvents butAbout As System.Windows.Forms.RibbonButton
+    Friend WithEvents RBHelpActions As System.Windows.Forms.RibbonPanel
+    Friend WithEvents RBHelpWeb As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butWebite As System.Windows.Forms.RibbonButton
+    Friend WithEvents butProjectPage As System.Windows.Forms.RibbonButton
+    Friend WithEvents butDownload As System.Windows.Forms.RibbonButton
+    Friend WithEvents ReportTab As System.Windows.Forms.RibbonTab
+    Friend WithEvents RBSaveReport As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butSaveProcessReport As System.Windows.Forms.RibbonButton
+    Friend WithEvents butSaveServiceReport As System.Windows.Forms.RibbonButton
+    Friend WithEvents RBOthers As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butTakeFullPower As System.Windows.Forms.RibbonButton
+    Friend WithEvents butOptions As System.Windows.Forms.RibbonButton
+    Friend WithEvents cmdTray As System.Windows.Forms.Button
 
 End Class

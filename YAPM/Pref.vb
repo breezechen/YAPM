@@ -98,8 +98,7 @@ Public Class Pref
             first = False
             frmMain.TopMost = topmost
             frmMain.chkModules.Checked = startChkModules
-            frmMain.chkJob.Checked = startJobs
-            frmMain.AlwaysDisplayToolStripMenuItem.Checked = topmost
+            frmMain.bAlwaysDisplay = topmost
         End If
         If startHidden Then
             frmMain.WindowState = FormWindowState.Minimized
