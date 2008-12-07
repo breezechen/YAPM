@@ -753,6 +753,7 @@ Public Class frmMain
     Private Sub Tray_MouseDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Tray.MouseDoubleClick
         Me.Show()
         Me.WindowState = FormWindowState.Normal
+        Me.Visible = True
     End Sub
 
     Private Sub QuitToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -762,6 +763,7 @@ Public Class frmMain
     Private Sub ToolStripMenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem3.Click
         Me.Show()
         Me.WindowState = FormWindowState.Normal
+        Me.Visible = True
     End Sub
 
     Private Sub ToolStripMenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem4.Click
@@ -1582,6 +1584,7 @@ Public Class frmMain
 
     Private Sub cmdTray_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdTray.Click
         Me.Hide()
+        Me.Visible = False
     End Sub
 
     Private Sub butNewProcess_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butNewProcess.Click
@@ -1598,7 +1601,8 @@ Public Class frmMain
         Me.TopMost = Me.bAlwaysDisplay
     End Sub
 
-    Private Sub chkModules_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkModules.CheckedChanged
-
+    Private Sub frmMain_VisibleChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.VisibleChanged
+        Me.timerServices.Enabled = Me.Visible
+        Me.timerProcess.Enabled = Me.Visible
     End Sub
 End Class
