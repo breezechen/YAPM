@@ -448,6 +448,7 @@ Public Class frmMain
 
         ' Create tooltips
         SetToolTip(Me.lblResCount, "Number of results. Click on the number to view results.")
+        SetToolTip(Me.lblResCount2, "Number of results. Click on the number to view results.")
         SetToolTip(Me.txtSearch, "Enter text here to search a process.")
         SetToolTip(Me.txtServiceSearch, "Enter text here to search a service.")
         SetToolTip(Me.chkModules, "Check if you want to retrieve modules and threads infos when you click on listview.")
