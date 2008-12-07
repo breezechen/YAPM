@@ -7,6 +7,7 @@ Public Class frmMain
     Private bEnableJobs As Boolean = True
     Public bAlwaysDisplay As Boolean = False
     Public Pref As New Pref
+    Private _stopOnlineRetrieving As Boolean = False
 
     ' Not a good way to configure paths...
     'Public Const HELP_PATH As String = "C:\Users\Admin\Desktop\YAPM\YAPM\Help\help.htm"
@@ -243,6 +244,8 @@ Public Class frmMain
 
                     it.Group = lvProcess.Groups(0)
 
+                    'it.BackColor = Color.LightGreen
+
                     lvProcess.Items.Add(it)
                 End If
             End If
@@ -330,10 +333,19 @@ Public Class frmMain
                     s = s & "\tab User :\tab\tab\tab " & it.SubItems(2).Text & "\par"
                     s = s & "\tab Processor time :\tab\tab " & it.SubItems(3).Text & "\par"
                     s = s & "\tab Memory :\tab\tab " & it.SubItems(4).Text & "\par"
-                    s = s & "\par"
-                    s = s & "  \b On line informations\b0\par"
-                    s = s & "\tab Description :\tab\tab " & "Here is the online description" & "\par"
-                    s = s & "\tab State :\tab\tab\tab " & "Here is the online state" & "\par"
+
+
+                    If chkOnline.Checked Then
+                        ' Retrieve online description
+                        s = s & "\par"
+                        s = s & "  \b On line informations\b0\par"
+
+                        Dim ipi As InternetProcessInfo = mdlInternet.GetInternetInfos(it.Text)
+
+                        s = s & "\tab Security risk (0-5) :\tab " & CStr(ipi._Risk) & "\par"
+                        s = s & "\tab Description :\tab\tab\" & Replace$(ipi._Description, vbNewLine, "\par") & "\par"
+                    End If
+
 
                     If chkModules.Checked Then
                         ' Retrieve modules
@@ -436,8 +448,10 @@ Public Class frmMain
 
         ' Create tooltips
         SetToolTip(Me.lblResCount, "Number of results. Click on the number to view results.")
-        SetToolTip(Me.txtSearch, "Enter text here to search a process/service.")
+        SetToolTip(Me.txtSearch, "Enter text here to search a process.")
+        SetToolTip(Me.txtServiceSearch, "Enter text here to search a service.")
         SetToolTip(Me.chkModules, "Check if you want to retrieve modules and threads infos when you click on listview.")
+        SetToolTip(Me.chkModules, "Check if you want to retrieve online infos when you click on listview.")
         SetToolTip(Me.cmdInfosToClipB, "Copy process informations to clipboard. Use left click to copy as text, right click to copy as rtf (preserve text style).")
         SetToolTip(Me.cmdCopyServiceToCp, "Copy services informations to clipboard. Use left click to copy as text, right click to copy as rtf (preserve text style).")
         SetToolTip(Me.lblProcessPath, "Path of the main executable.")
@@ -483,29 +497,15 @@ Public Class frmMain
     End Sub
 
     Private Sub txtSearch_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearch.TextChanged
-        If bProcessHover Then
-            Dim it As ListViewItem
-            For Each it In lvProcess.Items
-                If InStr(LCase(it.Text), LCase(txtSearch.Text)) = 0 Then
-                    it.Group = lvProcess.Groups(0)
-                Else
-                    it.Group = lvProcess.Groups(1)
-                End If
-            Next
-            Me.lblResCount.Text = CStr(lvProcess.Groups(1).Items.Count)
-        ElseIf bServiceHover Then
-            Dim it As ListViewItem
-            For Each it In lvServices.Items
-                If InStr(LCase(it.Text), LCase(txtSearch.Text)) = 0 And _
-                        InStr(LCase(it.SubItems.Item(1).Text), LCase(txtSearch.Text)) = 0 Then
-                    it.Group = lvServices.Groups(0)
-                Else
-                    it.Group = lvServices.Groups(1)
-                End If
-            Next
-            Me.lblResCount.Text = CStr(lvServices.Groups(1).Items.Count)
-        End If
-        Me.lblResCount.Text = Me.lblResCount.Text & " result(s)"
+        Dim it As ListViewItem
+        For Each it In lvProcess.Items
+            If InStr(LCase(it.Text), LCase(txtSearch.Text)) = 0 Then
+                it.Group = lvProcess.Groups(0)
+            Else
+                it.Group = lvProcess.Groups(1)
+            End If
+        Next
+        Me.lblResCount.Text = CStr(lvProcess.Groups(1).Items.Count) & " result(s)"
     End Sub
 
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
@@ -524,6 +524,8 @@ Public Class frmMain
 
         Me.panelMenu.Top = 117
         Me.panelMenu.Left = 5
+        Me.panelMenu2.Top = 117
+        Me.panelMenu2.Left = 5
 
         ' Help resizement
         Me.panelMain4.Height = Me.Height - panelMain4.Top - 41
@@ -926,38 +928,20 @@ Public Class frmMain
     End Sub
 
     Private Sub lblResCount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblResCount.Click
-        If bProcessHover Then
-            Me.lvProcess.Focus()
-            Try
-                System.Windows.Forms.SendKeys.Send(Me.lvProcess.Groups(1).Items(0).Text)
-            Catch ex As Exception
-            End Try
-        ElseIf bServiceHover Then
-            Me.lvServices.Focus()
-            Try
-                System.Windows.Forms.SendKeys.Send(Me.lvServices.Groups(1).Items(0).Text)
-            Catch ex As Exception
-            End Try
-        End If
+        Me.lvProcess.Focus()
+        Try
+            System.Windows.Forms.SendKeys.Send(Me.lvProcess.Groups(1).Items(0).Text)
+        Catch ex As Exception
+        End Try
     End Sub
 
     Public Sub SetToolTip(ByVal ctrl As Control, ByVal text As String)
         Dim tToolTip As ToolTip = New System.Windows.Forms.ToolTip(Me.components)
-        With ttooltip
+        With tToolTip
             .SetToolTip(ctrl, text)
             .IsBalloon = True
             .Active = True
         End With
-    End Sub
-
-    Private Sub chkModules_VisibleChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkModules.VisibleChanged
-        If Me.chkModules.Visible Then
-            Me.txtSearch.Left = 157
-            Me.txtSearch.Width = 433
-        Else
-            Me.txtSearch.Left = 4
-            Me.txtSearch.Width = 586
-        End If
     End Sub
 
     Private Sub ToolStripMenuItem20_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem20.Click
@@ -1548,7 +1532,8 @@ Public Class frmMain
                     Me.panelInfos.Visible = False
                     Me.panelInfos2.Visible = True
                     Me.chkModules.Visible = False
-                    Me.panelMenu.Visible = True
+                    Me.panelMenu.Visible = False
+                    Me.panelMenu2.Visible = True
                 Case "Processes"
                     Me.bProcessHover = True
                     Me.bServiceHover = False
@@ -1560,6 +1545,7 @@ Public Class frmMain
                     Me.panelInfos2.Visible = False
                     Me.chkModules.Visible = True
                     Me.panelMenu.Visible = True
+                    Me.panelMenu2.Visible = False
                 Case "Jobs"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1569,6 +1555,7 @@ Public Class frmMain
                     Me.panelMain4.Visible = False
                     Me.panelMain3.BringToFront()
                     Me.panelMenu.Visible = False
+                    Me.panelMenu2.Visible = False
                 Case "Help"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1578,6 +1565,7 @@ Public Class frmMain
                     Me.panelMain4.Visible = True
                     Me.panelMain4.BringToFront()
                     Me.panelMenu.Visible = False
+                    Me.panelMenu2.Visible = False
             End Select
         End If
     End Sub
@@ -1604,5 +1592,109 @@ Public Class frmMain
     Private Sub frmMain_VisibleChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.VisibleChanged
         Me.timerServices.Enabled = Me.Visible
         Me.timerProcess.Enabled = Me.Visible
+    End Sub
+
+    Private Sub butProcessOnlineDesc_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessOnlineDesc.Click
+        Dim it As ListViewItem
+        Static b As Boolean = False
+
+        If b Then
+            _stopOnlineRetrieving = True
+        Else
+            _stopOnlineRetrieving = False
+        End If
+
+        b = True
+        For Each it In Me.lvProcess.SelectedItems
+            My.Application.DoEvents()
+
+            If _stopOnlineRetrieving Then
+                b = False
+                Exit Sub
+            End If
+
+            Try
+                Select Case mdlInternet.GetSecurityRisk(it.Text)
+                    Case 0
+                        it.BackColor = Color.LightGreen
+                    Case 1
+                        it.BackColor = Color.LightPink
+                    Case 2
+                        it.BackColor = Color.Orange
+                    Case 3
+                        it.BackColor = Color.Red
+                    Case 4
+                        it.BackColor = Color.Red
+                    Case 5
+                        it.BackColor = Color.Red
+                End Select
+            Catch ex As Exception
+                '
+            End Try
+        Next
+
+        b = False
+        _stopOnlineRetrieving = False
+    End Sub
+
+    Private Sub butProcessGoogle_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessGoogle.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvProcess.SelectedItems
+            My.Application.DoEvents()
+            Try
+                mdlFile.ShellOpenFile("http://www.google.com/search?hl=en&q=%22" & it.Text & "%22")
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub txtServiceSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtServiceSearch.Click
+        Call txtServiceSearch_TextChanged(Nothing, Nothing)
+    End Sub
+
+    Private Sub txtServiceSearch_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtServiceSearch.TextChanged
+        Dim it As ListViewItem
+        For Each it In lvServices.Items
+            If InStr(LCase(it.Text), LCase(txtServiceSearch.Text)) = 0 And _
+                    InStr(LCase(it.SubItems.Item(1).Text), LCase(txtServiceSearch.Text)) = 0 Then
+                it.Group = lvServices.Groups(0)
+            Else
+                it.Group = lvServices.Groups(1)
+            End If
+        Next
+        Me.lblResCount2.Text = CStr(lvServices.Groups(1).Items.Count) & " results(0)"
+    End Sub
+
+    Private Sub lblResCount2_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblResCount2.Click
+        Me.lvServices.Focus()
+        Try
+            System.Windows.Forms.SendKeys.Send(Me.lvServices.Groups(1).Items(0).Text)
+        Catch ex As Exception
+        End Try
+    End Sub
+
+    Private Sub GetSecurityRiskOnlineToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GetSecurityRiskOnlineToolStripMenuItem.Click
+        Call Me.butProcessOnlineDesc_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub GoogleSearchToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GoogleSearchToolStripMenuItem.Click
+        Call Me.butProcessGoogle_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butServiceGoogle_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butServiceGoogle.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvServices.SelectedItems
+            My.Application.DoEvents()
+            Try
+                mdlFile.ShellOpenFile("http://www.google.com/search?hl=en&q=%22" & it.Text & "%22")
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub GoogleSearchToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GoogleSearchToolStripMenuItem1.Click
+        Call Me.butServiceGoogle_Click(Nothing, Nothing)
     End Sub
 End Class

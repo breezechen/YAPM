@@ -57,8 +57,13 @@ Partial Class frmMain
         Me.ToolStripMenuItem8 = New System.Windows.Forms.ToolStripSeparator
         Me.PropertiesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.OpenFirectoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
+        Me.GetSecurityRiskOnlineToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.GoogleSearchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.imgProcess = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMenu = New System.Windows.Forms.Panel
+        Me.Label3 = New System.Windows.Forms.Label
+        Me.chkOnline = New System.Windows.Forms.CheckBox
         Me.lblResCount = New System.Windows.Forms.Label
         Me.txtSearch = New System.Windows.Forms.TextBox
         Me.chkModules = New System.Windows.Forms.CheckBox
@@ -83,6 +88,8 @@ Partial Class frmMain
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStripMenuItem20 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem21 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator
+        Me.GoogleSearchToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.imgServices = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain4 = New System.Windows.Forms.Panel
         Me.WBHelp = New System.Windows.Forms.WebBrowser
@@ -144,6 +151,9 @@ Partial Class frmMain
         Me.RBProcessExecutable = New System.Windows.Forms.RibbonPanel
         Me.butProcessFileProp = New System.Windows.Forms.RibbonButton
         Me.butProcessDirOpen = New System.Windows.Forms.RibbonButton
+        Me.RBProcessOnline = New System.Windows.Forms.RibbonPanel
+        Me.butProcessOnlineDesc = New System.Windows.Forms.RibbonButton
+        Me.butProcessGoogle = New System.Windows.Forms.RibbonButton
         Me.ServiceTab = New System.Windows.Forms.RibbonTab
         Me.RBServiceDisplay = New System.Windows.Forms.RibbonPanel
         Me.butServiceRefresh = New System.Windows.Forms.RibbonButton
@@ -161,6 +171,8 @@ Partial Class frmMain
         Me.RBServiceFile = New System.Windows.Forms.RibbonPanel
         Me.butServiceFileProp = New System.Windows.Forms.RibbonButton
         Me.butServiceOpenDir = New System.Windows.Forms.RibbonButton
+        Me.RBServiceOnline = New System.Windows.Forms.RibbonPanel
+        Me.butServiceGoogle = New System.Windows.Forms.RibbonButton
         Me.JobsTab = New System.Windows.Forms.RibbonTab
         Me.RBAdd = New System.Windows.Forms.RibbonPanel
         Me.butAddJob = New System.Windows.Forms.RibbonButton
@@ -186,6 +198,11 @@ Partial Class frmMain
         Me.butDownload = New System.Windows.Forms.RibbonButton
         Me.cmdTray = New System.Windows.Forms.Button
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton
+        Me.RibbonButtonList1 = New System.Windows.Forms.RibbonButtonList
+        Me.panelMenu2 = New System.Windows.Forms.Panel
+        Me.Label2 = New System.Windows.Forms.Label
+        Me.lblResCount2 = New System.Windows.Forms.Label
+        Me.txtServiceSearch = New System.Windows.Forms.TextBox
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -200,6 +217,7 @@ Partial Class frmMain
         CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.menuTooltip.SuspendLayout()
         Me.panelInfos2.SuspendLayout()
+        Me.panelMenu2.SuspendLayout()
         Me.SuspendLayout()
         '
         'imgMain
@@ -283,33 +301,33 @@ Partial Class frmMain
         '
         'menuProc
         '
-        Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem})
+        Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.ToolStripMenuItem1, Me.GetSecurityRiskOnlineToolStripMenuItem, Me.GoogleSearchToolStripMenuItem})
         Me.menuProc.Name = "menuProc"
-        Me.menuProc.Size = New System.Drawing.Size(154, 164)
+        Me.menuProc.Size = New System.Drawing.Size(194, 214)
         '
         'KillToolStripMenuItem
         '
         Me.KillToolStripMenuItem.Name = "KillToolStripMenuItem"
-        Me.KillToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.KillToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.KillToolStripMenuItem.Text = "Kill"
         '
         'StopToolStripMenuItem
         '
         Me.StopToolStripMenuItem.Name = "StopToolStripMenuItem"
-        Me.StopToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.StopToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.StopToolStripMenuItem.Text = "Stop"
         '
         'ResumeToolStripMenuItem
         '
         Me.ResumeToolStripMenuItem.Name = "ResumeToolStripMenuItem"
-        Me.ResumeToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.ResumeToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.ResumeToolStripMenuItem.Text = "Resume"
         '
         'PriotiyToolStripMenuItem
         '
         Me.PriotiyToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.IdleToolStripMenuItem, Me.BelowNormalToolStripMenuItem, Me.NormalToolStripMenuItem, Me.AboveNormalToolStripMenuItem, Me.HighToolStripMenuItem, Me.RealTimeToolStripMenuItem})
         Me.PriotiyToolStripMenuItem.Name = "PriotiyToolStripMenuItem"
-        Me.PriotiyToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.PriotiyToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.PriotiyToolStripMenuItem.Text = "Priotiy"
         '
         'IdleToolStripMenuItem
@@ -351,25 +369,42 @@ Partial Class frmMain
         'SetAffinityToolStripMenuItem
         '
         Me.SetAffinityToolStripMenuItem.Name = "SetAffinityToolStripMenuItem"
-        Me.SetAffinityToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.SetAffinityToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.SetAffinityToolStripMenuItem.Text = "Set affinity..."
         '
         'ToolStripMenuItem8
         '
         Me.ToolStripMenuItem8.Name = "ToolStripMenuItem8"
-        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(150, 6)
+        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(190, 6)
         '
         'PropertiesToolStripMenuItem
         '
         Me.PropertiesToolStripMenuItem.Name = "PropertiesToolStripMenuItem"
-        Me.PropertiesToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.PropertiesToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.PropertiesToolStripMenuItem.Text = "File properties"
         '
         'OpenFirectoryToolStripMenuItem
         '
         Me.OpenFirectoryToolStripMenuItem.Name = "OpenFirectoryToolStripMenuItem"
-        Me.OpenFirectoryToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.OpenFirectoryToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.OpenFirectoryToolStripMenuItem.Text = "Open directory"
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(190, 6)
+        '
+        'GetSecurityRiskOnlineToolStripMenuItem
+        '
+        Me.GetSecurityRiskOnlineToolStripMenuItem.Name = "GetSecurityRiskOnlineToolStripMenuItem"
+        Me.GetSecurityRiskOnlineToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
+        Me.GetSecurityRiskOnlineToolStripMenuItem.Text = "Get security risk online"
+        '
+        'GoogleSearchToolStripMenuItem
+        '
+        Me.GoogleSearchToolStripMenuItem.Name = "GoogleSearchToolStripMenuItem"
+        Me.GoogleSearchToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
+        Me.GoogleSearchToolStripMenuItem.Text = "Google search"
         '
         'imgProcess
         '
@@ -379,6 +414,8 @@ Partial Class frmMain
         '
         'panelMenu
         '
+        Me.panelMenu.Controls.Add(Me.Label3)
+        Me.panelMenu.Controls.Add(Me.chkOnline)
         Me.panelMenu.Controls.Add(Me.lblResCount)
         Me.panelMenu.Controls.Add(Me.txtSearch)
         Me.panelMenu.Controls.Add(Me.chkModules)
@@ -387,20 +424,39 @@ Partial Class frmMain
         Me.panelMenu.Size = New System.Drawing.Size(766, 28)
         Me.panelMenu.TabIndex = 4
         '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(281, 8)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(80, 13)
+        Me.Label3.TabIndex = 4
+        Me.Label3.Text = "Search process"
+        '
+        'chkOnline
+        '
+        Me.chkOnline.AutoSize = True
+        Me.chkOnline.Location = New System.Drawing.Point(157, 6)
+        Me.chkOnline.Name = "chkOnline"
+        Me.chkOnline.Size = New System.Drawing.Size(118, 17)
+        Me.chkOnline.TabIndex = 3
+        Me.chkOnline.Text = "Retrive online infos"
+        Me.chkOnline.UseVisualStyleBackColor = True
+        '
         'lblResCount
         '
         Me.lblResCount.AutoSize = True
         Me.lblResCount.Location = New System.Drawing.Point(596, 6)
         Me.lblResCount.Name = "lblResCount"
-        Me.lblResCount.Size = New System.Drawing.Size(13, 13)
+        Me.lblResCount.Size = New System.Drawing.Size(56, 13)
         Me.lblResCount.TabIndex = 2
-        Me.lblResCount.Text = "0"
+        Me.lblResCount.Text = "0 result(s)"
         '
         'txtSearch
         '
-        Me.txtSearch.Location = New System.Drawing.Point(157, 3)
+        Me.txtSearch.Location = New System.Drawing.Point(367, 3)
         Me.txtSearch.Name = "txtSearch"
-        Me.txtSearch.Size = New System.Drawing.Size(433, 21)
+        Me.txtSearch.Size = New System.Drawing.Size(223, 21)
         Me.txtSearch.TabIndex = 1
         '
         'chkModules
@@ -480,9 +536,9 @@ Partial Class frmMain
         '
         'menuService
         '
-        Me.menuService.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem9, Me.ToolStripMenuItem10, Me.ShutdownToolStripMenuItem, Me.ToolStripMenuItem11, Me.ToolStripMenuItem12, Me.ToolStripSeparator2, Me.ToolStripMenuItem20, Me.ToolStripMenuItem21})
+        Me.menuService.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem9, Me.ToolStripMenuItem10, Me.ShutdownToolStripMenuItem, Me.ToolStripMenuItem11, Me.ToolStripMenuItem12, Me.ToolStripSeparator2, Me.ToolStripMenuItem20, Me.ToolStripMenuItem21, Me.ToolStripMenuItem2, Me.GoogleSearchToolStripMenuItem1})
         Me.menuService.Name = "menuProc"
-        Me.menuService.Size = New System.Drawing.Size(154, 164)
+        Me.menuService.Size = New System.Drawing.Size(154, 214)
         '
         'ToolStripMenuItem9
         '
@@ -549,6 +605,17 @@ Partial Class frmMain
         Me.ToolStripMenuItem21.Name = "ToolStripMenuItem21"
         Me.ToolStripMenuItem21.Size = New System.Drawing.Size(153, 22)
         Me.ToolStripMenuItem21.Text = "Open directory"
+        '
+        'ToolStripMenuItem2
+        '
+        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(150, 6)
+        '
+        'GoogleSearchToolStripMenuItem1
+        '
+        Me.GoogleSearchToolStripMenuItem1.Name = "GoogleSearchToolStripMenuItem1"
+        Me.GoogleSearchToolStripMenuItem1.Size = New System.Drawing.Size(153, 22)
+        Me.GoogleSearchToolStripMenuItem1.Text = "Google search"
         '
         'imgServices
         '
@@ -683,7 +750,6 @@ Partial Class frmMain
         Me.rtb.Size = New System.Drawing.Size(554, 196)
         Me.rtb.TabIndex = 6
         Me.rtb.Text = ""
-        Me.rtb.WordWrap = False
         '
         'panelInfos
         '
@@ -889,6 +955,7 @@ Partial Class frmMain
         Me.ProcessTab.Panels.Add(Me.RBProcessActions)
         Me.ProcessTab.Panels.Add(Me.RBProcessPriority)
         Me.ProcessTab.Panels.Add(Me.RBProcessExecutable)
+        Me.ProcessTab.Panels.Add(Me.RBProcessOnline)
         Me.ProcessTab.Tag = Nothing
         Me.ProcessTab.Text = "Processes"
         '
@@ -959,7 +1026,7 @@ Partial Class frmMain
         Me.butStopProcess.SmallImage = CType(resources.GetObject("butStopProcess.SmallImage"), System.Drawing.Image)
         Me.butStopProcess.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butStopProcess.Tag = Nothing
-        Me.butStopProcess.Text = "Stop"
+        Me.butStopProcess.Text = "Pause"
         Me.butStopProcess.ToolTip = Nothing
         Me.butStopProcess.ToolTipImage = Nothing
         Me.butStopProcess.ToolTipTitle = Nothing
@@ -1158,12 +1225,48 @@ Partial Class frmMain
         Me.butProcessDirOpen.ToolTipImage = Nothing
         Me.butProcessDirOpen.ToolTipTitle = Nothing
         '
+        'RBProcessOnline
+        '
+        Me.RBProcessOnline.ButtonMoreEnabled = False
+        Me.RBProcessOnline.ButtonMoreVisible = False
+        Me.RBProcessOnline.Items.Add(Me.butProcessOnlineDesc)
+        Me.RBProcessOnline.Items.Add(Me.butProcessGoogle)
+        Me.RBProcessOnline.Tag = Nothing
+        Me.RBProcessOnline.Text = "Online"
+        '
+        'butProcessOnlineDesc
+        '
+        Me.butProcessOnlineDesc.AltKey = Nothing
+        Me.butProcessOnlineDesc.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessOnlineDesc.Image = CType(resources.GetObject("butProcessOnlineDesc.Image"), System.Drawing.Image)
+        Me.butProcessOnlineDesc.SmallImage = CType(resources.GetObject("butProcessOnlineDesc.SmallImage"), System.Drawing.Image)
+        Me.butProcessOnlineDesc.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessOnlineDesc.Tag = Nothing
+        Me.butProcessOnlineDesc.Text = "Security risk"
+        Me.butProcessOnlineDesc.ToolTip = Nothing
+        Me.butProcessOnlineDesc.ToolTipImage = Nothing
+        Me.butProcessOnlineDesc.ToolTipTitle = Nothing
+        '
+        'butProcessGoogle
+        '
+        Me.butProcessGoogle.AltKey = Nothing
+        Me.butProcessGoogle.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessGoogle.Image = CType(resources.GetObject("butProcessGoogle.Image"), System.Drawing.Image)
+        Me.butProcessGoogle.SmallImage = CType(resources.GetObject("butProcessGoogle.SmallImage"), System.Drawing.Image)
+        Me.butProcessGoogle.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessGoogle.Tag = Nothing
+        Me.butProcessGoogle.Text = "Google search"
+        Me.butProcessGoogle.ToolTip = Nothing
+        Me.butProcessGoogle.ToolTipImage = Nothing
+        Me.butProcessGoogle.ToolTipTitle = Nothing
+        '
         'ServiceTab
         '
         Me.ServiceTab.Panels.Add(Me.RBServiceDisplay)
         Me.ServiceTab.Panels.Add(Me.RBServiceAction)
         Me.ServiceTab.Panels.Add(Me.RBServiceStartType)
         Me.ServiceTab.Panels.Add(Me.RBServiceFile)
+        Me.ServiceTab.Panels.Add(Me.RBServiceOnline)
         Me.ServiceTab.Tag = Nothing
         Me.ServiceTab.Text = "Services"
         '
@@ -1362,6 +1465,27 @@ Partial Class frmMain
         Me.butServiceOpenDir.ToolTip = Nothing
         Me.butServiceOpenDir.ToolTipImage = Nothing
         Me.butServiceOpenDir.ToolTipTitle = Nothing
+        '
+        'RBServiceOnline
+        '
+        Me.RBServiceOnline.ButtonMoreEnabled = False
+        Me.RBServiceOnline.ButtonMoreVisible = False
+        Me.RBServiceOnline.Items.Add(Me.butServiceGoogle)
+        Me.RBServiceOnline.Tag = Nothing
+        Me.RBServiceOnline.Text = "Online"
+        '
+        'butServiceGoogle
+        '
+        Me.butServiceGoogle.AltKey = Nothing
+        Me.butServiceGoogle.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butServiceGoogle.Image = CType(resources.GetObject("butServiceGoogle.Image"), System.Drawing.Image)
+        Me.butServiceGoogle.SmallImage = CType(resources.GetObject("butServiceGoogle.SmallImage"), System.Drawing.Image)
+        Me.butServiceGoogle.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butServiceGoogle.Tag = Nothing
+        Me.butServiceGoogle.Text = "Google search"
+        Me.butServiceGoogle.ToolTip = Nothing
+        Me.butServiceGoogle.ToolTipImage = Nothing
+        Me.butServiceGoogle.ToolTipTitle = Nothing
         '
         'JobsTab
         '
@@ -1639,12 +1763,61 @@ Partial Class frmMain
         Me.RibbonButton1.ToolTipImage = Nothing
         Me.RibbonButton1.ToolTipTitle = Nothing
         '
+        'RibbonButtonList1
+        '
+        Me.RibbonButtonList1.AltKey = Nothing
+        Me.RibbonButtonList1.ButtonsSizeMode = System.Windows.Forms.RibbonElementSizeMode.Large
+        Me.RibbonButtonList1.Image = Nothing
+        Me.RibbonButtonList1.ItemsSizeInDropwDownMode = New System.Drawing.Size(7, 5)
+        Me.RibbonButtonList1.Tag = Nothing
+        Me.RibbonButtonList1.Text = Nothing
+        Me.RibbonButtonList1.ToolTip = Nothing
+        Me.RibbonButtonList1.ToolTipImage = Nothing
+        Me.RibbonButtonList1.ToolTipTitle = Nothing
+        '
+        'panelMenu2
+        '
+        Me.panelMenu2.Controls.Add(Me.Label2)
+        Me.panelMenu2.Controls.Add(Me.lblResCount2)
+        Me.panelMenu2.Controls.Add(Me.txtServiceSearch)
+        Me.panelMenu2.Location = New System.Drawing.Point(14, 287)
+        Me.panelMenu2.Name = "panelMenu2"
+        Me.panelMenu2.Size = New System.Drawing.Size(766, 28)
+        Me.panelMenu2.TabIndex = 46
+        Me.panelMenu2.Visible = False
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(6, 6)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(77, 13)
+        Me.Label2.TabIndex = 3
+        Me.Label2.Text = "Search service"
+        '
+        'lblResCount2
+        '
+        Me.lblResCount2.AutoSize = True
+        Me.lblResCount2.Location = New System.Drawing.Point(596, 6)
+        Me.lblResCount2.Name = "lblResCount2"
+        Me.lblResCount2.Size = New System.Drawing.Size(56, 13)
+        Me.lblResCount2.TabIndex = 2
+        Me.lblResCount2.Text = "0 result(s)"
+        '
+        'txtServiceSearch
+        '
+        Me.txtServiceSearch.Location = New System.Drawing.Point(89, 3)
+        Me.txtServiceSearch.Name = "txtServiceSearch"
+        Me.txtServiceSearch.Size = New System.Drawing.Size(501, 21)
+        Me.txtServiceSearch.TabIndex = 1
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.ClientSize = New System.Drawing.Size(795, 603)
+        Me.Controls.Add(Me.panelMenu2)
         Me.Controls.Add(Me.panelInfos)
         Me.Controls.Add(Me.panelMenu)
         Me.Controls.Add(Me.cmdTray)
@@ -1678,6 +1851,8 @@ Partial Class frmMain
         Me.menuTooltip.ResumeLayout(False)
         Me.panelInfos2.ResumeLayout(False)
         Me.panelInfos2.PerformLayout()
+        Me.panelMenu2.ResumeLayout(False)
+        Me.panelMenu2.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1838,5 +2013,22 @@ Partial Class frmMain
     Friend WithEvents cmdTray As System.Windows.Forms.Button
     Friend WithEvents RBDisplay As System.Windows.Forms.RibbonPanel
     Friend WithEvents butTopMost As System.Windows.Forms.RibbonButton
+    Friend WithEvents RBProcessOnline As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butProcessOnlineDesc As System.Windows.Forms.RibbonButton
+    Friend WithEvents RibbonButtonList1 As System.Windows.Forms.RibbonButtonList
+    Friend WithEvents butProcessGoogle As System.Windows.Forms.RibbonButton
+    Friend WithEvents chkOnline As System.Windows.Forms.CheckBox
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents panelMenu2 As System.Windows.Forms.Panel
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents lblResCount2 As System.Windows.Forms.Label
+    Friend WithEvents txtServiceSearch As System.Windows.Forms.TextBox
+    Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents GetSecurityRiskOnlineToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents GoogleSearchToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents GoogleSearchToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RBServiceOnline As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butServiceGoogle As System.Windows.Forms.RibbonButton
 
 End Class
