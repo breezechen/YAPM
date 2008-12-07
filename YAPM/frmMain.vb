@@ -1664,7 +1664,7 @@ Public Class frmMain
                 it.Group = lvServices.Groups(1)
             End If
         Next
-        Me.lblResCount2.Text = CStr(lvServices.Groups(1).Items.Count) & " results(0)"
+        Me.lblResCount2.Text = CStr(lvServices.Groups(1).Items.Count) & " results(s)"
     End Sub
 
     Private Sub lblResCount2_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblResCount2.Click
