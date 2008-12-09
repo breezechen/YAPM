@@ -150,6 +150,16 @@ Module mdlFile
 
     End Function
 
+    ' Retrieve a good formated path from a bad string
+    Public Function IntelligentPathRetrieving2(ByVal path As String) As String
+        ' Get ID and file
+        Dim iD As UInteger = 0
+        Dim file As String = vbNullString
+        Dim i As Integer = InStrRev(path, ".exe", , CompareMethod.Binary)
+        file = Left(path, i + 3)
+        Return file
+    End Function
+
     Public Function ShowRunBox(ByVal hWnd As Integer, ByVal Title As String, _
         ByVal Message As String) As Integer
 

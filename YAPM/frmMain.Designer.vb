@@ -24,12 +24,12 @@ Partial Class frmMain
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain = New System.Windows.Forms.Panel
         Me.lvProcess = New System.Windows.Forms.ListView
@@ -57,6 +57,7 @@ Partial Class frmMain
         Me.ToolStripMenuItem8 = New System.Windows.Forms.ToolStripSeparator
         Me.PropertiesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.OpenFirectoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.FileDetailsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
         Me.GetSecurityRiskOnlineToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.GoogleSearchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -88,6 +89,7 @@ Partial Class frmMain
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStripMenuItem20 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem21 = New System.Windows.Forms.ToolStripMenuItem
+        Me.FileDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator
         Me.GoogleSearchToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.imgServices = New System.Windows.Forms.ImageList(Me.components)
@@ -151,6 +153,7 @@ Partial Class frmMain
         Me.RBProcessExecutable = New System.Windows.Forms.RibbonPanel
         Me.butProcessFileProp = New System.Windows.Forms.RibbonButton
         Me.butProcessDirOpen = New System.Windows.Forms.RibbonButton
+        Me.butProcessFileDetails = New System.Windows.Forms.RibbonButton
         Me.RBProcessOnline = New System.Windows.Forms.RibbonPanel
         Me.butProcessOnlineDesc = New System.Windows.Forms.RibbonButton
         Me.butProcessGoogle = New System.Windows.Forms.RibbonButton
@@ -171,8 +174,19 @@ Partial Class frmMain
         Me.RBServiceFile = New System.Windows.Forms.RibbonPanel
         Me.butServiceFileProp = New System.Windows.Forms.RibbonButton
         Me.butServiceOpenDir = New System.Windows.Forms.RibbonButton
+        Me.butServiceFileDetails = New System.Windows.Forms.RibbonButton
         Me.RBServiceOnline = New System.Windows.Forms.RibbonPanel
         Me.butServiceGoogle = New System.Windows.Forms.RibbonButton
+        Me.FileTab = New System.Windows.Forms.RibbonTab
+        Me.RBFileDelete = New System.Windows.Forms.RibbonPanel
+        Me.butMoveFileToTrash = New System.Windows.Forms.RibbonButton
+        Me.butDeleteFile = New System.Windows.Forms.RibbonButton
+        Me.butShreddFile = New System.Windows.Forms.RibbonButton
+        Me.RBFileOnline = New System.Windows.Forms.RibbonPanel
+        Me.butFileGoogleSearch = New System.Windows.Forms.RibbonButton
+        Me.RBFileOther = New System.Windows.Forms.RibbonPanel
+        Me.butFileProperties = New System.Windows.Forms.RibbonButton
+        Me.butFileOpenDir = New System.Windows.Forms.RibbonButton
         Me.JobsTab = New System.Windows.Forms.RibbonTab
         Me.RBAdd = New System.Windows.Forms.RibbonPanel
         Me.butAddJob = New System.Windows.Forms.RibbonButton
@@ -203,6 +217,12 @@ Partial Class frmMain
         Me.Label2 = New System.Windows.Forms.Label
         Me.lblResCount2 = New System.Windows.Forms.Label
         Me.txtServiceSearch = New System.Windows.Forms.TextBox
+        Me.panelMain5 = New System.Windows.Forms.Panel
+        Me.txtFile = New System.Windows.Forms.TextBox
+        Me.cmdFileClipboard = New System.Windows.Forms.Button
+        Me.rtb3 = New System.Windows.Forms.RichTextBox
+        Me.pctFileSmall = New System.Windows.Forms.PictureBox
+        Me.pctFileBig = New System.Windows.Forms.PictureBox
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -218,6 +238,9 @@ Partial Class frmMain
         Me.menuTooltip.SuspendLayout()
         Me.panelInfos2.SuspendLayout()
         Me.panelMenu2.SuspendLayout()
+        Me.panelMain5.SuspendLayout()
+        CType(Me.pctFileSmall, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pctFileBig, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'imgMain
@@ -242,11 +265,11 @@ Partial Class frmMain
         Me.lvProcess.ContextMenuStrip = Me.menuProc
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.FullRowSelect = True
-        ListViewGroup1.Header = "Processes"
-        ListViewGroup1.Name = "gpOther"
-        ListViewGroup2.Header = "Search result"
-        ListViewGroup2.Name = "gpSearch"
-        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup5.Header = "Processes"
+        ListViewGroup5.Name = "gpOther"
+        ListViewGroup6.Header = "Search result"
+        ListViewGroup6.Name = "gpSearch"
+        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvProcess.HideSelection = False
         Me.lvProcess.Location = New System.Drawing.Point(0, 0)
         Me.lvProcess.Name = "lvProcess"
@@ -301,9 +324,9 @@ Partial Class frmMain
         '
         'menuProc
         '
-        Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.ToolStripMenuItem1, Me.GetSecurityRiskOnlineToolStripMenuItem, Me.GoogleSearchToolStripMenuItem})
+        Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.ToolStripMenuItem1, Me.GetSecurityRiskOnlineToolStripMenuItem, Me.GoogleSearchToolStripMenuItem})
         Me.menuProc.Name = "menuProc"
-        Me.menuProc.Size = New System.Drawing.Size(194, 214)
+        Me.menuProc.Size = New System.Drawing.Size(194, 236)
         '
         'KillToolStripMenuItem
         '
@@ -388,6 +411,12 @@ Partial Class frmMain
         Me.OpenFirectoryToolStripMenuItem.Name = "OpenFirectoryToolStripMenuItem"
         Me.OpenFirectoryToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.OpenFirectoryToolStripMenuItem.Text = "Open directory"
+        '
+        'FileDetailsToolStripMenuItem1
+        '
+        Me.FileDetailsToolStripMenuItem1.Name = "FileDetailsToolStripMenuItem1"
+        Me.FileDetailsToolStripMenuItem1.Size = New System.Drawing.Size(193, 22)
+        Me.FileDetailsToolStripMenuItem1.Text = "File details"
         '
         'ToolStripMenuItem1
         '
@@ -490,11 +519,11 @@ Partial Class frmMain
         Me.lvServices.ContextMenuStrip = Me.menuService
         Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvServices.FullRowSelect = True
-        ListViewGroup3.Header = "Services"
-        ListViewGroup3.Name = "gpOther"
-        ListViewGroup4.Header = "Search result"
-        ListViewGroup4.Name = "gpSearch"
-        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup7.Header = "Services"
+        ListViewGroup7.Name = "gpOther"
+        ListViewGroup8.Header = "Search result"
+        ListViewGroup8.Name = "gpSearch"
+        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
         Me.lvServices.HideSelection = False
         Me.lvServices.Location = New System.Drawing.Point(0, 0)
         Me.lvServices.Name = "lvServices"
@@ -536,7 +565,7 @@ Partial Class frmMain
         '
         'menuService
         '
-        Me.menuService.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem9, Me.ToolStripMenuItem10, Me.ShutdownToolStripMenuItem, Me.ToolStripMenuItem11, Me.ToolStripMenuItem12, Me.ToolStripSeparator2, Me.ToolStripMenuItem20, Me.ToolStripMenuItem21, Me.ToolStripMenuItem2, Me.GoogleSearchToolStripMenuItem1})
+        Me.menuService.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem9, Me.ToolStripMenuItem10, Me.ShutdownToolStripMenuItem, Me.ToolStripMenuItem11, Me.ToolStripMenuItem12, Me.ToolStripSeparator2, Me.ToolStripMenuItem20, Me.ToolStripMenuItem21, Me.FileDetailsToolStripMenuItem, Me.ToolStripMenuItem2, Me.GoogleSearchToolStripMenuItem1})
         Me.menuService.Name = "menuProc"
         Me.menuService.Size = New System.Drawing.Size(154, 214)
         '
@@ -606,6 +635,12 @@ Partial Class frmMain
         Me.ToolStripMenuItem21.Size = New System.Drawing.Size(153, 22)
         Me.ToolStripMenuItem21.Text = "Open directory"
         '
+        'FileDetailsToolStripMenuItem
+        '
+        Me.FileDetailsToolStripMenuItem.Name = "FileDetailsToolStripMenuItem"
+        Me.FileDetailsToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.FileDetailsToolStripMenuItem.Text = "File details"
+        '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
@@ -661,11 +696,11 @@ Partial Class frmMain
         Me.lvJobs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader4, Me.ColumnHeader5, Me.ColumnHeader6})
         Me.lvJobs.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvJobs.FullRowSelect = True
-        ListViewGroup5.Header = "Past jobs"
-        ListViewGroup5.Name = "gp1"
-        ListViewGroup6.Header = "Future jobs"
-        ListViewGroup6.Name = "gp2"
-        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
+        ListViewGroup1.Header = "Past jobs"
+        ListViewGroup1.Name = "gp1"
+        ListViewGroup2.Header = "Future jobs"
+        ListViewGroup2.Name = "gp2"
+        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvJobs.HideSelection = False
         Me.lvJobs.Location = New System.Drawing.Point(0, 0)
         Me.lvJobs.Name = "lvJobs"
@@ -944,6 +979,7 @@ Partial Class frmMain
         Me.Ribbon.TabIndex = 44
         Me.Ribbon.Tabs.Add(Me.ProcessTab)
         Me.Ribbon.Tabs.Add(Me.ServiceTab)
+        Me.Ribbon.Tabs.Add(Me.FileTab)
         Me.Ribbon.Tabs.Add(Me.JobsTab)
         Me.Ribbon.Tabs.Add(Me.ReportTab)
         Me.Ribbon.Tabs.Add(Me.HelpTab)
@@ -1196,6 +1232,7 @@ Partial Class frmMain
         Me.RBProcessExecutable.ButtonMoreVisible = False
         Me.RBProcessExecutable.Items.Add(Me.butProcessFileProp)
         Me.RBProcessExecutable.Items.Add(Me.butProcessDirOpen)
+        Me.RBProcessExecutable.Items.Add(Me.butProcessFileDetails)
         Me.RBProcessExecutable.Tag = Nothing
         Me.RBProcessExecutable.Text = "Executable"
         '
@@ -1224,6 +1261,19 @@ Partial Class frmMain
         Me.butProcessDirOpen.ToolTip = Nothing
         Me.butProcessDirOpen.ToolTipImage = Nothing
         Me.butProcessDirOpen.ToolTipTitle = Nothing
+        '
+        'butProcessFileDetails
+        '
+        Me.butProcessFileDetails.AltKey = Nothing
+        Me.butProcessFileDetails.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessFileDetails.Image = CType(resources.GetObject("butProcessFileDetails.Image"), System.Drawing.Image)
+        Me.butProcessFileDetails.SmallImage = CType(resources.GetObject("butProcessFileDetails.SmallImage"), System.Drawing.Image)
+        Me.butProcessFileDetails.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessFileDetails.Tag = Nothing
+        Me.butProcessFileDetails.Text = "Details"
+        Me.butProcessFileDetails.ToolTip = Nothing
+        Me.butProcessFileDetails.ToolTipImage = Nothing
+        Me.butProcessFileDetails.ToolTipTitle = Nothing
         '
         'RBProcessOnline
         '
@@ -1437,6 +1487,7 @@ Partial Class frmMain
         Me.RBServiceFile.ButtonMoreVisible = False
         Me.RBServiceFile.Items.Add(Me.butServiceFileProp)
         Me.RBServiceFile.Items.Add(Me.butServiceOpenDir)
+        Me.RBServiceFile.Items.Add(Me.butServiceFileDetails)
         Me.RBServiceFile.Tag = Nothing
         Me.RBServiceFile.Text = "Executable"
         '
@@ -1466,6 +1517,19 @@ Partial Class frmMain
         Me.butServiceOpenDir.ToolTipImage = Nothing
         Me.butServiceOpenDir.ToolTipTitle = Nothing
         '
+        'butServiceFileDetails
+        '
+        Me.butServiceFileDetails.AltKey = Nothing
+        Me.butServiceFileDetails.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butServiceFileDetails.Image = CType(resources.GetObject("butServiceFileDetails.Image"), System.Drawing.Image)
+        Me.butServiceFileDetails.SmallImage = CType(resources.GetObject("butServiceFileDetails.SmallImage"), System.Drawing.Image)
+        Me.butServiceFileDetails.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butServiceFileDetails.Tag = Nothing
+        Me.butServiceFileDetails.Text = "Details"
+        Me.butServiceFileDetails.ToolTip = Nothing
+        Me.butServiceFileDetails.ToolTipImage = Nothing
+        Me.butServiceFileDetails.ToolTipTitle = Nothing
+        '
         'RBServiceOnline
         '
         Me.RBServiceOnline.ButtonMoreEnabled = False
@@ -1486,6 +1550,119 @@ Partial Class frmMain
         Me.butServiceGoogle.ToolTip = Nothing
         Me.butServiceGoogle.ToolTipImage = Nothing
         Me.butServiceGoogle.ToolTipTitle = Nothing
+        '
+        'FileTab
+        '
+        Me.FileTab.Panels.Add(Me.RBFileDelete)
+        Me.FileTab.Panels.Add(Me.RBFileOnline)
+        Me.FileTab.Panels.Add(Me.RBFileOther)
+        Me.FileTab.Tag = Nothing
+        Me.FileTab.Text = "File"
+        '
+        'RBFileDelete
+        '
+        Me.RBFileDelete.ButtonMoreEnabled = False
+        Me.RBFileDelete.ButtonMoreVisible = False
+        Me.RBFileDelete.Items.Add(Me.butMoveFileToTrash)
+        Me.RBFileDelete.Items.Add(Me.butDeleteFile)
+        Me.RBFileDelete.Items.Add(Me.butShreddFile)
+        Me.RBFileDelete.Tag = Nothing
+        Me.RBFileDelete.Text = "Delete"
+        '
+        'butMoveFileToTrash
+        '
+        Me.butMoveFileToTrash.AltKey = Nothing
+        Me.butMoveFileToTrash.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butMoveFileToTrash.Image = CType(resources.GetObject("butMoveFileToTrash.Image"), System.Drawing.Image)
+        Me.butMoveFileToTrash.SmallImage = CType(resources.GetObject("butMoveFileToTrash.SmallImage"), System.Drawing.Image)
+        Me.butMoveFileToTrash.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butMoveFileToTrash.Tag = Nothing
+        Me.butMoveFileToTrash.Text = "Trash"
+        Me.butMoveFileToTrash.ToolTip = Nothing
+        Me.butMoveFileToTrash.ToolTipImage = Nothing
+        Me.butMoveFileToTrash.ToolTipTitle = Nothing
+        '
+        'butDeleteFile
+        '
+        Me.butDeleteFile.AltKey = Nothing
+        Me.butDeleteFile.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butDeleteFile.Image = CType(resources.GetObject("butDeleteFile.Image"), System.Drawing.Image)
+        Me.butDeleteFile.SmallImage = CType(resources.GetObject("butDeleteFile.SmallImage"), System.Drawing.Image)
+        Me.butDeleteFile.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butDeleteFile.Tag = Nothing
+        Me.butDeleteFile.Text = "Delete"
+        Me.butDeleteFile.ToolTip = Nothing
+        Me.butDeleteFile.ToolTipImage = Nothing
+        Me.butDeleteFile.ToolTipTitle = Nothing
+        '
+        'butShreddFile
+        '
+        Me.butShreddFile.AltKey = Nothing
+        Me.butShreddFile.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butShreddFile.Image = CType(resources.GetObject("butShreddFile.Image"), System.Drawing.Image)
+        Me.butShreddFile.SmallImage = CType(resources.GetObject("butShreddFile.SmallImage"), System.Drawing.Image)
+        Me.butShreddFile.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butShreddFile.Tag = Nothing
+        Me.butShreddFile.Text = "Shredd"
+        Me.butShreddFile.ToolTip = Nothing
+        Me.butShreddFile.ToolTipImage = Nothing
+        Me.butShreddFile.ToolTipTitle = Nothing
+        '
+        'RBFileOnline
+        '
+        Me.RBFileOnline.ButtonMoreEnabled = False
+        Me.RBFileOnline.ButtonMoreVisible = False
+        Me.RBFileOnline.Items.Add(Me.butFileGoogleSearch)
+        Me.RBFileOnline.Tag = Nothing
+        Me.RBFileOnline.Text = "Online"
+        '
+        'butFileGoogleSearch
+        '
+        Me.butFileGoogleSearch.AltKey = Nothing
+        Me.butFileGoogleSearch.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileGoogleSearch.Image = CType(resources.GetObject("butFileGoogleSearch.Image"), System.Drawing.Image)
+        Me.butFileGoogleSearch.SmallImage = CType(resources.GetObject("butFileGoogleSearch.SmallImage"), System.Drawing.Image)
+        Me.butFileGoogleSearch.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileGoogleSearch.Tag = Nothing
+        Me.butFileGoogleSearch.Text = "Google search"
+        Me.butFileGoogleSearch.ToolTip = Nothing
+        Me.butFileGoogleSearch.ToolTipImage = Nothing
+        Me.butFileGoogleSearch.ToolTipTitle = Nothing
+        '
+        'RBFileOther
+        '
+        Me.RBFileOther.ButtonMoreEnabled = False
+        Me.RBFileOther.ButtonMoreVisible = False
+        Me.RBFileOther.Items.Add(Me.butFileProperties)
+        Me.RBFileOther.Items.Add(Me.butFileOpenDir)
+        Me.RBFileOther.Tag = Nothing
+        Me.RBFileOther.Text = "Other actions"
+        '
+        'butFileProperties
+        '
+        Me.butFileProperties.AltKey = Nothing
+        Me.butFileProperties.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileProperties.Image = CType(resources.GetObject("butFileProperties.Image"), System.Drawing.Image)
+        Me.butFileProperties.SmallImage = CType(resources.GetObject("butFileProperties.SmallImage"), System.Drawing.Image)
+        Me.butFileProperties.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileProperties.Tag = Nothing
+        Me.butFileProperties.Text = "Show file properties"
+        Me.butFileProperties.ToolTip = Nothing
+        Me.butFileProperties.ToolTipImage = Nothing
+        Me.butFileProperties.ToolTipTitle = Nothing
+        '
+        'butFileOpenDir
+        '
+        Me.butFileOpenDir.AltKey = Nothing
+        Me.butFileOpenDir.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileOpenDir.Image = CType(resources.GetObject("butFileOpenDir.Image"), System.Drawing.Image)
+        Me.butFileOpenDir.SmallImage = CType(resources.GetObject("butFileOpenDir.SmallImage"), System.Drawing.Image)
+        Me.butFileOpenDir.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileOpenDir.Tag = Nothing
+        Me.butFileOpenDir.Text = "Open file   directory"
+        Me.butFileOpenDir.ToolTip = Nothing
+        Me.butFileOpenDir.ToolTipImage = Nothing
+        Me.butFileOpenDir.ToolTipTitle = Nothing
         '
         'JobsTab
         '
@@ -1811,14 +1988,82 @@ Partial Class frmMain
         Me.txtServiceSearch.Size = New System.Drawing.Size(501, 21)
         Me.txtServiceSearch.TabIndex = 1
         '
+        'panelMain5
+        '
+        Me.panelMain5.Controls.Add(Me.txtFile)
+        Me.panelMain5.Controls.Add(Me.cmdFileClipboard)
+        Me.panelMain5.Controls.Add(Me.rtb3)
+        Me.panelMain5.Controls.Add(Me.pctFileSmall)
+        Me.panelMain5.Controls.Add(Me.pctFileBig)
+        Me.panelMain5.Location = New System.Drawing.Point(117, 181)
+        Me.panelMain5.Name = "panelMain5"
+        Me.panelMain5.Size = New System.Drawing.Size(560, 240)
+        Me.panelMain5.TabIndex = 47
+        Me.panelMain5.Visible = False
+        '
+        'txtFile
+        '
+        Me.txtFile.BackColor = System.Drawing.SystemColors.ButtonFace
+        Me.txtFile.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtFile.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtFile.ForeColor = System.Drawing.SystemColors.WindowFrame
+        Me.txtFile.Location = New System.Drawing.Point(8, 12)
+        Me.txtFile.Name = "txtFile"
+        Me.txtFile.ReadOnly = True
+        Me.txtFile.Size = New System.Drawing.Size(240, 16)
+        Me.txtFile.TabIndex = 13
+        Me.txtFile.Text = "No selected file"
+        '
+        'cmdFileClipboard
+        '
+        Me.cmdFileClipboard.Enabled = False
+        Me.cmdFileClipboard.Location = New System.Drawing.Point(395, 14)
+        Me.cmdFileClipboard.Name = "cmdFileClipboard"
+        Me.cmdFileClipboard.Size = New System.Drawing.Size(99, 21)
+        Me.cmdFileClipboard.TabIndex = 12
+        Me.cmdFileClipboard.Text = "Copy to clipboard"
+        Me.cmdFileClipboard.UseVisualStyleBackColor = True
+        '
+        'rtb3
+        '
+        Me.rtb3.AutoWordSelection = True
+        Me.rtb3.BackColor = System.Drawing.Color.White
+        Me.rtb3.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.rtb3.HideSelection = False
+        Me.rtb3.Location = New System.Drawing.Point(3, 41)
+        Me.rtb3.Name = "rtb3"
+        Me.rtb3.ReadOnly = True
+        Me.rtb3.Size = New System.Drawing.Size(554, 196)
+        Me.rtb3.TabIndex = 11
+        Me.rtb3.Text = ""
+        '
+        'pctFileSmall
+        '
+        Me.pctFileSmall.ContextMenuStrip = Me.menuCopyPctSmall
+        Me.pctFileSmall.Location = New System.Drawing.Point(503, 19)
+        Me.pctFileSmall.Name = "pctFileSmall"
+        Me.pctFileSmall.Size = New System.Drawing.Size(16, 16)
+        Me.pctFileSmall.TabIndex = 9
+        Me.pctFileSmall.TabStop = False
+        '
+        'pctFileBig
+        '
+        Me.pctFileBig.ContextMenuStrip = Me.menuCopyPctbig
+        Me.pctFileBig.Location = New System.Drawing.Point(525, 3)
+        Me.pctFileBig.Name = "pctFileBig"
+        Me.pctFileBig.Size = New System.Drawing.Size(32, 32)
+        Me.pctFileBig.TabIndex = 8
+        Me.pctFileBig.TabStop = False
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.ClientSize = New System.Drawing.Size(795, 603)
-        Me.Controls.Add(Me.panelMenu2)
+        Me.Controls.Add(Me.panelMain5)
         Me.Controls.Add(Me.panelInfos)
+        Me.Controls.Add(Me.panelMenu2)
         Me.Controls.Add(Me.panelMenu)
         Me.Controls.Add(Me.cmdTray)
         Me.Controls.Add(Me.Ribbon)
@@ -1853,6 +2098,10 @@ Partial Class frmMain
         Me.panelInfos2.PerformLayout()
         Me.panelMenu2.ResumeLayout(False)
         Me.panelMenu2.PerformLayout()
+        Me.panelMain5.ResumeLayout(False)
+        Me.panelMain5.PerformLayout()
+        CType(Me.pctFileSmall, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pctFileBig, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -2030,5 +2279,25 @@ Partial Class frmMain
     Friend WithEvents GoogleSearchToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RBServiceOnline As System.Windows.Forms.RibbonPanel
     Friend WithEvents butServiceGoogle As System.Windows.Forms.RibbonButton
+    Friend WithEvents FileTab As System.Windows.Forms.RibbonTab
+    Friend WithEvents RBFileDelete As System.Windows.Forms.RibbonPanel
+    Friend WithEvents RBFileOnline As System.Windows.Forms.RibbonPanel
+    Friend WithEvents RBFileOther As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butMoveFileToTrash As System.Windows.Forms.RibbonButton
+    Friend WithEvents butDeleteFile As System.Windows.Forms.RibbonButton
+    Friend WithEvents butShreddFile As System.Windows.Forms.RibbonButton
+    Friend WithEvents butFileGoogleSearch As System.Windows.Forms.RibbonButton
+    Friend WithEvents butFileProperties As System.Windows.Forms.RibbonButton
+    Friend WithEvents butFileOpenDir As System.Windows.Forms.RibbonButton
+    Friend WithEvents panelMain5 As System.Windows.Forms.Panel
+    Friend WithEvents cmdFileClipboard As System.Windows.Forms.Button
+    Friend WithEvents rtb3 As System.Windows.Forms.RichTextBox
+    Friend WithEvents pctFileSmall As System.Windows.Forms.PictureBox
+    Friend WithEvents pctFileBig As System.Windows.Forms.PictureBox
+    Friend WithEvents txtFile As System.Windows.Forms.TextBox
+    Friend WithEvents FileDetailsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents butProcessFileDetails As System.Windows.Forms.RibbonButton
+    Friend WithEvents butServiceFileDetails As System.Windows.Forms.RibbonButton
+    Friend WithEvents FileDetailsToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
 
 End Class

@@ -518,6 +518,8 @@ Public Class frmMain
         Me.panelMain3.Top = 120
         Me.panelMain4.Left = 5
         Me.panelMain4.Top = 120
+        Me.panelMain5.Left = 5
+        Me.panelMain5.Top = 120
         Me.panelInfos.Left = 5
         Me.panelInfos.Top = 307
         Me.panelInfos2.Left = 5
@@ -551,6 +553,16 @@ Public Class frmMain
         Me.cmdInfosToClipB.Left = Me.panelInfos.Width - 165
         Me.lblProcessPath.Width = Me.panelInfos.Width - 175
         Me.lblProcessName.Width = Me.panelInfos.Width - 175
+
+        ' File resizement
+        Me.panelMain5.Height = Me.panelMain3.Height
+        Me.panelMain5.Width = Me.panelMain3.Width
+        Me.pctFileBig.Left = Me.panelInfos.Width - 35
+        Me.pctFileSmall.Left = Me.panelInfos.Width - 57
+        Me.cmdFileClipboard.Left = Me.panelInfos.Width - 165
+        Me.txtFile.Width = Me.panelInfos.Width - 175
+        Me.rtb3.Width = Me.rtb.Width
+        Me.rtb3.Height = Me.panelMain5.Height - 42
 
         ' Services
         Me.panelInfos2.Height = CInt(IIf(i < 210, i, 210))
@@ -1530,6 +1542,7 @@ Public Class frmMain
                     Me.panelMain2.Visible = True
                     Me.panelMain3.Visible = False
                     Me.panelMain4.Visible = False
+                    Me.panelMain5.Visible = False
                     Me.panelInfos.Visible = False
                     Me.panelInfos2.Visible = True
                     Me.chkModules.Visible = False
@@ -1547,6 +1560,7 @@ Public Class frmMain
                     Me.chkModules.Visible = True
                     Me.panelMenu.Visible = True
                     Me.panelMenu2.Visible = False
+                    Me.panelMain5.Visible = False
                 Case "Jobs"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1557,6 +1571,7 @@ Public Class frmMain
                     Me.panelMain3.BringToFront()
                     Me.panelMenu.Visible = False
                     Me.panelMenu2.Visible = False
+                    Me.panelMain5.Visible = False
                 Case "Help"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1567,6 +1582,18 @@ Public Class frmMain
                     Me.panelMain4.BringToFront()
                     Me.panelMenu.Visible = False
                     Me.panelMenu2.Visible = False
+                    Me.panelMain5.Visible = False
+                Case "File"
+                    Me.bProcessHover = False
+                    Me.bServiceHover = False
+                    Me.panelMain.Visible = False
+                    Me.panelMain2.Visible = False
+                    Me.panelMain3.Visible = False
+                    Me.panelMain4.Visible = False
+                    Me.panelMain5.BringToFront()
+                    Me.panelMenu.Visible = False
+                    Me.panelMenu2.Visible = False
+                    Me.panelMain5.Visible = True
             End Select
         End If
     End Sub
@@ -1697,5 +1724,59 @@ Public Class frmMain
 
     Private Sub GoogleSearchToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GoogleSearchToolStripMenuItem1.Click
         Call Me.butServiceGoogle_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub FileDetailsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileDetailsToolStripMenuItem.Click
+        Call Me.butServiceFileDetails_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub FileDetailsToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileDetailsToolStripMenuItem1.Click
+        Call Me.butProcessFileDetails_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butProcessFileDetails_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessFileDetails.Click
+        If Me.lvProcess.SelectedItems.Count > 0 Then
+            Dim s As String = Me.lvProcess.SelectedItems.Item(0).SubItems(7).Text
+            If IO.File.Exists(s) Then
+                DisplayDetailsFile(s)
+            End If
+        End If
+    End Sub
+
+    Private Sub butServiceFileDetails_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butServiceFileDetails.Click
+        If Me.lvServices.SelectedItems.Count > 0 Then
+            Dim s As String = Me.lvServices.SelectedItems.Item(0).SubItems(4).Text 
+            If IO.File.Exists(s) = False Then
+                s = mdlFile.IntelligentPathRetrieving2(s)
+            End If
+            If IO.File.Exists(s) Then
+                DisplayDetailsFile(s)
+            End If
+        End If
+    End Sub
+
+    Private Sub DisplayDetailsFile(ByVal file As String)
+        Me.txtFile.Text = file
+        'getinfos();
+        Me.Ribbon.ActiveTab = Me.FileTab
+        Call Me.Ribbon_MouseMove(Nothing, Nothing)
+    End Sub
+
+    Private Sub cmdFileClipboard_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdFileClipboard.Click
+        If Me.rtb3.Text.Length > 0 Then
+            My.Computer.Clipboard.SetText(Me.rtb3.Text, TextDataFormat.Text)
+        End If
+    End Sub
+
+    Private Sub cmdFileClipboard_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles cmdFileClipboard.MouseDown
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            If Me.rtb3.Rtf.Length > 0 Then
+                My.Computer.Clipboard.SetText(Me.rtb3.Rtf, TextDataFormat.Rtf)
+            End If
+        End If
+    End Sub
+
+    Private Sub rtb3_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rtb3.TextChanged
+        Me.cmdFileClipboard.Enabled = (rtb3.Rtf.Length > 0)
     End Sub
 End Class
