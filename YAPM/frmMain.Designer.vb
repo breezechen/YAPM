@@ -193,6 +193,7 @@ Partial Class frmMain
         Me.RBJobsOpenSave = New System.Windows.Forms.RibbonPanel
         Me.butOpenJobList = New System.Windows.Forms.RibbonButton
         Me.butSaveJobList = New System.Windows.Forms.RibbonButton
+        Me.SearchTab = New System.Windows.Forms.RibbonTab
         Me.ReportTab = New System.Windows.Forms.RibbonTab
         Me.RBSaveReport = New System.Windows.Forms.RibbonPanel
         Me.butSaveProcessReport = New System.Windows.Forms.RibbonButton
@@ -218,12 +219,12 @@ Partial Class frmMain
         Me.lblResCount2 = New System.Windows.Forms.Label
         Me.txtServiceSearch = New System.Windows.Forms.TextBox
         Me.panelMain5 = New System.Windows.Forms.Panel
+        Me.fileSplitContainer = New System.Windows.Forms.SplitContainer
+        Me.rtb3 = New System.Windows.Forms.RichTextBox
         Me.txtFile = New System.Windows.Forms.TextBox
         Me.cmdFileClipboard = New System.Windows.Forms.Button
-        Me.rtb3 = New System.Windows.Forms.RichTextBox
         Me.pctFileSmall = New System.Windows.Forms.PictureBox
         Me.pctFileBig = New System.Windows.Forms.PictureBox
-        Me.SearchTab = New System.Windows.Forms.RibbonTab
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -240,6 +241,8 @@ Partial Class frmMain
         Me.panelInfos2.SuspendLayout()
         Me.panelMenu2.SuspendLayout()
         Me.panelMain5.SuspendLayout()
+        Me.fileSplitContainer.Panel1.SuspendLayout()
+        Me.fileSplitContainer.SuspendLayout()
         CType(Me.pctFileSmall, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pctFileBig, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -1729,6 +1732,11 @@ Partial Class frmMain
         Me.butSaveJobList.ToolTipImage = Nothing
         Me.butSaveJobList.ToolTipTitle = Nothing
         '
+        'SearchTab
+        '
+        Me.SearchTab.Tag = Nothing
+        Me.SearchTab.Text = "Search"
+        '
         'ReportTab
         '
         Me.ReportTab.Panels.Add(Me.RBSaveReport)
@@ -1992,16 +2000,44 @@ Partial Class frmMain
         '
         'panelMain5
         '
+        Me.panelMain5.Controls.Add(Me.fileSplitContainer)
         Me.panelMain5.Controls.Add(Me.txtFile)
         Me.panelMain5.Controls.Add(Me.cmdFileClipboard)
-        Me.panelMain5.Controls.Add(Me.rtb3)
         Me.panelMain5.Controls.Add(Me.pctFileSmall)
         Me.panelMain5.Controls.Add(Me.pctFileBig)
         Me.panelMain5.Location = New System.Drawing.Point(117, 181)
         Me.panelMain5.Name = "panelMain5"
-        Me.panelMain5.Size = New System.Drawing.Size(560, 240)
+        Me.panelMain5.Size = New System.Drawing.Size(640, 317)
         Me.panelMain5.TabIndex = 47
         Me.panelMain5.Visible = False
+        '
+        'fileSplitContainer
+        '
+        Me.fileSplitContainer.IsSplitterFixed = True
+        Me.fileSplitContainer.Location = New System.Drawing.Point(3, 43)
+        Me.fileSplitContainer.Name = "fileSplitContainer"
+        Me.fileSplitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'fileSplitContainer.Panel1
+        '
+        Me.fileSplitContainer.Panel1.Controls.Add(Me.rtb3)
+        Me.fileSplitContainer.Size = New System.Drawing.Size(634, 271)
+        Me.fileSplitContainer.SplitterDistance = 180
+        Me.fileSplitContainer.TabIndex = 0
+        '
+        'rtb3
+        '
+        Me.rtb3.AutoWordSelection = True
+        Me.rtb3.BackColor = System.Drawing.Color.White
+        Me.rtb3.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.rtb3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.rtb3.HideSelection = False
+        Me.rtb3.Location = New System.Drawing.Point(0, 0)
+        Me.rtb3.Name = "rtb3"
+        Me.rtb3.ReadOnly = True
+        Me.rtb3.Size = New System.Drawing.Size(634, 180)
+        Me.rtb3.TabIndex = 12
+        Me.rtb3.Text = ""
         '
         'txtFile
         '
@@ -2026,19 +2062,6 @@ Partial Class frmMain
         Me.cmdFileClipboard.Text = "Copy to clipboard"
         Me.cmdFileClipboard.UseVisualStyleBackColor = True
         '
-        'rtb3
-        '
-        Me.rtb3.AutoWordSelection = True
-        Me.rtb3.BackColor = System.Drawing.Color.White
-        Me.rtb3.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.rtb3.HideSelection = False
-        Me.rtb3.Location = New System.Drawing.Point(3, 41)
-        Me.rtb3.Name = "rtb3"
-        Me.rtb3.ReadOnly = True
-        Me.rtb3.Size = New System.Drawing.Size(554, 196)
-        Me.rtb3.TabIndex = 11
-        Me.rtb3.Text = ""
-        '
         'pctFileSmall
         '
         Me.pctFileSmall.ContextMenuStrip = Me.menuCopyPctSmall
@@ -2056,11 +2079,6 @@ Partial Class frmMain
         Me.pctFileBig.Size = New System.Drawing.Size(32, 32)
         Me.pctFileBig.TabIndex = 8
         Me.pctFileBig.TabStop = False
-        '
-        'SearchTab
-        '
-        Me.SearchTab.Tag = Nothing
-        Me.SearchTab.Text = "Search"
         '
         'frmMain
         '
@@ -2107,6 +2125,8 @@ Partial Class frmMain
         Me.panelMenu2.PerformLayout()
         Me.panelMain5.ResumeLayout(False)
         Me.panelMain5.PerformLayout()
+        Me.fileSplitContainer.Panel1.ResumeLayout(False)
+        Me.fileSplitContainer.ResumeLayout(False)
         CType(Me.pctFileSmall, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pctFileBig, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -2298,7 +2318,6 @@ Partial Class frmMain
     Friend WithEvents butFileOpenDir As System.Windows.Forms.RibbonButton
     Friend WithEvents panelMain5 As System.Windows.Forms.Panel
     Friend WithEvents cmdFileClipboard As System.Windows.Forms.Button
-    Friend WithEvents rtb3 As System.Windows.Forms.RichTextBox
     Friend WithEvents pctFileSmall As System.Windows.Forms.PictureBox
     Friend WithEvents pctFileBig As System.Windows.Forms.PictureBox
     Friend WithEvents txtFile As System.Windows.Forms.TextBox
@@ -2307,5 +2326,7 @@ Partial Class frmMain
     Friend WithEvents butServiceFileDetails As System.Windows.Forms.RibbonButton
     Friend WithEvents FileDetailsToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SearchTab As System.Windows.Forms.RibbonTab
+    Friend WithEvents fileSplitContainer As System.Windows.Forms.SplitContainer
+    Friend WithEvents rtb3 As System.Windows.Forms.RichTextBox
 
 End Class

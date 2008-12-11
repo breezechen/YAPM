@@ -23,6 +23,92 @@ Public Class frmMain
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
 
 
+    ' Refresh File informations
+    Private Sub refreshFileInfos(ByVal file As String)
+
+        Dim s As String = ""
+
+        If IO.File.Exists(file) Then
+            s &= "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}{\f1\fswiss\fcharset0 Arial;}}"
+            s &= "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   "
+            s &= "\b " & "File properties\b0\par"
+            s &= "\tab File name :\tab\tab nod32kui.exe\par"
+
+
+            '    FileVersionInfos
+            '		FileVersion As String
+            '		FileDescription As String
+            '		CompanyName As String
+            '		InternalName As String
+            '		Copyright As String
+            '		OriginalFileName As String
+            '		ProductName As String
+            '		ProductVersion As String
+            '		
+            '	Attributes
+            '		Alias = 1024
+            '		Archive = 32
+            '		Compressed = 2048
+            '		Directory = 16
+            '		Hidden = 2
+            '		Normal = 0
+            '		ReadOnly = 1
+            '		System = 4
+            '		Volume = 8
+            '		
+            '	FileDates
+            '		DateCreated As String
+            '		DateLastAccessed As String
+            '		DateLastModified As String
+            '		
+            '		FileSizes
+            '   FileSize As Currency
+            '   CompressedFileSize As Currency
+            '		
+            '	Methods
+            '		Copy
+            '		ShellOpen
+            '		Delete
+            '		MoveToTrash
+            '		Shredd
+            '		Move
+            '		SetFileAttributes
+            '		SetFileDates
+            '		Rename
+            '		Show file properties
+            '		Show folder properties
+            '		Internet search
+            '		Get file strings
+            '		Encrypt
+            '		Decrypt
+            '		
+            '	Others
+            '		ParentDirectory
+            '		Directory depth
+            '		File extension
+            '		File associated program
+            '		File type
+            '		File available for write
+            '		File available for read
+            '		Short path
+            '		Short name
+            '		Icons
+
+
+
+            s &= "\f1\fs20\par"
+            s &= "}"
+        Else
+            s &= "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}{\f1\fswiss\fcharset0 Arial;}}"
+            s &= "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b " & "File does not exist !\b0\par"
+            s &= "\f1\fs20\par"
+            s &= "}"
+        End If
+
+
+        rtb3.Rtf = s
+    End Sub
+
     ' Refresh service list
     Private Sub refreshServiceList()
 
@@ -313,7 +399,7 @@ Public Class frmMain
                 Try
                     Dim proc As Process = Process.GetProcessById(CInt(it.SubItems(1).Text))
 
-                    
+
                     ' Description
                     Dim s As String = ""
                     s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
@@ -561,8 +647,8 @@ Public Class frmMain
         Me.pctFileSmall.Left = Me.panelInfos.Width - 57
         Me.cmdFileClipboard.Left = Me.panelInfos.Width - 165
         Me.txtFile.Width = Me.panelInfos.Width - 175
-        Me.rtb3.Width = Me.rtb.Width
-        Me.rtb3.Height = Me.panelMain5.Height - 42
+        Me.fileSplitContainer.Width = Me.rtb.Width
+        Me.fileSplitContainer.Height = Me.panelMain5.Height - 42
 
         ' Services
         Me.panelInfos2.Height = CInt(IIf(i < 210, i, 210))
@@ -1745,7 +1831,7 @@ Public Class frmMain
 
     Private Sub butServiceFileDetails_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butServiceFileDetails.Click
         If Me.lvServices.SelectedItems.Count > 0 Then
-            Dim s As String = Me.lvServices.SelectedItems.Item(0).SubItems(4).Text 
+            Dim s As String = Me.lvServices.SelectedItems.Item(0).SubItems(4).Text
             If IO.File.Exists(s) = False Then
                 s = mdlFile.IntelligentPathRetrieving2(s)
             End If
@@ -1757,7 +1843,7 @@ Public Class frmMain
 
     Private Sub DisplayDetailsFile(ByVal file As String)
         Me.txtFile.Text = file
-        'getinfos();
+        refreshFileInfos(file)
         Me.Ribbon.ActiveTab = Me.FileTab
         Call Me.Ribbon_MouseMove(Nothing, Nothing)
     End Sub
@@ -1766,6 +1852,7 @@ Public Class frmMain
         If Me.rtb3.Text.Length > 0 Then
             My.Computer.Clipboard.SetText(Me.rtb3.Text, TextDataFormat.Text)
         End If
+        Me.fileSplitContainer.SplitterDistance = 20
     End Sub
 
     Private Sub cmdFileClipboard_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles cmdFileClipboard.MouseDown
@@ -1776,7 +1863,7 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub rtb3_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rtb3.TextChanged
+    Private Sub rtb3_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles rtb3.TextChanged
         Me.cmdFileClipboard.Enabled = (rtb3.Rtf.Length > 0)
     End Sub
 End Class
