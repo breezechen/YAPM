@@ -28,70 +28,104 @@ Public Class frmMain
 
         Dim s As String = ""
 
+        '    FileVersionInfos
+        Dim FileVersion As String = vbNullString
+        Dim FileDescription As String = vbNullString
+        Dim CompanyName As String = vbNullString
+        Dim InternalName As String = vbNullString
+        Dim Copyright As String = vbNullString
+        Dim OriginalFileName As String = vbNullString
+        Dim ProductName As String = vbNullString
+        Dim ProductVersion As String = vbNullString
+        '	Attributes
+        Dim isAlias As Boolean = False
+        Dim isArchive As Boolean = False
+        Dim isCompressed As Boolean = False
+        Dim isDirectory As Boolean = False
+        Dim isHidden As Boolean = False
+        Dim isNormal As Boolean = False
+        Dim isReadOnly As Boolean = False
+        Dim isSystem As Boolean = False
+        Dim isVolume As Boolean = False
+        '	FileDates
+        Dim DateCreated As String = vbNullString
+        Dim DateLastAccessed As String = vbNullString
+        Dim DateLastModified As String = vbNullString
+        '	FileSizes
+        Dim FileSize As Long = 0
+        Dim CompressedFileSize As Long = 0
+        '	Others
+        Dim ParentDirectory As String = vbNullString
+        Dim DirectoryDepth As Integer = 0
+        Dim FileExtension As String = vbNullString
+        Dim FileAssociatedProgram As String = vbNullString
+        Dim FileType As String = vbNullString
+        Dim FileAvailableForWrite As Boolean = False
+        Dim FileAvailableForRead As Boolean = False
+        Dim ShortPath As String = vbNullString
+        Dim ShortName As String = vbNullString
+        Dim Name As String = vbNullString
+
         If IO.File.Exists(file) Then
             s &= "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}{\f1\fswiss\fcharset0 Arial;}}"
             s &= "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   "
-            s &= "\b " & "File properties\b0\par"
-            s &= "\tab File name :\tab\tab nod32kui.exe\par"
+            s &= "\b File basic properties\b0\par"
+            s &= "\tab File name :\tab\tab " & Name & "\par"
+            s &= "\tab Parent directory :\tab " & ParentDirectory & "\par"
+            s &= "\tab Extension :\tab\tab " & FileExtension & "\par"
+            s &= "\tab Creation date :\tab\tab " & DateCreated & "\par"
+            s &= "\tab Last access date :\tab " & DateLastAccessed & "\par"
+            s &= "\tab Last modification date :\tab " & DateLastModified & "\par"
+            s &= "\tab Size :\tab\tab\tab " & FileSize & "\par"
+            s &= "\tab Compressed size :\tab " & CompressedFileSize & "\par\par"
+            s &= "\b File advances properties\b0\par"
+            s &= "\tab File type :\tab\tab " & FileType & "\par"
+            s &= "\tab Associated program :\tab " & FileAssociatedProgram & "\par"
+            s &= "\tab Short name :\tab\tab " & ShortName & "\par"
+            s &= "\tab Short path :\tab\tab " & ShortPath & "\par"
+            s &= "\tab Directory depth :\tab " & DirectoryDepth & "\par"
+            s &= "\tab File available for read :\tab " & FileAvailableForWrite & "\par"
+            s &= "\tab File available for write :\tab " & FileAvailableForWrite & "\par\par"
+            s &= "\b Attributes\b0\par"
+            s &= "\tab Alias :\tab\tab\tab " & isAlias & "\par"
+            s &= "\tab Archive :\tab\tab " & isArchive & "\par"
+            s &= "\tab Compressed :\tab\tab " & isCompressed & "\par"
+            s &= "\tab Directory :\tab\tab " & isDirectory & "\par"
+            s &= "\tab Hidden :\tab\tab\tab " & isHidden & "\par"
+            s &= "\tab Normal :\tab\tab\tab " & isNormal & "\par"
+            s &= "\tab Read only :\tab\tab " & isReadOnly & "\par"
+            s &= "\tab System :\tab\tab " & isSystem & "\par"
+            s &= "\tab Volume :\tab\tab " & isVolume & "\par\par"
+            s &= "\b File version infos\b0\par"
+            s &= "\tab Version :\tab\tab " & FileVersion & "\par"
+            s &= "\tab Description :\tab\tab " & FileDescription & "\par"
+            s &= "\tab Company name :\tab\tab " & CompanyName & "\par"
+            s &= "\tab Internal name :\tab\tab " & InternalName & "\par"
+            s &= "\tab Copyright :\tab\tab " & Copyright & "\par"
+            s &= "\tab Original file name :\tab " & OriginalFileName & "\par"
+            s &= "\tab Product name :\tab\tab " & ProductName & "\par"
+            s &= "\tab Product version :\tab\tab " & ProductVersion & "\par"
 
 
-            '    FileVersionInfos
-            '		FileVersion As String
-            '		FileDescription As String
-            '		CompanyName As String
-            '		InternalName As String
-            '		Copyright As String
-            '		OriginalFileName As String
-            '		ProductName As String
-            '		ProductVersion As String
-            '		
-            '	Attributes
-            '		Alias = 1024
-            '		Archive = 32
-            '		Compressed = 2048
-            '		Directory = 16
-            '		Hidden = 2
-            '		Normal = 0
-            '		ReadOnly = 1
-            '		System = 4
-            '		Volume = 8
-            '		
-            '	FileDates
-            '		DateCreated As String
-            '		DateLastAccessed As String
-            '		DateLastModified As String
-            '		
-            '		FileSizes
-            '   FileSize As Currency
-            '   CompressedFileSize As Currency
-            '		
             '	Methods
-            '		Copy
-            '		ShellOpen
-            '		Delete
-            '		MoveToTrash
-            '		Shredd
-            '		Move
-            '		SetFileAttributes
-            '		SetFileDates
             '		Rename
-            '		Show file properties
-            '		Show folder properties
-            '		Internet search
+            '		Copy
+            '		Move
+            '		ShellOpen
+            '		Delete                  '
+            '		MoveToTrash             '
+            '		Shredd                  '
+            '		SetFileAttributes       '
+            '		SetFileDates            '
+            '		Show file properties    '
+            '		Show folder properties  '
+            '		Internet search         '
             '		Get file strings
             '		Encrypt
             '		Decrypt
-            '		
-            '	Others
-            '		ParentDirectory
-            '		Directory depth
-            '		File extension
-            '		File associated program
-            '		File type
-            '		File available for write
-            '		File available for read
-            '		Short path
-            '		Short name
+
+
+
             '		Icons
 
 

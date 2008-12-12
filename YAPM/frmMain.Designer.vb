@@ -24,12 +24,12 @@ Partial Class frmMain
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain = New System.Windows.Forms.Panel
         Me.lvProcess = New System.Windows.Forms.ListView
@@ -225,6 +225,19 @@ Partial Class frmMain
         Me.cmdFileClipboard = New System.Windows.Forms.Button
         Me.pctFileSmall = New System.Windows.Forms.PictureBox
         Me.pctFileBig = New System.Windows.Forms.PictureBox
+        Me.butFileShowFolderProperties = New System.Windows.Forms.RibbonButton
+        Me.RBFileOthers = New System.Windows.Forms.RibbonPanel
+        Me.butFileOthersActions = New System.Windows.Forms.RibbonButton
+        Me.sepFile1 = New System.Windows.Forms.RibbonSeparator
+        Me.butFileRename = New System.Windows.Forms.RibbonButton
+        Me.butFileCopy = New System.Windows.Forms.RibbonButton
+        Me.butFileMove = New System.Windows.Forms.RibbonButton
+        Me.butFileOpen = New System.Windows.Forms.RibbonButton
+        Me.sepFile2 = New System.Windows.Forms.RibbonSeparator
+        Me.butFileSeeStrings = New System.Windows.Forms.RibbonButton
+        Me.sepFile3 = New System.Windows.Forms.RibbonSeparator
+        Me.butFileEncrypt = New System.Windows.Forms.RibbonButton
+        Me.butFileDecrypt = New System.Windows.Forms.RibbonButton
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -269,11 +282,11 @@ Partial Class frmMain
         Me.lvProcess.ContextMenuStrip = Me.menuProc
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.FullRowSelect = True
-        ListViewGroup1.Header = "Processes"
-        ListViewGroup1.Name = "gpOther"
-        ListViewGroup2.Header = "Search result"
-        ListViewGroup2.Name = "gpSearch"
-        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup7.Header = "Processes"
+        ListViewGroup7.Name = "gpOther"
+        ListViewGroup8.Header = "Search result"
+        ListViewGroup8.Name = "gpSearch"
+        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
         Me.lvProcess.HideSelection = False
         Me.lvProcess.Location = New System.Drawing.Point(0, 0)
         Me.lvProcess.Name = "lvProcess"
@@ -523,11 +536,11 @@ Partial Class frmMain
         Me.lvServices.ContextMenuStrip = Me.menuService
         Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvServices.FullRowSelect = True
-        ListViewGroup3.Header = "Services"
-        ListViewGroup3.Name = "gpOther"
-        ListViewGroup4.Header = "Search result"
-        ListViewGroup4.Name = "gpSearch"
-        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup1.Header = "Services"
+        ListViewGroup1.Name = "gpOther"
+        ListViewGroup2.Header = "Search result"
+        ListViewGroup2.Name = "gpSearch"
+        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvServices.HideSelection = False
         Me.lvServices.Location = New System.Drawing.Point(0, 0)
         Me.lvServices.Name = "lvServices"
@@ -700,11 +713,11 @@ Partial Class frmMain
         Me.lvJobs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader4, Me.ColumnHeader5, Me.ColumnHeader6})
         Me.lvJobs.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvJobs.FullRowSelect = True
-        ListViewGroup5.Header = "Past jobs"
-        ListViewGroup5.Name = "gp1"
-        ListViewGroup6.Header = "Future jobs"
-        ListViewGroup6.Name = "gp2"
-        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
+        ListViewGroup3.Header = "Past jobs"
+        ListViewGroup3.Name = "gp1"
+        ListViewGroup4.Header = "Future jobs"
+        ListViewGroup4.Name = "gp2"
+        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvJobs.HideSelection = False
         Me.lvJobs.Location = New System.Drawing.Point(0, 0)
         Me.lvJobs.Name = "lvJobs"
@@ -1561,6 +1574,7 @@ Partial Class frmMain
         Me.FileTab.Panels.Add(Me.RBFileDelete)
         Me.FileTab.Panels.Add(Me.RBFileOnline)
         Me.FileTab.Panels.Add(Me.RBFileOther)
+        Me.FileTab.Panels.Add(Me.RBFileOthers)
         Me.FileTab.Tag = Nothing
         Me.FileTab.Text = "File"
         '
@@ -1640,8 +1654,9 @@ Partial Class frmMain
         Me.RBFileOther.ButtonMoreVisible = False
         Me.RBFileOther.Items.Add(Me.butFileProperties)
         Me.RBFileOther.Items.Add(Me.butFileOpenDir)
+        Me.RBFileOther.Items.Add(Me.butFileShowFolderProperties)
         Me.RBFileOther.Tag = Nothing
-        Me.RBFileOther.Text = "Other actions"
+        Me.RBFileOther.Text = "Properties"
         '
         'butFileProperties
         '
@@ -2080,6 +2095,171 @@ Partial Class frmMain
         Me.pctFileBig.TabIndex = 8
         Me.pctFileBig.TabStop = False
         '
+        'butFileShowFolderProperties
+        '
+        Me.butFileShowFolderProperties.AltKey = Nothing
+        Me.butFileShowFolderProperties.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileShowFolderProperties.Image = CType(resources.GetObject("butFileShowFolderProperties.Image"), System.Drawing.Image)
+        Me.butFileShowFolderProperties.SmallImage = CType(resources.GetObject("butFileShowFolderProperties.SmallImage"), System.Drawing.Image)
+        Me.butFileShowFolderProperties.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileShowFolderProperties.Tag = Nothing
+        Me.butFileShowFolderProperties.Text = "Show dir. properties"
+        Me.butFileShowFolderProperties.ToolTip = Nothing
+        Me.butFileShowFolderProperties.ToolTipImage = Nothing
+        Me.butFileShowFolderProperties.ToolTipTitle = Nothing
+        '
+        'RBFileOthers
+        '
+        Me.RBFileOthers.ButtonMoreEnabled = False
+        Me.RBFileOthers.ButtonMoreVisible = False
+        Me.RBFileOthers.Items.Add(Me.butFileOthersActions)
+        Me.RBFileOthers.Tag = Nothing
+        Me.RBFileOthers.Text = "Others"
+        '
+        'butFileOthersActions
+        '
+        Me.butFileOthersActions.AltKey = Nothing
+        Me.butFileOthersActions.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileOthersActions.DropDownItems.Add(Me.sepFile1)
+        Me.butFileOthersActions.DropDownItems.Add(Me.butFileRename)
+        Me.butFileOthersActions.DropDownItems.Add(Me.butFileCopy)
+        Me.butFileOthersActions.DropDownItems.Add(Me.butFileMove)
+        Me.butFileOthersActions.DropDownItems.Add(Me.butFileOpen)
+        Me.butFileOthersActions.DropDownItems.Add(Me.sepFile2)
+        Me.butFileOthersActions.DropDownItems.Add(Me.butFileSeeStrings)
+        Me.butFileOthersActions.DropDownItems.Add(Me.sepFile3)
+        Me.butFileOthersActions.DropDownItems.Add(Me.butFileEncrypt)
+        Me.butFileOthersActions.DropDownItems.Add(Me.butFileDecrypt)
+        Me.butFileOthersActions.Image = CType(resources.GetObject("butFileOthersActions.Image"), System.Drawing.Image)
+        Me.butFileOthersActions.SmallImage = CType(resources.GetObject("butFileOthersActions.SmallImage"), System.Drawing.Image)
+        Me.butFileOthersActions.Style = System.Windows.Forms.RibbonButtonStyle.DropDown
+        Me.butFileOthersActions.Tag = Nothing
+        Me.butFileOthersActions.Text = "Others"
+        Me.butFileOthersActions.ToolTip = Nothing
+        Me.butFileOthersActions.ToolTipImage = Nothing
+        Me.butFileOthersActions.ToolTipTitle = Nothing
+        '
+        'sepFile1
+        '
+        Me.sepFile1.AltKey = Nothing
+        Me.sepFile1.Image = Nothing
+        Me.sepFile1.Tag = Nothing
+        Me.sepFile1.Text = "Explorer actions"
+        Me.sepFile1.ToolTip = Nothing
+        Me.sepFile1.ToolTipImage = Nothing
+        Me.sepFile1.ToolTipTitle = Nothing
+        '
+        'butFileRename
+        '
+        Me.butFileRename.AltKey = Nothing
+        Me.butFileRename.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileRename.Image = CType(resources.GetObject("butFileRename.Image"), System.Drawing.Image)
+        Me.butFileRename.SmallImage = CType(resources.GetObject("butFileRename.SmallImage"), System.Drawing.Image)
+        Me.butFileRename.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileRename.Tag = Nothing
+        Me.butFileRename.Text = "Rename"
+        Me.butFileRename.ToolTip = Nothing
+        Me.butFileRename.ToolTipImage = Nothing
+        Me.butFileRename.ToolTipTitle = Nothing
+        '
+        'butFileCopy
+        '
+        Me.butFileCopy.AltKey = Nothing
+        Me.butFileCopy.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileCopy.Image = CType(resources.GetObject("butFileCopy.Image"), System.Drawing.Image)
+        Me.butFileCopy.SmallImage = CType(resources.GetObject("butFileCopy.SmallImage"), System.Drawing.Image)
+        Me.butFileCopy.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileCopy.Tag = Nothing
+        Me.butFileCopy.Text = "Copy"
+        Me.butFileCopy.ToolTip = Nothing
+        Me.butFileCopy.ToolTipImage = Nothing
+        Me.butFileCopy.ToolTipTitle = Nothing
+        '
+        'butFileMove
+        '
+        Me.butFileMove.AltKey = Nothing
+        Me.butFileMove.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileMove.Image = CType(resources.GetObject("butFileMove.Image"), System.Drawing.Image)
+        Me.butFileMove.SmallImage = CType(resources.GetObject("butFileMove.SmallImage"), System.Drawing.Image)
+        Me.butFileMove.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileMove.Tag = Nothing
+        Me.butFileMove.Text = "Move"
+        Me.butFileMove.ToolTip = Nothing
+        Me.butFileMove.ToolTipImage = Nothing
+        Me.butFileMove.ToolTipTitle = Nothing
+        '
+        'butFileOpen
+        '
+        Me.butFileOpen.AltKey = Nothing
+        Me.butFileOpen.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileOpen.Image = CType(resources.GetObject("butFileOpen.Image"), System.Drawing.Image)
+        Me.butFileOpen.SmallImage = CType(resources.GetObject("butFileOpen.SmallImage"), System.Drawing.Image)
+        Me.butFileOpen.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileOpen.Tag = Nothing
+        Me.butFileOpen.Text = "Open"
+        Me.butFileOpen.ToolTip = Nothing
+        Me.butFileOpen.ToolTipImage = Nothing
+        Me.butFileOpen.ToolTipTitle = Nothing
+        '
+        'sepFile2
+        '
+        Me.sepFile2.AltKey = Nothing
+        Me.sepFile2.Image = Nothing
+        Me.sepFile2.Tag = Nothing
+        Me.sepFile2.Text = "File content"
+        Me.sepFile2.ToolTip = Nothing
+        Me.sepFile2.ToolTipImage = Nothing
+        Me.sepFile2.ToolTipTitle = Nothing
+        '
+        'butFileSeeStrings
+        '
+        Me.butFileSeeStrings.AltKey = Nothing
+        Me.butFileSeeStrings.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileSeeStrings.Image = CType(resources.GetObject("butFileSeeStrings.Image"), System.Drawing.Image)
+        Me.butFileSeeStrings.SmallImage = CType(resources.GetObject("butFileSeeStrings.SmallImage"), System.Drawing.Image)
+        Me.butFileSeeStrings.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileSeeStrings.Tag = Nothing
+        Me.butFileSeeStrings.Text = "Show file strings"
+        Me.butFileSeeStrings.ToolTip = Nothing
+        Me.butFileSeeStrings.ToolTipImage = Nothing
+        Me.butFileSeeStrings.ToolTipTitle = Nothing
+        '
+        'sepFile3
+        '
+        Me.sepFile3.AltKey = Nothing
+        Me.sepFile3.Image = Nothing
+        Me.sepFile3.Tag = Nothing
+        Me.sepFile3.Text = "Encryption"
+        Me.sepFile3.ToolTip = Nothing
+        Me.sepFile3.ToolTipImage = Nothing
+        Me.sepFile3.ToolTipTitle = Nothing
+        '
+        'butFileEncrypt
+        '
+        Me.butFileEncrypt.AltKey = Nothing
+        Me.butFileEncrypt.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileEncrypt.Image = CType(resources.GetObject("butFileEncrypt.Image"), System.Drawing.Image)
+        Me.butFileEncrypt.SmallImage = CType(resources.GetObject("butFileEncrypt.SmallImage"), System.Drawing.Image)
+        Me.butFileEncrypt.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileEncrypt.Tag = Nothing
+        Me.butFileEncrypt.Text = "Encrypt"
+        Me.butFileEncrypt.ToolTip = Nothing
+        Me.butFileEncrypt.ToolTipImage = Nothing
+        Me.butFileEncrypt.ToolTipTitle = Nothing
+        '
+        'butFileDecrypt
+        '
+        Me.butFileDecrypt.AltKey = Nothing
+        Me.butFileDecrypt.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileDecrypt.Image = CType(resources.GetObject("butFileDecrypt.Image"), System.Drawing.Image)
+        Me.butFileDecrypt.SmallImage = CType(resources.GetObject("butFileDecrypt.SmallImage"), System.Drawing.Image)
+        Me.butFileDecrypt.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileDecrypt.Tag = Nothing
+        Me.butFileDecrypt.Text = "Decrypt"
+        Me.butFileDecrypt.ToolTip = Nothing
+        Me.butFileDecrypt.ToolTipImage = Nothing
+        Me.butFileDecrypt.ToolTipTitle = Nothing
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2328,5 +2508,18 @@ Partial Class frmMain
     Friend WithEvents SearchTab As System.Windows.Forms.RibbonTab
     Friend WithEvents fileSplitContainer As System.Windows.Forms.SplitContainer
     Friend WithEvents rtb3 As System.Windows.Forms.RichTextBox
+    Friend WithEvents butFileShowFolderProperties As System.Windows.Forms.RibbonButton
+    Friend WithEvents RBFileOthers As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butFileOthersActions As System.Windows.Forms.RibbonButton
+    Friend WithEvents sepFile1 As System.Windows.Forms.RibbonSeparator
+    Friend WithEvents butFileRename As System.Windows.Forms.RibbonButton
+    Friend WithEvents butFileCopy As System.Windows.Forms.RibbonButton
+    Friend WithEvents butFileMove As System.Windows.Forms.RibbonButton
+    Friend WithEvents butFileOpen As System.Windows.Forms.RibbonButton
+    Friend WithEvents sepFile2 As System.Windows.Forms.RibbonSeparator
+    Friend WithEvents butFileSeeStrings As System.Windows.Forms.RibbonButton
+    Friend WithEvents sepFile3 As System.Windows.Forms.RibbonSeparator
+    Friend WithEvents butFileEncrypt As System.Windows.Forms.RibbonButton
+    Friend WithEvents butFileDecrypt As System.Windows.Forms.RibbonButton
 
 End Class
