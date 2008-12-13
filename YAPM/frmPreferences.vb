@@ -113,12 +113,25 @@ Public Class frmPreferences
         My.Application.DoEvents()
 
         'download code
+        Dim source As String = mdlInternet.DownloadPage("https://sourceforge.net/project/platformdownload.php?group_id=244697")
+        If source.Length = 0 Then Return False
 
         s = "Retrieve last version number from downloaded informations..."
         Me.txtUpdate.Text = Me.txtUpdate.Text & vbNewLine & s
         My.Application.DoEvents()
 
         ' parse code, retrive last update info and if necessary changelog
+        Try
+            Dim x As Integer = InStr(source, "Last version : ", CompareMethod.Binary)
+            Dim x2 As Integer = InStr(x + 1, source, "</p>", CompareMethod.Binary)
+            If x = 0 Or x2 = 0 Then Return False
+
+            Dim sVers As String = source.Substring(x + 14, x2 - x - 15)
+            Dim sV As String() = Split(sVers, ".")
+            lVersion = CInt(Val(sV(0)) * 10000 + Val(sV(1)) * 1000 + Val(sV(2)) * 1000 + Val(sV(3)) * 100 + Val(sV(4)))
+        Catch ex As Exception
+            Return False
+        End Try
 
         s = "Last version is : " & lVersion & vbNewLine
         s &= "Your version is : " & cVersion & vbNewLine
@@ -131,7 +144,7 @@ Public Class frmPreferences
         End If
 
         Me.txtUpdate.Text = Me.txtUpdate.Text & vbNewLine & s
-
+        Return True
     End Function
 
     Private Sub cmdDownload_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdDownload.Click

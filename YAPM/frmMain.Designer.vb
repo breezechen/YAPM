@@ -24,12 +24,12 @@ Partial Class frmMain
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain = New System.Windows.Forms.Panel
         Me.lvProcess = New System.Windows.Forms.ListView
@@ -239,11 +239,13 @@ Partial Class frmMain
         Me.txtFile = New System.Windows.Forms.TextBox
         Me.cmdFileClipboard = New System.Windows.Forms.Button
         Me.pctFileSmall = New System.Windows.Forms.PictureBox
+        Me.mnuFileCopyPctSmall = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ToolStripMenuItem17 = New System.Windows.Forms.ToolStripMenuItem
         Me.pctFileBig = New System.Windows.Forms.PictureBox
         Me.mnuFileCopyPctBig = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem16 = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuFileCopyPctSmall = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem17 = New System.Windows.Forms.ToolStripMenuItem
+        Me.RBUpdate = New System.Windows.Forms.RibbonPanel
+        Me.butUpdate = New System.Windows.Forms.RibbonButton
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -263,9 +265,9 @@ Partial Class frmMain
         Me.fileSplitContainer.Panel1.SuspendLayout()
         Me.fileSplitContainer.SuspendLayout()
         CType(Me.pctFileSmall, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.mnuFileCopyPctSmall.SuspendLayout()
         CType(Me.pctFileBig, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.mnuFileCopyPctBig.SuspendLayout()
-        Me.mnuFileCopyPctSmall.SuspendLayout()
         Me.SuspendLayout()
         '
         'imgMain
@@ -290,11 +292,11 @@ Partial Class frmMain
         Me.lvProcess.ContextMenuStrip = Me.menuProc
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.FullRowSelect = True
-        ListViewGroup5.Header = "Processes"
-        ListViewGroup5.Name = "gpOther"
-        ListViewGroup6.Header = "Search result"
-        ListViewGroup6.Name = "gpSearch"
-        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
+        ListViewGroup1.Header = "Processes"
+        ListViewGroup1.Name = "gpOther"
+        ListViewGroup2.Header = "Search result"
+        ListViewGroup2.Name = "gpSearch"
+        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvProcess.HideSelection = False
         Me.lvProcess.Location = New System.Drawing.Point(0, 0)
         Me.lvProcess.Name = "lvProcess"
@@ -544,11 +546,11 @@ Partial Class frmMain
         Me.lvServices.ContextMenuStrip = Me.menuService
         Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvServices.FullRowSelect = True
-        ListViewGroup7.Header = "Services"
-        ListViewGroup7.Name = "gpOther"
-        ListViewGroup8.Header = "Search result"
-        ListViewGroup8.Name = "gpSearch"
-        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
+        ListViewGroup3.Header = "Services"
+        ListViewGroup3.Name = "gpOther"
+        ListViewGroup4.Header = "Search result"
+        ListViewGroup4.Name = "gpSearch"
+        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvServices.HideSelection = False
         Me.lvServices.Location = New System.Drawing.Point(0, 0)
         Me.lvServices.Name = "lvServices"
@@ -721,11 +723,11 @@ Partial Class frmMain
         Me.lvJobs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader4, Me.ColumnHeader5, Me.ColumnHeader6})
         Me.lvJobs.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvJobs.FullRowSelect = True
-        ListViewGroup1.Header = "Past jobs"
-        ListViewGroup1.Name = "gp1"
-        ListViewGroup2.Header = "Future jobs"
-        ListViewGroup2.Name = "gp2"
-        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup5.Header = "Past jobs"
+        ListViewGroup5.Name = "gp1"
+        ListViewGroup6.Header = "Future jobs"
+        ListViewGroup6.Name = "gp2"
+        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvJobs.HideSelection = False
         Me.lvJobs.Location = New System.Drawing.Point(0, 0)
         Me.lvJobs.Name = "lvJobs"
@@ -2048,6 +2050,7 @@ Partial Class frmMain
         '
         'HelpTab
         '
+        Me.HelpTab.Panels.Add(Me.RBUpdate)
         Me.HelpTab.Panels.Add(Me.RBHelpAction)
         Me.HelpTab.Panels.Add(Me.RBHelpWeb)
         Me.HelpTab.Tag = Nothing
@@ -2281,6 +2284,18 @@ Partial Class frmMain
         Me.pctFileSmall.TabIndex = 9
         Me.pctFileSmall.TabStop = False
         '
+        'mnuFileCopyPctSmall
+        '
+        Me.mnuFileCopyPctSmall.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem17})
+        Me.mnuFileCopyPctSmall.Name = "menuCopyPctbig"
+        Me.mnuFileCopyPctSmall.Size = New System.Drawing.Size(170, 26)
+        '
+        'ToolStripMenuItem17
+        '
+        Me.ToolStripMenuItem17.Name = "ToolStripMenuItem17"
+        Me.ToolStripMenuItem17.Size = New System.Drawing.Size(169, 22)
+        Me.ToolStripMenuItem17.Text = "Copy to clipboard"
+        '
         'pctFileBig
         '
         Me.pctFileBig.ContextMenuStrip = Me.mnuFileCopyPctBig
@@ -2302,17 +2317,26 @@ Partial Class frmMain
         Me.ToolStripMenuItem16.Size = New System.Drawing.Size(169, 22)
         Me.ToolStripMenuItem16.Text = "Copy to clipboard"
         '
-        'mnuFileCopyPctSmall
+        'RBUpdate
         '
-        Me.mnuFileCopyPctSmall.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem17})
-        Me.mnuFileCopyPctSmall.Name = "menuCopyPctbig"
-        Me.mnuFileCopyPctSmall.Size = New System.Drawing.Size(170, 48)
+        Me.RBUpdate.ButtonMoreEnabled = False
+        Me.RBUpdate.ButtonMoreVisible = False
+        Me.RBUpdate.Items.Add(Me.butUpdate)
+        Me.RBUpdate.Tag = Nothing
+        Me.RBUpdate.Text = "Update"
         '
-        'ToolStripMenuItem17
+        'butUpdate
         '
-        Me.ToolStripMenuItem17.Name = "ToolStripMenuItem17"
-        Me.ToolStripMenuItem17.Size = New System.Drawing.Size(169, 22)
-        Me.ToolStripMenuItem17.Text = "Copy to clipboard"
+        Me.butUpdate.AltKey = Nothing
+        Me.butUpdate.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butUpdate.Image = CType(resources.GetObject("butUpdate.Image"), System.Drawing.Image)
+        Me.butUpdate.SmallImage = CType(resources.GetObject("butUpdate.SmallImage"), System.Drawing.Image)
+        Me.butUpdate.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butUpdate.Tag = Nothing
+        Me.butUpdate.Text = "Check  for an update"
+        Me.butUpdate.ToolTip = Nothing
+        Me.butUpdate.ToolTipImage = Nothing
+        Me.butUpdate.ToolTipTitle = Nothing
         '
         'frmMain
         '
@@ -2362,9 +2386,9 @@ Partial Class frmMain
         Me.fileSplitContainer.Panel1.ResumeLayout(False)
         Me.fileSplitContainer.ResumeLayout(False)
         CType(Me.pctFileSmall, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.mnuFileCopyPctSmall.ResumeLayout(False)
         CType(Me.pctFileBig, System.ComponentModel.ISupportInitialize).EndInit()
         Me.mnuFileCopyPctBig.ResumeLayout(False)
-        Me.mnuFileCopyPctSmall.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -2583,5 +2607,7 @@ Partial Class frmMain
     Friend WithEvents ToolStripMenuItem17 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuFileCopyPctBig As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem16 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RBUpdate As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butUpdate As System.Windows.Forms.RibbonButton
 
 End Class

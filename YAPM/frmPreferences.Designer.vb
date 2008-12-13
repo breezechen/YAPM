@@ -22,7 +22,7 @@ Partial Class frmPreferences
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.TabControl1 = New System.Windows.Forms.TabControl
+        Me.TabControl = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
         Me.txtServiceIntervall = New System.Windows.Forms.TextBox
@@ -36,28 +36,28 @@ Partial Class frmPreferences
         Me.chkJobs = New System.Windows.Forms.CheckBox
         Me.chkStart = New System.Windows.Forms.CheckBox
         Me.TabPage2 = New System.Windows.Forms.TabPage
+        Me.cmdDownload = New System.Windows.Forms.Button
+        Me.cmdCheckUpdate = New System.Windows.Forms.Button
+        Me.txtUpdate = New System.Windows.Forms.TextBox
         Me.cmdSave = New System.Windows.Forms.Button
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
-        Me.txtUpdate = New System.Windows.Forms.TextBox
-        Me.cmdCheckUpdate = New System.Windows.Forms.Button
-        Me.cmdDownload = New System.Windows.Forms.Button
-        Me.TabControl1.SuspendLayout()
+        Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
         Me.SuspendLayout()
         '
-        'TabControl1
+        'TabControl
         '
-        Me.TabControl1.Controls.Add(Me.TabPage1)
-        Me.TabControl1.Controls.Add(Me.TabPage2)
-        Me.TabControl1.Location = New System.Drawing.Point(9, 9)
-        Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(336, 253)
-        Me.TabControl1.TabIndex = 0
+        Me.TabControl.Controls.Add(Me.TabPage1)
+        Me.TabControl.Controls.Add(Me.TabPage2)
+        Me.TabControl.Location = New System.Drawing.Point(9, 9)
+        Me.TabControl.Name = "TabControl"
+        Me.TabControl.SelectedIndex = 0
+        Me.TabControl.Size = New System.Drawing.Size(336, 253)
+        Me.TabControl.TabIndex = 0
         '
         'TabPage1
         '
@@ -193,6 +193,35 @@ Partial Class frmPreferences
         Me.TabPage2.Text = "Update"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
+        'cmdDownload
+        '
+        Me.cmdDownload.Location = New System.Drawing.Point(186, 196)
+        Me.cmdDownload.Name = "cmdDownload"
+        Me.cmdDownload.Size = New System.Drawing.Size(136, 25)
+        Me.cmdDownload.TabIndex = 2
+        Me.cmdDownload.Text = "Go to download page"
+        Me.cmdDownload.UseVisualStyleBackColor = True
+        '
+        'cmdCheckUpdate
+        '
+        Me.cmdCheckUpdate.Location = New System.Drawing.Point(6, 196)
+        Me.cmdCheckUpdate.Name = "cmdCheckUpdate"
+        Me.cmdCheckUpdate.Size = New System.Drawing.Size(158, 25)
+        Me.cmdCheckUpdate.TabIndex = 1
+        Me.cmdCheckUpdate.Text = "Check is YAPM is up to date"
+        Me.cmdCheckUpdate.UseVisualStyleBackColor = True
+        '
+        'txtUpdate
+        '
+        Me.txtUpdate.BackColor = System.Drawing.Color.White
+        Me.txtUpdate.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.txtUpdate.Location = New System.Drawing.Point(6, 6)
+        Me.txtUpdate.Multiline = True
+        Me.txtUpdate.Name = "txtUpdate"
+        Me.txtUpdate.ReadOnly = True
+        Me.txtUpdate.Size = New System.Drawing.Size(316, 184)
+        Me.txtUpdate.TabIndex = 0
+        '
         'cmdSave
         '
         Me.cmdSave.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -221,35 +250,6 @@ Partial Class frmPreferences
         Me.cmdDefaut.Text = "Default"
         Me.cmdDefaut.UseVisualStyleBackColor = True
         '
-        'txtUpdate
-        '
-        Me.txtUpdate.BackColor = System.Drawing.Color.White
-        Me.txtUpdate.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.txtUpdate.Location = New System.Drawing.Point(6, 6)
-        Me.txtUpdate.Multiline = True
-        Me.txtUpdate.Name = "txtUpdate"
-        Me.txtUpdate.ReadOnly = True
-        Me.txtUpdate.Size = New System.Drawing.Size(316, 184)
-        Me.txtUpdate.TabIndex = 0
-        '
-        'cmdCheckUpdate
-        '
-        Me.cmdCheckUpdate.Location = New System.Drawing.Point(6, 196)
-        Me.cmdCheckUpdate.Name = "cmdCheckUpdate"
-        Me.cmdCheckUpdate.Size = New System.Drawing.Size(158, 25)
-        Me.cmdCheckUpdate.TabIndex = 1
-        Me.cmdCheckUpdate.Text = "Check is YAPM is up to date"
-        Me.cmdCheckUpdate.UseVisualStyleBackColor = True
-        '
-        'cmdDownload
-        '
-        Me.cmdDownload.Location = New System.Drawing.Point(186, 196)
-        Me.cmdDownload.Name = "cmdDownload"
-        Me.cmdDownload.Size = New System.Drawing.Size(136, 25)
-        Me.cmdDownload.TabIndex = 2
-        Me.cmdDownload.Text = "Go to download page"
-        Me.cmdDownload.UseVisualStyleBackColor = True
-        '
         'frmPreferences
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -259,7 +259,7 @@ Partial Class frmPreferences
         Me.Controls.Add(Me.cmdDefaut)
         Me.Controls.Add(Me.cmdQuit)
         Me.Controls.Add(Me.cmdSave)
-        Me.Controls.Add(Me.TabControl1)
+        Me.Controls.Add(Me.TabControl)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
@@ -270,7 +270,7 @@ Partial Class frmPreferences
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Preferences"
         Me.TopMost = True
-        Me.TabControl1.ResumeLayout(False)
+        Me.TabControl.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
@@ -281,7 +281,7 @@ Partial Class frmPreferences
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
+    Friend WithEvents TabControl As System.Windows.Forms.TabControl
     Friend WithEvents TabPage1 As System.Windows.Forms.TabPage
     Friend WithEvents TabPage2 As System.Windows.Forms.TabPage
     Friend WithEvents cmdSave As System.Windows.Forms.Button

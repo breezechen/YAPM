@@ -1863,4 +1863,12 @@ Public Class frmMain
     Private Sub ToolStripMenuItem17_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem17.Click
         My.Computer.Clipboard.SetImage(Me.pctFileSmall.Image)
     End Sub
+
+    Private Sub butUpdate_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butUpdate.Click
+        Dim frm As New frmPreferences
+        With frm
+            .TabControl.SelectedTab = .TabPage2
+            .ShowDialog()
+        End With
+    End Sub
 End Class
