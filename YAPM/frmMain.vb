@@ -28,105 +28,61 @@ Public Class frmMain
 
         Dim s As String = ""
 
-        '    FileVersionInfos
-        Dim FileVersion As String = vbNullString
-        Dim FileDescription As String = vbNullString
-        Dim CompanyName As String = vbNullString
-        Dim InternalName As String = vbNullString
-        Dim Copyright As String = vbNullString
-        Dim OriginalFileName As String = vbNullString
-        Dim ProductName As String = vbNullString
-        Dim ProductVersion As String = vbNullString
-        '	Attributes
-        Dim isAlias As Boolean = False
-        Dim isArchive As Boolean = False
-        Dim isCompressed As Boolean = False
-        Dim isDirectory As Boolean = False
-        Dim isHidden As Boolean = False
-        Dim isNormal As Boolean = False
-        Dim isReadOnly As Boolean = False
-        Dim isSystem As Boolean = False
-        Dim isVolume As Boolean = False
-        '	FileDates
-        Dim DateCreated As String = vbNullString
-        Dim DateLastAccessed As String = vbNullString
-        Dim DateLastModified As String = vbNullString
-        '	FileSizes
-        Dim FileSize As Long = 0
-        Dim CompressedFileSize As Long = 0
-        '	Others
-        Dim ParentDirectory As String = vbNullString
-        Dim DirectoryDepth As Integer = 0
-        Dim FileExtension As String = vbNullString
-        Dim FileAssociatedProgram As String = vbNullString
-        Dim FileType As String = vbNullString
-        Dim FileAvailableForWrite As Boolean = False
-        Dim FileAvailableForRead As Boolean = False
-        Dim ShortPath As String = vbNullString
-        Dim ShortName As String = vbNullString
-        Dim Name As String = vbNullString
+        Dim tFile As AllFileInfos = mdlFile.GetAllFileInfos(file)
 
         If IO.File.Exists(file) Then
             s &= "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}{\f1\fswiss\fcharset0 Arial;}}"
             s &= "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   "
             s &= "\b File basic properties\b0\par"
-            s &= "\tab File name :\tab\tab " & Name & "\par"
-            s &= "\tab Parent directory :\tab " & ParentDirectory & "\par"
-            s &= "\tab Extension :\tab\tab " & FileExtension & "\par"
-            s &= "\tab Creation date :\tab\tab " & DateCreated & "\par"
-            s &= "\tab Last access date :\tab " & DateLastAccessed & "\par"
-            s &= "\tab Last modification date :\tab " & DateLastModified & "\par"
-            s &= "\tab Size :\tab\tab\tab " & FileSize & "\par"
-            s &= "\tab Compressed size :\tab " & CompressedFileSize & "\par\par"
+            s &= "\tab File name :\tab\tab " & tFile.Name & "\par"
+            s &= "\tab Parent directory :\tab " & tFile.ParentDirectory & "\par"
+            s &= "\tab Extension :\tab\tab " & tFile.FileExtension & "\par"
+            s &= "\tab Creation date :\tab\tab " & tFile.DateCreated & "\par"
+            s &= "\tab Last access date :\tab " & tFile.DateLastAccessed & "\par"
+            s &= "\tab Last modification date :\tab " & tFile.DateLastModified & "\par"
+            s &= "\tab Size :\tab\tab\tab " & tFile.FileSize & " Bytes -- " & Math.Round(tFile.FileSize / 1024, 3) & " KB" & " -- " & Math.Round(tFile.FileSize / 1024 / 1024, 3) & "MB\par"
+            s &= "\tab Compressed size :\tab " & tFile.CompressedFileSize & " Bytes -- " & Math.Round(tFile.CompressedFileSize / 1024, 3) & " KB" & " -- " & Math.Round(tFile.CompressedFileSize / 1024 / 1024, 3) & "MB\par\par"
             s &= "\b File advances properties\b0\par"
-            s &= "\tab File type :\tab\tab " & FileType & "\par"
-            s &= "\tab Associated program :\tab " & FileAssociatedProgram & "\par"
-            s &= "\tab Short name :\tab\tab " & ShortName & "\par"
-            s &= "\tab Short path :\tab\tab " & ShortPath & "\par"
-            s &= "\tab Directory depth :\tab " & DirectoryDepth & "\par"
-            s &= "\tab File available for read :\tab " & FileAvailableForWrite & "\par"
-            s &= "\tab File available for write :\tab " & FileAvailableForWrite & "\par\par"
+            s &= "\tab File type :\tab\tab " & tFile.FileType & "\par"
+            s &= "\tab Associated program :\tab " & tFile.FileAssociatedProgram & "\par"
+            s &= "\tab Short name :\tab\tab " & tFile.ShortName & "\par"
+            s &= "\tab Short path :\tab\tab " & tFile.ShortPath & "\par"
+            s &= "\tab Directory depth :\tab\tab " & tFile.DirectoryDepth & "\par"
+            s &= "\tab File available for read :\tab " & tFile.FileAvailableForWrite & "\par"
+            s &= "\tab File available for write :\tab " & tFile.FileAvailableForWrite & "\par\par"
             s &= "\b Attributes\b0\par"
-            s &= "\tab Alias :\tab\tab\tab " & isAlias & "\par"
-            s &= "\tab Archive :\tab\tab " & isArchive & "\par"
-            s &= "\tab Compressed :\tab\tab " & isCompressed & "\par"
-            s &= "\tab Directory :\tab\tab " & isDirectory & "\par"
-            s &= "\tab Hidden :\tab\tab\tab " & isHidden & "\par"
-            s &= "\tab Normal :\tab\tab\tab " & isNormal & "\par"
-            s &= "\tab Read only :\tab\tab " & isReadOnly & "\par"
-            s &= "\tab System :\tab\tab " & isSystem & "\par"
-            s &= "\tab Volume :\tab\tab " & isVolume & "\par\par"
+            s &= "\tab Archive :\tab\tab " & tFile.isArchive & "\par"
+            s &= "\tab Compressed :\tab\tab " & tFile.isCompressed & "\par"
+            s &= "\tab Device :\tab\tab\tab " & tFile.isDevice & "\par"
+            s &= "\tab Directory :\tab\tab " & tFile.isDirectory & "\par"
+            s &= "\tab Encrypted :\tab\tab " & tFile.isencrypted & "\par"
+            s &= "\tab Hidden :\tab\tab\tab " & tFile.isHidden & "\par"
+            s &= "\tab Normal :\tab\tab\tab " & tFile.isNormal & "\par"
+            s &= "\tab Not content indexed :\tab " & tFile.isNotContentIndexed & "\par"
+            s &= "\tab Offline :\tab\tab\tab " & tFile.isOffline & "\par"
+            s &= "\tab Read only :\tab\tab " & tFile.isReadOnly & "\par"
+            s &= "\tab Reparse file :\tab\tab " & tFile.isReparsePoint & "\par"
+            s &= "\tab Fragmented :\tab\tab " & tFile.isSparseFile & "\par"
+            s &= "\tab System :\tab\tab " & tFile.isSystem & "\par"
+            s &= "\tab Temporary :\tab\tab " & tFile.isTemporary & "\par\par"
             s &= "\b File version infos\b0\par"
-            s &= "\tab Version :\tab\tab " & FileVersion & "\par"
-            s &= "\tab Description :\tab\tab " & FileDescription & "\par"
-            s &= "\tab Company name :\tab\tab " & CompanyName & "\par"
-            s &= "\tab Internal name :\tab\tab " & InternalName & "\par"
-            s &= "\tab Copyright :\tab\tab " & Copyright & "\par"
-            s &= "\tab Original file name :\tab " & OriginalFileName & "\par"
-            s &= "\tab Product name :\tab\tab " & ProductName & "\par"
-            s &= "\tab Product version :\tab\tab " & ProductVersion & "\par"
+            s &= "\tab Version :\tab\tab " & tFile.FileVersion & "\par"
+            s &= "\tab Description :\tab\tab " & tFile.FileDescription & "\par"
+            s &= "\tab Company name :\tab\tab " & tFile.CompanyName & "\par"
+            s &= "\tab Internal name :\tab\tab " & tFile.InternalName & "\par"
+            s &= "\tab Copyright :\tab\tab " & tFile.Copyright & "\par"
+            s &= "\tab Original file name :\tab " & tFile.OriginalFileName & "\par"
+            s &= "\tab Product name :\tab\tab " & tFile.ProductName & "\par"
+            s &= "\tab Product version :\tab\tab " & tFile.ProductVersion & "\par"
 
-
-            '	Methods
-            '		Rename
-            '		Copy
-            '		Move
-            '		ShellOpen
-            '		Delete                  '
-            '		MoveToTrash             '
-            '		Shredd                  '
-            '		SetFileAttributes       '
-            '		SetFileDates            '
-            '		Show file properties    '
-            '		Show folder properties  '
-            '		Internet search         '
-            '		Get file strings
-            '		Encrypt
-            '		Decrypt
-
-
-
-            '		Icons
+            ' Icons
+            Try
+                pctFileBig.Image = GetIcon(file, False).ToBitmap
+                pctFileSmall.Image = GetIcon(file, True).ToBitmap
+            Catch ex As Exception
+                pctFileSmall.Image = Me.imgProcess.Images("noicon")
+                pctFileBig.Image = Me.imgMain.Images("noicon32")
+            End Try
 
 
 
@@ -1886,7 +1842,6 @@ Public Class frmMain
         If Me.rtb3.Text.Length > 0 Then
             My.Computer.Clipboard.SetText(Me.rtb3.Text, TextDataFormat.Text)
         End If
-        Me.fileSplitContainer.SplitterDistance = 20
     End Sub
 
     Private Sub cmdFileClipboard_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles cmdFileClipboard.MouseDown
@@ -1899,5 +1854,13 @@ Public Class frmMain
 
     Private Sub rtb3_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles rtb3.TextChanged
         Me.cmdFileClipboard.Enabled = (rtb3.Rtf.Length > 0)
+    End Sub
+
+    Private Sub ToolStripMenuItem16_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem16.Click
+        My.Computer.Clipboard.SetImage(Me.pctFileBig.Image)
+    End Sub
+
+    Private Sub ToolStripMenuItem17_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem17.Click
+        My.Computer.Clipboard.SetImage(Me.pctFileSmall.Image)
     End Sub
 End Class
