@@ -24,14 +24,7 @@ Module mdlFile
     End Structure
 
     Public Structure AllFileInfos
-        Dim FileVersion As String
-        Dim FileDescription As String
-        Dim CompanyName As String
-        Dim InternalName As String
-        Dim Copyright As String
-        Dim OriginalFileName As String
-        Dim ProductName As String
-        Dim ProductVersion As String
+        Dim tFileVersion As System.Diagnostics.FileVersionInfo
         Dim isArchive As Boolean
         Dim isCompressed As Boolean
         Dim isDevice As Boolean
@@ -309,14 +302,6 @@ Module mdlFile
     ' Return all availables informations about a file
     Public Function GetAllFileInfos(ByVal file As String) As AllFileInfos
         Dim t As AllFileInfos = Nothing
-        Dim FileVersion As String = vbNullString
-        Dim FileDescription As String = vbNullString
-        Dim CompanyName As String = vbNullString
-        Dim InternalName As String = vbNullString
-        Dim Copyright As String = vbNullString
-        Dim OriginalFileName As String = vbNullString
-        Dim ProductName As String = vbNullString
-        Dim ProductVersion As String = vbNullString
         Dim isArchive As Boolean = False                        '
         Dim isCompressed As Boolean = False                     '
         Dim isDevice As Boolean = False                         '
@@ -427,6 +412,8 @@ Module mdlFile
             t.FileAvailableForWrite = True
         End If
 
+        ' Infos about dll/exe
+        t.tFileVersion = System.Diagnostics.FileVersionInfo.GetVersionInfo(file)
 
         sb2 = Nothing
         sb3 = Nothing

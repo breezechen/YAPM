@@ -66,14 +66,60 @@ Public Class frmMain
             s &= "\tab System :\tab\tab " & tFile.isSystem & "\par"
             s &= "\tab Temporary :\tab\tab " & tFile.isTemporary & "\par\par"
             s &= "\b File version infos\b0\par"
-            s &= "\tab Version :\tab\tab " & tFile.FileVersion & "\par"
-            s &= "\tab Description :\tab\tab " & tFile.FileDescription & "\par"
-            s &= "\tab Company name :\tab\tab " & tFile.CompanyName & "\par"
-            s &= "\tab Internal name :\tab\tab " & tFile.InternalName & "\par"
-            s &= "\tab Copyright :\tab\tab " & tFile.Copyright & "\par"
-            s &= "\tab Original file name :\tab " & tFile.OriginalFileName & "\par"
-            s &= "\tab Product name :\tab\tab " & tFile.ProductName & "\par"
-            s &= "\tab Product version :\tab\tab " & tFile.ProductVersion & "\par"
+
+            If tFile.tFileVersion.Comments.Length > 0 Then _
+                s &= "\tab Comments :\tab\tab " & tFile.tFileVersion.Comments & "\par"
+            If tFile.tFileVersion.CompanyName.Length > 0 Then _
+                s &= "\tab CompanyName :\tab\tab " & tFile.tFileVersion.CompanyName & "\par"
+            If CStr(tFile.tFileVersion.FileBuildPart).Length > 0 Then _
+                s &= "\tab FileBuildPart :\tab\tab " & CStr(tFile.tFileVersion.FileBuildPart) & "\par"
+            If tFile.tFileVersion.FileDescription.Length > 0 Then _
+                s &= "\tab FileDescription :\tab\tab " & tFile.tFileVersion.FileDescription & "\par"
+            If CStr(tFile.tFileVersion.FileMajorPart).Length > 0 Then _
+                s &= "\tab FileMajorPart :\tab\tab " & CStr(tFile.tFileVersion.FileMajorPart) & "\par"
+            If CStr(tFile.tFileVersion.FileMinorPart).Length > 0 Then _
+                s &= "\tab FileMinorPart :\tab\tab " & tFile.tFileVersion.FileMinorPart & "\par"
+            If CStr(tFile.tFileVersion.FilePrivatePart).Length > 0 Then _
+                s &= "\tab FilePrivatePart :\tab\tab " & tFile.tFileVersion.FilePrivatePart & "\par"
+            If tFile.tFileVersion.FileVersion.Length > 0 Then _
+                s &= "\tab FileVersion :\tab\tab " & tFile.tFileVersion.FileVersion & "\par"
+            If tFile.tFileVersion.InternalName.Length > 0 Then _
+                s &= "\tab InternalName :\tab\tab " & tFile.tFileVersion.InternalName & "\par"
+            If CStr(tFile.tFileVersion.IsDebug).Length > 0 Then _
+                s &= "\tab IsDebug :\tab\tab " & tFile.tFileVersion.IsDebug & "\par"
+            If CStr(tFile.tFileVersion.IsPatched).Length > 0 Then _
+                s &= "\tab IsPatched :\tab\tab " & tFile.tFileVersion.IsPatched & "\par"
+            If CStr(tFile.tFileVersion.IsPreRelease).Length > 0 Then _
+                s &= "\tab IsPreRelease :\tab\tab " & tFile.tFileVersion.IsPreRelease & "\par"
+            If CStr(tFile.tFileVersion.IsPrivateBuild).Length > 0 Then _
+                s &= "\tab IsPrivateBuild :\tab\tab " & tFile.tFileVersion.IsPrivateBuild & "\par"
+            If CStr(tFile.tFileVersion.IsSpecialBuild).Length > 0 Then _
+                s &= "\tab IsSpecialBuild :\tab\tab " & tFile.tFileVersion.IsSpecialBuild & "\par"
+            If tFile.tFileVersion.Language.Length > 0 Then _
+                s &= "\tab Language :\tab\tab " & tFile.tFileVersion.Language & "\par"
+            If tFile.tFileVersion.LegalCopyright.Length > 0 Then _
+                s &= "\tab LegalCopyright :\tab\tab " & tFile.tFileVersion.LegalCopyright & "\par"
+            If tFile.tFileVersion.LegalTrademarks.Length > 0 Then _
+                s &= "\tab LegalTrademarks :\tab " & tFile.tFileVersion.LegalTrademarks & "\par"
+            If tFile.tFileVersion.OriginalFilename.Length > 0 Then _
+                s &= "\tab OriginalFilename :\tab\tab " & tFile.tFileVersion.OriginalFilename & "\par"
+            If tFile.tFileVersion.PrivateBuild.Length > 0 Then _
+                s &= "\tab PrivateBuild :\tab\tab " & tFile.tFileVersion.PrivateBuild & "\par"
+            If CStr(tFile.tFileVersion.ProductBuildPart).Length > 0 Then _
+                s &= "\tab ProductBuildPart :\tab " & tFile.tFileVersion.ProductBuildPart & "\par"
+            If CStr(tFile.tFileVersion.ProductMajorPart).Length > 0 Then _
+                s &= "\tab ProductMajorPart :\tab " & tFile.tFileVersion.ProductMajorPart & "\par"
+            If CStr(tFile.tFileVersion.ProductMinorPart).Length > 0 Then _
+                s &= "\tab Comments :\tab\tab " & tFile.tFileVersion.ProductMinorPart & "\par"
+            If tFile.tFileVersion.ProductName.Length > 0 Then _
+                s &= "\tab ProductName :\tab\tab " & tFile.tFileVersion.ProductName & "\par"
+            If CStr(tFile.tFileVersion.ProductPrivatePart).Length > 0 Then _
+                s &= "\tab ProductPrivatePart :\tab " & tFile.tFileVersion.ProductPrivatePart & "\par"
+            If tFile.tFileVersion.ProductVersion.Length > 0 Then _
+                s &= "\tab ProductVersion :\tab\tab " & tFile.tFileVersion.ProductVersion & "\par"
+            If tFile.tFileVersion.SpecialBuild.Length > 0 Then _
+                s &= "\tab SpecialBuild :\tab\tab " & tFile.tFileVersion.SpecialBuild & "\par"
+
 
             ' Icons
             Try
@@ -83,7 +129,6 @@ Public Class frmMain
                 pctFileSmall.Image = Me.imgProcess.Images("noicon")
                 pctFileBig.Image = Me.imgMain.Images("noicon32")
             End Try
-
 
 
             s &= "\f1\fs20\par"
