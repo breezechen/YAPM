@@ -1869,6 +1869,8 @@ Public Class frmMain
         With frm
             .TabControl.SelectedTab = .TabPage2
             .ShowDialog()
+            .Dispose()
         End With
+        frm = Nothing
     End Sub
 End Class

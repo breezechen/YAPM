@@ -219,6 +219,8 @@ Partial Class frmMain
         Me.RBDisplay = New System.Windows.Forms.RibbonPanel
         Me.butTopMost = New System.Windows.Forms.RibbonButton
         Me.HelpTab = New System.Windows.Forms.RibbonTab
+        Me.RBUpdate = New System.Windows.Forms.RibbonPanel
+        Me.butUpdate = New System.Windows.Forms.RibbonButton
         Me.RBHelpAction = New System.Windows.Forms.RibbonPanel
         Me.butDonate = New System.Windows.Forms.RibbonButton
         Me.butAbout = New System.Windows.Forms.RibbonButton
@@ -244,8 +246,6 @@ Partial Class frmMain
         Me.pctFileBig = New System.Windows.Forms.PictureBox
         Me.mnuFileCopyPctBig = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem16 = New System.Windows.Forms.ToolStripMenuItem
-        Me.RBUpdate = New System.Windows.Forms.RibbonPanel
-        Me.butUpdate = New System.Windows.Forms.RibbonButton
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -2056,6 +2056,27 @@ Partial Class frmMain
         Me.HelpTab.Tag = Nothing
         Me.HelpTab.Text = "Help"
         '
+        'RBUpdate
+        '
+        Me.RBUpdate.ButtonMoreEnabled = False
+        Me.RBUpdate.ButtonMoreVisible = False
+        Me.RBUpdate.Items.Add(Me.butUpdate)
+        Me.RBUpdate.Tag = Nothing
+        Me.RBUpdate.Text = "Update"
+        '
+        'butUpdate
+        '
+        Me.butUpdate.AltKey = Nothing
+        Me.butUpdate.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butUpdate.Image = CType(resources.GetObject("butUpdate.Image"), System.Drawing.Image)
+        Me.butUpdate.SmallImage = CType(resources.GetObject("butUpdate.SmallImage"), System.Drawing.Image)
+        Me.butUpdate.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butUpdate.Tag = Nothing
+        Me.butUpdate.Text = "Check  for an update"
+        Me.butUpdate.ToolTip = Nothing
+        Me.butUpdate.ToolTipImage = Nothing
+        Me.butUpdate.ToolTipTitle = Nothing
+        '
         'RBHelpAction
         '
         Me.RBHelpAction.ButtonMoreEnabled = False
@@ -2316,27 +2337,6 @@ Partial Class frmMain
         Me.ToolStripMenuItem16.Name = "ToolStripMenuItem16"
         Me.ToolStripMenuItem16.Size = New System.Drawing.Size(169, 22)
         Me.ToolStripMenuItem16.Text = "Copy to clipboard"
-        '
-        'RBUpdate
-        '
-        Me.RBUpdate.ButtonMoreEnabled = False
-        Me.RBUpdate.ButtonMoreVisible = False
-        Me.RBUpdate.Items.Add(Me.butUpdate)
-        Me.RBUpdate.Tag = Nothing
-        Me.RBUpdate.Text = "Update"
-        '
-        'butUpdate
-        '
-        Me.butUpdate.AltKey = Nothing
-        Me.butUpdate.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butUpdate.Image = CType(resources.GetObject("butUpdate.Image"), System.Drawing.Image)
-        Me.butUpdate.SmallImage = CType(resources.GetObject("butUpdate.SmallImage"), System.Drawing.Image)
-        Me.butUpdate.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butUpdate.Tag = Nothing
-        Me.butUpdate.Text = "Check  for an update"
-        Me.butUpdate.ToolTip = Nothing
-        Me.butUpdate.ToolTipImage = Nothing
-        Me.butUpdate.ToolTipTitle = Nothing
         '
         'frmMain
         '

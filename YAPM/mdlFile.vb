@@ -63,6 +63,12 @@ Module mdlFile
         Dim Name As String
     End Structure
 
+    <DllImport("kernel32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
+    Private Function GetShortPathName(ByVal longPath As String, _
+          <MarshalAs(UnmanagedType.LPTStr)> ByVal ShortPath As System.Text.StringBuilder, _
+          <MarshalAs(Runtime.InteropServices.UnmanagedType.U4)> ByVal bufferSize As Integer) As Integer
+    End Function
+
     <DllImport("kernel32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> Private Function CreateFile(ByVal lpFileName As String, ByVal dwDesiredAccess As EFileAccess, ByVal dwShareMode As EFileShare, ByVal lpSecurityAttributes As IntPtr, ByVal dwCreationDisposition As ECreationDisposition, ByVal dwFlagsAndAttributes As EFileAttributes, ByVal hTemplateFile As IntPtr) As IntPtr
     End Function
 
@@ -83,6 +89,10 @@ Module mdlFile
 
     <DllImport("User32", SetLastError:=True)> _
     Private Function LoadString(ByVal hInstance As IntPtr, ByVal uID As UInt32, ByVal lpBuffer As System.Text.StringBuilder, ByVal nBufferMax As Integer) As Integer
+    End Function
+
+    <DllImport("shell32.dll")> _
+    Private Function FindExecutable(ByVal lpFile As String, ByVal lpDirectory As String, ByVal lpResult As StringBuilder) As IntPtr
     End Function
 
     Private Declare Auto Function LoadLibrary Lib "kernel32.dll" (ByVal lpFileName As String) As IntPtr
@@ -329,12 +339,12 @@ Module mdlFile
         Dim ParentDirectory As String = vbNullString            '
         Dim DirectoryDepth As Integer = 0                       '
         Dim FileExtension As String = vbNullString              '
-        Dim FileAssociatedProgram As String = vbNullString
-        Dim FileType As String = vbNullString
-        Dim FileAvailableForWrite As Boolean = False
-        Dim FileAvailableForRead As Boolean = False
-        Dim ShortPath As String = vbNullString
-        Dim ShortName As String = vbNullString
+        Dim FileAssociatedProgram As String = vbNullString      '
+        Dim FileType As String = vbNullString                   '
+        Dim FileAvailableForWrite As Boolean = False            '
+        Dim FileAvailableForRead As Boolean = False             '
+        Dim ShortPath As String = vbNullString                  '
+        Dim ShortName As String = vbNullString                  '
         Dim Name As String = vbNullString                       '
 
         ' Get a handle
@@ -384,6 +394,43 @@ Module mdlFile
         x = InStrRev(file, "\", , CompareMethod.Binary)
         t.Name = Right(file, file.Length - x)
 
+        Dim sb As New StringBuilder(255)
+        FindExecutable(file, vbNullString, sb)
+        t.FileAssociatedProgram = Replace(sb.ToString, "\", "\\")
+
+        ' File type
+        Dim ft As String = CStr(My.Computer.Registry.GetValue("HKEY_CLASSES_ROOT\." & LCase(t.FileExtension), "", ""))
+        ft = CStr(My.Computer.Registry.GetValue("HKEY_CLASSES_ROOT\" & ft, "", ""))
+        t.FileType = CStr(IIf(ft = vbNullString, "Unknown", ft))
+
+        ' Short name/path
+        Dim sb2 As New StringBuilder(80)
+        Dim sb3 As New StringBuilder(80)
+        GetShortPathName(file, sb2, 80)
+        GetShortPathName(t.ParentDirectory, sb3, 80)
+        t.ShortName = Replace(sb2.ToString, "\", "\\")
+        t.ShortPath = Replace(sb3.ToString, "\", "\\")
+
+        Dim ptrR As IntPtr = CreateFile(file, EFileAccess._GenericRead, _
+                    EFileShare._Read Or EFileShare._Write, IntPtr.Zero, _
+                    ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
+        If Not (ptrR = IntPtr.Zero) Then
+            CloseHandle(ptrR)
+            t.FileAvailableForRead = True
+        End If
+
+        Dim ptrW As IntPtr = CreateFile(file, EFileAccess._GenericWrite, _
+                    EFileShare._Read Or EFileShare._Write, IntPtr.Zero, _
+                    ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
+        If Not (ptrW = IntPtr.Zero) Then
+            CloseHandle(ptrW)
+            t.FileAvailableForWrite = True
+        End If
+
+
+        sb2 = Nothing
+        sb3 = Nothing
+        sb = Nothing
         CloseHandle(ptr)
         Return t
 
