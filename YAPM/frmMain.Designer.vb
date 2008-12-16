@@ -30,6 +30,8 @@ Partial Class frmMain
         Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain = New System.Windows.Forms.Panel
         Me.lvProcess = New System.Windows.Forms.ListView
@@ -246,6 +248,21 @@ Partial Class frmMain
         Me.pctFileBig = New System.Windows.Forms.PictureBox
         Me.mnuFileCopyPctBig = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem16 = New System.Windows.Forms.ToolStripMenuItem
+        Me.RBSearchMain = New System.Windows.Forms.RibbonPanel
+        Me.butSearchGo = New System.Windows.Forms.RibbonButton
+        Me.butSearchSaveReport = New System.Windows.Forms.RibbonButton
+        Me.RibbonTextBox1 = New System.Windows.Forms.RibbonTextBox
+        Me.txtSearchString = New System.Windows.Forms.RibbonTextBox
+        Me.panelMain6 = New System.Windows.Forms.Panel
+        Me.SplitContainerSearch = New System.Windows.Forms.SplitContainer
+        Me.lvSearchResults = New System.Windows.Forms.ListView
+        Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader13 = New System.Windows.Forms.ColumnHeader
+        Me.chkSearchCase = New System.Windows.Forms.CheckBox
+        Me.chkSearchProcess = New System.Windows.Forms.CheckBox
+        Me.chkSearchServices = New System.Windows.Forms.CheckBox
+        Me.chkSearchModules = New System.Windows.Forms.CheckBox
+        Me.Label1 = New System.Windows.Forms.Label
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -268,6 +285,10 @@ Partial Class frmMain
         Me.mnuFileCopyPctSmall.SuspendLayout()
         CType(Me.pctFileBig, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.mnuFileCopyPctBig.SuspendLayout()
+        Me.panelMain6.SuspendLayout()
+        Me.SplitContainerSearch.Panel1.SuspendLayout()
+        Me.SplitContainerSearch.Panel2.SuspendLayout()
+        Me.SplitContainerSearch.SuspendLayout()
         Me.SuspendLayout()
         '
         'imgMain
@@ -1946,6 +1967,7 @@ Partial Class frmMain
         '
         'SearchTab
         '
+        Me.SearchTab.Panels.Add(Me.RBSearchMain)
         Me.SearchTab.Tag = Nothing
         Me.SearchTab.Text = "Search"
         '
@@ -2338,12 +2360,190 @@ Partial Class frmMain
         Me.ToolStripMenuItem16.Size = New System.Drawing.Size(169, 22)
         Me.ToolStripMenuItem16.Text = "Copy to clipboard"
         '
+        'RBSearchMain
+        '
+        Me.RBSearchMain.ButtonMoreEnabled = False
+        Me.RBSearchMain.ButtonMoreVisible = False
+        Me.RBSearchMain.Items.Add(Me.butSearchGo)
+        Me.RBSearchMain.Items.Add(Me.butSearchSaveReport)
+        Me.RBSearchMain.Items.Add(Me.txtSearchString)
+        Me.RBSearchMain.Tag = Nothing
+        Me.RBSearchMain.Text = "Search"
+        '
+        'butSearchGo
+        '
+        Me.butSearchGo.AltKey = Nothing
+        Me.butSearchGo.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butSearchGo.DropDownItems.Add(Me.RibbonTextBox1)
+        Me.butSearchGo.Image = CType(resources.GetObject("butSearchGo.Image"), System.Drawing.Image)
+        Me.butSearchGo.SmallImage = CType(resources.GetObject("butSearchGo.SmallImage"), System.Drawing.Image)
+        Me.butSearchGo.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butSearchGo.Tag = Nothing
+        Me.butSearchGo.Text = "Launch"
+        Me.butSearchGo.ToolTip = Nothing
+        Me.butSearchGo.ToolTipImage = Nothing
+        Me.butSearchGo.ToolTipTitle = Nothing
+        '
+        'butSearchSaveReport
+        '
+        Me.butSearchSaveReport.AltKey = Nothing
+        Me.butSearchSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butSearchSaveReport.Image = CType(resources.GetObject("butSearchSaveReport.Image"), System.Drawing.Image)
+        Me.butSearchSaveReport.SmallImage = CType(resources.GetObject("butSearchSaveReport.SmallImage"), System.Drawing.Image)
+        Me.butSearchSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butSearchSaveReport.Tag = Nothing
+        Me.butSearchSaveReport.Text = "Save report"
+        Me.butSearchSaveReport.ToolTip = Nothing
+        Me.butSearchSaveReport.ToolTipImage = Nothing
+        Me.butSearchSaveReport.ToolTipTitle = Nothing
+        '
+        'RibbonTextBox1
+        '
+        Me.RibbonTextBox1.AltKey = Nothing
+        Me.RibbonTextBox1.Image = Nothing
+        Me.RibbonTextBox1.Tag = Nothing
+        Me.RibbonTextBox1.Text = "RibbonTextBox1"
+        Me.RibbonTextBox1.TextBoxText = Nothing
+        Me.RibbonTextBox1.ToolTip = Nothing
+        Me.RibbonTextBox1.ToolTipImage = Nothing
+        Me.RibbonTextBox1.ToolTipTitle = Nothing
+        '
+        'txtSearchString
+        '
+        Me.txtSearchString.AltKey = Nothing
+        Me.txtSearchString.Image = Nothing
+        Me.txtSearchString.Tag = Nothing
+        Me.txtSearchString.Text = "String to search ::"
+        Me.txtSearchString.TextBoxText = Nothing
+        Me.txtSearchString.ToolTip = Nothing
+        Me.txtSearchString.ToolTipImage = Nothing
+        Me.txtSearchString.ToolTipTitle = Nothing
+        '
+        'panelMain6
+        '
+        Me.panelMain6.Controls.Add(Me.SplitContainerSearch)
+        Me.panelMain6.Location = New System.Drawing.Point(117, 181)
+        Me.panelMain6.Name = "panelMain6"
+        Me.panelMain6.Size = New System.Drawing.Size(565, 276)
+        Me.panelMain6.TabIndex = 48
+        Me.panelMain6.Visible = False
+        '
+        'SplitContainerSearch
+        '
+        Me.SplitContainerSearch.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainerSearch.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainerSearch.IsSplitterFixed = True
+        Me.SplitContainerSearch.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainerSearch.Name = "SplitContainerSearch"
+        Me.SplitContainerSearch.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainerSearch.Panel1
+        '
+        Me.SplitContainerSearch.Panel1.Controls.Add(Me.Label1)
+        Me.SplitContainerSearch.Panel1.Controls.Add(Me.chkSearchModules)
+        Me.SplitContainerSearch.Panel1.Controls.Add(Me.chkSearchServices)
+        Me.SplitContainerSearch.Panel1.Controls.Add(Me.chkSearchProcess)
+        Me.SplitContainerSearch.Panel1.Controls.Add(Me.chkSearchCase)
+        '
+        'SplitContainerSearch.Panel2
+        '
+        Me.SplitContainerSearch.Panel2.Controls.Add(Me.lvSearchResults)
+        Me.SplitContainerSearch.Size = New System.Drawing.Size(565, 276)
+        Me.SplitContainerSearch.SplitterDistance = 30
+        Me.SplitContainerSearch.TabIndex = 2
+        '
+        'lvSearchResults
+        '
+        Me.lvSearchResults.AllowColumnReorder = True
+        Me.lvSearchResults.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader12, Me.ColumnHeader13})
+        Me.lvSearchResults.ContextMenuStrip = Me.menuProc
+        Me.lvSearchResults.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvSearchResults.FullRowSelect = True
+        ListViewGroup7.Header = "Processes"
+        ListViewGroup7.Name = "gpOther"
+        ListViewGroup8.Header = "Search result"
+        ListViewGroup8.Name = "gpSearch"
+        Me.lvSearchResults.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
+        Me.lvSearchResults.HideSelection = False
+        Me.lvSearchResults.Location = New System.Drawing.Point(0, 0)
+        Me.lvSearchResults.Name = "lvSearchResults"
+        Me.lvSearchResults.Size = New System.Drawing.Size(565, 242)
+        Me.lvSearchResults.SmallImageList = Me.imgProcess
+        Me.lvSearchResults.TabIndex = 3
+        Me.lvSearchResults.UseCompatibleStateImageBehavior = False
+        Me.lvSearchResults.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader12
+        '
+        Me.ColumnHeader12.Text = "Type"
+        '
+        'ColumnHeader13
+        '
+        Me.ColumnHeader13.Text = "Result"
+        Me.ColumnHeader13.Width = 600
+        '
+        'chkSearchCase
+        '
+        Me.chkSearchCase.AutoSize = True
+        Me.chkSearchCase.Location = New System.Drawing.Point(8, 7)
+        Me.chkSearchCase.Name = "chkSearchCase"
+        Me.chkSearchCase.Size = New System.Drawing.Size(95, 17)
+        Me.chkSearchCase.TabIndex = 0
+        Me.chkSearchCase.Text = "Case sensitive"
+        Me.chkSearchCase.UseVisualStyleBackColor = True
+        '
+        'chkSearchProcess
+        '
+        Me.chkSearchProcess.AutoSize = True
+        Me.chkSearchProcess.Checked = True
+        Me.chkSearchProcess.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkSearchProcess.Location = New System.Drawing.Point(223, 7)
+        Me.chkSearchProcess.Name = "chkSearchProcess"
+        Me.chkSearchProcess.Size = New System.Drawing.Size(74, 17)
+        Me.chkSearchProcess.TabIndex = 1
+        Me.chkSearchProcess.Text = "processes"
+        Me.chkSearchProcess.UseVisualStyleBackColor = True
+        '
+        'chkSearchServices
+        '
+        Me.chkSearchServices.AutoSize = True
+        Me.chkSearchServices.Checked = True
+        Me.chkSearchServices.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkSearchServices.Location = New System.Drawing.Point(370, 7)
+        Me.chkSearchServices.Name = "chkSearchServices"
+        Me.chkSearchServices.Size = New System.Drawing.Size(65, 17)
+        Me.chkSearchServices.TabIndex = 2
+        Me.chkSearchServices.Text = "services"
+        Me.chkSearchServices.UseVisualStyleBackColor = True
+        '
+        'chkSearchModules
+        '
+        Me.chkSearchModules.AutoSize = True
+        Me.chkSearchModules.Checked = True
+        Me.chkSearchModules.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkSearchModules.Location = New System.Drawing.Point(300, 7)
+        Me.chkSearchModules.Name = "chkSearchModules"
+        Me.chkSearchModules.Size = New System.Drawing.Size(65, 17)
+        Me.chkSearchModules.TabIndex = 3
+        Me.chkSearchModules.Text = "modules"
+        Me.chkSearchModules.UseVisualStyleBackColor = True
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(162, 8)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(50, 13)
+        Me.Label1.TabIndex = 4
+        Me.Label1.Text = "search in"
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.ClientSize = New System.Drawing.Size(795, 603)
+        Me.Controls.Add(Me.panelMain6)
         Me.Controls.Add(Me.panelMain5)
         Me.Controls.Add(Me.panelInfos)
         Me.Controls.Add(Me.panelMenu2)
@@ -2389,6 +2589,11 @@ Partial Class frmMain
         Me.mnuFileCopyPctSmall.ResumeLayout(False)
         CType(Me.pctFileBig, System.ComponentModel.ISupportInitialize).EndInit()
         Me.mnuFileCopyPctBig.ResumeLayout(False)
+        Me.panelMain6.ResumeLayout(False)
+        Me.SplitContainerSearch.Panel1.ResumeLayout(False)
+        Me.SplitContainerSearch.Panel1.PerformLayout()
+        Me.SplitContainerSearch.Panel2.ResumeLayout(False)
+        Me.SplitContainerSearch.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -2609,5 +2814,20 @@ Partial Class frmMain
     Friend WithEvents ToolStripMenuItem16 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RBUpdate As System.Windows.Forms.RibbonPanel
     Friend WithEvents butUpdate As System.Windows.Forms.RibbonButton
+    Friend WithEvents RBSearchMain As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butSearchGo As System.Windows.Forms.RibbonButton
+    Friend WithEvents RibbonTextBox1 As System.Windows.Forms.RibbonTextBox
+    Friend WithEvents butSearchSaveReport As System.Windows.Forms.RibbonButton
+    Friend WithEvents txtSearchString As System.Windows.Forms.RibbonTextBox
+    Friend WithEvents panelMain6 As System.Windows.Forms.Panel
+    Friend WithEvents SplitContainerSearch As System.Windows.Forms.SplitContainer
+    Friend WithEvents lvSearchResults As System.Windows.Forms.ListView
+    Friend WithEvents ColumnHeader12 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader13 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents chkSearchModules As System.Windows.Forms.CheckBox
+    Friend WithEvents chkSearchServices As System.Windows.Forms.CheckBox
+    Friend WithEvents chkSearchProcess As System.Windows.Forms.CheckBox
+    Friend WithEvents chkSearchCase As System.Windows.Forms.CheckBox
 
 End Class

@@ -645,6 +645,8 @@ Public Class frmMain
         Me.panelInfos.Top = 307
         Me.panelInfos2.Left = 5
         Me.panelInfos2.Top = 307
+        Me.panelMain6.Left = 5
+        Me.panelMain6.Top = 120
 
         Me.panelMenu.Top = 117
         Me.panelMenu.Left = 5
@@ -658,6 +660,10 @@ Public Class frmMain
         ' Jobs resizement
         Me.panelMain3.Height = Me.panelMain4.Height
         Me.panelMain3.Width = Me.panelMain4.Width - 2
+
+        ' Search resizement
+        Me.panelMain6.Height = Me.panelMain3.Height
+        Me.panelMain6.Width = Me.panelMain3.Width
 
         ' Process
         Dim i As Integer = CInt((Me.Height - 250) / 2)
@@ -1669,6 +1675,7 @@ Public Class frmMain
                     Me.chkModules.Visible = False
                     Me.panelMenu.Visible = False
                     Me.panelMenu2.Visible = True
+                    Me.panelMain6.Visible = False
                 Case "Processes"
                     Me.bProcessHover = True
                     Me.bServiceHover = False
@@ -1682,6 +1689,7 @@ Public Class frmMain
                     Me.panelMenu.Visible = True
                     Me.panelMenu2.Visible = False
                     Me.panelMain5.Visible = False
+                    Me.panelMain6.Visible = False
                 Case "Jobs"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1693,6 +1701,7 @@ Public Class frmMain
                     Me.panelMenu.Visible = False
                     Me.panelMenu2.Visible = False
                     Me.panelMain5.Visible = False
+                    Me.panelMain6.Visible = False
                 Case "Help"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1704,6 +1713,7 @@ Public Class frmMain
                     Me.panelMenu.Visible = False
                     Me.panelMenu2.Visible = False
                     Me.panelMain5.Visible = False
+                    Me.panelMain6.Visible = False
                 Case "File"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1715,6 +1725,19 @@ Public Class frmMain
                     Me.panelMenu.Visible = False
                     Me.panelMenu2.Visible = False
                     Me.panelMain5.Visible = True
+                    Me.panelMain6.Visible = False
+                Case "Search"
+                    Me.bProcessHover = False
+                    Me.bServiceHover = False
+                    Me.panelMain.Visible = False
+                    Me.panelMain2.Visible = False
+                    Me.panelMain3.Visible = False
+                    Me.panelMain4.Visible = False
+                    Me.panelMain6.BringToFront()
+                    Me.panelMenu.Visible = False
+                    Me.panelMenu2.Visible = False
+                    Me.panelMain5.Visible = False
+                    Me.panelMain6.Visible = True
             End Select
         End If
     End Sub
