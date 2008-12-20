@@ -581,6 +581,10 @@ Public Class frmMain
         SetToolTip(Me.tv, "Selected service depends on these services.")
         SetToolTip(Me.tv2, "This services depend on selected service.")
         SetToolTip(Me.cmdTray, "Hide YAPM (double click on icon on tray to show main form).")
+        SetToolTip(Me.chkSearchProcess, "Search in processes list.")
+        SetToolTip(Me.chkSearchServices, "Search in services list.")
+        SetToolTip(Me.chkSearchCase, "Case sensitive.")
+        SetToolTip(Me.chkSearchModules, "Check also for processes modules.")
 
 
         ' Load help file
@@ -1940,5 +1944,96 @@ Public Class frmMain
             .Dispose()
         End With
         frm = Nothing
+    End Sub
+
+    Private Sub butSearchGo_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butSearchGo.Click
+        ' Launch search
+        Dim sToSearch As String = Me.txtSearchString.TextBoxText
+        If (sToSearch Is Nothing) OrElse sToSearch.Length < 1 Then Exit Sub
+
+        If Me.chkSearchCase.Checked = False Then
+            sToSearch = sToSearch.ToLower
+        End If
+
+        Me.lvSearchResults.Items.Clear()
+
+        ' Refresh services and processes lists (easy way to have up to date informations)
+        Call Me.refreshProcessList()
+        Call Me.refreshServiceList()
+
+        ' Lock timers so we won't refresh
+        Me.timerProcess.Enabled = False
+        Me.timerServices.Enabled = False
+
+        Dim it As ListViewItem
+        Dim subit As ListViewItem.ListViewSubItem
+        Dim c As Integer
+        Dim sComp As String
+
+        If Me.chkSearchProcess.Checked Then
+            For Each it In Me.lvProcess.Items
+                c = -1
+                For Each subit In it.SubItems
+                    If Me.chkSearchCase.Checked = False Then
+                        sComp = subit.Text.ToLower
+                    Else
+                        sComp = subit.Text
+                    End If
+                    c += 1
+                    If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
+                        ' So we've found a result
+                        Dim newIt As New ListViewItem
+                        Dim n2 As New ListViewItem.ListViewSubItem
+                        Dim n3 As New ListViewItem.ListViewSubItem
+                        newIt.Text = "Process"
+                        n3.Text = Me.lvProcess.Columns.Item(c).Text
+                        n2.Text = newIt.Text & " -- " & n3.Text & " -- " & it.Text & " -- " & subit.Text
+                        newIt.SubItems.Add(n2)
+                        newIt.SubItems.Add(n3)
+                        Me.lvSearchResults.Items.Add(newIt)
+                    End If
+                Next
+            Next
+        End If
+        If Me.chkSearchServices.Checked Then
+            For Each it In Me.lvServices.Items
+                c = -1
+                For Each subit In it.SubItems
+                    If Me.chkSearchCase.Checked = False Then
+                        sComp = subit.Text.ToLower
+                    Else
+                        sComp = subit.Text
+                    End If
+                    c += 1
+                    If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
+                        ' So we've found a result
+                        Dim newIt As New ListViewItem
+                        Dim n2 As New ListViewItem.ListViewSubItem
+                        Dim n3 As New ListViewItem.ListViewSubItem
+                        newIt.Text = "Service"
+                        n3.Text = Me.lvServices.Columns.Item(c).Text
+                        n2.Text = newIt.Text & " -- " & n3.Text & " -- " & it.Text & " -- " & subit.Text
+                        newIt.SubItems.Add(n2)
+                        newIt.SubItems.Add(n3)
+                        Me.lvSearchResults.Items.Add(newIt)
+                    End If
+                Next
+            Next
+        End If
+        Me.timerServices.Enabled = True
+        Me.timerProcess.Enabled = True
+
+    End Sub
+
+    Private Sub txtSearchString_TextBoxTextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchString.TextBoxTextChanged
+        Dim b As Boolean = (txtSearchString.TextBoxText IsNot Nothing)
+        If b Then
+            b = b And txtSearchString.TextBoxText.Length > 0
+        End If
+        Me.butSearchGo.Enabled = b
+    End Sub
+
+    Private Sub chkSearchProcess_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkSearchProcess.CheckedChanged
+        Me.chkSearchModules.Enabled = (Me.chkSearchProcess.Checked)
     End Sub
 End Class
