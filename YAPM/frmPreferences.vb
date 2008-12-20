@@ -47,7 +47,7 @@ Public Class frmPreferences
 
     Private Sub frmPreferences_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        Me.txtUpdate.Text = "This function is not available for now."
+        Me.txtUpdate.Text = "Click on 'Check if YAPM is up to date' to check if a new version is available."
         With frmMain
             .SetToolTip(Me.chkJobs, "Start jobs processing on YAPM startup.")
             .SetToolTip(Me.chkModules, "Check 'Retrieve modules/threads' option on YAPM startup.")
