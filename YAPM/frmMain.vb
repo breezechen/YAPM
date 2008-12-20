@@ -1993,6 +1993,36 @@ Public Class frmMain
                         Me.lvSearchResults.Items.Add(newIt)
                     End If
                 Next
+
+                ' Check for modules
+                Try
+                    If Me.chkSearchModules.Checked Then
+                        Dim proc As Process = Process.GetProcessById(CInt(Val(it.SubItems(1).Text)))
+                        Dim p As ProcessModuleCollection = proc.Modules
+                        Dim m As ProcessModule
+                        For Each m In p
+                            If Me.chkSearchCase.Checked = False Then
+                                sComp = m.FileVersionInfo.FileName.ToLower
+                            Else
+                                sComp = m.FileVersionInfo.FileName
+                            End If
+                            If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
+                                ' So we've found a result
+                                Dim newIt As New ListViewItem
+                                Dim n2 As New ListViewItem.ListViewSubItem
+                                Dim n3 As New ListViewItem.ListViewSubItem
+                                newIt.Text = "Module"
+                                n3.Text = "Module"
+                                n2.Text = newIt.Text & " -- " & it.Text & " -- " & m.FileVersionInfo.FileName
+                                newIt.SubItems.Add(n2)
+                                newIt.SubItems.Add(n3)
+                                Me.lvSearchResults.Items.Add(newIt)
+                            End If
+                        Next
+                    End If
+                Catch ex As Exception
+                    '
+                End Try
             Next
         End If
         If Me.chkSearchServices.Checked Then
