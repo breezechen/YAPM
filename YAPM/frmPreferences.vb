@@ -99,29 +99,29 @@ Public Class frmPreferences
         ' 1) Download source code of download page on sourceforge.net
         ' 2) Parse code to retrieve last versiob
         ' 3) Display results
-
-        Dim cVersion As Integer = 0
-        With My.Application.Info.Version
-            cVersion = .Major * 10000 + .Build * 1000 + .Minor * 100 + .MinorRevision
-        End With
-        Dim lVersion As Integer = 0
-        Dim sInfo As String = vbNullString
-
-        Dim s As String
-        s = "Downloading informations on sourceforge.net webpage..."
-        Me.txtUpdate.Text = s
-        My.Application.DoEvents()
-
-        'download code
-        Dim source As String = mdlInternet.DownloadPage("https://sourceforge.net/project/platformdownload.php?group_id=244697")
-        If source.Length = 0 Then Return False
-
-        s = "Retrieve last version number from downloaded informations..."
-        Me.txtUpdate.Text = Me.txtUpdate.Text & vbNewLine & s
-        My.Application.DoEvents()
-
-        ' parse code, retrive last update info and if necessary changelog
         Try
+            Dim cVersion As Integer = 0
+            With My.Application.Info.Version
+                cVersion = .Major * 10000 + .Build * 1000 + .Minor * 100 + .MinorRevision
+            End With
+            Dim lVersion As Integer = 0
+            Dim sInfo As String = vbNullString
+
+            Dim s As String
+            s = "Downloading informations on sourceforge.net webpage..."
+            Me.txtUpdate.Text = s
+            My.Application.DoEvents()
+
+            'download code
+            Dim source As String = mdlInternet.DownloadPage("https://sourceforge.net/project/platformdownload.php?group_id=244697")
+            If source.Length = 0 Then Return False
+
+            s = "Retrieve last version number from downloaded informations..."
+            Me.txtUpdate.Text = Me.txtUpdate.Text & vbNewLine & s
+            My.Application.DoEvents()
+
+            ' parse code, retrive last update info and if necessary changelog
+
             Dim x As Integer = InStr(source, "Last version : ", CompareMethod.Binary)
             Dim x2 As Integer = InStr(x + 1, source, "</p>", CompareMethod.Binary)
             If x = 0 Or x2 = 0 Then Return False
@@ -129,21 +129,23 @@ Public Class frmPreferences
             Dim sVers As String = source.Substring(x + 14, x2 - x - 15)
             Dim sV As String() = Split(sVers, ".")
             lVersion = CInt(Val(sV(0)) * 10000 + Val(sV(1)) * 1000 + Val(sV(2)) * 1000 + Val(sV(3)) * 100 + Val(sV(4)))
+
+
+            s = "Last version is : " & lVersion & vbNewLine
+            s &= "Your version is : " & cVersion & vbNewLine
+
+            If lVersion > cVersion Then
+                s &= "Result : A NEW UPDATE IS AVAILABLE" & vbNewLine & vbNewLine
+                s &= "Informations about new version : " & vbNewLine & sInfo
+            Else
+                s &= "Result : YOUR VERSION IS UP TO DATE"
+            End If
+
+            Me.txtUpdate.Text = Me.txtUpdate.Text & vbNewLine & s
         Catch ex As Exception
             Return False
         End Try
 
-        s = "Last version is : " & lVersion & vbNewLine
-        s &= "Your version is : " & cVersion & vbNewLine
-
-        If lVersion > cVersion Then
-            s &= "Result : A NEW UPDATE IS AVAILABLE" & vbNewLine & vbNewLine
-            s &= "Informations about new version : " & vbNewLine & sInfo
-        Else
-            s &= "Result : YOUR VERSION IS UP TO DATE"
-        End If
-
-        Me.txtUpdate.Text = Me.txtUpdate.Text & vbNewLine & s
         Return True
     End Function
 
