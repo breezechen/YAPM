@@ -2066,4 +2066,60 @@ Public Class frmMain
     Private Sub chkSearchProcess_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkSearchProcess.CheckedChanged
         Me.chkSearchModules.Enabled = (Me.chkSearchProcess.Checked)
     End Sub
+
+    Private Sub butSearchSaveReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butSearchSaveReport.Click
+        saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
+        saveDial.Title = "Save report"
+        Try
+            If saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
+                Dim s As String = saveDial.FileName
+                If Len(s) > 0 Then
+                    Dim stream As New System.IO.StreamWriter(s, False)
+                    ' Create file report
+                    Dim c As String = vbNullString
+
+                    If s.Substring(s.Length - 3, 3).ToLower = "txt" Then
+                        ' txt
+                        Dim it As ListViewItem
+                        For Each it In Me.lvSearchResults.Items
+                            c = "Type : " & it.Text
+                            c &= "  Result : " & it.SubItems(1).Text
+                            c &= "  Field : " & it.SubItems(2).Text & vbNewLine
+                            stream.Write(c)
+                        Next
+                        c = CStr(Me.lvSearchResults.Items.Count) & " result(s)"
+                        stream.Write(c)
+                        stream.Close()
+                    Else
+                        ' HTML
+                        c = "<head><style type=" & Chr(34) & "text/css" & Chr(34) & ">BODY{font-family : Calibri, Times, courrier;}</style></head>"
+                        c &= "<html><table width=100% border=0 cellspacing=1 cellpadding=0 bgcolor=" & Chr(34) & "#C5C5C5" & Chr(34) & ">"
+                        c &= "<tr bgcolor=" & Chr(34) & "#C5C5C5" & Chr(34) & ">"
+                        c &= "<td width=20% align=center><b>Type</b></td>"
+                        c &= "<td width=60% align=center><b>Result</b></td>"
+                        c &= "<td width=20% align=center><b>Field</b></td>"
+                        c &= "</tr>"
+                        stream.Write(c)
+
+                        Dim it As ListViewItem
+                        For Each it In Me.lvSearchResults.Items
+                            c = "<tr bgcolor=" & Chr(34) & "white" & Chr(34) & ">"
+                            c &= "<td>" & it.Text & "</td>"
+                            c &= "<td>" & it.SubItems(1).Text & "</td>"
+                            c &= "<td>" & it.SubItems(2).Text & "</td>"
+                            c &= "</tr>"
+                            stream.Write(c)
+                        Next
+                        stream.Write("</table></html>")
+                        stream.Close()
+                    End If
+
+                    MsgBox("Save is ok !", MsgBoxStyle.Information, "Save report")
+                End If
+            End If
+        Catch ex As Exception
+            'MsgBox(ex.Message)
+        End Try
+
+    End Sub
 End Class
