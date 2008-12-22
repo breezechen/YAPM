@@ -146,6 +146,8 @@
     <None Include="Resources\business_user_add.png" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsDriverCtrl.vb" />
+    <Compile Include="clsOpenedHandles.vb" />
     <Compile Include="frmBox.Designer.vb">
       <DependentUpon>frmBox.vb</DependentUpon>
     </Compile>

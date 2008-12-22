@@ -60,4 +60,33 @@ Module mdlIcon
 
     End Function
 
+    Public Function GetIcon2(ByVal fName As String, Optional ByVal small As Boolean = True) _
+        As System.Drawing.Icon
+
+        Dim hImgSmall As IntPtr
+        Dim hImgLarge As IntPtr
+        Dim shinfo As SHFILEINFO
+        shinfo = New SHFILEINFO()
+
+        If small Then
+            hImgSmall = SHGetFileInfo(fName, 0, shinfo, _
+                Marshal.SizeOf(shinfo), _
+                SHGFI_ICON Or SHGFI_SMALLICON)
+        Else
+            hImgLarge = SHGetFileInfo(fName, 0, _
+                shinfo, Marshal.SizeOf(shinfo), _
+                SHGFI_ICON Or SHGFI_LARGEICON)
+        End If
+
+        Dim img As System.Drawing.Icon = Nothing
+        Try
+            img = System.Drawing.Icon.FromHandle(shinfo.hIcon)
+        Catch ex As Exception
+            ' Can't retrieve icon
+        End Try
+
+        Return img
+
+    End Function
+
 End Module

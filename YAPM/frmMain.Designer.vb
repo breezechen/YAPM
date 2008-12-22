@@ -30,6 +30,8 @@ Partial Class frmMain
         Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain = New System.Windows.Forms.Panel
         Me.lvProcess = New System.Windows.Forms.ListView
@@ -142,6 +144,7 @@ Partial Class frmMain
         Me.butProcessOtherActions = New System.Windows.Forms.RibbonButton
         Me.butProcessAffinity = New System.Windows.Forms.RibbonButton
         Me.butProcessLimitCPU = New System.Windows.Forms.RibbonButton
+        Me.butShowProcHandles = New System.Windows.Forms.RibbonButton
         Me.RBProcessPriority = New System.Windows.Forms.RibbonPanel
         Me.butProcessPriority = New System.Windows.Forms.RibbonButton
         Me.butIdle = New System.Windows.Forms.RibbonButton
@@ -177,6 +180,10 @@ Partial Class frmMain
         Me.butServiceFileDetails = New System.Windows.Forms.RibbonButton
         Me.RBServiceOnline = New System.Windows.Forms.RibbonPanel
         Me.butServiceGoogle = New System.Windows.Forms.RibbonButton
+        Me.HandlesTab = New System.Windows.Forms.RibbonTab
+        Me.RBHandlesActions = New System.Windows.Forms.RibbonPanel
+        Me.butHandleRefresh = New System.Windows.Forms.RibbonButton
+        Me.butHandleClose = New System.Windows.Forms.RibbonButton
         Me.FileTab = New System.Windows.Forms.RibbonTab
         Me.RBFileKillProcess = New System.Windows.Forms.RibbonPanel
         Me.butFileRelease = New System.Windows.Forms.RibbonButton
@@ -262,6 +269,17 @@ Partial Class frmMain
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader13 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader14 = New System.Windows.Forms.ColumnHeader
+        Me.panelMain7 = New System.Windows.Forms.Panel
+        Me.lvHandles = New System.Windows.Forms.ListView
+        Me.ColumnHeader24 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader25 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader26 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader27 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader28 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader15 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader16 = New System.Windows.Forms.ColumnHeader
+        Me.chkSearchHandles = New System.Windows.Forms.CheckBox
+        Me.imgSearch = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -288,6 +306,7 @@ Partial Class frmMain
         Me.SplitContainerSearch.Panel1.SuspendLayout()
         Me.SplitContainerSearch.Panel2.SuspendLayout()
         Me.SplitContainerSearch.SuspendLayout()
+        Me.panelMain7.SuspendLayout()
         Me.SuspendLayout()
         '
         'imgMain
@@ -706,6 +725,8 @@ Partial Class frmMain
         Me.imgServices.Images.SetKeyName(0, "service")
         Me.imgServices.Images.SetKeyName(1, "ok")
         Me.imgServices.Images.SetKeyName(2, "ko")
+        Me.imgServices.Images.SetKeyName(3, "key")
+        Me.imgServices.Images.SetKeyName(4, "noicon")
         '
         'panelMain4
         '
@@ -1026,6 +1047,7 @@ Partial Class frmMain
         Me.Ribbon.TabIndex = 44
         Me.Ribbon.Tabs.Add(Me.ProcessTab)
         Me.Ribbon.Tabs.Add(Me.ServiceTab)
+        Me.Ribbon.Tabs.Add(Me.HandlesTab)
         Me.Ribbon.Tabs.Add(Me.FileTab)
         Me.Ribbon.Tabs.Add(Me.JobsTab)
         Me.Ribbon.Tabs.Add(Me.SearchTab)
@@ -1073,6 +1095,7 @@ Partial Class frmMain
         Me.RBProcessActions.Items.Add(Me.butStopProcess)
         Me.RBProcessActions.Items.Add(Me.butResumeProcess)
         Me.RBProcessActions.Items.Add(Me.butProcessOtherActions)
+        Me.RBProcessActions.Items.Add(Me.butShowProcHandles)
         Me.RBProcessActions.Tag = Nothing
         Me.RBProcessActions.Text = "Process actions"
         '
@@ -1168,6 +1191,19 @@ Partial Class frmMain
         Me.butProcessLimitCPU.ToolTip = Nothing
         Me.butProcessLimitCPU.ToolTipImage = Nothing
         Me.butProcessLimitCPU.ToolTipTitle = Nothing
+        '
+        'butShowProcHandles
+        '
+        Me.butShowProcHandles.AltKey = Nothing
+        Me.butShowProcHandles.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butShowProcHandles.Image = CType(resources.GetObject("butShowProcHandles.Image"), System.Drawing.Image)
+        Me.butShowProcHandles.SmallImage = CType(resources.GetObject("butShowProcHandles.SmallImage"), System.Drawing.Image)
+        Me.butShowProcHandles.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butShowProcHandles.Tag = Nothing
+        Me.butShowProcHandles.Text = "Show handles"
+        Me.butShowProcHandles.ToolTip = Nothing
+        Me.butShowProcHandles.ToolTipImage = Nothing
+        Me.butShowProcHandles.ToolTipTitle = Nothing
         '
         'RBProcessPriority
         '
@@ -1598,6 +1634,47 @@ Partial Class frmMain
         Me.butServiceGoogle.ToolTip = Nothing
         Me.butServiceGoogle.ToolTipImage = Nothing
         Me.butServiceGoogle.ToolTipTitle = Nothing
+        '
+        'HandlesTab
+        '
+        Me.HandlesTab.Panels.Add(Me.RBHandlesActions)
+        Me.HandlesTab.Tag = Nothing
+        Me.HandlesTab.Text = "Handles"
+        '
+        'RBHandlesActions
+        '
+        Me.RBHandlesActions.ButtonMoreEnabled = False
+        Me.RBHandlesActions.ButtonMoreVisible = False
+        Me.RBHandlesActions.Items.Add(Me.butHandleRefresh)
+        Me.RBHandlesActions.Items.Add(Me.butHandleClose)
+        Me.RBHandlesActions.Tag = Nothing
+        Me.RBHandlesActions.Text = "Actions"
+        '
+        'butHandleRefresh
+        '
+        Me.butHandleRefresh.AltKey = Nothing
+        Me.butHandleRefresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butHandleRefresh.Image = CType(resources.GetObject("butHandleRefresh.Image"), System.Drawing.Image)
+        Me.butHandleRefresh.SmallImage = CType(resources.GetObject("butHandleRefresh.SmallImage"), System.Drawing.Image)
+        Me.butHandleRefresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butHandleRefresh.Tag = Nothing
+        Me.butHandleRefresh.Text = "Refresh"
+        Me.butHandleRefresh.ToolTip = Nothing
+        Me.butHandleRefresh.ToolTipImage = Nothing
+        Me.butHandleRefresh.ToolTipTitle = Nothing
+        '
+        'butHandleClose
+        '
+        Me.butHandleClose.AltKey = Nothing
+        Me.butHandleClose.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butHandleClose.Image = CType(resources.GetObject("butHandleClose.Image"), System.Drawing.Image)
+        Me.butHandleClose.SmallImage = CType(resources.GetObject("butHandleClose.SmallImage"), System.Drawing.Image)
+        Me.butHandleClose.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butHandleClose.Tag = Nothing
+        Me.butHandleClose.Text = "Close handle(s)"
+        Me.butHandleClose.ToolTip = Nothing
+        Me.butHandleClose.ToolTipImage = Nothing
+        Me.butHandleClose.ToolTipTitle = Nothing
         '
         'FileTab
         '
@@ -2439,6 +2516,7 @@ Partial Class frmMain
         '
         'SplitContainerSearch.Panel1
         '
+        Me.SplitContainerSearch.Panel1.Controls.Add(Me.chkSearchHandles)
         Me.SplitContainerSearch.Panel1.Controls.Add(Me.Label1)
         Me.SplitContainerSearch.Panel1.Controls.Add(Me.chkSearchModules)
         Me.SplitContainerSearch.Panel1.Controls.Add(Me.chkSearchServices)
@@ -2517,7 +2595,7 @@ Partial Class frmMain
         Me.lvSearchResults.Location = New System.Drawing.Point(0, 0)
         Me.lvSearchResults.Name = "lvSearchResults"
         Me.lvSearchResults.Size = New System.Drawing.Size(565, 242)
-        Me.lvSearchResults.SmallImageList = Me.imgProcess
+        Me.lvSearchResults.SmallImageList = Me.imgSearch
         Me.lvSearchResults.TabIndex = 3
         Me.lvSearchResults.UseCompatibleStateImageBehavior = False
         Me.lvSearchResults.View = System.Windows.Forms.View.Details
@@ -2537,12 +2615,97 @@ Partial Class frmMain
         Me.ColumnHeader14.Text = "Field"
         Me.ColumnHeader14.Width = 150
         '
+        'panelMain7
+        '
+        Me.panelMain7.Controls.Add(Me.lvHandles)
+        Me.panelMain7.Location = New System.Drawing.Point(115, 163)
+        Me.panelMain7.Name = "panelMain7"
+        Me.panelMain7.Size = New System.Drawing.Size(565, 276)
+        Me.panelMain7.TabIndex = 49
+        Me.panelMain7.Visible = False
+        '
+        'lvHandles
+        '
+        Me.lvHandles.AllowColumnReorder = True
+        Me.lvHandles.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader24, Me.ColumnHeader25, Me.ColumnHeader26, Me.ColumnHeader27, Me.ColumnHeader28, Me.ColumnHeader15, Me.ColumnHeader16})
+        Me.lvHandles.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvHandles.FullRowSelect = True
+        ListViewGroup7.Header = "Processes"
+        ListViewGroup7.Name = "gpOther"
+        ListViewGroup8.Header = "Search result"
+        ListViewGroup8.Name = "gpSearch"
+        Me.lvHandles.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
+        Me.lvHandles.HideSelection = False
+        Me.lvHandles.Location = New System.Drawing.Point(0, 0)
+        Me.lvHandles.Name = "lvHandles"
+        Me.lvHandles.Size = New System.Drawing.Size(565, 276)
+        Me.lvHandles.SmallImageList = Me.imgServices
+        Me.lvHandles.TabIndex = 2
+        Me.lvHandles.UseCompatibleStateImageBehavior = False
+        Me.lvHandles.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader24
+        '
+        Me.ColumnHeader24.Text = "Type"
+        Me.ColumnHeader24.Width = 80
+        '
+        'ColumnHeader25
+        '
+        Me.ColumnHeader25.Text = "Nom"
+        Me.ColumnHeader25.Width = 400
+        '
+        'ColumnHeader26
+        '
+        Me.ColumnHeader26.Text = "HandleCount"
+        Me.ColumnHeader26.Width = 70
+        '
+        'ColumnHeader27
+        '
+        Me.ColumnHeader27.Text = "PointerCount"
+        Me.ColumnHeader27.Width = 70
+        '
+        'ColumnHeader28
+        '
+        Me.ColumnHeader28.Text = "ObjectCount"
+        Me.ColumnHeader28.Width = 70
+        '
+        'ColumnHeader15
+        '
+        Me.ColumnHeader15.Text = "Handle"
+        Me.ColumnHeader15.Width = 70
+        '
+        'ColumnHeader16
+        '
+        Me.ColumnHeader16.Text = "ProcessId"
+        Me.ColumnHeader16.Width = 70
+        '
+        'chkSearchHandles
+        '
+        Me.chkSearchHandles.AutoSize = True
+        Me.chkSearchHandles.Checked = True
+        Me.chkSearchHandles.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkSearchHandles.Location = New System.Drawing.Point(441, 7)
+        Me.chkSearchHandles.Name = "chkSearchHandles"
+        Me.chkSearchHandles.Size = New System.Drawing.Size(63, 17)
+        Me.chkSearchHandles.TabIndex = 5
+        Me.chkSearchHandles.Text = "handles"
+        Me.chkSearchHandles.UseVisualStyleBackColor = True
+        '
+        'imgSearch
+        '
+        Me.imgSearch.ImageStream = CType(resources.GetObject("imgSearch.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imgSearch.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgSearch.Images.SetKeyName(0, "service")
+        Me.imgSearch.Images.SetKeyName(1, "handle")
+        Me.imgSearch.Images.SetKeyName(2, "dll")
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.ClientSize = New System.Drawing.Size(795, 603)
+        Me.Controls.Add(Me.panelMain7)
         Me.Controls.Add(Me.panelMain6)
         Me.Controls.Add(Me.panelMain5)
         Me.Controls.Add(Me.panelInfos)
@@ -2594,6 +2757,7 @@ Partial Class frmMain
         Me.SplitContainerSearch.Panel1.PerformLayout()
         Me.SplitContainerSearch.Panel2.ResumeLayout(False)
         Me.SplitContainerSearch.ResumeLayout(False)
+        Me.panelMain7.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -2830,5 +2994,21 @@ Partial Class frmMain
     Friend WithEvents chkSearchProcess As System.Windows.Forms.CheckBox
     Friend WithEvents chkSearchCase As System.Windows.Forms.CheckBox
     Friend WithEvents ColumnHeader14 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents butShowProcHandles As System.Windows.Forms.RibbonButton
+    Friend WithEvents HandlesTab As System.Windows.Forms.RibbonTab
+    Friend WithEvents RBHandlesActions As System.Windows.Forms.RibbonPanel
+    Friend WithEvents panelMain7 As System.Windows.Forms.Panel
+    Friend WithEvents butHandleRefresh As System.Windows.Forms.RibbonButton
+    Friend WithEvents butHandleClose As System.Windows.Forms.RibbonButton
+    Friend WithEvents lvHandles As System.Windows.Forms.ListView
+    Friend WithEvents ColumnHeader24 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader25 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader26 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader27 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader28 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader15 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader16 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents chkSearchHandles As System.Windows.Forms.CheckBox
+    Friend WithEvents imgSearch As System.Windows.Forms.ImageList
 
 End Class

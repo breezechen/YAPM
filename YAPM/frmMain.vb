@@ -8,6 +8,8 @@ Public Class frmMain
     Public bAlwaysDisplay As Boolean = False
     Public Pref As New Pref
     Private _stopOnlineRetrieving As Boolean = False
+    Private handlesToRefresh() As Integer
+    Private handles_Renamed As New clsOpenedHandles
 
     ' Not a good way to configure paths...
     'Public Const HELP_PATH As String = "C:\Users\Admin\Desktop\YAPM\YAPM\Help\help.htm"
@@ -651,6 +653,8 @@ Public Class frmMain
         Me.panelInfos2.Top = 307
         Me.panelMain6.Left = 5
         Me.panelMain6.Top = 120
+        Me.panelMain7.Left = 5
+        Me.panelMain7.Top = 120
 
         Me.panelMenu.Top = 117
         Me.panelMenu.Left = 5
@@ -668,6 +672,10 @@ Public Class frmMain
         ' Search resizement
         Me.panelMain6.Height = Me.panelMain3.Height
         Me.panelMain6.Width = Me.panelMain3.Width
+
+        ' Handles resizement
+        Me.panelMain7.Height = Me.panelMain3.Height
+        Me.panelMain7.Width = Me.panelMain3.Width
 
         ' Process
         Dim i As Integer = CInt((Me.Height - 250) / 2)
@@ -1680,6 +1688,7 @@ Public Class frmMain
                     Me.panelMenu.Visible = False
                     Me.panelMenu2.Visible = True
                     Me.panelMain6.Visible = False
+                    Me.panelMain7.Visible = False
                 Case "Processes"
                     Me.bProcessHover = True
                     Me.bServiceHover = False
@@ -1694,6 +1703,7 @@ Public Class frmMain
                     Me.panelMenu2.Visible = False
                     Me.panelMain5.Visible = False
                     Me.panelMain6.Visible = False
+                    Me.panelMain7.Visible = False
                 Case "Jobs"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1706,6 +1716,7 @@ Public Class frmMain
                     Me.panelMenu2.Visible = False
                     Me.panelMain5.Visible = False
                     Me.panelMain6.Visible = False
+                    Me.panelMain7.Visible = False
                 Case "Help"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1718,6 +1729,7 @@ Public Class frmMain
                     Me.panelMenu2.Visible = False
                     Me.panelMain5.Visible = False
                     Me.panelMain6.Visible = False
+                    Me.panelMain7.Visible = False
                 Case "File"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1730,6 +1742,7 @@ Public Class frmMain
                     Me.panelMenu2.Visible = False
                     Me.panelMain5.Visible = True
                     Me.panelMain6.Visible = False
+                    Me.panelMain7.Visible = False
                 Case "Search"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1742,6 +1755,20 @@ Public Class frmMain
                     Me.panelMenu2.Visible = False
                     Me.panelMain5.Visible = False
                     Me.panelMain6.Visible = True
+                    Me.panelMain7.Visible = False
+                Case "Handles"
+                    Me.bProcessHover = False
+                    Me.bServiceHover = False
+                    Me.panelMain.Visible = False
+                    Me.panelMain2.Visible = False
+                    Me.panelMain3.Visible = False
+                    Me.panelMain4.Visible = False
+                    Me.panelMain7.BringToFront()
+                    Me.panelMenu.Visible = False
+                    Me.panelMenu2.Visible = False
+                    Me.panelMain5.Visible = False
+                    Me.panelMain6.Visible = False
+                    Me.panelMain7.Visible = True
             End Select
         End If
     End Sub
@@ -1969,6 +1996,8 @@ Public Class frmMain
         Dim subit As ListViewItem.ListViewSubItem
         Dim c As Integer
         Dim sComp As String
+        Dim i As Integer = 0
+        Dim id As Integer = 0
 
         If Me.chkSearchProcess.Checked Then
             For Each it In Me.lvProcess.Items
@@ -1990,6 +2019,9 @@ Public Class frmMain
                         n2.Text = newIt.Text & " -- " & n3.Text & " -- " & it.Text & " -- " & subit.Text
                         newIt.SubItems.Add(n2)
                         newIt.SubItems.Add(n3)
+                        Dim fName As String = it.SubItems(7).Text
+                        imgSearch.Images.Add(fName, imgProcess.Images.Item(fName))
+                        newIt.ImageKey = fName
                         Me.lvSearchResults.Items.Add(newIt)
                     End If
                 Next
@@ -2016,6 +2048,7 @@ Public Class frmMain
                                 n2.Text = newIt.Text & " -- " & it.Text & " -- " & m.FileVersionInfo.FileName
                                 newIt.SubItems.Add(n2)
                                 newIt.SubItems.Add(n3)
+                                newIt.ImageKey = "dll"
                                 Me.lvSearchResults.Items.Add(newIt)
                             End If
                         Next
@@ -2045,11 +2078,42 @@ Public Class frmMain
                         n2.Text = newIt.Text & " -- " & n3.Text & " -- " & it.Text & " -- " & subit.Text
                         newIt.SubItems.Add(n2)
                         newIt.SubItems.Add(n3)
+                        newIt.ImageKey = "service"
                         Me.lvSearchResults.Items.Add(newIt)
                     End If
                 Next
             Next
         End If
+
+        If Me.chkSearchHandles.Checked Then
+            handles_Renamed.Refresh()
+            For i = 0 To handles_Renamed.Count - 1
+                With handles_Renamed
+                    If (Len(.GetObjectName(i)) > 0) Then
+                        If Me.chkSearchCase.Checked = False Then
+                            sComp = .GetObjectName(i).ToLower
+                        Else
+                            sComp = .GetObjectName(i)
+                        End If
+                        If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
+                            ' So we've found a result
+                            Dim newIt As New ListViewItem
+                            Dim n2 As New ListViewItem.ListViewSubItem
+                            Dim n3 As New ListViewItem.ListViewSubItem
+                            newIt.Text = "Handle"
+                            n3.Text = .GetNameInformation(i)
+                            n2.Text = newIt.Text & " -- " & n3.Text & " -- " & .GetObjectName(i)
+                            newIt.SubItems.Add(n2)
+                            newIt.SubItems.Add(n3)
+                            newIt.ImageKey = "handle"
+                            Me.lvSearchResults.Items.Add(newIt)
+                        End If
+                    End If
+                End With
+            Next
+        End If
+
+
         Me.timerServices.Enabled = True
         Me.timerProcess.Enabled = True
 
@@ -2121,5 +2185,83 @@ Public Class frmMain
             'MsgBox(ex.Message)
         End Try
 
+    End Sub
+
+    Private Sub butShowProcHandles_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butShowProcHandles.Click
+        Dim it As ListViewItem
+        Dim x As Integer = 0
+        ReDim handlesToRefresh(Me.lvProcess.SelectedItems.Count - 1)
+        For Each it In Me.lvProcess.SelectedItems
+            handlesToRefresh(x) = CInt(Val(it.SubItems(1).Text))
+            x += 1
+        Next
+        Call showHandles()
+    End Sub
+
+    Private Sub showHandles()
+        ' Display handles of desired processes (handlesToRefresh)
+        Dim id As Integer
+        Dim i As Integer
+        Dim it As ListViewItem
+
+        handles_Renamed.Refresh()
+        Me.lvHandles.Items.Clear()
+
+        For Each id In Me.handlesToRefresh
+            For i = 0 To handles_Renamed.Count - 1
+                With handles_Renamed
+                    If (.GetProcessID(i) = id) And (Len(.GetObjectName(i)) > 0) Then
+                        it = lvHandles.Items.Add(.GetNameInformation(i))
+                        it.SubItems.Add(.GetObjectName(i))
+                        it.SubItems.Add(CStr(.GetHandleCount(i)))
+                        it.SubItems.Add(CStr(.GetPointerCount(i)))
+                        it.SubItems.Add(CStr(.GetObjectCount(i)))
+                        it.SubItems.Add(CStr(.GetHandle(i)))
+                        it.SubItems.Add(CStr(id))
+                        it.Tag = .GetHandle(i)
+                        Select Case it.Text
+                            Case "Key"
+                                it.ImageKey = "key"
+                            Case "File", "Directory"
+                                ' Have to retrieve the icon of file/directory
+                                Dim fName As String = .GetObjectName(i)
+                                If IO.File.Exists(fName) Or IO.Directory.Exists(fName) Then
+                                    Dim img As System.Drawing.Icon = GetIcon2(fName, True)
+                                    If img IsNot Nothing Then
+                                        imgServices.Images.Add(fName, img)
+                                        it.ImageKey = fName
+                                    Else
+                                        it.ImageKey = "noicon"
+                                    End If
+                                Else
+                                    it.ImageKey = "noicon"
+                                End If
+                            Case Else
+                                it.ImageKey = "service"
+                        End Select
+                    End If
+                End With
+            Next
+        Next
+
+        My.Application.DoEvents()
+        Me.Ribbon.ActiveTab = Me.HandlesTab
+        Call Me.Ribbon_MouseMove(Nothing, Nothing)
+    End Sub
+
+    Private Sub butHandleRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butHandleRefresh.Click
+        Call showHandles()
+    End Sub
+
+    Private Sub butHandleClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butHandleClose.Click
+        Dim it As ListViewItem
+        Dim pid As Integer
+        Dim handle As Integer
+        For Each it In Me.lvHandles.SelectedItems
+            pid = CInt(Val(it.SubItems(6).Text))
+            handle = CInt(Val(it.SubItems(5).Text))
+            Call handles_Renamed.CloseProcessLocalHandle(pid, handle)
+            it.Remove()
+        Next
     End Sub
 End Class
