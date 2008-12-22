@@ -260,6 +260,7 @@ Partial Class frmMain
         Me.ToolStripMenuItem16 = New System.Windows.Forms.ToolStripMenuItem
         Me.panelMain6 = New System.Windows.Forms.Panel
         Me.SplitContainerSearch = New System.Windows.Forms.SplitContainer
+        Me.chkSearchHandles = New System.Windows.Forms.CheckBox
         Me.Label1 = New System.Windows.Forms.Label
         Me.chkSearchModules = New System.Windows.Forms.CheckBox
         Me.chkSearchServices = New System.Windows.Forms.CheckBox
@@ -269,6 +270,7 @@ Partial Class frmMain
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader13 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader14 = New System.Windows.Forms.ColumnHeader
+        Me.imgSearch = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain7 = New System.Windows.Forms.Panel
         Me.lvHandles = New System.Windows.Forms.ListView
         Me.ColumnHeader24 = New System.Windows.Forms.ColumnHeader
@@ -278,8 +280,6 @@ Partial Class frmMain
         Me.ColumnHeader28 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader15 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader16 = New System.Windows.Forms.ColumnHeader
-        Me.chkSearchHandles = New System.Windows.Forms.CheckBox
-        Me.imgSearch = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -2530,6 +2530,18 @@ Partial Class frmMain
         Me.SplitContainerSearch.SplitterDistance = 30
         Me.SplitContainerSearch.TabIndex = 2
         '
+        'chkSearchHandles
+        '
+        Me.chkSearchHandles.AutoSize = True
+        Me.chkSearchHandles.Checked = True
+        Me.chkSearchHandles.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkSearchHandles.Location = New System.Drawing.Point(441, 7)
+        Me.chkSearchHandles.Name = "chkSearchHandles"
+        Me.chkSearchHandles.Size = New System.Drawing.Size(63, 17)
+        Me.chkSearchHandles.TabIndex = 5
+        Me.chkSearchHandles.Text = "handles"
+        Me.chkSearchHandles.UseVisualStyleBackColor = True
+        '
         'Label1
         '
         Me.Label1.AutoSize = True
@@ -2615,6 +2627,15 @@ Partial Class frmMain
         Me.ColumnHeader14.Text = "Field"
         Me.ColumnHeader14.Width = 150
         '
+        'imgSearch
+        '
+        Me.imgSearch.ImageStream = CType(resources.GetObject("imgSearch.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imgSearch.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgSearch.Images.SetKeyName(0, "service")
+        Me.imgSearch.Images.SetKeyName(1, "handle")
+        Me.imgSearch.Images.SetKeyName(2, "dll")
+        Me.imgSearch.Images.SetKeyName(3, "noicon")
+        '
         'panelMain7
         '
         Me.panelMain7.Controls.Add(Me.lvHandles)
@@ -2678,26 +2699,6 @@ Partial Class frmMain
         '
         Me.ColumnHeader16.Text = "ProcessId"
         Me.ColumnHeader16.Width = 70
-        '
-        'chkSearchHandles
-        '
-        Me.chkSearchHandles.AutoSize = True
-        Me.chkSearchHandles.Checked = True
-        Me.chkSearchHandles.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkSearchHandles.Location = New System.Drawing.Point(441, 7)
-        Me.chkSearchHandles.Name = "chkSearchHandles"
-        Me.chkSearchHandles.Size = New System.Drawing.Size(63, 17)
-        Me.chkSearchHandles.TabIndex = 5
-        Me.chkSearchHandles.Text = "handles"
-        Me.chkSearchHandles.UseVisualStyleBackColor = True
-        '
-        'imgSearch
-        '
-        Me.imgSearch.ImageStream = CType(resources.GetObject("imgSearch.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgSearch.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgSearch.Images.SetKeyName(0, "service")
-        Me.imgSearch.Images.SetKeyName(1, "handle")
-        Me.imgSearch.Images.SetKeyName(2, "dll")
         '
         'frmMain
         '

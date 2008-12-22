@@ -760,6 +760,7 @@ Fin:
         CloseHandle(hDriver)
         'arrête le driver KernelMemory
         driver.StopService()
+        driver.RemoveService()
         driver = Nothing
     End Sub
 

@@ -2019,9 +2019,13 @@ Public Class frmMain
                         n2.Text = newIt.Text & " -- " & n3.Text & " -- " & it.Text & " -- " & subit.Text
                         newIt.SubItems.Add(n2)
                         newIt.SubItems.Add(n3)
-                        Dim fName As String = it.SubItems(7).Text
-                        imgSearch.Images.Add(fName, imgProcess.Images.Item(fName))
-                        newIt.ImageKey = fName
+                        Try
+                            Dim fName As String = it.SubItems(7).Text
+                            imgSearch.Images.Add(fName, imgProcess.Images.Item(fName))
+                            newIt.ImageKey = fName
+                        Catch ex As Exception
+                            newIt.ImageKey = "noicon"
+                        End Try
                         Me.lvSearchResults.Items.Add(newIt)
                     End If
                 Next
