@@ -22,6 +22,8 @@ Public Class frmMain
     Public Const DEFAULT_TIMER_INTERVAL_PROCESSES As Integer = 2500
     Public Const DEFAULT_TIMER_INTERVAL_SERVICES As Integer = 15000
 
+    Public Const MSGFIRSTTIME As String = "This is the first time you run YAPM. Please remember that it is an alpha version so there are some bugs and some missing functionnalities :-)" & vbNewLine & vbNewLine & "You should run YAPM as an administrator in order to fully control your processes. If you are an administrator, you can enable all functionnalities of YAPM by clicking on the 'Take full power' button in the 'Misc' pannel." & vbNewLine & "This enable you to fully control all your processes, including system processes. Please take care using this function because you will be able to do some irreversible things if you kill or modify some system processes... Use it at your own risks !" & vbNewLine & vbNewLine & "Please let me know any of your ideas of improvement or new functionnalities in YAPM's sourceforge.net project page ('Help' pannel) :-)" & vbNewLine & vbNewLine & "This message won't be shown anymore :-)"
+
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
 
 
@@ -434,7 +436,8 @@ Public Class frmMain
             If it.Tag Is Nothing Then
 
                 Try
-                    Dim proc As Process = Process.GetProcessById(CInt(it.SubItems(1).Text))
+                    Dim pid As Integer = CInt(it.SubItems(1).Text)
+                    Dim proc As Process = Process.GetProcessById(pid)
 
 
                     ' Description
@@ -498,6 +501,24 @@ Public Class frmMain
                             s = s & "\tab\tab " & "Processor time : " & s2 & "\par"
                         Next
                     End If
+
+
+                    If chkHandles.Checked Then
+                        ' Retrieve handles
+                        s = s & "\par"
+                        s = s & "  \b Loaded handles\b0\par"
+                        Dim i As Integer
+                        handles_Renamed.Refresh()
+                        For i = 0 To handles_Renamed.Count - 1
+                            With handles_Renamed
+                                If (.GetProcessID(i) = pid) And (Len(.GetObjectName(i)) > 0) Then
+                                    s = s & "\tab " & .GetNameInformation(i) & " : " & Replace(.GetObjectName(i), "\", "\\") & "\par"
+                                End If
+                            End With
+                        Next
+                    End If
+
+
                     s = s & "}"
 
                     rtb.Rtf = s
@@ -553,6 +574,14 @@ Public Class frmMain
 
     End Sub
 
+    Private Sub frmMain_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        Try
+            handles_Renamed.Close()
+        Catch ex As Exception
+            '
+        End Try
+    End Sub
+
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         refreshProcessList()
@@ -587,6 +616,7 @@ Public Class frmMain
         SetToolTip(Me.chkSearchServices, "Search in services list.")
         SetToolTip(Me.chkSearchCase, "Case sensitive.")
         SetToolTip(Me.chkSearchModules, "Check also for processes modules.")
+        SetToolTip(Me.chkHandles, "Check if you want to retrieve handles infos when you click on listview.")
 
 
         ' Load help file
@@ -601,6 +631,11 @@ Public Class frmMain
         ' Load preferences
         Try
             Pref.Load()
+            If Pref.firstTime Then
+                MsgBox(MSGFIRSTTIME, MsgBoxStyle.Information, "Please read this")
+                Pref.firstTime = False
+                Pref.Save()
+            End If
             Pref.Apply()
         Catch ex As Exception
             ' Preference file corrupted/missing
@@ -614,6 +649,7 @@ Public Class frmMain
                 .startJobs = True
                 .startup = False
                 .topmost = False
+                MsgBox(MSGFIRSTTIME, MsgBoxStyle.Information, "Please read this")
                 .Save()
                 .Apply()
             End With
@@ -1413,7 +1449,8 @@ Public Class frmMain
 
     Private Sub butTakeFullPower_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butTakeFullPower.Click
         Me.Visible = False
-        Call mdlPrivileges.SetDebuPrivilege()
+        'MsgBox(mdlPrivileges.SetDebuPrivilege())
+        clsOpenedHandles.EnableDebug()
         Me.lvProcess.Items.Clear()
         refreshProcessList()
         Me.Visible = True

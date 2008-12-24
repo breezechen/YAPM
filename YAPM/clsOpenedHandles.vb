@@ -722,7 +722,7 @@ Fin:
         Dim ret As Integer
         driver = New clsDriverCtrl
         'autorise le privilège Debug afin de pouvoir ouvrir des handles vers les processus systèmes
-        EnableDebug()
+        'EnableDebug()
         'init des infos sur le driver
         With driver
             .ServiceDisplayName = "KernelMemory"
@@ -759,9 +759,17 @@ Fin:
         'ferme le handle du driver KernelMemory
         CloseHandle(hDriver)
         'arrête le driver KernelMemory
-        driver.StopService()
-        driver.RemoveService()
-        driver = Nothing
+        Try
+            driver.StopService()
+            driver.RemoveService()
+            driver = Nothing
+        Catch ex As Exception
+            '
+        End Try
+    End Sub
+
+    Public Sub Close()
+        Class_Terminate_Renamed()
     End Sub
 
     Protected Overrides Sub Finalize()
@@ -845,7 +853,7 @@ Fin:
     End Function
 
     'autorise le privilège SeDebugPrivilege
-    Private Sub EnableDebug()
+    Shared Sub EnableDebug()
         Dim hProc As Integer 'handle du processus actuel
         Dim hToken As Integer 'handle du token
         Dim mLUID As LUID 'LUID du privilège

@@ -280,6 +280,9 @@ Partial Class frmMain
         Me.ColumnHeader28 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader15 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader16 = New System.Windows.Forms.ColumnHeader
+        Me.chkHandles = New System.Windows.Forms.CheckBox
+        Me.RBHandlesReport = New System.Windows.Forms.RibbonPanel
+        Me.butHandlesSaveReport = New System.Windows.Forms.RibbonButton
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -509,6 +512,7 @@ Partial Class frmMain
         '
         'panelMenu
         '
+        Me.panelMenu.Controls.Add(Me.chkHandles)
         Me.panelMenu.Controls.Add(Me.Label3)
         Me.panelMenu.Controls.Add(Me.chkOnline)
         Me.panelMenu.Controls.Add(Me.lblResCount)
@@ -522,7 +526,7 @@ Partial Class frmMain
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(281, 8)
+        Me.Label3.Location = New System.Drawing.Point(392, 8)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(80, 13)
         Me.Label3.TabIndex = 4
@@ -541,7 +545,7 @@ Partial Class frmMain
         'lblResCount
         '
         Me.lblResCount.AutoSize = True
-        Me.lblResCount.Location = New System.Drawing.Point(596, 6)
+        Me.lblResCount.Location = New System.Drawing.Point(707, 6)
         Me.lblResCount.Name = "lblResCount"
         Me.lblResCount.Size = New System.Drawing.Size(56, 13)
         Me.lblResCount.TabIndex = 2
@@ -549,7 +553,7 @@ Partial Class frmMain
         '
         'txtSearch
         '
-        Me.txtSearch.Location = New System.Drawing.Point(367, 3)
+        Me.txtSearch.Location = New System.Drawing.Point(478, 3)
         Me.txtSearch.Name = "txtSearch"
         Me.txtSearch.Size = New System.Drawing.Size(223, 21)
         Me.txtSearch.TabIndex = 1
@@ -1638,6 +1642,7 @@ Partial Class frmMain
         'HandlesTab
         '
         Me.HandlesTab.Panels.Add(Me.RBHandlesActions)
+        Me.HandlesTab.Panels.Add(Me.RBHandlesReport)
         Me.HandlesTab.Tag = Nothing
         Me.HandlesTab.Text = "Handles"
         '
@@ -2700,6 +2705,37 @@ Partial Class frmMain
         Me.ColumnHeader16.Text = "ProcessId"
         Me.ColumnHeader16.Width = 70
         '
+        'chkHandles
+        '
+        Me.chkHandles.AutoSize = True
+        Me.chkHandles.Location = New System.Drawing.Point(281, 6)
+        Me.chkHandles.Name = "chkHandles"
+        Me.chkHandles.Size = New System.Drawing.Size(101, 17)
+        Me.chkHandles.TabIndex = 5
+        Me.chkHandles.Text = "Retrive handles"
+        Me.chkHandles.UseVisualStyleBackColor = True
+        '
+        'RBHandlesReport
+        '
+        Me.RBHandlesReport.ButtonMoreEnabled = False
+        Me.RBHandlesReport.ButtonMoreVisible = False
+        Me.RBHandlesReport.Items.Add(Me.butHandlesSaveReport)
+        Me.RBHandlesReport.Tag = Nothing
+        Me.RBHandlesReport.Text = "Report"
+        '
+        'butHandlesSaveReport
+        '
+        Me.butHandlesSaveReport.AltKey = Nothing
+        Me.butHandlesSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butHandlesSaveReport.Image = CType(resources.GetObject("butHandlesSaveReport.Image"), System.Drawing.Image)
+        Me.butHandlesSaveReport.SmallImage = CType(resources.GetObject("butHandlesSaveReport.SmallImage"), System.Drawing.Image)
+        Me.butHandlesSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butHandlesSaveReport.Tag = Nothing
+        Me.butHandlesSaveReport.Text = "Save report"
+        Me.butHandlesSaveReport.ToolTip = Nothing
+        Me.butHandlesSaveReport.ToolTipImage = Nothing
+        Me.butHandlesSaveReport.ToolTipTitle = Nothing
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3011,5 +3047,8 @@ Partial Class frmMain
     Friend WithEvents ColumnHeader16 As System.Windows.Forms.ColumnHeader
     Friend WithEvents chkSearchHandles As System.Windows.Forms.CheckBox
     Friend WithEvents imgSearch As System.Windows.Forms.ImageList
+    Friend WithEvents chkHandles As System.Windows.Forms.CheckBox
+    Friend WithEvents RBHandlesReport As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butHandlesSaveReport As System.Windows.Forms.RibbonButton
 
 End Class

@@ -33,6 +33,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_7693688504C049078E979EB2B97F22F4"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_92417B8E508B468996BA35DF84E7075D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -135,6 +141,20 @@
     {
         "CustomAction"
         {
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_73586D12F15C4EB18B88620564C3EC4A"
+            {
+            "Name" = "8:uninstallservice.vbs"
+            "Condition" = "8:"
+            "Object" = "8:_7693688504C049078E979EB2B97F22F4"
+            "FileType" = "3:4"
+            "InstallAction" = "3:4"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_96875A38_A894_4949_B8C7_4EC8E0726E79"
+            "InstallerClass" = "11:FALSE"
+            "CustomActionData" = "8:"
+            }
         }
         "DefaultFeature"
         {
@@ -215,6 +235,26 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7693688504C049078E979EB2B97F22F4"
+            {
+            "SourcePath" = "8:uninstallservice.vbs"
+            "TargetName" = "8:uninstallservice.vbs"
+            "Tag" = "8:"
+            "Folder" = "8:_52DC7E103386466A862ADBCCD8E0F13D"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }

@@ -21,6 +21,7 @@ Module mdlPrivileges
     Private Declare Function OpenProcessToken Lib "advapi32.dll" (ByVal ProcessHandle As IntPtr, ByVal DesiredAccess As Integer, ByRef TokenHandle As IntPtr) As Boolean
     Private Declare Function LookupPrivilegeValue Lib "advapi32.dll" Alias "LookupPrivilegeValueA" (ByVal lpSystemName As String, ByVal lpName As String, ByRef lpLuid As LUID) As Boolean
     Private Declare Function AdjustTokenPrivileges Lib "advapi32.dll" (ByVal TokenHandle As IntPtr, ByVal DisableAllPrivileges As Boolean, ByRef NewState As TOKEN_PRIVILEGES, ByVal BufferLength As Integer, ByRef PreviousState As TOKEN_PRIVILEGES, ByVal ReturnLength As IntPtr) As Boolean
+    Private Declare Function CloseHandle Lib "Kernel32.dll" (ByVal hObject As Integer) As Integer
 
 
     ' Get the Debug Privilege
@@ -48,7 +49,7 @@ Module mdlPrivileges
         tp.Attributes = SE_PRIVILEGE_ENABLED
 
         ' enable the privileges
-
+        CloseHandle(CInt(hToken))
         Return AdjustTokenPrivileges(hToken, False, tp, 0, Nothing, IntPtr.Zero)
 
     End Function

@@ -13,6 +13,7 @@ Public Class frmPreferences
     '		<startjobs>true</startjobs>
     '		<startchkmodules>true</startchkmodules>
     '       <topmost>false</topmost>
+    '       <firsttime>firsttime</firsttime>
     '	</config>
     '</yapm>
 

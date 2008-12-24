@@ -11,6 +11,7 @@ Public Class Pref
     Public startJobs As Boolean
     Public startChkModules As Boolean
     Public topmost As Boolean
+    Public firstTime As Boolean
 
     ' Open XML
     Public Sub Load()
@@ -39,6 +40,8 @@ Public Class Pref
                     startChkModules = CBool(noeudEnf.InnerText)
                 ElseIf noeudEnf.LocalName = "topmost" Then
                     topmost = CBool(noeudEnf.InnerText)
+                ElseIf noeudEnf.LocalName = "firsttime" Then
+                    firstTime = CBool(noeudEnf.InnerText)
                 End If
             Next
         Next
@@ -85,6 +88,10 @@ Public Class Pref
         elemTopMost = XmlDoc.CreateElement("topmost")
         elemTopMost.InnerText = CStr(Me.topmost)
         elemConfig.AppendChild(elemTopMost)
+        Dim elemFirstTime As XmlElement
+        elemFirstTime = XmlDoc.CreateElement("firsttime")
+        elemFirstTime.InnerText = CStr(Me.firstTime)
+        elemConfig.AppendChild(elemFirstTime)
         XmlDoc.DocumentElement.AppendChild(elemConfig)
         XmlDoc.Save(frmMain.PREF_PATH)
     End Sub
