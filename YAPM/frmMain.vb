@@ -2245,6 +2245,8 @@ Public Class frmMain
         Dim i As Integer
         Dim it As ListViewItem
 
+        If Me.handlesToRefresh Is Nothing Then Exit Sub
+
         handles_Renamed.Refresh()
         Me.lvHandles.Items.Clear()
 
