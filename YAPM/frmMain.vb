@@ -2051,11 +2051,14 @@ Public Class frmMain
                         Dim newIt As New ListViewItem
                         Dim n2 As New ListViewItem.ListViewSubItem
                         Dim n3 As New ListViewItem.ListViewSubItem
+                        Dim n4 As New ListViewItem.ListViewSubItem
                         newIt.Text = "Process"
                         n3.Text = Me.lvProcess.Columns.Item(c).Text
                         n2.Text = newIt.Text & " -- " & n3.Text & " -- " & it.Text & " -- " & subit.Text
+                        n4.Text = it.SubItems(1).Text & " -- " & it.Text
                         newIt.SubItems.Add(n2)
                         newIt.SubItems.Add(n3)
+                        newIt.SubItems.Add(n4)
                         Try
                             Dim fName As String = it.SubItems(7).Text
                             imgSearch.Images.Add(fName, imgProcess.Images.Item(fName))
@@ -2084,11 +2087,14 @@ Public Class frmMain
                                 Dim newIt As New ListViewItem
                                 Dim n2 As New ListViewItem.ListViewSubItem
                                 Dim n3 As New ListViewItem.ListViewSubItem
+                                Dim n4 As New ListViewItem.ListViewSubItem
                                 newIt.Text = "Module"
                                 n3.Text = "Module"
                                 n2.Text = newIt.Text & " -- " & it.Text & " -- " & m.FileVersionInfo.FileName
+                                n4.Text = it.SubItems(1).Text & " -- " & it.Text
                                 newIt.SubItems.Add(n2)
                                 newIt.SubItems.Add(n3)
+                                newIt.SubItems.Add(n4)
                                 newIt.ImageKey = "dll"
                                 Me.lvSearchResults.Items.Add(newIt)
                             End If
@@ -2141,11 +2147,14 @@ Public Class frmMain
                             Dim newIt As New ListViewItem
                             Dim n2 As New ListViewItem.ListViewSubItem
                             Dim n3 As New ListViewItem.ListViewSubItem
+                            Dim n4 As New ListViewItem.ListViewSubItem
                             newIt.Text = "Handle"
                             n3.Text = .GetNameInformation(i)
                             n2.Text = newIt.Text & " -- " & n3.Text & " -- " & .GetObjectName(i)
+                            n4.Text = .GetProcessID(i) & " -- " & mdlFile.getfilename(mdlProcess.GetPath(.GetProcessID(i)))
                             newIt.SubItems.Add(n2)
                             newIt.SubItems.Add(n3)
+                            newIt.SubItems.Add(n4)
                             newIt.ImageKey = "handle"
                             Me.lvSearchResults.Items.Add(newIt)
                         End If

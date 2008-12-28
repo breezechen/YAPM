@@ -423,4 +423,14 @@ Module mdlFile
 
     End Function
 
+    ' Return file name from a path
+    Public Function GetFileName(ByVal path As String) As String
+        Dim i As Integer = InStrRev(path, "\", , CompareMethod.Binary)
+        If i > 0 Then
+            Return Right(path, path.Length - i)
+        Else
+            Return vbNullString
+        End If
+    End Function
+
 End Module

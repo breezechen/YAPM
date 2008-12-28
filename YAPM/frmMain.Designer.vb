@@ -65,6 +65,7 @@ Partial Class frmMain
         Me.GoogleSearchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.imgProcess = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMenu = New System.Windows.Forms.Panel
+        Me.chkHandles = New System.Windows.Forms.CheckBox
         Me.Label3 = New System.Windows.Forms.Label
         Me.chkOnline = New System.Windows.Forms.CheckBox
         Me.lblResCount = New System.Windows.Forms.Label
@@ -184,6 +185,8 @@ Partial Class frmMain
         Me.RBHandlesActions = New System.Windows.Forms.RibbonPanel
         Me.butHandleRefresh = New System.Windows.Forms.RibbonButton
         Me.butHandleClose = New System.Windows.Forms.RibbonButton
+        Me.RBHandlesReport = New System.Windows.Forms.RibbonPanel
+        Me.butHandlesSaveReport = New System.Windows.Forms.RibbonButton
         Me.FileTab = New System.Windows.Forms.RibbonTab
         Me.RBFileKillProcess = New System.Windows.Forms.RibbonPanel
         Me.butFileRelease = New System.Windows.Forms.RibbonButton
@@ -270,6 +273,7 @@ Partial Class frmMain
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader13 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader14 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader17 = New System.Windows.Forms.ColumnHeader
         Me.imgSearch = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain7 = New System.Windows.Forms.Panel
         Me.lvHandles = New System.Windows.Forms.ListView
@@ -280,9 +284,6 @@ Partial Class frmMain
         Me.ColumnHeader28 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader15 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader16 = New System.Windows.Forms.ColumnHeader
-        Me.chkHandles = New System.Windows.Forms.CheckBox
-        Me.RBHandlesReport = New System.Windows.Forms.RibbonPanel
-        Me.butHandlesSaveReport = New System.Windows.Forms.RibbonButton
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -522,6 +523,16 @@ Partial Class frmMain
         Me.panelMenu.Name = "panelMenu"
         Me.panelMenu.Size = New System.Drawing.Size(766, 28)
         Me.panelMenu.TabIndex = 4
+        '
+        'chkHandles
+        '
+        Me.chkHandles.AutoSize = True
+        Me.chkHandles.Location = New System.Drawing.Point(281, 6)
+        Me.chkHandles.Name = "chkHandles"
+        Me.chkHandles.Size = New System.Drawing.Size(101, 17)
+        Me.chkHandles.TabIndex = 5
+        Me.chkHandles.Text = "Retrive handles"
+        Me.chkHandles.UseVisualStyleBackColor = True
         '
         'Label3
         '
@@ -1681,6 +1692,27 @@ Partial Class frmMain
         Me.butHandleClose.ToolTipImage = Nothing
         Me.butHandleClose.ToolTipTitle = Nothing
         '
+        'RBHandlesReport
+        '
+        Me.RBHandlesReport.ButtonMoreEnabled = False
+        Me.RBHandlesReport.ButtonMoreVisible = False
+        Me.RBHandlesReport.Items.Add(Me.butHandlesSaveReport)
+        Me.RBHandlesReport.Tag = Nothing
+        Me.RBHandlesReport.Text = "Report"
+        '
+        'butHandlesSaveReport
+        '
+        Me.butHandlesSaveReport.AltKey = Nothing
+        Me.butHandlesSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butHandlesSaveReport.Image = CType(resources.GetObject("butHandlesSaveReport.Image"), System.Drawing.Image)
+        Me.butHandlesSaveReport.SmallImage = CType(resources.GetObject("butHandlesSaveReport.SmallImage"), System.Drawing.Image)
+        Me.butHandlesSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butHandlesSaveReport.Tag = Nothing
+        Me.butHandlesSaveReport.Text = "Save report"
+        Me.butHandlesSaveReport.ToolTip = Nothing
+        Me.butHandlesSaveReport.ToolTipImage = Nothing
+        Me.butHandlesSaveReport.ToolTipTitle = Nothing
+        '
         'FileTab
         '
         Me.FileTab.Panels.Add(Me.RBFileKillProcess)
@@ -2605,7 +2637,7 @@ Partial Class frmMain
         'lvSearchResults
         '
         Me.lvSearchResults.AllowColumnReorder = True
-        Me.lvSearchResults.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader12, Me.ColumnHeader13, Me.ColumnHeader14})
+        Me.lvSearchResults.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader12, Me.ColumnHeader13, Me.ColumnHeader14, Me.ColumnHeader17})
         Me.lvSearchResults.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvSearchResults.FullRowSelect = True
         Me.lvSearchResults.HideSelection = False
@@ -2631,6 +2663,11 @@ Partial Class frmMain
         '
         Me.ColumnHeader14.Text = "Field"
         Me.ColumnHeader14.Width = 150
+        '
+        'ColumnHeader17
+        '
+        Me.ColumnHeader17.Text = "Process"
+        Me.ColumnHeader17.Width = 150
         '
         'imgSearch
         '
@@ -2704,37 +2741,6 @@ Partial Class frmMain
         '
         Me.ColumnHeader16.Text = "ProcessId"
         Me.ColumnHeader16.Width = 70
-        '
-        'chkHandles
-        '
-        Me.chkHandles.AutoSize = True
-        Me.chkHandles.Location = New System.Drawing.Point(281, 6)
-        Me.chkHandles.Name = "chkHandles"
-        Me.chkHandles.Size = New System.Drawing.Size(101, 17)
-        Me.chkHandles.TabIndex = 5
-        Me.chkHandles.Text = "Retrive handles"
-        Me.chkHandles.UseVisualStyleBackColor = True
-        '
-        'RBHandlesReport
-        '
-        Me.RBHandlesReport.ButtonMoreEnabled = False
-        Me.RBHandlesReport.ButtonMoreVisible = False
-        Me.RBHandlesReport.Items.Add(Me.butHandlesSaveReport)
-        Me.RBHandlesReport.Tag = Nothing
-        Me.RBHandlesReport.Text = "Report"
-        '
-        'butHandlesSaveReport
-        '
-        Me.butHandlesSaveReport.AltKey = Nothing
-        Me.butHandlesSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butHandlesSaveReport.Image = CType(resources.GetObject("butHandlesSaveReport.Image"), System.Drawing.Image)
-        Me.butHandlesSaveReport.SmallImage = CType(resources.GetObject("butHandlesSaveReport.SmallImage"), System.Drawing.Image)
-        Me.butHandlesSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butHandlesSaveReport.Tag = Nothing
-        Me.butHandlesSaveReport.Text = "Save report"
-        Me.butHandlesSaveReport.ToolTip = Nothing
-        Me.butHandlesSaveReport.ToolTipImage = Nothing
-        Me.butHandlesSaveReport.ToolTipTitle = Nothing
         '
         'frmMain
         '
@@ -3050,5 +3056,6 @@ Partial Class frmMain
     Friend WithEvents chkHandles As System.Windows.Forms.CheckBox
     Friend WithEvents RBHandlesReport As System.Windows.Forms.RibbonPanel
     Friend WithEvents butHandlesSaveReport As System.Windows.Forms.RibbonButton
+    Friend WithEvents ColumnHeader17 As System.Windows.Forms.ColumnHeader
 
 End Class
