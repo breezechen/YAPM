@@ -71,59 +71,60 @@ Public Class frmMain
             s &= "\tab Temporary :\tab\tab " & tFile.isTemporary & "\par\par"
             s &= "\b File version infos\b0\par"
 
-            If tFile.tFileVersion.Comments.Length > 0 Then _
-                s &= "\tab Comments :\tab\tab " & tFile.tFileVersion.Comments & "\par"
-            If tFile.tFileVersion.CompanyName.Length > 0 Then _
-                s &= "\tab CompanyName :\tab\tab " & tFile.tFileVersion.CompanyName & "\par"
-            If CStr(tFile.tFileVersion.FileBuildPart).Length > 0 Then _
-                s &= "\tab FileBuildPart :\tab\tab " & CStr(tFile.tFileVersion.FileBuildPart) & "\par"
-            If tFile.tFileVersion.FileDescription.Length > 0 Then _
-                s &= "\tab FileDescription :\tab\tab " & tFile.tFileVersion.FileDescription & "\par"
-            If CStr(tFile.tFileVersion.FileMajorPart).Length > 0 Then _
-                s &= "\tab FileMajorPart :\tab\tab " & CStr(tFile.tFileVersion.FileMajorPart) & "\par"
-            If CStr(tFile.tFileVersion.FileMinorPart).Length > 0 Then _
-                s &= "\tab FileMinorPart :\tab\tab " & tFile.tFileVersion.FileMinorPart & "\par"
-            If CStr(tFile.tFileVersion.FilePrivatePart).Length > 0 Then _
-                s &= "\tab FilePrivatePart :\tab\tab " & tFile.tFileVersion.FilePrivatePart & "\par"
-            If tFile.tFileVersion.FileVersion.Length > 0 Then _
-                s &= "\tab FileVersion :\tab\tab " & tFile.tFileVersion.FileVersion & "\par"
-            If tFile.tFileVersion.InternalName.Length > 0 Then _
-                s &= "\tab InternalName :\tab\tab " & tFile.tFileVersion.InternalName & "\par"
-            If CStr(tFile.tFileVersion.IsDebug).Length > 0 Then _
-                s &= "\tab IsDebug :\tab\tab " & tFile.tFileVersion.IsDebug & "\par"
-            If CStr(tFile.tFileVersion.IsPatched).Length > 0 Then _
-                s &= "\tab IsPatched :\tab\tab " & tFile.tFileVersion.IsPatched & "\par"
-            If CStr(tFile.tFileVersion.IsPreRelease).Length > 0 Then _
-                s &= "\tab IsPreRelease :\tab\tab " & tFile.tFileVersion.IsPreRelease & "\par"
-            If CStr(tFile.tFileVersion.IsPrivateBuild).Length > 0 Then _
-                s &= "\tab IsPrivateBuild :\tab\tab " & tFile.tFileVersion.IsPrivateBuild & "\par"
-            If CStr(tFile.tFileVersion.IsSpecialBuild).Length > 0 Then _
-                s &= "\tab IsSpecialBuild :\tab\tab " & tFile.tFileVersion.IsSpecialBuild & "\par"
-            If tFile.tFileVersion.Language.Length > 0 Then _
-                s &= "\tab Language :\tab\tab " & tFile.tFileVersion.Language & "\par"
-            If tFile.tFileVersion.LegalCopyright.Length > 0 Then _
-                s &= "\tab LegalCopyright :\tab\tab " & tFile.tFileVersion.LegalCopyright & "\par"
-            If tFile.tFileVersion.LegalTrademarks.Length > 0 Then _
-                s &= "\tab LegalTrademarks :\tab " & tFile.tFileVersion.LegalTrademarks & "\par"
-            If tFile.tFileVersion.OriginalFilename.Length > 0 Then _
-                s &= "\tab OriginalFilename :\tab\tab " & tFile.tFileVersion.OriginalFilename & "\par"
-            If tFile.tFileVersion.PrivateBuild.Length > 0 Then _
-                s &= "\tab PrivateBuild :\tab\tab " & tFile.tFileVersion.PrivateBuild & "\par"
-            If CStr(tFile.tFileVersion.ProductBuildPart).Length > 0 Then _
-                s &= "\tab ProductBuildPart :\tab " & tFile.tFileVersion.ProductBuildPart & "\par"
-            If CStr(tFile.tFileVersion.ProductMajorPart).Length > 0 Then _
-                s &= "\tab ProductMajorPart :\tab " & tFile.tFileVersion.ProductMajorPart & "\par"
-            If CStr(tFile.tFileVersion.ProductMinorPart).Length > 0 Then _
-                s &= "\tab Comments :\tab\tab " & tFile.tFileVersion.ProductMinorPart & "\par"
-            If tFile.tFileVersion.ProductName.Length > 0 Then _
-                s &= "\tab ProductName :\tab\tab " & tFile.tFileVersion.ProductName & "\par"
-            If CStr(tFile.tFileVersion.ProductPrivatePart).Length > 0 Then _
-                s &= "\tab ProductPrivatePart :\tab " & tFile.tFileVersion.ProductPrivatePart & "\par"
-            If tFile.tFileVersion.ProductVersion.Length > 0 Then _
-                s &= "\tab ProductVersion :\tab\tab " & tFile.tFileVersion.ProductVersion & "\par"
-            If tFile.tFileVersion.SpecialBuild.Length > 0 Then _
-                s &= "\tab SpecialBuild :\tab\tab " & tFile.tFileVersion.SpecialBuild & "\par"
-
+            If tFile.tFileVersion IsNot Nothing Then
+                If tFile.tFileVersion.Comments IsNot Nothing AndAlso tFile.tFileVersion.Comments.Length > 0 Then _
+                    s &= "\tab Comments :\tab\tab " & tFile.tFileVersion.Comments & "\par"
+                If tFile.tFileVersion.CompanyName IsNot Nothing AndAlso tFile.tFileVersion.CompanyName.Length > 0 Then _
+                    s &= "\tab CompanyName :\tab\tab " & tFile.tFileVersion.CompanyName & "\par"
+                If CStr(tFile.tFileVersion.FileBuildPart).Length > 0 Then _
+                    s &= "\tab FileBuildPart :\tab\tab " & CStr(tFile.tFileVersion.FileBuildPart) & "\par"
+                If tFile.tFileVersion.FileDescription IsNot Nothing AndAlso tFile.tFileVersion.FileDescription.Length > 0 Then _
+                    s &= "\tab FileDescription :\tab\tab " & tFile.tFileVersion.FileDescription & "\par"
+                If CStr(tFile.tFileVersion.FileMajorPart).Length > 0 Then _
+                    s &= "\tab FileMajorPart :\tab\tab " & CStr(tFile.tFileVersion.FileMajorPart) & "\par"
+                If CStr(tFile.tFileVersion.FileMinorPart).Length > 0 Then _
+                    s &= "\tab FileMinorPart :\tab\tab " & tFile.tFileVersion.FileMinorPart & "\par"
+                If CStr(tFile.tFileVersion.FilePrivatePart).Length > 0 Then _
+                    s &= "\tab FilePrivatePart :\tab\tab " & tFile.tFileVersion.FilePrivatePart & "\par"
+                If tFile.tFileVersion.FileVersion IsNot Nothing AndAlso tFile.tFileVersion.FileVersion.Length > 0 Then _
+                    s &= "\tab FileVersion :\tab\tab " & tFile.tFileVersion.FileVersion & "\par"
+                If tFile.tFileVersion.InternalName IsNot Nothing AndAlso tFile.tFileVersion.InternalName.Length > 0 Then _
+                    s &= "\tab InternalName :\tab\tab " & tFile.tFileVersion.InternalName & "\par"
+                If CStr(tFile.tFileVersion.IsDebug).Length > 0 Then _
+                    s &= "\tab IsDebug :\tab\tab " & tFile.tFileVersion.IsDebug & "\par"
+                If CStr(tFile.tFileVersion.IsPatched).Length > 0 Then _
+                    s &= "\tab IsPatched :\tab\tab " & tFile.tFileVersion.IsPatched & "\par"
+                If CStr(tFile.tFileVersion.IsPreRelease).Length > 0 Then _
+                    s &= "\tab IsPreRelease :\tab\tab " & tFile.tFileVersion.IsPreRelease & "\par"
+                If CStr(tFile.tFileVersion.IsPrivateBuild).Length > 0 Then _
+                    s &= "\tab IsPrivateBuild :\tab\tab " & tFile.tFileVersion.IsPrivateBuild & "\par"
+                If CStr(tFile.tFileVersion.IsSpecialBuild).Length > 0 Then _
+                    s &= "\tab IsSpecialBuild :\tab\tab " & tFile.tFileVersion.IsSpecialBuild & "\par"
+                If tFile.tFileVersion.Language IsNot Nothing AndAlso tFile.tFileVersion.Language.Length > 0 Then _
+                    s &= "\tab Language :\tab\tab " & tFile.tFileVersion.Language & "\par"
+                If tFile.tFileVersion.LegalCopyright IsNot Nothing AndAlso tFile.tFileVersion.LegalCopyright.Length > 0 Then _
+                    s &= "\tab LegalCopyright :\tab\tab " & tFile.tFileVersion.LegalCopyright & "\par"
+                If tFile.tFileVersion.LegalTrademarks IsNot Nothing AndAlso tFile.tFileVersion.LegalTrademarks.Length > 0 Then _
+                    s &= "\tab LegalTrademarks :\tab " & tFile.tFileVersion.LegalTrademarks & "\par"
+                If tFile.tFileVersion.OriginalFilename IsNot Nothing AndAlso tFile.tFileVersion.OriginalFilename.Length > 0 Then _
+                    s &= "\tab OriginalFilename :\tab\tab " & tFile.tFileVersion.OriginalFilename & "\par"
+                If tFile.tFileVersion.PrivateBuild IsNot Nothing AndAlso tFile.tFileVersion.PrivateBuild.Length > 0 Then _
+                    s &= "\tab PrivateBuild :\tab\tab " & tFile.tFileVersion.PrivateBuild & "\par"
+                If CStr(tFile.tFileVersion.ProductBuildPart).Length > 0 Then _
+                    s &= "\tab ProductBuildPart :\tab " & tFile.tFileVersion.ProductBuildPart & "\par"
+                If CStr(tFile.tFileVersion.ProductMajorPart).Length > 0 Then _
+                    s &= "\tab ProductMajorPart :\tab " & tFile.tFileVersion.ProductMajorPart & "\par"
+                If CStr(tFile.tFileVersion.ProductMinorPart).Length > 0 Then _
+                    s &= "\tab Comments :\tab\tab " & tFile.tFileVersion.ProductMinorPart & "\par"
+                If tFile.tFileVersion.ProductName IsNot Nothing AndAlso tFile.tFileVersion.ProductName.Length > 0 Then _
+                    s &= "\tab ProductName :\tab\tab " & tFile.tFileVersion.ProductName & "\par"
+                If CStr(tFile.tFileVersion.ProductPrivatePart).Length > 0 Then _
+                    s &= "\tab ProductPrivatePart :\tab " & tFile.tFileVersion.ProductPrivatePart & "\par"
+                If tFile.tFileVersion.ProductVersion IsNot Nothing AndAlso tFile.tFileVersion.ProductVersion.Length > 0 Then _
+                    s &= "\tab ProductVersion :\tab\tab " & tFile.tFileVersion.ProductVersion & "\par"
+                If tFile.tFileVersion.SpecialBuild IsNot Nothing AndAlso tFile.tFileVersion.SpecialBuild.Length > 0 Then _
+                    s &= "\tab SpecialBuild :\tab\tab " & tFile.tFileVersion.SpecialBuild & "\par"
+            End If
 
             ' Icons
             Try
@@ -617,15 +618,6 @@ Public Class frmMain
         SetToolTip(Me.chkSearchCase, "Case sensitive.")
         SetToolTip(Me.chkSearchModules, "Check also for processes modules.")
         SetToolTip(Me.chkHandles, "Check if you want to retrieve handles infos when you click on listview.")
-
-
-        ' Load help file
-        Dim path As String = HELP_PATH
-        If IO.File.Exists(path) = False Then
-            WBHelp.Document.Write("<body link=blue vlink=purple><span>Help file cannot be found. <p></span><span>Please download help file at <a href=" & Chr(34) & "http://sourceforge.net/projects/yaprocmon/" & Chr(34) & ">http://sourceforge.net/projects/yaprocmon</a> and save it in the Help directory.</span></body>")
-        Else
-            WBHelp.Navigate(path)
-        End If
 
 
         ' Load preferences
@@ -1707,6 +1699,7 @@ Public Class frmMain
 
     Private Sub Ribbon_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Ribbon.MouseMove
         Static currentText As String = vbNullString
+        Static bHelpShown As Boolean = False
 
         If Not (Ribbon.ActiveTab.Text = currentText) Then
             currentText = Ribbon.ActiveTab.Text
@@ -1755,6 +1748,18 @@ Public Class frmMain
                     Me.panelMain6.Visible = False
                     Me.panelMain7.Visible = False
                 Case "Help"
+
+                    If Not (bhelpshown) Then
+                        bhelpshown = True
+                        ' Load help file
+                        Dim path As String = HELP_PATH
+                        If IO.File.Exists(path) = False Then
+                            WBHelp.Document.Write("<body link=blue vlink=purple><span>Help file cannot be found. <p></span><span>Please download help file at <a href=" & Chr(34) & "http://sourceforge.net/projects/yaprocmon/" & Chr(34) & ">http://sourceforge.net/projects/yaprocmon</a> and save it in the Help directory.</span></body>")
+                        Else
+                            WBHelp.Navigate(path)
+                        End If
+                    End If
+
                     Me.bProcessHover = False
                     Me.bServiceHover = False
                     Me.panelMain.Visible = False
@@ -2315,5 +2320,66 @@ Public Class frmMain
             Call handles_Renamed.CloseProcessLocalHandle(pid, handle)
             it.Remove()
         Next
+    End Sub
+
+    Private Sub SelectAssociatedProcessToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SelectAssociatedProcessToolStripMenuItem.Click
+        ' Select processes associated to selected search results
+        Dim it As ListViewItem
+        If Me.lvSearchResults.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
+        For Each it In Me.lvSearchResults.SelectedItems
+            Try
+                Dim sp As String = it.SubItems(3).Text
+                Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
+                If i > 0 Then
+                    Dim pid As String = sp.Substring(0, i - 1)
+                    Dim it2 As ListViewItem
+                    For Each it2 In Me.lvProcess.Items
+                        If it2.SubItems(1).Text = pid Then
+                            it2.Selected = True
+                        End If
+                    Next
+                End If
+                Me.Ribbon.ActiveTab = Me.ProcessTab
+                Call Me.Ribbon_MouseMove(Nothing, Nothing)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub ShowHandlesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowHandlesToolStripMenuItem.Click
+        Call Me.butShowProcHandles_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butFileProperties_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileProperties.Click
+        Call mdlFile.ShowFileProperty(Me.txtFile.Text)
+    End Sub
+
+    Private Sub butFileShowFolderProperties_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileShowFolderProperties.Click
+        Call mdlFile.ShowFileProperty(IO.Directory.GetParent(Me.txtFile.Text).FullName)
+    End Sub
+
+    Private Sub butFileOpenDir_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileOpenDir.Click
+        Call mdlFile.OpenDirectory(IO.Directory.GetParent(Me.txtFile.Text).FullName)
+    End Sub
+
+    Private Sub butOpenFile_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butOpenFile.Click
+        ' Open a file
+        openDial.Filter = "All files (*.*)|*.*"
+        openDial.Title = "Open a file to retrieve details"
+        If openDial.ShowDialog = Windows.Forms.DialogResult.OK Then
+            If IO.File.Exists(openDial.FileName) Then
+                DisplayDetailsFile(openDial.FileName)
+            End If
+        End If
+    End Sub
+
+    Private Sub txtFile_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtFile.TextChanged
+        Dim b As Boolean = IO.File.Exists(Me.txtFile.Text)
+        Me.RBFileDelete.Enabled = b
+        Me.RBFileKillProcess.Enabled = b
+        Me.RBFileOnline.Enabled = b
+        Me.RBFileOther.Enabled = b
+        Me.RBFileOthers.Enabled = b
     End Sub
 End Class
