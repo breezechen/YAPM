@@ -44,15 +44,44 @@ Module mdlProcess
     Private Declare Function OpenProcessToken Lib "advapi32.dll" (ByVal ProcessHandle As Integer, ByVal DesiredAccess As Integer, ByVal TokenHandle As Integer) As Integer
     Private Declare Function GetTokenInformation Lib "advapi32.dll" (ByVal TokenHandle As Integer, ByVal TokenInformationClass As Integer, ByVal TokenInformation As TOKEN_GROUPS, ByVal TokenInformationLength As Integer, ByVal ReturnLength As Integer) As Integer
 
+    Private Declare Function GetProcAddress Lib "kernel32" (ByVal hModule As Integer, ByVal lpProcName As String) As Integer
+    'Private Declare Function CreateRemoteThread Lib "kernel32" (ByVal hProcess As Integer, ByVal lpThreadAttributes As Integer, ByVal dwStackSize As Integer, ByVal lpStartAddress As Integer, ByVal lpParameter As Integer, ByVal dwCreationFlags As Integer, ByVal lpThreadId As Integer) As Integer
+    Private Declare Function GetModuleHandle Lib "kernel32" Alias "GetModuleHandleA" (ByVal lpModuleName As String) As Integer
+    Private Declare Function WaitForSingleObject Lib "kernel32" (ByVal hHandle As Integer, ByVal dwMilliseconds As Integer) As Integer
+    Private Declare Function GetExitCodeThread Lib "kernel32" (ByVal hThread As Integer, ByRef lpExitCode As Integer) As Integer
+    Private Declare Function CreateRemoteThread Lib "kernel32" (ByVal hProcess As Integer, ByRef lpThreadAttributes As SECURITY_ATTRIBUTES, ByVal dwStackSize As Integer, ByRef lpStartAddress As Integer, ByRef lpParameter As Object, ByVal dwCreationFlags As Integer, ByRef lpThreadId As Integer) As Integer
+
+    <DllImport("kernel32.dll", SetLastError:=True, ExactSpelling:=True)> _
+    Private Function VirtualAllocEx(ByVal hProcess As IntPtr, ByVal lpAddress As IntPtr, _
+        ByVal dwSize As UInteger, ByVal flAllocationType As UInteger, _
+        ByVal flProtect As UInteger) As IntPtr
+    End Function
+    <DllImport("kernel32.dll")> _
+    Private Function WriteProcessMemory(ByVal hProcess As IntPtr, ByVal lpBaseAddress As IntPtr, ByVal lpBuffer As Byte(), ByVal nSize As System.UInt32, <Out()> ByRef lpNumberOfBytesWritten As Int32) As Boolean
+    End Function
+
+    Private Const KRN_LOAD As String = "LoadLibraryA"
+    Private Const KRN_FREE As String = "FreeLibrary"
+    Private Const KRN_DLL As String = "Kernel32"
+    Private Const GET_HMOD As String = "GetModuleHandleA"
+
+    Private Const MEM_RELEASE As UInteger = &H8000
+    Private Const MEM_FREE As UInteger = &H10000
+    Private Const MEM_COMMIT As UInteger = &H1000
+    Private Const PAGE_READWRITE As UInteger = &H4
+
     Private Const PROCESS_SET_INFORMATION As Integer = &H200
     Private Const PROCESS_SUSPEND_RESUME As Integer = &H800
     Private Const PROCESS_QUERY_INFORMATION As Integer = &H400
     Private Const PROCESS_TERMINATE As Integer = &H1
 
+    Private Const PROCESS_CREATE_THREAD As Integer = &H2
+    Private Const PROCESS_VM_OPERATION As Integer = &H8
+    Private Const PROCESS_VM_READ As Integer = &H10
+    Private Const PROCESS_VM_WRITE As Integer = &H20
+
     Private Const THREAD_SET_INFORMATION As Integer = &H20
     Private Const THREAD_QUERY_INFORMATION As Integer = &H40
-
-    Private Const PROCESS_VM_READ As Integer = 16
     Private Const TH32CS_SNAPPROCESS As Integer = &H2
 
     Private Const SE_KERNEL_OBJECT As Integer = 6
@@ -61,6 +90,12 @@ Module mdlProcess
     Private Const PROCESS_READ_CONTROL As Integer = &H20000
     Private Const TokenUser As Integer = 1
     Private Const TokenGroups As Integer = 2
+
+    Private Structure SECURITY_ATTRIBUTES
+        Dim nLength As Integer
+        Dim lpSecurityDescriptor As Integer
+        Dim bInheritHandle As Integer
+    End Structure
 
     Public Structure THREADENTRY32
         Dim dwSize As Integer
@@ -537,6 +572,62 @@ Module mdlProcess
         End If
 
         Return res
+    End Function
+
+    ' Unload a module from a process
+    Public Function UnLoadModuleFromProcess(ByVal ProcessId As Integer, ByVal ModulePathName As String) As Integer
+        Dim hKernel32 As Integer
+        Dim hThread As Integer
+        Dim hProcess As Integer
+        Dim hFunc As Integer
+        Dim hVirtual As Integer
+        Dim hMod As Integer = 0
+        Dim ret As Integer
+
+        hProcess = OpenProcess(PROCESS_CREATE_THREAD Or PROCESS_VM_OPERATION Or PROCESS_VM_WRITE Or _
+                                PROCESS_VM_READ, 0, ProcessId)
+
+        If hProcess > 0 Then
+
+            hKernel32 = GetModuleHandle(KRN_DLL)
+            hFunc = GetProcAddress(hKernel32, GET_HMOD)
+
+            ' Get the module handle
+            hVirtual = CInt(VirtualAllocEx(CType(hProcess, IntPtr), IntPtr.Zero, CUInt(Len(ModulePathName)), _
+                MEM_COMMIT, PAGE_READWRITE))
+
+            Dim d() As Byte
+            Dim encoding As New System.Text.ASCIIEncoding()
+            d = encoding.GetBytes(ModulePathName)
+
+            If WriteProcessMemory(CType(hProcess, IntPtr), CType(hVirtual, IntPtr), _
+                d, CUInt(d.Length), 0) Then
+
+                hThread = CreateRemoteThread(hProcess, Nothing, 0, hFunc, CObj(hVirtual), 0, 0)
+                If hThread > 0 Then
+                    WaitForSingleObject(hThread, &H9C4)
+                    'on recupere le handle du Module dans hMod
+                    GetExitCodeThread(hThread, hMod)
+                    CloseHandle(hThread)
+                End If
+            End If
+
+            If hMod > 0 Then
+                hFunc = GetProcAddress(hKernel32, KRN_FREE)
+                hThread = CreateRemoteThread(hProcess, Nothing, 0, hFunc, CObj(hMod), 0, 0)
+                If hThread > 0 Then
+                    WaitForSingleObject(hThread, &H9C4)
+                    'on recupere le code de retour de FreeLibrary (si = 1 le module a bien été dechargé)
+                    GetExitCodeThread(hThread, ret)
+                    CloseHandle(hThread)
+                End If
+            End If
+
+            CloseHandle(hProcess)
+        End If
+
+        Return ret
+
     End Function
 
 End Module

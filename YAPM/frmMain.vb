@@ -9,7 +9,7 @@ Public Class frmMain
     Public Pref As New Pref
     Private _stopOnlineRetrieving As Boolean = False
     Private handlesToRefresh() As Integer
-    Private handles_Renamed As New clsOpenedHandles
+    Public handles_Renamed As New clsOpenedHandles
 
     ' Not a good way to configure paths...
     'Public Const HELP_PATH As String = "C:\Users\Admin\Desktop\YAPM\YAPM\Help\help.htm"
@@ -150,7 +150,7 @@ Public Class frmMain
     End Sub
 
     ' Refresh service list
-    Private Sub refreshServiceList()
+    Public Sub refreshServiceList()
 
         Dim lvi As ListViewItem
         Dim exist As Boolean = False
@@ -250,7 +250,7 @@ Public Class frmMain
     End Sub
 
     ' Refresh process list in listview
-    Private Sub refreshProcessList()
+    Public Sub refreshProcessList()
 
         Dim p As cProc
         Dim proc() As cProc
@@ -2381,5 +2381,13 @@ Public Class frmMain
         Me.RBFileOnline.Enabled = b
         Me.RBFileOther.Enabled = b
         Me.RBFileOthers.Enabled = b
+    End Sub
+
+    Private Sub butFileRelease_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileRelease.Click
+        Dim frm As New frmFileRelease
+        With frm
+            .file = Me.txtFile.Text
+            Call .ShowDialog()
+        End With
     End Sub
 End Class
