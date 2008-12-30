@@ -289,6 +289,8 @@ Partial Class frmMain
         Me.ColumnHeader28 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader15 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader16 = New System.Windows.Forms.ColumnHeader
+        Me.ToolStripMenuItem18 = New System.Windows.Forms.ToolStripSeparator
+        Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -2720,9 +2722,9 @@ Partial Class frmMain
         '
         'menuSearch
         '
-        Me.menuSearch.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectAssociatedProcessToolStripMenuItem})
+        Me.menuSearch.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectAssociatedProcessToolStripMenuItem, Me.ToolStripMenuItem18, Me.CloseToolStripMenuItem})
         Me.menuSearch.Name = "menuProc"
-        Me.menuSearch.Size = New System.Drawing.Size(207, 26)
+        Me.menuSearch.Size = New System.Drawing.Size(207, 76)
         '
         'SelectAssociatedProcessToolStripMenuItem
         '
@@ -2802,6 +2804,17 @@ Partial Class frmMain
         '
         Me.ColumnHeader16.Text = "ProcessId"
         Me.ColumnHeader16.Width = 70
+        '
+        'ToolStripMenuItem18
+        '
+        Me.ToolStripMenuItem18.Name = "ToolStripMenuItem18"
+        Me.ToolStripMenuItem18.Size = New System.Drawing.Size(203, 6)
+        '
+        'CloseToolStripMenuItem
+        '
+        Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
+        Me.CloseToolStripMenuItem.Text = "Close item"
         '
         'frmMain
         '
@@ -3124,5 +3137,7 @@ Partial Class frmMain
     Friend WithEvents ShowHandlesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RBFileOpenFile As System.Windows.Forms.RibbonPanel
     Friend WithEvents butOpenFile As System.Windows.Forms.RibbonButton
+    Friend WithEvents ToolStripMenuItem18 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents CloseToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

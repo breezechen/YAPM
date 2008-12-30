@@ -2064,6 +2064,7 @@ Public Class frmMain
                         newIt.SubItems.Add(n2)
                         newIt.SubItems.Add(n3)
                         newIt.SubItems.Add(n4)
+                        newIt.Tag = "process"
                         Try
                             Dim fName As String = it.SubItems(7).Text
                             imgSearch.Images.Add(fName, imgProcess.Images.Item(fName))
@@ -2094,6 +2095,7 @@ Public Class frmMain
                                 Dim n3 As New ListViewItem.ListViewSubItem
                                 Dim n4 As New ListViewItem.ListViewSubItem
                                 newIt.Text = "Module"
+                                newIt.Tag = "module"
                                 n3.Text = "Module"
                                 n2.Text = newIt.Text & " -- " & it.Text & " -- " & m.FileVersionInfo.FileName
                                 n4.Text = it.SubItems(1).Text & " -- " & it.Text
@@ -2125,11 +2127,15 @@ Public Class frmMain
                         Dim newIt As New ListViewItem
                         Dim n2 As New ListViewItem.ListViewSubItem
                         Dim n3 As New ListViewItem.ListViewSubItem
+                        Dim n4 As New ListViewItem.ListViewSubItem
                         newIt.Text = "Service"
+                        newIt.Tag = "service"
                         n3.Text = Me.lvServices.Columns.Item(c).Text
                         n2.Text = newIt.Text & " -- " & n3.Text & " -- " & it.Text & " -- " & subit.Text
+                        n4.Text = it.Text
                         newIt.SubItems.Add(n2)
                         newIt.SubItems.Add(n3)
+                        newIt.SubItems.Add(n4)
                         newIt.ImageKey = "service"
                         Me.lvSearchResults.Items.Add(newIt)
                     End If
@@ -2154,6 +2160,7 @@ Public Class frmMain
                             Dim n3 As New ListViewItem.ListViewSubItem
                             Dim n4 As New ListViewItem.ListViewSubItem
                             newIt.Text = "Handle"
+                            newIt.Tag = .GetHandle(i)
                             n3.Text = .GetNameInformation(i)
                             n2.Text = newIt.Text & " -- " & n3.Text & " -- " & .GetObjectName(i)
                             n4.Text = .GetProcessID(i) & " -- " & mdlFile.getfilename(mdlProcess.GetPath(.GetProcessID(i)))
@@ -2389,5 +2396,42 @@ Public Class frmMain
             .file = Me.txtFile.Text
             Call .ShowDialog()
         End With
+    End Sub
+
+    Private Sub CloseToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CloseToolStripMenuItem.Click
+        ' Close selected items
+        Dim it As ListViewItem
+        For Each it In Me.lvSearchResults.SelectedItems
+            Select Case CStr(it.Tag)
+                Case "process"
+                    Dim sp As String = it.SubItems(3).Text
+                    Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
+                    If i > 0 Then
+                        Dim pid As Integer = CInt(Val(sp.Substring(0, i - 1)))
+                        Call mdlProcess.Kill(pid)
+                    End If
+                Case "module"
+                    Dim sp As String = it.SubItems(3).Text
+                    Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
+                    If i > 0 Then
+                        Dim pid As Integer = CInt(Val(sp.Substring(0, i - 1)))
+                        sp = it.SubItems(1).Text
+                        i = InStrRev(sp, " ", , CompareMethod.Binary)
+                        Dim sMod As String = sp.Substring(i, sp.Length - i)
+                        Call mdlProcess.UnLoadModuleFromProcess(pid, sMod)
+                    End If
+                Case "service"
+                    mdlService.StopService(it.SubItems(3).Text)
+                Case Else
+                    ' Handle
+                    Dim sp As String = it.SubItems(3).Text
+                    Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
+                    Dim handle As Integer = CInt(it.Tag)
+                    If i > 0 Then
+                        Dim pid As Integer = CInt(Val(sp.Substring(0, i - 1)))
+                        Call handles_Renamed.CloseProcessLocalHandle(pid, handle)
+                    End If
+            End Select
+        Next
     End Sub
 End Class
