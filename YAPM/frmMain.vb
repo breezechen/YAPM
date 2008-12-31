@@ -361,11 +361,13 @@ Public Class frmMain
                                 Dim img As System.Drawing.Icon = GetIcon(fName, True)
                                 imgProcess.Images.Add(fName, img)
                                 it.ImageKey = fName
+                                lsub7.Text = fName
                             Else
                                 it.ImageKey = "noicon"
+                                lsub7.Text = "N/A"
+                                it.ForeColor = Drawing.Color.Gray
+                                lsub8.Text = "N/A"
                             End If
-
-                            lsub7.Text = fName
 
                         Catch ex As Exception
                             it.ImageKey = "noicon"
