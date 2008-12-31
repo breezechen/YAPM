@@ -191,6 +191,7 @@ Partial Class frmMain
         Me.FileTab = New System.Windows.Forms.RibbonTab
         Me.RBFileOpenFile = New System.Windows.Forms.RibbonPanel
         Me.butOpenFile = New System.Windows.Forms.RibbonButton
+        Me.butFileRefresh = New System.Windows.Forms.RibbonButton
         Me.RBFileKillProcess = New System.Windows.Forms.RibbonPanel
         Me.butFileRelease = New System.Windows.Forms.RibbonButton
         Me.RBFileDelete = New System.Windows.Forms.RibbonPanel
@@ -256,6 +257,16 @@ Partial Class frmMain
         Me.panelMain5 = New System.Windows.Forms.Panel
         Me.fileSplitContainer = New System.Windows.Forms.SplitContainer
         Me.rtb3 = New System.Windows.Forms.RichTextBox
+        Me.gpFileAttributes = New System.Windows.Forms.GroupBox
+        Me.gpFileDates = New System.Windows.Forms.GroupBox
+        Me.cmdSetFileDates = New System.Windows.Forms.Button
+        Me.DTlastModification = New System.Windows.Forms.DateTimePicker
+        Me.DTlastAccess = New System.Windows.Forms.DateTimePicker
+        Me.DTcreation = New System.Windows.Forms.DateTimePicker
+        Me.Label6 = New System.Windows.Forms.Label
+        Me.Label5 = New System.Windows.Forms.Label
+        Me.Label4 = New System.Windows.Forms.Label
+        Me.lstFileString = New System.Windows.Forms.ListBox
         Me.txtFile = New System.Windows.Forms.TextBox
         Me.cmdFileClipboard = New System.Windows.Forms.Button
         Me.pctFileSmall = New System.Windows.Forms.PictureBox
@@ -279,6 +290,8 @@ Partial Class frmMain
         Me.ColumnHeader17 = New System.Windows.Forms.ColumnHeader
         Me.menuSearch = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.SelectAssociatedProcessToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem18 = New System.Windows.Forms.ToolStripSeparator
+        Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.imgSearch = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain7 = New System.Windows.Forms.Panel
         Me.lvHandles = New System.Windows.Forms.ListView
@@ -289,8 +302,6 @@ Partial Class frmMain
         Me.ColumnHeader28 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader15 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader16 = New System.Windows.Forms.ColumnHeader
-        Me.ToolStripMenuItem18 = New System.Windows.Forms.ToolStripSeparator
-        Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -308,7 +319,9 @@ Partial Class frmMain
         Me.panelMenu2.SuspendLayout()
         Me.panelMain5.SuspendLayout()
         Me.fileSplitContainer.Panel1.SuspendLayout()
+        Me.fileSplitContainer.Panel2.SuspendLayout()
         Me.fileSplitContainer.SuspendLayout()
+        Me.gpFileDates.SuspendLayout()
         CType(Me.pctFileSmall, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.mnuFileCopyPctSmall.SuspendLayout()
         CType(Me.pctFileBig, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1743,8 +1756,9 @@ Partial Class frmMain
         Me.RBFileOpenFile.ButtonMoreEnabled = False
         Me.RBFileOpenFile.ButtonMoreVisible = False
         Me.RBFileOpenFile.Items.Add(Me.butOpenFile)
+        Me.RBFileOpenFile.Items.Add(Me.butFileRefresh)
         Me.RBFileOpenFile.Tag = Nothing
-        Me.RBFileOpenFile.Text = "Open a file"
+        Me.RBFileOpenFile.Text = "File"
         '
         'butOpenFile
         '
@@ -1758,6 +1772,19 @@ Partial Class frmMain
         Me.butOpenFile.ToolTip = Nothing
         Me.butOpenFile.ToolTipImage = Nothing
         Me.butOpenFile.ToolTipTitle = Nothing
+        '
+        'butFileRefresh
+        '
+        Me.butFileRefresh.AltKey = Nothing
+        Me.butFileRefresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileRefresh.Image = CType(resources.GetObject("butFileRefresh.Image"), System.Drawing.Image)
+        Me.butFileRefresh.SmallImage = CType(resources.GetObject("butFileRefresh.SmallImage"), System.Drawing.Image)
+        Me.butFileRefresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileRefresh.Tag = Nothing
+        Me.butFileRefresh.Text = "Refresh infos"
+        Me.butFileRefresh.ToolTip = Nothing
+        Me.butFileRefresh.ToolTipImage = Nothing
+        Me.butFileRefresh.ToolTipTitle = Nothing
         '
         'RBFileKillProcess
         '
@@ -2492,6 +2519,7 @@ Partial Class frmMain
         '
         'fileSplitContainer
         '
+        Me.fileSplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
         Me.fileSplitContainer.IsSplitterFixed = True
         Me.fileSplitContainer.Location = New System.Drawing.Point(3, 43)
         Me.fileSplitContainer.Name = "fileSplitContainer"
@@ -2500,8 +2528,15 @@ Partial Class frmMain
         'fileSplitContainer.Panel1
         '
         Me.fileSplitContainer.Panel1.Controls.Add(Me.rtb3)
+        '
+        'fileSplitContainer.Panel2
+        '
+        Me.fileSplitContainer.Panel2.Controls.Add(Me.gpFileAttributes)
+        Me.fileSplitContainer.Panel2.Controls.Add(Me.gpFileDates)
+        Me.fileSplitContainer.Panel2.Controls.Add(Me.lstFileString)
+        Me.fileSplitContainer.Panel2MinSize = 109
         Me.fileSplitContainer.Size = New System.Drawing.Size(634, 271)
-        Me.fileSplitContainer.SplitterDistance = 180
+        Me.fileSplitContainer.SplitterDistance = 158
         Me.fileSplitContainer.TabIndex = 0
         '
         'rtb3
@@ -2514,9 +2549,108 @@ Partial Class frmMain
         Me.rtb3.Location = New System.Drawing.Point(0, 0)
         Me.rtb3.Name = "rtb3"
         Me.rtb3.ReadOnly = True
-        Me.rtb3.Size = New System.Drawing.Size(634, 180)
+        Me.rtb3.Size = New System.Drawing.Size(634, 158)
         Me.rtb3.TabIndex = 12
         Me.rtb3.Text = ""
+        '
+        'gpFileAttributes
+        '
+        Me.gpFileAttributes.Dock = System.Windows.Forms.DockStyle.Left
+        Me.gpFileAttributes.Location = New System.Drawing.Point(203, 0)
+        Me.gpFileAttributes.Name = "gpFileAttributes"
+        Me.gpFileAttributes.Size = New System.Drawing.Size(129, 109)
+        Me.gpFileAttributes.TabIndex = 2
+        Me.gpFileAttributes.TabStop = False
+        Me.gpFileAttributes.Text = "File attributes"
+        '
+        'gpFileDates
+        '
+        Me.gpFileDates.Controls.Add(Me.cmdSetFileDates)
+        Me.gpFileDates.Controls.Add(Me.DTlastModification)
+        Me.gpFileDates.Controls.Add(Me.DTlastAccess)
+        Me.gpFileDates.Controls.Add(Me.DTcreation)
+        Me.gpFileDates.Controls.Add(Me.Label6)
+        Me.gpFileDates.Controls.Add(Me.Label5)
+        Me.gpFileDates.Controls.Add(Me.Label4)
+        Me.gpFileDates.Dock = System.Windows.Forms.DockStyle.Left
+        Me.gpFileDates.Location = New System.Drawing.Point(0, 0)
+        Me.gpFileDates.Name = "gpFileDates"
+        Me.gpFileDates.Size = New System.Drawing.Size(203, 109)
+        Me.gpFileDates.TabIndex = 1
+        Me.gpFileDates.TabStop = False
+        Me.gpFileDates.Text = "File dates"
+        '
+        'cmdSetFileDates
+        '
+        Me.cmdSetFileDates.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.cmdSetFileDates.Location = New System.Drawing.Point(3, 84)
+        Me.cmdSetFileDates.Name = "cmdSetFileDates"
+        Me.cmdSetFileDates.Size = New System.Drawing.Size(197, 22)
+        Me.cmdSetFileDates.TabIndex = 6
+        Me.cmdSetFileDates.Text = "Set dates"
+        Me.cmdSetFileDates.UseVisualStyleBackColor = True
+        '
+        'DTlastModification
+        '
+        Me.DTlastModification.Format = System.Windows.Forms.DateTimePickerFormat.Time
+        Me.DTlastModification.Location = New System.Drawing.Point(102, 57)
+        Me.DTlastModification.Name = "DTlastModification"
+        Me.DTlastModification.Size = New System.Drawing.Size(84, 21)
+        Me.DTlastModification.TabIndex = 5
+        '
+        'DTlastAccess
+        '
+        Me.DTlastAccess.Format = System.Windows.Forms.DateTimePickerFormat.Time
+        Me.DTlastAccess.Location = New System.Drawing.Point(102, 35)
+        Me.DTlastAccess.Name = "DTlastAccess"
+        Me.DTlastAccess.Size = New System.Drawing.Size(84, 21)
+        Me.DTlastAccess.TabIndex = 4
+        '
+        'DTcreation
+        '
+        Me.DTcreation.CustomFormat = ""
+        Me.DTcreation.Format = System.Windows.Forms.DateTimePickerFormat.Time
+        Me.DTcreation.Location = New System.Drawing.Point(102, 13)
+        Me.DTcreation.Name = "DTcreation"
+        Me.DTcreation.Size = New System.Drawing.Size(84, 21)
+        Me.DTcreation.TabIndex = 3
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(6, 41)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(62, 13)
+        Me.Label6.TabIndex = 2
+        Me.Label6.Text = "Last access"
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(6, 63)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(87, 13)
+        Me.Label5.TabIndex = 1
+        Me.Label5.Text = "Last modification"
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(6, 19)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(48, 13)
+        Me.Label4.TabIndex = 0
+        Me.Label4.Text = "Creation"
+        '
+        'lstFileString
+        '
+        Me.lstFileString.Dock = System.Windows.Forms.DockStyle.Right
+        Me.lstFileString.FormattingEnabled = True
+        Me.lstFileString.Location = New System.Drawing.Point(406, 0)
+        Me.lstFileString.Name = "lstFileString"
+        Me.lstFileString.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
+        Me.lstFileString.Size = New System.Drawing.Size(228, 108)
+        Me.lstFileString.TabIndex = 0
         '
         'txtFile
         '
@@ -2724,13 +2858,24 @@ Partial Class frmMain
         '
         Me.menuSearch.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectAssociatedProcessToolStripMenuItem, Me.ToolStripMenuItem18, Me.CloseToolStripMenuItem})
         Me.menuSearch.Name = "menuProc"
-        Me.menuSearch.Size = New System.Drawing.Size(207, 76)
+        Me.menuSearch.Size = New System.Drawing.Size(207, 54)
         '
         'SelectAssociatedProcessToolStripMenuItem
         '
         Me.SelectAssociatedProcessToolStripMenuItem.Name = "SelectAssociatedProcessToolStripMenuItem"
         Me.SelectAssociatedProcessToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
         Me.SelectAssociatedProcessToolStripMenuItem.Text = "&Select associated process"
+        '
+        'ToolStripMenuItem18
+        '
+        Me.ToolStripMenuItem18.Name = "ToolStripMenuItem18"
+        Me.ToolStripMenuItem18.Size = New System.Drawing.Size(203, 6)
+        '
+        'CloseToolStripMenuItem
+        '
+        Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
+        Me.CloseToolStripMenuItem.Text = "Close item"
         '
         'imgSearch
         '
@@ -2805,26 +2950,15 @@ Partial Class frmMain
         Me.ColumnHeader16.Text = "ProcessId"
         Me.ColumnHeader16.Width = 70
         '
-        'ToolStripMenuItem18
-        '
-        Me.ToolStripMenuItem18.Name = "ToolStripMenuItem18"
-        Me.ToolStripMenuItem18.Size = New System.Drawing.Size(203, 6)
-        '
-        'CloseToolStripMenuItem
-        '
-        Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
-        Me.CloseToolStripMenuItem.Text = "Close item"
-        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.ClientSize = New System.Drawing.Size(795, 603)
+        Me.Controls.Add(Me.panelMain5)
         Me.Controls.Add(Me.panelMain7)
         Me.Controls.Add(Me.panelMain6)
-        Me.Controls.Add(Me.panelMain5)
         Me.Controls.Add(Me.panelInfos)
         Me.Controls.Add(Me.panelMenu2)
         Me.Controls.Add(Me.panelMenu)
@@ -2864,7 +2998,10 @@ Partial Class frmMain
         Me.panelMain5.ResumeLayout(False)
         Me.panelMain5.PerformLayout()
         Me.fileSplitContainer.Panel1.ResumeLayout(False)
+        Me.fileSplitContainer.Panel2.ResumeLayout(False)
         Me.fileSplitContainer.ResumeLayout(False)
+        Me.gpFileDates.ResumeLayout(False)
+        Me.gpFileDates.PerformLayout()
         CType(Me.pctFileSmall, System.ComponentModel.ISupportInitialize).EndInit()
         Me.mnuFileCopyPctSmall.ResumeLayout(False)
         CType(Me.pctFileBig, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3139,5 +3276,16 @@ Partial Class frmMain
     Friend WithEvents butOpenFile As System.Windows.Forms.RibbonButton
     Friend WithEvents ToolStripMenuItem18 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents CloseToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents butFileRefresh As System.Windows.Forms.RibbonButton
+    Friend WithEvents lstFileString As System.Windows.Forms.ListBox
+    Friend WithEvents gpFileAttributes As System.Windows.Forms.GroupBox
+    Friend WithEvents gpFileDates As System.Windows.Forms.GroupBox
+    Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents Label5 As System.Windows.Forms.Label
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents DTlastModification As System.Windows.Forms.DateTimePicker
+    Friend WithEvents DTlastAccess As System.Windows.Forms.DateTimePicker
+    Friend WithEvents DTcreation As System.Windows.Forms.DateTimePicker
+    Friend WithEvents cmdSetFileDates As System.Windows.Forms.Button
 
 End Class

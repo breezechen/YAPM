@@ -36,6 +36,16 @@ Public Class frmMain
         Dim tFile As AllFileInfos = mdlFile.GetAllFileInfos(file)
 
         If IO.File.Exists(file) Then
+
+            ' Set dates to datepickers
+            Me.DTcreation.Value = IO.File.GetCreationTime(file)
+            Me.DTlastAccess.Value = IO.File.GetLastAccessTime(file)
+            Me.DTlastModification.Value = IO.File.GetLastWriteTime(file)
+
+            ' Clean string list
+            Me.lstFileString.Items.Clear()
+            Me.lstFileString.Items.Add("Click on 'Others->Show file strings' to retrieve file strings")
+
             s &= "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}{\f1\fswiss\fcharset0 Arial;}}"
             s &= "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   "
             s &= "\b File basic properties\b0\par"
@@ -60,7 +70,7 @@ Public Class frmMain
             s &= "\tab Compressed :\tab\tab " & tFile.isCompressed & "\par"
             s &= "\tab Device :\tab\tab\tab " & tFile.isDevice & "\par"
             s &= "\tab Directory :\tab\tab " & tFile.isDirectory & "\par"
-            s &= "\tab Encrypted :\tab\tab " & tFile.isencrypted & "\par"
+            s &= "\tab Encrypted :\tab\tab " & tFile.isEncrypted & "\par"
             s &= "\tab Hidden :\tab\tab\tab " & tFile.isHidden & "\par"
             s &= "\tab Normal :\tab\tab\tab " & tFile.isNormal & "\par"
             s &= "\tab Not content indexed :\tab " & tFile.isNotContentIndexed & "\par"
@@ -662,6 +672,7 @@ Public Class frmMain
         SetToolTip(Me.chkSearchCase, "Case sensitive.")
         SetToolTip(Me.chkSearchModules, "Check also for processes modules.")
         SetToolTip(Me.chkHandles, "Check if you want to retrieve handles infos when you click on listview.")
+        SetToolTip(Me.lstFileString, "List of strings in file. Right click to copy to clipboard. Middle click to refresh the list.")
 
 
         ' Load preferences
@@ -774,6 +785,7 @@ Public Class frmMain
         Me.txtFile.Width = Me.panelInfos.Width - 175
         Me.fileSplitContainer.Width = Me.rtb.Width
         Me.fileSplitContainer.Height = Me.panelMain5.Height - 42
+        Me.lstFileString.Width = Me.fileSplitContainer.Width - Me.gpFileAttributes.Width - Me.gpFileDates.Width - 10
 
         ' Services
         Me.panelInfos2.Height = CInt(IIf(i < 210, i, 210))
@@ -2454,7 +2466,7 @@ Public Class frmMain
     End Sub
 
     Private Sub butFileOpenDir_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileOpenDir.Click
-        Call mdlFile.OpenDirectory(IO.Directory.GetParent(Me.txtFile.Text).FullName)
+        Call mdlFile.OpenDirectory(Me.txtFile.Text)
     End Sub
 
     Private Sub butOpenFile_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butOpenFile.Click
@@ -2649,5 +2661,70 @@ Public Class frmMain
 
         ' Sort.
         lvHandles.Sort()
+    End Sub
+
+    Private Sub butFileGoogleSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileGoogleSearch.Click
+        My.Application.DoEvents()
+        Try
+            mdlFile.ShellOpenFile("http://www.google.com/search?hl=en&q=%22" & mdlFile.GetFileName(Me.txtFile.Text) & "%22")
+        Catch ex As Exception
+            '
+        End Try
+    End Sub
+
+    Private Sub butFileEncrypt_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileEncrypt.Click
+        Try
+            IO.File.Encrypt(Me.txtFile.Text)
+            MsgBox("Done.", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Encryption ok")
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Encryption failed")
+        End Try
+    End Sub
+
+    Private Sub butFileDecrypt_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileDecrypt.Click
+        Try
+            IO.File.Decrypt(Me.txtFile.Text)
+            MsgBox("Done.", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Decryption ok")
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Decryption failed")
+        End Try
+    End Sub
+
+    Private Sub butFileRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileRefresh.Click
+        Call DisplayDetailsFile(Me.txtFile.Text)
+    End Sub
+
+    Private Sub butMoveFileToTrash_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMoveFileToTrash.Click
+        '
+    End Sub
+
+    Private Sub cmdSetFileDates_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSetFileDates.Click
+        ' Set new dates
+        Try
+            IO.File.SetCreationTime(Me.txtFile.Text, Me.DTcreation.Value)
+            IO.File.SetLastAccessTime(Me.txtFile.Text, Me.DTlastAccess.Value)
+            IO.File.SetLastWriteTime(Me.txtFile.Text, Me.DTlastModification.Value)
+            MsgBox("Done.", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Date change ok")
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Date change failed")
+        End Try
+    End Sub
+
+    Private Sub butFileSeeStrings_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileSeeStrings.Click
+        Call mdlFile.DisplayFileStrings(Me.lstFileString, Me.txtFile.Text)
+    End Sub
+
+    Private Sub lstFileString_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lstFileString.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            ' Copy items to clipboard
+            Dim s As String = vbNullString
+            Dim i As String
+            For Each i In Me.lstFileString.SelectedItems
+                s = s & i & vbNewLine
+            Next
+            My.Computer.Clipboard.SetText(s.Substring(0, s.Length - 2))
+        ElseIf e.Button = Windows.Forms.MouseButtons.Middle Then
+            Call mdlFile.DisplayFileStrings(Me.lstFileString, Me.txtFile.Text)
+        End If
     End Sub
 End Class

@@ -95,7 +95,8 @@ Module mdlFile
     End Function
 
     Private Declare Function GetCompressedFileSize Lib "kernel32" Alias "GetCompressedFileSizeA" (ByVal lpFileName As String, ByVal lpFileSizeHigh As Integer) As Integer
-    'Private Declare Function GetFileInformationByHandle Lib "kernel32" (ByVal hFile As Integer, ByRef lpFileInformation As BY_HANDLE_FILE_INFORMATION) As Integer
+    Private Declare Sub InvalidateRect Lib "user32" (ByVal hWnd As Integer, ByVal t As Integer, ByVal bErase As Integer)
+    Private Declare Sub ValidateRect Lib "user32" (ByVal hWnd As Integer, ByVal t As Integer)
 
     Private Enum EFileAccess
         _GenericRead = &H80000000
@@ -432,5 +433,93 @@ Module mdlFile
             Return vbNullString
         End If
     End Function
+
+    ' Return basic file size
+    Public Function GetFileSize(ByVal file As String) As Long
+        Dim ret As Long
+
+        Dim ptr As IntPtr = CreateFile(file, EFileAccess._GenericRead, _
+            EFileShare._Read Or EFileShare._Write, IntPtr.Zero, _
+            ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
+
+        If ptr = CType(-1, IntPtr) Then Return -1
+
+        ' Get sizes
+        GetFileSizeEx(ptr, ret)
+
+        CloseHandle(ptr)
+
+        Return ret
+
+    End Function
+
+    ' Display file strings
+    Public Sub DisplayFileStrings(ByVal lst As ListBox, ByVal file As String)
+        Dim s As String
+        Dim sCtemp As String = vbNullString
+        Dim x As Integer = 1
+        Dim bTaille As Integer
+        Dim lLen As Integer
+        Dim iAsc As Integer
+
+        If IO.File.Exists(file) Then
+
+            lst.Items.Clear()
+
+            ' Retrieve entire file in memory
+            ' Warn user if file is up to 2MB
+            s = IO.File.ReadAllText(file)
+
+            If mdlFile.GetFileSize(file) > 2000000 Then
+                If MsgBox("File size is greater than 2MB. It is not recommended to open a large file, do you want to continue ?", _
+                    MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo, "Large file") = MsgBoxResult.No Then
+                    frmMain.lstFileString.Items.Add("Click on 'Others->Show file strings' to retrieve file strings")
+                    Exit Sub
+                End If
+            End If
+
+            ' Desired minimum size for a string
+            bTaille = 4
+
+            ' A char is considered as part of a string if its value is between 32 and 122
+            lLen = Len(s)
+
+            ' Lock listbox
+            ValidateRect(lst.Handle.ToInt32, 0)
+
+            ' Ok, parse file
+            Do Until x > lLen
+
+                iAsc = Asc(Mid$(s, x, 1))
+
+                If iAsc >= 32 And iAsc <= 122 Then
+                    ' Valid char
+                    sCtemp = sCtemp & Chr(iAsc)
+                Else
+                    sCtemp = LTrim$(sCtemp)
+                    sCtemp = RTrim$(sCtemp)
+                    If Len(sCtemp) > bTaille Then
+                        lst.Items.Add(sCtemp)
+                    End If
+                    sCtemp = vbNullString
+                End If
+
+                'If (x Mod 131072) = 0 Then
+                '    My.Application.DoEvents()
+                'End If
+
+                x += 1
+            Loop
+
+            ' Last item
+            If Len(sCtemp) > bTaille Then
+                lst.Items.Add(sCtemp)
+            End If
+
+            ' Unlock listbox
+            InvalidateRect(lst.Handle.ToInt32, 0, 0)
+        End If
+
+    End Sub
 
 End Module
