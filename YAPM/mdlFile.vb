@@ -97,6 +97,7 @@ Module mdlFile
     Private Declare Function GetCompressedFileSize Lib "kernel32" Alias "GetCompressedFileSizeA" (ByVal lpFileName As String, ByVal lpFileSizeHigh As Integer) As Integer
     Private Declare Sub InvalidateRect Lib "user32" (ByVal hWnd As Integer, ByVal t As Integer, ByVal bErase As Integer)
     Private Declare Sub ValidateRect Lib "user32" (ByVal hWnd As Integer, ByVal t As Integer)
+    Private Declare Function SHFileOperation Lib "shell32.dll" Alias "SHFileOperation" (ByRef lpFileOp As SHFILEOPSTRUCT) As Integer
 
     Private Enum EFileAccess
         _GenericRead = &H80000000
@@ -148,6 +149,21 @@ Module mdlFile
     Private Structure _FILETIME
         Dim dwLowDateTime As Integer
         Dim dwHighDateTime As Integer
+    End Structure
+
+    <StructLayout(LayoutKind.Sequential, CharSet:=CharSet.Unicode)> _
+    Public Structure SHFILEOPSTRUCT
+        Public hwnd As IntPtr
+        Public wFunc As Integer
+        <MarshalAs(UnmanagedType.LPWStr)> _
+        Public pFrom As String
+        <MarshalAs(UnmanagedType.LPWStr)> _
+        Public pTo As String
+        Public fFlags As Integer
+        Public fAnyOperationsAborted As Boolean
+        Public hNameMappings As IntPtr
+        <MarshalAs(UnmanagedType.LPWStr)> _
+        Public lpszProgressTitle As String '  only used if FOF_SIMPLEPROGRESS
     End Structure
 
     <StructLayout(LayoutKind.Sequential)> _
@@ -521,5 +537,19 @@ Module mdlFile
         End If
 
     End Sub
+
+    ' Move a file to the trash
+    Public Function MoveToTrash(ByVal source As String) As Integer
+        Dim tObj As SHFILEOPSTRUCT = Nothing
+        Const FO_DELETE As Long = &H3
+        Const FOF_ALLOWUNDO As Long = &H40
+        With tObj
+            .wFunc = FO_DELETE
+            .pFrom = "c:\test.txt"
+            .fFlags = FOF_ALLOWUNDO
+        End With
+        MsgBox(SHFileOperation(tObj))
+        Return 1
+    End Function
 
 End Module

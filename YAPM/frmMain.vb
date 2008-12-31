@@ -2695,7 +2695,7 @@ Public Class frmMain
     End Sub
 
     Private Sub butMoveFileToTrash_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMoveFileToTrash.Click
-        '
+        MoveToTrash(Me.txtFile.Text)
     End Sub
 
     Private Sub cmdSetFileDates_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSetFileDates.Click
