@@ -309,7 +309,11 @@ Module mdlProcess
             s = sResult
         End If
 
-        Return Left(sResult, InStr(sResult, vbNullChar) - 1)
+        If InStr(sResult, vbNullChar) > 1 Then
+            sResult = Left(sResult, InStr(sResult, vbNullChar) - 1)
+        End If
+
+        Return sResult
 
     End Function
 

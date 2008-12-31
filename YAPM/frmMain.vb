@@ -11,6 +11,7 @@ Public Class frmMain
     Private _stopOnlineRetrieving As Boolean = False
     Private handlesToRefresh() As Integer
     Public handles_Renamed As New clsOpenedHandles
+    Private isAdmin As Boolean = False
 
     ' Not a good way to configure paths...
     'Public Const HELP_PATH As String = "C:\Users\Admin\Desktop\YAPM\YAPM\Help\help.htm"
@@ -213,12 +214,22 @@ Public Class frmMain
                 Dim lsub4 As New ListViewItem.ListViewSubItem
                 Dim lsub5 As New ListViewItem.ListViewSubItem
 
-                Dim path As String = CStr(My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\" & it.Text, "ImagePath", ""))
-                path = Replace(path, Chr(34), vbNullString)
+                Dim path As String
+                Try
+                    path = CStr(My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\" & it.Text, "ImagePath", ""))
+                    path = Replace(path, Chr(34), vbNullString)
+                Catch ex As Exception
+                    path = ex.Message
+                End Try
+
 
                 lsub4.Text = path
                 lsub2.Text = p.Status.ToString
-                lsub3.Text = mdlService.GetServiceStartTypeFromInt(CInt(Val(My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\" & it.Text, "Start", ""))))
+                Try
+                    lsub3.Text = mdlService.GetServiceStartTypeFromInt(CInt(Val(My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\" & it.Text, "Start", ""))))
+                Catch ex As Exception
+                    lsub3.Text = ex.Message
+                End Try
                 lsub1.Text = p.LongName
                 lsub5.Text = CStr(IIf(p.CanPauseAndContinue, "Pause/Continue ", "")) & _
                             CStr(IIf(p.CanShutdown, "Shutdown ", "")) & _
@@ -248,7 +259,11 @@ Public Class frmMain
                         lvi.SubItems(5).Text = CStr(IIf(o1.CanPauseAndContinue, "Pause/Continue ", "")) & _
                             CStr(IIf(o1.CanShutdown, "Shutdown ", "")) & _
                             CStr(IIf(o1.CanStop, "Stop ", ""))
-                        lvi.SubItems(3).Text = mdlService.GetServiceStartTypeFromInt(CInt(Val(My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\" & lvi.Text, "Start", ""))))
+                        Try
+                            lvi.SubItems(3).Text = mdlService.GetServiceStartTypeFromInt(CInt(Val(My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\" & lvi.Text, "Start", ""))))
+                        Catch ex As Exception
+                            lvi.SubItems(3).Text = ex.Message
+                        End Try
                         Exit For
                     End If
                 Next
@@ -647,8 +662,8 @@ Public Class frmMain
             .lblProcessPath.BackColor = .BackColor
         End With
 
-
-        If mdlPrivileges.IsAdministrator = False Then
+        isAdmin = mdlPrivileges.IsAdministrator
+        If isAdmin = False Then
             MsgBox("You are not logged as an administrator. You cannot retrieve informations for system processes.", MsgBoxStyle.Critical, "You are not part of administrator group")
         End If
 

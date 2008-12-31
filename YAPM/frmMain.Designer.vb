@@ -1199,6 +1199,7 @@ Partial Class frmMain
         Me.butProcessOtherActions.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butProcessOtherActions.DropDownItems.Add(Me.butProcessAffinity)
         Me.butProcessOtherActions.DropDownItems.Add(Me.butProcessLimitCPU)
+        Me.butProcessOtherActions.Enabled = False
         Me.butProcessOtherActions.Image = CType(resources.GetObject("butProcessOtherActions.Image"), System.Drawing.Image)
         Me.butProcessOtherActions.SmallImage = CType(resources.GetObject("butProcessOtherActions.SmallImage"), System.Drawing.Image)
         Me.butProcessOtherActions.Style = System.Windows.Forms.RibbonButtonStyle.DropDown
@@ -2103,6 +2104,7 @@ Partial Class frmMain
         '
         Me.RBAdd.ButtonMoreEnabled = False
         Me.RBAdd.ButtonMoreVisible = False
+        Me.RBAdd.Enabled = False
         Me.RBAdd.Items.Add(Me.butAddJob)
         Me.RBAdd.Tag = Nothing
         Me.RBAdd.Text = "Job management"
@@ -2111,6 +2113,7 @@ Partial Class frmMain
         '
         Me.butAddJob.AltKey = Nothing
         Me.butAddJob.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butAddJob.Enabled = False
         Me.butAddJob.Image = CType(resources.GetObject("butAddJob.Image"), System.Drawing.Image)
         Me.butAddJob.SmallImage = CType(resources.GetObject("butAddJob.SmallImage"), System.Drawing.Image)
         Me.butAddJob.Style = System.Windows.Forms.RibbonButtonStyle.Normal
@@ -2124,6 +2127,7 @@ Partial Class frmMain
         '
         Me.RBJobsOpenSave.ButtonMoreEnabled = False
         Me.RBJobsOpenSave.ButtonMoreVisible = False
+        Me.RBJobsOpenSave.Enabled = False
         Me.RBJobsOpenSave.Items.Add(Me.butOpenJobList)
         Me.RBJobsOpenSave.Items.Add(Me.butSaveJobList)
         Me.RBJobsOpenSave.Tag = Nothing
@@ -2133,6 +2137,7 @@ Partial Class frmMain
         '
         Me.butOpenJobList.AltKey = Nothing
         Me.butOpenJobList.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butOpenJobList.Enabled = False
         Me.butOpenJobList.Image = CType(resources.GetObject("butOpenJobList.Image"), System.Drawing.Image)
         Me.butOpenJobList.SmallImage = CType(resources.GetObject("butOpenJobList.SmallImage"), System.Drawing.Image)
         Me.butOpenJobList.Style = System.Windows.Forms.RibbonButtonStyle.Normal
@@ -2146,6 +2151,7 @@ Partial Class frmMain
         '
         Me.butSaveJobList.AltKey = Nothing
         Me.butSaveJobList.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butSaveJobList.Enabled = False
         Me.butSaveJobList.Image = CType(resources.GetObject("butSaveJobList.Image"), System.Drawing.Image)
         Me.butSaveJobList.SmallImage = CType(resources.GetObject("butSaveJobList.SmallImage"), System.Drawing.Image)
         Me.butSaveJobList.Style = System.Windows.Forms.RibbonButtonStyle.Normal
@@ -2233,6 +2239,7 @@ Partial Class frmMain
         '
         Me.RBSaveReport.ButtonMoreEnabled = False
         Me.RBSaveReport.ButtonMoreVisible = False
+        Me.RBSaveReport.Enabled = False
         Me.RBSaveReport.Items.Add(Me.butSaveProcessReport)
         Me.RBSaveReport.Items.Add(Me.butSaveServiceReport)
         Me.RBSaveReport.Tag = Nothing
@@ -2242,6 +2249,7 @@ Partial Class frmMain
         '
         Me.butSaveProcessReport.AltKey = Nothing
         Me.butSaveProcessReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butSaveProcessReport.Enabled = False
         Me.butSaveProcessReport.Image = CType(resources.GetObject("butSaveProcessReport.Image"), System.Drawing.Image)
         Me.butSaveProcessReport.SmallImage = CType(resources.GetObject("butSaveProcessReport.SmallImage"), System.Drawing.Image)
         Me.butSaveProcessReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
@@ -2255,6 +2263,7 @@ Partial Class frmMain
         '
         Me.butSaveServiceReport.AltKey = Nothing
         Me.butSaveServiceReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butSaveServiceReport.Enabled = False
         Me.butSaveServiceReport.Image = CType(resources.GetObject("butSaveServiceReport.Image"), System.Drawing.Image)
         Me.butSaveServiceReport.SmallImage = CType(resources.GetObject("butSaveServiceReport.SmallImage"), System.Drawing.Image)
         Me.butSaveServiceReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
