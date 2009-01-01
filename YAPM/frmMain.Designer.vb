@@ -258,6 +258,14 @@ Partial Class frmMain
         Me.fileSplitContainer = New System.Windows.Forms.SplitContainer
         Me.rtb3 = New System.Windows.Forms.RichTextBox
         Me.gpFileAttributes = New System.Windows.Forms.GroupBox
+        Me.chkFileEncrypted = New System.Windows.Forms.CheckBox
+        Me.chkFileContentNotIndexed = New System.Windows.Forms.CheckBox
+        Me.chkFileNormal = New System.Windows.Forms.CheckBox
+        Me.chkFileSystem = New System.Windows.Forms.CheckBox
+        Me.chkFileReadOnly = New System.Windows.Forms.CheckBox
+        Me.chkFileHidden = New System.Windows.Forms.CheckBox
+        Me.chkFileCompressed = New System.Windows.Forms.CheckBox
+        Me.chkFileArchive = New System.Windows.Forms.CheckBox
         Me.gpFileDates = New System.Windows.Forms.GroupBox
         Me.cmdSetFileDates = New System.Windows.Forms.Button
         Me.DTlastModification = New System.Windows.Forms.DateTimePicker
@@ -321,6 +329,7 @@ Partial Class frmMain
         Me.fileSplitContainer.Panel1.SuspendLayout()
         Me.fileSplitContainer.Panel2.SuspendLayout()
         Me.fileSplitContainer.SuspendLayout()
+        Me.gpFileAttributes.SuspendLayout()
         Me.gpFileDates.SuspendLayout()
         CType(Me.pctFileSmall, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.mnuFileCopyPctSmall.SuspendLayout()
@@ -2564,13 +2573,104 @@ Partial Class frmMain
         '
         'gpFileAttributes
         '
+        Me.gpFileAttributes.Controls.Add(Me.chkFileEncrypted)
+        Me.gpFileAttributes.Controls.Add(Me.chkFileContentNotIndexed)
+        Me.gpFileAttributes.Controls.Add(Me.chkFileNormal)
+        Me.gpFileAttributes.Controls.Add(Me.chkFileSystem)
+        Me.gpFileAttributes.Controls.Add(Me.chkFileReadOnly)
+        Me.gpFileAttributes.Controls.Add(Me.chkFileHidden)
+        Me.gpFileAttributes.Controls.Add(Me.chkFileCompressed)
+        Me.gpFileAttributes.Controls.Add(Me.chkFileArchive)
         Me.gpFileAttributes.Dock = System.Windows.Forms.DockStyle.Left
         Me.gpFileAttributes.Location = New System.Drawing.Point(203, 0)
         Me.gpFileAttributes.Name = "gpFileAttributes"
-        Me.gpFileAttributes.Size = New System.Drawing.Size(129, 109)
+        Me.gpFileAttributes.Size = New System.Drawing.Size(173, 109)
         Me.gpFileAttributes.TabIndex = 2
         Me.gpFileAttributes.TabStop = False
         Me.gpFileAttributes.Text = "File attributes"
+        '
+        'chkFileEncrypted
+        '
+        Me.chkFileEncrypted.AutoSize = True
+        Me.chkFileEncrypted.Enabled = False
+        Me.chkFileEncrypted.Location = New System.Drawing.Point(91, 51)
+        Me.chkFileEncrypted.Name = "chkFileEncrypted"
+        Me.chkFileEncrypted.Size = New System.Drawing.Size(75, 17)
+        Me.chkFileEncrypted.TabIndex = 7
+        Me.chkFileEncrypted.Text = "Encrypted"
+        Me.chkFileEncrypted.UseVisualStyleBackColor = True
+        '
+        'chkFileContentNotIndexed
+        '
+        Me.chkFileContentNotIndexed.AutoSize = True
+        Me.chkFileContentNotIndexed.Location = New System.Drawing.Point(6, 88)
+        Me.chkFileContentNotIndexed.Name = "chkFileContentNotIndexed"
+        Me.chkFileContentNotIndexed.Size = New System.Drawing.Size(125, 17)
+        Me.chkFileContentNotIndexed.TabIndex = 6
+        Me.chkFileContentNotIndexed.Text = "Content not indexed"
+        Me.chkFileContentNotIndexed.UseVisualStyleBackColor = True
+        '
+        'chkFileNormal
+        '
+        Me.chkFileNormal.AutoSize = True
+        Me.chkFileNormal.Enabled = False
+        Me.chkFileNormal.Location = New System.Drawing.Point(91, 15)
+        Me.chkFileNormal.Name = "chkFileNormal"
+        Me.chkFileNormal.Size = New System.Drawing.Size(59, 17)
+        Me.chkFileNormal.TabIndex = 5
+        Me.chkFileNormal.Text = "Normal"
+        Me.chkFileNormal.UseVisualStyleBackColor = True
+        '
+        'chkFileSystem
+        '
+        Me.chkFileSystem.AutoSize = True
+        Me.chkFileSystem.Location = New System.Drawing.Point(91, 33)
+        Me.chkFileSystem.Name = "chkFileSystem"
+        Me.chkFileSystem.Size = New System.Drawing.Size(61, 17)
+        Me.chkFileSystem.TabIndex = 4
+        Me.chkFileSystem.Text = "System"
+        Me.chkFileSystem.UseVisualStyleBackColor = True
+        '
+        'chkFileReadOnly
+        '
+        Me.chkFileReadOnly.AutoSize = True
+        Me.chkFileReadOnly.Location = New System.Drawing.Point(6, 70)
+        Me.chkFileReadOnly.Name = "chkFileReadOnly"
+        Me.chkFileReadOnly.Size = New System.Drawing.Size(74, 17)
+        Me.chkFileReadOnly.TabIndex = 3
+        Me.chkFileReadOnly.Text = "Read only"
+        Me.chkFileReadOnly.UseVisualStyleBackColor = True
+        '
+        'chkFileHidden
+        '
+        Me.chkFileHidden.AutoSize = True
+        Me.chkFileHidden.Location = New System.Drawing.Point(6, 52)
+        Me.chkFileHidden.Name = "chkFileHidden"
+        Me.chkFileHidden.Size = New System.Drawing.Size(59, 17)
+        Me.chkFileHidden.TabIndex = 2
+        Me.chkFileHidden.Text = "Hidden"
+        Me.chkFileHidden.UseVisualStyleBackColor = True
+        '
+        'chkFileCompressed
+        '
+        Me.chkFileCompressed.AutoSize = True
+        Me.chkFileCompressed.Enabled = False
+        Me.chkFileCompressed.Location = New System.Drawing.Point(6, 34)
+        Me.chkFileCompressed.Name = "chkFileCompressed"
+        Me.chkFileCompressed.Size = New System.Drawing.Size(85, 17)
+        Me.chkFileCompressed.TabIndex = 1
+        Me.chkFileCompressed.Text = "Compressed"
+        Me.chkFileCompressed.UseVisualStyleBackColor = True
+        '
+        'chkFileArchive
+        '
+        Me.chkFileArchive.AutoSize = True
+        Me.chkFileArchive.Location = New System.Drawing.Point(6, 17)
+        Me.chkFileArchive.Name = "chkFileArchive"
+        Me.chkFileArchive.Size = New System.Drawing.Size(62, 17)
+        Me.chkFileArchive.TabIndex = 0
+        Me.chkFileArchive.Text = "Archive"
+        Me.chkFileArchive.UseVisualStyleBackColor = True
         '
         'gpFileDates
         '
@@ -3009,6 +3109,8 @@ Partial Class frmMain
         Me.fileSplitContainer.Panel1.ResumeLayout(False)
         Me.fileSplitContainer.Panel2.ResumeLayout(False)
         Me.fileSplitContainer.ResumeLayout(False)
+        Me.gpFileAttributes.ResumeLayout(False)
+        Me.gpFileAttributes.PerformLayout()
         Me.gpFileDates.ResumeLayout(False)
         Me.gpFileDates.PerformLayout()
         CType(Me.pctFileSmall, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3296,5 +3398,13 @@ Partial Class frmMain
     Friend WithEvents DTlastAccess As System.Windows.Forms.DateTimePicker
     Friend WithEvents DTcreation As System.Windows.Forms.DateTimePicker
     Friend WithEvents cmdSetFileDates As System.Windows.Forms.Button
+    Friend WithEvents chkFileSystem As System.Windows.Forms.CheckBox
+    Friend WithEvents chkFileReadOnly As System.Windows.Forms.CheckBox
+    Friend WithEvents chkFileHidden As System.Windows.Forms.CheckBox
+    Friend WithEvents chkFileCompressed As System.Windows.Forms.CheckBox
+    Friend WithEvents chkFileArchive As System.Windows.Forms.CheckBox
+    Friend WithEvents chkFileEncrypted As System.Windows.Forms.CheckBox
+    Friend WithEvents chkFileContentNotIndexed As System.Windows.Forms.CheckBox
+    Friend WithEvents chkFileNormal As System.Windows.Forms.CheckBox
 
 End Class

@@ -43,6 +43,17 @@ Public Class frmMain
             Me.DTlastAccess.Value = IO.File.GetLastAccessTime(file)
             Me.DTlastModification.Value = IO.File.GetLastWriteTime(file)
 
+            ' Set attributes
+            Dim att As System.IO.FileAttributes = IO.File.GetAttributes(file)
+            Me.chkFileArchive.Checked = ((att And IO.FileAttributes.Archive) = IO.FileAttributes.Archive)
+            Me.chkFileCompressed.Checked = ((att And IO.FileAttributes.Compressed) = IO.FileAttributes.Compressed)
+            Me.chkFileHidden.Checked = ((att And IO.FileAttributes.Hidden) = IO.FileAttributes.Hidden)
+            Me.chkFileReadOnly.Checked = ((att And IO.FileAttributes.ReadOnly) = IO.FileAttributes.ReadOnly)
+            Me.chkFileSystem.Checked = ((att And IO.FileAttributes.System) = IO.FileAttributes.System)
+            Me.chkFileNormal.Checked = ((att And IO.FileAttributes.Normal) = IO.FileAttributes.Normal)
+            Me.chkFileContentNotIndexed.Checked = ((att And IO.FileAttributes.NotContentIndexed) = IO.FileAttributes.NotContentIndexed)
+            Me.chkFileEncrypted.Checked = ((att And IO.FileAttributes.Encrypted) = IO.FileAttributes.Encrypted)
+
             ' Clean string list
             Me.lstFileString.Items.Clear()
             Me.lstFileString.Items.Add("Click on 'Others->Show file strings' to retrieve file strings")
@@ -541,7 +552,7 @@ Public Class frmMain
                         Dim ipi As InternetProcessInfo = mdlInternet.GetInternetInfos(it.Text)
 
                         s = s & "\tab Security risk (0-5) :\tab " & CStr(ipi._Risk) & "\par"
-                        s = s & "\tab Description :\tab\tab\" & Replace$(ipi._Description, vbNewLine, "\par") & "\par"
+                        s = s & "\tab Description :\tab\tab\ " & Replace$(ipi._Description, vbNewLine, "\par") & "\par"
                     End If
 
 
@@ -2499,7 +2510,7 @@ Public Class frmMain
 
     Private Sub txtFile_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtFile.TextChanged
         Dim b As Boolean = IO.File.Exists(Me.txtFile.Text)
-        Me.RBFileDelete.Enabled = b
+        ' Me.RBFileDelete.Enabled = b
         Me.RBFileKillProcess.Enabled = b
         Me.RBFileOnline.Enabled = b
         Me.RBFileOther.Enabled = b
@@ -2744,4 +2755,122 @@ Public Class frmMain
             Call mdlFile.DisplayFileStrings(Me.lstFileString, Me.txtFile.Text)
         End If
     End Sub
+
+    Private Function RemoveAttribute(ByVal file As String, ByVal attributesToRemove As IO.FileAttributes) As IO.FileAttributes
+        Dim attributes As IO.FileAttributes = IO.File.GetAttributes(file)
+        Return attributes And Not (attributesToRemove)
+    End Function
+    Private Function AddAttribute(ByVal file As String, ByVal attributesToAdd As IO.FileAttributes) As IO.FileAttributes
+        Dim attributes As IO.FileAttributes = IO.File.GetAttributes(file)
+        Return attributes Or attributesToAdd
+    End Function
+
+    Private Sub chkFileArchive_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkFileArchive.CheckedChanged
+        Static accessed As Boolean = False
+        If accessed Then
+            accessed = False
+            Exit Sub
+        End If
+        Try
+            If Me.chkFileArchive.Checked Then
+                IO.File.SetAttributes(Me.txtFile.Text, AddAttribute(Me.txtFile.Text, IO.FileAttributes.Archive))
+            Else
+                IO.File.SetAttributes(Me.txtFile.Text, RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.Archive))
+            End If
+        Catch ex As Exception
+            accessed = True
+            Me.chkFileArchive.Checked = Not (Me.chkFileArchive.Checked)
+        End Try
+    End Sub
+
+    Private Sub chkFileHidden_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkFileHidden.CheckedChanged
+        Static accessed As Boolean = False
+        If accessed Then
+            accessed = False
+            Exit Sub
+        End If
+        Try
+            If Me.chkFileHidden.Checked Then
+                IO.File.SetAttributes(Me.txtFile.Text, AddAttribute(Me.txtFile.Text, IO.FileAttributes.Hidden))
+            Else
+                IO.File.SetAttributes(Me.txtFile.Text, RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.Hidden))
+            End If
+        Catch ex As Exception
+            accessed = True
+            Me.chkFileHidden.Checked = Not (Me.chkFileHidden.Checked)
+        End Try
+    End Sub
+
+    Private Sub chkFileReadOnly_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkFileReadOnly.CheckedChanged
+        Static accessed As Boolean = False
+        If accessed Then
+            accessed = False
+            Exit Sub
+        End If
+        Try
+            If Me.chkFileReadOnly.Checked Then
+                IO.File.SetAttributes(Me.txtFile.Text, AddAttribute(Me.txtFile.Text, IO.FileAttributes.ReadOnly))
+            Else
+                IO.File.SetAttributes(Me.txtFile.Text, RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.ReadOnly))
+            End If
+        Catch ex As Exception
+            accessed = True
+            Me.chkFileReadOnly.Checked = Not (Me.chkFileReadOnly.Checked)
+        End Try
+    End Sub
+
+    Private Sub chkFileContentNotIndexed_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkFileContentNotIndexed.CheckedChanged
+        Static accessed As Boolean = False
+        If accessed Then
+            accessed = False
+            Exit Sub
+        End If
+        Try
+            If Me.chkFileContentNotIndexed.Checked Then
+                IO.File.SetAttributes(Me.txtFile.Text, AddAttribute(Me.txtFile.Text, IO.FileAttributes.NotContentIndexed))
+            Else
+                IO.File.SetAttributes(Me.txtFile.Text, RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.NotContentIndexed))
+            End If
+        Catch ex As Exception
+            accessed = True
+            Me.chkFileContentNotIndexed.Checked = Not (Me.chkFileContentNotIndexed.Checked)
+        End Try
+    End Sub
+
+    Private Sub chkFileNormal_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkFileNormal.CheckedChanged
+        Static accessed As Boolean = False
+        If accessed Then
+            accessed = False
+            Exit Sub
+        End If
+        Try
+            If Me.chkFileNormal.Checked Then
+                IO.File.SetAttributes(Me.txtFile.Text, AddAttribute(Me.txtFile.Text, IO.FileAttributes.Normal))
+            Else
+                IO.File.SetAttributes(Me.txtFile.Text, RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.Normal))
+            End If
+        Catch ex As Exception
+            accessed = True
+            Me.chkFileNormal.Checked = Not (Me.chkFileNormal.Checked)
+        End Try
+    End Sub
+
+    Private Sub chkFileSystem_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkFileSystem.CheckedChanged
+        Static accessed As Boolean = False
+        If accessed Then
+            accessed = False
+            Exit Sub
+        End If
+        Try
+            If Me.chkFileSystem.Checked Then
+                IO.File.SetAttributes(Me.txtFile.Text, AddAttribute(Me.txtFile.Text, IO.FileAttributes.System))
+            Else
+                IO.File.SetAttributes(Me.txtFile.Text, RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.System))
+            End If
+        Catch ex As Exception
+            accessed = True
+            Me.chkFileSystem.Checked = Not (Me.chkFileSystem.Checked)
+        End Try
+    End Sub
+
 End Class

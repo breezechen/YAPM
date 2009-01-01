@@ -548,8 +548,7 @@ Module mdlFile
             .pFrom = "c:\test.txt"
             .fFlags = FOF_ALLOWUNDO
         End With
-        MsgBox(SHFileOperation(tObj))
-        Return 1
+        Return SHFileOperation(tObj)
     End Function
 
 End Module
