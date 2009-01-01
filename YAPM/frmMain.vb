@@ -2408,7 +2408,7 @@ Public Class frmMain
                         it.SubItems.Add(CStr(.GetPointerCount(i)))
                         it.SubItems.Add(CStr(.GetObjectCount(i)))
                         it.SubItems.Add(CStr(.GetHandle(i)))
-                        it.SubItems.Add(CStr(id))
+                        it.SubItems.Add(CStr(id) & " -- " & mdlFile.GetFileName(mdlProcess.GetPath(id)))
                         it.Tag = .GetHandle(i)
                         Select Case it.Text
                             Case "Key"
@@ -2873,4 +2873,36 @@ Public Class frmMain
         End Try
     End Sub
 
+    Private Sub ToolStripMenuItem22_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem22.Click
+        Call Me.butHandleClose_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub ToolStripMenuItem19_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem19.Click
+        ' Select processes associated to selected handles results
+        Dim it As ListViewItem
+        If Me.lvHandles.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
+        For Each it In Me.lvHandles.SelectedItems
+            Try
+                Dim sp As String = it.SubItems(6).Text
+                Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
+                If i > 0 Then
+                    Dim pid As String = sp.Substring(0, i - 1)
+                    Dim it2 As ListViewItem
+                    For Each it2 In Me.lvProcess.Items
+                        If it2.SubItems(1).Text = pid Then
+                            it2.Selected = True
+                        End If
+                    Next
+                End If
+                Me.Ribbon.ActiveTab = Me.ProcessTab
+                Call Me.Ribbon_MouseMove(Nothing, Nothing)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub butFileOpen_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileOpen.Click
+        Call mdlFile.ShellOpenFile(Me.txtFile.Text)
+    End Sub
 End Class
