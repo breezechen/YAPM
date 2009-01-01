@@ -471,7 +471,7 @@ Module mdlFile
 
     ' Display file strings
     Public Sub DisplayFileStrings(ByVal lst As ListBox, ByVal file As String)
-        Dim s As String
+        Dim s As String = vbNullString
         Dim sCtemp As String = vbNullString
         Dim x As Integer = 1
         Dim bTaille As Integer
@@ -484,15 +484,20 @@ Module mdlFile
 
             ' Retrieve entire file in memory
             ' Warn user if file is up to 2MB
-            s = IO.File.ReadAllText(file)
+            Try
+                s = IO.File.ReadAllText(file)
 
-            If mdlFile.GetFileSize(file) > 2000000 Then
-                If MsgBox("File size is greater than 2MB. It is not recommended to open a large file, do you want to continue ?", _
-                    MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo, "Large file") = MsgBoxResult.No Then
-                    frmMain.lstFileString.Items.Add("Click on 'Others->Show file strings' to retrieve file strings")
-                    Exit Sub
+                If mdlFile.GetFileSize(file) > 2000000 Then
+                    If MsgBox("File size is greater than 2MB. It is not recommended to open a large file, do you want to continue ?", _
+                        MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo, "Large file") = MsgBoxResult.No Then
+                        frmMain.lstFileString.Items.Add("Click on 'Others->Show file strings' to retrieve file strings")
+                        Exit Sub
+                    End If
                 End If
-            End If
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Information, "Error")
+            End Try
+
 
             ' Desired minimum size for a string
             bTaille = 4
