@@ -220,21 +220,24 @@ Public Class cProcess
     Private path As String = vbNullString           ' Path of executable
     Private _UserName As String = vbNullString      ' User name
     Private _name As String = vbNullString          ' Name of process
+    Private _hProcess As Integer = 0                 ' Handle to the process
 
 
     Public isDisplayed As Boolean = False          ' Is displayed
 
     ' ========================================
-    ' Constructors
+    ' Constructors & destructor
     ' ========================================
     Public Sub New(ByVal processId As Integer)
         MyBase.New()
         pid = processId
+        _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, pid)
     End Sub
 
     Public Sub New(ByVal processId As Integer, ByVal processName As String)
         MyBase.New()
         pid = processId
+        _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, pid)
         _name = processName
     End Sub
 
@@ -242,9 +245,13 @@ Public Class cProcess
         MyBase.New()
         pid = process.GetPid
         _name = process.GetName
+        _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, pid)
     End Sub
 
-
+    Protected Overloads Overrides Sub Finalize()
+        CloseHandle(_hProcess)
+        MyBase.Finalize()
+    End Sub
 
     ' ========================================
     ' Getter and setter
@@ -258,18 +265,14 @@ Public Class cProcess
         If path = vbNullString Then
 
             Dim s As String = vbNullString
-            Dim lHprcss As Integer
             Dim Ret As Integer
             Dim sResult As String = Space(512)
             Dim hModule As Integer
 
-            lHprcss = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, pid)
-
-            If lHprcss > 0 Then
-                Call EnumProcessModules(lHprcss, hModule, 4, Ret)
+            If _hProcess > 0 Then
+                Call EnumProcessModules(_hProcess, hModule, 4, Ret)
                 sResult = Space(260)
-                Call GetModuleFileNameExA(lHprcss, hModule, sResult, 260)
-                CloseHandle(lHprcss)
+                Call GetModuleFileNameExA(_hProcess, hModule, sResult, 260)
                 s = sResult
             End If
 
@@ -289,7 +292,7 @@ Public Class cProcess
         If _UserName = vbNullString Then
 
             Dim hToken As Integer
-            Dim hProcess As Integer
+            Dim hProc As Integer
             Dim cbBuff As Integer
             Dim TG As TOKEN_GROUPS
             Dim UserName As String
@@ -302,11 +305,8 @@ Public Class cProcess
 
             ReDim TG.Groups(500)
 
-            hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, pid)
-
-            If hProcess > 0 Then
-                If OpenProcessToken(hProcess, &H8, hToken) > 0 Then
-                    CloseHandle(hProcess)
+            If _hProcess > 0 Then
+                If OpenProcessToken(_hProcess, &H8, hToken) > 0 Then
                     'GetTokenInformation(hToken, TokenUser, TG, 0, cbBuff)
                     If GetTokenInformation(hToken, TokenUser, TG, cbBuff, 0) > 0 Then
                         CloseHandle(hToken)
@@ -318,11 +318,10 @@ Public Class cProcess
                         res = Left$(UserName, UserNameLenght)
                     End If
                 Else
-                    CloseHandle(hProcess)
-                    hProcess = OpenProcess(PROCESS_READ_CONTROL, 0, pid)
-                    If hProcess > 0 Then
-                        If GetSecurityInfo(hProcess, SE_KERNEL_OBJECT, GROUP_SECURITY_INFORMATION, 0, ppsidGroup, 0, 0, 0) = 0 Then
-                            CloseHandle(hProcess)
+                    hProc = OpenProcess(PROCESS_READ_CONTROL, 0, pid)
+                    If _hProcess > 0 Then
+                        If GetSecurityInfo(_hProcess, SE_KERNEL_OBJECT, GROUP_SECURITY_INFORMATION, 0, ppsidGroup, 0, 0, 0) = 0 Then
+                            CloseHandle(hProc)
                             UserNameLenght = 255
                             UserName = Space$(UserNameLenght)
                             DomainName = UserName
@@ -332,7 +331,6 @@ Public Class cProcess
                         End If
                     End If
                 End If
-                CloseHandle(hProcess)
             End If
 
             _UserName = res
@@ -366,21 +364,15 @@ Public Class cProcess
         Dim T1 As FILETIME2
         Dim curTime2 As FILETIME2
         Dim curTime As FILETIME2
-        Dim hProcess As Integer
         Dim r As TimeSpan
+        If _hProcess > 0 Then
 
-        hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, pid)
-
-        If hProcess > 0 Then
-
-            GetProcessTimes(hProcess, T0, T1, curTime, curTime2)
+            GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
             Dim p1 As New TimeSpan(curTime.dwLowDateTime + curTime.dwHighDateTime)
             Dim p2 As New TimeSpan(curTime2.dwLowDateTime + curTime2.dwHighDateTime)
             ' BUGGY
             p1.Add(p2)
             r = p1
-
-            CloseHandle(hProcess)
 
         End If
 
@@ -393,14 +385,11 @@ Public Class cProcess
     End Function
 
     Public Function GetMemoryInfos() As PROCESS_MEMORY_COUNTERS
-        Dim hProcess As Integer
         Dim pmc As PROCESS_MEMORY_COUNTERS
 
-        hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, pid)
-        If hProcess > 0 Then
+        If _hProcess > 0 Then
             pmc.cb = Marshal.SizeOf(pmc)
-            GetProcessMemoryInfo(hProcess, pmc, pmc.cb)
-            CloseHandle(hProcess)
+            GetProcessMemoryInfo(_hProcess, pmc, pmc.cb)
         End If
 
         Return pmc
@@ -412,13 +401,10 @@ Public Class cProcess
     End Function
 
     Public Function GetPriorityClass() As String
-        Dim hProcess As Integer
         Dim iP As Integer = 0
 
-        hProcess = OpenProcess(PROCESS_QUERY_INFORMATION, 0, pid)
-        If hProcess > 0 Then
-            iP = GetPriorityClass(hProcess)
-            CloseHandle(hProcess)
+        If _hProcess > 0 Then
+            iP = GetPriorityClass(_hProcess)
         End If
 
         Select Case iP
@@ -449,19 +435,13 @@ Public Class cProcess
         Dim T1 As FILETIME2
         Dim curTime2 As FILETIME2
         Dim curTime As FILETIME2
-        Dim hProcess As Integer
         Dim r As TimeSpan
 
-        hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, pid)
-
-        If hProcess > 0 Then
-
+        If _hProcess > 0 Then
             'BUGGY
-            GetProcessTimes(hProcess, T0, T1, curTime, curTime2)
+            GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
             Dim p1 As New TimeSpan(T0.dwLowDateTime + T0.dwHighDateTime)
             r = p1
-            CloseHandle(hProcess)
-
         End If
 
         Return r
@@ -487,14 +467,14 @@ Public Class cProcess
 
     ' Suspend a process
     Public Function SuspendProcess() As Integer
-        Dim hProcess As Integer
+        Dim hProc As Integer
         Dim r As Integer = -1
 
-        hProcess = OpenProcess(PROCESS_SUSPEND_RESUME, 0, pid)
+        hProc = OpenProcess(PROCESS_SUSPEND_RESUME, 0, pid)
 
-        If hProcess > 0 Then
-            r = NtSuspendProcess(hProcess)
-            CloseHandle(hProcess)
+        If hProc > 0 Then
+            r = NtSuspendProcess(hProc)
+            CloseHandle(hProc)
         End If
 
         Return r
@@ -503,14 +483,14 @@ Public Class cProcess
 
     ' Resume a process
     Public Function ResumeProcess() As Integer
-        Dim hProcess As Integer
+        Dim hProc As Integer
         Dim r As Integer = -1
 
-        hProcess = OpenProcess(PROCESS_SUSPEND_RESUME, 0, pid)
+        hProc = OpenProcess(PROCESS_SUSPEND_RESUME, 0, pid)
 
-        If hProcess > 0 Then
-            r = NtResumeProcess(hProcess)
-            CloseHandle(hProcess)
+        If hProc > 0 Then
+            r = NtResumeProcess(hProc)
+            CloseHandle(hProc)
         End If
 
         Return r
@@ -520,13 +500,13 @@ Public Class cProcess
     ' Set priority
     Public Function SetProcessPriority(ByVal level As ProcessPriorityClass) As Integer
 
-        Dim hProcess As Integer
+        Dim hProc As Integer
         Dim r As Integer
 
-        hProcess = OpenProcess(PROCESS_SET_INFORMATION, 0, pid)
-        If hProcess > 0 Then
-            r = SetPriorityClass(hProcess, level)
-            CloseHandle(hProcess)
+        hProc = OpenProcess(PROCESS_SET_INFORMATION, 0, pid)
+        If hProc > 0 Then
+            r = SetPriorityClass(hProc, level)
+            CloseHandle(hProc)
         End If
 
         Return r
@@ -534,12 +514,12 @@ Public Class cProcess
 
     ' Kill a process
     Public Function Kill() As Integer
-        Dim hProcess As Integer
+        Dim hProc As Integer
         Dim ret As Integer = -1
-        hProcess = OpenProcess(PROCESS_TERMINATE, 0, pid)
-        If hProcess > 0 Then
-            ret = TerminateProcess(hProcess, 0)
-            CloseHandle(hProcess)
+        hProc = OpenProcess(PROCESS_TERMINATE, 0, pid)
+        If hProc > 0 Then
+            ret = TerminateProcess(hProc, 0)
+            CloseHandle(hProc)
         End If
         Return ret
     End Function
@@ -548,32 +528,32 @@ Public Class cProcess
     Public Function UnLoadModuleFromProcess(ByVal ModulePathName As String) As Integer
         Dim hKernel32 As Integer
         Dim hThread As Integer
-        Dim hProcess As Integer
+        Dim hProc As Integer
         Dim hFunc As Integer
         Dim hVirtual As Integer
         Dim hMod As Integer = 0
         Dim ret As Integer
 
-        hProcess = OpenProcess(PROCESS_CREATE_THREAD Or PROCESS_VM_OPERATION Or PROCESS_VM_WRITE Or _
+        hProc = OpenProcess(PROCESS_CREATE_THREAD Or PROCESS_VM_OPERATION Or PROCESS_VM_WRITE Or _
                                 PROCESS_VM_READ, 0, pid)
 
-        If hProcess > 0 Then
+        If hProc > 0 Then
 
             hKernel32 = GetModuleHandle(KRN_DLL)
             hFunc = GetProcAddress(hKernel32, GET_HMOD)
 
             ' Get the module handle
-            hVirtual = CInt(VirtualAllocEx(CType(hProcess, IntPtr), IntPtr.Zero, CUInt(Len(ModulePathName)), _
+            hVirtual = CInt(VirtualAllocEx(CType(hProc, IntPtr), IntPtr.Zero, CUInt(Len(ModulePathName)), _
                 MEM_COMMIT, PAGE_READWRITE))
 
             Dim d() As Byte
             Dim encoding As New System.Text.ASCIIEncoding()
             d = encoding.GetBytes(ModulePathName)
 
-            If WriteProcessMemory(CType(hProcess, IntPtr), CType(hVirtual, IntPtr), _
+            If WriteProcessMemory(CType(hProc, IntPtr), CType(hVirtual, IntPtr), _
                 d, CUInt(d.Length), 0) Then
 
-                hThread = CreateRemoteThread(hProcess, Nothing, 0, hFunc, CObj(hVirtual), 0, 0)
+                hThread = CreateRemoteThread(hProc, Nothing, 0, hFunc, CObj(hVirtual), 0, 0)
                 If hThread > 0 Then
                     WaitForSingleObject(hThread, &H9C4)
                     'on recupere le handle du Module dans hMod
@@ -584,7 +564,7 @@ Public Class cProcess
 
             If hMod > 0 Then
                 hFunc = GetProcAddress(hKernel32, KRN_FREE)
-                hThread = CreateRemoteThread(hProcess, Nothing, 0, hFunc, CObj(hMod), 0, 0)
+                hThread = CreateRemoteThread(hProc, Nothing, 0, hFunc, CObj(hMod), 0, 0)
                 If hThread > 0 Then
                     WaitForSingleObject(hThread, &H9C4)
                     'on recupere le code de retour de FreeLibrary (si = 1 le module a bien été dechargé)
@@ -593,7 +573,7 @@ Public Class cProcess
                 End If
             End If
 
-            CloseHandle(hProcess)
+            CloseHandle(hProc)
         End If
 
         Return ret
@@ -648,32 +628,32 @@ Public Class cProcess
     Public Shared Function UnLoadModuleFromProcess(ByVal ProcessId As Integer, ByVal ModulePathName As String) As Integer
         Dim hKernel32 As Integer
         Dim hThread As Integer
-        Dim hProcess As Integer
+        Dim hProc As Integer
         Dim hFunc As Integer
         Dim hVirtual As Integer
         Dim hMod As Integer = 0
         Dim ret As Integer
 
-        hProcess = OpenProcess(PROCESS_CREATE_THREAD Or PROCESS_VM_OPERATION Or PROCESS_VM_WRITE Or _
+        hProc = OpenProcess(PROCESS_CREATE_THREAD Or PROCESS_VM_OPERATION Or PROCESS_VM_WRITE Or _
                                 PROCESS_VM_READ, 0, ProcessId)
 
-        If hProcess > 0 Then
+        If hProc > 0 Then
 
             hKernel32 = GetModuleHandle(KRN_DLL)
             hFunc = GetProcAddress(hKernel32, GET_HMOD)
 
             ' Get the module handle
-            hVirtual = CInt(VirtualAllocEx(CType(hProcess, IntPtr), IntPtr.Zero, CUInt(Len(ModulePathName)), _
+            hVirtual = CInt(VirtualAllocEx(CType(hProc, IntPtr), IntPtr.Zero, CUInt(Len(ModulePathName)), _
                 MEM_COMMIT, PAGE_READWRITE))
 
             Dim d() As Byte
             Dim encoding As New System.Text.ASCIIEncoding()
             d = encoding.GetBytes(ModulePathName)
 
-            If WriteProcessMemory(CType(hProcess, IntPtr), CType(hVirtual, IntPtr), _
+            If WriteProcessMemory(CType(hProc, IntPtr), CType(hVirtual, IntPtr), _
                 d, CUInt(d.Length), 0) Then
 
-                hThread = CreateRemoteThread(hProcess, Nothing, 0, hFunc, CObj(hVirtual), 0, 0)
+                hThread = CreateRemoteThread(hProc, Nothing, 0, hFunc, CObj(hVirtual), 0, 0)
                 If hThread > 0 Then
                     WaitForSingleObject(hThread, &H9C4)
                     'on recupere le handle du Module dans hMod
@@ -684,7 +664,7 @@ Public Class cProcess
 
             If hMod > 0 Then
                 hFunc = GetProcAddress(hKernel32, KRN_FREE)
-                hThread = CreateRemoteThread(hProcess, Nothing, 0, hFunc, CObj(hMod), 0, 0)
+                hThread = CreateRemoteThread(hProc, Nothing, 0, hFunc, CObj(hMod), 0, 0)
                 If hThread > 0 Then
                     WaitForSingleObject(hThread, &H9C4)
                     'on recupere le code de retour de FreeLibrary (si = 1 le module a bien été dechargé)
@@ -693,7 +673,7 @@ Public Class cProcess
                 End If
             End If
 
-            CloseHandle(hProcess)
+            CloseHandle(hProc)
         End If
 
         Return ret
@@ -728,12 +708,12 @@ Public Class cProcess
 
     ' Kill a process
     Public Shared Function Kill(ByVal pid As Integer) As Integer
-        Dim hProcess As Integer
+        Dim hProc As Integer
         Dim ret As Integer = -1
-        hProcess = OpenProcess(PROCESS_TERMINATE, 0, pid)
-        If hProcess > 0 Then
-            ret = TerminateProcess(hProcess, 0)
-            CloseHandle(hProcess)
+        hProc = OpenProcess(PROCESS_TERMINATE, 0, pid)
+        If hProc > 0 Then
+            ret = TerminateProcess(hProc, 0)
+            CloseHandle(hProc)
         End If
         Return ret
     End Function
