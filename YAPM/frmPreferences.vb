@@ -151,6 +151,6 @@ Public Class frmPreferences
     End Function
 
     Private Sub cmdDownload_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdDownload.Click
-        mdlFile.ShellOpenFile("https://sourceforge.net/project/showfiles.php?group_id=244697")
+        cFile.ShellOpenFile("https://sourceforge.net/project/showfiles.php?group_id=244697")
     End Sub
 End Class

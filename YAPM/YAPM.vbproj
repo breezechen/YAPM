@@ -63,7 +63,6 @@
     <Import Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="cProc.vb" />
     <Compile Include="cService.vb" />
     <Compile Include="frmAbout.Designer.vb">
       <DependentUpon>frmAbout.vb</DependentUpon>
@@ -80,8 +79,6 @@
     </Compile>
     <Compile Include="mdlIcon.vb" />
     <Compile Include="mdlPrivileges.vb" />
-    <Compile Include="mdlProcess.vb" />
-    <Compile Include="mdlFile.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -150,8 +147,10 @@
     <None Include="Resources\business_user_add.png" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="cFile.vb" />
     <Compile Include="clsDriverCtrl.vb" />
     <Compile Include="clsOpenedHandles.vb" />
+    <Compile Include="cProcess.vb" />
     <Compile Include="frmBox.Designer.vb">
       <DependentUpon>frmBox.vb</DependentUpon>
     </Compile>
@@ -172,7 +171,6 @@
     </Compile>
     <Compile Include="ListViewComparer.vb" />
     <Compile Include="mdlInternet.vb" />
-    <Compile Include="mdlService.vb" />
     <Compile Include="Pref.vb" />
     <None Include="Resources\folder_info.png" />
     <None Include="Resources\info.png" />

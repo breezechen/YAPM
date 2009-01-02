@@ -64,7 +64,7 @@ Public Class frmFileRelease
                         ' So we've found a result
                         Dim newIt As New ListViewItem
                         Dim n2 As New ListViewItem.ListViewSubItem
-                        newIt.Text = .GetProcessID(i) & " -- " & mdlFile.GetFileName(mdlProcess.GetPath(.GetProcessID(i)))
+                        newIt.Text = .GetProcessID(i) & " -- " & cFile.GetFileName(cProcess.GetPath(.GetProcessID(i)))
                         n2.Text = .GetNameInformation(i) & " -- " & .GetObjectName(i)
                         newIt.SubItems.Add(n2)
                         newIt.ImageKey = "handle"
@@ -96,7 +96,7 @@ Public Class frmFileRelease
                         Select Case it.SubItems(1).Text
                             Case "Module"
                                 ' Module
-                                Call mdlProcess.UnLoadModuleFromProcess(pid, file)
+                                Call cProcess.UnLoadModuleFromProcess(pid, file)
                             Case Else
                                 ' Handle
                                 Dim Handle As Integer = CInt(Val(it.Tag))
