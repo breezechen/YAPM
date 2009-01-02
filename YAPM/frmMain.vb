@@ -309,7 +309,7 @@ Public Class frmMain
 
         ReDim proc(0)
         cProcess.Enumerate(proc)
-
+        
         ' Refresh (or suppress) all processes displayed in listview
         For Each lvi In Me.lvProcess.Items
 
@@ -420,7 +420,7 @@ Public Class frmMain
 
         Next
 
-
+        test = GetTickCount
         ' Here we retrieve some informations for all our displayed processes
         For Each lvi In Me.lvProcess.Items
 
@@ -431,7 +431,7 @@ Public Class frmMain
 
                 ' Processor time
                 ' Memory
-                ' Threads
+                ' Peak memory
                 ' Priority
                 ' Path
 
@@ -443,10 +443,11 @@ Public Class frmMain
 
                 With lvi
                     .SubItems(3).Text = s
-                    .SubItems(4).Text = CStr(cP.GetWorkingSet64 / 1024) & " Kb"
-                    .SubItems(5).Text = CStr(cP.GetThreads.Count)
+                    Dim mc As cProcess.PROCESS_MEMORY_COUNTERS = cP.GetMemoryInfos
+                    .SubItems(4).Text = CStr(mc.WorkingSetSize / 1024) & " Kb"
+                    .SubItems(5).Text = CStr(mc.PeakWorkingSetSize / 1024) & " Kb"
                     .SubItems(6).Text = cP.GetPriorityClass
-                    .SubItems(8).Text = cP.GetStartTime.ToLongDateString & " -- " & cP.GetStartTime.ToLongTimeString
+                    .SubItems(8).Text = cP.GetStartTime.ToString ' & " -- " & cP.GetStartTime.ToLongTimeString
                 End With
 
             Catch ex As Exception
@@ -456,7 +457,7 @@ Public Class frmMain
         Next
 
         test = GetTickCount - test
-        ' Me.Text = CStr(test)
+        Me.Text = CStr(test)
 
     End Sub
 
@@ -537,13 +538,12 @@ Public Class frmMain
                     s = s & "\par"
                     s = s & "  \b Process description\b0\par"
                     s = s & "\tab PID :\tab\tab\tab " & it.SubItems(1).Text & "\par"
-                    s = s & "\tab Threads :\tab\tab " & it.SubItems(5).Text & "\par"
                     s = s & "\tab Start time :\tab\tab " & it.SubItems(8).Text & "\par"
                     s = s & "\tab Priority :\tab\tab\tab " & it.SubItems(6).Text & "\par"
                     s = s & "\tab User :\tab\tab\tab " & it.SubItems(2).Text & "\par"
                     s = s & "\tab Processor time :\tab\tab " & it.SubItems(3).Text & "\par"
                     s = s & "\tab Memory :\tab\tab " & it.SubItems(4).Text & "\par"
-
+                    s = s & "\tab Memory peak :\tab " & it.SubItems(5).Text & "\par"
 
                     If chkOnline.Checked Then
                         ' Retrieve online description

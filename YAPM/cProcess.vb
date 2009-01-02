@@ -30,10 +30,10 @@ Public Class cProcess
     Private Declare Function GetCurrentProcessId Lib "kernel32.dll" () As Integer
     Private Declare Function EnumProcessModules Lib "psapi.dll" (ByVal hProcess As Integer, ByVal lphModule As Integer, ByVal cb As Integer, ByVal lpcbNeeded As Integer) As Boolean
 
-    Private Declare Function GetProcessMemoryInfo Lib "PSAPI.DLL" (ByVal hProcess As Integer, ByVal ppsmemCounters As PROCESS_MEMORY_COUNTERS, ByVal cb As Integer) As Integer
+    Private Declare Function GetProcessMemoryInfo Lib "PSAPI.DLL" (ByVal hProcess As Integer, ByRef ppsmemCounters As PROCESS_MEMORY_COUNTERS, ByVal cb As Integer) As Integer
     Private Declare Function GetPriorityClass Lib "kernel32" Alias "GetPriorityClass" (ByVal hProcess As Integer) As Integer
 
-    Private Declare Function GetProcessTimes Lib "kernel32" (ByVal hProcess As Integer, ByVal lpCreationTime As FILETIME2, ByVal lpExitTime As FILETIME2, ByVal lpKernelTime As FILETIME2, ByVal lpUserTime As FILETIME2) As Integer
+    Private Declare Function GetProcessTimes Lib "kernel32" (ByVal hProcess As Integer, ByRef lpCreationTime As FILETIME2, ByRef lpExitTime As FILETIME2, ByRef lpKernelTime As FILETIME2, ByRef lpUserTime As FILETIME2) As Integer
 
     Private Declare Function CreateToolhelp32Snapshot Lib "kernel32.dll" (ByVal dwFlags As Integer, ByVal th32ProcessID As Integer) As Integer
     Private Declare Function Thread32First Lib "kernel32.dll" (ByVal hSnapshot As Integer, ByRef lpte As THREADENTRY32) As Boolean
@@ -85,13 +85,19 @@ Public Class cProcess
     Private Const THREAD_SET_INFORMATION As Integer = &H20
     Private Const THREAD_QUERY_INFORMATION As Integer = &H40
     Private Const TH32CS_SNAPPROCESS As Integer = &H2
+    Private Const TH32CS_SNAPTHREAD As Integer = &H4
     Private Const SE_KERNEL_OBJECT As Integer = 6
     Private Const OWNER_SECURITY_INFORMATION As Integer = 1
     Private Const GROUP_SECURITY_INFORMATION As Integer = 2
     Private Const PROCESS_READ_CONTROL As Integer = &H20000
     Private Const TokenUser As Integer = 1
     Private Const TokenGroups As Integer = 2
-
+    Private Const IDLE_PRIORITY_CLASS As Integer = &H40
+    Private Const BELOW_NORMAL_PRIORITY_CLASS As Integer = &H4000
+    Private Const NORMAL_PRIORITY_CLASS As Integer = &H20
+    Private Const ABOVE_NORMAL_PRIORITY_CLASS As Integer = &H8000
+    Private Const HIGH_PRIORITY_CLASS As Long = &H80 '
+    Private Const REALTIME_PRIORITY_CLASS As Integer = &H100
 
     ' ========================================
     ' Structures for API
@@ -168,7 +174,7 @@ Public Class cProcess
         <MarshalAs(UnmanagedType.ByValTStr, SizeConst:=260)> Public szExeFile As String
     End Structure
 
-    Private Structure PROCESS_MEMORY_COUNTERS
+    Public Structure PROCESS_MEMORY_COUNTERS
         Dim cb As Integer
         Dim PageFaultCount As Integer
         Dim PeakWorkingSetSize As Integer
@@ -191,7 +197,22 @@ Public Class cProcess
         Dim Groups() As SID_AND_ATTRIBUTES
     End Structure
 #End Region
+    Private Declare Function GetLastError Lib "kernel32" () As Integer
+    Private Const FORMAT_MESSAGE_FROM_SYSTEM As Integer = &H1000
+    Private Const LANG_NEUTRAL As Integer = &H0
+    Private Const SUBLANG_DEFAULT As Integer = &H1
+    Private Declare Function FormatMessage Lib "kernel32" Alias "FormatMessageA" (ByVal dwFlags As Integer, _
+    ByVal lpSource As Integer, ByVal dwMessageId As Integer, ByVal dwLanguageId As Integer, _
+    ByVal lpBuffer As String, ByVal nSize As Integer, ByVal Arguments As Integer) As Integer
+    Public Function GetError(ByVal hError As Integer) As String
 
+        Dim Buffer As String
+
+        Buffer = Space$(1024)
+        FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, hError, LANG_NEUTRAL, Buffer, Len(Buffer), 0)
+        Return Trim$(Buffer)
+
+    End Function
     ' ========================================
     ' Private attributes
     ' ========================================
@@ -340,33 +361,111 @@ Public Class cProcess
     End Function
 
     Public Function GetProcessorTime() As TimeSpan
-        ' TOCHANGE
-        Dim gProc As Process = Process.GetProcessById(pid)
-        Return gProc.TotalProcessorTime
+
+        Dim T0 As FILETIME2
+        Dim T1 As FILETIME2
+        Dim curTime2 As FILETIME2
+        Dim curTime As FILETIME2
+        Dim hProcess As Integer
+        Dim r As TimeSpan
+
+        hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, pid)
+
+        If hProcess > 0 Then
+
+            GetProcessTimes(hProcess, T0, T1, curTime, curTime2)
+            Dim p1 As New TimeSpan(curTime.dwLowDateTime + curTime.dwHighDateTime)
+            Dim p2 As New TimeSpan(curTime2.dwLowDateTime + curTime2.dwHighDateTime)
+            ' BUGGY
+            p1.Add(p2)
+            r = p1
+
+            CloseHandle(hProcess)
+
+        End If
+
+        Return r
+
     End Function
 
     Public Function GetWorkingSet64() As Long
-        ' TOCHANGE
-        Dim gProc As Process = Process.GetProcessById(pid)
-        Return gProc.WorkingSet64
+        Return GetMemoryInfos.WorkingSetSize
+    End Function
+
+    Public Function GetMemoryInfos() As PROCESS_MEMORY_COUNTERS
+        Dim hProcess As Integer
+        Dim pmc As PROCESS_MEMORY_COUNTERS
+
+        hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, pid)
+        If hProcess > 0 Then
+            pmc.cb = Marshal.SizeOf(pmc)
+            GetProcessMemoryInfo(hProcess, pmc, pmc.cb)
+            CloseHandle(hProcess)
+        End If
+
+        Return pmc
     End Function
 
     Public Function GetThreads() As System.Diagnostics.ProcessThreadCollection
-        ' TOCHANGE
         Dim gProc As Process = Process.GetProcessById(pid)
         Return gProc.Threads
     End Function
 
     Public Function GetPriorityClass() As String
-        ' TOCHANGE
-        Dim gProc As Process = Process.GetProcessById(pid)
-        Return gProc.PriorityClass.ToString
+        Dim hProcess As Integer
+        Dim iP As Integer = 0
+
+        hProcess = OpenProcess(PROCESS_QUERY_INFORMATION, 0, pid)
+        If hProcess > 0 Then
+            iP = GetPriorityClass(hProcess)
+            CloseHandle(hProcess)
+        End If
+
+        Select Case iP
+            Case IDLE_PRIORITY_CLASS
+                Return "Idle"
+            Case BELOW_NORMAL_PRIORITY_CLASS
+                Return "BelowNormal"
+            Case NORMAL_PRIORITY_CLASS
+                Return "Normal"
+            Case ABOVE_NORMAL_PRIORITY_CLASS
+                Return "AboveNormal"
+            Case HIGH_PRIORITY_CLASS
+                Return "High"
+            Case REALTIME_PRIORITY_CLASS
+                Return "RealTime"
+            Case Else
+                Return "N/A"
+        End Select
+
     End Function
 
-    Public Function GetStartTime() As Date
+    Public Function GetStartTime() As TimeSpan
         ' TOCHANGE
-        Dim gProc As Process = Process.GetProcessById(pid)
-        Return gProc.StartTime
+        'Dim gProc As Process = Process.GetProcessById(pid)
+        'Return gProc.StartTime
+
+        Dim T0 As FILETIME2
+        Dim T1 As FILETIME2
+        Dim curTime2 As FILETIME2
+        Dim curTime As FILETIME2
+        Dim hProcess As Integer
+        Dim r As TimeSpan
+
+        hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, pid)
+
+        If hProcess > 0 Then
+
+            'BUGGY
+            GetProcessTimes(hProcess, T0, T1, curTime, curTime2)
+            Dim p1 As New TimeSpan(T0.dwLowDateTime + T0.dwHighDateTime)
+            r = p1
+            CloseHandle(hProcess)
+
+        End If
+
+        Return r
+
     End Function
 
     Public Function GetMainModule() As System.Diagnostics.ProcessModule

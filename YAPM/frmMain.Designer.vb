@@ -410,7 +410,8 @@ Partial Class frmMain
         '
         'c6
         '
-        Me.c6.Text = "Threads"
+        Me.c6.Text = "Memory peak"
+        Me.c6.Width = 90
         '
         'c7
         '
