@@ -705,6 +705,11 @@ Public Class frmMain
             MsgBox("You are not logged as an administrator. You cannot retrieve informations for system processes.", MsgBoxStyle.Critical, "You are not part of administrator group")
         End If
 
+        With Me.graphMonitor
+            .ColorCPUPercent = Color.Yellow
+
+        End With
+
 
         ' Create tooltips
         SetToolTip(Me.lblResCount, "Number of results. Click on the number to view results.")
@@ -3180,4 +3185,11 @@ Public Class frmMain
 
     End Sub
 
+    Private Sub PictureBox1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+
+    End Sub
+
+    Private Sub PictureBox1_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs)
+
+    End Sub
 End Class

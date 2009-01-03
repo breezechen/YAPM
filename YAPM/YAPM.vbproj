@@ -120,6 +120,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmPreferences.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Graph.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Graph.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -179,6 +183,9 @@
     </Compile>
     <Compile Include="frmPreferences.vb">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Graph.vb">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="ListViewComparer.vb" />
     <Compile Include="mdlInternet.vb" />
