@@ -100,6 +100,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmAbout.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmAddProcessMonitor.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmAddProcessMonitor.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmBox.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmBox.vb</DependentUpon>
@@ -150,7 +154,14 @@
     <Compile Include="cFile.vb" />
     <Compile Include="clsDriverCtrl.vb" />
     <Compile Include="clsOpenedHandles.vb" />
+    <Compile Include="cMonitor.vb" />
     <Compile Include="cProcess.vb" />
+    <Compile Include="frmAddProcessMonitor.Designer.vb">
+      <DependentUpon>frmAddProcessMonitor.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAddProcessMonitor.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmBox.Designer.vb">
       <DependentUpon>frmBox.vb</DependentUpon>
     </Compile>

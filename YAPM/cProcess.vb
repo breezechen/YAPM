@@ -258,6 +258,7 @@ Public Class cProcess
         Return pid
     End Function
 
+    ' Get the process path
     Public Function GetPath() As String
 
         If path = vbNullString Then
@@ -285,6 +286,7 @@ Public Class cProcess
 
     End Function
 
+    ' Get the process username
     Public Function GetUserName() As String
 
         If _UserName = vbNullString Then
@@ -337,6 +339,7 @@ Public Class cProcess
         Return _UserName
     End Function
 
+    ' Get process name
     Public Function GetName() As String
 
         If _name = vbNullString Then
@@ -356,6 +359,7 @@ Public Class cProcess
 
     End Function
 
+    ' Get processor time as a TimeSpan
     Public Function GetProcessorTime() As TimeSpan
 
         Dim T0 As FILETIME2
@@ -363,6 +367,7 @@ Public Class cProcess
         Dim curTime2 As FILETIME2
         Dim curTime As FILETIME2
         Dim r As TimeSpan
+
         If _hProcess > 0 Then
 
             GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
@@ -378,10 +383,33 @@ Public Class cProcess
 
     End Function
 
+    ' Get processor time as a long
+    Public Function GetProcessorTimeLong() As Long
+
+        Dim T0 As FILETIME2
+        Dim T1 As FILETIME2
+        Dim curTime2 As FILETIME2
+        Dim curTime As FILETIME2
+        Dim r As Long = 0
+
+        If _hProcess > 0 Then
+
+            GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
+            r = curTime.dwLowDateTime + curTime.dwHighDateTime
+            r += curTime2.dwLowDateTime + curTime2.dwHighDateTime
+
+        End If
+
+        Return r
+
+    End Function
+
+    ' Get the WorkingSet64
     Public Function GetWorkingSet64() As Long
         Return GetMemoryInfos.WorkingSetSize
     End Function
 
+    ' Get all memory infos
     Public Function GetMemoryInfos() As PROCESS_MEMORY_COUNTERS
         Dim pmc As PROCESS_MEMORY_COUNTERS
 
@@ -393,11 +421,13 @@ Public Class cProcess
         Return pmc
     End Function
 
+    ' Return process threads
     Public Function GetThreads() As System.Diagnostics.ProcessThreadCollection
         Dim gProc As Process = Process.GetProcessById(pid)
         Return gProc.Threads
     End Function
 
+    ' Get priority class a as string
     Public Function GetPriorityClass() As String
         Dim iP As Integer = 0
 
@@ -424,6 +454,19 @@ Public Class cProcess
 
     End Function
 
+    ' Get priotity as an integer
+    Public Function GetPriorityClassInt() As Integer
+        Dim iP As Integer = 0
+
+        If _hProcess > 0 Then
+            iP = GetPriorityClass(_hProcess)
+        End If
+
+        Return iP
+
+    End Function
+
+    ' Get the start time
     Public Function GetStartTime() As TimeSpan
         ' TOCHANGE
         'Dim gProc As Process = Process.GetProcessById(pid)

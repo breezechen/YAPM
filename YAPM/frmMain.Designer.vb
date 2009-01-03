@@ -24,14 +24,15 @@ Partial Class frmMain
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Processes")
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain = New System.Windows.Forms.Panel
         Me.lvProcess = New System.Windows.Forms.ListView
@@ -182,6 +183,15 @@ Partial Class frmMain
         Me.butServiceFileDetails = New System.Windows.Forms.RibbonButton
         Me.RBServiceOnline = New System.Windows.Forms.RibbonPanel
         Me.butServiceGoogle = New System.Windows.Forms.RibbonButton
+        Me.MonitorTab = New System.Windows.Forms.RibbonTab
+        Me.RBMonitor = New System.Windows.Forms.RibbonPanel
+        Me.butMonitoringAdd = New System.Windows.Forms.RibbonButton
+        Me.butMonitoringRemove = New System.Windows.Forms.RibbonButton
+        Me.RBMonitoringControl = New System.Windows.Forms.RibbonPanel
+        Me.butMonitorStart = New System.Windows.Forms.RibbonButton
+        Me.butMonitorStop = New System.Windows.Forms.RibbonButton
+        Me.butSaveMonitorReport = New System.Windows.Forms.RibbonPanel
+        Me.butMonitorSaveReport = New System.Windows.Forms.RibbonButton
         Me.HandlesTab = New System.Windows.Forms.RibbonTab
         Me.RBHandlesActions = New System.Windows.Forms.RibbonPanel
         Me.butHandleRefresh = New System.Windows.Forms.RibbonButton
@@ -314,6 +324,11 @@ Partial Class frmMain
         Me.ToolStripMenuItem19 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStripMenuItem22 = New System.Windows.Forms.ToolStripMenuItem
+        Me.panelMain8 = New System.Windows.Forms.Panel
+        Me.splitMonitor = New System.Windows.Forms.SplitContainer
+        Me.tvMonitor = New System.Windows.Forms.TreeView
+        Me.imgMonitor = New System.Windows.Forms.ImageList(Me.components)
+        Me.splitMonitor2 = New System.Windows.Forms.SplitContainer
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -346,6 +361,11 @@ Partial Class frmMain
         Me.menuSearch.SuspendLayout()
         Me.panelMain7.SuspendLayout()
         Me.menuHandles.SuspendLayout()
+        Me.panelMain8.SuspendLayout()
+        Me.splitMonitor.Panel1.SuspendLayout()
+        Me.splitMonitor.Panel2.SuspendLayout()
+        Me.splitMonitor.SuspendLayout()
+        Me.splitMonitor2.SuspendLayout()
         Me.SuspendLayout()
         '
         'imgMain
@@ -370,11 +390,11 @@ Partial Class frmMain
         Me.lvProcess.ContextMenuStrip = Me.menuProc
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.FullRowSelect = True
-        ListViewGroup1.Header = "Processes"
-        ListViewGroup1.Name = "gpOther"
-        ListViewGroup2.Header = "Search result"
-        ListViewGroup2.Name = "gpSearch"
-        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup7.Header = "Processes"
+        ListViewGroup7.Name = "gpOther"
+        ListViewGroup8.Header = "Search result"
+        ListViewGroup8.Name = "gpSearch"
+        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
         Me.lvProcess.HideSelection = False
         Me.lvProcess.Location = New System.Drawing.Point(0, 0)
         Me.lvProcess.Name = "lvProcess"
@@ -643,11 +663,11 @@ Partial Class frmMain
         Me.lvServices.ContextMenuStrip = Me.menuService
         Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvServices.FullRowSelect = True
-        ListViewGroup3.Header = "Services"
-        ListViewGroup3.Name = "gpOther"
-        ListViewGroup4.Header = "Search result"
-        ListViewGroup4.Name = "gpSearch"
-        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup9.Header = "Services"
+        ListViewGroup9.Name = "gpOther"
+        ListViewGroup10.Header = "Search result"
+        ListViewGroup10.Name = "gpSearch"
+        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup9, ListViewGroup10})
         Me.lvServices.HideSelection = False
         Me.lvServices.Location = New System.Drawing.Point(0, 0)
         Me.lvServices.Name = "lvServices"
@@ -822,11 +842,11 @@ Partial Class frmMain
         Me.lvJobs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader4, Me.ColumnHeader5, Me.ColumnHeader6})
         Me.lvJobs.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvJobs.FullRowSelect = True
-        ListViewGroup5.Header = "Past jobs"
-        ListViewGroup5.Name = "gp1"
-        ListViewGroup6.Header = "Future jobs"
-        ListViewGroup6.Name = "gp2"
-        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
+        ListViewGroup1.Header = "Past jobs"
+        ListViewGroup1.Name = "gp1"
+        ListViewGroup2.Header = "Future jobs"
+        ListViewGroup2.Name = "gp2"
+        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvJobs.HideSelection = False
         Me.lvJobs.Location = New System.Drawing.Point(0, 0)
         Me.lvJobs.Name = "lvJobs"
@@ -1105,6 +1125,7 @@ Partial Class frmMain
         Me.Ribbon.TabIndex = 44
         Me.Ribbon.Tabs.Add(Me.ProcessTab)
         Me.Ribbon.Tabs.Add(Me.ServiceTab)
+        Me.Ribbon.Tabs.Add(Me.MonitorTab)
         Me.Ribbon.Tabs.Add(Me.HandlesTab)
         Me.Ribbon.Tabs.Add(Me.FileTab)
         Me.Ribbon.Tabs.Add(Me.JobsTab)
@@ -1693,6 +1714,107 @@ Partial Class frmMain
         Me.butServiceGoogle.ToolTip = Nothing
         Me.butServiceGoogle.ToolTipImage = Nothing
         Me.butServiceGoogle.ToolTipTitle = Nothing
+        '
+        'MonitorTab
+        '
+        Me.MonitorTab.Panels.Add(Me.RBMonitor)
+        Me.MonitorTab.Panels.Add(Me.RBMonitoringControl)
+        Me.MonitorTab.Panels.Add(Me.butSaveMonitorReport)
+        Me.MonitorTab.Tag = Nothing
+        Me.MonitorTab.Text = "Monitor"
+        '
+        'RBMonitor
+        '
+        Me.RBMonitor.ButtonMoreEnabled = False
+        Me.RBMonitor.ButtonMoreVisible = False
+        Me.RBMonitor.Items.Add(Me.butMonitoringAdd)
+        Me.RBMonitor.Items.Add(Me.butMonitoringRemove)
+        Me.RBMonitor.Tag = Nothing
+        Me.RBMonitor.Text = "Monitor a process"
+        '
+        'butMonitoringAdd
+        '
+        Me.butMonitoringAdd.AltKey = Nothing
+        Me.butMonitoringAdd.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butMonitoringAdd.Image = CType(resources.GetObject("butMonitoringAdd.Image"), System.Drawing.Image)
+        Me.butMonitoringAdd.SmallImage = CType(resources.GetObject("butMonitoringAdd.SmallImage"), System.Drawing.Image)
+        Me.butMonitoringAdd.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butMonitoringAdd.Tag = Nothing
+        Me.butMonitoringAdd.Text = "Add"
+        Me.butMonitoringAdd.ToolTip = Nothing
+        Me.butMonitoringAdd.ToolTipImage = Nothing
+        Me.butMonitoringAdd.ToolTipTitle = Nothing
+        '
+        'butMonitoringRemove
+        '
+        Me.butMonitoringRemove.AltKey = Nothing
+        Me.butMonitoringRemove.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butMonitoringRemove.Image = CType(resources.GetObject("butMonitoringRemove.Image"), System.Drawing.Image)
+        Me.butMonitoringRemove.SmallImage = CType(resources.GetObject("butMonitoringRemove.SmallImage"), System.Drawing.Image)
+        Me.butMonitoringRemove.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butMonitoringRemove.Tag = Nothing
+        Me.butMonitoringRemove.Text = "Remove selection"
+        Me.butMonitoringRemove.ToolTip = Nothing
+        Me.butMonitoringRemove.ToolTipImage = Nothing
+        Me.butMonitoringRemove.ToolTipTitle = Nothing
+        '
+        'RBMonitoringControl
+        '
+        Me.RBMonitoringControl.ButtonMoreEnabled = False
+        Me.RBMonitoringControl.ButtonMoreVisible = False
+        Me.RBMonitoringControl.Items.Add(Me.butMonitorStart)
+        Me.RBMonitoringControl.Items.Add(Me.butMonitorStop)
+        Me.RBMonitoringControl.Tag = Nothing
+        Me.RBMonitoringControl.Text = "Monitor"
+        '
+        'butMonitorStart
+        '
+        Me.butMonitorStart.AltKey = Nothing
+        Me.butMonitorStart.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butMonitorStart.Enabled = False
+        Me.butMonitorStart.Image = CType(resources.GetObject("butMonitorStart.Image"), System.Drawing.Image)
+        Me.butMonitorStart.SmallImage = CType(resources.GetObject("butMonitorStart.SmallImage"), System.Drawing.Image)
+        Me.butMonitorStart.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butMonitorStart.Tag = Nothing
+        Me.butMonitorStart.Text = "Start"
+        Me.butMonitorStart.ToolTip = Nothing
+        Me.butMonitorStart.ToolTipImage = Nothing
+        Me.butMonitorStart.ToolTipTitle = Nothing
+        '
+        'butMonitorStop
+        '
+        Me.butMonitorStop.AltKey = Nothing
+        Me.butMonitorStop.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butMonitorStop.Enabled = False
+        Me.butMonitorStop.Image = CType(resources.GetObject("butMonitorStop.Image"), System.Drawing.Image)
+        Me.butMonitorStop.SmallImage = CType(resources.GetObject("butMonitorStop.SmallImage"), System.Drawing.Image)
+        Me.butMonitorStop.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butMonitorStop.Tag = Nothing
+        Me.butMonitorStop.Text = "Stop"
+        Me.butMonitorStop.ToolTip = Nothing
+        Me.butMonitorStop.ToolTipImage = Nothing
+        Me.butMonitorStop.ToolTipTitle = Nothing
+        '
+        'butSaveMonitorReport
+        '
+        Me.butSaveMonitorReport.ButtonMoreEnabled = False
+        Me.butSaveMonitorReport.ButtonMoreVisible = False
+        Me.butSaveMonitorReport.Items.Add(Me.butMonitorSaveReport)
+        Me.butSaveMonitorReport.Tag = Nothing
+        Me.butSaveMonitorReport.Text = "Report"
+        '
+        'butMonitorSaveReport
+        '
+        Me.butMonitorSaveReport.AltKey = Nothing
+        Me.butMonitorSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butMonitorSaveReport.Image = CType(resources.GetObject("butMonitorSaveReport.Image"), System.Drawing.Image)
+        Me.butMonitorSaveReport.SmallImage = CType(resources.GetObject("butMonitorSaveReport.SmallImage"), System.Drawing.Image)
+        Me.butMonitorSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butMonitorSaveReport.Tag = Nothing
+        Me.butMonitorSaveReport.Text = "Save report"
+        Me.butMonitorSaveReport.ToolTip = Nothing
+        Me.butMonitorSaveReport.ToolTipImage = Nothing
+        Me.butMonitorSaveReport.ToolTipTitle = Nothing
         '
         'HandlesTab
         '
@@ -3023,11 +3145,11 @@ Partial Class frmMain
         Me.lvHandles.ContextMenuStrip = Me.menuHandles
         Me.lvHandles.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvHandles.FullRowSelect = True
-        ListViewGroup7.Header = "Processes"
-        ListViewGroup7.Name = "gpOther"
-        ListViewGroup8.Header = "Search result"
-        ListViewGroup8.Name = "gpSearch"
-        Me.lvHandles.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
+        ListViewGroup3.Header = "Processes"
+        ListViewGroup3.Name = "gpOther"
+        ListViewGroup4.Header = "Search result"
+        ListViewGroup4.Name = "gpSearch"
+        Me.lvHandles.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvHandles.HideSelection = False
         Me.lvHandles.Location = New System.Drawing.Point(0, 0)
         Me.lvHandles.Name = "lvHandles"
@@ -3095,12 +3217,77 @@ Partial Class frmMain
         Me.ToolStripMenuItem22.Size = New System.Drawing.Size(206, 22)
         Me.ToolStripMenuItem22.Text = "Close item"
         '
+        'panelMain8
+        '
+        Me.panelMain8.Controls.Add(Me.splitMonitor)
+        Me.panelMain8.Location = New System.Drawing.Point(123, 171)
+        Me.panelMain8.Name = "panelMain8"
+        Me.panelMain8.Size = New System.Drawing.Size(565, 276)
+        Me.panelMain8.TabIndex = 50
+        Me.panelMain8.Visible = False
+        '
+        'splitMonitor
+        '
+        Me.splitMonitor.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.splitMonitor.Location = New System.Drawing.Point(0, 0)
+        Me.splitMonitor.Name = "splitMonitor"
+        '
+        'splitMonitor.Panel1
+        '
+        Me.splitMonitor.Panel1.Controls.Add(Me.tvMonitor)
+        '
+        'splitMonitor.Panel2
+        '
+        Me.splitMonitor.Panel2.Controls.Add(Me.splitMonitor2)
+        Me.splitMonitor.Size = New System.Drawing.Size(565, 276)
+        Me.splitMonitor.SplitterDistance = 188
+        Me.splitMonitor.TabIndex = 0
+        '
+        'tvMonitor
+        '
+        Me.tvMonitor.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tvMonitor.FullRowSelect = True
+        Me.tvMonitor.ImageIndex = 0
+        Me.tvMonitor.ImageList = Me.imgMonitor
+        Me.tvMonitor.Location = New System.Drawing.Point(0, 0)
+        Me.tvMonitor.Name = "tvMonitor"
+        TreeNode1.ImageIndex = 1
+        TreeNode1.Name = "processes"
+        TreeNode1.Text = "Processes"
+        Me.tvMonitor.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1})
+        Me.tvMonitor.SelectedImageIndex = 0
+        Me.tvMonitor.Size = New System.Drawing.Size(188, 276)
+        Me.tvMonitor.TabIndex = 0
+        '
+        'imgMonitor
+        '
+        Me.imgMonitor.ImageStream = CType(resources.GetObject("imgMonitor.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imgMonitor.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgMonitor.Images.SetKeyName(0, "noIcon")
+        Me.imgMonitor.Images.SetKeyName(1, "down")
+        Me.imgMonitor.Images.SetKeyName(2, "sub")
+        '
+        'splitMonitor2
+        '
+        Me.splitMonitor2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.splitMonitor2.Location = New System.Drawing.Point(0, 0)
+        Me.splitMonitor2.Name = "splitMonitor2"
+        Me.splitMonitor2.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'splitMonitor2.Panel1
+        '
+        Me.splitMonitor2.Panel1.BackColor = System.Drawing.SystemColors.ButtonFace
+        Me.splitMonitor2.Size = New System.Drawing.Size(373, 276)
+        Me.splitMonitor2.SplitterDistance = 124
+        Me.splitMonitor2.TabIndex = 0
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.ClientSize = New System.Drawing.Size(795, 603)
+        Me.Controls.Add(Me.panelMain8)
         Me.Controls.Add(Me.panelMain5)
         Me.Controls.Add(Me.panelMain7)
         Me.Controls.Add(Me.panelMain6)
@@ -3161,6 +3348,11 @@ Partial Class frmMain
         Me.menuSearch.ResumeLayout(False)
         Me.panelMain7.ResumeLayout(False)
         Me.menuHandles.ResumeLayout(False)
+        Me.panelMain8.ResumeLayout(False)
+        Me.splitMonitor.Panel1.ResumeLayout(False)
+        Me.splitMonitor.Panel2.ResumeLayout(False)
+        Me.splitMonitor.ResumeLayout(False)
+        Me.splitMonitor2.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -3447,5 +3639,19 @@ Partial Class frmMain
     Friend WithEvents ToolStripMenuItem19 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripMenuItem22 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MonitorTab As System.Windows.Forms.RibbonTab
+    Friend WithEvents panelMain8 As System.Windows.Forms.Panel
+    Friend WithEvents RBMonitor As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butMonitoringAdd As System.Windows.Forms.RibbonButton
+    Friend WithEvents butMonitoringRemove As System.Windows.Forms.RibbonButton
+    Friend WithEvents RBMonitoringControl As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butMonitorStart As System.Windows.Forms.RibbonButton
+    Friend WithEvents butMonitorStop As System.Windows.Forms.RibbonButton
+    Friend WithEvents butSaveMonitorReport As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butMonitorSaveReport As System.Windows.Forms.RibbonButton
+    Friend WithEvents splitMonitor As System.Windows.Forms.SplitContainer
+    Friend WithEvents splitMonitor2 As System.Windows.Forms.SplitContainer
+    Friend WithEvents tvMonitor As System.Windows.Forms.TreeView
+    Friend WithEvents imgMonitor As System.Windows.Forms.ImageList
 
 End Class

@@ -2,36 +2,48 @@ Option Strict On
 
 Public Class frmMain
 
+    ' ========================================
+    ' Private attributes
+    ' ========================================
     Private m_SortingColumn As ColumnHeader
     Private bProcessHover As Boolean = True
     Private bServiceHover As Boolean = False
     Private bEnableJobs As Boolean = True
-    Public bAlwaysDisplay As Boolean = False
-    Public Pref As New Pref
     Private _stopOnlineRetrieving As Boolean = False
     Private handlesToRefresh() As Integer
-    Public handles_Renamed As New clsOpenedHandles
     Private isAdmin As Boolean = False
     Private cSelFile As cFile
 
-    ' Not a good way to configure paths...
-    'Public Const HELP_PATH As String = "C:\Users\Admin\Desktop\YAPM\YAPM\Help\help.htm"
-    'Public Const PREF_PATH As String = "C:\Users\Admin\Desktop\YAPM\YAPM\Config\config.xml"
 
+    ' ========================================
+    ' Public attributes
+    ' ========================================
+    Public handles_Renamed As New clsOpenedHandles
+    Public bAlwaysDisplay As Boolean = False
+    Public Pref As New Pref
+
+
+    ' ========================================
+    ' Some API declaration
+    ' ========================================
     Private Declare Sub InvalidateRect Lib "user32" (ByVal hWnd As Integer, ByVal t As Integer, ByVal bErase As Integer)
     Private Declare Sub ValidateRect Lib "user32" (ByVal hWnd As Integer, ByVal t As Integer)
-
-    ' Better way...
-    Public HELP_PATH As String = My.Application.Info.DirectoryPath & "\Help\help.htm"
-    Public PREF_PATH As String = My.Application.Info.DirectoryPath & "\Config\config.xml"
-
-    Public Const DEFAULT_TIMER_INTERVAL_PROCESSES As Integer = 2500
-    Public Const DEFAULT_TIMER_INTERVAL_SERVICES As Integer = 15000
-
-    Public Const MSGFIRSTTIME As String = "This is the first time you run YAPM. Please remember that it is a beta1 version so there are some bugs and some missing functionnalities :-)" & vbNewLine & vbNewLine & "You should run YAPM as an administrator in order to fully control your processes. If you are an administrator, you can enable all functionnalities of YAPM by clicking on the 'Take full power' button in the 'Misc' pannel." & vbNewLine & "This enable you to fully control all your processes, including system processes. Please take care using this function because you will be able to do some irreversible things if you kill or modify some system processes... Use it at your own risks !" & vbNewLine & vbNewLine & "Please let me know any of your ideas of improvement or new functionnalities in YAPM's sourceforge.net project page ('Help' pannel) :-)" & vbNewLine & vbNewLine & "This message won't be shown anymore :-)"
-
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
 
+
+    ' ========================================
+    ' Constants
+    ' ========================================
+    Public HELP_PATH As String = My.Application.Info.DirectoryPath & "\Help\help.htm"
+    Public PREF_PATH As String = My.Application.Info.DirectoryPath & "\Config\config.xml"
+    Public Const DEFAULT_TIMER_INTERVAL_PROCESSES As Integer = 2500
+    Public Const DEFAULT_TIMER_INTERVAL_SERVICES As Integer = 15000
+    Public Const MSGFIRSTTIME As String = "This is the first time you run YAPM. Please remember that it is a beta1 version so there are some bugs and some missing functionnalities :-)" & vbNewLine & vbNewLine & "You should run YAPM as an administrator in order to fully control your processes. If you are an administrator, you can enable all functionnalities of YAPM by clicking on the 'Take full power' button in the 'Misc' pannel." & vbNewLine & "This enable you to fully control all your processes, including system processes. Please take care using this function because you will be able to do some irreversible things if you kill or modify some system processes... Use it at your own risks !" & vbNewLine & vbNewLine & "Please let me know any of your ideas of improvement or new functionnalities in YAPM's sourceforge.net project page ('Help' pannel) :-)" & vbNewLine & vbNewLine & "This message won't be shown anymore :-)"
+
+
+    ' ========================================
+    ' Form functions
+    ' ========================================
 
     ' Refresh File informations
     Private Sub refreshFileInfos(ByVal file As String)
@@ -457,7 +469,7 @@ Public Class frmMain
         Next
 
         test = GetTickCount - test
-        Me.Text = CStr(test)
+        ' Me.Text = CStr(test)
 
     End Sub
 
@@ -779,6 +791,8 @@ Public Class frmMain
         Me.panelMain6.Top = 120
         Me.panelMain7.Left = 5
         Me.panelMain7.Top = 120
+        Me.panelMain8.Left = 5
+        Me.panelMain8.Top = 120
 
         Me.panelMenu.Top = 117
         Me.panelMenu.Left = 5
@@ -800,6 +814,10 @@ Public Class frmMain
         ' Handles resizement
         Me.panelMain7.Height = Me.panelMain3.Height
         Me.panelMain7.Width = Me.panelMain3.Width
+
+        ' Monitor resizement
+        Me.panelMain8.Height = Me.panelMain3.Height
+        Me.panelMain8.Width = Me.panelMain3.Width
 
         ' Process
         Dim i As Integer = CInt((Me.Height - 250) / 2)
@@ -1837,6 +1855,7 @@ Public Class frmMain
                     Me.panelMenu2.Visible = True
                     Me.panelMain6.Visible = False
                     Me.panelMain7.Visible = False
+                    Me.panelMain8.Visible = False
                 Case "Processes"
                     Me.bProcessHover = True
                     Me.bServiceHover = False
@@ -1852,6 +1871,7 @@ Public Class frmMain
                     Me.panelMain5.Visible = False
                     Me.panelMain6.Visible = False
                     Me.panelMain7.Visible = False
+                    Me.panelMain8.Visible = False
                 Case "Jobs"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1865,6 +1885,7 @@ Public Class frmMain
                     Me.panelMain5.Visible = False
                     Me.panelMain6.Visible = False
                     Me.panelMain7.Visible = False
+                    Me.panelMain8.Visible = False
                 Case "Help"
 
                     If Not (bhelpshown) Then
@@ -1890,6 +1911,7 @@ Public Class frmMain
                     Me.panelMain5.Visible = False
                     Me.panelMain6.Visible = False
                     Me.panelMain7.Visible = False
+                    Me.panelMain8.Visible = False
                 Case "File"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1903,6 +1925,7 @@ Public Class frmMain
                     Me.panelMain5.Visible = True
                     Me.panelMain6.Visible = False
                     Me.panelMain7.Visible = False
+                    Me.panelMain8.Visible = False
                 Case "Search"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1916,6 +1939,7 @@ Public Class frmMain
                     Me.panelMain5.Visible = False
                     Me.panelMain6.Visible = True
                     Me.panelMain7.Visible = False
+                    Me.panelMain8.Visible = False
                 Case "Handles"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1929,6 +1953,21 @@ Public Class frmMain
                     Me.panelMain5.Visible = False
                     Me.panelMain6.Visible = False
                     Me.panelMain7.Visible = True
+                    Me.panelMain8.Visible = False
+                Case "Monitor"
+                    Me.bProcessHover = False
+                    Me.bServiceHover = False
+                    Me.panelMain.Visible = False
+                    Me.panelMain2.Visible = False
+                    Me.panelMain3.Visible = False
+                    Me.panelMain4.Visible = False
+                    Me.panelMain8.BringToFront()
+                    Me.panelMenu.Visible = False
+                    Me.panelMenu2.Visible = False
+                    Me.panelMain5.Visible = False
+                    Me.panelMain6.Visible = False
+                    Me.panelMain7.Visible = False
+                    Me.panelMain8.Visible = True
             End Select
         End If
     End Sub
@@ -2969,5 +3008,127 @@ Public Class frmMain
             InvalidateRect(lst.Handle.ToInt32, 0, 0)
         End If
 
+    End Sub
+
+    Private Sub butMonitoringAdd_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMonitoringAdd.Click
+        Dim frm As New frmAddProcessMonitor
+        frm.ShowDialog()
+    End Sub
+
+    ' Add a monitoring item
+    Public Sub AddMonitoringItem(ByVal it As cMonitor)
+
+        Dim n1 As New TreeNode
+        n1.Text = it.GetName
+
+        Me.tvMonitor.Nodes.Item(0).Nodes.Add(n1)
+        n1.Tag = it
+
+        With it
+            If .getCheckCPU Then
+                Dim ncpu As New TreeNode
+                ncpu.Text = "CPU percentage"
+                ncpu.ImageKey = "sub"
+                n1.Nodes.Add(ncpu)
+            End If
+            If .getCheckCPUTime Then
+                Dim ncpu As New TreeNode
+                ncpu.Text = "CPU time"
+                ncpu.ImageKey = "sub"
+                n1.Nodes.Add(ncpu)
+            End If
+            If .GetCheckMemory Then
+                Dim ncpu As New TreeNode
+                ncpu.Text = "Memory"
+                ncpu.ImageKey = "sub"
+                n1.Nodes.Add(ncpu)
+            End If
+            If .GetCheckPriority Then
+                Dim ncpu As New TreeNode
+                ncpu.Text = "Priority"
+                ncpu.ImageKey = "sub"
+                n1.Nodes.Add(ncpu)
+            End If
+            If .GetCheckThreads Then
+                Dim ncpu As New TreeNode
+                ncpu.Text = "Thread count"
+                ncpu.ImageKey = "sub"
+                n1.Nodes.Add(ncpu)
+            End If
+        End With
+
+    End Sub
+
+    Private Sub tvMonitor_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvMonitor.AfterSelect
+
+        'tvMonitor.SelectedImageKey = tvMonitor.SelectedNode.ImageKey
+
+        If tvMonitor.SelectedNode.Parent IsNot Nothing Then
+            If tvMonitor.SelectedNode.Parent.Name = tvMonitor.Nodes.Item(0).Name Then
+                ' Then we have selected a process
+                Dim it As cMonitor = CType(tvMonitor.SelectedNode.Tag, cMonitor)
+                Dim b As Boolean = it.GetEnabled
+                Me.butMonitorStart.Enabled = Not (b)
+                Me.butMonitorStop.Enabled = b
+            Else
+                Me.butMonitorStart.Enabled = False
+                Me.butMonitorStop.Enabled = False
+            End If
+        Else
+            ' The we can start/stop all items
+            Me.butMonitorStart.Enabled = True
+            Me.butMonitorStop.Enabled = True
+        End If
+
+    End Sub
+
+    Private Sub butMonitorStart_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMonitorStart.Click
+        If tvMonitor.SelectedNode.Parent IsNot Nothing Then
+            Dim it As cMonitor = CType(tvMonitor.SelectedNode.Tag, cMonitor)
+            it.StartMonitoring()
+            Call tvMonitor_AfterSelect(Nothing, Nothing)
+        Else
+            ' All items
+            Dim n As TreeNode
+            For Each n In tvMonitor.SelectedNode.Nodes
+                Dim it As cMonitor = CType(n.Tag, cMonitor)
+                it.StartMonitoring()
+            Next
+        End If
+    End Sub
+
+    Private Sub butMonitorStop_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMonitorStop.Click
+        If tvMonitor.SelectedNode.Parent IsNot Nothing Then
+            Dim it As cMonitor = CType(tvMonitor.SelectedNode.Tag, cMonitor)
+            it.StopMonitoring()
+            Call tvMonitor_AfterSelect(Nothing, Nothing)
+        Else
+            ' All items
+            Dim n As TreeNode
+            For Each n In tvMonitor.SelectedNode.Nodes
+                Dim it As cMonitor = CType(n.Tag, cMonitor)
+                it.StopMonitoring()
+            Next
+        End If
+    End Sub
+
+    Private Sub butMonitoringRemove_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMonitoringRemove.Click
+        If tvMonitor.SelectedNode.Parent Is Nothing Then
+            ' Delete all items
+            Dim n As TreeNode
+            For Each n In tvMonitor.SelectedNode.Nodes
+                n.Remove()
+            Next
+        Else
+            If tvMonitor.SelectedNode.Parent.Name = tvMonitor.Nodes.Item(0).Name Then
+                ' Process, so we kill monitor
+                tvMonitor.SelectedNode.Remove()
+            Else
+                ' Sub item of monitor, so we disable it from monitor
+                Dim it As cMonitor = CType(tvMonitor.SelectedNode.Parent.Tag, cMonitor)
+                it.UnMonitorItem(tvMonitor.SelectedNode.Text)
+                tvMonitor.SelectedNode.Remove()
+            End If
+        End If
     End Sub
 End Class
