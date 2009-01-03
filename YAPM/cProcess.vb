@@ -204,15 +204,13 @@ Public Class cProcess
     Private Declare Function FormatMessage Lib "kernel32" Alias "FormatMessageA" (ByVal dwFlags As Integer, _
     ByVal lpSource As Integer, ByVal dwMessageId As Integer, ByVal dwLanguageId As Integer, _
     ByVal lpBuffer As String, ByVal nSize As Integer, ByVal Arguments As Integer) As Integer
-    Public Function GetError(ByVal hError As Integer) As String
-
+    Public Function GetError() As String
         Dim Buffer As String
-
         Buffer = Space$(1024)
-        FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, hError, LANG_NEUTRAL, Buffer, Len(Buffer), 0)
+        FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, GetLastError, LANG_NEUTRAL, Buffer, Len(Buffer), 0)
         Return Trim$(Buffer)
-
     End Function
+
     ' ========================================
     ' Private attributes
     ' ========================================
@@ -319,8 +317,8 @@ Public Class cProcess
                     End If
                 Else
                     hProc = OpenProcess(PROCESS_READ_CONTROL, 0, pid)
-                    If _hProcess > 0 Then
-                        If GetSecurityInfo(_hProcess, SE_KERNEL_OBJECT, GROUP_SECURITY_INFORMATION, 0, ppsidGroup, 0, 0, 0) = 0 Then
+                    If hProc > 0 Then
+                        If GetSecurityInfo(hProc, SE_KERNEL_OBJECT, GROUP_SECURITY_INFORMATION, 0, ppsidGroup, 0, 0, 0) = 0 Then
                             CloseHandle(hProc)
                             UserNameLenght = 255
                             UserName = Space$(UserNameLenght)

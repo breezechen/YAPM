@@ -525,25 +525,35 @@ Public Class frmMain
 
                     Dim mainModule As System.Diagnostics.ProcessModule = cP.GetMainModule
 
+                    Dim pmc As cProcess.PROCESS_MEMORY_COUNTERS = cP.GetMemoryInfos
+
                     ' Description
                     Dim s As String = ""
                     s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
                     s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b File properties\b0\par"
-                    s = s & "\tab File name :\tab\tab " & it.Text & "\par"
-                    s = s & "\tab Path :\tab\tab\tab " & Replace(it.SubItems(7).Text, "\", "\\") & "\par"
-                    s = s & "\tab Description :\tab\tab " & mainModule.FileVersionInfo.FileDescription & "\par"
-                    s = s & "\tab Company name :\tab\tab " & mainModule.FileVersionInfo.CompanyName & "\par"
-                    s = s & "\tab Version :\tab\tab " & mainModule.FileVersionInfo.FileVersion & "\par"
-                    s = s & "\tab Copyright :\tab\tab " & mainModule.FileVersionInfo.LegalCopyright & "\par"
+                    s = s & "\tab File name :\tab\tab\tab " & it.Text & "\par"
+                    s = s & "\tab Path :\tab\tab\tab\tab " & Replace(it.SubItems(7).Text, "\", "\\") & "\par"
+                    s = s & "\tab Description :\tab\tab\tab " & mainModule.FileVersionInfo.FileDescription & "\par"
+                    s = s & "\tab Company name :\tab\tab\tab " & mainModule.FileVersionInfo.CompanyName & "\par"
+                    s = s & "\tab Version :\tab\tab\tab " & mainModule.FileVersionInfo.FileVersion & "\par"
+                    s = s & "\tab Copyright :\tab\tab\tab " & mainModule.FileVersionInfo.LegalCopyright & "\par"
                     s = s & "\par"
                     s = s & "  \b Process description\b0\par"
-                    s = s & "\tab PID :\tab\tab\tab " & it.SubItems(1).Text & "\par"
-                    s = s & "\tab Start time :\tab\tab " & it.SubItems(8).Text & "\par"
-                    s = s & "\tab Priority :\tab\tab\tab " & it.SubItems(6).Text & "\par"
-                    s = s & "\tab User :\tab\tab\tab " & it.SubItems(2).Text & "\par"
-                    s = s & "\tab Processor time :\tab\tab " & it.SubItems(3).Text & "\par"
-                    s = s & "\tab Memory :\tab\tab " & it.SubItems(4).Text & "\par"
-                    s = s & "\tab Memory peak :\tab " & it.SubItems(5).Text & "\par"
+                    s = s & "\tab PID :\tab\tab\tab\tab " & it.SubItems(1).Text & "\par"
+                    s = s & "\tab Start time :\tab\tab\tab " & it.SubItems(8).Text & "\par"
+                    s = s & "\tab Priority :\tab\tab\tab\tab " & it.SubItems(6).Text & "\par"
+                    s = s & "\tab User :\tab\tab\tab\tab " & it.SubItems(2).Text & "\par"
+                    s = s & "\tab Processor time :\tab\tab\tab " & it.SubItems(3).Text & "\par"
+                    s = s & "\tab Memory :\tab\tab\tab " & CStr(pmc.WorkingSetSize / 1024) & " Kb" & "\par"
+                    s = s & "\tab Memory peak :\tab\tab\tab " & CStr(pmc.PeakWorkingSetSize / 1024) & " Kb" & "\par"
+                    s = s & "\tab Page faults :\tab\tab\tab " & CStr(pmc.PageFaultCount) & "\par"
+                    s = s & "\tab Page file usage :\tab\tab\tab " & CStr(pmc.PagefileUsage / 1024) & " Kb" & "\par"
+                    s = s & "\tab Peak page file usage :\tab\tab " & CStr(pmc.PeakPagefileUsage / 1024) & " Kb" & "\par"
+                    s = s & "\tab QuotaPagedPoolUsage :\tab\tab " & CStr(Math.Round(pmc.QuotaPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
+                    s = s & "\tab QuotaPeakPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
+                    s = s & "\tab QuotaNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaNonPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
+                    s = s & "\tab QuotaPeakNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakNonPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
+
 
                     If chkOnline.Checked Then
                         ' Retrieve online description
@@ -552,8 +562,8 @@ Public Class frmMain
 
                         Dim ipi As InternetProcessInfo = mdlInternet.GetInternetInfos(it.Text)
 
-                        s = s & "\tab Security risk (0-5) :\tab " & CStr(ipi._Risk) & "\par"
-                        s = s & "\tab Description :\tab\tab\ " & Replace$(ipi._Description, vbNewLine, "\par") & "\par"
+                        s = s & "\tab Security risk (0-5) :\tab\tab " & CStr(ipi._Risk) & "\par"
+                        s = s & "\tab Description :\tab\tab\tab " & Replace$(ipi._Description, vbNewLine, "\par") & "\par"
                     End If
 
 
@@ -562,7 +572,9 @@ Public Class frmMain
                         s = s & "\par"
                         s = s & "  \b Loaded modules\b0\par"
                         Dim m As ProcessModule
-                        For Each m In cP.GetModules
+                        Dim mdl As ProcessModuleCollection = cP.GetModules
+                        s = s & "\tab " & CStr(mdl.Count) & " modules loaded" & "\par"
+                        For Each m In mdl
                             s = s & "\tab " & Replace(m.FileVersionInfo.FileName, "\", "\\") & "\par"
                         Next
 
@@ -570,7 +582,9 @@ Public Class frmMain
                         s = s & "\par"
                         s = s & "  \b Threads\b0\par"
                         Dim pt As ProcessThread
-                        For Each pt In cP.GetThreads
+                        Dim thr As System.Diagnostics.ProcessThreadCollection = cP.GetThreads
+                        s = s & "\tab " & CStr(thr.Count) & " threads \par"
+                        For Each pt In thr
                             s = s & "\tab " & CStr(pt.Id) & "\par"
                             s = s & "\tab\tab " & "Priority level : " & CStr(pt.PriorityLevel.ToString) & "\par"
                             Dim tsp As TimeSpan = pt.TotalProcessorTime
