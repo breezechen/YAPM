@@ -11,6 +11,7 @@ Public Class cMonitor
         Dim mem As cProcess.PROCESS_MEMORY_COUNTERS
         Dim priority As Integer
         Dim threadsCount As Integer
+        Dim time As Integer
     End Structure
 
 
@@ -138,6 +139,8 @@ Public Class cMonitor
 
     ' Here we retrive desired informations
     Public Sub RetrieveInformationsNow(ByVal Key As String)
+        Static locTime As Integer = 0
+        locTime += 1
         Dim it As New MonitorStructure
         With it
             If _bCheckCPUtime Then .cpuTime = proc.GetProcessorTimeLong
@@ -145,6 +148,8 @@ Public Class cMonitor
             If _bCheckMemory Then .mem = proc.GetMemoryInfos
             If _bCheckPriority Then .priority = proc.GetPriorityClassInt
             If _bCheckThreads Then .threadsCount = proc.GetThreads.Count
+            Dim tmp As Long = Date.Now.Ticks - Me.GetMonitorCreationDate.Ticks
+            .time = CInt(tmp)
         End With
 
         Try

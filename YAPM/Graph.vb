@@ -22,10 +22,11 @@ Public Class Graph
     Private _colorCPUPercent As System.Drawing.Pen = Pens.Yellow
     Private _colorCPUTime As System.Drawing.Pen = Pens.Yellow
     Private _colorMemory1 As System.Drawing.Pen = Pens.Yellow
-    Private _colorMemory2 As System.Drawing.Pen = Pens.Red
-    Private _colorMemory3 As System.Drawing.Pen = Pens.Blue
+    Private _colorMemory3 As System.Drawing.Pen = Pens.Orange
+    Private _colorMemory2 As System.Drawing.Pen = Pens.Blue
     Private _colorPriority As System.Drawing.Pen = Pens.Yellow
     Private _colorThreads As System.Drawing.Pen = Pens.Yellow
+    Private _colorLegend As System.Drawing.Pen = Pens.Red
     Private _xMin As Integer
     Private _xMax As Integer
 
@@ -74,6 +75,16 @@ Public Class Graph
         End Get
         Set(ByVal value As Color)
             _colorCPUTime = New Pen(value)
+        End Set
+    End Property
+    <System.ComponentModel.Category("Configuration"), System.ComponentModel.Description("value"), _
+    System.ComponentModel.Browsable(True), System.ComponentModel.DefaultValue(GetType(Color), "Red")> _
+    Public Property ColorLegend() As Color
+        Get
+            Return _colorLegend.Color
+        End Get
+        Set(ByVal value As Color)
+            _colorLegend = New Pen(value)
         End Set
     End Property
     <System.ComponentModel.Category("Configuration"), System.ComponentModel.Description("value"), _
@@ -151,8 +162,8 @@ Public Class Graph
     Protected Overrides Sub OnPaint(ByVal e As System.Windows.Forms.PaintEventArgs)
         MyBase.OnPaint(e)
         DrawGrid(e.Graphics)
-        DrawLegend(e.Graphics)
         DrawValues(e.Graphics)
+        DrawLegend(e.Graphics)
     End Sub
 
 
@@ -193,9 +204,13 @@ Public Class Graph
 
         ' Get the max (height)
         Dim yMax As Long = 0
-        For x = _xMin To _xMax
+        For x = 0 To (_values.Length - 1)
             If _values(x).y > yMax Then yMax = _values(x).y
         Next
+
+        If yMax = 0 Then Exit Sub
+        yMax += 1
+
         Dim yCoef As Double = Me.Height / yMax
         Dim xCoef As Double = Me.Width / (_xMax - _xMin)
 
@@ -231,6 +246,7 @@ Public Class Graph
             yy2 = CInt(Me.Height - y2 * yCoef)
 
             g.DrawLine(Pens.Yellow, xx1, yy1, xx2, yy2)
+            'g.DrawRectangle(Pens.Red, xx1 - 1, Me.Height - 10, 3, 10)
 
         Next
 

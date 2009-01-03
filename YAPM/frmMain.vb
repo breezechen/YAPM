@@ -3069,6 +3069,8 @@ Public Class frmMain
 
         'tvMonitor.SelectedImageKey = tvMonitor.SelectedNode.ImageKey
 
+        If tvMonitor.SelectedNode Is Nothing Then Exit Sub
+
         If tvMonitor.SelectedNode.Parent IsNot Nothing Then
             If tvMonitor.SelectedNode.Parent.Name = tvMonitor.Nodes.Item(0).Name Then
                 ' Then we have selected a process
@@ -3079,6 +3081,11 @@ Public Class frmMain
             Else
                 Me.butMonitorStart.Enabled = False
                 Me.butMonitorStop.Enabled = False
+
+                ' We have selected a sub item -> display values in graph
+                Dim it As cMonitor = CType(tvMonitor.SelectedNode.Parent.Tag, cMonitor)
+                Dim sKey As String = tvMonitor.SelectedNode.Text
+                Call ShowMonitorStats(it, sKey)
             End If
         Else
             ' The we can start/stop all items
@@ -3184,35 +3191,133 @@ Public Class frmMain
         End If
 
     End Sub
-    Dim v() As Graph.ValueItem
-    Private Sub graphMonitor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles graphMonitor.Click
 
-        If v Is Nothing Then ReDim v(0)
-        ReDim Preserve v(v.Length)
+    ' Display stats in graph
+    Private Sub ShowMonitorStats(ByVal it As cMonitor, ByVal key As String)
+        Me.timerMonitoring.Interval = it.GetInterval
 
-        v(v.Length - 1).x = v.Length
-        v(v.Length - 1).y = CInt(Rnd() * 200)
+        ' Get values from monitor item
+        Dim v() As Graph.ValueItem
+        Dim cCol As Collection = it.GetMonitorItems()
 
-        Me.graphMonitor.ViewMax = v.Length - 1
-        Me.graphMonitor.ViewMin = 0
-        Me.graphMonitor.SetValues(v)
-        Me.graphMonitor.Refresh()
-    End Sub
+        ' Limit DT pickers
+        Me.dtMonitorL.MinDate = it.GetMonitorCreationDate
+        Me.dtMonitorL.MaxDate = Date.Now
+        Me.dtMonitorR.MinDate = Me.dtMonitorL.MinDate
+        Me.dtMonitorR.MaxDate = Me.dtMonitorL.MaxDate
 
-    Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer1.Tick
-        If v Is Nothing Then ReDim v(0)
-        ReDim Preserve v(v.Length)
+        If cCol.Count > 0 Then
 
-        v(v.Length - 1).x = v.Length
-        v(v.Length - 1).y = CInt(Rnd() * 200)
+            ReDim v(cCol.Count - 1)
+            Dim c As cMonitor.MonitorStructure
+            Dim i As Integer = 0
 
-        Me.graphMonitor.ViewMax = v.Length - 1
-        If v.Length > 50 Then
-            Me.graphMonitor.ViewMin = v.Length - 50
-        Else
-            Me.graphMonitor.ViewMin = 0
+            For Each c In cCol
+                Select Case key
+                    Case "CPU percentage"
+                        v(i).y = CLng(c.cpuCounter * 10000)
+                    Case "CPU time"
+                        v(i).y = c.cpuTime
+                    Case "Memory"
+                        v(i).y = CInt(c.mem.WorkingSetSize / 1024 / 1024)
+                    Case "Priority"
+                        v(i).y = c.priority
+                    Case "Thread count"
+                        v(i).y = c.threadsCount
+                End Select
+
+                v(i).x = c.time
+                i += 1
+            Next
+
+            With Me.graphMonitor
+
+                ' Set max and min (depends and dates chosen)
+                If Me.chkMonitorLeftAuto.Checked And Me.chkMonitorRightAuto.Checked Then
+                    ' Then no one fixed
+                    .ViewMin = CInt(Math.Max(0, i - CInt(Val(Me.txtMonitorNumber.Text))))
+                    .ViewMax = i - 1
+                ElseIf Me.chkMonitorRightAuto.Checked Then
+                    ' Then left fixed
+                    .ViewMin = findViewIntegerFromDate(Me.dtMonitorL.Value, v, it)
+                    .ViewMax = findViewMaxFromMin(.ViewMin, v)
+                ElseIf Me.chkMonitorLeftAuto.Checked Then
+                    ' Then right fixed
+                    .ViewMax = findViewIntegerFromDate(Me.dtMonitorR.Value, v, it)
+                    .ViewMin = findViewLast(v, .ViewMax)
+                Else
+                    ' Then both fixed
+                    .ViewMax = findViewIntegerFromDate(Me.dtMonitorR.Value, v, it)
+                    .ViewMin = findViewIntegerFromDate(Me.dtMonitorL.Value, v, it)
+                End If
+
+                .SetValues(v)
+                Call .Refresh()
+            End With
         End If
-        Me.graphMonitor.SetValues(v)
-        Me.graphMonitor.Refresh()
     End Sub
+
+    Private Sub timerMonitoring_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerMonitoring.Tick
+        Call tvMonitor_AfterSelect(Nothing, Nothing)
+    End Sub
+
+    Private Sub chkMonitorLeftAuto_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkMonitorLeftAuto.CheckedChanged
+        Me.dtMonitorL.Enabled = Not (Me.chkMonitorLeftAuto.Checked)
+    End Sub
+
+    Private Sub chkMonitorRightAuto_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkMonitorRightAuto.CheckedChanged
+        Me.dtMonitorR.Enabled = Not (Me.chkMonitorRightAuto.Checked)
+    End Sub
+
+    ' Return an integer that corresponds to a time in a monitor from a date
+    Private Function findViewIntegerFromDate(ByVal d As Date, ByVal v() As Graph.ValueItem, _
+        ByVal monitor As cMonitor) As Integer
+
+        Dim it As Graph.ValueItem
+        Dim l As Long = d.Ticks
+        Dim start As Long = monitor.GetMonitorCreationDate.Ticks
+        Dim o As Integer = 0
+        For Each it In v
+            If (start + it.x) >= l Then
+                Return o
+            End If
+            o += 1
+        Next
+
+        Return CInt(v.Length - 1)
+    End Function
+
+    ' Return an integer that corresponds to min + txtMAX.value iterations
+    Private Function findViewMaxFromMin(ByVal min As Integer, ByVal v() As Graph.ValueItem) As Integer
+
+        'Dim i As Integer = 0
+        'Dim it As Graph.ValueItem
+        'Dim o As Integer = 0
+
+        'For Each it In v
+        '    If it.x >= min Then
+        '        i += 1
+        '    End If
+        '    If i >= 200 Then
+        '        Return CInt(it.x)
+        '    End If
+        'Next
+
+        'Return CInt(v.Length - 1)
+
+        Return Math.Min(v.Length - 1, min + CInt(Val(Me.txtMonitorNumber.Text)))
+
+    End Function
+
+    ' Return element of array with a distance of txtMAX.value to the end of the array
+    Private Function findViewLast(ByVal v() As Graph.ValueItem, ByVal max As Integer) As Integer
+        Dim lMax As Integer = CInt(Val(Me.txtMonitorNumber.Text))
+        'If v.Length > lMax Then
+        '    Return (v.Length - 1 - lMax)
+        'Else
+        '    Return 0
+        'End If
+        Return Math.Max(0, max - lMax)
+    End Function
+
 End Class
