@@ -78,8 +78,7 @@ Partial Class frmAddProcessMonitor
         'chkCPUCount
         '
         Me.chkCPUCount.AutoSize = True
-        Me.chkCPUCount.Checked = True
-        Me.chkCPUCount.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkCPUCount.Enabled = False
         Me.chkCPUCount.Location = New System.Drawing.Point(6, 66)
         Me.chkCPUCount.Name = "chkCPUCount"
         Me.chkCPUCount.Size = New System.Drawing.Size(104, 17)

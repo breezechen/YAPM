@@ -3057,6 +3057,7 @@ Public Class frmMain
             End If
         End With
 
+        Call updateMonitoringLog()
     End Sub
 
     Private Sub tvMonitor_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvMonitor.AfterSelect
@@ -3083,52 +3084,100 @@ Public Class frmMain
     End Sub
 
     Private Sub butMonitorStart_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMonitorStart.Click
-        If tvMonitor.SelectedNode.Parent IsNot Nothing Then
-            Dim it As cMonitor = CType(tvMonitor.SelectedNode.Tag, cMonitor)
-            it.StartMonitoring()
-            Call tvMonitor_AfterSelect(Nothing, Nothing)
-        Else
-            ' All items
-            Dim n As TreeNode
-            For Each n In tvMonitor.SelectedNode.Nodes
-                Dim it As cMonitor = CType(n.Tag, cMonitor)
+        If tvMonitor.SelectedNode IsNot Nothing Then
+            If tvMonitor.SelectedNode.Parent IsNot Nothing Then
+                Dim it As cMonitor = CType(tvMonitor.SelectedNode.Tag, cMonitor)
                 it.StartMonitoring()
-            Next
+                Call tvMonitor_AfterSelect(Nothing, Nothing)
+            Else
+                ' All items
+                Dim n As TreeNode
+                For Each n In tvMonitor.SelectedNode.Nodes
+                    Dim it As cMonitor = CType(n.Tag, cMonitor)
+                    it.StartMonitoring()
+                Next
+            End If
         End If
+        Call updateMonitoringLog()
     End Sub
 
     Private Sub butMonitorStop_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMonitorStop.Click
-        If tvMonitor.SelectedNode.Parent IsNot Nothing Then
-            Dim it As cMonitor = CType(tvMonitor.SelectedNode.Tag, cMonitor)
-            it.StopMonitoring()
-            Call tvMonitor_AfterSelect(Nothing, Nothing)
-        Else
-            ' All items
-            Dim n As TreeNode
-            For Each n In tvMonitor.SelectedNode.Nodes
-                Dim it As cMonitor = CType(n.Tag, cMonitor)
+        If tvMonitor.SelectedNode IsNot Nothing Then
+            If tvMonitor.SelectedNode.Parent IsNot Nothing Then
+                Dim it As cMonitor = CType(tvMonitor.SelectedNode.Tag, cMonitor)
                 it.StopMonitoring()
-            Next
+                Call tvMonitor_AfterSelect(Nothing, Nothing)
+            Else
+                ' All items
+                Dim n As TreeNode
+                For Each n In tvMonitor.SelectedNode.Nodes
+                    Dim it As cMonitor = CType(n.Tag, cMonitor)
+                    it.StopMonitoring()
+                Next
+            End If
         End If
     End Sub
 
     Private Sub butMonitoringRemove_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMonitoringRemove.Click
-        If tvMonitor.SelectedNode.Parent Is Nothing Then
-            ' Delete all items
-            Dim n As TreeNode
-            For Each n In tvMonitor.SelectedNode.Nodes
-                n.Remove()
-            Next
-        Else
-            If tvMonitor.SelectedNode.Parent.Name = tvMonitor.Nodes.Item(0).Name Then
-                ' Process, so we kill monitor
-                tvMonitor.SelectedNode.Remove()
+        If tvMonitor.SelectedNode IsNot Nothing Then
+            If tvMonitor.SelectedNode.Parent Is Nothing Then
+                ' Delete all items
+                Dim n As TreeNode
+                For Each n In tvMonitor.SelectedNode.Nodes
+                    n.Remove()
+                Next
             Else
-                ' Sub item of monitor, so we disable it from monitor
-                Dim it As cMonitor = CType(tvMonitor.SelectedNode.Parent.Tag, cMonitor)
-                it.UnMonitorItem(tvMonitor.SelectedNode.Text)
-                tvMonitor.SelectedNode.Remove()
+                If tvMonitor.SelectedNode.Parent.Name = tvMonitor.Nodes.Item(0).Name Then
+                    ' Process, so we kill monitor
+                    tvMonitor.SelectedNode.Remove()
+                Else
+                    ' Sub item of monitor, so we disable it from monitor
+                    Dim it As cMonitor = CType(tvMonitor.SelectedNode.Parent.Tag, cMonitor)
+                    it.UnMonitorItem(tvMonitor.SelectedNode.Text)
+                    tvMonitor.SelectedNode.Remove()
+                End If
             End If
         End If
+        Call updateMonitoringLog()
     End Sub
+
+    ' Update monitoring log
+    Private Sub updateMonitoringLog()
+        Dim s As String
+
+        If Me.tvMonitor.Nodes.Item(0).Nodes.Count > 0 Then
+
+            s = "Monitoring log" & vbNewLine
+            s &= vbNewLine & vbNewLine & "Monitoring " & CStr(Me.tvMonitor.Nodes.Item(0).Nodes.Count) & " processe(s)" & vbNewLine
+
+            Dim n As TreeNode
+            For Each n In Me.tvMonitor.Nodes.Item(0).Nodes
+                Dim it As cMonitor = CType(n.Tag, cMonitor)
+                s &= vbNewLine & "* Process  : " & it.GetName & " -- " & CStr(it.GetProcess.GetPid)
+                s &= vbNewLine & "      Monitoring creation : " & it.GetMonitorCreationDate.ToLongDateString & " -- " & it.GetMonitorCreationDate.ToLongTimeString
+                If it.GetLastStarted.Ticks > 0 Then
+                    s &= vbNewLine & "      Last start : " & it.GetLastStarted.ToLongDateString & " -- " & it.GetLastStarted.ToLongTimeString
+                Else
+                    s &= vbNewLine & "      Not yet started"
+                End If
+                s &= vbNewLine & "      State : " & it.GetEnabled
+                s &= vbNewLine & "      Interval : " & it.GetInterval
+                s &= vbNewLine & "      Items to check : " & CStr(IIf(it.getCheckCPU, "CPU percentage + ", _
+                        vbNullString)) & CStr(IIf(it.getCheckCPUTime, "CPU time + ", vbNullString)) & _
+                        CStr(IIf(it.GetCheckMemory, "Memory + ", vbNullString)) & _
+                        CStr(IIf(it.GetCheckPriority, "Priority + ", vbNullString)) & _
+                        CStr(IIf(it.GetCheckThreads, "Thread count + ", vbNullString))
+                s = s.Substring(0, s.Length - 2)
+
+                s &= vbNewLine
+            Next
+
+            Me.txtMonitoringLog.Text = s
+            Me.txtMonitoringLog.SelectionLength = 0
+            Me.txtMonitoringLog.SelectionStart = 0
+
+        End If
+
+    End Sub
+
 End Class

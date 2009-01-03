@@ -16,6 +16,9 @@ Public Class frmAddProcessMonitor
                 Me.cbProcess.Items.Add(p.GetName & " -- " & CStr(p.GetPid))
             End If
         Next
+        If Me.cbProcess.Text.Length = 0 Then
+            Me.cbProcess.SelectedIndex = 0
+        End If
     End Sub
 
     Private Sub butAdd_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butAdd.Click

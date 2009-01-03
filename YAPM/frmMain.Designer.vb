@@ -24,15 +24,15 @@ Partial Class frmMain
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
-        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Processes")
+        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Processes")
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain = New System.Windows.Forms.Panel
         Me.lvProcess = New System.Windows.Forms.ListView
@@ -329,6 +329,7 @@ Partial Class frmMain
         Me.tvMonitor = New System.Windows.Forms.TreeView
         Me.imgMonitor = New System.Windows.Forms.ImageList(Me.components)
         Me.splitMonitor2 = New System.Windows.Forms.SplitContainer
+        Me.txtMonitoringLog = New System.Windows.Forms.TextBox
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -365,6 +366,7 @@ Partial Class frmMain
         Me.splitMonitor.Panel1.SuspendLayout()
         Me.splitMonitor.Panel2.SuspendLayout()
         Me.splitMonitor.SuspendLayout()
+        Me.splitMonitor2.Panel1.SuspendLayout()
         Me.splitMonitor2.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -390,11 +392,11 @@ Partial Class frmMain
         Me.lvProcess.ContextMenuStrip = Me.menuProc
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.FullRowSelect = True
-        ListViewGroup7.Header = "Processes"
-        ListViewGroup7.Name = "gpOther"
-        ListViewGroup8.Header = "Search result"
-        ListViewGroup8.Name = "gpSearch"
-        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
+        ListViewGroup5.Header = "Processes"
+        ListViewGroup5.Name = "gpOther"
+        ListViewGroup6.Header = "Search result"
+        ListViewGroup6.Name = "gpSearch"
+        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvProcess.HideSelection = False
         Me.lvProcess.Location = New System.Drawing.Point(0, 0)
         Me.lvProcess.Name = "lvProcess"
@@ -663,11 +665,11 @@ Partial Class frmMain
         Me.lvServices.ContextMenuStrip = Me.menuService
         Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvServices.FullRowSelect = True
-        ListViewGroup9.Header = "Services"
-        ListViewGroup9.Name = "gpOther"
-        ListViewGroup10.Header = "Search result"
-        ListViewGroup10.Name = "gpSearch"
-        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup9, ListViewGroup10})
+        ListViewGroup7.Header = "Services"
+        ListViewGroup7.Name = "gpOther"
+        ListViewGroup8.Header = "Search result"
+        ListViewGroup8.Name = "gpSearch"
+        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
         Me.lvServices.HideSelection = False
         Me.lvServices.Location = New System.Drawing.Point(0, 0)
         Me.lvServices.Name = "lvServices"
@@ -842,11 +844,11 @@ Partial Class frmMain
         Me.lvJobs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader4, Me.ColumnHeader5, Me.ColumnHeader6})
         Me.lvJobs.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvJobs.FullRowSelect = True
-        ListViewGroup1.Header = "Past jobs"
-        ListViewGroup1.Name = "gp1"
-        ListViewGroup2.Header = "Future jobs"
-        ListViewGroup2.Name = "gp2"
-        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup9.Header = "Past jobs"
+        ListViewGroup9.Name = "gp1"
+        ListViewGroup10.Header = "Future jobs"
+        ListViewGroup10.Name = "gp2"
+        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup9, ListViewGroup10})
         Me.lvJobs.HideSelection = False
         Me.lvJobs.Location = New System.Drawing.Point(0, 0)
         Me.lvJobs.Name = "lvJobs"
@@ -3145,11 +3147,11 @@ Partial Class frmMain
         Me.lvHandles.ContextMenuStrip = Me.menuHandles
         Me.lvHandles.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvHandles.FullRowSelect = True
-        ListViewGroup3.Header = "Processes"
-        ListViewGroup3.Name = "gpOther"
-        ListViewGroup4.Header = "Search result"
-        ListViewGroup4.Name = "gpSearch"
-        Me.lvHandles.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup1.Header = "Processes"
+        ListViewGroup1.Name = "gpOther"
+        ListViewGroup2.Header = "Search result"
+        ListViewGroup2.Name = "gpSearch"
+        Me.lvHandles.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvHandles.HideSelection = False
         Me.lvHandles.Location = New System.Drawing.Point(0, 0)
         Me.lvHandles.Name = "lvHandles"
@@ -3251,10 +3253,10 @@ Partial Class frmMain
         Me.tvMonitor.ImageList = Me.imgMonitor
         Me.tvMonitor.Location = New System.Drawing.Point(0, 0)
         Me.tvMonitor.Name = "tvMonitor"
-        TreeNode1.ImageIndex = 1
-        TreeNode1.Name = "processes"
-        TreeNode1.Text = "Processes"
-        Me.tvMonitor.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1})
+        TreeNode2.ImageIndex = 1
+        TreeNode2.Name = "processes"
+        TreeNode2.Text = "Processes"
+        Me.tvMonitor.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode2})
         Me.tvMonitor.SelectedImageIndex = 0
         Me.tvMonitor.Size = New System.Drawing.Size(188, 276)
         Me.tvMonitor.TabIndex = 0
@@ -3277,9 +3279,24 @@ Partial Class frmMain
         'splitMonitor2.Panel1
         '
         Me.splitMonitor2.Panel1.BackColor = System.Drawing.SystemColors.ButtonFace
+        Me.splitMonitor2.Panel1.Controls.Add(Me.txtMonitoringLog)
         Me.splitMonitor2.Size = New System.Drawing.Size(373, 276)
-        Me.splitMonitor2.SplitterDistance = 124
+        Me.splitMonitor2.SplitterDistance = 123
         Me.splitMonitor2.TabIndex = 0
+        '
+        'txtMonitoringLog
+        '
+        Me.txtMonitoringLog.BackColor = System.Drawing.Color.White
+        Me.txtMonitoringLog.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtMonitoringLog.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.txtMonitoringLog.Location = New System.Drawing.Point(0, 0)
+        Me.txtMonitoringLog.Multiline = True
+        Me.txtMonitoringLog.Name = "txtMonitoringLog"
+        Me.txtMonitoringLog.ReadOnly = True
+        Me.txtMonitoringLog.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.txtMonitoringLog.Size = New System.Drawing.Size(373, 123)
+        Me.txtMonitoringLog.TabIndex = 0
+        Me.txtMonitoringLog.Text = "No process monitored." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Click on 'Add' button to monitor a process."
         '
         'frmMain
         '
@@ -3352,6 +3369,8 @@ Partial Class frmMain
         Me.splitMonitor.Panel1.ResumeLayout(False)
         Me.splitMonitor.Panel2.ResumeLayout(False)
         Me.splitMonitor.ResumeLayout(False)
+        Me.splitMonitor2.Panel1.ResumeLayout(False)
+        Me.splitMonitor2.Panel1.PerformLayout()
         Me.splitMonitor2.ResumeLayout(False)
         Me.ResumeLayout(False)
 
@@ -3653,5 +3672,6 @@ Partial Class frmMain
     Friend WithEvents splitMonitor2 As System.Windows.Forms.SplitContainer
     Friend WithEvents tvMonitor As System.Windows.Forms.TreeView
     Friend WithEvents imgMonitor As System.Windows.Forms.ImageList
+    Friend WithEvents txtMonitoringLog As System.Windows.Forms.TextBox
 
 End Class

@@ -28,6 +28,8 @@ Public Class cMonitor
     Private _bCheckPriority As Boolean = False
     Private _colInfos As Collection
     Private _enabled As Boolean = False
+    Private _monitorCreated As Date
+    Private _lastStarted As Date
 
 
     ' ========================================
@@ -45,6 +47,12 @@ Public Class cMonitor
     End Function
     Public Function GetProcess() As cProcess
         Return proc
+    End Function
+    Public Function GetMonitorCreationDate() As Date
+        Return _monitorCreated
+    End Function
+    Public Function GetLastStarted() As Date
+        Return _lastStarted
     End Function
     Public Function GetInterval() As Integer
         Return _Interval
@@ -113,12 +121,13 @@ Public Class cMonitor
         _procName = processName
         proc = New cProcess(pid)
         _colInfos = New Collection
-        proc = Nothing
+        _monitorCreated = Date.Now
     End Sub
     Protected Overloads Overrides Sub Finalize()
         _colInfos = Nothing
         Me.StopMonitoring()
         timer = Nothing
+        proc = Nothing
         MyBase.Finalize()
     End Sub
 
@@ -149,6 +158,7 @@ Public Class cMonitor
     Public Sub StartMonitoring()
         _enabled = True
         timer.Start()
+        _lastStarted = Date.Now
     End Sub
 
     ' Stop monitoring
