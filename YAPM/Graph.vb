@@ -6,9 +6,18 @@ Public Class Graph
     Inherits System.Windows.Forms.PictureBox
 
     ' ========================================
+    ' Public structure
+    ' ========================================
+    Public Structure ValueItem
+        Dim x As Long
+        Dim y As Long
+    End Structure
+
+    ' ========================================
     ' Private attributes
     ' ========================================
     Private _gridStep As Integer = 20
+    Private _values() As ValueItem
     Private _colorGrid As System.Drawing.Pen = Pens.DarkGreen
     Private _colorCPUPercent As System.Drawing.Pen = Pens.Yellow
     Private _colorCPUTime As System.Drawing.Pen = Pens.Yellow
@@ -17,6 +26,8 @@ Public Class Graph
     Private _colorMemory3 As System.Drawing.Pen = Pens.Blue
     Private _colorPriority As System.Drawing.Pen = Pens.Yellow
     Private _colorThreads As System.Drawing.Pen = Pens.Yellow
+    Private _xMin As Integer
+    Private _xMax As Integer
 
 
     ' ========================================
@@ -115,6 +126,22 @@ Public Class Graph
             _colorMemory3 = New Pen(value)
         End Set
     End Property
+    Public Property ViewMax() As Integer
+        Get
+            Return _xMax
+        End Get
+        Set(ByVal value As Integer)
+            _xMax = value
+        End Set
+    End Property
+    Public Property ViewMin() As Integer
+        Get
+            Return _xMin
+        End Get
+        Set(ByVal value As Integer)
+            _xMin = value
+        End Set
+    End Property
 #End Region
 
 
@@ -126,11 +153,6 @@ Public Class Graph
         DrawGrid(e.Graphics)
         DrawLegend(e.Graphics)
         DrawValues(e.Graphics)
-    End Sub
-
-    Public Sub New()
-        MyBase.New()
-        Me.ColorCPUPercent = Color.Yellow
     End Sub
 
 
@@ -165,7 +187,62 @@ Public Class Graph
 
     ' Draw values
     Private Sub DrawValues(ByVal g As Graphics)
-        '
+        Dim x As Integer
+
+        If _values Is Nothing Then Exit Sub
+
+        ' Get the max (height)
+        Dim yMax As Long = 0
+        For x = _xMin To _xMax
+            If _values(x).y > yMax Then yMax = _values(x).y
+        Next
+        Dim yCoef As Double = Me.Height / yMax
+        Dim xCoef As Double = Me.Width / (_xMax - _xMin)
+
+        Dim x1 As Integer = 0
+        Dim x2 As Integer = 0
+        Dim y1 As Double = yMax
+        Dim y2 As Double = y1
+        Dim v As Integer
+
+        Dim xx1 As Integer = 0
+        Dim xx2 As Integer = 0
+        Dim yy1 As Integer = 0
+        Dim yy2 As Integer = 0
+
+        For x = _xMin + 1 To _xMax
+
+            ' v start at 0
+            v = x - _xMin
+
+            If (x1 = 0 And y1 = yMax) Then
+                x1 = 0
+                y1 = _values(x - 1).y
+            Else
+                x1 = x2
+                y1 = y2
+            End If
+            x2 = v
+            y2 = _values(x).y
+
+            xx1 = CInt(x1 * xCoef)
+            xx2 = CInt(x2 * xCoef)
+            yy1 = CInt(Me.Height - y1 * yCoef)
+            yy2 = CInt(Me.Height - y2 * yCoef)
+
+            g.DrawLine(Pens.Yellow, xx1, yy1, xx2, yy2)
+
+        Next
+
+    End Sub
+
+
+    ' ========================================
+    ' Public functions
+    ' ========================================
+
+    Public Sub SetValues(ByVal values() As ValueItem)
+        _values = values
     End Sub
 
 

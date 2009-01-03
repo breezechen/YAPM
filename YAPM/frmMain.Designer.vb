@@ -330,6 +330,7 @@ Partial Class frmMain
         Me.txtMonitoringLog = New System.Windows.Forms.TextBox
         Me.cmdTray = New System.Windows.Forms.Button
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.graphMonitor = New YAPM.Graph
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
@@ -3265,20 +3266,20 @@ Partial Class frmMain
         '
         Me.splitMonitor2.Panel2.Controls.Add(Me.graphMonitor)
         Me.splitMonitor2.Size = New System.Drawing.Size(373, 276)
-        Me.splitMonitor2.SplitterDistance = 125
+        Me.splitMonitor2.SplitterDistance = 124
         Me.splitMonitor2.TabIndex = 0
         '
         'txtMonitoringLog
         '
         Me.txtMonitoringLog.BackColor = System.Drawing.Color.White
-        Me.txtMonitoringLog.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtMonitoringLog.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.txtMonitoringLog.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMonitoringLog.Location = New System.Drawing.Point(0, 0)
         Me.txtMonitoringLog.Multiline = True
         Me.txtMonitoringLog.Name = "txtMonitoringLog"
         Me.txtMonitoringLog.ReadOnly = True
         Me.txtMonitoringLog.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.txtMonitoringLog.Size = New System.Drawing.Size(373, 125)
+        Me.txtMonitoringLog.Size = New System.Drawing.Size(373, 124)
         Me.txtMonitoringLog.TabIndex = 0
         Me.txtMonitoringLog.Text = "No process monitored." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Click on 'Add' button to monitor a process."
         '
@@ -3305,15 +3306,22 @@ Partial Class frmMain
         Me.RibbonButton1.ToolTipImage = Nothing
         Me.RibbonButton1.ToolTipTitle = Nothing
         '
+        'Timer1
+        '
+        Me.Timer1.Enabled = True
+        Me.Timer1.Interval = 30
+        '
         'graphMonitor
         '
         Me.graphMonitor.BackColor = System.Drawing.Color.Black
         Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
         Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
         Me.graphMonitor.Name = "graphMonitor"
-        Me.graphMonitor.Size = New System.Drawing.Size(373, 147)
+        Me.graphMonitor.Size = New System.Drawing.Size(373, 148)
         Me.graphMonitor.TabIndex = 1
         Me.graphMonitor.TabStop = False
+        Me.graphMonitor.ViewMax = 0
+        Me.graphMonitor.ViewMin = 0
         '
         'frmMain
         '
@@ -3693,5 +3701,6 @@ Partial Class frmMain
     Friend WithEvents imgMonitor As System.Windows.Forms.ImageList
     Friend WithEvents txtMonitoringLog As System.Windows.Forms.TextBox
     Friend WithEvents graphMonitor As YAPM.Graph
+    Friend WithEvents Timer1 As System.Windows.Forms.Timer
 
 End Class

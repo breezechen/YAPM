@@ -3184,12 +3184,35 @@ Public Class frmMain
         End If
 
     End Sub
+    Dim v() As Graph.ValueItem
+    Private Sub graphMonitor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles graphMonitor.Click
 
-    Private Sub PictureBox1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        If v Is Nothing Then ReDim v(0)
+        ReDim Preserve v(v.Length)
 
+        v(v.Length - 1).x = v.Length
+        v(v.Length - 1).y = CInt(Rnd() * 200)
+
+        Me.graphMonitor.ViewMax = v.Length - 1
+        Me.graphMonitor.ViewMin = 0
+        Me.graphMonitor.SetValues(v)
+        Me.graphMonitor.Refresh()
     End Sub
 
-    Private Sub PictureBox1_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs)
+    Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer1.Tick
+        If v Is Nothing Then ReDim v(0)
+        ReDim Preserve v(v.Length)
 
+        v(v.Length - 1).x = v.Length
+        v(v.Length - 1).y = CInt(Rnd() * 200)
+
+        Me.graphMonitor.ViewMax = v.Length - 1
+        If v.Length > 50 Then
+            Me.graphMonitor.ViewMin = v.Length - 50
+        Else
+            Me.graphMonitor.ViewMin = 0
+        End If
+        Me.graphMonitor.SetValues(v)
+        Me.graphMonitor.Refresh()
     End Sub
 End Class
