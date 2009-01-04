@@ -706,8 +706,9 @@ Public Class frmMain
         End If
 
         With Me.graphMonitor
-            .ColorCPUPercent = Color.Yellow
-
+            .ColorMemory1 = Color.Yellow
+            .ColorMemory2 = Color.Red
+            .ColorMemory3 = Color.Orange
         End With
 
 
@@ -3069,6 +3070,8 @@ Public Class frmMain
 
         'tvMonitor.SelectedImageKey = tvMonitor.SelectedNode.ImageKey
 
+        Me.graphMonitor.EnableGraph = False
+
         If tvMonitor.SelectedNode Is Nothing Then Exit Sub
 
         If tvMonitor.SelectedNode.Parent IsNot Nothing Then
@@ -3078,6 +3081,8 @@ Public Class frmMain
                 Dim b As Boolean = it.GetEnabled
                 Me.butMonitorStart.Enabled = Not (b)
                 Me.butMonitorStop.Enabled = b
+                Me.graphMonitor.CreateGraphics.Clear(Color.Black)
+                Me.graphMonitor.CreateGraphics.DrawString("Select in the treeview a monitor item.", Me.Font, Brushes.White, 0, 0)
             Else
                 Me.butMonitorStart.Enabled = False
                 Me.butMonitorStop.Enabled = False
@@ -3085,12 +3090,21 @@ Public Class frmMain
                 ' We have selected a sub item -> display values in graph
                 Dim it As cMonitor = CType(tvMonitor.SelectedNode.Parent.Tag, cMonitor)
                 Dim sKey As String = tvMonitor.SelectedNode.Text
-                Call ShowMonitorStats(it, sKey)
+                If sKey = "Memory" Then
+                    ' 3 differentes values
+                    Me.splitMonitor4.Panel1.Enabled = True
+                    Call ShowMonitorStats(it, "Memory." & Me.cbMon1.Text, "Memory." & Me.cbMon2.Text, "Memory." & Me.cbMon3.Text)
+                Else
+                    Me.splitMonitor4.Panel1.Enabled = False
+                    Call ShowMonitorStats(it, sKey, "", "")
+                End If
             End If
         Else
             ' The we can start/stop all items
             Me.butMonitorStart.Enabled = True
             Me.butMonitorStop.Enabled = True
+            Me.graphMonitor.CreateGraphics.Clear(Color.Black)
+            Me.graphMonitor.CreateGraphics.DrawString("Select in the treeview a process and then a monitor item.", Me.Font, Brushes.White, 0, 0)
         End If
 
     End Sub
@@ -3193,42 +3207,116 @@ Public Class frmMain
     End Sub
 
     ' Display stats in graph
-    Private Sub ShowMonitorStats(ByVal it As cMonitor, ByVal key As String)
+    Private Sub ShowMonitorStats(ByVal it As cMonitor, ByVal key1 As String, ByVal key2 As String, _
+        ByVal key3 As String)
+
         Me.timerMonitoring.Interval = it.GetInterval
+
+        If it.GetEnabled = False Then
+            Me.graphMonitor.CreateGraphics.Clear(Color.Black)
+            Me.graphMonitor.CreateGraphics.DrawString("You sould start the monitoring.", Me.Font, Brushes.White, 0, 0)
+            Exit Sub
+        End If
 
         ' Get values from monitor item
         Dim v() As Graph.ValueItem
-        Dim cCol As Collection = it.GetMonitorItems()
+        Dim v2() As Graph.ValueItem
+        Dim v3() As Graph.ValueItem
+        Dim cCol As New Collection
+        cCol = it.GetMonitorItems()
 
         ' Limit DT pickers
-        Me.dtMonitorL.MinDate = it.GetMonitorCreationDate
         Me.dtMonitorL.MaxDate = Date.Now
-        Me.dtMonitorR.MinDate = Me.dtMonitorL.MinDate
+        Me.dtMonitorL.MinDate = it.GetMonitorCreationDate
         Me.dtMonitorR.MaxDate = Me.dtMonitorL.MaxDate
+        Me.dtMonitorR.MinDate = Me.dtMonitorL.MinDate
 
         If cCol.Count > 0 Then
 
-            ReDim v(cCol.Count - 1)
+            ReDim v(cCol.Count)
+            ReDim v2(cCol.Count)
+            ReDim v3(cCol.Count)
             Dim c As cMonitor.MonitorStructure
             Dim i As Integer = 0
 
             For Each c In cCol
-                Select Case key
-                    Case "CPU percentage"
-                        v(i).y = CLng(c.cpuCounter * 10000)
-                    Case "CPU time"
-                        v(i).y = c.cpuTime
-                    Case "Memory"
-                        v(i).y = CInt(c.mem.WorkingSetSize / 1024 / 1024)
-                    Case "Priority"
-                        v(i).y = c.priority
-                    Case "Thread count"
-                        v(i).y = c.threadsCount
-                End Select
-
-                v(i).x = c.time
-                i += 1
+                If i < v.Length Then
+                    Select Case key1
+                        Case "CPU percentage"
+                            v(i).y = CLng(c.cpuCounter * 10000)
+                        Case "CPU time"
+                            v(i).y = c.cpuTime
+                        Case "Priority"
+                            v(i).y = c.priority
+                        Case "Thread count"
+                            v(i).y = c.threadsCount
+                        Case "Memory.PageFaultCount"
+                            v(i).y = CInt(c.mem.PageFaultCount)
+                        Case "Memory.PeakWorkingSetSize"
+                            v(i).y = CInt(c.mem.PeakWorkingSetSize / 1024 / 1024)
+                        Case "Memory.WorkingSetSize"
+                            v(i).y = CInt(c.mem.WorkingSetSize / 1024 / 1024)
+                        Case "Memory.QuotaPeakPagedPoolUsage"
+                            v(i).y = CInt(c.mem.QuotaPeakPagedPoolUsage / 1024)
+                        Case "TMemory.QuotaPagedPoolUsage"
+                            v(i).y = CInt(c.mem.QuotaPagedPoolUsage / 1024)
+                        Case "Memory.QuotaPeakNonPagedPoolUsage"
+                            v(i).y = CInt(c.mem.QuotaPeakNonPagedPoolUsage / 1024)
+                        Case "Memory.QuotaNonPagedPoolUsage"
+                            v(i).y = CInt(c.mem.QuotaNonPagedPoolUsage / 1024)
+                        Case "Memory.PagefileUsage"
+                            v(i).y = CInt(c.mem.PagefileUsage / 1024 / 1024)
+                        Case "Memory.PeakPagefileUsage"
+                            v(i).y = CInt(c.mem.PeakPagefileUsage / 1024 / 1024)
+                    End Select
+                    Select Case key2
+                        Case "Memory.PageFaultCount"
+                            v2(i).y = CInt(c.mem.PageFaultCount)
+                        Case "Memory.PeakWorkingSetSize"
+                            v2(i).y = CInt(c.mem.PeakWorkingSetSize / 1024 / 1024)
+                        Case "Memory.WorkingSetSize"
+                            v2(i).y = CInt(c.mem.WorkingSetSize / 1024 / 1024)
+                        Case "Memory.QuotaPeakPagedPoolUsage"
+                            v2(i).y = CInt(c.mem.QuotaPeakPagedPoolUsage / 1024)
+                        Case "TMemory.QuotaPagedPoolUsage"
+                            v2(i).y = CInt(c.mem.QuotaPagedPoolUsage / 1024)
+                        Case "Memory.QuotaPeakNonPagedPoolUsage"
+                            v2(i).y = CInt(c.mem.QuotaPeakNonPagedPoolUsage / 1024)
+                        Case "Memory.QuotaNonPagedPoolUsage"
+                            v2(i).y = CInt(c.mem.QuotaNonPagedPoolUsage / 1024)
+                        Case "Memory.PagefileUsage"
+                            v2(i).y = CInt(c.mem.PagefileUsage / 1024 / 1024)
+                        Case "Memory.PeakPagefileUsage"
+                            v2(i).y = CInt(c.mem.PeakPagefileUsage / 1024 / 1024)
+                    End Select
+                    Select Case key3
+                        Case "Memory.PageFaultCount"
+                            v3(i).y = CInt(c.mem.PageFaultCount)
+                        Case "Memory.PeakWorkingSetSize"
+                            v3(i).y = CInt(c.mem.PeakWorkingSetSize / 1024 / 1024)
+                        Case "Memory.WorkingSetSize"
+                            v3(i).y = CInt(c.mem.WorkingSetSize / 1024 / 1024)
+                        Case "Memory.QuotaPeakPagedPoolUsage"
+                            v3(i).y = CInt(c.mem.QuotaPeakPagedPoolUsage / 1024)
+                        Case "TMemory.QuotaPagedPoolUsage"
+                            v3(i).y = CInt(c.mem.QuotaPagedPoolUsage / 1024)
+                        Case "Memory.QuotaPeakNonPagedPoolUsage"
+                            v3(i).y = CInt(c.mem.QuotaPeakNonPagedPoolUsage / 1024)
+                        Case "Memory.QuotaNonPagedPoolUsage"
+                            v3(i).y = CInt(c.mem.QuotaNonPagedPoolUsage / 1024)
+                        Case "Memory.PagefileUsage"
+                            v3(i).y = CInt(c.mem.PagefileUsage / 1024 / 1024)
+                        Case "Memory.PeakPagefileUsage"
+                            v3(i).y = CInt(c.mem.PeakPagefileUsage / 1024 / 1024)
+                    End Select
+                    v(i).x = c.time
+                    i += 1
+                End If
             Next
+
+            ReDim Preserve v(cCol.Count - 1)
+            ReDim Preserve v2(cCol.Count - 1)
+            ReDim Preserve v3(cCol.Count - 1)
 
             With Me.graphMonitor
 
@@ -3252,6 +3340,10 @@ Public Class frmMain
                 End If
 
                 .SetValues(v)
+                .SetValues2(v2)
+                .SetValues3(v3)
+                .dDate = it.GetMonitorCreationDate
+                .EnableGraph = True
                 Call .Refresh()
             End With
         End If
@@ -3263,10 +3355,14 @@ Public Class frmMain
 
     Private Sub chkMonitorLeftAuto_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkMonitorLeftAuto.CheckedChanged
         Me.dtMonitorL.Enabled = Not (Me.chkMonitorLeftAuto.Checked)
+        Me.txtMonitorNumber.Enabled = Not (Me.chkMonitorLeftAuto.Checked = False And Me.chkMonitorRightAuto.Checked = False)
+        Me.lblMonitorMaxNumber.Enabled = Me.txtMonitorNumber.Enabled
     End Sub
 
     Private Sub chkMonitorRightAuto_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkMonitorRightAuto.CheckedChanged
         Me.dtMonitorR.Enabled = Not (Me.chkMonitorRightAuto.Checked)
+        Me.txtMonitorNumber.Enabled = Not (Me.chkMonitorLeftAuto.Checked = False And Me.chkMonitorRightAuto.Checked = False)
+        Me.lblMonitorMaxNumber.Enabled = Me.txtMonitorNumber.Enabled
     End Sub
 
     ' Return an integer that corresponds to a time in a monitor from a date
@@ -3278,7 +3374,7 @@ Public Class frmMain
         Dim start As Long = monitor.GetMonitorCreationDate.Ticks
         Dim o As Integer = 0
         For Each it In v
-            If (start + it.x) >= l Then
+            If (start + 10000 * it.x) >= l Then
                 Return o
             End If
             o += 1
@@ -3289,35 +3385,39 @@ Public Class frmMain
 
     ' Return an integer that corresponds to min + txtMAX.value iterations
     Private Function findViewMaxFromMin(ByVal min As Integer, ByVal v() As Graph.ValueItem) As Integer
-
-        'Dim i As Integer = 0
-        'Dim it As Graph.ValueItem
-        'Dim o As Integer = 0
-
-        'For Each it In v
-        '    If it.x >= min Then
-        '        i += 1
-        '    End If
-        '    If i >= 200 Then
-        '        Return CInt(it.x)
-        '    End If
-        'Next
-
-        'Return CInt(v.Length - 1)
-
         Return Math.Min(v.Length - 1, min + CInt(Val(Me.txtMonitorNumber.Text)))
-
     End Function
 
     ' Return element of array with a distance of txtMAX.value to the end of the array
     Private Function findViewLast(ByVal v() As Graph.ValueItem, ByVal max As Integer) As Integer
         Dim lMax As Integer = CInt(Val(Me.txtMonitorNumber.Text))
-        'If v.Length > lMax Then
-        '    Return (v.Length - 1 - lMax)
-        'Else
-        '    Return 0
-        'End If
         Return Math.Max(0, max - lMax)
     End Function
 
+    Private Sub dtMonitorL_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles dtMonitorL.ValueChanged
+        If Me.chkMonitorLeftAuto.Checked = False Then
+            Call tvMonitor_AfterSelect(Nothing, Nothing)
+        End If
+    End Sub
+
+    Private Sub dtMonitorR_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles dtMonitorR.ValueChanged
+        If Me.chkMonitorRightAuto.Checked = False Then
+            Call tvMonitor_AfterSelect(Nothing, Nothing)
+        End If
+    End Sub
+
+    Private Sub graphMonitor_OnZoom(ByVal leftVal As Integer, ByVal rightVal As Integer) Handles graphMonitor.OnZoom
+        ' Change dates and set view as fixed (left and right)
+        Try
+            Dim it As cMonitor = CType(tvMonitor.SelectedNode.Parent.Tag, cMonitor)
+            Dim l As New Date(it.GetMonitorCreationDate.Ticks + leftVal * 10000)
+            Dim r As New Date(it.GetMonitorCreationDate.Ticks + rightVal * 10000)
+            Me.dtMonitorL.Value = l
+            Me.dtMonitorR.Value = r
+            Me.chkMonitorLeftAuto.Checked = False
+            Me.chkMonitorRightAuto.Checked = False
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
+    End Sub
 End Class

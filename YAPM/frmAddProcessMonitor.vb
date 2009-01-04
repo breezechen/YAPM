@@ -40,7 +40,7 @@ Public Class frmAddProcessMonitor
                 .SetCheckMemory(Me.chkMemoryInfos.Checked)
                 .SetCheckPriority(Me.chkPrioirty.Checked)
                 .SetCheckThreads(Me.chkThreadsCount.Checked)
-                .SetInterval(1000)
+                .SetInterval(CInt(Val(Me.txtInterval.Text)))
             End With
             frmMain.AddMonitoringItem(it)
 

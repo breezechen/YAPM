@@ -149,7 +149,7 @@ Public Class cMonitor
             If _bCheckPriority Then .priority = proc.GetPriorityClassInt
             If _bCheckThreads Then .threadsCount = proc.GetThreads.Count
             Dim tmp As Long = Date.Now.Ticks - Me.GetMonitorCreationDate.Ticks
-            .time = CInt(tmp)
+            .time = CInt(tmp / 10000)   ' milliseconds from start
         End With
 
         Try

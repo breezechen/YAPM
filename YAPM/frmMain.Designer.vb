@@ -329,6 +329,14 @@ Partial Class frmMain
         Me.splitMonitor2 = New System.Windows.Forms.SplitContainer
         Me.txtMonitoringLog = New System.Windows.Forms.TextBox
         Me.splitMonitor3 = New System.Windows.Forms.SplitContainer
+        Me.splitMonitor4 = New System.Windows.Forms.SplitContainer
+        Me.cbMon3 = New System.Windows.Forms.ComboBox
+        Me.cbMon2 = New System.Windows.Forms.ComboBox
+        Me.cbMon1 = New System.Windows.Forms.ComboBox
+        Me.Label7 = New System.Windows.Forms.Label
+        Me.graphMonitor = New YAPM.Graph
+        Me.txtMonitorNumber = New System.Windows.Forms.TextBox
+        Me.lblMonitorMaxNumber = New System.Windows.Forms.Label
         Me.chkMonitorRightAuto = New System.Windows.Forms.CheckBox
         Me.chkMonitorLeftAuto = New System.Windows.Forms.CheckBox
         Me.dtMonitorR = New System.Windows.Forms.DateTimePicker
@@ -336,9 +344,6 @@ Partial Class frmMain
         Me.cmdTray = New System.Windows.Forms.Button
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton
         Me.timerMonitoring = New System.Windows.Forms.Timer(Me.components)
-        Me.lblMonitorMaxNumber = New System.Windows.Forms.Label
-        Me.txtMonitorNumber = New System.Windows.Forms.TextBox
-        Me.graphMonitor = New YAPM.Graph
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -381,6 +386,9 @@ Partial Class frmMain
         Me.splitMonitor3.Panel1.SuspendLayout()
         Me.splitMonitor3.Panel2.SuspendLayout()
         Me.splitMonitor3.SuspendLayout()
+        Me.splitMonitor4.Panel1.SuspendLayout()
+        Me.splitMonitor4.Panel2.SuspendLayout()
+        Me.splitMonitor4.SuspendLayout()
         CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -1823,6 +1831,7 @@ Partial Class frmMain
         '
         Me.butMonitorSaveReport.AltKey = Nothing
         Me.butMonitorSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butMonitorSaveReport.Enabled = False
         Me.butMonitorSaveReport.Image = CType(resources.GetObject("butMonitorSaveReport.Image"), System.Drawing.Image)
         Me.butMonitorSaveReport.SmallImage = CType(resources.GetObject("butMonitorSaveReport.SmallImage"), System.Drawing.Image)
         Me.butMonitorSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
@@ -3276,7 +3285,7 @@ Partial Class frmMain
         '
         Me.splitMonitor2.Panel2.Controls.Add(Me.splitMonitor3)
         Me.splitMonitor2.Size = New System.Drawing.Size(420, 297)
-        Me.splitMonitor2.SplitterDistance = 133
+        Me.splitMonitor2.SplitterDistance = 125
         Me.splitMonitor2.TabIndex = 0
         '
         'txtMonitoringLog
@@ -3289,7 +3298,7 @@ Partial Class frmMain
         Me.txtMonitoringLog.Name = "txtMonitoringLog"
         Me.txtMonitoringLog.ReadOnly = True
         Me.txtMonitoringLog.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.txtMonitoringLog.Size = New System.Drawing.Size(420, 133)
+        Me.txtMonitoringLog.Size = New System.Drawing.Size(420, 125)
         Me.txtMonitoringLog.TabIndex = 0
         Me.txtMonitoringLog.Text = "No process monitored." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Click on 'Add' button to monitor a process."
         '
@@ -3304,7 +3313,7 @@ Partial Class frmMain
         '
         'splitMonitor3.Panel1
         '
-        Me.splitMonitor3.Panel1.Controls.Add(Me.graphMonitor)
+        Me.splitMonitor3.Panel1.Controls.Add(Me.splitMonitor4)
         '
         'splitMonitor3.Panel2
         '
@@ -3314,13 +3323,114 @@ Partial Class frmMain
         Me.splitMonitor3.Panel2.Controls.Add(Me.chkMonitorLeftAuto)
         Me.splitMonitor3.Panel2.Controls.Add(Me.dtMonitorR)
         Me.splitMonitor3.Panel2.Controls.Add(Me.dtMonitorL)
-        Me.splitMonitor3.Size = New System.Drawing.Size(420, 160)
-        Me.splitMonitor3.SplitterDistance = 131
+        Me.splitMonitor3.Size = New System.Drawing.Size(420, 168)
+        Me.splitMonitor3.SplitterDistance = 139
         Me.splitMonitor3.TabIndex = 0
+        '
+        'splitMonitor4
+        '
+        Me.splitMonitor4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.splitMonitor4.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.splitMonitor4.IsSplitterFixed = True
+        Me.splitMonitor4.Location = New System.Drawing.Point(0, 0)
+        Me.splitMonitor4.Name = "splitMonitor4"
+        Me.splitMonitor4.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'splitMonitor4.Panel1
+        '
+        Me.splitMonitor4.Panel1.Controls.Add(Me.cbMon3)
+        Me.splitMonitor4.Panel1.Controls.Add(Me.cbMon2)
+        Me.splitMonitor4.Panel1.Controls.Add(Me.cbMon1)
+        Me.splitMonitor4.Panel1.Controls.Add(Me.Label7)
+        '
+        'splitMonitor4.Panel2
+        '
+        Me.splitMonitor4.Panel2.Controls.Add(Me.graphMonitor)
+        Me.splitMonitor4.Size = New System.Drawing.Size(420, 139)
+        Me.splitMonitor4.SplitterDistance = 25
+        Me.splitMonitor4.TabIndex = 4
+        '
+        'cbMon3
+        '
+        Me.cbMon3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbMon3.Font = New System.Drawing.Font("Tahoma", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbMon3.FormattingEnabled = True
+        Me.cbMon3.Items.AddRange(New Object() {"No information", "PageFaultCount", "PeakWorkingSetSize", "WorkingSetSize", "QuotaPeakPagedPoolUsage", "QuotaPagedPoolUsage", "QuotaPeakNonPagedPoolUsage", "QuotaNonPagedPoolUsage", "PagefileUsage", "PeakPagefileUsage"})
+        Me.cbMon3.Location = New System.Drawing.Point(351, 0)
+        Me.cbMon3.Name = "cbMon3"
+        Me.cbMon3.Size = New System.Drawing.Size(146, 19)
+        Me.cbMon3.TabIndex = 8
+        '
+        'cbMon2
+        '
+        Me.cbMon2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbMon2.Font = New System.Drawing.Font("Tahoma", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbMon2.FormattingEnabled = True
+        Me.cbMon2.Items.AddRange(New Object() {"No information", "PageFaultCount", "PeakWorkingSetSize", "WorkingSetSize", "QuotaPeakPagedPoolUsage", "QuotaPagedPoolUsage", "QuotaPeakNonPagedPoolUsage", "QuotaNonPagedPoolUsage", "PagefileUsage", "PeakPagefileUsage"})
+        Me.cbMon2.Location = New System.Drawing.Point(203, 0)
+        Me.cbMon2.Name = "cbMon2"
+        Me.cbMon2.Size = New System.Drawing.Size(146, 19)
+        Me.cbMon2.TabIndex = 7
+        '
+        'cbMon1
+        '
+        Me.cbMon1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbMon1.Font = New System.Drawing.Font("Tahoma", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbMon1.FormattingEnabled = True
+        Me.cbMon1.Items.AddRange(New Object() {"No information", "PageFaultCount", "PeakWorkingSetSize", "WorkingSetSize", "QuotaPeakPagedPoolUsage", "QuotaPagedPoolUsage", "QuotaPeakNonPagedPoolUsage", "QuotaNonPagedPoolUsage", "PagefileUsage", "PeakPagefileUsage"})
+        Me.cbMon1.Location = New System.Drawing.Point(54, 0)
+        Me.cbMon1.Name = "cbMon1"
+        Me.cbMon1.Size = New System.Drawing.Size(146, 19)
+        Me.cbMon1.TabIndex = 6
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Label7.Location = New System.Drawing.Point(0, 0)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(48, 13)
+        Me.Label7.TabIndex = 5
+        Me.Label7.Text = "Graphs :"
+        '
+        'graphMonitor
+        '
+        Me.graphMonitor.BackColor = System.Drawing.Color.Black
+        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
+        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
+        Me.graphMonitor.dDate = New Date(CType(0, Long))
+        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphMonitor.EnableGraph = False
+        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
+        Me.graphMonitor.Name = "graphMonitor"
+        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
+        Me.graphMonitor.TabIndex = 3
+        Me.graphMonitor.TabStop = False
+        Me.graphMonitor.ViewMax = 0
+        Me.graphMonitor.ViewMin = 0
+        '
+        'txtMonitorNumber
+        '
+        Me.txtMonitorNumber.Location = New System.Drawing.Point(241, 0)
+        Me.txtMonitorNumber.Name = "txtMonitorNumber"
+        Me.txtMonitorNumber.Size = New System.Drawing.Size(33, 21)
+        Me.txtMonitorNumber.TabIndex = 11
+        Me.txtMonitorNumber.Text = "200"
+        '
+        'lblMonitorMaxNumber
+        '
+        Me.lblMonitorMaxNumber.AutoSize = True
+        Me.lblMonitorMaxNumber.Location = New System.Drawing.Point(171, 6)
+        Me.lblMonitorMaxNumber.Name = "lblMonitorMaxNumber"
+        Me.lblMonitorMaxNumber.Size = New System.Drawing.Size(65, 13)
+        Me.lblMonitorMaxNumber.TabIndex = 10
+        Me.lblMonitorMaxNumber.Text = "Max. values"
         '
         'chkMonitorRightAuto
         '
         Me.chkMonitorRightAuto.AutoSize = True
+        Me.chkMonitorRightAuto.Checked = True
+        Me.chkMonitorRightAuto.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkMonitorRightAuto.Dock = System.Windows.Forms.DockStyle.Right
         Me.chkMonitorRightAuto.Location = New System.Drawing.Point(284, 0)
         Me.chkMonitorRightAuto.Name = "chkMonitorRightAuto"
@@ -3332,6 +3442,8 @@ Partial Class frmMain
         'chkMonitorLeftAuto
         '
         Me.chkMonitorLeftAuto.AutoSize = True
+        Me.chkMonitorLeftAuto.Checked = True
+        Me.chkMonitorLeftAuto.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkMonitorLeftAuto.Location = New System.Drawing.Point(95, 4)
         Me.chkMonitorLeftAuto.Name = "chkMonitorLeftAuto"
         Me.chkMonitorLeftAuto.Size = New System.Drawing.Size(74, 17)
@@ -3342,6 +3454,7 @@ Partial Class frmMain
         'dtMonitorR
         '
         Me.dtMonitorR.Dock = System.Windows.Forms.DockStyle.Right
+        Me.dtMonitorR.Enabled = False
         Me.dtMonitorR.Format = System.Windows.Forms.DateTimePickerFormat.Time
         Me.dtMonitorR.Location = New System.Drawing.Point(331, 0)
         Me.dtMonitorR.Name = "dtMonitorR"
@@ -3351,6 +3464,7 @@ Partial Class frmMain
         'dtMonitorL
         '
         Me.dtMonitorL.Dock = System.Windows.Forms.DockStyle.Left
+        Me.dtMonitorL.Enabled = False
         Me.dtMonitorL.Format = System.Windows.Forms.DateTimePickerFormat.Time
         Me.dtMonitorL.Location = New System.Drawing.Point(0, 0)
         Me.dtMonitorL.Name = "dtMonitorL"
@@ -3384,37 +3498,6 @@ Partial Class frmMain
         '
         Me.timerMonitoring.Enabled = True
         Me.timerMonitoring.Interval = 1000
-        '
-        'lblMonitorMaxNumber
-        '
-        Me.lblMonitorMaxNumber.AutoSize = True
-        Me.lblMonitorMaxNumber.Location = New System.Drawing.Point(171, 6)
-        Me.lblMonitorMaxNumber.Name = "lblMonitorMaxNumber"
-        Me.lblMonitorMaxNumber.Size = New System.Drawing.Size(65, 13)
-        Me.lblMonitorMaxNumber.TabIndex = 10
-        Me.lblMonitorMaxNumber.Text = "Max. values"
-        '
-        'txtMonitorNumber
-        '
-        Me.txtMonitorNumber.Location = New System.Drawing.Point(241, 0)
-        Me.txtMonitorNumber.Name = "txtMonitorNumber"
-        Me.txtMonitorNumber.Size = New System.Drawing.Size(33, 21)
-        Me.txtMonitorNumber.TabIndex = 11
-        Me.txtMonitorNumber.Text = "200"
-        '
-        'graphMonitor
-        '
-        Me.graphMonitor.BackColor = System.Drawing.Color.Black
-        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
-        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
-        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
-        Me.graphMonitor.Name = "graphMonitor"
-        Me.graphMonitor.Size = New System.Drawing.Size(420, 131)
-        Me.graphMonitor.TabIndex = 2
-        Me.graphMonitor.TabStop = False
-        Me.graphMonitor.ViewMax = 0
-        Me.graphMonitor.ViewMin = 0
         '
         'frmMain
         '
@@ -3495,6 +3578,10 @@ Partial Class frmMain
         Me.splitMonitor3.Panel2.ResumeLayout(False)
         Me.splitMonitor3.Panel2.PerformLayout()
         Me.splitMonitor3.ResumeLayout(False)
+        Me.splitMonitor4.Panel1.ResumeLayout(False)
+        Me.splitMonitor4.Panel1.PerformLayout()
+        Me.splitMonitor4.Panel2.ResumeLayout(False)
+        Me.splitMonitor4.ResumeLayout(False)
         CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -3799,12 +3886,17 @@ Partial Class frmMain
     Friend WithEvents txtMonitoringLog As System.Windows.Forms.TextBox
     Friend WithEvents timerMonitoring As System.Windows.Forms.Timer
     Friend WithEvents splitMonitor3 As System.Windows.Forms.SplitContainer
-    Friend WithEvents graphMonitor As YAPM.Graph
     Friend WithEvents dtMonitorR As System.Windows.Forms.DateTimePicker
     Friend WithEvents dtMonitorL As System.Windows.Forms.DateTimePicker
     Friend WithEvents chkMonitorRightAuto As System.Windows.Forms.CheckBox
     Friend WithEvents chkMonitorLeftAuto As System.Windows.Forms.CheckBox
     Friend WithEvents txtMonitorNumber As System.Windows.Forms.TextBox
     Friend WithEvents lblMonitorMaxNumber As System.Windows.Forms.Label
+    Friend WithEvents splitMonitor4 As System.Windows.Forms.SplitContainer
+    Friend WithEvents cbMon3 As System.Windows.Forms.ComboBox
+    Friend WithEvents cbMon2 As System.Windows.Forms.ComboBox
+    Friend WithEvents cbMon1 As System.Windows.Forms.ComboBox
+    Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents graphMonitor As YAPM.Graph
 
 End Class

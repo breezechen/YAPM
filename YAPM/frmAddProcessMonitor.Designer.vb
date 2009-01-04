@@ -32,11 +32,14 @@ Partial Class frmAddProcessMonitor
         Me.chkMemoryInfos = New System.Windows.Forms.CheckBox
         Me.chkCPUtime = New System.Windows.Forms.CheckBox
         Me.butAdd = New System.Windows.Forms.Button
+        Me.Label2 = New System.Windows.Forms.Label
+        Me.txtInterval = New System.Windows.Forms.TextBox
         Me.gpOptions.SuspendLayout()
         Me.SuspendLayout()
         '
         'cbProcess
         '
+        Me.cbProcess.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbProcess.FormattingEnabled = True
         Me.cbProcess.Location = New System.Drawing.Point(62, 12)
         Me.cbProcess.Name = "cbProcess"
@@ -132,18 +135,37 @@ Partial Class frmAddProcessMonitor
         '
         'butAdd
         '
-        Me.butAdd.Location = New System.Drawing.Point(62, 137)
+        Me.butAdd.Location = New System.Drawing.Point(60, 168)
         Me.butAdd.Name = "butAdd"
         Me.butAdd.Size = New System.Drawing.Size(158, 24)
         Me.butAdd.TabIndex = 4
         Me.butAdd.Text = "Monitor process"
         Me.butAdd.UseVisualStyleBackColor = True
         '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(17, 137)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(84, 13)
+        Me.Label2.TabIndex = 5
+        Me.Label2.Text = "Refresh interval"
+        '
+        'txtInterval
+        '
+        Me.txtInterval.Location = New System.Drawing.Point(107, 134)
+        Me.txtInterval.Name = "txtInterval"
+        Me.txtInterval.Size = New System.Drawing.Size(158, 21)
+        Me.txtInterval.TabIndex = 6
+        Me.txtInterval.Text = "1000"
+        '
         'frmAddProcessMonitor
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(278, 173)
+        Me.ClientSize = New System.Drawing.Size(278, 204)
+        Me.Controls.Add(Me.txtInterval)
+        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.butAdd)
         Me.Controls.Add(Me.gpOptions)
         Me.Controls.Add(Me.cmdRefresh)
@@ -174,4 +196,6 @@ Partial Class frmAddProcessMonitor
     Friend WithEvents chkCPUtime As System.Windows.Forms.CheckBox
     Friend WithEvents butAdd As System.Windows.Forms.Button
     Friend WithEvents chkCPUCount As System.Windows.Forms.CheckBox
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents txtInterval As System.Windows.Forms.TextBox
 End Class

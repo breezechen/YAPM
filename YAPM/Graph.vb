@@ -13,11 +13,15 @@ Public Class Graph
         Dim y As Long
     End Structure
 
+    Public Event OnZoom(ByVal leftVal As Integer, ByVal rightVal As Integer)
+
     ' ========================================
     ' Private attributes
     ' ========================================
     Private _gridStep As Integer = 20
     Private _values() As ValueItem
+    Private _values2() As ValueItem
+    Private _values3() As ValueItem
     Private _colorGrid As System.Drawing.Pen = Pens.DarkGreen
     Private _colorCPUPercent As System.Drawing.Pen = Pens.Yellow
     Private _colorCPUTime As System.Drawing.Pen = Pens.Yellow
@@ -29,6 +33,17 @@ Public Class Graph
     Private _colorLegend As System.Drawing.Pen = Pens.Red
     Private _xMin As Integer
     Private _xMax As Integer
+    Private _date As Date
+
+    Private _xDown As Integer
+    Private _yDown As Integer
+    Private _down As Boolean
+    Private _mouseCurrentDate As Integer
+    Private _zoomRect As Rectangle
+    Private _enableGraph As Boolean
+
+    Private xCoef As Double
+
 
 
     ' ========================================
@@ -153,6 +168,22 @@ Public Class Graph
             _xMin = value
         End Set
     End Property
+    Public Property dDate() As Date
+        Get
+            Return _date
+        End Get
+        Set(ByVal value As Date)
+            _date = value
+        End Set
+    End Property
+    Public Property EnableGraph() As Boolean
+        Get
+            Return _enableGraph
+        End Get
+        Set(ByVal value As Boolean)
+            _enableGraph = value
+        End Set
+    End Property
 #End Region
 
 
@@ -161,11 +192,68 @@ Public Class Graph
     ' ========================================
     Protected Overrides Sub OnPaint(ByVal e As System.Windows.Forms.PaintEventArgs)
         MyBase.OnPaint(e)
-        DrawGrid(e.Graphics)
-        DrawValues(e.Graphics)
-        DrawLegend(e.Graphics)
+        If _enableGraph Then
+            DrawGrid(e.Graphics)
+            DrawValues(e.Graphics)
+            If _values2 IsNot Nothing Then DrawValues2(e.Graphics)
+            If _values3 IsNot Nothing Then DrawValues3(e.Graphics)
+            DrawLegend(e.Graphics)
+        End If
     End Sub
+    Protected Overrides Sub OnMouseDown(ByVal e As System.Windows.Forms.MouseEventArgs)
+        MyBase.OnMouseDown(e)
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            _xDown = e.X
+            _yDown = e.Y
+            _down = True
+        End If
+    End Sub
+    Protected Overrides Sub OnMouseMove(ByVal e As System.Windows.Forms.MouseEventArgs)
+        MyBase.OnMouseMove(e)
+        If _down = True Then
+            Me.Refresh()
+            ' Draw a zoom rectangle
+            With _zoomRect
+                .X = Math.Min(_xDown, e.X)
+                .Y = Math.Min(_yDown, e.Y)
+                .Width = Math.Abs(_xDown - e.X)
+                .Height = Math.Abs(_yDown - e.Y)
+            End With
+            Me.CreateGraphics.DrawRectangle(Pens.WhiteSmoke, _zoomRect)
+        End If
 
+        ' Get time (milliseconds) of current x point
+        If _values IsNot Nothing Then
+            Dim h As Integer = CInt(_xMin + e.X / Me.Width * (_values.Length - _xMin))
+            h = Math.Min(_values.Length - 1, h)
+            _mouseCurrentDate = 10000 * CInt(_values(h).x)
+        End If
+    End Sub
+    Protected Overrides Sub OnMouseUp(ByVal e As System.Windows.Forms.MouseEventArgs)
+        MyBase.OnMouseUp(e)
+        ' We have to zoom
+        If _down And e.Button = Windows.Forms.MouseButtons.Right Then
+            _down = False
+            Me.Refresh()        ' Delete rectangle
+
+            If _values Is Nothing Then
+                _down = False
+                Exit Sub
+            End If
+
+            Dim ul As Integer = CInt(_xMin + Math.Min(e.X, _xDown) / Me.Width * (_values.Length - _xMin))
+            Dim ur As Integer = CInt(_xMin + Math.Max(e.X, _xDown) / Me.Width * (_values.Length - _xMin))
+            ur = Math.Min(ur, _values.Length - 1)
+            Dim l As Integer = 0
+            Dim r As Integer = 0
+
+            ' Find times from ul and ur (positions in array)
+            l = CInt(_values(ul).x)
+            r = CInt(_values(ur).x)
+
+            RaiseEvent OnZoom(l, r)
+        End If
+    End Sub
 
     ' ========================================
     ' Private methods
@@ -211,8 +299,8 @@ Public Class Graph
         If yMax = 0 Then Exit Sub
         yMax += 1
 
-        Dim yCoef As Double = Me.Height / yMax
-        Dim xCoef As Double = Me.Width / (_xMax - _xMin)
+        Dim yCoef As Double = (Me.Height - 15) / yMax
+        xCoef = Me.Width / (_xMax - _xMin)
 
         Dim x1 As Integer = 0
         Dim x2 As Integer = 0
@@ -226,7 +314,6 @@ Public Class Graph
         Dim yy2 As Integer = 0
 
         For x = _xMin + 1 To _xMax
-
             ' v start at 0
             v = x - _xMin
 
@@ -244,10 +331,109 @@ Public Class Graph
             xx2 = CInt(x2 * xCoef)
             yy1 = CInt(Me.Height - y1 * yCoef)
             yy2 = CInt(Me.Height - y2 * yCoef)
+            g.DrawLine(_colorMemory1, xx1, yy1, xx2, yy2)
+        Next
 
-            g.DrawLine(Pens.Yellow, xx1, yy1, xx2, yy2)
-            'g.DrawRectangle(Pens.Red, xx1 - 1, Me.Height - 10, 3, 10)
+        ' Draw zoom rectangle
+        If _down = True Then g.DrawRectangle(Pens.WhiteSmoke, _zoomRect)
 
+        ' Draw current date
+        Dim d As New Date(_date.Ticks + _mouseCurrentDate)
+        g.DrawString(d.ToLongDateString & " -- " & d.ToLongTimeString, frmMain.Font, Brushes.Beige, 0, 0)
+    End Sub
+
+    Private Sub DrawValues2(ByVal g As Graphics)
+        Dim x As Integer
+
+        ' Get the max (height)
+        Dim yMax As Long = 0
+        For x = 0 To (_values2.Length - 1)
+            If _values2(x).y > yMax Then yMax = _values2(x).y
+        Next
+
+        If yMax = 0 Then Exit Sub
+        yMax += 1
+
+        Dim yCoef As Double = (Me.Height - 15) / yMax
+
+        Dim x1 As Integer = 0
+        Dim x2 As Integer = 0
+        Dim y1 As Double = yMax
+        Dim y2 As Double = y1
+        Dim v As Integer
+
+        Dim xx1 As Integer = 0
+        Dim xx2 As Integer = 0
+        Dim yy1 As Integer = 0
+        Dim yy2 As Integer = 0
+
+        For x = _xMin + 1 To _xMax
+            ' v start at 0
+            v = x - _xMin
+
+            If (x1 = 0 And y1 = yMax) Then
+                x1 = 0
+                y1 = _values2(x - 1).y
+            Else
+                x1 = x2
+                y1 = y2
+            End If
+            x2 = v
+            y2 = _values2(x).y
+
+            xx1 = CInt(x1 * xCoef)
+            xx2 = CInt(x2 * xCoef)
+            yy1 = CInt(Me.Height - y1 * yCoef)
+            yy2 = CInt(Me.Height - y2 * yCoef)
+            g.DrawLine(_colorMemory2, xx1, yy1, xx2, yy2)
+        Next
+
+    End Sub
+
+    Private Sub DrawValues3(ByVal g As Graphics)
+        Dim x As Integer
+
+        ' Get the max (height)
+        Dim yMax As Long = 0
+        For x = 0 To (_values3.Length - 1)
+            If _values3(x).y > yMax Then yMax = _values3(x).y
+        Next
+
+        If yMax = 0 Then Exit Sub
+        yMax += 1
+
+        Dim yCoef As Double = (Me.Height - 15) / yMax
+
+        Dim x1 As Integer = 0
+        Dim x2 As Integer = 0
+        Dim y1 As Double = yMax
+        Dim y2 As Double = y1
+        Dim v As Integer
+
+        Dim xx1 As Integer = 0
+        Dim xx2 As Integer = 0
+        Dim yy1 As Integer = 0
+        Dim yy2 As Integer = 0
+
+        For x = _xMin + 1 To _xMax
+            ' v start at 0
+            v = x - _xMin
+
+            If (x1 = 0 And y1 = yMax) Then
+                x1 = 0
+                y1 = _values2(x - 1).y
+            Else
+                x1 = x2
+                y1 = y2
+            End If
+            x2 = v
+            y2 = _values3(x).y
+
+            xx1 = CInt(x1 * xCoef)
+            xx2 = CInt(x2 * xCoef)
+            yy1 = CInt(Me.Height - y1 * yCoef)
+            yy2 = CInt(Me.Height - y2 * yCoef)
+            g.DrawLine(_colorMemory3, xx1, yy1, xx2, yy2)
         Next
 
     End Sub
@@ -260,6 +446,11 @@ Public Class Graph
     Public Sub SetValues(ByVal values() As ValueItem)
         _values = values
     End Sub
-
+    Public Sub SetValues2(ByVal values() As ValueItem)
+        _values2 = values
+    End Sub
+    Public Sub SetValues3(ByVal values() As ValueItem)
+        _values3 = values
+    End Sub
 
 End Class
