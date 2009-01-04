@@ -3437,4 +3437,17 @@ Public Class frmMain
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
     End Sub
+
+    Private Sub MonitorToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MonitorToolStripMenuItem.Click
+        Call Me.butProcessMonitor_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butProcessMonitor_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessMonitor.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvProcess.SelectedItems
+            Dim frm As New frmAddProcessMonitor
+            frm._selProcess = CType(it.Tag, cProcess).GetPid
+            frm.ShowDialog()
+        Next
+    End Sub
 End Class

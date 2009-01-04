@@ -102,6 +102,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property monitoring2() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("monitoring2", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property process() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("process", resourceCulture)

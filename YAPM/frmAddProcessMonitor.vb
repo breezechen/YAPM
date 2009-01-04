@@ -2,8 +2,36 @@ Option Strict On
 
 Public Class frmAddProcessMonitor
 
+    ' Process to select by default
+    Public _selProcess As Integer
+
     Private Sub frmAddProcessMonitor_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        With frmMain
+            .SetToolTip(Me.chkCPUCount, "Check if you want to monitor CPU usage (percentage).")
+            .SetToolTip(Me.chkCPUtime, "Check if you want to monitor CPU time (processor time).")
+            .SetToolTip(Me.chkMemoryInfos, "Check if you want to monitor memory informations.")
+            .SetToolTip(Me.chkPrioirty, "Check if you want to monitor priority.")
+            .SetToolTip(Me.chkThreadsCount, "Check if you want to monitor thread count.")
+            .SetToolTip(Me.cbProcess, "List of active processes.")
+            .SetToolTip(Me.cmdRefresh, "Refresh processes list.")
+            .SetToolTip(Me.butAdd, "Monitor the selected process.")
+            .SetToolTip(Me.txtInterval, "Set the refresh interval (milliseconds).")
+        End With
+
         Call Me.cmdRefresh_Click(Nothing, Nothing)
+
+        ' Select desired process (_selProcess)
+        Dim s As String
+        For Each s In Me.cbProcess.Items
+            Dim i As Integer = InStr(s, " -- ", CompareMethod.Binary)
+            Dim _name As String = s.Substring(0, i - 1)
+            Dim _pid As Integer = CInt(Val(s.Substring(i + 3, s.Length - i - 3)))
+            If _pid = _selProcess Then
+                Me.cbProcess.Text = s
+                Exit For
+            End If
+        Next
+
     End Sub
 
     Private Sub cmdRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdRefresh.Click

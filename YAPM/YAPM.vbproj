@@ -196,6 +196,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Misc\down.gif" />
+    <None Include="Misc\monitoring2.gif" />
     <Content Include="process.ico" />
     <Content Include="process_custom.ico" />
   </ItemGroup>
