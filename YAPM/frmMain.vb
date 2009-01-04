@@ -29,7 +29,7 @@ Public Class frmMain
     Private Declare Sub InvalidateRect Lib "user32" (ByVal hWnd As Integer, ByVal t As Integer, ByVal bErase As Integer)
     Private Declare Sub ValidateRect Lib "user32" (ByVal hWnd As Integer, ByVal t As Integer)
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
-
+    Private Declare Unicode Function SetWindowTheme Lib "uxtheme.dll" (ByVal hWnd As IntPtr, ByVal pszSubAppName As String, ByVal pszSubIdList As String) As Integer
 
     ' ========================================
     ' Constants
@@ -694,6 +694,9 @@ Public Class frmMain
 
         refreshProcessList()
         refreshServiceList()
+
+        Application.EnableVisualStyles()
+        'SetWindowTheme(Me.lvProcess.Handle, "explorer", "")
 
         With Me
             .lblServicePath.BackColor = .BackColor

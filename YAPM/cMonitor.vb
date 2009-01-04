@@ -146,7 +146,7 @@ Public Class cMonitor
             If _bCheckCPUtime Then .cpuTime = proc.GetProcessorTimeLong
             'If _bCheckCPU Then .cpulong = proc.getcpupercentage ' TODO
             If _bCheckMemory Then .mem = proc.GetMemoryInfos
-            If _bCheckPriority Then .priority = proc.GetPriorityClassInt
+            If _bCheckPriority Then .priority = proc.GetPriorityLevel
             If _bCheckThreads Then .threadsCount = proc.GetThreads.Count
             Dim tmp As Long = Date.Now.Ticks - Me.GetMonitorCreationDate.Ticks
             .time = CInt(tmp / 10000)   ' milliseconds from start

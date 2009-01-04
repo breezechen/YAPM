@@ -466,6 +466,26 @@ Public Class cProcess
 
     End Function
 
+    ' Get priority as a level
+    Public Function GetPriorityLevel() As Integer
+        Select Case GetPriorityClassInt()
+            Case 64
+                Return 1
+            Case 16384
+                Return 2
+            Case 32
+                Return 3
+            Case 32768
+                Return 4
+            Case 128
+                Return 5
+            Case 256
+                Return 6
+            Case Else
+                Return 0
+        End Select
+    End Function
+
     ' Get the start time
     Public Function GetStartTime() As TimeSpan
         ' TOCHANGE
