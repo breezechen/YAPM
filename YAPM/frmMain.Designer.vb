@@ -32,7 +32,7 @@ Partial Class frmMain
         Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Processes")
+        Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Processes", 1, 1)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain = New System.Windows.Forms.Panel
         Me.lvProcess = New System.Windows.Forms.ListView
@@ -334,7 +334,6 @@ Partial Class frmMain
         Me.cbMon2 = New System.Windows.Forms.ComboBox
         Me.cbMon1 = New System.Windows.Forms.ComboBox
         Me.Label7 = New System.Windows.Forms.Label
-        Me.graphMonitor = New YAPM.Graph
         Me.txtMonitorNumber = New System.Windows.Forms.TextBox
         Me.lblMonitorMaxNumber = New System.Windows.Forms.Label
         Me.chkMonitorRightAuto = New System.Windows.Forms.CheckBox
@@ -344,6 +343,7 @@ Partial Class frmMain
         Me.cmdTray = New System.Windows.Forms.Button
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton
         Me.timerMonitoring = New System.Windows.Forms.Timer(Me.components)
+        Me.graphMonitor = New YAPM.Graph
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -3255,6 +3255,7 @@ Partial Class frmMain
         Me.tvMonitor.Name = "tvMonitor"
         TreeNode1.ImageIndex = 1
         TreeNode1.Name = "processes"
+        TreeNode1.SelectedImageIndex = 1
         TreeNode1.Text = "Processes"
         Me.tvMonitor.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1})
         Me.tvMonitor.SelectedImageIndex = 0
@@ -3265,7 +3266,7 @@ Partial Class frmMain
         '
         Me.imgMonitor.ImageStream = CType(resources.GetObject("imgMonitor.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.imgMonitor.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgMonitor.Images.SetKeyName(0, "noIcon")
+        Me.imgMonitor.Images.SetKeyName(0, "exe")
         Me.imgMonitor.Images.SetKeyName(1, "down")
         Me.imgMonitor.Images.SetKeyName(2, "sub")
         '
@@ -3393,22 +3394,6 @@ Partial Class frmMain
         Me.Label7.TabIndex = 5
         Me.Label7.Text = "Graphs :"
         '
-        'graphMonitor
-        '
-        Me.graphMonitor.BackColor = System.Drawing.Color.Black
-        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
-        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
-        Me.graphMonitor.dDate = New Date(CType(0, Long))
-        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphMonitor.EnableGraph = False
-        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
-        Me.graphMonitor.Name = "graphMonitor"
-        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
-        Me.graphMonitor.TabIndex = 3
-        Me.graphMonitor.TabStop = False
-        Me.graphMonitor.ViewMax = 0
-        Me.graphMonitor.ViewMin = 0
-        '
         'txtMonitorNumber
         '
         Me.txtMonitorNumber.Location = New System.Drawing.Point(241, 0)
@@ -3498,6 +3483,22 @@ Partial Class frmMain
         '
         Me.timerMonitoring.Enabled = True
         Me.timerMonitoring.Interval = 1000
+        '
+        'graphMonitor
+        '
+        Me.graphMonitor.BackColor = System.Drawing.Color.Black
+        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
+        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
+        Me.graphMonitor.dDate = New Date(CType(0, Long))
+        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphMonitor.EnableGraph = False
+        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
+        Me.graphMonitor.Name = "graphMonitor"
+        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
+        Me.graphMonitor.TabIndex = 3
+        Me.graphMonitor.TabStop = False
+        Me.graphMonitor.ViewMax = 0
+        Me.graphMonitor.ViewMin = 0
         '
         'frmMain
         '

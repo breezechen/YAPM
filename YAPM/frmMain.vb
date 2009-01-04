@@ -1032,8 +1032,20 @@ Public Class frmMain
                     End If
                 Next
 
-                If n.Nodes.Count > 0 Then n.ImageKey = "ko" Else n.ImageKey = "ok"
-                If n3.Nodes.Count > 0 Then n3.ImageKey = "ko" Else n3.ImageKey = "ok"
+                If n.Nodes.Count > 0 Then
+                    n.ImageKey = "ko"
+                    n.SelectedImageKey = "ko"
+                Else
+                    n.ImageKey = "ok"
+                    n.SelectedImageKey = "ok"
+                End If
+                If n3.Nodes.Count > 0 Then
+                    n3.ImageKey = "ko"
+                    n3.SelectedImageKey = "ko"
+                Else
+                    n3.ImageKey = "ok"
+                    n3.SelectedImageKey = "ok"
+                End If
 
             Catch ex As Exception
                 Dim s As String = ""
@@ -1060,6 +1072,7 @@ Public Class frmMain
             Dim n2 As New TreeNode
             With n2
                 .ImageKey = "service"
+                .SelectedImageKey = "service"
                 .Text = o1.ServiceName
             End With
             n.Nodes.Add(n2)
@@ -1073,6 +1086,7 @@ Public Class frmMain
             Dim n2 As New TreeNode
             With n2
                 .ImageKey = "service"
+                .SelectedImageKey = "service"
                 .Text = o1.ServiceName
             End With
             n.Nodes.Add(n2)
@@ -1456,14 +1470,6 @@ Public Class frmMain
 
     Private Sub rtb2_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rtb2.TextChanged
         Me.cmdCopyServiceToCp.Enabled = (rtb2.Rtf.Length > 0)
-    End Sub
-
-    Private Sub tv2_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tv2.AfterSelect
-        tv2.SelectedImageKey = tv2.SelectedNode.ImageKey
-    End Sub
-
-    Private Sub tv_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tv.AfterSelect
-        tv.SelectedImageKey = tv.SelectedNode.ImageKey
     End Sub
 
     Private Sub timerJobs_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerJobs.Tick
@@ -3029,6 +3035,9 @@ Public Class frmMain
 
         Dim n1 As New TreeNode
         n1.Text = it.GetName
+        n1.ImageKey = "exe"
+        n1.ImageIndex = 0
+        n1.SelectedImageIndex = 0
 
         Me.tvMonitor.Nodes.Item(0).Nodes.Add(n1)
         n1.Tag = it
@@ -3038,30 +3047,35 @@ Public Class frmMain
                 Dim ncpu As New TreeNode
                 ncpu.Text = "CPU percentage"
                 ncpu.ImageKey = "sub"
+                ncpu.SelectedImageIndex = 2
                 n1.Nodes.Add(ncpu)
             End If
             If .getCheckCPUTime Then
                 Dim ncpu As New TreeNode
                 ncpu.Text = "CPU time"
                 ncpu.ImageKey = "sub"
+                ncpu.SelectedImageIndex = 2
                 n1.Nodes.Add(ncpu)
             End If
             If .GetCheckMemory Then
                 Dim ncpu As New TreeNode
                 ncpu.Text = "Memory"
                 ncpu.ImageKey = "sub"
+                ncpu.SelectedImageIndex = 2
                 n1.Nodes.Add(ncpu)
             End If
             If .GetCheckPriority Then
                 Dim ncpu As New TreeNode
                 ncpu.Text = "Priority"
                 ncpu.ImageKey = "sub"
+                ncpu.SelectedImageIndex = 2
                 n1.Nodes.Add(ncpu)
             End If
             If .GetCheckThreads Then
                 Dim ncpu As New TreeNode
                 ncpu.Text = "Thread count"
                 ncpu.ImageKey = "sub"
+                ncpu.SelectedImageIndex = 2
                 n1.Nodes.Add(ncpu)
             End If
         End With
