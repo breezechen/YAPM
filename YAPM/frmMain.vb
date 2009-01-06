@@ -3035,7 +3035,7 @@ Public Class frmMain
     Public Sub AddMonitoringItem(ByVal it As cMonitor)
 
         Dim n1 As New TreeNode
-        n1.Text = CStr(IIf(it.GetInstanceName.Length > 0, it.GetInstanceName & " - ", _
+        n1.Text = CStr(IIf(Len(it.GetInstanceName) > 0, it.GetInstanceName & " - ", _
             vbNullString)) & it.CategoryName
 
         n1.ImageKey = "exe"
@@ -3133,25 +3133,52 @@ Public Class frmMain
         End If
     End Sub
 
+    Private Sub RemoveSubNode(ByVal n As TreeNodeCollection)
+        Dim subn As TreeNode
+        For Each subn In n
+            If subn.Nodes.Count > 0 Then
+                RemoveSubNode(subn.Nodes)
+                subn.Remove()
+            Else
+                ' It's a monitor sub item
+                If subn.Parent IsNot Nothing Then
+                    Dim it As cMonitor = CType(subn.Parent.Tag, cMonitor)
+                    If it IsNot Nothing Then it.Dispose()
+                    it = Nothing
+                End If
+                subn.Remove()
+            End If
+        Next
+    End Sub
+
     Private Sub butMonitoringRemove_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMonitoringRemove.Click
         If tvMonitor.SelectedNode IsNot Nothing Then
-            If tvMonitor.SelectedNode.Parent Is Nothing Then
-                ' Delete all items
-                Dim n As TreeNode
-                For Each n In tvMonitor.SelectedNode.Nodes
-                    n.Remove()
-                Next
+            'If tvMonitor.SelectedNode.Parent Is Nothing Then
+            ' Delete all items
+            'Dim n As TreeNode
+            If tvMonitor.SelectedNode.ImageKey = "sub" Then
+                Dim it As cMonitor = CType(tvMonitor.SelectedNode.Parent.Tag, cMonitor)
+                If it IsNot Nothing Then it.Dispose()
+                it = Nothing
+                tvMonitor.SelectedNode.Remove()
             Else
-                If tvMonitor.SelectedNode.Parent.Name = tvMonitor.Nodes.Item(0).Name Then
-                    ' Process, so we kill monitor
-                    tvMonitor.SelectedNode.Remove()
-                Else
-                    ' Sub item of monitor, so we disable it from monitor
-                    Dim it As cMonitor = CType(tvMonitor.SelectedNode.Parent.Tag, cMonitor)
-                    it = Nothing
-                    tvMonitor.SelectedNode.Remove()
-                End If
+                RemoveSubNode(tvMonitor.SelectedNode.Nodes)
             End If
+            'For Each n In tvMonitor.SelectedNode.Nodes
+            '    n.Remove()
+            'Next
+            'Else
+            '    If tvMonitor.SelectedNode.Parent.Name = tvMonitor.Nodes.Item(0).Name Then
+            '        ' Process, so we kill monitor
+            '        tvMonitor.SelectedNode.Remove()
+            '    Else
+            '        ' Sub item of monitor, so we disable it from monitor
+            '        Dim it As cMonitor = CType(tvMonitor.SelectedNode.Parent.Tag, cMonitor)
+            '        it.Dispose()
+            '        it = Nothing
+            '        tvMonitor.SelectedNode.Remove()
+            '    End If
+            'End If
         End If
         Call updateMonitoringLog()
     End Sub

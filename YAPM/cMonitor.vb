@@ -2,6 +2,8 @@ Option Strict On
 
 Public Class cMonitor
 
+    Implements IDisposable
+
     ' ========================================
     ' Public declarations
     ' ========================================
@@ -110,16 +112,31 @@ Public Class cMonitor
         _categoryName = category
         _counterName = counter
         _instanceName = instance
-        _pc = New System.Diagnostics.PerformanceCounter(category, counter, instance)
+        Try
+            _pc = New System.Diagnostics.PerformanceCounter(category, counter, instance)
+        Catch ex As Exception
+            MsgBox("Monitoring failed." & vbNewLine & ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
         _colInfos = New Collection
         _monitorCreated = Date.Now
     End Sub
     Protected Overloads Overrides Sub Finalize()
         _colInfos = Nothing
-        Me.StopMonitoring()
-        timer = Nothing
-        _pc = Nothing
+        If timer IsNot Nothing Then
+            Me.StopMonitoring()
+            timer.Dispose()
+        End If
+        If _pc IsNot Nothing Then
+            _pc.Dispose()
+        End If
         MyBase.Finalize()
+    End Sub
+    Public Sub Dispose() Implements System.IDisposable.Dispose
+        _colInfos = Nothing
+        Me.StopMonitoring()
+        timer.Dispose()
+        _pc.Dispose()
+        _pc = Nothing
     End Sub
 
 
@@ -141,7 +158,7 @@ Public Class cMonitor
                 .value = Nothing
             End Try
         End With
-
+        Beep()
         Try
             _colInfos.Add(it, Key)
         Catch ex As Exception
@@ -161,6 +178,7 @@ Public Class cMonitor
         _enabled = False
         timer.Stop()
     End Sub
+
 
 
     ' ========================================
