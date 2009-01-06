@@ -58,6 +58,7 @@ Partial Class frmMain
         Me.RealTimeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SetAffinityToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowHandlesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.MonitorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem8 = New System.Windows.Forms.ToolStripSeparator
         Me.PropertiesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.OpenFirectoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -117,6 +118,8 @@ Partial Class frmMain
         Me.panelInfos = New System.Windows.Forms.Panel
         Me.lblProcessPath = New System.Windows.Forms.TextBox
         Me.cmdInfosToClipB = New System.Windows.Forms.Button
+        Me.pctSmallIcon = New System.Windows.Forms.PictureBox
+        Me.pctBigIcon = New System.Windows.Forms.PictureBox
         Me.Tray = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.menuTooltip = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem
@@ -136,43 +139,126 @@ Partial Class frmMain
         Me.Ribbon = New System.Windows.Forms.Ribbon
         Me.ProcessTab = New System.Windows.Forms.RibbonTab
         Me.RBProcessDisplay = New System.Windows.Forms.RibbonPanel
+        Me.butProcessRerfresh = New System.Windows.Forms.RibbonButton
+        Me.RBProcessActions = New System.Windows.Forms.RibbonPanel
+        Me.butNewProcess = New System.Windows.Forms.RibbonButton
+        Me.butKillProcess = New System.Windows.Forms.RibbonButton
+        Me.butStopProcess = New System.Windows.Forms.RibbonButton
+        Me.butResumeProcess = New System.Windows.Forms.RibbonButton
+        Me.butProcessOtherActions = New System.Windows.Forms.RibbonButton
+        Me.butProcessAffinity = New System.Windows.Forms.RibbonButton
+        Me.butProcessLimitCPU = New System.Windows.Forms.RibbonButton
+        Me.butShowProcHandles = New System.Windows.Forms.RibbonButton
+        Me.butProcessMonitor = New System.Windows.Forms.RibbonButton
         Me.RBProcessPriority = New System.Windows.Forms.RibbonPanel
+        Me.butProcessPriority = New System.Windows.Forms.RibbonButton
+        Me.butIdle = New System.Windows.Forms.RibbonButton
+        Me.butBelowNormal = New System.Windows.Forms.RibbonButton
+        Me.butNormal = New System.Windows.Forms.RibbonButton
+        Me.butAboveNormal = New System.Windows.Forms.RibbonButton
+        Me.butHigh = New System.Windows.Forms.RibbonButton
+        Me.butRealTime = New System.Windows.Forms.RibbonButton
         Me.RBProcessExecutable = New System.Windows.Forms.RibbonPanel
+        Me.butProcessFileProp = New System.Windows.Forms.RibbonButton
+        Me.butProcessDirOpen = New System.Windows.Forms.RibbonButton
+        Me.butProcessFileDetails = New System.Windows.Forms.RibbonButton
         Me.RBProcessOnline = New System.Windows.Forms.RibbonPanel
+        Me.butProcessOnlineDesc = New System.Windows.Forms.RibbonButton
+        Me.butProcessGoogle = New System.Windows.Forms.RibbonButton
         Me.ServiceTab = New System.Windows.Forms.RibbonTab
         Me.RBServiceDisplay = New System.Windows.Forms.RibbonPanel
+        Me.butServiceRefresh = New System.Windows.Forms.RibbonButton
         Me.RBServiceAction = New System.Windows.Forms.RibbonPanel
+        Me.butStopService = New System.Windows.Forms.RibbonButton
+        Me.butStartService = New System.Windows.Forms.RibbonButton
+        Me.butPauseService = New System.Windows.Forms.RibbonButton
+        Me.butResumeService = New System.Windows.Forms.RibbonButton
+        Me.butShutdownService = New System.Windows.Forms.RibbonButton
         Me.RBServiceStartType = New System.Windows.Forms.RibbonPanel
+        Me.butServiceStartType = New System.Windows.Forms.RibbonButton
+        Me.butAutomaticStart = New System.Windows.Forms.RibbonButton
+        Me.butOnDemandStart = New System.Windows.Forms.RibbonButton
+        Me.butDisabledStart = New System.Windows.Forms.RibbonButton
         Me.RBServiceFile = New System.Windows.Forms.RibbonPanel
+        Me.butServiceFileProp = New System.Windows.Forms.RibbonButton
+        Me.butServiceOpenDir = New System.Windows.Forms.RibbonButton
+        Me.butServiceFileDetails = New System.Windows.Forms.RibbonButton
         Me.RBServiceOnline = New System.Windows.Forms.RibbonPanel
+        Me.butServiceGoogle = New System.Windows.Forms.RibbonButton
         Me.MonitorTab = New System.Windows.Forms.RibbonTab
         Me.RBMonitor = New System.Windows.Forms.RibbonPanel
+        Me.butMonitoringAdd = New System.Windows.Forms.RibbonButton
+        Me.butMonitoringRemove = New System.Windows.Forms.RibbonButton
         Me.RBMonitoringControl = New System.Windows.Forms.RibbonPanel
+        Me.butMonitorStart = New System.Windows.Forms.RibbonButton
+        Me.butMonitorStop = New System.Windows.Forms.RibbonButton
         Me.butSaveMonitorReport = New System.Windows.Forms.RibbonPanel
+        Me.butMonitorSaveReport = New System.Windows.Forms.RibbonButton
         Me.HandlesTab = New System.Windows.Forms.RibbonTab
         Me.RBHandlesActions = New System.Windows.Forms.RibbonPanel
+        Me.butHandleRefresh = New System.Windows.Forms.RibbonButton
+        Me.butHandleClose = New System.Windows.Forms.RibbonButton
         Me.RBHandlesReport = New System.Windows.Forms.RibbonPanel
+        Me.butHandlesSaveReport = New System.Windows.Forms.RibbonButton
         Me.FileTab = New System.Windows.Forms.RibbonTab
         Me.RBFileOpenFile = New System.Windows.Forms.RibbonPanel
+        Me.butOpenFile = New System.Windows.Forms.RibbonButton
+        Me.butFileRefresh = New System.Windows.Forms.RibbonButton
         Me.RBFileKillProcess = New System.Windows.Forms.RibbonPanel
+        Me.butFileRelease = New System.Windows.Forms.RibbonButton
         Me.RBFileDelete = New System.Windows.Forms.RibbonPanel
+        Me.butMoveFileToTrash = New System.Windows.Forms.RibbonButton
+        Me.butDeleteFile = New System.Windows.Forms.RibbonButton
+        Me.butShreddFile = New System.Windows.Forms.RibbonButton
         Me.RBFileOnline = New System.Windows.Forms.RibbonPanel
+        Me.butFileGoogleSearch = New System.Windows.Forms.RibbonButton
         Me.RBFileOther = New System.Windows.Forms.RibbonPanel
+        Me.butFileProperties = New System.Windows.Forms.RibbonButton
+        Me.butFileOpenDir = New System.Windows.Forms.RibbonButton
+        Me.butFileShowFolderProperties = New System.Windows.Forms.RibbonButton
         Me.RBFileOthers = New System.Windows.Forms.RibbonPanel
+        Me.butFileOthersActions = New System.Windows.Forms.RibbonButton
+        Me.sepFile1 = New System.Windows.Forms.RibbonSeparator
+        Me.butFileRename = New System.Windows.Forms.RibbonButton
+        Me.butFileCopy = New System.Windows.Forms.RibbonButton
+        Me.butFileMove = New System.Windows.Forms.RibbonButton
+        Me.butFileOpen = New System.Windows.Forms.RibbonButton
+        Me.sepFile2 = New System.Windows.Forms.RibbonSeparator
+        Me.butFileSeeStrings = New System.Windows.Forms.RibbonButton
+        Me.sepFile3 = New System.Windows.Forms.RibbonSeparator
+        Me.butFileEncrypt = New System.Windows.Forms.RibbonButton
+        Me.butFileDecrypt = New System.Windows.Forms.RibbonButton
         Me.JobsTab = New System.Windows.Forms.RibbonTab
         Me.RBAdd = New System.Windows.Forms.RibbonPanel
+        Me.butAddJob = New System.Windows.Forms.RibbonButton
         Me.RBJobsOpenSave = New System.Windows.Forms.RibbonPanel
+        Me.butOpenJobList = New System.Windows.Forms.RibbonButton
+        Me.butSaveJobList = New System.Windows.Forms.RibbonButton
         Me.SearchTab = New System.Windows.Forms.RibbonTab
         Me.RBSearchMain = New System.Windows.Forms.RibbonPanel
+        Me.butSearchGo = New System.Windows.Forms.RibbonButton
+        Me.RibbonTextBox1 = New System.Windows.Forms.RibbonTextBox
+        Me.butSearchSaveReport = New System.Windows.Forms.RibbonButton
         Me.txtSearchString = New System.Windows.Forms.RibbonTextBox
         Me.ReportTab = New System.Windows.Forms.RibbonTab
         Me.RBSaveReport = New System.Windows.Forms.RibbonPanel
+        Me.butSaveProcessReport = New System.Windows.Forms.RibbonButton
+        Me.butSaveServiceReport = New System.Windows.Forms.RibbonButton
         Me.RBOthers = New System.Windows.Forms.RibbonPanel
+        Me.butTakeFullPower = New System.Windows.Forms.RibbonButton
+        Me.butOptions = New System.Windows.Forms.RibbonButton
         Me.RBDisplay = New System.Windows.Forms.RibbonPanel
+        Me.butTopMost = New System.Windows.Forms.RibbonButton
         Me.HelpTab = New System.Windows.Forms.RibbonTab
         Me.RBUpdate = New System.Windows.Forms.RibbonPanel
+        Me.butUpdate = New System.Windows.Forms.RibbonButton
         Me.RBHelpAction = New System.Windows.Forms.RibbonPanel
+        Me.butDonate = New System.Windows.Forms.RibbonButton
+        Me.butAbout = New System.Windows.Forms.RibbonButton
         Me.RBHelpWeb = New System.Windows.Forms.RibbonPanel
+        Me.butWebite = New System.Windows.Forms.RibbonButton
+        Me.butProjectPage = New System.Windows.Forms.RibbonButton
+        Me.butDownload = New System.Windows.Forms.RibbonButton
         Me.RibbonButtonList1 = New System.Windows.Forms.RibbonButtonList
         Me.panelMenu2 = New System.Windows.Forms.Panel
         Me.Label2 = New System.Windows.Forms.Label
@@ -201,8 +287,10 @@ Partial Class frmMain
         Me.lstFileString = New System.Windows.Forms.ListBox
         Me.txtFile = New System.Windows.Forms.TextBox
         Me.cmdFileClipboard = New System.Windows.Forms.Button
+        Me.pctFileSmall = New System.Windows.Forms.PictureBox
         Me.mnuFileCopyPctSmall = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem17 = New System.Windows.Forms.ToolStripMenuItem
+        Me.pctFileBig = New System.Windows.Forms.PictureBox
         Me.mnuFileCopyPctBig = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem16 = New System.Windows.Forms.ToolStripMenuItem
         Me.panelMain6 = New System.Windows.Forms.Panel
@@ -248,6 +336,7 @@ Partial Class frmMain
         Me.cbMon2 = New System.Windows.Forms.ComboBox
         Me.cbMon1 = New System.Windows.Forms.ComboBox
         Me.Label7 = New System.Windows.Forms.Label
+        Me.graphMonitor = New YAPM.Graph
         Me.txtMonitorNumber = New System.Windows.Forms.TextBox
         Me.lblMonitorMaxNumber = New System.Windows.Forms.Label
         Me.chkMonitorRightAuto = New System.Windows.Forms.CheckBox
@@ -255,97 +344,8 @@ Partial Class frmMain
         Me.dtMonitorR = New System.Windows.Forms.DateTimePicker
         Me.dtMonitorL = New System.Windows.Forms.DateTimePicker
         Me.timerMonitoring = New System.Windows.Forms.Timer(Me.components)
-        Me.pctFileSmall = New System.Windows.Forms.PictureBox
-        Me.pctFileBig = New System.Windows.Forms.PictureBox
-        Me.pctSmallIcon = New System.Windows.Forms.PictureBox
-        Me.pctBigIcon = New System.Windows.Forms.PictureBox
         Me.cmdTray = New System.Windows.Forms.Button
-        Me.butProcessRerfresh = New System.Windows.Forms.RibbonButton
-        Me.RBProcessActions = New System.Windows.Forms.RibbonPanel
-        Me.butNewProcess = New System.Windows.Forms.RibbonButton
-        Me.butKillProcess = New System.Windows.Forms.RibbonButton
-        Me.butStopProcess = New System.Windows.Forms.RibbonButton
-        Me.butResumeProcess = New System.Windows.Forms.RibbonButton
-        Me.butProcessOtherActions = New System.Windows.Forms.RibbonButton
-        Me.butProcessAffinity = New System.Windows.Forms.RibbonButton
-        Me.butProcessLimitCPU = New System.Windows.Forms.RibbonButton
-        Me.butShowProcHandles = New System.Windows.Forms.RibbonButton
-        Me.butProcessMonitor = New System.Windows.Forms.RibbonButton
-        Me.butProcessPriority = New System.Windows.Forms.RibbonButton
-        Me.butIdle = New System.Windows.Forms.RibbonButton
-        Me.butBelowNormal = New System.Windows.Forms.RibbonButton
-        Me.butNormal = New System.Windows.Forms.RibbonButton
-        Me.butAboveNormal = New System.Windows.Forms.RibbonButton
-        Me.butHigh = New System.Windows.Forms.RibbonButton
-        Me.butRealTime = New System.Windows.Forms.RibbonButton
-        Me.butProcessFileProp = New System.Windows.Forms.RibbonButton
-        Me.butProcessDirOpen = New System.Windows.Forms.RibbonButton
-        Me.butProcessFileDetails = New System.Windows.Forms.RibbonButton
-        Me.butProcessOnlineDesc = New System.Windows.Forms.RibbonButton
-        Me.butProcessGoogle = New System.Windows.Forms.RibbonButton
-        Me.butServiceRefresh = New System.Windows.Forms.RibbonButton
-        Me.butStopService = New System.Windows.Forms.RibbonButton
-        Me.butStartService = New System.Windows.Forms.RibbonButton
-        Me.butPauseService = New System.Windows.Forms.RibbonButton
-        Me.butResumeService = New System.Windows.Forms.RibbonButton
-        Me.butShutdownService = New System.Windows.Forms.RibbonButton
-        Me.butServiceStartType = New System.Windows.Forms.RibbonButton
-        Me.butAutomaticStart = New System.Windows.Forms.RibbonButton
-        Me.butOnDemandStart = New System.Windows.Forms.RibbonButton
-        Me.butDisabledStart = New System.Windows.Forms.RibbonButton
-        Me.butServiceFileProp = New System.Windows.Forms.RibbonButton
-        Me.butServiceOpenDir = New System.Windows.Forms.RibbonButton
-        Me.butServiceFileDetails = New System.Windows.Forms.RibbonButton
-        Me.butServiceGoogle = New System.Windows.Forms.RibbonButton
-        Me.butMonitoringAdd = New System.Windows.Forms.RibbonButton
-        Me.butMonitoringRemove = New System.Windows.Forms.RibbonButton
-        Me.butMonitorStart = New System.Windows.Forms.RibbonButton
-        Me.butMonitorStop = New System.Windows.Forms.RibbonButton
-        Me.butMonitorSaveReport = New System.Windows.Forms.RibbonButton
-        Me.butHandleRefresh = New System.Windows.Forms.RibbonButton
-        Me.butHandleClose = New System.Windows.Forms.RibbonButton
-        Me.butHandlesSaveReport = New System.Windows.Forms.RibbonButton
-        Me.butOpenFile = New System.Windows.Forms.RibbonButton
-        Me.butFileRefresh = New System.Windows.Forms.RibbonButton
-        Me.butFileRelease = New System.Windows.Forms.RibbonButton
-        Me.butMoveFileToTrash = New System.Windows.Forms.RibbonButton
-        Me.butDeleteFile = New System.Windows.Forms.RibbonButton
-        Me.butShreddFile = New System.Windows.Forms.RibbonButton
-        Me.butFileGoogleSearch = New System.Windows.Forms.RibbonButton
-        Me.butFileProperties = New System.Windows.Forms.RibbonButton
-        Me.butFileOpenDir = New System.Windows.Forms.RibbonButton
-        Me.butFileShowFolderProperties = New System.Windows.Forms.RibbonButton
-        Me.butFileOthersActions = New System.Windows.Forms.RibbonButton
-        Me.sepFile1 = New System.Windows.Forms.RibbonSeparator
-        Me.butFileRename = New System.Windows.Forms.RibbonButton
-        Me.butFileCopy = New System.Windows.Forms.RibbonButton
-        Me.butFileMove = New System.Windows.Forms.RibbonButton
-        Me.butFileOpen = New System.Windows.Forms.RibbonButton
-        Me.sepFile2 = New System.Windows.Forms.RibbonSeparator
-        Me.butFileSeeStrings = New System.Windows.Forms.RibbonButton
-        Me.sepFile3 = New System.Windows.Forms.RibbonSeparator
-        Me.butFileEncrypt = New System.Windows.Forms.RibbonButton
-        Me.butFileDecrypt = New System.Windows.Forms.RibbonButton
-        Me.butAddJob = New System.Windows.Forms.RibbonButton
-        Me.butOpenJobList = New System.Windows.Forms.RibbonButton
-        Me.butSaveJobList = New System.Windows.Forms.RibbonButton
-        Me.butSearchGo = New System.Windows.Forms.RibbonButton
-        Me.RibbonTextBox1 = New System.Windows.Forms.RibbonTextBox
-        Me.butSearchSaveReport = New System.Windows.Forms.RibbonButton
-        Me.butSaveProcessReport = New System.Windows.Forms.RibbonButton
-        Me.butSaveServiceReport = New System.Windows.Forms.RibbonButton
-        Me.butTakeFullPower = New System.Windows.Forms.RibbonButton
-        Me.butOptions = New System.Windows.Forms.RibbonButton
-        Me.butTopMost = New System.Windows.Forms.RibbonButton
-        Me.butUpdate = New System.Windows.Forms.RibbonButton
-        Me.butDonate = New System.Windows.Forms.RibbonButton
-        Me.butAbout = New System.Windows.Forms.RibbonButton
-        Me.butWebite = New System.Windows.Forms.RibbonButton
-        Me.butProjectPage = New System.Windows.Forms.RibbonButton
-        Me.butDownload = New System.Windows.Forms.RibbonButton
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton
-        Me.graphMonitor = New YAPM.Graph
-        Me.MonitorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -356,6 +356,8 @@ Partial Class frmMain
         Me.menuCopyPctbig.SuspendLayout()
         Me.menuCopyPctSmall.SuspendLayout()
         Me.panelInfos.SuspendLayout()
+        CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.menuTooltip.SuspendLayout()
         Me.panelInfos2.SuspendLayout()
         Me.panelMenu2.SuspendLayout()
@@ -365,7 +367,9 @@ Partial Class frmMain
         Me.fileSplitContainer.SuspendLayout()
         Me.gpFileAttributes.SuspendLayout()
         Me.gpFileDates.SuspendLayout()
+        CType(Me.pctFileSmall, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.mnuFileCopyPctSmall.SuspendLayout()
+        CType(Me.pctFileBig, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.mnuFileCopyPctBig.SuspendLayout()
         Me.panelMain6.SuspendLayout()
         Me.SplitContainerSearch.Panel1.SuspendLayout()
@@ -387,10 +391,6 @@ Partial Class frmMain
         Me.splitMonitor4.Panel1.SuspendLayout()
         Me.splitMonitor4.Panel2.SuspendLayout()
         Me.splitMonitor4.SuspendLayout()
-        CType(Me.pctFileSmall, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pctFileBig, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -478,7 +478,7 @@ Partial Class frmMain
         '
         Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.MonitorToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.ToolStripMenuItem1, Me.GetSecurityRiskOnlineToolStripMenuItem, Me.GoogleSearchToolStripMenuItem})
         Me.menuProc.Name = "menuProc"
-        Me.menuProc.Size = New System.Drawing.Size(194, 302)
+        Me.menuProc.Size = New System.Drawing.Size(194, 280)
         '
         'KillToolStripMenuItem
         '
@@ -553,6 +553,12 @@ Partial Class frmMain
         Me.ShowHandlesToolStripMenuItem.Name = "ShowHandlesToolStripMenuItem"
         Me.ShowHandlesToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.ShowHandlesToolStripMenuItem.Text = "Show handles"
+        '
+        'MonitorToolStripMenuItem
+        '
+        Me.MonitorToolStripMenuItem.Name = "MonitorToolStripMenuItem"
+        Me.MonitorToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
+        Me.MonitorToolStripMenuItem.Text = "Monitor"
         '
         'ToolStripMenuItem8
         '
@@ -992,6 +998,24 @@ Partial Class frmMain
         Me.cmdInfosToClipB.Text = "Copy to clipboard"
         Me.cmdInfosToClipB.UseVisualStyleBackColor = True
         '
+        'pctSmallIcon
+        '
+        Me.pctSmallIcon.ContextMenuStrip = Me.menuCopyPctSmall
+        Me.pctSmallIcon.Location = New System.Drawing.Point(503, 19)
+        Me.pctSmallIcon.Name = "pctSmallIcon"
+        Me.pctSmallIcon.Size = New System.Drawing.Size(16, 16)
+        Me.pctSmallIcon.TabIndex = 2
+        Me.pctSmallIcon.TabStop = False
+        '
+        'pctBigIcon
+        '
+        Me.pctBigIcon.ContextMenuStrip = Me.menuCopyPctbig
+        Me.pctBigIcon.Location = New System.Drawing.Point(525, 3)
+        Me.pctBigIcon.Name = "pctBigIcon"
+        Me.pctBigIcon.Size = New System.Drawing.Size(32, 32)
+        Me.pctBigIcon.TabIndex = 1
+        Me.pctBigIcon.TabStop = False
+        '
         'Tray
         '
         Me.Tray.ContextMenuStrip = Me.menuTooltip
@@ -1160,6 +1184,153 @@ Partial Class frmMain
         Me.RBProcessDisplay.Tag = Nothing
         Me.RBProcessDisplay.Text = "Display"
         '
+        'butProcessRerfresh
+        '
+        Me.butProcessRerfresh.AltKey = Nothing
+        Me.butProcessRerfresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessRerfresh.Image = CType(resources.GetObject("butProcessRerfresh.Image"), System.Drawing.Image)
+        Me.butProcessRerfresh.SmallImage = CType(resources.GetObject("butProcessRerfresh.SmallImage"), System.Drawing.Image)
+        Me.butProcessRerfresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessRerfresh.Tag = Nothing
+        Me.butProcessRerfresh.Text = "Refresh"
+        Me.butProcessRerfresh.ToolTip = Nothing
+        Me.butProcessRerfresh.ToolTipImage = Nothing
+        Me.butProcessRerfresh.ToolTipTitle = Nothing
+        '
+        'RBProcessActions
+        '
+        Me.RBProcessActions.ButtonMoreEnabled = False
+        Me.RBProcessActions.ButtonMoreVisible = False
+        Me.RBProcessActions.Items.Add(Me.butNewProcess)
+        Me.RBProcessActions.Items.Add(Me.butKillProcess)
+        Me.RBProcessActions.Items.Add(Me.butStopProcess)
+        Me.RBProcessActions.Items.Add(Me.butResumeProcess)
+        Me.RBProcessActions.Items.Add(Me.butProcessOtherActions)
+        Me.RBProcessActions.Items.Add(Me.butShowProcHandles)
+        Me.RBProcessActions.Items.Add(Me.butProcessMonitor)
+        Me.RBProcessActions.Tag = Nothing
+        Me.RBProcessActions.Text = "Process actions"
+        '
+        'butNewProcess
+        '
+        Me.butNewProcess.AltKey = Nothing
+        Me.butNewProcess.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butNewProcess.Image = CType(resources.GetObject("butNewProcess.Image"), System.Drawing.Image)
+        Me.butNewProcess.SmallImage = CType(resources.GetObject("butNewProcess.SmallImage"), System.Drawing.Image)
+        Me.butNewProcess.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butNewProcess.Tag = Nothing
+        Me.butNewProcess.Text = "New..."
+        Me.butNewProcess.ToolTip = Nothing
+        Me.butNewProcess.ToolTipImage = Nothing
+        Me.butNewProcess.ToolTipTitle = Nothing
+        '
+        'butKillProcess
+        '
+        Me.butKillProcess.AltKey = Nothing
+        Me.butKillProcess.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butKillProcess.Image = CType(resources.GetObject("butKillProcess.Image"), System.Drawing.Image)
+        Me.butKillProcess.SmallImage = CType(resources.GetObject("butKillProcess.SmallImage"), System.Drawing.Image)
+        Me.butKillProcess.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butKillProcess.Tag = Nothing
+        Me.butKillProcess.Text = "Kill"
+        Me.butKillProcess.ToolTip = Nothing
+        Me.butKillProcess.ToolTipImage = Nothing
+        Me.butKillProcess.ToolTipTitle = Nothing
+        '
+        'butStopProcess
+        '
+        Me.butStopProcess.AltKey = Nothing
+        Me.butStopProcess.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butStopProcess.Image = CType(resources.GetObject("butStopProcess.Image"), System.Drawing.Image)
+        Me.butStopProcess.SmallImage = CType(resources.GetObject("butStopProcess.SmallImage"), System.Drawing.Image)
+        Me.butStopProcess.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butStopProcess.Tag = Nothing
+        Me.butStopProcess.Text = "Pause"
+        Me.butStopProcess.ToolTip = Nothing
+        Me.butStopProcess.ToolTipImage = Nothing
+        Me.butStopProcess.ToolTipTitle = Nothing
+        '
+        'butResumeProcess
+        '
+        Me.butResumeProcess.AltKey = Nothing
+        Me.butResumeProcess.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butResumeProcess.Image = CType(resources.GetObject("butResumeProcess.Image"), System.Drawing.Image)
+        Me.butResumeProcess.SmallImage = CType(resources.GetObject("butResumeProcess.SmallImage"), System.Drawing.Image)
+        Me.butResumeProcess.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butResumeProcess.Tag = Nothing
+        Me.butResumeProcess.Text = "Resume"
+        Me.butResumeProcess.ToolTip = Nothing
+        Me.butResumeProcess.ToolTipImage = Nothing
+        Me.butResumeProcess.ToolTipTitle = Nothing
+        '
+        'butProcessOtherActions
+        '
+        Me.butProcessOtherActions.AltKey = Nothing
+        Me.butProcessOtherActions.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessOtherActions.DropDownItems.Add(Me.butProcessAffinity)
+        Me.butProcessOtherActions.DropDownItems.Add(Me.butProcessLimitCPU)
+        Me.butProcessOtherActions.Enabled = False
+        Me.butProcessOtherActions.Image = CType(resources.GetObject("butProcessOtherActions.Image"), System.Drawing.Image)
+        Me.butProcessOtherActions.SmallImage = CType(resources.GetObject("butProcessOtherActions.SmallImage"), System.Drawing.Image)
+        Me.butProcessOtherActions.Style = System.Windows.Forms.RibbonButtonStyle.DropDown
+        Me.butProcessOtherActions.Tag = Nothing
+        Me.butProcessOtherActions.Text = "Other actions"
+        Me.butProcessOtherActions.ToolTip = Nothing
+        Me.butProcessOtherActions.ToolTipImage = Nothing
+        Me.butProcessOtherActions.ToolTipTitle = Nothing
+        '
+        'butProcessAffinity
+        '
+        Me.butProcessAffinity.AltKey = Nothing
+        Me.butProcessAffinity.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessAffinity.Image = CType(resources.GetObject("butProcessAffinity.Image"), System.Drawing.Image)
+        Me.butProcessAffinity.SmallImage = CType(resources.GetObject("butProcessAffinity.SmallImage"), System.Drawing.Image)
+        Me.butProcessAffinity.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessAffinity.Tag = Nothing
+        Me.butProcessAffinity.Text = "Affinity"
+        Me.butProcessAffinity.ToolTip = Nothing
+        Me.butProcessAffinity.ToolTipImage = Nothing
+        Me.butProcessAffinity.ToolTipTitle = Nothing
+        '
+        'butProcessLimitCPU
+        '
+        Me.butProcessLimitCPU.AltKey = Nothing
+        Me.butProcessLimitCPU.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessLimitCPU.Image = CType(resources.GetObject("butProcessLimitCPU.Image"), System.Drawing.Image)
+        Me.butProcessLimitCPU.SmallImage = CType(resources.GetObject("butProcessLimitCPU.SmallImage"), System.Drawing.Image)
+        Me.butProcessLimitCPU.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessLimitCPU.Tag = Nothing
+        Me.butProcessLimitCPU.Text = "Limit CPU usage"
+        Me.butProcessLimitCPU.ToolTip = Nothing
+        Me.butProcessLimitCPU.ToolTipImage = Nothing
+        Me.butProcessLimitCPU.ToolTipTitle = Nothing
+        '
+        'butShowProcHandles
+        '
+        Me.butShowProcHandles.AltKey = Nothing
+        Me.butShowProcHandles.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butShowProcHandles.Image = CType(resources.GetObject("butShowProcHandles.Image"), System.Drawing.Image)
+        Me.butShowProcHandles.SmallImage = CType(resources.GetObject("butShowProcHandles.SmallImage"), System.Drawing.Image)
+        Me.butShowProcHandles.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butShowProcHandles.Tag = Nothing
+        Me.butShowProcHandles.Text = "Show handles"
+        Me.butShowProcHandles.ToolTip = Nothing
+        Me.butShowProcHandles.ToolTipImage = Nothing
+        Me.butShowProcHandles.ToolTipTitle = Nothing
+        '
+        'butProcessMonitor
+        '
+        Me.butProcessMonitor.AltKey = Nothing
+        Me.butProcessMonitor.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessMonitor.Image = CType(resources.GetObject("butProcessMonitor.Image"), System.Drawing.Image)
+        Me.butProcessMonitor.SmallImage = CType(resources.GetObject("butProcessMonitor.SmallImage"), System.Drawing.Image)
+        Me.butProcessMonitor.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessMonitor.Tag = Nothing
+        Me.butProcessMonitor.Text = "Monitor"
+        Me.butProcessMonitor.ToolTip = Nothing
+        Me.butProcessMonitor.ToolTipImage = Nothing
+        Me.butProcessMonitor.ToolTipTitle = Nothing
+        '
         'RBProcessPriority
         '
         Me.RBProcessPriority.ButtonMoreEnabled = False
@@ -1167,6 +1338,103 @@ Partial Class frmMain
         Me.RBProcessPriority.Items.Add(Me.butProcessPriority)
         Me.RBProcessPriority.Tag = Nothing
         Me.RBProcessPriority.Text = "Priority"
+        '
+        'butProcessPriority
+        '
+        Me.butProcessPriority.AltKey = Nothing
+        Me.butProcessPriority.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessPriority.DropDownItems.Add(Me.butIdle)
+        Me.butProcessPriority.DropDownItems.Add(Me.butBelowNormal)
+        Me.butProcessPriority.DropDownItems.Add(Me.butNormal)
+        Me.butProcessPriority.DropDownItems.Add(Me.butAboveNormal)
+        Me.butProcessPriority.DropDownItems.Add(Me.butHigh)
+        Me.butProcessPriority.DropDownItems.Add(Me.butRealTime)
+        Me.butProcessPriority.Image = CType(resources.GetObject("butProcessPriority.Image"), System.Drawing.Image)
+        Me.butProcessPriority.SmallImage = CType(resources.GetObject("butProcessPriority.SmallImage"), System.Drawing.Image)
+        Me.butProcessPriority.Style = System.Windows.Forms.RibbonButtonStyle.DropDown
+        Me.butProcessPriority.Tag = Nothing
+        Me.butProcessPriority.Text = "Priority"
+        Me.butProcessPriority.ToolTip = Nothing
+        Me.butProcessPriority.ToolTipImage = Nothing
+        Me.butProcessPriority.ToolTipTitle = Nothing
+        '
+        'butIdle
+        '
+        Me.butIdle.AltKey = Nothing
+        Me.butIdle.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butIdle.Image = CType(resources.GetObject("butIdle.Image"), System.Drawing.Image)
+        Me.butIdle.SmallImage = CType(resources.GetObject("butIdle.SmallImage"), System.Drawing.Image)
+        Me.butIdle.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butIdle.Tag = Nothing
+        Me.butIdle.Text = "Idle"
+        Me.butIdle.ToolTip = Nothing
+        Me.butIdle.ToolTipImage = Nothing
+        Me.butIdle.ToolTipTitle = Nothing
+        '
+        'butBelowNormal
+        '
+        Me.butBelowNormal.AltKey = Nothing
+        Me.butBelowNormal.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butBelowNormal.Image = CType(resources.GetObject("butBelowNormal.Image"), System.Drawing.Image)
+        Me.butBelowNormal.SmallImage = CType(resources.GetObject("butBelowNormal.SmallImage"), System.Drawing.Image)
+        Me.butBelowNormal.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butBelowNormal.Tag = Nothing
+        Me.butBelowNormal.Text = "Below Normal"
+        Me.butBelowNormal.ToolTip = Nothing
+        Me.butBelowNormal.ToolTipImage = Nothing
+        Me.butBelowNormal.ToolTipTitle = Nothing
+        '
+        'butNormal
+        '
+        Me.butNormal.AltKey = Nothing
+        Me.butNormal.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butNormal.Image = CType(resources.GetObject("butNormal.Image"), System.Drawing.Image)
+        Me.butNormal.SmallImage = CType(resources.GetObject("butNormal.SmallImage"), System.Drawing.Image)
+        Me.butNormal.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butNormal.Tag = Nothing
+        Me.butNormal.Text = "Normal"
+        Me.butNormal.ToolTip = Nothing
+        Me.butNormal.ToolTipImage = Nothing
+        Me.butNormal.ToolTipTitle = Nothing
+        '
+        'butAboveNormal
+        '
+        Me.butAboveNormal.AltKey = Nothing
+        Me.butAboveNormal.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butAboveNormal.Image = CType(resources.GetObject("butAboveNormal.Image"), System.Drawing.Image)
+        Me.butAboveNormal.SmallImage = CType(resources.GetObject("butAboveNormal.SmallImage"), System.Drawing.Image)
+        Me.butAboveNormal.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butAboveNormal.Tag = Nothing
+        Me.butAboveNormal.Text = "Above Normal"
+        Me.butAboveNormal.ToolTip = Nothing
+        Me.butAboveNormal.ToolTipImage = Nothing
+        Me.butAboveNormal.ToolTipTitle = Nothing
+        '
+        'butHigh
+        '
+        Me.butHigh.AltKey = Nothing
+        Me.butHigh.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butHigh.Image = CType(resources.GetObject("butHigh.Image"), System.Drawing.Image)
+        Me.butHigh.SmallImage = CType(resources.GetObject("butHigh.SmallImage"), System.Drawing.Image)
+        Me.butHigh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butHigh.Tag = Nothing
+        Me.butHigh.Text = "High"
+        Me.butHigh.ToolTip = Nothing
+        Me.butHigh.ToolTipImage = Nothing
+        Me.butHigh.ToolTipTitle = Nothing
+        '
+        'butRealTime
+        '
+        Me.butRealTime.AltKey = Nothing
+        Me.butRealTime.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butRealTime.Image = CType(resources.GetObject("butRealTime.Image"), System.Drawing.Image)
+        Me.butRealTime.SmallImage = CType(resources.GetObject("butRealTime.SmallImage"), System.Drawing.Image)
+        Me.butRealTime.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butRealTime.Tag = Nothing
+        Me.butRealTime.Text = "Real Time"
+        Me.butRealTime.ToolTip = Nothing
+        Me.butRealTime.ToolTipImage = Nothing
+        Me.butRealTime.ToolTipTitle = Nothing
         '
         'RBProcessExecutable
         '
@@ -1178,6 +1446,45 @@ Partial Class frmMain
         Me.RBProcessExecutable.Tag = Nothing
         Me.RBProcessExecutable.Text = "Executable"
         '
+        'butProcessFileProp
+        '
+        Me.butProcessFileProp.AltKey = Nothing
+        Me.butProcessFileProp.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessFileProp.Image = CType(resources.GetObject("butProcessFileProp.Image"), System.Drawing.Image)
+        Me.butProcessFileProp.SmallImage = CType(resources.GetObject("butProcessFileProp.SmallImage"), System.Drawing.Image)
+        Me.butProcessFileProp.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessFileProp.Tag = Nothing
+        Me.butProcessFileProp.Text = "Show file properties"
+        Me.butProcessFileProp.ToolTip = Nothing
+        Me.butProcessFileProp.ToolTipImage = Nothing
+        Me.butProcessFileProp.ToolTipTitle = Nothing
+        '
+        'butProcessDirOpen
+        '
+        Me.butProcessDirOpen.AltKey = Nothing
+        Me.butProcessDirOpen.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessDirOpen.Image = CType(resources.GetObject("butProcessDirOpen.Image"), System.Drawing.Image)
+        Me.butProcessDirOpen.SmallImage = CType(resources.GetObject("butProcessDirOpen.SmallImage"), System.Drawing.Image)
+        Me.butProcessDirOpen.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessDirOpen.Tag = Nothing
+        Me.butProcessDirOpen.Text = "Open file      directory"
+        Me.butProcessDirOpen.ToolTip = Nothing
+        Me.butProcessDirOpen.ToolTipImage = Nothing
+        Me.butProcessDirOpen.ToolTipTitle = Nothing
+        '
+        'butProcessFileDetails
+        '
+        Me.butProcessFileDetails.AltKey = Nothing
+        Me.butProcessFileDetails.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessFileDetails.Image = CType(resources.GetObject("butProcessFileDetails.Image"), System.Drawing.Image)
+        Me.butProcessFileDetails.SmallImage = CType(resources.GetObject("butProcessFileDetails.SmallImage"), System.Drawing.Image)
+        Me.butProcessFileDetails.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessFileDetails.Tag = Nothing
+        Me.butProcessFileDetails.Text = "Details"
+        Me.butProcessFileDetails.ToolTip = Nothing
+        Me.butProcessFileDetails.ToolTipImage = Nothing
+        Me.butProcessFileDetails.ToolTipTitle = Nothing
+        '
         'RBProcessOnline
         '
         Me.RBProcessOnline.ButtonMoreEnabled = False
@@ -1186,6 +1493,32 @@ Partial Class frmMain
         Me.RBProcessOnline.Items.Add(Me.butProcessGoogle)
         Me.RBProcessOnline.Tag = Nothing
         Me.RBProcessOnline.Text = "Online"
+        '
+        'butProcessOnlineDesc
+        '
+        Me.butProcessOnlineDesc.AltKey = Nothing
+        Me.butProcessOnlineDesc.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessOnlineDesc.Image = CType(resources.GetObject("butProcessOnlineDesc.Image"), System.Drawing.Image)
+        Me.butProcessOnlineDesc.SmallImage = CType(resources.GetObject("butProcessOnlineDesc.SmallImage"), System.Drawing.Image)
+        Me.butProcessOnlineDesc.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessOnlineDesc.Tag = Nothing
+        Me.butProcessOnlineDesc.Text = "Security risk"
+        Me.butProcessOnlineDesc.ToolTip = Nothing
+        Me.butProcessOnlineDesc.ToolTipImage = Nothing
+        Me.butProcessOnlineDesc.ToolTipTitle = Nothing
+        '
+        'butProcessGoogle
+        '
+        Me.butProcessGoogle.AltKey = Nothing
+        Me.butProcessGoogle.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessGoogle.Image = CType(resources.GetObject("butProcessGoogle.Image"), System.Drawing.Image)
+        Me.butProcessGoogle.SmallImage = CType(resources.GetObject("butProcessGoogle.SmallImage"), System.Drawing.Image)
+        Me.butProcessGoogle.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessGoogle.Tag = Nothing
+        Me.butProcessGoogle.Text = "Google search"
+        Me.butProcessGoogle.ToolTip = Nothing
+        Me.butProcessGoogle.ToolTipImage = Nothing
+        Me.butProcessGoogle.ToolTipTitle = Nothing
         '
         'ServiceTab
         '
@@ -1205,6 +1538,19 @@ Partial Class frmMain
         Me.RBServiceDisplay.Tag = Nothing
         Me.RBServiceDisplay.Text = "Display"
         '
+        'butServiceRefresh
+        '
+        Me.butServiceRefresh.AltKey = Nothing
+        Me.butServiceRefresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butServiceRefresh.Image = CType(resources.GetObject("butServiceRefresh.Image"), System.Drawing.Image)
+        Me.butServiceRefresh.SmallImage = CType(resources.GetObject("butServiceRefresh.SmallImage"), System.Drawing.Image)
+        Me.butServiceRefresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butServiceRefresh.Tag = Nothing
+        Me.butServiceRefresh.Text = "Refresh"
+        Me.butServiceRefresh.ToolTip = Nothing
+        Me.butServiceRefresh.ToolTipImage = Nothing
+        Me.butServiceRefresh.ToolTipTitle = Nothing
+        '
         'RBServiceAction
         '
         Me.RBServiceAction.ButtonMoreEnabled = False
@@ -1217,6 +1563,71 @@ Partial Class frmMain
         Me.RBServiceAction.Tag = Nothing
         Me.RBServiceAction.Text = "Service actions"
         '
+        'butStopService
+        '
+        Me.butStopService.AltKey = Nothing
+        Me.butStopService.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butStopService.Image = CType(resources.GetObject("butStopService.Image"), System.Drawing.Image)
+        Me.butStopService.SmallImage = CType(resources.GetObject("butStopService.SmallImage"), System.Drawing.Image)
+        Me.butStopService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butStopService.Tag = Nothing
+        Me.butStopService.Text = "Stop"
+        Me.butStopService.ToolTip = Nothing
+        Me.butStopService.ToolTipImage = Nothing
+        Me.butStopService.ToolTipTitle = Nothing
+        '
+        'butStartService
+        '
+        Me.butStartService.AltKey = Nothing
+        Me.butStartService.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butStartService.Image = CType(resources.GetObject("butStartService.Image"), System.Drawing.Image)
+        Me.butStartService.SmallImage = CType(resources.GetObject("butStartService.SmallImage"), System.Drawing.Image)
+        Me.butStartService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butStartService.Tag = Nothing
+        Me.butStartService.Text = "Start"
+        Me.butStartService.ToolTip = Nothing
+        Me.butStartService.ToolTipImage = Nothing
+        Me.butStartService.ToolTipTitle = Nothing
+        '
+        'butPauseService
+        '
+        Me.butPauseService.AltKey = Nothing
+        Me.butPauseService.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butPauseService.Image = CType(resources.GetObject("butPauseService.Image"), System.Drawing.Image)
+        Me.butPauseService.SmallImage = CType(resources.GetObject("butPauseService.SmallImage"), System.Drawing.Image)
+        Me.butPauseService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butPauseService.Tag = Nothing
+        Me.butPauseService.Text = "Pause"
+        Me.butPauseService.ToolTip = Nothing
+        Me.butPauseService.ToolTipImage = Nothing
+        Me.butPauseService.ToolTipTitle = Nothing
+        '
+        'butResumeService
+        '
+        Me.butResumeService.AltKey = Nothing
+        Me.butResumeService.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butResumeService.Image = CType(resources.GetObject("butResumeService.Image"), System.Drawing.Image)
+        Me.butResumeService.SmallImage = CType(resources.GetObject("butResumeService.SmallImage"), System.Drawing.Image)
+        Me.butResumeService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butResumeService.Tag = Nothing
+        Me.butResumeService.Text = "Resume"
+        Me.butResumeService.ToolTip = Nothing
+        Me.butResumeService.ToolTipImage = Nothing
+        Me.butResumeService.ToolTipTitle = Nothing
+        '
+        'butShutdownService
+        '
+        Me.butShutdownService.AltKey = Nothing
+        Me.butShutdownService.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butShutdownService.Image = CType(resources.GetObject("butShutdownService.Image"), System.Drawing.Image)
+        Me.butShutdownService.SmallImage = CType(resources.GetObject("butShutdownService.SmallImage"), System.Drawing.Image)
+        Me.butShutdownService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butShutdownService.Tag = Nothing
+        Me.butShutdownService.Text = "Shutdown"
+        Me.butShutdownService.ToolTip = Nothing
+        Me.butShutdownService.ToolTipImage = Nothing
+        Me.butShutdownService.ToolTipTitle = Nothing
+        '
         'RBServiceStartType
         '
         Me.RBServiceStartType.ButtonMoreEnabled = False
@@ -1224,6 +1635,61 @@ Partial Class frmMain
         Me.RBServiceStartType.Items.Add(Me.butServiceStartType)
         Me.RBServiceStartType.Tag = Nothing
         Me.RBServiceStartType.Text = "Start type"
+        '
+        'butServiceStartType
+        '
+        Me.butServiceStartType.AltKey = Nothing
+        Me.butServiceStartType.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butServiceStartType.DropDownItems.Add(Me.butAutomaticStart)
+        Me.butServiceStartType.DropDownItems.Add(Me.butOnDemandStart)
+        Me.butServiceStartType.DropDownItems.Add(Me.butDisabledStart)
+        Me.butServiceStartType.Image = CType(resources.GetObject("butServiceStartType.Image"), System.Drawing.Image)
+        Me.butServiceStartType.SmallImage = CType(resources.GetObject("butServiceStartType.SmallImage"), System.Drawing.Image)
+        Me.butServiceStartType.Style = System.Windows.Forms.RibbonButtonStyle.DropDown
+        Me.butServiceStartType.Tag = Nothing
+        Me.butServiceStartType.Text = "Start Type"
+        Me.butServiceStartType.ToolTip = Nothing
+        Me.butServiceStartType.ToolTipImage = Nothing
+        Me.butServiceStartType.ToolTipTitle = Nothing
+        '
+        'butAutomaticStart
+        '
+        Me.butAutomaticStart.AltKey = Nothing
+        Me.butAutomaticStart.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butAutomaticStart.Image = Nothing
+        Me.butAutomaticStart.SmallImage = CType(resources.GetObject("butAutomaticStart.SmallImage"), System.Drawing.Image)
+        Me.butAutomaticStart.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butAutomaticStart.Tag = Nothing
+        Me.butAutomaticStart.Text = "Automatic"
+        Me.butAutomaticStart.ToolTip = Nothing
+        Me.butAutomaticStart.ToolTipImage = Nothing
+        Me.butAutomaticStart.ToolTipTitle = Nothing
+        '
+        'butOnDemandStart
+        '
+        Me.butOnDemandStart.AltKey = Nothing
+        Me.butOnDemandStart.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butOnDemandStart.Image = CType(resources.GetObject("butOnDemandStart.Image"), System.Drawing.Image)
+        Me.butOnDemandStart.SmallImage = CType(resources.GetObject("butOnDemandStart.SmallImage"), System.Drawing.Image)
+        Me.butOnDemandStart.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butOnDemandStart.Tag = Nothing
+        Me.butOnDemandStart.Text = "On Demand"
+        Me.butOnDemandStart.ToolTip = Nothing
+        Me.butOnDemandStart.ToolTipImage = Nothing
+        Me.butOnDemandStart.ToolTipTitle = Nothing
+        '
+        'butDisabledStart
+        '
+        Me.butDisabledStart.AltKey = Nothing
+        Me.butDisabledStart.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butDisabledStart.Image = CType(resources.GetObject("butDisabledStart.Image"), System.Drawing.Image)
+        Me.butDisabledStart.SmallImage = CType(resources.GetObject("butDisabledStart.SmallImage"), System.Drawing.Image)
+        Me.butDisabledStart.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butDisabledStart.Tag = Nothing
+        Me.butDisabledStart.Text = "Disabled"
+        Me.butDisabledStart.ToolTip = Nothing
+        Me.butDisabledStart.ToolTipImage = Nothing
+        Me.butDisabledStart.ToolTipTitle = Nothing
         '
         'RBServiceFile
         '
@@ -1235,6 +1701,45 @@ Partial Class frmMain
         Me.RBServiceFile.Tag = Nothing
         Me.RBServiceFile.Text = "Executable"
         '
+        'butServiceFileProp
+        '
+        Me.butServiceFileProp.AltKey = Nothing
+        Me.butServiceFileProp.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butServiceFileProp.Image = CType(resources.GetObject("butServiceFileProp.Image"), System.Drawing.Image)
+        Me.butServiceFileProp.SmallImage = CType(resources.GetObject("butServiceFileProp.SmallImage"), System.Drawing.Image)
+        Me.butServiceFileProp.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butServiceFileProp.Tag = Nothing
+        Me.butServiceFileProp.Text = "Show file properties"
+        Me.butServiceFileProp.ToolTip = Nothing
+        Me.butServiceFileProp.ToolTipImage = Nothing
+        Me.butServiceFileProp.ToolTipTitle = Nothing
+        '
+        'butServiceOpenDir
+        '
+        Me.butServiceOpenDir.AltKey = Nothing
+        Me.butServiceOpenDir.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butServiceOpenDir.Image = CType(resources.GetObject("butServiceOpenDir.Image"), System.Drawing.Image)
+        Me.butServiceOpenDir.SmallImage = CType(resources.GetObject("butServiceOpenDir.SmallImage"), System.Drawing.Image)
+        Me.butServiceOpenDir.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butServiceOpenDir.Tag = Nothing
+        Me.butServiceOpenDir.Text = "Open file   directory"
+        Me.butServiceOpenDir.ToolTip = Nothing
+        Me.butServiceOpenDir.ToolTipImage = Nothing
+        Me.butServiceOpenDir.ToolTipTitle = Nothing
+        '
+        'butServiceFileDetails
+        '
+        Me.butServiceFileDetails.AltKey = Nothing
+        Me.butServiceFileDetails.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butServiceFileDetails.Image = CType(resources.GetObject("butServiceFileDetails.Image"), System.Drawing.Image)
+        Me.butServiceFileDetails.SmallImage = CType(resources.GetObject("butServiceFileDetails.SmallImage"), System.Drawing.Image)
+        Me.butServiceFileDetails.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butServiceFileDetails.Tag = Nothing
+        Me.butServiceFileDetails.Text = "Details"
+        Me.butServiceFileDetails.ToolTip = Nothing
+        Me.butServiceFileDetails.ToolTipImage = Nothing
+        Me.butServiceFileDetails.ToolTipTitle = Nothing
+        '
         'RBServiceOnline
         '
         Me.RBServiceOnline.ButtonMoreEnabled = False
@@ -1242,6 +1747,19 @@ Partial Class frmMain
         Me.RBServiceOnline.Items.Add(Me.butServiceGoogle)
         Me.RBServiceOnline.Tag = Nothing
         Me.RBServiceOnline.Text = "Online"
+        '
+        'butServiceGoogle
+        '
+        Me.butServiceGoogle.AltKey = Nothing
+        Me.butServiceGoogle.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butServiceGoogle.Image = CType(resources.GetObject("butServiceGoogle.Image"), System.Drawing.Image)
+        Me.butServiceGoogle.SmallImage = CType(resources.GetObject("butServiceGoogle.SmallImage"), System.Drawing.Image)
+        Me.butServiceGoogle.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butServiceGoogle.Tag = Nothing
+        Me.butServiceGoogle.Text = "Google search"
+        Me.butServiceGoogle.ToolTip = Nothing
+        Me.butServiceGoogle.ToolTipImage = Nothing
+        Me.butServiceGoogle.ToolTipTitle = Nothing
         '
         'MonitorTab
         '
@@ -1260,6 +1778,32 @@ Partial Class frmMain
         Me.RBMonitor.Tag = Nothing
         Me.RBMonitor.Text = "Monitor a process"
         '
+        'butMonitoringAdd
+        '
+        Me.butMonitoringAdd.AltKey = Nothing
+        Me.butMonitoringAdd.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butMonitoringAdd.Image = CType(resources.GetObject("butMonitoringAdd.Image"), System.Drawing.Image)
+        Me.butMonitoringAdd.SmallImage = CType(resources.GetObject("butMonitoringAdd.SmallImage"), System.Drawing.Image)
+        Me.butMonitoringAdd.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butMonitoringAdd.Tag = Nothing
+        Me.butMonitoringAdd.Text = "Add"
+        Me.butMonitoringAdd.ToolTip = Nothing
+        Me.butMonitoringAdd.ToolTipImage = Nothing
+        Me.butMonitoringAdd.ToolTipTitle = Nothing
+        '
+        'butMonitoringRemove
+        '
+        Me.butMonitoringRemove.AltKey = Nothing
+        Me.butMonitoringRemove.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butMonitoringRemove.Image = CType(resources.GetObject("butMonitoringRemove.Image"), System.Drawing.Image)
+        Me.butMonitoringRemove.SmallImage = CType(resources.GetObject("butMonitoringRemove.SmallImage"), System.Drawing.Image)
+        Me.butMonitoringRemove.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butMonitoringRemove.Tag = Nothing
+        Me.butMonitoringRemove.Text = "Remove selection"
+        Me.butMonitoringRemove.ToolTip = Nothing
+        Me.butMonitoringRemove.ToolTipImage = Nothing
+        Me.butMonitoringRemove.ToolTipTitle = Nothing
+        '
         'RBMonitoringControl
         '
         Me.RBMonitoringControl.ButtonMoreEnabled = False
@@ -1269,6 +1813,34 @@ Partial Class frmMain
         Me.RBMonitoringControl.Tag = Nothing
         Me.RBMonitoringControl.Text = "Monitor"
         '
+        'butMonitorStart
+        '
+        Me.butMonitorStart.AltKey = Nothing
+        Me.butMonitorStart.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butMonitorStart.Enabled = False
+        Me.butMonitorStart.Image = CType(resources.GetObject("butMonitorStart.Image"), System.Drawing.Image)
+        Me.butMonitorStart.SmallImage = CType(resources.GetObject("butMonitorStart.SmallImage"), System.Drawing.Image)
+        Me.butMonitorStart.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butMonitorStart.Tag = Nothing
+        Me.butMonitorStart.Text = "Start"
+        Me.butMonitorStart.ToolTip = Nothing
+        Me.butMonitorStart.ToolTipImage = Nothing
+        Me.butMonitorStart.ToolTipTitle = Nothing
+        '
+        'butMonitorStop
+        '
+        Me.butMonitorStop.AltKey = Nothing
+        Me.butMonitorStop.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butMonitorStop.Enabled = False
+        Me.butMonitorStop.Image = CType(resources.GetObject("butMonitorStop.Image"), System.Drawing.Image)
+        Me.butMonitorStop.SmallImage = CType(resources.GetObject("butMonitorStop.SmallImage"), System.Drawing.Image)
+        Me.butMonitorStop.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butMonitorStop.Tag = Nothing
+        Me.butMonitorStop.Text = "Stop"
+        Me.butMonitorStop.ToolTip = Nothing
+        Me.butMonitorStop.ToolTipImage = Nothing
+        Me.butMonitorStop.ToolTipTitle = Nothing
+        '
         'butSaveMonitorReport
         '
         Me.butSaveMonitorReport.ButtonMoreEnabled = False
@@ -1276,6 +1848,20 @@ Partial Class frmMain
         Me.butSaveMonitorReport.Items.Add(Me.butMonitorSaveReport)
         Me.butSaveMonitorReport.Tag = Nothing
         Me.butSaveMonitorReport.Text = "Report"
+        '
+        'butMonitorSaveReport
+        '
+        Me.butMonitorSaveReport.AltKey = Nothing
+        Me.butMonitorSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butMonitorSaveReport.Enabled = False
+        Me.butMonitorSaveReport.Image = CType(resources.GetObject("butMonitorSaveReport.Image"), System.Drawing.Image)
+        Me.butMonitorSaveReport.SmallImage = CType(resources.GetObject("butMonitorSaveReport.SmallImage"), System.Drawing.Image)
+        Me.butMonitorSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butMonitorSaveReport.Tag = Nothing
+        Me.butMonitorSaveReport.Text = "Save report"
+        Me.butMonitorSaveReport.ToolTip = Nothing
+        Me.butMonitorSaveReport.ToolTipImage = Nothing
+        Me.butMonitorSaveReport.ToolTipTitle = Nothing
         '
         'HandlesTab
         '
@@ -1293,6 +1879,32 @@ Partial Class frmMain
         Me.RBHandlesActions.Tag = Nothing
         Me.RBHandlesActions.Text = "Actions"
         '
+        'butHandleRefresh
+        '
+        Me.butHandleRefresh.AltKey = Nothing
+        Me.butHandleRefresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butHandleRefresh.Image = CType(resources.GetObject("butHandleRefresh.Image"), System.Drawing.Image)
+        Me.butHandleRefresh.SmallImage = CType(resources.GetObject("butHandleRefresh.SmallImage"), System.Drawing.Image)
+        Me.butHandleRefresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butHandleRefresh.Tag = Nothing
+        Me.butHandleRefresh.Text = "Refresh"
+        Me.butHandleRefresh.ToolTip = Nothing
+        Me.butHandleRefresh.ToolTipImage = Nothing
+        Me.butHandleRefresh.ToolTipTitle = Nothing
+        '
+        'butHandleClose
+        '
+        Me.butHandleClose.AltKey = Nothing
+        Me.butHandleClose.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butHandleClose.Image = CType(resources.GetObject("butHandleClose.Image"), System.Drawing.Image)
+        Me.butHandleClose.SmallImage = CType(resources.GetObject("butHandleClose.SmallImage"), System.Drawing.Image)
+        Me.butHandleClose.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butHandleClose.Tag = Nothing
+        Me.butHandleClose.Text = "Close handle(s)"
+        Me.butHandleClose.ToolTip = Nothing
+        Me.butHandleClose.ToolTipImage = Nothing
+        Me.butHandleClose.ToolTipTitle = Nothing
+        '
         'RBHandlesReport
         '
         Me.RBHandlesReport.ButtonMoreEnabled = False
@@ -1301,6 +1913,20 @@ Partial Class frmMain
         Me.RBHandlesReport.Items.Add(Me.butHandlesSaveReport)
         Me.RBHandlesReport.Tag = Nothing
         Me.RBHandlesReport.Text = "Report"
+        '
+        'butHandlesSaveReport
+        '
+        Me.butHandlesSaveReport.AltKey = Nothing
+        Me.butHandlesSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butHandlesSaveReport.Enabled = False
+        Me.butHandlesSaveReport.Image = CType(resources.GetObject("butHandlesSaveReport.Image"), System.Drawing.Image)
+        Me.butHandlesSaveReport.SmallImage = CType(resources.GetObject("butHandlesSaveReport.SmallImage"), System.Drawing.Image)
+        Me.butHandlesSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butHandlesSaveReport.Tag = Nothing
+        Me.butHandlesSaveReport.Text = "Save report"
+        Me.butHandlesSaveReport.ToolTip = Nothing
+        Me.butHandlesSaveReport.ToolTipImage = Nothing
+        Me.butHandlesSaveReport.ToolTipTitle = Nothing
         '
         'FileTab
         '
@@ -1322,6 +1948,32 @@ Partial Class frmMain
         Me.RBFileOpenFile.Tag = Nothing
         Me.RBFileOpenFile.Text = "File"
         '
+        'butOpenFile
+        '
+        Me.butOpenFile.AltKey = Nothing
+        Me.butOpenFile.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butOpenFile.Image = CType(resources.GetObject("butOpenFile.Image"), System.Drawing.Image)
+        Me.butOpenFile.SmallImage = CType(resources.GetObject("butOpenFile.SmallImage"), System.Drawing.Image)
+        Me.butOpenFile.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butOpenFile.Tag = Nothing
+        Me.butOpenFile.Text = "Open file"
+        Me.butOpenFile.ToolTip = Nothing
+        Me.butOpenFile.ToolTipImage = Nothing
+        Me.butOpenFile.ToolTipTitle = Nothing
+        '
+        'butFileRefresh
+        '
+        Me.butFileRefresh.AltKey = Nothing
+        Me.butFileRefresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileRefresh.Image = CType(resources.GetObject("butFileRefresh.Image"), System.Drawing.Image)
+        Me.butFileRefresh.SmallImage = CType(resources.GetObject("butFileRefresh.SmallImage"), System.Drawing.Image)
+        Me.butFileRefresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileRefresh.Tag = Nothing
+        Me.butFileRefresh.Text = "Refresh infos"
+        Me.butFileRefresh.ToolTip = Nothing
+        Me.butFileRefresh.ToolTipImage = Nothing
+        Me.butFileRefresh.ToolTipTitle = Nothing
+        '
         'RBFileKillProcess
         '
         Me.RBFileKillProcess.ButtonMoreEnabled = False
@@ -1330,6 +1982,20 @@ Partial Class frmMain
         Me.RBFileKillProcess.Items.Add(Me.butFileRelease)
         Me.RBFileKillProcess.Tag = Nothing
         Me.RBFileKillProcess.Text = "Release file"
+        '
+        'butFileRelease
+        '
+        Me.butFileRelease.AltKey = Nothing
+        Me.butFileRelease.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileRelease.Enabled = False
+        Me.butFileRelease.Image = CType(resources.GetObject("butFileRelease.Image"), System.Drawing.Image)
+        Me.butFileRelease.SmallImage = CType(resources.GetObject("butFileRelease.SmallImage"), System.Drawing.Image)
+        Me.butFileRelease.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileRelease.Tag = Nothing
+        Me.butFileRelease.Text = "Release"
+        Me.butFileRelease.ToolTip = Nothing
+        Me.butFileRelease.ToolTipImage = Nothing
+        Me.butFileRelease.ToolTipTitle = Nothing
         '
         'RBFileDelete
         '
@@ -1342,6 +2008,48 @@ Partial Class frmMain
         Me.RBFileDelete.Tag = Nothing
         Me.RBFileDelete.Text = "Delete"
         '
+        'butMoveFileToTrash
+        '
+        Me.butMoveFileToTrash.AltKey = Nothing
+        Me.butMoveFileToTrash.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butMoveFileToTrash.Enabled = False
+        Me.butMoveFileToTrash.Image = CType(resources.GetObject("butMoveFileToTrash.Image"), System.Drawing.Image)
+        Me.butMoveFileToTrash.SmallImage = CType(resources.GetObject("butMoveFileToTrash.SmallImage"), System.Drawing.Image)
+        Me.butMoveFileToTrash.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butMoveFileToTrash.Tag = Nothing
+        Me.butMoveFileToTrash.Text = "Trash"
+        Me.butMoveFileToTrash.ToolTip = Nothing
+        Me.butMoveFileToTrash.ToolTipImage = Nothing
+        Me.butMoveFileToTrash.ToolTipTitle = Nothing
+        '
+        'butDeleteFile
+        '
+        Me.butDeleteFile.AltKey = Nothing
+        Me.butDeleteFile.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butDeleteFile.Enabled = False
+        Me.butDeleteFile.Image = CType(resources.GetObject("butDeleteFile.Image"), System.Drawing.Image)
+        Me.butDeleteFile.SmallImage = CType(resources.GetObject("butDeleteFile.SmallImage"), System.Drawing.Image)
+        Me.butDeleteFile.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butDeleteFile.Tag = Nothing
+        Me.butDeleteFile.Text = "Delete"
+        Me.butDeleteFile.ToolTip = Nothing
+        Me.butDeleteFile.ToolTipImage = Nothing
+        Me.butDeleteFile.ToolTipTitle = Nothing
+        '
+        'butShreddFile
+        '
+        Me.butShreddFile.AltKey = Nothing
+        Me.butShreddFile.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butShreddFile.Enabled = False
+        Me.butShreddFile.Image = CType(resources.GetObject("butShreddFile.Image"), System.Drawing.Image)
+        Me.butShreddFile.SmallImage = CType(resources.GetObject("butShreddFile.SmallImage"), System.Drawing.Image)
+        Me.butShreddFile.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butShreddFile.Tag = Nothing
+        Me.butShreddFile.Text = "Shredd"
+        Me.butShreddFile.ToolTip = Nothing
+        Me.butShreddFile.ToolTipImage = Nothing
+        Me.butShreddFile.ToolTipTitle = Nothing
+        '
         'RBFileOnline
         '
         Me.RBFileOnline.ButtonMoreEnabled = False
@@ -1350,6 +2058,20 @@ Partial Class frmMain
         Me.RBFileOnline.Items.Add(Me.butFileGoogleSearch)
         Me.RBFileOnline.Tag = Nothing
         Me.RBFileOnline.Text = "Online"
+        '
+        'butFileGoogleSearch
+        '
+        Me.butFileGoogleSearch.AltKey = Nothing
+        Me.butFileGoogleSearch.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileGoogleSearch.Enabled = False
+        Me.butFileGoogleSearch.Image = CType(resources.GetObject("butFileGoogleSearch.Image"), System.Drawing.Image)
+        Me.butFileGoogleSearch.SmallImage = CType(resources.GetObject("butFileGoogleSearch.SmallImage"), System.Drawing.Image)
+        Me.butFileGoogleSearch.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileGoogleSearch.Tag = Nothing
+        Me.butFileGoogleSearch.Text = "Google search"
+        Me.butFileGoogleSearch.ToolTip = Nothing
+        Me.butFileGoogleSearch.ToolTipImage = Nothing
+        Me.butFileGoogleSearch.ToolTipTitle = Nothing
         '
         'RBFileOther
         '
@@ -1362,6 +2084,48 @@ Partial Class frmMain
         Me.RBFileOther.Tag = Nothing
         Me.RBFileOther.Text = "Properties"
         '
+        'butFileProperties
+        '
+        Me.butFileProperties.AltKey = Nothing
+        Me.butFileProperties.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileProperties.Enabled = False
+        Me.butFileProperties.Image = CType(resources.GetObject("butFileProperties.Image"), System.Drawing.Image)
+        Me.butFileProperties.SmallImage = CType(resources.GetObject("butFileProperties.SmallImage"), System.Drawing.Image)
+        Me.butFileProperties.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileProperties.Tag = Nothing
+        Me.butFileProperties.Text = "Show file properties"
+        Me.butFileProperties.ToolTip = Nothing
+        Me.butFileProperties.ToolTipImage = Nothing
+        Me.butFileProperties.ToolTipTitle = Nothing
+        '
+        'butFileOpenDir
+        '
+        Me.butFileOpenDir.AltKey = Nothing
+        Me.butFileOpenDir.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileOpenDir.Enabled = False
+        Me.butFileOpenDir.Image = CType(resources.GetObject("butFileOpenDir.Image"), System.Drawing.Image)
+        Me.butFileOpenDir.SmallImage = CType(resources.GetObject("butFileOpenDir.SmallImage"), System.Drawing.Image)
+        Me.butFileOpenDir.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileOpenDir.Tag = Nothing
+        Me.butFileOpenDir.Text = "Open file   directory"
+        Me.butFileOpenDir.ToolTip = Nothing
+        Me.butFileOpenDir.ToolTipImage = Nothing
+        Me.butFileOpenDir.ToolTipTitle = Nothing
+        '
+        'butFileShowFolderProperties
+        '
+        Me.butFileShowFolderProperties.AltKey = Nothing
+        Me.butFileShowFolderProperties.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileShowFolderProperties.Enabled = False
+        Me.butFileShowFolderProperties.Image = CType(resources.GetObject("butFileShowFolderProperties.Image"), System.Drawing.Image)
+        Me.butFileShowFolderProperties.SmallImage = CType(resources.GetObject("butFileShowFolderProperties.SmallImage"), System.Drawing.Image)
+        Me.butFileShowFolderProperties.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileShowFolderProperties.Tag = Nothing
+        Me.butFileShowFolderProperties.Text = "Show dir. properties"
+        Me.butFileShowFolderProperties.ToolTip = Nothing
+        Me.butFileShowFolderProperties.ToolTipImage = Nothing
+        Me.butFileShowFolderProperties.ToolTipTitle = Nothing
+        '
         'RBFileOthers
         '
         Me.RBFileOthers.ButtonMoreEnabled = False
@@ -1370,6 +2134,154 @@ Partial Class frmMain
         Me.RBFileOthers.Items.Add(Me.butFileOthersActions)
         Me.RBFileOthers.Tag = Nothing
         Me.RBFileOthers.Text = "Others"
+        '
+        'butFileOthersActions
+        '
+        Me.butFileOthersActions.AltKey = Nothing
+        Me.butFileOthersActions.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileOthersActions.DropDownItems.Add(Me.sepFile1)
+        Me.butFileOthersActions.DropDownItems.Add(Me.butFileRename)
+        Me.butFileOthersActions.DropDownItems.Add(Me.butFileCopy)
+        Me.butFileOthersActions.DropDownItems.Add(Me.butFileMove)
+        Me.butFileOthersActions.DropDownItems.Add(Me.butFileOpen)
+        Me.butFileOthersActions.DropDownItems.Add(Me.sepFile2)
+        Me.butFileOthersActions.DropDownItems.Add(Me.butFileSeeStrings)
+        Me.butFileOthersActions.DropDownItems.Add(Me.sepFile3)
+        Me.butFileOthersActions.DropDownItems.Add(Me.butFileEncrypt)
+        Me.butFileOthersActions.DropDownItems.Add(Me.butFileDecrypt)
+        Me.butFileOthersActions.Enabled = False
+        Me.butFileOthersActions.Image = CType(resources.GetObject("butFileOthersActions.Image"), System.Drawing.Image)
+        Me.butFileOthersActions.SmallImage = CType(resources.GetObject("butFileOthersActions.SmallImage"), System.Drawing.Image)
+        Me.butFileOthersActions.Style = System.Windows.Forms.RibbonButtonStyle.DropDown
+        Me.butFileOthersActions.Tag = Nothing
+        Me.butFileOthersActions.Text = "Others"
+        Me.butFileOthersActions.ToolTip = Nothing
+        Me.butFileOthersActions.ToolTipImage = Nothing
+        Me.butFileOthersActions.ToolTipTitle = Nothing
+        '
+        'sepFile1
+        '
+        Me.sepFile1.AltKey = Nothing
+        Me.sepFile1.Image = Nothing
+        Me.sepFile1.Tag = Nothing
+        Me.sepFile1.Text = "Explorer actions"
+        Me.sepFile1.ToolTip = Nothing
+        Me.sepFile1.ToolTipImage = Nothing
+        Me.sepFile1.ToolTipTitle = Nothing
+        '
+        'butFileRename
+        '
+        Me.butFileRename.AltKey = Nothing
+        Me.butFileRename.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileRename.Enabled = False
+        Me.butFileRename.Image = CType(resources.GetObject("butFileRename.Image"), System.Drawing.Image)
+        Me.butFileRename.SmallImage = CType(resources.GetObject("butFileRename.SmallImage"), System.Drawing.Image)
+        Me.butFileRename.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileRename.Tag = Nothing
+        Me.butFileRename.Text = "Rename"
+        Me.butFileRename.ToolTip = Nothing
+        Me.butFileRename.ToolTipImage = Nothing
+        Me.butFileRename.ToolTipTitle = Nothing
+        '
+        'butFileCopy
+        '
+        Me.butFileCopy.AltKey = Nothing
+        Me.butFileCopy.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileCopy.Enabled = False
+        Me.butFileCopy.Image = CType(resources.GetObject("butFileCopy.Image"), System.Drawing.Image)
+        Me.butFileCopy.SmallImage = CType(resources.GetObject("butFileCopy.SmallImage"), System.Drawing.Image)
+        Me.butFileCopy.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileCopy.Tag = Nothing
+        Me.butFileCopy.Text = "Copy"
+        Me.butFileCopy.ToolTip = Nothing
+        Me.butFileCopy.ToolTipImage = Nothing
+        Me.butFileCopy.ToolTipTitle = Nothing
+        '
+        'butFileMove
+        '
+        Me.butFileMove.AltKey = Nothing
+        Me.butFileMove.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileMove.Enabled = False
+        Me.butFileMove.Image = CType(resources.GetObject("butFileMove.Image"), System.Drawing.Image)
+        Me.butFileMove.SmallImage = CType(resources.GetObject("butFileMove.SmallImage"), System.Drawing.Image)
+        Me.butFileMove.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileMove.Tag = Nothing
+        Me.butFileMove.Text = "Move"
+        Me.butFileMove.ToolTip = Nothing
+        Me.butFileMove.ToolTipImage = Nothing
+        Me.butFileMove.ToolTipTitle = Nothing
+        '
+        'butFileOpen
+        '
+        Me.butFileOpen.AltKey = Nothing
+        Me.butFileOpen.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileOpen.Image = CType(resources.GetObject("butFileOpen.Image"), System.Drawing.Image)
+        Me.butFileOpen.SmallImage = CType(resources.GetObject("butFileOpen.SmallImage"), System.Drawing.Image)
+        Me.butFileOpen.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileOpen.Tag = Nothing
+        Me.butFileOpen.Text = "Open"
+        Me.butFileOpen.ToolTip = Nothing
+        Me.butFileOpen.ToolTipImage = Nothing
+        Me.butFileOpen.ToolTipTitle = Nothing
+        '
+        'sepFile2
+        '
+        Me.sepFile2.AltKey = Nothing
+        Me.sepFile2.Image = Nothing
+        Me.sepFile2.Tag = Nothing
+        Me.sepFile2.Text = "File content"
+        Me.sepFile2.ToolTip = Nothing
+        Me.sepFile2.ToolTipImage = Nothing
+        Me.sepFile2.ToolTipTitle = Nothing
+        '
+        'butFileSeeStrings
+        '
+        Me.butFileSeeStrings.AltKey = Nothing
+        Me.butFileSeeStrings.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileSeeStrings.Image = CType(resources.GetObject("butFileSeeStrings.Image"), System.Drawing.Image)
+        Me.butFileSeeStrings.SmallImage = CType(resources.GetObject("butFileSeeStrings.SmallImage"), System.Drawing.Image)
+        Me.butFileSeeStrings.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileSeeStrings.Tag = Nothing
+        Me.butFileSeeStrings.Text = "Show file strings"
+        Me.butFileSeeStrings.ToolTip = Nothing
+        Me.butFileSeeStrings.ToolTipImage = Nothing
+        Me.butFileSeeStrings.ToolTipTitle = Nothing
+        '
+        'sepFile3
+        '
+        Me.sepFile3.AltKey = Nothing
+        Me.sepFile3.Image = Nothing
+        Me.sepFile3.Tag = Nothing
+        Me.sepFile3.Text = "Encryption"
+        Me.sepFile3.ToolTip = Nothing
+        Me.sepFile3.ToolTipImage = Nothing
+        Me.sepFile3.ToolTipTitle = Nothing
+        '
+        'butFileEncrypt
+        '
+        Me.butFileEncrypt.AltKey = Nothing
+        Me.butFileEncrypt.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileEncrypt.Image = CType(resources.GetObject("butFileEncrypt.Image"), System.Drawing.Image)
+        Me.butFileEncrypt.SmallImage = CType(resources.GetObject("butFileEncrypt.SmallImage"), System.Drawing.Image)
+        Me.butFileEncrypt.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileEncrypt.Tag = Nothing
+        Me.butFileEncrypt.Text = "Encrypt"
+        Me.butFileEncrypt.ToolTip = Nothing
+        Me.butFileEncrypt.ToolTipImage = Nothing
+        Me.butFileEncrypt.ToolTipTitle = Nothing
+        '
+        'butFileDecrypt
+        '
+        Me.butFileDecrypt.AltKey = Nothing
+        Me.butFileDecrypt.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFileDecrypt.Image = CType(resources.GetObject("butFileDecrypt.Image"), System.Drawing.Image)
+        Me.butFileDecrypt.SmallImage = CType(resources.GetObject("butFileDecrypt.SmallImage"), System.Drawing.Image)
+        Me.butFileDecrypt.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFileDecrypt.Tag = Nothing
+        Me.butFileDecrypt.Text = "Decrypt"
+        Me.butFileDecrypt.ToolTip = Nothing
+        Me.butFileDecrypt.ToolTipImage = Nothing
+        Me.butFileDecrypt.ToolTipTitle = Nothing
         '
         'JobsTab
         '
@@ -1387,6 +2299,20 @@ Partial Class frmMain
         Me.RBAdd.Tag = Nothing
         Me.RBAdd.Text = "Job management"
         '
+        'butAddJob
+        '
+        Me.butAddJob.AltKey = Nothing
+        Me.butAddJob.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butAddJob.Enabled = False
+        Me.butAddJob.Image = CType(resources.GetObject("butAddJob.Image"), System.Drawing.Image)
+        Me.butAddJob.SmallImage = CType(resources.GetObject("butAddJob.SmallImage"), System.Drawing.Image)
+        Me.butAddJob.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butAddJob.Tag = Nothing
+        Me.butAddJob.Text = "New job"
+        Me.butAddJob.ToolTip = Nothing
+        Me.butAddJob.ToolTipImage = Nothing
+        Me.butAddJob.ToolTipTitle = Nothing
+        '
         'RBJobsOpenSave
         '
         Me.RBJobsOpenSave.ButtonMoreEnabled = False
@@ -1396,6 +2322,34 @@ Partial Class frmMain
         Me.RBJobsOpenSave.Items.Add(Me.butSaveJobList)
         Me.RBJobsOpenSave.Tag = Nothing
         Me.RBJobsOpenSave.Text = "Job list"
+        '
+        'butOpenJobList
+        '
+        Me.butOpenJobList.AltKey = Nothing
+        Me.butOpenJobList.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butOpenJobList.Enabled = False
+        Me.butOpenJobList.Image = CType(resources.GetObject("butOpenJobList.Image"), System.Drawing.Image)
+        Me.butOpenJobList.SmallImage = CType(resources.GetObject("butOpenJobList.SmallImage"), System.Drawing.Image)
+        Me.butOpenJobList.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butOpenJobList.Tag = Nothing
+        Me.butOpenJobList.Text = "Open"
+        Me.butOpenJobList.ToolTip = Nothing
+        Me.butOpenJobList.ToolTipImage = Nothing
+        Me.butOpenJobList.ToolTipTitle = Nothing
+        '
+        'butSaveJobList
+        '
+        Me.butSaveJobList.AltKey = Nothing
+        Me.butSaveJobList.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butSaveJobList.Enabled = False
+        Me.butSaveJobList.Image = CType(resources.GetObject("butSaveJobList.Image"), System.Drawing.Image)
+        Me.butSaveJobList.SmallImage = CType(resources.GetObject("butSaveJobList.SmallImage"), System.Drawing.Image)
+        Me.butSaveJobList.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butSaveJobList.Tag = Nothing
+        Me.butSaveJobList.Text = "Save"
+        Me.butSaveJobList.ToolTip = Nothing
+        Me.butSaveJobList.ToolTipImage = Nothing
+        Me.butSaveJobList.ToolTipTitle = Nothing
         '
         'SearchTab
         '
@@ -1412,6 +2366,45 @@ Partial Class frmMain
         Me.RBSearchMain.Items.Add(Me.txtSearchString)
         Me.RBSearchMain.Tag = Nothing
         Me.RBSearchMain.Text = "Search"
+        '
+        'butSearchGo
+        '
+        Me.butSearchGo.AltKey = Nothing
+        Me.butSearchGo.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butSearchGo.DropDownItems.Add(Me.RibbonTextBox1)
+        Me.butSearchGo.Enabled = False
+        Me.butSearchGo.Image = CType(resources.GetObject("butSearchGo.Image"), System.Drawing.Image)
+        Me.butSearchGo.SmallImage = CType(resources.GetObject("butSearchGo.SmallImage"), System.Drawing.Image)
+        Me.butSearchGo.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butSearchGo.Tag = Nothing
+        Me.butSearchGo.Text = "Launch"
+        Me.butSearchGo.ToolTip = Nothing
+        Me.butSearchGo.ToolTipImage = Nothing
+        Me.butSearchGo.ToolTipTitle = Nothing
+        '
+        'RibbonTextBox1
+        '
+        Me.RibbonTextBox1.AltKey = Nothing
+        Me.RibbonTextBox1.Image = Nothing
+        Me.RibbonTextBox1.Tag = Nothing
+        Me.RibbonTextBox1.Text = "RibbonTextBox1"
+        Me.RibbonTextBox1.TextBoxText = Nothing
+        Me.RibbonTextBox1.ToolTip = Nothing
+        Me.RibbonTextBox1.ToolTipImage = Nothing
+        Me.RibbonTextBox1.ToolTipTitle = Nothing
+        '
+        'butSearchSaveReport
+        '
+        Me.butSearchSaveReport.AltKey = Nothing
+        Me.butSearchSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butSearchSaveReport.Image = CType(resources.GetObject("butSearchSaveReport.Image"), System.Drawing.Image)
+        Me.butSearchSaveReport.SmallImage = CType(resources.GetObject("butSearchSaveReport.SmallImage"), System.Drawing.Image)
+        Me.butSearchSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butSearchSaveReport.Tag = Nothing
+        Me.butSearchSaveReport.Text = "Save report"
+        Me.butSearchSaveReport.ToolTip = Nothing
+        Me.butSearchSaveReport.ToolTipImage = Nothing
+        Me.butSearchSaveReport.ToolTipTitle = Nothing
         '
         'txtSearchString
         '
@@ -1442,6 +2435,34 @@ Partial Class frmMain
         Me.RBSaveReport.Tag = Nothing
         Me.RBSaveReport.Text = "Save report"
         '
+        'butSaveProcessReport
+        '
+        Me.butSaveProcessReport.AltKey = Nothing
+        Me.butSaveProcessReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butSaveProcessReport.Enabled = False
+        Me.butSaveProcessReport.Image = CType(resources.GetObject("butSaveProcessReport.Image"), System.Drawing.Image)
+        Me.butSaveProcessReport.SmallImage = CType(resources.GetObject("butSaveProcessReport.SmallImage"), System.Drawing.Image)
+        Me.butSaveProcessReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butSaveProcessReport.Tag = Nothing
+        Me.butSaveProcessReport.Text = "Process report"
+        Me.butSaveProcessReport.ToolTip = Nothing
+        Me.butSaveProcessReport.ToolTipImage = Nothing
+        Me.butSaveProcessReport.ToolTipTitle = Nothing
+        '
+        'butSaveServiceReport
+        '
+        Me.butSaveServiceReport.AltKey = Nothing
+        Me.butSaveServiceReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butSaveServiceReport.Enabled = False
+        Me.butSaveServiceReport.Image = CType(resources.GetObject("butSaveServiceReport.Image"), System.Drawing.Image)
+        Me.butSaveServiceReport.SmallImage = CType(resources.GetObject("butSaveServiceReport.SmallImage"), System.Drawing.Image)
+        Me.butSaveServiceReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butSaveServiceReport.Tag = Nothing
+        Me.butSaveServiceReport.Text = "Service report"
+        Me.butSaveServiceReport.ToolTip = Nothing
+        Me.butSaveServiceReport.ToolTipImage = Nothing
+        Me.butSaveServiceReport.ToolTipTitle = Nothing
+        '
         'RBOthers
         '
         Me.RBOthers.ButtonMoreEnabled = False
@@ -1451,6 +2472,32 @@ Partial Class frmMain
         Me.RBOthers.Tag = Nothing
         Me.RBOthers.Text = "Other"
         '
+        'butTakeFullPower
+        '
+        Me.butTakeFullPower.AltKey = Nothing
+        Me.butTakeFullPower.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butTakeFullPower.Image = CType(resources.GetObject("butTakeFullPower.Image"), System.Drawing.Image)
+        Me.butTakeFullPower.SmallImage = CType(resources.GetObject("butTakeFullPower.SmallImage"), System.Drawing.Image)
+        Me.butTakeFullPower.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butTakeFullPower.Tag = Nothing
+        Me.butTakeFullPower.Text = "Full power"
+        Me.butTakeFullPower.ToolTip = Nothing
+        Me.butTakeFullPower.ToolTipImage = Nothing
+        Me.butTakeFullPower.ToolTipTitle = Nothing
+        '
+        'butOptions
+        '
+        Me.butOptions.AltKey = Nothing
+        Me.butOptions.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butOptions.Image = CType(resources.GetObject("butOptions.Image"), System.Drawing.Image)
+        Me.butOptions.SmallImage = CType(resources.GetObject("butOptions.SmallImage"), System.Drawing.Image)
+        Me.butOptions.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butOptions.Tag = Nothing
+        Me.butOptions.Text = "Preferences"
+        Me.butOptions.ToolTip = Nothing
+        Me.butOptions.ToolTipImage = Nothing
+        Me.butOptions.ToolTipTitle = Nothing
+        '
         'RBDisplay
         '
         Me.RBDisplay.ButtonMoreEnabled = False
@@ -1458,6 +2505,19 @@ Partial Class frmMain
         Me.RBDisplay.Items.Add(Me.butTopMost)
         Me.RBDisplay.Tag = Nothing
         Me.RBDisplay.Text = "Display settings"
+        '
+        'butTopMost
+        '
+        Me.butTopMost.AltKey = Nothing
+        Me.butTopMost.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butTopMost.Image = CType(resources.GetObject("butTopMost.Image"), System.Drawing.Image)
+        Me.butTopMost.SmallImage = CType(resources.GetObject("butTopMost.SmallImage"), System.Drawing.Image)
+        Me.butTopMost.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butTopMost.Tag = Nothing
+        Me.butTopMost.Text = "Always display"
+        Me.butTopMost.ToolTip = Nothing
+        Me.butTopMost.ToolTipImage = Nothing
+        Me.butTopMost.ToolTipTitle = Nothing
         '
         'HelpTab
         '
@@ -1475,6 +2535,19 @@ Partial Class frmMain
         Me.RBUpdate.Tag = Nothing
         Me.RBUpdate.Text = "Update"
         '
+        'butUpdate
+        '
+        Me.butUpdate.AltKey = Nothing
+        Me.butUpdate.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butUpdate.Image = CType(resources.GetObject("butUpdate.Image"), System.Drawing.Image)
+        Me.butUpdate.SmallImage = CType(resources.GetObject("butUpdate.SmallImage"), System.Drawing.Image)
+        Me.butUpdate.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butUpdate.Tag = Nothing
+        Me.butUpdate.Text = "Check  for an update"
+        Me.butUpdate.ToolTip = Nothing
+        Me.butUpdate.ToolTipImage = Nothing
+        Me.butUpdate.ToolTipTitle = Nothing
+        '
         'RBHelpAction
         '
         Me.RBHelpAction.ButtonMoreEnabled = False
@@ -1483,6 +2556,32 @@ Partial Class frmMain
         Me.RBHelpAction.Items.Add(Me.butAbout)
         Me.RBHelpAction.Tag = Nothing
         Me.RBHelpAction.Text = "Actions"
+        '
+        'butDonate
+        '
+        Me.butDonate.AltKey = Nothing
+        Me.butDonate.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butDonate.Image = CType(resources.GetObject("butDonate.Image"), System.Drawing.Image)
+        Me.butDonate.SmallImage = CType(resources.GetObject("butDonate.SmallImage"), System.Drawing.Image)
+        Me.butDonate.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butDonate.Tag = Nothing
+        Me.butDonate.Text = "Donate"
+        Me.butDonate.ToolTip = Nothing
+        Me.butDonate.ToolTipImage = Nothing
+        Me.butDonate.ToolTipTitle = Nothing
+        '
+        'butAbout
+        '
+        Me.butAbout.AltKey = Nothing
+        Me.butAbout.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butAbout.Image = CType(resources.GetObject("butAbout.Image"), System.Drawing.Image)
+        Me.butAbout.SmallImage = CType(resources.GetObject("butAbout.SmallImage"), System.Drawing.Image)
+        Me.butAbout.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butAbout.Tag = Nothing
+        Me.butAbout.Text = "About"
+        Me.butAbout.ToolTip = Nothing
+        Me.butAbout.ToolTipImage = Nothing
+        Me.butAbout.ToolTipTitle = Nothing
         '
         'RBHelpWeb
         '
@@ -1493,6 +2592,45 @@ Partial Class frmMain
         Me.RBHelpWeb.Items.Add(Me.butDownload)
         Me.RBHelpWeb.Tag = Nothing
         Me.RBHelpWeb.Text = "YAPM on Internet"
+        '
+        'butWebite
+        '
+        Me.butWebite.AltKey = Nothing
+        Me.butWebite.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butWebite.Image = CType(resources.GetObject("butWebite.Image"), System.Drawing.Image)
+        Me.butWebite.SmallImage = CType(resources.GetObject("butWebite.SmallImage"), System.Drawing.Image)
+        Me.butWebite.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butWebite.Tag = Nothing
+        Me.butWebite.Text = "Website"
+        Me.butWebite.ToolTip = Nothing
+        Me.butWebite.ToolTipImage = Nothing
+        Me.butWebite.ToolTipTitle = Nothing
+        '
+        'butProjectPage
+        '
+        Me.butProjectPage.AltKey = Nothing
+        Me.butProjectPage.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProjectPage.Image = CType(resources.GetObject("butProjectPage.Image"), System.Drawing.Image)
+        Me.butProjectPage.SmallImage = CType(resources.GetObject("butProjectPage.SmallImage"), System.Drawing.Image)
+        Me.butProjectPage.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProjectPage.Tag = Nothing
+        Me.butProjectPage.Text = "Project page on Sourceforge.net"
+        Me.butProjectPage.ToolTip = Nothing
+        Me.butProjectPage.ToolTipImage = Nothing
+        Me.butProjectPage.ToolTipTitle = Nothing
+        '
+        'butDownload
+        '
+        Me.butDownload.AltKey = Nothing
+        Me.butDownload.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butDownload.Image = CType(resources.GetObject("butDownload.Image"), System.Drawing.Image)
+        Me.butDownload.SmallImage = CType(resources.GetObject("butDownload.SmallImage"), System.Drawing.Image)
+        Me.butDownload.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butDownload.Tag = Nothing
+        Me.butDownload.Text = "Downloads"
+        Me.butDownload.ToolTip = Nothing
+        Me.butDownload.ToolTipImage = Nothing
+        Me.butDownload.ToolTipTitle = Nothing
         '
         'RibbonButtonList1
         '
@@ -1804,6 +2942,15 @@ Partial Class frmMain
         Me.cmdFileClipboard.Text = "Copy to clipboard"
         Me.cmdFileClipboard.UseVisualStyleBackColor = True
         '
+        'pctFileSmall
+        '
+        Me.pctFileSmall.ContextMenuStrip = Me.mnuFileCopyPctSmall
+        Me.pctFileSmall.Location = New System.Drawing.Point(503, 19)
+        Me.pctFileSmall.Name = "pctFileSmall"
+        Me.pctFileSmall.Size = New System.Drawing.Size(16, 16)
+        Me.pctFileSmall.TabIndex = 9
+        Me.pctFileSmall.TabStop = False
+        '
         'mnuFileCopyPctSmall
         '
         Me.mnuFileCopyPctSmall.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem17})
@@ -1815,6 +2962,15 @@ Partial Class frmMain
         Me.ToolStripMenuItem17.Name = "ToolStripMenuItem17"
         Me.ToolStripMenuItem17.Size = New System.Drawing.Size(169, 22)
         Me.ToolStripMenuItem17.Text = "Copy to clipboard"
+        '
+        'pctFileBig
+        '
+        Me.pctFileBig.ContextMenuStrip = Me.mnuFileCopyPctBig
+        Me.pctFileBig.Location = New System.Drawing.Point(525, 3)
+        Me.pctFileBig.Name = "pctFileBig"
+        Me.pctFileBig.Size = New System.Drawing.Size(32, 32)
+        Me.pctFileBig.TabIndex = 8
+        Me.pctFileBig.TabStop = False
         '
         'mnuFileCopyPctBig
         '
@@ -2260,6 +3416,22 @@ Partial Class frmMain
         Me.Label7.TabIndex = 5
         Me.Label7.Text = "Graphs :"
         '
+        'graphMonitor
+        '
+        Me.graphMonitor.BackColor = System.Drawing.Color.Black
+        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
+        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
+        Me.graphMonitor.dDate = New Date(CType(0, Long))
+        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphMonitor.EnableGraph = False
+        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
+        Me.graphMonitor.Name = "graphMonitor"
+        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
+        Me.graphMonitor.TabIndex = 3
+        Me.graphMonitor.TabStop = False
+        Me.graphMonitor.ViewMax = 0
+        Me.graphMonitor.ViewMin = 0
+        '
         'txtMonitorNumber
         '
         Me.txtMonitorNumber.Location = New System.Drawing.Point(241, 0)
@@ -2327,42 +3499,6 @@ Partial Class frmMain
         Me.timerMonitoring.Enabled = True
         Me.timerMonitoring.Interval = 1000
         '
-        'pctFileSmall
-        '
-        Me.pctFileSmall.ContextMenuStrip = Me.mnuFileCopyPctSmall
-        Me.pctFileSmall.Location = New System.Drawing.Point(503, 19)
-        Me.pctFileSmall.Name = "pctFileSmall"
-        Me.pctFileSmall.Size = New System.Drawing.Size(16, 16)
-        Me.pctFileSmall.TabIndex = 9
-        Me.pctFileSmall.TabStop = False
-        '
-        'pctFileBig
-        '
-        Me.pctFileBig.ContextMenuStrip = Me.mnuFileCopyPctBig
-        Me.pctFileBig.Location = New System.Drawing.Point(525, 3)
-        Me.pctFileBig.Name = "pctFileBig"
-        Me.pctFileBig.Size = New System.Drawing.Size(32, 32)
-        Me.pctFileBig.TabIndex = 8
-        Me.pctFileBig.TabStop = False
-        '
-        'pctSmallIcon
-        '
-        Me.pctSmallIcon.ContextMenuStrip = Me.menuCopyPctSmall
-        Me.pctSmallIcon.Location = New System.Drawing.Point(503, 19)
-        Me.pctSmallIcon.Name = "pctSmallIcon"
-        Me.pctSmallIcon.Size = New System.Drawing.Size(16, 16)
-        Me.pctSmallIcon.TabIndex = 2
-        Me.pctSmallIcon.TabStop = False
-        '
-        'pctBigIcon
-        '
-        Me.pctBigIcon.ContextMenuStrip = Me.menuCopyPctbig
-        Me.pctBigIcon.Location = New System.Drawing.Point(525, 3)
-        Me.pctBigIcon.Name = "pctBigIcon"
-        Me.pctBigIcon.Size = New System.Drawing.Size(32, 32)
-        Me.pctBigIcon.TabIndex = 1
-        Me.pctBigIcon.TabStop = False
-        '
         'cmdTray
         '
         Me.cmdTray.Font = New System.Drawing.Font("Tahoma", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2372,1120 +3508,6 @@ Partial Class frmMain
         Me.cmdTray.Size = New System.Drawing.Size(38, 20)
         Me.cmdTray.TabIndex = 45
         Me.cmdTray.UseVisualStyleBackColor = True
-        '
-        'butProcessRerfresh
-        '
-        Me.butProcessRerfresh.AltKey = Nothing
-        Me.butProcessRerfresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessRerfresh.Image = CType(resources.GetObject("butProcessRerfresh.Image"), System.Drawing.Image)
-        Me.butProcessRerfresh.SmallImage = CType(resources.GetObject("butProcessRerfresh.SmallImage"), System.Drawing.Image)
-        Me.butProcessRerfresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butProcessRerfresh.Tag = Nothing
-        Me.butProcessRerfresh.Text = "Refresh"
-        Me.butProcessRerfresh.ToolTip = Nothing
-        Me.butProcessRerfresh.ToolTipImage = Nothing
-        Me.butProcessRerfresh.ToolTipTitle = Nothing
-        '
-        'RBProcessActions
-        '
-        Me.RBProcessActions.ButtonMoreEnabled = False
-        Me.RBProcessActions.ButtonMoreVisible = False
-        Me.RBProcessActions.Items.Add(Me.butNewProcess)
-        Me.RBProcessActions.Items.Add(Me.butKillProcess)
-        Me.RBProcessActions.Items.Add(Me.butStopProcess)
-        Me.RBProcessActions.Items.Add(Me.butResumeProcess)
-        Me.RBProcessActions.Items.Add(Me.butProcessOtherActions)
-        Me.RBProcessActions.Items.Add(Me.butShowProcHandles)
-        Me.RBProcessActions.Items.Add(Me.butProcessMonitor)
-        Me.RBProcessActions.Tag = Nothing
-        Me.RBProcessActions.Text = "Process actions"
-        '
-        'butNewProcess
-        '
-        Me.butNewProcess.AltKey = Nothing
-        Me.butNewProcess.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butNewProcess.Image = CType(resources.GetObject("butNewProcess.Image"), System.Drawing.Image)
-        Me.butNewProcess.SmallImage = CType(resources.GetObject("butNewProcess.SmallImage"), System.Drawing.Image)
-        Me.butNewProcess.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butNewProcess.Tag = Nothing
-        Me.butNewProcess.Text = "New..."
-        Me.butNewProcess.ToolTip = Nothing
-        Me.butNewProcess.ToolTipImage = Nothing
-        Me.butNewProcess.ToolTipTitle = Nothing
-        '
-        'butKillProcess
-        '
-        Me.butKillProcess.AltKey = Nothing
-        Me.butKillProcess.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butKillProcess.Image = CType(resources.GetObject("butKillProcess.Image"), System.Drawing.Image)
-        Me.butKillProcess.SmallImage = CType(resources.GetObject("butKillProcess.SmallImage"), System.Drawing.Image)
-        Me.butKillProcess.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butKillProcess.Tag = Nothing
-        Me.butKillProcess.Text = "Kill"
-        Me.butKillProcess.ToolTip = Nothing
-        Me.butKillProcess.ToolTipImage = Nothing
-        Me.butKillProcess.ToolTipTitle = Nothing
-        '
-        'butStopProcess
-        '
-        Me.butStopProcess.AltKey = Nothing
-        Me.butStopProcess.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butStopProcess.Image = CType(resources.GetObject("butStopProcess.Image"), System.Drawing.Image)
-        Me.butStopProcess.SmallImage = CType(resources.GetObject("butStopProcess.SmallImage"), System.Drawing.Image)
-        Me.butStopProcess.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butStopProcess.Tag = Nothing
-        Me.butStopProcess.Text = "Pause"
-        Me.butStopProcess.ToolTip = Nothing
-        Me.butStopProcess.ToolTipImage = Nothing
-        Me.butStopProcess.ToolTipTitle = Nothing
-        '
-        'butResumeProcess
-        '
-        Me.butResumeProcess.AltKey = Nothing
-        Me.butResumeProcess.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butResumeProcess.Image = CType(resources.GetObject("butResumeProcess.Image"), System.Drawing.Image)
-        Me.butResumeProcess.SmallImage = CType(resources.GetObject("butResumeProcess.SmallImage"), System.Drawing.Image)
-        Me.butResumeProcess.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butResumeProcess.Tag = Nothing
-        Me.butResumeProcess.Text = "Resume"
-        Me.butResumeProcess.ToolTip = Nothing
-        Me.butResumeProcess.ToolTipImage = Nothing
-        Me.butResumeProcess.ToolTipTitle = Nothing
-        '
-        'butProcessOtherActions
-        '
-        Me.butProcessOtherActions.AltKey = Nothing
-        Me.butProcessOtherActions.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessOtherActions.DropDownItems.Add(Me.butProcessAffinity)
-        Me.butProcessOtherActions.DropDownItems.Add(Me.butProcessLimitCPU)
-        Me.butProcessOtherActions.Enabled = False
-        Me.butProcessOtherActions.Image = CType(resources.GetObject("butProcessOtherActions.Image"), System.Drawing.Image)
-        Me.butProcessOtherActions.SmallImage = CType(resources.GetObject("butProcessOtherActions.SmallImage"), System.Drawing.Image)
-        Me.butProcessOtherActions.Style = System.Windows.Forms.RibbonButtonStyle.DropDown
-        Me.butProcessOtherActions.Tag = Nothing
-        Me.butProcessOtherActions.Text = "Other actions"
-        Me.butProcessOtherActions.ToolTip = Nothing
-        Me.butProcessOtherActions.ToolTipImage = Nothing
-        Me.butProcessOtherActions.ToolTipTitle = Nothing
-        '
-        'butProcessAffinity
-        '
-        Me.butProcessAffinity.AltKey = Nothing
-        Me.butProcessAffinity.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessAffinity.Image = CType(resources.GetObject("butProcessAffinity.Image"), System.Drawing.Image)
-        Me.butProcessAffinity.SmallImage = CType(resources.GetObject("butProcessAffinity.SmallImage"), System.Drawing.Image)
-        Me.butProcessAffinity.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butProcessAffinity.Tag = Nothing
-        Me.butProcessAffinity.Text = "Affinity"
-        Me.butProcessAffinity.ToolTip = Nothing
-        Me.butProcessAffinity.ToolTipImage = Nothing
-        Me.butProcessAffinity.ToolTipTitle = Nothing
-        '
-        'butProcessLimitCPU
-        '
-        Me.butProcessLimitCPU.AltKey = Nothing
-        Me.butProcessLimitCPU.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessLimitCPU.Image = CType(resources.GetObject("butProcessLimitCPU.Image"), System.Drawing.Image)
-        Me.butProcessLimitCPU.SmallImage = CType(resources.GetObject("butProcessLimitCPU.SmallImage"), System.Drawing.Image)
-        Me.butProcessLimitCPU.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butProcessLimitCPU.Tag = Nothing
-        Me.butProcessLimitCPU.Text = "Limit CPU usage"
-        Me.butProcessLimitCPU.ToolTip = Nothing
-        Me.butProcessLimitCPU.ToolTipImage = Nothing
-        Me.butProcessLimitCPU.ToolTipTitle = Nothing
-        '
-        'butShowProcHandles
-        '
-        Me.butShowProcHandles.AltKey = Nothing
-        Me.butShowProcHandles.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butShowProcHandles.Image = CType(resources.GetObject("butShowProcHandles.Image"), System.Drawing.Image)
-        Me.butShowProcHandles.SmallImage = CType(resources.GetObject("butShowProcHandles.SmallImage"), System.Drawing.Image)
-        Me.butShowProcHandles.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butShowProcHandles.Tag = Nothing
-        Me.butShowProcHandles.Text = "Show handles"
-        Me.butShowProcHandles.ToolTip = Nothing
-        Me.butShowProcHandles.ToolTipImage = Nothing
-        Me.butShowProcHandles.ToolTipTitle = Nothing
-        '
-        'butProcessMonitor
-        '
-        Me.butProcessMonitor.AltKey = Nothing
-        Me.butProcessMonitor.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessMonitor.Image = CType(resources.GetObject("butProcessMonitor.Image"), System.Drawing.Image)
-        Me.butProcessMonitor.SmallImage = CType(resources.GetObject("butProcessMonitor.SmallImage"), System.Drawing.Image)
-        Me.butProcessMonitor.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butProcessMonitor.Tag = Nothing
-        Me.butProcessMonitor.Text = "Monitor"
-        Me.butProcessMonitor.ToolTip = Nothing
-        Me.butProcessMonitor.ToolTipImage = Nothing
-        Me.butProcessMonitor.ToolTipTitle = Nothing
-        '
-        'butProcessPriority
-        '
-        Me.butProcessPriority.AltKey = Nothing
-        Me.butProcessPriority.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessPriority.DropDownItems.Add(Me.butIdle)
-        Me.butProcessPriority.DropDownItems.Add(Me.butBelowNormal)
-        Me.butProcessPriority.DropDownItems.Add(Me.butNormal)
-        Me.butProcessPriority.DropDownItems.Add(Me.butAboveNormal)
-        Me.butProcessPriority.DropDownItems.Add(Me.butHigh)
-        Me.butProcessPriority.DropDownItems.Add(Me.butRealTime)
-        Me.butProcessPriority.Image = CType(resources.GetObject("butProcessPriority.Image"), System.Drawing.Image)
-        Me.butProcessPriority.SmallImage = CType(resources.GetObject("butProcessPriority.SmallImage"), System.Drawing.Image)
-        Me.butProcessPriority.Style = System.Windows.Forms.RibbonButtonStyle.DropDown
-        Me.butProcessPriority.Tag = Nothing
-        Me.butProcessPriority.Text = "Priority"
-        Me.butProcessPriority.ToolTip = Nothing
-        Me.butProcessPriority.ToolTipImage = Nothing
-        Me.butProcessPriority.ToolTipTitle = Nothing
-        '
-        'butIdle
-        '
-        Me.butIdle.AltKey = Nothing
-        Me.butIdle.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butIdle.Image = CType(resources.GetObject("butIdle.Image"), System.Drawing.Image)
-        Me.butIdle.SmallImage = CType(resources.GetObject("butIdle.SmallImage"), System.Drawing.Image)
-        Me.butIdle.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butIdle.Tag = Nothing
-        Me.butIdle.Text = "Idle"
-        Me.butIdle.ToolTip = Nothing
-        Me.butIdle.ToolTipImage = Nothing
-        Me.butIdle.ToolTipTitle = Nothing
-        '
-        'butBelowNormal
-        '
-        Me.butBelowNormal.AltKey = Nothing
-        Me.butBelowNormal.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butBelowNormal.Image = CType(resources.GetObject("butBelowNormal.Image"), System.Drawing.Image)
-        Me.butBelowNormal.SmallImage = CType(resources.GetObject("butBelowNormal.SmallImage"), System.Drawing.Image)
-        Me.butBelowNormal.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butBelowNormal.Tag = Nothing
-        Me.butBelowNormal.Text = "Below Normal"
-        Me.butBelowNormal.ToolTip = Nothing
-        Me.butBelowNormal.ToolTipImage = Nothing
-        Me.butBelowNormal.ToolTipTitle = Nothing
-        '
-        'butNormal
-        '
-        Me.butNormal.AltKey = Nothing
-        Me.butNormal.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butNormal.Image = CType(resources.GetObject("butNormal.Image"), System.Drawing.Image)
-        Me.butNormal.SmallImage = CType(resources.GetObject("butNormal.SmallImage"), System.Drawing.Image)
-        Me.butNormal.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butNormal.Tag = Nothing
-        Me.butNormal.Text = "Normal"
-        Me.butNormal.ToolTip = Nothing
-        Me.butNormal.ToolTipImage = Nothing
-        Me.butNormal.ToolTipTitle = Nothing
-        '
-        'butAboveNormal
-        '
-        Me.butAboveNormal.AltKey = Nothing
-        Me.butAboveNormal.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butAboveNormal.Image = CType(resources.GetObject("butAboveNormal.Image"), System.Drawing.Image)
-        Me.butAboveNormal.SmallImage = CType(resources.GetObject("butAboveNormal.SmallImage"), System.Drawing.Image)
-        Me.butAboveNormal.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butAboveNormal.Tag = Nothing
-        Me.butAboveNormal.Text = "Above Normal"
-        Me.butAboveNormal.ToolTip = Nothing
-        Me.butAboveNormal.ToolTipImage = Nothing
-        Me.butAboveNormal.ToolTipTitle = Nothing
-        '
-        'butHigh
-        '
-        Me.butHigh.AltKey = Nothing
-        Me.butHigh.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butHigh.Image = CType(resources.GetObject("butHigh.Image"), System.Drawing.Image)
-        Me.butHigh.SmallImage = CType(resources.GetObject("butHigh.SmallImage"), System.Drawing.Image)
-        Me.butHigh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butHigh.Tag = Nothing
-        Me.butHigh.Text = "High"
-        Me.butHigh.ToolTip = Nothing
-        Me.butHigh.ToolTipImage = Nothing
-        Me.butHigh.ToolTipTitle = Nothing
-        '
-        'butRealTime
-        '
-        Me.butRealTime.AltKey = Nothing
-        Me.butRealTime.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butRealTime.Image = CType(resources.GetObject("butRealTime.Image"), System.Drawing.Image)
-        Me.butRealTime.SmallImage = CType(resources.GetObject("butRealTime.SmallImage"), System.Drawing.Image)
-        Me.butRealTime.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butRealTime.Tag = Nothing
-        Me.butRealTime.Text = "Real Time"
-        Me.butRealTime.ToolTip = Nothing
-        Me.butRealTime.ToolTipImage = Nothing
-        Me.butRealTime.ToolTipTitle = Nothing
-        '
-        'butProcessFileProp
-        '
-        Me.butProcessFileProp.AltKey = Nothing
-        Me.butProcessFileProp.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessFileProp.Image = CType(resources.GetObject("butProcessFileProp.Image"), System.Drawing.Image)
-        Me.butProcessFileProp.SmallImage = CType(resources.GetObject("butProcessFileProp.SmallImage"), System.Drawing.Image)
-        Me.butProcessFileProp.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butProcessFileProp.Tag = Nothing
-        Me.butProcessFileProp.Text = "Show file properties"
-        Me.butProcessFileProp.ToolTip = Nothing
-        Me.butProcessFileProp.ToolTipImage = Nothing
-        Me.butProcessFileProp.ToolTipTitle = Nothing
-        '
-        'butProcessDirOpen
-        '
-        Me.butProcessDirOpen.AltKey = Nothing
-        Me.butProcessDirOpen.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessDirOpen.Image = CType(resources.GetObject("butProcessDirOpen.Image"), System.Drawing.Image)
-        Me.butProcessDirOpen.SmallImage = CType(resources.GetObject("butProcessDirOpen.SmallImage"), System.Drawing.Image)
-        Me.butProcessDirOpen.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butProcessDirOpen.Tag = Nothing
-        Me.butProcessDirOpen.Text = "Open file      directory"
-        Me.butProcessDirOpen.ToolTip = Nothing
-        Me.butProcessDirOpen.ToolTipImage = Nothing
-        Me.butProcessDirOpen.ToolTipTitle = Nothing
-        '
-        'butProcessFileDetails
-        '
-        Me.butProcessFileDetails.AltKey = Nothing
-        Me.butProcessFileDetails.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessFileDetails.Image = CType(resources.GetObject("butProcessFileDetails.Image"), System.Drawing.Image)
-        Me.butProcessFileDetails.SmallImage = CType(resources.GetObject("butProcessFileDetails.SmallImage"), System.Drawing.Image)
-        Me.butProcessFileDetails.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butProcessFileDetails.Tag = Nothing
-        Me.butProcessFileDetails.Text = "Details"
-        Me.butProcessFileDetails.ToolTip = Nothing
-        Me.butProcessFileDetails.ToolTipImage = Nothing
-        Me.butProcessFileDetails.ToolTipTitle = Nothing
-        '
-        'butProcessOnlineDesc
-        '
-        Me.butProcessOnlineDesc.AltKey = Nothing
-        Me.butProcessOnlineDesc.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessOnlineDesc.Image = CType(resources.GetObject("butProcessOnlineDesc.Image"), System.Drawing.Image)
-        Me.butProcessOnlineDesc.SmallImage = CType(resources.GetObject("butProcessOnlineDesc.SmallImage"), System.Drawing.Image)
-        Me.butProcessOnlineDesc.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butProcessOnlineDesc.Tag = Nothing
-        Me.butProcessOnlineDesc.Text = "Security risk"
-        Me.butProcessOnlineDesc.ToolTip = Nothing
-        Me.butProcessOnlineDesc.ToolTipImage = Nothing
-        Me.butProcessOnlineDesc.ToolTipTitle = Nothing
-        '
-        'butProcessGoogle
-        '
-        Me.butProcessGoogle.AltKey = Nothing
-        Me.butProcessGoogle.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessGoogle.Image = CType(resources.GetObject("butProcessGoogle.Image"), System.Drawing.Image)
-        Me.butProcessGoogle.SmallImage = CType(resources.GetObject("butProcessGoogle.SmallImage"), System.Drawing.Image)
-        Me.butProcessGoogle.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butProcessGoogle.Tag = Nothing
-        Me.butProcessGoogle.Text = "Google search"
-        Me.butProcessGoogle.ToolTip = Nothing
-        Me.butProcessGoogle.ToolTipImage = Nothing
-        Me.butProcessGoogle.ToolTipTitle = Nothing
-        '
-        'butServiceRefresh
-        '
-        Me.butServiceRefresh.AltKey = Nothing
-        Me.butServiceRefresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butServiceRefresh.Image = CType(resources.GetObject("butServiceRefresh.Image"), System.Drawing.Image)
-        Me.butServiceRefresh.SmallImage = CType(resources.GetObject("butServiceRefresh.SmallImage"), System.Drawing.Image)
-        Me.butServiceRefresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butServiceRefresh.Tag = Nothing
-        Me.butServiceRefresh.Text = "Refresh"
-        Me.butServiceRefresh.ToolTip = Nothing
-        Me.butServiceRefresh.ToolTipImage = Nothing
-        Me.butServiceRefresh.ToolTipTitle = Nothing
-        '
-        'butStopService
-        '
-        Me.butStopService.AltKey = Nothing
-        Me.butStopService.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butStopService.Image = CType(resources.GetObject("butStopService.Image"), System.Drawing.Image)
-        Me.butStopService.SmallImage = CType(resources.GetObject("butStopService.SmallImage"), System.Drawing.Image)
-        Me.butStopService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butStopService.Tag = Nothing
-        Me.butStopService.Text = "Stop"
-        Me.butStopService.ToolTip = Nothing
-        Me.butStopService.ToolTipImage = Nothing
-        Me.butStopService.ToolTipTitle = Nothing
-        '
-        'butStartService
-        '
-        Me.butStartService.AltKey = Nothing
-        Me.butStartService.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butStartService.Image = CType(resources.GetObject("butStartService.Image"), System.Drawing.Image)
-        Me.butStartService.SmallImage = CType(resources.GetObject("butStartService.SmallImage"), System.Drawing.Image)
-        Me.butStartService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butStartService.Tag = Nothing
-        Me.butStartService.Text = "Start"
-        Me.butStartService.ToolTip = Nothing
-        Me.butStartService.ToolTipImage = Nothing
-        Me.butStartService.ToolTipTitle = Nothing
-        '
-        'butPauseService
-        '
-        Me.butPauseService.AltKey = Nothing
-        Me.butPauseService.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butPauseService.Image = CType(resources.GetObject("butPauseService.Image"), System.Drawing.Image)
-        Me.butPauseService.SmallImage = CType(resources.GetObject("butPauseService.SmallImage"), System.Drawing.Image)
-        Me.butPauseService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butPauseService.Tag = Nothing
-        Me.butPauseService.Text = "Pause"
-        Me.butPauseService.ToolTip = Nothing
-        Me.butPauseService.ToolTipImage = Nothing
-        Me.butPauseService.ToolTipTitle = Nothing
-        '
-        'butResumeService
-        '
-        Me.butResumeService.AltKey = Nothing
-        Me.butResumeService.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butResumeService.Image = CType(resources.GetObject("butResumeService.Image"), System.Drawing.Image)
-        Me.butResumeService.SmallImage = CType(resources.GetObject("butResumeService.SmallImage"), System.Drawing.Image)
-        Me.butResumeService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butResumeService.Tag = Nothing
-        Me.butResumeService.Text = "Resume"
-        Me.butResumeService.ToolTip = Nothing
-        Me.butResumeService.ToolTipImage = Nothing
-        Me.butResumeService.ToolTipTitle = Nothing
-        '
-        'butShutdownService
-        '
-        Me.butShutdownService.AltKey = Nothing
-        Me.butShutdownService.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butShutdownService.Image = CType(resources.GetObject("butShutdownService.Image"), System.Drawing.Image)
-        Me.butShutdownService.SmallImage = CType(resources.GetObject("butShutdownService.SmallImage"), System.Drawing.Image)
-        Me.butShutdownService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butShutdownService.Tag = Nothing
-        Me.butShutdownService.Text = "Shutdown"
-        Me.butShutdownService.ToolTip = Nothing
-        Me.butShutdownService.ToolTipImage = Nothing
-        Me.butShutdownService.ToolTipTitle = Nothing
-        '
-        'butServiceStartType
-        '
-        Me.butServiceStartType.AltKey = Nothing
-        Me.butServiceStartType.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butServiceStartType.DropDownItems.Add(Me.butAutomaticStart)
-        Me.butServiceStartType.DropDownItems.Add(Me.butOnDemandStart)
-        Me.butServiceStartType.DropDownItems.Add(Me.butDisabledStart)
-        Me.butServiceStartType.Image = CType(resources.GetObject("butServiceStartType.Image"), System.Drawing.Image)
-        Me.butServiceStartType.SmallImage = CType(resources.GetObject("butServiceStartType.SmallImage"), System.Drawing.Image)
-        Me.butServiceStartType.Style = System.Windows.Forms.RibbonButtonStyle.DropDown
-        Me.butServiceStartType.Tag = Nothing
-        Me.butServiceStartType.Text = "Start Type"
-        Me.butServiceStartType.ToolTip = Nothing
-        Me.butServiceStartType.ToolTipImage = Nothing
-        Me.butServiceStartType.ToolTipTitle = Nothing
-        '
-        'butAutomaticStart
-        '
-        Me.butAutomaticStart.AltKey = Nothing
-        Me.butAutomaticStart.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butAutomaticStart.Image = Nothing
-        Me.butAutomaticStart.SmallImage = CType(resources.GetObject("butAutomaticStart.SmallImage"), System.Drawing.Image)
-        Me.butAutomaticStart.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butAutomaticStart.Tag = Nothing
-        Me.butAutomaticStart.Text = "Automatic"
-        Me.butAutomaticStart.ToolTip = Nothing
-        Me.butAutomaticStart.ToolTipImage = Nothing
-        Me.butAutomaticStart.ToolTipTitle = Nothing
-        '
-        'butOnDemandStart
-        '
-        Me.butOnDemandStart.AltKey = Nothing
-        Me.butOnDemandStart.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butOnDemandStart.Image = CType(resources.GetObject("butOnDemandStart.Image"), System.Drawing.Image)
-        Me.butOnDemandStart.SmallImage = CType(resources.GetObject("butOnDemandStart.SmallImage"), System.Drawing.Image)
-        Me.butOnDemandStart.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butOnDemandStart.Tag = Nothing
-        Me.butOnDemandStart.Text = "On Demand"
-        Me.butOnDemandStart.ToolTip = Nothing
-        Me.butOnDemandStart.ToolTipImage = Nothing
-        Me.butOnDemandStart.ToolTipTitle = Nothing
-        '
-        'butDisabledStart
-        '
-        Me.butDisabledStart.AltKey = Nothing
-        Me.butDisabledStart.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butDisabledStart.Image = CType(resources.GetObject("butDisabledStart.Image"), System.Drawing.Image)
-        Me.butDisabledStart.SmallImage = CType(resources.GetObject("butDisabledStart.SmallImage"), System.Drawing.Image)
-        Me.butDisabledStart.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butDisabledStart.Tag = Nothing
-        Me.butDisabledStart.Text = "Disabled"
-        Me.butDisabledStart.ToolTip = Nothing
-        Me.butDisabledStart.ToolTipImage = Nothing
-        Me.butDisabledStart.ToolTipTitle = Nothing
-        '
-        'butServiceFileProp
-        '
-        Me.butServiceFileProp.AltKey = Nothing
-        Me.butServiceFileProp.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butServiceFileProp.Image = CType(resources.GetObject("butServiceFileProp.Image"), System.Drawing.Image)
-        Me.butServiceFileProp.SmallImage = CType(resources.GetObject("butServiceFileProp.SmallImage"), System.Drawing.Image)
-        Me.butServiceFileProp.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butServiceFileProp.Tag = Nothing
-        Me.butServiceFileProp.Text = "Show file properties"
-        Me.butServiceFileProp.ToolTip = Nothing
-        Me.butServiceFileProp.ToolTipImage = Nothing
-        Me.butServiceFileProp.ToolTipTitle = Nothing
-        '
-        'butServiceOpenDir
-        '
-        Me.butServiceOpenDir.AltKey = Nothing
-        Me.butServiceOpenDir.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butServiceOpenDir.Image = CType(resources.GetObject("butServiceOpenDir.Image"), System.Drawing.Image)
-        Me.butServiceOpenDir.SmallImage = CType(resources.GetObject("butServiceOpenDir.SmallImage"), System.Drawing.Image)
-        Me.butServiceOpenDir.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butServiceOpenDir.Tag = Nothing
-        Me.butServiceOpenDir.Text = "Open file   directory"
-        Me.butServiceOpenDir.ToolTip = Nothing
-        Me.butServiceOpenDir.ToolTipImage = Nothing
-        Me.butServiceOpenDir.ToolTipTitle = Nothing
-        '
-        'butServiceFileDetails
-        '
-        Me.butServiceFileDetails.AltKey = Nothing
-        Me.butServiceFileDetails.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butServiceFileDetails.Image = CType(resources.GetObject("butServiceFileDetails.Image"), System.Drawing.Image)
-        Me.butServiceFileDetails.SmallImage = CType(resources.GetObject("butServiceFileDetails.SmallImage"), System.Drawing.Image)
-        Me.butServiceFileDetails.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butServiceFileDetails.Tag = Nothing
-        Me.butServiceFileDetails.Text = "Details"
-        Me.butServiceFileDetails.ToolTip = Nothing
-        Me.butServiceFileDetails.ToolTipImage = Nothing
-        Me.butServiceFileDetails.ToolTipTitle = Nothing
-        '
-        'butServiceGoogle
-        '
-        Me.butServiceGoogle.AltKey = Nothing
-        Me.butServiceGoogle.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butServiceGoogle.Image = CType(resources.GetObject("butServiceGoogle.Image"), System.Drawing.Image)
-        Me.butServiceGoogle.SmallImage = CType(resources.GetObject("butServiceGoogle.SmallImage"), System.Drawing.Image)
-        Me.butServiceGoogle.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butServiceGoogle.Tag = Nothing
-        Me.butServiceGoogle.Text = "Google search"
-        Me.butServiceGoogle.ToolTip = Nothing
-        Me.butServiceGoogle.ToolTipImage = Nothing
-        Me.butServiceGoogle.ToolTipTitle = Nothing
-        '
-        'butMonitoringAdd
-        '
-        Me.butMonitoringAdd.AltKey = Nothing
-        Me.butMonitoringAdd.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butMonitoringAdd.Image = CType(resources.GetObject("butMonitoringAdd.Image"), System.Drawing.Image)
-        Me.butMonitoringAdd.SmallImage = CType(resources.GetObject("butMonitoringAdd.SmallImage"), System.Drawing.Image)
-        Me.butMonitoringAdd.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butMonitoringAdd.Tag = Nothing
-        Me.butMonitoringAdd.Text = "Add"
-        Me.butMonitoringAdd.ToolTip = Nothing
-        Me.butMonitoringAdd.ToolTipImage = Nothing
-        Me.butMonitoringAdd.ToolTipTitle = Nothing
-        '
-        'butMonitoringRemove
-        '
-        Me.butMonitoringRemove.AltKey = Nothing
-        Me.butMonitoringRemove.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butMonitoringRemove.Image = CType(resources.GetObject("butMonitoringRemove.Image"), System.Drawing.Image)
-        Me.butMonitoringRemove.SmallImage = CType(resources.GetObject("butMonitoringRemove.SmallImage"), System.Drawing.Image)
-        Me.butMonitoringRemove.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butMonitoringRemove.Tag = Nothing
-        Me.butMonitoringRemove.Text = "Remove selection"
-        Me.butMonitoringRemove.ToolTip = Nothing
-        Me.butMonitoringRemove.ToolTipImage = Nothing
-        Me.butMonitoringRemove.ToolTipTitle = Nothing
-        '
-        'butMonitorStart
-        '
-        Me.butMonitorStart.AltKey = Nothing
-        Me.butMonitorStart.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butMonitorStart.Enabled = False
-        Me.butMonitorStart.Image = CType(resources.GetObject("butMonitorStart.Image"), System.Drawing.Image)
-        Me.butMonitorStart.SmallImage = CType(resources.GetObject("butMonitorStart.SmallImage"), System.Drawing.Image)
-        Me.butMonitorStart.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butMonitorStart.Tag = Nothing
-        Me.butMonitorStart.Text = "Start"
-        Me.butMonitorStart.ToolTip = Nothing
-        Me.butMonitorStart.ToolTipImage = Nothing
-        Me.butMonitorStart.ToolTipTitle = Nothing
-        '
-        'butMonitorStop
-        '
-        Me.butMonitorStop.AltKey = Nothing
-        Me.butMonitorStop.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butMonitorStop.Enabled = False
-        Me.butMonitorStop.Image = CType(resources.GetObject("butMonitorStop.Image"), System.Drawing.Image)
-        Me.butMonitorStop.SmallImage = CType(resources.GetObject("butMonitorStop.SmallImage"), System.Drawing.Image)
-        Me.butMonitorStop.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butMonitorStop.Tag = Nothing
-        Me.butMonitorStop.Text = "Stop"
-        Me.butMonitorStop.ToolTip = Nothing
-        Me.butMonitorStop.ToolTipImage = Nothing
-        Me.butMonitorStop.ToolTipTitle = Nothing
-        '
-        'butMonitorSaveReport
-        '
-        Me.butMonitorSaveReport.AltKey = Nothing
-        Me.butMonitorSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butMonitorSaveReport.Enabled = False
-        Me.butMonitorSaveReport.Image = CType(resources.GetObject("butMonitorSaveReport.Image"), System.Drawing.Image)
-        Me.butMonitorSaveReport.SmallImage = CType(resources.GetObject("butMonitorSaveReport.SmallImage"), System.Drawing.Image)
-        Me.butMonitorSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butMonitorSaveReport.Tag = Nothing
-        Me.butMonitorSaveReport.Text = "Save report"
-        Me.butMonitorSaveReport.ToolTip = Nothing
-        Me.butMonitorSaveReport.ToolTipImage = Nothing
-        Me.butMonitorSaveReport.ToolTipTitle = Nothing
-        '
-        'butHandleRefresh
-        '
-        Me.butHandleRefresh.AltKey = Nothing
-        Me.butHandleRefresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butHandleRefresh.Image = CType(resources.GetObject("butHandleRefresh.Image"), System.Drawing.Image)
-        Me.butHandleRefresh.SmallImage = CType(resources.GetObject("butHandleRefresh.SmallImage"), System.Drawing.Image)
-        Me.butHandleRefresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butHandleRefresh.Tag = Nothing
-        Me.butHandleRefresh.Text = "Refresh"
-        Me.butHandleRefresh.ToolTip = Nothing
-        Me.butHandleRefresh.ToolTipImage = Nothing
-        Me.butHandleRefresh.ToolTipTitle = Nothing
-        '
-        'butHandleClose
-        '
-        Me.butHandleClose.AltKey = Nothing
-        Me.butHandleClose.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butHandleClose.Image = CType(resources.GetObject("butHandleClose.Image"), System.Drawing.Image)
-        Me.butHandleClose.SmallImage = CType(resources.GetObject("butHandleClose.SmallImage"), System.Drawing.Image)
-        Me.butHandleClose.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butHandleClose.Tag = Nothing
-        Me.butHandleClose.Text = "Close handle(s)"
-        Me.butHandleClose.ToolTip = Nothing
-        Me.butHandleClose.ToolTipImage = Nothing
-        Me.butHandleClose.ToolTipTitle = Nothing
-        '
-        'butHandlesSaveReport
-        '
-        Me.butHandlesSaveReport.AltKey = Nothing
-        Me.butHandlesSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butHandlesSaveReport.Enabled = False
-        Me.butHandlesSaveReport.Image = CType(resources.GetObject("butHandlesSaveReport.Image"), System.Drawing.Image)
-        Me.butHandlesSaveReport.SmallImage = CType(resources.GetObject("butHandlesSaveReport.SmallImage"), System.Drawing.Image)
-        Me.butHandlesSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butHandlesSaveReport.Tag = Nothing
-        Me.butHandlesSaveReport.Text = "Save report"
-        Me.butHandlesSaveReport.ToolTip = Nothing
-        Me.butHandlesSaveReport.ToolTipImage = Nothing
-        Me.butHandlesSaveReport.ToolTipTitle = Nothing
-        '
-        'butOpenFile
-        '
-        Me.butOpenFile.AltKey = Nothing
-        Me.butOpenFile.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butOpenFile.Image = CType(resources.GetObject("butOpenFile.Image"), System.Drawing.Image)
-        Me.butOpenFile.SmallImage = CType(resources.GetObject("butOpenFile.SmallImage"), System.Drawing.Image)
-        Me.butOpenFile.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butOpenFile.Tag = Nothing
-        Me.butOpenFile.Text = "Open file"
-        Me.butOpenFile.ToolTip = Nothing
-        Me.butOpenFile.ToolTipImage = Nothing
-        Me.butOpenFile.ToolTipTitle = Nothing
-        '
-        'butFileRefresh
-        '
-        Me.butFileRefresh.AltKey = Nothing
-        Me.butFileRefresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butFileRefresh.Image = CType(resources.GetObject("butFileRefresh.Image"), System.Drawing.Image)
-        Me.butFileRefresh.SmallImage = CType(resources.GetObject("butFileRefresh.SmallImage"), System.Drawing.Image)
-        Me.butFileRefresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butFileRefresh.Tag = Nothing
-        Me.butFileRefresh.Text = "Refresh infos"
-        Me.butFileRefresh.ToolTip = Nothing
-        Me.butFileRefresh.ToolTipImage = Nothing
-        Me.butFileRefresh.ToolTipTitle = Nothing
-        '
-        'butFileRelease
-        '
-        Me.butFileRelease.AltKey = Nothing
-        Me.butFileRelease.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butFileRelease.Enabled = False
-        Me.butFileRelease.Image = CType(resources.GetObject("butFileRelease.Image"), System.Drawing.Image)
-        Me.butFileRelease.SmallImage = CType(resources.GetObject("butFileRelease.SmallImage"), System.Drawing.Image)
-        Me.butFileRelease.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butFileRelease.Tag = Nothing
-        Me.butFileRelease.Text = "Release"
-        Me.butFileRelease.ToolTip = Nothing
-        Me.butFileRelease.ToolTipImage = Nothing
-        Me.butFileRelease.ToolTipTitle = Nothing
-        '
-        'butMoveFileToTrash
-        '
-        Me.butMoveFileToTrash.AltKey = Nothing
-        Me.butMoveFileToTrash.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butMoveFileToTrash.Enabled = False
-        Me.butMoveFileToTrash.Image = CType(resources.GetObject("butMoveFileToTrash.Image"), System.Drawing.Image)
-        Me.butMoveFileToTrash.SmallImage = CType(resources.GetObject("butMoveFileToTrash.SmallImage"), System.Drawing.Image)
-        Me.butMoveFileToTrash.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butMoveFileToTrash.Tag = Nothing
-        Me.butMoveFileToTrash.Text = "Trash"
-        Me.butMoveFileToTrash.ToolTip = Nothing
-        Me.butMoveFileToTrash.ToolTipImage = Nothing
-        Me.butMoveFileToTrash.ToolTipTitle = Nothing
-        '
-        'butDeleteFile
-        '
-        Me.butDeleteFile.AltKey = Nothing
-        Me.butDeleteFile.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butDeleteFile.Enabled = False
-        Me.butDeleteFile.Image = CType(resources.GetObject("butDeleteFile.Image"), System.Drawing.Image)
-        Me.butDeleteFile.SmallImage = CType(resources.GetObject("butDeleteFile.SmallImage"), System.Drawing.Image)
-        Me.butDeleteFile.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butDeleteFile.Tag = Nothing
-        Me.butDeleteFile.Text = "Delete"
-        Me.butDeleteFile.ToolTip = Nothing
-        Me.butDeleteFile.ToolTipImage = Nothing
-        Me.butDeleteFile.ToolTipTitle = Nothing
-        '
-        'butShreddFile
-        '
-        Me.butShreddFile.AltKey = Nothing
-        Me.butShreddFile.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butShreddFile.Enabled = False
-        Me.butShreddFile.Image = CType(resources.GetObject("butShreddFile.Image"), System.Drawing.Image)
-        Me.butShreddFile.SmallImage = CType(resources.GetObject("butShreddFile.SmallImage"), System.Drawing.Image)
-        Me.butShreddFile.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butShreddFile.Tag = Nothing
-        Me.butShreddFile.Text = "Shredd"
-        Me.butShreddFile.ToolTip = Nothing
-        Me.butShreddFile.ToolTipImage = Nothing
-        Me.butShreddFile.ToolTipTitle = Nothing
-        '
-        'butFileGoogleSearch
-        '
-        Me.butFileGoogleSearch.AltKey = Nothing
-        Me.butFileGoogleSearch.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butFileGoogleSearch.Enabled = False
-        Me.butFileGoogleSearch.Image = CType(resources.GetObject("butFileGoogleSearch.Image"), System.Drawing.Image)
-        Me.butFileGoogleSearch.SmallImage = CType(resources.GetObject("butFileGoogleSearch.SmallImage"), System.Drawing.Image)
-        Me.butFileGoogleSearch.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butFileGoogleSearch.Tag = Nothing
-        Me.butFileGoogleSearch.Text = "Google search"
-        Me.butFileGoogleSearch.ToolTip = Nothing
-        Me.butFileGoogleSearch.ToolTipImage = Nothing
-        Me.butFileGoogleSearch.ToolTipTitle = Nothing
-        '
-        'butFileProperties
-        '
-        Me.butFileProperties.AltKey = Nothing
-        Me.butFileProperties.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butFileProperties.Enabled = False
-        Me.butFileProperties.Image = CType(resources.GetObject("butFileProperties.Image"), System.Drawing.Image)
-        Me.butFileProperties.SmallImage = CType(resources.GetObject("butFileProperties.SmallImage"), System.Drawing.Image)
-        Me.butFileProperties.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butFileProperties.Tag = Nothing
-        Me.butFileProperties.Text = "Show file properties"
-        Me.butFileProperties.ToolTip = Nothing
-        Me.butFileProperties.ToolTipImage = Nothing
-        Me.butFileProperties.ToolTipTitle = Nothing
-        '
-        'butFileOpenDir
-        '
-        Me.butFileOpenDir.AltKey = Nothing
-        Me.butFileOpenDir.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butFileOpenDir.Enabled = False
-        Me.butFileOpenDir.Image = CType(resources.GetObject("butFileOpenDir.Image"), System.Drawing.Image)
-        Me.butFileOpenDir.SmallImage = CType(resources.GetObject("butFileOpenDir.SmallImage"), System.Drawing.Image)
-        Me.butFileOpenDir.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butFileOpenDir.Tag = Nothing
-        Me.butFileOpenDir.Text = "Open file   directory"
-        Me.butFileOpenDir.ToolTip = Nothing
-        Me.butFileOpenDir.ToolTipImage = Nothing
-        Me.butFileOpenDir.ToolTipTitle = Nothing
-        '
-        'butFileShowFolderProperties
-        '
-        Me.butFileShowFolderProperties.AltKey = Nothing
-        Me.butFileShowFolderProperties.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butFileShowFolderProperties.Enabled = False
-        Me.butFileShowFolderProperties.Image = CType(resources.GetObject("butFileShowFolderProperties.Image"), System.Drawing.Image)
-        Me.butFileShowFolderProperties.SmallImage = CType(resources.GetObject("butFileShowFolderProperties.SmallImage"), System.Drawing.Image)
-        Me.butFileShowFolderProperties.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butFileShowFolderProperties.Tag = Nothing
-        Me.butFileShowFolderProperties.Text = "Show dir. properties"
-        Me.butFileShowFolderProperties.ToolTip = Nothing
-        Me.butFileShowFolderProperties.ToolTipImage = Nothing
-        Me.butFileShowFolderProperties.ToolTipTitle = Nothing
-        '
-        'butFileOthersActions
-        '
-        Me.butFileOthersActions.AltKey = Nothing
-        Me.butFileOthersActions.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butFileOthersActions.DropDownItems.Add(Me.sepFile1)
-        Me.butFileOthersActions.DropDownItems.Add(Me.butFileRename)
-        Me.butFileOthersActions.DropDownItems.Add(Me.butFileCopy)
-        Me.butFileOthersActions.DropDownItems.Add(Me.butFileMove)
-        Me.butFileOthersActions.DropDownItems.Add(Me.butFileOpen)
-        Me.butFileOthersActions.DropDownItems.Add(Me.sepFile2)
-        Me.butFileOthersActions.DropDownItems.Add(Me.butFileSeeStrings)
-        Me.butFileOthersActions.DropDownItems.Add(Me.sepFile3)
-        Me.butFileOthersActions.DropDownItems.Add(Me.butFileEncrypt)
-        Me.butFileOthersActions.DropDownItems.Add(Me.butFileDecrypt)
-        Me.butFileOthersActions.Enabled = False
-        Me.butFileOthersActions.Image = CType(resources.GetObject("butFileOthersActions.Image"), System.Drawing.Image)
-        Me.butFileOthersActions.SmallImage = CType(resources.GetObject("butFileOthersActions.SmallImage"), System.Drawing.Image)
-        Me.butFileOthersActions.Style = System.Windows.Forms.RibbonButtonStyle.DropDown
-        Me.butFileOthersActions.Tag = Nothing
-        Me.butFileOthersActions.Text = "Others"
-        Me.butFileOthersActions.ToolTip = Nothing
-        Me.butFileOthersActions.ToolTipImage = Nothing
-        Me.butFileOthersActions.ToolTipTitle = Nothing
-        '
-        'sepFile1
-        '
-        Me.sepFile1.AltKey = Nothing
-        Me.sepFile1.Image = Nothing
-        Me.sepFile1.Tag = Nothing
-        Me.sepFile1.Text = "Explorer actions"
-        Me.sepFile1.ToolTip = Nothing
-        Me.sepFile1.ToolTipImage = Nothing
-        Me.sepFile1.ToolTipTitle = Nothing
-        '
-        'butFileRename
-        '
-        Me.butFileRename.AltKey = Nothing
-        Me.butFileRename.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butFileRename.Enabled = False
-        Me.butFileRename.Image = CType(resources.GetObject("butFileRename.Image"), System.Drawing.Image)
-        Me.butFileRename.SmallImage = CType(resources.GetObject("butFileRename.SmallImage"), System.Drawing.Image)
-        Me.butFileRename.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butFileRename.Tag = Nothing
-        Me.butFileRename.Text = "Rename"
-        Me.butFileRename.ToolTip = Nothing
-        Me.butFileRename.ToolTipImage = Nothing
-        Me.butFileRename.ToolTipTitle = Nothing
-        '
-        'butFileCopy
-        '
-        Me.butFileCopy.AltKey = Nothing
-        Me.butFileCopy.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butFileCopy.Enabled = False
-        Me.butFileCopy.Image = CType(resources.GetObject("butFileCopy.Image"), System.Drawing.Image)
-        Me.butFileCopy.SmallImage = CType(resources.GetObject("butFileCopy.SmallImage"), System.Drawing.Image)
-        Me.butFileCopy.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butFileCopy.Tag = Nothing
-        Me.butFileCopy.Text = "Copy"
-        Me.butFileCopy.ToolTip = Nothing
-        Me.butFileCopy.ToolTipImage = Nothing
-        Me.butFileCopy.ToolTipTitle = Nothing
-        '
-        'butFileMove
-        '
-        Me.butFileMove.AltKey = Nothing
-        Me.butFileMove.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butFileMove.Enabled = False
-        Me.butFileMove.Image = CType(resources.GetObject("butFileMove.Image"), System.Drawing.Image)
-        Me.butFileMove.SmallImage = CType(resources.GetObject("butFileMove.SmallImage"), System.Drawing.Image)
-        Me.butFileMove.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butFileMove.Tag = Nothing
-        Me.butFileMove.Text = "Move"
-        Me.butFileMove.ToolTip = Nothing
-        Me.butFileMove.ToolTipImage = Nothing
-        Me.butFileMove.ToolTipTitle = Nothing
-        '
-        'butFileOpen
-        '
-        Me.butFileOpen.AltKey = Nothing
-        Me.butFileOpen.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butFileOpen.Image = CType(resources.GetObject("butFileOpen.Image"), System.Drawing.Image)
-        Me.butFileOpen.SmallImage = CType(resources.GetObject("butFileOpen.SmallImage"), System.Drawing.Image)
-        Me.butFileOpen.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butFileOpen.Tag = Nothing
-        Me.butFileOpen.Text = "Open"
-        Me.butFileOpen.ToolTip = Nothing
-        Me.butFileOpen.ToolTipImage = Nothing
-        Me.butFileOpen.ToolTipTitle = Nothing
-        '
-        'sepFile2
-        '
-        Me.sepFile2.AltKey = Nothing
-        Me.sepFile2.Image = Nothing
-        Me.sepFile2.Tag = Nothing
-        Me.sepFile2.Text = "File content"
-        Me.sepFile2.ToolTip = Nothing
-        Me.sepFile2.ToolTipImage = Nothing
-        Me.sepFile2.ToolTipTitle = Nothing
-        '
-        'butFileSeeStrings
-        '
-        Me.butFileSeeStrings.AltKey = Nothing
-        Me.butFileSeeStrings.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butFileSeeStrings.Image = CType(resources.GetObject("butFileSeeStrings.Image"), System.Drawing.Image)
-        Me.butFileSeeStrings.SmallImage = CType(resources.GetObject("butFileSeeStrings.SmallImage"), System.Drawing.Image)
-        Me.butFileSeeStrings.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butFileSeeStrings.Tag = Nothing
-        Me.butFileSeeStrings.Text = "Show file strings"
-        Me.butFileSeeStrings.ToolTip = Nothing
-        Me.butFileSeeStrings.ToolTipImage = Nothing
-        Me.butFileSeeStrings.ToolTipTitle = Nothing
-        '
-        'sepFile3
-        '
-        Me.sepFile3.AltKey = Nothing
-        Me.sepFile3.Image = Nothing
-        Me.sepFile3.Tag = Nothing
-        Me.sepFile3.Text = "Encryption"
-        Me.sepFile3.ToolTip = Nothing
-        Me.sepFile3.ToolTipImage = Nothing
-        Me.sepFile3.ToolTipTitle = Nothing
-        '
-        'butFileEncrypt
-        '
-        Me.butFileEncrypt.AltKey = Nothing
-        Me.butFileEncrypt.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butFileEncrypt.Image = CType(resources.GetObject("butFileEncrypt.Image"), System.Drawing.Image)
-        Me.butFileEncrypt.SmallImage = CType(resources.GetObject("butFileEncrypt.SmallImage"), System.Drawing.Image)
-        Me.butFileEncrypt.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butFileEncrypt.Tag = Nothing
-        Me.butFileEncrypt.Text = "Encrypt"
-        Me.butFileEncrypt.ToolTip = Nothing
-        Me.butFileEncrypt.ToolTipImage = Nothing
-        Me.butFileEncrypt.ToolTipTitle = Nothing
-        '
-        'butFileDecrypt
-        '
-        Me.butFileDecrypt.AltKey = Nothing
-        Me.butFileDecrypt.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butFileDecrypt.Image = CType(resources.GetObject("butFileDecrypt.Image"), System.Drawing.Image)
-        Me.butFileDecrypt.SmallImage = CType(resources.GetObject("butFileDecrypt.SmallImage"), System.Drawing.Image)
-        Me.butFileDecrypt.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butFileDecrypt.Tag = Nothing
-        Me.butFileDecrypt.Text = "Decrypt"
-        Me.butFileDecrypt.ToolTip = Nothing
-        Me.butFileDecrypt.ToolTipImage = Nothing
-        Me.butFileDecrypt.ToolTipTitle = Nothing
-        '
-        'butAddJob
-        '
-        Me.butAddJob.AltKey = Nothing
-        Me.butAddJob.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butAddJob.Enabled = False
-        Me.butAddJob.Image = CType(resources.GetObject("butAddJob.Image"), System.Drawing.Image)
-        Me.butAddJob.SmallImage = CType(resources.GetObject("butAddJob.SmallImage"), System.Drawing.Image)
-        Me.butAddJob.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butAddJob.Tag = Nothing
-        Me.butAddJob.Text = "New job"
-        Me.butAddJob.ToolTip = Nothing
-        Me.butAddJob.ToolTipImage = Nothing
-        Me.butAddJob.ToolTipTitle = Nothing
-        '
-        'butOpenJobList
-        '
-        Me.butOpenJobList.AltKey = Nothing
-        Me.butOpenJobList.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butOpenJobList.Enabled = False
-        Me.butOpenJobList.Image = CType(resources.GetObject("butOpenJobList.Image"), System.Drawing.Image)
-        Me.butOpenJobList.SmallImage = CType(resources.GetObject("butOpenJobList.SmallImage"), System.Drawing.Image)
-        Me.butOpenJobList.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butOpenJobList.Tag = Nothing
-        Me.butOpenJobList.Text = "Open"
-        Me.butOpenJobList.ToolTip = Nothing
-        Me.butOpenJobList.ToolTipImage = Nothing
-        Me.butOpenJobList.ToolTipTitle = Nothing
-        '
-        'butSaveJobList
-        '
-        Me.butSaveJobList.AltKey = Nothing
-        Me.butSaveJobList.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butSaveJobList.Enabled = False
-        Me.butSaveJobList.Image = CType(resources.GetObject("butSaveJobList.Image"), System.Drawing.Image)
-        Me.butSaveJobList.SmallImage = CType(resources.GetObject("butSaveJobList.SmallImage"), System.Drawing.Image)
-        Me.butSaveJobList.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butSaveJobList.Tag = Nothing
-        Me.butSaveJobList.Text = "Save"
-        Me.butSaveJobList.ToolTip = Nothing
-        Me.butSaveJobList.ToolTipImage = Nothing
-        Me.butSaveJobList.ToolTipTitle = Nothing
-        '
-        'butSearchGo
-        '
-        Me.butSearchGo.AltKey = Nothing
-        Me.butSearchGo.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butSearchGo.DropDownItems.Add(Me.RibbonTextBox1)
-        Me.butSearchGo.Enabled = False
-        Me.butSearchGo.Image = CType(resources.GetObject("butSearchGo.Image"), System.Drawing.Image)
-        Me.butSearchGo.SmallImage = CType(resources.GetObject("butSearchGo.SmallImage"), System.Drawing.Image)
-        Me.butSearchGo.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butSearchGo.Tag = Nothing
-        Me.butSearchGo.Text = "Launch"
-        Me.butSearchGo.ToolTip = Nothing
-        Me.butSearchGo.ToolTipImage = Nothing
-        Me.butSearchGo.ToolTipTitle = Nothing
-        '
-        'RibbonTextBox1
-        '
-        Me.RibbonTextBox1.AltKey = Nothing
-        Me.RibbonTextBox1.Image = Nothing
-        Me.RibbonTextBox1.Tag = Nothing
-        Me.RibbonTextBox1.Text = "RibbonTextBox1"
-        Me.RibbonTextBox1.TextBoxText = Nothing
-        Me.RibbonTextBox1.ToolTip = Nothing
-        Me.RibbonTextBox1.ToolTipImage = Nothing
-        Me.RibbonTextBox1.ToolTipTitle = Nothing
-        '
-        'butSearchSaveReport
-        '
-        Me.butSearchSaveReport.AltKey = Nothing
-        Me.butSearchSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butSearchSaveReport.Image = CType(resources.GetObject("butSearchSaveReport.Image"), System.Drawing.Image)
-        Me.butSearchSaveReport.SmallImage = CType(resources.GetObject("butSearchSaveReport.SmallImage"), System.Drawing.Image)
-        Me.butSearchSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butSearchSaveReport.Tag = Nothing
-        Me.butSearchSaveReport.Text = "Save report"
-        Me.butSearchSaveReport.ToolTip = Nothing
-        Me.butSearchSaveReport.ToolTipImage = Nothing
-        Me.butSearchSaveReport.ToolTipTitle = Nothing
-        '
-        'butSaveProcessReport
-        '
-        Me.butSaveProcessReport.AltKey = Nothing
-        Me.butSaveProcessReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butSaveProcessReport.Enabled = False
-        Me.butSaveProcessReport.Image = CType(resources.GetObject("butSaveProcessReport.Image"), System.Drawing.Image)
-        Me.butSaveProcessReport.SmallImage = CType(resources.GetObject("butSaveProcessReport.SmallImage"), System.Drawing.Image)
-        Me.butSaveProcessReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butSaveProcessReport.Tag = Nothing
-        Me.butSaveProcessReport.Text = "Process report"
-        Me.butSaveProcessReport.ToolTip = Nothing
-        Me.butSaveProcessReport.ToolTipImage = Nothing
-        Me.butSaveProcessReport.ToolTipTitle = Nothing
-        '
-        'butSaveServiceReport
-        '
-        Me.butSaveServiceReport.AltKey = Nothing
-        Me.butSaveServiceReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butSaveServiceReport.Enabled = False
-        Me.butSaveServiceReport.Image = CType(resources.GetObject("butSaveServiceReport.Image"), System.Drawing.Image)
-        Me.butSaveServiceReport.SmallImage = CType(resources.GetObject("butSaveServiceReport.SmallImage"), System.Drawing.Image)
-        Me.butSaveServiceReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butSaveServiceReport.Tag = Nothing
-        Me.butSaveServiceReport.Text = "Service report"
-        Me.butSaveServiceReport.ToolTip = Nothing
-        Me.butSaveServiceReport.ToolTipImage = Nothing
-        Me.butSaveServiceReport.ToolTipTitle = Nothing
-        '
-        'butTakeFullPower
-        '
-        Me.butTakeFullPower.AltKey = Nothing
-        Me.butTakeFullPower.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butTakeFullPower.Image = CType(resources.GetObject("butTakeFullPower.Image"), System.Drawing.Image)
-        Me.butTakeFullPower.SmallImage = CType(resources.GetObject("butTakeFullPower.SmallImage"), System.Drawing.Image)
-        Me.butTakeFullPower.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butTakeFullPower.Tag = Nothing
-        Me.butTakeFullPower.Text = "Full power"
-        Me.butTakeFullPower.ToolTip = Nothing
-        Me.butTakeFullPower.ToolTipImage = Nothing
-        Me.butTakeFullPower.ToolTipTitle = Nothing
-        '
-        'butOptions
-        '
-        Me.butOptions.AltKey = Nothing
-        Me.butOptions.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butOptions.Image = CType(resources.GetObject("butOptions.Image"), System.Drawing.Image)
-        Me.butOptions.SmallImage = CType(resources.GetObject("butOptions.SmallImage"), System.Drawing.Image)
-        Me.butOptions.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butOptions.Tag = Nothing
-        Me.butOptions.Text = "Preferences"
-        Me.butOptions.ToolTip = Nothing
-        Me.butOptions.ToolTipImage = Nothing
-        Me.butOptions.ToolTipTitle = Nothing
-        '
-        'butTopMost
-        '
-        Me.butTopMost.AltKey = Nothing
-        Me.butTopMost.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butTopMost.Image = CType(resources.GetObject("butTopMost.Image"), System.Drawing.Image)
-        Me.butTopMost.SmallImage = CType(resources.GetObject("butTopMost.SmallImage"), System.Drawing.Image)
-        Me.butTopMost.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butTopMost.Tag = Nothing
-        Me.butTopMost.Text = "Always display"
-        Me.butTopMost.ToolTip = Nothing
-        Me.butTopMost.ToolTipImage = Nothing
-        Me.butTopMost.ToolTipTitle = Nothing
-        '
-        'butUpdate
-        '
-        Me.butUpdate.AltKey = Nothing
-        Me.butUpdate.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butUpdate.Image = CType(resources.GetObject("butUpdate.Image"), System.Drawing.Image)
-        Me.butUpdate.SmallImage = CType(resources.GetObject("butUpdate.SmallImage"), System.Drawing.Image)
-        Me.butUpdate.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butUpdate.Tag = Nothing
-        Me.butUpdate.Text = "Check  for an update"
-        Me.butUpdate.ToolTip = Nothing
-        Me.butUpdate.ToolTipImage = Nothing
-        Me.butUpdate.ToolTipTitle = Nothing
-        '
-        'butDonate
-        '
-        Me.butDonate.AltKey = Nothing
-        Me.butDonate.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butDonate.Image = CType(resources.GetObject("butDonate.Image"), System.Drawing.Image)
-        Me.butDonate.SmallImage = CType(resources.GetObject("butDonate.SmallImage"), System.Drawing.Image)
-        Me.butDonate.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butDonate.Tag = Nothing
-        Me.butDonate.Text = "Donate"
-        Me.butDonate.ToolTip = Nothing
-        Me.butDonate.ToolTipImage = Nothing
-        Me.butDonate.ToolTipTitle = Nothing
-        '
-        'butAbout
-        '
-        Me.butAbout.AltKey = Nothing
-        Me.butAbout.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butAbout.Image = CType(resources.GetObject("butAbout.Image"), System.Drawing.Image)
-        Me.butAbout.SmallImage = CType(resources.GetObject("butAbout.SmallImage"), System.Drawing.Image)
-        Me.butAbout.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butAbout.Tag = Nothing
-        Me.butAbout.Text = "About"
-        Me.butAbout.ToolTip = Nothing
-        Me.butAbout.ToolTipImage = Nothing
-        Me.butAbout.ToolTipTitle = Nothing
-        '
-        'butWebite
-        '
-        Me.butWebite.AltKey = Nothing
-        Me.butWebite.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butWebite.Image = CType(resources.GetObject("butWebite.Image"), System.Drawing.Image)
-        Me.butWebite.SmallImage = CType(resources.GetObject("butWebite.SmallImage"), System.Drawing.Image)
-        Me.butWebite.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butWebite.Tag = Nothing
-        Me.butWebite.Text = "Website"
-        Me.butWebite.ToolTip = Nothing
-        Me.butWebite.ToolTipImage = Nothing
-        Me.butWebite.ToolTipTitle = Nothing
-        '
-        'butProjectPage
-        '
-        Me.butProjectPage.AltKey = Nothing
-        Me.butProjectPage.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProjectPage.Image = CType(resources.GetObject("butProjectPage.Image"), System.Drawing.Image)
-        Me.butProjectPage.SmallImage = CType(resources.GetObject("butProjectPage.SmallImage"), System.Drawing.Image)
-        Me.butProjectPage.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butProjectPage.Tag = Nothing
-        Me.butProjectPage.Text = "Project page on Sourceforge.net"
-        Me.butProjectPage.ToolTip = Nothing
-        Me.butProjectPage.ToolTipImage = Nothing
-        Me.butProjectPage.ToolTipTitle = Nothing
-        '
-        'butDownload
-        '
-        Me.butDownload.AltKey = Nothing
-        Me.butDownload.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butDownload.Image = CType(resources.GetObject("butDownload.Image"), System.Drawing.Image)
-        Me.butDownload.SmallImage = CType(resources.GetObject("butDownload.SmallImage"), System.Drawing.Image)
-        Me.butDownload.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butDownload.Tag = Nothing
-        Me.butDownload.Text = "Downloads"
-        Me.butDownload.ToolTip = Nothing
-        Me.butDownload.ToolTipImage = Nothing
-        Me.butDownload.ToolTipTitle = Nothing
         '
         'RibbonButton1
         '
@@ -3499,28 +3521,6 @@ Partial Class frmMain
         Me.RibbonButton1.ToolTip = Nothing
         Me.RibbonButton1.ToolTipImage = Nothing
         Me.RibbonButton1.ToolTipTitle = Nothing
-        '
-        'graphMonitor
-        '
-        Me.graphMonitor.BackColor = System.Drawing.Color.Black
-        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
-        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
-        Me.graphMonitor.dDate = New Date(CType(0, Long))
-        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphMonitor.EnableGraph = False
-        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
-        Me.graphMonitor.Name = "graphMonitor"
-        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
-        Me.graphMonitor.TabIndex = 3
-        Me.graphMonitor.TabStop = False
-        Me.graphMonitor.ViewMax = 0
-        Me.graphMonitor.ViewMin = 0
-        '
-        'MonitorToolStripMenuItem
-        '
-        Me.MonitorToolStripMenuItem.Name = "MonitorToolStripMenuItem"
-        Me.MonitorToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
-        Me.MonitorToolStripMenuItem.Text = "Monitor"
         '
         'frmMain
         '
@@ -3561,6 +3561,8 @@ Partial Class frmMain
         Me.menuCopyPctSmall.ResumeLayout(False)
         Me.panelInfos.ResumeLayout(False)
         Me.panelInfos.PerformLayout()
+        CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).EndInit()
         Me.menuTooltip.ResumeLayout(False)
         Me.panelInfos2.ResumeLayout(False)
         Me.panelInfos2.PerformLayout()
@@ -3575,7 +3577,9 @@ Partial Class frmMain
         Me.gpFileAttributes.PerformLayout()
         Me.gpFileDates.ResumeLayout(False)
         Me.gpFileDates.PerformLayout()
+        CType(Me.pctFileSmall, System.ComponentModel.ISupportInitialize).EndInit()
         Me.mnuFileCopyPctSmall.ResumeLayout(False)
+        CType(Me.pctFileBig, System.ComponentModel.ISupportInitialize).EndInit()
         Me.mnuFileCopyPctBig.ResumeLayout(False)
         Me.panelMain6.ResumeLayout(False)
         Me.SplitContainerSearch.Panel1.ResumeLayout(False)
@@ -3601,10 +3605,6 @@ Partial Class frmMain
         Me.splitMonitor4.Panel1.PerformLayout()
         Me.splitMonitor4.Panel2.ResumeLayout(False)
         Me.splitMonitor4.ResumeLayout(False)
-        CType(Me.pctFileSmall, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pctFileBig, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

@@ -6,11 +6,7 @@ Public Class cMonitor
     ' Public declarations
     ' ========================================
     Public Structure MonitorStructure
-        Dim cpuTime As Long
-        Dim cpuCounter As Double
-        Dim mem As cProcess.PROCESS_MEMORY_COUNTERS
-        Dim priority As Integer
-        Dim threadsCount As Integer
+        Dim value As Object
         Dim time As Integer
     End Structure
 
@@ -18,15 +14,13 @@ Public Class cMonitor
     ' ========================================
     ' Private attributes
     ' ========================================
-    Private proc As cProcess
     Private WithEvents timer As New Timers.Timer
+    Private _pc As System.Diagnostics.PerformanceCounter
     Private _Interval As Integer = 1000
     Private _procName As String
-    Private _bCheckCPUtime As Boolean = False
-    Private _bCheckCPU As Boolean = False
-    Private _bCheckMemory As Boolean = False
-    Private _bCheckThreads As Boolean = False
-    Private _bCheckPriority As Boolean = False
+    Private _categoryName As String
+    Private _counterName As String
+    Private _instanceName As String
     Private _colInfos As Collection
     Private _enabled As Boolean = False
     Private _monitorCreated As Date
@@ -37,6 +31,22 @@ Public Class cMonitor
     ' Getter & setter
     ' ========================================
 #Region "getter & setter"
+    Public Property CategoryName() As String
+        Get
+            Return _categoryName
+        End Get
+        Set(ByVal value As String)
+            _categoryName = value
+        End Set
+    End Property
+    Public Property CounterName() As String
+        Get
+            Return _counterName
+        End Get
+        Set(ByVal value As String)
+            _counterName = value
+        End Set
+    End Property
     Public Function GetMonitorItem(ByVal Index As Integer) As MonitorStructure
         Return CType(_colInfos.Item(Index), MonitorStructure)
     End Function
@@ -46,81 +56,61 @@ Public Class cMonitor
     Public Function GetMonitorItem(ByVal Key As String) As MonitorStructure
         Return CType(_colInfos.Item(Key), MonitorStructure)
     End Function
-    Public Function GetProcess() As cProcess
-        Return proc
-    End Function
     Public Function GetMonitorCreationDate() As Date
         Return _monitorCreated
     End Function
     Public Function GetLastStarted() As Date
         Return _lastStarted
     End Function
-    Public Function GetInterval() As Integer
-        Return _Interval
-    End Function
-    Public Function GetEnabled() As Boolean
-        Return _enabled
-    End Function
-    Public Function GetName() As String
-        Return _procName
-    End Function
-    Public Function GetCheckMemory() As Boolean
-        Return _bCheckMemory
-    End Function
-    Public Function getCheckCPU() As Boolean
-        Return _bCheckCPU
-    End Function
-    Public Function getCheckCPUTime() As Boolean
-        Return _bCheckCPUtime
-    End Function
-    Public Function GetCheckThreads() As Boolean
-        Return _bCheckThreads
-    End Function
-    Public Function GetCheckPriority() As Boolean
-        Return _bCheckPriority
-    End Function
+    Public Property Name() As String
+        Get
+            Return _procName
+        End Get
+        Set(ByVal value As String)
+            _procName = value
+        End Set
+    End Property
     Public Function GetMonitorItems() As Collection
         Return _colInfos
     End Function
-    Public Sub SetName(ByVal value As String)
-        _procName = value
-    End Sub
-    Public Sub SetCheckMemory(ByVal value As Boolean)
-        _bCheckMemory = value
-    End Sub
-    Public Sub SetCheckCPU(ByVal value As Boolean)
-        _bCheckCPU = value
-    End Sub
-    Public Sub SetCheckCPUTime(ByVal value As Boolean)
-        _bCheckCPUtime = value
-    End Sub
-    Public Sub SetCheckThreads(ByVal value As Boolean)
-        _bCheckThreads = value
-    End Sub
-    Public Sub SetCheckPriority(ByVal value As Boolean)
-        _bCheckPriority = value
-    End Sub
-    Public Sub SetInterval(ByVal value As Integer)
-        If value > 0 Then
-            _Interval = value
-            timer.Interval = value
-        End If
-    End Sub
-    Public Sub SetEnabled(ByVal value As Boolean)
-        _enabled = value
-    End Sub
+    Public Property Interval() As Integer
+        Get
+            Return _Interval
+        End Get
+        Set(ByVal value As Integer)
+            If value > 0 Then
+                _Interval = value
+                timer.Interval = value
+            End If
+        End Set
+    End Property
+    Public Property Enabled() As Boolean
+        Get
+            Return _enabled
+        End Get
+        Set(ByVal value As Boolean)
+            _enabled = value
+        End Set
+    End Property
+    Public Function GetInstanceName() As String
+        Return _instanceName
+    End Function
 #End Region
 
 
     ' ========================================
     ' Constructor & destructor
     ' ========================================
-    Public Sub New(ByVal pid As Integer, ByVal processName As String)
+    Public Sub New(ByVal category As String, ByVal counter As String, _
+        ByVal instance As String)
+
         MyBase.New()
         timer.Stop()
         _enabled = False
-        _procName = processName
-        proc = New cProcess(pid)
+        _categoryName = category
+        _counterName = counter
+        _instanceName = instance
+        _pc = New System.Diagnostics.PerformanceCounter(category, counter, instance)
         _colInfos = New Collection
         _monitorCreated = Date.Now
     End Sub
@@ -128,7 +118,7 @@ Public Class cMonitor
         _colInfos = Nothing
         Me.StopMonitoring()
         timer = Nothing
-        proc = Nothing
+        _pc = Nothing
         MyBase.Finalize()
     End Sub
 
@@ -143,13 +133,13 @@ Public Class cMonitor
         locTime += 1
         Dim it As New MonitorStructure
         With it
-            If _bCheckCPUtime Then .cpuTime = proc.GetProcessorTimeLong
-            'If _bCheckCPU Then .cpulong = proc.getcpupercentage ' TODO
-            If _bCheckMemory Then .mem = proc.GetMemoryInfos
-            If _bCheckPriority Then .priority = proc.GetPriorityLevel
-            If _bCheckThreads Then .threadsCount = proc.GetThreads.Count
             Dim tmp As Long = Date.Now.Ticks - Me.GetMonitorCreationDate.Ticks
             .time = CInt(tmp / 10000)   ' milliseconds from start
+            Try
+                .value = _pc.NextValue
+            Catch ex As Exception
+                .value = Nothing
+            End Try
         End With
 
         Try
@@ -170,24 +160,6 @@ Public Class cMonitor
     Public Sub StopMonitoring()
         _enabled = False
         timer.Stop()
-    End Sub
-
-    ' Unmonitor an item
-    Public Sub UnMonitorItem(ByVal field As String)
-        Select Case field
-            Case "CPU percentage"
-                _bCheckCPU = False
-            Case "CPU time"
-                _bCheckCPUtime = False
-            Case "Memory"
-                _bCheckMemory = False
-            Case "Priority"
-                _bCheckPriority = False
-            Case "Thread count"
-                _bCheckThreads = False
-            Case Else
-                '
-        End Select
     End Sub
 
 

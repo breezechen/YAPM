@@ -18,18 +18,26 @@ Public Class frmAddProcessMonitor
             .SetToolTip(Me.txtInterval, "Set the refresh interval (milliseconds).")
         End With
 
-        Call Me.cmdRefresh_Click(Nothing, Nothing)
+        'Call Me.cmdRefresh_Click(Nothing, Nothing)
 
-        ' Select desired process (_selProcess)
-        Dim s As String
-        For Each s In Me.cbProcess.Items
-            Dim i As Integer = InStr(s, " -- ", CompareMethod.Binary)
-            Dim _name As String = s.Substring(0, i - 1)
-            Dim _pid As Integer = CInt(Val(s.Substring(i + 3, s.Length - i - 3)))
-            If _pid = _selProcess Then
-                Me.cbProcess.Text = s
-                Exit For
-            End If
+        '' Select desired process (_selProcess)
+        'Dim s As String
+        'For Each s In Me.cbProcess.Items
+        '    Dim i As Integer = InStr(s, " -- ", CompareMethod.Binary)
+        '    Dim _name As String = s.Substring(0, i - 1)
+        '    Dim _pid As Integer = CInt(Val(s.Substring(i + 3, s.Length - i - 3)))
+        '    If _pid = _selProcess Then
+        '        Me.cbProcess.Text = s
+        '        Exit For
+        '    End If
+        'Next
+
+        Dim myCat2 As PerformanceCounterCategory()
+        Dim i As Integer
+        Me.lstCategory.Items.Clear()
+        myCat2 = PerformanceCounterCategory.GetCategories
+        For i = 0 To myCat2.Length - 1
+            Me.lstCategory.Items.Add(myCat2(i).CategoryName)
         Next
 
     End Sub
@@ -53,28 +61,70 @@ Public Class frmAddProcessMonitor
         ' Monitor our process
         Dim _pid As Integer = 0
         Dim _name As String = vbNullString
+        Dim _cat As String = vbNullString
+        Dim _count As String = vbNullString
 
-        ' Format : NAME -- PID
-        If Me.cbProcess.Text.Length > 0 Then
-            Dim i As Integer = InStr(Me.cbProcess.Text, " -- ", CompareMethod.Binary)
+        If Me.lstCategory.SelectedItem Is Nothing Then Exit Sub
+        If Me.lstCounterType.SelectedItem IsNot Nothing Then _count = Me.lstCounterType.SelectedItem.ToString
+        If Me.lstInstance.SelectedItem IsNot Nothing Then _name = Me.lstInstance.SelectedItem.ToString
 
-            _name = Me.cbProcess.Text.Substring(0, i - 1)
-            _pid = CInt(Val(Me.cbProcess.Text.Substring(i + 3, Me.cbProcess.Text.Length - i - 3)))
+        If _count = vbNullString And _name = vbNullString Then Exit Sub
+        _cat = Me.lstCategory.SelectedItem.ToString
 
-            Dim it As New cMonitor(_pid, _name)
-            With it
-                .SetCheckCPU(Me.chkCPUCount.Checked)
-                .SetCheckCPUTime(Me.chkCPUtime.Checked)
-                .SetCheckMemory(Me.chkMemoryInfos.Checked)
-                .SetCheckPriority(Me.chkPrioirty.Checked)
-                .SetCheckThreads(Me.chkThreadsCount.Checked)
-                .SetInterval(CInt(Val(Me.txtInterval.Text)))
-            End With
-            frmMain.AddMonitoringItem(it)
+        'Dim i As Integer = InStr(Me.cbProcess.Text, " -- ", CompareMethod.Binary)
 
-            Me.Close()
-        End If
+        '_name = Me.cbProcess.Text.Substring(0, i - 1)
+        '_pid = CInt(Val(Me.cbProcess.Text.Substring(i + 3, Me.cbProcess.Text.Length - i - 3)))
+
+        Dim it As New cMonitor(_cat, _count, _name)
+        it.Interval = CInt(Val(Me.txtInterval.Text))
+        frmMain.AddMonitoringItem(it)
+
+        Me.Close()
 
     End Sub
 
+    Private Sub lstCategory_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstCategory.SelectedIndexChanged
+        Dim mypc() As String
+        Dim i As Integer
+        Dim myCat As New PerformanceCounterCategory(lstCategory.SelectedItem.ToString)
+        Me.lstInstance.Items.Clear()
+        Me.lstCounterType.Items.Clear()
+        Try
+            mypc = myCat.GetInstanceNames
+            For i = 0 To mypc.Length - 1
+                Me.lstInstance.Items.Add(mypc(i))
+            Next
+        Catch ex As Exception
+        End Try
+
+        Call lstInstance_SelectedIndexChanged(Nothing, Nothing)
+    End Sub
+
+    Private Sub lstInstance_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstInstance.SelectedIndexChanged
+        Dim mypc() As PerformanceCounter
+        Dim i As Integer
+        Me.lstCounterType.Items.Clear()
+        If lstInstance.SelectedItem Is Nothing Then
+            Dim myCat As New PerformanceCounterCategory(lstCategory.SelectedItem.ToString)
+            Me.lstCounterType.Items.Clear()
+            Try
+                mypc = myCat.GetCounters()
+                For i = 0 To mypc.Length - 1
+                    Me.lstCounterType.Items.Add(mypc(i).CounterName)
+                Next
+            Catch ex As Exception
+            End Try
+        Else
+            Dim myCat As New PerformanceCounterCategory(lstCategory.SelectedItem.ToString)
+            Me.lstCounterType.Items.Clear()
+            Try
+                mypc = myCat.GetCounters(lstInstance.SelectedItem.ToString)
+                For i = 0 To mypc.Length - 1
+                    Me.lstCounterType.Items.Add(mypc(i).CounterName)
+                Next
+            Catch ex As Exception
+            End Try
+        End If
+    End Sub
 End Class

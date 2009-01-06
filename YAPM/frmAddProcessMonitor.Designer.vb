@@ -34,6 +34,12 @@ Partial Class frmAddProcessMonitor
         Me.butAdd = New System.Windows.Forms.Button
         Me.Label2 = New System.Windows.Forms.Label
         Me.txtInterval = New System.Windows.Forms.TextBox
+        Me.Label3 = New System.Windows.Forms.Label
+        Me.lstCategory = New System.Windows.Forms.ListBox
+        Me.lstCounterType = New System.Windows.Forms.ListBox
+        Me.Label4 = New System.Windows.Forms.Label
+        Me.lstInstance = New System.Windows.Forms.ListBox
+        Me.Label5 = New System.Windows.Forms.Label
         Me.gpOptions.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -41,7 +47,7 @@ Partial Class frmAddProcessMonitor
         '
         Me.cbProcess.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbProcess.FormattingEnabled = True
-        Me.cbProcess.Location = New System.Drawing.Point(62, 12)
+        Me.cbProcess.Location = New System.Drawing.Point(495, 410)
         Me.cbProcess.Name = "cbProcess"
         Me.cbProcess.Size = New System.Drawing.Size(131, 21)
         Me.cbProcess.TabIndex = 0
@@ -49,7 +55,7 @@ Partial Class frmAddProcessMonitor
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 15)
+        Me.Label1.Location = New System.Drawing.Point(445, 413)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(44, 13)
         Me.Label1.TabIndex = 1
@@ -57,7 +63,7 @@ Partial Class frmAddProcessMonitor
         '
         'cmdRefresh
         '
-        Me.cmdRefresh.Location = New System.Drawing.Point(199, 12)
+        Me.cmdRefresh.Location = New System.Drawing.Point(632, 410)
         Me.cmdRefresh.Name = "cmdRefresh"
         Me.cmdRefresh.Size = New System.Drawing.Size(68, 21)
         Me.cmdRefresh.TabIndex = 2
@@ -71,7 +77,7 @@ Partial Class frmAddProcessMonitor
         Me.gpOptions.Controls.Add(Me.chkThreadsCount)
         Me.gpOptions.Controls.Add(Me.chkMemoryInfos)
         Me.gpOptions.Controls.Add(Me.chkCPUtime)
-        Me.gpOptions.Location = New System.Drawing.Point(14, 39)
+        Me.gpOptions.Location = New System.Drawing.Point(447, 437)
         Me.gpOptions.Name = "gpOptions"
         Me.gpOptions.Size = New System.Drawing.Size(251, 92)
         Me.gpOptions.TabIndex = 3
@@ -135,9 +141,9 @@ Partial Class frmAddProcessMonitor
         '
         'butAdd
         '
-        Me.butAdd.Location = New System.Drawing.Point(60, 168)
+        Me.butAdd.Location = New System.Drawing.Point(256, 221)
         Me.butAdd.Name = "butAdd"
-        Me.butAdd.Size = New System.Drawing.Size(158, 24)
+        Me.butAdd.Size = New System.Drawing.Size(209, 24)
         Me.butAdd.TabIndex = 4
         Me.butAdd.Text = "Monitor process"
         Me.butAdd.UseVisualStyleBackColor = True
@@ -145,7 +151,7 @@ Partial Class frmAddProcessMonitor
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(17, 137)
+        Me.Label2.Location = New System.Drawing.Point(253, 197)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(84, 13)
         Me.Label2.TabIndex = 5
@@ -153,17 +159,77 @@ Partial Class frmAddProcessMonitor
         '
         'txtInterval
         '
-        Me.txtInterval.Location = New System.Drawing.Point(107, 134)
+        Me.txtInterval.Location = New System.Drawing.Point(343, 194)
         Me.txtInterval.Name = "txtInterval"
-        Me.txtInterval.Size = New System.Drawing.Size(158, 21)
+        Me.txtInterval.Size = New System.Drawing.Size(122, 21)
         Me.txtInterval.TabIndex = 6
         Me.txtInterval.Text = "1000"
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(12, 9)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(52, 13)
+        Me.Label3.TabIndex = 7
+        Me.Label3.Text = "Category"
+        '
+        'lstCategory
+        '
+        Me.lstCategory.FormattingEnabled = True
+        Me.lstCategory.Location = New System.Drawing.Point(15, 25)
+        Me.lstCategory.Name = "lstCategory"
+        Me.lstCategory.Size = New System.Drawing.Size(222, 147)
+        Me.lstCategory.Sorted = True
+        Me.lstCategory.TabIndex = 8
+        '
+        'lstCounterType
+        '
+        Me.lstCounterType.FormattingEnabled = True
+        Me.lstCounterType.Location = New System.Drawing.Point(15, 197)
+        Me.lstCounterType.Name = "lstCounterType"
+        Me.lstCounterType.Size = New System.Drawing.Size(222, 147)
+        Me.lstCounterType.Sorted = True
+        Me.lstCounterType.TabIndex = 10
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(12, 181)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(71, 13)
+        Me.Label4.TabIndex = 9
+        Me.Label4.Text = "Counter type"
+        '
+        'lstInstance
+        '
+        Me.lstInstance.FormattingEnabled = True
+        Me.lstInstance.Location = New System.Drawing.Point(245, 25)
+        Me.lstInstance.Name = "lstInstance"
+        Me.lstInstance.Size = New System.Drawing.Size(222, 147)
+        Me.lstInstance.Sorted = True
+        Me.lstInstance.TabIndex = 12
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(242, 9)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(101, 13)
+        Me.Label5.TabIndex = 11
+        Me.Label5.Text = "Instance to monitor"
         '
         'frmAddProcessMonitor
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(278, 204)
+        Me.ClientSize = New System.Drawing.Size(479, 351)
+        Me.Controls.Add(Me.lstInstance)
+        Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.lstCounterType)
+        Me.Controls.Add(Me.Label4)
+        Me.Controls.Add(Me.lstCategory)
+        Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.txtInterval)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.butAdd)
@@ -179,7 +245,7 @@ Partial Class frmAddProcessMonitor
         Me.ShowIcon = False
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "Add process monitoring"
+        Me.Text = "Add monitoring"
         Me.gpOptions.ResumeLayout(False)
         Me.gpOptions.PerformLayout()
         Me.ResumeLayout(False)
@@ -198,4 +264,10 @@ Partial Class frmAddProcessMonitor
     Friend WithEvents chkCPUCount As System.Windows.Forms.CheckBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents txtInterval As System.Windows.Forms.TextBox
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents lstCategory As System.Windows.Forms.ListBox
+    Friend WithEvents lstCounterType As System.Windows.Forms.ListBox
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents lstInstance As System.Windows.Forms.ListBox
+    Friend WithEvents Label5 As System.Windows.Forms.Label
 End Class

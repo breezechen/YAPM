@@ -1994,6 +1994,7 @@ Public Class frmMain
 
     Private Sub butNewProcess_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butNewProcess.Click
         cFile.ShowRunBox(Me.Handle.ToInt32, "Start a new process", "Enter the path of the process you want to start.")
+        System.GC.Collect()
     End Sub
 
     Private Sub butDownload_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butDownload.Click
@@ -3034,7 +3035,9 @@ Public Class frmMain
     Public Sub AddMonitoringItem(ByVal it As cMonitor)
 
         Dim n1 As New TreeNode
-        n1.Text = it.GetName
+        n1.Text = CStr(IIf(it.GetInstanceName.Length > 0, it.GetInstanceName & " - ", _
+            vbNullString)) & it.CategoryName
+
         n1.ImageKey = "exe"
         n1.ImageIndex = 0
         n1.SelectedImageIndex = 0
@@ -3043,49 +3046,17 @@ Public Class frmMain
         n1.Tag = it
 
         With it
-            If .getCheckCPU Then
-                Dim ncpu As New TreeNode
-                ncpu.Text = "CPU percentage"
-                ncpu.ImageKey = "sub"
-                ncpu.SelectedImageIndex = 2
-                n1.Nodes.Add(ncpu)
-            End If
-            If .getCheckCPUTime Then
-                Dim ncpu As New TreeNode
-                ncpu.Text = "CPU time"
-                ncpu.ImageKey = "sub"
-                ncpu.SelectedImageIndex = 2
-                n1.Nodes.Add(ncpu)
-            End If
-            If .GetCheckMemory Then
-                Dim ncpu As New TreeNode
-                ncpu.Text = "Memory"
-                ncpu.ImageKey = "sub"
-                ncpu.SelectedImageIndex = 2
-                n1.Nodes.Add(ncpu)
-            End If
-            If .GetCheckPriority Then
-                Dim ncpu As New TreeNode
-                ncpu.Text = "Priority"
-                ncpu.ImageKey = "sub"
-                ncpu.SelectedImageIndex = 2
-                n1.Nodes.Add(ncpu)
-            End If
-            If .GetCheckThreads Then
-                Dim ncpu As New TreeNode
-                ncpu.Text = "Thread count"
-                ncpu.ImageKey = "sub"
-                ncpu.SelectedImageIndex = 2
-                n1.Nodes.Add(ncpu)
-            End If
+            Dim ncpu As New TreeNode
+            ncpu.Text = it.CounterName
+            ncpu.ImageKey = "sub"
+            ncpu.SelectedImageIndex = 2
+            n1.Nodes.Add(ncpu)
         End With
 
         Call updateMonitoringLog()
     End Sub
 
     Private Sub tvMonitor_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvMonitor.AfterSelect
-
-        'tvMonitor.SelectedImageKey = tvMonitor.SelectedNode.ImageKey
 
         Me.graphMonitor.EnableGraph = False
 
@@ -3095,7 +3066,7 @@ Public Class frmMain
             If tvMonitor.SelectedNode.Parent.Name = tvMonitor.Nodes.Item(0).Name Then
                 ' Then we have selected a process
                 Dim it As cMonitor = CType(tvMonitor.SelectedNode.Tag, cMonitor)
-                Dim b As Boolean = it.GetEnabled
+                Dim b As Boolean = it.Enabled
                 Me.butMonitorStart.Enabled = Not (b)
                 Me.butMonitorStop.Enabled = b
                 Me.graphMonitor.CreateGraphics.Clear(Color.Black)
@@ -3107,14 +3078,15 @@ Public Class frmMain
                 ' We have selected a sub item -> display values in graph
                 Dim it As cMonitor = CType(tvMonitor.SelectedNode.Parent.Tag, cMonitor)
                 Dim sKey As String = tvMonitor.SelectedNode.Text
-                If sKey = "Memory" Then
-                    ' 3 differentes values
-                    Me.splitMonitor4.Panel1.Enabled = True
-                    Call ShowMonitorStats(it, "Memory." & Me.cbMon1.Text, "Memory." & Me.cbMon2.Text, "Memory." & Me.cbMon3.Text)
-                Else
-                    Me.splitMonitor4.Panel1.Enabled = False
-                    Call ShowMonitorStats(it, sKey, "", "")
-                End If
+                Call ShowMonitorStats(it, sKey, "", "")
+                'If sKey = "Memory" Then
+                '    ' 3 differentes values
+                '    Me.splitMonitor4.Panel1.Enabled = True
+                '    Call ShowMonitorStats(it, "Memory." & Me.cbMon1.Text, "Memory." & Me.cbMon2.Text, "Memory." & Me.cbMon3.Text)
+                'Else
+                '    Me.splitMonitor4.Panel1.Enabled = False
+                '    Call ShowMonitorStats(it, sKey, "", "")
+                'End If
             End If
         Else
             ' The we can start/stop all items
@@ -3176,7 +3148,7 @@ Public Class frmMain
                 Else
                     ' Sub item of monitor, so we disable it from monitor
                     Dim it As cMonitor = CType(tvMonitor.SelectedNode.Parent.Tag, cMonitor)
-                    it.UnMonitorItem(tvMonitor.SelectedNode.Text)
+                    it = Nothing
                     tvMonitor.SelectedNode.Remove()
                 End If
             End If
@@ -3196,20 +3168,15 @@ Public Class frmMain
             Dim n As TreeNode
             For Each n In Me.tvMonitor.Nodes.Item(0).Nodes
                 Dim it As cMonitor = CType(n.Tag, cMonitor)
-                s &= vbNewLine & "* Process  : " & it.GetName & " -- " & CStr(it.GetProcess.GetPid)
+                s &= vbNewLine & "* Category  : " & it.CategoryName & " -- Instance : " & it.GetInstanceName & " -- Counter : " & it.CounterName
                 s &= vbNewLine & "      Monitoring creation : " & it.GetMonitorCreationDate.ToLongDateString & " -- " & it.GetMonitorCreationDate.ToLongTimeString
                 If it.GetLastStarted.Ticks > 0 Then
                     s &= vbNewLine & "      Last start : " & it.GetLastStarted.ToLongDateString & " -- " & it.GetLastStarted.ToLongTimeString
                 Else
                     s &= vbNewLine & "      Not yet started"
                 End If
-                s &= vbNewLine & "      State : " & it.GetEnabled
-                s &= vbNewLine & "      Interval : " & it.GetInterval
-                s &= vbNewLine & "      Items to check : " & CStr(IIf(it.getCheckCPU, "CPU percentage + ", _
-                        vbNullString)) & CStr(IIf(it.getCheckCPUTime, "CPU time + ", vbNullString)) & _
-                        CStr(IIf(it.GetCheckMemory, "Memory + ", vbNullString)) & _
-                        CStr(IIf(it.GetCheckPriority, "Priority + ", vbNullString)) & _
-                        CStr(IIf(it.GetCheckThreads, "Thread count + ", vbNullString))
+                s &= vbNewLine & "      State : " & it.Enabled
+                s &= vbNewLine & "      Interval : " & it.Interval
                 s = s.Substring(0, s.Length - 2)
 
                 s &= vbNewLine
@@ -3227,9 +3194,9 @@ Public Class frmMain
     Private Sub ShowMonitorStats(ByVal it As cMonitor, ByVal key1 As String, ByVal key2 As String, _
         ByVal key3 As String)
 
-        Me.timerMonitoring.Interval = it.GetInterval
+        Me.timerMonitoring.Interval = it.Interval
 
-        If it.GetEnabled = False Then
+        If it.Enabled = False Then
             Me.graphMonitor.CreateGraphics.Clear(Color.Black)
             Me.graphMonitor.CreateGraphics.DrawString("You sould start the monitoring.", Me.Font, Brushes.White, 0, 0)
             Exit Sub
@@ -3258,82 +3225,83 @@ Public Class frmMain
 
             For Each c In cCol
                 If i < v.Length Then
-                    Select Case key1
-                        Case "CPU percentage"
-                            v(i).y = CLng(c.cpuCounter * 10000)
-                        Case "CPU time"
-                            v(i).y = c.cpuTime
-                        Case "Priority"
-                            v(i).y = c.priority
-                        Case "Thread count"
-                            v(i).y = c.threadsCount
-                        Case "Memory.PageFaultCount"
-                            v(i).y = CInt(c.mem.PageFaultCount)
-                        Case "Memory.PeakWorkingSetSize"
-                            v(i).y = CInt(c.mem.PeakWorkingSetSize / 1024 / 1024)
-                        Case "Memory.WorkingSetSize"
-                            v(i).y = CInt(c.mem.WorkingSetSize / 1024 / 1024)
-                        Case "Memory.QuotaPeakPagedPoolUsage"
-                            v(i).y = CInt(c.mem.QuotaPeakPagedPoolUsage / 1024)
-                        Case "TMemory.QuotaPagedPoolUsage"
-                            v(i).y = CInt(c.mem.QuotaPagedPoolUsage / 1024)
-                        Case "Memory.QuotaPeakNonPagedPoolUsage"
-                            v(i).y = CInt(c.mem.QuotaPeakNonPagedPoolUsage / 1024)
-                        Case "Memory.QuotaNonPagedPoolUsage"
-                            v(i).y = CInt(c.mem.QuotaNonPagedPoolUsage / 1024)
-                        Case "Memory.PagefileUsage"
-                            v(i).y = CInt(c.mem.PagefileUsage / 1024 / 1024)
-                        Case "Memory.PeakPagefileUsage"
-                            v(i).y = CInt(c.mem.PeakPagefileUsage / 1024 / 1024)
-                    End Select
-                    Select Case key2
-                        Case "Memory.PageFaultCount"
-                            v2(i).y = CInt(c.mem.PageFaultCount)
-                        Case "Memory.PeakWorkingSetSize"
-                            v2(i).y = CInt(c.mem.PeakWorkingSetSize / 1024 / 1024)
-                        Case "Memory.WorkingSetSize"
-                            v2(i).y = CInt(c.mem.WorkingSetSize / 1024 / 1024)
-                        Case "Memory.QuotaPeakPagedPoolUsage"
-                            v2(i).y = CInt(c.mem.QuotaPeakPagedPoolUsage / 1024)
-                        Case "TMemory.QuotaPagedPoolUsage"
-                            v2(i).y = CInt(c.mem.QuotaPagedPoolUsage / 1024)
-                        Case "Memory.QuotaPeakNonPagedPoolUsage"
-                            v2(i).y = CInt(c.mem.QuotaPeakNonPagedPoolUsage / 1024)
-                        Case "Memory.QuotaNonPagedPoolUsage"
-                            v2(i).y = CInt(c.mem.QuotaNonPagedPoolUsage / 1024)
-                        Case "Memory.PagefileUsage"
-                            v2(i).y = CInt(c.mem.PagefileUsage / 1024 / 1024)
-                        Case "Memory.PeakPagefileUsage"
-                            v2(i).y = CInt(c.mem.PeakPagefileUsage / 1024 / 1024)
-                    End Select
-                    Select Case key3
-                        Case "Memory.PageFaultCount"
-                            v3(i).y = CInt(c.mem.PageFaultCount)
-                        Case "Memory.PeakWorkingSetSize"
-                            v3(i).y = CInt(c.mem.PeakWorkingSetSize / 1024 / 1024)
-                        Case "Memory.WorkingSetSize"
-                            v3(i).y = CInt(c.mem.WorkingSetSize / 1024 / 1024)
-                        Case "Memory.QuotaPeakPagedPoolUsage"
-                            v3(i).y = CInt(c.mem.QuotaPeakPagedPoolUsage / 1024)
-                        Case "TMemory.QuotaPagedPoolUsage"
-                            v3(i).y = CInt(c.mem.QuotaPagedPoolUsage / 1024)
-                        Case "Memory.QuotaPeakNonPagedPoolUsage"
-                            v3(i).y = CInt(c.mem.QuotaPeakNonPagedPoolUsage / 1024)
-                        Case "Memory.QuotaNonPagedPoolUsage"
-                            v3(i).y = CInt(c.mem.QuotaNonPagedPoolUsage / 1024)
-                        Case "Memory.PagefileUsage"
-                            v3(i).y = CInt(c.mem.PagefileUsage / 1024 / 1024)
-                        Case "Memory.PeakPagefileUsage"
-                            v3(i).y = CInt(c.mem.PeakPagefileUsage / 1024 / 1024)
-                    End Select
+                    'Select Case key1
+                    'Case "CPU percentage"
+                    '    v(i).y = CLng(c.cpuCounter * 10000)
+                    'Case "CPU time"
+                    '    v(i).y = c.cpuTime
+                    'Case "Priority"
+                    '    v(i).y = c.priority
+                    'Case "Thread count"
+                    '    v(i).y = c.threadsCount
+                    'Case "Memory.PageFaultCount"
+                    '    v(i).y = CInt(c.mem.PageFaultCount)
+                    'Case "Memory.PeakWorkingSetSize"
+                    '    v(i).y = CInt(c.mem.PeakWorkingSetSize / 1024 / 1024)
+                    'Case "Memory.WorkingSetSize"
+                    '    v(i).y = CInt(c.mem.WorkingSetSize / 1024 / 1024)
+                    'Case "Memory.QuotaPeakPagedPoolUsage"
+                    '    v(i).y = CInt(c.mem.QuotaPeakPagedPoolUsage / 1024)
+                    'Case "TMemory.QuotaPagedPoolUsage"
+                    '    v(i).y = CInt(c.mem.QuotaPagedPoolUsage / 1024)
+                    'Case "Memory.QuotaPeakNonPagedPoolUsage"
+                    '    v(i).y = CInt(c.mem.QuotaPeakNonPagedPoolUsage / 1024)
+                    'Case "Memory.QuotaNonPagedPoolUsage"
+                    '    v(i).y = CInt(c.mem.QuotaNonPagedPoolUsage / 1024)
+                    'Case "Memory.PagefileUsage"
+                    '    v(i).y = CInt(c.mem.PagefileUsage / 1024 / 1024)
+                    'Case "Memory.PeakPagefileUsage"
+                    '    v(i).y = CInt(c.mem.PeakPagefileUsage / 1024 / 1024)
+                    v(i).y = CLng(c.value)
+                    'End Select
+                    'Select Case key2
+                    'Case "Memory.PageFaultCount"
+                    '    v2(i).y = CInt(c.mem.PageFaultCount)
+                    'Case "Memory.PeakWorkingSetSize"
+                    '    v2(i).y = CInt(c.mem.PeakWorkingSetSize / 1024 / 1024)
+                    'Case "Memory.WorkingSetSize"
+                    '    v2(i).y = CInt(c.mem.WorkingSetSize / 1024 / 1024)
+                    'Case "Memory.QuotaPeakPagedPoolUsage"
+                    '    v2(i).y = CInt(c.mem.QuotaPeakPagedPoolUsage / 1024)
+                    'Case "TMemory.QuotaPagedPoolUsage"
+                    '    v2(i).y = CInt(c.mem.QuotaPagedPoolUsage / 1024)
+                    'Case "Memory.QuotaPeakNonPagedPoolUsage"
+                    '    v2(i).y = CInt(c.mem.QuotaPeakNonPagedPoolUsage / 1024)
+                    'Case "Memory.QuotaNonPagedPoolUsage"
+                    '    v2(i).y = CInt(c.mem.QuotaNonPagedPoolUsage / 1024)
+                    'Case "Memory.PagefileUsage"
+                    '    v2(i).y = CInt(c.mem.PagefileUsage / 1024 / 1024)
+                    'Case "Memory.PeakPagefileUsage"
+                    '    v2(i).y = CInt(c.mem.PeakPagefileUsage / 1024 / 1024)
+                    'End Select
+                    'Select Case key3
+                    'Case "Memory.PageFaultCount"
+                    '    v3(i).y = CInt(c.mem.PageFaultCount)
+                    'Case "Memory.PeakWorkingSetSize"
+                    '    v3(i).y = CInt(c.mem.PeakWorkingSetSize / 1024 / 1024)
+                    'Case "Memory.WorkingSetSize"
+                    '    v3(i).y = CInt(c.mem.WorkingSetSize / 1024 / 1024)
+                    'Case "Memory.QuotaPeakPagedPoolUsage"
+                    '    v3(i).y = CInt(c.mem.QuotaPeakPagedPoolUsage / 1024)
+                    'Case "TMemory.QuotaPagedPoolUsage"
+                    '    v3(i).y = CInt(c.mem.QuotaPagedPoolUsage / 1024)
+                    'Case "Memory.QuotaPeakNonPagedPoolUsage"
+                    '    v3(i).y = CInt(c.mem.QuotaPeakNonPagedPoolUsage / 1024)
+                    'Case "Memory.QuotaNonPagedPoolUsage"
+                    '    v3(i).y = CInt(c.mem.QuotaNonPagedPoolUsage / 1024)
+                    'Case "Memory.PagefileUsage"
+                    '    v3(i).y = CInt(c.mem.PagefileUsage / 1024 / 1024)
+                    'Case "Memory.PeakPagefileUsage"
+                    '    v3(i).y = CInt(c.mem.PeakPagefileUsage / 1024 / 1024)
+                    ' End Select
                     v(i).x = c.time
                     i += 1
                 End If
             Next
 
             ReDim Preserve v(cCol.Count - 1)
-            ReDim Preserve v2(cCol.Count - 1)
-            ReDim Preserve v3(cCol.Count - 1)
+            ' ReDim Preserve v2(cCol.Count - 1)
+            ' ReDim Preserve v3(cCol.Count - 1)
 
             With Me.graphMonitor
 
@@ -3357,8 +3325,8 @@ Public Class frmMain
                 End If
 
                 .SetValues(v)
-                .SetValues2(v2)
-                .SetValues3(v3)
+                '.SetValues2(v2)
+                ' .SetValues3(v3)
                 .dDate = it.GetMonitorCreationDate
                 .EnableGraph = True
                 Call .Refresh()
