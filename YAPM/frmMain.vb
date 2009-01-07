@@ -3034,24 +3034,50 @@ Public Class frmMain
     ' Add a monitoring item
     Public Sub AddMonitoringItem(ByVal it As cMonitor)
 
-        Dim n1 As New TreeNode
-        n1.Text = CStr(IIf(Len(it.GetInstanceName) > 0, it.GetInstanceName & " - ", _
-            vbNullString)) & it.CategoryName
+        ' Check if a node with same category and instance exists
+        Dim nExistingItem As TreeNode = Nothing
+        Dim n As TreeNode
+        For Each n In Me.tvMonitor.Nodes.Item(0).Nodes
+            If CStr(IIf(Len(it.GetInstanceName) > 0, it.GetInstanceName & " - ", vbNullString)) & _
+                it.CategoryName = n.Text Then
 
-        n1.ImageKey = "exe"
-        n1.ImageIndex = 0
-        n1.SelectedImageIndex = 0
+                nExistingItem = n
+                Exit For
+            End If
+        Next
 
-        Me.tvMonitor.Nodes.Item(0).Nodes.Add(n1)
-        n1.Tag = it
+        If nExistingItem Is Nothing Then
+            ' New sub item
+            Dim n1 As New TreeNode
+            n1.Text = CStr(IIf(Len(it.GetInstanceName) > 0, it.GetInstanceName & " - ", _
+                vbNullString)) & it.CategoryName
 
-        With it
             Dim ncpu As New TreeNode
-            ncpu.Text = it.CounterName
-            ncpu.ImageKey = "sub"
-            ncpu.SelectedImageIndex = 2
+            With ncpu
+                .Text = it.CounterName
+                .ImageKey = "sub"
+                .SelectedImageIndex = 2
+            End With
             n1.Nodes.Add(ncpu)
-        End With
+
+            With n1
+                .ImageKey = "exe"
+                .ImageIndex = 0
+                .SelectedImageIndex = 0
+                .Tag = it
+            End With
+            Me.tvMonitor.Nodes.Item(0).Nodes.Add(n1)
+        Else
+            ' Use existing sub item
+            Dim ncpu As New TreeNode
+            With ncpu
+                .Text = it.CounterName
+                .ImageKey = "sub"
+                .SelectedImageIndex = 2
+            End With
+
+            nExistingItem.Nodes.Add(ncpu)
+        End If
 
         Call updateMonitoringLog()
     End Sub
@@ -3079,14 +3105,6 @@ Public Class frmMain
                 Dim it As cMonitor = CType(tvMonitor.SelectedNode.Parent.Tag, cMonitor)
                 Dim sKey As String = tvMonitor.SelectedNode.Text
                 Call ShowMonitorStats(it, sKey, "", "")
-                'If sKey = "Memory" Then
-                '    ' 3 differentes values
-                '    Me.splitMonitor4.Panel1.Enabled = True
-                '    Call ShowMonitorStats(it, "Memory." & Me.cbMon1.Text, "Memory." & Me.cbMon2.Text, "Memory." & Me.cbMon3.Text)
-                'Else
-                '    Me.splitMonitor4.Panel1.Enabled = False
-                '    Call ShowMonitorStats(it, sKey, "", "")
-                'End If
             End If
         Else
             ' The we can start/stop all items
@@ -3133,52 +3151,31 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub RemoveSubNode(ByVal n As TreeNodeCollection)
+    Private Sub RemoveSubNode(ByRef nod As TreeNode, ByRef n As TreeNodeCollection)
         Dim subn As TreeNode
         For Each subn In n
-            If subn.Nodes.Count > 0 Then
-                RemoveSubNode(subn.Nodes)
-                subn.Remove()
-            Else
-                ' It's a monitor sub item
-                If subn.Parent IsNot Nothing Then
-                    Dim it As cMonitor = CType(subn.Parent.Tag, cMonitor)
-                    If it IsNot Nothing Then it.Dispose()
-                    it = Nothing
-                End If
-                subn.Remove()
-            End If
+            RemoveSubNode(subn, subn.Nodes)
         Next
+        ' It's a monitor sub item
+        If nod.Parent IsNot Nothing Then
+            Dim it As cMonitor = CType(nod.Parent.Tag, cMonitor)
+            If it IsNot Nothing Then it.Dispose()
+            it = Nothing
+            nod.Remove()
+        End If
     End Sub
 
     Private Sub butMonitoringRemove_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMonitoringRemove.Click
         If tvMonitor.SelectedNode IsNot Nothing Then
-            'If tvMonitor.SelectedNode.Parent Is Nothing Then
-            ' Delete all items
-            'Dim n As TreeNode
-            If tvMonitor.SelectedNode.ImageKey = "sub" Then
-                Dim it As cMonitor = CType(tvMonitor.SelectedNode.Parent.Tag, cMonitor)
-                If it IsNot Nothing Then it.Dispose()
-                it = Nothing
-                tvMonitor.SelectedNode.Remove()
-            Else
-                RemoveSubNode(tvMonitor.SelectedNode.Nodes)
+            RemoveSubNode(tvMonitor.SelectedNode, tvMonitor.SelectedNode.Nodes)
+            ' Remove node if no more subitems
+            If tvMonitor.SelectedNode IsNot Nothing Then
+                If tvMonitor.SelectedNode.Parent IsNot Nothing Then
+                    If tvMonitor.SelectedNode.Nodes.Count = 0 Then
+                        tvMonitor.SelectedNode.Remove()
+                    End If
+                End If
             End If
-            'For Each n In tvMonitor.SelectedNode.Nodes
-            '    n.Remove()
-            'Next
-            'Else
-            '    If tvMonitor.SelectedNode.Parent.Name = tvMonitor.Nodes.Item(0).Name Then
-            '        ' Process, so we kill monitor
-            '        tvMonitor.SelectedNode.Remove()
-            '    Else
-            '        ' Sub item of monitor, so we disable it from monitor
-            '        Dim it As cMonitor = CType(tvMonitor.SelectedNode.Parent.Tag, cMonitor)
-            '        it.Dispose()
-            '        it = Nothing
-            '        tvMonitor.SelectedNode.Remove()
-            '    End If
-            'End If
         End If
         Call updateMonitoringLog()
     End Sub
@@ -3252,83 +3249,13 @@ Public Class frmMain
 
             For Each c In cCol
                 If i < v.Length Then
-                    'Select Case key1
-                    'Case "CPU percentage"
-                    '    v(i).y = CLng(c.cpuCounter * 10000)
-                    'Case "CPU time"
-                    '    v(i).y = c.cpuTime
-                    'Case "Priority"
-                    '    v(i).y = c.priority
-                    'Case "Thread count"
-                    '    v(i).y = c.threadsCount
-                    'Case "Memory.PageFaultCount"
-                    '    v(i).y = CInt(c.mem.PageFaultCount)
-                    'Case "Memory.PeakWorkingSetSize"
-                    '    v(i).y = CInt(c.mem.PeakWorkingSetSize / 1024 / 1024)
-                    'Case "Memory.WorkingSetSize"
-                    '    v(i).y = CInt(c.mem.WorkingSetSize / 1024 / 1024)
-                    'Case "Memory.QuotaPeakPagedPoolUsage"
-                    '    v(i).y = CInt(c.mem.QuotaPeakPagedPoolUsage / 1024)
-                    'Case "TMemory.QuotaPagedPoolUsage"
-                    '    v(i).y = CInt(c.mem.QuotaPagedPoolUsage / 1024)
-                    'Case "Memory.QuotaPeakNonPagedPoolUsage"
-                    '    v(i).y = CInt(c.mem.QuotaPeakNonPagedPoolUsage / 1024)
-                    'Case "Memory.QuotaNonPagedPoolUsage"
-                    '    v(i).y = CInt(c.mem.QuotaNonPagedPoolUsage / 1024)
-                    'Case "Memory.PagefileUsage"
-                    '    v(i).y = CInt(c.mem.PagefileUsage / 1024 / 1024)
-                    'Case "Memory.PeakPagefileUsage"
-                    '    v(i).y = CInt(c.mem.PeakPagefileUsage / 1024 / 1024)
                     v(i).y = CLng(c.value)
-                    'End Select
-                    'Select Case key2
-                    'Case "Memory.PageFaultCount"
-                    '    v2(i).y = CInt(c.mem.PageFaultCount)
-                    'Case "Memory.PeakWorkingSetSize"
-                    '    v2(i).y = CInt(c.mem.PeakWorkingSetSize / 1024 / 1024)
-                    'Case "Memory.WorkingSetSize"
-                    '    v2(i).y = CInt(c.mem.WorkingSetSize / 1024 / 1024)
-                    'Case "Memory.QuotaPeakPagedPoolUsage"
-                    '    v2(i).y = CInt(c.mem.QuotaPeakPagedPoolUsage / 1024)
-                    'Case "TMemory.QuotaPagedPoolUsage"
-                    '    v2(i).y = CInt(c.mem.QuotaPagedPoolUsage / 1024)
-                    'Case "Memory.QuotaPeakNonPagedPoolUsage"
-                    '    v2(i).y = CInt(c.mem.QuotaPeakNonPagedPoolUsage / 1024)
-                    'Case "Memory.QuotaNonPagedPoolUsage"
-                    '    v2(i).y = CInt(c.mem.QuotaNonPagedPoolUsage / 1024)
-                    'Case "Memory.PagefileUsage"
-                    '    v2(i).y = CInt(c.mem.PagefileUsage / 1024 / 1024)
-                    'Case "Memory.PeakPagefileUsage"
-                    '    v2(i).y = CInt(c.mem.PeakPagefileUsage / 1024 / 1024)
-                    'End Select
-                    'Select Case key3
-                    'Case "Memory.PageFaultCount"
-                    '    v3(i).y = CInt(c.mem.PageFaultCount)
-                    'Case "Memory.PeakWorkingSetSize"
-                    '    v3(i).y = CInt(c.mem.PeakWorkingSetSize / 1024 / 1024)
-                    'Case "Memory.WorkingSetSize"
-                    '    v3(i).y = CInt(c.mem.WorkingSetSize / 1024 / 1024)
-                    'Case "Memory.QuotaPeakPagedPoolUsage"
-                    '    v3(i).y = CInt(c.mem.QuotaPeakPagedPoolUsage / 1024)
-                    'Case "TMemory.QuotaPagedPoolUsage"
-                    '    v3(i).y = CInt(c.mem.QuotaPagedPoolUsage / 1024)
-                    'Case "Memory.QuotaPeakNonPagedPoolUsage"
-                    '    v3(i).y = CInt(c.mem.QuotaPeakNonPagedPoolUsage / 1024)
-                    'Case "Memory.QuotaNonPagedPoolUsage"
-                    '    v3(i).y = CInt(c.mem.QuotaNonPagedPoolUsage / 1024)
-                    'Case "Memory.PagefileUsage"
-                    '    v3(i).y = CInt(c.mem.PagefileUsage / 1024 / 1024)
-                    'Case "Memory.PeakPagefileUsage"
-                    '    v3(i).y = CInt(c.mem.PeakPagefileUsage / 1024 / 1024)
-                    ' End Select
                     v(i).x = c.time
                     i += 1
                 End If
             Next
 
             ReDim Preserve v(cCol.Count - 1)
-            ' ReDim Preserve v2(cCol.Count - 1)
-            ' ReDim Preserve v3(cCol.Count - 1)
 
             With Me.graphMonitor
 
@@ -3352,8 +3279,6 @@ Public Class frmMain
                 End If
 
                 .SetValues(v)
-                '.SetValues2(v2)
-                ' .SetValues3(v3)
                 .dDate = it.GetMonitorCreationDate
                 .EnableGraph = True
                 Call .Refresh()

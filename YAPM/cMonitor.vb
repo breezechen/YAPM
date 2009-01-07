@@ -133,9 +133,13 @@ Public Class cMonitor
     End Sub
     Public Sub Dispose() Implements System.IDisposable.Dispose
         _colInfos = Nothing
-        Me.StopMonitoring()
-        timer.Dispose()
-        _pc.Dispose()
+        If timer IsNot Nothing Then
+            Me.StopMonitoring()
+            timer.Dispose()
+        End If
+        If _pc IsNot Nothing Then
+            _pc.Dispose()
+        End If
         _pc = Nothing
     End Sub
 

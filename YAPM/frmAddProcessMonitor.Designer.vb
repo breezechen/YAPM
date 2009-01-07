@@ -22,136 +22,36 @@ Partial Class frmAddProcessMonitor
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.cbProcess = New System.Windows.Forms.ComboBox
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.cmdRefresh = New System.Windows.Forms.Button
-        Me.gpOptions = New System.Windows.Forms.GroupBox
-        Me.chkCPUCount = New System.Windows.Forms.CheckBox
-        Me.chkPrioirty = New System.Windows.Forms.CheckBox
-        Me.chkThreadsCount = New System.Windows.Forms.CheckBox
-        Me.chkMemoryInfos = New System.Windows.Forms.CheckBox
-        Me.chkCPUtime = New System.Windows.Forms.CheckBox
         Me.butAdd = New System.Windows.Forms.Button
         Me.Label2 = New System.Windows.Forms.Label
         Me.txtInterval = New System.Windows.Forms.TextBox
         Me.Label3 = New System.Windows.Forms.Label
         Me.lstCategory = New System.Windows.Forms.ListBox
-        Me.lstCounterType = New System.Windows.Forms.ListBox
         Me.Label4 = New System.Windows.Forms.Label
         Me.lstInstance = New System.Windows.Forms.ListBox
         Me.Label5 = New System.Windows.Forms.Label
-        Me.gpOptions.SuspendLayout()
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.lstCounterType = New System.Windows.Forms.CheckedListBox
+        Me.cmdAddToList = New System.Windows.Forms.Button
+        Me.cmdRemoveFromList = New System.Windows.Forms.Button
+        Me.lstToAdd = New System.Windows.Forms.ListView
+        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.SuspendLayout()
-        '
-        'cbProcess
-        '
-        Me.cbProcess.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cbProcess.FormattingEnabled = True
-        Me.cbProcess.Location = New System.Drawing.Point(495, 410)
-        Me.cbProcess.Name = "cbProcess"
-        Me.cbProcess.Size = New System.Drawing.Size(131, 21)
-        Me.cbProcess.TabIndex = 0
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(445, 413)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(44, 13)
-        Me.Label1.TabIndex = 1
-        Me.Label1.Text = "Process"
-        '
-        'cmdRefresh
-        '
-        Me.cmdRefresh.Location = New System.Drawing.Point(632, 410)
-        Me.cmdRefresh.Name = "cmdRefresh"
-        Me.cmdRefresh.Size = New System.Drawing.Size(68, 21)
-        Me.cmdRefresh.TabIndex = 2
-        Me.cmdRefresh.Text = "Refresh"
-        Me.cmdRefresh.UseVisualStyleBackColor = True
-        '
-        'gpOptions
-        '
-        Me.gpOptions.Controls.Add(Me.chkCPUCount)
-        Me.gpOptions.Controls.Add(Me.chkPrioirty)
-        Me.gpOptions.Controls.Add(Me.chkThreadsCount)
-        Me.gpOptions.Controls.Add(Me.chkMemoryInfos)
-        Me.gpOptions.Controls.Add(Me.chkCPUtime)
-        Me.gpOptions.Location = New System.Drawing.Point(447, 437)
-        Me.gpOptions.Name = "gpOptions"
-        Me.gpOptions.Size = New System.Drawing.Size(251, 92)
-        Me.gpOptions.TabIndex = 3
-        Me.gpOptions.TabStop = False
-        Me.gpOptions.Text = "Monitor options"
-        '
-        'chkCPUCount
-        '
-        Me.chkCPUCount.AutoSize = True
-        Me.chkCPUCount.Enabled = False
-        Me.chkCPUCount.Location = New System.Drawing.Point(6, 66)
-        Me.chkCPUCount.Name = "chkCPUCount"
-        Me.chkCPUCount.Size = New System.Drawing.Size(104, 17)
-        Me.chkCPUCount.TabIndex = 4
-        Me.chkCPUCount.Text = "CPU percentage"
-        Me.chkCPUCount.UseVisualStyleBackColor = True
-        '
-        'chkPrioirty
-        '
-        Me.chkPrioirty.AutoSize = True
-        Me.chkPrioirty.Location = New System.Drawing.Point(110, 20)
-        Me.chkPrioirty.Name = "chkPrioirty"
-        Me.chkPrioirty.Size = New System.Drawing.Size(60, 17)
-        Me.chkPrioirty.TabIndex = 3
-        Me.chkPrioirty.Text = "Priority"
-        Me.chkPrioirty.UseVisualStyleBackColor = True
-        '
-        'chkThreadsCount
-        '
-        Me.chkThreadsCount.AutoSize = True
-        Me.chkThreadsCount.Location = New System.Drawing.Point(110, 43)
-        Me.chkThreadsCount.Name = "chkThreadsCount"
-        Me.chkThreadsCount.Size = New System.Drawing.Size(90, 17)
-        Me.chkThreadsCount.TabIndex = 2
-        Me.chkThreadsCount.Text = "Thread count"
-        Me.chkThreadsCount.UseVisualStyleBackColor = True
-        '
-        'chkMemoryInfos
-        '
-        Me.chkMemoryInfos.AutoSize = True
-        Me.chkMemoryInfos.Checked = True
-        Me.chkMemoryInfos.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkMemoryInfos.Location = New System.Drawing.Point(6, 43)
-        Me.chkMemoryInfos.Name = "chkMemoryInfos"
-        Me.chkMemoryInfos.Size = New System.Drawing.Size(90, 17)
-        Me.chkMemoryInfos.TabIndex = 1
-        Me.chkMemoryInfos.Text = "Memory infos"
-        Me.chkMemoryInfos.UseVisualStyleBackColor = True
-        '
-        'chkCPUtime
-        '
-        Me.chkCPUtime.AutoSize = True
-        Me.chkCPUtime.Checked = True
-        Me.chkCPUtime.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkCPUtime.Location = New System.Drawing.Point(6, 20)
-        Me.chkCPUtime.Name = "chkCPUtime"
-        Me.chkCPUtime.Size = New System.Drawing.Size(69, 17)
-        Me.chkCPUtime.TabIndex = 0
-        Me.chkCPUtime.Text = "CPU time"
-        Me.chkCPUtime.UseVisualStyleBackColor = True
         '
         'butAdd
         '
-        Me.butAdd.Location = New System.Drawing.Point(256, 221)
+        Me.butAdd.Enabled = False
+        Me.butAdd.Location = New System.Drawing.Point(930, 205)
         Me.butAdd.Name = "butAdd"
-        Me.butAdd.Size = New System.Drawing.Size(209, 24)
+        Me.butAdd.Size = New System.Drawing.Size(271, 24)
         Me.butAdd.TabIndex = 4
-        Me.butAdd.Text = "Monitor process"
+        Me.butAdd.Text = "Monitor counters"
         Me.butAdd.UseVisualStyleBackColor = True
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(253, 197)
+        Me.Label2.Location = New System.Drawing.Point(927, 178)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(84, 13)
         Me.Label2.TabIndex = 5
@@ -159,7 +59,7 @@ Partial Class frmAddProcessMonitor
         '
         'txtInterval
         '
-        Me.txtInterval.Location = New System.Drawing.Point(343, 194)
+        Me.txtInterval.Location = New System.Drawing.Point(1017, 178)
         Me.txtInterval.Name = "txtInterval"
         Me.txtInterval.Size = New System.Drawing.Size(122, 21)
         Me.txtInterval.TabIndex = 6
@@ -179,23 +79,14 @@ Partial Class frmAddProcessMonitor
         Me.lstCategory.FormattingEnabled = True
         Me.lstCategory.Location = New System.Drawing.Point(15, 25)
         Me.lstCategory.Name = "lstCategory"
-        Me.lstCategory.Size = New System.Drawing.Size(222, 147)
+        Me.lstCategory.Size = New System.Drawing.Size(272, 147)
         Me.lstCategory.Sorted = True
         Me.lstCategory.TabIndex = 8
-        '
-        'lstCounterType
-        '
-        Me.lstCounterType.FormattingEnabled = True
-        Me.lstCounterType.Location = New System.Drawing.Point(15, 197)
-        Me.lstCounterType.Name = "lstCounterType"
-        Me.lstCounterType.Size = New System.Drawing.Size(222, 147)
-        Me.lstCounterType.Sorted = True
-        Me.lstCounterType.TabIndex = 10
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(12, 181)
+        Me.Label4.Location = New System.Drawing.Point(568, 9)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(71, 13)
         Me.Label4.TabIndex = 9
@@ -204,39 +95,94 @@ Partial Class frmAddProcessMonitor
         'lstInstance
         '
         Me.lstInstance.FormattingEnabled = True
-        Me.lstInstance.Location = New System.Drawing.Point(245, 25)
+        Me.lstInstance.Location = New System.Drawing.Point(293, 25)
         Me.lstInstance.Name = "lstInstance"
-        Me.lstInstance.Size = New System.Drawing.Size(222, 147)
+        Me.lstInstance.Size = New System.Drawing.Size(272, 147)
         Me.lstInstance.Sorted = True
         Me.lstInstance.TabIndex = 12
         '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(242, 9)
+        Me.Label5.Location = New System.Drawing.Point(290, 9)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(101, 13)
         Me.Label5.TabIndex = 11
         Me.Label5.Text = "Instance to monitor"
         '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(926, 9)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(103, 13)
+        Me.Label1.TabIndex = 13
+        Me.Label1.Text = "Counters to monitor"
+        '
+        'lstCounterType
+        '
+        Me.lstCounterType.CheckOnClick = True
+        Me.lstCounterType.FormattingEnabled = True
+        Me.lstCounterType.Location = New System.Drawing.Point(571, 25)
+        Me.lstCounterType.Name = "lstCounterType"
+        Me.lstCounterType.Size = New System.Drawing.Size(272, 148)
+        Me.lstCounterType.TabIndex = 15
+        '
+        'cmdAddToList
+        '
+        Me.cmdAddToList.Location = New System.Drawing.Point(864, 47)
+        Me.cmdAddToList.Name = "cmdAddToList"
+        Me.cmdAddToList.Size = New System.Drawing.Size(41, 23)
+        Me.cmdAddToList.TabIndex = 16
+        Me.cmdAddToList.Text = ">>"
+        Me.cmdAddToList.UseVisualStyleBackColor = True
+        '
+        'cmdRemoveFromList
+        '
+        Me.cmdRemoveFromList.Location = New System.Drawing.Point(864, 120)
+        Me.cmdRemoveFromList.Name = "cmdRemoveFromList"
+        Me.cmdRemoveFromList.Size = New System.Drawing.Size(41, 23)
+        Me.cmdRemoveFromList.TabIndex = 17
+        Me.cmdRemoveFromList.Text = "<<"
+        Me.cmdRemoveFromList.UseVisualStyleBackColor = True
+        '
+        'lstToAdd
+        '
+        Me.lstToAdd.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
+        Me.lstToAdd.FullRowSelect = True
+        Me.lstToAdd.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+        Me.lstToAdd.Location = New System.Drawing.Point(929, 25)
+        Me.lstToAdd.Name = "lstToAdd"
+        Me.lstToAdd.ShowGroups = False
+        Me.lstToAdd.ShowItemToolTips = True
+        Me.lstToAdd.Size = New System.Drawing.Size(272, 147)
+        Me.lstToAdd.TabIndex = 18
+        Me.lstToAdd.UseCompatibleStateImageBehavior = False
+        Me.lstToAdd.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Text = "Counter item"
+        Me.ColumnHeader1.Width = 1000
+        '
         'frmAddProcessMonitor
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(479, 351)
+        Me.ClientSize = New System.Drawing.Size(1213, 243)
+        Me.Controls.Add(Me.lstToAdd)
+        Me.Controls.Add(Me.cmdRemoveFromList)
+        Me.Controls.Add(Me.cmdAddToList)
+        Me.Controls.Add(Me.lstCounterType)
+        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.lstInstance)
         Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.lstCounterType)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.lstCategory)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.txtInterval)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.butAdd)
-        Me.Controls.Add(Me.gpOptions)
-        Me.Controls.Add(Me.cmdRefresh)
-        Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.cbProcess)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
@@ -246,28 +192,22 @@ Partial Class frmAddProcessMonitor
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Add monitoring"
-        Me.gpOptions.ResumeLayout(False)
-        Me.gpOptions.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents cbProcess As System.Windows.Forms.ComboBox
-    Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents cmdRefresh As System.Windows.Forms.Button
-    Friend WithEvents gpOptions As System.Windows.Forms.GroupBox
-    Friend WithEvents chkPrioirty As System.Windows.Forms.CheckBox
-    Friend WithEvents chkThreadsCount As System.Windows.Forms.CheckBox
-    Friend WithEvents chkMemoryInfos As System.Windows.Forms.CheckBox
-    Friend WithEvents chkCPUtime As System.Windows.Forms.CheckBox
     Friend WithEvents butAdd As System.Windows.Forms.Button
-    Friend WithEvents chkCPUCount As System.Windows.Forms.CheckBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents txtInterval As System.Windows.Forms.TextBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents lstCategory As System.Windows.Forms.ListBox
-    Friend WithEvents lstCounterType As System.Windows.Forms.ListBox
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents lstInstance As System.Windows.Forms.ListBox
     Friend WithEvents Label5 As System.Windows.Forms.Label
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents lstCounterType As System.Windows.Forms.CheckedListBox
+    Friend WithEvents cmdAddToList As System.Windows.Forms.Button
+    Friend WithEvents cmdRemoveFromList As System.Windows.Forms.Button
+    Friend WithEvents lstToAdd As System.Windows.Forms.ListView
+    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
 End Class

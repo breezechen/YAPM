@@ -5,15 +5,14 @@ Public Class frmAddProcessMonitor
     ' Process to select by default
     Public _selProcess As Integer
 
+    Private Structure monCounter
+        Dim instanceName As String
+        Dim counterTypeName As String
+        Dim categoryName As String
+    End Structure
+
     Private Sub frmAddProcessMonitor_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         With frmMain
-            .SetToolTip(Me.chkCPUCount, "Check if you want to monitor CPU usage (percentage).")
-            .SetToolTip(Me.chkCPUtime, "Check if you want to monitor CPU time (processor time).")
-            .SetToolTip(Me.chkMemoryInfos, "Check if you want to monitor memory informations.")
-            .SetToolTip(Me.chkPrioirty, "Check if you want to monitor priority.")
-            .SetToolTip(Me.chkThreadsCount, "Check if you want to monitor thread count.")
-            .SetToolTip(Me.cbProcess, "List of active processes.")
-            .SetToolTip(Me.cmdRefresh, "Refresh processes list.")
             .SetToolTip(Me.butAdd, "Monitor the selected process.")
             .SetToolTip(Me.txtInterval, "Set the refresh interval (milliseconds).")
         End With
@@ -42,43 +41,25 @@ Public Class frmAddProcessMonitor
 
     End Sub
 
-    Private Sub cmdRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdRefresh.Click
-        Dim cP() As cProcess = Nothing
-        Dim p As cProcess
-        Me.cbProcess.Items.Clear()
-        cProcess.Enumerate(cP)
-        For Each p In cP
-            If p.GetPid > 0 Then
-                Me.cbProcess.Items.Add(p.GetName & " -- " & CStr(p.GetPid))
-            End If
-        Next
-        If Me.cbProcess.Text.Length = 0 Then
-            Me.cbProcess.SelectedIndex = 0
-        End If
-    End Sub
-
     Private Sub butAdd_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butAdd.Click
         ' Monitor our process
-        Dim _pid As Integer = 0
-        Dim _name As String = vbNullString
-        Dim _cat As String = vbNullString
-        Dim _count As String = vbNullString
+        Dim lstIt As ListViewItem
 
-        If Me.lstCategory.SelectedItem Is Nothing Then Exit Sub
-        If Me.lstCounterType.SelectedItem IsNot Nothing Then _count = Me.lstCounterType.SelectedItem.ToString
-        If Me.lstInstance.SelectedItem IsNot Nothing Then _name = Me.lstInstance.SelectedItem.ToString
+        For Each lstIt In Me.lstToAdd.Items
 
-        If _count = vbNullString And _name = vbNullString Then Exit Sub
-        _cat = Me.lstCategory.SelectedItem.ToString
+            Dim obj As monCounter = CType(lstIt.Tag, Global.YAPM.frmAddProcessMonitor.monCounter)
 
-        'Dim i As Integer = InStr(Me.cbProcess.Text, " -- ", CompareMethod.Binary)
+            With obj
+                Dim _name As String = .instanceName
+                Dim _cat As String = .categoryName
+                Dim _count As String = .counterTypeName
 
-        '_name = Me.cbProcess.Text.Substring(0, i - 1)
-        '_pid = CInt(Val(Me.cbProcess.Text.Substring(i + 3, Me.cbProcess.Text.Length - i - 3)))
+                Dim it As New cMonitor(_cat, _count, _name)
+                it.Interval = CInt(Val(Me.txtInterval.Text))
+                frmMain.AddMonitoringItem(it)
+            End With
 
-        Dim it As New cMonitor(_cat, _count, _name)
-        it.Interval = CInt(Val(Me.txtInterval.Text))
-        frmMain.AddMonitoringItem(it)
+        Next
 
         Me.Close()
 
@@ -126,5 +107,61 @@ Public Class frmAddProcessMonitor
             Catch ex As Exception
             End Try
         End If
+        Me.butAdd.Enabled = (Me.lstCounterType.SelectedItems.Count > 0)
+    End Sub
+
+    Private Sub cmdAddToList_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdAddToList.Click
+        ' Add selected counters to wish list
+        Dim listIt As Object
+
+        Dim _name As String = vbNullString
+        Dim _cat As String = vbNullString
+        Dim _count As String = vbNullString
+        If Me.lstCategory.SelectedItem Is Nothing Then Exit Sub
+
+        For Each listIt In Me.lstCounterType.CheckedItems
+
+            _count = listIt.ToString
+            If Me.lstInstance.SelectedItem IsNot Nothing Then _name = Me.lstInstance.SelectedItem.ToString
+            If _count = vbNullString And _name = vbNullString Then Exit Sub
+            _cat = Me.lstCategory.SelectedItem.ToString
+
+            Dim it As New monCounter
+
+            With it
+                .categoryName = _cat
+                .counterTypeName = _count
+                .instanceName = _name
+            End With
+
+            Dim sName As String = _cat & " -- " & CStr(IIf(_name = vbNullString, vbNullString, _name & " -- ")) & _count
+            Dim bPresent As Boolean = False
+
+            ' Check if item is already added or not
+            Dim lvIt As ListViewItem
+            For Each lvIt In Me.lstToAdd.Items
+                If lvIt.Text = sName Then
+                    bPresent = True
+                    Exit For
+                End If
+            Next
+
+            If bPresent = False Then
+                Dim itList As New ListViewItem
+                itList.Text = sName
+                itList.Tag = it
+                Me.lstToAdd.Items.Add(itList)
+            End If
+        Next
+
+        Me.butAdd.Enabled = (Me.lstCounterType.Items.Count > 0)
+    End Sub
+
+    Private Sub cmdRemoveFromList_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdRemoveFromList.Click
+        Dim it As ListViewItem
+        For Each it In Me.lstToAdd.SelectedItems
+            it.Remove()
+        Next
+        Me.butAdd.Enabled = (Me.lstCounterType.Items.Count > 0)
     End Sub
 End Class
