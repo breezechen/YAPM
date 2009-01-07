@@ -3049,23 +3049,23 @@ Public Class frmMain
         If nExistingItem Is Nothing Then
             ' New sub item
             Dim n1 As New TreeNode
-            n1.Text = CStr(IIf(Len(it.GetInstanceName) > 0, it.GetInstanceName & " - ", _
-                vbNullString)) & it.CategoryName
+            With n1
+                .Text = CStr(IIf(Len(it.GetInstanceName) > 0, it.GetInstanceName & " - ", _
+                   vbNullString)) & it.CategoryName
+                .ImageKey = "exe"
+                .ImageIndex = 0
+                .SelectedImageIndex = 0
+            End With
 
             Dim ncpu As New TreeNode
             With ncpu
                 .Text = it.CounterName
                 .ImageKey = "sub"
                 .SelectedImageIndex = 2
+                .Tag = it
             End With
             n1.Nodes.Add(ncpu)
 
-            With n1
-                .ImageKey = "exe"
-                .ImageIndex = 0
-                .SelectedImageIndex = 0
-                .Tag = it
-            End With
             Me.tvMonitor.Nodes.Item(0).Nodes.Add(n1)
         Else
             ' Use existing sub item
@@ -3074,6 +3074,7 @@ Public Class frmMain
                 .Text = it.CounterName
                 .ImageKey = "sub"
                 .SelectedImageIndex = 2
+                .Tag = it
             End With
 
             nExistingItem.Nodes.Add(ncpu)
@@ -3091,18 +3092,16 @@ Public Class frmMain
         If tvMonitor.SelectedNode.Parent IsNot Nothing Then
             If tvMonitor.SelectedNode.Parent.Name = tvMonitor.Nodes.Item(0).Name Then
                 ' Then we have selected a process
-                Dim it As cMonitor = CType(tvMonitor.SelectedNode.Tag, cMonitor)
-                Dim b As Boolean = it.Enabled
-                Me.butMonitorStart.Enabled = Not (b)
-                Me.butMonitorStop.Enabled = b
+                Me.butMonitorStart.Enabled = True
+                Me.butMonitorStop.Enabled = True
                 Me.graphMonitor.CreateGraphics.Clear(Color.Black)
                 Me.graphMonitor.CreateGraphics.DrawString("Select in the treeview a monitor item.", Me.Font, Brushes.White, 0, 0)
             Else
-                Me.butMonitorStart.Enabled = False
-                Me.butMonitorStop.Enabled = False
+                Dim it As cMonitor = CType(tvMonitor.SelectedNode.Tag, cMonitor)
+                Me.butMonitorStart.Enabled = Not (it.Enabled)
+                Me.butMonitorStop.Enabled = it.Enabled
 
                 ' We have selected a sub item -> display values in graph
-                Dim it As cMonitor = CType(tvMonitor.SelectedNode.Parent.Tag, cMonitor)
                 Dim sKey As String = tvMonitor.SelectedNode.Text
                 Call ShowMonitorStats(it, sKey, "", "")
             End If
@@ -3119,36 +3118,63 @@ Public Class frmMain
     Private Sub butMonitorStart_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMonitorStart.Click
         If tvMonitor.SelectedNode IsNot Nothing Then
             If tvMonitor.SelectedNode.Parent IsNot Nothing Then
-                Dim it As cMonitor = CType(tvMonitor.SelectedNode.Tag, cMonitor)
-                it.StartMonitoring()
-                Call tvMonitor_AfterSelect(Nothing, Nothing)
+                If tvMonitor.SelectedNode.Parent.Parent IsNot Nothing Then
+                    ' Subsub item
+                    Dim it As cMonitor = CType(tvMonitor.SelectedNode.Tag, cMonitor)
+                    it.StartMonitoring()
+                    Call tvMonitor_AfterSelect(Nothing, Nothing)
+                Else
+                    ' Sub item
+                    Dim n As TreeNode
+                    For Each n In tvMonitor.SelectedNode.Nodes
+                        Dim it As cMonitor = CType(n.Tag, cMonitor)
+                        it.StartMonitoring()
+                    Next
+                End If
             Else
                 ' All items
                 Dim n As TreeNode
                 For Each n In tvMonitor.SelectedNode.Nodes
-                    Dim it As cMonitor = CType(n.Tag, cMonitor)
-                    it.StartMonitoring()
+                    Dim n2 As TreeNode
+                    For Each n2 In n.Nodes
+                        Dim it As cMonitor = CType(n2.Tag, cMonitor)
+                        it.StartMonitoring()
+                    Next
                 Next
             End If
-        End If
+            End If
         Call updateMonitoringLog()
     End Sub
 
     Private Sub butMonitorStop_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMonitorStop.Click
         If tvMonitor.SelectedNode IsNot Nothing Then
             If tvMonitor.SelectedNode.Parent IsNot Nothing Then
-                Dim it As cMonitor = CType(tvMonitor.SelectedNode.Tag, cMonitor)
-                it.StopMonitoring()
-                Call tvMonitor_AfterSelect(Nothing, Nothing)
+                If tvMonitor.SelectedNode.Parent.Parent IsNot Nothing Then
+                    ' Subsub item
+                    Dim it As cMonitor = CType(tvMonitor.SelectedNode.Tag, cMonitor)
+                    it.StopMonitoring()
+                    Call tvMonitor_AfterSelect(Nothing, Nothing)
+                Else
+                    ' Sub item
+                    Dim n As TreeNode
+                    For Each n In tvMonitor.SelectedNode.Nodes
+                        Dim it As cMonitor = CType(n.Tag, cMonitor)
+                        it.StopMonitoring()
+                    Next
+                End If
             Else
                 ' All items
                 Dim n As TreeNode
                 For Each n In tvMonitor.SelectedNode.Nodes
-                    Dim it As cMonitor = CType(n.Tag, cMonitor)
-                    it.StopMonitoring()
+                    Dim n2 As TreeNode
+                    For Each n2 In n.Nodes
+                        Dim it As cMonitor = CType(n2.Tag, cMonitor)
+                        it.StopMonitoring()
+                    Next
                 Next
             End If
         End If
+        Call updateMonitoringLog()
     End Sub
 
     Private Sub RemoveSubNode(ByRef nod As TreeNode, ByRef n As TreeNodeCollection)
@@ -3192,18 +3218,18 @@ Public Class frmMain
             Dim n As TreeNode
             For Each n In Me.tvMonitor.Nodes.Item(0).Nodes
                 Dim it As cMonitor = CType(n.Tag, cMonitor)
-                s &= vbNewLine & "* Category  : " & it.CategoryName & " -- Instance : " & it.GetInstanceName & " -- Counter : " & it.CounterName
-                s &= vbNewLine & "      Monitoring creation : " & it.GetMonitorCreationDate.ToLongDateString & " -- " & it.GetMonitorCreationDate.ToLongTimeString
-                If it.GetLastStarted.Ticks > 0 Then
-                    s &= vbNewLine & "      Last start : " & it.GetLastStarted.ToLongDateString & " -- " & it.GetLastStarted.ToLongTimeString
-                Else
-                    s &= vbNewLine & "      Not yet started"
-                End If
-                s &= vbNewLine & "      State : " & it.Enabled
-                s &= vbNewLine & "      Interval : " & it.Interval
-                s = s.Substring(0, s.Length - 2)
+                's &= vbNewLine & "* Category  : " & it.CategoryName & " -- Instance : " & it.GetInstanceName & " -- Counter : " & it.CounterName
+                's &= vbNewLine & "      Monitoring creation : " & it.GetMonitorCreationDate.ToLongDateString & " -- " & it.GetMonitorCreationDate.ToLongTimeString
+                'If it.GetLastStarted.Ticks > 0 Then
+                '    s &= vbNewLine & "      Last start : " & it.GetLastStarted.ToLongDateString & " -- " & it.GetLastStarted.ToLongTimeString
+                'Else
+                '    s &= vbNewLine & "      Not yet started"
+                'End If
+                's &= vbNewLine & "      State : " & it.Enabled
+                's &= vbNewLine & "      Interval : " & it.Interval
+                's = s.Substring(0, s.Length - 2)
 
-                s &= vbNewLine
+                's &= vbNewLine
             Next
 
             Me.txtMonitoringLog.Text = s
@@ -3228,8 +3254,6 @@ Public Class frmMain
 
         ' Get values from monitor item
         Dim v() As Graph.ValueItem
-        Dim v2() As Graph.ValueItem
-        Dim v3() As Graph.ValueItem
         Dim cCol As New Collection
         cCol = it.GetMonitorItems()
 
@@ -3242,8 +3266,6 @@ Public Class frmMain
         If cCol.Count > 0 Then
 
             ReDim v(cCol.Count)
-            ReDim v2(cCol.Count)
-            ReDim v3(cCol.Count)
             Dim c As cMonitor.MonitorStructure
             Dim i As Integer = 0
 
