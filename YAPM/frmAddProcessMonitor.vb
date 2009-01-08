@@ -15,6 +15,12 @@ Public Class frmAddProcessMonitor
         With frmMain
             .SetToolTip(Me.butAdd, "Monitor the selected process.")
             .SetToolTip(Me.txtInterval, "Set the refresh interval (milliseconds).")
+            .SetToolTip(Me.cmdAddToList, "Add counters from list.")
+            .SetToolTip(Me.cmdRemoveFromList, "Remove counters from list.")
+            .SetToolTip(Me.lstToAdd, "Counters to monitor.")
+            .SetToolTip(Me.lstCounterType, "Available counters.")
+            .SetToolTip(Me.lstInstance, "Available instances.")
+            .SetToolTip(Me.lstCategory, "Available categories.")
         End With
 
         'Call Me.cmdRefresh_Click(Nothing, Nothing)

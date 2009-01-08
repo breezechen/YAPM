@@ -41,7 +41,7 @@ Partial Class frmAddProcessMonitor
         'butAdd
         '
         Me.butAdd.Enabled = False
-        Me.butAdd.Location = New System.Drawing.Point(930, 205)
+        Me.butAdd.Location = New System.Drawing.Point(834, 203)
         Me.butAdd.Name = "butAdd"
         Me.butAdd.Size = New System.Drawing.Size(271, 24)
         Me.butAdd.TabIndex = 4
@@ -51,7 +51,7 @@ Partial Class frmAddProcessMonitor
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(927, 178)
+        Me.Label2.Location = New System.Drawing.Point(831, 176)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(84, 13)
         Me.Label2.TabIndex = 5
@@ -59,7 +59,7 @@ Partial Class frmAddProcessMonitor
         '
         'txtInterval
         '
-        Me.txtInterval.Location = New System.Drawing.Point(1017, 178)
+        Me.txtInterval.Location = New System.Drawing.Point(921, 176)
         Me.txtInterval.Name = "txtInterval"
         Me.txtInterval.Size = New System.Drawing.Size(122, 21)
         Me.txtInterval.TabIndex = 6
@@ -68,7 +68,7 @@ Partial Class frmAddProcessMonitor
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(12, 9)
+        Me.Label3.Location = New System.Drawing.Point(6, 8)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(52, 13)
         Me.Label3.TabIndex = 7
@@ -77,16 +77,16 @@ Partial Class frmAddProcessMonitor
         'lstCategory
         '
         Me.lstCategory.FormattingEnabled = True
-        Me.lstCategory.Location = New System.Drawing.Point(15, 25)
+        Me.lstCategory.Location = New System.Drawing.Point(9, 24)
         Me.lstCategory.Name = "lstCategory"
-        Me.lstCategory.Size = New System.Drawing.Size(272, 147)
+        Me.lstCategory.Size = New System.Drawing.Size(250, 147)
         Me.lstCategory.Sorted = True
         Me.lstCategory.TabIndex = 8
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(568, 9)
+        Me.Label4.Location = New System.Drawing.Point(472, 7)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(71, 13)
         Me.Label4.TabIndex = 9
@@ -95,16 +95,16 @@ Partial Class frmAddProcessMonitor
         'lstInstance
         '
         Me.lstInstance.FormattingEnabled = True
-        Me.lstInstance.Location = New System.Drawing.Point(293, 25)
+        Me.lstInstance.Location = New System.Drawing.Point(265, 24)
         Me.lstInstance.Name = "lstInstance"
-        Me.lstInstance.Size = New System.Drawing.Size(272, 147)
+        Me.lstInstance.Size = New System.Drawing.Size(204, 147)
         Me.lstInstance.Sorted = True
         Me.lstInstance.TabIndex = 12
         '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(290, 9)
+        Me.Label5.Location = New System.Drawing.Point(262, 8)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(101, 13)
         Me.Label5.TabIndex = 11
@@ -113,7 +113,7 @@ Partial Class frmAddProcessMonitor
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(926, 9)
+        Me.Label1.Location = New System.Drawing.Point(830, 7)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(103, 13)
         Me.Label1.TabIndex = 13
@@ -123,14 +123,14 @@ Partial Class frmAddProcessMonitor
         '
         Me.lstCounterType.CheckOnClick = True
         Me.lstCounterType.FormattingEnabled = True
-        Me.lstCounterType.Location = New System.Drawing.Point(571, 25)
+        Me.lstCounterType.Location = New System.Drawing.Point(475, 23)
         Me.lstCounterType.Name = "lstCounterType"
         Me.lstCounterType.Size = New System.Drawing.Size(272, 148)
         Me.lstCounterType.TabIndex = 15
         '
         'cmdAddToList
         '
-        Me.cmdAddToList.Location = New System.Drawing.Point(864, 47)
+        Me.cmdAddToList.Location = New System.Drawing.Point(768, 45)
         Me.cmdAddToList.Name = "cmdAddToList"
         Me.cmdAddToList.Size = New System.Drawing.Size(41, 23)
         Me.cmdAddToList.TabIndex = 16
@@ -139,7 +139,7 @@ Partial Class frmAddProcessMonitor
         '
         'cmdRemoveFromList
         '
-        Me.cmdRemoveFromList.Location = New System.Drawing.Point(864, 120)
+        Me.cmdRemoveFromList.Location = New System.Drawing.Point(768, 118)
         Me.cmdRemoveFromList.Name = "cmdRemoveFromList"
         Me.cmdRemoveFromList.Size = New System.Drawing.Size(41, 23)
         Me.cmdRemoveFromList.TabIndex = 17
@@ -151,7 +151,7 @@ Partial Class frmAddProcessMonitor
         Me.lstToAdd.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
         Me.lstToAdd.FullRowSelect = True
         Me.lstToAdd.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        Me.lstToAdd.Location = New System.Drawing.Point(929, 25)
+        Me.lstToAdd.Location = New System.Drawing.Point(833, 23)
         Me.lstToAdd.Name = "lstToAdd"
         Me.lstToAdd.ShowGroups = False
         Me.lstToAdd.ShowItemToolTips = True
@@ -169,7 +169,7 @@ Partial Class frmAddProcessMonitor
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1213, 243)
+        Me.ClientSize = New System.Drawing.Size(1111, 235)
         Me.Controls.Add(Me.lstToAdd)
         Me.Controls.Add(Me.cmdRemoveFromList)
         Me.Controls.Add(Me.cmdAddToList)

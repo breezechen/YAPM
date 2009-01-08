@@ -3226,19 +3226,23 @@ Public Class frmMain
 
             Dim n As TreeNode
             For Each n In Me.tvMonitor.Nodes.Item(0).Nodes
-                Dim it As cMonitor = CType(n.Tag, cMonitor)
-                's &= vbNewLine & "* Category  : " & it.CategoryName & " -- Instance : " & it.GetInstanceName & " -- Counter : " & it.CounterName
-                's &= vbNewLine & "      Monitoring creation : " & it.GetMonitorCreationDate.ToLongDateString & " -- " & it.GetMonitorCreationDate.ToLongTimeString
-                'If it.GetLastStarted.Ticks > 0 Then
-                '    s &= vbNewLine & "      Last start : " & it.GetLastStarted.ToLongDateString & " -- " & it.GetLastStarted.ToLongTimeString
-                'Else
-                '    s &= vbNewLine & "      Not yet started"
-                'End If
-                's &= vbNewLine & "      State : " & it.Enabled
-                's &= vbNewLine & "      Interval : " & it.Interval
-                's = s.Substring(0, s.Length - 2)
+                Dim n2 As TreeNode
+                For Each n2 In n.Nodes
 
-                's &= vbNewLine
+                    Dim it As cMonitor = CType(n2.Tag, cMonitor)
+                    s &= vbNewLine & "* Category  : " & it.CategoryName & " -- Instance : " & it.GetInstanceName & " -- Counter : " & it.CounterName
+                    s &= vbNewLine & "      Monitoring creation : " & it.GetMonitorCreationDate.ToLongDateString & " -- " & it.GetMonitorCreationDate.ToLongTimeString
+                    If it.GetLastStarted.Ticks > 0 Then
+                        s &= vbNewLine & "      Last start : " & it.GetLastStarted.ToLongDateString & " -- " & it.GetLastStarted.ToLongTimeString
+                    Else
+                        s &= vbNewLine & "      Not yet started"
+                    End If
+                    s &= vbNewLine & "      State : " & it.Enabled
+                    s &= vbNewLine & "      Interval : " & it.Interval
+                    s = s.Substring(0, s.Length - 2)
+
+                    s &= vbNewLine
+                Next
             Next
 
             Me.txtMonitoringLog.Text = s
