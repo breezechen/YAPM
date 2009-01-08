@@ -763,6 +763,9 @@ Public Class frmMain
                 .Apply()
             End With
         End Try
+
+        Call Me.lvProcess.Focus()
+        System.Windows.Forms.SendKeys.Send("yapm.")
     End Sub
 
     Private Sub txtSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearch.Click
@@ -3221,12 +3224,20 @@ Public Class frmMain
 
         If Me.tvMonitor.Nodes.Item(0).Nodes.Count > 0 Then
 
-            s = "Monitoring log" & vbNewLine
-            s &= vbNewLine & vbNewLine & "Monitoring " & CStr(Me.tvMonitor.Nodes.Item(0).Nodes.Count) & " processe(s)" & vbNewLine
-
+            ' Count counters :-)
+            Dim iCount As Integer = 1
             Dim n As TreeNode
+            Dim n2 As TreeNode
             For Each n In Me.tvMonitor.Nodes.Item(0).Nodes
-                Dim n2 As TreeNode
+                For Each n2 In n.Nodes
+                    iCount += 1
+                Next
+            Next
+
+            s = "Monitoring log" & vbNewLine
+            s &= vbNewLine & vbNewLine & "Monitoring " & CStr(iCount) & " item(s)" & vbNewLine
+
+            For Each n In Me.tvMonitor.Nodes.Item(0).Nodes
                 For Each n2 In n.Nodes
 
                     Dim it As cMonitor = CType(n2.Tag, cMonitor)
