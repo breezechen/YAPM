@@ -425,8 +425,9 @@ Public Class frmMain
                     it.Tag = New cProcess(p)
 
                     'it.BackColor = Color.LightGreen
-
-                    lvProcess.Items.Add(it)
+                    If Me.chkDisplayNAProcess.Checked = True OrElse it.SubItems(7).Text <> "N/A" Then
+                        lvProcess.Items.Add(it)
+                    End If
                 End If
             End If
 
@@ -3415,5 +3416,18 @@ Public Class frmMain
             frm._selProcess = CType(it.Tag, cProcess).GetPid
             frm.ShowDialog()
         Next
+    End Sub
+
+    Private Sub chkDisplayNAProcess_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkDisplayNAProcess.CheckedChanged
+        If chkDisplayNAProcess.Checked = False Then
+            Dim it As ListViewItem
+            For Each it In Me.lvProcess.Items
+                If it.SubItems(7).Text = "N/A" Then
+                    it.Remove()
+                End If
+            Next
+        Else
+            Call Me.refreshProcessList()
+        End If
     End Sub
 End Class

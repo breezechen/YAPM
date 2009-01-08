@@ -332,6 +332,7 @@ Partial Class frmMain
         Me.txtMonitoringLog = New System.Windows.Forms.TextBox
         Me.splitMonitor3 = New System.Windows.Forms.SplitContainer
         Me.splitMonitor4 = New System.Windows.Forms.SplitContainer
+        Me.graphMonitor = New YAPM.Graph
         Me.txtMonitorNumber = New System.Windows.Forms.TextBox
         Me.lblMonitorMaxNumber = New System.Windows.Forms.Label
         Me.chkMonitorRightAuto = New System.Windows.Forms.CheckBox
@@ -341,7 +342,7 @@ Partial Class frmMain
         Me.timerMonitoring = New System.Windows.Forms.Timer(Me.components)
         Me.cmdTray = New System.Windows.Forms.Button
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton
-        Me.graphMonitor = New YAPM.Graph
+        Me.chkDisplayNAProcess = New System.Windows.Forms.CheckBox
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -603,6 +604,7 @@ Partial Class frmMain
         '
         'panelMenu
         '
+        Me.panelMenu.Controls.Add(Me.chkDisplayNAProcess)
         Me.panelMenu.Controls.Add(Me.chkHandles)
         Me.panelMenu.Controls.Add(Me.Label3)
         Me.panelMenu.Controls.Add(Me.chkOnline)
@@ -617,17 +619,17 @@ Partial Class frmMain
         'chkHandles
         '
         Me.chkHandles.AutoSize = True
-        Me.chkHandles.Location = New System.Drawing.Point(281, 6)
+        Me.chkHandles.Location = New System.Drawing.Point(245, 6)
         Me.chkHandles.Name = "chkHandles"
-        Me.chkHandles.Size = New System.Drawing.Size(101, 17)
+        Me.chkHandles.Size = New System.Drawing.Size(64, 17)
         Me.chkHandles.TabIndex = 5
-        Me.chkHandles.Text = "Retrive handles"
+        Me.chkHandles.Text = "Handles"
         Me.chkHandles.UseVisualStyleBackColor = True
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(392, 8)
+        Me.Label3.Location = New System.Drawing.Point(448, 9)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(80, 13)
         Me.Label3.TabIndex = 4
@@ -638,9 +640,9 @@ Partial Class frmMain
         Me.chkOnline.AutoSize = True
         Me.chkOnline.Location = New System.Drawing.Point(157, 6)
         Me.chkOnline.Name = "chkOnline"
-        Me.chkOnline.Size = New System.Drawing.Size(118, 17)
+        Me.chkOnline.Size = New System.Drawing.Size(82, 17)
         Me.chkOnline.TabIndex = 3
-        Me.chkOnline.Text = "Retrive online infos"
+        Me.chkOnline.Text = "Online infos"
         Me.chkOnline.UseVisualStyleBackColor = True
         '
         'lblResCount
@@ -654,9 +656,9 @@ Partial Class frmMain
         '
         'txtSearch
         '
-        Me.txtSearch.Location = New System.Drawing.Point(478, 3)
+        Me.txtSearch.Location = New System.Drawing.Point(534, 4)
         Me.txtSearch.Name = "txtSearch"
-        Me.txtSearch.Size = New System.Drawing.Size(223, 21)
+        Me.txtSearch.Size = New System.Drawing.Size(167, 21)
         Me.txtSearch.TabIndex = 1
         '
         'chkModules
@@ -3362,6 +3364,22 @@ Partial Class frmMain
         Me.splitMonitor4.SplitterDistance = 25
         Me.splitMonitor4.TabIndex = 4
         '
+        'graphMonitor
+        '
+        Me.graphMonitor.BackColor = System.Drawing.Color.Black
+        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
+        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
+        Me.graphMonitor.dDate = New Date(CType(0, Long))
+        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphMonitor.EnableGraph = False
+        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
+        Me.graphMonitor.Name = "graphMonitor"
+        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
+        Me.graphMonitor.TabIndex = 3
+        Me.graphMonitor.TabStop = False
+        Me.graphMonitor.ViewMax = 0
+        Me.graphMonitor.ViewMin = 0
+        '
         'txtMonitorNumber
         '
         Me.txtMonitorNumber.Location = New System.Drawing.Point(241, 0)
@@ -3452,21 +3470,17 @@ Partial Class frmMain
         Me.RibbonButton1.ToolTipImage = Nothing
         Me.RibbonButton1.ToolTipTitle = Nothing
         '
-        'graphMonitor
+        'chkDisplayNAProcess
         '
-        Me.graphMonitor.BackColor = System.Drawing.Color.Black
-        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
-        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
-        Me.graphMonitor.dDate = New Date(CType(0, Long))
-        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphMonitor.EnableGraph = False
-        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
-        Me.graphMonitor.Name = "graphMonitor"
-        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
-        Me.graphMonitor.TabIndex = 3
-        Me.graphMonitor.TabStop = False
-        Me.graphMonitor.ViewMax = 0
-        Me.graphMonitor.ViewMin = 0
+        Me.chkDisplayNAProcess.AutoSize = True
+        Me.chkDisplayNAProcess.Checked = True
+        Me.chkDisplayNAProcess.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkDisplayNAProcess.Location = New System.Drawing.Point(315, 6)
+        Me.chkDisplayNAProcess.Name = "chkDisplayNAProcess"
+        Me.chkDisplayNAProcess.Size = New System.Drawing.Size(124, 17)
+        Me.chkDisplayNAProcess.TabIndex = 6
+        Me.chkDisplayNAProcess.Text = "Display all processes"
+        Me.chkDisplayNAProcess.UseVisualStyleBackColor = True
         '
         'frmMain
         '
@@ -3863,5 +3877,6 @@ Partial Class frmMain
     Friend WithEvents chkMonitorLeftAuto As System.Windows.Forms.CheckBox
     Friend WithEvents dtMonitorR As System.Windows.Forms.DateTimePicker
     Friend WithEvents dtMonitorL As System.Windows.Forms.DateTimePicker
+    Friend WithEvents chkDisplayNAProcess As System.Windows.Forms.CheckBox
 
 End Class
