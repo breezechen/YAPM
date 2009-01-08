@@ -3177,31 +3177,40 @@ Public Class frmMain
         Call updateMonitoringLog()
     End Sub
 
+    ' Powerful recursive method to unload all cMonitor items in subnodes
     Private Sub RemoveSubNode(ByRef nod As TreeNode, ByRef n As TreeNodeCollection)
         Dim subn As TreeNode
         For Each subn In n
             RemoveSubNode(subn, subn.Nodes)
         Next
         ' It's a monitor sub item
-        If nod.Parent IsNot Nothing Then
-            Dim it As cMonitor = CType(nod.Parent.Tag, cMonitor)
+        If nod.ImageKey = "sub" Then
+            Dim it As cMonitor = CType(nod.Tag, cMonitor)
             If it IsNot Nothing Then it.Dispose()
             it = Nothing
-            nod.Remove()
         End If
     End Sub
 
     Private Sub butMonitoringRemove_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMonitoringRemove.Click
         If tvMonitor.SelectedNode IsNot Nothing Then
             RemoveSubNode(tvMonitor.SelectedNode, tvMonitor.SelectedNode.Nodes)
-            ' Remove node if no more subitems
-            If tvMonitor.SelectedNode IsNot Nothing Then
-                If tvMonitor.SelectedNode.Parent IsNot Nothing Then
-                    If tvMonitor.SelectedNode.Nodes.Count = 0 Then
-                        tvMonitor.SelectedNode.Remove()
-                    End If
-                End If
+            Dim nn As TreeNodeCollection = tvMonitor.SelectedNode.Nodes
+            Dim cnn As Integer = nn.Count
+            For i As Integer = cnn - 1 To 0 Step -1
+                nn.Item(i).Remove()
+            Next
+            If tvMonitor.SelectedNode.Parent IsNot Nothing Then
+                tvMonitor.SelectedNode.Remove()
             End If
+
+            ' Remove all single items (no sub)
+            nn = Me.tvMonitor.Nodes.Item(0).Nodes
+            cnn = nn.Count
+            For i As Integer = cnn - 1 To 0 Step -1
+                If nn.Item(i).Nodes.Count = 0 Then
+                    nn.Item(i).Remove()
+                End If
+            Next
         End If
         Call updateMonitoringLog()
     End Sub
@@ -3368,7 +3377,7 @@ Public Class frmMain
     Private Sub graphMonitor_OnZoom(ByVal leftVal As Integer, ByVal rightVal As Integer) Handles graphMonitor.OnZoom
         ' Change dates and set view as fixed (left and right)
         Try
-            Dim it As cMonitor = CType(tvMonitor.SelectedNode.Parent.Tag, cMonitor)
+            Dim it As cMonitor = CType(tvMonitor.SelectedNode.Tag, cMonitor)
             Dim l As New Date(it.GetMonitorCreationDate.Ticks + leftVal * 10000)
             Dim r As New Date(it.GetMonitorCreationDate.Ticks + rightVal * 10000)
             Me.dtMonitorL.Value = l

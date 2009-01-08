@@ -38,6 +38,8 @@ Public Class Graph
     Private _xDown As Integer
     Private _yDown As Integer
     Private _down As Boolean
+    Private _mouseY As Integer
+    Private _mouseX As Integer
     Private _mouseCurrentDate As Integer
     Private _zoomRect As Rectangle
     Private _enableGraph As Boolean
@@ -210,6 +212,8 @@ Public Class Graph
     End Sub
     Protected Overrides Sub OnMouseMove(ByVal e As System.Windows.Forms.MouseEventArgs)
         MyBase.OnMouseMove(e)
+        _mouseX = e.X
+        _mouseY = e.Y
         If _down = True Then
             Me.Refresh()
             ' Draw a zoom rectangle
@@ -299,7 +303,7 @@ Public Class Graph
         If yMax = 0 Then Exit Sub
         yMax += 1
 
-        Dim yCoef As Double = (Me.Height - 15) / yMax
+        Dim yCoef As Double = (Me.Height - 25) / yMax
         xCoef = Me.Width / (_xMax - _xMin)
 
         Dim x1 As Integer = 0
@@ -329,17 +333,27 @@ Public Class Graph
 
             xx1 = CInt(x1 * xCoef)
             xx2 = CInt(x2 * xCoef)
-            yy1 = CInt(Me.Height - y1 * yCoef)
-            yy2 = CInt(Me.Height - y2 * yCoef)
+            yy1 = CInt(Me.Height - y1 * yCoef) + 10
+            yy2 = CInt(Me.Height - y2 * yCoef) + 10
             g.DrawLine(_colorMemory1, xx1, yy1, xx2, yy2)
         Next
 
         ' Draw zoom rectangle
         If _down = True Then g.DrawRectangle(Pens.WhiteSmoke, _zoomRect)
 
+        ' Calcule current value
+        Dim _mouseCurrentValue As Long
+        Dim h As Integer
+        If _values IsNot Nothing Then
+            h = CInt(_xMin + _mouseX / Me.Width * (_xMax - _xMin))
+            h = Math.Min(_values.Length - 1, h)
+            _mouseCurrentValue = _values(h).y
+        End If
+
         ' Draw current date
         Dim d As New Date(_date.Ticks + _mouseCurrentDate)
         g.DrawString(d.ToLongDateString & " -- " & d.ToLongTimeString, frmMain.Font, Brushes.Beige, 0, 0)
+        g.DrawString("Value : " & _mouseCurrentValue.ToString, frmMain.Font, Brushes.Beige, 200, 0)
     End Sub
 
     Private Sub DrawValues2(ByVal g As Graphics)
@@ -354,7 +368,7 @@ Public Class Graph
         If yMax = 0 Then Exit Sub
         yMax += 1
 
-        Dim yCoef As Double = (Me.Height - 15) / yMax
+        Dim yCoef As Double = (Me.Height - 25) / yMax
 
         Dim x1 As Integer = 0
         Dim x2 As Integer = 0
@@ -383,8 +397,8 @@ Public Class Graph
 
             xx1 = CInt(x1 * xCoef)
             xx2 = CInt(x2 * xCoef)
-            yy1 = CInt(Me.Height - y1 * yCoef)
-            yy2 = CInt(Me.Height - y2 * yCoef)
+            yy1 = CInt(Me.Height - y1 * yCoef) + 10
+            yy2 = CInt(Me.Height - y2 * yCoef) + 10
             g.DrawLine(_colorMemory2, xx1, yy1, xx2, yy2)
         Next
 
@@ -402,7 +416,7 @@ Public Class Graph
         If yMax = 0 Then Exit Sub
         yMax += 1
 
-        Dim yCoef As Double = (Me.Height - 15) / yMax
+        Dim yCoef As Double = (Me.Height - 25) / yMax
 
         Dim x1 As Integer = 0
         Dim x2 As Integer = 0
@@ -431,8 +445,8 @@ Public Class Graph
 
             xx1 = CInt(x1 * xCoef)
             xx2 = CInt(x2 * xCoef)
-            yy1 = CInt(Me.Height - y1 * yCoef)
-            yy2 = CInt(Me.Height - y2 * yCoef)
+            yy1 = CInt(Me.Height - y1 * yCoef) + 10
+            yy2 = CInt(Me.Height - y2 * yCoef) + 10
             g.DrawLine(_colorMemory3, xx1, yy1, xx2, yy2)
         Next
 
