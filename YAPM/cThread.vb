@@ -119,11 +119,11 @@ Public Class cThread
         End Get
     End Property
 
-    Public Property Priority() As Integer
+    Public Property Priority() As System.Diagnostics.ThreadPriorityLevel
         Get
-            Return _Thread.CurrentPriority
+            Return CType(_Thread.CurrentPriority, ThreadPriorityLevel)
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As System.Diagnostics.ThreadPriorityLevel)
             SetPriority(value)
         End Set
     End Property
@@ -309,8 +309,12 @@ Public Class cThread
 
         ReDim t(count - 1)
         For Each tT In p.Threads
-            t(i) = New cThread(processId, p.MainModule.ModuleName, tT)
-            i += 1
+            Try
+                t(i) = New cThread(processId, p.MainModule.ModuleName, tT)
+                i += 1
+            Catch ex As Exception
+                '
+            End Try
         Next
 
         Return count
@@ -322,22 +326,22 @@ Public Class cThread
     ' ========================================
     Private Function PriorityFromInt(ByVal i As Integer) As String
         Select Case i
-            Case 1
-                Return "THREAD_PRIORITY_ABOVE_NORMAL"
-            Case -1
-                Return "THREAD_PRIORITY_BELOW_NORMAL"
-            Case 2
-                Return "THREAD_PRIORITY_HIGHEST"
-            Case -15
-                Return "THREAD_PRIORITY_IDLE"
-            Case -2
-                Return "THREAD_PRIORITY_LOWEST"
-            Case 0
-                Return "THREAD_PRIORITY_NORMAL"
-            Case 15
-                Return "THREAD_PRIORITY_TIME_CRITICAL"
+            Case System.Diagnostics.ThreadPriorityLevel.AboveNormal
+                Return "AboveNormal"
+            Case System.Diagnostics.ThreadPriorityLevel.BelowNormal
+                Return "BelowNormal"
+            Case System.Diagnostics.ThreadPriorityLevel.Highest
+                Return "Highest"
+            Case System.Diagnostics.ThreadPriorityLevel.Idle
+                Return "Idle"
+            Case System.Diagnostics.ThreadPriorityLevel.Lowest
+                Return "Lowest"
+            Case System.Diagnostics.ThreadPriorityLevel.Normal
+                Return "Normal"
+            Case System.Diagnostics.ThreadPriorityLevel.TimeCritical
+                Return "TimeCritical"
             Case Else
-                Return "N/A"
+                Return i.ToString
         End Select
     End Function
 

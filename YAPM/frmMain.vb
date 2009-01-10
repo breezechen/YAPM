@@ -3595,7 +3595,7 @@ Public Class frmMain
         For Each it In Me.lvThreads.SelectedItems
             Dim t As cThread = CType(it.Tag, cThread)
             Try
-                t.Priority = 1
+                t.Priority = ThreadPriorityLevel.Idle
             Catch ex As Exception
                 '
             End Try
@@ -3746,5 +3746,105 @@ Public Class frmMain
                 '
             End Try
         Next
+    End Sub
+
+    Private Sub LowestToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LowestToolStripMenuItem.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvThreads.SelectedItems
+            Dim t As cThread = CType(it.Tag, cThread)
+            Try
+                t.Priority = ThreadPriorityLevel.Lowest
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem28_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem28.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvThreads.SelectedItems
+            Dim t As cThread = CType(it.Tag, cThread)
+            Try
+                t.Priority = ThreadPriorityLevel.BelowNormal
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem29_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem29.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvThreads.SelectedItems
+            Dim t As cThread = CType(it.Tag, cThread)
+            Try
+                t.Priority = ThreadPriorityLevel.Normal
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem30_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem30.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvThreads.SelectedItems
+            Dim t As cThread = CType(it.Tag, cThread)
+            Try
+                t.Priority = ThreadPriorityLevel.AboveNormal
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem31_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem31.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvThreads.SelectedItems
+            Dim t As cThread = CType(it.Tag, cThread)
+            Try
+                t.Priority = ThreadPriorityLevel.Highest
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem32_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem32.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvThreads.SelectedItems
+            Dim t As cThread = CType(it.Tag, cThread)
+            Try
+                t.Priority = ThreadPriorityLevel.TimeCritical
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub butThreadPabove_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadPabove.Click
+        Call ToolStripMenuItem30_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butThreadPbelow_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadPbelow.Click
+        Call ToolStripMenuItem28_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butThreadPcritical_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadPcritical.Click
+        Call ToolStripMenuItem32_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butThreadPhighest_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadPhighest.Click
+        Call ToolStripMenuItem31_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butThreadPidle_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadPidle.Click
+        Call ToolStripMenuItem27_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butThreadPlowest_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadPlowest.Click
+        Call LowestToolStripMenuItem_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butThreadPnormal_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadPnormal.Click
+        Call ToolStripMenuItem29_Click(Nothing, Nothing)
     End Sub
 End Class
