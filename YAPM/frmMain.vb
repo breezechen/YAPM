@@ -3520,7 +3520,7 @@ Public Class frmMain
                     Dim it As New ListViewItem
                     it.Text = CStr(tCt.Id)
                     Dim n1 As New ListViewItem.ListViewSubItem
-                    n1.Text = CStr(tCt.ProcessId)
+                    n1.Text = CStr(tCt.ProcessId) & " -- " & tCt.ProcessName
                     it.SubItems.Add(n1)
                     Dim n2 As New ListViewItem.ListViewSubItem
                     n2.Text = CStr(tCt.PriorityString)
@@ -3672,7 +3672,7 @@ Public Class frmMain
                     s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
                     s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Thread properties\b0\par"
                     s = s & "\tab Thread ID :\tab\tab\tab " & CStr(cP.Id) & "\par"
-                    s = s & "\tab Process owner :\tab\tab\tab " & CStr(cP.ProcessId) & "\par"
+                    s = s & "\tab Process owner :\tab\tab\tab " & CStr(cP.ProcessId) & " -- " & cP.ProcessName & "\par"
 
                     s = s & "\tab Priority :\tab\tab\tab\tab " & cP.PriorityString & "\par"
                     s = s & "\tab Base priority :\tab\tab\tab " & CStr(cP.BasePriority) & "\par"
@@ -3721,5 +3721,30 @@ Public Class frmMain
             End If
 
         End If
+    End Sub
+
+    Private Sub SelectedAssociatedProcessToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SelectedAssociatedProcessToolStripMenuItem.Click
+        ' Select processes associated to selected handles results
+        Dim it As ListViewItem
+        If Me.lvThreads.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
+        For Each it In Me.lvThreads.SelectedItems
+            Try
+                Dim sp As String = it.SubItems(1).Text
+                Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
+                If i > 0 Then
+                    Dim pid As String = sp.Substring(0, i - 1)
+                    Dim it2 As ListViewItem
+                    For Each it2 In Me.lvProcess.Items
+                        If it2.SubItems(1).Text = pid Then
+                            it2.Selected = True
+                        End If
+                    Next
+                End If
+                Me.Ribbon.ActiveTab = Me.ProcessTab
+                Call Me.Ribbon_MouseMove(Nothing, Nothing)
+            Catch ex As Exception
+                '
+            End Try
+        Next
     End Sub
 End Class

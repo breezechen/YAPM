@@ -65,21 +65,24 @@ Public Class cThread
     ' ========================================
     Private _id As Integer                          ' Thread ID
     Private _procId As Integer = 0                  ' Process owner ID
+    Private _procName As String                     ' Process owner name
     Private _Thread As ProcessThread
 
 
     ' ========================================
     ' Constructors & destructor
     ' ========================================
-    Public Sub New(ByVal procId As Integer, ByVal thread As ProcessThread)
+    Public Sub New(ByVal procId As Integer, ByVal procName As String, ByVal thread As ProcessThread)
         MyBase.New()
         _id = thread.Id
         _procId = procId
         _Thread = thread
+        _procName = procName
     End Sub
     Public Sub New(ByVal thread As cThread)
         MyBase.New()
         _id = thread.Id
+        _procName = thread.ProcessName
         _procId = thread.ProcessId
         _Thread = thread.ProcessThread
     End Sub
@@ -99,7 +102,11 @@ Public Class cThread
     ' ========================================
     ' Getter and setter
     ' ========================================
-
+    Public ReadOnly Property ProcessName() As String
+        Get
+            Return _procName
+        End Get
+    End Property
     Public ReadOnly Property BasePriority() As Integer
         Get
             Return _Thread.BasePriority
@@ -302,7 +309,7 @@ Public Class cThread
 
         ReDim t(count - 1)
         For Each tT In p.Threads
-            t(i) = New cThread(processId, tT)
+            t(i) = New cThread(processId, p.MainModule.ModuleName, tT)
             i += 1
         Next
 

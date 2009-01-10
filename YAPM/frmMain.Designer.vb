@@ -382,8 +382,9 @@ Partial Class frmMain
         Me.ToolStripMenuItem31 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem32 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem33 = New System.Windows.Forms.ToolStripMenuItem
-        Me.panelMain10 = New System.Windows.Forms.Panel
         Me.rtb4 = New System.Windows.Forms.RichTextBox
+        Me.panelMain10 = New System.Windows.Forms.Panel
+        Me.SelectedAssociatedProcessToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.graphMonitor = New YAPM.Graph
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
@@ -3758,7 +3759,7 @@ Partial Class frmMain
         'ColumnHeader33
         '
         Me.ColumnHeader33.Text = "OwnerProcessId"
-        Me.ColumnHeader33.Width = 100
+        Me.ColumnHeader33.Width = 150
         '
         'ColumnHeader34
         '
@@ -3768,7 +3769,7 @@ Partial Class frmMain
         'ColumnHeader35
         '
         Me.ColumnHeader35.Text = "State"
-        Me.ColumnHeader35.Width = 100
+        Me.ColumnHeader35.Width = 70
         '
         'ColumnHeader36
         '
@@ -3787,33 +3788,33 @@ Partial Class frmMain
         '
         'menuThread
         '
-        Me.menuThread.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem23, Me.ToolStripMenuItem24, Me.ToolStripMenuItem25, Me.ToolStripMenuItem26, Me.ToolStripMenuItem33})
+        Me.menuThread.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem23, Me.ToolStripMenuItem24, Me.ToolStripMenuItem25, Me.ToolStripMenuItem26, Me.ToolStripMenuItem33, Me.SelectedAssociatedProcessToolStripMenuItem})
         Me.menuThread.Name = "menuProc"
-        Me.menuThread.Size = New System.Drawing.Size(140, 114)
+        Me.menuThread.Size = New System.Drawing.Size(220, 136)
         '
         'ToolStripMenuItem23
         '
         Me.ToolStripMenuItem23.Name = "ToolStripMenuItem23"
-        Me.ToolStripMenuItem23.Size = New System.Drawing.Size(139, 22)
+        Me.ToolStripMenuItem23.Size = New System.Drawing.Size(219, 22)
         Me.ToolStripMenuItem23.Text = "Terminate"
         '
         'ToolStripMenuItem24
         '
         Me.ToolStripMenuItem24.Name = "ToolStripMenuItem24"
-        Me.ToolStripMenuItem24.Size = New System.Drawing.Size(139, 22)
+        Me.ToolStripMenuItem24.Size = New System.Drawing.Size(219, 22)
         Me.ToolStripMenuItem24.Text = "Suspend"
         '
         'ToolStripMenuItem25
         '
         Me.ToolStripMenuItem25.Name = "ToolStripMenuItem25"
-        Me.ToolStripMenuItem25.Size = New System.Drawing.Size(139, 22)
+        Me.ToolStripMenuItem25.Size = New System.Drawing.Size(219, 22)
         Me.ToolStripMenuItem25.Text = "Resume"
         '
         'ToolStripMenuItem26
         '
         Me.ToolStripMenuItem26.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem27, Me.ToolStripMenuItem28, Me.ToolStripMenuItem29, Me.ToolStripMenuItem30, Me.ToolStripMenuItem31, Me.ToolStripMenuItem32})
         Me.ToolStripMenuItem26.Name = "ToolStripMenuItem26"
-        Me.ToolStripMenuItem26.Size = New System.Drawing.Size(139, 22)
+        Me.ToolStripMenuItem26.Size = New System.Drawing.Size(219, 22)
         Me.ToolStripMenuItem26.Text = "Priotiy"
         '
         'ToolStripMenuItem27
@@ -3856,16 +3857,8 @@ Partial Class frmMain
         '
         Me.ToolStripMenuItem33.Enabled = False
         Me.ToolStripMenuItem33.Name = "ToolStripMenuItem33"
-        Me.ToolStripMenuItem33.Size = New System.Drawing.Size(139, 22)
+        Me.ToolStripMenuItem33.Size = New System.Drawing.Size(219, 22)
         Me.ToolStripMenuItem33.Text = "Set affinity..."
-        '
-        'panelMain10
-        '
-        Me.panelMain10.Location = New System.Drawing.Point(127, 171)
-        Me.panelMain10.Name = "panelMain10"
-        Me.panelMain10.Size = New System.Drawing.Size(565, 276)
-        Me.panelMain10.TabIndex = 52
-        Me.panelMain10.Visible = False
         '
         'rtb4
         '
@@ -3880,6 +3873,20 @@ Partial Class frmMain
         Me.rtb4.Size = New System.Drawing.Size(565, 84)
         Me.rtb4.TabIndex = 7
         Me.rtb4.Text = "Click on a thread to get additionnal informations"
+        '
+        'panelMain10
+        '
+        Me.panelMain10.Location = New System.Drawing.Point(127, 171)
+        Me.panelMain10.Name = "panelMain10"
+        Me.panelMain10.Size = New System.Drawing.Size(565, 276)
+        Me.panelMain10.TabIndex = 52
+        Me.panelMain10.Visible = False
+        '
+        'SelectedAssociatedProcessToolStripMenuItem
+        '
+        Me.SelectedAssociatedProcessToolStripMenuItem.Name = "SelectedAssociatedProcessToolStripMenuItem"
+        Me.SelectedAssociatedProcessToolStripMenuItem.Size = New System.Drawing.Size(219, 22)
+        Me.SelectedAssociatedProcessToolStripMenuItem.Text = "Selected associated process"
         '
         'graphMonitor
         '
@@ -4341,5 +4348,6 @@ Partial Class frmMain
     Friend WithEvents RibbonButton3 As System.Windows.Forms.RibbonButton
     Friend WithEvents RibbonButton4 As System.Windows.Forms.RibbonButton
     Friend WithEvents rtb4 As System.Windows.Forms.RichTextBox
+    Friend WithEvents SelectedAssociatedProcessToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
