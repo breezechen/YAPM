@@ -33,6 +33,7 @@ Partial Class frmMain
         Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Processes", 1, 1)
+        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Threads", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain = New System.Windows.Forms.Panel
         Me.lvProcess = New System.Windows.Forms.ListView
@@ -58,6 +59,7 @@ Partial Class frmMain
         Me.RealTimeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SetAffinityToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowHandlesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ShowThreadsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MonitorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem8 = New System.Windows.Forms.ToolStripSeparator
         Me.PropertiesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -68,6 +70,7 @@ Partial Class frmMain
         Me.GoogleSearchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.imgProcess = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMenu = New System.Windows.Forms.Panel
+        Me.chkDisplayNAProcess = New System.Windows.Forms.CheckBox
         Me.chkHandles = New System.Windows.Forms.CheckBox
         Me.Label3 = New System.Windows.Forms.Label
         Me.chkOnline = New System.Windows.Forms.CheckBox
@@ -150,6 +153,7 @@ Partial Class frmMain
         Me.butProcessLimitCPU = New System.Windows.Forms.RibbonButton
         Me.butShowProcHandles = New System.Windows.Forms.RibbonButton
         Me.butProcessMonitor = New System.Windows.Forms.RibbonButton
+        Me.butProcessThreads = New System.Windows.Forms.RibbonButton
         Me.RBProcessPriority = New System.Windows.Forms.RibbonPanel
         Me.butProcessPriority = New System.Windows.Forms.RibbonButton
         Me.butIdle = New System.Windows.Forms.RibbonButton
@@ -165,6 +169,20 @@ Partial Class frmMain
         Me.RBProcessOnline = New System.Windows.Forms.RibbonPanel
         Me.butProcessOnlineDesc = New System.Windows.Forms.RibbonButton
         Me.butProcessGoogle = New System.Windows.Forms.RibbonButton
+        Me.ThreadTab = New System.Windows.Forms.RibbonTab
+        Me.RBThreadsRefresh = New System.Windows.Forms.RibbonPanel
+        Me.butThreadRefresh = New System.Windows.Forms.RibbonButton
+        Me.RBThreadAction = New System.Windows.Forms.RibbonPanel
+        Me.butThreadKill = New System.Windows.Forms.RibbonButton
+        Me.butThreadStop = New System.Windows.Forms.RibbonButton
+        Me.butThreadResume = New System.Windows.Forms.RibbonButton
+        Me.RBThreadPriority = New System.Windows.Forms.RibbonPanel
+        Me.butThreadPriority = New System.Windows.Forms.RibbonButton
+        Me.RibbonButton2 = New System.Windows.Forms.RibbonButton
+        Me.RibbonButton3 = New System.Windows.Forms.RibbonButton
+        Me.RibbonButton4 = New System.Windows.Forms.RibbonButton
+        Me.RBThreadReport = New System.Windows.Forms.RibbonPanel
+        Me.butThreadSaveReport = New System.Windows.Forms.RibbonButton
         Me.ServiceTab = New System.Windows.Forms.RibbonTab
         Me.RBServiceDisplay = New System.Windows.Forms.RibbonPanel
         Me.butServiceRefresh = New System.Windows.Forms.RibbonButton
@@ -185,6 +203,12 @@ Partial Class frmMain
         Me.butServiceFileDetails = New System.Windows.Forms.RibbonButton
         Me.RBServiceOnline = New System.Windows.Forms.RibbonPanel
         Me.butServiceGoogle = New System.Windows.Forms.RibbonButton
+        Me.HandlesTab = New System.Windows.Forms.RibbonTab
+        Me.RBHandlesActions = New System.Windows.Forms.RibbonPanel
+        Me.butHandleRefresh = New System.Windows.Forms.RibbonButton
+        Me.butHandleClose = New System.Windows.Forms.RibbonButton
+        Me.RBHandlesReport = New System.Windows.Forms.RibbonPanel
+        Me.butHandlesSaveReport = New System.Windows.Forms.RibbonButton
         Me.MonitorTab = New System.Windows.Forms.RibbonTab
         Me.RBMonitor = New System.Windows.Forms.RibbonPanel
         Me.butMonitoringAdd = New System.Windows.Forms.RibbonButton
@@ -194,12 +218,7 @@ Partial Class frmMain
         Me.butMonitorStop = New System.Windows.Forms.RibbonButton
         Me.butSaveMonitorReport = New System.Windows.Forms.RibbonPanel
         Me.butMonitorSaveReport = New System.Windows.Forms.RibbonButton
-        Me.HandlesTab = New System.Windows.Forms.RibbonTab
-        Me.RBHandlesActions = New System.Windows.Forms.RibbonPanel
-        Me.butHandleRefresh = New System.Windows.Forms.RibbonButton
-        Me.butHandleClose = New System.Windows.Forms.RibbonButton
-        Me.RBHandlesReport = New System.Windows.Forms.RibbonPanel
-        Me.butHandlesSaveReport = New System.Windows.Forms.RibbonButton
+        Me.WindowTab = New System.Windows.Forms.RibbonTab
         Me.FileTab = New System.Windows.Forms.RibbonTab
         Me.RBFileOpenFile = New System.Windows.Forms.RibbonPanel
         Me.butOpenFile = New System.Windows.Forms.RibbonButton
@@ -332,7 +351,6 @@ Partial Class frmMain
         Me.txtMonitoringLog = New System.Windows.Forms.TextBox
         Me.splitMonitor3 = New System.Windows.Forms.SplitContainer
         Me.splitMonitor4 = New System.Windows.Forms.SplitContainer
-        Me.graphMonitor = New YAPM.Graph
         Me.txtMonitorNumber = New System.Windows.Forms.TextBox
         Me.lblMonitorMaxNumber = New System.Windows.Forms.Label
         Me.chkMonitorRightAuto = New System.Windows.Forms.CheckBox
@@ -342,7 +360,31 @@ Partial Class frmMain
         Me.timerMonitoring = New System.Windows.Forms.Timer(Me.components)
         Me.cmdTray = New System.Windows.Forms.Button
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton
-        Me.chkDisplayNAProcess = New System.Windows.Forms.CheckBox
+        Me.panelMain9 = New System.Windows.Forms.Panel
+        Me.splitThreads = New System.Windows.Forms.SplitContainer
+        Me.lvThreads = New System.Windows.Forms.ListView
+        Me.ColumnHeader32 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader33 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader34 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader35 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader36 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader37 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader38 = New System.Windows.Forms.ColumnHeader
+        Me.menuThread = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ToolStripMenuItem23 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem24 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem25 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem26 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem27 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem28 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem29 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem30 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem31 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem32 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem33 = New System.Windows.Forms.ToolStripMenuItem
+        Me.panelMain10 = New System.Windows.Forms.Panel
+        Me.rtb4 = New System.Windows.Forms.RichTextBox
+        Me.graphMonitor = New YAPM.Graph
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -387,6 +429,11 @@ Partial Class frmMain
         Me.splitMonitor3.SuspendLayout()
         Me.splitMonitor4.Panel2.SuspendLayout()
         Me.splitMonitor4.SuspendLayout()
+        Me.panelMain9.SuspendLayout()
+        Me.splitThreads.Panel1.SuspendLayout()
+        Me.splitThreads.Panel2.SuspendLayout()
+        Me.splitThreads.SuspendLayout()
+        Me.menuThread.SuspendLayout()
         CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -472,9 +519,9 @@ Partial Class frmMain
         '
         'menuProc
         '
-        Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.MonitorToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.ToolStripMenuItem1, Me.GetSecurityRiskOnlineToolStripMenuItem, Me.GoogleSearchToolStripMenuItem})
+        Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.ShowThreadsToolStripMenuItem, Me.MonitorToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.ToolStripMenuItem1, Me.GetSecurityRiskOnlineToolStripMenuItem, Me.GoogleSearchToolStripMenuItem})
         Me.menuProc.Name = "menuProc"
-        Me.menuProc.Size = New System.Drawing.Size(194, 280)
+        Me.menuProc.Size = New System.Drawing.Size(194, 302)
         '
         'KillToolStripMenuItem
         '
@@ -550,6 +597,12 @@ Partial Class frmMain
         Me.ShowHandlesToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.ShowHandlesToolStripMenuItem.Text = "Show handles"
         '
+        'ShowThreadsToolStripMenuItem
+        '
+        Me.ShowThreadsToolStripMenuItem.Name = "ShowThreadsToolStripMenuItem"
+        Me.ShowThreadsToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
+        Me.ShowThreadsToolStripMenuItem.Text = "Show threads"
+        '
         'MonitorToolStripMenuItem
         '
         Me.MonitorToolStripMenuItem.Name = "MonitorToolStripMenuItem"
@@ -615,6 +668,18 @@ Partial Class frmMain
         Me.panelMenu.Name = "panelMenu"
         Me.panelMenu.Size = New System.Drawing.Size(766, 28)
         Me.panelMenu.TabIndex = 4
+        '
+        'chkDisplayNAProcess
+        '
+        Me.chkDisplayNAProcess.AutoSize = True
+        Me.chkDisplayNAProcess.Checked = True
+        Me.chkDisplayNAProcess.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkDisplayNAProcess.Location = New System.Drawing.Point(315, 6)
+        Me.chkDisplayNAProcess.Name = "chkDisplayNAProcess"
+        Me.chkDisplayNAProcess.Size = New System.Drawing.Size(124, 17)
+        Me.chkDisplayNAProcess.TabIndex = 6
+        Me.chkDisplayNAProcess.Text = "Display all processes"
+        Me.chkDisplayNAProcess.UseVisualStyleBackColor = True
         '
         'chkHandles
         '
@@ -834,6 +899,7 @@ Partial Class frmMain
         Me.imgServices.Images.SetKeyName(2, "ko")
         Me.imgServices.Images.SetKeyName(3, "key")
         Me.imgServices.Images.SetKeyName(4, "noicon")
+        Me.imgServices.Images.SetKeyName(5, "thread")
         '
         'panelMain4
         '
@@ -1150,12 +1216,14 @@ Partial Class frmMain
         Me.Ribbon.Location = New System.Drawing.Point(0, 0)
         Me.Ribbon.Minimized = False
         Me.Ribbon.Name = "Ribbon"
-        Me.Ribbon.Size = New System.Drawing.Size(803, 115)
+        Me.Ribbon.Size = New System.Drawing.Size(855, 115)
         Me.Ribbon.TabIndex = 44
         Me.Ribbon.Tabs.Add(Me.ProcessTab)
+        Me.Ribbon.Tabs.Add(Me.ThreadTab)
         Me.Ribbon.Tabs.Add(Me.ServiceTab)
-        Me.Ribbon.Tabs.Add(Me.MonitorTab)
         Me.Ribbon.Tabs.Add(Me.HandlesTab)
+        Me.Ribbon.Tabs.Add(Me.MonitorTab)
+        Me.Ribbon.Tabs.Add(Me.WindowTab)
         Me.Ribbon.Tabs.Add(Me.FileTab)
         Me.Ribbon.Tabs.Add(Me.JobsTab)
         Me.Ribbon.Tabs.Add(Me.SearchTab)
@@ -1205,6 +1273,7 @@ Partial Class frmMain
         Me.RBProcessActions.Items.Add(Me.butProcessOtherActions)
         Me.RBProcessActions.Items.Add(Me.butShowProcHandles)
         Me.RBProcessActions.Items.Add(Me.butProcessMonitor)
+        Me.RBProcessActions.Items.Add(Me.butProcessThreads)
         Me.RBProcessActions.Tag = Nothing
         Me.RBProcessActions.Text = "Process actions"
         '
@@ -1328,6 +1397,19 @@ Partial Class frmMain
         Me.butProcessMonitor.ToolTip = Nothing
         Me.butProcessMonitor.ToolTipImage = Nothing
         Me.butProcessMonitor.ToolTipTitle = Nothing
+        '
+        'butProcessThreads
+        '
+        Me.butProcessThreads.AltKey = Nothing
+        Me.butProcessThreads.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessThreads.Image = CType(resources.GetObject("butProcessThreads.Image"), System.Drawing.Image)
+        Me.butProcessThreads.SmallImage = CType(resources.GetObject("butProcessThreads.SmallImage"), System.Drawing.Image)
+        Me.butProcessThreads.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessThreads.Tag = Nothing
+        Me.butProcessThreads.Text = "Show threads"
+        Me.butProcessThreads.ToolTip = Nothing
+        Me.butProcessThreads.ToolTipImage = Nothing
+        Me.butProcessThreads.ToolTipTitle = Nothing
         '
         'RBProcessPriority
         '
@@ -1517,6 +1599,170 @@ Partial Class frmMain
         Me.butProcessGoogle.ToolTip = Nothing
         Me.butProcessGoogle.ToolTipImage = Nothing
         Me.butProcessGoogle.ToolTipTitle = Nothing
+        '
+        'ThreadTab
+        '
+        Me.ThreadTab.Panels.Add(Me.RBThreadsRefresh)
+        Me.ThreadTab.Panels.Add(Me.RBThreadAction)
+        Me.ThreadTab.Panels.Add(Me.RBThreadPriority)
+        Me.ThreadTab.Panels.Add(Me.RBThreadReport)
+        Me.ThreadTab.Tag = Nothing
+        Me.ThreadTab.Text = "Threads"
+        '
+        'RBThreadsRefresh
+        '
+        Me.RBThreadsRefresh.ButtonMoreEnabled = False
+        Me.RBThreadsRefresh.ButtonMoreVisible = False
+        Me.RBThreadsRefresh.Items.Add(Me.butThreadRefresh)
+        Me.RBThreadsRefresh.Tag = Nothing
+        Me.RBThreadsRefresh.Text = "Display"
+        '
+        'butThreadRefresh
+        '
+        Me.butThreadRefresh.AltKey = Nothing
+        Me.butThreadRefresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butThreadRefresh.Image = CType(resources.GetObject("butThreadRefresh.Image"), System.Drawing.Image)
+        Me.butThreadRefresh.SmallImage = CType(resources.GetObject("butThreadRefresh.SmallImage"), System.Drawing.Image)
+        Me.butThreadRefresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butThreadRefresh.Tag = Nothing
+        Me.butThreadRefresh.Text = "Refresh"
+        Me.butThreadRefresh.ToolTip = Nothing
+        Me.butThreadRefresh.ToolTipImage = Nothing
+        Me.butThreadRefresh.ToolTipTitle = Nothing
+        '
+        'RBThreadAction
+        '
+        Me.RBThreadAction.ButtonMoreEnabled = False
+        Me.RBThreadAction.ButtonMoreVisible = False
+        Me.RBThreadAction.Items.Add(Me.butThreadKill)
+        Me.RBThreadAction.Items.Add(Me.butThreadStop)
+        Me.RBThreadAction.Items.Add(Me.butThreadResume)
+        Me.RBThreadAction.Tag = Nothing
+        Me.RBThreadAction.Text = "Threads actions"
+        '
+        'butThreadKill
+        '
+        Me.butThreadKill.AltKey = Nothing
+        Me.butThreadKill.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butThreadKill.Image = CType(resources.GetObject("butThreadKill.Image"), System.Drawing.Image)
+        Me.butThreadKill.SmallImage = CType(resources.GetObject("butThreadKill.SmallImage"), System.Drawing.Image)
+        Me.butThreadKill.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butThreadKill.Tag = Nothing
+        Me.butThreadKill.Text = "Kill"
+        Me.butThreadKill.ToolTip = Nothing
+        Me.butThreadKill.ToolTipImage = Nothing
+        Me.butThreadKill.ToolTipTitle = Nothing
+        '
+        'butThreadStop
+        '
+        Me.butThreadStop.AltKey = Nothing
+        Me.butThreadStop.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butThreadStop.Image = CType(resources.GetObject("butThreadStop.Image"), System.Drawing.Image)
+        Me.butThreadStop.SmallImage = CType(resources.GetObject("butThreadStop.SmallImage"), System.Drawing.Image)
+        Me.butThreadStop.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butThreadStop.Tag = Nothing
+        Me.butThreadStop.Text = "Stop"
+        Me.butThreadStop.ToolTip = Nothing
+        Me.butThreadStop.ToolTipImage = Nothing
+        Me.butThreadStop.ToolTipTitle = Nothing
+        '
+        'butThreadResume
+        '
+        Me.butThreadResume.AltKey = Nothing
+        Me.butThreadResume.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butThreadResume.Image = CType(resources.GetObject("butThreadResume.Image"), System.Drawing.Image)
+        Me.butThreadResume.SmallImage = CType(resources.GetObject("butThreadResume.SmallImage"), System.Drawing.Image)
+        Me.butThreadResume.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butThreadResume.Tag = Nothing
+        Me.butThreadResume.Text = "Resume"
+        Me.butThreadResume.ToolTip = Nothing
+        Me.butThreadResume.ToolTipImage = Nothing
+        Me.butThreadResume.ToolTipTitle = Nothing
+        '
+        'RBThreadPriority
+        '
+        Me.RBThreadPriority.ButtonMoreEnabled = False
+        Me.RBThreadPriority.ButtonMoreVisible = False
+        Me.RBThreadPriority.Items.Add(Me.butThreadPriority)
+        Me.RBThreadPriority.Tag = Nothing
+        Me.RBThreadPriority.Text = "Priority"
+        '
+        'butThreadPriority
+        '
+        Me.butThreadPriority.AltKey = Nothing
+        Me.butThreadPriority.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butThreadPriority.DropDownItems.Add(Me.RibbonButton2)
+        Me.butThreadPriority.DropDownItems.Add(Me.RibbonButton3)
+        Me.butThreadPriority.DropDownItems.Add(Me.RibbonButton4)
+        Me.butThreadPriority.Image = CType(resources.GetObject("butThreadPriority.Image"), System.Drawing.Image)
+        Me.butThreadPriority.SmallImage = CType(resources.GetObject("butThreadPriority.SmallImage"), System.Drawing.Image)
+        Me.butThreadPriority.Style = System.Windows.Forms.RibbonButtonStyle.DropDown
+        Me.butThreadPriority.Tag = Nothing
+        Me.butThreadPriority.Text = "Priority"
+        Me.butThreadPriority.ToolTip = Nothing
+        Me.butThreadPriority.ToolTipImage = Nothing
+        Me.butThreadPriority.ToolTipTitle = Nothing
+        '
+        'RibbonButton2
+        '
+        Me.RibbonButton2.AltKey = Nothing
+        Me.RibbonButton2.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.RibbonButton2.Image = CType(resources.GetObject("RibbonButton2.Image"), System.Drawing.Image)
+        Me.RibbonButton2.SmallImage = CType(resources.GetObject("RibbonButton2.SmallImage"), System.Drawing.Image)
+        Me.RibbonButton2.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.RibbonButton2.Tag = Nothing
+        Me.RibbonButton2.Text = "000"
+        Me.RibbonButton2.ToolTip = Nothing
+        Me.RibbonButton2.ToolTipImage = Nothing
+        Me.RibbonButton2.ToolTipTitle = Nothing
+        '
+        'RibbonButton3
+        '
+        Me.RibbonButton3.AltKey = Nothing
+        Me.RibbonButton3.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.RibbonButton3.Image = CType(resources.GetObject("RibbonButton3.Image"), System.Drawing.Image)
+        Me.RibbonButton3.SmallImage = CType(resources.GetObject("RibbonButton3.SmallImage"), System.Drawing.Image)
+        Me.RibbonButton3.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.RibbonButton3.Tag = Nothing
+        Me.RibbonButton3.Text = "0000"
+        Me.RibbonButton3.ToolTip = Nothing
+        Me.RibbonButton3.ToolTipImage = Nothing
+        Me.RibbonButton3.ToolTipTitle = Nothing
+        '
+        'RibbonButton4
+        '
+        Me.RibbonButton4.AltKey = Nothing
+        Me.RibbonButton4.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.RibbonButton4.Image = CType(resources.GetObject("RibbonButton4.Image"), System.Drawing.Image)
+        Me.RibbonButton4.SmallImage = CType(resources.GetObject("RibbonButton4.SmallImage"), System.Drawing.Image)
+        Me.RibbonButton4.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.RibbonButton4.Tag = Nothing
+        Me.RibbonButton4.Text = "0000"
+        Me.RibbonButton4.ToolTip = Nothing
+        Me.RibbonButton4.ToolTipImage = Nothing
+        Me.RibbonButton4.ToolTipTitle = Nothing
+        '
+        'RBThreadReport
+        '
+        Me.RBThreadReport.ButtonMoreEnabled = False
+        Me.RBThreadReport.ButtonMoreVisible = False
+        Me.RBThreadReport.Items.Add(Me.butThreadSaveReport)
+        Me.RBThreadReport.Tag = Nothing
+        Me.RBThreadReport.Text = "Report"
+        '
+        'butThreadSaveReport
+        '
+        Me.butThreadSaveReport.AltKey = Nothing
+        Me.butThreadSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butThreadSaveReport.Enabled = False
+        Me.butThreadSaveReport.Image = CType(resources.GetObject("butThreadSaveReport.Image"), System.Drawing.Image)
+        Me.butThreadSaveReport.SmallImage = CType(resources.GetObject("butThreadSaveReport.SmallImage"), System.Drawing.Image)
+        Me.butThreadSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butThreadSaveReport.Tag = Nothing
+        Me.butThreadSaveReport.Text = "Save report"
+        Me.butThreadSaveReport.ToolTip = Nothing
+        Me.butThreadSaveReport.ToolTipImage = Nothing
+        Me.butThreadSaveReport.ToolTipTitle = Nothing
         '
         'ServiceTab
         '
@@ -1759,6 +2005,71 @@ Partial Class frmMain
         Me.butServiceGoogle.ToolTipImage = Nothing
         Me.butServiceGoogle.ToolTipTitle = Nothing
         '
+        'HandlesTab
+        '
+        Me.HandlesTab.Panels.Add(Me.RBHandlesActions)
+        Me.HandlesTab.Panels.Add(Me.RBHandlesReport)
+        Me.HandlesTab.Tag = Nothing
+        Me.HandlesTab.Text = "Handles"
+        '
+        'RBHandlesActions
+        '
+        Me.RBHandlesActions.ButtonMoreEnabled = False
+        Me.RBHandlesActions.ButtonMoreVisible = False
+        Me.RBHandlesActions.Items.Add(Me.butHandleRefresh)
+        Me.RBHandlesActions.Items.Add(Me.butHandleClose)
+        Me.RBHandlesActions.Tag = Nothing
+        Me.RBHandlesActions.Text = "Actions"
+        '
+        'butHandleRefresh
+        '
+        Me.butHandleRefresh.AltKey = Nothing
+        Me.butHandleRefresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butHandleRefresh.Image = CType(resources.GetObject("butHandleRefresh.Image"), System.Drawing.Image)
+        Me.butHandleRefresh.SmallImage = CType(resources.GetObject("butHandleRefresh.SmallImage"), System.Drawing.Image)
+        Me.butHandleRefresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butHandleRefresh.Tag = Nothing
+        Me.butHandleRefresh.Text = "Refresh"
+        Me.butHandleRefresh.ToolTip = Nothing
+        Me.butHandleRefresh.ToolTipImage = Nothing
+        Me.butHandleRefresh.ToolTipTitle = Nothing
+        '
+        'butHandleClose
+        '
+        Me.butHandleClose.AltKey = Nothing
+        Me.butHandleClose.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butHandleClose.Image = CType(resources.GetObject("butHandleClose.Image"), System.Drawing.Image)
+        Me.butHandleClose.SmallImage = CType(resources.GetObject("butHandleClose.SmallImage"), System.Drawing.Image)
+        Me.butHandleClose.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butHandleClose.Tag = Nothing
+        Me.butHandleClose.Text = "Close handle(s)"
+        Me.butHandleClose.ToolTip = Nothing
+        Me.butHandleClose.ToolTipImage = Nothing
+        Me.butHandleClose.ToolTipTitle = Nothing
+        '
+        'RBHandlesReport
+        '
+        Me.RBHandlesReport.ButtonMoreEnabled = False
+        Me.RBHandlesReport.ButtonMoreVisible = False
+        Me.RBHandlesReport.Enabled = False
+        Me.RBHandlesReport.Items.Add(Me.butHandlesSaveReport)
+        Me.RBHandlesReport.Tag = Nothing
+        Me.RBHandlesReport.Text = "Report"
+        '
+        'butHandlesSaveReport
+        '
+        Me.butHandlesSaveReport.AltKey = Nothing
+        Me.butHandlesSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butHandlesSaveReport.Enabled = False
+        Me.butHandlesSaveReport.Image = CType(resources.GetObject("butHandlesSaveReport.Image"), System.Drawing.Image)
+        Me.butHandlesSaveReport.SmallImage = CType(resources.GetObject("butHandlesSaveReport.SmallImage"), System.Drawing.Image)
+        Me.butHandlesSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butHandlesSaveReport.Tag = Nothing
+        Me.butHandlesSaveReport.Text = "Save report"
+        Me.butHandlesSaveReport.ToolTip = Nothing
+        Me.butHandlesSaveReport.ToolTipImage = Nothing
+        Me.butHandlesSaveReport.ToolTipTitle = Nothing
+        '
         'MonitorTab
         '
         Me.MonitorTab.Panels.Add(Me.RBMonitor)
@@ -1861,70 +2172,10 @@ Partial Class frmMain
         Me.butMonitorSaveReport.ToolTipImage = Nothing
         Me.butMonitorSaveReport.ToolTipTitle = Nothing
         '
-        'HandlesTab
+        'WindowTab
         '
-        Me.HandlesTab.Panels.Add(Me.RBHandlesActions)
-        Me.HandlesTab.Panels.Add(Me.RBHandlesReport)
-        Me.HandlesTab.Tag = Nothing
-        Me.HandlesTab.Text = "Handles"
-        '
-        'RBHandlesActions
-        '
-        Me.RBHandlesActions.ButtonMoreEnabled = False
-        Me.RBHandlesActions.ButtonMoreVisible = False
-        Me.RBHandlesActions.Items.Add(Me.butHandleRefresh)
-        Me.RBHandlesActions.Items.Add(Me.butHandleClose)
-        Me.RBHandlesActions.Tag = Nothing
-        Me.RBHandlesActions.Text = "Actions"
-        '
-        'butHandleRefresh
-        '
-        Me.butHandleRefresh.AltKey = Nothing
-        Me.butHandleRefresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butHandleRefresh.Image = CType(resources.GetObject("butHandleRefresh.Image"), System.Drawing.Image)
-        Me.butHandleRefresh.SmallImage = CType(resources.GetObject("butHandleRefresh.SmallImage"), System.Drawing.Image)
-        Me.butHandleRefresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butHandleRefresh.Tag = Nothing
-        Me.butHandleRefresh.Text = "Refresh"
-        Me.butHandleRefresh.ToolTip = Nothing
-        Me.butHandleRefresh.ToolTipImage = Nothing
-        Me.butHandleRefresh.ToolTipTitle = Nothing
-        '
-        'butHandleClose
-        '
-        Me.butHandleClose.AltKey = Nothing
-        Me.butHandleClose.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butHandleClose.Image = CType(resources.GetObject("butHandleClose.Image"), System.Drawing.Image)
-        Me.butHandleClose.SmallImage = CType(resources.GetObject("butHandleClose.SmallImage"), System.Drawing.Image)
-        Me.butHandleClose.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butHandleClose.Tag = Nothing
-        Me.butHandleClose.Text = "Close handle(s)"
-        Me.butHandleClose.ToolTip = Nothing
-        Me.butHandleClose.ToolTipImage = Nothing
-        Me.butHandleClose.ToolTipTitle = Nothing
-        '
-        'RBHandlesReport
-        '
-        Me.RBHandlesReport.ButtonMoreEnabled = False
-        Me.RBHandlesReport.ButtonMoreVisible = False
-        Me.RBHandlesReport.Enabled = False
-        Me.RBHandlesReport.Items.Add(Me.butHandlesSaveReport)
-        Me.RBHandlesReport.Tag = Nothing
-        Me.RBHandlesReport.Text = "Report"
-        '
-        'butHandlesSaveReport
-        '
-        Me.butHandlesSaveReport.AltKey = Nothing
-        Me.butHandlesSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butHandlesSaveReport.Enabled = False
-        Me.butHandlesSaveReport.Image = CType(resources.GetObject("butHandlesSaveReport.Image"), System.Drawing.Image)
-        Me.butHandlesSaveReport.SmallImage = CType(resources.GetObject("butHandlesSaveReport.SmallImage"), System.Drawing.Image)
-        Me.butHandlesSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butHandlesSaveReport.Tag = Nothing
-        Me.butHandlesSaveReport.Text = "Save report"
-        Me.butHandlesSaveReport.ToolTip = Nothing
-        Me.butHandlesSaveReport.ToolTipImage = Nothing
-        Me.butHandlesSaveReport.ToolTipTitle = Nothing
+        Me.WindowTab.Tag = Nothing
+        Me.WindowTab.Text = "Windows"
         '
         'FileTab
         '
@@ -3364,22 +3615,6 @@ Partial Class frmMain
         Me.splitMonitor4.SplitterDistance = 25
         Me.splitMonitor4.TabIndex = 4
         '
-        'graphMonitor
-        '
-        Me.graphMonitor.BackColor = System.Drawing.Color.Black
-        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
-        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
-        Me.graphMonitor.dDate = New Date(CType(0, Long))
-        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphMonitor.EnableGraph = False
-        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
-        Me.graphMonitor.Name = "graphMonitor"
-        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
-        Me.graphMonitor.TabIndex = 3
-        Me.graphMonitor.TabStop = False
-        Me.graphMonitor.ViewMax = 0
-        Me.graphMonitor.ViewMin = 0
-        '
         'txtMonitorNumber
         '
         Me.txtMonitorNumber.Location = New System.Drawing.Point(241, 0)
@@ -3470,27 +3705,207 @@ Partial Class frmMain
         Me.RibbonButton1.ToolTipImage = Nothing
         Me.RibbonButton1.ToolTipTitle = Nothing
         '
-        'chkDisplayNAProcess
+        'panelMain9
         '
-        Me.chkDisplayNAProcess.AutoSize = True
-        Me.chkDisplayNAProcess.Checked = True
-        Me.chkDisplayNAProcess.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkDisplayNAProcess.Location = New System.Drawing.Point(315, 6)
-        Me.chkDisplayNAProcess.Name = "chkDisplayNAProcess"
-        Me.chkDisplayNAProcess.Size = New System.Drawing.Size(124, 17)
-        Me.chkDisplayNAProcess.TabIndex = 6
-        Me.chkDisplayNAProcess.Text = "Display all processes"
-        Me.chkDisplayNAProcess.UseVisualStyleBackColor = True
+        Me.panelMain9.Controls.Add(Me.splitThreads)
+        Me.panelMain9.Location = New System.Drawing.Point(119, 163)
+        Me.panelMain9.Name = "panelMain9"
+        Me.panelMain9.Size = New System.Drawing.Size(565, 276)
+        Me.panelMain9.TabIndex = 51
+        Me.panelMain9.Visible = False
+        '
+        'splitThreads
+        '
+        Me.splitThreads.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.splitThreads.Location = New System.Drawing.Point(0, 0)
+        Me.splitThreads.Name = "splitThreads"
+        Me.splitThreads.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'splitThreads.Panel1
+        '
+        Me.splitThreads.Panel1.Controls.Add(Me.lvThreads)
+        '
+        'splitThreads.Panel2
+        '
+        Me.splitThreads.Panel2.Controls.Add(Me.rtb4)
+        Me.splitThreads.Size = New System.Drawing.Size(565, 276)
+        Me.splitThreads.SplitterDistance = 188
+        Me.splitThreads.TabIndex = 0
+        '
+        'lvThreads
+        '
+        Me.lvThreads.AllowColumnReorder = True
+        Me.lvThreads.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader33, Me.ColumnHeader34, Me.ColumnHeader35, Me.ColumnHeader36, Me.ColumnHeader37, Me.ColumnHeader38})
+        Me.lvThreads.ContextMenuStrip = Me.menuThread
+        Me.lvThreads.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvThreads.FullRowSelect = True
+        ListViewGroup9.Header = "Threads"
+        ListViewGroup9.Name = "gpOther"
+        Me.lvThreads.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup9})
+        Me.lvThreads.HideSelection = False
+        Me.lvThreads.Location = New System.Drawing.Point(0, 0)
+        Me.lvThreads.Name = "lvThreads"
+        Me.lvThreads.Size = New System.Drawing.Size(565, 188)
+        Me.lvThreads.SmallImageList = Me.imgServices
+        Me.lvThreads.TabIndex = 2
+        Me.lvThreads.UseCompatibleStateImageBehavior = False
+        Me.lvThreads.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader32
+        '
+        Me.ColumnHeader32.Text = "Id"
+        '
+        'ColumnHeader33
+        '
+        Me.ColumnHeader33.Text = "OwnerProcessId"
+        Me.ColumnHeader33.Width = 100
+        '
+        'ColumnHeader34
+        '
+        Me.ColumnHeader34.Text = "Priority"
+        Me.ColumnHeader34.Width = 100
+        '
+        'ColumnHeader35
+        '
+        Me.ColumnHeader35.Text = "State"
+        Me.ColumnHeader35.Width = 100
+        '
+        'ColumnHeader36
+        '
+        Me.ColumnHeader36.Text = "WaitReason"
+        Me.ColumnHeader36.Width = 100
+        '
+        'ColumnHeader37
+        '
+        Me.ColumnHeader37.Text = "StartTime"
+        Me.ColumnHeader37.Width = 200
+        '
+        'ColumnHeader38
+        '
+        Me.ColumnHeader38.Text = "TotalProcessorTime"
+        Me.ColumnHeader38.Width = 200
+        '
+        'menuThread
+        '
+        Me.menuThread.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem23, Me.ToolStripMenuItem24, Me.ToolStripMenuItem25, Me.ToolStripMenuItem26, Me.ToolStripMenuItem33})
+        Me.menuThread.Name = "menuProc"
+        Me.menuThread.Size = New System.Drawing.Size(140, 114)
+        '
+        'ToolStripMenuItem23
+        '
+        Me.ToolStripMenuItem23.Name = "ToolStripMenuItem23"
+        Me.ToolStripMenuItem23.Size = New System.Drawing.Size(139, 22)
+        Me.ToolStripMenuItem23.Text = "Terminate"
+        '
+        'ToolStripMenuItem24
+        '
+        Me.ToolStripMenuItem24.Name = "ToolStripMenuItem24"
+        Me.ToolStripMenuItem24.Size = New System.Drawing.Size(139, 22)
+        Me.ToolStripMenuItem24.Text = "Suspend"
+        '
+        'ToolStripMenuItem25
+        '
+        Me.ToolStripMenuItem25.Name = "ToolStripMenuItem25"
+        Me.ToolStripMenuItem25.Size = New System.Drawing.Size(139, 22)
+        Me.ToolStripMenuItem25.Text = "Resume"
+        '
+        'ToolStripMenuItem26
+        '
+        Me.ToolStripMenuItem26.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem27, Me.ToolStripMenuItem28, Me.ToolStripMenuItem29, Me.ToolStripMenuItem30, Me.ToolStripMenuItem31, Me.ToolStripMenuItem32})
+        Me.ToolStripMenuItem26.Name = "ToolStripMenuItem26"
+        Me.ToolStripMenuItem26.Size = New System.Drawing.Size(139, 22)
+        Me.ToolStripMenuItem26.Text = "Priotiy"
+        '
+        'ToolStripMenuItem27
+        '
+        Me.ToolStripMenuItem27.Name = "ToolStripMenuItem27"
+        Me.ToolStripMenuItem27.Size = New System.Drawing.Size(151, 22)
+        Me.ToolStripMenuItem27.Text = "Idle"
+        '
+        'ToolStripMenuItem28
+        '
+        Me.ToolStripMenuItem28.Name = "ToolStripMenuItem28"
+        Me.ToolStripMenuItem28.Size = New System.Drawing.Size(151, 22)
+        Me.ToolStripMenuItem28.Text = "Below Normal"
+        '
+        'ToolStripMenuItem29
+        '
+        Me.ToolStripMenuItem29.Name = "ToolStripMenuItem29"
+        Me.ToolStripMenuItem29.Size = New System.Drawing.Size(151, 22)
+        Me.ToolStripMenuItem29.Text = "Normal"
+        '
+        'ToolStripMenuItem30
+        '
+        Me.ToolStripMenuItem30.Name = "ToolStripMenuItem30"
+        Me.ToolStripMenuItem30.Size = New System.Drawing.Size(151, 22)
+        Me.ToolStripMenuItem30.Text = "Above Normal"
+        '
+        'ToolStripMenuItem31
+        '
+        Me.ToolStripMenuItem31.Name = "ToolStripMenuItem31"
+        Me.ToolStripMenuItem31.Size = New System.Drawing.Size(151, 22)
+        Me.ToolStripMenuItem31.Text = "High"
+        '
+        'ToolStripMenuItem32
+        '
+        Me.ToolStripMenuItem32.Name = "ToolStripMenuItem32"
+        Me.ToolStripMenuItem32.Size = New System.Drawing.Size(151, 22)
+        Me.ToolStripMenuItem32.Text = "Real Time"
+        '
+        'ToolStripMenuItem33
+        '
+        Me.ToolStripMenuItem33.Enabled = False
+        Me.ToolStripMenuItem33.Name = "ToolStripMenuItem33"
+        Me.ToolStripMenuItem33.Size = New System.Drawing.Size(139, 22)
+        Me.ToolStripMenuItem33.Text = "Set affinity..."
+        '
+        'panelMain10
+        '
+        Me.panelMain10.Location = New System.Drawing.Point(127, 171)
+        Me.panelMain10.Name = "panelMain10"
+        Me.panelMain10.Size = New System.Drawing.Size(565, 276)
+        Me.panelMain10.TabIndex = 52
+        Me.panelMain10.Visible = False
+        '
+        'rtb4
+        '
+        Me.rtb4.AutoWordSelection = True
+        Me.rtb4.BackColor = System.Drawing.Color.White
+        Me.rtb4.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.rtb4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.rtb4.HideSelection = False
+        Me.rtb4.Location = New System.Drawing.Point(0, 0)
+        Me.rtb4.Name = "rtb4"
+        Me.rtb4.ReadOnly = True
+        Me.rtb4.Size = New System.Drawing.Size(565, 84)
+        Me.rtb4.TabIndex = 7
+        Me.rtb4.Text = "Click on a thread to get additionnal informations"
+        '
+        'graphMonitor
+        '
+        Me.graphMonitor.BackColor = System.Drawing.Color.Black
+        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
+        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
+        Me.graphMonitor.dDate = New Date(CType(0, Long))
+        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphMonitor.EnableGraph = False
+        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
+        Me.graphMonitor.Name = "graphMonitor"
+        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
+        Me.graphMonitor.TabIndex = 3
+        Me.graphMonitor.TabStop = False
+        Me.graphMonitor.ViewMax = 0
+        Me.graphMonitor.ViewMin = 0
         '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
-        Me.ClientSize = New System.Drawing.Size(803, 603)
+        Me.ClientSize = New System.Drawing.Size(855, 603)
+        Me.Controls.Add(Me.panelMain9)
         Me.Controls.Add(Me.panelMain8)
         Me.Controls.Add(Me.panelMain5)
-        Me.Controls.Add(Me.panelMain7)
         Me.Controls.Add(Me.panelMain6)
         Me.Controls.Add(Me.panelInfos)
         Me.Controls.Add(Me.panelMenu2)
@@ -3501,10 +3916,12 @@ Partial Class frmMain
         Me.Controls.Add(Me.panelMain4)
         Me.Controls.Add(Me.panelInfos2)
         Me.Controls.Add(Me.panelMain2)
+        Me.Controls.Add(Me.panelMain7)
+        Me.Controls.Add(Me.panelMain10)
         Me.Controls.Add(Me.panelMain)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.MinimumSize = New System.Drawing.Size(819, 589)
+        Me.MinimumSize = New System.Drawing.Size(871, 589)
         Me.Name = "frmMain"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Yet Another Process Monitor"
@@ -3563,6 +3980,11 @@ Partial Class frmMain
         Me.splitMonitor3.ResumeLayout(False)
         Me.splitMonitor4.Panel2.ResumeLayout(False)
         Me.splitMonitor4.ResumeLayout(False)
+        Me.panelMain9.ResumeLayout(False)
+        Me.splitThreads.Panel1.ResumeLayout(False)
+        Me.splitThreads.Panel2.ResumeLayout(False)
+        Me.splitThreads.ResumeLayout(False)
+        Me.menuThread.ResumeLayout(False)
         CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -3878,5 +4300,46 @@ Partial Class frmMain
     Friend WithEvents dtMonitorR As System.Windows.Forms.DateTimePicker
     Friend WithEvents dtMonitorL As System.Windows.Forms.DateTimePicker
     Friend WithEvents chkDisplayNAProcess As System.Windows.Forms.CheckBox
+    Friend WithEvents ThreadTab As System.Windows.Forms.RibbonTab
+    Friend WithEvents WindowTab As System.Windows.Forms.RibbonTab
+    Friend WithEvents butProcessThreads As System.Windows.Forms.RibbonButton
+    Friend WithEvents ShowThreadsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents panelMain9 As System.Windows.Forms.Panel
+    Friend WithEvents splitThreads As System.Windows.Forms.SplitContainer
+    Friend WithEvents panelMain10 As System.Windows.Forms.Panel
+    Friend WithEvents lvThreads As System.Windows.Forms.ListView
+    Friend WithEvents RBThreadsRefresh As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butThreadRefresh As System.Windows.Forms.RibbonButton
+    Friend WithEvents menuThread As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents ToolStripMenuItem23 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem24 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem25 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem26 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem27 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem28 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem29 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem30 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem31 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem32 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem33 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ColumnHeader32 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader33 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader34 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader35 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader36 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader37 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader38 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents RBThreadAction As System.Windows.Forms.RibbonPanel
+    Friend WithEvents RBThreadPriority As System.Windows.Forms.RibbonPanel
+    Friend WithEvents RBThreadReport As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butThreadKill As System.Windows.Forms.RibbonButton
+    Friend WithEvents butThreadStop As System.Windows.Forms.RibbonButton
+    Friend WithEvents butThreadResume As System.Windows.Forms.RibbonButton
+    Friend WithEvents butThreadSaveReport As System.Windows.Forms.RibbonButton
+    Friend WithEvents butThreadPriority As System.Windows.Forms.RibbonButton
+    Friend WithEvents RibbonButton2 As System.Windows.Forms.RibbonButton
+    Friend WithEvents RibbonButton3 As System.Windows.Forms.RibbonButton
+    Friend WithEvents RibbonButton4 As System.Windows.Forms.RibbonButton
+    Friend WithEvents rtb4 As System.Windows.Forms.RichTextBox
 
 End Class

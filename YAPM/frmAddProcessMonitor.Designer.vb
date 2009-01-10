@@ -36,6 +36,7 @@ Partial Class frmAddProcessMonitor
         Me.cmdRemoveFromList = New System.Windows.Forms.Button
         Me.lstToAdd = New System.Windows.Forms.ListView
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
+        Me.txtHelp = New System.Windows.Forms.TextBox
         Me.SuspendLayout()
         '
         'butAdd
@@ -121,7 +122,6 @@ Partial Class frmAddProcessMonitor
         '
         'lstCounterType
         '
-        Me.lstCounterType.CheckOnClick = True
         Me.lstCounterType.FormattingEnabled = True
         Me.lstCounterType.Location = New System.Drawing.Point(475, 23)
         Me.lstCounterType.Name = "lstCounterType"
@@ -165,11 +165,24 @@ Partial Class frmAddProcessMonitor
         Me.ColumnHeader1.Text = "Counter item"
         Me.ColumnHeader1.Width = 1000
         '
+        'txtHelp
+        '
+        Me.txtHelp.BackColor = System.Drawing.Color.White
+        Me.txtHelp.Location = New System.Drawing.Point(9, 177)
+        Me.txtHelp.Multiline = True
+        Me.txtHelp.Name = "txtHelp"
+        Me.txtHelp.ReadOnly = True
+        Me.txtHelp.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.txtHelp.Size = New System.Drawing.Size(738, 50)
+        Me.txtHelp.TabIndex = 19
+        Me.txtHelp.Text = "Description de l'objet sélectionné"
+        '
         'frmAddProcessMonitor
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1111, 235)
+        Me.Controls.Add(Me.txtHelp)
         Me.Controls.Add(Me.lstToAdd)
         Me.Controls.Add(Me.cmdRemoveFromList)
         Me.Controls.Add(Me.cmdAddToList)
@@ -210,4 +223,5 @@ Partial Class frmAddProcessMonitor
     Friend WithEvents cmdRemoveFromList As System.Windows.Forms.Button
     Friend WithEvents lstToAdd As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents txtHelp As System.Windows.Forms.TextBox
 End Class

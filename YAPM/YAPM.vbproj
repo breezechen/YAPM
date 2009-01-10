@@ -160,6 +160,8 @@
     <Compile Include="clsOpenedHandles.vb" />
     <Compile Include="cMonitor.vb" />
     <Compile Include="cProcess.vb" />
+    <Compile Include="cThread.vb">
+    </Compile>
     <Compile Include="frmAddProcessMonitor.Designer.vb">
       <DependentUpon>frmAddProcessMonitor.vb</DependentUpon>
     </Compile>

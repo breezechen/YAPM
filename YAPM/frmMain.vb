@@ -1,5 +1,7 @@
 Option Strict On
 
+Imports System.Runtime.InteropServices
+
 Public Class frmMain
 
     ' ========================================
@@ -11,6 +13,7 @@ Public Class frmMain
     Private bEnableJobs As Boolean = True
     Private _stopOnlineRetrieving As Boolean = False
     Private handlesToRefresh() As Integer
+    Private threadsToRefresh() As Integer
     Private isAdmin As Boolean = False
     Private cSelFile As cFile
 
@@ -29,7 +32,11 @@ Public Class frmMain
     Private Declare Sub InvalidateRect Lib "user32" (ByVal hWnd As Integer, ByVal t As Integer, ByVal bErase As Integer)
     Private Declare Sub ValidateRect Lib "user32" (ByVal hWnd As Integer, ByVal t As Integer)
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
-    Private Declare Unicode Function SetWindowTheme Lib "uxtheme.dll" (ByVal hWnd As IntPtr, ByVal pszSubAppName As String, ByVal pszSubIdList As String) As Integer
+    'Private Declare Unicode Function SetWindowTheme Lib "uxtheme.dll" (ByVal hWnd As IntPtr, ByVal pszSubAppName As String, ByVal pszSubIdList As String) As Integer
+    <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
+    Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
+    End Function
+
 
     ' ========================================
     ' Constants
@@ -96,7 +103,7 @@ Public Class frmMain
             s &= "\b Attributes\b0\par"
             s &= "\tab Archive :\tab\tab " & cSelFile.GetIsArchive & "\par"
             s &= "\tab Compressed :\tab\tab " & cSelFile.GetIsCompressed & "\par"
-            s &= "\tab Device :\tab\tab\tab " & cSelFile.getisDevice & "\par"
+            s &= "\tab Device :\tab\tab\tab " & cSelFile.GetIsDevice & "\par"
             s &= "\tab Directory :\tab\tab " & cSelFile.GetIsDirectory & "\par"
             s &= "\tab Encrypted :\tab\tab " & cSelFile.GetIsEncrypted & "\par"
             s &= "\tab Hidden :\tab\tab\tab " & cSelFile.GetIsHidden & "\par"
@@ -280,7 +287,7 @@ Public Class frmMain
             Try
                 Dim cS As cService = CType(lvi.Tag, cService)
                 cS.Refresh()
-              
+
                 lvi.SubItems(2).Text = cS.GetStatus.ToString
                 lvi.SubItems(5).Text = CStr(IIf(cS.GetCanPauseAndContinue, "Pause/Continue ", "")) & _
                     CStr(IIf(cS.GetCanShutdown, "Shutdown ", "")) & _
@@ -321,7 +328,7 @@ Public Class frmMain
 
         ReDim proc(0)
         cProcess.Enumerate(proc)
-        
+
         ' Refresh (or suppress) all processes displayed in listview
         For Each lvi In Me.lvProcess.Items
 
@@ -349,9 +356,9 @@ Public Class frmMain
         ' Add all non displayed processe (new processes)
         For Each p In proc
 
-            If p.IsDisplayed = False Then
+            If p.isDisplayed = False Then
 
-                p.IsDisplayed = True
+                p.isDisplayed = True
 
                 ' Get the process name
                 Dim o As String = p.GetName
@@ -697,7 +704,15 @@ Public Class frmMain
         refreshServiceList()
 
         Application.EnableVisualStyles()
-        'SetWindowTheme(Me.lvProcess.Handle, "explorer", "")
+        SetWindowTheme(Me.lvProcess.Handle, "explorer", Nothing)
+        SetWindowTheme(Me.lvHandles.Handle, "explorer", Nothing)
+        SetWindowTheme(Me.lvJobs.Handle, "explorer", Nothing)
+        SetWindowTheme(Me.lvSearchResults.Handle, "explorer", Nothing)
+        SetWindowTheme(Me.lvThreads.Handle, "explorer", Nothing)
+        SetWindowTheme(Me.lvServices.Handle, "explorer", Nothing)
+        SetWindowTheme(Me.tv.Handle, "explorer", Nothing)
+        SetWindowTheme(Me.tv2.Handle, "explorer", Nothing)
+        SetWindowTheme(Me.tvMonitor.Handle, "explorer", Nothing)
 
         With Me
             .lblServicePath.BackColor = .BackColor
@@ -806,6 +821,8 @@ Public Class frmMain
         Me.panelMain7.Top = 120
         Me.panelMain8.Left = 5
         Me.panelMain8.Top = 120
+        Me.panelMain9.Left = 5
+        Me.panelMain9.Top = 120
 
         Me.panelMenu.Top = 117
         Me.panelMenu.Left = 5
@@ -831,6 +848,10 @@ Public Class frmMain
         ' Monitor resizement
         Me.panelMain8.Height = Me.panelMain3.Height
         Me.panelMain8.Width = Me.panelMain3.Width
+
+        ' Threads resizement
+        Me.panelMain9.Height = Me.panelMain3.Height
+        Me.panelMain9.Width = Me.panelMain3.Width
 
         ' Process
         Dim i As Integer = CInt((Me.Height - 250) / 2)
@@ -1712,7 +1733,7 @@ Public Class frmMain
         ' Set priority to selected processes
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
-            CType(it.Tag, cProcess).SetProcessPriority( ProcessPriorityClass.High)
+            CType(it.Tag, cProcess).SetProcessPriority(ProcessPriorityClass.High)
         Next
     End Sub
 
@@ -1720,7 +1741,7 @@ Public Class frmMain
         ' Set priority to selected processes
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
-            CType(it.Tag, cProcess).SetProcessPriority( ProcessPriorityClass.Normal)
+            CType(it.Tag, cProcess).SetProcessPriority(ProcessPriorityClass.Normal)
         Next
     End Sub
 
@@ -1728,7 +1749,7 @@ Public Class frmMain
         ' Set priority to selected processes
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
-            CType(it.Tag, cProcess).SetProcessPriority( ProcessPriorityClass.RealTime)
+            CType(it.Tag, cProcess).SetProcessPriority(ProcessPriorityClass.RealTime)
         Next
     End Sub
 
@@ -1875,6 +1896,7 @@ Public Class frmMain
                     Me.panelMain6.Visible = False
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
+                    Me.panelMain9.Visible = False
                 Case "Processes"
                     Me.bProcessHover = True
                     Me.bServiceHover = False
@@ -1891,6 +1913,7 @@ Public Class frmMain
                     Me.panelMain6.Visible = False
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
+                    Me.panelMain9.Visible = False
                 Case "Jobs"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1905,10 +1928,11 @@ Public Class frmMain
                     Me.panelMain6.Visible = False
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
+                    Me.panelMain9.Visible = False
                 Case "Help"
 
-                    If Not (bhelpshown) Then
-                        bhelpshown = True
+                    If Not (bHelpShown) Then
+                        bHelpShown = True
                         ' Load help file
                         Dim path As String = HELP_PATH
                         If IO.File.Exists(path) = False Then
@@ -1931,6 +1955,7 @@ Public Class frmMain
                     Me.panelMain6.Visible = False
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
+                    Me.panelMain9.Visible = False
                 Case "File"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1945,6 +1970,7 @@ Public Class frmMain
                     Me.panelMain6.Visible = False
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
+                    Me.panelMain9.Visible = False
                 Case "Search"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1959,6 +1985,7 @@ Public Class frmMain
                     Me.panelMain6.Visible = True
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
+                    Me.panelMain9.Visible = False
                 Case "Handles"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1973,6 +2000,7 @@ Public Class frmMain
                     Me.panelMain6.Visible = False
                     Me.panelMain7.Visible = True
                     Me.panelMain8.Visible = False
+                    Me.panelMain9.Visible = False
                 Case "Monitor"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1987,6 +2015,22 @@ Public Class frmMain
                     Me.panelMain6.Visible = False
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = True
+                    Me.panelMain9.Visible = False
+                Case "Threads"
+                    Me.bProcessHover = False
+                    Me.bServiceHover = False
+                    Me.panelMain.Visible = False
+                    Me.panelMain2.Visible = False
+                    Me.panelMain3.Visible = False
+                    Me.panelMain4.Visible = False
+                    Me.panelMain8.BringToFront()
+                    Me.panelMenu.Visible = False
+                    Me.panelMenu2.Visible = False
+                    Me.panelMain5.Visible = False
+                    Me.panelMain6.Visible = False
+                    Me.panelMain7.Visible = False
+                    Me.panelMain8.Visible = False
+                    Me.panelMain9.Visible = True
             End Select
         End If
     End Sub
@@ -2761,7 +2805,7 @@ Public Class frmMain
 
     Private Sub butFileDecrypt_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileDecrypt.Click
         Try
-            cSelFile.decrypt()
+            cSelFile.Decrypt()
             MsgBox("Done.", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Decryption ok")
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Decryption failed")
@@ -3146,7 +3190,7 @@ Public Class frmMain
                     Next
                 Next
             End If
-            End If
+        End If
         Call updateMonitoringLog()
     End Sub
 
@@ -3428,6 +3472,254 @@ Public Class frmMain
             Next
         Else
             Call Me.refreshProcessList()
+        End If
+    End Sub
+
+    Private Sub ShowThreadsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowThreadsToolStripMenuItem.Click
+        Call Me.butProcessThreads_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butProcessThreads_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessThreads.Click
+        If Me.lvProcess.SelectedItems.Count > 0 Then
+            Dim it As ListViewItem
+
+            Dim x As Integer = 0
+            ReDim threadsToRefresh(Me.lvProcess.SelectedItems.Count - 1)
+
+            For Each it In Me.lvProcess.SelectedItems
+                Dim cp As cProcess = CType(it.Tag, cProcess)
+                threadsToRefresh(x) = cp.GetPid
+                x += 1
+            Next
+
+            Call ShowThreads()
+            Me.Ribbon.ActiveTab = Me.ThreadTab
+            Call Me.Ribbon_MouseMove(Nothing, Nothing)
+        End If
+    End Sub
+
+    ' Show threads of selected processes (threadsToRefresh)
+    Private Sub ShowThreads()
+        Dim t() As cThread = Nothing
+        Dim tCt As cThread
+
+        ' Delete existing items
+        Dim it2 As ListViewItem
+        For Each it2 In Me.lvThreads.Items
+            Dim tt As cThread = CType(it2.Tag, cThread)
+            tt.Dispose()
+        Next
+        Me.lvThreads.Items.Clear()
+
+        For x As Integer = 0 To UBound(threadsToRefresh)
+            cThread.Enumerate(threadsToRefresh(x), t)
+
+            For Each tCt In t
+                ' Add threads to listview
+                Try
+                    Dim it As New ListViewItem
+                    it.Text = CStr(tCt.Id)
+                    Dim n1 As New ListViewItem.ListViewSubItem
+                    n1.Text = CStr(tCt.ProcessId)
+                    it.SubItems.Add(n1)
+                    Dim n2 As New ListViewItem.ListViewSubItem
+                    n2.Text = CStr(tCt.PriorityString)
+                    it.SubItems.Add(n2)
+                    Dim n3 As New ListViewItem.ListViewSubItem
+                    n3.Text = tCt.ThreadState
+                    it.SubItems.Add(n3)
+                    Dim n6 As New ListViewItem.ListViewSubItem
+                    n6.Text = CStr(tCt.WaitReason)
+                    it.SubItems.Add(n6)
+                    Dim n4 As New ListViewItem.ListViewSubItem
+                    n4.Text = CStr(tCt.StartTime.ToLongDateString & " -- " & tCt.StartTime.ToLongTimeString)
+                    it.SubItems.Add(n4)
+                    Dim n5 As New ListViewItem.ListViewSubItem
+                    n5.Text = CStr(tCt.TotalProcessorTime.ToString)
+                    it.SubItems.Add(n5)
+
+                    it.Tag = tCt
+                    it.Group = Me.lvThreads.Groups(0)
+                    it.ImageKey = "thread"
+                    Me.lvThreads.Items.Add(it)
+                Catch ex As Exception
+                    '
+                End Try
+            Next
+        Next
+
+    End Sub
+
+    Private Sub butThreadRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadRefresh.Click
+        If threadsToRefresh IsNot Nothing Then Call ShowThreads()
+    End Sub
+
+    Private Sub ToolStripMenuItem23_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem23.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvThreads.SelectedItems
+            Dim t As cThread = CType(it.Tag, cThread)
+            Try
+                t.ThreadTerminate()
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem24_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem24.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvThreads.SelectedItems
+            Dim t As cThread = CType(it.Tag, cThread)
+            Try
+                t.ThreadSuspend()
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem25_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem25.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvThreads.SelectedItems
+            Dim t As cThread = CType(it.Tag, cThread)
+            Try
+                t.ThreadResume()
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem27_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem27.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvThreads.SelectedItems
+            Dim t As cThread = CType(it.Tag, cThread)
+            Try
+                t.Priority = 1
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub lvThreads_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvThreads.ColumnClick
+        ' Get the new sorting column.
+        Dim new_sorting_column As ColumnHeader = _
+            lvThreads.Columns(e.Column)
+
+        ' Figure out the new sorting order.
+        Dim sort_order As System.Windows.Forms.SortOrder
+        If m_SortingColumn Is Nothing Then
+            ' New column. Sort ascending.
+            sort_order = SortOrder.Ascending
+        Else
+            ' See if this is the same column.
+            If new_sorting_column.Equals(m_SortingColumn) Then
+                ' Same column. Switch the sort order.
+                If m_SortingColumn.Text.StartsWith("> ") Then
+                    sort_order = SortOrder.Descending
+                Else
+                    sort_order = SortOrder.Ascending
+                End If
+            Else
+                ' New column. Sort ascending.
+                sort_order = SortOrder.Ascending
+            End If
+
+            ' Remove the old sort indicator.
+            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
+        End If
+
+        ' Display the new sort order.
+        m_SortingColumn = new_sorting_column
+        If sort_order = SortOrder.Ascending Then
+            m_SortingColumn.Text = "> " & m_SortingColumn.Text
+        Else
+            m_SortingColumn.Text = "< " & m_SortingColumn.Text
+        End If
+
+        ' Create a comparer.
+        lvThreads.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
+
+        ' Sort.
+        lvThreads.Sort()
+    End Sub
+
+    Private Sub butThreadKill_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadKill.Click
+        Call ToolStripMenuItem23_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butThreadResume_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadResume.Click
+        Call ToolStripMenuItem25_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butThreadStop_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadStop.Click
+        Call ToolStripMenuItem24_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub lvThreads_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvThreads.SelectedIndexChanged
+        ' New thread selected
+        If lvThreads.SelectedItems.Count = 1 Then
+            Dim it As ListViewItem = lvThreads.SelectedItems.Item(0)
+
+            If TypeOf it.Tag Is cThread Then
+
+                Try
+                    Dim cP As cThread = CType(it.Tag, cThread)
+
+                    ' Description
+                    Dim s As String = ""
+                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Thread properties\b0\par"
+                    s = s & "\tab Thread ID :\tab\tab\tab " & CStr(cP.Id) & "\par"
+                    s = s & "\tab Process owner :\tab\tab\tab " & CStr(cP.ProcessId) & "\par"
+
+                    s = s & "\tab Priority :\tab\tab\tab\tab " & cP.PriorityString & "\par"
+                    s = s & "\tab Base priority :\tab\tab\tab " & CStr(cP.BasePriority) & "\par"
+                    s = s & "\tab State :\tab\tab\tab\tab " & cP.ThreadState & "\par"
+                    s = s & "\tab Wait reason :\tab\tab\tab " & cP.WaitReason & "\par"
+                    s = s & "\tab Start address :\tab\tab\tab " & CStr(cP.StartAddress) & "\par"
+                    s = s & "\tab PriorityBoostEnabled :\tab\tab " & CStr(cP.PriorityBoostEnabled) & "\par"
+                    s = s & "\tab Start time :\tab\tab\tab " & cP.StartTime.ToLongDateString & " -- " & cP.StartTime.ToLongTimeString & "\par"
+                    s = s & "\tab TotalProcessorTime :\tab\tab " & cP.TotalProcessorTime.ToString & "\par"
+                    s = s & "\tab PrivilegedProcessorTime :\tab\tab " & cP.PrivilegedProcessorTime.ToString & "\par"
+                    s = s & "\tab UserProcessorTime :\tab\tab " & CStr(cP.UserProcessorTime.ToString) & "\par"
+                    s = s & "\tab ProcessorAffinity :\tab\tab " & CStr(cP.ProcessorAffinity) & "\par"
+
+                    s = s & "}"
+
+                    rtb4.Rtf = s
+
+                Catch ex As Exception
+                    Dim s As String = ""
+                    Dim er As Exception = ex
+
+                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+                    s = s & "\tab Message :\tab " & er.Message & "\par"
+                    s = s & "\tab Source :\tab\tab " & er.Source & "\par"
+                    If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
+                    s = s & "}"
+
+                    rtb4.Rtf = s
+
+                End Try
+
+            Else
+                ' Error
+                'Dim s As String = ""
+                'Dim er As Exception = ex
+
+                's = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                's = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+                's = s & "\tab Message :\tab " & er.Message & "\par"
+                's = s & "\tab Source :\tab\tab " & er.Source & "\par"
+                'If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
+                's = s & "}"
+
+                'rtb4.Rtf = s
+            End If
+
         End If
     End Sub
 End Class

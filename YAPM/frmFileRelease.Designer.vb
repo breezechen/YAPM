@@ -28,8 +28,8 @@ Partial Class frmFileRelease
         Me.lv = New System.Windows.Forms.ListView
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
-        Me.Button1 = New System.Windows.Forms.Button
         Me.IMG = New System.Windows.Forms.ImageList(Me.components)
+        Me.Button1 = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'cmdCheck
@@ -65,6 +65,13 @@ Partial Class frmFileRelease
         Me.ColumnHeader2.Text = "Field"
         Me.ColumnHeader2.Width = 128
         '
+        'IMG
+        '
+        Me.IMG.ImageStream = CType(resources.GetObject("IMG.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.IMG.TransparentColor = System.Drawing.Color.Transparent
+        Me.IMG.Images.SetKeyName(0, "module")
+        Me.IMG.Images.SetKeyName(1, "handle")
+        '
         'Button1
         '
         Me.Button1.Location = New System.Drawing.Point(12, 189)
@@ -73,13 +80,6 @@ Partial Class frmFileRelease
         Me.Button1.TabIndex = 2
         Me.Button1.Text = "Fix checked items"
         Me.Button1.UseVisualStyleBackColor = True
-        '
-        'IMG
-        '
-        Me.IMG.ImageStream = CType(resources.GetObject("IMG.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.IMG.TransparentColor = System.Drawing.Color.Transparent
-        Me.IMG.Images.SetKeyName(0, "module")
-        Me.IMG.Images.SetKeyName(1, "handle")
         '
         'frmFileRelease
         '

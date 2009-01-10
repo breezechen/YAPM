@@ -1,6 +1,12 @@
 Option Strict On
 
+Imports System.Runtime.InteropServices
+
 Public Class frmFileRelease
+
+    <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
+    Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
+    End Function
 
     Public file As String
 
@@ -106,5 +112,9 @@ Public Class frmFileRelease
                 End If
             Next
         End If
+    End Sub
+
+    Private Sub frmFileRelease_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
     End Sub
 End Class

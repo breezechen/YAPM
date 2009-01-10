@@ -1,6 +1,12 @@
 Option Strict On
 
+Imports System.Runtime.InteropServices
+
 Public Class frmAddProcessMonitor
+
+    <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
+    Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
+    End Function
 
     ' Process to select by default
     Public _selProcess As Integer
@@ -22,6 +28,11 @@ Public Class frmAddProcessMonitor
             .SetToolTip(Me.lstInstance, "Available instances.")
             .SetToolTip(Me.lstCategory, "Available categories.")
         End With
+
+        SetWindowTheme(Me.lstToAdd.Handle, "explorer", Nothing)
+        SetWindowTheme(Me.lstInstance.Handle, "explorer", Nothing)
+        SetWindowTheme(Me.lstCounterType.Handle, "explorer", Nothing)
+        SetWindowTheme(Me.lstCategory.Handle, "explorer", Nothing)
 
         'Call Me.cmdRefresh_Click(Nothing, Nothing)
 
@@ -75,6 +86,7 @@ Public Class frmAddProcessMonitor
         Dim mypc() As String
         Dim i As Integer
         Dim myCat As New PerformanceCounterCategory(lstCategory.SelectedItem.ToString)
+        txtHelp.Text = myCat.CategoryHelp
         Me.lstInstance.Items.Clear()
         Me.lstCounterType.Items.Clear()
         Try
@@ -169,5 +181,12 @@ Public Class frmAddProcessMonitor
             it.Remove()
         Next
         Me.butAdd.Enabled = (Me.lstCounterType.Items.Count > 0)
+    End Sub
+
+    Private Sub lstCounterType_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstCounterType.SelectedIndexChanged
+        If lstCounterType.SelectedItem IsNot Nothing Then
+            Dim myCat As New PerformanceCounter(Me.lstCategory.SelectedItem.ToString, lstCounterType.SelectedItem.ToString)
+            txtHelp.Text = myCat.CounterHelp
+        End If
     End Sub
 End Class
