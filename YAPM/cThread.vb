@@ -302,22 +302,29 @@ Public Class cThread
 
         'Return UBound(t)
 
-        Dim p As Process = Process.GetProcessById(processId)
-        Dim tT As ProcessThread
-        Dim count As Integer = p.Threads.Count
-        Dim i As Integer = 0
+        Try
+            Dim p As Process = Process.GetProcessById(processId)
+            Dim tT As ProcessThread
+            Dim count As Integer = p.Threads.Count
+            Dim i As Integer = 0
 
-        ReDim t(count - 1)
-        For Each tT In p.Threads
-            Try
-                t(i) = New cThread(processId, p.MainModule.ModuleName, tT)
-                i += 1
-            Catch ex As Exception
-                '
-            End Try
-        Next
+            ReDim t(count - 1)
+            For Each tT In p.Threads
+                Try
+                    t(i) = New cThread(processId, p.MainModule.ModuleName, tT)
+                    i += 1
+                Catch ex As Exception
+                    '
+                End Try
+            Next
+            Return count
 
-        Return count
+        Catch ex As Exception
+            ' Process has been killed
+            ReDim t(0)
+            Return 0
+        End Try
+
     End Function
 
 
