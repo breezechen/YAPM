@@ -749,6 +749,7 @@ Public Class frmMain
         SetToolTip(Me.cmdTray, "Hide YAPM (double click on icon on tray to show main form).")
         SetToolTip(Me.chkSearchProcess, "Search in processes list.")
         SetToolTip(Me.chkSearchServices, "Search in services list.")
+        SetToolTip(Me.chkSearchWindows, "Search in windows list.")
         SetToolTip(Me.chkSearchCase, "Case sensitive.")
         SetToolTip(Me.chkSearchModules, "Check also for processes modules.")
         SetToolTip(Me.chkHandles, "Check if you want to retrieve handles infos when you click on listview.")
@@ -2434,6 +2435,40 @@ Public Class frmMain
             Next
         End If
 
+        If Me.chkSearchWindows.Checked Then
+            Dim w() As cWindow = Nothing
+            Dim ww As cWindow
+            Call cWindow.EnumerateAll(w)
+            For Each ww In w
+                With ww
+                    If (Len(.Caption) > 0) Then
+                        If Me.chkSearchCase.Checked = False Then
+                            sComp = .Caption.ToLower
+                        Else
+                            sComp = .Caption
+                        End If
+                        'type, result, field, process
+                        If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
+                            ' So we've found a result
+                            Dim newIt As New ListViewItem
+                            Dim n2 As New ListViewItem.ListViewSubItem
+                            Dim n3 As New ListViewItem.ListViewSubItem
+                            Dim n4 As New ListViewItem.ListViewSubItem
+                            newIt.Text = "Window"
+                            newIt.Tag = "window"
+                            n3.Text = "Window -- " & CStr(.Handle)
+                            n2.Text = newIt.Text & " -- " & .Caption
+                            n4.Text = .ParentProcessId & " -- " & .ParentProcessName
+                            newIt.SubItems.Add(n2)
+                            newIt.SubItems.Add(n3)
+                            newIt.SubItems.Add(n4)
+                            newIt.ImageKey = "window"
+                            Me.lvSearchResults.Items.Add(newIt)
+                        End If
+                    End If
+                End With
+            Next
+        End If
 
         Me.timerServices.Enabled = True
         Me.timerProcess.Enabled = True
@@ -2670,6 +2705,13 @@ Public Class frmMain
                     End If
                 Case "service"
                     cService.StopService(it.SubItems(3).Text)
+                Case "window"
+                    Dim sp As String = it.SubItems(2).Text
+                    Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
+                    If i > 0 Then
+                        Dim hand As Integer = CInt(Val(sp.Substring(i + 3, sp.Length - i - 3)))
+                        cWindow.CloseWindow(hand)
+                    End If
                 Case Else
                     ' Handle
                     Dim sp As String = it.SubItems(3).Text
@@ -4092,14 +4134,15 @@ Public Class frmMain
             Dim frm As New frmWindowPosition
             With frm
                 .SetCurrentPositions(CType(Me.lvWindows.SelectedItems(0).Tag, cWindow).Positions)
-                .ShowDialog()
-                r = .NewRect
-            End With
 
-            Dim it As ListViewItem
-            For Each it In Me.lvWindows.SelectedItems
-                Call CType(it.Tag, cWindow).SetPositions(r)
-            Next
+                If .ShowDialog() = Windows.Forms.DialogResult.OK Then
+                    r = .NewRect
+                    Dim it As ListViewItem
+                    For Each it In Me.lvWindows.SelectedItems
+                        Call CType(it.Tag, cWindow).SetPositions(r)
+                    Next
+                End If
+            End With
         End If
     End Sub
 
@@ -4227,6 +4270,31 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvWindows.SelectedItems
             CType(it.Tag, cWindow).stopflashing()
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem34_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem34.Click
+        ' Select processes associated to selected windows
+        Dim it As ListViewItem
+        If Me.lvWindows.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
+        For Each it In Me.lvWindows.SelectedItems
+            Try
+                Dim sp As String = it.SubItems(1).Text
+                Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
+                If i > 0 Then
+                    Dim pid As String = sp.Substring(0, i - 1)
+                    Dim it2 As ListViewItem
+                    For Each it2 In Me.lvProcess.Items
+                        If it2.SubItems(1).Text = pid Then
+                            it2.Selected = True
+                        End If
+                    Next
+                End If
+                Me.Ribbon.ActiveTab = Me.ProcessTab
+                Call Me.Ribbon_MouseMove(Nothing, Nothing)
+            Catch ex As Exception
+                '
+            End Try
         Next
     End Sub
 End Class

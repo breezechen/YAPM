@@ -412,6 +412,36 @@ Public Class cWindow
             currWnd = GetWindowAPI(currWnd, GW_HWNDNEXT)
         Loop
 
+        Return UBound(w)
+
+    End Function
+
+    ' Retrieve all windows
+    Public Shared Function EnumerateAll(ByRef w() As cWindow) As Integer
+        Dim currWnd As IntPtr
+        Dim cpt As Integer
+
+        currWnd = GetWindowAPI(GetDesktopWindow(), GW_CHILD)
+        cpt = 0
+        Do While Not (currWnd = IntPtr.Zero)
+
+            ' Get procId from hwnd
+            Dim pid As Integer = GetProcIdFromWindowHandle(currWnd)
+
+            ReDim Preserve w(cpt)
+            w(cpt) = New cWindow(CInt(currWnd), pid, GetThreadIdFromWindowHandle(currWnd), cFile.GetFileName(cProcess.GetPath(pid)))
+            cpt += 1
+
+            currWnd = GetWindowAPI(currWnd, GW_HWNDNEXT)
+        Loop
+
+        Return UBound(w)
+
+    End Function
+
+    ' Close a window
+    Public Shared Function CloseWindow(ByVal hWnd As Integer) As Integer
+        Return CInt(SendMessage(CType(hWnd, IntPtr), WM_CLOSE, 0, 0))
     End Function
 
 

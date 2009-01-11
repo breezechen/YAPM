@@ -213,6 +213,7 @@ Partial Class frmMain
         Me.butWindowMinimize = New System.Windows.Forms.RibbonButton
         Me.butWindowMaximize = New System.Windows.Forms.RibbonButton
         Me.butWindowFlash = New System.Windows.Forms.RibbonButton
+        Me.butWindowStopFlashing = New System.Windows.Forms.RibbonButton
         Me.butWindowCaption = New System.Windows.Forms.RibbonButton
         Me.butWindowOpacity = New System.Windows.Forms.RibbonButton
         Me.butWindowClose = New System.Windows.Forms.RibbonButton
@@ -425,8 +426,10 @@ Partial Class frmMain
         Me.ColumnHeader42 = New System.Windows.Forms.ColumnHeader
         Me.imgWindows = New System.Windows.Forms.ImageList(Me.components)
         Me.rtb5 = New System.Windows.Forms.RichTextBox
+        Me.chkSearchWindows = New System.Windows.Forms.CheckBox
+        Me.menuWindow = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ToolStripMenuItem34 = New System.Windows.Forms.ToolStripMenuItem
         Me.graphMonitor = New YAPM.Graph
-        Me.butWindowStopFlashing = New System.Windows.Forms.RibbonButton
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -480,6 +483,7 @@ Partial Class frmMain
         Me.splitContainerWindows.Panel1.SuspendLayout()
         Me.splitContainerWindows.Panel2.SuspendLayout()
         Me.splitContainerWindows.SuspendLayout()
+        Me.menuWindow.SuspendLayout()
         CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -2174,6 +2178,19 @@ Partial Class frmMain
         Me.butWindowFlash.ToolTipImage = Nothing
         Me.butWindowFlash.ToolTipTitle = Nothing
         '
+        'butWindowStopFlashing
+        '
+        Me.butWindowStopFlashing.AltKey = Nothing
+        Me.butWindowStopFlashing.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butWindowStopFlashing.Image = CType(resources.GetObject("butWindowStopFlashing.Image"), System.Drawing.Image)
+        Me.butWindowStopFlashing.SmallImage = CType(resources.GetObject("butWindowStopFlashing.SmallImage"), System.Drawing.Image)
+        Me.butWindowStopFlashing.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butWindowStopFlashing.Tag = Nothing
+        Me.butWindowStopFlashing.Text = "Stop flashing"
+        Me.butWindowStopFlashing.ToolTip = Nothing
+        Me.butWindowStopFlashing.ToolTipImage = Nothing
+        Me.butWindowStopFlashing.ToolTipTitle = Nothing
+        '
         'butWindowCaption
         '
         Me.butWindowCaption.AltKey = Nothing
@@ -3667,6 +3684,7 @@ Partial Class frmMain
         '
         'SplitContainerSearch.Panel1
         '
+        Me.SplitContainerSearch.Panel1.Controls.Add(Me.chkSearchWindows)
         Me.SplitContainerSearch.Panel1.Controls.Add(Me.chkSearchHandles)
         Me.SplitContainerSearch.Panel1.Controls.Add(Me.Label1)
         Me.SplitContainerSearch.Panel1.Controls.Add(Me.chkSearchModules)
@@ -3815,6 +3833,7 @@ Partial Class frmMain
         Me.imgSearch.Images.SetKeyName(1, "handle")
         Me.imgSearch.Images.SetKeyName(2, "dll")
         Me.imgSearch.Images.SetKeyName(3, "noicon")
+        Me.imgSearch.Images.SetKeyName(4, "window")
         '
         'panelMain7
         '
@@ -4330,6 +4349,7 @@ Partial Class frmMain
         '
         Me.lvWindows.AllowColumnReorder = True
         Me.lvWindows.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader30, Me.ColumnHeader31, Me.ColumnHeader39, Me.ColumnHeader40, Me.ColumnHeader41, Me.ColumnHeader42})
+        Me.lvWindows.ContextMenuStrip = Me.menuWindow
         Me.lvWindows.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvWindows.FullRowSelect = True
         ListViewGroup10.Header = "Windows"
@@ -4391,6 +4411,30 @@ Partial Class frmMain
         Me.rtb5.TabIndex = 8
         Me.rtb5.Text = "Click on an item to get additionnal informations"
         '
+        'chkSearchWindows
+        '
+        Me.chkSearchWindows.AutoSize = True
+        Me.chkSearchWindows.Checked = True
+        Me.chkSearchWindows.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkSearchWindows.Location = New System.Drawing.Point(510, 7)
+        Me.chkSearchWindows.Name = "chkSearchWindows"
+        Me.chkSearchWindows.Size = New System.Drawing.Size(67, 17)
+        Me.chkSearchWindows.TabIndex = 6
+        Me.chkSearchWindows.Text = "windows"
+        Me.chkSearchWindows.UseVisualStyleBackColor = True
+        '
+        'menuWindow
+        '
+        Me.menuWindow.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem34})
+        Me.menuWindow.Name = "menuProc"
+        Me.menuWindow.Size = New System.Drawing.Size(207, 26)
+        '
+        'ToolStripMenuItem34
+        '
+        Me.ToolStripMenuItem34.Name = "ToolStripMenuItem34"
+        Me.ToolStripMenuItem34.Size = New System.Drawing.Size(206, 22)
+        Me.ToolStripMenuItem34.Text = "&Select associated process"
+        '
         'graphMonitor
         '
         Me.graphMonitor.BackColor = System.Drawing.Color.Black
@@ -4407,30 +4451,17 @@ Partial Class frmMain
         Me.graphMonitor.ViewMax = 0
         Me.graphMonitor.ViewMin = 0
         '
-        'butWindowStopFlashing
-        '
-        Me.butWindowStopFlashing.AltKey = Nothing
-        Me.butWindowStopFlashing.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butWindowStopFlashing.Image = CType(resources.GetObject("butWindowStopFlashing.Image"), System.Drawing.Image)
-        Me.butWindowStopFlashing.SmallImage = CType(resources.GetObject("butWindowStopFlashing.SmallImage"), System.Drawing.Image)
-        Me.butWindowStopFlashing.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butWindowStopFlashing.Tag = Nothing
-        Me.butWindowStopFlashing.Text = "Stop flashing"
-        Me.butWindowStopFlashing.ToolTip = Nothing
-        Me.butWindowStopFlashing.ToolTipImage = Nothing
-        Me.butWindowStopFlashing.ToolTipTitle = Nothing
-        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.ClientSize = New System.Drawing.Size(805, 603)
+        Me.Controls.Add(Me.panelMain6)
         Me.Controls.Add(Me.panelMain10)
         Me.Controls.Add(Me.panelMain9)
         Me.Controls.Add(Me.panelMain8)
         Me.Controls.Add(Me.panelMain5)
-        Me.Controls.Add(Me.panelMain6)
         Me.Controls.Add(Me.panelInfos)
         Me.Controls.Add(Me.panelMenu2)
         Me.Controls.Add(Me.panelMenu)
@@ -4512,6 +4543,7 @@ Partial Class frmMain
         Me.splitContainerWindows.Panel1.ResumeLayout(False)
         Me.splitContainerWindows.Panel2.ResumeLayout(False)
         Me.splitContainerWindows.ResumeLayout(False)
+        Me.menuWindow.ResumeLayout(False)
         CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -4909,5 +4941,8 @@ Partial Class frmMain
     Friend WithEvents ColumnHeader42 As System.Windows.Forms.ColumnHeader
     Friend WithEvents rtb5 As System.Windows.Forms.RichTextBox
     Friend WithEvents butWindowStopFlashing As System.Windows.Forms.RibbonButton
+    Friend WithEvents chkSearchWindows As System.Windows.Forms.CheckBox
+    Friend WithEvents menuWindow As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents ToolStripMenuItem34 As System.Windows.Forms.ToolStripMenuItem
 
 End Class

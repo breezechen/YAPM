@@ -32,6 +32,18 @@ Public Class frmWindowPosition
             .Right = CInt(Val(Me.txtLeft.Text) + Val(Me.txtWidth.Text))
             .Top = CInt(Val(Me.txtTop.Text))
         End With
+        Me.DialogResult = Windows.Forms.DialogResult.OK
         Me.Close()
+    End Sub
+
+    Private Sub frmWindowPosition_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        With frmMain
+            .SetToolTip(Me.txtHeight, "Height of the form.")
+            .SetToolTip(Me.txtLeft, "Left position of the form.")
+            .SetToolTip(Me.txtWidth, "Width of the form.")
+            .SetToolTip(Me.txtTop, "Top position of the form.")
+            .SetToolTip(Me.cmdDefault, "Reset values.")
+            .SetToolTip(Me.cmdOK, "Validate values.")
+        End With
     End Sub
 End Class
