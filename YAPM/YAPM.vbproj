@@ -120,6 +120,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmPreferences.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmWindowPosition.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmWindowPosition.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Graph.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Graph.vb</DependentUpon>
@@ -162,6 +166,7 @@
     <Compile Include="cProcess.vb" />
     <Compile Include="cThread.vb">
     </Compile>
+    <Compile Include="cWindow.vb" />
     <Compile Include="frmAddProcessMonitor.Designer.vb">
       <DependentUpon>frmAddProcessMonitor.vb</DependentUpon>
     </Compile>
@@ -184,6 +189,12 @@
       <DependentUpon>frmPreferences.vb</DependentUpon>
     </Compile>
     <Compile Include="frmPreferences.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWindowPosition.Designer.vb">
+      <DependentUpon>frmWindowPosition.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmWindowPosition.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Graph.vb">

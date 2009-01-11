@@ -14,6 +14,7 @@ Public Class frmMain
     Private _stopOnlineRetrieving As Boolean = False
     Private handlesToRefresh() As Integer
     Private threadsToRefresh() As Integer
+    Private windowsToRefresh() As Integer
     Private isAdmin As Boolean = False
     Private cSelFile As cFile
 
@@ -707,6 +708,7 @@ Public Class frmMain
         SetWindowTheme(Me.lvProcess.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvHandles.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvJobs.Handle, "explorer", Nothing)
+        SetWindowTheme(Me.lvWindows.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvSearchResults.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvThreads.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvServices.Handle, "explorer", Nothing)
@@ -781,7 +783,12 @@ Public Class frmMain
         End Try
 
         Call Me.lvProcess.Focus()
-        System.Windows.Forms.SendKeys.Send("yapm.")
+        'System.Windows.Forms.SendKeys.Send("yapm.")
+        Try
+            Me.lvProcess.Items(Me.lvProcess.Items.Count - 1).Selected = True
+        Catch ex As Exception
+            '
+        End Try
     End Sub
 
     Private Sub txtSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearch.Click
@@ -823,6 +830,8 @@ Public Class frmMain
         Me.panelMain8.Top = 120
         Me.panelMain9.Left = 5
         Me.panelMain9.Top = 120
+        Me.panelMain10.Left = 5
+        Me.panelMain10.Top = 120
 
         Me.panelMenu.Top = 117
         Me.panelMenu.Left = 5
@@ -852,6 +861,10 @@ Public Class frmMain
         ' Threads resizement
         Me.panelMain9.Height = Me.panelMain3.Height
         Me.panelMain9.Width = Me.panelMain3.Width
+
+        ' Windows resizement
+        Me.panelMain10.Height = Me.panelMain3.Height
+        Me.panelMain10.Width = Me.panelMain3.Width
 
         ' Process
         Dim i As Integer = CInt((Me.Height - 250) / 2)
@@ -1897,6 +1910,7 @@ Public Class frmMain
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = False
+                    Me.panelMain10.Visible = False
                 Case "Processes"
                     Me.bProcessHover = True
                     Me.bServiceHover = False
@@ -1914,6 +1928,7 @@ Public Class frmMain
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = False
+                    Me.panelMain10.Visible = False
                 Case "Jobs"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1929,6 +1944,7 @@ Public Class frmMain
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = False
+                    Me.panelMain10.Visible = False
                 Case "Help"
 
                     If Not (bHelpShown) Then
@@ -1956,6 +1972,7 @@ Public Class frmMain
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = False
+                    Me.panelMain10.Visible = False
                 Case "File"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1971,6 +1988,7 @@ Public Class frmMain
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = False
+                    Me.panelMain10.Visible = False
                 Case "Search"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1986,6 +2004,7 @@ Public Class frmMain
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = False
+                    Me.panelMain10.Visible = False
                 Case "Handles"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -2001,6 +2020,7 @@ Public Class frmMain
                     Me.panelMain7.Visible = True
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = False
+                    Me.panelMain10.Visible = False
                 Case "Monitor"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -2016,6 +2036,7 @@ Public Class frmMain
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = True
                     Me.panelMain9.Visible = False
+                    Me.panelMain10.Visible = False
                 Case "Threads"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -2031,6 +2052,23 @@ Public Class frmMain
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = True
+                    Me.panelMain10.Visible = False
+                Case "Windows"
+                    Me.bProcessHover = False
+                    Me.bServiceHover = False
+                    Me.panelMain.Visible = False
+                    Me.panelMain2.Visible = False
+                    Me.panelMain3.Visible = False
+                    Me.panelMain4.Visible = False
+                    Me.panelMain8.BringToFront()
+                    Me.panelMenu.Visible = False
+                    Me.panelMenu2.Visible = False
+                    Me.panelMain5.Visible = False
+                    Me.panelMain6.Visible = False
+                    Me.panelMain7.Visible = False
+                    Me.panelMain8.Visible = False
+                    Me.panelMain9.Visible = False
+                    Me.panelMain10.Visible = True
             End Select
         End If
     End Sub
@@ -2468,17 +2506,6 @@ Public Class frmMain
             'MsgBox(ex.Message)
         End Try
 
-    End Sub
-
-    Private Sub butShowProcHandles_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butShowProcHandles.Click
-        Dim it As ListViewItem
-        Dim x As Integer = 0
-        ReDim handlesToRefresh(Me.lvProcess.SelectedItems.Count - 1)
-        For Each it In Me.lvProcess.SelectedItems
-            handlesToRefresh(x) = CInt(Val(it.SubItems(1).Text))
-            x += 1
-        Next
-        Call showHandles()
     End Sub
 
     Private Sub showHandles()
@@ -3479,24 +3506,6 @@ Public Class frmMain
         Call Me.butProcessThreads_Click(Nothing, Nothing)
     End Sub
 
-    Private Sub butProcessThreads_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessThreads.Click
-        If Me.lvProcess.SelectedItems.Count > 0 Then
-            Dim it As ListViewItem
-
-            Dim x As Integer = 0
-            ReDim threadsToRefresh(Me.lvProcess.SelectedItems.Count - 1)
-
-            For Each it In Me.lvProcess.SelectedItems
-                Dim cp As cProcess = CType(it.Tag, cProcess)
-                threadsToRefresh(x) = cp.GetPid
-                x += 1
-            Next
-
-            Call ShowThreads()
-            Me.Ribbon.ActiveTab = Me.ThreadTab
-            Call Me.Ribbon_MouseMove(Nothing, Nothing)
-        End If
-    End Sub
 
     ' Show threads of selected processes (threadsToRefresh)
     Private Sub ShowThreads()
@@ -3846,5 +3855,378 @@ Public Class frmMain
 
     Private Sub butThreadPnormal_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadPnormal.Click
         Call ToolStripMenuItem29_Click(Nothing, Nothing)
+    End Sub
+
+    ' Show threads of selected processes (threadsToRefresh)
+    Private Sub ShowWindows()
+        Dim t() As cWindow = Nothing
+        Dim tCt As cWindow
+
+        ' Delete existing items
+        'Dim it2 As ListViewItem
+        'For Each it2 In Me.lvWindows.Items
+        '    Dim tt As cWindow = CType(it2.Tag, cWindow)
+        '    tt.Dispose()
+        'Next
+        Me.lvWindows.Items.Clear()
+
+        ' List once
+        cWindow.Enumerate(windowsToRefresh, t)
+
+        If t IsNot Nothing Then
+
+            For Each tCt In t
+                ' Add threads to listview
+                Try
+                    Dim it As New ListViewItem
+                    it.Text = CStr(tCt.Handle)
+                    Dim n1 As New ListViewItem.ListViewSubItem
+                    n1.Text = CStr(tCt.ParentProcessId) & " -- " & tCt.ParentProcessName
+                    it.SubItems.Add(n1)
+                    Dim n2 As New ListViewItem.ListViewSubItem
+                    n2.Text = tCt.Caption
+                    it.SubItems.Add(n2)
+                    Dim n3 As New ListViewItem.ListViewSubItem
+                    n3.Text = CStr(tCt.IsTask)
+                    it.SubItems.Add(n3)
+                    Dim n4 As New ListViewItem.ListViewSubItem
+                    n4.Text = CStr(tCt.Enabled)
+                    it.SubItems.Add(n4)
+                    Dim n5 As New ListViewItem.ListViewSubItem
+                    n5.Text = CStr(tCt.Visible)
+                    it.SubItems.Add(n5)
+
+                    'Dim key As String = CStr(tCt.ParentProcessId) & "|" & CStr(tCt.Handle)
+                    'Me.imgWindows.Images.Add(key, tCt.SmallIcon)
+                    'it.ImageKey = key
+
+                    it.Tag = tCt
+                    it.Group = Me.lvWindows.Groups(0)
+                    Me.lvWindows.Items.Add(it)
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
+            Next
+
+        End If
+
+    End Sub
+
+    Private Sub ShowWindowsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowWindowsToolStripMenuItem.Click
+        Call butProcessWindows_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butWindowRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowRefresh.Click
+        If windowsToRefresh IsNot Nothing Then Call ShowWindows()
+    End Sub
+
+    Private Sub butProcessThreads_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessThreads.Click
+        If Me.lvProcess.SelectedItems.Count > 0 Then
+            Dim it As ListViewItem
+
+            Dim x As Integer = 0
+            ReDim threadsToRefresh(Me.lvProcess.SelectedItems.Count - 1)
+
+            For Each it In Me.lvProcess.SelectedItems
+                Dim cp As cProcess = CType(it.Tag, cProcess)
+                threadsToRefresh(x) = cp.GetPid
+                x += 1
+            Next
+
+            Call ShowThreads()
+            Me.Ribbon.ActiveTab = Me.ThreadTab
+            Call Me.Ribbon_MouseMove(Nothing, Nothing)
+        End If
+    End Sub
+
+    Private Sub butProcessWindows_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessWindows.Click
+        If Me.lvProcess.SelectedItems.Count > 0 Then
+            Dim it As ListViewItem
+
+            Dim x As Integer = 0
+            ReDim windowsToRefresh(Me.lvProcess.SelectedItems.Count - 1)
+
+            For Each it In Me.lvProcess.SelectedItems
+                Dim cp As cProcess = CType(it.Tag, cProcess)
+                windowsToRefresh(x) = cp.GetPid
+                x += 1
+            Next
+
+            Call ShowWindows()
+            Me.Ribbon.ActiveTab = Me.WindowTab
+            Call Me.Ribbon_MouseMove(Nothing, Nothing)
+        End If
+    End Sub
+
+    Private Sub butShowProcHandles_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butShowProcHandles.Click
+        Dim it As ListViewItem
+        Dim x As Integer = 0
+        ReDim handlesToRefresh(Me.lvProcess.SelectedItems.Count - 1)
+        For Each it In Me.lvProcess.SelectedItems
+            handlesToRefresh(x) = CInt(Val(it.SubItems(1).Text))
+            x += 1
+        Next
+        Call showHandles()
+    End Sub
+
+    Private Sub butProcessShow_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessShow.Click
+        'Call butProcessThreads_Click(Nothing, Nothing)
+        'Call butProcessWindows_Click(Nothing, Nothing)
+        'Call butShowProcHandles_Click(Nothing, Nothing)
+        'Me.Ribbon.ActiveTab = Me.ProcessTab
+        'Call Me.Ribbon_MouseMove(Nothing, Nothing)
+    End Sub
+
+    Private Sub butWindowBringToFront_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowBringToFront.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            Call CType(it.Tag, cWindow).BringToFront(True)
+        Next
+    End Sub
+
+    Private Sub butWindowCaption_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowCaption.Click
+        Dim z As String = ""
+
+        If Me.lvWindows.SelectedItems.Count > 0 Then
+            z = CType(Me.lvWindows.SelectedItems.Item(0).Tag, cWindow).Caption
+        End If
+
+        Dim sres As String = InputBox("Set a new caption.", "New caption", z)
+
+        If sres = Nothing Then Exit Sub
+
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            CType(it.Tag, cWindow).Caption = sres
+        Next
+    End Sub
+
+    Private Sub butWindowClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowClose.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            Call CType(it.Tag, cWindow).Close()
+        Next
+    End Sub
+
+    Private Sub butWindowFlash_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowFlash.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            Call CType(it.Tag, cWindow).Flash()
+        Next
+    End Sub
+
+    Private Sub butWindowHide_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowHide.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            Call CType(it.Tag, cWindow).hide()
+        Next
+    End Sub
+
+    Private Sub butWindowMaximize_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowMaximize.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            Call CType(it.Tag, cWindow).Maximize()
+        Next
+    End Sub
+
+    Private Sub butWindowMinimize_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowMinimize.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            Call CType(it.Tag, cWindow).Minimize()
+        Next
+    End Sub
+
+    Private Sub butWindowOpacity_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowOpacity.Click
+        Dim i As Byte
+        Dim z As Integer = 0
+
+        If Me.lvWindows.SelectedItems.Count > 0 Then
+            z = CType(Me.lvWindows.SelectedItems.Item(0).Tag, cWindow).Opacity
+        End If
+
+        Dim sres As String = InputBox("Set a new opacity [0 to 255, 255 = minimum transparency]", "New opacity", CStr(z))
+
+        If sres = Nothing Then Exit Sub
+        i = CByte(Val(sres))
+        If i < 0 Or i > 255 Then Exit Sub
+
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            CType(it.Tag, cWindow).Opacity = i
+        Next
+    End Sub
+
+    Private Sub butWindowSetAsActive_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowSetAsActive.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            Call CType(it.Tag, cWindow).SetAsActiveWindow()
+        Next
+    End Sub
+
+    Private Sub butWindowSetAsForeground_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowSetAsForeground.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            Call CType(it.Tag, cWindow).SetAsForegroundWindow()
+        Next
+    End Sub
+
+    Private Sub butWindowShow_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowShow.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            Call CType(it.Tag, cWindow).Show()
+        Next
+    End Sub
+
+    Private Sub butWindowDoNotBringToFront_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowDoNotBringToFront.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            Call CType(it.Tag, cWindow).BringToFront(False)
+        Next
+    End Sub
+
+    Private Sub butWindowPositionSize_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowPositionSize.Click
+        Dim r As cWindow.RECT
+
+        If Me.lvWindows.SelectedItems.Count > 0 Then
+
+            Dim frm As New frmWindowPosition
+            With frm
+                .SetCurrentPositions(CType(Me.lvWindows.SelectedItems(0).Tag, cWindow).Positions)
+                .ShowDialog()
+                r = .NewRect
+            End With
+
+            Dim it As ListViewItem
+            For Each it In Me.lvWindows.SelectedItems
+                Call CType(it.Tag, cWindow).SetPositions(r)
+            Next
+        End If
+    End Sub
+
+    Private Sub butWindowEnable_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowEnable.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            CType(it.Tag, cWindow).Enabled = True
+        Next
+    End Sub
+
+    Private Sub butWindowDisable_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowDisable.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            CType(it.Tag, cWindow).Enabled = False
+        Next
+    End Sub
+
+    Private Sub lvWindows_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvWindows.ColumnClick
+        ' Get the new sorting column.
+        Dim new_sorting_column As ColumnHeader = _
+            lvWindows.Columns(e.Column)
+
+        ' Figure out the new sorting order.
+        Dim sort_order As System.Windows.Forms.SortOrder
+        If m_SortingColumn Is Nothing Then
+            ' New column. Sort ascending.
+            sort_order = SortOrder.Ascending
+        Else
+            ' See if this is the same column.
+            If new_sorting_column.Equals(m_SortingColumn) Then
+                ' Same column. Switch the sort order.
+                If m_SortingColumn.Text.StartsWith("> ") Then
+                    sort_order = SortOrder.Descending
+                Else
+                    sort_order = SortOrder.Ascending
+                End If
+            Else
+                ' New column. Sort ascending.
+                sort_order = SortOrder.Ascending
+            End If
+
+            ' Remove the old sort indicator.
+            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
+        End If
+
+        ' Display the new sort order.
+        m_SortingColumn = new_sorting_column
+        If sort_order = SortOrder.Ascending Then
+            m_SortingColumn.Text = "> " & m_SortingColumn.Text
+        Else
+            m_SortingColumn.Text = "< " & m_SortingColumn.Text
+        End If
+
+        ' Create a comparer.
+        lvWindows.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
+
+        ' Sort.
+        lvWindows.Sort()
+    End Sub
+
+    Private Sub lvWindows_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvWindows.SelectedIndexChanged
+        ' New window selected
+        If lvWindows.SelectedItems.Count = 1 Then
+            Dim it As ListViewItem = lvWindows.SelectedItems.Item(0)
+
+            If TypeOf it.Tag Is cWindow Then
+
+                Try
+                    Dim cP As cWindow = CType(it.Tag, cWindow)
+
+                    ' Description
+                    Dim s As String = ""
+                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Window properties\b0\par"
+                    s = s & "\tab Window ID :\tab\tab\tab " & CStr(cP.Handle) & "\par"
+                    s = s & "\tab Process owner :\tab\tab\tab " & CStr(cP.ParentProcessId) & " -- " & cP.ParentProcessName & " -- thread : " & CStr(cP.ParentThreadId) & "\par"
+                    s = s & "\tab Caption :\tab\tab\tab " & cP.Caption & "\par"
+                    s = s & "\tab Enabled :\tab\tab\tab " & CStr(cP.Enabled) & "\par"
+                    s = s & "\tab Visible :\tab\tab\tab\tab " & CStr(cP.Visible) & "\par"
+                    s = s & "\tab IsTask :\tab\tab\tab\tab " & CStr(cP.IsTask) & "\par"
+                    s = s & "\tab Opacity :\tab\tab\tab " & CStr(cP.Opacity) & "\par"
+                    s = s & "\tab Height :\tab\tab\tab\tab " & CStr(cP.Height) & "\par"
+                    s = s & "\tab Left :\tab\tab\tab\tab " & CStr(cP.Left) & "\par"
+                    s = s & "\tab Top :\tab\tab\tab\tab " & CStr(cP.Top) & "\par"
+                    s = s & "\tab Width :\tab\tab\tab\tab " & CStr(cP.Width) & "\par"
+
+                    s = s & "}"
+
+                    rtb5.Rtf = s
+
+                Catch ex As Exception
+                    Dim s As String = ""
+                    Dim er As Exception = ex
+
+                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+                    s = s & "\tab Message :\tab " & er.Message & "\par"
+                    s = s & "\tab Source :\tab\tab " & er.Source & "\par"
+                    If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
+                    s = s & "}"
+
+                    rtb5.Rtf = s
+
+                End Try
+
+            Else
+                ' Error
+                'Dim s As String = ""
+                'Dim er As Exception = ex
+
+                's = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                's = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+                's = s & "\tab Message :\tab " & er.Message & "\par"
+                's = s & "\tab Source :\tab\tab " & er.Source & "\par"
+                'If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
+                's = s & "}"
+
+                'rtb5.Rtf = s
+            End If
+
+        End If
+    End Sub
+
+    Private Sub butWindowStopFlashing_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowStopFlashing.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            CType(it.Tag, cWindow).stopflashing()
+        Next
     End Sub
 End Class
