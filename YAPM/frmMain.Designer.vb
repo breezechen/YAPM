@@ -344,6 +344,7 @@ Partial Class frmMain
         Me.ToolStripMenuItem16 = New System.Windows.Forms.ToolStripMenuItem
         Me.panelMain6 = New System.Windows.Forms.Panel
         Me.SplitContainerSearch = New System.Windows.Forms.SplitContainer
+        Me.chkSearchWindows = New System.Windows.Forms.CheckBox
         Me.chkSearchHandles = New System.Windows.Forms.CheckBox
         Me.Label1 = New System.Windows.Forms.Label
         Me.chkSearchModules = New System.Windows.Forms.CheckBox
@@ -381,6 +382,7 @@ Partial Class frmMain
         Me.txtMonitoringLog = New System.Windows.Forms.TextBox
         Me.splitMonitor3 = New System.Windows.Forms.SplitContainer
         Me.splitMonitor4 = New System.Windows.Forms.SplitContainer
+        Me.graphMonitor = New YAPM.Graph
         Me.txtMonitorNumber = New System.Windows.Forms.TextBox
         Me.lblMonitorMaxNumber = New System.Windows.Forms.Label
         Me.chkMonitorRightAuto = New System.Windows.Forms.CheckBox
@@ -424,12 +426,10 @@ Partial Class frmMain
         Me.ColumnHeader40 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader41 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader42 = New System.Windows.Forms.ColumnHeader
-        Me.imgWindows = New System.Windows.Forms.ImageList(Me.components)
-        Me.rtb5 = New System.Windows.Forms.RichTextBox
-        Me.chkSearchWindows = New System.Windows.Forms.CheckBox
         Me.menuWindow = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem34 = New System.Windows.Forms.ToolStripMenuItem
-        Me.graphMonitor = New YAPM.Graph
+        Me.imgWindows = New System.Windows.Forms.ImageList(Me.components)
+        Me.rtb5 = New System.Windows.Forms.RichTextBox
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -474,6 +474,7 @@ Partial Class frmMain
         Me.splitMonitor3.SuspendLayout()
         Me.splitMonitor4.Panel2.SuspendLayout()
         Me.splitMonitor4.SuspendLayout()
+        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.panelMain9.SuspendLayout()
         Me.splitThreads.Panel1.SuspendLayout()
         Me.splitThreads.Panel2.SuspendLayout()
@@ -484,7 +485,6 @@ Partial Class frmMain
         Me.splitContainerWindows.Panel2.SuspendLayout()
         Me.splitContainerWindows.SuspendLayout()
         Me.menuWindow.SuspendLayout()
-        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'imgMain
@@ -3699,6 +3699,18 @@ Partial Class frmMain
         Me.SplitContainerSearch.SplitterDistance = 30
         Me.SplitContainerSearch.TabIndex = 2
         '
+        'chkSearchWindows
+        '
+        Me.chkSearchWindows.AutoSize = True
+        Me.chkSearchWindows.Checked = True
+        Me.chkSearchWindows.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkSearchWindows.Location = New System.Drawing.Point(510, 7)
+        Me.chkSearchWindows.Name = "chkSearchWindows"
+        Me.chkSearchWindows.Size = New System.Drawing.Size(67, 17)
+        Me.chkSearchWindows.TabIndex = 6
+        Me.chkSearchWindows.Text = "windows"
+        Me.chkSearchWindows.UseVisualStyleBackColor = True
+        '
         'chkSearchHandles
         '
         Me.chkSearchHandles.AutoSize = True
@@ -4048,6 +4060,22 @@ Partial Class frmMain
         Me.splitMonitor4.SplitterDistance = 25
         Me.splitMonitor4.TabIndex = 4
         '
+        'graphMonitor
+        '
+        Me.graphMonitor.BackColor = System.Drawing.Color.Black
+        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
+        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
+        Me.graphMonitor.dDate = New Date(CType(0, Long))
+        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphMonitor.EnableGraph = False
+        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
+        Me.graphMonitor.Name = "graphMonitor"
+        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
+        Me.graphMonitor.TabIndex = 3
+        Me.graphMonitor.TabStop = False
+        Me.graphMonitor.ViewMax = 0
+        Me.graphMonitor.ViewMin = 0
+        '
         'txtMonitorNumber
         '
         Me.txtMonitorNumber.Location = New System.Drawing.Point(241, 0)
@@ -4391,6 +4419,18 @@ Partial Class frmMain
         '
         Me.ColumnHeader42.Text = "Visible"
         '
+        'menuWindow
+        '
+        Me.menuWindow.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem34})
+        Me.menuWindow.Name = "menuProc"
+        Me.menuWindow.Size = New System.Drawing.Size(207, 26)
+        '
+        'ToolStripMenuItem34
+        '
+        Me.ToolStripMenuItem34.Name = "ToolStripMenuItem34"
+        Me.ToolStripMenuItem34.Size = New System.Drawing.Size(206, 22)
+        Me.ToolStripMenuItem34.Text = "&Select associated process"
+        '
         'imgWindows
         '
         Me.imgWindows.ImageStream = CType(resources.GetObject("imgWindows.ImageStream"), System.Windows.Forms.ImageListStreamer)
@@ -4410,46 +4450,6 @@ Partial Class frmMain
         Me.rtb5.Size = New System.Drawing.Size(565, 100)
         Me.rtb5.TabIndex = 8
         Me.rtb5.Text = "Click on an item to get additionnal informations"
-        '
-        'chkSearchWindows
-        '
-        Me.chkSearchWindows.AutoSize = True
-        Me.chkSearchWindows.Checked = True
-        Me.chkSearchWindows.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkSearchWindows.Location = New System.Drawing.Point(510, 7)
-        Me.chkSearchWindows.Name = "chkSearchWindows"
-        Me.chkSearchWindows.Size = New System.Drawing.Size(67, 17)
-        Me.chkSearchWindows.TabIndex = 6
-        Me.chkSearchWindows.Text = "windows"
-        Me.chkSearchWindows.UseVisualStyleBackColor = True
-        '
-        'menuWindow
-        '
-        Me.menuWindow.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem34})
-        Me.menuWindow.Name = "menuProc"
-        Me.menuWindow.Size = New System.Drawing.Size(207, 26)
-        '
-        'ToolStripMenuItem34
-        '
-        Me.ToolStripMenuItem34.Name = "ToolStripMenuItem34"
-        Me.ToolStripMenuItem34.Size = New System.Drawing.Size(206, 22)
-        Me.ToolStripMenuItem34.Text = "&Select associated process"
-        '
-        'graphMonitor
-        '
-        Me.graphMonitor.BackColor = System.Drawing.Color.Black
-        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
-        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
-        Me.graphMonitor.dDate = New Date(CType(0, Long))
-        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphMonitor.EnableGraph = False
-        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
-        Me.graphMonitor.Name = "graphMonitor"
-        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
-        Me.graphMonitor.TabIndex = 3
-        Me.graphMonitor.TabStop = False
-        Me.graphMonitor.ViewMax = 0
-        Me.graphMonitor.ViewMin = 0
         '
         'frmMain
         '
@@ -4534,6 +4534,7 @@ Partial Class frmMain
         Me.splitMonitor3.ResumeLayout(False)
         Me.splitMonitor4.Panel2.ResumeLayout(False)
         Me.splitMonitor4.ResumeLayout(False)
+        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.panelMain9.ResumeLayout(False)
         Me.splitThreads.Panel1.ResumeLayout(False)
         Me.splitThreads.Panel2.ResumeLayout(False)
@@ -4544,7 +4545,6 @@ Partial Class frmMain
         Me.splitContainerWindows.Panel2.ResumeLayout(False)
         Me.splitContainerWindows.ResumeLayout(False)
         Me.menuWindow.ResumeLayout(False)
-        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub

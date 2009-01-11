@@ -398,6 +398,7 @@ Public Class cWindow
 
         currWnd = GetWindowAPI(GetDesktopWindow(), GW_CHILD)
         cpt = 0
+        ReDim w(0)
         Do While Not (currWnd = IntPtr.Zero)
 
             ' Get procId from hwnd
@@ -423,6 +424,7 @@ Public Class cWindow
 
         currWnd = GetWindowAPI(GetDesktopWindow(), GW_CHILD)
         cpt = 0
+        ReDim w(0)
         Do While Not (currWnd = IntPtr.Zero)
 
             ' Get procId from hwnd

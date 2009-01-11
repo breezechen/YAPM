@@ -3946,7 +3946,7 @@ Public Class frmMain
                     it.Group = Me.lvWindows.Groups(0)
                     Me.lvWindows.Items.Add(it)
                 Catch ex As Exception
-                    MsgBox(ex.Message)
+                    'MsgBox(ex.Message)
                 End Try
             Next
 
