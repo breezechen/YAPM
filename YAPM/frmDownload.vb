@@ -57,4 +57,5 @@ Public Class frmDownload
         End Try
         Me.Close()
     End Sub
+
 End Class

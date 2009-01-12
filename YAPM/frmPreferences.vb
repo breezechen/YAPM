@@ -154,12 +154,40 @@ Public Class frmPreferences
     End Function
 
     Private Sub cmdDownload_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdDownload.Click
+
+        ' Download webpage and extract URL
+        Dim tofind As String = "<h3 class=" & Chr(34) & "downloadbar" & Chr(34) & ">"
+        Dim source As String = mdlInternet.DownloadPage("https://sourceforge.net/project/platformdownload.php?group_id=244697")
+        If source.Length = 0 Then
+            MsgBox("Failed...", MsgBoxStyle.Critical, "Error")
+            Exit Sub
+        End If
+        Dim x As Integer = InStr(source, tofind, CompareMethod.Binary)
+        Dim x2 As Integer = InStr(x + 10, source, "onclick", CompareMethod.Binary)
+        If x = 0 Or x2 = 0 Then
+            MsgBox("Failed...", MsgBoxStyle.Critical, "Error")
+            Exit Sub
+        End If
+
+        Dim sUrl As String = source.Substring(x + 32, x2 - x - 35)
+        Try
+            If Len(sUrl) = 0 Then
+                MsgBox("Failed...", MsgBoxStyle.Critical, "Error")
+                Exit Sub
+            End If
+        Catch ex As Exception
+            MsgBox("Failed...", MsgBoxStyle.Critical, "Error")
+            Exit Sub
+        End Try
+
+
         frmMain.saveDial.Filter = "Zip file (*.zip)|*.zip"
         frmMain.saveDial.Title = "Save last update package"
         Dim r As DialogResult = frmMain.saveDial.ShowDialog()
         Dim s As String = frmMain.saveDial.FileName
         If r = Windows.Forms.DialogResult.OK Then
-            Dim down As New cDownload("http://downloads.sourceforge.net/yaprocmon/beta1_setup.zip?modtime=1230824188&big_mirror=0&filesize=1108638", frmMain.saveDial.FileName)
+
+            Dim down As New cDownload(sUrl, frmMain.saveDial.FileName)
             Dim frm As New frmDownload
             With frm
                 .DownloadObject = down
