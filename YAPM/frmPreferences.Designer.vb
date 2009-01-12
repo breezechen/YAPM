@@ -199,7 +199,7 @@ Partial Class frmPreferences
         Me.cmdDownload.Name = "cmdDownload"
         Me.cmdDownload.Size = New System.Drawing.Size(136, 25)
         Me.cmdDownload.TabIndex = 2
-        Me.cmdDownload.Text = "Go to download page"
+        Me.cmdDownload.Text = "Download last update"
         Me.cmdDownload.UseVisualStyleBackColor = True
         '
         'cmdCheckUpdate

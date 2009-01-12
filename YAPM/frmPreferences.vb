@@ -17,6 +17,9 @@ Public Class frmPreferences
     '	</config>
     '</yapm>
 
+    Private Declare Function URLDownloadToFile Lib "urlmon" Alias "URLDownloadToFileA" (ByVal pCaller As Integer, ByVal szURL As String, ByVal szFileName As String, ByVal dwReserved As Integer, ByVal lpfnCB As Integer) As Integer
+    Private Declare Function DoFileDownload Lib "shdocvw" (ByVal lpszFile As String) As Integer
+
     Private Sub cmdQuit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdQuit.Click
         frmMain.timerProcess.Interval = frmMain.Pref.procIntervall
         frmMain.timerServices.Interval = frmMain.Pref.serviceIntervall
@@ -61,7 +64,7 @@ Public Class frmPreferences
             .SetToolTip(Me.cmdDefaut, "Set default configuration.")
             .SetToolTip(Me.chkTopMost, "Start YAPM topmost.")
             .SetToolTip(Me.cmdCheckUpdate, "Check if new updates are availables.")
-            .SetToolTip(Me.cmdDownload, "Go to download page of YAPM.")
+            .SetToolTip(Me.cmdDownload, "Download last update of YAPM from sourceforge.net.")
         End With
 
         ' Set control's values
@@ -151,6 +154,19 @@ Public Class frmPreferences
     End Function
 
     Private Sub cmdDownload_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdDownload.Click
-        cFile.ShellOpenFile("https://sourceforge.net/project/showfiles.php?group_id=244697")
+        frmMain.saveDial.Filter = "Zip file (*.zip)|*.zip"
+        frmMain.saveDial.Title = "Save last update package"
+        Dim r As DialogResult = frmMain.saveDial.ShowDialog()
+        Dim s As String = frmMain.saveDial.FileName
+        If r = Windows.Forms.DialogResult.OK Then
+            Dim down As New cDownload("http://downloads.sourceforge.net/yaprocmon/beta1_setup.zip?modtime=1230824188&big_mirror=0&filesize=1108638", frmMain.saveDial.FileName)
+            Dim frm As New frmDownload
+            With frm
+                .DownloadObject = down
+                .StartDownload(frmMain.saveDial.FileName)
+                .TopMost = True
+                .ShowDialog()
+            End With
+        End If
     End Sub
 End Class

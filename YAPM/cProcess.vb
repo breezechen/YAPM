@@ -204,7 +204,7 @@ Public Class cProcess
     Private Declare Function FormatMessage Lib "kernel32" Alias "FormatMessageA" (ByVal dwFlags As Integer, _
     ByVal lpSource As Integer, ByVal dwMessageId As Integer, ByVal dwLanguageId As Integer, _
     ByVal lpBuffer As String, ByVal nSize As Integer, ByVal Arguments As Integer) As Integer
-    Public Function GetError() As String
+    Public Shared Function GetError() As String
         Dim Buffer As String
         Buffer = Space$(1024)
         FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, GetLastError, LANG_NEUTRAL, Buffer, Len(Buffer), 0)
