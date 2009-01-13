@@ -2494,11 +2494,11 @@ Public Class frmMain
             If saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
                 Dim s As String = saveDial.FileName
                 If Len(s) > 0 Then
-                    Dim stream As New System.IO.StreamWriter(s, False)
                     ' Create file report
                     Dim c As String = vbNullString
 
                     If s.Substring(s.Length - 3, 3).ToLower = "txt" Then
+                        Dim stream As New System.IO.StreamWriter(s, False)
                         ' txt
                         Dim it As ListViewItem
                         For Each it In Me.lvSearchResults.Items
@@ -2512,26 +2512,26 @@ Public Class frmMain
                         stream.Close()
                     Else
                         ' HTML
-                        c = "<head><style type=" & Chr(34) & "text/css" & Chr(34) & ">BODY{font-family : Calibri, Times, courrier;}</style></head>"
-                        c &= "<html><table width=100% border=0 cellspacing=1 cellpadding=0 bgcolor=" & Chr(34) & "#C5C5C5" & Chr(34) & ">"
-                        c &= "<tr bgcolor=" & Chr(34) & "#C5C5C5" & Chr(34) & ">"
-                        c &= "<td width=20% align=center><b>Type</b></td>"
-                        c &= "<td width=60% align=center><b>Result</b></td>"
-                        c &= "<td width=20% align=center><b>Field</b></td>"
-                        c &= "</tr>"
-                        stream.Write(c)
+                        Dim col(2) As cHTML.HtmlColumnStructure
+                        col(0).sizePercent = 22
+                        col(0).title = "Type"
+                        col(1).sizePercent = 50
+                        col(1).title = "Result"
+                        col(2).sizePercent = 28
+                        col(2).title = "Field"
+                        Dim title As String = "Search result for '" & Me.txtSearchString.Text & "' -- " & CStr(Me.lvSearchResults.Items.Count) & " result(s)"
+                        Dim _html As New cHTML(col, s, title)
 
                         Dim it As ListViewItem
                         For Each it In Me.lvSearchResults.Items
-                            c = "<tr bgcolor=" & Chr(34) & "white" & Chr(34) & ">"
-                            c &= "<td>" & it.Text & "</td>"
-                            c &= "<td>" & it.SubItems(1).Text & "</td>"
-                            c &= "<td>" & it.SubItems(2).Text & "</td>"
-                            c &= "</tr>"
-                            stream.Write(c)
+                            Dim _lin(2) As String
+                            _lin(0) = it.Text
+                            _lin(1) = it.SubItems(1).Text
+                            _lin(2) = it.SubItems(2).Text
+                            _html.AppendLine(_lin)
                         Next
-                        stream.Write("</table></html>")
-                        stream.Close()
+
+                        _html.ExportHTML()
                     End If
 
                     MsgBox("Save is ok !", MsgBoxStyle.Information, "Save report")

@@ -165,6 +165,7 @@
   <ItemGroup>
     <Compile Include="cDownload.vb" />
     <Compile Include="cFile.vb" />
+    <Compile Include="cHTML.vb" />
     <Compile Include="clsDriverCtrl.vb" />
     <Compile Include="clsOpenedHandles.vb" />
     <Compile Include="cMonitor.vb" />
