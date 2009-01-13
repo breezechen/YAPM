@@ -2541,7 +2541,7 @@ Public Class frmMain
                         col(1).title = "Result"
                         col(2).sizePercent = 28
                         col(2).title = "Field"
-                        Dim title As String = "Search result for '" & Me.txtSearchString.Text & "' -- " & CStr(Me.lvSearchResults.Items.Count) & " result(s)"
+                        Dim title As String = "Search result for '" & Me.txtSearchString.TextBoxText & "' -- " & CStr(Me.lvSearchResults.Items.Count) & " result(s)"
                         Dim _html As New cHTML(col, s, title)
 
                         Dim it As ListViewItem
