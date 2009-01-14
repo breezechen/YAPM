@@ -36,6 +36,7 @@ Public Class frmMain
     Private _stopOnlineRetrieving As Boolean = False
     Private handlesToRefresh() As Integer
     Private threadsToRefresh() As Integer
+    Private modulesToRefresh() As Integer
     Private windowsToRefresh() As Integer
     Private isAdmin As Boolean = False
     Private cSelFile As cFile
@@ -553,8 +554,37 @@ Public Class frmMain
         lvProcess.Sort()
     End Sub
 
+    Private Sub lvProcess_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseDown
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Dim p As Integer = -1
+            If Me.lvProcess.SelectedItems Is Nothing Then
+                Me.IdleToolStripMenuItem.Checked = False
+                Me.NormalToolStripMenuItem.Checked = False
+                Me.AboveNormalToolStripMenuItem.Checked = False
+                Me.BelowNormalToolStripMenuItem.Checked = False
+                Me.HighToolStripMenuItem.Checked = False
+                Me.RealTimeToolStripMenuItem.Checked = False
+                Exit Sub
+            End If
+            If Me.lvProcess.SelectedItems.Count = 1 Then
+                p = CType(Me.lvProcess.SelectedItems(0).Tag, cProcess).GetPriorityClassConstant
+            End If
+            Me.IdleToolStripMenuItem.Checked = (p = ProcessPriorityClass.Idle)
+            Me.NormalToolStripMenuItem.Checked = (p = ProcessPriorityClass.Normal)
+            Me.AboveNormalToolStripMenuItem.Checked = (p = ProcessPriorityClass.AboveNormal)
+            Me.BelowNormalToolStripMenuItem.Checked = (p = ProcessPriorityClass.BelowNormal)
+            Me.HighToolStripMenuItem.Checked = (p = ProcessPriorityClass.High)
+            Me.RealTimeToolStripMenuItem.Checked = (p = ProcessPriorityClass.RealTime)
+        End If
+    End Sub
+
+    Private Sub lvProcess_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseUp
+        Call lvProcess_MouseDown(Nothing, e)
+    End Sub
+
     Private Sub lvProcess_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvProcess.SelectedIndexChanged
         ' New process selected
+
         If lvProcess.SelectedItems.Count = 1 Then
             Dim it As ListViewItem = lvProcess.SelectedItems.Item(0)
 
@@ -733,6 +763,7 @@ Public Class frmMain
         SetWindowTheme(Me.lvJobs.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvWindows.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvSearchResults.Handle, "explorer", Nothing)
+        SetWindowTheme(Me.lvModules.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvThreads.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvServices.Handle, "explorer", Nothing)
         SetWindowTheme(Me.tv.Handle, "explorer", Nothing)
@@ -856,6 +887,8 @@ Public Class frmMain
         Me.panelMain9.Top = 120
         Me.panelMain10.Left = 5
         Me.panelMain10.Top = 120
+        Me.panelMain11.Left = 5
+        Me.panelMain11.Top = 120
 
         Me.panelMenu.Top = 117
         Me.panelMenu.Left = 5
@@ -889,6 +922,10 @@ Public Class frmMain
         ' Windows resizement
         Me.panelMain10.Height = Me.panelMain3.Height
         Me.panelMain10.Width = Me.panelMain3.Width
+
+        ' Modules resizement
+        Me.panelMain11.Height = Me.panelMain3.Height
+        Me.panelMain11.Width = Me.panelMain3.Width
 
         ' Process
         Dim i As Integer = CInt((Me.Height - 250) / 2)
@@ -1935,6 +1972,7 @@ Public Class frmMain
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
+                    Me.panelMain11.Visible = False
                 Case "Processes"
                     Me.bProcessHover = True
                     Me.bServiceHover = False
@@ -1953,6 +1991,7 @@ Public Class frmMain
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
+                    Me.panelMain11.Visible = False
                 Case "Jobs"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -1960,7 +1999,6 @@ Public Class frmMain
                     Me.panelMain2.Visible = False
                     Me.panelMain3.Visible = True
                     Me.panelMain4.Visible = False
-                    Me.panelMain3.BringToFront()
                     Me.panelMenu.Visible = False
                     Me.panelMenu2.Visible = False
                     Me.panelMain5.Visible = False
@@ -1969,6 +2007,7 @@ Public Class frmMain
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
+                    Me.panelMain11.Visible = False
                 Case "Help"
 
                     If Not (bHelpShown) Then
@@ -1988,7 +2027,6 @@ Public Class frmMain
                     Me.panelMain2.Visible = False
                     Me.panelMain3.Visible = False
                     Me.panelMain4.Visible = True
-                    Me.panelMain4.BringToFront()
                     Me.panelMenu.Visible = False
                     Me.panelMenu2.Visible = False
                     Me.panelMain5.Visible = False
@@ -1997,6 +2035,7 @@ Public Class frmMain
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
+                    Me.panelMain11.Visible = False
                 Case "File"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -2004,7 +2043,6 @@ Public Class frmMain
                     Me.panelMain2.Visible = False
                     Me.panelMain3.Visible = False
                     Me.panelMain4.Visible = False
-                    Me.panelMain5.BringToFront()
                     Me.panelMenu.Visible = False
                     Me.panelMenu2.Visible = False
                     Me.panelMain5.Visible = True
@@ -2012,6 +2050,7 @@ Public Class frmMain
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = False
+                    Me.panelMain11.Visible = False
                     Me.panelMain10.Visible = False
                 Case "Search"
                     Me.bProcessHover = False
@@ -2020,7 +2059,6 @@ Public Class frmMain
                     Me.panelMain2.Visible = False
                     Me.panelMain3.Visible = False
                     Me.panelMain4.Visible = False
-                    Me.panelMain6.BringToFront()
                     Me.panelMenu.Visible = False
                     Me.panelMenu2.Visible = False
                     Me.panelMain5.Visible = False
@@ -2029,6 +2067,7 @@ Public Class frmMain
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
+                    Me.panelMain11.Visible = False
                 Case "Handles"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -2036,7 +2075,6 @@ Public Class frmMain
                     Me.panelMain2.Visible = False
                     Me.panelMain3.Visible = False
                     Me.panelMain4.Visible = False
-                    Me.panelMain7.BringToFront()
                     Me.panelMenu.Visible = False
                     Me.panelMenu2.Visible = False
                     Me.panelMain5.Visible = False
@@ -2045,6 +2083,7 @@ Public Class frmMain
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
+                    Me.panelMain11.Visible = False
                 Case "Monitor"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -2052,7 +2091,6 @@ Public Class frmMain
                     Me.panelMain2.Visible = False
                     Me.panelMain3.Visible = False
                     Me.panelMain4.Visible = False
-                    Me.panelMain8.BringToFront()
                     Me.panelMenu.Visible = False
                     Me.panelMenu2.Visible = False
                     Me.panelMain5.Visible = False
@@ -2061,6 +2099,7 @@ Public Class frmMain
                     Me.panelMain8.Visible = True
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
+                    Me.panelMain11.Visible = False
                 Case "Threads"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -2068,7 +2107,6 @@ Public Class frmMain
                     Me.panelMain2.Visible = False
                     Me.panelMain3.Visible = False
                     Me.panelMain4.Visible = False
-                    Me.panelMain8.BringToFront()
                     Me.panelMenu.Visible = False
                     Me.panelMenu2.Visible = False
                     Me.panelMain5.Visible = False
@@ -2077,7 +2115,24 @@ Public Class frmMain
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = True
                     Me.panelMain10.Visible = False
+                    Me.panelMain11.Visible = False
                 Case "Windows"
+                    Me.bProcessHover = False
+                    Me.bServiceHover = False
+                    Me.panelMain.Visible = False
+                    Me.panelMain2.Visible = False
+                    Me.panelMain3.Visible = False
+                    Me.panelMain4.Visible = False
+                    Me.panelMenu.Visible = False
+                    Me.panelMenu2.Visible = False
+                    Me.panelMain5.Visible = False
+                    Me.panelMain6.Visible = False
+                    Me.panelMain7.Visible = False
+                    Me.panelMain8.Visible = False
+                    Me.panelMain9.Visible = False
+                    Me.panelMain10.Visible = True
+                    Me.panelMain11.Visible = False
+                Case "Modules"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
                     Me.panelMain.Visible = False
@@ -2092,7 +2147,8 @@ Public Class frmMain
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = False
-                    Me.panelMain10.Visible = True
+                    Me.panelMain10.Visible = False
+                    Me.panelMain11.Visible = True
             End Select
         End If
     End Sub
@@ -3927,7 +3983,7 @@ Public Class frmMain
         Call ToolStripMenuItem29_Click(Nothing, Nothing)
     End Sub
 
-    ' Show threads of selected processes (threadsToRefresh)
+    ' Show windows of selected processes (windowsToRefresh)
     Private Sub ShowWindows()
         Dim t() As cWindow = Nothing
         Dim tCt As cWindow
@@ -4432,5 +4488,242 @@ Public Class frmMain
         If s = Nothing Then Exit Sub
         Me.txtFile.Text = cSelFile.WindowsRename(s)
         Call Me.refreshFileInfos(cSelFile.GetPath)
+    End Sub
+
+    Private Sub ShowModulesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowModulesToolStripMenuItem.Click
+        Call butProcessShowModules_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butProcessShowModules_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessShowModules.Click
+        If Me.lvProcess.SelectedItems.Count > 0 Then
+            Dim it As ListViewItem
+
+            Dim x As Integer = 0
+            ReDim modulesToRefresh(Me.lvProcess.SelectedItems.Count - 1)
+
+            For Each it In Me.lvProcess.SelectedItems
+                Dim cp As cProcess = CType(it.Tag, cProcess)
+                modulesToRefresh(x) = cp.GetPid
+                x += 1
+            Next
+
+            Call ShowModules()
+            Me.Ribbon.ActiveTab = Me.ModulesTab
+            Call Me.Ribbon_MouseMove(Nothing, Nothing)
+        End If
+    End Sub
+
+    ' Show modules of selected processes (modulesToRefresh)
+    Private Sub ShowModules()
+        Dim t() As cModule = Nothing
+        Dim tCt As cModule
+
+        ' Delete existing items
+        'Dim it2 As ListViewItem
+        'For Each it2 In Me.lvModules.Items
+        '    Dim tt As cModule = CType(it2.Tag, cModule)
+        '    tt.Dispose()
+        'Next
+        Me.lvModules.Items.Clear()
+
+        For x As Integer = 0 To UBound(modulesToRefresh)
+            cModule.Enumerate(modulesToRefresh(x), t)
+
+            If t IsNot Nothing Then
+
+                For Each tCt In t
+                    ' Add modules to listview
+                    Try
+                        Dim it As New ListViewItem
+                        it.Text = cFile.GetFileName(tCt.FileName)
+                        Dim n2 As New ListViewItem.ListViewSubItem
+                        n2.Text = tCt.FileVersion
+                        it.SubItems.Add(n2)
+                        Dim n3 As New ListViewItem.ListViewSubItem
+                        n3.Text = tCt.FileDescription
+                        it.SubItems.Add(n3)
+                        Dim n6 As New ListViewItem.ListViewSubItem
+                        n6.Text = tCt.CompanyName
+                        it.SubItems.Add(n6)
+                        Dim n5 As New ListViewItem.ListViewSubItem
+                        n5.Text = tCt.FileName
+                        it.SubItems.Add(n5)
+                        Dim n7 As New ListViewItem.ListViewSubItem
+                        n7.Text = tCt.ProcessId & " -- " & cFile.GetFileName(cProcess.GetPath(tCt.ProcessId))
+                        it.SubItems.Add(n7)
+
+                        it.Tag = tCt
+                        it.Group = Me.lvModules.Groups(0)
+                        If tCt.FileName IsNot Nothing AndAlso tCt.FileName.Length > 3 Then
+                            If tCt.FileName.Substring(tCt.FileName.Length - 3, 3).ToLower = "exe" Then
+
+                                ' Add icon
+                                Try
+
+                                    Dim fName As String = tCt.FileName
+
+                                    If IO.File.Exists(fName) Then
+                                        Dim img As System.Drawing.Icon = GetIcon(fName, True)
+                                        imgSearch.Images.Add(fName, img)
+                                        it.ImageKey = fName
+                                    Else
+                                        it.ImageKey = "noicon"
+                                    End If
+
+                                Catch ex As Exception
+                                    it.ImageKey = "noicon"
+                                End Try
+
+                            Else
+                                it.ImageKey = "dll"
+                            End If
+                            Me.lvModules.Items.Add(it)
+                        End If
+                    Catch ex As Exception
+                        '
+                    End Try
+                Next
+            End If
+        Next
+
+    End Sub
+
+    Private Sub butModuleRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butModuleRefresh.Click
+        If modulesToRefresh IsNot Nothing Then Call ShowModules()
+    End Sub
+
+    Private Sub butModulesSaveReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butModulesSaveReport.Click
+        '
+    End Sub
+
+    Private Sub butModuleUnload_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butModuleUnload.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvModules.SelectedItems
+            Call CType(it.Tag, cModule).UnloadModule()
+        Next
+    End Sub
+
+    Private Sub lvModules_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvModules.ColumnClick
+        ' Get the new sorting column.
+        Dim new_sorting_column As ColumnHeader = _
+            lvModules.Columns(e.Column)
+
+        ' Figure out the new sorting order.
+        Dim sort_order As System.Windows.Forms.SortOrder
+        If m_SortingColumn Is Nothing Then
+            ' New column. Sort ascending.
+            sort_order = SortOrder.Ascending
+        Else
+            ' See if this is the same column.
+            If new_sorting_column.Equals(m_SortingColumn) Then
+                ' Same column. Switch the sort order.
+                If m_SortingColumn.Text.StartsWith("> ") Then
+                    sort_order = SortOrder.Descending
+                Else
+                    sort_order = SortOrder.Ascending
+                End If
+            Else
+                ' New column. Sort ascending.
+                sort_order = SortOrder.Ascending
+            End If
+
+            ' Remove the old sort indicator.
+            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
+        End If
+
+        ' Display the new sort order.
+        m_SortingColumn = new_sorting_column
+        If sort_order = SortOrder.Ascending Then
+            m_SortingColumn.Text = "> " & m_SortingColumn.Text
+        Else
+            m_SortingColumn.Text = "< " & m_SortingColumn.Text
+        End If
+
+        ' Create a comparer.
+        lvModules.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
+
+        ' Sort.
+        lvModules.Sort()
+    End Sub
+
+    Private Sub lvModules_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvModules.SelectedIndexChanged
+        ' New module selected
+        If lvModules.SelectedItems.Count = 1 Then
+            Dim it As ListViewItem = lvModules.SelectedItems.Item(0)
+
+            If TypeOf it.Tag Is cModule Then
+
+                Try
+                    Dim cP As cModule = CType(it.Tag, cModule)
+
+                    ' Description
+                    Dim s As String = ""
+                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Module properties\b0\par"
+                    s = s & "\tab Module name :\tab\tab\tab " & cFile.GetFileName(cP.FileName) & "\par"
+                    s = s & "\tab Process owner :\tab\tab\tab " & CStr(cP.ProcessId) & " -- " & cFile.GetFileName(cProcess.GetPath(cP.ProcessId)) & "\par"
+                    s = s & "\tab Path :\tab\tab\tab\tab " & Replace(cP.FileName, "\", "\\") & "\par"
+                    s = s & "\tab Version :\tab\tab\tab " & cP.FileVersion & "\par"
+                    s = s & "\tab Comments :\tab\tab\tab " & cP.Comments & "\par"
+                    s = s & "\tab CompanyName :\tab\tab\tab " & cP.CompanyName & "\par"
+                    s = s & "\tab LegalCopyright :\tab\tab\tab " & cP.LegalCopyright & "\par"
+                    s = s & "\tab ProductName :\tab\tab\tab " & cP.ProductName & "\par"
+                    s = s & "\tab Language :\tab\tab\tab " & cP.Language & "\par"
+                    s = s & "\tab InternalName :\tab\tab\tab " & cP.InternalName & "\par"
+                    s = s & "\tab LegalTrademarks :\tab\tab " & cP.LegalTrademarks & "\par"
+                    s = s & "\tab OriginalFilename :\tab\tab\tab " & cP.OriginalFilename & "\par"
+                    s = s & "\tab FileBuildPart :\tab\tab\tab " & CStr(cP.FileBuildPart) & "\par"
+                    s = s & "\tab FileDescription :\tab\tab\tab " & CStr(cP.FileDescription) & "\par"
+                    s = s & "\tab FileMajorPart :\tab\tab\tab " & CStr(cP.FileMajorPart) & "\par"
+                    s = s & "\tab FileMinorPart :\tab\tab\tab " & CStr(cP.FileMinorPart) & "\par"
+                    s = s & "\tab FilePrivatePart :\tab\tab\tab " & CStr(cP.FilePrivatePart) & "\par"
+                    s = s & "\tab IsDebug :\tab\tab\tab " & CStr(cP.IsDebug) & "\par"
+                    s = s & "\tab IsPatched :\tab\tab\tab " & CStr(cP.IsPatched) & "\par"
+                    s = s & "\tab IsPreRelease :\tab\tab\tab " & CStr(cP.IsPreRelease) & "\par"
+                    s = s & "\tab IsPrivateBuild :\tab\tab\tab " & CStr(cP.IsPrivateBuild) & "\par"
+                    s = s & "\tab IsSpecialBuild :\tab\tab\tab " & CStr(cP.IsSpecialBuild) & "\par"
+                    s = s & "\tab PrivateBuild :\tab\tab\tab " & CStr(cP.PrivateBuild) & "\par"
+                    s = s & "\tab ProductBuildPart :\tab\tab " & CStr(cP.ProductBuildPart) & "\par"
+                    s = s & "\tab ProductMajorPart :\tab\tab " & CStr(cP.ProductMajorPart) & "\par"
+                    s = s & "\tab ProductMinorPart :\tab\tab " & CStr(cP.ProductMinorPart) & "\par"
+                    s = s & "\tab ProductPrivatePart :\tab\tab " & CStr(cP.ProductPrivatePart) & "\par"
+                    s = s & "\tab ProductVersion :\tab\tab\tab " & CStr(cP.ProductVersion) & "\par"
+                    s = s & "\tab SpecialBuild :\tab\tab\tab " & CStr(cP.SpecialBuild) & "\par"
+
+                    s = s & "}"
+
+                    rtb6.Rtf = s
+
+                Catch ex As Exception
+                    Dim s As String = ""
+                    Dim er As Exception = ex
+
+                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+                    s = s & "\tab Message :\tab " & er.Message & "\par"
+                    s = s & "\tab Source :\tab\tab " & er.Source & "\par"
+                    If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
+                    s = s & "}"
+
+                    rtb6.Rtf = s
+
+                End Try
+
+            Else
+                ' Error
+                'Dim s As String = ""
+                'Dim er As Exception = ex
+
+                's = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                's = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+                's = s & "\tab Message :\tab " & er.Message & "\par"
+                's = s & "\tab Source :\tab\tab " & er.Source & "\par"
+                'If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
+                's = s & "}"
+
+                'rtb6.Rtf = s
+            End If
+
+        End If
     End Sub
 End Class

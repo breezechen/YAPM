@@ -508,6 +508,26 @@ Public Class cProcess
         End Select
     End Function
 
+    ' Get priority as a constant
+    Public Function GetPriorityClassConstant() As ProcessPriorityClass
+        'Select Case GetPriorityClassInt()
+        '    Case 64
+        '        Return ProcessPriorityClass.Idle
+        '    Case 16384
+        '        Return ProcessPriorityClass.BelowNormal
+        '    Case 32
+        '        Return ProcessPriorityClass.Normal
+        '    Case 32768
+        '        Return ProcessPriorityClass.AboveNormal
+        '    Case 128
+        '        Return ProcessPriorityClass.High
+        '    Case 256
+        '        Return ProcessPriorityClass.RealTime
+        '    Case Else
+        Return CType(GetPriorityClassInt(), ProcessPriorityClass)
+        'End Select
+
+    End Function
     ' Get the start time
     Public Function GetStartTime() As TimeSpan
         ' TOCHANGE

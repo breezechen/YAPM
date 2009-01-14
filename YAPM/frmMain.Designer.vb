@@ -35,6 +35,7 @@ Partial Class frmMain
         Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Processes", 1, 1)
         Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Threads", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Windows", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain = New System.Windows.Forms.Panel
         Me.lvProcess = New System.Windows.Forms.ListView
@@ -59,8 +60,9 @@ Partial Class frmMain
         Me.HighToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RealTimeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SetAffinityToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ShowHandlesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ShowModulesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowThreadsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ShowHandlesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowWindowsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MonitorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem8 = New System.Windows.Forms.ToolStripSeparator
@@ -154,6 +156,7 @@ Partial Class frmMain
         Me.butProcessAffinity = New System.Windows.Forms.RibbonButton
         Me.butProcessLimitCPU = New System.Windows.Forms.RibbonButton
         Me.butProcessShow = New System.Windows.Forms.RibbonButton
+        Me.butProcessShowModules = New System.Windows.Forms.RibbonButton
         Me.butProcessThreads = New System.Windows.Forms.RibbonButton
         Me.butShowProcHandles = New System.Windows.Forms.RibbonButton
         Me.butProcessWindows = New System.Windows.Forms.RibbonButton
@@ -173,6 +176,12 @@ Partial Class frmMain
         Me.RBProcessOnline = New System.Windows.Forms.RibbonPanel
         Me.butProcessOnlineDesc = New System.Windows.Forms.RibbonButton
         Me.butProcessGoogle = New System.Windows.Forms.RibbonButton
+        Me.ModulesTab = New System.Windows.Forms.RibbonTab
+        Me.RBModuleActions = New System.Windows.Forms.RibbonPanel
+        Me.butModuleRefresh = New System.Windows.Forms.RibbonButton
+        Me.butModuleUnload = New System.Windows.Forms.RibbonButton
+        Me.RBModuleReport = New System.Windows.Forms.RibbonPanel
+        Me.butModulesSaveReport = New System.Windows.Forms.RibbonButton
         Me.ThreadTab = New System.Windows.Forms.RibbonTab
         Me.RBThreadsRefresh = New System.Windows.Forms.RibbonPanel
         Me.butThreadRefresh = New System.Windows.Forms.RibbonButton
@@ -382,7 +391,6 @@ Partial Class frmMain
         Me.txtMonitoringLog = New System.Windows.Forms.TextBox
         Me.splitMonitor3 = New System.Windows.Forms.SplitContainer
         Me.splitMonitor4 = New System.Windows.Forms.SplitContainer
-        Me.graphMonitor = New YAPM.Graph
         Me.txtMonitorNumber = New System.Windows.Forms.TextBox
         Me.lblMonitorMaxNumber = New System.Windows.Forms.Label
         Me.chkMonitorRightAuto = New System.Windows.Forms.CheckBox
@@ -431,6 +439,17 @@ Partial Class frmMain
         Me.imgWindows = New System.Windows.Forms.ImageList(Me.components)
         Me.rtb5 = New System.Windows.Forms.RichTextBox
         Me.FolderChooser = New System.Windows.Forms.FolderBrowserDialog
+        Me.panelMain11 = New System.Windows.Forms.Panel
+        Me.splitModule = New System.Windows.Forms.SplitContainer
+        Me.lvModules = New System.Windows.Forms.ListView
+        Me.ColumnHeader29 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader43 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader44 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader45 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader46 = New System.Windows.Forms.ColumnHeader
+        Me.rtb6 = New System.Windows.Forms.RichTextBox
+        Me.ColumnHeader18 = New System.Windows.Forms.ColumnHeader
+        Me.graphMonitor = New YAPM.Graph
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -475,7 +494,6 @@ Partial Class frmMain
         Me.splitMonitor3.SuspendLayout()
         Me.splitMonitor4.Panel2.SuspendLayout()
         Me.splitMonitor4.SuspendLayout()
-        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.panelMain9.SuspendLayout()
         Me.splitThreads.Panel1.SuspendLayout()
         Me.splitThreads.Panel2.SuspendLayout()
@@ -486,6 +504,11 @@ Partial Class frmMain
         Me.splitContainerWindows.Panel2.SuspendLayout()
         Me.splitContainerWindows.SuspendLayout()
         Me.menuWindow.SuspendLayout()
+        Me.panelMain11.SuspendLayout()
+        Me.splitModule.Panel1.SuspendLayout()
+        Me.splitModule.Panel2.SuspendLayout()
+        Me.splitModule.SuspendLayout()
+        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'imgMain
@@ -570,9 +593,9 @@ Partial Class frmMain
         '
         'menuProc
         '
-        Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.ShowThreadsToolStripMenuItem, Me.ShowWindowsToolStripMenuItem, Me.MonitorToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.ToolStripMenuItem1, Me.GetSecurityRiskOnlineToolStripMenuItem, Me.GoogleSearchToolStripMenuItem})
+        Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ShowModulesToolStripMenuItem, Me.ShowThreadsToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.ShowWindowsToolStripMenuItem, Me.MonitorToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.ToolStripMenuItem1, Me.GetSecurityRiskOnlineToolStripMenuItem, Me.GoogleSearchToolStripMenuItem})
         Me.menuProc.Name = "menuProc"
-        Me.menuProc.Size = New System.Drawing.Size(194, 324)
+        Me.menuProc.Size = New System.Drawing.Size(194, 346)
         '
         'KillToolStripMenuItem
         '
@@ -642,17 +665,23 @@ Partial Class frmMain
         Me.SetAffinityToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.SetAffinityToolStripMenuItem.Text = "Set affinity..."
         '
-        'ShowHandlesToolStripMenuItem
+        'ShowModulesToolStripMenuItem
         '
-        Me.ShowHandlesToolStripMenuItem.Name = "ShowHandlesToolStripMenuItem"
-        Me.ShowHandlesToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
-        Me.ShowHandlesToolStripMenuItem.Text = "Show handles"
+        Me.ShowModulesToolStripMenuItem.Name = "ShowModulesToolStripMenuItem"
+        Me.ShowModulesToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
+        Me.ShowModulesToolStripMenuItem.Text = "Show modules"
         '
         'ShowThreadsToolStripMenuItem
         '
         Me.ShowThreadsToolStripMenuItem.Name = "ShowThreadsToolStripMenuItem"
         Me.ShowThreadsToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.ShowThreadsToolStripMenuItem.Text = "Show threads"
+        '
+        'ShowHandlesToolStripMenuItem
+        '
+        Me.ShowHandlesToolStripMenuItem.Name = "ShowHandlesToolStripMenuItem"
+        Me.ShowHandlesToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
+        Me.ShowHandlesToolStripMenuItem.Text = "Show handles"
         '
         'ShowWindowsToolStripMenuItem
         '
@@ -751,7 +780,7 @@ Partial Class frmMain
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(448, 9)
+        Me.Label3.Location = New System.Drawing.Point(448, 7)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(80, 13)
         Me.Label3.TabIndex = 4
@@ -786,7 +815,7 @@ Partial Class frmMain
         'chkModules
         '
         Me.chkModules.AutoSize = True
-        Me.chkModules.Location = New System.Drawing.Point(3, 8)
+        Me.chkModules.Location = New System.Drawing.Point(3, 6)
         Me.chkModules.Name = "chkModules"
         Me.chkModules.Size = New System.Drawing.Size(148, 17)
         Me.chkModules.TabIndex = 0
@@ -1276,6 +1305,7 @@ Partial Class frmMain
         Me.Ribbon.Size = New System.Drawing.Size(805, 115)
         Me.Ribbon.TabIndex = 44
         Me.Ribbon.Tabs.Add(Me.ProcessTab)
+        Me.Ribbon.Tabs.Add(Me.ModulesTab)
         Me.Ribbon.Tabs.Add(Me.ThreadTab)
         Me.Ribbon.Tabs.Add(Me.HandlesTab)
         Me.Ribbon.Tabs.Add(Me.WindowTab)
@@ -1431,6 +1461,7 @@ Partial Class frmMain
         '
         Me.butProcessShow.AltKey = Nothing
         Me.butProcessShow.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessShow.DropDownItems.Add(Me.butProcessShowModules)
         Me.butProcessShow.DropDownItems.Add(Me.butProcessThreads)
         Me.butProcessShow.DropDownItems.Add(Me.butShowProcHandles)
         Me.butProcessShow.DropDownItems.Add(Me.butProcessWindows)
@@ -1442,6 +1473,19 @@ Partial Class frmMain
         Me.butProcessShow.ToolTip = Nothing
         Me.butProcessShow.ToolTipImage = Nothing
         Me.butProcessShow.ToolTipTitle = Nothing
+        '
+        'butProcessShowModules
+        '
+        Me.butProcessShowModules.AltKey = Nothing
+        Me.butProcessShowModules.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessShowModules.Image = Nothing
+        Me.butProcessShowModules.SmallImage = CType(resources.GetObject("butProcessShowModules.SmallImage"), System.Drawing.Image)
+        Me.butProcessShowModules.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessShowModules.Tag = Nothing
+        Me.butProcessShowModules.Text = "Modules"
+        Me.butProcessShowModules.ToolTip = Nothing
+        Me.butProcessShowModules.ToolTipImage = Nothing
+        Me.butProcessShowModules.ToolTipTitle = Nothing
         '
         'butProcessThreads
         '
@@ -1684,6 +1728,69 @@ Partial Class frmMain
         Me.butProcessGoogle.ToolTip = Nothing
         Me.butProcessGoogle.ToolTipImage = Nothing
         Me.butProcessGoogle.ToolTipTitle = Nothing
+        '
+        'ModulesTab
+        '
+        Me.ModulesTab.Panels.Add(Me.RBModuleActions)
+        Me.ModulesTab.Panels.Add(Me.RBModuleReport)
+        Me.ModulesTab.Tag = Nothing
+        Me.ModulesTab.Text = "Modules"
+        '
+        'RBModuleActions
+        '
+        Me.RBModuleActions.ButtonMoreEnabled = False
+        Me.RBModuleActions.ButtonMoreVisible = False
+        Me.RBModuleActions.Items.Add(Me.butModuleRefresh)
+        Me.RBModuleActions.Items.Add(Me.butModuleUnload)
+        Me.RBModuleActions.Tag = Nothing
+        Me.RBModuleActions.Text = "Actions"
+        '
+        'butModuleRefresh
+        '
+        Me.butModuleRefresh.AltKey = Nothing
+        Me.butModuleRefresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butModuleRefresh.Image = CType(resources.GetObject("butModuleRefresh.Image"), System.Drawing.Image)
+        Me.butModuleRefresh.SmallImage = CType(resources.GetObject("butModuleRefresh.SmallImage"), System.Drawing.Image)
+        Me.butModuleRefresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butModuleRefresh.Tag = Nothing
+        Me.butModuleRefresh.Text = "Refresh"
+        Me.butModuleRefresh.ToolTip = Nothing
+        Me.butModuleRefresh.ToolTipImage = Nothing
+        Me.butModuleRefresh.ToolTipTitle = Nothing
+        '
+        'butModuleUnload
+        '
+        Me.butModuleUnload.AltKey = Nothing
+        Me.butModuleUnload.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butModuleUnload.Image = CType(resources.GetObject("butModuleUnload.Image"), System.Drawing.Image)
+        Me.butModuleUnload.SmallImage = CType(resources.GetObject("butModuleUnload.SmallImage"), System.Drawing.Image)
+        Me.butModuleUnload.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butModuleUnload.Tag = Nothing
+        Me.butModuleUnload.Text = "Unload"
+        Me.butModuleUnload.ToolTip = Nothing
+        Me.butModuleUnload.ToolTipImage = Nothing
+        Me.butModuleUnload.ToolTipTitle = Nothing
+        '
+        'RBModuleReport
+        '
+        Me.RBModuleReport.ButtonMoreEnabled = False
+        Me.RBModuleReport.ButtonMoreVisible = False
+        Me.RBModuleReport.Items.Add(Me.butModulesSaveReport)
+        Me.RBModuleReport.Tag = Nothing
+        Me.RBModuleReport.Text = "Report"
+        '
+        'butModulesSaveReport
+        '
+        Me.butModulesSaveReport.AltKey = Nothing
+        Me.butModulesSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butModulesSaveReport.Image = CType(resources.GetObject("butModulesSaveReport.Image"), System.Drawing.Image)
+        Me.butModulesSaveReport.SmallImage = CType(resources.GetObject("butModulesSaveReport.SmallImage"), System.Drawing.Image)
+        Me.butModulesSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butModulesSaveReport.Tag = Nothing
+        Me.butModulesSaveReport.Text = "Save report"
+        Me.butModulesSaveReport.ToolTip = Nothing
+        Me.butModulesSaveReport.ToolTipImage = Nothing
+        Me.butModulesSaveReport.ToolTipTitle = Nothing
         '
         'ThreadTab
         '
@@ -4056,22 +4163,6 @@ Partial Class frmMain
         Me.splitMonitor4.SplitterDistance = 25
         Me.splitMonitor4.TabIndex = 4
         '
-        'graphMonitor
-        '
-        Me.graphMonitor.BackColor = System.Drawing.Color.Black
-        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
-        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
-        Me.graphMonitor.dDate = New Date(CType(0, Long))
-        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphMonitor.EnableGraph = False
-        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
-        Me.graphMonitor.Name = "graphMonitor"
-        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
-        Me.graphMonitor.TabIndex = 3
-        Me.graphMonitor.TabStop = False
-        Me.graphMonitor.ViewMax = 0
-        Me.graphMonitor.ViewMin = 0
-        '
         'txtMonitorNumber
         '
         Me.txtMonitorNumber.Location = New System.Drawing.Point(241, 0)
@@ -4447,12 +4538,118 @@ Partial Class frmMain
         Me.rtb5.TabIndex = 8
         Me.rtb5.Text = "Click on an item to get additionnal informations"
         '
+        'panelMain11
+        '
+        Me.panelMain11.Controls.Add(Me.splitModule)
+        Me.panelMain11.Location = New System.Drawing.Point(120, 163)
+        Me.panelMain11.Name = "panelMain11"
+        Me.panelMain11.Size = New System.Drawing.Size(565, 276)
+        Me.panelMain11.TabIndex = 53
+        Me.panelMain11.Visible = False
+        '
+        'splitModule
+        '
+        Me.splitModule.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.splitModule.Location = New System.Drawing.Point(0, 0)
+        Me.splitModule.Name = "splitModule"
+        Me.splitModule.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'splitModule.Panel1
+        '
+        Me.splitModule.Panel1.Controls.Add(Me.lvModules)
+        '
+        'splitModule.Panel2
+        '
+        Me.splitModule.Panel2.Controls.Add(Me.rtb6)
+        Me.splitModule.Size = New System.Drawing.Size(565, 276)
+        Me.splitModule.SplitterDistance = 172
+        Me.splitModule.TabIndex = 0
+        '
+        'lvModules
+        '
+        Me.lvModules.AllowColumnReorder = True
+        Me.lvModules.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader29, Me.ColumnHeader43, Me.ColumnHeader44, Me.ColumnHeader45, Me.ColumnHeader46, Me.ColumnHeader18})
+        Me.lvModules.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvModules.FullRowSelect = True
+        ListViewGroup11.Header = "Modules"
+        ListViewGroup11.Name = "gpOther"
+        Me.lvModules.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup11})
+        Me.lvModules.HideSelection = False
+        Me.lvModules.Location = New System.Drawing.Point(0, 0)
+        Me.lvModules.Name = "lvModules"
+        Me.lvModules.Size = New System.Drawing.Size(565, 172)
+        Me.lvModules.SmallImageList = Me.imgSearch
+        Me.lvModules.TabIndex = 4
+        Me.lvModules.UseCompatibleStateImageBehavior = False
+        Me.lvModules.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader29
+        '
+        Me.ColumnHeader29.Text = "Name"
+        Me.ColumnHeader29.Width = 90
+        '
+        'ColumnHeader43
+        '
+        Me.ColumnHeader43.Text = "Version"
+        Me.ColumnHeader43.Width = 85
+        '
+        'ColumnHeader44
+        '
+        Me.ColumnHeader44.Text = "Description"
+        Me.ColumnHeader44.Width = 210
+        '
+        'ColumnHeader45
+        '
+        Me.ColumnHeader45.Text = "CompanyName"
+        Me.ColumnHeader45.Width = 150
+        '
+        'ColumnHeader46
+        '
+        Me.ColumnHeader46.Text = "Path"
+        Me.ColumnHeader46.Width = 300
+        '
+        'rtb6
+        '
+        Me.rtb6.AutoWordSelection = True
+        Me.rtb6.BackColor = System.Drawing.Color.White
+        Me.rtb6.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.rtb6.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.rtb6.HideSelection = False
+        Me.rtb6.Location = New System.Drawing.Point(0, 0)
+        Me.rtb6.Name = "rtb6"
+        Me.rtb6.ReadOnly = True
+        Me.rtb6.Size = New System.Drawing.Size(565, 100)
+        Me.rtb6.TabIndex = 8
+        Me.rtb6.Text = "Click on an item to get additionnal informations"
+        '
+        'ColumnHeader18
+        '
+        Me.ColumnHeader18.Text = "Process"
+        Me.ColumnHeader18.Width = 100
+        '
+        'graphMonitor
+        '
+        Me.graphMonitor.BackColor = System.Drawing.Color.Black
+        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
+        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
+        Me.graphMonitor.dDate = New Date(CType(0, Long))
+        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphMonitor.EnableGraph = False
+        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
+        Me.graphMonitor.Name = "graphMonitor"
+        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
+        Me.graphMonitor.TabIndex = 3
+        Me.graphMonitor.TabStop = False
+        Me.graphMonitor.ViewMax = 0
+        Me.graphMonitor.ViewMin = 0
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.ClientSize = New System.Drawing.Size(805, 603)
+        Me.Controls.Add(Me.panelMain11)
         Me.Controls.Add(Me.panelMain6)
         Me.Controls.Add(Me.panelMain10)
         Me.Controls.Add(Me.panelMain9)
@@ -4530,7 +4727,6 @@ Partial Class frmMain
         Me.splitMonitor3.ResumeLayout(False)
         Me.splitMonitor4.Panel2.ResumeLayout(False)
         Me.splitMonitor4.ResumeLayout(False)
-        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.panelMain9.ResumeLayout(False)
         Me.splitThreads.Panel1.ResumeLayout(False)
         Me.splitThreads.Panel2.ResumeLayout(False)
@@ -4541,6 +4737,11 @@ Partial Class frmMain
         Me.splitContainerWindows.Panel2.ResumeLayout(False)
         Me.splitContainerWindows.ResumeLayout(False)
         Me.menuWindow.ResumeLayout(False)
+        Me.panelMain11.ResumeLayout(False)
+        Me.splitModule.Panel1.ResumeLayout(False)
+        Me.splitModule.Panel2.ResumeLayout(False)
+        Me.splitModule.ResumeLayout(False)
+        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -4941,5 +5142,23 @@ Partial Class frmMain
     Friend WithEvents menuWindow As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem34 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FolderChooser As System.Windows.Forms.FolderBrowserDialog
+    Friend WithEvents ModulesTab As System.Windows.Forms.RibbonTab
+    Friend WithEvents ShowModulesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents butProcessShowModules As System.Windows.Forms.RibbonButton
+    Friend WithEvents splitModule As System.Windows.Forms.SplitContainer
+    Friend WithEvents lvModules As System.Windows.Forms.ListView
+    Friend WithEvents rtb6 As System.Windows.Forms.RichTextBox
+    Friend WithEvents panelMain11 As System.Windows.Forms.Panel
+    Friend WithEvents RBModuleActions As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butModuleRefresh As System.Windows.Forms.RibbonButton
+    Friend WithEvents butModuleUnload As System.Windows.Forms.RibbonButton
+    Friend WithEvents RBModuleReport As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butModulesSaveReport As System.Windows.Forms.RibbonButton
+    Friend WithEvents ColumnHeader29 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader43 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader44 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader45 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader46 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader18 As System.Windows.Forms.ColumnHeader
 
 End Class

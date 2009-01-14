@@ -168,6 +168,7 @@
     <Compile Include="cHTML.vb" />
     <Compile Include="clsDriverCtrl.vb" />
     <Compile Include="clsOpenedHandles.vb" />
+    <Compile Include="cModule.vb" />
     <Compile Include="cMonitor.vb" />
     <Compile Include="cProcess.vb" />
     <Compile Include="cThread.vb">
