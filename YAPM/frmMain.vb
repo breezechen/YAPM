@@ -216,6 +216,7 @@ Public Class frmMain
 
 
         rtb3.Rtf = s
+
     End Sub
 
     ' Refresh service list
@@ -2688,11 +2689,12 @@ Public Class frmMain
 
     Private Sub txtFile_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtFile.TextChanged
         Dim b As Boolean = IO.File.Exists(Me.txtFile.Text)
-        ' Me.RBFileDelete.Enabled = b
+        Me.RBFileDelete.Enabled = b
         Me.RBFileKillProcess.Enabled = b
         Me.RBFileOnline.Enabled = b
         Me.RBFileOther.Enabled = b
         Me.RBFileOthers.Enabled = b
+        Me.butShreddFile.Enabled = False    'TOCHANGE
     End Sub
 
     Private Sub butFileRelease_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileRelease.Click
@@ -3361,7 +3363,7 @@ Public Class frmMain
         If Me.tvMonitor.Nodes.Item(0).Nodes.Count > 0 Then
 
             ' Count counters :-)
-            Dim iCount As Integer = 1
+            Dim iCount As Integer = 0
             Dim n As TreeNode
             Dim n2 As TreeNode
             For Each n In Me.tvMonitor.Nodes.Item(0).Nodes
@@ -3386,16 +3388,20 @@ Public Class frmMain
                     End If
                     s &= vbNewLine & "      State : " & it.Enabled
                     s &= vbNewLine & "      Interval : " & it.Interval
-                    s = s.Substring(0, s.Length - 2)
 
                     s &= vbNewLine
                 Next
             Next
+            s = s.Substring(0, s.Length - 2)
 
             Me.txtMonitoringLog.Text = s
             Me.txtMonitoringLog.SelectionLength = 0
             Me.txtMonitoringLog.SelectionStart = 0
 
+        Else
+            Me.txtMonitoringLog.Text = "No process monitored." & vbNewLine & "Click on 'Add' button to monitor a process."
+            Me.txtMonitoringLog.SelectionLength = 0
+            Me.txtMonitoringLog.SelectionStart = 0
         End If
 
     End Sub
@@ -4318,5 +4324,113 @@ Public Class frmMain
                 '
             End Try
         Next
+    End Sub
+
+    Private Sub butHandlesSaveReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butHandlesSaveReport.Click
+        saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
+        saveDial.Title = "Save report"
+        Try
+            If saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
+                Dim s As String = saveDial.FileName
+                If Len(s) > 0 Then
+                    ' Create file report
+                    Dim c As String = vbNullString
+
+                    If s.Substring(s.Length - 3, 3).ToLower = "txt" Then
+                        Dim stream As New System.IO.StreamWriter(s, False)
+                        ' txt
+                        Dim it As ListViewItem
+                        For Each it In Me.lvHandles.Items
+                            c = "Type : " & it.Text
+                            c &= "  Process : " & it.SubItems(6).Text
+                            c &= "  Name: " & it.SubItems(1).Text
+                            c &= "  Handle : " & it.SubItems(5).Text
+                            c &= "  HandleCount : " & it.SubItems(2).Text
+                            c &= "  PointerCount : " & it.SubItems(3).Text
+                            c &= "  ObjectCount : " & it.SubItems(4).Text & vbNewLine
+                            stream.Write(c)
+                        Next
+                        c = CStr(Me.lvHandles.Items.Count) & " handle(s)"
+                        stream.Write(c)
+                        stream.Close()
+                    Else
+                        ' HTML
+                        Dim col(6) As cHTML.HtmlColumnStructure
+                        col(0).sizePercent = 11
+                        col(0).title = "Type"
+                        col(1).sizePercent = 12
+                        col(1).title = "Process"
+                        col(2).sizePercent = 41
+                        col(2).title = "Name"
+                        col(3).sizePercent = 10
+                        col(3).title = "Handle"
+                        col(4).sizePercent = 10
+                        col(4).title = "HandleCount"
+                        col(5).sizePercent = 9
+                        col(5).title = "PointerCount"
+                        col(6).sizePercent = 9
+                        col(6).title = "ObjectCount"
+
+                        Dim title As String = CStr(Me.lvHandles.Items.Count) & " handle(s)"
+                        Dim _html As New cHTML(col, s, title)
+
+                        Dim it As ListViewItem
+                        For Each it In Me.lvHandles.Items
+                            Dim _lin(6) As String
+                            _lin(0) = it.Text
+                            _lin(1) = it.SubItems(6).Text
+                            _lin(2) = it.SubItems(1).Text
+                            _lin(3) = it.SubItems(5).Text
+                            _lin(4) = it.SubItems(2).Text
+                            _lin(5) = it.SubItems(3).Text
+                            _lin(6) = it.SubItems(4).Text
+                            _html.AppendLine(_lin)
+                        Next
+
+                        _html.ExportHTML()
+                    End If
+
+                    MsgBox("Save is ok !", MsgBoxStyle.Information, "Save report")
+                End If
+            End If
+        Catch ex As Exception
+            'MsgBox(ex.Message)
+        End Try
+
+    End Sub
+
+    Private Sub butDeleteFile_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butDeleteFile.Click
+        cSelFile.WindowsKill()
+    End Sub
+
+    Private Sub butFileMove_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileMove.Click
+        With Me.FolderChooser
+            .Description = "Select new location"
+            .SelectedPath = cFile.GetParentDir(cSelFile.GetPath)
+            .ShowNewFolderButton = True
+            If .ShowDialog = Windows.Forms.DialogResult.OK Then
+                Me.txtFile.Text = cSelFile.WindowsMove(.SelectedPath)
+                Call Me.refreshFileInfos(cSelFile.GetPath)
+            End If
+        End With
+    End Sub
+
+    Private Sub butFileCopy_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileCopy.Click
+        With Me.saveDial
+            .AddExtension = True
+            .FileName = cSelFile.GetName
+            .Filter = "All (*.*)|*.*"
+            .InitialDirectory = cSelFile.GetParentDir
+            If .ShowDialog = Windows.Forms.DialogResult.OK Then
+                cSelFile.WindowCopy(.FileName)
+            End If
+        End With
+    End Sub
+
+    Private Sub butFileRename_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileRename.Click
+        Dim s As String = InputBox("New name (name+extension) ?", "Select a new file name", cFile.GetFileName(cSelFile.GetPath))
+        If s = Nothing Then Exit Sub
+        Me.txtFile.Text = cSelFile.WindowsRename(s)
+        Call Me.refreshFileInfos(cSelFile.GetPath)
     End Sub
 End Class

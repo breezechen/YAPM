@@ -430,6 +430,7 @@ Partial Class frmMain
         Me.ToolStripMenuItem34 = New System.Windows.Forms.ToolStripMenuItem
         Me.imgWindows = New System.Windows.Forms.ImageList(Me.components)
         Me.rtb5 = New System.Windows.Forms.RichTextBox
+        Me.FolderChooser = New System.Windows.Forms.FolderBrowserDialog
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -1950,7 +1951,6 @@ Partial Class frmMain
         '
         Me.RBHandlesReport.ButtonMoreEnabled = False
         Me.RBHandlesReport.ButtonMoreVisible = False
-        Me.RBHandlesReport.Enabled = False
         Me.RBHandlesReport.Items.Add(Me.butHandlesSaveReport)
         Me.RBHandlesReport.Tag = Nothing
         Me.RBHandlesReport.Text = "Report"
@@ -1959,7 +1959,6 @@ Partial Class frmMain
         '
         Me.butHandlesSaveReport.AltKey = Nothing
         Me.butHandlesSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butHandlesSaveReport.Enabled = False
         Me.butHandlesSaveReport.Image = CType(resources.GetObject("butHandlesSaveReport.Image"), System.Drawing.Image)
         Me.butHandlesSaveReport.SmallImage = CType(resources.GetObject("butHandlesSaveReport.SmallImage"), System.Drawing.Image)
         Me.butHandlesSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
@@ -2853,7 +2852,6 @@ Partial Class frmMain
         '
         Me.butFileRename.AltKey = Nothing
         Me.butFileRename.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butFileRename.Enabled = False
         Me.butFileRename.Image = CType(resources.GetObject("butFileRename.Image"), System.Drawing.Image)
         Me.butFileRename.SmallImage = CType(resources.GetObject("butFileRename.SmallImage"), System.Drawing.Image)
         Me.butFileRename.Style = System.Windows.Forms.RibbonButtonStyle.Normal
@@ -2867,7 +2865,6 @@ Partial Class frmMain
         '
         Me.butFileCopy.AltKey = Nothing
         Me.butFileCopy.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butFileCopy.Enabled = False
         Me.butFileCopy.Image = CType(resources.GetObject("butFileCopy.Image"), System.Drawing.Image)
         Me.butFileCopy.SmallImage = CType(resources.GetObject("butFileCopy.SmallImage"), System.Drawing.Image)
         Me.butFileCopy.Style = System.Windows.Forms.RibbonButtonStyle.Normal
@@ -2881,7 +2878,6 @@ Partial Class frmMain
         '
         Me.butFileMove.AltKey = Nothing
         Me.butFileMove.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butFileMove.Enabled = False
         Me.butFileMove.Image = CType(resources.GetObject("butFileMove.Image"), System.Drawing.Image)
         Me.butFileMove.SmallImage = CType(resources.GetObject("butFileMove.SmallImage"), System.Drawing.Image)
         Me.butFileMove.Style = System.Windows.Forms.RibbonButtonStyle.Normal
@@ -4944,5 +4940,6 @@ Partial Class frmMain
     Friend WithEvents chkSearchWindows As System.Windows.Forms.CheckBox
     Friend WithEvents menuWindow As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem34 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents FolderChooser As System.Windows.Forms.FolderBrowserDialog
 
 End Class

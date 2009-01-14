@@ -38,19 +38,30 @@ Public Class cFile
         Dim dwHighDateTime As Integer
     End Structure
 
-    <StructLayout(LayoutKind.Sequential, CharSet:=CharSet.Unicode)> _
-    Private Structure SHFILEOPSTRUCT
-        Public hwnd As IntPtr
-        Public wFunc As Integer
-        <MarshalAs(UnmanagedType.LPWStr)> _
-        Public pFrom As String
-        <MarshalAs(UnmanagedType.LPWStr)> _
-        Public pTo As String
-        Public fFlags As Integer
-        Public fAnyOperationsAborted As Boolean
-        Public hNameMappings As IntPtr
-        <MarshalAs(UnmanagedType.LPWStr)> _
-        Public lpszProgressTitle As String '  only used if FOF_SIMPLEPROGRESS
+    '<StructLayout(LayoutKind.Sequential, CharSet:=CharSet.Unicode)> _
+    'Private Structure SHFILEOPSTRUCT
+    '    Public hwnd As IntPtr
+    '    Public wFunc As Integer
+    '    <MarshalAs(UnmanagedType.LPWStr)> _
+    '    Public pFrom As String
+    '    <MarshalAs(UnmanagedType.LPWStr)> _
+    '    Public pTo As String
+    '    Public fFlags As Integer
+    '    Public fAnyOperationsAborted As Boolean
+    '    Public hNameMappings As IntPtr
+    '    <MarshalAs(UnmanagedType.LPWStr)> _
+    '    Public lpszProgressTitle As String '  only used if FOF_SIMPLEPROGRESS
+    'End Structure
+    <StructLayout(LayoutKind.Explicit, CharSet:=CharSet.Ansi)> _
+        Private Structure SHFILEOPSTRUCT
+        <FieldOffset(0)> Public hWnd As Integer
+        <FieldOffset(4)> Public wFunc As Integer
+        <FieldOffset(8)> Public pFrom As String
+        <FieldOffset(12)> Public pTo As String
+        <FieldOffset(16)> Public fFlags As Short
+        <FieldOffset(18)> Public fAnyOperationsAborted As Boolean
+        <FieldOffset(20)> Public hNameMappings As Object
+        <FieldOffset(24)> Public lpszProgressTitle As String
     End Structure
 
     <StructLayout(LayoutKind.Sequential)> _
@@ -139,7 +150,7 @@ Public Class cFile
 
     Private Declare Function GetCompressedFileSize Lib "kernel32" Alias "GetCompressedFileSizeA" (ByVal lpFileName As String, ByVal lpFileSizeHigh As Integer) As Integer
     Private Declare Function SHFileOperation Lib "shell32.dll" Alias "SHFileOperation" (ByRef lpFileOp As SHFILEOPSTRUCT) As Integer
-
+    'Private Declare Function SHFileOperation Lib "shell32.dll" Alias "SHFileOperationW" (ByRef lpFileOp As SHFILEOPSTRUCT) As Integer
 
     ' ========================================
     ' Enums & constants
@@ -573,15 +584,22 @@ Public Class cFile
 
     ' Move a file to the trash
     Public Function MoveToTrash() As Integer
-        Dim tObj As SHFILEOPSTRUCT = Nothing
-        Const FO_DELETE As Long = &H3
-        Const FOF_ALLOWUNDO As Long = &H40
-        With tObj
-            .wFunc = FO_DELETE
-            .pFrom = _Path
-            .fFlags = FOF_ALLOWUNDO
-        End With
-        Return SHFileOperation(tObj)
+        Try
+            My.Computer.FileSystem.DeleteFile(_Path, FileIO.UIOption.AllDialogs, FileIO.RecycleOption.SendToRecycleBin)
+            Return 0
+        Catch ex As Exception
+            Return -1
+        End Try
+    End Function
+
+    ' Kill a file
+    Public Function WindowsKill() As Integer
+        Try
+            My.Computer.FileSystem.DeleteFile(_Path, FileIO.UIOption.AllDialogs, FileIO.RecycleOption.DeletePermanently)
+            Return 0
+        Catch ex As Exception
+            Return -1
+        End Try
     End Function
 
     ' Encrypt the file
@@ -594,6 +612,37 @@ Public Class cFile
         IO.File.Decrypt(_Path)
     End Sub
 
+    ' Move a file
+    Public Function WindowsMove(ByVal dest As String) As String
+        Try
+            My.Computer.FileSystem.MoveFile(_Path, dest & "\" & Me.GetName, FileIO.UIOption.AllDialogs)
+            _Path = dest & "\" & Me.GetName
+        Catch ex As Exception
+            '
+        End Try
+        Return _Path
+    End Function
+
+    ' Copy a file
+    Public Function WindowCopy(ByVal dest As String) As Integer
+        Try
+            My.Computer.FileSystem.CopyFile(_Path, dest, FileIO.UIOption.AllDialogs)
+            Return 0
+        Catch ex As Exception
+            Return -1
+        End Try
+    End Function
+
+    ' Rename a file
+    Public Function WindowsRename(ByVal newName As String) As String
+        Try
+            My.Computer.FileSystem.RenameFile(_Path, newName)
+            _Path = GetParentDir(_Path) & newName
+        Catch ex As Exception
+            '
+        End Try
+        Return _Path
+    End Function
 
 
     ' ========================================
