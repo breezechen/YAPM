@@ -1967,6 +1967,7 @@ Public Class frmMain
                     Me.chkModules.Visible = False
                     Me.panelMenu.Visible = False
                     Me.panelMenu2.Visible = True
+                    Me.panelMain2.BringToFront()
                     Me.panelMain6.Visible = False
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
@@ -1984,6 +1985,7 @@ Public Class frmMain
                     Me.panelInfos2.Visible = False
                     Me.chkModules.Visible = True
                     Me.panelMenu.Visible = True
+                    Me.panelMain.BringToFront()
                     Me.panelMenu2.Visible = False
                     Me.panelMain5.Visible = False
                     Me.panelMain6.Visible = False
@@ -2000,6 +2002,7 @@ Public Class frmMain
                     Me.panelMain3.Visible = True
                     Me.panelMain4.Visible = False
                     Me.panelMenu.Visible = False
+                    Me.panelMain3.BringToFront()
                     Me.panelMenu2.Visible = False
                     Me.panelMain5.Visible = False
                     Me.panelMain6.Visible = False
@@ -2036,6 +2039,7 @@ Public Class frmMain
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
                     Me.panelMain11.Visible = False
+                    Me.panelMain4.BringToFront()
                 Case "File"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -2052,6 +2056,7 @@ Public Class frmMain
                     Me.panelMain9.Visible = False
                     Me.panelMain11.Visible = False
                     Me.panelMain10.Visible = False
+                    Me.panelMain5.BringToFront()
                 Case "Search"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -2068,6 +2073,7 @@ Public Class frmMain
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
                     Me.panelMain11.Visible = False
+                    Me.panelMain6.BringToFront()
                 Case "Handles"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -2084,6 +2090,7 @@ Public Class frmMain
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
                     Me.panelMain11.Visible = False
+                    Me.panelMain7.BringToFront()
                 Case "Monitor"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
@@ -2099,6 +2106,7 @@ Public Class frmMain
                     Me.panelMain8.Visible = True
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
+                    Me.panelMain8.BringToFront()
                     Me.panelMain11.Visible = False
                 Case "Threads"
                     Me.bProcessHover = False
@@ -2113,6 +2121,7 @@ Public Class frmMain
                     Me.panelMain6.Visible = False
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
+                    Me.panelMain9.BringToFront()
                     Me.panelMain9.Visible = True
                     Me.panelMain10.Visible = False
                     Me.panelMain11.Visible = False
@@ -2131,6 +2140,7 @@ Public Class frmMain
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = True
+                    Me.panelMain10.BringToFront()
                     Me.panelMain11.Visible = False
                 Case "Modules"
                     Me.bProcessHover = False
@@ -2148,6 +2158,7 @@ Public Class frmMain
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
+                    Me.panelMain11.BringToFront()
                     Me.panelMain11.Visible = True
             End Select
         End If
