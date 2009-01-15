@@ -498,7 +498,7 @@ Public Class frmMain
                     .SubItems(4).Text = CStr(mc.WorkingSetSize / 1024) & " Kb"
                     .SubItems(5).Text = CStr(mc.PeakWorkingSetSize / 1024) & " Kb"
                     .SubItems(6).Text = cP.PriorityClass
-                    .SubItems(8).Text = cP.StartTime.ToString & " -- " & cP.StartTime.ToLongTimeString
+                    .SubItems(8).Text = cP.StartTime.ToLongDateString & " -- " & cP.StartTime.ToLongTimeString
                 End With
 
             Catch ex As Exception
