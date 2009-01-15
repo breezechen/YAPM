@@ -31,7 +31,7 @@ Partial Class frmPreferences
         Me.Label1 = New System.Windows.Forms.Label
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.chkTopMost = New System.Windows.Forms.CheckBox
-        Me.chkModules = New System.Windows.Forms.CheckBox
+        Me.chkFullPower = New System.Windows.Forms.CheckBox
         Me.chkStartTray = New System.Windows.Forms.CheckBox
         Me.chkJobs = New System.Windows.Forms.CheckBox
         Me.chkStart = New System.Windows.Forms.CheckBox
@@ -119,7 +119,7 @@ Partial Class frmPreferences
         'GroupBox1
         '
         Me.GroupBox1.Controls.Add(Me.chkTopMost)
-        Me.GroupBox1.Controls.Add(Me.chkModules)
+        Me.GroupBox1.Controls.Add(Me.chkFullPower)
         Me.GroupBox1.Controls.Add(Me.chkStartTray)
         Me.GroupBox1.Controls.Add(Me.chkJobs)
         Me.GroupBox1.Controls.Add(Me.chkStart)
@@ -140,15 +140,15 @@ Partial Class frmPreferences
         Me.chkTopMost.Text = "Start YAPM topmost"
         Me.chkTopMost.UseVisualStyleBackColor = True
         '
-        'chkModules
+        'chkFullPower
         '
-        Me.chkModules.AutoSize = True
-        Me.chkModules.Location = New System.Drawing.Point(9, 91)
-        Me.chkModules.Name = "chkModules"
-        Me.chkModules.Size = New System.Drawing.Size(264, 17)
-        Me.chkModules.TabIndex = 3
-        Me.chkModules.Text = "Enable modules informations retrieving on startup"
-        Me.chkModules.UseVisualStyleBackColor = True
+        Me.chkFullPower.AutoSize = True
+        Me.chkFullPower.Location = New System.Drawing.Point(9, 91)
+        Me.chkFullPower.Name = "chkFullPower"
+        Me.chkFullPower.Size = New System.Drawing.Size(168, 17)
+        Me.chkFullPower.TabIndex = 3
+        Me.chkFullPower.Text = "Start with 'full power' enabled"
+        Me.chkFullPower.UseVisualStyleBackColor = True
         '
         'chkStartTray
         '
@@ -291,7 +291,7 @@ Partial Class frmPreferences
     Friend WithEvents chkJobs As System.Windows.Forms.CheckBox
     Friend WithEvents chkStart As System.Windows.Forms.CheckBox
     Friend WithEvents chkStartTray As System.Windows.Forms.CheckBox
-    Friend WithEvents chkModules As System.Windows.Forms.CheckBox
+    Friend WithEvents chkFullPower As System.Windows.Forms.CheckBox
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label

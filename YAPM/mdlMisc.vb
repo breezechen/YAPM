@@ -45,6 +45,21 @@ Module mdlMisc
         End If
     End Sub
 
+    ' Copy content of a listbox (selected items) into clipboard
+    Public Sub CopyLstToClip(ByVal e As MouseEventArgs, ByVal lv As ListBox)
+        If e.Button = Windows.Forms.MouseButtons.Middle Then
+            Dim s As String = vbNullString
+            Dim it As String
+            Dim x As Integer = 0
+            For Each it In lv.SelectedItems
+                s &= it
+                x += 1
+                If Not (x = lv.SelectedItems.Count) Then s &= vbNewLine
+            Next
+            If Not (s = vbNullString) Then My.Computer.Clipboard.SetText(s, TextDataFormat.UnicodeText)
+        End If
+    End Sub
+
     ' Start (or not) with windows startup
     Public Sub StartWithWindows(ByVal value As Boolean)
         Try

@@ -31,7 +31,7 @@ Public Class Pref
     Public startHidden As Boolean
     Public lang As String
     Public startJobs As Boolean
-    Public startChkModules As Boolean
+    Public startFullPower As Boolean
     Public topmost As Boolean
     Public firstTime As Boolean
 
@@ -58,8 +58,8 @@ Public Class Pref
                     lang = noeudEnf.InnerText
                 ElseIf noeudEnf.LocalName = "startjobs" Then
                     startJobs = CBool(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "startchkmodules" Then
-                    startChkModules = CBool(noeudEnf.InnerText)
+                ElseIf noeudEnf.LocalName = "fullpower" Then
+                    startFullPower = CBool(noeudEnf.InnerText)
                 ElseIf noeudEnf.LocalName = "topmost" Then
                     topmost = CBool(noeudEnf.InnerText)
                 ElseIf noeudEnf.LocalName = "firsttime" Then
@@ -103,8 +103,8 @@ Public Class Pref
         elemStartJobs.InnerText = CStr(Me.startJobs)
         elemConfig.AppendChild(elemStartJobs)
         Dim elemModules As XmlElement
-        elemModules = XmlDoc.CreateElement("startchkmodules")
-        elemModules.InnerText = CStr(Me.startChkModules)
+        elemModules = XmlDoc.CreateElement("fullpower")
+        elemModules.InnerText = CStr(Me.startFullPower)
         elemConfig.AppendChild(elemModules)
         Dim elemTopMost As XmlElement
         elemTopMost = XmlDoc.CreateElement("topmost")
@@ -126,18 +126,20 @@ Public Class Pref
         If first Then
             first = False
             frmMain.TopMost = topmost
-            frmMain.chkModules.Checked = startChkModules
+            If startFullPower Then
+                Call frmMain.butTakeFullPower_Click(Nothing, Nothing)
+            End If
             frmMain.bAlwaysDisplay = topmost
             frmMain.butTopMost.Checked = topmost
             Call mdlMisc.StartWithWindows(Me.startup)
-        End If
-        If startHidden Then
-            frmMain.WindowState = FormWindowState.Minimized
-            frmMain.Hide()
-        Else
-            frmMain.WindowState = FormWindowState.Normal
-            frmMain.Show()
-            frmMain.BringToFront()
+            If startHidden Then
+                frmMain.WindowState = FormWindowState.Minimized
+                frmMain.Hide()
+            Else
+                frmMain.WindowState = FormWindowState.Normal
+                frmMain.Show()
+                frmMain.BringToFront()
+            End If
         End If
     End Sub
 

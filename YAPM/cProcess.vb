@@ -236,8 +236,8 @@ Public Class cProcess
     ' ========================================
     ' Private attributes
     ' ========================================
-    Private pid As Integer                          ' Process ID
-    Private path As String = vbNullString           ' Path of executable
+    Private _pid As Integer                          ' Process ID
+    Private _path As String = vbNullString           ' _path of executable
     Private _UserName As String = vbNullString      ' User name
     Private _name As String = vbNullString          ' Name of process
     Private _hProcess As Integer = 0                 ' Handle to the process
@@ -250,22 +250,22 @@ Public Class cProcess
     ' ========================================
     Public Sub New(ByVal processId As Integer)
         MyBase.New()
-        pid = processId
-        _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, pid)
+        _pid = processId
+        _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, _pid)
     End Sub
 
     Public Sub New(ByVal processId As Integer, ByVal processName As String)
         MyBase.New()
-        pid = processId
-        _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, pid)
+        _pid = processId
+        _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, _pid)
         _name = processName
     End Sub
 
     Public Sub New(ByVal process As cProcess)
         MyBase.New()
-        pid = process.GetPid
-        _name = process.GetName
-        _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, pid)
+        _pid = process.Pid
+        _name = process.Name
+        _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, _pid)
     End Sub
 
     Protected Overloads Overrides Sub Finalize()
@@ -276,292 +276,291 @@ Public Class cProcess
     ' ========================================
     ' Getter and setter
     ' ========================================
-    Public Function GetPid() As Integer
-        Return pid
-    End Function
+    Public ReadOnly Property Pid() As Integer
+        Get
+            Return _pid
+        End Get
+    End Property
 
     ' Get the process path
-    Public Function GetPath() As String
+    Public ReadOnly Property Path() As String
+        Get
+            If _path = vbNullString Then
 
-        If path = vbNullString Then
+                Dim s As String = vbNullString
+                Dim Ret As Integer
+                Dim sResult As String = Space(512)
+                Dim hModule As Integer
 
-            Dim s As String = vbNullString
-            Dim Ret As Integer
-            Dim sResult As String = Space(512)
-            Dim hModule As Integer
+                If _hProcess > 0 Then
+                    Call EnumProcessModules(_hProcess, hModule, 4, Ret)
+                    sResult = Space(260)
+                    Call GetModuleFileNameExA(_hProcess, hModule, sResult, 260)
+                    s = sResult
+                End If
 
-            If _hProcess > 0 Then
-                Call EnumProcessModules(_hProcess, hModule, 4, Ret)
-                sResult = Space(260)
-                Call GetModuleFileNameExA(_hProcess, hModule, sResult, 260)
-                s = sResult
+                If InStr(sResult, vbNullChar) > 1 Then
+                    sResult = Left(sResult, InStr(sResult, vbNullChar) - 1)
+                End If
+
+                _path = sResult
             End If
 
-            If InStr(sResult, vbNullChar) > 1 Then
-                sResult = Left(sResult, InStr(sResult, vbNullChar) - 1)
-            End If
-
-            path = sResult
-        End If
-
-        Return path
-
-    End Function
+            Return _path
+        End Get
+    End Property
 
     ' Get the process username
-    Public Function GetUserName() As String
+    Public ReadOnly Property UserName() As String
+        Get
+            If _UserName = vbNullString Then
 
-        If _UserName = vbNullString Then
+                Dim hToken As Integer
+                Dim hProc As Integer
+                Dim cbBuff As Integer
+                Dim TG As TOKEN_GROUPS
+                Dim __UserName As String
+                Dim DomainName As String
+                Dim UserNameLenght As Integer
+                Dim DomainNameLenght As Integer
+                Dim peUse As Integer
+                Dim ppsidGroup As Integer
+                Dim res As String = vbNullString
 
-            Dim hToken As Integer
-            Dim hProc As Integer
-            Dim cbBuff As Integer
-            Dim TG As TOKEN_GROUPS
-            Dim UserName As String
-            Dim DomainName As String
-            Dim UserNameLenght As Integer
-            Dim DomainNameLenght As Integer
-            Dim peUse As Integer
-            Dim ppsidGroup As Integer
-            Dim res As String = vbNullString
+                ReDim TG.Groups(500)
 
-            ReDim TG.Groups(500)
-
-            If _hProcess > 0 Then
-                If OpenProcessToken(_hProcess, &H8, hToken) > 0 Then
-                    'GetTokenInformation(hToken, TokenUser, TG, 0, cbBuff)
-                    If GetTokenInformation(hToken, TokenUser, TG, cbBuff, 0) > 0 Then
-                        CloseHandle(hToken)
-                        UserNameLenght = 255
-                        UserName = Space$(UserNameLenght)
-                        DomainName = UserName 'Space$(255)
-                        DomainNameLenght = UserNameLenght
-                        LookupAccountSid(vbNullString, TG.GroupCount, UserName, UserNameLenght, DomainName, DomainNameLenght, peUse)
-                        res = Left$(UserName, UserNameLenght)
-                    End If
-                Else
-                    hProc = OpenProcess(PROCESS_READ_CONTROL, 0, pid)
-                    If hProc > 0 Then
-                        If GetSecurityInfo(hProc, SE_KERNEL_OBJECT, GROUP_SECURITY_INFORMATION, 0, ppsidGroup, 0, 0, 0) = 0 Then
-                            CloseHandle(hProc)
+                If _hProcess > 0 Then
+                    If OpenProcessToken(_hProcess, &H8, hToken) > 0 Then
+                        'GetTokenInformation(hToken, TokenUser, TG, 0, cbBuff)
+                        If GetTokenInformation(hToken, TokenUser, TG, cbBuff, 0) > 0 Then
+                            CloseHandle(hToken)
                             UserNameLenght = 255
-                            UserName = Space$(UserNameLenght)
-                            DomainName = UserName
+                            __UserName = Space$(UserNameLenght)
+                            DomainName = __UserName 'Space$(255)
                             DomainNameLenght = UserNameLenght
-                            LookupAccountSid(vbNullString, ppsidGroup, UserName, UserNameLenght, DomainName, DomainNameLenght, peUse)
-                            res = Left$(UserName, UserNameLenght)
+                            LookupAccountSid(vbNullString, TG.GroupCount, __UserName, UserNameLenght, DomainName, DomainNameLenght, peUse)
+                            res = Left$(__UserName, UserNameLenght)
+                        End If
+                    Else
+                        hProc = OpenProcess(PROCESS_READ_CONTROL, 0, _pid)
+                        If hProc > 0 Then
+                            If GetSecurityInfo(hProc, SE_KERNEL_OBJECT, GROUP_SECURITY_INFORMATION, 0, ppsidGroup, 0, 0, 0) = 0 Then
+                                CloseHandle(hProc)
+                                UserNameLenght = 255
+                                __UserName = Space$(UserNameLenght)
+                                DomainName = __UserName
+                                DomainNameLenght = UserNameLenght
+                                LookupAccountSid(vbNullString, ppsidGroup, __UserName, UserNameLenght, DomainName, DomainNameLenght, peUse)
+                                res = Left$(__UserName, UserNameLenght)
+                            End If
                         End If
                     End If
                 End If
+
+                _UserName = res
             End If
 
-            _UserName = res
-        End If
-
-        Return _UserName
-    End Function
+            Return _UserName
+        End Get
+    End Property
 
     ' Get process name
-    Public Function GetName() As String
+    Public ReadOnly Property Name() As String
+        Get
+            If _name = vbNullString Then
 
-        If _name = vbNullString Then
+                Dim sP As String = Path()
+                Dim i As Integer = InStrRev(sP, "\", , CompareMethod.Binary)
 
-            Dim sP As String = GetPath()
-            Dim i As Integer = InStrRev(sP, "\", , CompareMethod.Binary)
+                If i > 0 Then
+                    _name = Right(sP, sP.Length - i)
+                Else
+                    _name = "N\A"
+                End If
 
-            If i > 0 Then
-                _name = Right(sP, sP.Length - i)
-            Else
-                _name = "N\A"
             End If
 
-        End If
-
-        Return _name
-
-    End Function
+            Return _name
+        End Get
+    End Property
 
     ' Get processor time as a TimeSpan
-    Public Function GetProcessorTime() As TimeSpan
+    Public ReadOnly Property ProcessorTime() As TimeSpan
+        Get
+            Dim T0 As FILETIME2
+            Dim T1 As FILETIME2
+            Dim curTime2 As FILETIME2
+            Dim curTime As FILETIME2
+            Dim r As TimeSpan
 
-        Dim T0 As FILETIME2
-        Dim T1 As FILETIME2
-        Dim curTime2 As FILETIME2
-        Dim curTime As FILETIME2
-        Dim r As TimeSpan
+            If _hProcess > 0 Then
 
-        If _hProcess > 0 Then
+                GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
+                Dim p1 As New TimeSpan(curTime.dwLowDateTime + curTime.dwHighDateTime)
+                Dim p2 As New TimeSpan(curTime2.dwLowDateTime + curTime2.dwHighDateTime)
+                ' BUGGY
+                p1.Add(p2)
+                r = p1
 
-            GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
-            Dim p1 As New TimeSpan(curTime.dwLowDateTime + curTime.dwHighDateTime)
-            Dim p2 As New TimeSpan(curTime2.dwLowDateTime + curTime2.dwHighDateTime)
-            ' BUGGY
-            p1.Add(p2)
-            r = p1
+            End If
 
-        End If
-
-        Return r
-
-    End Function
+            Return r
+        End Get
+    End Property
 
     ' Get processor time as a long
-    Public Function GetProcessorTimeLong() As Long
+    Public ReadOnly Property ProcessorTimeLong() As Long
+        Get
+            Dim T0 As FILETIME2
+            Dim T1 As FILETIME2
+            Dim curTime2 As FILETIME2
+            Dim curTime As FILETIME2
+            Dim r As Long = 0
 
-        Dim T0 As FILETIME2
-        Dim T1 As FILETIME2
-        Dim curTime2 As FILETIME2
-        Dim curTime As FILETIME2
-        Dim r As Long = 0
+            If _hProcess > 0 Then
 
-        If _hProcess > 0 Then
+                GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
+                r = curTime.dwLowDateTime + curTime.dwHighDateTime
+                r += curTime2.dwLowDateTime + curTime2.dwHighDateTime
 
-            GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
-            r = curTime.dwLowDateTime + curTime.dwHighDateTime
-            r += curTime2.dwLowDateTime + curTime2.dwHighDateTime
+            End If
 
-        End If
-
-        Return r
-
-    End Function
+            Return r
+        End Get
+    End Property
 
     ' Get the WorkingSet64
-    Public Function GetWorkingSet64() As Long
-        Return GetMemoryInfos.WorkingSetSize
-    End Function
+    Public ReadOnly Property WorkingSet64() As Long
+        Get
+            Return MemoryInfos.WorkingSetSize
+        End Get
+    End Property
 
     ' Get all memory infos
-    Public Function GetMemoryInfos() As PROCESS_MEMORY_COUNTERS
-        Dim pmc As PROCESS_MEMORY_COUNTERS
+    Public ReadOnly Property MemoryInfos() As PROCESS_MEMORY_COUNTERS
+        Get
+            Dim pmc As PROCESS_MEMORY_COUNTERS
 
-        If _hProcess > 0 Then
-            pmc.cb = Marshal.SizeOf(pmc)
-            GetProcessMemoryInfo(_hProcess, pmc, pmc.cb)
-        End If
+            If _hProcess > 0 Then
+                pmc.cb = Marshal.SizeOf(pmc)
+                GetProcessMemoryInfo(_hProcess, pmc, pmc.cb)
+            End If
 
-        Return pmc
-    End Function
+            Return pmc
+        End Get
+    End Property
 
     ' Return process threads
-    Public Function GetThreads() As System.Diagnostics.ProcessThreadCollection
-        Dim gProc As Process = Process.GetProcessById(pid)
-        Return gProc.Threads
-    End Function
+    Public ReadOnly Property Threads() As System.Diagnostics.ProcessThreadCollection
+        Get
+            Dim gProc As Process = Process.GetProcessById(_pid)
+            Return gProc.Threads
+        End Get
+    End Property
 
     ' Get priority class a as string
-    Public Function GetPriorityClass() As String
-        Dim iP As Integer = 0
+    Public ReadOnly Property PriorityClass() As String
+        Get
+            Dim iP As Integer = 0
 
-        If _hProcess > 0 Then
-            iP = GetPriorityClass(_hProcess)
-        End If
+            If _hProcess > 0 Then
+                iP = GetPriorityClass(_hProcess)
+            End If
 
-        Select Case iP
-            Case IDLE_PRIORITY_CLASS
-                Return "Idle"
-            Case BELOW_NORMAL_PRIORITY_CLASS
-                Return "BelowNormal"
-            Case NORMAL_PRIORITY_CLASS
-                Return "Normal"
-            Case ABOVE_NORMAL_PRIORITY_CLASS
-                Return "AboveNormal"
-            Case HIGH_PRIORITY_CLASS
-                Return "High"
-            Case REALTIME_PRIORITY_CLASS
-                Return "RealTime"
-            Case Else
-                Return "N/A"
-        End Select
-
-    End Function
+            Select Case iP
+                Case IDLE_PRIORITY_CLASS
+                    Return "Idle"
+                Case BELOW_NORMAL_PRIORITY_CLASS
+                    Return "BelowNormal"
+                Case NORMAL_PRIORITY_CLASS
+                    Return "Normal"
+                Case ABOVE_NORMAL_PRIORITY_CLASS
+                    Return "AboveNormal"
+                Case HIGH_PRIORITY_CLASS
+                    Return "High"
+                Case REALTIME_PRIORITY_CLASS
+                    Return "RealTime"
+                Case Else
+                    Return "N/A"
+            End Select
+        End Get
+    End Property
 
     ' Get priotity as an integer
-    Public Function GetPriorityClassInt() As Integer
-        Dim iP As Integer = 0
+    Public ReadOnly Property PriorityClassInt() As Integer
+        Get
+            Dim iP As Integer = 0
 
-        If _hProcess > 0 Then
-            iP = GetPriorityClass(_hProcess)
-        End If
+            If _hProcess > 0 Then
+                iP = GetPriorityClass(_hProcess)
+            End If
 
-        Return iP
-
-    End Function
+            Return iP
+        End Get
+    End Property
 
     ' Get priority as a level
-    Public Function GetPriorityLevel() As Integer
-        Select Case GetPriorityClassInt()
-            Case 64
-                Return 1
-            Case 16384
-                Return 2
-            Case 32
-                Return 3
-            Case 32768
-                Return 4
-            Case 128
-                Return 5
-            Case 256
-                Return 6
-            Case Else
-                Return 0
-        End Select
-    End Function
+    Public ReadOnly Property PriorityLevel() As Integer
+        Get
+            Select Case PriorityClassInt()
+                Case 64
+                    Return 1
+                Case 16384
+                    Return 2
+                Case 32
+                    Return 3
+                Case 32768
+                    Return 4
+                Case 128
+                    Return 5
+                Case 256
+                    Return 6
+                Case Else
+                    Return 0
+            End Select
+        End Get
+    End Property
 
     ' Get priority as a constant
-    Public Function GetPriorityClassConstant() As ProcessPriorityClass
-        'Select Case GetPriorityClassInt()
-        '    Case 64
-        '        Return ProcessPriorityClass.Idle
-        '    Case 16384
-        '        Return ProcessPriorityClass.BelowNormal
-        '    Case 32
-        '        Return ProcessPriorityClass.Normal
-        '    Case 32768
-        '        Return ProcessPriorityClass.AboveNormal
-        '    Case 128
-        '        Return ProcessPriorityClass.High
-        '    Case 256
-        '        Return ProcessPriorityClass.RealTime
-        '    Case Else
-        Return CType(GetPriorityClassInt(), ProcessPriorityClass)
-        'End Select
+    Public ReadOnly Property PriorityClassConstant() As ProcessPriorityClass
+        Get
+            Return CType(PriorityClassInt(), ProcessPriorityClass)
+        End Get
+    End Property
 
-    End Function
     ' Get the start time
-    Public Function GetStartTime() As TimeSpan
-        ' TOCHANGE
-        'Dim gProc As Process = Process.GetProcessById(pid)
-        'Return gProc.StartTime
+    Public ReadOnly Property StartTime() As TimeSpan
+        Get
+            Dim T0 As FILETIME2
+            Dim T1 As FILETIME2
+            Dim curTime2 As FILETIME2
+            Dim curTime As FILETIME2
+            Dim r As TimeSpan
 
-        Dim T0 As FILETIME2
-        Dim T1 As FILETIME2
-        Dim curTime2 As FILETIME2
-        Dim curTime As FILETIME2
-        Dim r As TimeSpan
+            If _hProcess > 0 Then
+                'BUGGY
+                GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
+                Dim p1 As New TimeSpan(T0.dwLowDateTime + T0.dwHighDateTime)
+                r = p1
+            End If
 
-        If _hProcess > 0 Then
-            'BUGGY
-            GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
-            Dim p1 As New TimeSpan(T0.dwLowDateTime + T0.dwHighDateTime)
-            r = p1
-        End If
+            Return r
+        End Get
+    End Property
 
-        Return r
+    Public ReadOnly Property MainModule() As System.Diagnostics.ProcessModule
+        Get
+            Dim gProc As Process = Process.GetProcessById(_pid)
+            Return gProc.MainModule
+        End Get
+    End Property
 
-    End Function
-
-    Public Function GetMainModule() As System.Diagnostics.ProcessModule
-        ' TOCHANGE
-        Dim gProc As Process = Process.GetProcessById(pid)
-        Return gProc.MainModule
-    End Function
-
-    Public Function GetModules() As ProcessModuleCollection
-        ' TOCHANGE
-        Dim gProc As Process = Process.GetProcessById(pid)
-        Return gProc.Modules
-    End Function
+    Public ReadOnly Property Modules() As System.Diagnostics.ProcessModuleCollection
+        Get
+            Dim gProc As Process = Process.GetProcessById(_pid)
+            Return gProc.Modules
+        End Get
+    End Property
 
 
     ' ========================================
@@ -573,7 +572,7 @@ Public Class cProcess
         Dim hProc As Integer
         Dim r As Integer = -1
 
-        hProc = OpenProcess(PROCESS_SUSPEND_RESUME, 0, pid)
+        hProc = OpenProcess(PROCESS_SUSPEND_RESUME, 0, _pid)
 
         If hProc > 0 Then
             r = NtSuspendProcess(hProc)
@@ -589,7 +588,7 @@ Public Class cProcess
         Dim hProc As Integer
         Dim r As Integer = -1
 
-        hProc = OpenProcess(PROCESS_SUSPEND_RESUME, 0, pid)
+        hProc = OpenProcess(PROCESS_SUSPEND_RESUME, 0, _pid)
 
         If hProc > 0 Then
             r = NtResumeProcess(hProc)
@@ -606,7 +605,7 @@ Public Class cProcess
         Dim hProc As Integer
         Dim r As Integer
 
-        hProc = OpenProcess(PROCESS_SET_INFORMATION, 0, pid)
+        hProc = OpenProcess(PROCESS_SET_INFORMATION, 0, _pid)
         If hProc > 0 Then
             r = SetPriorityClass(hProc, level)
             CloseHandle(hProc)
@@ -619,7 +618,7 @@ Public Class cProcess
     Public Function Kill() As Integer
         Dim hProc As Integer
         Dim ret As Integer = -1
-        hProc = OpenProcess(PROCESS_TERMINATE, 0, pid)
+        hProc = OpenProcess(PROCESS_TERMINATE, 0, _pid)
         If hProc > 0 Then
             ret = TerminateProcess(hProc, 0)
             CloseHandle(hProc)
@@ -638,7 +637,7 @@ Public Class cProcess
         Dim ret As Integer
 
         hProc = OpenProcess(PROCESS_CREATE_THREAD Or PROCESS_VM_OPERATION Or PROCESS_VM_WRITE Or _
-                                PROCESS_VM_READ, 0, pid)
+                                PROCESS_VM_READ, 0, _pid)
 
         If hProc > 0 Then
 
@@ -784,14 +783,14 @@ Public Class cProcess
     End Function
 
     ' Return path
-    Public Shared Function GetPath(ByVal pid As Integer) As String
+    Public Shared Function GetPath(ByVal _pid As Integer) As String
         Dim s As String = vbNullString
         Dim lHprcss As Integer
         Dim Ret As Integer
         Dim sResult As String = Space(512)
         Dim hModule As Integer
 
-        lHprcss = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, pid)
+        lHprcss = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, _pid)
 
         If lHprcss > 0 Then
             Call EnumProcessModules(lHprcss, hModule, 4, Ret)
@@ -810,10 +809,10 @@ Public Class cProcess
     End Function
 
     ' Kill a process
-    Public Shared Function Kill(ByVal pid As Integer) As Integer
+    Public Shared Function Kill(ByVal _pid As Integer) As Integer
         Dim hProc As Integer
         Dim ret As Integer = -1
-        hProc = OpenProcess(PROCESS_TERMINATE, 0, pid)
+        hProc = OpenProcess(PROCESS_TERMINATE, 0, _pid)
         If hProc > 0 Then
             ret = TerminateProcess(hProc, 0)
             CloseHandle(hProc)

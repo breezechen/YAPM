@@ -6,7 +6,7 @@
     <starthidden>False</starthidden>
     <lang>English</lang>
     <startjobs>True</startjobs>
-    <startchkmodules>False</startchkmodules>
+    <fullpower>False</fullpower>
     <topmost>False</topmost>
     <firsttime>True</firsttime>
   </config>

@@ -34,7 +34,7 @@ Public Class cService
     Private Declare Function OpenSCManager Lib "advapi32.dll" Alias "OpenSCManagerA" (ByVal lpMachineName As String, ByVal lpDatabaseName As String, ByVal dwDesiredAccess As Integer) As IntPtr
 
     <DllImport("advapi32.dll", CharSet:=CharSet.Auto, entrypoint:="ChangeServiceConfigA", SetLastError:=True)> _
-    Private Shared Function ChangeServiceConfig(ByVal hService As Integer, ByVal dwServiceType As ServiceType, ByVal dwStartType As ServiceStartType, ByVal dwErrorControl As ServiceErrorControl, ByVal lpBinaryPathName As String, ByVal lpLoadOrderGroup As String, ByVal lpdwTagId As Integer, ByVal lpDependencies As String, <MarshalAs(UnmanagedType.LPStr)> ByVal lpServiceStartName As String, <MarshalAs(UnmanagedType.LPStr)> ByVal lpPassword As String, <MarshalAs(UnmanagedType.LPStr)> ByVal lpDisplayName As String) As Boolean
+    Private Shared Function ChangeServiceConfig(ByVal hService As Integer, ByVal dwServiceType As ServiceType, ByVal dwStartType As TypeServiceStartType, ByVal dwErrorControl As ServiceErrorControl, ByVal lpBinaryPathName As String, ByVal lpLoadOrderGroup As String, ByVal lpdwTagId As Integer, ByVal lpDependencies As String, <MarshalAs(UnmanagedType.LPStr)> ByVal lpServiceStartName As String, <MarshalAs(UnmanagedType.LPStr)> ByVal lpPassword As String, <MarshalAs(UnmanagedType.LPStr)> ByVal lpDisplayName As String) As Boolean
     End Function
 
     <DllImport("advapi32.dll", CharSet:=CharSet.Auto)> _
@@ -134,7 +134,7 @@ Public Class cService
     ' ========================================
     ' Exposed enums
     ' ========================================
-    Public Enum ServiceStartType As Integer
+    Public Enum TypeServiceStartType As Integer
         SERVICE_BOOT_START = &H0
         SERVICE_SYSTEM_START = &H1
         SERVICE_AUTO_START = &H2
@@ -163,81 +163,101 @@ Public Class cService
     ' ========================================
     ' Getter & Setter
     ' ========================================
-    Public Function GetName() As String
-        Return _Name
-    End Function
-    Public Function GetLongName() As String
-        Return _LongName
-    End Function
-    Public Function GetStatus() As System.ServiceProcess.ServiceControllerStatus
-        Return _Status
-    End Function
-    Public Function GetCanPauseAndContinue() As Boolean
-        Return _CanPauseAndContinue
-    End Function
-    Public Function GetCanShutdown() As Boolean
-        Return _CanShutdown
-    End Function
-    Public Function GetCanStop() As Boolean
-        Return _CanStop
-    End Function
-    Public Function GetImagePath(Optional ByVal forceRefresh As Boolean = False) As String
+#Region "Getter & setter"
+    Public ReadOnly Property Name() As String
+        Get
+            Return _Name
+        End Get
+    End Property
+    Public ReadOnly Property LongName() As String
+        Get
+            Return _LongName
+        End Get
+    End Property
+    Public ReadOnly Property Status() As System.ServiceProcess.ServiceControllerStatus
+        Get
+            Return _Status
+        End Get
+    End Property
+    Public ReadOnly Property CanPauseAndContinue() As Boolean
+        Get
+            Return _CanPauseAndContinue
+        End Get
+    End Property
+    Public ReadOnly Property CanShutdown() As Boolean
+        Get
+            Return _CanShutdown
+        End Get
+    End Property
+    Public ReadOnly Property CanStop() As Boolean
+        Get
+            Return _CanStop
+        End Get
+    End Property
+    Public ReadOnly Property ImagePath(Optional ByVal forceRefresh As Boolean = False) As String
+        Get
+            If _imagePath = vbNullString Or forceRefresh Then
+                _imagePath = GetServiceInfo("ImagePath")
+            End If
 
-        If _imagePath = vbNullString Or forceRefresh Then
-            _imagePath = GetServiceInfo("ImagePath")
-        End If
+            Return _imagePath
+        End Get
+    End Property
+    Public ReadOnly Property Description(Optional ByVal forceRefresh As Boolean = False) As String
+        Get
+            If _description = vbNullString Or forceRefresh Then
+                _description = GetServiceInfo("Description")
+            End If
 
-        Return _imagePath
-    End Function
-    Public Function GetDescription(Optional ByVal forceRefresh As Boolean = False) As String
+            Return _description
+        End Get
+    End Property
+    Public ReadOnly Property DiagnosticsMessageFile(Optional ByVal forceRefresh As Boolean = False) As String
+        Get
+            If _diagnosticsMessageFile = vbNullString Or forceRefresh Then
+                _diagnosticsMessageFile = GetServiceInfo("DiagnosticsMessageFile")
+            End If
 
-        If _description = vbNullString Or forceRefresh Then
-            _description = GetServiceInfo("Description")
-        End If
+            Return _diagnosticsMessageFile
+        End Get
+    End Property
+    Public ReadOnly Property Group(Optional ByVal forceRefresh As Boolean = False) As String
+        Get
+            If _group = vbNullString Or forceRefresh Then
+                _group = GetServiceInfo("Group")
+            End If
 
-        Return _description
-    End Function
-    Public Function GetDiagnosticsMessageFile(Optional ByVal forceRefresh As Boolean = False) As String
+            Return _group
+        End Get
+    End Property
+    Public ReadOnly Property ObjectName(Optional ByVal forceRefresh As Boolean = False) As String
+        Get
+            If _objectName = vbNullString Or forceRefresh Then
+                _objectName = GetServiceInfo("ObjectName")
+            End If
 
-        If _diagnosticsMessageFile = vbNullString Or forceRefresh Then
-            _diagnosticsMessageFile = GetServiceInfo("DiagnosticsMessageFile")
-        End If
-
-        Return _diagnosticsMessageFile
-    End Function
-    Public Function GetGroup(Optional ByVal forceRefresh As Boolean = False) As String
-
-        If _group = vbNullString Or forceRefresh Then
-            _group = GetServiceInfo("Group")
-        End If
-
-        Return _group
-    End Function
-    Public Function GetObjectName(Optional ByVal forceRefresh As Boolean = False) As String
-
-        If _objectName = vbNullString Or forceRefresh Then
-            _objectName = GetServiceInfo("ObjectName")
-        End If
-
-        Return _objectName
-    End Function
-    Public Function GetServiceStartType() As String
-        Select Case GetServiceInfo("Start")
-            Case "0"  'SERVICE_BOOT_START
-                Return "Boot Start"
-            Case "1"  'SERVICE_SYSTEM_START
-                Return "System Start"
-            Case "2"  'SERVICE_AUTO_START
-                Return "Auto Start"
-            Case "3"  'SERVICE_DEMAND_START
-                Return "Demand Start"
-            Case "4"  'SERVICE_DISABLED
-                Return "Disabled"
-            Case Else
-                Return vbNullString
-        End Select
-    End Function
-
+            Return _objectName
+        End Get
+    End Property
+    Public ReadOnly Property ServiceStartType() As String
+        Get
+            Select Case GetServiceInfo("Start")
+                Case "0"  'SERVICE_BOOT_START
+                    Return "Boot Start"
+                Case "1"  'SERVICE_SYSTEM_START
+                    Return "System Start"
+                Case "2"  'SERVICE_AUTO_START
+                    Return "Auto Start"
+                Case "3"  'SERVICE_DEMAND_START
+                    Return "Demand Start"
+                Case "4"  'SERVICE_DISABLED
+                    Return "Disabled"
+                Case Else
+                    Return vbNullString
+            End Select
+        End Get
+    End Property
+#End Region
 
     ' ========================================
     ' Constructor
@@ -367,7 +387,7 @@ Public Class cService
     End Sub
 
     ' Set service start type
-    Public Sub SetServiceStartType(ByVal type As ServiceStartType)
+    Public Sub SetServiceStartType(ByVal type As TypeServiceStartType)
         Dim hSCManager As IntPtr
         Dim lServ As IntPtr
         Dim hLockSCManager As Integer

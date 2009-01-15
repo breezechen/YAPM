@@ -260,126 +260,195 @@ Public Class cFile
     ' ========================================
     ' Getter & setter
     ' ========================================
-#Region "Getter"
-    Public Function GetFileVersion() As System.Diagnostics.FileVersionInfo
-        Return _tFileVersion
-    End Function
-    Public Function GetIsArchive() As Boolean
-        Return _isArchive
-    End Function
-    Public Function GetIsCompressed() As Boolean
-        Return _isCompressed
-    End Function
-    Public Function GetIsDevice() As Boolean
-        Return _isDevice
-    End Function
-    Public Function GetIsDirectory() As Boolean
-        Return _isDirectory
-    End Function
-    Public Function GetIsEncrypted() As Boolean
-        Return _isEncrypted
-    End Function
-    Public Function GetIsHidden() As Boolean
-        Return _isHidden
-    End Function
-    Public Function GetIsNormal() As Boolean
-        Return _isNormal
-    End Function
-    Public Function GetIsNotContentIndexed() As Boolean
-        Return _isNotContentIndexed
-    End Function
-    Public Function GetIsOffline() As Boolean
-        Return _isOffline
-    End Function
-    Public Function GetIsReadOnly() As Boolean
-        Return _isReadOnly
-    End Function
-    Public Function GetIsReparsePoint() As Boolean
-        Return _isReparsePoint
-    End Function
-    Public Function GetIsSparseFile() As Boolean
-        Return _isSparseFile
-    End Function
-    Public Function GetIsSystem() As Boolean
-        Return _isSystem
-    End Function
-    Public Function GetIsTemporary() As Boolean
-        Return _isTemporary
-    End Function
-    Public Function GetDateCreated() As String
-        Return _DateCreated
-    End Function
-    Public Function GetDateLastAccessed() As String
-        Return _DateLastAccessed
-    End Function
-    Public Function GetDateLastModified() As String
-        Return _DateLastModified
-    End Function
-    Public Function GetFileSize() As Long
-        Return _FileSize
-    End Function
-    Public Function GetCompressedFileSize() As Long
-        Return _CompressedFileSize
-    End Function
-    Public Function GetParentDirectory() As String
-        Return _ParentDirectory
-    End Function
-    Public Function GetDirectoryDepth() As Integer
-        Return _DirectoryDepth
-    End Function
-    Public Function GetFileExtension() As String
-        Return _FileExtension
-    End Function
-    Public Function GetFileAssociatedProgram() As String
-        Return _FileAssociatedProgram
-    End Function
-    Public Function GetFileType() As String
-        Return _FileType
-    End Function
-    Public Function GetFileAvailableForWrite() As Boolean
-        Return _FileAvailableForWrite
-    End Function
-    Public Function GetFileAvailableForRead() As Boolean
-        Return _FileAvailableForRead
-    End Function
-    Public Function GetShortPath() As String
-        Return _ShortPath
-    End Function
-    Public Function GetShortName() As String
-        Return _ShortName
-    End Function
-    Public Function GetName() As String
-        Return _Name
-    End Function
-    Public Function GetPath() As String
-        Return _Path
-    End Function
-    Public Function GetCreationTime() As Date
-        Return IO.File.GetCreationTime(_Path)
-    End Function
-    Public Function GetLastAccessTime() As Date
-        Return IO.File.GetLastAccessTime(_Path)
-    End Function
-    Public Function GetLastWriteTime() As Date
-        Return IO.File.GetLastWriteTime(_Path)
-    End Function
-    Public Function GetAttributes() As IO.FileAttributes
-        Return IO.File.GetAttributes(_Path)
-    End Function
+#Region "Getter & setter"
+    Public ReadOnly Property FileVersion() As System.Diagnostics.FileVersionInfo
+        Get
+            Return _tFileVersion
+        End Get
+    End Property
+    Public ReadOnly Property IsArchive() As Boolean
+        Get
+            Return _isArchive
+        End Get
+    End Property
+    Public ReadOnly Property IsCompressed() As Boolean
+        Get
+            Return _isCompressed
+        End Get
+    End Property
+    Public ReadOnly Property IsDevice() As Boolean
+        Get
+            Return _isDevice
+        End Get
+    End Property
+    Public ReadOnly Property IsDirectory() As Boolean
+        Get
+            Return _isDirectory
+        End Get
+    End Property
+    Public ReadOnly Property IsEncrypted() As Boolean
+        Get
+            Return _isEncrypted
+        End Get
+    End Property
+    Public ReadOnly Property IsHidden() As Boolean
+        Get
+            Return _isHidden
+        End Get
+    End Property
+    Public ReadOnly Property IsNormal() As Boolean
+        Get
+            Return _isNormal
+        End Get
+    End Property
+    Public ReadOnly Property IsNotContentIndexed() As Boolean
+        Get
+            Return _isNotContentIndexed
+        End Get
+    End Property
+    Public ReadOnly Property IsOffline() As Boolean
+        Get
+            Return _isOffline
+        End Get
+    End Property
+    Public ReadOnly Property IsReadOnly() As Boolean
+        Get
+            Return _isReadOnly
+        End Get
+    End Property
+    Public ReadOnly Property IsReparsePoint() As Boolean
+        Get
+            Return _isReparsePoint
+        End Get
+    End Property
+    Public ReadOnly Property IsSparseFile() As Boolean
+        Get
+            Return _isSparseFile
+        End Get
+    End Property
+    Public ReadOnly Property IsSystem() As Boolean
+        Get
+            Return _isSystem
+        End Get
+    End Property
+    Public ReadOnly Property IsTemporary() As Boolean
+        Get
+            Return _isTemporary
+        End Get
+    End Property
+    Public ReadOnly Property DateCreated() As String
+        Get
+            Return _DateCreated
+        End Get
+    End Property
+    Public ReadOnly Property DateLastAccessed() As String
+        Get
+            Return _DateLastAccessed
+        End Get
+    End Property
+    Public ReadOnly Property DateLastModified() As String
+        Get
+            Return _DateLastModified
+        End Get
+    End Property
+    Public ReadOnly Property FileSize() As Long
+        Get
+            Return _FileSize
+        End Get
+    End Property
+    Public ReadOnly Property CompressedFileSize() As Long
+        Get
+            Return _CompressedFileSize
+        End Get
+    End Property
+    Public ReadOnly Property ParentDirectory() As String
+        Get
+            Return _ParentDirectory
+        End Get
+    End Property
+    Public ReadOnly Property DirectoryDepth() As Integer
+        Get
+            Return _DirectoryDepth
+        End Get
+    End Property
+    Public ReadOnly Property FileExtension() As String
+        Get
+            Return _FileExtension
+        End Get
+    End Property
+    Public ReadOnly Property FileAssociatedProgram() As String
+        Get
+            Return _FileAssociatedProgram
+        End Get
+    End Property
+    Public ReadOnly Property FileType() As String
+        Get
+            Return _FileType
+        End Get
+    End Property
+    Public ReadOnly Property FileAvailableForWrite() As Boolean
+        Get
+            Return _FileAvailableForWrite
+        End Get
+    End Property
+    Public ReadOnly Property FileAvailableForRead() As Boolean
+        Get
+            Return _FileAvailableForRead
+        End Get
+    End Property
+    Public ReadOnly Property ShortPath() As String
+        Get
+            Return _ShortPath
+        End Get
+    End Property
+    Public ReadOnly Property ShortName() As String
+        Get
+            Return _ShortName
+        End Get
+    End Property
+    Public ReadOnly Property Name() As String
+        Get
+            Return _Name
+        End Get
+    End Property
+    Public ReadOnly Property Path() As String
+        Get
+            Return _Path
+        End Get
+    End Property
+    Public Property CreationTime() As Date
+        Get
+            Return IO.File.GetCreationTime(_Path)
+        End Get
+        Set(ByVal value As Date)
+            IO.File.SetCreationTime(_Path, value)
+        End Set
+    End Property
+    Public Property LastAccessTime() As Date
+        Get
+            Return IO.File.GetLastAccessTime(_Path)
+        End Get
+        Set(ByVal value As Date)
+            IO.File.SetLastAccessTime(_Path, value)
+        End Set
+    End Property
+    Public Property LastWriteTime() As Date
+        Get
+            Return IO.File.GetLastWriteTime(_Path)
+        End Get
+        Set(ByVal value As Date)
+            IO.File.SetLastWriteTime(_Path, value)
+        End Set
+    End Property
+    Public Property Attributes() As IO.FileAttributes
+        Get
+            Return IO.File.GetAttributes(_Path)
+        End Get
+        Set(ByVal value As IO.FileAttributes)
+            IO.File.SetAttributes(_Path, value)
+        End Set
+    End Property
 #End Region
-
-    Public Sub SetCreationTime(ByVal theDate As Date)
-        IO.File.SetCreationTime(_Path, theDate)
-    End Sub
-    Public Sub SetLastAccessTime(ByVal theDate As Date)
-        IO.File.SetLastAccessTime(_Path, theDate)
-    End Sub
-    Public Sub SetLastWriteTime(ByVal theDate As Date)
-        IO.File.SetLastWriteTime(_Path, theDate)
-    End Sub
-    Public Sub SetAttributes(ByVal attributes As IO.FileAttributes)
-        IO.File.SetAttributes(_Path, attributes)
-    End Sub
 
 
     ' ========================================
@@ -615,8 +684,8 @@ Public Class cFile
     ' Move a file
     Public Function WindowsMove(ByVal dest As String) As String
         Try
-            My.Computer.FileSystem.MoveFile(_Path, dest & "\" & Me.GetName, FileIO.UIOption.AllDialogs)
-            _Path = dest & "\" & Me.GetName
+            My.Computer.FileSystem.MoveFile(_Path, dest & "\" & Me.Name, FileIO.UIOption.AllDialogs)
+            _Path = dest & "\" & Me.Name
         Catch ex As Exception
             '
         End Try

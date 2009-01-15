@@ -391,7 +391,6 @@ Partial Class frmMain
         Me.txtMonitoringLog = New System.Windows.Forms.TextBox
         Me.splitMonitor3 = New System.Windows.Forms.SplitContainer
         Me.splitMonitor4 = New System.Windows.Forms.SplitContainer
-        Me.graphMonitor = New YAPM.Graph
         Me.txtMonitorNumber = New System.Windows.Forms.TextBox
         Me.lblMonitorMaxNumber = New System.Windows.Forms.Label
         Me.chkMonitorRightAuto = New System.Windows.Forms.CheckBox
@@ -450,6 +449,11 @@ Partial Class frmMain
         Me.ColumnHeader46 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader18 = New System.Windows.Forms.ColumnHeader
         Me.rtb6 = New System.Windows.Forms.RichTextBox
+        Me.menuModule = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ToolStripMenuItem35 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator
+        Me.ToolStripMenuItem36 = New System.Windows.Forms.ToolStripMenuItem
+        Me.graphMonitor = New YAPM.Graph
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -494,7 +498,6 @@ Partial Class frmMain
         Me.splitMonitor3.SuspendLayout()
         Me.splitMonitor4.Panel2.SuspendLayout()
         Me.splitMonitor4.SuspendLayout()
-        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.panelMain9.SuspendLayout()
         Me.splitThreads.Panel1.SuspendLayout()
         Me.splitThreads.Panel2.SuspendLayout()
@@ -509,6 +512,8 @@ Partial Class frmMain
         Me.splitModule.Panel1.SuspendLayout()
         Me.splitModule.Panel2.SuspendLayout()
         Me.splitModule.SuspendLayout()
+        Me.menuModule.SuspendLayout()
+        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'imgMain
@@ -4163,22 +4168,6 @@ Partial Class frmMain
         Me.splitMonitor4.SplitterDistance = 25
         Me.splitMonitor4.TabIndex = 4
         '
-        'graphMonitor
-        '
-        Me.graphMonitor.BackColor = System.Drawing.Color.Black
-        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
-        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
-        Me.graphMonitor.dDate = New Date(CType(0, Long))
-        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphMonitor.EnableGraph = False
-        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
-        Me.graphMonitor.Name = "graphMonitor"
-        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
-        Me.graphMonitor.TabIndex = 3
-        Me.graphMonitor.TabStop = False
-        Me.graphMonitor.ViewMax = 0
-        Me.graphMonitor.ViewMin = 0
-        '
         'txtMonitorNumber
         '
         Me.txtMonitorNumber.Location = New System.Drawing.Point(241, 0)
@@ -4585,6 +4574,7 @@ Partial Class frmMain
         '
         Me.lvModules.AllowColumnReorder = True
         Me.lvModules.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader29, Me.ColumnHeader43, Me.ColumnHeader44, Me.ColumnHeader45, Me.ColumnHeader46, Me.ColumnHeader18})
+        Me.lvModules.ContextMenuStrip = Me.menuModule
         Me.lvModules.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvModules.FullRowSelect = True
         ListViewGroup11.Header = "Modules"
@@ -4642,6 +4632,45 @@ Partial Class frmMain
         Me.rtb6.Size = New System.Drawing.Size(565, 100)
         Me.rtb6.TabIndex = 8
         Me.rtb6.Text = "Click on an item to get additionnal informations"
+        '
+        'menuModule
+        '
+        Me.menuModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem35, Me.ToolStripSeparator4, Me.ToolStripMenuItem36})
+        Me.menuModule.Name = "menuProc"
+        Me.menuModule.Size = New System.Drawing.Size(207, 54)
+        '
+        'ToolStripMenuItem35
+        '
+        Me.ToolStripMenuItem35.Name = "ToolStripMenuItem35"
+        Me.ToolStripMenuItem35.Size = New System.Drawing.Size(206, 22)
+        Me.ToolStripMenuItem35.Text = "&Select associated process"
+        '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(203, 6)
+        '
+        'ToolStripMenuItem36
+        '
+        Me.ToolStripMenuItem36.Name = "ToolStripMenuItem36"
+        Me.ToolStripMenuItem36.Size = New System.Drawing.Size(206, 22)
+        Me.ToolStripMenuItem36.Text = "Unload module"
+        '
+        'graphMonitor
+        '
+        Me.graphMonitor.BackColor = System.Drawing.Color.Black
+        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
+        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
+        Me.graphMonitor.dDate = New Date(CType(0, Long))
+        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphMonitor.EnableGraph = False
+        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
+        Me.graphMonitor.Name = "graphMonitor"
+        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
+        Me.graphMonitor.TabIndex = 3
+        Me.graphMonitor.TabStop = False
+        Me.graphMonitor.ViewMax = 0
+        Me.graphMonitor.ViewMin = 0
         '
         'frmMain
         '
@@ -4727,7 +4756,6 @@ Partial Class frmMain
         Me.splitMonitor3.ResumeLayout(False)
         Me.splitMonitor4.Panel2.ResumeLayout(False)
         Me.splitMonitor4.ResumeLayout(False)
-        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.panelMain9.ResumeLayout(False)
         Me.splitThreads.Panel1.ResumeLayout(False)
         Me.splitThreads.Panel2.ResumeLayout(False)
@@ -4742,6 +4770,8 @@ Partial Class frmMain
         Me.splitModule.Panel1.ResumeLayout(False)
         Me.splitModule.Panel2.ResumeLayout(False)
         Me.splitModule.ResumeLayout(False)
+        Me.menuModule.ResumeLayout(False)
+        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -5160,5 +5190,9 @@ Partial Class frmMain
     Friend WithEvents ColumnHeader45 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader46 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader18 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents menuModule As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents ToolStripMenuItem35 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator4 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripMenuItem36 As System.Windows.Forms.ToolStripMenuItem
 
 End Class

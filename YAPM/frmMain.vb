@@ -86,12 +86,12 @@ Public Class frmMain
         If IO.File.Exists(file) Then
 
             ' Set dates to datepickers
-            Me.DTcreation.Value = cSelFile.GetCreationTime
-            Me.DTlastAccess.Value = cSelFile.GetLastAccessTime
-            Me.DTlastModification.Value = cSelFile.GetLastWriteTime
+            Me.DTcreation.Value = cSelFile.CreationTime
+            Me.DTlastAccess.Value = cSelFile.LastAccessTime
+            Me.DTlastModification.Value = cSelFile.LastWriteTime
 
             ' Set attributes
-            Dim att As System.IO.FileAttributes = cSelFile.GetAttributes()
+            Dim att As System.IO.FileAttributes = cSelFile.Attributes()
             Me.chkFileArchive.Checked = ((att And IO.FileAttributes.Archive) = IO.FileAttributes.Archive)
             Me.chkFileCompressed.Checked = ((att And IO.FileAttributes.Compressed) = IO.FileAttributes.Compressed)
             Me.chkFileHidden.Checked = ((att And IO.FileAttributes.Hidden) = IO.FileAttributes.Hidden)
@@ -108,92 +108,92 @@ Public Class frmMain
             s &= "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}{\f1\fswiss\fcharset0 Arial;}}"
             s &= "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   "
             s &= "\b File basic properties\b0\par"
-            s &= "\tab File name :\tab\tab " & cSelFile.GetName & "\par"
-            s &= "\tab Parent directory :\tab " & cSelFile.GetParentDirectory & "\par"
-            s &= "\tab Extension :\tab\tab " & cSelFile.GetFileExtension & "\par"
-            s &= "\tab Creation date :\tab\tab " & cSelFile.GetDateCreated & "\par"
-            s &= "\tab Last access date :\tab " & cSelFile.GetDateLastAccessed & "\par"
-            s &= "\tab Last modification date :\tab " & cSelFile.GetDateLastModified & "\par"
-            s &= "\tab Size :\tab\tab\tab " & cSelFile.GetFileSize & " Bytes -- " & Math.Round(cSelFile.GetFileSize / 1024, 3) & " KB" & " -- " & Math.Round(cSelFile.GetFileSize / 1024 / 1024, 3) & "MB\par"
-            s &= "\tab Compressed size :\tab " & cSelFile.GetCompressedFileSize & " Bytes -- " & Math.Round(cSelFile.GetCompressedFileSize / 1024, 3) & " KB" & " -- " & Math.Round(cSelFile.GetCompressedFileSize / 1024 / 1024, 3) & "MB\par\par"
+            s &= "\tab File name :\tab\tab " & cSelFile.Name & "\par"
+            s &= "\tab Parent directory :\tab " & cSelFile.ParentDirectory & "\par"
+            s &= "\tab Extension :\tab\tab " & cSelFile.FileExtension & "\par"
+            s &= "\tab Creation date :\tab\tab " & cSelFile.DateCreated & "\par"
+            s &= "\tab Last access date :\tab " & cSelFile.DateLastAccessed & "\par"
+            s &= "\tab Last modification date :\tab " & cSelFile.DateLastModified & "\par"
+            s &= "\tab Size :\tab\tab\tab " & cSelFile.FileSize & " Bytes -- " & Math.Round(cSelFile.FileSize / 1024, 3) & " KB" & " -- " & Math.Round(cSelFile.FileSize / 1024 / 1024, 3) & "MB\par"
+            s &= "\tab Compressed size :\tab " & cSelFile.CompressedFileSize & " Bytes -- " & Math.Round(cSelFile.CompressedFileSize / 1024, 3) & " KB" & " -- " & Math.Round(cSelFile.CompressedFileSize / 1024 / 1024, 3) & "MB\par\par"
             s &= "\b File advances properties\b0\par"
-            s &= "\tab File type :\tab\tab " & cSelFile.GetFileType & "\par"
-            s &= "\tab Associated program :\tab " & cSelFile.GetFileAssociatedProgram & "\par"
-            s &= "\tab Short name :\tab\tab " & cSelFile.GetShortName & "\par"
-            s &= "\tab Short path :\tab\tab " & cSelFile.GetShortPath & "\par"
-            s &= "\tab Directory depth :\tab\tab " & cSelFile.GetDirectoryDepth & "\par"
-            s &= "\tab File available for read :\tab " & cSelFile.GetFileAvailableForWrite & "\par"
-            s &= "\tab File available for write :\tab " & cSelFile.GetFileAvailableForWrite & "\par\par"
+            s &= "\tab File type :\tab\tab " & cSelFile.FileType & "\par"
+            s &= "\tab Associated program :\tab " & cSelFile.FileAssociatedProgram & "\par"
+            s &= "\tab Short name :\tab\tab " & cSelFile.ShortName & "\par"
+            s &= "\tab Short path :\tab\tab " & cSelFile.ShortPath & "\par"
+            s &= "\tab Directory depth :\tab\tab " & cSelFile.DirectoryDepth & "\par"
+            s &= "\tab File available for read :\tab " & cSelFile.FileAvailableForWrite & "\par"
+            s &= "\tab File available for write :\tab " & cSelFile.FileAvailableForWrite & "\par\par"
             s &= "\b Attributes\b0\par"
-            s &= "\tab Archive :\tab\tab " & cSelFile.GetIsArchive & "\par"
-            s &= "\tab Compressed :\tab\tab " & cSelFile.GetIsCompressed & "\par"
-            s &= "\tab Device :\tab\tab\tab " & cSelFile.GetIsDevice & "\par"
-            s &= "\tab Directory :\tab\tab " & cSelFile.GetIsDirectory & "\par"
-            s &= "\tab Encrypted :\tab\tab " & cSelFile.GetIsEncrypted & "\par"
-            s &= "\tab Hidden :\tab\tab\tab " & cSelFile.GetIsHidden & "\par"
-            s &= "\tab Normal :\tab\tab\tab " & cSelFile.GetIsNormal & "\par"
-            s &= "\tab Not content indexed :\tab " & cSelFile.GetIsNotContentIndexed & "\par"
-            s &= "\tab Offline :\tab\tab\tab " & cSelFile.GetIsOffline & "\par"
-            s &= "\tab Read only :\tab\tab " & cSelFile.GetIsReadOnly & "\par"
-            s &= "\tab Reparse file :\tab\tab " & cSelFile.GetIsReparsePoint & "\par"
-            s &= "\tab Fragmented :\tab\tab " & cSelFile.GetIsSparseFile & "\par"
-            s &= "\tab System :\tab\tab " & cSelFile.GetIsSystem & "\par"
-            s &= "\tab Temporary :\tab\tab " & cSelFile.GetIsTemporary & "\par\par"
+            s &= "\tab Archive :\tab\tab " & cSelFile.IsArchive & "\par"
+            s &= "\tab Compressed :\tab\tab " & cSelFile.IsCompressed & "\par"
+            s &= "\tab Device :\tab\tab\tab " & cSelFile.IsDevice & "\par"
+            s &= "\tab Directory :\tab\tab " & cSelFile.IsDirectory & "\par"
+            s &= "\tab Encrypted :\tab\tab " & cSelFile.IsEncrypted & "\par"
+            s &= "\tab Hidden :\tab\tab\tab " & cSelFile.IsHidden & "\par"
+            s &= "\tab Normal :\tab\tab\tab " & cSelFile.IsNormal & "\par"
+            s &= "\tab Not content indexed :\tab " & cSelFile.IsNotContentIndexed & "\par"
+            s &= "\tab Offline :\tab\tab\tab " & cSelFile.IsOffline & "\par"
+            s &= "\tab Read only :\tab\tab " & cSelFile.IsReadOnly & "\par"
+            s &= "\tab Reparse file :\tab\tab " & cSelFile.IsReparsePoint & "\par"
+            s &= "\tab Fragmented :\tab\tab " & cSelFile.IsSparseFile & "\par"
+            s &= "\tab System :\tab\tab " & cSelFile.IsSystem & "\par"
+            s &= "\tab Temporary :\tab\tab " & cSelFile.IsTemporary & "\par\par"
             s &= "\b File version infos\b0\par"
 
-            If cSelFile.GetFileVersion IsNot Nothing Then
-                If cSelFile.GetFileVersion.Comments IsNot Nothing AndAlso cSelFile.GetFileVersion.Comments.Length > 0 Then _
-                    s &= "\tab Comments :\tab\tab " & cSelFile.GetFileVersion.Comments & "\par"
-                If cSelFile.GetFileVersion.CompanyName IsNot Nothing AndAlso cSelFile.GetFileVersion.CompanyName.Length > 0 Then _
-                    s &= "\tab CompanyName :\tab\tab " & cSelFile.GetFileVersion.CompanyName & "\par"
-                If CStr(cSelFile.GetFileVersion.FileBuildPart).Length > 0 Then _
-                    s &= "\tab FileBuildPart :\tab\tab " & CStr(cSelFile.GetFileVersion.FileBuildPart) & "\par"
-                If cSelFile.GetFileVersion.FileDescription IsNot Nothing AndAlso cSelFile.GetFileVersion.FileDescription.Length > 0 Then _
-                    s &= "\tab FileDescription :\tab\tab " & cSelFile.GetFileVersion.FileDescription & "\par"
-                If CStr(cSelFile.GetFileVersion.FileMajorPart).Length > 0 Then _
-                    s &= "\tab FileMajorPart :\tab\tab " & CStr(cSelFile.GetFileVersion.FileMajorPart) & "\par"
-                If CStr(cSelFile.GetFileVersion.FileMinorPart).Length > 0 Then _
-                    s &= "\tab FileMinorPart :\tab\tab " & cSelFile.GetFileVersion.FileMinorPart & "\par"
-                If CStr(cSelFile.GetFileVersion.FilePrivatePart).Length > 0 Then _
-                    s &= "\tab FilePrivatePart :\tab\tab " & cSelFile.GetFileVersion.FilePrivatePart & "\par"
-                If cSelFile.GetFileVersion.FileVersion IsNot Nothing AndAlso cSelFile.GetFileVersion.FileVersion.Length > 0 Then _
-                    s &= "\tab FileVersion :\tab\tab " & cSelFile.GetFileVersion.FileVersion & "\par"
-                If cSelFile.GetFileVersion.InternalName IsNot Nothing AndAlso cSelFile.GetFileVersion.InternalName.Length > 0 Then _
-                    s &= "\tab InternalName :\tab\tab " & cSelFile.GetFileVersion.InternalName & "\par"
-                If CStr(cSelFile.GetFileVersion.IsDebug).Length > 0 Then _
-                    s &= "\tab IsDebug :\tab\tab " & cSelFile.GetFileVersion.IsDebug & "\par"
-                If CStr(cSelFile.GetFileVersion.IsPatched).Length > 0 Then _
-                    s &= "\tab IsPatched :\tab\tab " & cSelFile.GetFileVersion.IsPatched & "\par"
-                If CStr(cSelFile.GetFileVersion.IsPreRelease).Length > 0 Then _
-                    s &= "\tab IsPreRelease :\tab\tab " & cSelFile.GetFileVersion.IsPreRelease & "\par"
-                If CStr(cSelFile.GetFileVersion.IsPrivateBuild).Length > 0 Then _
-                    s &= "\tab IsPrivateBuild :\tab\tab " & cSelFile.GetFileVersion.IsPrivateBuild & "\par"
-                If CStr(cSelFile.GetFileVersion.IsSpecialBuild).Length > 0 Then _
-                    s &= "\tab IsSpecialBuild :\tab\tab " & cSelFile.GetFileVersion.IsSpecialBuild & "\par"
-                If cSelFile.GetFileVersion.Language IsNot Nothing AndAlso cSelFile.GetFileVersion.Language.Length > 0 Then _
-                    s &= "\tab Language :\tab\tab " & cSelFile.GetFileVersion.Language & "\par"
-                If cSelFile.GetFileVersion.LegalCopyright IsNot Nothing AndAlso cSelFile.GetFileVersion.LegalCopyright.Length > 0 Then _
-                    s &= "\tab LegalCopyright :\tab\tab " & cSelFile.GetFileVersion.LegalCopyright & "\par"
-                If cSelFile.GetFileVersion.LegalTrademarks IsNot Nothing AndAlso cSelFile.GetFileVersion.LegalTrademarks.Length > 0 Then _
-                    s &= "\tab LegalTrademarks :\tab " & cSelFile.GetFileVersion.LegalTrademarks & "\par"
-                If cSelFile.GetFileVersion.OriginalFilename IsNot Nothing AndAlso cSelFile.GetFileVersion.OriginalFilename.Length > 0 Then _
-                    s &= "\tab OriginalFilename :\tab\tab " & cSelFile.GetFileVersion.OriginalFilename & "\par"
-                If cSelFile.GetFileVersion.PrivateBuild IsNot Nothing AndAlso cSelFile.GetFileVersion.PrivateBuild.Length > 0 Then _
-                    s &= "\tab PrivateBuild :\tab\tab " & cSelFile.GetFileVersion.PrivateBuild & "\par"
-                If CStr(cSelFile.GetFileVersion.ProductBuildPart).Length > 0 Then _
-                    s &= "\tab ProductBuildPart :\tab " & cSelFile.GetFileVersion.ProductBuildPart & "\par"
-                If CStr(cSelFile.GetFileVersion.ProductMajorPart).Length > 0 Then _
-                    s &= "\tab ProductMajorPart :\tab " & cSelFile.GetFileVersion.ProductMajorPart & "\par"
-                If CStr(cSelFile.GetFileVersion.ProductMinorPart).Length > 0 Then _
-                    s &= "\tab Comments :\tab\tab " & cSelFile.GetFileVersion.ProductMinorPart & "\par"
-                If cSelFile.GetFileVersion.ProductName IsNot Nothing AndAlso cSelFile.GetFileVersion.ProductName.Length > 0 Then _
-                    s &= "\tab ProductName :\tab\tab " & cSelFile.GetFileVersion.ProductName & "\par"
-                If CStr(cSelFile.GetFileVersion.ProductPrivatePart).Length > 0 Then _
-                    s &= "\tab ProductPrivatePart :\tab " & cSelFile.GetFileVersion.ProductPrivatePart & "\par"
-                If cSelFile.GetFileVersion.ProductVersion IsNot Nothing AndAlso cSelFile.GetFileVersion.ProductVersion.Length > 0 Then _
-                    s &= "\tab ProductVersion :\tab\tab " & cSelFile.GetFileVersion.ProductVersion & "\par"
-                If cSelFile.GetFileVersion.SpecialBuild IsNot Nothing AndAlso cSelFile.GetFileVersion.SpecialBuild.Length > 0 Then _
-                    s &= "\tab SpecialBuild :\tab\tab " & cSelFile.GetFileVersion.SpecialBuild & "\par"
+            If cSelFile.FileVersion IsNot Nothing Then
+                If cSelFile.FileVersion.Comments IsNot Nothing AndAlso cSelFile.FileVersion.Comments.Length > 0 Then _
+                    s &= "\tab Comments :\tab\tab " & cSelFile.FileVersion.Comments & "\par"
+                If cSelFile.FileVersion.CompanyName IsNot Nothing AndAlso cSelFile.FileVersion.CompanyName.Length > 0 Then _
+                    s &= "\tab CompanyName :\tab\tab " & cSelFile.FileVersion.CompanyName & "\par"
+                If CStr(cSelFile.FileVersion.FileBuildPart).Length > 0 Then _
+                    s &= "\tab FileBuildPart :\tab\tab " & CStr(cSelFile.FileVersion.FileBuildPart) & "\par"
+                If cSelFile.FileVersion.FileDescription IsNot Nothing AndAlso cSelFile.FileVersion.FileDescription.Length > 0 Then _
+                    s &= "\tab FileDescription :\tab\tab " & cSelFile.FileVersion.FileDescription & "\par"
+                If CStr(cSelFile.FileVersion.FileMajorPart).Length > 0 Then _
+                    s &= "\tab FileMajorPart :\tab\tab " & CStr(cSelFile.FileVersion.FileMajorPart) & "\par"
+                If CStr(cSelFile.FileVersion.FileMinorPart).Length > 0 Then _
+                    s &= "\tab FileMinorPart :\tab\tab " & cSelFile.FileVersion.FileMinorPart & "\par"
+                If CStr(cSelFile.FileVersion.FilePrivatePart).Length > 0 Then _
+                    s &= "\tab FilePrivatePart :\tab\tab " & cSelFile.FileVersion.FilePrivatePart & "\par"
+                If cSelFile.FileVersion.FileVersion IsNot Nothing AndAlso cSelFile.FileVersion.FileVersion.Length > 0 Then _
+                    s &= "\tab FileVersion :\tab\tab " & cSelFile.FileVersion.FileVersion & "\par"
+                If cSelFile.FileVersion.InternalName IsNot Nothing AndAlso cSelFile.FileVersion.InternalName.Length > 0 Then _
+                    s &= "\tab InternalName :\tab\tab " & cSelFile.FileVersion.InternalName & "\par"
+                If CStr(cSelFile.FileVersion.IsDebug).Length > 0 Then _
+                    s &= "\tab IsDebug :\tab\tab " & cSelFile.FileVersion.IsDebug & "\par"
+                If CStr(cSelFile.FileVersion.IsPatched).Length > 0 Then _
+                    s &= "\tab IsPatched :\tab\tab " & cSelFile.FileVersion.IsPatched & "\par"
+                If CStr(cSelFile.FileVersion.IsPreRelease).Length > 0 Then _
+                    s &= "\tab IsPreRelease :\tab\tab " & cSelFile.FileVersion.IsPreRelease & "\par"
+                If CStr(cSelFile.FileVersion.IsPrivateBuild).Length > 0 Then _
+                    s &= "\tab IsPrivateBuild :\tab\tab " & cSelFile.FileVersion.IsPrivateBuild & "\par"
+                If CStr(cSelFile.FileVersion.IsSpecialBuild).Length > 0 Then _
+                    s &= "\tab IsSpecialBuild :\tab\tab " & cSelFile.FileVersion.IsSpecialBuild & "\par"
+                If cSelFile.FileVersion.Language IsNot Nothing AndAlso cSelFile.FileVersion.Language.Length > 0 Then _
+                    s &= "\tab Language :\tab\tab " & cSelFile.FileVersion.Language & "\par"
+                If cSelFile.FileVersion.LegalCopyright IsNot Nothing AndAlso cSelFile.FileVersion.LegalCopyright.Length > 0 Then _
+                    s &= "\tab LegalCopyright :\tab\tab " & cSelFile.FileVersion.LegalCopyright & "\par"
+                If cSelFile.FileVersion.LegalTrademarks IsNot Nothing AndAlso cSelFile.FileVersion.LegalTrademarks.Length > 0 Then _
+                    s &= "\tab LegalTrademarks :\tab " & cSelFile.FileVersion.LegalTrademarks & "\par"
+                If cSelFile.FileVersion.OriginalFilename IsNot Nothing AndAlso cSelFile.FileVersion.OriginalFilename.Length > 0 Then _
+                    s &= "\tab OriginalFilename :\tab\tab " & cSelFile.FileVersion.OriginalFilename & "\par"
+                If cSelFile.FileVersion.PrivateBuild IsNot Nothing AndAlso cSelFile.FileVersion.PrivateBuild.Length > 0 Then _
+                    s &= "\tab PrivateBuild :\tab\tab " & cSelFile.FileVersion.PrivateBuild & "\par"
+                If CStr(cSelFile.FileVersion.ProductBuildPart).Length > 0 Then _
+                    s &= "\tab ProductBuildPart :\tab " & cSelFile.FileVersion.ProductBuildPart & "\par"
+                If CStr(cSelFile.FileVersion.ProductMajorPart).Length > 0 Then _
+                    s &= "\tab ProductMajorPart :\tab " & cSelFile.FileVersion.ProductMajorPart & "\par"
+                If CStr(cSelFile.FileVersion.ProductMinorPart).Length > 0 Then _
+                    s &= "\tab Comments :\tab\tab " & cSelFile.FileVersion.ProductMinorPart & "\par"
+                If cSelFile.FileVersion.ProductName IsNot Nothing AndAlso cSelFile.FileVersion.ProductName.Length > 0 Then _
+                    s &= "\tab ProductName :\tab\tab " & cSelFile.FileVersion.ProductName & "\par"
+                If CStr(cSelFile.FileVersion.ProductPrivatePart).Length > 0 Then _
+                    s &= "\tab ProductPrivatePart :\tab " & cSelFile.FileVersion.ProductPrivatePart & "\par"
+                If cSelFile.FileVersion.ProductVersion IsNot Nothing AndAlso cSelFile.FileVersion.ProductVersion.Length > 0 Then _
+                    s &= "\tab ProductVersion :\tab\tab " & cSelFile.FileVersion.ProductVersion & "\par"
+                If cSelFile.FileVersion.SpecialBuild IsNot Nothing AndAlso cSelFile.FileVersion.SpecialBuild.Length > 0 Then _
+                    s &= "\tab SpecialBuild :\tab\tab " & cSelFile.FileVersion.SpecialBuild & "\par"
             End If
 
             ' Icons
@@ -236,7 +236,7 @@ Public Class frmMain
 
             ' Test if process exist
             For Each p In serv
-                If p.GetName = lvi.Text Then
+                If p.Name = lvi.Text Then
                     exist = True
                     p.IsDisplayed = True
                     Exit For
@@ -264,7 +264,7 @@ Public Class frmMain
 
                 Dim it As New ListViewItem
 
-                it.Text = p.GetName
+                it.Text = p.Name
                 it.ImageKey = "service"
 
                 Dim lsub1 As New ListViewItem.ListViewSubItem
@@ -275,7 +275,7 @@ Public Class frmMain
 
                 Dim path As String
                 Try
-                    path = p.GetImagePath
+                    path = p.ImagePath
                     path = Replace(path, Chr(34), vbNullString)
                 Catch ex As Exception
                     path = ex.Message
@@ -283,16 +283,16 @@ Public Class frmMain
 
 
                 lsub4.Text = path
-                lsub2.Text = p.GetStatus.ToString
+                lsub2.Text = p.Status.ToString
                 Try
-                    lsub3.Text = p.GetServiceStartType
+                    lsub3.Text = p.ServiceStartType
                 Catch ex As Exception
                     lsub3.Text = ex.Message
                 End Try
-                lsub1.Text = p.GetLongName
-                lsub5.Text = CStr(IIf(p.GetCanPauseAndContinue, "Pause/Continue ", "")) & _
-                            CStr(IIf(p.GetCanShutdown, "Shutdown ", "")) & _
-                            CStr(IIf(p.GetCanStop, "Stop ", ""))
+                lsub1.Text = p.LongName
+                lsub5.Text = CStr(IIf(p.CanPauseAndContinue, "Pause/Continue ", "")) & _
+                            CStr(IIf(p.CanShutdown, "Shutdown ", "")) & _
+                            CStr(IIf(p.CanStop, "Stop ", ""))
 
                 it.SubItems.Add(lsub1)
                 it.SubItems.Add(lsub2)
@@ -313,12 +313,12 @@ Public Class frmMain
                 Dim cS As cService = CType(lvi.Tag, cService)
                 cS.Refresh()
 
-                lvi.SubItems(2).Text = cS.GetStatus.ToString
-                lvi.SubItems(5).Text = CStr(IIf(cS.GetCanPauseAndContinue, "Pause/Continue ", "")) & _
-                    CStr(IIf(cS.GetCanShutdown, "Shutdown ", "")) & _
-                    CStr(IIf(cS.GetCanStop, "Stop ", ""))
+                lvi.SubItems(2).Text = cS.Status.ToString
+                lvi.SubItems(5).Text = CStr(IIf(cS.CanPauseAndContinue, "Pause/Continue ", "")) & _
+                    CStr(IIf(cS.CanShutdown, "Shutdown ", "")) & _
+                    CStr(IIf(cS.CanStop, "Stop ", ""))
                 Try
-                    lvi.SubItems(3).Text = cS.GetServiceStartType
+                    lvi.SubItems(3).Text = cS.ServiceStartType
                 Catch ex As Exception
                     lvi.SubItems(3).Text = ex.Message
                 End Try
@@ -365,7 +365,7 @@ Public Class frmMain
             ' Test if process exist
             For Each p In proc
                 Dim cP As cProcess = CType(lvi.Tag, cProcess)
-                If p.GetPid = cP.GetPid And p.GetName = cP.GetName Then
+                If p.Pid = cP.Pid And p.Name = cP.Name Then
                     exist = True
                     p.isDisplayed = True
                     Exit For
@@ -391,7 +391,7 @@ Public Class frmMain
                 p.isDisplayed = True
 
                 ' Get the process name
-                Dim o As String = p.GetName
+                Dim o As String = p.Name
                 Dim it As New ListViewItem
 
                 If Len(o) > 0 Then
@@ -399,7 +399,7 @@ Public Class frmMain
                     it.Text = o
 
                     Dim lsub1 As New ListViewItem.ListViewSubItem
-                    lsub1.Text = CStr(p.GetPid)
+                    lsub1.Text = CStr(p.Pid)
 
                     Dim lsub2 As New ListViewItem.ListViewSubItem
                     Dim lsub3 As New ListViewItem.ListViewSubItem
@@ -409,14 +409,14 @@ Public Class frmMain
                     Dim lsub7 As New ListViewItem.ListViewSubItem
                     Dim lsub8 As New ListViewItem.ListViewSubItem
 
-                    If p.GetPid > 4 Then
+                    If p.Pid > 4 Then
 
-                        lsub2.Text = p.GetUserName
+                        lsub2.Text = p.UserName
 
                         ' Add icon
                         Try
 
-                            Dim fName As String = p.GetPath
+                            Dim fName As String = p.Path
 
                             If IO.File.Exists(fName) Then
                                 Dim img As System.Drawing.Icon = GetIcon(fName, True)
@@ -477,7 +477,7 @@ Public Class frmMain
             Try
                 Dim cP As cProcess = CType(lvi.Tag, cProcess)
 
-                Dim id As Integer = cP.GetPid
+                Dim id As Integer = cP.Pid
 
                 ' Processor time
                 ' Memory
@@ -485,19 +485,19 @@ Public Class frmMain
                 ' Priority
                 ' Path
 
-                Dim ts As TimeSpan = cP.GetProcessorTime
-                Dim fName As String = cP.GetPath
+                Dim ts As TimeSpan = cP.ProcessorTime
+                Dim fName As String = cP.Path
                 Dim s As String = String.Format("{0:00}", ts.TotalHours) & ":" & _
                     String.Format("{0:00}", ts.Minutes) & ":" & _
                     String.Format("{0:00}", ts.Seconds)
 
                 With lvi
                     .SubItems(3).Text = s
-                    Dim mc As cProcess.PROCESS_MEMORY_COUNTERS = cP.GetMemoryInfos
+                    Dim mc As cProcess.PROCESS_MEMORY_COUNTERS = cP.MemoryInfos
                     .SubItems(4).Text = CStr(mc.WorkingSetSize / 1024) & " Kb"
                     .SubItems(5).Text = CStr(mc.PeakWorkingSetSize / 1024) & " Kb"
-                    .SubItems(6).Text = cP.GetPriorityClass
-                    .SubItems(8).Text = cP.GetStartTime.ToString ' & " -- " & cP.GetStartTime.ToLongTimeString
+                    .SubItems(6).Text = cP.PriorityClass
+                    .SubItems(8).Text = cP.StartTime.ToString ' & " -- " & cP.GetStartTime.ToLongTimeString
                 End With
 
             Catch ex As Exception
@@ -578,7 +578,7 @@ Public Class frmMain
                 Exit Sub
             End If
             If Me.lvProcess.SelectedItems.Count = 1 Then
-                p = CType(Me.lvProcess.SelectedItems(0).Tag, cProcess).GetPriorityClassConstant
+                p = CType(Me.lvProcess.SelectedItems(0).Tag, cProcess).PriorityClassConstant
             End If
             Me.IdleToolStripMenuItem.Checked = (p = ProcessPriorityClass.Idle)
             Me.NormalToolStripMenuItem.Checked = (p = ProcessPriorityClass.Normal)
@@ -606,11 +606,11 @@ Public Class frmMain
 
                 Try
                     Dim cP As cProcess = CType(it.Tag, cProcess)
-                    Dim pid As Integer = cP.GetPid
+                    Dim pid As Integer = cP.Pid
 
-                    Dim mainModule As System.Diagnostics.ProcessModule = cP.GetMainModule
+                    Dim mainModule As System.Diagnostics.ProcessModule = cP.MainModule
 
-                    Dim pmc As cProcess.PROCESS_MEMORY_COUNTERS = cP.GetMemoryInfos
+                    Dim pmc As cProcess.PROCESS_MEMORY_COUNTERS = cP.MemoryInfos
 
                     ' Description
                     Dim s As String = ""
@@ -657,7 +657,7 @@ Public Class frmMain
                         s = s & "\par"
                         s = s & "  \b Loaded modules\b0\par"
                         Dim m As ProcessModule
-                        Dim mdl As ProcessModuleCollection = cP.GetModules
+                        Dim mdl As ProcessModuleCollection = cP.Modules
                         s = s & "\tab " & CStr(mdl.Count) & " modules loaded" & "\par"
                         For Each m In mdl
                             s = s & "\tab " & Replace(m.FileVersionInfo.FileName, "\", "\\") & "\par"
@@ -667,7 +667,7 @@ Public Class frmMain
                         s = s & "\par"
                         s = s & "  \b Threads\b0\par"
                         Dim pt As ProcessThread
-                        Dim thr As System.Diagnostics.ProcessThreadCollection = cP.GetThreads
+                        Dim thr As System.Diagnostics.ProcessThreadCollection = cP.Threads
                         s = s & "\tab " & CStr(thr.Count) & " threads \par"
                         For Each pt In thr
                             s = s & "\tab " & CStr(pt.Id) & "\par"
@@ -837,7 +837,7 @@ Public Class frmMain
                 .lang = "English"
                 .procIntervall = DEFAULT_TIMER_INTERVAL_PROCESSES
                 .serviceIntervall = DEFAULT_TIMER_INTERVAL_SERVICES
-                .startChkModules = True
+                .startFullPower = False
                 .startHidden = False
                 .startJobs = True
                 .startup = False
@@ -1089,14 +1089,14 @@ Public Class frmMain
                 ' Description
                 Dim s As String = vbNullString
                 Dim description As String = vbNullString
-                Dim diagnosticsMessageFile As String = cS.GetDiagnosticsMessageFile
-                Dim group As String = cS.GetGroup
-                Dim objectName As String = cS.GetObjectName
+                Dim diagnosticsMessageFile As String = cS.DiagnosticsMessageFile
+                Dim group As String = cS.Group
+                Dim objectName As String = cS.ObjectName
                 Dim tag As String = vbNullString
 
                 ' OK it's not the best way to retrive the description...
-                s = cS.GetImagePath
-                Dim sTemp As String = cS.GetDescription
+                s = cS.ImagePath
+                Dim sTemp As String = cS.Description
                 If InStr(sTemp, "@", CompareMethod.Binary) > 0 Then
                     description = cFile.IntelligentPathRetrieving(sTemp)
                 Else
@@ -1520,7 +1520,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
             Try
-                CType(it.Tag, cService).SetServiceStartType(cService.ServiceStartType.SERVICE_DISABLED)
+                CType(it.Tag, cService).SetServiceStartType(cService.TypeServiceStartType.SERVICE_DISABLED)
             Catch ex As Exception
                 '
             End Try
@@ -1533,7 +1533,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
             Try
-                CType(it.Tag, cService).SetServiceStartType(cService.ServiceStartType.SERVICE_AUTO_START)
+                CType(it.Tag, cService).SetServiceStartType(cService.TypeServiceStartType.SERVICE_AUTO_START)
             Catch ex As Exception
                 '
             End Try
@@ -1546,7 +1546,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
             Try
-                CType(it.Tag, cService).SetServiceStartType(cService.ServiceStartType.SERVICE_DEMAND_START)
+                CType(it.Tag, cService).SetServiceStartType(cService.TypeServiceStartType.SERVICE_DEMAND_START)
             Catch ex As Exception
                 '
             End Try
@@ -1712,7 +1712,7 @@ Public Class frmMain
         Me.refreshServiceList()
     End Sub
 
-    Private Sub butTakeFullPower_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butTakeFullPower.Click
+    Public Sub butTakeFullPower_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butTakeFullPower.Click
         Me.Visible = False
         'MsgBox(mdlPrivileges.SetDebuPrivilege())
         clsOpenedHandles.EnableDebug()
@@ -1914,7 +1914,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
             Try
-                CType(it.Tag, cService).SetServiceStartType(cService.ServiceStartType.SERVICE_AUTO_START)
+                CType(it.Tag, cService).SetServiceStartType(cService.TypeServiceStartType.SERVICE_AUTO_START)
             Catch ex As Exception
                 '
             End Try
@@ -1927,7 +1927,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
             Try
-                CType(it.Tag, cService).SetServiceStartType(cService.ServiceStartType.SERVICE_DISABLED)
+                CType(it.Tag, cService).SetServiceStartType(cService.TypeServiceStartType.SERVICE_DISABLED)
             Catch ex As Exception
                 '
             End Try
@@ -1940,7 +1940,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
             Try
-                CType(it.Tag, cService).SetServiceStartType(cService.ServiceStartType.SERVICE_DEMAND_START)
+                CType(it.Tag, cService).SetServiceStartType(cService.TypeServiceStartType.SERVICE_DEMAND_START)
             Catch ex As Exception
                 '
             End Try
@@ -3010,9 +3010,9 @@ Public Class frmMain
     Private Sub cmdSetFileDates_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSetFileDates.Click
         ' Set new dates
         Try
-            cSelFile.SetCreationTime(Me.DTcreation.Value)
-            cSelFile.SetLastAccessTime(Me.DTlastAccess.Value)
-            cSelFile.SetLastWriteTime(Me.DTlastModification.Value)
+            cSelFile.CreationTime = Me.DTcreation.Value
+            cSelFile.LastAccessTime = Me.DTlastAccess.Value
+            cSelFile.LastWriteTime = Me.DTlastModification.Value
             MsgBox("Done.", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Date change ok")
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Date change failed")
@@ -3023,26 +3023,16 @@ Public Class frmMain
         Call DisplayFileStrings(Me.lstFileString, Me.txtFile.Text)
     End Sub
 
-    Private Sub lstFileString_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lstFileString.MouseUp
-        If e.Button = Windows.Forms.MouseButtons.Right Then
-            ' Copy items to clipboard
-            Dim s As String = vbNullString
-            Dim i As String
-            For Each i In Me.lstFileString.SelectedItems
-                s = s & i & vbNewLine
-            Next
-            My.Computer.Clipboard.SetText(s.Substring(0, s.Length - 2))
-        ElseIf e.Button = Windows.Forms.MouseButtons.Middle Then
-            Call DisplayFileStrings(Me.lstFileString, Me.txtFile.Text)
-        End If
+    Private Sub lstFileString_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lstFileString.MouseDown
+        Call mdlMisc.CopyLstToClip(e, Me.lstFileString)
     End Sub
 
     Private Function RemoveAttribute(ByVal file As String, ByVal attributesToRemove As IO.FileAttributes) As IO.FileAttributes
-        Dim attributes As IO.FileAttributes = cSelFile.GetAttributes()
+        Dim attributes As IO.FileAttributes = cSelFile.Attributes()
         Return attributes And Not (attributesToRemove)
     End Function
     Private Function AddAttribute(ByVal file As String, ByVal attributesToAdd As IO.FileAttributes) As IO.FileAttributes
-        Dim attributes As IO.FileAttributes = cSelFile.GetAttributes
+        Dim attributes As IO.FileAttributes = cSelFile.Attributes
         Return attributes Or attributesToAdd
     End Function
 
@@ -3054,9 +3044,9 @@ Public Class frmMain
         End If
         Try
             If Me.chkFileArchive.Checked Then
-                cSelFile.SetAttributes(AddAttribute(Me.txtFile.Text, IO.FileAttributes.Archive))
+                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.Archive)
             Else
-                cSelFile.SetAttributes(RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.Archive))
+                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.Archive)
             End If
         Catch ex As Exception
             accessed = True
@@ -3072,9 +3062,9 @@ Public Class frmMain
         End If
         Try
             If Me.chkFileHidden.Checked Then
-                cSelFile.SetAttributes(AddAttribute(Me.txtFile.Text, IO.FileAttributes.Hidden))
+                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.Hidden)
             Else
-                cSelFile.SetAttributes(RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.Hidden))
+                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.Hidden)
             End If
         Catch ex As Exception
             accessed = True
@@ -3090,9 +3080,9 @@ Public Class frmMain
         End If
         Try
             If Me.chkFileReadOnly.Checked Then
-                cSelFile.SetAttributes(AddAttribute(Me.txtFile.Text, IO.FileAttributes.ReadOnly))
+                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.ReadOnly)
             Else
-                cSelFile.SetAttributes(RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.ReadOnly))
+                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.ReadOnly)
             End If
         Catch ex As Exception
             accessed = True
@@ -3108,9 +3098,9 @@ Public Class frmMain
         End If
         Try
             If Me.chkFileContentNotIndexed.Checked Then
-                cSelFile.SetAttributes(AddAttribute(Me.txtFile.Text, IO.FileAttributes.NotContentIndexed))
+                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.NotContentIndexed)
             Else
-                cSelFile.SetAttributes(RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.NotContentIndexed))
+                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.NotContentIndexed)
             End If
         Catch ex As Exception
             accessed = True
@@ -3126,9 +3116,9 @@ Public Class frmMain
         End If
         Try
             If Me.chkFileNormal.Checked Then
-                cSelFile.SetAttributes(AddAttribute(Me.txtFile.Text, IO.FileAttributes.Normal))
+                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.Normal)
             Else
-                cSelFile.SetAttributes(RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.Normal))
+                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.Normal)
             End If
         Catch ex As Exception
             accessed = True
@@ -3144,9 +3134,9 @@ Public Class frmMain
         End If
         Try
             If Me.chkFileSystem.Checked Then
-                cSelFile.SetAttributes(AddAttribute(Me.txtFile.Text, IO.FileAttributes.System))
+                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.System)
             Else
-                cSelFile.SetAttributes(RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.System))
+                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.System)
             End If
         Catch ex As Exception
             accessed = True
@@ -3648,7 +3638,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
             Dim frm As New frmAddProcessMonitor
-            frm._selProcess = CType(it.Tag, cProcess).GetPid
+            frm._selProcess = CType(it.Tag, cProcess).Pid
             frm.ShowDialog()
         Next
     End Sub
@@ -4101,7 +4091,7 @@ Public Class frmMain
 
             For Each it In Me.lvProcess.SelectedItems
                 Dim cp As cProcess = CType(it.Tag, cProcess)
-                threadsToRefresh(x) = cp.GetPid
+                threadsToRefresh(x) = cp.Pid
                 x += 1
             Next
 
@@ -4120,7 +4110,7 @@ Public Class frmMain
 
             For Each it In Me.lvProcess.SelectedItems
                 Dim cp As cProcess = CType(it.Tag, cProcess)
-                windowsToRefresh(x) = cp.GetPid
+                windowsToRefresh(x) = cp.Pid
                 x += 1
             Next
 
@@ -4512,11 +4502,11 @@ Public Class frmMain
     Private Sub butFileMove_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileMove.Click
         With Me.FolderChooser
             .Description = "Select new location"
-            .SelectedPath = cFile.GetParentDir(cSelFile.GetPath)
+            .SelectedPath = cFile.GetParentDir(cSelFile.Path)
             .ShowNewFolderButton = True
             If .ShowDialog = Windows.Forms.DialogResult.OK Then
                 Me.txtFile.Text = cSelFile.WindowsMove(.SelectedPath)
-                Call Me.refreshFileInfos(cSelFile.GetPath)
+                Call Me.refreshFileInfos(cSelFile.Path)
             End If
         End With
     End Sub
@@ -4524,7 +4514,7 @@ Public Class frmMain
     Private Sub butFileCopy_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileCopy.Click
         With Me.saveDial
             .AddExtension = True
-            .FileName = cSelFile.GetName
+            .FileName = cSelFile.Name
             .Filter = "All (*.*)|*.*"
             .InitialDirectory = cSelFile.GetParentDir
             If .ShowDialog = Windows.Forms.DialogResult.OK Then
@@ -4534,10 +4524,10 @@ Public Class frmMain
     End Sub
 
     Private Sub butFileRename_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileRename.Click
-        Dim s As String = InputBox("New name (name+extension) ?", "Select a new file name", cFile.GetFileName(cSelFile.GetPath))
+        Dim s As String = InputBox("New name (name+extension) ?", "Select a new file name", cFile.GetFileName(cSelFile.Path))
         If s = Nothing Then Exit Sub
         Me.txtFile.Text = cSelFile.WindowsRename(s)
-        Call Me.refreshFileInfos(cSelFile.GetPath)
+        Call Me.refreshFileInfos(cSelFile.Path)
     End Sub
 
     Private Sub ShowModulesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowModulesToolStripMenuItem.Click
@@ -4553,7 +4543,7 @@ Public Class frmMain
 
             For Each it In Me.lvProcess.SelectedItems
                 Dim cp As cProcess = CType(it.Tag, cProcess)
-                modulesToRefresh(x) = cp.GetPid
+                modulesToRefresh(x) = cp.Pid
                 x += 1
             Next
 
@@ -4794,4 +4784,38 @@ Public Class frmMain
     Private Sub lvSearchResults_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvSearchResults.MouseDown
         Call mdlMisc.CopyLvToClip(e, Me.lvSearchResults)
     End Sub
+
+    Private Sub ToolStripMenuItem36_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem36.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvModules.SelectedItems
+            Call CType(it.Tag, cModule).UnloadModule()
+            it.Remove()
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem35_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem35.Click
+        ' Select processes associated to selected windows
+        Dim it As ListViewItem
+        If Me.lvModules.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
+        For Each it In Me.lvModules.SelectedItems
+            Try
+                Dim sp As String = it.SubItems(5).Text
+                Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
+                If i > 0 Then
+                    Dim pid As String = sp.Substring(0, i - 1)
+                    Dim it2 As ListViewItem
+                    For Each it2 In Me.lvProcess.Items
+                        If it2.SubItems(1).Text = pid Then
+                            it2.Selected = True
+                        End If
+                    Next
+                End If
+                Me.Ribbon.ActiveTab = Me.ProcessTab
+                Call Me.Ribbon_MouseMove(Nothing, Nothing)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
 End Class
