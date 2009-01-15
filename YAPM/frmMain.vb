@@ -485,11 +485,11 @@ Public Class frmMain
                 ' Priority
                 ' Path
 
-                Dim ts As TimeSpan = cP.ProcessorTime
+                Dim ts As Date = cP.ProcessorTime
                 Dim fName As String = cP.Path
-                Dim s As String = String.Format("{0:00}", ts.TotalHours) & ":" & _
-                    String.Format("{0:00}", ts.Minutes) & ":" & _
-                    String.Format("{0:00}", ts.Seconds)
+                Dim s As String = String.Format("{0:00}", ts.Hour) & ":" & _
+                    String.Format("{0:00}", ts.Minute) & ":" & _
+                    String.Format("{0:00}", ts.Second)
 
                 With lvi
                     .SubItems(3).Text = s

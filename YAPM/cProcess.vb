@@ -55,7 +55,7 @@ Public Class cProcess
     Private Declare Function GetProcessMemoryInfo Lib "PSAPI.DLL" (ByVal hProcess As Integer, ByRef ppsmemCounters As PROCESS_MEMORY_COUNTERS, ByVal cb As Integer) As Integer
     Private Declare Function GetPriorityClass Lib "kernel32" Alias "GetPriorityClass" (ByVal hProcess As Integer) As Integer
 
-    Private Declare Function GetProcessTimes Lib "kernel32" (ByVal hProcess As Integer, ByRef lpCreationTime As FILETIME2, ByRef lpExitTime As FILETIME2, ByRef lpKernelTime As FILETIME2, ByRef lpUserTime As FILETIME2) As Integer
+    Private Declare Function GetProcessTimes Lib "kernel32" (ByVal hProcess As Integer, ByRef lpCreationTime As Long, ByRef lpExitTime As Long, ByRef lpKernelTime As Long, ByRef lpUserTime As Long) As Integer
 
     Private Declare Function CreateToolhelp32Snapshot Lib "kernel32.dll" (ByVal dwFlags As Integer, ByVal th32ProcessID As Integer) As Integer
     Private Declare Function Thread32First Lib "kernel32.dll" (ByVal hSnapshot As Integer, ByRef lpte As THREADENTRY32) As Boolean
@@ -118,8 +118,9 @@ Public Class cProcess
     Private Const BELOW_NORMAL_PRIORITY_CLASS As Integer = &H4000
     Private Const NORMAL_PRIORITY_CLASS As Integer = &H20
     Private Const ABOVE_NORMAL_PRIORITY_CLASS As Integer = &H8000
-    Private Const HIGH_PRIORITY_CLASS As Long = &H80 '
+    Private Const HIGH_PRIORITY_CLASS As Integer = &H80 '
     Private Const REALTIME_PRIORITY_CLASS As Integer = &H100
+    Private Const DATETIME_DELTA As Long = 504911268000000000
 
     ' ========================================
     ' Structures for API
@@ -385,23 +386,18 @@ Public Class cProcess
     End Property
 
     ' Get processor time as a TimeSpan
-    Public ReadOnly Property ProcessorTime() As TimeSpan
+    Public ReadOnly Property ProcessorTime() As Date
         Get
-            Dim T0 As FILETIME2
-            Dim T1 As FILETIME2
-            Dim curTime2 As FILETIME2
-            Dim curTime As FILETIME2
-            Dim r As TimeSpan
+            Dim T0 As Long
+            Dim T1 As Long
+            Dim curTime2 As Long
+            Dim curTime As Long
+            Dim r As Date
 
             If _hProcess > 0 Then
 
                 GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
-                Dim p1 As New TimeSpan(curTime.dwLowDateTime + curTime.dwHighDateTime)
-                Dim p2 As New TimeSpan(curTime2.dwLowDateTime + curTime2.dwHighDateTime)
-                ' BUGGY
-                p1.Add(p2)
-                r = p1
-
+                r = New Date(curTime + curTime2)
             End If
 
             Return r
@@ -411,17 +407,16 @@ Public Class cProcess
     ' Get processor time as a long
     Public ReadOnly Property ProcessorTimeLong() As Long
         Get
-            Dim T0 As FILETIME2
-            Dim T1 As FILETIME2
-            Dim curTime2 As FILETIME2
-            Dim curTime As FILETIME2
+            Dim T0 As Long
+            Dim T1 As Long
+            Dim curTime2 As Long
+            Dim curTime As Long
             Dim r As Long = 0
 
             If _hProcess > 0 Then
 
                 GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
-                r = curTime.dwLowDateTime + curTime.dwHighDateTime
-                r += curTime2.dwLowDateTime + curTime2.dwHighDateTime
+                r = curTime + curTime2
 
             End If
 
@@ -529,18 +524,18 @@ Public Class cProcess
     End Property
 
     ' Get the start time
-    Public ReadOnly Property StartTime() As TimeSpan
+    Public ReadOnly Property StartTime() As Date
         Get
-            Dim T0 As FILETIME2
-            Dim T1 As FILETIME2
-            Dim curTime2 As FILETIME2
-            Dim curTime As FILETIME2
-            Dim r As TimeSpan
+            Dim T0 As Long
+            Dim T1 As Long
+            Dim curTime2 As Long
+            Dim curTime As Long
+            Dim r As Date
 
             If _hProcess > 0 Then
                 'BUGGY
                 GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
-                Dim p1 As New TimeSpan(T0.dwLowDateTime + T0.dwHighDateTime)
+                Dim p1 As New Date(T0 + DATETIME_DELTA)
                 r = p1
             End If
 
