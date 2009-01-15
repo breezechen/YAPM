@@ -89,14 +89,14 @@ Partial Class frmPreferences
         Me.txtServiceIntervall.Location = New System.Drawing.Point(170, 37)
         Me.txtServiceIntervall.Name = "txtServiceIntervall"
         Me.txtServiceIntervall.Size = New System.Drawing.Size(120, 21)
-        Me.txtServiceIntervall.TabIndex = 3
+        Me.txtServiceIntervall.TabIndex = 6
         '
         'txtProcessIntervall
         '
         Me.txtProcessIntervall.Location = New System.Drawing.Point(170, 14)
         Me.txtProcessIntervall.Name = "txtProcessIntervall"
         Me.txtProcessIntervall.Size = New System.Drawing.Size(120, 21)
-        Me.txtProcessIntervall.TabIndex = 2
+        Me.txtProcessIntervall.TabIndex = 5
         '
         'Label2
         '
@@ -198,7 +198,7 @@ Partial Class frmPreferences
         Me.cmdDownload.Location = New System.Drawing.Point(186, 196)
         Me.cmdDownload.Name = "cmdDownload"
         Me.cmdDownload.Size = New System.Drawing.Size(136, 25)
-        Me.cmdDownload.TabIndex = 2
+        Me.cmdDownload.TabIndex = 12
         Me.cmdDownload.Text = "Download last update"
         Me.cmdDownload.UseVisualStyleBackColor = True
         '
@@ -207,7 +207,7 @@ Partial Class frmPreferences
         Me.cmdCheckUpdate.Location = New System.Drawing.Point(6, 196)
         Me.cmdCheckUpdate.Name = "cmdCheckUpdate"
         Me.cmdCheckUpdate.Size = New System.Drawing.Size(158, 25)
-        Me.cmdCheckUpdate.TabIndex = 1
+        Me.cmdCheckUpdate.TabIndex = 11
         Me.cmdCheckUpdate.Text = "Check is YAPM is up to date"
         Me.cmdCheckUpdate.UseVisualStyleBackColor = True
         '
@@ -220,7 +220,7 @@ Partial Class frmPreferences
         Me.txtUpdate.Name = "txtUpdate"
         Me.txtUpdate.ReadOnly = True
         Me.txtUpdate.Size = New System.Drawing.Size(316, 184)
-        Me.txtUpdate.TabIndex = 0
+        Me.txtUpdate.TabIndex = 10
         '
         'cmdSave
         '
@@ -228,7 +228,7 @@ Partial Class frmPreferences
         Me.cmdSave.Location = New System.Drawing.Point(12, 270)
         Me.cmdSave.Name = "cmdSave"
         Me.cmdSave.Size = New System.Drawing.Size(100, 26)
-        Me.cmdSave.TabIndex = 1
+        Me.cmdSave.TabIndex = 7
         Me.cmdSave.Text = "Save"
         Me.cmdSave.UseVisualStyleBackColor = True
         '
@@ -237,7 +237,7 @@ Partial Class frmPreferences
         Me.cmdQuit.Location = New System.Drawing.Point(242, 270)
         Me.cmdQuit.Name = "cmdQuit"
         Me.cmdQuit.Size = New System.Drawing.Size(100, 26)
-        Me.cmdQuit.TabIndex = 2
+        Me.cmdQuit.TabIndex = 9
         Me.cmdQuit.Text = "Close"
         Me.cmdQuit.UseVisualStyleBackColor = True
         '
@@ -246,7 +246,7 @@ Partial Class frmPreferences
         Me.cmdDefaut.Location = New System.Drawing.Point(127, 270)
         Me.cmdDefaut.Name = "cmdDefaut"
         Me.cmdDefaut.Size = New System.Drawing.Size(100, 26)
-        Me.cmdDefaut.TabIndex = 3
+        Me.cmdDefaut.TabIndex = 8
         Me.cmdDefaut.Text = "Default"
         Me.cmdDefaut.UseVisualStyleBackColor = True
         '

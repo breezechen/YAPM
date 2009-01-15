@@ -43,7 +43,7 @@ Partial Class frmAbout
         Me.btnOK.Location = New System.Drawing.Point(144, 281)
         Me.btnOK.Name = "btnOK"
         Me.btnOK.Size = New System.Drawing.Size(73, 25)
-        Me.btnOK.TabIndex = 3
+        Me.btnOK.TabIndex = 1
         Me.btnOK.Text = "OK"
         Me.btnOK.UseVisualStyleBackColor = True
         '
@@ -57,7 +57,7 @@ Partial Class frmAbout
         Me.rtb.ReadOnly = True
         Me.rtb.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical
         Me.rtb.Size = New System.Drawing.Size(339, 238)
-        Me.rtb.TabIndex = 4
+        Me.rtb.TabIndex = 0
         Me.rtb.Text = ""
         '
         'frmAbout

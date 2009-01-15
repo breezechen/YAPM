@@ -48,7 +48,7 @@ Partial Class frmAddProcessMonitor
         Me.butAdd.Location = New System.Drawing.Point(834, 203)
         Me.butAdd.Name = "butAdd"
         Me.butAdd.Size = New System.Drawing.Size(271, 24)
-        Me.butAdd.TabIndex = 4
+        Me.butAdd.TabIndex = 7
         Me.butAdd.Text = "Monitor counters"
         Me.butAdd.UseVisualStyleBackColor = True
         '
@@ -110,7 +110,7 @@ Partial Class frmAddProcessMonitor
         Me.cmdAddToList.Location = New System.Drawing.Point(768, 45)
         Me.cmdAddToList.Name = "cmdAddToList"
         Me.cmdAddToList.Size = New System.Drawing.Size(41, 23)
-        Me.cmdAddToList.TabIndex = 16
+        Me.cmdAddToList.TabIndex = 4
         Me.cmdAddToList.Text = ">>"
         Me.cmdAddToList.UseVisualStyleBackColor = True
         '
@@ -119,7 +119,7 @@ Partial Class frmAddProcessMonitor
         Me.cmdRemoveFromList.Location = New System.Drawing.Point(768, 118)
         Me.cmdRemoveFromList.Name = "cmdRemoveFromList"
         Me.cmdRemoveFromList.Size = New System.Drawing.Size(41, 23)
-        Me.cmdRemoveFromList.TabIndex = 17
+        Me.cmdRemoveFromList.TabIndex = 8
         Me.cmdRemoveFromList.Text = "<<"
         Me.cmdRemoveFromList.UseVisualStyleBackColor = True
         '
@@ -133,7 +133,7 @@ Partial Class frmAddProcessMonitor
         Me.lstToAdd.ShowGroups = False
         Me.lstToAdd.ShowItemToolTips = True
         Me.lstToAdd.Size = New System.Drawing.Size(272, 147)
-        Me.lstToAdd.TabIndex = 18
+        Me.lstToAdd.TabIndex = 5
         Me.lstToAdd.UseCompatibleStateImageBehavior = False
         Me.lstToAdd.View = System.Windows.Forms.View.Details
         '
@@ -151,7 +151,7 @@ Partial Class frmAddProcessMonitor
         Me.txtHelp.ReadOnly = True
         Me.txtHelp.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.txtHelp.Size = New System.Drawing.Size(738, 50)
-        Me.txtHelp.TabIndex = 19
+        Me.txtHelp.TabIndex = 9
         Me.txtHelp.Text = "Description de l'objet sélectionné"
         '
         'lstCounterType
@@ -165,7 +165,7 @@ Partial Class frmAddProcessMonitor
         Me.lstCounterType.ShowItemToolTips = True
         Me.lstCounterType.Size = New System.Drawing.Size(272, 147)
         Me.lstCounterType.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.lstCounterType.TabIndex = 20
+        Me.lstCounterType.TabIndex = 3
         Me.lstCounterType.UseCompatibleStateImageBehavior = False
         Me.lstCounterType.View = System.Windows.Forms.View.Details
         '
@@ -185,7 +185,7 @@ Partial Class frmAddProcessMonitor
         Me.lstInstance.ShowGroups = False
         Me.lstInstance.ShowItemToolTips = True
         Me.lstInstance.Size = New System.Drawing.Size(204, 147)
-        Me.lstInstance.TabIndex = 21
+        Me.lstInstance.TabIndex = 2
         Me.lstInstance.UseCompatibleStateImageBehavior = False
         Me.lstInstance.View = System.Windows.Forms.View.Details
         '
@@ -206,7 +206,7 @@ Partial Class frmAddProcessMonitor
         Me.lstCategory.ShowItemToolTips = True
         Me.lstCategory.Size = New System.Drawing.Size(250, 147)
         Me.lstCategory.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.lstCategory.TabIndex = 22
+        Me.lstCategory.TabIndex = 1
         Me.lstCategory.UseCompatibleStateImageBehavior = False
         Me.lstCategory.View = System.Windows.Forms.View.Details
         '

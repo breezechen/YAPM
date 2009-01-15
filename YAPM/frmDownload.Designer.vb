@@ -51,7 +51,7 @@ Partial Class frmDownload
         Me.Cancel_Button.Location = New System.Drawing.Point(3, 3)
         Me.Cancel_Button.Name = "Cancel_Button"
         Me.Cancel_Button.Size = New System.Drawing.Size(67, 23)
-        Me.Cancel_Button.TabIndex = 2
+        Me.Cancel_Button.TabIndex = 0
         Me.Cancel_Button.Text = "Cancel"
         '
         'Label1
@@ -69,7 +69,7 @@ Partial Class frmDownload
         Me.txtPath.Name = "txtPath"
         Me.txtPath.ReadOnly = True
         Me.txtPath.Size = New System.Drawing.Size(164, 21)
-        Me.txtPath.TabIndex = 2
+        Me.txtPath.TabIndex = 1
         Me.txtPath.Text = "C:\path.zip"
         '
         'pgb

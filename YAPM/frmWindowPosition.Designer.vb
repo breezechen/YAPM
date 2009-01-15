@@ -55,7 +55,7 @@ Partial Class frmWindowPosition
         Me.txtWidth.Location = New System.Drawing.Point(53, 47)
         Me.txtWidth.Name = "txtWidth"
         Me.txtWidth.Size = New System.Drawing.Size(62, 21)
-        Me.txtWidth.TabIndex = 6
+        Me.txtWidth.TabIndex = 3
         '
         'Label4
         '
@@ -71,7 +71,7 @@ Partial Class frmWindowPosition
         Me.txtHeight.Location = New System.Drawing.Point(53, 15)
         Me.txtHeight.Name = "txtHeight"
         Me.txtHeight.Size = New System.Drawing.Size(62, 21)
-        Me.txtHeight.TabIndex = 4
+        Me.txtHeight.TabIndex = 2
         '
         'Label3
         '
@@ -96,14 +96,14 @@ Partial Class frmWindowPosition
         Me.txtTop.Location = New System.Drawing.Point(121, 6)
         Me.txtTop.Name = "txtTop"
         Me.txtTop.Size = New System.Drawing.Size(62, 21)
-        Me.txtTop.TabIndex = 2
+        Me.txtTop.TabIndex = 0
         '
         'txtLeft
         '
         Me.txtLeft.Location = New System.Drawing.Point(6, 74)
         Me.txtLeft.Name = "txtLeft"
         Me.txtLeft.Size = New System.Drawing.Size(62, 21)
-        Me.txtLeft.TabIndex = 4
+        Me.txtLeft.TabIndex = 1
         '
         'Label2
         '
@@ -119,7 +119,7 @@ Partial Class frmWindowPosition
         Me.cmdOK.Location = New System.Drawing.Point(21, 135)
         Me.cmdOK.Name = "cmdOK"
         Me.cmdOK.Size = New System.Drawing.Size(68, 27)
-        Me.cmdOK.TabIndex = 5
+        Me.cmdOK.TabIndex = 4
         Me.cmdOK.Text = "OK"
         Me.cmdOK.UseVisualStyleBackColor = True
         '
@@ -128,7 +128,7 @@ Partial Class frmWindowPosition
         Me.cmdDefault.Location = New System.Drawing.Point(112, 135)
         Me.cmdDefault.Name = "cmdDefault"
         Me.cmdDefault.Size = New System.Drawing.Size(88, 27)
-        Me.cmdDefault.TabIndex = 6
+        Me.cmdDefault.TabIndex = 5
         Me.cmdDefault.Text = "Default"
         Me.cmdDefault.UseVisualStyleBackColor = True
         '
