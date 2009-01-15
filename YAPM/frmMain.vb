@@ -489,7 +489,8 @@ Public Class frmMain
                 Dim fName As String = cP.Path
                 Dim s As String = String.Format("{0:00}", ts.Hour) & ":" & _
                     String.Format("{0:00}", ts.Minute) & ":" & _
-                    String.Format("{0:00}", ts.Second)
+                    String.Format("{0:00}", ts.Second) & ":" & _
+                    String.Format("{000}", ts.Millisecond)
 
                 With lvi
                     .SubItems(3).Text = s
@@ -497,7 +498,7 @@ Public Class frmMain
                     .SubItems(4).Text = CStr(mc.WorkingSetSize / 1024) & " Kb"
                     .SubItems(5).Text = CStr(mc.PeakWorkingSetSize / 1024) & " Kb"
                     .SubItems(6).Text = cP.PriorityClass
-                    .SubItems(8).Text = cP.StartTime.ToString ' & " -- " & cP.GetStartTime.ToLongTimeString
+                    .SubItems(8).Text = cP.StartTime.ToString & " -- " & cP.StartTime.ToLongTimeString
                 End With
 
             Catch ex As Exception
