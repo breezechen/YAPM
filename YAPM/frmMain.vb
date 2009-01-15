@@ -328,6 +328,11 @@ Public Class frmMain
             End Try
         Next
 
+        If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
+            If Me.Ribbon.ActiveTab.Text = "Services" Then
+                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
+            End If
+        End If
     End Sub
 
     ' Refresh process list in listview
@@ -502,13 +507,18 @@ Public Class frmMain
         Next
 
         test = GetTickCount - test
-        ' Me.Text = CStr(test)
+
+        If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
+            Dim ss As String = Me.Ribbon.ActiveTab.Text
+            If ss = "Processes" Or ss = "Monitor" Or ss = "Misc" Or ss = "Help" Or ss = "File" Then
+                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvServices.Items.Count) & " services running"
+            End If
+        End If
 
     End Sub
 
     Private Sub timerProcess_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerProcess.Tick
         refreshProcessList()
-        Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
     End Sub
 
     Private Sub lvProcess_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvProcess.ColumnClick
@@ -555,6 +565,7 @@ Public Class frmMain
     End Sub
 
     Private Sub lvProcess_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvProcess)
         If e.Button = Windows.Forms.MouseButtons.Right Then
             Dim p As Integer = -1
             If Me.lvProcess.SelectedItems Is Nothing Then
@@ -1028,6 +1039,10 @@ Public Class frmMain
 
         ' Sort.
         lvServices.Sort()
+    End Sub
+
+    Private Sub lvServices_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvServices)
     End Sub
 
     Private Sub lvServices_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseUp
@@ -1955,6 +1970,7 @@ Public Class frmMain
             currentText = Ribbon.ActiveTab.Text
             Select Case currentText
                 Case "Services"
+                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvServices.Items.Count) & " services running"
                     Me.bProcessHover = False
                     Me.bServiceHover = True
                     Me.panelMain.Visible = False
@@ -1975,6 +1991,7 @@ Public Class frmMain
                     Me.panelMain10.Visible = False
                     Me.panelMain11.Visible = False
                 Case "Processes"
+                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
                     Me.bProcessHover = True
                     Me.bServiceHover = False
                     Me.panelMain.Visible = True
@@ -1995,6 +2012,7 @@ Public Class frmMain
                     Me.panelMain10.Visible = False
                     Me.panelMain11.Visible = False
                 Case "Jobs"
+                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvJobs.Items.Count) & " jobs in list"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
                     Me.panelMain.Visible = False
@@ -2013,6 +2031,7 @@ Public Class frmMain
                     Me.panelMain11.Visible = False
                 Case "Help"
 
+                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
                     If Not (bHelpShown) Then
                         bHelpShown = True
                         ' Load help file
@@ -2041,6 +2060,7 @@ Public Class frmMain
                     Me.panelMain11.Visible = False
                     Me.panelMain4.BringToFront()
                 Case "File"
+                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
                     Me.panelMain.Visible = False
@@ -2058,6 +2078,7 @@ Public Class frmMain
                     Me.panelMain10.Visible = False
                     Me.panelMain5.BringToFront()
                 Case "Search"
+                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvSearchResults.Items.Count) & " search results"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
                     Me.panelMain.Visible = False
@@ -2075,6 +2096,7 @@ Public Class frmMain
                     Me.panelMain11.Visible = False
                     Me.panelMain6.BringToFront()
                 Case "Handles"
+                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvHandles.Items.Count) & " handles"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
                     Me.panelMain.Visible = False
@@ -2092,6 +2114,7 @@ Public Class frmMain
                     Me.panelMain11.Visible = False
                     Me.panelMain7.BringToFront()
                 Case "Monitor"
+                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
                     Me.panelMain.Visible = False
@@ -2109,6 +2132,7 @@ Public Class frmMain
                     Me.panelMain8.BringToFront()
                     Me.panelMain11.Visible = False
                 Case "Threads"
+                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvThreads.Items.Count) & " threads"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
                     Me.panelMain.Visible = False
@@ -2126,6 +2150,7 @@ Public Class frmMain
                     Me.panelMain10.Visible = False
                     Me.panelMain11.Visible = False
                 Case "Windows"
+                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvWindows.Items.Count) & " windows"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
                     Me.panelMain.Visible = False
@@ -2143,6 +2168,7 @@ Public Class frmMain
                     Me.panelMain10.BringToFront()
                     Me.panelMain11.Visible = False
                 Case "Modules"
+                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
                     Me.bProcessHover = False
                     Me.bServiceHover = False
                     Me.panelMain.Visible = False
@@ -2633,7 +2659,7 @@ Public Class frmMain
 
     End Sub
 
-    Private Sub showHandles()
+    Private Sub ShowHandles()
         ' Display handles of desired processes (handlesToRefresh)
         Dim id As Integer
         Dim i As Integer
@@ -2681,13 +2707,14 @@ Public Class frmMain
             Next
         Next
 
+        Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvHandles.Items.Count) & " handles"
         My.Application.DoEvents()
         Me.Ribbon.ActiveTab = Me.HandlesTab
         Call Me.Ribbon_MouseMove(Nothing, Nothing)
     End Sub
 
     Private Sub butHandleRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butHandleRefresh.Click
-        Call showHandles()
+        Call ShowHandles()
     End Sub
 
     Private Sub butHandleClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butHandleClose.Click
@@ -3694,6 +3721,8 @@ Public Class frmMain
             Next
         Next
 
+        Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvThreads.Items.Count) & " threads"
+
     End Sub
 
     Private Sub butThreadRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadRefresh.Click
@@ -3801,6 +3830,10 @@ Public Class frmMain
 
     Private Sub butThreadStop_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadStop.Click
         Call ToolStripMenuItem24_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub lvThreads_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvThreads.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvThreads)
     End Sub
 
     Private Sub lvThreads_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvThreads.SelectedIndexChanged
@@ -4047,6 +4080,8 @@ Public Class frmMain
 
         End If
 
+        Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvWindows.Items.Count) & " windows"
+
     End Sub
 
     Private Sub ShowWindowsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowWindowsToolStripMenuItem.Click
@@ -4103,7 +4138,7 @@ Public Class frmMain
             handlesToRefresh(x) = CInt(Val(it.SubItems(1).Text))
             x += 1
         Next
-        Call showHandles()
+        Call ShowHandles()
     End Sub
 
     Private Sub butProcessShow_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessShow.Click
@@ -4155,7 +4190,7 @@ Public Class frmMain
     Private Sub butWindowHide_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowHide.Click
         Dim it As ListViewItem
         For Each it In Me.lvWindows.SelectedItems
-            Call CType(it.Tag, cWindow).hide()
+            Call CType(it.Tag, cWindow).Hide()
         Next
     End Sub
 
@@ -4298,6 +4333,10 @@ Public Class frmMain
         lvWindows.Sort()
     End Sub
 
+    Private Sub lvWindows_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvWindows.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvWindows)
+    End Sub
+
     Private Sub lvWindows_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvWindows.SelectedIndexChanged
         ' New window selected
         If lvWindows.SelectedItems.Count = 1 Then
@@ -4364,7 +4403,7 @@ Public Class frmMain
     Private Sub butWindowStopFlashing_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowStopFlashing.Click
         Dim it As ListViewItem
         For Each it In Me.lvWindows.SelectedItems
-            CType(it.Tag, cWindow).stopflashing()
+            CType(it.Tag, cWindow).StopFlashing()
         Next
     End Sub
 
@@ -4597,6 +4636,8 @@ Public Class frmMain
             End If
         Next
 
+        Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
+
     End Sub
 
     Private Sub butModuleRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butModuleRefresh.Click
@@ -4655,6 +4696,10 @@ Public Class frmMain
 
         ' Sort.
         lvModules.Sort()
+    End Sub
+
+    Private Sub lvModules_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvModules.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvModules)
     End Sub
 
     Private Sub lvModules_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvModules.SelectedIndexChanged
@@ -4736,5 +4781,17 @@ Public Class frmMain
             End If
 
         End If
+    End Sub
+
+    Private Sub lvHandles_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHandles.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvHandles)
+    End Sub
+
+    Private Sub lvJobs_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvJobs.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvJobs)
+    End Sub
+
+    Private Sub lvSearchResults_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvSearchResults.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvSearchResults)
     End Sub
 End Class

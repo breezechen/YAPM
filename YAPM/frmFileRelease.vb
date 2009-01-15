@@ -139,4 +139,9 @@ Public Class frmFileRelease
     Private Sub frmFileRelease_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
     End Sub
+
+    Private Sub lv_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lv.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lv)
+    End Sub
+
 End Class

@@ -215,6 +215,7 @@
     </Compile>
     <Compile Include="ListViewComparer.vb" />
     <Compile Include="mdlInternet.vb" />
+    <Compile Include="mdlMisc.vb" />
     <Compile Include="Pref.vb" />
     <None Include="Resources\folder_info.png" />
     <None Include="Resources\info.png" />

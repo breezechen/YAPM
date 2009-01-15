@@ -26,17 +26,20 @@ Partial Class frmAddProcessMonitor
         Me.Label2 = New System.Windows.Forms.Label
         Me.txtInterval = New System.Windows.Forms.TextBox
         Me.Label3 = New System.Windows.Forms.Label
-        Me.lstCategory = New System.Windows.Forms.ListBox
         Me.Label4 = New System.Windows.Forms.Label
-        Me.lstInstance = New System.Windows.Forms.ListBox
         Me.Label5 = New System.Windows.Forms.Label
         Me.Label1 = New System.Windows.Forms.Label
-        Me.lstCounterType = New System.Windows.Forms.CheckedListBox
         Me.cmdAddToList = New System.Windows.Forms.Button
         Me.cmdRemoveFromList = New System.Windows.Forms.Button
         Me.lstToAdd = New System.Windows.Forms.ListView
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.txtHelp = New System.Windows.Forms.TextBox
+        Me.lstCounterType = New System.Windows.Forms.ListView
+        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
+        Me.lstInstance = New System.Windows.Forms.ListView
+        Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
+        Me.lstCategory = New System.Windows.Forms.ListView
+        Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
         Me.SuspendLayout()
         '
         'butAdd
@@ -75,15 +78,6 @@ Partial Class frmAddProcessMonitor
         Me.Label3.TabIndex = 7
         Me.Label3.Text = "Category"
         '
-        'lstCategory
-        '
-        Me.lstCategory.FormattingEnabled = True
-        Me.lstCategory.Location = New System.Drawing.Point(9, 24)
-        Me.lstCategory.Name = "lstCategory"
-        Me.lstCategory.Size = New System.Drawing.Size(250, 147)
-        Me.lstCategory.Sorted = True
-        Me.lstCategory.TabIndex = 8
-        '
         'Label4
         '
         Me.Label4.AutoSize = True
@@ -92,15 +86,6 @@ Partial Class frmAddProcessMonitor
         Me.Label4.Size = New System.Drawing.Size(71, 13)
         Me.Label4.TabIndex = 9
         Me.Label4.Text = "Counter type"
-        '
-        'lstInstance
-        '
-        Me.lstInstance.FormattingEnabled = True
-        Me.lstInstance.Location = New System.Drawing.Point(265, 24)
-        Me.lstInstance.Name = "lstInstance"
-        Me.lstInstance.Size = New System.Drawing.Size(204, 147)
-        Me.lstInstance.Sorted = True
-        Me.lstInstance.TabIndex = 12
         '
         'Label5
         '
@@ -119,14 +104,6 @@ Partial Class frmAddProcessMonitor
         Me.Label1.Size = New System.Drawing.Size(103, 13)
         Me.Label1.TabIndex = 13
         Me.Label1.Text = "Counters to monitor"
-        '
-        'lstCounterType
-        '
-        Me.lstCounterType.FormattingEnabled = True
-        Me.lstCounterType.Location = New System.Drawing.Point(475, 23)
-        Me.lstCounterType.Name = "lstCounterType"
-        Me.lstCounterType.Size = New System.Drawing.Size(272, 148)
-        Me.lstCounterType.TabIndex = 15
         '
         'cmdAddToList
         '
@@ -177,21 +154,82 @@ Partial Class frmAddProcessMonitor
         Me.txtHelp.TabIndex = 19
         Me.txtHelp.Text = "Description de l'objet sélectionné"
         '
+        'lstCounterType
+        '
+        Me.lstCounterType.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader2})
+        Me.lstCounterType.FullRowSelect = True
+        Me.lstCounterType.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+        Me.lstCounterType.Location = New System.Drawing.Point(475, 24)
+        Me.lstCounterType.Name = "lstCounterType"
+        Me.lstCounterType.ShowGroups = False
+        Me.lstCounterType.ShowItemToolTips = True
+        Me.lstCounterType.Size = New System.Drawing.Size(272, 147)
+        Me.lstCounterType.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.lstCounterType.TabIndex = 20
+        Me.lstCounterType.UseCompatibleStateImageBehavior = False
+        Me.lstCounterType.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader2
+        '
+        Me.ColumnHeader2.Text = "Counter item"
+        Me.ColumnHeader2.Width = 1000
+        '
+        'lstInstance
+        '
+        Me.lstInstance.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3})
+        Me.lstInstance.FullRowSelect = True
+        Me.lstInstance.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+        Me.lstInstance.Location = New System.Drawing.Point(265, 24)
+        Me.lstInstance.MultiSelect = False
+        Me.lstInstance.Name = "lstInstance"
+        Me.lstInstance.ShowGroups = False
+        Me.lstInstance.ShowItemToolTips = True
+        Me.lstInstance.Size = New System.Drawing.Size(204, 147)
+        Me.lstInstance.TabIndex = 21
+        Me.lstInstance.UseCompatibleStateImageBehavior = False
+        Me.lstInstance.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader3
+        '
+        Me.ColumnHeader3.Text = "Counter item"
+        Me.ColumnHeader3.Width = 1000
+        '
+        'lstCategory
+        '
+        Me.lstCategory.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader4})
+        Me.lstCategory.FullRowSelect = True
+        Me.lstCategory.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+        Me.lstCategory.Location = New System.Drawing.Point(9, 24)
+        Me.lstCategory.MultiSelect = False
+        Me.lstCategory.Name = "lstCategory"
+        Me.lstCategory.ShowGroups = False
+        Me.lstCategory.ShowItemToolTips = True
+        Me.lstCategory.Size = New System.Drawing.Size(250, 147)
+        Me.lstCategory.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.lstCategory.TabIndex = 22
+        Me.lstCategory.UseCompatibleStateImageBehavior = False
+        Me.lstCategory.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader4
+        '
+        Me.ColumnHeader4.Text = "Counter item"
+        Me.ColumnHeader4.Width = 1000
+        '
         'frmAddProcessMonitor
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1111, 235)
+        Me.Controls.Add(Me.lstCategory)
+        Me.Controls.Add(Me.lstInstance)
+        Me.Controls.Add(Me.lstCounterType)
         Me.Controls.Add(Me.txtHelp)
         Me.Controls.Add(Me.lstToAdd)
         Me.Controls.Add(Me.cmdRemoveFromList)
         Me.Controls.Add(Me.cmdAddToList)
-        Me.Controls.Add(Me.lstCounterType)
         Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.lstInstance)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.lstCategory)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.txtInterval)
         Me.Controls.Add(Me.Label2)
@@ -213,15 +251,18 @@ Partial Class frmAddProcessMonitor
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents txtInterval As System.Windows.Forms.TextBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents lstCategory As System.Windows.Forms.ListBox
     Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents lstInstance As System.Windows.Forms.ListBox
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents lstCounterType As System.Windows.Forms.CheckedListBox
     Friend WithEvents cmdAddToList As System.Windows.Forms.Button
     Friend WithEvents cmdRemoveFromList As System.Windows.Forms.Button
     Friend WithEvents lstToAdd As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents txtHelp As System.Windows.Forms.TextBox
+    Friend WithEvents lstCounterType As System.Windows.Forms.ListView
+    Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents lstInstance As System.Windows.Forms.ListView
+    Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents lstCategory As System.Windows.Forms.ListView
+    Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
 End Class

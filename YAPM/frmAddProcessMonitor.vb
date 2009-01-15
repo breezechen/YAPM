@@ -104,67 +104,21 @@ Public Class frmAddProcessMonitor
 
     End Sub
 
-    Private Sub lstCategory_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstCategory.SelectedIndexChanged
-        Dim mypc() As String
-        Dim i As Integer
-        Dim myCat As New PerformanceCounterCategory(lstCategory.SelectedItem.ToString)
-        txtHelp.Text = myCat.CategoryHelp
-        Me.lstInstance.Items.Clear()
-        Me.lstCounterType.Items.Clear()
-        Try
-            mypc = myCat.GetInstanceNames
-            For i = 0 To mypc.Length - 1
-                Me.lstInstance.Items.Add(mypc(i))
-            Next
-        Catch ex As Exception
-        End Try
-
-        Call lstInstance_SelectedIndexChanged(Nothing, Nothing)
-    End Sub
-
-    Private Sub lstInstance_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstInstance.SelectedIndexChanged
-        Dim mypc() As PerformanceCounter
-        Dim i As Integer
-        Me.lstCounterType.Items.Clear()
-        If lstInstance.SelectedItem Is Nothing Then
-            Dim myCat As New PerformanceCounterCategory(lstCategory.SelectedItem.ToString)
-            Me.lstCounterType.Items.Clear()
-            Try
-                mypc = myCat.GetCounters()
-                For i = 0 To mypc.Length - 1
-                    Me.lstCounterType.Items.Add(mypc(i).CounterName)
-                Next
-            Catch ex As Exception
-            End Try
-        Else
-            Dim myCat As New PerformanceCounterCategory(lstCategory.SelectedItem.ToString)
-            Me.lstCounterType.Items.Clear()
-            Try
-                mypc = myCat.GetCounters(lstInstance.SelectedItem.ToString)
-                For i = 0 To mypc.Length - 1
-                    Me.lstCounterType.Items.Add(mypc(i).CounterName)
-                Next
-            Catch ex As Exception
-            End Try
-        End If
-        Me.butAdd.Enabled = (Me.lstCounterType.SelectedItems.Count > 0)
-    End Sub
-
     Private Sub cmdAddToList_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdAddToList.Click
         ' Add selected counters to wish list
-        Dim listIt As Object
+        Dim listIt As ListViewItem
 
         Dim _name As String = vbNullString
         Dim _cat As String = vbNullString
         Dim _count As String = vbNullString
-        If Me.lstCategory.SelectedItem Is Nothing Then Exit Sub
+        If Me.lstCategory.SelectedItems Is Nothing Then Exit Sub
 
-        For Each listIt In Me.lstCounterType.CheckedItems
+        For Each listIt In Me.lstCounterType.SelectedItems
 
-            _count = listIt.ToString
-            If Me.lstInstance.SelectedItem IsNot Nothing Then _name = Me.lstInstance.SelectedItem.ToString
+            _count = listIt.Text
+            If Me.lstInstance.SelectedItems IsNot Nothing Then _name = Me.lstInstance.SelectedItems(0).Text
             If _count = vbNullString And _name = vbNullString Then Exit Sub
-            _cat = Me.lstCategory.SelectedItem.ToString
+            _cat = Me.lstCategory.SelectedItems(0).Text
 
             Dim it As New monCounter
 
@@ -205,10 +159,75 @@ Public Class frmAddProcessMonitor
         Me.butAdd.Enabled = (Me.lstCounterType.Items.Count > 0)
     End Sub
 
+    Private Sub lstCategory_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lstCategory.MouseDown
+        Call mdlMisc.CopyLvToClip(e, lstCategory)
+    End Sub
+
+    Private Sub lstCategory_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstCategory.SelectedIndexChanged
+        Dim mypc() As String
+        Dim i As Integer
+        If lstCategory.SelectedItems IsNot Nothing AndAlso lstCategory.SelectedItems.Count > 0 Then
+            Dim myCat As New PerformanceCounterCategory(lstCategory.SelectedItems(0).Text)
+            txtHelp.Text = myCat.CategoryHelp
+            Me.lstInstance.Items.Clear()
+            Me.lstCounterType.Items.Clear()
+            Try
+                mypc = myCat.GetInstanceNames
+                For i = 0 To mypc.Length - 1
+                    Me.lstInstance.Items.Add(mypc(i))
+                Next
+            Catch ex As Exception
+            End Try
+            Call lstInstance_SelectedIndexChanged(Nothing, Nothing)
+        End If
+
+    End Sub
+
+    Private Sub lstInstance_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lstInstance.MouseDown
+        Call mdlMisc.CopyLvToClip(e, lstInstance)
+    End Sub
+
+    Private Sub lstInstance_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstInstance.SelectedIndexChanged
+        Dim mypc() As PerformanceCounter
+        Dim i As Integer
+        Me.lstCounterType.Items.Clear()
+        If lstInstance.SelectedItems.Count = 0 Then
+            Dim myCat As New PerformanceCounterCategory(lstCategory.SelectedItems(0).Text)
+            Me.lstCounterType.Items.Clear()
+            Try
+                mypc = myCat.GetCounters()
+                For i = 0 To mypc.Length - 1
+                    Me.lstCounterType.Items.Add(mypc(i).CounterName)
+                Next
+            Catch ex As Exception
+            End Try
+        Else
+            Dim myCat As New PerformanceCounterCategory(lstCategory.SelectedItems(0).Text)
+            Me.lstCounterType.Items.Clear()
+            Try
+                mypc = myCat.GetCounters(lstInstance.SelectedItems(0).Text)
+                For i = 0 To mypc.Length - 1
+                    Me.lstCounterType.Items.Add(mypc(i).CounterName)
+                Next
+            Catch ex As Exception
+            End Try
+        End If
+        Me.butAdd.Enabled = (Me.lstCounterType.SelectedItems.Count > 0)
+    End Sub
+
+    Private Sub lstCounterType_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lstCounterType.MouseDown
+        Call mdlMisc.CopyLvToClip(e, lstCounterType)
+    End Sub
+
     Private Sub lstCounterType_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstCounterType.SelectedIndexChanged
-        If lstCounterType.SelectedItem IsNot Nothing Then
-            Dim myCat As New PerformanceCounter(Me.lstCategory.SelectedItem.ToString, lstCounterType.SelectedItem.ToString)
+        If lstCounterType.SelectedItems IsNot Nothing AndAlso lstCounterType.SelectedItems.Count > 0 Then
+            Dim myCat As New PerformanceCounter(Me.lstCategory.SelectedItems(0).Text, lstCounterType.SelectedItems(0).Text)
             txtHelp.Text = myCat.CounterHelp
         End If
     End Sub
+
+    Private Sub lstToAdd_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lstToAdd.MouseDown
+        Call mdlMisc.CopyLvToClip(e, lstToAdd)
+    End Sub
+
 End Class
