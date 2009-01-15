@@ -22,6 +22,8 @@
 
 Option Strict On
 
+Imports Microsoft.Win32
+
 Module mdlMisc
 
     ' Copy content of a listview (selected items) into clipboard
@@ -41,6 +43,22 @@ Module mdlMisc
             Next
             If Not (s = vbNullString) Then My.Computer.Clipboard.SetText(s, TextDataFormat.UnicodeText)
         End If
+    End Sub
+
+    ' Start (or not) with windows startup
+    Public Sub StartWithWindows(ByVal value As Boolean)
+        Try
+            Dim regKey As RegistryKey
+            regKey = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\Run", True)
+
+            If value Then
+                regKey.SetValue(Application.ProductName, Application.ExecutablePath)
+            Else
+                regKey.DeleteValue(Application.ProductName)
+            End If
+        Catch ex As Exception
+            '
+        End Try
     End Sub
 
 End Module

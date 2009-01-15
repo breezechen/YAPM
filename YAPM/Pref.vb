@@ -129,6 +129,7 @@ Public Class Pref
             frmMain.chkModules.Checked = startChkModules
             frmMain.bAlwaysDisplay = topmost
             frmMain.butTopMost.Checked = topmost
+            Call mdlMisc.StartWithWindows(Me.startup)
         End If
         If startHidden Then
             frmMain.WindowState = FormWindowState.Minimized
