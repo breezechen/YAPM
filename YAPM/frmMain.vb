@@ -4819,4 +4819,12 @@ Public Class frmMain
         Next
     End Sub
 
+    Private Sub ShowFileDetailsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowFileDetailsToolStripMenuItem.Click
+        If Me.lvModules.SelectedItems.Count > 0 Then
+            Dim s As String = Me.lvModules.SelectedItems.Item(0).SubItems(4).Text
+            If IO.File.Exists(s) Then
+                DisplayDetailsFile(s)
+            End If
+        End If
+    End Sub
 End Class
