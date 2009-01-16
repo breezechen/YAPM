@@ -116,7 +116,7 @@ Public Class frmAddProcessMonitor
         For Each listIt In Me.lstCounterType.SelectedItems
 
             _count = listIt.Text
-            If Me.lstInstance.SelectedItems IsNot Nothing Then _name = Me.lstInstance.SelectedItems(0).Text
+            If Me.lstInstance.SelectedItems IsNot Nothing AndAlso Me.lstInstance.SelectedItems.Count > 0 Then _name = Me.lstInstance.SelectedItems(0).Text
             If _count = vbNullString And _name = vbNullString Then Exit Sub
             _cat = Me.lstCategory.SelectedItems(0).Text
 
