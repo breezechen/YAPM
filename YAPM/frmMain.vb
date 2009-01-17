@@ -2442,6 +2442,7 @@ Public Class frmMain
                         newIt.SubItems.Add(n3)
                         newIt.SubItems.Add(n4)
                         newIt.Tag = "process"
+                        newIt.Group = Me.lvSearchResults.Groups(0)
                         Try
                             Dim fName As String = it.SubItems(7).Text
                             imgSearch.Images.Add(fName, imgProcess.Images.Item(fName))
@@ -2480,6 +2481,7 @@ Public Class frmMain
                                 newIt.SubItems.Add(n3)
                                 newIt.SubItems.Add(n4)
                                 newIt.ImageKey = "dll"
+                                newIt.Group = Me.lvSearchResults.Groups(0)
                                 Me.lvSearchResults.Items.Add(newIt)
                             End If
                         Next
@@ -2514,6 +2516,7 @@ Public Class frmMain
                         newIt.SubItems.Add(n3)
                         newIt.SubItems.Add(n4)
                         newIt.ImageKey = "service"
+                        newIt.Group = Me.lvSearchResults.Groups(0)
                         Me.lvSearchResults.Items.Add(newIt)
                     End If
                 Next
@@ -2545,6 +2548,7 @@ Public Class frmMain
                             newIt.SubItems.Add(n3)
                             newIt.SubItems.Add(n4)
                             newIt.ImageKey = "handle"
+                            newIt.Group = Me.lvSearchResults.Groups(0)
                             Me.lvSearchResults.Items.Add(newIt)
                         End If
                     End If
@@ -2580,6 +2584,7 @@ Public Class frmMain
                             newIt.SubItems.Add(n3)
                             newIt.SubItems.Add(n4)
                             newIt.ImageKey = "window"
+                            newIt.Group = Me.lvSearchResults.Groups(0)
                             Me.lvSearchResults.Items.Add(newIt)
                         End If
                     End If
@@ -2930,48 +2935,7 @@ Public Class frmMain
         lvSearchResults.Sort()
     End Sub
 
-    Private Sub lvHandles_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvHandles.ColumnClick
-        ' Get the new sorting column.
-        Dim new_sorting_column As ColumnHeader = _
-            lvHandles.Columns(e.Column)
-
-        ' Figure out the new sorting order.
-        Dim sort_order As System.Windows.Forms.SortOrder
-        If m_SortingColumn Is Nothing Then
-            ' New column. Sort ascending.
-            sort_order = SortOrder.Ascending
-        Else
-            ' See if this is the same column.
-            If new_sorting_column.Equals(m_SortingColumn) Then
-                ' Same column. Switch the sort order.
-                If m_SortingColumn.Text.StartsWith("> ") Then
-                    sort_order = SortOrder.Descending
-                Else
-                    sort_order = SortOrder.Ascending
-                End If
-            Else
-                ' New column. Sort ascending.
-                sort_order = SortOrder.Ascending
-            End If
-
-            ' Remove the old sort indicator.
-            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
-        End If
-
-        ' Display the new sort order.
-        m_SortingColumn = new_sorting_column
-        If sort_order = SortOrder.Ascending Then
-            m_SortingColumn.Text = "> " & m_SortingColumn.Text
-        Else
-            m_SortingColumn.Text = "< " & m_SortingColumn.Text
-        End If
-
-        ' Create a comparer.
-        lvHandles.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
-
-        ' Sort.
-        lvHandles.Sort()
-    End Sub
+   
 
     Private Sub butFileGoogleSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileGoogleSearch.Click
         My.Application.DoEvents()
@@ -3768,49 +3732,6 @@ Public Class frmMain
         Next
     End Sub
 
-    Private Sub lvThreads_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvThreads.ColumnClick
-        ' Get the new sorting column.
-        Dim new_sorting_column As ColumnHeader = _
-            lvThreads.Columns(e.Column)
-
-        ' Figure out the new sorting order.
-        Dim sort_order As System.Windows.Forms.SortOrder
-        If m_SortingColumn Is Nothing Then
-            ' New column. Sort ascending.
-            sort_order = SortOrder.Ascending
-        Else
-            ' See if this is the same column.
-            If new_sorting_column.Equals(m_SortingColumn) Then
-                ' Same column. Switch the sort order.
-                If m_SortingColumn.Text.StartsWith("> ") Then
-                    sort_order = SortOrder.Descending
-                Else
-                    sort_order = SortOrder.Ascending
-                End If
-            Else
-                ' New column. Sort ascending.
-                sort_order = SortOrder.Ascending
-            End If
-
-            ' Remove the old sort indicator.
-            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
-        End If
-
-        ' Display the new sort order.
-        m_SortingColumn = new_sorting_column
-        If sort_order = SortOrder.Ascending Then
-            m_SortingColumn.Text = "> " & m_SortingColumn.Text
-        Else
-            m_SortingColumn.Text = "< " & m_SortingColumn.Text
-        End If
-
-        ' Create a comparer.
-        lvThreads.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
-
-        ' Sort.
-        lvThreads.Sort()
-    End Sub
-
     Private Sub butThreadKill_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadKill.Click
         Call ToolStripMenuItem23_Click(Nothing, Nothing)
     End Sub
@@ -3821,76 +3742,6 @@ Public Class frmMain
 
     Private Sub butThreadStop_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadStop.Click
         Call ToolStripMenuItem24_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub lvThreads_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvThreads.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvThreads)
-    End Sub
-
-    Private Sub lvThreads_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvThreads.SelectedIndexChanged
-        ' New thread selected
-        If lvThreads.SelectedItems.Count = 1 Then
-            Dim it As ListViewItem = lvThreads.SelectedItems.Item(0)
-
-            If TypeOf it.Tag Is cThread Then
-
-                Try
-                    Dim cP As cThread = CType(it.Tag, cThread)
-
-                    ' Description
-                    Dim s As String = ""
-                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Thread properties\b0\par"
-                    s = s & "\tab Thread ID :\tab\tab\tab " & CStr(cP.Id) & "\par"
-                    s = s & "\tab Process owner :\tab\tab\tab " & CStr(cP.ProcessId) & " -- " & cP.ProcessName & "\par"
-
-                    s = s & "\tab Priority :\tab\tab\tab\tab " & cP.PriorityString & "\par"
-                    s = s & "\tab Base priority :\tab\tab\tab " & CStr(cP.BasePriority) & "\par"
-                    s = s & "\tab State :\tab\tab\tab\tab " & cP.ThreadState & "\par"
-                    s = s & "\tab Wait reason :\tab\tab\tab " & cP.WaitReason & "\par"
-                    s = s & "\tab Start address :\tab\tab\tab " & CStr(cP.StartAddress) & "\par"
-                    s = s & "\tab PriorityBoostEnabled :\tab\tab " & CStr(cP.PriorityBoostEnabled) & "\par"
-                    s = s & "\tab Start time :\tab\tab\tab " & cP.StartTime.ToLongDateString & " -- " & cP.StartTime.ToLongTimeString & "\par"
-                    s = s & "\tab TotalProcessorTime :\tab\tab " & cP.TotalProcessorTime.ToString & "\par"
-                    s = s & "\tab PrivilegedProcessorTime :\tab\tab " & cP.PrivilegedProcessorTime.ToString & "\par"
-                    s = s & "\tab UserProcessorTime :\tab\tab " & CStr(cP.UserProcessorTime.ToString) & "\par"
-                    s = s & "\tab ProcessorAffinity :\tab\tab " & CStr(cP.ProcessorAffinity) & "\par"
-
-                    s = s & "}"
-
-                    rtb4.Rtf = s
-
-                Catch ex As Exception
-                    Dim s As String = ""
-                    Dim er As Exception = ex
-
-                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
-                    s = s & "\tab Message :\tab " & er.Message & "\par"
-                    s = s & "\tab Source :\tab\tab " & er.Source & "\par"
-                    If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
-                    s = s & "}"
-
-                    rtb4.Rtf = s
-
-                End Try
-
-            Else
-                ' Error
-                'Dim s As String = ""
-                'Dim er As Exception = ex
-
-                's = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                's = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
-                's = s & "\tab Message :\tab " & er.Message & "\par"
-                's = s & "\tab Source :\tab\tab " & er.Source & "\par"
-                'If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
-                's = s & "}"
-
-                'rtb4.Rtf = s
-            End If
-
-        End If
     End Sub
 
     Private Sub SelectedAssociatedProcessToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SelectedAssociatedProcessToolStripMenuItem.Click
@@ -4281,116 +4132,6 @@ Public Class frmMain
         Next
     End Sub
 
-    Private Sub lvWindows_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvWindows.ColumnClick
-        ' Get the new sorting column.
-        Dim new_sorting_column As ColumnHeader = _
-            lvWindows.Columns(e.Column)
-
-        ' Figure out the new sorting order.
-        Dim sort_order As System.Windows.Forms.SortOrder
-        If m_SortingColumn Is Nothing Then
-            ' New column. Sort ascending.
-            sort_order = SortOrder.Ascending
-        Else
-            ' See if this is the same column.
-            If new_sorting_column.Equals(m_SortingColumn) Then
-                ' Same column. Switch the sort order.
-                If m_SortingColumn.Text.StartsWith("> ") Then
-                    sort_order = SortOrder.Descending
-                Else
-                    sort_order = SortOrder.Ascending
-                End If
-            Else
-                ' New column. Sort ascending.
-                sort_order = SortOrder.Ascending
-            End If
-
-            ' Remove the old sort indicator.
-            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
-        End If
-
-        ' Display the new sort order.
-        m_SortingColumn = new_sorting_column
-        If sort_order = SortOrder.Ascending Then
-            m_SortingColumn.Text = "> " & m_SortingColumn.Text
-        Else
-            m_SortingColumn.Text = "< " & m_SortingColumn.Text
-        End If
-
-        ' Create a comparer.
-        lvWindows.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
-
-        ' Sort.
-        lvWindows.Sort()
-    End Sub
-
-    Private Sub lvWindows_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvWindows.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvWindows)
-    End Sub
-
-    Private Sub lvWindows_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvWindows.SelectedIndexChanged
-        ' New window selected
-        If lvWindows.SelectedItems.Count = 1 Then
-            Dim it As ListViewItem = lvWindows.SelectedItems.Item(0)
-
-            If TypeOf it.Tag Is cWindow Then
-
-                Try
-                    Dim cP As cWindow = CType(it.Tag, cWindow)
-
-                    ' Description
-                    Dim s As String = ""
-                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Window properties\b0\par"
-                    s = s & "\tab Window ID :\tab\tab\tab " & CStr(cP.Handle) & "\par"
-                    s = s & "\tab Process owner :\tab\tab\tab " & CStr(cP.ParentProcessId) & " -- " & cP.ParentProcessName & " -- thread : " & CStr(cP.ParentThreadId) & "\par"
-                    s = s & "\tab Caption :\tab\tab\tab " & cP.Caption & "\par"
-                    s = s & "\tab Enabled :\tab\tab\tab " & CStr(cP.Enabled) & "\par"
-                    s = s & "\tab Visible :\tab\tab\tab\tab " & CStr(cP.Visible) & "\par"
-                    s = s & "\tab IsTask :\tab\tab\tab\tab " & CStr(cP.IsTask) & "\par"
-                    s = s & "\tab Opacity :\tab\tab\tab " & CStr(cP.Opacity) & "\par"
-                    s = s & "\tab Height :\tab\tab\tab\tab " & CStr(cP.Height) & "\par"
-                    s = s & "\tab Left :\tab\tab\tab\tab " & CStr(cP.Left) & "\par"
-                    s = s & "\tab Top :\tab\tab\tab\tab " & CStr(cP.Top) & "\par"
-                    s = s & "\tab Width :\tab\tab\tab\tab " & CStr(cP.Width) & "\par"
-
-                    s = s & "}"
-
-                    rtb5.Rtf = s
-
-                Catch ex As Exception
-                    Dim s As String = ""
-                    Dim er As Exception = ex
-
-                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
-                    s = s & "\tab Message :\tab " & er.Message & "\par"
-                    s = s & "\tab Source :\tab\tab " & er.Source & "\par"
-                    If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
-                    s = s & "}"
-
-                    rtb5.Rtf = s
-
-                End Try
-
-            Else
-                ' Error
-                'Dim s As String = ""
-                'Dim er As Exception = ex
-
-                's = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                's = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
-                's = s & "\tab Message :\tab " & er.Message & "\par"
-                's = s & "\tab Source :\tab\tab " & er.Source & "\par"
-                'If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
-                's = s & "}"
-
-                'rtb5.Rtf = s
-            End If
-
-        End If
-    End Sub
-
     Private Sub butWindowStopFlashing_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowStopFlashing.Click
         Dim it As ListViewItem
         For Each it In Me.lvWindows.SelectedItems
@@ -4646,6 +4387,56 @@ Public Class frmMain
         Next
     End Sub
 
+    Private Sub lvJobs_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvJobs.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvJobs)
+    End Sub
+
+    Private Sub lvSearchResults_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvSearchResults.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvSearchResults)
+    End Sub
+
+    Private Sub ToolStripMenuItem36_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem36.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvModules.SelectedItems
+            Call CType(it.Tag, cModule).UnloadModule()
+            it.Remove()
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem35_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem35.Click
+        ' Select processes associated to selected windows
+        Dim it As ListViewItem
+        If Me.lvModules.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
+        For Each it In Me.lvModules.SelectedItems
+            Try
+                Dim sp As String = it.SubItems(5).Text
+                Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
+                If i > 0 Then
+                    Dim pid As String = sp.Substring(0, i - 1)
+                    Dim it2 As ListViewItem
+                    For Each it2 In Me.lvProcess.Items
+                        If it2.SubItems(1).Text = pid Then
+                            it2.Selected = True
+                        End If
+                    Next
+                End If
+                Me.Ribbon.ActiveTab = Me.ProcessTab
+                Call Me.Ribbon_MouseMove(Nothing, Nothing)
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub ShowFileDetailsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowFileDetailsToolStripMenuItem.Click
+        If Me.lvModules.SelectedItems.Count > 0 Then
+            Dim s As String = Me.lvModules.SelectedItems.Item(0).SubItems(4).Text
+            If IO.File.Exists(s) Then
+                DisplayDetailsFile(s)
+            End If
+        End If
+    End Sub
+
     Private Sub lvModules_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvModules.ColumnClick
         ' Get the new sorting column.
         Dim new_sorting_column As ColumnHeader = _
@@ -4694,7 +4485,6 @@ Public Class frmMain
     End Sub
 
     Private Sub lvModules_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvModules.SelectedIndexChanged
-        ' New module selected
         If lvModules.SelectedItems.Count = 1 Then
             Dim it As ListViewItem = lvModules.SelectedItems.Item(0)
 
@@ -4774,57 +4564,377 @@ Public Class frmMain
         End If
     End Sub
 
+    Private Sub txtSearchModule_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchModule.TextChanged
+        Dim it As ListViewItem
+        For Each it In Me.lvModules.Items
+            If InStr(LCase(it.Text), LCase(Me.txtSearchModule.Text)) = 0 And _
+                    InStr(LCase(it.SubItems(1).Text), LCase(Me.txtSearchModule.Text)) = 0 And _
+                    InStr(LCase(it.SubItems(2).Text), LCase(Me.txtSearchModule.Text)) = 0 And _
+                    InStr(LCase(it.SubItems(3).Text), LCase(Me.txtSearchModule.Text)) = 0 Then
+                it.Group = lvModules.Groups(0)
+            Else
+                it.Group = lvModules.Groups(1)
+            End If
+        Next
+        Me.lblModulesCount.Text = CStr(lvModules.Groups(1).Items.Count) & " result(s)"
+    End Sub
+
+    Private Sub lblModulesCount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblModulesCount.Click
+        Me.lvModules.Focus()
+        Try
+            System.Windows.Forms.SendKeys.Send(Me.lvModules.Groups(1).Items(0).Text)
+        Catch ex As Exception
+        End Try
+    End Sub
+
+    Private Sub lvThreads_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvThreads.ColumnClick
+        ' Get the new sorting column.
+        Dim new_sorting_column As ColumnHeader = _
+            lvThreads.Columns(e.Column)
+
+        ' Figure out the new sorting order.
+        Dim sort_order As System.Windows.Forms.SortOrder
+        If m_SortingColumn Is Nothing Then
+            ' New column. Sort ascending.
+            sort_order = SortOrder.Ascending
+        Else
+            ' See if this is the same column.
+            If new_sorting_column.Equals(m_SortingColumn) Then
+                ' Same column. Switch the sort order.
+                If m_SortingColumn.Text.StartsWith("> ") Then
+                    sort_order = SortOrder.Descending
+                Else
+                    sort_order = SortOrder.Ascending
+                End If
+            Else
+                ' New column. Sort ascending.
+                sort_order = SortOrder.Ascending
+            End If
+
+            ' Remove the old sort indicator.
+            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
+        End If
+
+        ' Display the new sort order.
+        m_SortingColumn = new_sorting_column
+        If sort_order = SortOrder.Ascending Then
+            m_SortingColumn.Text = "> " & m_SortingColumn.Text
+        Else
+            m_SortingColumn.Text = "< " & m_SortingColumn.Text
+        End If
+
+        ' Create a comparer.
+        lvThreads.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
+
+        ' Sort.
+        lvThreads.Sort()
+    End Sub
+
+    Private Sub lvThreads_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvThreads.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvThreads)
+    End Sub
+
+    Private Sub lvThreads_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvThreads.SelectedIndexChanged
+        ' New thread selected
+        If lvThreads.SelectedItems.Count = 1 Then
+            Dim it As ListViewItem = lvThreads.SelectedItems.Item(0)
+
+            If TypeOf it.Tag Is cThread Then
+
+                Try
+                    Dim cP As cThread = CType(it.Tag, cThread)
+
+                    ' Description
+                    Dim s As String = ""
+                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Thread properties\b0\par"
+                    s = s & "\tab Thread ID :\tab\tab\tab " & CStr(cP.Id) & "\par"
+                    s = s & "\tab Process owner :\tab\tab\tab " & CStr(cP.ProcessId) & " -- " & cP.ProcessName & "\par"
+
+                    s = s & "\tab Priority :\tab\tab\tab\tab " & cP.PriorityString & "\par"
+                    s = s & "\tab Base priority :\tab\tab\tab " & CStr(cP.BasePriority) & "\par"
+                    s = s & "\tab State :\tab\tab\tab\tab " & cP.ThreadState & "\par"
+                    s = s & "\tab Wait reason :\tab\tab\tab " & cP.WaitReason & "\par"
+                    s = s & "\tab Start address :\tab\tab\tab " & CStr(cP.StartAddress) & "\par"
+                    s = s & "\tab PriorityBoostEnabled :\tab\tab " & CStr(cP.PriorityBoostEnabled) & "\par"
+                    s = s & "\tab Start time :\tab\tab\tab " & cP.StartTime.ToLongDateString & " -- " & cP.StartTime.ToLongTimeString & "\par"
+                    s = s & "\tab TotalProcessorTime :\tab\tab " & cP.TotalProcessorTime.ToString & "\par"
+                    s = s & "\tab PrivilegedProcessorTime :\tab\tab " & cP.PrivilegedProcessorTime.ToString & "\par"
+                    s = s & "\tab UserProcessorTime :\tab\tab " & CStr(cP.UserProcessorTime.ToString) & "\par"
+                    s = s & "\tab ProcessorAffinity :\tab\tab " & CStr(cP.ProcessorAffinity) & "\par"
+
+                    s = s & "}"
+
+                    rtb4.Rtf = s
+
+                Catch ex As Exception
+                    Dim s As String = ""
+                    Dim er As Exception = ex
+
+                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+                    s = s & "\tab Message :\tab " & er.Message & "\par"
+                    s = s & "\tab Source :\tab\tab " & er.Source & "\par"
+                    If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
+                    s = s & "}"
+
+                    rtb4.Rtf = s
+
+                End Try
+
+            Else
+                ' Error
+                'Dim s As String = ""
+                'Dim er As Exception = ex
+
+                's = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                's = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+                's = s & "\tab Message :\tab " & er.Message & "\par"
+                's = s & "\tab Source :\tab\tab " & er.Source & "\par"
+                'If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
+                's = s & "}"
+
+                'rtb4.Rtf = s
+            End If
+
+        End If
+    End Sub
+
+    Private Sub txtSearchThread_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchThread.TextChanged
+        Dim it As ListViewItem
+        For Each it In Me.lvThreads.Items
+            If InStr(LCase(it.Text), LCase(Me.txtSearchThread.Text)) = 0 Then
+                it.Group = lvThreads.Groups(0)
+            Else
+                it.Group = lvThreads.Groups(1)
+            End If
+        Next
+        Me.lblThreadResults.Text = CStr(lvThreads.Groups(1).Items.Count) & " result(s)"
+    End Sub
+
+    Private Sub lblThreadResults_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblThreadResults.Click
+        Me.lvModules.Focus()
+        Try
+            System.Windows.Forms.SendKeys.Send(Me.lvThreads.Groups(1).Items(0).Text)
+        Catch ex As Exception
+        End Try
+    End Sub
+
+    Private Sub txtSearchHandle_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchHandle.TextChanged
+        Dim it As ListViewItem
+        For Each it In Me.lvHandles.Items
+            If InStr(LCase(it.SubItems(1).Text), LCase(Me.txtSearchHandle.Text)) = 0 Then
+                it.Group = lvHandles.Groups(0)
+            Else
+                it.Group = lvHandles.Groups(1)
+            End If
+        Next
+        Me.lblHandlesCount.Text = CStr(Me.lvHandles.Groups(1).Items.Count) & " result(s)"
+    End Sub
+
+    Private Sub lblHandlesCount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblHandlesCount.Click
+        Me.lvHandles.Focus()
+        Try
+            System.Windows.Forms.SendKeys.Send(Me.lvHandles.Groups(1).Items(0).Text)
+        Catch ex As Exception
+        End Try
+    End Sub
+
+    Private Sub lvHandles_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvHandles.ColumnClick
+        ' Get the new sorting column.
+        Dim new_sorting_column As ColumnHeader = _
+            lvHandles.Columns(e.Column)
+
+        ' Figure out the new sorting order.
+        Dim sort_order As System.Windows.Forms.SortOrder
+        If m_SortingColumn Is Nothing Then
+            ' New column. Sort ascending.
+            sort_order = SortOrder.Ascending
+        Else
+            ' See if this is the same column.
+            If new_sorting_column.Equals(m_SortingColumn) Then
+                ' Same column. Switch the sort order.
+                If m_SortingColumn.Text.StartsWith("> ") Then
+                    sort_order = SortOrder.Descending
+                Else
+                    sort_order = SortOrder.Ascending
+                End If
+            Else
+                ' New column. Sort ascending.
+                sort_order = SortOrder.Ascending
+            End If
+
+            ' Remove the old sort indicator.
+            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
+        End If
+
+        ' Display the new sort order.
+        m_SortingColumn = new_sorting_column
+        If sort_order = SortOrder.Ascending Then
+            m_SortingColumn.Text = "> " & m_SortingColumn.Text
+        Else
+            m_SortingColumn.Text = "< " & m_SortingColumn.Text
+        End If
+
+        ' Create a comparer.
+        lvHandles.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
+
+        ' Sort.
+        lvHandles.Sort()
+    End Sub
+
     Private Sub lvHandles_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHandles.MouseDown
         Call mdlMisc.CopyLvToClip(e, Me.lvHandles)
     End Sub
 
-    Private Sub lvJobs_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvJobs.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvJobs)
-    End Sub
-
-    Private Sub lvSearchResults_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvSearchResults.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvSearchResults)
-    End Sub
-
-    Private Sub ToolStripMenuItem36_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem36.Click
+    Private Sub txtSearchWindow_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchWindow.TextChanged
         Dim it As ListViewItem
-        For Each it In Me.lvModules.SelectedItems
-            Call CType(it.Tag, cModule).UnloadModule()
-            it.Remove()
-        Next
-    End Sub
-
-    Private Sub ToolStripMenuItem35_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem35.Click
-        ' Select processes associated to selected windows
-        Dim it As ListViewItem
-        If Me.lvModules.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
-        For Each it In Me.lvModules.SelectedItems
-            Try
-                Dim sp As String = it.SubItems(5).Text
-                Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
-                If i > 0 Then
-                    Dim pid As String = sp.Substring(0, i - 1)
-                    Dim it2 As ListViewItem
-                    For Each it2 In Me.lvProcess.Items
-                        If it2.SubItems(1).Text = pid Then
-                            it2.Selected = True
-                        End If
-                    Next
-                End If
-                Me.Ribbon.ActiveTab = Me.ProcessTab
-                Call Me.Ribbon_MouseMove(Nothing, Nothing)
-            Catch ex As Exception
-                '
-            End Try
-        Next
-    End Sub
-
-    Private Sub ShowFileDetailsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowFileDetailsToolStripMenuItem.Click
-        If Me.lvModules.SelectedItems.Count > 0 Then
-            Dim s As String = Me.lvModules.SelectedItems.Item(0).SubItems(4).Text
-            If IO.File.Exists(s) Then
-                DisplayDetailsFile(s)
+        For Each it In Me.lvWindows.Items
+            If InStr(LCase(it.SubItems(2).Text), LCase(Me.txtSearchWindow.Text)) = 0 Then
+                it.Group = lvWindows.Groups(0)
+            Else
+                it.Group = lvWindows.Groups(1)
             End If
+        Next
+        Me.lblWindowsCount.Text = CStr(lvWindows.Groups(1).Items.Count) & " result(s)"
+    End Sub
+
+    Private Sub lblWindowsCount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblWindowsCount.Click
+        Me.lvWindows.Focus()
+        Try
+            System.Windows.Forms.SendKeys.Send(Me.lvWindows.Groups(1).Items(0).Text)
+        Catch ex As Exception
+        End Try
+    End Sub
+
+    Private Sub lvWindows_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvWindows.ColumnClick
+        ' Get the new sorting column.
+        Dim new_sorting_column As ColumnHeader = _
+            lvWindows.Columns(e.Column)
+
+        ' Figure out the new sorting order.
+        Dim sort_order As System.Windows.Forms.SortOrder
+        If m_SortingColumn Is Nothing Then
+            ' New column. Sort ascending.
+            sort_order = SortOrder.Ascending
+        Else
+            ' See if this is the same column.
+            If new_sorting_column.Equals(m_SortingColumn) Then
+                ' Same column. Switch the sort order.
+                If m_SortingColumn.Text.StartsWith("> ") Then
+                    sort_order = SortOrder.Descending
+                Else
+                    sort_order = SortOrder.Ascending
+                End If
+            Else
+                ' New column. Sort ascending.
+                sort_order = SortOrder.Ascending
+            End If
+
+            ' Remove the old sort indicator.
+            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
+        End If
+
+        ' Display the new sort order.
+        m_SortingColumn = new_sorting_column
+        If sort_order = SortOrder.Ascending Then
+            m_SortingColumn.Text = "> " & m_SortingColumn.Text
+        Else
+            m_SortingColumn.Text = "< " & m_SortingColumn.Text
+        End If
+
+        ' Create a comparer.
+        lvWindows.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
+
+        ' Sort.
+        lvWindows.Sort()
+    End Sub
+
+    Private Sub lvWindows_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvWindows.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvWindows)
+    End Sub
+
+    Private Sub lvWindows_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvWindows.SelectedIndexChanged
+        ' New window selected
+        If lvWindows.SelectedItems.Count = 1 Then
+            Dim it As ListViewItem = lvWindows.SelectedItems.Item(0)
+
+            If TypeOf it.Tag Is cWindow Then
+
+                Try
+                    Dim cP As cWindow = CType(it.Tag, cWindow)
+
+                    ' Description
+                    Dim s As String = ""
+                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Window properties\b0\par"
+                    s = s & "\tab Window ID :\tab\tab\tab " & CStr(cP.Handle) & "\par"
+                    s = s & "\tab Process owner :\tab\tab\tab " & CStr(cP.ParentProcessId) & " -- " & cP.ParentProcessName & " -- thread : " & CStr(cP.ParentThreadId) & "\par"
+                    s = s & "\tab Caption :\tab\tab\tab " & cP.Caption & "\par"
+                    s = s & "\tab Enabled :\tab\tab\tab " & CStr(cP.Enabled) & "\par"
+                    s = s & "\tab Visible :\tab\tab\tab\tab " & CStr(cP.Visible) & "\par"
+                    s = s & "\tab IsTask :\tab\tab\tab\tab " & CStr(cP.IsTask) & "\par"
+                    s = s & "\tab Opacity :\tab\tab\tab " & CStr(cP.Opacity) & "\par"
+                    s = s & "\tab Height :\tab\tab\tab\tab " & CStr(cP.Height) & "\par"
+                    s = s & "\tab Left :\tab\tab\tab\tab " & CStr(cP.Left) & "\par"
+                    s = s & "\tab Top :\tab\tab\tab\tab " & CStr(cP.Top) & "\par"
+                    s = s & "\tab Width :\tab\tab\tab\tab " & CStr(cP.Width) & "\par"
+
+                    s = s & "}"
+
+                    rtb5.Rtf = s
+
+                Catch ex As Exception
+                    Dim s As String = ""
+                    Dim er As Exception = ex
+
+                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+                    s = s & "\tab Message :\tab " & er.Message & "\par"
+                    s = s & "\tab Source :\tab\tab " & er.Source & "\par"
+                    If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
+                    s = s & "}"
+
+                    rtb5.Rtf = s
+
+                End Try
+
+            Else
+                ' Error
+                'Dim s As String = ""
+                'Dim er As Exception = ex
+
+                's = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                's = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+                's = s & "\tab Message :\tab " & er.Message & "\par"
+                's = s & "\tab Source :\tab\tab " & er.Source & "\par"
+                'If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
+                's = s & "}"
+
+                'rtb5.Rtf = s
+            End If
+
         End If
     End Sub
+
+    Private Sub txtSearchResults_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchResults.TextChanged
+        Dim it As ListViewItem
+        For Each it In Me.lvSearchResults.Items
+            If InStr(LCase(it.SubItems(1).Text), LCase(Me.txtSearchResults.Text)) = 0 Then
+                it.Group = lvSearchResults.Groups(0)
+            Else
+                it.Group = lvSearchResults.Groups(1)
+            End If
+        Next
+        Me.lblResultsCount.Text = CStr(lvSearchResults.Groups(1).Items.Count) & " result(s)"
+    End Sub
+
+    Private Sub lblResultsCount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblResultsCount.Click
+        Me.lvSearchResults.Focus()
+        Try
+            System.Windows.Forms.SendKeys.Send(Me.lvSearchResults.Groups(1).Items(0).Text)
+        Catch ex As Exception
+        End Try
+    End Sub
+
 End Class
