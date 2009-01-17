@@ -3890,31 +3890,33 @@ Public Class frmMain
             For Each tCt In t
                 ' Add threads to listview
                 Try
-                    Dim it As New ListViewItem
-                    it.Text = CStr(tCt.Handle)
-                    Dim n1 As New ListViewItem.ListViewSubItem
-                    n1.Text = CStr(tCt.ParentProcessId) & " -- " & tCt.ParentProcessName
-                    it.SubItems.Add(n1)
-                    Dim n2 As New ListViewItem.ListViewSubItem
-                    n2.Text = tCt.Caption
-                    it.SubItems.Add(n2)
-                    Dim n3 As New ListViewItem.ListViewSubItem
-                    n3.Text = CStr(tCt.IsTask)
-                    it.SubItems.Add(n3)
-                    Dim n4 As New ListViewItem.ListViewSubItem
-                    n4.Text = CStr(tCt.Enabled)
-                    it.SubItems.Add(n4)
-                    Dim n5 As New ListViewItem.ListViewSubItem
-                    n5.Text = CStr(tCt.Visible)
-                    it.SubItems.Add(n5)
+                    If Me.chkAllWindows.Checked Or Len(tCt.Caption) > 0 Then
+                        Dim it As New ListViewItem
+                        it.Text = CStr(tCt.Handle)
+                        Dim n1 As New ListViewItem.ListViewSubItem
+                        n1.Text = CStr(tCt.ParentProcessId) & " -- " & tCt.ParentProcessName
+                        it.SubItems.Add(n1)
+                        Dim n2 As New ListViewItem.ListViewSubItem
+                        n2.Text = tCt.Caption
+                        it.SubItems.Add(n2)
+                        Dim n3 As New ListViewItem.ListViewSubItem
+                        n3.Text = CStr(tCt.IsTask)
+                        it.SubItems.Add(n3)
+                        Dim n4 As New ListViewItem.ListViewSubItem
+                        n4.Text = CStr(tCt.Enabled)
+                        it.SubItems.Add(n4)
+                        Dim n5 As New ListViewItem.ListViewSubItem
+                        n5.Text = CStr(tCt.Visible)
+                        it.SubItems.Add(n5)
 
-                    'Dim key As String = CStr(tCt.ParentProcessId) & "|" & CStr(tCt.Handle)
-                    'Me.imgWindows.Images.Add(key, tCt.SmallIcon)
-                    'it.ImageKey = key
+                        'Dim key As String = CStr(tCt.ParentProcessId) & "|" & CStr(tCt.Handle)
+                        'Me.imgWindows.Images.Add(key, tCt.SmallIcon)
+                        'it.ImageKey = key
 
-                    it.Tag = tCt
-                    it.Group = Me.lvWindows.Groups(0)
-                    Me.lvWindows.Items.Add(it)
+                        it.Tag = tCt
+                        it.Group = Me.lvWindows.Groups(0)
+                        Me.lvWindows.Items.Add(it)
+                    End If
                 Catch ex As Exception
                     'MsgBox(ex.Message)
                 End Try
@@ -4937,4 +4939,7 @@ Public Class frmMain
         End Try
     End Sub
 
+    Private Sub chkAllWindows_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAllWindows.CheckedChanged
+        If windowsToRefresh IsNot Nothing Then Call ShowWindows()
+    End Sub
 End Class

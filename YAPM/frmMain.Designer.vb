@@ -403,7 +403,6 @@ Partial Class frmMain
         Me.txtMonitoringLog = New System.Windows.Forms.TextBox
         Me.splitMonitor3 = New System.Windows.Forms.SplitContainer
         Me.splitMonitor4 = New System.Windows.Forms.SplitContainer
-        Me.graphMonitor = New YAPM.Graph
         Me.txtMonitorNumber = New System.Windows.Forms.TextBox
         Me.lblMonitorMaxNumber = New System.Windows.Forms.Label
         Me.chkMonitorRightAuto = New System.Windows.Forms.CheckBox
@@ -479,6 +478,8 @@ Partial Class frmMain
         Me.ShowFileDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem36 = New System.Windows.Forms.ToolStripMenuItem
         Me.rtb6 = New System.Windows.Forms.RichTextBox
+        Me.chkAllWindows = New System.Windows.Forms.CheckBox
+        Me.graphMonitor = New YAPM.Graph
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -526,7 +527,6 @@ Partial Class frmMain
         Me.splitMonitor3.SuspendLayout()
         Me.splitMonitor4.Panel2.SuspendLayout()
         Me.splitMonitor4.SuspendLayout()
-        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.panelMain9.SuspendLayout()
         Me.splitThreads.Panel1.SuspendLayout()
         Me.splitThreads.Panel2.SuspendLayout()
@@ -551,6 +551,7 @@ Partial Class frmMain
         Me.SplitContainerModules.Panel2.SuspendLayout()
         Me.SplitContainerModules.SuspendLayout()
         Me.menuModule.SuspendLayout()
+        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'imgMain
@@ -4285,22 +4286,6 @@ Partial Class frmMain
         Me.splitMonitor4.SplitterDistance = 25
         Me.splitMonitor4.TabIndex = 4
         '
-        'graphMonitor
-        '
-        Me.graphMonitor.BackColor = System.Drawing.Color.Black
-        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
-        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
-        Me.graphMonitor.dDate = New Date(CType(0, Long))
-        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphMonitor.EnableGraph = False
-        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
-        Me.graphMonitor.Name = "graphMonitor"
-        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
-        Me.graphMonitor.TabIndex = 3
-        Me.graphMonitor.TabStop = False
-        Me.graphMonitor.ViewMax = 0
-        Me.graphMonitor.ViewMin = 0
-        '
         'txtMonitorNumber
         '
         Me.txtMonitorNumber.Location = New System.Drawing.Point(241, 0)
@@ -4658,6 +4643,7 @@ Partial Class frmMain
         '
         'SplitContainerWindows2.Panel1
         '
+        Me.SplitContainerWindows2.Panel1.Controls.Add(Me.chkAllWindows)
         Me.SplitContainerWindows2.Panel1.Controls.Add(Me.Label10)
         Me.SplitContainerWindows2.Panel1.Controls.Add(Me.lblWindowsCount)
         Me.SplitContainerWindows2.Panel1.Controls.Add(Me.txtSearchWindow)
@@ -4942,24 +4928,52 @@ Partial Class frmMain
         Me.rtb6.TabIndex = 8
         Me.rtb6.Text = "Click on an item to get additionnal informations"
         '
+        'chkAllWindows
+        '
+        Me.chkAllWindows.AutoSize = True
+        Me.chkAllWindows.Checked = True
+        Me.chkAllWindows.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkAllWindows.Location = New System.Drawing.Point(543, 4)
+        Me.chkAllWindows.Name = "chkAllWindows"
+        Me.chkAllWindows.Size = New System.Drawing.Size(181, 17)
+        Me.chkAllWindows.TabIndex = 11
+        Me.chkAllWindows.Text = "Display windows without caption"
+        Me.chkAllWindows.UseVisualStyleBackColor = True
+        '
+        'graphMonitor
+        '
+        Me.graphMonitor.BackColor = System.Drawing.Color.Black
+        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
+        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
+        Me.graphMonitor.dDate = New Date(CType(0, Long))
+        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphMonitor.EnableGraph = False
+        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
+        Me.graphMonitor.Name = "graphMonitor"
+        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
+        Me.graphMonitor.TabIndex = 3
+        Me.graphMonitor.TabStop = False
+        Me.graphMonitor.ViewMax = 0
+        Me.graphMonitor.ViewMin = 0
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.ClientSize = New System.Drawing.Size(805, 603)
-        Me.Controls.Add(Me.panelMain3)
-        Me.Controls.Add(Me.panelMain8)
+        Me.Controls.Add(Me.panelMain10)
         Me.Controls.Add(Me.panelMain7)
         Me.Controls.Add(Me.panelMain6)
         Me.Controls.Add(Me.panelMain5)
-        Me.Controls.Add(Me.panelMain10)
+        Me.Controls.Add(Me.panelMain4)
+        Me.Controls.Add(Me.panelMain3)
+        Me.Controls.Add(Me.panelMain8)
         Me.Controls.Add(Me.panelInfos)
         Me.Controls.Add(Me.panelMenu2)
         Me.Controls.Add(Me.panelMenu)
         Me.Controls.Add(Me.cmdTray)
         Me.Controls.Add(Me.Ribbon)
-        Me.Controls.Add(Me.panelMain4)
         Me.Controls.Add(Me.panelInfos2)
         Me.Controls.Add(Me.panelMain2)
         Me.Controls.Add(Me.panelMain)
@@ -5030,7 +5044,6 @@ Partial Class frmMain
         Me.splitMonitor3.ResumeLayout(False)
         Me.splitMonitor4.Panel2.ResumeLayout(False)
         Me.splitMonitor4.ResumeLayout(False)
-        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.panelMain9.ResumeLayout(False)
         Me.splitThreads.Panel1.ResumeLayout(False)
         Me.splitThreads.Panel2.ResumeLayout(False)
@@ -5058,6 +5071,7 @@ Partial Class frmMain
         Me.SplitContainerModules.Panel2.ResumeLayout(False)
         Me.SplitContainerModules.ResumeLayout(False)
         Me.menuModule.ResumeLayout(False)
+        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -5500,5 +5514,6 @@ Partial Class frmMain
     Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader5 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader6 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents chkAllWindows As System.Windows.Forms.CheckBox
 
 End Class
