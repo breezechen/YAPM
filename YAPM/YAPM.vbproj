@@ -41,6 +41,7 @@
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DefineConstants>CONFIG_INTO_APPDATA0</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

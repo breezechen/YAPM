@@ -291,12 +291,6 @@ Partial Class frmMain
         Me.sepFile3 = New System.Windows.Forms.RibbonSeparator
         Me.butFileEncrypt = New System.Windows.Forms.RibbonButton
         Me.butFileDecrypt = New System.Windows.Forms.RibbonButton
-        Me.JobsTab = New System.Windows.Forms.RibbonTab
-        Me.RBAdd = New System.Windows.Forms.RibbonPanel
-        Me.butAddJob = New System.Windows.Forms.RibbonButton
-        Me.RBJobsOpenSave = New System.Windows.Forms.RibbonPanel
-        Me.butOpenJobList = New System.Windows.Forms.RibbonButton
-        Me.butSaveJobList = New System.Windows.Forms.RibbonButton
         Me.SearchTab = New System.Windows.Forms.RibbonTab
         Me.RBSearchMain = New System.Windows.Forms.RibbonPanel
         Me.butSearchGo = New System.Windows.Forms.RibbonButton
@@ -403,6 +397,7 @@ Partial Class frmMain
         Me.txtMonitoringLog = New System.Windows.Forms.TextBox
         Me.splitMonitor3 = New System.Windows.Forms.SplitContainer
         Me.splitMonitor4 = New System.Windows.Forms.SplitContainer
+        Me.graphMonitor = New YAPM.Graph
         Me.txtMonitorNumber = New System.Windows.Forms.TextBox
         Me.lblMonitorMaxNumber = New System.Windows.Forms.Label
         Me.chkMonitorRightAuto = New System.Windows.Forms.CheckBox
@@ -444,6 +439,7 @@ Partial Class frmMain
         Me.panelMain10 = New System.Windows.Forms.Panel
         Me.splitContainerWindows = New System.Windows.Forms.SplitContainer
         Me.SplitContainerWindows2 = New System.Windows.Forms.SplitContainer
+        Me.chkAllWindows = New System.Windows.Forms.CheckBox
         Me.Label10 = New System.Windows.Forms.Label
         Me.lblWindowsCount = New System.Windows.Forms.Label
         Me.txtSearchWindow = New System.Windows.Forms.TextBox
@@ -478,8 +474,6 @@ Partial Class frmMain
         Me.ShowFileDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem36 = New System.Windows.Forms.ToolStripMenuItem
         Me.rtb6 = New System.Windows.Forms.RichTextBox
-        Me.chkAllWindows = New System.Windows.Forms.CheckBox
-        Me.graphMonitor = New YAPM.Graph
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -527,6 +521,7 @@ Partial Class frmMain
         Me.splitMonitor3.SuspendLayout()
         Me.splitMonitor4.Panel2.SuspendLayout()
         Me.splitMonitor4.SuspendLayout()
+        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.panelMain9.SuspendLayout()
         Me.splitThreads.Panel1.SuspendLayout()
         Me.splitThreads.Panel2.SuspendLayout()
@@ -551,7 +546,6 @@ Partial Class frmMain
         Me.SplitContainerModules.Panel2.SuspendLayout()
         Me.SplitContainerModules.SuspendLayout()
         Me.menuModule.SuspendLayout()
-        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'imgMain
@@ -1355,7 +1349,6 @@ Partial Class frmMain
         Me.Ribbon.Tabs.Add(Me.MonitorTab)
         Me.Ribbon.Tabs.Add(Me.ServiceTab)
         Me.Ribbon.Tabs.Add(Me.FileTab)
-        Me.Ribbon.Tabs.Add(Me.JobsTab)
         Me.Ribbon.Tabs.Add(Me.SearchTab)
         Me.Ribbon.Tabs.Add(Me.ReportTab)
         Me.Ribbon.Tabs.Add(Me.HelpTab)
@@ -3109,74 +3102,6 @@ Partial Class frmMain
         Me.butFileDecrypt.ToolTipImage = Nothing
         Me.butFileDecrypt.ToolTipTitle = Nothing
         '
-        'JobsTab
-        '
-        Me.JobsTab.Panels.Add(Me.RBAdd)
-        Me.JobsTab.Panels.Add(Me.RBJobsOpenSave)
-        Me.JobsTab.Tag = Nothing
-        Me.JobsTab.Text = "Jobs"
-        '
-        'RBAdd
-        '
-        Me.RBAdd.ButtonMoreEnabled = False
-        Me.RBAdd.ButtonMoreVisible = False
-        Me.RBAdd.Enabled = False
-        Me.RBAdd.Items.Add(Me.butAddJob)
-        Me.RBAdd.Tag = Nothing
-        Me.RBAdd.Text = "Job management"
-        '
-        'butAddJob
-        '
-        Me.butAddJob.AltKey = Nothing
-        Me.butAddJob.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butAddJob.Enabled = False
-        Me.butAddJob.Image = CType(resources.GetObject("butAddJob.Image"), System.Drawing.Image)
-        Me.butAddJob.SmallImage = CType(resources.GetObject("butAddJob.SmallImage"), System.Drawing.Image)
-        Me.butAddJob.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butAddJob.Tag = Nothing
-        Me.butAddJob.Text = "New job"
-        Me.butAddJob.ToolTip = Nothing
-        Me.butAddJob.ToolTipImage = Nothing
-        Me.butAddJob.ToolTipTitle = Nothing
-        '
-        'RBJobsOpenSave
-        '
-        Me.RBJobsOpenSave.ButtonMoreEnabled = False
-        Me.RBJobsOpenSave.ButtonMoreVisible = False
-        Me.RBJobsOpenSave.Enabled = False
-        Me.RBJobsOpenSave.Items.Add(Me.butOpenJobList)
-        Me.RBJobsOpenSave.Items.Add(Me.butSaveJobList)
-        Me.RBJobsOpenSave.Tag = Nothing
-        Me.RBJobsOpenSave.Text = "Job list"
-        '
-        'butOpenJobList
-        '
-        Me.butOpenJobList.AltKey = Nothing
-        Me.butOpenJobList.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butOpenJobList.Enabled = False
-        Me.butOpenJobList.Image = CType(resources.GetObject("butOpenJobList.Image"), System.Drawing.Image)
-        Me.butOpenJobList.SmallImage = CType(resources.GetObject("butOpenJobList.SmallImage"), System.Drawing.Image)
-        Me.butOpenJobList.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butOpenJobList.Tag = Nothing
-        Me.butOpenJobList.Text = "Open"
-        Me.butOpenJobList.ToolTip = Nothing
-        Me.butOpenJobList.ToolTipImage = Nothing
-        Me.butOpenJobList.ToolTipTitle = Nothing
-        '
-        'butSaveJobList
-        '
-        Me.butSaveJobList.AltKey = Nothing
-        Me.butSaveJobList.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butSaveJobList.Enabled = False
-        Me.butSaveJobList.Image = CType(resources.GetObject("butSaveJobList.Image"), System.Drawing.Image)
-        Me.butSaveJobList.SmallImage = CType(resources.GetObject("butSaveJobList.SmallImage"), System.Drawing.Image)
-        Me.butSaveJobList.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butSaveJobList.Tag = Nothing
-        Me.butSaveJobList.Text = "Save"
-        Me.butSaveJobList.ToolTip = Nothing
-        Me.butSaveJobList.ToolTipImage = Nothing
-        Me.butSaveJobList.ToolTipTitle = Nothing
-        '
         'SearchTab
         '
         Me.SearchTab.Panels.Add(Me.RBSearchMain)
@@ -4286,6 +4211,22 @@ Partial Class frmMain
         Me.splitMonitor4.SplitterDistance = 25
         Me.splitMonitor4.TabIndex = 4
         '
+        'graphMonitor
+        '
+        Me.graphMonitor.BackColor = System.Drawing.Color.Black
+        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
+        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
+        Me.graphMonitor.dDate = New Date(CType(0, Long))
+        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphMonitor.EnableGraph = False
+        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
+        Me.graphMonitor.Name = "graphMonitor"
+        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
+        Me.graphMonitor.TabIndex = 3
+        Me.graphMonitor.TabStop = False
+        Me.graphMonitor.ViewMax = 0
+        Me.graphMonitor.ViewMin = 0
+        '
         'txtMonitorNumber
         '
         Me.txtMonitorNumber.Location = New System.Drawing.Point(241, 0)
@@ -4655,6 +4596,18 @@ Partial Class frmMain
         Me.SplitContainerWindows2.SplitterDistance = 25
         Me.SplitContainerWindows2.TabIndex = 0
         '
+        'chkAllWindows
+        '
+        Me.chkAllWindows.AutoSize = True
+        Me.chkAllWindows.Checked = True
+        Me.chkAllWindows.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkAllWindows.Location = New System.Drawing.Point(543, 4)
+        Me.chkAllWindows.Name = "chkAllWindows"
+        Me.chkAllWindows.Size = New System.Drawing.Size(181, 17)
+        Me.chkAllWindows.TabIndex = 11
+        Me.chkAllWindows.Text = "Display windows without caption"
+        Me.chkAllWindows.UseVisualStyleBackColor = True
+        '
         'Label10
         '
         Me.Label10.AutoSize = True
@@ -4928,34 +4881,6 @@ Partial Class frmMain
         Me.rtb6.TabIndex = 8
         Me.rtb6.Text = "Click on an item to get additionnal informations"
         '
-        'chkAllWindows
-        '
-        Me.chkAllWindows.AutoSize = True
-        Me.chkAllWindows.Checked = True
-        Me.chkAllWindows.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkAllWindows.Location = New System.Drawing.Point(543, 4)
-        Me.chkAllWindows.Name = "chkAllWindows"
-        Me.chkAllWindows.Size = New System.Drawing.Size(181, 17)
-        Me.chkAllWindows.TabIndex = 11
-        Me.chkAllWindows.Text = "Display windows without caption"
-        Me.chkAllWindows.UseVisualStyleBackColor = True
-        '
-        'graphMonitor
-        '
-        Me.graphMonitor.BackColor = System.Drawing.Color.Black
-        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
-        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
-        Me.graphMonitor.dDate = New Date(CType(0, Long))
-        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphMonitor.EnableGraph = False
-        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
-        Me.graphMonitor.Name = "graphMonitor"
-        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
-        Me.graphMonitor.TabIndex = 3
-        Me.graphMonitor.TabStop = False
-        Me.graphMonitor.ViewMax = 0
-        Me.graphMonitor.ViewMin = 0
-        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -5044,6 +4969,7 @@ Partial Class frmMain
         Me.splitMonitor3.ResumeLayout(False)
         Me.splitMonitor4.Panel2.ResumeLayout(False)
         Me.splitMonitor4.ResumeLayout(False)
+        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.panelMain9.ResumeLayout(False)
         Me.splitThreads.Panel1.ResumeLayout(False)
         Me.splitThreads.Panel2.ResumeLayout(False)
@@ -5071,7 +4997,6 @@ Partial Class frmMain
         Me.SplitContainerModules.Panel2.ResumeLayout(False)
         Me.SplitContainerModules.ResumeLayout(False)
         Me.menuModule.ResumeLayout(False)
-        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -5163,7 +5088,6 @@ Partial Class frmMain
     Friend WithEvents Ribbon As System.Windows.Forms.Ribbon
     Friend WithEvents ProcessTab As System.Windows.Forms.RibbonTab
     Friend WithEvents ServiceTab As System.Windows.Forms.RibbonTab
-    Friend WithEvents JobsTab As System.Windows.Forms.RibbonTab
     Friend WithEvents HelpTab As System.Windows.Forms.RibbonTab
     Friend WithEvents RBProcessActions As System.Windows.Forms.RibbonPanel
     Friend WithEvents RBProcessExecutable As System.Windows.Forms.RibbonPanel
@@ -5199,11 +5123,6 @@ Partial Class frmMain
     Friend WithEvents butDisabledStart As System.Windows.Forms.RibbonButton
     Friend WithEvents butServiceFileProp As System.Windows.Forms.RibbonButton
     Friend WithEvents butServiceOpenDir As System.Windows.Forms.RibbonButton
-    Friend WithEvents RBAdd As System.Windows.Forms.RibbonPanel
-    Friend WithEvents RBJobsOpenSave As System.Windows.Forms.RibbonPanel
-    Friend WithEvents butAddJob As System.Windows.Forms.RibbonButton
-    Friend WithEvents butOpenJobList As System.Windows.Forms.RibbonButton
-    Friend WithEvents butSaveJobList As System.Windows.Forms.RibbonButton
     Friend WithEvents RBProcessDisplay As System.Windows.Forms.RibbonPanel
     Friend WithEvents butProcessRerfresh As System.Windows.Forms.RibbonButton
     Friend WithEvents RBServiceDisplay As System.Windows.Forms.RibbonPanel

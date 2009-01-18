@@ -65,8 +65,15 @@ Public Class frmMain
     ' ========================================
     ' Constants
     ' ========================================
-    Public HELP_PATH As String = My.Application.Info.DirectoryPath & "\Help\help.htm"
+
+    ' There is a Config.xml file for for each user, but in IDE the file should be located in Config dir
+#If Not (CONFIG_INTO_APPDATA) Then
     Public PREF_PATH As String = My.Application.Info.DirectoryPath & "\Config\config.xml"
+#Else
+    Public PREF_PATH As String = My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData & "\Config\config.xml"
+#End If
+
+    Public HELP_PATH As String = My.Application.Info.DirectoryPath & "\Help\help.htm"
     Public Const DEFAULT_TIMER_INTERVAL_PROCESSES As Integer = 2500
     Public Const DEFAULT_TIMER_INTERVAL_SERVICES As Integer = 15000
     Public Const MSGFIRSTTIME As String = "This is the first time you run YAPM. Please remember that it is a beta1 version so there are some bugs and some missing functionnalities :-)" & vbNewLine & vbNewLine & "You should run YAPM as an administrator in order to fully control your processes. If you are an administrator, you can enable all functionnalities of YAPM by clicking on the 'Take full power' button in the 'Misc' pannel." & vbNewLine & "This enable you to fully control all your processes, including system processes. Please take care using this function because you will be able to do some irreversible things if you kill or modify some system processes... Use it at your own risks !" & vbNewLine & vbNewLine & "Please let me know any of your ideas of improvement or new functionnalities in YAPM's sourceforge.net project page ('Help' pannel) :-)" & vbNewLine & vbNewLine & "This message won't be shown anymore :-)"
@@ -1722,7 +1729,7 @@ Public Class frmMain
         Me.Visible = True
     End Sub
 
-    Private Sub butOpenJobList_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butOpenJobList.Click
+    Private Sub butOpenJobList_Click(ByVal sender As Object, ByVal e As System.EventArgs)
         ' Here we open a Job file
         openDial.Filter = "Job File (*.job)|*.job"
         openDial.Title = "Open job file"
@@ -1733,7 +1740,7 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub butSaveJobList_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butSaveJobList.Click
+    Private Sub butSaveJobList_Click(ByVal sender As Object, ByVal e As System.EventArgs)
         ' Save job list
         Me.saveDial.Filter = "Job File (*.job)|*.job"
         openDial.Title = "Save job file"

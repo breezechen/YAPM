@@ -39,12 +39,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_37C5D6A5AC1C482DA3DF8BA476754D08"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_3D48FA106ACC403CB5B2C3B57AC40260"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -100,6 +94,12 @@
         "Entry"
         {
         "MsmKey" = "8:_AF98E9846BAB43D68B9A14F1BF57510B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BFFC1BF1CA214631AE07E4A20C9AFFDE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -169,6 +169,33 @@
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
         "OutputFilename" = "8:Release\\Setup.msi"
+        "PackageFilesAs" = "3:2"
+        "PackageFileSize" = "3:-2147483648"
+        "CabType" = "3:1"
+        "Compression" = "3:2"
+        "SignOutput" = "11:FALSE"
+        "CertificateFile" = "8:"
+        "PrivateKeyFile" = "8:"
+        "TimeStampServer" = "8:"
+        "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                }
+            }
+        }
+        "SetupRelease"
+        {
+        "DisplayName" = "8:SetupRelease"
+        "IsDebugOnly" = "11:FALSE"
+        "IsReleaseOnly" = "11:FALSE"
+        "OutputFilename" = "8:SetupRelease\\Setup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -298,26 +325,6 @@
             "TargetName" = "8:props0011.xml"
             "Tag" = "8:"
             "Folder" = "8:_D405144E84B846CC92A6A6963997D335"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_37C5D6A5AC1C482DA3DF8BA476754D08"
-            {
-            "SourcePath" = "8:..\\YAPM\\Config\\config.xml"
-            "TargetName" = "8:config.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_D5297D61FEE3464F9174C93B6708BAC9"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -532,6 +539,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BFFC1BF1CA214631AE07E4A20C9AFFDE"
+            {
+            "SourcePath" = "8:..\\YAPM\\Config\\config.xml"
+            "TargetName" = "8:config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_8274687C938040C4BCD4E699D1E5706D"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D2CD49BEFE0A8AB0E1E568F5F26447F9"
             {
             "AssemblyRegister" = "3:1"
@@ -685,15 +712,59 @@
                             }
                         }
                     }
-                    "{9EF0B969-E518-4E46-987F-47570745A589}:_D5297D61FEE3464F9174C93B6708BAC9"
+                }
+            }
+            "{1525181F-901A-416C-8A58-119130FE478E}:_9BF84EA2F04B491BA4B9CA01DF4BC893"
+            {
+            "Name" = "8:#1915"
+            "AlwaysCreate" = "11:FALSE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Property" = "8:AppDataFolder"
+                "Folders"
+                {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_03274299284E4DC38E2050A98B60CB61"
                     {
-                    "Name" = "8:Config"
+                    "Name" = "8:YAPM"
                     "AlwaysCreate" = "11:FALSE"
                     "Condition" = "8:"
                     "Transitive" = "11:FALSE"
-                    "Property" = "8:_258A6CBFB11E45A2B4992E22F4BC4D7C"
+                    "Property" = "8:_E01E27579AF942D68900260D32679185"
                         "Folders"
                         {
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_E5CA2CEA7F8246518E8700297C7AA2C1"
+                            {
+                            "Name" = "8:YAPM"
+                            "AlwaysCreate" = "11:FALSE"
+                            "Condition" = "8:"
+                            "Transitive" = "11:FALSE"
+                            "Property" = "8:_2F2083A3D2C946FF81CCF848189B9656"
+                                "Folders"
+                                {
+                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_2B875A4F42254A7BAA1F330B1DA51666"
+                                    {
+                                    "Name" = "8:1.0.0.0"
+                                    "AlwaysCreate" = "11:FALSE"
+                                    "Condition" = "8:"
+                                    "Transitive" = "11:FALSE"
+                                    "Property" = "8:_19EC0C0CCEBF4B719A84BD5BCD65465C"
+                                        "Folders"
+                                        {
+                                            "{9EF0B969-E518-4E46-987F-47570745A589}:_8274687C938040C4BCD4E699D1E5706D"
+                                            {
+                                            "Name" = "8:Config"
+                                            "AlwaysCreate" = "11:FALSE"
+                                            "Condition" = "8:"
+                                            "Transitive" = "11:FALSE"
+                                            "Property" = "8:_2706E4A4839A430386AB1245007C3793"
+                                                "Folders"
+                                                {
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -714,7 +785,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:YAPM"
         "ProductCode" = "8:{E0C70F07-EC1B-495F-B534-DA2B969ED167}"
-        "PackageCode" = "8:{3422A97D-83D8-4A30-A44E-03F4A9AB13E1}"
+        "PackageCode" = "8:{F2BAAA67-1560-4F95-AAF1-6096C206AA06}"
         "UpgradeCode" = "8:{BD2C4BEC-EC4B-49F8-8F47-E9BD74AB2EFF}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
@@ -1184,7 +1255,7 @@
                             "ContextData" = "8:1;True=1;False=0"
                             "Attributes" = "3:0"
                             "Setting" = "3:0"
-                            "Value" = "3:1"
+                            "Value" = "3:0"
                             "DefaultValue" = "3:1"
                             "UsePlugInResources" = "11:TRUE"
                             }
