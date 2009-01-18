@@ -36,7 +36,7 @@ Public Class frmAbout
         s &= "By violent_ken\fs20\par" & vbNewLine
         s &= "\par" & vbNewLine
         s &= "\b Executable informations\b0\par" & vbNewLine
-        s &= "Version : 1.0.0.0.0 Beta 1\par" & vbNewLine
+        s &= "Version : 1.0.0.0.0 Beta 2\par" & vbNewLine
         s &= "Release date : 01/01/2009\par" & vbNewLine
         s &= "\par" & vbNewLine
         s &= "Please visit YAPM Sourceforge.net page :\par" & vbNewLine

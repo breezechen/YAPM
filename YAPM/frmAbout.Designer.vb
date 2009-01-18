@@ -77,7 +77,7 @@ Partial Class frmAbout
         Me.ShowIcon = False
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "About YAMP"
+        Me.Text = "About YAPM"
         Me.TopMost = True
         Me.ResumeLayout(False)
         Me.PerformLayout()
