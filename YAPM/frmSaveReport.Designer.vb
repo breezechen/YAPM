@@ -22,7 +22,6 @@ Partial Class frmSaveReport
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Label1 = New System.Windows.Forms.Label
         Me.pgb = New System.Windows.Forms.ProgressBar
         Me.lblProgress = New System.Windows.Forms.Label
         Me.cmdOK = New System.Windows.Forms.Button
@@ -30,18 +29,9 @@ Partial Class frmSaveReport
         Me.cmdGO = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 9)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(84, 13)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Saving report..."
-        '
         'pgb
         '
-        Me.pgb.Location = New System.Drawing.Point(15, 34)
+        Me.pgb.Location = New System.Drawing.Point(15, 12)
         Me.pgb.Name = "pgb"
         Me.pgb.Size = New System.Drawing.Size(257, 23)
         Me.pgb.TabIndex = 1
@@ -49,7 +39,7 @@ Partial Class frmSaveReport
         'lblProgress
         '
         Me.lblProgress.AutoSize = True
-        Me.lblProgress.Location = New System.Drawing.Point(12, 60)
+        Me.lblProgress.Location = New System.Drawing.Point(12, 38)
         Me.lblProgress.Name = "lblProgress"
         Me.lblProgress.Size = New System.Drawing.Size(84, 13)
         Me.lblProgress.TabIndex = 2
@@ -58,7 +48,7 @@ Partial Class frmSaveReport
         'cmdOK
         '
         Me.cmdOK.Enabled = False
-        Me.cmdOK.Location = New System.Drawing.Point(196, 84)
+        Me.cmdOK.Location = New System.Drawing.Point(196, 62)
         Me.cmdOK.Name = "cmdOK"
         Me.cmdOK.Size = New System.Drawing.Size(75, 23)
         Me.cmdOK.TabIndex = 3
@@ -68,7 +58,7 @@ Partial Class frmSaveReport
         'cmdOpenReport
         '
         Me.cmdOpenReport.Enabled = False
-        Me.cmdOpenReport.Location = New System.Drawing.Point(115, 84)
+        Me.cmdOpenReport.Location = New System.Drawing.Point(115, 62)
         Me.cmdOpenReport.Name = "cmdOpenReport"
         Me.cmdOpenReport.Size = New System.Drawing.Size(75, 23)
         Me.cmdOpenReport.TabIndex = 4
@@ -78,7 +68,7 @@ Partial Class frmSaveReport
         'cmdGO
         '
         Me.cmdGO.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdGO.Location = New System.Drawing.Point(12, 84)
+        Me.cmdGO.Location = New System.Drawing.Point(12, 62)
         Me.cmdGO.Name = "cmdGO"
         Me.cmdGO.Size = New System.Drawing.Size(97, 23)
         Me.cmdGO.TabIndex = 5
@@ -89,13 +79,12 @@ Partial Class frmSaveReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(284, 116)
+        Me.ClientSize = New System.Drawing.Size(284, 94)
         Me.Controls.Add(Me.cmdGO)
         Me.Controls.Add(Me.cmdOpenReport)
         Me.Controls.Add(Me.cmdOK)
         Me.Controls.Add(Me.lblProgress)
         Me.Controls.Add(Me.pgb)
-        Me.Controls.Add(Me.Label1)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
@@ -109,7 +98,6 @@ Partial Class frmSaveReport
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents pgb As System.Windows.Forms.ProgressBar
     Friend WithEvents lblProgress As System.Windows.Forms.Label
     Friend WithEvents cmdOK As System.Windows.Forms.Button
