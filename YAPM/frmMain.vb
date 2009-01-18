@@ -1399,7 +1399,9 @@ Public Class frmMain
     Private Sub lblResCount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblResCount.Click
         Me.lvProcess.Focus()
         Try
-            System.Windows.Forms.SendKeys.Send(Me.lvProcess.Groups(1).Items(0).Text)
+            Me.lvProcess.EnsureVisible(Me.lvProcess.Groups(1).Items(0).Index)
+            Me.lvProcess.SelectedItems.Clear()
+            Me.lvProcess.Groups(1).Items(0).Selected = True
         Catch ex As Exception
         End Try
     End Sub
@@ -2298,7 +2300,9 @@ Public Class frmMain
     Private Sub lblResCount2_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblResCount2.Click
         Me.lvServices.Focus()
         Try
-            System.Windows.Forms.SendKeys.Send(Me.lvServices.Groups(1).Items(0).Text)
+            Me.lvServices.EnsureVisible(Me.lvServices.Groups(1).Items(0).Index)
+            Me.lvServices.SelectedItems.Clear()
+            Me.lvServices.Groups(1).Items(0).Selected = True
         Catch ex As Exception
         End Try
     End Sub
@@ -4485,7 +4489,9 @@ Public Class frmMain
     Private Sub lblModulesCount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblModulesCount.Click
         Me.lvModules.Focus()
         Try
-            System.Windows.Forms.SendKeys.Send(Me.lvModules.Groups(1).Items(0).Text)
+            Me.lvModules.EnsureVisible(Me.lvModules.Groups(1).Items(0).Index)
+            Me.lvModules.SelectedItems.Clear()
+            Me.lvModules.Groups(1).Items(0).Selected = True
         Catch ex As Exception
         End Try
     End Sub
@@ -4616,9 +4622,11 @@ Public Class frmMain
     End Sub
 
     Private Sub lblThreadResults_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblThreadResults.Click
-        Me.lvModules.Focus()
+        Me.lvThreads.Focus()
         Try
-            System.Windows.Forms.SendKeys.Send(Me.lvThreads.Groups(1).Items(0).Text)
+            Me.lvThreads.EnsureVisible(Me.lvThreads.Groups(1).Items(0).Index)
+            Me.lvThreads.SelectedItems.Clear()
+            Me.lvThreads.Groups(1).Items(0).Selected = True
         Catch ex As Exception
         End Try
     End Sub
@@ -4638,7 +4646,9 @@ Public Class frmMain
     Private Sub lblHandlesCount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblHandlesCount.Click
         Me.lvHandles.Focus()
         Try
-            System.Windows.Forms.SendKeys.Send(Me.lvHandles.Groups(1).Items(0).Text)
+            Me.lvHandles.EnsureVisible(Me.lvHandles.Groups(1).Items(0).Index)
+            Me.lvHandles.SelectedItems.Clear()
+            Me.lvHandles.Groups(1).Items(0).Selected = True
         Catch ex As Exception
         End Try
     End Sub
@@ -4705,7 +4715,9 @@ Public Class frmMain
     Private Sub lblWindowsCount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblWindowsCount.Click
         Me.lvWindows.Focus()
         Try
-            System.Windows.Forms.SendKeys.Send(Me.lvWindows.Groups(1).Items(0).Text)
+            Me.lvWindows.EnsureVisible(Me.lvWindows.Groups(1).Items(0).Index)
+            Me.lvWindows.SelectedItems.Clear()
+            Me.lvWindows.Groups(1).Items(0).Selected = True
         Catch ex As Exception
         End Try
     End Sub
@@ -4835,7 +4847,9 @@ Public Class frmMain
     Private Sub lblResultsCount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblResultsCount.Click
         Me.lvSearchResults.Focus()
         Try
-            System.Windows.Forms.SendKeys.Send(Me.lvSearchResults.Groups(1).Items(0).Text)
+            Me.lvSearchResults.EnsureVisible(Me.lvSearchResults.Groups(1).Items(0).Index)
+            Me.lvSearchResults.SelectedItems.Clear()
+            Me.lvSearchResults.Groups(1).Items(0).Selected = True
         Catch ex As Exception
         End Try
     End Sub
@@ -4870,4 +4884,5 @@ Public Class frmMain
             .ShowDialog()
         End With
     End Sub
+
 End Class

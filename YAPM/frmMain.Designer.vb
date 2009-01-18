@@ -263,6 +263,8 @@ Partial Class frmMain
         Me.butServiceFileDetails = New System.Windows.Forms.RibbonButton
         Me.RBServiceOnline = New System.Windows.Forms.RibbonPanel
         Me.butServiceGoogle = New System.Windows.Forms.RibbonButton
+        Me.RBServiceReport = New System.Windows.Forms.RibbonPanel
+        Me.butServiceReport = New System.Windows.Forms.RibbonButton
         Me.FileTab = New System.Windows.Forms.RibbonTab
         Me.RBFileOpenFile = New System.Windows.Forms.RibbonPanel
         Me.butOpenFile = New System.Windows.Forms.RibbonButton
@@ -471,8 +473,6 @@ Partial Class frmMain
         Me.ShowFileDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem36 = New System.Windows.Forms.ToolStripMenuItem
         Me.rtb6 = New System.Windows.Forms.RichTextBox
-        Me.RBServiceReport = New System.Windows.Forms.RibbonPanel
-        Me.butServiceReport = New System.Windows.Forms.RibbonButton
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -2748,6 +2748,27 @@ Partial Class frmMain
         Me.butServiceGoogle.ToolTipImage = Nothing
         Me.butServiceGoogle.ToolTipTitle = Nothing
         '
+        'RBServiceReport
+        '
+        Me.RBServiceReport.ButtonMoreEnabled = False
+        Me.RBServiceReport.ButtonMoreVisible = False
+        Me.RBServiceReport.Items.Add(Me.butServiceReport)
+        Me.RBServiceReport.Tag = Nothing
+        Me.RBServiceReport.Text = "Report"
+        '
+        'butServiceReport
+        '
+        Me.butServiceReport.AltKey = Nothing
+        Me.butServiceReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butServiceReport.Image = CType(resources.GetObject("butServiceReport.Image"), System.Drawing.Image)
+        Me.butServiceReport.SmallImage = CType(resources.GetObject("butServiceReport.SmallImage"), System.Drawing.Image)
+        Me.butServiceReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butServiceReport.Tag = Nothing
+        Me.butServiceReport.Text = "Save report"
+        Me.butServiceReport.ToolTip = Nothing
+        Me.butServiceReport.ToolTipImage = Nothing
+        Me.butServiceReport.ToolTipTitle = Nothing
+        '
         'FileTab
         '
         Me.FileTab.Panels.Add(Me.RBFileOpenFile)
@@ -4839,27 +4860,6 @@ Partial Class frmMain
         Me.rtb6.Size = New System.Drawing.Size(565, 100)
         Me.rtb6.TabIndex = 8
         Me.rtb6.Text = "Click on an item to get additionnal informations"
-        '
-        'RBServiceReport
-        '
-        Me.RBServiceReport.ButtonMoreEnabled = False
-        Me.RBServiceReport.ButtonMoreVisible = False
-        Me.RBServiceReport.Items.Add(Me.butServiceReport)
-        Me.RBServiceReport.Tag = Nothing
-        Me.RBServiceReport.Text = "Report"
-        '
-        'butServiceReport
-        '
-        Me.butServiceReport.AltKey = Nothing
-        Me.butServiceReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butServiceReport.Image = CType(resources.GetObject("butServiceReport.Image"), System.Drawing.Image)
-        Me.butServiceReport.SmallImage = CType(resources.GetObject("butServiceReport.SmallImage"), System.Drawing.Image)
-        Me.butServiceReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butServiceReport.Tag = Nothing
-        Me.butServiceReport.Text = "Save report"
-        Me.butServiceReport.ToolTip = Nothing
-        Me.butServiceReport.ToolTipImage = Nothing
-        Me.butServiceReport.ToolTipTitle = Nothing
         '
         'frmMain
         '
