@@ -125,6 +125,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmPreferences.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmSaveReport.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmSaveReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmWindowPosition.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmWindowPosition.vb</DependentUpon>
@@ -204,6 +208,12 @@
       <DependentUpon>frmPreferences.vb</DependentUpon>
     </Compile>
     <Compile Include="frmPreferences.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSaveReport.Designer.vb">
+      <DependentUpon>frmSaveReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmSaveReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmWindowPosition.Designer.vb">
