@@ -167,6 +167,7 @@
     <Compile Include="cDownload.vb" />
     <Compile Include="cFile.vb" />
     <Compile Include="cHTML.vb" />
+    <Compile Include="cHTML2.vb" />
     <Compile Include="clsDriverCtrl.vb" />
     <Compile Include="clsOpenedHandles.vb" />
     <Compile Include="cModule.vb" />

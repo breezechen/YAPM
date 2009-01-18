@@ -24,16 +24,17 @@ Option Strict On
 
 Imports System.Text
 
-Public Class cHTML
+Public Class cHTML2
 
-    ' This class allows to create an HTML file (based on an array of values,
-    ' like a listview with some items and subitems).
+    ' This class allows to create an HTML file (special array).
     ' ---------------------------------------
-    ' | Type   | Name        | Handle       |
+    ' |  C:\Windows\Explorer.exe            |       (bold)
     ' ---------------------------------------
-    ' | file   | c:\windows  | 89189019     |
+    ' | Size      | 1245 MB                 |
     ' ---------------------------------------
-    ' | key    | HKLM\Class  | 124346       |
+    ' | ParentDir | C:\Windows\             |
+    ' ---------------------------------------
+    ' | Copyright | (c) Microsoft           |
     ' ---------------------------------------
 
     ' This is supposed to be normalized HTML
@@ -57,10 +58,9 @@ Public Class cHTML
     ' Private attributes
     ' ========================================
     Private _code As StringBuilder
-    Private _columns() As HtmlColumnStructure
     Private _file As String
-    Private _colCount As Integer
     Private _title As String
+    Private _firstColSize As Integer
 
 
     ' ========================================
@@ -73,15 +73,11 @@ Public Class cHTML
     ' Public functions
     ' ========================================
 
-    Public Sub New(ByVal col() As HtmlColumnStructure, ByVal destination As String, ByVal title As String)
+    Public Sub New(ByVal destination As String, ByVal title As String, ByVal firstColSize As Integer)
 
         MyBase.New()
 
-        If col Is Nothing Then Exit Sub
-        _colCount = col.Length
-        If _colCount < 1 Then Exit Sub
-
-        _columns = col
+        _firstColSize = firstColSize
         _file = destination
         _title = normaliszeISOhtml(title)
 
@@ -114,11 +110,27 @@ Public Class cHTML
         _code.Remove(0, _code.Length)
     End Sub
 
-    ' Add a new line in our array
+    ' Append a title (1-column) line
+    Public Sub AppendTitleLine(ByVal line As String)
+
+        Try
+            _code.AppendLine("<tr class=" & Chr(34) & "titlecell" & Chr(34) & ">")
+            _code.AppendLine("<th class=" & Chr(34) & "titlecellbold" & Chr(34) & " colspan=" & Chr(34) & "2" & Chr(34) & ">" & normaliszeISOhtml(line) & "</th>")
+            _code.AppendLine("</tr>")
+        Catch ex As Exception
+            _code.Capacity += _code.Capacity
+            _code.AppendLine("<tr class=" & Chr(34) & "titlecell" & Chr(34) & ">")
+            _code.AppendLine("<th class=" & Chr(34) & "titlecellbold" & Chr(34) & " colspan=" & Chr(34) & "2" & Chr(34) & ">" & normaliszeISOhtml(line) & "</th>")
+            _code.AppendLine("</tr>")
+        End Try
+
+    End Sub
+
+    ' Add a new line (multi columns) in our array
     Public Sub AppendLine(ByVal line() As String)
 
         If line Is Nothing Then Exit Sub
-        If Not (line.Length = _colCount) Then Exit Sub
+        If Not (line.Length = 2) Then Exit Sub
 
         Try
             _code.AppendLine("<tr class=" & Chr(34) & "titlecell" & Chr(34) & ">")
@@ -157,20 +169,20 @@ Public Class cHTML
         _code.AppendLine("			body, table { background-color: #E5E5E5; color: black; font-family: Calibri, Times, courrier ; font-size: 15px; } ")
         _code.AppendLine("			td.normalcell{background-color : white;}")
         _code.AppendLine("			tr.titlecell{background-color : #C5C5C5;}")
+        _code.AppendLine("			tr.titlecellbold{background-color : #C5C5C5; font-weight: bold;}")
         _code.AppendLine("			b.title{text-align : center;}")
         _code.AppendLine("		</style>")
         _code.AppendLine("	</head>")
         _code.AppendLine("	<body>")
         _code.AppendLine("		<table width=" & Chr(34) & "100%" & Chr(34) & " border=" & Chr(34) & "0" & Chr(34) & " cellspacing=" & Chr(34) & "1" & Chr(34) & " cellpadding=" & Chr(34) & "0" & Chr(34) & ">")
         _code.AppendLine("			<tr class=" & Chr(34) & "titlecell" & Chr(34) & ">")
-
-        Dim i As HtmlColumnStructure
-        For Each i In _columns
-            _code.AppendLine("<td width=" & Chr(34) & CStr(i.sizePercent) & "%" & Chr(34) & ">")
-            _code.AppendLine("<b class=" & Chr(34) & " title" & Chr(34) & ">" & i.title & "</b>")
-            _code.AppendLine("</td>")
-        Next
-        _code.AppendLine("</tr>")
+        _code.AppendLine("              <td width=" & Chr(34) & CStr(_firstColSize) & "%" & Chr(34) & ">")
+        _code.AppendLine("                  <b class=" & Chr(34) & " title" & Chr(34) & "></b>")
+        _code.AppendLine("              </td>")
+        _code.AppendLine("              <td width=" & Chr(34) & CStr(100 - _firstColSize) & "%" & Chr(34) & ">")
+        _code.AppendLine("                  <b class=" & Chr(34) & " title" & Chr(34) & "></b>")
+        _code.AppendLine("              </td>")
+        _code.AppendLine("          </tr>")
     End Sub
 
     ' Here we format HTML (ISO norm)

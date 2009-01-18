@@ -298,9 +298,6 @@ Partial Class frmMain
         Me.butSearchSaveReport = New System.Windows.Forms.RibbonButton
         Me.txtSearchString = New System.Windows.Forms.RibbonTextBox
         Me.ReportTab = New System.Windows.Forms.RibbonTab
-        Me.RBSaveReport = New System.Windows.Forms.RibbonPanel
-        Me.butSaveProcessReport = New System.Windows.Forms.RibbonButton
-        Me.butSaveServiceReport = New System.Windows.Forms.RibbonButton
         Me.RBOthers = New System.Windows.Forms.RibbonPanel
         Me.butTakeFullPower = New System.Windows.Forms.RibbonButton
         Me.butOptions = New System.Windows.Forms.RibbonButton
@@ -474,6 +471,8 @@ Partial Class frmMain
         Me.ShowFileDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem36 = New System.Windows.Forms.ToolStripMenuItem
         Me.rtb6 = New System.Windows.Forms.RichTextBox
+        Me.RBServiceReport = New System.Windows.Forms.RibbonPanel
+        Me.butServiceReport = New System.Windows.Forms.RibbonButton
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -2038,7 +2037,6 @@ Partial Class frmMain
         '
         Me.butThreadSaveReport.AltKey = Nothing
         Me.butThreadSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butThreadSaveReport.Enabled = False
         Me.butThreadSaveReport.Image = CType(resources.GetObject("butThreadSaveReport.Image"), System.Drawing.Image)
         Me.butThreadSaveReport.SmallImage = CType(resources.GetObject("butThreadSaveReport.SmallImage"), System.Drawing.Image)
         Me.butThreadSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
@@ -2397,7 +2395,6 @@ Partial Class frmMain
         '
         Me.butWindowSaveReport.AltKey = Nothing
         Me.butWindowSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butWindowSaveReport.Enabled = False
         Me.butWindowSaveReport.Image = CType(resources.GetObject("butWindowSaveReport.Image"), System.Drawing.Image)
         Me.butWindowSaveReport.SmallImage = CType(resources.GetObject("butWindowSaveReport.SmallImage"), System.Drawing.Image)
         Me.butWindowSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
@@ -2516,6 +2513,7 @@ Partial Class frmMain
         Me.ServiceTab.Panels.Add(Me.RBServiceStartType)
         Me.ServiceTab.Panels.Add(Me.RBServiceFile)
         Me.ServiceTab.Panels.Add(Me.RBServiceOnline)
+        Me.ServiceTab.Panels.Add(Me.RBServiceReport)
         Me.ServiceTab.Tag = Nothing
         Me.ServiceTab.Text = "Services"
         '
@@ -3170,49 +3168,10 @@ Partial Class frmMain
         '
         'ReportTab
         '
-        Me.ReportTab.Panels.Add(Me.RBSaveReport)
         Me.ReportTab.Panels.Add(Me.RBOthers)
         Me.ReportTab.Panels.Add(Me.RBDisplay)
         Me.ReportTab.Tag = Nothing
         Me.ReportTab.Text = "Misc"
-        '
-        'RBSaveReport
-        '
-        Me.RBSaveReport.ButtonMoreEnabled = False
-        Me.RBSaveReport.ButtonMoreVisible = False
-        Me.RBSaveReport.Enabled = False
-        Me.RBSaveReport.Items.Add(Me.butSaveProcessReport)
-        Me.RBSaveReport.Items.Add(Me.butSaveServiceReport)
-        Me.RBSaveReport.Tag = Nothing
-        Me.RBSaveReport.Text = "Save report"
-        '
-        'butSaveProcessReport
-        '
-        Me.butSaveProcessReport.AltKey = Nothing
-        Me.butSaveProcessReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butSaveProcessReport.Enabled = False
-        Me.butSaveProcessReport.Image = CType(resources.GetObject("butSaveProcessReport.Image"), System.Drawing.Image)
-        Me.butSaveProcessReport.SmallImage = CType(resources.GetObject("butSaveProcessReport.SmallImage"), System.Drawing.Image)
-        Me.butSaveProcessReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butSaveProcessReport.Tag = Nothing
-        Me.butSaveProcessReport.Text = "Process report"
-        Me.butSaveProcessReport.ToolTip = Nothing
-        Me.butSaveProcessReport.ToolTipImage = Nothing
-        Me.butSaveProcessReport.ToolTipTitle = Nothing
-        '
-        'butSaveServiceReport
-        '
-        Me.butSaveServiceReport.AltKey = Nothing
-        Me.butSaveServiceReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butSaveServiceReport.Enabled = False
-        Me.butSaveServiceReport.Image = CType(resources.GetObject("butSaveServiceReport.Image"), System.Drawing.Image)
-        Me.butSaveServiceReport.SmallImage = CType(resources.GetObject("butSaveServiceReport.SmallImage"), System.Drawing.Image)
-        Me.butSaveServiceReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butSaveServiceReport.Tag = Nothing
-        Me.butSaveServiceReport.Text = "Service report"
-        Me.butSaveServiceReport.ToolTip = Nothing
-        Me.butSaveServiceReport.ToolTipImage = Nothing
-        Me.butSaveServiceReport.ToolTipTitle = Nothing
         '
         'RBOthers
         '
@@ -4881,6 +4840,27 @@ Partial Class frmMain
         Me.rtb6.TabIndex = 8
         Me.rtb6.Text = "Click on an item to get additionnal informations"
         '
+        'RBServiceReport
+        '
+        Me.RBServiceReport.ButtonMoreEnabled = False
+        Me.RBServiceReport.ButtonMoreVisible = False
+        Me.RBServiceReport.Items.Add(Me.butServiceReport)
+        Me.RBServiceReport.Tag = Nothing
+        Me.RBServiceReport.Text = "Report"
+        '
+        'butServiceReport
+        '
+        Me.butServiceReport.AltKey = Nothing
+        Me.butServiceReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butServiceReport.Image = CType(resources.GetObject("butServiceReport.Image"), System.Drawing.Image)
+        Me.butServiceReport.SmallImage = CType(resources.GetObject("butServiceReport.SmallImage"), System.Drawing.Image)
+        Me.butServiceReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butServiceReport.Tag = Nothing
+        Me.butServiceReport.Text = "Save report"
+        Me.butServiceReport.ToolTip = Nothing
+        Me.butServiceReport.ToolTipImage = Nothing
+        Me.butServiceReport.ToolTipTitle = Nothing
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -5136,9 +5116,6 @@ Partial Class frmMain
     Friend WithEvents butProjectPage As System.Windows.Forms.RibbonButton
     Friend WithEvents butDownload As System.Windows.Forms.RibbonButton
     Friend WithEvents ReportTab As System.Windows.Forms.RibbonTab
-    Friend WithEvents RBSaveReport As System.Windows.Forms.RibbonPanel
-    Friend WithEvents butSaveProcessReport As System.Windows.Forms.RibbonButton
-    Friend WithEvents butSaveServiceReport As System.Windows.Forms.RibbonButton
     Friend WithEvents RBOthers As System.Windows.Forms.RibbonPanel
     Friend WithEvents butTakeFullPower As System.Windows.Forms.RibbonButton
     Friend WithEvents butOptions As System.Windows.Forms.RibbonButton
@@ -5434,5 +5411,7 @@ Partial Class frmMain
     Friend WithEvents ColumnHeader5 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader6 As System.Windows.Forms.ColumnHeader
     Friend WithEvents chkAllWindows As System.Windows.Forms.CheckBox
+    Friend WithEvents RBServiceReport As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butServiceReport As System.Windows.Forms.RibbonButton
 
 End Class
