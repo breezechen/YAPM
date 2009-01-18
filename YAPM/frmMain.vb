@@ -2629,7 +2629,7 @@ Public Class frmMain
         End With
     End Sub
 
-    Private Sub ShowHandles()
+    Private Sub ShowHandles(Optional ByVal showTab As Boolean = True)
         ' Display handles of desired processes (handlesToRefresh)
         Dim id As Integer
         Dim i As Integer
@@ -2677,10 +2677,12 @@ Public Class frmMain
             Next
         Next
 
-        Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvHandles.Items.Count) & " handles"
-        My.Application.DoEvents()
-        Me.Ribbon.ActiveTab = Me.HandlesTab
-        Call Me.Ribbon_MouseMove(Nothing, Nothing)
+        If showTab Then
+            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvHandles.Items.Count) & " handles"
+            My.Application.DoEvents()
+            Me.Ribbon.ActiveTab = Me.HandlesTab
+            Call Me.Ribbon_MouseMove(Nothing, Nothing)
+        End If
     End Sub
 
     Private Sub butHandleRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butHandleRefresh.Click
@@ -3591,7 +3593,7 @@ Public Class frmMain
 
 
     ' Show threads of selected processes (threadsToRefresh)
-    Private Sub ShowThreads()
+    Private Sub ShowThreads(Optional ByVal showTab As Boolean = True)
         Dim t() As cThread = Nothing
         Dim tCt As cThread
 
@@ -3640,7 +3642,8 @@ Public Class frmMain
             Next
         Next
 
-        Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvThreads.Items.Count) & " threads"
+        If showTab Then _
+            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvThreads.Items.Count) & " threads"
 
     End Sub
 
@@ -3834,7 +3837,7 @@ Public Class frmMain
     End Sub
 
     ' Show windows of selected processes (windowsToRefresh)
-    Private Sub ShowWindows()
+    Private Sub ShowWindows(Optional ByVal showTab As Boolean = True)
         Dim t() As cWindow = Nothing
         Dim tCt As cWindow
 
@@ -3888,7 +3891,8 @@ Public Class frmMain
 
         End If
 
-        Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvWindows.Items.Count) & " windows"
+        If showTab Then _
+            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvWindows.Items.Count) & " windows"
 
     End Sub
 
@@ -4198,7 +4202,7 @@ Public Class frmMain
     End Sub
 
     ' Show modules of selected processes (modulesToRefresh)
-    Private Sub ShowModules()
+    Private Sub ShowModules(Optional ByVal showTab As Boolean = True)
         Dim t() As cModule = Nothing
         Dim tCt As cModule
 
@@ -4270,7 +4274,8 @@ Public Class frmMain
             End If
         Next
 
-        Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
+        If showTab Then _
+            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
 
     End Sub
 
@@ -4885,4 +4890,32 @@ Public Class frmMain
         End With
     End Sub
 
+    Private Sub butProcessShowAll_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessShowAll.Click
+
+        ' We refresh all informations for the selected processes
+        If Me.lvProcess.SelectedItems.Count > 0 Then
+            Dim it As ListViewItem
+
+            Dim x As Integer = 0
+            ReDim modulesToRefresh(Me.lvProcess.SelectedItems.Count - 1)
+            ReDim windowsToRefresh(Me.lvProcess.SelectedItems.Count - 1)
+            ReDim handlesToRefresh(Me.lvProcess.SelectedItems.Count - 1)
+            ReDim threadsToRefresh(Me.lvProcess.SelectedItems.Count - 1)
+
+            For Each it In Me.lvProcess.SelectedItems
+                Dim cp As cProcess = CType(it.Tag, cProcess)
+                modulesToRefresh(x) = cp.Pid
+                windowsToRefresh(x) = cp.Pid
+                handlesToRefresh(x) = cp.Pid
+                threadsToRefresh(x) = cp.Pid
+                x += 1
+            Next
+
+            Call ShowModules(False)
+            Call ShowThreads(False)
+            Call ShowWindows(False)
+            Call ShowHandles(False)
+        End If
+
+    End Sub
 End Class

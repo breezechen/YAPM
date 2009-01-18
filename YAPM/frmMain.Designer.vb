@@ -473,6 +473,7 @@ Partial Class frmMain
         Me.ShowFileDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem36 = New System.Windows.Forms.ToolStripMenuItem
         Me.rtb6 = New System.Windows.Forms.RichTextBox
+        Me.butProcessShowAll = New System.Windows.Forms.RibbonButton
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -1500,6 +1501,7 @@ Partial Class frmMain
         Me.butProcessShow.DropDownItems.Add(Me.butProcessThreads)
         Me.butProcessShow.DropDownItems.Add(Me.butShowProcHandles)
         Me.butProcessShow.DropDownItems.Add(Me.butProcessWindows)
+        Me.butProcessShow.DropDownItems.Add(Me.butProcessShowAll)
         Me.butProcessShow.Image = CType(resources.GetObject("butProcessShow.Image"), System.Drawing.Image)
         Me.butProcessShow.SmallImage = CType(resources.GetObject("butProcessShow.SmallImage"), System.Drawing.Image)
         Me.butProcessShow.Style = System.Windows.Forms.RibbonButtonStyle.DropDown
@@ -4861,6 +4863,19 @@ Partial Class frmMain
         Me.rtb6.TabIndex = 8
         Me.rtb6.Text = "Click on an item to get additionnal informations"
         '
+        'butProcessShowAll
+        '
+        Me.butProcessShowAll.AltKey = Nothing
+        Me.butProcessShowAll.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessShowAll.Image = Nothing
+        Me.butProcessShowAll.SmallImage = CType(resources.GetObject("butProcessShowAll.SmallImage"), System.Drawing.Image)
+        Me.butProcessShowAll.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessShowAll.Tag = Nothing
+        Me.butProcessShowAll.Text = "All"
+        Me.butProcessShowAll.ToolTip = Nothing
+        Me.butProcessShowAll.ToolTipImage = Nothing
+        Me.butProcessShowAll.ToolTipTitle = Nothing
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -5413,5 +5428,6 @@ Partial Class frmMain
     Friend WithEvents chkAllWindows As System.Windows.Forms.CheckBox
     Friend WithEvents RBServiceReport As System.Windows.Forms.RibbonPanel
     Friend WithEvents butServiceReport As System.Windows.Forms.RibbonButton
+    Friend WithEvents butProcessShowAll As System.Windows.Forms.RibbonButton
 
 End Class
