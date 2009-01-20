@@ -43,17 +43,15 @@ Public Class frmProcessMemRW
         Me.lv.Items.Clear()
 
         If ba.Length > 0 Then
-            If ba(0) > 0 Then
-                Dim x As Integer = 0
-                For Each i As Integer In ba
-                    Dim it As New ListViewItem
-                    it.Text = CStr(i)
-                    it.Group = Me.lv.Groups(0)
-                    it.SubItems.Add(CStr(rs(x)))
-                    Me.lv.Items.Add(it)
-                    x += 1
-                Next
-            End If
+            Dim x As Integer = 0
+            For Each i As Integer In ba
+                Dim it As New ListViewItem
+                it.Text = CStr(i)
+                it.Group = Me.lv.Groups(0)
+                it.SubItems.Add(CStr(rs(x)))
+                Me.lv.Items.Add(it)
+                x += 1
+            Next
         End If
 
     End Sub
