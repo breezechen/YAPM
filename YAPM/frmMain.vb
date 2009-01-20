@@ -4918,4 +4918,16 @@ Public Class frmMain
         End If
 
     End Sub
+
+    Private Sub ShowAllToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowAllToolStripMenuItem.Click
+        Call butProcessShowAll_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub ReadWriteMemoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReadWriteMemoryToolStripMenuItem.Click
+        Dim frm As New frmProcessMemRW
+        With frm
+            ' .SetProcess(5768)
+            .ShowDialog()
+        End With
+    End Sub
 End Class

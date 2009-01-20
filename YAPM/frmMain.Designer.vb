@@ -65,11 +65,12 @@ Partial Class frmMain
         Me.HighToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RealTimeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SetAffinityToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem38 = New System.Windows.Forms.ToolStripSeparator
         Me.ShowModulesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowThreadsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowHandlesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowWindowsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.MonitorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ShowAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem8 = New System.Windows.Forms.ToolStripSeparator
         Me.PropertiesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.OpenFirectoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -77,6 +78,9 @@ Partial Class frmMain
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
         Me.GetSecurityRiskOnlineToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.GoogleSearchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem37 = New System.Windows.Forms.ToolStripSeparator
+        Me.ReadWriteMemoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.MonitorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.imgProcess = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMenu = New System.Windows.Forms.Panel
         Me.chkDisplayNAProcess = New System.Windows.Forms.CheckBox
@@ -165,6 +169,7 @@ Partial Class frmMain
         Me.butProcessThreads = New System.Windows.Forms.RibbonButton
         Me.butShowProcHandles = New System.Windows.Forms.RibbonButton
         Me.butProcessWindows = New System.Windows.Forms.RibbonButton
+        Me.butProcessShowAll = New System.Windows.Forms.RibbonButton
         Me.butProcessMonitor = New System.Windows.Forms.RibbonButton
         Me.RBProcessPriority = New System.Windows.Forms.RibbonPanel
         Me.butProcessPriority = New System.Windows.Forms.RibbonButton
@@ -473,7 +478,6 @@ Partial Class frmMain
         Me.ShowFileDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem36 = New System.Windows.Forms.ToolStripMenuItem
         Me.rtb6 = New System.Windows.Forms.RichTextBox
-        Me.butProcessShowAll = New System.Windows.Forms.RibbonButton
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -630,9 +634,9 @@ Partial Class frmMain
         '
         'menuProc
         '
-        Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ShowModulesToolStripMenuItem, Me.ShowThreadsToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.ShowWindowsToolStripMenuItem, Me.MonitorToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.ToolStripMenuItem1, Me.GetSecurityRiskOnlineToolStripMenuItem, Me.GoogleSearchToolStripMenuItem})
+        Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ToolStripMenuItem38, Me.ShowModulesToolStripMenuItem, Me.ShowThreadsToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.ShowWindowsToolStripMenuItem, Me.ShowAllToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.ToolStripMenuItem1, Me.GetSecurityRiskOnlineToolStripMenuItem, Me.GoogleSearchToolStripMenuItem, Me.ToolStripMenuItem37, Me.ReadWriteMemoryToolStripMenuItem, Me.MonitorToolStripMenuItem})
         Me.menuProc.Name = "menuProc"
-        Me.menuProc.Size = New System.Drawing.Size(194, 346)
+        Me.menuProc.Size = New System.Drawing.Size(194, 402)
         '
         'KillToolStripMenuItem
         '
@@ -702,6 +706,11 @@ Partial Class frmMain
         Me.SetAffinityToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.SetAffinityToolStripMenuItem.Text = "Set affinity..."
         '
+        'ToolStripMenuItem38
+        '
+        Me.ToolStripMenuItem38.Name = "ToolStripMenuItem38"
+        Me.ToolStripMenuItem38.Size = New System.Drawing.Size(190, 6)
+        '
         'ShowModulesToolStripMenuItem
         '
         Me.ShowModulesToolStripMenuItem.Name = "ShowModulesToolStripMenuItem"
@@ -726,11 +735,11 @@ Partial Class frmMain
         Me.ShowWindowsToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.ShowWindowsToolStripMenuItem.Text = "Show windows"
         '
-        'MonitorToolStripMenuItem
+        'ShowAllToolStripMenuItem
         '
-        Me.MonitorToolStripMenuItem.Name = "MonitorToolStripMenuItem"
-        Me.MonitorToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
-        Me.MonitorToolStripMenuItem.Text = "Monitor"
+        Me.ShowAllToolStripMenuItem.Name = "ShowAllToolStripMenuItem"
+        Me.ShowAllToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
+        Me.ShowAllToolStripMenuItem.Text = "Show all"
         '
         'ToolStripMenuItem8
         '
@@ -771,6 +780,23 @@ Partial Class frmMain
         Me.GoogleSearchToolStripMenuItem.Name = "GoogleSearchToolStripMenuItem"
         Me.GoogleSearchToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.GoogleSearchToolStripMenuItem.Text = "Google search"
+        '
+        'ToolStripMenuItem37
+        '
+        Me.ToolStripMenuItem37.Name = "ToolStripMenuItem37"
+        Me.ToolStripMenuItem37.Size = New System.Drawing.Size(190, 6)
+        '
+        'ReadWriteMemoryToolStripMenuItem
+        '
+        Me.ReadWriteMemoryToolStripMenuItem.Name = "ReadWriteMemoryToolStripMenuItem"
+        Me.ReadWriteMemoryToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
+        Me.ReadWriteMemoryToolStripMenuItem.Text = "Read/Write memory"
+        '
+        'MonitorToolStripMenuItem
+        '
+        Me.MonitorToolStripMenuItem.Name = "MonitorToolStripMenuItem"
+        Me.MonitorToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
+        Me.MonitorToolStripMenuItem.Text = "Monitor"
         '
         'imgProcess
         '
@@ -1562,6 +1588,19 @@ Partial Class frmMain
         Me.butProcessWindows.ToolTip = Nothing
         Me.butProcessWindows.ToolTipImage = Nothing
         Me.butProcessWindows.ToolTipTitle = Nothing
+        '
+        'butProcessShowAll
+        '
+        Me.butProcessShowAll.AltKey = Nothing
+        Me.butProcessShowAll.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessShowAll.Image = Nothing
+        Me.butProcessShowAll.SmallImage = CType(resources.GetObject("butProcessShowAll.SmallImage"), System.Drawing.Image)
+        Me.butProcessShowAll.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessShowAll.Tag = Nothing
+        Me.butProcessShowAll.Text = "All"
+        Me.butProcessShowAll.ToolTip = Nothing
+        Me.butProcessShowAll.ToolTipImage = Nothing
+        Me.butProcessShowAll.ToolTipTitle = Nothing
         '
         'butProcessMonitor
         '
@@ -4863,19 +4902,6 @@ Partial Class frmMain
         Me.rtb6.TabIndex = 8
         Me.rtb6.Text = "Click on an item to get additionnal informations"
         '
-        'butProcessShowAll
-        '
-        Me.butProcessShowAll.AltKey = Nothing
-        Me.butProcessShowAll.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessShowAll.Image = Nothing
-        Me.butProcessShowAll.SmallImage = CType(resources.GetObject("butProcessShowAll.SmallImage"), System.Drawing.Image)
-        Me.butProcessShowAll.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butProcessShowAll.Tag = Nothing
-        Me.butProcessShowAll.Text = "All"
-        Me.butProcessShowAll.ToolTip = Nothing
-        Me.butProcessShowAll.ToolTipImage = Nothing
-        Me.butProcessShowAll.ToolTipTitle = Nothing
-        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -5429,5 +5455,9 @@ Partial Class frmMain
     Friend WithEvents RBServiceReport As System.Windows.Forms.RibbonPanel
     Friend WithEvents butServiceReport As System.Windows.Forms.RibbonButton
     Friend WithEvents butProcessShowAll As System.Windows.Forms.RibbonButton
+    Friend WithEvents ToolStripMenuItem38 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ShowAllToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem37 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ReadWriteMemoryToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
