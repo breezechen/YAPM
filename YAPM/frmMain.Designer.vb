@@ -192,6 +192,8 @@ Partial Class frmMain
         Me.butModuleUnload = New System.Windows.Forms.RibbonButton
         Me.RBModuleReport = New System.Windows.Forms.RibbonPanel
         Me.butModulesSaveReport = New System.Windows.Forms.RibbonButton
+        Me.RBModuleOnline = New System.Windows.Forms.RibbonPanel
+        Me.butModuleGoogle = New System.Windows.Forms.RibbonButton
         Me.ThreadTab = New System.Windows.Forms.RibbonTab
         Me.RBThreadsRefresh = New System.Windows.Forms.RibbonPanel
         Me.butThreadRefresh = New System.Windows.Forms.RibbonButton
@@ -301,7 +303,6 @@ Partial Class frmMain
         Me.SearchTab = New System.Windows.Forms.RibbonTab
         Me.RBSearchMain = New System.Windows.Forms.RibbonPanel
         Me.butSearchGo = New System.Windows.Forms.RibbonButton
-        Me.RibbonTextBox1 = New System.Windows.Forms.RibbonTextBox
         Me.butSearchSaveReport = New System.Windows.Forms.RibbonButton
         Me.txtSearchString = New System.Windows.Forms.RibbonTextBox
         Me.ReportTab = New System.Windows.Forms.RibbonTab
@@ -320,7 +321,6 @@ Partial Class frmMain
         Me.butWebite = New System.Windows.Forms.RibbonButton
         Me.butProjectPage = New System.Windows.Forms.RibbonButton
         Me.butDownload = New System.Windows.Forms.RibbonButton
-        Me.RibbonButtonList1 = New System.Windows.Forms.RibbonButtonList
         Me.panelMenu2 = New System.Windows.Forms.Panel
         Me.Label2 = New System.Windows.Forms.Label
         Me.lblResCount2 = New System.Windows.Forms.Label
@@ -410,7 +410,6 @@ Partial Class frmMain
         Me.dtMonitorL = New System.Windows.Forms.DateTimePicker
         Me.timerMonitoring = New System.Windows.Forms.Timer(Me.components)
         Me.cmdTray = New System.Windows.Forms.Button
-        Me.RibbonButton1 = New System.Windows.Forms.RibbonButton
         Me.panelMain9 = New System.Windows.Forms.Panel
         Me.splitThreads = New System.Windows.Forms.SplitContainer
         Me.SplitContainerThreads = New System.Windows.Forms.SplitContainer
@@ -477,6 +476,8 @@ Partial Class frmMain
         Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator
         Me.ShowFileDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem36 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem39 = New System.Windows.Forms.ToolStripSeparator
+        Me.GoogleSearchToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
         Me.rtb6 = New System.Windows.Forms.RichTextBox
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
@@ -1809,6 +1810,7 @@ Partial Class frmMain
         '
         Me.ModulesTab.Panels.Add(Me.RBModuleActions)
         Me.ModulesTab.Panels.Add(Me.RBModuleReport)
+        Me.ModulesTab.Panels.Add(Me.RBModuleOnline)
         Me.ModulesTab.Tag = Nothing
         Me.ModulesTab.Text = "Modules"
         '
@@ -1867,6 +1869,27 @@ Partial Class frmMain
         Me.butModulesSaveReport.ToolTip = Nothing
         Me.butModulesSaveReport.ToolTipImage = Nothing
         Me.butModulesSaveReport.ToolTipTitle = Nothing
+        '
+        'RBModuleOnline
+        '
+        Me.RBModuleOnline.ButtonMoreEnabled = False
+        Me.RBModuleOnline.ButtonMoreVisible = False
+        Me.RBModuleOnline.Items.Add(Me.butModuleGoogle)
+        Me.RBModuleOnline.Tag = Nothing
+        Me.RBModuleOnline.Text = "Online"
+        '
+        'butModuleGoogle
+        '
+        Me.butModuleGoogle.AltKey = Nothing
+        Me.butModuleGoogle.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butModuleGoogle.Image = CType(resources.GetObject("butModuleGoogle.Image"), System.Drawing.Image)
+        Me.butModuleGoogle.SmallImage = CType(resources.GetObject("butModuleGoogle.SmallImage"), System.Drawing.Image)
+        Me.butModuleGoogle.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butModuleGoogle.Tag = Nothing
+        Me.butModuleGoogle.Text = "Google search"
+        Me.butModuleGoogle.ToolTip = Nothing
+        Me.butModuleGoogle.ToolTipImage = Nothing
+        Me.butModuleGoogle.ToolTipTitle = Nothing
         '
         'ThreadTab
         '
@@ -3182,7 +3205,6 @@ Partial Class frmMain
         '
         Me.butSearchGo.AltKey = Nothing
         Me.butSearchGo.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butSearchGo.DropDownItems.Add(Me.RibbonTextBox1)
         Me.butSearchGo.Enabled = False
         Me.butSearchGo.Image = CType(resources.GetObject("butSearchGo.Image"), System.Drawing.Image)
         Me.butSearchGo.SmallImage = CType(resources.GetObject("butSearchGo.SmallImage"), System.Drawing.Image)
@@ -3192,17 +3214,6 @@ Partial Class frmMain
         Me.butSearchGo.ToolTip = Nothing
         Me.butSearchGo.ToolTipImage = Nothing
         Me.butSearchGo.ToolTipTitle = Nothing
-        '
-        'RibbonTextBox1
-        '
-        Me.RibbonTextBox1.AltKey = Nothing
-        Me.RibbonTextBox1.Image = Nothing
-        Me.RibbonTextBox1.Tag = Nothing
-        Me.RibbonTextBox1.Text = "RibbonTextBox1"
-        Me.RibbonTextBox1.TextBoxText = Nothing
-        Me.RibbonTextBox1.ToolTip = Nothing
-        Me.RibbonTextBox1.ToolTipImage = Nothing
-        Me.RibbonTextBox1.ToolTipTitle = Nothing
         '
         'butSearchSaveReport
         '
@@ -3403,18 +3414,6 @@ Partial Class frmMain
         Me.butDownload.ToolTip = Nothing
         Me.butDownload.ToolTipImage = Nothing
         Me.butDownload.ToolTipTitle = Nothing
-        '
-        'RibbonButtonList1
-        '
-        Me.RibbonButtonList1.AltKey = Nothing
-        Me.RibbonButtonList1.ButtonsSizeMode = System.Windows.Forms.RibbonElementSizeMode.Large
-        Me.RibbonButtonList1.Image = Nothing
-        Me.RibbonButtonList1.ItemsSizeInDropwDownMode = New System.Drawing.Size(7, 5)
-        Me.RibbonButtonList1.Tag = Nothing
-        Me.RibbonButtonList1.Text = Nothing
-        Me.RibbonButtonList1.ToolTip = Nothing
-        Me.RibbonButtonList1.ToolTipImage = Nothing
-        Me.RibbonButtonList1.ToolTipTitle = Nothing
         '
         'panelMenu2
         '
@@ -4325,19 +4324,6 @@ Partial Class frmMain
         Me.cmdTray.TabIndex = 45
         Me.cmdTray.UseVisualStyleBackColor = True
         '
-        'RibbonButton1
-        '
-        Me.RibbonButton1.AltKey = Nothing
-        Me.RibbonButton1.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.RibbonButton1.Image = CType(resources.GetObject("RibbonButton1.Image"), System.Drawing.Image)
-        Me.RibbonButton1.SmallImage = CType(resources.GetObject("RibbonButton1.SmallImage"), System.Drawing.Image)
-        Me.RibbonButton1.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.RibbonButton1.Tag = Nothing
-        Me.RibbonButton1.Text = "Stop"
-        Me.RibbonButton1.ToolTip = Nothing
-        Me.RibbonButton1.ToolTipImage = Nothing
-        Me.RibbonButton1.ToolTipTitle = Nothing
-        '
         'panelMain9
         '
         Me.panelMain9.Controls.Add(Me.splitThreads)
@@ -4861,9 +4847,9 @@ Partial Class frmMain
         '
         'menuModule
         '
-        Me.menuModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem35, Me.ToolStripSeparator4, Me.ShowFileDetailsToolStripMenuItem, Me.ToolStripMenuItem36})
+        Me.menuModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem35, Me.ToolStripSeparator4, Me.ShowFileDetailsToolStripMenuItem, Me.ToolStripMenuItem36, Me.ToolStripMenuItem39, Me.GoogleSearchToolStripMenuItem2})
         Me.menuModule.Name = "menuProc"
-        Me.menuModule.Size = New System.Drawing.Size(207, 76)
+        Me.menuModule.Size = New System.Drawing.Size(207, 104)
         '
         'ToolStripMenuItem35
         '
@@ -4887,6 +4873,17 @@ Partial Class frmMain
         Me.ToolStripMenuItem36.Name = "ToolStripMenuItem36"
         Me.ToolStripMenuItem36.Size = New System.Drawing.Size(206, 22)
         Me.ToolStripMenuItem36.Text = "Unload module"
+        '
+        'ToolStripMenuItem39
+        '
+        Me.ToolStripMenuItem39.Name = "ToolStripMenuItem39"
+        Me.ToolStripMenuItem39.Size = New System.Drawing.Size(203, 6)
+        '
+        'GoogleSearchToolStripMenuItem2
+        '
+        Me.GoogleSearchToolStripMenuItem2.Name = "GoogleSearchToolStripMenuItem2"
+        Me.GoogleSearchToolStripMenuItem2.Size = New System.Drawing.Size(206, 22)
+        Me.GoogleSearchToolStripMenuItem2.Text = "Google search"
         '
         'rtb6
         '
@@ -5119,7 +5116,6 @@ Partial Class frmMain
     Friend WithEvents butProcessFileProp As System.Windows.Forms.RibbonButton
     Friend WithEvents butProcessDirOpen As System.Windows.Forms.RibbonButton
     Friend WithEvents butKillProcess As System.Windows.Forms.RibbonButton
-    Friend WithEvents RibbonButton1 As System.Windows.Forms.RibbonButton
     Friend WithEvents butProcessPriority As System.Windows.Forms.RibbonButton
     Friend WithEvents butNewProcess As System.Windows.Forms.RibbonButton
     Friend WithEvents butProcessAffinity As System.Windows.Forms.RibbonButton
@@ -5165,7 +5161,6 @@ Partial Class frmMain
     Friend WithEvents butTopMost As System.Windows.Forms.RibbonButton
     Friend WithEvents RBProcessOnline As System.Windows.Forms.RibbonPanel
     Friend WithEvents butProcessOnlineDesc As System.Windows.Forms.RibbonButton
-    Friend WithEvents RibbonButtonList1 As System.Windows.Forms.RibbonButtonList
     Friend WithEvents butProcessGoogle As System.Windows.Forms.RibbonButton
     Friend WithEvents chkOnline As System.Windows.Forms.CheckBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
@@ -5225,7 +5220,6 @@ Partial Class frmMain
     Friend WithEvents butUpdate As System.Windows.Forms.RibbonButton
     Friend WithEvents RBSearchMain As System.Windows.Forms.RibbonPanel
     Friend WithEvents butSearchGo As System.Windows.Forms.RibbonButton
-    Friend WithEvents RibbonTextBox1 As System.Windows.Forms.RibbonTextBox
     Friend WithEvents butSearchSaveReport As System.Windows.Forms.RibbonButton
     Friend WithEvents txtSearchString As System.Windows.Forms.RibbonTextBox
     Friend WithEvents panelMain6 As System.Windows.Forms.Panel
@@ -5459,5 +5453,9 @@ Partial Class frmMain
     Friend WithEvents ShowAllToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem37 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ReadWriteMemoryToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RBModuleOnline As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butModuleGoogle As System.Windows.Forms.RibbonButton
+    Friend WithEvents ToolStripMenuItem39 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents GoogleSearchToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
 
 End Class

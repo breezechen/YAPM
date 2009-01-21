@@ -4930,4 +4930,21 @@ Public Class frmMain
             .ShowDialog()
         End With
     End Sub
+
+    Private Sub butModuleGoogle_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butModuleGoogle.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvModules.SelectedItems
+            My.Application.DoEvents()
+            Try
+                cFile.ShellOpenFile("http://www.google.com/search?hl=en&q=%22" & it.Text & "%22")
+            Catch ex As Exception
+                '
+            End Try
+        Next
+    End Sub
+
+    Private Sub GoogleSearchToolStripMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GoogleSearchToolStripMenuItem2.Click
+        Call butModuleGoogle_Click(Nothing, Nothing)
+    End Sub
+
 End Class
