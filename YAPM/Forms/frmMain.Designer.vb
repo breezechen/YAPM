@@ -24,23 +24,23 @@ Partial Class frmMain
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup17 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup18 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Results", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Handles", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Processes", 1, 1)
-        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Threads", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Results", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Handles", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Processes", 1, 1)
+        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Threads", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Windows", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Windows", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup16 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain = New System.Windows.Forms.Panel
         Me.lvProcess = New System.Windows.Forms.ListView
@@ -575,11 +575,11 @@ Partial Class frmMain
         Me.lvProcess.ContextMenuStrip = Me.menuProc
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.FullRowSelect = True
-        ListViewGroup1.Header = "Processes"
-        ListViewGroup1.Name = "gpOther"
-        ListViewGroup2.Header = "Search result"
-        ListViewGroup2.Name = "gpSearch"
-        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup17.Header = "Processes"
+        ListViewGroup17.Name = "gpOther"
+        ListViewGroup18.Header = "Search result"
+        ListViewGroup18.Name = "gpSearch"
+        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup17, ListViewGroup18})
         Me.lvProcess.HideSelection = False
         Me.lvProcess.Location = New System.Drawing.Point(0, 0)
         Me.lvProcess.Name = "lvProcess"
@@ -836,7 +836,7 @@ Partial Class frmMain
         Me.chkHandles.AutoSize = True
         Me.chkHandles.Location = New System.Drawing.Point(245, 6)
         Me.chkHandles.Name = "chkHandles"
-        Me.chkHandles.Size = New System.Drawing.Size(64, 17)
+        Me.chkHandles.Size = New System.Drawing.Size(65, 17)
         Me.chkHandles.TabIndex = 5
         Me.chkHandles.Text = "Handles"
         Me.chkHandles.UseVisualStyleBackColor = True
@@ -846,7 +846,7 @@ Partial Class frmMain
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(448, 7)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(80, 13)
+        Me.Label3.Size = New System.Drawing.Size(81, 13)
         Me.Label3.TabIndex = 4
         Me.Label3.Text = "Search process"
         '
@@ -855,7 +855,7 @@ Partial Class frmMain
         Me.chkOnline.AutoSize = True
         Me.chkOnline.Location = New System.Drawing.Point(157, 6)
         Me.chkOnline.Name = "chkOnline"
-        Me.chkOnline.Size = New System.Drawing.Size(82, 17)
+        Me.chkOnline.Size = New System.Drawing.Size(81, 17)
         Me.chkOnline.TabIndex = 3
         Me.chkOnline.Text = "Online infos"
         Me.chkOnline.UseVisualStyleBackColor = True
@@ -865,7 +865,7 @@ Partial Class frmMain
         Me.lblResCount.AutoSize = True
         Me.lblResCount.Location = New System.Drawing.Point(707, 6)
         Me.lblResCount.Name = "lblResCount"
-        Me.lblResCount.Size = New System.Drawing.Size(56, 13)
+        Me.lblResCount.Size = New System.Drawing.Size(52, 13)
         Me.lblResCount.TabIndex = 2
         Me.lblResCount.Text = "0 result(s)"
         '
@@ -873,7 +873,7 @@ Partial Class frmMain
         '
         Me.txtSearch.Location = New System.Drawing.Point(534, 4)
         Me.txtSearch.Name = "txtSearch"
-        Me.txtSearch.Size = New System.Drawing.Size(167, 21)
+        Me.txtSearch.Size = New System.Drawing.Size(167, 20)
         Me.txtSearch.TabIndex = 1
         '
         'chkModules
@@ -881,7 +881,7 @@ Partial Class frmMain
         Me.chkModules.AutoSize = True
         Me.chkModules.Location = New System.Drawing.Point(3, 6)
         Me.chkModules.Name = "chkModules"
-        Me.chkModules.Size = New System.Drawing.Size(148, 17)
+        Me.chkModules.Size = New System.Drawing.Size(145, 17)
         Me.chkModules.TabIndex = 0
         Me.chkModules.Text = "Retrive modules/trhreads"
         Me.chkModules.UseVisualStyleBackColor = True
@@ -907,11 +907,11 @@ Partial Class frmMain
         Me.lvServices.ContextMenuStrip = Me.menuService
         Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvServices.FullRowSelect = True
-        ListViewGroup3.Header = "Services"
-        ListViewGroup3.Name = "gpOther"
-        ListViewGroup4.Header = "Search result"
-        ListViewGroup4.Name = "gpSearch"
-        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup1.Header = "Services"
+        ListViewGroup1.Name = "gpOther"
+        ListViewGroup2.Header = "Search result"
+        ListViewGroup2.Name = "gpSearch"
+        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvServices.HideSelection = False
         Me.lvServices.Location = New System.Drawing.Point(0, 0)
         Me.lvServices.Name = "lvServices"
@@ -1087,11 +1087,11 @@ Partial Class frmMain
         Me.lvJobs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader4, Me.ColumnHeader5, Me.ColumnHeader6})
         Me.lvJobs.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvJobs.FullRowSelect = True
-        ListViewGroup5.Header = "Past jobs"
-        ListViewGroup5.Name = "gp1"
-        ListViewGroup6.Header = "Future jobs"
-        ListViewGroup6.Name = "gp2"
-        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
+        ListViewGroup3.Header = "Past jobs"
+        ListViewGroup3.Name = "gp1"
+        ListViewGroup4.Header = "Future jobs"
+        ListViewGroup4.Name = "gp2"
+        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvJobs.HideSelection = False
         Me.lvJobs.Location = New System.Drawing.Point(0, 0)
         Me.lvJobs.Name = "lvJobs"
@@ -1198,7 +1198,7 @@ Partial Class frmMain
         Me.lblProcessPath.Location = New System.Drawing.Point(7, 24)
         Me.lblProcessPath.Name = "lblProcessPath"
         Me.lblProcessPath.ReadOnly = True
-        Me.lblProcessPath.Size = New System.Drawing.Size(380, 14)
+        Me.lblProcessPath.Size = New System.Drawing.Size(380, 13)
         Me.lblProcessPath.TabIndex = 8
         '
         'cmdInfosToClipB
@@ -1303,7 +1303,7 @@ Partial Class frmMain
         Me.lblServicePath.Location = New System.Drawing.Point(7, 24)
         Me.lblServicePath.Name = "lblServicePath"
         Me.lblServicePath.ReadOnly = True
-        Me.lblServicePath.Size = New System.Drawing.Size(440, 14)
+        Me.lblServicePath.Size = New System.Drawing.Size(440, 13)
         Me.lblServicePath.TabIndex = 9
         '
         'tv2
@@ -1366,7 +1366,7 @@ Partial Class frmMain
         Me.Ribbon.Location = New System.Drawing.Point(0, 0)
         Me.Ribbon.Minimized = False
         Me.Ribbon.Name = "Ribbon"
-        Me.Ribbon.Size = New System.Drawing.Size(805, 115)
+        Me.Ribbon.Size = New System.Drawing.Size(843, 115)
         Me.Ribbon.TabIndex = 44
         Me.Ribbon.Tabs.Add(Me.ProcessTab)
         Me.Ribbon.Tabs.Add(Me.ModulesTab)
@@ -3431,7 +3431,7 @@ Partial Class frmMain
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(6, 6)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(77, 13)
+        Me.Label2.Size = New System.Drawing.Size(78, 13)
         Me.Label2.TabIndex = 3
         Me.Label2.Text = "Search service"
         '
@@ -3440,7 +3440,7 @@ Partial Class frmMain
         Me.lblResCount2.AutoSize = True
         Me.lblResCount2.Location = New System.Drawing.Point(596, 6)
         Me.lblResCount2.Name = "lblResCount2"
-        Me.lblResCount2.Size = New System.Drawing.Size(56, 13)
+        Me.lblResCount2.Size = New System.Drawing.Size(52, 13)
         Me.lblResCount2.TabIndex = 2
         Me.lblResCount2.Text = "0 result(s)"
         '
@@ -3448,7 +3448,7 @@ Partial Class frmMain
         '
         Me.txtServiceSearch.Location = New System.Drawing.Point(89, 3)
         Me.txtServiceSearch.Name = "txtServiceSearch"
-        Me.txtServiceSearch.Size = New System.Drawing.Size(501, 21)
+        Me.txtServiceSearch.Size = New System.Drawing.Size(501, 20)
         Me.txtServiceSearch.TabIndex = 1
         '
         'panelMain5
@@ -3524,7 +3524,7 @@ Partial Class frmMain
         Me.chkFileEncrypted.Enabled = False
         Me.chkFileEncrypted.Location = New System.Drawing.Point(91, 51)
         Me.chkFileEncrypted.Name = "chkFileEncrypted"
-        Me.chkFileEncrypted.Size = New System.Drawing.Size(75, 17)
+        Me.chkFileEncrypted.Size = New System.Drawing.Size(74, 17)
         Me.chkFileEncrypted.TabIndex = 7
         Me.chkFileEncrypted.Text = "Encrypted"
         Me.chkFileEncrypted.UseVisualStyleBackColor = True
@@ -3534,7 +3534,7 @@ Partial Class frmMain
         Me.chkFileContentNotIndexed.AutoSize = True
         Me.chkFileContentNotIndexed.Location = New System.Drawing.Point(6, 88)
         Me.chkFileContentNotIndexed.Name = "chkFileContentNotIndexed"
-        Me.chkFileContentNotIndexed.Size = New System.Drawing.Size(125, 17)
+        Me.chkFileContentNotIndexed.Size = New System.Drawing.Size(121, 17)
         Me.chkFileContentNotIndexed.TabIndex = 6
         Me.chkFileContentNotIndexed.Text = "Content not indexed"
         Me.chkFileContentNotIndexed.UseVisualStyleBackColor = True
@@ -3555,7 +3555,7 @@ Partial Class frmMain
         Me.chkFileSystem.AutoSize = True
         Me.chkFileSystem.Location = New System.Drawing.Point(91, 33)
         Me.chkFileSystem.Name = "chkFileSystem"
-        Me.chkFileSystem.Size = New System.Drawing.Size(61, 17)
+        Me.chkFileSystem.Size = New System.Drawing.Size(60, 17)
         Me.chkFileSystem.TabIndex = 4
         Me.chkFileSystem.Text = "System"
         Me.chkFileSystem.UseVisualStyleBackColor = True
@@ -3575,7 +3575,7 @@ Partial Class frmMain
         Me.chkFileHidden.AutoSize = True
         Me.chkFileHidden.Location = New System.Drawing.Point(6, 52)
         Me.chkFileHidden.Name = "chkFileHidden"
-        Me.chkFileHidden.Size = New System.Drawing.Size(59, 17)
+        Me.chkFileHidden.Size = New System.Drawing.Size(60, 17)
         Me.chkFileHidden.TabIndex = 2
         Me.chkFileHidden.Text = "Hidden"
         Me.chkFileHidden.UseVisualStyleBackColor = True
@@ -3586,7 +3586,7 @@ Partial Class frmMain
         Me.chkFileCompressed.Enabled = False
         Me.chkFileCompressed.Location = New System.Drawing.Point(6, 34)
         Me.chkFileCompressed.Name = "chkFileCompressed"
-        Me.chkFileCompressed.Size = New System.Drawing.Size(85, 17)
+        Me.chkFileCompressed.Size = New System.Drawing.Size(84, 17)
         Me.chkFileCompressed.TabIndex = 1
         Me.chkFileCompressed.Text = "Compressed"
         Me.chkFileCompressed.UseVisualStyleBackColor = True
@@ -3633,7 +3633,7 @@ Partial Class frmMain
         Me.DTlastModification.Format = System.Windows.Forms.DateTimePickerFormat.Time
         Me.DTlastModification.Location = New System.Drawing.Point(102, 57)
         Me.DTlastModification.Name = "DTlastModification"
-        Me.DTlastModification.Size = New System.Drawing.Size(84, 21)
+        Me.DTlastModification.Size = New System.Drawing.Size(84, 20)
         Me.DTlastModification.TabIndex = 5
         '
         'DTlastAccess
@@ -3641,7 +3641,7 @@ Partial Class frmMain
         Me.DTlastAccess.Format = System.Windows.Forms.DateTimePickerFormat.Time
         Me.DTlastAccess.Location = New System.Drawing.Point(102, 35)
         Me.DTlastAccess.Name = "DTlastAccess"
-        Me.DTlastAccess.Size = New System.Drawing.Size(84, 21)
+        Me.DTlastAccess.Size = New System.Drawing.Size(84, 20)
         Me.DTlastAccess.TabIndex = 4
         '
         'DTcreation
@@ -3650,7 +3650,7 @@ Partial Class frmMain
         Me.DTcreation.Format = System.Windows.Forms.DateTimePickerFormat.Time
         Me.DTcreation.Location = New System.Drawing.Point(102, 13)
         Me.DTcreation.Name = "DTcreation"
-        Me.DTcreation.Size = New System.Drawing.Size(84, 21)
+        Me.DTcreation.Size = New System.Drawing.Size(84, 20)
         Me.DTcreation.TabIndex = 3
         '
         'Label6
@@ -3658,7 +3658,7 @@ Partial Class frmMain
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(6, 41)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(62, 13)
+        Me.Label6.Size = New System.Drawing.Size(64, 13)
         Me.Label6.TabIndex = 2
         Me.Label6.Text = "Last access"
         '
@@ -3667,7 +3667,7 @@ Partial Class frmMain
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(6, 63)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(87, 13)
+        Me.Label5.Size = New System.Drawing.Size(86, 13)
         Me.Label5.TabIndex = 1
         Me.Label5.Text = "Last modification"
         '
@@ -3676,7 +3676,7 @@ Partial Class frmMain
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(6, 19)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(48, 13)
+        Me.Label4.Size = New System.Drawing.Size(46, 13)
         Me.Label4.TabIndex = 0
         Me.Label4.Text = "Creation"
         '
@@ -3798,7 +3798,7 @@ Partial Class frmMain
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(6, 34)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(70, 13)
+        Me.Label11.Size = New System.Drawing.Size(69, 13)
         Me.Label11.TabIndex = 13
         Me.Label11.Text = "Search result"
         '
@@ -3807,7 +3807,7 @@ Partial Class frmMain
         Me.lblResultsCount.AutoSize = True
         Me.lblResultsCount.Location = New System.Drawing.Point(396, 34)
         Me.lblResultsCount.Name = "lblResultsCount"
-        Me.lblResultsCount.Size = New System.Drawing.Size(56, 13)
+        Me.lblResultsCount.Size = New System.Drawing.Size(52, 13)
         Me.lblResultsCount.TabIndex = 12
         Me.lblResultsCount.Text = "0 result(s)"
         '
@@ -3815,7 +3815,7 @@ Partial Class frmMain
         '
         Me.txtSearchResults.Location = New System.Drawing.Point(89, 31)
         Me.txtSearchResults.Name = "txtSearchResults"
-        Me.txtSearchResults.Size = New System.Drawing.Size(298, 21)
+        Me.txtSearchResults.Size = New System.Drawing.Size(298, 20)
         Me.txtSearchResults.TabIndex = 11
         '
         'chkSearchWindows
@@ -3892,7 +3892,7 @@ Partial Class frmMain
         Me.chkSearchCase.AutoSize = True
         Me.chkSearchCase.Location = New System.Drawing.Point(8, 7)
         Me.chkSearchCase.Name = "chkSearchCase"
-        Me.chkSearchCase.Size = New System.Drawing.Size(95, 17)
+        Me.chkSearchCase.Size = New System.Drawing.Size(94, 17)
         Me.chkSearchCase.TabIndex = 0
         Me.chkSearchCase.Text = "Case sensitive"
         Me.chkSearchCase.UseVisualStyleBackColor = True
@@ -3904,11 +3904,11 @@ Partial Class frmMain
         Me.lvSearchResults.ContextMenuStrip = Me.menuSearch
         Me.lvSearchResults.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvSearchResults.FullRowSelect = True
-        ListViewGroup7.Header = "Results"
-        ListViewGroup7.Name = "gpResults"
-        ListViewGroup8.Header = "Search results"
-        ListViewGroup8.Name = "gpSearchResults"
-        Me.lvSearchResults.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
+        ListViewGroup5.Header = "Results"
+        ListViewGroup5.Name = "gpResults"
+        ListViewGroup6.Header = "Search results"
+        ListViewGroup6.Name = "gpSearchResults"
+        Me.lvSearchResults.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvSearchResults.HideSelection = False
         Me.lvSearchResults.Location = New System.Drawing.Point(0, 0)
         Me.lvSearchResults.Name = "lvSearchResults"
@@ -4007,7 +4007,7 @@ Partial Class frmMain
         Me.Label9.AutoSize = True
         Me.Label9.Location = New System.Drawing.Point(3, 5)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(75, 13)
+        Me.Label9.Size = New System.Drawing.Size(76, 13)
         Me.Label9.TabIndex = 13
         Me.Label9.Text = "Search handle"
         '
@@ -4016,7 +4016,7 @@ Partial Class frmMain
         Me.lblHandlesCount.AutoSize = True
         Me.lblHandlesCount.Location = New System.Drawing.Point(393, 5)
         Me.lblHandlesCount.Name = "lblHandlesCount"
-        Me.lblHandlesCount.Size = New System.Drawing.Size(56, 13)
+        Me.lblHandlesCount.Size = New System.Drawing.Size(52, 13)
         Me.lblHandlesCount.TabIndex = 12
         Me.lblHandlesCount.Text = "0 result(s)"
         '
@@ -4024,7 +4024,7 @@ Partial Class frmMain
         '
         Me.txtSearchHandle.Location = New System.Drawing.Point(86, 2)
         Me.txtSearchHandle.Name = "txtSearchHandle"
-        Me.txtSearchHandle.Size = New System.Drawing.Size(298, 21)
+        Me.txtSearchHandle.Size = New System.Drawing.Size(298, 20)
         Me.txtSearchHandle.TabIndex = 11
         '
         'lvHandles
@@ -4034,11 +4034,11 @@ Partial Class frmMain
         Me.lvHandles.ContextMenuStrip = Me.menuHandles
         Me.lvHandles.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvHandles.FullRowSelect = True
-        ListViewGroup9.Header = "Handles"
-        ListViewGroup9.Name = "gpOther"
-        ListViewGroup10.Header = "Search result"
-        ListViewGroup10.Name = "gpSearch"
-        Me.lvHandles.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup9, ListViewGroup10})
+        ListViewGroup7.Header = "Handles"
+        ListViewGroup7.Name = "gpOther"
+        ListViewGroup8.Header = "Search result"
+        ListViewGroup8.Name = "gpSearch"
+        Me.lvHandles.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
         Me.lvHandles.HideSelection = False
         Me.lvHandles.Location = New System.Drawing.Point(0, 0)
         Me.lvHandles.Name = "lvHandles"
@@ -4140,11 +4140,11 @@ Partial Class frmMain
         Me.tvMonitor.ImageList = Me.imgMonitor
         Me.tvMonitor.Location = New System.Drawing.Point(0, 0)
         Me.tvMonitor.Name = "tvMonitor"
-        TreeNode1.ImageIndex = 1
-        TreeNode1.Name = "processes"
-        TreeNode1.SelectedImageIndex = 1
-        TreeNode1.Text = "Processes"
-        Me.tvMonitor.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1})
+        TreeNode2.ImageIndex = 1
+        TreeNode2.Name = "processes"
+        TreeNode2.SelectedImageIndex = 1
+        TreeNode2.Text = "Processes"
+        Me.tvMonitor.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode2})
         Me.tvMonitor.SelectedImageIndex = 0
         Me.tvMonitor.Size = New System.Drawing.Size(210, 297)
         Me.tvMonitor.TabIndex = 0
@@ -4251,7 +4251,7 @@ Partial Class frmMain
         '
         Me.txtMonitorNumber.Location = New System.Drawing.Point(241, 0)
         Me.txtMonitorNumber.Name = "txtMonitorNumber"
-        Me.txtMonitorNumber.Size = New System.Drawing.Size(33, 21)
+        Me.txtMonitorNumber.Size = New System.Drawing.Size(33, 20)
         Me.txtMonitorNumber.TabIndex = 11
         Me.txtMonitorNumber.Text = "200"
         '
@@ -4260,7 +4260,7 @@ Partial Class frmMain
         Me.lblMonitorMaxNumber.AutoSize = True
         Me.lblMonitorMaxNumber.Location = New System.Drawing.Point(171, 6)
         Me.lblMonitorMaxNumber.Name = "lblMonitorMaxNumber"
-        Me.lblMonitorMaxNumber.Size = New System.Drawing.Size(65, 13)
+        Me.lblMonitorMaxNumber.Size = New System.Drawing.Size(64, 13)
         Me.lblMonitorMaxNumber.TabIndex = 10
         Me.lblMonitorMaxNumber.Text = "Max. values"
         '
@@ -4270,9 +4270,9 @@ Partial Class frmMain
         Me.chkMonitorRightAuto.Checked = True
         Me.chkMonitorRightAuto.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkMonitorRightAuto.Dock = System.Windows.Forms.DockStyle.Right
-        Me.chkMonitorRightAuto.Location = New System.Drawing.Point(284, 0)
+        Me.chkMonitorRightAuto.Location = New System.Drawing.Point(283, 0)
         Me.chkMonitorRightAuto.Name = "chkMonitorRightAuto"
-        Me.chkMonitorRightAuto.Size = New System.Drawing.Size(47, 25)
+        Me.chkMonitorRightAuto.Size = New System.Drawing.Size(48, 25)
         Me.chkMonitorRightAuto.TabIndex = 9
         Me.chkMonitorRightAuto.Text = "Now"
         Me.chkMonitorRightAuto.UseVisualStyleBackColor = True
@@ -4284,7 +4284,7 @@ Partial Class frmMain
         Me.chkMonitorLeftAuto.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkMonitorLeftAuto.Location = New System.Drawing.Point(95, 4)
         Me.chkMonitorLeftAuto.Name = "chkMonitorLeftAuto"
-        Me.chkMonitorLeftAuto.Size = New System.Drawing.Size(74, 17)
+        Me.chkMonitorLeftAuto.Size = New System.Drawing.Size(73, 17)
         Me.chkMonitorLeftAuto.TabIndex = 8
         Me.chkMonitorLeftAuto.Text = "Automatic"
         Me.chkMonitorLeftAuto.UseVisualStyleBackColor = True
@@ -4296,7 +4296,7 @@ Partial Class frmMain
         Me.dtMonitorR.Format = System.Windows.Forms.DateTimePickerFormat.Time
         Me.dtMonitorR.Location = New System.Drawing.Point(331, 0)
         Me.dtMonitorR.Name = "dtMonitorR"
-        Me.dtMonitorR.Size = New System.Drawing.Size(89, 21)
+        Me.dtMonitorR.Size = New System.Drawing.Size(89, 20)
         Me.dtMonitorR.TabIndex = 7
         '
         'dtMonitorL
@@ -4306,7 +4306,7 @@ Partial Class frmMain
         Me.dtMonitorL.Format = System.Windows.Forms.DateTimePickerFormat.Time
         Me.dtMonitorL.Location = New System.Drawing.Point(0, 0)
         Me.dtMonitorL.Name = "dtMonitorL"
-        Me.dtMonitorL.Size = New System.Drawing.Size(89, 21)
+        Me.dtMonitorL.Size = New System.Drawing.Size(89, 20)
         Me.dtMonitorL.TabIndex = 6
         '
         'timerMonitoring
@@ -4378,7 +4378,7 @@ Partial Class frmMain
         Me.Label8.AutoSize = True
         Me.Label8.Location = New System.Drawing.Point(3, 5)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(75, 13)
+        Me.Label8.Size = New System.Drawing.Size(74, 13)
         Me.Label8.TabIndex = 10
         Me.Label8.Text = "Search thread"
         '
@@ -4387,7 +4387,7 @@ Partial Class frmMain
         Me.lblThreadResults.AutoSize = True
         Me.lblThreadResults.Location = New System.Drawing.Point(393, 5)
         Me.lblThreadResults.Name = "lblThreadResults"
-        Me.lblThreadResults.Size = New System.Drawing.Size(56, 13)
+        Me.lblThreadResults.Size = New System.Drawing.Size(52, 13)
         Me.lblThreadResults.TabIndex = 9
         Me.lblThreadResults.Text = "0 result(s)"
         '
@@ -4395,7 +4395,7 @@ Partial Class frmMain
         '
         Me.txtSearchThread.Location = New System.Drawing.Point(86, 2)
         Me.txtSearchThread.Name = "txtSearchThread"
-        Me.txtSearchThread.Size = New System.Drawing.Size(298, 21)
+        Me.txtSearchThread.Size = New System.Drawing.Size(298, 20)
         Me.txtSearchThread.TabIndex = 8
         '
         'lvThreads
@@ -4405,11 +4405,11 @@ Partial Class frmMain
         Me.lvThreads.ContextMenuStrip = Me.menuThread
         Me.lvThreads.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvThreads.FullRowSelect = True
-        ListViewGroup11.Header = "Threads"
-        ListViewGroup11.Name = "gpOther"
-        ListViewGroup12.Header = "Search results"
-        ListViewGroup12.Name = "gpSearchResults"
-        Me.lvThreads.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup11, ListViewGroup12})
+        ListViewGroup9.Header = "Threads"
+        ListViewGroup9.Name = "gpOther"
+        ListViewGroup10.Header = "Search results"
+        ListViewGroup10.Name = "gpSearchResults"
+        Me.lvThreads.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup9, ListViewGroup10})
         Me.lvThreads.HideSelection = False
         Me.lvThreads.Location = New System.Drawing.Point(0, 0)
         Me.lvThreads.Name = "lvThreads"
@@ -4610,7 +4610,7 @@ Partial Class frmMain
         Me.chkAllWindows.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkAllWindows.Location = New System.Drawing.Point(543, 4)
         Me.chkAllWindows.Name = "chkAllWindows"
-        Me.chkAllWindows.Size = New System.Drawing.Size(181, 17)
+        Me.chkAllWindows.Size = New System.Drawing.Size(179, 17)
         Me.chkAllWindows.TabIndex = 11
         Me.chkAllWindows.Text = "Display windows without caption"
         Me.chkAllWindows.UseVisualStyleBackColor = True
@@ -4620,7 +4620,7 @@ Partial Class frmMain
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(3, 5)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(79, 13)
+        Me.Label10.Size = New System.Drawing.Size(80, 13)
         Me.Label10.TabIndex = 10
         Me.Label10.Text = "Search window"
         '
@@ -4629,7 +4629,7 @@ Partial Class frmMain
         Me.lblWindowsCount.AutoSize = True
         Me.lblWindowsCount.Location = New System.Drawing.Point(393, 5)
         Me.lblWindowsCount.Name = "lblWindowsCount"
-        Me.lblWindowsCount.Size = New System.Drawing.Size(56, 13)
+        Me.lblWindowsCount.Size = New System.Drawing.Size(52, 13)
         Me.lblWindowsCount.TabIndex = 9
         Me.lblWindowsCount.Text = "0 result(s)"
         '
@@ -4637,7 +4637,7 @@ Partial Class frmMain
         '
         Me.txtSearchWindow.Location = New System.Drawing.Point(86, 2)
         Me.txtSearchWindow.Name = "txtSearchWindow"
-        Me.txtSearchWindow.Size = New System.Drawing.Size(298, 21)
+        Me.txtSearchWindow.Size = New System.Drawing.Size(298, 20)
         Me.txtSearchWindow.TabIndex = 8
         '
         'lvWindows
@@ -4647,11 +4647,11 @@ Partial Class frmMain
         Me.lvWindows.ContextMenuStrip = Me.menuWindow
         Me.lvWindows.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvWindows.FullRowSelect = True
-        ListViewGroup13.Header = "Windows"
-        ListViewGroup13.Name = "gpOther"
-        ListViewGroup14.Header = "Search results"
-        ListViewGroup14.Name = "gpSearchResults"
-        Me.lvWindows.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup13, ListViewGroup14})
+        ListViewGroup11.Header = "Windows"
+        ListViewGroup11.Name = "gpOther"
+        ListViewGroup12.Header = "Search results"
+        ListViewGroup12.Name = "gpSearchResults"
+        Me.lvWindows.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup11, ListViewGroup12})
         Me.lvWindows.HideSelection = False
         Me.lvWindows.Location = New System.Drawing.Point(0, 0)
         Me.lvWindows.Name = "lvWindows"
@@ -4774,7 +4774,7 @@ Partial Class frmMain
         Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(3, 5)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(77, 13)
+        Me.Label7.Size = New System.Drawing.Size(78, 13)
         Me.Label7.TabIndex = 7
         Me.Label7.Text = "Search module"
         '
@@ -4783,7 +4783,7 @@ Partial Class frmMain
         Me.lblModulesCount.AutoSize = True
         Me.lblModulesCount.Location = New System.Drawing.Point(393, 5)
         Me.lblModulesCount.Name = "lblModulesCount"
-        Me.lblModulesCount.Size = New System.Drawing.Size(56, 13)
+        Me.lblModulesCount.Size = New System.Drawing.Size(52, 13)
         Me.lblModulesCount.TabIndex = 6
         Me.lblModulesCount.Text = "0 result(s)"
         '
@@ -4791,7 +4791,7 @@ Partial Class frmMain
         '
         Me.txtSearchModule.Location = New System.Drawing.Point(86, 2)
         Me.txtSearchModule.Name = "txtSearchModule"
-        Me.txtSearchModule.Size = New System.Drawing.Size(298, 21)
+        Me.txtSearchModule.Size = New System.Drawing.Size(298, 20)
         Me.txtSearchModule.TabIndex = 5
         '
         'lvModules
@@ -4801,11 +4801,11 @@ Partial Class frmMain
         Me.lvModules.ContextMenuStrip = Me.menuModule
         Me.lvModules.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvModules.FullRowSelect = True
-        ListViewGroup15.Header = "Modules"
-        ListViewGroup15.Name = "gpOther"
-        ListViewGroup16.Header = "Search result"
-        ListViewGroup16.Name = "gpSearchResults"
-        Me.lvModules.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup15, ListViewGroup16})
+        ListViewGroup13.Header = "Modules"
+        ListViewGroup13.Name = "gpOther"
+        ListViewGroup14.Header = "Search result"
+        ListViewGroup14.Name = "gpSearchResults"
+        Me.lvModules.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup13, ListViewGroup14})
         Me.lvModules.HideSelection = False
         Me.lvModules.Location = New System.Drawing.Point(0, 0)
         Me.lvModules.Name = "lvModules"
@@ -4904,7 +4904,7 @@ Partial Class frmMain
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
-        Me.ClientSize = New System.Drawing.Size(805, 603)
+        Me.ClientSize = New System.Drawing.Size(843, 603)
         Me.Controls.Add(Me.panelMain10)
         Me.Controls.Add(Me.panelMain7)
         Me.Controls.Add(Me.panelMain6)
@@ -4922,9 +4922,9 @@ Partial Class frmMain
         Me.Controls.Add(Me.panelMain)
         Me.Controls.Add(Me.panelMain11)
         Me.Controls.Add(Me.panelMain9)
-        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.MinimumSize = New System.Drawing.Size(821, 589)
+        Me.MinimumSize = New System.Drawing.Size(840, 589)
         Me.Name = "frmMain"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Yet Another Process Monitor"

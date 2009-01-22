@@ -30,7 +30,7 @@ Public Class frmAbout
 
     Private Sub frmAbout_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Dim s As String
-        s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}{\f1\fmodern\fprq1\fcharset0 Courier New;}}" & vbNewLine
+        s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Microsoft Sans Serif;}{\f1\fmodern\fprq1\fcharset0 Courier New;}}" & vbNewLine
         s &= "{\colortbl ;\red0\green0\blue255;}" & vbNewLine
         s &= "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs24 Yet Another Process Monitor (YAPM)\par" & vbNewLine
         s &= "By violent_ken\fs20\par" & vbNewLine

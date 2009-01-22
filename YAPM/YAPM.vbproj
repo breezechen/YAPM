@@ -64,22 +64,22 @@
     <Import Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="cService.vb" />
-    <Compile Include="frmAbout.Designer.vb">
+    <Compile Include="Classes\cService.vb" />
+    <Compile Include="Forms\frmAbout.Designer.vb">
       <DependentUpon>frmAbout.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmAbout.vb">
+    <Compile Include="Forms\frmAbout.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmMain.vb">
+    <Compile Include="Forms\frmMain.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmMain.Designer.vb">
+    <Compile Include="Forms\frmMain.Designer.vb">
       <DependentUpon>frmMain.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="mdlIcon.vb" />
-    <Compile Include="mdlPrivileges.vb" />
+    <Compile Include="Modules\mdlIcon.vb" />
+    <Compile Include="Modules\mdlPrivileges.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -97,47 +97,47 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="frmAbout.resx">
+    <EmbeddedResource Include="Forms\frmAbout.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmAbout.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmAddProcessMonitor.resx">
+    <EmbeddedResource Include="Forms\frmAddProcessMonitor.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmAddProcessMonitor.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmBox.resx">
+    <EmbeddedResource Include="Forms\frmBox.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmBox.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmDownload.resx">
+    <EmbeddedResource Include="Forms\frmDownload.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmDownload.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmFileRelease.resx">
+    <EmbeddedResource Include="Forms\frmFileRelease.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmFileRelease.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmMain.resx">
+    <EmbeddedResource Include="Forms\frmMain.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmMain.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmPreferences.resx">
+    <EmbeddedResource Include="Forms\frmPreferences.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmPreferences.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmProcessMemRW.resx">
+    <EmbeddedResource Include="Forms\frmProcessMemRW.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmProcessMemRW.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmSaveReport.resx">
+    <EmbeddedResource Include="Forms\frmSaveReport.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmSaveReport.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmWindowPosition.resx">
+    <EmbeddedResource Include="Forms\frmWindowPosition.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmWindowPosition.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Graph.resx">
+    <EmbeddedResource Include="UserControls\Graph.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Graph.vb</DependentUpon>
     </EmbeddedResource>
@@ -172,74 +172,74 @@
     <None Include="Resources\business_user_add.png" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="cDownload.vb" />
-    <Compile Include="cFile.vb" />
-    <Compile Include="cHTML.vb" />
-    <Compile Include="cHTML2.vb" />
-    <Compile Include="clsDriverCtrl.vb" />
-    <Compile Include="clsOpenedHandles.vb" />
-    <Compile Include="cModule.vb" />
-    <Compile Include="cMonitor.vb" />
-    <Compile Include="cProcess.vb" />
-    <Compile Include="cProcessMemRW.vb" />
-    <Compile Include="cThread.vb">
+    <Compile Include="Classes\cDownload.vb" />
+    <Compile Include="Classes\cFile.vb" />
+    <Compile Include="Classes\cHTML.vb" />
+    <Compile Include="Classes\cHTML2.vb" />
+    <Compile Include="Classes\clsDriverCtrl.vb" />
+    <Compile Include="Classes\clsOpenedHandles.vb" />
+    <Compile Include="Classes\cModule.vb" />
+    <Compile Include="Classes\cMonitor.vb" />
+    <Compile Include="Classes\cProcess.vb" />
+    <Compile Include="Classes\cProcessMemRW.vb" />
+    <Compile Include="Classes\cThread.vb">
     </Compile>
-    <Compile Include="cWindow.vb" />
-    <Compile Include="frmAddProcessMonitor.Designer.vb">
+    <Compile Include="Classes\cWindow.vb" />
+    <Compile Include="Forms\frmAddProcessMonitor.Designer.vb">
       <DependentUpon>frmAddProcessMonitor.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmAddProcessMonitor.vb">
+    <Compile Include="Forms\frmAddProcessMonitor.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmBox.Designer.vb">
+    <Compile Include="Forms\frmBox.Designer.vb">
       <DependentUpon>frmBox.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmBox.vb">
+    <Compile Include="Forms\frmBox.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmDownload.Designer.vb">
+    <Compile Include="Forms\frmDownload.Designer.vb">
       <DependentUpon>frmDownload.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmDownload.vb">
+    <Compile Include="Forms\frmDownload.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmFileRelease.Designer.vb">
+    <Compile Include="Forms\frmFileRelease.Designer.vb">
       <DependentUpon>frmFileRelease.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmFileRelease.vb">
+    <Compile Include="Forms\frmFileRelease.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmPreferences.Designer.vb">
+    <Compile Include="Forms\frmPreferences.Designer.vb">
       <DependentUpon>frmPreferences.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmPreferences.vb">
+    <Compile Include="Forms\frmPreferences.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmProcessMemRW.Designer.vb">
+    <Compile Include="Forms\frmProcessMemRW.Designer.vb">
       <DependentUpon>frmProcessMemRW.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmProcessMemRW.vb">
+    <Compile Include="Forms\frmProcessMemRW.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmSaveReport.Designer.vb">
+    <Compile Include="Forms\frmSaveReport.Designer.vb">
       <DependentUpon>frmSaveReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmSaveReport.vb">
+    <Compile Include="Forms\frmSaveReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmWindowPosition.Designer.vb">
+    <Compile Include="Forms\frmWindowPosition.Designer.vb">
       <DependentUpon>frmWindowPosition.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmWindowPosition.vb">
+    <Compile Include="Forms\frmWindowPosition.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Graph.vb">
+    <Compile Include="UserControls\Graph.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ListViewComparer.vb" />
-    <Compile Include="mdlInternet.vb" />
-    <Compile Include="mdlMisc.vb" />
-    <Compile Include="Pref.vb" />
+    <Compile Include="Classes\ListViewComparer.vb" />
+    <Compile Include="Modules\mdlInternet.vb" />
+    <Compile Include="Modules\mdlMisc.vb" />
+    <Compile Include="Classes\Pref.vb" />
     <None Include="Resources\folder_info.png" />
     <None Include="Resources\info.png" />
     <None Include="Resources\process1.png" />
