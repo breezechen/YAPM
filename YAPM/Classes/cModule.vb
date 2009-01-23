@@ -29,12 +29,13 @@ Public Class cModule
     ' ========================================
     Private _path As String
     Private _pid As Integer
+    Private _mdl As ProcessModule
 
 
     ' ========================================
     ' Getter & setter
     ' ========================================
-#Region "API"
+#Region "Gettet & setter"
     Public ReadOnly Property ProcessId() As Integer
         Get
             Return _pid
@@ -175,6 +176,21 @@ Public Class cModule
             Return System.Diagnostics.FileVersionInfo.GetVersionInfo(_path).SpecialBuild
         End Get
     End Property
+    Public ReadOnly Property BaseAddress() As Integer
+        Get
+            Return CInt(_mdl.BaseAddress)
+        End Get
+    End Property
+    Public ReadOnly Property EntryPointAddress() As Integer
+        Get
+            Return CInt(_mdl.EntryPointAddress)
+        End Get
+    End Property
+    Public ReadOnly Property ModuleMemorySize() As Integer
+        Get
+            Return _mdl.ModuleMemorySize
+        End Get
+    End Property
 #End Region
 
 
@@ -185,10 +201,15 @@ Public Class cModule
         _path = modulePath
         _pid = pid
     End Sub
+    Public Sub New(ByVal pid As Integer, ByRef mdl As ProcessModule)
+        _path = mdl.FileName
+        _pid = pid
+        _mdl = mdl
+    End Sub
 
     ' Unload the specified module
     Public Function UnloadModule() As Integer
-        Return cProcess.UnLoadModuleFromProcess(_pid, _path)
+        Return cProcess.UnLoadModuleFromProcess(_pid, Me.BaseAddress)
     End Function
 
     ' List modules of an exe file
@@ -205,7 +226,7 @@ Public Class cModule
             Dim x As Integer = 0
             Dim it As ProcessModule
             For Each it In t
-                m(x) = New cModule(pid, it.FileName)
+                m(x) = New cModule(pid, it)
                 x += 1
             Next
             Return t.Count

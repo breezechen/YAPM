@@ -74,6 +74,7 @@ Public Class frmFileRelease
                         newIt.Text = it.SubItems(1).Text & " -- " & it.Text
                         newIt.SubItems.Add(n2)
                         newIt.ImageKey = "module"
+                        newIt.Tag = New cModule(proc.Id, m)
                         Me.lv.Items.Add(newIt)
                     End If
                 Next
@@ -124,7 +125,7 @@ Public Class frmFileRelease
                         Select Case it.SubItems(1).Text
                             Case "Module"
                                 ' Module
-                                Call cProcess.UnLoadModuleFromProcess(pid, file)
+                                Call CType(it.Tag, cModule).UnloadModule()
                             Case Else
                                 ' Handle
                                 Dim Handle As Integer = CInt(Val(it.Tag))

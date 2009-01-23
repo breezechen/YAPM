@@ -2484,7 +2484,7 @@ Public Class frmMain
                                 Dim n3 As New ListViewItem.ListViewSubItem
                                 Dim n4 As New ListViewItem.ListViewSubItem
                                 newIt.Text = "Module"
-                                newIt.Tag = "module"
+                                newIt.Tag = New cModule(proc.Id, m)
                                 n3.Text = "Module"
                                 n2.Text = newIt.Text & " -- " & it.Text & " -- " & m.FileVersionInfo.FileName
                                 n4.Text = it.SubItems(1).Text & " -- " & it.Text
@@ -2775,23 +2775,13 @@ Public Class frmMain
         ' Close selected items
         Dim it As ListViewItem
         For Each it In Me.lvSearchResults.SelectedItems
-            Select Case CStr(it.Tag)
+            Select Case it.Tag.ToString
                 Case "process"
                     Dim sp As String = it.SubItems(3).Text
                     Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
                     If i > 0 Then
                         Dim pid As Integer = CInt(Val(sp.Substring(0, i - 1)))
                         Call cProcess.Kill(pid)
-                    End If
-                Case "module"
-                    Dim sp As String = it.SubItems(3).Text
-                    Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
-                    If i > 0 Then
-                        Dim pid As Integer = CInt(Val(sp.Substring(0, i - 1)))
-                        sp = it.SubItems(1).Text
-                        i = InStrRev(sp, " ", , CompareMethod.Binary)
-                        Dim sMod As String = sp.Substring(i, sp.Length - i)
-                        Call cProcess.UnLoadModuleFromProcess(pid, sMod)
                     End If
                 Case "service"
                     cService.StopService(it.SubItems(3).Text)
@@ -2803,13 +2793,26 @@ Public Class frmMain
                         cWindow.CloseWindow(hand)
                     End If
                 Case Else
-                    ' Handle
-                    Dim sp As String = it.SubItems(3).Text
-                    Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
-                    Dim handle As Integer = CInt(it.Tag)
-                    If i > 0 Then
-                        Dim pid As Integer = CInt(Val(sp.Substring(0, i - 1)))
-                        Call handles_Renamed.CloseProcessLocalHandle(pid, handle)
+                    If TypeOf it.Tag Is cModule Then
+                        ' Then it is a module
+                        Dim sp As String = it.SubItems(3).Text
+                        Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
+                        If i > 0 Then
+                            Dim pid As Integer = CInt(Val(sp.Substring(0, i - 1)))
+                            sp = it.SubItems(1).Text
+                            i = InStrRev(sp, " ", , CompareMethod.Binary)
+                            Dim sMod As String = sp.Substring(i, sp.Length - i)
+                            Call CType(it.Tag, cModule).UnloadModule()
+                        End If
+                    Else
+                        ' Handle
+                        Dim sp As String = it.SubItems(3).Text
+                        Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
+                        Dim handle As Integer = CInt(it.Tag)
+                        If i > 0 Then
+                            Dim pid As Integer = CInt(Val(sp.Substring(0, i - 1)))
+                            Call handles_Renamed.CloseProcessLocalHandle(pid, handle)
+                        End If
                     End If
             End Select
         Next
@@ -4296,7 +4299,9 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvModules.SelectedItems
             Call CType(it.Tag, cModule).UnloadModule()
+            it.Remove()
         Next
+        Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
     End Sub
 
     Private Sub lvJobs_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvJobs.MouseDown
@@ -4313,6 +4318,7 @@ Public Class frmMain
             Call CType(it.Tag, cModule).UnloadModule()
             it.Remove()
         Next
+        Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
     End Sub
 
     Private Sub ToolStripMenuItem35_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem35.Click
