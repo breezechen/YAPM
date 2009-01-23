@@ -127,10 +127,10 @@ Public Class Pref
             first = False
             frmMain.TopMost = topmost
             If startFullPower Then
-                Call frmMain.butTakeFullPower_Click(Nothing, Nothing)
+                Call frmMain.TakeFullPower()
             End If
             frmMain.bAlwaysDisplay = topmost
-            frmMain.butTopMost.Checked = topmost
+            frmMain.butAlwaysDisplay.Checked = topmost
             Call mdlMisc.StartWithWindows(Me.startup)
             If startHidden Then
                 frmMain.WindowState = FormWindowState.Minimized

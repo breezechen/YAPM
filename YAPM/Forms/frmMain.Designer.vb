@@ -305,12 +305,6 @@ Partial Class frmMain
         Me.butSearchGo = New System.Windows.Forms.RibbonButton
         Me.butSearchSaveReport = New System.Windows.Forms.RibbonButton
         Me.txtSearchString = New System.Windows.Forms.RibbonTextBox
-        Me.ReportTab = New System.Windows.Forms.RibbonTab
-        Me.RBOthers = New System.Windows.Forms.RibbonPanel
-        Me.butTakeFullPower = New System.Windows.Forms.RibbonButton
-        Me.butOptions = New System.Windows.Forms.RibbonButton
-        Me.RBDisplay = New System.Windows.Forms.RibbonPanel
-        Me.butTopMost = New System.Windows.Forms.RibbonButton
         Me.HelpTab = New System.Windows.Forms.RibbonTab
         Me.RBUpdate = New System.Windows.Forms.RibbonPanel
         Me.butUpdate = New System.Windows.Forms.RibbonButton
@@ -321,6 +315,9 @@ Partial Class frmMain
         Me.butWebite = New System.Windows.Forms.RibbonButton
         Me.butProjectPage = New System.Windows.Forms.RibbonButton
         Me.butDownload = New System.Windows.Forms.RibbonButton
+        Me.RBOptions = New System.Windows.Forms.RibbonPanel
+        Me.butPreferences = New System.Windows.Forms.RibbonButton
+        Me.butAlwaysDisplay = New System.Windows.Forms.RibbonButton
         Me.panelMenu2 = New System.Windows.Forms.Panel
         Me.Label2 = New System.Windows.Forms.Label
         Me.lblResCount2 = New System.Windows.Forms.Label
@@ -401,7 +398,6 @@ Partial Class frmMain
         Me.txtMonitoringLog = New System.Windows.Forms.TextBox
         Me.splitMonitor3 = New System.Windows.Forms.SplitContainer
         Me.splitMonitor4 = New System.Windows.Forms.SplitContainer
-        Me.graphMonitor = New YAPM.Graph
         Me.txtMonitorNumber = New System.Windows.Forms.TextBox
         Me.lblMonitorMaxNumber = New System.Windows.Forms.Label
         Me.chkMonitorRightAuto = New System.Windows.Forms.CheckBox
@@ -479,6 +475,7 @@ Partial Class frmMain
         Me.ToolStripMenuItem39 = New System.Windows.Forms.ToolStripSeparator
         Me.GoogleSearchToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
         Me.rtb6 = New System.Windows.Forms.RichTextBox
+        Me.graphMonitor = New YAPM.Graph
         Me.panelMain.SuspendLayout()
         Me.menuProc.SuspendLayout()
         Me.panelMenu.SuspendLayout()
@@ -526,7 +523,6 @@ Partial Class frmMain
         Me.splitMonitor3.SuspendLayout()
         Me.splitMonitor4.Panel2.SuspendLayout()
         Me.splitMonitor4.SuspendLayout()
-        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.panelMain9.SuspendLayout()
         Me.splitThreads.Panel1.SuspendLayout()
         Me.splitThreads.Panel2.SuspendLayout()
@@ -551,6 +547,7 @@ Partial Class frmMain
         Me.SplitContainerModules.Panel2.SuspendLayout()
         Me.SplitContainerModules.SuspendLayout()
         Me.menuModule.SuspendLayout()
+        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'imgMain
@@ -1377,7 +1374,6 @@ Partial Class frmMain
         Me.Ribbon.Tabs.Add(Me.ServiceTab)
         Me.Ribbon.Tabs.Add(Me.FileTab)
         Me.Ribbon.Tabs.Add(Me.SearchTab)
-        Me.Ribbon.Tabs.Add(Me.ReportTab)
         Me.Ribbon.Tabs.Add(Me.HelpTab)
         Me.Ribbon.TabSpacing = 6
         '
@@ -3239,74 +3235,12 @@ Partial Class frmMain
         Me.txtSearchString.ToolTipImage = Nothing
         Me.txtSearchString.ToolTipTitle = Nothing
         '
-        'ReportTab
-        '
-        Me.ReportTab.Panels.Add(Me.RBOthers)
-        Me.ReportTab.Panels.Add(Me.RBDisplay)
-        Me.ReportTab.Tag = Nothing
-        Me.ReportTab.Text = "Misc"
-        '
-        'RBOthers
-        '
-        Me.RBOthers.ButtonMoreEnabled = False
-        Me.RBOthers.ButtonMoreVisible = False
-        Me.RBOthers.Items.Add(Me.butTakeFullPower)
-        Me.RBOthers.Items.Add(Me.butOptions)
-        Me.RBOthers.Tag = Nothing
-        Me.RBOthers.Text = "Other"
-        '
-        'butTakeFullPower
-        '
-        Me.butTakeFullPower.AltKey = Nothing
-        Me.butTakeFullPower.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butTakeFullPower.Image = CType(resources.GetObject("butTakeFullPower.Image"), System.Drawing.Image)
-        Me.butTakeFullPower.SmallImage = CType(resources.GetObject("butTakeFullPower.SmallImage"), System.Drawing.Image)
-        Me.butTakeFullPower.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butTakeFullPower.Tag = Nothing
-        Me.butTakeFullPower.Text = "Full power"
-        Me.butTakeFullPower.ToolTip = Nothing
-        Me.butTakeFullPower.ToolTipImage = Nothing
-        Me.butTakeFullPower.ToolTipTitle = Nothing
-        '
-        'butOptions
-        '
-        Me.butOptions.AltKey = Nothing
-        Me.butOptions.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butOptions.Image = CType(resources.GetObject("butOptions.Image"), System.Drawing.Image)
-        Me.butOptions.SmallImage = CType(resources.GetObject("butOptions.SmallImage"), System.Drawing.Image)
-        Me.butOptions.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butOptions.Tag = Nothing
-        Me.butOptions.Text = "Preferences"
-        Me.butOptions.ToolTip = Nothing
-        Me.butOptions.ToolTipImage = Nothing
-        Me.butOptions.ToolTipTitle = Nothing
-        '
-        'RBDisplay
-        '
-        Me.RBDisplay.ButtonMoreEnabled = False
-        Me.RBDisplay.ButtonMoreVisible = False
-        Me.RBDisplay.Items.Add(Me.butTopMost)
-        Me.RBDisplay.Tag = Nothing
-        Me.RBDisplay.Text = "Display settings"
-        '
-        'butTopMost
-        '
-        Me.butTopMost.AltKey = Nothing
-        Me.butTopMost.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butTopMost.Image = CType(resources.GetObject("butTopMost.Image"), System.Drawing.Image)
-        Me.butTopMost.SmallImage = CType(resources.GetObject("butTopMost.SmallImage"), System.Drawing.Image)
-        Me.butTopMost.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butTopMost.Tag = Nothing
-        Me.butTopMost.Text = "Always display"
-        Me.butTopMost.ToolTip = Nothing
-        Me.butTopMost.ToolTipImage = Nothing
-        Me.butTopMost.ToolTipTitle = Nothing
-        '
         'HelpTab
         '
         Me.HelpTab.Panels.Add(Me.RBUpdate)
         Me.HelpTab.Panels.Add(Me.RBHelpAction)
         Me.HelpTab.Panels.Add(Me.RBHelpWeb)
+        Me.HelpTab.Panels.Add(Me.RBOptions)
         Me.HelpTab.Tag = Nothing
         Me.HelpTab.Text = "Help"
         '
@@ -3326,7 +3260,7 @@ Partial Class frmMain
         Me.butUpdate.SmallImage = CType(resources.GetObject("butUpdate.SmallImage"), System.Drawing.Image)
         Me.butUpdate.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butUpdate.Tag = Nothing
-        Me.butUpdate.Text = "Check  for an update"
+        Me.butUpdate.Text = "Check  update"
         Me.butUpdate.ToolTip = Nothing
         Me.butUpdate.ToolTipImage = Nothing
         Me.butUpdate.ToolTipTitle = Nothing
@@ -3414,6 +3348,41 @@ Partial Class frmMain
         Me.butDownload.ToolTip = Nothing
         Me.butDownload.ToolTipImage = Nothing
         Me.butDownload.ToolTipTitle = Nothing
+        '
+        'RBOptions
+        '
+        Me.RBOptions.ButtonMoreEnabled = False
+        Me.RBOptions.ButtonMoreVisible = False
+        Me.RBOptions.Items.Add(Me.butPreferences)
+        Me.RBOptions.Items.Add(Me.butAlwaysDisplay)
+        Me.RBOptions.Tag = Nothing
+        Me.RBOptions.Text = "Options"
+        '
+        'butPreferences
+        '
+        Me.butPreferences.AltKey = Nothing
+        Me.butPreferences.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butPreferences.Image = CType(resources.GetObject("butPreferences.Image"), System.Drawing.Image)
+        Me.butPreferences.SmallImage = CType(resources.GetObject("butPreferences.SmallImage"), System.Drawing.Image)
+        Me.butPreferences.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butPreferences.Tag = Nothing
+        Me.butPreferences.Text = "Preferences"
+        Me.butPreferences.ToolTip = Nothing
+        Me.butPreferences.ToolTipImage = Nothing
+        Me.butPreferences.ToolTipTitle = Nothing
+        '
+        'butAlwaysDisplay
+        '
+        Me.butAlwaysDisplay.AltKey = Nothing
+        Me.butAlwaysDisplay.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butAlwaysDisplay.Image = CType(resources.GetObject("butAlwaysDisplay.Image"), System.Drawing.Image)
+        Me.butAlwaysDisplay.SmallImage = CType(resources.GetObject("butAlwaysDisplay.SmallImage"), System.Drawing.Image)
+        Me.butAlwaysDisplay.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butAlwaysDisplay.Tag = Nothing
+        Me.butAlwaysDisplay.Text = "Always display"
+        Me.butAlwaysDisplay.ToolTip = Nothing
+        Me.butAlwaysDisplay.ToolTipImage = Nothing
+        Me.butAlwaysDisplay.ToolTipTitle = Nothing
         '
         'panelMenu2
         '
@@ -4231,22 +4200,6 @@ Partial Class frmMain
         Me.splitMonitor4.SplitterDistance = 25
         Me.splitMonitor4.TabIndex = 4
         '
-        'graphMonitor
-        '
-        Me.graphMonitor.BackColor = System.Drawing.Color.Black
-        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
-        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
-        Me.graphMonitor.dDate = New Date(CType(0, Long))
-        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphMonitor.EnableGraph = False
-        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
-        Me.graphMonitor.Name = "graphMonitor"
-        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
-        Me.graphMonitor.TabIndex = 3
-        Me.graphMonitor.TabStop = False
-        Me.graphMonitor.ViewMax = 0
-        Me.graphMonitor.ViewMin = 0
-        '
         'txtMonitorNumber
         '
         Me.txtMonitorNumber.Location = New System.Drawing.Point(241, 0)
@@ -4899,6 +4852,22 @@ Partial Class frmMain
         Me.rtb6.TabIndex = 8
         Me.rtb6.Text = "Click on an item to get additionnal informations"
         '
+        'graphMonitor
+        '
+        Me.graphMonitor.BackColor = System.Drawing.Color.Black
+        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
+        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
+        Me.graphMonitor.dDate = New Date(CType(0, Long))
+        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphMonitor.EnableGraph = False
+        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
+        Me.graphMonitor.Name = "graphMonitor"
+        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
+        Me.graphMonitor.TabIndex = 3
+        Me.graphMonitor.TabStop = False
+        Me.graphMonitor.ViewMax = 0
+        Me.graphMonitor.ViewMin = 0
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4987,7 +4956,6 @@ Partial Class frmMain
         Me.splitMonitor3.ResumeLayout(False)
         Me.splitMonitor4.Panel2.ResumeLayout(False)
         Me.splitMonitor4.ResumeLayout(False)
-        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.panelMain9.ResumeLayout(False)
         Me.splitThreads.Panel1.ResumeLayout(False)
         Me.splitThreads.Panel2.ResumeLayout(False)
@@ -5015,6 +4983,7 @@ Partial Class frmMain
         Me.SplitContainerModules.Panel2.ResumeLayout(False)
         Me.SplitContainerModules.ResumeLayout(False)
         Me.menuModule.ResumeLayout(False)
+        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -5152,13 +5121,7 @@ Partial Class frmMain
     Friend WithEvents butWebite As System.Windows.Forms.RibbonButton
     Friend WithEvents butProjectPage As System.Windows.Forms.RibbonButton
     Friend WithEvents butDownload As System.Windows.Forms.RibbonButton
-    Friend WithEvents ReportTab As System.Windows.Forms.RibbonTab
-    Friend WithEvents RBOthers As System.Windows.Forms.RibbonPanel
-    Friend WithEvents butTakeFullPower As System.Windows.Forms.RibbonButton
-    Friend WithEvents butOptions As System.Windows.Forms.RibbonButton
     Friend WithEvents cmdTray As System.Windows.Forms.Button
-    Friend WithEvents RBDisplay As System.Windows.Forms.RibbonPanel
-    Friend WithEvents butTopMost As System.Windows.Forms.RibbonButton
     Friend WithEvents RBProcessOnline As System.Windows.Forms.RibbonPanel
     Friend WithEvents butProcessOnlineDesc As System.Windows.Forms.RibbonButton
     Friend WithEvents butProcessGoogle As System.Windows.Forms.RibbonButton
@@ -5457,5 +5420,8 @@ Partial Class frmMain
     Friend WithEvents butModuleGoogle As System.Windows.Forms.RibbonButton
     Friend WithEvents ToolStripMenuItem39 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents GoogleSearchToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RBOptions As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butPreferences As System.Windows.Forms.RibbonButton
+    Friend WithEvents butAlwaysDisplay As System.Windows.Forms.RibbonButton
 
 End Class

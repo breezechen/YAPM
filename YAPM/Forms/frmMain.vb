@@ -773,6 +773,7 @@ Public Class frmMain
 
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
+        Me.Visible = True
         refreshProcessList()
         refreshServiceList()
 
@@ -1237,10 +1238,6 @@ Public Class frmMain
         Me.Visible = True
     End Sub
 
-    Private Sub QuitToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Me.Close()
-    End Sub
-
     Private Sub ToolStripMenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem3.Click
         Me.Show()
         Me.WindowState = FormWindowState.Normal
@@ -1686,32 +1683,8 @@ Public Class frmMain
         Next
     End Sub
 
-    Private Sub butSaveProcessReport_Click(ByVal sender As Object, ByVal e As System.EventArgs)
-        saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
-        saveDial.Title = "Save report"
-        saveDial.ShowDialog()
-        Dim s As String = saveDial.FileName
-        If Len(s) > 0 Then
-            MsgBox(s)
-        End If
-    End Sub
-
-    Private Sub butSaveServiceReport_Click(ByVal sender As Object, ByVal e As System.EventArgs)
-        saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
-        saveDial.Title = "Save report"
-        saveDial.ShowDialog()
-        Dim s As String = saveDial.FileName
-        If Len(s) > 0 Then
-            MsgBox(s)
-        End If
-    End Sub
-
     Private Sub butAbout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butAbout.Click
         frmAbout.ShowDialog()
-    End Sub
-
-    Private Sub butOptions_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butOptions.Click
-        frmPreferences.ShowDialog()
     End Sub
 
     Private Sub butProcessRerfresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessRerfresh.Click
@@ -1720,37 +1693,6 @@ Public Class frmMain
 
     Private Sub butServiceRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butServiceRefresh.Click
         Me.refreshServiceList()
-    End Sub
-
-    Public Sub butTakeFullPower_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butTakeFullPower.Click
-        Me.Visible = False
-        'MsgBox(mdlPrivileges.SetDebuPrivilege())
-        clsOpenedHandles.EnableDebug()
-        Me.lvProcess.Items.Clear()
-        refreshProcessList()
-        Me.Visible = True
-    End Sub
-
-    Private Sub butOpenJobList_Click(ByVal sender As Object, ByVal e As System.EventArgs)
-        ' Here we open a Job file
-        openDial.Filter = "Job File (*.job)|*.job"
-        openDial.Title = "Open job file"
-        openDial.ShowDialog()
-        Dim s As String = openDial.FileName
-        If Len(s) > 0 Then
-            MsgBox(s)
-        End If
-    End Sub
-
-    Private Sub butSaveJobList_Click(ByVal sender As Object, ByVal e As System.EventArgs)
-        ' Save job list
-        Me.saveDial.Filter = "Job File (*.job)|*.job"
-        openDial.Title = "Save job file"
-        saveDial.ShowDialog()
-        Dim s As String = saveDial.FileName
-        If Len(s) > 0 Then
-            MsgBox(s)
-        End If
     End Sub
 
     Private Sub butDonate_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butDonate.Click
@@ -2212,12 +2154,6 @@ Public Class frmMain
 
     Private Sub butDownload_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butDownload.Click
         cFile.ShellOpenFile("http://sourceforge.net/project/showfiles.php?group_id=244697")
-    End Sub
-
-    Private Sub butTopMost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butTopMost.Click
-        Me.butTopMost.Checked = Not (Me.butTopMost.Checked)
-        Me.bAlwaysDisplay = Me.butTopMost.Checked
-        Me.TopMost = Me.bAlwaysDisplay
     End Sub
 
     Private Sub frmMain_VisibleChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.VisibleChanged
@@ -4953,4 +4889,19 @@ Public Class frmMain
         Call butModuleGoogle_Click(Nothing, Nothing)
     End Sub
 
+    Private Sub butAlwaysDisplay_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butAlwaysDisplay.Click
+        Me.butAlwaysDisplay.Checked = Not (Me.butAlwaysDisplay.Checked)
+        Me.bAlwaysDisplay = Me.butAlwaysDisplay.Checked
+        Me.TopMost = Me.bAlwaysDisplay
+    End Sub
+
+    Private Sub butPreferences_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butPreferences.Click
+        frmPreferences.ShowDialog()
+    End Sub
+
+    Public Sub TakeFullPower()
+        clsOpenedHandles.EnableDebug()
+        Me.lvProcess.Items.Clear()
+        refreshProcessList()
+    End Sub
 End Class
