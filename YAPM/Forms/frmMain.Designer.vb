@@ -115,17 +115,17 @@ Partial Class frmMain
         Me.TabPage5 = New System.Windows.Forms.TabPage
         Me.TabPage6 = New System.Windows.Forms.TabPage
         Me.SplitContainerInfoProcess = New System.Windows.Forms.SplitContainer
+        Me.chkDisplayNAProcess = New System.Windows.Forms.CheckBox
+        Me.chkHandles = New System.Windows.Forms.CheckBox
+        Me.chkOnline = New System.Windows.Forms.CheckBox
+        Me.chkModules = New System.Windows.Forms.CheckBox
         Me.cmdInfosToClipB = New System.Windows.Forms.Button
         Me.rtb = New System.Windows.Forms.RichTextBox
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMenu = New System.Windows.Forms.Panel
-        Me.chkDisplayNAProcess = New System.Windows.Forms.CheckBox
-        Me.chkHandles = New System.Windows.Forms.CheckBox
         Me.Label3 = New System.Windows.Forms.Label
-        Me.chkOnline = New System.Windows.Forms.CheckBox
         Me.lblResCount = New System.Windows.Forms.Label
         Me.txtSearch = New System.Windows.Forms.TextBox
-        Me.chkModules = New System.Windows.Forms.CheckBox
         Me.timerProcess = New System.Windows.Forms.Timer(Me.components)
         Me.panelMain2 = New System.Windows.Forms.Panel
         Me.lvServices = New System.Windows.Forms.ListView
@@ -423,7 +423,6 @@ Partial Class frmMain
         Me.txtMonitoringLog = New System.Windows.Forms.TextBox
         Me.splitMonitor3 = New System.Windows.Forms.SplitContainer
         Me.splitMonitor4 = New System.Windows.Forms.SplitContainer
-        Me.graphMonitor = New YAPM.Graph
         Me.txtMonitorNumber = New System.Windows.Forms.TextBox
         Me.lblMonitorMaxNumber = New System.Windows.Forms.Label
         Me.chkMonitorRightAuto = New System.Windows.Forms.CheckBox
@@ -501,6 +500,7 @@ Partial Class frmMain
         Me.ToolStripMenuItem39 = New System.Windows.Forms.ToolStripSeparator
         Me.GoogleSearchToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
         Me.rtb6 = New System.Windows.Forms.RichTextBox
+        Me.graphMonitor = New YAPM.Graph
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
         Me.SplitContainerProcess.Panel2.SuspendLayout()
@@ -558,7 +558,6 @@ Partial Class frmMain
         Me.splitMonitor3.SuspendLayout()
         Me.splitMonitor4.Panel2.SuspendLayout()
         Me.splitMonitor4.SuspendLayout()
-        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.panelMain9.SuspendLayout()
         Me.splitThreads.Panel1.SuspendLayout()
         Me.splitThreads.Panel2.SuspendLayout()
@@ -583,6 +582,7 @@ Partial Class frmMain
         Me.SplitContainerModules.Panel2.SuspendLayout()
         Me.SplitContainerModules.SuspendLayout()
         Me.menuModule.SuspendLayout()
+        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'imgMain
@@ -603,6 +603,7 @@ Partial Class frmMain
         'SplitContainerProcess
         '
         Me.SplitContainerProcess.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainerProcess.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
         Me.SplitContainerProcess.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainerProcess.Name = "SplitContainerProcess"
         Me.SplitContainerProcess.Orientation = System.Windows.Forms.Orientation.Horizontal
@@ -615,7 +616,7 @@ Partial Class frmMain
         '
         Me.SplitContainerProcess.Panel2.Controls.Add(Me.tabProcess)
         Me.SplitContainerProcess.Size = New System.Drawing.Size(560, 455)
-        Me.SplitContainerProcess.SplitterDistance = 195
+        Me.SplitContainerProcess.SplitterDistance = 280
         Me.SplitContainerProcess.TabIndex = 0
         '
         'lvProcess
@@ -633,7 +634,7 @@ Partial Class frmMain
         Me.lvProcess.HideSelection = False
         Me.lvProcess.Location = New System.Drawing.Point(0, 0)
         Me.lvProcess.Name = "lvProcess"
-        Me.lvProcess.Size = New System.Drawing.Size(560, 195)
+        Me.lvProcess.Size = New System.Drawing.Size(560, 280)
         Me.lvProcess.SmallImageList = Me.imgProcess
         Me.lvProcess.TabIndex = 2
         Me.lvProcess.UseCompatibleStateImageBehavior = False
@@ -868,7 +869,7 @@ Partial Class frmMain
         Me.tabProcess.Location = New System.Drawing.Point(0, 0)
         Me.tabProcess.Name = "tabProcess"
         Me.tabProcess.SelectedIndex = 0
-        Me.tabProcess.Size = New System.Drawing.Size(560, 256)
+        Me.tabProcess.Size = New System.Drawing.Size(560, 171)
         Me.tabProcess.TabIndex = 0
         '
         'TabPage1
@@ -879,7 +880,7 @@ Partial Class frmMain
         Me.TabPage1.Location = New System.Drawing.Point(4, 23)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(552, 229)
+        Me.TabPage1.Size = New System.Drawing.Size(552, 144)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "General"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -1110,7 +1111,7 @@ Partial Class frmMain
         Me.TabPage2.Location = New System.Drawing.Point(4, 23)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(552, 229)
+        Me.TabPage2.Size = New System.Drawing.Size(552, 144)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Statistics"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -1121,7 +1122,7 @@ Partial Class frmMain
         Me.TabPage3.Location = New System.Drawing.Point(4, 23)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(552, 229)
+        Me.TabPage3.Size = New System.Drawing.Size(552, 144)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Performances"
         Me.TabPage3.UseVisualStyleBackColor = True
@@ -1132,7 +1133,7 @@ Partial Class frmMain
         Me.TabPage4.Location = New System.Drawing.Point(4, 23)
         Me.TabPage4.Name = "TabPage4"
         Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage4.Size = New System.Drawing.Size(552, 229)
+        Me.TabPage4.Size = New System.Drawing.Size(552, 144)
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "Token"
         Me.TabPage4.UseVisualStyleBackColor = True
@@ -1143,7 +1144,7 @@ Partial Class frmMain
         Me.TabPage5.Location = New System.Drawing.Point(4, 23)
         Me.TabPage5.Name = "TabPage5"
         Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage5.Size = New System.Drawing.Size(552, 229)
+        Me.TabPage5.Size = New System.Drawing.Size(552, 144)
         Me.TabPage5.TabIndex = 4
         Me.TabPage5.Text = "Memory"
         Me.TabPage5.UseVisualStyleBackColor = True
@@ -1155,7 +1156,7 @@ Partial Class frmMain
         Me.TabPage6.Location = New System.Drawing.Point(4, 23)
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage6.Size = New System.Drawing.Size(552, 229)
+        Me.TabPage6.Size = New System.Drawing.Size(552, 144)
         Me.TabPage6.TabIndex = 5
         Me.TabPage6.Text = "Informations"
         Me.TabPage6.UseVisualStyleBackColor = True
@@ -1163,20 +1164,67 @@ Partial Class frmMain
         'SplitContainerInfoProcess
         '
         Me.SplitContainerInfoProcess.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainerInfoProcess.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
         Me.SplitContainerInfoProcess.Location = New System.Drawing.Point(3, 3)
         Me.SplitContainerInfoProcess.Name = "SplitContainerInfoProcess"
         Me.SplitContainerInfoProcess.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
         'SplitContainerInfoProcess.Panel1
         '
+        Me.SplitContainerInfoProcess.Panel1.Controls.Add(Me.chkDisplayNAProcess)
+        Me.SplitContainerInfoProcess.Panel1.Controls.Add(Me.chkHandles)
+        Me.SplitContainerInfoProcess.Panel1.Controls.Add(Me.chkOnline)
+        Me.SplitContainerInfoProcess.Panel1.Controls.Add(Me.chkModules)
         Me.SplitContainerInfoProcess.Panel1.Controls.Add(Me.cmdInfosToClipB)
         '
         'SplitContainerInfoProcess.Panel2
         '
         Me.SplitContainerInfoProcess.Panel2.Controls.Add(Me.rtb)
-        Me.SplitContainerInfoProcess.Size = New System.Drawing.Size(546, 223)
-        Me.SplitContainerInfoProcess.SplitterDistance = 36
+        Me.SplitContainerInfoProcess.Size = New System.Drawing.Size(546, 138)
+        Me.SplitContainerInfoProcess.SplitterDistance = 25
         Me.SplitContainerInfoProcess.TabIndex = 0
+        '
+        'chkDisplayNAProcess
+        '
+        Me.chkDisplayNAProcess.AutoSize = True
+        Me.chkDisplayNAProcess.Checked = True
+        Me.chkDisplayNAProcess.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkDisplayNAProcess.Location = New System.Drawing.Point(420, 6)
+        Me.chkDisplayNAProcess.Name = "chkDisplayNAProcess"
+        Me.chkDisplayNAProcess.Size = New System.Drawing.Size(124, 17)
+        Me.chkDisplayNAProcess.TabIndex = 18
+        Me.chkDisplayNAProcess.Text = "Display all processes"
+        Me.chkDisplayNAProcess.UseVisualStyleBackColor = True
+        '
+        'chkHandles
+        '
+        Me.chkHandles.AutoSize = True
+        Me.chkHandles.Location = New System.Drawing.Point(350, 6)
+        Me.chkHandles.Name = "chkHandles"
+        Me.chkHandles.Size = New System.Drawing.Size(65, 17)
+        Me.chkHandles.TabIndex = 17
+        Me.chkHandles.Text = "Handles"
+        Me.chkHandles.UseVisualStyleBackColor = True
+        '
+        'chkOnline
+        '
+        Me.chkOnline.AutoSize = True
+        Me.chkOnline.Location = New System.Drawing.Point(262, 6)
+        Me.chkOnline.Name = "chkOnline"
+        Me.chkOnline.Size = New System.Drawing.Size(81, 17)
+        Me.chkOnline.TabIndex = 16
+        Me.chkOnline.Text = "Online infos"
+        Me.chkOnline.UseVisualStyleBackColor = True
+        '
+        'chkModules
+        '
+        Me.chkModules.AutoSize = True
+        Me.chkModules.Location = New System.Drawing.Point(108, 6)
+        Me.chkModules.Name = "chkModules"
+        Me.chkModules.Size = New System.Drawing.Size(145, 17)
+        Me.chkModules.TabIndex = 15
+        Me.chkModules.Text = "Retrive modules/trhreads"
+        Me.chkModules.UseVisualStyleBackColor = True
         '
         'cmdInfosToClipB
         '
@@ -1198,7 +1246,7 @@ Partial Class frmMain
         Me.rtb.Location = New System.Drawing.Point(0, 0)
         Me.rtb.Name = "rtb"
         Me.rtb.ReadOnly = True
-        Me.rtb.Size = New System.Drawing.Size(546, 183)
+        Me.rtb.Size = New System.Drawing.Size(546, 109)
         Me.rtb.TabIndex = 14
         Me.rtb.Text = ""
         '
@@ -1212,66 +1260,31 @@ Partial Class frmMain
         Me.imgProcessTab.Images.SetKeyName(3, "locked")
         Me.imgProcessTab.Images.SetKeyName(4, "memory")
         Me.imgProcessTab.Images.SetKeyName(5, "text.gif")
+        Me.imgProcessTab.Images.SetKeyName(6, "exe2")
         '
         'panelMenu
         '
-        Me.panelMenu.Controls.Add(Me.chkDisplayNAProcess)
-        Me.panelMenu.Controls.Add(Me.chkHandles)
         Me.panelMenu.Controls.Add(Me.Label3)
-        Me.panelMenu.Controls.Add(Me.chkOnline)
         Me.panelMenu.Controls.Add(Me.lblResCount)
         Me.panelMenu.Controls.Add(Me.txtSearch)
-        Me.panelMenu.Controls.Add(Me.chkModules)
         Me.panelMenu.Location = New System.Drawing.Point(12, 121)
         Me.panelMenu.Name = "panelMenu"
         Me.panelMenu.Size = New System.Drawing.Size(766, 28)
         Me.panelMenu.TabIndex = 4
         '
-        'chkDisplayNAProcess
-        '
-        Me.chkDisplayNAProcess.AutoSize = True
-        Me.chkDisplayNAProcess.Checked = True
-        Me.chkDisplayNAProcess.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkDisplayNAProcess.Location = New System.Drawing.Point(315, 6)
-        Me.chkDisplayNAProcess.Name = "chkDisplayNAProcess"
-        Me.chkDisplayNAProcess.Size = New System.Drawing.Size(124, 17)
-        Me.chkDisplayNAProcess.TabIndex = 6
-        Me.chkDisplayNAProcess.Text = "Display all processes"
-        Me.chkDisplayNAProcess.UseVisualStyleBackColor = True
-        '
-        'chkHandles
-        '
-        Me.chkHandles.AutoSize = True
-        Me.chkHandles.Location = New System.Drawing.Point(245, 6)
-        Me.chkHandles.Name = "chkHandles"
-        Me.chkHandles.Size = New System.Drawing.Size(65, 17)
-        Me.chkHandles.TabIndex = 5
-        Me.chkHandles.Text = "Handles"
-        Me.chkHandles.UseVisualStyleBackColor = True
-        '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(448, 7)
+        Me.Label3.Location = New System.Drawing.Point(4, 7)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(81, 13)
         Me.Label3.TabIndex = 4
         Me.Label3.Text = "Search process"
         '
-        'chkOnline
-        '
-        Me.chkOnline.AutoSize = True
-        Me.chkOnline.Location = New System.Drawing.Point(157, 6)
-        Me.chkOnline.Name = "chkOnline"
-        Me.chkOnline.Size = New System.Drawing.Size(81, 17)
-        Me.chkOnline.TabIndex = 3
-        Me.chkOnline.Text = "Online infos"
-        Me.chkOnline.UseVisualStyleBackColor = True
-        '
         'lblResCount
         '
         Me.lblResCount.AutoSize = True
-        Me.lblResCount.Location = New System.Drawing.Point(707, 6)
+        Me.lblResCount.Location = New System.Drawing.Point(394, 7)
         Me.lblResCount.Name = "lblResCount"
         Me.lblResCount.Size = New System.Drawing.Size(52, 13)
         Me.lblResCount.TabIndex = 2
@@ -1279,20 +1292,10 @@ Partial Class frmMain
         '
         'txtSearch
         '
-        Me.txtSearch.Location = New System.Drawing.Point(534, 4)
+        Me.txtSearch.Location = New System.Drawing.Point(90, 4)
         Me.txtSearch.Name = "txtSearch"
-        Me.txtSearch.Size = New System.Drawing.Size(167, 20)
+        Me.txtSearch.Size = New System.Drawing.Size(298, 20)
         Me.txtSearch.TabIndex = 1
-        '
-        'chkModules
-        '
-        Me.chkModules.AutoSize = True
-        Me.chkModules.Location = New System.Drawing.Point(3, 6)
-        Me.chkModules.Name = "chkModules"
-        Me.chkModules.Size = New System.Drawing.Size(145, 17)
-        Me.chkModules.TabIndex = 0
-        Me.chkModules.Text = "Retrive modules/trhreads"
-        Me.chkModules.UseVisualStyleBackColor = True
         '
         'timerProcess
         '
@@ -4512,22 +4515,6 @@ Partial Class frmMain
         Me.splitMonitor4.SplitterDistance = 25
         Me.splitMonitor4.TabIndex = 4
         '
-        'graphMonitor
-        '
-        Me.graphMonitor.BackColor = System.Drawing.Color.Black
-        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
-        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
-        Me.graphMonitor.dDate = New Date(CType(0, Long))
-        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphMonitor.EnableGraph = False
-        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
-        Me.graphMonitor.Name = "graphMonitor"
-        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
-        Me.graphMonitor.TabIndex = 3
-        Me.graphMonitor.TabStop = False
-        Me.graphMonitor.ViewMax = 0
-        Me.graphMonitor.ViewMin = 0
-        '
         'txtMonitorNumber
         '
         Me.txtMonitorNumber.Location = New System.Drawing.Point(241, 0)
@@ -5180,12 +5167,29 @@ Partial Class frmMain
         Me.rtb6.TabIndex = 8
         Me.rtb6.Text = "Click on an item to get additionnal informations"
         '
+        'graphMonitor
+        '
+        Me.graphMonitor.BackColor = System.Drawing.Color.Black
+        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
+        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
+        Me.graphMonitor.dDate = New Date(CType(0, Long))
+        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphMonitor.EnableGraph = False
+        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
+        Me.graphMonitor.Name = "graphMonitor"
+        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
+        Me.graphMonitor.TabIndex = 3
+        Me.graphMonitor.TabStop = False
+        Me.graphMonitor.ViewMax = 0
+        Me.graphMonitor.ViewMin = 0
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.ClientSize = New System.Drawing.Size(843, 603)
+        Me.Controls.Add(Me.panelMenu)
         Me.Controls.Add(Me.panelMain)
         Me.Controls.Add(Me.panelMain10)
         Me.Controls.Add(Me.panelMain7)
@@ -5195,7 +5199,6 @@ Partial Class frmMain
         Me.Controls.Add(Me.panelMain3)
         Me.Controls.Add(Me.panelMain8)
         Me.Controls.Add(Me.panelMenu2)
-        Me.Controls.Add(Me.panelMenu)
         Me.Controls.Add(Me.cmdTray)
         Me.Controls.Add(Me.Ribbon)
         Me.Controls.Add(Me.panelInfos2)
@@ -5226,6 +5229,7 @@ Partial Class frmMain
         Me.menuCopyPctbig.ResumeLayout(False)
         Me.TabPage6.ResumeLayout(False)
         Me.SplitContainerInfoProcess.Panel1.ResumeLayout(False)
+        Me.SplitContainerInfoProcess.Panel1.PerformLayout()
         Me.SplitContainerInfoProcess.Panel2.ResumeLayout(False)
         Me.SplitContainerInfoProcess.ResumeLayout(False)
         Me.panelMenu.ResumeLayout(False)
@@ -5278,7 +5282,6 @@ Partial Class frmMain
         Me.splitMonitor3.ResumeLayout(False)
         Me.splitMonitor4.Panel2.ResumeLayout(False)
         Me.splitMonitor4.ResumeLayout(False)
-        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.panelMain9.ResumeLayout(False)
         Me.splitThreads.Panel1.ResumeLayout(False)
         Me.splitThreads.Panel2.ResumeLayout(False)
@@ -5306,6 +5309,7 @@ Partial Class frmMain
         Me.SplitContainerModules.Panel2.ResumeLayout(False)
         Me.SplitContainerModules.ResumeLayout(False)
         Me.menuModule.ResumeLayout(False)
+        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -5313,7 +5317,6 @@ Partial Class frmMain
     Friend WithEvents panelMenu As System.Windows.Forms.Panel
     Friend WithEvents timerProcess As System.Windows.Forms.Timer
     Friend WithEvents imgProcess As System.Windows.Forms.ImageList
-    Friend WithEvents chkModules As System.Windows.Forms.CheckBox
     Friend WithEvents txtSearch As System.Windows.Forms.TextBox
     Friend WithEvents imgMain As System.Windows.Forms.ImageList
     Friend WithEvents panelMain2 As System.Windows.Forms.Panel
@@ -5430,7 +5433,6 @@ Partial Class frmMain
     Friend WithEvents RBProcessOnline As System.Windows.Forms.RibbonPanel
     Friend WithEvents butProcessOnlineDesc As System.Windows.Forms.RibbonButton
     Friend WithEvents butProcessGoogle As System.Windows.Forms.RibbonButton
-    Friend WithEvents chkOnline As System.Windows.Forms.CheckBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents panelMenu2 As System.Windows.Forms.Panel
     Friend WithEvents Label2 As System.Windows.Forms.Label
@@ -5508,7 +5510,6 @@ Partial Class frmMain
     Friend WithEvents butHandleClose As System.Windows.Forms.RibbonButton
     Friend WithEvents chkSearchHandles As System.Windows.Forms.CheckBox
     Friend WithEvents imgSearch As System.Windows.Forms.ImageList
-    Friend WithEvents chkHandles As System.Windows.Forms.CheckBox
     Friend WithEvents RBHandlesReport As System.Windows.Forms.RibbonPanel
     Friend WithEvents butHandlesSaveReport As System.Windows.Forms.RibbonButton
     Friend WithEvents ColumnHeader17 As System.Windows.Forms.ColumnHeader
@@ -5569,7 +5570,6 @@ Partial Class frmMain
     Friend WithEvents chkMonitorLeftAuto As System.Windows.Forms.CheckBox
     Friend WithEvents dtMonitorR As System.Windows.Forms.DateTimePicker
     Friend WithEvents dtMonitorL As System.Windows.Forms.DateTimePicker
-    Friend WithEvents chkDisplayNAProcess As System.Windows.Forms.CheckBox
     Friend WithEvents ThreadTab As System.Windows.Forms.RibbonTab
     Friend WithEvents WindowTab As System.Windows.Forms.RibbonTab
     Friend WithEvents ShowThreadsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -5770,5 +5770,9 @@ Partial Class frmMain
     Friend WithEvents Label14 As System.Windows.Forms.Label
     Friend WithEvents txtParentProcess As System.Windows.Forms.TextBox
     Friend WithEvents Label15 As System.Windows.Forms.Label
+    Friend WithEvents chkDisplayNAProcess As System.Windows.Forms.CheckBox
+    Friend WithEvents chkHandles As System.Windows.Forms.CheckBox
+    Friend WithEvents chkOnline As System.Windows.Forms.CheckBox
+    Friend WithEvents chkModules As System.Windows.Forms.CheckBox
 
 End Class

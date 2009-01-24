@@ -3226,19 +3226,6 @@ Public Class frmMain
         Next
     End Sub
 
-    Private Sub chkDisplayNAProcess_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkDisplayNAProcess.CheckedChanged
-        If chkDisplayNAProcess.Checked = False Then
-            Dim it As ListViewItem
-            For Each it In Me.lvProcess.Items
-                If it.SubItems(7).Text = "N/A" Then
-                    it.Remove()
-                End If
-            Next
-        Else
-            Call Me.refreshProcessList()
-        End If
-    End Sub
-
     Private Sub ShowThreadsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowThreadsToolStripMenuItem.Click
         Call Me.butProcessThreads_Click(Nothing, Nothing)
     End Sub
@@ -4875,15 +4862,29 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub pctBigIcon_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
-        Me.ToolStripMenuItem6.Enabled = (Me.pctBigIcon.Image IsNot Nothing)
-    End Sub
-
-    Private Sub pctSmallIcon_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
-        Me.ToolStripMenuItem7.Enabled = (Me.pctSmallIcon.Image IsNot Nothing)
-    End Sub
-
     Private Sub rtb_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rtb.TextChanged
         Me.cmdInfosToClipB.Enabled = (Me.rtb.TextLength > 0)
     End Sub
+
+    Private Sub chkDisplayNAProcess_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkDisplayNAProcess.CheckedChanged
+        If chkDisplayNAProcess.Checked = False Then
+            Dim it As ListViewItem
+            For Each it In Me.lvProcess.Items
+                If it.SubItems(7).Text = "N/A" Then
+                    it.Remove()
+                End If
+            Next
+        Else
+            Call Me.refreshProcessList()
+        End If
+    End Sub
+
+    Private Sub pctBigIcon_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pctBigIcon.MouseDown
+        Me.ToolStripMenuItem6.Enabled = (Me.pctBigIcon.Image IsNot Nothing)
+    End Sub
+
+    Private Sub pctSmallIcon_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pctSmallIcon.MouseDown
+        Me.ToolStripMenuItem7.Enabled = (Me.pctSmallIcon.Image IsNot Nothing)
+    End Sub
+
 End Class
