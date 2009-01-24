@@ -237,11 +237,12 @@ Public Class cProcess
     ' ========================================
     ' Private attributes
     ' ========================================
-    Private _pid As Integer                          ' Process ID
-    Private _path As String = vbNullString           ' _path of executable
+    Private _pid As Integer                         ' Process ID
+    Private _path As String = vbNullString          ' _path of executable
     Private _UserName As String = vbNullString      ' User name
     Private _name As String = vbNullString          ' Name of process
-    Private _hProcess As Integer = 0                 ' Handle to the process
+    Private _hProcess As Integer = 0                ' Handle to the process
+    Private _parentId As Integer = 0                ' Parent process ID
 
 
     Public isDisplayed As Boolean = False          ' Is displayed
@@ -280,6 +281,15 @@ Public Class cProcess
     Public ReadOnly Property Pid() As Integer
         Get
             Return _pid
+        End Get
+    End Property
+
+    Public ReadOnly Property ParentProcessId() As Integer
+        Get
+            If _parentId = 0 Then
+                _parentId = _pid    'TODO
+            End If
+            Return _parentId
         End Get
     End Property
 

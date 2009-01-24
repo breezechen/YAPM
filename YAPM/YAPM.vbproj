@@ -245,6 +245,7 @@
     <None Include="Resources\process1.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Misc\down.gif" />
     <None Include="Misc\monitoring2.gif" />
     <Content Include="process.ico" />

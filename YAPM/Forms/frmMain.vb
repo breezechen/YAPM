@@ -529,240 +529,6 @@ Public Class frmMain
         refreshProcessList()
     End Sub
 
-    Private Sub lvProcess_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvProcess.ColumnClick
-        ' Get the new sorting column.
-        Dim new_sorting_column As ColumnHeader = _
-            lvProcess.Columns(e.Column)
-
-        ' Figure out the new sorting order.
-        Dim sort_order As System.Windows.Forms.SortOrder
-        If m_SortingColumn Is Nothing Then
-            ' New column. Sort ascending.
-            sort_order = SortOrder.Ascending
-        Else
-            ' See if this is the same column.
-            If new_sorting_column.Equals(m_SortingColumn) Then
-                ' Same column. Switch the sort order.
-                If m_SortingColumn.Text.StartsWith("> ") Then
-                    sort_order = SortOrder.Descending
-                Else
-                    sort_order = SortOrder.Ascending
-                End If
-            Else
-                ' New column. Sort ascending.
-                sort_order = SortOrder.Ascending
-            End If
-
-            ' Remove the old sort indicator.
-            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
-        End If
-
-        ' Display the new sort order.
-        m_SortingColumn = new_sorting_column
-        If sort_order = SortOrder.Ascending Then
-            m_SortingColumn.Text = "> " & m_SortingColumn.Text
-        Else
-            m_SortingColumn.Text = "< " & m_SortingColumn.Text
-        End If
-
-        ' Create a comparer.
-        lvProcess.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
-
-        ' Sort.
-        lvProcess.Sort()
-    End Sub
-
-    Private Sub lvProcess_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvProcess)
-        If e.Button = Windows.Forms.MouseButtons.Right Then
-            Dim p As Integer = -1
-            If Me.lvProcess.SelectedItems Is Nothing Then
-                Me.IdleToolStripMenuItem.Checked = False
-                Me.NormalToolStripMenuItem.Checked = False
-                Me.AboveNormalToolStripMenuItem.Checked = False
-                Me.BelowNormalToolStripMenuItem.Checked = False
-                Me.HighToolStripMenuItem.Checked = False
-                Me.RealTimeToolStripMenuItem.Checked = False
-                Exit Sub
-            End If
-            If Me.lvProcess.SelectedItems.Count = 1 Then
-                p = CType(Me.lvProcess.SelectedItems(0).Tag, cProcess).PriorityClassConstant
-            End If
-            Me.IdleToolStripMenuItem.Checked = (p = ProcessPriorityClass.Idle)
-            Me.NormalToolStripMenuItem.Checked = (p = ProcessPriorityClass.Normal)
-            Me.AboveNormalToolStripMenuItem.Checked = (p = ProcessPriorityClass.AboveNormal)
-            Me.BelowNormalToolStripMenuItem.Checked = (p = ProcessPriorityClass.BelowNormal)
-            Me.HighToolStripMenuItem.Checked = (p = ProcessPriorityClass.High)
-            Me.RealTimeToolStripMenuItem.Checked = (p = ProcessPriorityClass.RealTime)
-        End If
-    End Sub
-
-    Private Sub lvProcess_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseUp
-        Call lvProcess_MouseDown(Nothing, e)
-    End Sub
-
-    Private Sub lvProcess_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvProcess.SelectedIndexChanged
-        ' New process selected
-
-        If lvProcess.SelectedItems.Count = 1 Then
-            Dim it As ListViewItem = lvProcess.SelectedItems.Item(0)
-
-            Me.lblProcessName.Text = "Process name : " & it.Text
-            Me.lblProcessPath.Text = "Unable to retrieve path"
-
-            If TypeOf it.Tag Is cProcess Then
-
-                Try
-                    Dim cP As cProcess = CType(it.Tag, cProcess)
-                    Dim pid As Integer = cP.Pid
-
-                    Dim mainModule As System.Diagnostics.ProcessModule = cP.MainModule
-
-                    Dim pmc As cProcess.PROCESS_MEMORY_COUNTERS = cP.MemoryInfos
-
-                    ' Description
-                    Dim s As String = ""
-                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b File properties\b0\par"
-                    s = s & "\tab File name :\tab\tab\tab " & it.Text & "\par"
-                    s = s & "\tab Path :\tab\tab\tab\tab " & Replace(it.SubItems(7).Text, "\", "\\") & "\par"
-                    s = s & "\tab Description :\tab\tab\tab " & mainModule.FileVersionInfo.FileDescription & "\par"
-                    s = s & "\tab Company name :\tab\tab\tab " & mainModule.FileVersionInfo.CompanyName & "\par"
-                    s = s & "\tab Version :\tab\tab\tab " & mainModule.FileVersionInfo.FileVersion & "\par"
-                    s = s & "\tab Copyright :\tab\tab\tab " & mainModule.FileVersionInfo.LegalCopyright & "\par"
-                    s = s & "\par"
-                    s = s & "  \b Process description\b0\par"
-                    s = s & "\tab PID :\tab\tab\tab\tab " & it.SubItems(1).Text & "\par"
-                    s = s & "\tab Start time :\tab\tab\tab " & it.SubItems(8).Text & "\par"
-                    s = s & "\tab Priority :\tab\tab\tab\tab " & it.SubItems(6).Text & "\par"
-                    s = s & "\tab User :\tab\tab\tab\tab " & it.SubItems(2).Text & "\par"
-                    s = s & "\tab Processor time :\tab\tab\tab " & it.SubItems(3).Text & "\par"
-                    s = s & "\tab Memory :\tab\tab\tab " & CStr(pmc.WorkingSetSize / 1024) & " Kb" & "\par"
-                    s = s & "\tab Memory peak :\tab\tab\tab " & CStr(pmc.PeakWorkingSetSize / 1024) & " Kb" & "\par"
-                    s = s & "\tab Page faults :\tab\tab\tab " & CStr(pmc.PageFaultCount) & "\par"
-                    s = s & "\tab Page file usage :\tab\tab\tab " & CStr(pmc.PagefileUsage / 1024) & " Kb" & "\par"
-                    s = s & "\tab Peak page file usage :\tab\tab " & CStr(pmc.PeakPagefileUsage / 1024) & " Kb" & "\par"
-                    s = s & "\tab QuotaPagedPoolUsage :\tab\tab " & CStr(Math.Round(pmc.QuotaPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
-                    s = s & "\tab QuotaPeakPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
-                    s = s & "\tab QuotaNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaNonPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
-                    s = s & "\tab QuotaPeakNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakNonPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
-
-
-                    If chkOnline.Checked Then
-                        ' Retrieve online description
-                        s = s & "\par"
-                        s = s & "  \b On line informations\b0\par"
-
-                        Dim ipi As InternetProcessInfo = mdlInternet.GetInternetInfos(it.Text)
-
-                        s = s & "\tab Security risk (0-5) :\tab\tab " & CStr(ipi._Risk) & "\par"
-                        s = s & "\tab Description :\tab\tab\tab " & Replace$(ipi._Description, vbNewLine, "\par") & "\par"
-                    End If
-
-
-                    If chkModules.Checked Then
-                        ' Retrieve modules
-                        s = s & "\par"
-                        s = s & "  \b Loaded modules\b0\par"
-                        Dim m As ProcessModule
-                        Dim mdl As ProcessModuleCollection = cP.Modules
-                        s = s & "\tab " & CStr(mdl.Count) & " modules loaded" & "\par"
-                        For Each m In mdl
-                            s = s & "\tab " & Replace(m.FileVersionInfo.FileName, "\", "\\") & "\par"
-                        Next
-
-                        ' Retrieve threads infos
-                        s = s & "\par"
-                        s = s & "  \b Threads\b0\par"
-                        Dim pt As ProcessThread
-                        Dim thr As System.Diagnostics.ProcessThreadCollection = cP.Threads
-                        s = s & "\tab " & CStr(thr.Count) & " threads \par"
-                        For Each pt In thr
-                            s = s & "\tab " & CStr(pt.Id) & "\par"
-                            s = s & "\tab\tab " & "Priority level : " & CStr(pt.PriorityLevel.ToString) & "\par"
-                            Dim tsp As TimeSpan = pt.TotalProcessorTime
-                            Dim s2 As String = String.Format("{0:00}", tsp.TotalHours) & ":" & _
-                                String.Format("{0:00}", tsp.Minutes) & ":" & _
-                                String.Format("{0:00}", tsp.Seconds)
-                            s = s & "\tab\tab " & "Start address : " & CStr(pt.StartAddress) & "\par"
-                            s = s & "\tab\tab " & "Start time : " & pt.StartTime.ToLongDateString & " -- " & pt.StartTime.ToLongTimeString & "\par"
-                            s = s & "\tab\tab " & "State : " & CStr(pt.ThreadState.ToString) & "\par"
-                            s = s & "\tab\tab " & "Processor time : " & s2 & "\par"
-                        Next
-                    End If
-
-
-                    If chkHandles.Checked Then
-                        ' Retrieve handles
-                        s = s & "\par"
-                        s = s & "  \b Loaded handles\b0\par"
-                        Dim i As Integer
-                        handles_Renamed.Refresh()
-                        For i = 0 To handles_Renamed.Count - 1
-                            With handles_Renamed
-                                If (.GetProcessID(i) = pid) And (Len(.GetObjectName(i)) > 0) Then
-                                    s = s & "\tab " & .GetNameInformation(i) & " : " & Replace(.GetObjectName(i), "\", "\\") & "\par"
-                                End If
-                            End With
-                        Next
-                    End If
-
-
-                    s = s & "}"
-
-                    rtb.Rtf = s
-
-                    ' Icons
-                    Try
-                        pctBigIcon.Image = GetIcon(it.SubItems(7).Text, False).ToBitmap
-                        pctSmallIcon.Image = GetIcon(it.SubItems(7).Text, True).ToBitmap
-                    Catch ex As Exception
-                        pctSmallIcon.Image = Me.imgProcess.Images("noicon")
-                        pctBigIcon.Image = Me.imgMain.Images("noicon32")
-                    End Try
-
-                    Me.lblProcessName.Text = "Process name : " & it.Text
-                    Me.lblProcessPath.Text = "Process path : " & it.SubItems(7).Text
-
-                Catch ex As Exception
-                    Dim s As String = ""
-                    Dim er As Exception = ex
-
-                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
-                    s = s & "\tab Message :\tab " & er.Message & "\par"
-                    s = s & "\tab Source :\tab\tab " & er.Source & "\par"
-                    If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
-                    s = s & "}"
-
-                    rtb.Rtf = s
-
-                    pctSmallIcon.Image = Me.imgProcess.Images("noicon")
-                    pctBigIcon.Image = Me.imgMain.Images("noicon32")
-                End Try
-
-            Else
-                ' Error
-                'Dim s As String = ""
-                'Dim er As Exception = CType(it.Tag, Exception)
-
-                's = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                's = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
-                's = s & "\tab Message :\tab " & er.Message & "\par"
-                's = s & "\tab Source :\tab\tab " & er.Source & "\par"
-                'If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
-                's = s & "}"
-
-                'rtb.Rtf = s
-
-                'pctSmallIcon.Image = Me.imgProcess.Images("noicon")
-                'pctBigIcon.Image = Me.imgMain.Images("noicon32")
-            End If
-
-        End If
-
-    End Sub
-
     Private Sub frmMain_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         Try
             handles_Renamed.Close()
@@ -792,7 +558,6 @@ Public Class frmMain
 
         With Me
             .lblServicePath.BackColor = .BackColor
-            .lblProcessPath.BackColor = .BackColor
         End With
 
         isAdmin = mdlPrivileges.IsAdministrator
@@ -816,7 +581,6 @@ Public Class frmMain
         SetToolTip(Me.chkModules, "Check if you want to retrieve online infos when you click on listview.")
         SetToolTip(Me.cmdInfosToClipB, "Copy process informations to clipboard. Use left click to copy as text, right click to copy as rtf (preserve text style).")
         SetToolTip(Me.cmdCopyServiceToCp, "Copy services informations to clipboard. Use left click to copy as text, right click to copy as rtf (preserve text style).")
-        SetToolTip(Me.lblProcessPath, "Path of the main executable.")
         SetToolTip(Me.lblServicePath, "Path of the main executable of the service.")
         SetToolTip(Me.tv, "Selected service depends on these services.")
         SetToolTip(Me.tv2, "This services depend on selected service.")
@@ -893,8 +657,6 @@ Public Class frmMain
         Me.panelMain4.Top = 120
         Me.panelMain5.Left = 5
         Me.panelMain5.Top = 120
-        Me.panelInfos.Left = 5
-        Me.panelInfos.Top = 307
         Me.panelInfos2.Left = 5
         Me.panelInfos2.Top = 307
         Me.panelMain6.Left = 5
@@ -948,28 +710,21 @@ Public Class frmMain
         Me.panelMain11.Width = Me.panelMain3.Width
 
         ' Process
-        Dim i As Integer = CInt((Me.Height - 250) / 2)
-        Me.panelInfos.Height = CInt(IIf(i < 340, i, 340))
-        Me.panelMain.Height = Me.Height - Me.panelInfos.Height - 187
-        Me.panelInfos.Top = Me.panelMain.Top + Me.panelMain.Height + 3
-        Me.panelMain.Width = Me.Width - Me.panelMain.Left - 21
-        Me.panelInfos.Width = Me.panelMain.Width
+        Me.panelMain.Height = Me.panelMain3.Height
+        Me.panelMain.Width = Me.panelMain3.Width
 
-        Me.rtb.Width = Me.panelInfos.Width - 5
-        Me.rtb.Height = Me.panelInfos.Height - 45
-        Me.pctBigIcon.Left = Me.panelInfos.Width - 35
-        Me.pctSmallIcon.Left = Me.panelInfos.Width - 57
-        Me.cmdInfosToClipB.Left = Me.panelInfos.Width - 165
-        Me.lblProcessPath.Width = Me.panelInfos.Width - 175
-        Me.lblProcessName.Width = Me.panelInfos.Width - 175
+        Dim i As Integer = CInt((Me.Height - 250) / 2)
+        Dim MepanelInfosHeight As Integer = CInt(IIf(i < 340, i, 340))
+        Dim MepanelInfonWidth As Integer = Me.panelMain.Width
+
 
         ' File resizement
         Me.panelMain5.Height = Me.panelMain3.Height
         Me.panelMain5.Width = Me.panelMain3.Width
-        Me.pctFileBig.Left = Me.panelInfos.Width - 35
-        Me.pctFileSmall.Left = Me.panelInfos.Width - 57
-        Me.cmdFileClipboard.Left = Me.panelInfos.Width - 165
-        Me.txtFile.Width = Me.panelInfos.Width - 175
+        Me.pctFileBig.Left = MepanelInfonWidth - 35
+        Me.pctFileSmall.Left = MepanelInfonWidth - 57
+        Me.cmdFileClipboard.Left = MepanelInfonWidth - 165
+        Me.txtFile.Width = MepanelInfonWidth - 175
         Me.fileSplitContainer.Width = Me.rtb.Width
         Me.fileSplitContainer.Height = Me.panelMain5.Height - 42
         Me.lstFileString.Width = Me.fileSplitContainer.Width - Me.gpFileAttributes.Width - Me.gpFileDates.Width - 10
@@ -979,7 +734,7 @@ Public Class frmMain
         Me.panelMain2.Height = Me.Height - Me.panelInfos2.Height - 187
         Me.panelInfos2.Top = Me.panelMain2.Top + Me.panelMain2.Height + 3
         Me.panelMain2.Width = Me.panelMain.Width
-        Me.panelInfos2.Width = Me.panelInfos.Width
+        Me.panelInfos2.Width = MepanelInfonWidth
 
         Me.lblServiceName.Width = Me.panelInfos2.Width - 140
         Me.lblServicePath.Width = Me.lblServiceName.Width
@@ -1218,20 +973,6 @@ Public Class frmMain
     End Sub
 #End Region
 
-    Private Sub panelInfos2_Resize(ByVal sender As Object, ByVal e As System.EventArgs)
-        ' Resize controls rtb2,tv and tv2
-        Try
-            Dim h As Integer = CInt(panelInfos2.Height - 47)
-            tv.Height = h
-            tv2.Height = h
-            tv2.Top = 41 + tv.Height + 6
-            rtb2.Width = panelInfos2.Width - 162
-            rtb2.Height = panelInfos2.Height - 44
-        Catch ex As Exception
-
-        End Try
-    End Sub
-
     Private Sub Tray_MouseDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Tray.MouseDoubleClick
         Me.Show()
         Me.WindowState = FormWindowState.Normal
@@ -1258,32 +999,6 @@ Public Class frmMain
 
     Private Sub ToolStripMenuItem7_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem7.Click
         My.Computer.Clipboard.SetImage(Me.pctSmallIcon.Image)
-    End Sub
-
-    Private Sub pctBigIcon_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pctBigIcon.MouseDown
-        Me.ToolStripMenuItem6.Enabled = (Me.pctBigIcon.Image IsNot Nothing)
-    End Sub
-
-    Private Sub pctSmallIcon_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pctSmallIcon.MouseDown
-        Me.ToolStripMenuItem7.Enabled = (Me.pctSmallIcon.Image IsNot Nothing)
-    End Sub
-
-    Private Sub cmdInfosToClipB_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdInfosToClipB.Click
-        If Me.rtb.Text.Length > 0 Then
-            My.Computer.Clipboard.SetText(Me.rtb.Text, TextDataFormat.Text)
-        End If
-    End Sub
-
-    Private Sub cmdInfosToClipB_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles cmdInfosToClipB.MouseDown
-        If e.Button = Windows.Forms.MouseButtons.Right Then
-            If Me.rtb.Rtf.Length > 0 Then
-                My.Computer.Clipboard.SetText(Me.rtb.Rtf, TextDataFormat.Rtf)
-            End If
-        End If
-    End Sub
-
-    Private Sub rtb_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rtb.TextChanged
-        Me.cmdInfosToClipB.Enabled = (rtb.Rtf.Length > 0)
     End Sub
 
     Private Sub KillToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles KillToolStripMenuItem.Click
@@ -1930,7 +1645,6 @@ Public Class frmMain
                     Me.panelMain3.Visible = False
                     Me.panelMain4.Visible = False
                     Me.panelMain5.Visible = False
-                    Me.panelInfos.Visible = False
                     Me.panelInfos2.Visible = True
                     Me.chkModules.Visible = False
                     Me.panelMenu.Visible = False
@@ -1950,7 +1664,6 @@ Public Class frmMain
                     Me.panelMain2.Visible = False
                     Me.panelMain3.Visible = False
                     Me.panelMain4.Visible = False
-                    Me.panelInfos.Visible = True
                     Me.panelInfos2.Visible = False
                     Me.chkModules.Visible = True
                     Me.panelMenu.Visible = True
@@ -4903,5 +4616,274 @@ Public Class frmMain
         clsOpenedHandles.EnableDebug()
         Me.lvProcess.Items.Clear()
         refreshProcessList()
+    End Sub
+
+    'Private Sub cmdInfosToClipB_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdInfosToClipB.Click
+    '    If Me.rtb.Text.Length > 0 Then
+    '        My.Computer.Clipboard.SetText(Me.rtb.Text, TextDataFormat.Text)
+    '    End If
+    'End Sub
+
+    'Private Sub cmdInfosToClipB_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles cmdInfosToClipB.MouseDown
+    '    If e.Button = Windows.Forms.MouseButtons.Right Then
+    '        If Me.rtb.Rtf.Length > 0 Then
+    '            My.Computer.Clipboard.SetText(Me.rtb.Rtf, TextDataFormat.Rtf)
+    '        End If
+    '    End If
+    'End Sub
+
+    Private Sub lvProcess_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvProcess.ColumnClick
+        ' Get the new sorting column.
+        Dim new_sorting_column As ColumnHeader = _
+            lvProcess.Columns(e.Column)
+
+        ' Figure out the new sorting order.
+        Dim sort_order As System.Windows.Forms.SortOrder
+        If m_SortingColumn Is Nothing Then
+            ' New column. Sort ascending.
+            sort_order = SortOrder.Ascending
+        Else
+            ' See if this is the same column.
+            If new_sorting_column.Equals(m_SortingColumn) Then
+                ' Same column. Switch the sort order.
+                If m_SortingColumn.Text.StartsWith("> ") Then
+                    sort_order = SortOrder.Descending
+                Else
+                    sort_order = SortOrder.Ascending
+                End If
+            Else
+                ' New column. Sort ascending.
+                sort_order = SortOrder.Ascending
+            End If
+
+            ' Remove the old sort indicator.
+            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
+        End If
+
+        ' Display the new sort order.
+        m_SortingColumn = new_sorting_column
+        If sort_order = SortOrder.Ascending Then
+            m_SortingColumn.Text = "> " & m_SortingColumn.Text
+        Else
+            m_SortingColumn.Text = "< " & m_SortingColumn.Text
+        End If
+
+        ' Create a comparer.
+        lvProcess.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
+
+        ' Sort.
+        lvProcess.Sort()
+    End Sub
+
+    Private Sub lvProcess_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvProcess)
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Dim p As Integer = -1
+            If Me.lvProcess.SelectedItems Is Nothing Then
+                Me.IdleToolStripMenuItem.Checked = False
+                Me.NormalToolStripMenuItem.Checked = False
+                Me.AboveNormalToolStripMenuItem.Checked = False
+                Me.BelowNormalToolStripMenuItem.Checked = False
+                Me.HighToolStripMenuItem.Checked = False
+                Me.RealTimeToolStripMenuItem.Checked = False
+                Exit Sub
+            End If
+            If Me.lvProcess.SelectedItems.Count = 1 Then
+                p = CType(Me.lvProcess.SelectedItems(0).Tag, cProcess).PriorityClassConstant
+            End If
+            Me.IdleToolStripMenuItem.Checked = (p = ProcessPriorityClass.Idle)
+            Me.NormalToolStripMenuItem.Checked = (p = ProcessPriorityClass.Normal)
+            Me.AboveNormalToolStripMenuItem.Checked = (p = ProcessPriorityClass.AboveNormal)
+            Me.BelowNormalToolStripMenuItem.Checked = (p = ProcessPriorityClass.BelowNormal)
+            Me.HighToolStripMenuItem.Checked = (p = ProcessPriorityClass.High)
+            Me.RealTimeToolStripMenuItem.Checked = (p = ProcessPriorityClass.RealTime)
+        End If
+    End Sub
+
+    Private Sub lvProcess_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseUp
+        Call lvProcess_MouseDown(Nothing, e)
+    End Sub
+
+    Private Sub lvProcess_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvProcess.SelectedIndexChanged
+        ' New process selected
+
+        If lvProcess.SelectedItems.Count = 1 Then
+            Dim it As ListViewItem = lvProcess.SelectedItems.Item(0)
+
+            Me.txtProcessPath.Text = "Unable to retrieve path"
+
+            If TypeOf it.Tag Is cProcess Then
+
+                Try
+                    Dim cP As cProcess = CType(it.Tag, cProcess)
+                    Dim pid As Integer = cP.Pid
+
+                    Dim mainModule As System.Diagnostics.ProcessModule = cP.MainModule
+
+                    Dim pmc As cProcess.PROCESS_MEMORY_COUNTERS = cP.MemoryInfos
+
+                    ' Description
+                    Dim s As String = ""
+                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b File properties\b0\par"
+                    s = s & "\tab File name :\tab\tab\tab " & it.Text & "\par"
+                    s = s & "\tab Path :\tab\tab\tab\tab " & Replace(it.SubItems(7).Text, "\", "\\") & "\par"
+                    s = s & "\tab Description :\tab\tab\tab " & mainModule.FileVersionInfo.FileDescription & "\par"
+                    s = s & "\tab Company name :\tab\tab\tab " & mainModule.FileVersionInfo.CompanyName & "\par"
+                    s = s & "\tab Version :\tab\tab\tab " & mainModule.FileVersionInfo.FileVersion & "\par"
+                    s = s & "\tab Copyright :\tab\tab\tab " & mainModule.FileVersionInfo.LegalCopyright & "\par"
+                    s = s & "\par"
+                    s = s & "  \b Process description\b0\par"
+                    s = s & "\tab PID :\tab\tab\tab\tab " & it.SubItems(1).Text & "\par"
+                    s = s & "\tab Start time :\tab\tab\tab " & it.SubItems(8).Text & "\par"
+                    s = s & "\tab Priority :\tab\tab\tab\tab " & it.SubItems(6).Text & "\par"
+                    s = s & "\tab User :\tab\tab\tab\tab " & it.SubItems(2).Text & "\par"
+                    s = s & "\tab Processor time :\tab\tab\tab " & it.SubItems(3).Text & "\par"
+                    s = s & "\tab Memory :\tab\tab\tab " & CStr(pmc.WorkingSetSize / 1024) & " Kb" & "\par"
+                    s = s & "\tab Memory peak :\tab\tab\tab " & CStr(pmc.PeakWorkingSetSize / 1024) & " Kb" & "\par"
+                    s = s & "\tab Page faults :\tab\tab\tab " & CStr(pmc.PageFaultCount) & "\par"
+                    s = s & "\tab Page file usage :\tab\tab\tab " & CStr(pmc.PagefileUsage / 1024) & " Kb" & "\par"
+                    s = s & "\tab Peak page file usage :\tab\tab " & CStr(pmc.PeakPagefileUsage / 1024) & " Kb" & "\par"
+                    s = s & "\tab QuotaPagedPoolUsage :\tab\tab " & CStr(Math.Round(pmc.QuotaPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
+                    s = s & "\tab QuotaPeakPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
+                    s = s & "\tab QuotaNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaNonPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
+                    s = s & "\tab QuotaPeakNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakNonPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
+
+
+                    If chkOnline.Checked Then
+                        ' Retrieve online description
+                        s = s & "\par"
+                        s = s & "  \b On line informations\b0\par"
+
+                        Dim ipi As InternetProcessInfo = mdlInternet.GetInternetInfos(it.Text)
+
+                        s = s & "\tab Security risk (0-5) :\tab\tab " & CStr(ipi._Risk) & "\par"
+                        s = s & "\tab Description :\tab\tab\tab " & Replace$(ipi._Description, vbNewLine, "\par") & "\par"
+                    End If
+
+
+                    If chkModules.Checked Then
+                        ' Retrieve modules
+                        s = s & "\par"
+                        s = s & "  \b Loaded modules\b0\par"
+                        Dim m As ProcessModule
+                        Dim mdl As ProcessModuleCollection = cP.Modules
+                        s = s & "\tab " & CStr(mdl.Count) & " modules loaded" & "\par"
+                        For Each m In mdl
+                            s = s & "\tab " & Replace(m.FileVersionInfo.FileName, "\", "\\") & "\par"
+                        Next
+
+                        ' Retrieve threads infos
+                        s = s & "\par"
+                        s = s & "  \b Threads\b0\par"
+                        Dim pt As ProcessThread
+                        Dim thr As System.Diagnostics.ProcessThreadCollection = cP.Threads
+                        s = s & "\tab " & CStr(thr.Count) & " threads \par"
+                        For Each pt In thr
+                            s = s & "\tab " & CStr(pt.Id) & "\par"
+                            s = s & "\tab\tab " & "Priority level : " & CStr(pt.PriorityLevel.ToString) & "\par"
+                            Dim tsp As TimeSpan = pt.TotalProcessorTime
+                            Dim s2 As String = String.Format("{0:00}", tsp.TotalHours) & ":" & _
+                                String.Format("{0:00}", tsp.Minutes) & ":" & _
+                                String.Format("{0:00}", tsp.Seconds)
+                            s = s & "\tab\tab " & "Start address : " & CStr(pt.StartAddress) & "\par"
+                            s = s & "\tab\tab " & "Start time : " & pt.StartTime.ToLongDateString & " -- " & pt.StartTime.ToLongTimeString & "\par"
+                            s = s & "\tab\tab " & "State : " & CStr(pt.ThreadState.ToString) & "\par"
+                            s = s & "\tab\tab " & "Processor time : " & s2 & "\par"
+                        Next
+                    End If
+
+
+                    If chkHandles.Checked Then
+                        ' Retrieve handles
+                        s = s & "\par"
+                        s = s & "  \b Loaded handles\b0\par"
+                        Dim i As Integer
+                        handles_Renamed.Refresh()
+                        For i = 0 To handles_Renamed.Count - 1
+                            With handles_Renamed
+                                If (.GetProcessID(i) = pid) And (Len(.GetObjectName(i)) > 0) Then
+                                    s = s & "\tab " & .GetNameInformation(i) & " : " & Replace(.GetObjectName(i), "\", "\\") & "\par"
+                                End If
+                            End With
+                        Next
+                    End If
+
+
+                    s = s & "}"
+
+                    rtb.Rtf = s
+
+                    ' Icons
+                    Try
+                        pctBigIcon.Image = GetIcon(it.SubItems(7).Text, False).ToBitmap
+                        pctSmallIcon.Image = GetIcon(it.SubItems(7).Text, True).ToBitmap
+                    Catch ex As Exception
+                        pctSmallIcon.Image = Me.imgProcess.Images("noicon")
+                        pctBigIcon.Image = Me.imgMain.Images("noicon32")
+                    End Try
+
+
+
+                    ' General informations
+                    Me.txtProcessPath.Text = it.SubItems(7).Text
+                    Me.txtProcessId.Text = CStr(cP.Pid)
+                    Me.txtParentProcess.Text = CStr(cP.ParentProcessId) & " -- " & cFile.GetFileName(cProcess.GetPath(cP.ParentProcessId))
+                    Me.txtProcessStarted.Text = cP.StartTime.ToLongDateString & " -- " & cP.StartTime.ToLongTimeString
+                    Me.txtProcessUser.Text = cP.UserName
+                    Me.txtImageVersion.Text = cP.MainModule.FileVersionInfo.FileVersion
+                    Me.lblCopyright.Text = cP.MainModule.FileVersionInfo.LegalCopyright
+                    Me.lblDescription.Text = cP.MainModule.FileVersionInfo.FileDescription
+
+
+
+                Catch ex As Exception
+                    Dim s As String = ""
+                    Dim er As Exception = ex
+
+                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+                    s = s & "\tab Message :\tab " & er.Message & "\par"
+                    s = s & "\tab Source :\tab\tab " & er.Source & "\par"
+                    If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
+                    s = s & "}"
+
+                    rtb.Rtf = s
+
+                    pctSmallIcon.Image = Me.imgProcess.Images("noicon")
+                    pctBigIcon.Image = Me.imgMain.Images("noicon32")
+                End Try
+
+            Else
+                ' Error
+                'Dim s As String = ""
+                'Dim er As Exception = CType(it.Tag, Exception)
+
+                's = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                's = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+                's = s & "\tab Message :\tab " & er.Message & "\par"
+                's = s & "\tab Source :\tab\tab " & er.Source & "\par"
+                'If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
+                's = s & "}"
+
+                'rtb.Rtf = s
+
+                'pctSmallIcon.Image = Me.imgProcess.Images("noicon")
+                'pctBigIcon.Image = Me.imgMain.Images("noicon32")
+            End If
+
+        End If
+    End Sub
+
+    Private Sub pctBigIcon_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
+        Me.ToolStripMenuItem6.Enabled = (Me.pctBigIcon.Image IsNot Nothing)
+    End Sub
+
+    Private Sub pctSmallIcon_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
+        Me.ToolStripMenuItem7.Enabled = (Me.pctSmallIcon.Image IsNot Nothing)
+    End Sub
+
+    Private Sub rtb_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rtb.TextChanged
+        Me.cmdInfosToClipB.Enabled = (Me.rtb.TextLength > 0)
     End Sub
 End Class
