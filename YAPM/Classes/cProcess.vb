@@ -299,6 +299,7 @@ System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.Unmanage
     Private _name As String = vbNullString          ' Name of process
     Private _hProcess As Integer = 0                ' Handle to the process
     Private _parentId As Integer = -1               ' Parent process ID
+    Private _parentName As String = ""              ' Parent process ID
     Private _mainMod As System.Diagnostics.ProcessModule
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
@@ -355,6 +356,18 @@ System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.Unmanage
                 _parentId = Pbi.ParentProcessId
             End If
             Return _parentId
+        End Get
+    End Property
+
+    Public ReadOnly Property ParentProcessName() As String
+        Get
+            If _parentName = "" Then
+                _parentName = cFile.GetFileName(cProcess.GetPath(Me.ParentProcessId))
+                If _parentName = "" Then
+                    _parentName = NO_INFO_RETRIEVED
+                End If
+            End If
+            Return _parentName
         End Get
     End Property
 
@@ -878,6 +891,10 @@ System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.Unmanage
         Dim res As String = NO_INFO_RETRIEVED
         Dim mem As cProcess.PROCESS_MEMORY_COUNTERS = Me.MemoryInfos
         Select Case infoName
+            Case "ParentPID"
+                res = CStr(Me.ParentProcessId)
+            Case "ParentName"
+                res = Me.ParentProcessName
             Case "PID"
                 res = CStr(Me.Pid)
             Case "UserName"
@@ -947,29 +964,31 @@ System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.Unmanage
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties() As String()
-        Dim s(20) As String
+        Dim s(22) As String
 
         s(0) = "PID"
         s(1) = "UserName"
-        s(2) = "CpuUage"
-        s(3) = "KernelCpuTime"
-        s(4) = "UserCpuTime"
-        s(5) = "TotalCpuTime"
-        s(6) = "StartTime"
-        s(7) = "WorkingSet"
-        s(8) = "PeakWorkingSet"
-        s(9) = "PageFaultCount"
-        s(10) = "PagefileUsage"
-        s(11) = "PeakPagefileUsage"
-        s(12) = "QuotaPeakPagedPoolUsage"
-        s(13) = "QuotaPagedPoolUsage"
-        s(14) = "QuotaPeakNonPagedPoolUsage"
-        s(15) = "QuotaNonPagedPoolUsage"
-        s(16) = "Priority"
-        s(17) = "Path"
-        s(18) = "Description"
-        s(19) = "Copyright"
-        s(20) = "Version"
+        s(2) = "ParentPID"
+        s(3) = "ParentName"
+        s(4) = "CpuUage"
+        s(5) = "KernelCpuTime"
+        s(6) = "UserCpuTime"
+        s(7) = "TotalCpuTime"
+        s(8) = "StartTime"
+        s(9) = "WorkingSet"
+        s(10) = "PeakWorkingSet"
+        s(11) = "PageFaultCount"
+        s(12) = "PagefileUsage"
+        s(13) = "PeakPagefileUsage"
+        s(14) = "QuotaPeakPagedPoolUsage"
+        s(15) = "QuotaPagedPoolUsage"
+        s(16) = "QuotaPeakNonPagedPoolUsage"
+        s(17) = "QuotaNonPagedPoolUsage"
+        s(18) = "Priority"
+        s(19) = "Path"
+        s(20) = "Description"
+        s(21) = "Copyright"
+        s(22) = "Version"
 
         Return s
     End Function

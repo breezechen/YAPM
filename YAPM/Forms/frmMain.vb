@@ -4701,7 +4701,7 @@ Public Class frmMain
             Case "General"
                 Me.txtProcessPath.Text = cP.Path
                 Me.txtProcessId.Text = CStr(cP.Pid)
-                Me.txtParentProcess.Text = CStr(cP.ParentProcessId) & " -- " & cFile.GetFileName(cProcess.GetPath(cP.ParentProcessId))
+                Me.txtParentProcess.Text = CStr(cP.ParentProcessId) & " -- " & cP.ParentProcessName
                 Me.txtProcessStarted.Text = cP.StartTime.ToLongDateString & " -- " & cP.StartTime.ToLongTimeString
                 Me.txtProcessUser.Text = cP.UserName
                 Me.txtImageVersion.Text = cP.MainModule.FileVersionInfo.FileVersion
