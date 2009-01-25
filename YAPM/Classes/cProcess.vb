@@ -391,75 +391,75 @@ System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.Unmanage
         Get
             If _UserName = vbNullString Then
 
-                Dim hToken As Integer
-                Dim hProc As Integer
-                '   Dim cbBuff As UInteger
-                Dim TG As TOKEN_GROUPS
-                Dim __UserName As String
-                Dim DomainName As String
-                Dim UserNameLenght As Integer
-                Dim DomainNameLenght As Integer
-                '                Dim peUse As Integer
-                Dim ppsidGroup As Integer
-                Dim res As String = vbNullString
-                Dim tgptr As IntPtr
+                'Dim hToken As Integer
+                'Dim hProc As Integer
+                ''   Dim cbBuff As UInteger
+                'Dim TG As TOKEN_GROUPS
+                'Dim __UserName As String
+                'Dim DomainName As String
+                'Dim UserNameLenght As Integer
+                'Dim DomainNameLenght As Integer
+                ''                Dim peUse As Integer
+                'Dim ppsidGroup As Integer
+                'Dim res As String = vbNullString
+                'Dim tgptr As IntPtr
 
-                ReDim TG.Groups(500)
+                'ReDim TG.Groups(500)
 
-                tgptr = Marshal.AllocHGlobal(Marshal.SizeOf(TG))
+                'tgptr = Marshal.AllocHGlobal(Marshal.SizeOf(TG))
 
-                If _hProcess > 0 Then
-                    If OpenProcessToken(_hProcess, &H8, hToken) > 0 Then
-                        'GetTokenInformation(hToken, TokenUser, TG, 0, cbBuff)
-                        'gettokeninfo(
-                        Dim TokenInfLength As UInteger = 0
-                        Dim Result As Boolean = GetTokenInformation(CType(hToken, IntPtr), TOKEN_INFORMATION_CLASS.TokenUser, IntPtr.Zero, TokenInfLength, TokenInfLength)
-                        Dim TokenInformation As IntPtr = Marshal.AllocHGlobal(CInt(TokenInfLength))
-                        Result = GetTokenInformation(CType(hToken, IntPtr), TOKEN_INFORMATION_CLASS.TokenUser, TokenInformation, TokenInfLength, TokenInfLength)
+                'If _hProcess > 0 Then
+                '    If OpenProcessToken(_hProcess, &H8, hToken) > 0 Then
+                '        'GetTokenInformation(hToken, TokenUser, TG, 0, cbBuff)
+                '        'gettokeninfo(
+                '        Dim TokenInfLength As UInteger = 0
+                '        Dim Result As Boolean = GetTokenInformation(CType(hToken, IntPtr), TOKEN_INFORMATION_CLASS.TokenUser, IntPtr.Zero, TokenInfLength, TokenInfLength)
+                '        Dim TokenInformation As IntPtr = Marshal.AllocHGlobal(CInt(TokenInfLength))
+                '        Result = GetTokenInformation(CType(hToken, IntPtr), TOKEN_INFORMATION_CLASS.TokenUser, TokenInformation, TokenInfLength, TokenInfLength)
 
-                        If Result Then
-                            CloseHandle(hToken)
+                '        If Result Then
+                '            CloseHandle(hToken)
 
-                            'Dim TokenUser As New TOKEN_USER
-                            'Marshal.PtrToStructure(TokenInformation, TokenUser)
+                '            'Dim TokenUser As New TOKEN_USER
+                '            'Marshal.PtrToStructure(TokenInformation, TokenUser)
 
 
-                            'Dim pstr As IntPtr = IntPtr.Zero
-                            '' Dim opop As String = MyLookupAccountSid(
-                            'Dim ok As Integer = ConvertSidToStringSid(TokenInformation, opop)
-                            'Dim sidstr As String = Marshal.PtrToStringAuto(pstr)
-                            Dim account2 As String = New SecurityIdentifier(TokenInformation).Value
+                '            'Dim pstr As IntPtr = IntPtr.Zero
+                '            '' Dim opop As String = MyLookupAccountSid(
+                '            'Dim ok As Integer = ConvertSidToStringSid(TokenInformation, opop)
+                '            'Dim sidstr As String = Marshal.PtrToStringAuto(pstr)
+                '            Dim account2 As String = New SecurityIdentifier(TokenInformation).Value
 
-                            'Dim curID As WindowsIdentity = WindowsIdentity.GetCurrent()
-                            'Dim account As New NTAccount(curID.Name)
-                            'Dim sid As SecurityIdentifier = CType(account.Translate(GetType(SecurityIdentifier)), SecurityIdentifier)
+                '            'Dim curID As WindowsIdentity = WindowsIdentity.GetCurrent()
+                '            'Dim account As New NTAccount(curID.Name)
+                '            'Dim sid As SecurityIdentifier = CType(account.Translate(GetType(SecurityIdentifier)), SecurityIdentifier)
 
-                            'UserNameLenght = 255
-                            '__UserName = Space$(UserNameLenght)
-                            'DomainName = __UserName 'Space$(255)
-                            'DomainNameLenght = UserNameLenght
-                            'LookupAccountSid(vbNullString, TG.GroupCount, __UserName, UserNameLenght, DomainName, DomainNameLenght, peUse)
+                '            'UserNameLenght = 255
+                '            '__UserName = Space$(UserNameLenght)
+                '            'DomainName = __UserName 'Space$(255)
+                '            'DomainNameLenght = UserNameLenght
+                '            'LookupAccountSid(vbNullString, TG.GroupCount, __UserName, UserNameLenght, DomainName, DomainNameLenght, peUse)
 
-                            'res = Left$(__UserName, UserNameLenght)
-                            res = account2
-                        End If
-                    Else
-                        hProc = OpenProcess(PROCESS_READ_CONTROL, 0, _pid)
-                        If hProc > 0 Then
-                            If GetSecurityInfo(hProc, SE_KERNEL_OBJECT, GROUP_SECURITY_INFORMATION, 0, ppsidGroup, 0, 0, 0) = 0 Then
-                                CloseHandle(hProc)
-                                UserNameLenght = 255
-                                __UserName = Space$(UserNameLenght)
-                                DomainName = __UserName
-                                DomainNameLenght = UserNameLenght
-                                ' LookupAccountSid(vbNullString, ppsidGroup, __UserName, UserNameLenght, DomainName, DomainNameLenght, peUse)
-                                res = Left$(__UserName, UserNameLenght)
-                            End If
-                        End If
-                    End If
-                End If
+                '            'res = Left$(__UserName, UserNameLenght)
+                '            res = account2
+                '        End If
+                '    Else
+                '        hProc = OpenProcess(PROCESS_READ_CONTROL, 0, _pid)
+                '        If hProc > 0 Then
+                '            If GetSecurityInfo(hProc, SE_KERNEL_OBJECT, GROUP_SECURITY_INFORMATION, 0, ppsidGroup, 0, 0, 0) = 0 Then
+                '                CloseHandle(hProc)
+                '                UserNameLenght = 255
+                '                __UserName = Space$(UserNameLenght)
+                '                DomainName = __UserName
+                '                DomainNameLenght = UserNameLenght
+                '                ' LookupAccountSid(vbNullString, ppsidGroup, __UserName, UserNameLenght, DomainName, DomainNameLenght, peUse)
+                '                res = Left$(__UserName, UserNameLenght)
+                '            End If
+                '        End If
+                '    End If
+                'End If
 
-                _UserName = res
+                _UserName = NO_INFO_RETRIEVED
             End If
 
             Return _UserName
