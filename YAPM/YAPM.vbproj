@@ -278,6 +278,11 @@
     <None Include="Misc\tv2.gif" />
     <None Include="Misc\hideDetails.gif" />
     <None Include="Misc\display.gif" />
+    <None Include="Misc\kill.gif" />
+    <None Include="Misc\exe.gif" />
+    <None Include="Misc\copy16.gif" />
+    <None Include="Misc\magnify16.gif" />
+    <None Include="Misc\ie7_16.gif" />
     <Content Include="process.ico" />
     <Content Include="process_custom.ico" />
   </ItemGroup>

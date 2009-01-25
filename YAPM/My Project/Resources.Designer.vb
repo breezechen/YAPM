@@ -74,9 +74,23 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property copy16() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("copy16", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property down() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("down", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property exe() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("exe", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -102,6 +116,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property ie7_16() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("ie7_16", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property info() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("info", resourceCulture)
@@ -109,9 +130,23 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property kill() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("kill", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property lv3() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("lv3", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property magnify16() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("magnify16", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

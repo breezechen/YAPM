@@ -390,6 +390,8 @@ System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.Unmanage
 
                 If InStr(sResult, vbNullChar) > 1 Then
                     sResult = Left(sResult, InStr(sResult, vbNullChar) - 1)
+                Else
+                    sResult = NO_INFO_RETRIEVED
                 End If
 
                 _path = sResult
@@ -781,6 +783,7 @@ System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.Unmanage
             oldProcTime = proctime
             oldDate = currDate
 
+            'TODO : divide per number of processors
             Return procDiff / diff
         End Get
     End Property

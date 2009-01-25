@@ -791,7 +791,7 @@ Public Class frmMain
         Me.pctFileSmall.Left = MepanelInfonWidth - 57
         Me.cmdFileClipboard.Left = MepanelInfonWidth - 165
         Me.txtFile.Width = MepanelInfonWidth - 175
-        Me.fileSplitContainer.Width = Me.rtb.Width
+        Me.fileSplitContainer.Width = MepanelInfonWidth - 3
         Me.fileSplitContainer.Height = Me.panelMain5.Height - 42
         Me.lstFileString.Width = Me.fileSplitContainer.Width - Me.gpFileAttributes.Width - Me.gpFileDates.Width - 10
 
@@ -2038,7 +2038,7 @@ Public Class frmMain
     End Sub
 
     Private Sub FileDetailsToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileDetailsToolStripMenuItem1.Click
-        Call Me.butProcessFileDetails_Click(Nothing, Nothing)
+        Call Me.cmdShowFileDetails_Click(Nothing, Nothing)
     End Sub
 
     Private Sub butServiceFileDetails_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butServiceFileDetails.Click
@@ -4868,37 +4868,6 @@ Public Class frmMain
         End Select
     End Sub
 
-    Private Sub butProcessFileProp_Click(ByVal sender As Object, ByVal e As System.EventArgs)
-        ' File properties for selected processes
-        Dim it As ListViewItem
-        For Each it In Me.lvProcess.SelectedItems
-            Dim cp As cProcess = CType(it.Tag, cProcess)
-            If IO.File.Exists(cp.Path) Then
-                cFile.ShowFileProperty(it.SubItems(7).Text)
-            End If
-        Next
-    End Sub
-
-    Private Sub butProcessDirOpen_Click(ByVal sender As Object, ByVal e As System.EventArgs)
-        ' Open directory of selected processes
-        Dim it As ListViewItem
-        For Each it In Me.lvProcess.SelectedItems
-            Dim cp As cProcess = CType(it.Tag, cProcess)
-            If cp.Path <> NO_INFO_RETRIEVED Then
-                cFile.OpenDirectory(it.SubItems(7).Text)
-            End If
-        Next
-    End Sub
-
-    Private Sub butProcessFileDetails_Click(ByVal sender As Object, ByVal e As System.EventArgs)
-        If Me.lvProcess.SelectedItems.Count > 0 Then
-            Dim s As String = Me.lvProcess.SelectedItems.Item(0).SubItems(7).Text
-            If IO.File.Exists(s) Then
-                DisplayDetailsFile(s)
-            End If
-        End If
-    End Sub
-
     Private Sub cmdInfosToClipB_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdInfosToClipB.Click
         If Me.rtb.Text.Length > 0 Then
             My.Computer.Clipboard.SetText(Me.rtb.Text, TextDataFormat.Text)
@@ -5104,5 +5073,37 @@ Public Class frmMain
 
     Private Sub tvProc_AfterCollapse(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvProc.AfterCollapse
         Me.lvProcess.Items(0).Group = Me.lvProcess.Groups(1)
+    End Sub
+
+    Private Sub cmdShowFileDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdShowFileDetails.Click
+        If Me.lvProcess.SelectedItems.Count > 0 Then
+            Dim cp As cProcess = CType(Me.lvProcess.SelectedItems.Item(0).Tag, cProcess)
+            Dim s As String = cp.Path
+            If IO.File.Exists(s) Then
+                DisplayDetailsFile(s)
+            End If
+        End If
+    End Sub
+
+    Private Sub cmdShowFileProperties_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdShowFileProperties.Click
+        ' File properties for selected processes
+        Dim it As ListViewItem
+        For Each it In Me.lvProcess.SelectedItems
+            Dim cp As cProcess = CType(it.Tag, cProcess)
+            If IO.File.Exists(cp.Path) Then
+                cFile.ShowFileProperty(cp.Path)
+            End If
+        Next
+    End Sub
+
+    Private Sub cmdOpenDirectory_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdOpenDirectory.Click
+        ' Open directory of selected processes
+        Dim it As ListViewItem
+        For Each it In Me.lvProcess.SelectedItems
+            Dim cp As cProcess = CType(it.Tag, cProcess)
+            If cp.Path <> NO_INFO_RETRIEVED Then
+                cFile.OpenDirectory(cp.Path)
+            End If
+        Next
     End Sub
 End Class
