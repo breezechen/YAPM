@@ -61,8 +61,8 @@ Public Class frmFileRelease
         For Each it In frmMain.lvProcess.Items
             Try
                 ' Check for modules
-                Dim proc As Process = Process.GetProcessById(CInt(Val(it.SubItems(1).Text)))
-                Dim p As ProcessModuleCollection = proc.Modules
+                Dim cProc As cProcess = CType(it.Tag, cProcess)
+                Dim p As ProcessModuleCollection = cProc.Modules
                 Dim m As ProcessModule
                 For Each m In p
                     sComp = m.FileVersionInfo.FileName.ToLower
@@ -71,10 +71,10 @@ Public Class frmFileRelease
                         Dim newIt As New ListViewItem
                         Dim n2 As New ListViewItem.ListViewSubItem
                         n2.Text = "Module"
-                        newIt.Text = it.SubItems(1).Text & " -- " & it.Text
+                        newIt.Text = CStr(cProc.Pid) & " -- " & cProc.Name
                         newIt.SubItems.Add(n2)
                         newIt.ImageKey = "module"
-                        newIt.Tag = New cModule(proc.Id, m)
+                        newIt.Tag = New cModule(cProc.Pid, m)
                         Me.lv.Items.Add(newIt)
                     End If
                 Next

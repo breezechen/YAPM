@@ -23,6 +23,7 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
+Imports System.Security.Principal
 
 Public Class cProcess
 
@@ -40,7 +41,7 @@ Public Class cProcess
     Private Declare Function CloseHandle Lib "Kernel32.dll" (ByVal hObject As Integer) As Integer
     Private Declare Function SetPriorityClass Lib "kernel32" (ByVal hProcess As Integer, ByVal dwPriorityClass As Integer) As Integer
 
-    Private Declare Function NtQueryInformationProcess Lib "Ntdll.dll" (ByVal hProcess As Integer, ByVal ProcessInformationClass As Integer, ByVal ProcessInformation As Integer, ByVal ProcessInformationLength As Integer, ByVal ReturnLength As Integer) As Integer
+    Private Declare Function NtQueryInformationProcess Lib "Ntdll.dll" (ByVal hProcess As Integer, ByVal ProcessInformationClass As Integer, ByRef ProcessInformation As PROCESS_BASIC_INFORMATION, ByVal ProcessInformationLength As Integer, ByVal ReturnLength As Integer) As Integer
     Private Declare Function NtSetInformationProcess Lib "Ntdll.dll" (ByVal hProcess As Integer, ByVal ProcessInformationClass As Integer, ByVal ProcessInformation As Integer, ByVal ProcessInformationLength As Integer) As Integer
 
     Private Declare Function NtQueryInformationThread Lib "Ntdll.dll" (ByVal hThread As Integer, ByVal ThreadInformationClass As Integer, ByVal ThreadInformation As Integer, ByVal ThreadInformationLength As Integer, ByVal ReturnLength As Integer) As Integer
@@ -64,9 +65,28 @@ Public Class cProcess
     Private Declare Function TerminateProcess Lib "kernel32" (ByVal hProcess As Integer, ByVal uExitCode As Integer) As Integer
 
     Private Declare Function GetSecurityInfo Lib "advapi32.dll" (ByVal hObject As Integer, ByVal ObjectType As Integer, ByVal SecurityInformation As Integer, ByVal ppsidOwner As Integer, ByVal ppsidGroup As Integer, ByVal ppDacl As Integer, ByVal ppSacl As Integer, ByVal ppSecurityDescriptor As Integer) As Integer
-    Private Declare Function LookupAccountSid Lib "advapi32.dll" Alias "LookupAccountSidA" (ByVal lpSystemName As String, ByVal Sid As Integer, ByVal name As String, ByVal cbName As Integer, ByVal ReferencedDomainName As String, ByVal cbReferencedDomainName As Integer, ByVal peUse As Integer) As Integer
-    Private Declare Function OpenProcessToken Lib "advapi32.dll" (ByVal ProcessHandle As Integer, ByVal DesiredAccess As Integer, ByVal TokenHandle As Integer) As Integer
-    Private Declare Function GetTokenInformation Lib "advapi32.dll" (ByVal TokenHandle As Integer, ByVal TokenInformationClass As Integer, ByRef TokenInformation As TOKEN_GROUPS, ByVal TokenInformationLength As Integer, ByVal ReturnLength As Integer) As Integer
+    ' Private Declare Function LookupAccountSid Lib "advapi32.dll" Alias "LookupAccountSidA" (ByVal lpSystemName As String, ByVal Sid As Integer, ByVal name As String, ByVal cbName As Integer, ByVal ReferencedDomainName As String, ByVal cbReferencedDomainName As Integer, ByVal peUse As Integer) As Integer
+    Private Declare Function OpenProcessToken Lib "advapi32.dll" (ByVal ProcessHandle As Integer, ByVal DesiredAccess As Integer, ByRef TokenHandle As Integer) As Integer
+    ' Private Declare Function GetTokenInformation Lib "advapi32.dll" (ByVal TokenHandle As Integer, ByVal TokenInformationClass As Integer, ByRef TokenInformation As TOKEN_GROUPS, ByRef TokenInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
+    Private Declare Function GetTokenInformation Lib "advapi32.dll" ( _
+    ByVal TokenHandle As IntPtr, ByVal TokenInformationClass As TOKEN_INFORMATION_CLASS, _
+    ByRef TokenInformation As IntPtr, ByVal TokenInformationLength As System.UInt32, _
+    ByRef ReturnLength As System.UInt32) As Boolean
+    ' Declare Auto Function ConvertSidToStringSid Lib "advapi32.dll" (ByVal pSID() As Byte, _
+    'ByRef ptrSid As IntPtr) As Boolean
+    Declare Function LookupAccountSid Lib "advapi32.dll" _
+   Alias "LookupAccountSidA" ( _
+   ByVal systemName As String, _
+   ByVal psid As Integer, _
+   ByVal accountName As String, _
+   ByRef cbAccount As Integer, _
+   ByVal domainName As String, _
+   ByRef cbDomainName As Integer, _
+   ByRef use As Integer) As Boolean
+    Private Declare Auto Function ConvertSidToStringSid Lib "advapi32.dll" _
+(ByVal bSID As IntPtr, <System.Runtime.InteropServices.In(), _
+System.Runtime.InteropServices.Out(), _
+System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.LPTStr)> ByRef SIDString As String) As Integer
 
     Private Declare Function GetProcAddress Lib "kernel32" (ByVal hModule As Integer, ByVal lpProcName As String) As Integer
     'Private Declare Function CreateRemoteThread Lib "kernel32" (ByVal hProcess As Integer, ByVal lpThreadAttributes As Integer, ByVal dwStackSize As Integer, ByVal lpStartAddress As Integer, ByVal lpParameter As Integer, ByVal dwCreationFlags As Integer, ByVal lpThreadId As Integer) As Integer
@@ -210,10 +230,46 @@ Public Class cProcess
         Dim PeakPagefileUsage As Integer
     End Structure
 
+    Private Structure TOKEN_USER
+        Dim User As SID_AND_ATTRIBUTES
+    End Structure
+
     Private Structure SID_AND_ATTRIBUTES
         Dim Sid As Integer
         Dim Attributes As Integer
     End Structure
+
+    Private Enum TOKEN_INFORMATION_CLASS
+        TokenUser = 1
+        TokenGroups
+        TokenPrivileges
+        TokenOwner
+        TokenPrimaryGroup
+        TokenDefaultDacl
+        TokenSource
+        TokenType
+        TokenImpersonationLevel
+        TokenStatistics
+        TokenRestrictedSids
+        TokenSessionId
+        TokenGroupsAndPrivileges
+        TokenSessionReference
+        TokenSandBoxInert
+        TokenAuditPolicy
+        TokenOrigin
+        TokenElevationType
+        TokenLinkedToken
+        TokenElevation
+        TokenHasRestrictions
+        TokenAccessInformation
+        TokenVirtualizationAllowed
+        TokenVirtualizationEnabled
+        TokenIntegrityLevel
+        TokenUIAccess
+        TokenMandatoryPolicy
+        TokenLogonSid
+        MaxTokenInfoClass
+    End Enum
 
     Private Structure TOKEN_GROUPS
         Dim GroupCount As Integer
@@ -242,8 +298,10 @@ Public Class cProcess
     Private _UserName As String = vbNullString      ' User name
     Private _name As String = vbNullString          ' Name of process
     Private _hProcess As Integer = 0                ' Handle to the process
-    Private _parentId As Integer = 0                ' Parent process ID
+    Private _parentId As Integer = -1               ' Parent process ID
+    Private _mainMod As System.Diagnostics.ProcessModule
 
+    Private Const NO_INFO_RETRIEVED As String = "N/A"
 
     Public isDisplayed As Boolean = False          ' Is displayed
 
@@ -286,8 +344,15 @@ Public Class cProcess
 
     Public ReadOnly Property ParentProcessId() As Integer
         Get
-            If _parentId = 0 Then
-                _parentId = _pid    'TODO
+            If _parentId = -1 Then
+                Dim Pbi As PROCESS_BASIC_INFORMATION
+                Dim Ret As Integer
+
+                Dim pt As Integer = 0
+                'System.Runtime.InteropServices.Marshal.
+
+                NtQueryInformationProcess(_hProcess, 0, Pbi, 24, Ret)
+                _parentId = Pbi.ParentProcessId
             End If
             Return _parentId
         End Get
@@ -328,29 +393,55 @@ Public Class cProcess
 
                 Dim hToken As Integer
                 Dim hProc As Integer
-                Dim cbBuff As Integer
+                '   Dim cbBuff As UInteger
                 Dim TG As TOKEN_GROUPS
                 Dim __UserName As String
                 Dim DomainName As String
                 Dim UserNameLenght As Integer
                 Dim DomainNameLenght As Integer
-                Dim peUse As Integer
+                '                Dim peUse As Integer
                 Dim ppsidGroup As Integer
                 Dim res As String = vbNullString
+                Dim tgptr As IntPtr
 
                 ReDim TG.Groups(500)
+
+                tgptr = Marshal.AllocHGlobal(Marshal.SizeOf(TG))
 
                 If _hProcess > 0 Then
                     If OpenProcessToken(_hProcess, &H8, hToken) > 0 Then
                         'GetTokenInformation(hToken, TokenUser, TG, 0, cbBuff)
-                        If GetTokenInformation(hToken, TokenUser, TG, cbBuff, 0) > 0 Then
+                        'gettokeninfo(
+                        Dim TokenInfLength As UInteger = 0
+                        Dim Result As Boolean = GetTokenInformation(CType(hToken, IntPtr), TOKEN_INFORMATION_CLASS.TokenUser, IntPtr.Zero, TokenInfLength, TokenInfLength)
+                        Dim TokenInformation As IntPtr = Marshal.AllocHGlobal(CInt(TokenInfLength))
+                        Result = GetTokenInformation(CType(hToken, IntPtr), TOKEN_INFORMATION_CLASS.TokenUser, TokenInformation, TokenInfLength, TokenInfLength)
+
+                        If Result Then
                             CloseHandle(hToken)
-                            UserNameLenght = 255
-                            __UserName = Space$(UserNameLenght)
-                            DomainName = __UserName 'Space$(255)
-                            DomainNameLenght = UserNameLenght
-                            LookupAccountSid(vbNullString, TG.GroupCount, __UserName, UserNameLenght, DomainName, DomainNameLenght, peUse)
-                            res = Left$(__UserName, UserNameLenght)
+
+                            'Dim TokenUser As New TOKEN_USER
+                            'Marshal.PtrToStructure(TokenInformation, TokenUser)
+
+
+                            'Dim pstr As IntPtr = IntPtr.Zero
+                            '' Dim opop As String = MyLookupAccountSid(
+                            'Dim ok As Integer = ConvertSidToStringSid(TokenInformation, opop)
+                            'Dim sidstr As String = Marshal.PtrToStringAuto(pstr)
+                            Dim account2 As String = New SecurityIdentifier(TokenInformation).Value
+
+                            'Dim curID As WindowsIdentity = WindowsIdentity.GetCurrent()
+                            'Dim account As New NTAccount(curID.Name)
+                            'Dim sid As SecurityIdentifier = CType(account.Translate(GetType(SecurityIdentifier)), SecurityIdentifier)
+
+                            'UserNameLenght = 255
+                            '__UserName = Space$(UserNameLenght)
+                            'DomainName = __UserName 'Space$(255)
+                            'DomainNameLenght = UserNameLenght
+                            'LookupAccountSid(vbNullString, TG.GroupCount, __UserName, UserNameLenght, DomainName, DomainNameLenght, peUse)
+
+                            'res = Left$(__UserName, UserNameLenght)
+                            res = account2
                         End If
                     Else
                         hProc = OpenProcess(PROCESS_READ_CONTROL, 0, _pid)
@@ -361,7 +452,7 @@ Public Class cProcess
                                 __UserName = Space$(UserNameLenght)
                                 DomainName = __UserName
                                 DomainNameLenght = UserNameLenght
-                                LookupAccountSid(vbNullString, ppsidGroup, __UserName, UserNameLenght, DomainName, DomainNameLenght, peUse)
+                                ' LookupAccountSid(vbNullString, ppsidGroup, __UserName, UserNameLenght, DomainName, DomainNameLenght, peUse)
                                 res = Left$(__UserName, UserNameLenght)
                             End If
                         End If
@@ -374,6 +465,57 @@ Public Class cProcess
             Return _UserName
         End Get
     End Property
+
+    Private Shared Function MyLookupAccountSid(ByRef i_Sid As Byte) As String
+
+        'Input format is the format returned from "ConvertStringSidToSid"
+        'Note; This function needs some work. For example, checking l_Result for error codes!
+
+        Dim result As String = ""
+        Try
+            '****************************************************************
+            '* Declares
+            '****************************************************************
+
+            Dim l_Result As Boolean = False
+            Dim l_use As Integer = 0
+            Dim l_UserName As String = ""
+            Dim l_Domain As String = ""
+            Dim l_UserNameLength As Integer = 0
+            Dim l_DomainLength As Integer = 0
+
+            '****************************************************************
+            '* First call, populate l_UserNameLength and l_DomainLength
+            '****************************************************************
+
+            l_Result = LookupAccountSid(Nothing, i_Sid, l_UserName, l_UserNameLength, l_Domain, l_DomainLength, l_use)
+
+            '****************************************************************
+            '* Allocate space
+            '****************************************************************
+
+            l_UserName = Strings.StrDup(l_UserNameLength + 1, " ")  'Need space for terminating chr(0)?
+            l_Domain = Strings.StrDup(l_DomainLength + 1, " ")
+
+            '****************************************************************
+            '* Fetch username and domain
+            '****************************************************************
+
+            l_Result = LookupAccountSid(Nothing, i_Sid, l_UserName, l_UserNameLength, l_Domain, l_DomainLength, l_use)
+
+            '****************************************************************
+            '* Build result
+            '****************************************************************
+
+            result = l_Domain.Substring(0, l_DomainLength) & "\" & l_UserName.Substring(0, l_UserNameLength)
+
+        Catch ex As Exception
+            result = ""
+        End Try
+
+        Return result
+
+    End Function
 
     ' Get process name
     Public ReadOnly Property Name() As String
@@ -434,6 +576,84 @@ Public Class cProcess
         End Get
     End Property
 
+    ' Get kernel time as a TimeSpan
+    Public ReadOnly Property KernelTime() As Date
+        Get
+            Dim T0 As Long
+            Dim T1 As Long
+            Dim curTime2 As Long
+            Dim curTime As Long
+            Dim r As Date
+
+            If _hProcess > 0 Then
+
+                GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
+                r = New Date(curTime)
+            End If
+
+            Return r
+        End Get
+    End Property
+
+    ' Get kernel time as a long
+    Public ReadOnly Property KernelTimeLong() As Long
+        Get
+            Dim T0 As Long
+            Dim T1 As Long
+            Dim curTime2 As Long
+            Dim curTime As Long
+            Dim r As Long = 0
+
+            If _hProcess > 0 Then
+
+                GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
+                r = curTime
+
+            End If
+
+            Return r
+        End Get
+    End Property
+
+    ' Get user time as a TimeSpan
+    Public ReadOnly Property UserTime() As Date
+        Get
+            Dim T0 As Long
+            Dim T1 As Long
+            Dim curTime2 As Long
+            Dim curTime As Long
+            Dim r As Date
+
+            If _hProcess > 0 Then
+
+                GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
+                r = New Date(curTime2)
+            End If
+
+            Return r
+        End Get
+    End Property
+
+    ' Get user time as a long
+    Public ReadOnly Property UserTimeLong() As Long
+        Get
+            Dim T0 As Long
+            Dim T1 As Long
+            Dim curTime2 As Long
+            Dim curTime As Long
+            Dim r As Long = 0
+
+            If _hProcess > 0 Then
+
+                GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
+                r = curTime2
+
+            End If
+
+            Return r
+        End Get
+    End Property
+
     ' Get the WorkingSet64
     Public ReadOnly Property WorkingSet64() As Long
         Get
@@ -486,7 +706,7 @@ Public Class cProcess
                 Case REALTIME_PRIORITY_CLASS
                     Return "RealTime"
                 Case Else
-                    Return "N/A"
+                    Return NO_INFO_RETRIEVED
             End Select
         End Get
     End Property
@@ -533,6 +753,25 @@ Public Class cProcess
         End Get
     End Property
 
+    ' Get CPU time
+    Public ReadOnly Property CpuPercentageUsage() As Double
+        Get
+            Static oldDate As Long = Date.Now.Ticks
+            Static oldProcTime As Long = Me.ProcessorTimeLong
+
+            Dim currDate As Long = Date.Now.Ticks
+            Dim proctime As Long = Me.ProcessorTimeLong
+
+            Dim diff As Long = currDate - oldDate
+            Dim procDiff As Long = proctime - oldProcTime
+
+            oldProcTime = proctime
+            oldDate = currDate
+
+            Return procDiff / diff
+        End Get
+    End Property
+
     ' Get the start time
     Public ReadOnly Property StartTime() As Date
         Get
@@ -555,8 +794,11 @@ Public Class cProcess
 
     Public ReadOnly Property MainModule() As System.Diagnostics.ProcessModule
         Get
-            Dim gProc As Process = Process.GetProcessById(_pid)
-            Return gProc.MainModule
+            If _mainMod Is Nothing Then
+                Dim gProc As Process = Process.GetProcessById(_pid)
+                _mainMod = gProc.MainModule
+            End If
+            Return _mainMod
         End Get
     End Property
 
@@ -631,11 +873,107 @@ Public Class cProcess
         Return ret
     End Function
 
+    ' Retrieve informations by its name
+    Public Function GetInformation(ByVal infoName As String) As String
+        Dim res As String = NO_INFO_RETRIEVED
+        Dim mem As cProcess.PROCESS_MEMORY_COUNTERS = Me.MemoryInfos
+        Select Case infoName
+            Case "PID"
+                res = CStr(Me.Pid)
+            Case "UserName"
+                res = Me.UserName
+            Case "CpuUage"
+                res = CStr(Math.Round(Me.CpuPercentageUsage, 4))
+            Case "KernelCpuTime"
+                Dim ts As Date = Me.KernelTime
+                res = String.Format("{0:00}", ts.Hour) & ":" & _
+                    String.Format("{0:00}", ts.Minute) & ":" & _
+                    String.Format("{0:00}", ts.Second) & ":" & _
+                    String.Format("{000}", ts.Millisecond)
+            Case "UserCpuTime"
+                Dim ts As Date = Me.UserTime
+                res = String.Format("{0:00}", ts.Hour) & ":" & _
+                    String.Format("{0:00}", ts.Minute) & ":" & _
+                    String.Format("{0:00}", ts.Second) & ":" & _
+                    String.Format("{000}", ts.Millisecond)
+            Case "TotalCpuTime"
+                Dim ts As Date = Me.ProcessorTime
+                res = String.Format("{0:00}", ts.Hour) & ":" & _
+                    String.Format("{0:00}", ts.Minute) & ":" & _
+                    String.Format("{0:00}", ts.Second) & ":" & _
+                    String.Format("{000}", ts.Millisecond)
+            Case "StartTime"
+                Dim ts As Date = Me.StartTime
+                res = ts.ToLongDateString & " -- " & ts.ToLongTimeString
+            Case "WorkingSet"
+                res = CStr(mem.WorkingSetSize)
+            Case "PeakWorkingSet"
+                res = CStr(mem.PeakWorkingSetSize)
+            Case "PageFaultCount"
+                res = CStr(mem.PageFaultCount)
+            Case "PagefileUsage"
+                res = CStr(mem.PagefileUsage)
+            Case "PeakPagefileUsage"
+                res = CStr(mem.PeakPagefileUsage)
+            Case "QuotaPeakPagedPoolUsage"
+                res = CStr(mem.QuotaPeakPagedPoolUsage)
+            Case "QuotaPagedPoolUsage"
+                res = CStr(mem.QuotaPagedPoolUsage)
+            Case "QuotaPeakNonPagedPoolUsage"
+                res = CStr(mem.QuotaPeakNonPagedPoolUsage)
+            Case "QuotaNonPagedPoolUsage"
+                res = CStr(mem.QuotaNonPagedPoolUsage)
+            Case "Priority"
+                res = Me.PriorityClass.ToString
+            Case "Path"
+                res = Me.Path
+            Case "Description"
+                res = Me.MainModule.FileVersionInfo.FileDescription
+            Case "Copyright"
+                res = Me.MainModule.FileVersionInfo.LegalCopyright
+            Case "Version"
+                res = Me.MainModule.FileVersionInfo.FileVersion
+            Case "Name"
+                res = Me.Name
+        End Select
+        Return res
+    End Function
+
 
 
     ' ========================================
     ' Shared functions
     ' ========================================
+
+    ' Retrieve all information's names availables
+    Public Shared Function GetAvailableProperties() As String()
+        Dim s(20) As String
+
+        s(0) = "PID"
+        s(1) = "UserName"
+        s(2) = "CpuUage"
+        s(3) = "KernelCpuTime"
+        s(4) = "UserCpuTime"
+        s(5) = "TotalCpuTime"
+        s(6) = "StartTime"
+        s(7) = "WorkingSet"
+        s(8) = "PeakWorkingSet"
+        s(9) = "PageFaultCount"
+        s(10) = "PagefileUsage"
+        s(11) = "PeakPagefileUsage"
+        s(12) = "QuotaPeakPagedPoolUsage"
+        s(13) = "QuotaPagedPoolUsage"
+        s(14) = "QuotaPeakNonPagedPoolUsage"
+        s(15) = "QuotaNonPagedPoolUsage"
+        s(16) = "Priority"
+        s(17) = "Path"
+        s(18) = "Description"
+        s(19) = "Copyright"
+        s(20) = "Version"
+
+        Return s
+    End Function
+
     ' Retrieve process list
     ' This so much faster than VB.Net methods...
     Public Shared Function Enumerate(ByRef p() As cProcess) As Integer
@@ -744,7 +1082,7 @@ Public Class cProcess
             Case 256
                 s = "Real Time"
             Case Else
-                s = "N/A"
+                s = NO_INFO_RETRIEVED
         End Select
 
         Return s

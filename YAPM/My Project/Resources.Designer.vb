@@ -95,9 +95,23 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property hideDetails() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("hideDetails", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property info() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("info", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property lv3() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("lv3", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -112,6 +126,20 @@ Namespace My.Resources
         Friend ReadOnly Property process() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("process", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property showDetails() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("showDetails", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property tv2() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("tv2", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

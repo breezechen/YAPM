@@ -25,6 +25,7 @@ Option Strict On
 Module mdlInternet
 
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
+    Private Const NO_INFO_RETRIEVED As String = "N/A"
 
     Public Structure InternetProcessInfo
         Dim _Description As String
@@ -78,7 +79,7 @@ Module mdlInternet
                 Dim z2 As String = s.Substring(d1 + 23, d2 - d1 - 24)
                 ret._Description = Replace(z2, "<BR><BR>", vbNewLine)
             Else
-                ret._Description = "N/A"
+                ret._Description = NO_INFO_RETRIEVED
             End If
         Else
             ret._Risk = -1
