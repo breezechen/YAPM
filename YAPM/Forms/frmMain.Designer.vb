@@ -200,6 +200,9 @@ Partial Class frmMain
         Me.Tray = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.menuTooltip = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem41 = New System.Windows.Forms.ToolStripSeparator
+        Me.EnableProcessRefreshingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.EnableServiceRefreshingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem
@@ -2008,34 +2011,55 @@ Partial Class frmMain
         '
         'menuTooltip
         '
-        Me.menuTooltip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem3, Me.ToolStripSeparator1, Me.ToolStripMenuItem4, Me.ToolStripMenuItem5})
+        Me.menuTooltip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem3, Me.ToolStripMenuItem41, Me.EnableProcessRefreshingToolStripMenuItem, Me.EnableServiceRefreshingToolStripMenuItem, Me.ToolStripSeparator1, Me.ToolStripMenuItem4, Me.ToolStripMenuItem5})
         Me.menuTooltip.Name = "menuTooltip"
-        Me.menuTooltip.Size = New System.Drawing.Size(144, 76)
+        Me.menuTooltip.Size = New System.Drawing.Size(209, 126)
         '
         'ToolStripMenuItem3
         '
         Me.ToolStripMenuItem3.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ToolStripMenuItem3.Image = CType(resources.GetObject("ToolStripMenuItem3.Image"), System.Drawing.Image)
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(143, 22)
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(208, 22)
         Me.ToolStripMenuItem3.Text = "Show YAPM"
+        '
+        'ToolStripMenuItem41
+        '
+        Me.ToolStripMenuItem41.Name = "ToolStripMenuItem41"
+        Me.ToolStripMenuItem41.Size = New System.Drawing.Size(205, 6)
+        '
+        'EnableProcessRefreshingToolStripMenuItem
+        '
+        Me.EnableProcessRefreshingToolStripMenuItem.Checked = True
+        Me.EnableProcessRefreshingToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.EnableProcessRefreshingToolStripMenuItem.Name = "EnableProcessRefreshingToolStripMenuItem"
+        Me.EnableProcessRefreshingToolStripMenuItem.Size = New System.Drawing.Size(208, 22)
+        Me.EnableProcessRefreshingToolStripMenuItem.Text = "Enable process refreshing"
+        '
+        'EnableServiceRefreshingToolStripMenuItem
+        '
+        Me.EnableServiceRefreshingToolStripMenuItem.Checked = True
+        Me.EnableServiceRefreshingToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.EnableServiceRefreshingToolStripMenuItem.Name = "EnableServiceRefreshingToolStripMenuItem"
+        Me.EnableServiceRefreshingToolStripMenuItem.Size = New System.Drawing.Size(208, 22)
+        Me.EnableServiceRefreshingToolStripMenuItem.Text = "Enable service refreshing"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(140, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(205, 6)
         '
         'ToolStripMenuItem4
         '
         Me.ToolStripMenuItem4.Image = CType(resources.GetObject("ToolStripMenuItem4.Image"), System.Drawing.Image)
         Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(143, 22)
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(208, 22)
         Me.ToolStripMenuItem4.Text = "About YAPM"
         '
         'ToolStripMenuItem5
         '
         Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
-        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(143, 22)
+        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(208, 22)
         Me.ToolStripMenuItem5.Text = "Quitter"
         '
         'saveDial
@@ -6319,5 +6343,8 @@ Partial Class frmMain
     Friend WithEvents MinimizeToTrayToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem40 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ExitToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem41 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents EnableProcessRefreshingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents EnableServiceRefreshingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

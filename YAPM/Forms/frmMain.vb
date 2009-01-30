@@ -447,11 +447,11 @@ Public Class frmMain
             If p.isDisplayed = False Then
 
                 ' Add to log
-                If p.IntTag1 = 0 Then
-                    p.IntTag1 = 1
-                Else
-                    log.AppendLine("Process " & CStr(p.Pid) & " (" & p.Path & ") created")
-                End If
+                'If p.IntTag1 = 0 Then
+                '    p.IntTag1 = 1
+                'Else
+                log.AppendLine("Process " & CStr(p.Pid) & " (" & p.Path & ") created")
+                'End If
 
                 p.isDisplayed = True
 
@@ -1942,8 +1942,8 @@ Public Class frmMain
     End Sub
 
     Private Sub frmMain_VisibleChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.VisibleChanged
-        Me.timerServices.Enabled = Me.Visible
-        Me.timerProcess.Enabled = Me.Visible
+        'Me.timerServices.Enabled = Me.Visible
+        'Me.timerProcess.Enabled = Me.Visible
     End Sub
 
     Private Sub butProcessOnlineDesc_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessOnlineDesc.Click
@@ -5186,5 +5186,15 @@ Public Class frmMain
 
     Private Sub ShowLogToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowLogToolStripMenuItem.Click
         frmLog.Show()
+    End Sub
+
+    Private Sub EnableProcessRefreshingToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EnableProcessRefreshingToolStripMenuItem.Click
+        Me.EnableProcessRefreshingToolStripMenuItem.Checked = Not (Me.EnableProcessRefreshingToolStripMenuItem.Checked)
+        Me.timerProcess.Enabled = Me.EnableProcessRefreshingToolStripMenuItem.Checked
+    End Sub
+
+    Private Sub EnableServiceRefreshingToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EnableServiceRefreshingToolStripMenuItem.Click
+        Me.EnableServiceRefreshingToolStripMenuItem.Checked = Not (Me.EnableServiceRefreshingToolStripMenuItem.Checked)
+        Me.timerServices.Enabled = Me.EnableServiceRefreshingToolStripMenuItem.Checked
     End Sub
 End Class
