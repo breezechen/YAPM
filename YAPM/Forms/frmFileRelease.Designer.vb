@@ -25,7 +25,7 @@ Partial Class frmFileRelease
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmFileRelease))
         Me.cmdCheck = New System.Windows.Forms.Button
-        Me.lv = New System.Windows.Forms.ListView
+        Me.lv = New YAPM.DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.IMG = New System.Windows.Forms.ImageList(Me.components)

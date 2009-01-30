@@ -301,6 +301,7 @@ System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.Unmanage
     Private _parentId As Integer = -1               ' Parent process ID
     Private _parentName As String = ""              ' Parent process ID
     Private _mainMod As System.Diagnostics.ProcessModule
+    Private _intTag1 As Integer = 0
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
@@ -341,6 +342,15 @@ System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.Unmanage
         Get
             Return _pid
         End Get
+    End Property
+
+    Public Property IntTag1() As Integer
+        Get
+            Return _intTag1
+        End Get
+        Set(ByVal value As Integer)
+            _intTag1 = value
+        End Set
     End Property
 
     Public ReadOnly Property ParentProcessId() As Integer

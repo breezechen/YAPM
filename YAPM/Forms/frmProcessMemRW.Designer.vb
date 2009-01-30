@@ -24,7 +24,7 @@ Partial Class frmProcessMemRW
     Private Sub InitializeComponent()
         Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Available regions", System.Windows.Forms.HorizontalAlignment.Left)
         Me.pct = New System.Windows.Forms.PictureBox
-        Me.lv = New System.Windows.Forms.ListView
+        Me.lv = New YAPM.DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.Button2 = New System.Windows.Forms.Button

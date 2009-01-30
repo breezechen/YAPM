@@ -49,7 +49,7 @@ Partial Class frmMain
         Me.SplitContainerTvLv = New System.Windows.Forms.SplitContainer
         Me.tvProc = New System.Windows.Forms.TreeView
         Me.imgProcess = New System.Windows.Forms.ImageList(Me.components)
-        Me.lvProcess = New System.Windows.Forms.ListView
+        Me.lvProcess = New YAPM.DoubleBufferedLV
         Me.c1 = New System.Windows.Forms.ColumnHeader
         Me.c2 = New System.Windows.Forms.ColumnHeader
         Me.c3 = New System.Windows.Forms.ColumnHeader
@@ -164,7 +164,7 @@ Partial Class frmMain
         Me.txtSearch = New System.Windows.Forms.TextBox
         Me.timerProcess = New System.Windows.Forms.Timer(Me.components)
         Me.panelMain2 = New System.Windows.Forms.Panel
-        Me.lvServices = New System.Windows.Forms.ListView
+        Me.lvServices = New YAPM.DoubleBufferedLV
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader7 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader8 = New System.Windows.Forms.ColumnHeader
@@ -190,7 +190,7 @@ Partial Class frmMain
         Me.panelMain4 = New System.Windows.Forms.Panel
         Me.WBHelp = New System.Windows.Forms.WebBrowser
         Me.panelMain3 = New System.Windows.Forms.Panel
-        Me.lvJobs = New System.Windows.Forms.ListView
+        Me.lvJobs = New YAPM.DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
@@ -422,7 +422,7 @@ Partial Class frmMain
         Me.chkSearchServices = New System.Windows.Forms.CheckBox
         Me.chkSearchProcess = New System.Windows.Forms.CheckBox
         Me.chkSearchCase = New System.Windows.Forms.CheckBox
-        Me.lvSearchResults = New System.Windows.Forms.ListView
+        Me.lvSearchResults = New YAPM.DoubleBufferedLV
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader13 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader14 = New System.Windows.Forms.ColumnHeader
@@ -437,7 +437,7 @@ Partial Class frmMain
         Me.Label9 = New System.Windows.Forms.Label
         Me.lblHandlesCount = New System.Windows.Forms.Label
         Me.txtSearchHandle = New System.Windows.Forms.TextBox
-        Me.lvHandles = New System.Windows.Forms.ListView
+        Me.lvHandles = New YAPM.DoubleBufferedLV
         Me.ColumnHeader24 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader25 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader26 = New System.Windows.Forms.ColumnHeader
@@ -471,7 +471,7 @@ Partial Class frmMain
         Me.Label8 = New System.Windows.Forms.Label
         Me.lblThreadResults = New System.Windows.Forms.Label
         Me.txtSearchThread = New System.Windows.Forms.TextBox
-        Me.lvThreads = New System.Windows.Forms.ListView
+        Me.lvThreads = New YAPM.DoubleBufferedLV
         Me.ColumnHeader32 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader33 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader34 = New System.Windows.Forms.ColumnHeader
@@ -501,7 +501,7 @@ Partial Class frmMain
         Me.Label10 = New System.Windows.Forms.Label
         Me.lblWindowsCount = New System.Windows.Forms.Label
         Me.txtSearchWindow = New System.Windows.Forms.TextBox
-        Me.lvWindows = New System.Windows.Forms.ListView
+        Me.lvWindows = New YAPM.DoubleBufferedLV
         Me.ColumnHeader30 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader31 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader39 = New System.Windows.Forms.ColumnHeader
@@ -519,7 +519,7 @@ Partial Class frmMain
         Me.Label7 = New System.Windows.Forms.Label
         Me.lblModulesCount = New System.Windows.Forms.Label
         Me.txtSearchModule = New System.Windows.Forms.TextBox
-        Me.lvModules = New System.Windows.Forms.ListView
+        Me.lvModules = New YAPM.DoubleBufferedLV
         Me.ColumnHeader29 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader43 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader44 = New System.Windows.Forms.ColumnHeader
@@ -535,6 +535,11 @@ Partial Class frmMain
         Me.GoogleSearchToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
         Me.rtb6 = New System.Windows.Forms.RichTextBox
         Me.cmdTray = New System.Windows.Forms.Button
+        Me.mainMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ShowLogToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.MinimizeToTrayToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem40 = New System.Windows.Forms.ToolStripSeparator
+        Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
         Me.SplitContainerProcess.Panel2.SuspendLayout()
@@ -624,6 +629,7 @@ Partial Class frmMain
         Me.SplitContainerModules.Panel2.SuspendLayout()
         Me.SplitContainerModules.SuspendLayout()
         Me.menuModule.SuspendLayout()
+        Me.mainMenu.SuspendLayout()
         Me.SuspendLayout()
         '
         'imgMain
@@ -675,7 +681,7 @@ Partial Class frmMain
         '
         Me.SplitContainerTvLv.Panel2.Controls.Add(Me.lvProcess)
         Me.SplitContainerTvLv.Size = New System.Drawing.Size(560, 211)
-        Me.SplitContainerTvLv.SplitterDistance = 177
+        Me.SplitContainerTvLv.SplitterDistance = 149
         Me.SplitContainerTvLv.TabIndex = 4
         '
         'tvProc
@@ -694,7 +700,7 @@ Partial Class frmMain
         TreeNode2.Text = "[System process]"
         Me.tvProc.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode2})
         Me.tvProc.SelectedImageIndex = 0
-        Me.tvProc.Size = New System.Drawing.Size(177, 211)
+        Me.tvProc.Size = New System.Drawing.Size(149, 211)
         Me.tvProc.TabIndex = 4
         '
         'imgProcess
@@ -718,7 +724,8 @@ Partial Class frmMain
         Me.lvProcess.HideSelection = False
         Me.lvProcess.Location = New System.Drawing.Point(0, 0)
         Me.lvProcess.Name = "lvProcess"
-        Me.lvProcess.Size = New System.Drawing.Size(379, 211)
+        Me.lvProcess.OverriddenDoubleBuffered = True
+        Me.lvProcess.Size = New System.Drawing.Size(407, 211)
         Me.lvProcess.SmallImageList = Me.imgProcess
         Me.lvProcess.TabIndex = 3
         Me.lvProcess.UseCompatibleStateImageBehavior = False
@@ -1767,6 +1774,7 @@ Partial Class frmMain
         Me.lvServices.HideSelection = False
         Me.lvServices.Location = New System.Drawing.Point(0, 0)
         Me.lvServices.Name = "lvServices"
+        Me.lvServices.OverriddenDoubleBuffered = True
         Me.lvServices.Size = New System.Drawing.Size(560, 240)
         Me.lvServices.SmallImageList = Me.imgServices
         Me.lvServices.TabIndex = 0
@@ -1955,6 +1963,7 @@ Partial Class frmMain
         Me.lvJobs.HideSelection = False
         Me.lvJobs.Location = New System.Drawing.Point(0, 0)
         Me.lvJobs.Name = "lvJobs"
+        Me.lvJobs.OverriddenDoubleBuffered = True
         Me.lvJobs.Size = New System.Drawing.Size(560, 240)
         Me.lvJobs.SmallImageList = Me.imgProcess
         Me.lvJobs.TabIndex = 0
@@ -4627,6 +4636,7 @@ Partial Class frmMain
         Me.lvSearchResults.HideSelection = False
         Me.lvSearchResults.Location = New System.Drawing.Point(0, 0)
         Me.lvSearchResults.Name = "lvSearchResults"
+        Me.lvSearchResults.OverriddenDoubleBuffered = True
         Me.lvSearchResults.Size = New System.Drawing.Size(565, 217)
         Me.lvSearchResults.SmallImageList = Me.imgSearch
         Me.lvSearchResults.TabIndex = 3
@@ -4759,6 +4769,7 @@ Partial Class frmMain
         Me.lvHandles.HideSelection = False
         Me.lvHandles.Location = New System.Drawing.Point(0, 0)
         Me.lvHandles.Name = "lvHandles"
+        Me.lvHandles.OverriddenDoubleBuffered = True
         Me.lvHandles.Size = New System.Drawing.Size(565, 247)
         Me.lvHandles.SmallImageList = Me.imgServices
         Me.lvHandles.TabIndex = 3
@@ -5122,6 +5133,7 @@ Partial Class frmMain
         Me.lvThreads.HideSelection = False
         Me.lvThreads.Location = New System.Drawing.Point(0, 0)
         Me.lvThreads.Name = "lvThreads"
+        Me.lvThreads.OverriddenDoubleBuffered = True
         Me.lvThreads.Size = New System.Drawing.Size(565, 159)
         Me.lvThreads.SmallImageList = Me.imgServices
         Me.lvThreads.TabIndex = 3
@@ -5375,6 +5387,7 @@ Partial Class frmMain
         Me.lvWindows.HideSelection = False
         Me.lvWindows.Location = New System.Drawing.Point(0, 0)
         Me.lvWindows.Name = "lvWindows"
+        Me.lvWindows.OverriddenDoubleBuffered = True
         Me.lvWindows.Size = New System.Drawing.Size(565, 143)
         Me.lvWindows.SmallImageList = Me.imgWindows
         Me.lvWindows.TabIndex = 5
@@ -5530,6 +5543,7 @@ Partial Class frmMain
         Me.lvModules.HideSelection = False
         Me.lvModules.Location = New System.Drawing.Point(0, 0)
         Me.lvModules.Name = "lvModules"
+        Me.lvModules.OverriddenDoubleBuffered = True
         Me.lvModules.Size = New System.Drawing.Size(565, 143)
         Me.lvModules.SmallImageList = Me.imgSearch
         Me.lvModules.TabIndex = 6
@@ -5626,6 +5640,7 @@ Partial Class frmMain
         '
         'cmdTray
         '
+        Me.cmdTray.ContextMenuStrip = Me.mainMenu
         Me.cmdTray.Font = New System.Drawing.Font("Tahoma", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmdTray.Image = Global.YAPM.My.Resources.Resources.down
         Me.cmdTray.Location = New System.Drawing.Point(5, 2)
@@ -5633,6 +5648,37 @@ Partial Class frmMain
         Me.cmdTray.Size = New System.Drawing.Size(38, 20)
         Me.cmdTray.TabIndex = 45
         Me.cmdTray.UseVisualStyleBackColor = True
+        '
+        'mainMenu
+        '
+        Me.mainMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowLogToolStripMenuItem, Me.MinimizeToTrayToolStripMenuItem, Me.ToolStripMenuItem40, Me.ExitToolStripMenuItem})
+        Me.mainMenu.Name = "mainMenu"
+        Me.mainMenu.Size = New System.Drawing.Size(161, 76)
+        '
+        'ShowLogToolStripMenuItem
+        '
+        Me.ShowLogToolStripMenuItem.Image = CType(resources.GetObject("ShowLogToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.ShowLogToolStripMenuItem.Name = "ShowLogToolStripMenuItem"
+        Me.ShowLogToolStripMenuItem.Size = New System.Drawing.Size(160, 22)
+        Me.ShowLogToolStripMenuItem.Text = "Show log"
+        '
+        'MinimizeToTrayToolStripMenuItem
+        '
+        Me.MinimizeToTrayToolStripMenuItem.Image = CType(resources.GetObject("MinimizeToTrayToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.MinimizeToTrayToolStripMenuItem.Name = "MinimizeToTrayToolStripMenuItem"
+        Me.MinimizeToTrayToolStripMenuItem.Size = New System.Drawing.Size(160, 22)
+        Me.MinimizeToTrayToolStripMenuItem.Text = "Minimize to tray"
+        '
+        'ToolStripMenuItem40
+        '
+        Me.ToolStripMenuItem40.Name = "ToolStripMenuItem40"
+        Me.ToolStripMenuItem40.Size = New System.Drawing.Size(157, 6)
+        '
+        'ExitToolStripMenuItem
+        '
+        Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(160, 22)
+        Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'frmMain
         '
@@ -5771,6 +5817,7 @@ Partial Class frmMain
         Me.SplitContainerModules.Panel2.ResumeLayout(False)
         Me.SplitContainerModules.ResumeLayout(False)
         Me.menuModule.ResumeLayout(False)
+        Me.mainMenu.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -5781,7 +5828,6 @@ Partial Class frmMain
     Friend WithEvents txtSearch As System.Windows.Forms.TextBox
     Friend WithEvents imgMain As System.Windows.Forms.ImageList
     Friend WithEvents panelMain2 As System.Windows.Forms.Panel
-    Friend WithEvents lvServices As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader7 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader8 As System.Windows.Forms.ColumnHeader
@@ -5951,7 +5997,6 @@ Partial Class frmMain
     Friend WithEvents txtSearchString As System.Windows.Forms.RibbonTextBox
     Friend WithEvents panelMain6 As System.Windows.Forms.Panel
     Friend WithEvents SplitContainerSearch As System.Windows.Forms.SplitContainer
-    Friend WithEvents lvSearchResults As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader12 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader13 As System.Windows.Forms.ColumnHeader
     Friend WithEvents Label1 As System.Windows.Forms.Label
@@ -6116,7 +6161,6 @@ Partial Class frmMain
     Friend WithEvents ToolStripMenuItem36 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ShowFileDetailsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SplitContainerModules As System.Windows.Forms.SplitContainer
-    Friend WithEvents lvModules As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader29 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader43 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader44 As System.Windows.Forms.ColumnHeader
@@ -6127,7 +6171,6 @@ Partial Class frmMain
     Friend WithEvents lblModulesCount As System.Windows.Forms.Label
     Friend WithEvents txtSearchModule As System.Windows.Forms.TextBox
     Friend WithEvents SplitContainerThreads As System.Windows.Forms.SplitContainer
-    Friend WithEvents lvThreads As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader32 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader33 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader34 As System.Windows.Forms.ColumnHeader
@@ -6142,7 +6185,6 @@ Partial Class frmMain
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents lblHandlesCount As System.Windows.Forms.Label
     Friend WithEvents txtSearchHandle As System.Windows.Forms.TextBox
-    Friend WithEvents lvHandles As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader24 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader25 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader26 As System.Windows.Forms.ColumnHeader
@@ -6151,7 +6193,6 @@ Partial Class frmMain
     Friend WithEvents ColumnHeader15 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader16 As System.Windows.Forms.ColumnHeader
     Friend WithEvents SplitContainerWindows2 As System.Windows.Forms.SplitContainer
-    Friend WithEvents lvWindows As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader30 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader31 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader39 As System.Windows.Forms.ColumnHeader
@@ -6164,7 +6205,6 @@ Partial Class frmMain
     Friend WithEvents Label11 As System.Windows.Forms.Label
     Friend WithEvents lblResultsCount As System.Windows.Forms.Label
     Friend WithEvents txtSearchResults As System.Windows.Forms.TextBox
-    Friend WithEvents lvJobs As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
@@ -6258,7 +6298,6 @@ Partial Class frmMain
     Friend WithEvents butProcessPermuteLvTv As System.Windows.Forms.RibbonButton
     Friend WithEvents SplitContainerTvLv As System.Windows.Forms.SplitContainer
     Friend WithEvents tvProc As System.Windows.Forms.TreeView
-    Friend WithEvents lvProcess As System.Windows.Forms.ListView
     Friend WithEvents c1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents c2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents c3 As System.Windows.Forms.ColumnHeader
@@ -6267,5 +6306,18 @@ Partial Class frmMain
     Friend WithEvents c7 As System.Windows.Forms.ColumnHeader
     Friend WithEvents c8 As System.Windows.Forms.ColumnHeader
     Friend WithEvents c9 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents lvProcess As YAPM.DoubleBufferedLV
+    Friend WithEvents lvServices As YAPM.DoubleBufferedLV
+    Friend WithEvents lvSearchResults As YAPM.DoubleBufferedLV
+    Friend WithEvents lvModules As YAPM.DoubleBufferedLV
+    Friend WithEvents lvThreads As YAPM.DoubleBufferedLV
+    Friend WithEvents lvHandles As YAPM.DoubleBufferedLV
+    Friend WithEvents lvWindows As YAPM.DoubleBufferedLV
+    Friend WithEvents lvJobs As YAPM.DoubleBufferedLV
+    Friend WithEvents mainMenu As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents ShowLogToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MinimizeToTrayToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem40 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ExitToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

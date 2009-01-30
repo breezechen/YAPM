@@ -27,6 +27,9 @@ Imports System.Runtime.InteropServices
 
 Public Class frmMain
 
+    Private WithEvents creg As cRegMonitor
+    Public log As New cLog
+
     <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
     Private Shared Function SendMessage(ByVal hWnd As IntPtr, ByVal Msg As Integer, ByVal wParam As Integer, ByVal lParam As Integer) As IntPtr
     End Function
@@ -88,8 +91,8 @@ Public Class frmMain
     ' ========================================
     ' Some API declaration
     ' ========================================
-    Private Declare Sub InvalidateRect Lib "user32" (ByVal hWnd As Integer, ByVal t As Integer, ByVal bErase As Integer)
-    Private Declare Sub ValidateRect Lib "user32" (ByVal hWnd As Integer, ByVal t As Integer)
+    Private Declare Function InvalidateRect Lib "user32" (ByVal hWnd As Integer, ByVal t As Integer, ByVal bErase As Integer) As Boolean
+    Private Declare Function ValidateRect Lib "user32" (ByVal hWnd As Integer, ByVal t As Integer) As Boolean
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
     'Private Declare Unicode Function SetWindowTheme Lib "uxtheme.dll" (ByVal hWnd As IntPtr, ByVal pszSubAppName As String, ByVal pszSubIdList As String) As Integer
     <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
@@ -406,6 +409,10 @@ Public Class frmMain
         ' Priority
         ' Path
 
+        'ValidateRect(Me.lvProcess.Handle.ToInt32, 0)
+        'Me.lvProcess.OverriddenDoubleBuffered = False
+        ' Me.lvProcess.BeginUpdate()
+
         ReDim proc(0)
         cProcess.Enumerate(proc)
 
@@ -413,8 +420,8 @@ Public Class frmMain
         For Each lvi In Me.lvProcess.Items
 
             ' Test if process exist
+            Dim cP As cProcess = CType(lvi.Tag, cProcess)
             For Each p In proc
-                Dim cP As cProcess = CType(lvi.Tag, cProcess)
                 If p.Pid = cP.Pid And p.Name = cP.Name Then
                     exist = True
                     p.isDisplayed = True
@@ -424,6 +431,7 @@ Public Class frmMain
 
             If exist = False Then
                 ' Process no longer exists
+                log.AppendLine("Process " & CStr(cP.Pid) & " (" & cP.Path & ") killed")
                 lvi.Remove()
             Else
 
@@ -437,6 +445,13 @@ Public Class frmMain
         For Each p In proc
 
             If p.isDisplayed = False Then
+
+                ' Add to log
+                If p.IntTag1 = 0 Then
+                    p.IntTag1 = 1
+                Else
+                    log.AppendLine("Process " & CStr(p.Pid) & " (" & p.Path & ") created")
+                End If
 
                 p.isDisplayed = True
 
@@ -569,6 +584,11 @@ Public Class frmMain
 
         Next
 
+        'InvalidateRect(Me.lvProcess.Handle.ToInt32, 0, 0)
+        'Me.lvProcess.OverriddenDoubleBuffered = True
+        '    Me.lvProcess.EndUpdate()
+
+
         ' Refresh informations about process
         If Not (Me.tabProcess.SelectedTab.Text = "Informations") Then _
             Call lvProcess_SelectedIndexChanged(Nothing, Nothing)
@@ -599,18 +619,19 @@ Public Class frmMain
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         Me.Visible = True
+        Call TakeFullPower()
         refreshProcessList()
         refreshServiceList()
 
         Application.EnableVisualStyles()
-        DoubleBufferListView(Me.lvProcess)
-        DoubleBufferListView(Me.lvHandles)
-        DoubleBufferListView(Me.lvJobs)
-        DoubleBufferListView(Me.lvModules)
-        DoubleBufferListView(Me.lvSearchResults)
-        DoubleBufferListView(Me.lvServices)
-        DoubleBufferListView(Me.lvThreads)
-        DoubleBufferListView(Me.lvWindows)
+        'DoubleBufferListView(Me.lvProcess)
+        'DoubleBufferListView(Me.lvHandles)
+        'DoubleBufferListView(Me.lvJobs)
+        'DoubleBufferListView(Me.lvModules)
+        'DoubleBufferListView(Me.lvSearchResults)
+        'DoubleBufferListView(Me.lvServices)
+        'DoubleBufferListView(Me.lvThreads)
+        'DoubleBufferListView(Me.lvWindows)
         SetWindowTheme(Me.lvProcess.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvHandles.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvJobs.Handle, "explorer", Nothing)
@@ -2106,6 +2127,7 @@ Public Class frmMain
         End If
 
         Me.lvSearchResults.Items.Clear()
+        Me.lvSearchResults.BeginUpdate()
 
         ' Refresh services and processes lists (easy way to have up to date informations)
         Call Me.refreshProcessList()
@@ -2296,6 +2318,8 @@ Public Class frmMain
             Next
         End If
 
+        Me.lvSearchResults.EndUpdate()
+
         Me.timerServices.Enabled = True
         Me.timerProcess.Enabled = True
         Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvSearchResults.Items.Count) & " search results"
@@ -2332,6 +2356,7 @@ Public Class frmMain
 
         handles_Renamed.Refresh()
         Me.lvHandles.Items.Clear()
+        Me.lvHandles.BeginUpdate()
 
         For Each id In Me.handlesToRefresh
             For i = 0 To handles_Renamed.Count - 1
@@ -2369,6 +2394,8 @@ Public Class frmMain
                 End With
             Next
         Next
+
+        Me.lvHandles.EndUpdate()
 
         If showTab Then
             Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvHandles.Items.Count) & " handles"
@@ -3289,6 +3316,7 @@ Public Class frmMain
             tt.Dispose()
         Next
         Me.lvThreads.Items.Clear()
+        Me.lvThreads.BeginUpdate()
 
         For x As Integer = 0 To UBound(threadsToRefresh)
             cThread.Enumerate(threadsToRefresh(x), t)
@@ -3326,6 +3354,8 @@ Public Class frmMain
                 End Try
             Next
         Next
+
+        Me.lvThreads.EndUpdate()
 
         If showTab Then _
             Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvThreads.Items.Count) & " threads"
@@ -3534,6 +3564,7 @@ Public Class frmMain
         '    tt.Dispose()
         'Next
         Me.lvWindows.Items.Clear()
+        Me.lvWindows.BeginUpdate()
 
         ' List once
         cWindow.Enumerate(windowsToRefresh, t)
@@ -3576,6 +3607,8 @@ Public Class frmMain
             Next
 
         End If
+
+        Me.lvWindows.EndUpdate()
 
         If showTab Then _
             Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvWindows.Items.Count) & " windows"
@@ -3900,6 +3933,7 @@ Public Class frmMain
         '    tt.Dispose()
         'Next
         Me.lvModules.Items.Clear()
+        Me.lvModules.BeginUpdate()
 
         For x As Integer = 0 To UBound(modulesToRefresh)
             cModule.Enumerate(modulesToRefresh(x), t)
@@ -3960,6 +3994,8 @@ Public Class frmMain
                 Next
             End If
         Next
+
+        Me.lvModules.EndUpdate()
 
         If showTab Then _
             Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
@@ -4768,7 +4804,7 @@ Public Class frmMain
                     s = s & "\tab PID :\tab\tab\tab\tab " & CStr(cP.Pid) & "\par"
                     s = s & "\tab Start time :\tab\tab\tab " & cP.StartTime.ToLongDateString & " -- " & cP.StartTime.ToLongTimeString & "\par"
                     s = s & "\tab Priority :\tab\tab\tab\tab " & cP.PriorityClass.ToString & "\par"
-                    s = s & "\tab User :\tab\tab\tab\tab " & cP.UserName & "\par""
+                    s = s & "\tab User :\tab\tab\tab\tab " & cP.UserName & "\par"""
                     Dim ts As Date = cP.ProcessorTime
                     Dim proctime As String = String.Format("{0:00}", ts.Hour) & ":" & _
                         String.Format("{0:00}", ts.Minute) & ":" & _
@@ -5105,5 +5141,50 @@ Public Class frmMain
                 cFile.OpenDirectory(cp.Path)
             End If
         Next
+    End Sub
+
+    Private Sub tvProc_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles tvProc.DoubleClick
+        Dim i As Integer = Me.lvProcess.View
+        i += 1
+        If i = 5 Then i = 0
+        Me.lvProcess.View = CType(i, View)
+    End Sub
+
+    Private Sub tvProc_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvProc.AfterSelect
+        creg = New cRegMonitor(cRegMonitor.KEY_TYPE.HKEY_LOCAL_MACHINE, "SYSTEM\CurrentControlSet\Services", _
+                cRegMonitor.KEY_MONITORING_TYPE.REG_NOTIFY_CHANGE_NAME)
+    End Sub
+
+    Private Sub creg_KeyAdded(ByVal key As cRegMonitor.KeyDefinition) Handles creg.KeyAdded
+        log.AppendLine("Service added : " & key.name)
+        With Me.Tray
+            .BalloonTipText = key.name
+            .BalloonTipIcon = ToolTipIcon.Info
+            .BalloonTipTitle = "A new service has been created"
+            .ShowBalloonTip(3000)
+        End With
+    End Sub
+
+    Private Sub creg_KeyDeleted(ByVal key As cRegMonitor.KeyDefinition) Handles creg.KeyDeleted
+        log.AppendLine("Service deleted : " & key.name)
+        With Me.Tray
+            .BalloonTipText = key.name
+            .BalloonTipIcon = ToolTipIcon.Info
+            .BalloonTipTitle = "A service has been deleted"
+            .ShowBalloonTip(3000)
+        End With
+    End Sub
+
+    Private Sub ExitToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem.Click
+        Me.Close()
+    End Sub
+
+    Private Sub MinimizeToTrayToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MinimizeToTrayToolStripMenuItem.Click
+        Me.Hide()
+        Me.Visible = False
+    End Sub
+
+    Private Sub ShowLogToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowLogToolStripMenuItem.Click
+        frmLog.Show()
     End Sub
 End Class

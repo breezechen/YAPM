@@ -24,6 +24,9 @@ Public Class frmSaveReport
 
 
     ' Public functions to save reports
+    Public Sub SaveReportLog()
+        '
+    End Sub
     Public Sub SaveReportServices()
         frmMain.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
         frmMain.saveDial.Title = "Save report"
@@ -802,6 +805,8 @@ Public Class frmSaveReport
                 Call Me.SaveReportProcesses()
             Case "search"
                 Call Me.SaveReportSearch()
+            Case "log"
+                Call Me.SaveReportLog()
         End Select
     End Sub
 End Class

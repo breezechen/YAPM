@@ -31,14 +31,14 @@ Partial Class frmAddProcessMonitor
         Me.Label1 = New System.Windows.Forms.Label
         Me.cmdAddToList = New System.Windows.Forms.Button
         Me.cmdRemoveFromList = New System.Windows.Forms.Button
-        Me.lstToAdd = New System.Windows.Forms.ListView
+        Me.lstToAdd = New YAPM.DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.txtHelp = New System.Windows.Forms.TextBox
-        Me.lstCounterType = New System.Windows.Forms.ListView
+        Me.lstCounterType = New YAPM.DoubleBufferedLV
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
-        Me.lstInstance = New System.Windows.Forms.ListView
+        Me.lstInstance = New YAPM.DoubleBufferedLV
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
-        Me.lstCategory = New System.Windows.Forms.ListView
+        Me.lstCategory = New YAPM.DoubleBufferedLV
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
         Me.SuspendLayout()
         '

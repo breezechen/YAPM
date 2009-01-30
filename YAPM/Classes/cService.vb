@@ -420,16 +420,39 @@ Public Class cService
     ' Enumerate services installed on computer
     Public Shared Function Enumerate(ByRef p() As cService) As Integer
 
+        ' NOT GOOD PIECE OF CODE
+        Dim key As Microsoft.Win32.RegistryKey = _
+            My.Computer.Registry.LocalMachine.OpenSubKey("SYSTEM\CurrentControlSet\Services")
+
+        Dim _s() As String = key.GetSubKeyNames
         Dim o As System.ServiceProcess.ServiceController() = System.ServiceProcess.ServiceController.GetServices()
-        Dim o1 As System.ServiceProcess.ServiceController
+
         Dim x As Integer
 
-        ReDim p(o.Length - 1)
+        ReDim p(_s.Length - 1)
         x = 0
+        Dim s As String
+        For Each s In _s
+            Dim _long As String = ""
+            Dim _status As System.ServiceProcess.ServiceControllerStatus
+            Dim _pause As Boolean = False
+            Dim _shut As Boolean = False
+            Dim _stop As Boolean = False
 
-        For Each o1 In o
-            p(x) = New cService(o1.ServiceName, o1.DisplayName, o1.Status, o1.CanPauseAndContinue, _
-                    o1.CanShutdown, o1.CanStop)
+            ' Try to get informations from ServiceController
+            Dim o1 As System.ServiceProcess.ServiceController
+            For Each o1 In o
+                If o1.ServiceName = s Then
+                    _long = o1.DisplayName
+                    _status = o1.Status
+                    _pause = o1.CanPauseAndContinue
+                    _shut = o1.CanShutdown
+                    _stop = o1.CanStop
+                    Exit For
+                End If
+            Next
+
+            p(x) = New cService(s, _long, _status, _pause, _shut, _stop)
             x += 1
         Next
 

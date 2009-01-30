@@ -55,6 +55,8 @@ Public Class frmChooseProcessColumns
             frmMain.lvProcess.Columns.Add(it.Text, 90)
         Next
 
+        'frmMain.lvProcess.Items.Clear()
+        'frmMain.refreshProcessList()
         frmMain.timerProcess.Enabled = True
         Me.Close()
     End Sub

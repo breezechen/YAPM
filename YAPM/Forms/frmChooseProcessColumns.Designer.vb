@@ -28,7 +28,7 @@ Partial Class frmChooseProcessColumns
         Me.Label1 = New System.Windows.Forms.Label
         Me.cmdSelAll = New System.Windows.Forms.Button
         Me.btnUnSelAll = New System.Windows.Forms.Button
-        Me.lv = New System.Windows.Forms.ListView
+        Me.lv = New YAPM.DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.TableLayoutPanel1.SuspendLayout()
         Me.SuspendLayout()
