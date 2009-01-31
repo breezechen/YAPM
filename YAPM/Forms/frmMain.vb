@@ -4824,7 +4824,7 @@ Public Class frmMain
                     s = s & "\tab PID :\tab\tab\tab\tab " & CStr(cP.Pid) & "\par"
                     s = s & "\tab Start time :\tab\tab\tab " & cP.StartTime.ToLongDateString & " -- " & cP.StartTime.ToLongTimeString & "\par"
                     s = s & "\tab Priority :\tab\tab\tab\tab " & cP.PriorityClass.ToString & "\par"
-                    s = s & "\tab User :\tab\tab\tab\tab " & cP.UserName & "\par"""
+                    s = s & "\tab User :\tab\tab\tab\tab " & cP.UserName & "\par"
                     Dim ts As Date = cP.ProcessorTime
                     Dim proctime As String = String.Format("{0:00}", ts.Hour) & ":" & _
                         String.Format("{0:00}", ts.Minute) & ":" & _
@@ -5279,5 +5279,48 @@ Public Class frmMain
             it.SubItems(1).Text = cPrivileges.PrivilegeStatusToString(cPriv.Privilege(it.Text))
             it.BackColor = cPrivileges.GetColorFromStatus(cPriv.Privilege(it.Text))
         Next
+    End Sub
+	
+	Private Sub lvPrivileges_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvPrivileges.ColumnClick
+        ' Get the new sorting column.
+        Dim new_sorting_column As ColumnHeader = _
+            lvPrivileges.Columns(e.Column)
+
+        ' Figure out the new sorting order.
+        Dim sort_order As System.Windows.Forms.SortOrder
+        If m_SortingColumn Is Nothing Then
+            ' New column. Sort ascending.
+            sort_order = SortOrder.Ascending
+        Else
+            ' See if this is the same column.
+            If new_sorting_column.Equals(m_SortingColumn) Then
+                ' Same column. Switch the sort order.
+                If m_SortingColumn.Text.StartsWith("> ") Then
+                    sort_order = SortOrder.Descending
+                Else
+                    sort_order = SortOrder.Ascending
+                End If
+            Else
+                ' New column. Sort ascending.
+                sort_order = SortOrder.Ascending
+            End If
+
+            ' Remove the old sort indicator.
+            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
+        End If
+
+        ' Display the new sort order.
+        m_SortingColumn = new_sorting_column
+        If sort_order = SortOrder.Ascending Then
+            m_SortingColumn.Text = "> " & m_SortingColumn.Text
+        Else
+            m_SortingColumn.Text = "< " & m_SortingColumn.Text
+        End If
+
+        ' Create a comparer.
+        lvPrivileges.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
+
+        ' Sort.
+        lvPrivileges.Sort()
     End Sub
 End Class
