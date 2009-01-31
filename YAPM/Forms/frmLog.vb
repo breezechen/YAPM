@@ -55,4 +55,8 @@ Public Class frmLog
     Private Sub frmLog_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Call timerRefresh_Tick(Nothing, Nothing)
     End Sub
+
+    Private Sub butConfig_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butConfig.Click
+        '   Dim c As New cPrivileges(2364)
+    End Sub
 End Class

@@ -148,6 +148,16 @@ Partial Class frmMain
         Me.Label18 = New System.Windows.Forms.Label
         Me.TabPage3 = New System.Windows.Forms.TabPage
         Me.TabPage4 = New System.Windows.Forms.TabPage
+        Me.tabProcessToken = New System.Windows.Forms.TabControl
+        Me.tabProcessTokenPagePrivileges = New System.Windows.Forms.TabPage
+        Me.lvPrivileges = New YAPM.DoubleBufferedLV
+        Me.ColumnHeader50 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader51 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader52 = New System.Windows.Forms.ColumnHeader
+        Me.menuPrivileges = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ToolStripMenuItem44 = New System.Windows.Forms.ToolStripMenuItem
+        Me.DisableToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.RemoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.TabPage5 = New System.Windows.Forms.TabPage
         Me.TabPage6 = New System.Windows.Forms.TabPage
         Me.SplitContainerInfoProcess = New System.Windows.Forms.SplitContainer
@@ -537,12 +547,12 @@ Partial Class frmMain
         Me.ToolStripMenuItem39 = New System.Windows.Forms.ToolStripSeparator
         Me.GoogleSearchToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
         Me.rtb6 = New System.Windows.Forms.RichTextBox
-        Me.cmdTray = New System.Windows.Forms.Button
         Me.mainMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ShowLogToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MinimizeToTrayToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem40 = New System.Windows.Forms.ToolStripSeparator
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.cmdTray = New System.Windows.Forms.Button
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
         Me.SplitContainerProcess.Panel2.SuspendLayout()
@@ -563,6 +573,10 @@ Partial Class frmMain
         Me.GroupBox5.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
+        Me.TabPage4.SuspendLayout()
+        Me.tabProcessToken.SuspendLayout()
+        Me.tabProcessTokenPagePrivileges.SuspendLayout()
+        Me.menuPrivileges.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.SplitContainerInfoProcess.Panel1.SuspendLayout()
         Me.SplitContainerInfoProcess.Panel2.SuspendLayout()
@@ -1579,6 +1593,7 @@ Partial Class frmMain
         '
         'TabPage4
         '
+        Me.TabPage4.Controls.Add(Me.tabProcessToken)
         Me.TabPage4.ImageIndex = 3
         Me.TabPage4.Location = New System.Drawing.Point(4, 23)
         Me.TabPage4.Name = "TabPage4"
@@ -1587,6 +1602,84 @@ Partial Class frmMain
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "Token"
         Me.TabPage4.UseVisualStyleBackColor = True
+        '
+        'tabProcessToken
+        '
+        Me.tabProcessToken.Controls.Add(Me.tabProcessTokenPagePrivileges)
+        Me.tabProcessToken.Location = New System.Drawing.Point(6, 6)
+        Me.tabProcessToken.Name = "tabProcessToken"
+        Me.tabProcessToken.SelectedIndex = 0
+        Me.tabProcessToken.Size = New System.Drawing.Size(621, 181)
+        Me.tabProcessToken.TabIndex = 0
+        '
+        'tabProcessTokenPagePrivileges
+        '
+        Me.tabProcessTokenPagePrivileges.Controls.Add(Me.lvPrivileges)
+        Me.tabProcessTokenPagePrivileges.Location = New System.Drawing.Point(4, 22)
+        Me.tabProcessTokenPagePrivileges.Name = "tabProcessTokenPagePrivileges"
+        Me.tabProcessTokenPagePrivileges.Padding = New System.Windows.Forms.Padding(3)
+        Me.tabProcessTokenPagePrivileges.Size = New System.Drawing.Size(613, 155)
+        Me.tabProcessTokenPagePrivileges.TabIndex = 0
+        Me.tabProcessTokenPagePrivileges.Text = "Privileges"
+        Me.tabProcessTokenPagePrivileges.UseVisualStyleBackColor = True
+        '
+        'lvPrivileges
+        '
+        Me.lvPrivileges.AllowColumnReorder = True
+        Me.lvPrivileges.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader50, Me.ColumnHeader51, Me.ColumnHeader52})
+        Me.lvPrivileges.ContextMenuStrip = Me.menuPrivileges
+        Me.lvPrivileges.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvPrivileges.FullRowSelect = True
+        Me.lvPrivileges.HideSelection = False
+        Me.lvPrivileges.Location = New System.Drawing.Point(3, 3)
+        Me.lvPrivileges.Name = "lvPrivileges"
+        Me.lvPrivileges.OverriddenDoubleBuffered = True
+        Me.lvPrivileges.Size = New System.Drawing.Size(607, 149)
+        Me.lvPrivileges.TabIndex = 4
+        Me.lvPrivileges.UseCompatibleStateImageBehavior = False
+        Me.lvPrivileges.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader50
+        '
+        Me.ColumnHeader50.Text = "Name"
+        Me.ColumnHeader50.Width = 191
+        '
+        'ColumnHeader51
+        '
+        Me.ColumnHeader51.Text = "Status"
+        Me.ColumnHeader51.Width = 100
+        '
+        'ColumnHeader52
+        '
+        Me.ColumnHeader52.Text = "Description"
+        Me.ColumnHeader52.Width = 271
+        '
+        'menuPrivileges
+        '
+        Me.menuPrivileges.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem44, Me.DisableToolStripMenuItem, Me.RemoveToolStripMenuItem})
+        Me.menuPrivileges.Name = "mainMenu"
+        Me.menuPrivileges.Size = New System.Drawing.Size(118, 70)
+        '
+        'ToolStripMenuItem44
+        '
+        Me.ToolStripMenuItem44.Image = Global.YAPM.My.Resources.Resources.ok
+        Me.ToolStripMenuItem44.Name = "ToolStripMenuItem44"
+        Me.ToolStripMenuItem44.Size = New System.Drawing.Size(117, 22)
+        Me.ToolStripMenuItem44.Text = "Enable"
+        '
+        'DisableToolStripMenuItem
+        '
+        Me.DisableToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.close
+        Me.DisableToolStripMenuItem.Name = "DisableToolStripMenuItem"
+        Me.DisableToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
+        Me.DisableToolStripMenuItem.Text = "Disable"
+        '
+        'RemoveToolStripMenuItem
+        '
+        Me.RemoveToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.kill
+        Me.RemoveToolStripMenuItem.Name = "RemoveToolStripMenuItem"
+        Me.RemoveToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
+        Me.RemoveToolStripMenuItem.Text = "Remove"
         '
         'TabPage5
         '
@@ -5662,17 +5755,6 @@ Partial Class frmMain
         Me.rtb6.TabIndex = 8
         Me.rtb6.Text = "Click on an item to get additionnal informations"
         '
-        'cmdTray
-        '
-        Me.cmdTray.ContextMenuStrip = Me.mainMenu
-        Me.cmdTray.Font = New System.Drawing.Font("Tahoma", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdTray.Image = Global.YAPM.My.Resources.Resources.down
-        Me.cmdTray.Location = New System.Drawing.Point(5, 2)
-        Me.cmdTray.Name = "cmdTray"
-        Me.cmdTray.Size = New System.Drawing.Size(38, 20)
-        Me.cmdTray.TabIndex = 45
-        Me.cmdTray.UseVisualStyleBackColor = True
-        '
         'mainMenu
         '
         Me.mainMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowLogToolStripMenuItem, Me.MinimizeToTrayToolStripMenuItem, Me.ToolStripMenuItem40, Me.ExitToolStripMenuItem})
@@ -5703,6 +5785,17 @@ Partial Class frmMain
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
         Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(160, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
+        '
+        'cmdTray
+        '
+        Me.cmdTray.ContextMenuStrip = Me.mainMenu
+        Me.cmdTray.Font = New System.Drawing.Font("Tahoma", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdTray.Image = Global.YAPM.My.Resources.Resources.down
+        Me.cmdTray.Location = New System.Drawing.Point(5, 2)
+        Me.cmdTray.Name = "cmdTray"
+        Me.cmdTray.Size = New System.Drawing.Size(38, 20)
+        Me.cmdTray.TabIndex = 45
+        Me.cmdTray.UseVisualStyleBackColor = True
         '
         'frmMain
         '
@@ -5758,6 +5851,10 @@ Partial Class frmMain
         Me.GroupBox3.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
+        Me.TabPage4.ResumeLayout(False)
+        Me.tabProcessToken.ResumeLayout(False)
+        Me.tabProcessTokenPagePrivileges.ResumeLayout(False)
+        Me.menuPrivileges.ResumeLayout(False)
         Me.TabPage6.ResumeLayout(False)
         Me.SplitContainerInfoProcess.Panel1.ResumeLayout(False)
         Me.SplitContainerInfoProcess.Panel1.PerformLayout()
@@ -6346,5 +6443,15 @@ Partial Class frmMain
     Friend WithEvents ToolStripMenuItem41 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents EnableProcessRefreshingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents EnableServiceRefreshingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents tabProcessToken As System.Windows.Forms.TabControl
+    Friend WithEvents tabProcessTokenPagePrivileges As System.Windows.Forms.TabPage
+    Friend WithEvents lvPrivileges As YAPM.DoubleBufferedLV
+    Friend WithEvents ColumnHeader50 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader51 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader52 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents menuPrivileges As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents ToolStripMenuItem44 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DisableToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RemoveToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

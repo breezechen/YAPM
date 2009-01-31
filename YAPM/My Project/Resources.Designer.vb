@@ -74,6 +74,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property close() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("close", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property copy16() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("copy16", resourceCulture)
@@ -154,6 +161,13 @@ Namespace My.Resources
         Friend ReadOnly Property monitoring2() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("monitoring2", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property ok() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("ok", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

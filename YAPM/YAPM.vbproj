@@ -201,6 +201,7 @@
     <Compile Include="Classes\clsOpenedHandles.vb" />
     <Compile Include="Classes\cModule.vb" />
     <Compile Include="Classes\cMonitor.vb" />
+    <Compile Include="Classes\cPrivileges.vb" />
     <Compile Include="Classes\cProcess.vb" />
     <Compile Include="Classes\cProcessMemRW.vb" />
     <Compile Include="Classes\cRegMonitor.vb" />
@@ -302,6 +303,8 @@
     <None Include="Misc\copy16.gif" />
     <None Include="Misc\magnify16.gif" />
     <None Include="Misc\ie7_16.gif" />
+    <None Include="Misc\ok.gif" />
+    <None Include="Misc\close.gif" />
     <Content Include="process.ico" />
     <Content Include="process_custom.ico" />
   </ItemGroup>

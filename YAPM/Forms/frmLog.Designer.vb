@@ -89,7 +89,6 @@ Partial Class frmLog
         '
         Me.butConfig.AltKey = Nothing
         Me.butConfig.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butConfig.Enabled = False
         Me.butConfig.Image = CType(resources.GetObject("butConfig.Image"), System.Drawing.Image)
         Me.butConfig.SmallImage = CType(resources.GetObject("butConfig.SmallImage"), System.Drawing.Image)
         Me.butConfig.Style = System.Windows.Forms.RibbonButtonStyle.Normal

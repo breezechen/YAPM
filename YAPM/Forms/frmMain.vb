@@ -590,7 +590,7 @@ Public Class frmMain
 
 
         ' Refresh informations about process
-        If Not (Me.tabProcess.SelectedTab.Text = "Informations") Then _
+        If Not (Me.tabProcess.SelectedTab.Text = "Informations" Or Me.tabProcess.SelectedTab.Text = "Token") Then _
             Call lvProcess_SelectedIndexChanged(Nothing, Nothing)
 
         test = GetTickCount - test
@@ -635,6 +635,7 @@ Public Class frmMain
         SetWindowTheme(Me.lvProcess.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvHandles.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvJobs.Handle, "explorer", Nothing)
+        SetWindowTheme(Me.lvPrivileges.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvWindows.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvSearchResults.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvModules.Handle, "explorer", Nothing)
@@ -4783,6 +4784,25 @@ Public Class frmMain
 
             Case "Token"
 
+                ' Privileges
+                Dim cPriv As New cPrivileges(cP.Pid)
+                Dim lPriv() As cPrivileges.PrivilegeInfo = cPriv.GetPrivilegesList
+
+                Me.lvPrivileges.Items.Clear()
+
+                For Each l As cPrivileges.PrivilegeInfo In lPriv
+                    Dim newIt As New ListViewItem(l.Name)
+                    Dim sub1 As New ListViewItem.ListViewSubItem
+                    sub1.Text = cPrivileges.PrivilegeStatusToString(l.Status)
+                    Dim sub2 As New ListViewItem.ListViewSubItem
+                    sub2.Text = "N/A"
+                    newIt.SubItems.Add(sub1)
+                    newIt.SubItems.Add(sub2)
+                    newIt.BackColor = cPrivileges.GetColorFromStatus(l.Status)
+                    Me.lvPrivileges.Items.Add(newIt)
+                Next
+
+
             Case "Informations"
 
                 ' Description
@@ -5196,5 +5216,68 @@ Public Class frmMain
     Private Sub EnableServiceRefreshingToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EnableServiceRefreshingToolStripMenuItem.Click
         Me.EnableServiceRefreshingToolStripMenuItem.Checked = Not (Me.EnableServiceRefreshingToolStripMenuItem.Checked)
         Me.timerServices.Enabled = Me.EnableServiceRefreshingToolStripMenuItem.Checked
+    End Sub
+
+    Private Sub ToolStripMenuItem44_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem44.Click
+        Dim pid As Integer = 0
+        If lvProcess.SelectedItems.Count = 1 Then
+            Dim ite As ListViewItem = lvProcess.SelectedItems.Item(0)
+            If TypeOf ite.Tag Is cProcess Then
+                Dim cP As cProcess = CType(ite.Tag, cProcess)
+                pid = cP.Pid
+            End If
+        End If
+
+        If pid < 4 Then Exit Sub
+
+        Dim cPriv As New cPrivileges(pid)
+        Dim it As ListViewItem
+        For Each it In Me.lvPrivileges.SelectedItems
+            cPriv.Privilege(it.Text) = cPrivileges.PrivilegeStatus.PRIVILEGE_ENABLED
+            it.SubItems(1).Text = cPrivileges.PrivilegeStatusToString(cPriv.Privilege(it.Text))
+            it.BackColor = cPrivileges.GetColorFromStatus(cPriv.Privilege(it.Text))
+        Next
+    End Sub
+
+    Private Sub DisableToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisableToolStripMenuItem.Click
+        Dim pid As Integer = 0
+        If lvProcess.SelectedItems.Count = 1 Then
+            Dim ite As ListViewItem = lvProcess.SelectedItems.Item(0)
+            If TypeOf ite.Tag Is cProcess Then
+                Dim cP As cProcess = CType(ite.Tag, cProcess)
+                pid = cP.Pid
+            End If
+        End If
+
+        If pid < 4 Then Exit Sub
+
+        Dim cPriv As New cPrivileges(pid)
+        Dim it As ListViewItem
+        For Each it In Me.lvPrivileges.SelectedItems
+            cPriv.Privilege(it.Text) = cPrivileges.PrivilegeStatus.PRIVILEGE_DISBALED
+            it.SubItems(1).Text = cPrivileges.PrivilegeStatusToString(cPriv.Privilege(it.Text))
+            it.BackColor = cPrivileges.GetColorFromStatus(cPriv.Privilege(it.Text))
+        Next
+    End Sub
+
+    Private Sub RemoveToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveToolStripMenuItem.Click
+        Dim pid As Integer = 0
+        If lvProcess.SelectedItems.Count = 1 Then
+            Dim ite As ListViewItem = lvProcess.SelectedItems.Item(0)
+            If TypeOf ite.Tag Is cProcess Then
+                Dim cP As cProcess = CType(ite.Tag, cProcess)
+                pid = cP.Pid
+            End If
+        End If
+
+        If pid < 4 Then Exit Sub
+
+        Dim cPriv As New cPrivileges(pid)
+        Dim it As ListViewItem
+        For Each it In Me.lvPrivileges.SelectedItems
+            cPriv.Privilege(it.Text) = cPrivileges.PrivilegeStatus.PRIVILEGE_REMOVED
+            it.SubItems(1).Text = cPrivileges.PrivilegeStatusToString(cPriv.Privilege(it.Text))
+            it.BackColor = cPrivileges.GetColorFromStatus(cPriv.Privilege(it.Text))
+        Next
     End Sub
 End Class
