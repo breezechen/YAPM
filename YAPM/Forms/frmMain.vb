@@ -745,8 +745,6 @@ Public Class frmMain
         Me.panelMain4.Top = 120
         Me.panelMain5.Left = 5
         Me.panelMain5.Top = 120
-        Me.panelInfos2.Left = 5
-        Me.panelInfos2.Top = 307
         Me.panelMain6.Left = 5
         Me.panelMain6.Top = 120
         Me.panelMain7.Left = 5
@@ -818,216 +816,36 @@ Public Class frmMain
         Me.lstFileString.Width = Me.fileSplitContainer.Width - Me.gpFileAttributes.Width - Me.gpFileDates.Width - 10
 
         ' Services
-        Me.panelInfos2.Height = CInt(IIf(i < 210, i, 210))
-        Me.panelMain2.Height = Me.Height - Me.panelInfos2.Height - 187
-        Me.panelInfos2.Top = Me.panelMain2.Top + Me.panelMain2.Height + 3
-        Me.panelMain2.Width = Me.panelMain.Width
-        Me.panelInfos2.Width = MepanelInfonWidth
 
-        Me.lblServiceName.Width = Me.panelInfos2.Width - 140
-        Me.lblServicePath.Width = Me.lblServiceName.Width
-        Me.cmdCopyServiceToCp.Left = Me.panelInfos2.Width - 107
-        Me.tv2.Height = CInt((Me.panelInfos2.Height - 48) / 2)
-        Me.tv.Height = Me.tv2.Height
-        Me.tv.Top = Me.tv2.Top + 3 + Me.tv2.Height
-        Me.tv2.Left = Me.panelInfos2.Width - 151
-        Me.tv.Left = Me.tv2.Left
-        Me.rtb2.Height = Me.panelInfos2.Height - 45
-        Me.rtb2.Width = Me.panelInfos2.Width - 157
+        Me.panelMain2.Height = Me.panelMain.Height - 27 '- CInt(IIf(i < 210, i, 210)) - 187
+        '  Me.panelInfos2.Top = Me.panelMain2.Top + Me.panelMain2.Height + 3
+        Me.panelMain2.Width = Me.panelMain.Width
+        '  Me.panelInfos2.Width = MepanelInfonWidth
+
+        'Me.lblServiceName.Width = Me.panelInfos2.Width - 140
+        'Me.lblServicePath.Width = Me.lblServiceName.Width
+        'Me.cmdCopyServiceToCp.Left = Me.panelInfos2.Width - 107
+        'Me.tv2.Height = CInt((Me.panelInfos2.Height - 48) / 2)
+        'Me.tv.Height = Me.tv2.Height
+        'Me.tv.Top = Me.tv2.Top + 3 + Me.tv2.Height
+        'Me.tv2.Left = Me.panelInfos2.Width - 151
+        'Me.tv.Left = Me.tv2.Left
+        'Me.rtb2.Height = Me.panelInfos2.Height - 45
+        'Me.rtb2.Width = Me.panelInfos2.Width - 157
 
         ' Economize CPU :-)
-        If Me.WindowState = FormWindowState.Minimized Then
-            Me.timerProcess.Enabled = False
-            Me.timerServices.Enabled = False
-        Else
-            Me.timerProcess.Enabled = True
-            Me.timerServices.Enabled = True
-        End If
+        'If Me.WindowState = FormWindowState.Minimized Then
+        '    Me.timerProcess.Enabled = False
+        '    Me.timerServices.Enabled = False
+        'Else
+        '    Me.timerProcess.Enabled = True
+        '    Me.timerServices.Enabled = True
+        'End If
 
     End Sub
 
     Private Sub timerServices_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerServices.Tick
         refreshServiceList()
-    End Sub
-
-    Private Sub lvServices_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvServices.ColumnClick
-        ' Get the new sorting column.
-        Dim new_sorting_column As ColumnHeader = _
-            lvServices.Columns(e.Column)
-
-        ' Figure out the new sorting order.
-        Dim sort_order As System.Windows.Forms.SortOrder
-        If m_SortingColumn Is Nothing Then
-            ' New column. Sort ascending.
-            sort_order = SortOrder.Ascending
-        Else
-            ' See if this is the same column.
-            If new_sorting_column.Equals(m_SortingColumn) Then
-                ' Same column. Switch the sort order.
-                If m_SortingColumn.Text.StartsWith("> ") Then
-                    sort_order = SortOrder.Descending
-                Else
-                    sort_order = SortOrder.Ascending
-                End If
-            Else
-                ' New column. Sort ascending.
-                sort_order = SortOrder.Ascending
-            End If
-
-            ' Remove the old sort indicator.
-            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
-        End If
-
-        ' Display the new sort order.
-        m_SortingColumn = new_sorting_column
-        If sort_order = SortOrder.Ascending Then
-            m_SortingColumn.Text = "> " & m_SortingColumn.Text
-        Else
-            m_SortingColumn.Text = "< " & m_SortingColumn.Text
-        End If
-
-        ' Create a comparer.
-        lvServices.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
-
-        ' Sort.
-        lvServices.Sort()
-    End Sub
-
-    Private Sub lvServices_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvServices)
-    End Sub
-
-    Private Sub lvServices_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseUp
-        If lvServices.SelectedItems.Count = 1 Then
-            Dim s As String = lvServices.SelectedItems.Item(0).SubItems(2).Text
-            Dim s2 As String = lvServices.SelectedItems.Item(0).SubItems(3).Text
-            Dim s3 As String = lvServices.SelectedItems.Item(0).SubItems(5).Text
-            ToolStripMenuItem9.Text = CStr(IIf(s = "Running", "Pause", "Resume"))
-            ToolStripMenuItem9.Enabled = ((InStr(s3, "Pause") + InStr(s3, "Resume")) > 0)
-            ToolStripMenuItem11.Enabled = (s3.Length = 0)
-            ToolStripMenuItem10.Enabled = (InStr(s3, "Stop") > 0)
-            ShutdownToolStripMenuItem.Enabled = (InStr(s3, "Shutdown") > 0)
-            ToolStripMenuItem13.Checked = (s2 = "Disabled")
-            ToolStripMenuItem13.Enabled = Not (ToolStripMenuItem13.Checked)
-            ToolStripMenuItem14.Checked = (s2 = "Auto Start")
-            ToolStripMenuItem14.Enabled = Not (ToolStripMenuItem14.Checked)
-            ToolStripMenuItem15.Checked = (s2 = "Demand Start")
-            ToolStripMenuItem15.Enabled = Not (ToolStripMenuItem15.Checked)
-        ElseIf lvServices.SelectedItems.Count > 1 Then
-            ToolStripMenuItem9.Text = "Pause"
-            ToolStripMenuItem9.Enabled = True
-            ToolStripMenuItem11.Enabled = True
-            ToolStripMenuItem10.Enabled = True
-            ShutdownToolStripMenuItem.Enabled = True
-            ToolStripMenuItem13.Checked = True
-            ToolStripMenuItem13.Enabled = True
-            ToolStripMenuItem14.Checked = True
-            ToolStripMenuItem14.Enabled = True
-            ToolStripMenuItem15.Checked = True
-            ToolStripMenuItem15.Enabled = True
-        End If
-    End Sub
-
-    Private Sub lvServices_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvServices.SelectedIndexChanged
-        ' New service selected
-        If lvServices.SelectedItems.Count = 1 Then
-            Dim it As ListViewItem = lvServices.SelectedItems.Item(0)
-            Try
-                Dim cS As cService = CType(it.Tag, cService)
-
-                Me.lblServiceName.Text = "Service name : " & it.Text
-                Me.lblServicePath.Text = "Service path : " & it.SubItems(4).Text
-
-                ' Description
-                Dim s As String = vbNullString
-                Dim description As String = vbNullString
-                Dim diagnosticsMessageFile As String = cS.DiagnosticsMessageFile
-                Dim group As String = cS.Group
-                Dim objectName As String = cS.ObjectName
-                Dim tag As String = vbNullString
-
-                ' OK it's not the best way to retrive the description...
-                s = cS.ImagePath
-                Dim sTemp As String = cS.Description
-                If InStr(sTemp, "@", CompareMethod.Binary) > 0 Then
-                    description = cFile.IntelligentPathRetrieving(sTemp)
-                Else
-                    description = sTemp
-                End If
-
-                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Service properties\b0\par"
-                s = s & "\tab Name :\tab\tab\tab " & it.Text & "\par"
-                s = s & "\tab Common name :\tab\tab " & it.SubItems(1).Text & "\par"
-                If Len(it.SubItems(4).Text) > 0 Then s = s & "\tab Path :\tab\tab\tab " & Replace(it.SubItems(4).Text, "\", "\\") & "\par"
-                If Len(description) > 0 Then s = s & "\tab Description :\tab\tab " & description & "\par"
-                If Len(group) > 0 Then s = s & "\tab Group :\tab\tab\tab " & group & "\par"
-                If Len(objectName) > 0 Then s = s & "\tab ObjectName :\tab\tab " & objectName & "\par"
-                If Len(diagnosticsMessageFile) > 0 Then s = s & "\tab DiagnosticsMessageFile :\tab\tab " & diagnosticsMessageFile & "\par"
-                If Len(it.SubItems(2).Text) > 0 Then s = s & "\tab State :\tab\tab\tab " & it.SubItems(2).Text & "\par"
-                If Len(it.SubItems(3).Text) > 0 Then s = s & "\tab Startup :\tab\tab " & it.SubItems(3).Text & "\par"
-                If Len(it.SubItems(5).Text) > 0 Then s = s & "\tab Availables actions :\tab " & it.SubItems(5).Text & "\par"
-
-                s = s & "}"
-
-                rtb2.Rtf = s
-
-                ' Treeviews stuffs
-                Dim n As New TreeNode
-                Dim n3 As New TreeNode
-                n.Text = "Dependencies"
-                n3.Text = "Depends on"
-
-                tv.Nodes.Clear()
-                tv.Nodes.Add(n)
-                tv2.Nodes.Clear()
-                tv2.Nodes.Add(n3)
-
-                n.Expand()
-                n3.Expand()
-
-                Dim o As System.ServiceProcess.ServiceController() = System.ServiceProcess.ServiceController.GetServices()
-                Dim o1 As System.ServiceProcess.ServiceController
-
-                For Each o1 In o
-                    If o1.ServiceName = it.Text Then
-                        ' Here we have 2 recursive methods to add nodes to treeview
-                        addDependentServices(o1, n)
-                        addServicesDependedOn(o1, n3)
-                        Exit For
-                    End If
-                Next
-
-                If n.Nodes.Count > 0 Then
-                    n.ImageKey = "ko"
-                    n.SelectedImageKey = "ko"
-                Else
-                    n.ImageKey = "ok"
-                    n.SelectedImageKey = "ok"
-                End If
-                If n3.Nodes.Count > 0 Then
-                    n3.ImageKey = "ko"
-                    n3.SelectedImageKey = "ko"
-                Else
-                    n3.ImageKey = "ok"
-                    n3.SelectedImageKey = "ok"
-                End If
-
-            Catch ex As Exception
-                Dim s As String = ""
-                Dim er As Exception = ex
-
-                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
-                s = s & "\tab Message :\tab " & er.Message & "\par"
-                s = s & "\tab Source :\tab\tab " & er.Source & "\par"
-                If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
-                s = s & "}"
-
-                rtb2.Rtf = s
-            End Try
-
-        End If
     End Sub
 
 #Region "Powerfull recursives methods for treeviews"
@@ -1381,24 +1199,6 @@ Public Class frmMain
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
-    Private Sub cmdCopyServiceToCp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdCopyServiceToCp.Click
-        If Me.rtb2.Text.Length > 0 Then
-            My.Computer.Clipboard.SetText(Me.rtb2.Text, TextDataFormat.Text)
-        End If
-    End Sub
-
-    Private Sub cmdCopyServiceToCp_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles cmdCopyServiceToCp.MouseDown
-        If e.Button = Windows.Forms.MouseButtons.Right Then
-            If Me.rtb2.Rtf.Length > 0 Then
-                My.Computer.Clipboard.SetText(Me.rtb2.Rtf, TextDataFormat.Rtf)
-            End If
-        End If
-    End Sub
-
-    Private Sub rtb2_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rtb2.TextChanged
-        Me.cmdCopyServiceToCp.Enabled = (rtb2.Rtf.Length > 0)
-    End Sub
-
     Private Sub timerJobs_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerJobs.Tick
         ' Job processing
         Dim it As ListViewItem
@@ -1718,7 +1518,6 @@ Public Class frmMain
                     Me.panelMain3.Visible = False
                     Me.panelMain4.Visible = False
                     Me.panelMain5.Visible = False
-                    Me.panelInfos2.Visible = True
                     Me.chkModules.Visible = False
                     Me.panelMenu.Visible = False
                     Me.panelMenu2.Visible = True
@@ -1737,7 +1536,6 @@ Public Class frmMain
                     Me.panelMain2.Visible = False
                     Me.panelMain3.Visible = False
                     Me.panelMain4.Visible = False
-                    Me.panelInfos2.Visible = False
                     Me.chkModules.Visible = True
                     Me.panelMenu.Visible = True
                     Me.panelMain.BringToFront()
@@ -5322,5 +5120,203 @@ Public Class frmMain
 
         ' Sort.
         lvPrivileges.Sort()
+    End Sub
+
+    Private Sub cmdCopyServiceToCp_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdCopyServiceToCp.Click
+        If Me.rtb2.Text.Length > 0 Then
+            My.Computer.Clipboard.SetText(Me.rtb2.Text, TextDataFormat.Text)
+        End If
+    End Sub
+
+    Private Sub cmdCopyServiceToCp_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles cmdCopyServiceToCp.MouseDown
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            If Me.rtb2.Rtf.Length > 0 Then
+                My.Computer.Clipboard.SetText(Me.rtb2.Rtf, TextDataFormat.Rtf)
+            End If
+        End If
+    End Sub
+
+    Private Sub rtb2_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles rtb2.TextChanged
+        Me.cmdCopyServiceToCp.Enabled = (rtb2.Rtf.Length > 0)
+    End Sub
+
+    Private Sub lvServices_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvServices.ColumnClick
+        ' Get the new sorting column.
+        Dim new_sorting_column As ColumnHeader = _
+            lvServices.Columns(e.Column)
+
+        ' Figure out the new sorting order.
+        Dim sort_order As System.Windows.Forms.SortOrder
+        If m_SortingColumn Is Nothing Then
+            ' New column. Sort ascending.
+            sort_order = SortOrder.Ascending
+        Else
+            ' See if this is the same column.
+            If new_sorting_column.Equals(m_SortingColumn) Then
+                ' Same column. Switch the sort order.
+                If m_SortingColumn.Text.StartsWith("> ") Then
+                    sort_order = SortOrder.Descending
+                Else
+                    sort_order = SortOrder.Ascending
+                End If
+            Else
+                ' New column. Sort ascending.
+                sort_order = SortOrder.Ascending
+            End If
+
+            ' Remove the old sort indicator.
+            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
+        End If
+
+        ' Display the new sort order.
+        m_SortingColumn = new_sorting_column
+        If sort_order = SortOrder.Ascending Then
+            m_SortingColumn.Text = "> " & m_SortingColumn.Text
+        Else
+            m_SortingColumn.Text = "< " & m_SortingColumn.Text
+        End If
+
+        ' Create a comparer.
+        lvServices.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
+
+        ' Sort.
+        lvServices.Sort()
+    End Sub
+
+    Private Sub lvServices_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvServices)
+    End Sub
+
+    Private Sub lvServices_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseUp
+        If lvServices.SelectedItems.Count = 1 Then
+            Dim s As String = lvServices.SelectedItems.Item(0).SubItems(2).Text
+            Dim s2 As String = lvServices.SelectedItems.Item(0).SubItems(3).Text
+            Dim s3 As String = lvServices.SelectedItems.Item(0).SubItems(5).Text
+            ToolStripMenuItem9.Text = CStr(IIf(s = "Running", "Pause", "Resume"))
+            ToolStripMenuItem9.Enabled = ((InStr(s3, "Pause") + InStr(s3, "Resume")) > 0)
+            ToolStripMenuItem11.Enabled = (s3.Length = 0)
+            ToolStripMenuItem10.Enabled = (InStr(s3, "Stop") > 0)
+            ShutdownToolStripMenuItem.Enabled = (InStr(s3, "Shutdown") > 0)
+            ToolStripMenuItem13.Checked = (s2 = "Disabled")
+            ToolStripMenuItem13.Enabled = Not (ToolStripMenuItem13.Checked)
+            ToolStripMenuItem14.Checked = (s2 = "Auto Start")
+            ToolStripMenuItem14.Enabled = Not (ToolStripMenuItem14.Checked)
+            ToolStripMenuItem15.Checked = (s2 = "Demand Start")
+            ToolStripMenuItem15.Enabled = Not (ToolStripMenuItem15.Checked)
+        ElseIf lvServices.SelectedItems.Count > 1 Then
+            ToolStripMenuItem9.Text = "Pause"
+            ToolStripMenuItem9.Enabled = True
+            ToolStripMenuItem11.Enabled = True
+            ToolStripMenuItem10.Enabled = True
+            ShutdownToolStripMenuItem.Enabled = True
+            ToolStripMenuItem13.Checked = True
+            ToolStripMenuItem13.Enabled = True
+            ToolStripMenuItem14.Checked = True
+            ToolStripMenuItem14.Enabled = True
+            ToolStripMenuItem15.Checked = True
+            ToolStripMenuItem15.Enabled = True
+        End If
+    End Sub
+
+    Private Sub lvServices_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvServices.SelectedIndexChanged
+        ' New service selected
+        If lvServices.SelectedItems.Count = 1 Then
+            Dim it As ListViewItem = lvServices.SelectedItems.Item(0)
+            Try
+                Dim cS As cService = CType(it.Tag, cService)
+
+                Me.lblServiceName.Text = "Service name : " & it.Text
+                Me.lblServicePath.Text = "Service path : " & it.SubItems(4).Text
+
+                ' Description
+                Dim s As String = vbNullString
+                Dim description As String = vbNullString
+                Dim diagnosticsMessageFile As String = cS.DiagnosticsMessageFile
+                Dim group As String = cS.Group
+                Dim objectName As String = cS.ObjectName
+                Dim tag As String = vbNullString
+
+                ' OK it's not the best way to retrive the description...
+                s = cS.ImagePath
+                Dim sTemp As String = cS.Description
+                If InStr(sTemp, "@", CompareMethod.Binary) > 0 Then
+                    description = cFile.IntelligentPathRetrieving(sTemp)
+                Else
+                    description = sTemp
+                End If
+
+                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Service properties\b0\par"
+                s = s & "\tab Name :\tab\tab\tab " & it.Text & "\par"
+                s = s & "\tab Common name :\tab\tab " & it.SubItems(1).Text & "\par"
+                If Len(it.SubItems(4).Text) > 0 Then s = s & "\tab Path :\tab\tab\tab " & Replace(it.SubItems(4).Text, "\", "\\") & "\par"
+                If Len(description) > 0 Then s = s & "\tab Description :\tab\tab " & description & "\par"
+                If Len(group) > 0 Then s = s & "\tab Group :\tab\tab\tab " & group & "\par"
+                If Len(objectName) > 0 Then s = s & "\tab ObjectName :\tab\tab " & objectName & "\par"
+                If Len(diagnosticsMessageFile) > 0 Then s = s & "\tab DiagnosticsMessageFile :\tab\tab " & diagnosticsMessageFile & "\par"
+                If Len(it.SubItems(2).Text) > 0 Then s = s & "\tab State :\tab\tab\tab " & it.SubItems(2).Text & "\par"
+                If Len(it.SubItems(3).Text) > 0 Then s = s & "\tab Startup :\tab\tab " & it.SubItems(3).Text & "\par"
+                If Len(it.SubItems(5).Text) > 0 Then s = s & "\tab Availables actions :\tab " & it.SubItems(5).Text & "\par"
+
+                s = s & "}"
+
+                rtb2.Rtf = s
+
+                ' Treeviews stuffs
+                Dim n As New TreeNode
+                Dim n3 As New TreeNode
+                n.Text = "Dependencies"
+                n3.Text = "Depends on"
+
+                tv.Nodes.Clear()
+                tv.Nodes.Add(n)
+                tv2.Nodes.Clear()
+                tv2.Nodes.Add(n3)
+
+                n.Expand()
+                n3.Expand()
+
+                Dim o As System.ServiceProcess.ServiceController() = System.ServiceProcess.ServiceController.GetServices()
+                Dim o1 As System.ServiceProcess.ServiceController
+
+                For Each o1 In o
+                    If o1.ServiceName = it.Text Then
+                        ' Here we have 2 recursive methods to add nodes to treeview
+                        addDependentServices(o1, n)
+                        addServicesDependedOn(o1, n3)
+                        Exit For
+                    End If
+                Next
+
+                If n.Nodes.Count > 0 Then
+                    n.ImageKey = "ko"
+                    n.SelectedImageKey = "ko"
+                Else
+                    n.ImageKey = "ok"
+                    n.SelectedImageKey = "ok"
+                End If
+                If n3.Nodes.Count > 0 Then
+                    n3.ImageKey = "ko"
+                    n3.SelectedImageKey = "ko"
+                Else
+                    n3.ImageKey = "ok"
+                    n3.SelectedImageKey = "ok"
+                End If
+
+            Catch ex As Exception
+                Dim s As String = ""
+                Dim er As Exception = ex
+
+                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+                s = s & "\tab Message :\tab " & er.Message & "\par"
+                s = s & "\tab Source :\tab\tab " & er.Source & "\par"
+                If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
+                s = s & "}"
+
+                rtb2.Rtf = s
+            End Try
+
+        End If
     End Sub
 End Class
