@@ -1606,10 +1606,11 @@ Partial Class frmMain
         'tabProcessToken
         '
         Me.tabProcessToken.Controls.Add(Me.tabProcessTokenPagePrivileges)
-        Me.tabProcessToken.Location = New System.Drawing.Point(6, 6)
+        Me.tabProcessToken.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tabProcessToken.Location = New System.Drawing.Point(3, 3)
         Me.tabProcessToken.Name = "tabProcessToken"
         Me.tabProcessToken.SelectedIndex = 0
-        Me.tabProcessToken.Size = New System.Drawing.Size(621, 181)
+        Me.tabProcessToken.Size = New System.Drawing.Size(546, 201)
         Me.tabProcessToken.TabIndex = 0
         '
         'tabProcessTokenPagePrivileges
@@ -1618,7 +1619,7 @@ Partial Class frmMain
         Me.tabProcessTokenPagePrivileges.Location = New System.Drawing.Point(4, 22)
         Me.tabProcessTokenPagePrivileges.Name = "tabProcessTokenPagePrivileges"
         Me.tabProcessTokenPagePrivileges.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabProcessTokenPagePrivileges.Size = New System.Drawing.Size(613, 155)
+        Me.tabProcessTokenPagePrivileges.Size = New System.Drawing.Size(538, 175)
         Me.tabProcessTokenPagePrivileges.TabIndex = 0
         Me.tabProcessTokenPagePrivileges.Text = "Privileges"
         Me.tabProcessTokenPagePrivileges.UseVisualStyleBackColor = True
@@ -1634,7 +1635,7 @@ Partial Class frmMain
         Me.lvPrivileges.Location = New System.Drawing.Point(3, 3)
         Me.lvPrivileges.Name = "lvPrivileges"
         Me.lvPrivileges.OverriddenDoubleBuffered = True
-        Me.lvPrivileges.Size = New System.Drawing.Size(607, 149)
+        Me.lvPrivileges.Size = New System.Drawing.Size(532, 169)
         Me.lvPrivileges.TabIndex = 4
         Me.lvPrivileges.UseCompatibleStateImageBehavior = False
         Me.lvPrivileges.View = System.Windows.Forms.View.Details
