@@ -24,6 +24,37 @@ Option Strict On
 
 Public Class cModule
 
+#Region "API"
+
+    Private Const TH32CS_SNAPMODULE As Integer = &H8
+
+    Private Declare Function CloseHandle Lib "kernel32" (ByVal hObject As Integer) As Integer
+    Private Declare Function OpenProcess Lib "kernel32.dll" (ByVal dwDesiredAccessas As Integer, ByVal bInheritHandle As Integer, ByVal dwProcId As Integer) As Integer
+    Private Declare Function CreateToolhelpSnapshot Lib "kernel32" Alias "CreateToolhelp32Snapshot" (ByVal lFlags As Integer, ByVal lProcessID As Integer) As Integer
+    Private Declare Function CreateToolhelp32Snapshot Lib "kernel32.dll" (ByVal dwFlags As Integer, ByVal th32ProcessID As Integer) As Integer
+    Private Declare Function EnumProcessModules Lib "PSAPI.DLL" (ByVal hProcess As Integer, ByRef lphModule As Integer, ByVal cb As Integer, ByRef cbNeeded As Integer) As Integer
+    Private Declare Function GetCurrentProcess Lib "kernel32.dll" () As Integer
+    Private Declare Function Module32First Lib "kernel32.dll" (ByVal hSnapshot As Integer, ByRef lppe As MODULEENTRY32) As Integer
+    Private Declare Function Module32Next Lib "kernel32.dll" (ByVal hSnapshot As Integer, ByRef lpme As MODULEENTRY32) As Integer
+
+    Private Structure MODULEENTRY32
+        Dim dwSize As Integer
+        Dim th32ModuleID As Integer
+        Dim th32ProcessID As Integer
+        Dim GlblcntUsage As Integer
+        Dim ProccntUsage As Integer
+        Dim modBaseAddr As Integer
+        Dim modBaseSize As Integer
+        Dim hModule As Integer
+        <VBFixedString(256)> _
+        Dim szModule As String
+        <VBFixedString(260)> _
+        Dim szExeFile As String
+    End Structure
+
+#End Region
+
+
     ' ========================================
     ' Private attributes
     ' ========================================
@@ -237,8 +268,59 @@ Public Class cModule
 
     End Function
 
+    ' Enumerate 2
+    Public Shared Function EnumerateSpeed(ByVal pid As Integer) As String()
+
+        Dim lSnap As Integer
+        Dim x As Integer = 0
+        Dim mdMOD As New MODULEENTRY32
+        Dim mdTemp() As String
+        ReDim mdTemp(0)
+
+        If pid <= 4 Or pid > 4 Then
+            Return mdTemp
+        End If
+
+        lSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, pid)
+
+        mdMOD.dwSize = 548      'Len(mdMOD)
+
+        If Module32First(lSnap, mdMOD) > 0 Then
+
+            mdTemp(0) = FormatString(mdMOD.szModule)
+            mdMOD.dwSize = 548      'Len(mdMOD)
+
+            Do While Module32Next(lSnap, mdMOD) > 0
+
+                ReDim Preserve mdTemp(x)
+                mdTemp(x) = FormatString(mdMOD.szModule)
+
+                mdMOD.dwSize = 548  'Len(mdMOD)
+                x += 1
+            Loop
+        Else
+            ReDim mdTemp(1)
+        End If
+
+        CloseHandle(lSnap)
+        ReDim Preserve mdTemp(UBound(mdTemp) - 1)
+
+        Return mdTemp
+
+    End Function
+
+
     ' ========================================
     ' Private functions
     ' ========================================
+    Private Shared Function FormatString(ByRef sString As String) As String
+        Dim i As Integer = InStr(sString, vbNullChar)
+        If i > 0 Then
+            Return Trim(Left(sString, i - 1)).ToLowerInvariant
+        Else
+            Return sString.ToLowerInvariant
+        End If
+    End Function
+
 
 End Class

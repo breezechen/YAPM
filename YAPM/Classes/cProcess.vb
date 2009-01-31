@@ -31,6 +31,10 @@ Public Class cProcess
     ' API declarations
     ' ========================================
 #Region "API"
+
+    Private Declare Function CheckRemoteDebuggerPresent Lib "kernel32" (ByVal hProcess As Integer, ByRef DebuggerPresent As Boolean) As Boolean
+    Private Declare Function IsProcessInJob Lib "kernel32" (ByVal hProcess As Integer, ByVal JobHandle As Integer, ByRef Result As Boolean) As Boolean
+
     Private Declare Function CreateToolhelpSnapshot Lib "kernel32" Alias "CreateToolhelp32Snapshot" (ByVal lFlags As Integer, ByVal lProcessID As Integer) As IntPtr
     Private Declare Function ProcessFirst Lib "kernel32" Alias "Process32First" (ByVal hSnapShot As IntPtr, ByRef uProcess As ProcessEntry32) As Integer
     Private Declare Function ProcessNext Lib "kernel32" Alias "Process32Next" (ByVal hSnapShot As IntPtr, ByRef uProcess As ProcessEntry32) As Integer
@@ -338,6 +342,65 @@ System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.Unmanage
     ' ========================================
     ' Getter and setter
     ' ========================================
+    Public ReadOnly Property IsDotNet() As Boolean
+        Get
+            ' Dot net applications have loaded mscoree.dll
+            Return False
+            'Try
+            '    Dim m() As String = cModule.EnumerateSpeed(Me.Pid)
+            '    For Each m2 As ProcessModule In Me.Modules
+            '        If m2.ModuleName.ToLowerInvariant = "mscoree.dll" Then
+            '            Return True
+            '        End If
+            '    Next
+            '    Return False
+            'Catch ex As Exception
+            '    Return False
+            'End Try
+        End Get
+    End Property
+    Public ReadOnly Property IsInJob() As Boolean
+        Get
+            Dim ret As Boolean = False
+            IsProcessInJob(_hProcess, 0, ret)
+            Return ret
+        End Get
+    End Property
+    Public ReadOnly Property IsPacked() As Boolean
+        Get
+            ' TODO
+            Return False
+        End Get
+    End Property
+    Public ReadOnly Property IsElevated() As Boolean
+        Get
+            ' TODO
+            Return False
+        End Get
+    End Property
+    Public ReadOnly Property IsDebugged() As Boolean
+        Get
+            Dim ret As Boolean = False
+            CheckRemoteDebuggerPresent(_hProcess, ret)
+            Return ret
+        End Get
+    End Property
+    Public ReadOnly Property IsSystem() As Boolean
+        Get
+            ' TODO
+        End Get
+    End Property
+    Public ReadOnly Property IsService() As Boolean
+        Get
+            ' TODO
+        End Get
+    End Property
+    Public ReadOnly Property IsOwn() As Boolean
+        Get
+            ' TODO
+        End Get
+    End Property
+
     Public ReadOnly Property Pid() As Integer
         Get
             Return _pid

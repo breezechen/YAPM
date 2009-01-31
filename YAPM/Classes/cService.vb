@@ -54,6 +54,48 @@ Public Class cService
     Private Shared Function CloseServiceHandle(ByVal serviceHandle As IntPtr) As Boolean
     End Function
 
+
+
+    Private Const ERROR_MORE_DATA As Integer = 234
+    Private Const SC_ENUM_PROCESS_INFO As Integer = &H0
+    Private Const SC_MANAGER_ENUMERATE_SERVICE As Integer = &H4
+
+    Private Const SERVICE_ACTIVE As Integer = &H1
+    Private Const SERVICE_INACTIVE As Integer = &H2
+    Private Const SERVICE_STATE_ALL As Integer = (SERVICE_ACTIVE Or SERVICE_INACTIVE)
+
+    Private Const SERVICE_WIN32_OWN_PROCESS As Integer = &H10
+    Private Const SERVICE_WIN32_SHARE_PROCESS As Integer = &H20
+    Private Const SERVICE_WIN32 As Integer = SERVICE_WIN32_OWN_PROCESS + SERVICE_WIN32_SHARE_PROCESS
+
+    Public Structure SERVICE_STATUS_PROCESS
+        Dim dwServiceType As Integer
+        Dim dwCurrentState As Integer
+        Dim dwControlsAccepted As Integer
+        Dim dwWin32ExitCode As Integer
+        Dim dwServiceSpecificExitCode As Integer
+        Dim dwCheckPoint As Integer
+        Dim dwWaitHint As Integer
+        Dim dwProcessId As Integer
+        Dim dwServiceFlags As Integer
+    End Structure
+
+    Private Structure ENUM_SERVICE_STATUS_PROCESS
+        Dim lpServiceName As Integer
+        Dim lpDisplayName As Integer
+        Dim ServiceStatus As SERVICE_STATUS_PROCESS
+    End Structure
+
+    Private Declare Function EnumServicesStatusEx Lib "advapi32.dll" Alias "EnumServicesStatusExA" (ByVal hSCManager As IntPtr, ByVal InfoLevel As Integer, ByVal dwServiceType As Integer, ByVal dwServiceState As Integer, ByRef lpServices As ENUM_SERVICE_STATUS_PROCESS, ByVal cbBufSize As Integer, ByRef pcbBytesNeeded As Integer, ByRef lpServicesReturned As Integer, ByRef lpResumeHandle As Integer, ByRef pszGroupName As String) As Integer
+    Private Declare Function lstrlenA Lib "kernel32" (ByVal Ptr As Integer) As Integer
+    Private Declare Function lstrcpyA Lib "kernel32" (ByVal RetVal As String, ByVal Ptr As Integer) As Integer
+    Private Declare Function CloseServiceHandle Lib "advapi32.dll" (ByVal hSCObject As Integer) As Integer
+
+    Private Const SERVICE_DRIVER As Integer = &HB
+    Private Const SERVICE_INTERACTIVE_PROCESS As Integer = &H100
+    Private Const SERVICE_ALL As Integer = SERVICE_DRIVER Or SERVICE_WIN32_OWN_PROCESS Or _
+        SERVICE_WIN32_SHARE_PROCESS Or SERVICE_WIN32 Or SERVICE_INTERACTIVE_PROCESS
+
     ' ========================================
     ' Enums
     ' ========================================
@@ -111,7 +153,7 @@ Public Class cService
     Private Const SERVICE_ALL_ACCESS As Integer = (STANDARD_RIGHTS_REQUIRED Or SERVICE_QUERY_CONFIG Or SERVICE_CHANGE_CONFIG Or SERVICE_QUERY_STATUS Or SERVICE_ENUMERATE_DEPENDENTS Or SERVICE_START Or SERVICE_STOP Or SERVICE_PAUSE_CONTINUE Or SERVICE_INTERROGATE Or SERVICE_USER_DEFINED_CONTROL)
     Private Const SC_MANAGER_CONNECT As Integer = &H1
     Private Const SC_MANAGER_CREATE_SERVICE As Integer = &H2
-    Private Const SC_MANAGER_ENUMERATE_SERVICE As Integer = &H4
+    ' Private Const SC_MANAGER_ENUMERATE_SERVICE As Integer = &H4
     Private Const SC_MANAGER_LOCK As Integer = &H8
     Private Const SC_MANAGER_QUERY_LOCK_STATUS As Integer = &H10
     Private Const SC_MANAGER_MODIFY_BOOT_CONFIG As Integer = &H20
@@ -120,7 +162,7 @@ Public Class cService
     ' ========================================
     ' Structures
     ' ========================================
-    Private Structure SERVICE_STATUS
+    Public Structure SERVICE_STATUS
         Dim dwServiceType As Integer
         Dim dwCurrentState As Integer
         Dim dwControlsAccepted As Integer
@@ -148,10 +190,9 @@ Public Class cService
     ' ========================================
     Private _Name As String
     Private _LongName As String
-    Private _Status As System.ServiceProcess.ServiceControllerStatus
-    Private _CanPauseAndContinue As Boolean
-    Private _CanShutdown As Boolean
-    Private _CanStop As Boolean
+    'Private _CanPauseAndContinue As Boolean
+    'Private _CanShutdown As Boolean
+    'Private _CanStop As Boolean
     Private _imagePath As String = vbNullString
     Private _description As String = vbNullString
     Private _diagnosticsMessageFile As String = vbNullString
@@ -159,6 +200,16 @@ Public Class cService
     Private _objectName As String = vbNullString
 
     Public IsDisplayed As Boolean
+
+    Private _dwServiceType As Integer
+    Private _dwCurrentState As Integer
+    Private _dwControlsAccepted As Integer
+    'Private _dwWin32ExitCode As Integer
+    'Private _dwServiceSpecificExitCode As Integer
+    'Private _dwCheckPoint As Integer
+    'Private _dwWaitHint As Integer
+    Private _dwProcessId As Integer
+    'Private _dwServiceFlags As Integer
 
     ' ========================================
     ' Getter & Setter
@@ -176,24 +227,48 @@ Public Class cService
     End Property
     Public ReadOnly Property Status() As System.ServiceProcess.ServiceControllerStatus
         Get
-            Return _Status
+            Dim oo As System.ServiceProcess.ServiceControllerStatus = _
+                CType(_dwCurrentState, ServiceProcess.ServiceControllerStatus)
+            Return oo
         End Get
     End Property
-    Public ReadOnly Property CanPauseAndContinue() As Boolean
+    Public ReadOnly Property Type() As String
         Get
-            Return _CanPauseAndContinue
+            Select Case _dwServiceType
+                Case ServiceProcess.ServiceType.Adapter
+                    Return "Adapter"
+                Case ServiceProcess.ServiceType.FileSystemDriver
+                    Return "FileSystemDriver"
+                Case ServiceProcess.ServiceType.InteractiveProcess
+                    Return "InteractiveProcess"
+                Case ServiceProcess.ServiceType.KernelDriver
+                    Return "KernelDriver"
+                Case ServiceProcess.ServiceType.RecognizerDriver
+                    Return "RecognizerDriver"
+                Case ServiceProcess.ServiceType.Win32OwnProcess
+                    Return "Win32OwnProcess"
+                Case ServiceProcess.ServiceType.Win32ShareProcess
+                    Return "Win32ShareProcess"
+                Case Else
+                    Return "N/A"
+            End Select
         End Get
     End Property
-    Public ReadOnly Property CanShutdown() As Boolean
-        Get
-            Return _CanShutdown
-        End Get
-    End Property
-    Public ReadOnly Property CanStop() As Boolean
-        Get
-            Return _CanStop
-        End Get
-    End Property
+    'Public ReadOnly Property CanPauseAndContinue() As Boolean
+    '    Get
+    '        Return ((_dwControlsAccepted And 2) = 2)
+    '    End Get
+    'End Property
+    'Public ReadOnly Property CanShutdown() As Boolean
+    '    Get
+    '        Return ((_dwControlsAccepted And 4) = 4)
+    '    End Get
+    'End Property
+    'Public ReadOnly Property CanStop() As Boolean
+    '    Get
+    '        Return ((_dwControlsAccepted And 1) = 1)
+    '    End Get
+    'End Property
     Public ReadOnly Property ImagePath(Optional ByVal forceRefresh As Boolean = False) As String
         Get
             If _imagePath = vbNullString Or forceRefresh Then
@@ -257,22 +332,29 @@ Public Class cService
             End Select
         End Get
     End Property
+    Public ReadOnly Property ProcessID() As Integer
+        Get
+            Return _dwProcessId
+        End Get
+    End Property
 #End Region
 
     ' ========================================
     ' Constructor
     ' ========================================
-    Public Sub New(ByVal name As String, ByVal longName As String, ByVal status As _
-        System.ServiceProcess.ServiceControllerStatus, ByVal canPause As Boolean, ByVal canShutdown As Boolean, _
-        ByVal canStop As Boolean)
-
+    Public Sub New(ByVal name As String, ByVal dispName As String, ByVal serv As SERVICE_STATUS_PROCESS)
         MyBase.New()
+        _dwServiceType = serv.dwServiceType
+        _dwCurrentState = serv.dwCurrentState
+        '_dwControlsAccepted = serv.dwControlsAccepted
+        '_dwWin32ExitCode = serv.dwWin32ExitCode
+        '_dwServiceSpecificExitCode = serv.dwServiceSpecificExitCode
+        '_dwCheckPoint = serv.dwCheckPoint
+        '_dwWaitHint = serv.dwWaitHint
+        _dwProcessId = serv.dwProcessId
+        '_dwServiceFlags = serv.dwServiceFlags
         _Name = name
-        _LongName = longName
-        _Status = status
-        _CanPauseAndContinue = canPause
-        _CanShutdown = canShutdown
-        _CanStop = canStop
+        _LongName = dispName
         IsDisplayed = False
     End Sub
 
@@ -292,10 +374,8 @@ Public Class cService
             If o1.ServiceName = _Name Then
                 _Name = o1.ServiceName
                 _LongName = o1.DisplayName
-                _Status = o1.Status
-                _CanPauseAndContinue = o1.CanPauseAndContinue
-                _CanShutdown = o1.CanShutdown
-                _CanStop = o1.CanStop
+                _dwServiceType = o1.ServiceType
+                _dwCurrentState = o1.Status
                 Exit Sub
             End If
         Next
@@ -417,47 +497,66 @@ Public Class cService
     ' Shared functions
     ' ========================================
 
-    ' Enumerate services installed on computer
-    Public Shared Function Enumerate(ByRef p() As cService) As Integer
+    ' Enumetare all services
+    Public Shared Function EnumServicesEx(ByRef p() As cService) As Integer
+        Dim hSCM As IntPtr
+        Dim lR As Integer
+        Dim lBytesNeeded As Integer
+        Dim lServicesReturned As Integer
+        Dim tServiceStatus() As ENUM_SERVICE_STATUS_PROCESS
+        ReDim tServiceStatus(0)
+        Dim lStructsNeeded As Integer
+        Dim lServiceStatusInfoBuffer As Integer
+        Dim idx As Integer
 
-        ' NOT GOOD PIECE OF CODE
-        Dim key As Microsoft.Win32.RegistryKey = _
-            My.Computer.Registry.LocalMachine.OpenSubKey("SYSTEM\CurrentControlSet\Services")
+        ReDim p(0)
 
-        Dim _s() As String = key.GetSubKeyNames
-        Dim o As System.ServiceProcess.ServiceController() = System.ServiceProcess.ServiceController.GetServices()
+        hSCM = OpenSCManager(vbNullString, vbNullString, SC_MANAGER_ENUMERATE_SERVICE)
 
-        Dim x As Integer
+        If Not (hSCM = IntPtr.Zero) Then
+            lR = EnumServicesStatusEx(hSCM, _
+                                      SC_ENUM_PROCESS_INFO, _
+                                      SERVICE_ALL, _
+                                      SERVICE_STATE_ALL, _
+                                      Nothing, _
+                                      0, _
+                                      lBytesNeeded, _
+                                      lServicesReturned, _
+                                      0, _
+                                      vbNullString)
 
-        ReDim p(_s.Length - 1)
-        x = 0
-        Dim s As String
-        For Each s In _s
-            Dim _long As String = ""
-            Dim _status As System.ServiceProcess.ServiceControllerStatus
-            Dim _pause As Boolean = False
-            Dim _shut As Boolean = False
-            Dim _stop As Boolean = False
+            If (lR = 0 And Err.LastDllError = ERROR_MORE_DATA) Then
 
-            ' Try to get informations from ServiceController
-            Dim o1 As System.ServiceProcess.ServiceController
-            For Each o1 In o
-                If o1.ServiceName = s Then
-                    _long = o1.DisplayName
-                    _status = o1.Status
-                    _pause = o1.CanPauseAndContinue
-                    _shut = o1.CanShutdown
-                    _stop = o1.CanStop
-                    Exit For
+                lStructsNeeded = CInt(lBytesNeeded / Marshal.SizeOf(tServiceStatus(0)) + 1)
+                ReDim tServiceStatus(lStructsNeeded - 1)
+                lServiceStatusInfoBuffer = lStructsNeeded * (Marshal.SizeOf(tServiceStatus(0)))
+
+                lR = EnumServicesStatusEx(hSCM, _
+                                          SC_ENUM_PROCESS_INFO, _
+                                          SERVICE_ALL, _
+                                          SERVICE_STATE_ALL, _
+                                          tServiceStatus(0), _
+                                          lServiceStatusInfoBuffer, _
+                                          lBytesNeeded, _
+                                          lServicesReturned, _
+                                          0, _
+                                          vbNullString)
+
+                If Not (lR = 0) Then
+                    ReDim p(lServicesReturned - 1)
+                    For idx = 0 To lServicesReturned - 1
+                        p(idx) = New cService(GetStrFromPtrA(tServiceStatus(idx).lpServiceName), _
+                            GetStrFromPtrA(tServiceStatus(idx).lpDisplayName), _
+                            tServiceStatus(idx).ServiceStatus)
+                    Next idx
                 End If
-            Next
+            End If
 
-            p(x) = New cService(s, _long, _status, _pause, _shut, _stop)
-            x += 1
-        Next
+            CloseServiceHandle(hSCM)
 
-        Return x
-
+            ' Add others services from registry
+            Call EnumerateFromReg(p)
+        End If
     End Function
 
     ' Retrieve file name from a path with arguments
@@ -496,9 +595,62 @@ Public Class cService
     End Sub
 
 
+
     ' ========================================
     ' Private functions
     ' ========================================
+
+    Private Shared Function GetStrFromPtrA(ByVal lpszA As Integer) As String
+        Dim s As String = Space(lstrlenA(lpszA))
+        Call lstrcpyA(s, lpszA)
+        Return s
+    End Function
+
+    ' Enumerate services installed on computer from registry
+    Private Shared Function EnumerateFromReg(ByRef p() As cService) As Integer
+
+        Dim key As Microsoft.Win32.RegistryKey = _
+            My.Computer.Registry.LocalMachine.OpenSubKey("SYSTEM\CurrentControlSet\Services")
+
+        Dim _s() As String = key.GetSubKeyNames
+
+        For Each k As String In _s
+
+            Dim present As Boolean = False
+            For Each c As cService In p
+                If c.Name = k Then
+                    present = True
+                    Exit For
+                End If
+            Next
+
+            If Not (present) Then
+                ReDim Preserve p(p.Length)
+                Dim KK As cService.SERVICE_STATUS_PROCESS
+                With KK
+                    .dwCurrentState = 1
+                    .dwServiceType = CInt(Val(GetServiceInfo("Type", k)))
+                    .dwProcessId = 0
+                End With
+                p(p.Length - 1) = New cService(k, GetServiceInfo("DisplayName", k), KK)
+            End If
+
+        Next
+
+        Return p.Length
+
+    End Function
+
+    ' Retrieve information about a service from registry
+    Private Shared Function GetServiceInfo(ByVal info As String, ByVal servName As String) As String
+        Try
+            Return CStr(My.Computer.Registry.GetValue( _
+                        "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\" & servName, _
+                        info, ""))
+        Catch ex As Exception
+            Return vbNullString
+        End Try
+    End Function
 
     ' Retrieve information about a service from registry
     Private Function GetServiceInfo(ByVal info As String) As String

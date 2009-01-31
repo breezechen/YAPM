@@ -203,7 +203,7 @@ Public Class cPrivileges
     End Function
 
     ' Return status from an integer
-    Shared Function PrivilegeStatusToString(ByVal status As Integer) As String
+    Public Shared Function PrivilegeStatusToString(ByVal status As Integer) As String
         Select Case status
             Case 0
                 Return "Diabled"
@@ -221,7 +221,7 @@ Public Class cPrivileges
     End Function
 
     ' Return color from status
-    Shared Function GetColorFromStatus(ByVal status As Integer) As Color
+    Public Shared Function GetColorFromStatus(ByVal status As Integer) As Color
         Select Case status
             Case SE_PRIVILEGE_ENABLED
                 Return Color.FromArgb(224, 240, 224)
@@ -237,7 +237,7 @@ Public Class cPrivileges
     End Function
 
     ' Get description of a privilege
-    Shared Function GetPrivilegeDescription(ByVal PrivilegeName As String) As String
+    Public Shared Function GetPrivilegeDescription(ByVal PrivilegeName As String) As String
 
         Dim sb As String = Nothing
         Dim size As Integer = 0
