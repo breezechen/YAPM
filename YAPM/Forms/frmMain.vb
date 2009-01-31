@@ -4636,7 +4636,7 @@ Public Class frmMain
                 For Each lvi As ListViewItem In Me.lvServices.Items
                     Dim cServ As cService = CType(lvi.Tag, cService)
                     Dim pid As Integer = cServ.ProcessID
-                    If pid = cP.Pid Then
+                    If pid = cP.Pid And pid > 0 Then
                         Dim newIt As New ListViewItem(cServ.Name)
                         Dim sub1 As New ListViewItem.ListViewSubItem
                         Dim sub2 As New ListViewItem.ListViewSubItem
