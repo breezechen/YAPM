@@ -1653,7 +1653,7 @@ Partial Class frmMain
         'ColumnHeader52
         '
         Me.ColumnHeader52.Text = "Description"
-        Me.ColumnHeader52.Width = 271
+        Me.ColumnHeader52.Width = 500
         '
         'menuPrivileges
         '

@@ -4795,7 +4795,7 @@ Public Class frmMain
                     Dim sub1 As New ListViewItem.ListViewSubItem
                     sub1.Text = cPrivileges.PrivilegeStatusToString(l.Status)
                     Dim sub2 As New ListViewItem.ListViewSubItem
-                    sub2.Text = "N/A"
+                    sub2.Text = cPrivileges.GetPrivilegeDescription(l.Name)
                     newIt.SubItems.Add(sub1)
                     newIt.SubItems.Add(sub2)
                     newIt.BackColor = cPrivileges.GetColorFromStatus(l.Status)
