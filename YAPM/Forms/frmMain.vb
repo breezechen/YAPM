@@ -680,6 +680,7 @@ Public Class frmMain
         'DoubleBufferListView(Me.lvThreads)
         'DoubleBufferListView(Me.lvWindows)
         SetWindowTheme(Me.lvProcess.Handle, "explorer", Nothing)
+        SetWindowTheme(Me.lvProcMem.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvProcServices.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvHandles.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvJobs.Handle, "explorer", Nothing)
