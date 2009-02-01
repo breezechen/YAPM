@@ -636,7 +636,8 @@ Public Class frmMain
         ' Refresh informations about process
         If Not (Me.tabProcess.SelectedTab.Text = "Informations" Or _
             Me.tabProcess.SelectedTab.Text = "Token" Or _
-            Me.tabProcess.SelectedTab.Text = "Services") Then _
+            Me.tabProcess.SelectedTab.Text = "Services" Or _
+            Me.tabProcess.SelectedTab.Text = "Memory") Then _
             Call lvProcess_SelectedIndexChanged(Nothing, Nothing)
 
         test = GetTickCount - test
@@ -4631,6 +4632,35 @@ Public Class frmMain
                 Me.lblQuotaPPP.Text = GetFormatedSize(mem.QuotaPeakPagedPoolUsage)
 
             Case "Memory"
+
+                Dim cRW As New cProcessMemRW(curProc.Pid)
+                Dim reg() As cProcessMemRW.MEMORY_BASIC_INFORMATION = Nothing
+                cRW.RetrieveMemRegions(reg)
+
+                Me.lvProcMem.Items.Clear()
+                ' Name / address / size / protection
+
+                For Each mbi As cProcessMemRW.MEMORY_BASIC_INFORMATION In reg
+                    If mbi.RegionSize > 0 Then
+                        Dim newit As New ListViewItem("name")
+                        Dim sub1 As New ListViewItem.ListViewSubItem
+                        Dim sub2 As New ListViewItem.ListViewSubItem
+                        Dim sub3 As New ListViewItem.ListViewSubItem
+                        Dim sub4 As New ListViewItem.ListViewSubItem
+                        Dim sub5 As New ListViewItem.ListViewSubItem
+                        sub1.Text = CStr(mbi.BaseAddress)
+                        sub2.Text = CStr(mbi.RegionSize)
+                        sub3.Text = cProcessMemRW.GetProtectionType(mbi.Protect)
+                        sub4.Text = cProcessMemRW.GetStateType(mbi.State)
+                        sub5.Text = cProcessMemRW.GetTypeType(mbi.lType)
+                        newit.SubItems.Add(sub1)
+                        newit.SubItems.Add(sub2)
+                        newit.SubItems.Add(sub3)
+                        newit.SubItems.Add(sub4)
+                        newit.SubItems.Add(sub5)
+                        Me.lvProcMem.Items.Add(newit)
+                    End If
+                Next
 
 
             Case "Services"

@@ -60,10 +60,28 @@ Public Class cProcessMemRW
     Private Const SE_PRIVILEGE_ENABLED As Integer = &H2
 
     Private Const MEM_PRIVATE As Integer = &H20000
+    Private Const MEM_FREE As Integer = &H10000
     Private Const MEM_COMMIT As Integer = &H1000
+    Private Const MEM_IMAGE As Integer = &H1000000
+    Private Const MEM_MAPPED As Integer = &H40000
+    Private Const MEM_RESERVE As Integer = &H2000
 
     Private Const INVALID_HANDLE_VALUE As Integer = -1
+    Private Const NO_INFO_RETRIEVED As String = "N/A"
 
+    Private Enum PROTECTION_TYPE
+        PAGE_EXECUTE = &H10
+        PAGE_EXECUTE_READ = &H20
+        PAGE_EXECUTE_READWRITE = &H40
+        PAGE_EXECUTE_WRITECOPY = &H80
+        PAGE_NOACCESS = &H1
+        PAGE_READONLY = &H2
+        PAGE_READWRITE = &H4
+        PAGE_WRITECOPY = &H8
+        PAGE_GUARD = &H100
+        PAGE_NOCACHE = &H200
+        PAGE_WRITECOMBINE = &H400
+    End Enum
 
     ' =======================================================
     ' API
@@ -96,7 +114,7 @@ Public Class cProcessMemRW
         Dim TheLuid As LUID
         Dim Attributes As Integer
     End Structure
-    Private Structure MEMORY_BASIC_INFORMATION ' 28 bytes
+    Public Structure MEMORY_BASIC_INFORMATION ' 28 bytes
         Dim BaseAddress As Integer
         Dim AllocationBase As Integer
         Dim AllocationProtect As Integer
@@ -183,8 +201,7 @@ Public Class cProcessMemRW
     ' =======================================================
     ' Retrieve memory regions (availables for r/w)
     ' =======================================================
-    Public Sub RetrieveMemRegions(ByRef lBaseAdress() As Integer, _
-        ByRef lRegionSize() As Integer)
+    Public Sub RetrieveMemRegions(ByRef regions() As MEMORY_BASIC_INFORMATION)
 
         Dim lHandle As Integer
         Dim lPosMem As Integer
@@ -192,8 +209,7 @@ Public Class cProcessMemRW
         Dim lLenMBI As Integer
         Dim mbi As MEMORY_BASIC_INFORMATION
 
-        ReDim lBaseAdress(0)
-        ReDim lRegionSize(0)
+        ReDim regions(0)
 
         lHandle = OpenProcess(PROCESS_ALL_ACCESS, 0, _pid)
 
@@ -214,10 +230,8 @@ Public Class cProcessMemRW
 
                     If mbi.RegionSize > 0 Then
                         ' Here is a region
-                        ReDim Preserve lBaseAdress(UBound(lBaseAdress) + 1)
-                        ReDim Preserve lRegionSize(UBound(lRegionSize) + 1)
-                        lRegionSize(UBound(lRegionSize)) = mbi.RegionSize
-                        lBaseAdress(UBound(lBaseAdress)) = mbi.BaseAddress
+                        ReDim Preserve regions(UBound(regions) + 1)
+                        regions(UBound(regions)) = mbi
                     End If
 
                 End If
@@ -233,6 +247,23 @@ Public Class cProcessMemRW
         Loop
 
         Call CloseHandle(lHandle)
+    End Sub
+    Public Sub RetrieveMemRegions(ByRef lBaseAdress() As Integer, _
+        ByRef lRegionSize() As Integer)
+
+        Dim regions() As MEMORY_BASIC_INFORMATION
+
+        ReDim regions(0)
+        RetrieveMemRegions(regions)
+
+        ReDim lBaseAdress(regions.Length - 1)
+        ReDim lRegionSize(regions.Length - 1)
+
+        For x As Integer = 0 To regions.Length - 1
+            lBaseAdress(x) = regions(x).BaseAddress
+            lRegionSize(x) = regions(x).RegionSize
+        Next
+        
     End Sub
 
     ' =======================================================
@@ -428,7 +459,80 @@ Public Class cProcessMemRW
         Return sBuf
     End Function
 
+    ' Get protection type as string
+    Public Shared Function GetProtectionType(ByVal protec As Integer) As String
+        Dim s As String = ""
 
+        If (protec And PROTECTION_TYPE.PAGE_EXECUTE) = PROTECTION_TYPE.PAGE_EXECUTE Then
+            s &= "E/"
+        End If
+        If (protec And PROTECTION_TYPE.PAGE_EXECUTE_READ) = PROTECTION_TYPE.PAGE_EXECUTE_READ Then
+            s &= "ERO/"
+        End If
+        If (protec And PROTECTION_TYPE.PAGE_EXECUTE_READWRITE) = PROTECTION_TYPE.PAGE_EXECUTE_READWRITE Then
+            s &= "ERW/"
+        End If
+        If (protec And PROTECTION_TYPE.PAGE_EXECUTE_WRITECOPY) = PROTECTION_TYPE.PAGE_EXECUTE_WRITECOPY Then
+            s &= "EWC/"
+        End If
+        If (protec And PROTECTION_TYPE.PAGE_GUARD) = PROTECTION_TYPE.PAGE_GUARD Then
+            s &= "G/"
+        End If
+        If (protec And PROTECTION_TYPE.PAGE_NOACCESS) = PROTECTION_TYPE.PAGE_NOACCESS Then
+            s &= "NA/"
+        End If
+        If (protec And PROTECTION_TYPE.PAGE_NOCACHE) = PROTECTION_TYPE.PAGE_NOCACHE Then
+            s &= "NC"
+        End If
+        If (protec And PROTECTION_TYPE.PAGE_READONLY) = PROTECTION_TYPE.PAGE_READONLY Then
+            s &= "RO/"
+        End If
+        If (protec And PROTECTION_TYPE.PAGE_READWRITE) = PROTECTION_TYPE.PAGE_READWRITE Then
+            s &= "RW/"
+        End If
+        If (protec And PROTECTION_TYPE.PAGE_WRITECOMBINE) = PROTECTION_TYPE.PAGE_WRITECOMBINE Then
+            s &= "WCOMB/"
+        End If
+        If (protec And PROTECTION_TYPE.PAGE_WRITECOPY) = PROTECTION_TYPE.PAGE_WRITECOPY Then
+            s &= "WC/"
+        End If
+
+        If s.Length > 0 Then
+            s = s.Substring(0, s.Length - 1)
+        Else
+            s = NO_INFO_RETRIEVED
+        End If
+
+        Return s
+    End Function
+
+    ' Get state type as string
+    Public Shared Function GetStateType(ByVal state As Integer) As String
+        Select Case state
+            Case MEM_COMMIT
+                Return "MEM_COMMIT"
+            Case MEM_RESERVE
+                Return "MEM_RESERVE"
+            Case MEM_FREE
+                Return "MEM_FREE"
+            Case Else
+                Return NO_INFO_RETRIEVED
+        End Select
+    End Function
+
+    ' Get type type as string
+    Public Shared Function GetTypeType(ByVal type As Integer) As String
+        Select Case type
+            Case MEM_IMAGE
+                Return "MEM_IMAGE"
+            Case MEM_PRIVATE
+                Return "MEM_PRIVATE"
+            Case MEM_MAPPED
+                Return "MEM_MAPPED"
+            Case Else
+                Return NO_INFO_RETRIEVED
+        End Select
+    End Function
 
 
     ' =======================================================
