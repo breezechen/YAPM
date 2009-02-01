@@ -32,6 +32,8 @@ Public Class cProcess
     ' ========================================
 #Region "API"
 
+    Private Declare Function GetProcessIoCounters Lib "kernel32.dll" (ByVal hProcess As Integer, <Out()> ByRef lpIoCounters As PIO_COUNTERS) As Integer
+
     Private Declare Function CheckRemoteDebuggerPresent Lib "kernel32" (ByVal hProcess As Integer, ByRef DebuggerPresent As Boolean) As Boolean
     Private Declare Function IsProcessInJob Lib "kernel32" (ByVal hProcess As Integer, ByVal JobHandle As Integer, ByRef Result As Boolean) As Boolean
 
@@ -78,22 +80,21 @@ Public Class cProcess
     ByRef ReturnLength As System.UInt32) As Boolean
     ' Declare Auto Function ConvertSidToStringSid Lib "advapi32.dll" (ByVal pSID() As Byte, _
     'ByRef ptrSid As IntPtr) As Boolean
-    Declare Function LookupAccountSid Lib "advapi32.dll" _
-   Alias "LookupAccountSidA" ( _
-   ByVal systemName As String, _
-   ByVal psid As Integer, _
-   ByVal accountName As String, _
-   ByRef cbAccount As Integer, _
-   ByVal domainName As String, _
-   ByRef cbDomainName As Integer, _
-   ByRef use As Integer) As Boolean
+    Private Declare Function LookupAccountSid Lib "advapi32.dll" _
+           Alias "LookupAccountSidA" ( _
+           ByVal systemName As String, _
+           ByVal psid As Integer, _
+           ByVal accountName As String, _
+           ByRef cbAccount As Integer, _
+           ByVal domainName As String, _
+           ByRef cbDomainName As Integer, _
+           ByRef use As Integer) As Boolean
     Private Declare Auto Function ConvertSidToStringSid Lib "advapi32.dll" _
-(ByVal bSID As IntPtr, <System.Runtime.InteropServices.In(), _
-System.Runtime.InteropServices.Out(), _
-System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.LPTStr)> ByRef SIDString As String) As Integer
+        (ByVal bSID As IntPtr, <System.Runtime.InteropServices.In(), _
+        System.Runtime.InteropServices.Out(), _
+        System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.LPTStr)> ByRef SIDString As String) As Integer
 
     Private Declare Function GetProcAddress Lib "kernel32" (ByVal hModule As Integer, ByVal lpProcName As String) As Integer
-    'Private Declare Function CreateRemoteThread Lib "kernel32" (ByVal hProcess As Integer, ByVal lpThreadAttributes As Integer, ByVal dwStackSize As Integer, ByVal lpStartAddress As Integer, ByVal lpParameter As Integer, ByVal dwCreationFlags As Integer, ByVal lpThreadId As Integer) As Integer
     Private Declare Function GetModuleHandle Lib "kernel32" Alias "GetModuleHandleA" (ByVal lpModuleName As String) As Integer
     Private Declare Function WaitForSingleObject Lib "kernel32" (ByVal hHandle As Integer, ByVal dwMilliseconds As Integer) As Integer
     Private Declare Function GetExitCodeThread Lib "kernel32" (ByVal hThread As Integer, ByRef lpExitCode As Integer) As Integer
@@ -149,6 +150,23 @@ System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.Unmanage
     ' ========================================
     ' Structures for API
     ' ========================================
+
+    <StructLayout(LayoutKind.Sequential)> _
+    Public Structure PIO_COUNTERS
+        <MarshalAs(UnmanagedType.U8, SizeConst:=8)> _
+        Dim ReadOperationCount As UInt64
+        <MarshalAs(UnmanagedType.U8, SizeConst:=8)> _
+        Dim WriteOperationCount As UInt64
+        <MarshalAs(UnmanagedType.U8, SizeConst:=8)> _
+        Dim OtherOperationCount As UInt64
+        <MarshalAs(UnmanagedType.U8, SizeConst:=8)> _
+        Dim ReadTransferCount As UInt64
+        <MarshalAs(UnmanagedType.U8, SizeConst:=8)> _
+        Dim WriteTransferCount As UInt64
+        <MarshalAs(UnmanagedType.U8, SizeConst:=8)> _
+        Dim OtherTransferCount As UInt64
+    End Structure
+
     Private Structure SECURITY_ATTRIBUTES
         Dim nLength As Integer
         Dim lpSecurityDescriptor As Integer
@@ -441,6 +459,17 @@ System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.Unmanage
                 End If
             End If
             Return _parentName
+        End Get
+    End Property
+
+    ' Get I/O informations
+    Public ReadOnly Property GetIOvalues() As cProcess.PIO_COUNTERS
+        Get
+            If _hProcess > 0 Then
+                Dim pioc As PIO_COUNTERS
+                GetProcessIoCounters(_hProcess, pioc)
+                Return pioc
+            End If
         End Get
     End Property
 

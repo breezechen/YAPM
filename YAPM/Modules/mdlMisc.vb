@@ -76,4 +76,62 @@ Module mdlMisc
         End Try
     End Sub
 
+    ' Get a formated value as a string (in Bytes, KB, MB or GB) from an Integer
+    Public Function GetFormatedSize(ByVal size As Integer, Optional ByVal digits As Integer = 3) As String
+        If size >= 1073741824 Then
+            ' In GB
+            Return CStr(Math.Round(size / 1073741824, digits)) & " GB"
+        ElseIf size >= 1048576 Then
+            ' In MB
+            Return CStr(Math.Round(size / 1048576, digits)) & " MB"
+        ElseIf size >= 1024 Then
+            ' In KB
+            Return CStr(Math.Round(size / 1024, digits)) & " KB"
+        Else
+            Return CStr(size) & " Bytes"
+        End If
+    End Function
+    Public Function GetFormatedSize(ByVal size As Long, Optional ByVal digits As Integer = 3) As String
+        If size >= 1073741824 Then
+            ' In GB
+            Return CStr(Math.Round(size / 1073741824, digits)) & " GB"
+        ElseIf size >= 1048576 Then
+            ' In MB
+            Return CStr(Math.Round(size / 1048576, digits)) & " MB"
+        ElseIf size >= 1024 Then
+            ' In KB
+            Return CStr(Math.Round(size / 1024, digits)) & " KB"
+        Else
+            Return CStr(size) & " Bytes"
+        End If
+    End Function
+    Public Function GetFormatedSize(ByVal size As ULong, Optional ByVal digits As Integer = 3) As String
+        If size >= 1073741824 Then
+            ' In GB
+            Return CStr(Math.Round(size / 1073741824, digits)) & " GB"
+        ElseIf size >= 1048576 Then
+            ' In MB
+            Return CStr(Math.Round(size / 1048576, digits)) & " MB"
+        ElseIf size >= 1024 Then
+            ' In KB
+            Return CStr(Math.Round(size / 1024, digits)) & " KB"
+        Else
+            Return CStr(size) & " Bytes"
+        End If
+    End Function
+    Public Function GetFormatedSize(ByVal size As UInteger, Optional ByVal digits As Integer = 3) As String
+        If size >= 1073741824 Then
+            ' In GB
+            Return CStr(Math.Round(size / 1073741824, digits)) & " GB"
+        ElseIf size >= 1048576 Then
+            ' In MB
+            Return CStr(Math.Round(size / 1048576, digits)) & " MB"
+        ElseIf size >= 1024 Then
+            ' In KB
+            Return CStr(Math.Round(size / 1024, digits)) & " KB"
+        Else
+            Return CStr(size) & " Bytes"
+        End If
+    End Function
+
 End Module

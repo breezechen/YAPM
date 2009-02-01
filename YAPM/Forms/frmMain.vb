@@ -29,6 +29,7 @@ Public Class frmMain
 
     Private WithEvents creg As cRegMonitor
     Public log As New cLog
+    Private curProc As cProcess
 
     <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
     Private Shared Function SendMessage(ByVal hWnd As IntPtr, ByVal Msg As Integer, ByVal wParam As Integer, ByVal lParam As Integer) As IntPtr
@@ -564,13 +565,13 @@ Public Class frmMain
                     'End If
 
 
-                    If p.IsDotNet Then
-                        col = Color.FromArgb(200, 222, 255, 0)
-                    ElseIf p.IsInJob Then
-                        col = Color.FromArgb(200, 205, 133, 63)
-                    ElseIf p.IsDebugged Then
-                        col = Color.FromArgb(200, 204, 187, 255)
-                    End If
+                    'If p.IsDotNet Then
+                    '    col = Color.FromArgb(200, 222, 255, 0)
+                    'ElseIf p.IsInJob Then
+                    '    col = Color.FromArgb(200, 205, 133, 63)
+                    'ElseIf p.IsDebugged Then
+                    '    col = Color.FromArgb(200, 204, 187, 255)
+                    'End If
 
                     it.BackColor = col
 
@@ -4591,6 +4592,13 @@ Public Class frmMain
 
             Case "Statistics"
 
+                Me.lblProcOther.Text = GetFormatedSize(cP.GetIOvalues.OtherOperationCount)
+                Me.lblProcOtherBytes.Text = GetFormatedSize(cP.GetIOvalues.OtherTransferCount)
+                Me.lblProcReads.Text = GetFormatedSize(cP.GetIOvalues.ReadOperationCount)
+                Me.lblProcReadBytes.Text = GetFormatedSize(cP.GetIOvalues.ReadTransferCount)
+                Me.lblProcWriteBytes.Text = GetFormatedSize(cP.GetIOvalues.WriteTransferCount)
+                Me.lblProcWrites.Text = GetFormatedSize(cP.GetIOvalues.WriteOperationCount)
+
                 Dim mem As cProcess.PROCESS_MEMORY_COUNTERS = cP.MemoryInfos
                 Me.lblHandles.Text = "00000000000"
                 Dim ts As Date = cP.KernelTime
@@ -4600,9 +4608,9 @@ Public Class frmMain
                     String.Format("{000}", ts.Millisecond)
                 Me.lblKernelTime.Text = s
                 Me.lblPageFaults.Text = CStr(mem.PageFaultCount)
-                Me.lblPageFileUsage.Text = CStr(Math.Round(mem.PagefileUsage / 1024 / 1024, 3)) & " MB"
-                Me.lblPeakPageFileUsage.Text = CStr(Math.Round(mem.PeakPagefileUsage / 1024 / 1024, 3)) & " MB"
-                Me.lblPeakWorkingSet.Text = CStr(Math.Round(mem.PeakWorkingSetSize / 1024 / 1024, 3)) & " MB"
+                Me.lblPageFileUsage.Text = GetFormatedSize(mem.PagefileUsage)
+                Me.lblPeakPageFileUsage.Text = GetFormatedSize(mem.PeakPagefileUsage)
+                Me.lblPeakWorkingSet.Text = GetFormatedSize(mem.PeakWorkingSetSize)
                 ts = cP.ProcessorTime
                 s = String.Format("{0:00}", ts.Hour) & ":" & _
                     String.Format("{0:00}", ts.Minute) & ":" & _
@@ -4616,13 +4624,11 @@ Public Class frmMain
                     String.Format("{000}", ts.Millisecond)
                 Me.lblUserTime.Text = s
                 Me.lblPriority.Text = cP.PriorityClass.ToString
-                Me.lblWorkingSet.Text = CStr(Math.Round(mem.WorkingSetSize / 1024 / 1024, 3)) & " MB"
-                Me.lblQuotaNPP.Text = CStr(Math.Round(mem.QuotaNonPagedPoolUsage / 1024 / 1024, 3)) & " MB"
-                Me.lblQuotaPNPP.Text = CStr(Math.Round(mem.QuotaPeakNonPagedPoolUsage / 1024 / 1024, 3)) & " MB"
-                Me.lblQuotaPP.Text = CStr(Math.Round(mem.QuotaPagedPoolUsage / 1024 / 1024, 3)) & " MB"
-                Me.lblQuotaPPP.Text = CStr(Math.Round(mem.QuotaPeakPagedPoolUsage / 1024 / 1024, 3)) & " MB"
-
-            Case "Performances"
+                Me.lblWorkingSet.Text = GetFormatedSize(mem.WorkingSetSize)
+                Me.lblQuotaNPP.Text = GetFormatedSize(mem.QuotaNonPagedPoolUsage)
+                Me.lblQuotaPNPP.Text = GetFormatedSize(mem.QuotaPeakNonPagedPoolUsage)
+                Me.lblQuotaPP.Text = GetFormatedSize(mem.QuotaPagedPoolUsage)
+                Me.lblQuotaPPP.Text = GetFormatedSize(mem.QuotaPeakPagedPoolUsage)
 
             Case "Memory"
 
@@ -4928,6 +4934,12 @@ Public Class frmMain
                     Dim cP As cProcess = CType(it.Tag, cProcess)
                     Dim pid As Integer = cP.Pid
 
+                    If curProc Is Nothing OrElse cP.Pid <> curProc.Pid Then
+                        curProc = cP
+                        Me.graphCPU.ClearValue()
+                        Me.graphIO.ClearValue()
+                        Me.graphMemory.ClearValue()
+                    End If
 
                     ' Icons
                     Try
@@ -5438,5 +5450,16 @@ Public Class frmMain
         Next
         Me.Ribbon.ActiveTab = Me.ServiceTab
         Call Me.Ribbon_MouseMove(Nothing, Nothing)
+    End Sub
+
+    Private Sub timerProcPerf_Tick(ByVal sender As Object, ByVal e As System.EventArgs) Handles timerProcPerf.Tick
+        Dim z As Double = curProc.CpuPercentageUsage
+        If Double.IsNegativeInfinity(z) Then z = 0
+        Me.graphCPU.AddValue(z * 100)
+        Me.graphMemory.AddValue(curProc.MemoryInfos.WorkingSetSize)
+        Me.graphIO.AddValue(curProc.GetIOvalues.ReadTransferCount)
+        Me.graphCPU.Refresh()
+        Me.graphIO.Refresh()
+        Me.graphMemory.Refresh()
     End Sub
 End Class

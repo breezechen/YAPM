@@ -118,6 +118,18 @@ Partial Class frmMain
         Me.lblHandles = New System.Windows.Forms.Label
         Me.Label53 = New System.Windows.Forms.Label
         Me.GroupBox4 = New System.Windows.Forms.GroupBox
+        Me.lblProcOtherBytes = New System.Windows.Forms.Label
+        Me.Label23 = New System.Windows.Forms.Label
+        Me.lblProcOther = New System.Windows.Forms.Label
+        Me.Label30 = New System.Windows.Forms.Label
+        Me.lblProcWriteBytes = New System.Windows.Forms.Label
+        Me.Label36 = New System.Windows.Forms.Label
+        Me.lblProcWrites = New System.Windows.Forms.Label
+        Me.Label38 = New System.Windows.Forms.Label
+        Me.lblProcReadBytes = New System.Windows.Forms.Label
+        Me.Label40 = New System.Windows.Forms.Label
+        Me.lblProcReads = New System.Windows.Forms.Label
+        Me.Label42 = New System.Windows.Forms.Label
         Me.GroupBox3 = New System.Windows.Forms.GroupBox
         Me.lblQuotaNPP = New System.Windows.Forms.Label
         Me.Label21 = New System.Windows.Forms.Label
@@ -147,6 +159,11 @@ Partial Class frmMain
         Me.lblPriority = New System.Windows.Forms.Label
         Me.Label18 = New System.Windows.Forms.Label
         Me.TabPage3 = New System.Windows.Forms.TabPage
+        Me.splitPerformances = New System.Windows.Forms.SplitContainer
+        Me.graphCPU = New YAPM.Graph2
+        Me.splitPerformance2 = New System.Windows.Forms.SplitContainer
+        Me.graphMemory = New YAPM.Graph2
+        Me.graphIO = New YAPM.Graph2
         Me.TabPage4 = New System.Windows.Forms.TabPage
         Me.tabProcessToken = New System.Windows.Forms.TabControl
         Me.tabProcessTokenPagePrivileges = New System.Windows.Forms.TabPage
@@ -567,6 +584,7 @@ Partial Class frmMain
         Me.ToolStripMenuItem40 = New System.Windows.Forms.ToolStripSeparator
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.cmdTray = New System.Windows.Forms.Button
+        Me.timerProcPerf = New System.Windows.Forms.Timer(Me.components)
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
         Me.SplitContainerProcess.Panel2.SuspendLayout()
@@ -585,8 +603,19 @@ Partial Class frmMain
         Me.menuCopyPctbig.SuspendLayout()
         Me.TabPage2.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
+        Me.GroupBox4.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
+        Me.TabPage3.SuspendLayout()
+        Me.splitPerformances.Panel1.SuspendLayout()
+        Me.splitPerformances.Panel2.SuspendLayout()
+        Me.splitPerformances.SuspendLayout()
+        CType(Me.graphCPU, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.splitPerformance2.Panel1.SuspendLayout()
+        Me.splitPerformance2.Panel2.SuspendLayout()
+        Me.splitPerformance2.SuspendLayout()
+        CType(Me.graphMemory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.graphIO, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage4.SuspendLayout()
         Me.tabProcessToken.SuspendLayout()
         Me.tabProcessTokenPagePrivileges.SuspendLayout()
@@ -1310,12 +1339,138 @@ Partial Class frmMain
         '
         'GroupBox4
         '
+        Me.GroupBox4.Controls.Add(Me.lblProcOtherBytes)
+        Me.GroupBox4.Controls.Add(Me.Label23)
+        Me.GroupBox4.Controls.Add(Me.lblProcOther)
+        Me.GroupBox4.Controls.Add(Me.Label30)
+        Me.GroupBox4.Controls.Add(Me.lblProcWriteBytes)
+        Me.GroupBox4.Controls.Add(Me.Label36)
+        Me.GroupBox4.Controls.Add(Me.lblProcWrites)
+        Me.GroupBox4.Controls.Add(Me.Label38)
+        Me.GroupBox4.Controls.Add(Me.lblProcReadBytes)
+        Me.GroupBox4.Controls.Add(Me.Label40)
+        Me.GroupBox4.Controls.Add(Me.lblProcReads)
+        Me.GroupBox4.Controls.Add(Me.Label42)
         Me.GroupBox4.Location = New System.Drawing.Point(234, 8)
         Me.GroupBox4.Name = "GroupBox4"
         Me.GroupBox4.Size = New System.Drawing.Size(176, 181)
         Me.GroupBox4.TabIndex = 2
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "I/O"
+        '
+        'lblProcOtherBytes
+        '
+        Me.lblProcOtherBytes.AutoSize = True
+        Me.lblProcOtherBytes.Location = New System.Drawing.Point(99, 107)
+        Me.lblProcOtherBytes.Name = "lblProcOtherBytes"
+        Me.lblProcOtherBytes.Size = New System.Drawing.Size(19, 13)
+        Me.lblProcOtherBytes.TabIndex = 31
+        Me.lblProcOtherBytes.Text = "00"
+        Me.lblProcOtherBytes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label23
+        '
+        Me.Label23.AutoSize = True
+        Me.Label23.Location = New System.Drawing.Point(6, 107)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(61, 13)
+        Me.Label23.TabIndex = 30
+        Me.Label23.Text = "Other bytes"
+        '
+        'lblProcOther
+        '
+        Me.lblProcOther.AutoSize = True
+        Me.lblProcOther.Location = New System.Drawing.Point(99, 89)
+        Me.lblProcOther.Name = "lblProcOther"
+        Me.lblProcOther.Size = New System.Drawing.Size(19, 13)
+        Me.lblProcOther.TabIndex = 29
+        Me.lblProcOther.Text = "00"
+        Me.lblProcOther.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label30
+        '
+        Me.Label30.AutoSize = True
+        Me.Label30.Location = New System.Drawing.Point(6, 89)
+        Me.Label30.Name = "Label30"
+        Me.Label30.Size = New System.Drawing.Size(33, 13)
+        Me.Label30.TabIndex = 28
+        Me.Label30.Text = "Other"
+        '
+        'lblProcWriteBytes
+        '
+        Me.lblProcWriteBytes.AutoSize = True
+        Me.lblProcWriteBytes.Location = New System.Drawing.Point(99, 70)
+        Me.lblProcWriteBytes.Name = "lblProcWriteBytes"
+        Me.lblProcWriteBytes.Size = New System.Drawing.Size(19, 13)
+        Me.lblProcWriteBytes.TabIndex = 27
+        Me.lblProcWriteBytes.Text = "00"
+        Me.lblProcWriteBytes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label36
+        '
+        Me.Label36.AutoSize = True
+        Me.Label36.Location = New System.Drawing.Point(6, 70)
+        Me.Label36.Name = "Label36"
+        Me.Label36.Size = New System.Drawing.Size(60, 13)
+        Me.Label36.TabIndex = 26
+        Me.Label36.Text = "Write bytes"
+        '
+        'lblProcWrites
+        '
+        Me.lblProcWrites.AutoSize = True
+        Me.lblProcWrites.Location = New System.Drawing.Point(99, 52)
+        Me.lblProcWrites.Name = "lblProcWrites"
+        Me.lblProcWrites.Size = New System.Drawing.Size(19, 13)
+        Me.lblProcWrites.TabIndex = 25
+        Me.lblProcWrites.Text = "00"
+        Me.lblProcWrites.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label38
+        '
+        Me.Label38.AutoSize = True
+        Me.Label38.Location = New System.Drawing.Point(6, 52)
+        Me.Label38.Name = "Label38"
+        Me.Label38.Size = New System.Drawing.Size(37, 13)
+        Me.Label38.TabIndex = 24
+        Me.Label38.Text = "Writes"
+        '
+        'lblProcReadBytes
+        '
+        Me.lblProcReadBytes.AutoSize = True
+        Me.lblProcReadBytes.Location = New System.Drawing.Point(99, 34)
+        Me.lblProcReadBytes.Name = "lblProcReadBytes"
+        Me.lblProcReadBytes.Size = New System.Drawing.Size(19, 13)
+        Me.lblProcReadBytes.TabIndex = 23
+        Me.lblProcReadBytes.Text = "00"
+        Me.lblProcReadBytes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label40
+        '
+        Me.Label40.AutoSize = True
+        Me.Label40.Location = New System.Drawing.Point(6, 34)
+        Me.Label40.Name = "Label40"
+        Me.Label40.Size = New System.Drawing.Size(61, 13)
+        Me.Label40.TabIndex = 22
+        Me.Label40.Text = "Read bytes"
+        '
+        'lblProcReads
+        '
+        Me.lblProcReads.AutoSize = True
+        Me.lblProcReads.Location = New System.Drawing.Point(99, 16)
+        Me.lblProcReads.Name = "lblProcReads"
+        Me.lblProcReads.Size = New System.Drawing.Size(19, 13)
+        Me.lblProcReads.TabIndex = 21
+        Me.lblProcReads.Text = "00"
+        Me.lblProcReads.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label42
+        '
+        Me.Label42.AutoSize = True
+        Me.Label42.Location = New System.Drawing.Point(6, 16)
+        Me.Label42.Name = "Label42"
+        Me.Label42.Size = New System.Drawing.Size(38, 13)
+        Me.Label42.TabIndex = 20
+        Me.Label42.Text = "Reads"
         '
         'GroupBox3
         '
@@ -1610,6 +1765,7 @@ Partial Class frmMain
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.splitPerformances)
         Me.TabPage3.ImageIndex = 2
         Me.TabPage3.Location = New System.Drawing.Point(4, 23)
         Me.TabPage3.Name = "TabPage3"
@@ -1618,6 +1774,87 @@ Partial Class frmMain
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Performances"
         Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'splitPerformances
+        '
+        Me.splitPerformances.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.splitPerformances.IsSplitterFixed = True
+        Me.splitPerformances.Location = New System.Drawing.Point(3, 3)
+        Me.splitPerformances.Name = "splitPerformances"
+        Me.splitPerformances.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'splitPerformances.Panel1
+        '
+        Me.splitPerformances.Panel1.Controls.Add(Me.graphCPU)
+        '
+        'splitPerformances.Panel2
+        '
+        Me.splitPerformances.Panel2.Controls.Add(Me.splitPerformance2)
+        Me.splitPerformances.Size = New System.Drawing.Size(546, 201)
+        Me.splitPerformances.SplitterDistance = 67
+        Me.splitPerformances.SplitterWidth = 1
+        Me.splitPerformances.TabIndex = 3
+        '
+        'graphCPU
+        '
+        Me.graphCPU.BackColor = System.Drawing.Color.Black
+        Me.graphCPU.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphCPU.EnableGraph = True
+        Me.graphCPU.Fixedheight = True
+        Me.graphCPU.GridStep = 10
+        Me.graphCPU.Location = New System.Drawing.Point(0, 0)
+        Me.graphCPU.Name = "graphCPU"
+        Me.graphCPU.Size = New System.Drawing.Size(546, 67)
+        Me.graphCPU.TabIndex = 1
+        Me.graphCPU.TabStop = False
+        '
+        'splitPerformance2
+        '
+        Me.splitPerformance2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.splitPerformance2.IsSplitterFixed = True
+        Me.splitPerformance2.Location = New System.Drawing.Point(0, 0)
+        Me.splitPerformance2.Name = "splitPerformance2"
+        Me.splitPerformance2.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'splitPerformance2.Panel1
+        '
+        Me.splitPerformance2.Panel1.Controls.Add(Me.graphMemory)
+        '
+        'splitPerformance2.Panel2
+        '
+        Me.splitPerformance2.Panel2.Controls.Add(Me.graphIO)
+        Me.splitPerformance2.Size = New System.Drawing.Size(546, 133)
+        Me.splitPerformance2.SplitterDistance = 66
+        Me.splitPerformance2.SplitterWidth = 1
+        Me.splitPerformance2.TabIndex = 0
+        '
+        'graphMemory
+        '
+        Me.graphMemory.BackColor = System.Drawing.Color.Black
+        Me.graphMemory.Color = System.Drawing.Color.Red
+        Me.graphMemory.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphMemory.EnableGraph = True
+        Me.graphMemory.Fixedheight = False
+        Me.graphMemory.GridStep = 10
+        Me.graphMemory.Location = New System.Drawing.Point(0, 0)
+        Me.graphMemory.Name = "graphMemory"
+        Me.graphMemory.Size = New System.Drawing.Size(546, 66)
+        Me.graphMemory.TabIndex = 2
+        Me.graphMemory.TabStop = False
+        '
+        'graphIO
+        '
+        Me.graphIO.BackColor = System.Drawing.Color.Black
+        Me.graphIO.Color = System.Drawing.Color.LimeGreen
+        Me.graphIO.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphIO.EnableGraph = True
+        Me.graphIO.Fixedheight = False
+        Me.graphIO.GridStep = 10
+        Me.graphIO.Location = New System.Drawing.Point(0, 0)
+        Me.graphIO.Name = "graphIO"
+        Me.graphIO.Size = New System.Drawing.Size(546, 66)
+        Me.graphIO.TabIndex = 3
+        Me.graphIO.TabStop = False
         '
         'TabPage4
         '
@@ -5971,6 +6208,11 @@ Partial Class frmMain
         Me.cmdTray.TabIndex = 45
         Me.cmdTray.UseVisualStyleBackColor = True
         '
+        'timerProcPerf
+        '
+        Me.timerProcPerf.Enabled = True
+        Me.timerProcPerf.Interval = 1000
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -6020,10 +6262,22 @@ Partial Class frmMain
         Me.TabPage2.ResumeLayout(False)
         Me.GroupBox5.ResumeLayout(False)
         Me.GroupBox5.PerformLayout()
+        Me.GroupBox4.ResumeLayout(False)
+        Me.GroupBox4.PerformLayout()
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
+        Me.TabPage3.ResumeLayout(False)
+        Me.splitPerformances.Panel1.ResumeLayout(False)
+        Me.splitPerformances.Panel2.ResumeLayout(False)
+        Me.splitPerformances.ResumeLayout(False)
+        CType(Me.graphCPU, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.splitPerformance2.Panel1.ResumeLayout(False)
+        Me.splitPerformance2.Panel2.ResumeLayout(False)
+        Me.splitPerformance2.ResumeLayout(False)
+        CType(Me.graphMemory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.graphIO, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage4.ResumeLayout(False)
         Me.tabProcessToken.ResumeLayout(False)
         Me.tabProcessTokenPagePrivileges.ResumeLayout(False)
@@ -6653,5 +6907,23 @@ Partial Class frmMain
     Friend WithEvents ColumnHeader20 As System.Windows.Forms.ColumnHeader
     Friend WithEvents menuProcServ As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem43 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents lblProcOtherBytes As System.Windows.Forms.Label
+    Friend WithEvents Label23 As System.Windows.Forms.Label
+    Friend WithEvents lblProcOther As System.Windows.Forms.Label
+    Friend WithEvents Label30 As System.Windows.Forms.Label
+    Friend WithEvents lblProcWriteBytes As System.Windows.Forms.Label
+    Friend WithEvents Label36 As System.Windows.Forms.Label
+    Friend WithEvents lblProcWrites As System.Windows.Forms.Label
+    Friend WithEvents Label38 As System.Windows.Forms.Label
+    Friend WithEvents lblProcReadBytes As System.Windows.Forms.Label
+    Friend WithEvents Label40 As System.Windows.Forms.Label
+    Friend WithEvents lblProcReads As System.Windows.Forms.Label
+    Friend WithEvents Label42 As System.Windows.Forms.Label
+    Friend WithEvents timerProcPerf As System.Windows.Forms.Timer
+    Friend WithEvents splitPerformances As System.Windows.Forms.SplitContainer
+    Friend WithEvents graphCPU As YAPM.Graph2
+    Friend WithEvents splitPerformance2 As System.Windows.Forms.SplitContainer
+    Friend WithEvents graphMemory As YAPM.Graph2
+    Friend WithEvents graphIO As YAPM.Graph2
 
 End Class
