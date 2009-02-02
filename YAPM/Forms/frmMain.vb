@@ -824,7 +824,7 @@ Public Class frmMain
         Me.panelMain11.Width = Me.panelMain3.Width
 
         ' Process
-        Me.panelMain.Height = Me.panelMain3.Height
+        Me.panelMain.Height = Me.panelMain3.Height - 23
         Me.panelMain.Width = Me.panelMain3.Width
 
         Dim i As Integer = CInt((Me.Height - 250) / 2)

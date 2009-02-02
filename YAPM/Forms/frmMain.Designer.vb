@@ -1927,7 +1927,7 @@ Partial Class frmMain
         'ColumnHeader52
         '
         Me.ColumnHeader52.Text = "Description"
-        Me.ColumnHeader52.Width = 500
+        Me.ColumnHeader52.Width = 400
         '
         'menuPrivileges
         '
@@ -1989,7 +1989,7 @@ Partial Class frmMain
         'ColumnHeader53
         '
         Me.ColumnHeader53.Text = "Name"
-        Me.ColumnHeader53.Width = 250
+        Me.ColumnHeader53.Width = 198
         '
         'ColumnHeader54
         '
@@ -2149,22 +2149,22 @@ Partial Class frmMain
         'ColumnHeader23
         '
         Me.ColumnHeader23.Text = "ServiceName"
-        Me.ColumnHeader23.Width = 150
+        Me.ColumnHeader23.Width = 140
         '
         'ColumnHeader47
         '
         Me.ColumnHeader47.Text = "State"
-        Me.ColumnHeader47.Width = 100
+        Me.ColumnHeader47.Width = 90
         '
         'ColumnHeader48
         '
         Me.ColumnHeader48.Text = "CommonName"
-        Me.ColumnHeader48.Width = 250
+        Me.ColumnHeader48.Width = 220
         '
         'ColumnHeader20
         '
         Me.ColumnHeader20.Text = "Path"
-        Me.ColumnHeader20.Width = 500
+        Me.ColumnHeader20.Width = 330
         '
         'menuProcServ
         '
