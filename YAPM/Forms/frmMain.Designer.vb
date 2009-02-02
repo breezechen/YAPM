@@ -2062,7 +2062,6 @@ Partial Class frmMain
         Me.chkDisplayNAProcess.TabIndex = 18
         Me.chkDisplayNAProcess.Text = "Display all processes"
         Me.chkDisplayNAProcess.UseVisualStyleBackColor = True
-        Me.chkDisplayNAProcess.Visible = False
         '
         'chkHandles
         '
@@ -5254,25 +5253,25 @@ Partial Class frmMain
         '
         Me.menuSearch.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectAssociatedProcessToolStripMenuItem, Me.ToolStripMenuItem18, Me.CloseToolStripMenuItem})
         Me.menuSearch.Name = "menuProc"
-        Me.menuSearch.Size = New System.Drawing.Size(207, 54)
+        Me.menuSearch.Size = New System.Drawing.Size(248, 54)
         '
         'SelectAssociatedProcessToolStripMenuItem
         '
         Me.SelectAssociatedProcessToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.exe
         Me.SelectAssociatedProcessToolStripMenuItem.Name = "SelectAssociatedProcessToolStripMenuItem"
-        Me.SelectAssociatedProcessToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
-        Me.SelectAssociatedProcessToolStripMenuItem.Text = "&Select associated process"
+        Me.SelectAssociatedProcessToolStripMenuItem.Size = New System.Drawing.Size(247, 22)
+        Me.SelectAssociatedProcessToolStripMenuItem.Text = "Select associated process/service"
         '
         'ToolStripMenuItem18
         '
         Me.ToolStripMenuItem18.Name = "ToolStripMenuItem18"
-        Me.ToolStripMenuItem18.Size = New System.Drawing.Size(203, 6)
+        Me.ToolStripMenuItem18.Size = New System.Drawing.Size(244, 6)
         '
         'CloseToolStripMenuItem
         '
         Me.CloseToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.kill
         Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(247, 22)
         Me.CloseToolStripMenuItem.Text = "Close item"
         '
         'imgSearch

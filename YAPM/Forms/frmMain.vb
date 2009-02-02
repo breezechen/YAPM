@@ -523,6 +523,7 @@ Public Class frmMain
                         lsub7.Text = NO_INFO_RETRIEVED
                         lsub8.Text = NO_INFO_RETRIEVED
                         it.ImageKey = "noIcon"
+                        it.ForeColor = Drawing.Color.Gray
                     End If
 
                     it.SubItems.Add(lsub1)
@@ -599,28 +600,6 @@ Public Class frmMain
                     isub.Text = cP.GetInformation(colName)
                     xxx += 1
                 Next
-
-                'Dim id As Integer = cP.Pid
-
-                '' Processor time
-                '' Memory
-                '' Peak memory
-                '' Priority
-                '' Path
-
-                'Dim ts As Date = cP.ProcessorTime
-                'Dim fName As String = cP.Path
-                'Dim s As String = String.Format("{0:00}", ts.Hour) & ":" & _
-                '    String.Format("{0:00}", ts.Minute) & ":" & _
-                '    String.Format("{0:00}", ts.Second) & ":" & _
-                '    String.Format("{000}", ts.Millisecond)
-
-                'With lvi
-                '    .SubItems(3).Text = s
-                '    Dim mc As cProcess.PROCESS_MEMORY_COUNTERS = cP.MemoryInfos
-                '    .SubItems(4).Text = CStr(mc.WorkingSetSize / 1024) & " Kb"
-                '    .SubItems(5).Text = cP.PriorityClass
-                'End With
 
             Catch ex As Exception
                 ' Access denied or ?
@@ -2275,23 +2254,38 @@ Public Class frmMain
         If Me.lvSearchResults.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
         For Each it In Me.lvSearchResults.SelectedItems
             Try
-                Dim sp As String = it.SubItems(3).Text
-                Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
-                If i > 0 Then
-                    Dim pid As String = sp.Substring(0, i - 1)
+                If it.Tag.ToString = "service" Then
+                    ' Select service
+                    Dim sp As String = it.SubItems(3).Text
                     Dim it2 As ListViewItem
-                    For Each it2 In Me.lvProcess.Items
-                        Dim cp As cProcess = CType(it2.Tag, cProcess)
-                        If CStr(cp.Pid) = pid Then
+                    For Each it2 In Me.lvServices.Items
+                        Dim cp As cService = CType(it2.Tag, cService)
+                        If cp.Name = sp Then
                             it2.Selected = True
                         End If
                     Next
+                    Me.Ribbon.ActiveTab = Me.ServiceTab
+                Else
+                    ' Select process
+                    Dim sp As String = it.SubItems(3).Text
+                    Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
+                    If i > 0 Then
+                        Dim pid As String = sp.Substring(0, i - 1)
+                        Dim it2 As ListViewItem
+                        For Each it2 In Me.lvProcess.Items
+                            Dim cp As cProcess = CType(it2.Tag, cProcess)
+                            If CStr(cp.Pid) = pid Then
+                                it2.Selected = True
+                            End If
+                        Next
+                    End If
+                    Me.Ribbon.ActiveTab = Me.ProcessTab
                 End If
             Catch ex As Exception
                 '
             End Try
         Next
-        Me.Ribbon.ActiveTab = Me.ProcessTab
+
         Call Me.Ribbon_MouseMove(Nothing, Nothing)
     End Sub
 

@@ -97,7 +97,7 @@ Public Class cLog
 
         ' Redim array if necessary
         ' Size *2 -> size each time (reduces number of redim calls)
-        If _lineCount > _s.Length Then
+        If _lineCount >= _s.Length Then
             ReDim Preserve _s(_s.Length * 2)
         End If
         _s(_lineCount) = s

@@ -153,10 +153,6 @@
       <DependentUpon>Graph2.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\Ltv.resx">
-      <DependentUpon>Ltv.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\Graph.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Graph.vb</DependentUpon>
@@ -166,10 +162,6 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\LvTv.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>LvTv.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -278,9 +270,6 @@
     <Compile Include="UserControls\Graph2.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserControls\Ltv.vb">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="UserControls\Graph.vb">
       <SubType>Component</SubType>
     </Compile>
@@ -288,12 +277,6 @@
     <Compile Include="Modules\mdlInternet.vb" />
     <Compile Include="Modules\mdlMisc.vb" />
     <Compile Include="Classes\Pref.vb" />
-    <Compile Include="UserControls\LvTv.Designer.vb">
-      <DependentUpon>LvTv.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\LvTv.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <None Include="Resources\folder_info.png" />
     <None Include="Resources\info.png" />
     <None Include="Resources\process1.png" />
