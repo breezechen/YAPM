@@ -845,9 +845,9 @@ Public Class frmMain
 
         ' Services
 
-        Me.panelMain2.Height = Me.panelMain.Height - 27 '- CInt(IIf(i < 210, i, 210)) - 187
+        Me.panelMain2.Height = Me.panelMain3.Height - 27 '- CInt(IIf(i < 210, i, 210)) - 187
         '  Me.panelInfos2.Top = Me.panelMain2.Top + Me.panelMain2.Height + 3
-        Me.panelMain2.Width = Me.panelMain.Width
+        Me.panelMain2.Width = Me.panelMain3.Width
         '  Me.panelInfos2.Width = MepanelInfonWidth
 
         'Me.lblServiceName.Width = Me.panelInfos2.Width - 140
