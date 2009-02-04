@@ -4952,8 +4952,6 @@ Public Class frmMain
         If lvProcess.SelectedItems.Count = 1 Then
             Dim it As ListViewItem = lvProcess.SelectedItems.Item(0)
 
-            Me.txtProcessPath.Text = "Unable to retrieve path"
-
             If TypeOf it.Tag Is cProcess Then
 
                 Try
@@ -4983,11 +4981,13 @@ Public Class frmMain
                     Call refreshProcessTab(it, cP)
 
                 Catch ex As Exception
+                    Me.txtProcessPath.Text = "Unable to retrieve path"
 
                 End Try
 
             Else
                 ' Error
+                Me.txtProcessPath.Text = "Unable to retrieve path"
             End If
 
         End If
@@ -5490,5 +5490,9 @@ Public Class frmMain
         Me.graphCPU.Refresh()
         Me.graphIO.Refresh()
         Me.graphMemory.Refresh()
+    End Sub
+
+    Private Sub ShowSystemInformatoToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowSystemInformatoToolStripMenuItem.Click
+        frmSystemInfo.Show()
     End Sub
 End Class
