@@ -263,7 +263,6 @@ Partial Class frmMain
         Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem
         Me.saveDial = New System.Windows.Forms.SaveFileDialog
         Me.openDial = New System.Windows.Forms.OpenFileDialog
-        Me.timerJobs = New System.Windows.Forms.Timer(Me.components)
         Me.Ribbon = New System.Windows.Forms.Ribbon
         Me.ProcessTab = New System.Windows.Forms.RibbonTab
         Me.RBProcessDisplay = New System.Windows.Forms.RibbonPanel
@@ -2230,7 +2229,6 @@ Partial Class frmMain
         '
         'timerProcess
         '
-        Me.timerProcess.Enabled = True
         Me.timerProcess.Interval = 1000
         '
         'panelMain2
@@ -2713,11 +2711,6 @@ Partial Class frmMain
         Me.openDial.CheckFileExists = False
         Me.openDial.CheckPathExists = False
         Me.openDial.SupportMultiDottedExtensions = True
-        '
-        'timerJobs
-        '
-        Me.timerJobs.Enabled = True
-        Me.timerJobs.Interval = 90
         '
         'Ribbon
         '
@@ -5628,7 +5621,6 @@ Partial Class frmMain
         '
         'timerMonitoring
         '
-        Me.timerMonitoring.Enabled = True
         Me.timerMonitoring.Interval = 1000
         '
         'panelMain9
@@ -6276,7 +6268,6 @@ Partial Class frmMain
         '
         'timerProcPerf
         '
-        Me.timerProcPerf.Enabled = True
         Me.timerProcPerf.Interval = 1000
         '
         'frmMain
@@ -6501,7 +6492,6 @@ Partial Class frmMain
     Friend WithEvents ToolStripMenuItem21 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ShutdownToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents openDial As System.Windows.Forms.OpenFileDialog
-    Friend WithEvents timerJobs As System.Windows.Forms.Timer
     Friend WithEvents Ribbon As System.Windows.Forms.Ribbon
     Friend WithEvents ProcessTab As System.Windows.Forms.RibbonTab
     Friend WithEvents ServiceTab As System.Windows.Forms.RibbonTab

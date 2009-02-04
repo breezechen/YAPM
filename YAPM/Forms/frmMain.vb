@@ -737,6 +737,11 @@ Public Class frmMain
             End With
         End Try
 
+        Me.timerMonitoring.Enabled = True
+        Me.timerProcess.Enabled = True
+        Me.timerProcPerf.Enabled = True
+        Me.timerServices.Enabled = True
+
         Call Me.lvProcess.Focus()
         'System.Windows.Forms.SendKeys.Send("yapm.")
         Try
@@ -1227,75 +1232,75 @@ Public Class frmMain
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
-    Private Sub timerJobs_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerJobs.Tick
-        ' Job processing
-        Dim it As ListViewItem
-        Dim p As ListViewItem
-        Dim tAction As String = vbNullString
-        Dim tTime As String = vbNullString
-        Dim tPid As Integer = 0
-        Dim tProcess As String = vbNullString
-        Dim tName As String = vbNullString
+    'Private Sub timerJobs_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerJobs.Tick
+    '    ' Job processing
+    '    Dim it As ListViewItem
+    '    Dim p As ListViewItem
+    '    Dim tAction As String = vbNullString
+    '    Dim tTime As String = vbNullString
+    '    Dim tPid As Integer = 0
+    '    Dim tProcess As String = vbNullString
+    '    Dim tName As String = vbNullString
 
-        For Each it In Me.lvJobs.Items
-            ' Name
-            ' ProcessID
-            ' ProcessName
-            ' Action
-            ' Time
-            With it
-                tPid = CInt(.SubItems(1).Text)
-                tProcess = .SubItems(2).Text
-                tAction = .SubItems(3).Text
-                tTime = .SubItems(4).Text
-            End With
+    '    For Each it In Me.lvJobs.Items
+    '        ' Name
+    '        ' ProcessID
+    '        ' ProcessName
+    '        ' Action
+    '        ' Time
+    '        With it
+    '            tPid = CInt(.SubItems(1).Text)
+    '            tProcess = .SubItems(2).Text
+    '            tAction = .SubItems(3).Text
+    '            tTime = .SubItems(4).Text
+    '        End With
 
-            ' Firstly, we check if time implies to process job now
-            If tTime = "Every second" Or tTime = DateTime.Now.ToLongDateString & "-" & DateTime.Now.ToLongTimeString Then
+    '        ' Firstly, we check if time implies to process job now
+    '        If tTime = "Every second" Or tTime = DateTime.Now.ToLongDateString & "-" & DateTime.Now.ToLongTimeString Then
 
-                If tPid > 0 Then
-                    ' Check PID
-                    If Len(tProcess) > 0 Then
-                        ' Check process name too
-                        For Each p In lvProcess.Items
-                            Dim cp As cProcess = CType(p.Tag, cProcess)
-                            If cp.Name = tName And CInt(cp.Pid) = tPid Then
-                                ProcessJob(tPid, tAction)
-                            End If
-                        Next
-                    Else
-                        ' Check only pid
-                        For Each p In lvProcess.Items
-                            Dim cp As cProcess = CType(p.Tag, cProcess)
-                            If CInt(cp.Pid) = tPid Then
-                                ProcessJob(tPid, tAction)
-                            End If
-                        Next
-                    End If
-                Else
-                    ' Check only process name
-                    For Each p In lvProcess.Items
-                        Dim cp As cProcess = CType(p.Tag, cProcess)
-                        If cp.Name = tProcess Then
-                            ProcessJob(CInt(cp.Pid), tAction)
-                        End If
-                    Next
-                End If
-            End If
-        Next
-    End Sub
+    '            If tPid > 0 Then
+    '                ' Check PID
+    '                If Len(tProcess) > 0 Then
+    '                    ' Check process name too
+    '                    For Each p In lvProcess.Items
+    '                        Dim cp As cProcess = CType(p.Tag, cProcess)
+    '                        If cp.Name = tName And CInt(cp.Pid) = tPid Then
+    '                            ProcessJob(tPid, tAction)
+    '                        End If
+    '                    Next
+    '                Else
+    '                    ' Check only pid
+    '                    For Each p In lvProcess.Items
+    '                        Dim cp As cProcess = CType(p.Tag, cProcess)
+    '                        If CInt(cp.Pid) = tPid Then
+    '                            ProcessJob(tPid, tAction)
+    '                        End If
+    '                    Next
+    '                End If
+    '            Else
+    '                ' Check only process name
+    '                For Each p In lvProcess.Items
+    '                    Dim cp As cProcess = CType(p.Tag, cProcess)
+    '                    If cp.Name = tProcess Then
+    '                        ProcessJob(CInt(cp.Pid), tAction)
+    '                    End If
+    '                Next
+    '            End If
+    '        End If
+    '    Next
+    'End Sub
 
-    ' Process a job
-    Private Sub ProcessJob(ByVal pid As Integer, ByVal action As String)
-        Select Case action
-            Case "Kill"
-                'mdlProcess.Kill(pid)
-            Case "Pause"
-                'mdlProcess.SuspendProcess(pid)
-            Case "Resume"
-                'mdlProcess.ResumeProcess(pid)
-        End Select
-    End Sub
+    '' Process a job
+    'Private Sub ProcessJob(ByVal pid As Integer, ByVal action As String)
+    '    Select Case action
+    '        Case "Kill"
+    '            'mdlProcess.Kill(pid)
+    '        Case "Pause"
+    '            'mdlProcess.SuspendProcess(pid)
+    '        Case "Resume"
+    '            'mdlProcess.ResumeProcess(pid)
+    '    End Select
+    'End Sub
 
     Private Sub frmMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         Static first As Boolean = True
