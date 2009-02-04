@@ -31,10 +31,10 @@ Public Class DoubleBufferedLV
     ' Public
     ' ========================================
     Public Sub New()
-        Me.SetStyle(ControlStyles.OptimizedDoubleBuffer, True)
-        Me.SetStyle(ControlStyles.AllPaintingInWmPaint, True)
-        Me.SetStyle(ControlStyles.ResizeRedraw, True)
-        Me.SetStyle(ControlStyles.EnableNotifyMessage, True)
+        'Me.SetStyle(ControlStyles.OptimizedDoubleBuffer, True)
+        'Me.SetStyle(ControlStyles.AllPaintingInWmPaint, True)
+        'Me.SetStyle(ControlStyles.ResizeRedraw, True)
+        'Me.SetStyle(ControlStyles.EnableNotifyMessage, True)
         ' Me.DoubleBuffered = True
     End Sub
 

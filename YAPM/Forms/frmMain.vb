@@ -4947,6 +4947,7 @@ Public Class frmMain
 
     Private Sub lvProcess_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvProcess.SelectedIndexChanged
         ' New process selected
+        Static _path As String = ""
 
         If lvProcess.SelectedItems.Count = 1 Then
             Dim it As ListViewItem = lvProcess.SelectedItems.Item(0)
@@ -4967,13 +4968,16 @@ Public Class frmMain
                     End If
 
                     ' Icons
-                    Try
-                        pctBigIcon.Image = GetIcon(cP.Path, False).ToBitmap
-                        pctSmallIcon.Image = GetIcon(cP.Path, True).ToBitmap
-                    Catch ex As Exception
-                        pctSmallIcon.Image = Me.imgProcess.Images("noicon")
-                        pctBigIcon.Image = Me.imgMain.Images("noicon32")
-                    End Try
+                    If pctBigIcon.Image Is Nothing Or Not (_path = cP.Path) Then
+                        Try
+                            _path = cP.Path
+                            pctBigIcon.Image = GetIcon(cP.Path, False).ToBitmap
+                            pctSmallIcon.Image = GetIcon(cP.Path, True).ToBitmap
+                        Catch ex As Exception
+                            pctSmallIcon.Image = Me.imgProcess.Images("noicon")
+                            pctBigIcon.Image = Me.imgMain.Images("noicon32")
+                        End Try
+                    End If
 
 
                     Call refreshProcessTab(it, cP)
