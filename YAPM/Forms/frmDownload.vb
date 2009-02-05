@@ -36,7 +36,7 @@ Public Class frmDownload
         End Set
     End Property
 
-    Private Sub _download_CompleteCallback(ByVal sender As Object, ByVal e As System.Net.DownloadDataCompletedEventArgs) Handles _download.CompleteCallback
+    Private Sub _download_CompleteCallback(ByVal e As System.ComponentModel.AsyncCompletedEventArgs) Handles _download.CompleteCallback
         MsgBox("Complete !", MsgBoxStyle.Information, "Download done.")
         Me.Cancel_Button.Text = "OK"
         cFile.OpenDirectory(Me._download.Destination)
@@ -54,9 +54,9 @@ Public Class frmDownload
             Me.lblProgress.Text = s
             My.Application.DoEvents()
 
-            If e.ProgressPercentage = 100 Then
-                Call _download_CompleteCallback(Nothing, Nothing)
-            End If
+            'If e.ProgressPercentage = 100 Then
+            '    Call _download_CompleteCallback(Nothing)
+            'End If
 
         Catch ex As Exception
             '

@@ -208,6 +208,7 @@
     <Compile Include="Classes\cThread.vb">
     </Compile>
     <Compile Include="Classes\cWindow.vb" />
+    <Compile Include="Classes\WindowsSID.vb" />
     <Compile Include="Forms\frmAddProcessMonitor.Designer.vb">
       <DependentUpon>frmAddProcessMonitor.vb</DependentUpon>
     </Compile>

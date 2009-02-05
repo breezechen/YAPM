@@ -71,13 +71,10 @@ Public Class cProcess
     Private Declare Function TerminateProcess Lib "kernel32" (ByVal hProcess As Integer, ByVal uExitCode As Integer) As Integer
 
     Private Declare Function GetSecurityInfo Lib "advapi32.dll" (ByVal hObject As Integer, ByVal ObjectType As Integer, ByVal SecurityInformation As Integer, ByVal ppsidOwner As Integer, ByVal ppsidGroup As Integer, ByVal ppDacl As Integer, ByVal ppSacl As Integer, ByVal ppSecurityDescriptor As Integer) As Integer
-    ' Private Declare Function LookupAccountSid Lib "advapi32.dll" Alias "LookupAccountSidA" (ByVal lpSystemName As String, ByVal Sid As Integer, ByVal name As String, ByVal cbName As Integer, ByVal ReferencedDomainName As String, ByVal cbReferencedDomainName As Integer, ByVal peUse As Integer) As Integer
+    Private Declare Function LookupPrivilegeValue Lib "advapi32.dll" Alias "LookupPrivilegeValueA" (ByVal lpSystemName As String, ByVal lpName As String, ByRef lpLuid As LUID) As Integer           'Returns a valid LUID which is important when making security changes in NT.
     Private Declare Function OpenProcessToken Lib "advapi32.dll" (ByVal ProcessHandle As Integer, ByVal DesiredAccess As Integer, ByRef TokenHandle As Integer) As Integer
-    ' Private Declare Function GetTokenInformation Lib "advapi32.dll" (ByVal TokenHandle As Integer, ByVal TokenInformationClass As Integer, ByRef TokenInformation As TOKEN_GROUPS, ByRef TokenInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
-    Private Declare Function GetTokenInformation Lib "advapi32.dll" ( _
-    ByVal TokenHandle As IntPtr, ByVal TokenInformationClass As TOKEN_INFORMATION_CLASS, _
-    ByRef TokenInformation As IntPtr, ByVal TokenInformationLength As System.UInt32, _
-    ByRef ReturnLength As System.UInt32) As Boolean
+    Private Declare Function GetTokenInformation Lib "advapi32.dll" (ByVal TokenHandle As Integer, ByVal TokenInformationClass As Integer, ByVal TokenInformation As Integer, ByVal TokenInformationLength As Integer, ByRef ReturnLength As Integer) As Boolean
+    Private Declare Function LookupPrivilegeNameA Lib "advapi32.dll" (ByVal lpSystemName As String, ByRef lpLuid As LUID, ByVal lpName As String, ByRef cchName As Integer) As Integer                'Used to adjust your program's security privileges, can't restore without it!
     ' Declare Auto Function ConvertSidToStringSid Lib "advapi32.dll" (ByVal pSID() As Byte, _
     'ByRef ptrSid As IntPtr) As Boolean
     Private Declare Function LookupAccountSid Lib "advapi32.dll" _
@@ -99,7 +96,10 @@ Public Class cProcess
     Private Declare Function WaitForSingleObject Lib "kernel32" (ByVal hHandle As Integer, ByVal dwMilliseconds As Integer) As Integer
     Private Declare Function GetExitCodeThread Lib "kernel32" (ByVal hThread As Integer, ByRef lpExitCode As Integer) As Integer
     Private Declare Function CreateRemoteThread Lib "kernel32" (ByVal hProcess As Integer, ByVal lpThreadAttributes As Integer, ByVal dwStackSize As Integer, ByVal lpStartAddress As Integer, ByVal lpParameter As Integer, ByVal dwCreationFlags As Integer, ByRef lpThreadId As Integer) As Integer
-
+    Private Declare Auto Function ConvertSidToStringSid Lib "advapi32.dll" ( _
+      ByVal Sid As IntPtr, _
+      ByRef StringSid As IntPtr _
+      ) As Boolean
     <DllImport("kernel32.dll", SetLastError:=True, ExactSpelling:=True)> _
     Private Shared Function VirtualAllocEx(ByVal hProcess As IntPtr, ByVal lpAddress As IntPtr, _
         ByVal dwSize As UInteger, ByVal flAllocationType As UInteger, _
@@ -508,73 +508,50 @@ Public Class cProcess
         Get
             If _UserName = vbNullString Then
 
-                'Dim hToken As Integer
-                'Dim hProc As Integer
-                ''   Dim cbBuff As UInteger
+                Dim hToken As Integer
+                Dim hProc As Integer
+                'Dim cbBuff As UInteger
                 'Dim TG As TOKEN_GROUPS
-                'Dim __UserName As String
-                'Dim DomainName As String
-                'Dim UserNameLenght As Integer
-                'Dim DomainNameLenght As Integer
-                ''                Dim peUse As Integer
-                'Dim ppsidGroup As Integer
-                'Dim res As String = vbNullString
-                'Dim tgptr As IntPtr
-
-                'ReDim TG.Groups(500)
-
-                'tgptr = Marshal.AllocHGlobal(Marshal.SizeOf(TG))
-
-                'If _hProcess > 0 Then
-                '    If OpenProcessToken(_hProcess, &H8, hToken) > 0 Then
-                '        'GetTokenInformation(hToken, TokenUser, TG, 0, cbBuff)
-                '        'gettokeninfo(
-                '        Dim TokenInfLength As UInteger = 0
-                '        Dim Result As Boolean = GetTokenInformation(CType(hToken, IntPtr), TOKEN_INFORMATION_CLASS.TokenUser, IntPtr.Zero, TokenInfLength, TokenInfLength)
-                '        Dim TokenInformation As IntPtr = Marshal.AllocHGlobal(CInt(TokenInfLength))
-                '        Result = GetTokenInformation(CType(hToken, IntPtr), TOKEN_INFORMATION_CLASS.TokenUser, TokenInformation, TokenInfLength, TokenInfLength)
-
-                '        If Result Then
-                '            CloseHandle(hToken)
-
-                '            'Dim TokenUser As New TOKEN_USER
-                '            'Marshal.PtrToStructure(TokenInformation, TokenUser)
+                Dim __UserName As String
+                Dim DomainName As String
+                Dim UserNameLenght As Integer
+                Dim DomainNameLenght As Integer
+                'Dim peUse As Integer
+                Dim ppsidGroup As Integer
+                Dim res As String = vbNullString
+                ' Dim tgptr As IntPtr
+                '  ReDim TG.Groups(500)
+                ' tgptr = Marshal.AllocHGlobal(Marshal.SizeOf(TG))
 
 
-                '            'Dim pstr As IntPtr = IntPtr.Zero
-                '            '' Dim opop As String = MyLookupAccountSid(
-                '            'Dim ok As Integer = ConvertSidToStringSid(TokenInformation, opop)
-                '            'Dim sidstr As String = Marshal.PtrToStringAuto(pstr)
-                '            Dim account2 As String = New SecurityIdentifier(TokenInformation).Value
+                If _hProcess > 0 Then
+                    If OpenProcessToken(_hProcess, &H8, hToken) > 0 Then
 
-                '            'Dim curID As WindowsIdentity = WindowsIdentity.GetCurrent()
-                '            'Dim account As New NTAccount(curID.Name)
-                '            'Dim sid As SecurityIdentifier = CType(account.Translate(GetType(SecurityIdentifier)), SecurityIdentifier)
+                        Dim retlen As Integer = 0
+                        GetTokenInformation(hToken, TOKEN_INFORMATION_CLASS.TokenUser, 0, 0, retlen)
+                        Dim TokenInformation As IntPtr = Marshal.AllocHGlobal(retlen)
+                        ' Get token ingo
+                        GetTokenInformation(hToken, TOKEN_INFORMATION_CLASS.TokenUser, CInt(TokenInformation), retlen, 0)
+                        Dim TG As New TOKEN_USER
+                        Dim ptr As IntPtr = Marshal.AllocHGlobal(Marshal.SizeOf(TG))
+                        TG = CType(Marshal.PtrToStructure(ptr, GetType(TOKEN_USER)), Global.YAPM.cProcess.TOKEN_USER)
 
-                '            'UserNameLenght = 255
-                '            '__UserName = Space$(UserNameLenght)
-                '            'DomainName = __UserName 'Space$(255)
-                '            'DomainNameLenght = UserNameLenght
-                '            'LookupAccountSid(vbNullString, TG.GroupCount, __UserName, UserNameLenght, DomainName, DomainNameLenght, peUse)
-
-                '            'res = Left$(__UserName, UserNameLenght)
-                '            res = account2
-                '        End If
-                '    Else
-                '        hProc = OpenProcess(PROCESS_READ_CONTROL, 0, _pid)
-                '        If hProc > 0 Then
-                '            If GetSecurityInfo(hProc, SE_KERNEL_OBJECT, GROUP_SECURITY_INFORMATION, 0, ppsidGroup, 0, 0, 0) = 0 Then
-                '                CloseHandle(hProc)
-                '                UserNameLenght = 255
-                '                __UserName = Space$(UserNameLenght)
-                '                DomainName = __UserName
-                '                DomainNameLenght = UserNameLenght
-                '                ' LookupAccountSid(vbNullString, ppsidGroup, __UserName, UserNameLenght, DomainName, DomainNameLenght, peUse)
-                '                res = Left$(__UserName, UserNameLenght)
-                '            End If
-                '        End If
-                '    End If
-                'End If
+                        ' Return New WindowsSID(TG.User.Sid).GetName(True)
+                    Else
+                        hProc = OpenProcess(PROCESS_READ_CONTROL, 0, _pid)
+                        If hProc > 0 Then
+                            If GetSecurityInfo(hProc, SE_KERNEL_OBJECT, GROUP_SECURITY_INFORMATION, 0, ppsidGroup, 0, 0, 0) = 0 Then
+                                CloseHandle(hProc)
+                                UserNameLenght = 255
+                                __UserName = Space$(UserNameLenght)
+                                DomainName = __UserName
+                                DomainNameLenght = UserNameLenght
+                                ' LookupAccountSid(vbNullString, ppsidGroup, __UserName, UserNameLenght, DomainName, DomainNameLenght, peUse)
+                                res = Left$(__UserName, UserNameLenght)
+                            End If
+                        End If
+                    End If
+                End If
 
                 _UserName = NO_INFO_RETRIEVED
             End If

@@ -125,7 +125,7 @@ Public Class cFile
     Private Shared Function GetFileSizeEx(<[In]()> ByVal hFile As IntPtr, <[In](), Out()> ByRef lpFileSize As Long) As Boolean
     End Function
 
-    Private Declare Function SHRunDialog Lib "shell32" Alias "#61" (ByVal hOwner As Integer, ByVal Unknown1 As Integer, ByVal Unknown2 As Integer, ByVal szTitle As System.Text.StringBuilder, ByVal szPrompt As System.Text.StringBuilder, ByVal uFlags As Integer) As Integer
+    Private Declare Unicode Function SHRunDialog Lib "shell32" Alias "#61" (ByVal hwnd As Integer, ByVal dummy1 As Integer, ByVal dummy2 As Integer, ByVal Title As String, ByVal Prompt As String, ByVal Flags As Integer) As Integer
 
     Private Declare Function GetWindowsDirectory Lib "kernel32" Alias "GetWindowsDirectoryA" _
         (ByVal Buffer As String, ByVal Size As Integer) As Integer
@@ -751,8 +751,7 @@ Public Class cFile
     Public Shared Function ShowRunBox(ByVal hWnd As Integer, ByVal Title As String, _
         ByVal Message As String) As Integer
 
-        Return SHRunDialog(hWnd, 0, 0, New System.Text.StringBuilder(Title), _
-            New System.Text.StringBuilder(Message), 0)
+        Return SHRunDialog(hWnd, 0, 0, Title, Message, 0)
 
     End Function
 

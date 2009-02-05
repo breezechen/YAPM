@@ -20,7 +20,7 @@
 ' Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-Option Strict Off
+Option Strict On
 
 Imports System.Net
 
@@ -40,7 +40,7 @@ Public Class cDownload
     ' ========================================
     ' Public events
     ' ========================================
-    Public Event CompleteCallback As DownloadCompleteHandler
+    Public Event CompleteCallback(ByVal e As System.ComponentModel.AsyncCompletedEventArgs)
     Public Event ProgressCallback As DownloadProgressChangeHandler
 
 
@@ -95,7 +95,7 @@ Public Class cDownload
     ' ========================================
     Public Sub DownloadCompleteHandler(ByVal sender As Object, ByVal e As System.ComponentModel.AsyncCompletedEventArgs)
         If Not (bStoped) Then
-            RaiseEvent CompleteCallback(sender, e)
+            RaiseEvent CompleteCallback(e)
         End If
     End Sub
 
