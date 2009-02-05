@@ -22,6 +22,7 @@ Partial Class frmAddProcessMonitor
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAddProcessMonitor))
         Me.butAdd = New System.Windows.Forms.Button
         Me.Label2 = New System.Windows.Forms.Label
         Me.txtInterval = New System.Windows.Forms.TextBox
@@ -40,6 +41,7 @@ Partial Class frmAddProcessMonitor
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
         Me.lstCategory = New YAPM.DoubleBufferedLV
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
+        Me.cmdSearch = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'butAdd
@@ -107,7 +109,7 @@ Partial Class frmAddProcessMonitor
         '
         'cmdAddToList
         '
-        Me.cmdAddToList.Location = New System.Drawing.Point(768, 45)
+        Me.cmdAddToList.Location = New System.Drawing.Point(768, 114)
         Me.cmdAddToList.Name = "cmdAddToList"
         Me.cmdAddToList.Size = New System.Drawing.Size(41, 23)
         Me.cmdAddToList.TabIndex = 4
@@ -116,7 +118,7 @@ Partial Class frmAddProcessMonitor
         '
         'cmdRemoveFromList
         '
-        Me.cmdRemoveFromList.Location = New System.Drawing.Point(768, 118)
+        Me.cmdRemoveFromList.Location = New System.Drawing.Point(768, 143)
         Me.cmdRemoveFromList.Name = "cmdRemoveFromList"
         Me.cmdRemoveFromList.Size = New System.Drawing.Size(41, 23)
         Me.cmdRemoveFromList.TabIndex = 8
@@ -130,6 +132,7 @@ Partial Class frmAddProcessMonitor
         Me.lstToAdd.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lstToAdd.Location = New System.Drawing.Point(833, 23)
         Me.lstToAdd.Name = "lstToAdd"
+        Me.lstToAdd.OverriddenDoubleBuffered = False
         Me.lstToAdd.ShowGroups = False
         Me.lstToAdd.ShowItemToolTips = True
         Me.lstToAdd.Size = New System.Drawing.Size(272, 147)
@@ -161,6 +164,7 @@ Partial Class frmAddProcessMonitor
         Me.lstCounterType.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lstCounterType.Location = New System.Drawing.Point(475, 24)
         Me.lstCounterType.Name = "lstCounterType"
+        Me.lstCounterType.OverriddenDoubleBuffered = False
         Me.lstCounterType.ShowGroups = False
         Me.lstCounterType.ShowItemToolTips = True
         Me.lstCounterType.Size = New System.Drawing.Size(272, 147)
@@ -182,6 +186,7 @@ Partial Class frmAddProcessMonitor
         Me.lstInstance.Location = New System.Drawing.Point(265, 24)
         Me.lstInstance.MultiSelect = False
         Me.lstInstance.Name = "lstInstance"
+        Me.lstInstance.OverriddenDoubleBuffered = False
         Me.lstInstance.ShowGroups = False
         Me.lstInstance.ShowItemToolTips = True
         Me.lstInstance.Size = New System.Drawing.Size(204, 147)
@@ -202,6 +207,7 @@ Partial Class frmAddProcessMonitor
         Me.lstCategory.Location = New System.Drawing.Point(9, 24)
         Me.lstCategory.MultiSelect = False
         Me.lstCategory.Name = "lstCategory"
+        Me.lstCategory.OverriddenDoubleBuffered = False
         Me.lstCategory.ShowGroups = False
         Me.lstCategory.ShowItemToolTips = True
         Me.lstCategory.Size = New System.Drawing.Size(250, 147)
@@ -215,11 +221,24 @@ Partial Class frmAddProcessMonitor
         Me.ColumnHeader4.Text = "Counter item"
         Me.ColumnHeader4.Width = 1000
         '
+        'cmdSearch
+        '
+        Me.cmdSearch.Image = CType(resources.GetObject("cmdSearch.Image"), System.Drawing.Image)
+        Me.cmdSearch.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.cmdSearch.Location = New System.Drawing.Point(753, 23)
+        Me.cmdSearch.Name = "cmdSearch"
+        Me.cmdSearch.Size = New System.Drawing.Size(74, 76)
+        Me.cmdSearch.TabIndex = 14
+        Me.cmdSearch.Text = "Search a monitor"
+        Me.cmdSearch.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.cmdSearch.UseVisualStyleBackColor = True
+        '
         'frmAddProcessMonitor
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1111, 235)
+        Me.Controls.Add(Me.cmdSearch)
         Me.Controls.Add(Me.lstCategory)
         Me.Controls.Add(Me.lstInstance)
         Me.Controls.Add(Me.lstCounterType)
@@ -256,13 +275,14 @@ Partial Class frmAddProcessMonitor
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents cmdAddToList As System.Windows.Forms.Button
     Friend WithEvents cmdRemoveFromList As System.Windows.Forms.Button
-    Friend WithEvents lstToAdd As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents txtHelp As System.Windows.Forms.TextBox
-    Friend WithEvents lstCounterType As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents lstInstance As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents lstCategory As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents cmdSearch As System.Windows.Forms.Button
+    Friend WithEvents lstToAdd As YAPM.DoubleBufferedLV
+    Friend WithEvents lstCounterType As YAPM.DoubleBufferedLV
+    Friend WithEvents lstInstance As YAPM.DoubleBufferedLV
+    Friend WithEvents lstCategory As YAPM.DoubleBufferedLV
 End Class

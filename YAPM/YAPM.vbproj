@@ -137,6 +137,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmSaveReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSearchMonitor.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmSearchMonitor.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSystemInfo.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmSystemInfo.vb</DependentUpon>
@@ -256,6 +260,12 @@
       <DependentUpon>frmSaveReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmSaveReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSearchMonitor.Designer.vb">
+      <DependentUpon>frmSearchMonitor.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSearchMonitor.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmSystemInfo.Designer.vb">

@@ -230,4 +230,7 @@ Public Class frmAddProcessMonitor
         Call mdlMisc.CopyLvToClip(e, lstToAdd)
     End Sub
 
+    Private Sub cmdSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSearch.Click
+        frmSearchMonitor.ShowDialog()
+    End Sub
 End Class
