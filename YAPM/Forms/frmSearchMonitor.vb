@@ -43,6 +43,7 @@ Public Class frmSearchMonitor
         If Len(s) = 0 Then Exit Sub
 
         Me.LV.Items.Clear()
+        Me.LV.BeginUpdate()
 
         ' List all categories
         Dim myCat2 As PerformanceCounterCategory()
@@ -120,5 +121,7 @@ Public Class frmSearchMonitor
             End Try
 
         Next
+
+        Me.LV.EndUpdate()
     End Sub
 End Class
