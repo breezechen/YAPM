@@ -592,6 +592,10 @@ Partial Class frmMain
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.cmdTray = New System.Windows.Forms.Button
         Me.timerProcPerf = New System.Windows.Forms.Timer(Me.components)
+        Me.lblGDIcount = New System.Windows.Forms.Label
+        Me.lbl789 = New System.Windows.Forms.Label
+        Me.lblUserObjectsCount = New System.Windows.Forms.Label
+        Me.Label37 = New System.Windows.Forms.Label
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
         Me.SplitContainerProcess.Panel2.SuspendLayout()
@@ -1318,11 +1322,15 @@ Partial Class frmMain
         '
         'GroupBox5
         '
+        Me.GroupBox5.Controls.Add(Me.lblUserObjectsCount)
+        Me.GroupBox5.Controls.Add(Me.Label37)
+        Me.GroupBox5.Controls.Add(Me.lblGDIcount)
+        Me.GroupBox5.Controls.Add(Me.lbl789)
         Me.GroupBox5.Controls.Add(Me.lblHandles)
         Me.GroupBox5.Controls.Add(Me.Label53)
         Me.GroupBox5.Location = New System.Drawing.Point(416, 114)
         Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(180, 38)
+        Me.GroupBox5.Size = New System.Drawing.Size(180, 75)
         Me.GroupBox5.TabIndex = 3
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Other"
@@ -6270,6 +6278,44 @@ Partial Class frmMain
         '
         Me.timerProcPerf.Interval = 1000
         '
+        'lblGDIcount
+        '
+        Me.lblGDIcount.AutoSize = True
+        Me.lblGDIcount.Location = New System.Drawing.Point(101, 35)
+        Me.lblGDIcount.Name = "lblGDIcount"
+        Me.lblGDIcount.Size = New System.Drawing.Size(19, 13)
+        Me.lblGDIcount.TabIndex = 3
+        Me.lblGDIcount.Text = "00"
+        Me.lblGDIcount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lbl789
+        '
+        Me.lbl789.AutoSize = True
+        Me.lbl789.Location = New System.Drawing.Point(7, 35)
+        Me.lbl789.Name = "lbl789"
+        Me.lbl789.Size = New System.Drawing.Size(63, 13)
+        Me.lbl789.TabIndex = 2
+        Me.lbl789.Text = "GDI objects"
+        '
+        'lblUserObjectsCount
+        '
+        Me.lblUserObjectsCount.AutoSize = True
+        Me.lblUserObjectsCount.Location = New System.Drawing.Point(102, 54)
+        Me.lblUserObjectsCount.Name = "lblUserObjectsCount"
+        Me.lblUserObjectsCount.Size = New System.Drawing.Size(19, 13)
+        Me.lblUserObjectsCount.TabIndex = 5
+        Me.lblUserObjectsCount.Text = "00"
+        Me.lblUserObjectsCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label37
+        '
+        Me.Label37.AutoSize = True
+        Me.Label37.Location = New System.Drawing.Point(8, 54)
+        Me.Label37.Name = "Label37"
+        Me.Label37.Size = New System.Drawing.Size(66, 13)
+        Me.Label37.TabIndex = 4
+        Me.Label37.Text = "User objects"
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -6990,5 +7036,9 @@ Partial Class frmMain
     Friend WithEvents ColumnHeader21 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader22 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ShowSystemInformatoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents lblUserObjectsCount As System.Windows.Forms.Label
+    Friend WithEvents Label37 As System.Windows.Forms.Label
+    Friend WithEvents lblGDIcount As System.Windows.Forms.Label
+    Friend WithEvents lbl789 As System.Windows.Forms.Label
 
 End Class

@@ -4603,6 +4603,8 @@ Public Class frmMain
                 Me.lblProcReadBytes.Text = GetFormatedSize(cP.GetIOvalues.ReadTransferCount)
                 Me.lblProcWriteBytes.Text = GetFormatedSize(cP.GetIOvalues.WriteTransferCount)
                 Me.lblProcWrites.Text = GetFormatedSize(cP.GetIOvalues.WriteOperationCount)
+                Me.lblGDIcount.Text = CStr(cP.GDIObjectsCount)
+                Me.lblUserObjectsCount.Text = CStr(cP.UserObjectsCount)
 
                 Dim mem As cProcess.PROCESS_MEMORY_COUNTERS = cP.MemoryInfos
                 Me.lblHandles.Text = "00000000000"

@@ -32,6 +32,8 @@ Public Class cProcess
     ' ========================================
 #Region "API"
 
+    Private Declare Function GetGuiResources Lib "user32.dll" (ByVal hProcess As Integer, ByVal uiFlags As Integer) As Integer
+
     Private Declare Function GetProcessIoCounters Lib "kernel32.dll" (ByVal hProcess As Integer, <Out()> ByRef lpIoCounters As PIO_COUNTERS) As Integer
 
     Private Declare Function CheckRemoteDebuggerPresent Lib "kernel32" (ByVal hProcess As Integer, ByRef DebuggerPresent As Boolean) As Boolean
@@ -364,6 +366,24 @@ Public Class cProcess
     ' ========================================
     ' Getter and setter
     ' ========================================
+    Public ReadOnly Property UserObjectsCount() As Integer
+        Get
+            If _hProcess > 0 Then
+                Return GetGuiResources(_hProcess, 1)     ' GR_USEROBJECTS = 0
+            Else
+                Return 0
+            End If
+        End Get
+    End Property
+    Public ReadOnly Property GDIObjectsCount() As Integer
+        Get
+            If _hProcess > 0 Then
+                Return GetGuiResources(_hProcess, 0)     ' GR_GDIOBJECTS = 0
+            Else
+                Return 0
+            End If
+        End Get
+    End Property
     Public ReadOnly Property IsDotNet() As Boolean
         Get
             ' Dot net applications have loaded mscoree.dll
@@ -1050,6 +1070,10 @@ Public Class cProcess
                 res = Me.MainModule.FileVersionInfo.FileVersion
             Case "Name"
                 res = Me.Name
+            Case "GdiObjects"
+                res = CStr(Me.GDIObjectsCount)
+            Case "UserObjects"
+                res = CStr(Me.UserObjectsCount)
         End Select
         Return res
     End Function
@@ -1062,7 +1086,7 @@ Public Class cProcess
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties() As String()
-        Dim s(22) As String
+        Dim s(24) As String
 
         s(0) = "PID"
         s(1) = "UserName"
@@ -1087,6 +1111,8 @@ Public Class cProcess
         s(20) = "Description"
         s(21) = "Copyright"
         s(22) = "Version"
+        s(23) = "GdiObjects"
+        s(24) = "UserObjects"
 
         Return s
     End Function
