@@ -320,6 +320,7 @@ Public Class frmMain
 
                 it.Text = p.Name
                 it.ImageKey = "service"
+                it.ForeColor = Color.FromArgb(30, 30, 30)
 
                 Dim lsub1 As New ListViewItem.ListViewSubItem
                 Dim lsub2 As New ListViewItem.ListViewSubItem
@@ -475,6 +476,7 @@ Public Class frmMain
 
 
                         ' Add icon
+                        it.ForeColor = Color.FromArgb(30, 30, 30)
                         Try
 
                             Dim fName As String = p.Path
@@ -1534,8 +1536,10 @@ Public Class frmMain
 
     Private Sub Ribbon_MouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Ribbon.MouseClick
         If Me.lvServices.Items.Count = 0 Then
-            ' First display of service tab
-            Call refreshServiceList()
+            If Me.Ribbon.ActiveTab.Text = "Services" Then
+                ' First display of service tab
+                Call refreshServiceList()
+            End If
         End If
     End Sub
 
@@ -2205,6 +2209,7 @@ Public Class frmMain
                         it.SubItems.Add(CStr(.GetHandle(i)))
                         it.SubItems.Add(CStr(id) & " -- " & cFile.GetFileName(cProcess.GetPath(id)))
                         it.Tag = .GetHandle(i)
+                        it.ForeColor = Color.FromArgb(30, 30, 30)
                         Select Case it.Text
                             Case "Key"
                                 it.ImageKey = "key"
@@ -3198,6 +3203,7 @@ Public Class frmMain
                     it.Tag = tCt
                     it.Group = Me.lvThreads.Groups(0)
                     it.ImageKey = "thread"
+                    it.ForeColor = Color.FromArgb(30, 30, 30)
                     Me.lvThreads.Items.Add(it)
                 Catch ex As Exception
                     '
@@ -3449,6 +3455,7 @@ Public Class frmMain
 
                         it.Tag = tCt
                         it.Group = Me.lvWindows.Groups(0)
+                        it.ForeColor = Color.FromArgb(30, 30, 30)
                         Me.lvWindows.Items.Add(it)
                     End If
                 Catch ex As Exception
@@ -3836,6 +3843,7 @@ Public Class frmMain
                             Else
                                 it.ImageKey = "dll"
                             End If
+                            it.ForeColor = Color.FromArgb(30, 30, 30)
                             Me.lvModules.Items.Add(it)
                         End If
                     Catch ex As Exception
