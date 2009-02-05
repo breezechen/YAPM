@@ -205,6 +205,7 @@
     <Compile Include="Classes\cProcess.vb" />
     <Compile Include="Classes\cProcessMemRW.vb" />
     <Compile Include="Classes\cRegMonitor.vb" />
+    <Compile Include="Classes\cSystemInfo.vb" />
     <Compile Include="Classes\cThread.vb">
     </Compile>
     <Compile Include="Classes\cWindow.vb" />

@@ -134,4 +134,15 @@ Module mdlMisc
         End If
     End Function
 
+    ' Get a formated percentage
+    Public Function GetFormatedPercentage(ByVal p As Double, Optional ByVal digits As Integer = 3) As String
+        Dim d100 As Double = p * 100
+        Dim d As Double = Math.Round(d100, digits)
+        Dim tr As Double = Math.Truncate(d)
+        Dim lp As Integer = CInt(tr)
+        Dim rp As Integer = CInt((d100 - tr) * 10 ^ digits)
+
+        Return CStr(IIf(lp < 10, "0", "")) & CStr(lp) & "." & CStr(IIf(rp < 10, "00", "")) & CStr(IIf(rp < 100 And rp >= 10, "0", "")) & CStr(rp)
+    End Function
+
 End Module

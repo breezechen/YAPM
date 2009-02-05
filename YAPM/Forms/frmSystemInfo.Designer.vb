@@ -22,7 +22,13 @@ Partial Class frmSystemInfo
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
+        Me.timerRefresh = New System.Windows.Forms.Timer(Me.components)
         Me.SuspendLayout()
+        '
+        'timerRefresh
+        '
+        Me.timerRefresh.Enabled = True
         '
         'frmSystemInfo
         '
@@ -36,4 +42,5 @@ Partial Class frmSystemInfo
         Me.ResumeLayout(False)
 
     End Sub
+    Friend WithEvents timerRefresh As System.Windows.Forms.Timer
 End Class

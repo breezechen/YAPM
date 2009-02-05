@@ -324,6 +324,7 @@ Public Class cProcess
     Private _parentName As String = ""              ' Parent process ID
     Private _mainMod As System.Diagnostics.ProcessModule
     Private _intTag1 As Integer = 0
+    Private _processors As Integer = 0
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
@@ -335,12 +336,14 @@ Public Class cProcess
     Public Sub New(ByVal processId As Integer)
         MyBase.New()
         _pid = processId
+        _processors = -1
         _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, _pid)
     End Sub
 
     Public Sub New(ByVal processId As Integer, ByVal processName As String)
         MyBase.New()
         _pid = processId
+        _processors = -1
         _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, _pid)
         _name = processName
     End Sub
@@ -349,6 +352,7 @@ Public Class cProcess
         MyBase.New()
         _pid = process.Pid
         _name = process.Name
+        _processors = process.ProcessorCount
         _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, _pid)
     End Sub
 
@@ -390,6 +394,15 @@ Public Class cProcess
             Return False
         End Get
     End Property
+    Public Property ProcessorCount() As Integer
+        Get
+            Return _processors
+        End Get
+        Set(ByVal value As Integer)
+            _processors = value
+        End Set
+    End Property
+
     Public ReadOnly Property IsElevated() As Boolean
         Get
             ' TODO
@@ -862,8 +875,11 @@ Public Class cProcess
             oldProcTime = proctime
             oldDate = currDate
 
-            'TODO : divide per number of processors
-            Return procDiff / diff
+            If diff > 0 Then
+                Return procDiff / diff
+            Else
+                Return 0
+            End If
         End Get
     End Property
 
@@ -982,7 +998,7 @@ Public Class cProcess
             Case "UserName"
                 res = Me.UserName
             Case "CpuUage"
-                res = CStr(Math.Round(Me.CpuPercentageUsage, 4))
+                res = GetFormatedPercentage(Me.CpuPercentageUsage / _processors)
             Case "KernelCpuTime"
                 Dim ts As Date = Me.KernelTime
                 res = String.Format("{0:00}", ts.Hour) & ":" & _

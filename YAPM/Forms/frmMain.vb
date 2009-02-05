@@ -27,6 +27,7 @@ Imports System.Runtime.InteropServices
 
 Public Class frmMain
 
+    Public cInfo As New cSystemInfo
     Private WithEvents creg As cRegMonitor
     Public log As New cLog
     Private curProc As cProcess
@@ -590,6 +591,10 @@ Public Class frmMain
 
             Try
                 Dim cP As cProcess = CType(lvi.Tag, cProcess)
+
+                If cP.ProcessorCount = -1 Then
+                    cP.ProcessorCount = Me.cInfo.ProcessorCount
+                End If
 
                 Dim isub As ListViewItem.ListViewSubItem
                 Dim xxx As Integer = 0

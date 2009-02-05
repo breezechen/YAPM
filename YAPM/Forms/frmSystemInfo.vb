@@ -23,5 +23,8 @@
 Option Strict On
 
 Public Class frmSystemInfo
-    '
+
+    Private Sub timerRefresh_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerRefresh.Tick
+        Call frmMain.cInfo.RefreshInfo()
+    End Sub
 End Class
