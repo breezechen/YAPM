@@ -106,11 +106,11 @@ Public Class frmMain
     ' Constants
     ' ========================================
 
-    ' There is a Config.xml file for for each user, but in IDE the file should be located in Config dir
+    ' NOT UP TO DATE : There is a Config.xml file for for each user, but in IDE the file should be located in Config dir
 #If Not (CONFIG_INTO_APPDATA) Then
-    Public PREF_PATH As String = My.Application.Info.DirectoryPath & "\Config\config.xml"
+    Public PREF_PATH As String = My.Application.Info.DirectoryPath & "\config.xml"
 #Else
-    Public PREF_PATH As String = My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData & "\Config\config.xml"
+    Public PREF_PATH As String = My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData & "\config.xml"
 #End If
 
     Public HELP_PATH As String = My.Application.Info.DirectoryPath & "\Help\help.htm"
