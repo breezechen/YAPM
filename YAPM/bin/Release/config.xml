@@ -5,9 +5,9 @@
     <startup>False</startup>
     <starthidden>False</starthidden>
     <lang>English</lang>
-    <startjobs>True</startjobs>
-    <fullpower>False</fullpower>
+    <replacetaskmgr>False</replacetaskmgr>
     <topmost>False</topmost>
     <firsttime>False</firsttime>
+    <detailshidden>True</detailshidden>
   </config>
 </YAPM>
