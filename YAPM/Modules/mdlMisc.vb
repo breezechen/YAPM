@@ -76,6 +76,30 @@ Module mdlMisc
         End Try
     End Sub
 
+    ' Replace (or not) taskmgr
+    Public Sub ReplaceTaskmgr(ByVal value As Boolean)
+        Try
+            Dim regKey As RegistryKey
+            regKey = Registry.LocalMachine.OpenSubKey("Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options", True)
+
+            If value Then
+                Try
+                    regKey.CreateSubKey("taskmgr.exe").SetValue("debugger", Application.ExecutablePath)
+                Catch ex As Exception
+                    '
+                End Try
+            Else
+                Try
+                    regKey.DeleteSubKey("taskmgr.exe")
+                Catch ex As Exception
+                    '
+                End Try
+            End If
+        Catch ex As Exception
+            '
+        End Try
+    End Sub
+
     ' Get a formated value as a string (in Bytes, KB, MB or GB) from an Integer
     Public Function GetFormatedSize(ByVal size As Integer, Optional ByVal digits As Integer = 3) As String
         If size >= 1073741824 Then

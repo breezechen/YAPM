@@ -115,6 +115,10 @@ Partial Class frmMain
         Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem
         Me.TabPage2 = New System.Windows.Forms.TabPage
         Me.GroupBox5 = New System.Windows.Forms.GroupBox
+        Me.lblUserObjectsCount = New System.Windows.Forms.Label
+        Me.Label37 = New System.Windows.Forms.Label
+        Me.lblGDIcount = New System.Windows.Forms.Label
+        Me.lbl789 = New System.Windows.Forms.Label
         Me.lblHandles = New System.Windows.Forms.Label
         Me.Label53 = New System.Windows.Forms.Label
         Me.GroupBox4 = New System.Windows.Forms.GroupBox
@@ -592,10 +596,6 @@ Partial Class frmMain
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.cmdTray = New System.Windows.Forms.Button
         Me.timerProcPerf = New System.Windows.Forms.Timer(Me.components)
-        Me.lblGDIcount = New System.Windows.Forms.Label
-        Me.lbl789 = New System.Windows.Forms.Label
-        Me.lblUserObjectsCount = New System.Windows.Forms.Label
-        Me.Label37 = New System.Windows.Forms.Label
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
         Me.SplitContainerProcess.Panel2.SuspendLayout()
@@ -747,6 +747,7 @@ Partial Class frmMain
         'SplitContainerProcess.Panel2
         '
         Me.SplitContainerProcess.Panel2.Controls.Add(Me.tabProcess)
+        Me.SplitContainerProcess.Panel2Collapsed = True
         Me.SplitContainerProcess.Size = New System.Drawing.Size(560, 449)
         Me.SplitContainerProcess.SplitterDistance = 211
         Me.SplitContainerProcess.TabIndex = 0
@@ -766,7 +767,7 @@ Partial Class frmMain
         'SplitContainerTvLv.Panel2
         '
         Me.SplitContainerTvLv.Panel2.Controls.Add(Me.lvProcess)
-        Me.SplitContainerTvLv.Size = New System.Drawing.Size(560, 211)
+        Me.SplitContainerTvLv.Size = New System.Drawing.Size(560, 449)
         Me.SplitContainerTvLv.SplitterDistance = 149
         Me.SplitContainerTvLv.TabIndex = 4
         '
@@ -811,7 +812,7 @@ Partial Class frmMain
         Me.lvProcess.Location = New System.Drawing.Point(0, 0)
         Me.lvProcess.Name = "lvProcess"
         Me.lvProcess.OverriddenDoubleBuffered = True
-        Me.lvProcess.Size = New System.Drawing.Size(560, 211)
+        Me.lvProcess.Size = New System.Drawing.Size(560, 449)
         Me.lvProcess.SmallImageList = Me.imgProcess
         Me.lvProcess.TabIndex = 3
         Me.lvProcess.UseCompatibleStateImageBehavior = False
@@ -1334,6 +1335,44 @@ Partial Class frmMain
         Me.GroupBox5.TabIndex = 3
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Other"
+        '
+        'lblUserObjectsCount
+        '
+        Me.lblUserObjectsCount.AutoSize = True
+        Me.lblUserObjectsCount.Location = New System.Drawing.Point(102, 54)
+        Me.lblUserObjectsCount.Name = "lblUserObjectsCount"
+        Me.lblUserObjectsCount.Size = New System.Drawing.Size(19, 13)
+        Me.lblUserObjectsCount.TabIndex = 5
+        Me.lblUserObjectsCount.Text = "00"
+        Me.lblUserObjectsCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label37
+        '
+        Me.Label37.AutoSize = True
+        Me.Label37.Location = New System.Drawing.Point(8, 54)
+        Me.Label37.Name = "Label37"
+        Me.Label37.Size = New System.Drawing.Size(66, 13)
+        Me.Label37.TabIndex = 4
+        Me.Label37.Text = "User objects"
+        '
+        'lblGDIcount
+        '
+        Me.lblGDIcount.AutoSize = True
+        Me.lblGDIcount.Location = New System.Drawing.Point(101, 35)
+        Me.lblGDIcount.Name = "lblGDIcount"
+        Me.lblGDIcount.Size = New System.Drawing.Size(19, 13)
+        Me.lblGDIcount.TabIndex = 3
+        Me.lblGDIcount.Text = "00"
+        Me.lblGDIcount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lbl789
+        '
+        Me.lbl789.AutoSize = True
+        Me.lbl789.Location = New System.Drawing.Point(7, 35)
+        Me.lbl789.Name = "lbl789"
+        Me.lbl789.Size = New System.Drawing.Size(63, 13)
+        Me.lbl789.TabIndex = 2
+        Me.lbl789.Text = "GDI objects"
         '
         'lblHandles
         '
@@ -6277,44 +6316,6 @@ Partial Class frmMain
         'timerProcPerf
         '
         Me.timerProcPerf.Interval = 1000
-        '
-        'lblGDIcount
-        '
-        Me.lblGDIcount.AutoSize = True
-        Me.lblGDIcount.Location = New System.Drawing.Point(101, 35)
-        Me.lblGDIcount.Name = "lblGDIcount"
-        Me.lblGDIcount.Size = New System.Drawing.Size(19, 13)
-        Me.lblGDIcount.TabIndex = 3
-        Me.lblGDIcount.Text = "00"
-        Me.lblGDIcount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lbl789
-        '
-        Me.lbl789.AutoSize = True
-        Me.lbl789.Location = New System.Drawing.Point(7, 35)
-        Me.lbl789.Name = "lbl789"
-        Me.lbl789.Size = New System.Drawing.Size(63, 13)
-        Me.lbl789.TabIndex = 2
-        Me.lbl789.Text = "GDI objects"
-        '
-        'lblUserObjectsCount
-        '
-        Me.lblUserObjectsCount.AutoSize = True
-        Me.lblUserObjectsCount.Location = New System.Drawing.Point(102, 54)
-        Me.lblUserObjectsCount.Name = "lblUserObjectsCount"
-        Me.lblUserObjectsCount.Size = New System.Drawing.Size(19, 13)
-        Me.lblUserObjectsCount.TabIndex = 5
-        Me.lblUserObjectsCount.Text = "00"
-        Me.lblUserObjectsCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label37
-        '
-        Me.Label37.AutoSize = True
-        Me.Label37.Location = New System.Drawing.Point(8, 54)
-        Me.Label37.Name = "Label37"
-        Me.Label37.Size = New System.Drawing.Size(66, 13)
-        Me.Label37.TabIndex = 4
-        Me.Label37.Text = "User objects"
         '
         'frmMain
         '

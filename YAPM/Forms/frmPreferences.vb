@@ -32,10 +32,9 @@ Public Class frmPreferences
     '		<startup>false</startup>
     '		<starthidden>false</starthidden>
     '		<lang>english</lang>
-    '		<startjobs>true</startjobs>
-    '		<fullpower>true</fullpower>
     '       <topmost>false</topmost>
     '       <firsttime>firsttime</firsttime>
+    '       <detailshidden>detailshidden</detailshidden>
     '	</config>
     '</yapm>
 
@@ -53,12 +52,14 @@ Public Class frmPreferences
         With frmMain.Pref
             .serviceIntervall = CInt(Val(Me.txtServiceIntervall.Text))
             .procIntervall = CInt(Val(Me.txtProcessIntervall.Text))
-            .startJobs = CBool(Me.chkJobs.Checked)
-            .startFullPower = CBool(Me.chkFullPower.Checked)
             .startup = CBool(Me.chkStart.Checked)
             .startHidden = CBool(Me.chkStartTray.Checked)
+            .replaceTaskMgr = CBool(Me.chkReplaceTaskmgr.Checked)
             .topmost = CBool(Me.chkTopMost.Checked)
+            .detailsHidden = CBool(Me.chkHideDetails.Checked)
             .Apply()
+            Call mdlMisc.StartWithWindows(.startup)
+            Call mdlMisc.ReplaceTaskmgr(.replaceTaskMgr)
         End With
 
         ' Save XML
@@ -75,8 +76,8 @@ Public Class frmPreferences
 
         Me.txtUpdate.Text = "Click on 'Check if YAPM is up to date' to check if a new version is available."
         With frmMain
-            .SetToolTip(Me.chkJobs, "Start jobs processing on YAPM startup.")
-            .SetToolTip(Me.chkFullPower, "Start YAPM with 'full power' mode enabled.")
+            .SetToolTip(Me.chkReplaceTaskmgr, "Replace taskmgr (it is safe).")
+            .SetToolTip(Me.chkHideDetails, "Start YAPM with details panel hidden.")
             .SetToolTip(Me.chkStart, "Start YAPM on Windows startup.")
             .SetToolTip(Me.chkStartTray, "Start YAPM hidden (only in tray system).")
             .SetToolTip(Me.txtProcessIntervall, "Set intervall (milliseconds) between two refreshments of processes list.")
@@ -93,10 +94,10 @@ Public Class frmPreferences
         With frmMain.Pref
             Me.txtServiceIntervall.Text = CStr(.serviceIntervall)
             Me.txtProcessIntervall.Text = CStr(.procIntervall)
-            Me.chkJobs.Checked = .startJobs
-            Me.chkFullPower.Checked = .startFullPower
+            Me.chkHideDetails.Checked = .detailsHidden
             Me.chkStart.Checked = .startup
             Me.chkStartTray.Checked = .startHidden
+            Me.chkReplaceTaskmgr.Checked = .replaceTaskMgr
             Me.chkTopMost.Checked = .topmost
         End With
 
@@ -106,8 +107,8 @@ Public Class frmPreferences
         ' Defaut settings
         Me.chkStartTray.Checked = False
         Me.chkStart.Checked = False
-        Me.chkFullPower.Checked = False
-        Me.chkJobs.Checked = True
+        Me.chkHideDetails.Checked = True
+        Me.chkReplaceTaskmgr.Checked = False
         Me.txtProcessIntervall.Text = CStr(frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES)
         Me.txtServiceIntervall.Text = CStr(frmMain.DEFAULT_TIMER_INTERVAL_SERVICES)
         Me.chkTopMost.Checked = False
@@ -217,6 +218,12 @@ Public Class frmPreferences
                 .TopMost = True
                 .ShowDialog()
             End With
+        End If
+    End Sub
+
+    Private Sub chkReplaceTaskmgr_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkReplaceTaskmgr.Click
+        If Me.chkReplaceTaskmgr.Checked Then
+            MsgBox("This option simply create a key in registry, that's why it is safe to do it." & vbNewLine & "But remember to disable this option if you decide to move (or delete) YAPM executable.", MsgBoxStyle.Information, "Warning")
         End If
     End Sub
 End Class

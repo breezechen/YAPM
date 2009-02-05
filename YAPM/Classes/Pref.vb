@@ -25,15 +25,15 @@ Option Strict On
 Public Class Pref
 
     ' Options
+    Public replaceTaskMgr As Boolean
     Public procIntervall As Integer
     Public serviceIntervall As Integer
     Public startup As Boolean
     Public startHidden As Boolean
     Public lang As String
-    Public startJobs As Boolean
-    Public startFullPower As Boolean
     Public topmost As Boolean
     Public firstTime As Boolean
+    Public detailsHidden As Boolean
 
     ' Open XML
     Public Sub Load()
@@ -56,14 +56,14 @@ Public Class Pref
                     startHidden = CBool(noeudEnf.InnerText)
                 ElseIf noeudEnf.LocalName = "lang" Then
                     lang = noeudEnf.InnerText
-                ElseIf noeudEnf.LocalName = "startjobs" Then
-                    startJobs = CBool(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "fullpower" Then
-                    startFullPower = CBool(noeudEnf.InnerText)
                 ElseIf noeudEnf.LocalName = "topmost" Then
                     topmost = CBool(noeudEnf.InnerText)
                 ElseIf noeudEnf.LocalName = "firsttime" Then
                     firstTime = CBool(noeudEnf.InnerText)
+                ElseIf noeudEnf.LocalName = "detailshidden" Then
+                    detailsHidden = CBool(noeudEnf.InnerText)
+                ElseIf noeudEnf.LocalName = "replacetaskmgr" Then
+                    replaceTaskMgr = CBool(noeudEnf.InnerText)
                 End If
             Next
         Next
@@ -98,14 +98,6 @@ Public Class Pref
         elemLang = XmlDoc.CreateElement("lang")
         elemLang.InnerText = Me.lang
         elemConfig.AppendChild(elemLang)
-        Dim elemStartJobs As XmlElement
-        elemStartJobs = XmlDoc.CreateElement("startjobs")
-        elemStartJobs.InnerText = CStr(Me.startJobs)
-        elemConfig.AppendChild(elemStartJobs)
-        Dim elemModules As XmlElement
-        elemModules = XmlDoc.CreateElement("fullpower")
-        elemModules.InnerText = CStr(Me.startFullPower)
-        elemConfig.AppendChild(elemModules)
         Dim elemTopMost As XmlElement
         elemTopMost = XmlDoc.CreateElement("topmost")
         elemTopMost.InnerText = CStr(Me.topmost)
@@ -114,6 +106,14 @@ Public Class Pref
         elemFirstTime = XmlDoc.CreateElement("firsttime")
         elemFirstTime.InnerText = CStr(Me.firstTime)
         elemConfig.AppendChild(elemFirstTime)
+        Dim elemDetails As XmlElement
+        elemDetails = XmlDoc.CreateElement("detailshidden")
+        elemDetails.InnerText = CStr(Me.detailsHidden)
+        elemConfig.AppendChild(elemDetails)
+        Dim elemTaskmgr As XmlElement
+        elemTaskmgr = XmlDoc.CreateElement("replacetaskmgr")
+        elemTaskmgr.InnerText = CStr(Me.replaceTaskMgr)
+        elemConfig.AppendChild(elemTaskmgr)
         XmlDoc.DocumentElement.AppendChild(elemConfig)
         XmlDoc.Save(frmMain.PREF_PATH)
     End Sub
@@ -126,19 +126,19 @@ Public Class Pref
         If first Then
             first = False
             frmMain.TopMost = topmost
-            If startFullPower Then
-                Call frmMain.TakeFullPower()
-            End If
-            frmMain.bAlwaysDisplay = topmost
             frmMain.butAlwaysDisplay.Checked = topmost
-            Call mdlMisc.StartWithWindows(Me.startup)
             If startHidden Then
                 frmMain.WindowState = FormWindowState.Minimized
                 frmMain.Hide()
+            End If
+            If detailsHidden Then
+                frmMain.SplitContainerProcess.Panel2Collapsed = True
+                frmMain.butProcessDisplayDetails.Image = My.Resources.showDetails
+                frmMain.butProcessDisplayDetails.Text = "Show details"
             Else
-                frmMain.WindowState = FormWindowState.Normal
-                frmMain.Show()
-                frmMain.BringToFront()
+                frmMain.SplitContainerProcess.Panel2Collapsed = False
+                frmMain.butProcessDisplayDetails.Text = "Hide details"
+                frmMain.butProcessDisplayDetails.Image = My.Resources.hideDetails
             End If
         End If
     End Sub

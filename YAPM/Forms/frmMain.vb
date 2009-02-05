@@ -86,7 +86,6 @@ Public Class frmMain
     ' Public attributes
     ' ========================================
     Public handles_Renamed As New clsOpenedHandles
-    Public bAlwaysDisplay As Boolean = False
     Public Pref As New Pref
 
 
@@ -651,18 +650,9 @@ Public Class frmMain
 
         Me.Visible = True
         Call TakeFullPower()
-        refreshProcessList()
         refreshServiceList()
 
         Application.EnableVisualStyles()
-        'DoubleBufferListView(Me.lvProcess)
-        'DoubleBufferListView(Me.lvHandles)
-        'DoubleBufferListView(Me.lvJobs)
-        'DoubleBufferListView(Me.lvModules)
-        'DoubleBufferListView(Me.lvSearchResults)
-        'DoubleBufferListView(Me.lvServices)
-        'DoubleBufferListView(Me.lvThreads)
-        'DoubleBufferListView(Me.lvWindows)
         SetWindowTheme(Me.lvProcess.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvProcMem.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvProcServices.Handle, "explorer", Nothing)
@@ -731,11 +721,11 @@ Public Class frmMain
                 .lang = "English"
                 .procIntervall = DEFAULT_TIMER_INTERVAL_PROCESSES
                 .serviceIntervall = DEFAULT_TIMER_INTERVAL_SERVICES
-                .startFullPower = False
                 .startHidden = False
-                .startJobs = True
+                .replaceTaskMgr = False
                 .startup = False
                 .topmost = False
+                .detailsHidden = True
                 MsgBox(MSGFIRSTTIME, MsgBoxStyle.Information, "Please read this")
                 .Save()
                 .Apply()
@@ -747,10 +737,10 @@ Public Class frmMain
         Me.timerProcPerf.Enabled = True
         Me.timerServices.Enabled = True
 
-        Call Me.lvProcess.Focus()
-        'System.Windows.Forms.SendKeys.Send("yapm.")
         Try
+            Call Me.lvProcess.Focus()
             Me.lvProcess.Items(Me.lvProcess.Items.Count - 1).Selected = True
+            Me.lvProcess.Items(Me.lvProcess.Items.Count - 1).EnsureVisible()
         Catch ex As Exception
             '
         End Try
@@ -773,6 +763,7 @@ Public Class frmMain
     End Sub
 
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
+
         Me.panelMain.Left = 5
         Me.panelMain.Top = 145
         Me.panelMain2.Left = 5
@@ -4527,8 +4518,7 @@ Public Class frmMain
 
     Private Sub butAlwaysDisplay_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butAlwaysDisplay.Click
         Me.butAlwaysDisplay.Checked = Not (Me.butAlwaysDisplay.Checked)
-        Me.bAlwaysDisplay = Me.butAlwaysDisplay.Checked
-        Me.TopMost = Me.bAlwaysDisplay
+        Me.TopMost = Me.butAlwaysDisplay.Checked
     End Sub
 
     Private Sub butPreferences_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butPreferences.Click
@@ -4581,6 +4571,8 @@ Public Class frmMain
     End Sub
 
     Private Sub refreshProcessTab(ByRef it As ListViewItem, ByRef cP As cProcess)
+
+        If Me.butProcessDisplayDetails.Text = "Show details" Then Exit Sub
 
         ' General informations
         Select Case Me.tabProcess.SelectedTab.Text
@@ -5013,6 +5005,7 @@ Public Class frmMain
             Me.SplitContainerProcess.Panel2Collapsed = False
             butProcessDisplayDetails.Text = "Hide details"
             butProcessDisplayDetails.Image = My.Resources.hideDetails
+            Call lvProcess_SelectedIndexChanged(Nothing, Nothing)
         End If
     End Sub
 

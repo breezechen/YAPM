@@ -31,9 +31,9 @@ Partial Class frmPreferences
         Me.Label1 = New System.Windows.Forms.Label
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.chkTopMost = New System.Windows.Forms.CheckBox
-        Me.chkFullPower = New System.Windows.Forms.CheckBox
+        Me.chkHideDetails = New System.Windows.Forms.CheckBox
         Me.chkStartTray = New System.Windows.Forms.CheckBox
-        Me.chkJobs = New System.Windows.Forms.CheckBox
+        Me.chkReplaceTaskmgr = New System.Windows.Forms.CheckBox
         Me.chkStart = New System.Windows.Forms.CheckBox
         Me.TabPage2 = New System.Windows.Forms.TabPage
         Me.cmdDownload = New System.Windows.Forms.Button
@@ -119,9 +119,9 @@ Partial Class frmPreferences
         'GroupBox1
         '
         Me.GroupBox1.Controls.Add(Me.chkTopMost)
-        Me.GroupBox1.Controls.Add(Me.chkFullPower)
+        Me.GroupBox1.Controls.Add(Me.chkHideDetails)
         Me.GroupBox1.Controls.Add(Me.chkStartTray)
-        Me.GroupBox1.Controls.Add(Me.chkJobs)
+        Me.GroupBox1.Controls.Add(Me.chkReplaceTaskmgr)
         Me.GroupBox1.Controls.Add(Me.chkStart)
         Me.GroupBox1.Location = New System.Drawing.Point(14, 12)
         Me.GroupBox1.Name = "GroupBox1"
@@ -140,15 +140,15 @@ Partial Class frmPreferences
         Me.chkTopMost.Text = "Start YAPM topmost"
         Me.chkTopMost.UseVisualStyleBackColor = True
         '
-        'chkFullPower
+        'chkHideDetails
         '
-        Me.chkFullPower.AutoSize = True
-        Me.chkFullPower.Location = New System.Drawing.Point(9, 91)
-        Me.chkFullPower.Name = "chkFullPower"
-        Me.chkFullPower.Size = New System.Drawing.Size(168, 17)
-        Me.chkFullPower.TabIndex = 3
-        Me.chkFullPower.Text = "Start with 'full power' enabled"
-        Me.chkFullPower.UseVisualStyleBackColor = True
+        Me.chkHideDetails.AutoSize = True
+        Me.chkHideDetails.Location = New System.Drawing.Point(9, 91)
+        Me.chkHideDetails.Name = "chkHideDetails"
+        Me.chkHideDetails.Size = New System.Drawing.Size(182, 17)
+        Me.chkHideDetails.TabIndex = 3
+        Me.chkHideDetails.Text = "Start with process details hidden"
+        Me.chkHideDetails.UseVisualStyleBackColor = True
         '
         'chkStartTray
         '
@@ -160,15 +160,15 @@ Partial Class frmPreferences
         Me.chkStartTray.Text = "Start YAPM on tray"
         Me.chkStartTray.UseVisualStyleBackColor = True
         '
-        'chkJobs
+        'chkReplaceTaskmgr
         '
-        Me.chkJobs.AutoSize = True
-        Me.chkJobs.Location = New System.Drawing.Point(9, 45)
-        Me.chkJobs.Name = "chkJobs"
-        Me.chkJobs.Size = New System.Drawing.Size(184, 17)
-        Me.chkJobs.TabIndex = 1
-        Me.chkJobs.Text = "Start jobs when on YAPM loading"
-        Me.chkJobs.UseVisualStyleBackColor = True
+        Me.chkReplaceTaskmgr.AutoSize = True
+        Me.chkReplaceTaskmgr.Location = New System.Drawing.Point(9, 45)
+        Me.chkReplaceTaskmgr.Name = "chkReplaceTaskmgr"
+        Me.chkReplaceTaskmgr.Size = New System.Drawing.Size(105, 17)
+        Me.chkReplaceTaskmgr.TabIndex = 1
+        Me.chkReplaceTaskmgr.Text = "Replace taskmgr"
+        Me.chkReplaceTaskmgr.UseVisualStyleBackColor = True
         '
         'chkStart
         '
@@ -288,10 +288,10 @@ Partial Class frmPreferences
     Friend WithEvents cmdQuit As System.Windows.Forms.Button
     Friend WithEvents cmdDefaut As System.Windows.Forms.Button
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-    Friend WithEvents chkJobs As System.Windows.Forms.CheckBox
+    Friend WithEvents chkReplaceTaskmgr As System.Windows.Forms.CheckBox
     Friend WithEvents chkStart As System.Windows.Forms.CheckBox
     Friend WithEvents chkStartTray As System.Windows.Forms.CheckBox
-    Friend WithEvents chkFullPower As System.Windows.Forms.CheckBox
+    Friend WithEvents chkHideDetails As System.Windows.Forms.CheckBox
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label
