@@ -650,7 +650,6 @@ Public Class frmMain
 
         Me.Visible = True
         Call TakeFullPower()
-        refreshServiceList()
 
         Application.EnableVisualStyles()
         SetWindowTheme(Me.lvProcess.Handle, "explorer", Nothing)
@@ -1529,6 +1528,13 @@ Public Class frmMain
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
+    End Sub
+
+    Private Sub Ribbon_MouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Ribbon.MouseClick
+        If Me.lvServices.Items.Count = 0 Then
+            ' First display of service tab
+            Call refreshServiceList()
+        End If
     End Sub
 
     Private Sub Ribbon_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Ribbon.MouseMove
