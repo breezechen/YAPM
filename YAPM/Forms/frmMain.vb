@@ -406,20 +406,6 @@ Public Class frmMain
 
         Dim test As Integer = GetTickCount
 
-        ' Here is the list of the differents columns :
-        ' Name
-        ' PID
-        ' User
-        ' Processor time
-        ' Memory
-        ' Threads
-        ' Priority
-        ' Path
-
-        'ValidateRect(Me.lvProcess.Handle.ToInt32, 0)
-        'Me.lvProcess.OverriddenDoubleBuffered = False
-        ' Me.lvProcess.BeginUpdate()
-
         ReDim proc(0)
         cProcess.Enumerate(proc)
 
@@ -611,11 +597,6 @@ Public Class frmMain
 
         Next
 
-        'InvalidateRect(Me.lvProcess.Handle.ToInt32, 0, 0)
-        'Me.lvProcess.OverriddenDoubleBuffered = True
-        '    Me.lvProcess.EndUpdate()
-
-
         ' Refresh informations about process
         If Not (Me.tabProcess.SelectedTab.Text = "Informations" Or _
             Me.tabProcess.SelectedTab.Text = "Token" Or _
@@ -623,7 +604,9 @@ Public Class frmMain
             Me.tabProcess.SelectedTab.Text = "Memory") Then _
             Call lvProcess_SelectedIndexChanged(Nothing, Nothing)
 
-        test = GetTickCount - test
+        'test = GetTickCount - test
+
+        'Trace.WriteLine("took " & CStr(test) & " ms")
 
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
             Dim ss As String = Me.Ribbon.ActiveTab.Text
@@ -638,6 +621,27 @@ Public Class frmMain
         refreshProcessList()
     End Sub
 
+    Private Sub frmMain_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Activated
+        Static bFirst As Boolean = True
+        If bFirst Then
+            bFirst = False
+            SetWindowTheme(Me.lvProcess.Handle, "explorer", Nothing)
+            SetWindowTheme(Me.lvProcMem.Handle, "explorer", Nothing)
+            SetWindowTheme(Me.lvProcServices.Handle, "explorer", Nothing)
+            SetWindowTheme(Me.lvHandles.Handle, "explorer", Nothing)
+            SetWindowTheme(Me.lvJobs.Handle, "explorer", Nothing)
+            SetWindowTheme(Me.lvPrivileges.Handle, "explorer", Nothing)
+            SetWindowTheme(Me.lvWindows.Handle, "explorer", Nothing)
+            SetWindowTheme(Me.lvSearchResults.Handle, "explorer", Nothing)
+            SetWindowTheme(Me.lvModules.Handle, "explorer", Nothing)
+            SetWindowTheme(Me.lvThreads.Handle, "explorer", Nothing)
+            SetWindowTheme(Me.lvServices.Handle, "explorer", Nothing)
+            SetWindowTheme(Me.tv.Handle, "explorer", Nothing)
+            SetWindowTheme(Me.tv2.Handle, "explorer", Nothing)
+            SetWindowTheme(Me.tvMonitor.Handle, "explorer", Nothing)
+        End If
+    End Sub
+
     Private Sub frmMain_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         Try
             handles_Renamed.Close()
@@ -648,24 +652,12 @@ Public Class frmMain
 
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        Me.Visible = True
-        Call TakeFullPower()
+        Dim t As Integer = GetTickCount
+        clsOpenedHandles.EnableDebug()
 
+        Me.Visible = True
         Application.EnableVisualStyles()
-        SetWindowTheme(Me.lvProcess.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lvProcMem.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lvProcServices.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lvHandles.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lvJobs.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lvPrivileges.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lvWindows.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lvSearchResults.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lvModules.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lvThreads.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lvServices.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.tv.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.tv2.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.tvMonitor.Handle, "explorer", Nothing)
+        Me.lvProcess.Items.Clear()
 
         With Me
             .lblServicePath.BackColor = .BackColor
@@ -736,6 +728,11 @@ Public Class frmMain
         Me.timerProcPerf.Enabled = True
         Me.timerServices.Enabled = True
 
+        ' Begin/End update (because all processes added at the same time)
+        Me.lvProcess.BeginUpdate()
+        refreshProcessList()
+        Me.lvProcess.EndUpdate()
+
         Try
             Call Me.lvProcess.Focus()
             Me.lvProcess.Items(Me.lvProcess.Items.Count - 1).Selected = True
@@ -743,6 +740,11 @@ Public Class frmMain
         Catch ex As Exception
             '
         End Try
+
+        t = GetTickCount - t
+
+        Trace.WriteLine("Loaded in " & CStr(t) & " ms.")
+
     End Sub
 
     Private Sub txtSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearch.Click
