@@ -1074,7 +1074,14 @@ Public Class cProcess
                 res = CStr(Me.GDIObjectsCount)
             Case "UserObjects"
                 res = CStr(Me.UserObjectsCount)
+            Case "RunTime"
+                Dim ts As New Date(Date.Now.Ticks - Me.StartTime.Ticks)
+                res = String.Format("{0:00}", ts.Hour) & ":" & _
+                    String.Format("{0:00}", ts.Minute) & ":" & _
+                    String.Format("{0:00}", ts.Second) & ":" & _
+                    String.Format("{000}", ts.Millisecond)
         End Select
+
         Return res
     End Function
 
@@ -1086,7 +1093,7 @@ Public Class cProcess
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties() As String()
-        Dim s(24) As String
+        Dim s(25) As String
 
         s(0) = "PID"
         s(1) = "UserName"
@@ -1097,22 +1104,23 @@ Public Class cProcess
         s(6) = "UserCpuTime"
         s(7) = "TotalCpuTime"
         s(8) = "StartTime"
-        s(9) = "WorkingSet"
-        s(10) = "PeakWorkingSet"
-        s(11) = "PageFaultCount"
-        s(12) = "PagefileUsage"
-        s(13) = "PeakPagefileUsage"
-        s(14) = "QuotaPeakPagedPoolUsage"
-        s(15) = "QuotaPagedPoolUsage"
-        s(16) = "QuotaPeakNonPagedPoolUsage"
-        s(17) = "QuotaNonPagedPoolUsage"
-        s(18) = "Priority"
-        s(19) = "Path"
-        s(20) = "Description"
-        s(21) = "Copyright"
-        s(22) = "Version"
-        s(23) = "GdiObjects"
-        s(24) = "UserObjects"
+        s(9) = "RunTime"
+        s(10) = "GdiObjects"
+        s(11) = "UserObjects"
+        s(12) = "WorkingSet"
+        s(13) = "PeakWorkingSet"
+        s(14) = "PageFaultCount"
+        s(15) = "PagefileUsage"
+        s(16) = "PeakPagefileUsage"
+        s(17) = "QuotaPeakPagedPoolUsage"
+        s(18) = "QuotaPagedPoolUsage"
+        s(19) = "QuotaPeakNonPagedPoolUsage"
+        s(20) = "QuotaNonPagedPoolUsage"
+        s(21) = "Priority"
+        s(22) = "Path"
+        s(23) = "Description"
+        s(24) = "Copyright"
+        s(25) = "Version"
 
         Return s
     End Function
