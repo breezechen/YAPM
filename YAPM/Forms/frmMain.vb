@@ -440,12 +440,7 @@ Public Class frmMain
 
             If p.isDisplayed = False Then
 
-                ' Add to log
-                'If p.IntTag1 = 0 Then
-                '    p.IntTag1 = 1
-                'Else
                 log.AppendLine("Process " & CStr(p.Pid) & " (" & p.Path & ") created")
-                'End If
 
                 p.isDisplayed = True
 
@@ -457,23 +452,7 @@ Public Class frmMain
 
                     it.Text = o
 
-                    Dim lsub1 As New ListViewItem.ListViewSubItem
-                    lsub1.Text = CStr(p.Pid)
-
-                    Dim lsub2 As New ListViewItem.ListViewSubItem
-                    Dim lsub3 As New ListViewItem.ListViewSubItem
-                    Dim lsub4 As New ListViewItem.ListViewSubItem
-                    Dim lsub6 As New ListViewItem.ListViewSubItem
-                    Dim lsub7 As New ListViewItem.ListViewSubItem
-                    Dim lsub8 As New ListViewItem.ListViewSubItem
-
                     If p.Pid > 4 Then
-
-                        lsub2.Text = p.UserName
-
-                        Dim cp As New cProcess(p.Pid)
-                        lsub8.Text = cp.StartTime.ToLongDateString & " -- " & cp.StartTime.ToLongTimeString
-
 
                         ' Add icon
                         it.ForeColor = Color.FromArgb(30, 30, 30)
@@ -485,46 +464,35 @@ Public Class frmMain
                                 Dim img As System.Drawing.Icon = GetIcon(fName, True)
                                 imgProcess.Images.Add(fName, img)
                                 it.ImageKey = fName
-                                lsub7.Text = fName
                             Else
                                 it.ImageKey = "noicon"
-                                lsub7.Text = NO_INFO_RETRIEVED
                                 it.ForeColor = Drawing.Color.Gray
-                                lsub8.Text = NO_INFO_RETRIEVED
                             End If
 
                         Catch ex As Exception
                             it.ImageKey = "noicon"
-                            lsub7.Text = NO_INFO_RETRIEVED
                             it.ForeColor = Drawing.Color.Gray
-                            lsub8.Text = NO_INFO_RETRIEVED
                         End Try
 
                         ' Add new node to treeview
                         addNewProcessNode(p, it.ImageKey)
 
                     Else
-                        lsub2.Text = "SYSTEM"
-                        lsub3.Text = NO_INFO_RETRIEVED
-                        lsub4.Text = NO_INFO_RETRIEVED
-                        lsub6.Text = NO_INFO_RETRIEVED
-                        lsub7.Text = NO_INFO_RETRIEVED
-                        lsub8.Text = NO_INFO_RETRIEVED
                         it.ImageKey = "noIcon"
                         it.ForeColor = Drawing.Color.Gray
                     End If
 
-                    it.SubItems.Add(lsub1)
-                    it.SubItems.Add(lsub2)
-                    it.SubItems.Add(lsub3)
-                    it.SubItems.Add(lsub4)
-                    it.SubItems.Add(lsub6)
-                    it.SubItems.Add(lsub7)
-                    it.SubItems.Add(lsub8)
 
                     it.Group = lvProcess.Groups(0)
-
                     it.Tag = New cProcess(p)
+
+                    ' Add some subitems (columns.count-1 subitems)
+                    Dim subS() As String
+                    ReDim subS(Me.lvProcess.Columns.Count - 1)
+                    For xxxx As Integer = 1 To subS.Length - 1
+                        subS(xxxx) = ""
+                    Next
+                    it.SubItems.AddRange(subS)
 
                     ' Choose color
                     Dim col As Color = Color.White
