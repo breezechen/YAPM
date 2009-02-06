@@ -625,6 +625,7 @@ Partial Class frmMain
         Me.ColumnHeader64 = New System.Windows.Forms.ColumnHeader
         Me.imgTask = New System.Windows.Forms.ImageList(Me.components)
         Me.timerTask = New System.Windows.Forms.Timer(Me.components)
+        Me.KillProcessTreeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
         Me.SplitContainerProcess.Panel2.SuspendLayout()
@@ -894,9 +895,9 @@ Partial Class frmMain
         '
         'menuProc
         '
-        Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ToolStripMenuItem38, Me.ShowModulesToolStripMenuItem, Me.ShowThreadsToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.ShowWindowsToolStripMenuItem, Me.ShowAllToolStripMenuItem, Me.SelectedServicesToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.ToolStripMenuItem1, Me.GetSecurityRiskOnlineToolStripMenuItem, Me.GoogleSearchToolStripMenuItem, Me.ToolStripMenuItem37, Me.ReadWriteMemoryToolStripMenuItem, Me.MonitorToolStripMenuItem})
+        Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.KillProcessTreeToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ToolStripMenuItem38, Me.ShowModulesToolStripMenuItem, Me.ShowThreadsToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.ShowWindowsToolStripMenuItem, Me.ShowAllToolStripMenuItem, Me.SelectedServicesToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.ToolStripMenuItem1, Me.GetSecurityRiskOnlineToolStripMenuItem, Me.GoogleSearchToolStripMenuItem, Me.ToolStripMenuItem37, Me.ReadWriteMemoryToolStripMenuItem, Me.MonitorToolStripMenuItem})
         Me.menuProc.Name = "menuProc"
-        Me.menuProc.Size = New System.Drawing.Size(194, 424)
+        Me.menuProc.Size = New System.Drawing.Size(194, 468)
         '
         'KillToolStripMenuItem
         '
@@ -6580,6 +6581,13 @@ Partial Class frmMain
         '
         Me.timerTask.Interval = 1000
         '
+        'KillProcessTreeToolStripMenuItem
+        '
+        Me.KillProcessTreeToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.kill
+        Me.KillProcessTreeToolStripMenuItem.Name = "KillProcessTreeToolStripMenuItem"
+        Me.KillProcessTreeToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
+        Me.KillProcessTreeToolStripMenuItem.Text = "Kill process tree"
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -7338,5 +7346,6 @@ Partial Class frmMain
     Friend WithEvents timerTask As System.Windows.Forms.Timer
     Friend WithEvents imgTask As System.Windows.Forms.ImageList
     Friend WithEvents SelectWindowInWindowsTabToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents KillProcessTreeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

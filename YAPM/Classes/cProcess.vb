@@ -1004,6 +1004,14 @@ Public Class cProcess
         Return ret
     End Function
 
+    ' Kill a process tree
+    Public Function KillProcessTree() As Integer
+
+        ' Kill all childs recursively
+        recursiveKill(Me.Pid)
+
+    End Function
+
     ' Retrieve informations by its name
     Public Function GetInformation(ByVal infoName As String) As String
         Dim res As String = NO_INFO_RETRIEVED
@@ -1216,6 +1224,35 @@ Public Class cProcess
     ' ========================================
     ' Private functions
     ' ========================================
+
+    ' For 'Kill process tree'
+    Private Function recursiveKill(ByVal _pid As Integer) As Integer
+
+        ' Kill process
+        Call Kill(_pid)
+
+        ' Get all child items
+        Dim c() As cProcess
+        ReDim c(0)
+        cProcess.Enumerate(c)       ' All items
+
+        ' Extract only childs
+        Dim c2() As cProcess
+        ReDim c2(0)
+        For x As Integer = c.Length - 1 To 0 Step -1
+            If c(x).ParentProcessId = _pid Then
+                ReDim Preserve c2(c2.Length)
+                c2(c2.Length - 1) = c(x)
+            End If
+        Next
+
+        For Each cp As cProcess In c2
+            If cp IsNot Nothing Then _
+                recursiveKill(cp.Pid)
+        Next
+
+    End Function
+
     Private Function PriorityFromInt(ByVal i As Integer) As String
         Dim s As String = vbNullString
 

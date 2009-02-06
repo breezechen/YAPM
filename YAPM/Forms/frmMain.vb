@@ -5913,4 +5913,10 @@ Public Class frmMain
     Private Sub lvTask_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvTask.MouseDown
         Call mdlMisc.CopyLvToClip(e, Me.lvTask)
     End Sub
+
+    Private Sub KillProcessTreeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles KillProcessTreeToolStripMenuItem.Click
+        For Each it As ListViewItem In Me.lvProcess.SelectedItems
+            Call CType(it.Tag, cProcess).KillProcessTree()
+        Next
+    End Sub
 End Class
