@@ -304,14 +304,6 @@ Public Class cWindow
             End If
         End Set
     End Property
-    'Public Property CloseButtonEnabled() As Boolean
-    '    Get
-    '        'TODO
-    '    End Get
-    '    Set(ByVal value As Boolean)
-    '        'TODO
-    '    End Set
-    'End Property
     Public ReadOnly Property Positions() As RECT
         Get
             Return GetWindowPosition()
@@ -423,6 +415,9 @@ Public Class cWindow
     End Function
     Public Function SetPositions(ByVal r As RECT) As Boolean
         Return SetWindowPosition(r.Left, r.Top, r.Right - r.Left, r.Bottom - r.Top)
+    End Function
+    Public Function SendMessage(ByVal msg As Integer, ByVal param1 As Integer, ByVal param2 As Integer) As Integer
+        Return SendMessage(_handle, msg, param1, param2).ToInt32
     End Function
 
 

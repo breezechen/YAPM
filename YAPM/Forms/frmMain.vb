@@ -5829,9 +5829,11 @@ Public Class frmMain
     End Sub
 
     Private Sub butTaskEndTask_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butTaskEndTask.Click
+        Const WM_CLOSE As Integer = &H10
         Dim it As ListViewItem
         For Each it In Me.lvTask.SelectedItems
-            ' Call CType(it.Tag, cWindow).Show()
+            ' To end task, we send WM_CLOSE message to main window
+            Call CType(it.Tag, cWindow).SendMessage(WM_CLOSE, 0, 0)
         Next
     End Sub
 
