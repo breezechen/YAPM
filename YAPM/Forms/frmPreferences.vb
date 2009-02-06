@@ -43,6 +43,7 @@ Public Class frmPreferences
 
     Private Sub cmdQuit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdQuit.Click
         frmMain.timerProcess.Interval = frmMain.Pref.procIntervall
+        frmMain.timerTask.Interval = frmMain.Pref.procIntervall
         frmMain.timerServices.Interval = frmMain.Pref.serviceIntervall
         Me.Close()
     End Sub

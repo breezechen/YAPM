@@ -123,6 +123,7 @@ Public Class Pref
         Static first As Boolean = True
         frmMain.timerProcess.Interval = CInt(IIf(procIntervall > 0, procIntervall, frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES))
         frmMain.timerServices.Interval = CInt(IIf(serviceIntervall > 0, serviceIntervall, frmMain.DEFAULT_TIMER_INTERVAL_SERVICES))
+        frmMain.timerTask.Interval = frmMain.timerProcess.Interval
         If first Then
             first = False
             frmMain.TopMost = topmost

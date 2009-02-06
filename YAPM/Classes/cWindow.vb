@@ -189,11 +189,19 @@ Public Class cWindow
     Private _parentProcId As Integer
     Private _parentThreadId As Integer
     Private _parentProcName As String
-
+    Private _displayed As Boolean
 
     ' ========================================
     ' Getter & setter
     ' ========================================
+    Public Property isDisplayed() As Boolean
+        Get
+            Return _displayed
+        End Get
+        Set(ByVal value As Boolean)
+            _displayed = value
+        End Set
+    End Property
     Public ReadOnly Property Handle() As IntPtr
         Get
             Return _handle
@@ -228,14 +236,7 @@ Public Class cWindow
     End Property
     Public ReadOnly Property IsTask() As Boolean
         Get
-            ' Window must be visible
-            If IsWindowVisible(_handle) And (CInt(GetWindowLong(_handle, GWL_HWNDPARENT)) = 0) And Not _
-                (GetWindowTextLength(_handle) = 0) Then
-                ' Must not be taskmgr
-                If GetWindowClass(_handle) <> "Progman" Then
-                    IsTask = True
-                End If
-            End If
+            Return _isTask(_handle)
         End Get
     End Property
     Public Property Enabled() As Boolean
@@ -326,6 +327,7 @@ Public Class cWindow
     ' ========================================
     ' Constructor & destructor
     ' ========================================
+
     Public Sub New(ByVal handle As Integer, ByVal procId As Integer, _
             ByVal threadId As Integer, ByVal procName As String)
 
@@ -348,6 +350,25 @@ Public Class cWindow
     ' ========================================
     ' Public functions
     ' ========================================
+
+    Public Function GetSmallIcon() As System.Drawing.Icon
+        Return Nothing
+    End Function
+
+    Public Function GetInformation(ByVal info As String) As String
+        Select Case info
+            Case "Name", "Caption"
+                Return Me.Caption
+            Case "Handle"
+                Return CStr(Me.Handle)
+            Case "Process"
+                Return CStr(Me.ParentProcessId) & " -- " & Me.ParentProcessName
+            Case "CpuUsage"
+                Return "nothing here for now"
+            Case Else
+                Return CStr(Me.Handle)
+        End Select
+    End Function
 
     Public Function Close() As Integer
         Return CInt(SendMessage(_handle, WM_CLOSE, 0, 0))
@@ -463,6 +484,33 @@ Public Class cWindow
 
     End Function
 
+    ' Retrieve all tasks
+    Public Shared Function EnumerateAllTasks(ByRef w() As cWindow) As Integer
+        Dim currWnd As IntPtr
+        Dim cpt As Integer
+
+        currWnd = GetWindowAPI(GetDesktopWindow(), GW_CHILD)
+        cpt = 0
+        ReDim w(0)
+        Do While Not (currWnd = IntPtr.Zero)
+
+            If _isTask(CType(currWnd, IntPtr)) Then
+
+                ' Get procId from hwnd
+                Dim pid As Integer = GetProcIdFromWindowHandle(currWnd)
+
+                ReDim Preserve w(cpt)
+                w(cpt) = New cWindow(CInt(currWnd), pid, GetThreadIdFromWindowHandle(currWnd), cFile.GetFileName(cProcess.GetPath(pid)))
+                cpt += 1
+            End If
+
+            currWnd = GetWindowAPI(currWnd, GW_HWNDNEXT)
+        Loop
+
+        Return UBound(w)
+
+    End Function
+
     ' Close a window
     Public Shared Function CloseWindow(ByVal hWnd As Integer) As Integer
         Return CInt(SendMessage(CType(hWnd, IntPtr), WM_CLOSE, 0, 0))
@@ -472,6 +520,20 @@ Public Class cWindow
     ' ========================================
     ' Private functions
     ' ========================================
+
+    ' Return true if window is a task
+    Private Shared Function _isTask(ByVal hwnd As IntPtr) As Boolean
+        ' Window must be visible
+        If IsWindowVisible(hwnd) And (CInt(GetWindowLong(hwnd, GWL_HWNDPARENT)) = 0) And Not _
+            (GetWindowTextLength(hwnd) = 0) Then
+            ' Must not be taskmgr
+            If GetWindowClass(hwnd) <> "Progman" Then
+                Return True
+            End If
+        End If
+
+        Return False
+    End Function
 
     ' Get small icon handle of window
     Private Function GetWindowSmallIcon() As IntPtr
@@ -489,7 +551,7 @@ Public Class cWindow
     End Function
 
     ' Get window class name
-    Private Function GetWindowClass(ByVal hWnd As IntPtr) As String
+    Private Shared Function GetWindowClass(ByVal hWnd As IntPtr) As String
         Dim _class As New StringBuilder(Space(255))
         GetClassName(hWnd, _class, 255)
         Return _class.ToString

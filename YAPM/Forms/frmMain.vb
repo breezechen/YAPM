@@ -606,9 +606,9 @@ Public Class frmMain
             Me.tabProcess.SelectedTab.Text = "Memory") Then _
             Call lvProcess_SelectedIndexChanged(Nothing, Nothing)
 
-        'test = GetTickCount - test
+        test = GetTickCount - test
 
-        'Trace.WriteLine("took " & CStr(test) & " ms")
+        Trace.WriteLine("Process refresh took " & CStr(test) & " ms")
 
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
             Dim ss As String = Me.Ribbon.ActiveTab.Text
@@ -620,7 +620,7 @@ Public Class frmMain
     End Sub
 
     Private Sub timerProcess_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerProcess.Tick
-        refreshProcessList()
+        Call refreshProcessList()
     End Sub
 
     Private Sub frmMain_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Activated
@@ -628,6 +628,7 @@ Public Class frmMain
         If bFirst Then
             bFirst = False
             SetWindowTheme(Me.lvProcess.Handle, "explorer", Nothing)
+            SetWindowTheme(Me.lvTask.Handle, "explorer", Nothing)
             SetWindowTheme(Me.lvProcMem.Handle, "explorer", Nothing)
             SetWindowTheme(Me.lvProcServices.Handle, "explorer", Nothing)
             SetWindowTheme(Me.lvHandles.Handle, "explorer", Nothing)
@@ -660,6 +661,7 @@ Public Class frmMain
         Me.Visible = True
         Application.EnableVisualStyles()
         Me.lvProcess.Items.Clear()
+        Call refreshTaskList()
 
         With Me
             .lblServicePath.BackColor = .BackColor
@@ -727,6 +729,7 @@ Public Class frmMain
 
         Me.timerMonitoring.Enabled = True
         Me.timerProcess.Enabled = True
+        Me.timerTask.Enabled = True
         Me.timerProcPerf.Enabled = True
         Me.timerServices.Enabled = True
 
@@ -781,6 +784,8 @@ Public Class frmMain
         Me.panelMain6.Top = 120
         Me.panelMain7.Left = 5
         Me.panelMain7.Top = 120
+        Me.panelMain13.Left = 5
+        Me.panelMain13.Top = 120
         Me.panelMain8.Left = 5
         Me.panelMain8.Top = 120
         Me.panelMain9.Left = 5
@@ -826,6 +831,10 @@ Public Class frmMain
         ' Modules resizement
         Me.panelMain11.Height = Me.panelMain3.Height
         Me.panelMain11.Width = Me.panelMain3.Width
+
+        ' Task resizement
+        Me.panelMain13.Height = Me.panelMain7.Height
+        Me.panelMain13.Width = Me.panelMain7.Width
 
         ' Process
         Me.panelMain.Height = Me.panelMain3.Height - 23
@@ -1552,8 +1561,6 @@ Public Class frmMain
             Select Case currentText
                 Case "Services"
                     Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvServices.Items.Count) & " services running"
-                    Me.bProcessHover = False
-                    Me.bServiceHover = True
                     Me.panelMain.Visible = False
                     Me.panelMain2.Visible = True
                     Me.panelMain3.Visible = False
@@ -1569,10 +1576,9 @@ Public Class frmMain
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
                     Me.panelMain11.Visible = False
+                    Me.panelMain13.Visible = False
                 Case "Processes"
                     Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
-                    Me.bProcessHover = True
-                    Me.bServiceHover = False
                     Me.panelMain.Visible = True
                     Me.panelMain2.Visible = False
                     Me.panelMain3.Visible = False
@@ -1588,10 +1594,9 @@ Public Class frmMain
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
                     Me.panelMain11.Visible = False
+                    Me.panelMain13.Visible = False
                 Case "Jobs"
                     Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvJobs.Items.Count) & " jobs in list"
-                    Me.bProcessHover = False
-                    Me.bServiceHover = False
                     Me.panelMain.Visible = False
                     Me.panelMain2.Visible = False
                     Me.panelMain3.Visible = True
@@ -1606,6 +1611,7 @@ Public Class frmMain
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
                     Me.panelMain11.Visible = False
+                    Me.panelMain13.Visible = False
                 Case "Help"
 
                     Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
@@ -1620,8 +1626,6 @@ Public Class frmMain
                         End If
                     End If
 
-                    Me.bProcessHover = False
-                    Me.bServiceHover = False
                     Me.panelMain.Visible = False
                     Me.panelMain2.Visible = False
                     Me.panelMain3.Visible = False
@@ -1635,11 +1639,10 @@ Public Class frmMain
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
                     Me.panelMain11.Visible = False
+                    Me.panelMain13.Visible = False
                     Me.panelMain4.BringToFront()
                 Case "File"
                     Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
-                    Me.bProcessHover = False
-                    Me.bServiceHover = False
                     Me.panelMain.Visible = False
                     Me.panelMain2.Visible = False
                     Me.panelMain3.Visible = False
@@ -1653,11 +1656,10 @@ Public Class frmMain
                     Me.panelMain9.Visible = False
                     Me.panelMain11.Visible = False
                     Me.panelMain10.Visible = False
+                    Me.panelMain13.Visible = False
                     Me.panelMain5.BringToFront()
                 Case "Search"
                     Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvSearchResults.Items.Count) & " search results"
-                    Me.bProcessHover = False
-                    Me.bServiceHover = False
                     Me.panelMain.Visible = False
                     Me.panelMain2.Visible = False
                     Me.panelMain3.Visible = False
@@ -1671,11 +1673,10 @@ Public Class frmMain
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
                     Me.panelMain11.Visible = False
+                    Me.panelMain13.Visible = False
                     Me.panelMain6.BringToFront()
                 Case "Handles"
                     Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvHandles.Items.Count) & " handles"
-                    Me.bProcessHover = False
-                    Me.bServiceHover = False
                     Me.panelMain.Visible = False
                     Me.panelMain2.Visible = False
                     Me.panelMain3.Visible = False
@@ -1689,11 +1690,10 @@ Public Class frmMain
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
                     Me.panelMain11.Visible = False
+                    Me.panelMain13.Visible = False
                     Me.panelMain7.BringToFront()
                 Case "Monitor"
                     Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
-                    Me.bProcessHover = False
-                    Me.bServiceHover = False
                     Me.panelMain.Visible = False
                     Me.panelMain2.Visible = False
                     Me.panelMain3.Visible = False
@@ -1704,14 +1704,13 @@ Public Class frmMain
                     Me.panelMain6.Visible = False
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = True
+                    Me.panelMain13.Visible = False
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
                     Me.panelMain8.BringToFront()
                     Me.panelMain11.Visible = False
                 Case "Threads"
                     Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvThreads.Items.Count) & " threads"
-                    Me.bProcessHover = False
-                    Me.bServiceHover = False
                     Me.panelMain.Visible = False
                     Me.panelMain2.Visible = False
                     Me.panelMain3.Visible = False
@@ -1726,10 +1725,9 @@ Public Class frmMain
                     Me.panelMain9.Visible = True
                     Me.panelMain10.Visible = False
                     Me.panelMain11.Visible = False
+                    Me.panelMain13.Visible = False
                 Case "Windows"
                     Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvWindows.Items.Count) & " windows"
-                    Me.bProcessHover = False
-                    Me.bServiceHover = False
                     Me.panelMain.Visible = False
                     Me.panelMain2.Visible = False
                     Me.panelMain3.Visible = False
@@ -1740,14 +1738,13 @@ Public Class frmMain
                     Me.panelMain6.Visible = False
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
+                    Me.panelMain13.Visible = False
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = True
                     Me.panelMain10.BringToFront()
                     Me.panelMain11.Visible = False
                 Case "Modules"
                     Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
-                    Me.bProcessHover = False
-                    Me.bServiceHover = False
                     Me.panelMain.Visible = False
                     Me.panelMain2.Visible = False
                     Me.panelMain3.Visible = False
@@ -1757,12 +1754,30 @@ Public Class frmMain
                     Me.panelMenu2.Visible = False
                     Me.panelMain5.Visible = False
                     Me.panelMain6.Visible = False
+                    Me.panelMain13.Visible = False
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
                     Me.panelMain11.BringToFront()
                     Me.panelMain11.Visible = True
+                Case "Tasks"
+                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvTask.Items.Count) & " tasks running"
+                    Me.panelMain.Visible = False
+                    Me.panelMain2.Visible = False
+                    Me.panelMain3.Visible = False
+                    Me.panelMain4.Visible = False
+                    Me.panelMenu.Visible = False
+                    Me.panelMenu2.Visible = False
+                    Me.panelMain5.Visible = False
+                    Me.panelMain6.Visible = False
+                    Me.panelMain13.Visible = True
+                    Me.panelMain7.Visible = False
+                    Me.panelMain8.Visible = False
+                    Me.panelMain9.Visible = False
+                    Me.panelMain10.Visible = False
+                    Me.panelMain13.BringToFront()
+                    Me.panelMain11.Visible = False
             End Select
         End If
     End Sub
@@ -2275,6 +2290,7 @@ Public Class frmMain
                         Dim cp As cService = CType(it2.Tag, cService)
                         If cp.Name = sp Then
                             it2.Selected = True
+                            it2.EnsureVisible()
                         End If
                     Next
                     Me.Ribbon.ActiveTab = Me.ServiceTab
@@ -2289,6 +2305,7 @@ Public Class frmMain
                             Dim cp As cProcess = CType(it2.Tag, cProcess)
                             If CStr(cp.Pid) = pid Then
                                 it2.Selected = True
+                                it2.EnsureVisible()
                             End If
                         Next
                     End If
@@ -2673,6 +2690,7 @@ Public Class frmMain
                         Dim cp As cProcess = CType(it2.Tag, cProcess)
                         If CStr(cp.Pid) = pid Then
                             it2.Selected = True
+                            it2.EnsureVisible()
                         End If
                     Next
                 End If
@@ -3297,6 +3315,7 @@ Public Class frmMain
                         Dim cp As cProcess = CType(it2.Tag, cProcess)
                         If CStr(cp.Pid) = pid Then
                             it2.Selected = True
+                            it2.EnsureVisible()
                         End If
                     Next
                 End If
@@ -3691,18 +3710,15 @@ Public Class frmMain
         If Me.lvWindows.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
         For Each it In Me.lvWindows.SelectedItems
             Try
-                Dim sp As String = it.SubItems(1).Text
-                Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
-                If i > 0 Then
-                    Dim pid As String = sp.Substring(0, i - 1)
-                    Dim it2 As ListViewItem
-                    For Each it2 In Me.lvProcess.Items
-                        Dim cp As cProcess = CType(it2.Tag, cProcess)
-                        If CStr(cp.Pid) = pid Then
-                            it2.Selected = True
-                        End If
-                    Next
-                End If
+                Dim pid As Integer = CType(it.Tag, cWindow).ParentProcessId
+                Dim it2 As ListViewItem
+                For Each it2 In Me.lvProcess.Items
+                    Dim cp As cProcess = CType(it2.Tag, cProcess)
+                    If cp.Pid = pid Then
+                        it2.Selected = True
+                        it2.EnsureVisible()
+                    End If
+                Next
             Catch ex As Exception
                 '
             End Try
@@ -3914,6 +3930,7 @@ Public Class frmMain
                         Dim cp As cProcess = CType(it2.Tag, cProcess)
                         If CStr(cp.Pid) = pid Then
                             it2.Selected = True
+                            it2.EnsureVisible()
                         End If
                     Next
                 End If
@@ -4588,7 +4605,37 @@ Public Class frmMain
 
     Private Sub refreshProcessTab(ByRef it As ListViewItem, ByRef cP As cProcess)
 
-        If Me.butProcessDisplayDetails.Text = "Show details" Then Exit Sub
+        If Me.butProcessDisplayDetails.Text = "Show details" Then
+            '' Refresh service list
+            '' Associated services
+            'Dim bServRef As Boolean = Me.timerServices.Enabled
+            'Me.timerServices.Enabled = False
+
+            'Me.lvProcServices.Items.Clear()
+            'For Each lvi As ListViewItem In Me.lvServices.Items
+            '    Dim cServ As cService = CType(lvi.Tag, cService)
+            '    Dim pid As Integer = cServ.ProcessID
+            '    If pid = cP.Pid And pid > 0 Then
+            '        Dim newIt As New ListViewItem(cServ.Name)
+            '        Dim sub1 As New ListViewItem.ListViewSubItem
+            '        Dim sub2 As New ListViewItem.ListViewSubItem
+            '        Dim sub3 As New ListViewItem.ListViewSubItem
+            '        sub1.Text = cServ.Status.ToString
+            '        sub2.Text = cServ.LongName
+            '        sub3.Text = cServ.ImagePath
+            '        newIt.SubItems.Add(sub1)
+            '        newIt.SubItems.Add(sub2)
+            '        newIt.SubItems.Add(sub3)
+            '        newIt.ImageIndex = 7
+
+            '        Me.lvProcServices.Items.Add(newIt)
+            '    End If
+            'Next
+
+
+            'Me.timerServices.Enabled = bServRef
+            Exit Sub
+        End If
 
         ' General informations
         Select Case Me.tabProcess.SelectedTab.Text
@@ -4678,6 +4725,9 @@ Public Class frmMain
 
 
             Case "Services"
+                ' Refresh service list if necessary
+                If Me.lvServices.Items.Count = 0 Then Call Me.refreshServiceList()
+
                 ' Associated services
                 Dim bServRef As Boolean = Me.timerServices.Enabled
                 Me.timerServices.Enabled = False
@@ -5473,6 +5523,7 @@ Public Class frmMain
                         Dim cp As cProcess = CType(it2.Tag, cProcess)
                         If CStr(cp.Pid) = pid Then
                             it2.Selected = True
+                            it2.EnsureVisible()
                         End If
                     Next
                 End If
@@ -5494,6 +5545,7 @@ Public Class frmMain
                 Dim cp As cService = CType(it2.Tag, cService)
                 If cp.Name = it.Text Then
                     it2.Selected = True
+                    it2.EnsureVisible()
                 End If
             Next
         Next
@@ -5514,5 +5566,299 @@ Public Class frmMain
 
     Private Sub ShowSystemInformatoToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowSystemInformatoToolStripMenuItem.Click
         frmSystemInfo.Show()
+    End Sub
+
+    Private Sub SelectedServicesToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles SelectedServicesToolStripMenuItem.Click
+
+        ' Refresh service list if necessary
+        If Me.lvServices.Items.Count = 0 Then Call Me.refreshServiceList()
+
+        ' Get selected processes pids
+        Dim pid() As Integer
+        ReDim pid(0)
+        Dim x As Integer = -1
+        For Each lvi As ListViewItem In Me.lvProcess.SelectedItems
+            x += 1
+            ReDim Preserve pid(x)
+            pid(x) = CType(lvi.Tag, cProcess).Pid
+        Next
+
+        ' Get services names of all associated services
+        'Dim name() As String
+        'ReDim name(0)
+        'x = -1
+        Dim bAddedOneService As Boolean = False
+        Dim bServRef As Boolean = Me.timerServices.Enabled
+        Me.timerServices.Enabled = False            ' Lock service timer
+
+        For Each lvi As ListViewItem In Me.lvServices.Items
+            Dim cServ As cService = CType(lvi.Tag, cService)
+
+            Dim bToAdd As Boolean = False
+            For Each _pid As Integer In pid
+                If cServ.ProcessID = _pid And _pid > 0 Then
+                    bToAdd = True
+                    Exit For
+                End If
+            Next
+
+            ' Then we select service
+            If bToAdd Then
+                If bAddedOneService = False Then
+                    Me.lvServices.SelectedItems.Clear()
+                    bAddedOneService = True
+                End If
+                lvi.Selected = True
+                lvi.EnsureVisible()
+            End If
+        Next
+
+        ' Unlock timer
+        Me.timerServices.Enabled = bServRef
+
+        If bAddedOneService Then
+            Me.Ribbon.ActiveTab = Me.ServiceTab
+            Call Me.Ribbon_MouseMove(Nothing, Nothing)
+        End If
+    End Sub
+
+    Private Sub txtSearchTask_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchTask.TextChanged
+        Dim it As ListViewItem
+        For Each it In Me.lvTask.Items
+            If InStr(LCase(it.Text), LCase(Me.txtSearchTask.Text)) = 0 Then
+                it.Group = lvTask.Groups(0)
+            Else
+                it.Group = lvTask.Groups(1)
+            End If
+        Next
+        Me.lblTaskCountResult.Text = CStr(Me.lvTask.Groups(1).Items.Count) & " result(s)"
+    End Sub
+
+    Private Sub lblTaskCountResult_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblTaskCountResult.Click
+        Me.lvTask.Focus()
+        Try
+            Me.lvTask.EnsureVisible(Me.lvTask.Groups(1).Items(0).Index)
+            Me.lvTask.SelectedItems.Clear()
+            Me.lvTask.Groups(1).Items(0).Selected = True
+        Catch ex As Exception
+        End Try
+    End Sub
+
+    ' Refresh  task list in listview
+    Public Sub refreshTaskList()
+
+        Dim wind As cWindow
+        Dim window() As cWindow
+        Dim lvi As ListViewItem
+        Dim x As Integer = 0
+        Dim exist As Boolean = False
+
+        Dim test As Integer = GetTickCount
+
+        ReDim window(0)
+        cWindow.EnumerateAllTasks(window)
+
+        ' Refresh (or suppress) all tasks displayed in listview
+        For Each lvi In Me.lvTask.Items
+
+            ' Test if window exist
+            Dim cW As cWindow = CType(lvi.Tag, cWindow)
+            For Each wind In window
+                If wind.Handle = cW.Handle Then
+                    exist = True
+                    wind.isDisplayed = True
+                    Exit For
+                End If
+            Next
+
+            If exist = False Then
+                ' Window no longer exists
+                log.AppendLine("Task " & CStr(cW.Handle) & " killed")
+                lvi.Remove()
+            Else
+
+                ' Refresh task informations
+                exist = exist
+            End If
+            exist = False
+        Next
+
+        ' Add all non displayed tasks (new tasks)
+        For Each wind In window
+
+            If wind.isDisplayed = False Then
+
+                ' Add to log
+                log.AppendLine("Task " & CStr(wind.Handle) & " created")
+                wind.isDisplayed = True
+
+                ' Get the task name
+                Dim o As String = wind.Caption
+                Dim it As New ListViewItem
+
+                If Len(o) > 0 Then
+
+                    it.Text = o
+
+                    Dim lsub1 As New ListViewItem.ListViewSubItem
+                    lsub1.Text = CStr(wind.Handle)
+
+                    Dim lsub2 As New ListViewItem.ListViewSubItem
+                    lsub2.Text = CStr(wind.ParentProcessId)
+
+                    ' Add icon
+                    it.ForeColor = Color.FromArgb(30, 30, 30)
+                    Try
+
+                        Dim img As System.Drawing.Icon = wind.getsmallicon
+                        imgTask.Images.Add(CStr(wind.Handle), img)
+                        it.ImageKey = CStr(wind.Handle)
+
+                    Catch ex As Exception
+                        it.ImageKey = "noIcon"
+                    End Try
+
+                    it.SubItems.Add(lsub1)
+                    it.SubItems.Add(lsub2)
+
+                    it.Group = lvTask.Groups(0)
+                    it.Tag = New cWindow(wind)
+                    lvTask.Items.Add(it)
+                End If
+            End If
+
+        Next
+
+        ' Here we retrieve some informations for all our displayed tasks
+        For Each lvi In Me.lvTask.Items
+
+            Try
+                Dim cW As cWindow = CType(lvi.Tag, cWindow)
+
+                Dim isub As ListViewItem.ListViewSubItem
+                Dim xxx As Integer = 0
+                For Each isub In lvi.SubItems
+                    Dim colName As String = Me.lvTask.Columns.Item(xxx).Text
+                    colName = colName.Replace("< ", "")
+                    colName = colName.Replace("> ", "")
+                    isub.Text = cW.GetInformation(colName)
+                    xxx += 1
+                Next
+
+            Catch ex As Exception
+                ' Access denied or ?
+            End Try
+
+        Next
+
+        test = GetTickCount - test
+        Trace.WriteLine("Tasks refresh took " & CStr(test) & " ms")
+
+        If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
+            Dim ss As String = Me.Ribbon.ActiveTab.Text
+            If ss = "Tasks" Then
+                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvTask.Items.Count) & " tasks running"
+            End If
+        End If
+
+    End Sub
+
+    Private Sub timerTask_Tick(ByVal sender As Object, ByVal e As System.EventArgs) Handles timerTask.Tick
+        Call refreshTaskList()
+    End Sub
+
+    Private Sub butTaskRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butTaskRefresh.Click
+        Call refreshTaskList()
+    End Sub
+
+    Private Sub ShowWindowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowWindowToolStripMenuItem.Click
+        Call butTaskShow_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MaximizeWindowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MaximizeWindowToolStripMenuItem.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvTask.SelectedItems
+            Call CType(it.Tag, cWindow).Maximize()
+        Next
+    End Sub
+
+    Private Sub MinimizeWindowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MinimizeWindowToolStripMenuItem.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvTask.SelectedItems
+            Call CType(it.Tag, cWindow).Minimize()
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem45_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem45.Click
+        ' Select processes associated to selected windows
+        Dim it As ListViewItem
+        If Me.lvTask.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
+        For Each it In Me.lvTask.SelectedItems
+            Try
+                Dim pid As Integer = CType(it.Tag, cWindow).ParentProcessId
+                Dim it2 As ListViewItem
+                For Each it2 In Me.lvProcess.Items
+                    Dim cp As cProcess = CType(it2.Tag, cProcess)
+                    If cp.Pid = pid Then
+                        it2.Selected = True
+                        it2.EnsureVisible()
+                    End If
+                Next
+            Catch ex As Exception
+                '
+            End Try
+        Next
+        Me.Ribbon.ActiveTab = Me.ProcessTab
+        Call Me.Ribbon_MouseMove(Nothing, Nothing)
+    End Sub
+
+    Private Sub EndTaskToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EndTaskToolStripMenuItem.Click
+        Call butTaskEndTask_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butTaskShow_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butTaskShow.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvTask.SelectedItems
+            Call CType(it.Tag, cWindow).SetAsForegroundWindow()
+        Next
+    End Sub
+
+    Private Sub butTaskEndTask_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butTaskEndTask.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvTask.SelectedItems
+            ' Call CType(it.Tag, cWindow).Show()
+        Next
+    End Sub
+
+    Private Sub SelectWindowInWindowsTabToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SelectWindowInWindowsTabToolStripMenuItem.Click
+        If Me.lvTask.SelectedItems.Count > 0 Then
+            Dim it As ListViewItem
+            Dim it2 As ListViewItem
+
+            Dim x As Integer = 0
+            ReDim windowsToRefresh(Me.lvTask.SelectedItems.Count - 1)
+
+            For Each it In Me.lvTask.SelectedItems
+                ' May be some doublons in list, but don't care about that
+                windowsToRefresh(x) = CType(it.Tag, cWindow).ParentProcessId
+                x += 1
+            Next
+
+            Call ShowWindows()
+
+            ' Select windows
+            For Each it In Me.lvTask.SelectedItems
+                Dim _h As IntPtr = CType(it.Tag, cWindow).Handle
+                For Each it2 In Me.lvWindows.Items
+                    If CType(it2.Tag, cWindow).Handle = _h Then
+                        it2.Selected = True
+                        it2.EnsureVisible()
+                    End If
+                Next
+            Next
+
+            Me.Ribbon.ActiveTab = Me.WindowTab
+            Call Me.Ribbon_MouseMove(Nothing, Nothing)
+        End If
     End Sub
 End Class

@@ -43,6 +43,8 @@ Partial Class frmMain
         Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup16 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup17 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Tasks", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup18 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain = New System.Windows.Forms.Panel
         Me.SplitContainerProcess = New System.Windows.Forms.SplitContainer
@@ -76,6 +78,7 @@ Partial Class frmMain
         Me.ShowHandlesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowWindowsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.SelectedServicesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem8 = New System.Windows.Forms.ToolStripSeparator
         Me.PropertiesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.OpenFirectoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -268,6 +271,12 @@ Partial Class frmMain
         Me.saveDial = New System.Windows.Forms.SaveFileDialog
         Me.openDial = New System.Windows.Forms.OpenFileDialog
         Me.Ribbon = New System.Windows.Forms.Ribbon
+        Me.TaskTab = New System.Windows.Forms.RibbonTab
+        Me.RBTaskDisplay = New System.Windows.Forms.RibbonPanel
+        Me.butTaskRefresh = New System.Windows.Forms.RibbonButton
+        Me.RBTaskActions = New System.Windows.Forms.RibbonPanel
+        Me.butTaskShow = New System.Windows.Forms.RibbonButton
+        Me.butTaskEndTask = New System.Windows.Forms.RibbonButton
         Me.ProcessTab = New System.Windows.Forms.RibbonTab
         Me.RBProcessDisplay = New System.Windows.Forms.RibbonPanel
         Me.butProcessRerfresh = New System.Windows.Forms.RibbonButton
@@ -596,6 +605,26 @@ Partial Class frmMain
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.cmdTray = New System.Windows.Forms.Button
         Me.timerProcPerf = New System.Windows.Forms.Timer(Me.components)
+        Me.menuTasks = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ShowWindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.MaximizeWindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.MinimizeWindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem46 = New System.Windows.Forms.ToolStripSeparator
+        Me.EndTaskToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem47 = New System.Windows.Forms.ToolStripSeparator
+        Me.ToolStripMenuItem45 = New System.Windows.Forms.ToolStripMenuItem
+        Me.SelectWindowInWindowsTabToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.panelMain13 = New System.Windows.Forms.Panel
+        Me.SplitContainerTask = New System.Windows.Forms.SplitContainer
+        Me.Label19 = New System.Windows.Forms.Label
+        Me.lblTaskCountResult = New System.Windows.Forms.Label
+        Me.txtSearchTask = New System.Windows.Forms.TextBox
+        Me.lvTask = New YAPM.DoubleBufferedLV
+        Me.ColumnHeader62 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader63 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader64 = New System.Windows.Forms.ColumnHeader
+        Me.timerTask = New System.Windows.Forms.Timer(Me.components)
+        Me.imgTask = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
         Me.SplitContainerProcess.Panel2.SuspendLayout()
@@ -715,6 +744,11 @@ Partial Class frmMain
         Me.SplitContainerModules.SuspendLayout()
         Me.menuModule.SuspendLayout()
         Me.mainMenu.SuspendLayout()
+        Me.menuTasks.SuspendLayout()
+        Me.panelMain13.SuspendLayout()
+        Me.SplitContainerTask.Panel1.SuspendLayout()
+        Me.SplitContainerTask.Panel2.SuspendLayout()
+        Me.SplitContainerTask.SuspendLayout()
         Me.SuspendLayout()
         '
         'imgMain
@@ -731,6 +765,7 @@ Partial Class frmMain
         Me.panelMain.Name = "panelMain"
         Me.panelMain.Size = New System.Drawing.Size(560, 449)
         Me.panelMain.TabIndex = 2
+        Me.panelMain.Visible = False
         '
         'SplitContainerProcess
         '
@@ -859,9 +894,9 @@ Partial Class frmMain
         '
         'menuProc
         '
-        Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ToolStripMenuItem38, Me.ShowModulesToolStripMenuItem, Me.ShowThreadsToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.ShowWindowsToolStripMenuItem, Me.ShowAllToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.ToolStripMenuItem1, Me.GetSecurityRiskOnlineToolStripMenuItem, Me.GoogleSearchToolStripMenuItem, Me.ToolStripMenuItem37, Me.ReadWriteMemoryToolStripMenuItem, Me.MonitorToolStripMenuItem})
+        Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ToolStripMenuItem38, Me.ShowModulesToolStripMenuItem, Me.ShowThreadsToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.ShowWindowsToolStripMenuItem, Me.ShowAllToolStripMenuItem, Me.SelectedServicesToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.ToolStripMenuItem1, Me.GetSecurityRiskOnlineToolStripMenuItem, Me.GoogleSearchToolStripMenuItem, Me.ToolStripMenuItem37, Me.ReadWriteMemoryToolStripMenuItem, Me.MonitorToolStripMenuItem})
         Me.menuProc.Name = "menuProc"
-        Me.menuProc.Size = New System.Drawing.Size(194, 402)
+        Me.menuProc.Size = New System.Drawing.Size(194, 424)
         '
         'KillToolStripMenuItem
         '
@@ -980,6 +1015,13 @@ Partial Class frmMain
         Me.ShowAllToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.ShowAllToolStripMenuItem.Text = "Show all"
         '
+        'SelectedServicesToolStripMenuItem
+        '
+        Me.SelectedServicesToolStripMenuItem.Image = CType(resources.GetObject("SelectedServicesToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.SelectedServicesToolStripMenuItem.Name = "SelectedServicesToolStripMenuItem"
+        Me.SelectedServicesToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
+        Me.SelectedServicesToolStripMenuItem.Text = "Selected services"
+        '
         'ToolStripMenuItem8
         '
         Me.ToolStripMenuItem8.Name = "ToolStripMenuItem8"
@@ -1056,7 +1098,7 @@ Partial Class frmMain
         Me.tabProcess.Location = New System.Drawing.Point(0, 0)
         Me.tabProcess.Name = "tabProcess"
         Me.tabProcess.SelectedIndex = 0
-        Me.tabProcess.Size = New System.Drawing.Size(560, 234)
+        Me.tabProcess.Size = New System.Drawing.Size(150, 46)
         Me.tabProcess.TabIndex = 0
         '
         'TabPage1
@@ -1067,7 +1109,7 @@ Partial Class frmMain
         Me.TabPage1.Location = New System.Drawing.Point(4, 23)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(552, 207)
+        Me.TabPage1.Size = New System.Drawing.Size(142, 19)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "General"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -1316,7 +1358,7 @@ Partial Class frmMain
         Me.TabPage2.Location = New System.Drawing.Point(4, 23)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(552, 207)
+        Me.TabPage2.Size = New System.Drawing.Size(142, 19)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Statistics"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -1826,7 +1868,7 @@ Partial Class frmMain
         Me.TabPage3.Location = New System.Drawing.Point(4, 23)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(552, 207)
+        Me.TabPage3.Size = New System.Drawing.Size(142, 19)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Performances"
         Me.TabPage3.UseVisualStyleBackColor = True
@@ -1846,8 +1888,8 @@ Partial Class frmMain
         'splitPerformances.Panel2
         '
         Me.splitPerformances.Panel2.Controls.Add(Me.splitPerformance2)
-        Me.splitPerformances.Size = New System.Drawing.Size(546, 201)
-        Me.splitPerformances.SplitterDistance = 67
+        Me.splitPerformances.Size = New System.Drawing.Size(136, 13)
+        Me.splitPerformances.SplitterDistance = 25
         Me.splitPerformances.SplitterWidth = 1
         Me.splitPerformances.TabIndex = 3
         '
@@ -1860,7 +1902,7 @@ Partial Class frmMain
         Me.graphCPU.GridStep = 10
         Me.graphCPU.Location = New System.Drawing.Point(0, 0)
         Me.graphCPU.Name = "graphCPU"
-        Me.graphCPU.Size = New System.Drawing.Size(546, 67)
+        Me.graphCPU.Size = New System.Drawing.Size(136, 25)
         Me.graphCPU.TabIndex = 1
         Me.graphCPU.TabStop = False
         '
@@ -1879,8 +1921,8 @@ Partial Class frmMain
         'splitPerformance2.Panel2
         '
         Me.splitPerformance2.Panel2.Controls.Add(Me.graphIO)
-        Me.splitPerformance2.Size = New System.Drawing.Size(546, 133)
-        Me.splitPerformance2.SplitterDistance = 66
+        Me.splitPerformance2.Size = New System.Drawing.Size(136, 54)
+        Me.splitPerformance2.SplitterDistance = 25
         Me.splitPerformance2.SplitterWidth = 1
         Me.splitPerformance2.TabIndex = 0
         '
@@ -1894,7 +1936,7 @@ Partial Class frmMain
         Me.graphMemory.GridStep = 10
         Me.graphMemory.Location = New System.Drawing.Point(0, 0)
         Me.graphMemory.Name = "graphMemory"
-        Me.graphMemory.Size = New System.Drawing.Size(546, 66)
+        Me.graphMemory.Size = New System.Drawing.Size(136, 25)
         Me.graphMemory.TabIndex = 2
         Me.graphMemory.TabStop = False
         '
@@ -1908,7 +1950,7 @@ Partial Class frmMain
         Me.graphIO.GridStep = 10
         Me.graphIO.Location = New System.Drawing.Point(0, 0)
         Me.graphIO.Name = "graphIO"
-        Me.graphIO.Size = New System.Drawing.Size(546, 66)
+        Me.graphIO.Size = New System.Drawing.Size(136, 28)
         Me.graphIO.TabIndex = 3
         Me.graphIO.TabStop = False
         '
@@ -1919,7 +1961,7 @@ Partial Class frmMain
         Me.TabPage4.Location = New System.Drawing.Point(4, 23)
         Me.TabPage4.Name = "TabPage4"
         Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage4.Size = New System.Drawing.Size(552, 207)
+        Me.TabPage4.Size = New System.Drawing.Size(142, 19)
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "Token"
         Me.TabPage4.UseVisualStyleBackColor = True
@@ -1931,7 +1973,7 @@ Partial Class frmMain
         Me.tabProcessToken.Location = New System.Drawing.Point(3, 3)
         Me.tabProcessToken.Name = "tabProcessToken"
         Me.tabProcessToken.SelectedIndex = 0
-        Me.tabProcessToken.Size = New System.Drawing.Size(546, 201)
+        Me.tabProcessToken.Size = New System.Drawing.Size(136, 13)
         Me.tabProcessToken.TabIndex = 0
         '
         'tabProcessTokenPagePrivileges
@@ -1940,7 +1982,7 @@ Partial Class frmMain
         Me.tabProcessTokenPagePrivileges.Location = New System.Drawing.Point(4, 22)
         Me.tabProcessTokenPagePrivileges.Name = "tabProcessTokenPagePrivileges"
         Me.tabProcessTokenPagePrivileges.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabProcessTokenPagePrivileges.Size = New System.Drawing.Size(538, 175)
+        Me.tabProcessTokenPagePrivileges.Size = New System.Drawing.Size(128, 0)
         Me.tabProcessTokenPagePrivileges.TabIndex = 0
         Me.tabProcessTokenPagePrivileges.Text = "Privileges"
         Me.tabProcessTokenPagePrivileges.UseVisualStyleBackColor = True
@@ -1956,7 +1998,7 @@ Partial Class frmMain
         Me.lvPrivileges.Location = New System.Drawing.Point(3, 3)
         Me.lvPrivileges.Name = "lvPrivileges"
         Me.lvPrivileges.OverriddenDoubleBuffered = True
-        Me.lvPrivileges.Size = New System.Drawing.Size(532, 169)
+        Me.lvPrivileges.Size = New System.Drawing.Size(122, 0)
         Me.lvPrivileges.TabIndex = 4
         Me.lvPrivileges.UseCompatibleStateImageBehavior = False
         Me.lvPrivileges.View = System.Windows.Forms.View.Details
@@ -2013,7 +2055,7 @@ Partial Class frmMain
         Me.TabPage5.Location = New System.Drawing.Point(4, 23)
         Me.TabPage5.Name = "TabPage5"
         Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage5.Size = New System.Drawing.Size(552, 207)
+        Me.TabPage5.Size = New System.Drawing.Size(142, 19)
         Me.TabPage5.TabIndex = 4
         Me.TabPage5.Text = "Memory"
         Me.TabPage5.UseVisualStyleBackColor = True
@@ -2028,7 +2070,7 @@ Partial Class frmMain
         Me.lvProcMem.Location = New System.Drawing.Point(3, 3)
         Me.lvProcMem.Name = "lvProcMem"
         Me.lvProcMem.OverriddenDoubleBuffered = True
-        Me.lvProcMem.Size = New System.Drawing.Size(546, 201)
+        Me.lvProcMem.Size = New System.Drawing.Size(136, 13)
         Me.lvProcMem.TabIndex = 5
         Me.lvProcMem.UseCompatibleStateImageBehavior = False
         Me.lvProcMem.View = System.Windows.Forms.View.Details
@@ -2070,7 +2112,7 @@ Partial Class frmMain
         Me.TabPage6.Location = New System.Drawing.Point(4, 23)
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage6.Size = New System.Drawing.Size(552, 207)
+        Me.TabPage6.Size = New System.Drawing.Size(142, 19)
         Me.TabPage6.TabIndex = 5
         Me.TabPage6.Text = "Informations"
         Me.TabPage6.UseVisualStyleBackColor = True
@@ -2094,7 +2136,7 @@ Partial Class frmMain
         'SplitContainerInfoProcess.Panel2
         '
         Me.SplitContainerInfoProcess.Panel2.Controls.Add(Me.rtb)
-        Me.SplitContainerInfoProcess.Size = New System.Drawing.Size(546, 201)
+        Me.SplitContainerInfoProcess.Size = New System.Drawing.Size(136, 13)
         Me.SplitContainerInfoProcess.SplitterDistance = 25
         Me.SplitContainerInfoProcess.TabIndex = 0
         '
@@ -2160,7 +2202,7 @@ Partial Class frmMain
         Me.rtb.Location = New System.Drawing.Point(0, 0)
         Me.rtb.Name = "rtb"
         Me.rtb.ReadOnly = True
-        Me.rtb.Size = New System.Drawing.Size(546, 172)
+        Me.rtb.Size = New System.Drawing.Size(136, 25)
         Me.rtb.TabIndex = 14
         Me.rtb.Text = ""
         '
@@ -2171,7 +2213,7 @@ Partial Class frmMain
         Me.TabPage7.Location = New System.Drawing.Point(4, 23)
         Me.TabPage7.Name = "TabPage7"
         Me.TabPage7.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage7.Size = New System.Drawing.Size(552, 207)
+        Me.TabPage7.Size = New System.Drawing.Size(142, 19)
         Me.TabPage7.TabIndex = 6
         Me.TabPage7.Text = "Services"
         Me.TabPage7.UseVisualStyleBackColor = True
@@ -2187,7 +2229,7 @@ Partial Class frmMain
         Me.lvProcServices.Location = New System.Drawing.Point(3, 3)
         Me.lvProcServices.Name = "lvProcServices"
         Me.lvProcServices.OverriddenDoubleBuffered = True
-        Me.lvProcServices.Size = New System.Drawing.Size(546, 201)
+        Me.lvProcServices.Size = New System.Drawing.Size(136, 13)
         Me.lvProcServices.SmallImageList = Me.imgProcessTab
         Me.lvProcServices.TabIndex = 5
         Me.lvProcServices.UseCompatibleStateImageBehavior = False
@@ -2766,6 +2808,7 @@ Partial Class frmMain
         Me.Ribbon.Name = "Ribbon"
         Me.Ribbon.Size = New System.Drawing.Size(843, 115)
         Me.Ribbon.TabIndex = 44
+        Me.Ribbon.Tabs.Add(Me.TaskTab)
         Me.Ribbon.Tabs.Add(Me.ProcessTab)
         Me.Ribbon.Tabs.Add(Me.ModulesTab)
         Me.Ribbon.Tabs.Add(Me.ThreadTab)
@@ -2777,6 +2820,69 @@ Partial Class frmMain
         Me.Ribbon.Tabs.Add(Me.SearchTab)
         Me.Ribbon.Tabs.Add(Me.HelpTab)
         Me.Ribbon.TabSpacing = 6
+        '
+        'TaskTab
+        '
+        Me.TaskTab.Panels.Add(Me.RBTaskDisplay)
+        Me.TaskTab.Panels.Add(Me.RBTaskActions)
+        Me.TaskTab.Tag = Nothing
+        Me.TaskTab.Text = "Tasks"
+        '
+        'RBTaskDisplay
+        '
+        Me.RBTaskDisplay.ButtonMoreEnabled = False
+        Me.RBTaskDisplay.ButtonMoreVisible = False
+        Me.RBTaskDisplay.Items.Add(Me.butTaskRefresh)
+        Me.RBTaskDisplay.Tag = Nothing
+        Me.RBTaskDisplay.Text = "Display"
+        '
+        'butTaskRefresh
+        '
+        Me.butTaskRefresh.AltKey = Nothing
+        Me.butTaskRefresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butTaskRefresh.Image = CType(resources.GetObject("butTaskRefresh.Image"), System.Drawing.Image)
+        Me.butTaskRefresh.SmallImage = CType(resources.GetObject("butTaskRefresh.SmallImage"), System.Drawing.Image)
+        Me.butTaskRefresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butTaskRefresh.Tag = Nothing
+        Me.butTaskRefresh.Text = "Refresh"
+        Me.butTaskRefresh.ToolTip = Nothing
+        Me.butTaskRefresh.ToolTipImage = Nothing
+        Me.butTaskRefresh.ToolTipTitle = Nothing
+        '
+        'RBTaskActions
+        '
+        Me.RBTaskActions.ButtonMoreEnabled = False
+        Me.RBTaskActions.ButtonMoreVisible = False
+        Me.RBTaskActions.Items.Add(Me.butTaskShow)
+        Me.RBTaskActions.Items.Add(Me.butTaskEndTask)
+        Me.RBTaskActions.Tag = Nothing
+        Me.RBTaskActions.Text = "Common task actions"
+        '
+        'butTaskShow
+        '
+        Me.butTaskShow.AltKey = Nothing
+        Me.butTaskShow.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butTaskShow.Image = Global.YAPM.My.Resources.Resources.showDetails
+        Me.butTaskShow.SmallImage = CType(resources.GetObject("butTaskShow.SmallImage"), System.Drawing.Image)
+        Me.butTaskShow.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butTaskShow.Tag = Nothing
+        Me.butTaskShow.Text = "Show"
+        Me.butTaskShow.ToolTip = Nothing
+        Me.butTaskShow.ToolTipImage = Nothing
+        Me.butTaskShow.ToolTipTitle = Nothing
+        '
+        'butTaskEndTask
+        '
+        Me.butTaskEndTask.AltKey = Nothing
+        Me.butTaskEndTask.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butTaskEndTask.Image = CType(resources.GetObject("butTaskEndTask.Image"), System.Drawing.Image)
+        Me.butTaskEndTask.SmallImage = CType(resources.GetObject("butTaskEndTask.SmallImage"), System.Drawing.Image)
+        Me.butTaskEndTask.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butTaskEndTask.Tag = Nothing
+        Me.butTaskEndTask.Text = "End task"
+        Me.butTaskEndTask.ToolTip = Nothing
+        Me.butTaskEndTask.ToolTipImage = Nothing
+        Me.butTaskEndTask.ToolTipTitle = Nothing
         '
         'ProcessTab
         '
@@ -6317,18 +6423,176 @@ Partial Class frmMain
         '
         Me.timerProcPerf.Interval = 1000
         '
+        'menuTasks
+        '
+        Me.menuTasks.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowWindowToolStripMenuItem, Me.MaximizeWindowToolStripMenuItem, Me.MinimizeWindowToolStripMenuItem, Me.ToolStripMenuItem46, Me.EndTaskToolStripMenuItem, Me.ToolStripMenuItem47, Me.ToolStripMenuItem45, Me.SelectWindowInWindowsTabToolStripMenuItem})
+        Me.menuTasks.Name = "menuProc"
+        Me.menuTasks.Size = New System.Drawing.Size(236, 148)
+        '
+        'ShowWindowToolStripMenuItem
+        '
+        Me.ShowWindowToolStripMenuItem.Image = CType(resources.GetObject("ShowWindowToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.ShowWindowToolStripMenuItem.Name = "ShowWindowToolStripMenuItem"
+        Me.ShowWindowToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
+        Me.ShowWindowToolStripMenuItem.Text = "Show window"
+        '
+        'MaximizeWindowToolStripMenuItem
+        '
+        Me.MaximizeWindowToolStripMenuItem.Name = "MaximizeWindowToolStripMenuItem"
+        Me.MaximizeWindowToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
+        Me.MaximizeWindowToolStripMenuItem.Text = "Maximize window"
+        '
+        'MinimizeWindowToolStripMenuItem
+        '
+        Me.MinimizeWindowToolStripMenuItem.Name = "MinimizeWindowToolStripMenuItem"
+        Me.MinimizeWindowToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
+        Me.MinimizeWindowToolStripMenuItem.Text = "Minimize window"
+        '
+        'ToolStripMenuItem46
+        '
+        Me.ToolStripMenuItem46.Name = "ToolStripMenuItem46"
+        Me.ToolStripMenuItem46.Size = New System.Drawing.Size(232, 6)
+        '
+        'EndTaskToolStripMenuItem
+        '
+        Me.EndTaskToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.kill
+        Me.EndTaskToolStripMenuItem.Name = "EndTaskToolStripMenuItem"
+        Me.EndTaskToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
+        Me.EndTaskToolStripMenuItem.Text = "End task"
+        '
+        'ToolStripMenuItem47
+        '
+        Me.ToolStripMenuItem47.Name = "ToolStripMenuItem47"
+        Me.ToolStripMenuItem47.Size = New System.Drawing.Size(232, 6)
+        '
+        'ToolStripMenuItem45
+        '
+        Me.ToolStripMenuItem45.Image = Global.YAPM.My.Resources.Resources.exe
+        Me.ToolStripMenuItem45.Name = "ToolStripMenuItem45"
+        Me.ToolStripMenuItem45.Size = New System.Drawing.Size(235, 22)
+        Me.ToolStripMenuItem45.Text = "&Select associated process"
+        '
+        'SelectWindowInWindowsTabToolStripMenuItem
+        '
+        Me.SelectWindowInWindowsTabToolStripMenuItem.Name = "SelectWindowInWindowsTabToolStripMenuItem"
+        Me.SelectWindowInWindowsTabToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
+        Me.SelectWindowInWindowsTabToolStripMenuItem.Text = "Select window in Windows tab"
+        '
+        'panelMain13
+        '
+        Me.panelMain13.Controls.Add(Me.SplitContainerTask)
+        Me.panelMain13.Location = New System.Drawing.Point(139, 163)
+        Me.panelMain13.Name = "panelMain13"
+        Me.panelMain13.Size = New System.Drawing.Size(565, 276)
+        Me.panelMain13.TabIndex = 55
+        '
+        'SplitContainerTask
+        '
+        Me.SplitContainerTask.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainerTask.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainerTask.IsSplitterFixed = True
+        Me.SplitContainerTask.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainerTask.Name = "SplitContainerTask"
+        Me.SplitContainerTask.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainerTask.Panel1
+        '
+        Me.SplitContainerTask.Panel1.Controls.Add(Me.Label19)
+        Me.SplitContainerTask.Panel1.Controls.Add(Me.lblTaskCountResult)
+        Me.SplitContainerTask.Panel1.Controls.Add(Me.txtSearchTask)
+        '
+        'SplitContainerTask.Panel2
+        '
+        Me.SplitContainerTask.Panel2.Controls.Add(Me.lvTask)
+        Me.SplitContainerTask.Size = New System.Drawing.Size(565, 276)
+        Me.SplitContainerTask.SplitterDistance = 25
+        Me.SplitContainerTask.TabIndex = 0
+        '
+        'Label19
+        '
+        Me.Label19.AutoSize = True
+        Me.Label19.Location = New System.Drawing.Point(3, 5)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(64, 13)
+        Me.Label19.TabIndex = 13
+        Me.Label19.Text = "Search task"
+        '
+        'lblTaskCountResult
+        '
+        Me.lblTaskCountResult.AutoSize = True
+        Me.lblTaskCountResult.Location = New System.Drawing.Point(393, 5)
+        Me.lblTaskCountResult.Name = "lblTaskCountResult"
+        Me.lblTaskCountResult.Size = New System.Drawing.Size(52, 13)
+        Me.lblTaskCountResult.TabIndex = 12
+        Me.lblTaskCountResult.Text = "0 result(s)"
+        '
+        'txtSearchTask
+        '
+        Me.txtSearchTask.Location = New System.Drawing.Point(72, 2)
+        Me.txtSearchTask.Name = "txtSearchTask"
+        Me.txtSearchTask.Size = New System.Drawing.Size(312, 20)
+        Me.txtSearchTask.TabIndex = 11
+        '
+        'lvTask
+        '
+        Me.lvTask.AllowColumnReorder = True
+        Me.lvTask.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader62, Me.ColumnHeader63, Me.ColumnHeader64})
+        Me.lvTask.ContextMenuStrip = Me.menuTasks
+        Me.lvTask.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvTask.FullRowSelect = True
+        ListViewGroup17.Header = "Tasks"
+        ListViewGroup17.Name = "gpOther"
+        ListViewGroup18.Header = "Search result"
+        ListViewGroup18.Name = "gpSearch"
+        Me.lvTask.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup17, ListViewGroup18})
+        Me.lvTask.HideSelection = False
+        Me.lvTask.Location = New System.Drawing.Point(0, 0)
+        Me.lvTask.Name = "lvTask"
+        Me.lvTask.OverriddenDoubleBuffered = True
+        Me.lvTask.Size = New System.Drawing.Size(565, 247)
+        Me.lvTask.SmallImageList = Me.imgServices
+        Me.lvTask.TabIndex = 3
+        Me.lvTask.UseCompatibleStateImageBehavior = False
+        Me.lvTask.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader62
+        '
+        Me.ColumnHeader62.Text = "Name"
+        Me.ColumnHeader62.Width = 256
+        '
+        'ColumnHeader63
+        '
+        Me.ColumnHeader63.Text = "CpuUsage"
+        Me.ColumnHeader63.Width = 170
+        '
+        'ColumnHeader64
+        '
+        Me.ColumnHeader64.Text = "Process"
+        Me.ColumnHeader64.Width = 130
+        '
+        'timerTask
+        '
+        Me.timerTask.Interval = 1000
+        '
+        'imgTask
+        '
+        Me.imgTask.ImageStream = CType(resources.GetObject("imgTask.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imgTask.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgTask.Images.SetKeyName(0, "noIcon")
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.ClientSize = New System.Drawing.Size(843, 603)
+        Me.Controls.Add(Me.panelMain13)
+        Me.Controls.Add(Me.panelMain7)
         Me.Controls.Add(Me.panelMain)
         Me.Controls.Add(Me.panelMain2)
         Me.Controls.Add(Me.panelMain9)
         Me.Controls.Add(Me.panelMain4)
         Me.Controls.Add(Me.panelMain3)
-        Me.Controls.Add(Me.panelMain7)
         Me.Controls.Add(Me.panelMain6)
         Me.Controls.Add(Me.panelMenu)
         Me.Controls.Add(Me.panelMain10)
@@ -6484,6 +6748,12 @@ Partial Class frmMain
         Me.SplitContainerModules.ResumeLayout(False)
         Me.menuModule.ResumeLayout(False)
         Me.mainMenu.ResumeLayout(False)
+        Me.menuTasks.ResumeLayout(False)
+        Me.panelMain13.ResumeLayout(False)
+        Me.SplitContainerTask.Panel1.ResumeLayout(False)
+        Me.SplitContainerTask.Panel1.PerformLayout()
+        Me.SplitContainerTask.Panel2.ResumeLayout(False)
+        Me.SplitContainerTask.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -7041,5 +7311,32 @@ Partial Class frmMain
     Friend WithEvents Label37 As System.Windows.Forms.Label
     Friend WithEvents lblGDIcount As System.Windows.Forms.Label
     Friend WithEvents lbl789 As System.Windows.Forms.Label
+    Friend WithEvents SelectedServicesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents TaskTab As System.Windows.Forms.RibbonTab
+    Friend WithEvents RBTaskDisplay As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butTaskRefresh As System.Windows.Forms.RibbonButton
+    Friend WithEvents RBTaskActions As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butTaskShow As System.Windows.Forms.RibbonButton
+    Friend WithEvents butTaskEndTask As System.Windows.Forms.RibbonButton
+    Friend WithEvents menuTasks As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents ToolStripMenuItem45 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ShowWindowToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MaximizeWindowToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MinimizeWindowToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem46 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents EndTaskToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem47 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents panelMain13 As System.Windows.Forms.Panel
+    Friend WithEvents SplitContainerTask As System.Windows.Forms.SplitContainer
+    Friend WithEvents Label19 As System.Windows.Forms.Label
+    Friend WithEvents lblTaskCountResult As System.Windows.Forms.Label
+    Friend WithEvents txtSearchTask As System.Windows.Forms.TextBox
+    Friend WithEvents lvTask As YAPM.DoubleBufferedLV
+    Friend WithEvents ColumnHeader62 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader63 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader64 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents timerTask As System.Windows.Forms.Timer
+    Friend WithEvents imgTask As System.Windows.Forms.ImageList
+    Friend WithEvents SelectWindowInWindowsTabToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
