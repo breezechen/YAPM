@@ -113,9 +113,9 @@ Public Class frmMain
 #End If
 
     Public HELP_PATH As String = My.Application.Info.DirectoryPath & "\Help\help.htm"
-    Public Const DEFAULT_TIMER_INTERVAL_PROCESSES As Integer = 2500
+    Public Const DEFAULT_TIMER_INTERVAL_PROCESSES As Integer = 1500
     Private Const NO_INFO_RETRIEVED As String = "N/A"
-    Public Const DEFAULT_TIMER_INTERVAL_SERVICES As Integer = 15000
+    Public Const DEFAULT_TIMER_INTERVAL_SERVICES As Integer = 25000
     Public Const MSGFIRSTTIME As String = "This is the first time you run YAPM. Please remember that it is a beta3 version so there are some bugs and some missing functionnalities :-)" & vbNewLine & vbNewLine & "You should run YAPM as an administrator in order to fully control your processes. Please take care using this YAPM because you will be able to do some irreversible things if you kill or modify some system processes... Use it at your own risks !" & vbNewLine & vbNewLine & "Please let me know any of your ideas of improvement or new functionnalities in YAPM's sourceforge.net project page ('Help' pannel) :-)" & vbNewLine & vbNewLine & "This message won't be shown anymore :-)"
 
 
@@ -634,6 +634,9 @@ Public Class frmMain
         With Me
             .lblServicePath.BackColor = .BackColor
         End With
+
+        creg = New cRegMonitor(cRegMonitor.KEY_TYPE.HKEY_LOCAL_MACHINE, "SYSTEM\CurrentControlSet\Services", _
+              cRegMonitor.KEY_MONITORING_TYPE.REG_NOTIFY_CHANGE_NAME)
 
         isAdmin = mdlPrivileges.IsAdministrator
         If isAdmin = False Then
@@ -5127,11 +5130,6 @@ Public Class frmMain
         Me.lvProcess.View = CType(i, View)
     End Sub
 
-    Private Sub tvProc_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvProc.AfterSelect
-        creg = New cRegMonitor(cRegMonitor.KEY_TYPE.HKEY_LOCAL_MACHINE, "SYSTEM\CurrentControlSet\Services", _
-                cRegMonitor.KEY_MONITORING_TYPE.REG_NOTIFY_CHANGE_NAME)
-    End Sub
-
     Private Sub creg_KeyAdded(ByVal key As cRegMonitor.KeyDefinition) Handles creg.KeyAdded
         log.AppendLine("Service added : " & key.name)
         With Me.Tray
@@ -5888,5 +5886,16 @@ Public Class frmMain
         For Each it As ListViewItem In Me.lvProcess.SelectedItems
             Call CType(it.Tag, cProcess).KillProcessTree()
         Next
+    End Sub
+
+    Private Sub lvProcess_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvProcess.KeyDown
+        If e.KeyCode = Keys.Delete And Me.lvProcess.SelectedItems.Count > 0 Then
+            If MsgBox("Are you sure ?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo, "Kill processes") = MsgBoxResult.Yes Then
+                Dim it As ListViewItem
+                For Each it In Me.lvProcess.SelectedItems
+                    CType(it.Tag, cProcess).Kill()
+                Next
+            End If
+        End If
     End Sub
 End Class
