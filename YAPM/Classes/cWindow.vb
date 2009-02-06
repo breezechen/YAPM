@@ -317,11 +317,11 @@ Public Class cWindow
             Return GetWindowPosition()
         End Get
     End Property
-    'Public ReadOnly Property SmallIcon() As Bitmap
-    '    Get
-    '        Return GetIPictureDispFromBitmapHandle(Me.GetWindowSmallIcon)
-    '    End Get
-    'End Property
+    Public ReadOnly Property SmallIcon() As System.Drawing.Icon
+        Get
+            Return System.Drawing.Icon.FromHandle(GetWindowSmallIcon)
+        End Get
+    End Property
 
 
     ' ========================================
@@ -350,11 +350,6 @@ Public Class cWindow
     ' ========================================
     ' Public functions
     ' ========================================
-
-    Public Function GetSmallIcon() As System.Drawing.Icon
-        Return Nothing
-    End Function
-
     Public Function GetInformation(ByVal info As String) As String
         Select Case info
             Case "Name", "Caption"
@@ -548,6 +543,8 @@ Public Class cWindow
         If res = IntPtr.Zero Then
             res = SendMessage(GetWindowLong(_handle, GWL_HWNDPARENT), WM_GETICON, ICON_SMALL, 0)
         End If
+
+        Return res
     End Function
 
     ' Get window class name

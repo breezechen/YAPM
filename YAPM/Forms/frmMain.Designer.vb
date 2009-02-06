@@ -623,8 +623,8 @@ Partial Class frmMain
         Me.ColumnHeader62 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader63 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader64 = New System.Windows.Forms.ColumnHeader
-        Me.timerTask = New System.Windows.Forms.Timer(Me.components)
         Me.imgTask = New System.Windows.Forms.ImageList(Me.components)
+        Me.timerTask = New System.Windows.Forms.Timer(Me.components)
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
         Me.SplitContainerProcess.Panel2.SuspendLayout()
@@ -6550,7 +6550,7 @@ Partial Class frmMain
         Me.lvTask.Name = "lvTask"
         Me.lvTask.OverriddenDoubleBuffered = True
         Me.lvTask.Size = New System.Drawing.Size(565, 247)
-        Me.lvTask.SmallImageList = Me.imgServices
+        Me.lvTask.SmallImageList = Me.imgTask
         Me.lvTask.TabIndex = 3
         Me.lvTask.UseCompatibleStateImageBehavior = False
         Me.lvTask.View = System.Windows.Forms.View.Details
@@ -6570,15 +6570,15 @@ Partial Class frmMain
         Me.ColumnHeader64.Text = "Process"
         Me.ColumnHeader64.Width = 130
         '
-        'timerTask
-        '
-        Me.timerTask.Interval = 1000
-        '
         'imgTask
         '
         Me.imgTask.ImageStream = CType(resources.GetObject("imgTask.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.imgTask.TransparentColor = System.Drawing.Color.Transparent
         Me.imgTask.Images.SetKeyName(0, "noIcon")
+        '
+        'timerTask
+        '
+        Me.timerTask.Interval = 1000
         '
         'frmMain
         '

@@ -3468,9 +3468,13 @@ Public Class frmMain
                         n5.Text = CStr(tCt.Visible)
                         it.SubItems.Add(n5)
 
-                        'Dim key As String = CStr(tCt.ParentProcessId) & "|" & CStr(tCt.Handle)
-                        'Me.imgWindows.Images.Add(key, tCt.SmallIcon)
-                        'it.ImageKey = key
+                        Try
+                            Dim key As String = CStr(tCt.ParentProcessId) & "|" & CStr(tCt.Handle)
+                            Me.imgWindows.Images.Add(key, tCt.SmallIcon)
+                            it.ImageKey = key
+                        Catch ex As Exception
+                            it.ImageKey = "noIcon"
+                        End Try
 
                         it.Tag = tCt
                         it.Group = Me.lvWindows.Groups(0)
@@ -5710,9 +5714,10 @@ Public Class frmMain
                     it.ForeColor = Color.FromArgb(30, 30, 30)
                     Try
 
-                        Dim img As System.Drawing.Icon = wind.getsmallicon
-                        imgTask.Images.Add(CStr(wind.Handle), img)
-                        it.ImageKey = CStr(wind.Handle)
+                        Dim key As String = CStr(wind.ParentProcessId) & "|" & CStr(wind.Handle)
+                        Dim img As System.Drawing.Icon = wind.SmallIcon
+                        imgTask.Images.Add(key, img)
+                        it.ImageKey = key
 
                     Catch ex As Exception
                         it.ImageKey = "noIcon"
@@ -5860,5 +5865,52 @@ Public Class frmMain
             Me.Ribbon.ActiveTab = Me.WindowTab
             Call Me.Ribbon_MouseMove(Nothing, Nothing)
         End If
+    End Sub
+
+    Private Sub lvTask_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvTask.ColumnClick
+        ' Get the new sorting column.
+        Dim new_sorting_column As ColumnHeader = _
+            lvTask.Columns(e.Column)
+
+        ' Figure out the new sorting order.
+        Dim sort_order As System.Windows.Forms.SortOrder
+        If m_SortingColumn Is Nothing Then
+            ' New column. Sort ascending.
+            sort_order = SortOrder.Ascending
+        Else
+            ' See if this is the same column.
+            If new_sorting_column.Equals(m_SortingColumn) Then
+                ' Same column. Switch the sort order.
+                If m_SortingColumn.Text.StartsWith("> ") Then
+                    sort_order = SortOrder.Descending
+                Else
+                    sort_order = SortOrder.Ascending
+                End If
+            Else
+                ' New column. Sort ascending.
+                sort_order = SortOrder.Ascending
+            End If
+
+            ' Remove the old sort indicator.
+            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
+        End If
+
+        ' Display the new sort order.
+        m_SortingColumn = new_sorting_column
+        If sort_order = SortOrder.Ascending Then
+            m_SortingColumn.Text = "> " & m_SortingColumn.Text
+        Else
+            m_SortingColumn.Text = "< " & m_SortingColumn.Text
+        End If
+
+        ' Create a comparer.
+        lvTask.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
+
+        ' Sort.
+        lvTask.Sort()
+    End Sub
+
+    Private Sub lvTask_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvTask.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvTask)
     End Sub
 End Class
