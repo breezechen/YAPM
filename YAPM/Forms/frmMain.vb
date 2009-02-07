@@ -1345,13 +1345,7 @@ Public Class frmMain
     End Sub
 
     Private Sub butProcessAffinity_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessAffinity.Click
-        ' Choose affinity for selected processes
-        Dim it As ListViewItem
-        For Each it In Me.lvProcess.SelectedItems
-            'INSERT CODE HERE
-            'If cP.Path <> NO_INFO_RETRIEVED Then _
-            'http://www.vbfrance.com/codes/AFFINITE-PROCESSUS-THREADS_42365.aspx
-        Next
+        Call SetAffinityToolStripMenuItem_Click(Nothing, Nothing)
     End Sub
 
     Private Sub butResumeProcess_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butResumeProcess.Click

@@ -897,7 +897,7 @@ Partial Class frmMain
         '
         Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.KillProcessTreeToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ToolStripMenuItem38, Me.ShowModulesToolStripMenuItem, Me.ShowThreadsToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.ShowWindowsToolStripMenuItem, Me.ShowAllToolStripMenuItem, Me.SelectedServicesToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.ToolStripMenuItem1, Me.GetSecurityRiskOnlineToolStripMenuItem, Me.GoogleSearchToolStripMenuItem, Me.ToolStripMenuItem37, Me.ReadWriteMemoryToolStripMenuItem, Me.MonitorToolStripMenuItem})
         Me.menuProc.Name = "menuProc"
-        Me.menuProc.Size = New System.Drawing.Size(194, 468)
+        Me.menuProc.Size = New System.Drawing.Size(194, 446)
         '
         'KillToolStripMenuItem
         '
@@ -3022,7 +3022,6 @@ Partial Class frmMain
         Me.butProcessOtherActions.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butProcessOtherActions.DropDownItems.Add(Me.butProcessAffinity)
         Me.butProcessOtherActions.DropDownItems.Add(Me.butProcessLimitCPU)
-        Me.butProcessOtherActions.Enabled = False
         Me.butProcessOtherActions.Image = CType(resources.GetObject("butProcessOtherActions.Image"), System.Drawing.Image)
         Me.butProcessOtherActions.SmallImage = CType(resources.GetObject("butProcessOtherActions.SmallImage"), System.Drawing.Image)
         Me.butProcessOtherActions.Style = System.Windows.Forms.RibbonButtonStyle.DropDown
@@ -3049,6 +3048,7 @@ Partial Class frmMain
         '
         Me.butProcessLimitCPU.AltKey = Nothing
         Me.butProcessLimitCPU.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessLimitCPU.Enabled = False
         Me.butProcessLimitCPU.Image = CType(resources.GetObject("butProcessLimitCPU.Image"), System.Drawing.Image)
         Me.butProcessLimitCPU.SmallImage = CType(resources.GetObject("butProcessLimitCPU.SmallImage"), System.Drawing.Image)
         Me.butProcessLimitCPU.Style = System.Windows.Forms.RibbonButtonStyle.Normal
