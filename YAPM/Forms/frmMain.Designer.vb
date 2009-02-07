@@ -897,7 +897,7 @@ Partial Class frmMain
         '
         Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.KillProcessTreeToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ToolStripMenuItem38, Me.ShowModulesToolStripMenuItem, Me.ShowThreadsToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.ShowWindowsToolStripMenuItem, Me.ShowAllToolStripMenuItem, Me.SelectedServicesToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.ToolStripMenuItem1, Me.GetSecurityRiskOnlineToolStripMenuItem, Me.GoogleSearchToolStripMenuItem, Me.ToolStripMenuItem37, Me.ReadWriteMemoryToolStripMenuItem, Me.MonitorToolStripMenuItem})
         Me.menuProc.Name = "menuProc"
-        Me.menuProc.Size = New System.Drawing.Size(194, 446)
+        Me.menuProc.Size = New System.Drawing.Size(194, 468)
         '
         'KillToolStripMenuItem
         '
@@ -978,7 +978,6 @@ Partial Class frmMain
         '
         'SetAffinityToolStripMenuItem
         '
-        Me.SetAffinityToolStripMenuItem.Enabled = False
         Me.SetAffinityToolStripMenuItem.Name = "SetAffinityToolStripMenuItem"
         Me.SetAffinityToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.SetAffinityToolStripMenuItem.Text = "Set affinity..."

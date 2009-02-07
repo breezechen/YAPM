@@ -5898,4 +5898,19 @@ Public Class frmMain
             End If
         End If
     End Sub
+
+    Private Sub SetAffinityToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SetAffinityToolStripMenuItem.Click
+        Dim c() As cProcess
+        ReDim c(Me.lvProcess.SelectedItems.Count - 1)
+        Dim x As Integer = 0
+        For Each it As ListViewItem In Me.lvProcess.SelectedItems
+            c(x) = CType(it.Tag, cProcess)
+            x += 1
+        Next
+
+        Dim frm As New frmProcessAffinity
+        frm.Process = c
+        frm.ShowDialog()
+
+    End Sub
 End Class

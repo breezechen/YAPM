@@ -32,6 +32,9 @@ Public Class cProcess
     ' ========================================
 #Region "API"
 
+    Private Declare Function SetProcessAffinityMask Lib "kernel32" (ByVal hProcess As Integer, ByVal dwProcessAffinityMask As Integer) As Integer
+    Private Declare Function GetProcessAffinityMask Lib "kernel32" (ByVal hProcess As Integer, ByRef lpProcessAffinityMask As Integer, ByRef lpSystemAffinityMask As Integer) As Integer
+
     Private Declare Function GetGuiResources Lib "user32.dll" (ByVal hProcess As Integer, ByVal uiFlags As Integer) As Integer
 
     Private Declare Function GetProcessIoCounters Lib "kernel32.dll" (ByVal hProcess As Integer, <Out()> ByRef lpIoCounters As PIO_COUNTERS) As Integer
@@ -464,6 +467,26 @@ Public Class cProcess
         End Get
         Set(ByVal value As Integer)
             _intTag1 = value
+        End Set
+    End Property
+
+    Public Property AffinityMask() As Integer
+        Get
+            If _hProcess > 0 Then
+                Dim pMask As Integer = 0
+                Dim sMask As Integer = 0
+                GetProcessAffinityMask(_hProcess, pMask, sMask)
+                Return pMask
+            Else
+                Return -1
+            End If
+        End Get
+        Set(ByVal value As Integer)
+            Dim __hProcess As Integer = OpenProcess(PROCESS_SET_INFORMATION, 0, _pid)
+            If __hProcess > 0 Then
+                SetProcessAffinityMask(__hProcess, value)
+                CloseHandle(__hProcess)
+            End If
         End Set
     End Property
 

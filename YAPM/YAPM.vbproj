@@ -129,6 +129,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmPreferences.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmProcessAffinity.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmProcessAffinity.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmProcessMemRW.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmProcessMemRW.vb</DependentUpon>
@@ -213,6 +217,12 @@
     <Compile Include="Classes\cThread.vb">
     </Compile>
     <Compile Include="Classes\cWindow.vb" />
+    <Compile Include="Forms\frmProcessAffinity.Designer.vb">
+      <DependentUpon>frmProcessAffinity.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmProcessAffinity.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Classes\WindowsSID.vb" />
     <Compile Include="Forms\frmAddProcessMonitor.Designer.vb">
       <DependentUpon>frmAddProcessMonitor.vb</DependentUpon>
