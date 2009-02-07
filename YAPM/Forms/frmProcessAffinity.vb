@@ -12,7 +12,10 @@ Public Class frmProcessAffinity
     
     Private Sub frmProcessAffinity_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        If proc(0) Is Nothing Then Me.Close()
+        If proc Is Nothing OrElse proc.Length = 0 Then
+            Me.Close()
+            Exit Sub
+        End If
 
         ' Get number of processor of current machine
         Dim _procCount As Integer = proc(0).ProcessorCount - 1

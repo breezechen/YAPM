@@ -1111,6 +1111,8 @@ Public Class cProcess
                     String.Format("{0:00}", ts.Minute) & ":" & _
                     String.Format("{0:00}", ts.Second) & ":" & _
                     String.Format("{000}", ts.Millisecond)
+            Case "AffinityMask"
+                res = CStr(Me.AffinityMask)
         End Select
 
         Return res
@@ -1124,7 +1126,7 @@ Public Class cProcess
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties() As String()
-        Dim s(25) As String
+        Dim s(26) As String
 
         s(0) = "PID"
         s(1) = "UserName"
@@ -1138,20 +1140,21 @@ Public Class cProcess
         s(9) = "RunTime"
         s(10) = "GdiObjects"
         s(11) = "UserObjects"
-        s(12) = "WorkingSet"
-        s(13) = "PeakWorkingSet"
-        s(14) = "PageFaultCount"
-        s(15) = "PagefileUsage"
-        s(16) = "PeakPagefileUsage"
-        s(17) = "QuotaPeakPagedPoolUsage"
-        s(18) = "QuotaPagedPoolUsage"
-        s(19) = "QuotaPeakNonPagedPoolUsage"
-        s(20) = "QuotaNonPagedPoolUsage"
-        s(21) = "Priority"
-        s(22) = "Path"
-        s(23) = "Description"
-        s(24) = "Copyright"
-        s(25) = "Version"
+        s(12) = "AffinityMask"
+        s(13) = "WorkingSet"
+        s(14) = "PeakWorkingSet"
+        s(15) = "PageFaultCount"
+        s(16) = "PagefileUsage"
+        s(17) = "PeakPagefileUsage"
+        s(18) = "QuotaPeakPagedPoolUsage"
+        s(19) = "QuotaPagedPoolUsage"
+        s(20) = "QuotaPeakNonPagedPoolUsage"
+        s(21) = "QuotaNonPagedPoolUsage"
+        s(22) = "Priority"
+        s(23) = "Path"
+        s(24) = "Description"
+        s(25) = "Copyright"
+        s(26) = "Version"
 
         Return s
     End Function

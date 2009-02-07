@@ -5900,6 +5900,9 @@ Public Class frmMain
     End Sub
 
     Private Sub SetAffinityToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SetAffinityToolStripMenuItem.Click
+
+        If Me.lvProcess.SelectedItems.Count = 0 Then Exit Sub
+
         Dim c() As cProcess
         ReDim c(Me.lvProcess.SelectedItems.Count - 1)
         Dim x As Integer = 0
