@@ -509,7 +509,7 @@ Public Class cProcess
     Public ReadOnly Property ParentProcessName() As String
         Get
             If _parentName = "" Then
-                _parentName = cFile.GetFileName(cProcess.GetPath(Me.ParentProcessId))
+                _parentName = cProcess.GetProcessName(Me.ParentProcessId)
                 If _parentName = "" Then
                     _parentName = NO_INFO_RETRIEVED
                 End If
@@ -1209,14 +1209,14 @@ Public Class cProcess
     End Function
 
     ' Return path
-    Public Shared Function GetPath(ByVal _pid As Integer) As String
+    Public Shared Function GetPath(ByVal pid As Integer) As String
         Dim s As String = vbNullString
         Dim lHprcss As Integer
         Dim Ret As Integer
         Dim sResult As String = Space(512)
         Dim hModule As Integer
 
-        lHprcss = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, _pid)
+        lHprcss = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, pid)
 
         If lHprcss > 0 Then
             Call EnumProcessModules(lHprcss, hModule, 4, Ret)
@@ -1234,11 +1234,23 @@ Public Class cProcess
 
     End Function
 
+    ' Return Process name
+    Public Shared Function GetProcessName(ByVal pid As Integer) As String
+        Select Case pid
+            Case 0
+                Return "[System Process]"
+            Case 4
+                Return "System"
+            Case Else
+                Return cFile.GetFileName(GetPath(pid))
+        End Select
+    End Function
+
     ' Kill a process
-    Public Shared Function Kill(ByVal _pid As Integer) As Integer
+    Public Shared Function Kill(ByVal pid As Integer) As Integer
         Dim hProc As Integer
         Dim ret As Integer = -1
-        hProc = OpenProcess(PROCESS_TERMINATE, 0, _pid)
+        hProc = OpenProcess(PROCESS_TERMINATE, 0, pid)
         If hProc > 0 Then
             ret = TerminateProcess(hProc, 0)
             CloseHandle(hProc)

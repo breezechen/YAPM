@@ -93,7 +93,7 @@ Public Class frmFileRelease
                         ' So we've found a result
                         Dim newIt As New ListViewItem
                         Dim n2 As New ListViewItem.ListViewSubItem
-                        newIt.Text = .GetProcessID(i) & " -- " & cFile.GetFileName(cProcess.GetPath(.GetProcessID(i)))
+                        newIt.Text = .GetProcessID(i) & " -- " & cProcess.GetProcessName(.GetProcessID(i))
                         n2.Text = .GetNameInformation(i) & " -- " & .GetObjectName(i)
                         newIt.SubItems.Add(n2)
                         newIt.ImageKey = "handle"

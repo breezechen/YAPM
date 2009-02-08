@@ -501,7 +501,7 @@ Public Class frmSaveReport
                             c = "Module : " & it.Text & "  --  " & cm.FileName & vbNewLine
 
                             c &= "Process owner" & vbTab & vbTab
-                            c &= CStr(cm.ProcessId) & " -- " & cFile.GetFileName(cProcess.GetPath(cm.ProcessId)) & vbNewLine
+                            c &= CStr(cm.ProcessId) & " -- " & cProcess.GetProcessName(cm.ProcessId) & vbNewLine
                             c &= "Version" & vbTab & vbTab
                             c &= cm.FileVersion & vbNewLine
                             c &= "Comments" & vbTab & vbTab
@@ -574,7 +574,7 @@ Public Class frmSaveReport
                             _html.AppendTitleLine("Module : " & it.Text & "  --  " & cm.FileName)
                             Dim _lin(1) As String
                             _lin(0) = "Process owner"
-                            _lin(1) = CStr(cm.ProcessId) & " -- " & cFile.GetFileName(cProcess.GetPath(cm.ProcessId))
+                            _lin(1) = CStr(cm.ProcessId) & " -- " & cProcess.GetProcessName(cm.ProcessId)
                             _html.AppendLine(_lin)
                             _lin(0) = "Version"
                             _lin(1) = cm.FileVersion

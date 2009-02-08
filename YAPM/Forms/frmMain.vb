@@ -351,7 +351,7 @@ Public Class frmMain
                 '            CStr(IIf(p.CanShutdown, "Shutdown ", "")) & _
                 '            CStr(IIf(p.CanStop, "Stop ", ""))
                 If p.ProcessID > 0 Then
-                    lsub5.Text = CStr(p.ProcessID) & " -- " & cFile.GetFileName(cProcess.GetPath(p.ProcessID))
+                    lsub5.Text = CStr(p.ProcessID) & " -- " & cProcess.GetProcessName(p.ProcessID)
                 End If
 
                 it.SubItems.Add(lsub1)
@@ -595,7 +595,9 @@ Public Class frmMain
         Static bFirst As Boolean = True
         If bFirst Then
             bFirst = False
+            SetWindowTheme(Me.lvProcNetwork.Handle, "explorer", Nothing)
             SetWindowTheme(Me.lvProcess.Handle, "explorer", Nothing)
+            SetWindowTheme(Me.lvNetwork.Handle, "explorer", Nothing)
             SetWindowTheme(Me.lvTask.Handle, "explorer", Nothing)
             SetWindowTheme(Me.lvProcMem.Handle, "explorer", Nothing)
             SetWindowTheme(Me.lvProcServices.Handle, "explorer", Nothing)
@@ -765,6 +767,8 @@ Public Class frmMain
         Me.panelMain10.Top = 120
         Me.panelMain11.Left = 5
         Me.panelMain11.Top = 120
+        Me.panelMain14.Left = 5
+        Me.panelMain14.Top = 120
 
         Me.panelMenu.Top = 117
         Me.panelMenu.Left = 5
@@ -806,6 +810,10 @@ Public Class frmMain
         ' Task resizement
         Me.panelMain13.Height = Me.panelMain7.Height
         Me.panelMain13.Width = Me.panelMain7.Width
+
+        ' Network resizement
+        Me.panelMain14.Height = Me.panelMain7.Height
+        Me.panelMain14.Width = Me.panelMain7.Width
 
         ' Process
         Me.panelMain.Height = Me.panelMain3.Height - 23
@@ -1535,6 +1543,7 @@ Public Class frmMain
                     Me.panelMenu.Visible = False
                     Me.panelMenu2.Visible = True
                     Me.panelMain2.BringToFront()
+                    Me.panelMain14.Visible = False
                     Me.panelMain6.Visible = False
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
@@ -1556,6 +1565,7 @@ Public Class frmMain
                     Me.panelMain6.Visible = False
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
+                    Me.panelMain14.Visible = False
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
                     Me.panelMain11.Visible = False
@@ -1574,6 +1584,7 @@ Public Class frmMain
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = False
+                    Me.panelMain14.Visible = False
                     Me.panelMain10.Visible = False
                     Me.panelMain11.Visible = False
                     Me.panelMain13.Visible = False
@@ -1598,6 +1609,7 @@ Public Class frmMain
                     Me.panelMenu.Visible = False
                     Me.panelMenu2.Visible = False
                     Me.panelMain5.Visible = False
+                    Me.panelMain14.Visible = False
                     Me.panelMain6.Visible = False
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
@@ -1619,6 +1631,7 @@ Public Class frmMain
                     Me.panelMain7.Visible = False
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = False
+                    Me.panelMain14.Visible = False
                     Me.panelMain11.Visible = False
                     Me.panelMain10.Visible = False
                     Me.panelMain13.Visible = False
@@ -1637,6 +1650,7 @@ Public Class frmMain
                     Me.panelMain8.Visible = False
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
+                    Me.panelMain14.Visible = False
                     Me.panelMain11.Visible = False
                     Me.panelMain13.Visible = False
                     Me.panelMain6.BringToFront()
@@ -1655,6 +1669,7 @@ Public Class frmMain
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
                     Me.panelMain11.Visible = False
+                    Me.panelMain14.Visible = False
                     Me.panelMain13.Visible = False
                     Me.panelMain7.BringToFront()
                 Case "Monitor"
@@ -1673,6 +1688,7 @@ Public Class frmMain
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
                     Me.panelMain8.BringToFront()
+                    Me.panelMain14.Visible = False
                     Me.panelMain11.Visible = False
                 Case "Threads"
                     Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvThreads.Items.Count) & " threads"
@@ -1688,6 +1704,7 @@ Public Class frmMain
                     Me.panelMain8.Visible = False
                     Me.panelMain9.BringToFront()
                     Me.panelMain9.Visible = True
+                    Me.panelMain14.Visible = False
                     Me.panelMain10.Visible = False
                     Me.panelMain11.Visible = False
                     Me.panelMain13.Visible = False
@@ -1707,6 +1724,7 @@ Public Class frmMain
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = True
                     Me.panelMain10.BringToFront()
+                    Me.panelMain14.Visible = False
                     Me.panelMain11.Visible = False
                 Case "Modules"
                     Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
@@ -1725,6 +1743,7 @@ Public Class frmMain
                     Me.panelMain9.Visible = False
                     Me.panelMain10.Visible = False
                     Me.panelMain11.BringToFront()
+                    Me.panelMain14.Visible = False
                     Me.panelMain11.Visible = True
                 Case "Tasks"
                     Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvTask.Items.Count) & " tasks running"
@@ -1743,6 +1762,25 @@ Public Class frmMain
                     Me.panelMain10.Visible = False
                     Me.panelMain13.BringToFront()
                     Me.panelMain11.Visible = False
+                    Me.panelMain14.Visible = False
+                Case "Network"
+                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvNetwork.Items.Count) & " connections"
+                    Me.panelMain.Visible = False
+                    Me.panelMain2.Visible = False
+                    Me.panelMain3.Visible = False
+                    Me.panelMain4.Visible = False
+                    Me.panelMenu.Visible = False
+                    Me.panelMenu2.Visible = False
+                    Me.panelMain5.Visible = False
+                    Me.panelMain6.Visible = False
+                    Me.panelMain13.Visible = False
+                    Me.panelMain7.Visible = False
+                    Me.panelMain8.Visible = False
+                    Me.panelMain9.Visible = False
+                    Me.panelMain10.Visible = False
+                    Me.panelMain11.Visible = False
+                    Me.panelMain11.Visible = False
+                    Me.panelMain14.Visible = True
             End Select
         End If
     End Sub
@@ -2088,7 +2126,7 @@ Public Class frmMain
                             newIt.Tag = .GetHandle(i)
                             n3.Text = .GetNameInformation(i)
                             n2.Text = newIt.Text & " -- " & n3.Text & " -- " & .GetObjectName(i)
-                            n4.Text = .GetProcessID(i) & " -- " & cFile.GetFileName(cProcess.GetPath(.GetProcessID(i)))
+                            n4.Text = .GetProcessID(i) & " -- " & cProcess.GetProcessName(.GetProcessID(i))
                             newIt.SubItems.Add(n2)
                             newIt.SubItems.Add(n3)
                             newIt.SubItems.Add(n4)
@@ -2187,7 +2225,7 @@ Public Class frmMain
                         it.SubItems.Add(CStr(.GetPointerCount(i)))
                         it.SubItems.Add(CStr(.GetObjectCount(i)))
                         it.SubItems.Add(CStr(.GetHandle(i)))
-                        it.SubItems.Add(CStr(id) & " -- " & cFile.GetFileName(cProcess.GetPath(id)))
+                        it.SubItems.Add(CStr(id) & " -- " & cProcess.GetProcessName(id))
                         it.Tag = .GetHandle(i)
                         it.ForeColor = Color.FromArgb(30, 30, 30)
                         Select Case it.Text
@@ -3802,7 +3840,7 @@ Public Class frmMain
                         n5.Text = tCt.FileName
                         it.SubItems.Add(n5)
                         Dim n7 As New ListViewItem.ListViewSubItem
-                        n7.Text = tCt.ProcessId & " -- " & cFile.GetFileName(cProcess.GetPath(tCt.ProcessId))
+                        n7.Text = tCt.ProcessId & " -- " & cProcess.GetProcessName(tCt.ProcessId)
                         it.SubItems.Add(n7)
 
                         it.Tag = tCt
@@ -3983,7 +4021,7 @@ Public Class frmMain
                     s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
                     s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Module properties\b0\par"
                     s = s & "\tab Module name :\tab\tab\tab " & cFile.GetFileName(cP.FileName) & "\par"
-                    s = s & "\tab Process owner :\tab\tab\tab " & CStr(cP.ProcessId) & " -- " & cFile.GetFileName(cProcess.GetPath(cP.ProcessId)) & "\par"
+                    s = s & "\tab Process owner :\tab\tab\tab " & CStr(cP.ProcessId) & " -- " & cProcess.GetProcessName(cP.ProcessId) & "\par"
                     s = s & "\tab Path :\tab\tab\tab\tab " & Replace(cP.FileName, "\", "\\") & "\par"
                     s = s & "\tab Version :\tab\tab\tab " & cP.FileVersion & "\par"
                     s = s & "\tab Comments :\tab\tab\tab " & cP.Comments & "\par"
@@ -4693,6 +4731,23 @@ Public Class frmMain
                         Me.lvProcMem.Items.Add(newit)
                     End If
                 Next
+
+
+            Case "Network"
+                ' Associated connections
+                Me.lvProcNetwork.Items.Clear()
+
+                If Me.lvNetwork.Groups(CStr(cP.Pid)) IsNot Nothing Then
+                    For Each itt As ListViewItem In Me.lvNetwork.Groups(CStr(cP.Pid)).Items
+                        Dim nene As New ListViewItem
+                        nene.Text = itt.Text
+                        nene.SubItems.Add(itt.SubItems(1).Text)
+                        nene.SubItems.Add(itt.SubItems(2).Text)
+                        nene.SubItems.Add(itt.SubItems(3).Text)
+                        Me.lvProcNetwork.Items.Add(nene)
+                    Next
+                End If
+
 
 
             Case "Services"
@@ -5409,7 +5464,7 @@ Public Class frmMain
                 If Len(diagnosticsMessageFile) > 0 Then s = s & "\tab DiagnosticsMessageFile :\tab\tab " & diagnosticsMessageFile & "\par"
                 s = s & "\tab State :\tab\tab\tab " & cS.Status.ToString & "\par"
                 s = s & "\tab Startup :\tab\tab " & cS.ServiceStartType.ToString & "\par"
-                If cS.ProcessID > 0 Then s = s & "\tab Owner process :\tab\tab " & cS.ProcessID & "-- " & cFile.GetFileName(cProcess.GetPath(cS.ProcessID)) & "\par"
+                If cS.ProcessID > 0 Then s = s & "\tab Owner process :\tab\tab " & cS.ProcessID & "-- " & cProcess.GetProcessName(cS.ProcessID) & "\par"
                 s = s & "\tab Service type :\tab\tab " & cS.Type & "\par"
 
                 s = s & "}"
@@ -5732,6 +5787,7 @@ Public Class frmMain
 
     Private Sub timerTask_Tick(ByVal sender As Object, ByVal e As System.EventArgs) Handles timerTask.Tick
         Call refreshTaskList()
+        Call refreshNetworkList()
     End Sub
 
     Private Sub butTaskRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butTaskRefresh.Click
@@ -5917,4 +5973,187 @@ Public Class frmMain
         frmFindWindow.Show()
     End Sub
 
+    Private Sub lvNetwork_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvNetwork.ColumnClick
+        ' Get the new sorting column.
+        Dim new_sorting_column As ColumnHeader = _
+            lvNetwork.Columns(e.Column)
+
+        ' Figure out the new sorting order.
+        Dim sort_order As System.Windows.Forms.SortOrder
+        If m_SortingColumn Is Nothing Then
+            ' New column. Sort ascending.
+            sort_order = SortOrder.Ascending
+        Else
+            ' See if this is the same column.
+            If new_sorting_column.Equals(m_SortingColumn) Then
+                ' Same column. Switch the sort order.
+                If m_SortingColumn.Text.StartsWith("> ") Then
+                    sort_order = SortOrder.Descending
+                Else
+                    sort_order = SortOrder.Ascending
+                End If
+            Else
+                ' New column. Sort ascending.
+                sort_order = SortOrder.Ascending
+            End If
+
+            ' Remove the old sort indicator.
+            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
+        End If
+
+        ' Display the new sort order.
+        m_SortingColumn = new_sorting_column
+        If sort_order = SortOrder.Ascending Then
+            m_SortingColumn.Text = "> " & m_SortingColumn.Text
+        Else
+            m_SortingColumn.Text = "< " & m_SortingColumn.Text
+        End If
+
+        ' Create a comparer.
+        lvNetwork.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
+
+        ' Sort.
+        lvNetwork.Sort()
+    End Sub
+
+    Private Sub refreshNetworkList()
+
+        Dim net As cNetwork
+        Dim network() As cNetwork
+        Dim lvi As ListViewItem
+        Dim x As Integer = 0
+        Dim exist As Boolean = False
+
+        Dim test As Integer = GetTickCount
+
+        ReDim network(0)
+        cNetwork.EnumerateAll(network)
+
+        ' Refresh (or suppress) all items displayed in listview
+        For Each lvi In Me.lvNetwork.Items
+
+            ' Test if network exist
+            Dim cW As cNetwork = CType(lvi.Tag, cNetwork)
+            For Each net In network
+                If net.Key = cW.Key Then
+                    exist = True
+                    net.isDisplayed = True
+                    'Exit For   ' Can't Exit For because some connection have same key
+                End If
+            Next
+
+            If exist = False Then
+                ' network connection no longer exists
+                log.AppendLine("Network connection " & CStr(cW.Local.Address.ToString) & " killed")
+                lvi.Remove()
+            Else
+
+                ' Refresh items informations
+                exist = exist
+            End If
+            exist = False
+        Next
+
+
+
+        ' Add all non displayed items (new items)
+        For Each net In network
+
+            If net.isDisplayed = False And net.ProcessId > 0 Then
+
+                ' Add to log
+                log.AppendLine("Network connection " & CStr(net.Local.Address.ToString) & " created")
+                net.isDisplayed = True
+
+                ' Get the task name
+                Dim o As String = net.Local.Address.ToString
+                Dim it As New ListViewItem
+
+                If Len(o) > 0 Then
+
+                    it.Text = o
+
+                    Dim lsub1 As New ListViewItem.ListViewSubItem
+                    lsub1.Text = net.Local.Address.ToString
+
+                    Dim lsub2 As New ListViewItem.ListViewSubItem
+                    lsub2.Text = CStr(net.Local.Port)
+
+                    Dim lsub3 As New ListViewItem.ListViewSubItem
+                    lsub2.Text = CStr(net.Local.Port)
+
+                    it.SubItems.Add(lsub1)
+                    it.SubItems.Add(lsub2)
+                    it.SubItems.Add(lsub3)
+
+                    If Me.lvNetwork.Groups(CStr(net.ProcessId)) Is Nothing Then
+                        Me.lvNetwork.Groups.Add(CStr(net.ProcessId), net.ProcessName & " (" & CStr(net.ProcessId) & ")")
+                    End If
+                    it.Group = Me.lvNetwork.Groups(CStr(net.ProcessId))
+                    it.Tag = New cNetwork(net)
+                    lvNetwork.Items.Add(it)
+                End If
+            End If
+
+        Next
+
+        ' Here we retrieve some informations for all our displayed items
+        For Each lvi In Me.lvNetwork.Items
+
+            Try
+                Dim cW As cNetwork = CType(lvi.Tag, cNetwork)
+
+                Dim isub As ListViewItem.ListViewSubItem
+                Dim xxx As Integer = 0
+                For Each isub In lvi.SubItems
+                    Dim colName As String = Me.lvNetwork.Columns.Item(xxx).Text
+                    colName = colName.Replace("< ", "")
+                    colName = colName.Replace("> ", "")
+                    isub.Text = cW.GetInformation(colName)
+                    xxx += 1
+                Next
+
+            Catch ex As Exception
+                ' Access denied or ?
+            End Try
+
+        Next
+
+        test = GetTickCount - test
+        Trace.WriteLine("Network refresh took " & CStr(test) & " ms")
+
+        If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
+            Dim ss As String = Me.Ribbon.ActiveTab.Text
+            If ss = "Network" Then
+                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvNetwork.Items.Count) & " connections running"
+            End If
+        End If
+    End Sub
+
+    Private Sub butNetworkRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butNetworkRefresh.Click
+        Call refreshNetworkList()
+    End Sub
+
+    Private Sub ToolStripMenuItem48_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem48.Click
+        ' Select processes associated to selected connections
+        Dim it As ListViewItem
+        If Me.lvNetwork.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
+        For Each it In Me.lvNetwork.SelectedItems
+            Try
+                Dim pid As Integer = CType(it.Tag, cNetwork).ProcessId
+                Dim it2 As ListViewItem
+                For Each it2 In Me.lvProcess.Items
+                    Dim cp As cProcess = CType(it2.Tag, cProcess)
+                    If cp.Pid = pid Then
+                        it2.Selected = True
+                        it2.EnsureVisible()
+                    End If
+                Next
+            Catch ex As Exception
+                '
+            End Try
+        Next
+        Me.Ribbon.ActiveTab = Me.ProcessTab
+        Call Me.Ribbon_MouseMove(Nothing, Nothing)
+    End Sub
 End Class

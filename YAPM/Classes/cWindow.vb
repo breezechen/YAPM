@@ -439,7 +439,7 @@ Public Class cWindow
             If Array.IndexOf(processId, pid) >= 0 Then
                 ' Then this window belongs to one of our processes
                 ReDim Preserve w(cpt)
-                w(cpt) = New cWindow(CInt(currWnd), pid, GetThreadIdFromWindowHandle(currWnd), cFile.GetFileName(cProcess.GetPath(pid)))
+                w(cpt) = New cWindow(CInt(currWnd), pid, GetThreadIdFromWindowHandle(currWnd), cProcess.GetProcessName(pid))
                 cpt += 1
             End If
 
@@ -464,7 +464,7 @@ Public Class cWindow
             Dim pid As Integer = GetProcIdFromWindowHandle(currWnd)
 
             ReDim Preserve w(cpt)
-            w(cpt) = New cWindow(CInt(currWnd), pid, GetThreadIdFromWindowHandle(currWnd), cFile.GetFileName(cProcess.GetPath(pid)))
+            w(cpt) = New cWindow(CInt(currWnd), pid, GetThreadIdFromWindowHandle(currWnd), cProcess.GetProcessName(pid))
             cpt += 1
 
             currWnd = GetWindowAPI(currWnd, GW_HWNDNEXT)
@@ -490,7 +490,7 @@ Public Class cWindow
                 Dim pid As Integer = GetProcIdFromWindowHandle(currWnd)
 
                 ReDim Preserve w(cpt)
-                w(cpt) = New cWindow(CInt(currWnd), pid, GetThreadIdFromWindowHandle(currWnd), cFile.GetFileName(cProcess.GetPath(pid)))
+                w(cpt) = New cWindow(CInt(currWnd), pid, GetThreadIdFromWindowHandle(currWnd), cProcess.GetProcessName(pid))
                 cpt += 1
             End If
 
@@ -603,17 +603,4 @@ Public Class cWindow
         Return SetWindowLong(_handle, GWL_EXSTYLE, CType(CInt(GetWindowLong(_handle, GWL_EXSTYLE)) - WS_EX_LAYERED, IntPtr))
     End Function
 
-    'Private Function GetIPictureDispFromBitmapHandle(ByVal hBitmapHandle As IntPtr) _
-    '   As stdole.IPictureDisp
-
-    '    Dim objPicture As Object = Nothing
-    '    Dim objGuid As New Guid("00020400-0000-0000-C000-000000000046")
-    '    Dim iResult As Integer
-    '    Dim tPICTDESC As New PICTDESC(hBitmapHandle)
-
-    '    iResult = OleCreatePictureIndirect(tPICTDESC, objGuid, 1, objPicture)
-
-    '    Return CType(objPicture, stdole.IPictureDisp)
-
-    'End Function
 End Class

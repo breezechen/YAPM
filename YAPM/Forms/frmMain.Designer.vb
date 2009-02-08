@@ -208,6 +208,12 @@ Partial Class frmMain
         Me.menuProcServ = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem43 = New System.Windows.Forms.ToolStripMenuItem
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
+        Me.tabNetwork = New System.Windows.Forms.TabPage
+        Me.lvProcNetwork = New YAPM.DoubleBufferedLV
+        Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader57 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader58 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader59 = New System.Windows.Forms.ColumnHeader
         Me.panelMenu = New System.Windows.Forms.Panel
         Me.Label3 = New System.Windows.Forms.Label
         Me.lblResCount = New System.Windows.Forms.Label
@@ -397,6 +403,9 @@ Partial Class frmMain
         Me.butServiceGoogle = New System.Windows.Forms.RibbonButton
         Me.RBServiceReport = New System.Windows.Forms.RibbonPanel
         Me.butServiceReport = New System.Windows.Forms.RibbonButton
+        Me.NetworkTab = New System.Windows.Forms.RibbonTab
+        Me.RBNetworkRefresh = New System.Windows.Forms.RibbonPanel
+        Me.butNetworkRefresh = New System.Windows.Forms.RibbonButton
         Me.FileTab = New System.Windows.Forms.RibbonTab
         Me.RBFileOpenFile = New System.Windows.Forms.RibbonPanel
         Me.butOpenFile = New System.Windows.Forms.RibbonButton
@@ -628,6 +637,14 @@ Partial Class frmMain
         Me.ColumnHeader64 = New System.Windows.Forms.ColumnHeader
         Me.imgTask = New System.Windows.Forms.ImageList(Me.components)
         Me.timerTask = New System.Windows.Forms.Timer(Me.components)
+        Me.panelMain14 = New System.Windows.Forms.Panel
+        Me.lvNetwork = New YAPM.DoubleBufferedLV
+        Me.ColumnHeader66 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader67 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader68 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader69 = New System.Windows.Forms.ColumnHeader
+        Me.menuNetwork = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ToolStripMenuItem48 = New System.Windows.Forms.ToolStripMenuItem
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
         Me.SplitContainerProcess.Panel2.SuspendLayout()
@@ -670,6 +687,7 @@ Partial Class frmMain
         Me.SplitContainerInfoProcess.SuspendLayout()
         Me.TabPage7.SuspendLayout()
         Me.menuProcServ.SuspendLayout()
+        Me.tabNetwork.SuspendLayout()
         Me.panelMenu.SuspendLayout()
         Me.panelMain2.SuspendLayout()
         Me.splitServices.Panel1.SuspendLayout()
@@ -752,6 +770,8 @@ Partial Class frmMain
         Me.SplitContainerTask.Panel1.SuspendLayout()
         Me.SplitContainerTask.Panel2.SuspendLayout()
         Me.SplitContainerTask.SuspendLayout()
+        Me.panelMain14.SuspendLayout()
+        Me.menuNetwork.SuspendLayout()
         Me.SuspendLayout()
         '
         'imgMain
@@ -787,7 +807,7 @@ Partial Class frmMain
         Me.SplitContainerProcess.Panel2.Controls.Add(Me.tabProcess)
         Me.SplitContainerProcess.Panel2Collapsed = True
         Me.SplitContainerProcess.Size = New System.Drawing.Size(560, 449)
-        Me.SplitContainerProcess.SplitterDistance = 211
+        Me.SplitContainerProcess.SplitterDistance = 207
         Me.SplitContainerProcess.TabIndex = 0
         '
         'SplitContainerTvLv
@@ -1102,6 +1122,7 @@ Partial Class frmMain
         Me.tabProcess.Controls.Add(Me.TabPage5)
         Me.tabProcess.Controls.Add(Me.TabPage6)
         Me.tabProcess.Controls.Add(Me.TabPage7)
+        Me.tabProcess.Controls.Add(Me.tabNetwork)
         Me.tabProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tabProcess.ImageList = Me.imgProcessTab
         Me.tabProcess.Location = New System.Drawing.Point(0, 0)
@@ -1930,8 +1951,8 @@ Partial Class frmMain
         'splitPerformance2.Panel2
         '
         Me.splitPerformance2.Panel2.Controls.Add(Me.graphIO)
-        Me.splitPerformance2.Size = New System.Drawing.Size(136, 54)
-        Me.splitPerformance2.SplitterDistance = 25
+        Me.splitPerformance2.Size = New System.Drawing.Size(546, 110)
+        Me.splitPerformance2.SplitterDistance = 49
         Me.splitPerformance2.SplitterWidth = 1
         Me.splitPerformance2.TabIndex = 0
         '
@@ -1945,7 +1966,7 @@ Partial Class frmMain
         Me.graphMemory.GridStep = 10
         Me.graphMemory.Location = New System.Drawing.Point(0, 0)
         Me.graphMemory.Name = "graphMemory"
-        Me.graphMemory.Size = New System.Drawing.Size(136, 25)
+        Me.graphMemory.Size = New System.Drawing.Size(546, 49)
         Me.graphMemory.TabIndex = 2
         Me.graphMemory.TabStop = False
         '
@@ -1959,7 +1980,7 @@ Partial Class frmMain
         Me.graphIO.GridStep = 10
         Me.graphIO.Location = New System.Drawing.Point(0, 0)
         Me.graphIO.Name = "graphIO"
-        Me.graphIO.Size = New System.Drawing.Size(136, 28)
+        Me.graphIO.Size = New System.Drawing.Size(546, 60)
         Me.graphIO.TabIndex = 3
         Me.graphIO.TabStop = False
         '
@@ -2211,7 +2232,7 @@ Partial Class frmMain
         Me.rtb.Location = New System.Drawing.Point(0, 0)
         Me.rtb.Name = "rtb"
         Me.rtb.ReadOnly = True
-        Me.rtb.Size = New System.Drawing.Size(136, 25)
+        Me.rtb.Size = New System.Drawing.Size(546, 176)
         Me.rtb.TabIndex = 14
         Me.rtb.Text = ""
         '
@@ -2289,6 +2310,54 @@ Partial Class frmMain
         Me.imgProcessTab.Images.SetKeyName(5, "text.gif")
         Me.imgProcessTab.Images.SetKeyName(6, "exe2")
         Me.imgProcessTab.Images.SetKeyName(7, "service.gif")
+        Me.imgProcessTab.Images.SetKeyName(8, "network")
+        '
+        'tabNetwork
+        '
+        Me.tabNetwork.Controls.Add(Me.lvProcNetwork)
+        Me.tabNetwork.ImageIndex = 8
+        Me.tabNetwork.Location = New System.Drawing.Point(4, 23)
+        Me.tabNetwork.Name = "tabNetwork"
+        Me.tabNetwork.Padding = New System.Windows.Forms.Padding(3)
+        Me.tabNetwork.Size = New System.Drawing.Size(142, 19)
+        Me.tabNetwork.TabIndex = 7
+        Me.tabNetwork.Text = "Network"
+        Me.tabNetwork.UseVisualStyleBackColor = True
+        '
+        'lvProcNetwork
+        '
+        Me.lvProcNetwork.AllowColumnReorder = True
+        Me.lvProcNetwork.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader49, Me.ColumnHeader57, Me.ColumnHeader58, Me.ColumnHeader59})
+        Me.lvProcNetwork.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvProcNetwork.FullRowSelect = True
+        Me.lvProcNetwork.HideSelection = False
+        Me.lvProcNetwork.Location = New System.Drawing.Point(3, 3)
+        Me.lvProcNetwork.Name = "lvProcNetwork"
+        Me.lvProcNetwork.OverriddenDoubleBuffered = True
+        Me.lvProcNetwork.Size = New System.Drawing.Size(136, 13)
+        Me.lvProcNetwork.TabIndex = 5
+        Me.lvProcNetwork.UseCompatibleStateImageBehavior = False
+        Me.lvProcNetwork.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader49
+        '
+        Me.ColumnHeader49.Text = "Local"
+        Me.ColumnHeader49.Width = 210
+        '
+        'ColumnHeader57
+        '
+        Me.ColumnHeader57.Text = "Port"
+        Me.ColumnHeader57.Width = 100
+        '
+        'ColumnHeader58
+        '
+        Me.ColumnHeader58.Text = "Protocol"
+        Me.ColumnHeader58.Width = 100
+        '
+        'ColumnHeader59
+        '
+        Me.ColumnHeader59.Text = "State"
+        Me.ColumnHeader59.Width = 150
         '
         'panelMenu
         '
@@ -2825,6 +2894,7 @@ Partial Class frmMain
         Me.Ribbon.Tabs.Add(Me.WindowTab)
         Me.Ribbon.Tabs.Add(Me.MonitorTab)
         Me.Ribbon.Tabs.Add(Me.ServiceTab)
+        Me.Ribbon.Tabs.Add(Me.NetworkTab)
         Me.Ribbon.Tabs.Add(Me.FileTab)
         Me.Ribbon.Tabs.Add(Me.SearchTab)
         Me.Ribbon.Tabs.Add(Me.HelpTab)
@@ -4346,6 +4416,33 @@ Partial Class frmMain
         Me.butServiceReport.ToolTipImage = Nothing
         Me.butServiceReport.ToolTipTitle = Nothing
         '
+        'NetworkTab
+        '
+        Me.NetworkTab.Panels.Add(Me.RBNetworkRefresh)
+        Me.NetworkTab.Tag = Nothing
+        Me.NetworkTab.Text = "Network"
+        '
+        'RBNetworkRefresh
+        '
+        Me.RBNetworkRefresh.ButtonMoreEnabled = False
+        Me.RBNetworkRefresh.ButtonMoreVisible = False
+        Me.RBNetworkRefresh.Items.Add(Me.butNetworkRefresh)
+        Me.RBNetworkRefresh.Tag = Nothing
+        Me.RBNetworkRefresh.Text = "Display"
+        '
+        'butNetworkRefresh
+        '
+        Me.butNetworkRefresh.AltKey = Nothing
+        Me.butNetworkRefresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butNetworkRefresh.Image = CType(resources.GetObject("butNetworkRefresh.Image"), System.Drawing.Image)
+        Me.butNetworkRefresh.SmallImage = CType(resources.GetObject("butNetworkRefresh.SmallImage"), System.Drawing.Image)
+        Me.butNetworkRefresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butNetworkRefresh.Tag = Nothing
+        Me.butNetworkRefresh.Text = "Refresh"
+        Me.butNetworkRefresh.ToolTip = Nothing
+        Me.butNetworkRefresh.ToolTipImage = Nothing
+        Me.butNetworkRefresh.ToolTipTitle = Nothing
+        '
         'FileTab
         '
         Me.FileTab.Panels.Add(Me.RBFileOpenFile)
@@ -5465,7 +5562,7 @@ Partial Class frmMain
         'panelMain7
         '
         Me.panelMain7.Controls.Add(Me.SplitContainerHandles)
-        Me.panelMain7.Location = New System.Drawing.Point(115, 163)
+        Me.panelMain7.Location = New System.Drawing.Point(116, 163)
         Me.panelMain7.Name = "panelMain7"
         Me.panelMain7.Size = New System.Drawing.Size(565, 276)
         Me.panelMain7.TabIndex = 49
@@ -6611,14 +6708,70 @@ Partial Class frmMain
         '
         Me.timerTask.Interval = 1000
         '
+        'panelMain14
+        '
+        Me.panelMain14.Controls.Add(Me.lvNetwork)
+        Me.panelMain14.Location = New System.Drawing.Point(147, 171)
+        Me.panelMain14.Name = "panelMain14"
+        Me.panelMain14.Size = New System.Drawing.Size(565, 276)
+        Me.panelMain14.TabIndex = 56
+        Me.panelMain14.Visible = False
+        '
+        'lvNetwork
+        '
+        Me.lvNetwork.AllowColumnReorder = True
+        Me.lvNetwork.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader66, Me.ColumnHeader67, Me.ColumnHeader68, Me.ColumnHeader69})
+        Me.lvNetwork.ContextMenuStrip = Me.menuNetwork
+        Me.lvNetwork.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvNetwork.FullRowSelect = True
+        Me.lvNetwork.HideSelection = False
+        Me.lvNetwork.Location = New System.Drawing.Point(0, 0)
+        Me.lvNetwork.Name = "lvNetwork"
+        Me.lvNetwork.OverriddenDoubleBuffered = True
+        Me.lvNetwork.Size = New System.Drawing.Size(565, 276)
+        Me.lvNetwork.TabIndex = 4
+        Me.lvNetwork.UseCompatibleStateImageBehavior = False
+        Me.lvNetwork.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader66
+        '
+        Me.ColumnHeader66.Text = "Local"
+        Me.ColumnHeader66.Width = 200
+        '
+        'ColumnHeader67
+        '
+        Me.ColumnHeader67.Text = "Port"
+        Me.ColumnHeader67.Width = 100
+        '
+        'ColumnHeader68
+        '
+        Me.ColumnHeader68.Text = "Protocol"
+        Me.ColumnHeader68.Width = 100
+        '
+        'ColumnHeader69
+        '
+        Me.ColumnHeader69.Text = "State"
+        Me.ColumnHeader69.Width = 150
+        '
+        'menuNetwork
+        '
+        Me.menuNetwork.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem48})
+        Me.menuNetwork.Name = "menuProc"
+        Me.menuNetwork.Size = New System.Drawing.Size(207, 26)
+        '
+        'ToolStripMenuItem48
+        '
+        Me.ToolStripMenuItem48.Image = Global.YAPM.My.Resources.Resources.exe
+        Me.ToolStripMenuItem48.Name = "ToolStripMenuItem48"
+        Me.ToolStripMenuItem48.Size = New System.Drawing.Size(206, 22)
+        Me.ToolStripMenuItem48.Text = "&Select associated process"
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.ClientSize = New System.Drawing.Size(843, 603)
-        Me.Controls.Add(Me.panelMain13)
-        Me.Controls.Add(Me.panelMain7)
         Me.Controls.Add(Me.panelMain)
         Me.Controls.Add(Me.panelMain2)
         Me.Controls.Add(Me.panelMain9)
@@ -6633,6 +6786,9 @@ Partial Class frmMain
         Me.Controls.Add(Me.Ribbon)
         Me.Controls.Add(Me.panelMain11)
         Me.Controls.Add(Me.panelMain5)
+        Me.Controls.Add(Me.panelMain7)
+        Me.Controls.Add(Me.panelMain14)
+        Me.Controls.Add(Me.panelMain13)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MinimumSize = New System.Drawing.Size(840, 589)
@@ -6689,6 +6845,7 @@ Partial Class frmMain
         Me.SplitContainerInfoProcess.ResumeLayout(False)
         Me.TabPage7.ResumeLayout(False)
         Me.menuProcServ.ResumeLayout(False)
+        Me.tabNetwork.ResumeLayout(False)
         Me.panelMenu.ResumeLayout(False)
         Me.panelMenu.PerformLayout()
         Me.panelMain2.ResumeLayout(False)
@@ -6785,6 +6942,8 @@ Partial Class frmMain
         Me.SplitContainerTask.Panel1.PerformLayout()
         Me.SplitContainerTask.Panel2.ResumeLayout(False)
         Me.SplitContainerTask.ResumeLayout(False)
+        Me.panelMain14.ResumeLayout(False)
+        Me.menuNetwork.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -7372,5 +7531,22 @@ Partial Class frmMain
     Friend WithEvents KillProcessTreeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RBWindowCapture As System.Windows.Forms.RibbonPanel
     Friend WithEvents butWindowFind As System.Windows.Forms.RibbonButton
+    Friend WithEvents NetworkTab As System.Windows.Forms.RibbonTab
+    Friend WithEvents RBNetworkRefresh As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butNetworkRefresh As System.Windows.Forms.RibbonButton
+    Friend WithEvents panelMain14 As System.Windows.Forms.Panel
+    Friend WithEvents lvNetwork As YAPM.DoubleBufferedLV
+    Friend WithEvents ColumnHeader66 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader67 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader68 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader69 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents menuNetwork As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents ToolStripMenuItem48 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents tabNetwork As System.Windows.Forms.TabPage
+    Friend WithEvents lvProcNetwork As YAPM.DoubleBufferedLV
+    Friend WithEvents ColumnHeader49 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader57 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader58 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader59 As System.Windows.Forms.ColumnHeader
 
 End Class

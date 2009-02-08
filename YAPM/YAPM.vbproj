@@ -213,6 +213,7 @@
     <Compile Include="Classes\clsOpenedHandles.vb" />
     <Compile Include="Classes\cModule.vb" />
     <Compile Include="Classes\cMonitor.vb" />
+    <Compile Include="Classes\cNetwork.vb" />
     <Compile Include="Classes\cPrivileges.vb" />
     <Compile Include="Classes\cProcess.vb" />
     <Compile Include="Classes\cProcessMemRW.vb" />
