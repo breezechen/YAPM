@@ -1951,8 +1951,8 @@ Partial Class frmMain
         'splitPerformance2.Panel2
         '
         Me.splitPerformance2.Panel2.Controls.Add(Me.graphIO)
-        Me.splitPerformance2.Size = New System.Drawing.Size(546, 110)
-        Me.splitPerformance2.SplitterDistance = 49
+        Me.splitPerformance2.Size = New System.Drawing.Size(136, 54)
+        Me.splitPerformance2.SplitterDistance = 25
         Me.splitPerformance2.SplitterWidth = 1
         Me.splitPerformance2.TabIndex = 0
         '
@@ -1966,7 +1966,7 @@ Partial Class frmMain
         Me.graphMemory.GridStep = 10
         Me.graphMemory.Location = New System.Drawing.Point(0, 0)
         Me.graphMemory.Name = "graphMemory"
-        Me.graphMemory.Size = New System.Drawing.Size(546, 49)
+        Me.graphMemory.Size = New System.Drawing.Size(136, 25)
         Me.graphMemory.TabIndex = 2
         Me.graphMemory.TabStop = False
         '
@@ -1980,7 +1980,7 @@ Partial Class frmMain
         Me.graphIO.GridStep = 10
         Me.graphIO.Location = New System.Drawing.Point(0, 0)
         Me.graphIO.Name = "graphIO"
-        Me.graphIO.Size = New System.Drawing.Size(546, 60)
+        Me.graphIO.Size = New System.Drawing.Size(136, 28)
         Me.graphIO.TabIndex = 3
         Me.graphIO.TabStop = False
         '
@@ -2232,7 +2232,7 @@ Partial Class frmMain
         Me.rtb.Location = New System.Drawing.Point(0, 0)
         Me.rtb.Name = "rtb"
         Me.rtb.ReadOnly = True
-        Me.rtb.Size = New System.Drawing.Size(546, 176)
+        Me.rtb.Size = New System.Drawing.Size(136, 25)
         Me.rtb.TabIndex = 14
         Me.rtb.Text = ""
         '
