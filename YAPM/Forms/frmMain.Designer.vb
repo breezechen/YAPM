@@ -344,6 +344,8 @@ Partial Class frmMain
         Me.WindowTab = New System.Windows.Forms.RibbonTab
         Me.RBWindowRefresh = New System.Windows.Forms.RibbonPanel
         Me.butWindowRefresh = New System.Windows.Forms.RibbonButton
+        Me.RBWindowCapture = New System.Windows.Forms.RibbonPanel
+        Me.butWindowFind = New System.Windows.Forms.RibbonButton
         Me.RBWindowActions = New System.Windows.Forms.RibbonPanel
         Me.butWindowVisibility = New System.Windows.Forms.RibbonButton
         Me.butWindowShow = New System.Windows.Forms.RibbonButton
@@ -3665,6 +3667,7 @@ Partial Class frmMain
         'WindowTab
         '
         Me.WindowTab.Panels.Add(Me.RBWindowRefresh)
+        Me.WindowTab.Panels.Add(Me.RBWindowCapture)
         Me.WindowTab.Panels.Add(Me.RBWindowActions)
         Me.WindowTab.Panels.Add(Me.RBWindowReport)
         Me.WindowTab.Tag = Nothing
@@ -3690,6 +3693,27 @@ Partial Class frmMain
         Me.butWindowRefresh.ToolTip = Nothing
         Me.butWindowRefresh.ToolTipImage = Nothing
         Me.butWindowRefresh.ToolTipTitle = Nothing
+        '
+        'RBWindowCapture
+        '
+        Me.RBWindowCapture.ButtonMoreEnabled = False
+        Me.RBWindowCapture.ButtonMoreVisible = False
+        Me.RBWindowCapture.Items.Add(Me.butWindowFind)
+        Me.RBWindowCapture.Tag = Nothing
+        Me.RBWindowCapture.Text = "Find process"
+        '
+        'butWindowFind
+        '
+        Me.butWindowFind.AltKey = Nothing
+        Me.butWindowFind.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butWindowFind.Image = CType(resources.GetObject("butWindowFind.Image"), System.Drawing.Image)
+        Me.butWindowFind.SmallImage = CType(resources.GetObject("butWindowFind.SmallImage"), System.Drawing.Image)
+        Me.butWindowFind.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butWindowFind.Tag = Nothing
+        Me.butWindowFind.Text = "Find process"
+        Me.butWindowFind.ToolTip = Nothing
+        Me.butWindowFind.ToolTipImage = Nothing
+        Me.butWindowFind.ToolTipTitle = Nothing
         '
         'RBWindowActions
         '
@@ -7346,5 +7370,7 @@ Partial Class frmMain
     Friend WithEvents imgTask As System.Windows.Forms.ImageList
     Friend WithEvents SelectWindowInWindowsTabToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents KillProcessTreeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RBWindowCapture As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butWindowFind As System.Windows.Forms.RibbonButton
 
 End Class

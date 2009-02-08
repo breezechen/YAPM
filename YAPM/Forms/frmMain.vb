@@ -1517,7 +1517,7 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub Ribbon_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Ribbon.MouseMove
+    Public Sub Ribbon_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Ribbon.MouseMove
         Static currentText As String = vbNullString
         Static bHelpShown As Boolean = False
 
@@ -2462,8 +2462,6 @@ Public Class frmMain
         lvSearchResults.Sort()
     End Sub
 
-
-
     Private Sub butFileGoogleSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileGoogleSearch.Click
         My.Application.DoEvents()
         Try
@@ -3393,7 +3391,7 @@ Public Class frmMain
     End Sub
 
     ' Show windows of selected processes (windowsToRefresh)
-    Private Sub ShowWindows(Optional ByVal showTab As Boolean = True)
+    Public Sub ShowWindows(Optional ByVal showTab As Boolean = True, Optional ByVal allWindows As Boolean = False)
         Dim t() As cWindow = Nothing
         Dim tCt As cWindow
 
@@ -3407,7 +3405,11 @@ Public Class frmMain
         Me.lvWindows.BeginUpdate()
 
         ' List once
-        cWindow.Enumerate(windowsToRefresh, t)
+        If allWindows Then
+            cWindow.EnumerateAll(t)
+        Else
+            cWindow.Enumerate(windowsToRefresh, t)
+        End If
 
         If t IsNot Nothing Then
 
@@ -5910,4 +5912,9 @@ Public Class frmMain
         frm.ShowDialog()
 
     End Sub
+
+    Private Sub butWindowFind_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowFind.Click
+        frmFindWindow.Show()
+    End Sub
+
 End Class
