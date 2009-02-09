@@ -950,7 +950,11 @@ Public Class cProcess
         Get
             If _mainMod Is Nothing Then
                 Dim gProc As Process = Process.GetProcessById(_pid)
-                _mainMod = gProc.MainModule
+                Try
+                    _mainMod = gProc.MainModule
+                Catch ex As Exception
+                    _mainMod = Nothing
+                End Try
             End If
             Return _mainMod
         End Get
@@ -1094,11 +1098,26 @@ Public Class cProcess
             Case "Path"
                 res = Me.Path
             Case "Description"
-                res = Me.MainModule.FileVersionInfo.FileDescription
+                Dim tMain As System.Diagnostics.ProcessModule = Me.MainModule
+                If tMain IsNot Nothing Then
+                    res = tMain.FileVersionInfo.FileDescription
+                Else
+                    res = ""
+                End If
             Case "Copyright"
-                res = Me.MainModule.FileVersionInfo.LegalCopyright
+                Dim tMain As System.Diagnostics.ProcessModule = Me.MainModule
+                If tMain IsNot Nothing Then
+                    res = tMain.FileVersionInfo.LegalCopyright
+                Else
+                    res = ""
+                End If
             Case "Version"
-                res = Me.MainModule.FileVersionInfo.FileVersion
+                Dim tMain As System.Diagnostics.ProcessModule = Me.MainModule
+                If tMain IsNot Nothing Then
+                    res = tMain.FileVersionInfo.FileVersion
+                Else
+                    res = ""
+                End If
             Case "Name"
                 res = Me.Name
             Case "GdiObjects"

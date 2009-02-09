@@ -58,7 +58,7 @@ Public Class frmLog
 
     Private Sub butConfig_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butConfig.Click
         '   Dim c As New cPrivileges(2364)
-        Call cService.EnumServicesEx(Nothing)
+        '        Call cService.EnumServicesEx(Nothing)
     End Sub
 
 End Class

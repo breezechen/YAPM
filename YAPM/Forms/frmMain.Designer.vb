@@ -2454,7 +2454,7 @@ Partial Class frmMain
         '
         'ColumnHeader7
         '
-        Me.ColumnHeader7.Text = "Common name"
+        Me.ColumnHeader7.Text = "DisplayName"
         Me.ColumnHeader7.Width = 243
         '
         'ColumnHeader8
@@ -2464,12 +2464,12 @@ Partial Class frmMain
         '
         'ColumnHeader9
         '
-        Me.ColumnHeader9.Text = "Startup"
+        Me.ColumnHeader9.Text = "StartType"
         Me.ColumnHeader9.Width = 70
         '
         'ColumnHeader10
         '
-        Me.ColumnHeader10.Text = "Path"
+        Me.ColumnHeader10.Text = "ImagePath"
         Me.ColumnHeader10.Width = 250
         '
         'ColumnHeader11
@@ -2479,7 +2479,7 @@ Partial Class frmMain
         '
         'ColumnHeader19
         '
-        Me.ColumnHeader19.Text = "Type"
+        Me.ColumnHeader19.Text = "ServiceType"
         Me.ColumnHeader19.Width = 100
         '
         'menuService

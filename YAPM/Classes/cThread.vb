@@ -332,12 +332,12 @@ Public Class cThread
 
             ReDim t(count - 1)
             For Each tT In p.Threads
-                Try
-                    t(i) = New cThread(processId, p.MainModule.ModuleName, tT)
-                    i += 1
-                Catch ex As Exception
-                    '
-                End Try
+                'Try
+                t(i) = New cThread(processId, p.MainModule.ModuleName, tT)
+                i += 1
+                'Catch ex As Exception
+                ''
+                'End Try
             Next
             Return count
 

@@ -87,6 +87,11 @@ Public Class cModule
             Return System.Diagnostics.FileVersionInfo.GetVersionInfo(_path).FileBuildPart
         End Get
     End Property
+    Public ReadOnly Property FILE_VERSION_IFNO() As System.Diagnostics.FileVersionInfo
+        Get
+            Return (System.Diagnostics.FileVersionInfo.GetVersionInfo(_path))
+        End Get
+    End Property
     Public ReadOnly Property FileDescription() As String
         Get
             Return (System.Diagnostics.FileVersionInfo.GetVersionInfo(_path).FileDescription)
@@ -246,25 +251,28 @@ Public Class cModule
     ' List modules of an exe file
     Public Shared Function Enumerate(ByVal pid As Integer, ByRef m() As cModule) As Integer
 
+        Dim t As ProcessModuleCollection
         Try
-            Dim t As ProcessModuleCollection = System.Diagnostics.Process.GetProcessById(pid).Modules
-            If t Is Nothing Then
-                ReDim m(0)
-                Return 0
-            End If
-
-            ReDim m(t.Count)
-            Dim x As Integer = 0
-            Dim it As ProcessModule
-            For Each it In t
-                m(x) = New cModule(pid, it)
-                x += 1
-            Next
-            Return t.Count
+            t = System.Diagnostics.Process.GetProcessById(pid).Modules
         Catch ex As Exception
+            ' Access denied OR cannot enum modules OR process does not exist anymore
             ReDim m(0)
             Return 0
         End Try
+
+        If t Is Nothing Then
+            ReDim m(0)
+            Return 0
+        End If
+
+        ReDim m(t.Count)
+        Dim x As Integer = 0
+        Dim it As ProcessModule
+        For Each it In t
+            m(x) = New cModule(pid, it)
+            x += 1
+        Next
+        Return t.Count
 
     End Function
 

@@ -52,7 +52,7 @@ Public Class frmSaveReport
                             Try
                                 ' Try to access to the service (avoid to write lines if service
                                 ' is deleted)
-                                Dim suseless As String = cm.Group
+                                Dim suseless As String = cm.LoadOrderGroup
 
                                 c &= "Name" & vbTab & vbTab
                                 c &= cm.Name & vbNewLine
@@ -63,7 +63,7 @@ Public Class frmSaveReport
                                 c &= "ObjectName" & vbTab & vbTab
                                 c &= cm.ObjectName & vbNewLine
                                 c &= "State" & vbTab & vbTab
-                                c &= cm.Status.ToString & vbNewLine
+                                c &= cm.State.ToString & vbNewLine
                                 c &= "Startup" & vbTab & vbTab
                                 c &= cm.ServiceStartType.ToString & vbNewLine & vbNewLine & vbNewLine
 
@@ -91,7 +91,7 @@ Public Class frmSaveReport
                             Try
                                 ' Try to access to the service (avoid to write lines if service
                                 ' is deleted)
-                                Dim suseless As String = cm.Group
+                                Dim suseless As String = cm.LoadOrderGroup
 
                                 _html.AppendTitleLine(cm.Name)
                                 Dim _lin(1) As String
@@ -108,7 +108,7 @@ Public Class frmSaveReport
                                 _lin(1) = cm.ObjectName
                                 _html.AppendLine(_lin)
                                 _lin(0) = "State"
-                                _lin(1) = cm.Status.ToString
+                                _lin(1) = cm.State.ToString
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Startup"
                                 _lin(1) = cm.ServiceStartType.ToString

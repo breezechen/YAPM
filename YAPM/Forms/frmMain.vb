@@ -31,6 +31,7 @@ Public Class frmMain
     Private WithEvents creg As cRegMonitor
     Public log As New cLog
     Private curProc As cProcess
+    Private __servEnum As New cServEnum
 
     <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
     Private Shared Function SendMessage(ByVal hWnd As IntPtr, ByVal Msg As Integer, ByVal wParam As Integer, ByVal lParam As Integer) As IntPtr
@@ -281,9 +282,11 @@ Public Class frmMain
         Dim exist As Boolean = False
         Dim serv() As cService
         Dim p As cService
+        Dim test As Integer = GetTickCount
 
         ReDim serv(0)
-        cService.EnumServicesEx(serv)
+        __servEnum.EnumServicesEx(serv)
+
 
         ' Refresh (or suppress) all services displayed in listview
         For Each lvi In Me.lvServices.Items
@@ -322,78 +325,48 @@ Public Class frmMain
                 it.ImageKey = "service"
                 it.ForeColor = Color.FromArgb(30, 30, 30)
 
-                Dim lsub1 As New ListViewItem.ListViewSubItem
-                Dim lsub2 As New ListViewItem.ListViewSubItem
-                Dim lsub3 As New ListViewItem.ListViewSubItem
-                Dim lsub4 As New ListViewItem.ListViewSubItem
-                Dim lsub5 As New ListViewItem.ListViewSubItem
-                Dim lsub6 As New ListViewItem.ListViewSubItem
-
-                Dim path As String
-                Try
-                    path = p.ImagePath
-                    path = Replace(path, Chr(34), vbNullString)
-                Catch ex As Exception
-                    path = ex.Message
-                End Try
-
-
-                lsub4.Text = path
-                lsub2.Text = p.Status.ToString
-                lsub6.Text = p.Type
-                Try
-                    lsub3.Text = p.ServiceStartType
-                Catch ex As Exception
-                    lsub3.Text = ex.Message
-                End Try
-                lsub1.Text = p.LongName
-                'lsub5.Text = CStr(IIf(p.CanPauseAndContinue, "Pause/Continue ", "")) & _
-                '            CStr(IIf(p.CanShutdown, "Shutdown ", "")) & _
-                '            CStr(IIf(p.CanStop, "Stop ", ""))
-                If p.ProcessID > 0 Then
-                    lsub5.Text = CStr(p.ProcessID) & " -- " & cProcess.GetProcessName(p.ProcessID)
-                End If
-
-                it.SubItems.Add(lsub1)
-                it.SubItems.Add(lsub2)
-                it.SubItems.Add(lsub3)
-                it.SubItems.Add(lsub4)
-                it.SubItems.Add(lsub5)
-                it.SubItems.Add(lsub6)
+                ' Add some subitems (columns.count-1 subitems)
+                Dim subS() As String
+                ReDim subS(Me.lvServices.Columns.Count - 1)
+                For xxxx As Integer = 1 To subS.Length - 1
+                    subS(xxxx) = ""
+                Next
+                it.SubItems.AddRange(subS)
 
                 it.Tag = p
-
                 lvServices.Items.Add(it)
             End If
 
         Next
 
+
         ' Here we retrieve some informations for all our displayed services
         For Each lvi In Me.lvServices.Items
-            Try
-                Dim cS As cService = CType(lvi.Tag, cService)
-                cS.Refresh()
 
-                lvi.SubItems(2).Text = cS.Status.ToString
-                'lvi.SubItems(5).Text = CStr(IIf(cS.CanPauseAndContinue, "Pause/Continue ", "")) & _
-                '    CStr(IIf(cS.CanShutdown, "Shutdown ", "")) & _
-                '    CStr(IIf(cS.CanStop, "Stop ", ""))
-                Try
-                    lvi.SubItems(3).Text = cS.ServiceStartType
-                Catch ex As Exception
-                    lvi.SubItems(3).Text = ex.Message
-                End Try
+            Dim cP As cService = CType(lvi.Tag, cService)
+            cP.Refresh()
 
-            Catch ex As Exception
-                '
-            End Try
+            Dim isub As ListViewItem.ListViewSubItem
+            Dim xxx As Integer = 0
+            For Each isub In lvi.SubItems
+                Dim colName As String = Me.lvServices.Columns.Item(xxx).Text
+                colName = colName.Replace("< ", "")
+                colName = colName.Replace("> ", "")
+                isub.Text = cP.GetInformation(colName)
+                xxx += 1
+            Next
+
         Next
+
+        test = GetTickCount - test
+        Trace.WriteLine("Services refresh took " & CStr(test) & " ms")
 
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
             If Me.Ribbon.ActiveTab.Text = "Services" Then
                 Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvServices.Items.Count) & " services running"
             End If
         End If
+
     End Sub
 
     ' Refresh process list in listview
@@ -544,26 +517,21 @@ Public Class frmMain
         ' Here we retrieve some informations for all our displayed processes
         For Each lvi In Me.lvProcess.Items
 
-            Try
-                Dim cP As cProcess = CType(lvi.Tag, cProcess)
+            Dim cP As cProcess = CType(lvi.Tag, cProcess)
 
-                If cP.ProcessorCount = -1 Then
-                    cP.ProcessorCount = Me.cInfo.ProcessorCount
-                End If
+            If cP.ProcessorCount = -1 Then
+                cP.ProcessorCount = Me.cInfo.ProcessorCount
+            End If
 
-                Dim isub As ListViewItem.ListViewSubItem
-                Dim xxx As Integer = 0
-                For Each isub In lvi.SubItems
-                    Dim colName As String = Me.lvProcess.Columns.Item(xxx).Text
-                    colName = colName.Replace("< ", "")
-                    colName = colName.Replace("> ", "")
-                    isub.Text = cP.GetInformation(colName)
-                    xxx += 1
-                Next
-
-            Catch ex As Exception
-                ' Access denied or ?
-            End Try
+            Dim isub As ListViewItem.ListViewSubItem
+            Dim xxx As Integer = 0
+            For Each isub In lvi.SubItems
+                Dim colName As String = Me.lvProcess.Columns.Item(xxx).Text
+                colName = colName.Replace("< ", "")
+                colName = colName.Replace("> ", "")
+                isub.Text = cP.GetInformation(colName)
+                xxx += 1
+            Next
 
         Next
 
@@ -711,13 +679,11 @@ Public Class frmMain
         refreshProcessList()
         Me.lvProcess.EndUpdate()
 
-        Try
+        If Me.lvProcess.Items.Count > 1 Then
             Call Me.lvProcess.Focus()
             Me.lvProcess.Items(Me.lvProcess.Items.Count - 1).Selected = True
             Me.lvProcess.Items(Me.lvProcess.Items.Count - 1).EnsureVisible()
-        Catch ex As Exception
-            '
-        End Try
+        End If
 
         t = GetTickCount - t
 
@@ -930,90 +896,63 @@ Public Class frmMain
     Private Sub KillToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles KillToolStripMenuItem.Click
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
-            Try
-                CType(it.Tag, cProcess).Kill()
-            Catch ex As Exception
-            End Try
+            CType(it.Tag, cProcess).Kill()
         Next
     End Sub
 
     Private Sub StopToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StopToolStripMenuItem.Click
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
-            Try
-                CType(it.Tag, cProcess).SuspendProcess()
-            Catch ex As Exception
-            End Try
+            CType(it.Tag, cProcess).SuspendProcess()
         Next
     End Sub
 
     Private Sub ResumeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ResumeToolStripMenuItem.Click
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
-            Try
-                CType(it.Tag, cProcess).ResumeProcess()
-            Catch ex As Exception
-            End Try
+            CType(it.Tag, cProcess).ResumeProcess()
         Next
     End Sub
 
     Private Sub IdleToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IdleToolStripMenuItem.Click
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
-            Try
-                CType(it.Tag, cProcess).SetProcessPriority(ProcessPriorityClass.Idle)
-            Catch ex As Exception
-            End Try
+            CType(it.Tag, cProcess).SetProcessPriority(ProcessPriorityClass.Idle)
         Next
     End Sub
 
     Private Sub BelowNormalToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BelowNormalToolStripMenuItem.Click
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
-            Try
-                CType(it.Tag, cProcess).SetProcessPriority(ProcessPriorityClass.BelowNormal)
-            Catch ex As Exception
-            End Try
+            CType(it.Tag, cProcess).SetProcessPriority(ProcessPriorityClass.BelowNormal)
         Next
     End Sub
 
     Private Sub NormalToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NormalToolStripMenuItem.Click
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
-            Try
-                CType(it.Tag, cProcess).SetProcessPriority(ProcessPriorityClass.Normal)
-            Catch ex As Exception
-            End Try
+            CType(it.Tag, cProcess).SetProcessPriority(ProcessPriorityClass.Normal)
         Next
     End Sub
 
     Private Sub AboveNormalToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AboveNormalToolStripMenuItem.Click
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
-            Try
-                CType(it.Tag, cProcess).SetProcessPriority(ProcessPriorityClass.AboveNormal)
-            Catch ex As Exception
-            End Try
+            CType(it.Tag, cProcess).SetProcessPriority(ProcessPriorityClass.AboveNormal)
         Next
     End Sub
 
     Private Sub HighToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HighToolStripMenuItem.Click
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
-            Try
-                CType(it.Tag, cProcess).SetProcessPriority(ProcessPriorityClass.High)
-            Catch ex As Exception
-            End Try
+            CType(it.Tag, cProcess).SetProcessPriority(ProcessPriorityClass.High)
         Next
     End Sub
 
     Private Sub RealTimeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RealTimeToolStripMenuItem.Click
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
-            Try
-                CType(it.Tag, cProcess).SetProcessPriority(ProcessPriorityClass.RealTime)
-            Catch ex As Exception
-            End Try
+            CType(it.Tag, cProcess).SetProcessPriority(ProcessPriorityClass.RealTime)
         Next
     End Sub
 
@@ -1038,13 +977,12 @@ Public Class frmMain
     End Sub
 
     Private Sub lblResCount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblResCount.Click
-        Me.lvProcess.Focus()
-        Try
+        If Me.lvProcess.Groups(1).Items.Count > 0 Then
+            Me.lvProcess.Focus()
             Me.lvProcess.EnsureVisible(Me.lvProcess.Groups(1).Items(0).Index)
             Me.lvProcess.SelectedItems.Clear()
             Me.lvProcess.Groups(1).Items(0).Selected = True
-        Catch ex As Exception
-        End Try
+        End If
     End Sub
 
     Public Sub SetToolTip(ByVal ctrl As Control, ByVal text As String)
@@ -1125,15 +1063,11 @@ Public Class frmMain
         Dim it As ListViewItem
 
         For Each it In Me.lvServices.SelectedItems
-            Try
-                If Me.ToolStripMenuItem9.Text = "Pause" Then
-                    CType(it.Tag, cService).PauseService()
-                Else
-                    CType(it.Tag, cService).ResumeService()
-                End If
-            Catch ex As Exception
-                '
-            End Try
+            If Me.ToolStripMenuItem9.Text = "Pause" Then
+                CType(it.Tag, cService).PauseService()
+            Else
+                CType(it.Tag, cService).ResumeService()
+            End If
         Next
 
         Call Me.refreshServiceList()
@@ -1144,11 +1078,7 @@ Public Class frmMain
     Private Sub ToolStripMenuItem10_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem10.Click
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
-            Try
-                CType(it.Tag, cService).StopService()
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cService).StopService()
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -1157,11 +1087,7 @@ Public Class frmMain
     Private Sub ToolStripMenuItem11_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem11.Click
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
-            Try
-                CType(it.Tag, cService).StartService()
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cService).StartService()
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -1170,11 +1096,7 @@ Public Class frmMain
     Private Sub ToolStripMenuItem13_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem13.Click
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
-            Try
-                CType(it.Tag, cService).SetServiceStartType(cService.TypeServiceStartType.SERVICE_DISABLED)
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cService).SetServiceStartType(cService.TypeServiceStartType.SERVICE_DISABLED)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -1183,11 +1105,7 @@ Public Class frmMain
     Private Sub ToolStripMenuItem14_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem14.Click
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
-            Try
-                CType(it.Tag, cService).SetServiceStartType(cService.TypeServiceStartType.SERVICE_AUTO_START)
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cService).SetServiceStartType(cService.TypeServiceStartType.SERVICE_AUTO_START)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -1196,11 +1114,7 @@ Public Class frmMain
     Private Sub ToolStripMenuItem15_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem15.Click
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
-            Try
-                CType(it.Tag, cService).SetServiceStartType(cService.TypeServiceStartType.SERVICE_DEMAND_START)
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cService).SetServiceStartType(cService.TypeServiceStartType.SERVICE_DEMAND_START)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -1209,11 +1123,7 @@ Public Class frmMain
     Private Sub ShutdownToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShutdownToolStripMenuItem.Click
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
-            Try
-                CType(it.Tag, cService).ShutDownService()
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cService).ShutDownService()
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -1415,11 +1325,7 @@ Public Class frmMain
     Private Sub butStopService_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butStopService.Click
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
-            Try
-                CType(it.Tag, cService).StopService()
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cService).StopService()
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -1428,11 +1334,7 @@ Public Class frmMain
     Private Sub butStartService_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butStartService.Click
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
-            Try
-                CType(it.Tag, cService).StartService()
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cService).StartService()
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -1441,11 +1343,7 @@ Public Class frmMain
     Private Sub butShutdownService_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butShutdownService.Click
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
-            Try
-                CType(it.Tag, cService).ShutDownService()
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cService).ShutDownService()
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -1454,11 +1352,7 @@ Public Class frmMain
     Private Sub butPauseService_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butPauseService.Click
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
-            Try
-                CType(it.Tag, cService).PauseService()
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cService).PauseService()
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -1467,11 +1361,7 @@ Public Class frmMain
     Private Sub butAutomaticStart_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butAutomaticStart.Click
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
-            Try
-                CType(it.Tag, cService).SetServiceStartType(cService.TypeServiceStartType.SERVICE_AUTO_START)
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cService).SetServiceStartType(cService.TypeServiceStartType.SERVICE_AUTO_START)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -1480,11 +1370,7 @@ Public Class frmMain
     Private Sub butDisabledStart_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butDisabledStart.Click
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
-            Try
-                CType(it.Tag, cService).SetServiceStartType(cService.TypeServiceStartType.SERVICE_DISABLED)
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cService).SetServiceStartType(cService.TypeServiceStartType.SERVICE_DISABLED)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -1493,11 +1379,7 @@ Public Class frmMain
     Private Sub butOnDemandStart_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butOnDemandStart.Click
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
-            Try
-                CType(it.Tag, cService).SetServiceStartType(cService.TypeServiceStartType.SERVICE_DEMAND_START)
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cService).SetServiceStartType(cService.TypeServiceStartType.SERVICE_DEMAND_START)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -1506,11 +1388,7 @@ Public Class frmMain
     Private Sub butResumeService_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butResumeService.Click
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
-            Try
-                CType(it.Tag, cService).ResumeService()
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cService).ResumeService()
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -1520,7 +1398,9 @@ Public Class frmMain
         If Me.lvServices.Items.Count = 0 Then
             If Me.Ribbon.ActiveTab.Text = "Services" Then
                 ' First display of service tab
+                Me.lvServices.BeginUpdate()
                 Call refreshServiceList()
+                Me.lvServices.EndUpdate()
             End If
         End If
     End Sub
@@ -1823,24 +1703,21 @@ Public Class frmMain
                 Exit Sub
             End If
 
-            Try
-                Select Case mdlInternet.GetSecurityRisk(cp.Name)
-                    Case 0
-                        it.BackColor = Color.LightGreen
-                    Case 1
-                        it.BackColor = Color.LightPink
-                    Case 2
-                        it.BackColor = Color.Orange
-                    Case 3
-                        it.BackColor = Color.Red
-                    Case 4
-                        it.BackColor = Color.Red
-                    Case 5
-                        it.BackColor = Color.Red
-                End Select
-            Catch ex As Exception
-                '
-            End Try
+            Select Case mdlInternet.GetSecurityRisk(cp.Name)
+                Case 0
+                    it.BackColor = Color.LightGreen
+                Case 1
+                    it.BackColor = Color.LightPink
+                Case 2
+                    it.BackColor = Color.Orange
+                Case 3
+                    it.BackColor = Color.Red
+                Case 4
+                    it.BackColor = Color.Red
+                Case 5
+                    it.BackColor = Color.Red
+            End Select
+
         Next
 
         b = False
@@ -1852,11 +1729,7 @@ Public Class frmMain
         For Each it In Me.lvProcess.SelectedItems
             Dim cp As cProcess = CType(it.Tag, cProcess)
             My.Application.DoEvents()
-            Try
-                cFile.ShellOpenFile("http://www.google.com/search?hl=en&q=%22" & cp.Name & "%22")
-            Catch ex As Exception
-                '
-            End Try
+            cFile.ShellOpenFile("http://www.google.com/search?hl=en&q=%22" & cp.Name & "%22")
         Next
     End Sub
 
@@ -1878,13 +1751,12 @@ Public Class frmMain
     End Sub
 
     Private Sub lblResCount2_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblResCount2.Click
-        Me.lvServices.Focus()
-        Try
+        If Me.lvServices.Groups(1).Items.Count > 0 Then
+            Me.lvServices.Focus()
             Me.lvServices.EnsureVisible(Me.lvServices.Groups(1).Items(0).Index)
             Me.lvServices.SelectedItems.Clear()
             Me.lvServices.Groups(1).Items(0).Selected = True
-        Catch ex As Exception
-        End Try
+        End If
     End Sub
 
     Private Sub GetSecurityRiskOnlineToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GetSecurityRiskOnlineToolStripMenuItem.Click
@@ -1899,11 +1771,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
             My.Application.DoEvents()
-            Try
-                cFile.ShellOpenFile("http://www.google.com/search?hl=en&q=%22" & it.Text & "%22")
-            Catch ex As Exception
-                '
-            End Try
+            cFile.ShellOpenFile("http://www.google.com/search?hl=en&q=%22" & it.Text & "%22")
         Next
     End Sub
 
@@ -2502,11 +2370,7 @@ Public Class frmMain
 
     Private Sub butFileGoogleSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileGoogleSearch.Click
         My.Application.DoEvents()
-        Try
-            cFile.ShellOpenFile("http://www.google.com/search?hl=en&q=%22" & cFile.GetFileName(Me.txtFile.Text) & "%22")
-        Catch ex As Exception
-            '
-        End Try
+        cFile.ShellOpenFile("http://www.google.com/search?hl=en&q=%22" & cFile.GetFileName(Me.txtFile.Text) & "%22")
     End Sub
 
     Private Sub butFileEncrypt_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileEncrypt.Click
@@ -2725,7 +2589,7 @@ Public Class frmMain
             Try
                 s = IO.File.ReadAllText(file)
 
-                If cFile.GetFileSize(file) > 2000000 Then
+                If filelen( file) > 2000000 Then
                     If MsgBox("File size is greater than 2MB. It is not recommended to open a large file, do you want to continue ?", _
                         MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo, "Large file") = MsgBoxResult.No Then
                         lstFileString.Items.Add("Click on 'Others->Show file strings' to retrieve file strings")
@@ -3244,48 +3108,28 @@ Public Class frmMain
     Private Sub ToolStripMenuItem23_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem23.Click
         Dim it As ListViewItem
         For Each it In Me.lvThreads.SelectedItems
-            Dim t As cThread = CType(it.Tag, cThread)
-            Try
-                t.ThreadTerminate()
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cThread).ThreadTerminate()
         Next
     End Sub
 
     Private Sub ToolStripMenuItem24_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem24.Click
         Dim it As ListViewItem
         For Each it In Me.lvThreads.SelectedItems
-            Dim t As cThread = CType(it.Tag, cThread)
-            Try
-                t.ThreadSuspend()
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cThread).ThreadSuspend()
         Next
     End Sub
 
     Private Sub ToolStripMenuItem25_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem25.Click
         Dim it As ListViewItem
         For Each it In Me.lvThreads.SelectedItems
-            Dim t As cThread = CType(it.Tag, cThread)
-            Try
-                t.ThreadResume()
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cThread).ThreadResume()
         Next
     End Sub
 
     Private Sub ToolStripMenuItem27_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem27.Click
         Dim it As ListViewItem
         For Each it In Me.lvThreads.SelectedItems
-            Dim t As cThread = CType(it.Tag, cThread)
-            Try
-                t.Priority = ThreadPriorityLevel.Idle
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cThread).Priority = ThreadPriorityLevel.Idle
         Next
     End Sub
 
@@ -3302,101 +3146,68 @@ Public Class frmMain
     End Sub
 
     Private Sub SelectedAssociatedProcessToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SelectedAssociatedProcessToolStripMenuItem.Click
-        ' Select processes associated to selected handles results
+        ' Select processes associated to selected threads results
         Dim it As ListViewItem
+        Dim bOne As Boolean = False
         If Me.lvThreads.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
         For Each it In Me.lvThreads.SelectedItems
-            Try
-                Dim sp As String = it.SubItems(1).Text
-                Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
-                If i > 0 Then
-                    Dim pid As String = sp.Substring(0, i - 1)
-                    Dim it2 As ListViewItem
-                    For Each it2 In Me.lvProcess.Items
-                        Dim cp As cProcess = CType(it2.Tag, cProcess)
-                        If CStr(cp.Pid) = pid Then
-                            it2.Selected = True
-                            it2.EnsureVisible()
-                        End If
-                    Next
+            Dim pid As Integer = CType(it.Tag, cThread).ProcessId
+            Dim it2 As ListViewItem
+            For Each it2 In Me.lvProcess.Items
+                Dim cp As cProcess = CType(it2.Tag, cProcess)
+                If cp.Pid = pid And pid > 0 Then
+                    it2.Selected = True
+                    it2.EnsureVisible()
+                    bOne = True
                 End If
-            Catch ex As Exception
-                '
-            End Try
+            Next
         Next
-        Me.Ribbon.ActiveTab = Me.ProcessTab
-        Call Me.Ribbon_MouseMove(Nothing, Nothing)
+
+        If bOne Then
+            Me.Ribbon.ActiveTab = Me.ProcessTab
+            Call Me.Ribbon_MouseMove(Nothing, Nothing)
+        End If
     End Sub
 
     Private Sub LowestToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LowestToolStripMenuItem.Click
         Dim it As ListViewItem
         For Each it In Me.lvThreads.SelectedItems
-            Dim t As cThread = CType(it.Tag, cThread)
-            Try
-                t.Priority = ThreadPriorityLevel.Lowest
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cThread).Priority = ThreadPriorityLevel.Lowest
         Next
     End Sub
 
     Private Sub ToolStripMenuItem28_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem28.Click
         Dim it As ListViewItem
         For Each it In Me.lvThreads.SelectedItems
-            Dim t As cThread = CType(it.Tag, cThread)
-            Try
-                t.Priority = ThreadPriorityLevel.BelowNormal
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cThread).Priority = ThreadPriorityLevel.BelowNormal
         Next
     End Sub
 
     Private Sub ToolStripMenuItem29_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem29.Click
         Dim it As ListViewItem
         For Each it In Me.lvThreads.SelectedItems
-            Dim t As cThread = CType(it.Tag, cThread)
-            Try
-                t.Priority = ThreadPriorityLevel.Normal
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cThread).Priority = ThreadPriorityLevel.Normal
         Next
     End Sub
 
     Private Sub ToolStripMenuItem30_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem30.Click
         Dim it As ListViewItem
         For Each it In Me.lvThreads.SelectedItems
-            Dim t As cThread = CType(it.Tag, cThread)
-            Try
-                t.Priority = ThreadPriorityLevel.AboveNormal
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cThread).Priority = ThreadPriorityLevel.AboveNormal
         Next
     End Sub
 
     Private Sub ToolStripMenuItem31_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem31.Click
         Dim it As ListViewItem
         For Each it In Me.lvThreads.SelectedItems
-            Dim t As cThread = CType(it.Tag, cThread)
-            Try
-                t.Priority = ThreadPriorityLevel.Highest
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cThread).Priority = ThreadPriorityLevel.Highest
         Next
     End Sub
 
     Private Sub ToolStripMenuItem32_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem32.Click
         Dim it As ListViewItem
         For Each it In Me.lvThreads.SelectedItems
-            Dim t As cThread = CType(it.Tag, cThread)
-            Try
-                t.Priority = ThreadPriorityLevel.TimeCritical
-            Catch ex As Exception
-                '
-            End Try
+            CType(it.Tag, cThread).Priority = ThreadPriorityLevel.TimeCritical
         Next
     End Sub
 
@@ -3716,24 +3527,25 @@ Public Class frmMain
     Private Sub ToolStripMenuItem34_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem34.Click
         ' Select processes associated to selected windows
         Dim it As ListViewItem
+        Dim bOne As Boolean = False
         If Me.lvWindows.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
         For Each it In Me.lvWindows.SelectedItems
-            Try
-                Dim pid As Integer = CType(it.Tag, cWindow).ParentProcessId
-                Dim it2 As ListViewItem
-                For Each it2 In Me.lvProcess.Items
-                    Dim cp As cProcess = CType(it2.Tag, cProcess)
-                    If cp.Pid = pid Then
-                        it2.Selected = True
-                        it2.EnsureVisible()
-                    End If
-                Next
-            Catch ex As Exception
-                '
-            End Try
+            Dim pid As Integer = CType(it.Tag, cWindow).ParentProcessId
+            Dim it2 As ListViewItem
+            For Each it2 In Me.lvProcess.Items
+                Dim cp As cProcess = CType(it2.Tag, cProcess)
+                If cp.Pid = pid Then
+                    it2.Selected = True
+                    bOne = True
+                    it2.EnsureVisible()
+                End If
+            Next
         Next
-        Me.Ribbon.ActiveTab = Me.ProcessTab
-        Call Me.Ribbon_MouseMove(Nothing, Nothing)
+
+        If bOne Then
+            Me.Ribbon.ActiveTab = Me.ProcessTab
+            Call Me.Ribbon_MouseMove(Nothing, Nothing)
+        End If
     End Sub
 
     Private Sub butHandlesSaveReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butHandlesSaveReport.Click
@@ -3808,12 +3620,6 @@ Public Class frmMain
         Dim t() As cModule = Nothing
         Dim tCt As cModule
 
-        ' Delete existing items
-        'Dim it2 As ListViewItem
-        'For Each it2 In Me.lvModules.Items
-        '    Dim tt As cModule = CType(it2.Tag, cModule)
-        '    tt.Dispose()
-        'Next
         Me.lvModules.Items.Clear()
         Me.lvModules.BeginUpdate()
 
@@ -3825,19 +3631,23 @@ Public Class frmMain
                 For Each tCt In t
                     ' Add modules to listview
                     Try
+
+                        ' Get file infos
+                        Dim info As System.Diagnostics.FileVersionInfo = tCt.FILE_VERSION_IFNO
+
                         Dim it As New ListViewItem
                         it.Text = cFile.GetFileName(tCt.FileName)
                         Dim n2 As New ListViewItem.ListViewSubItem
-                        n2.Text = tCt.FileVersion
+                        n2.Text = info.FileVersion
                         it.SubItems.Add(n2)
                         Dim n3 As New ListViewItem.ListViewSubItem
-                        n3.Text = tCt.FileDescription
+                        n3.Text = info.FileDescription
                         it.SubItems.Add(n3)
                         Dim n6 As New ListViewItem.ListViewSubItem
-                        n6.Text = tCt.CompanyName
+                        n6.Text = info.CompanyName
                         it.SubItems.Add(n6)
                         Dim n5 As New ListViewItem.ListViewSubItem
-                        n5.Text = tCt.FileName
+                        n5.Text = info.FileName
                         it.SubItems.Add(n5)
                         Dim n7 As New ListViewItem.ListViewSubItem
                         n7.Text = tCt.ProcessId & " -- " & cProcess.GetProcessName(tCt.ProcessId)
@@ -3845,13 +3655,13 @@ Public Class frmMain
 
                         it.Tag = tCt
                         it.Group = Me.lvModules.Groups(0)
-                        If tCt.FileName IsNot Nothing AndAlso tCt.FileName.Length > 3 Then
-                            If tCt.FileName.Substring(tCt.FileName.Length - 3, 3).ToLower = "exe" Then
+                        If tCt.FileName IsNot Nothing AndAlso info.FileName.Length > 3 Then
+                            If tCt.FileName.Substring(info.FileName.Length - 3, 3).ToLower = "exe" Then
 
                                 ' Add icon
                                 Try
 
-                                    Dim fName As String = tCt.FileName
+                                    Dim fName As String = info.FileName
 
                                     If IO.File.Exists(fName) Then
                                         Dim img As System.Drawing.Icon = GetIcon(fName, True)
@@ -3925,30 +3735,27 @@ Public Class frmMain
     End Sub
 
     Private Sub ToolStripMenuItem35_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem35.Click
-        ' Select processes associated to selected windows
+        ' Select processes associated to selected modules
         Dim it As ListViewItem
+        Dim bOne As Boolean = False
         If Me.lvModules.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
         For Each it In Me.lvModules.SelectedItems
-            Try
-                Dim sp As String = it.SubItems(5).Text
-                Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
-                If i > 0 Then
-                    Dim pid As String = sp.Substring(0, i - 1)
-                    Dim it2 As ListViewItem
-                    For Each it2 In Me.lvProcess.Items
-                        Dim cp As cProcess = CType(it2.Tag, cProcess)
-                        If CStr(cp.Pid) = pid Then
-                            it2.Selected = True
-                            it2.EnsureVisible()
-                        End If
-                    Next
+            Dim pid As Integer = CType(it.Tag, cModule).ProcessId
+            Dim it2 As ListViewItem
+            For Each it2 In Me.lvProcess.Items
+                Dim cp As cProcess = CType(it2.Tag, cProcess)
+                If cp.Pid = pid And pid > 0 Then
+                    it2.Selected = True
+                    bOne = True
+                    it2.EnsureVisible()
                 End If
-            Catch ex As Exception
-                '
-            End Try
+            Next
         Next
-        Me.Ribbon.ActiveTab = Me.ProcessTab
-        Call Me.Ribbon_MouseMove(Nothing, Nothing)
+
+        If bOne Then
+            Me.Ribbon.ActiveTab = Me.ProcessTab
+            Call Me.Ribbon_MouseMove(Nothing, Nothing)
+        End If
     End Sub
 
     Private Sub ShowFileDetailsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowFileDetailsToolStripMenuItem.Click
@@ -4103,13 +3910,12 @@ Public Class frmMain
     End Sub
 
     Private Sub lblModulesCount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblModulesCount.Click
-        Me.lvModules.Focus()
-        Try
+        If Me.lvModules.Groups(1).Items.Count > 0 Then
+            Me.lvModules.Focus()
             Me.lvModules.EnsureVisible(Me.lvModules.Groups(1).Items(0).Index)
             Me.lvModules.SelectedItems.Clear()
             Me.lvModules.Groups(1).Items(0).Selected = True
-        Catch ex As Exception
-        End Try
+        End If
     End Sub
 
     Private Sub lvThreads_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvThreads.ColumnClick
@@ -4238,13 +4044,12 @@ Public Class frmMain
     End Sub
 
     Private Sub lblThreadResults_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblThreadResults.Click
-        Me.lvThreads.Focus()
-        Try
+        If Me.lvThreads.Groups(1).Items.Count > 0 Then
+            Me.lvThreads.Focus()
             Me.lvThreads.EnsureVisible(Me.lvThreads.Groups(1).Items(0).Index)
             Me.lvThreads.SelectedItems.Clear()
             Me.lvThreads.Groups(1).Items(0).Selected = True
-        Catch ex As Exception
-        End Try
+        End If
     End Sub
 
     Private Sub txtSearchHandle_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchHandle.TextChanged
@@ -4260,13 +4065,12 @@ Public Class frmMain
     End Sub
 
     Private Sub lblHandlesCount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblHandlesCount.Click
-        Me.lvHandles.Focus()
-        Try
+        If Me.lvHandles.Groups(1).Items.Count > 0 Then
+            Me.lvHandles.Focus()
             Me.lvHandles.EnsureVisible(Me.lvHandles.Groups(1).Items(0).Index)
             Me.lvHandles.SelectedItems.Clear()
             Me.lvHandles.Groups(1).Items(0).Selected = True
-        Catch ex As Exception
-        End Try
+        End If
     End Sub
 
     Private Sub lvHandles_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvHandles.ColumnClick
@@ -4329,13 +4133,12 @@ Public Class frmMain
     End Sub
 
     Private Sub lblWindowsCount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblWindowsCount.Click
-        Me.lvWindows.Focus()
-        Try
+        If Me.lvWindows.Groups(1).Items.Count > 0 Then
+            Me.lvWindows.Focus()
             Me.lvWindows.EnsureVisible(Me.lvWindows.Groups(1).Items(0).Index)
             Me.lvWindows.SelectedItems.Clear()
             Me.lvWindows.Groups(1).Items(0).Selected = True
-        Catch ex As Exception
-        End Try
+        End If
     End Sub
 
     Private Sub lvWindows_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvWindows.ColumnClick
@@ -4461,13 +4264,12 @@ Public Class frmMain
     End Sub
 
     Private Sub lblResultsCount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblResultsCount.Click
-        Me.lvSearchResults.Focus()
-        Try
+        If Me.lvSearchResults.Groups(1).Items.Count > 0 Then
+            Me.lvSearchResults.Focus()
             Me.lvSearchResults.EnsureVisible(Me.lvSearchResults.Groups(1).Items(0).Index)
             Me.lvSearchResults.SelectedItems.Clear()
             Me.lvSearchResults.Groups(1).Items(0).Selected = True
-        Catch ex As Exception
-        End Try
+        End If
     End Sub
 
     Private Sub chkAllWindows_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAllWindows.CheckedChanged
@@ -4546,11 +4348,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvModules.SelectedItems
             My.Application.DoEvents()
-            Try
-                cFile.ShellOpenFile("http://www.google.com/search?hl=en&q=%22" & it.Text & "%22")
-            Catch ex As Exception
-                '
-            End Try
+            cFile.ShellOpenFile("http://www.google.com/search?hl=en&q=%22" & it.Text & "%22")
         Next
     End Sub
 
@@ -4655,9 +4453,17 @@ Public Class frmMain
                 Me.txtParentProcess.Text = CStr(cP.ParentProcessId) & " -- " & cP.ParentProcessName
                 Me.txtProcessStarted.Text = cP.StartTime.ToLongDateString & " -- " & cP.StartTime.ToLongTimeString
                 Me.txtProcessUser.Text = cP.UserName
-                Me.txtImageVersion.Text = cP.MainModule.FileVersionInfo.FileVersion
-                Me.lblCopyright.Text = cP.MainModule.FileVersionInfo.LegalCopyright
-                Me.lblDescription.Text = cP.MainModule.FileVersionInfo.FileDescription
+                Try
+                    Dim tMain As System.Diagnostics.ProcessModule = cP.MainModule
+                    Me.txtImageVersion.Text = tMain.FileVersionInfo.FileVersion
+                    Me.lblCopyright.Text = tMain.FileVersionInfo.LegalCopyright
+                    Me.lblDescription.Text = tMain.FileVersionInfo.FileDescription
+                Catch ex As Exception
+                    Me.txtImageVersion.Text = NO_INFO_RETRIEVED
+                    Me.lblCopyright.Text = NO_INFO_RETRIEVED
+                    Me.lblDescription.Text = NO_INFO_RETRIEVED
+                End Try
+
 
             Case "Statistics"
 
@@ -4767,7 +4573,7 @@ Public Class frmMain
                         Dim sub1 As New ListViewItem.ListViewSubItem
                         Dim sub2 As New ListViewItem.ListViewSubItem
                         Dim sub3 As New ListViewItem.ListViewSubItem
-                        sub1.Text = cServ.Status.ToString
+                        sub1.Text = cServ.State.ToString
                         sub2.Text = cServ.LongName
                         sub3.Text = cServ.ImagePath
                         newIt.SubItems.Add(sub1)
@@ -5049,36 +4855,30 @@ Public Class frmMain
 
             If TypeOf it.Tag Is cProcess Then
 
-                Try
-                    Dim cP As cProcess = CType(it.Tag, cProcess)
-                    Dim pid As Integer = cP.Pid
+                Dim cP As cProcess = CType(it.Tag, cProcess)
+                Dim pid As Integer = cP.Pid
 
-                    If curProc Is Nothing OrElse cP.Pid <> curProc.Pid Then
-                        curProc = cP
-                        Me.graphCPU.ClearValue()
-                        Me.graphIO.ClearValue()
-                        Me.graphMemory.ClearValue()
-                    End If
+                If curProc Is Nothing OrElse cP.Pid <> curProc.Pid Then
+                    curProc = cP
+                    Me.graphCPU.ClearValue()
+                    Me.graphIO.ClearValue()
+                    Me.graphMemory.ClearValue()
+                End If
 
-                    ' Icons
-                    If pctBigIcon.Image Is Nothing Or Not (_path = cP.Path) Then
-                        Try
-                            _path = cP.Path
-                            pctBigIcon.Image = GetIcon(cP.Path, False).ToBitmap
-                            pctSmallIcon.Image = GetIcon(cP.Path, True).ToBitmap
-                        Catch ex As Exception
-                            pctSmallIcon.Image = Me.imgProcess.Images("noicon")
-                            pctBigIcon.Image = Me.imgMain.Images("noicon32")
-                        End Try
-                    End If
+                ' Icons
+                If pctBigIcon.Image Is Nothing Or Not (_path = cP.Path) Then
+                    Try
+                        _path = cP.Path
+                        pctBigIcon.Image = GetIcon(cP.Path, False).ToBitmap
+                        pctSmallIcon.Image = GetIcon(cP.Path, True).ToBitmap
+                    Catch ex As Exception
+                        pctSmallIcon.Image = Me.imgProcess.Images("noicon")
+                        pctBigIcon.Image = Me.imgMain.Images("noicon32")
+                    End Try
+                End If
 
 
-                    Call refreshProcessTab(it, cP)
-
-                Catch ex As Exception
-                    Me.txtProcessPath.Text = "Unable to retrieve path"
-
-                End Try
+                Call refreshProcessTab(it, cP)
 
             Else
                 ' Error
@@ -5391,6 +5191,16 @@ Public Class frmMain
         lvServices.Sort()
     End Sub
 
+    Private Sub lvServices_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseDoubleClick
+        If e.Button = Windows.Forms.MouseButtons.Left Then
+            Dim frm As New frmChooseServiceColumns
+            With frm
+                '.SetAutoScrollMargin()
+                Call .ShowDialog()
+            End With
+        End If
+    End Sub
+
     Private Sub lvServices_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseDown
         Call mdlMisc.CopyLvToClip(e, Me.lvServices)
     End Sub
@@ -5440,7 +5250,7 @@ Public Class frmMain
                 Dim s As String = vbNullString
                 Dim description As String = vbNullString
                 Dim diagnosticsMessageFile As String = cS.DiagnosticsMessageFile
-                Dim group As String = cS.Group
+                Dim group As String = cS.LoadOrderGroup
                 Dim objectName As String = cS.ObjectName
                 Dim tag As String = vbNullString
 
@@ -5462,7 +5272,7 @@ Public Class frmMain
                 If Len(group) > 0 Then s = s & "\tab Group :\tab\tab\tab " & group & "\par"
                 If Len(objectName) > 0 Then s = s & "\tab ObjectName :\tab\tab " & objectName & "\par"
                 If Len(diagnosticsMessageFile) > 0 Then s = s & "\tab DiagnosticsMessageFile :\tab\tab " & diagnosticsMessageFile & "\par"
-                s = s & "\tab State :\tab\tab\tab " & cS.Status.ToString & "\par"
+                s = s & "\tab State :\tab\tab\tab " & cS.State.ToString & "\par"
                 s = s & "\tab Startup :\tab\tab " & cS.ServiceStartType.ToString & "\par"
                 If cS.ProcessID > 0 Then s = s & "\tab Owner process :\tab\tab " & cS.ProcessID & "-- " & cProcess.GetProcessName(cS.ProcessID) & "\par"
                 s = s & "\tab Service type :\tab\tab " & cS.Type & "\par"
@@ -5530,30 +5340,26 @@ Public Class frmMain
     End Sub
 
     Private Sub SelectedAssociatedProcessToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SelectedAssociatedProcessToolStripMenuItem1.Click
-        ' Select processes associated to selected handles results
+        ' Select processes associated to selected services results
         Dim it As ListViewItem
+        Dim bOne As Boolean = False
         If Me.lvServices.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
         For Each it In Me.lvServices.SelectedItems
-            Try
-                Dim sp As String = it.SubItems(5).Text
-                Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
-                If i > 0 Then
-                    Dim pid As String = sp.Substring(0, i - 1)
-                    Dim it2 As ListViewItem
-                    For Each it2 In Me.lvProcess.Items
-                        Dim cp As cProcess = CType(it2.Tag, cProcess)
-                        If CStr(cp.Pid) = pid Then
-                            it2.Selected = True
-                            it2.EnsureVisible()
-                        End If
-                    Next
+            Dim pid As Integer = CType(it.Tag, cService).ProcessID
+            Dim it2 As ListViewItem
+            For Each it2 In Me.lvProcess.Items
+                Dim cp As cProcess = CType(it2.Tag, cProcess)
+                If cp.Pid = pid And pid > 0 Then
+                    it2.Selected = True
+                    bOne = True
+                    it2.EnsureVisible()
                 End If
-            Catch ex As Exception
-                '
-            End Try
+            Next
         Next
-        Me.Ribbon.ActiveTab = Me.ProcessTab
-        Call Me.Ribbon_MouseMove(Nothing, Nothing)
+        If bOne Then
+            Me.Ribbon.ActiveTab = Me.ProcessTab
+            Call Me.Ribbon_MouseMove(Nothing, Nothing)
+        End If
     End Sub
 
     Private Sub ToolStripMenuItem43_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem43.Click
@@ -5656,13 +5462,12 @@ Public Class frmMain
     End Sub
 
     Private Sub lblTaskCountResult_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblTaskCountResult.Click
-        Me.lvTask.Focus()
-        Try
+        If Me.lvTask.Groups(1).Items.Count > 0 Then
+            Me.lvTask.Focus()
             Me.lvTask.EnsureVisible(Me.lvTask.Groups(1).Items(0).Index)
             Me.lvTask.SelectedItems.Clear()
             Me.lvTask.Groups(1).Items(0).Selected = True
-        Catch ex As Exception
-        End Try
+        End If
     End Sub
 
     ' Refresh  task list in listview
@@ -5753,24 +5558,17 @@ Public Class frmMain
 
         ' Here we retrieve some informations for all our displayed tasks
         For Each lvi In Me.lvTask.Items
+            Dim cW As cWindow = CType(lvi.Tag, cWindow)
 
-            Try
-                Dim cW As cWindow = CType(lvi.Tag, cWindow)
-
-                Dim isub As ListViewItem.ListViewSubItem
-                Dim xxx As Integer = 0
-                For Each isub In lvi.SubItems
-                    Dim colName As String = Me.lvTask.Columns.Item(xxx).Text
-                    colName = colName.Replace("< ", "")
-                    colName = colName.Replace("> ", "")
-                    isub.Text = cW.GetInformation(colName)
-                    xxx += 1
-                Next
-
-            Catch ex As Exception
-                ' Access denied or ?
-            End Try
-
+            Dim isub As ListViewItem.ListViewSubItem
+            Dim xxx As Integer = 0
+            For Each isub In lvi.SubItems
+                Dim colName As String = Me.lvTask.Columns.Item(xxx).Text
+                colName = colName.Replace("< ", "")
+                colName = colName.Replace("> ", "")
+                isub.Text = cW.GetInformation(colName)
+                xxx += 1
+            Next
         Next
 
         test = GetTickCount - test
@@ -5817,19 +5615,15 @@ Public Class frmMain
         Dim it As ListViewItem
         If Me.lvTask.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
         For Each it In Me.lvTask.SelectedItems
-            Try
-                Dim pid As Integer = CType(it.Tag, cWindow).ParentProcessId
-                Dim it2 As ListViewItem
-                For Each it2 In Me.lvProcess.Items
-                    Dim cp As cProcess = CType(it2.Tag, cProcess)
-                    If cp.Pid = pid Then
-                        it2.Selected = True
-                        it2.EnsureVisible()
-                    End If
-                Next
-            Catch ex As Exception
-                '
-            End Try
+            Dim pid As Integer = CType(it.Tag, cWindow).ParentProcessId
+            Dim it2 As ListViewItem
+            For Each it2 In Me.lvProcess.Items
+                Dim cp As cProcess = CType(it2.Tag, cProcess)
+                If cp.Pid = pid Then
+                    it2.Selected = True
+                    it2.EnsureVisible()
+                End If
+            Next
         Next
         Me.Ribbon.ActiveTab = Me.ProcessTab
         Call Me.Ribbon_MouseMove(Nothing, Nothing)
@@ -6099,24 +5893,17 @@ Public Class frmMain
 
         ' Here we retrieve some informations for all our displayed items
         For Each lvi In Me.lvNetwork.Items
+            Dim cW As cNetwork = CType(lvi.Tag, cNetwork)
 
-            Try
-                Dim cW As cNetwork = CType(lvi.Tag, cNetwork)
-
-                Dim isub As ListViewItem.ListViewSubItem
-                Dim xxx As Integer = 0
-                For Each isub In lvi.SubItems
-                    Dim colName As String = Me.lvNetwork.Columns.Item(xxx).Text
-                    colName = colName.Replace("< ", "")
-                    colName = colName.Replace("> ", "")
-                    isub.Text = cW.GetInformation(colName)
-                    xxx += 1
-                Next
-
-            Catch ex As Exception
-                ' Access denied or ?
-            End Try
-
+            Dim isub As ListViewItem.ListViewSubItem
+            Dim xxx As Integer = 0
+            For Each isub In lvi.SubItems
+                Dim colName As String = Me.lvNetwork.Columns.Item(xxx).Text
+                colName = colName.Replace("< ", "")
+                colName = colName.Replace("> ", "")
+                isub.Text = cW.GetInformation(colName)
+                xxx += 1
+            Next
         Next
 
         test = GetTickCount - test
@@ -6139,19 +5926,15 @@ Public Class frmMain
         Dim it As ListViewItem
         If Me.lvNetwork.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
         For Each it In Me.lvNetwork.SelectedItems
-            Try
-                Dim pid As Integer = CType(it.Tag, cNetwork).ProcessId
-                Dim it2 As ListViewItem
-                For Each it2 In Me.lvProcess.Items
-                    Dim cp As cProcess = CType(it2.Tag, cProcess)
-                    If cp.Pid = pid Then
-                        it2.Selected = True
-                        it2.EnsureVisible()
-                    End If
-                Next
-            Catch ex As Exception
-                '
-            End Try
+            Dim pid As Integer = CType(it.Tag, cNetwork).ProcessId
+            Dim it2 As ListViewItem
+            For Each it2 In Me.lvProcess.Items
+                Dim cp As cProcess = CType(it2.Tag, cProcess)
+                If cp.Pid = pid Then
+                    it2.Selected = True
+                    it2.EnsureVisible()
+                End If
+            Next
         Next
         Me.Ribbon.ActiveTab = Me.ProcessTab
         Call Me.Ribbon_MouseMove(Nothing, Nothing)
