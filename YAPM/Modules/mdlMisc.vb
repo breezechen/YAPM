@@ -26,6 +26,9 @@ Imports Microsoft.Win32
 
 Module mdlMisc
 
+    Private sizeUnits() As String = {"Bytes", "KB", "MB", "GB", "TB", "PB", "EB"}
+
+
     ' Copy content of a listview (selected items) into clipboard
     Public Sub CopyLvToClip(ByVal e As MouseEventArgs, ByVal lv As ListView)
         If e.Button = Windows.Forms.MouseButtons.Middle Then
@@ -102,61 +105,27 @@ Module mdlMisc
 
     ' Get a formated value as a string (in Bytes, KB, MB or GB) from an Integer
     Public Function GetFormatedSize(ByVal size As Integer, Optional ByVal digits As Integer = 3) As String
-        If size >= 1073741824 Then
-            ' In GB
-            Return CStr(Math.Round(size / 1073741824, digits)) & " GB"
-        ElseIf size >= 1048576 Then
-            ' In MB
-            Return CStr(Math.Round(size / 1048576, digits)) & " MB"
-        ElseIf size >= 1024 Then
-            ' In KB
-            Return CStr(Math.Round(size / 1024, digits)) & " KB"
-        Else
-            Return CStr(size) & " Bytes"
-        End If
-    End Function
-    Public Function GetFormatedSize(ByVal size As Long, Optional ByVal digits As Integer = 3) As String
-        If size >= 1073741824 Then
-            ' In GB
-            Return CStr(Math.Round(size / 1073741824, digits)) & " GB"
-        ElseIf size >= 1048576 Then
-            ' In MB
-            Return CStr(Math.Round(size / 1048576, digits)) & " MB"
-        ElseIf size >= 1024 Then
-            ' In KB
-            Return CStr(Math.Round(size / 1024, digits)) & " KB"
-        Else
-            Return CStr(size) & " Bytes"
-        End If
+        Return GetFormatedSize(New Decimal(size), digits)
     End Function
     Public Function GetFormatedSize(ByVal size As ULong, Optional ByVal digits As Integer = 3) As String
-        If size >= 1073741824 Then
-            ' In GB
-            Return CStr(Math.Round(size / 1073741824, digits)) & " GB"
-        ElseIf size >= 1048576 Then
-            ' In MB
-            Return CStr(Math.Round(size / 1048576, digits)) & " MB"
-        ElseIf size >= 1024 Then
-            ' In KB
-            Return CStr(Math.Round(size / 1024, digits)) & " KB"
-        Else
-            Return CStr(size) & " Bytes"
-        End If
+        Return GetFormatedSize(New Decimal(size), digits)
     End Function
     Public Function GetFormatedSize(ByVal size As UInteger, Optional ByVal digits As Integer = 3) As String
-        If size >= 1073741824 Then
-            ' In GB
-            Return CStr(Math.Round(size / 1073741824, digits)) & " GB"
-        ElseIf size >= 1048576 Then
-            ' In MB
-            Return CStr(Math.Round(size / 1048576, digits)) & " MB"
-        ElseIf size >= 1024 Then
-            ' In KB
-            Return CStr(Math.Round(size / 1024, digits)) & " KB"
-        Else
-            Return CStr(size) & " Bytes"
-        End If
+        Return GetFormatedSize(New Decimal(size), digits)
     End Function
+    Public Function GetFormatedSize(ByVal size As Decimal, Optional ByVal digits As Integer = 3) As String
+        Dim t As Decimal = size
+        Dim dep As Integer = 0
+
+        While t >= 1024
+            t /= 1024
+            dep += 1
+        End While
+
+        Return CStr(Math.Round(t, digits)) & " " & sizeUnits(dep)
+
+    End Function
+
 
     ' Get a formated percentage
     Public Function GetFormatedPercentage(ByVal p As Double, Optional ByVal digits As Integer = 3) As String

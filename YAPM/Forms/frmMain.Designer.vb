@@ -6772,6 +6772,7 @@ Partial Class frmMain
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.ClientSize = New System.Drawing.Size(843, 603)
+        Me.Controls.Add(Me.panelMain13)
         Me.Controls.Add(Me.panelMain)
         Me.Controls.Add(Me.panelMain2)
         Me.Controls.Add(Me.panelMain9)
@@ -6788,7 +6789,6 @@ Partial Class frmMain
         Me.Controls.Add(Me.panelMain5)
         Me.Controls.Add(Me.panelMain7)
         Me.Controls.Add(Me.panelMain14)
-        Me.Controls.Add(Me.panelMain13)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MinimumSize = New System.Drawing.Size(840, 589)

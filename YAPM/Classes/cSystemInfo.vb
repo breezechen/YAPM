@@ -37,7 +37,7 @@ Public Class cSystemInfo
         Dim ProcessCount As Integer
         Dim ThreadCount As Integer
     End Structure
-    Private Structure SYSTEM_PERFORMANCE_INFORMATION
+    Public Structure SYSTEM_PERFORMANCE_INFORMATION
         Dim IdleTime As Long
         Dim IoReadTransferCount As Long
         Dim IoWriteTransferCount As Long
@@ -113,7 +113,7 @@ Public Class cSystemInfo
         Dim SecondLevelTbFills As Integer
         Dim SystemCalls As Integer
     End Structure
-    Private Structure SYSTEM_CACHE_INFORMATION
+    Public Structure SYSTEM_CACHE_INFORMATION
         Dim SystemCacheWsSize As Integer
         Dim SystemCacheWsPeakSize As Integer
         Dim SystemCacheWsFaults As Integer
@@ -121,11 +121,20 @@ Public Class cSystemInfo
         Dim SystemCacheWsMaximum As Integer
         Dim TransitionSharedPages As Integer
         Dim TransitionSharedPagesPeak As Integer
-        Dim Reserved1 As Integer
-        Dim Reserved2 As Integer
+        Private Reserved1 As Integer
+        Private Reserved2 As Integer
     End Structure
-    Private Structure SYSTEM_BASIC_INFORMATION
-        Dim Reserved As Integer
+    <StructLayout(LayoutKind.Sequential)> _
+    Public Structure SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION
+        Dim IdleTime As Long
+        Dim KernelTime As Long
+        Dim UserTime As Long
+        Dim DpcTime As Long
+        Dim InterruptTime As Long
+        Dim InterruptCount As Integer
+    End Structure
+    Public Structure SYSTEM_BASIC_INFORMATION
+        Private Reserved As Integer
         Dim TimerResolution As Integer
         Dim PageSize As Integer
         Dim NumberOfPhysicalPages As Integer
@@ -197,6 +206,8 @@ Public Class cSystemInfo
     Private Declare Function ZwQuerySystemInformation Lib "ntdll.dll" (ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByRef SystemInformation As SYSTEM_BASIC_INFORMATION, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
     Private Declare Function ZwQuerySystemInformation Lib "ntdll.dll" (ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByRef SystemInformation As SYSTEM_CACHE_INFORMATION, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
     Private Declare Function ZwQuerySystemInformation Lib "ntdll.dll" (ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByRef SystemInformation As SYSTEM_PERFORMANCE_INFORMATION, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
+    Private Declare Function ZwQuerySystemInformation Lib "ntdll.dll" (ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByRef SystemInformation As SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
+    Private Declare Function ZwQuerySystemInformation Lib "ntdll.dll" (ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByVal pt As IntPtr, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
 
     ' ========================================
     ' Private
@@ -212,6 +223,11 @@ Public Class cSystemInfo
     Private _minCache As Integer
     Private _peakCache As Integer
     Private _cacheErrors As Integer
+    Private _spi As SYSTEM_PERFORMANCE_INFORMATION
+    Private _sbi As SYSTEM_BASIC_INFORMATION
+    Private _ci As SYSTEM_CACHE_INFORMATION
+    Private _ppi() As SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION
+
 
     ' ========================================
     ' Properties
@@ -271,6 +287,27 @@ Public Class cSystemInfo
             Return _maxCache
         End Get
     End Property
+    Public ReadOnly Property PerformanceInformations() As SYSTEM_PERFORMANCE_INFORMATION
+        Get
+            Return _spi
+        End Get
+    End Property
+    Public ReadOnly Property BasicInformations() As SYSTEM_BASIC_INFORMATION
+        Get
+            Return _sbi
+        End Get
+    End Property
+    Public ReadOnly Property CacheInformations() As SYSTEM_CACHE_INFORMATION
+        Get
+            Return _ci
+        End Get
+    End Property
+    Public ReadOnly Property ProcessorPerformanceInformations() As SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION()
+        Get
+            Return _ppi
+        End Get
+    End Property
+
 
     ' ========================================
     ' Public functions
@@ -299,6 +336,7 @@ Public Class cSystemInfo
             _minCache = .SystemCacheWsMinimum
             _maxCache = .SystemCacheWsMaximum
         End With
+        _ci = ci
 
         Dim bi As New SYSTEM_BASIC_INFORMATION
         ZwQuerySystemInformation(SYSTEM_INFORMATION_CLASS.SystemBasicInformation, bi, Marshal.SizeOf(bi), ret)
@@ -307,12 +345,43 @@ Public Class cSystemInfo
             _processors = .NumberOfProcessors
             _timerResolution = .TimerResolution
         End With
+        _sbi = bi
 
         Dim spi As New SYSTEM_PERFORMANCE_INFORMATION
         ZwQuerySystemInformation(SYSTEM_INFORMATION_CLASS.SystemPerformanceInformation, spi, Marshal.SizeOf(spi), ret)
-        With spi
-            '
-        End With
+        _spi = spi
+
+        If _processors > 0 Then
+            ReDim _ppi(_processors - 1)
+            Dim __size As Integer = _processors * Marshal.SizeOf(_ppi(0))
+            Dim pt As IntPtr = Marshal.AllocHGlobal(__size)
+            ZwQuerySystemInformation(SYSTEM_INFORMATION_CLASS.SystemProcessorTimes, pt, __size, ret)
+
+            ' Conversion from unmanaged memory to valid array
+            For x As Integer = 0 To _processors - 1
+                Dim pt2 As IntPtr = CType(pt.ToInt32 + 48 * x, IntPtr)
+                _ppi(x) = CType(Marshal.PtrToStructure(pt2, GetType(SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION)), SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION)
+            Next
+
+            'Dim dest() As Long
+            'ReDim dest(11)
+            'Marshal.Copy(pt, dest, 0, 12)
+            'Marshal.FreeHGlobal(pt)
+            'For x As Integer = 0 To _processors - 1
+            '    With _ppi(x)
+            '        .IdleTime = dest(x * 6)
+            '        .KernelTime = dest(x * 6 + 1)
+            '        .UserTime = dest(x * 6 + 2)
+            '        .DpcTime = dest(x * 6 + 3)
+            '        .InterruptTime = dest(x * 6 + 4)
+            '        .InterruptCount = dest(x * 6 + 5)
+            '    End With
+            'Next
+
+
+        Else
+            ReDim _ppi(0)
+        End If
 
     End Sub
 
