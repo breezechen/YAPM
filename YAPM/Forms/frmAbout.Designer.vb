@@ -22,25 +22,14 @@ Partial Class frmAbout
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.lnklblSF = New System.Windows.Forms.LinkLabel
         Me.btnOK = New System.Windows.Forms.Button
         Me.rtb = New System.Windows.Forms.RichTextBox
         Me.SuspendLayout()
         '
-        'lnklblSF
-        '
-        Me.lnklblSF.AutoSize = True
-        Me.lnklblSF.Location = New System.Drawing.Point(12, 253)
-        Me.lnklblSF.Name = "lnklblSF"
-        Me.lnklblSF.Size = New System.Drawing.Size(131, 13)
-        Me.lnklblSF.TabIndex = 2
-        Me.lnklblSF.TabStop = True
-        Me.lnklblSF.Text = "YAPM on Sourceforge.net"
-        '
         'btnOK
         '
         Me.btnOK.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnOK.Location = New System.Drawing.Point(144, 281)
+        Me.btnOK.Location = New System.Drawing.Point(144, 256)
         Me.btnOK.Name = "btnOK"
         Me.btnOK.Size = New System.Drawing.Size(73, 25)
         Me.btnOK.TabIndex = 1
@@ -66,11 +55,10 @@ Partial Class frmAbout
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnOK
-        Me.ClientSize = New System.Drawing.Size(361, 315)
+        Me.ClientSize = New System.Drawing.Size(361, 290)
         Me.ControlBox = False
         Me.Controls.Add(Me.rtb)
         Me.Controls.Add(Me.btnOK)
-        Me.Controls.Add(Me.lnklblSF)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Name = "frmAbout"
@@ -78,12 +66,9 @@ Partial Class frmAbout
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "About YAPM"
-        Me.TopMost = True
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
-    Friend WithEvents lnklblSF As System.Windows.Forms.LinkLabel
     Friend WithEvents btnOK As System.Windows.Forms.Button
     Friend WithEvents rtb As System.Windows.Forms.RichTextBox
 End Class

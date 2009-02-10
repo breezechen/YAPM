@@ -97,6 +97,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\frmAboutG.resx">
+      <DependentUpon>frmAboutG.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmChooseServiceColumns.resx">
       <DependentUpon>frmChooseServiceColumns.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -227,6 +231,12 @@
     <Compile Include="Classes\cThread.vb">
     </Compile>
     <Compile Include="Classes\cWindow.vb" />
+    <Compile Include="Forms\frmAboutG.Designer.vb">
+      <DependentUpon>frmAboutG.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAboutG.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmChooseServiceColumns.Designer.vb">
       <DependentUpon>frmChooseServiceColumns.vb</DependentUpon>
     </Compile>

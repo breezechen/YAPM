@@ -36,8 +36,8 @@ Public Class frmAbout
         s &= "By violent_ken\fs20\par" & vbNewLine
         s &= "\par" & vbNewLine
         s &= "\b Executable informations\b0\par" & vbNewLine
-        s &= "Version : 1.0.0.0.0 Beta 2\par" & vbNewLine
-        s &= "Release date : 01/01/2009\par" & vbNewLine
+        s &= "Version : " & My.Application.Info.Version.ToString & "\par" & vbNewLine
+        s &= "Release date : " & Date.Now.ToShortDateString & "\par" & vbNewLine
         s &= "\par" & vbNewLine
         s &= "Please visit YAPM Sourceforge.net page :\par" & vbNewLine
         s &= "\cf1\ul https://sourceforge.net/projects/yaprocmon/\cf0\ulnone\par" & vbNewLine
@@ -110,7 +110,4 @@ Public Class frmAbout
         Me.rtb.Rtf = s
     End Sub
 
-    Private Sub lnklblSF_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnklblSF.LinkClicked
-        cFile.ShellOpenFile("http://yaprocmon.sourceforge.net/")
-    End Sub
 End Class

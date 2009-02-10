@@ -1222,7 +1222,7 @@ Public Class frmMain
     End Sub
 
     Private Sub butAbout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butAbout.Click
-        frmAbout.ShowDialog()
+        frmAboutG.ShowDialog()
     End Sub
 
     Private Sub butProcessRerfresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessRerfresh.Click
