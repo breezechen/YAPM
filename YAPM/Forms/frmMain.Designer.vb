@@ -57,6 +57,7 @@ Partial Class frmMain
         Me.c3 = New System.Windows.Forms.ColumnHeader
         Me.c4 = New System.Windows.Forms.ColumnHeader
         Me.c5 = New System.Windows.Forms.ColumnHeader
+        Me.c10 = New System.Windows.Forms.ColumnHeader
         Me.c7 = New System.Windows.Forms.ColumnHeader
         Me.c8 = New System.Windows.Forms.ColumnHeader
         Me.c9 = New System.Windows.Forms.ColumnHeader
@@ -857,7 +858,7 @@ Partial Class frmMain
         'lvProcess
         '
         Me.lvProcess.AllowColumnReorder = True
-        Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c7, Me.c8, Me.c9})
+        Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c7, Me.c8, Me.c9, Me.c10})
         Me.lvProcess.ContextMenuStrip = Me.menuProc
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.FullRowSelect = True
@@ -893,26 +894,37 @@ Partial Class frmMain
         '
         'c4
         '
+        Me.c4.DisplayIndex = 4
         Me.c4.Text = "TotalCpuTime"
         Me.c4.Width = 80
         '
         'c5
         '
+        Me.c5.DisplayIndex = 5
         Me.c5.Text = "WorkingSet"
         Me.c5.Width = 80
         '
+        'c10
+        '
+        Me.c10.DisplayIndex = 3
+        Me.c10.Text = "CpuUsage"
+        Me.c10.Width = 80
+        '
         'c7
         '
+        Me.c7.DisplayIndex = 6
         Me.c7.Text = "Priority"
-        Me.c7.Width = 80
+        Me.c7.Width = 70
         '
         'c8
         '
+        Me.c8.DisplayIndex = 7
         Me.c8.Text = "Path"
         Me.c8.Width = 350
         '
         'c9
         '
+        Me.c9.DisplayIndex = 8
         Me.c9.Text = "StartTime"
         Me.c9.Width = 250
         '
@@ -7549,5 +7561,6 @@ Partial Class frmMain
     Friend WithEvents ColumnHeader57 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader58 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader59 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents c10 As System.Windows.Forms.ColumnHeader
 
 End Class

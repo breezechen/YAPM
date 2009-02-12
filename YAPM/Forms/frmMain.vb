@@ -363,6 +363,7 @@ Public Class frmMain
         Next
 
         test = GetTickCount - test
+        lvServices.Sort()
         Trace.WriteLine("Services refresh took " & CStr(test) & " ms")
 
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
@@ -570,6 +571,7 @@ Public Class frmMain
 
 
         firstRefresh = False
+        lvProcess.Sort()
 
         test = GetTickCount - test
 
@@ -5601,6 +5603,7 @@ Public Class frmMain
             Next
         Next
 
+        lvTask.Sort()
         test = GetTickCount - test
         Trace.WriteLine("Tasks refresh took " & CStr(test) & " ms")
 

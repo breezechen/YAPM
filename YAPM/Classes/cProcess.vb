@@ -1026,7 +1026,7 @@ Public Class cProcess
                 res = CStr(Me.Pid)
             Case "UserName"
                 res = Me.UserName
-            Case "CpuUage"
+            Case "CpuUsage"
                 res = GetFormatedPercentage(Me.CpuPercentageUsage / _processors)
             Case "KernelCpuTime"
                 Dim ts As Date = Me.KernelTime
@@ -1125,7 +1125,7 @@ Public Class cProcess
         s(1) = "UserName"
         s(2) = "ParentPID"
         s(3) = "ParentName"
-        s(4) = "CpuUage"
+        s(4) = "CpuUsage"
         s(5) = "KernelCpuTime"
         s(6) = "UserCpuTime"
         s(7) = "TotalCpuTime"
