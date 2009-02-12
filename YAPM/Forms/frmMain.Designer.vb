@@ -6687,7 +6687,7 @@ Partial Class frmMain
         'ColumnHeader62
         '
         Me.ColumnHeader62.Text = "Name"
-        Me.ColumnHeader62.Width = 256
+        Me.ColumnHeader62.Width = 400
         '
         'ColumnHeader63
         '
@@ -6697,7 +6697,7 @@ Partial Class frmMain
         'ColumnHeader64
         '
         Me.ColumnHeader64.Text = "Process"
-        Me.ColumnHeader64.Width = 130
+        Me.ColumnHeader64.Width = 170
         '
         'imgTask
         '

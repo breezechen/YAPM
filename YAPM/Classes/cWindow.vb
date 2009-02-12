@@ -350,8 +350,6 @@ Public Class cWindow
                 Return CStr(Me.Handle)
             Case "Process"
                 Return CStr(Me.ParentProcessId) & " -- " & Me.ParentProcessName
-            Case "CpuUsage"
-                Return "nothing here for now"
             Case Else
                 Return CStr(Me.Handle)
         End Select
@@ -474,33 +472,6 @@ Public Class cWindow
 
     End Function
 
-    ' Retrieve all tasks
-    Public Shared Function EnumerateAllTasks(ByRef w() As cWindow) As Integer
-        Dim currWnd As IntPtr
-        Dim cpt As Integer
-
-        currWnd = GetWindowAPI(GetDesktopWindow(), GW_CHILD)
-        cpt = 0
-        ReDim w(0)
-        Do While Not (currWnd = IntPtr.Zero)
-
-            If _isTask(CType(currWnd, IntPtr)) Then
-
-                ' Get procId from hwnd
-                Dim pid As Integer = GetProcIdFromWindowHandle(currWnd)
-
-                ReDim Preserve w(cpt)
-                w(cpt) = New cWindow(CInt(currWnd), pid, GetThreadIdFromWindowHandle(currWnd), cProcess.GetProcessName(pid))
-                cpt += 1
-            End If
-
-            currWnd = GetWindowAPI(currWnd, GW_HWNDNEXT)
-        Loop
-
-        Return UBound(w)
-
-    End Function
-
     ' Close a window
     Public Shared Function CloseWindow(ByVal hWnd As Integer) As Integer
         Return CInt(SendMessage(CType(hWnd, IntPtr), WM_CLOSE, 0, 0))
@@ -512,7 +483,7 @@ Public Class cWindow
     ' ========================================
 
     ' Return true if window is a task
-    Private Shared Function _isTask(ByVal hwnd As IntPtr) As Boolean
+    Friend Shared Function _isTask(ByVal hwnd As IntPtr) As Boolean
         ' Window must be visible
         If IsWindowVisible(hwnd) And (CInt(GetWindowLong(hwnd, GWL_HWNDPARENT)) = 0) And Not _
             (GetWindowTextLength(hwnd) = 0) Then
@@ -557,14 +528,14 @@ Public Class cWindow
     End Function
 
     ' Return process id from a handle
-    Private Shared Function GetProcIdFromWindowHandle(ByVal hwnd As IntPtr) As Integer
+    Friend Shared Function GetProcIdFromWindowHandle(ByVal hwnd As IntPtr) As Integer
         'Dim id As Integer = 0
         GetWindowThreadProcessId(hwnd, GetProcIdFromWindowHandle)
         'Return id
     End Function
 
     ' Return thread id from a handle
-    Private Shared Function GetThreadIdFromWindowHandle(ByVal hwnd As IntPtr) As Integer
+    Friend Shared Function GetThreadIdFromWindowHandle(ByVal hwnd As IntPtr) As Integer
         Return GetWindowThreadProcessId(hwnd, 0)
     End Function
 

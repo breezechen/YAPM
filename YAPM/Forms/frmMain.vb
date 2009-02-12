@@ -5503,23 +5503,23 @@ Public Class frmMain
     ' Refresh  task list in listview
     Public Sub refreshTaskList()
 
-        Dim wind As cWindow
-        Dim window() As cWindow
+        Dim wind As cTask
+        Dim task() As cTask
         Dim lvi As ListViewItem
         Dim x As Integer = 0
         Dim exist As Boolean = False
 
         Dim test As Integer = GetTickCount
 
-        ReDim window(0)
-        cWindow.EnumerateAllTasks(window)
+        ReDim task(0)
+        cTask.EnumerateAllTasks(task)
 
         ' Refresh (or suppress) all tasks displayed in listview
         For Each lvi In Me.lvTask.Items
 
-            ' Test if window exist
-            Dim cW As cWindow = CType(lvi.Tag, cWindow)
-            For Each wind In window
+            ' Test if task exist
+            Dim cW As cTask = CType(lvi.Tag, cTask)
+            For Each wind In task
                 If wind.Handle = cW.Handle Then
                     exist = True
                     wind.isDisplayed = True
@@ -5540,7 +5540,7 @@ Public Class frmMain
         Next
 
         ' Add all non displayed tasks (new tasks)
-        For Each wind In window
+        For Each wind In task
 
             If wind.isDisplayed = False Then
 
@@ -5557,10 +5557,10 @@ Public Class frmMain
                     it.Text = o
 
                     Dim lsub1 As New ListViewItem.ListViewSubItem
-                    lsub1.Text = CStr(wind.Handle)
+                    lsub1.Text = ""
 
                     Dim lsub2 As New ListViewItem.ListViewSubItem
-                    lsub2.Text = CStr(wind.ParentProcessId)
+                    lsub2.Text = ""
 
                     ' Add icon
                     it.ForeColor = Color.FromArgb(30, 30, 30)
@@ -5579,7 +5579,7 @@ Public Class frmMain
                     it.SubItems.Add(lsub2)
 
                     it.Group = lvTask.Groups(0)
-                    it.Tag = New cWindow(wind)
+                    it.Tag = New cTask(wind)
                     lvTask.Items.Add(it)
                 End If
             End If
@@ -5588,7 +5588,7 @@ Public Class frmMain
 
         ' Here we retrieve some informations for all our displayed tasks
         For Each lvi In Me.lvTask.Items
-            Dim cW As cWindow = CType(lvi.Tag, cWindow)
+            Dim cW As cTask = CType(lvi.Tag, cTask)
 
             Dim isub As ListViewItem.ListViewSubItem
             Dim xxx As Integer = 0

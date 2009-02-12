@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{A82E9888-6B2A-44A7-B79A-27C93079ACDD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -234,6 +234,7 @@
     <Compile Include="Classes\cRegMonitor.vb" />
     <Compile Include="Classes\cServEnum.vb" />
     <Compile Include="Classes\cSystemInfo.vb" />
+    <Compile Include="Classes\cTask.vb" />
     <Compile Include="Classes\cThread.vb">
     </Compile>
     <Compile Include="Classes\cWindow.vb" />
@@ -261,7 +262,6 @@
     <Compile Include="Forms\frmProcessAffinity.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Classes\WindowsSID.vb" />
     <Compile Include="Forms\frmAddProcessMonitor.Designer.vb">
       <DependentUpon>frmAddProcessMonitor.vb</DependentUpon>
     </Compile>
