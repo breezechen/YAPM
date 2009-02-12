@@ -889,6 +889,7 @@ Partial Class frmMain
         'c3
         '
         Me.c3.Text = "UserName"
+        Me.c3.Width = 100
         '
         'c4
         '

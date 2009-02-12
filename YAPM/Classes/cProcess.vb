@@ -24,6 +24,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 Imports System.Security.Principal
+Imports System.Text
 
 Public Class cProcess
 
@@ -78,10 +79,20 @@ Public Class cProcess
     Private Declare Function GetSecurityInfo Lib "advapi32.dll" (ByVal hObject As Integer, ByVal ObjectType As Integer, ByVal SecurityInformation As Integer, ByVal ppsidOwner As Integer, ByVal ppsidGroup As Integer, ByVal ppDacl As Integer, ByVal ppSacl As Integer, ByVal ppSecurityDescriptor As Integer) As Integer
     Private Declare Function LookupPrivilegeValue Lib "advapi32.dll" Alias "LookupPrivilegeValueA" (ByVal lpSystemName As String, ByVal lpName As String, ByRef lpLuid As LUID) As Integer           'Returns a valid LUID which is important when making security changes in NT.
     Private Declare Function OpenProcessToken Lib "advapi32.dll" (ByVal ProcessHandle As Integer, ByVal DesiredAccess As Integer, ByRef TokenHandle As Integer) As Integer
+
+    <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
+    Public Shared Function GetTokenInformation(ByVal TokenHandle As Integer, ByVal TokenInformationClass As TOKEN_INFORMATION_CLASS, ByVal TokenInformation As IntPtr, ByVal TokenInformationLength As Integer, ByRef ReturnLength As Integer) As Boolean
+    End Function
+
     Private Declare Function GetTokenInformation Lib "advapi32.dll" (ByVal TokenHandle As Integer, ByVal TokenInformationClass As Integer, ByVal TokenInformation As Integer, ByVal TokenInformationLength As Integer, ByRef ReturnLength As Integer) As Boolean
     Private Declare Function LookupPrivilegeNameA Lib "advapi32.dll" (ByVal lpSystemName As String, ByRef lpLuid As LUID, ByVal lpName As String, ByRef cchName As Integer) As Integer                'Used to adjust your program's security privileges, can't restore without it!
     ' Declare Auto Function ConvertSidToStringSid Lib "advapi32.dll" (ByVal pSID() As Byte, _
     'ByRef ptrSid As IntPtr) As Boolean
+    <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
+    Public Shared Function LookupAccountSid(ByVal SystemName As String, ByVal SID As Integer, ByVal Name As StringBuilder, ByRef NameSize As Integer, ByVal ReferencedDomainName As StringBuilder, ByRef ReferencedDomainNameSize As Integer, _
+        ByRef Use As SID_NAME_USE) As Boolean
+    End Function
+
     Private Declare Function LookupAccountSid Lib "advapi32.dll" _
            Alias "LookupAccountSidA" ( _
            ByVal systemName As String, _
@@ -266,7 +277,20 @@ Public Class cProcess
         Dim Attributes As Integer
     End Structure
 
-    Private Enum TOKEN_INFORMATION_CLASS
+    Public Enum SID_NAME_USE As Integer
+        SidTypeUser = 1
+        SidTypeGroup
+        SidTypeDomain
+        SidTypeAlias
+        SidTypeWellKnownGroup
+        SidTypeDeletedAccount
+        SidTypeInvalid
+        SidTypeUnknown
+        SidTypeComputer
+        SidTypeLabel
+    End Enum
+
+    Public Enum TOKEN_INFORMATION_CLASS
         TokenUser = 1
         TokenGroups
         TokenPrivileges
@@ -582,110 +606,40 @@ Public Class cProcess
     ' Get the process username
     Public ReadOnly Property UserName() As String
         Get
+            Dim retLen As Integer
+
             If _UserName = vbNullString Then
 
-                Dim hToken As Integer
-                Dim hProc As Integer
-                'Dim cbBuff As UInteger
-                'Dim TG As TOKEN_GROUPS
-                Dim __UserName As String
-                Dim DomainName As String
-                Dim UserNameLenght As Integer
-                Dim DomainNameLenght As Integer
-                'Dim peUse As Integer
-                Dim ppsidGroup As Integer
-                Dim res As String = vbNullString
-                ' Dim tgptr As IntPtr
-                '  ReDim TG.Groups(500)
-                ' tgptr = Marshal.AllocHGlobal(Marshal.SizeOf(TG))
-
-
-                If _hProcess > 0 Then
+                If Pid > 4 Then
+                    Dim hToken As Integer
                     If OpenProcessToken(_hProcess, &H8, hToken) > 0 Then
 
-                        Dim retlen As Integer = 0
-                        GetTokenInformation(hToken, TOKEN_INFORMATION_CLASS.TokenUser, 0, 0, retlen)
-                        Dim TokenInformation As IntPtr = Marshal.AllocHGlobal(retlen)
-                        ' Get token ingo
-                        GetTokenInformation(hToken, TOKEN_INFORMATION_CLASS.TokenUser, CInt(TokenInformation), retlen, 0)
-                        Dim TG As New TOKEN_USER
-                        Dim ptr As IntPtr = Marshal.AllocHGlobal(Marshal.SizeOf(TG))
-                        TG = CType(Marshal.PtrToStructure(ptr, GetType(TOKEN_USER)), Global.YAPM.cProcess.TOKEN_USER)
+                        GetTokenInformation(hToken, TOKEN_INFORMATION_CLASS.TokenUser, IntPtr.Zero, 0, retLen)
+                        Dim data As IntPtr = Marshal.AllocHGlobal(retLen)
+                        GetTokenInformation(hToken, TOKEN_INFORMATION_CLASS.TokenUser, CInt(data), retLen, retLen)
 
-                        ' Return New WindowsSID(TG.User.Sid).GetName(True)
+                        CloseHandle(hToken)
+
+                        Dim user As New TOKEN_USER
+                        user = CType(Marshal.PtrToStructure(data, GetType(TOKEN_USER)), TOKEN_USER)
+
+                        Return GetAccountName(user.User.Sid, True)
                     Else
-                        hProc = OpenProcess(PROCESS_READ_CONTROL, 0, _pid)
-                        If hProc > 0 Then
-                            If GetSecurityInfo(hProc, SE_KERNEL_OBJECT, GROUP_SECURITY_INFORMATION, 0, ppsidGroup, 0, 0, 0) = 0 Then
-                                CloseHandle(hProc)
-                                UserNameLenght = 255
-                                __UserName = Space$(UserNameLenght)
-                                DomainName = __UserName
-                                DomainNameLenght = UserNameLenght
-                                ' LookupAccountSid(vbNullString, ppsidGroup, __UserName, UserNameLenght, DomainName, DomainNameLenght, peUse)
-                                res = Left$(__UserName, UserNameLenght)
-                            End If
-                        End If
+                        Return NO_INFO_RETRIEVED
                     End If
-                End If
 
-                _UserName = NO_INFO_RETRIEVED
+                ElseIf Pid = 4 Then
+                    Return "SYSTEM"
+                Else
+                    Return "SYSTEM"
+                End If
             End If
 
             Return _UserName
+
         End Get
     End Property
 
-    Private Shared Function MyLookupAccountSid(ByRef i_Sid As Byte) As String
-
-        'Input format is the format returned from "ConvertStringSidToSid"
-        'Note; This function needs some work. For example, checking l_Result for error codes!
-
-        Dim result As String = ""
-        Try
-            '****************************************************************
-            '* Declares
-            '****************************************************************
-
-            Dim l_Result As Boolean = False
-            Dim l_use As Integer = 0
-            Dim l_UserName As String = ""
-            Dim l_Domain As String = ""
-            Dim l_UserNameLength As Integer = 0
-            Dim l_DomainLength As Integer = 0
-
-            '****************************************************************
-            '* First call, populate l_UserNameLength and l_DomainLength
-            '****************************************************************
-
-            l_Result = LookupAccountSid(Nothing, i_Sid, l_UserName, l_UserNameLength, l_Domain, l_DomainLength, l_use)
-
-            '****************************************************************
-            '* Allocate space
-            '****************************************************************
-
-            l_UserName = Strings.StrDup(l_UserNameLength + 1, " ")  'Need space for terminating chr(0)?
-            l_Domain = Strings.StrDup(l_DomainLength + 1, " ")
-
-            '****************************************************************
-            '* Fetch username and domain
-            '****************************************************************
-
-            l_Result = LookupAccountSid(Nothing, i_Sid, l_UserName, l_UserNameLength, l_Domain, l_DomainLength, l_use)
-
-            '****************************************************************
-            '* Build result
-            '****************************************************************
-
-            result = l_Domain.Substring(0, l_DomainLength) & "\" & l_UserName.Substring(0, l_UserNameLength)
-
-        Catch ex As Exception
-            result = ""
-        End Try
-
-        Return result
-
-    End Function
 
     ' Get process name
     Public ReadOnly Property Name() As String
@@ -1351,5 +1305,31 @@ Public Class cProcess
         End Select
 
         Return s
+    End Function
+
+    ' Get an account name from a SID
+    Private Function GetAccountName(ByVal SID As Integer, ByVal IncludeDomain As Boolean) As String
+        Dim name As New StringBuilder(255)
+        Dim domain As New StringBuilder(255)
+        Dim namelen As Integer = 255
+        Dim domainlen As Integer = 255
+        Dim use As SID_NAME_USE = SID_NAME_USE.SidTypeUser
+
+        Try
+            If Not LookupAccountSid(Nothing, SID, name, namelen, domain, domainlen, use) Then
+                name.EnsureCapacity(namelen)
+                domain.EnsureCapacity(domainlen)
+                LookupAccountSid(Nothing, SID, name, namelen, domain, domainlen, use)
+            End If
+        Catch
+            ' return string SID
+            Return New System.Security.Principal.SecurityIdentifier(New IntPtr(SID)).ToString()
+        End Try
+
+        If IncludeDomain Then
+            Return (If((domain.ToString() <> ""), domain.ToString() & "\", "")) + name.ToString()
+        Else
+            Return name.ToString()
+        End If
     End Function
 End Class

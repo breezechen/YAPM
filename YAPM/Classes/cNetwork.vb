@@ -252,12 +252,20 @@ Public Class cNetwork
     End Sub
 
     Private Sub ProcessLocalDnsInformation(ByVal result As IAsyncResult)
-        Dim host As IPHostEntry = Dns.EndGetHostEntry(result)
-        _localString = host.HostName
+        Try
+            Dim host As IPHostEntry = Dns.EndGetHostEntry(result)
+            _localString = host.HostName
+        Catch ex As Exception
+            '
+        End Try
     End Sub
     Private Sub ProcessRemoteDnsInformation(ByVal result As IAsyncResult)
-        Dim host As IPHostEntry = Dns.EndGetHostEntry(result)
-        _remoteString = host.HostName
+        Try
+            Dim host As IPHostEntry = Dns.EndGetHostEntry(result)
+            _remoteString = host.HostName
+        Catch ex As Exception
+            '
+        End Try
     End Sub
     
 
