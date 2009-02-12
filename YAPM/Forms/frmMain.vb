@@ -5860,21 +5860,21 @@ Public Class frmMain
                 net.isDisplayed = True
 
                 ' Get the task name
-                Dim o As String = net.Local.Address.ToString
+                Dim o As String = net.Local.ToString
                 Dim it As New ListViewItem
 
-                If Len(o) > 0 Then
+                If Len(o) > 0 OrElse net.Protocol = cNetwork.NetworkProtocol.Udp Then
 
                     it.Text = o
 
                     Dim lsub1 As New ListViewItem.ListViewSubItem
-                    lsub1.Text = net.Local.Address.ToString
+                    lsub1.Text = ""
 
                     Dim lsub2 As New ListViewItem.ListViewSubItem
-                    lsub2.Text = CStr(net.Local.Port)
+                    lsub2.Text = net.Protocol.ToString
 
                     Dim lsub3 As New ListViewItem.ListViewSubItem
-                    lsub2.Text = CStr(net.Local.Port)
+                    lsub3.Text = net.State.ToString
 
                     it.SubItems.Add(lsub1)
                     it.SubItems.Add(lsub2)

@@ -106,11 +106,14 @@ Public Class cNetwork
     Private _dwRemoteAddr As Integer
     Private _dwRemotePort As Integer
     Private _Local As IPEndPoint
+    Private _remote As IPEndPoint
     Private _key As String
     Private _State As MIB_TCP_STATE
     Private _isDisplayed As Boolean
     Private _localPort As Integer
     Private _procName As String
+    Private _localString As String
+    Private _remoteString As String
 
 
     ' ========================================
@@ -159,17 +162,33 @@ Public Class cNetwork
             Return _localPort
         End Get
     End Property
+    Public ReadOnly Property Remote() As IPEndPoint
+        Get
+            Return _remote
+        End Get
+    End Property
+    Public ReadOnly Property RemoteString() As String
+        Get
+            Return _remoteString
+        End Get
+    End Property
+    Public ReadOnly Property LocalString() As String
+        Get
+            Return _localString
+        End Get
+    End Property
 
 
     ' ========================================
     ' Public functions
     ' ========================================
-    Public Sub New(ByVal tcp As MIB_TCPROW_OWNER_PID, ByVal protocol As NetworkProtocol, ByVal local As IPEndPoint)
+    Public Sub New(ByVal tcp As MIB_TCPROW_OWNER_PID, ByVal protocol As NetworkProtocol, ByVal local As IPEndPoint, ByVal remote As IPEndPoint)
         MyBase.New()
         _pid = tcp.dwOwningPid
-        _Protocol = Protocol
+        _Protocol = protocol
         _State = CType(tcp.dwState, MIB_TCP_STATE)
         _Local = local
+        _remote = remote
         _localPort = tcp.dwLocalPort
         _procName = cProcess.GetProcessName(_pid)
         _key = CStr(_pid) & "|" & local.Address.ToString & "|" & protocol.ToString & "|" & CStr(local.Port) & "|" & CStr(tcp.GetHashCode)
@@ -181,6 +200,7 @@ Public Class cNetwork
         _localPort = udp.dwLocalPort
         _State = CType(-1, MIB_TCP_STATE)
         _Local = local
+        _remote = Nothing
         _procName = cProcess.GetProcessName(_pid)
         _key = CStr(_pid) & "|" & local.Address.ToString & "|" & protocol.ToString & "|" & CStr(local.Port) & "|" & CStr(udp.GetHashCode)
     End Sub
@@ -191,10 +211,35 @@ Public Class cNetwork
         _Protocol = nw.Protocol
         _State = nw.State
         _Local = nw.Local
+        _remote = nw.Remote
+
+        Try
+            Dim callback As System.AsyncCallback = AddressOf ProcessLocalDnsInformation
+            Dns.BeginGetHostEntry(_Local.Address, callback, Nothing)
+        Catch ex As Exception
+            ' null address
+        End Try
+        Try
+            Dim callback As System.AsyncCallback = AddressOf ProcessRemoteDnsInformation
+            Dns.BeginGetHostEntry(_remote.Address, callback, Nothing)
+        Catch ex As Exception
+            ' null address
+        End Try
+
         _localPort = nw.LocalPort
         _key = nw.Key
         _procName = nw.ProcessName
     End Sub
+
+    Private Sub ProcessLocalDnsInformation(ByVal result As IAsyncResult)
+        Dim host As IPHostEntry = Dns.EndGetHostEntry(result)
+        _localString = host.HostName
+    End Sub
+    Private Sub ProcessRemoteDnsInformation(ByVal result As IAsyncResult)
+        Dim host As IPHostEntry = Dns.EndGetHostEntry(result)
+        _remoteString = host.HostName
+    End Sub
+    
 
     ' Get all active connections
     Public Shared Function EnumerateAll(ByRef net() As cNetwork) As Integer
@@ -225,7 +270,13 @@ Public Class cNetwork
             intOffset += 24
 
             Dim n As New IPEndPoint(TCP_ROW.dwLocalAddr, TCP_ROW.dwLocalPort)
-            res(i) = New cNetwork(TCP_ROW, NetworkProtocol.Tcp, n)
+            Dim n2 As IPEndPoint
+            If TCP_ROW.dwRemoteAddr > 0 Then
+                n2 = New IPEndPoint(TCP_ROW.dwRemoteAddr, TCP_ROW.dwRemotePort)
+            Else
+                n2 = Nothing
+            End If
+            res(i) = New cNetwork(TCP_ROW, NetworkProtocol.Tcp, n, n2)
         Next
 
         Marshal.FreeHGlobal(pt)
@@ -266,19 +317,31 @@ Public Class cNetwork
 
         Select Case info
             Case "Local"
-                res = Me.Local.Address.ToString
-            Case "Port"
-                res = Me.LocalPort.ToString
-            Case "Protocol"
-                res = Me.Protocol.ToString.ToUpperInvariant
-            Case "ProcessId"
-                res = Me.ProcessId.ToString
-            Case "State"
-                If Me.State = -1 Then
-                    res = ""
+                If Len(_localString) > 0 Then
+                    res = Me.Local.ToString & "  ----  " & _localString
                 Else
-                    res = Me.State.ToString
+                    res = Me.Local.ToString
                 End If
+            Case "Remote"
+                If Me.Remote IsNot Nothing Then
+                    If Len(_remoteString) > 0 Then
+                        res = Me.Remote.ToString & "  ----  " & _remoteString
+                    Else
+                        res = Me.Remote.ToString
+                    End If
+                Else
+                    res = ""
+                End If
+            Case "Protocol"
+                    res = Me.Protocol.ToString.ToUpperInvariant
+            Case "ProcessId"
+                    res = Me.ProcessId.ToString
+            Case "State"
+                    If Me.State = -1 Then
+                        res = ""
+                    Else
+                        res = Me.State.ToString
+                    End If
         End Select
 
         Return res

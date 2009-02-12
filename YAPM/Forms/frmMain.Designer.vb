@@ -6740,8 +6740,8 @@ Partial Class frmMain
         '
         'ColumnHeader67
         '
-        Me.ColumnHeader67.Text = "Port"
-        Me.ColumnHeader67.Width = 100
+        Me.ColumnHeader67.Text = "Remote"
+        Me.ColumnHeader67.Width = 250
         '
         'ColumnHeader68
         '
