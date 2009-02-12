@@ -22,43 +22,102 @@ Partial Class frmAbout
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.btnOK = New System.Windows.Forms.Button
+        Me.SplitContainer = New System.Windows.Forms.SplitContainer
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
         Me.rtb = New System.Windows.Forms.RichTextBox
+        Me.btnOK = New System.Windows.Forms.Button
+        Me.lblIntro = New System.Windows.Forms.Label
+        Me.SplitContainer.Panel1.SuspendLayout()
+        Me.SplitContainer.Panel2.SuspendLayout()
+        Me.SplitContainer.SuspendLayout()
+        Me.SplitContainer2.Panel1.SuspendLayout()
+        Me.SplitContainer2.Panel2.SuspendLayout()
+        Me.SplitContainer2.SuspendLayout()
         Me.SuspendLayout()
         '
-        'btnOK
+        'SplitContainer
         '
-        Me.btnOK.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnOK.Location = New System.Drawing.Point(144, 256)
-        Me.btnOK.Name = "btnOK"
-        Me.btnOK.Size = New System.Drawing.Size(73, 25)
-        Me.btnOK.TabIndex = 1
-        Me.btnOK.Text = "OK"
-        Me.btnOK.UseVisualStyleBackColor = True
+        Me.SplitContainer.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer.IsSplitterFixed = True
+        Me.SplitContainer.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer.Name = "SplitContainer"
+        Me.SplitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer.Panel1
+        '
+        Me.SplitContainer.Panel1.Controls.Add(Me.lblIntro)
+        '
+        'SplitContainer.Panel2
+        '
+        Me.SplitContainer.Panel2.Controls.Add(Me.SplitContainer2)
+        Me.SplitContainer.Size = New System.Drawing.Size(619, 375)
+        Me.SplitContainer.SplitterDistance = 41
+        Me.SplitContainer.SplitterWidth = 1
+        Me.SplitContainer.TabIndex = 2
+        '
+        'SplitContainer2
+        '
+        Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer2.IsSplitterFixed = True
+        Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer2.Name = "SplitContainer2"
+        Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer2.Panel1
+        '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.rtb)
+        '
+        'SplitContainer2.Panel2
+        '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.btnOK)
+        Me.SplitContainer2.Size = New System.Drawing.Size(619, 333)
+        Me.SplitContainer2.SplitterDistance = 282
+        Me.SplitContainer2.SplitterWidth = 1
+        Me.SplitContainer2.TabIndex = 0
         '
         'rtb
         '
         Me.rtb.AutoWordSelection = True
         Me.rtb.BackColor = System.Drawing.Color.White
         Me.rtb.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.rtb.Location = New System.Drawing.Point(11, 12)
+        Me.rtb.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.rtb.Location = New System.Drawing.Point(0, 0)
         Me.rtb.Name = "rtb"
         Me.rtb.ReadOnly = True
         Me.rtb.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical
-        Me.rtb.Size = New System.Drawing.Size(339, 238)
-        Me.rtb.TabIndex = 0
+        Me.rtb.Size = New System.Drawing.Size(619, 282)
+        Me.rtb.TabIndex = 2
         Me.rtb.Text = ""
+        '
+        'btnOK
+        '
+        Me.btnOK.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.btnOK.Location = New System.Drawing.Point(273, 12)
+        Me.btnOK.Name = "btnOK"
+        Me.btnOK.Size = New System.Drawing.Size(73, 25)
+        Me.btnOK.TabIndex = 2
+        Me.btnOK.Text = "OK"
+        Me.btnOK.UseVisualStyleBackColor = True
+        '
+        'lblIntro
+        '
+        Me.lblIntro.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lblIntro.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblIntro.Location = New System.Drawing.Point(0, 0)
+        Me.lblIntro.Name = "lblIntro"
+        Me.lblIntro.Size = New System.Drawing.Size(619, 41)
+        Me.lblIntro.TabIndex = 0
+        Me.lblIntro.Text = "Yet Another Process Monitor and some of its components are under licenses. Terms " & _
+            "and conditions are explicited below."
+        Me.lblIntro.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'frmAbout
         '
-        Me.AcceptButton = Me.btnOK
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.CancelButton = Me.btnOK
-        Me.ClientSize = New System.Drawing.Size(361, 290)
+        Me.ClientSize = New System.Drawing.Size(619, 375)
         Me.ControlBox = False
-        Me.Controls.Add(Me.rtb)
-        Me.Controls.Add(Me.btnOK)
+        Me.Controls.Add(Me.SplitContainer)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Name = "frmAbout"
@@ -66,9 +125,18 @@ Partial Class frmAbout
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "About YAPM"
+        Me.SplitContainer.Panel1.ResumeLayout(False)
+        Me.SplitContainer.Panel2.ResumeLayout(False)
+        Me.SplitContainer.ResumeLayout(False)
+        Me.SplitContainer2.Panel1.ResumeLayout(False)
+        Me.SplitContainer2.Panel2.ResumeLayout(False)
+        Me.SplitContainer2.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents btnOK As System.Windows.Forms.Button
+    Friend WithEvents SplitContainer As System.Windows.Forms.SplitContainer
+    Friend WithEvents lblIntro As System.Windows.Forms.Label
+    Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
     Friend WithEvents rtb As System.Windows.Forms.RichTextBox
+    Friend WithEvents btnOK As System.Windows.Forms.Button
 End Class

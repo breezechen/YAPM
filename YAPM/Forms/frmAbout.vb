@@ -24,29 +24,16 @@ Option Strict On
 
 Public Class frmAbout
 
-    Private Sub btnOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOK.Click
+    Private Sub btnOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Me.Close()
     End Sub
 
     Private Sub frmAbout_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Dim s As String
-        s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Microsoft Sans Serif;}{\f1\fmodern\fprq1\fcharset0 Courier New;}}" & vbNewLine
-        s &= "{\colortbl ;\red0\green0\blue255;}" & vbNewLine
-        s &= "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs24 Yet Another Process Monitor (YAPM)\par" & vbNewLine
-        s &= "By violent_ken\fs20\par" & vbNewLine
-        s &= "\par" & vbNewLine
-        s &= "\b Executable informations\b0\par" & vbNewLine
-        s &= "Version : " & My.Application.Info.Version.ToString & "\par" & vbNewLine
-        s &= "Release date : " & Date.Now.ToShortDateString & "\par" & vbNewLine
-        s &= "\par" & vbNewLine
-        s &= "Please visit YAPM Sourceforge.net page :\par" & vbNewLine
-        s &= "\cf1\ul https://sourceforge.net/projects/yaprocmon/\cf0\ulnone\par" & vbNewLine
-        s &= "\par" & vbNewLine
-        s &= "and YAPM website :\par" & vbNewLine
-        s &= "\cf1\ul http://yaprocmon.sourceforge.net/\cf0\ulnone\par" & vbNewLine
-        s &= "\par" & vbNewLine
-        s &= "\b License\b0\par" & vbNewLine
-        s &= "\f1\fs18 This program is under GNU GPL 2.0.\par" & vbNewLine
+        s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Microsoft Sans Serif;}{\f1\fmodern\fprq1\fcharset0 Courier New;}{\f2\fswiss\fcharset0 Arial;}}" & vbNewLine
+        s &= "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\b\f0\fs28 YAPM License\par" & vbNewLine
+        s &= "\b0\fs20\par" & vbNewLine
+        s &= "\f1\fs18 Yet Another Process Monitor (YAPM) is under GNU GPL 2.0.\par" & vbNewLine
         s &= "\par" & vbNewLine
         s &= "TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION\par" & vbNewLine
         s &= "\par" & vbNewLine
@@ -106,6 +93,37 @@ Public Class frmAbout
         s &= "\par" & vbNewLine
         s &= "12. IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIBUTE THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. \par" & vbNewLine
         s &= "END OF TERMS AND CONDITIONS\par" & vbNewLine
+        s &= "\f2\fs20\par" & vbNewLine
+        s &= "\par" & vbNewLine
+        s &= "\b\f0\fs28 Fugue Icons License\par" & vbNewLine
+        s &= "\b0\fs20\par" & vbNewLine
+        s &= "\f1\fs18 The icons are licensed under a Creative Commons Attribution 3.0 license.\par" & vbNewLine
+        s &= "http://creativecommons.org/licenses/by/3.0/\par" & vbNewLine
+        s &= "\f2\fs20\par" & vbNewLine
+        s &= "\par" & vbNewLine
+        s &= "\b\f0\fs28 Ribbon Control License\par" & vbNewLine
+        s &= "\b0\fs20\par" & vbNewLine
+        s &= "\f1\fs18 Ribbon Control is licensed under The Microsoft Public License (Ms-PL).\par" & vbNewLine
+        s &= "\par" & vbNewLine
+        s &= "This license governs use of the accompanying software. If you use the software, you accept this license. If you do not accept the license, do not use the software.\par" & vbNewLine
+        s &= "\par" & vbNewLine
+        s &= "1. Definitions\par" & vbNewLine
+        s &= "The terms " & Chr(34) & "reproduce," & Chr(34) & " " & Chr(34) & "reproduction," & Chr(34) & " " & Chr(34) & "derivative works," & Chr(34) & " and " & Chr(34) & "distribution" & Chr(34) & " have the same meaning here as under U.S. copyright law.\par" & vbNewLine
+        s &= "A " & Chr(34) & "contribution" & Chr(34) & " is the original software, or any additions or changes to the software.\par" & vbNewLine
+        s &= "A " & Chr(34) & "contributor" & Chr(34) & " is any person that distributes its contribution under this license.\par" & vbNewLine
+        s &= "" & Chr(34) & "Licensed patents" & Chr(34) & " are a contributor's patent claims that read directly on its contribution.\par" & vbNewLine
+        s &= "\par" & vbNewLine
+        s &= "2. Grant of Rights\par" & vbNewLine
+        s &= "(A) Copyright Grant- Subject to the terms of this license, including the license conditions and limitations in section 3, each contributor grants you a non-exclusive, worldwide, royalty-free copyright license to reproduce its contribution, prepare derivative works of its contribution, and distribute its contribution or any derivative works that you create.\par" & vbNewLine
+        s &= "(B) Patent Grant- Subject to the terms of this license, including the license conditions and limitations in section 3, each contributor grants you a non-exclusive, worldwide, royalty-free license under its licensed patents to make, have made, use, sell, offer for sale, import, and/or otherwise dispose of its contribution in the software or derivative works of the contribution in the software.\par" & vbNewLine
+        s &= "\par" & vbNewLine
+        s &= "3. Conditions and Limitations\par" & vbNewLine
+        s &= "(A) No Trademark License- This license does not grant you rights to use any contributors' name, logo, or trademarks.\par" & vbNewLine
+        s &= "(B) If you bring a patent claim against any contributor over patents that you claim are infringed by the software, your patent license from such contributor to the software ends automatically.\par" & vbNewLine
+        s &= "(C) If you distribute any portion of the software, you must retain all copyright, patent, trademark, and attribution notices that are present in the software.\par" & vbNewLine
+        s &= "(D) If you distribute any portion of the software in source code form, you may do so only under this license by including a complete copy of this license with your distribution. If you distribute any portion of the software in compiled or object code form, you may only do so under a license that complies with this license.\par" & vbNewLine
+        s &= "(E) The software is licensed " & Chr(34) & "as-is." & Chr(34) & " You bear the risk of using it. The contributors give no express warranties, guarantees or conditions. You may have additional consumer rights under your local laws which this license cannot change. To the extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a particular purpose and non-infringement.\par" & vbNewLine
+        s &= "\f2\fs20\par" & vbNewLine
         s &= "}"
         Me.rtb.Rtf = s
     End Sub
