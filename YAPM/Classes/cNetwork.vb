@@ -115,10 +115,28 @@ Public Class cNetwork
     Private _localString As String
     Private _remoteString As String
 
+    Private _newItem As Boolean = False
+    Private _killedItem As Boolean = False
 
     ' ========================================
     ' Properties
     ' ========================================
+    Public Property IsKilledItem() As Boolean
+        Get
+            Return _killedItem
+        End Get
+        Set(ByVal value As Boolean)
+            _killedItem = value
+        End Set
+    End Property
+    Public Property IsNewItem() As Boolean
+        Get
+            Return _newItem
+        End Get
+        Set(ByVal value As Boolean)
+            _newItem = value
+        End Set
+    End Property
     Public ReadOnly Property ProcessId() As Integer
         Get
             Return _pid
@@ -212,6 +230,8 @@ Public Class cNetwork
         _State = nw.State
         _Local = nw.Local
         _remote = nw.Remote
+        _newItem = nw.IsNewItem
+        _killedItem = nw.IsKilledItem
 
         Try
             Dim callback As System.AsyncCallback = AddressOf ProcessLocalDnsInformation

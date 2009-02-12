@@ -330,6 +330,8 @@ Public Class cProcess
     Private _mainMod As System.Diagnostics.ProcessModule
     Private _intTag1 As Integer = 0
     Private _processors As Integer = 0
+    Private _newItem As Boolean = False
+    Private _killedItem As Boolean = False
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
@@ -356,9 +358,11 @@ Public Class cProcess
     Public Sub New(ByVal process As cProcess)
         MyBase.New()
         _pid = process.Pid
+        _killedItem = process.IsKilledItem
         _name = process.Name
         _processors = process.ProcessorCount
         _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, _pid)
+        _newItem = process.IsNewItem
     End Sub
 
     Protected Overloads Overrides Sub Finalize()
@@ -369,6 +373,22 @@ Public Class cProcess
     ' ========================================
     ' Getter and setter
     ' ========================================
+    Public Property IsKilledItem() As Boolean
+        Get
+            Return _killedItem
+        End Get
+        Set(ByVal value As Boolean)
+            _killedItem = value
+        End Set
+    End Property
+    Public Property IsNewItem() As Boolean
+        Get
+            Return _newItem
+        End Get
+        Set(ByVal value As Boolean)
+            _newItem = value
+        End Set
+    End Property
     Public ReadOnly Property UserObjectsCount() As Integer
         Get
             If _hProcess > 0 Then

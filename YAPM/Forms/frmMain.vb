@@ -120,6 +120,10 @@ Public Class frmMain
     Public Const MSGFIRSTTIME As String = "This is the first time you run YAPM. Please remember that it is a beta3 version so there are some bugs and some missing functionnalities :-)" & vbNewLine & vbNewLine & "You should run YAPM as an administrator in order to fully control your processes. Please take care using this YAPM because you will be able to do some irreversible things if you kill or modify some system processes... Use it at your own risks !" & vbNewLine & vbNewLine & "Please let me know any of your ideas of improvement or new functionnalities in YAPM's sourceforge.net project page ('Help' pannel) :-)" & vbNewLine & vbNewLine & "This message won't be shown anymore :-)"
 
 
+    Public NEW_ITEM_COLOR As Color = Color.FromArgb(128, 255, 0)
+    Public DELETED_ITEM_COLOR As Color = Color.FromArgb(255, 64, 48)
+
+
     ' ========================================
     ' Form functions
     ' ========================================
@@ -372,6 +376,9 @@ Public Class frmMain
     ' Refresh process list in listview
     Public Sub refreshProcessList()
 
+        Static firstRefresh As Boolean = True
+        Static fFirst As Boolean = True
+
         Dim p As cProcess
         Dim proc() As cProcess
         Dim lvi As ListViewItem
@@ -382,6 +389,11 @@ Public Class frmMain
 
         ReDim proc(0)
         cProcess.Enumerate(proc)
+
+        If fFirst Then
+            fFirst = False
+            Exit Sub
+        End If
 
         ' Refresh (or suppress) all processes displayed in listview
         For Each lvi In Me.lvProcess.Items
@@ -398,12 +410,13 @@ Public Class frmMain
 
             If exist = False Then
                 ' Process no longer exists
-                log.AppendLine("Process " & CStr(cP.Pid) & " (" & cP.Path & ") killed")
-                lvi.Remove()
-            Else
-
-                ' Refresh process informations
-                exist = exist
+                If CType(lvi.Tag, cProcess).IsKilledItem = False Then
+                    CType(lvi.Tag, cProcess).IsKilledItem = True
+                    lvi.BackColor = Me.DELETED_ITEM_COLOR
+                Else
+                    log.AppendLine("Process " & CStr(cP.Pid) & " (" & cP.Path & ") killed")
+                    lvi.Remove()
+                End If
             End If
             exist = False
         Next
@@ -457,7 +470,6 @@ Public Class frmMain
 
 
                     it.Group = lvProcess.Groups(0)
-                    it.Tag = New cProcess(p)
 
                     ' Add some subitems (columns.count-1 subitems)
                     Dim subS() As String
@@ -503,7 +515,14 @@ Public Class frmMain
                     '    col = Color.FromArgb(200, 204, 187, 255)
                     'End If
 
-                    it.BackColor = col
+                    'it.BackColor = col
+
+                    p.IsNewItem = Not (firstRefresh)
+                    If p.IsNewItem Then
+                        it.BackColor = NEW_ITEM_COLOR
+                    End If
+
+                    it.Tag = New cProcess(p)
 
                     If Me.chkDisplayNAProcess.Checked = True OrElse p.Path <> NO_INFO_RETRIEVED Then
                         lvProcess.Items.Add(it)
@@ -519,6 +538,13 @@ Public Class frmMain
 
             Dim cP As cProcess = CType(lvi.Tag, cProcess)
 
+            If cP.IsNewItem Then
+                cP.IsNewItem = False
+            Else
+                If Not (lvi.BackColor = Color.White) AndAlso Not (cP.IsKilledItem) Then
+                    lvi.BackColor = Color.White
+                End If
+            End If
             If cP.ProcessorCount = -1 Then
                 cP.ProcessorCount = Me.cInfo.ProcessorCount
             End If
@@ -541,6 +567,9 @@ Public Class frmMain
             Me.tabProcess.SelectedTab.Text = "Services" Or _
             Me.tabProcess.SelectedTab.Text = "Memory") Then _
             Call lvProcess_SelectedIndexChanged(Nothing, Nothing)
+
+
+        firstRefresh = False
 
         test = GetTickCount - test
 
@@ -598,7 +627,8 @@ Public Class frmMain
 
         Me.Visible = True
         Application.EnableVisualStyles()
-        Me.lvProcess.Items.Clear()
+        'Me.lvProcess.Items.Clear()
+        Threading.Thread.Sleep(100)
         Call refreshTaskList()
 
         With Me
@@ -5812,6 +5842,9 @@ Public Class frmMain
 
     Private Sub refreshNetworkList()
 
+        Static firstRefresh As Boolean = True
+        Static fFirst As Boolean = True
+
         Dim net As cNetwork
         Dim network() As cNetwork
         Dim lvi As ListViewItem
@@ -5837,15 +5870,17 @@ Public Class frmMain
             Next
 
             If exist = False Then
-                ' network connection no longer exists
-                log.AppendLine("Network connection " & CStr(cW.Local.Address.ToString) & " killed")
-                lvi.Remove()
-            Else
-
-                ' Refresh items informations
-                exist = exist
+                ' Process no longer exists
+                If CType(lvi.Tag, cNetwork).IsKilledItem = False Then
+                    CType(lvi.Tag, cNetwork).IsKilledItem = True
+                    lvi.BackColor = Me.DELETED_ITEM_COLOR
+                Else
+                    log.AppendLine("Network connection " & CStr(cW.Local.Address.ToString) & " killed")
+                    lvi.Remove()
+                End If
             End If
             exist = False
+
         Next
 
 
@@ -5884,6 +5919,12 @@ Public Class frmMain
                         Me.lvNetwork.Groups.Add(CStr(net.ProcessId), net.ProcessName & " (" & CStr(net.ProcessId) & ")")
                     End If
                     it.Group = Me.lvNetwork.Groups(CStr(net.ProcessId))
+
+                    net.IsNewItem = Not (firstRefresh)
+                    If net.IsNewItem Then
+                        it.BackColor = NEW_ITEM_COLOR
+                    End If
+
                     it.Tag = New cNetwork(net)
                     lvNetwork.Items.Add(it)
                 End If
@@ -5895,6 +5936,14 @@ Public Class frmMain
         For Each lvi In Me.lvNetwork.Items
             Dim cW As cNetwork = CType(lvi.Tag, cNetwork)
 
+            If cW.IsNewItem Then
+                cW.IsNewItem = False
+            Else
+                If Not (lvi.BackColor = Color.White) AndAlso Not (cW.IsKilledItem) Then
+                    lvi.BackColor = Color.White
+                End If
+            End If
+
             Dim isub As ListViewItem.ListViewSubItem
             Dim xxx As Integer = 0
             For Each isub In lvi.SubItems
@@ -5905,6 +5954,8 @@ Public Class frmMain
                 xxx += 1
             Next
         Next
+
+        firstRefresh = False
 
         test = GetTickCount - test
         Trace.WriteLine("Network refresh took " & CStr(test) & " ms")
