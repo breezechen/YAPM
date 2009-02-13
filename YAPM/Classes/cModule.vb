@@ -67,6 +67,11 @@ Public Class cModule
     ' Getter & setter
     ' ========================================
 #Region "Gettet & setter"
+    Public ReadOnly Property FilePath() As String
+        Get
+            Return _path
+        End Get
+    End Property
     Public ReadOnly Property ProcessId() As Integer
         Get
             Return _pid

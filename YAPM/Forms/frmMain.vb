@@ -996,8 +996,9 @@ Public Class frmMain
         Dim it As ListViewItem
         Dim s As String = vbNullString
         For Each it In Me.lvServices.SelectedItems
-            If it.SubItems(4).Text <> NO_INFO_RETRIEVED Then
-                s = cService.GetFileNameFromSpecial(it.SubItems(4).Text)
+            Dim sP As String = CType(it.Tag, cService).ImagePath
+            If sP <> NO_INFO_RETRIEVED Then
+                s = cService.GetFileNameFromSpecial(sP)
                 If IO.File.Exists(s) Then
                     cFile.ShowFileProperty(s)
                 Else
@@ -1028,8 +1029,9 @@ Public Class frmMain
         Dim it As ListViewItem
         Dim s As String = vbNullString
         For Each it In Me.lvServices.SelectedItems
-            If it.SubItems(4).Text <> NO_INFO_RETRIEVED Then
-                s = cFile.GetParentDir(it.SubItems(4).Text)
+            Dim sP As String = CType(it.Tag, cService).ImagePath
+            If sP <> NO_INFO_RETRIEVED Then
+                s = cFile.GetParentDir(sP)
                 If IO.Directory.Exists(s) Then
                     cFile.OpenADirectory(s)
                 Else
@@ -1126,76 +1128,6 @@ Public Class frmMain
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
-
-    'Private Sub timerJobs_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerJobs.Tick
-    '    ' Job processing
-    '    Dim it As ListViewItem
-    '    Dim p As ListViewItem
-    '    Dim tAction As String = vbNullString
-    '    Dim tTime As String = vbNullString
-    '    Dim tPid As Integer = 0
-    '    Dim tProcess As String = vbNullString
-    '    Dim tName As String = vbNullString
-
-    '    For Each it In Me.lvJobs.Items
-    '        ' Name
-    '        ' ProcessID
-    '        ' ProcessName
-    '        ' Action
-    '        ' Time
-    '        With it
-    '            tPid = CInt(.SubItems(1).Text)
-    '            tProcess = .SubItems(2).Text
-    '            tAction = .SubItems(3).Text
-    '            tTime = .SubItems(4).Text
-    '        End With
-
-    '        ' Firstly, we check if time implies to process job now
-    '        If tTime = "Every second" Or tTime = DateTime.Now.ToLongDateString & "-" & DateTime.Now.ToLongTimeString Then
-
-    '            If tPid > 0 Then
-    '                ' Check PID
-    '                If Len(tProcess) > 0 Then
-    '                    ' Check process name too
-    '                    For Each p In lvProcess.Items
-    '                        Dim cp As cProcess = CType(p.Tag, cProcess)
-    '                        If cp.Name = tName And CInt(cp.Pid) = tPid Then
-    '                            ProcessJob(tPid, tAction)
-    '                        End If
-    '                    Next
-    '                Else
-    '                    ' Check only pid
-    '                    For Each p In lvProcess.Items
-    '                        Dim cp As cProcess = CType(p.Tag, cProcess)
-    '                        If CInt(cp.Pid) = tPid Then
-    '                            ProcessJob(tPid, tAction)
-    '                        End If
-    '                    Next
-    '                End If
-    '            Else
-    '                ' Check only process name
-    '                For Each p In lvProcess.Items
-    '                    Dim cp As cProcess = CType(p.Tag, cProcess)
-    '                    If cp.Name = tProcess Then
-    '                        ProcessJob(CInt(cp.Pid), tAction)
-    '                    End If
-    '                Next
-    '            End If
-    '        End If
-    '    Next
-    'End Sub
-
-    '' Process a job
-    'Private Sub ProcessJob(ByVal pid As Integer, ByVal action As String)
-    '    Select Case action
-    '        Case "Kill"
-    '            'mdlProcess.Kill(pid)
-    '        Case "Pause"
-    '            'mdlProcess.SuspendProcess(pid)
-    '        Case "Resume"
-    '            'mdlProcess.ResumeProcess(pid)
-    '    End Select
-    'End Sub
 
     Private Sub frmMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         Static first As Boolean = True
@@ -1787,7 +1719,7 @@ Public Class frmMain
 
     Private Sub butServiceFileDetails_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butServiceFileDetails.Click
         If Me.lvServices.SelectedItems.Count > 0 Then
-            Dim s As String = Me.lvServices.SelectedItems.Item(0).SubItems(4).Text
+            Dim s As String = CType(Me.lvServices.SelectedItems.Item(0).Tag, cService).ImagePath
             If IO.File.Exists(s) = False Then
                 s = cFile.IntelligentPathRetrieving2(s)
             End If
@@ -3758,7 +3690,7 @@ Public Class frmMain
 
     Private Sub ShowFileDetailsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowFileDetailsToolStripMenuItem.Click
         If Me.lvModules.SelectedItems.Count > 0 Then
-            Dim s As String = Me.lvModules.SelectedItems.Item(0).SubItems(4).Text
+            Dim s As String = CType(Me.lvModules.SelectedItems.Item(0).Tag, cModule).FilePath
             If IO.File.Exists(s) Then
                 DisplayDetailsFile(s)
             End If
@@ -3895,10 +3827,11 @@ Public Class frmMain
     Private Sub txtSearchModule_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchModule.TextChanged
         Dim it As ListViewItem
         For Each it In Me.lvModules.Items
-            If InStr(LCase(it.Text), LCase(Me.txtSearchModule.Text)) = 0 And _
-                    InStr(LCase(it.SubItems(1).Text), LCase(Me.txtSearchModule.Text)) = 0 And _
-                    InStr(LCase(it.SubItems(2).Text), LCase(Me.txtSearchModule.Text)) = 0 And _
-                    InStr(LCase(it.SubItems(3).Text), LCase(Me.txtSearchModule.Text)) = 0 Then
+            Dim cM As cModule = CType(it.Tag, cModule)
+            If InStr(LCase(cM.FileName), LCase(Me.txtSearchModule.Text)) = 0 And _
+                    InStr(LCase(cM.FileVersion), LCase(Me.txtSearchModule.Text)) = 0 And _
+                    InStr(LCase(cM.FileDescription), LCase(Me.txtSearchModule.Text)) = 0 And _
+                    InStr(LCase(cM.CompanyName), LCase(Me.txtSearchModule.Text)) = 0 Then
                 it.Group = lvModules.Groups(0)
             Else
                 it.Group = lvModules.Groups(1)
@@ -4121,7 +4054,7 @@ Public Class frmMain
     Private Sub txtSearchWindow_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchWindow.TextChanged
         Dim it As ListViewItem
         For Each it In Me.lvWindows.Items
-            If InStr(LCase(it.SubItems(2).Text), LCase(Me.txtSearchWindow.Text)) = 0 Then
+            If InStr(LCase(CType(it.Tag, cWindow).Caption), LCase(Me.txtSearchWindow.Text)) = 0 Then
                 it.Group = lvWindows.Groups(0)
             Else
                 it.Group = lvWindows.Groups(1)
@@ -5251,21 +5184,24 @@ Public Class frmMain
                 Dim group As String = cS.LoadOrderGroup
                 Dim objectName As String = cS.ObjectName
                 Dim tag As String = vbNullString
+                Dim sp As String = cS.ImagePath
 
                 ' OK it's not the best way to retrive the description...
-                s = cS.ImagePath
+                ' (if @ -> extract string to retrieve description)
                 Dim sTemp As String = cS.Description
                 If InStr(sTemp, "@", CompareMethod.Binary) > 0 Then
                     description = cFile.IntelligentPathRetrieving(sTemp)
                 Else
                     description = sTemp
                 End If
+                description = Replace(cS.Description, "\", "\\")
+
 
                 s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
                 s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Service properties\b0\par"
                 s = s & "\tab Name :\tab\tab\tab " & cS.Name & "\par"
                 s = s & "\tab Common name :\tab\tab " & cS.LongName & "\par"
-                If Len(it.SubItems(4).Text) > 0 Then s = s & "\tab Path :\tab\tab\tab " & Replace(cS.ImagePath, "\", "\\") & "\par"
+                If Len(sp) > 0 Then s = s & "\tab Path :\tab\tab\tab " & Replace(cS.ImagePath, "\", "\\") & "\par"
                 If Len(description) > 0 Then s = s & "\tab Description :\tab\tab " & description & "\par"
                 If Len(group) > 0 Then s = s & "\tab Group :\tab\tab\tab " & group & "\par"
                 If Len(objectName) > 0 Then s = s & "\tab ObjectName :\tab\tab " & objectName & "\par"
