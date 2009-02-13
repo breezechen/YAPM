@@ -5738,7 +5738,7 @@ Public Class frmMain
             If MsgBox("Are you sure ?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo, "Kill processes") = MsgBoxResult.Yes Then
                 Dim it As ListViewItem
                 For Each it In Me.lvProcess.SelectedItems
-                    CType(it.Tag, cProcess).Debug()
+                    CType(it.Tag, cProcess).Kill()
                 Next
             End If
         End If
