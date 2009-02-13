@@ -124,6 +124,11 @@ Public Class cProcess
     <DllImport("kernel32.dll")> _
     Private Shared Function WriteProcessMemory(ByVal hProcess As IntPtr, ByVal lpBaseAddress As IntPtr, ByVal lpBuffer As Byte(), ByVal nSize As System.UInt32, <Out()> ByRef lpNumberOfBytesWritten As Int32) As Boolean
     End Function
+    Private Declare Function ZwQueryInformationProcess Lib "NTDLL.DLL" (ByVal ProcessHandle As Integer, _
+        ByVal ProcessInformationClass As PROCESSINFOCLASS, _
+        ByRef ProcessInformation As Integer, _
+        ByVal ProcessInformationLength As Integer, _
+        ByRef ReturnLength As Integer) As Integer
 
 
     ' ========================================
@@ -182,6 +187,48 @@ Public Class cProcess
         <MarshalAs(UnmanagedType.U8, SizeConst:=8)> _
         Dim OtherTransferCount As UInt64
     End Structure
+
+    Private Enum PROCESSINFOCLASS
+        ProcessBasicInformation
+        ProcessQuotaLimits
+        ProcessIoCounters
+        ProcessVmCounters
+        ProcessTimes
+        ProcessBasePriority
+        ProcessRaisePriority
+        ProcessDebugPort
+        ProcessExceptionPort
+        ProcessAccessToken
+        ProcessLdtInformation
+        ProcessLdtSize
+        ProcessDefaultHardErrorMode
+        ProcessIoPortHandlers               ' K-mode only
+        ProcessPooledUsageAndLimits
+        ProcessWorkingSetWatch
+        ProcessUserModeIOPL
+        ProcessEnableAlignmentFaultFixup
+        ProcessPriorityClass
+        ProcessWx86Information
+        ProcessHandleCount
+        ProcessAffinityMask
+        ProcessPriorityBoost
+        ProcessDeviceMap
+        ProcessSessionInformation
+        ProcessForegroundInformation
+        ProcessWow64Information
+        ProcessImageFileName
+        ProcessLUIDDeviceMapsEnabled
+        ProcessBreakOnTermination
+        ProcessDebugObjectHandle
+        ProcessDebugFlags
+        ProcessHandleTracing
+        ProcessIoPriority
+        ProcessExecuteFlags
+        ProcessResourceManagement
+        ProcessCookie
+        ProcessImageInformation
+        MaxProcessInfoClass             ' MaxProcessInfoClass must be the last one
+    End Enum
 
     Private Structure SECURITY_ATTRIBUTES
         Dim nLength As Integer
@@ -900,6 +947,17 @@ Public Class cProcess
         End Get
     End Property
 
+    Public ReadOnly Property HandleCount() As Integer
+        Get
+            If _hProcess > 0 Then
+                Dim cnt As Integer
+                Dim ret As Integer
+                ZwQueryInformationProcess(_hProcess, PROCESSINFOCLASS.ProcessHandleCount, cnt, 4, ret)
+                Return cnt
+            End If
+        End Get
+    End Property
+
     ' Get the start time
     Public ReadOnly Property StartTime() As Date
         Get
@@ -910,7 +968,6 @@ Public Class cProcess
             Dim r As Date
 
             If _hProcess > 0 Then
-                'BUGGY
                 GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
                 Dim p1 As New Date(T0 + DATETIME_DELTA)
                 r = p1

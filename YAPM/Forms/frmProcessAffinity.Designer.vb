@@ -466,6 +466,7 @@ Partial Class frmProcessAffinity
         Me.Controls.Add(Me.chk0)
         Me.Controls.Add(Me.cmdCancel)
         Me.Controls.Add(Me.cmdOK)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "frmProcessAffinity"

@@ -57,10 +57,10 @@ Partial Class frmMain
         Me.c3 = New System.Windows.Forms.ColumnHeader
         Me.c4 = New System.Windows.Forms.ColumnHeader
         Me.c5 = New System.Windows.Forms.ColumnHeader
-        Me.c10 = New System.Windows.Forms.ColumnHeader
         Me.c7 = New System.Windows.Forms.ColumnHeader
         Me.c8 = New System.Windows.Forms.ColumnHeader
         Me.c9 = New System.Windows.Forms.ColumnHeader
+        Me.c10 = New System.Windows.Forms.ColumnHeader
         Me.menuProc = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.KillToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.KillProcessTreeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -904,12 +904,6 @@ Partial Class frmMain
         Me.c5.Text = "WorkingSet"
         Me.c5.Width = 80
         '
-        'c10
-        '
-        Me.c10.DisplayIndex = 3
-        Me.c10.Text = "CpuUsage"
-        Me.c10.Width = 80
-        '
         'c7
         '
         Me.c7.DisplayIndex = 6
@@ -927,6 +921,12 @@ Partial Class frmMain
         Me.c9.DisplayIndex = 8
         Me.c9.Text = "StartTime"
         Me.c9.Width = 250
+        '
+        'c10
+        '
+        Me.c10.DisplayIndex = 3
+        Me.c10.Text = "CpuUsage"
+        Me.c10.Width = 80
         '
         'menuProc
         '
@@ -3025,7 +3025,6 @@ Partial Class frmMain
         '
         Me.butProcessPermuteLvTv.AltKey = Nothing
         Me.butProcessPermuteLvTv.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessPermuteLvTv.Enabled = False
         Me.butProcessPermuteLvTv.Image = Global.YAPM.My.Resources.Resources.tv2
         Me.butProcessPermuteLvTv.SmallImage = CType(resources.GetObject("butProcessPermuteLvTv.SmallImage"), System.Drawing.Image)
         Me.butProcessPermuteLvTv.Style = System.Windows.Forms.RibbonButtonStyle.Normal

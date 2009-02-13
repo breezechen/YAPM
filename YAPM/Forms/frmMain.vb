@@ -483,40 +483,6 @@ Public Class frmMain
                     ' Choose color
                     Dim col As Color = Color.White
 
-                    'If p.IsDebugged Then
-                    '    Color = ColorBeingDebugged
-                    '    'ElseIf Properties.Settings.[Default].VerifySignatures AndAlso Properties.Settings.[Default].ImposterNames.Contains(p.Name.ToLower()) AndAlso p.VerifyResult <> Win32.VerifyResult.Trusted AndAlso p.VerifyResult <> Win32.VerifyResult.TrustedInstaller Then
-                    '    '    Return Properties.Settings.[Default].ColorPackedProcesses
-                    '    'ElseIf Properties.Settings.[Default].VerifySignatures AndAlso p.VerifyResult <> Win32.VerifyResult.Trusted AndAlso p.VerifyResult <> Win32.VerifyResult.TrustedInstaller AndAlso p.VerifyResult <> Win32.VerifyResult.NoSignature Then
-                    '    '    Return Properties.Settings.[Default].ColorPackedProcesses
-                    'ElseIf p.IsDotNet Then
-                    '    Color = ColorDotNetProcesses
-                    'ElseIf p.IsPacked Then
-                    '    Color = ColorPackedProcesses
-                    '    'ElseIf Program.HackerWindow.ProcessServices.ContainsKey(p.Pid) AndAlso Program.HackerWindow.ProcessServices(p.Pid).Count > 0 Then
-                    '    '    Return Properties.Settings.[Default].ColorServiceProcesses
-                    '    'ElseIf p.ElevationType = Win32.TOKEN_ELEVATION_TYPE.TokenElevationTypeFull Then
-                    '    '    Return Properties.Settings.[Default].ColorElevatedProcesses
-                    'ElseIf p.UserName = "NT AUTHORITY\SYSTEM" Then
-                    '    Color = colorSystemProcesses
-                    '    'ElseIf p.UserName = System.Security.Principal.WindowsIdentity.GetCurrent().Name Then
-                    '    '    Return Properties.Settings.[Default].ColorOwnProcesses
-                    'ElseIf p.IsInJob Then
-                    '    Color = ColorJobProcesses
-                    'Else
-                    '    Color = SystemColors.Window
-                    'End If
-
-
-                    'If p.IsDotNet Then
-                    '    col = Color.FromArgb(200, 222, 255, 0)
-                    'ElseIf p.IsInJob Then
-                    '    col = Color.FromArgb(200, 205, 133, 63)
-                    'ElseIf p.IsDebugged Then
-                    '    col = Color.FromArgb(200, 204, 187, 255)
-                    'End If
-
-                    'it.BackColor = col
 
                     p.IsNewItem = Not (firstRefresh)
                     If p.IsNewItem Then
@@ -4509,7 +4475,7 @@ Public Class frmMain
                 Me.lblUserObjectsCount.Text = CStr(cP.UserObjectsCount)
 
                 Dim mem As cProcess.PROCESS_MEMORY_COUNTERS = cP.MemoryInfos
-                Me.lblHandles.Text = "00000000000"
+                Me.lblHandles.Text = CStr(cP.HandleCount)
                 Dim ts As Date = cP.KernelTime
                 Dim s As String = String.Format("{0:00}", ts.Hour) & ":" & _
                     String.Format("{0:00}", ts.Minute) & ":" & _
@@ -5772,7 +5738,7 @@ Public Class frmMain
             If MsgBox("Are you sure ?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo, "Kill processes") = MsgBoxResult.Yes Then
                 Dim it As ListViewItem
                 For Each it In Me.lvProcess.SelectedItems
-                    CType(it.Tag, cProcess).Kill()
+                    CType(it.Tag, cProcess).Debug()
                 Next
             End If
         End If

@@ -80,6 +80,38 @@ Public Class cThread
         Dim dwFlags As Integer
     End Structure
 
+    Private Enum THREADINFOCLASS
+        ThreadBasicInformation
+        ThreadTimes
+        ThreadPriority
+        ThreadBasePriority
+        ThreadAffinityMask
+        ThreadImpersonationToken
+        ThreadDescriptorTableEntry
+        ThreadEnableAlignmentFaultFixup
+        ThreadEventPair_Reusable
+        ThreadQuerySetWin32StartAddress
+        ThreadZeroTlsCell
+        ThreadPerformanceCount
+        ThreadAmILastThread
+        ThreadIdealProcessor
+        ThreadPriorityBoost
+        ThreadSetTlsArrayAddress
+        ThreadIsIoPending
+        ThreadHideFromDebugger
+        ThreadBreakOnTermination
+        ThreadSwitchLegacyState
+        ThreadIsTerminated
+        ThreadLastSystemCall
+        ThreadIoPriority
+        ThreadCycleTime
+        ThreadPagePriority
+        ThreadActualBasePriority
+        ThreadTebInformation
+        ThreadCSwitchMon
+        MaxThreadInfoClas
+    End Enum
+
 #End Region
 
     ' ========================================
