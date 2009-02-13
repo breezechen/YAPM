@@ -68,6 +68,7 @@ Public Class cProcessMemRW
 
     Private Const INVALID_HANDLE_VALUE As Integer = -1
     Private Const NO_INFO_RETRIEVED As String = "N/A"
+    Private Const SIZE_FOR_STRING As Integer = 5
 
     Private Enum PROTECTION_TYPE
         PAGE_EXECUTE = &H10
@@ -330,15 +331,12 @@ Public Class cProcessMemRW
     ' =======================================================
     ' Search a complete string
     ' =======================================================
-    Public Sub SearchEntireStringMemory(ByVal lMinimalLength _
-        As Long, ByVal bSigns As Boolean, ByVal bMaj As Boolean, ByVal bMin As _
-        Boolean, ByVal bNumbers As Boolean, ByVal bAccent As Boolean, _
-        ByRef lngRes() As Integer, ByRef strRes() As String, Optional ByVal PGB As ProgressBar = Nothing)
+    Public Sub SearchEntireStringMemory(ByRef lngRes() As Integer, _
+        ByRef strRes() As String, Optional ByVal PGB As ProgressBar = Nothing)
 
         Dim strCtemp As String = vbNullString
         Dim x As Integer = 1
         Dim lngLen As Integer
-        Dim bytAsc As Integer
         Dim strBuffer As String
         Dim curByte As Long = 0
         Dim i As Integer
@@ -346,7 +344,11 @@ Public Class cProcessMemRW
         Dim lHandle As Integer
         Dim LB() As Integer
         Dim LS() As Integer
+        Dim cArraySizeBef As Integer = 0
 
+        Const BUF_SIZE As Integer = 100     ' Size of array
+
+        ReDim tRes(BUF_SIZE)
 
         ReDim LB(0)
         ReDim LS(0)
@@ -354,20 +356,19 @@ Public Class cProcessMemRW
 
         ' Calculate max size
         lngLen = 0
-        For i = 1 To LS.Length
-            lngLen = lngLen + LS(i)
+        For i = 0 To LS.Length - 1
+            lngLen += LS(i)
         Next i
 
         If Not (PGB Is Nothing) Then
             With PGB
                 .Minimum = 0
                 .Value = 0
-                .Maximum = LS.Length
+                .Maximum = CInt(LS.Length + 1)
             End With
         End If
 
         lHandle = GetValidHandle(_pid)
-        ReDim tRes(0)
 
         If lHandle = INVALID_HANDLE_VALUE Then
             ReDim lngRes(0)
@@ -376,39 +377,56 @@ Public Class cProcessMemRW
         End If
 
         ' For each region
-        For x = 1 To LS.Length
+        For x = 0 To LS.Length - 1
 
             ' Get entire region
             strBuffer = ReadBytesH(lHandle, LB(x), LS(x))
+            My.Application.DoEvents()
 
             strCtemp = vbNullString
 
             ' Search in string
-            For i = 0 To LS(x) - 1
-                If (i Mod 300000) = 0 Then My.Application.DoEvents()
-                bytAsc = Asc(Mid$(strBuffer, i + 1, 1))
+            If Not (PGB Is Nothing) Then PGB.Value += 1
 
-                If IsCharConsideredInAString(bytAsc, bSigns, bMaj, bMin, bNumbers, bAccent) Then
-                    strCtemp = strCtemp & Chr(bytAsc)
+            For i = 0 To LS(x) - 1
+
+                If (i Mod 10000) = 0 Then
+                    My.Application.DoEvents()
+                End If
+
+                If Char.IsLetterOrDigit(strBuffer(i)) Then
+                    strCtemp &= strBuffer.Chars(i)
                 Else
-                    strCtemp = Trim$(strCtemp)
-                    If Len(strCtemp) > lMinimalLength Then
-                        ReDim Preserve tRes(tRes.Length + 1)
-                        tRes(tRes.Length).curOffset = i + LB(x) - Len(strCtemp) + 1
-                        tRes(tRes.Length).strString = strCtemp
+                    'strCtemp = Trim$(strCtemp)
+                    If Len(strCtemp) > SIZE_FOR_STRING Then
+
+                        ' Resize only every BUF times
+                        If cArraySizeBef = BUF_SIZE Then
+                            cArraySizeBef = 0
+                            ReDim Preserve tRes(tRes.Length + BUF_SIZE)
+                        End If
+
+                        tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).curOffset = i + LB(x) - Len(strCtemp) + 1
+                        tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).strString = strCtemp
+                        cArraySizeBef += 1
+
                     End If
                     strCtemp = vbNullString
                 End If
             Next i
 
-            If Len(strCtemp) > lMinimalLength Then
-                ReDim Preserve tRes(tRes.Length + 1)
-                tRes(tRes.Length).curOffset = LS(x) + LB(x) - Len(strCtemp) + 1
-                tRes(tRes.Length).strString = strCtemp
+            If Len(strCtemp) > SIZE_FOR_STRING Then
+                ' Resize only every BUF times
+                If cArraySizeBef = BUF_SIZE Then
+                    cArraySizeBef = 0
+                    ReDim Preserve tRes(tRes.Length + BUF_SIZE)
+                End If
+
+                tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).curOffset = LS(x) + LB(x) - Len(strCtemp) + 1
+                tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).strString = strCtemp
+
             End If
 
-            If Not (PGB Is Nothing) Then PGB.Value = x
-            My.Application.DoEvents()
         Next x
 
 
@@ -418,10 +436,9 @@ Public Class cProcessMemRW
         Call CloseHandle(lHandle)
 
         'maintenant, stocke dans les arrays de sortie
-        ReDim lngRes(tRes.Length)
-        ReDim strRes(tRes.Length)
-        For i = 1 To tRes.Length
-            If (i Mod 2000) = 0 Then My.Application.DoEvents()
+        ReDim lngRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1)
+        ReDim strRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1)
+        For i = 0 To tRes.Length - BUF_SIZE + cArraySizeBef - 1
             lngRes(i) = tRes(i).curOffset
             strRes(i) = tRes(i).strString
         Next i
@@ -550,40 +567,40 @@ Public Class cProcessMemRW
     ' Determine if a byte should be considered as a part of string
     ' (e.g. a displayable char)
     ' =======================================================
-    Private Function IsCharConsideredInAString(ByVal bytChar As Integer, _
-        ByVal bSigns As Boolean, ByVal bMaj As Boolean, ByVal bMin As Boolean, _
-        ByVal bNumbers As Boolean, ByVal bAccent As Boolean) As Boolean
+    'Private Function IsCharConsideredInAString(ByVal bytChar As Integer, _
+    '    ByVal bSigns As Boolean, ByVal bMaj As Boolean, ByVal bMin As Boolean, _
+    '    ByVal bNumbers As Boolean, ByVal bAccent As Boolean) As Boolean
 
-        Dim b As Boolean = False
+    '    Dim b As Boolean = False
 
-        If bMaj Then
-            b = (bytChar >= 65 And bytChar <= 90)
-            If b Then Return True
-        End If
-        If bMin Then
-            b = (bytChar >= 97 And bytChar <= 122)
-            If b Then Return True
-        End If
-        If bNumbers Then
-            b = (bytChar >= 48 And bytChar <= 57)
-            If b Then Return True
-        End If
-        If bSigns Then
-            b = (bytChar >= 33 And bytChar <= 47) Or _
-            (bytChar >= 58 And bytChar <= 64) Or (bytChar >= 91 And bytChar <= 96) Or _
-            (bytChar >= 123 And bytChar <= 126)
-            If b Then Return True
-        End If
-        If bytChar = 32 Or bytChar = 39 Then    ' Space or "'"
-            b = True
-            If b Then Return True
-        End If
-        If bAccent Then
-            b = (bytChar >= 192)
-            If b Then Return True
-        End If
+    '    If bMaj Then
+    '        b = (bytChar >= 65 And bytChar <= 90)
+    '        If b Then Return True
+    '    End If
+    '    If bMin Then
+    '        b = (bytChar >= 97 And bytChar <= 122)
+    '        If b Then Return True
+    '    End If
+    '    If bNumbers Then
+    '        b = (bytChar >= 48 And bytChar <= 57)
+    '        If b Then Return True
+    '    End If
+    '    If bSigns Then
+    '        b = (bytChar >= 33 And bytChar <= 47) Or _
+    '        (bytChar >= 58 And bytChar <= 64) Or (bytChar >= 91 And bytChar <= 96) Or _
+    '        (bytChar >= 123 And bytChar <= 126)
+    '        If b Then Return True
+    '    End If
+    '    If bytChar = 32 Or bytChar = 39 Then    ' Space or "'"
+    '        b = True
+    '        If b Then Return True
+    '    End If
+    '    If bAccent Then
+    '        b = (bytChar >= 192)
+    '        If b Then Return True
+    '    End If
 
-        Return False
-    End Function
+    '    Return False
+    'End Function
 
 End Class

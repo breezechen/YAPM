@@ -81,6 +81,7 @@ Public Class frmMain
     Private windowsToRefresh() As Integer
     Private isAdmin As Boolean = False
     Private cSelFile As cFile
+    Private _stringSearchImmediateStop As Boolean   ' Set to true to stop listing of string in process
 
 
     ' ========================================
@@ -119,6 +120,7 @@ Public Class frmMain
     Public Const DEFAULT_TIMER_INTERVAL_SERVICES As Integer = 25000
     Public Const MSGFIRSTTIME As String = "This is the first time you run YAPM. Please remember that it is a beta3 version so there are some bugs and some missing functionnalities :-)" & vbNewLine & vbNewLine & "You should run YAPM as an administrator in order to fully control your processes. Please take care using this YAPM because you will be able to do some irreversible things if you kill or modify some system processes... Use it at your own risks !" & vbNewLine & vbNewLine & "Please let me know any of your ideas of improvement or new functionnalities in YAPM's sourceforge.net project page ('Help' pannel) :-)" & vbNewLine & vbNewLine & "This message won't be shown anymore :-)"
 
+    Private Const SIZE_FOR_STRING As Integer = 4
 
     Public NEW_ITEM_COLOR As Color = Color.FromArgb(128, 255, 0)
     Public DELETED_ITEM_COLOR As Color = Color.FromArgb(255, 64, 48)
@@ -532,6 +534,7 @@ Public Class frmMain
         If Not (Me.tabProcess.SelectedTab.Text = "Informations" Or _
             Me.tabProcess.SelectedTab.Text = "Token" Or _
             Me.tabProcess.SelectedTab.Text = "Services" Or _
+            Me.tabProcess.SelectedTab.Text = "Strings" Or _
             Me.tabProcess.SelectedTab.Text = "Memory") Then _
             Call lvProcess_SelectedIndexChanged(Nothing, Nothing)
 
@@ -560,6 +563,7 @@ Public Class frmMain
         Static bFirst As Boolean = True
         If bFirst Then
             bFirst = False
+            SetWindowTheme(Me.lvProcString.Handle, "explorer", Nothing)
             SetWindowTheme(Me.lvProcNetwork.Handle, "explorer", Nothing)
             SetWindowTheme(Me.lvProcess.Handle, "explorer", Nothing)
             SetWindowTheme(Me.lvNetwork.Handle, "explorer", Nothing)
@@ -2508,7 +2512,6 @@ Public Class frmMain
         Dim x As Integer = 1
         Dim bTaille As Integer
         Dim lLen As Integer
-        Dim iAsc As Integer
 
         If IO.File.Exists(file) Then
 
@@ -2517,49 +2520,45 @@ Public Class frmMain
             ' Retrieve entire file in memory
             ' Warn user if file is up to 2MB
             Try
-                s = IO.File.ReadAllText(file)
 
-                If filelen( file) > 2000000 Then
+                If FileLen(file) > 2000000 Then
                     If MsgBox("File size is greater than 2MB. It is not recommended to open a large file, do you want to continue ?", _
                         MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo, "Large file") = MsgBoxResult.No Then
                         lstFileString.Items.Add("Click on 'Others->Show file strings' to retrieve file strings")
                         Exit Sub
                     End If
                 End If
+
+                s = IO.File.ReadAllText(file)
+
             Catch ex As Exception
                 MsgBox(ex.Message, MsgBoxStyle.Information, "Error")
             End Try
 
 
             ' Desired minimum size for a string
-            bTaille = 4
+            bTaille = SIZE_FOR_STRING
 
             ' A char is considered as part of a string if its value is between 32 and 122
             lLen = Len(s)
 
             ' Lock listbox
-            ValidateRect(lst.Handle.ToInt32, 0)
+            lst.BeginUpdate()
 
             ' Ok, parse file
             Do Until x > lLen
 
-                iAsc = Asc(Mid$(s, x, 1))
-
-                If iAsc >= 32 And iAsc <= 122 Then
+                If Char.IsLetterOrDigit(s.Chars(x - 1)) Then
                     ' Valid char
-                    sCtemp = sCtemp & Chr(iAsc)
+                    sCtemp &= s.Chars(x - 1)
                 Else
-                    sCtemp = LTrim$(sCtemp)
-                    sCtemp = RTrim$(sCtemp)
+                    'sCtemp = LTrim$(sCtemp)
+                    'sCtemp = RTrim$(sCtemp)
                     If Len(sCtemp) > bTaille Then
                         lst.Items.Add(sCtemp)
                     End If
                     sCtemp = vbNullString
                 End If
-
-                'If (x Mod 131072) = 0 Then
-                '    My.Application.DoEvents()
-                'End If
 
                 x += 1
             Loop
@@ -2570,7 +2569,7 @@ Public Class frmMain
             End If
 
             ' Unlock listbox
-            InvalidateRect(lst.Handle.ToInt32, 0, 0)
+            lst.EndUpdate()
         End If
 
     End Sub
@@ -4519,6 +4518,35 @@ Public Class frmMain
 
                 Me.timerServices.Enabled = bServRef
 
+
+            Case "Strings"
+
+                Me.lvProcString.Items.Clear()
+                If Me.optProcStringImage.Checked Then
+                    ' Image
+                    Call DisplayFileStringsImage(cP)
+                Else
+                    ' Memory
+                    Dim cRW As New cProcessMemRW(cP.Pid)
+                    Dim lRes() As Integer
+                    ReDim lRes(0)
+                    Dim sRes() As String
+                    ReDim sRes(0)
+                    cRW.SearchEntireStringMemory(lRes, sRes, Me.pgbString)
+
+                    Me.lvProcString.BeginUpdate()
+                    For x As Integer = 0 To lRes.Length - 1
+                        If lRes(x) > 0 Then
+                            Dim iot As New ListViewItem(CStr(lRes(x)))
+                            iot.SubItems.Add(sRes(x))
+                            iot.Group = Me.lvProcString.Groups(0)
+                            Me.lvProcString.Items.Add(iot)
+                        End If
+                    Next
+                    Me.lvProcString.EndUpdate()
+
+                End If
+
             Case "Token"
 
                 ' Privileges
@@ -5894,5 +5922,120 @@ Public Class frmMain
         Next
         Me.Ribbon.ActiveTab = Me.ProcessTab
         Call Me.Ribbon_MouseMove(Nothing, Nothing)
+    End Sub
+
+    Private Sub txtSearchProcString_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtSearchProcString.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            Dim it As ListViewItem
+            Dim sea As String = Me.txtSearchProcString.Text.ToLowerInvariant
+            For Each it In Me.lvProcString.Items
+                If InStr(it.SubItems(1).Text.ToLowerInvariant, sea) = 0 Then
+                    it.Group = lvProcString.Groups(0)
+                Else
+                    it.Group = lvProcString.Groups(1)
+                End If
+            Next
+            Me.lblResStringCount.Text = CStr(Me.lvProcString.Groups(1).Items.Count) & " result(s)"
+        End If
+    End Sub
+
+    Private Sub lblResStringCount_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblResStringCount.Click
+        If Me.lvProcString.Groups(1).Items.Count > 0 Then
+            Me.lvProcString.Focus()
+            Me.lvProcString.EnsureVisible(Me.lvProcString.Groups(1).Items(0).Index)
+            Me.lvProcString.SelectedItems.Clear()
+            Me.lvProcString.Groups(1).Items(0).Selected = True
+        End If
+    End Sub
+
+    ' Display file strings
+    Public Sub DisplayFileStringsImage(ByRef cp As cProcess)
+        Dim s As String = vbNullString
+        Dim sCtemp As String = vbNullString
+        Dim x As Integer = 1
+        Dim bTaille As Integer
+        Dim lLen As Integer
+
+        Dim file As String = cp.Path
+
+        _stringSearchImmediateStop = False
+
+        If IO.File.Exists(file) Then
+
+            Me.lvProcString.Items.Clear()
+
+            ' Retrieve entire file in memory
+            s = IO.File.ReadAllText(file)
+
+            ' Desired minimum size for a string
+            bTaille = SIZE_FOR_STRING
+
+            ' A char is considered as part of a string if its value is between 32 and 122
+            lLen = Len(s)
+            Me.pgbString.Maximum = CInt(lLen / 10000 + 2)
+            Me.pgbString.Value = 0
+
+            ' Lock listbox
+            Me.lvProcString.BeginUpdate()
+
+            ' Ok, parse file
+            Do Until x > lLen
+
+                If _stringSearchImmediateStop Then
+                    ' Exit
+                    Me.lvProcString.EndUpdate()
+                    Me.pgbString.Value = Me.pgbString.Maximum
+                    Exit Sub
+                End If
+
+                If Char.IsLetterOrDigit(s.Chars(x - 1)) Then
+                    ' Valid char
+                    sCtemp &= s.Chars(x - 1)
+                Else
+                    'sCtemp = LTrim$(sCtemp)
+                    'sCtemp = RTrim$(sCtemp)
+                    If Len(sCtemp) > bTaille Then
+                        Dim it As New ListViewItem(CStr(x))
+                        it.SubItems.Add(sCtemp)
+                        it.Group = Me.lvProcString.Groups(0)
+                        Me.lvProcString.Items.Add(it)
+                    End If
+                    sCtemp = vbNullString
+                End If
+
+                If (x Mod 10000) = 0 Then
+                    Me.pgbString.Value += 1
+                    My.Application.DoEvents()
+                End If
+
+                x += 1
+            Loop
+
+            Me.pgbString.Value = Me.pgbString.Maximum
+
+            ' Last item
+            If Len(sCtemp) > bTaille Then
+                Dim it As New ListViewItem(CStr(lLen))
+                it.SubItems.Add(sCtemp)
+                it.Group = Me.lvProcString.Groups(0)
+                Me.lvProcString.Items.Add(it)
+            End If
+
+            ' Unlock listbox
+            Me.lvProcString.EndUpdate()
+        End If
+
+    End Sub
+
+    Private Sub pgbString_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pgbString.Click
+        _stringSearchImmediateStop = True
+    End Sub
+
+    Private Sub optProcStringImage_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles optProcStringImage.CheckedChanged
+        Call lvProcess_SelectedIndexChanged(Nothing, Nothing)
+    End Sub
+
+    Private Sub optProcStringMemory_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles optProcStringMemory.CheckedChanged
+        Call lvProcess_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 End Class
