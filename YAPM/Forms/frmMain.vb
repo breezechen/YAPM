@@ -83,6 +83,10 @@ Public Class frmMain
     Private cSelFile As cFile
     Private _stringSearchImmediateStop As Boolean   ' Set to true to stop listing of string in process
 
+    ' String search (in process image/memory) private attributes
+    Private __sRes() As String
+    Private __lRes() As Integer
+    Private cRW As cProcessMemRW
 
     ' ========================================
     ' Public attributes
@@ -4521,31 +4525,7 @@ Public Class frmMain
 
             Case "Strings"
 
-                Me.lvProcString.Items.Clear()
-                If Me.optProcStringImage.Checked Then
-                    ' Image
-                    Call DisplayFileStringsImage(cP)
-                Else
-                    ' Memory
-                    Dim cRW As New cProcessMemRW(cP.Pid)
-                    Dim lRes() As Integer
-                    ReDim lRes(0)
-                    Dim sRes() As String
-                    ReDim sRes(0)
-                    cRW.SearchEntireStringMemory(lRes, sRes, Me.pgbString)
-
-                    Me.lvProcString.BeginUpdate()
-                    For x As Integer = 0 To lRes.Length - 1
-                        If lRes(x) > 0 Then
-                            Dim iot As New ListViewItem(CStr(lRes(x)))
-                            iot.SubItems.Add(sRes(x))
-                            iot.Group = Me.lvProcString.Groups(0)
-                            Me.lvProcString.Items.Add(iot)
-                        End If
-                    Next
-                    Me.lvProcString.EndUpdate()
-
-                End If
+                Call getProcString(cP)
 
             Case "Token"
 
@@ -5924,37 +5904,22 @@ Public Class frmMain
         Call Me.Ribbon_MouseMove(Nothing, Nothing)
     End Sub
 
-    Private Sub txtSearchProcString_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtSearchProcString.KeyDown
-        If e.KeyCode = Keys.Enter Then
-            Dim it As ListViewItem
-            Dim sea As String = Me.txtSearchProcString.Text.ToLowerInvariant
-            For Each it In Me.lvProcString.Items
-                If InStr(it.SubItems(1).Text.ToLowerInvariant, sea) = 0 Then
-                    it.Group = lvProcString.Groups(0)
-                Else
-                    it.Group = lvProcString.Groups(1)
-                End If
-            Next
-            Me.lblResStringCount.Text = CStr(Me.lvProcString.Groups(1).Items.Count) & " result(s)"
-        End If
-    End Sub
-
-    Private Sub lblResStringCount_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblResStringCount.Click
-        If Me.lvProcString.Groups(1).Items.Count > 0 Then
-            Me.lvProcString.Focus()
-            Me.lvProcString.EnsureVisible(Me.lvProcString.Groups(1).Items(0).Index)
-            Me.lvProcString.SelectedItems.Clear()
-            Me.lvProcString.Groups(1).Items(0).Selected = True
-        End If
-    End Sub
-
     ' Display file strings
     Public Sub DisplayFileStringsImage(ByRef cp As cProcess)
         Dim s As String = vbNullString
         Dim sCtemp As String = vbNullString
-        Dim x As Integer = 1
+        Dim x As Integer = 0
         Dim bTaille As Integer
         Dim lLen As Integer
+        Dim tRes() As cProcessMemRW.T_RESULT
+        Dim cArraySizeBef As Integer = 0
+        Dim strCtemp As String = vbNullString
+        '        Dim strBuffer As String
+        Dim curByte As Long = 0
+
+        Const BUF_SIZE As Integer = 2000     ' Size of array
+
+        ReDim tRes(BUF_SIZE)
 
         Dim file As String = cp.Path
 
@@ -5975,32 +5940,33 @@ Public Class frmMain
             Me.pgbString.Maximum = CInt(lLen / 10000 + 2)
             Me.pgbString.Value = 0
 
-            ' Lock listbox
-            Me.lvProcString.BeginUpdate()
-
             ' Ok, parse file
-            Do Until x > lLen
+            Do Until x >= lLen
 
                 If _stringSearchImmediateStop Then
                     ' Exit
-                    Me.lvProcString.EndUpdate()
                     Me.pgbString.Value = Me.pgbString.Maximum
                     Exit Sub
                 End If
 
-                If Char.IsLetterOrDigit(s.Chars(x - 1)) Then
-                    ' Valid char
-                    sCtemp &= s.Chars(x - 1)
+                If isLetter(s(x)) Then
+                    strCtemp &= s.Chars(x)
                 Else
-                    'sCtemp = LTrim$(sCtemp)
-                    'sCtemp = RTrim$(sCtemp)
-                    If Len(sCtemp) > bTaille Then
-                        Dim it As New ListViewItem(CStr(x))
-                        it.SubItems.Add(sCtemp)
-                        it.Group = Me.lvProcString.Groups(0)
-                        Me.lvProcString.Items.Add(it)
+                    'strCtemp = Trim$(strCtemp)
+                    If Len(strCtemp) > SIZE_FOR_STRING Then
+
+                        ' Resize only every BUF times
+                        If cArraySizeBef = BUF_SIZE Then
+                            cArraySizeBef = 0
+                            ReDim Preserve tRes(tRes.Length + BUF_SIZE)
+                        End If
+
+                        tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).curOffset = x
+                        tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).strString = strCtemp
+                        cArraySizeBef += 1
+
                     End If
-                    sCtemp = vbNullString
+                    strCtemp = vbNullString
                 End If
 
                 If (x Mod 10000) = 0 Then
@@ -6013,22 +5979,50 @@ Public Class frmMain
 
             Me.pgbString.Value = Me.pgbString.Maximum
 
+
             ' Last item
-            If Len(sCtemp) > bTaille Then
-                Dim it As New ListViewItem(CStr(lLen))
-                it.SubItems.Add(sCtemp)
-                it.Group = Me.lvProcString.Groups(0)
-                Me.lvProcString.Items.Add(it)
+            If Len(strCtemp) > SIZE_FOR_STRING Then
+                ' Resize only every BUF times
+                If cArraySizeBef = BUF_SIZE Then
+                    cArraySizeBef = 0
+                    ReDim Preserve tRes(tRes.Length + BUF_SIZE)
+                End If
+
+                tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).curOffset = lLen
+                tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).strString = strCtemp
+
             End If
 
-            ' Unlock listbox
-            Me.lvProcString.EndUpdate()
+
+            Dim lngRes() As Integer
+            Dim strRes() As String
+            ReDim lngRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1)
+            ReDim strRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1)
+            For x = 0 To tRes.Length - BUF_SIZE + cArraySizeBef - 1
+                lngRes(x) = tRes(x).curOffset
+                strRes(x) = tRes(x).strString
+            Next x
+
+            __sRes = strRes
+            __lRes = lngRes
+
+            Me.lvProcString.VirtualListSize = tRes.Length - BUF_SIZE + cArraySizeBef - 1
+
         End If
 
     End Sub
 
+    ' Return true if c is a valid character
+    Private Function isLetter(ByVal c As Char) As Boolean
+        Dim i As Integer = Asc(c)
+        ' A-Z [/]_^' space a-z {|}
+        Return ((i >= 65 And i <= 125) OrElse (i >= 45 And i <= 57) OrElse i = 32)
+    End Function
+
+    ' Stop string listing
     Private Sub pgbString_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pgbString.Click
         _stringSearchImmediateStop = True
+        If cRW IsNot Nothing Then cRW.StopSearch = True
     End Sub
 
     Private Sub optProcStringImage_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles optProcStringImage.CheckedChanged
@@ -6037,5 +6031,116 @@ Public Class frmMain
 
     Private Sub optProcStringMemory_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles optProcStringMemory.CheckedChanged
         Call lvProcess_SelectedIndexChanged(Nothing, Nothing)
+    End Sub
+
+    Private Sub cmdProcStringSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdProcStringSave.Click
+
+        ' Save list of strings
+        With Me.saveDial
+            .AddExtension = True
+            .Filter = "Txt (*.txt*)|*.txt"
+            .InitialDirectory = My.Application.Info.DirectoryPath
+            If Not (.ShowDialog = Windows.Forms.DialogResult.OK) Then
+                Exit Sub
+            End If
+        End With
+
+        ' Save our file
+        Try
+            Dim stream As New System.IO.StreamWriter(Me.saveDial.FileName, False)
+            For x As Integer = 0 To Me.lvProcString.Items.Count - 1
+                stream.WriteLine(Me.lvProcString.Items(x).SubItems(1).Text)
+            Next
+            stream.Close()
+        Catch ex As Exception
+            '
+        End Try
+
+    End Sub
+
+    ' Add item to virtual listview
+    Private Sub lvProcString_RetrieveVirtualItem(ByVal sender As Object, ByVal e As System.Windows.Forms.RetrieveVirtualItemEventArgs) Handles lvProcString.RetrieveVirtualItem
+        e.Item = GetListItem(e.ItemIndex)
+    End Sub
+    ' Return desired item
+    Private Function GetListItem(ByVal x As Integer) As ListViewItem
+        Dim it As New ListViewItem(__lRes(x).ToString)
+        it.SubItems.Add(__sRes(x))
+        Return it
+    End Function
+
+    Private Sub getProcString(ByRef cP As cProcess)
+
+        Static reentrance As Boolean = False
+        If reentrance Then Exit Sub
+        reentrance = True
+
+        Me.lvProcString.Items.Clear()
+        If Me.optProcStringImage.Checked Then
+            ' Image
+            Call DisplayFileStringsImage(cP)
+        Else
+            ' Memory
+            cRW = New cProcessMemRW(cP.Pid)
+            Dim lRes() As Integer
+            ReDim lRes(0)
+            Dim sRes() As String
+            ReDim sRes(0)
+            cRW.SearchEntireStringMemory(lRes, sRes, Me.pgbString)
+
+            __sRes = sRes
+            __lRes = lRes
+
+            Me.lvProcString.VirtualListSize = sRes.Length
+
+        End If
+
+        reentrance = False
+    End Sub
+
+    Private Sub cmdProcSearchL_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdProcSearchL.Click
+        Dim sSearch As String = Me.txtSearchProcString.Text.ToLowerInvariant
+        Dim curIndex As Integer = Me.lvProcString.Items.Count
+
+        If Me.lvProcString.SelectedIndices IsNot Nothing AndAlso _
+            Me.lvProcString.SelectedIndices.Count > 0 Then _
+                curIndex = Me.lvProcString.SelectedIndices(0)
+
+        For z As Integer = curIndex - 1 To 0 Step -1
+            Dim sComp As String = Me.lvProcString.Items(z).SubItems(1).Text.ToLowerInvariant
+            If InStr(sComp, sSearch, CompareMethod.Binary) > 0 Then
+                Me.lvProcString.Items(z).Selected = True
+                Me.lvProcString.Items(z).EnsureVisible()
+                Me.lvProcString.Focus()
+                Exit Sub
+            End If
+        Next
+    End Sub
+
+    Private Sub cmdProcSearchR_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdProcSearchR.Click
+        Dim sSearch As String = Me.txtSearchProcString.Text.ToLowerInvariant
+        Dim curIndex As Integer = 0
+
+        If Me.lvProcString.SelectedIndices IsNot Nothing AndAlso _
+            Me.lvProcString.SelectedIndices.Count > 0 Then _
+                curIndex = Me.lvProcString.SelectedIndices(0)
+
+        For z As Integer = curIndex + 1 To Me.lvProcString.Items.Count - 1
+            Dim sComp As String = Me.lvProcString.Items(z).SubItems(1).Text.ToLowerInvariant
+            If InStr(sComp, sSearch, CompareMethod.Binary) > 0 Then
+                Me.lvProcString.Items(z).Selected = True
+                Me.lvProcString.Items(z).EnsureVisible()
+                Me.lvProcString.Focus()
+                Exit Sub
+            End If
+        Next
+    End Sub
+
+    Private Sub lvProcStringKeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvProcString.KeyDown
+        If e.KeyCode = Keys.F2 Then
+            Call cmdProcSearchL_Click(Nothing, Nothing)
+        ElseIf e.KeyCode = Keys.F3 Then
+            Call cmdProcSearchR_Click(Nothing, Nothing)
+        End If
     End Sub
 End Class

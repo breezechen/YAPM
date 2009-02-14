@@ -136,7 +136,7 @@ Public Class cProcessMemRW
         Dim wProcessorLevel As Int16
         Dim wProcessorRevision As Int16
     End Structure
-    Private Structure T_RESULT
+    Public Structure T_RESULT
         Dim curOffset As Integer
         Dim strString As String
     End Structure
@@ -331,6 +331,12 @@ Public Class cProcessMemRW
     ' =======================================================
     ' Search a complete string
     ' =======================================================
+    Private _stringSearchImmediateStop As Boolean
+    Public WriteOnly Property StopSearch() As Boolean
+        Set(ByVal value As Boolean)
+            _stringSearchImmediateStop = value
+        End Set
+    End Property
     Public Sub SearchEntireStringMemory(ByRef lngRes() As Integer, _
         ByRef strRes() As String, Optional ByVal PGB As ProgressBar = Nothing)
 
@@ -346,7 +352,7 @@ Public Class cProcessMemRW
         Dim LS() As Integer
         Dim cArraySizeBef As Integer = 0
 
-        Const BUF_SIZE As Integer = 100     ' Size of array
+        Const BUF_SIZE As Integer = 2000     ' Size of array
 
         ReDim tRes(BUF_SIZE)
 
@@ -390,11 +396,17 @@ Public Class cProcessMemRW
 
             For i = 0 To LS(x) - 1
 
-                If (i Mod 10000) = 0 Then
+                If _stringSearchImmediateStop Then
+                    ' Exit
+                    PGB.Value = PGB.Maximum
+                    Exit Sub
+                End If
+
+                If (i Mod 1000) = 0 Then
                     My.Application.DoEvents()
                 End If
 
-                If Char.IsLetterOrDigit(strBuffer(i)) Then
+                If isLetter(strBuffer(i)) Then
                     strCtemp &= strBuffer.Chars(i)
                 Else
                     'strCtemp = Trim$(strCtemp)
@@ -445,6 +457,11 @@ Public Class cProcessMemRW
 
     End Sub
 
+    Private Function isLetter(ByVal c As Char) As Boolean
+        Dim i As Integer = Asc(c)
+        ' A-Z [/]_^' space a-z {|}
+        Return ((i >= 65 And i <= 125) OrElse (i >= 45 And i <= 57) OrElse i = 32)
+    End Function
 
 
     ' =======================================================

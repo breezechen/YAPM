@@ -391,6 +391,7 @@ Public Class cProcess
     ' ========================================
     ' Private attributes
     ' ========================================
+    Private _pebAdd As Integer = 0                  ' PEB base address
     Private _pid As Integer                         ' Process ID
     Private _path As String = vbNullString          ' _path of executable
     Private _UserName As String = vbNullString      ' User name
@@ -579,6 +580,21 @@ Public Class cProcess
                 CloseHandle(__hProcess)
             End If
         End Set
+    End Property
+
+    Public ReadOnly Property PEBAddress() As Integer
+        Get
+            If _pebAdd = 0 Then
+                Dim Pbi As PROCESS_BASIC_INFORMATION
+                Dim Ret As Integer
+
+                Dim pt As Integer = 0
+
+                NtQueryInformationProcess(_hProcess, 0, Pbi, 24, Ret)
+                _pebAdd = Pbi.PEBBaseAddress
+            End If
+            Return _pebAdd
+        End Get
     End Property
 
     Public ReadOnly Property ParentProcessId() As Integer
