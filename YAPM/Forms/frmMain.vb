@@ -539,7 +539,8 @@ Public Class frmMain
             Me.tabProcess.SelectedTab.Text = "Token" Or _
             Me.tabProcess.SelectedTab.Text = "Services" Or _
             Me.tabProcess.SelectedTab.Text = "Strings" Or _
-            Me.tabProcess.SelectedTab.Text = "Memory") Then _
+            Me.tabProcess.SelectedTab.Text = "Memory" Or _
+            Me.tabProcess.SelectedTab.Text = "Environment") Then _
             Call lvProcess_SelectedIndexChanged(Nothing, Nothing)
 
 
@@ -568,6 +569,7 @@ Public Class frmMain
         If bFirst Then
             bFirst = False
             SetWindowTheme(Me.lvProcString.Handle, "explorer", Nothing)
+            SetWindowTheme(Me.lvProcEnv.Handle, "explorer", Nothing)
             SetWindowTheme(Me.lvProcNetwork.Handle, "explorer", Nothing)
             SetWindowTheme(Me.lvProcess.Handle, "explorer", Nothing)
             SetWindowTheme(Me.lvNetwork.Handle, "explorer", Nothing)
@@ -4526,6 +4528,21 @@ Public Class frmMain
             Case "Strings"
 
                 Call getProcString(cP)
+
+
+            Case "Environment"
+
+                Me.lvProcEnv.Items.Clear()
+                Dim cVar() As String = Nothing
+                Dim cVal() As String = Nothing
+                Call cP.GetEnvironmentVariables(cVar, cVal)
+
+                For x As Integer = 0 To cVar.Length - 1
+                    Dim itpr As New ListViewItem(cVar(x))
+                    itpr.SubItems.Add(CStr(cVal(x)))
+                    Me.lvProcEnv.Items.Add(itpr)
+                Next
+
 
             Case "Token"
 

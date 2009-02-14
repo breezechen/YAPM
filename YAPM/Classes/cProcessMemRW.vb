@@ -90,12 +90,15 @@ Public Class cProcessMemRW
     Private Declare Function AdjustTokenPrivileges Lib "advapi32.dll" (ByVal TokenHandle As Integer, ByVal DisableAllPrivileges As Integer, ByVal NewState As TOKEN_PRIVILEGES, ByVal BufferLength As Integer, ByVal PreviousState As TOKEN_PRIVILEGES, ByVal ReturnLength As Integer) As Integer
     Private Declare Function OpenProcessToken Lib "advapi32.dll" (ByVal ProcessHandle As Integer, ByVal DesiredAccess As Integer, ByVal TokenHandle As Integer) As Integer
     Private Declare Function LookupPrivilegeValue Lib "advapi32.dll" Alias "LookupPrivilegeValueA" (ByVal lpSystemName As String, ByVal lpName As String, ByVal lpLuid As LUID) As Integer
-    Private Declare Function CloseHandle Lib "kernel32" (ByVal hObject As Integer) As Integer
+    Public Declare Function CloseHandle Lib "kernel32" (ByVal hObject As Integer) As Integer
     Private Declare Function OpenProcess Lib "kernel32.dll" (ByVal dwDesiredAccessas As Integer, ByVal bInheritHandle As Integer, ByVal dwProcId As Integer) As Integer
     Private Declare Sub GetSystemInfo Lib "kernel32" (ByRef lpSystemInfo As SYSTEM_INFO)
     Private Declare Function GetCurrentProcess Lib "kernel32.dll" () As Integer
     Private Declare Function WriteProcessMemory Lib "kernel32" (ByVal hProcess As Integer, ByVal lpBaseAddress As Integer, ByVal lpBuffer As String, ByVal nSize As Integer, ByVal lpNumberOfBytesWritten As Integer) As Integer
     Private Declare Function ReadProcessMemory Lib "kernel32" (ByVal hProcess As Integer, ByVal lpBaseAddress As Integer, ByVal lpBuffer As String, ByVal nSize As Integer, ByVal lpNumberOfBytesWritten As Integer) As Integer
+    Private Declare Function ReadProcessMemory Lib "kernel32" (ByVal hProcess As Integer, ByVal lpBaseAddress As Integer, ByVal lpBuffer As Short(), ByVal nSize As Integer, ByVal lpNumberOfBytesWritten As Integer) As Integer
+    Private Declare Function ReadProcessMemory Lib "kernel32" (ByVal hProcess As Integer, ByVal lpBaseAddress As Integer, ByVal lpBuffer As Byte(), ByVal nSize As Integer, ByVal lpNumberOfBytesWritten As Integer) As Integer
+    Private Declare Function ReadProcessMemory Lib "kernel32" (ByVal hProcess As Integer, ByVal lpBaseAddress As Integer, ByVal lpBuffer As Integer(), ByVal nSize As Integer, ByVal lpNumberOfBytesWritten As Integer) As Integer
     Private Declare Function VirtualQueryEx Lib "kernel32" (ByVal hProcess As Integer, ByVal lpAddress As Integer, ByRef lpBuffer As MEMORY_BASIC_INFORMATION, ByVal dwLength As Integer) As Integer
 
 
@@ -146,6 +149,7 @@ Public Class cProcessMemRW
     ' Private attributes
     ' =======================================================
     Private _pid As Integer
+    Private _handle As Integer
     Private si As SYSTEM_INFO
 
     ' =======================================================
@@ -162,42 +166,63 @@ Public Class cProcessMemRW
     ' =======================================================
     Public Sub New(ByVal processId As Integer)
         _pid = processId
+        _handle = OpenProcess(PROCESS_ALL_ACCESS, 0, processId)
         GetSystemInfo(si)
+    End Sub
+    Protected Overrides Sub Finalize()
+        MyBase.Finalize()
+        Call CloseHandle(_handle)
     End Sub
 
     ' =======================================================
     ' Read bytes from a pid
     ' =======================================================
-    Public Function ReadBytes(ByVal offset As Integer, _
-        ByVal size As Integer) As String
+    Public Function ReadBytesAI(ByVal offset As Integer, ByVal size As Integer) As Integer()
 
-        Dim sBuf As String
+        Dim sBuf() As Integer
         Dim lByte As Integer
-        Dim lHandle As Integer
+        ReDim sBuf(size - 1)
 
-        '/!\ Integer is enough because of the limitation of 2GB in memory
-
-        sBuf = Space(size)
-        lHandle = OpenProcess(PROCESS_ALL_ACCESS, 0, _pid)
-
-        Call ReadProcessMemory(lHandle, offset, sBuf, size, lByte)
-
-        Call CloseHandle(lHandle)
+        ' Integer array -> size*4 to get bytes count
+        Call ReadProcessMemory(_handle, offset, sBuf, size * 4, lByte)
 
         Return sBuf
     End Function
+    Public Function ReadBytesAB(ByVal offset As Integer, ByVal size As Integer) As Byte()
 
-    ' =======================================================
-    ' Write bytes from a pid
-    ' =======================================================
-    Public Function WriteBytes(ByVal offset As Integer, _
-        ByVal strStringToWrite As String) As Integer
+        Dim sBuf() As Byte
+        Dim lByte As Integer
+        ReDim sBuf(size - 1)
 
-        Dim lHandle As Integer
-        lHandle = OpenProcess(PROCESS_ALL_ACCESS, 0, _pid)
-        WriteBytes = WriteProcessMemory(lHandle, offset, strStringToWrite, Len(strStringToWrite), 0)
-        Call CloseHandle(lHandle)
+        ' Byte array -> size*1 to get bytes count
+        Call ReadProcessMemory(_handle, offset, sBuf, size, lByte)
+
+        Return sBuf
     End Function
+    Public Function ReadBytesAS(ByVal offset As Integer, ByVal size As Integer) As Short()
+
+        Dim sBuf() As Short
+        Dim lByte As Integer
+        ReDim sBuf(size - 1)
+
+        ' Short array -> size*2 to get bytes count
+        Call ReadProcessMemory(_handle, offset, sBuf, size * 2, lByte)
+
+        Return sBuf
+    End Function
+    Public Function Read1Byte(ByVal offset As Integer) As Byte
+        Dim ret(0) As Byte
+        Dim lByte As Integer
+        Call ReadProcessMemory(_handle, offset, ret, 1, lByte)
+        Return ret(0)
+    End Function
+    Public Function Read2Bytes(ByVal offset As Integer) As Short
+        Dim ret(0) As Short
+        Dim lByte As Integer
+        Call ReadProcessMemory(_handle, offset, ret, 2, lByte)
+        Return ret(0)
+    End Function
+
 
     ' =======================================================
     ' Retrieve memory regions (availables for r/w)
@@ -476,23 +501,6 @@ Public Class cProcessMemRW
         Return WriteProcessMemory(handle, offset, strStringToWrite, Len(strStringToWrite), 0)
     End Function
 
-    ' =======================================================
-    ' Read bytes from a handle
-    ' =======================================================
-    Public Shared Function ReadBytesH(ByVal lHandle As Integer, ByVal offset As Integer, _
-        ByVal size As Integer) As String
-
-        Dim sBuf As String
-        Dim lByte As Integer
-
-        '/!\ Integer is enough because of the limitation of 2GB in memory
-
-        sBuf = Space(size)
-
-        Call ReadProcessMemory(lHandle, offset, sBuf, size, lByte)
-        Return sBuf
-    End Function
-
     ' Get protection type as string
     Public Shared Function GetProtectionType(ByVal protec As Integer) As String
         Dim s As String = ""
@@ -568,56 +576,26 @@ Public Class cProcessMemRW
         End Select
     End Function
 
-
-    ' =======================================================
-    ' Private functions
-    ' =======================================================
-
     ' =======================================================
     ' Get a handle
     ' =======================================================
-    Private Function GetValidHandle(ByVal pid As Integer) As Integer
+    Public Shared Function GetValidHandle(ByVal pid As Integer) As Integer
         Return OpenProcess(PROCESS_ALL_ACCESS, 0, pid)
     End Function
 
-    ' =======================================================
-    ' Determine if a byte should be considered as a part of string
-    ' (e.g. a displayable char)
-    ' =======================================================
-    'Private Function IsCharConsideredInAString(ByVal bytChar As Integer, _
-    '    ByVal bSigns As Boolean, ByVal bMaj As Boolean, ByVal bMin As Boolean, _
-    '    ByVal bNumbers As Boolean, ByVal bAccent As Boolean) As Boolean
+    Public Shared Function ReadBytesH(ByVal lHandle As Integer, ByVal offset As Integer, _
+    ByVal size As Integer) As String
 
-    '    Dim b As Boolean = False
+        Dim sBuf As String
+        Dim lByte As Integer
 
-    '    If bMaj Then
-    '        b = (bytChar >= 65 And bytChar <= 90)
-    '        If b Then Return True
-    '    End If
-    '    If bMin Then
-    '        b = (bytChar >= 97 And bytChar <= 122)
-    '        If b Then Return True
-    '    End If
-    '    If bNumbers Then
-    '        b = (bytChar >= 48 And bytChar <= 57)
-    '        If b Then Return True
-    '    End If
-    '    If bSigns Then
-    '        b = (bytChar >= 33 And bytChar <= 47) Or _
-    '        (bytChar >= 58 And bytChar <= 64) Or (bytChar >= 91 And bytChar <= 96) Or _
-    '        (bytChar >= 123 And bytChar <= 126)
-    '        If b Then Return True
-    '    End If
-    '    If bytChar = 32 Or bytChar = 39 Then    ' Space or "'"
-    '        b = True
-    '        If b Then Return True
-    '    End If
-    '    If bAccent Then
-    '        b = (bytChar >= 192)
-    '        If b Then Return True
-    '    End If
+        '/!\ Integer is enough because of the limitation of 2GB in memory
 
-    '    Return False
-    'End Function
+        sBuf = Space(size)
+
+        Call ReadProcessMemory(lHandle, offset, sBuf, size, lByte)
+        Return sBuf
+    End Function
+
 
 End Class
