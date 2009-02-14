@@ -27,6 +27,7 @@ Imports System.Runtime.InteropServices
 
 Public Class frmMain
 
+    Public _trayIcon As New cTrayIcon(2)
     Public cInfo As New cSystemInfo
     Private WithEvents creg As cRegMonitor
     Public log As New cLog
@@ -602,6 +603,10 @@ Public Class frmMain
 
         Dim t As Integer = GetTickCount
         clsOpenedHandles.EnableDebug()
+
+        ' Set tray icon counters
+        _trayIcon.SetCounter(1, Color.Red, Color.FromArgb(120, 0, 0))
+        _trayIcon.SetCounter(2, Color.LightGreen, Color.FromArgb(0, 120, 0))
 
         Me.Visible = True
         Application.EnableVisualStyles()
@@ -6159,5 +6164,21 @@ Public Class frmMain
         ElseIf e.KeyCode = Keys.F3 Then
             Call cmdProcSearchR_Click(Nothing, Nothing)
         End If
+    End Sub
+
+    Private Sub timerTrayIcon_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerTrayIcon.Tick
+        Call Me.cInfo.RefreshInfo()
+
+        Dim _cpuUsage As Double = Me.cInfo.CpuUsage
+        Dim _physMemUsage As Double = Me.cInfo.PhysicalMemoryPercentageUsage
+        Dim d As New Decimal(Decimal.Multiply(Me.cInfo.TotalPhysicalMemory, New Decimal(_physMemUsage)))
+
+        Dim s As String = "CPU usage : " & CStr(Math.Round(100 * _cpuUsage, 3)) & " %"
+        s &= vbNewLine & "Phys. mem. usage : " & mdlMisc.GetFormatedSize(d)
+
+        Me.Tray.Text = s
+
+        Me._trayIcon.AddValue(1, _cpuUsage)
+        Me._trayIcon.AddValue(2, _physMemUsage)
     End Sub
 End Class

@@ -667,6 +667,7 @@ Partial Class frmMain
         Me.ColumnHeader69 = New System.Windows.Forms.ColumnHeader
         Me.menuNetwork = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem48 = New System.Windows.Forms.ToolStripMenuItem
+        Me.timerTrayIcon = New System.Windows.Forms.Timer(Me.components)
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
         Me.SplitContainerProcess.Panel2.SuspendLayout()
@@ -6988,6 +6989,11 @@ Partial Class frmMain
         Me.ToolStripMenuItem48.Size = New System.Drawing.Size(206, 22)
         Me.ToolStripMenuItem48.Text = "&Select associated process"
         '
+        'timerTrayIcon
+        '
+        Me.timerTrayIcon.Enabled = True
+        Me.timerTrayIcon.Interval = 1000
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -7794,5 +7800,6 @@ Partial Class frmMain
     Friend WithEvents lvProcEnv As YAPM.DoubleBufferedLV
     Friend WithEvents ColumnHeader60 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader61 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents timerTrayIcon As System.Windows.Forms.Timer
 
 End Class

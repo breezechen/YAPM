@@ -29,6 +29,7 @@ Public Class cSystemInfo
     ' ========================================
     ' API declarations
     ' ========================================
+#Region "API"
     Private Structure PERFORMANCE_INFORMATION
         Dim Size As Integer
         <MarshalAs(UnmanagedType.ByValArray, SizeConst:=10)> _
@@ -208,6 +209,8 @@ Public Class cSystemInfo
     Private Declare Function ZwQuerySystemInformation Lib "ntdll.dll" (ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByRef SystemInformation As SYSTEM_PERFORMANCE_INFORMATION, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
     Private Declare Function ZwQuerySystemInformation Lib "ntdll.dll" (ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByRef SystemInformation As SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
     Private Declare Function ZwQuerySystemInformation Lib "ntdll.dll" (ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByVal pt As IntPtr, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
+#End Region
+
 
     ' ========================================
     ' Private
@@ -227,11 +230,19 @@ Public Class cSystemInfo
     Private _sbi As SYSTEM_BASIC_INFORMATION
     Private _ci As SYSTEM_CACHE_INFORMATION
     Private _ppi() As SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION
-
+    Private _totPhysMem As Decimal
 
     ' ========================================
     ' Properties
     ' ========================================
+    Public ReadOnly Property TotalPhysicalMemory() As Decimal
+        Get
+            If _totPhysMem = 0 Then
+                _totPhysMem = Decimal.Multiply(_sbi.NumberOfPhysicalPages, _sbi.PageSize)
+            End If
+            Return _totPhysMem
+        End Get
+    End Property
     Public ReadOnly Property HandleCount() As Integer
         Get
             Return _handles
@@ -307,6 +318,52 @@ Public Class cSystemInfo
             Return _ppi
         End Get
     End Property
+    Public ReadOnly Property PhysicalMemoryPercentageUsage() As Double
+        Get
+            Dim totalMem As Long = _sbi.NumberOfPhysicalPages
+            Dim usedMem As Long = _sbi.NumberOfPhysicalPages - _spi.AvailablePages
+            If totalMem > 0 Then
+                Return usedMem / totalMem
+            Else
+                Return 0
+            End If
+        End Get
+    End Property
+    Public ReadOnly Property CpuUsage() As Double
+        Get
+            Static oldDate As Date = Date.Now
+            Dim newDate As Date = Date.Now
+            Dim diff As Date = New Date(newDate.Ticks - oldDate.Ticks)
+            oldDate = newDate
+
+            Dim zres0 As Long = 0
+            Dim zres1 As Long = 0
+            Dim zres2 As Long = 0
+            Dim zres3 As Long = 0
+            Dim zres4 As Long = 0
+            Dim zres5 As Long = 0
+            For x As Integer = 0 To _ppi.Length - 1
+                zres0 += _ppi(x).InterruptCount
+                zres1 += CLng(_ppi(x).IdleTime / _processors)
+                zres2 += CLng(_ppi(x).InterruptTime / _processors)
+                zres3 += CLng(_ppi(x).UserTime / _processors)
+                zres4 += CLng(_ppi(x).KernelTime / _processors)
+                zres5 += CLng(_ppi(x).DpcTime / _processors)
+            Next
+
+            Static oldProcTime As Long = 0
+            Dim newProcTime As Long = zres3 + zres4
+            Dim diffProcTime As Long = newProcTime - oldProcTime
+            oldProcTime = newProcTime
+
+            If diff.Ticks > 0 And _processors > 0 Then
+                Return diffProcTime / diff.Ticks / _processors
+            Else
+                Return 0
+            End If
+
+        End Get
+    End Property
 
 
     ' ========================================
@@ -314,6 +371,18 @@ Public Class cSystemInfo
     ' ========================================
     Public Sub New()
         MyBase.New()
+
+        ' Basic informations (do not change)
+        Dim bi As New SYSTEM_BASIC_INFORMATION
+        Dim ret As Integer
+        ZwQuerySystemInformation(SYSTEM_INFORMATION_CLASS.SystemBasicInformation, bi, Marshal.SizeOf(bi), ret)
+        With bi
+            _physicalPagesCount = .NumberOfPhysicalPages
+            _processors = .NumberOfProcessors
+            _timerResolution = .TimerResolution
+        End With
+        _sbi = bi
+
         Call RefreshInfo()
     End Sub
     Public Sub RefreshInfo()
@@ -337,15 +406,6 @@ Public Class cSystemInfo
             _maxCache = .SystemCacheWsMaximum
         End With
         _ci = ci
-
-        Dim bi As New SYSTEM_BASIC_INFORMATION
-        ZwQuerySystemInformation(SYSTEM_INFORMATION_CLASS.SystemBasicInformation, bi, Marshal.SizeOf(bi), ret)
-        With bi
-            _physicalPagesCount = .NumberOfPhysicalPages
-            _processors = .NumberOfProcessors
-            _timerResolution = .TimerResolution
-        End With
-        _sbi = bi
 
         Dim spi As New SYSTEM_PERFORMANCE_INFORMATION
         ZwQuerySystemInformation(SYSTEM_INFORMATION_CLASS.SystemPerformanceInformation, spi, Marshal.SizeOf(spi), ret)

@@ -67,6 +67,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property black() As System.Drawing.Icon
+            Get
+                Dim obj As Object = ResourceManager.GetObject("black", resourceCulture)
+                Return CType(obj,System.Drawing.Icon)
+            End Get
+        End Property
+        
         Friend ReadOnly Property business_user_add() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("business_user_add", resourceCulture)

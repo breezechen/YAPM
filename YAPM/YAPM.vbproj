@@ -251,6 +251,7 @@
     <Compile Include="Classes\cTask.vb" />
     <Compile Include="Classes\cThread.vb">
     </Compile>
+    <Compile Include="Classes\cTrayIcon.vb" />
     <Compile Include="Classes\cWindow.vb" />
     <Compile Include="Forms\frmAboutG.Designer.vb">
       <DependentUpon>frmAboutG.vb</DependentUpon>
@@ -379,6 +380,7 @@
     <None Include="Misc\ie7_16.gif" />
     <None Include="Misc\ok.gif" />
     <None Include="Misc\close.gif" />
+    <None Include="Misc\black.ico" />
     <Content Include="process.ico" />
     <Content Include="process_custom.ico" />
   </ItemGroup>
