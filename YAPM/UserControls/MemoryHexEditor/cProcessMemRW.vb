@@ -188,14 +188,14 @@ Public Class cProcessMemRW
 
         Return sBuf
     End Function
-    Public Function ReadBytesAB(ByVal offset As Integer, ByVal size As Integer) As Byte()
+    Public Function ReadBytesAB(ByVal offset As Integer, ByVal size As Integer, ByRef ok As Boolean) As Byte()
 
         Dim sBuf() As Byte
         Dim lByte As Integer
         ReDim sBuf(size - 1)
 
         ' Byte array -> size*1 to get bytes count
-        Call ReadProcessMemory(_handle, offset, sBuf, size, lByte)
+        ok = (ReadProcessMemory(_handle, offset, sBuf, size, lByte) > 0)
 
         Return sBuf
     End Function

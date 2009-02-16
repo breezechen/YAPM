@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MemoryHexEditor", "MemoryHexEditor.vbproj", "{8C885999-147E-4651-AF9C-6F7149F1344D}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "test", "Test\test.vbproj", "{0CDCF954-6321-4DA2-A5F7-2DBBC282E8E3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8C885999-147E-4651-AF9C-6F7149F1344D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C885999-147E-4651-AF9C-6F7149F1344D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C885999-147E-4651-AF9C-6F7149F1344D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C885999-147E-4651-AF9C-6F7149F1344D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CDCF954-6321-4DA2-A5F7-2DBBC282E8E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CDCF954-6321-4DA2-A5F7-2DBBC282E8E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CDCF954-6321-4DA2-A5F7-2DBBC282E8E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CDCF954-6321-4DA2-A5F7-2DBBC282E8E3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
