@@ -68,6 +68,15 @@ Public Class frmMain
         LVS_EX_SIMPLESELECT = &H100000
     End Enum
 
+    Private Structure DoubleInteger
+        Dim a As Integer
+        Dim b As Integer
+        Public Sub New(ByVal _a As Integer, ByVal _b As Integer)
+            a = _a
+            b = _b
+        End Sub
+    End Structure
+
     ' ========================================
     ' Private attributes
     ' ========================================
@@ -4465,8 +4474,8 @@ Public Class frmMain
                         Dim sub3 As New ListViewItem.ListViewSubItem
                         Dim sub4 As New ListViewItem.ListViewSubItem
                         Dim sub5 As New ListViewItem.ListViewSubItem
-                        sub1.Text = CStr(mbi.BaseAddress)
-                        sub2.Text = CStr(mbi.RegionSize)
+                        sub1.Text = "0x" & mbi.BaseAddress.ToString("x")
+                        sub2.Text = "0x" & mbi.RegionSize.ToString("x")
                         sub3.Text = cProcessMemRW.GetProtectionType(mbi.Protect)
                         sub4.Text = cProcessMemRW.GetStateType(mbi.State)
                         sub5.Text = cProcessMemRW.GetTypeType(mbi.lType)
@@ -4475,6 +4484,7 @@ Public Class frmMain
                         newit.SubItems.Add(sub3)
                         newit.SubItems.Add(sub4)
                         newit.SubItems.Add(sub5)
+                        newit.Tag = New DoubleInteger(mbi.BaseAddress, mbi.RegionSize)
                         Me.lvProcMem.Items.Add(newit)
                     End If
                 Next
@@ -6191,8 +6201,9 @@ Public Class frmMain
     Private Sub lvProcMem_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvProcMem.DoubleClick
         If lvProcMem.SelectedItems.Count > 0 Then
             Dim frm As New frmHexEditor
-            Dim ad As Integer = CInt(Val(lvProcMem.SelectedItems(0).SubItems(1).Text))
-            Dim size As Integer = CInt(Val(lvProcMem.SelectedItems(0).SubItems(2).Text))
+            Dim itTag As DoubleInteger = CType(lvProcMem.SelectedItems(0).Tag, DoubleInteger)
+            Dim ad As Integer = itTag.a
+            Dim size As Integer = itTag.b
             Dim reg As New MemoryHexEditor.control.MemoryRegion(ad, size)
             frm.SetPidAndRegion(curProc.Pid, reg)
             frm.Show()
