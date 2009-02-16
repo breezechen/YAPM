@@ -6176,6 +6176,7 @@ Public Class frmMain
         Dim _physMemUsage As Double = Me.cInfo.PhysicalMemoryPercentageUsage
         Dim d As New Decimal(Decimal.Multiply(Me.cInfo.TotalPhysicalMemory, New Decimal(_physMemUsage)))
 
+        If _cpuUsage > 1 Then _cpuUsage = 1
         Dim s As String = "CPU usage : " & CStr(Math.Round(100 * _cpuUsage, 3)) & " %"
         s &= vbNewLine & "Phys. mem. usage : " & mdlMisc.GetFormatedSize(d) & " (" & CStr(Math.Round(100 * _physMemUsage, 3)) & " %)"
 

@@ -24,14 +24,25 @@ Option Strict On
 
 Public Class cTrayIcon
 
+    <System.Runtime.InteropServices.DllImport("user32.dll")> _
+    Private Shared Function DestroyIcon(ByVal Handle As IntPtr) As Boolean
+    End Function
+
     Private _values(,) As Byte
     Private _counterPensLine() As Pen
     Private _counterPensFill() As Pen
     Private _countersCount As Integer
     Private _blackRect As New Rectangle(0, 0, 16, 16)
 
+    Private bm As Bitmap
+    Private g As Graphics
+
     Public Sub New(ByVal countersCount As Byte)
         MyBase.New()
+
+        bm = New Bitmap(16, 16)
+        g = Graphics.FromImage(bm)
+        g.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
 
         countersCount = CByte(countersCount - 1)
 
@@ -73,10 +84,6 @@ Public Class cTrayIcon
 
         Try
             ' Create bitmap and graphics
-            Dim bm As Bitmap = New Bitmap(16, 16)
-            Dim g As Graphics = Graphics.FromImage(bm)
-            g.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
-
             g.FillRectangle(Brushes.Black, _blackRect)
 
             ' Draw all counters values
@@ -89,12 +96,15 @@ Public Class cTrayIcon
 
             ' Get an icon
             oIcon = Icon.FromHandle(bm.GetHicon())
-            g.Dispose()
-            bm.Dispose()
 
         Catch ex As Exception
             '
         End Try
+
+        ' MUST destroy previous icon to avoid memory exception after long time...
+        If frmMain.Tray.Icon IsNot Nothing Then
+            DestroyIcon(frmMain.Tray.Icon.Handle)
+        End If
 
         ' Set icon
         frmMain.Tray.Icon = oIcon
