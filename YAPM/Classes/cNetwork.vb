@@ -285,9 +285,9 @@ Public Class cNetwork
         Dim intOffset As Integer = 0
 
         For i As Integer = 0 To count - 1
-            Dim TCP_ROW As MIB_TCPROW_OWNER_PID
+            Dim tcp_item As MIB_TCPROW_OWNER_PID
 
-            With TCP_ROW
+            With tcp_item
                 .dwState = Marshal.ReadInt32(pt, intOffset + 4)
                 .dwLocalAddr = Marshal.ReadInt32(pt, intOffset + 8)
                 .dwLocalPort = Marshal.ReadInt32(pt, intOffset + 12)
@@ -297,14 +297,14 @@ Public Class cNetwork
             End With
             intOffset += 24
 
-            Dim n As New IPEndPoint(TCP_ROW.dwLocalAddr, TCP_ROW.dwLocalPort)
+            Dim n As New IPEndPoint(tcp_item.dwLocalAddr, tcp_item.dwLocalPort)
             Dim n2 As IPEndPoint
-            If TCP_ROW.dwRemoteAddr > 0 Then
-                n2 = New IPEndPoint(TCP_ROW.dwRemoteAddr, TCP_ROW.dwRemotePort)
+            If tcp_item.dwRemoteAddr > 0 Then
+                n2 = New IPEndPoint(tcp_item.dwRemoteAddr, tcp_item.dwRemotePort)
             Else
                 n2 = Nothing
             End If
-            res(i) = New cNetwork(TCP_ROW, NetworkProtocol.Tcp, n, n2)
+            res(i) = New cNetwork(tcp_item, NetworkProtocol.Tcp, n, n2)
         Next
 
         Marshal.FreeHGlobal(pt)
@@ -320,17 +320,17 @@ Public Class cNetwork
         intOffset = 0
 
         For i As Integer = 0 To count2 - 1
-            Dim UDP_ROW As MIB_UDPROW_OWNER_PID
+            Dim udp_item As MIB_UDPROW_OWNER_PID
 
-            With UDP_ROW
+            With udp_item
                 .dwLocalAddr = Marshal.ReadInt32(pt, intOffset + 4)
                 .dwLocalPort = Marshal.ReadInt32(pt, intOffset + 8)
                 .dwOwningPid = Marshal.ReadInt32(pt, intOffset + 12)
             End With
             intOffset += 12
 
-            Dim n As New IPEndPoint(UDP_ROW.dwLocalAddr, UDP_ROW.dwLocalPort)
-            res(i + count) = New cNetwork(UDP_ROW, NetworkProtocol.Udp, n)
+            Dim n As New IPEndPoint(udp_item.dwLocalAddr, udp_item.dwLocalPort)
+            res(i + count) = New cNetwork(udp_item, NetworkProtocol.Udp, n)
         Next
 
         Marshal.FreeHGlobal(pt)

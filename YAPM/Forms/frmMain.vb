@@ -3078,7 +3078,7 @@ Public Class frmMain
     Private Sub ToolStripMenuItem27_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem27.Click
         Dim it As ListViewItem
         For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).Priority = ThreadPriorityLevel.Idle
+            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.Idle
         Next
     End Sub
 
@@ -3121,42 +3121,42 @@ Public Class frmMain
     Private Sub LowestToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LowestToolStripMenuItem.Click
         Dim it As ListViewItem
         For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).Priority = ThreadPriorityLevel.Lowest
+            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.Lowest
         Next
     End Sub
 
     Private Sub ToolStripMenuItem28_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem28.Click
         Dim it As ListViewItem
         For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).Priority = ThreadPriorityLevel.BelowNormal
+            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.BelowNormal
         Next
     End Sub
 
     Private Sub ToolStripMenuItem29_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem29.Click
         Dim it As ListViewItem
         For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).Priority = ThreadPriorityLevel.Normal
+            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.Normal
         Next
     End Sub
 
     Private Sub ToolStripMenuItem30_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem30.Click
         Dim it As ListViewItem
         For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).Priority = ThreadPriorityLevel.AboveNormal
+            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.AboveNormal
         Next
     End Sub
 
     Private Sub ToolStripMenuItem31_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem31.Click
         Dim it As ListViewItem
         For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).Priority = ThreadPriorityLevel.Highest
+            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.Highest
         Next
     End Sub
 
     Private Sub ToolStripMenuItem32_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem32.Click
         Dim it As ListViewItem
         For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).Priority = ThreadPriorityLevel.TimeCritical
+            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.Critical
         Next
     End Sub
 
@@ -3913,6 +3913,22 @@ Public Class frmMain
 
     Private Sub lvThreads_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvThreads.MouseDown
         Call mdlMisc.CopyLvToClip(e, Me.lvThreads)
+
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+
+            Dim p As cThread.ThreadPriority = cThread.ThreadPriority.Unknow
+
+            If Me.lvThreads.SelectedItems.Count > 0 Then
+                p = CType(Me.lvThreads.SelectedItems(0).Tag, cThread).Priority
+            End If
+            Me.ToolStripMenuItem27.Checked = (p = cThread.ThreadPriority.Idle)
+            Me.LowestToolStripMenuItem.Checked = (p = cThread.ThreadPriority.Lowest)
+            Me.ToolStripMenuItem28.Checked = (p = cThread.ThreadPriority.BelowNormal)
+            Me.ToolStripMenuItem29.Checked = (p = cThread.ThreadPriority.Normal)
+            Me.ToolStripMenuItem30.Checked = (p = cThread.ThreadPriority.AboveNormal)
+            Me.ToolStripMenuItem31.Checked = (p = cThread.ThreadPriority.Highest)
+            Me.ToolStripMenuItem32.Checked = (p = cThread.ThreadPriority.Critical)
+        End If
     End Sub
 
     Private Sub lvThreads_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvThreads.SelectedIndexChanged

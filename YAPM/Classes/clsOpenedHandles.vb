@@ -20,6 +20,10 @@
 ' Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
+
+' Thanks to ShareVB for the KernelMemory driver.
+' http://www.vbfrance.com/codes/LISTER-HANDLES-FICHIERS-CLE-REGISTRES-OUVERTS-PROGRAMME-NT_39333.aspx
+
 Option Strict Off
 
 Imports System.Runtime.InteropServices

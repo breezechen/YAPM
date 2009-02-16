@@ -51,7 +51,9 @@ Public Class cThread
     <DllImport("kernel32.dll")> _
     Private Shared Function TerminateThread(ByVal hThread As IntPtr, ByVal exitcode As Integer) As UInt32
     End Function
-
+    <DllImport("kernel32.dll")> _
+    Private Shared Function GetThreadPriority(ByVal hThread As Integer) As UInt32
+    End Function
 
     ' ========================================
     ' Constants
@@ -79,6 +81,17 @@ Public Class cThread
         Dim tpDeltaPri As Integer
         Dim dwFlags As Integer
     End Structure
+
+    Public Enum ThreadPriority As Integer
+        Idle = -15
+        Lowest = -2
+        BelowNormal = -1
+        Normal = 0
+        AboveNormal = 1
+        Highest = 2
+        Critical = 15
+        Unknow = 13
+    End Enum
 
     Private Enum THREADINFOCLASS
         ThreadBasicInformation
@@ -121,6 +134,7 @@ Public Class cThread
     Private _procId As Integer = 0                  ' Process owner ID
     Private _procName As String                     ' Process owner name
     Private _Thread As ProcessThread
+    Private _hThread As Integer
 
 
     ' ========================================
@@ -131,6 +145,7 @@ Public Class cThread
         _id = thread.Id
         _procId = procId
         _Thread = thread
+        _hThread = OpenThread(QUERY_INFORMATION, 0, _id)
         _procName = procName
     End Sub
     Public Sub New(ByVal thread As cThread)
@@ -145,12 +160,14 @@ Public Class cThread
             _Thread.Dispose()
         End If
         MyBase.Finalize()
+        CloseHandle(_hThread)
     End Sub
     Public Sub Dispose() Implements System.IDisposable.Dispose
         If _Thread IsNot Nothing Then
             _Thread.Dispose()
         End If
         _Thread = Nothing
+        CloseHandle(_hThread)
     End Sub
 
     ' ========================================
@@ -173,11 +190,11 @@ Public Class cThread
         End Get
     End Property
 
-    Public Property Priority() As System.Diagnostics.ThreadPriorityLevel
+    Public Property Priority() As ThreadPriority
         Get
-            Return CType(_Thread.CurrentPriority, ThreadPriorityLevel)
+            Return CType(GetThreadPriority(_hThread), ThreadPriority)
         End Get
-        Set(ByVal value As System.Diagnostics.ThreadPriorityLevel)
+        Set(ByVal value As ThreadPriority)
             SetPriority(value)
         End Set
     End Property
@@ -407,7 +424,7 @@ Public Class cThread
     End Function
 
     ' Set priority
-    Private Function SetPriority(ByVal level As Integer) As Integer
+    Private Function SetPriority(ByVal level As ThreadPriority) As Integer
         Dim hThread As Integer
         Dim r As Integer = -1
 

@@ -20,6 +20,9 @@
 ' Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
+' Some structures defined below come from Process Hacker by wj32
+
+
 Option Strict On
 
 Imports System.Runtime.InteropServices
