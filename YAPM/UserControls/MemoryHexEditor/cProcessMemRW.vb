@@ -202,11 +202,32 @@ Public Class cProcessMemRW
     Public Function ReadBytesAS(ByVal offset As Integer, ByVal size As Integer) As Short()
 
         Dim sBuf() As Short
+        Dim _si As Integer = size
+        Dim _si2 As Integer = 0
+        Dim ret As Integer
         Dim lByte As Integer
         ReDim sBuf(size - 1)
 
-        ' Short array -> size*2 to get bytes count
-        Call ReadProcessMemory(_handle, offset, sBuf, size * 2, lByte)
+        ' Fragment read
+        Do While _si2 < _si
+
+            Dim sBuf2() As Short
+            ReDim sBuf2(size - 1)
+
+            ' Short array -> size*2 to get bytes count
+            ret = ReadProcessMemory(_handle, offset + _si2, sBuf2, size * 2, lByte)
+
+            ' If ret = 0 and err = ERROR_PARTIAL_COPY, we have to reduce block size
+            Do While ((ret = 0) And (Err.LastDllError = 299))
+                size -= 2   ' Short <-> 2 bytes
+                ret = ReadProcessMemory(_handle, offset + _si2, sBuf2, size * 2, lByte)
+            Loop
+
+            sBuf2.CopyTo(sBuf, CInt(_si2 / 2))
+
+            _si2 += size
+            size = _si - _si2
+        Loop
 
         Return sBuf
     End Function

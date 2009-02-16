@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MemoryHexEditor", "MemoryHexEditor.vbproj", "{8C885999-147E-4651-AF9C-6F7149F1344D}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "test", "Test\test.vbproj", "{0CDCF954-6321-4DA2-A5F7-2DBBC282E8E3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8C885999-147E-4651-AF9C-6F7149F1344D} = {8C885999-147E-4651-AF9C-6F7149F1344D}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

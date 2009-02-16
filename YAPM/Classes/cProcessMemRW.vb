@@ -203,26 +203,31 @@ Public Class cProcessMemRW
 
         Dim sBuf() As Short
         Dim _si As Integer = size
+        Dim _si2 As Integer = 0
+        Dim ret As Integer
         Dim lByte As Integer
         ReDim sBuf(size - 1)
 
-        ' Short array -> size*2 to get bytes count
-        Dim ret As Integer = ReadProcessMemory(_handle, offset, sBuf, size * 2, lByte)
+        ' Fragment read
+        Do While _si2 < _si
 
-        ' If ret = 0 and err = ERROR_PARTIAL_COPY, reduce block size
-        Do While ((ret = 0) And (Err.LastDllError = 299))
-            size -= 2   ' Short <-> 2 bytes
-            ret = ReadProcessMemory(_handle, offset, sBuf, size * 2, lByte)
-        Loop
-
-        If size < _si Then
-            ' Got an error before, now we have to read part which was unreadable
             Dim sBuf2() As Short
-            ReDim sBuf2(_si - size - 1)
-            ret = ReadProcessMemory(_handle, offset + size, sBuf2, (_si - size) * 2, lByte)
-            ' Copy buf2 to buf
-            sBuf2.CopyTo(sBuf, CInt(size / 2))
-        End If
+            ReDim sBuf2(size - 1)
+
+            ' Short array -> size*2 to get bytes count
+            ret = ReadProcessMemory(_handle, offset + _si2, sBuf2, size * 2, lByte)
+
+            ' If ret = 0 and err = ERROR_PARTIAL_COPY, we have to reduce block size
+            Do While ((ret = 0) And (Err.LastDllError = 299))
+                size -= 2   ' Short <-> 2 bytes
+                ret = ReadProcessMemory(_handle, offset + _si2, sBuf2, size * 2, lByte)
+            Loop
+
+            sBuf2.CopyTo(sBuf, CInt(_si2 / 2))
+
+            _si2 += size
+            size = _si - _si2
+        Loop
 
         Return sBuf
     End Function
