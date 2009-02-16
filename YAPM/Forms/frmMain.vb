@@ -6181,4 +6181,15 @@ Public Class frmMain
         Me._trayIcon.AddValue(1, _cpuUsage)
         Me._trayIcon.AddValue(2, _physMemUsage)
     End Sub
+
+    Private Sub lvProcMem_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvProcMem.DoubleClick
+        If lvProcMem.SelectedItems.Count > 0 Then
+            Dim frm As New frmHexEditor
+            Dim ad As Integer = CInt(Val(lvProcMem.SelectedItems(0).SubItems(1).Text))
+            Dim size As Integer = CInt(Val(lvProcMem.SelectedItems(0).SubItems(2).Text))
+            Dim reg As New MemoryHexEditor.control.MemoryRegion(ad, size)
+            frm.SetPidAndRegion(curProc.Pid, reg)
+            frm.Show()
+        End If
+    End Sub
 End Class
