@@ -87,6 +87,12 @@ Public Class cPrivileges
         Dim pLuid As LUID
     End Structure
 
+    'structure de privilèges de token
+    Public Structure TOKEN_PRIVILEGES2
+        Dim PrivilegeCount As Integer
+        Dim Privileges As LUID_AND_ATTRIBUTES
+    End Structure
+
     Public Structure TOKEN_PRIVILEGES
         Dim PrivilegeCount As Integer
         '<VBFixedArray(25)> _
@@ -98,8 +104,6 @@ Public Class cPrivileges
     Private Const PROCESS_ALL_ACCESS As Integer = (STANDARD_RIGHTS_REQUIRED Or SYNCHRONIZE Or &HFFF)
     Private Const PROCESS_QUERY_INFORMATION As Integer = &H400
 
-    'Private Declare Function AdjustTokenPrivileges Lib "advapi32.dll" (ByVal TokenHandle As Integer, ByVal DisableAllPriv As Integer, ByRef NewState As TOKEN_PRIVILEGES, ByVal BufferLength As Integer, ByRef PreviousState As Integer, ByRef ReturnLength As Integer) As Integer               'Used to adjust your program's security privileges, can't restore without it!
-
     <DllImport("advapi32.dll", SetLastError:=True)> _
     Shared Function AdjustTokenPrivileges( _
         ByVal TokenHandle As Integer, _
@@ -108,6 +112,15 @@ Public Class cPrivileges
         ByVal BufferLength As Integer, _
         ByRef PreviousState As TOKEN_PRIVILEGES, _
         ByRef ReturnLength As Integer) As Boolean
+    End Function
+    <DllImport("advapi32.dll", SetLastError:=True)> _
+    Shared Function AdjustTokenPrivileges( _
+    ByVal TokenHandle As Integer, _
+    ByVal DisableAllPrivileges As Integer, _
+    ByRef NewState As TOKEN_PRIVILEGES2, _
+    ByVal BufferLength As Integer, _
+    ByRef PreviousState As TOKEN_PRIVILEGES2, _
+    ByRef ReturnLength As Integer) As Boolean
     End Function
 
     Private Declare Function LookupPrivilegeValue Lib "advapi32.dll" Alias "LookupPrivilegeValueA" (ByVal lpSystemName As String, ByVal lpName As String, ByRef lpLuid As LUID) As Integer           'Returns a valid LUID which is important when making security changes in NT.
@@ -216,7 +229,7 @@ Public Class cPrivileges
             Case 4
                 Return "Removed"
             Case Else
-                Return "Error"
+                Return "Error (probably deleted)"
         End Select
     End Function
 
@@ -264,8 +277,8 @@ Public Class cPrivileges
         Dim Ret As Integer
         Dim lngToken As Integer
         Dim typLUID As LUID
-        Dim typTokenPriv As TOKEN_PRIVILEGES
-        ReDim typTokenPriv.Privileges(25)
+        Dim typTokenPriv As TOKEN_PRIVILEGES2
+        Dim newTokenPriv As TOKEN_PRIVILEGES2
 
         hProcess = OpenProcess(PROCESS_ALL_ACCESS, 0, _pid)
         If hProcess > 0 Then
@@ -274,13 +287,11 @@ Public Class cPrivileges
                 Ret = LookupPrivilegeValue(Nothing, seName, typLUID)
                 If Ret > 0 Then
                     typTokenPriv.PrivilegeCount = 1
-                    typTokenPriv.Privileges(0).Attributes = Status
-                    typTokenPriv.Privileges(0).pLuid = typLUID
-                    Dim useless As New TOKEN_PRIVILEGES
-                    ReDim useless.Privileges(40)
-                    Dim size As Integer = 4 + typTokenPriv.Privileges.Length * 12
+                    typTokenPriv.Privileges.Attributes = Status
+                    typTokenPriv.Privileges.pLuid = typLUID
+                    Dim size As Integer = 4 + typTokenPriv.PrivilegeCount * 12
                     Dim ret2 As Integer
-                    SetPrivilege = AdjustTokenPrivileges(lngToken, 0, typTokenPriv, size, useless, ret2)
+                    SetPrivilege = AdjustTokenPrivileges(lngToken, 0, typTokenPriv, size, newTokenPriv, ret2)
                 End If
                 CloseHandle(hProcessToken)
             End If
@@ -299,8 +310,7 @@ Public Class cPrivileges
         Dim TokenPriv As TOKEN_PRIVILEGES = Nothing
         Dim i As Integer
         Dim typLUID As LUID
-
-        GetPrivilege = CType(-1, PrivilegeStatus)
+        Dim res As PrivilegeStatus = CType(-1, PrivilegeStatus)
 
         hProcess = OpenProcess(PROCESS_QUERY_INFORMATION, 0, _pid)
         If hProcess > 0 Then
@@ -317,7 +327,7 @@ Public Class cPrivileges
 
                 For i = 0 To TokenPriv.PrivilegeCount - 1
                     If TokenPriv.Privileges(i).pLuid.lowpart = typLUID.lowpart Then
-                        GetPrivilege = CType(TokenPriv.Privileges(i).Attributes, PrivilegeStatus)
+                        res = CType(TokenPriv.Privileges(i).Attributes, PrivilegeStatus)
                     End If
                 Next i
                 CloseHandle(hProcessToken)
@@ -325,6 +335,8 @@ Public Class cPrivileges
             End If
             CloseHandle(hProcess)
         End If
+
+        Return res
 
     End Function
 

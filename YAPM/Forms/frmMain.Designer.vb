@@ -2097,30 +2097,27 @@ Partial Class frmMain
         '
         Me.menuPrivileges.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem44, Me.DisableToolStripMenuItem, Me.RemoveToolStripMenuItem})
         Me.menuPrivileges.Name = "mainMenu"
-        Me.menuPrivileges.Size = New System.Drawing.Size(118, 70)
+        Me.menuPrivileges.Size = New System.Drawing.Size(153, 92)
         '
         'ToolStripMenuItem44
         '
-        Me.ToolStripMenuItem44.Enabled = False
         Me.ToolStripMenuItem44.Image = Global.YAPM.My.Resources.Resources.ok
         Me.ToolStripMenuItem44.Name = "ToolStripMenuItem44"
-        Me.ToolStripMenuItem44.Size = New System.Drawing.Size(117, 22)
+        Me.ToolStripMenuItem44.Size = New System.Drawing.Size(152, 22)
         Me.ToolStripMenuItem44.Text = "Enable"
         '
         'DisableToolStripMenuItem
         '
-        Me.DisableToolStripMenuItem.Enabled = False
         Me.DisableToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.close
         Me.DisableToolStripMenuItem.Name = "DisableToolStripMenuItem"
-        Me.DisableToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
+        Me.DisableToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.DisableToolStripMenuItem.Text = "Disable"
         '
         'RemoveToolStripMenuItem
         '
-        Me.RemoveToolStripMenuItem.Enabled = False
         Me.RemoveToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.kill
         Me.RemoveToolStripMenuItem.Name = "RemoveToolStripMenuItem"
-        Me.RemoveToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
+        Me.RemoveToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.RemoveToolStripMenuItem.Text = "Remove"
         '
         'TabPage5
@@ -6285,7 +6282,7 @@ Partial Class frmMain
         '
         Me.menuThread.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem23, Me.ToolStripMenuItem24, Me.ToolStripMenuItem25, Me.ToolStripMenuItem26, Me.ToolStripMenuItem33, Me.SelectedAssociatedProcessToolStripMenuItem})
         Me.menuThread.Name = "menuProc"
-        Me.menuThread.Size = New System.Drawing.Size(220, 158)
+        Me.menuThread.Size = New System.Drawing.Size(220, 136)
         '
         'ToolStripMenuItem23
         '
@@ -6319,49 +6316,49 @@ Partial Class frmMain
         '
         Me.ToolStripMenuItem27.Image = CType(resources.GetObject("ToolStripMenuItem27.Image"), System.Drawing.Image)
         Me.ToolStripMenuItem27.Name = "ToolStripMenuItem27"
-        Me.ToolStripMenuItem27.Size = New System.Drawing.Size(152, 22)
+        Me.ToolStripMenuItem27.Size = New System.Drawing.Size(151, 22)
         Me.ToolStripMenuItem27.Text = "Idle"
         '
         'LowestToolStripMenuItem
         '
         Me.LowestToolStripMenuItem.Image = CType(resources.GetObject("LowestToolStripMenuItem.Image"), System.Drawing.Image)
         Me.LowestToolStripMenuItem.Name = "LowestToolStripMenuItem"
-        Me.LowestToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.LowestToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
         Me.LowestToolStripMenuItem.Text = "Lowest"
         '
         'ToolStripMenuItem28
         '
         Me.ToolStripMenuItem28.Image = CType(resources.GetObject("ToolStripMenuItem28.Image"), System.Drawing.Image)
         Me.ToolStripMenuItem28.Name = "ToolStripMenuItem28"
-        Me.ToolStripMenuItem28.Size = New System.Drawing.Size(152, 22)
+        Me.ToolStripMenuItem28.Size = New System.Drawing.Size(151, 22)
         Me.ToolStripMenuItem28.Text = "Below Normal"
         '
         'ToolStripMenuItem29
         '
         Me.ToolStripMenuItem29.Image = CType(resources.GetObject("ToolStripMenuItem29.Image"), System.Drawing.Image)
         Me.ToolStripMenuItem29.Name = "ToolStripMenuItem29"
-        Me.ToolStripMenuItem29.Size = New System.Drawing.Size(152, 22)
+        Me.ToolStripMenuItem29.Size = New System.Drawing.Size(151, 22)
         Me.ToolStripMenuItem29.Text = "Normal"
         '
         'ToolStripMenuItem30
         '
         Me.ToolStripMenuItem30.Image = CType(resources.GetObject("ToolStripMenuItem30.Image"), System.Drawing.Image)
         Me.ToolStripMenuItem30.Name = "ToolStripMenuItem30"
-        Me.ToolStripMenuItem30.Size = New System.Drawing.Size(152, 22)
+        Me.ToolStripMenuItem30.Size = New System.Drawing.Size(151, 22)
         Me.ToolStripMenuItem30.Text = "Above Normal"
         '
         'ToolStripMenuItem31
         '
         Me.ToolStripMenuItem31.Image = CType(resources.GetObject("ToolStripMenuItem31.Image"), System.Drawing.Image)
         Me.ToolStripMenuItem31.Name = "ToolStripMenuItem31"
-        Me.ToolStripMenuItem31.Size = New System.Drawing.Size(152, 22)
+        Me.ToolStripMenuItem31.Size = New System.Drawing.Size(151, 22)
         Me.ToolStripMenuItem31.Text = "Highest"
         '
         'ToolStripMenuItem32
         '
         Me.ToolStripMenuItem32.Image = CType(resources.GetObject("ToolStripMenuItem32.Image"), System.Drawing.Image)
         Me.ToolStripMenuItem32.Name = "ToolStripMenuItem32"
-        Me.ToolStripMenuItem32.Size = New System.Drawing.Size(152, 22)
+        Me.ToolStripMenuItem32.Size = New System.Drawing.Size(151, 22)
         Me.ToolStripMenuItem32.Text = "Time Critical"
         '
         'ToolStripMenuItem33

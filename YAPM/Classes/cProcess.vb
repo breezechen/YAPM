@@ -171,6 +171,10 @@ Public Class cProcess
     ' ========================================
     ' Structures for API
     ' ========================================
+    Private Structure LUID
+        Public LowPart As Integer
+        Public HighPart As Integer
+    End Structure
 
     <StructLayout(LayoutKind.Sequential)> _
     Public Structure PIO_COUNTERS

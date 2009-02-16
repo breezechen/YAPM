@@ -5016,69 +5016,6 @@ Public Class frmMain
         Me.timerServices.Enabled = Me.EnableServiceRefreshingToolStripMenuItem.Checked
     End Sub
 
-    Private Sub ToolStripMenuItem44_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem44.Click
-        Dim pid As Integer = 0
-        If lvProcess.SelectedItems.Count = 1 Then
-            Dim ite As ListViewItem = lvProcess.SelectedItems.Item(0)
-            If TypeOf ite.Tag Is cProcess Then
-                Dim cP As cProcess = CType(ite.Tag, cProcess)
-                pid = cP.Pid
-            End If
-        End If
-
-        If pid < 4 Then Exit Sub
-
-        Dim cPriv As New cPrivileges(pid)
-        Dim it As ListViewItem
-        For Each it In Me.lvPrivileges.SelectedItems
-            cPriv.Privilege(it.Text) = cPrivileges.PrivilegeStatus.PRIVILEGE_ENABLED
-            it.SubItems(1).Text = cPrivileges.PrivilegeStatusToString(cPriv.Privilege(it.Text))
-            it.BackColor = cPrivileges.GetColorFromStatus(cPriv.Privilege(it.Text))
-        Next
-    End Sub
-
-    Private Sub DisableToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisableToolStripMenuItem.Click
-        Dim pid As Integer = 0
-        If lvProcess.SelectedItems.Count = 1 Then
-            Dim ite As ListViewItem = lvProcess.SelectedItems.Item(0)
-            If TypeOf ite.Tag Is cProcess Then
-                Dim cP As cProcess = CType(ite.Tag, cProcess)
-                pid = cP.Pid
-            End If
-        End If
-
-        If pid < 4 Then Exit Sub
-
-        Dim cPriv As New cPrivileges(pid)
-        Dim it As ListViewItem
-        For Each it In Me.lvPrivileges.SelectedItems
-            cPriv.Privilege(it.Text) = cPrivileges.PrivilegeStatus.PRIVILEGE_DISBALED
-            it.SubItems(1).Text = cPrivileges.PrivilegeStatusToString(cPriv.Privilege(it.Text))
-            it.BackColor = cPrivileges.GetColorFromStatus(cPriv.Privilege(it.Text))
-        Next
-    End Sub
-
-    Private Sub RemoveToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveToolStripMenuItem.Click
-        Dim pid As Integer = 0
-        If lvProcess.SelectedItems.Count = 1 Then
-            Dim ite As ListViewItem = lvProcess.SelectedItems.Item(0)
-            If TypeOf ite.Tag Is cProcess Then
-                Dim cP As cProcess = CType(ite.Tag, cProcess)
-                pid = cP.Pid
-            End If
-        End If
-
-        If pid < 4 Then Exit Sub
-
-        Dim cPriv As New cPrivileges(pid)
-        Dim it As ListViewItem
-        For Each it In Me.lvPrivileges.SelectedItems
-            cPriv.Privilege(it.Text) = cPrivileges.PrivilegeStatus.PRIVILEGE_REMOVED
-            it.SubItems(1).Text = cPrivileges.PrivilegeStatusToString(cPriv.Privilege(it.Text))
-            it.BackColor = cPrivileges.GetColorFromStatus(cPriv.Privilege(it.Text))
-        Next
-    End Sub
-	
 	Private Sub lvPrivileges_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvPrivileges.ColumnClick
         ' Get the new sorting column.
         Dim new_sorting_column As ColumnHeader = _
@@ -6243,6 +6180,69 @@ Public Class frmMain
                 frm.Show()
                 Exit For
             End If
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem44_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem44.Click
+        Dim pid As Integer = 0
+        If lvProcess.SelectedItems.Count = 1 Then
+            Dim ite As ListViewItem = lvProcess.SelectedItems.Item(0)
+            If TypeOf ite.Tag Is cProcess Then
+                Dim cP As cProcess = CType(ite.Tag, cProcess)
+                pid = cP.Pid
+            End If
+        End If
+
+        If pid < 4 Then Exit Sub
+
+        Dim cPriv As New cPrivileges(pid)
+        Dim it As ListViewItem
+        For Each it In Me.lvPrivileges.SelectedItems
+            cPriv.Privilege(it.Text) = cPrivileges.PrivilegeStatus.PRIVILEGE_ENABLED
+            it.SubItems(1).Text = cPrivileges.PrivilegeStatusToString(cPriv.Privilege(it.Text))
+            it.BackColor = cPrivileges.GetColorFromStatus(cPriv.Privilege(it.Text))
+        Next
+    End Sub
+
+    Private Sub DisableToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisableToolStripMenuItem.Click
+        Dim pid As Integer = 0
+        If lvProcess.SelectedItems.Count = 1 Then
+            Dim ite As ListViewItem = lvProcess.SelectedItems.Item(0)
+            If TypeOf ite.Tag Is cProcess Then
+                Dim cP As cProcess = CType(ite.Tag, cProcess)
+                pid = cP.Pid
+            End If
+        End If
+
+        If pid < 4 Then Exit Sub
+
+        Dim cPriv As New cPrivileges(pid)
+        Dim it As ListViewItem
+        For Each it In Me.lvPrivileges.SelectedItems
+            cPriv.Privilege(it.Text) = cPrivileges.PrivilegeStatus.PRIVILEGE_DISBALED
+            it.SubItems(1).Text = cPrivileges.PrivilegeStatusToString(cPriv.Privilege(it.Text))
+            it.BackColor = cPrivileges.GetColorFromStatus(cPriv.Privilege(it.Text))
+        Next
+    End Sub
+
+    Private Sub RemoveToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveToolStripMenuItem.Click
+        Dim pid As Integer = 0
+        If lvProcess.SelectedItems.Count = 1 Then
+            Dim ite As ListViewItem = lvProcess.SelectedItems.Item(0)
+            If TypeOf ite.Tag Is cProcess Then
+                Dim cP As cProcess = CType(ite.Tag, cProcess)
+                pid = cP.Pid
+            End If
+        End If
+
+        If pid < 4 Then Exit Sub
+
+        Dim cPriv As New cPrivileges(pid)
+        Dim it As ListViewItem
+        For Each it In Me.lvPrivileges.SelectedItems
+            cPriv.Privilege(it.Text) = cPrivileges.PrivilegeStatus.PRIVILEGE_REMOVED
+            it.SubItems(1).Text = cPrivileges.PrivilegeStatusToString(cPriv.Privilege(it.Text))
+            it.BackColor = cPrivileges.GetColorFromStatus(cPriv.Privilege(it.Text))
         Next
     End Sub
 End Class

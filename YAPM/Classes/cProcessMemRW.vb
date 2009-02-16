@@ -87,7 +87,6 @@ Public Class cProcessMemRW
     ' =======================================================
     ' API
     ' =======================================================
-    Private Declare Function AdjustTokenPrivileges Lib "advapi32.dll" (ByVal TokenHandle As Integer, ByVal DisableAllPrivileges As Integer, ByVal NewState As TOKEN_PRIVILEGES, ByVal BufferLength As Integer, ByVal PreviousState As TOKEN_PRIVILEGES, ByVal ReturnLength As Integer) As Integer
     Private Declare Function OpenProcessToken Lib "advapi32.dll" (ByVal ProcessHandle As Integer, ByVal DesiredAccess As Integer, ByVal TokenHandle As Integer) As Integer
     Private Declare Function LookupPrivilegeValue Lib "advapi32.dll" Alias "LookupPrivilegeValueA" (ByVal lpSystemName As String, ByVal lpName As String, ByVal lpLuid As LUID) As Integer
     Public Declare Function CloseHandle Lib "kernel32" (ByVal hObject As Integer) As Integer
