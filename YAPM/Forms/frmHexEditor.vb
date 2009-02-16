@@ -24,7 +24,7 @@ Option Strict On
 
 Public Class frmHexEditor
 
-    Private WithEvents _hex As New MemoryHexEditor.control
+    Public WithEvents _hex As New MemoryHexEditor.control
     Private _pid As Integer
     Private _region As MemoryHexEditor.control.MemoryRegion
 

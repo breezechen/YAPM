@@ -6199,14 +6199,34 @@ Public Class frmMain
     End Sub
 
     Private Sub lvProcMem_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvProcMem.DoubleClick
-        If lvProcMem.SelectedItems.Count > 0 Then
+        Dim it As ListViewItem
+        For Each it In Me.lvProcMem.SelectedItems
             Dim frm As New frmHexEditor
-            Dim itTag As DoubleInteger = CType(lvProcMem.SelectedItems(0).Tag, DoubleInteger)
+            Dim itTag As DoubleInteger = CType(it.Tag, DoubleInteger)
             Dim ad As Integer = itTag.a
             Dim size As Integer = itTag.b
             Dim reg As New MemoryHexEditor.control.MemoryRegion(ad, size)
             frm.SetPidAndRegion(curProc.Pid, reg)
             frm.Show()
-        End If
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem49_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem49.Click
+        Call lvProcMem_DoubleClick(Nothing, Nothing)
+    End Sub
+
+    Private Sub JumpToPEBAddressToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles JumpToPEBAddressToolStripMenuItem.Click
+        Dim peb As Integer = curProc.PEBAddress
+        For Each it As ListViewItem In Me.lvProcMem.Items
+            Dim reg As DoubleInteger = CType(it.Tag, DoubleInteger)
+            If reg.a <= peb AndAlso peb <= (reg.a + reg.b) Then
+                Dim frm As New frmHexEditor
+                Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.a, reg.b)
+                frm.SetPidAndRegion(curProc.Pid, regio)
+                frm._hex.NavigateToOffset(peb)
+                frm.Show()
+                Exit For
+            End If
+        Next
     End Sub
 End Class

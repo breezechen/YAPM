@@ -172,6 +172,13 @@ Public Class control
     ' Public functions
     ' ========================================
 
+    ' Navigate to offset
+    Public Sub NavigateToOffset(ByVal offset As Integer)
+        If offset >= _vs.Minimum AndAlso offset <= _vs.Maximum Then
+            _vs.Value = offset
+        End If
+    End Sub
+
     ' Constructor & destructor
     Protected Overrides Sub Finalize()
         MyBase.Finalize()
