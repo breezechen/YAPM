@@ -47,8 +47,11 @@ Public Class frmAboutG
             it.SubItems.Add(System.Diagnostics.FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion)
             Dim it2 As New ListViewItem("System.Windows.Forms.Ribbon.dll")
             it2.SubItems.Add(System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\System.Windows.Forms.Ribbon.dll").FileVersion)
+            Dim it3 As New ListViewItem("MemoryHexEditor.dll")
+            it3.SubItems.Add(System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\MemoryHexEditor.dll").FileVersion)
             Me.lv.Items.Add(it)
             Me.lv.Items.Add(it2)
+            Me.lv.Items.Add(it3)
         Catch ex As Exception
             '
         End Try
