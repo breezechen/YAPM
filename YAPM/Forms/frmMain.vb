@@ -4858,6 +4858,9 @@ Public Class frmMain
             Me.SplitContainerProcess.Panel2Collapsed = False
             butProcessDisplayDetails.Text = "Hide details"
             butProcessDisplayDetails.Image = My.Resources.hideDetails
+            If Me.lvProcess.SelectedItems.Count > 0 Then
+                Me.lvProcess.SelectedItems(Me.lvProcess.SelectedItems.Count - 1).EnsureVisible()
+            End If
             Call lvProcess_SelectedIndexChanged(Nothing, Nothing)
         End If
     End Sub
