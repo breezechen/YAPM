@@ -4543,9 +4543,11 @@ Public Class frmMain
                 Call cP.GetEnvironmentVariables(cVar, cVal)
 
                 For x As Integer = 0 To cVar.Length - 1
-                    Dim itpr As New ListViewItem(cVar(x))
-                    itpr.SubItems.Add(CStr(cVal(x)))
-                    Me.lvProcEnv.Items.Add(itpr)
+                    If cVar(x).Length > 0 Then
+                        Dim itpr As New ListViewItem(cVar(x))
+                        itpr.SubItems.Add(CStr(cVal(x)))
+                        Me.lvProcEnv.Items.Add(itpr)
+                    End If
                 Next
 
 
