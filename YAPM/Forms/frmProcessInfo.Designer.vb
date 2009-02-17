@@ -171,6 +171,7 @@ Partial Class frmProcessInfo
         Me.lvProcEnv = New YAPM.DoubleBufferedLV
         Me.ColumnHeader60 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader61 = New System.Windows.Forms.ColumnHeader
+        Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerProcPerf = New System.Windows.Forms.Timer(Me.components)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.imgProcess = New System.Windows.Forms.ImageList(Me.components)
@@ -231,10 +232,12 @@ Partial Class frmProcessInfo
         Me.tabProcess.Controls.Add(Me.TabPage9)
         Me.tabProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tabProcess.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tabProcess.ImageList = Me.imgProcessTab
         Me.tabProcess.Location = New System.Drawing.Point(0, 0)
+        Me.tabProcess.Multiline = True
         Me.tabProcess.Name = "tabProcess"
         Me.tabProcess.SelectedIndex = 0
-        Me.tabProcess.Size = New System.Drawing.Size(644, 284)
+        Me.tabProcess.Size = New System.Drawing.Size(644, 300)
         Me.tabProcess.TabIndex = 1
         '
         'TabPage1
@@ -242,10 +245,10 @@ Partial Class frmProcessInfo
         Me.TabPage1.Controls.Add(Me.GroupBox1)
         Me.TabPage1.Controls.Add(Me.gpProcGeneralFile)
         Me.TabPage1.ImageIndex = 0
-        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 42)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(636, 258)
+        Me.TabPage1.Size = New System.Drawing.Size(636, 254)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "General"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -491,10 +494,10 @@ Partial Class frmProcessInfo
         Me.TabPage2.Controls.Add(Me.GroupBox3)
         Me.TabPage2.Controls.Add(Me.GroupBox2)
         Me.TabPage2.ImageIndex = 1
-        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 23)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(636, 258)
+        Me.TabPage2.Size = New System.Drawing.Size(636, 257)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Statistics"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -1001,10 +1004,10 @@ Partial Class frmProcessInfo
         '
         Me.TabPage3.Controls.Add(Me.splitPerformances)
         Me.TabPage3.ImageIndex = 2
-        Me.TabPage3.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage3.Location = New System.Drawing.Point(4, 23)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(636, 258)
+        Me.TabPage3.Size = New System.Drawing.Size(636, 257)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Performances"
         Me.TabPage3.UseVisualStyleBackColor = True
@@ -1024,8 +1027,8 @@ Partial Class frmProcessInfo
         'splitPerformances.Panel2
         '
         Me.splitPerformances.Panel2.Controls.Add(Me.splitPerformance2)
-        Me.splitPerformances.Size = New System.Drawing.Size(630, 252)
-        Me.splitPerformances.SplitterDistance = 113
+        Me.splitPerformances.Size = New System.Drawing.Size(630, 251)
+        Me.splitPerformances.SplitterDistance = 112
         Me.splitPerformances.SplitterWidth = 1
         Me.splitPerformances.TabIndex = 3
         '
@@ -1038,7 +1041,7 @@ Partial Class frmProcessInfo
         Me.graphCPU.GridStep = 10
         Me.graphCPU.Location = New System.Drawing.Point(0, 0)
         Me.graphCPU.Name = "graphCPU"
-        Me.graphCPU.Size = New System.Drawing.Size(630, 113)
+        Me.graphCPU.Size = New System.Drawing.Size(630, 112)
         Me.graphCPU.TabIndex = 1
         Me.graphCPU.TabStop = False
         '
@@ -1094,10 +1097,10 @@ Partial Class frmProcessInfo
         '
         Me.TabPage4.Controls.Add(Me.tabProcessToken)
         Me.TabPage4.ImageIndex = 3
-        Me.TabPage4.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage4.Location = New System.Drawing.Point(4, 23)
         Me.TabPage4.Name = "TabPage4"
         Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage4.Size = New System.Drawing.Size(636, 258)
+        Me.TabPage4.Size = New System.Drawing.Size(636, 257)
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "Token"
         Me.TabPage4.UseVisualStyleBackColor = True
@@ -1109,7 +1112,7 @@ Partial Class frmProcessInfo
         Me.tabProcessToken.Location = New System.Drawing.Point(3, 3)
         Me.tabProcessToken.Name = "tabProcessToken"
         Me.tabProcessToken.SelectedIndex = 0
-        Me.tabProcessToken.Size = New System.Drawing.Size(630, 252)
+        Me.tabProcessToken.Size = New System.Drawing.Size(630, 251)
         Me.tabProcessToken.TabIndex = 0
         '
         'tabProcessTokenPagePrivileges
@@ -1118,7 +1121,7 @@ Partial Class frmProcessInfo
         Me.tabProcessTokenPagePrivileges.Location = New System.Drawing.Point(4, 22)
         Me.tabProcessTokenPagePrivileges.Name = "tabProcessTokenPagePrivileges"
         Me.tabProcessTokenPagePrivileges.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabProcessTokenPagePrivileges.Size = New System.Drawing.Size(622, 226)
+        Me.tabProcessTokenPagePrivileges.Size = New System.Drawing.Size(622, 225)
         Me.tabProcessTokenPagePrivileges.TabIndex = 0
         Me.tabProcessTokenPagePrivileges.Text = "Privileges"
         Me.tabProcessTokenPagePrivileges.UseVisualStyleBackColor = True
@@ -1134,7 +1137,7 @@ Partial Class frmProcessInfo
         Me.lvPrivileges.Location = New System.Drawing.Point(3, 3)
         Me.lvPrivileges.Name = "lvPrivileges"
         Me.lvPrivileges.OverriddenDoubleBuffered = True
-        Me.lvPrivileges.Size = New System.Drawing.Size(616, 220)
+        Me.lvPrivileges.Size = New System.Drawing.Size(616, 219)
         Me.lvPrivileges.TabIndex = 4
         Me.lvPrivileges.UseCompatibleStateImageBehavior = False
         Me.lvPrivileges.View = System.Windows.Forms.View.Details
@@ -1185,10 +1188,10 @@ Partial Class frmProcessInfo
         '
         Me.TabPage5.Controls.Add(Me.lvProcMem)
         Me.TabPage5.ImageIndex = 4
-        Me.TabPage5.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage5.Location = New System.Drawing.Point(4, 23)
         Me.TabPage5.Name = "TabPage5"
         Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage5.Size = New System.Drawing.Size(636, 258)
+        Me.TabPage5.Size = New System.Drawing.Size(636, 257)
         Me.TabPage5.TabIndex = 4
         Me.TabPage5.Text = "Memory"
         Me.TabPage5.UseVisualStyleBackColor = True
@@ -1204,7 +1207,7 @@ Partial Class frmProcessInfo
         Me.lvProcMem.Location = New System.Drawing.Point(3, 3)
         Me.lvProcMem.Name = "lvProcMem"
         Me.lvProcMem.OverriddenDoubleBuffered = True
-        Me.lvProcMem.Size = New System.Drawing.Size(630, 252)
+        Me.lvProcMem.Size = New System.Drawing.Size(630, 251)
         Me.lvProcMem.TabIndex = 5
         Me.lvProcMem.UseCompatibleStateImageBehavior = False
         Me.lvProcMem.View = System.Windows.Forms.View.Details
@@ -1262,10 +1265,10 @@ Partial Class frmProcessInfo
         '
         Me.TabPage6.Controls.Add(Me.SplitContainerInfoProcess)
         Me.TabPage6.ImageIndex = 5
-        Me.TabPage6.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage6.Location = New System.Drawing.Point(4, 23)
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage6.Size = New System.Drawing.Size(636, 258)
+        Me.TabPage6.Size = New System.Drawing.Size(636, 257)
         Me.TabPage6.TabIndex = 5
         Me.TabPage6.Text = "Informations"
         Me.TabPage6.UseVisualStyleBackColor = True
@@ -1289,7 +1292,7 @@ Partial Class frmProcessInfo
         'SplitContainerInfoProcess.Panel2
         '
         Me.SplitContainerInfoProcess.Panel2.Controls.Add(Me.rtb)
-        Me.SplitContainerInfoProcess.Size = New System.Drawing.Size(630, 252)
+        Me.SplitContainerInfoProcess.Size = New System.Drawing.Size(630, 251)
         Me.SplitContainerInfoProcess.SplitterDistance = 25
         Me.SplitContainerInfoProcess.TabIndex = 0
         '
@@ -1356,7 +1359,7 @@ Partial Class frmProcessInfo
         Me.rtb.Location = New System.Drawing.Point(0, 0)
         Me.rtb.Name = "rtb"
         Me.rtb.ReadOnly = True
-        Me.rtb.Size = New System.Drawing.Size(630, 223)
+        Me.rtb.Size = New System.Drawing.Size(630, 222)
         Me.rtb.TabIndex = 14
         Me.rtb.Text = ""
         '
@@ -1364,10 +1367,10 @@ Partial Class frmProcessInfo
         '
         Me.TabPage7.Controls.Add(Me.lvProcServices)
         Me.TabPage7.ImageIndex = 7
-        Me.TabPage7.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage7.Location = New System.Drawing.Point(4, 23)
         Me.TabPage7.Name = "TabPage7"
         Me.TabPage7.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage7.Size = New System.Drawing.Size(636, 258)
+        Me.TabPage7.Size = New System.Drawing.Size(636, 257)
         Me.TabPage7.TabIndex = 6
         Me.TabPage7.Text = "Services"
         Me.TabPage7.UseVisualStyleBackColor = True
@@ -1383,7 +1386,7 @@ Partial Class frmProcessInfo
         Me.lvProcServices.Location = New System.Drawing.Point(3, 3)
         Me.lvProcServices.Name = "lvProcServices"
         Me.lvProcServices.OverriddenDoubleBuffered = True
-        Me.lvProcServices.Size = New System.Drawing.Size(630, 252)
+        Me.lvProcServices.Size = New System.Drawing.Size(630, 251)
         Me.lvProcServices.TabIndex = 5
         Me.lvProcServices.UseCompatibleStateImageBehavior = False
         Me.lvProcServices.View = System.Windows.Forms.View.Details
@@ -1425,10 +1428,10 @@ Partial Class frmProcessInfo
         '
         Me.tabNetwork.Controls.Add(Me.lvProcNetwork)
         Me.tabNetwork.ImageIndex = 8
-        Me.tabNetwork.Location = New System.Drawing.Point(4, 22)
+        Me.tabNetwork.Location = New System.Drawing.Point(4, 42)
         Me.tabNetwork.Name = "tabNetwork"
         Me.tabNetwork.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabNetwork.Size = New System.Drawing.Size(636, 258)
+        Me.tabNetwork.Size = New System.Drawing.Size(636, 238)
         Me.tabNetwork.TabIndex = 7
         Me.tabNetwork.Text = "Network"
         Me.tabNetwork.UseVisualStyleBackColor = True
@@ -1443,7 +1446,7 @@ Partial Class frmProcessInfo
         Me.lvProcNetwork.Location = New System.Drawing.Point(3, 3)
         Me.lvProcNetwork.Name = "lvProcNetwork"
         Me.lvProcNetwork.OverriddenDoubleBuffered = True
-        Me.lvProcNetwork.Size = New System.Drawing.Size(630, 252)
+        Me.lvProcNetwork.Size = New System.Drawing.Size(630, 232)
         Me.lvProcNetwork.TabIndex = 5
         Me.lvProcNetwork.UseCompatibleStateImageBehavior = False
         Me.lvProcNetwork.View = System.Windows.Forms.View.Details
@@ -1472,9 +1475,9 @@ Partial Class frmProcessInfo
         '
         Me.TabPage8.Controls.Add(Me.SplitContainerStrings)
         Me.TabPage8.ImageKey = "font"
-        Me.TabPage8.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage8.Location = New System.Drawing.Point(4, 42)
         Me.TabPage8.Name = "TabPage8"
-        Me.TabPage8.Size = New System.Drawing.Size(636, 258)
+        Me.TabPage8.Size = New System.Drawing.Size(636, 238)
         Me.TabPage8.TabIndex = 8
         Me.TabPage8.Text = "Strings"
         Me.TabPage8.UseVisualStyleBackColor = True
@@ -1500,8 +1503,8 @@ Partial Class frmProcessInfo
         Me.SplitContainerStrings.Panel2.Controls.Add(Me.cmdProcStringSave)
         Me.SplitContainerStrings.Panel2.Controls.Add(Me.optProcStringMemory)
         Me.SplitContainerStrings.Panel2.Controls.Add(Me.optProcStringImage)
-        Me.SplitContainerStrings.Size = New System.Drawing.Size(636, 258)
-        Me.SplitContainerStrings.SplitterDistance = 218
+        Me.SplitContainerStrings.Size = New System.Drawing.Size(636, 238)
+        Me.SplitContainerStrings.SplitterDistance = 201
         Me.SplitContainerStrings.TabIndex = 0
         '
         'lvProcString
@@ -1520,7 +1523,7 @@ Partial Class frmProcessInfo
         Me.lvProcString.MultiSelect = False
         Me.lvProcString.Name = "lvProcString"
         Me.lvProcString.OverriddenDoubleBuffered = True
-        Me.lvProcString.Size = New System.Drawing.Size(636, 218)
+        Me.lvProcString.Size = New System.Drawing.Size(636, 201)
         Me.lvProcString.TabIndex = 4
         Me.lvProcString.UseCompatibleStateImageBehavior = False
         Me.lvProcString.View = System.Windows.Forms.View.Details
@@ -1612,9 +1615,9 @@ Partial Class frmProcessInfo
         '
         Me.TabPage9.Controls.Add(Me.lvProcEnv)
         Me.TabPage9.ImageIndex = 10
-        Me.TabPage9.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage9.Location = New System.Drawing.Point(4, 42)
         Me.TabPage9.Name = "TabPage9"
-        Me.TabPage9.Size = New System.Drawing.Size(636, 258)
+        Me.TabPage9.Size = New System.Drawing.Size(636, 238)
         Me.TabPage9.TabIndex = 9
         Me.TabPage9.Text = "Environment"
         Me.TabPage9.UseVisualStyleBackColor = True
@@ -1634,7 +1637,7 @@ Partial Class frmProcessInfo
         Me.lvProcEnv.Location = New System.Drawing.Point(0, 0)
         Me.lvProcEnv.Name = "lvProcEnv"
         Me.lvProcEnv.OverriddenDoubleBuffered = True
-        Me.lvProcEnv.Size = New System.Drawing.Size(636, 258)
+        Me.lvProcEnv.Size = New System.Drawing.Size(636, 238)
         Me.lvProcEnv.TabIndex = 5
         Me.lvProcEnv.UseCompatibleStateImageBehavior = False
         Me.lvProcEnv.View = System.Windows.Forms.View.Details
@@ -1649,6 +1652,22 @@ Partial Class frmProcessInfo
         Me.ColumnHeader61.Text = "Value"
         Me.ColumnHeader61.Width = 431
         '
+        'imgProcessTab
+        '
+        Me.imgProcessTab.ImageStream = CType(resources.GetObject("imgProcessTab.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imgProcessTab.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgProcessTab.Images.SetKeyName(0, "exe")
+        Me.imgProcessTab.Images.SetKeyName(1, "stats")
+        Me.imgProcessTab.Images.SetKeyName(2, "perf")
+        Me.imgProcessTab.Images.SetKeyName(3, "locked")
+        Me.imgProcessTab.Images.SetKeyName(4, "memory")
+        Me.imgProcessTab.Images.SetKeyName(5, "text.gif")
+        Me.imgProcessTab.Images.SetKeyName(6, "exe2")
+        Me.imgProcessTab.Images.SetKeyName(7, "service")
+        Me.imgProcessTab.Images.SetKeyName(8, "network")
+        Me.imgProcessTab.Images.SetKeyName(9, "font")
+        Me.imgProcessTab.Images.SetKeyName(10, "environment")
+        '
         'timerProcPerf
         '
         Me.timerProcPerf.Enabled = True
@@ -1656,10 +1675,9 @@ Partial Class frmProcessInfo
         '
         'imgMain
         '
-        Me.imgMain.ImageStream = CType(resources.GetObject("imgMain.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imgMain.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit
+        Me.imgMain.ImageSize = New System.Drawing.Size(16, 16)
         Me.imgMain.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgMain.Images.SetKeyName(0, "main_big2.ico")
-        Me.imgMain.Images.SetKeyName(1, "noicon32")
         '
         'imgProcess
         '
@@ -1671,10 +1689,10 @@ Partial Class frmProcessInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(644, 284)
+        Me.ClientSize = New System.Drawing.Size(644, 300)
         Me.Controls.Add(Me.tabProcess)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.MinimumSize = New System.Drawing.Size(630, 320)
+        Me.MinimumSize = New System.Drawing.Size(630, 336)
         Me.Name = "frmProcessInfo"
         Me.Text = "Process informations"
         Me.tabProcess.ResumeLayout(False)
@@ -1875,4 +1893,5 @@ Partial Class frmProcessInfo
     Friend WithEvents timerProcPerf As System.Windows.Forms.Timer
     Friend WithEvents imgMain As System.Windows.Forms.ImageList
     Friend WithEvents imgProcess As System.Windows.Forms.ImageList
+    Friend WithEvents imgProcessTab As System.Windows.Forms.ImageList
 End Class
