@@ -190,10 +190,29 @@ Public Class cWindow
     Private _parentThreadId As Integer
     Private _parentProcName As String
     Private _displayed As Boolean
+    Private _isDisplayed As Boolean = False
+    Private _killedItem As Boolean
+    Private _newItem As Boolean
 
     ' ========================================
     ' Getter & setter
     ' ========================================
+    Public Property IsKilledItem() As Boolean
+        Get
+            Return _killedItem
+        End Get
+        Set(ByVal value As Boolean)
+            _killedItem = value
+        End Set
+    End Property
+    Public Property IsNewItem() As Boolean
+        Get
+            Return _newItem
+        End Get
+        Set(ByVal value As Boolean)
+            _newItem = value
+        End Set
+    End Property
     Public Property isDisplayed() As Boolean
         Get
             Return _displayed
@@ -335,6 +354,8 @@ Public Class cWindow
         _parentProcId = window.ParentProcessId
         _parentThreadId = window.ParentThreadId
         _parentProcName = window.ParentProcessName
+        _killedItem = window.IsKilledItem
+        _newItem = window.IsNewItem
     End Sub
 
 
@@ -350,6 +371,16 @@ Public Class cWindow
                 Return CStr(Me.Handle)
             Case "Process"
                 Return CStr(Me.ParentProcessId) & " -- " & Me.ParentProcessName
+            Case "Id"
+                Return Me.Handle.ToString
+            Case "Caption"
+                Return Me.Caption
+            Case "IsTask"
+                Return Me.IsTask.ToString
+            Case "Enabled"
+                Return Me.Enabled.ToString
+            Case "Visible"
+                Return Me.Visible.ToString
             Case Else
                 Return CStr(Me.Handle)
         End Select

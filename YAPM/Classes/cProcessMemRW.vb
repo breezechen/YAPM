@@ -70,19 +70,6 @@ Public Class cProcessMemRW
     Private Const NO_INFO_RETRIEVED As String = "N/A"
     Private Const SIZE_FOR_STRING As Integer = 5
 
-    Private Enum PROTECTION_TYPE
-        PAGE_EXECUTE = &H10
-        PAGE_EXECUTE_READ = &H20
-        PAGE_EXECUTE_READWRITE = &H40
-        PAGE_EXECUTE_WRITECOPY = &H80
-        PAGE_NOACCESS = &H1
-        PAGE_READONLY = &H2
-        PAGE_READWRITE = &H4
-        PAGE_WRITECOPY = &H8
-        PAGE_GUARD = &H100
-        PAGE_NOCACHE = &H200
-        PAGE_WRITECOMBINE = &H400
-    End Enum
 
     ' =======================================================
     ' API
@@ -149,7 +136,7 @@ Public Class cProcessMemRW
     ' =======================================================
     Private _pid As Integer
     Private _handle As Integer
-    Private si As SYSTEM_INFO
+    Private Shared si As SYSTEM_INFO
 
     ' =======================================================
     ' Public properties
@@ -247,7 +234,7 @@ Public Class cProcessMemRW
     ' =======================================================
     ' Retrieve memory regions (availables for r/w)
     ' =======================================================
-    Public Sub RetrieveMemRegions(ByRef regions() As MEMORY_BASIC_INFORMATION)
+    Private Shared Sub RetrieveMemRegions(ByRef regions() As MEMORY_BASIC_INFORMATION, ByVal pid As Integer)
 
         Dim lHandle As Integer
         Dim lPosMem As Integer
@@ -257,9 +244,11 @@ Public Class cProcessMemRW
 
         ReDim regions(0)
 
-        lHandle = OpenProcess(PROCESS_ALL_ACCESS, 0, _pid)
+        lHandle = OpenProcess(PROCESS_ALL_ACCESS, 0, pid)
 
         lLenMBI = System.Runtime.InteropServices.Marshal.SizeOf(mbi)
+
+        If si.lpMaximumApplicationAddress = 0 Then GetSystemInfo(si)
 
         lPosMem = si.lpMinimumApplicationAddress  ' Start from shorter address
 
@@ -300,7 +289,7 @@ Public Class cProcessMemRW
         Dim regions() As MEMORY_BASIC_INFORMATION
 
         ReDim regions(0)
-        RetrieveMemRegions(regions)
+        RetrieveMemRegions(regions, Me._pid)
 
         ReDim lBaseAdress(regions.Length - 1)
         ReDim lRegionSize(regions.Length - 1)
@@ -521,79 +510,22 @@ Public Class cProcessMemRW
         Return WriteProcessMemory(handle, offset, strStringToWrite, Len(strStringToWrite), 0)
     End Function
 
-    ' Get protection type as string
-    Public Shared Function GetProtectionType(ByVal protec As Integer) As String
-        Dim s As String = ""
+    ' Enumerate regions
+    Public Shared Function Enumerate(ByVal pid As Integer, ByRef m() As cMemRegion) As Integer
+        Dim r() As MEMORY_BASIC_INFORMATION
+        ReDim r(0)
 
-        If (protec And PROTECTION_TYPE.PAGE_EXECUTE) = PROTECTION_TYPE.PAGE_EXECUTE Then
-            s &= "E/"
-        End If
-        If (protec And PROTECTION_TYPE.PAGE_EXECUTE_READ) = PROTECTION_TYPE.PAGE_EXECUTE_READ Then
-            s &= "ERO/"
-        End If
-        If (protec And PROTECTION_TYPE.PAGE_EXECUTE_READWRITE) = PROTECTION_TYPE.PAGE_EXECUTE_READWRITE Then
-            s &= "ERW/"
-        End If
-        If (protec And PROTECTION_TYPE.PAGE_EXECUTE_WRITECOPY) = PROTECTION_TYPE.PAGE_EXECUTE_WRITECOPY Then
-            s &= "EWC/"
-        End If
-        If (protec And PROTECTION_TYPE.PAGE_GUARD) = PROTECTION_TYPE.PAGE_GUARD Then
-            s &= "G/"
-        End If
-        If (protec And PROTECTION_TYPE.PAGE_NOACCESS) = PROTECTION_TYPE.PAGE_NOACCESS Then
-            s &= "NA/"
-        End If
-        If (protec And PROTECTION_TYPE.PAGE_NOCACHE) = PROTECTION_TYPE.PAGE_NOCACHE Then
-            s &= "NC"
-        End If
-        If (protec And PROTECTION_TYPE.PAGE_READONLY) = PROTECTION_TYPE.PAGE_READONLY Then
-            s &= "RO/"
-        End If
-        If (protec And PROTECTION_TYPE.PAGE_READWRITE) = PROTECTION_TYPE.PAGE_READWRITE Then
-            s &= "RW/"
-        End If
-        If (protec And PROTECTION_TYPE.PAGE_WRITECOMBINE) = PROTECTION_TYPE.PAGE_WRITECOMBINE Then
-            s &= "WCOMB/"
-        End If
-        If (protec And PROTECTION_TYPE.PAGE_WRITECOPY) = PROTECTION_TYPE.PAGE_WRITECOPY Then
-            s &= "WC/"
-        End If
+        Call RetrieveMemRegions(r, pid)
 
-        If s.Length > 0 Then
-            s = s.Substring(0, s.Length - 1)
-        Else
-            s = NO_INFO_RETRIEVED
-        End If
+        ReDim m(r.Length - 1)
 
-        Return s
-    End Function
+        Dim x As Integer = 0
+        For Each t As MEMORY_BASIC_INFORMATION In r
+            m(x) = New cMemRegion(pid, t)
+            x += 1
+        Next
 
-    ' Get state type as string
-    Public Shared Function GetStateType(ByVal state As Integer) As String
-        Select Case state
-            Case MEM_COMMIT
-                Return "MEM_COMMIT"
-            Case MEM_RESERVE
-                Return "MEM_RESERVE"
-            Case MEM_FREE
-                Return "MEM_FREE"
-            Case Else
-                Return NO_INFO_RETRIEVED
-        End Select
-    End Function
-
-    ' Get type type as string
-    Public Shared Function GetTypeType(ByVal type As Integer) As String
-        Select Case type
-            Case MEM_IMAGE
-                Return "MEM_IMAGE"
-            Case MEM_PRIVATE
-                Return "MEM_PRIVATE"
-            Case MEM_MAPPED
-                Return "MEM_MAPPED"
-            Case Else
-                Return NO_INFO_RETRIEVED
-        End Select
+        
     End Function
 
     ' =======================================================

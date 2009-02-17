@@ -4,6 +4,11 @@ Imports System.Runtime.InteropServices
 
 Public Class frmProcessInfo
 
+    <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
+    Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
+    End Function
+    Private Declare Function GetTickCount Lib "kernel32" () As Integer
+
     Private curProc As cProcess
     Private Const NO_INFO_RETRIEVED As String = "N/A"
     Private m_SortingColumn As ColumnHeader
@@ -14,16 +19,9 @@ Public Class frmProcessInfo
     Private __lRes() As Integer
     Private cRW As cProcessMemRW
 
+    Private NEW_ITEM_COLOR As Color = Color.FromArgb(128, 255, 0)
+    Private DELETED_ITEM_COLOR As Color = Color.FromArgb(255, 64, 48)
     Private Const SIZE_FOR_STRING As Integer = 4
-
-    Private Structure DoubleInteger
-        Dim a As Integer
-        Dim b As Integer
-        Public Sub New(ByVal _a As Integer, ByVal _b As Integer)
-            a = _a
-            b = _b
-        End Sub
-    End Structure
 
     Private Sub refreshProcessTab()
 
@@ -31,6 +29,25 @@ Public Class frmProcessInfo
 
         ' General informations
         Select Case Me.tabProcess.SelectedTab.Text
+
+            Case "Modules"
+                Call ShowModules()
+
+
+            Case "Threads"
+                Call ShowThreads()
+
+
+            Case "Windows"
+                Call ShowWindows()
+
+
+            Case "Handles"
+                Call ShowHandles()
+
+            Case "Memory"
+
+                Call ShowRegions()
 
             Case "General"
                 Me.txtProcessPath.Text = curProc.Path
@@ -91,38 +108,6 @@ Public Class frmProcessInfo
                 Me.lblQuotaPNPP.Text = GetFormatedSize(mem.QuotaPeakNonPagedPoolUsage)
                 Me.lblQuotaPP.Text = GetFormatedSize(mem.QuotaPagedPoolUsage)
                 Me.lblQuotaPPP.Text = GetFormatedSize(mem.QuotaPeakPagedPoolUsage)
-
-            Case "Memory"
-
-                Dim cRW As New cProcessMemRW(curProc.Pid)
-                Dim reg() As cProcessMemRW.MEMORY_BASIC_INFORMATION = Nothing
-                cRW.RetrieveMemRegions(reg)
-
-                Me.lvProcMem.Items.Clear()
-                ' Name / address / size / protection
-
-                For Each mbi As cProcessMemRW.MEMORY_BASIC_INFORMATION In reg
-                    If mbi.RegionSize > 0 Then
-                        Dim newit As New ListViewItem("name")
-                        Dim sub1 As New ListViewItem.ListViewSubItem
-                        Dim sub2 As New ListViewItem.ListViewSubItem
-                        Dim sub3 As New ListViewItem.ListViewSubItem
-                        Dim sub4 As New ListViewItem.ListViewSubItem
-                        Dim sub5 As New ListViewItem.ListViewSubItem
-                        sub1.Text = "0x" & mbi.BaseAddress.ToString("x")
-                        sub2.Text = "0x" & mbi.RegionSize.ToString("x")
-                        sub3.Text = cProcessMemRW.GetProtectionType(mbi.Protect)
-                        sub4.Text = cProcessMemRW.GetStateType(mbi.State)
-                        sub5.Text = cProcessMemRW.GetTypeType(mbi.lType)
-                        newit.SubItems.Add(sub1)
-                        newit.SubItems.Add(sub2)
-                        newit.SubItems.Add(sub3)
-                        newit.SubItems.Add(sub4)
-                        newit.SubItems.Add(sub5)
-                        newit.Tag = New DoubleInteger(mbi.BaseAddress, mbi.RegionSize)
-                        Me.lvProcMem.Items.Add(newit)
-                    End If
-                Next
 
 
             Case "Network"
@@ -338,10 +323,6 @@ Public Class frmProcessInfo
         End Select
     End Sub
 
-    <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
-    Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
-    End Function
-
     Private Sub frmProcessInfo_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
         ' Cool theme
@@ -351,6 +332,10 @@ Public Class frmProcessInfo
         SetWindowTheme(Me.lvProcMem.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvProcServices.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvPrivileges.Handle, "explorer", Nothing)
+        SetWindowTheme(Me.lvModules.Handle, "explorer", Nothing)
+        SetWindowTheme(Me.lvHandles.Handle, "explorer", Nothing)
+        SetWindowTheme(Me.lvThreads.Handle, "explorer", Nothing)
+        SetWindowTheme(Me.lvWindows.Handle, "explorer", Nothing)
 
         ' Some tooltips
         frmMain.SetToolTip(Me.chkModules, "Check if you want to retrieve modules and threads infos when you click on listview.")
@@ -374,6 +359,12 @@ Public Class frmProcessInfo
                 pctBigIcon.Image = Me.imgMain.Images("noicon32")
             End Try
         End If
+
+        ' Show all items
+        Call ShowModules()
+        Call ShowThreads()
+        Call ShowWindows()
+        Call ShowRegions()
 
         Call refreshProcessTab()
 
@@ -406,7 +397,6 @@ Public Class frmProcessInfo
             Me.tabProcess.SelectedTab.Text = "Token" Or _
             Me.tabProcess.SelectedTab.Text = "Services" Or _
             Me.tabProcess.SelectedTab.Text = "Strings" Or _
-            Me.tabProcess.SelectedTab.Text = "Memory" Or _
             Me.tabProcess.SelectedTab.Text = "Environment") Then _
             Call Me.refreshProcessTab()
     End Sub
@@ -714,15 +704,8 @@ Public Class frmProcessInfo
     End Function
 
     Private Sub lvProcMem_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvProcMem.DoubleClick
-        Dim it As ListViewItem
-        For Each it In Me.lvProcMem.SelectedItems
-            Dim frm As New frmHexEditor
-            Dim itTag As DoubleInteger = CType(it.Tag, DoubleInteger)
-            Dim ad As Integer = itTag.a
-            Dim size As Integer = itTag.b
-            Dim reg As New MemoryHexEditor.control.MemoryRegion(ad, size)
-            frm.SetPidAndRegion(curProc.Pid, reg)
-            frm.Show()
+        For Each it As ListViewItem In Me.lvProcMem.SelectedItems
+            Call CType(it.Tag, cMemRegion).ShowHexEditor()
         Next
     End Sub
 
@@ -758,18 +741,18 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub JumpToPEBAddressToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles JumpToPEBAddressToolStripMenuItem.Click
-        Dim peb As Integer = curProc.PEBAddress
-        For Each it As ListViewItem In Me.lvProcMem.Items
-            Dim reg As DoubleInteger = CType(it.Tag, DoubleInteger)
-            If reg.a <= peb AndAlso peb <= (reg.a + reg.b) Then
-                Dim frm As New frmHexEditor
-                Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.a, reg.b)
-                frm.SetPidAndRegion(curProc.Pid, regio)
-                frm._hex.NavigateToOffset(peb)
-                frm.Show()
-                Exit For
-            End If
-        Next
+        'Dim peb As Integer = curProc.PEBAddress
+        'For Each it As ListViewItem In Me.lvProcMem.Items
+        '    Dim reg As DoubleInteger = CType(it.Tag, DoubleInteger)
+        '    If reg.a <= peb AndAlso peb <= (reg.a + reg.b) Then
+        '        Dim frm As New frmHexEditor
+        '        Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.a, reg.b)
+        '        frm.SetPidAndRegion(curProc.Pid, regio)
+        '        frm._hex.NavigateToOffset(peb)
+        '        frm.Show()
+        '        Exit For
+        '    End If
+        'Next
     End Sub
 
     Private Sub ToolStripMenuItem44_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem44.Click
@@ -838,5 +821,789 @@ Public Class frmProcessInfo
 
     Private Sub ToolStripMenuItem7_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem7.Click
         My.Computer.Clipboard.SetImage(Me.pctSmallIcon.Image)
+    End Sub
+
+    Private Sub cmdGetOnlineInfos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdGetOnlineInfos.Click
+        Dim ipi As InternetProcessInfo = mdlInternet.GetInternetInfos(curProc.Name)
+        With ipi
+            Me.lblSecurityRisk.Text = "Risk : " & ._Risk.ToString
+            Me.rtbOnlineInfos.Text = ._Description
+        End With
+    End Sub
+
+    Public Sub ShowModules()
+
+        Static firstRefresh As Boolean = True
+
+        Dim p As cModule
+        Dim proc() As cModule
+        Dim lvi As ListViewItem
+        Dim x As Integer = 0
+        Dim exist As Boolean = False
+
+        Dim test As Integer = GetTickCount
+
+        ReDim proc(0)
+        cModule.Enumerate(curProc.Pid, proc)
+
+        ' Refresh (or suppress) all modules displayed in listview
+        For Each lvi In Me.lvModules.Items
+
+            ' Test if module exist
+            Dim cP As cModule = CType(lvi.Tag, cModule)
+            For Each p In proc
+                If p IsNot Nothing AndAlso p.FilePath = cP.FilePath Then
+                    exist = True
+                    p.isDisplayed = True
+                    Exit For
+                End If
+            Next
+
+            If exist = False Then
+                ' Module no longer exists
+                If CType(lvi.Tag, cModule).IsKilledItem = False Then
+                    CType(lvi.Tag, cModule).IsKilledItem = True
+                    lvi.BackColor = Me.DELETED_ITEM_COLOR
+                Else
+                    lvi.Remove()
+                End If
+            End If
+            exist = False
+        Next
+
+        ' Add all non displayed modules (new modules)
+        For Each p In proc
+
+            If p IsNot Nothing AndAlso p.isDisplayed = False Then
+
+                p.isDisplayed = True
+
+                ' Get the module name
+                Dim o As String = cFile.GetFileName(p.FileName)
+                Dim it As New ListViewItem
+
+                If Len(o) > 0 Then
+
+                    it.Text = o
+
+                    ' Add icon
+                    it.ForeColor = Color.FromArgb(30, 30, 30)
+                    If p.FileName IsNot Nothing AndAlso p.FileName.Length > 3 Then
+                        If p.FileName.Substring(p.FileName.Length - 3, 3).ToLower = "exe" Then
+
+                            Try
+
+                                Dim fName As String = p.FilePath
+
+                                If IO.File.Exists(fName) Then
+                                    Dim img As System.Drawing.Icon = GetIcon(fName, True)
+                                    imgSearch.Images.Add(fName, img)
+                                    it.ImageKey = fName
+                                Else
+                                    it.ImageKey = "noicon"
+                                End If
+
+                            Catch ex As Exception
+                                it.ImageKey = "noicon"
+                            End Try
+
+                        Else
+                            it.ImageKey = "dll"
+                        End If
+                    Else
+                        it.ImageKey = "dll"
+                    End If
+
+
+                    it.Group = lvModules.Groups(0)
+
+                    ' Add some subitems (columns.count-1 subitems)
+                    Dim subS() As String
+                    ReDim subS(Me.lvModules.Columns.Count - 1)
+                    For xxxx As Integer = 1 To subS.Length - 1
+                        subS(xxxx) = ""
+                    Next
+                    it.SubItems.AddRange(subS)
+
+                    ' Choose color
+                    Dim col As Color = Color.White
+
+                    p.IsNewItem = Not (firstRefresh)
+                    If p.IsNewItem Then
+                        it.BackColor = NEW_ITEM_COLOR
+                    End If
+
+                    it.Tag = New cModule(p)
+
+                    lvModules.Items.Add(it)
+
+                End If
+            End If
+        Next
+
+        ' Here we retrieve some informations for all our displayed modules
+        For Each lvi In Me.lvModules.Items
+
+            Dim cP As cModule = CType(lvi.Tag, cModule)
+
+            If cP.IsNewItem Then
+                cP.IsNewItem = False
+            Else
+                If Not (lvi.BackColor = Color.White) AndAlso Not (cP.IsKilledItem) Then
+                    lvi.BackColor = Color.White
+                End If
+            End If
+
+            Dim isub As ListViewItem.ListViewSubItem
+            Dim xxx As Integer = 0
+            For Each isub In lvi.SubItems
+                Dim colName As String = Me.lvModules.Columns.Item(xxx).Text
+                colName = colName.Replace("< ", "")
+                colName = colName.Replace("> ", "")
+                isub.Text = cP.GetInformation(colName)
+                xxx += 1
+            Next
+
+        Next
+
+        firstRefresh = False
+        lvModules.Sort()
+
+        test = GetTickCount - test
+
+        Trace.WriteLine("Modules refresh took " & CStr(test) & " ms")
+
+    End Sub
+
+    ' Show threads
+    Public Sub ShowThreads()
+
+        Static firstRefresh As Boolean = True
+
+        Dim p As cThread
+        Dim proc() As cThread
+        Dim lvi As ListViewItem
+        Dim x As Integer = 0
+        Dim exist As Boolean = False
+
+        Dim test As Integer = GetTickCount
+
+        ReDim proc(0)
+        cThread.Enumerate(curProc.Pid, proc)
+
+        ' Refresh (or suppress) all threads displayed in listview
+        For Each lvi In Me.lvThreads.Items
+
+            ' Test if thread exist
+            Dim cP As cThread = CType(lvi.Tag, cThread)
+            For Each p In proc
+                If p IsNot Nothing AndAlso p.Id = cP.Id Then
+                    exist = True
+                    p.isDisplayed = True
+                    Exit For
+                End If
+            Next
+
+            If exist = False Then
+                ' thread no longer exists
+                If CType(lvi.Tag, cThread).IsKilledItem = False Then
+                    CType(lvi.Tag, cThread).IsKilledItem = True
+                    lvi.BackColor = Me.DELETED_ITEM_COLOR
+                Else
+                    lvi.Remove()
+                End If
+            End If
+            exist = False
+        Next
+
+        ' Add all non displayed threads (new threads)
+        For Each p In proc
+
+            If p IsNot Nothing AndAlso p.isDisplayed = False Then
+
+                p.isDisplayed = True
+
+                ' Get the thread name
+                Dim it As New ListViewItem
+
+                it.Text = CStr(p.Id)
+
+                ' Add icon
+                it.ForeColor = Color.FromArgb(30, 30, 30)
+                it.Group = lvThreads.Groups(0)
+
+                ' Add some subitems (columns.count-1 subitems)
+                Dim subS() As String
+                ReDim subS(Me.lvThreads.Columns.Count - 1)
+                For xxxx As Integer = 1 To subS.Length - 1
+                    subS(xxxx) = ""
+                Next
+                it.SubItems.AddRange(subS)
+
+                ' Choose color
+                Dim col As Color = Color.White
+
+                p.IsNewItem = Not (firstRefresh)
+                If p.IsNewItem Then
+                    it.BackColor = NEW_ITEM_COLOR
+                End If
+
+                it.ImageKey = "thread"
+                it.Tag = New cThread(p)
+                lvThreads.Items.Add(it)
+
+            End If
+        Next
+
+        ' Here we retrieve some informations for all our displayed threads
+        For Each lvi In Me.lvThreads.Items
+
+            Dim cP As cThread = CType(lvi.Tag, cThread)
+
+            If cP.IsNewItem Then
+                cP.IsNewItem = False
+            Else
+                If Not (lvi.BackColor = Color.White) AndAlso Not (cP.IsKilledItem) Then
+                    lvi.BackColor = Color.White
+                End If
+            End If
+
+            Dim isub As ListViewItem.ListViewSubItem
+            Dim xxx As Integer = 0
+            For Each isub In lvi.SubItems
+                Dim colName As String = Me.lvThreads.Columns.Item(xxx).Text
+                colName = colName.Replace("< ", "")
+                colName = colName.Replace("> ", "")
+                isub.Text = cP.GetInformation(colName)
+                xxx += 1
+            Next
+
+        Next
+
+        firstRefresh = False
+        lvThreads.Sort()
+
+        test = GetTickCount - test
+
+        Trace.WriteLine("Threads refresh took " & CStr(test) & " ms")
+
+    End Sub
+
+    ' Show memory regions
+    Public Sub ShowRegions()
+
+        Static firstRefresh As Boolean = True
+
+        Dim p As cMemRegion
+        Dim proc() As cMemRegion
+        Dim lvi As ListViewItem
+        Dim x As Integer = 0
+        Dim exist As Boolean = False
+
+        Dim test As Integer = GetTickCount
+
+        ReDim proc(0)
+        cProcessMemRW.Enumerate(curProc.Pid, proc)
+
+        ' Refresh (or suppress) all regions displayed in listview
+        For Each lvi In Me.lvProcMem.Items
+
+            ' Test if region exist
+            Dim cP As cMemRegion = CType(lvi.Tag, cMemRegion)
+            For Each p In proc
+                If p IsNot Nothing AndAlso p.BaseAddress = cP.BaseAddress Then
+                    exist = True
+                    p.isDisplayed = True
+                    Exit For
+                End If
+            Next
+
+            If exist = False Then
+                ' region no longer exists
+                If CType(lvi.Tag, cMemRegion).IsKilledItem = False Then
+                    CType(lvi.Tag, cMemRegion).IsKilledItem = True
+                    lvi.BackColor = Me.DELETED_ITEM_COLOR
+                Else
+                    lvi.Remove()
+                End If
+            End If
+            exist = False
+        Next
+
+        ' Add all non displayed regions (new regions)
+        For Each p In proc
+
+            If p IsNot Nothing AndAlso p.isDisplayed = False Then
+
+                p.isDisplayed = True
+
+                ' Get the region name
+                Dim it As New ListViewItem
+
+                it.Text = CStr(p.BaseAddress)
+
+                ' Add icon
+                it.ForeColor = Color.FromArgb(30, 30, 30)
+                'it.Group = lvProcMem.Groups(0)
+
+                ' Add some subitems (columns.count-1 subitems)
+                Dim subS() As String
+                ReDim subS(Me.lvProcMem.Columns.Count - 1)
+                For xxxx As Integer = 1 To subS.Length - 1
+                    subS(xxxx) = ""
+                Next
+                it.SubItems.AddRange(subS)
+
+                ' Choose color
+                Dim col As Color = Color.White
+
+                p.IsNewItem = Not (firstRefresh)
+                If p.IsNewItem Then
+                    it.BackColor = NEW_ITEM_COLOR
+                End If
+
+                it.Tag = New cMemRegion(p)
+                lvProcMem.Items.Add(it)
+
+            End If
+        Next
+
+        ' Here we retrieve some informations for all our displayed regions
+        For Each lvi In Me.lvProcMem.Items
+
+            Dim cP As cMemRegion = CType(lvi.Tag, cMemRegion)
+
+            If cP.IsNewItem Then
+                cP.IsNewItem = False
+            Else
+                If Not (lvi.BackColor = Color.White) AndAlso Not (cP.IsKilledItem) Then
+                    lvi.BackColor = Color.White
+                End If
+            End If
+
+            Dim isub As ListViewItem.ListViewSubItem
+            Dim xxx As Integer = 0
+            For Each isub In lvi.SubItems
+                Dim colName As String = Me.lvProcMem.Columns.Item(xxx).Text
+                colName = colName.Replace("< ", "")
+                colName = colName.Replace("> ", "")
+                isub.Text = cP.GetInformation(colName)
+                xxx += 1
+            Next
+
+        Next
+
+        firstRefresh = False
+        lvProcMem.Sort()
+
+        test = GetTickCount - test
+
+        Trace.WriteLine("Regions refresh took " & CStr(test) & " ms")
+
+    End Sub
+
+    ' Show threads
+    Public Sub ShowWindows(Optional ByVal allWindows As Boolean = True)
+
+        Static firstRefresh As Boolean = True
+
+        Dim p As cWindow
+        Dim proc() As cWindow
+        Dim lvi As ListViewItem
+        Dim x As Integer = 0
+        Dim exist As Boolean = False
+
+        Dim test As Integer = GetTickCount
+
+        ReDim proc(0)
+
+        Dim pa(0) As Integer
+        pa(0) = curProc.Pid
+        cWindow.Enumerate(pa, proc)
+
+        ' Refresh (or suppress) all windows displayed in listview
+        For Each lvi In Me.lvWindows.Items
+
+            ' Test if window exist
+            Dim cP As cWindow = CType(lvi.Tag, cWindow)
+            For Each p In proc
+                If p IsNot Nothing AndAlso p.Handle = cP.Handle Then
+                    exist = True
+                    p.isDisplayed = True
+                    Exit For
+                End If
+            Next
+
+            If exist = False Then
+                ' window no longer exists
+                If CType(lvi.Tag, cWindow).IsKilledItem = False Then
+                    CType(lvi.Tag, cWindow).IsKilledItem = True
+                    lvi.BackColor = Me.DELETED_ITEM_COLOR
+                Else
+                    lvi.Remove()
+                End If
+            End If
+            exist = False
+        Next
+
+        ' Add all non displayed windows (new windows)
+        For Each p In proc
+
+            If p IsNot Nothing AndAlso p.isDisplayed = False Then
+
+                p.isDisplayed = True
+
+                ' Get the window name
+                Dim it As New ListViewItem
+
+                it.Text = CStr(p.Handle)
+
+                ' Add icon
+                it.ForeColor = Color.FromArgb(30, 30, 30)
+                it.Group = lvWindows.Groups(0)
+
+                ' Add some subitems (columns.count-1 subitems)
+                Dim subS() As String
+                ReDim subS(Me.lvWindows.Columns.Count - 1)
+                For xxxx As Integer = 1 To subS.Length - 1
+                    subS(xxxx) = ""
+                Next
+                it.SubItems.AddRange(subS)
+
+                ' Choose color
+                Dim col As Color = Color.White
+
+                p.IsNewItem = Not (firstRefresh)
+                If p.IsNewItem Then
+                    it.BackColor = NEW_ITEM_COLOR
+                End If
+
+                Try
+                    Dim key As String = CStr(p.ParentProcessId) & "|" & CStr(p.Handle)
+                    Me.imgWindows.Images.Add(key, p.SmallIcon)
+                    it.ImageKey = key
+                Catch ex As Exception
+                    it.ImageKey = "noIcon"
+                End Try
+
+                it.Tag = New cWindow(p)
+                lvWindows.Items.Add(it)
+
+            End If
+        Next
+
+        ' Here we retrieve some informations for all our displayed windows
+        For Each lvi In Me.lvWindows.Items
+
+            Dim cP As cWindow = CType(lvi.Tag, cWindow)
+
+            If cP.IsNewItem Then
+                cP.IsNewItem = False
+            Else
+                If Not (lvi.BackColor = Color.White) AndAlso Not (cP.IsKilledItem) Then
+                    lvi.BackColor = Color.White
+                End If
+            End If
+
+            Dim isub As ListViewItem.ListViewSubItem
+            Dim xxx As Integer = 0
+            For Each isub In lvi.SubItems
+                Dim colName As String = Me.lvWindows.Columns.Item(xxx).Text
+                colName = colName.Replace("< ", "")
+                colName = colName.Replace("> ", "")
+                isub.Text = cP.GetInformation(colName)
+                xxx += 1
+            Next
+
+        Next
+
+        firstRefresh = False
+        lvWindows.Sort()
+
+        test = GetTickCount - test
+
+        Trace.WriteLine("Windows refresh took " & CStr(test) & " ms")
+
+    End Sub
+
+    Private Sub ShowHandles()
+        ' Display handles of desired processes (handlesToRefresh)
+        Dim id As Integer = curProc.Pid
+        Dim i As Integer
+        Dim it As ListViewItem
+
+        frmMain.handles_Renamed.Refresh()
+        Me.lvHandles.Items.Clear()
+        Me.lvHandles.BeginUpdate()
+
+        For i = 0 To frmMain.handles_Renamed.Count - 1
+            With frmMain.handles_Renamed
+                If (.GetProcessID(i) = id) And (Len(.GetObjectName(i)) > 0) Then
+                    it = lvHandles.Items.Add(.GetNameInformation(i))
+                    it.SubItems.Add(.GetObjectName(i))
+                    it.SubItems.Add(CStr(.GetHandleCount(i)))
+                    it.SubItems.Add(CStr(.GetPointerCount(i)))
+                    it.SubItems.Add(CStr(.GetObjectCount(i)))
+                    it.SubItems.Add(CStr(.GetHandle(i)))
+                    it.SubItems.Add(CStr(id) & " -- " & cProcess.GetProcessName(id))
+                    it.Tag = .GetHandle(i)
+                    it.ForeColor = Color.FromArgb(30, 30, 30)
+                    Select Case it.Text
+                        Case "Key"
+                            it.ImageKey = "key"
+                        Case "File", "Directory"
+                            ' Have to retrieve the icon of file/directory
+                            Dim fName As String = .GetObjectName(i)
+                            If IO.File.Exists(fName) Or IO.Directory.Exists(fName) Then
+                                Dim img As System.Drawing.Icon = GetIcon2(fName, True)
+                                If img IsNot Nothing Then
+                                    imgServices.Images.Add(fName, img)
+                                    it.ImageKey = fName
+                                Else
+                                    it.ImageKey = "noicon"
+                                End If
+                            Else
+                                it.ImageKey = "noicon"
+                            End If
+                        Case Else
+                            it.ImageKey = "service"
+                    End Select
+                End If
+            End With
+        Next
+
+        Me.lvHandles.EndUpdate()
+
+    End Sub
+
+    Private Sub ToolStripMenuItem36_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem36.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvModules.SelectedItems
+            Call CType(it.Tag, cModule).UnloadModule()
+        Next
+    End Sub
+
+    Private Sub ShowFileDetailsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowFileDetailsToolStripMenuItem.Click
+        If Me.lvModules.SelectedItems.Count > 0 Then
+            Dim s As String = CType(Me.lvModules.SelectedItems.Item(0).Tag, cModule).FilePath
+            If IO.File.Exists(s) Then
+                frmMain.DisplayDetailsFile(s)
+            End If
+        End If
+    End Sub
+
+    Private Sub GoogleSearchToolStripMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GoogleSearchToolStripMenuItem2.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvModules.SelectedItems
+            My.Application.DoEvents()
+            cFile.ShellOpenFile("http://www.google.com/search?hl=en&q=%22" & it.Text & "%22")
+        Next
+    End Sub
+
+    Private Sub ViewMemoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ViewMemoryToolStripMenuItem.Click
+        '' TOCHANGE
+        'For Each it As ListViewItem In Me.lvModules.SelectedItems
+        '    Dim add As Integer = CType(it.Tag, cModule).BaseAddress
+
+        '    For Each it2 As ListViewItem In Me.lvProcMem.Items
+        '        Dim reg As DoubleInteger = CType(it2.Tag, DoubleInteger)
+
+        '        If reg.a <= add AndAlso add <= (reg.a + reg.b) Then
+        '            Dim frm As New frmHexEditor
+        '            Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.a, reg.b)
+        '            frm.SetPidAndRegion(curProc.Pid, regio)
+        '            frm._hex.NavigateToOffset(add)
+        '            frm.Show()
+        '            Exit For
+        '        End If
+        '    Next
+
+        'Next
+
+    End Sub
+
+    Private Sub ToolStripMenuItem23_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem23.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvThreads.SelectedItems
+            CType(it.Tag, cThread).ThreadTerminate()
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem24_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem24.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvThreads.SelectedItems
+            CType(it.Tag, cThread).ThreadSuspend()
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem25_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem25.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvThreads.SelectedItems
+            CType(it.Tag, cThread).ThreadResume()
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem27_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem27.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvThreads.SelectedItems
+            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.Idle
+        Next
+    End Sub
+
+    Private Sub LowestToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LowestToolStripMenuItem.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvThreads.SelectedItems
+            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.Lowest
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem28_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem28.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvThreads.SelectedItems
+            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.BelowNormal
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem29_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem29.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvThreads.SelectedItems
+            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.Normal
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem30_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem30.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvThreads.SelectedItems
+            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.AboveNormal
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem31_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem31.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvThreads.SelectedItems
+            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.Highest
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem32_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem32.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvThreads.SelectedItems
+            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.Critical
+        Next
+    End Sub
+
+    Private Sub lvThreads_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvThreads.MouseDown
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+
+            Dim p As cThread.ThreadPriority = cThread.ThreadPriority.Unknow
+
+            If Me.lvThreads.SelectedItems.Count > 0 Then
+                p = CType(Me.lvThreads.SelectedItems(0).Tag, cThread).Priority
+            End If
+            Me.ToolStripMenuItem27.Checked = (p = cThread.ThreadPriority.Idle)
+            Me.LowestToolStripMenuItem.Checked = (p = cThread.ThreadPriority.Lowest)
+            Me.ToolStripMenuItem28.Checked = (p = cThread.ThreadPriority.BelowNormal)
+            Me.ToolStripMenuItem29.Checked = (p = cThread.ThreadPriority.Normal)
+            Me.ToolStripMenuItem30.Checked = (p = cThread.ThreadPriority.AboveNormal)
+            Me.ToolStripMenuItem31.Checked = (p = cThread.ThreadPriority.Highest)
+            Me.ToolStripMenuItem32.Checked = (p = cThread.ThreadPriority.Critical)
+        End If
+    End Sub
+
+    Private Sub ShowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowToolStripMenuItem.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            Call CType(it.Tag, cWindow).Show()
+        Next
+    End Sub
+
+    Private Sub HideToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HideToolStripMenuItem.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            Call CType(it.Tag, cWindow).Hide()
+        Next
+    End Sub
+
+    Private Sub CloseToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CloseToolStripMenuItem.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            Call CType(it.Tag, cWindow).Close()
+        Next
+    End Sub
+
+    Private Sub BringToFrontToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BringToFrontToolStripMenuItem.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            Call CType(it.Tag, cWindow).BringToFront(True)
+        Next
+    End Sub
+
+    Private Sub DoNotBringToFrontToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DoNotBringToFrontToolStripMenuItem.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            Call CType(it.Tag, cWindow).BringToFront(False)
+        Next
+    End Sub
+
+    Private Sub SetAsActiveWindowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SetAsActiveWindowToolStripMenuItem.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            Call CType(it.Tag, cWindow).SetAsActiveWindow()
+        Next
+    End Sub
+
+    Private Sub SetAsForegroundWindowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SetAsForegroundWindowToolStripMenuItem.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            Call CType(it.Tag, cWindow).SetAsForegroundWindow()
+        Next
+    End Sub
+
+    Private Sub MinimizeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MinimizeToolStripMenuItem.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            Call CType(it.Tag, cWindow).Minimize()
+        Next
+    End Sub
+
+    Private Sub MaximizeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MaximizeToolStripMenuItem.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            Call CType(it.Tag, cWindow).Maximize()
+        Next
+    End Sub
+
+    Private Sub PositionSizeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PositionSizeToolStripMenuItem.Click
+        Dim r As cWindow.RECT
+
+        If Me.lvWindows.SelectedItems.Count > 0 Then
+
+            Dim frm As New frmWindowPosition
+            With frm
+                .SetCurrentPositions(CType(Me.lvWindows.SelectedItems(0).Tag, cWindow).Positions)
+
+                If .ShowDialog() = Windows.Forms.DialogResult.OK Then
+                    r = .NewRect
+                    Dim it As ListViewItem
+                    For Each it In Me.lvWindows.SelectedItems
+                        Call CType(it.Tag, cWindow).SetPositions(r)
+                    Next
+                End If
+            End With
+        End If
+    End Sub
+
+    Private Sub EnableToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EnableToolStripMenuItem.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            CType(it.Tag, cWindow).Enabled = True
+        Next
+    End Sub
+
+    Private Sub DisableToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisableToolStripMenuItem1.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.SelectedItems
+            CType(it.Tag, cWindow).Enabled = False
+        Next
     End Sub
 End Class

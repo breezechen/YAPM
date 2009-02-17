@@ -1626,17 +1626,17 @@ Public Class frmMain
             End If
 
             Select Case mdlInternet.GetSecurityRisk(cp.Name)
-                Case 0
+                Case SecurityRisk.Safe
                     it.BackColor = Color.LightGreen
-                Case 1
+                Case SecurityRisk.Caution1
                     it.BackColor = Color.LightPink
-                Case 2
+                Case SecurityRisk.Caution2
                     it.BackColor = Color.Orange
-                Case 3
+                Case SecurityRisk.Alert1
                     it.BackColor = Color.Red
-                Case 4
+                Case SecurityRisk.Alert2
                     it.BackColor = Color.Red
-                Case 5
+                Case SecurityRisk.Alert3
                     it.BackColor = Color.Red
             End Select
 
@@ -3549,7 +3549,7 @@ Public Class frmMain
                     Try
 
                         ' Get file infos
-                        Dim info As System.Diagnostics.FileVersionInfo = tCt.FILE_VERSION_IFNO
+                        Dim info As System.Diagnostics.FileVersionInfo = tCt.FILE_VERSION_INFO
 
                         Dim it As New ListViewItem
                         it.Text = cFile.GetFileName(tCt.FileName)

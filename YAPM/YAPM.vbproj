@@ -246,6 +246,7 @@
     <Compile Include="Classes\cLog.vb" />
     <Compile Include="Classes\clsDriverCtrl.vb" />
     <Compile Include="Classes\clsOpenedHandles.vb" />
+    <Compile Include="Classes\cMemRegion.vb" />
     <Compile Include="Classes\cModule.vb" />
     <Compile Include="Classes\cMonitor.vb" />
     <Compile Include="Classes\cNetwork.vb" />

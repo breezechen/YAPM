@@ -135,6 +135,9 @@ Public Class cThread
     Private _procName As String                     ' Process owner name
     Private _Thread As ProcessThread
     Private _hThread As Integer
+    Private _isDisplayed As Boolean = False
+    Private _killedItem As Boolean
+    Private _newItem As Boolean
 
 
     ' ========================================
@@ -151,9 +154,13 @@ Public Class cThread
     Public Sub New(ByVal thread As cThread)
         MyBase.New()
         _id = thread.Id
+        _procId = thread.ProcessId
         _procName = thread.ProcessName
         _procId = thread.ProcessId
         _Thread = thread.ProcessThread
+        _hThread = OpenThread(QUERY_INFORMATION, 0, _id)
+        _newItem = thread.IsNewItem
+        _killedItem = thread.IsKilledItem
     End Sub
     Protected Overloads Overrides Sub Finalize()
         If _Thread IsNot Nothing Then
@@ -180,14 +187,47 @@ Public Class cThread
     End Property
     Public ReadOnly Property BasePriority() As Integer
         Get
-            Return _Thread.BasePriority
+            Try
+                Return _Thread.BasePriority
+            Catch ex As Exception
+                Return 0
+            End Try
         End Get
     End Property
 
     Public ReadOnly Property ThreadState() As String
         Get
-            Return _Thread.ThreadState.ToString
+            Try
+                Return _Thread.ThreadState.ToString
+            Catch ex As Exception
+                Return ""
+            End Try
         End Get
+    End Property
+
+    Public Property isDisplayed() As Boolean
+        Get
+            Return _isDisplayed
+        End Get
+        Set(ByVal value As Boolean)
+            _isDisplayed = value
+        End Set
+    End Property
+    Public Property IsKilledItem() As Boolean
+        Get
+            Return _killedItem
+        End Get
+        Set(ByVal value As Boolean)
+            _killedItem = value
+        End Set
+    End Property
+    Public Property IsNewItem() As Boolean
+        Get
+            Return _newItem
+        End Get
+        Set(ByVal value As Boolean)
+            _newItem = value
+        End Set
     End Property
 
     Public Property Priority() As ThreadPriority
@@ -213,50 +253,82 @@ Public Class cThread
 
     Public ReadOnly Property StartAddress() As Integer
         Get
-            Return CInt(_Thread.StartAddress)
+            Try
+                Return CInt(_Thread.StartAddress)
+            Catch ex As Exception
+                Return 0
+            End Try
         End Get
     End Property
 
     Public ReadOnly Property StartTime() As Date
         Get
-            Return _Thread.StartTime
+            Try
+                Return _Thread.StartTime
+            Catch ex As Exception
+                Return New Date(0)
+            End Try
         End Get
     End Property
 
     Public ReadOnly Property UserProcessorTime() As TimeSpan
         Get
-            Return _Thread.UserProcessorTime
+            Try
+                Return _Thread.UserProcessorTime
+            Catch ex As Exception
+                Return New TimeSpan(0)
+            End Try
         End Get
     End Property
 
     Public ReadOnly Property TotalProcessorTime() As TimeSpan
         Get
-            Return _Thread.TotalProcessorTime
+            Try
+                Return _Thread.TotalProcessorTime
+            Catch ex As Exception
+                Return New TimeSpan(0)
+            End Try
         End Get
     End Property
 
     Public ReadOnly Property PrivilegedProcessorTime() As TimeSpan
         Get
-            Return _Thread.PrivilegedProcessorTime
+            Try
+                Return _Thread.PrivilegedProcessorTime
+            Catch ex As Exception
+                Return New TimeSpan(0)
+            End Try
         End Get
     End Property
 
     Public Property PriorityBoostEnabled() As Boolean
         Get
-            Return _Thread.PriorityBoostEnabled
+            Try
+                Return _Thread.PriorityBoostEnabled
+            Catch ex As Exception
+                Return False
+            End Try
         End Get
         Set(ByVal value As Boolean)
-            _Thread.PriorityBoostEnabled = value
+            Try
+                _Thread.PriorityBoostEnabled = value
+            Catch ex As Exception
+                '
+            End Try
         End Set
     End Property
 
     Public ReadOnly Property WaitReason() As String
         Get
-            If _Thread.ThreadState = Diagnostics.ThreadState.Wait Then
-                Return _Thread.WaitReason.ToString
-            Else
-                Return "Not waiting"
-            End If
+            Try
+                If _Thread.ThreadState = Diagnostics.ThreadState.Wait Then
+                    Return _Thread.WaitReason.ToString
+                Else
+                    Return "Not waiting"
+                End If
+            Catch ex As Exception
+                Return ""
+            End Try
         End Get
     End Property
     '
@@ -265,7 +337,7 @@ Public Class cThread
             Return 0
         End Get
         Set(ByVal value As Integer)
-            _Thread.ProcessorAffinity = CType(value, IntPtr)
+            ' _Thread.ProcessorAffinity = CType(value, IntPtr)
         End Set
     End Property
     '
@@ -274,7 +346,7 @@ Public Class cThread
             Return 0
         End Get
         Set(ByVal value As Integer)
-            _Thread.IdealProcessor = value
+            ' _Thread.IdealProcessor = value
         End Set
     End Property
 
@@ -294,6 +366,28 @@ Public Class cThread
     ' ========================================
     ' Public functions of this class
     ' ========================================
+
+    ' Return informations
+    Public Function GetInformation(ByVal info As String) As String
+        Dim res As String = ""
+
+        Select Case info
+            Case "Id"
+                res = CStr(Me.Id)
+            Case "Priority"
+                res = Me.PriorityString
+            Case "State"
+                res = Me.ThreadState
+            Case "WaitReason"
+                res = Me.WaitReason
+            Case "StartTime"
+                res = CStr(Me.StartTime.ToLongDateString & " -- " & Me.StartTime.ToLongTimeString)
+            Case "TotalProcessorTime"
+                res = Me.TotalProcessorTime.ToString
+        End Select
+
+        Return res
+    End Function
 
     ' Reset ideal processor
     Public Sub ResetIdealProcessor()

@@ -27,13 +27,23 @@ Module mdlInternet
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
+    Public Enum SecurityRisk As Integer
+        Unknow = -1
+        Safe = 0
+        Caution1 = 1
+        Caution2 = 2
+        Alert1 = 3
+        Alert2 = 4
+        Alert3 = 4
+    End Enum
+
     Public Structure InternetProcessInfo
         Dim _Description As String
-        Dim _Risk As Integer
+        Dim _Risk As SecurityRisk
     End Structure
 
     ' Get security risk from internet
-    Public Function GetSecurityRisk(ByVal process As String) As Integer
+    Public Function GetSecurityRisk(ByVal process As String) As SecurityRisk
         Dim ret As Integer = 0
 
         ' Download source page of
@@ -53,7 +63,7 @@ Module mdlInternet
             ret = -1
         End If
 
-        Return ret
+        Return CType(ret, SecurityRisk)
     End Function
 
     ' Get security rick and description from internet
@@ -74,7 +84,7 @@ Module mdlInternet
 
         If i > 0 Then
             Dim z As String = s.Substring(i + 27, 1)
-            ret._Risk = CInt(Val(z))
+            ret._Risk = CType(CInt(Val(z)), SecurityRisk)
             If d1 > 0 And d2 > 0 Then
                 Dim z2 As String = s.Substring(d1 + 23, d2 - d1 - 24)
                 ret._Description = Replace(z2, "<BR><BR>", vbNewLine)
@@ -82,7 +92,7 @@ Module mdlInternet
                 ret._Description = NO_INFO_RETRIEVED
             End If
         Else
-            ret._Risk = -1
+            ret._Risk = SecurityRisk.Unknow
         End If
 
         Return ret
