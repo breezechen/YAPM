@@ -1310,8 +1310,8 @@ Public Class cProcess
                 res = CStr(Me.AffinityMask)
             Case "AverageCpuUsage"
                 Dim i As Long = Date.Now.Ticks - Me.StartTime.Ticks
-                If i > 0 Then
-                    res = GetFormatedPercentage(Me.ProcessorTime.Ticks / i)
+                If i > 0 AndAlso _processors > 0 Then
+                    res = GetFormatedPercentage(Me.ProcessorTime.Ticks / i / _processors)
                 Else
                     res = GetFormatedPercentage(0)
                 End If
