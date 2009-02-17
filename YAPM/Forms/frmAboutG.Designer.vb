@@ -50,7 +50,7 @@ Partial Class frmAboutG
         Me.lnklblSF.AutoSize = True
         Me.lnklblSF.Location = New System.Drawing.Point(18, 246)
         Me.lnklblSF.Name = "lnklblSF"
-        Me.lnklblSF.Size = New System.Drawing.Size(131, 13)
+        Me.lnklblSF.Size = New System.Drawing.Size(138, 13)
         Me.lnklblSF.TabIndex = 2
         Me.lnklblSF.TabStop = True
         Me.lnklblSF.Text = "YAPM on Sourceforge.net"
@@ -89,7 +89,7 @@ Partial Class frmAboutG
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(95, 46)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(48, 13)
+        Me.Label2.Size = New System.Drawing.Size(52, 13)
         Me.Label2.TabIndex = 6
         Me.Label2.Text = "Version :"
         '
@@ -120,7 +120,7 @@ Partial Class frmAboutG
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(95, 63)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(60, 13)
+        Me.Label4.Size = New System.Drawing.Size(66, 13)
         Me.Label4.TabIndex = 8
         Me.Label4.Text = "Build date :"
         '
@@ -129,7 +129,7 @@ Partial Class frmAboutG
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(16, 95)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(287, 13)
+        Me.Label3.Size = New System.Drawing.Size(303, 13)
         Me.Label3.TabIndex = 10
         Me.Label3.Text = "Yet Another Process Monitor is under GNU GPL 2.0 license"
         '
@@ -138,7 +138,7 @@ Partial Class frmAboutG
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(16, 112)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(178, 13)
+        Me.Label5.Size = New System.Drawing.Size(189, 13)
         Me.Label5.TabIndex = 11
         Me.Label5.Text = "Copyright 2008-2009 (c) violent_ken"
         '
@@ -170,7 +170,7 @@ Partial Class frmAboutG
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(16, 139)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(65, 13)
+        Me.Label6.Size = New System.Drawing.Size(70, 13)
         Me.Label6.TabIndex = 13
         Me.Label6.Text = "File versions"
         '
@@ -179,7 +179,7 @@ Partial Class frmAboutG
         Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(205, 139)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(84, 13)
+        Me.Label7.Size = New System.Drawing.Size(89, 13)
         Me.Label7.TabIndex = 14
         Me.Label7.Text = "Thanks a lot to :"
         '
@@ -188,7 +188,7 @@ Partial Class frmAboutG
         Me.lblRibbon.AutoSize = True
         Me.lblRibbon.Location = New System.Drawing.Point(216, 155)
         Me.lblRibbon.Name = "lblRibbon"
-        Me.lblRibbon.Size = New System.Drawing.Size(185, 13)
+        Me.lblRibbon.Size = New System.Drawing.Size(198, 13)
         Me.lblRibbon.TabIndex = 15
         Me.lblRibbon.TabStop = True
         Me.lblRibbon.Text = "Jose Manuel Menéndez Poó (Ribbon)"
@@ -198,7 +198,7 @@ Partial Class frmAboutG
         Me.lblFugueIcons.AutoSize = True
         Me.lblFugueIcons.Location = New System.Drawing.Point(216, 171)
         Me.lblFugueIcons.Name = "lblFugueIcons"
-        Me.lblFugueIcons.Size = New System.Drawing.Size(174, 13)
+        Me.lblFugueIcons.Size = New System.Drawing.Size(181, 13)
         Me.lblFugueIcons.TabIndex = 16
         Me.lblFugueIcons.TabStop = True
         Me.lblFugueIcons.Text = "Yusuke Kamiyamane (Fugue Icons)"
@@ -208,7 +208,7 @@ Partial Class frmAboutG
         Me.lblShareVB.AutoSize = True
         Me.lblShareVB.Location = New System.Drawing.Point(216, 187)
         Me.lblShareVB.Name = "lblShareVB"
-        Me.lblShareVB.Size = New System.Drawing.Size(154, 13)
+        Me.lblShareVB.Size = New System.Drawing.Size(164, 13)
         Me.lblShareVB.TabIndex = 17
         Me.lblShareVB.TabStop = True
         Me.lblShareVB.Text = "ShareVB (KernelMemory driver)"
@@ -218,7 +218,7 @@ Partial Class frmAboutG
         Me.lblMe.AutoSize = True
         Me.lblMe.Location = New System.Drawing.Point(18, 262)
         Me.lblMe.Name = "lblMe"
-        Me.lblMe.Size = New System.Drawing.Size(80, 13)
+        Me.lblMe.Size = New System.Drawing.Size(83, 13)
         Me.lblMe.TabIndex = 18
         Me.lblMe.TabStop = True
         Me.lblMe.Text = "Send feedback"
@@ -258,7 +258,7 @@ Partial Class frmAboutG
         Me.Controls.Add(Me.pctIcon)
         Me.Controls.Add(Me.btnOK)
         Me.Controls.Add(Me.lnklblSF)
-        Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Name = "frmAboutG"
         Me.ShowIcon = False

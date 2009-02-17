@@ -41,7 +41,7 @@ Partial Class frmSaveReport
         Me.lblProgress.AutoSize = True
         Me.lblProgress.Location = New System.Drawing.Point(12, 38)
         Me.lblProgress.Name = "lblProgress"
-        Me.lblProgress.Size = New System.Drawing.Size(84, 13)
+        Me.lblProgress.Size = New System.Drawing.Size(86, 13)
         Me.lblProgress.TabIndex = 2
         Me.lblProgress.Text = "Saved 0/0 items"
         '
@@ -85,7 +85,7 @@ Partial Class frmSaveReport
         Me.Controls.Add(Me.cmdOK)
         Me.Controls.Add(Me.lblProgress)
         Me.Controls.Add(Me.pgb)
-        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False

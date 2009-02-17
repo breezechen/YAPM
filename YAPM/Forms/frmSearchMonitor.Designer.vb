@@ -37,7 +37,7 @@ Partial Class frmSearchMonitor
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(12, 9)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(75, 13)
+        Me.Label1.Size = New System.Drawing.Size(77, 13)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Text to search"
         '
@@ -45,7 +45,7 @@ Partial Class frmSearchMonitor
         '
         Me.txtToSearch.Location = New System.Drawing.Point(93, 6)
         Me.txtToSearch.Name = "txtToSearch"
-        Me.txtToSearch.Size = New System.Drawing.Size(131, 20)
+        Me.txtToSearch.Size = New System.Drawing.Size(131, 22)
         Me.txtToSearch.TabIndex = 1
         '
         'chkCase
@@ -53,7 +53,7 @@ Partial Class frmSearchMonitor
         Me.chkCase.AutoSize = True
         Me.chkCase.Location = New System.Drawing.Point(230, 8)
         Me.chkCase.Name = "chkCase"
-        Me.chkCase.Size = New System.Drawing.Size(94, 17)
+        Me.chkCase.Size = New System.Drawing.Size(97, 17)
         Me.chkCase.TabIndex = 2
         Me.chkCase.Text = "Case sensitive"
         Me.chkCase.UseVisualStyleBackColor = True
@@ -100,6 +100,7 @@ Partial Class frmSearchMonitor
         Me.Controls.Add(Me.chkCase)
         Me.Controls.Add(Me.txtToSearch)
         Me.Controls.Add(Me.Label1)
+        Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False

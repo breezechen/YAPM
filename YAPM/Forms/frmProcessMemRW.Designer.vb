@@ -22,7 +22,7 @@ Partial Class frmProcessMemRW
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Available regions", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Available regions", System.Windows.Forms.HorizontalAlignment.Left)
         Me.pct = New System.Windows.Forms.PictureBox
         Me.lv = New YAPM.DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
@@ -45,11 +45,12 @@ Partial Class frmProcessMemRW
         '
         Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
         Me.lv.FullRowSelect = True
-        ListViewGroup3.Header = "Available regions"
-        ListViewGroup3.Name = "gpDef"
-        Me.lv.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3})
+        ListViewGroup1.Header = "Available regions"
+        ListViewGroup1.Name = "gpDef"
+        Me.lv.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1})
         Me.lv.Location = New System.Drawing.Point(12, 48)
         Me.lv.Name = "lv"
+        Me.lv.OverriddenDoubleBuffered = False
         Me.lv.Size = New System.Drawing.Size(248, 137)
         Me.lv.TabIndex = 2
         Me.lv.UseCompatibleStateImageBehavior = False
@@ -78,7 +79,7 @@ Partial Class frmProcessMemRW
         '
         Me.TextBox1.Location = New System.Drawing.Point(543, 307)
         Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(100, 21)
+        Me.TextBox1.Size = New System.Drawing.Size(100, 22)
         Me.TextBox1.TabIndex = 5
         Me.TextBox1.Text = "2980"
         '
@@ -91,7 +92,7 @@ Partial Class frmProcessMemRW
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.lv)
         Me.Controls.Add(Me.pct)
-        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False
@@ -106,9 +107,9 @@ Partial Class frmProcessMemRW
 
     End Sub
     Friend WithEvents pct As System.Windows.Forms.PictureBox
-    Friend WithEvents lv As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
+    Friend WithEvents lv As YAPM.DoubleBufferedLV
 End Class

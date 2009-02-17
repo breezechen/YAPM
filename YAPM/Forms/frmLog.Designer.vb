@@ -116,6 +116,7 @@ Partial Class frmLog
         Me.ClientSize = New System.Drawing.Size(624, 430)
         Me.Controls.Add(Me.txtLog)
         Me.Controls.Add(Me.Ribbon)
+        Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmLog"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent

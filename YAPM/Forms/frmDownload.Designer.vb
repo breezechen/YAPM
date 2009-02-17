@@ -59,16 +59,16 @@ Partial Class frmDownload
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(12, 9)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(237, 13)
+        Me.Label1.Size = New System.Drawing.Size(256, 13)
         Me.Label1.TabIndex = 1
         Me.Label1.Text = "Currently downloading last update available to :"
         '
         'txtPath
         '
-        Me.txtPath.Location = New System.Drawing.Point(255, 6)
+        Me.txtPath.Location = New System.Drawing.Point(274, 6)
         Me.txtPath.Name = "txtPath"
         Me.txtPath.ReadOnly = True
-        Me.txtPath.Size = New System.Drawing.Size(164, 21)
+        Me.txtPath.Size = New System.Drawing.Size(143, 22)
         Me.txtPath.TabIndex = 1
         Me.txtPath.Text = "C:\path.zip"
         '
@@ -84,7 +84,7 @@ Partial Class frmDownload
         Me.lblProgress.AutoSize = True
         Me.lblProgress.Location = New System.Drawing.Point(12, 66)
         Me.lblProgress.Name = "lblProgress"
-        Me.lblProgress.Size = New System.Drawing.Size(121, 13)
+        Me.lblProgress.Size = New System.Drawing.Size(131, 13)
         Me.lblProgress.TabIndex = 4
         Me.lblProgress.Text = "Waiting for download..."
         '
@@ -98,7 +98,7 @@ Partial Class frmDownload
         Me.Controls.Add(Me.txtPath)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.TableLayoutPanel1)
-        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False

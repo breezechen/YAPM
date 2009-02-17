@@ -54,7 +54,7 @@ Partial Class frmWindowPosition
         '
         Me.txtWidth.Location = New System.Drawing.Point(53, 47)
         Me.txtWidth.Name = "txtWidth"
-        Me.txtWidth.Size = New System.Drawing.Size(62, 21)
+        Me.txtWidth.Size = New System.Drawing.Size(62, 22)
         Me.txtWidth.TabIndex = 3
         '
         'Label4
@@ -62,7 +62,7 @@ Partial Class frmWindowPosition
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(12, 50)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(35, 13)
+        Me.Label4.Size = New System.Drawing.Size(39, 13)
         Me.Label4.TabIndex = 5
         Me.Label4.Text = "Width"
         '
@@ -70,7 +70,7 @@ Partial Class frmWindowPosition
         '
         Me.txtHeight.Location = New System.Drawing.Point(53, 15)
         Me.txtHeight.Name = "txtHeight"
-        Me.txtHeight.Size = New System.Drawing.Size(62, 21)
+        Me.txtHeight.Size = New System.Drawing.Size(62, 22)
         Me.txtHeight.TabIndex = 2
         '
         'Label3
@@ -78,7 +78,7 @@ Partial Class frmWindowPosition
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(9, 18)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(38, 13)
+        Me.Label3.Size = New System.Drawing.Size(42, 13)
         Me.Label3.TabIndex = 3
         Me.Label3.Text = "Height"
         '
@@ -87,7 +87,7 @@ Partial Class frmWindowPosition
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(90, 9)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(25, 13)
+        Me.Label1.Size = New System.Drawing.Size(26, 13)
         Me.Label1.TabIndex = 1
         Me.Label1.Text = "Top"
         '
@@ -95,14 +95,14 @@ Partial Class frmWindowPosition
         '
         Me.txtTop.Location = New System.Drawing.Point(121, 6)
         Me.txtTop.Name = "txtTop"
-        Me.txtTop.Size = New System.Drawing.Size(62, 21)
+        Me.txtTop.Size = New System.Drawing.Size(62, 22)
         Me.txtTop.TabIndex = 0
         '
         'txtLeft
         '
         Me.txtLeft.Location = New System.Drawing.Point(6, 74)
         Me.txtLeft.Name = "txtLeft"
-        Me.txtLeft.Size = New System.Drawing.Size(62, 21)
+        Me.txtLeft.Size = New System.Drawing.Size(62, 22)
         Me.txtLeft.TabIndex = 1
         '
         'Label2
@@ -144,7 +144,7 @@ Partial Class frmWindowPosition
         Me.Controls.Add(Me.txtTop)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Panel1)
-        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False

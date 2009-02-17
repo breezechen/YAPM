@@ -88,14 +88,14 @@ Partial Class frmPreferences
         '
         Me.txtServiceIntervall.Location = New System.Drawing.Point(170, 37)
         Me.txtServiceIntervall.Name = "txtServiceIntervall"
-        Me.txtServiceIntervall.Size = New System.Drawing.Size(120, 21)
+        Me.txtServiceIntervall.Size = New System.Drawing.Size(120, 22)
         Me.txtServiceIntervall.TabIndex = 6
         '
         'txtProcessIntervall
         '
         Me.txtProcessIntervall.Location = New System.Drawing.Point(170, 14)
         Me.txtProcessIntervall.Name = "txtProcessIntervall"
-        Me.txtProcessIntervall.Size = New System.Drawing.Size(120, 21)
+        Me.txtProcessIntervall.Size = New System.Drawing.Size(120, 22)
         Me.txtProcessIntervall.TabIndex = 5
         '
         'Label2
@@ -103,7 +103,7 @@ Partial Class frmPreferences
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(7, 40)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(150, 13)
+        Me.Label2.Size = New System.Drawing.Size(156, 13)
         Me.Label2.TabIndex = 1
         Me.Label2.Text = "Services refreshment intervall"
         '
@@ -112,7 +112,7 @@ Partial Class frmPreferences
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(6, 17)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(158, 13)
+        Me.Label1.Size = New System.Drawing.Size(165, 13)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Processes refreshment intervall"
         '
@@ -135,7 +135,7 @@ Partial Class frmPreferences
         Me.chkTopMost.AutoSize = True
         Me.chkTopMost.Location = New System.Drawing.Point(9, 114)
         Me.chkTopMost.Name = "chkTopMost"
-        Me.chkTopMost.Size = New System.Drawing.Size(122, 17)
+        Me.chkTopMost.Size = New System.Drawing.Size(127, 17)
         Me.chkTopMost.TabIndex = 4
         Me.chkTopMost.Text = "Start YAPM topmost"
         Me.chkTopMost.UseVisualStyleBackColor = True
@@ -145,7 +145,7 @@ Partial Class frmPreferences
         Me.chkHideDetails.AutoSize = True
         Me.chkHideDetails.Location = New System.Drawing.Point(9, 91)
         Me.chkHideDetails.Name = "chkHideDetails"
-        Me.chkHideDetails.Size = New System.Drawing.Size(182, 17)
+        Me.chkHideDetails.Size = New System.Drawing.Size(195, 17)
         Me.chkHideDetails.TabIndex = 3
         Me.chkHideDetails.Text = "Start with process details hidden"
         Me.chkHideDetails.UseVisualStyleBackColor = True
@@ -155,7 +155,7 @@ Partial Class frmPreferences
         Me.chkStartTray.AutoSize = True
         Me.chkStartTray.Location = New System.Drawing.Point(9, 68)
         Me.chkStartTray.Name = "chkStartTray"
-        Me.chkStartTray.Size = New System.Drawing.Size(118, 17)
+        Me.chkStartTray.Size = New System.Drawing.Size(120, 17)
         Me.chkStartTray.TabIndex = 2
         Me.chkStartTray.Text = "Start YAPM on tray"
         Me.chkStartTray.UseVisualStyleBackColor = True
@@ -165,7 +165,7 @@ Partial Class frmPreferences
         Me.chkReplaceTaskmgr.AutoSize = True
         Me.chkReplaceTaskmgr.Location = New System.Drawing.Point(9, 45)
         Me.chkReplaceTaskmgr.Name = "chkReplaceTaskmgr"
-        Me.chkReplaceTaskmgr.Size = New System.Drawing.Size(105, 17)
+        Me.chkReplaceTaskmgr.Size = New System.Drawing.Size(110, 17)
         Me.chkReplaceTaskmgr.TabIndex = 1
         Me.chkReplaceTaskmgr.Text = "Replace taskmgr"
         Me.chkReplaceTaskmgr.UseVisualStyleBackColor = True
@@ -175,7 +175,7 @@ Partial Class frmPreferences
         Me.chkStart.AutoSize = True
         Me.chkStart.Location = New System.Drawing.Point(9, 20)
         Me.chkStart.Name = "chkStart"
-        Me.chkStart.Size = New System.Drawing.Size(179, 17)
+        Me.chkStart.Size = New System.Drawing.Size(190, 17)
         Me.chkStart.TabIndex = 0
         Me.chkStart.Text = "Start YAPM on Windows startup"
         Me.chkStart.UseVisualStyleBackColor = True
@@ -260,7 +260,7 @@ Partial Class frmPreferences
         Me.Controls.Add(Me.cmdQuit)
         Me.Controls.Add(Me.cmdSave)
         Me.Controls.Add(Me.TabControl)
-        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False

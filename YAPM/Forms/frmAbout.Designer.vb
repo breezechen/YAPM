@@ -23,10 +23,10 @@ Partial Class frmAbout
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.SplitContainer = New System.Windows.Forms.SplitContainer
+        Me.lblIntro = New System.Windows.Forms.Label
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
         Me.rtb = New System.Windows.Forms.RichTextBox
         Me.btnOK = New System.Windows.Forms.Button
-        Me.lblIntro = New System.Windows.Forms.Label
         Me.SplitContainer.Panel1.SuspendLayout()
         Me.SplitContainer.Panel2.SuspendLayout()
         Me.SplitContainer.SuspendLayout()
@@ -54,6 +54,18 @@ Partial Class frmAbout
         Me.SplitContainer.SplitterDistance = 41
         Me.SplitContainer.SplitterWidth = 1
         Me.SplitContainer.TabIndex = 2
+        '
+        'lblIntro
+        '
+        Me.lblIntro.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lblIntro.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblIntro.Location = New System.Drawing.Point(0, 0)
+        Me.lblIntro.Name = "lblIntro"
+        Me.lblIntro.Size = New System.Drawing.Size(619, 41)
+        Me.lblIntro.TabIndex = 0
+        Me.lblIntro.Text = "Yet Another Process Monitor and some of its components are under licenses. Terms " & _
+            "and conditions are explicited below."
+        Me.lblIntro.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'SplitContainer2
         '
@@ -99,18 +111,6 @@ Partial Class frmAbout
         Me.btnOK.Text = "OK"
         Me.btnOK.UseVisualStyleBackColor = True
         '
-        'lblIntro
-        '
-        Me.lblIntro.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lblIntro.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblIntro.Location = New System.Drawing.Point(0, 0)
-        Me.lblIntro.Name = "lblIntro"
-        Me.lblIntro.Size = New System.Drawing.Size(619, 41)
-        Me.lblIntro.TabIndex = 0
-        Me.lblIntro.Text = "Yet Another Process Monitor and some of its components are under licenses. Terms " & _
-            "and conditions are explicited below."
-        Me.lblIntro.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
         'frmAbout
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -118,7 +118,7 @@ Partial Class frmAbout
         Me.ClientSize = New System.Drawing.Size(619, 375)
         Me.ControlBox = False
         Me.Controls.Add(Me.SplitContainer)
-        Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Name = "frmAbout"
         Me.ShowIcon = False

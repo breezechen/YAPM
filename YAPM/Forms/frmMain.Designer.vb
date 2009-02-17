@@ -28,27 +28,23 @@ Partial Class frmMain
         Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("[System process]", New System.Windows.Forms.TreeNode() {TreeNode1})
         Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Strings", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Strings", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Results", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Handles", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Results", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Handles", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Processes", 1, 1)
-        Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Threads", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup16 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup17 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Windows", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup18 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup19 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup20 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup21 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Tasks", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup22 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Threads", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Windows", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup16 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup17 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Tasks", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup18 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain = New System.Windows.Forms.Panel
         Me.SplitContainerProcess = New System.Windows.Forms.SplitContainer
@@ -95,150 +91,7 @@ Partial Class frmMain
         Me.ToolStripMenuItem37 = New System.Windows.Forms.ToolStripSeparator
         Me.ReadWriteMemoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MonitorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.tabProcess = New System.Windows.Forms.TabControl
-        Me.TabPage1 = New System.Windows.Forms.TabPage
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox
-        Me.txtProcessUser = New System.Windows.Forms.TextBox
-        Me.Label17 = New System.Windows.Forms.Label
-        Me.txtProcessId = New System.Windows.Forms.TextBox
-        Me.Label16 = New System.Windows.Forms.Label
-        Me.txtProcessStarted = New System.Windows.Forms.TextBox
-        Me.Label14 = New System.Windows.Forms.Label
-        Me.txtParentProcess = New System.Windows.Forms.TextBox
-        Me.Label15 = New System.Windows.Forms.Label
-        Me.gpProcGeneralFile = New System.Windows.Forms.GroupBox
-        Me.cmdShowFileDetails = New System.Windows.Forms.Button
-        Me.cmdShowFileProperties = New System.Windows.Forms.Button
-        Me.cmdOpenDirectory = New System.Windows.Forms.Button
-        Me.txtProcessPath = New System.Windows.Forms.TextBox
-        Me.Label13 = New System.Windows.Forms.Label
-        Me.txtImageVersion = New System.Windows.Forms.TextBox
-        Me.Label12 = New System.Windows.Forms.Label
-        Me.lblCopyright = New System.Windows.Forms.Label
-        Me.lblDescription = New System.Windows.Forms.Label
-        Me.pctSmallIcon = New System.Windows.Forms.PictureBox
-        Me.menuCopyPctSmall = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripMenuItem
-        Me.pctBigIcon = New System.Windows.Forms.PictureBox
-        Me.menuCopyPctbig = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem
-        Me.TabPage2 = New System.Windows.Forms.TabPage
-        Me.GroupBox5 = New System.Windows.Forms.GroupBox
-        Me.lblUserObjectsCount = New System.Windows.Forms.Label
-        Me.Label37 = New System.Windows.Forms.Label
-        Me.lblGDIcount = New System.Windows.Forms.Label
-        Me.lbl789 = New System.Windows.Forms.Label
-        Me.lblHandles = New System.Windows.Forms.Label
-        Me.Label53 = New System.Windows.Forms.Label
-        Me.GroupBox4 = New System.Windows.Forms.GroupBox
-        Me.lblProcOtherBytes = New System.Windows.Forms.Label
-        Me.Label23 = New System.Windows.Forms.Label
-        Me.lblProcOther = New System.Windows.Forms.Label
-        Me.Label30 = New System.Windows.Forms.Label
-        Me.lblProcWriteBytes = New System.Windows.Forms.Label
-        Me.Label36 = New System.Windows.Forms.Label
-        Me.lblProcWrites = New System.Windows.Forms.Label
-        Me.Label38 = New System.Windows.Forms.Label
-        Me.lblProcReadBytes = New System.Windows.Forms.Label
-        Me.Label40 = New System.Windows.Forms.Label
-        Me.lblProcReads = New System.Windows.Forms.Label
-        Me.Label42 = New System.Windows.Forms.Label
-        Me.GroupBox3 = New System.Windows.Forms.GroupBox
-        Me.lblQuotaNPP = New System.Windows.Forms.Label
-        Me.Label21 = New System.Windows.Forms.Label
-        Me.lblQuotaPNPP = New System.Windows.Forms.Label
-        Me.Label26 = New System.Windows.Forms.Label
-        Me.lblQuotaPP = New System.Windows.Forms.Label
-        Me.Label29 = New System.Windows.Forms.Label
-        Me.lblQuotaPPP = New System.Windows.Forms.Label
-        Me.Label32 = New System.Windows.Forms.Label
-        Me.lblPageFaults = New System.Windows.Forms.Label
-        Me.Label31 = New System.Windows.Forms.Label
-        Me.lblPeakPageFileUsage = New System.Windows.Forms.Label
-        Me.Label33 = New System.Windows.Forms.Label
-        Me.lblPageFileUsage = New System.Windows.Forms.Label
-        Me.Label35 = New System.Windows.Forms.Label
-        Me.lblPeakWorkingSet = New System.Windows.Forms.Label
-        Me.Label25 = New System.Windows.Forms.Label
-        Me.lblWorkingSet = New System.Windows.Forms.Label
-        Me.Label27 = New System.Windows.Forms.Label
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox
-        Me.lblTotalTime = New System.Windows.Forms.Label
-        Me.Label24 = New System.Windows.Forms.Label
-        Me.lblUserTime = New System.Windows.Forms.Label
-        Me.Label22 = New System.Windows.Forms.Label
-        Me.lblKernelTime = New System.Windows.Forms.Label
-        Me.Label20 = New System.Windows.Forms.Label
-        Me.lblPriority = New System.Windows.Forms.Label
-        Me.Label18 = New System.Windows.Forms.Label
-        Me.TabPage3 = New System.Windows.Forms.TabPage
-        Me.splitPerformances = New System.Windows.Forms.SplitContainer
-        Me.graphCPU = New YAPM.Graph2
-        Me.splitPerformance2 = New System.Windows.Forms.SplitContainer
-        Me.graphMemory = New YAPM.Graph2
-        Me.graphIO = New YAPM.Graph2
-        Me.TabPage4 = New System.Windows.Forms.TabPage
-        Me.tabProcessToken = New System.Windows.Forms.TabControl
-        Me.tabProcessTokenPagePrivileges = New System.Windows.Forms.TabPage
-        Me.lvPrivileges = New YAPM.DoubleBufferedLV
-        Me.ColumnHeader50 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader51 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader52 = New System.Windows.Forms.ColumnHeader
-        Me.menuPrivileges = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem44 = New System.Windows.Forms.ToolStripMenuItem
-        Me.DisableToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.RemoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.TabPage5 = New System.Windows.Forms.TabPage
-        Me.lvProcMem = New YAPM.DoubleBufferedLV
-        Me.ColumnHeader53 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader54 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader55 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader56 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader21 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader22 = New System.Windows.Forms.ColumnHeader
-        Me.menuProcMem = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem49 = New System.Windows.Forms.ToolStripMenuItem
-        Me.JumpToPEBAddressToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.TabPage6 = New System.Windows.Forms.TabPage
-        Me.SplitContainerInfoProcess = New System.Windows.Forms.SplitContainer
-        Me.chkDisplayNAProcess = New System.Windows.Forms.CheckBox
-        Me.chkHandles = New System.Windows.Forms.CheckBox
-        Me.chkOnline = New System.Windows.Forms.CheckBox
-        Me.chkModules = New System.Windows.Forms.CheckBox
-        Me.cmdInfosToClipB = New System.Windows.Forms.Button
-        Me.rtb = New System.Windows.Forms.RichTextBox
-        Me.TabPage7 = New System.Windows.Forms.TabPage
-        Me.lvProcServices = New YAPM.DoubleBufferedLV
-        Me.ColumnHeader23 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader47 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader48 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader20 = New System.Windows.Forms.ColumnHeader
-        Me.menuProcServ = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem43 = New System.Windows.Forms.ToolStripMenuItem
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
-        Me.tabNetwork = New System.Windows.Forms.TabPage
-        Me.lvProcNetwork = New YAPM.DoubleBufferedLV
-        Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader57 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader58 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader59 = New System.Windows.Forms.ColumnHeader
-        Me.TabPage8 = New System.Windows.Forms.TabPage
-        Me.SplitContainerStrings = New System.Windows.Forms.SplitContainer
-        Me.lvProcString = New YAPM.DoubleBufferedLV
-        Me.ColumnHeader76 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader77 = New System.Windows.Forms.ColumnHeader
-        Me.cmdProcSearchR = New System.Windows.Forms.Button
-        Me.cmdProcSearchL = New System.Windows.Forms.Button
-        Me.pgbString = New System.Windows.Forms.ProgressBar
-        Me.Label28 = New System.Windows.Forms.Label
-        Me.txtSearchProcString = New System.Windows.Forms.TextBox
-        Me.cmdProcStringSave = New System.Windows.Forms.Button
-        Me.optProcStringMemory = New System.Windows.Forms.RadioButton
-        Me.optProcStringImage = New System.Windows.Forms.RadioButton
-        Me.TabPage9 = New System.Windows.Forms.TabPage
-        Me.lvProcEnv = New YAPM.DoubleBufferedLV
-        Me.ColumnHeader60 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader61 = New System.Windows.Forms.ColumnHeader
         Me.panelMenu = New System.Windows.Forms.Panel
         Me.Label3 = New System.Windows.Forms.Label
         Me.lblResCount = New System.Windows.Forms.Label
@@ -641,7 +494,6 @@ Partial Class frmMain
         Me.ToolStripMenuItem40 = New System.Windows.Forms.ToolStripSeparator
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.cmdTray = New System.Windows.Forms.Button
-        Me.timerProcPerf = New System.Windows.Forms.Timer(Me.components)
         Me.menuTasks = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ShowWindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MaximizeWindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -673,53 +525,11 @@ Partial Class frmMain
         Me.timerTrayIcon = New System.Windows.Forms.Timer(Me.components)
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
-        Me.SplitContainerProcess.Panel2.SuspendLayout()
         Me.SplitContainerProcess.SuspendLayout()
         Me.SplitContainerTvLv.Panel1.SuspendLayout()
         Me.SplitContainerTvLv.Panel2.SuspendLayout()
         Me.SplitContainerTvLv.SuspendLayout()
         Me.menuProc.SuspendLayout()
-        Me.tabProcess.SuspendLayout()
-        Me.TabPage1.SuspendLayout()
-        Me.GroupBox1.SuspendLayout()
-        Me.gpProcGeneralFile.SuspendLayout()
-        CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.menuCopyPctSmall.SuspendLayout()
-        CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.menuCopyPctbig.SuspendLayout()
-        Me.TabPage2.SuspendLayout()
-        Me.GroupBox5.SuspendLayout()
-        Me.GroupBox4.SuspendLayout()
-        Me.GroupBox3.SuspendLayout()
-        Me.GroupBox2.SuspendLayout()
-        Me.TabPage3.SuspendLayout()
-        Me.splitPerformances.Panel1.SuspendLayout()
-        Me.splitPerformances.Panel2.SuspendLayout()
-        Me.splitPerformances.SuspendLayout()
-        CType(Me.graphCPU, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.splitPerformance2.Panel1.SuspendLayout()
-        Me.splitPerformance2.Panel2.SuspendLayout()
-        Me.splitPerformance2.SuspendLayout()
-        CType(Me.graphMemory, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.graphIO, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TabPage4.SuspendLayout()
-        Me.tabProcessToken.SuspendLayout()
-        Me.tabProcessTokenPagePrivileges.SuspendLayout()
-        Me.menuPrivileges.SuspendLayout()
-        Me.TabPage5.SuspendLayout()
-        Me.menuProcMem.SuspendLayout()
-        Me.TabPage6.SuspendLayout()
-        Me.SplitContainerInfoProcess.Panel1.SuspendLayout()
-        Me.SplitContainerInfoProcess.Panel2.SuspendLayout()
-        Me.SplitContainerInfoProcess.SuspendLayout()
-        Me.TabPage7.SuspendLayout()
-        Me.menuProcServ.SuspendLayout()
-        Me.tabNetwork.SuspendLayout()
-        Me.TabPage8.SuspendLayout()
-        Me.SplitContainerStrings.Panel1.SuspendLayout()
-        Me.SplitContainerStrings.Panel2.SuspendLayout()
-        Me.SplitContainerStrings.SuspendLayout()
-        Me.TabPage9.SuspendLayout()
         Me.panelMenu.SuspendLayout()
         Me.panelMain2.SuspendLayout()
         Me.splitServices.Panel1.SuspendLayout()
@@ -833,10 +643,6 @@ Partial Class frmMain
         'SplitContainerProcess.Panel1
         '
         Me.SplitContainerProcess.Panel1.Controls.Add(Me.SplitContainerTvLv)
-        '
-        'SplitContainerProcess.Panel2
-        '
-        Me.SplitContainerProcess.Panel2.Controls.Add(Me.tabProcess)
         Me.SplitContainerProcess.Size = New System.Drawing.Size(560, 449)
         Me.SplitContainerProcess.SplitterDistance = 224
         Me.SplitContainerProcess.TabIndex = 0
@@ -1156,1210 +962,6 @@ Partial Class frmMain
         Me.MonitorToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.MonitorToolStripMenuItem.Text = "Monitor"
         '
-        'tabProcess
-        '
-        Me.tabProcess.Controls.Add(Me.TabPage1)
-        Me.tabProcess.Controls.Add(Me.TabPage2)
-        Me.tabProcess.Controls.Add(Me.TabPage3)
-        Me.tabProcess.Controls.Add(Me.TabPage4)
-        Me.tabProcess.Controls.Add(Me.TabPage5)
-        Me.tabProcess.Controls.Add(Me.TabPage6)
-        Me.tabProcess.Controls.Add(Me.TabPage7)
-        Me.tabProcess.Controls.Add(Me.tabNetwork)
-        Me.tabProcess.Controls.Add(Me.TabPage8)
-        Me.tabProcess.Controls.Add(Me.TabPage9)
-        Me.tabProcess.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tabProcess.ImageList = Me.imgProcessTab
-        Me.tabProcess.Location = New System.Drawing.Point(0, 0)
-        Me.tabProcess.Name = "tabProcess"
-        Me.tabProcess.SelectedIndex = 0
-        Me.tabProcess.Size = New System.Drawing.Size(560, 221)
-        Me.tabProcess.TabIndex = 0
-        '
-        'TabPage1
-        '
-        Me.TabPage1.Controls.Add(Me.GroupBox1)
-        Me.TabPage1.Controls.Add(Me.gpProcGeneralFile)
-        Me.TabPage1.ImageIndex = 0
-        Me.TabPage1.Location = New System.Drawing.Point(4, 23)
-        Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(552, 194)
-        Me.TabPage1.TabIndex = 0
-        Me.TabPage1.Text = "General"
-        Me.TabPage1.UseVisualStyleBackColor = True
-        '
-        'GroupBox1
-        '
-        Me.GroupBox1.Controls.Add(Me.txtProcessUser)
-        Me.GroupBox1.Controls.Add(Me.Label17)
-        Me.GroupBox1.Controls.Add(Me.txtProcessId)
-        Me.GroupBox1.Controls.Add(Me.Label16)
-        Me.GroupBox1.Controls.Add(Me.txtProcessStarted)
-        Me.GroupBox1.Controls.Add(Me.Label14)
-        Me.GroupBox1.Controls.Add(Me.txtParentProcess)
-        Me.GroupBox1.Controls.Add(Me.Label15)
-        Me.GroupBox1.Location = New System.Drawing.Point(388, 4)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(376, 119)
-        Me.GroupBox1.TabIndex = 16
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Process"
-        '
-        'txtProcessUser
-        '
-        Me.txtProcessUser.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.txtProcessUser.Location = New System.Drawing.Point(89, 90)
-        Me.txtProcessUser.Name = "txtProcessUser"
-        Me.txtProcessUser.ReadOnly = True
-        Me.txtProcessUser.Size = New System.Drawing.Size(283, 20)
-        Me.txtProcessUser.TabIndex = 22
-        '
-        'Label17
-        '
-        Me.Label17.AutoSize = True
-        Me.Label17.Location = New System.Drawing.Point(6, 93)
-        Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(29, 13)
-        Me.Label17.TabIndex = 21
-        Me.Label17.Text = "User"
-        '
-        'txtProcessId
-        '
-        Me.txtProcessId.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.txtProcessId.Location = New System.Drawing.Point(89, 67)
-        Me.txtProcessId.Name = "txtProcessId"
-        Me.txtProcessId.ReadOnly = True
-        Me.txtProcessId.Size = New System.Drawing.Size(282, 20)
-        Me.txtProcessId.TabIndex = 20
-        '
-        'Label16
-        '
-        Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(6, 70)
-        Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(22, 13)
-        Me.Label16.TabIndex = 19
-        Me.Label16.Text = "Pid"
-        '
-        'txtProcessStarted
-        '
-        Me.txtProcessStarted.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.txtProcessStarted.Location = New System.Drawing.Point(90, 45)
-        Me.txtProcessStarted.Name = "txtProcessStarted"
-        Me.txtProcessStarted.ReadOnly = True
-        Me.txtProcessStarted.Size = New System.Drawing.Size(281, 20)
-        Me.txtProcessStarted.TabIndex = 18
-        '
-        'Label14
-        '
-        Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(6, 48)
-        Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(41, 13)
-        Me.Label14.TabIndex = 17
-        Me.Label14.Text = "Started"
-        '
-        'txtParentProcess
-        '
-        Me.txtParentProcess.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.txtParentProcess.Location = New System.Drawing.Point(90, 22)
-        Me.txtParentProcess.Name = "txtParentProcess"
-        Me.txtParentProcess.ReadOnly = True
-        Me.txtParentProcess.Size = New System.Drawing.Size(280, 20)
-        Me.txtParentProcess.TabIndex = 16
-        '
-        'Label15
-        '
-        Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(6, 25)
-        Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(78, 13)
-        Me.Label15.TabIndex = 15
-        Me.Label15.Text = "Parent process"
-        '
-        'gpProcGeneralFile
-        '
-        Me.gpProcGeneralFile.Controls.Add(Me.cmdShowFileDetails)
-        Me.gpProcGeneralFile.Controls.Add(Me.cmdShowFileProperties)
-        Me.gpProcGeneralFile.Controls.Add(Me.cmdOpenDirectory)
-        Me.gpProcGeneralFile.Controls.Add(Me.txtProcessPath)
-        Me.gpProcGeneralFile.Controls.Add(Me.Label13)
-        Me.gpProcGeneralFile.Controls.Add(Me.txtImageVersion)
-        Me.gpProcGeneralFile.Controls.Add(Me.Label12)
-        Me.gpProcGeneralFile.Controls.Add(Me.lblCopyright)
-        Me.gpProcGeneralFile.Controls.Add(Me.lblDescription)
-        Me.gpProcGeneralFile.Controls.Add(Me.pctSmallIcon)
-        Me.gpProcGeneralFile.Controls.Add(Me.pctBigIcon)
-        Me.gpProcGeneralFile.Location = New System.Drawing.Point(6, 6)
-        Me.gpProcGeneralFile.Name = "gpProcGeneralFile"
-        Me.gpProcGeneralFile.Size = New System.Drawing.Size(376, 117)
-        Me.gpProcGeneralFile.TabIndex = 15
-        Me.gpProcGeneralFile.TabStop = False
-        Me.gpProcGeneralFile.Text = "Image file"
-        '
-        'cmdShowFileDetails
-        '
-        Me.cmdShowFileDetails.Image = CType(resources.GetObject("cmdShowFileDetails.Image"), System.Drawing.Image)
-        Me.cmdShowFileDetails.Location = New System.Drawing.Point(292, 81)
-        Me.cmdShowFileDetails.Name = "cmdShowFileDetails"
-        Me.cmdShowFileDetails.Size = New System.Drawing.Size(26, 26)
-        Me.cmdShowFileDetails.TabIndex = 21
-        Me.cmdShowFileDetails.UseVisualStyleBackColor = True
-        '
-        'cmdShowFileProperties
-        '
-        Me.cmdShowFileProperties.Image = CType(resources.GetObject("cmdShowFileProperties.Image"), System.Drawing.Image)
-        Me.cmdShowFileProperties.Location = New System.Drawing.Point(318, 81)
-        Me.cmdShowFileProperties.Name = "cmdShowFileProperties"
-        Me.cmdShowFileProperties.Size = New System.Drawing.Size(26, 26)
-        Me.cmdShowFileProperties.TabIndex = 20
-        Me.cmdShowFileProperties.UseVisualStyleBackColor = True
-        '
-        'cmdOpenDirectory
-        '
-        Me.cmdOpenDirectory.Image = CType(resources.GetObject("cmdOpenDirectory.Image"), System.Drawing.Image)
-        Me.cmdOpenDirectory.Location = New System.Drawing.Point(344, 81)
-        Me.cmdOpenDirectory.Name = "cmdOpenDirectory"
-        Me.cmdOpenDirectory.Size = New System.Drawing.Size(26, 26)
-        Me.cmdOpenDirectory.TabIndex = 19
-        Me.cmdOpenDirectory.UseVisualStyleBackColor = True
-        '
-        'txtProcessPath
-        '
-        Me.txtProcessPath.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.txtProcessPath.Location = New System.Drawing.Point(84, 82)
-        Me.txtProcessPath.Name = "txtProcessPath"
-        Me.txtProcessPath.ReadOnly = True
-        Me.txtProcessPath.Size = New System.Drawing.Size(202, 20)
-        Me.txtProcessPath.TabIndex = 18
-        '
-        'Label13
-        '
-        Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(5, 85)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(60, 13)
-        Me.Label13.TabIndex = 17
-        Me.Label13.Text = "Image path"
-        '
-        'txtImageVersion
-        '
-        Me.txtImageVersion.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.txtImageVersion.Location = New System.Drawing.Point(85, 59)
-        Me.txtImageVersion.Name = "txtImageVersion"
-        Me.txtImageVersion.ReadOnly = True
-        Me.txtImageVersion.Size = New System.Drawing.Size(285, 20)
-        Me.txtImageVersion.TabIndex = 16
-        '
-        'Label12
-        '
-        Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(6, 62)
-        Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(73, 13)
-        Me.Label12.TabIndex = 15
-        Me.Label12.Text = "Image version"
-        '
-        'lblCopyright
-        '
-        Me.lblCopyright.AutoSize = True
-        Me.lblCopyright.Location = New System.Drawing.Point(82, 38)
-        Me.lblCopyright.Name = "lblCopyright"
-        Me.lblCopyright.Size = New System.Drawing.Size(69, 13)
-        Me.lblCopyright.TabIndex = 14
-        Me.lblCopyright.Text = "File copyright"
-        '
-        'lblDescription
-        '
-        Me.lblDescription.AutoSize = True
-        Me.lblDescription.Location = New System.Drawing.Point(82, 19)
-        Me.lblDescription.Name = "lblDescription"
-        Me.lblDescription.Size = New System.Drawing.Size(77, 13)
-        Me.lblDescription.TabIndex = 13
-        Me.lblDescription.Text = "File description"
-        '
-        'pctSmallIcon
-        '
-        Me.pctSmallIcon.ContextMenuStrip = Me.menuCopyPctSmall
-        Me.pctSmallIcon.Location = New System.Drawing.Point(44, 35)
-        Me.pctSmallIcon.Name = "pctSmallIcon"
-        Me.pctSmallIcon.Size = New System.Drawing.Size(16, 16)
-        Me.pctSmallIcon.TabIndex = 12
-        Me.pctSmallIcon.TabStop = False
-        '
-        'menuCopyPctSmall
-        '
-        Me.menuCopyPctSmall.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem7})
-        Me.menuCopyPctSmall.Name = "menuCopyPctbig"
-        Me.menuCopyPctSmall.Size = New System.Drawing.Size(170, 26)
-        '
-        'ToolStripMenuItem7
-        '
-        Me.ToolStripMenuItem7.Image = Global.YAPM.My.Resources.Resources.copy16
-        Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
-        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(169, 22)
-        Me.ToolStripMenuItem7.Text = "Copy to clipboard"
-        '
-        'pctBigIcon
-        '
-        Me.pctBigIcon.ContextMenuStrip = Me.menuCopyPctbig
-        Me.pctBigIcon.Location = New System.Drawing.Point(6, 19)
-        Me.pctBigIcon.Name = "pctBigIcon"
-        Me.pctBigIcon.Size = New System.Drawing.Size(32, 32)
-        Me.pctBigIcon.TabIndex = 11
-        Me.pctBigIcon.TabStop = False
-        '
-        'menuCopyPctbig
-        '
-        Me.menuCopyPctbig.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem6})
-        Me.menuCopyPctbig.Name = "menuCopyPctbig"
-        Me.menuCopyPctbig.Size = New System.Drawing.Size(170, 26)
-        '
-        'ToolStripMenuItem6
-        '
-        Me.ToolStripMenuItem6.Image = Global.YAPM.My.Resources.Resources.copy16
-        Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
-        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(169, 22)
-        Me.ToolStripMenuItem6.Text = "Copy to clipboard"
-        '
-        'TabPage2
-        '
-        Me.TabPage2.Controls.Add(Me.GroupBox5)
-        Me.TabPage2.Controls.Add(Me.GroupBox4)
-        Me.TabPage2.Controls.Add(Me.GroupBox3)
-        Me.TabPage2.Controls.Add(Me.GroupBox2)
-        Me.TabPage2.ImageIndex = 1
-        Me.TabPage2.Location = New System.Drawing.Point(4, 23)
-        Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(552, 194)
-        Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "Statistics"
-        Me.TabPage2.UseVisualStyleBackColor = True
-        '
-        'GroupBox5
-        '
-        Me.GroupBox5.Controls.Add(Me.lblUserObjectsCount)
-        Me.GroupBox5.Controls.Add(Me.Label37)
-        Me.GroupBox5.Controls.Add(Me.lblGDIcount)
-        Me.GroupBox5.Controls.Add(Me.lbl789)
-        Me.GroupBox5.Controls.Add(Me.lblHandles)
-        Me.GroupBox5.Controls.Add(Me.Label53)
-        Me.GroupBox5.Location = New System.Drawing.Point(416, 114)
-        Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(180, 75)
-        Me.GroupBox5.TabIndex = 3
-        Me.GroupBox5.TabStop = False
-        Me.GroupBox5.Text = "Other"
-        '
-        'lblUserObjectsCount
-        '
-        Me.lblUserObjectsCount.AutoSize = True
-        Me.lblUserObjectsCount.Location = New System.Drawing.Point(102, 54)
-        Me.lblUserObjectsCount.Name = "lblUserObjectsCount"
-        Me.lblUserObjectsCount.Size = New System.Drawing.Size(19, 13)
-        Me.lblUserObjectsCount.TabIndex = 5
-        Me.lblUserObjectsCount.Text = "00"
-        Me.lblUserObjectsCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label37
-        '
-        Me.Label37.AutoSize = True
-        Me.Label37.Location = New System.Drawing.Point(8, 54)
-        Me.Label37.Name = "Label37"
-        Me.Label37.Size = New System.Drawing.Size(66, 13)
-        Me.Label37.TabIndex = 4
-        Me.Label37.Text = "User objects"
-        '
-        'lblGDIcount
-        '
-        Me.lblGDIcount.AutoSize = True
-        Me.lblGDIcount.Location = New System.Drawing.Point(101, 35)
-        Me.lblGDIcount.Name = "lblGDIcount"
-        Me.lblGDIcount.Size = New System.Drawing.Size(19, 13)
-        Me.lblGDIcount.TabIndex = 3
-        Me.lblGDIcount.Text = "00"
-        Me.lblGDIcount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lbl789
-        '
-        Me.lbl789.AutoSize = True
-        Me.lbl789.Location = New System.Drawing.Point(7, 35)
-        Me.lbl789.Name = "lbl789"
-        Me.lbl789.Size = New System.Drawing.Size(63, 13)
-        Me.lbl789.TabIndex = 2
-        Me.lbl789.Text = "GDI objects"
-        '
-        'lblHandles
-        '
-        Me.lblHandles.AutoSize = True
-        Me.lblHandles.Location = New System.Drawing.Point(100, 16)
-        Me.lblHandles.Name = "lblHandles"
-        Me.lblHandles.Size = New System.Drawing.Size(19, 13)
-        Me.lblHandles.TabIndex = 1
-        Me.lblHandles.Text = "00"
-        Me.lblHandles.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label53
-        '
-        Me.Label53.AutoSize = True
-        Me.Label53.Location = New System.Drawing.Point(6, 16)
-        Me.Label53.Name = "Label53"
-        Me.Label53.Size = New System.Drawing.Size(46, 13)
-        Me.Label53.TabIndex = 0
-        Me.Label53.Text = "Handles"
-        '
-        'GroupBox4
-        '
-        Me.GroupBox4.Controls.Add(Me.lblProcOtherBytes)
-        Me.GroupBox4.Controls.Add(Me.Label23)
-        Me.GroupBox4.Controls.Add(Me.lblProcOther)
-        Me.GroupBox4.Controls.Add(Me.Label30)
-        Me.GroupBox4.Controls.Add(Me.lblProcWriteBytes)
-        Me.GroupBox4.Controls.Add(Me.Label36)
-        Me.GroupBox4.Controls.Add(Me.lblProcWrites)
-        Me.GroupBox4.Controls.Add(Me.Label38)
-        Me.GroupBox4.Controls.Add(Me.lblProcReadBytes)
-        Me.GroupBox4.Controls.Add(Me.Label40)
-        Me.GroupBox4.Controls.Add(Me.lblProcReads)
-        Me.GroupBox4.Controls.Add(Me.Label42)
-        Me.GroupBox4.Location = New System.Drawing.Point(234, 8)
-        Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(176, 181)
-        Me.GroupBox4.TabIndex = 2
-        Me.GroupBox4.TabStop = False
-        Me.GroupBox4.Text = "I/O"
-        '
-        'lblProcOtherBytes
-        '
-        Me.lblProcOtherBytes.AutoSize = True
-        Me.lblProcOtherBytes.Location = New System.Drawing.Point(99, 107)
-        Me.lblProcOtherBytes.Name = "lblProcOtherBytes"
-        Me.lblProcOtherBytes.Size = New System.Drawing.Size(19, 13)
-        Me.lblProcOtherBytes.TabIndex = 31
-        Me.lblProcOtherBytes.Text = "00"
-        Me.lblProcOtherBytes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label23
-        '
-        Me.Label23.AutoSize = True
-        Me.Label23.Location = New System.Drawing.Point(6, 107)
-        Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(61, 13)
-        Me.Label23.TabIndex = 30
-        Me.Label23.Text = "Other bytes"
-        '
-        'lblProcOther
-        '
-        Me.lblProcOther.AutoSize = True
-        Me.lblProcOther.Location = New System.Drawing.Point(99, 89)
-        Me.lblProcOther.Name = "lblProcOther"
-        Me.lblProcOther.Size = New System.Drawing.Size(19, 13)
-        Me.lblProcOther.TabIndex = 29
-        Me.lblProcOther.Text = "00"
-        Me.lblProcOther.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label30
-        '
-        Me.Label30.AutoSize = True
-        Me.Label30.Location = New System.Drawing.Point(6, 89)
-        Me.Label30.Name = "Label30"
-        Me.Label30.Size = New System.Drawing.Size(33, 13)
-        Me.Label30.TabIndex = 28
-        Me.Label30.Text = "Other"
-        '
-        'lblProcWriteBytes
-        '
-        Me.lblProcWriteBytes.AutoSize = True
-        Me.lblProcWriteBytes.Location = New System.Drawing.Point(99, 70)
-        Me.lblProcWriteBytes.Name = "lblProcWriteBytes"
-        Me.lblProcWriteBytes.Size = New System.Drawing.Size(19, 13)
-        Me.lblProcWriteBytes.TabIndex = 27
-        Me.lblProcWriteBytes.Text = "00"
-        Me.lblProcWriteBytes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label36
-        '
-        Me.Label36.AutoSize = True
-        Me.Label36.Location = New System.Drawing.Point(6, 70)
-        Me.Label36.Name = "Label36"
-        Me.Label36.Size = New System.Drawing.Size(60, 13)
-        Me.Label36.TabIndex = 26
-        Me.Label36.Text = "Write bytes"
-        '
-        'lblProcWrites
-        '
-        Me.lblProcWrites.AutoSize = True
-        Me.lblProcWrites.Location = New System.Drawing.Point(99, 52)
-        Me.lblProcWrites.Name = "lblProcWrites"
-        Me.lblProcWrites.Size = New System.Drawing.Size(19, 13)
-        Me.lblProcWrites.TabIndex = 25
-        Me.lblProcWrites.Text = "00"
-        Me.lblProcWrites.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label38
-        '
-        Me.Label38.AutoSize = True
-        Me.Label38.Location = New System.Drawing.Point(6, 52)
-        Me.Label38.Name = "Label38"
-        Me.Label38.Size = New System.Drawing.Size(37, 13)
-        Me.Label38.TabIndex = 24
-        Me.Label38.Text = "Writes"
-        '
-        'lblProcReadBytes
-        '
-        Me.lblProcReadBytes.AutoSize = True
-        Me.lblProcReadBytes.Location = New System.Drawing.Point(99, 34)
-        Me.lblProcReadBytes.Name = "lblProcReadBytes"
-        Me.lblProcReadBytes.Size = New System.Drawing.Size(19, 13)
-        Me.lblProcReadBytes.TabIndex = 23
-        Me.lblProcReadBytes.Text = "00"
-        Me.lblProcReadBytes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label40
-        '
-        Me.Label40.AutoSize = True
-        Me.Label40.Location = New System.Drawing.Point(6, 34)
-        Me.Label40.Name = "Label40"
-        Me.Label40.Size = New System.Drawing.Size(61, 13)
-        Me.Label40.TabIndex = 22
-        Me.Label40.Text = "Read bytes"
-        '
-        'lblProcReads
-        '
-        Me.lblProcReads.AutoSize = True
-        Me.lblProcReads.Location = New System.Drawing.Point(99, 16)
-        Me.lblProcReads.Name = "lblProcReads"
-        Me.lblProcReads.Size = New System.Drawing.Size(19, 13)
-        Me.lblProcReads.TabIndex = 21
-        Me.lblProcReads.Text = "00"
-        Me.lblProcReads.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label42
-        '
-        Me.Label42.AutoSize = True
-        Me.Label42.Location = New System.Drawing.Point(6, 16)
-        Me.Label42.Name = "Label42"
-        Me.Label42.Size = New System.Drawing.Size(38, 13)
-        Me.Label42.TabIndex = 20
-        Me.Label42.Text = "Reads"
-        '
-        'GroupBox3
-        '
-        Me.GroupBox3.Controls.Add(Me.lblQuotaNPP)
-        Me.GroupBox3.Controls.Add(Me.Label21)
-        Me.GroupBox3.Controls.Add(Me.lblQuotaPNPP)
-        Me.GroupBox3.Controls.Add(Me.Label26)
-        Me.GroupBox3.Controls.Add(Me.lblQuotaPP)
-        Me.GroupBox3.Controls.Add(Me.Label29)
-        Me.GroupBox3.Controls.Add(Me.lblQuotaPPP)
-        Me.GroupBox3.Controls.Add(Me.Label32)
-        Me.GroupBox3.Controls.Add(Me.lblPageFaults)
-        Me.GroupBox3.Controls.Add(Me.Label31)
-        Me.GroupBox3.Controls.Add(Me.lblPeakPageFileUsage)
-        Me.GroupBox3.Controls.Add(Me.Label33)
-        Me.GroupBox3.Controls.Add(Me.lblPageFileUsage)
-        Me.GroupBox3.Controls.Add(Me.Label35)
-        Me.GroupBox3.Controls.Add(Me.lblPeakWorkingSet)
-        Me.GroupBox3.Controls.Add(Me.Label25)
-        Me.GroupBox3.Controls.Add(Me.lblWorkingSet)
-        Me.GroupBox3.Controls.Add(Me.Label27)
-        Me.GroupBox3.Location = New System.Drawing.Point(6, 8)
-        Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(222, 181)
-        Me.GroupBox3.TabIndex = 1
-        Me.GroupBox3.TabStop = False
-        Me.GroupBox3.Text = "Memory"
-        '
-        'lblQuotaNPP
-        '
-        Me.lblQuotaNPP.AutoSize = True
-        Me.lblQuotaNPP.Location = New System.Drawing.Point(146, 145)
-        Me.lblQuotaNPP.Name = "lblQuotaNPP"
-        Me.lblQuotaNPP.Size = New System.Drawing.Size(19, 13)
-        Me.lblQuotaNPP.TabIndex = 23
-        Me.lblQuotaNPP.Text = "00"
-        Me.lblQuotaNPP.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label21
-        '
-        Me.Label21.AutoSize = True
-        Me.Label21.Location = New System.Drawing.Point(5, 145)
-        Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(108, 13)
-        Me.Label21.TabIndex = 22
-        Me.Label21.Text = "QuotaNonPagedPool"
-        '
-        'lblQuotaPNPP
-        '
-        Me.lblQuotaPNPP.AutoSize = True
-        Me.lblQuotaPNPP.Location = New System.Drawing.Point(146, 127)
-        Me.lblQuotaPNPP.Name = "lblQuotaPNPP"
-        Me.lblQuotaPNPP.Size = New System.Drawing.Size(19, 13)
-        Me.lblQuotaPNPP.TabIndex = 21
-        Me.lblQuotaPNPP.Text = "00"
-        Me.lblQuotaPNPP.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label26
-        '
-        Me.Label26.AutoSize = True
-        Me.Label26.Location = New System.Drawing.Point(5, 127)
-        Me.Label26.Name = "Label26"
-        Me.Label26.Size = New System.Drawing.Size(133, 13)
-        Me.Label26.TabIndex = 20
-        Me.Label26.Text = "QuotaPeakNonPagedPool"
-        '
-        'lblQuotaPP
-        '
-        Me.lblQuotaPP.AutoSize = True
-        Me.lblQuotaPP.Location = New System.Drawing.Point(146, 109)
-        Me.lblQuotaPP.Name = "lblQuotaPP"
-        Me.lblQuotaPP.Size = New System.Drawing.Size(19, 13)
-        Me.lblQuotaPP.TabIndex = 19
-        Me.lblQuotaPP.Text = "00"
-        Me.lblQuotaPP.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label29
-        '
-        Me.Label29.AutoSize = True
-        Me.Label29.Location = New System.Drawing.Point(5, 109)
-        Me.Label29.Name = "Label29"
-        Me.Label29.Size = New System.Drawing.Size(88, 13)
-        Me.Label29.TabIndex = 18
-        Me.Label29.Text = "QuotaPagedPool"
-        '
-        'lblQuotaPPP
-        '
-        Me.lblQuotaPPP.AutoSize = True
-        Me.lblQuotaPPP.Location = New System.Drawing.Point(146, 91)
-        Me.lblQuotaPPP.Name = "lblQuotaPPP"
-        Me.lblQuotaPPP.Size = New System.Drawing.Size(19, 13)
-        Me.lblQuotaPPP.TabIndex = 17
-        Me.lblQuotaPPP.Text = "00"
-        Me.lblQuotaPPP.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label32
-        '
-        Me.Label32.AutoSize = True
-        Me.Label32.Location = New System.Drawing.Point(5, 91)
-        Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(113, 13)
-        Me.Label32.TabIndex = 16
-        Me.Label32.Text = "QuotaPeakPagedPool"
-        '
-        'lblPageFaults
-        '
-        Me.lblPageFaults.AutoSize = True
-        Me.lblPageFaults.Location = New System.Drawing.Point(146, 163)
-        Me.lblPageFaults.Name = "lblPageFaults"
-        Me.lblPageFaults.Size = New System.Drawing.Size(19, 13)
-        Me.lblPageFaults.TabIndex = 15
-        Me.lblPageFaults.Text = "00"
-        Me.lblPageFaults.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label31
-        '
-        Me.Label31.AutoSize = True
-        Me.Label31.Location = New System.Drawing.Point(5, 163)
-        Me.Label31.Name = "Label31"
-        Me.Label31.Size = New System.Drawing.Size(60, 13)
-        Me.Label31.TabIndex = 14
-        Me.Label31.Text = "Page faults"
-        '
-        'lblPeakPageFileUsage
-        '
-        Me.lblPeakPageFileUsage.AutoSize = True
-        Me.lblPeakPageFileUsage.Location = New System.Drawing.Point(146, 72)
-        Me.lblPeakPageFileUsage.Name = "lblPeakPageFileUsage"
-        Me.lblPeakPageFileUsage.Size = New System.Drawing.Size(19, 13)
-        Me.lblPeakPageFileUsage.TabIndex = 13
-        Me.lblPeakPageFileUsage.Text = "00"
-        Me.lblPeakPageFileUsage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label33
-        '
-        Me.Label33.AutoSize = True
-        Me.Label33.Location = New System.Drawing.Point(5, 72)
-        Me.Label33.Name = "Label33"
-        Me.Label33.Size = New System.Drawing.Size(107, 13)
-        Me.Label33.TabIndex = 12
-        Me.Label33.Text = "Peak page file usage"
-        '
-        'lblPageFileUsage
-        '
-        Me.lblPageFileUsage.AutoSize = True
-        Me.lblPageFileUsage.Location = New System.Drawing.Point(146, 54)
-        Me.lblPageFileUsage.Name = "lblPageFileUsage"
-        Me.lblPageFileUsage.Size = New System.Drawing.Size(19, 13)
-        Me.lblPageFileUsage.TabIndex = 11
-        Me.lblPageFileUsage.Text = "00"
-        Me.lblPageFileUsage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label35
-        '
-        Me.Label35.AutoSize = True
-        Me.Label35.Location = New System.Drawing.Point(5, 54)
-        Me.Label35.Name = "Label35"
-        Me.Label35.Size = New System.Drawing.Size(77, 13)
-        Me.Label35.TabIndex = 10
-        Me.Label35.Text = "Pagefile usage"
-        '
-        'lblPeakWorkingSet
-        '
-        Me.lblPeakWorkingSet.AutoSize = True
-        Me.lblPeakWorkingSet.Location = New System.Drawing.Point(146, 36)
-        Me.lblPeakWorkingSet.Name = "lblPeakWorkingSet"
-        Me.lblPeakWorkingSet.Size = New System.Drawing.Size(19, 13)
-        Me.lblPeakWorkingSet.TabIndex = 5
-        Me.lblPeakWorkingSet.Text = "00"
-        Me.lblPeakWorkingSet.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label25
-        '
-        Me.Label25.AutoSize = True
-        Me.Label25.Location = New System.Drawing.Point(5, 36)
-        Me.Label25.Name = "Label25"
-        Me.Label25.Size = New System.Drawing.Size(89, 13)
-        Me.Label25.TabIndex = 4
-        Me.Label25.Text = "Peak working set"
-        '
-        'lblWorkingSet
-        '
-        Me.lblWorkingSet.AutoSize = True
-        Me.lblWorkingSet.Location = New System.Drawing.Point(146, 18)
-        Me.lblWorkingSet.Name = "lblWorkingSet"
-        Me.lblWorkingSet.Size = New System.Drawing.Size(19, 13)
-        Me.lblWorkingSet.TabIndex = 3
-        Me.lblWorkingSet.Text = "00"
-        Me.lblWorkingSet.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label27
-        '
-        Me.Label27.AutoSize = True
-        Me.Label27.Location = New System.Drawing.Point(5, 18)
-        Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(64, 13)
-        Me.Label27.TabIndex = 2
-        Me.Label27.Text = "Working set"
-        '
-        'GroupBox2
-        '
-        Me.GroupBox2.Controls.Add(Me.lblTotalTime)
-        Me.GroupBox2.Controls.Add(Me.Label24)
-        Me.GroupBox2.Controls.Add(Me.lblUserTime)
-        Me.GroupBox2.Controls.Add(Me.Label22)
-        Me.GroupBox2.Controls.Add(Me.lblKernelTime)
-        Me.GroupBox2.Controls.Add(Me.Label20)
-        Me.GroupBox2.Controls.Add(Me.lblPriority)
-        Me.GroupBox2.Controls.Add(Me.Label18)
-        Me.GroupBox2.Location = New System.Drawing.Point(416, 8)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(180, 100)
-        Me.GroupBox2.TabIndex = 0
-        Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "CPU"
-        '
-        'lblTotalTime
-        '
-        Me.lblTotalTime.AutoSize = True
-        Me.lblTotalTime.Location = New System.Drawing.Point(100, 73)
-        Me.lblTotalTime.Name = "lblTotalTime"
-        Me.lblTotalTime.Size = New System.Drawing.Size(70, 13)
-        Me.lblTotalTime.TabIndex = 7
-        Me.lblTotalTime.Text = "00:00:00.158"
-        Me.lblTotalTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label24
-        '
-        Me.Label24.AutoSize = True
-        Me.Label24.Location = New System.Drawing.Point(6, 73)
-        Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(53, 13)
-        Me.Label24.TabIndex = 6
-        Me.Label24.Text = "Total time"
-        '
-        'lblUserTime
-        '
-        Me.lblUserTime.AutoSize = True
-        Me.lblUserTime.Location = New System.Drawing.Point(100, 54)
-        Me.lblUserTime.Name = "lblUserTime"
-        Me.lblUserTime.Size = New System.Drawing.Size(19, 13)
-        Me.lblUserTime.TabIndex = 5
-        Me.lblUserTime.Text = "00"
-        Me.lblUserTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label22
-        '
-        Me.Label22.AutoSize = True
-        Me.Label22.Location = New System.Drawing.Point(6, 54)
-        Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(51, 13)
-        Me.Label22.TabIndex = 4
-        Me.Label22.Text = "User time"
-        '
-        'lblKernelTime
-        '
-        Me.lblKernelTime.AutoSize = True
-        Me.lblKernelTime.Location = New System.Drawing.Point(100, 36)
-        Me.lblKernelTime.Name = "lblKernelTime"
-        Me.lblKernelTime.Size = New System.Drawing.Size(19, 13)
-        Me.lblKernelTime.TabIndex = 3
-        Me.lblKernelTime.Text = "00"
-        Me.lblKernelTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label20
-        '
-        Me.Label20.AutoSize = True
-        Me.Label20.Location = New System.Drawing.Point(6, 36)
-        Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(59, 13)
-        Me.Label20.TabIndex = 2
-        Me.Label20.Text = "Kernel time"
-        '
-        'lblPriority
-        '
-        Me.lblPriority.AutoSize = True
-        Me.lblPriority.Location = New System.Drawing.Point(100, 16)
-        Me.lblPriority.Name = "lblPriority"
-        Me.lblPriority.Size = New System.Drawing.Size(19, 13)
-        Me.lblPriority.TabIndex = 1
-        Me.lblPriority.Text = "00"
-        Me.lblPriority.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label18
-        '
-        Me.Label18.AutoSize = True
-        Me.Label18.Location = New System.Drawing.Point(6, 16)
-        Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(38, 13)
-        Me.Label18.TabIndex = 0
-        Me.Label18.Text = "Priority"
-        '
-        'TabPage3
-        '
-        Me.TabPage3.Controls.Add(Me.splitPerformances)
-        Me.TabPage3.ImageIndex = 2
-        Me.TabPage3.Location = New System.Drawing.Point(4, 23)
-        Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(552, 194)
-        Me.TabPage3.TabIndex = 2
-        Me.TabPage3.Text = "Performances"
-        Me.TabPage3.UseVisualStyleBackColor = True
-        '
-        'splitPerformances
-        '
-        Me.splitPerformances.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.splitPerformances.IsSplitterFixed = True
-        Me.splitPerformances.Location = New System.Drawing.Point(3, 3)
-        Me.splitPerformances.Name = "splitPerformances"
-        Me.splitPerformances.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'splitPerformances.Panel1
-        '
-        Me.splitPerformances.Panel1.Controls.Add(Me.graphCPU)
-        '
-        'splitPerformances.Panel2
-        '
-        Me.splitPerformances.Panel2.Controls.Add(Me.splitPerformance2)
-        Me.splitPerformances.Size = New System.Drawing.Size(546, 188)
-        Me.splitPerformances.SplitterDistance = 86
-        Me.splitPerformances.SplitterWidth = 1
-        Me.splitPerformances.TabIndex = 3
-        '
-        'graphCPU
-        '
-        Me.graphCPU.BackColor = System.Drawing.Color.Black
-        Me.graphCPU.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphCPU.EnableGraph = True
-        Me.graphCPU.Fixedheight = True
-        Me.graphCPU.GridStep = 10
-        Me.graphCPU.Location = New System.Drawing.Point(0, 0)
-        Me.graphCPU.Name = "graphCPU"
-        Me.graphCPU.Size = New System.Drawing.Size(546, 86)
-        Me.graphCPU.TabIndex = 1
-        Me.graphCPU.TabStop = False
-        '
-        'splitPerformance2
-        '
-        Me.splitPerformance2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.splitPerformance2.IsSplitterFixed = True
-        Me.splitPerformance2.Location = New System.Drawing.Point(0, 0)
-        Me.splitPerformance2.Name = "splitPerformance2"
-        Me.splitPerformance2.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'splitPerformance2.Panel1
-        '
-        Me.splitPerformance2.Panel1.Controls.Add(Me.graphMemory)
-        '
-        'splitPerformance2.Panel2
-        '
-        Me.splitPerformance2.Panel2.Controls.Add(Me.graphIO)
-        Me.splitPerformance2.Size = New System.Drawing.Size(546, 101)
-        Me.splitPerformance2.SplitterDistance = 44
-        Me.splitPerformance2.SplitterWidth = 1
-        Me.splitPerformance2.TabIndex = 0
-        '
-        'graphMemory
-        '
-        Me.graphMemory.BackColor = System.Drawing.Color.Black
-        Me.graphMemory.Color = System.Drawing.Color.Red
-        Me.graphMemory.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphMemory.EnableGraph = True
-        Me.graphMemory.Fixedheight = False
-        Me.graphMemory.GridStep = 10
-        Me.graphMemory.Location = New System.Drawing.Point(0, 0)
-        Me.graphMemory.Name = "graphMemory"
-        Me.graphMemory.Size = New System.Drawing.Size(546, 44)
-        Me.graphMemory.TabIndex = 2
-        Me.graphMemory.TabStop = False
-        '
-        'graphIO
-        '
-        Me.graphIO.BackColor = System.Drawing.Color.Black
-        Me.graphIO.Color = System.Drawing.Color.LimeGreen
-        Me.graphIO.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphIO.EnableGraph = True
-        Me.graphIO.Fixedheight = False
-        Me.graphIO.GridStep = 10
-        Me.graphIO.Location = New System.Drawing.Point(0, 0)
-        Me.graphIO.Name = "graphIO"
-        Me.graphIO.Size = New System.Drawing.Size(546, 56)
-        Me.graphIO.TabIndex = 3
-        Me.graphIO.TabStop = False
-        '
-        'TabPage4
-        '
-        Me.TabPage4.Controls.Add(Me.tabProcessToken)
-        Me.TabPage4.ImageIndex = 3
-        Me.TabPage4.Location = New System.Drawing.Point(4, 23)
-        Me.TabPage4.Name = "TabPage4"
-        Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage4.Size = New System.Drawing.Size(552, 194)
-        Me.TabPage4.TabIndex = 3
-        Me.TabPage4.Text = "Token"
-        Me.TabPage4.UseVisualStyleBackColor = True
-        '
-        'tabProcessToken
-        '
-        Me.tabProcessToken.Controls.Add(Me.tabProcessTokenPagePrivileges)
-        Me.tabProcessToken.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tabProcessToken.Location = New System.Drawing.Point(3, 3)
-        Me.tabProcessToken.Name = "tabProcessToken"
-        Me.tabProcessToken.SelectedIndex = 0
-        Me.tabProcessToken.Size = New System.Drawing.Size(546, 188)
-        Me.tabProcessToken.TabIndex = 0
-        '
-        'tabProcessTokenPagePrivileges
-        '
-        Me.tabProcessTokenPagePrivileges.Controls.Add(Me.lvPrivileges)
-        Me.tabProcessTokenPagePrivileges.Location = New System.Drawing.Point(4, 22)
-        Me.tabProcessTokenPagePrivileges.Name = "tabProcessTokenPagePrivileges"
-        Me.tabProcessTokenPagePrivileges.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabProcessTokenPagePrivileges.Size = New System.Drawing.Size(538, 162)
-        Me.tabProcessTokenPagePrivileges.TabIndex = 0
-        Me.tabProcessTokenPagePrivileges.Text = "Privileges"
-        Me.tabProcessTokenPagePrivileges.UseVisualStyleBackColor = True
-        '
-        'lvPrivileges
-        '
-        Me.lvPrivileges.AllowColumnReorder = True
-        Me.lvPrivileges.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader50, Me.ColumnHeader51, Me.ColumnHeader52})
-        Me.lvPrivileges.ContextMenuStrip = Me.menuPrivileges
-        Me.lvPrivileges.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvPrivileges.FullRowSelect = True
-        Me.lvPrivileges.HideSelection = False
-        Me.lvPrivileges.Location = New System.Drawing.Point(3, 3)
-        Me.lvPrivileges.Name = "lvPrivileges"
-        Me.lvPrivileges.OverriddenDoubleBuffered = True
-        Me.lvPrivileges.Size = New System.Drawing.Size(532, 156)
-        Me.lvPrivileges.TabIndex = 4
-        Me.lvPrivileges.UseCompatibleStateImageBehavior = False
-        Me.lvPrivileges.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader50
-        '
-        Me.ColumnHeader50.Text = "Name"
-        Me.ColumnHeader50.Width = 191
-        '
-        'ColumnHeader51
-        '
-        Me.ColumnHeader51.Text = "Status"
-        Me.ColumnHeader51.Width = 100
-        '
-        'ColumnHeader52
-        '
-        Me.ColumnHeader52.Text = "Description"
-        Me.ColumnHeader52.Width = 400
-        '
-        'menuPrivileges
-        '
-        Me.menuPrivileges.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem44, Me.DisableToolStripMenuItem, Me.RemoveToolStripMenuItem})
-        Me.menuPrivileges.Name = "mainMenu"
-        Me.menuPrivileges.Size = New System.Drawing.Size(153, 92)
-        '
-        'ToolStripMenuItem44
-        '
-        Me.ToolStripMenuItem44.Image = Global.YAPM.My.Resources.Resources.ok
-        Me.ToolStripMenuItem44.Name = "ToolStripMenuItem44"
-        Me.ToolStripMenuItem44.Size = New System.Drawing.Size(152, 22)
-        Me.ToolStripMenuItem44.Text = "Enable"
-        '
-        'DisableToolStripMenuItem
-        '
-        Me.DisableToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.close
-        Me.DisableToolStripMenuItem.Name = "DisableToolStripMenuItem"
-        Me.DisableToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.DisableToolStripMenuItem.Text = "Disable"
-        '
-        'RemoveToolStripMenuItem
-        '
-        Me.RemoveToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.kill
-        Me.RemoveToolStripMenuItem.Name = "RemoveToolStripMenuItem"
-        Me.RemoveToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.RemoveToolStripMenuItem.Text = "Remove"
-        '
-        'TabPage5
-        '
-        Me.TabPage5.Controls.Add(Me.lvProcMem)
-        Me.TabPage5.ImageIndex = 4
-        Me.TabPage5.Location = New System.Drawing.Point(4, 23)
-        Me.TabPage5.Name = "TabPage5"
-        Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage5.Size = New System.Drawing.Size(552, 194)
-        Me.TabPage5.TabIndex = 4
-        Me.TabPage5.Text = "Memory"
-        Me.TabPage5.UseVisualStyleBackColor = True
-        '
-        'lvProcMem
-        '
-        Me.lvProcMem.AllowColumnReorder = True
-        Me.lvProcMem.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader53, Me.ColumnHeader54, Me.ColumnHeader55, Me.ColumnHeader56, Me.ColumnHeader21, Me.ColumnHeader22})
-        Me.lvProcMem.ContextMenuStrip = Me.menuProcMem
-        Me.lvProcMem.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvProcMem.FullRowSelect = True
-        Me.lvProcMem.HideSelection = False
-        Me.lvProcMem.Location = New System.Drawing.Point(3, 3)
-        Me.lvProcMem.Name = "lvProcMem"
-        Me.lvProcMem.OverriddenDoubleBuffered = True
-        Me.lvProcMem.Size = New System.Drawing.Size(546, 188)
-        Me.lvProcMem.TabIndex = 5
-        Me.lvProcMem.UseCompatibleStateImageBehavior = False
-        Me.lvProcMem.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader53
-        '
-        Me.ColumnHeader53.Text = "Name"
-        Me.ColumnHeader53.Width = 198
-        '
-        'ColumnHeader54
-        '
-        Me.ColumnHeader54.Text = "Address"
-        Me.ColumnHeader54.Width = 100
-        '
-        'ColumnHeader55
-        '
-        Me.ColumnHeader55.Text = "Size"
-        Me.ColumnHeader55.Width = 100
-        '
-        'ColumnHeader56
-        '
-        Me.ColumnHeader56.Text = "Protection"
-        Me.ColumnHeader56.Width = 150
-        '
-        'ColumnHeader21
-        '
-        Me.ColumnHeader21.Text = "State"
-        Me.ColumnHeader21.Width = 100
-        '
-        'ColumnHeader22
-        '
-        Me.ColumnHeader22.Text = "Type"
-        Me.ColumnHeader22.Width = 100
-        '
-        'menuProcMem
-        '
-        Me.menuProcMem.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem49, Me.JumpToPEBAddressToolStripMenuItem})
-        Me.menuProcMem.Name = "menuProc"
-        Me.menuProcMem.Size = New System.Drawing.Size(184, 48)
-        '
-        'ToolStripMenuItem49
-        '
-        Me.ToolStripMenuItem49.Image = Global.YAPM.My.Resources.Resources.magnify16
-        Me.ToolStripMenuItem49.Name = "ToolStripMenuItem49"
-        Me.ToolStripMenuItem49.Size = New System.Drawing.Size(183, 22)
-        Me.ToolStripMenuItem49.Text = "View memory"
-        '
-        'JumpToPEBAddressToolStripMenuItem
-        '
-        Me.JumpToPEBAddressToolStripMenuItem.Name = "JumpToPEBAddressToolStripMenuItem"
-        Me.JumpToPEBAddressToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
-        Me.JumpToPEBAddressToolStripMenuItem.Text = "Jump to PEB address"
-        '
-        'TabPage6
-        '
-        Me.TabPage6.Controls.Add(Me.SplitContainerInfoProcess)
-        Me.TabPage6.ImageIndex = 5
-        Me.TabPage6.Location = New System.Drawing.Point(4, 23)
-        Me.TabPage6.Name = "TabPage6"
-        Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage6.Size = New System.Drawing.Size(552, 194)
-        Me.TabPage6.TabIndex = 5
-        Me.TabPage6.Text = "Informations"
-        Me.TabPage6.UseVisualStyleBackColor = True
-        '
-        'SplitContainerInfoProcess
-        '
-        Me.SplitContainerInfoProcess.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainerInfoProcess.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.SplitContainerInfoProcess.Location = New System.Drawing.Point(3, 3)
-        Me.SplitContainerInfoProcess.Name = "SplitContainerInfoProcess"
-        Me.SplitContainerInfoProcess.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainerInfoProcess.Panel1
-        '
-        Me.SplitContainerInfoProcess.Panel1.Controls.Add(Me.chkDisplayNAProcess)
-        Me.SplitContainerInfoProcess.Panel1.Controls.Add(Me.chkHandles)
-        Me.SplitContainerInfoProcess.Panel1.Controls.Add(Me.chkOnline)
-        Me.SplitContainerInfoProcess.Panel1.Controls.Add(Me.chkModules)
-        Me.SplitContainerInfoProcess.Panel1.Controls.Add(Me.cmdInfosToClipB)
-        '
-        'SplitContainerInfoProcess.Panel2
-        '
-        Me.SplitContainerInfoProcess.Panel2.Controls.Add(Me.rtb)
-        Me.SplitContainerInfoProcess.Size = New System.Drawing.Size(546, 188)
-        Me.SplitContainerInfoProcess.SplitterDistance = 25
-        Me.SplitContainerInfoProcess.TabIndex = 0
-        '
-        'chkDisplayNAProcess
-        '
-        Me.chkDisplayNAProcess.AutoSize = True
-        Me.chkDisplayNAProcess.Checked = True
-        Me.chkDisplayNAProcess.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkDisplayNAProcess.Location = New System.Drawing.Point(420, 6)
-        Me.chkDisplayNAProcess.Name = "chkDisplayNAProcess"
-        Me.chkDisplayNAProcess.Size = New System.Drawing.Size(124, 17)
-        Me.chkDisplayNAProcess.TabIndex = 18
-        Me.chkDisplayNAProcess.Text = "Display all processes"
-        Me.chkDisplayNAProcess.UseVisualStyleBackColor = True
-        '
-        'chkHandles
-        '
-        Me.chkHandles.AutoSize = True
-        Me.chkHandles.Location = New System.Drawing.Point(350, 6)
-        Me.chkHandles.Name = "chkHandles"
-        Me.chkHandles.Size = New System.Drawing.Size(65, 17)
-        Me.chkHandles.TabIndex = 17
-        Me.chkHandles.Text = "Handles"
-        Me.chkHandles.UseVisualStyleBackColor = True
-        '
-        'chkOnline
-        '
-        Me.chkOnline.AutoSize = True
-        Me.chkOnline.Location = New System.Drawing.Point(262, 6)
-        Me.chkOnline.Name = "chkOnline"
-        Me.chkOnline.Size = New System.Drawing.Size(81, 17)
-        Me.chkOnline.TabIndex = 16
-        Me.chkOnline.Text = "Online infos"
-        Me.chkOnline.UseVisualStyleBackColor = True
-        '
-        'chkModules
-        '
-        Me.chkModules.AutoSize = True
-        Me.chkModules.Location = New System.Drawing.Point(108, 6)
-        Me.chkModules.Name = "chkModules"
-        Me.chkModules.Size = New System.Drawing.Size(145, 17)
-        Me.chkModules.TabIndex = 15
-        Me.chkModules.Text = "Retrive modules/trhreads"
-        Me.chkModules.UseVisualStyleBackColor = True
-        '
-        'cmdInfosToClipB
-        '
-        Me.cmdInfosToClipB.Enabled = False
-        Me.cmdInfosToClipB.Location = New System.Drawing.Point(3, 1)
-        Me.cmdInfosToClipB.Name = "cmdInfosToClipB"
-        Me.cmdInfosToClipB.Size = New System.Drawing.Size(99, 21)
-        Me.cmdInfosToClipB.TabIndex = 14
-        Me.cmdInfosToClipB.Text = "Copy to clipboard"
-        Me.cmdInfosToClipB.UseVisualStyleBackColor = True
-        '
-        'rtb
-        '
-        Me.rtb.AutoWordSelection = True
-        Me.rtb.BackColor = System.Drawing.Color.White
-        Me.rtb.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.rtb.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.rtb.HideSelection = False
-        Me.rtb.Location = New System.Drawing.Point(0, 0)
-        Me.rtb.Name = "rtb"
-        Me.rtb.ReadOnly = True
-        Me.rtb.Size = New System.Drawing.Size(546, 159)
-        Me.rtb.TabIndex = 14
-        Me.rtb.Text = ""
-        '
-        'TabPage7
-        '
-        Me.TabPage7.Controls.Add(Me.lvProcServices)
-        Me.TabPage7.ImageIndex = 7
-        Me.TabPage7.Location = New System.Drawing.Point(4, 23)
-        Me.TabPage7.Name = "TabPage7"
-        Me.TabPage7.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage7.Size = New System.Drawing.Size(552, 194)
-        Me.TabPage7.TabIndex = 6
-        Me.TabPage7.Text = "Services"
-        Me.TabPage7.UseVisualStyleBackColor = True
-        '
-        'lvProcServices
-        '
-        Me.lvProcServices.AllowColumnReorder = True
-        Me.lvProcServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader23, Me.ColumnHeader47, Me.ColumnHeader48, Me.ColumnHeader20})
-        Me.lvProcServices.ContextMenuStrip = Me.menuProcServ
-        Me.lvProcServices.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvProcServices.FullRowSelect = True
-        Me.lvProcServices.HideSelection = False
-        Me.lvProcServices.Location = New System.Drawing.Point(3, 3)
-        Me.lvProcServices.Name = "lvProcServices"
-        Me.lvProcServices.OverriddenDoubleBuffered = True
-        Me.lvProcServices.Size = New System.Drawing.Size(546, 188)
-        Me.lvProcServices.SmallImageList = Me.imgProcessTab
-        Me.lvProcServices.TabIndex = 5
-        Me.lvProcServices.UseCompatibleStateImageBehavior = False
-        Me.lvProcServices.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader23
-        '
-        Me.ColumnHeader23.Text = "ServiceName"
-        Me.ColumnHeader23.Width = 140
-        '
-        'ColumnHeader47
-        '
-        Me.ColumnHeader47.Text = "State"
-        Me.ColumnHeader47.Width = 90
-        '
-        'ColumnHeader48
-        '
-        Me.ColumnHeader48.Text = "CommonName"
-        Me.ColumnHeader48.Width = 220
-        '
-        'ColumnHeader20
-        '
-        Me.ColumnHeader20.Text = "Path"
-        Me.ColumnHeader20.Width = 330
-        '
-        'menuProcServ
-        '
-        Me.menuProcServ.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem43})
-        Me.menuProcServ.Name = "menuProc"
-        Me.menuProcServ.Size = New System.Drawing.Size(145, 26)
-        '
-        'ToolStripMenuItem43
-        '
-        Me.ToolStripMenuItem43.Image = Global.YAPM.My.Resources.Resources.exe
-        Me.ToolStripMenuItem43.Name = "ToolStripMenuItem43"
-        Me.ToolStripMenuItem43.Size = New System.Drawing.Size(144, 22)
-        Me.ToolStripMenuItem43.Text = "Select service"
-        '
         'imgProcessTab
         '
         Me.imgProcessTab.ImageStream = CType(resources.GetObject("imgProcessTab.ImageStream"), System.Windows.Forms.ImageListStreamer)
@@ -2376,234 +978,6 @@ Partial Class frmMain
         Me.imgProcessTab.Images.SetKeyName(9, "font")
         Me.imgProcessTab.Images.SetKeyName(10, "environment")
         '
-        'tabNetwork
-        '
-        Me.tabNetwork.Controls.Add(Me.lvProcNetwork)
-        Me.tabNetwork.ImageIndex = 8
-        Me.tabNetwork.Location = New System.Drawing.Point(4, 23)
-        Me.tabNetwork.Name = "tabNetwork"
-        Me.tabNetwork.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabNetwork.Size = New System.Drawing.Size(552, 194)
-        Me.tabNetwork.TabIndex = 7
-        Me.tabNetwork.Text = "Network"
-        Me.tabNetwork.UseVisualStyleBackColor = True
-        '
-        'lvProcNetwork
-        '
-        Me.lvProcNetwork.AllowColumnReorder = True
-        Me.lvProcNetwork.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader49, Me.ColumnHeader57, Me.ColumnHeader58, Me.ColumnHeader59})
-        Me.lvProcNetwork.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvProcNetwork.FullRowSelect = True
-        Me.lvProcNetwork.HideSelection = False
-        Me.lvProcNetwork.Location = New System.Drawing.Point(3, 3)
-        Me.lvProcNetwork.Name = "lvProcNetwork"
-        Me.lvProcNetwork.OverriddenDoubleBuffered = True
-        Me.lvProcNetwork.Size = New System.Drawing.Size(546, 188)
-        Me.lvProcNetwork.TabIndex = 5
-        Me.lvProcNetwork.UseCompatibleStateImageBehavior = False
-        Me.lvProcNetwork.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader49
-        '
-        Me.ColumnHeader49.Text = "Local"
-        Me.ColumnHeader49.Width = 210
-        '
-        'ColumnHeader57
-        '
-        Me.ColumnHeader57.Text = "Port"
-        Me.ColumnHeader57.Width = 100
-        '
-        'ColumnHeader58
-        '
-        Me.ColumnHeader58.Text = "Protocol"
-        Me.ColumnHeader58.Width = 100
-        '
-        'ColumnHeader59
-        '
-        Me.ColumnHeader59.Text = "State"
-        Me.ColumnHeader59.Width = 150
-        '
-        'TabPage8
-        '
-        Me.TabPage8.Controls.Add(Me.SplitContainerStrings)
-        Me.TabPage8.ImageKey = "font"
-        Me.TabPage8.Location = New System.Drawing.Point(4, 23)
-        Me.TabPage8.Name = "TabPage8"
-        Me.TabPage8.Size = New System.Drawing.Size(552, 194)
-        Me.TabPage8.TabIndex = 8
-        Me.TabPage8.Text = "Strings"
-        Me.TabPage8.UseVisualStyleBackColor = True
-        '
-        'SplitContainerStrings
-        '
-        Me.SplitContainerStrings.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainerStrings.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainerStrings.Name = "SplitContainerStrings"
-        Me.SplitContainerStrings.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainerStrings.Panel1
-        '
-        Me.SplitContainerStrings.Panel1.Controls.Add(Me.lvProcString)
-        '
-        'SplitContainerStrings.Panel2
-        '
-        Me.SplitContainerStrings.Panel2.Controls.Add(Me.cmdProcSearchR)
-        Me.SplitContainerStrings.Panel2.Controls.Add(Me.cmdProcSearchL)
-        Me.SplitContainerStrings.Panel2.Controls.Add(Me.pgbString)
-        Me.SplitContainerStrings.Panel2.Controls.Add(Me.Label28)
-        Me.SplitContainerStrings.Panel2.Controls.Add(Me.txtSearchProcString)
-        Me.SplitContainerStrings.Panel2.Controls.Add(Me.cmdProcStringSave)
-        Me.SplitContainerStrings.Panel2.Controls.Add(Me.optProcStringMemory)
-        Me.SplitContainerStrings.Panel2.Controls.Add(Me.optProcStringImage)
-        Me.SplitContainerStrings.Size = New System.Drawing.Size(552, 194)
-        Me.SplitContainerStrings.SplitterDistance = 165
-        Me.SplitContainerStrings.TabIndex = 0
-        '
-        'lvProcString
-        '
-        Me.lvProcString.AllowColumnReorder = True
-        Me.lvProcString.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader76, Me.ColumnHeader77})
-        Me.lvProcString.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvProcString.FullRowSelect = True
-        ListViewGroup3.Header = "Strings"
-        ListViewGroup3.Name = "gpOther"
-        ListViewGroup4.Header = "Search result"
-        ListViewGroup4.Name = "gpSearch"
-        Me.lvProcString.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
-        Me.lvProcString.HideSelection = False
-        Me.lvProcString.Location = New System.Drawing.Point(0, 0)
-        Me.lvProcString.MultiSelect = False
-        Me.lvProcString.Name = "lvProcString"
-        Me.lvProcString.OverriddenDoubleBuffered = True
-        Me.lvProcString.Size = New System.Drawing.Size(552, 165)
-        Me.lvProcString.TabIndex = 4
-        Me.lvProcString.UseCompatibleStateImageBehavior = False
-        Me.lvProcString.View = System.Windows.Forms.View.Details
-        Me.lvProcString.VirtualMode = True
-        '
-        'ColumnHeader76
-        '
-        Me.ColumnHeader76.Text = "Position"
-        Me.ColumnHeader76.Width = 110
-        '
-        'ColumnHeader77
-        '
-        Me.ColumnHeader77.Text = "String"
-        Me.ColumnHeader77.Width = 508
-        '
-        'cmdProcSearchR
-        '
-        Me.cmdProcSearchR.Location = New System.Drawing.Point(499, 1)
-        Me.cmdProcSearchR.Name = "cmdProcSearchR"
-        Me.cmdProcSearchR.Size = New System.Drawing.Size(17, 23)
-        Me.cmdProcSearchR.TabIndex = 19
-        Me.cmdProcSearchR.Text = ">"
-        Me.cmdProcSearchR.UseVisualStyleBackColor = True
-        '
-        'cmdProcSearchL
-        '
-        Me.cmdProcSearchL.Location = New System.Drawing.Point(476, 1)
-        Me.cmdProcSearchL.Name = "cmdProcSearchL"
-        Me.cmdProcSearchL.Size = New System.Drawing.Size(17, 23)
-        Me.cmdProcSearchL.TabIndex = 18
-        Me.cmdProcSearchL.Text = "<"
-        Me.cmdProcSearchL.UseVisualStyleBackColor = True
-        '
-        'pgbString
-        '
-        Me.pgbString.Location = New System.Drawing.Point(230, 1)
-        Me.pgbString.Name = "pgbString"
-        Me.pgbString.Size = New System.Drawing.Size(120, 23)
-        Me.pgbString.TabIndex = 17
-        '
-        'Label28
-        '
-        Me.Label28.AutoSize = True
-        Me.Label28.Location = New System.Drawing.Point(365, 6)
-        Me.Label28.Name = "Label28"
-        Me.Label28.Size = New System.Drawing.Size(41, 13)
-        Me.Label28.TabIndex = 16
-        Me.Label28.Text = "Search"
-        '
-        'txtSearchProcString
-        '
-        Me.txtSearchProcString.Location = New System.Drawing.Point(410, 2)
-        Me.txtSearchProcString.Name = "txtSearchProcString"
-        Me.txtSearchProcString.Size = New System.Drawing.Size(60, 20)
-        Me.txtSearchProcString.TabIndex = 14
-        '
-        'cmdProcStringSave
-        '
-        Me.cmdProcStringSave.Location = New System.Drawing.Point(140, 1)
-        Me.cmdProcStringSave.Name = "cmdProcStringSave"
-        Me.cmdProcStringSave.Size = New System.Drawing.Size(70, 23)
-        Me.cmdProcStringSave.TabIndex = 2
-        Me.cmdProcStringSave.Text = "Save..."
-        Me.cmdProcStringSave.UseVisualStyleBackColor = True
-        '
-        'optProcStringMemory
-        '
-        Me.optProcStringMemory.AutoSize = True
-        Me.optProcStringMemory.Location = New System.Drawing.Point(63, 4)
-        Me.optProcStringMemory.Name = "optProcStringMemory"
-        Me.optProcStringMemory.Size = New System.Drawing.Size(62, 17)
-        Me.optProcStringMemory.TabIndex = 1
-        Me.optProcStringMemory.Text = "Memory"
-        Me.optProcStringMemory.UseVisualStyleBackColor = True
-        '
-        'optProcStringImage
-        '
-        Me.optProcStringImage.AutoSize = True
-        Me.optProcStringImage.Checked = True
-        Me.optProcStringImage.Location = New System.Drawing.Point(3, 4)
-        Me.optProcStringImage.Name = "optProcStringImage"
-        Me.optProcStringImage.Size = New System.Drawing.Size(54, 17)
-        Me.optProcStringImage.TabIndex = 0
-        Me.optProcStringImage.TabStop = True
-        Me.optProcStringImage.Text = "Image"
-        Me.optProcStringImage.UseVisualStyleBackColor = True
-        '
-        'TabPage9
-        '
-        Me.TabPage9.Controls.Add(Me.lvProcEnv)
-        Me.TabPage9.ImageIndex = 10
-        Me.TabPage9.Location = New System.Drawing.Point(4, 23)
-        Me.TabPage9.Name = "TabPage9"
-        Me.TabPage9.Size = New System.Drawing.Size(552, 194)
-        Me.TabPage9.TabIndex = 9
-        Me.TabPage9.Text = "Environment"
-        Me.TabPage9.UseVisualStyleBackColor = True
-        '
-        'lvProcEnv
-        '
-        Me.lvProcEnv.AllowColumnReorder = True
-        Me.lvProcEnv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader60, Me.ColumnHeader61})
-        Me.lvProcEnv.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvProcEnv.FullRowSelect = True
-        ListViewGroup5.Header = "Strings"
-        ListViewGroup5.Name = "gpOther"
-        ListViewGroup6.Header = "Search result"
-        ListViewGroup6.Name = "gpSearch"
-        Me.lvProcEnv.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
-        Me.lvProcEnv.HideSelection = False
-        Me.lvProcEnv.Location = New System.Drawing.Point(0, 0)
-        Me.lvProcEnv.Name = "lvProcEnv"
-        Me.lvProcEnv.OverriddenDoubleBuffered = True
-        Me.lvProcEnv.Size = New System.Drawing.Size(552, 194)
-        Me.lvProcEnv.TabIndex = 5
-        Me.lvProcEnv.UseCompatibleStateImageBehavior = False
-        Me.lvProcEnv.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader60
-        '
-        Me.ColumnHeader60.Text = "Variable"
-        Me.ColumnHeader60.Width = 180
-        '
-        'ColumnHeader61
-        '
-        Me.ColumnHeader61.Text = "Value"
-        Me.ColumnHeader61.Width = 508
-        '
         'panelMenu
         '
         Me.panelMenu.Controls.Add(Me.Label3)
@@ -2619,7 +993,7 @@ Partial Class frmMain
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(4, 7)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(81, 13)
+        Me.Label3.Size = New System.Drawing.Size(83, 13)
         Me.Label3.TabIndex = 4
         Me.Label3.Text = "Search process"
         '
@@ -2628,7 +1002,7 @@ Partial Class frmMain
         Me.lblResCount.AutoSize = True
         Me.lblResCount.Location = New System.Drawing.Point(394, 7)
         Me.lblResCount.Name = "lblResCount"
-        Me.lblResCount.Size = New System.Drawing.Size(52, 13)
+        Me.lblResCount.Size = New System.Drawing.Size(56, 13)
         Me.lblResCount.TabIndex = 2
         Me.lblResCount.Text = "0 result(s)"
         '
@@ -2636,7 +1010,7 @@ Partial Class frmMain
         '
         Me.txtSearch.Location = New System.Drawing.Point(90, 4)
         Me.txtSearch.Name = "txtSearch"
-        Me.txtSearch.Size = New System.Drawing.Size(298, 20)
+        Me.txtSearch.Size = New System.Drawing.Size(298, 22)
         Me.txtSearch.TabIndex = 1
         '
         'timerProcess
@@ -2677,11 +1051,11 @@ Partial Class frmMain
         Me.lvServices.ContextMenuStrip = Me.menuService
         Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvServices.FullRowSelect = True
-        ListViewGroup7.Header = "Services"
-        ListViewGroup7.Name = "gpOther"
-        ListViewGroup8.Header = "Search result"
-        ListViewGroup8.Name = "gpSearch"
-        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
+        ListViewGroup3.Header = "Services"
+        ListViewGroup3.Name = "gpOther"
+        ListViewGroup4.Header = "Search result"
+        ListViewGroup4.Name = "gpSearch"
+        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvServices.HideSelection = False
         Me.lvServices.Location = New System.Drawing.Point(0, 0)
         Me.lvServices.Name = "lvServices"
@@ -2888,7 +1262,7 @@ Partial Class frmMain
         Me.lblServicePath.Location = New System.Drawing.Point(7, 19)
         Me.lblServicePath.Name = "lblServicePath"
         Me.lblServicePath.ReadOnly = True
-        Me.lblServicePath.Size = New System.Drawing.Size(440, 13)
+        Me.lblServicePath.Size = New System.Drawing.Size(440, 15)
         Me.lblServicePath.TabIndex = 18
         '
         'lblServiceName
@@ -3009,11 +1383,11 @@ Partial Class frmMain
         Me.lvJobs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader4, Me.ColumnHeader5, Me.ColumnHeader6})
         Me.lvJobs.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvJobs.FullRowSelect = True
-        ListViewGroup9.Header = "Past jobs"
-        ListViewGroup9.Name = "gp1"
-        ListViewGroup10.Header = "Future jobs"
-        ListViewGroup10.Name = "gp2"
-        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup9, ListViewGroup10})
+        ListViewGroup5.Header = "Past jobs"
+        ListViewGroup5.Name = "gp1"
+        ListViewGroup6.Header = "Future jobs"
+        ListViewGroup6.Name = "gp2"
+        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvJobs.HideSelection = False
         Me.lvJobs.Location = New System.Drawing.Point(0, 0)
         Me.lvJobs.Name = "lvJobs"
@@ -5267,7 +3641,7 @@ Partial Class frmMain
         Me.lblResCount2.AutoSize = True
         Me.lblResCount2.Location = New System.Drawing.Point(596, 6)
         Me.lblResCount2.Name = "lblResCount2"
-        Me.lblResCount2.Size = New System.Drawing.Size(52, 13)
+        Me.lblResCount2.Size = New System.Drawing.Size(56, 13)
         Me.lblResCount2.TabIndex = 2
         Me.lblResCount2.Text = "0 result(s)"
         '
@@ -5275,7 +3649,7 @@ Partial Class frmMain
         '
         Me.txtServiceSearch.Location = New System.Drawing.Point(89, 3)
         Me.txtServiceSearch.Name = "txtServiceSearch"
-        Me.txtServiceSearch.Size = New System.Drawing.Size(501, 20)
+        Me.txtServiceSearch.Size = New System.Drawing.Size(501, 22)
         Me.txtServiceSearch.TabIndex = 1
         '
         'panelMain5
@@ -5351,7 +3725,7 @@ Partial Class frmMain
         Me.chkFileEncrypted.Enabled = False
         Me.chkFileEncrypted.Location = New System.Drawing.Point(91, 51)
         Me.chkFileEncrypted.Name = "chkFileEncrypted"
-        Me.chkFileEncrypted.Size = New System.Drawing.Size(74, 17)
+        Me.chkFileEncrypted.Size = New System.Drawing.Size(77, 17)
         Me.chkFileEncrypted.TabIndex = 7
         Me.chkFileEncrypted.Text = "Encrypted"
         Me.chkFileEncrypted.UseVisualStyleBackColor = True
@@ -5361,7 +3735,7 @@ Partial Class frmMain
         Me.chkFileContentNotIndexed.AutoSize = True
         Me.chkFileContentNotIndexed.Location = New System.Drawing.Point(6, 88)
         Me.chkFileContentNotIndexed.Name = "chkFileContentNotIndexed"
-        Me.chkFileContentNotIndexed.Size = New System.Drawing.Size(121, 17)
+        Me.chkFileContentNotIndexed.Size = New System.Drawing.Size(133, 17)
         Me.chkFileContentNotIndexed.TabIndex = 6
         Me.chkFileContentNotIndexed.Text = "Content not indexed"
         Me.chkFileContentNotIndexed.UseVisualStyleBackColor = True
@@ -5372,7 +3746,7 @@ Partial Class frmMain
         Me.chkFileNormal.Enabled = False
         Me.chkFileNormal.Location = New System.Drawing.Point(91, 15)
         Me.chkFileNormal.Name = "chkFileNormal"
-        Me.chkFileNormal.Size = New System.Drawing.Size(59, 17)
+        Me.chkFileNormal.Size = New System.Drawing.Size(63, 17)
         Me.chkFileNormal.TabIndex = 5
         Me.chkFileNormal.Text = "Normal"
         Me.chkFileNormal.UseVisualStyleBackColor = True
@@ -5382,7 +3756,7 @@ Partial Class frmMain
         Me.chkFileSystem.AutoSize = True
         Me.chkFileSystem.Location = New System.Drawing.Point(91, 33)
         Me.chkFileSystem.Name = "chkFileSystem"
-        Me.chkFileSystem.Size = New System.Drawing.Size(60, 17)
+        Me.chkFileSystem.Size = New System.Drawing.Size(61, 17)
         Me.chkFileSystem.TabIndex = 4
         Me.chkFileSystem.Text = "System"
         Me.chkFileSystem.UseVisualStyleBackColor = True
@@ -5392,7 +3766,7 @@ Partial Class frmMain
         Me.chkFileReadOnly.AutoSize = True
         Me.chkFileReadOnly.Location = New System.Drawing.Point(6, 70)
         Me.chkFileReadOnly.Name = "chkFileReadOnly"
-        Me.chkFileReadOnly.Size = New System.Drawing.Size(74, 17)
+        Me.chkFileReadOnly.Size = New System.Drawing.Size(77, 17)
         Me.chkFileReadOnly.TabIndex = 3
         Me.chkFileReadOnly.Text = "Read only"
         Me.chkFileReadOnly.UseVisualStyleBackColor = True
@@ -5402,7 +3776,7 @@ Partial Class frmMain
         Me.chkFileHidden.AutoSize = True
         Me.chkFileHidden.Location = New System.Drawing.Point(6, 52)
         Me.chkFileHidden.Name = "chkFileHidden"
-        Me.chkFileHidden.Size = New System.Drawing.Size(60, 17)
+        Me.chkFileHidden.Size = New System.Drawing.Size(64, 17)
         Me.chkFileHidden.TabIndex = 2
         Me.chkFileHidden.Text = "Hidden"
         Me.chkFileHidden.UseVisualStyleBackColor = True
@@ -5413,7 +3787,7 @@ Partial Class frmMain
         Me.chkFileCompressed.Enabled = False
         Me.chkFileCompressed.Location = New System.Drawing.Point(6, 34)
         Me.chkFileCompressed.Name = "chkFileCompressed"
-        Me.chkFileCompressed.Size = New System.Drawing.Size(84, 17)
+        Me.chkFileCompressed.Size = New System.Drawing.Size(89, 17)
         Me.chkFileCompressed.TabIndex = 1
         Me.chkFileCompressed.Text = "Compressed"
         Me.chkFileCompressed.UseVisualStyleBackColor = True
@@ -5423,7 +3797,7 @@ Partial Class frmMain
         Me.chkFileArchive.AutoSize = True
         Me.chkFileArchive.Location = New System.Drawing.Point(6, 17)
         Me.chkFileArchive.Name = "chkFileArchive"
-        Me.chkFileArchive.Size = New System.Drawing.Size(62, 17)
+        Me.chkFileArchive.Size = New System.Drawing.Size(63, 17)
         Me.chkFileArchive.TabIndex = 0
         Me.chkFileArchive.Text = "Archive"
         Me.chkFileArchive.UseVisualStyleBackColor = True
@@ -5460,7 +3834,7 @@ Partial Class frmMain
         Me.DTlastModification.Format = System.Windows.Forms.DateTimePickerFormat.Time
         Me.DTlastModification.Location = New System.Drawing.Point(102, 57)
         Me.DTlastModification.Name = "DTlastModification"
-        Me.DTlastModification.Size = New System.Drawing.Size(84, 20)
+        Me.DTlastModification.Size = New System.Drawing.Size(84, 22)
         Me.DTlastModification.TabIndex = 5
         '
         'DTlastAccess
@@ -5468,7 +3842,7 @@ Partial Class frmMain
         Me.DTlastAccess.Format = System.Windows.Forms.DateTimePickerFormat.Time
         Me.DTlastAccess.Location = New System.Drawing.Point(102, 35)
         Me.DTlastAccess.Name = "DTlastAccess"
-        Me.DTlastAccess.Size = New System.Drawing.Size(84, 20)
+        Me.DTlastAccess.Size = New System.Drawing.Size(84, 22)
         Me.DTlastAccess.TabIndex = 4
         '
         'DTcreation
@@ -5477,7 +3851,7 @@ Partial Class frmMain
         Me.DTcreation.Format = System.Windows.Forms.DateTimePickerFormat.Time
         Me.DTcreation.Location = New System.Drawing.Point(102, 13)
         Me.DTcreation.Name = "DTcreation"
-        Me.DTcreation.Size = New System.Drawing.Size(84, 20)
+        Me.DTcreation.Size = New System.Drawing.Size(84, 22)
         Me.DTcreation.TabIndex = 3
         '
         'Label6
@@ -5485,7 +3859,7 @@ Partial Class frmMain
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(6, 41)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(64, 13)
+        Me.Label6.Size = New System.Drawing.Size(62, 13)
         Me.Label6.TabIndex = 2
         Me.Label6.Text = "Last access"
         '
@@ -5494,7 +3868,7 @@ Partial Class frmMain
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(6, 63)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(86, 13)
+        Me.Label5.Size = New System.Drawing.Size(95, 13)
         Me.Label5.TabIndex = 1
         Me.Label5.Text = "Last modification"
         '
@@ -5503,7 +3877,7 @@ Partial Class frmMain
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(6, 19)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(46, 13)
+        Me.Label4.Size = New System.Drawing.Size(51, 13)
         Me.Label4.TabIndex = 0
         Me.Label4.Text = "Creation"
         '
@@ -5627,7 +4001,7 @@ Partial Class frmMain
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(6, 34)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(69, 13)
+        Me.Label11.Size = New System.Drawing.Size(73, 13)
         Me.Label11.TabIndex = 13
         Me.Label11.Text = "Search result"
         '
@@ -5636,7 +4010,7 @@ Partial Class frmMain
         Me.lblResultsCount.AutoSize = True
         Me.lblResultsCount.Location = New System.Drawing.Point(396, 34)
         Me.lblResultsCount.Name = "lblResultsCount"
-        Me.lblResultsCount.Size = New System.Drawing.Size(52, 13)
+        Me.lblResultsCount.Size = New System.Drawing.Size(56, 13)
         Me.lblResultsCount.TabIndex = 12
         Me.lblResultsCount.Text = "0 result(s)"
         '
@@ -5644,7 +4018,7 @@ Partial Class frmMain
         '
         Me.txtSearchResults.Location = New System.Drawing.Point(89, 31)
         Me.txtSearchResults.Name = "txtSearchResults"
-        Me.txtSearchResults.Size = New System.Drawing.Size(298, 20)
+        Me.txtSearchResults.Size = New System.Drawing.Size(298, 22)
         Me.txtSearchResults.TabIndex = 11
         '
         'chkSearchWindows
@@ -5654,7 +4028,7 @@ Partial Class frmMain
         Me.chkSearchWindows.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkSearchWindows.Location = New System.Drawing.Point(510, 7)
         Me.chkSearchWindows.Name = "chkSearchWindows"
-        Me.chkSearchWindows.Size = New System.Drawing.Size(67, 17)
+        Me.chkSearchWindows.Size = New System.Drawing.Size(73, 17)
         Me.chkSearchWindows.TabIndex = 6
         Me.chkSearchWindows.Text = "windows"
         Me.chkSearchWindows.UseVisualStyleBackColor = True
@@ -5666,7 +4040,7 @@ Partial Class frmMain
         Me.chkSearchHandles.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkSearchHandles.Location = New System.Drawing.Point(441, 7)
         Me.chkSearchHandles.Name = "chkSearchHandles"
-        Me.chkSearchHandles.Size = New System.Drawing.Size(63, 17)
+        Me.chkSearchHandles.Size = New System.Drawing.Size(67, 17)
         Me.chkSearchHandles.TabIndex = 5
         Me.chkSearchHandles.Text = "handles"
         Me.chkSearchHandles.UseVisualStyleBackColor = True
@@ -5676,7 +4050,7 @@ Partial Class frmMain
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(162, 8)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(50, 13)
+        Me.Label1.Size = New System.Drawing.Size(53, 13)
         Me.Label1.TabIndex = 4
         Me.Label1.Text = "search in"
         '
@@ -5687,7 +4061,7 @@ Partial Class frmMain
         Me.chkSearchModules.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkSearchModules.Location = New System.Drawing.Point(300, 7)
         Me.chkSearchModules.Name = "chkSearchModules"
-        Me.chkSearchModules.Size = New System.Drawing.Size(65, 17)
+        Me.chkSearchModules.Size = New System.Drawing.Size(70, 17)
         Me.chkSearchModules.TabIndex = 3
         Me.chkSearchModules.Text = "modules"
         Me.chkSearchModules.UseVisualStyleBackColor = True
@@ -5711,7 +4085,7 @@ Partial Class frmMain
         Me.chkSearchProcess.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkSearchProcess.Location = New System.Drawing.Point(223, 7)
         Me.chkSearchProcess.Name = "chkSearchProcess"
-        Me.chkSearchProcess.Size = New System.Drawing.Size(74, 17)
+        Me.chkSearchProcess.Size = New System.Drawing.Size(76, 17)
         Me.chkSearchProcess.TabIndex = 1
         Me.chkSearchProcess.Text = "processes"
         Me.chkSearchProcess.UseVisualStyleBackColor = True
@@ -5721,7 +4095,7 @@ Partial Class frmMain
         Me.chkSearchCase.AutoSize = True
         Me.chkSearchCase.Location = New System.Drawing.Point(8, 7)
         Me.chkSearchCase.Name = "chkSearchCase"
-        Me.chkSearchCase.Size = New System.Drawing.Size(94, 17)
+        Me.chkSearchCase.Size = New System.Drawing.Size(97, 17)
         Me.chkSearchCase.TabIndex = 0
         Me.chkSearchCase.Text = "Case sensitive"
         Me.chkSearchCase.UseVisualStyleBackColor = True
@@ -5733,11 +4107,11 @@ Partial Class frmMain
         Me.lvSearchResults.ContextMenuStrip = Me.menuSearch
         Me.lvSearchResults.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvSearchResults.FullRowSelect = True
-        ListViewGroup11.Header = "Results"
-        ListViewGroup11.Name = "gpResults"
-        ListViewGroup12.Header = "Search results"
-        ListViewGroup12.Name = "gpSearchResults"
-        Me.lvSearchResults.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup11, ListViewGroup12})
+        ListViewGroup7.Header = "Results"
+        ListViewGroup7.Name = "gpResults"
+        ListViewGroup8.Header = "Search results"
+        ListViewGroup8.Name = "gpSearchResults"
+        Me.lvSearchResults.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
         Me.lvSearchResults.HideSelection = False
         Me.lvSearchResults.Location = New System.Drawing.Point(0, 0)
         Me.lvSearchResults.Name = "lvSearchResults"
@@ -5839,7 +4213,7 @@ Partial Class frmMain
         Me.Label9.AutoSize = True
         Me.Label9.Location = New System.Drawing.Point(3, 5)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(76, 13)
+        Me.Label9.Size = New System.Drawing.Size(80, 13)
         Me.Label9.TabIndex = 13
         Me.Label9.Text = "Search handle"
         '
@@ -5848,7 +4222,7 @@ Partial Class frmMain
         Me.lblHandlesCount.AutoSize = True
         Me.lblHandlesCount.Location = New System.Drawing.Point(393, 5)
         Me.lblHandlesCount.Name = "lblHandlesCount"
-        Me.lblHandlesCount.Size = New System.Drawing.Size(52, 13)
+        Me.lblHandlesCount.Size = New System.Drawing.Size(56, 13)
         Me.lblHandlesCount.TabIndex = 12
         Me.lblHandlesCount.Text = "0 result(s)"
         '
@@ -5856,7 +4230,7 @@ Partial Class frmMain
         '
         Me.txtSearchHandle.Location = New System.Drawing.Point(86, 2)
         Me.txtSearchHandle.Name = "txtSearchHandle"
-        Me.txtSearchHandle.Size = New System.Drawing.Size(298, 20)
+        Me.txtSearchHandle.Size = New System.Drawing.Size(298, 22)
         Me.txtSearchHandle.TabIndex = 11
         '
         'lvHandles
@@ -5866,11 +4240,11 @@ Partial Class frmMain
         Me.lvHandles.ContextMenuStrip = Me.menuHandles
         Me.lvHandles.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvHandles.FullRowSelect = True
-        ListViewGroup13.Header = "Handles"
-        ListViewGroup13.Name = "gpOther"
-        ListViewGroup14.Header = "Search result"
-        ListViewGroup14.Name = "gpSearch"
-        Me.lvHandles.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup13, ListViewGroup14})
+        ListViewGroup9.Header = "Handles"
+        ListViewGroup9.Name = "gpOther"
+        ListViewGroup10.Header = "Search result"
+        ListViewGroup10.Name = "gpSearch"
+        Me.lvHandles.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup9, ListViewGroup10})
         Me.lvHandles.HideSelection = False
         Me.lvHandles.Location = New System.Drawing.Point(0, 0)
         Me.lvHandles.Name = "lvHandles"
@@ -6086,7 +4460,7 @@ Partial Class frmMain
         '
         Me.txtMonitorNumber.Location = New System.Drawing.Point(241, 0)
         Me.txtMonitorNumber.Name = "txtMonitorNumber"
-        Me.txtMonitorNumber.Size = New System.Drawing.Size(33, 20)
+        Me.txtMonitorNumber.Size = New System.Drawing.Size(33, 22)
         Me.txtMonitorNumber.TabIndex = 11
         Me.txtMonitorNumber.Text = "200"
         '
@@ -6095,7 +4469,7 @@ Partial Class frmMain
         Me.lblMonitorMaxNumber.AutoSize = True
         Me.lblMonitorMaxNumber.Location = New System.Drawing.Point(171, 6)
         Me.lblMonitorMaxNumber.Name = "lblMonitorMaxNumber"
-        Me.lblMonitorMaxNumber.Size = New System.Drawing.Size(64, 13)
+        Me.lblMonitorMaxNumber.Size = New System.Drawing.Size(66, 13)
         Me.lblMonitorMaxNumber.TabIndex = 10
         Me.lblMonitorMaxNumber.Text = "Max. values"
         '
@@ -6105,9 +4479,9 @@ Partial Class frmMain
         Me.chkMonitorRightAuto.Checked = True
         Me.chkMonitorRightAuto.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkMonitorRightAuto.Dock = System.Windows.Forms.DockStyle.Right
-        Me.chkMonitorRightAuto.Location = New System.Drawing.Point(283, 0)
+        Me.chkMonitorRightAuto.Location = New System.Drawing.Point(281, 0)
         Me.chkMonitorRightAuto.Name = "chkMonitorRightAuto"
-        Me.chkMonitorRightAuto.Size = New System.Drawing.Size(48, 25)
+        Me.chkMonitorRightAuto.Size = New System.Drawing.Size(50, 25)
         Me.chkMonitorRightAuto.TabIndex = 9
         Me.chkMonitorRightAuto.Text = "Now"
         Me.chkMonitorRightAuto.UseVisualStyleBackColor = True
@@ -6119,7 +4493,7 @@ Partial Class frmMain
         Me.chkMonitorLeftAuto.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkMonitorLeftAuto.Location = New System.Drawing.Point(95, 4)
         Me.chkMonitorLeftAuto.Name = "chkMonitorLeftAuto"
-        Me.chkMonitorLeftAuto.Size = New System.Drawing.Size(73, 17)
+        Me.chkMonitorLeftAuto.Size = New System.Drawing.Size(78, 17)
         Me.chkMonitorLeftAuto.TabIndex = 8
         Me.chkMonitorLeftAuto.Text = "Automatic"
         Me.chkMonitorLeftAuto.UseVisualStyleBackColor = True
@@ -6131,7 +4505,7 @@ Partial Class frmMain
         Me.dtMonitorR.Format = System.Windows.Forms.DateTimePickerFormat.Time
         Me.dtMonitorR.Location = New System.Drawing.Point(331, 0)
         Me.dtMonitorR.Name = "dtMonitorR"
-        Me.dtMonitorR.Size = New System.Drawing.Size(89, 20)
+        Me.dtMonitorR.Size = New System.Drawing.Size(89, 22)
         Me.dtMonitorR.TabIndex = 7
         '
         'dtMonitorL
@@ -6141,7 +4515,7 @@ Partial Class frmMain
         Me.dtMonitorL.Format = System.Windows.Forms.DateTimePickerFormat.Time
         Me.dtMonitorL.Location = New System.Drawing.Point(0, 0)
         Me.dtMonitorL.Name = "dtMonitorL"
-        Me.dtMonitorL.Size = New System.Drawing.Size(89, 20)
+        Me.dtMonitorL.Size = New System.Drawing.Size(89, 22)
         Me.dtMonitorL.TabIndex = 6
         '
         'timerMonitoring
@@ -6202,7 +4576,7 @@ Partial Class frmMain
         Me.Label8.AutoSize = True
         Me.Label8.Location = New System.Drawing.Point(3, 5)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(74, 13)
+        Me.Label8.Size = New System.Drawing.Size(78, 13)
         Me.Label8.TabIndex = 10
         Me.Label8.Text = "Search thread"
         '
@@ -6211,7 +4585,7 @@ Partial Class frmMain
         Me.lblThreadResults.AutoSize = True
         Me.lblThreadResults.Location = New System.Drawing.Point(393, 5)
         Me.lblThreadResults.Name = "lblThreadResults"
-        Me.lblThreadResults.Size = New System.Drawing.Size(52, 13)
+        Me.lblThreadResults.Size = New System.Drawing.Size(56, 13)
         Me.lblThreadResults.TabIndex = 9
         Me.lblThreadResults.Text = "0 result(s)"
         '
@@ -6219,7 +4593,7 @@ Partial Class frmMain
         '
         Me.txtSearchThread.Location = New System.Drawing.Point(86, 2)
         Me.txtSearchThread.Name = "txtSearchThread"
-        Me.txtSearchThread.Size = New System.Drawing.Size(298, 20)
+        Me.txtSearchThread.Size = New System.Drawing.Size(298, 22)
         Me.txtSearchThread.TabIndex = 8
         '
         'lvThreads
@@ -6229,11 +4603,11 @@ Partial Class frmMain
         Me.lvThreads.ContextMenuStrip = Me.menuThread
         Me.lvThreads.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvThreads.FullRowSelect = True
-        ListViewGroup15.Header = "Threads"
-        ListViewGroup15.Name = "gpOther"
-        ListViewGroup16.Header = "Search results"
-        ListViewGroup16.Name = "gpSearchResults"
-        Me.lvThreads.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup15, ListViewGroup16})
+        ListViewGroup11.Header = "Threads"
+        ListViewGroup11.Name = "gpOther"
+        ListViewGroup12.Header = "Search results"
+        ListViewGroup12.Name = "gpSearchResults"
+        Me.lvThreads.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup11, ListViewGroup12})
         Me.lvThreads.HideSelection = False
         Me.lvThreads.Location = New System.Drawing.Point(0, 0)
         Me.lvThreads.Name = "lvThreads"
@@ -6446,7 +4820,7 @@ Partial Class frmMain
         Me.chkAllWindows.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkAllWindows.Location = New System.Drawing.Point(543, 4)
         Me.chkAllWindows.Name = "chkAllWindows"
-        Me.chkAllWindows.Size = New System.Drawing.Size(179, 17)
+        Me.chkAllWindows.Size = New System.Drawing.Size(199, 17)
         Me.chkAllWindows.TabIndex = 11
         Me.chkAllWindows.Text = "Display windows without caption"
         Me.chkAllWindows.UseVisualStyleBackColor = True
@@ -6456,7 +4830,7 @@ Partial Class frmMain
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(3, 5)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(80, 13)
+        Me.Label10.Size = New System.Drawing.Size(86, 13)
         Me.Label10.TabIndex = 10
         Me.Label10.Text = "Search window"
         '
@@ -6465,7 +4839,7 @@ Partial Class frmMain
         Me.lblWindowsCount.AutoSize = True
         Me.lblWindowsCount.Location = New System.Drawing.Point(393, 5)
         Me.lblWindowsCount.Name = "lblWindowsCount"
-        Me.lblWindowsCount.Size = New System.Drawing.Size(52, 13)
+        Me.lblWindowsCount.Size = New System.Drawing.Size(56, 13)
         Me.lblWindowsCount.TabIndex = 9
         Me.lblWindowsCount.Text = "0 result(s)"
         '
@@ -6473,7 +4847,7 @@ Partial Class frmMain
         '
         Me.txtSearchWindow.Location = New System.Drawing.Point(86, 2)
         Me.txtSearchWindow.Name = "txtSearchWindow"
-        Me.txtSearchWindow.Size = New System.Drawing.Size(298, 20)
+        Me.txtSearchWindow.Size = New System.Drawing.Size(298, 22)
         Me.txtSearchWindow.TabIndex = 8
         '
         'lvWindows
@@ -6483,11 +4857,11 @@ Partial Class frmMain
         Me.lvWindows.ContextMenuStrip = Me.menuWindow
         Me.lvWindows.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvWindows.FullRowSelect = True
-        ListViewGroup17.Header = "Windows"
-        ListViewGroup17.Name = "gpOther"
-        ListViewGroup18.Header = "Search results"
-        ListViewGroup18.Name = "gpSearchResults"
-        Me.lvWindows.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup17, ListViewGroup18})
+        ListViewGroup13.Header = "Windows"
+        ListViewGroup13.Name = "gpOther"
+        ListViewGroup14.Header = "Search results"
+        ListViewGroup14.Name = "gpSearchResults"
+        Me.lvWindows.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup13, ListViewGroup14})
         Me.lvWindows.HideSelection = False
         Me.lvWindows.Location = New System.Drawing.Point(0, 0)
         Me.lvWindows.Name = "lvWindows"
@@ -6612,7 +4986,7 @@ Partial Class frmMain
         Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(3, 5)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(78, 13)
+        Me.Label7.Size = New System.Drawing.Size(83, 13)
         Me.Label7.TabIndex = 7
         Me.Label7.Text = "Search module"
         '
@@ -6621,7 +4995,7 @@ Partial Class frmMain
         Me.lblModulesCount.AutoSize = True
         Me.lblModulesCount.Location = New System.Drawing.Point(393, 5)
         Me.lblModulesCount.Name = "lblModulesCount"
-        Me.lblModulesCount.Size = New System.Drawing.Size(52, 13)
+        Me.lblModulesCount.Size = New System.Drawing.Size(56, 13)
         Me.lblModulesCount.TabIndex = 6
         Me.lblModulesCount.Text = "0 result(s)"
         '
@@ -6629,7 +5003,7 @@ Partial Class frmMain
         '
         Me.txtSearchModule.Location = New System.Drawing.Point(86, 2)
         Me.txtSearchModule.Name = "txtSearchModule"
-        Me.txtSearchModule.Size = New System.Drawing.Size(298, 20)
+        Me.txtSearchModule.Size = New System.Drawing.Size(298, 22)
         Me.txtSearchModule.TabIndex = 5
         '
         'lvModules
@@ -6639,11 +5013,11 @@ Partial Class frmMain
         Me.lvModules.ContextMenuStrip = Me.menuModule
         Me.lvModules.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvModules.FullRowSelect = True
-        ListViewGroup19.Header = "Modules"
-        ListViewGroup19.Name = "gpOther"
-        ListViewGroup20.Header = "Search result"
-        ListViewGroup20.Name = "gpSearchResults"
-        Me.lvModules.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup19, ListViewGroup20})
+        ListViewGroup15.Header = "Modules"
+        ListViewGroup15.Name = "gpOther"
+        ListViewGroup16.Header = "Search result"
+        ListViewGroup16.Name = "gpSearchResults"
+        Me.lvModules.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup15, ListViewGroup16})
         Me.lvModules.HideSelection = False
         Me.lvModules.Location = New System.Drawing.Point(0, 0)
         Me.lvModules.Name = "lvModules"
@@ -6791,10 +5165,6 @@ Partial Class frmMain
         Me.cmdTray.TabIndex = 45
         Me.cmdTray.UseVisualStyleBackColor = True
         '
-        'timerProcPerf
-        '
-        Me.timerProcPerf.Interval = 1000
-        '
         'menuTasks
         '
         Me.menuTasks.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowWindowToolStripMenuItem, Me.MaximizeWindowToolStripMenuItem, Me.MinimizeWindowToolStripMenuItem, Me.ToolStripMenuItem46, Me.EndTaskToolStripMenuItem, Me.ToolStripMenuItem47, Me.ToolStripMenuItem45, Me.SelectWindowInWindowsTabToolStripMenuItem})
@@ -6885,7 +5255,7 @@ Partial Class frmMain
         Me.Label19.AutoSize = True
         Me.Label19.Location = New System.Drawing.Point(3, 5)
         Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(64, 13)
+        Me.Label19.Size = New System.Drawing.Size(65, 13)
         Me.Label19.TabIndex = 13
         Me.Label19.Text = "Search task"
         '
@@ -6894,7 +5264,7 @@ Partial Class frmMain
         Me.lblTaskCountResult.AutoSize = True
         Me.lblTaskCountResult.Location = New System.Drawing.Point(393, 5)
         Me.lblTaskCountResult.Name = "lblTaskCountResult"
-        Me.lblTaskCountResult.Size = New System.Drawing.Size(52, 13)
+        Me.lblTaskCountResult.Size = New System.Drawing.Size(56, 13)
         Me.lblTaskCountResult.TabIndex = 12
         Me.lblTaskCountResult.Text = "0 result(s)"
         '
@@ -6902,7 +5272,7 @@ Partial Class frmMain
         '
         Me.txtSearchTask.Location = New System.Drawing.Point(72, 2)
         Me.txtSearchTask.Name = "txtSearchTask"
-        Me.txtSearchTask.Size = New System.Drawing.Size(312, 20)
+        Me.txtSearchTask.Size = New System.Drawing.Size(312, 22)
         Me.txtSearchTask.TabIndex = 11
         '
         'lvTask
@@ -6912,11 +5282,11 @@ Partial Class frmMain
         Me.lvTask.ContextMenuStrip = Me.menuTasks
         Me.lvTask.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvTask.FullRowSelect = True
-        ListViewGroup21.Header = "Tasks"
-        ListViewGroup21.Name = "gpOther"
-        ListViewGroup22.Header = "Search result"
-        ListViewGroup22.Name = "gpSearch"
-        Me.lvTask.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup21, ListViewGroup22})
+        ListViewGroup17.Header = "Tasks"
+        ListViewGroup17.Name = "gpOther"
+        ListViewGroup18.Header = "Search result"
+        ListViewGroup18.Name = "gpSearch"
+        Me.lvTask.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup17, ListViewGroup18})
         Me.lvTask.HideSelection = False
         Me.lvTask.Location = New System.Drawing.Point(0, 0)
         Me.lvTask.Name = "lvTask"
@@ -7038,7 +5408,7 @@ Partial Class frmMain
         Me.Controls.Add(Me.panelMain7)
         Me.Controls.Add(Me.panelMain14)
         Me.Controls.Add(Me.panelMain13)
-        Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MinimumSize = New System.Drawing.Size(840, 589)
         Me.Name = "frmMain"
@@ -7047,61 +5417,11 @@ Partial Class frmMain
         Me.WindowState = System.Windows.Forms.FormWindowState.Minimized
         Me.panelMain.ResumeLayout(False)
         Me.SplitContainerProcess.Panel1.ResumeLayout(False)
-        Me.SplitContainerProcess.Panel2.ResumeLayout(False)
         Me.SplitContainerProcess.ResumeLayout(False)
         Me.SplitContainerTvLv.Panel1.ResumeLayout(False)
         Me.SplitContainerTvLv.Panel2.ResumeLayout(False)
         Me.SplitContainerTvLv.ResumeLayout(False)
         Me.menuProc.ResumeLayout(False)
-        Me.tabProcess.ResumeLayout(False)
-        Me.TabPage1.ResumeLayout(False)
-        Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
-        Me.gpProcGeneralFile.ResumeLayout(False)
-        Me.gpProcGeneralFile.PerformLayout()
-        CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.menuCopyPctSmall.ResumeLayout(False)
-        CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.menuCopyPctbig.ResumeLayout(False)
-        Me.TabPage2.ResumeLayout(False)
-        Me.GroupBox5.ResumeLayout(False)
-        Me.GroupBox5.PerformLayout()
-        Me.GroupBox4.ResumeLayout(False)
-        Me.GroupBox4.PerformLayout()
-        Me.GroupBox3.ResumeLayout(False)
-        Me.GroupBox3.PerformLayout()
-        Me.GroupBox2.ResumeLayout(False)
-        Me.GroupBox2.PerformLayout()
-        Me.TabPage3.ResumeLayout(False)
-        Me.splitPerformances.Panel1.ResumeLayout(False)
-        Me.splitPerformances.Panel2.ResumeLayout(False)
-        Me.splitPerformances.ResumeLayout(False)
-        CType(Me.graphCPU, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.splitPerformance2.Panel1.ResumeLayout(False)
-        Me.splitPerformance2.Panel2.ResumeLayout(False)
-        Me.splitPerformance2.ResumeLayout(False)
-        CType(Me.graphMemory, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.graphIO, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.TabPage4.ResumeLayout(False)
-        Me.tabProcessToken.ResumeLayout(False)
-        Me.tabProcessTokenPagePrivileges.ResumeLayout(False)
-        Me.menuPrivileges.ResumeLayout(False)
-        Me.TabPage5.ResumeLayout(False)
-        Me.menuProcMem.ResumeLayout(False)
-        Me.TabPage6.ResumeLayout(False)
-        Me.SplitContainerInfoProcess.Panel1.ResumeLayout(False)
-        Me.SplitContainerInfoProcess.Panel1.PerformLayout()
-        Me.SplitContainerInfoProcess.Panel2.ResumeLayout(False)
-        Me.SplitContainerInfoProcess.ResumeLayout(False)
-        Me.TabPage7.ResumeLayout(False)
-        Me.menuProcServ.ResumeLayout(False)
-        Me.tabNetwork.ResumeLayout(False)
-        Me.TabPage8.ResumeLayout(False)
-        Me.SplitContainerStrings.Panel1.ResumeLayout(False)
-        Me.SplitContainerStrings.Panel2.ResumeLayout(False)
-        Me.SplitContainerStrings.Panel2.PerformLayout()
-        Me.SplitContainerStrings.ResumeLayout(False)
-        Me.TabPage9.ResumeLayout(False)
         Me.panelMenu.ResumeLayout(False)
         Me.panelMenu.PerformLayout()
         Me.panelMain2.ResumeLayout(False)
@@ -7221,10 +5541,6 @@ Partial Class frmMain
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripMenuItem4 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem5 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuCopyPctbig As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ToolStripMenuItem6 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuCopyPctSmall As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ToolStripMenuItem7 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuProc As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents KillToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents StopToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -7353,10 +5669,6 @@ Partial Class frmMain
     Friend WithEvents butFileDecrypt As System.Windows.Forms.RibbonButton
     Friend WithEvents RBFileKillProcess As System.Windows.Forms.RibbonPanel
     Friend WithEvents butFileRelease As System.Windows.Forms.RibbonButton
-    Friend WithEvents mnuFileCopyPctSmall As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ToolStripMenuItem17 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents mnuFileCopyPctBig As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ToolStripMenuItem16 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RBUpdate As System.Windows.Forms.RibbonPanel
     Friend WithEvents butUpdate As System.Windows.Forms.RibbonButton
     Friend WithEvents RBSearchMain As System.Windows.Forms.RibbonPanel
@@ -7594,74 +5906,7 @@ Partial Class frmMain
     Friend WithEvents butPreferences As System.Windows.Forms.RibbonButton
     Friend WithEvents butAlwaysDisplay As System.Windows.Forms.RibbonButton
     Friend WithEvents SplitContainerProcess As System.Windows.Forms.SplitContainer
-    Friend WithEvents tabProcess As System.Windows.Forms.TabControl
-    Friend WithEvents TabPage1 As System.Windows.Forms.TabPage
-    Friend WithEvents TabPage2 As System.Windows.Forms.TabPage
-    Friend WithEvents TabPage3 As System.Windows.Forms.TabPage
-    Friend WithEvents TabPage4 As System.Windows.Forms.TabPage
-    Friend WithEvents TabPage5 As System.Windows.Forms.TabPage
     Friend WithEvents imgProcessTab As System.Windows.Forms.ImageList
-    Friend WithEvents TabPage6 As System.Windows.Forms.TabPage
-    Friend WithEvents SplitContainerInfoProcess As System.Windows.Forms.SplitContainer
-    Friend WithEvents cmdInfosToClipB As System.Windows.Forms.Button
-    Friend WithEvents rtb As System.Windows.Forms.RichTextBox
-    Friend WithEvents gpProcGeneralFile As System.Windows.Forms.GroupBox
-    Friend WithEvents Label12 As System.Windows.Forms.Label
-    Friend WithEvents lblCopyright As System.Windows.Forms.Label
-    Friend WithEvents lblDescription As System.Windows.Forms.Label
-    Friend WithEvents pctSmallIcon As System.Windows.Forms.PictureBox
-    Friend WithEvents pctBigIcon As System.Windows.Forms.PictureBox
-    Friend WithEvents cmdShowFileProperties As System.Windows.Forms.Button
-    Friend WithEvents cmdOpenDirectory As System.Windows.Forms.Button
-    Friend WithEvents txtProcessPath As System.Windows.Forms.TextBox
-    Friend WithEvents Label13 As System.Windows.Forms.Label
-    Friend WithEvents txtImageVersion As System.Windows.Forms.TextBox
-    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-    Friend WithEvents txtProcessUser As System.Windows.Forms.TextBox
-    Friend WithEvents Label17 As System.Windows.Forms.Label
-    Friend WithEvents txtProcessId As System.Windows.Forms.TextBox
-    Friend WithEvents Label16 As System.Windows.Forms.Label
-    Friend WithEvents txtProcessStarted As System.Windows.Forms.TextBox
-    Friend WithEvents Label14 As System.Windows.Forms.Label
-    Friend WithEvents txtParentProcess As System.Windows.Forms.TextBox
-    Friend WithEvents Label15 As System.Windows.Forms.Label
-    Friend WithEvents chkDisplayNAProcess As System.Windows.Forms.CheckBox
-    Friend WithEvents chkHandles As System.Windows.Forms.CheckBox
-    Friend WithEvents chkOnline As System.Windows.Forms.CheckBox
-    Friend WithEvents chkModules As System.Windows.Forms.CheckBox
-    Friend WithEvents cmdShowFileDetails As System.Windows.Forms.Button
-    Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
-    Friend WithEvents lblTotalTime As System.Windows.Forms.Label
-    Friend WithEvents Label24 As System.Windows.Forms.Label
-    Friend WithEvents lblUserTime As System.Windows.Forms.Label
-    Friend WithEvents Label22 As System.Windows.Forms.Label
-    Friend WithEvents lblKernelTime As System.Windows.Forms.Label
-    Friend WithEvents Label20 As System.Windows.Forms.Label
-    Friend WithEvents lblPriority As System.Windows.Forms.Label
-    Friend WithEvents Label18 As System.Windows.Forms.Label
-    Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
-    Friend WithEvents lblPageFaults As System.Windows.Forms.Label
-    Friend WithEvents Label31 As System.Windows.Forms.Label
-    Friend WithEvents lblPeakPageFileUsage As System.Windows.Forms.Label
-    Friend WithEvents Label33 As System.Windows.Forms.Label
-    Friend WithEvents lblPageFileUsage As System.Windows.Forms.Label
-    Friend WithEvents Label35 As System.Windows.Forms.Label
-    Friend WithEvents lblPeakWorkingSet As System.Windows.Forms.Label
-    Friend WithEvents Label25 As System.Windows.Forms.Label
-    Friend WithEvents lblWorkingSet As System.Windows.Forms.Label
-    Friend WithEvents Label27 As System.Windows.Forms.Label
-    Friend WithEvents GroupBox5 As System.Windows.Forms.GroupBox
-    Friend WithEvents lblHandles As System.Windows.Forms.Label
-    Friend WithEvents Label53 As System.Windows.Forms.Label
-    Friend WithEvents GroupBox4 As System.Windows.Forms.GroupBox
-    Friend WithEvents lblQuotaNPP As System.Windows.Forms.Label
-    Friend WithEvents Label21 As System.Windows.Forms.Label
-    Friend WithEvents lblQuotaPNPP As System.Windows.Forms.Label
-    Friend WithEvents Label26 As System.Windows.Forms.Label
-    Friend WithEvents lblQuotaPP As System.Windows.Forms.Label
-    Friend WithEvents Label29 As System.Windows.Forms.Label
-    Friend WithEvents lblQuotaPPP As System.Windows.Forms.Label
-    Friend WithEvents Label32 As System.Windows.Forms.Label
     Friend WithEvents butProcessDisplayDetails As System.Windows.Forms.RibbonButton
     Friend WithEvents butProcessPermuteLvTv As System.Windows.Forms.RibbonButton
     Friend WithEvents SplitContainerTvLv As System.Windows.Forms.SplitContainer
@@ -7689,16 +5934,6 @@ Partial Class frmMain
     Friend WithEvents ToolStripMenuItem41 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents EnableProcessRefreshingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents EnableServiceRefreshingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents tabProcessToken As System.Windows.Forms.TabControl
-    Friend WithEvents tabProcessTokenPagePrivileges As System.Windows.Forms.TabPage
-    Friend WithEvents lvPrivileges As YAPM.DoubleBufferedLV
-    Friend WithEvents ColumnHeader50 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader51 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader52 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents menuPrivileges As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ToolStripMenuItem44 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents DisableToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents RemoveToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents splitServices As System.Windows.Forms.SplitContainer
     Friend WithEvents lvServices As YAPM.DoubleBufferedLV
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
@@ -7719,44 +5954,7 @@ Partial Class frmMain
     Friend WithEvents ColumnHeader19 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ToolStripMenuItem42 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents SelectedAssociatedProcessToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents TabPage7 As System.Windows.Forms.TabPage
-    Friend WithEvents lvProcServices As YAPM.DoubleBufferedLV
-    Friend WithEvents ColumnHeader23 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader47 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader48 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader20 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents menuProcServ As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ToolStripMenuItem43 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents lblProcOtherBytes As System.Windows.Forms.Label
-    Friend WithEvents Label23 As System.Windows.Forms.Label
-    Friend WithEvents lblProcOther As System.Windows.Forms.Label
-    Friend WithEvents Label30 As System.Windows.Forms.Label
-    Friend WithEvents lblProcWriteBytes As System.Windows.Forms.Label
-    Friend WithEvents Label36 As System.Windows.Forms.Label
-    Friend WithEvents lblProcWrites As System.Windows.Forms.Label
-    Friend WithEvents Label38 As System.Windows.Forms.Label
-    Friend WithEvents lblProcReadBytes As System.Windows.Forms.Label
-    Friend WithEvents Label40 As System.Windows.Forms.Label
-    Friend WithEvents lblProcReads As System.Windows.Forms.Label
-    Friend WithEvents Label42 As System.Windows.Forms.Label
-    Friend WithEvents timerProcPerf As System.Windows.Forms.Timer
-    Friend WithEvents splitPerformances As System.Windows.Forms.SplitContainer
-    Friend WithEvents graphCPU As YAPM.Graph2
-    Friend WithEvents splitPerformance2 As System.Windows.Forms.SplitContainer
-    Friend WithEvents graphMemory As YAPM.Graph2
-    Friend WithEvents graphIO As YAPM.Graph2
-    Friend WithEvents lvProcMem As YAPM.DoubleBufferedLV
-    Friend WithEvents ColumnHeader53 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader54 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader55 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader56 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader21 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader22 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ShowSystemInformatoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents lblUserObjectsCount As System.Windows.Forms.Label
-    Friend WithEvents Label37 As System.Windows.Forms.Label
-    Friend WithEvents lblGDIcount As System.Windows.Forms.Label
-    Friend WithEvents lbl789 As System.Windows.Forms.Label
     Friend WithEvents SelectedServicesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TaskTab As System.Windows.Forms.RibbonTab
     Friend WithEvents RBTaskDisplay As System.Windows.Forms.RibbonPanel
@@ -7798,33 +5996,11 @@ Partial Class frmMain
     Friend WithEvents ColumnHeader69 As System.Windows.Forms.ColumnHeader
     Friend WithEvents menuNetwork As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem48 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents tabNetwork As System.Windows.Forms.TabPage
-    Friend WithEvents lvProcNetwork As YAPM.DoubleBufferedLV
-    Friend WithEvents ColumnHeader49 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader57 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader58 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader59 As System.Windows.Forms.ColumnHeader
     Friend WithEvents c10 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents TabPage8 As System.Windows.Forms.TabPage
-    Friend WithEvents SplitContainerStrings As System.Windows.Forms.SplitContainer
-    Friend WithEvents cmdProcStringSave As System.Windows.Forms.Button
-    Friend WithEvents optProcStringMemory As System.Windows.Forms.RadioButton
-    Friend WithEvents optProcStringImage As System.Windows.Forms.RadioButton
-    Friend WithEvents lvProcString As YAPM.DoubleBufferedLV
-    Friend WithEvents ColumnHeader76 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader77 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents Label28 As System.Windows.Forms.Label
-    Friend WithEvents txtSearchProcString As System.Windows.Forms.TextBox
-    Friend WithEvents pgbString As System.Windows.Forms.ProgressBar
-    Friend WithEvents cmdProcSearchR As System.Windows.Forms.Button
-    Friend WithEvents cmdProcSearchL As System.Windows.Forms.Button
-    Friend WithEvents TabPage9 As System.Windows.Forms.TabPage
-    Friend WithEvents lvProcEnv As YAPM.DoubleBufferedLV
-    Friend WithEvents ColumnHeader60 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader61 As System.Windows.Forms.ColumnHeader
     Friend WithEvents timerTrayIcon As System.Windows.Forms.Timer
-    Friend WithEvents menuProcMem As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ToolStripMenuItem49 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents JumpToPEBAddressToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuFileCopyPctSmall As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents ToolStripMenuItem17 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuFileCopyPctBig As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents ToolStripMenuItem16 As System.Windows.Forms.ToolStripMenuItem
 
 End Class

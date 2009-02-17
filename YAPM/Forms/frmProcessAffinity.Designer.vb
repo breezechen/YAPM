@@ -81,7 +81,7 @@ Partial Class frmProcessAffinity
         Me.chk0.AutoSize = True
         Me.chk0.Location = New System.Drawing.Point(12, 12)
         Me.chk0.Name = "chk0"
-        Me.chk0.Size = New System.Drawing.Size(57, 17)
+        Me.chk0.Size = New System.Drawing.Size(56, 17)
         Me.chk0.TabIndex = 2
         Me.chk0.Text = "CPU 0"
         Me.chk0.UseVisualStyleBackColor = True
@@ -92,7 +92,7 @@ Partial Class frmProcessAffinity
         Me.chk1.Enabled = False
         Me.chk1.Location = New System.Drawing.Point(12, 35)
         Me.chk1.Name = "chk1"
-        Me.chk1.Size = New System.Drawing.Size(57, 17)
+        Me.chk1.Size = New System.Drawing.Size(56, 17)
         Me.chk1.TabIndex = 3
         Me.chk1.Text = "CPU 1"
         Me.chk1.UseVisualStyleBackColor = True
@@ -103,7 +103,7 @@ Partial Class frmProcessAffinity
         Me.chk3.Enabled = False
         Me.chk3.Location = New System.Drawing.Point(12, 81)
         Me.chk3.Name = "chk3"
-        Me.chk3.Size = New System.Drawing.Size(57, 17)
+        Me.chk3.Size = New System.Drawing.Size(56, 17)
         Me.chk3.TabIndex = 5
         Me.chk3.Text = "CPU 3"
         Me.chk3.UseVisualStyleBackColor = True
@@ -114,7 +114,7 @@ Partial Class frmProcessAffinity
         Me.chk2.Enabled = False
         Me.chk2.Location = New System.Drawing.Point(12, 58)
         Me.chk2.Name = "chk2"
-        Me.chk2.Size = New System.Drawing.Size(57, 17)
+        Me.chk2.Size = New System.Drawing.Size(56, 17)
         Me.chk2.TabIndex = 4
         Me.chk2.Text = "CPU 2"
         Me.chk2.UseVisualStyleBackColor = True
@@ -125,7 +125,7 @@ Partial Class frmProcessAffinity
         Me.chk5.Enabled = False
         Me.chk5.Location = New System.Drawing.Point(12, 127)
         Me.chk5.Name = "chk5"
-        Me.chk5.Size = New System.Drawing.Size(57, 17)
+        Me.chk5.Size = New System.Drawing.Size(56, 17)
         Me.chk5.TabIndex = 7
         Me.chk5.Text = "CPU 5"
         Me.chk5.UseVisualStyleBackColor = True
@@ -136,7 +136,7 @@ Partial Class frmProcessAffinity
         Me.chk4.Enabled = False
         Me.chk4.Location = New System.Drawing.Point(12, 104)
         Me.chk4.Name = "chk4"
-        Me.chk4.Size = New System.Drawing.Size(57, 17)
+        Me.chk4.Size = New System.Drawing.Size(56, 17)
         Me.chk4.TabIndex = 6
         Me.chk4.Text = "CPU 4"
         Me.chk4.UseVisualStyleBackColor = True
@@ -147,7 +147,7 @@ Partial Class frmProcessAffinity
         Me.chk7.Enabled = False
         Me.chk7.Location = New System.Drawing.Point(12, 173)
         Me.chk7.Name = "chk7"
-        Me.chk7.Size = New System.Drawing.Size(57, 17)
+        Me.chk7.Size = New System.Drawing.Size(56, 17)
         Me.chk7.TabIndex = 9
         Me.chk7.Text = "CPU 7"
         Me.chk7.UseVisualStyleBackColor = True
@@ -158,7 +158,7 @@ Partial Class frmProcessAffinity
         Me.chk6.Enabled = False
         Me.chk6.Location = New System.Drawing.Point(12, 150)
         Me.chk6.Name = "chk6"
-        Me.chk6.Size = New System.Drawing.Size(57, 17)
+        Me.chk6.Size = New System.Drawing.Size(56, 17)
         Me.chk6.TabIndex = 8
         Me.chk6.Text = "CPU 6"
         Me.chk6.UseVisualStyleBackColor = True
@@ -169,7 +169,7 @@ Partial Class frmProcessAffinity
         Me.chk15.Enabled = False
         Me.chk15.Location = New System.Drawing.Point(75, 173)
         Me.chk15.Name = "chk15"
-        Me.chk15.Size = New System.Drawing.Size(63, 17)
+        Me.chk15.Size = New System.Drawing.Size(62, 17)
         Me.chk15.TabIndex = 17
         Me.chk15.Text = "CPU 15"
         Me.chk15.UseVisualStyleBackColor = True
@@ -180,7 +180,7 @@ Partial Class frmProcessAffinity
         Me.chk14.Enabled = False
         Me.chk14.Location = New System.Drawing.Point(75, 150)
         Me.chk14.Name = "chk14"
-        Me.chk14.Size = New System.Drawing.Size(63, 17)
+        Me.chk14.Size = New System.Drawing.Size(62, 17)
         Me.chk14.TabIndex = 16
         Me.chk14.Text = "CPU 14"
         Me.chk14.UseVisualStyleBackColor = True
@@ -191,7 +191,7 @@ Partial Class frmProcessAffinity
         Me.chk13.Enabled = False
         Me.chk13.Location = New System.Drawing.Point(75, 127)
         Me.chk13.Name = "chk13"
-        Me.chk13.Size = New System.Drawing.Size(63, 17)
+        Me.chk13.Size = New System.Drawing.Size(62, 17)
         Me.chk13.TabIndex = 15
         Me.chk13.Text = "CPU 13"
         Me.chk13.UseVisualStyleBackColor = True
@@ -202,7 +202,7 @@ Partial Class frmProcessAffinity
         Me.chk12.Enabled = False
         Me.chk12.Location = New System.Drawing.Point(75, 104)
         Me.chk12.Name = "chk12"
-        Me.chk12.Size = New System.Drawing.Size(63, 17)
+        Me.chk12.Size = New System.Drawing.Size(62, 17)
         Me.chk12.TabIndex = 14
         Me.chk12.Text = "CPU 12"
         Me.chk12.UseVisualStyleBackColor = True
@@ -213,7 +213,7 @@ Partial Class frmProcessAffinity
         Me.chk11.Enabled = False
         Me.chk11.Location = New System.Drawing.Point(75, 81)
         Me.chk11.Name = "chk11"
-        Me.chk11.Size = New System.Drawing.Size(63, 17)
+        Me.chk11.Size = New System.Drawing.Size(62, 17)
         Me.chk11.TabIndex = 13
         Me.chk11.Text = "CPU 11"
         Me.chk11.UseVisualStyleBackColor = True
@@ -224,7 +224,7 @@ Partial Class frmProcessAffinity
         Me.chk10.Enabled = False
         Me.chk10.Location = New System.Drawing.Point(75, 58)
         Me.chk10.Name = "chk10"
-        Me.chk10.Size = New System.Drawing.Size(63, 17)
+        Me.chk10.Size = New System.Drawing.Size(62, 17)
         Me.chk10.TabIndex = 12
         Me.chk10.Text = "CPU 10"
         Me.chk10.UseVisualStyleBackColor = True
@@ -235,7 +235,7 @@ Partial Class frmProcessAffinity
         Me.chk9.Enabled = False
         Me.chk9.Location = New System.Drawing.Point(75, 35)
         Me.chk9.Name = "chk9"
-        Me.chk9.Size = New System.Drawing.Size(57, 17)
+        Me.chk9.Size = New System.Drawing.Size(56, 17)
         Me.chk9.TabIndex = 11
         Me.chk9.Text = "CPU 9"
         Me.chk9.UseVisualStyleBackColor = True
@@ -246,7 +246,7 @@ Partial Class frmProcessAffinity
         Me.chk8.Enabled = False
         Me.chk8.Location = New System.Drawing.Point(75, 12)
         Me.chk8.Name = "chk8"
-        Me.chk8.Size = New System.Drawing.Size(57, 17)
+        Me.chk8.Size = New System.Drawing.Size(56, 17)
         Me.chk8.TabIndex = 10
         Me.chk8.Text = "CPU 8"
         Me.chk8.UseVisualStyleBackColor = True
@@ -257,7 +257,7 @@ Partial Class frmProcessAffinity
         Me.chk23.Enabled = False
         Me.chk23.Location = New System.Drawing.Point(138, 173)
         Me.chk23.Name = "chk23"
-        Me.chk23.Size = New System.Drawing.Size(63, 17)
+        Me.chk23.Size = New System.Drawing.Size(62, 17)
         Me.chk23.TabIndex = 25
         Me.chk23.Text = "CPU 23"
         Me.chk23.UseVisualStyleBackColor = True
@@ -268,7 +268,7 @@ Partial Class frmProcessAffinity
         Me.chk22.Enabled = False
         Me.chk22.Location = New System.Drawing.Point(138, 150)
         Me.chk22.Name = "chk22"
-        Me.chk22.Size = New System.Drawing.Size(63, 17)
+        Me.chk22.Size = New System.Drawing.Size(62, 17)
         Me.chk22.TabIndex = 24
         Me.chk22.Text = "CPU 22"
         Me.chk22.UseVisualStyleBackColor = True
@@ -279,7 +279,7 @@ Partial Class frmProcessAffinity
         Me.chk21.Enabled = False
         Me.chk21.Location = New System.Drawing.Point(138, 127)
         Me.chk21.Name = "chk21"
-        Me.chk21.Size = New System.Drawing.Size(63, 17)
+        Me.chk21.Size = New System.Drawing.Size(62, 17)
         Me.chk21.TabIndex = 23
         Me.chk21.Text = "CPU 21"
         Me.chk21.UseVisualStyleBackColor = True
@@ -290,7 +290,7 @@ Partial Class frmProcessAffinity
         Me.chk20.Enabled = False
         Me.chk20.Location = New System.Drawing.Point(138, 104)
         Me.chk20.Name = "chk20"
-        Me.chk20.Size = New System.Drawing.Size(63, 17)
+        Me.chk20.Size = New System.Drawing.Size(62, 17)
         Me.chk20.TabIndex = 22
         Me.chk20.Text = "CPU 20"
         Me.chk20.UseVisualStyleBackColor = True
@@ -301,7 +301,7 @@ Partial Class frmProcessAffinity
         Me.chk19.Enabled = False
         Me.chk19.Location = New System.Drawing.Point(138, 81)
         Me.chk19.Name = "chk19"
-        Me.chk19.Size = New System.Drawing.Size(63, 17)
+        Me.chk19.Size = New System.Drawing.Size(62, 17)
         Me.chk19.TabIndex = 21
         Me.chk19.Text = "CPU 19"
         Me.chk19.UseVisualStyleBackColor = True
@@ -312,7 +312,7 @@ Partial Class frmProcessAffinity
         Me.chk18.Enabled = False
         Me.chk18.Location = New System.Drawing.Point(138, 58)
         Me.chk18.Name = "chk18"
-        Me.chk18.Size = New System.Drawing.Size(63, 17)
+        Me.chk18.Size = New System.Drawing.Size(62, 17)
         Me.chk18.TabIndex = 20
         Me.chk18.Text = "CPU 18"
         Me.chk18.UseVisualStyleBackColor = True
@@ -323,7 +323,7 @@ Partial Class frmProcessAffinity
         Me.chk17.Enabled = False
         Me.chk17.Location = New System.Drawing.Point(138, 35)
         Me.chk17.Name = "chk17"
-        Me.chk17.Size = New System.Drawing.Size(63, 17)
+        Me.chk17.Size = New System.Drawing.Size(62, 17)
         Me.chk17.TabIndex = 19
         Me.chk17.Text = "CPU 17"
         Me.chk17.UseVisualStyleBackColor = True
@@ -334,7 +334,7 @@ Partial Class frmProcessAffinity
         Me.chk16.Enabled = False
         Me.chk16.Location = New System.Drawing.Point(138, 12)
         Me.chk16.Name = "chk16"
-        Me.chk16.Size = New System.Drawing.Size(63, 17)
+        Me.chk16.Size = New System.Drawing.Size(62, 17)
         Me.chk16.TabIndex = 18
         Me.chk16.Text = "CPU 16"
         Me.chk16.UseVisualStyleBackColor = True
@@ -345,7 +345,7 @@ Partial Class frmProcessAffinity
         Me.chk31.Enabled = False
         Me.chk31.Location = New System.Drawing.Point(201, 173)
         Me.chk31.Name = "chk31"
-        Me.chk31.Size = New System.Drawing.Size(63, 17)
+        Me.chk31.Size = New System.Drawing.Size(62, 17)
         Me.chk31.TabIndex = 33
         Me.chk31.Text = "CPU 31"
         Me.chk31.UseVisualStyleBackColor = True
@@ -356,7 +356,7 @@ Partial Class frmProcessAffinity
         Me.chk30.Enabled = False
         Me.chk30.Location = New System.Drawing.Point(201, 150)
         Me.chk30.Name = "chk30"
-        Me.chk30.Size = New System.Drawing.Size(63, 17)
+        Me.chk30.Size = New System.Drawing.Size(62, 17)
         Me.chk30.TabIndex = 32
         Me.chk30.Text = "CPU 30"
         Me.chk30.UseVisualStyleBackColor = True
@@ -367,7 +367,7 @@ Partial Class frmProcessAffinity
         Me.chk29.Enabled = False
         Me.chk29.Location = New System.Drawing.Point(201, 127)
         Me.chk29.Name = "chk29"
-        Me.chk29.Size = New System.Drawing.Size(63, 17)
+        Me.chk29.Size = New System.Drawing.Size(62, 17)
         Me.chk29.TabIndex = 31
         Me.chk29.Text = "CPU 29"
         Me.chk29.UseVisualStyleBackColor = True
@@ -378,7 +378,7 @@ Partial Class frmProcessAffinity
         Me.chk28.Enabled = False
         Me.chk28.Location = New System.Drawing.Point(201, 104)
         Me.chk28.Name = "chk28"
-        Me.chk28.Size = New System.Drawing.Size(63, 17)
+        Me.chk28.Size = New System.Drawing.Size(62, 17)
         Me.chk28.TabIndex = 30
         Me.chk28.Text = "CPU 28"
         Me.chk28.UseVisualStyleBackColor = True
@@ -389,7 +389,7 @@ Partial Class frmProcessAffinity
         Me.chk27.Enabled = False
         Me.chk27.Location = New System.Drawing.Point(201, 81)
         Me.chk27.Name = "chk27"
-        Me.chk27.Size = New System.Drawing.Size(63, 17)
+        Me.chk27.Size = New System.Drawing.Size(62, 17)
         Me.chk27.TabIndex = 29
         Me.chk27.Text = "CPU 27"
         Me.chk27.UseVisualStyleBackColor = True
@@ -400,7 +400,7 @@ Partial Class frmProcessAffinity
         Me.chk26.Enabled = False
         Me.chk26.Location = New System.Drawing.Point(201, 58)
         Me.chk26.Name = "chk26"
-        Me.chk26.Size = New System.Drawing.Size(63, 17)
+        Me.chk26.Size = New System.Drawing.Size(62, 17)
         Me.chk26.TabIndex = 28
         Me.chk26.Text = "CPU 26"
         Me.chk26.UseVisualStyleBackColor = True
@@ -411,7 +411,7 @@ Partial Class frmProcessAffinity
         Me.chk25.Enabled = False
         Me.chk25.Location = New System.Drawing.Point(201, 35)
         Me.chk25.Name = "chk25"
-        Me.chk25.Size = New System.Drawing.Size(63, 17)
+        Me.chk25.Size = New System.Drawing.Size(62, 17)
         Me.chk25.TabIndex = 27
         Me.chk25.Text = "CPU 25"
         Me.chk25.UseVisualStyleBackColor = True
@@ -422,7 +422,7 @@ Partial Class frmProcessAffinity
         Me.chk24.Enabled = False
         Me.chk24.Location = New System.Drawing.Point(201, 12)
         Me.chk24.Name = "chk24"
-        Me.chk24.Size = New System.Drawing.Size(63, 17)
+        Me.chk24.Size = New System.Drawing.Size(62, 17)
         Me.chk24.TabIndex = 26
         Me.chk24.Text = "CPU 24"
         Me.chk24.UseVisualStyleBackColor = True
@@ -466,6 +466,7 @@ Partial Class frmProcessAffinity
         Me.Controls.Add(Me.chk0)
         Me.Controls.Add(Me.cmdCancel)
         Me.Controls.Add(Me.cmdOK)
+        Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False

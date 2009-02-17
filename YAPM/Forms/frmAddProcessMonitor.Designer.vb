@@ -59,7 +59,7 @@ Partial Class frmAddProcessMonitor
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(831, 176)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(84, 13)
+        Me.Label2.Size = New System.Drawing.Size(87, 13)
         Me.Label2.TabIndex = 5
         Me.Label2.Text = "Refresh interval"
         '
@@ -67,7 +67,7 @@ Partial Class frmAddProcessMonitor
         '
         Me.txtInterval.Location = New System.Drawing.Point(921, 176)
         Me.txtInterval.Name = "txtInterval"
-        Me.txtInterval.Size = New System.Drawing.Size(122, 21)
+        Me.txtInterval.Size = New System.Drawing.Size(122, 22)
         Me.txtInterval.TabIndex = 6
         Me.txtInterval.Text = "1000"
         '
@@ -76,7 +76,7 @@ Partial Class frmAddProcessMonitor
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(6, 8)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(52, 13)
+        Me.Label3.Size = New System.Drawing.Size(53, 13)
         Me.Label3.TabIndex = 7
         Me.Label3.Text = "Category"
         '
@@ -85,7 +85,7 @@ Partial Class frmAddProcessMonitor
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(472, 7)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(71, 13)
+        Me.Label4.Size = New System.Drawing.Size(74, 13)
         Me.Label4.TabIndex = 9
         Me.Label4.Text = "Counter type"
         '
@@ -94,7 +94,7 @@ Partial Class frmAddProcessMonitor
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(262, 8)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(101, 13)
+        Me.Label5.Size = New System.Drawing.Size(108, 13)
         Me.Label5.TabIndex = 11
         Me.Label5.Text = "Instance to monitor"
         '
@@ -103,7 +103,7 @@ Partial Class frmAddProcessMonitor
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(830, 7)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(103, 13)
+        Me.Label1.Size = New System.Drawing.Size(112, 13)
         Me.Label1.TabIndex = 13
         Me.Label1.Text = "Counters to monitor"
         '
@@ -253,7 +253,7 @@ Partial Class frmAddProcessMonitor
         Me.Controls.Add(Me.txtInterval)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.butAdd)
-        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False

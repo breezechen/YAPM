@@ -72,7 +72,7 @@ Partial Class frmChooseProcessColumns
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(12, 9)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(190, 13)
+        Me.Label1.Size = New System.Drawing.Size(207, 13)
         Me.Label1.TabIndex = 2
         Me.Label1.Text = "Select the columns you want to display"
         '
@@ -103,6 +103,7 @@ Partial Class frmChooseProcessColumns
         Me.lv.Location = New System.Drawing.Point(12, 25)
         Me.lv.MultiSelect = False
         Me.lv.Name = "lv"
+        Me.lv.OverriddenDoubleBuffered = False
         Me.lv.Size = New System.Drawing.Size(309, 196)
         Me.lv.TabIndex = 6
         Me.lv.UseCompatibleStateImageBehavior = False
@@ -122,6 +123,7 @@ Partial Class frmChooseProcessColumns
         Me.Controls.Add(Me.cmdSelAll)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.TableLayoutPanel1)
+        Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False
@@ -141,6 +143,6 @@ Partial Class frmChooseProcessColumns
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents cmdSelAll As System.Windows.Forms.Button
     Friend WithEvents btnUnSelAll As System.Windows.Forms.Button
-    Friend WithEvents lv As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents lv As YAPM.DoubleBufferedLV
 End Class

@@ -49,6 +49,7 @@ Partial Class frmFileRelease
         Me.lv.GridLines = True
         Me.lv.Location = New System.Drawing.Point(12, 40)
         Me.lv.Name = "lv"
+        Me.lv.OverriddenDoubleBuffered = False
         Me.lv.Size = New System.Drawing.Size(260, 143)
         Me.lv.SmallImageList = Me.IMG
         Me.lv.TabIndex = 1
@@ -89,7 +90,7 @@ Partial Class frmFileRelease
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.lv)
         Me.Controls.Add(Me.cmdCheck)
-        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Name = "frmFileRelease"
         Me.ShowIcon = False
@@ -100,9 +101,9 @@ Partial Class frmFileRelease
 
     End Sub
     Friend WithEvents cmdCheck As System.Windows.Forms.Button
-    Friend WithEvents lv As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents IMG As System.Windows.Forms.ImageList
+    Friend WithEvents lv As YAPM.DoubleBufferedLV
 End Class

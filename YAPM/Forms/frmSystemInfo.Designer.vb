@@ -119,9 +119,9 @@ Partial Class frmSystemInfo
         Me.Label1 = New System.Windows.Forms.Label
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
         Me.g1 = New YAPM.Graph2
         Me.g2 = New YAPM.Graph2
+        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
         Me.g3 = New YAPM.Graph2
         Me.g4 = New YAPM.Graph2
         Me.mainSplit.Panel1.SuspendLayout()
@@ -141,11 +141,11 @@ Partial Class frmSystemInfo
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.g1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.g2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
-        CType(Me.g1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.g2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.g3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.g4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -187,7 +187,7 @@ Partial Class frmSystemInfo
         Me.chkOneGraphPerCpu.AutoSize = True
         Me.chkOneGraphPerCpu.Location = New System.Drawing.Point(158, 440)
         Me.chkOneGraphPerCpu.Name = "chkOneGraphPerCpu"
-        Me.chkOneGraphPerCpu.Size = New System.Drawing.Size(115, 17)
+        Me.chkOneGraphPerCpu.Size = New System.Drawing.Size(124, 17)
         Me.chkOneGraphPerCpu.TabIndex = 16
         Me.chkOneGraphPerCpu.Text = "One graph per cpu"
         Me.chkOneGraphPerCpu.UseVisualStyleBackColor = True
@@ -227,7 +227,7 @@ Partial Class frmSystemInfo
         Me.Label49.AutoSize = True
         Me.Label49.Location = New System.Drawing.Point(15, 98)
         Me.Label49.Name = "Label49"
-        Me.Label49.Size = New System.Drawing.Size(86, 13)
+        Me.Label49.Size = New System.Drawing.Size(94, 13)
         Me.Label49.TabIndex = 12
         Me.Label49.Text = "Non-paged frees"
         '
@@ -245,7 +245,7 @@ Partial Class frmSystemInfo
         Me.Label35.AutoSize = True
         Me.Label35.Location = New System.Drawing.Point(15, 83)
         Me.Label35.Name = "Label35"
-        Me.Label35.Size = New System.Drawing.Size(90, 13)
+        Me.Label35.Size = New System.Drawing.Size(98, 13)
         Me.Label35.TabIndex = 10
         Me.Label35.Text = "Non-paged allocs"
         '
@@ -263,7 +263,7 @@ Partial Class frmSystemInfo
         Me.Label39.AutoSize = True
         Me.Label39.Location = New System.Drawing.Point(15, 68)
         Me.Label39.Name = "Label39"
-        Me.Label39.Size = New System.Drawing.Size(92, 13)
+        Me.Label39.Size = New System.Drawing.Size(100, 13)
         Me.Label39.TabIndex = 8
         Me.Label39.Text = "Non-paged usage"
         '
@@ -281,7 +281,7 @@ Partial Class frmSystemInfo
         Me.Label41.AutoSize = True
         Me.Label41.Location = New System.Drawing.Point(15, 53)
         Me.Label41.Name = "Label41"
-        Me.Label41.Size = New System.Drawing.Size(64, 13)
+        Me.Label41.Size = New System.Drawing.Size(67, 13)
         Me.Label41.TabIndex = 6
         Me.Label41.Text = "Paged frees"
         '
@@ -299,7 +299,7 @@ Partial Class frmSystemInfo
         Me.Label43.AutoSize = True
         Me.Label43.Location = New System.Drawing.Point(15, 38)
         Me.Label43.Name = "Label43"
-        Me.Label43.Size = New System.Drawing.Size(68, 13)
+        Me.Label43.Size = New System.Drawing.Size(71, 13)
         Me.Label43.TabIndex = 4
         Me.Label43.Text = "Paged allocs"
         '
@@ -317,7 +317,7 @@ Partial Class frmSystemInfo
         Me.Label47.AutoSize = True
         Me.Label47.Location = New System.Drawing.Point(15, 23)
         Me.Label47.Name = "Label47"
-        Me.Label47.Size = New System.Drawing.Size(70, 13)
+        Me.Label47.Size = New System.Drawing.Size(73, 13)
         Me.Label47.TabIndex = 0
         Me.Label47.Text = "Paged usage"
         '
@@ -362,7 +362,7 @@ Partial Class frmSystemInfo
         Me.Label29.AutoSize = True
         Me.Label29.Location = New System.Drawing.Point(15, 143)
         Me.Label29.Name = "Label29"
-        Me.Label29.Size = New System.Drawing.Size(51, 13)
+        Me.Label29.Size = New System.Drawing.Size(53, 13)
         Me.Label29.TabIndex = 16
         Me.Label29.Text = "DPC time"
         '
@@ -380,7 +380,7 @@ Partial Class frmSystemInfo
         Me.Label23.AutoSize = True
         Me.Label23.Location = New System.Drawing.Point(15, 128)
         Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(46, 13)
+        Me.Label23.Size = New System.Drawing.Size(51, 13)
         Me.Label23.TabIndex = 14
         Me.Label23.Text = "Idle time"
         '
@@ -398,7 +398,7 @@ Partial Class frmSystemInfo
         Me.Label33.AutoSize = True
         Me.Label33.Location = New System.Drawing.Point(15, 113)
         Me.Label33.Name = "Label33"
-        Me.Label33.Size = New System.Drawing.Size(51, 13)
+        Me.Label33.Size = New System.Drawing.Size(55, 13)
         Me.Label33.TabIndex = 12
         Me.Label33.Text = "User time"
         '
@@ -416,7 +416,7 @@ Partial Class frmSystemInfo
         Me.Label36.AutoSize = True
         Me.Label36.Location = New System.Drawing.Point(15, 98)
         Me.Label36.Name = "Label36"
-        Me.Label36.Size = New System.Drawing.Size(59, 13)
+        Me.Label36.Size = New System.Drawing.Size(64, 13)
         Me.Label36.TabIndex = 10
         Me.Label36.Text = "Kernel time"
         '
@@ -434,7 +434,7 @@ Partial Class frmSystemInfo
         Me.Label38.AutoSize = True
         Me.Label38.Location = New System.Drawing.Point(15, 83)
         Me.Label38.Name = "Label38"
-        Me.Label38.Size = New System.Drawing.Size(68, 13)
+        Me.Label38.Size = New System.Drawing.Size(78, 13)
         Me.Label38.TabIndex = 8
         Me.Label38.Text = "Interrupt time"
         '
@@ -452,7 +452,7 @@ Partial Class frmSystemInfo
         Me.Label34.AutoSize = True
         Me.Label34.Location = New System.Drawing.Point(15, 68)
         Me.Label34.Name = "Label34"
-        Me.Label34.Size = New System.Drawing.Size(87, 13)
+        Me.Label34.Size = New System.Drawing.Size(94, 13)
         Me.Label34.TabIndex = 6
         Me.Label34.Text = "Context switches"
         '
@@ -470,7 +470,7 @@ Partial Class frmSystemInfo
         Me.Label19.AutoSize = True
         Me.Label19.Location = New System.Drawing.Point(15, 53)
         Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(65, 13)
+        Me.Label19.Size = New System.Drawing.Size(67, 13)
         Me.Label19.TabIndex = 4
         Me.Label19.Text = "System calls"
         '
@@ -488,7 +488,7 @@ Partial Class frmSystemInfo
         Me.Label27.AutoSize = True
         Me.Label27.Location = New System.Drawing.Point(15, 38)
         Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(51, 13)
+        Me.Label27.Size = New System.Drawing.Size(58, 13)
         Me.Label27.TabIndex = 2
         Me.Label27.Text = "Interrupts"
         '
@@ -506,7 +506,7 @@ Partial Class frmSystemInfo
         Me.Label31.AutoSize = True
         Me.Label31.Location = New System.Drawing.Point(15, 23)
         Me.Label31.Name = "Label31"
-        Me.Label31.Size = New System.Drawing.Size(59, 13)
+        Me.Label31.Size = New System.Drawing.Size(61, 13)
         Me.Label31.TabIndex = 0
         Me.Label31.Text = "Processors"
         '
@@ -563,7 +563,7 @@ Partial Class frmSystemInfo
         Me.Label21.AutoSize = True
         Me.Label21.Location = New System.Drawing.Point(15, 83)
         Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(76, 13)
+        Me.Label21.Size = New System.Drawing.Size(81, 13)
         Me.Label21.TabIndex = 8
         Me.Label21.Text = "Demande zero"
         '
@@ -581,7 +581,7 @@ Partial Class frmSystemInfo
         Me.Label25.AutoSize = True
         Me.Label25.Location = New System.Drawing.Point(15, 68)
         Me.Label25.Name = "Label25"
-        Me.Label25.Size = New System.Drawing.Size(83, 13)
+        Me.Label25.Size = New System.Drawing.Size(91, 13)
         Me.Label25.TabIndex = 6
         Me.Label25.Text = "Cache transition"
         '
@@ -599,7 +599,7 @@ Partial Class frmSystemInfo
         Me.Label28.AutoSize = True
         Me.Label28.Location = New System.Drawing.Point(15, 53)
         Me.Label28.Name = "Label28"
-        Me.Label28.Size = New System.Drawing.Size(53, 13)
+        Me.Label28.Size = New System.Drawing.Size(58, 13)
         Me.Label28.TabIndex = 4
         Me.Label28.Text = "Transition"
         '
@@ -617,7 +617,7 @@ Partial Class frmSystemInfo
         Me.Label30.AutoSize = True
         Me.Label30.Location = New System.Drawing.Point(15, 38)
         Me.Label30.Name = "Label30"
-        Me.Label30.Size = New System.Drawing.Size(71, 13)
+        Me.Label30.Size = New System.Drawing.Size(81, 13)
         Me.Label30.TabIndex = 2
         Me.Label30.Text = "Copy-on-write"
         '
@@ -635,7 +635,7 @@ Partial Class frmSystemInfo
         Me.Label32.AutoSize = True
         Me.Label32.Location = New System.Drawing.Point(15, 23)
         Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(31, 13)
+        Me.Label32.Size = New System.Drawing.Size(32, 13)
         Me.Label32.TabIndex = 0
         Me.Label32.Text = "Total"
         '
@@ -674,7 +674,7 @@ Partial Class frmSystemInfo
         Me.Label26.AutoSize = True
         Me.Label26.Location = New System.Drawing.Point(15, 98)
         Me.Label26.Name = "Label26"
-        Me.Label26.Size = New System.Drawing.Size(61, 13)
+        Me.Label26.Size = New System.Drawing.Size(67, 13)
         Me.Label26.TabIndex = 10
         Me.Label26.Text = "Other bytes"
         '
@@ -692,7 +692,7 @@ Partial Class frmSystemInfo
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(15, 83)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(38, 13)
+        Me.Label10.Size = New System.Drawing.Size(42, 13)
         Me.Label10.TabIndex = 8
         Me.Label10.Text = "Others"
         '
@@ -710,7 +710,7 @@ Partial Class frmSystemInfo
         Me.Label18.AutoSize = True
         Me.Label18.Location = New System.Drawing.Point(15, 68)
         Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(60, 13)
+        Me.Label18.Size = New System.Drawing.Size(65, 13)
         Me.Label18.TabIndex = 6
         Me.Label18.Text = "Write bytes"
         '
@@ -728,7 +728,7 @@ Partial Class frmSystemInfo
         Me.Label20.AutoSize = True
         Me.Label20.Location = New System.Drawing.Point(15, 53)
         Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(37, 13)
+        Me.Label20.Size = New System.Drawing.Size(40, 13)
         Me.Label20.TabIndex = 4
         Me.Label20.Text = "Writes"
         '
@@ -746,7 +746,7 @@ Partial Class frmSystemInfo
         Me.Label22.AutoSize = True
         Me.Label22.Location = New System.Drawing.Point(15, 38)
         Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(61, 13)
+        Me.Label22.Size = New System.Drawing.Size(63, 13)
         Me.Label22.TabIndex = 2
         Me.Label22.Text = "Read bytes"
         '
@@ -797,7 +797,7 @@ Partial Class frmSystemInfo
         Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(15, 53)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(31, 13)
+        Me.Label7.Size = New System.Drawing.Size(32, 13)
         Me.Label7.TabIndex = 4
         Me.Label7.Text = "Total"
         '
@@ -815,7 +815,7 @@ Partial Class frmSystemInfo
         Me.Label13.AutoSize = True
         Me.Label13.Location = New System.Drawing.Point(15, 38)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(32, 13)
+        Me.Label13.Size = New System.Drawing.Size(33, 13)
         Me.Label13.TabIndex = 2
         Me.Label13.Text = "Used"
         '
@@ -833,7 +833,7 @@ Partial Class frmSystemInfo
         Me.Label17.AutoSize = True
         Me.Label17.Location = New System.Drawing.Point(15, 23)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(28, 13)
+        Me.Label17.Size = New System.Drawing.Size(29, 13)
         Me.Label17.TabIndex = 0
         Me.Label17.Text = "Free"
         '
@@ -866,7 +866,7 @@ Partial Class frmSystemInfo
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(15, 53)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(28, 13)
+        Me.Label5.Size = New System.Drawing.Size(31, 13)
         Me.Label5.TabIndex = 4
         Me.Label5.Text = "Limit"
         '
@@ -884,7 +884,7 @@ Partial Class frmSystemInfo
         Me.Label9.AutoSize = True
         Me.Label9.Location = New System.Drawing.Point(15, 38)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(32, 13)
+        Me.Label9.Size = New System.Drawing.Size(31, 13)
         Me.Label9.TabIndex = 2
         Me.Label9.Text = "Peak"
         '
@@ -902,7 +902,7 @@ Partial Class frmSystemInfo
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(15, 23)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(41, 13)
+        Me.Label11.Size = New System.Drawing.Size(46, 13)
         Me.Label11.TabIndex = 0
         Me.Label11.Text = "Current"
         '
@@ -935,7 +935,7 @@ Partial Class frmSystemInfo
         Me.Label12.AutoSize = True
         Me.Label12.Location = New System.Drawing.Point(15, 53)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(46, 13)
+        Me.Label12.Size = New System.Drawing.Size(49, 13)
         Me.Label12.TabIndex = 4
         Me.Label12.Text = "Handles"
         '
@@ -953,7 +953,7 @@ Partial Class frmSystemInfo
         Me.Label14.AutoSize = True
         Me.Label14.Location = New System.Drawing.Point(15, 38)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(46, 13)
+        Me.Label14.Size = New System.Drawing.Size(47, 13)
         Me.Label14.TabIndex = 2
         Me.Label14.Text = "Threads"
         '
@@ -1008,7 +1008,7 @@ Partial Class frmSystemInfo
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(15, 83)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(35, 13)
+        Me.Label3.Size = New System.Drawing.Size(38, 13)
         Me.Label3.TabIndex = 8
         Me.Label3.Text = "Faults"
         '
@@ -1026,7 +1026,7 @@ Partial Class frmSystemInfo
         Me.Label8.AutoSize = True
         Me.Label8.Location = New System.Drawing.Point(15, 68)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(51, 13)
+        Me.Label8.Size = New System.Drawing.Size(56, 13)
         Me.Label8.TabIndex = 6
         Me.Label8.Text = "Maximum"
         '
@@ -1044,7 +1044,7 @@ Partial Class frmSystemInfo
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(15, 53)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(48, 13)
+        Me.Label6.Size = New System.Drawing.Size(55, 13)
         Me.Label6.TabIndex = 4
         Me.Label6.Text = "Minimum"
         '
@@ -1062,7 +1062,7 @@ Partial Class frmSystemInfo
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(15, 38)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(32, 13)
+        Me.Label4.Size = New System.Drawing.Size(31, 13)
         Me.Label4.TabIndex = 2
         Me.Label4.Text = "Peak"
         '
@@ -1080,7 +1080,7 @@ Partial Class frmSystemInfo
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(15, 23)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(41, 13)
+        Me.Label1.Size = New System.Drawing.Size(46, 13)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Current"
         '
@@ -1122,25 +1122,6 @@ Partial Class frmSystemInfo
         Me.SplitContainer1.SplitterDistance = 119
         Me.SplitContainer1.TabIndex = 1
         '
-        'SplitContainer3
-        '
-        Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer3.IsSplitterFixed = True
-        Me.SplitContainer3.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer3.Name = "SplitContainer3"
-        Me.SplitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer3.Panel1
-        '
-        Me.SplitContainer3.Panel1.Controls.Add(Me.g3)
-        '
-        'SplitContainer3.Panel2
-        '
-        Me.SplitContainer3.Panel2.Controls.Add(Me.g4)
-        Me.SplitContainer3.Size = New System.Drawing.Size(295, 234)
-        Me.SplitContainer3.SplitterDistance = 117
-        Me.SplitContainer3.TabIndex = 0
-        '
         'g1
         '
         Me.g1.BackColor = System.Drawing.Color.Black
@@ -1165,6 +1146,25 @@ Partial Class frmSystemInfo
         Me.g2.Size = New System.Drawing.Size(295, 116)
         Me.g2.TabIndex = 11
         Me.g2.TabStop = False
+        '
+        'SplitContainer3
+        '
+        Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer3.IsSplitterFixed = True
+        Me.SplitContainer3.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer3.Name = "SplitContainer3"
+        Me.SplitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer3.Panel1
+        '
+        Me.SplitContainer3.Panel1.Controls.Add(Me.g3)
+        '
+        'SplitContainer3.Panel2
+        '
+        Me.SplitContainer3.Panel2.Controls.Add(Me.g4)
+        Me.SplitContainer3.Size = New System.Drawing.Size(295, 234)
+        Me.SplitContainer3.SplitterDistance = 117
+        Me.SplitContainer3.TabIndex = 0
         '
         'g3
         '
@@ -1198,6 +1198,7 @@ Partial Class frmSystemInfo
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(640, 477)
         Me.Controls.Add(Me.mainSplit)
+        Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MinimumSize = New System.Drawing.Size(656, 513)
         Me.Name = "frmSystemInfo"
@@ -1229,11 +1230,11 @@ Partial Class frmSystemInfo
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.g1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.g2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer3.Panel1.ResumeLayout(False)
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.ResumeLayout(False)
-        CType(Me.g1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.g2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.g3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.g4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
