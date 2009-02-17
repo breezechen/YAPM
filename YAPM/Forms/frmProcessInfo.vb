@@ -58,6 +58,7 @@ Public Class frmProcessInfo
                 Me.txtParentProcess.Text = CStr(curProc.ParentProcessId) & " -- " & curProc.ParentProcessName
                 Me.txtProcessStarted.Text = curProc.StartTime.ToLongDateString & " -- " & curProc.StartTime.ToLongTimeString
                 Me.txtProcessUser.Text = curProc.UserName
+                Me.txtCommandLine.Text = curProc.CommandLine
                 Try
                     Dim tMain As System.Diagnostics.ProcessModule = curProc.MainModule
                     Me.txtImageVersion.Text = tMain.FileVersionInfo.FileVersion
@@ -723,18 +724,18 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub JumpToPEBAddressToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles JumpToPEBAddressToolStripMenuItem.Click
-        'Dim peb As Integer = curProc.PEBAddress
-        'For Each it As ListViewItem In Me.lvProcMem.Items
-        '    Dim reg As DoubleInteger = CType(it.Tag, DoubleInteger)
-        '    If reg.a <= peb AndAlso peb <= (reg.a + reg.b) Then
-        '        Dim frm As New frmHexEditor
-        '        Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.a, reg.b)
-        '        frm.SetPidAndRegion(curProc.Pid, regio)
-        '        frm._hex.NavigateToOffset(peb)
-        '        frm.Show()
-        '        Exit For
-        '    End If
-        'Next
+        Dim peb As Integer = curProc.PEBAddress
+        For Each it As ListViewItem In Me.lvProcMem.Items
+            Dim reg As cMemRegion = CType(it.Tag, cMemRegion)
+            If reg.BaseAddress <= peb AndAlso peb <= (reg.BaseAddress + reg.RegionSize) Then
+                Dim frm As New frmHexEditor
+                Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.BaseAddress, reg.RegionSize)
+                frm.SetPidAndRegion(curProc.Pid, regio)
+                frm._hex.NavigateToOffset(peb)
+                frm.Show()
+                Exit For
+            End If
+        Next
     End Sub
 
     Private Sub ToolStripMenuItem44_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem44.Click

@@ -409,6 +409,8 @@ Public Class cProcess
     Private _newItem As Boolean = False
     Private _killedItem As Boolean = False
 
+    Private _commandLine As String
+
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
     Public isDisplayed As Boolean = False          ' Is displayed
@@ -498,6 +500,14 @@ Public Class cProcess
             'Catch ex As Exception
             '    Return False
             'End Try
+        End Get
+    End Property
+    Public ReadOnly Property CommandLine() As String
+        Get
+            If _commandLine = vbNullString Then
+                _commandLine = GetCommandLine(_pid)
+            End If
+            Return _commandLine
         End Get
     End Property
     Public ReadOnly Property IsInJob() As Boolean
@@ -661,6 +671,12 @@ Public Class cProcess
                     sResult = Left(sResult, InStr(sResult, vbNullChar) - 1)
                 Else
                     sResult = NO_INFO_RETRIEVED
+                End If
+
+                ' If path does not exist (it sometimes happens, but why ?)
+                ' we try to get it from ProcessParameter block (in memory)
+                If IO.File.Exists(_path) = False Then
+                    _path = GetImagePath_MemMethod(_pid)
                 End If
 
                 _path = sResult
@@ -1299,6 +1315,8 @@ Public Class cProcess
                 Else
                     res = GetFormatedPercentage(0)
                 End If
+            Case "CommandLine"
+                res = Me.CommandLine
         End Select
 
         Return res
@@ -1312,7 +1330,7 @@ Public Class cProcess
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties() As String()
-        Dim s(27) As String
+        Dim s(28) As String
 
         s(0) = "PID"
         s(1) = "UserName"
@@ -1339,9 +1357,10 @@ Public Class cProcess
         s(22) = "QuotaNonPagedPoolUsage"
         s(23) = "Priority"
         s(24) = "Path"
-        s(25) = "Description"
-        s(26) = "Copyright"
-        s(27) = "Version"
+        s(25) = "CommandLine"
+        s(26) = "Description"
+        s(27) = "Copyright"
+        s(28) = "Version"
 
         Return s
     End Function
@@ -1475,6 +1494,110 @@ Public Class cProcess
             If cp IsNot Nothing Then _
                 recursiveKill(cp.Pid)
         Next
+
+    End Function
+
+    Private Function GetCommandLine(ByVal pid As Integer) As String
+
+        Dim res As String = ""
+
+        ' Get PEB address of process
+        ' Get PEB address of process
+        Dim __pebAd As Integer = Me.PEBAddress
+        If __pebAd = -1 Then
+            Return ""
+        End If
+
+        ' Create a processMemRW class to read in memory
+        Dim cR As New cProcessMemRW(pid)
+        Trace.WriteLine("1")
+        ' Read first 20 bytes (5 integers) of PEB block
+        ' The fifth integer contains address of ProcessParameters block
+        Dim pebDeb() As Integer = cR.ReadBytesAI(__pebAd, 5)
+        Dim __procParamAd As Integer = pebDeb(4)
+
+        ' Get unicode string adress
+        ' It's located at offset 0x40 on all NT systems because it's after a fixed structure
+        ' of 64 bytes
+
+        ' Read length of the unicode string
+        Dim bA() As Short = cR.ReadBytesAS(__procParamAd + 64, 1)
+        Dim __size As Integer = bA(0)      ' Size of string
+
+        ' Read pointer to the string
+        Dim bA2() As Integer = cR.ReadBytesAI(__procParamAd + 68, 1)
+        Dim __strPtr As Integer = bA2(0)      ' Pointer to string
+
+        'Trace.WriteLine("before string")
+        ' Gonna get string
+        Dim bS() As Short = cR.ReadBytesAS(__strPtr, __size)
+
+        ' Allocate unmanaged memory
+        Dim ptr As IntPtr = Marshal.AllocHGlobal(__size)
+        __size = CInt(__size / 2)   ' Because of Unicode String (2 bytes per char)
+
+        ' Copy from short array to unmanaged memory
+        Marshal.Copy(bS, 0, ptr, __size)
+
+        ' Convert to string (and copy to __var variable)
+        res = Marshal.PtrToStringUni(ptr, __size)
+
+        ' Free unmanaged memory
+        Marshal.FreeHGlobal(ptr)
+
+        Return res
+
+    End Function
+
+    Private Function GetImagePath_MemMethod(ByVal pid As Integer) As String
+
+        Dim res As String = ""
+
+        ' Get PEB address of process
+        Dim __pebAd As Integer = Me.PEBAddress
+        If __pebAd = -1 Then
+            Return ""
+        End If
+
+        ' Create a processMemRW class to read in memory
+        Dim cR As New cProcessMemRW(pid)
+
+        ' Read first 20 bytes (5 integers) of PEB block
+        ' The fifth integer contains address of ProcessParameters block
+        Dim pebDeb() As Integer = cR.ReadBytesAI(__pebAd, 5)
+        Dim __procParamAd As Integer = pebDeb(4)
+
+
+        ' Get unicode string adress
+        ' It's located at offset 0x38 on all NT systems because it's after a fixed structure
+        ' of 56 bytes
+
+        ' Read length of the unicode string
+        Dim bA() As Short = cR.ReadBytesAS(__procParamAd + 56, 1)
+        Dim __size As Integer = bA(0)      ' Size of string
+
+        ' Read pointer to the string
+        Dim bA2() As Integer = cR.ReadBytesAI(__procParamAd + 60, 1)
+        Dim __strPtr As Integer = bA2(0)      ' Pointer to string
+
+        'Trace.WriteLine("before string")
+        ' Gonna get string
+        Dim bS() As Short = cR.ReadBytesAS(__strPtr, __size)
+
+        ' Allocate unmanaged memory
+        Dim ptr As IntPtr = Marshal.AllocHGlobal(__size)
+        __size = CInt(__size / 2)   ' Because of Unicode String (2 bytes per char)
+
+        ' Copy from short array to unmanaged memory
+        Marshal.Copy(bS, 0, ptr, __size)
+
+        ' Convert to string (and copy to __var variable)
+        res = Marshal.PtrToStringUni(ptr, __size)
+
+        ' Free unmanaged memory
+        Marshal.FreeHGlobal(ptr)
+
+        Return res
 
     End Function
 
