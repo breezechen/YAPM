@@ -21,8 +21,11 @@ Public Class frmProcessInfo
 
     Private NEW_ITEM_COLOR As Color = Color.FromArgb(128, 255, 0)
     Private DELETED_ITEM_COLOR As Color = Color.FromArgb(255, 64, 48)
+
     Private Const SIZE_FOR_STRING As Integer = 4
 
+
+    ' Refresh current tab
     Private Sub refreshProcessTab()
 
         If curProc Is Nothing Then Exit Sub
@@ -33,21 +36,21 @@ Public Class frmProcessInfo
             Case "Modules"
                 Call ShowModules()
 
-
             Case "Threads"
                 Call ShowThreads()
 
-
             Case "Windows"
                 Call ShowWindows()
-
 
             Case "Handles"
                 Call ShowHandles()
 
             Case "Memory"
-
                 Call ShowRegions()
+
+            Case "Network"
+
+                Call ShowNetwork()
 
             Case "General"
                 Me.txtProcessPath.Text = curProc.Path
@@ -108,23 +111,6 @@ Public Class frmProcessInfo
                 Me.lblQuotaPNPP.Text = GetFormatedSize(mem.QuotaPeakNonPagedPoolUsage)
                 Me.lblQuotaPP.Text = GetFormatedSize(mem.QuotaPagedPoolUsage)
                 Me.lblQuotaPPP.Text = GetFormatedSize(mem.QuotaPeakPagedPoolUsage)
-
-
-            Case "Network"
-                ' Associated connections
-                Me.lvProcNetwork.Items.Clear()
-
-                If frmMain.lvNetwork.Groups(CStr(curProc.Pid)) IsNot Nothing Then
-                    For Each itt As ListViewItem In frmMain.lvNetwork.Groups(CStr(curProc.Pid)).Items
-                        Dim nene As New ListViewItem
-                        nene.Text = itt.Text
-                        nene.SubItems.Add(itt.SubItems(1).Text)
-                        nene.SubItems.Add(itt.SubItems(2).Text)
-                        nene.SubItems.Add(itt.SubItems(3).Text)
-                        Me.lvProcNetwork.Items.Add(nene)
-                    Next
-                End If
-
 
 
             Case "Services"
@@ -365,6 +351,7 @@ Public Class frmProcessInfo
         Call ShowThreads()
         Call ShowWindows()
         Call ShowRegions()
+        Call ShowNetwork()
 
         Call refreshProcessTab()
 
@@ -373,12 +360,7 @@ Public Class frmProcessInfo
     ' Get process to monitor
     Public Sub SetProcess(ByRef process As cProcess)
         curProc = process
-
-        'Dim _t As Threading.Thread
-        '_t = New Threading.Thread(AddressOf refreshProcessTab)
-        '_t.IsBackground = True                  ' Thread will close when app close
-        '_t.Priority = Threading.ThreadPriority.Highest
-        '_t.Start()
+        Me.Text = curProc.ParentProcessName & "(" & CStr(curProc.Pid) & ")"
     End Sub
 
     Private Sub timerProcPerf_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerProcPerf.Tick
@@ -1086,6 +1068,90 @@ Public Class frmProcessInfo
         test = GetTickCount - test
 
         Trace.WriteLine("Threads refresh took " & CStr(test) & " ms")
+
+    End Sub
+
+    ' Show network connections
+    Public Sub ShowNetwork()
+
+        Static first As Boolean = True
+
+        ' Synchronize this lv and mainform lv
+
+        ' Remove 'red' items (previosly deleted)
+        For Each it As ListViewItem In Me.lvProcNetwork.Items
+            If it.BackColor = Me.DELETED_ITEM_COLOR Then
+                it.Remove()
+            End If
+        Next
+
+        ' Deleted connections
+        If frmMain.lvNetwork.Groups(CStr(curProc.Pid)) IsNot Nothing Then
+            For Each it As ListViewItem In Me.lvProcNetwork.Items
+                Dim exist As Boolean = False
+                For Each itt As ListViewItem In frmMain.lvNetwork.Groups(CStr(curProc.Pid)).Items
+                    If itt.Text = it.Text Then
+                        ' Still existing -> update infos
+                        it.SubItems(1).Text = itt.SubItems(1).Text
+                        it.SubItems(2).Text = itt.SubItems(2).Text
+                        it.SubItems(3).Text = itt.SubItems(3).Text
+                        exist = True
+                        Exit For
+                    End If
+                Next
+
+                If exist = False Then
+                    ' Deleted
+                    it.BackColor = Me.DELETED_ITEM_COLOR
+                End If
+
+            Next
+        Else
+            ' No more connections -> all items colored as deleted
+            For Each it As ListViewItem In Me.lvProcNetwork.Items
+                it.BackColor = Me.DELETED_ITEM_COLOR
+            Next
+        End If
+
+
+        ' Remove 'green' items (previosly deleted)
+        For Each it As ListViewItem In Me.lvProcNetwork.Items
+            If it.BackColor = Me.NEW_ITEM_COLOR Then
+                it.BackColor = Color.White
+            End If
+        Next
+
+
+        ' New connections
+        If frmMain.lvNetwork.Groups(CStr(curProc.Pid)) IsNot Nothing Then
+            For Each it As ListViewItem In frmMain.lvNetwork.Groups(CStr(curProc.Pid)).Items
+                Dim exist As Boolean = False
+                For Each itt As ListViewItem In Me.lvProcNetwork.Items
+                    If itt.Text = it.Text Then
+                        exist = True
+                        Exit For
+                    End If
+                Next
+
+                If exist = False Then
+                    ' Have to create
+                    Dim nene As New ListViewItem
+                    nene.Text = it.Text
+                    nene.SubItems.Add(it.SubItems(1).Text)
+                    nene.SubItems.Add(it.SubItems(2).Text)
+                    nene.SubItems.Add(it.SubItems(3).Text)
+                    If first = False Then
+                        nene.BackColor = Me.NEW_ITEM_COLOR
+                    End If
+                    nene.ForeColor = Color.FromArgb(30, 30, 30)
+
+                    Me.lvProcNetwork.Items.Add(nene)
+                End If
+
+            Next
+        End If
+
+        first = False
 
     End Sub
 
