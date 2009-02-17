@@ -407,6 +407,7 @@ Public Class cProcess
     Private _processors As Integer = 0
     Private _newItem As Boolean = False
     Private _killedItem As Boolean = False
+    Private _triedPathMem As Boolean = False
 
     Private _commandLine As String
 
@@ -671,14 +672,19 @@ Public Class cProcess
                 Else
                     sResult = NO_INFO_RETRIEVED
                 End If
+                _path = sResult
 
                 ' If path does not exist (it sometimes happens, but why ?)
                 ' we try to get it from ProcessParameter block (in memory)
-                If IO.File.Exists(_path) = False Then
-                    _path = GetImagePath_MemMethod(_pid)
+                If _triedPathMem = False AndAlso IO.File.Exists(_path) = False Then
+                    _triedPathMem = True
+                    Try
+                        _path = GetImagePath_MemMethod(_pid)
+                    Catch ex As Exception
+                        _path = NO_INFO_RETRIEVED
+                    End Try
                 End If
 
-                _path = sResult
             End If
 
             Return _path
