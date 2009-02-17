@@ -196,6 +196,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmChooseProcessColumns.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmWindowsList.resx">
+      <DependentUpon>frmWindowsList.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DoubleBufferedLV.resx">
       <DependentUpon>DoubleBufferedLV.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -367,6 +370,12 @@
       <DependentUpon>frmChooseProcessColumns.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmChooseProcessColumns.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmWindowsList.Designer.vb">
+      <DependentUpon>frmWindowsList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmWindowsList.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UserControls\DoubleBufferedLV.vb">

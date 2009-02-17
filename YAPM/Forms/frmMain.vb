@@ -5355,4 +5355,9 @@ Public Class frmMain
         My.Computer.Clipboard.SetImage(Me.pctFileSmall.Image)
     End Sub
 
+    Private Sub WindowManagementToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WindowManagementToolStripMenuItem.Click
+        frmWindowsList.BringToFront()
+        frmWindowsList.WindowState = FormWindowState.Normal
+        frmWindowsList.Show()
+    End Sub
 End Class

@@ -507,7 +507,12 @@ Public Class cWindow
     Public Shared Function CloseWindow(ByVal hWnd As Integer) As Integer
         Return CInt(SendMessage(CType(hWnd, IntPtr), WM_CLOSE, 0, 0))
     End Function
-
+    Public Shared Function ShowWindow(ByVal hWnd As Integer) As Integer
+        Return CInt(SendMessage(CType(hWnd, IntPtr), SW_SHOW, 0, 0))
+    End Function
+    Public Shared Function ShowWindowForeground(ByVal hWnd As IntPtr) As Integer
+        Return SetForegroundWindowAPI(hWnd)
+    End Function
 
     ' ========================================
     ' Private functions

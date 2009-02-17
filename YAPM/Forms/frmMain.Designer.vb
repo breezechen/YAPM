@@ -89,8 +89,8 @@ Partial Class frmMain
         Me.GetSecurityRiskOnlineToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.GoogleSearchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem37 = New System.Windows.Forms.ToolStripSeparator
-        Me.chooseColumns = New System.Windows.Forms.ToolStripMenuItem
         Me.MonitorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.chooseColumns = New System.Windows.Forms.ToolStripMenuItem
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMenu = New System.Windows.Forms.Panel
         Me.Label3 = New System.Windows.Forms.Label
@@ -523,6 +523,7 @@ Partial Class frmMain
         Me.menuNetwork = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem48 = New System.Windows.Forms.ToolStripMenuItem
         Me.timerTrayIcon = New System.Windows.Forms.Timer(Me.components)
+        Me.WindowManagementToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
         Me.SplitContainerProcess.SuspendLayout()
@@ -768,7 +769,7 @@ Partial Class frmMain
         '
         Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.KillProcessTreeToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ToolStripMenuItem38, Me.ShowModulesToolStripMenuItem, Me.ShowThreadsToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.ShowWindowsToolStripMenuItem, Me.ShowAllToolStripMenuItem, Me.SelectedServicesToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.ToolStripMenuItem1, Me.GetSecurityRiskOnlineToolStripMenuItem, Me.GoogleSearchToolStripMenuItem, Me.ToolStripMenuItem37, Me.MonitorToolStripMenuItem, Me.chooseColumns})
         Me.menuProc.Name = "menuProc"
-        Me.menuProc.Size = New System.Drawing.Size(194, 468)
+        Me.menuProc.Size = New System.Drawing.Size(194, 446)
         '
         'KillToolStripMenuItem
         '
@@ -950,18 +951,18 @@ Partial Class frmMain
         Me.ToolStripMenuItem37.Name = "ToolStripMenuItem37"
         Me.ToolStripMenuItem37.Size = New System.Drawing.Size(190, 6)
         '
-        'chooseColumns
-        '
-        Me.chooseColumns.Name = "chooseColumns"
-        Me.chooseColumns.Size = New System.Drawing.Size(193, 22)
-        Me.chooseColumns.Text = "Choose columns..."
-        '
         'MonitorToolStripMenuItem
         '
         Me.MonitorToolStripMenuItem.Image = CType(resources.GetObject("MonitorToolStripMenuItem.Image"), System.Drawing.Image)
         Me.MonitorToolStripMenuItem.Name = "MonitorToolStripMenuItem"
         Me.MonitorToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.MonitorToolStripMenuItem.Text = "Monitor"
+        '
+        'chooseColumns
+        '
+        Me.chooseColumns.Name = "chooseColumns"
+        Me.chooseColumns.Size = New System.Drawing.Size(193, 22)
+        Me.chooseColumns.Text = "Choose columns..."
         '
         'imgProcessTab
         '
@@ -5125,9 +5126,9 @@ Partial Class frmMain
         '
         'mainMenu
         '
-        Me.mainMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowLogToolStripMenuItem, Me.ShowSystemInformatoToolStripMenuItem, Me.MinimizeToTrayToolStripMenuItem, Me.ToolStripMenuItem40, Me.ExitToolStripMenuItem})
+        Me.mainMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowLogToolStripMenuItem, Me.ShowSystemInformatoToolStripMenuItem, Me.WindowManagementToolStripMenuItem, Me.MinimizeToTrayToolStripMenuItem, Me.ToolStripMenuItem40, Me.ExitToolStripMenuItem})
         Me.mainMenu.Name = "mainMenu"
-        Me.mainMenu.Size = New System.Drawing.Size(185, 98)
+        Me.mainMenu.Size = New System.Drawing.Size(185, 142)
         '
         'ShowLogToolStripMenuItem
         '
@@ -5394,6 +5395,13 @@ Partial Class frmMain
         '
         Me.timerTrayIcon.Enabled = True
         Me.timerTrayIcon.Interval = 1000
+        '
+        'WindowManagementToolStripMenuItem
+        '
+        Me.WindowManagementToolStripMenuItem.Image = CType(resources.GetObject("WindowManagementToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.WindowManagementToolStripMenuItem.Name = "WindowManagementToolStripMenuItem"
+        Me.WindowManagementToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
+        Me.WindowManagementToolStripMenuItem.Text = "Opened windows"
         '
         'frmMain
         '
@@ -6012,5 +6020,6 @@ Partial Class frmMain
     Friend WithEvents ToolStripMenuItem17 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuFileCopyPctBig As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem16 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents WindowManagementToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
