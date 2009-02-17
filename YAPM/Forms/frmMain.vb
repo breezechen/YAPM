@@ -4269,12 +4269,9 @@ Public Class frmMain
         Call butProcessShowAll_Click(Nothing, Nothing)
     End Sub
 
-    Private Sub ReadWriteMemoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReadWriteMemoryToolStripMenuItem.Click
-        Dim frm As New frmProcessMemRW
-        With frm
-            ' .SetProcess(5768)
-            .ShowDialog()
-        End With
+    Private Sub ReadWriteMemoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chooseColumns.Click
+        Dim frm As New frmChooseProcessColumns
+        frm.ShowDialog()
     End Sub
 
     Private Sub butModuleGoogle_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butModuleGoogle.Click
@@ -4377,12 +4374,6 @@ Public Class frmMain
     Private Sub lvProcess_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseDoubleClick
         If e.Button = Windows.Forms.MouseButtons.Left Then
             Call Me.butProcessDisplayDetails_Click(Nothing, Nothing)
-        ElseIf e.Button = Windows.Forms.MouseButtons.Middle Then
-            Dim frm As New frmChooseProcessColumns
-            With frm
-                '.SetAutoScrollMargin()
-                Call .ShowDialog()
-            End With
         End If
     End Sub
 

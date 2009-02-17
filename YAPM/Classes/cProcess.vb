@@ -1292,6 +1292,13 @@ Public Class cProcess
                     String.Format("{000}", ts.Millisecond)
             Case "AffinityMask"
                 res = CStr(Me.AffinityMask)
+            Case "AverageCpuUsage"
+                Dim i As Long = Date.Now.Ticks - Me.StartTime.Ticks
+                If i > 0 Then
+                    res = GetFormatedPercentage(Me.ProcessorTime.Ticks / i)
+                Else
+                    res = GetFormatedPercentage(0)
+                End If
         End Select
 
         Return res
@@ -1305,35 +1312,36 @@ Public Class cProcess
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties() As String()
-        Dim s(26) As String
+        Dim s(27) As String
 
         s(0) = "PID"
         s(1) = "UserName"
         s(2) = "ParentPID"
         s(3) = "ParentName"
         s(4) = "CpuUsage"
-        s(5) = "KernelCpuTime"
-        s(6) = "UserCpuTime"
-        s(7) = "TotalCpuTime"
-        s(8) = "StartTime"
-        s(9) = "RunTime"
-        s(10) = "GdiObjects"
-        s(11) = "UserObjects"
-        s(12) = "AffinityMask"
-        s(13) = "WorkingSet"
-        s(14) = "PeakWorkingSet"
-        s(15) = "PageFaultCount"
-        s(16) = "PagefileUsage"
-        s(17) = "PeakPagefileUsage"
-        s(18) = "QuotaPeakPagedPoolUsage"
-        s(19) = "QuotaPagedPoolUsage"
-        s(20) = "QuotaPeakNonPagedPoolUsage"
-        s(21) = "QuotaNonPagedPoolUsage"
-        s(22) = "Priority"
-        s(23) = "Path"
-        s(24) = "Description"
-        s(25) = "Copyright"
-        s(26) = "Version"
+        s(5) = "AverageCpuUsage"
+        s(6) = "KernelCpuTime"
+        s(7) = "UserCpuTime"
+        s(8) = "TotalCpuTime"
+        s(9) = "StartTime"
+        s(10) = "RunTime"
+        s(11) = "GdiObjects"
+        s(12) = "UserObjects"
+        s(13) = "AffinityMask"
+        s(14) = "WorkingSet"
+        s(15) = "PeakWorkingSet"
+        s(16) = "PageFaultCount"
+        s(17) = "PagefileUsage"
+        s(18) = "PeakPagefileUsage"
+        s(19) = "QuotaPeakPagedPoolUsage"
+        s(20) = "QuotaPagedPoolUsage"
+        s(21) = "QuotaPeakNonPagedPoolUsage"
+        s(22) = "QuotaNonPagedPoolUsage"
+        s(23) = "Priority"
+        s(24) = "Path"
+        s(25) = "Description"
+        s(26) = "Copyright"
+        s(27) = "Version"
 
         Return s
     End Function
