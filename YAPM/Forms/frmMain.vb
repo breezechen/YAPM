@@ -125,6 +125,8 @@ Public Class frmMain
 
     Private Const SIZE_FOR_STRING As Integer = 4
 
+    Public PROCESSOR_COUNT As Integer
+
     ' ========================================
     ' Form functions
     ' ========================================
@@ -527,7 +529,7 @@ Public Class frmMain
                     lvi.BackColor = Color.White
                 End If
             End If
-            If cP.ProcessorCount = -1 Then
+            If cP.ProcessorCount < 1 Then
                 cP.ProcessorCount = Me.cInfo.ProcessorCount
             End If
 
@@ -605,6 +607,8 @@ Public Class frmMain
         'Me.lvProcess.Items.Clear()
         Threading.Thread.Sleep(100)
         Call refreshTaskList()
+
+        PROCESSOR_COUNT = Me.cInfo.ProcessorCount
 
         With Me
             .lblServicePath.BackColor = .BackColor
@@ -4897,6 +4901,10 @@ Public Class frmMain
         ' Here we retrieve some informations for all our displayed tasks
         For Each lvi In Me.lvTask.Items
             Dim cW As cTask = CType(lvi.Tag, cTask)
+
+            If cW.Process.ProcessorCount < 1 Then
+                cW.Process.ProcessorCount = Me.cInfo.ProcessorCount
+            End If
 
             Dim isub As ListViewItem.ListViewSubItem
             Dim xxx As Integer = 0

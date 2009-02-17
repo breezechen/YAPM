@@ -421,14 +421,14 @@ Public Class cProcess
     Public Sub New(ByVal processId As Integer)
         MyBase.New()
         _pid = processId
-        _processors = -1
+        _processors = frmMain.PROCESSOR_COUNT
         _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, _pid)
     End Sub
 
     Public Sub New(ByVal processId As Integer, ByVal processName As String)
         MyBase.New()
         _pid = processId
-        _processors = -1
+        _processors = frmMain.PROCESSOR_COUNT
         _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, _pid)
         _name = processName
     End Sub
@@ -975,8 +975,8 @@ Public Class cProcess
             oldProcTime = proctime
             oldDate = currDate
 
-            If diff > 0 Then
-                Return procDiff / diff
+            If diff > 0 AndAlso _processors > 0 Then
+                Return procDiff / diff / _processors
             Else
                 Return 0
             End If
@@ -1229,7 +1229,7 @@ Public Class cProcess
             Case "UserName"
                 res = Me.UserName
             Case "CpuUsage"
-                res = GetFormatedPercentage(Me.CpuPercentageUsage / _processors)
+                res = GetFormatedPercentage(Me.CpuPercentageUsage)
             Case "KernelCpuTime"
                 Dim ts As Date = Me.KernelTime
                 res = String.Format("{0:00}", ts.Hour) & ":" & _
@@ -1310,8 +1310,8 @@ Public Class cProcess
                 res = CStr(Me.AffinityMask)
             Case "AverageCpuUsage"
                 Dim i As Long = Date.Now.Ticks - Me.StartTime.Ticks
-                If i > 0 AndAlso _processors > 0 Then
-                    res = GetFormatedPercentage(Me.ProcessorTime.Ticks / i / _processors)
+                If i > 0 Then
+                    res = GetFormatedPercentage(Me.ProcessorTime.Ticks / i)
                 Else
                     res = GetFormatedPercentage(0)
                 End If
