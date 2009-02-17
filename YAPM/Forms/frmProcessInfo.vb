@@ -360,7 +360,7 @@ Public Class frmProcessInfo
     ' Get process to monitor
     Public Sub SetProcess(ByRef process As cProcess)
         curProc = process
-        Me.Text = curProc.ParentProcessName & "(" & CStr(curProc.Pid) & ")"
+        Me.Text = curProc.ParentProcessName & " (" & CStr(curProc.Pid) & ")"
     End Sub
 
     Private Sub timerProcPerf_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerProcPerf.Tick
