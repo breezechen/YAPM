@@ -61,11 +61,29 @@ Private Shared Function SetWindowsHookEx(ByVal hook As HookType, ByVal callback 
 
     ' Private Declare Function SetWindowsHookEx Lib "user32" Alias "SetWindowsHookExA" (ByVal idHook As Integer, ByVal lpfn As Integer, ByVal hmod As Integer, ByVal dwThreadId As Integer) As Integer
     Private Declare Function UnhookWindowsHookEx Lib "user32" (ByVal hHook As Integer) As Integer
-    Private Declare Function CallNextHookEx Lib "user32" (ByVal hHook As Integer, ByVal nCode As Integer, ByVal wParam As Integer, ByVal lParam As Integer) As Integer
+    Private Declare Function CallNextHookEx Lib "user32" (ByVal hHook As Integer, ByVal nCode As Integer, ByVal wParam As Integer, ByRef lParam As KBDLLHOOKSTRUCT) As Integer
     Private Declare Function GetCurrentThreadId Lib "kernel32" () As Integer
     Private Declare Function GetAsyncKeyState Lib "user32" (ByVal vKey As Integer) As Integer
     Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByVal pDst As Object, ByVal pSrc As Object, ByVal ByteLen As Integer)
-    Private Declare Function GetForegroundWindow Lib "user32" () As Integer
+    'Private Declare Function GetForegroundWindow Lib "user32" () As Integer
+
+    <StructLayout(LayoutKind.Sequential)> _
+Public Structure KBDLLHOOKSTRUCT
+        Public vkCode As Integer
+        Public scanCode As Integer
+        Public flags As KBDLLHOOKSTRUCTFlags
+        Public time As Integer
+        Public dwExtraInfo As IntPtr
+    End Structure
+
+    <Flags()> _
+    Public Enum KBDLLHOOKSTRUCTFlags As Integer
+        LLKHF_EXTENDED = &H1
+        LLKHF_INJECTED = &H10
+        LLKHF_ALTDOWN = &H20
+        LLKHF_UP = &H80
+    End Enum
+
 #End Region
 
 
@@ -87,7 +105,7 @@ Private Shared Function SetWindowsHookEx(ByVal hook As HookType, ByVal callback 
 
 
 
-    Delegate Function HookProc(ByVal code As Integer, ByVal wParam As Integer, ByVal lParam As Integer) As Integer
+    Delegate Function HookProc(ByVal code As Integer, ByVal wParam As Integer, ByRef lParam As KBDLLHOOKSTRUCT) As Integer
     Private myCallbackDelegate As HookProc = Nothing
 
 
@@ -132,7 +150,7 @@ Private Shared Function SetWindowsHookEx(ByVal hook As HookType, ByVal callback 
             Me.myCallbackDelegate = New HookProc(AddressOf Me.KeyboardFilter)
 
 
-            hKeyHook = CInt(SetWindowsHookEx(HookType.WH_KEYBOARD, Me.myCallbackDelegate, 0, CUInt(GetCurrentThreadId())))
+            hKeyHook = CInt(SetWindowsHookEx(HookType.WH_KEYBOARD_LL, Me.myCallbackDelegate, 0, 0)) 'CUInt(GetCurrentThreadId())))
         End If
 
     End Sub
@@ -161,7 +179,7 @@ Private Shared Function SetWindowsHookEx(ByVal hook As HookType, ByVal callback 
     '=======================================================
     ' This function is called each time a key is pressed
     '=======================================================
-    Private Function KeyboardFilter(ByVal nCode As Integer, ByVal wParam As Integer, ByVal lParam As Integer) As Integer
+    Private Function KeyboardFilter(ByVal nCode As Integer, ByVal wParam As Integer, ByRef lParam As KBDLLHOOKSTRUCT) As Integer
         Dim bAlt As Boolean
         Dim bCtrl As Boolean
         Dim bShift As Boolean
@@ -171,7 +189,7 @@ Private Shared Function SetWindowsHookEx(ByVal hook As HookType, ByVal callback 
         If nCode = HC_ACTION And Not boolStopHooking Then
 
             bShift = (GetAsyncKeyState(vbKeyShift) <> 0)
-            bAlt = ((lParam And &H20000000) = &H20000000)
+            'bAlt = ((lParam.vkCode And &H20000000) = &H20000000)
             bCtrl = (GetAsyncKeyState(vbKeyControl) <> 0)
 
             ' Check for each of our cShortCut if the shortcut is activated
@@ -179,24 +197,24 @@ Private Shared Function SetWindowsHookEx(ByVal hook As HookType, ByVal callback 
 
                 Dim cs As cShortcut = CType(cSs, HotkeyStruct).keys
 
-                If (cS.Key1 = -1) Or (cS.Key1 = vbShiftMask And bShift) Or (cS.Key1 = vbAltMask And bAlt) Or _
-                    (cS.Key1 = vbCtrlMask And bCtrl) Then
+                If (cs.Key1 = -1) Or (cs.Key1 = vbShiftMask And bShift) Or (cs.Key1 = vbAltMask And bAlt) Or _
+                    (cs.Key1 = vbCtrlMask And bCtrl) Then
 
                     ' Then the first of the 3 keys is pressed
                     ' Check the second one
-                    If (cS.Key2 = -1) Or (cS.Key2 = vbShiftMask And bShift) Or (cS.Key2 = vbAltMask And bAlt) Or _
-                        (cS.Key2 = vbCtrlMask And bCtrl) Then
+                    If (cs.Key2 = -1) Or (cs.Key2 = vbShiftMask And bShift) Or (cs.Key2 = vbAltMask And bAlt) Or _
+                        (cs.Key2 = vbCtrlMask And bCtrl) Then
 
                         ' The the second of the 3 keys is pressed
                         ' Check this last one
-                        If (wParam = cS.Key3) Then
+                        If (lParam.vkCode = cs.Key3) Then
 
                             ' The third of the 3 keys is pressed
                             ' Okay :-)
                             ' Here we raise our event
                             boolStopHooking = True                      ' We stop hooking shortcuts
-
-                            MsgBox(cs.Key1)
+                            'MsgBox(cs.Key1)
+                            frmMain.Text = "OKOKOKO"
                             'Dim frm As Form
                             'frm = GetFormFromPtr(cS.FormEvent)      ' We retrieve the form which implements our interface
                             'If frm.hWnd <> GetForegroundWindow Then Exit For
