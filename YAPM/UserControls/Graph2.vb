@@ -29,10 +29,11 @@ Public Class Graph2
     ' ========================================
     ' Private attributes
     ' ========================================
-    Private _gridStep As Integer = 20
+    Private _gridStep As Integer = 10
     Private _values() As Double
     Private _colorGrid As System.Drawing.Pen = Pens.DarkGreen
     Private _color As System.Drawing.Pen = Pens.Yellow
+    Private _color2 As System.Drawing.Pen = Pens.Yellow
     Private _enableGraph As Boolean
     Private _mouseY As Integer
     Private _mouseX As Integer
@@ -43,6 +44,9 @@ Public Class Graph2
 
     Private xCoef As Double
 
+    Private numberOfValuesDisplayed As Integer
+    Private numberOfValuesHidden As Integer
+    Private _yMaxValue As Double = 0
 
 
     ' ========================================
@@ -81,6 +85,16 @@ Public Class Graph2
             _color = New Pen(value)
         End Set
     End Property
+    <System.ComponentModel.Category("Configuration"), System.ComponentModel.Description("value"), _
+    System.ComponentModel.Browsable(True), System.ComponentModel.DefaultValue(GetType(Color), "Yellow")> _
+    Public Property Color2() As Color
+        Get
+            Return _color2.Color
+        End Get
+        Set(ByVal value As Color)
+            _color2 = New Pen(value)
+        End Set
+    End Property
     Public Property EnableGraph() As Boolean
         Get
             Return _enableGraph
@@ -108,8 +122,10 @@ Public Class Graph2
     End Sub
     Protected Overrides Sub OnPaint(ByVal e As System.Windows.Forms.PaintEventArgs)
         MyBase.OnPaint(e)
+        DrawValuesDown(e.Graphics)
+        DrawGrid(e.Graphics)
         If _enableGraph Then
-            DrawGrid(e.Graphics)
+            e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
             Try
                 DrawValues(e.Graphics)
             Catch ex As Exception
@@ -130,6 +146,12 @@ Public Class Graph2
         '    _mouseCurrentDate = 10000 * CInt(_values(h))
         'End If
     End Sub
+    Protected Overrides Sub OnResize(ByVal e As System.EventArgs)
+        MyBase.OnResize(e)
+        _xMin = Math.Max(_xMax - Me.Width, 0)
+        numberOfValuesDisplayed = CInt(Me.Width / 2)
+        numberOfValuesHidden = CInt(nCount - numberOfValuesDisplayed)
+    End Sub
 
     ' ========================================
     ' Private methods
@@ -140,7 +162,7 @@ Public Class Graph2
 
         Dim i As Integer = Me.Width
         Dim j As Integer = Me.Height
-        Dim stp As Integer = 20
+        Dim stp As Integer = _gridStep
 
         Dim x, y As Integer
 
@@ -162,62 +184,46 @@ Public Class Graph2
 
     ' Draw values
     Private Sub DrawValues(ByVal g As Graphics)
+
+        ' Now calculate the Y coeff (height in pxl = VALUE(%) * _yCoeff
+        Dim _yCoeff As Double = 0
+        If Fixedheight = False Then
+            If _yMaxValue > 0 Then
+                _yCoeff = (Me.Height - 4) / _yMaxValue
+            End If
+        Else
+            _yCoeff = (Me.Height - 4) / 100
+        End If
+
+        ' Now calculate the X coeff
+        Dim _xCoeff As Double = 2
+
+        Dim newPxlX As Integer = 0
+        Dim newPxlY As Integer = 0
+        Dim oldPxlX As Integer = 0
+        Dim oldPxlY As Integer = 0
         Dim x As Integer
 
-        If _values Is Nothing Then Exit Sub
+        ' Now draw lines (upper lines)
+        For x = _xMax To _xMin Step -1
 
-        ' Get the max (height)
-        Dim yMax As Double = 0
-        For x = 0 To (_values.Length - 1)
-            'For x = _xMin To _xMax
-            If _values(x) > yMax Then yMax = _values(x)
-        Next
+            newPxlX = CInt((x - numberOfValuesHidden) * _xCoeff)
+            newPxlY = CInt(Me.Height - _values(x) * _yCoeff) - 2
 
-        If yMax = 0 And _fixedH = False Then Exit Sub
-        yMax += 1
-        Dim yCoef As Double
-        If _fixedH = False Then
-            yCoef = (Me.Height - 1) / yMax
-        Else
-            yCoef = (Me.Height - 1) / 100
-        End If
-        xCoef = Me.Width / (_xMax - _xMin)
-
-        Dim x1 As Integer = 0
-        Dim x2 As Integer = 0
-        Dim y1 As Double = yMax
-        Dim y2 As Double = y1
-        Dim v As Integer
-
-        Dim xx1 As Integer = 0
-        Dim xx2 As Integer = 0
-        Dim yy1 As Integer = 0
-        Dim yy2 As Integer = 0
-
-        For x = _xMin + 1 To _xMax
-            ' v start at 0
-            v = x - _xMin
-
-            If (x1 = 0 And y1 = yMax) Then
-                x1 = 0
-                y1 = _values(x - 1)
-            Else
-                x1 = x2
-                y1 = y2
+            ' If first line, old = new
+            If x = _xMax Then
+                oldPxlX = newPxlX
+                oldPxlY = newPxlY
             End If
-            x2 = v
-            y2 = _values(x)
 
-            xx1 = CInt(x1 * xCoef)
-            xx2 = CInt(x2 * xCoef)
-            yy1 = CInt(Me.Height - y1 * yCoef) + 1
-            yy2 = CInt(Me.Height - y2 * yCoef) + 1
-            Try
-                g.DrawLine(_color, xx1, yy1, xx2, yy2)
-            Catch ex As Exception
-                '
-            End Try
+            ' Draw line
+            g.DrawLine(_color, newPxlX, newPxlY, oldPxlX, oldPxlY)
+
+            ' Save old X & Y
+            oldPxlX = newPxlX
+            oldPxlY = newPxlY
         Next
+
 
         '' Calcule current value
         'Dim _mouseCurrentValue As Long
@@ -232,6 +238,56 @@ Public Class Graph2
         'g.DrawString("Value : " & _mouseCurrentValue.ToString, frmMain.Font, Brushes.Beige, 200, 0)
     End Sub
 
+    Private Sub DrawValuesDown(ByVal g As Graphics)
+
+        ' Calculate maximum of current view
+        Dim x As Integer
+        For x = _xMax To _xMin Step -1
+            If _values(x) > _yMaxValue Then
+                _yMaxValue = _values(x)
+            End If
+        Next
+
+        ' Now calculate the Y coeff (height in pxl = VALUE(%) * _yCoeff
+        Dim _yCoeff As Double = 0
+        If Fixedheight = False Then
+            If _yMaxValue > 0 Then
+                _yCoeff = (Me.Height - 4) / _yMaxValue
+            End If
+        Else
+            _yCoeff = (Me.Height - 4) / 100
+        End If
+
+        ' Now calculate the X coeff
+        Dim _xCoeff As Double = 2
+
+        Dim newPxlX As Integer = 0
+        Dim newPxlY As Integer = 0
+        Dim oldPxlX As Integer = 0
+        Dim oldPxlY As Integer = 0
+
+        ' Now draw lines (lower lines)
+        For x = _xMax To _xMin Step -1
+
+            newPxlX = CInt((x - numberOfValuesHidden) * _xCoeff)
+            newPxlY = CInt(Me.Height - _values(x) * _yCoeff) - 2
+
+            ' If first line, old = new
+            If x = _xMax Then
+                oldPxlX = newPxlX
+                oldPxlY = newPxlY
+            End If
+
+            ' Draw line
+            g.DrawLine(_color2, newPxlX, newPxlY, newPxlX, Me.Height - 1)
+            g.DrawLine(_color2, newPxlX + 1, newPxlY, newPxlX + 1, Me.Height - 1)
+
+            ' Save old X & Y
+            oldPxlX = newPxlX
+            oldPxlY = newPxlY
+        Next
+
+    End Sub
 
 
     ' ========================================
@@ -248,9 +304,13 @@ Public Class Graph2
         End If
         _values(nCount - 1) = value
 
+
         ' Calculate new xMin and xMax
-        _xMax = nCount - 1
-        _xMin = Math.Max(_xMax - 100, 2)
+        numberOfValuesDisplayed = CInt(Me.Width / 2)
+        numberOfValuesHidden = CInt(nCount - numberOfValuesDisplayed)
+
+        _xMax = nCount - 1      ' Last item by default
+        _xMin = CInt(Math.Max(_xMax - numberOfValuesDisplayed, 0))
 
     End Sub
 
