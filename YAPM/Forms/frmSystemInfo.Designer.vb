@@ -1126,9 +1126,11 @@ Partial Class frmSystemInfo
         '
         Me.g1.BackColor = System.Drawing.Color.Black
         Me.g1.Color = System.Drawing.Color.Lime
+        Me.g1.Color2 = System.Drawing.Color.Green
         Me.g1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.g1.EnableGraph = True
         Me.g1.Fixedheight = True
+        Me.g1.GridStep = 10
         Me.g1.Location = New System.Drawing.Point(0, 0)
         Me.g1.Name = "g1"
         Me.g1.Size = New System.Drawing.Size(295, 119)
@@ -1138,9 +1140,11 @@ Partial Class frmSystemInfo
         'g2
         '
         Me.g2.BackColor = System.Drawing.Color.Black
+        Me.g2.Color2 = System.Drawing.Color.Olive
         Me.g2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.g2.EnableGraph = True
         Me.g2.Fixedheight = False
+        Me.g2.GridStep = 10
         Me.g2.Location = New System.Drawing.Point(0, 0)
         Me.g2.Name = "g2"
         Me.g2.Size = New System.Drawing.Size(295, 116)
@@ -1170,9 +1174,11 @@ Partial Class frmSystemInfo
         '
         Me.g3.BackColor = System.Drawing.Color.Black
         Me.g3.Color = System.Drawing.Color.Red
+        Me.g3.Color2 = System.Drawing.Color.Maroon
         Me.g3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.g3.EnableGraph = True
         Me.g3.Fixedheight = False
+        Me.g3.GridStep = 10
         Me.g3.Location = New System.Drawing.Point(0, 0)
         Me.g3.Name = "g3"
         Me.g3.Size = New System.Drawing.Size(295, 117)
@@ -1183,9 +1189,11 @@ Partial Class frmSystemInfo
         '
         Me.g4.BackColor = System.Drawing.Color.Black
         Me.g4.Color = System.Drawing.Color.Red
+        Me.g4.Color2 = System.Drawing.Color.Maroon
         Me.g4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.g4.EnableGraph = True
         Me.g4.Fixedheight = False
+        Me.g4.GridStep = 10
         Me.g4.Location = New System.Drawing.Point(0, 0)
         Me.g4.Name = "g4"
         Me.g4.Size = New System.Drawing.Size(295, 113)
