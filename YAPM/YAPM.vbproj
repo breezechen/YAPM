@@ -118,6 +118,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\frmHotkeys.resx">
+      <DependentUpon>frmHotkeys.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmAboutG.resx">
       <DependentUpon>frmAboutG.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -244,6 +247,7 @@
   <ItemGroup>
     <Compile Include="Classes\cDownload.vb" />
     <Compile Include="Classes\cFile.vb" />
+    <Compile Include="Classes\cHotkeys.vb" />
     <Compile Include="Classes\cHTML.vb" />
     <Compile Include="Classes\cHTML2.vb" />
     <Compile Include="Classes\cLog.vb" />
@@ -258,12 +262,19 @@
     <Compile Include="Classes\cProcessMemRW.vb" />
     <Compile Include="Classes\cRegMonitor.vb" />
     <Compile Include="Classes\cServEnum.vb" />
+    <Compile Include="Classes\cShortcut.vb" />
     <Compile Include="Classes\cSystemInfo.vb" />
     <Compile Include="Classes\cTask.vb" />
     <Compile Include="Classes\cThread.vb">
     </Compile>
     <Compile Include="Classes\cTrayIcon.vb" />
     <Compile Include="Classes\cWindow.vb" />
+    <Compile Include="Forms\frmHotkeys.Designer.vb">
+      <DependentUpon>frmHotkeys.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmHotkeys.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmAboutG.Designer.vb">
       <DependentUpon>frmAboutG.vb</DependentUpon>
     </Compile>

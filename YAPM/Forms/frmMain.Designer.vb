@@ -490,6 +490,7 @@ Partial Class frmMain
         Me.mainMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ShowLogToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowSystemInformatoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.WindowManagementToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MinimizeToTrayToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem40 = New System.Windows.Forms.ToolStripSeparator
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -523,7 +524,7 @@ Partial Class frmMain
         Me.menuNetwork = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem48 = New System.Windows.Forms.ToolStripMenuItem
         Me.timerTrayIcon = New System.Windows.Forms.Timer(Me.components)
-        Me.WindowManagementToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.EmergencyHotkeysToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
         Me.SplitContainerProcess.SuspendLayout()
@@ -5126,9 +5127,9 @@ Partial Class frmMain
         '
         'mainMenu
         '
-        Me.mainMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowLogToolStripMenuItem, Me.ShowSystemInformatoToolStripMenuItem, Me.WindowManagementToolStripMenuItem, Me.MinimizeToTrayToolStripMenuItem, Me.ToolStripMenuItem40, Me.ExitToolStripMenuItem})
+        Me.mainMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowLogToolStripMenuItem, Me.ShowSystemInformatoToolStripMenuItem, Me.WindowManagementToolStripMenuItem, Me.EmergencyHotkeysToolStripMenuItem, Me.MinimizeToTrayToolStripMenuItem, Me.ToolStripMenuItem40, Me.ExitToolStripMenuItem})
         Me.mainMenu.Name = "mainMenu"
-        Me.mainMenu.Size = New System.Drawing.Size(185, 142)
+        Me.mainMenu.Size = New System.Drawing.Size(185, 164)
         '
         'ShowLogToolStripMenuItem
         '
@@ -5144,6 +5145,13 @@ Partial Class frmMain
         Me.ShowSystemInformatoToolStripMenuItem.Name = "ShowSystemInformatoToolStripMenuItem"
         Me.ShowSystemInformatoToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
         Me.ShowSystemInformatoToolStripMenuItem.Text = "System information"
+        '
+        'WindowManagementToolStripMenuItem
+        '
+        Me.WindowManagementToolStripMenuItem.Image = CType(resources.GetObject("WindowManagementToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.WindowManagementToolStripMenuItem.Name = "WindowManagementToolStripMenuItem"
+        Me.WindowManagementToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
+        Me.WindowManagementToolStripMenuItem.Text = "Opened windows"
         '
         'MinimizeToTrayToolStripMenuItem
         '
@@ -5396,12 +5404,12 @@ Partial Class frmMain
         Me.timerTrayIcon.Enabled = True
         Me.timerTrayIcon.Interval = 1000
         '
-        'WindowManagementToolStripMenuItem
+        'EmergencyHotkeysToolStripMenuItem
         '
-        Me.WindowManagementToolStripMenuItem.Image = CType(resources.GetObject("WindowManagementToolStripMenuItem.Image"), System.Drawing.Image)
-        Me.WindowManagementToolStripMenuItem.Name = "WindowManagementToolStripMenuItem"
-        Me.WindowManagementToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
-        Me.WindowManagementToolStripMenuItem.Text = "Opened windows"
+        Me.EmergencyHotkeysToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.EmergencyHotkeysToolStripMenuItem.Name = "EmergencyHotkeysToolStripMenuItem"
+        Me.EmergencyHotkeysToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
+        Me.EmergencyHotkeysToolStripMenuItem.Text = "Emergency hotkeys"
         '
         'frmMain
         '
@@ -6021,5 +6029,6 @@ Partial Class frmMain
     Friend WithEvents mnuFileCopyPctBig As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem16 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents WindowManagementToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents EmergencyHotkeysToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

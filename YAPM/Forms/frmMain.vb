@@ -87,6 +87,7 @@ Public Class frmMain
     ' Public attributes
     ' ========================================
     Public handles_Renamed As New clsOpenedHandles
+    Public emHotkeys As New cHotkeys
     Public Pref As New Pref
 
 
@@ -582,6 +583,11 @@ Public Class frmMain
             SetWindowTheme(Me.tv2.Handle, "explorer", Nothing)
             SetWindowTheme(Me.tvMonitor.Handle, "explorer", Nothing)
         End If
+
+        Dim ht As New cHotkeys.HotkeyStruct
+        ht.action = cHotkeys.HOTKEYS_ACTIONS.KILL_FOREGROUND
+        ht.keys = New cShortcut(Keys.A, 16, -1)
+        emHotkeys.AddHotkey(ht)
     End Sub
 
     Private Sub frmMain_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
@@ -5358,5 +5364,11 @@ Public Class frmMain
         frmWindowsList.BringToFront()
         frmWindowsList.WindowState = FormWindowState.Normal
         frmWindowsList.Show()
+    End Sub
+
+    Private Sub EmergencyHotkeysToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EmergencyHotkeysToolStripMenuItem.Click
+        frmHotkeys.BringToFront()
+        frmHotkeys.WindowState = FormWindowState.Normal
+        frmHotkeys.Show()
     End Sub
 End Class
