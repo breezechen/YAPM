@@ -965,6 +965,18 @@ Public Class cProcess
         End Get
     End Property
 
+    ' Get average CPU usage
+    Public ReadOnly Property AverageCpuUsage() As Double
+        Get
+            Dim i As Long = Date.Now.Ticks - Me.StartTime.Ticks
+            If i > 0 Then
+                Return Me.ProcessorTime.Ticks / i
+            Else
+                Return 0
+            End If
+        End Get
+    End Property
+
     ' Get CPU time
     Public ReadOnly Property CpuPercentageUsage() As Double
         Get

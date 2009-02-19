@@ -81,6 +81,7 @@ Public Class frmProcessInfo
                 Me.lblProcWrites.Text = GetFormatedSize(curProc.GetIOvalues.WriteOperationCount)
                 Me.lblGDIcount.Text = CStr(curProc.GDIObjectsCount)
                 Me.lblUserObjectsCount.Text = CStr(curProc.UserObjectsCount)
+                Me.lblAverageCPUusage.Text = curProc.GetInformation("AverageCpuUsage")
 
                 Dim mem As cProcess.PROCESS_MEMORY_COUNTERS = curProc.MemoryInfos
                 Me.lblHandles.Text = CStr(curProc.HandleCount)
@@ -383,8 +384,9 @@ Public Class frmProcessInfo
 
     Private Sub timerProcPerf_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerProcPerf.Tick
         Dim z As Double = curProc.CpuPercentageUsage
+        Dim z2 As Double = curProc.AverageCpuUsage
         If Double.IsNegativeInfinity(z) Then z = 0
-        Me.graphCPU.AddValue(z * 100)
+        Me.graphCPU.Add2Values(z * 100, z2 * 100)
         Me.graphMemory.AddValue(curProc.MemoryInfos.WorkingSetSize)
         Me.graphIO.AddValue(curProc.GetIOvalues.ReadTransferCount)
         Me.graphCPU.Refresh()
