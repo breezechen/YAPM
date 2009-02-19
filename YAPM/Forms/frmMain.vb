@@ -878,20 +878,6 @@ Public Class frmMain
         Me.Visible = True
     End Sub
 
-    Private Sub ToolStripMenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem3.Click
-        Me.Show()
-        Me.WindowState = FormWindowState.Normal
-        Me.Visible = True
-    End Sub
-
-    Private Sub ToolStripMenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem4.Click
-        Me.butAbout_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub ToolStripMenuItem5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem5.Click
-        Me.Close()
-    End Sub
-
     Private Sub KillToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles KillToolStripMenuItem.Click
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
@@ -4505,16 +4491,6 @@ Public Class frmMain
         frmLog.Show()
     End Sub
 
-    Private Sub EnableProcessRefreshingToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EnableProcessRefreshingToolStripMenuItem.Click
-        Me.EnableProcessRefreshingToolStripMenuItem.Checked = Not (Me.EnableProcessRefreshingToolStripMenuItem.Checked)
-        Me.timerProcess.Enabled = Me.EnableProcessRefreshingToolStripMenuItem.Checked
-    End Sub
-
-    Private Sub EnableServiceRefreshingToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EnableServiceRefreshingToolStripMenuItem.Click
-        Me.EnableServiceRefreshingToolStripMenuItem.Checked = Not (Me.EnableServiceRefreshingToolStripMenuItem.Checked)
-        Me.timerServices.Enabled = Me.EnableServiceRefreshingToolStripMenuItem.Checked
-    End Sub
-
     Private Sub rtb2_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles rtb2.TextChanged
         Me.cmdCopyServiceToCp.Enabled = (rtb2.Rtf.Length > 0)
     End Sub
@@ -5368,5 +5344,29 @@ Public Class frmMain
         frmHotkeys.BringToFront()
         frmHotkeys.WindowState = FormWindowState.Normal
         frmHotkeys.Show()
+    End Sub
+
+    Private Sub FindAWindowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FindAWindowToolStripMenuItem.Click
+        frmFindWindow.Show()
+    End Sub
+
+    Private Sub ShowYAPMToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowYAPMToolStripMenuItem.Click
+        Me.Show()
+        Me.WindowState = FormWindowState.Normal
+        Me.Visible = True
+    End Sub
+
+    Private Sub AboutYAPMToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AboutYAPMToolStripMenuItem.Click
+        Me.butAbout_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub EnableProcessRefreshingToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EnableProcessRefreshingToolStripMenuItem.Click
+        Me.EnableProcessRefreshingToolStripMenuItem.Checked = Not (Me.EnableProcessRefreshingToolStripMenuItem.Checked)
+        Me.timerProcess.Enabled = Me.EnableProcessRefreshingToolStripMenuItem.Checked
+    End Sub
+
+    Private Sub RefreshServiceListToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshServiceListToolStripMenuItem.Click
+        Me.RefreshServiceListToolStripMenuItem.Checked = Not (Me.RefreshServiceListToolStripMenuItem.Checked)
+        Me.timerServices.Enabled = Me.RefreshServiceListToolStripMenuItem.Checked
     End Sub
 End Class
