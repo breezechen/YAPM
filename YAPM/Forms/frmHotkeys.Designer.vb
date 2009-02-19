@@ -28,6 +28,9 @@ Partial Class frmHotkeys
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ShowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
+        Me.EnableToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.DisableToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.imgList = New System.Windows.Forms.ImageList(Me.components)
         Me.gp = New System.Windows.Forms.GroupBox
         Me.cbAction = New System.Windows.Forms.ComboBox
@@ -43,9 +46,6 @@ Partial Class frmHotkeys
         Me.lv = New YAPM.DoubleBufferedLV
         Me.ColumnHeader52 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
-        Me.EnableToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.DisableToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
         Me.ContextMenuStrip1.SuspendLayout()
         Me.gp.SuspendLayout()
         Me.SuspendLayout()
@@ -58,14 +58,14 @@ Partial Class frmHotkeys
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowToolStripMenuItem, Me.CloseToolStripMenuItem, Me.ToolStripMenuItem1, Me.EnableToolStripMenuItem, Me.DisableToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(153, 120)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(118, 98)
         '
         'ShowToolStripMenuItem
         '
         Me.ShowToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ShowToolStripMenuItem.Image = CType(resources.GetObject("ShowToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ShowToolStripMenuItem.Name = "ShowToolStripMenuItem"
-        Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.ShowToolStripMenuItem.Text = "Add"
         '
         'CloseToolStripMenuItem
@@ -74,6 +74,23 @@ Partial Class frmHotkeys
         Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
         Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.CloseToolStripMenuItem.Text = "Remove"
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(114, 6)
+        '
+        'EnableToolStripMenuItem
+        '
+        Me.EnableToolStripMenuItem.Name = "EnableToolStripMenuItem"
+        Me.EnableToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
+        Me.EnableToolStripMenuItem.Text = "Enable"
+        '
+        'DisableToolStripMenuItem
+        '
+        Me.DisableToolStripMenuItem.Name = "DisableToolStripMenuItem"
+        Me.DisableToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
+        Me.DisableToolStripMenuItem.Text = "Disable"
         '
         'imgList
         '
@@ -105,7 +122,6 @@ Partial Class frmHotkeys
         '
         Me.cbAction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbAction.FormattingEnabled = True
-        Me.cbAction.Items.AddRange(New Object() {"Kill foreground application", "Kill process which uses the most CPU time", "Exit Yet Another Process Monitor"})
         Me.cbAction.Location = New System.Drawing.Point(56, 111)
         Me.cbAction.Name = "cbAction"
         Me.cbAction.Size = New System.Drawing.Size(238, 21)
@@ -232,23 +248,6 @@ Partial Class frmHotkeys
         '
         Me.ColumnHeader1.Text = "Action"
         Me.ColumnHeader1.Width = 327
-        '
-        'EnableToolStripMenuItem
-        '
-        Me.EnableToolStripMenuItem.Name = "EnableToolStripMenuItem"
-        Me.EnableToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.EnableToolStripMenuItem.Text = "Enable"
-        '
-        'DisableToolStripMenuItem
-        '
-        Me.DisableToolStripMenuItem.Name = "DisableToolStripMenuItem"
-        Me.DisableToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.DisableToolStripMenuItem.Text = "Disable"
-        '
-        'ToolStripMenuItem1
-        '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(149, 6)
         '
         'frmHotkeys
         '

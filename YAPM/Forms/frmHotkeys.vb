@@ -40,6 +40,11 @@ Public Class frmHotkeys
     Private Sub frmWindowsList_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetWindowTheme(lv.Handle, "explorer", Nothing)
 
+        Me.cbAction.Items.Clear()
+        For Each i As String In frmMain.emHotkeys.ActionsAvailable
+            Me.cbAction.Items.Add(i)
+        Next
+
         ' Read collection and add items
         For Each ht As cShortcut In frmMain.emHotkeys.HotKeysCollection
             ' Add hotkey

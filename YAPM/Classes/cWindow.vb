@@ -54,6 +54,9 @@ Public Class cWindow
     '   ByRef riid As Guid, ByVal fOwn As Integer, _
     '   <MarshalAs(UnmanagedType.IDispatch)> ByRef ppvObj As Object) As Integer
     'End Function
+
+    Private Declare Function GetForegroundWindow Lib "user32" () As IntPtr
+
     Private Declare Function GetLayeredWindowAttributes Lib "User32.Dll" (ByVal hwnd As IntPtr, ByRef pcrKey As Integer, ByRef pbAlpha As Byte, ByRef pdwFlags As Integer) As Boolean
     Private Declare Auto Function SetLayeredWindowAttributes Lib "User32.Dll" (ByVal hWnd As IntPtr, ByVal crKey As Integer, ByVal Alpha As Byte, ByVal dwFlags As Integer) As Boolean
     <DllImport("user32.dll")> _
@@ -513,6 +516,13 @@ Public Class cWindow
         Return SetForegroundWindowAPI(hWnd)
     End Function
 
+    ' Get processID of foreground window
+    Public Shared Function GetForegroundAppPID() As Integer
+        Dim l As IntPtr = GetForegroundWindow
+        Return GetProcIdFromWindowHandle(l)
+    End Function
+
+
     ' ========================================
     ' Private functions
     ' ========================================
@@ -564,9 +574,9 @@ Public Class cWindow
 
     ' Return process id from a handle
     Friend Shared Function GetProcIdFromWindowHandle(ByVal hwnd As IntPtr) As Integer
-        'Dim id As Integer = 0
-        GetWindowThreadProcessId(hwnd, GetProcIdFromWindowHandle)
-        'Return id
+        Dim id As Integer = 0
+        GetWindowThreadProcessId(hwnd, id)
+        Return id
     End Function
 
     ' Return thread id from a handle

@@ -299,14 +299,22 @@ Public Class cShortcut
 
     ' Proceed to action !
     Public Sub RaiseAction()
-        Select Case _action
-            Case HOTKEYS_ACTIONS.KILL_FOREGROUND
-                frmMain.Text = "KILL FOREGROUND"
-            Case HOTKEYS_ACTIONS.KILL_MAX_CPU_USAGE
-                frmMain.Text = "KILL MAX CPU"
-            Case Else
-                frmMain.Text = "quand même !"
-        End Select
+        Static once As Boolean = False
+
+        once = Not (once)
+
+        If once Then
+            Select Case _action
+                Case HOTKEYS_ACTIONS.KILL_FOREGROUND
+                    Call cProcess.Kill(cWindow.GetForegroundAppPID)
+                Case HOTKEYS_ACTIONS.KILL_MAX_CPU_USAGE
+                    ''frmMain.Text = "KILL MAX CPU"
+                Case HOTKEYS_ACTIONS.EXIT_YAPM
+                    frmMain.Close()
+                Case Else
+                    '
+            End Select
+        End If
     End Sub
 
 End Class

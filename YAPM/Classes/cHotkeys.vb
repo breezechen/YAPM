@@ -110,7 +110,16 @@ Public Class cHotkeys
             Return _col
         End Get
     End Property
-
+    Public ReadOnly Property ActionsAvailable() As String()
+        Get
+            Dim s() As String
+            ReDim s(2)
+            s(0) = "Kill foreground application"
+            s(1) = "Kill process which uses the most CPU usage"
+            s(2) = "Exit YAPM"
+            Return s
+        End Get
+    End Property
 
     ' ========================================
     ' Public functions
