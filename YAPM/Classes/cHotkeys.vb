@@ -102,6 +102,15 @@ Public Class cHotkeys
 
 
 
+    ' ========================================
+    ' Public properties
+    ' ========================================
+    Public ReadOnly Property HotKeysCollection() As Collection
+        Get
+            Return _col
+        End Get
+    End Property
+
 
     ' ========================================
     ' Public functions

@@ -599,6 +599,8 @@ Public Class frmMain
         Dim t As Integer = GetTickCount
         clsOpenedHandles.EnableDebug()
 
+        Call frmHotkeys.readHotkeysFromXML()
+
         ' Set tray icon counters
         _trayIcon.SetCounter(1, Color.Red, Color.FromArgb(120, 0, 0))
         _trayIcon.SetCounter(2, Color.LightGreen, Color.FromArgb(0, 120, 0))

@@ -25,14 +25,36 @@ Imports System.Runtime.InteropServices
 
 Public Class frmHotkeys
 
+    Public Const HOTKEYS_SAVE_FILE As String = "hotkeys.xml"
     Private atxtKey As Integer = -1
 
     <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
     Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
     End Function
 
+    Private Sub frmHotkeys_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        ' Save to XML
+        writeXML()
+    End Sub
+
     Private Sub frmWindowsList_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetWindowTheme(lv.Handle, "explorer", Nothing)
+
+        ' Read collection and add items
+        For Each ht As cShortcut In frmMain.emHotkeys.HotKeysCollection
+            ' Add hotkey
+            Dim skeys As String = CType(ht.Key1, cShortcut.ShorcutKeys).ToString & " + " & _
+                CType(ht.Key2, cShortcut.ShorcutKeys).ToString & " + " & _
+                CType(ht.Key3, cShortcut.ShorcutKeys).ToString
+            Dim it As New ListViewItem(skeys)
+            it.Tag = ht
+            If ht.Enabled = False Then
+                it.ForeColor = Color.Gray
+            End If
+            it.SubItems.Add(Me.cbAction.Items(ht.Action - 1).ToString)
+            it.ImageKey = "default"
+            Me.lv.Items.Add(it)
+        Next
     End Sub
 
     Private Sub ShowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowToolStripMenuItem.Click
@@ -73,7 +95,7 @@ Public Class frmHotkeys
 
         If k1 + k2 + k3 = -3 Then Exit Sub
 
-        Dim ht As New cShortcut(i, k3, k2, k1)
+        Dim ht As New cShortcut(i, k1, k2, k3)
         If frmMain.emHotkeys.AddHotkey(ht) Then
             ' Add hotkey
             Dim skeys As String = CType(k1, cShortcut.ShorcutKeys).ToString & " + " & _
@@ -143,5 +165,112 @@ Public Class frmHotkeys
                 it.ForeColor = Color.Gray
             End If
         Next
+    End Sub
+
+    ' Read from XML file
+    Public Sub readHotkeysFromXML()
+        Dim XmlDoc As XmlDocument = New XmlDocument
+        Dim element As XmlNodeList
+        Dim noeud, noeudEnf As XmlNode
+
+        '<hotkeys>
+        '	<key>
+        '		<enabled>true</enabled>
+        '		<key1>65</key1>
+        '		<key2>16</key2>
+        '		<key3>17</key3>
+        '		<action>2</action>
+        '	</key>
+        '</hotkeys>
+
+        Try
+            Call XmlDoc.Load(My.Application.Info.DirectoryPath & "\" & HOTKEYS_SAVE_FILE)
+            element = XmlDoc.DocumentElement.GetElementsByTagName("key")
+
+            For Each noeud In element
+
+                Dim key1 As Integer
+                Dim key2 As Integer
+                Dim key3 As Integer
+                Dim action As Integer
+                Dim enabled As Boolean
+
+                For Each noeudEnf In noeud.ChildNodes
+
+                    If noeudEnf.LocalName = "enabled" Then
+                        enabled = CBool(noeudEnf.InnerText)
+                    ElseIf noeudEnf.LocalName = "key1" Then
+                        key1 = CInt(noeudEnf.InnerText)
+                    ElseIf noeudEnf.LocalName = "key2" Then
+                        key2 = CInt(noeudEnf.InnerText)
+                    ElseIf noeudEnf.LocalName = "key3" Then
+                        key3 = CInt(noeudEnf.InnerText)
+                    ElseIf noeudEnf.LocalName = "action" Then
+                        action = CInt(noeudEnf.InnerText)
+                    End If
+                Next
+
+                Dim ht As New cShortcut(action, key1, key2, key3)
+                ht.Enabled = enabled
+
+                frmMain.emHotkeys.AddHotkey(ht)
+            Next
+        Catch ex As Exception
+            Trace.WriteLine("XML loading failed : " & ex.Message)
+        End Try
+    End Sub
+
+    ' Write to XML file
+    Private Sub writeXML()
+
+        '<hotkeys>
+        '	<key>
+        '		<enabled>true</enabled>
+        '		<key1>65</key1>
+        '		<key2>16</key2>
+        '		<key3>17</key3>
+        '		<action>2</action>
+        '	</key>
+        '</hotkeys>
+
+        Dim XmlDoc As XmlDocument = New XmlDocument()
+        XmlDoc.LoadXml("<hotkeys></hotkeys>")
+
+        For Each it As ListViewItem In Me.lv.Items
+
+            Dim cs As cShortcut = CType(it.Tag, cShortcut)
+
+            Dim elemConfig As XmlElement = XmlDoc.CreateElement("key")
+
+            Dim elemEnabled As XmlElement
+            elemEnabled = XmlDoc.CreateElement("enabled")
+            elemEnabled.InnerText = CStr(cs.Enabled)
+            elemConfig.AppendChild(elemEnabled)
+
+            Dim elemKey1 As XmlElement
+            elemKey1 = XmlDoc.CreateElement("key1")
+            elemKey1.InnerText = CStr(cs.Key1)
+            elemConfig.AppendChild(elemKey1)
+
+            Dim elemKey2 As XmlElement
+            elemKey2 = XmlDoc.CreateElement("key2")
+            elemKey2.InnerText = CStr(cs.Key2)
+            elemConfig.AppendChild(elemKey2)
+
+            Dim elemKey3 As XmlElement
+            elemKey3 = XmlDoc.CreateElement("key3")
+            elemKey3.InnerText = CStr(cs.Key3)
+            elemConfig.AppendChild(elemKey3)
+
+            Dim elemAction As XmlElement
+            elemAction = XmlDoc.CreateElement("action")
+            elemAction.InnerText = CStr(cs.Action)
+            elemConfig.AppendChild(elemAction)
+
+            XmlDoc.DocumentElement.AppendChild(elemConfig)
+
+        Next
+
+        XmlDoc.Save(My.Application.Info.DirectoryPath & "\" & HOTKEYS_SAVE_FILE)
     End Sub
 End Class

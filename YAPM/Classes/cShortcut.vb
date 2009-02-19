@@ -279,9 +279,9 @@ Public Class cShortcut
     Public Sub New(ByVal aAction As HOTKEYS_ACTIONS, ByVal akey1 As ShorcutKeys, _
                    Optional ByVal akey2 As ShorcutKeys = ShorcutKeys.VK_NO_BUTTON, _
                    Optional ByVal akey3 As ShorcutKeys = ShorcutKeys.VK_NO_BUTTON)
-        _Key1 = akey3
+        _Key1 = akey1
         _Key2 = akey2
-        _Key3 = akey1
+        _Key3 = akey3
         _key = "|" & CStr(CInt(Me.Key1)) & "|" & CStr(CInt(Me.Key2)) & "|" & CStr(CInt(Me.Key3))
         _action = aAction
         _enabled = True
@@ -289,9 +289,9 @@ Public Class cShortcut
     Public Sub New(ByVal aAction As Integer, ByVal akey1 As Integer, _
                Optional ByVal akey2 As Integer = ShorcutKeys.VK_NO_BUTTON, _
                Optional ByVal akey3 As Integer = ShorcutKeys.VK_NO_BUTTON)
-        _Key1 = CType(akey3, ShorcutKeys)
+        _Key1 = CType(akey1, ShorcutKeys)
         _Key2 = CType(akey2, ShorcutKeys)
-        _Key3 = CType(akey1, ShorcutKeys)
+        _Key3 = CType(akey3, ShorcutKeys)
         _key = "|" & CStr(CInt(Me.Key1)) & "|" & CStr(CInt(Me.Key2)) & "|" & CStr(CInt(Me.Key3))
         _action = CType(aAction, HOTKEYS_ACTIONS)
         _enabled = True
@@ -304,6 +304,8 @@ Public Class cShortcut
                 frmMain.Text = "KILL FOREGROUND"
             Case HOTKEYS_ACTIONS.KILL_MAX_CPU_USAGE
                 frmMain.Text = "KILL MAX CPU"
+            Case Else
+                frmMain.Text = "quand même !"
         End Select
     End Sub
 
