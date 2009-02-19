@@ -423,6 +423,24 @@
     <None Include="Misc\black.ico" />
     <Content Include="process.ico" />
     <Content Include="process_custom.ico" />
+    <None Include="Resources\information_frame.png" />
+    <None Include="Resources\control_stop_square.png" />
+    <None Include="Resources\folder_open.png" />
+    <None Include="Resources\control.png" />
+    <None Include="Resources\control_pause.png" />
+    <None Include="Resources\cross.png" />
+    <None Include="Resources\arrow_000_medium.png" />
+    <None Include="Resources\arrow_180_medium.png" />
+    <None Include="Resources\document_text.png" />
+    <None Include="Resources\document_text_image.png" />
+    <None Include="Resources\magnifier.png" />
+    <None Include="Resources\folder_open_document.png" />
+    <None Include="Resources\096.png" />
+    <None Include="Resources\application_text_image.png" />
+    <None Include="Resources\globe.png" />
+    <None Include="Resources\cross_circle1.png" />
+    <None Include="Resources\cross_circle.png" />
+    <None Include="Resources\plus_circle.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

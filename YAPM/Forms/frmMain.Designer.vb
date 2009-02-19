@@ -89,9 +89,7 @@ Partial Class frmMain
         Me.GetSecurityRiskOnlineToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.GoogleSearchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem37 = New System.Windows.Forms.ToolStripSeparator
-        Me.MonitorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.chooseColumns = New System.Windows.Forms.ToolStripMenuItem
-        Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMenu = New System.Windows.Forms.Panel
         Me.Label3 = New System.Windows.Forms.Label
         Me.lblResCount = New System.Windows.Forms.Label
@@ -175,7 +173,6 @@ Partial Class frmMain
         Me.RBProcessDisplay = New System.Windows.Forms.RibbonPanel
         Me.butProcessRerfresh = New System.Windows.Forms.RibbonButton
         Me.butProcessDisplayDetails = New System.Windows.Forms.RibbonButton
-        Me.butProcessPermuteLvTv = New System.Windows.Forms.RibbonButton
         Me.RBProcessActions = New System.Windows.Forms.RibbonPanel
         Me.butNewProcess = New System.Windows.Forms.RibbonButton
         Me.butKillProcess = New System.Windows.Forms.RibbonButton
@@ -190,7 +187,6 @@ Partial Class frmMain
         Me.butShowProcHandles = New System.Windows.Forms.RibbonButton
         Me.butProcessWindows = New System.Windows.Forms.RibbonButton
         Me.butProcessShowAll = New System.Windows.Forms.RibbonButton
-        Me.butProcessMonitor = New System.Windows.Forms.RibbonButton
         Me.RBProcessPriority = New System.Windows.Forms.RibbonPanel
         Me.butProcessPriority = New System.Windows.Forms.RibbonButton
         Me.butIdle = New System.Windows.Forms.RibbonButton
@@ -302,7 +298,6 @@ Partial Class frmMain
         Me.RBFileDelete = New System.Windows.Forms.RibbonPanel
         Me.butMoveFileToTrash = New System.Windows.Forms.RibbonButton
         Me.butDeleteFile = New System.Windows.Forms.RibbonButton
-        Me.butShreddFile = New System.Windows.Forms.RibbonButton
         Me.RBFileOnline = New System.Windows.Forms.RibbonPanel
         Me.butFileGoogleSearch = New System.Windows.Forms.RibbonButton
         Me.RBFileOther = New System.Windows.Forms.RibbonPanel
@@ -526,6 +521,7 @@ Partial Class frmMain
         Me.menuNetwork = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem48 = New System.Windows.Forms.ToolStripMenuItem
         Me.timerTrayIcon = New System.Windows.Forms.Timer(Me.components)
+        Me.butProcessPermuteLvTv = New System.Windows.Forms.RibbonButton
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
         Me.SplitContainerProcess.SuspendLayout()
@@ -768,35 +764,35 @@ Partial Class frmMain
         '
         'menuProc
         '
-        Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.KillProcessTreeToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ToolStripMenuItem38, Me.ShowModulesToolStripMenuItem, Me.ShowThreadsToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.ShowWindowsToolStripMenuItem, Me.ShowAllToolStripMenuItem, Me.SelectedServicesToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.ToolStripMenuItem1, Me.GetSecurityRiskOnlineToolStripMenuItem, Me.GoogleSearchToolStripMenuItem, Me.ToolStripMenuItem37, Me.MonitorToolStripMenuItem, Me.chooseColumns})
+        Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.KillProcessTreeToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ToolStripMenuItem38, Me.ShowModulesToolStripMenuItem, Me.ShowThreadsToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.ShowWindowsToolStripMenuItem, Me.ShowAllToolStripMenuItem, Me.SelectedServicesToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.ToolStripMenuItem1, Me.GetSecurityRiskOnlineToolStripMenuItem, Me.GoogleSearchToolStripMenuItem, Me.ToolStripMenuItem37, Me.chooseColumns})
         Me.menuProc.Name = "menuProc"
-        Me.menuProc.Size = New System.Drawing.Size(194, 446)
+        Me.menuProc.Size = New System.Drawing.Size(194, 424)
         '
         'KillToolStripMenuItem
         '
         Me.KillToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.KillToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.kill
+        Me.KillToolStripMenuItem.Image = CType(resources.GetObject("KillToolStripMenuItem.Image"), System.Drawing.Image)
         Me.KillToolStripMenuItem.Name = "KillToolStripMenuItem"
         Me.KillToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.KillToolStripMenuItem.Text = "Kill"
         '
         'KillProcessTreeToolStripMenuItem
         '
-        Me.KillProcessTreeToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.kill
+        Me.KillProcessTreeToolStripMenuItem.Image = CType(resources.GetObject("KillProcessTreeToolStripMenuItem.Image"), System.Drawing.Image)
         Me.KillProcessTreeToolStripMenuItem.Name = "KillProcessTreeToolStripMenuItem"
         Me.KillProcessTreeToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.KillProcessTreeToolStripMenuItem.Text = "Kill process tree"
         '
         'StopToolStripMenuItem
         '
-        Me.StopToolStripMenuItem.Image = CType(resources.GetObject("StopToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.StopToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.control_stop_square
         Me.StopToolStripMenuItem.Name = "StopToolStripMenuItem"
         Me.StopToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.StopToolStripMenuItem.Text = "Stop"
         '
         'ResumeToolStripMenuItem
         '
-        Me.ResumeToolStripMenuItem.Image = CType(resources.GetObject("ResumeToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.ResumeToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.control
         Me.ResumeToolStripMenuItem.Name = "ResumeToolStripMenuItem"
         Me.ResumeToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.ResumeToolStripMenuItem.Text = "Resume"
@@ -898,7 +894,7 @@ Partial Class frmMain
         '
         'SelectedServicesToolStripMenuItem
         '
-        Me.SelectedServicesToolStripMenuItem.Image = CType(resources.GetObject("SelectedServicesToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.SelectedServicesToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.gear
         Me.SelectedServicesToolStripMenuItem.Name = "SelectedServicesToolStripMenuItem"
         Me.SelectedServicesToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.SelectedServicesToolStripMenuItem.Text = "Selected services"
@@ -910,21 +906,21 @@ Partial Class frmMain
         '
         'PropertiesToolStripMenuItem
         '
-        Me.PropertiesToolStripMenuItem.Image = CType(resources.GetObject("PropertiesToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.PropertiesToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.document_text
         Me.PropertiesToolStripMenuItem.Name = "PropertiesToolStripMenuItem"
         Me.PropertiesToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.PropertiesToolStripMenuItem.Text = "File properties"
         '
         'OpenFirectoryToolStripMenuItem
         '
-        Me.OpenFirectoryToolStripMenuItem.Image = CType(resources.GetObject("OpenFirectoryToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.OpenFirectoryToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.folder_open
         Me.OpenFirectoryToolStripMenuItem.Name = "OpenFirectoryToolStripMenuItem"
         Me.OpenFirectoryToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.OpenFirectoryToolStripMenuItem.Text = "Open directory"
         '
         'FileDetailsToolStripMenuItem1
         '
-        Me.FileDetailsToolStripMenuItem1.Image = CType(resources.GetObject("FileDetailsToolStripMenuItem1.Image"), System.Drawing.Image)
+        Me.FileDetailsToolStripMenuItem1.Image = Global.YAPM.My.Resources.Resources.magnifier
         Me.FileDetailsToolStripMenuItem1.Name = "FileDetailsToolStripMenuItem1"
         Me.FileDetailsToolStripMenuItem1.Size = New System.Drawing.Size(193, 22)
         Me.FileDetailsToolStripMenuItem1.Text = "File details"
@@ -942,7 +938,7 @@ Partial Class frmMain
         '
         'GoogleSearchToolStripMenuItem
         '
-        Me.GoogleSearchToolStripMenuItem.Image = CType(resources.GetObject("GoogleSearchToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.GoogleSearchToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.globe
         Me.GoogleSearchToolStripMenuItem.Name = "GoogleSearchToolStripMenuItem"
         Me.GoogleSearchToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.GoogleSearchToolStripMenuItem.Text = "Google search"
@@ -952,34 +948,11 @@ Partial Class frmMain
         Me.ToolStripMenuItem37.Name = "ToolStripMenuItem37"
         Me.ToolStripMenuItem37.Size = New System.Drawing.Size(190, 6)
         '
-        'MonitorToolStripMenuItem
-        '
-        Me.MonitorToolStripMenuItem.Image = CType(resources.GetObject("MonitorToolStripMenuItem.Image"), System.Drawing.Image)
-        Me.MonitorToolStripMenuItem.Name = "MonitorToolStripMenuItem"
-        Me.MonitorToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
-        Me.MonitorToolStripMenuItem.Text = "Monitor"
-        '
         'chooseColumns
         '
         Me.chooseColumns.Name = "chooseColumns"
         Me.chooseColumns.Size = New System.Drawing.Size(193, 22)
         Me.chooseColumns.Text = "Choose columns..."
-        '
-        'imgProcessTab
-        '
-        Me.imgProcessTab.ImageStream = CType(resources.GetObject("imgProcessTab.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgProcessTab.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgProcessTab.Images.SetKeyName(0, "exe")
-        Me.imgProcessTab.Images.SetKeyName(1, "stats")
-        Me.imgProcessTab.Images.SetKeyName(2, "perf")
-        Me.imgProcessTab.Images.SetKeyName(3, "locked")
-        Me.imgProcessTab.Images.SetKeyName(4, "memory")
-        Me.imgProcessTab.Images.SetKeyName(5, "text.gif")
-        Me.imgProcessTab.Images.SetKeyName(6, "exe2")
-        Me.imgProcessTab.Images.SetKeyName(7, "service")
-        Me.imgProcessTab.Images.SetKeyName(8, "network")
-        Me.imgProcessTab.Images.SetKeyName(9, "font")
-        Me.imgProcessTab.Images.SetKeyName(10, "environment")
         '
         'panelMenu
         '
@@ -1112,7 +1085,7 @@ Partial Class frmMain
         '
         'ToolStripMenuItem9
         '
-        Me.ToolStripMenuItem9.Image = CType(resources.GetObject("ToolStripMenuItem9.Image"), System.Drawing.Image)
+        Me.ToolStripMenuItem9.Image = Global.YAPM.My.Resources.Resources.control_pause
         Me.ToolStripMenuItem9.Name = "ToolStripMenuItem9"
         Me.ToolStripMenuItem9.Size = New System.Drawing.Size(219, 22)
         Me.ToolStripMenuItem9.Text = "Pause"
@@ -1120,14 +1093,14 @@ Partial Class frmMain
         'ToolStripMenuItem10
         '
         Me.ToolStripMenuItem10.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToolStripMenuItem10.Image = CType(resources.GetObject("ToolStripMenuItem10.Image"), System.Drawing.Image)
+        Me.ToolStripMenuItem10.Image = Global.YAPM.My.Resources.Resources.control_stop_square
         Me.ToolStripMenuItem10.Name = "ToolStripMenuItem10"
         Me.ToolStripMenuItem10.Size = New System.Drawing.Size(219, 22)
         Me.ToolStripMenuItem10.Text = "Stop"
         '
         'ShutdownToolStripMenuItem
         '
-        Me.ShutdownToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.kill
+        Me.ShutdownToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.cross
         Me.ShutdownToolStripMenuItem.Name = "ShutdownToolStripMenuItem"
         Me.ShutdownToolStripMenuItem.Size = New System.Drawing.Size(219, 22)
         Me.ShutdownToolStripMenuItem.Text = "Shutdown"
@@ -1135,7 +1108,7 @@ Partial Class frmMain
         'ToolStripMenuItem11
         '
         Me.ToolStripMenuItem11.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToolStripMenuItem11.Image = CType(resources.GetObject("ToolStripMenuItem11.Image"), System.Drawing.Image)
+        Me.ToolStripMenuItem11.Image = Global.YAPM.My.Resources.Resources.control
         Me.ToolStripMenuItem11.Name = "ToolStripMenuItem11"
         Me.ToolStripMenuItem11.Size = New System.Drawing.Size(219, 22)
         Me.ToolStripMenuItem11.Text = "Start"
@@ -1172,21 +1145,21 @@ Partial Class frmMain
         '
         'ToolStripMenuItem20
         '
-        Me.ToolStripMenuItem20.Image = CType(resources.GetObject("ToolStripMenuItem20.Image"), System.Drawing.Image)
+        Me.ToolStripMenuItem20.Image = Global.YAPM.My.Resources.Resources.document_text
         Me.ToolStripMenuItem20.Name = "ToolStripMenuItem20"
         Me.ToolStripMenuItem20.Size = New System.Drawing.Size(219, 22)
         Me.ToolStripMenuItem20.Text = "File properties"
         '
         'ToolStripMenuItem21
         '
-        Me.ToolStripMenuItem21.Image = CType(resources.GetObject("ToolStripMenuItem21.Image"), System.Drawing.Image)
+        Me.ToolStripMenuItem21.Image = Global.YAPM.My.Resources.Resources.folder_open
         Me.ToolStripMenuItem21.Name = "ToolStripMenuItem21"
         Me.ToolStripMenuItem21.Size = New System.Drawing.Size(219, 22)
         Me.ToolStripMenuItem21.Text = "Open directory"
         '
         'FileDetailsToolStripMenuItem
         '
-        Me.FileDetailsToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.magnify16
+        Me.FileDetailsToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.magnifier
         Me.FileDetailsToolStripMenuItem.Name = "FileDetailsToolStripMenuItem"
         Me.FileDetailsToolStripMenuItem.Size = New System.Drawing.Size(219, 22)
         Me.FileDetailsToolStripMenuItem.Text = "File details"
@@ -1198,7 +1171,7 @@ Partial Class frmMain
         '
         'GoogleSearchToolStripMenuItem1
         '
-        Me.GoogleSearchToolStripMenuItem1.Image = Global.YAPM.My.Resources.Resources.ie7_16
+        Me.GoogleSearchToolStripMenuItem1.Image = Global.YAPM.My.Resources.Resources.globe
         Me.GoogleSearchToolStripMenuItem1.Name = "GoogleSearchToolStripMenuItem1"
         Me.GoogleSearchToolStripMenuItem1.Size = New System.Drawing.Size(219, 22)
         Me.GoogleSearchToolStripMenuItem1.Text = "Google search"
@@ -1219,12 +1192,12 @@ Partial Class frmMain
         '
         Me.imgServices.ImageStream = CType(resources.GetObject("imgServices.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.imgServices.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgServices.Images.SetKeyName(0, "service")
-        Me.imgServices.Images.SetKeyName(1, "ok")
-        Me.imgServices.Images.SetKeyName(2, "ko")
-        Me.imgServices.Images.SetKeyName(3, "key")
+        Me.imgServices.Images.SetKeyName(0, "ok")
+        Me.imgServices.Images.SetKeyName(1, "ko")
+        Me.imgServices.Images.SetKeyName(2, "key")
+        Me.imgServices.Images.SetKeyName(3, "thread")
         Me.imgServices.Images.SetKeyName(4, "noicon")
-        Me.imgServices.Images.SetKeyName(5, "thread")
+        Me.imgServices.Images.SetKeyName(5, "service")
         '
         'splitServices2
         '
@@ -1462,7 +1435,7 @@ Partial Class frmMain
         '
         'AboutYAPMToolStripMenuItem
         '
-        Me.AboutYAPMToolStripMenuItem.Image = CType(resources.GetObject("AboutYAPMToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.AboutYAPMToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.information_frame
         Me.AboutYAPMToolStripMenuItem.Name = "AboutYAPMToolStripMenuItem"
         Me.AboutYAPMToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
         Me.AboutYAPMToolStripMenuItem.Text = "About YAPM"
@@ -1480,7 +1453,7 @@ Partial Class frmMain
         '
         'ShowLogToolStripMenuItem
         '
-        Me.ShowLogToolStripMenuItem.Image = CType(resources.GetObject("ShowLogToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.ShowLogToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.document_text
         Me.ShowLogToolStripMenuItem.Name = "ShowLogToolStripMenuItem"
         Me.ShowLogToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
         Me.ShowLogToolStripMenuItem.Text = "Show log"
@@ -1664,7 +1637,6 @@ Partial Class frmMain
         Me.RBProcessDisplay.ButtonMoreVisible = False
         Me.RBProcessDisplay.Items.Add(Me.butProcessRerfresh)
         Me.RBProcessDisplay.Items.Add(Me.butProcessDisplayDetails)
-        Me.RBProcessDisplay.Items.Add(Me.butProcessPermuteLvTv)
         Me.RBProcessDisplay.Tag = Nothing
         Me.RBProcessDisplay.Text = "Display"
         '
@@ -1694,19 +1666,6 @@ Partial Class frmMain
         Me.butProcessDisplayDetails.ToolTipImage = Nothing
         Me.butProcessDisplayDetails.ToolTipTitle = Nothing
         '
-        'butProcessPermuteLvTv
-        '
-        Me.butProcessPermuteLvTv.AltKey = Nothing
-        Me.butProcessPermuteLvTv.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessPermuteLvTv.Image = Global.YAPM.My.Resources.Resources.tv2
-        Me.butProcessPermuteLvTv.SmallImage = CType(resources.GetObject("butProcessPermuteLvTv.SmallImage"), System.Drawing.Image)
-        Me.butProcessPermuteLvTv.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butProcessPermuteLvTv.Tag = Nothing
-        Me.butProcessPermuteLvTv.Text = "Listview"
-        Me.butProcessPermuteLvTv.ToolTip = Nothing
-        Me.butProcessPermuteLvTv.ToolTipImage = Nothing
-        Me.butProcessPermuteLvTv.ToolTipTitle = Nothing
-        '
         'RBProcessActions
         '
         Me.RBProcessActions.ButtonMoreEnabled = False
@@ -1717,7 +1676,6 @@ Partial Class frmMain
         Me.RBProcessActions.Items.Add(Me.butResumeProcess)
         Me.RBProcessActions.Items.Add(Me.butProcessOtherActions)
         Me.RBProcessActions.Items.Add(Me.butProcessShow)
-        Me.RBProcessActions.Items.Add(Me.butProcessMonitor)
         Me.RBProcessActions.Tag = Nothing
         Me.RBProcessActions.Text = "Common processes actions"
         '
@@ -1897,20 +1855,6 @@ Partial Class frmMain
         Me.butProcessShowAll.ToolTip = Nothing
         Me.butProcessShowAll.ToolTipImage = Nothing
         Me.butProcessShowAll.ToolTipTitle = Nothing
-        '
-        'butProcessMonitor
-        '
-        Me.butProcessMonitor.AltKey = Nothing
-        Me.butProcessMonitor.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessMonitor.Enabled = False
-        Me.butProcessMonitor.Image = CType(resources.GetObject("butProcessMonitor.Image"), System.Drawing.Image)
-        Me.butProcessMonitor.SmallImage = CType(resources.GetObject("butProcessMonitor.SmallImage"), System.Drawing.Image)
-        Me.butProcessMonitor.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butProcessMonitor.Tag = Nothing
-        Me.butProcessMonitor.Text = "Monitor"
-        Me.butProcessMonitor.ToolTip = Nothing
-        Me.butProcessMonitor.ToolTipImage = Nothing
-        Me.butProcessMonitor.ToolTipTitle = Nothing
         '
         'RBProcessPriority
         '
@@ -3204,7 +3148,6 @@ Partial Class frmMain
         Me.RBFileDelete.Enabled = False
         Me.RBFileDelete.Items.Add(Me.butMoveFileToTrash)
         Me.RBFileDelete.Items.Add(Me.butDeleteFile)
-        Me.RBFileDelete.Items.Add(Me.butShreddFile)
         Me.RBFileDelete.Tag = Nothing
         Me.RBFileDelete.Text = "Delete"
         '
@@ -3235,20 +3178,6 @@ Partial Class frmMain
         Me.butDeleteFile.ToolTip = Nothing
         Me.butDeleteFile.ToolTipImage = Nothing
         Me.butDeleteFile.ToolTipTitle = Nothing
-        '
-        'butShreddFile
-        '
-        Me.butShreddFile.AltKey = Nothing
-        Me.butShreddFile.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butShreddFile.Enabled = False
-        Me.butShreddFile.Image = CType(resources.GetObject("butShreddFile.Image"), System.Drawing.Image)
-        Me.butShreddFile.SmallImage = CType(resources.GetObject("butShreddFile.SmallImage"), System.Drawing.Image)
-        Me.butShreddFile.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butShreddFile.Tag = Nothing
-        Me.butShreddFile.Text = "Shredd"
-        Me.butShreddFile.ToolTip = Nothing
-        Me.butShreddFile.ToolTipImage = Nothing
-        Me.butShreddFile.ToolTipTitle = Nothing
         '
         'RBFileOnline
         '
@@ -4230,7 +4159,7 @@ Partial Class frmMain
         '
         'CloseToolStripMenuItem
         '
-        Me.CloseToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.kill
+        Me.CloseToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.cross
         Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
         Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(259, 22)
         Me.CloseToolStripMenuItem.Text = "Close item"
@@ -4239,11 +4168,11 @@ Partial Class frmMain
         '
         Me.imgSearch.ImageStream = CType(resources.GetObject("imgSearch.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.imgSearch.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgSearch.Images.SetKeyName(0, "service")
-        Me.imgSearch.Images.SetKeyName(1, "handle")
-        Me.imgSearch.Images.SetKeyName(2, "dll")
+        Me.imgSearch.Images.SetKeyName(0, "handle")
+        Me.imgSearch.Images.SetKeyName(1, "dll")
+        Me.imgSearch.Images.SetKeyName(2, "window")
         Me.imgSearch.Images.SetKeyName(3, "noicon")
-        Me.imgSearch.Images.SetKeyName(4, "window")
+        Me.imgSearch.Images.SetKeyName(4, "service")
         '
         'panelMain7
         '
@@ -4379,7 +4308,7 @@ Partial Class frmMain
         'ToolStripMenuItem22
         '
         Me.ToolStripMenuItem22.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToolStripMenuItem22.Image = Global.YAPM.My.Resources.Resources.kill
+        Me.ToolStripMenuItem22.Image = Global.YAPM.My.Resources.Resources.cross
         Me.ToolStripMenuItem22.Name = "ToolStripMenuItem22"
         Me.ToolStripMenuItem22.Size = New System.Drawing.Size(206, 22)
         Me.ToolStripMenuItem22.Text = "Close item"
@@ -4431,9 +4360,9 @@ Partial Class frmMain
         '
         Me.imgMonitor.ImageStream = CType(resources.GetObject("imgMonitor.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.imgMonitor.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgMonitor.Images.SetKeyName(0, "exe")
-        Me.imgMonitor.Images.SetKeyName(1, "down")
-        Me.imgMonitor.Images.SetKeyName(2, "sub")
+        Me.imgMonitor.Images.SetKeyName(0, "down")
+        Me.imgMonitor.Images.SetKeyName(1, "sub")
+        Me.imgMonitor.Images.SetKeyName(2, "exe")
         '
         'splitMonitor2
         '
@@ -4730,21 +4659,21 @@ Partial Class frmMain
         'ToolStripMenuItem23
         '
         Me.ToolStripMenuItem23.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToolStripMenuItem23.Image = Global.YAPM.My.Resources.Resources.kill
+        Me.ToolStripMenuItem23.Image = Global.YAPM.My.Resources.Resources.cross
         Me.ToolStripMenuItem23.Name = "ToolStripMenuItem23"
         Me.ToolStripMenuItem23.Size = New System.Drawing.Size(219, 22)
         Me.ToolStripMenuItem23.Text = "Terminate"
         '
         'ToolStripMenuItem24
         '
-        Me.ToolStripMenuItem24.Image = CType(resources.GetObject("ToolStripMenuItem24.Image"), System.Drawing.Image)
+        Me.ToolStripMenuItem24.Image = Global.YAPM.My.Resources.Resources.control_pause
         Me.ToolStripMenuItem24.Name = "ToolStripMenuItem24"
         Me.ToolStripMenuItem24.Size = New System.Drawing.Size(219, 22)
         Me.ToolStripMenuItem24.Text = "Suspend"
         '
         'ToolStripMenuItem25
         '
-        Me.ToolStripMenuItem25.Image = CType(resources.GetObject("ToolStripMenuItem25.Image"), System.Drawing.Image)
+        Me.ToolStripMenuItem25.Image = Global.YAPM.My.Resources.Resources.control
         Me.ToolStripMenuItem25.Name = "ToolStripMenuItem25"
         Me.ToolStripMenuItem25.Size = New System.Drawing.Size(219, 22)
         Me.ToolStripMenuItem25.Text = "Resume"
@@ -5148,7 +5077,7 @@ Partial Class frmMain
         '
         'ShowFileDetailsToolStripMenuItem
         '
-        Me.ShowFileDetailsToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.magnify16
+        Me.ShowFileDetailsToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.magnifier
         Me.ShowFileDetailsToolStripMenuItem.Name = "ShowFileDetailsToolStripMenuItem"
         Me.ShowFileDetailsToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
         Me.ShowFileDetailsToolStripMenuItem.Text = "Show file details"
@@ -5156,7 +5085,7 @@ Partial Class frmMain
         'ToolStripMenuItem36
         '
         Me.ToolStripMenuItem36.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToolStripMenuItem36.Image = Global.YAPM.My.Resources.Resources.kill
+        Me.ToolStripMenuItem36.Image = Global.YAPM.My.Resources.Resources.cross
         Me.ToolStripMenuItem36.Name = "ToolStripMenuItem36"
         Me.ToolStripMenuItem36.Size = New System.Drawing.Size(206, 22)
         Me.ToolStripMenuItem36.Text = "Unload module"
@@ -5168,7 +5097,7 @@ Partial Class frmMain
         '
         'GoogleSearchToolStripMenuItem2
         '
-        Me.GoogleSearchToolStripMenuItem2.Image = Global.YAPM.My.Resources.Resources.ie7_16
+        Me.GoogleSearchToolStripMenuItem2.Image = Global.YAPM.My.Resources.Resources.globe
         Me.GoogleSearchToolStripMenuItem2.Name = "GoogleSearchToolStripMenuItem2"
         Me.GoogleSearchToolStripMenuItem2.Size = New System.Drawing.Size(206, 22)
         Me.GoogleSearchToolStripMenuItem2.Text = "Google search"
@@ -5232,7 +5161,7 @@ Partial Class frmMain
         'EndTaskToolStripMenuItem
         '
         Me.EndTaskToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.EndTaskToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.kill
+        Me.EndTaskToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.cross
         Me.EndTaskToolStripMenuItem.Name = "EndTaskToolStripMenuItem"
         Me.EndTaskToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
         Me.EndTaskToolStripMenuItem.Text = "End task"
@@ -5419,6 +5348,20 @@ Partial Class frmMain
         '
         Me.timerTrayIcon.Enabled = True
         Me.timerTrayIcon.Interval = 1000
+        '
+        'butProcessPermuteLvTv
+        '
+        Me.butProcessPermuteLvTv.AltKey = Nothing
+        Me.butProcessPermuteLvTv.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessPermuteLvTv.Enabled = False
+        Me.butProcessPermuteLvTv.Image = Global.YAPM.My.Resources.Resources.tv2
+        Me.butProcessPermuteLvTv.SmallImage = CType(resources.GetObject("butProcessPermuteLvTv.SmallImage"), System.Drawing.Image)
+        Me.butProcessPermuteLvTv.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessPermuteLvTv.Tag = Nothing
+        Me.butProcessPermuteLvTv.Text = "Listview"
+        Me.butProcessPermuteLvTv.ToolTip = Nothing
+        Me.butProcessPermuteLvTv.ToolTipImage = Nothing
+        Me.butProcessPermuteLvTv.ToolTipTitle = Nothing
         '
         'frmMain
         '
@@ -5668,7 +5611,6 @@ Partial Class frmMain
     Friend WithEvents RBFileOther As System.Windows.Forms.RibbonPanel
     Friend WithEvents butMoveFileToTrash As System.Windows.Forms.RibbonButton
     Friend WithEvents butDeleteFile As System.Windows.Forms.RibbonButton
-    Friend WithEvents butShreddFile As System.Windows.Forms.RibbonButton
     Friend WithEvents butFileGoogleSearch As System.Windows.Forms.RibbonButton
     Friend WithEvents butFileProperties As System.Windows.Forms.RibbonButton
     Friend WithEvents butFileOpenDir As System.Windows.Forms.RibbonButton
@@ -5770,8 +5712,6 @@ Partial Class frmMain
     Friend WithEvents imgMonitor As System.Windows.Forms.ImageList
     Friend WithEvents txtMonitoringLog As System.Windows.Forms.TextBox
     Friend WithEvents timerMonitoring As System.Windows.Forms.Timer
-    Friend WithEvents butProcessMonitor As System.Windows.Forms.RibbonButton
-    Friend WithEvents MonitorToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents splitMonitor3 As System.Windows.Forms.SplitContainer
     Friend WithEvents splitMonitor4 As System.Windows.Forms.SplitContainer
     Friend WithEvents graphMonitor As YAPM.Graph
@@ -5935,9 +5875,7 @@ Partial Class frmMain
     Friend WithEvents butPreferences As System.Windows.Forms.RibbonButton
     Friend WithEvents butAlwaysDisplay As System.Windows.Forms.RibbonButton
     Friend WithEvents SplitContainerProcess As System.Windows.Forms.SplitContainer
-    Friend WithEvents imgProcessTab As System.Windows.Forms.ImageList
     Friend WithEvents butProcessDisplayDetails As System.Windows.Forms.RibbonButton
-    Friend WithEvents butProcessPermuteLvTv As System.Windows.Forms.RibbonButton
     Friend WithEvents SplitContainerTvLv As System.Windows.Forms.SplitContainer
     Friend WithEvents tvProc As System.Windows.Forms.TreeView
     Friend WithEvents c1 As System.Windows.Forms.ColumnHeader
@@ -6039,5 +5977,6 @@ Partial Class frmMain
     Friend WithEvents ToolStripMenuItem3 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripMenuItem4 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents AlwaysVisibleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents butProcessPermuteLvTv As System.Windows.Forms.RibbonButton
 
 End Class

@@ -22,6 +22,8 @@ Partial Class frmPreferences
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPreferences))
         Me.TabControl = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
@@ -42,6 +44,7 @@ Partial Class frmPreferences
         Me.cmdSave = New System.Windows.Forms.Button
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
+        Me.IMG = New System.Windows.Forms.ImageList(Me.components)
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -53,6 +56,7 @@ Partial Class frmPreferences
         '
         Me.TabControl.Controls.Add(Me.TabPage1)
         Me.TabControl.Controls.Add(Me.TabPage2)
+        Me.TabControl.ImageList = Me.IMG
         Me.TabControl.Location = New System.Drawing.Point(9, 9)
         Me.TabControl.Name = "TabControl"
         Me.TabControl.SelectedIndex = 0
@@ -63,10 +67,11 @@ Partial Class frmPreferences
         '
         Me.TabPage1.Controls.Add(Me.GroupBox2)
         Me.TabPage1.Controls.Add(Me.GroupBox1)
-        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage1.ImageIndex = 1
+        Me.TabPage1.Location = New System.Drawing.Point(4, 23)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(328, 227)
+        Me.TabPage1.Size = New System.Drawing.Size(328, 226)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "General"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -185,10 +190,11 @@ Partial Class frmPreferences
         Me.TabPage2.Controls.Add(Me.cmdDownload)
         Me.TabPage2.Controls.Add(Me.cmdCheckUpdate)
         Me.TabPage2.Controls.Add(Me.txtUpdate)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage2.ImageKey = "globe.png"
+        Me.TabPage2.Location = New System.Drawing.Point(4, 23)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(328, 227)
+        Me.TabPage2.Size = New System.Drawing.Size(328, 226)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Update"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -250,6 +256,13 @@ Partial Class frmPreferences
         Me.cmdDefaut.Text = "Default"
         Me.cmdDefaut.UseVisualStyleBackColor = True
         '
+        'IMG
+        '
+        Me.IMG.ImageStream = CType(resources.GetObject("IMG.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.IMG.TransparentColor = System.Drawing.Color.Transparent
+        Me.IMG.Images.SetKeyName(0, "globe.png")
+        Me.IMG.Images.SetKeyName(1, "application_text_image.png")
+        '
         'frmPreferences
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -301,4 +314,5 @@ Partial Class frmPreferences
     Friend WithEvents cmdDownload As System.Windows.Forms.Button
     Friend WithEvents cmdCheckUpdate As System.Windows.Forms.Button
     Friend WithEvents txtUpdate As System.Windows.Forms.TextBox
+    Friend WithEvents IMG As System.Windows.Forms.ImageList
 End Class

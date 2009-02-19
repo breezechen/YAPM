@@ -2138,7 +2138,6 @@ Public Class frmMain
         Me.RBFileOnline.Enabled = b
         Me.RBFileOther.Enabled = b
         Me.RBFileOthers.Enabled = b
-        Me.butShreddFile.Enabled = False    'TOCHANGE
     End Sub
 
     Private Sub butFileRelease_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileRelease.Click
@@ -2931,19 +2930,6 @@ Public Class frmMain
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
-    End Sub
-
-    Private Sub MonitorToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MonitorToolStripMenuItem.Click
-        Call Me.butProcessMonitor_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub butProcessMonitor_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessMonitor.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvProcess.SelectedItems
-            Dim frm As New frmAddProcessMonitor
-            frm._selProcess = CType(it.Tag, cProcess).Pid
-            frm.ShowDialog()
-        Next
     End Sub
 
     Private Sub ShowThreadsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowThreadsToolStripMenuItem.Click
@@ -4304,23 +4290,23 @@ Public Class frmMain
         refreshProcessList()
     End Sub
 
-    Private Sub butProcessPermuteLvTv_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessPermuteLvTv.Click
-        Static _oldProcessColumnWidth As Integer = 100
-        If butProcessPermuteLvTv.Text = "Listview" Then
-            Me.SplitContainerTvLv.Panel1Collapsed = True
-            'Me.lvProcess.ShowGroups = True
-            Me.lvProcess.Columns(0).Width = _oldProcessColumnWidth
-            butProcessPermuteLvTv.Image = My.Resources.tv2
-            butProcessPermuteLvTv.Text = "Treeview"
-        Else
-            Me.SplitContainerTvLv.Panel1Collapsed = False
-            ' Me.lvProcess.ShowGroups = False
-            _oldProcessColumnWidth = Me.lvProcess.Columns(0).Width
-            Me.lvProcess.Columns(0).Width = 0
-            butProcessPermuteLvTv.Text = "Listview"
-            butProcessPermuteLvTv.Image = My.Resources.lv3
-        End If
-    End Sub
+    'Private Sub butProcessPermuteLvTv_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessPermuteLvTv.Click
+    '    Static _oldProcessColumnWidth As Integer = 100
+    '    If butProcessPermuteLvTv.Text = "Listview" Then
+    '        Me.SplitContainerTvLv.Panel1Collapsed = True
+    '        'Me.lvProcess.ShowGroups = True
+    '        Me.lvProcess.Columns(0).Width = _oldProcessColumnWidth
+    '        butProcessPermuteLvTv.Image = My.Resources.tv2
+    '        butProcessPermuteLvTv.Text = "Treeview"
+    '    Else
+    '        Me.SplitContainerTvLv.Panel1Collapsed = False
+    '        ' Me.lvProcess.ShowGroups = False
+    '        _oldProcessColumnWidth = Me.lvProcess.Columns(0).Width
+    '        Me.lvProcess.Columns(0).Width = 0
+    '        butProcessPermuteLvTv.Text = "Listview"
+    '        butProcessPermuteLvTv.Image = My.Resources.lv3
+    '    End If
+    'End Sub
 
     Private Sub lvProcess_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvProcess.ColumnClick
         ' Get the new sorting column.

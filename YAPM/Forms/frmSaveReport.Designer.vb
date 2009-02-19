@@ -48,29 +48,35 @@ Partial Class frmSaveReport
         'cmdOK
         '
         Me.cmdOK.Enabled = False
-        Me.cmdOK.Location = New System.Drawing.Point(196, 62)
+        Me.cmdOK.Location = New System.Drawing.Point(223, 62)
         Me.cmdOK.Name = "cmdOK"
-        Me.cmdOK.Size = New System.Drawing.Size(75, 23)
+        Me.cmdOK.Size = New System.Drawing.Size(48, 23)
         Me.cmdOK.TabIndex = 3
         Me.cmdOK.Text = "OK"
         Me.cmdOK.UseVisualStyleBackColor = True
         '
         'cmdOpenReport
         '
+        Me.cmdOpenReport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.cmdOpenReport.Enabled = False
-        Me.cmdOpenReport.Location = New System.Drawing.Point(115, 62)
+        Me.cmdOpenReport.Image = Global.YAPM.My.Resources.Resources.folder_open_document
+        Me.cmdOpenReport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.cmdOpenReport.Location = New System.Drawing.Point(104, 62)
         Me.cmdOpenReport.Name = "cmdOpenReport"
-        Me.cmdOpenReport.Size = New System.Drawing.Size(75, 23)
+        Me.cmdOpenReport.Size = New System.Drawing.Size(113, 23)
         Me.cmdOpenReport.TabIndex = 4
         Me.cmdOpenReport.Text = "Open report"
         Me.cmdOpenReport.UseVisualStyleBackColor = True
         '
         'cmdGO
         '
+        Me.cmdGO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.cmdGO.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdGO.Image = Global.YAPM.My.Resources.Resources._096
+        Me.cmdGO.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdGO.Location = New System.Drawing.Point(12, 62)
         Me.cmdGO.Name = "cmdGO"
-        Me.cmdGO.Size = New System.Drawing.Size(97, 23)
+        Me.cmdGO.Size = New System.Drawing.Size(86, 23)
         Me.cmdGO.TabIndex = 5
         Me.cmdGO.Text = "Save"
         Me.cmdGO.UseVisualStyleBackColor = True

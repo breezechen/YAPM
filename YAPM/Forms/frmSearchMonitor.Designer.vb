@@ -60,7 +60,8 @@ Partial Class frmSearchMonitor
         '
         'Button1
         '
-        Me.Button1.Image = Global.YAPM.My.Resources.Resources.magnify16
+        Me.Button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.Button1.Image = Global.YAPM.My.Resources.Resources.magnifier
         Me.Button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.Button1.Location = New System.Drawing.Point(330, 6)
         Me.Button1.Name = "Button1"

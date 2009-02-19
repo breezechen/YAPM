@@ -138,7 +138,7 @@ Public Class frmProcessInfo
                         newIt.SubItems.Add(sub1)
                         newIt.SubItems.Add(sub2)
                         newIt.SubItems.Add(sub3)
-                        newIt.ImageIndex = 7
+                        newIt.ImageKey = "service"
 
                         Me.lvProcServices.Items.Add(newIt)
                     End If
@@ -985,7 +985,7 @@ Public Class frmProcessInfo
 
                                 If IO.File.Exists(fName) Then
                                     Dim img As System.Drawing.Icon = GetIcon(fName, True)
-                                    imgSearch.Images.Add(fName, img)
+                                    imgServices.Images.Add(fName, img)
                                     it.ImageKey = fName
                                 Else
                                     it.ImageKey = "noicon"

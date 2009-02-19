@@ -60,9 +60,37 @@ Namespace My.Resources
             End Set
         End Property
         
+        Friend ReadOnly Property _096() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("096", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property application() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("application", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property application_text_image() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("application_text_image", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property arrow_000_medium() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("arrow_000_medium", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property arrow_180_medium() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("arrow_180_medium", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -88,9 +116,65 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property control() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("control", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property control_pause() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("control_pause", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property control_stop_square() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("control_stop_square", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property copy16() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("copy16", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property cross() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("cross", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property cross_circle() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("cross_circle", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property cross_circle1() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("cross_circle1", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property document_text() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("document_text", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property document_text_image() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("document_text_image", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -112,6 +196,34 @@ Namespace My.Resources
         Friend ReadOnly Property folder_info() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("folder_info", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property folder_open() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("folder_open", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property folder_open_document() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("folder_open_document", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property gear() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("gear", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property globe() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("globe", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -144,6 +256,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property information_frame() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("information_frame", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property kill() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("kill", resourceCulture)
@@ -154,6 +273,13 @@ Namespace My.Resources
         Friend ReadOnly Property lv3() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("lv3", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property magnifier() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("magnifier", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -175,6 +301,13 @@ Namespace My.Resources
         Friend ReadOnly Property ok() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("ok", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property plus_circle() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("plus_circle", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
