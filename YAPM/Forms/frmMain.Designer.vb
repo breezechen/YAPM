@@ -149,6 +149,7 @@ Partial Class frmMain
         Me.ShowYAPMToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MinimizeToTrayToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.AboutYAPMToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.AlwaysVisibleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator
         Me.ShowLogToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowSystemInformatoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -525,7 +526,6 @@ Partial Class frmMain
         Me.menuNetwork = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem48 = New System.Windows.Forms.ToolStripMenuItem
         Me.timerTrayIcon = New System.Windows.Forms.Timer(Me.components)
-        Me.AlwaysVisibleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
         Me.SplitContainerProcess.SuspendLayout()
@@ -1443,7 +1443,7 @@ Partial Class frmMain
         '
         Me.mainMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowYAPMToolStripMenuItem, Me.MinimizeToTrayToolStripMenuItem, Me.AboutYAPMToolStripMenuItem, Me.AlwaysVisibleToolStripMenuItem, Me.ToolStripMenuItem3, Me.ShowLogToolStripMenuItem, Me.ShowSystemInformatoToolStripMenuItem, Me.WindowManagementToolStripMenuItem, Me.EmergencyHotkeysToolStripMenuItem, Me.FindAWindowToolStripMenuItem, Me.ToolStripMenuItem40, Me.EnableProcessRefreshingToolStripMenuItem, Me.RefreshServiceListToolStripMenuItem, Me.ToolStripMenuItem4, Me.ExitToolStripMenuItem})
         Me.mainMenu.Name = "mainMenu"
-        Me.mainMenu.Size = New System.Drawing.Size(185, 308)
+        Me.mainMenu.Size = New System.Drawing.Size(185, 286)
         '
         'ShowYAPMToolStripMenuItem
         '
@@ -1466,6 +1466,12 @@ Partial Class frmMain
         Me.AboutYAPMToolStripMenuItem.Name = "AboutYAPMToolStripMenuItem"
         Me.AboutYAPMToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
         Me.AboutYAPMToolStripMenuItem.Text = "About YAPM"
+        '
+        'AlwaysVisibleToolStripMenuItem
+        '
+        Me.AlwaysVisibleToolStripMenuItem.Name = "AlwaysVisibleToolStripMenuItem"
+        Me.AlwaysVisibleToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
+        Me.AlwaysVisibleToolStripMenuItem.Text = "Always visible"
         '
         'ToolStripMenuItem3
         '
@@ -5413,12 +5419,6 @@ Partial Class frmMain
         '
         Me.timerTrayIcon.Enabled = True
         Me.timerTrayIcon.Interval = 1000
-        '
-        'AlwaysVisibleToolStripMenuItem
-        '
-        Me.AlwaysVisibleToolStripMenuItem.Name = "AlwaysVisibleToolStripMenuItem"
-        Me.AlwaysVisibleToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
-        Me.AlwaysVisibleToolStripMenuItem.Text = "Always visible"
         '
         'frmMain
         '
