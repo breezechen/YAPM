@@ -4281,6 +4281,7 @@ Public Class frmMain
 
     Private Sub butAlwaysDisplay_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butAlwaysDisplay.Click
         Me.butAlwaysDisplay.Checked = Not (Me.butAlwaysDisplay.Checked)
+        Me.AlwaysVisibleToolStripMenuItem.Checked = Me.butAlwaysDisplay.Checked
         Me.TopMost = Me.butAlwaysDisplay.Checked
     End Sub
 
@@ -5368,5 +5369,11 @@ Public Class frmMain
     Private Sub RefreshServiceListToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshServiceListToolStripMenuItem.Click
         Me.RefreshServiceListToolStripMenuItem.Checked = Not (Me.RefreshServiceListToolStripMenuItem.Checked)
         Me.timerServices.Enabled = Me.RefreshServiceListToolStripMenuItem.Checked
+    End Sub
+
+    Private Sub AlwaysVisibleToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AlwaysVisibleToolStripMenuItem.Click
+        Me.AlwaysVisibleToolStripMenuItem.Checked = Not (Me.AlwaysVisibleToolStripMenuItem.Checked)
+        Me.butAlwaysDisplay.Checked = Me.AlwaysVisibleToolStripMenuItem.Checked
+        Me.TopMost = Me.AlwaysVisibleToolStripMenuItem.Checked
     End Sub
 End Class
