@@ -208,8 +208,7 @@ Public Class cShortcut
     ' Action to proceed when hotkeys pressed
     Public Enum HOTKEYS_ACTIONS As Integer
         KILL_FOREGROUND = 1
-        KILL_MAX_CPU_USAGE = 2
-        EXIT_YAPM = 3
+        EXIT_YAPM = 2
     End Enum
 
     ' ========================================
@@ -307,8 +306,6 @@ Public Class cShortcut
             Select Case _action
                 Case HOTKEYS_ACTIONS.KILL_FOREGROUND
                     Call cProcess.Kill(cWindow.GetForegroundAppPID)
-                Case HOTKEYS_ACTIONS.KILL_MAX_CPU_USAGE
-                    ''frmMain.Text = "KILL MAX CPU"
                 Case HOTKEYS_ACTIONS.EXIT_YAPM
                     frmMain.Close()
                 Case Else
