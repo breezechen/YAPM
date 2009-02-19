@@ -1548,7 +1548,7 @@ Public Class frmProcessInfo
         ' Add all non displayed handles (new handles)
         For Each p In proc
 
-            If p IsNot Nothing AndAlso p.isDisplayed = False AndAlso Len(p.Name) > 0 Then
+            If p IsNot Nothing AndAlso p.isDisplayed = False Then 'AndAlso Len(p.Name) > 0 Then
 
                 p.isDisplayed = True
 
