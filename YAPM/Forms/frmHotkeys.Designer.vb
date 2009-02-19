@@ -29,10 +29,25 @@ Partial Class frmHotkeys
         Me.ShowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.imgList = New System.Windows.Forms.ImageList(Me.components)
+        Me.gp = New System.Windows.Forms.GroupBox
+        Me.cbAction = New System.Windows.Forms.ComboBox
+        Me.Label3 = New System.Windows.Forms.Label
+        Me.cmdKO = New System.Windows.Forms.Button
+        Me.cmdAdd = New System.Windows.Forms.Button
+        Me.lblKey = New System.Windows.Forms.Label
+        Me.txtKey = New System.Windows.Forms.TextBox
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.chkAlt = New System.Windows.Forms.CheckBox
+        Me.chkShift = New System.Windows.Forms.CheckBox
+        Me.chkCtrl = New System.Windows.Forms.CheckBox
         Me.lv = New YAPM.DoubleBufferedLV
         Me.ColumnHeader52 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
+        Me.EnableToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.DisableToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
         Me.ContextMenuStrip1.SuspendLayout()
+        Me.gp.SuspendLayout()
         Me.SuspendLayout()
         '
         'timerRefresh
@@ -41,9 +56,9 @@ Partial Class frmHotkeys
         '
         'ContextMenuStrip1
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowToolStripMenuItem, Me.CloseToolStripMenuItem})
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowToolStripMenuItem, Me.CloseToolStripMenuItem, Me.ToolStripMenuItem1, Me.EnableToolStripMenuItem, Me.DisableToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(153, 70)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(153, 120)
         '
         'ShowToolStripMenuItem
         '
@@ -57,14 +72,139 @@ Partial Class frmHotkeys
         '
         Me.CloseToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.kill
         Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.CloseToolStripMenuItem.Text = "Remove"
         '
         'imgList
         '
-        Me.imgList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit
-        Me.imgList.ImageSize = New System.Drawing.Size(16, 16)
+        Me.imgList.ImageStream = CType(resources.GetObject("imgList.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.imgList.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgList.Images.SetKeyName(0, "default")
+        '
+        'gp
+        '
+        Me.gp.Controls.Add(Me.cbAction)
+        Me.gp.Controls.Add(Me.Label3)
+        Me.gp.Controls.Add(Me.cmdKO)
+        Me.gp.Controls.Add(Me.cmdAdd)
+        Me.gp.Controls.Add(Me.lblKey)
+        Me.gp.Controls.Add(Me.txtKey)
+        Me.gp.Controls.Add(Me.Label1)
+        Me.gp.Controls.Add(Me.chkAlt)
+        Me.gp.Controls.Add(Me.chkShift)
+        Me.gp.Controls.Add(Me.chkCtrl)
+        Me.gp.Location = New System.Drawing.Point(121, 130)
+        Me.gp.Name = "gp"
+        Me.gp.Size = New System.Drawing.Size(300, 140)
+        Me.gp.TabIndex = 6
+        Me.gp.TabStop = False
+        Me.gp.Text = "Add an emergency hotkey"
+        Me.gp.Visible = False
+        '
+        'cbAction
+        '
+        Me.cbAction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbAction.FormattingEnabled = True
+        Me.cbAction.Items.AddRange(New Object() {"Kill foreground application", "Kill process which uses the most CPU time", "Exit Yet Another Process Monitor"})
+        Me.cbAction.Location = New System.Drawing.Point(56, 111)
+        Me.cbAction.Name = "cbAction"
+        Me.cbAction.Size = New System.Drawing.Size(238, 21)
+        Me.cbAction.TabIndex = 9
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(10, 114)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(40, 13)
+        Me.Label3.TabIndex = 8
+        Me.Label3.Text = "Action"
+        '
+        'cmdKO
+        '
+        Me.cmdKO.Location = New System.Drawing.Point(239, 49)
+        Me.cmdKO.Name = "cmdKO"
+        Me.cmdKO.Size = New System.Drawing.Size(55, 23)
+        Me.cmdKO.TabIndex = 7
+        Me.cmdKO.Text = "Cancel"
+        Me.cmdKO.UseVisualStyleBackColor = True
+        '
+        'cmdAdd
+        '
+        Me.cmdAdd.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdAdd.Location = New System.Drawing.Point(239, 20)
+        Me.cmdAdd.Name = "cmdAdd"
+        Me.cmdAdd.Size = New System.Drawing.Size(55, 23)
+        Me.cmdAdd.TabIndex = 6
+        Me.cmdAdd.Text = "Add"
+        Me.cmdAdd.UseVisualStyleBackColor = True
+        '
+        'lblKey
+        '
+        Me.lblKey.AutoSize = True
+        Me.lblKey.Location = New System.Drawing.Point(113, 82)
+        Me.lblKey.Name = "lblKey"
+        Me.lblKey.Size = New System.Drawing.Size(62, 13)
+        Me.lblKey.TabIndex = 5
+        Me.lblKey.Text = "Press a key"
+        '
+        'txtKey
+        '
+        Me.txtKey.AcceptsReturn = True
+        Me.txtKey.AcceptsTab = True
+        Me.txtKey.BackColor = System.Drawing.Color.White
+        Me.txtKey.Location = New System.Drawing.Point(128, 47)
+        Me.txtKey.MaxLength = 0
+        Me.txtKey.Multiline = True
+        Me.txtKey.Name = "txtKey"
+        Me.txtKey.ReadOnly = True
+        Me.txtKey.Size = New System.Drawing.Size(32, 32)
+        Me.txtKey.TabIndex = 4
+        Me.txtKey.TabStop = False
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(83, 54)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(25, 25)
+        Me.Label1.TabIndex = 3
+        Me.Label1.Text = "+"
+        '
+        'chkAlt
+        '
+        Me.chkAlt.AutoSize = True
+        Me.chkAlt.Location = New System.Drawing.Point(12, 90)
+        Me.chkAlt.Name = "chkAlt"
+        Me.chkAlt.Size = New System.Drawing.Size(40, 17)
+        Me.chkAlt.TabIndex = 2
+        Me.chkAlt.Text = "Alt"
+        Me.chkAlt.UseVisualStyleBackColor = True
+        '
+        'chkShift
+        '
+        Me.chkShift.AutoSize = True
+        Me.chkShift.Checked = True
+        Me.chkShift.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkShift.Location = New System.Drawing.Point(13, 56)
+        Me.chkShift.Name = "chkShift"
+        Me.chkShift.Size = New System.Drawing.Size(50, 17)
+        Me.chkShift.TabIndex = 1
+        Me.chkShift.Text = "Shift"
+        Me.chkShift.UseVisualStyleBackColor = True
+        '
+        'chkCtrl
+        '
+        Me.chkCtrl.AutoSize = True
+        Me.chkCtrl.Checked = True
+        Me.chkCtrl.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkCtrl.Location = New System.Drawing.Point(12, 26)
+        Me.chkCtrl.Name = "chkCtrl"
+        Me.chkCtrl.Size = New System.Drawing.Size(65, 17)
+        Me.chkCtrl.TabIndex = 0
+        Me.chkCtrl.Text = "Control"
+        Me.chkCtrl.UseVisualStyleBackColor = True
         '
         'lv
         '
@@ -77,7 +217,7 @@ Partial Class frmHotkeys
         Me.lv.Location = New System.Drawing.Point(0, 0)
         Me.lv.Name = "lv"
         Me.lv.OverriddenDoubleBuffered = True
-        Me.lv.Size = New System.Drawing.Size(320, 287)
+        Me.lv.Size = New System.Drawing.Size(543, 401)
         Me.lv.SmallImageList = Me.imgList
         Me.lv.TabIndex = 5
         Me.lv.UseCompatibleStateImageBehavior = False
@@ -86,18 +226,36 @@ Partial Class frmHotkeys
         'ColumnHeader52
         '
         Me.ColumnHeader52.Text = "Hotkeys"
-        Me.ColumnHeader52.Width = 86
+        Me.ColumnHeader52.Width = 210
         '
         'ColumnHeader1
         '
         Me.ColumnHeader1.Text = "Action"
-        Me.ColumnHeader1.Width = 222
+        Me.ColumnHeader1.Width = 327
+        '
+        'EnableToolStripMenuItem
+        '
+        Me.EnableToolStripMenuItem.Name = "EnableToolStripMenuItem"
+        Me.EnableToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.EnableToolStripMenuItem.Text = "Enable"
+        '
+        'DisableToolStripMenuItem
+        '
+        Me.DisableToolStripMenuItem.Name = "DisableToolStripMenuItem"
+        Me.DisableToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.DisableToolStripMenuItem.Text = "Disable"
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(149, 6)
         '
         'frmHotkeys
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(320, 287)
+        Me.ClientSize = New System.Drawing.Size(543, 401)
+        Me.Controls.Add(Me.gp)
         Me.Controls.Add(Me.lv)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
@@ -107,6 +265,8 @@ Partial Class frmHotkeys
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Window list"
         Me.ContextMenuStrip1.ResumeLayout(False)
+        Me.gp.ResumeLayout(False)
+        Me.gp.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -118,4 +278,18 @@ Partial Class frmHotkeys
     Friend WithEvents CloseToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents imgList As System.Windows.Forms.ImageList
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents gp As System.Windows.Forms.GroupBox
+    Friend WithEvents txtKey As System.Windows.Forms.TextBox
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents chkAlt As System.Windows.Forms.CheckBox
+    Friend WithEvents chkShift As System.Windows.Forms.CheckBox
+    Friend WithEvents chkCtrl As System.Windows.Forms.CheckBox
+    Friend WithEvents cmdKO As System.Windows.Forms.Button
+    Friend WithEvents cmdAdd As System.Windows.Forms.Button
+    Friend WithEvents lblKey As System.Windows.Forms.Label
+    Friend WithEvents cbAction As System.Windows.Forms.ComboBox
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents EnableToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DisableToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

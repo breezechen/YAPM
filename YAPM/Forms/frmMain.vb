@@ -584,10 +584,6 @@ Public Class frmMain
             SetWindowTheme(Me.tvMonitor.Handle, "explorer", Nothing)
         End If
 
-        Dim ht As New cHotkeys.HotkeyStruct
-        ht.action = cHotkeys.HOTKEYS_ACTIONS.KILL_FOREGROUND
-        ht.keys = New cShortcut(Keys.A, 16, -1)
-        emHotkeys.AddHotkey(ht)
     End Sub
 
     Private Sub frmMain_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing

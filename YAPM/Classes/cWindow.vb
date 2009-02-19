@@ -534,7 +534,7 @@ Public Class cWindow
     ' Get small icon handle of window
     Private Function GetWindowSmallIcon() As IntPtr
         Dim res As IntPtr
-        res = SendMessage(_handle, WM_GETICON, ICON_SMALL, 0)
+        'res = SendMessage(_handle, WM_GETICON, ICON_SMALL, 0)
 
 
         If res = IntPtr.Zero Then
