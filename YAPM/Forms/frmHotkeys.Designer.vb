@@ -262,7 +262,7 @@ Partial Class frmHotkeys
         Me.Name = "frmHotkeys"
         Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "Window list"
+        Me.Text = "Emergency hotkeys list"
         Me.ContextMenuStrip1.ResumeLayout(False)
         Me.gp.ResumeLayout(False)
         Me.gp.PerformLayout()

@@ -113,7 +113,7 @@ Public Class cHotkeys
     Public ReadOnly Property ActionsAvailable() As String()
         Get
             Dim s() As String
-            ReDim s(2)
+            ReDim s(1)
             s(0) = "Kill foreground application"
             s(1) = "Exit YAPM"
             Return s

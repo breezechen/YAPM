@@ -42,7 +42,9 @@ Public Class frmHotkeys
 
         Me.cbAction.Items.Clear()
         For Each i As String In frmMain.emHotkeys.ActionsAvailable
-            Me.cbAction.Items.Add(i)
+            If i IsNot Nothing Then
+                Me.cbAction.Items.Add(i)
+            End If
         Next
 
         ' Read collection and add items
