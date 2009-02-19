@@ -802,8 +802,8 @@ Public Class frmMain
         Me.panelMain5.Width = Me.panelMain3.Width
         Me.pctFileBig.Left = MepanelInfonWidth - 35
         Me.pctFileSmall.Left = MepanelInfonWidth - 57
-        Me.cmdFileClipboard.Left = MepanelInfonWidth - 165
-        Me.txtFile.Width = MepanelInfonWidth - 175
+        Me.cmdFileClipboard.Left = MepanelInfonWidth - 195
+        Me.txtFile.Width = MepanelInfonWidth - 205
         Me.fileSplitContainer.Width = MepanelInfonWidth - 3
         Me.fileSplitContainer.Height = Me.panelMain5.Height - 42
         Me.lstFileString.Width = Me.fileSplitContainer.Width - Me.gpFileAttributes.Width - Me.gpFileDates.Width - 10
@@ -1598,47 +1598,6 @@ Public Class frmMain
         'Me.timerProcess.Enabled = Me.Visible
     End Sub
 
-    Private Sub butProcessOnlineDesc_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessOnlineDesc.Click
-        Dim it As ListViewItem
-        Static b As Boolean = False
-
-        If b Then
-            _stopOnlineRetrieving = True
-        Else
-            _stopOnlineRetrieving = False
-        End If
-
-        b = True
-        For Each it In Me.lvProcess.SelectedItems
-            Dim cp As cProcess = CType(it.Tag, cProcess)
-            My.Application.DoEvents()
-
-            If _stopOnlineRetrieving Then
-                b = False
-                Exit Sub
-            End If
-
-            Select Case mdlInternet.GetSecurityRisk(cp.Name)
-                Case SecurityRisk.Safe
-                    it.BackColor = Color.LightGreen
-                Case SecurityRisk.Caution1
-                    it.BackColor = Color.LightPink
-                Case SecurityRisk.Caution2
-                    it.BackColor = Color.Orange
-                Case SecurityRisk.Alert1
-                    it.BackColor = Color.Red
-                Case SecurityRisk.Alert2
-                    it.BackColor = Color.Red
-                Case SecurityRisk.Alert3
-                    it.BackColor = Color.Red
-            End Select
-
-        Next
-
-        b = False
-        _stopOnlineRetrieving = False
-    End Sub
-
     Private Sub butProcessGoogle_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessGoogle.Click
         Dim it As ListViewItem
         For Each it In Me.lvProcess.SelectedItems
@@ -1672,10 +1631,6 @@ Public Class frmMain
             Me.lvServices.SelectedItems.Clear()
             Me.lvServices.Groups(1).Items(0).Selected = True
         End If
-    End Sub
-
-    Private Sub GetSecurityRiskOnlineToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GetSecurityRiskOnlineToolStripMenuItem.Click
-        Call Me.butProcessOnlineDesc_Click(Nothing, Nothing)
     End Sub
 
     Private Sub GoogleSearchToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GoogleSearchToolStripMenuItem.Click
