@@ -1498,53 +1498,137 @@ Public Class frmProcessInfo
 
     End Sub
 
+    ' Display handles of process
     Private Sub ShowHandles()
-        ' Display handles of desired processes (handlesToRefresh)
-        Dim id As Integer = curProc.Pid
-        Dim i As Integer
-        Dim it As ListViewItem
 
-        frmMain.handles_Renamed.Refresh()
-        Me.lvHandles.Items.Clear()
-        Me.lvHandles.BeginUpdate()
+        Static passed As Integer = 4
+        Static firstRefresh As Boolean = True
 
-        For i = 0 To frmMain.handles_Renamed.Count - 1
-            With frmMain.handles_Renamed
-                If (.GetProcessID(i) = id) And (Len(.GetObjectName(i)) > 0) Then
-                    it = lvHandles.Items.Add(.GetNameInformation(i))
-                    it.SubItems.Add(.GetObjectName(i))
-                    it.SubItems.Add(CStr(.GetHandleCount(i)))
-                    it.SubItems.Add(CStr(.GetPointerCount(i)))
-                    it.SubItems.Add(CStr(.GetObjectCount(i)))
-                    it.SubItems.Add(CStr(.GetHandle(i)))
-                    it.SubItems.Add(CStr(id) & " -- " & cProcess.GetProcessName(id))
-                    it.Tag = .GetHandle(i)
-                    it.ForeColor = Color.FromArgb(30, 30, 30)
-                    Select Case it.Text
-                        Case "Key"
-                            it.ImageKey = "key"
-                        Case "File", "Directory"
-                            ' Have to retrieve the icon of file/directory
-                            Dim fName As String = .GetObjectName(i)
-                            If IO.File.Exists(fName) Or IO.Directory.Exists(fName) Then
-                                Dim img As System.Drawing.Icon = GetIcon2(fName, True)
-                                If img IsNot Nothing Then
-                                    imgServices.Images.Add(fName, img)
-                                    it.ImageKey = fName
-                                Else
-                                    it.ImageKey = "noicon"
-                                End If
+        ' Refresh only one time each 5 s
+        passed += 1
+        If passed < 5 Then Exit Sub
+        passed = 0
+
+        Dim p As cHandle
+        Dim proc() As cHandle
+        Dim lvi As ListViewItem
+        Dim x As Integer = 0
+        Dim exist As Boolean = False
+
+        Dim test As Integer = GetTickCount
+
+        ReDim proc(0)
+        cHandle.Enumerate(curProc.Pid, proc)
+
+        ' Refresh (or suppress) all handles displayed in listview
+        For Each lvi In Me.lvHandles.Items
+
+            ' Test if handle exist
+            Dim cP As cHandle = CType(lvi.Tag, cHandle)
+            For Each p In proc
+                If p IsNot Nothing AndAlso p.Handle = cP.Handle Then
+                    exist = True
+                    p.isDisplayed = True
+                    Exit For
+                End If
+            Next
+
+            If exist = False Then
+                ' Handle no longer exists
+                If CType(lvi.Tag, cHandle).IsKilledItem = False Then
+                    CType(lvi.Tag, cHandle).IsKilledItem = True
+                    lvi.BackColor = Me.DELETED_ITEM_COLOR
+                Else
+                    lvi.Remove()
+                End If
+            End If
+            exist = False
+        Next
+
+        ' Add all non displayed handles (new handles)
+        For Each p In proc
+
+            If p IsNot Nothing AndAlso p.isDisplayed = False AndAlso Len(p.Name) > 0 Then
+
+                p.isDisplayed = True
+
+                Dim it As New ListViewItem
+
+                Select Case p.Type
+                    Case "Key"
+                        it.ImageKey = "key"
+                    Case "File", "Directory"
+                        ' Have to retrieve the icon of file/directory
+                        Dim fName As String = p.Name
+                        If IO.File.Exists(fName) Or IO.Directory.Exists(fName) Then
+                            Dim img As System.Drawing.Icon = GetIcon2(fName, True)
+                            If img IsNot Nothing Then
+                                imgServices.Images.Add(fName, img)
+                                it.ImageKey = fName
                             Else
                                 it.ImageKey = "noicon"
                             End If
-                        Case Else
-                            it.ImageKey = "service"
-                    End Select
+                        Else
+                            it.ImageKey = "noicon"
+                        End If
+                    Case Else
+                        it.ImageKey = "service"
+                End Select
+
+                it.ForeColor = Color.FromArgb(30, 30, 30)
+                it.Group = lvHandles.Groups(0)
+
+                ' Add some subitems (columns.count-1 subitems)
+                Dim subS() As String
+                ReDim subS(Me.lvHandles.Columns.Count - 1)
+                For xxxx As Integer = 1 To subS.Length - 1
+                    subS(xxxx) = ""
+                Next
+                it.SubItems.AddRange(subS)
+
+                p.IsNewItem = Not (firstRefresh)
+                If p.IsNewItem Then
+                    it.BackColor = NEW_ITEM_COLOR
                 End If
-            End With
+
+                it.Tag = New cHandle(p)
+
+                lvHandles.Items.Add(it)
+
+            End If
         Next
 
-        Me.lvHandles.EndUpdate()
+        ' Here we retrieve some informations for all our displayed handles
+        For Each lvi In Me.lvHandles.Items
+
+            Dim cP As cHandle = CType(lvi.Tag, cHandle)
+
+            If cP.IsNewItem Then
+                cP.IsNewItem = False
+            Else
+                If Not (lvi.BackColor = Color.White) AndAlso Not (cP.IsKilledItem) Then
+                    lvi.BackColor = Color.White
+                End If
+            End If
+
+            Dim isub As ListViewItem.ListViewSubItem
+            Dim xxx As Integer = 0
+            For Each isub In lvi.SubItems
+                Dim colName As String = Me.lvHandles.Columns.Item(xxx).Text
+                colName = colName.Replace("< ", "")
+                colName = colName.Replace("> ", "")
+                isub.Text = cP.GetInformation(colName)
+                xxx += 1
+            Next
+
+        Next
+
+        firstRefresh = False
+        lvHandles.Sort()
+
+        test = GetTickCount - test
+
+        Trace.WriteLine("Handles refresh took " & CStr(test) & " ms")
 
     End Sub
 

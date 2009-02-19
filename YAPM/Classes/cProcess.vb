@@ -1033,8 +1033,8 @@ Public Class cProcess
     Public ReadOnly Property MainModule() As System.Diagnostics.ProcessModule
         Get
             If _mainMod Is Nothing Then
-                Dim gProc As Process = Process.GetProcessById(_pid)
                 Try
+                    Dim gProc As Process = Process.GetProcessById(_pid)
                     _mainMod = gProc.MainModule
                 Catch ex As Exception
                     _mainMod = Nothing

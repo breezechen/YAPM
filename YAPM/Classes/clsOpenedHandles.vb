@@ -739,7 +739,7 @@ Fin:
     '============================================
     'ProcessID : ID du processus dont on veut connaitre le nom d'exe (nom seulement)
     Public Function GetProcessNameFromPID(ByVal ProcessID As Integer) As String
-        Return Process.GetProcessById(ProcessID).ProcessName
+        Return cProcess.GetProcessName(ProcessID)
     End Function
 
     'constructeur
