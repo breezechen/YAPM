@@ -270,6 +270,7 @@ Partial Class frmMain
         Me.RBServiceAction = New System.Windows.Forms.RibbonPanel
         Me.butStopService = New System.Windows.Forms.RibbonButton
         Me.butStartService = New System.Windows.Forms.RibbonButton
+        Me.RibbonSeparator1 = New System.Windows.Forms.RibbonSeparator
         Me.butPauseService = New System.Windows.Forms.RibbonButton
         Me.butResumeService = New System.Windows.Forms.RibbonButton
         Me.butShutdownService = New System.Windows.Forms.RibbonButton
@@ -1613,7 +1614,7 @@ Partial Class frmMain
         '
         Me.butTaskEndTask.AltKey = Nothing
         Me.butTaskEndTask.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butTaskEndTask.Image = CType(resources.GetObject("butTaskEndTask.Image"), System.Drawing.Image)
+        Me.butTaskEndTask.Image = Global.YAPM.My.Resources.Resources.delete2
         Me.butTaskEndTask.SmallImage = CType(resources.GetObject("butTaskEndTask.SmallImage"), System.Drawing.Image)
         Me.butTaskEndTask.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butTaskEndTask.Tag = Nothing
@@ -1696,7 +1697,7 @@ Partial Class frmMain
         '
         Me.butKillProcess.AltKey = Nothing
         Me.butKillProcess.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butKillProcess.Image = CType(resources.GetObject("butKillProcess.Image"), System.Drawing.Image)
+        Me.butKillProcess.Image = Global.YAPM.My.Resources.Resources.delete2
         Me.butKillProcess.SmallImage = CType(resources.GetObject("butKillProcess.SmallImage"), System.Drawing.Image)
         Me.butKillProcess.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butKillProcess.Tag = Nothing
@@ -1709,7 +1710,7 @@ Partial Class frmMain
         '
         Me.butStopProcess.AltKey = Nothing
         Me.butStopProcess.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butStopProcess.Image = CType(resources.GetObject("butStopProcess.Image"), System.Drawing.Image)
+        Me.butStopProcess.Image = Global.YAPM.My.Resources.Resources.pause_32
         Me.butStopProcess.SmallImage = CType(resources.GetObject("butStopProcess.SmallImage"), System.Drawing.Image)
         Me.butStopProcess.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butStopProcess.Tag = Nothing
@@ -2125,7 +2126,7 @@ Partial Class frmMain
         '
         Me.butThreadKill.AltKey = Nothing
         Me.butThreadKill.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butThreadKill.Image = CType(resources.GetObject("butThreadKill.Image"), System.Drawing.Image)
+        Me.butThreadKill.Image = Global.YAPM.My.Resources.Resources.delete2
         Me.butThreadKill.SmallImage = CType(resources.GetObject("butThreadKill.SmallImage"), System.Drawing.Image)
         Me.butThreadKill.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butThreadKill.Tag = Nothing
@@ -2138,7 +2139,7 @@ Partial Class frmMain
         '
         Me.butThreadStop.AltKey = Nothing
         Me.butThreadStop.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butThreadStop.Image = CType(resources.GetObject("butThreadStop.Image"), System.Drawing.Image)
+        Me.butThreadStop.Image = Global.YAPM.My.Resources.Resources.stop32
         Me.butThreadStop.SmallImage = CType(resources.GetObject("butThreadStop.SmallImage"), System.Drawing.Image)
         Me.butThreadStop.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butThreadStop.Tag = Nothing
@@ -2637,7 +2638,7 @@ Partial Class frmMain
         '
         Me.butWindowClose.AltKey = Nothing
         Me.butWindowClose.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butWindowClose.Image = CType(resources.GetObject("butWindowClose.Image"), System.Drawing.Image)
+        Me.butWindowClose.Image = Global.YAPM.My.Resources.Resources.delete2
         Me.butWindowClose.SmallImage = CType(resources.GetObject("butWindowClose.SmallImage"), System.Drawing.Image)
         Me.butWindowClose.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butWindowClose.Tag = Nothing
@@ -2751,7 +2752,7 @@ Partial Class frmMain
         Me.butMonitorStop.AltKey = Nothing
         Me.butMonitorStop.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butMonitorStop.Enabled = False
-        Me.butMonitorStop.Image = CType(resources.GetObject("butMonitorStop.Image"), System.Drawing.Image)
+        Me.butMonitorStop.Image = Global.YAPM.My.Resources.Resources.stop32
         Me.butMonitorStop.SmallImage = CType(resources.GetObject("butMonitorStop.SmallImage"), System.Drawing.Image)
         Me.butMonitorStop.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butMonitorStop.Tag = Nothing
@@ -2820,6 +2821,7 @@ Partial Class frmMain
         Me.RBServiceAction.ButtonMoreVisible = False
         Me.RBServiceAction.Items.Add(Me.butStopService)
         Me.RBServiceAction.Items.Add(Me.butStartService)
+        Me.RBServiceAction.Items.Add(Me.RibbonSeparator1)
         Me.RBServiceAction.Items.Add(Me.butPauseService)
         Me.RBServiceAction.Items.Add(Me.butResumeService)
         Me.RBServiceAction.Items.Add(Me.butShutdownService)
@@ -2830,7 +2832,7 @@ Partial Class frmMain
         '
         Me.butStopService.AltKey = Nothing
         Me.butStopService.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butStopService.Image = CType(resources.GetObject("butStopService.Image"), System.Drawing.Image)
+        Me.butStopService.Image = Global.YAPM.My.Resources.Resources.stop32
         Me.butStopService.SmallImage = CType(resources.GetObject("butStopService.SmallImage"), System.Drawing.Image)
         Me.butStopService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butStopService.Tag = Nothing
@@ -2852,11 +2854,21 @@ Partial Class frmMain
         Me.butStartService.ToolTipImage = Nothing
         Me.butStartService.ToolTipTitle = Nothing
         '
+        'RibbonSeparator1
+        '
+        Me.RibbonSeparator1.AltKey = Nothing
+        Me.RibbonSeparator1.Image = Nothing
+        Me.RibbonSeparator1.Tag = Nothing
+        Me.RibbonSeparator1.Text = Nothing
+        Me.RibbonSeparator1.ToolTip = Nothing
+        Me.RibbonSeparator1.ToolTipImage = Nothing
+        Me.RibbonSeparator1.ToolTipTitle = Nothing
+        '
         'butPauseService
         '
         Me.butPauseService.AltKey = Nothing
         Me.butPauseService.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butPauseService.Image = CType(resources.GetObject("butPauseService.Image"), System.Drawing.Image)
+        Me.butPauseService.Image = Global.YAPM.My.Resources.Resources.pause_32
         Me.butPauseService.SmallImage = CType(resources.GetObject("butPauseService.SmallImage"), System.Drawing.Image)
         Me.butPauseService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butPauseService.Tag = Nothing
@@ -2882,7 +2894,7 @@ Partial Class frmMain
         '
         Me.butShutdownService.AltKey = Nothing
         Me.butShutdownService.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butShutdownService.Image = CType(resources.GetObject("butShutdownService.Image"), System.Drawing.Image)
+        Me.butShutdownService.Image = Global.YAPM.My.Resources.Resources.delete2
         Me.butShutdownService.SmallImage = CType(resources.GetObject("butShutdownService.SmallImage"), System.Drawing.Image)
         Me.butShutdownService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butShutdownService.Tag = Nothing
@@ -5978,5 +5990,6 @@ Partial Class frmMain
     Friend WithEvents ToolStripMenuItem4 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents AlwaysVisibleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents butProcessPermuteLvTv As System.Windows.Forms.RibbonButton
+    Friend WithEvents RibbonSeparator1 As System.Windows.Forms.RibbonSeparator
 
 End Class

@@ -233,16 +233,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\application.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\help.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\process.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\business_user_add.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\cDownload.vb" />
@@ -421,6 +415,13 @@
     <None Include="Misc\ok.gif" />
     <None Include="Misc\close.gif" />
     <None Include="Misc\black.ico" />
+    <None Include="Misc\play322.gif" />
+    <None Include="Misc\play32.gif" />
+    <None Include="Misc\pause32.gif" />
+    <None Include="Misc\pause32.png" />
+    <None Include="Misc\play32.png" />
+    <None Include="Misc\stop32.png" />
+    <None Include="Misc\delete2.gif" />
     <Content Include="process.ico" />
     <Content Include="process_custom.ico" />
     <None Include="Resources\information_frame.png" />

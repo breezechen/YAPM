@@ -151,6 +151,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property delete2() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("delete2", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property document_text() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("document_text", resourceCulture)
@@ -291,6 +298,20 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property pause_32() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("pause_32", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property play32() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("play32", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property plus_circle() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("plus_circle", resourceCulture)
@@ -308,6 +329,13 @@ Namespace My.Resources
         Friend ReadOnly Property showDetails() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("showDetails", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property stop32() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("stop32", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
