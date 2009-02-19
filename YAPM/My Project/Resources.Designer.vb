@@ -62,14 +62,7 @@ Namespace My.Resources
         
         Friend ReadOnly Property _096() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("096", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        Friend ReadOnly Property application() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("application", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("_096", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -99,13 +92,6 @@ Namespace My.Resources
             Get
                 Dim obj As Object = ResourceManager.GetObject("black", resourceCulture)
                 Return CType(obj,System.Drawing.Icon)
-            End Get
-        End Property
-        
-        Friend ReadOnly Property business_user_add() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("business_user_add", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
         
