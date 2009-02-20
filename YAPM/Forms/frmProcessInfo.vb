@@ -755,8 +755,9 @@ Public Class frmProcessInfo
     End Sub
     ' Return desired item
     Private Function GetListItem(ByVal x As Integer) As ListViewItem
-        Dim it As New ListViewItem(__lRes(x).ToString)
+        Dim it As New ListViewItem("0x" & __lRes(x).ToString("x"))
         it.SubItems.Add(__sRes(x))
+        it.Tag = __lRes(x)
         Return it
     End Function
 
@@ -1672,28 +1673,6 @@ Public Class frmProcessInfo
         Next
     End Sub
 
-    Private Sub ViewMemoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ViewMemoryToolStripMenuItem.Click
-        '' TOCHANGE
-        'For Each it As ListViewItem In Me.lvModules.SelectedItems
-        '    Dim add As Integer = CType(it.Tag, cModule).BaseAddress
-
-        '    For Each it2 As ListViewItem In Me.lvProcMem.Items
-        '        Dim reg As DoubleInteger = CType(it2.Tag, DoubleInteger)
-
-        '        If reg.a <= add AndAlso add <= (reg.a + reg.b) Then
-        '            Dim frm As New frmHexEditor
-        '            Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.a, reg.b)
-        '            frm.SetPidAndRegion(curProc.Pid, regio)
-        '            frm._hex.NavigateToOffset(add)
-        '            frm.Show()
-        '            Exit For
-        '        End If
-        '    Next
-
-        'Next
-
-    End Sub
-
     Private Sub ToolStripMenuItem23_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem23.Click
         Dim it As ListViewItem
         For Each it In Me.lvThreads.SelectedItems
@@ -2186,5 +2165,51 @@ Public Class frmProcessInfo
 
     Private Sub ShowUnnamedWindowsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowUnnamedWindowsToolStripMenuItem.Click
         ShowUnnamedWindowsToolStripMenuItem.Checked = Not (ShowUnnamedWindowsToolStripMenuItem.Checked)
+    End Sub
+
+    Private Sub lvProcString_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcString.MouseDown
+        menuViewMemoryString.Enabled = optProcStringMemory.Checked
+    End Sub
+
+    Private Sub menuViewMemoryString_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuViewMemoryString.Click
+
+        If Me.lvProcString.SelectedIndices.Count = 0 Then Exit Sub
+
+        Dim add As Integer = CInt(Me.lvProcString.Items(Me.lvProcString.SelectedIndices(0)).Tag)
+        For Each it As ListViewItem In Me.lvProcMem.Items
+            Dim reg As cMemRegion = CType(it.Tag, cMemRegion)
+
+            If reg.BaseAddress <= add AndAlso add <= (reg.BaseAddress + reg.RegionSize) Then
+                Dim frm As New frmHexEditor
+                Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.BaseAddress, reg.RegionSize)
+                frm.SetPidAndRegion(curProc.Pid, regio)
+                frm._hex.NavigateToOffset(CInt((add - regio.BeginningAddress) / 16))
+                frm.Show()
+                Exit For
+            End If
+        Next
+
+    End Sub
+
+    Private Sub ViewMemoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ViewMemoryToolStripMenuItem.Click
+
+        For Each it As ListViewItem In Me.lvModules.SelectedItems
+            Dim add As Integer = CType(it.Tag, cModule).BaseAddress
+
+            For Each it2 As ListViewItem In Me.lvProcMem.Items
+                Dim reg As cMemRegion = CType(it2.Tag, cMemRegion)
+
+                If reg.BaseAddress <= add AndAlso add < (reg.BaseAddress + reg.RegionSize) Then
+                    Dim frm As New frmHexEditor
+                    Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.BaseAddress, reg.RegionSize)
+                    frm.SetPidAndRegion(curProc.Pid, regio)
+                    'frm._hex.NavigateToOffset(CInt((add - regio.BeginningAddress) / 16) - 1)
+                    frm.Show()
+                    Exit For
+                End If
+            Next
+
+        Next
+
     End Sub
 End Class

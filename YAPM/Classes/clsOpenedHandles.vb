@@ -341,6 +341,9 @@ Public Class clsOpenedHandles
     'numéro de type des objets de type "File"
     Dim m_ObjectTypeNumber As Long
 
+    ' Vista or later ?
+    Dim _isVista As Boolean = False
+
     '==========================================================================================
     'pour envoyer une requête au driver
     '==========================================================================================
@@ -359,6 +362,8 @@ Public Class clsOpenedHandles
     Private Const FILE_SHARE_WRITE As Integer = &H2
     'ouvrir seulement si existant
     Private Const OPEN_EXISTING As Integer = 3
+    ' Version of Windows Vista
+    Private Const VISTA_MAJOR_VERSION As Integer = 6
 
 
     'requête pour obtenir le nom d'un handle
@@ -642,8 +647,9 @@ Public Class clsOpenedHandles
             ' If it's a process, we retrieve processID from handle
             Dim i As Integer = GetProcessIdApi(hHandle)
             m_ObjectName = GetProcessNameFromPID(i) & " (" & CStr(i) & ")"
-        ElseIf m_ObjectTypeName = "Thread" Then
+        ElseIf m_ObjectTypeName = "Thread" AndAlso _isVista Then
             ' Have to get thread ID, and then, Process ID
+            ' These functions are only present in a VISTA OS
             Dim i As Integer = GetThreadId(hHandle)
             Dim i2 As Integer = GetProcessIdOfThread(hHandle)
             m_ObjectName = GetProcessNameFromPID(i2) & " (" & CStr(i2) & ")" & "  - " & CStr(i)
@@ -794,6 +800,7 @@ Fin:
 
     Public Sub New()
         MyBase.New()
+        _isVista = Environment.OSVersion.Platform = PlatformID.Win32NT AndAlso Environment.OSVersion.Version.Major >= VISTA_MAJOR_VERSION
         Class_Initialize_Renamed()
     End Sub
 

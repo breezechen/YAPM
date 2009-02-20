@@ -492,7 +492,7 @@ Public Class cModule
                 res = _path
 
             Case "Address"
-                res = "0x" & Me.BaseAddress.ToString '("x")
+                res = "0x" & Me.BaseAddress.ToString("x")
 
         End Select
 

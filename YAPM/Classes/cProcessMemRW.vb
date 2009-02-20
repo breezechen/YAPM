@@ -259,15 +259,10 @@ Public Class cProcessMemRW
 
             If lRet = lLenMBI Then
 
-                If (mbi.lType = MEM_PRIVATE) And (mbi.State = MEM_COMMIT) Then
-                    ' Then used by process
-
-                    If mbi.RegionSize > 0 Then
-                        ' Here is a region
-                        ReDim Preserve regions(UBound(regions) + 1)
-                        regions(UBound(regions)) = mbi
-                    End If
-
+                If mbi.RegionSize > 0 Then
+                    ' Here is a region
+                    ReDim Preserve regions(UBound(regions) + 1)
+                    regions(UBound(regions) - 1) = mbi
                 End If
 
                 ' Goes on
@@ -281,6 +276,9 @@ Public Class cProcessMemRW
         Loop
 
         Call CloseHandle(lHandle)
+
+        ' Remove last item
+        ReDim Preserve regions(UBound(regions) - 1)
     End Sub
     Public Sub RetrieveMemRegions(ByRef lBaseAdress() As Integer, _
         ByRef lRegionSize() As Integer)

@@ -30,6 +30,7 @@ Public Class frmHexEditor
     Public Sub SetPidAndRegion(ByVal pid As Integer, ByVal region As MemoryHexEditor.control.MemoryRegion)
         _pid = pid
         _region = region
+        _hex.NewProc(_region, _pid)
     End Sub
 
     Private Sub frmHexEditor_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -42,6 +43,5 @@ Public Class frmHexEditor
 
         Me.Controls.Add(_hex)
 
-        _hex.NewProc(_region, _pid)
     End Sub
 End Class
