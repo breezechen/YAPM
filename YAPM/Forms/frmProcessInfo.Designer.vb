@@ -235,6 +235,7 @@ Partial Class frmProcessInfo
         Me.ColumnHeader42 = New System.Windows.Forms.ColumnHeader
         Me.menuWindow = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ShowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ShowUnnamedWindowsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.HideToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator
@@ -258,8 +259,9 @@ Partial Class frmProcessInfo
         Me.ColumnHeader27 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader28 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader15 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader16 = New System.Windows.Forms.ColumnHeader
         Me.menuHandles = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ShowUnnamedHandlesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStripMenuItem22 = New System.Windows.Forms.ToolStripMenuItem
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerProcPerf = New System.Windows.Forms.Timer(Me.components)
@@ -2217,9 +2219,9 @@ Partial Class frmProcessInfo
         '
         'menuWindow
         '
-        Me.menuWindow.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowToolStripMenuItem, Me.HideToolStripMenuItem, Me.CloseToolStripMenuItem, Me.ToolStripMenuItem2, Me.BringToFrontToolStripMenuItem, Me.DoNotBringToFrontToolStripMenuItem, Me.SetAsActiveWindowToolStripMenuItem, Me.SetAsForegroundWindowToolStripMenuItem, Me.ToolStripMenuItem3, Me.MinimizeToolStripMenuItem, Me.MaximizeToolStripMenuItem, Me.PositionSizeToolStripMenuItem, Me.ToolStripMenuItem4, Me.EnableToolStripMenuItem, Me.DisableToolStripMenuItem1})
+        Me.menuWindow.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowToolStripMenuItem, Me.ShowUnnamedWindowsToolStripMenuItem, Me.HideToolStripMenuItem, Me.CloseToolStripMenuItem, Me.ToolStripMenuItem2, Me.BringToFrontToolStripMenuItem, Me.DoNotBringToFrontToolStripMenuItem, Me.SetAsActiveWindowToolStripMenuItem, Me.SetAsForegroundWindowToolStripMenuItem, Me.ToolStripMenuItem3, Me.MinimizeToolStripMenuItem, Me.MaximizeToolStripMenuItem, Me.PositionSizeToolStripMenuItem, Me.ToolStripMenuItem4, Me.EnableToolStripMenuItem, Me.DisableToolStripMenuItem1})
         Me.menuWindow.Name = "menuProc"
-        Me.menuWindow.Size = New System.Drawing.Size(213, 286)
+        Me.menuWindow.Size = New System.Drawing.Size(213, 330)
         '
         'ShowToolStripMenuItem
         '
@@ -2228,6 +2230,14 @@ Partial Class frmProcessInfo
         Me.ShowToolStripMenuItem.Name = "ShowToolStripMenuItem"
         Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(212, 22)
         Me.ShowToolStripMenuItem.Text = "Show"
+        '
+        'ShowUnnamedWindowsToolStripMenuItem
+        '
+        Me.ShowUnnamedWindowsToolStripMenuItem.Checked = True
+        Me.ShowUnnamedWindowsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ShowUnnamedWindowsToolStripMenuItem.Name = "ShowUnnamedWindowsToolStripMenuItem"
+        Me.ShowUnnamedWindowsToolStripMenuItem.Size = New System.Drawing.Size(212, 22)
+        Me.ShowUnnamedWindowsToolStripMenuItem.Text = "Show unnamed windows"
         '
         'HideToolStripMenuItem
         '
@@ -2332,7 +2342,7 @@ Partial Class frmProcessInfo
         'lvHandles
         '
         Me.lvHandles.AllowColumnReorder = True
-        Me.lvHandles.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader24, Me.ColumnHeader25, Me.ColumnHeader26, Me.ColumnHeader27, Me.ColumnHeader28, Me.ColumnHeader15, Me.ColumnHeader16})
+        Me.lvHandles.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader24, Me.ColumnHeader25, Me.ColumnHeader26, Me.ColumnHeader27, Me.ColumnHeader28, Me.ColumnHeader15})
         Me.lvHandles.ContextMenuStrip = Me.menuHandles
         Me.lvHandles.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvHandles.FullRowSelect = True
@@ -2381,23 +2391,29 @@ Partial Class frmProcessInfo
         Me.ColumnHeader15.Text = "Handle"
         Me.ColumnHeader15.Width = 70
         '
-        'ColumnHeader16
-        '
-        Me.ColumnHeader16.Text = "Process"
-        Me.ColumnHeader16.Width = 170
-        '
         'menuHandles
         '
-        Me.menuHandles.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem22})
+        Me.menuHandles.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowUnnamedHandlesToolStripMenuItem, Me.ToolStripMenuItem5, Me.ToolStripMenuItem22})
         Me.menuHandles.Name = "menuProc"
-        Me.menuHandles.Size = New System.Drawing.Size(133, 26)
+        Me.menuHandles.Size = New System.Drawing.Size(202, 54)
+        '
+        'ShowUnnamedHandlesToolStripMenuItem
+        '
+        Me.ShowUnnamedHandlesToolStripMenuItem.Name = "ShowUnnamedHandlesToolStripMenuItem"
+        Me.ShowUnnamedHandlesToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+        Me.ShowUnnamedHandlesToolStripMenuItem.Text = "Show unnamed handles"
+        '
+        'ToolStripMenuItem5
+        '
+        Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
+        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(198, 6)
         '
         'ToolStripMenuItem22
         '
         Me.ToolStripMenuItem22.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ToolStripMenuItem22.Image = Global.YAPM.My.Resources.Resources.cross
         Me.ToolStripMenuItem22.Name = "ToolStripMenuItem22"
-        Me.ToolStripMenuItem22.Size = New System.Drawing.Size(132, 22)
+        Me.ToolStripMenuItem22.Size = New System.Drawing.Size(201, 22)
         Me.ToolStripMenuItem22.Text = "Close item"
         '
         'imgProcessTab
@@ -2715,7 +2731,6 @@ Partial Class frmProcessInfo
     Friend WithEvents ColumnHeader27 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader28 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader15 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader16 As System.Windows.Forms.ColumnHeader
     Friend WithEvents menuHandles As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem22 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
@@ -2741,4 +2756,7 @@ Partial Class frmProcessInfo
     Friend WithEvents lblAverageCPUusage As System.Windows.Forms.Label
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents imgMain As System.Windows.Forms.ImageList
+    Friend WithEvents ShowUnnamedHandlesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem5 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ShowUnnamedWindowsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

@@ -873,14 +873,6 @@ Public Class frmProcessInfo
         Next
     End Sub
 
-    Private Sub ToolStripMenuItem16_Click(ByVal sender As Object, ByVal e As System.EventArgs)
-        My.Computer.Clipboard.SetImage(Me.pctBigIcon.Image)
-    End Sub
-
-    Private Sub ToolStripMenuItem17_Click(ByVal sender As Object, ByVal e As System.EventArgs)
-        My.Computer.Clipboard.SetImage(Me.pctSmallIcon.Image)
-    End Sub
-
     Private Sub ToolStripMenuItem43_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem43.Click
         ' Select services associated to selected process
         Dim it As ListViewItem
@@ -1379,6 +1371,8 @@ Public Class frmProcessInfo
 
         Static firstRefresh As Boolean = True
 
+        Dim bb As Boolean = ShowUnnamedWindowsToolStripMenuItem.Checked
+
         Dim p As cWindow
         Dim proc() As cWindow
         Dim lvi As ListViewItem
@@ -1406,7 +1400,7 @@ Public Class frmProcessInfo
                 End If
             Next
 
-            If exist = False Then
+            If exist = False OrElse (bb = False And Len(lvi.SubItems(2).Text) = 0) Then
                 ' window no longer exists
                 If CType(lvi.Tag, cWindow).IsKilledItem = False Then
                     CType(lvi.Tag, cWindow).IsKilledItem = True
@@ -1422,45 +1416,47 @@ Public Class frmProcessInfo
         For Each p In proc
 
             If p IsNot Nothing AndAlso p.isDisplayed = False Then
+                If bb Or (bb = False AndAlso Len(p.Caption) > 0) Then
 
-                p.isDisplayed = True
+                    p.isDisplayed = True
 
-                ' Get the window name
-                Dim it As New ListViewItem
+                    ' Get the window name
+                    Dim it As New ListViewItem
 
-                it.Text = CStr(p.Handle)
+                    it.Text = CStr(p.Handle)
 
-                ' Add icon
-                it.ForeColor = Color.FromArgb(30, 30, 30)
-                it.Group = lvWindows.Groups(0)
+                    ' Add icon
+                    it.ForeColor = Color.FromArgb(30, 30, 30)
+                    it.Group = lvWindows.Groups(0)
 
-                ' Add some subitems (columns.count-1 subitems)
-                Dim subS() As String
-                ReDim subS(Me.lvWindows.Columns.Count - 1)
-                For xxxx As Integer = 1 To subS.Length - 1
-                    subS(xxxx) = ""
-                Next
-                it.SubItems.AddRange(subS)
+                    ' Add some subitems (columns.count-1 subitems)
+                    Dim subS() As String
+                    ReDim subS(Me.lvWindows.Columns.Count - 1)
+                    For xxxx As Integer = 1 To subS.Length - 1
+                        subS(xxxx) = ""
+                    Next
+                    it.SubItems.AddRange(subS)
 
-                ' Choose color
-                Dim col As Color = Color.White
+                    ' Choose color
+                    Dim col As Color = Color.White
 
-                p.IsNewItem = Not (firstRefresh)
-                If p.IsNewItem Then
-                    it.BackColor = NEW_ITEM_COLOR
+                    p.IsNewItem = Not (firstRefresh)
+                    If p.IsNewItem Then
+                        it.BackColor = NEW_ITEM_COLOR
+                    End If
+
+                    Try
+                        Dim key As String = CStr(p.ParentProcessId) & "|" & CStr(p.Handle)
+                        Me.imgWindows.Images.Add(key, p.SmallIcon)
+                        it.ImageKey = key
+                    Catch ex As Exception
+                        it.ImageKey = "noIcon"
+                    End Try
+
+                    it.Tag = New cWindow(p)
+                    lvWindows.Items.Add(it)
+
                 End If
-
-                Try
-                    Dim key As String = CStr(p.ParentProcessId) & "|" & CStr(p.Handle)
-                    Me.imgWindows.Images.Add(key, p.SmallIcon)
-                    it.ImageKey = key
-                Catch ex As Exception
-                    it.ImageKey = "noIcon"
-                End Try
-
-                it.Tag = New cWindow(p)
-                lvWindows.Items.Add(it)
-
             End If
         Next
 
@@ -1501,13 +1497,13 @@ Public Class frmProcessInfo
     ' Display handles of process
     Private Sub ShowHandles()
 
-        Static passed As Integer = 4
+        'Static passed As Integer = 4
         Static firstRefresh As Boolean = True
 
-        ' Refresh only one time each 5 s
-        passed += 1
-        If passed < 5 Then Exit Sub
-        passed = 0
+        ' Refresh only one time each 3 s
+        'passed += 1
+        'If passed < 3 Then Exit Sub
+        'passed = 0
 
         Dim p As cHandle
         Dim proc() As cHandle
@@ -1519,6 +1515,8 @@ Public Class frmProcessInfo
 
         ReDim proc(0)
         cHandle.Enumerate(curProc.Pid, proc)
+        Trace.WriteLine("---" & CStr(GetTickCount - test))
+        Dim bb As Boolean = ShowUnnamedHandlesToolStripMenuItem.Checked
 
         ' Refresh (or suppress) all handles displayed in listview
         For Each lvi In Me.lvHandles.Items
@@ -1533,7 +1531,7 @@ Public Class frmProcessInfo
                 End If
             Next
 
-            If exist = False Then
+            If exist = False OrElse (bb = False And Len(lvi.SubItems(1).Text) = 0) Then
                 ' Handle no longer exists
                 If CType(lvi.Tag, cHandle).IsKilledItem = False Then
                     CType(lvi.Tag, cHandle).IsKilledItem = True
@@ -1548,56 +1546,59 @@ Public Class frmProcessInfo
         ' Add all non displayed handles (new handles)
         For Each p In proc
 
-            If p IsNot Nothing AndAlso p.isDisplayed = False Then 'AndAlso Len(p.Name) > 0 Then
+            If p IsNot Nothing AndAlso p.isDisplayed = False Then
 
-                p.isDisplayed = True
+                If bb Or (bb = False AndAlso Len(p.Name) > 0) Then
 
-                Dim it As New ListViewItem
+                    p.isDisplayed = True
 
-                Select Case p.Type
-                    Case "Key"
-                        it.ImageKey = "key"
-                    Case "File", "Directory"
-                        ' Have to retrieve the icon of file/directory
-                        Dim fName As String = p.Name
-                        If IO.File.Exists(fName) Or IO.Directory.Exists(fName) Then
-                            Dim img As System.Drawing.Icon = GetIcon2(fName, True)
-                            If img IsNot Nothing Then
-                                imgServices.Images.Add(fName, img)
-                                it.ImageKey = fName
+                    Dim it As New ListViewItem
+
+                    Select Case p.Type
+                        Case "Key"
+                            it.ImageKey = "key"
+                        Case "File", "Directory"
+                            ' Have to retrieve the icon of file/directory
+                            Dim fName As String = p.Name
+                            If IO.File.Exists(fName) Or IO.Directory.Exists(fName) Then
+                                Dim img As System.Drawing.Icon = GetIcon2(fName, True)
+                                If img IsNot Nothing Then
+                                    imgServices.Images.Add(fName, img)
+                                    it.ImageKey = fName
+                                Else
+                                    it.ImageKey = "noicon"
+                                End If
                             Else
                                 it.ImageKey = "noicon"
                             End If
-                        Else
-                            it.ImageKey = "noicon"
-                        End If
-                    Case Else
-                        it.ImageKey = "service"
-                End Select
+                        Case Else
+                            it.ImageKey = "service"
+                    End Select
 
-                it.ForeColor = Color.FromArgb(30, 30, 30)
-                it.Group = lvHandles.Groups(0)
+                    it.ForeColor = Color.FromArgb(30, 30, 30)
+                    it.Group = lvHandles.Groups(0)
 
-                ' Add some subitems (columns.count-1 subitems)
-                Dim subS() As String
-                ReDim subS(Me.lvHandles.Columns.Count - 1)
-                For xxxx As Integer = 1 To subS.Length - 1
-                    subS(xxxx) = ""
-                Next
-                it.SubItems.AddRange(subS)
+                    ' Add some subitems (columns.count-1 subitems)
+                    Dim subS() As String
+                    ReDim subS(Me.lvHandles.Columns.Count - 1)
+                    For xxxx As Integer = 1 To subS.Length - 1
+                        subS(xxxx) = ""
+                    Next
+                    it.SubItems.AddRange(subS)
 
-                p.IsNewItem = Not (firstRefresh)
-                If p.IsNewItem Then
-                    it.BackColor = NEW_ITEM_COLOR
+                    p.IsNewItem = Not (firstRefresh)
+                    If p.IsNewItem Then
+                        it.BackColor = NEW_ITEM_COLOR
+                    End If
+
+                    it.Tag = New cHandle(p)
+
+                    lvHandles.Items.Add(it)
+
                 End If
-
-                it.Tag = New cHandle(p)
-
-                lvHandles.Items.Add(it)
-
             End If
         Next
-
+        Trace.WriteLine("---" & CStr(GetTickCount - test))
         ' Here we retrieve some informations for all our displayed handles
         For Each lvi In Me.lvHandles.Items
 
@@ -1611,15 +1612,18 @@ Public Class frmProcessInfo
                 End If
             End If
 
-            Dim isub As ListViewItem.ListViewSubItem
-            Dim xxx As Integer = 0
-            For Each isub In lvi.SubItems
-                Dim colName As String = Me.lvHandles.Columns.Item(xxx).Text
-                colName = colName.Replace("< ", "")
-                colName = colName.Replace("> ", "")
-                isub.Text = cP.GetInformation(colName)
-                xxx += 1
-            Next
+            If cP.FirstTime Then
+                Dim isub As ListViewItem.ListViewSubItem
+                Dim xxx As Integer = 0
+                For Each isub In lvi.SubItems
+                    Dim colName As String = Me.lvHandles.Columns.Item(xxx).Text
+                    colName = colName.Replace("< ", "")
+                    colName = colName.Replace("> ", "")
+                    isub.Text = cP.GetInformation(colName)
+                    xxx += 1
+                Next
+                cP.FirstTime = False
+            End If
 
         Next
 
@@ -2162,5 +2166,13 @@ Public Class frmProcessInfo
 
         ' Sort.
         lvProcEnv.Sort()
+    End Sub
+
+    Private Sub ShowUnnamedHandlesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowUnnamedHandlesToolStripMenuItem.Click
+        ShowUnnamedHandlesToolStripMenuItem.Checked = Not (ShowUnnamedHandlesToolStripMenuItem.Checked)
+    End Sub
+
+    Private Sub ShowUnnamedWindowsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowUnnamedWindowsToolStripMenuItem.Click
+        ShowUnnamedWindowsToolStripMenuItem.Checked = Not (ShowUnnamedWindowsToolStripMenuItem.Checked)
     End Sub
 End Class

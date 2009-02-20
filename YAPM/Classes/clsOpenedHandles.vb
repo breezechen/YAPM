@@ -312,6 +312,14 @@ Public Class clsOpenedHandles
     'donne le nom interne d'un lettre de lecteur
     Private Declare Function QueryDosDevice Lib "kernel32.dll" Alias "QueryDosDeviceA" (ByVal lpDeviceName As String, ByVal lpTargetPath As String, ByVal ucchMax As Integer) As Integer
 
+    Private Declare Function GetProcessIdApi Lib "kernel32.dll" Alias "GetProcessId" (ByVal ProcessHandle As Integer) As Integer
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Private Shared Function GetProcessIdOfThread(ByVal ThreadHandle As Integer) As Integer
+    End Function
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Private Shared Function GetThreadId(ByVal ThreadHandle As Integer) As Integer
+    End Function
+
     '==========================================================================================
     'Variables globales à la classe
     '==========================================================================================
@@ -421,8 +429,8 @@ Public Class clsOpenedHandles
     End Property
 
     'rafraîchir la liste des handles
-    Public Sub Refresh()
-        CreateQueryHandlesBuffer()
+    Public Sub Refresh(Optional ByVal oneProcessId As Integer = -1)
+        CreateQueryHandlesBuffer(oneProcessId)
     End Sub
 
     'propriétés d'un handle
@@ -473,7 +481,7 @@ Public Class clsOpenedHandles
 
     'crée le buffer contenant les handles
     'doit etre libérer avec DestroyHandlesBuffer avant de quitter l'application
-    Private Sub CreateQueryHandlesBuffer()
+    Private Sub CreateQueryHandlesBuffer(Optional ByVal oneProcessId As Integer = -1)
         Dim Length As Integer 'longueur du buffer
         Dim X As Integer 'compteur
         Dim ret As Integer 'valeur de retour des fonctions utilisées
@@ -500,8 +508,11 @@ Public Class clsOpenedHandles
         For X = 0 To m_cHandles - 1
             'on copie les informations sur le handle
             Handle = Marshal.PtrToStructure(New IntPtr(lpBufferHandles.ToInt32 + 4 + 16 * X), Handle.GetType)
-            'on demande plus d'informations sur le handle de fichier
-            m_Files(X) = RetrieveObject(Handle)
+            ' Only if handle belongs to specified process
+            If oneProcessId = -1 OrElse oneProcessId = Handle.ProcessID Then
+                'on demande plus d'informations sur le handle de fichier
+                m_Files(X) = RetrieveObject(Handle)
+            End If
         Next
         'on ferme le handle du dernier processus ouvert
         CloseProcessForHandle()
@@ -621,12 +632,21 @@ Public Class clsOpenedHandles
 
         Marshal.FreeCoTaskMem(BufferObjName)
 
-        'si c'est un fichier, on fournit le nom DOS
         If m_ObjectTypeName = "File" Then
+            'si c'est un fichier, on fournit le nom DOS
             m_ObjectName = GetDosFileName(m_ObjectName)
-            'si c'est une clé de registre on fournit son nom classique
         ElseIf m_ObjectTypeName = "Key" Then
+            'si c'est une clé de registre on fournit son nom classique
             m_ObjectName = GetKeyName(m_ObjectName)
+        ElseIf m_ObjectTypeName = "Process" Then
+            ' If it's a process, we retrieve processID from handle
+            Dim i As Integer = GetProcessIdApi(hHandle)
+            m_ObjectName = GetProcessNameFromPID(i) & " (" & CStr(i) & ")"
+        ElseIf m_ObjectTypeName = "Thread" Then
+            ' Have to get thread ID, and then, Process ID
+            Dim i As Integer = GetThreadId(hHandle)
+            Dim i2 As Integer = GetProcessIdOfThread(hHandle)
+            m_ObjectName = GetProcessNameFromPID(i2) & " (" & CStr(i2) & ")" & "  - " & CStr(i)
         End If
 
         ' on ferme la copie du handle recherché

@@ -416,9 +416,6 @@
     <None Include="Misc\ok.gif" />
     <None Include="Misc\close.gif" />
     <None Include="Misc\black.ico" />
-    <None Include="Misc\play322.gif" />
-    <None Include="Misc\play32.gif" />
-    <None Include="Misc\pause32.gif" />
     <None Include="Misc\pause32.png" />
     <None Include="Misc\play32.png" />
     <None Include="Misc\stop32.png" />
