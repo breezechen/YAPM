@@ -380,6 +380,18 @@ Public Class frmProcessInfo
     Public Sub SetProcess(ByRef process As cProcess)
         curProc = process
         Me.Text = curProc.Name & " (" & CStr(curProc.Pid) & ")"
+
+        ' Verify file
+        Try
+            Dim bVer As Boolean = Security.WinTrust.WinTrust.VerifyEmbeddedSignature(curProc.Path)
+            If bVer Then
+                gpProcGeneralFile.Text = "Image file (successfully verified)"
+            Else
+                gpProcGeneralFile.Text = "Image file (not verified)"
+            End If
+        Catch ex As Exception
+            '
+        End Try
     End Sub
 
     Private Sub timerProcPerf_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerProcPerf.Tick

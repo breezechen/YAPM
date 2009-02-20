@@ -264,6 +264,7 @@
     </Compile>
     <Compile Include="Classes\cTrayIcon.vb" />
     <Compile Include="Classes\cWindow.vb" />
+    <Compile Include="Classes\cWinTrust.vb" />
     <Compile Include="Forms\frmHotkeys.Designer.vb">
       <DependentUpon>frmHotkeys.vb</DependentUpon>
     </Compile>
