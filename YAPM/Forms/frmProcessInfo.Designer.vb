@@ -252,7 +252,7 @@ Partial Class frmProcessInfo
         Me.DisableToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.imgWindows = New System.Windows.Forms.ImageList(Me.components)
         Me.TabPage13 = New System.Windows.Forms.TabPage
-        Me.lvHandles = New YAPM.DoubleBufferedLV
+        Me.lvHandles = New YAPM.handleList
         Me.ColumnHeader24 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader25 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader26 = New System.Windows.Forms.ColumnHeader
@@ -2353,6 +2353,7 @@ Partial Class frmProcessInfo
         Me.lvHandles.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader24, Me.ColumnHeader25, Me.ColumnHeader26, Me.ColumnHeader27, Me.ColumnHeader28, Me.ColumnHeader15})
         Me.lvHandles.ContextMenuStrip = Me.menuHandles
         Me.lvHandles.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvHandles.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvHandles.FullRowSelect = True
         ListViewGroup11.Header = "Handles"
         ListViewGroup11.Name = "gpOther"
@@ -2363,8 +2364,8 @@ Partial Class frmProcessInfo
         Me.lvHandles.Location = New System.Drawing.Point(0, 0)
         Me.lvHandles.Name = "lvHandles"
         Me.lvHandles.OverriddenDoubleBuffered = True
+        Me.lvHandles.ProcessId = 0
         Me.lvHandles.Size = New System.Drawing.Size(636, 277)
-        Me.lvHandles.SmallImageList = Me.imgServices
         Me.lvHandles.TabIndex = 34
         Me.lvHandles.UseCompatibleStateImageBehavior = False
         Me.lvHandles.View = System.Windows.Forms.View.Details
@@ -2731,7 +2732,7 @@ Partial Class frmProcessInfo
     Friend WithEvents ColumnHeader42 As System.Windows.Forms.ColumnHeader
     Friend WithEvents menuWindow As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents imgWindows As System.Windows.Forms.ImageList
-    Friend WithEvents lvHandles As YAPM.DoubleBufferedLV
+    Friend WithEvents lvHandles As YAPM.handleList
     Friend WithEvents ColumnHeader24 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader25 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader26 As System.Windows.Forms.ColumnHeader

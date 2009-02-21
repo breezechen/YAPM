@@ -270,6 +270,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property key() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("key", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property kill() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("kill", resourceCulture)
@@ -350,6 +357,13 @@ Namespace My.Resources
         Friend ReadOnly Property stop32() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("stop32", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property thread() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("thread", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

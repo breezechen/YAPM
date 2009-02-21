@@ -125,6 +125,9 @@
       <DependentUpon>frmAboutG.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CustomListviews\handleList\handleList.resx">
+      <DependentUpon>handleList.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CustomListviews\ModuleLv\moduleList.resx">
       <DependentUpon>moduleList.vb</DependentUpon>
     </EmbeddedResource>
@@ -286,6 +289,12 @@
     </Compile>
     <Compile Include="Forms\frmAboutG.vb">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomListviews\handleList\handleList.Designer.vb">
+      <DependentUpon>handleList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CustomListviews\handleList\handleList.vb">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserControls\CustomListviews\ModuleLv\moduleList.Designer.vb">
       <DependentUpon>moduleList.vb</DependentUpon>
@@ -450,6 +459,8 @@
     <None Include="Misc\stop32.png" />
     <None Include="Misc\delete2.gif" />
     <None Include="Misc\dll.png" />
+    <None Include="Misc\key.png" />
+    <None Include="Misc\thread.gif" />
     <Content Include="process.ico" />
     <Content Include="process_custom.ico" />
     <None Include="Resources\application_blue.png" />
