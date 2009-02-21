@@ -41,7 +41,7 @@ Public Class handleList
     Private _columnsName() As String
     Private _unnamed As Boolean = False
 
-    Private _pid As Integer
+    Private _pid As Integer()
     Private _IMG As ImageList
     Private m_SortingColumn As ColumnHeader
 
@@ -55,11 +55,11 @@ Public Class handleList
     ' ========================================
     ' Properties
     ' ========================================
-    Public Property ProcessId() As Integer
+    Public Property ProcessId() As Integer()
         Get
             Return _pid
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Integer())
             _pid = value
         End Set
     End Property

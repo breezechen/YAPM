@@ -1513,7 +1513,9 @@ Public Class frmProcessInfo
     Private Sub ShowHandles()
 
         Me.lvHandles.ShowUnNamed = ShowUnnamedHandlesToolStripMenuItem.Checked
-        Me.lvHandles.ProcessId = curProc.Pid
+        Dim pids(0) As Integer
+        pids(0) = curProc.Pid
+        Me.lvHandles.ProcessId = pids
         Me.lvHandles.UpdateItems()
        
     End Sub

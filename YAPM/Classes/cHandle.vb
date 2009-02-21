@@ -134,13 +134,15 @@ Public Class cHandle
             Case "Name"
                 res = Me.Name
             Case "HandleCount"
-                res = CStr(Me.HandleCount)
+                res = Me.HandleCount.ToString
             Case "PointerCount"
-                res = CStr(Me.PointerCount)
+                res = Me.PointerCount.ToString
             Case "ObjectCount"
-                res = CStr(Me.ObjectCount)
+                res = Me.ObjectCount.ToString
             Case "Handle"
-                res = CStr(Me.Handle)
+                res = Me.Handle.ToString
+            Case "Process"
+                res = _pid.ToString
         End Select
 
         Return res
@@ -152,7 +154,7 @@ Public Class cHandle
     ' Shared functions
     ' ========================================
     ' Retrieve handle list
-    Public Shared Function Enumerate(ByVal processId As Integer, ByVal showUNN As _
+    Public Shared Function Enumerate(ByVal processId As Integer(), ByVal showUNN As _
                                      Boolean, ByRef key() As String, ByRef _dico As  _
                                      Dictionary(Of String, cHandle.handleType)) As Integer
 
@@ -164,17 +166,17 @@ Public Class cHandle
             ReDim key(frmMain.handles_Renamed.Count)      ' Temporary size
             Dim x As Integer = 0
             For i As Integer = 0 To frmMain.handles_Renamed.Count - 1
-                If frmMain.handles_Renamed.GetProcessID(i) = processId Then
+                If frmMain.handles_Renamed.GetHandle(i) > 0 Then
                     If showUNN OrElse (Len(frmMain.handles_Renamed.GetObjectName(i)) > 0) Then
                         With frmMain.handles_Renamed
-                            key(x) = processId.ToString & "|" & .GetHandle(i).ToString & "|" & .GetNameInformation(i)
+                            key(x) = .GetProcessID(i).ToString & "|" & .GetHandle(i).ToString & "|" & .GetNameInformation(i) & "|" & .GetObjectName(i) & "|"
                             Dim ret As cHandle.handleType
                             With frmMain.handles_Renamed
                                 ret.handleCount = .GetHandleCount(i)
                                 ret.handle = .GetHandle(i)
                                 ret.name = .GetObjectName(i)
                                 ret.objectCount = .GetObjectCount(i)
-                                ret.pid = processId
+                                ret.pid = .GetProcessID(i)
                                 ret.pointerCount = .GetPointerCount(i)
                                 ret.type = .GetNameInformation(i)
                             End With

@@ -437,6 +437,9 @@ Public Class clsOpenedHandles
     Public Sub Refresh(Optional ByVal oneProcessId As Integer = -1)
         CreateQueryHandlesBuffer(oneProcessId)
     End Sub
+    Public Sub Refresh(ByVal PIDs() As Integer)
+        CreateQueryHandlesBuffer(PIDs)
+    End Sub
 
     'propriétés d'un handle
     'dwIndex : index du handle
@@ -518,6 +521,46 @@ Public Class clsOpenedHandles
                 'on demande plus d'informations sur le handle de fichier
                 m_Files(X) = RetrieveObject(Handle)
             End If
+        Next
+        'on ferme le handle du dernier processus ouvert
+        CloseProcessForHandle()
+
+        Marshal.FreeHGlobal(lpBufferHandles)
+    End Sub
+    Private Sub CreateQueryHandlesBuffer(ByVal PIDs As Integer())
+        Dim Length As Integer 'longueur du buffer
+        Dim X As Integer 'compteur
+        Dim ret As Integer 'valeur de retour des fonctions utilisées
+        Dim lpBufferHandles As IntPtr 'pointeur vers le buffer BufferHandles
+        Dim Handle As SYSTEM_HANDLE_INFORMATION 'un handle
+
+        Length = &H100 'longueur minimale du buffer
+        lpBufferHandles = Marshal.AllocHGlobal(Length)  'redimensionne le buffer
+        'tant que la longueur n'est pas suffisante
+        Do While NtQuerySystemInformation(SystemHandleInformation, lpBufferHandles, Length, ret) = STATUS_INFO_LENGTH_MISMATCH
+            'on multiplie la taille du buffer par 2
+            Length = Length * 2
+            'on réalloue le buffer
+            Marshal.FreeHGlobal(lpBufferHandles)
+            lpBufferHandles = Marshal.AllocHGlobal(Length)
+        Loop
+
+        'demande le nombre de handles
+        m_cHandles = Marshal.ReadInt32(lpBufferHandles)
+
+        'on fait de la place pour un handle de fichier
+        ReDim m_Files(m_cHandles - 1)
+        'pour chaque handle
+        For X = 0 To m_cHandles - 1
+            'on copie les informations sur le handle
+            Handle = Marshal.PtrToStructure(New IntPtr(lpBufferHandles.ToInt32 + 4 + 16 * X), Handle.GetType)
+            ' Only if handle belongs to specified process
+            For Each __pid As Integer In PIDs
+                If __pid = Handle.ProcessID Then
+                    'on demande plus d'informations sur le handle de fichier
+                    m_Files(X) = RetrieveObject(Handle)
+                End If
+            Next
         Next
         'on ferme le handle du dernier processus ouvert
         CloseProcessForHandle()

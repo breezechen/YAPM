@@ -2364,7 +2364,6 @@ Partial Class frmProcessInfo
         Me.lvHandles.Location = New System.Drawing.Point(0, 0)
         Me.lvHandles.Name = "lvHandles"
         Me.lvHandles.OverriddenDoubleBuffered = True
-        Me.lvHandles.ProcessId = 0
         Me.lvHandles.Size = New System.Drawing.Size(636, 277)
         Me.lvHandles.TabIndex = 34
         Me.lvHandles.UseCompatibleStateImageBehavior = False

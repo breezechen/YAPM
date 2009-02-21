@@ -1643,56 +1643,61 @@ Public Class frmMain
     End Sub
 
     Private Sub ShowHandles(Optional ByVal showTab As Boolean = True)
-        ' Display handles of desired processes (handlesToRefresh)
-        Dim id As Integer
-        Dim i As Integer
-        Dim it As ListViewItem
 
-        If Me.handlesToRefresh Is Nothing Then Exit Sub
+        Me.lvHandles.ShowUnNamed = DisplayUnnamedHandlesToolStripMenuItem.Checked
+        Me.lvHandles.ProcessId = Me.handlesToRefresh
+        Me.lvHandles.UpdateItems()
 
-        handles_Renamed.Refresh()
-        Me.lvHandles.Items.Clear()
-        Me.lvHandles.BeginUpdate()
+        '' Display handles of desired processes (handlesToRefresh)
+        'Dim id As Integer
+        'Dim i As Integer
+        'Dim it As ListViewItem
 
-        For Each id In Me.handlesToRefresh
-            For i = 0 To handles_Renamed.Count - 1
-                With handles_Renamed
-                    If (.GetProcessID(i) = id) And (Len(.GetObjectName(i)) > 0) Then
-                        it = lvHandles.Items.Add(.GetNameInformation(i))
-                        it.SubItems.Add(.GetObjectName(i))
-                        it.SubItems.Add(CStr(.GetHandleCount(i)))
-                        it.SubItems.Add(CStr(.GetPointerCount(i)))
-                        it.SubItems.Add(CStr(.GetObjectCount(i)))
-                        it.SubItems.Add(CStr(.GetHandle(i)))
-                        it.SubItems.Add(CStr(id) & " -- " & cProcess.GetProcessName(id))
-                        it.Tag = .GetHandle(i)
-                        it.ForeColor = Color.FromArgb(30, 30, 30)
-                        Select Case it.Text
-                            Case "Key"
-                                it.ImageKey = "key"
-                            Case "File", "Directory"
-                                ' Have to retrieve the icon of file/directory
-                                Dim fName As String = .GetObjectName(i)
-                                If IO.File.Exists(fName) Or IO.Directory.Exists(fName) Then
-                                    Dim img As System.Drawing.Icon = GetIcon2(fName, True)
-                                    If img IsNot Nothing Then
-                                        imgServices.Images.Add(fName, img)
-                                        it.ImageKey = fName
-                                    Else
-                                        it.ImageKey = "noicon"
-                                    End If
-                                Else
-                                    it.ImageKey = "noicon"
-                                End If
-                            Case Else
-                                it.ImageKey = "service"
-                        End Select
-                    End If
-                End With
-            Next
-        Next
+        'If Me.handlesToRefresh Is Nothing Then Exit Sub
 
-        Me.lvHandles.EndUpdate()
+        'handles_Renamed.Refresh()
+        'Me.lvHandles.Items.Clear()
+        'Me.lvHandles.BeginUpdate()
+
+        'For Each id In Me.handlesToRefresh
+        '    For i = 0 To handles_Renamed.Count - 1
+        '        With handles_Renamed
+        '            If (.GetProcessID(i) = id) And (Len(.GetObjectName(i)) > 0) Then
+        '                it = lvHandles.Items.Add(.GetNameInformation(i))
+        '                it.SubItems.Add(.GetObjectName(i))
+        '                it.SubItems.Add(CStr(.GetHandleCount(i)))
+        '                it.SubItems.Add(CStr(.GetPointerCount(i)))
+        '                it.SubItems.Add(CStr(.GetObjectCount(i)))
+        '                it.SubItems.Add(CStr(.GetHandle(i)))
+        '                it.SubItems.Add(CStr(id) & " -- " & cProcess.GetProcessName(id))
+        '                it.Tag = .GetHandle(i)
+        '                it.ForeColor = Color.FromArgb(30, 30, 30)
+        '                Select Case it.Text
+        '                    Case "Key"
+        '                        it.ImageKey = "key"
+        '                    Case "File", "Directory"
+        '                        ' Have to retrieve the icon of file/directory
+        '                        Dim fName As String = .GetObjectName(i)
+        '                        If IO.File.Exists(fName) Or IO.Directory.Exists(fName) Then
+        '                            Dim img As System.Drawing.Icon = GetIcon2(fName, True)
+        '                            If img IsNot Nothing Then
+        '                                imgServices.Images.Add(fName, img)
+        '                                it.ImageKey = fName
+        '                            Else
+        '                                it.ImageKey = "noicon"
+        '                            End If
+        '                        Else
+        '                            it.ImageKey = "noicon"
+        '                        End If
+        '                    Case Else
+        '                        it.ImageKey = "service"
+        '                End Select
+        '            End If
+        '        End With
+        '    Next
+        'Next
+
+        'Me.lvHandles.EndUpdate()
 
         If showTab Then
             Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvHandles.Items.Count) & " handles"
@@ -3505,49 +3510,6 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub lvHandles_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvHandles.ColumnClick
-        ' Get the new sorting column.
-        Dim new_sorting_column As ColumnHeader = _
-            lvHandles.Columns(e.Column)
-
-        ' Figure out the new sorting order.
-        Dim sort_order As System.Windows.Forms.SortOrder
-        If m_SortingColumn Is Nothing Then
-            ' New column. Sort ascending.
-            sort_order = SortOrder.Ascending
-        Else
-            ' See if this is the same column.
-            If new_sorting_column.Equals(m_SortingColumn) Then
-                ' Same column. Switch the sort order.
-                If m_SortingColumn.Text.StartsWith("> ") Then
-                    sort_order = SortOrder.Descending
-                Else
-                    sort_order = SortOrder.Ascending
-                End If
-            Else
-                ' New column. Sort ascending.
-                sort_order = SortOrder.Ascending
-            End If
-
-            ' Remove the old sort indicator.
-            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
-        End If
-
-        ' Display the new sort order.
-        m_SortingColumn = new_sorting_column
-        If sort_order = SortOrder.Ascending Then
-            m_SortingColumn.Text = "> " & m_SortingColumn.Text
-        Else
-            m_SortingColumn.Text = "< " & m_SortingColumn.Text
-        End If
-
-        ' Create a comparer.
-        lvHandles.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
-
-        ' Sort.
-        lvHandles.Sort()
-    End Sub
-
     Private Sub lvHandles_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHandles.MouseDown
         Call mdlMisc.CopyLvToClip(e, Me.lvHandles)
     End Sub
@@ -4788,5 +4750,9 @@ Public Class frmMain
         Me.AlwaysVisibleToolStripMenuItem.Checked = Not (Me.AlwaysVisibleToolStripMenuItem.Checked)
         Me.butAlwaysDisplay.Checked = Me.AlwaysVisibleToolStripMenuItem.Checked
         Me.TopMost = Me.AlwaysVisibleToolStripMenuItem.Checked
+    End Sub
+
+    Private Sub DisplayUnnamedHandlesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisplayUnnamedHandlesToolStripMenuItem.Click
+        DisplayUnnamedHandlesToolStripMenuItem.Checked = Not (DisplayUnnamedHandlesToolStripMenuItem.Checked)
     End Sub
 End Class
