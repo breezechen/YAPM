@@ -24,6 +24,7 @@ Option Strict On
 Imports System.Runtime.InteropServices
 
 Public Class cThread
+    Inherits cGeneralObject
 
     Implements IDisposable
 
@@ -134,9 +135,6 @@ Public Class cThread
     Private _procName As String                     ' Process owner name
     Private _Thread As ProcessThread
     Private _hThread As Integer
-    Private _isDisplayed As Boolean = False
-    Private _killedItem As Boolean
-    Private _newItem As Boolean
 
 
     ' ========================================
@@ -158,8 +156,8 @@ Public Class cThread
         _procId = thread.ProcessId
         _Thread = thread.ProcessThread
         _hThread = OpenThread(QUERY_INFORMATION, 0, _id)
-        _newItem = thread.IsNewItem
-        _killedItem = thread.IsKilledItem
+        Me.IsNewItem = thread.IsNewItem
+        Me.IsKilledItem = thread.IsKilledItem
     End Sub
     Protected Overloads Overrides Sub Finalize()
         If _Thread IsNot Nothing Then
@@ -202,31 +200,6 @@ Public Class cThread
                 Return ""
             End Try
         End Get
-    End Property
-
-    Public Property isDisplayed() As Boolean
-        Get
-            Return _isDisplayed
-        End Get
-        Set(ByVal value As Boolean)
-            _isDisplayed = value
-        End Set
-    End Property
-    Public Property IsKilledItem() As Boolean
-        Get
-            Return _killedItem
-        End Get
-        Set(ByVal value As Boolean)
-            _killedItem = value
-        End Set
-    End Property
-    Public Property IsNewItem() As Boolean
-        Get
-            Return _newItem
-        End Get
-        Set(ByVal value As Boolean)
-            _newItem = value
-        End Set
     End Property
 
     Public Property Priority() As ThreadPriority
@@ -367,7 +340,7 @@ Public Class cThread
     ' ========================================
 
     ' Return informations
-    Public Function GetInformation(ByVal info As String) As String
+    Public Overrides Function GetInformation(ByVal info As String) As String
         Dim res As String = ""
 
         Select Case info
