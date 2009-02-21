@@ -1073,114 +1073,11 @@ Public Class frmProcessInfo
     ' Show threads
     Public Sub ShowThreads()
 
-        Static firstRefresh As Boolean = True
-
-        Dim p As cThread
-        Dim proc() As cThread
-        Dim lvi As ListViewItem
-        Dim x As Integer = 0
-        Dim exist As Boolean = False
-
-        Dim test As Integer = GetTickCount
-
-        ReDim proc(0)
-        cThread.Enumerate(curProc.Pid, proc)
-
-        ' Refresh (or suppress) all threads displayed in listview
-        For Each lvi In Me.lvThreads.Items
-
-            ' Test if thread exist
-            Dim cP As cThread = CType(lvi.Tag, cThread)
-            For Each p In proc
-                If p IsNot Nothing AndAlso p.Id = cP.Id Then
-                    exist = True
-                    p.isDisplayed = True
-                    Exit For
-                End If
-            Next
-
-            If exist = False Then
-                ' thread no longer exists
-                If CType(lvi.Tag, cThread).IsKilledItem = False Then
-                    CType(lvi.Tag, cThread).IsKilledItem = True
-                    lvi.BackColor = Me.DELETED_ITEM_COLOR
-                Else
-                    lvi.Remove()
-                End If
-            End If
-            exist = False
-        Next
-
-        ' Add all non displayed threads (new threads)
-        For Each p In proc
-
-            If p IsNot Nothing AndAlso p.isDisplayed = False Then
-
-                p.isDisplayed = True
-
-                ' Get the thread name
-                Dim it As New ListViewItem
-
-                it.Text = CStr(p.Id)
-
-                ' Add icon
-                it.ForeColor = Color.FromArgb(30, 30, 30)
-                it.Group = lvThreads.Groups(0)
-
-                ' Add some subitems (columns.count-1 subitems)
-                Dim subS() As String
-                ReDim subS(Me.lvThreads.Columns.Count - 1)
-                For xxxx As Integer = 1 To subS.Length - 1
-                    subS(xxxx) = ""
-                Next
-                it.SubItems.AddRange(subS)
-
-                ' Choose color
-                Dim col As Color = Color.White
-
-                p.IsNewItem = Not (firstRefresh)
-                If p.IsNewItem Then
-                    it.BackColor = NEW_ITEM_COLOR
-                End If
-
-                it.ImageKey = "thread"
-                it.Tag = New cThread(p)
-                lvThreads.Items.Add(it)
-
-            End If
-        Next
-
-        ' Here we retrieve some informations for all our displayed threads
-        For Each lvi In Me.lvThreads.Items
-
-            Dim cP As cThread = CType(lvi.Tag, cThread)
-
-            If cP.IsNewItem Then
-                cP.IsNewItem = False
-            Else
-                If Not (lvi.BackColor = Color.White) AndAlso Not (cP.IsKilledItem) Then
-                    lvi.BackColor = Color.White
-                End If
-            End If
-
-            Dim isub As ListViewItem.ListViewSubItem
-            Dim xxx As Integer = 0
-            For Each isub In lvi.SubItems
-                Dim colName As String = Me.lvThreads.Columns.Item(xxx).Text
-                colName = colName.Replace("< ", "")
-                colName = colName.Replace("> ", "")
-                isub.Text = cP.GetInformation(colName)
-                xxx += 1
-            Next
-
-        Next
-
-        firstRefresh = False
-        lvThreads.Sort()
-
-        test = GetTickCount - test
-
-        Trace.WriteLine("Threads refresh took " & CStr(test) & " ms")
+        Dim pid() As Integer
+        ReDim pid(0)
+        pid(0) = curProc.Pid
+        Me.lvThreads.ProcessId = pid
+        Me.lvThreads.UpdateItems()
 
     End Sub
 
@@ -1547,116 +1444,63 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub ToolStripMenuItem23_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem23.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).ThreadTerminate()
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.ThreadTerminate()
         Next
     End Sub
 
     Private Sub ToolStripMenuItem24_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem24.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).ThreadSuspend()
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.ThreadSuspend()
         Next
     End Sub
 
     Private Sub ToolStripMenuItem25_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem25.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).ThreadResume()
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.ThreadResume()
         Next
     End Sub
 
     Private Sub ToolStripMenuItem27_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem27.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.Idle
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.Priority = cThread.ThreadPriority.Idle
         Next
     End Sub
 
     Private Sub LowestToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LowestToolStripMenuItem.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.Lowest
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.Priority = cThread.ThreadPriority.Lowest
         Next
     End Sub
 
     Private Sub ToolStripMenuItem28_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem28.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.BelowNormal
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.Priority = cThread.ThreadPriority.BelowNormal
         Next
     End Sub
 
     Private Sub ToolStripMenuItem29_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem29.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.Normal
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.Priority = cThread.ThreadPriority.Normal
         Next
     End Sub
 
     Private Sub ToolStripMenuItem30_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem30.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.AboveNormal
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.Priority = cThread.ThreadPriority.AboveNormal
         Next
     End Sub
 
     Private Sub ToolStripMenuItem31_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem31.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.Highest
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.Priority = cThread.ThreadPriority.Highest
         Next
     End Sub
 
     Private Sub ToolStripMenuItem32_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem32.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.Critical
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.Priority = cThread.ThreadPriority.Critical
         Next
-    End Sub
-
-    Private Sub lvThreads_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvThreads.ColumnClick
-        ' Get the new sorting column.
-        Dim new_sorting_column As ColumnHeader = _
-            lvThreads.Columns(e.Column)
-
-        ' Figure out the new sorting order.
-        Dim sort_order As System.Windows.Forms.SortOrder
-        If m_SortingColumn Is Nothing Then
-            ' New column. Sort ascending.
-            sort_order = SortOrder.Ascending
-        Else
-            ' See if this is the same column.
-            If new_sorting_column.Equals(m_SortingColumn) Then
-                ' Same column. Switch the sort order.
-                If m_SortingColumn.Text.StartsWith("> ") Then
-                    sort_order = SortOrder.Descending
-                Else
-                    sort_order = SortOrder.Ascending
-                End If
-            Else
-                ' New column. Sort ascending.
-                sort_order = SortOrder.Ascending
-            End If
-
-            ' Remove the old sort indicator.
-            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
-        End If
-
-        ' Display the new sort order.
-        m_SortingColumn = new_sorting_column
-        If sort_order = SortOrder.Ascending Then
-            m_SortingColumn.Text = "> " & m_SortingColumn.Text
-        Else
-            m_SortingColumn.Text = "< " & m_SortingColumn.Text
-        End If
-
-        ' Create a comparer.
-        lvThreads.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
-
-        ' Sort.
-        lvThreads.Sort()
     End Sub
 
     Private Sub lvThreads_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvThreads.MouseDown
@@ -1665,7 +1509,7 @@ Public Class frmProcessInfo
             Dim p As cThread.ThreadPriority = cThread.ThreadPriority.Unknow
 
             If Me.lvThreads.SelectedItems.Count > 0 Then
-                p = CType(Me.lvThreads.SelectedItems(0).Tag, cThread).Priority
+                p = Me.lvThreads.GetSelectedItem.Priority
             End If
             Me.ToolStripMenuItem27.Checked = (p = cThread.ThreadPriority.Idle)
             Me.LowestToolStripMenuItem.Checked = (p = cThread.ThreadPriority.Lowest)

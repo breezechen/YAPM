@@ -125,6 +125,15 @@ Public Class cThread
         MaxThreadInfoClas
     End Enum
 
+    Public Structure LightThread
+        Dim t As System.Diagnostics.ProcessThread
+        Dim pid As Integer
+        Public Sub New(ByVal apid As Integer, ByRef at As ProcessThread)
+            pid = apid
+            t = at
+        End Sub
+    End Structure
+
 #End Region
 
     ' ========================================
@@ -135,29 +144,20 @@ Public Class cThread
     Private _procName As String                     ' Process owner name
     Private _Thread As ProcessThread
     Private _hThread As Integer
+    Private _key As String
 
 
     ' ========================================
     ' Constructors & destructor
     ' ========================================
-    Public Sub New(ByVal procId As Integer, ByVal procName As String, ByVal thread As ProcessThread)
+    Public Sub New(ByRef t As LightThread)
         MyBase.New()
-        _id = thread.Id
-        _procId = procId
-        _Thread = thread
+        _id = t.t.Id
+        _procId = t.pid
+        _Thread = t.t
         _hThread = OpenThread(QUERY_INFORMATION, 0, _id)
-        _procName = procName
-    End Sub
-    Public Sub New(ByVal thread As cThread)
-        MyBase.New()
-        _id = thread.Id
-        _procId = thread.ProcessId
-        _procName = thread.ProcessName
-        _procId = thread.ProcessId
-        _Thread = thread.ProcessThread
-        _hThread = OpenThread(QUERY_INFORMATION, 0, _id)
-        Me.IsNewItem = thread.IsNewItem
-        Me.IsKilledItem = thread.IsKilledItem
+        _procName = cProcess.GetProcessName(_procId)
+        _key = _procId.ToString & "|" & _Thread.Id.ToString
     End Sub
     Protected Overloads Overrides Sub Finalize()
         If _Thread IsNot Nothing Then
@@ -174,9 +174,15 @@ Public Class cThread
         CloseHandle(_hThread)
     End Sub
 
+
     ' ========================================
     ' Getter and setter
     ' ========================================
+    Public ReadOnly Property Key() As String
+        Get
+            Return _key
+        End Get
+    End Property
     Public ReadOnly Property ProcessName() As String
         Get
             Return _procName
@@ -356,6 +362,8 @@ Public Class cThread
                 res = CStr(Me.StartTime.ToLongDateString & " -- " & Me.StartTime.ToLongTimeString)
             Case "TotalProcessorTime"
                 res = Me.TotalProcessorTime.ToString
+            Case "OwnerProcessId"
+                res = Me.ProcessName & " -- " & Me.ProcessId.ToString
         End Select
 
         Return res
@@ -420,7 +428,8 @@ Public Class cThread
     ' Shared functions
     ' ========================================
     ' Retrieve thread list
-    Public Shared Function Enumerate(ByVal processId As Integer, ByRef t() As cThread) As Integer
+    Public Shared Function Enumerate(ByVal processId As Integer(), ByRef key() As String, _
+                                     ByRef _dico As Dictionary(Of String, LightThread)) As Integer
         'Dim f As Boolean
         'Dim hSnap As Integer
         'Dim THREAD As THREADENTRY32
@@ -439,28 +448,31 @@ Public Class cThread
 
         'Return UBound(t)
 
-        Try
-            Dim p As Process = Process.GetProcessById(processId)
-            Dim tT As ProcessThread
-            Dim count As Integer = p.Threads.Count
-            Dim i As Integer = 0
+        _dico.Clear()
+        ReDim key(0)
 
-            ReDim t(count - 1)
-            For Each tT In p.Threads
-                'Try
-                t(i) = New cThread(processId, p.MainModule.ModuleName, tT)
-                i += 1
-                'Catch ex As Exception
-                ''
-                'End Try
-            Next
-            Return count
+        For Each pid As Integer In processId
 
-        Catch ex As Exception
-            ' Process has been killed
-            ReDim t(0)
-            Return 0
-        End Try
+            Try
+                Dim p As Process = Process.GetProcessById(pid)
+                Dim tT As ProcessThread
+                Dim count As Integer = p.Threads.Count
+
+                Dim i As Integer = key.Length - 1
+                ReDim Preserve key(i + count - 1)
+
+                For Each tT In p.Threads
+                    key(i) = pid.ToString & "|" & tT.Id.ToString
+                    _dico.Add(key(i), New LightThread(pid, tT))
+                    i += 1
+                Next
+
+            Catch ex As Exception
+                ' Process has been killed
+                ReDim Preserve key(key.Length - 2)
+            End Try
+
+        Next
 
     End Function
 

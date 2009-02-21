@@ -426,7 +426,7 @@ Partial Class frmMain
         Me.Label8 = New System.Windows.Forms.Label
         Me.lblThreadResults = New System.Windows.Forms.Label
         Me.txtSearchThread = New System.Windows.Forms.TextBox
-        Me.lvThreads = New YAPM.DoubleBufferedLV
+        Me.lvThreads = New YAPM.threadList
         Me.ColumnHeader32 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader33 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader34 = New System.Windows.Forms.ColumnHeader
@@ -5891,7 +5891,7 @@ Partial Class frmMain
     Friend WithEvents lvProcess As YAPM.processList
     Friend WithEvents lvSearchResults As YAPM.DoubleBufferedLV
     Friend WithEvents lvModules As YAPM.moduleList
-    Friend WithEvents lvThreads As YAPM.DoubleBufferedLV
+    Friend WithEvents lvThreads As YAPM.threadList
     Friend WithEvents lvHandles As YAPM.handleList
     Friend WithEvents lvWindows As YAPM.DoubleBufferedLV
     Friend WithEvents lvJobs As YAPM.DoubleBufferedLV

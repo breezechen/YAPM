@@ -23,7 +23,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 
-Public Class memoryList
+Public Class threadList
     Inherits YAPM.DoubleBufferedLV
 
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
@@ -32,16 +32,16 @@ Public Class memoryList
     ' ========================================
     ' Private
     ' ========================================
-    Private _dicoNew As New Dictionary(Of String, cMemRegion)
-    Private _dicoDel As New Dictionary(Of String, cMemRegion)
-    Private _buffDico As New Dictionary(Of String, cProcessMemRW.MEMORY_BASIC_INFORMATION)
-    Private _dico As New Dictionary(Of String, cMemRegion)
+    Private _dicoNew As New Dictionary(Of String, cThread)
+    Private _dicoDel As New Dictionary(Of String, cThread)
+    Private _buffDico As New Dictionary(Of String, cThread.LightThread)
+    Private _dico As New Dictionary(Of String, cThread)
 
     Private _firstItemUpdate As Boolean = True
     Private _columnsName() As String
     Private _unnamed As Boolean = False
 
-    Private _pid As Integer
+    Private _pid As Integer()
     Private _IMG As ImageList
     Private m_SortingColumn As ColumnHeader
 
@@ -55,11 +55,11 @@ Public Class memoryList
     ' ========================================
     ' Properties
     ' ========================================
-    Public Property ProcessId() As Integer
+    Public Property ProcessId() As Integer()
         Get
             Return _pid
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Integer())
             _pid = value
         End Set
     End Property
@@ -83,6 +83,14 @@ Public Class memoryList
         ' Cet appel est requis par le Concepteur Windows Form.
         InitializeComponent()
 
+        ' Ajoutez une initialisation quelconque après l'appel InitializeComponent().
+        _IMG = New ImageList
+        _IMG.ImageSize = New Size(16, 16)
+        _IMG.ColorDepth = ColorDepth.Depth32Bit
+
+        Me.SmallImageList = _IMG
+        _IMG.Images.Add("thread", My.Resources.thread)
+
     End Sub
 
     ' Call this to update items in listview
@@ -100,11 +108,11 @@ Public Class memoryList
         ' Now enumerate items
         Dim _itemId() As String
         ReDim _itemId(0)
-        Call cProcessMemRW.Enumerate(_pid, _itemId, _buffDico)
+        Call cThread.Enumerate(_pid, _itemId, _buffDico)
 
         Trace.WriteLine(GetTickCount - _test)
         ' Now add all items with isKilled = true to _dicoDel dictionnary
-        For Each z As cMemRegion In _dico.Values
+        For Each z As cThread In _dico.Values
             If z.IsKilledItem Then
                 _dicoDel.Add(z.Key.ToString, Nothing)
             End If
@@ -139,7 +147,7 @@ Public Class memoryList
 
         ' Merge _dico and _dicoNew
         For Each z As String In _dicoNew.Keys
-            Dim _it As cMemRegion = New cMemRegion(z, _buffDico.Item(z), _pid)
+            Dim _it As cThread = New cThread(_buffDico.Item(z))
             _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
             _dico.Add(z, _it)
         Next
@@ -168,7 +176,7 @@ Public Class memoryList
         Dim it As ListViewItem
         For Each it In Me.Items
             Dim x As Integer = 0
-            Dim _item As cMemRegion = _dico.Item(it.Name)
+            Dim _item As cThread = _dico.Item(it.Name)
             For Each isub In it.SubItems
                 isub.Text = _item.GetInformation(_columnsName(x))
                 x += 1
@@ -190,17 +198,17 @@ Public Class memoryList
         _firstItemUpdate = False
 
         _test = GetTickCount - _test
-        Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh memory list.")
+        Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh thread list.")
 
     End Sub
 
     ' Get all items (associated to listviewitems)
-    Public Function GetAllItems() As Dictionary(Of String, cMemRegion).ValueCollection
+    Public Function GetAllItems() As Dictionary(Of String, cThread).ValueCollection
         Return _dico.Values
     End Function
 
     ' Get the selected item
-    Public Function GetSelectedItem() As cMemRegion
+    Public Function GetSelectedItem() As cThread
         If Me.SelectedItems.Count > 0 Then
             Return _dico.Item(Me.SelectedItems.Item(0).Name)
         Else
@@ -209,13 +217,13 @@ Public Class memoryList
     End Function
 
     ' Get a specified item
-    Public Function GetItemByKey(ByVal key As String) As cMemRegion
+    Public Function GetItemByKey(ByVal key As String) As cThread
         Return _dico.Item(key)
     End Function
 
     ' Get selected items
-    Public Function GetSelectedItems() As Dictionary(Of String, cMemRegion).ValueCollection
-        Dim res As New Dictionary(Of String, cMemRegion)
+    Public Function GetSelectedItems() As Dictionary(Of String, cThread).ValueCollection
+        Dim res As New Dictionary(Of String, cThread)
 
         For Each it As ListViewItem In Me.SelectedItems
             res.Add(it.Name, _dico.Item(it.Name))
@@ -257,8 +265,8 @@ Public Class memoryList
         Dim item As ListViewItem = Me.Items.Add(key)
         item.Name = key
         item.ForeColor = _foreColor
+        item.ImageKey = "thread"
         item.Tag = key
-
         Return item
 
     End Function

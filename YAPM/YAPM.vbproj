@@ -125,7 +125,7 @@
       <DependentUpon>frmAboutG.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CustomListviews\handleList\handleList.resx">
+    <EmbeddedResource Include="UserControls\CustomListviews\HandleList\handleList.resx">
       <DependentUpon>handleList.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CustomListviews\MemoryLv\memoryList.resx">
@@ -214,6 +214,9 @@
     <EmbeddedResource Include="UserControls\CustomListviews\ServiceLv\serviceList.resx">
       <DependentUpon>serviceList.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CustomListviews\ThreadList\threadList.resx">
+      <DependentUpon>threadList.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DoubleBufferedLV.resx">
       <DependentUpon>DoubleBufferedLV.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -293,10 +296,10 @@
     <Compile Include="Forms\frmAboutG.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserControls\CustomListviews\handleList\handleList.Designer.vb">
+    <Compile Include="UserControls\CustomListviews\HandleList\handleList.Designer.vb">
       <DependentUpon>handleList.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\CustomListviews\handleList\handleList.vb">
+    <Compile Include="UserControls\CustomListviews\HandleList\handleList.vb">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserControls\CustomListviews\MemoryLv\memoryList.Designer.vb">
@@ -423,6 +426,12 @@
       <DependentUpon>serviceList.vb</DependentUpon>
     </Compile>
     <Compile Include="UserControls\CustomListviews\ServiceLv\serviceList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomListviews\ThreadList\threadList.Designer.vb">
+      <DependentUpon>threadList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CustomListviews\ThreadList\threadList.vb">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserControls\DoubleBufferedLV.vb">

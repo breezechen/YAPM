@@ -205,7 +205,7 @@ Partial Class frmProcessInfo
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
         Me.ViewMemoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.TabPage11 = New System.Windows.Forms.TabPage
-        Me.lvThreads = New YAPM.DoubleBufferedLV
+        Me.lvThreads = New YAPM.threadList
         Me.ColumnHeader32 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader34 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader35 = New System.Windows.Forms.ColumnHeader
@@ -2701,7 +2701,7 @@ Partial Class frmProcessInfo
     Friend WithEvents ToolStripMenuItem36 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem39 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents GoogleSearchToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents lvThreads As YAPM.DoubleBufferedLV
+    Friend WithEvents lvThreads As YAPM.threadList
     Friend WithEvents ColumnHeader32 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader34 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader35 As System.Windows.Forms.ColumnHeader

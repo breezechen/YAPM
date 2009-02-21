@@ -2601,57 +2601,9 @@ Public Class frmMain
 
     ' Show threads of selected processes (threadsToRefresh)
     Private Sub ShowThreads(Optional ByVal showTab As Boolean = True)
-        Dim t() As cThread = Nothing
-        Dim tCt As cThread
 
-        ' Delete existing items
-        Dim it2 As ListViewItem
-        For Each it2 In Me.lvThreads.Items
-            Dim tt As cThread = CType(it2.Tag, cThread)
-            tt.Dispose()
-        Next
-        Me.lvThreads.Items.Clear()
-        Me.lvThreads.BeginUpdate()
-
-        For x As Integer = 0 To UBound(threadsToRefresh)
-            cThread.Enumerate(threadsToRefresh(x), t)
-
-            For Each tCt In t
-                ' Add threads to listview
-                Try
-                    Dim it As New ListViewItem
-                    it.Text = CStr(tCt.Id)
-                    Dim n1 As New ListViewItem.ListViewSubItem
-                    n1.Text = CStr(tCt.ProcessId) & " -- " & tCt.ProcessName
-                    it.SubItems.Add(n1)
-                    Dim n2 As New ListViewItem.ListViewSubItem
-                    n2.Text = CStr(tCt.PriorityString)
-                    it.SubItems.Add(n2)
-                    Dim n3 As New ListViewItem.ListViewSubItem
-                    n3.Text = tCt.ThreadState
-                    it.SubItems.Add(n3)
-                    Dim n6 As New ListViewItem.ListViewSubItem
-                    n6.Text = CStr(tCt.WaitReason)
-                    it.SubItems.Add(n6)
-                    Dim n4 As New ListViewItem.ListViewSubItem
-                    n4.Text = CStr(tCt.StartTime.ToLongDateString & " -- " & tCt.StartTime.ToLongTimeString)
-                    it.SubItems.Add(n4)
-                    Dim n5 As New ListViewItem.ListViewSubItem
-                    n5.Text = CStr(tCt.TotalProcessorTime.ToString)
-                    it.SubItems.Add(n5)
-
-                    it.Tag = tCt
-                    it.Group = Me.lvThreads.Groups(0)
-                    it.ImageKey = "thread"
-                    it.ForeColor = Color.FromArgb(30, 30, 30)
-                    Me.lvThreads.Items.Add(it)
-                Catch ex As Exception
-                    '
-                End Try
-            Next
-        Next
-
-        Me.lvThreads.EndUpdate()
+        Me.lvThreads.ProcessId = Me.threadsToRefresh
+        Me.lvThreads.UpdateItems()
 
         If showTab Then _
             Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvThreads.Items.Count) & " threads"
@@ -2663,30 +2615,26 @@ Public Class frmMain
     End Sub
 
     Private Sub ToolStripMenuItem23_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem23.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).ThreadTerminate()
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.ThreadTerminate()
         Next
     End Sub
 
     Private Sub ToolStripMenuItem24_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem24.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).ThreadSuspend()
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.ThreadSuspend()
         Next
     End Sub
 
     Private Sub ToolStripMenuItem25_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem25.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).ThreadResume()
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.ThreadResume()
         Next
     End Sub
 
     Private Sub ToolStripMenuItem27_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem27.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.Idle
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.Priority = cThread.ThreadPriority.Idle
         Next
     End Sub
 
@@ -2708,7 +2656,7 @@ Public Class frmMain
         Dim bOne As Boolean = False
         If Me.lvThreads.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
         For Each it In Me.lvThreads.SelectedItems
-            Dim pid As Integer = CType(it.Tag, cThread).ProcessId
+            Dim pid As Integer = Me.lvThreads.GetItemByKey(it.Name).ProcessId
             Dim it2 As ListViewItem
             For Each it2 In Me.lvProcess.Items
                 Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
@@ -2727,44 +2675,38 @@ Public Class frmMain
     End Sub
 
     Private Sub LowestToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LowestToolStripMenuItem.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.Lowest
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.Priority = cThread.ThreadPriority.Lowest
         Next
     End Sub
 
     Private Sub ToolStripMenuItem28_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem28.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.BelowNormal
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.Priority = cThread.ThreadPriority.BelowNormal
         Next
     End Sub
 
     Private Sub ToolStripMenuItem29_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem29.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.Normal
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.Priority = cThread.ThreadPriority.Normal
         Next
     End Sub
 
     Private Sub ToolStripMenuItem30_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem30.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.AboveNormal
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.Priority = cThread.ThreadPriority.AboveNormal
         Next
     End Sub
 
     Private Sub ToolStripMenuItem31_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem31.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.Highest
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.Priority = cThread.ThreadPriority.Highest
         Next
     End Sub
 
     Private Sub ToolStripMenuItem32_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem32.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvThreads.SelectedItems
-            CType(it.Tag, cThread).Priority = cThread.ThreadPriority.Critical
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.Priority = cThread.ThreadPriority.Critical
         Next
     End Sub
 
@@ -3339,49 +3281,6 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub lvThreads_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvThreads.ColumnClick
-        ' Get the new sorting column.
-        Dim new_sorting_column As ColumnHeader = _
-            lvThreads.Columns(e.Column)
-
-        ' Figure out the new sorting order.
-        Dim sort_order As System.Windows.Forms.SortOrder
-        If m_SortingColumn Is Nothing Then
-            ' New column. Sort ascending.
-            sort_order = SortOrder.Ascending
-        Else
-            ' See if this is the same column.
-            If new_sorting_column.Equals(m_SortingColumn) Then
-                ' Same column. Switch the sort order.
-                If m_SortingColumn.Text.StartsWith("> ") Then
-                    sort_order = SortOrder.Descending
-                Else
-                    sort_order = SortOrder.Ascending
-                End If
-            Else
-                ' New column. Sort ascending.
-                sort_order = SortOrder.Ascending
-            End If
-
-            ' Remove the old sort indicator.
-            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
-        End If
-
-        ' Display the new sort order.
-        m_SortingColumn = new_sorting_column
-        If sort_order = SortOrder.Ascending Then
-            m_SortingColumn.Text = "> " & m_SortingColumn.Text
-        Else
-            m_SortingColumn.Text = "< " & m_SortingColumn.Text
-        End If
-
-        ' Create a comparer.
-        lvThreads.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
-
-        ' Sort.
-        lvThreads.Sort()
-    End Sub
-
     Private Sub lvThreads_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvThreads.MouseDown
         Call mdlMisc.CopyLvToClip(e, Me.lvThreads)
 
@@ -3390,7 +3289,7 @@ Public Class frmMain
             Dim p As cThread.ThreadPriority = cThread.ThreadPriority.Unknow
 
             If Me.lvThreads.SelectedItems.Count > 0 Then
-                p = CType(Me.lvThreads.SelectedItems(0).Tag, cThread).Priority
+                p = Me.lvThreads.GetSelectedItem.Priority
             End If
             Me.ToolStripMenuItem27.Checked = (p = cThread.ThreadPriority.Idle)
             Me.LowestToolStripMenuItem.Checked = (p = cThread.ThreadPriority.Lowest)
@@ -3405,65 +3304,47 @@ Public Class frmMain
     Private Sub lvThreads_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvThreads.SelectedIndexChanged
         ' New thread selected
         If lvThreads.SelectedItems.Count = 1 Then
-            Dim it As ListViewItem = lvThreads.SelectedItems.Item(0)
+            Dim cp As cThread = Me.lvThreads.GetSelectedItem
 
-            If TypeOf it.Tag Is cThread Then
+            Try
 
-                Try
-                    Dim cP As cThread = CType(it.Tag, cThread)
+                ' Description
+                Dim s As String = ""
+                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Thread properties\b0\par"
+                s = s & "\tab Thread ID :\tab\tab\tab " & CStr(cp.Id) & "\par"
+                s = s & "\tab Process owner :\tab\tab\tab " & CStr(cp.ProcessId) & " -- " & cp.ProcessName & "\par"
 
-                    ' Description
-                    Dim s As String = ""
-                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Thread properties\b0\par"
-                    s = s & "\tab Thread ID :\tab\tab\tab " & CStr(cP.Id) & "\par"
-                    s = s & "\tab Process owner :\tab\tab\tab " & CStr(cP.ProcessId) & " -- " & cP.ProcessName & "\par"
+                s = s & "\tab Priority :\tab\tab\tab\tab " & cp.PriorityString & "\par"
+                s = s & "\tab Base priority :\tab\tab\tab " & CStr(cp.BasePriority) & "\par"
+                s = s & "\tab State :\tab\tab\tab\tab " & cp.ThreadState & "\par"
+                s = s & "\tab Wait reason :\tab\tab\tab " & cp.WaitReason & "\par"
+                s = s & "\tab Start address :\tab\tab\tab " & CStr(cp.StartAddress) & "\par"
+                s = s & "\tab PriorityBoostEnabled :\tab\tab " & CStr(cp.PriorityBoostEnabled) & "\par"
+                s = s & "\tab Start time :\tab\tab\tab " & cp.StartTime.ToLongDateString & " -- " & cp.StartTime.ToLongTimeString & "\par"
+                s = s & "\tab TotalProcessorTime :\tab\tab " & cp.TotalProcessorTime.ToString & "\par"
+                s = s & "\tab PrivilegedProcessorTime :\tab\tab " & cp.PrivilegedProcessorTime.ToString & "\par"
+                s = s & "\tab UserProcessorTime :\tab\tab " & CStr(cp.UserProcessorTime.ToString) & "\par"
+                s = s & "\tab ProcessorAffinity :\tab\tab " & CStr(cp.ProcessorAffinity) & "\par"
 
-                    s = s & "\tab Priority :\tab\tab\tab\tab " & cP.PriorityString & "\par"
-                    s = s & "\tab Base priority :\tab\tab\tab " & CStr(cP.BasePriority) & "\par"
-                    s = s & "\tab State :\tab\tab\tab\tab " & cP.ThreadState & "\par"
-                    s = s & "\tab Wait reason :\tab\tab\tab " & cP.WaitReason & "\par"
-                    s = s & "\tab Start address :\tab\tab\tab " & CStr(cP.StartAddress) & "\par"
-                    s = s & "\tab PriorityBoostEnabled :\tab\tab " & CStr(cP.PriorityBoostEnabled) & "\par"
-                    s = s & "\tab Start time :\tab\tab\tab " & cP.StartTime.ToLongDateString & " -- " & cP.StartTime.ToLongTimeString & "\par"
-                    s = s & "\tab TotalProcessorTime :\tab\tab " & cP.TotalProcessorTime.ToString & "\par"
-                    s = s & "\tab PrivilegedProcessorTime :\tab\tab " & cP.PrivilegedProcessorTime.ToString & "\par"
-                    s = s & "\tab UserProcessorTime :\tab\tab " & CStr(cP.UserProcessorTime.ToString) & "\par"
-                    s = s & "\tab ProcessorAffinity :\tab\tab " & CStr(cP.ProcessorAffinity) & "\par"
+                s = s & "}"
 
-                    s = s & "}"
+                rtb4.Rtf = s
 
-                    rtb4.Rtf = s
+            Catch ex As Exception
+                Dim s As String = ""
+                Dim er As Exception = ex
 
-                Catch ex As Exception
-                    Dim s As String = ""
-                    Dim er As Exception = ex
+                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+                s = s & "\tab Message :\tab " & er.Message & "\par"
+                s = s & "\tab Source :\tab\tab " & er.Source & "\par"
+                If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
+                s = s & "}"
 
-                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
-                    s = s & "\tab Message :\tab " & er.Message & "\par"
-                    s = s & "\tab Source :\tab\tab " & er.Source & "\par"
-                    If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
-                    s = s & "}"
+                rtb4.Rtf = s
 
-                    rtb4.Rtf = s
-
-                End Try
-
-            Else
-                ' Error
-                'Dim s As String = ""
-                'Dim er As Exception = ex
-
-                's = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                's = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
-                's = s & "\tab Message :\tab " & er.Message & "\par"
-                's = s & "\tab Source :\tab\tab " & er.Source & "\par"
-                'If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
-                's = s & "}"
-
-                'rtb4.Rtf = s
-            End If
+            End Try
 
         End If
     End Sub
