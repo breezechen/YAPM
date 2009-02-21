@@ -26,15 +26,15 @@ Imports System.Windows.Forms.ListView
 Public Class DoubleBufferedLV
     Inherits System.Windows.Forms.ListView
 
+    Private m_SortingColumn As ColumnHeader
+
     ' ========================================
     ' Public
     ' ========================================
     Public Sub New()
-        'Me.SetStyle(ControlStyles.OptimizedDoubleBuffer, True)
-        'Me.SetStyle(ControlStyles.AllPaintingInWmPaint, True)
-        'Me.SetStyle(ControlStyles.ResizeRedraw, True)
-        'Me.SetStyle(ControlStyles.EnableNotifyMessage, True)
-        ' Me.DoubleBuffered = True
+        MyBase.New()
+        ' Set double buffered property to true
+        'Me.DoubleBuffered = True
     End Sub
 
     Public Property OverriddenDoubleBuffered() As Boolean
@@ -46,21 +46,48 @@ Public Class DoubleBufferedLV
         End Set
     End Property
 
-    'Protected Overrides Sub OnPaint(ByVal e As System.Windows.Forms.PaintEventArgs)
-    '    MyBase.OnPaint(e)
-    '    e.Graphics.Dispose()
-    'End Sub
-    'Protected Overrides Sub OnDrawItem(ByVal e As System.Windows.Forms.DrawListViewItemEventArgs)
-    '    MyBase.OnDrawItem(e)
-    '    e.Graphics.Dispose()
-    'End Sub
-    'Protected Overrides Sub OnDrawSubItem(ByVal e As System.Windows.Forms.DrawListViewSubItemEventArgs)
-    '    MyBase.OnDrawSubItem(e)
-    '    e.Graphics.Dispose()
-    'End Sub
-    'Protected Overrides Sub OnNotifyMessage(ByVal m As System.Windows.Forms.Message)
-    '    'If m.Msg <> &H14 Then _
-    '    MyBase.OnNotifyMessage(m)
-    'End Sub
+    Protected Overrides Sub OnColumnClick(ByVal e As System.Windows.Forms.ColumnClickEventArgs)
+        MyBase.OnColumnClick(e)
 
+        ' Get the new sorting column.
+        Dim new_sorting_column As ColumnHeader = _
+            Me.Columns(e.Column)
+
+        ' Figure out the new sorting order.
+        Dim sort_order As System.Windows.Forms.SortOrder
+        If m_SortingColumn Is Nothing Then
+            ' New column. Sort ascending.
+            sort_order = SortOrder.Ascending
+        Else
+            ' See if this is the same column.
+            If new_sorting_column.Equals(m_SortingColumn) Then
+                ' Same column. Switch the sort order.
+                If m_SortingColumn.Text.StartsWith("> ") Then
+                    sort_order = SortOrder.Descending
+                Else
+                    sort_order = SortOrder.Ascending
+                End If
+            Else
+                ' New column. Sort ascending.
+                sort_order = SortOrder.Ascending
+            End If
+
+            ' Remove the old sort indicator.
+            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
+        End If
+
+        ' Display the new sort order.
+        m_SortingColumn = new_sorting_column
+        If sort_order = SortOrder.Ascending Then
+            m_SortingColumn.Text = "> " & m_SortingColumn.Text
+        Else
+            m_SortingColumn.Text = "< " & m_SortingColumn.Text
+        End If
+
+        ' Create a comparer.
+        Me.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
+
+        ' Sort.
+        Me.Sort()
+    End Sub
 End Class

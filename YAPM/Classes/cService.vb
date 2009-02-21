@@ -24,6 +24,7 @@ Option Strict On
 Imports System.Runtime.InteropServices
 
 Public Class cService
+    Inherits cGeneralObject
 
 #Region "API"
     ' ========================================
@@ -51,6 +52,10 @@ Public Class cService
         ByVal pBuffer As IntPtr, _
         ByVal cbBufSize As Integer, _
         ByRef pcbBytesNeeded As Integer) As Boolean
+    End Function
+
+    <DllImport("advapi32.dll", CharSet:=CharSet.Unicode, SetLastError:=True)> _
+    Public Shared Function QueryServiceStatusEx(ByVal serviceHandle As IntPtr, ByVal infoLevel As Integer, ByVal buffer As IntPtr, ByVal bufferSize As Integer, ByRef bytesNeeded As Integer) As Boolean
     End Function
 
     <DllImport("advapi32.dll", EntryPoint:="QueryServiceConfig2W", SetLastError:=True, CharSet:=CharSet.Unicode, ExactSpelling:=True, CallingConvention:=CallingConvention.StdCall)> _
@@ -140,6 +145,22 @@ Public Class cService
     ' ========================================
     ' Enums
     ' ========================================
+    Public Enum TypeServiceStartType As Integer
+        SERVICE_BOOT_START = &H0
+        SERVICE_SYSTEM_START = &H1
+        SERVICE_AUTO_START = &H2
+        SERVICE_DEMAND_START = &H3
+        SERVICE_DISABLED = &H4
+        SERVICESTARTTYPE_NO_CHANGE = SERVICE_NO_CHANGE
+    End Enum
+    Public Enum ACCEPTED_CONTROLS As Integer
+        SERVICE_ACCEPT_NETBINDCHANGE = &H10
+        SERVICE_ACCEPT_PARAMCHANGE = &H8
+        SERVICE_ACCEPT_PAUSE_CONTINUE = &H2
+        SERVICE_ACCEPT_PRESHUTDOWN = &H100
+        SERVICE_ACCEPT_SHUTDOWN = &H4
+        SERVICE_ACCEPT_STOP = &H1
+    End Enum
     Private Enum SERVICE_CONTROL
         _STOP = 1
         _PAUSE = 2
@@ -171,6 +192,16 @@ Public Class cService
         SERVICE_ERROR_CRITICAL = &H3
         SERVICEERRORCONTROL_NO_CHANGE = SERVICE_NO_CHANGE
     End Enum
+    Public Enum SERVIVE_STATE As Integer
+        ContinuePending = &H5
+        PausePending = &H6
+        Paused = &H7
+        Running = &H4
+        StartPending = &H2
+        StopPending = &H3
+        Stopped = &H1
+    End Enum
+
 
     ' ========================================
     ' Constants
@@ -194,11 +225,12 @@ Public Class cService
     Private Const SERVICE_ALL_ACCESS As Integer = (STANDARD_RIGHTS_REQUIRED Or SERVICE_QUERY_CONFIG Or SERVICE_CHANGE_CONFIG Or SERVICE_QUERY_STATUS Or SERVICE_ENUMERATE_DEPENDENTS Or SERVICE_START Or SERVICE_STOP Or SERVICE_PAUSE_CONTINUE Or SERVICE_INTERROGATE Or SERVICE_USER_DEFINED_CONTROL)
     Private Const SC_MANAGER_CONNECT As Integer = &H1
     Private Const SC_MANAGER_CREATE_SERVICE As Integer = &H2
-    ' Private Const SC_MANAGER_ENUMERATE_SERVICE As Integer = &H4
     Private Const SC_MANAGER_LOCK As Integer = &H8
     Private Const SC_MANAGER_QUERY_LOCK_STATUS As Integer = &H10
     Private Const SC_MANAGER_MODIFY_BOOT_CONFIG As Integer = &H20
     Private Const SC_MANAGER_ALL_ACCESS As Integer = (STANDARD_RIGHTS_REQUIRED + SC_MANAGER_CONNECT + SC_MANAGER_CREATE_SERVICE + SC_MANAGER_ENUMERATE_SERVICE + SC_MANAGER_LOCK + SC_MANAGER_QUERY_LOCK_STATUS + SC_MANAGER_MODIFY_BOOT_CONFIG)
+    Private Const SC_STATUS_PROCESS_INFO As Integer = 0
+    ' Private Const SC_MANAGER_ENUMERATE_SERVICE As Integer = &H4
 
     ' ========================================
     ' Structures
@@ -214,17 +246,6 @@ Public Class cService
     End Structure
 #End Region
 
-    ' ========================================
-    ' Exposed enums
-    ' ========================================
-    Public Enum TypeServiceStartType As Integer
-        SERVICE_BOOT_START = &H0
-        SERVICE_SYSTEM_START = &H1
-        SERVICE_AUTO_START = &H2
-        SERVICE_DEMAND_START = &H3
-        SERVICE_DISABLED = &H4
-        SERVICESTARTTYPE_NO_CHANGE = SERVICE_NO_CHANGE
-    End Enum
 
     ' ========================================
     ' Private attributes
@@ -236,8 +257,8 @@ Public Class cService
     Private _diagnosticsMessageFile As String = vbNullString
     Private _objectName As String = vbNullString
     Private _dwServiceType As Integer
-    Private _dwCurrentState As Integer
-    Private _dwControlsAccepted As Integer
+    Private _dwCurrentState As SERVIVE_STATE
+    Private _dwControlsAccepted As ACCEPTED_CONTROLS
     Private _dwErrorControl As Integer
     Private _dwStartType As Integer
     Private _lpLoadOrderGroup As String
@@ -246,6 +267,7 @@ Public Class cService
     Private _processName As String
     Private _command As String
     Private _rebootMessage As String
+    Private _key As String
 
     Private gotDesc As Boolean = False
     Private gotDiag As Boolean = False
@@ -254,15 +276,17 @@ Public Class cService
     Private lServ As IntPtr
     Private Shared hSCManager As IntPtr
 
-    Public IsDisplayed As Boolean
-
 
     ' ========================================
     ' Getter & Setter
     ' ========================================
 #Region "Getter & setter"
 
-    ' No need to refresh OR refresh by Refresh() proc
+    Public ReadOnly Property Key() As String
+        Get
+            Return _key
+        End Get
+    End Property
     Public ReadOnly Property Name() As String
         Get
             Return _Name
@@ -305,24 +329,6 @@ Public Class cService
             Return _dwErrorControl
         End Get
     End Property
-    Public ReadOnly Property ServiceStartType() As String
-        Get
-            Select Case GetServiceInfo("Start")
-                Case "0"  'SERVICE_BOOT_START
-                    Return "Boot Start"
-                Case "1"  'SERVICE_SYSTEM_START
-                    Return "System Start"
-                Case "2"  'SERVICE_AUTO_START
-                    Return "Auto Start"
-                Case "3"  'SERVICE_DEMAND_START
-                    Return "Demand Start"
-                Case "4"  'SERVICE_DISABLED
-                    Return "Disabled"
-                Case Else
-                    Return vbNullString
-            End Select
-        End Get
-    End Property
     Public ReadOnly Property ProcessID() As Integer
         Get
             Return _dwProcessId
@@ -343,17 +349,44 @@ Public Class cService
             Return _lpServiceStartName
         End Get
     End Property
-
-    ' ???
-    Public ReadOnly Property State() As System.ServiceProcess.ServiceControllerStatus
+    Public ReadOnly Property AcceptedControls() As ACCEPTED_CONTROLS
         Get
-            Dim oo As System.ServiceProcess.ServiceControllerStatus = _
-                CType(_dwCurrentState, ServiceProcess.ServiceControllerStatus)
-            Return oo
+            Return _dwControlsAccepted
         End Get
     End Property
 
-    ' Constructor refresh
+
+    Public ReadOnly Property State() As SERVIVE_STATE
+        Get
+            Return _dwCurrentState
+        End Get
+    End Property
+
+    Public ReadOnly Property ServiceStartTypeInt() As TypeServiceStartType
+        Get
+            Dim i As Integer = Integer.Parse(GetServiceInfo("Start"))
+            Return CType(i, TypeServiceStartType)
+        End Get
+    End Property
+
+    Public ReadOnly Property ServiceStartType() As String
+        Get
+            Select Case GetServiceInfo("Start")
+                Case "0"  'SERVICE_BOOT_START
+                    Return "Boot Start"
+                Case "1"  'SERVICE_SYSTEM_START
+                    Return "System Start"
+                Case "2"  'SERVICE_AUTO_START
+                    Return "Auto Start"
+                Case "3"  'SERVICE_DEMAND_START
+                    Return "Demand Start"
+                Case "4"  'SERVICE_DISABLED
+                    Return "Disabled"
+                Case Else
+                    Return vbNullString
+            End Select
+        End Get
+    End Property
     Public ReadOnly Property Description() As String
         Get
             If Not (gotDesc) Then
@@ -384,48 +417,30 @@ Public Class cService
             Return _objectName
         End Get
     End Property
-    'Public ReadOnly Property RebootMessage() As String
-    '    Get
-    '        Return _rebootMessage
-    '    End Get
-    'End Property
-    'Public ReadOnly Property Command() As String
-    '    Get
-    '        Return _command
-    '    End Get
-    'End Property
 #End Region
 
 
-    ' ========================================
     ' Constructor
-    ' ========================================
-    Public Sub New(ByVal SCMgr As IntPtr, ByVal name As String, ByVal dispName As String, _
-        ByVal serv As SERVICE_STATUS_PROCESS, Optional ByVal noRefresh As Boolean = False)
-
+    Public Sub New(ByVal key As String, ByVal SCMgr As IntPtr)
         MyBase.New()
 
+        ' Key is such as : NAME@PID
+        _key = key
+        Dim i As Integer = key.IndexOf("@")
+        If i = 0 Then
+            _dwProcessId = 0
+            _Name = key
+        Else
+            _dwProcessId = Integer.Parse(key.Substring(i + 1, key.Length - i - 1))
+            _Name = key.Substring(0, i)
+        End If
+
         ' Get param infos
-        _dwServiceType = serv.dwServiceType
-        _dwCurrentState = serv.dwCurrentState
-        _dwProcessId = serv.dwProcessId
-        _Name = name
-        _processName = cProcess.GetProcessName(_dwProcessId)
-        _LongName = dispName
         hSCManager = SCMgr
-
         lServ = OpenService(hSCManager, _Name, SERVICE_ALL_ACCESS)
+        Me.Refresh()
 
-        ' Refresh some informations
-        'If noRefresh = False Then Call Refresh2()
-
-        IsDisplayed = False
-    End Sub
-    Public Sub New(ByVal name As String)
-        MyBase.New()
-
-        ' Get param infos
-        _Name = name
+        _processName = cProcess.GetProcessName(_dwProcessId)
         IsDisplayed = False
     End Sub
 
@@ -440,7 +455,7 @@ Public Class cService
     ' ========================================
 
     ' Get desired information
-    Public Function GetInformation(ByVal info As String) As String
+    Public Overrides Function GetInformation(ByVal info As String) As String
         Dim res As String = ""
 
         Select Case info
@@ -453,12 +468,12 @@ Public Class cService
             Case "ImagePath"
                 res = _imagePath
             Case "ErrorControl"
-                res = CStr(_dwErrorControl)
+                res = _dwErrorControl.ToString
             Case "StartType"
                 res = Me.ServiceStartType
             Case "ProcessId"
                 If _dwProcessId > 0 Then
-                    res = CStr(_dwProcessId)
+                    res = _dwProcessId.ToString
                 Else
                     res = ""
                 End If
@@ -473,20 +488,16 @@ Public Class cService
             Case "ServiceStartName"
                 res = _lpServiceStartName
             Case "State"
-                res = CStr(_dwCurrentState)
+                res = _dwCurrentState.ToString
             Case "Description"
                 res = Me.Description
             Case "DiagnosticMessageFile"
                 res = Me.DiagnosticsMessageFile
             Case "ObjectName"
-                res = _rebootMessage
-                'Case "RebootMessage"
-                '    res = _rebootMessage
-                'Case "Command"
-                '    res = _command
+                res = Me.ObjectName
             Case "Process"
                 If _dwProcessId > 0 Then
-                    res = _processName & " -- " & CStr(_dwProcessId)
+                    res = _processName & " -- " & _dwProcessId.ToString
                 Else
                     res = ""
                 End If
@@ -513,8 +524,6 @@ Public Class cService
         s(11) = "ServiceStartName"
         s(12) = "DiagnosticMessageFile"
         s(13) = "ObjectName"
-        's(15) = "RebootMessage"
-        's(16) = "Command"
 
         Return s
     End Function
@@ -537,6 +546,16 @@ Public Class cService
                 pt = Marshal.AllocHGlobal(bytesNeeded)
                 fResult = QueryServiceConfig(lServ, pt, bytesNeeded, bytesNeeded)
                 tt = CType(Marshal.PtrToStructure(pt, GetType(QUERY_SERVICE_CONFIG)), QUERY_SERVICE_CONFIG)
+                Marshal.FreeHGlobal(pt)
+
+                ' We must retrieve CurrentState and AcceptedControls
+                Dim tt2 As SERVICE_STATUS_PROCESS
+                Dim pt2 As IntPtr = IntPtr.Zero
+                fResult = QueryServiceStatusEx(lServ, SC_STATUS_PROCESS_INFO, pt2, bytesNeeded, bytesNeeded)
+                pt2 = Marshal.AllocHGlobal(bytesNeeded)
+                fResult = QueryServiceStatusEx(lServ, SC_STATUS_PROCESS_INFO, pt2, bytesNeeded, bytesNeeded)
+                tt2 = CType(Marshal.PtrToStructure(pt2, GetType(SERVICE_STATUS_PROCESS)), SERVICE_STATUS_PROCESS)
+                Marshal.FreeHGlobal(pt2)
 
                 With tt
                     _dwServiceType = .dwServiceType
@@ -546,72 +565,14 @@ Public Class cService
                     _LongName = .lpDisplayName
                     _lpLoadOrderGroup = .lpLoadOrderGroup
                     _lpServiceStartName = .lpServiceStartName
+                    _dwCurrentState = CType(tt2.dwCurrentState, SERVIVE_STATE)
+                    _dwControlsAccepted = CType(tt2.dwControlsAccepted, ACCEPTED_CONTROLS)
                 End With
-
-                '_dwCurrentState = ???????
-
-                Marshal.FreeHGlobal(pt)
 
             End If
         End If
 
     End Sub
-
-    ' Refresh some onther informations
-    'Public Sub Refresh2()
-
-    '    ' Here we retrieve these infos :
-    '    '- Description
-    '    '- DiagnosticMessageFile
-    '    '- ObjectName
-    '    '- RebootMessage
-    '    '- Command
-
-    '    Dim hSCManager As IntPtr
-    '    Dim lServ As IntPtr
-
-    '    hSCManager = OpenSCManager(vbNullString, vbNullString, SC_MANAGER_ALL_ACCESS)
-    '    If hSCManager <> IntPtr.Zero Then
-    '        lServ = OpenService(hSCManager, _Name, SERVICE_ALL_ACCESS)
-    '        If lServ <> IntPtr.Zero Then
-
-    '            ' Get informations
-    '            Dim tt As SERVICE_FAILURE_ACTIONS = Nothing
-    '            Dim bytesNeeded As Integer = 0
-    '            Dim pt As IntPtr = IntPtr.Zero
-    '            Dim fRes As Integer = QueryServiceConfig2(CInt(lServ), 2, IntPtr.Zero, 0, bytesNeeded)
-    '            pt = Marshal.AllocHGlobal(bytesNeeded)
-    '            fRes = QueryServiceConfig2(CInt(lServ), 2, pt, bytesNeeded, bytesNeeded)
-    '            tt = CType(Marshal.PtrToStructure(pt, GetType(SERVICE_FAILURE_ACTIONS)), SERVICE_FAILURE_ACTIONS)
-    '            Marshal.FreeHGlobal(pt)
-
-    '            'Dim tt2 As SERVICE_DESCRIPTION = Nothing
-    '            'fRes = QueryServiceConfig2(CInt(lServ), 1, IntPtr.Zero, 0, bytesNeeded)
-    '            'pt = Marshal.AllocHGlobal(bytesNeeded)
-    '            'fRes = QueryServiceConfig2(CInt(lServ), 1, pt, bytesNeeded, bytesNeeded)
-    '            ''Dim dest() As Short
-    '            ''ReDim dest(bytesNeeded)
-    '            ''Marshal.Copy(pt, dest, 0, bytesNeeded)
-    '            ''marshal.Copy(dest,
-    '            '_description = "test"
-    '            'Marshal.FreeHGlobal(pt)
-    '            _description = GetServiceInfo("Description")
-
-    '            With tt
-    '                _command = .lpCommand
-    '                _rebootMessage = .lpRebootMsg
-    '            End With
-
-    '            CloseServiceHandle(lServ)
-    '        End If
-    '        CloseServiceHandle(hSCManager)
-    '    End If
-
-    '    ' Have to get some informations from registry
-    '    _objectName = GetServiceInfo("ObjectName")
-    '    _diagnosticsMessageFile = GetServiceInfo("DiagnosticMessageFile")
-
-    'End Sub
 
     ' Start a service
     Public Sub StartService()

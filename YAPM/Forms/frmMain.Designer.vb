@@ -51,7 +51,7 @@ Partial Class frmMain
         Me.SplitContainerTvLv = New System.Windows.Forms.SplitContainer
         Me.tvProc = New System.Windows.Forms.TreeView
         Me.imgProcess = New System.Windows.Forms.ImageList(Me.components)
-        Me.lvProcess = New YAPM.DoubleBufferedLV
+        Me.lvProcess = New YAPM.processList
         Me.c1 = New System.Windows.Forms.ColumnHeader
         Me.c2 = New System.Windows.Forms.ColumnHeader
         Me.c3 = New System.Windows.Forms.ColumnHeader
@@ -95,7 +95,7 @@ Partial Class frmMain
         Me.timerProcess = New System.Windows.Forms.Timer(Me.components)
         Me.panelMain2 = New System.Windows.Forms.Panel
         Me.splitServices = New System.Windows.Forms.SplitContainer
-        Me.lvServices = New YAPM.DoubleBufferedLV
+        Me.lvServices = New YAPM.serviceList
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader7 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader8 = New System.Windows.Forms.ColumnHeader
@@ -120,7 +120,6 @@ Partial Class frmMain
         Me.GoogleSearchToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem42 = New System.Windows.Forms.ToolStripSeparator
         Me.SelectedAssociatedProcessToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.imgServices = New System.Windows.Forms.ImageList(Me.components)
         Me.splitServices2 = New System.Windows.Forms.SplitContainer
         Me.cmdCopyServiceToCp = New System.Windows.Forms.Button
         Me.lblServicePath = New System.Windows.Forms.TextBox
@@ -129,6 +128,7 @@ Partial Class frmMain
         Me.rtb2 = New System.Windows.Forms.RichTextBox
         Me.splitServices4 = New System.Windows.Forms.SplitContainer
         Me.tv2 = New System.Windows.Forms.TreeView
+        Me.imgServices = New System.Windows.Forms.ImageList(Me.components)
         Me.tv = New System.Windows.Forms.TreeView
         Me.panelMain4 = New System.Windows.Forms.Panel
         Me.WBHelp = New System.Windows.Forms.WebBrowser
@@ -474,7 +474,7 @@ Partial Class frmMain
         Me.Label7 = New System.Windows.Forms.Label
         Me.lblModulesCount = New System.Windows.Forms.Label
         Me.txtSearchModule = New System.Windows.Forms.TextBox
-        Me.lvModules = New YAPM.DoubleBufferedLV
+        Me.lvModules = New YAPM.moduleList
         Me.ColumnHeader29 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader43 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader44 = New System.Windows.Forms.ColumnHeader
@@ -693,6 +693,7 @@ Partial Class frmMain
         Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c7, Me.c8, Me.c9, Me.c10})
         Me.lvProcess.ContextMenuStrip = Me.menuProc
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvProcess.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcess.FullRowSelect = True
         ListViewGroup1.Header = "Processes"
         ListViewGroup1.Name = "gpOther"
@@ -704,7 +705,6 @@ Partial Class frmMain
         Me.lvProcess.Name = "lvProcess"
         Me.lvProcess.OverriddenDoubleBuffered = True
         Me.lvProcess.Size = New System.Drawing.Size(560, 224)
-        Me.lvProcess.SmallImageList = Me.imgProcess
         Me.lvProcess.TabIndex = 3
         Me.lvProcess.UseCompatibleStateImageBehavior = False
         Me.lvProcess.View = System.Windows.Forms.View.Details
@@ -764,7 +764,7 @@ Partial Class frmMain
         '
         Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.KillProcessTreeToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ToolStripMenuItem38, Me.ShowModulesToolStripMenuItem, Me.ShowThreadsToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.ShowWindowsToolStripMenuItem, Me.ShowAllToolStripMenuItem, Me.SelectedServicesToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.GoogleSearchToolStripMenuItem, Me.ToolStripMenuItem37, Me.chooseColumns})
         Me.menuProc.Name = "menuProc"
-        Me.menuProc.Size = New System.Drawing.Size(173, 418)
+        Me.menuProc.Size = New System.Drawing.Size(173, 396)
         '
         'KillToolStripMenuItem
         '
@@ -806,42 +806,42 @@ Partial Class frmMain
         '
         Me.IdleToolStripMenuItem.Image = CType(resources.GetObject("IdleToolStripMenuItem.Image"), System.Drawing.Image)
         Me.IdleToolStripMenuItem.Name = "IdleToolStripMenuItem"
-        Me.IdleToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.IdleToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
         Me.IdleToolStripMenuItem.Text = "Idle"
         '
         'BelowNormalToolStripMenuItem
         '
         Me.BelowNormalToolStripMenuItem.Image = CType(resources.GetObject("BelowNormalToolStripMenuItem.Image"), System.Drawing.Image)
         Me.BelowNormalToolStripMenuItem.Name = "BelowNormalToolStripMenuItem"
-        Me.BelowNormalToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.BelowNormalToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
         Me.BelowNormalToolStripMenuItem.Text = "Below Normal"
         '
         'NormalToolStripMenuItem
         '
         Me.NormalToolStripMenuItem.Image = CType(resources.GetObject("NormalToolStripMenuItem.Image"), System.Drawing.Image)
         Me.NormalToolStripMenuItem.Name = "NormalToolStripMenuItem"
-        Me.NormalToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.NormalToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
         Me.NormalToolStripMenuItem.Text = "Normal"
         '
         'AboveNormalToolStripMenuItem
         '
         Me.AboveNormalToolStripMenuItem.Image = CType(resources.GetObject("AboveNormalToolStripMenuItem.Image"), System.Drawing.Image)
         Me.AboveNormalToolStripMenuItem.Name = "AboveNormalToolStripMenuItem"
-        Me.AboveNormalToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AboveNormalToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
         Me.AboveNormalToolStripMenuItem.Text = "Above Normal"
         '
         'HighToolStripMenuItem
         '
         Me.HighToolStripMenuItem.Image = CType(resources.GetObject("HighToolStripMenuItem.Image"), System.Drawing.Image)
         Me.HighToolStripMenuItem.Name = "HighToolStripMenuItem"
-        Me.HighToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.HighToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
         Me.HighToolStripMenuItem.Text = "High"
         '
         'RealTimeToolStripMenuItem
         '
         Me.RealTimeToolStripMenuItem.Image = CType(resources.GetObject("RealTimeToolStripMenuItem.Image"), System.Drawing.Image)
         Me.RealTimeToolStripMenuItem.Name = "RealTimeToolStripMenuItem"
-        Me.RealTimeToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.RealTimeToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
         Me.RealTimeToolStripMenuItem.Text = "Real Time"
         '
         'SetAffinityToolStripMenuItem
@@ -1013,6 +1013,7 @@ Partial Class frmMain
         Me.lvServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader11, Me.ColumnHeader19})
         Me.lvServices.ContextMenuStrip = Me.menuService
         Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvServices.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvServices.FullRowSelect = True
         ListViewGroup3.Header = "Services"
         ListViewGroup3.Name = "gpOther"
@@ -1024,7 +1025,6 @@ Partial Class frmMain
         Me.lvServices.Name = "lvServices"
         Me.lvServices.OverriddenDoubleBuffered = True
         Me.lvServices.Size = New System.Drawing.Size(642, 201)
-        Me.lvServices.SmallImageList = Me.imgServices
         Me.lvServices.TabIndex = 1
         Me.lvServices.UseCompatibleStateImageBehavior = False
         Me.lvServices.View = System.Windows.Forms.View.Details
@@ -1175,17 +1175,6 @@ Partial Class frmMain
         Me.SelectedAssociatedProcessToolStripMenuItem1.Size = New System.Drawing.Size(219, 22)
         Me.SelectedAssociatedProcessToolStripMenuItem1.Text = "Selected associated process"
         '
-        'imgServices
-        '
-        Me.imgServices.ImageStream = CType(resources.GetObject("imgServices.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgServices.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgServices.Images.SetKeyName(0, "ok")
-        Me.imgServices.Images.SetKeyName(1, "ko")
-        Me.imgServices.Images.SetKeyName(2, "key")
-        Me.imgServices.Images.SetKeyName(3, "thread")
-        Me.imgServices.Images.SetKeyName(4, "noicon")
-        Me.imgServices.Images.SetKeyName(5, "service")
-        '
         'splitServices2
         '
         Me.splitServices2.Dock = System.Windows.Forms.DockStyle.Fill
@@ -1303,6 +1292,17 @@ Partial Class frmMain
         Me.tv2.SelectedImageIndex = 2
         Me.tv2.Size = New System.Drawing.Size(163, 32)
         Me.tv2.TabIndex = 15
+        '
+        'imgServices
+        '
+        Me.imgServices.ImageStream = CType(resources.GetObject("imgServices.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imgServices.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgServices.Images.SetKeyName(0, "ok")
+        Me.imgServices.Images.SetKeyName(1, "ko")
+        Me.imgServices.Images.SetKeyName(2, "key")
+        Me.imgServices.Images.SetKeyName(3, "thread")
+        Me.imgServices.Images.SetKeyName(4, "noicon")
+        Me.imgServices.Images.SetKeyName(5, "service")
         '
         'tv
         '
@@ -5001,6 +5001,7 @@ Partial Class frmMain
         Me.lvModules.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader29, Me.ColumnHeader43, Me.ColumnHeader44, Me.ColumnHeader45, Me.ColumnHeader46, Me.ColumnHeader18})
         Me.lvModules.ContextMenuStrip = Me.menuModule
         Me.lvModules.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvModules.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvModules.FullRowSelect = True
         ListViewGroup15.Header = "Modules"
         ListViewGroup15.Name = "gpOther"
@@ -5011,8 +5012,8 @@ Partial Class frmMain
         Me.lvModules.Location = New System.Drawing.Point(0, 0)
         Me.lvModules.Name = "lvModules"
         Me.lvModules.OverriddenDoubleBuffered = True
+        Me.lvModules.ProcessId = 0
         Me.lvModules.Size = New System.Drawing.Size(565, 143)
-        Me.lvModules.SmallImageList = Me.imgSearch
         Me.lvModules.TabIndex = 6
         Me.lvModules.UseCompatibleStateImageBehavior = False
         Me.lvModules.View = System.Windows.Forms.View.Details
@@ -5873,9 +5874,9 @@ Partial Class frmMain
     Friend WithEvents c7 As System.Windows.Forms.ColumnHeader
     Friend WithEvents c8 As System.Windows.Forms.ColumnHeader
     Friend WithEvents c9 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents lvProcess As YAPM.DoubleBufferedLV
+    Friend WithEvents lvProcess As YAPM.processList
     Friend WithEvents lvSearchResults As YAPM.DoubleBufferedLV
-    Friend WithEvents lvModules As YAPM.DoubleBufferedLV
+    Friend WithEvents lvModules As YAPM.moduleList
     Friend WithEvents lvThreads As YAPM.DoubleBufferedLV
     Friend WithEvents lvHandles As YAPM.DoubleBufferedLV
     Friend WithEvents lvWindows As YAPM.DoubleBufferedLV
@@ -5887,7 +5888,7 @@ Partial Class frmMain
     Friend WithEvents ExitToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents EnableServiceRefreshingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents splitServices As System.Windows.Forms.SplitContainer
-    Friend WithEvents lvServices As YAPM.DoubleBufferedLV
+    Friend WithEvents lvServices As YAPM.serviceList
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader7 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader8 As System.Windows.Forms.ColumnHeader

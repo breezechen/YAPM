@@ -145,6 +145,11 @@ Public Class cProcessMemRW
             Return si
         End Get
     End Property
+    Public ReadOnly Property Handle() As Integer
+        Get
+            Return _handle
+        End Get
+    End Property
 
     ' =======================================================
     ' Public functions

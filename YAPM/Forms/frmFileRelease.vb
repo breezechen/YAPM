@@ -51,16 +51,13 @@ Public Class frmFileRelease
         frmMain.timerProcess.Enabled = False
         frmMain.timerServices.Enabled = False
 
-        Dim it As ListViewItem
         Dim sComp As String
         Dim i As Integer = 0
         Dim id As Integer = 0
 
-
-        For Each it In frmMain.lvProcess.Items
+        For Each cProc As cProcess In frmMain.lvProcess.GetAllItems
             Try
                 ' Check for modules
-                Dim cProc As cProcess = CType(it.Tag, cProcess)
                 Dim p As ProcessModuleCollection = cProc.Modules
                 Dim m As ProcessModule
                 For Each m In p
@@ -73,7 +70,7 @@ Public Class frmFileRelease
                         newIt.Text = CStr(cProc.Pid) & " -- " & cProc.Name
                         newIt.SubItems.Add(n2)
                         newIt.ImageKey = "module"
-                        newIt.Tag = New cModule(cProc.Pid, m)
+                        'newIt.Tag = New cModule(cProc.Pid, m)   ' TODO
                         Me.lv.Items.Add(newIt)
                     End If
                 Next

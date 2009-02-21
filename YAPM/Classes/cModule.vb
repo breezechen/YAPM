@@ -21,12 +21,16 @@
 
 Option Strict On
 
+Imports System.Runtime.InteropServices
+
 Public Class cModule
+    Inherits cGeneralObject
 
 #Region "API"
 
     Private Const TH32CS_SNAPMODULE As Integer = &H8
 
+    Private Declare Function GetProcAddress Lib "kernel32" (ByVal hModule As Integer, ByVal lpProcName As String) As Integer
     Private Declare Function CloseHandle Lib "kernel32" (ByVal hObject As Integer) As Integer
     Private Declare Function OpenProcess Lib "kernel32.dll" (ByVal dwDesiredAccessas As Integer, ByVal bInheritHandle As Integer, ByVal dwProcId As Integer) As Integer
     Private Declare Function CreateToolhelpSnapshot Lib "kernel32" Alias "CreateToolhelp32Snapshot" (ByVal lFlags As Integer, ByVal lProcessID As Integer) As Integer
@@ -36,19 +40,20 @@ Public Class cModule
     Private Declare Function Module32First Lib "kernel32.dll" (ByVal hSnapshot As Integer, ByRef lppe As MODULEENTRY32) As Integer
     Private Declare Function Module32Next Lib "kernel32.dll" (ByVal hSnapshot As Integer, ByRef lpme As MODULEENTRY32) As Integer
 
-    Private Structure MODULEENTRY32
-        Dim dwSize As Integer
-        Dim th32ModuleID As Integer
-        Dim th32ProcessID As Integer
-        Dim GlblcntUsage As Integer
-        Dim ProccntUsage As Integer
-        Dim modBaseAddr As Integer
-        Dim modBaseSize As Integer
-        Dim hModule As Integer
-        <VBFixedString(256)> _
-        Dim szModule As String
-        <VBFixedString(260)> _
-        Dim szExeFile As String
+    <StructLayout(LayoutKind.Sequential)> _
+    Public Structure MODULEENTRY32
+        Public dwSize As Integer
+        Public th32ModuleID As Integer
+        Public th32ProcessID As Integer
+        Public GlblcntUsage As Integer
+        Public ProccntUsage As Integer
+        Public modBaseAddr As Integer
+        Public modBaseSize As Integer
+        Public hModule As Integer
+        <MarshalAs(UnmanagedType.ByValTStr, SizeConst:=256)> _
+        Public szModule As String
+        <MarshalAs(UnmanagedType.ByValTStr, SizeConst:=260)> _
+        Public szExePath As String
     End Structure
 
 #End Region
@@ -59,14 +64,11 @@ Public Class cModule
     ' ========================================
     Private _path As String
     Private _pid As Integer
-    Private _mdl As ProcessModule
-    Private _isDisplayed As Boolean = False
-    Private _killedItem As Boolean
-    Private _newItem As Boolean
     Private _name As String
-    Private _entryP As Integer
+    Private _size As Integer
     Private _baseA As Integer
     Private _fv As FileVersionInfo
+    Private _key As String
 
 
     ' ========================================
@@ -79,6 +81,11 @@ Public Class cModule
                 _name = cFile.GetFileName(_path)
             End If
             Return _name
+        End Get
+    End Property
+    Public ReadOnly Property Key() As String
+        Get
+            Return _key
         End Get
     End Property
     Public ReadOnly Property FilePath() As String
@@ -317,60 +324,12 @@ Public Class cModule
     End Property
     Public ReadOnly Property BaseAddress() As Integer
         Get
-            If _baseA = 0 Then
-                If _mdl IsNot Nothing Then
-                    _baseA = CInt(_mdl.BaseAddress)
-                End If
-            End If
             Return _baseA
-        End Get
-    End Property
-    Public ReadOnly Property EntryPointAddress() As Integer
-        Get
-            If _entryP = 0 Then
-                If _mdl IsNot Nothing Then
-                    _entryP = CInt(_mdl.EntryPointAddress)
-                End If
-            End If
-            Return _entryP
         End Get
     End Property
     Public ReadOnly Property ModuleMemorySize() As Integer
         Get
-            If _mdl IsNot Nothing Then
-                Return _mdl.ModuleMemorySize
-            Else
-                Return 0
-            End If
-        End Get
-    End Property
-    Public Property isDisplayed() As Boolean
-        Get
-            Return _isDisplayed
-        End Get
-        Set(ByVal value As Boolean)
-            _isDisplayed = value
-        End Set
-    End Property
-    Public Property IsKilledItem() As Boolean
-        Get
-            Return _killedItem
-        End Get
-        Set(ByVal value As Boolean)
-            _killedItem = value
-        End Set
-    End Property
-    Public Property IsNewItem() As Boolean
-        Get
-            Return _newItem
-        End Get
-        Set(ByVal value As Boolean)
-            _newItem = value
-        End Set
-    End Property
-    Public ReadOnly Property Mdl() As ProcessModule
-        Get
-            Return _mdl
+            Return _size
         End Get
     End Property
 #End Region
@@ -378,22 +337,13 @@ Public Class cModule
     ' ========================================
     ' Public functions
     ' ========================================
-    Public Sub New(ByVal pid As Integer, ByVal modulePath As String)
-        _path = modulePath
-        _pid = pid
-    End Sub
-    Public Sub New(ByVal pid As Integer, ByRef mdl As ProcessModule)
-        _path = mdl.FileName
-        _pid = pid
-        _mdl = mdl
-    End Sub
-    Public Sub New(ByVal modul As cModule)
-        _name = modul.Name
-        _path = modul.FilePath
-        _pid = modul.ProcessId
-        _killedItem = modul.IsKilledItem
-        _newItem = modul._newItem
-        _mdl = modul.mdl
+    Public Sub New(ByVal key As String, ByRef mdl As MODULEENTRY32)
+        _key = key
+        _path = FormatString(mdl.szExePath)
+        _size = mdl.modBaseSize
+        _baseA = mdl.modBaseAddr
+        _pid = mdl.th32ProcessID
+        _name = cFile.GetFileName(_path)
     End Sub
 
     ' Unload the specified module
@@ -402,99 +352,89 @@ Public Class cModule
     End Function
 
     ' List modules of an exe file
-    Public Shared Function Enumerate(ByVal pid As Integer, ByRef m() As cModule) As Integer
+    Public Shared Function Enumerate(ByVal pid As Integer, ByRef key() As String, _
+                                     ByRef _dico As Dictionary(Of String, MODULEENTRY32)) As Integer
 
-        Dim t As ProcessModuleCollection
-        Try
-            t = System.Diagnostics.Process.GetProcessById(pid).Modules
-        Catch ex As Exception
-            ' Access denied OR cannot enum modules OR process does not exist anymore
-            ReDim m(0)
-            Return 0
-        End Try
+        Dim t() As MODULEENTRY32 = EnumerateSpeed(pid)
+        _dico.Clear()
 
-        If t Is Nothing Then
-            ReDim m(0)
-            Return 0
-        End If
-
-        ReDim m(t.Count)
+        ReDim key(t.Length - 1)
         Dim x As Integer = 0
-        Dim it As ProcessModule
-        For Each it In t
-            m(x) = New cModule(pid, it)
-            x += 1
+        For Each it As MODULEENTRY32 In t
+            Dim s As String = FormatString(it.szExePath)
+            If Len(s) > 2 Then
+                key(x) = s & "|" & it.modBaseAddr.ToString
+                _dico.Add(key(x), it)
+                x += 1
+            End If
         Next
-        Return t.Count
+
+        ReDim Preserve key(x - 1)
+        Return t.Length
 
     End Function
 
     ' Enumerate 2
-    Public Shared Function EnumerateSpeed(ByVal pid As Integer) As String()
+    Public Shared Function EnumerateSpeed(ByVal pid As Integer) As MODULEENTRY32()
 
         Dim lSnap As Integer
         Dim x As Integer = 0
         Dim mdMOD As New MODULEENTRY32
-        Dim mdTemp() As String
+        Dim mdTemp() As MODULEENTRY32
         ReDim mdTemp(0)
 
-        If pid <= 4 Or pid > 4 Then
+        If pid <= 4 Then
             Return mdTemp
         End If
 
         lSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, pid)
 
-        mdMOD.dwSize = 548      'Len(mdMOD)
+        mdMOD.dwSize = 548 'System.Runtime.InteropServices.Marshal.SizeOf(mdMOD)
 
         If Module32First(lSnap, mdMOD) > 0 Then
 
-            mdTemp(0) = FormatString(mdMOD.szModule)
+            mdTemp(0) = mdMOD
             mdMOD.dwSize = 548      'Len(mdMOD)
 
             Do While Module32Next(lSnap, mdMOD) > 0
 
+                x += 1
                 ReDim Preserve mdTemp(x)
-                mdTemp(x) = FormatString(mdMOD.szModule)
+                mdTemp(x) = mdMOD
 
                 mdMOD.dwSize = 548  'Len(mdMOD)
-                x += 1
             Loop
         Else
             ReDim mdTemp(1)
         End If
 
         CloseHandle(lSnap)
-        ReDim Preserve mdTemp(UBound(mdTemp) - 1)
 
         Return mdTemp
 
     End Function
 
     ' Get some informations
-    Public Function GetInformation(ByVal info As String) As String
+    Public Overrides Function GetInformation(ByVal info As String) As String
         Dim res As String = ""
-
-        Select Case info
-
-            Case "Name"
-                res = Me.Name
-
-            Case "Version"
-                res = Me.FileVersion
-
-            Case "Description"
-                res = Me.FileDescription
-
-            Case "CompanyName"
-                res = Me.CompanyName
-
-            Case "Path"
-                res = _path
-
-            Case "Address"
-                res = "0x" & Me.BaseAddress.ToString("x")
-
-        End Select
+        Try
+            Select Case info
+                Case "Name"
+                    res = Me.Name
+                Case "Version"
+                    res = Me.FileVersion
+                Case "Description"
+                    res = Me.FileDescription
+                Case "CompanyName"
+                    res = Me.CompanyName
+                Case "Path"
+                    res = _path
+                Case "Address"
+                    res = "0x" & Me.BaseAddress.ToString("x")
+            End Select
+        Catch ex As Exception
+            res = ""
+        End Try
 
         Return res
     End Function
@@ -508,9 +448,12 @@ Public Class cModule
         If i > 0 Then
             Return Trim(Left(sString, i - 1)).ToLowerInvariant
         Else
-            Return sString.ToLowerInvariant
+            If sString IsNot Nothing Then
+                Return sString.ToLowerInvariant
+            Else
+                Return ""
+            End If
         End If
     End Function
-
 
 End Class

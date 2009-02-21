@@ -124,8 +124,7 @@ Public Class frmProcessInfo
                 frmMain.timerServices.Enabled = False
 
                 Me.lvProcServices.Items.Clear()
-                For Each lvi As ListViewItem In frmMain.lvServices.Items
-                    Dim cServ As cService = CType(lvi.Tag, cService)
+                For Each cServ As cService In frmMain.lvServices.GetAllItems
                     Dim pid As Integer = cServ.ProcessID
                     If pid = curProc.Pid And pid > 0 Then
                         Dim newIt As New ListViewItem(cServ.Name)
@@ -893,7 +892,7 @@ Public Class frmProcessInfo
         For Each it In Me.lvProcServices.SelectedItems
             Dim it2 As ListViewItem
             For Each it2 In frmMain.lvServices.Items
-                Dim cp As cService = CType(it2.Tag, cService)
+                Dim cp As cService = frmMain.lvServices.GetItemByKey(it2.Name)
                 If cp.Name = it.Text Then
                     it2.Selected = True
                     it2.EnsureVisible()
@@ -926,145 +925,148 @@ Public Class frmProcessInfo
 
     Public Sub ShowModules()
 
-        Static firstRefresh As Boolean = True
+        'Static firstRefresh As Boolean = True
 
-        Dim p As cModule
-        Dim proc() As cModule
-        Dim lvi As ListViewItem
-        Dim x As Integer = 0
-        Dim exist As Boolean = False
+        'Dim p As cModule
+        'Dim proc() As cModule
+        'Dim lvi As ListViewItem
+        'Dim x As Integer = 0
+        'Dim exist As Boolean = False
 
-        Dim test As Integer = GetTickCount
+        'Dim test As Integer = GetTickCount
 
-        ReDim proc(0)
-        cModule.Enumerate(curProc.Pid, proc)
+        'ReDim proc(0)
+        'cModule.Enumerate(curProc.Pid, proc)
 
-        ' Refresh (or suppress) all modules displayed in listview
-        For Each lvi In Me.lvModules.Items
+        '' Refresh (or suppress) all modules displayed in listview
+        'For Each lvi In Me.lvModules.Items
 
-            ' Test if module exist
-            Dim cP As cModule = CType(lvi.Tag, cModule)
-            For Each p In proc
-                If p IsNot Nothing AndAlso p.FilePath = cP.FilePath Then
-                    exist = True
-                    p.isDisplayed = True
-                    Exit For
-                End If
-            Next
+        '    ' Test if module exist
+        '    Dim cP As cModule = CType(lvi.Tag, cModule)
+        '    For Each p In proc
+        '        If p IsNot Nothing AndAlso p.FilePath = cP.FilePath Then
+        '            exist = True
+        '            p.isDisplayed = True
+        '            Exit For
+        '        End If
+        '    Next
 
-            If exist = False Then
-                ' Module no longer exists
-                If CType(lvi.Tag, cModule).IsKilledItem = False Then
-                    CType(lvi.Tag, cModule).IsKilledItem = True
-                    lvi.BackColor = Me.DELETED_ITEM_COLOR
-                Else
-                    lvi.Remove()
-                End If
-            End If
-            exist = False
-        Next
+        '    If exist = False Then
+        '        ' Module no longer exists
+        '        If CType(lvi.Tag, cModule).IsKilledItem = False Then
+        '            CType(lvi.Tag, cModule).IsKilledItem = True
+        '            lvi.BackColor = Me.DELETED_ITEM_COLOR
+        '        Else
+        '            lvi.Remove()
+        '        End If
+        '    End If
+        '    exist = False
+        'Next
 
-        ' Add all non displayed modules (new modules)
-        For Each p In proc
+        '' Add all non displayed modules (new modules)
+        'For Each p In proc
 
-            If p IsNot Nothing AndAlso p.isDisplayed = False Then
+        '    If p IsNot Nothing AndAlso p.isDisplayed = False Then
 
-                p.isDisplayed = True
+        '        p.isDisplayed = True
 
-                ' Get the module name
-                Dim o As String = cFile.GetFileName(p.FileName)
-                Dim it As New ListViewItem
+        '        ' Get the module name
+        '        Dim o As String = cFile.GetFileName(p.FileName)
+        '        Dim it As New ListViewItem
 
-                If Len(o) > 0 Then
+        '        If Len(o) > 0 Then
 
-                    it.Text = o
+        '            it.Text = o
 
-                    ' Add icon
-                    it.ForeColor = Color.FromArgb(30, 30, 30)
-                    If p.FileName IsNot Nothing AndAlso p.FileName.Length > 3 Then
-                        If p.FileName.Substring(p.FileName.Length - 3, 3).ToLower = "exe" Then
+        '            ' Add icon
+        '            it.ForeColor = Color.FromArgb(30, 30, 30)
+        '            If p.FileName IsNot Nothing AndAlso p.FileName.Length > 3 Then
+        '                If p.FileName.Substring(p.FileName.Length - 3, 3).ToLower = "exe" Then
 
-                            Try
+        '                    Try
 
-                                Dim fName As String = p.FilePath
+        '                        Dim fName As String = p.FilePath
 
-                                If IO.File.Exists(fName) Then
-                                    Dim img As System.Drawing.Icon = GetIcon(fName, True)
-                                    imgServices.Images.Add(fName, img)
-                                    it.ImageKey = fName
-                                Else
-                                    it.ImageKey = "noicon"
-                                End If
+        '                        If IO.File.Exists(fName) Then
+        '                            Dim img As System.Drawing.Icon = GetIcon(fName, True)
+        '                            imgServices.Images.Add(fName, img)
+        '                            it.ImageKey = fName
+        '                        Else
+        '                            it.ImageKey = "noicon"
+        '                        End If
 
-                            Catch ex As Exception
-                                it.ImageKey = "noicon"
-                            End Try
+        '                    Catch ex As Exception
+        '                        it.ImageKey = "noicon"
+        '                    End Try
 
-                        Else
-                            it.ImageKey = "dll"
-                        End If
-                    Else
-                        it.ImageKey = "dll"
-                    End If
+        '                Else
+        '                    it.ImageKey = "dll"
+        '                End If
+        '            Else
+        '                it.ImageKey = "dll"
+        '            End If
 
 
-                    it.Group = lvModules.Groups(0)
+        '            it.Group = lvModules.Groups(0)
 
-                    ' Add some subitems (columns.count-1 subitems)
-                    Dim subS() As String
-                    ReDim subS(Me.lvModules.Columns.Count - 1)
-                    For xxxx As Integer = 1 To subS.Length - 1
-                        subS(xxxx) = ""
-                    Next
-                    it.SubItems.AddRange(subS)
+        '            ' Add some subitems (columns.count-1 subitems)
+        '            Dim subS() As String
+        '            ReDim subS(Me.lvModules.Columns.Count - 1)
+        '            For xxxx As Integer = 1 To subS.Length - 1
+        '                subS(xxxx) = ""
+        '            Next
+        '            it.SubItems.AddRange(subS)
 
-                    ' Choose color
-                    Dim col As Color = Color.White
+        '            ' Choose color
+        '            Dim col As Color = Color.White
 
-                    p.IsNewItem = Not (firstRefresh)
-                    If p.IsNewItem Then
-                        it.BackColor = NEW_ITEM_COLOR
-                    End If
+        '            p.IsNewItem = Not (firstRefresh)
+        '            If p.IsNewItem Then
+        '                it.BackColor = NEW_ITEM_COLOR
+        '            End If
 
-                    it.Tag = New cModule(p)
+        '            it.Tag = New cModule(p)
 
-                    lvModules.Items.Add(it)
+        '            lvModules.Items.Add(it)
 
-                End If
-            End If
-        Next
+        '        End If
+        '    End If
+        'Next
 
-        ' Here we retrieve some informations for all our displayed modules
-        For Each lvi In Me.lvModules.Items
+        '' Here we retrieve some informations for all our displayed modules
+        'For Each lvi In Me.lvModules.Items
 
-            Dim cP As cModule = CType(lvi.Tag, cModule)
+        '    Dim cP As cModule = CType(lvi.Tag, cModule)
 
-            If cP.IsNewItem Then
-                cP.IsNewItem = False
-            Else
-                If Not (lvi.BackColor = Color.White) AndAlso Not (cP.IsKilledItem) Then
-                    lvi.BackColor = Color.White
-                End If
-            End If
+        '    If cP.IsNewItem Then
+        '        cP.IsNewItem = False
+        '    Else
+        '        If Not (lvi.BackColor = Color.White) AndAlso Not (cP.IsKilledItem) Then
+        '            lvi.BackColor = Color.White
+        '        End If
+        '    End If
 
-            Dim isub As ListViewItem.ListViewSubItem
-            Dim xxx As Integer = 0
-            For Each isub In lvi.SubItems
-                Dim colName As String = Me.lvModules.Columns.Item(xxx).Text
-                colName = colName.Replace("< ", "")
-                colName = colName.Replace("> ", "")
-                isub.Text = cP.GetInformation(colName)
-                xxx += 1
-            Next
+        '    Dim isub As ListViewItem.ListViewSubItem
+        '    Dim xxx As Integer = 0
+        '    For Each isub In lvi.SubItems
+        '        Dim colName As String = Me.lvModules.Columns.Item(xxx).Text
+        '        colName = colName.Replace("< ", "")
+        '        colName = colName.Replace("> ", "")
+        '        isub.Text = cP.GetInformation(colName)
+        '        xxx += 1
+        '    Next
 
-        Next
+        'Next
 
-        firstRefresh = False
-        lvModules.Sort()
+        'firstRefresh = False
+        'lvModules.Sort()
 
-        test = GetTickCount - test
+        'test = GetTickCount - test
 
-        Trace.WriteLine("Modules refresh took " & CStr(test) & " ms")
+        'Trace.WriteLine("Modules refresh took " & CStr(test) & " ms")
+
+        lvModules.ProcessId = curProc.Pid
+        lvModules.UpdateItems()
 
     End Sub
 
@@ -1650,15 +1652,14 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub ToolStripMenuItem36_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem36.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvModules.SelectedItems
-            Call CType(it.Tag, cModule).UnloadModule()
+        For Each it As cModule In Me.lvModules.GetSelectedItems
+            it.UnloadModule()
         Next
     End Sub
 
     Private Sub ShowFileDetailsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowFileDetailsToolStripMenuItem.Click
         If Me.lvModules.SelectedItems.Count > 0 Then
-            Dim s As String = CType(Me.lvModules.SelectedItems.Item(0).Tag, cModule).FilePath
+            Dim s As String = Me.lvModules.GetSelectedItem.FilePath
             If IO.File.Exists(s) Then
                 frmMain.DisplayDetailsFile(s)
             End If
@@ -1944,49 +1945,6 @@ Public Class frmProcessInfo
         lvHandles.Sort()
     End Sub
 
-    Private Sub lvModules_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvModules.ColumnClick
-        ' Get the new sorting column.
-        Dim new_sorting_column As ColumnHeader = _
-            lvModules.Columns(e.Column)
-
-        ' Figure out the new sorting order.
-        Dim sort_order As System.Windows.Forms.SortOrder
-        If m_SortingColumn Is Nothing Then
-            ' New column. Sort ascending.
-            sort_order = SortOrder.Ascending
-        Else
-            ' See if this is the same column.
-            If new_sorting_column.Equals(m_SortingColumn) Then
-                ' Same column. Switch the sort order.
-                If m_SortingColumn.Text.StartsWith("> ") Then
-                    sort_order = SortOrder.Descending
-                Else
-                    sort_order = SortOrder.Ascending
-                End If
-            Else
-                ' New column. Sort ascending.
-                sort_order = SortOrder.Ascending
-            End If
-
-            ' Remove the old sort indicator.
-            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
-        End If
-
-        ' Display the new sort order.
-        m_SortingColumn = new_sorting_column
-        If sort_order = SortOrder.Ascending Then
-            m_SortingColumn.Text = "> " & m_SortingColumn.Text
-        Else
-            m_SortingColumn.Text = "< " & m_SortingColumn.Text
-        End If
-
-        ' Create a comparer.
-        lvModules.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
-
-        ' Sort.
-        lvModules.Sort()
-    End Sub
-
     Private Sub lvProcNetwork_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvProcNetwork.ColumnClick
         ' Get the new sorting column.
         Dim new_sorting_column As ColumnHeader = _
@@ -2193,8 +2151,8 @@ Public Class frmProcessInfo
 
     Private Sub ViewMemoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ViewMemoryToolStripMenuItem.Click
 
-        For Each it As ListViewItem In Me.lvModules.SelectedItems
-            Dim add As Integer = CType(it.Tag, cModule).BaseAddress
+        For Each it As cModule In Me.lvModules.GetSelectedItems
+            Dim add As Integer = it.BaseAddress
 
             For Each it2 As ListViewItem In Me.lvProcMem.Items
                 Dim reg As cMemRegion = CType(it2.Tag, cMemRegion)

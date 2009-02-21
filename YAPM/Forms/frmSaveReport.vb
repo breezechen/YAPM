@@ -44,10 +44,8 @@ Public Class frmSaveReport
                     If s.Substring(s.Length - 3, 3).ToLower = "txt" Then
                         Dim stream As New System.IO.StreamWriter(s, False)
                         ' txt
-                        Dim it As ListViewItem
                         Dim x As Integer = 0
-                        For Each it In frmMain.lvServices.Items
-                            Dim cm As cService = CType(it.Tag, cService)
+                        For Each cm As cService In frmMain.lvServices.GetAllItems
 
                             Try
                                 ' Try to access to the service (avoid to write lines if service
@@ -84,10 +82,8 @@ Public Class frmSaveReport
                         Dim title As String = CStr(frmMain.lvServices.Items.Count) & " service(s)"
                         Dim _html As New cHTML2(s, title, 25)
 
-                        Dim it As ListViewItem
                         Dim x As Integer = 0
-                        For Each it In frmMain.lvServices.Items
-                            Dim cm As cService = CType(it.Tag, cService)
+                        For Each cm As cService In frmMain.lvServices.GetAllItems
                             Try
                                 ' Try to access to the service (avoid to write lines if service
                                 ' is deleted)

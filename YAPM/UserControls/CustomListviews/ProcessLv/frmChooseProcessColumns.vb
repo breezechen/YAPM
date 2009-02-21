@@ -37,9 +37,7 @@ Public Class frmChooseProcessColumns
             frmMain.lvProcess.Columns.Remove(frmMain.lvProcess.Columns(x))
         Next
 
-        ' Add new columns and new associated subitems
-        Dim it As ListViewItem
-        For Each it In frmMain.lvProcess.Items
+        For Each it As ListViewItem In frmMain.lvProcess.Items
             it.SubItems.Clear()
             Dim subit() As ListViewItem.ListViewSubItem
             ReDim subit(Me.lv.CheckedItems.Count)
@@ -50,12 +48,12 @@ Public Class frmChooseProcessColumns
 
             it.SubItems.AddRange(subit)
         Next
-        For Each it In Me.lv.CheckedItems
+
+        ' Add new columns
+        For Each it As ListViewItem In Me.lv.CheckedItems
             frmMain.lvProcess.Columns.Add(it.Text, 90)
         Next
 
-        'frmMain.lvProcess.Items.Clear()
-        'frmMain.refreshProcessList()
         frmMain.timerProcess.Enabled = True
         Me.Close()
     End Sub
@@ -90,7 +88,7 @@ Public Class frmChooseProcessColumns
 
             ' Checked displayed columns
             For x As Integer = 0 To frmMain.lvProcess.Columns.Count - 1
-                If s = frmMain.lvProcess.Columns(x).Text Then
+                If s = frmMain.lvProcess.Columns(x).Text.Replace("< ", "").Replace("> ", "") Then
                     it.Checked = True
                     Exit For
                 End If

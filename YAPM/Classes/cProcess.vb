@@ -26,6 +26,7 @@ Imports System.Security.Principal
 Imports System.Text
 
 Public Class cProcess
+    Inherits cGeneralObject
 
     ' ========================================
     ' API declarations
@@ -405,15 +406,13 @@ Public Class cProcess
     Private _mainMod As System.Diagnostics.ProcessModule
     Private _intTag1 As Integer = 0
     Private _processors As Integer = 0
-    Private _newItem As Boolean = False
-    Private _killedItem As Boolean = False
     Private _triedPathMem As Boolean = False
+    Private _triedCommandLine As Boolean = False
 
     Private _commandLine As String
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
-    Public isDisplayed As Boolean = False          ' Is displayed
 
     ' ========================================
     ' Constructors & destructor
@@ -421,8 +420,12 @@ Public Class cProcess
     Public Sub New(ByVal processId As Integer)
         MyBase.New()
         _pid = processId
-        _processors = frmMain.PROCESSOR_COUNT
         _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, _pid)
+        _path = Me.Path
+        If Me.Path = NO_INFO_RETRIEVED Then
+            _name = getSimpleName(processId)
+        End If
+        _processors = frmMain.PROCESSOR_COUNT
     End Sub
 
     Public Sub New(ByVal processId As Integer, ByVal processName As String)
@@ -436,11 +439,11 @@ Public Class cProcess
     Public Sub New(ByVal process As cProcess)
         MyBase.New()
         _pid = process.Pid
-        _killedItem = process.IsKilledItem
+        Me.IsKilledItem = process.IsKilledItem
         _name = process.Name
         _processors = process.ProcessorCount
         _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, _pid)
-        _newItem = process.IsNewItem
+        Me.IsNewItem = process.IsNewItem
     End Sub
 
     Protected Overloads Overrides Sub Finalize()
@@ -451,22 +454,6 @@ Public Class cProcess
     ' ========================================
     ' Getter and setter
     ' ========================================
-    Public Property IsKilledItem() As Boolean
-        Get
-            Return _killedItem
-        End Get
-        Set(ByVal value As Boolean)
-            _killedItem = value
-        End Set
-    End Property
-    Public Property IsNewItem() As Boolean
-        Get
-            Return _newItem
-        End Get
-        Set(ByVal value As Boolean)
-            _newItem = value
-        End Set
-    End Property
     Public ReadOnly Property UserObjectsCount() As Integer
         Get
             If _hProcess > 0 Then
@@ -504,8 +491,9 @@ Public Class cProcess
     End Property
     Public ReadOnly Property CommandLine() As String
         Get
-            If _commandLine = vbNullString Then
+            If _commandLine = vbNullString And _triedCommandLine = False Then
                 _commandLine = GetCommandLine(_pid)
+                _triedCommandLine = True
             End If
             Return _commandLine
         End Get
@@ -1139,6 +1127,10 @@ Public Class cProcess
         ' Create a processMemRW class to read in memory
         Dim cR As New cProcessMemRW(Pid)
 
+        If cR.Handle = 0 Then
+            Return 0              ' Couldn't open a handle
+        End If
+
         ' Read first 20 bytes (5 integers) of PEB block
         ' The fifth integer contains address of ProcessParameters block
         Dim pebDeb() As Integer = cR.ReadBytesAI(__pebAd, 5)
@@ -1233,7 +1225,7 @@ Public Class cProcess
     End Function
 
     ' Retrieve informations by its name
-    Public Function GetInformation(ByVal infoName As String) As String
+    Public Overrides Function GetInformation(ByVal infoName As String) As String
         Dim res As String = NO_INFO_RETRIEVED
         Dim mem As cProcess.PROCESS_MEMORY_COUNTERS = Me.MemoryInfos
         Select Case infoName
@@ -1291,25 +1283,37 @@ Public Class cProcess
             Case "Path"
                 res = Me.Path
             Case "Description"
-                Dim tMain As System.Diagnostics.ProcessModule = Me.MainModule
-                If tMain IsNot Nothing Then
-                    res = tMain.FileVersionInfo.FileDescription
-                Else
+                If Me.Path = NO_INFO_RETRIEVED Then
                     res = ""
+                Else
+                    Dim tMain As System.Diagnostics.ProcessModule = Me.MainModule
+                    If tMain IsNot Nothing Then
+                        res = tMain.FileVersionInfo.FileDescription
+                    Else
+                        res = ""
+                    End If
                 End If
             Case "Copyright"
-                Dim tMain As System.Diagnostics.ProcessModule = Me.MainModule
-                If tMain IsNot Nothing Then
-                    res = tMain.FileVersionInfo.LegalCopyright
-                Else
+                If Me.Path = NO_INFO_RETRIEVED Then
                     res = ""
+                Else
+                    Dim tMain As System.Diagnostics.ProcessModule = Me.MainModule
+                    If tMain IsNot Nothing Then
+                        res = tMain.FileVersionInfo.LegalCopyright
+                    Else
+                        res = ""
+                    End If
                 End If
             Case "Version"
-                Dim tMain As System.Diagnostics.ProcessModule = Me.MainModule
-                If tMain IsNot Nothing Then
-                    res = tMain.FileVersionInfo.FileVersion
-                Else
+                If Me.Path = NO_INFO_RETRIEVED Then
                     res = ""
+                Else
+                    Dim tMain As System.Diagnostics.ProcessModule = Me.MainModule
+                    If tMain IsNot Nothing Then
+                        res = tMain.FileVersionInfo.FileVersion
+                    Else
+                        res = ""
+                    End If
                 End If
             Case "Name"
                 res = Me.Name
@@ -1327,8 +1331,8 @@ Public Class cProcess
                 res = CStr(Me.AffinityMask)
             Case "AverageCpuUsage"
                 Dim i As Long = Date.Now.Ticks - Me.StartTime.Ticks
-                If i > 0 Then
-                    res = GetFormatedPercentage(Me.ProcessorTime.Ticks / i)
+                If i > 0 AndAlso _processors > 0 Then
+                    res = GetFormatedPercentage(Me.ProcessorTime.Ticks / i / _processors)
                 Else
                     res = GetFormatedPercentage(0)
                 End If
@@ -1390,7 +1394,7 @@ Public Class cProcess
         Dim r As Integer
         Dim x As Integer
 
-        ReDim p(0)
+        ReDim p(100)        ' Preallocate a buffer
         x = 0
 
         hSnapshot = CInt(CreateToolhelpSnapshot(TH32CS_SNAPPROCESS, 0&))
@@ -1403,18 +1407,65 @@ Public Class cProcess
             Do While (r <> 0)
 
                 p(x) = New cProcess(uProcess.th32ProcessID, CStr(uProcess.szExeFile))
-                p(x).isDisplayed = False
+                p(x).IsDisplayed = False
 
                 r = ProcessNext(CType(hSnapshot, IntPtr), uProcess)
                 If r <> 0 Then
-                    ReDim Preserve p(UBound(p) + 1)
                     x += 1
+                    If x > p.Length Then
+                        ReDim Preserve p(x)
+                    End If
                 End If
             Loop
 
             Call CloseHandle(hSnapshot)
 
         End If
+
+        ' Truncate array
+        ReDim Preserve p(x)
+
+        Return x
+
+    End Function
+
+    ' Retrieve process list
+    ' This so much faster than VB.Net methods...
+    Public Shared Function Enumerate(ByRef p() As Integer) As Integer
+        Dim hSnapshot As Integer
+        Dim uProcess As ProcessEntry32 = Nothing
+        Dim r As Integer
+        Dim x As Integer
+
+        ReDim p(100)    ' Preallocate a buffer of 400 bytes
+        x = 0
+
+        hSnapshot = CInt(CreateToolhelpSnapshot(TH32CS_SNAPPROCESS, 0&))
+        If hSnapshot <> 0 Then
+
+            uProcess.dwSize = Marshal.SizeOf(uProcess)
+
+            r = ProcessFirst(CType(hSnapshot, IntPtr), uProcess)
+
+            Do While (r <> 0)
+
+                p(x) = uProcess.th32ProcessID
+
+                r = ProcessNext(CType(hSnapshot, IntPtr), uProcess)
+                If r <> 0 Then
+                    x += 1
+                    If x > p.Length Then
+                        ReDim Preserve p(x)
+                    End If
+                End If
+            Loop
+
+            Call CloseHandle(hSnapshot)
+
+        End If
+
+        ' Truncate array
+        ReDim Preserve p(x)
 
         Return x
 
@@ -1527,7 +1578,11 @@ Public Class cProcess
 
         ' Create a processMemRW class to read in memory
         Dim cR As New cProcessMemRW(pid)
-        Trace.WriteLine("1")
+
+        If cR.Handle = 0 Then
+            Return ""           ' Couldn't open a handle
+        End If
+
         ' Read first 20 bytes (5 integers) of PEB block
         ' The fifth integer contains address of ProcessParameters block
         Dim pebDeb() As Integer = cR.ReadBytesAI(__pebAd, 5)
@@ -1566,6 +1621,36 @@ Public Class cProcess
 
     End Function
 
+    ' Return process name from pid
+    Private Function getSimpleName(ByVal pid As Integer) As String
+        Dim hSnapshot As Integer
+        Dim uProcess As ProcessEntry32 = Nothing
+        Dim r As Integer
+
+        hSnapshot = CInt(CreateToolhelpSnapshot(TH32CS_SNAPPROCESS, 0&))
+        If hSnapshot <> 0 Then
+
+            uProcess.dwSize = Marshal.SizeOf(uProcess)
+
+            r = ProcessFirst(CType(hSnapshot, IntPtr), uProcess)
+
+            Do While (r <> 0)
+
+                If uProcess.th32ProcessID = pid Then
+                    Call CloseHandle(hSnapshot)
+                    Return CStr(uProcess.szExeFile)
+                End If
+
+                r = ProcessNext(CType(hSnapshot, IntPtr), uProcess)
+            Loop
+
+            Call CloseHandle(hSnapshot)
+
+        End If
+
+        Return ""
+    End Function
+
     Private Function GetImagePath_MemMethod(ByVal pid As Integer) As String
 
         Dim res As String = ""
@@ -1578,6 +1663,10 @@ Public Class cProcess
 
         ' Create a processMemRW class to read in memory
         Dim cR As New cProcessMemRW(pid)
+
+        If cR.Handle = 0 Then
+            Return ""           ' Couldn't open a handle
+        End If
 
         ' Read first 20 bytes (5 integers) of PEB block
         ' The fifth integer contains address of ProcessParameters block

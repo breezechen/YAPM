@@ -190,7 +190,7 @@ Partial Class frmProcessInfo
         Me.ColumnHeader60 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader61 = New System.Windows.Forms.ColumnHeader
         Me.TabPage10 = New System.Windows.Forms.TabPage
-        Me.lvModules = New YAPM.DoubleBufferedLV
+        Me.lvModules = New YAPM.moduleList
         Me.ColumnHeader29 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader43 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader44 = New System.Windows.Forms.ColumnHeader
@@ -1915,6 +1915,7 @@ Partial Class frmProcessInfo
         Me.lvModules.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader29, Me.ColumnHeader43, Me.ColumnHeader44, Me.ColumnHeader45, Me.ColumnHeader46, Me.ColumnHeader1})
         Me.lvModules.ContextMenuStrip = Me.menuModule
         Me.lvModules.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvModules.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvModules.FullRowSelect = True
         ListViewGroup5.Header = "Modules"
         ListViewGroup5.Name = "gpOther"
@@ -1925,8 +1926,8 @@ Partial Class frmProcessInfo
         Me.lvModules.Location = New System.Drawing.Point(0, 0)
         Me.lvModules.Name = "lvModules"
         Me.lvModules.OverriddenDoubleBuffered = True
+        Me.lvModules.ProcessId = 0
         Me.lvModules.Size = New System.Drawing.Size(636, 277)
-        Me.lvModules.SmallImageList = Me.imgServices
         Me.lvModules.TabIndex = 31
         Me.lvModules.UseCompatibleStateImageBehavior = False
         Me.lvModules.View = System.Windows.Forms.View.Details
@@ -2689,7 +2690,7 @@ Partial Class frmProcessInfo
     Friend WithEvents lblSecurityRisk As System.Windows.Forms.Label
     Friend WithEvents cmdGetOnlineInfos As System.Windows.Forms.Button
     Friend WithEvents rtbOnlineInfos As System.Windows.Forms.RichTextBox
-    Friend WithEvents lvModules As YAPM.DoubleBufferedLV
+    Friend WithEvents lvModules As YAPM.moduleList
     Friend WithEvents ColumnHeader29 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader43 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader44 As System.Windows.Forms.ColumnHeader

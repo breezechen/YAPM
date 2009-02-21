@@ -125,7 +125,10 @@
       <DependentUpon>frmAboutG.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmChooseServiceColumns.resx">
+    <EmbeddedResource Include="UserControls\CustomListviews\ModuleLv\moduleList.resx">
+      <DependentUpon>moduleList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CustomListviews\ServiceLv\frmChooseServiceColumns.resx">
       <DependentUpon>frmChooseServiceColumns.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -195,12 +198,15 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmWindowPosition.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmChooseProcessColumns.resx">
+    <EmbeddedResource Include="UserControls\CustomListviews\ProcessLv\frmChooseProcessColumns.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmChooseProcessColumns.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmWindowsList.resx">
       <DependentUpon>frmWindowsList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CustomListviews\ServiceLv\serviceList.resx">
+      <DependentUpon>serviceList.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DoubleBufferedLV.resx">
       <DependentUpon>DoubleBufferedLV.vb</DependentUpon>
@@ -219,6 +225,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CustomListviews\ProcessLv\processList.resx">
+      <DependentUpon>processList.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -241,6 +250,7 @@
   <ItemGroup>
     <Compile Include="Classes\cDownload.vb" />
     <Compile Include="Classes\cFile.vb" />
+    <Compile Include="Classes\cGeneralObject.vb" />
     <Compile Include="Classes\cHandle.vb" />
     <Compile Include="Classes\cHotkeys.vb" />
     <Compile Include="Classes\cHTML.vb" />
@@ -277,10 +287,16 @@
     <Compile Include="Forms\frmAboutG.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmChooseServiceColumns.Designer.vb">
+    <Compile Include="UserControls\CustomListviews\ModuleLv\moduleList.Designer.vb">
+      <DependentUpon>moduleList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CustomListviews\ModuleLv\moduleList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomListviews\ServiceLv\frmChooseServiceColumns.Designer.vb">
       <DependentUpon>frmChooseServiceColumns.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmChooseServiceColumns.vb">
+    <Compile Include="UserControls\CustomListviews\ServiceLv\frmChooseServiceColumns.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmFindWindow.Designer.vb">
@@ -373,10 +389,10 @@
     <Compile Include="Forms\frmWindowPosition.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmChooseProcessColumns.Designer.vb">
+    <Compile Include="UserControls\CustomListviews\ProcessLv\frmChooseProcessColumns.Designer.vb">
       <DependentUpon>frmChooseProcessColumns.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmChooseProcessColumns.vb">
+    <Compile Include="UserControls\CustomListviews\ProcessLv\frmChooseProcessColumns.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmWindowsList.Designer.vb">
@@ -384,6 +400,12 @@
     </Compile>
     <Compile Include="Forms\frmWindowsList.vb">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomListviews\ServiceLv\serviceList.Designer.vb">
+      <DependentUpon>serviceList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CustomListviews\ServiceLv\serviceList.vb">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserControls\DoubleBufferedLV.vb">
       <SubType>Component</SubType>
@@ -398,6 +420,12 @@
     <Compile Include="Modules\mdlInternet.vb" />
     <Compile Include="Modules\mdlMisc.vb" />
     <Compile Include="Classes\Pref.vb" />
+    <Compile Include="UserControls\CustomListviews\ProcessLv\processList.Designer.vb">
+      <DependentUpon>processList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CustomListviews\ProcessLv\processList.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <None Include="Resources\folder_info.png" />
     <None Include="Resources\info.png" />
     <None Include="Resources\process1.png" />
@@ -421,8 +449,10 @@
     <None Include="Misc\play32.png" />
     <None Include="Misc\stop32.png" />
     <None Include="Misc\delete2.gif" />
+    <None Include="Misc\dll.png" />
     <Content Include="process.ico" />
     <Content Include="process_custom.ico" />
+    <None Include="Resources\application_blue.png" />
     <None Include="Resources\information_frame.png" />
     <None Include="Resources\control_stop_square.png" />
     <None Include="Resources\folder_open.png" />

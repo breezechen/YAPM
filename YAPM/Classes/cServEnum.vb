@@ -81,21 +81,39 @@ Public Class cServEnum
     ' ========================================
     ' Public
     ' ========================================
+
+    Public ReadOnly Property SCManagerHandle() As IntPtr
+        Get
+            Return hSCM
+        End Get
+    End Property
+
     Public Sub New()
         MyBase.New()
         ' Get a handle
         hSCM = OpenSCManager(vbNullString, vbNullString, SC_MANAGER_ENUMERATE_SERVICE)
-        hSCM = hSCM
     End Sub
 
     Protected Overrides Sub Finalize()
         ' Close our handle
-        Call CloseServiceHandle(hSCM)
         MyBase.Finalize()
+        Call CloseServiceHandle(hSCM)
     End Sub
 
+    ' Enumerate services installed on computer from registry
+    Public Function Enumerate(ByRef p() As String) As Integer
+
+        Dim key As Microsoft.Win32.RegistryKey = _
+            My.Computer.Registry.LocalMachine.OpenSubKey("SYSTEM\CurrentControlSet\Services")
+
+        p = key.GetSubKeyNames
+
+        Return p.Length
+
+    End Function
+
     ' Enumetare all services
-    Public Function EnumServicesEx(ByRef p() As cService) As Integer
+    Public Function EnumerateApi(ByRef p() As String) As Integer
 
         Dim lR As Integer
         Dim lBytesNeeded As Integer
@@ -104,7 +122,6 @@ Public Class cServEnum
         ReDim tServiceStatus(0)
         Dim lStructsNeeded As Integer
         Dim lServiceStatusInfoBuffer As Integer
-        Dim idx As Integer
 
         ReDim p(0)
 
@@ -139,53 +156,57 @@ Public Class cServEnum
 
                 If Not (lR = 0) Then
                     ReDim p(lServicesReturned - 1)
-                    For idx = 0 To lServicesReturned - 1
-                        p(idx) = New cService(hSCM, GetStrFromPtrA(tServiceStatus(idx).lpServiceName), _
-                            GetStrFromPtrA(tServiceStatus(idx).lpDisplayName), _
-                            tServiceStatus(idx).ServiceStatus)
+                    For idx As Integer = 0 To lServicesReturned - 1
+                        p(idx) = GetStrFromPtrA(tServiceStatus(idx).lpServiceName) _
+                            & "@" & _
+                        tServiceStatus(idx).ServiceStatus.dwProcessId.ToString
                     Next idx
                 End If
             End If
 
-            ' Add others services from registry
-            Call EnumerateFromReg(p)
         End If
     End Function
 
+
+
+    ' ========================================
+    ' Private
+    ' ========================================
+
     ' Enumerate services installed on computer from registry
-    Private Function EnumerateFromReg(ByRef p() As cService) As Integer
+    'Private Function EnumerateFromReg(ByRef p() As cService) As Integer
 
-        Dim key As Microsoft.Win32.RegistryKey = _
-            My.Computer.Registry.LocalMachine.OpenSubKey("SYSTEM\CurrentControlSet\Services")
+    '    Dim key As Microsoft.Win32.RegistryKey = _
+    '        My.Computer.Registry.LocalMachine.OpenSubKey("SYSTEM\CurrentControlSet\Services")
 
-        Dim _s() As String = key.GetSubKeyNames
+    '    Dim _s() As String = key.GetSubKeyNames
 
-        For Each k As String In _s
+    '    For Each k As String In _s
 
-            Dim present As Boolean = False
-            For Each c As cService In p
-                If c.Name = k Then
-                    present = True
-                    Exit For
-                End If
-            Next
+    '        Dim present As Boolean = False
+    '        For Each c As cService In p
+    '            If c.Name = k Then
+    '                present = True
+    '                Exit For
+    '            End If
+    '        Next
 
-            If Not (present) Then
-                ReDim Preserve p(p.Length)
-                Dim KK As cService.SERVICE_STATUS_PROCESS
-                With KK
-                    .dwCurrentState = 1
-                    .dwServiceType = CInt(Val(GetServiceInfo("Type", k)))
-                    .dwProcessId = 0
-                End With
-                p(p.Length - 1) = New cService(hSCM, k, GetServiceInfo("DisplayName", k), KK)
-            End If
+    '        If Not (present) Then
+    '            ReDim Preserve p(p.Length)
+    '            Dim KK As cService.SERVICE_STATUS_PROCESS
+    '            With KK
+    '                .dwCurrentState = 1
+    '                .dwServiceType = CInt(Val(GetServiceInfo("Type", k)))
+    '                .dwProcessId = 0
+    '            End With
+    '            '                p(p.Length - 1) = New cService(hSCM, k, GetServiceInfo("DisplayName", k), KK)
+    '        End If
 
-        Next
+    '    Next
 
-        Return p.Length
+    '    Return p.Length
 
-    End Function
+    'End Function
 
     ' Retrieve information about a service from registry
     Private Shared Function GetServiceInfo(ByVal info As String, ByVal servName As String) As String

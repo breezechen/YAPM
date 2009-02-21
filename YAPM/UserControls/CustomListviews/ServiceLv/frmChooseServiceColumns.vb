@@ -37,9 +37,7 @@ Public Class frmChooseServiceColumns
             frmMain.lvServices.Columns.Remove(frmMain.lvServices.Columns(x))
         Next
 
-        ' Add new columns and new associated subitems
-        Dim it As ListViewItem
-        For Each it In frmMain.lvServices.Items
+        For Each it As ListViewItem In frmMain.lvServices.Items
             it.SubItems.Clear()
             Dim subit() As ListViewItem.ListViewSubItem
             ReDim subit(Me.lv.CheckedItems.Count)
@@ -50,12 +48,12 @@ Public Class frmChooseServiceColumns
 
             it.SubItems.AddRange(subit)
         Next
-        For Each it In Me.lv.CheckedItems
+
+        ' Add new columns and new associated subitems
+        For Each it As ListViewItem In Me.lv.CheckedItems
             frmMain.lvServices.Columns.Add(it.Text, 90)
         Next
 
-        'frmMain.lvServices.Items.Clear()
-        'frmMain.refreshProcessList()
         frmMain.timerServices.Enabled = True
         Me.Close()
     End Sub
@@ -90,7 +88,7 @@ Public Class frmChooseServiceColumns
 
             ' Checked displayed columns
             For x As Integer = 0 To frmMain.lvServices.Columns.Count - 1
-                If s = frmMain.lvServices.Columns(x).Text Then
+                If s = frmMain.lvServices.Columns(x).Text.Replace("< ", "").Replace("> ", "") Then
                     it.Checked = True
                     Exit For
                 End If

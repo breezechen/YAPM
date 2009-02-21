@@ -67,6 +67,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property application_blue() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("application_blue", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property application_text_image() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("application_text_image", resourceCulture)
@@ -154,6 +161,13 @@ Namespace My.Resources
         Friend ReadOnly Property delete2() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("delete2", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property dllIcon() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("dllIcon", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
