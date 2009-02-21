@@ -139,7 +139,7 @@ Partial Class frmProcessInfo
         Me.DisableToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RemoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.TabPage5 = New System.Windows.Forms.TabPage
-        Me.lvProcMem = New YAPM.DoubleBufferedLV
+        Me.lvProcMem = New YAPM.memoryList
         Me.ColumnHeader53 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader54 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader55 = New System.Windows.Forms.ColumnHeader
@@ -2623,7 +2623,7 @@ Partial Class frmProcessInfo
     Friend WithEvents ColumnHeader51 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader52 As System.Windows.Forms.ColumnHeader
     Friend WithEvents TabPage5 As System.Windows.Forms.TabPage
-    Friend WithEvents lvProcMem As YAPM.DoubleBufferedLV
+    Friend WithEvents lvProcMem As YAPM.memoryList
     Friend WithEvents ColumnHeader53 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader54 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader55 As System.Windows.Forms.ColumnHeader

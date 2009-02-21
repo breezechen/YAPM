@@ -1271,113 +1271,116 @@ Public Class frmProcessInfo
     ' Show memory regions
     Public Sub ShowRegions()
 
-        Static firstRefresh As Boolean = True
+        Me.lvProcMem.ProcessId = curProc.Pid
+        Me.lvProcMem.UpdateItems()
 
-        Dim p As cMemRegion
-        Dim proc() As cMemRegion
-        Dim lvi As ListViewItem
-        Dim x As Integer = 0
-        Dim exist As Boolean = False
+        'Static firstRefresh As Boolean = True
 
-        Dim test As Integer = GetTickCount
+        'Dim p As cMemRegion
+        'Dim proc() As cMemRegion
+        'Dim lvi As ListViewItem
+        'Dim x As Integer = 0
+        'Dim exist As Boolean = False
 
-        ReDim proc(0)
-        cProcessMemRW.Enumerate(curProc.Pid, proc)
+        'Dim test As Integer = GetTickCount
 
-        ' Refresh (or suppress) all regions displayed in listview
-        For Each lvi In Me.lvProcMem.Items
+        'ReDim proc(0)
+        'cProcessMemRW.Enumerate(curProc.Pid, proc)
 
-            ' Test if region exist
-            Dim cP As cMemRegion = CType(lvi.Tag, cMemRegion)
-            For Each p In proc
-                If p IsNot Nothing AndAlso p.BaseAddress = cP.BaseAddress Then
-                    exist = True
-                    p.isDisplayed = True
-                    Exit For
-                End If
-            Next
+        '' Refresh (or suppress) all regions displayed in listview
+        'For Each lvi In Me.lvProcMem.Items
 
-            If exist = False Then
-                ' region no longer exists
-                If CType(lvi.Tag, cMemRegion).IsKilledItem = False Then
-                    CType(lvi.Tag, cMemRegion).IsKilledItem = True
-                    lvi.BackColor = Me.DELETED_ITEM_COLOR
-                Else
-                    lvi.Remove()
-                End If
-            End If
-            exist = False
-        Next
+        '    ' Test if region exist
+        '    Dim cP As cMemRegion = CType(lvi.Tag, cMemRegion)
+        '    For Each p In proc
+        '        If p IsNot Nothing AndAlso p.BaseAddress = cP.BaseAddress Then
+        '            exist = True
+        '            p.isDisplayed = True
+        '            Exit For
+        '        End If
+        '    Next
 
-        ' Add all non displayed regions (new regions)
-        For Each p In proc
+        '    If exist = False Then
+        '        ' region no longer exists
+        '        If CType(lvi.Tag, cMemRegion).IsKilledItem = False Then
+        '            CType(lvi.Tag, cMemRegion).IsKilledItem = True
+        '            lvi.BackColor = Me.DELETED_ITEM_COLOR
+        '        Else
+        '            lvi.Remove()
+        '        End If
+        '    End If
+        '    exist = False
+        'Next
 
-            If p IsNot Nothing AndAlso p.isDisplayed = False Then
+        '' Add all non displayed regions (new regions)
+        'For Each p In proc
 
-                p.isDisplayed = True
+        '    If p IsNot Nothing AndAlso p.isDisplayed = False Then
 
-                ' Get the region name
-                Dim it As New ListViewItem
+        '        p.isDisplayed = True
 
-                it.Text = CStr(p.BaseAddress)
+        '        ' Get the region name
+        '        Dim it As New ListViewItem
 
-                ' Add icon
-                it.ForeColor = Color.FromArgb(30, 30, 30)
-                'it.Group = lvProcMem.Groups(0)
+        '        it.Text = CStr(p.BaseAddress)
 
-                ' Add some subitems (columns.count-1 subitems)
-                Dim subS() As String
-                ReDim subS(Me.lvProcMem.Columns.Count - 1)
-                For xxxx As Integer = 1 To subS.Length - 1
-                    subS(xxxx) = ""
-                Next
-                it.SubItems.AddRange(subS)
+        '        ' Add icon
+        '        it.ForeColor = Color.FromArgb(30, 30, 30)
+        '        'it.Group = lvProcMem.Groups(0)
 
-                ' Choose color
-                Dim col As Color = Color.White
+        '        ' Add some subitems (columns.count-1 subitems)
+        '        Dim subS() As String
+        '        ReDim subS(Me.lvProcMem.Columns.Count - 1)
+        '        For xxxx As Integer = 1 To subS.Length - 1
+        '            subS(xxxx) = ""
+        '        Next
+        '        it.SubItems.AddRange(subS)
 
-                p.IsNewItem = Not (firstRefresh)
-                If p.IsNewItem Then
-                    it.BackColor = NEW_ITEM_COLOR
-                End If
+        '        ' Choose color
+        '        Dim col As Color = Color.White
 
-                it.Tag = New cMemRegion(p)
-                lvProcMem.Items.Add(it)
+        '        p.IsNewItem = Not (firstRefresh)
+        '        If p.IsNewItem Then
+        '            it.BackColor = NEW_ITEM_COLOR
+        '        End If
 
-            End If
-        Next
+        '        it.Tag = New cMemRegion(p)
+        '        lvProcMem.Items.Add(it)
 
-        ' Here we retrieve some informations for all our displayed regions
-        For Each lvi In Me.lvProcMem.Items
+        '    End If
+        'Next
 
-            Dim cP As cMemRegion = CType(lvi.Tag, cMemRegion)
+        '' Here we retrieve some informations for all our displayed regions
+        'For Each lvi In Me.lvProcMem.Items
 
-            If cP.IsNewItem Then
-                cP.IsNewItem = False
-            Else
-                If Not (lvi.BackColor = Color.White) AndAlso Not (cP.IsKilledItem) Then
-                    lvi.BackColor = Color.White
-                End If
-            End If
+        '    Dim cP As cMemRegion = CType(lvi.Tag, cMemRegion)
 
-            Dim isub As ListViewItem.ListViewSubItem
-            Dim xxx As Integer = 0
-            For Each isub In lvi.SubItems
-                Dim colName As String = Me.lvProcMem.Columns.Item(xxx).Text
-                colName = colName.Replace("< ", "")
-                colName = colName.Replace("> ", "")
-                isub.Text = cP.GetInformation(colName)
-                xxx += 1
-            Next
+        '    If cP.IsNewItem Then
+        '        cP.IsNewItem = False
+        '    Else
+        '        If Not (lvi.BackColor = Color.White) AndAlso Not (cP.IsKilledItem) Then
+        '            lvi.BackColor = Color.White
+        '        End If
+        '    End If
 
-        Next
+        '    Dim isub As ListViewItem.ListViewSubItem
+        '    Dim xxx As Integer = 0
+        '    For Each isub In lvi.SubItems
+        '        Dim colName As String = Me.lvProcMem.Columns.Item(xxx).Text
+        '        colName = colName.Replace("< ", "")
+        '        colName = colName.Replace("> ", "")
+        '        isub.Text = cP.GetInformation(colName)
+        '        xxx += 1
+        '    Next
 
-        firstRefresh = False
-        lvProcMem.Sort()
+        'Next
 
-        test = GetTickCount - test
+        'firstRefresh = False
+        'lvProcMem.Sort()
 
-        Trace.WriteLine("Regions refresh took " & CStr(test) & " ms")
+        'test = GetTickCount - test
+
+        'Trace.WriteLine("Regions refresh took " & CStr(test) & " ms")
 
     End Sub
 

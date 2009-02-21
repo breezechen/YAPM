@@ -246,15 +246,14 @@ Public Class cProcessMemRW
         Dim lLenMBI As Integer
         Dim mbi As MEMORY_BASIC_INFORMATION
 
-        ReDim regions(0)
+        ReDim regions(1000)     ' Initial buffer
 
         lHandle = OpenProcess(PROCESS_ALL_ACCESS, 0, pid)
-
         lLenMBI = System.Runtime.InteropServices.Marshal.SizeOf(mbi)
-
         If si.lpMaximumApplicationAddress = 0 Then GetSystemInfo(si)
-
         lPosMem = si.lpMinimumApplicationAddress  ' Start from shorter address
+
+        Dim _xx As Integer = 0
 
         Do While lPosMem < si.lpMaximumApplicationAddress ' While addresse is lower than max address
 
@@ -266,8 +265,11 @@ Public Class cProcessMemRW
 
                 If mbi.RegionSize > 0 Then
                     ' Here is a region
-                    ReDim Preserve regions(UBound(regions) + 1)
-                    regions(UBound(regions) - 1) = mbi
+                    _xx += 1
+                    If _xx >= regions.Length Then
+                        ReDim Preserve regions(regions.Length * 2)
+                    End If
+                    regions(_xx - 1) = mbi
                 End If
 
                 ' Goes on
@@ -283,7 +285,7 @@ Public Class cProcessMemRW
         Call CloseHandle(lHandle)
 
         ' Remove last item
-        ReDim Preserve regions(UBound(regions) - 1)
+        ReDim Preserve regions(_xx - 1)
     End Sub
     Public Sub RetrieveMemRegions(ByRef lBaseAdress() As Integer, _
         ByRef lRegionSize() As Integer)
@@ -512,22 +514,27 @@ Public Class cProcessMemRW
         Return WriteProcessMemory(handle, offset, strStringToWrite, Len(strStringToWrite), 0)
     End Function
 
+
     ' Enumerate regions
-    Public Shared Function Enumerate(ByVal pid As Integer, ByRef m() As cMemRegion) As Integer
+    Public Shared Function Enumerate(ByVal pid As Integer, ByRef add() As String, _
+                                     ByRef _dico As Dictionary(Of String, cProcessMemRW.MEMORY_BASIC_INFORMATION)) As Integer
+
+        _dico.Clear()
         Dim r() As MEMORY_BASIC_INFORMATION
         ReDim r(0)
 
         Call RetrieveMemRegions(r, pid)
 
-        ReDim m(r.Length - 1)
+        ReDim add(r.Length - 1)
 
         Dim x As Integer = 0
         For Each t As MEMORY_BASIC_INFORMATION In r
-            m(x) = New cMemRegion(pid, t)
+            add(x) = t.BaseAddress.ToString
+            _dico.Add(add(x).ToString, t)
             x += 1
         Next
 
-        
+
     End Function
 
     ' =======================================================

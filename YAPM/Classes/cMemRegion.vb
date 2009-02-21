@@ -24,6 +24,7 @@ Option Strict On
 Imports System.Runtime.InteropServices
 
 Public Class cMemRegion
+    Inherits cGeneralObject
 
     ' ========================================
     ' API declarations
@@ -51,6 +52,15 @@ Public Class cMemRegion
         MEM_PRIVATE = &H20000
         MEM_MAPPED = &H40000
     End Enum
+    Public Structure LightMemRegion
+        Dim type As MEMORY_TYPE
+        Dim protection As PROTECTION_TYPE
+        Dim state As MEMORY_STATE
+        Dim name As String
+        Dim address As Integer
+        Dim size As Integer
+        Dim procId As Integer
+    End Structure
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
@@ -64,36 +74,24 @@ Public Class cMemRegion
     Private _address As Integer
     Private _size As Integer
     Private _procId As Integer
-
-    Private _isDisplayed As Boolean = False
-    Private _killedItem As Boolean
-    Private _newItem As Boolean
+    Private _key As String
 
 
     ' ========================================
     ' Constructors & destructor
     ' ========================================
-    Public Sub New(ByVal pid As Integer, ByVal m As cProcessMemRW.MEMORY_BASIC_INFORMATION)
-        MyBase.New()
-        _type = CType(m.lType, MEMORY_TYPE)
-        _protection = CType(m.Protect, PROTECTION_TYPE)
-        _name = "NAME"
-        _state = CType(m.State, MEMORY_STATE)
-        _address = m.BaseAddress
-        _size = m.RegionSize
-        _procId = pid
-    End Sub
-    Public Sub New(ByVal memReg As cMemRegion)
-        MyBase.New()
-        _newItem = memReg.IsNewItem
-        _killedItem = memReg.IsKilledItem
-        _type = memReg.Type
-        _protection = memReg.Protection
-        _name = "NAME"
-        _state = memReg.State
-        _address = memReg.BaseAddress
-        _size = memReg.RegionSize
-        _procId = memReg.ProcessId
+    Public Sub New(ByVal key As String, ByRef ent As  _
+                   cProcessMemRW.MEMORY_BASIC_INFORMATION, ByVal pid As Integer)
+
+        _key = key
+        With ent
+            _address = ent.BaseAddress
+            _type = CType(ent.lType, MEMORY_TYPE)
+            _procId = pid
+            _protection = CType(ent.Protect, PROTECTION_TYPE)
+            _state = CType(ent.State, MEMORY_STATE)
+            _size = ent.RegionSize
+        End With
     End Sub
 
 
@@ -130,53 +128,42 @@ Public Class cMemRegion
             Return _type
         End Get
     End Property
-    Public Property isDisplayed() As Boolean
+    Public ReadOnly Property Key() As String
         Get
-            Return _isDisplayed
+            Return _key
         End Get
-        Set(ByVal value As Boolean)
-            _isDisplayed = value
-        End Set
     End Property
-    Public Property IsKilledItem() As Boolean
+    Public ReadOnly Property Name() As String
         Get
-            Return _killedItem
+            If _name = vbNullString Then
+                _name = getName()
+            End If
+            Return _name
         End Get
-        Set(ByVal value As Boolean)
-            _killedItem = value
-        End Set
     End Property
-    Public Property IsNewItem() As Boolean
-        Get
-            Return _newItem
-        End Get
-        Set(ByVal value As Boolean)
-            _newItem = value
-        End Set
-    End Property
-
+    
 
     ' ========================================
     ' Public functions of this class
     ' ========================================
 
     ' Return informations
-    Public Function GetInformation(ByVal info As String) As String
+    Public Overrides Function GetInformation(ByVal info As String) As String
         Dim res As String = ""
 
         Select Case info
             Case "Type"
                 res = Me.Type.ToString
             Case "Protection"
-                res = GetProtectionType(Me.Protection)
+                res = Me.Protection.ToString
             Case "State"
                 res = Me.State.ToString
             Case "Name"
-                res = getName()
+                res = Me.Name
             Case "Address"
                 res = "0x" & Me.BaseAddress.ToString("x")
             Case "Size"
-                res = GetFormatedSize(Me.RegionSize)
+                res = getSizeString()
         End Select
 
         Return res
@@ -280,5 +267,19 @@ Public Class cMemRegion
         Else
             Return _type.ToString & " (" & _state.ToString & ")"
         End If
+    End Function
+
+    ' Get size as a string
+    Private Function getSizeString() As String
+        Static oldSize As Integer = _size
+        Static _sizeStr As String = GetFormatedSize(_size)
+
+        If Not (_size = oldSize) Then
+            _sizeStr = GetFormatedSize(_size)
+            oldSize = _size
+        End If
+
+        Return _sizeStr
+
     End Function
 End Class

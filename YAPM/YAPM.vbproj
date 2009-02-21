@@ -128,6 +128,9 @@
     <EmbeddedResource Include="UserControls\CustomListviews\handleList\handleList.resx">
       <DependentUpon>handleList.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CustomListviews\MemoryLv\memoryList.resx">
+      <DependentUpon>memoryList.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CustomListviews\ModuleLv\moduleList.resx">
       <DependentUpon>moduleList.vb</DependentUpon>
     </EmbeddedResource>
@@ -294,6 +297,12 @@
       <DependentUpon>handleList.vb</DependentUpon>
     </Compile>
     <Compile Include="UserControls\CustomListviews\handleList\handleList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomListviews\MemoryLv\memoryList.Designer.vb">
+      <DependentUpon>memoryList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CustomListviews\MemoryLv\memoryList.vb">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserControls\CustomListviews\ModuleLv\moduleList.Designer.vb">
