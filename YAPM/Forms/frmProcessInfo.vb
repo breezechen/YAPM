@@ -49,8 +49,13 @@ Public Class frmProcessInfo
                 Call ShowRegions()
 
             Case "Network"
-
                 Call ShowNetwork()
+
+            Case "Services"
+                Call ShowServices()
+
+            Case "Strings"
+                Call getProcString(curProc)
 
             Case "General"
                 Me.txtProcessPath.Text = curProc.Path
@@ -113,43 +118,6 @@ Public Class frmProcessInfo
                 Me.lblQuotaPNPP.Text = GetFormatedSize(mem.QuotaPeakNonPagedPoolUsage)
                 Me.lblQuotaPP.Text = GetFormatedSize(mem.QuotaPagedPoolUsage)
                 Me.lblQuotaPPP.Text = GetFormatedSize(mem.QuotaPeakPagedPoolUsage)
-
-
-            Case "Services"
-                ' Refresh service list if necessary
-                If frmMain.lvServices.Items.Count = 0 Then Call frmMain.refreshServiceList()
-
-                ' Associated services
-                Dim bServRef As Boolean = frmMain.timerServices.Enabled
-                frmMain.timerServices.Enabled = False
-
-                Me.lvProcServices.Items.Clear()
-                For Each cServ As cService In frmMain.lvServices.GetAllItems
-                    Dim pid As Integer = cServ.ProcessID
-                    If pid = curProc.Pid And pid > 0 Then
-                        Dim newIt As New ListViewItem(cServ.Name)
-                        Dim sub1 As New ListViewItem.ListViewSubItem
-                        Dim sub2 As New ListViewItem.ListViewSubItem
-                        Dim sub3 As New ListViewItem.ListViewSubItem
-                        sub1.Text = cServ.State.ToString
-                        sub2.Text = cServ.LongName
-                        sub3.Text = cServ.ImagePath
-                        newIt.SubItems.Add(sub1)
-                        newIt.SubItems.Add(sub2)
-                        newIt.SubItems.Add(sub3)
-                        newIt.ImageKey = "service"
-
-                        Me.lvProcServices.Items.Add(newIt)
-                    End If
-                Next
-
-
-                frmMain.timerServices.Enabled = bServRef
-
-
-            Case "Strings"
-
-                Call getProcString(curProc)
 
 
             Case "Environment"
@@ -408,7 +376,6 @@ Public Class frmProcessInfo
         ' Refresh informations about process
         If Not (Me.tabProcess.SelectedTab.Text = "Informations" Or _
             Me.tabProcess.SelectedTab.Text = "Token" Or _
-            Me.tabProcess.SelectedTab.Text = "Services" Or _
             Me.tabProcess.SelectedTab.Text = "Strings" Or _
             Me.tabProcess.SelectedTab.Text = "Environment") Then _
             Call Me.refreshProcessTab()
@@ -887,13 +854,12 @@ Public Class frmProcessInfo
 
     Private Sub ToolStripMenuItem43_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem43.Click
         ' Select services associated to selected process
-        Dim it As ListViewItem
         If Me.lvProcServices.SelectedItems.Count > 0 Then frmMain.lvServices.SelectedItems.Clear()
-        For Each it In Me.lvProcServices.SelectedItems
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
             Dim it2 As ListViewItem
             For Each it2 In frmMain.lvServices.Items
                 Dim cp As cService = frmMain.lvServices.GetItemByKey(it2.Name)
-                If cp.Name = it.Text Then
+                If cp.Name = it.Name Then
                     it2.Selected = True
                     it2.EnsureVisible()
                 End If
@@ -923,6 +889,17 @@ Public Class frmProcessInfo
         End With
     End Sub
 
+    ' Show services
+    Public Sub ShowServices()
+
+        ' Update list
+        Me.lvProcServices.ShowAll = False
+        Me.lvProcServices.ProcessId = curProc.Pid
+        Me.lvProcServices.UpdateItems()
+
+    End Sub
+
+    ' Show modules
     Public Sub ShowModules()
 
         lvModules.ProcessId = curProc.Pid
@@ -1167,49 +1144,6 @@ Public Class frmProcessInfo
         For Each it As cWindow In Me.lvWindows.GetSelectedItems
             it.Enabled = False
         Next
-    End Sub
-
-    Private Sub lvProcServices_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvProcServices.ColumnClick
-        ' Get the new sorting column.
-        Dim new_sorting_column As ColumnHeader = _
-            lvProcServices.Columns(e.Column)
-
-        ' Figure out the new sorting order.
-        Dim sort_order As System.Windows.Forms.SortOrder
-        If m_SortingColumn Is Nothing Then
-            ' New column. Sort ascending.
-            sort_order = SortOrder.Ascending
-        Else
-            ' See if this is the same column.
-            If new_sorting_column.Equals(m_SortingColumn) Then
-                ' Same column. Switch the sort order.
-                If m_SortingColumn.Text.StartsWith("> ") Then
-                    sort_order = SortOrder.Descending
-                Else
-                    sort_order = SortOrder.Ascending
-                End If
-            Else
-                ' New column. Sort ascending.
-                sort_order = SortOrder.Ascending
-            End If
-
-            ' Remove the old sort indicator.
-            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
-        End If
-
-        ' Display the new sort order.
-        m_SortingColumn = new_sorting_column
-        If sort_order = SortOrder.Ascending Then
-            m_SortingColumn.Text = "> " & m_SortingColumn.Text
-        Else
-            m_SortingColumn.Text = "< " & m_SortingColumn.Text
-        End If
-
-        ' Create a comparer.
-        lvProcServices.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
-
-        ' Sort.
-        lvProcServices.Sort()
     End Sub
 
     Private Sub lvProcEnv_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvProcEnv.ColumnClick

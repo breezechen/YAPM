@@ -167,46 +167,71 @@ Public Class cServEnum
         End If
     End Function
 
+    ' Enumerate services for only one process
+    Public Function EnumerateApi(ByVal pid As Integer, ByRef p() As String) As Integer
+
+        Dim lR As Integer
+        Dim lBytesNeeded As Integer
+        Dim lServicesReturned As Integer
+        Dim tServiceStatus() As cService.ENUM_SERVICE_STATUS_PROCESS
+        ReDim tServiceStatus(0)
+        Dim lStructsNeeded As Integer
+        Dim lServiceStatusInfoBuffer As Integer
+
+        ReDim p(0)
+
+        If Not (hSCM = IntPtr.Zero) Then
+            lR = EnumServicesStatusEx(hSCM, _
+                                      SC_ENUM_PROCESS_INFO, _
+                                      SERVICE_ALL, _
+                                      SERVICE_STATE_ALL, _
+                                      Nothing, _
+                                      0, _
+                                      lBytesNeeded, _
+                                      lServicesReturned, _
+                                      0, _
+                                      vbNullString)
+
+            If (lR = 0 And Err.LastDllError = ERROR_MORE_DATA) Then
+
+                lStructsNeeded = CInt(lBytesNeeded / Marshal.SizeOf(tServiceStatus(0)) + 1)
+                ReDim tServiceStatus(lStructsNeeded - 1)
+                lServiceStatusInfoBuffer = lStructsNeeded * (Marshal.SizeOf(tServiceStatus(0)))
+
+                lR = EnumServicesStatusEx(hSCM, _
+                                          SC_ENUM_PROCESS_INFO, _
+                                          SERVICE_ALL, _
+                                          SERVICE_STATE_ALL, _
+                                          tServiceStatus(0), _
+                                          lServiceStatusInfoBuffer, _
+                                          lBytesNeeded, _
+                                          lServicesReturned, _
+                                          0, _
+                                          vbNullString)
+
+                If Not (lR = 0) Then
+                    ReDim p(lServicesReturned - 1)
+                    Dim k As Integer = 0
+                    For idx As Integer = 0 To lServicesReturned - 1
+                        If pid = tServiceStatus(idx).ServiceStatus.dwProcessId Then
+                            p(idx) = GetStrFromPtrA(tServiceStatus(idx).lpServiceName) _
+                                & "@" & _
+                            tServiceStatus(idx).ServiceStatus.dwProcessId.ToString
+                            k += 1
+                        End If
+                    Next idx
+                    ReDim Preserve p(k - 1)
+                End If
+            End If
+
+        End If
+    End Function
+
 
 
     ' ========================================
     ' Private
     ' ========================================
-
-    ' Enumerate services installed on computer from registry
-    'Private Function EnumerateFromReg(ByRef p() As cService) As Integer
-
-    '    Dim key As Microsoft.Win32.RegistryKey = _
-    '        My.Computer.Registry.LocalMachine.OpenSubKey("SYSTEM\CurrentControlSet\Services")
-
-    '    Dim _s() As String = key.GetSubKeyNames
-
-    '    For Each k As String In _s
-
-    '        Dim present As Boolean = False
-    '        For Each c As cService In p
-    '            If c.Name = k Then
-    '                present = True
-    '                Exit For
-    '            End If
-    '        Next
-
-    '        If Not (present) Then
-    '            ReDim Preserve p(p.Length)
-    '            Dim KK As cService.SERVICE_STATUS_PROCESS
-    '            With KK
-    '                .dwCurrentState = 1
-    '                .dwServiceType = CInt(Val(GetServiceInfo("Type", k)))
-    '                .dwProcessId = 0
-    '            End With
-    '            '                p(p.Length - 1) = New cService(hSCM, k, GetServiceInfo("DisplayName", k), KK)
-    '        End If
-
-    '    Next
-
-    '    Return p.Length
-
-    'End Function
 
     ' Retrieve information about a service from registry
     Private Shared Function GetServiceInfo(ByVal info As String, ByVal servName As String) As String

@@ -1026,6 +1026,8 @@ Partial Class frmMain
         Me.lvServices.Location = New System.Drawing.Point(0, 0)
         Me.lvServices.Name = "lvServices"
         Me.lvServices.OverriddenDoubleBuffered = True
+        Me.lvServices.ProcessId = 0
+        Me.lvServices.ShowAll = False
         Me.lvServices.Size = New System.Drawing.Size(642, 201)
         Me.lvServices.TabIndex = 1
         Me.lvServices.UseCompatibleStateImageBehavior = False

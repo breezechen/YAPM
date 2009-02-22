@@ -23,19 +23,21 @@ Partial Class frmProcessInfo
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmProcessInfo))
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Strings", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Strings", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Strings", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Threads", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Windows", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Threads", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Handles", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmProcessInfo))
+        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Windows", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Handles", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Me.tabProcess = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
         Me.GroupBox6 = New System.Windows.Forms.GroupBox
@@ -156,14 +158,8 @@ Partial Class frmProcessInfo
         Me.cmdInfosToClipB = New System.Windows.Forms.Button
         Me.rtb = New System.Windows.Forms.RichTextBox
         Me.TabPage7 = New System.Windows.Forms.TabPage
-        Me.lvProcServices = New YAPM.DoubleBufferedLV
-        Me.ColumnHeader23 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader47 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader48 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader20 = New System.Windows.Forms.ColumnHeader
         Me.menuProcServ = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem43 = New System.Windows.Forms.ToolStripMenuItem
-        Me.imgServices = New System.Windows.Forms.ImageList(Me.components)
         Me.tabNetwork = New System.Windows.Forms.TabPage
         Me.lvProcNetwork = New YAPM.networkList
         Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
@@ -250,7 +246,6 @@ Partial Class frmProcessInfo
         Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator
         Me.EnableToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.DisableToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.imgWindows = New System.Windows.Forms.ImageList(Me.components)
         Me.TabPage13 = New System.Windows.Forms.TabPage
         Me.lvHandles = New YAPM.handleList
         Me.ColumnHeader24 = New System.Windows.Forms.ColumnHeader
@@ -264,9 +259,19 @@ Partial Class frmProcessInfo
         Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStripMenuItem22 = New System.Windows.Forms.ToolStripMenuItem
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
+        Me.imgServices = New System.Windows.Forms.ImageList(Me.components)
+        Me.imgWindows = New System.Windows.Forms.ImageList(Me.components)
         Me.timerProcPerf = New System.Windows.Forms.Timer(Me.components)
         Me.imgProcess = New System.Windows.Forms.ImageList(Me.components)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
+        Me.lvProcServices = New YAPM.serviceList
+        Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader7 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader8 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader9 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader19 = New System.Windows.Forms.ColumnHeader
         Me.tabProcess.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
@@ -1592,43 +1597,6 @@ Partial Class frmProcessInfo
         Me.TabPage7.Text = "Services"
         Me.TabPage7.UseVisualStyleBackColor = True
         '
-        'lvProcServices
-        '
-        Me.lvProcServices.AllowColumnReorder = True
-        Me.lvProcServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader23, Me.ColumnHeader47, Me.ColumnHeader48, Me.ColumnHeader20})
-        Me.lvProcServices.ContextMenuStrip = Me.menuProcServ
-        Me.lvProcServices.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvProcServices.FullRowSelect = True
-        Me.lvProcServices.HideSelection = False
-        Me.lvProcServices.Location = New System.Drawing.Point(3, 3)
-        Me.lvProcServices.Name = "lvProcServices"
-        Me.lvProcServices.OverriddenDoubleBuffered = True
-        Me.lvProcServices.Size = New System.Drawing.Size(630, 271)
-        Me.lvProcServices.SmallImageList = Me.imgServices
-        Me.lvProcServices.TabIndex = 20
-        Me.lvProcServices.UseCompatibleStateImageBehavior = False
-        Me.lvProcServices.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader23
-        '
-        Me.ColumnHeader23.Text = "ServiceName"
-        Me.ColumnHeader23.Width = 158
-        '
-        'ColumnHeader47
-        '
-        Me.ColumnHeader47.Text = "State"
-        Me.ColumnHeader47.Width = 98
-        '
-        'ColumnHeader48
-        '
-        Me.ColumnHeader48.Text = "CommonName"
-        Me.ColumnHeader48.Width = 246
-        '
-        'ColumnHeader20
-        '
-        Me.ColumnHeader20.Text = "Path"
-        Me.ColumnHeader20.Width = 330
-        '
         'menuProcServ
         '
         Me.menuProcServ.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem43})
@@ -1642,18 +1610,6 @@ Partial Class frmProcessInfo
         Me.ToolStripMenuItem43.Name = "ToolStripMenuItem43"
         Me.ToolStripMenuItem43.Size = New System.Drawing.Size(144, 22)
         Me.ToolStripMenuItem43.Text = "Select service"
-        '
-        'imgServices
-        '
-        Me.imgServices.ImageStream = CType(resources.GetObject("imgServices.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgServices.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgServices.Images.SetKeyName(0, "ok")
-        Me.imgServices.Images.SetKeyName(1, "ko")
-        Me.imgServices.Images.SetKeyName(2, "key")
-        Me.imgServices.Images.SetKeyName(3, "thread")
-        Me.imgServices.Images.SetKeyName(4, "service")
-        Me.imgServices.Images.SetKeyName(5, "noicon")
-        Me.imgServices.Images.SetKeyName(6, "dll")
         '
         'tabNetwork
         '
@@ -1747,11 +1703,11 @@ Partial Class frmProcessInfo
         Me.lvProcString.ContextMenuStrip = Me.menuString
         Me.lvProcString.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcString.FullRowSelect = True
-        ListViewGroup1.Header = "Strings"
-        ListViewGroup1.Name = "gpOther"
-        ListViewGroup2.Header = "Search result"
-        ListViewGroup2.Name = "gpSearch"
-        Me.lvProcString.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup3.Header = "Strings"
+        ListViewGroup3.Name = "gpOther"
+        ListViewGroup4.Header = "Search result"
+        ListViewGroup4.Name = "gpSearch"
+        Me.lvProcString.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvProcString.HideSelection = False
         Me.lvProcString.Location = New System.Drawing.Point(0, 0)
         Me.lvProcString.MultiSelect = False
@@ -1879,11 +1835,11 @@ Partial Class frmProcessInfo
         Me.lvProcEnv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader60, Me.ColumnHeader61})
         Me.lvProcEnv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcEnv.FullRowSelect = True
-        ListViewGroup3.Header = "Strings"
-        ListViewGroup3.Name = "gpOther"
-        ListViewGroup4.Header = "Search result"
-        ListViewGroup4.Name = "gpSearch"
-        Me.lvProcEnv.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup5.Header = "Strings"
+        ListViewGroup5.Name = "gpOther"
+        ListViewGroup6.Header = "Search result"
+        ListViewGroup6.Name = "gpSearch"
+        Me.lvProcEnv.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvProcEnv.HideSelection = False
         Me.lvProcEnv.Location = New System.Drawing.Point(0, 0)
         Me.lvProcEnv.Name = "lvProcEnv"
@@ -1922,11 +1878,11 @@ Partial Class frmProcessInfo
         Me.lvModules.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvModules.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvModules.FullRowSelect = True
-        ListViewGroup5.Header = "Modules"
-        ListViewGroup5.Name = "gpOther"
-        ListViewGroup6.Header = "Search result"
-        ListViewGroup6.Name = "gpSearchResults"
-        Me.lvModules.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
+        ListViewGroup7.Header = "Modules"
+        ListViewGroup7.Name = "gpOther"
+        ListViewGroup8.Header = "Search result"
+        ListViewGroup8.Name = "gpSearchResults"
+        Me.lvModules.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
         Me.lvModules.HideSelection = False
         Me.lvModules.Location = New System.Drawing.Point(0, 0)
         Me.lvModules.Name = "lvModules"
@@ -2036,11 +1992,11 @@ Partial Class frmProcessInfo
         Me.lvThreads.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvThreads.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvThreads.FullRowSelect = True
-        ListViewGroup7.Header = "Threads"
-        ListViewGroup7.Name = "gpOther"
-        ListViewGroup8.Header = "Search results"
-        ListViewGroup8.Name = "gpSearchResults"
-        Me.lvThreads.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
+        ListViewGroup9.Header = "Threads"
+        ListViewGroup9.Name = "gpOther"
+        ListViewGroup10.Header = "Search results"
+        ListViewGroup10.Name = "gpSearchResults"
+        Me.lvThreads.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup9, ListViewGroup10})
         Me.lvThreads.HideSelection = False
         Me.lvThreads.Location = New System.Drawing.Point(0, 0)
         Me.lvThreads.Name = "lvThreads"
@@ -2191,11 +2147,11 @@ Partial Class frmProcessInfo
         Me.lvWindows.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvWindows.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvWindows.FullRowSelect = True
-        ListViewGroup9.Header = "Windows"
-        ListViewGroup9.Name = "gpOther"
-        ListViewGroup10.Header = "Search results"
-        ListViewGroup10.Name = "gpSearchResults"
-        Me.lvWindows.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup9, ListViewGroup10})
+        ListViewGroup11.Header = "Windows"
+        ListViewGroup11.Name = "gpOther"
+        ListViewGroup12.Header = "Search results"
+        ListViewGroup12.Name = "gpSearchResults"
+        Me.lvWindows.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup11, ListViewGroup12})
         Me.lvWindows.HideSelection = False
         Me.lvWindows.Location = New System.Drawing.Point(0, 0)
         Me.lvWindows.Name = "lvWindows"
@@ -2340,12 +2296,6 @@ Partial Class frmProcessInfo
         Me.DisableToolStripMenuItem1.Size = New System.Drawing.Size(212, 22)
         Me.DisableToolStripMenuItem1.Text = "Disable"
         '
-        'imgWindows
-        '
-        Me.imgWindows.ImageStream = CType(resources.GetObject("imgWindows.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgWindows.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgWindows.Images.SetKeyName(0, "noIcon")
-        '
         'TabPage13
         '
         Me.TabPage13.Controls.Add(Me.lvHandles)
@@ -2365,11 +2315,11 @@ Partial Class frmProcessInfo
         Me.lvHandles.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvHandles.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvHandles.FullRowSelect = True
-        ListViewGroup11.Header = "Handles"
-        ListViewGroup11.Name = "gpOther"
-        ListViewGroup12.Header = "Search result"
-        ListViewGroup12.Name = "gpSearch"
-        Me.lvHandles.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup11, ListViewGroup12})
+        ListViewGroup13.Header = "Handles"
+        ListViewGroup13.Name = "gpOther"
+        ListViewGroup14.Header = "Search result"
+        ListViewGroup14.Name = "gpSearch"
+        Me.lvHandles.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup13, ListViewGroup14})
         Me.lvHandles.HideSelection = False
         Me.lvHandles.Location = New System.Drawing.Point(0, 0)
         Me.lvHandles.Name = "lvHandles"
@@ -2456,6 +2406,24 @@ Partial Class frmProcessInfo
         Me.imgProcessTab.Images.SetKeyName(13, "handle")
         Me.imgProcessTab.Images.SetKeyName(14, "windows")
         '
+        'imgServices
+        '
+        Me.imgServices.ImageStream = CType(resources.GetObject("imgServices.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imgServices.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgServices.Images.SetKeyName(0, "ok")
+        Me.imgServices.Images.SetKeyName(1, "ko")
+        Me.imgServices.Images.SetKeyName(2, "key")
+        Me.imgServices.Images.SetKeyName(3, "thread")
+        Me.imgServices.Images.SetKeyName(4, "service")
+        Me.imgServices.Images.SetKeyName(5, "noicon")
+        Me.imgServices.Images.SetKeyName(6, "dll")
+        '
+        'imgWindows
+        '
+        Me.imgWindows.ImageStream = CType(resources.GetObject("imgWindows.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imgWindows.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgWindows.Images.SetKeyName(0, "noIcon")
+        '
         'timerProcPerf
         '
         Me.timerProcPerf.Enabled = True
@@ -2472,6 +2440,64 @@ Partial Class frmProcessInfo
         Me.imgMain.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit
         Me.imgMain.ImageSize = New System.Drawing.Size(16, 16)
         Me.imgMain.TransparentColor = System.Drawing.Color.Transparent
+        '
+        'lvProcServices
+        '
+        Me.lvProcServices.AllowColumnReorder = True
+        Me.lvProcServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader11, Me.ColumnHeader19})
+        Me.lvProcServices.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvProcServices.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvProcServices.FullRowSelect = True
+        ListViewGroup1.Header = "Services"
+        ListViewGroup1.Name = "gpOther"
+        ListViewGroup2.Header = "Search result"
+        ListViewGroup2.Name = "gpSearch"
+        Me.lvProcServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        Me.lvProcServices.HideSelection = False
+        Me.lvProcServices.Location = New System.Drawing.Point(3, 3)
+        Me.lvProcServices.Name = "lvProcServices"
+        Me.lvProcServices.OverriddenDoubleBuffered = True
+        Me.lvProcServices.ProcessId = 0
+        Me.lvProcServices.ShowAll = False
+        Me.lvProcServices.Size = New System.Drawing.Size(630, 271)
+        Me.lvProcServices.TabIndex = 2
+        Me.lvProcServices.UseCompatibleStateImageBehavior = False
+        Me.lvProcServices.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader3
+        '
+        Me.ColumnHeader3.Text = "Name"
+        Me.ColumnHeader3.Width = 121
+        '
+        'ColumnHeader7
+        '
+        Me.ColumnHeader7.Text = "DisplayName"
+        Me.ColumnHeader7.Width = 243
+        '
+        'ColumnHeader8
+        '
+        Me.ColumnHeader8.Text = "State"
+        Me.ColumnHeader8.Width = 79
+        '
+        'ColumnHeader9
+        '
+        Me.ColumnHeader9.Text = "StartType"
+        Me.ColumnHeader9.Width = 70
+        '
+        'ColumnHeader10
+        '
+        Me.ColumnHeader10.Text = "ImagePath"
+        Me.ColumnHeader10.Width = 250
+        '
+        'ColumnHeader11
+        '
+        Me.ColumnHeader11.Text = "Process"
+        Me.ColumnHeader11.Width = 150
+        '
+        'ColumnHeader19
+        '
+        Me.ColumnHeader19.Text = "ServiceType"
+        Me.ColumnHeader19.Width = 100
         '
         'frmProcessInfo
         '
@@ -2649,11 +2675,6 @@ Partial Class frmProcessInfo
     Friend WithEvents cmdInfosToClipB As System.Windows.Forms.Button
     Friend WithEvents rtb As System.Windows.Forms.RichTextBox
     Friend WithEvents TabPage7 As System.Windows.Forms.TabPage
-    Friend WithEvents lvProcServices As YAPM.DoubleBufferedLV
-    Friend WithEvents ColumnHeader23 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader47 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader48 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader20 As System.Windows.Forms.ColumnHeader
     Friend WithEvents tabNetwork As System.Windows.Forms.TabPage
     Friend WithEvents lvProcNetwork As YAPM.networkList
     Friend WithEvents ColumnHeader49 As System.Windows.Forms.ColumnHeader
@@ -2780,4 +2801,12 @@ Partial Class frmProcessInfo
     Friend WithEvents ShowUnnamedWindowsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuString As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents menuViewMemoryString As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents lvProcServices As YAPM.serviceList
+    Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader7 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader8 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader9 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader10 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader11 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader19 As System.Windows.Forms.ColumnHeader
 End Class

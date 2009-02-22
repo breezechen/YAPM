@@ -474,15 +474,17 @@ Public Class cWindow
             If Array.IndexOf(pidList, pid) >= 0 Then
                 ' Then this window belongs to one of our processes
                 If showAll OrElse GetCaptionLenght(currWnd) > 0 Then
-                    ReDim Preserve key(cpt)
                     key(cpt) = currWnd.ToInt32
                     _dico.Add(key(cpt).ToString, New LightWindow(currWnd, pid, GetThreadIdFromWindowHandle(currWnd)))
                     cpt += 1
+                    ReDim Preserve key(cpt)
                 End If
             End If
 
             currWnd = GetWindowAPI(currWnd, GW_HWNDNEXT)
         Loop
+
+        ReDim Preserve key(cpt - 1)
 
         Return key.Length
 

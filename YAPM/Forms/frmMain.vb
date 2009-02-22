@@ -286,6 +286,7 @@ Public Class frmMain
     Public Sub refreshServiceList()
 
         ' Update list
+        Me.lvServices.ShowAll = True
         Me.lvServices.UpdateItems()
 
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then

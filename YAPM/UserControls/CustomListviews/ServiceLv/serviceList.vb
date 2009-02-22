@@ -43,6 +43,8 @@ Public Class serviceList
 
     Private _IMG As ImageList
     Private m_SortingColumn As ColumnHeader
+    Private _pid As Integer
+    Private _all As Boolean = False
 
     Private _foreColor As Color = Color.FromArgb(30, 30, 30)
 
@@ -54,26 +56,22 @@ Public Class serviceList
     ' ========================================
     ' Properties
     ' ========================================
-    'Public ReadOnly Property Items() As ListView.ListViewItemCollection
-    '    Get
-    '        Return Me.lv.Items
-    '    End Get
-    'End Property
-    'Public ReadOnly Property SelectedItems() As ListView.SelectedListViewItemCollection
-    '    Get
-    '        Return Me.lv.SelectedItems
-    '    End Get
-    'End Property
-    'Public ReadOnly Property Columns() As ListView.ColumnHeaderCollection
-    '    Get
-    '        Return lv.Columns
-    '    End Get
-    'End Property
-    'Public ReadOnly Property Groups() As ListViewGroupCollection
-    '    Get
-    '        Return lv.Groups
-    '    End Get
-    'End Property
+    Public Property ShowAll() As Boolean
+        Get
+            Return _all
+        End Get
+        Set(ByVal value As Boolean)
+            _all = value
+        End Set
+    End Property
+    Public Property ProcessId() As Integer
+        Get
+            Return _pid
+        End Get
+        Set(ByVal value As Integer)
+            _pid = value
+        End Set
+    End Property
 
 #End Region
 
@@ -111,12 +109,16 @@ Public Class serviceList
         ' Now enumerate items
         Dim _itemId() As String
         ReDim _itemId(0)
-        __servEnum.EnumerateApi(_itemId)
+        If _all Then
+            __servEnum.EnumerateApi(_itemId)
+        Else
+            __servEnum.EnumerateApi(_pid, _itemId)
+        End If
 
         ' Now add all items with isKilled = true to _dicoDel dictionnary
         For Each z As cService In _dico.Values
             If z.IsKilledItem Then
-                _dicoDel.Add(z.key, Nothing)
+                _dicoDel.Add(z.Key, Nothing)
             End If
         Next
 
