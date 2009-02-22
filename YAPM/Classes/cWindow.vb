@@ -55,6 +55,18 @@ Public Class cWindow
     '   ByRef riid As Guid, ByVal fOwn As Integer, _
     '   <MarshalAs(UnmanagedType.IDispatch)> ByRef ppvObj As Object) As Integer
     'End Function
+    Public Structure LightWindow
+        Dim handle As IntPtr
+        Dim pid As Integer
+        Dim threadId As Integer
+        Dim procName As String
+        Public Sub New(ByVal _handle As IntPtr, ByVal _pid As Integer, ByVal _thread As Integer)
+            handle = _handle
+            pid = _pid
+            threadId = _thread
+            procName = cProcess.GetProcessName(pid)
+        End Sub
+    End Structure
 
     Private Declare Function GetForegroundWindow Lib "user32" () As IntPtr
 
@@ -193,6 +205,7 @@ Public Class cWindow
     Private _parentThreadId As Integer
     Private _parentProcName As String
     Private _displayed As Boolean
+    Private _oldCaption As String
 
     ' ========================================
     ' Getter & setter
@@ -219,11 +232,16 @@ Public Class cWindow
     End Property
     Public Property Caption() As String
         Get
-            Dim length As Integer
-            length = GetWindowTextLength(_handle)
-            Dim _cap As New StringBuilder(Space(length + 1))
-            length = GetWindowText(_handle, _cap, length + 1)
-            Return _cap.ToString.Substring(0, Len(_cap.ToString))
+            If Me.IsKilledItem = False Then
+                Dim length As Integer
+                length = GetWindowTextLength(_handle)
+                Dim _cap As New StringBuilder(Space(length + 1))
+                length = GetWindowText(_handle, _cap, length + 1)
+                _oldCaption = _cap.ToString.Substring(0, Len(_cap.ToString))
+                Return _oldCaption
+            Else
+                Return _oldCaption
+            End If
         End Get
         Set(ByVal value As String)
             SetWindowText(_handle, New StringBuilder(value))
@@ -315,23 +333,31 @@ Public Class cWindow
     ' Constructor & destructor
     ' ========================================
 
-    Public Sub New(ByVal handle As Integer, ByVal procId As Integer, _
-            ByVal threadId As Integer, ByVal procName As String)
+    'Public Sub New(ByVal handle As Integer, ByVal procId As Integer, _
+    '        ByVal threadId As Integer, ByVal procName As String)
 
+    '    MyBase.New()
+    '    _handle = CType(handle, IntPtr)
+    '    _parentProcId = procId
+    '    _parentThreadId = threadId
+    '    _parentProcName = procName
+    'End Sub
+    'Public Sub New(ByVal window As cWindow)
+    '    MyBase.New()
+    '    _handle = CType(window.Handle, IntPtr)
+    '    _parentProcId = window.ParentProcessId
+    '    _parentThreadId = window.ParentThreadId
+    '    _parentProcName = window.ParentProcessName
+    '    Me.IsKilledItem = window.IsKilledItem
+    '    Me.IsNewItem = window.IsNewItem
+    'End Sub
+
+    Public Sub New(ByRef window As LightWindow)
         MyBase.New()
-        _handle = CType(handle, IntPtr)
-        _parentProcId = procId
-        _parentThreadId = threadId
-        _parentProcName = procName
-    End Sub
-    Public Sub New(ByVal window As cWindow)
-        MyBase.New()
-        _handle = CType(window.Handle, IntPtr)
-        _parentProcId = window.ParentProcessId
-        _parentThreadId = window.ParentThreadId
-        _parentProcName = window.ParentProcessName
-        Me.IsKilledItem = window.IsKilledItem
-        Me.IsNewItem = window.IsNewItem
+        _handle = window.handle
+        _parentProcId = window.pid
+        _parentThreadId = window.threadId
+        _parentProcName = window.procName
     End Sub
 
 
@@ -430,52 +456,64 @@ Public Class cWindow
     ' Shared functions
     ' ========================================
     ' Retrieve windows list
-    Public Shared Function Enumerate(ByVal processId() As Integer, ByRef w() As cWindow) As Integer
+    Public Shared Function Enumerate(ByVal showAll As Boolean, ByRef pidList() As _
+                                     Integer, ByRef key() As Integer, ByRef _dico _
+                                     As Dictionary(Of String, LightWindow)) As Integer
+
         Dim currWnd As IntPtr
         Dim cpt As Integer
+        _dico.Clear()
 
         currWnd = GetWindowAPI(GetDesktopWindow(), GW_CHILD)
         cpt = 0
-        ReDim w(0)
+        ReDim key(0)
         Do While Not (currWnd = IntPtr.Zero)
 
             ' Get procId from hwnd
             Dim pid As Integer = GetProcIdFromWindowHandle(currWnd)
-            If Array.IndexOf(processId, pid) >= 0 Then
+            If Array.IndexOf(pidList, pid) >= 0 Then
                 ' Then this window belongs to one of our processes
-                ReDim Preserve w(cpt)
-                w(cpt) = New cWindow(CInt(currWnd), pid, GetThreadIdFromWindowHandle(currWnd), cProcess.GetProcessName(pid))
+                If showAll OrElse GetCaptionLenght(currWnd) > 0 Then
+                    ReDim Preserve key(cpt)
+                    key(cpt) = currWnd.ToInt32
+                    _dico.Add(key(cpt).ToString, New LightWindow(currWnd, pid, GetThreadIdFromWindowHandle(currWnd)))
+                    cpt += 1
+                End If
+            End If
+
+            currWnd = GetWindowAPI(currWnd, GW_HWNDNEXT)
+        Loop
+
+        Return key.Length
+
+    End Function
+
+    ' Retrieve all windows
+    Public Shared Function EnumerateAll(ByVal showAll As Boolean, ByRef key() As Integer, _
+                                        ByRef _dico As Dictionary(Of String, LightWindow)) As Integer
+        Dim currWnd As IntPtr
+        Dim cpt As Integer
+        _dico.Clear()
+
+        currWnd = GetWindowAPI(GetDesktopWindow(), GW_CHILD)
+        cpt = 0
+        ReDim key(0)
+        Do While Not (currWnd = IntPtr.Zero)
+
+            ' Get procId from hwnd
+            Dim pid As Integer = GetProcIdFromWindowHandle(currWnd)
+
+            If showAll OrElse GetCaptionLenght(currWnd) > 0 Then
+                ReDim Preserve key(cpt)
+                key(cpt) = currWnd.ToInt32
+                _dico.Add(key(cpt).ToString, New LightWindow(currWnd, pid, GetThreadIdFromWindowHandle(currWnd)))
                 cpt += 1
             End If
 
             currWnd = GetWindowAPI(currWnd, GW_HWNDNEXT)
         Loop
 
-        Return UBound(w)
-
-    End Function
-
-    ' Retrieve all windows
-    Public Shared Function EnumerateAll(ByRef w() As cWindow) As Integer
-        Dim currWnd As IntPtr
-        Dim cpt As Integer
-
-        currWnd = GetWindowAPI(GetDesktopWindow(), GW_CHILD)
-        cpt = 0
-        ReDim w(0)
-        Do While Not (currWnd = IntPtr.Zero)
-
-            ' Get procId from hwnd
-            Dim pid As Integer = GetProcIdFromWindowHandle(currWnd)
-
-            ReDim Preserve w(cpt)
-            w(cpt) = New cWindow(CInt(currWnd), pid, GetThreadIdFromWindowHandle(currWnd), cProcess.GetProcessName(pid))
-            cpt += 1
-
-            currWnd = GetWindowAPI(currWnd, GW_HWNDNEXT)
-        Loop
-
-        Return UBound(w)
+        Return key.Length
 
     End Function
 
@@ -556,6 +594,11 @@ Public Class cWindow
     ' Return thread id from a handle
     Friend Shared Function GetThreadIdFromWindowHandle(ByVal hwnd As IntPtr) As Integer
         Return GetWindowThreadProcessId(hwnd, 0)
+    End Function
+
+    ' Return caption
+    Friend Shared Function GetCaptionLenght(ByVal hwnd As IntPtr) As Integer
+        Return GetWindowTextLength(hwnd)
     End Function
 
     Private Function SetWindowPosition(Optional ByVal _Left As Integer = Nothing, _

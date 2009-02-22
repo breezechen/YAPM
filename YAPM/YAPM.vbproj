@@ -223,6 +223,9 @@
     <EmbeddedResource Include="UserControls\CustomListviews\ThreadList\threadList.resx">
       <DependentUpon>threadList.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CustomListviews\WindowLv\windowList.resx">
+      <DependentUpon>windowList.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DoubleBufferedLV.resx">
       <DependentUpon>DoubleBufferedLV.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -450,6 +453,12 @@
       <DependentUpon>threadList.vb</DependentUpon>
     </Compile>
     <Compile Include="UserControls\CustomListviews\ThreadList\threadList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomListviews\WindowLv\windowList.Designer.vb">
+      <DependentUpon>windowList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CustomListviews\WindowLv\windowList.vb">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserControls\DoubleBufferedLV.vb">

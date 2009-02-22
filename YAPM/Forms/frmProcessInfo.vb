@@ -963,128 +963,12 @@ Public Class frmProcessInfo
     ' Show threads
     Public Sub ShowWindows(Optional ByVal allWindows As Boolean = True)
 
-        Static firstRefresh As Boolean = True
-
-        Dim bb As Boolean = ShowUnnamedWindowsToolStripMenuItem.Checked
-
-        Dim p As cWindow
-        Dim proc() As cWindow
-        Dim lvi As ListViewItem
-        Dim x As Integer = 0
-        Dim exist As Boolean = False
-
-        Dim test As Integer = GetTickCount
-
-        ReDim proc(0)
-
-        Dim pa(0) As Integer
-        pa(0) = curProc.Pid
-        cWindow.Enumerate(pa, proc)
-
-        ' Refresh (or suppress) all windows displayed in listview
-        For Each lvi In Me.lvWindows.Items
-
-            ' Test if window exist
-            Dim cP As cWindow = CType(lvi.Tag, cWindow)
-            For Each p In proc
-                If p IsNot Nothing AndAlso p.Handle = cP.Handle Then
-                    exist = True
-                    p.isDisplayed = True
-                    Exit For
-                End If
-            Next
-
-            If exist = False OrElse (bb = False And Len(lvi.SubItems(2).Text) = 0) Then
-                ' window no longer exists
-                If CType(lvi.Tag, cWindow).IsKilledItem = False Then
-                    CType(lvi.Tag, cWindow).IsKilledItem = True
-                    lvi.BackColor = Me.DELETED_ITEM_COLOR
-                Else
-                    lvi.Remove()
-                End If
-            End If
-            exist = False
-        Next
-
-        ' Add all non displayed windows (new windows)
-        For Each p In proc
-
-            If p IsNot Nothing AndAlso p.isDisplayed = False Then
-                If bb Or (bb = False AndAlso Len(p.Caption) > 0) Then
-
-                    p.isDisplayed = True
-
-                    ' Get the window name
-                    Dim it As New ListViewItem
-
-                    it.Text = CStr(p.Handle)
-
-                    ' Add icon
-                    it.ForeColor = Color.FromArgb(30, 30, 30)
-                    it.Group = lvWindows.Groups(0)
-
-                    ' Add some subitems (columns.count-1 subitems)
-                    Dim subS() As String
-                    ReDim subS(Me.lvWindows.Columns.Count - 1)
-                    For xxxx As Integer = 1 To subS.Length - 1
-                        subS(xxxx) = ""
-                    Next
-                    it.SubItems.AddRange(subS)
-
-                    ' Choose color
-                    Dim col As Color = Color.White
-
-                    p.IsNewItem = Not (firstRefresh)
-                    If p.IsNewItem Then
-                        it.BackColor = NEW_ITEM_COLOR
-                    End If
-
-                    Try
-                        Dim key As String = CStr(p.ParentProcessId) & "|" & CStr(p.Handle)
-                        Me.imgWindows.Images.Add(key, p.SmallIcon)
-                        it.ImageKey = key
-                    Catch ex As Exception
-                        it.ImageKey = "noIcon"
-                    End Try
-
-                    it.Tag = New cWindow(p)
-                    lvWindows.Items.Add(it)
-
-                End If
-            End If
-        Next
-
-        ' Here we retrieve some informations for all our displayed windows
-        For Each lvi In Me.lvWindows.Items
-
-            Dim cP As cWindow = CType(lvi.Tag, cWindow)
-
-            If cP.IsNewItem Then
-                cP.IsNewItem = False
-            Else
-                If Not (lvi.BackColor = Color.White) AndAlso Not (cP.IsKilledItem) Then
-                    lvi.BackColor = Color.White
-                End If
-            End If
-
-            Dim isub As ListViewItem.ListViewSubItem
-            Dim xxx As Integer = 0
-            For Each isub In lvi.SubItems
-                Dim colName As String = Me.lvWindows.Columns.Item(xxx).Text
-                colName = colName.Replace("< ", "")
-                colName = colName.Replace("> ", "")
-                isub.Text = cP.GetInformation(colName)
-                xxx += 1
-            Next
-
-        Next
-
-        firstRefresh = False
-        lvWindows.Sort()
-
-        test = GetTickCount - test
-
-        Trace.WriteLine("Windows refresh took " & CStr(test) & " ms")
+        Dim pid(0) As Integer
+        pid(0) = curProc.Pid
+        Me.lvWindows.ProcessId = pid
+        Me.lvWindows.ShowAllPid = False
+        Me.lvWindows.ShowUnNamed = Me.ShowUnnamedWindowsToolStripMenuItem.Checked
+        Me.lvWindows.UpdateItems()
 
     End Sub
 
@@ -1201,65 +1085,56 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub ShowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowToolStripMenuItem.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvWindows.SelectedItems
-            Call CType(it.Tag, cWindow).Show()
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.Show()
         Next
     End Sub
 
     Private Sub HideToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HideToolStripMenuItem.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvWindows.SelectedItems
-            Call CType(it.Tag, cWindow).Hide()
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.Hide()
         Next
     End Sub
 
     Private Sub CloseToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CloseToolStripMenuItem.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvWindows.SelectedItems
-            Call CType(it.Tag, cWindow).Close()
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.Close()
         Next
     End Sub
 
     Private Sub BringToFrontToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BringToFrontToolStripMenuItem.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvWindows.SelectedItems
-            Call CType(it.Tag, cWindow).BringToFront(True)
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.BringToFront(True)
         Next
     End Sub
 
     Private Sub DoNotBringToFrontToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DoNotBringToFrontToolStripMenuItem.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvWindows.SelectedItems
-            Call CType(it.Tag, cWindow).BringToFront(False)
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.BringToFront(False)
         Next
     End Sub
 
     Private Sub SetAsActiveWindowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SetAsActiveWindowToolStripMenuItem.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvWindows.SelectedItems
-            Call CType(it.Tag, cWindow).SetAsActiveWindow()
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.SetAsActiveWindow()
         Next
     End Sub
 
     Private Sub SetAsForegroundWindowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SetAsForegroundWindowToolStripMenuItem.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvWindows.SelectedItems
-            Call CType(it.Tag, cWindow).SetAsForegroundWindow()
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.SetAsForegroundWindow()
         Next
     End Sub
 
     Private Sub MinimizeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MinimizeToolStripMenuItem.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvWindows.SelectedItems
-            Call CType(it.Tag, cWindow).Minimize()
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.Minimize()
         Next
     End Sub
 
     Private Sub MaximizeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MaximizeToolStripMenuItem.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvWindows.SelectedItems
-            Call CType(it.Tag, cWindow).Maximize()
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.Maximize()
         Next
     End Sub
 
@@ -1270,13 +1145,12 @@ Public Class frmProcessInfo
 
             Dim frm As New frmWindowPosition
             With frm
-                .SetCurrentPositions(CType(Me.lvWindows.SelectedItems(0).Tag, cWindow).Positions)
+                .SetCurrentPositions(Me.lvWindows.GetSelectedItem.Positions)
 
                 If .ShowDialog() = Windows.Forms.DialogResult.OK Then
                     r = .NewRect
-                    Dim it As ListViewItem
-                    For Each it In Me.lvWindows.SelectedItems
-                        Call CType(it.Tag, cWindow).SetPositions(r)
+                    For Each it As cWindow In Me.lvWindows.GetSelectedItems
+                        it.SetPositions(r)
                     Next
                 End If
             End With
@@ -1284,16 +1158,14 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub EnableToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EnableToolStripMenuItem.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvWindows.SelectedItems
-            CType(it.Tag, cWindow).Enabled = True
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.Enabled = True
         Next
     End Sub
 
     Private Sub DisableToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisableToolStripMenuItem1.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvWindows.SelectedItems
-            CType(it.Tag, cWindow).Enabled = False
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.Enabled = False
         Next
     End Sub
 
@@ -1338,49 +1210,6 @@ Public Class frmProcessInfo
 
         ' Sort.
         lvProcServices.Sort()
-    End Sub
-
-    Private Sub lvWindows_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvWindows.ColumnClick
-        ' Get the new sorting column.
-        Dim new_sorting_column As ColumnHeader = _
-            lvWindows.Columns(e.Column)
-
-        ' Figure out the new sorting order.
-        Dim sort_order As System.Windows.Forms.SortOrder
-        If m_SortingColumn Is Nothing Then
-            ' New column. Sort ascending.
-            sort_order = SortOrder.Ascending
-        Else
-            ' See if this is the same column.
-            If new_sorting_column.Equals(m_SortingColumn) Then
-                ' Same column. Switch the sort order.
-                If m_SortingColumn.Text.StartsWith("> ") Then
-                    sort_order = SortOrder.Descending
-                Else
-                    sort_order = SortOrder.Ascending
-                End If
-            Else
-                ' New column. Sort ascending.
-                sort_order = SortOrder.Ascending
-            End If
-
-            ' Remove the old sort indicator.
-            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
-        End If
-
-        ' Display the new sort order.
-        m_SortingColumn = new_sorting_column
-        If sort_order = SortOrder.Ascending Then
-            m_SortingColumn.Text = "> " & m_SortingColumn.Text
-        Else
-            m_SortingColumn.Text = "< " & m_SortingColumn.Text
-        End If
-
-        ' Create a comparer.
-        lvWindows.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
-
-        ' Sort.
-        lvWindows.Sort()
     End Sub
 
     Private Sub lvProcEnv_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvProcEnv.ColumnClick

@@ -145,10 +145,8 @@ Public Class frmSaveReport
                     If s.Substring(s.Length - 3, 3).ToLower = "txt" Then
                         Dim stream As New System.IO.StreamWriter(s, False)
                         ' txt
-                        Dim it As ListViewItem
                         Dim x As Integer = 0
-                        For Each it In frmMain.lvWindows.Items
-                            Dim cm As cWindow = CType(it.Tag, cWindow)
+                        For Each cm As cWindow In frmMain.lvWindows.GetAllItems
 
                             Try
                                 ' Try to access to the window (avoid to write lines if window
@@ -195,10 +193,8 @@ Public Class frmSaveReport
                         Dim title As String = CStr(frmMain.lvWindows.Items.Count) & " windows(s)"
                         Dim _html As New cHTML2(s, title, 25)
 
-                        Dim it As ListViewItem
                         Dim x As Integer = 0
-                        For Each it In frmMain.lvWindows.Items
-                            Dim cm As cWindow = CType(it.Tag, cWindow)
+                        For Each cm As cWindow In frmMain.lvWindows.GetAllItems
                             Try
                                 ' Try to access to the window (avoid to write lines if window
                                 ' is deleted)

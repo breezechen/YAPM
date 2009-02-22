@@ -37,28 +37,15 @@ Public Class cTask
     Private Const GW_CHILD As Integer = 5
     Private Const GW_HWNDNEXT As Integer = 2
 
-    Public Structure LightTask
-        Dim handle As IntPtr
-        Dim pid As Integer
-        Dim threadId As Integer
-        Public Sub New(ByVal _handle As IntPtr, ByVal _pid As Integer, ByVal _thread As Integer)
-            handle = _handle
-            pid = _pid
-            threadId = _thread
-        End Sub
-    End Structure
-
 #End Region
-
 
     Private _proc As cProcess
 
     ' ========================================
     ' Constructors
     ' ========================================
-    Public Sub New(ByVal task As LightTask)
-        MyBase.New(task.handle.ToInt32, task.pid, task.threadId, _
-                   cProcess.GetProcessName(task.pid))
+    Public Sub New(ByVal task As LightWindow)
+        MyBase.New(task)
         _proc = New cProcess(task.pid)
         _proc.ProcessorCount = frmMain.cInfo.ProcessorCount
     End Sub
@@ -89,7 +76,7 @@ Public Class cTask
 
     ' Retrieve all tasks
     Public Overloads Shared Function Enumerate(ByRef key() As Integer, _
-                                               ByRef _dico As Dictionary(Of String, LightTask)) As Integer
+                                               ByRef _dico As Dictionary(Of String, LightWindow)) As Integer
         Dim currWnd As IntPtr
         Dim cpt As Integer
 
@@ -106,7 +93,7 @@ Public Class cTask
 
                 ReDim Preserve key(cpt)
                 key(cpt) = currWnd.ToInt32
-                _dico.Add(key(cpt).ToString, New LightTask(currWnd, pid, GetThreadIdFromWindowHandle(currWnd)))
+                _dico.Add(key(cpt).ToString, New LightWindow(currWnd, pid, GetThreadIdFromWindowHandle(currWnd)))
                 cpt += 1
             End If
 

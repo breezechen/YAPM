@@ -226,7 +226,7 @@ Partial Class frmProcessInfo
         Me.ToolStripMenuItem32 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem33 = New System.Windows.Forms.ToolStripMenuItem
         Me.TabPage12 = New System.Windows.Forms.TabPage
-        Me.lvWindows = New YAPM.DoubleBufferedLV
+        Me.lvWindows = New YAPM.windowList
         Me.ColumnHeader30 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader31 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader39 = New System.Windows.Forms.ColumnHeader
@@ -2189,6 +2189,7 @@ Partial Class frmProcessInfo
         Me.lvWindows.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader30, Me.ColumnHeader31, Me.ColumnHeader39, Me.ColumnHeader40, Me.ColumnHeader41, Me.ColumnHeader42})
         Me.lvWindows.ContextMenuStrip = Me.menuWindow
         Me.lvWindows.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvWindows.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvWindows.FullRowSelect = True
         ListViewGroup9.Header = "Windows"
         ListViewGroup9.Name = "gpOther"
@@ -2199,8 +2200,10 @@ Partial Class frmProcessInfo
         Me.lvWindows.Location = New System.Drawing.Point(0, 0)
         Me.lvWindows.Name = "lvWindows"
         Me.lvWindows.OverriddenDoubleBuffered = True
+        Me.lvWindows.ProcessId = Nothing
+        Me.lvWindows.ShowAllPid = False
+        Me.lvWindows.ShowUnNamed = False
         Me.lvWindows.Size = New System.Drawing.Size(636, 277)
-        Me.lvWindows.SmallImageList = Me.imgWindows
         Me.lvWindows.TabIndex = 33
         Me.lvWindows.UseCompatibleStateImageBehavior = False
         Me.lvWindows.View = System.Windows.Forms.View.Details
@@ -2731,7 +2734,7 @@ Partial Class frmProcessInfo
     Friend WithEvents ToolStripMenuItem32 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem33 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents imgServices As System.Windows.Forms.ImageList
-    Friend WithEvents lvWindows As YAPM.DoubleBufferedLV
+    Friend WithEvents lvWindows As YAPM.windowList
     Friend WithEvents ColumnHeader30 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader31 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader39 As System.Windows.Forms.ColumnHeader

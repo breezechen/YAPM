@@ -458,7 +458,7 @@ Partial Class frmMain
         Me.Label10 = New System.Windows.Forms.Label
         Me.lblWindowsCount = New System.Windows.Forms.Label
         Me.txtSearchWindow = New System.Windows.Forms.TextBox
-        Me.lvWindows = New YAPM.DoubleBufferedLV
+        Me.lvWindows = New YAPM.windowList
         Me.ColumnHeader30 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader31 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader39 = New System.Windows.Forms.ColumnHeader
@@ -467,8 +467,8 @@ Partial Class frmMain
         Me.ColumnHeader42 = New System.Windows.Forms.ColumnHeader
         Me.menuWindow = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem34 = New System.Windows.Forms.ToolStripMenuItem
-        Me.imgWindows = New System.Windows.Forms.ImageList(Me.components)
         Me.rtb5 = New System.Windows.Forms.RichTextBox
+        Me.imgWindows = New System.Windows.Forms.ImageList(Me.components)
         Me.FolderChooser = New System.Windows.Forms.FolderBrowserDialog
         Me.panelMain11 = New System.Windows.Forms.Panel
         Me.splitModule = New System.Windows.Forms.SplitContainer
@@ -4862,6 +4862,7 @@ Partial Class frmMain
         Me.lvWindows.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader30, Me.ColumnHeader31, Me.ColumnHeader39, Me.ColumnHeader40, Me.ColumnHeader41, Me.ColumnHeader42})
         Me.lvWindows.ContextMenuStrip = Me.menuWindow
         Me.lvWindows.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvWindows.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvWindows.FullRowSelect = True
         ListViewGroup13.Header = "Windows"
         ListViewGroup13.Name = "gpOther"
@@ -4872,8 +4873,10 @@ Partial Class frmMain
         Me.lvWindows.Location = New System.Drawing.Point(0, 0)
         Me.lvWindows.Name = "lvWindows"
         Me.lvWindows.OverriddenDoubleBuffered = True
+        Me.lvWindows.ProcessId = Nothing
+        Me.lvWindows.ShowAllPid = False
+        Me.lvWindows.ShowUnNamed = False
         Me.lvWindows.Size = New System.Drawing.Size(565, 143)
-        Me.lvWindows.SmallImageList = Me.imgWindows
         Me.lvWindows.TabIndex = 5
         Me.lvWindows.UseCompatibleStateImageBehavior = False
         Me.lvWindows.View = System.Windows.Forms.View.Details
@@ -4918,12 +4921,6 @@ Partial Class frmMain
         Me.ToolStripMenuItem34.Size = New System.Drawing.Size(206, 22)
         Me.ToolStripMenuItem34.Text = "&Select associated process"
         '
-        'imgWindows
-        '
-        Me.imgWindows.ImageStream = CType(resources.GetObject("imgWindows.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgWindows.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgWindows.Images.SetKeyName(0, "noIcon")
-        '
         'rtb5
         '
         Me.rtb5.AutoWordSelection = True
@@ -4937,6 +4934,12 @@ Partial Class frmMain
         Me.rtb5.Size = New System.Drawing.Size(565, 100)
         Me.rtb5.TabIndex = 8
         Me.rtb5.Text = "Click on an item to get additionnal informations"
+        '
+        'imgWindows
+        '
+        Me.imgWindows.ImageStream = CType(resources.GetObject("imgWindows.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imgWindows.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgWindows.Images.SetKeyName(0, "noIcon")
         '
         'panelMain11
         '
@@ -5253,6 +5256,7 @@ Partial Class frmMain
         Me.lvTask.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader62, Me.ColumnHeader63, Me.ColumnHeader64})
         Me.lvTask.ContextMenuStrip = Me.menuTasks
         Me.lvTask.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvTask.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvTask.FullRowSelect = True
         ListViewGroup17.Header = "Tasks"
         ListViewGroup17.Name = "gpOther"
@@ -5264,7 +5268,6 @@ Partial Class frmMain
         Me.lvTask.Name = "lvTask"
         Me.lvTask.OverriddenDoubleBuffered = True
         Me.lvTask.Size = New System.Drawing.Size(565, 247)
-        Me.lvTask.SmallImageList = Me.imgTask
         Me.lvTask.TabIndex = 3
         Me.lvTask.UseCompatibleStateImageBehavior = False
         Me.lvTask.View = System.Windows.Forms.View.Details
@@ -5899,7 +5902,7 @@ Partial Class frmMain
     Friend WithEvents lvModules As YAPM.moduleList
     Friend WithEvents lvThreads As YAPM.threadList
     Friend WithEvents lvHandles As YAPM.handleList
-    Friend WithEvents lvWindows As YAPM.DoubleBufferedLV
+    Friend WithEvents lvWindows As YAPM.windowList
     Friend WithEvents lvJobs As YAPM.DoubleBufferedLV
     Friend WithEvents mainMenu As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ShowLogToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem

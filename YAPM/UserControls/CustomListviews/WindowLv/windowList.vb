@@ -23,7 +23,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 
-Public Class taskList
+Public Class windowList
     Inherits YAPM.DoubleBufferedLV
 
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
@@ -32,14 +32,17 @@ Public Class taskList
     ' ========================================
     ' Private
     ' ========================================
-    Private _dicoNew As New Dictionary(Of String, cTask)
-    Private _dicoDel As New Dictionary(Of String, cTask)
-    Private _buffDico As New Dictionary(Of String, cTask.LightWindow)
-    Private _dico As New Dictionary(Of String, cTask)
+    Private _dicoNew As New Dictionary(Of String, cWindow)
+    Private _dicoDel As New Dictionary(Of String, cWindow)
+    Private _buffDico As New Dictionary(Of String, cWindow.LightWindow)
+    Private _dico As New Dictionary(Of String, cWindow)
 
     Private _firstItemUpdate As Boolean = True
     Private _columnsName() As String
 
+    Private _pid() As Integer
+    Private _all As Boolean = False
+    Private _unnamed As Boolean
     Private _IMG As ImageList
     Private m_SortingColumn As ColumnHeader
 
@@ -53,6 +56,30 @@ Public Class taskList
     ' ========================================
     ' Properties
     ' ========================================
+    Public Property ProcessId() As Integer()
+        Get
+            Return _pid
+        End Get
+        Set(ByVal value As Integer())
+            _pid = value
+        End Set
+    End Property
+    Public Property ShowAllPid() As Boolean
+        Get
+            Return _all
+        End Get
+        Set(ByVal value As Boolean)
+            _all = value
+        End Set
+    End Property
+    Public Property ShowUnNamed() As Boolean
+        Get
+            Return _unnamed
+        End Get
+        Set(ByVal value As Boolean)
+            _unnamed = value
+        End Set
+    End Property
 
 #End Region
 
@@ -90,11 +117,14 @@ Public Class taskList
         ' Now enumerate items
         Dim _itemId() As Integer
         ReDim _itemId(0)
-        Call cTask.Enumerate(_itemId, _buffDico)
-
+        If _all Then
+            Call cWindow.EnumerateAll(_unnamed, _itemId, _buffDico)
+        Else
+            Call cWindow.Enumerate(_unnamed, _pid, _itemId, _buffDico)
+        End If
 
         ' Now add all items with isKilled = true to _dicoDel dictionnary
-        For Each z As cTask In _dico.Values
+        For Each z As cWindow In _dico.Values
             If z.IsKilledItem Then
                 _dicoDel.Add(z.Handle.ToString, Nothing)
             End If
@@ -129,7 +159,7 @@ Public Class taskList
 
         ' Merge _dico and _dicoNew
         For Each z As Integer In _dicoNew.Keys
-            Dim _it As cTask = New cTask(_buffDico.Item(z.ToString))
+            Dim _it As cWindow = New cWindow(_buffDico.Item(z.ToString))
             _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
             _dico.Add(z.ToString, _it)
         Next
@@ -158,7 +188,7 @@ Public Class taskList
         Dim it As ListViewItem
         For Each it In Me.Items
             Dim x As Integer = 0
-            Dim _item As cTask = _dico.Item(it.Name)
+            Dim _item As cWindow = _dico.Item(it.Name)
             For Each isub In it.SubItems
                 isub.Text = _item.GetInformation(_columnsName(x))
                 x += 1
@@ -180,17 +210,17 @@ Public Class taskList
         _firstItemUpdate = False
 
         _test = GetTickCount - _test
-        Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh task list.")
+        Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh window list.")
 
     End Sub
 
     ' Get all items (associated to listviewitems)
-    Public Function GetAllItems() As Dictionary(Of String, cTask).ValueCollection
+    Public Function GetAllItems() As Dictionary(Of String, cWindow).ValueCollection
         Return _dico.Values
     End Function
 
     ' Get the selected item
-    Public Function GetSelectedItem() As cTask
+    Public Function GetSelectedItem() As cWindow
         If Me.SelectedItems.Count > 0 Then
             Return _dico.Item(Me.SelectedItems.Item(0).Name)
         Else
@@ -199,13 +229,13 @@ Public Class taskList
     End Function
 
     ' Get a specified item
-    Public Function GetItemByKey(ByVal key As String) As cTask
+    Public Function GetItemByKey(ByVal key As String) As cWindow
         Return _dico.Item(key)
     End Function
 
     ' Get selected items
-    Public Function GetSelectedItems() As Dictionary(Of String, cTask).ValueCollection
-        Dim res As New Dictionary(Of String, cTask)
+    Public Function GetSelectedItems() As Dictionary(Of String, cWindow).ValueCollection
+        Dim res As New Dictionary(Of String, cWindow)
 
         For Each it As ListViewItem In Me.SelectedItems
             res.Add(it.Name, _dico.Item(it.Name))
