@@ -238,7 +238,8 @@ Public Class cProcessMemRW
     ' =======================================================
     ' Retrieve memory regions (availables for r/w)
     ' =======================================================
-    Private Shared Sub RetrieveMemRegions(ByRef regions() As MEMORY_BASIC_INFORMATION, ByVal pid As Integer)
+    Private Shared Sub RetrieveMemRegions(ByRef regions() As MEMORY_BASIC_INFORMATION, _
+                                          ByVal pid As Integer, Optional ByVal onlyProcessRegions As Boolean = False)
 
         Dim lHandle As Integer
         Dim lPosMem As Integer
@@ -263,7 +264,9 @@ Public Class cProcessMemRW
 
             If lRet = lLenMBI Then
 
-                If mbi.RegionSize > 0 Then
+                If mbi.RegionSize > 0 AndAlso _
+                ((Not onlyProcessRegions) OrElse (mbi.lType = MEM_PRIVATE And _
+                                                  mbi.State = MEM_COMMIT)) Then
                     ' Here is a region
                     _xx += 1
                     If _xx >= regions.Length Then
@@ -288,12 +291,12 @@ Public Class cProcessMemRW
         ReDim Preserve regions(_xx - 1)
     End Sub
     Public Sub RetrieveMemRegions(ByRef lBaseAdress() As Integer, _
-        ByRef lRegionSize() As Integer)
+        ByRef lRegionSize() As Integer, Optional ByVal onlyProc As Boolean = False)
 
         Dim regions() As MEMORY_BASIC_INFORMATION
 
         ReDim regions(0)
-        RetrieveMemRegions(regions, Me._pid)
+        RetrieveMemRegions(regions, Me._pid, onlyProc)
 
         ReDim lBaseAdress(regions.Length - 1)
         ReDim lRegionSize(regions.Length - 1)
@@ -302,7 +305,7 @@ Public Class cProcessMemRW
             lBaseAdress(x) = regions(x).BaseAddress
             lRegionSize(x) = regions(x).RegionSize
         Next
-        
+
     End Sub
 
     ' =======================================================
@@ -396,7 +399,7 @@ Public Class cProcessMemRW
 
         ReDim LB(0)
         ReDim LS(0)
-        Call RetrieveMemRegions(LB, LS)
+        Call RetrieveMemRegions(LB, LS, True)
 
         ' Calculate max size
         lngLen = 0
