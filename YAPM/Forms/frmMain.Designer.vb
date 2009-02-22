@@ -511,7 +511,7 @@ Partial Class frmMain
         Me.imgTask = New System.Windows.Forms.ImageList(Me.components)
         Me.timerTask = New System.Windows.Forms.Timer(Me.components)
         Me.panelMain14 = New System.Windows.Forms.Panel
-        Me.lvNetwork = New YAPM.DoubleBufferedLV
+        Me.lvNetwork = New YAPM.networkList
         Me.ColumnHeader66 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader67 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader68 = New System.Windows.Forms.ColumnHeader
@@ -5956,7 +5956,7 @@ Partial Class frmMain
     Friend WithEvents RBNetworkRefresh As System.Windows.Forms.RibbonPanel
     Friend WithEvents butNetworkRefresh As System.Windows.Forms.RibbonButton
     Friend WithEvents panelMain14 As System.Windows.Forms.Panel
-    Friend WithEvents lvNetwork As YAPM.DoubleBufferedLV
+    Friend WithEvents lvNetwork As YAPM.networkList
     Friend WithEvents ColumnHeader66 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader67 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader68 As System.Windows.Forms.ColumnHeader

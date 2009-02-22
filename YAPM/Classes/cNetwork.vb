@@ -25,6 +25,7 @@ Imports System.Runtime.InteropServices
 Imports System.Net
 
 Public Class cNetwork
+    Inherits cGeneralObject
 
     ' ========================================
     ' API declarations
@@ -65,6 +66,14 @@ Public Class cNetwork
         'Dim dwRemoteAddr As Integer
         'Dim dwRemotePort As Integer
         Dim dwOwningPid As Integer
+    End Structure
+    Public Structure LightConnection
+        Dim dwState As Integer
+        Dim local As IPEndPoint
+        Dim remote As IPEndPoint
+        Dim dwOwningPid As Integer
+        Dim dwType As NetworkProtocol
+        Dim key As String
     End Structure
     Public Enum MIB_TCP_STATE As Integer
         Closed = 1
@@ -108,34 +117,15 @@ Public Class cNetwork
     Private _remote As IPEndPoint
     Private _key As String
     Private _State As MIB_TCP_STATE
-    Private _isDisplayed As Boolean
     Private _localPort As Integer
     Private _procName As String
     Private _localString As String
     Private _remoteString As String
 
-    Private _newItem As Boolean = False
-    Private _killedItem As Boolean = False
-
     ' ========================================
     ' Properties
     ' ========================================
-    Public Property IsKilledItem() As Boolean
-        Get
-            Return _killedItem
-        End Get
-        Set(ByVal value As Boolean)
-            _killedItem = value
-        End Set
-    End Property
-    Public Property IsNewItem() As Boolean
-        Get
-            Return _newItem
-        End Get
-        Set(ByVal value As Boolean)
-            _newItem = value
-        End Set
-    End Property
+#Region "Properties"
     Public ReadOnly Property ProcessId() As Integer
         Get
             Return _pid
@@ -166,14 +156,6 @@ Public Class cNetwork
             Return _key
         End Get
     End Property
-    Public Property isDisplayed() As Boolean
-        Get
-            Return _isDisplayed
-        End Get
-        Set(ByVal value As Boolean)
-            _isDisplayed = value
-        End Set
-    End Property
     Public ReadOnly Property LocalPort() As Integer
         Get
             Return _localPort
@@ -194,43 +176,71 @@ Public Class cNetwork
             Return _localString
         End Get
     End Property
+#End Region
 
 
     ' ========================================
     ' Public functions
     ' ========================================
-    Public Sub New(ByVal tcp As MIB_TCPROW_OWNER_PID, ByVal protocol As NetworkProtocol, ByVal local As IPEndPoint, ByVal remote As IPEndPoint)
-        MyBase.New()
-        _pid = tcp.dwOwningPid
-        _Protocol = protocol
-        _State = CType(tcp.dwState, MIB_TCP_STATE)
-        _Local = local
-        _remote = remote
-        _localPort = tcp.dwLocalPort
-        _procName = cProcess.GetProcessName(_pid)
-        _key = CStr(_pid) & "|" & local.Address.ToString & "|" & protocol.ToString & "|" & CStr(local.Port) & "|" & CStr(tcp.GetHashCode)
-    End Sub
-    Public Sub New(ByVal udp As MIB_UDPROW_OWNER_PID, ByVal protocol As NetworkProtocol, ByVal local As IPEndPoint)
-        MyBase.New()
-        _pid = udp.dwOwningPid
-        _Protocol = protocol
-        _localPort = udp.dwLocalPort
-        _State = CType(-1, MIB_TCP_STATE)
-        _Local = local
-        _remote = Nothing
-        _procName = cProcess.GetProcessName(_pid)
-        _key = CStr(_pid) & "|" & local.Address.ToString & "|" & protocol.ToString & "|" & CStr(local.Port) & "|" & CStr(udp.GetHashCode)
-    End Sub
+    'Public Sub New(ByVal tcp As MIB_TCPROW_OWNER_PID, ByVal protocol As NetworkProtocol, ByVal local As IPEndPoint, ByVal remote As IPEndPoint)
+    '    MyBase.New()
+    '    _pid = tcp.dwOwningPid
+    '    _Protocol = protocol
+    '    _State = CType(tcp.dwState, MIB_TCP_STATE)
+    '    _Local = local
+    '    _remote = remote
+    '    _localPort = tcp.dwLocalPort
+    '    _procName = cProcess.GetProcessName(_pid)
+    '    _key = CStr(_pid) & "|" & local.Address.ToString & "|" & protocol.ToString & "|" & CStr(local.Port) & "|" & CStr(tcp.GetHashCode)
+    'End Sub
+    'Public Sub New(ByVal udp As MIB_UDPROW_OWNER_PID, ByVal protocol As NetworkProtocol, ByVal local As IPEndPoint)
+    '    MyBase.New()
+    '    _pid = udp.dwOwningPid
+    '    _Protocol = protocol
+    '    _localPort = udp.dwLocalPort
+    '    _State = CType(-1, MIB_TCP_STATE)
+    '    _Local = local
+    '    _remote = Nothing
+    '    _procName = cProcess.GetProcessName(_pid)
+    '    _key = CStr(_pid) & "|" & local.Address.ToString & "|" & protocol.ToString & "|" & CStr(local.Port) & "|" & CStr(udp.GetHashCode)
+    'End Sub
 
-    Public Sub New(ByVal nw As cNetwork)
+    'Public Sub New(ByVal nw As cNetwork)
+    '    MyBase.New()
+    '    _pid = nw.ProcessId
+    '    _Protocol = nw.Protocol
+    '    _State = nw.State
+    '    _Local = nw.Local
+    '    _remote = nw.Remote
+    '    _newItem = nw.IsNewItem
+    '    _killedItem = nw.IsKilledItem
+
+    '    Try
+    '        Dim callback As System.AsyncCallback = AddressOf ProcessLocalDnsInformation
+    '        Dns.BeginGetHostEntry(_Local.Address, callback, Nothing)
+    '    Catch ex As Exception
+    '        ' null address
+    '    End Try
+    '    Try
+    '        Dim callback As System.AsyncCallback = AddressOf ProcessRemoteDnsInformation
+    '        Dns.BeginGetHostEntry(_remote.Address, callback, Nothing)
+    '    Catch ex As Exception
+    '        ' null address
+    '    End Try
+
+    '    _localPort = nw.LocalPort
+    '    _key = nw.Key
+    '    _procName = nw.ProcessName
+    'End Sub
+    Public Sub New(ByRef lc As LightConnection)
         MyBase.New()
-        _pid = nw.ProcessId
-        _Protocol = nw.Protocol
-        _State = nw.State
-        _Local = nw.Local
-        _remote = nw.Remote
-        _newItem = nw.IsNewItem
-        _killedItem = nw.IsKilledItem
+        _pid = lc.dwOwningPid
+        _Protocol = lc.dwType
+        _State = CType(lc.dwState, MIB_TCP_STATE)
+        _Local = lc.local
+        _remote = lc.remote
+        _procName = cProcess.GetProcessName(_pid)
+        _key = lc.key
 
         Try
             Dim callback As System.AsyncCallback = AddressOf ProcessLocalDnsInformation
@@ -244,35 +254,18 @@ Public Class cNetwork
         Catch ex As Exception
             ' null address
         End Try
-
-        _localPort = nw.LocalPort
-        _key = nw.Key
-        _procName = nw.ProcessName
     End Sub
 
-    Private Sub ProcessLocalDnsInformation(ByVal result As IAsyncResult)
-        Try
-            Dim host As IPHostEntry = Dns.EndGetHostEntry(result)
-            _localString = host.HostName
-        Catch ex As Exception
-            '
-        End Try
-    End Sub
-    Private Sub ProcessRemoteDnsInformation(ByVal result As IAsyncResult)
-        Try
-            Dim host As IPHostEntry = Dns.EndGetHostEntry(result)
-            _remoteString = host.HostName
-        Catch ex As Exception
-            '
-        End Try
-    End Sub
-    
+
 
     ' Get all active connections
-    Public Shared Function EnumerateAll(ByRef net() As cNetwork) As Integer
-        Dim res() As cNetwork
-        ReDim res(0)
+    Public Shared Function Enumerate(ByVal all As Boolean, ByRef pidList() As Integer, _
+                                     ByRef key() As String, ByRef _dico As  _
+                                     Dictionary(Of String, LightConnection)) As Integer
+        ReDim key(0)
+        _dico.Clear()
         Dim length As Integer = 0
+
 
         ' --------- TCP
         GetExtendedTcpTable(IntPtr.Zero, length, False, 2, TCP_TABLE_CLASS.TCP_TABLE_OWNER_PID_ALL, 0)
@@ -280,8 +273,9 @@ Public Class cNetwork
         GetExtendedTcpTable(pt, length, False, 2, TCP_TABLE_CLASS.TCP_TABLE_OWNER_PID_ALL, 0)
 
         Dim count As Integer = Marshal.ReadInt32(pt, 0)
-        ReDim res(count)
+        ReDim key(count)        ' Temporary size
         Dim intOffset As Integer = 0
+        Dim z As Integer = 0
 
         For i As Integer = 0 To count - 1
             Dim tcp_item As MIB_TCPROW_OWNER_PID
@@ -296,17 +290,45 @@ Public Class cNetwork
             End With
             intOffset += 24
 
-            Dim n As New IPEndPoint(tcp_item.dwLocalAddr, tcp_item.dwLocalPort)
-            Dim n2 As IPEndPoint
-            If tcp_item.dwRemoteAddr > 0 Then
-                n2 = New IPEndPoint(tcp_item.dwRemoteAddr, tcp_item.dwRemotePort)
-            Else
-                n2 = Nothing
+            ' Test if belongs to PID list
+            Dim bOkToAdd As Boolean = all
+            If all = False Then
+                For Each pid As Integer In pidList
+                    If pid = tcp_item.dwOwningPid Then
+                        bOkToAdd = True
+                        Exit For
+                    End If
+                Next
             End If
-            res(i) = New cNetwork(tcp_item, NetworkProtocol.Tcp, n, n2)
+
+            If bOkToAdd Then
+                Dim n As New IPEndPoint(tcp_item.dwLocalAddr, tcp_item.dwLocalPort)
+                Dim n2 As IPEndPoint
+                If tcp_item.dwRemoteAddr > 0 Then
+                    n2 = New IPEndPoint(tcp_item.dwRemoteAddr, tcp_item.dwRemotePort)
+                Else
+                    n2 = Nothing
+                End If
+
+                key(z) = CStr(tcp_item.dwOwningPid) & "|" & n.Address.ToString & "|TCP|" & CStr(n.Port)
+                Dim res As New LightConnection
+                With res
+                    .dwOwningPid = tcp_item.dwOwningPid
+                    .dwState = tcp_item.dwState
+                    .key = key(z)
+                    .local = n
+                    .remote = n2
+                End With
+                _dico.Add(key(z), res)
+
+                z += 1
+            End If
         Next
 
         Marshal.FreeHGlobal(pt)
+
+        count = z         ' Real size
+
 
 
         ' --------- UDP
@@ -315,7 +337,7 @@ Public Class cNetwork
         GetExtendedUdpTable(pt, length, False, 2, UDP_TABLE_CLASS.UDP_TABLE_OWNER_PID, 0)
 
         Dim count2 As Integer = Marshal.ReadInt32(pt, 0)
-        ReDim Preserve res(count + count2 - 1)
+        ReDim Preserve key(count + count2 - 1)
         intOffset = 0
 
         For i As Integer = 0 To count2 - 1
@@ -328,18 +350,49 @@ Public Class cNetwork
             End With
             intOffset += 12
 
-            Dim n As New IPEndPoint(udp_item.dwLocalAddr, udp_item.dwLocalPort)
-            res(i + count) = New cNetwork(udp_item, NetworkProtocol.Udp, n)
+            ' Test if belongs to PID list
+            Dim bOkToAdd As Boolean = all
+            If all = False Then
+                For Each pid As Integer In pidList
+                    If pid = udp_item.dwOwningPid Then
+                        bOkToAdd = True
+                        Exit For
+                    End If
+                Next
+            End If
+
+            If bOkToAdd Then
+                Dim n As New IPEndPoint(udp_item.dwLocalAddr, udp_item.dwLocalPort)
+
+                key(z) = CStr(udp_item.dwOwningPid) & "|" & n.Address.ToString & "|UDP|" & CStr(n.Port)
+                Dim res As New LightConnection
+                With res
+                    .dwOwningPid = udp_item.dwOwningPid
+                    .dwState = 0
+                    .key = key(z)
+                    .local = n
+                    .remote = Nothing
+                End With
+                Try
+                    _dico.Add(key(z), res)
+                Catch ex As Exception
+                    z -= 1
+                End Try
+
+                z += 1
+            End If
         Next
 
         Marshal.FreeHGlobal(pt)
 
-        net = res
-        Return res.Length
+
+        ' Resize array
+        count2 = z - 1     ' Real size
+        ReDim Preserve key(count2)
     End Function
 
-    ' 
-    Public Function GetInformation(ByVal info As String) As String
+    ' Get informations
+    Public Overrides Function GetInformation(ByVal info As String) As String
         Dim res As String = ""
 
         Select Case info
@@ -360,18 +413,41 @@ Public Class cNetwork
                     res = ""
                 End If
             Case "Protocol"
-                    res = Me.Protocol.ToString.ToUpperInvariant
+                res = Me.Protocol.ToString.ToUpperInvariant
             Case "ProcessId"
-                    res = Me.ProcessId.ToString
+                res = Me.ProcessId.ToString
             Case "State"
-                    If Me.State = -1 Then
-                        res = ""
-                    Else
-                        res = Me.State.ToString
-                    End If
+                If Me.State <= 0 Then
+                    res = ""
+                Else
+                    res = Me.State.ToString
+                End If
         End Select
 
         Return res
     End Function
+
+
+    ' ========================================
+    ' Private functions
+    ' ========================================
+
+    Private Sub ProcessLocalDnsInformation(ByVal result As IAsyncResult)
+        Try
+            Dim host As IPHostEntry = Dns.EndGetHostEntry(result)
+            _localString = host.HostName
+        Catch ex As Exception
+            '
+        End Try
+    End Sub
+
+    Private Sub ProcessRemoteDnsInformation(ByVal result As IAsyncResult)
+        Try
+            Dim host As IPHostEntry = Dns.EndGetHostEntry(result)
+            _remoteString = host.HostName
+        Catch ex As Exception
+            '
+        End Try
+    End Sub
 
 End Class

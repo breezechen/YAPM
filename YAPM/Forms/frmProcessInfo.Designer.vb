@@ -165,7 +165,7 @@ Partial Class frmProcessInfo
         Me.ToolStripMenuItem43 = New System.Windows.Forms.ToolStripMenuItem
         Me.imgServices = New System.Windows.Forms.ImageList(Me.components)
         Me.tabNetwork = New System.Windows.Forms.TabPage
-        Me.lvProcNetwork = New YAPM.DoubleBufferedLV
+        Me.lvProcNetwork = New YAPM.networkList
         Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader57 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader58 = New System.Windows.Forms.ColumnHeader
@@ -1423,11 +1423,14 @@ Partial Class frmProcessInfo
         Me.lvProcMem.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader53, Me.ColumnHeader54, Me.ColumnHeader55, Me.ColumnHeader56})
         Me.lvProcMem.ContextMenuStrip = Me.menuProcMem
         Me.lvProcMem.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvProcMem.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcMem.FullRowSelect = True
         Me.lvProcMem.HideSelection = False
         Me.lvProcMem.Location = New System.Drawing.Point(3, 3)
         Me.lvProcMem.Name = "lvProcMem"
         Me.lvProcMem.OverriddenDoubleBuffered = True
+        Me.lvProcMem.ProcessId = 0
+        Me.lvProcMem.ShowUnNamed = False
         Me.lvProcMem.Size = New System.Drawing.Size(630, 271)
         Me.lvProcMem.TabIndex = 14
         Me.lvProcMem.UseCompatibleStateImageBehavior = False
@@ -1669,11 +1672,14 @@ Partial Class frmProcessInfo
         Me.lvProcNetwork.AllowColumnReorder = True
         Me.lvProcNetwork.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader49, Me.ColumnHeader57, Me.ColumnHeader58, Me.ColumnHeader59})
         Me.lvProcNetwork.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvProcNetwork.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcNetwork.FullRowSelect = True
         Me.lvProcNetwork.HideSelection = False
         Me.lvProcNetwork.Location = New System.Drawing.Point(3, 3)
         Me.lvProcNetwork.Name = "lvProcNetwork"
         Me.lvProcNetwork.OverriddenDoubleBuffered = True
+        Me.lvProcNetwork.ProcessId = Nothing
+        Me.lvProcNetwork.ShowAllPid = False
         Me.lvProcNetwork.Size = New System.Drawing.Size(630, 271)
         Me.lvProcNetwork.TabIndex = 21
         Me.lvProcNetwork.UseCompatibleStateImageBehavior = False
@@ -1686,13 +1692,12 @@ Partial Class frmProcessInfo
         '
         'ColumnHeader57
         '
-        Me.ColumnHeader57.Text = "Port"
-        Me.ColumnHeader57.Width = 100
+        Me.ColumnHeader57.Text = "Remote"
+        Me.ColumnHeader57.Width = 200
         '
         'ColumnHeader58
         '
         Me.ColumnHeader58.Text = "Protocol"
-        Me.ColumnHeader58.Width = 100
         '
         'ColumnHeader59
         '
@@ -2029,6 +2034,7 @@ Partial Class frmProcessInfo
         Me.lvThreads.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader34, Me.ColumnHeader35, Me.ColumnHeader36, Me.ColumnHeader37, Me.ColumnHeader38})
         Me.lvThreads.ContextMenuStrip = Me.menuThread
         Me.lvThreads.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvThreads.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvThreads.FullRowSelect = True
         ListViewGroup7.Header = "Threads"
         ListViewGroup7.Name = "gpOther"
@@ -2039,8 +2045,9 @@ Partial Class frmProcessInfo
         Me.lvThreads.Location = New System.Drawing.Point(0, 0)
         Me.lvThreads.Name = "lvThreads"
         Me.lvThreads.OverriddenDoubleBuffered = True
+        Me.lvThreads.ProcessId = Nothing
+        Me.lvThreads.ShowUnNamed = False
         Me.lvThreads.Size = New System.Drawing.Size(636, 277)
-        Me.lvThreads.SmallImageList = Me.imgServices
         Me.lvThreads.TabIndex = 32
         Me.lvThreads.UseCompatibleStateImageBehavior = False
         Me.lvThreads.View = System.Windows.Forms.View.Details
@@ -2364,6 +2371,8 @@ Partial Class frmProcessInfo
         Me.lvHandles.Location = New System.Drawing.Point(0, 0)
         Me.lvHandles.Name = "lvHandles"
         Me.lvHandles.OverriddenDoubleBuffered = True
+        Me.lvHandles.ProcessId = Nothing
+        Me.lvHandles.ShowUnNamed = False
         Me.lvHandles.Size = New System.Drawing.Size(636, 277)
         Me.lvHandles.TabIndex = 34
         Me.lvHandles.UseCompatibleStateImageBehavior = False
@@ -2643,7 +2652,7 @@ Partial Class frmProcessInfo
     Friend WithEvents ColumnHeader48 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader20 As System.Windows.Forms.ColumnHeader
     Friend WithEvents tabNetwork As System.Windows.Forms.TabPage
-    Friend WithEvents lvProcNetwork As YAPM.DoubleBufferedLV
+    Friend WithEvents lvProcNetwork As YAPM.networkList
     Friend WithEvents ColumnHeader49 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader57 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader58 As System.Windows.Forms.ColumnHeader

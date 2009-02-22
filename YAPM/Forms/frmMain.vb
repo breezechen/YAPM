@@ -4354,168 +4354,10 @@ Public Class frmMain
         frmFindWindow.Show()
     End Sub
 
-    Private Sub lvNetwork_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvNetwork.ColumnClick
-        ' Get the new sorting column.
-        Dim new_sorting_column As ColumnHeader = _
-            lvNetwork.Columns(e.Column)
-
-        ' Figure out the new sorting order.
-        Dim sort_order As System.Windows.Forms.SortOrder
-        If m_SortingColumn Is Nothing Then
-            ' New column. Sort ascending.
-            sort_order = SortOrder.Ascending
-        Else
-            ' See if this is the same column.
-            If new_sorting_column.Equals(m_SortingColumn) Then
-                ' Same column. Switch the sort order.
-                If m_SortingColumn.Text.StartsWith("> ") Then
-                    sort_order = SortOrder.Descending
-                Else
-                    sort_order = SortOrder.Ascending
-                End If
-            Else
-                ' New column. Sort ascending.
-                sort_order = SortOrder.Ascending
-            End If
-
-            ' Remove the old sort indicator.
-            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
-        End If
-
-        ' Display the new sort order.
-        m_SortingColumn = new_sorting_column
-        If sort_order = SortOrder.Ascending Then
-            m_SortingColumn.Text = "> " & m_SortingColumn.Text
-        Else
-            m_SortingColumn.Text = "< " & m_SortingColumn.Text
-        End If
-
-        ' Create a comparer.
-        lvNetwork.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
-
-        ' Sort.
-        lvNetwork.Sort()
-    End Sub
-
     Private Sub refreshNetworkList()
 
-        Static firstRefresh As Boolean = True
-        Static fFirst As Boolean = True
-
-        Dim net As cNetwork
-        Dim network() As cNetwork
-        Dim lvi As ListViewItem
-        Dim x As Integer = 0
-        Dim exist As Boolean = False
-
-        Dim test As Integer = GetTickCount
-
-        ReDim network(0)
-        cNetwork.EnumerateAll(network)
-
-        ' Refresh (or suppress) all items displayed in listview
-        For Each lvi In Me.lvNetwork.Items
-
-            ' Test if network exist
-            Dim cW As cNetwork = CType(lvi.Tag, cNetwork)
-            For Each net In network
-                If net.Key = cW.Key Then
-                    exist = True
-                    net.isDisplayed = True
-                    'Exit For   ' Can't Exit For because some connection have same key
-                End If
-            Next
-
-            If exist = False Then
-                ' Process no longer exists
-                If CType(lvi.Tag, cNetwork).IsKilledItem = False Then
-                    CType(lvi.Tag, cNetwork).IsKilledItem = True
-                    lvi.BackColor = Me.DELETED_ITEM_COLOR
-                Else
-                    log.AppendLine("Network connection " & CStr(cW.Local.Address.ToString) & " killed")
-                    lvi.Remove()
-                End If
-            End If
-            exist = False
-
-        Next
-
-
-
-        ' Add all non displayed items (new items)
-        For Each net In network
-
-            If net.isDisplayed = False And net.ProcessId > 0 Then
-
-                ' Add to log
-                log.AppendLine("Network connection " & CStr(net.Local.Address.ToString) & " created")
-                net.isDisplayed = True
-
-                ' Get the task name
-                Dim o As String = net.Local.ToString
-                Dim it As New ListViewItem
-
-                If Len(o) > 0 OrElse net.Protocol = cNetwork.NetworkProtocol.Udp Then
-
-                    it.Text = o
-
-                    Dim lsub1 As New ListViewItem.ListViewSubItem
-                    lsub1.Text = ""
-
-                    Dim lsub2 As New ListViewItem.ListViewSubItem
-                    lsub2.Text = net.Protocol.ToString
-
-                    Dim lsub3 As New ListViewItem.ListViewSubItem
-                    lsub3.Text = net.State.ToString
-
-                    it.SubItems.Add(lsub1)
-                    it.SubItems.Add(lsub2)
-                    it.SubItems.Add(lsub3)
-
-                    If Me.lvNetwork.Groups(CStr(net.ProcessId)) Is Nothing Then
-                        Me.lvNetwork.Groups.Add(CStr(net.ProcessId), net.ProcessName & " (" & CStr(net.ProcessId) & ")")
-                    End If
-                    it.Group = Me.lvNetwork.Groups(CStr(net.ProcessId))
-
-                    net.IsNewItem = Not (firstRefresh)
-                    If net.IsNewItem Then
-                        it.BackColor = NEW_ITEM_COLOR
-                    End If
-
-                    it.Tag = New cNetwork(net)
-                    lvNetwork.Items.Add(it)
-                End If
-            End If
-
-        Next
-
-        ' Here we retrieve some informations for all our displayed items
-        For Each lvi In Me.lvNetwork.Items
-            Dim cW As cNetwork = CType(lvi.Tag, cNetwork)
-
-            If cW.IsNewItem Then
-                cW.IsNewItem = False
-            Else
-                If Not (lvi.BackColor = Color.White) AndAlso Not (cW.IsKilledItem) Then
-                    lvi.BackColor = Color.White
-                End If
-            End If
-
-            Dim isub As ListViewItem.ListViewSubItem
-            Dim xxx As Integer = 0
-            For Each isub In lvi.SubItems
-                Dim colName As String = Me.lvNetwork.Columns.Item(xxx).Text
-                colName = colName.Replace("< ", "")
-                colName = colName.Replace("> ", "")
-                isub.Text = cW.GetInformation(colName)
-                xxx += 1
-            Next
-        Next
-
-        firstRefresh = False
-
-        test = GetTickCount - test
-        Trace.WriteLine("Network refresh took " & CStr(test) & " ms")
+        Me.lvNetwork.ShowAllPid = True
+        Me.lvNetwork.UpdateItems()
 
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
             Dim ss As String = Me.Ribbon.ActiveTab.Text
@@ -4534,7 +4376,7 @@ Public Class frmMain
         Dim it As ListViewItem
         If Me.lvNetwork.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
         For Each it In Me.lvNetwork.SelectedItems
-            Dim pid As Integer = CType(it.Tag, cNetwork).ProcessId
+            Dim pid As Integer = lvNetwork.GetItemByKey(it.Name).ProcessId
             Dim it2 As ListViewItem
             For Each it2 In Me.lvProcess.Items
                 Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)

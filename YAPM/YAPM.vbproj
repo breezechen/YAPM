@@ -134,6 +134,9 @@
     <EmbeddedResource Include="UserControls\CustomListviews\ModuleLv\moduleList.resx">
       <DependentUpon>moduleList.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CustomListviews\NetworkList\networkList.resx">
+      <DependentUpon>networkList.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CustomListviews\ServiceLv\frmChooseServiceColumns.resx">
       <DependentUpon>frmChooseServiceColumns.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -312,6 +315,12 @@
       <DependentUpon>moduleList.vb</DependentUpon>
     </Compile>
     <Compile Include="UserControls\CustomListviews\ModuleLv\moduleList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomListviews\NetworkList\networkList.Designer.vb">
+      <DependentUpon>networkList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CustomListviews\NetworkList\networkList.vb">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserControls\CustomListviews\ServiceLv\frmChooseServiceColumns.Designer.vb">
