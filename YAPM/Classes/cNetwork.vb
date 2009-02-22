@@ -319,7 +319,11 @@ Public Class cNetwork
                     .local = n
                     .remote = n2
                 End With
-                _dico.Add(key(z), res)
+                Try
+                    _dico.Add(key(z), res)
+                Catch ex As Exception
+                    z -= 1
+                End Try
 
                 z += 1
             End If
