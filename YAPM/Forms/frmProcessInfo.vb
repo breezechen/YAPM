@@ -727,52 +727,9 @@ Public Class frmProcessInfo
         Return it
     End Function
 
-    Private Sub lvProcMem_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvProcMem.ColumnClick
-        ' Get the new sorting column.
-        Dim new_sorting_column As ColumnHeader = _
-            lvProcMem.Columns(e.Column)
-
-        ' Figure out the new sorting order.
-        Dim sort_order As System.Windows.Forms.SortOrder
-        If m_SortingColumn Is Nothing Then
-            ' New column. Sort ascending.
-            sort_order = SortOrder.Ascending
-        Else
-            ' See if this is the same column.
-            If new_sorting_column.Equals(m_SortingColumn) Then
-                ' Same column. Switch the sort order.
-                If m_SortingColumn.Text.StartsWith("> ") Then
-                    sort_order = SortOrder.Descending
-                Else
-                    sort_order = SortOrder.Ascending
-                End If
-            Else
-                ' New column. Sort ascending.
-                sort_order = SortOrder.Ascending
-            End If
-
-            ' Remove the old sort indicator.
-            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
-        End If
-
-        ' Display the new sort order.
-        m_SortingColumn = new_sorting_column
-        If sort_order = SortOrder.Ascending Then
-            m_SortingColumn.Text = "> " & m_SortingColumn.Text
-        Else
-            m_SortingColumn.Text = "< " & m_SortingColumn.Text
-        End If
-
-        ' Create a comparer.
-        lvProcMem.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
-
-        ' Sort.
-        lvProcMem.Sort()
-    End Sub
-
     Private Sub lvProcMem_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvProcMem.DoubleClick
-        For Each it As ListViewItem In Me.lvProcMem.SelectedItems
-            Call CType(it.Tag, cMemRegion).ShowHexEditor()
+        For Each it As cMemRegion In Me.lvProcMem.GetSelectedItems
+            it.ShowHexEditor()
         Next
     End Sub
 
@@ -809,8 +766,7 @@ Public Class frmProcessInfo
 
     Private Sub JumpToPEBAddressToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles JumpToPEBAddressToolStripMenuItem.Click
         Dim peb As Integer = curProc.PEBAddress
-        For Each it As ListViewItem In Me.lvProcMem.Items
-            Dim reg As cMemRegion = CType(it.Tag, cMemRegion)
+        For Each reg As cMemRegion In Me.lvProcMem.GetAllItems
             If reg.BaseAddress <= peb AndAlso peb <= (reg.BaseAddress + reg.RegionSize) Then
                 Dim frm As New frmHexEditor
                 Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.BaseAddress, reg.RegionSize)
@@ -1206,8 +1162,7 @@ Public Class frmProcessInfo
         If Me.lvProcString.SelectedIndices.Count = 0 Then Exit Sub
 
         Dim add As Integer = CInt(Me.lvProcString.Items(Me.lvProcString.SelectedIndices(0)).Tag)
-        For Each it As ListViewItem In Me.lvProcMem.Items
-            Dim reg As cMemRegion = CType(it.Tag, cMemRegion)
+        For Each reg As cMemRegion In Me.lvProcMem.GetAllItems
 
             If reg.BaseAddress <= add AndAlso add <= (reg.BaseAddress + reg.RegionSize) Then
                 Dim frm As New frmHexEditor
@@ -1226,8 +1181,7 @@ Public Class frmProcessInfo
         For Each it As cModule In Me.lvModules.GetSelectedItems
             Dim add As Integer = it.BaseAddress
 
-            For Each it2 As ListViewItem In Me.lvProcMem.Items
-                Dim reg As cMemRegion = CType(it2.Tag, cMemRegion)
+            For Each reg As cMemRegion In Me.lvProcMem.GetAllItems
 
                 If reg.BaseAddress <= add AndAlso add < (reg.BaseAddress + reg.RegionSize) Then
                     Dim frm As New frmHexEditor
