@@ -1242,4 +1242,10 @@ Public Class frmProcessInfo
         Next
 
     End Sub
+
+    Private Sub ToolStripMenuItem22_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem22.Click
+        For Each ch As cHandle In Me.lvHandles.GetSelectedItems
+            Call frmMain.handles_Renamed.CloseProcessLocalHandle(ch.ProcessID, ch.Handle)
+        Next
+    End Sub
 End Class

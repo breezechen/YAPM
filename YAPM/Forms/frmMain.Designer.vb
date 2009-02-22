@@ -4287,7 +4287,7 @@ Partial Class frmMain
         '
         Me.menuHandles.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem19, Me.ToolStripSeparator3, Me.ToolStripMenuItem22, Me.ToolStripMenuItem1, Me.DisplayUnnamedHandlesToolStripMenuItem})
         Me.menuHandles.Name = "menuProc"
-        Me.menuHandles.Size = New System.Drawing.Size(211, 82)
+        Me.menuHandles.Size = New System.Drawing.Size(211, 104)
         '
         'ToolStripMenuItem19
         '

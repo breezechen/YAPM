@@ -2403,7 +2403,7 @@ Partial Class frmProcessInfo
         '
         Me.menuHandles.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowUnnamedHandlesToolStripMenuItem, Me.ToolStripMenuItem5, Me.ToolStripMenuItem22})
         Me.menuHandles.Name = "menuProc"
-        Me.menuHandles.Size = New System.Drawing.Size(202, 54)
+        Me.menuHandles.Size = New System.Drawing.Size(202, 76)
         '
         'ShowUnnamedHandlesToolStripMenuItem
         '

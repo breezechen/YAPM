@@ -1650,57 +1650,6 @@ Public Class frmMain
         Me.lvHandles.ProcessId = Me.handlesToRefresh
         Me.lvHandles.UpdateItems()
 
-        '' Display handles of desired processes (handlesToRefresh)
-        'Dim id As Integer
-        'Dim i As Integer
-        'Dim it As ListViewItem
-
-        'If Me.handlesToRefresh Is Nothing Then Exit Sub
-
-        'handles_Renamed.Refresh()
-        'Me.lvHandles.Items.Clear()
-        'Me.lvHandles.BeginUpdate()
-
-        'For Each id In Me.handlesToRefresh
-        '    For i = 0 To handles_Renamed.Count - 1
-        '        With handles_Renamed
-        '            If (.GetProcessID(i) = id) And (Len(.GetObjectName(i)) > 0) Then
-        '                it = lvHandles.Items.Add(.GetNameInformation(i))
-        '                it.SubItems.Add(.GetObjectName(i))
-        '                it.SubItems.Add(CStr(.GetHandleCount(i)))
-        '                it.SubItems.Add(CStr(.GetPointerCount(i)))
-        '                it.SubItems.Add(CStr(.GetObjectCount(i)))
-        '                it.SubItems.Add(CStr(.GetHandle(i)))
-        '                it.SubItems.Add(CStr(id) & " -- " & cProcess.GetProcessName(id))
-        '                it.Tag = .GetHandle(i)
-        '                it.ForeColor = Color.FromArgb(30, 30, 30)
-        '                Select Case it.Text
-        '                    Case "Key"
-        '                        it.ImageKey = "key"
-        '                    Case "File", "Directory"
-        '                        ' Have to retrieve the icon of file/directory
-        '                        Dim fName As String = .GetObjectName(i)
-        '                        If IO.File.Exists(fName) Or IO.Directory.Exists(fName) Then
-        '                            Dim img As System.Drawing.Icon = GetIcon2(fName, True)
-        '                            If img IsNot Nothing Then
-        '                                imgServices.Images.Add(fName, img)
-        '                                it.ImageKey = fName
-        '                            Else
-        '                                it.ImageKey = "noicon"
-        '                            End If
-        '                        Else
-        '                            it.ImageKey = "noicon"
-        '                        End If
-        '                    Case Else
-        '                        it.ImageKey = "service"
-        '                End Select
-        '            End If
-        '        End With
-        '    Next
-        'Next
-
-        'Me.lvHandles.EndUpdate()
-
         If showTab Then
             Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvHandles.Items.Count) & " handles"
             My.Application.DoEvents()
@@ -1714,14 +1663,8 @@ Public Class frmMain
     End Sub
 
     Private Sub butHandleClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butHandleClose.Click
-        Dim it As ListViewItem
-        Dim pid As Integer
-        Dim handle As Integer
-        For Each it In Me.lvHandles.SelectedItems
-            pid = CInt(Val(it.SubItems(6).Text))
-            handle = CInt(Val(it.SubItems(5).Text))
-            Call handles_Renamed.CloseProcessLocalHandle(pid, handle)
-            it.Remove()
+        For Each ch As cHandle In Me.lvHandles.GetSelectedItems
+            Call handles_Renamed.CloseProcessLocalHandle(ch.ProcessID, ch.Handle)
         Next
     End Sub
 
@@ -2119,26 +2062,17 @@ Public Class frmMain
 
     Private Sub ToolStripMenuItem19_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem19.Click
         ' Select processes associated to selected handles results
-        Dim it As ListViewItem
         If Me.lvHandles.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
-        For Each it In Me.lvHandles.SelectedItems
-            Try
-                Dim sp As String = it.SubItems(6).Text
-                Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
-                If i > 0 Then
-                    Dim pid As String = sp.Substring(0, i - 1)
-                    Dim it2 As ListViewItem
-                    For Each it2 In Me.lvProcess.Items
-                        Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                        If CStr(cp.Pid) = pid Then
-                            it2.Selected = True
-                            it2.EnsureVisible()
-                        End If
-                    Next
+        For Each it As cHandle In Me.lvHandles.GetSelectedItems
+            Dim pid As Integer = it.ProcessID
+            Dim it2 As ListViewItem
+            For Each it2 In Me.lvProcess.Items
+                Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
+                If cp.Pid = pid Then
+                    it2.Selected = True
+                    it2.EnsureVisible()
                 End If
-            Catch ex As Exception
-                '
-            End Try
+            Next
         Next
         Me.Ribbon.ActiveTab = Me.ProcessTab
         Call Me.Ribbon_MouseMove(Nothing, Nothing)
