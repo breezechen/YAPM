@@ -115,7 +115,7 @@ Public Class memoryList
         For Each z As String In _itemId
             If Not (_dico.ContainsKey(z)) Then
                 ' Add to dico
-                _dicoNew.Add(z.ToString, Nothing)
+                _dicoNew.Add(z, Nothing)
             End If
         Next
 

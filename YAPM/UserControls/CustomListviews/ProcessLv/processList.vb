@@ -139,9 +139,9 @@ Public Class processList
 
 
         ' Now remove all deleted items from listview and _dico
-        For Each z As String In _dicoDel.Keys
-            Me.Items.RemoveByKey(z)
-            _dico.Remove(z)
+        For Each z As Integer In _dicoDel.Keys
+            Me.Items.RemoveByKey(z.ToString)
+            _dico.Remove(z.ToString)
         Next
         _dicoDel.Clear()
 
