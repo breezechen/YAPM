@@ -4105,6 +4105,7 @@ Public Class frmMain
         Next
         Me.Ribbon.ActiveTab = Me.ProcessTab
         Call Me.Ribbon_MouseMove(Nothing, Nothing)
+        Me.lvProcess.Focus()
     End Sub
 
     Private Sub EndTaskToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EndTaskToolStripMenuItem.Click

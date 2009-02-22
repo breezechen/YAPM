@@ -113,7 +113,7 @@ Public Class handleList
         ReDim _itemId(0)
         Call cHandle.Enumerate(_pid, _unnamed, _itemId, _buffDico)
 
-        Trace.WriteLine(GetTickCount - _test)
+
         ' Now add all items with isKilled = true to _dicoDel dictionnary
         For Each z As cHandle In _dico.Values
             If z.IsKilledItem Then
@@ -173,7 +173,7 @@ Public Class handleList
         If _firstItemUpdate Then Me.EndUpdate()
         _dicoNew.Clear()
 
-        Trace.WriteLine(GetTickCount - _test)
+
         ' Now refresh all subitems of the listview
         Dim isub As ListViewItem.ListViewSubItem
         Dim it As ListViewItem
