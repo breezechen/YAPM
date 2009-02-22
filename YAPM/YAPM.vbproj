@@ -217,6 +217,9 @@
     <EmbeddedResource Include="UserControls\CustomListviews\ServiceLv\serviceList.resx">
       <DependentUpon>serviceList.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CustomListviews\TaskList\taskList.resx">
+      <DependentUpon>taskList.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CustomListviews\ThreadList\threadList.resx">
       <DependentUpon>threadList.vb</DependentUpon>
     </EmbeddedResource>
@@ -435,6 +438,12 @@
       <DependentUpon>serviceList.vb</DependentUpon>
     </Compile>
     <Compile Include="UserControls\CustomListviews\ServiceLv\serviceList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomListviews\TaskList\taskList.Designer.vb">
+      <DependentUpon>taskList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CustomListviews\TaskList\taskList.vb">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserControls\CustomListviews\ThreadList\threadList.Designer.vb">

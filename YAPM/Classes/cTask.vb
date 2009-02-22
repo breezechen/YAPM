@@ -37,6 +37,17 @@ Public Class cTask
     Private Const GW_CHILD As Integer = 5
     Private Const GW_HWNDNEXT As Integer = 2
 
+    Public Structure LightTask
+        Dim handle As IntPtr
+        Dim pid As Integer
+        Dim threadId As Integer
+        Public Sub New(ByVal _handle As IntPtr, ByVal _pid As Integer, ByVal _thread As Integer)
+            handle = _handle
+            pid = _pid
+            threadId = _thread
+        End Sub
+    End Structure
+
 #End Region
 
 
@@ -45,17 +56,12 @@ Public Class cTask
     ' ========================================
     ' Constructors
     ' ========================================
-    Public Sub New(ByVal handle As Integer, ByVal threadId As Integer, _
-        ByRef proc As cProcess)
-
-        MyBase.New(handle, proc.Pid, threadId, proc.Name)
-        _proc = proc
+    Public Sub New(ByVal task As LightTask)
+        MyBase.New(task.handle.ToInt32, task.pid, task.threadId, _
+                   cProcess.GetProcessName(task.pid))
+        _proc = New cProcess(task.pid)
+        _proc.ProcessorCount = frmMain.cInfo.ProcessorCount
     End Sub
-    Public Sub New(ByVal task As cTask)
-        MyBase.New(task)
-        _proc = task.process
-    End Sub
-
 
     ' ========================================
     ' Public
@@ -76,35 +82,38 @@ Public Class cTask
         Select Case info
             Case "CpuUsage"
                 Return CpuUsageS
-            Case  Else
+            Case Else
                 Return MyBase.GetInformation(info)
         End Select
     End Function
 
     ' Retrieve all tasks
-    Public Shared Function EnumerateAllTasks(ByRef w() As cTask) As Integer
+    Public Overloads Shared Function Enumerate(ByRef key() As Integer, _
+                                               ByRef _dico As Dictionary(Of String, LightTask)) As Integer
         Dim currWnd As IntPtr
         Dim cpt As Integer
 
+        _dico.Clear()
         currWnd = GetWindowAPI(GetDesktopWindow(), GW_CHILD)
         cpt = 0
-        ReDim w(0)
+        ReDim key(0)
         Do While Not (currWnd = IntPtr.Zero)
 
-            If _isTask(CType(currWnd, IntPtr)) Then
+            If _isTask(currWnd) Then
 
                 ' Get procId from hwnd
                 Dim pid As Integer = GetProcIdFromWindowHandle(currWnd)
 
-                ReDim Preserve w(cpt)
-                w(cpt) = New cTask(CInt(currWnd), GetThreadIdFromWindowHandle(currWnd), New cProcess(pid))
+                ReDim Preserve key(cpt)
+                key(cpt) = currWnd.ToInt32
+                _dico.Add(key(cpt).ToString, New LightTask(currWnd, pid, GetThreadIdFromWindowHandle(currWnd)))
                 cpt += 1
             End If
 
             currWnd = GetWindowAPI(currWnd, GW_HWNDNEXT)
         Loop
 
-        Return UBound(w)
+        Return key.Length
 
     End Function
 End Class

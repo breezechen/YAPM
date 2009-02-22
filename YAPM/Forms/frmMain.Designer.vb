@@ -404,6 +404,8 @@ Partial Class frmMain
         Me.ToolStripMenuItem19 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStripMenuItem22 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
+        Me.DisplayUnnamedHandlesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.panelMain8 = New System.Windows.Forms.Panel
         Me.splitMonitor = New System.Windows.Forms.SplitContainer
         Me.tvMonitor = New System.Windows.Forms.TreeView
@@ -504,7 +506,7 @@ Partial Class frmMain
         Me.Label19 = New System.Windows.Forms.Label
         Me.lblTaskCountResult = New System.Windows.Forms.Label
         Me.txtSearchTask = New System.Windows.Forms.TextBox
-        Me.lvTask = New YAPM.DoubleBufferedLV
+        Me.lvTask = New YAPM.taskList
         Me.ColumnHeader62 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader63 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader64 = New System.Windows.Forms.ColumnHeader
@@ -520,8 +522,6 @@ Partial Class frmMain
         Me.ToolStripMenuItem48 = New System.Windows.Forms.ToolStripMenuItem
         Me.timerTrayIcon = New System.Windows.Forms.Timer(Me.components)
         Me.butProcessPermuteLvTv = New System.Windows.Forms.RibbonButton
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
-        Me.DisplayUnnamedHandlesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
         Me.SplitContainerProcess.SuspendLayout()
@@ -4239,6 +4239,7 @@ Partial Class frmMain
         Me.lvHandles.Location = New System.Drawing.Point(0, 0)
         Me.lvHandles.Name = "lvHandles"
         Me.lvHandles.OverriddenDoubleBuffered = True
+        Me.lvHandles.ProcessId = Nothing
         Me.lvHandles.ShowUnNamed = False
         Me.lvHandles.Size = New System.Drawing.Size(565, 247)
         Me.lvHandles.TabIndex = 3
@@ -4284,7 +4285,7 @@ Partial Class frmMain
         '
         Me.menuHandles.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem19, Me.ToolStripSeparator3, Me.ToolStripMenuItem22, Me.ToolStripMenuItem1, Me.DisplayUnnamedHandlesToolStripMenuItem})
         Me.menuHandles.Name = "menuProc"
-        Me.menuHandles.Size = New System.Drawing.Size(211, 104)
+        Me.menuHandles.Size = New System.Drawing.Size(211, 82)
         '
         'ToolStripMenuItem19
         '
@@ -4305,6 +4306,17 @@ Partial Class frmMain
         Me.ToolStripMenuItem22.Name = "ToolStripMenuItem22"
         Me.ToolStripMenuItem22.Size = New System.Drawing.Size(210, 22)
         Me.ToolStripMenuItem22.Text = "Close item"
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(207, 6)
+        '
+        'DisplayUnnamedHandlesToolStripMenuItem
+        '
+        Me.DisplayUnnamedHandlesToolStripMenuItem.Name = "DisplayUnnamedHandlesToolStripMenuItem"
+        Me.DisplayUnnamedHandlesToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
+        Me.DisplayUnnamedHandlesToolStripMenuItem.Text = "Display unnamed handles"
         '
         'panelMain8
         '
@@ -4593,6 +4605,7 @@ Partial Class frmMain
         Me.lvThreads.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader33, Me.ColumnHeader34, Me.ColumnHeader35, Me.ColumnHeader36, Me.ColumnHeader37, Me.ColumnHeader38})
         Me.lvThreads.ContextMenuStrip = Me.menuThread
         Me.lvThreads.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvThreads.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvThreads.FullRowSelect = True
         ListViewGroup11.Header = "Threads"
         ListViewGroup11.Name = "gpOther"
@@ -4603,8 +4616,9 @@ Partial Class frmMain
         Me.lvThreads.Location = New System.Drawing.Point(0, 0)
         Me.lvThreads.Name = "lvThreads"
         Me.lvThreads.OverriddenDoubleBuffered = True
+        Me.lvThreads.ProcessId = Nothing
+        Me.lvThreads.ShowUnNamed = False
         Me.lvThreads.Size = New System.Drawing.Size(565, 159)
-        Me.lvThreads.SmallImageList = Me.imgServices
         Me.lvThreads.TabIndex = 3
         Me.lvThreads.UseCompatibleStateImageBehavior = False
         Me.lvThreads.View = System.Windows.Forms.View.Details
@@ -5295,11 +5309,14 @@ Partial Class frmMain
         Me.lvNetwork.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader66, Me.ColumnHeader67, Me.ColumnHeader68, Me.ColumnHeader69})
         Me.lvNetwork.ContextMenuStrip = Me.menuNetwork
         Me.lvNetwork.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvNetwork.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvNetwork.FullRowSelect = True
         Me.lvNetwork.HideSelection = False
         Me.lvNetwork.Location = New System.Drawing.Point(0, 0)
         Me.lvNetwork.Name = "lvNetwork"
         Me.lvNetwork.OverriddenDoubleBuffered = True
+        Me.lvNetwork.ProcessId = Nothing
+        Me.lvNetwork.ShowAllPid = False
         Me.lvNetwork.Size = New System.Drawing.Size(565, 276)
         Me.lvNetwork.TabIndex = 4
         Me.lvNetwork.UseCompatibleStateImageBehavior = False
@@ -5356,17 +5373,6 @@ Partial Class frmMain
         Me.butProcessPermuteLvTv.ToolTip = Nothing
         Me.butProcessPermuteLvTv.ToolTipImage = Nothing
         Me.butProcessPermuteLvTv.ToolTipTitle = Nothing
-        '
-        'ToolStripMenuItem1
-        '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(207, 6)
-        '
-        'DisplayUnnamedHandlesToolStripMenuItem
-        '
-        Me.DisplayUnnamedHandlesToolStripMenuItem.Name = "DisplayUnnamedHandlesToolStripMenuItem"
-        Me.DisplayUnnamedHandlesToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
-        Me.DisplayUnnamedHandlesToolStripMenuItem.Text = "Display unnamed handles"
         '
         'frmMain
         '
@@ -5942,7 +5948,7 @@ Partial Class frmMain
     Friend WithEvents Label19 As System.Windows.Forms.Label
     Friend WithEvents lblTaskCountResult As System.Windows.Forms.Label
     Friend WithEvents txtSearchTask As System.Windows.Forms.TextBox
-    Friend WithEvents lvTask As YAPM.DoubleBufferedLV
+    Friend WithEvents lvTask As YAPM.taskList
     Friend WithEvents ColumnHeader62 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader63 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader64 As System.Windows.Forms.ColumnHeader

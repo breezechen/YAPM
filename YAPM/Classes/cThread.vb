@@ -430,23 +430,6 @@ Public Class cThread
     ' Retrieve thread list
     Public Shared Function Enumerate(ByVal processId As Integer(), ByRef key() As String, _
                                      ByRef _dico As Dictionary(Of String, LightThread)) As Integer
-        'Dim f As Boolean
-        'Dim hSnap As Integer
-        'Dim THREAD As THREADENTRY32
-
-        'hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0)
-        'If hSnap = 0 Then Return -1
-
-        'ReDim t(0)
-        'THREAD.dwSize = Len(THREAD)
-        'f = Thread32First(hSnap, THREAD)
-
-        'Do While f
-        '    ReDim Preserve t(UBound(t) + 1)
-        '    f = Thread32Next(hSnap, THREAD)
-        'Loop
-
-        'Return UBound(t)
 
         _dico.Clear()
         ReDim key(0)

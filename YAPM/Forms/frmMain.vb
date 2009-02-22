@@ -4052,111 +4052,8 @@ Public Class frmMain
     ' Refresh  task list in listview
     Public Sub refreshTaskList()
 
-        Dim wind As cTask
-        Dim task() As cTask
-        Dim lvi As ListViewItem
-        Dim x As Integer = 0
-        Dim exist As Boolean = False
-
-        Dim test As Integer = GetTickCount
-
-        ReDim task(0)
-        cTask.EnumerateAllTasks(task)
-
-        ' Refresh (or suppress) all tasks displayed in listview
-        For Each lvi In Me.lvTask.Items
-
-            ' Test if task exist
-            Dim cW As cTask = CType(lvi.Tag, cTask)
-            For Each wind In task
-                If wind.Handle = cW.Handle Then
-                    exist = True
-                    wind.isDisplayed = True
-                    Exit For
-                End If
-            Next
-
-            If exist = False Then
-                ' Window no longer exists
-                log.AppendLine("Task " & CStr(cW.Handle) & " killed")
-                lvi.Remove()
-            Else
-
-                ' Refresh task informations
-                exist = exist
-            End If
-            exist = False
-        Next
-
-        ' Add all non displayed tasks (new tasks)
-        For Each wind In task
-
-            If wind.isDisplayed = False Then
-
-                ' Add to log
-                log.AppendLine("Task " & CStr(wind.Handle) & " created")
-                wind.isDisplayed = True
-
-                ' Get the task name
-                Dim o As String = wind.Caption
-                Dim it As New ListViewItem
-
-                If Len(o) > 0 Then
-
-                    it.Text = o
-
-                    Dim lsub1 As New ListViewItem.ListViewSubItem
-                    lsub1.Text = ""
-
-                    Dim lsub2 As New ListViewItem.ListViewSubItem
-                    lsub2.Text = ""
-
-                    ' Add icon
-                    it.ForeColor = Color.FromArgb(30, 30, 30)
-                    Try
-
-                        Dim key As String = CStr(wind.ParentProcessId) & "|" & CStr(wind.Handle)
-                        Dim img As System.Drawing.Icon = wind.SmallIcon
-                        imgTask.Images.Add(key, img)
-                        it.ImageKey = key
-
-                    Catch ex As Exception
-                        it.ImageKey = "noIcon"
-                    End Try
-
-                    it.SubItems.Add(lsub1)
-                    it.SubItems.Add(lsub2)
-
-                    it.Group = lvTask.Groups(0)
-                    it.Tag = New cTask(wind)
-                    lvTask.Items.Add(it)
-                End If
-            End If
-
-        Next
-
-        ' Here we retrieve some informations for all our displayed tasks
-        For Each lvi In Me.lvTask.Items
-            Dim cW As cTask = CType(lvi.Tag, cTask)
-
-            If cW.Process.ProcessorCount < 1 Then
-                cW.Process.ProcessorCount = Me.cInfo.ProcessorCount
-            End If
-
-            Dim isub As ListViewItem.ListViewSubItem
-            Dim xxx As Integer = 0
-            For Each isub In lvi.SubItems
-                Dim colName As String = Me.lvTask.Columns.Item(xxx).Text
-                colName = colName.Replace("< ", "")
-                colName = colName.Replace("> ", "")
-                isub.Text = cW.GetInformation(colName)
-                xxx += 1
-            Next
-        Next
-
-        lvTask.Sort()
-        test = GetTickCount - test
-        Trace.WriteLine("Tasks refresh took " & CStr(test) & " ms")
+        ' Update list
+        Me.lvTask.UpdateItems()
 
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
             Dim ss As String = Me.Ribbon.ActiveTab.Text
@@ -4181,25 +4078,22 @@ Public Class frmMain
     End Sub
 
     Private Sub MaximizeWindowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MaximizeWindowToolStripMenuItem.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvTask.SelectedItems
-            Call CType(it.Tag, cWindow).Maximize()
+        For Each it As cTask In Me.lvTask.GetSelectedItems
+            it.Maximize()
         Next
     End Sub
 
     Private Sub MinimizeWindowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MinimizeWindowToolStripMenuItem.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvTask.SelectedItems
-            Call CType(it.Tag, cWindow).Minimize()
+        For Each it As cTask In Me.lvTask.GetSelectedItems
+            it.Minimize()
         Next
     End Sub
 
     Private Sub ToolStripMenuItem45_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem45.Click
         ' Select processes associated to selected windows
-        Dim it As ListViewItem
         If Me.lvTask.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
-        For Each it In Me.lvTask.SelectedItems
-            Dim pid As Integer = CType(it.Tag, cWindow).ParentProcessId
+        For Each it As cTask In Me.lvTask.GetSelectedItems
+            Dim pid As Integer = it.ParentProcessId
             Dim it2 As ListViewItem
             For Each it2 In Me.lvProcess.Items
                 Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
@@ -4218,18 +4112,16 @@ Public Class frmMain
     End Sub
 
     Private Sub butTaskShow_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butTaskShow.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvTask.SelectedItems
-            Call CType(it.Tag, cWindow).SetAsForegroundWindow()
+        For Each it As cTask In Me.lvTask.GetSelectedItems
+            it.SetAsForegroundWindow()
         Next
     End Sub
 
     Private Sub butTaskEndTask_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butTaskEndTask.Click
         Const WM_CLOSE As Integer = &H10
-        Dim it As ListViewItem
-        For Each it In Me.lvTask.SelectedItems
+        For Each it As cTask In Me.lvTask.GetSelectedItems
             ' To end task, we send WM_CLOSE message to main window
-            Call CType(it.Tag, cWindow).SendMessage(WM_CLOSE, 0, 0)
+            it.SendMessage(WM_CLOSE, 0, 0)
         Next
     End Sub
 
@@ -4241,9 +4133,9 @@ Public Class frmMain
             Dim x As Integer = 0
             ReDim windowsToRefresh(Me.lvTask.SelectedItems.Count - 1)
 
-            For Each it In Me.lvTask.SelectedItems
+            For Each cw As cTask In Me.lvTask.GetSelectedItems
                 ' May be some doublons in list, but don't care about that
-                windowsToRefresh(x) = CType(it.Tag, cWindow).ParentProcessId
+                windowsToRefresh(x) = cw.ParentProcessId
                 x += 1
             Next
 
@@ -4251,7 +4143,7 @@ Public Class frmMain
 
             ' Select windows
             For Each it In Me.lvTask.SelectedItems
-                Dim _h As IntPtr = CType(it.Tag, cWindow).Handle
+                Dim _h As IntPtr = Me.lvTask.GetItemByKey(it.Name).Handle
                 For Each it2 In Me.lvWindows.Items
                     If CType(it2.Tag, cWindow).Handle = _h Then
                         it2.Selected = True
@@ -4263,49 +4155,6 @@ Public Class frmMain
             Me.Ribbon.ActiveTab = Me.WindowTab
             Call Me.Ribbon_MouseMove(Nothing, Nothing)
         End If
-    End Sub
-
-    Private Sub lvTask_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvTask.ColumnClick
-        ' Get the new sorting column.
-        Dim new_sorting_column As ColumnHeader = _
-            lvTask.Columns(e.Column)
-
-        ' Figure out the new sorting order.
-        Dim sort_order As System.Windows.Forms.SortOrder
-        If m_SortingColumn Is Nothing Then
-            ' New column. Sort ascending.
-            sort_order = SortOrder.Ascending
-        Else
-            ' See if this is the same column.
-            If new_sorting_column.Equals(m_SortingColumn) Then
-                ' Same column. Switch the sort order.
-                If m_SortingColumn.Text.StartsWith("> ") Then
-                    sort_order = SortOrder.Descending
-                Else
-                    sort_order = SortOrder.Ascending
-                End If
-            Else
-                ' New column. Sort ascending.
-                sort_order = SortOrder.Ascending
-            End If
-
-            ' Remove the old sort indicator.
-            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
-        End If
-
-        ' Display the new sort order.
-        m_SortingColumn = new_sorting_column
-        If sort_order = SortOrder.Ascending Then
-            m_SortingColumn.Text = "> " & m_SortingColumn.Text
-        Else
-            m_SortingColumn.Text = "< " & m_SortingColumn.Text
-        End If
-
-        ' Create a comparer.
-        lvTask.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
-
-        ' Sort.
-        lvTask.Sort()
     End Sub
 
     Private Sub lvTask_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvTask.DoubleClick

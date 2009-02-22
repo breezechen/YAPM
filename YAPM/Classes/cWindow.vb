@@ -25,6 +25,7 @@ Imports System.Runtime.InteropServices
 Imports System.Text
 
 Public Class cWindow
+    Inherits cGeneralObject
 
     ' ========================================
     ' API
@@ -192,37 +193,10 @@ Public Class cWindow
     Private _parentThreadId As Integer
     Private _parentProcName As String
     Private _displayed As Boolean
-    Private _isDisplayed As Boolean = False
-    Private _killedItem As Boolean
-    Private _newItem As Boolean
 
     ' ========================================
     ' Getter & setter
     ' ========================================
-    Public Property IsKilledItem() As Boolean
-        Get
-            Return _killedItem
-        End Get
-        Set(ByVal value As Boolean)
-            _killedItem = value
-        End Set
-    End Property
-    Public Property IsNewItem() As Boolean
-        Get
-            Return _newItem
-        End Get
-        Set(ByVal value As Boolean)
-            _newItem = value
-        End Set
-    End Property
-    Public Property isDisplayed() As Boolean
-        Get
-            Return _displayed
-        End Get
-        Set(ByVal value As Boolean)
-            _displayed = value
-        End Set
-    End Property
     Public ReadOnly Property Handle() As IntPtr
         Get
             Return _handle
@@ -356,8 +330,8 @@ Public Class cWindow
         _parentProcId = window.ParentProcessId
         _parentThreadId = window.ParentThreadId
         _parentProcName = window.ParentProcessName
-        _killedItem = window.IsKilledItem
-        _newItem = window.IsNewItem
+        Me.IsKilledItem = window.IsKilledItem
+        Me.IsNewItem = window.IsNewItem
     End Sub
 
 
@@ -365,7 +339,7 @@ Public Class cWindow
     ' ========================================
     ' Public functions
     ' ========================================
-    Public Function GetInformation(ByVal info As String) As String
+    Public Overrides Function GetInformation(ByVal info As String) As String
         Select Case info
             Case "Name", "Caption"
                 Return Me.Caption
