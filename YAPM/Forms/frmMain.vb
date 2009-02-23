@@ -356,16 +356,12 @@ Public Class frmMain
         _trayIcon.SetCounter(1, Color.Red, Color.FromArgb(120, 0, 0))
         _trayIcon.SetCounter(2, Color.LightGreen, Color.FromArgb(0, 120, 0))
 
-        Me.Visible = True
         Application.EnableVisualStyles()
-        Threading.Thread.Sleep(100)
         Call refreshTaskList()
 
         PROCESSOR_COUNT = Me.cInfo.ProcessorCount
 
-        With Me
-            .lblServicePath.BackColor = .BackColor
-        End With
+        Me.lblServicePath.BackColor = Me.BackColor
 
         creg = New cRegMonitor(cRegMonitor.KEY_TYPE.HKEY_LOCAL_MACHINE, "SYSTEM\CurrentControlSet\Services", _
               cRegMonitor.KEY_MONITORING_TYPE.REG_NOTIFY_CHANGE_NAME)
