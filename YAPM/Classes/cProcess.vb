@@ -176,6 +176,20 @@ Public Class cProcess
         Public HighPart As Integer
     End Structure
 
+    Public Structure LightProcess
+        Dim pid As Integer
+        Dim name As String
+        Dim parentPid As Integer
+        Public Sub New(ByVal aPid As Integer, ByVal aName As String)
+            pid = aPid
+            name = aName
+        End Sub
+        Public Sub New(ByVal aPid As Integer, ByVal aParentPid As Integer)
+            pid = aPid
+            parentPid = aParentPid
+        End Sub
+    End Structure
+
     <StructLayout(LayoutKind.Sequential)> _
     Public Structure PIO_COUNTERS
         <MarshalAs(UnmanagedType.U8, SizeConst:=8)> _
@@ -413,6 +427,9 @@ Public Class cProcess
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
+    ' Contains list of process names
+    Private Shared _procs As New Dictionary(Of String, String)
+
 
     ' ========================================
     ' Constructors & destructor
@@ -428,23 +445,31 @@ Public Class cProcess
         _processors = frmMain.PROCESSOR_COUNT
     End Sub
 
-    Public Sub New(ByVal processId As Integer, ByVal processName As String)
+    'Public Sub New(ByVal processId As Integer, ByVal processName As String)
+    '    MyBase.New()
+    '    _pid = processId
+    '    _processors = frmMain.PROCESSOR_COUNT
+    '    _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, _pid)
+    '    _name = processName
+    'End Sub
+
+    Public Sub New(ByRef proc As LightProcess)
         MyBase.New()
-        _pid = processId
+        _pid = proc.pid
         _processors = frmMain.PROCESSOR_COUNT
         _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, _pid)
-        _name = processName
+        _name = proc.name
     End Sub
 
-    Public Sub New(ByVal process As cProcess)
-        MyBase.New()
-        _pid = process.Pid
-        Me.IsKilledItem = process.IsKilledItem
-        _name = process.Name
-        _processors = process.ProcessorCount
-        _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, _pid)
-        Me.IsNewItem = process.IsNewItem
-    End Sub
+    'Public Sub New(ByVal process As cProcess)
+    '    MyBase.New()
+    '    _pid = process.Pid
+    '    Me.IsKilledItem = process.IsKilledItem
+    '    _name = process.Name
+    '    _processors = process.ProcessorCount
+    '    _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, _pid)
+    '    Me.IsNewItem = process.IsNewItem
+    'End Sub
 
     Protected Overloads Overrides Sub Finalize()
         CloseHandle(_hProcess)
@@ -721,18 +746,11 @@ Public Class cProcess
     Public ReadOnly Property Name() As String
         Get
             If _name = vbNullString Then
-
-                Dim sP As String = Path()
-                Dim i As Integer = InStrRev(sP, "\", , CompareMethod.Binary)
-
-                If i > 0 Then
-                    _name = Right(sP, sP.Length - i)
-                Else
-                    _name = "N\A"
+                _name = getSimpleName(_pid)
+                If _name = vbNullString Then
+                    _name = "N/A"
                 End If
-
             End If
-
             Return _name
         End Get
     End Property
@@ -1111,7 +1129,7 @@ Public Class cProcess
     Public Function KillProcessTree() As Integer
 
         ' Kill all childs recursively
-        recursiveKill(Me.Pid)
+        recursiveKill(_pid)
 
     End Function
 
@@ -1392,13 +1410,16 @@ Public Class cProcess
 
     ' Retrieve process list
     ' This so much faster than VB.Net methods...
-    Public Shared Function Enumerate(ByRef p() As cProcess) As Integer
+    Public Shared Function Enumerate(ByRef p() As String, ByRef _dico As  _
+                                     Dictionary(Of String, LightProcess)) As Integer
         Dim hSnapshot As Integer
         Dim uProcess As ProcessEntry32 = Nothing
         Dim r As Integer
         Dim x As Integer
 
-        ReDim p(100)        ' Preallocate a buffer
+        _dico.Clear()
+
+        ReDim p(100)    ' Preallocate a buffer of 400 bytes
         x = 0
 
         hSnapshot = CInt(CreateToolhelpSnapshot(TH32CS_SNAPPROCESS, 0&))
@@ -1410,8 +1431,8 @@ Public Class cProcess
 
             Do While (r <> 0)
 
-                p(x) = New cProcess(uProcess.th32ProcessID, CStr(uProcess.szExeFile))
-                p(x).IsDisplayed = False
+                p(x) = uProcess.th32ProcessID.ToString
+                _dico.Add(p(x).ToString, New LightProcess(Integer.Parse(p(x)), uProcess.szExeFile))
 
                 r = ProcessNext(CType(hSnapshot, IntPtr), uProcess)
                 If r <> 0 Then
@@ -1433,15 +1454,15 @@ Public Class cProcess
 
     End Function
 
-    ' Retrieve process list
-    ' This so much faster than VB.Net methods...
-    Public Shared Function Enumerate(ByRef p() As Integer) As Integer
+    Public Shared Function Enumerate(ByRef _dico As Dictionary(Of String,  _
+                                                               LightProcess)) As Integer
         Dim hSnapshot As Integer
         Dim uProcess As ProcessEntry32 = Nothing
         Dim r As Integer
         Dim x As Integer
 
-        ReDim p(100)    ' Preallocate a buffer of 400 bytes
+        _dico.Clear()
+
         x = 0
 
         hSnapshot = CInt(CreateToolhelpSnapshot(TH32CS_SNAPPROCESS, 0&))
@@ -1452,24 +1473,14 @@ Public Class cProcess
             r = ProcessFirst(CType(hSnapshot, IntPtr), uProcess)
 
             Do While (r <> 0)
-
-                p(x) = uProcess.th32ProcessID
-
+                _dico.Add(uProcess.th32ProcessID.ToString, New LightProcess( _
+                          uProcess.th32ProcessID, uProcess.th32ParentProcessID))
                 r = ProcessNext(CType(hSnapshot, IntPtr), uProcess)
-                If r <> 0 Then
-                    x += 1
-                    If x > p.Length Then
-                        ReDim Preserve p(x)
-                    End If
-                End If
             Loop
 
             Call CloseHandle(hSnapshot)
 
         End If
-
-        ' Truncate array
-        ReDim Preserve p(x)
 
         Return x
 
@@ -1520,7 +1531,11 @@ Public Class cProcess
             Case 4
                 Return "System"
             Case Else
-                Return cFile.GetFileName(GetPath(pid))
+                If _procs.ContainsKey(pid.ToString) Then
+                    Return _procs.Item(pid.ToString)
+                Else
+                    Return cFile.GetFileName(GetPath(pid))
+                End If
         End Select
     End Function
 
@@ -1536,35 +1551,43 @@ Public Class cProcess
         Return ret
     End Function
 
+    ' Add/remove a process to dictionnary
+    Public Shared Sub AssociatePidAndName(ByVal pid As String, ByVal name As String)
+        If _procs.ContainsKey(pid) = False Then
+            _procs.Add(pid, name)
+        End If
+    End Sub
+    Public Shared Sub UnAssociatePidAndName(ByVal pid As String)
+        _procs.Remove(pid)
+    End Sub
+
+
 
     ' ========================================
     ' Private functions
     ' ========================================
 
     ' For 'Kill process tree'
-    Private Function recursiveKill(ByVal _pid As Integer) As Integer
+    Private Function recursiveKill(ByVal pid As Integer) As Integer
 
         ' Kill process
-        Call Kill(_pid)
+        Call Kill(pid)
 
-        ' Get all child items
-        Dim c() As cProcess
-        ReDim c(0)
-        cProcess.Enumerate(c)       ' All items
+        ' Get all items...
+        Dim _dicoFull As New Dictionary(Of String, LightProcess)
+        Dim _dico2 As New Dictionary(Of String, LightProcess)
+        cProcess.Enumerate(_dicoFull)
 
-        ' Extract only childs
-        Dim c2() As cProcess
-        ReDim c2(0)
-        For x As Integer = c.Length - 1 To 0 Step -1
-            If c(x).ParentProcessId = _pid Then
-                ReDim Preserve c2(c2.Length)
-                c2(c2.Length - 1) = c(x)
+        ' ... and extract only childs
+        For Each t As LightProcess In _dicoFull.Values
+            If t.parentPid = pid Then
+                _dico2.Add(t.pid.ToString, t)
             End If
         Next
 
-        For Each cp As cProcess In c2
-            If cp IsNot Nothing Then _
-                recursiveKill(cp.Pid)
+        ' Recursive kill
+        For Each t As LightProcess In _dico2.Values
+            recursiveKill(t.pid)
         Next
 
     End Function

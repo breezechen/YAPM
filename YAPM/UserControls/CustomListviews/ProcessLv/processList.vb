@@ -34,6 +34,7 @@ Public Class processList
     ' ========================================
     Private _dicoNew As New Dictionary(Of String, cProcess)
     Private _dicoDel As New Dictionary(Of String, cProcess)
+    Private _buffDico As New Dictionary(Of String, cProcess.LightProcess)
     Private _dico As New Dictionary(Of String, cProcess)
 
     Private _firstItemUpdate As Boolean = True
@@ -107,9 +108,9 @@ Public Class processList
 
 
         ' Now enumerate items
-        Dim _itemId() As Integer
+        Dim _itemId() As String
         ReDim _itemId(0)
-        Call cProcess.Enumerate(_itemId)
+        Call cProcess.Enumerate(_itemId, _buffDico)
 
 
         ' Now add all items with isKilled = true to _dicoDel dictionnary
@@ -121,34 +122,35 @@ Public Class processList
 
 
         ' Now add new items to dictionnary
-        For Each z As Integer In _itemId
-            If Not (_dico.ContainsKey(z.ToString)) Then
+        For Each z As String In _itemId
+            If Not (_dico.ContainsKey(z)) Then
                 ' Add to dico
-                _dicoNew.Add(z.ToString, Nothing)
+                _dicoNew.Add(z, Nothing)
             End If
         Next
 
 
         ' Now remove deleted items from dictionnary
-        For Each z As Integer In _dico.Keys
+        For Each z As String In _dico.Keys
             If Array.IndexOf(_itemId, z) < 0 Then
                 ' Remove from dico
-                _dico.Item(z.ToString).IsKilledItem = True  ' Will be deleted next time
+                _dico.Item(z).IsKilledItem = True  ' Will be deleted next time
             End If
         Next
 
 
         ' Now remove all deleted items from listview and _dico
-        For Each z As Integer In _dicoDel.Keys
-            Me.Items.RemoveByKey(z.ToString)
-            _dico.Remove(z.ToString)
+        For Each z As String In _dicoDel.Keys
+            Me.Items.RemoveByKey(z)
+            _dico.Remove(z)
+            cProcess.UnAssociatePidAndName(z)    ' Remove from global dico
         Next
         _dicoDel.Clear()
 
 
         ' Merge _dico and _dicoNew
-        For Each z As Integer In _dicoNew.Keys
-            Dim _it As cProcess = New cProcess(z)
+        For Each z As String In _dicoNew.Keys
+            Dim _it As cProcess = New cProcess(_buffDico.Item(z))
             _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
             _dico.Add(z.ToString, _it)
         Next
@@ -157,7 +159,7 @@ Public Class processList
         ' Now add all new items to listview
         ' If first time, lock listview
         If _firstItemUpdate Then Me.BeginUpdate()
-        For Each z As Integer In _dicoNew.Keys
+        For Each z As String In _dicoNew.Keys
 
             ' Add to listview
             Dim _subItems() As ListViewItem.ListViewSubItem
@@ -165,15 +167,15 @@ Public Class processList
             For x As Integer = 1 To _subItems.Length - 1
                 _subItems(x) = New ListViewItem.ListViewSubItem
             Next
-            AddItemWithStyle(z.ToString).SubItems.AddRange(_subItems)
+            AddItemWithStyle(z).SubItems.AddRange(_subItems)
 
-            ' ----------------------
-            ' Specific to a process
-            Dim cP As cProcess = _dico(z.ToString)
-            If cP.ProcessorCount < 1 Then
-                cP.ProcessorCount = frmMain.cInfo.ProcessorCount
-            End If
-            ' ----------------------
+            '' ----------------------
+            '' Specific to a process
+            'Dim cP As cProcess = _dico(z)
+            'If cP.ProcessorCount < 1 Then
+            '    cP.ProcessorCount = frmMain.cInfo.ProcessorCount
+            'End If
+            '' ----------------------
         Next
         If _firstItemUpdate Then Me.EndUpdate()
         _dicoNew.Clear()
@@ -271,9 +273,13 @@ Public Class processList
     Private Function AddItemWithStyle(ByVal key As String) As ListViewItem
 
         Dim item As ListViewItem = Me.Items.Add(key)
+        Dim proc As cProcess = _dico.Item(key)
         item.Name = key
 
-        If _dico.Item(key).Pid > 4 Then
+        ' Add to global dico
+        cProcess.AssociatePidAndName(key, _buffDico.Item(key).name)
+
+        If proc.Pid > 4 Then
 
             ' Forecolor
             item.ForeColor = _foreColor
@@ -281,7 +287,7 @@ Public Class processList
             ' Add icon
             Try
 
-                Dim fName As String = _dico.Item(key).Path
+                Dim fName As String = proc.Path
 
                 If IO.File.Exists(fName) Then
                     Me.SmallImageList.Images.Add(fName, GetIcon(fName, True))
