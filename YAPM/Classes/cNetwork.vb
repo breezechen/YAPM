@@ -107,6 +107,7 @@ Public Class cNetwork
     ' ========================================
     ' Private
     ' ========================================
+    Private nullAddress As New IPAddress(0)     ' For address comparison
     Private _pid As Integer
     Private _Protocol As NetworkProtocol
     Private _dwLocalAddr As Integer
@@ -192,18 +193,24 @@ Public Class cNetwork
         _procName = cProcess.GetProcessName(_pid)
         _key = lc.key
 
+        ' Solve DNS
         Try
-            Dim callback As System.AsyncCallback = AddressOf ProcessLocalDnsInformation
-            Dns.BeginGetHostEntry(_Local.Address, callback, Nothing)
+            If _Local.Address.Equals(nullAddress) = False Then
+                Dim callback As System.AsyncCallback = AddressOf ProcessLocalDnsInformation
+                Dns.BeginGetHostEntry(_Local.Address, callback, Nothing)
+            End If
         Catch ex As Exception
-            ' null address
+            '
         End Try
         Try
-            Dim callback As System.AsyncCallback = AddressOf ProcessRemoteDnsInformation
-            Dns.BeginGetHostEntry(_remote.Address, callback, Nothing)
+            If _remote IsNot Nothing AndAlso _remote.Address.Equals(nullAddress) = False Then
+                Dim callback2 As System.AsyncCallback = AddressOf ProcessRemoteDnsInformation
+                Dns.BeginGetHostEntry(_remote.Address, callback2, Nothing)
+            End If
         Catch ex As Exception
-            ' null address
+            '
         End Try
+
     End Sub
 
 
@@ -274,13 +281,10 @@ Public Class cNetwork
                     .local = n
                     .remote = n2
                 End With
-                Try
+                If _dico.ContainsKey(key(z)) = False Then
                     _dico.Add(key(z), res)
-                Catch ex As Exception
-                    z -= 1
-                End Try
-
-                z += 1
+                    z += 1
+                End If
             End If
         Next
 
@@ -338,13 +342,10 @@ Public Class cNetwork
                     .local = n
                     .remote = Nothing
                 End With
-                Try
+                If _dico.ContainsKey(key(z)) = False Then
                     _dico.Add(key(z), res)
-                Catch ex As Exception
-                    z -= 1
-                End Try
-
-                z += 1
+                    z += 1
+                End If
             End If
         Next
 

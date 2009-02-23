@@ -160,7 +160,6 @@ Public Class frmProcessInfo
 
                 ' Description
                 Try
-                    Dim mainModule As System.Diagnostics.ProcessModule = curProc.MainModule
                     Dim pmc As cProcess.PROCESS_MEMORY_COUNTERS = curProc.MemoryInfos
                     Dim pid As Integer = curProc.Pid
                     Dim s As String = ""
@@ -168,10 +167,13 @@ Public Class frmProcessInfo
                     s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b File properties\b0\par"
                     s = s & "\tab File name :\tab\tab\tab " & curProc.Name & "\par"
                     s = s & "\tab Path :\tab\tab\tab\tab " & Replace(curProc.Path, "\", "\\") & "\par"
-                    s = s & "\tab Description :\tab\tab\tab " & mainModule.FileVersionInfo.FileDescription & "\par"
-                    s = s & "\tab Company name :\tab\tab\tab " & mainModule.FileVersionInfo.CompanyName & "\par"
-                    s = s & "\tab Version :\tab\tab\tab " & mainModule.FileVersionInfo.FileVersion & "\par"
-                    s = s & "\tab Copyright :\tab\tab\tab " & mainModule.FileVersionInfo.LegalCopyright & "\par"
+                    Dim mainModule As System.Diagnostics.ProcessModule = curProc.MainModule
+                    If mainModule IsNot Nothing Then
+                        s = s & "\tab Description :\tab\tab\tab " & mainModule.FileVersionInfo.FileDescription & "\par"
+                        s = s & "\tab Company name :\tab\tab\tab " & mainModule.FileVersionInfo.CompanyName & "\par"
+                        s = s & "\tab Version :\tab\tab\tab " & mainModule.FileVersionInfo.FileVersion & "\par"
+                        s = s & "\tab Copyright :\tab\tab\tab " & mainModule.FileVersionInfo.LegalCopyright & "\par"
+                    End If
                     s = s & "\par"
                     s = s & "  \b Process description\b0\par"
                     s = s & "\tab PID :\tab\tab\tab\tab " & CStr(curProc.Pid) & "\par"

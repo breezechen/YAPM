@@ -856,9 +856,11 @@ Fin:
         CloseHandle(hDriver)
         'arrête le driver KernelMemory
         Try
-            driver.StopService()
-            driver.RemoveService()
-            driver = Nothing
+            If driver IsNot Nothing Then
+                driver.StopService()
+                driver.RemoveService()
+                driver = Nothing
+            End If
         Catch ex As Exception
             '
         End Try
