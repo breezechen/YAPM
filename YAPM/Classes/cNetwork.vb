@@ -182,56 +182,6 @@ Public Class cNetwork
     ' ========================================
     ' Public functions
     ' ========================================
-    'Public Sub New(ByVal tcp As MIB_TCPROW_OWNER_PID, ByVal protocol As NetworkProtocol, ByVal local As IPEndPoint, ByVal remote As IPEndPoint)
-    '    MyBase.New()
-    '    _pid = tcp.dwOwningPid
-    '    _Protocol = protocol
-    '    _State = CType(tcp.dwState, MIB_TCP_STATE)
-    '    _Local = local
-    '    _remote = remote
-    '    _localPort = tcp.dwLocalPort
-    '    _procName = cProcess.GetProcessName(_pid)
-    '    _key = CStr(_pid) & "|" & local.Address.ToString & "|" & protocol.ToString & "|" & CStr(local.Port) & "|" & CStr(tcp.GetHashCode)
-    'End Sub
-    'Public Sub New(ByVal udp As MIB_UDPROW_OWNER_PID, ByVal protocol As NetworkProtocol, ByVal local As IPEndPoint)
-    '    MyBase.New()
-    '    _pid = udp.dwOwningPid
-    '    _Protocol = protocol
-    '    _localPort = udp.dwLocalPort
-    '    _State = CType(-1, MIB_TCP_STATE)
-    '    _Local = local
-    '    _remote = Nothing
-    '    _procName = cProcess.GetProcessName(_pid)
-    '    _key = CStr(_pid) & "|" & local.Address.ToString & "|" & protocol.ToString & "|" & CStr(local.Port) & "|" & CStr(udp.GetHashCode)
-    'End Sub
-
-    'Public Sub New(ByVal nw As cNetwork)
-    '    MyBase.New()
-    '    _pid = nw.ProcessId
-    '    _Protocol = nw.Protocol
-    '    _State = nw.State
-    '    _Local = nw.Local
-    '    _remote = nw.Remote
-    '    _newItem = nw.IsNewItem
-    '    _killedItem = nw.IsKilledItem
-
-    '    Try
-    '        Dim callback As System.AsyncCallback = AddressOf ProcessLocalDnsInformation
-    '        Dns.BeginGetHostEntry(_Local.Address, callback, Nothing)
-    '    Catch ex As Exception
-    '        ' null address
-    '    End Try
-    '    Try
-    '        Dim callback As System.AsyncCallback = AddressOf ProcessRemoteDnsInformation
-    '        Dns.BeginGetHostEntry(_remote.Address, callback, Nothing)
-    '    Catch ex As Exception
-    '        ' null address
-    '    End Try
-
-    '    _localPort = nw.LocalPort
-    '    _key = nw.Key
-    '    _procName = nw.ProcessName
-    'End Sub
     Public Sub New(ByRef lc As LightConnection)
         MyBase.New()
         _pid = lc.dwOwningPid
@@ -302,7 +252,12 @@ Public Class cNetwork
             End If
 
             If bOkToAdd Then
-                Dim n As New IPEndPoint(tcp_item.dwLocalAddr, tcp_item.dwLocalPort)
+                Dim n As IPEndPoint = Nothing
+                If tcp_item.dwLocalAddr > 0 Then
+                    n = New IPEndPoint(tcp_item.dwLocalAddr, tcp_item.dwLocalPort)
+                Else
+                    n = New IPEndPoint(0, tcp_item.dwLocalPort)
+                End If
                 Dim n2 As IPEndPoint
                 If tcp_item.dwRemoteAddr > 0 Then
                     n2 = New IPEndPoint(tcp_item.dwRemoteAddr, tcp_item.dwRemotePort)
@@ -310,7 +265,7 @@ Public Class cNetwork
                     n2 = Nothing
                 End If
 
-                key(z) = CStr(tcp_item.dwOwningPid) & "|" & n.Address.ToString & "|TCP|" & CStr(n.Port)
+                key(z) = CStr(tcp_item.dwOwningPid) & "|" & tcp_item.dwLocalAddr.ToString & "|TCP|" & tcp_item.dwLocalPort.ToString
                 Dim res As New LightConnection
                 With res
                     .dwOwningPid = tcp_item.dwOwningPid
@@ -366,9 +321,15 @@ Public Class cNetwork
             End If
 
             If bOkToAdd Then
-                Dim n As New IPEndPoint(udp_item.dwLocalAddr, udp_item.dwLocalPort)
+                Dim n As IPEndPoint = Nothing
+                If udp_item.dwLocalAddr > 0 Then
+                    n = New IPEndPoint(udp_item.dwLocalAddr, udp_item.dwLocalPort)
+                Else
+                    n = New IPEndPoint(0, udp_item.dwLocalPort)
+                End If
 
-                key(z) = CStr(udp_item.dwOwningPid) & "|" & n.Address.ToString & "|UDP|" & CStr(n.Port)
+
+                key(z) = CStr(udp_item.dwOwningPid) & "|" & udp_item.dwLocalAddr.ToString & "|UDP|" & udp_item.dwLocalPort.ToString
                 Dim res As New LightConnection
                 With res
                     .dwOwningPid = udp_item.dwOwningPid
@@ -401,10 +362,14 @@ Public Class cNetwork
 
         Select Case info
             Case "Local"
-                If Len(_localString) > 0 Then
-                    res = Me.Local.ToString & "  ----  " & _localString
+                If Local IsNot Nothing Then
+                    If Len(_localString) > 0 Then
+                        res = Me.Local.ToString & "  ----  " & _localString
+                    Else
+                        res = Me.Local.ToString
+                    End If
                 Else
-                    res = Me.Local.ToString
+                    res = "0.0.0.0"
                 End If
             Case "Remote"
                 If Me.Remote IsNot Nothing Then

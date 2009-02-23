@@ -216,6 +216,10 @@ Public Class cProcessMemRW
             sBuf2.CopyTo(sBuf, CInt(_si2 / 2))
 
             _si2 += size
+            If size = 0 Then
+                ReDim sBuf(0)
+                Return sBuf
+            End If
             size = _si - _si2
         Loop
 

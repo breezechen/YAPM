@@ -136,7 +136,7 @@ Namespace Security.WinTrust
     End Class
 #End Region
 
-    Enum WinVerifyTrustResult As UInteger
+    Enum WinVerifyTrustResult As Integer
         Success = 0
         ProviderUnknown = &H800B0001
         ' The trust provider is not recognized on this system

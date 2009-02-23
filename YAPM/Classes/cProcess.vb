@@ -1595,6 +1595,9 @@ Public Class cProcess
         ' Read length of the unicode string
         Dim bA() As Short = cR.ReadBytesAS(__procParamAd + 64, 1)
         Dim __size As Integer = bA(0)      ' Size of string
+        If __size = 0 Then
+            Return "N/A"
+        End If
 
         ' Read pointer to the string
         Dim bA2() As Integer = cR.ReadBytesAI(__procParamAd + 68, 1)
@@ -1750,7 +1753,7 @@ Public Class cProcess
         End Try
 
         If IncludeDomain Then
-            Return (If((domain.ToString() <> ""), domain.ToString() & "\", "")) + name.ToString()
+            Return CStr(IIf(domain.ToString <> "", domain.ToString & "\", "")) & name.ToString
         Else
             Return name.ToString()
         End If
