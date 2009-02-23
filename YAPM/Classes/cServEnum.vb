@@ -214,7 +214,7 @@ Public Class cServEnum
                     Dim k As Integer = 0
                     For idx As Integer = 0 To lServicesReturned - 1
                         If pid = tServiceStatus(idx).ServiceStatus.dwProcessId Then
-                            p(idx) = GetStrFromPtrA(tServiceStatus(idx).lpServiceName) _
+                            p(k) = GetStrFromPtrA(tServiceStatus(idx).lpServiceName) _
                                 & "@" & _
                             tServiceStatus(idx).ServiceStatus.dwProcessId.ToString
                             k += 1

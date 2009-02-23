@@ -372,7 +372,7 @@ Public Class frmMain
 
         isAdmin = mdlPrivileges.IsAdministrator
         If isAdmin = False Then
-            MsgBox("You are not logged as an administrator. You cannot retrieve informations for system processes.", MsgBoxStyle.Critical, "You are not part of administrator group")
+            ' MsgBox("You are not logged as an administrator. You cannot retrieve informations for system processes.", MsgBoxStyle.Critical, "You are not part of administrator group")
         End If
 
         With Me.graphMonitor

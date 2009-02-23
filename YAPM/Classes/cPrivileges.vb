@@ -172,7 +172,7 @@ Public Class cPrivileges
     Public Function GetPrivilegesList() As PrivilegeInfo()
 
         Dim ListPrivileges() As PrivilegeInfo
-        ReDim ListPrivileges(0)
+        ReDim ListPrivileges(-1)
         Dim hProcessToken As Integer
         Dim hProcess As Integer
         Dim RetLen As Integer

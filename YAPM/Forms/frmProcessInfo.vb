@@ -125,16 +125,15 @@ Public Class frmProcessInfo
                 Me.lvProcEnv.Items.Clear()
                 Dim cVar() As String = Nothing
                 Dim cVal() As String = Nothing
-                Call curProc.GetEnvironmentVariables(cVar, cVal)
-
-                For x As Integer = 0 To cVar.Length - 1
-                    If cVar(x).Length > 0 Then
-                        Dim itpr As New ListViewItem(cVar(x))
-                        itpr.SubItems.Add(CStr(cVal(x)))
-                        Me.lvProcEnv.Items.Add(itpr)
-                    End If
-                Next
-
+                If curProc.GetEnvironmentVariables(cVar, cVal) > 0 Then
+                    For x As Integer = 0 To cVar.Length - 1
+                        If cVar(x).Length > 0 Then
+                            Dim itpr As New ListViewItem(cVar(x))
+                            itpr.SubItems.Add(CStr(cVal(x)))
+                            Me.lvProcEnv.Items.Add(itpr)
+                        End If
+                    Next
+                End If
 
             Case "Token"
 
@@ -143,19 +142,19 @@ Public Class frmProcessInfo
                 Dim lPriv() As cPrivileges.PrivilegeInfo = cPriv.GetPrivilegesList
 
                 Me.lvPrivileges.Items.Clear()
-
-                For Each l As cPrivileges.PrivilegeInfo In lPriv
-                    Dim newIt As New ListViewItem(l.Name)
-                    Dim sub1 As New ListViewItem.ListViewSubItem
-                    sub1.Text = cPrivileges.PrivilegeStatusToString(l.Status)
-                    Dim sub2 As New ListViewItem.ListViewSubItem
-                    sub2.Text = cPrivileges.GetPrivilegeDescription(l.Name)
-                    newIt.SubItems.Add(sub1)
-                    newIt.SubItems.Add(sub2)
-                    newIt.BackColor = cPrivileges.GetColorFromStatus(l.Status)
-                    Me.lvPrivileges.Items.Add(newIt)
-                Next
-
+                If lPriv.Length > 0 Then
+                    For Each l As cPrivileges.PrivilegeInfo In lPriv
+                        Dim newIt As New ListViewItem(l.Name)
+                        Dim sub1 As New ListViewItem.ListViewSubItem
+                        sub1.Text = cPrivileges.PrivilegeStatusToString(l.Status)
+                        Dim sub2 As New ListViewItem.ListViewSubItem
+                        sub2.Text = cPrivileges.GetPrivilegeDescription(l.Name)
+                        newIt.SubItems.Add(sub1)
+                        newIt.SubItems.Add(sub2)
+                        newIt.BackColor = cPrivileges.GetColorFromStatus(l.Status)
+                        Me.lvPrivileges.Items.Add(newIt)
+                    Next
+                End If
 
             Case "Informations"
 
