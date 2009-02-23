@@ -279,8 +279,13 @@ Public Class windowList
 
         ' Add icon
         Try
-            Me.SmallImageList.Images.Add(key, _dico(key).SmallIcon)
-            item.ImageKey = key
+            Dim icon As System.Drawing.Icon = _dico(key).SmallIcon
+            If icon IsNot Nothing Then
+                Me.SmallImageList.Images.Add(key, icon)
+                item.ImageKey = key
+            Else
+                item.ImageKey = "noIcon"
+            End If
         Catch ex As Exception
             item.ImageKey = "noIcon"
         End Try

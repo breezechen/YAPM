@@ -324,7 +324,12 @@ Public Class cWindow
     End Property
     Public ReadOnly Property SmallIcon() As System.Drawing.Icon
         Get
-            Return System.Drawing.Icon.FromHandle(GetWindowSmallIcon)
+            Dim i As IntPtr = GetWindowSmallIcon()
+            If Not (i = IntPtr.Zero) Then
+                Return System.Drawing.Icon.FromHandle(i)
+            Else
+                Return Nothing
+            End If
         End Get
     End Property
 

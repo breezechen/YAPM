@@ -763,7 +763,7 @@ Fin:
 
         'on prépare le buffer
         strBuff = Space(255)
-        'on demande la liste des lecteurs
+        'on demande la liste des lecteurs   'TODO
         GetLogicalDriveStrings(255, strBuff)
         'la liste est séparée par des nul et terminée par deux nuls
         'on les remplace par des "|"
@@ -771,11 +771,16 @@ Fin:
 
         For X = 0 To UBound(strLetters)
             strInt = New String(" ", 256)
-            strLetter = Mid$(strLetters(X), 1, 2)
-            ret = QueryDosDevice(strLetter, strInt, 256)
-            strInt = Mid(strInt, 1, InStr(strInt, vbNullChar) - 1)
-            If InStr(1, strInternalFilename, strInt, CompareMethod.Text) > 0 Then
-                Return Replace(strInternalFilename, strInt & "\", strLetters(X))
+            If Len(strLetters(X)) > 1 Then
+                strLetter = Mid$(strLetters(X), 1, 2)
+                ret = QueryDosDevice(strLetter, strInt, 256)
+                Dim _i As Integer = InStr(strInt, vbNullChar)
+                If _i > 0 Then
+                    strInt = Mid(strInt, 1, InStr(strInt, vbNullChar) - 1)
+                End If
+                If InStr(1, strInternalFilename, strInt, CompareMethod.Text) > 0 Then
+                    Return Replace(strInternalFilename, strInt & "\", strLetters(X))
+                End If
             End If
         Next
 Fin:

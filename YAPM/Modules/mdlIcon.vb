@@ -72,7 +72,9 @@ Module mdlIcon
 
         Dim img As System.Drawing.Icon = Nothing
         Try
-            img = System.Drawing.Icon.FromHandle(shinfo.hIcon)
+            If Not (shinfo.hIcon = IntPtr.Zero) Then
+                img = System.Drawing.Icon.FromHandle(shinfo.hIcon)
+            End If
         Catch ex As Exception
             ' Can't retrieve icon
         End Try
@@ -101,7 +103,9 @@ Module mdlIcon
 
         Dim img As System.Drawing.Icon = Nothing
         Try
-            img = System.Drawing.Icon.FromHandle(shinfo.hIcon)
+            If Not (shinfo.hIcon = IntPtr.Zero) Then
+                img = System.Drawing.Icon.FromHandle(shinfo.hIcon)
+            End If
         Catch ex As Exception
             ' Can't retrieve icon
         End Try

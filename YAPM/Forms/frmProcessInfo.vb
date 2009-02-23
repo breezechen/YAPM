@@ -64,16 +64,16 @@ Public Class frmProcessInfo
                 Me.txtProcessStarted.Text = curProc.StartTime.ToLongDateString & " -- " & curProc.StartTime.ToLongTimeString
                 Me.txtProcessUser.Text = curProc.UserName
                 Me.txtCommandLine.Text = curProc.CommandLine
-                Try
-                    Dim tMain As System.Diagnostics.ProcessModule = curProc.MainModule
+                Dim tMain As System.Diagnostics.ProcessModule = curProc.MainModule
+                If tMain IsNot Nothing Then
                     Me.txtImageVersion.Text = tMain.FileVersionInfo.FileVersion
                     Me.lblCopyright.Text = tMain.FileVersionInfo.LegalCopyright
                     Me.lblDescription.Text = tMain.FileVersionInfo.FileDescription
-                Catch ex As Exception
+                Else
                     Me.txtImageVersion.Text = NO_INFO_RETRIEVED
                     Me.lblCopyright.Text = NO_INFO_RETRIEVED
                     Me.lblDescription.Text = NO_INFO_RETRIEVED
-                End Try
+                End If
 
 
             Case "Statistics"

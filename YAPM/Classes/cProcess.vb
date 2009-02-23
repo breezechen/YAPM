@@ -1023,7 +1023,11 @@ Public Class cProcess
             If _mainMod Is Nothing Then
                 Try
                     Dim gProc As Process = Process.GetProcessById(_pid)
-                    _mainMod = gProc.MainModule
+                    If gProc IsNot Nothing Then
+                        _mainMod = gProc.MainModule
+                    Else
+                        _mainMod = Nothing
+                    End If
                 Catch ex As Exception
                     _mainMod = Nothing
                 End Try

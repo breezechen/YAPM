@@ -249,8 +249,14 @@ Public Class taskList
 
         ' Add icon
         Try
-            Me.SmallImageList.Images.Add(key, _dico(key).SmallIcon)
-            item.ImageKey = key
+            Dim i As System.Drawing.Icon = _dico(key).SmallIcon
+            If i IsNot Nothing Then
+                Me.SmallImageList.Images.Add(key, i)
+                item.ImageKey = key
+            Else
+                'catch ex As Exception
+                item.ImageKey = "noIcon"
+            End If
         Catch ex As Exception
             item.ImageKey = "noIcon"
         End Try
