@@ -23,15 +23,15 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 
-Public Class frmChooseServiceColumns
+Public Class frmChooseThreadColumns
 
-    Private theListview As serviceList
+    Private theListview As threadList
 
     <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
     Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
     End Function
 
-    Public Sub SetLv(ByRef aLv As serviceList)
+    Public Sub SetLv(ByRef aLv As threadList)
         theListview = aLv
     End Sub
 
@@ -55,18 +55,18 @@ Public Class frmChooseServiceColumns
             it.SubItems.AddRange(subit)
         Next
 
-        ' Add new columns and new associated subitems
+        ' Add new columns
         For Each it As ListViewItem In Me.lv.CheckedItems
             theListview.Columns.Add(it.Text, 90)
         Next
 
-        frmMain.timerServices.Enabled = True
+        frmMain.timerProcess.Enabled = True
         Me.Close()
     End Sub
 
     Private Sub Cancel_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Cancel_Button.Click
         Me.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        frmMain.timerServices.Enabled = True
+        frmMain.timerProcess.Enabled = True
         Me.Close()
     End Sub
 
@@ -84,12 +84,12 @@ Public Class frmChooseServiceColumns
         Next
     End Sub
 
-    Private Sub frmChooseServiceColumns_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub frmChooseProcessColumns_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
 
-        frmMain.timerServices.Enabled = False
+        frmMain.timerProcess.Enabled = False
 
-        For Each s As String In cService.GetAvailableProperties
+        For Each s As String In cThread.GetAvailableProperties
             Dim it As New ListViewItem(s)
 
             ' Checked displayed columns

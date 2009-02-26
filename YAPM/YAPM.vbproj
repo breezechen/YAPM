@@ -220,6 +220,10 @@
     <EmbeddedResource Include="UserControls\CustomListviews\TaskList\taskList.resx">
       <DependentUpon>taskList.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CustomListviews\ThreadList\frmChooseThreadColumns.resx">
+      <DependentUpon>frmChooseThreadColumns.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CustomListviews\ThreadList\threadList.resx">
       <DependentUpon>threadList.vb</DependentUpon>
     </EmbeddedResource>
@@ -448,6 +452,12 @@
     </Compile>
     <Compile Include="UserControls\CustomListviews\TaskList\taskList.vb">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomListviews\ThreadList\frmChooseThreadColumns.Designer.vb">
+      <DependentUpon>frmChooseThreadColumns.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CustomListviews\ThreadList\frmChooseThreadColumns.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="UserControls\CustomListviews\ThreadList\threadList.Designer.vb">
       <DependentUpon>threadList.vb</DependentUpon>

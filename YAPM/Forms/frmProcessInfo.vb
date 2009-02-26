@@ -1203,4 +1203,8 @@ Public Class frmProcessInfo
             Call frmMain.handles_Renamed.CloseProcessLocalHandle(ch.ProcessID, ch.Handle)
         Next
     End Sub
+
+    Private Sub ChooseColumnsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem.Click
+        Me.lvThreads.ChooseColumns()
+    End Sub
 End Class

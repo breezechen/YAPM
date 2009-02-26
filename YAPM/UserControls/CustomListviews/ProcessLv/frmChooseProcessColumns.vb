@@ -25,19 +25,25 @@ Imports System.Runtime.InteropServices
 
 Public Class frmChooseProcessColumns
 
+    Private theListview As processList
+
     <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
     Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
     End Function
+
+    Public Sub SetLv(ByRef aLv As processList)
+        theListview = aLv
+    End Sub
 
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
         Me.DialogResult = System.Windows.Forms.DialogResult.OK
 
         ' Remove all columns
-        For x As Integer = frmMain.lvProcess.Columns.Count - 1 To 1 Step -1
-            frmMain.lvProcess.Columns.Remove(frmMain.lvProcess.Columns(x))
+        For x As Integer = theListview.Columns.Count - 1 To 1 Step -1
+            theListview.Columns.Remove(theListview.Columns(x))
         Next
 
-        For Each it As ListViewItem In frmMain.lvProcess.Items
+        For Each it As ListViewItem In theListview.Items
             it.SubItems.Clear()
             Dim subit() As ListViewItem.ListViewSubItem
             ReDim subit(Me.lv.CheckedItems.Count)
@@ -51,7 +57,7 @@ Public Class frmChooseProcessColumns
 
         ' Add new columns
         For Each it As ListViewItem In Me.lv.CheckedItems
-            frmMain.lvProcess.Columns.Add(it.Text, 90)
+            theListview.Columns.Add(it.Text, 90)
         Next
 
         frmMain.timerProcess.Enabled = True
@@ -87,8 +93,8 @@ Public Class frmChooseProcessColumns
             Dim it As New ListViewItem(s)
 
             ' Checked displayed columns
-            For x As Integer = 0 To frmMain.lvProcess.Columns.Count - 1
-                If s = frmMain.lvProcess.Columns(x).Text.Replace("< ", "").Replace("> ", "") Then
+            For x As Integer = 0 To theListview.Columns.Count - 1
+                If s = theListview.Columns(x).Text.Replace("< ", "").Replace("> ", "") Then
                     it.Checked = True
                     Exit For
                 End If

@@ -271,6 +271,8 @@ Partial Class frmProcessInfo
         Me.timerProcPerf = New System.Windows.Forms.Timer(Me.components)
         Me.imgProcess = New System.Windows.Forms.ImageList(Me.components)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
+        Me.ToolStripMenuItem8 = New System.Windows.Forms.ToolStripSeparator
+        Me.ChooseColumnsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.tabProcess.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
@@ -2077,37 +2079,37 @@ Partial Class frmProcessInfo
         '
         'menuThread
         '
-        Me.menuThread.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem23, Me.ToolStripMenuItem24, Me.ToolStripMenuItem25, Me.ToolStripMenuItem26, Me.ToolStripMenuItem33})
+        Me.menuThread.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem23, Me.ToolStripMenuItem24, Me.ToolStripMenuItem25, Me.ToolStripMenuItem26, Me.ToolStripMenuItem33, Me.ToolStripMenuItem8, Me.ChooseColumnsToolStripMenuItem})
         Me.menuThread.Name = "menuProc"
-        Me.menuThread.Size = New System.Drawing.Size(140, 114)
+        Me.menuThread.Size = New System.Drawing.Size(173, 164)
         '
         'ToolStripMenuItem23
         '
         Me.ToolStripMenuItem23.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ToolStripMenuItem23.Image = Global.YAPM.My.Resources.Resources.cross
         Me.ToolStripMenuItem23.Name = "ToolStripMenuItem23"
-        Me.ToolStripMenuItem23.Size = New System.Drawing.Size(139, 22)
+        Me.ToolStripMenuItem23.Size = New System.Drawing.Size(172, 22)
         Me.ToolStripMenuItem23.Text = "Terminate"
         '
         'ToolStripMenuItem24
         '
         Me.ToolStripMenuItem24.Image = Global.YAPM.My.Resources.Resources.control_pause
         Me.ToolStripMenuItem24.Name = "ToolStripMenuItem24"
-        Me.ToolStripMenuItem24.Size = New System.Drawing.Size(139, 22)
+        Me.ToolStripMenuItem24.Size = New System.Drawing.Size(172, 22)
         Me.ToolStripMenuItem24.Text = "Suspend"
         '
         'ToolStripMenuItem25
         '
         Me.ToolStripMenuItem25.Image = Global.YAPM.My.Resources.Resources.control
         Me.ToolStripMenuItem25.Name = "ToolStripMenuItem25"
-        Me.ToolStripMenuItem25.Size = New System.Drawing.Size(139, 22)
+        Me.ToolStripMenuItem25.Size = New System.Drawing.Size(172, 22)
         Me.ToolStripMenuItem25.Text = "Resume"
         '
         'ToolStripMenuItem26
         '
         Me.ToolStripMenuItem26.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem27, Me.LowestToolStripMenuItem, Me.ToolStripMenuItem28, Me.ToolStripMenuItem29, Me.ToolStripMenuItem30, Me.ToolStripMenuItem31, Me.ToolStripMenuItem32})
         Me.ToolStripMenuItem26.Name = "ToolStripMenuItem26"
-        Me.ToolStripMenuItem26.Size = New System.Drawing.Size(139, 22)
+        Me.ToolStripMenuItem26.Size = New System.Drawing.Size(172, 22)
         Me.ToolStripMenuItem26.Text = "Priotiy"
         '
         'ToolStripMenuItem27
@@ -2163,7 +2165,7 @@ Partial Class frmProcessInfo
         '
         Me.ToolStripMenuItem33.Enabled = False
         Me.ToolStripMenuItem33.Name = "ToolStripMenuItem33"
-        Me.ToolStripMenuItem33.Size = New System.Drawing.Size(139, 22)
+        Me.ToolStripMenuItem33.Size = New System.Drawing.Size(172, 22)
         Me.ToolStripMenuItem33.Text = "Set affinity..."
         '
         'TabPage12
@@ -2403,7 +2405,7 @@ Partial Class frmProcessInfo
         '
         Me.menuHandles.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowUnnamedHandlesToolStripMenuItem, Me.ToolStripMenuItem5, Me.ToolStripMenuItem22})
         Me.menuHandles.Name = "menuProc"
-        Me.menuHandles.Size = New System.Drawing.Size(202, 76)
+        Me.menuHandles.Size = New System.Drawing.Size(202, 54)
         '
         'ShowUnnamedHandlesToolStripMenuItem
         '
@@ -2492,6 +2494,17 @@ Partial Class frmProcessInfo
         Me.imgMain.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit
         Me.imgMain.ImageSize = New System.Drawing.Size(16, 16)
         Me.imgMain.TransparentColor = System.Drawing.Color.Transparent
+        '
+        'ToolStripMenuItem8
+        '
+        Me.ToolStripMenuItem8.Name = "ToolStripMenuItem8"
+        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(169, 6)
+        '
+        'ChooseColumnsToolStripMenuItem
+        '
+        Me.ChooseColumnsToolStripMenuItem.Name = "ChooseColumnsToolStripMenuItem"
+        Me.ChooseColumnsToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.ChooseColumnsToolStripMenuItem.Text = "Choose columns..."
         '
         'frmProcessInfo
         '
@@ -2802,4 +2815,6 @@ Partial Class frmProcessInfo
     Friend WithEvents ColumnHeader9 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader10 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader19 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ToolStripMenuItem8 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ChooseColumnsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

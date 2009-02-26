@@ -245,7 +245,8 @@ Public Class threadList
     ' Choose column
     Public Sub ChooseColumns()
 
-        Dim frm As New frmChooseProcessColumns
+        Dim frm As New frmChooseThreadColumns
+        frm.SetLv(Me)
         frm.ShowDialog()
 
         ' Recreate subitem buffer and get columns name again

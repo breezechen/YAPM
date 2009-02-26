@@ -3593,12 +3593,6 @@ Public Class frmMain
         Me.cmdCopyServiceToCp.Enabled = (rtb2.Rtf.Length > 0)
     End Sub
 
-    Private Sub lvServices_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseDoubleClick
-        If e.Button = Windows.Forms.MouseButtons.Left Then
-            Me.lvServices.ChooseColumns()
-        End If
-    End Sub
-
     Private Sub lvServices_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseDown
         Call mdlMisc.CopyLvToClip(e, Me.lvServices)
     End Sub
@@ -4122,5 +4116,25 @@ Public Class frmMain
 
     Private Sub DisplayUnnamedHandlesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisplayUnnamedHandlesToolStripMenuItem.Click
         DisplayUnnamedHandlesToolStripMenuItem.Checked = Not (DisplayUnnamedHandlesToolStripMenuItem.Checked)
+    End Sub
+
+    Private Sub ChooseColumnsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem.Click
+        Me.lvServices.ChooseColumns()
+    End Sub
+
+    Private Sub ChooseColumnsToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem1.Click
+        'task
+    End Sub
+
+    Private Sub ChooseColumnsToolStripMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem2.Click
+        'columns
+    End Sub
+
+    Private Sub ChooseColumnsToolStripMenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem3.Click
+        'module
+    End Sub
+
+    Private Sub ChooseColumnsToolStripMenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem4.Click
+        Me.lvThreads.ChooseColumns()
     End Sub
 End Class

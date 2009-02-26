@@ -256,6 +256,7 @@ Public Class processList
     Public Sub ChooseColumns()
 
         Dim frm As New frmChooseProcessColumns
+        frm.SetLv(Me)
         frm.ShowDialog()
 
         ' Recreate subitem buffer and get columns name again

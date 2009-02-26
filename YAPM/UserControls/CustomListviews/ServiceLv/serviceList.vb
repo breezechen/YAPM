@@ -251,6 +251,7 @@ Public Class serviceList
     Public Sub ChooseColumns()
 
         Dim frm As New frmChooseServiceColumns
+        frm.SetLv(Me)
         frm.ShowDialog()
 
         ' Recreate subitem buffer and get columns name again

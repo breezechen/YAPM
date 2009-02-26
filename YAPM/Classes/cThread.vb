@@ -363,7 +363,23 @@ Public Class cThread
             Case "TotalProcessorTime"
                 res = Me.TotalProcessorTime.ToString
             Case "OwnerProcessId"
+                res = Me.ProcessId.ToString
+            Case "UserProcessorTime"
+                res = Me.UserProcessorTime.ToString
+            Case "StartAddress"
+                res = "0x" & Me.StartAddress.ToString("x")
+            Case "PrivilegedProcessorTime"
+                res = Me.PrivilegedProcessorTime.ToString
+            Case "OwnerProcessName"
+                res = Me.ProcessName
+            Case "OwnerProcess"
                 res = Me.ProcessName & " -- " & Me.ProcessId.ToString
+            Case "PriorityBoost"
+                res = Me.PriorityBoostEnabled.ToString
+            Case "ProcessorAffinity"
+                res = Me.ProcessorAffinity.ToString
+            Case "IdealProcessor"
+                res = Me.IdealProcessor.ToString
         End Select
 
         Return res
@@ -427,6 +443,30 @@ Public Class cThread
     ' ========================================
     ' Shared functions
     ' ========================================
+
+    ' Retrieve all information's names availables
+    Public Shared Function GetAvailableProperties() As String()
+        Dim s(13) As String
+
+        s(0) = "Id"
+        s(0) = "Priority"
+        s(1) = "State"
+        s(2) = "WaitReason"
+        s(3) = "StartTime"
+        s(4) = "UserProcessorTime"
+        s(5) = "PrivilegedProcessorTime"
+        s(6) = "TotalProcessorTime"
+        s(7) = "OwnerProcessId"
+        s(8) = "OwnerProcessName"
+        s(9) = "OwnerProcess"
+        s(10) = "StartAddress"
+        s(11) = "PriorityBoost"
+        s(12) = "ProcessorAffinity"
+        s(13) = "IdealProcessor"
+
+        Return s
+    End Function
+
     ' Retrieve thread list
     Public Shared Function Enumerate(ByVal processId As Integer(), ByRef key() As String, _
                                      ByRef _dico As Dictionary(Of String, LightThread)) As Integer
