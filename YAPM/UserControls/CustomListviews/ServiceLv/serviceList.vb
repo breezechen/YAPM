@@ -196,6 +196,16 @@ Public Class serviceList
             End If
         Next
 
+        ' This piece of code is needed. Strange behavior, the Text attribute must
+        ' be set twice to be properly displayed.
+        If _firstItemUpdate Then
+            For Each it In Me.Items
+                For Each isub In it.SubItems
+                    isub.Text = isub.Text
+                Next
+            Next
+        End If
+
 
         ' Sort items
         Me.Sort()
