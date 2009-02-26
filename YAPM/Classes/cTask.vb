@@ -39,6 +39,7 @@ Public Class cTask
 
 #End Region
 
+    Private _key As String
     Private _proc As cProcess
 
     ' ========================================
@@ -47,6 +48,7 @@ Public Class cTask
     Public Sub New(ByVal task As LightWindow)
         MyBase.New(task)
         _proc = New cProcess(task.pid)
+        _key = task.handle.ToString & "|" & task.pid.ToString
         _proc.ProcessorCount = frmMain.cInfo.ProcessorCount
     End Sub
 
@@ -62,6 +64,11 @@ Public Class cTask
     Public ReadOnly Property Process() As cProcess
         Get
             Return _proc
+        End Get
+    End Property
+    Public ReadOnly Property Key() As String
+        Get
+            Return _key
         End Get
     End Property
 
@@ -92,7 +99,7 @@ Public Class cTask
                 Dim pid As Integer = GetProcIdFromWindowHandle(currWnd)
 
                 ReDim Preserve key(cpt)
-                key(cpt) = currWnd.ToString
+                key(cpt) = currWnd.ToString & "|" & pid.ToString
                 _dico.Add(key(cpt), New LightWindow(currWnd, pid, GetThreadIdFromWindowHandle(currWnd)))
                 cpt += 1
             End If

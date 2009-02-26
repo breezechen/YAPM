@@ -96,7 +96,7 @@ Public Class taskList
         ' Now add all items with isKilled = true to _dicoDel dictionnary
         For Each z As cTask In _dico.Values
             If z.IsKilledItem Then
-                _dicoDel.Add(z.Handle.ToString, Nothing)
+                _dicoDel.Add(z.key, Nothing)
             End If
         Next
 
@@ -128,11 +128,17 @@ Public Class taskList
 
 
         ' Merge _dico and _dicoNew
-        For Each z As String In _dicoNew.Keys
-            Dim _it As cTask = New cTask(_buffDico.Item(z))
-            _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
-            _dico.Add(z, _it)
-        Next
+        Dim z0 As String = ""
+        Try
+            For Each z0 In _dicoNew.Keys
+                Dim _it As cTask = New cTask(_buffDico.Item(z0))
+                _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
+                _dico.Add(z0, _it)
+            Next
+        Catch ex As Exception
+            Dim s As String = "Key : " & z0 & vbNewLine & "New count : " & _dicoNew.Keys.Count.ToString & vbNewLine & "Buff count : " & _buffDico.Keys.Count.ToString
+            MessageBox.Show(ex.Message, "Error in task refresh", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.RightAlign, False)
+        End Try
 
 
         ' Now add all new items to listview
