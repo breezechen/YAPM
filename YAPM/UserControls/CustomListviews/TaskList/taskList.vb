@@ -88,7 +88,7 @@ Public Class taskList
 
 
         ' Now enumerate items
-        Dim _itemId() As Integer
+        Dim _itemId() As String
         ReDim _itemId(0)
         Call cTask.Enumerate(_itemId, _buffDico)
 
@@ -102,43 +102,43 @@ Public Class taskList
 
 
         ' Now add new items to dictionnary
-        For Each z As Integer In _itemId
-            If Not (_dico.ContainsKey(z.ToString)) Then
+        For Each z As String In _itemId
+            If Not (_dico.ContainsKey(z)) Then
                 ' Add to dico
-                _dicoNew.Add(z.ToString, Nothing)
+                _dicoNew.Add(z, Nothing)
             End If
         Next
 
 
         ' Now remove deleted items from dictionnary
-        For Each z As Integer In _dico.Keys
+        For Each z As String In _dico.Keys
             If Array.IndexOf(_itemId, z) < 0 Then
                 ' Remove from dico
-                _dico.Item(z.ToString).IsKilledItem = True  ' Will be deleted next time
+                _dico.Item(z).IsKilledItem = True  ' Will be deleted next time
             End If
         Next
 
 
         ' Now remove all deleted items from listview and _dico
-        For Each z As Integer In _dicoDel.Keys
-            Me.Items.RemoveByKey(z.ToString)
-            _dico.Remove(z.ToString)
+        For Each z As String In _dicoDel.Keys
+            Me.Items.RemoveByKey(z)
+            _dico.Remove(z)
         Next
         _dicoDel.Clear()
 
 
         ' Merge _dico and _dicoNew
-        For Each z As Integer In _dicoNew.Keys
-            Dim _it As cTask = New cTask(_buffDico.Item(z.ToString))
+        For Each z As String In _dicoNew.Keys
+            Dim _it As cTask = New cTask(_buffDico.Item(z))
             _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
-            _dico.Add(z.ToString, _it)
+            _dico.Add(z, _it)
         Next
 
 
         ' Now add all new items to listview
         ' If first time, lock listview
         If _firstItemUpdate Then Me.BeginUpdate()
-        For Each z As Integer In _dicoNew.Keys
+        For Each z As String In _dicoNew.Keys
 
             ' Add to listview
             Dim _subItems() As ListViewItem.ListViewSubItem
@@ -146,7 +146,7 @@ Public Class taskList
             For x As Integer = 1 To _subItems.Length - 1
                 _subItems(x) = New ListViewItem.ListViewSubItem
             Next
-            AddItemWithStyle(z.ToString).SubItems.AddRange(_subItems)
+            AddItemWithStyle(z).SubItems.AddRange(_subItems)
 
         Next
         If _firstItemUpdate Then Me.EndUpdate()

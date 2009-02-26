@@ -75,7 +75,7 @@ Public Class cTask
     End Function
 
     ' Retrieve all tasks
-    Public Overloads Shared Function Enumerate(ByRef key() As Integer, _
+    Public Overloads Shared Function Enumerate(ByRef key() As String, _
                                                ByRef _dico As Dictionary(Of String, LightWindow)) As Integer
         Dim currWnd As IntPtr
         Dim cpt As Integer
@@ -92,8 +92,8 @@ Public Class cTask
                 Dim pid As Integer = GetProcIdFromWindowHandle(currWnd)
 
                 ReDim Preserve key(cpt)
-                key(cpt) = currWnd.ToInt32
-                _dico.Add(key(cpt).ToString, New LightWindow(currWnd, pid, GetThreadIdFromWindowHandle(currWnd)))
+                key(cpt) = currWnd.ToString
+                _dico.Add(key(cpt), New LightWindow(currWnd, pid, GetThreadIdFromWindowHandle(currWnd)))
                 cpt += 1
             End If
 
