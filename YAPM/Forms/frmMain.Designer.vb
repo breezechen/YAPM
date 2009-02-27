@@ -408,6 +408,8 @@ Partial Class frmMain
         Me.ToolStripMenuItem22 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
         Me.DisplayUnnamedHandlesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem49 = New System.Windows.Forms.ToolStripSeparator
+        Me.ChooseColumnsToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem
         Me.panelMain8 = New System.Windows.Forms.Panel
         Me.splitMonitor = New System.Windows.Forms.SplitContainer
         Me.tvMonitor = New System.Windows.Forms.TreeView
@@ -534,8 +536,6 @@ Partial Class frmMain
         Me.ChooseColumnsToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem
         Me.timerTrayIcon = New System.Windows.Forms.Timer(Me.components)
         Me.butProcessPermuteLvTv = New System.Windows.Forms.RibbonButton
-        Me.ToolStripMenuItem49 = New System.Windows.Forms.ToolStripSeparator
-        Me.ChooseColumnsToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
         Me.SplitContainerProcess.SuspendLayout()
@@ -4312,7 +4312,7 @@ Partial Class frmMain
         '
         Me.menuHandles.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem19, Me.ToolStripSeparator3, Me.ToolStripMenuItem22, Me.ToolStripMenuItem1, Me.DisplayUnnamedHandlesToolStripMenuItem, Me.ToolStripMenuItem49, Me.ChooseColumnsToolStripMenuItem6})
         Me.menuHandles.Name = "menuProc"
-        Me.menuHandles.Size = New System.Drawing.Size(211, 132)
+        Me.menuHandles.Size = New System.Drawing.Size(211, 110)
         '
         'ToolStripMenuItem19
         '
@@ -4344,6 +4344,17 @@ Partial Class frmMain
         Me.DisplayUnnamedHandlesToolStripMenuItem.Name = "DisplayUnnamedHandlesToolStripMenuItem"
         Me.DisplayUnnamedHandlesToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
         Me.DisplayUnnamedHandlesToolStripMenuItem.Text = "Display unnamed handles"
+        '
+        'ToolStripMenuItem49
+        '
+        Me.ToolStripMenuItem49.Name = "ToolStripMenuItem49"
+        Me.ToolStripMenuItem49.Size = New System.Drawing.Size(207, 6)
+        '
+        'ChooseColumnsToolStripMenuItem6
+        '
+        Me.ChooseColumnsToolStripMenuItem6.Name = "ChooseColumnsToolStripMenuItem6"
+        Me.ChooseColumnsToolStripMenuItem6.Size = New System.Drawing.Size(210, 22)
+        Me.ChooseColumnsToolStripMenuItem6.Text = "Choose columns..."
         '
         'panelMain8
         '
@@ -4889,9 +4900,9 @@ Partial Class frmMain
         '
         'txtSearchWindow
         '
-        Me.txtSearchWindow.Location = New System.Drawing.Point(86, 2)
+        Me.txtSearchWindow.Location = New System.Drawing.Point(90, 2)
         Me.txtSearchWindow.Name = "txtSearchWindow"
-        Me.txtSearchWindow.Size = New System.Drawing.Size(298, 22)
+        Me.txtSearchWindow.Size = New System.Drawing.Size(294, 22)
         Me.txtSearchWindow.TabIndex = 8
         '
         'lvWindows
@@ -5459,23 +5470,13 @@ Partial Class frmMain
         Me.butProcessPermuteLvTv.ToolTipImage = Nothing
         Me.butProcessPermuteLvTv.ToolTipTitle = Nothing
         '
-        'ToolStripMenuItem49
-        '
-        Me.ToolStripMenuItem49.Name = "ToolStripMenuItem49"
-        Me.ToolStripMenuItem49.Size = New System.Drawing.Size(207, 6)
-        '
-        'ChooseColumnsToolStripMenuItem6
-        '
-        Me.ChooseColumnsToolStripMenuItem6.Name = "ChooseColumnsToolStripMenuItem6"
-        Me.ChooseColumnsToolStripMenuItem6.Size = New System.Drawing.Size(210, 22)
-        Me.ChooseColumnsToolStripMenuItem6.Text = "Choose columns..."
-        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.ClientSize = New System.Drawing.Size(843, 603)
+        Me.Controls.Add(Me.panelMenu2)
         Me.Controls.Add(Me.panelMain5)
         Me.Controls.Add(Me.panelMain)
         Me.Controls.Add(Me.panelMain2)
@@ -5486,7 +5487,6 @@ Partial Class frmMain
         Me.Controls.Add(Me.panelMenu)
         Me.Controls.Add(Me.panelMain10)
         Me.Controls.Add(Me.panelMain8)
-        Me.Controls.Add(Me.panelMenu2)
         Me.Controls.Add(Me.cmdTray)
         Me.Controls.Add(Me.Ribbon)
         Me.Controls.Add(Me.panelMain11)

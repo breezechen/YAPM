@@ -380,6 +380,37 @@ Public Class frmProcessInfo
             Me.tabProcess.SelectedTab.Text = "Strings" Or _
             Me.tabProcess.SelectedTab.Text = "Environment") Then _
             Call Me.refreshProcessTab()
+
+        ' Display caption
+        Call ChangeCaption()
+
+    End Sub
+
+    ' Change caption
+    Private Sub ChangeCaption()
+        Me.Text = curProc.Name & " (" & curProc.Pid.ToString & ")"
+        Select Case Me.tabProcess.SelectedTab.Text
+            Case "Modules"
+                Me.Text &= " - " & Me.lvModules.Items.Count.ToString & " modules"
+            Case "Threads"
+                Me.Text &= " - " & Me.lvThreads.Items.Count.ToString & " threads"
+            Case "Windows"
+                Me.Text &= " - " & Me.lvWindows.Items.Count.ToString & " windows"
+            Case "Handles"
+                Me.Text &= " - " & Me.lvHandles.Items.Count.ToString & " handles"
+            Case "Memory"
+                Me.Text &= " - " & Me.lvProcMem.Items.Count.ToString & " memory regions"
+            Case "Network"
+                Me.Text &= " - " & Me.lvProcNetwork.Items.Count.ToString & " connexions"
+            Case "Services"
+                Me.Text &= " - " & Me.lvProcServices.Items.Count.ToString & " services"
+            Case "Strings"
+                Me.Text &= " - " & Me.lvProcString.Items.Count.ToString & " strings"
+            Case "Environment"
+                Me.Text &= " - " & Me.lvProcEnv.Items.Count.ToString & " variables"
+            Case "Token"
+                Me.Text &= " - " & Me.lvPrivileges.Items.Count.ToString & " privileges"
+        End Select
     End Sub
 
     Private Sub getProcString(ByRef curProc As cProcess)
@@ -600,6 +631,7 @@ Public Class frmProcessInfo
 
     Private Sub tabProcess_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabProcess.SelectedIndexChanged
         Call Me.refreshProcessTab()
+        Call ChangeCaption()
     End Sub
 
     Private Sub cmdProcSearchL_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdProcSearchL.Click
