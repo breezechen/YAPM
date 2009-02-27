@@ -23,7 +23,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 
-Public Class serviceList
+Public Class networkList
     Inherits YAPM.DoubleBufferedLV
 
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
@@ -32,19 +32,17 @@ Public Class serviceList
     ' ========================================
     ' Private
     ' ========================================
-    Private _dicoNew As New Dictionary(Of String, cService)
-    Private _dicoDel As New Dictionary(Of String, cService)
-    Private _dico As New Dictionary(Of String, cService)
+    Private _dicoNew As New Dictionary(Of String, cNetwork)
+    Private _dicoDel As New Dictionary(Of String, cNetwork)
+    Private _buffDico As New Dictionary(Of String, cNetwork.LightConnection)
+    Private _dico As New Dictionary(Of String, cNetwork)
 
     Private _firstItemUpdate As Boolean = True
     Private _columnsName() As String
-
-    Private __servEnum As New cServEnum
-
-    Private _IMG As ImageList
-    Private m_SortingColumn As ColumnHeader
-    Private _pid As Integer
     Private _all As Boolean = False
+
+    Private _pid As Integer()
+    Private m_SortingColumn As ColumnHeader
 
     Private _foreColor As Color = Color.FromArgb(30, 30, 30)
 
@@ -56,20 +54,20 @@ Public Class serviceList
     ' ========================================
     ' Properties
     ' ========================================
-    Public Property ShowAll() As Boolean
+    Public Property ProcessId() As Integer()
+        Get
+            Return _pid
+        End Get
+        Set(ByVal value As Integer())
+            _pid = value
+        End Set
+    End Property
+    Public Property ShowAllPid() As Boolean
         Get
             Return _all
         End Get
         Set(ByVal value As Boolean)
             _all = value
-        End Set
-    End Property
-    Public Property ProcessId() As Integer
-        Get
-            Return _pid
-        End Get
-        Set(ByVal value As Integer)
-            _pid = value
         End Set
     End Property
 
@@ -83,14 +81,6 @@ Public Class serviceList
 
         ' Cet appel est requis par le Concepteur Windows Form.
         InitializeComponent()
-
-        ' Ajoutez une initialisation quelconque après l'appel InitializeComponent().
-        _IMG = New ImageList
-        _IMG.ImageSize = New Size(16, 16)
-        _IMG.ColorDepth = ColorDepth.Depth32Bit
-
-        Me.SmallImageList = _IMG
-        _IMG.Images.Add("service", My.Resources.gear)   ' Icon is specific
 
     End Sub
 
@@ -109,14 +99,11 @@ Public Class serviceList
         ' Now enumerate items
         Dim _itemId() As String
         ReDim _itemId(0)
-        If _all Then
-            __servEnum.EnumerateApi(_itemId)
-        Else
-            __servEnum.EnumerateApi(_pid, _itemId)
-        End If
+        Call cNetwork.Enumerate(_all, _pid, _itemId, _buffDico)
 
+        Trace.WriteLine(GetTickCount - _test)
         ' Now add all items with isKilled = true to _dicoDel dictionnary
-        For Each z As cService In _dico.Values
+        For Each z As cNetwork In _dico.Values
             If z.IsKilledItem Then
                 _dicoDel.Add(z.Key, Nothing)
             End If
@@ -151,7 +138,7 @@ Public Class serviceList
 
         ' Merge _dico and _dicoNew
         For Each z As String In _dicoNew.Keys
-            Dim _it As cService = New cService(z, __servEnum.SCManagerHandle)
+            Dim _it As cNetwork = New cNetwork(_buffDico.Item(z))
             _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
             _dico.Add(z, _it)
         Next
@@ -168,20 +155,19 @@ Public Class serviceList
             For x As Integer = 1 To _subItems.Length - 1
                 _subItems(x) = New ListViewItem.ListViewSubItem
             Next
-            AddItemWithStyle(z).SubItems.AddRange(_subItems)
+            AddItemWithStyle(z, _dico(z)).SubItems.AddRange(_subItems)
 
         Next
         If _firstItemUpdate Then Me.EndUpdate()
         _dicoNew.Clear()
 
-
+        Trace.WriteLine(GetTickCount - _test)
         ' Now refresh all subitems of the listview
         Dim isub As ListViewItem.ListViewSubItem
         Dim it As ListViewItem
         For Each it In Me.Items
             Dim x As Integer = 0
-            Dim _item As cService = _dico.Item(it.Name)
-            _item.Refresh()
+            Dim _item As cNetwork = _dico.Item(it.Name)
             For Each isub In it.SubItems
                 isub.Text = _item.GetInformation(_columnsName(x))
                 x += 1
@@ -213,17 +199,17 @@ Public Class serviceList
         _firstItemUpdate = False
 
         _test = GetTickCount - _test
-        Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh service list.")
+        Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh network list.")
 
     End Sub
 
     ' Get all items (associated to listviewitems)
-    Public Function GetAllItems() As Dictionary(Of String, cService).ValueCollection
+    Public Function GetAllItems() As Dictionary(Of String, cNetwork).ValueCollection
         Return _dico.Values
     End Function
 
     ' Get the selected item
-    Public Function GetSelectedItem() As cService
+    Public Function GetSelectedItem() As cNetwork
         If Me.SelectedItems.Count > 0 Then
             Return _dico.Item(Me.SelectedItems.Item(0).Name)
         Else
@@ -232,13 +218,13 @@ Public Class serviceList
     End Function
 
     ' Get a specified item
-    Public Function GetItemByKey(ByVal key As String) As cService
+    Public Function GetItemByKey(ByVal key As String) As cNetwork
         Return _dico.Item(key)
     End Function
 
     ' Get selected items
-    Public Function GetSelectedItems() As Dictionary(Of String, cService).ValueCollection
-        Dim res As New Dictionary(Of String, cService)
+    Public Function GetSelectedItems() As Dictionary(Of String, cNetwork).ValueCollection
+        Dim res As New Dictionary(Of String, cNetwork)
 
         For Each it As ListViewItem In Me.SelectedItems
             res.Add(it.Name, _dico.Item(it.Name))
@@ -250,12 +236,16 @@ Public Class serviceList
     ' Choose column
     Public Sub ChooseColumns()
 
-        Dim frm As New frmChooseServiceColumns
-        frm.SetLv(Me)
+        Dim frm As New frmChooseColumns
+        frm.ConcernedListView = Me
         frm.ShowDialog()
 
         ' Recreate subitem buffer and get columns name again
         Call CreateSubItemsBuffer()
+
+        If Me.Items.Count = 0 Then
+            Exit Sub
+        End If
 
         ' We have to set name to all items again
         For Each it As ListViewItem In Me.Items
@@ -276,15 +266,20 @@ Public Class serviceList
     ' ========================================
 
     ' Add an item (specific to type of list)
-    Private Function AddItemWithStyle(ByVal key As String) As ListViewItem
+    Private Function AddItemWithStyle(ByVal key As String, ByRef net As cNetwork) As ListViewItem
 
         Dim item As ListViewItem = Me.Items.Add(key)
-        With item
-            .Name = key
-            .ImageKey = "service"
-            .ForeColor = _foreColor
-            .Tag = key
-        End With
+        item.Name = key
+        item.ForeColor = _foreColor
+        item.Tag = key
+
+        ' Add a group if necessary
+        If _all Then
+            If Me.Groups(CStr(Net.ProcessId)) Is Nothing Then
+                Me.Groups.Add(CStr(Net.ProcessId), Net.ProcessName & " (" & CStr(Net.ProcessId) & ")")
+            End If
+            item.Group = Me.Groups(CStr(Net.ProcessId))
+        End If
 
         Return item
 

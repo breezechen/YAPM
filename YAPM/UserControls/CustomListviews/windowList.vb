@@ -23,7 +23,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 
-Public Class memoryList
+Public Class windowList
     Inherits YAPM.DoubleBufferedLV
 
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
@@ -32,16 +32,17 @@ Public Class memoryList
     ' ========================================
     ' Private
     ' ========================================
-    Private _dicoNew As New Dictionary(Of String, cMemRegion)
-    Private _dicoDel As New Dictionary(Of String, cMemRegion)
-    Private _buffDico As New Dictionary(Of String, cProcessMemRW.MEMORY_BASIC_INFORMATION)
-    Private _dico As New Dictionary(Of String, cMemRegion)
+    Private _dicoNew As New Dictionary(Of String, cWindow)
+    Private _dicoDel As New Dictionary(Of String, cWindow)
+    Private _buffDico As New Dictionary(Of String, cWindow.LightWindow)
+    Private _dico As New Dictionary(Of String, cWindow)
 
     Private _firstItemUpdate As Boolean = True
     Private _columnsName() As String
-    Private _unnamed As Boolean = False
 
-    Private _pid As Integer
+    Private _pid() As Integer
+    Private _all As Boolean = False
+    Private _unnamed As Boolean
     Private _IMG As ImageList
     Private m_SortingColumn As ColumnHeader
 
@@ -55,12 +56,20 @@ Public Class memoryList
     ' ========================================
     ' Properties
     ' ========================================
-    Public Property ProcessId() As Integer
+    Public Property ProcessId() As Integer()
         Get
             Return _pid
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Integer())
             _pid = value
+        End Set
+    End Property
+    Public Property ShowAllPid() As Boolean
+        Get
+            Return _all
+        End Get
+        Set(ByVal value As Boolean)
+            _all = value
         End Set
     End Property
     Public Property ShowUnNamed() As Boolean
@@ -83,6 +92,14 @@ Public Class memoryList
         ' Cet appel est requis par le Concepteur Windows Form.
         InitializeComponent()
 
+        ' Ajoutez une initialisation quelconque après l'appel InitializeComponent().
+        _IMG = New ImageList
+        _IMG.ImageSize = New Size(16, 16)
+        _IMG.ColorDepth = ColorDepth.Depth32Bit
+
+        Me.SmallImageList = _IMG
+        _IMG.Images.Add("noIcon", My.Resources.application_blue)
+
     End Sub
 
     ' Call this to update items in listview
@@ -98,57 +115,60 @@ Public Class memoryList
 
 
         ' Now enumerate items
-        Dim _itemId() As String
+        Dim _itemId() As Integer
         ReDim _itemId(0)
-        Call cProcessMemRW.Enumerate(_pid, _itemId, _buffDico)
+        If _all Then
+            Call cWindow.EnumerateAll(_unnamed, _itemId, _buffDico)
+        Else
+            Call cWindow.Enumerate(_unnamed, _pid, _itemId, _buffDico)
+        End If
 
-        Trace.WriteLine(GetTickCount - _test)
         ' Now add all items with isKilled = true to _dicoDel dictionnary
-        For Each z As cMemRegion In _dico.Values
+        For Each z As cWindow In _dico.Values
             If z.IsKilledItem Then
-                _dicoDel.Add(z.Key.ToString, Nothing)
+                _dicoDel.Add(z.Handle.ToString, Nothing)
             End If
         Next
 
 
         ' Now add new items to dictionnary
-        For Each z As String In _itemId
-            If Not (_dico.ContainsKey(z)) Then
+        For Each z As Integer In _itemId
+            If Not (_dico.ContainsKey(z.ToString)) Then
                 ' Add to dico
-                _dicoNew.Add(z, Nothing)
+                _dicoNew.Add(z.ToString, Nothing)
             End If
         Next
 
 
         ' Now remove deleted items from dictionnary
-        For Each z As String In _dico.Keys
+        For Each z As Integer In _dico.Keys
             If Array.IndexOf(_itemId, z) < 0 Then
                 ' Remove from dico
-                _dico.Item(z).IsKilledItem = True  ' Will be deleted next time
+                _dico.Item(z.ToString).IsKilledItem = True  ' Will be deleted next time
             End If
         Next
 
 
         ' Now remove all deleted items from listview and _dico
-        For Each z As String In _dicoDel.Keys
-            Me.Items.RemoveByKey(z)
-            _dico.Remove(z)
+        For Each z As Integer In _dicoDel.Keys
+            Me.Items.RemoveByKey(z.ToString)
+            _dico.Remove(z.ToString)
         Next
         _dicoDel.Clear()
 
 
         ' Merge _dico and _dicoNew
-        For Each z As String In _dicoNew.Keys
-            Dim _it As cMemRegion = New cMemRegion(z, _buffDico.Item(z), _pid)
+        For Each z As Integer In _dicoNew.Keys
+            Dim _it As cWindow = New cWindow(_buffDico.Item(z.ToString))
             _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
-            _dico.Add(z, _it)
+            _dico.Add(z.ToString, _it)
         Next
 
 
         ' Now add all new items to listview
         ' If first time, lock listview
         If _firstItemUpdate Then Me.BeginUpdate()
-        For Each z As String In _dicoNew.Keys
+        For Each z As Integer In _dicoNew.Keys
 
             ' Add to listview
             Dim _subItems() As ListViewItem.ListViewSubItem
@@ -156,19 +176,19 @@ Public Class memoryList
             For x As Integer = 1 To _subItems.Length - 1
                 _subItems(x) = New ListViewItem.ListViewSubItem
             Next
-            AddItemWithStyle(z).SubItems.AddRange(_subItems)
+            AddItemWithStyle(z.ToString).SubItems.AddRange(_subItems)
 
         Next
         If _firstItemUpdate Then Me.EndUpdate()
         _dicoNew.Clear()
 
-        Trace.WriteLine(GetTickCount - _test)
+
         ' Now refresh all subitems of the listview
         Dim isub As ListViewItem.ListViewSubItem
         Dim it As ListViewItem
         For Each it In Me.Items
             Dim x As Integer = 0
-            Dim _item As cMemRegion = _dico.Item(it.Name)
+            Dim _item As cWindow = _dico.Item(it.Name)
             For Each isub In it.SubItems
                 isub.Text = _item.GetInformation(_columnsName(x))
                 x += 1
@@ -200,17 +220,17 @@ Public Class memoryList
         _firstItemUpdate = False
 
         _test = GetTickCount - _test
-        Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh memory list.")
+        Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh window list.")
 
     End Sub
 
     ' Get all items (associated to listviewitems)
-    Public Function GetAllItems() As Dictionary(Of String, cMemRegion).ValueCollection
+    Public Function GetAllItems() As Dictionary(Of String, cWindow).ValueCollection
         Return _dico.Values
     End Function
 
     ' Get the selected item
-    Public Function GetSelectedItem() As cMemRegion
+    Public Function GetSelectedItem() As cWindow
         If Me.SelectedItems.Count > 0 Then
             Return _dico.Item(Me.SelectedItems.Item(0).Name)
         Else
@@ -219,13 +239,13 @@ Public Class memoryList
     End Function
 
     ' Get a specified item
-    Public Function GetItemByKey(ByVal key As String) As cMemRegion
+    Public Function GetItemByKey(ByVal key As String) As cWindow
         Return _dico.Item(key)
     End Function
 
     ' Get selected items
-    Public Function GetSelectedItems() As Dictionary(Of String, cMemRegion).ValueCollection
-        Dim res As New Dictionary(Of String, cMemRegion)
+    Public Function GetSelectedItems() As Dictionary(Of String, cWindow).ValueCollection
+        Dim res As New Dictionary(Of String, cWindow)
 
         For Each it As ListViewItem In Me.SelectedItems
             res.Add(it.Name, _dico.Item(it.Name))
@@ -237,11 +257,16 @@ Public Class memoryList
     ' Choose column
     Public Sub ChooseColumns()
 
-        Dim frm As New frmChooseProcessColumns
+        Dim frm As New frmChooseColumns
+        frm.ConcernedListView = Me
         frm.ShowDialog()
 
         ' Recreate subitem buffer and get columns name again
         Call CreateSubItemsBuffer()
+
+        If Me.Items.Count = 0 Then
+            Exit Sub
+        End If
 
         ' We have to set name to all items again
         For Each it As ListViewItem In Me.Items
@@ -266,7 +291,20 @@ Public Class memoryList
 
         Dim item As ListViewItem = Me.Items.Add(key)
         item.Name = key
-        item.ForeColor = _foreColor
+
+        ' Add icon
+        Try
+            Dim icon As System.Drawing.Icon = _dico(key).SmallIcon
+            If icon IsNot Nothing Then
+                Me.SmallImageList.Images.Add(key, icon)
+                item.ImageKey = key
+            Else
+                item.ImageKey = "noIcon"
+            End If
+        Catch ex As Exception
+            item.ImageKey = "noIcon"
+        End Try
+
         item.Tag = key
 
         Return item

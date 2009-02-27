@@ -448,7 +448,6 @@ Public Class cThread
     Public Shared Function GetAvailableProperties() As String()
         Dim s(13) As String
 
-        s(0) = "Id"
         s(0) = "Priority"
         s(1) = "State"
         s(2) = "WaitReason"

@@ -337,26 +337,6 @@ Public Class cWindow
     ' ========================================
     ' Constructor & destructor
     ' ========================================
-
-    'Public Sub New(ByVal handle As Integer, ByVal procId As Integer, _
-    '        ByVal threadId As Integer, ByVal procName As String)
-
-    '    MyBase.New()
-    '    _handle = CType(handle, IntPtr)
-    '    _parentProcId = procId
-    '    _parentThreadId = threadId
-    '    _parentProcName = procName
-    'End Sub
-    'Public Sub New(ByVal window As cWindow)
-    '    MyBase.New()
-    '    _handle = CType(window.Handle, IntPtr)
-    '    _parentProcId = window.ParentProcessId
-    '    _parentThreadId = window.ParentThreadId
-    '    _parentProcName = window.ParentProcessName
-    '    Me.IsKilledItem = window.IsKilledItem
-    '    Me.IsNewItem = window.IsNewItem
-    'End Sub
-
     Public Sub New(ByRef window As LightWindow)
         MyBase.New()
         _handle = window.handle
@@ -375,11 +355,9 @@ Public Class cWindow
             Case "Name", "Caption"
                 Return Me.Caption
             Case "Handle"
-                Return CStr(Me.Handle)
-            Case "Process"
-                Return CStr(Me.ParentProcessId) & " -- " & Me.ParentProcessName
-            Case "Id"
                 Return Me.Handle.ToString
+            Case "Process"
+                Return Me.ParentProcessId.ToString & " -- " & Me.ParentProcessName
             Case "Caption"
                 Return Me.Caption
             Case "IsTask"
@@ -388,8 +366,20 @@ Public Class cWindow
                 Return Me.Enabled.ToString
             Case "Visible"
                 Return Me.Visible.ToString
+            Case "ThreadId"
+                Return Me.ParentThreadId.ToString
+            Case "Opacity"
+                Return Me.Opacity.ToString
+            Case "Left"
+                Return Me.Left.ToString
+            Case "Height"
+                Return Me.Height.ToString
+            Case "Top"
+                Return Me.Top.ToString
+            Case "Width"
+                Return Me.Width.ToString
             Case Else
-                Return CStr(Me.Handle)
+                Return Me.Handle.ToString
         End Select
     End Function
 
@@ -541,6 +531,25 @@ Public Class cWindow
         Return GetProcIdFromWindowHandle(l)
     End Function
 
+    ' Retrieve all information's names availables
+    Public Shared Function GetAvailableProperties() As String()
+        Dim s(11) As String
+
+        s(0) = "Caption"
+        s(1) = "Process"
+        s(2) = "Caption"
+        s(3) = "IsTask"
+        s(4) = "Enabled"
+        s(5) = "Visible"
+        s(6) = "ThreadId"
+        s(7) = "Height"
+        s(8) = "Width"
+        s(9) = "Top"
+        s(10) = "Left"
+        s(11) = "Opacity"
+
+        Return s
+    End Function
 
     ' ========================================
     ' Private functions

@@ -34,7 +34,4 @@ Public MustInherit Class cGeneralObject
     ' Get information by name
     Public MustOverride Function GetInformation(ByVal info As String) As String
 
-    ' General constructor
-
-
 End Class

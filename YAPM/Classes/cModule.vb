@@ -431,6 +431,52 @@ Public Class cModule
                     res = _path
                 Case "Address"
                     res = "0x" & Me.BaseAddress.ToString("x")
+                Case "Comments"
+                    res = Me.Comments
+                Case "FileBuildPart"
+                    res = Me.FileBuildPart.ToString
+                Case "FileMajorPart"
+                    res = Me.FileMajorPart.ToString
+                Case "FileMinorPart"
+                    res = Me.FileMinorPart.ToString
+                Case "FilePrivatePart"
+                    res = Me.FilePrivatePart.ToString
+                Case "InternalName"
+                    res = Me.InternalName
+                Case "IsDebug"
+                    res = Me.IsDebug.ToString
+                Case "IsPatched"
+                    res = Me.IsPatched.ToString
+                Case "IsPreRelease"
+                    res = Me.IsPreRelease.ToString
+                Case "IsPrivateBuild"
+                    res = Me.IsPrivateBuild.ToString
+                Case "IsSpecialBuild"
+                    res = Me.IsSpecialBuild.ToString
+                Case "Language"
+                    res = Me.Language
+                Case "LegalCopyright"
+                    res = Me.LegalCopyright
+                Case "LegalTrademarks"
+                    res = Me.LegalTrademarks
+                Case "OriginalFilename"
+                    res = Me.OriginalFilename
+                Case "PrivateBuild"
+                    res = Me.PrivateBuild
+                Case "ProductBuildPart"
+                    res = Me.ProductBuildPart.ToString
+                Case "ProductMajorPart"
+                    res = Me.ProductMajorPart.ToString
+                Case "ProductMinorPart"
+                    res = Me.ProductMinorPart.ToString
+                Case "ProductName"
+                    res = Me.ProductName
+                Case "ProductPrivatePart"
+                    res = Me.ProductPrivatePart.ToString
+                Case "ProductVersion"
+                    res = Me.ProductVersion
+                Case "SpecialBuild"
+                    res = Me.SpecialBuild.ToString
             End Select
         Catch ex As Exception
             res = ""
@@ -439,6 +485,41 @@ Public Class cModule
         Return res
     End Function
 
+    ' Retrieve all information's names availables
+    Public Shared Function GetAvailableProperties() As String()
+        Dim s(27) As String
+
+        s(0) = "Version"
+        s(1) = "Description"
+        s(2) = "CompanyName"
+        s(3) = "Path"
+        s(4) = "Address"
+        s(5) = "Comments"
+        s(6) = "FileBuildPart"
+        s(7) = "FileMajorPart"
+        s(8) = "FileMinorPart"
+        s(9) = "FilePrivatePart"
+        s(10) = "InternalName"
+        s(11) = "IsDebug"
+        s(12) = "IsPatched"
+        s(13) = "IsPreRelease"
+        s(14) = "IsPrivateBuild"
+        s(15) = "IsSpecialBuild"
+        s(16) = "Language"
+        s(17) = "LegalCopyright"
+        s(18) = "LegalTrademarks"
+        s(19) = "OriginalFilename"
+        s(20) = "PrivateBuild"
+        s(21) = "ProductBuildPart"
+        s(22) = "ProductMajorPart"
+        s(23) = "ProductMinorPart"
+        s(24) = "ProductName"
+        s(25) = "ProductPrivatePart"
+        s(26) = "ProductVersion"
+        s(27) = "SpecialBuild"
+
+        Return s
+    End Function
 
     ' ========================================
     ' Private functions

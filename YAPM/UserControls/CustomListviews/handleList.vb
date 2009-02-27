@@ -248,11 +248,16 @@ Public Class handleList
     ' Choose column
     Public Sub ChooseColumns()
 
-        Dim frm As New frmChooseProcessColumns
+        Dim frm As New frmChooseColumns
+        frm.ConcernedListView = Me
         frm.ShowDialog()
 
         ' Recreate subitem buffer and get columns name again
         Call CreateSubItemsBuffer()
+
+        If Me.Items.Count = 0 Then
+            Exit Sub
+        End If
 
         ' We have to set name to all items again
         For Each it As ListViewItem In Me.Items

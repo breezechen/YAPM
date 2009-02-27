@@ -199,4 +199,16 @@ Public Class cHandle
 
     End Function
 
+    ' Retrieve all information's names availables
+    Public Shared Function GetAvailableProperties() As String()
+        Dim s(4) As String
+
+        s(0) = "Name"
+        s(1) = "HandleCount"
+        s(2) = "PointerCount"
+        s(3) = "ObjectCount"
+        s(4) = "Process"
+
+        Return s
+    End Function
 End Class

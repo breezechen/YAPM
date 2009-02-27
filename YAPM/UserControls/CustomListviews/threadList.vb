@@ -23,7 +23,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 
-Public Class processList
+Public Class threadList
     Inherits YAPM.DoubleBufferedLV
 
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
@@ -32,14 +32,16 @@ Public Class processList
     ' ========================================
     ' Private
     ' ========================================
-    Private _dicoNew As New Dictionary(Of String, cProcess)
-    Private _dicoDel As New Dictionary(Of String, cProcess)
-    Private _buffDico As New Dictionary(Of String, cProcess.LightProcess)
-    Private _dico As New Dictionary(Of String, cProcess)
+    Private _dicoNew As New Dictionary(Of String, cThread)
+    Private _dicoDel As New Dictionary(Of String, cThread)
+    Private _buffDico As New Dictionary(Of String, cThread.LightThread)
+    Private _dico As New Dictionary(Of String, cThread)
 
     Private _firstItemUpdate As Boolean = True
     Private _columnsName() As String
+    Private _unnamed As Boolean = False
 
+    Private _pid As Integer()
     Private _IMG As ImageList
     Private m_SortingColumn As ColumnHeader
 
@@ -53,26 +55,22 @@ Public Class processList
     ' ========================================
     ' Properties
     ' ========================================
-    'Public ReadOnly Property Items() As ListView.ListViewItemCollection
-    '    Get
-    '        Return Me.lv.Items
-    '    End Get
-    'End Property
-    'Public ReadOnly Property SelectedItems() As ListView.SelectedListViewItemCollection
-    '    Get
-    '        Return Me.lv.SelectedItems
-    '    End Get
-    'End Property
-    'Public ReadOnly Property Columns() As ListView.ColumnHeaderCollection
-    '    Get
-    '        Return lv.Columns
-    '    End Get
-    'End Property
-    'Public ReadOnly Property Groups() As ListViewGroupCollection
-    '    Get
-    '        Return lv.Groups
-    '    End Get
-    'End Property
+    Public Property ProcessId() As Integer()
+        Get
+            Return _pid
+        End Get
+        Set(ByVal value As Integer())
+            _pid = value
+        End Set
+    End Property
+    Public Property ShowUnNamed() As Boolean
+        Get
+            Return _unnamed
+        End Get
+        Set(ByVal value As Boolean)
+            _unnamed = value
+        End Set
+    End Property
 
 #End Region
 
@@ -91,7 +89,7 @@ Public Class processList
         _IMG.ColorDepth = ColorDepth.Depth32Bit
 
         Me.SmallImageList = _IMG
-        _IMG.Images.Add("noIcon", My.Resources.application_blue)
+        _IMG.Images.Add("thread", My.Resources.thread)
 
     End Sub
 
@@ -110,13 +108,13 @@ Public Class processList
         ' Now enumerate items
         Dim _itemId() As String
         ReDim _itemId(0)
-        Call cProcess.Enumerate(_itemId, _buffDico)
+        Call cThread.Enumerate(_pid, _itemId, _buffDico)
 
-
+        Trace.WriteLine(GetTickCount - _test)
         ' Now add all items with isKilled = true to _dicoDel dictionnary
-        For Each z As cProcess In _dico.Values
+        For Each z As cThread In _dico.Values
             If z.IsKilledItem Then
-                _dicoDel.Add(z.Pid.ToString, Nothing)
+                _dicoDel.Add(z.Key.ToString, Nothing)
             End If
         Next
 
@@ -125,7 +123,7 @@ Public Class processList
         For Each z As String In _itemId
             If Not (_dico.ContainsKey(z)) Then
                 ' Add to dico
-                _dicoNew.Add(z, Nothing)
+                _dicoNew.Add(z.ToString, Nothing)
             End If
         Next
 
@@ -143,16 +141,15 @@ Public Class processList
         For Each z As String In _dicoDel.Keys
             Me.Items.RemoveByKey(z)
             _dico.Remove(z)
-            cProcess.UnAssociatePidAndName(z)    ' Remove from global dico
         Next
         _dicoDel.Clear()
 
 
         ' Merge _dico and _dicoNew
         For Each z As String In _dicoNew.Keys
-            Dim _it As cProcess = New cProcess(_buffDico.Item(z))
+            Dim _it As cThread = New cThread(_buffDico.Item(z))
             _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
-            _dico.Add(z.ToString, _it)
+            _dico.Add(z, _it)
         Next
 
 
@@ -169,24 +166,17 @@ Public Class processList
             Next
             AddItemWithStyle(z).SubItems.AddRange(_subItems)
 
-            '' ----------------------
-            '' Specific to a process
-            'Dim cP As cProcess = _dico(z)
-            'If cP.ProcessorCount < 1 Then
-            '    cP.ProcessorCount = frmMain.cInfo.ProcessorCount
-            'End If
-            '' ----------------------
         Next
         If _firstItemUpdate Then Me.EndUpdate()
         _dicoNew.Clear()
 
-
+        Trace.WriteLine(GetTickCount - _test)
         ' Now refresh all subitems of the listview
         Dim isub As ListViewItem.ListViewSubItem
         Dim it As ListViewItem
         For Each it In Me.Items
             Dim x As Integer = 0
-            Dim _item As cProcess = _dico.Item(it.Name)
+            Dim _item As cThread = _dico.Item(it.Name)
             For Each isub In it.SubItems
                 isub.Text = _item.GetInformation(_columnsName(x))
                 x += 1
@@ -218,17 +208,17 @@ Public Class processList
         _firstItemUpdate = False
 
         _test = GetTickCount - _test
-        Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh process list.")
+        Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh thread list.")
 
     End Sub
 
     ' Get all items (associated to listviewitems)
-    Public Function GetAllItems() As Dictionary(Of String, cProcess).ValueCollection
+    Public Function GetAllItems() As Dictionary(Of String, cThread).ValueCollection
         Return _dico.Values
     End Function
 
     ' Get the selected item
-    Public Function GetSelectedItem() As cProcess
+    Public Function GetSelectedItem() As cThread
         If Me.SelectedItems.Count > 0 Then
             Return _dico.Item(Me.SelectedItems.Item(0).Name)
         Else
@@ -237,13 +227,13 @@ Public Class processList
     End Function
 
     ' Get a specified item
-    Public Function GetItemByKey(ByVal key As String) As cProcess
+    Public Function GetItemByKey(ByVal key As String) As cThread
         Return _dico.Item(key)
     End Function
 
     ' Get selected items
-    Public Function GetSelectedItems() As Dictionary(Of String, cProcess).ValueCollection
-        Dim res As New Dictionary(Of String, cProcess)
+    Public Function GetSelectedItems() As Dictionary(Of String, cThread).ValueCollection
+        Dim res As New Dictionary(Of String, cThread)
 
         For Each it As ListViewItem In Me.SelectedItems
             res.Add(it.Name, _dico.Item(it.Name))
@@ -255,12 +245,16 @@ Public Class processList
     ' Choose column
     Public Sub ChooseColumns()
 
-        Dim frm As New frmChooseProcessColumns
-        frm.SetLv(Me)
+        Dim frm As New frmChooseColumns
+        frm.ConcernedListView = Me
         frm.ShowDialog()
 
         ' Recreate subitem buffer and get columns name again
         Call CreateSubItemsBuffer()
+
+        If Me.Items.Count = 0 Then
+            Exit Sub
+        End If
 
         ' We have to set name to all items again
         For Each it As ListViewItem In Me.Items
@@ -284,42 +278,10 @@ Public Class processList
     Private Function AddItemWithStyle(ByVal key As String) As ListViewItem
 
         Dim item As ListViewItem = Me.Items.Add(key)
-        Dim proc As cProcess = _dico.Item(key)
         item.Name = key
-
-        ' Add to global dico
-        cProcess.AssociatePidAndName(key, _buffDico.Item(key).name)
-
-        If proc.Pid > 4 Then
-
-            ' Forecolor
-            item.ForeColor = _foreColor
-
-            ' Add icon
-            Try
-
-                Dim fName As String = proc.Path
-
-                If IO.File.Exists(fName) Then
-                    Me.SmallImageList.Images.Add(fName, GetIcon(fName, True))
-                    item.ImageKey = fName
-                Else
-                    item.ImageKey = "noIcon"
-                    item.ForeColor = Drawing.Color.Gray
-                End If
-
-            Catch ex As Exception
-                item.ImageKey = "noIcon"
-                item.ForeColor = Drawing.Color.Gray
-            End Try
-
-        Else
-            item.ImageKey = "noIcon"
-            item.ForeColor = Drawing.Color.Gray
-        End If
-
+        item.ForeColor = _foreColor
+        item.ImageKey = "thread"
         item.Tag = key
-
         Return item
 
     End Function

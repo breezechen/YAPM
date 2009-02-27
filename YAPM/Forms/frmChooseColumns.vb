@@ -23,17 +23,24 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 
-Public Class frmChooseServiceColumns
-
-    Private theListview As serviceList
+Public Class frmChooseColumns
 
     <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
     Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
     End Function
 
-    Public Sub SetLv(ByRef aLv As serviceList)
-        theListview = aLv
-    End Sub
+    Private theListview As DoubleBufferedLV
+    Private theClass As cGeneralObject
+
+    Public Property ConcernedListView() As DoubleBufferedLV
+        Get
+            Return theListview
+        End Get
+        Set(ByVal value As DoubleBufferedLV)
+            theListview = value
+        End Set
+    End Property
+
 
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
         Me.DialogResult = System.Windows.Forms.DialogResult.OK
@@ -55,18 +62,18 @@ Public Class frmChooseServiceColumns
             it.SubItems.AddRange(subit)
         Next
 
-        ' Add new columns and new associated subitems
+        ' Add new columns
         For Each it As ListViewItem In Me.lv.CheckedItems
             theListview.Columns.Add(it.Text, 90)
         Next
 
-        frmMain.timerServices.Enabled = True
+        frmMain.timerProcess.Enabled = True
         Me.Close()
     End Sub
 
     Private Sub Cancel_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Cancel_Button.Click
         Me.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        frmMain.timerServices.Enabled = True
+        frmMain.timerProcess.Enabled = True
         Me.Close()
     End Sub
 
@@ -84,12 +91,39 @@ Public Class frmChooseServiceColumns
         Next
     End Sub
 
-    Private Sub frmChooseServiceColumns_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub frmChooseProcessColumns_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
 
-        frmMain.timerServices.Enabled = False
+        frmMain.timerProcess.Enabled = False
 
-        For Each s As String In cService.GetAvailableProperties
+        Dim ss() As String
+        ReDim ss(-1)
+
+        ' This is some kind of shit.
+        ' But as I can't write a MustOverride Shared Function...
+        If TypeOf (ConcernedListView) Is handleList Then
+            ss = cHandle.GetAvailableProperties
+        ElseIf TypeOf (ConcernedListView) Is memoryList Then
+            ss = cMemRegion.GetAvailableProperties
+        ElseIf TypeOf (ConcernedListView) Is moduleList Then
+            ss = cModule.GetAvailableProperties
+        ElseIf TypeOf (ConcernedListView) Is networkList Then
+            ss = cNetwork.GetAvailableProperties
+        ElseIf TypeOf (ConcernedListView) Is processList Then
+            ss = cProcess.GetAvailableProperties
+        ElseIf TypeOf (ConcernedListView) Is serviceList Then
+            ss = cService.GetAvailableProperties
+        ElseIf TypeOf (ConcernedListView) Is taskList Then
+            ss = cTask.GetAvailableProperties
+        ElseIf TypeOf (ConcernedListView) Is threadList Then
+            ss = cThread.GetAvailableProperties
+        ElseIf TypeOf (ConcernedListView) Is windowList Then
+            ss = cWindow.GetAvailableProperties
+        End If
+
+
+
+        For Each s As String In ss
             Dim it As New ListViewItem(s)
 
             ' Checked displayed columns

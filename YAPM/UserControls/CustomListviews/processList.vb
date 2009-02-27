@@ -23,7 +23,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 
-Public Class networkList
+Public Class processList
     Inherits YAPM.DoubleBufferedLV
 
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
@@ -32,16 +32,15 @@ Public Class networkList
     ' ========================================
     ' Private
     ' ========================================
-    Private _dicoNew As New Dictionary(Of String, cNetwork)
-    Private _dicoDel As New Dictionary(Of String, cNetwork)
-    Private _buffDico As New Dictionary(Of String, cNetwork.LightConnection)
-    Private _dico As New Dictionary(Of String, cNetwork)
+    Private _dicoNew As New Dictionary(Of String, cProcess)
+    Private _dicoDel As New Dictionary(Of String, cProcess)
+    Private _buffDico As New Dictionary(Of String, cProcess.LightProcess)
+    Private _dico As New Dictionary(Of String, cProcess)
 
     Private _firstItemUpdate As Boolean = True
     Private _columnsName() As String
-    Private _all As Boolean = False
 
-    Private _pid As Integer()
+    Private _IMG As ImageList
     Private m_SortingColumn As ColumnHeader
 
     Private _foreColor As Color = Color.FromArgb(30, 30, 30)
@@ -54,22 +53,26 @@ Public Class networkList
     ' ========================================
     ' Properties
     ' ========================================
-    Public Property ProcessId() As Integer()
-        Get
-            Return _pid
-        End Get
-        Set(ByVal value As Integer())
-            _pid = value
-        End Set
-    End Property
-    Public Property ShowAllPid() As Boolean
-        Get
-            Return _all
-        End Get
-        Set(ByVal value As Boolean)
-            _all = value
-        End Set
-    End Property
+    'Public ReadOnly Property Items() As ListView.ListViewItemCollection
+    '    Get
+    '        Return Me.lv.Items
+    '    End Get
+    'End Property
+    'Public ReadOnly Property SelectedItems() As ListView.SelectedListViewItemCollection
+    '    Get
+    '        Return Me.lv.SelectedItems
+    '    End Get
+    'End Property
+    'Public ReadOnly Property Columns() As ListView.ColumnHeaderCollection
+    '    Get
+    '        Return lv.Columns
+    '    End Get
+    'End Property
+    'Public ReadOnly Property Groups() As ListViewGroupCollection
+    '    Get
+    '        Return lv.Groups
+    '    End Get
+    'End Property
 
 #End Region
 
@@ -81,6 +84,14 @@ Public Class networkList
 
         ' Cet appel est requis par le Concepteur Windows Form.
         InitializeComponent()
+
+        ' Ajoutez une initialisation quelconque après l'appel InitializeComponent().
+        _IMG = New ImageList
+        _IMG.ImageSize = New Size(16, 16)
+        _IMG.ColorDepth = ColorDepth.Depth32Bit
+
+        Me.SmallImageList = _IMG
+        _IMG.Images.Add("noIcon", My.Resources.application_blue)
 
     End Sub
 
@@ -99,13 +110,13 @@ Public Class networkList
         ' Now enumerate items
         Dim _itemId() As String
         ReDim _itemId(0)
-        Call cNetwork.Enumerate(_all, _pid, _itemId, _buffDico)
+        Call cProcess.Enumerate(_itemId, _buffDico)
 
-        Trace.WriteLine(GetTickCount - _test)
+
         ' Now add all items with isKilled = true to _dicoDel dictionnary
-        For Each z As cNetwork In _dico.Values
+        For Each z As cProcess In _dico.Values
             If z.IsKilledItem Then
-                _dicoDel.Add(z.Key, Nothing)
+                _dicoDel.Add(z.Pid.ToString, Nothing)
             End If
         Next
 
@@ -132,15 +143,16 @@ Public Class networkList
         For Each z As String In _dicoDel.Keys
             Me.Items.RemoveByKey(z)
             _dico.Remove(z)
+            cProcess.UnAssociatePidAndName(z)    ' Remove from global dico
         Next
         _dicoDel.Clear()
 
 
         ' Merge _dico and _dicoNew
         For Each z As String In _dicoNew.Keys
-            Dim _it As cNetwork = New cNetwork(_buffDico.Item(z))
+            Dim _it As cProcess = New cProcess(_buffDico.Item(z))
             _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
-            _dico.Add(z, _it)
+            _dico.Add(z.ToString, _it)
         Next
 
 
@@ -155,19 +167,26 @@ Public Class networkList
             For x As Integer = 1 To _subItems.Length - 1
                 _subItems(x) = New ListViewItem.ListViewSubItem
             Next
-            AddItemWithStyle(z, _dico(z)).SubItems.AddRange(_subItems)
+            AddItemWithStyle(z).SubItems.AddRange(_subItems)
 
+            '' ----------------------
+            '' Specific to a process
+            'Dim cP As cProcess = _dico(z)
+            'If cP.ProcessorCount < 1 Then
+            '    cP.ProcessorCount = frmMain.cInfo.ProcessorCount
+            'End If
+            '' ----------------------
         Next
         If _firstItemUpdate Then Me.EndUpdate()
         _dicoNew.Clear()
 
-        Trace.WriteLine(GetTickCount - _test)
+
         ' Now refresh all subitems of the listview
         Dim isub As ListViewItem.ListViewSubItem
         Dim it As ListViewItem
         For Each it In Me.Items
             Dim x As Integer = 0
-            Dim _item As cNetwork = _dico.Item(it.Name)
+            Dim _item As cProcess = _dico.Item(it.Name)
             For Each isub In it.SubItems
                 isub.Text = _item.GetInformation(_columnsName(x))
                 x += 1
@@ -199,17 +218,17 @@ Public Class networkList
         _firstItemUpdate = False
 
         _test = GetTickCount - _test
-        Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh network list.")
+        Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh process list.")
 
     End Sub
 
     ' Get all items (associated to listviewitems)
-    Public Function GetAllItems() As Dictionary(Of String, cNetwork).ValueCollection
+    Public Function GetAllItems() As Dictionary(Of String, cProcess).ValueCollection
         Return _dico.Values
     End Function
 
     ' Get the selected item
-    Public Function GetSelectedItem() As cNetwork
+    Public Function GetSelectedItem() As cProcess
         If Me.SelectedItems.Count > 0 Then
             Return _dico.Item(Me.SelectedItems.Item(0).Name)
         Else
@@ -218,13 +237,13 @@ Public Class networkList
     End Function
 
     ' Get a specified item
-    Public Function GetItemByKey(ByVal key As String) As cNetwork
+    Public Function GetItemByKey(ByVal key As String) As cProcess
         Return _dico.Item(key)
     End Function
 
     ' Get selected items
-    Public Function GetSelectedItems() As Dictionary(Of String, cNetwork).ValueCollection
-        Dim res As New Dictionary(Of String, cNetwork)
+    Public Function GetSelectedItems() As Dictionary(Of String, cProcess).ValueCollection
+        Dim res As New Dictionary(Of String, cProcess)
 
         For Each it As ListViewItem In Me.SelectedItems
             res.Add(it.Name, _dico.Item(it.Name))
@@ -236,11 +255,16 @@ Public Class networkList
     ' Choose column
     Public Sub ChooseColumns()
 
-        Dim frm As New frmChooseProcessColumns
+        Dim frm As New frmChooseColumns
+        frm.ConcernedListView = Me
         frm.ShowDialog()
 
         ' Recreate subitem buffer and get columns name again
         Call CreateSubItemsBuffer()
+
+        If Me.Items.Count = 0 Then
+            Exit Sub
+        End If
 
         ' We have to set name to all items again
         For Each it As ListViewItem In Me.Items
@@ -261,20 +285,44 @@ Public Class networkList
     ' ========================================
 
     ' Add an item (specific to type of list)
-    Private Function AddItemWithStyle(ByVal key As String, ByRef net As cNetwork) As ListViewItem
+    Private Function AddItemWithStyle(ByVal key As String) As ListViewItem
 
         Dim item As ListViewItem = Me.Items.Add(key)
+        Dim proc As cProcess = _dico.Item(key)
         item.Name = key
-        item.ForeColor = _foreColor
-        item.Tag = key
 
-        ' Add a group if necessary
-        If _all Then
-            If Me.Groups(CStr(Net.ProcessId)) Is Nothing Then
-                Me.Groups.Add(CStr(Net.ProcessId), Net.ProcessName & " (" & CStr(Net.ProcessId) & ")")
-            End If
-            item.Group = Me.Groups(CStr(Net.ProcessId))
+        ' Add to global dico
+        cProcess.AssociatePidAndName(key, _buffDico.Item(key).name)
+
+        If proc.Pid > 4 Then
+
+            ' Forecolor
+            item.ForeColor = _foreColor
+
+            ' Add icon
+            Try
+
+                Dim fName As String = proc.Path
+
+                If IO.File.Exists(fName) Then
+                    Me.SmallImageList.Images.Add(fName, GetIcon(fName, True))
+                    item.ImageKey = fName
+                Else
+                    item.ImageKey = "noIcon"
+                    item.ForeColor = Drawing.Color.Gray
+                End If
+
+            Catch ex As Exception
+                item.ImageKey = "noIcon"
+                item.ForeColor = Drawing.Color.Gray
+            End Try
+
+        Else
+            item.ImageKey = "noIcon"
+            item.ForeColor = Drawing.Color.Gray
         End If
+
+        item.Tag = key
 
         Return item
 

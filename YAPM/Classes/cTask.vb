@@ -110,4 +110,25 @@ Public Class cTask
         Return key.Length
 
     End Function
+
+    ' Retrieve all information's names availables
+    Public Shared Shadows Function GetAvailableProperties() As String()
+        Dim s(12) As String
+
+        s(0) = "Caption"
+        s(1) = "CpuUsage"
+        s(2) = "Process"
+        s(3) = "Caption"
+        s(4) = "IsTask"
+        s(5) = "Enabled"
+        s(6) = "Visible"
+        s(7) = "ThreadId"
+        s(8) = "Height"
+        s(9) = "Width"
+        s(10) = "Top"
+        s(11) = "Left"
+        s(12) = "Opacity"
+
+        Return s
+    End Function
 End Class

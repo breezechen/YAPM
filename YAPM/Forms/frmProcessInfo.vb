@@ -812,6 +812,12 @@ Public Class frmProcessInfo
     Private Sub ToolStripMenuItem43_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem43.Click
         ' Select services associated to selected process
         If Me.lvProcServices.SelectedItems.Count > 0 Then frmMain.lvServices.SelectedItems.Clear()
+
+        If frmMain.lvServices.Items.Count = 0 Then
+            ' Refresh list
+            Call frmMain.refreshServiceList()
+        End If
+
         For Each it As cService In Me.lvProcServices.GetSelectedItems
             Dim it2 As ListViewItem
             For Each it2 In frmMain.lvServices.Items
@@ -1206,5 +1212,29 @@ Public Class frmProcessInfo
 
     Private Sub ChooseColumnsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem.Click
         Me.lvThreads.ChooseColumns()
+    End Sub
+
+    Private Sub ChooseColumnsToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem1.Click
+        Me.lvHandles.ChooseColumns()
+    End Sub
+
+    Private Sub ChooseColumnsToolStripMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem2.Click
+        Me.lvWindows.ChooseColumns()
+    End Sub
+
+    Private Sub ChooseColumnsToolStripMenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem3.Click
+        Me.lvModules.ChooseColumns()
+    End Sub
+
+    Private Sub ChooseColumnsToolStripMenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem4.Click
+        Me.lvProcMem.ChooseColumns()
+    End Sub
+
+    Private Sub ChooseColumnsToolStripMenuItem5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem5.Click
+        Me.lvProcServices.ChooseColumns()
+    End Sub
+
+    Private Sub ToolStripMenuItem15_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem15.Click
+        Me.lvProcNetwork.ChooseColumns()
     End Sub
 End Class

@@ -4123,18 +4123,26 @@ Public Class frmMain
     End Sub
 
     Private Sub ChooseColumnsToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem1.Click
-        'task
+        Me.lvTask.ChooseColumns()
     End Sub
 
     Private Sub ChooseColumnsToolStripMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem2.Click
-        'columns
+        Me.lvWindows.ChooseColumns()
     End Sub
 
     Private Sub ChooseColumnsToolStripMenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem3.Click
-        'module
+        Me.lvModules.ChooseColumns()
     End Sub
 
     Private Sub ChooseColumnsToolStripMenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem4.Click
         Me.lvThreads.ChooseColumns()
+    End Sub
+
+    Private Sub ChooseColumnsToolStripMenuItem5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem5.Click
+        Me.lvNetwork.ChooseColumns()
+    End Sub
+
+    Private Sub ChooseColumnsToolStripMenuItem6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem6.Click
+        Me.lvHandles.ChooseColumns()
     End Sub
 End Class

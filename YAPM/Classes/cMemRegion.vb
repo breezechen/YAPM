@@ -254,6 +254,18 @@ Public Class cMemRegion
         End Select
     End Function
 
+    ' Retrieve all information's names availables
+    Public Shared Function GetAvailableProperties() As String()
+        Dim s(4) As String
+
+        s(0) = "Type"
+        s(1) = "Protection"
+        s(2) = "State"
+        s(3) = "Address"
+        s(4) = "Size"
+
+        Return s
+    End Function
 
     ' ========================================
     ' Private functions of this class

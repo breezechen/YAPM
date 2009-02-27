@@ -23,7 +23,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 
-Public Class windowList
+Public Class serviceList
     Inherits YAPM.DoubleBufferedLV
 
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
@@ -32,19 +32,19 @@ Public Class windowList
     ' ========================================
     ' Private
     ' ========================================
-    Private _dicoNew As New Dictionary(Of String, cWindow)
-    Private _dicoDel As New Dictionary(Of String, cWindow)
-    Private _buffDico As New Dictionary(Of String, cWindow.LightWindow)
-    Private _dico As New Dictionary(Of String, cWindow)
+    Private _dicoNew As New Dictionary(Of String, cService)
+    Private _dicoDel As New Dictionary(Of String, cService)
+    Private _dico As New Dictionary(Of String, cService)
 
     Private _firstItemUpdate As Boolean = True
     Private _columnsName() As String
 
-    Private _pid() As Integer
-    Private _all As Boolean = False
-    Private _unnamed As Boolean
+    Private __servEnum As New cServEnum
+
     Private _IMG As ImageList
     Private m_SortingColumn As ColumnHeader
+    Private _pid As Integer
+    Private _all As Boolean = False
 
     Private _foreColor As Color = Color.FromArgb(30, 30, 30)
 
@@ -56,15 +56,7 @@ Public Class windowList
     ' ========================================
     ' Properties
     ' ========================================
-    Public Property ProcessId() As Integer()
-        Get
-            Return _pid
-        End Get
-        Set(ByVal value As Integer())
-            _pid = value
-        End Set
-    End Property
-    Public Property ShowAllPid() As Boolean
+    Public Property ShowAll() As Boolean
         Get
             Return _all
         End Get
@@ -72,12 +64,12 @@ Public Class windowList
             _all = value
         End Set
     End Property
-    Public Property ShowUnNamed() As Boolean
+    Public Property ProcessId() As Integer
         Get
-            Return _unnamed
+            Return _pid
         End Get
-        Set(ByVal value As Boolean)
-            _unnamed = value
+        Set(ByVal value As Integer)
+            _pid = value
         End Set
     End Property
 
@@ -98,7 +90,7 @@ Public Class windowList
         _IMG.ColorDepth = ColorDepth.Depth32Bit
 
         Me.SmallImageList = _IMG
-        _IMG.Images.Add("noIcon", My.Resources.application_blue)
+        _IMG.Images.Add("service", My.Resources.gear)   ' Icon is specific
 
     End Sub
 
@@ -115,60 +107,60 @@ Public Class windowList
 
 
         ' Now enumerate items
-        Dim _itemId() As Integer
+        Dim _itemId() As String
         ReDim _itemId(0)
         If _all Then
-            Call cWindow.EnumerateAll(_unnamed, _itemId, _buffDico)
+            __servEnum.EnumerateApi(_itemId)
         Else
-            Call cWindow.Enumerate(_unnamed, _pid, _itemId, _buffDico)
+            __servEnum.EnumerateApi(_pid, _itemId)
         End If
 
         ' Now add all items with isKilled = true to _dicoDel dictionnary
-        For Each z As cWindow In _dico.Values
+        For Each z As cService In _dico.Values
             If z.IsKilledItem Then
-                _dicoDel.Add(z.Handle.ToString, Nothing)
+                _dicoDel.Add(z.Key, Nothing)
             End If
         Next
 
 
         ' Now add new items to dictionnary
-        For Each z As Integer In _itemId
-            If Not (_dico.ContainsKey(z.ToString)) Then
+        For Each z As String In _itemId
+            If Not (_dico.ContainsKey(z)) Then
                 ' Add to dico
-                _dicoNew.Add(z.ToString, Nothing)
+                _dicoNew.Add(z, Nothing)
             End If
         Next
 
 
         ' Now remove deleted items from dictionnary
-        For Each z As Integer In _dico.Keys
+        For Each z As String In _dico.Keys
             If Array.IndexOf(_itemId, z) < 0 Then
                 ' Remove from dico
-                _dico.Item(z.ToString).IsKilledItem = True  ' Will be deleted next time
+                _dico.Item(z).IsKilledItem = True  ' Will be deleted next time
             End If
         Next
 
 
         ' Now remove all deleted items from listview and _dico
-        For Each z As Integer In _dicoDel.Keys
-            Me.Items.RemoveByKey(z.ToString)
-            _dico.Remove(z.ToString)
+        For Each z As String In _dicoDel.Keys
+            Me.Items.RemoveByKey(z)
+            _dico.Remove(z)
         Next
         _dicoDel.Clear()
 
 
         ' Merge _dico and _dicoNew
-        For Each z As Integer In _dicoNew.Keys
-            Dim _it As cWindow = New cWindow(_buffDico.Item(z.ToString))
+        For Each z As String In _dicoNew.Keys
+            Dim _it As cService = New cService(z, __servEnum.SCManagerHandle)
             _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
-            _dico.Add(z.ToString, _it)
+            _dico.Add(z, _it)
         Next
 
 
         ' Now add all new items to listview
         ' If first time, lock listview
         If _firstItemUpdate Then Me.BeginUpdate()
-        For Each z As Integer In _dicoNew.Keys
+        For Each z As String In _dicoNew.Keys
 
             ' Add to listview
             Dim _subItems() As ListViewItem.ListViewSubItem
@@ -176,7 +168,7 @@ Public Class windowList
             For x As Integer = 1 To _subItems.Length - 1
                 _subItems(x) = New ListViewItem.ListViewSubItem
             Next
-            AddItemWithStyle(z.ToString).SubItems.AddRange(_subItems)
+            AddItemWithStyle(z).SubItems.AddRange(_subItems)
 
         Next
         If _firstItemUpdate Then Me.EndUpdate()
@@ -188,7 +180,8 @@ Public Class windowList
         Dim it As ListViewItem
         For Each it In Me.Items
             Dim x As Integer = 0
-            Dim _item As cWindow = _dico.Item(it.Name)
+            Dim _item As cService = _dico.Item(it.Name)
+            _item.Refresh()
             For Each isub In it.SubItems
                 isub.Text = _item.GetInformation(_columnsName(x))
                 x += 1
@@ -220,17 +213,17 @@ Public Class windowList
         _firstItemUpdate = False
 
         _test = GetTickCount - _test
-        Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh window list.")
+        Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh service list.")
 
     End Sub
 
     ' Get all items (associated to listviewitems)
-    Public Function GetAllItems() As Dictionary(Of String, cWindow).ValueCollection
+    Public Function GetAllItems() As Dictionary(Of String, cService).ValueCollection
         Return _dico.Values
     End Function
 
     ' Get the selected item
-    Public Function GetSelectedItem() As cWindow
+    Public Function GetSelectedItem() As cService
         If Me.SelectedItems.Count > 0 Then
             Return _dico.Item(Me.SelectedItems.Item(0).Name)
         Else
@@ -239,13 +232,13 @@ Public Class windowList
     End Function
 
     ' Get a specified item
-    Public Function GetItemByKey(ByVal key As String) As cWindow
+    Public Function GetItemByKey(ByVal key As String) As cService
         Return _dico.Item(key)
     End Function
 
     ' Get selected items
-    Public Function GetSelectedItems() As Dictionary(Of String, cWindow).ValueCollection
-        Dim res As New Dictionary(Of String, cWindow)
+    Public Function GetSelectedItems() As Dictionary(Of String, cService).ValueCollection
+        Dim res As New Dictionary(Of String, cService)
 
         For Each it As ListViewItem In Me.SelectedItems
             res.Add(it.Name, _dico.Item(it.Name))
@@ -257,11 +250,16 @@ Public Class windowList
     ' Choose column
     Public Sub ChooseColumns()
 
-        Dim frm As New frmChooseProcessColumns
+        Dim frm As New frmChooseColumns
+        frm.ConcernedListView = Me
         frm.ShowDialog()
 
         ' Recreate subitem buffer and get columns name again
         Call CreateSubItemsBuffer()
+
+        If Me.Items.Count = 0 Then
+            Exit Sub
+        End If
 
         ' We have to set name to all items again
         For Each it As ListViewItem In Me.Items
@@ -285,22 +283,12 @@ Public Class windowList
     Private Function AddItemWithStyle(ByVal key As String) As ListViewItem
 
         Dim item As ListViewItem = Me.Items.Add(key)
-        item.Name = key
-
-        ' Add icon
-        Try
-            Dim icon As System.Drawing.Icon = _dico(key).SmallIcon
-            If icon IsNot Nothing Then
-                Me.SmallImageList.Images.Add(key, icon)
-                item.ImageKey = key
-            Else
-                item.ImageKey = "noIcon"
-            End If
-        Catch ex As Exception
-            item.ImageKey = "noIcon"
-        End Try
-
-        item.Tag = key
+        With item
+            .Name = key
+            .ImageKey = "service"
+            .ForeColor = _foreColor
+            .Tag = key
+        End With
 
         Return item
 

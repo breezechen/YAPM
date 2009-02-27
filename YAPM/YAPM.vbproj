@@ -118,6 +118,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\frmChooseColumns.resx">
+      <DependentUpon>frmChooseColumns.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmHotkeys.resx">
       <DependentUpon>frmHotkeys.vb</DependentUpon>
     </EmbeddedResource>
@@ -125,21 +129,17 @@
       <DependentUpon>frmAboutG.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CustomListviews\HandleList\handleList.resx">
+    <EmbeddedResource Include="UserControls\CustomListviews\handleList.resx">
       <DependentUpon>handleList.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CustomListviews\MemoryLv\memoryList.resx">
+    <EmbeddedResource Include="UserControls\CustomListviews\memoryList.resx">
       <DependentUpon>memoryList.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CustomListviews\ModuleLv\moduleList.resx">
+    <EmbeddedResource Include="UserControls\CustomListviews\moduleList.resx">
       <DependentUpon>moduleList.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CustomListviews\NetworkList\networkList.resx">
+    <EmbeddedResource Include="UserControls\CustomListviews\networkList.resx">
       <DependentUpon>networkList.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CustomListviews\ServiceLv\frmChooseServiceColumns.resx">
-      <DependentUpon>frmChooseServiceColumns.vb</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmAbout.resx">
       <SubType>Designer</SubType>
@@ -207,27 +207,19 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmWindowPosition.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CustomListviews\ProcessLv\frmChooseProcessColumns.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>frmChooseProcessColumns.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmWindowsList.resx">
       <DependentUpon>frmWindowsList.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CustomListviews\ServiceLv\serviceList.resx">
+    <EmbeddedResource Include="UserControls\CustomListviews\serviceList.resx">
       <DependentUpon>serviceList.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CustomListviews\TaskList\taskList.resx">
+    <EmbeddedResource Include="UserControls\CustomListviews\taskList.resx">
       <DependentUpon>taskList.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CustomListviews\ThreadList\frmChooseThreadColumns.resx">
-      <DependentUpon>frmChooseThreadColumns.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CustomListviews\ThreadList\threadList.resx">
+    <EmbeddedResource Include="UserControls\CustomListviews\threadList.resx">
       <DependentUpon>threadList.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CustomListviews\WindowLv\windowList.resx">
+    <EmbeddedResource Include="UserControls\CustomListviews\windowList.resx">
       <DependentUpon>windowList.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DoubleBufferedLV.resx">
@@ -248,7 +240,7 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CustomListviews\ProcessLv\processList.resx">
+    <EmbeddedResource Include="UserControls\CustomListviews\processList.resx">
       <DependentUpon>processList.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
@@ -297,6 +289,12 @@
     <Compile Include="Classes\cTrayIcon.vb" />
     <Compile Include="Classes\cWindow.vb" />
     <Compile Include="Classes\cWinTrust.vb" />
+    <Compile Include="Forms\frmChooseColumns.Designer.vb">
+      <DependentUpon>frmChooseColumns.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmChooseColumns.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmHotkeys.Designer.vb">
       <DependentUpon>frmHotkeys.vb</DependentUpon>
     </Compile>
@@ -309,35 +307,29 @@
     <Compile Include="Forms\frmAboutG.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserControls\CustomListviews\HandleList\handleList.Designer.vb">
+    <Compile Include="UserControls\CustomListviews\handleList.Designer.vb">
       <DependentUpon>handleList.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\CustomListviews\HandleList\handleList.vb">
+    <Compile Include="UserControls\CustomListviews\handleList.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserControls\CustomListviews\MemoryLv\memoryList.Designer.vb">
+    <Compile Include="UserControls\CustomListviews\memoryList.Designer.vb">
       <DependentUpon>memoryList.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\CustomListviews\MemoryLv\memoryList.vb">
+    <Compile Include="UserControls\CustomListviews\memoryList.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserControls\CustomListviews\ModuleLv\moduleList.Designer.vb">
+    <Compile Include="UserControls\CustomListviews\moduleList.Designer.vb">
       <DependentUpon>moduleList.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\CustomListviews\ModuleLv\moduleList.vb">
+    <Compile Include="UserControls\CustomListviews\moduleList.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserControls\CustomListviews\NetworkList\networkList.Designer.vb">
+    <Compile Include="UserControls\CustomListviews\networkList.Designer.vb">
       <DependentUpon>networkList.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\CustomListviews\NetworkList\networkList.vb">
+    <Compile Include="UserControls\CustomListviews\networkList.vb">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UserControls\CustomListviews\ServiceLv\frmChooseServiceColumns.Designer.vb">
-      <DependentUpon>frmChooseServiceColumns.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\CustomListviews\ServiceLv\frmChooseServiceColumns.vb">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmFindWindow.Designer.vb">
       <DependentUpon>frmFindWindow.vb</DependentUpon>
@@ -429,46 +421,34 @@
     <Compile Include="Forms\frmWindowPosition.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserControls\CustomListviews\ProcessLv\frmChooseProcessColumns.Designer.vb">
-      <DependentUpon>frmChooseProcessColumns.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\CustomListviews\ProcessLv\frmChooseProcessColumns.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Forms\frmWindowsList.Designer.vb">
       <DependentUpon>frmWindowsList.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmWindowsList.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserControls\CustomListviews\ServiceLv\serviceList.Designer.vb">
+    <Compile Include="UserControls\CustomListviews\serviceList.Designer.vb">
       <DependentUpon>serviceList.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\CustomListviews\ServiceLv\serviceList.vb">
+    <Compile Include="UserControls\CustomListviews\serviceList.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserControls\CustomListviews\TaskList\taskList.Designer.vb">
+    <Compile Include="UserControls\CustomListviews\taskList.Designer.vb">
       <DependentUpon>taskList.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\CustomListviews\TaskList\taskList.vb">
+    <Compile Include="UserControls\CustomListviews\taskList.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserControls\CustomListviews\ThreadList\frmChooseThreadColumns.Designer.vb">
-      <DependentUpon>frmChooseThreadColumns.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\CustomListviews\ThreadList\frmChooseThreadColumns.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UserControls\CustomListviews\ThreadList\threadList.Designer.vb">
+    <Compile Include="UserControls\CustomListviews\threadList.Designer.vb">
       <DependentUpon>threadList.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\CustomListviews\ThreadList\threadList.vb">
+    <Compile Include="UserControls\CustomListviews\threadList.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserControls\CustomListviews\WindowLv\windowList.Designer.vb">
+    <Compile Include="UserControls\CustomListviews\windowList.Designer.vb">
       <DependentUpon>windowList.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\CustomListviews\WindowLv\windowList.vb">
+    <Compile Include="UserControls\CustomListviews\windowList.vb">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserControls\DoubleBufferedLV.vb">
@@ -484,10 +464,10 @@
     <Compile Include="Modules\mdlInternet.vb" />
     <Compile Include="Modules\mdlMisc.vb" />
     <Compile Include="Classes\Pref.vb" />
-    <Compile Include="UserControls\CustomListviews\ProcessLv\processList.Designer.vb">
+    <Compile Include="UserControls\CustomListviews\processList.Designer.vb">
       <DependentUpon>processList.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\CustomListviews\ProcessLv\processList.vb">
+    <Compile Include="UserControls\CustomListviews\processList.vb">
       <SubType>Component</SubType>
     </Compile>
     <None Include="Resources\folder_info.png" />

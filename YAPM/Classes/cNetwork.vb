@@ -397,6 +397,17 @@ Public Class cNetwork
         Return res
     End Function
 
+    ' Retrieve all information's names availables
+    Public Shared Function GetAvailableProperties() As String()
+        Dim s(3) As String
+
+        s(0) = "Remote"
+        s(1) = "Protocol"
+        s(2) = "ProcessId"
+        s(3) = "State"
+
+        Return s
+    End Function
 
     ' ========================================
     ' Private functions
