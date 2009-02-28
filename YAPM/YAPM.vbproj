@@ -282,6 +282,7 @@
     <Compile Include="Classes\cRegMonitor.vb" />
     <Compile Include="Classes\cServEnum.vb" />
     <Compile Include="Classes\cShortcut.vb" />
+    <Compile Include="Classes\cSystem.vb" />
     <Compile Include="Classes\cSystemInfo.vb" />
     <Compile Include="Classes\cTask.vb" />
     <Compile Include="Classes\cThread.vb">

@@ -321,6 +321,7 @@ Public Class frmMain
         If bFirst Then
             bFirst = False
             SetWindowTheme(Me.lvProcess.Handle, "explorer", Nothing)
+            SetWindowTheme(Me.lvMonitorReport.Handle, "explorer", Nothing)
             SetWindowTheme(Me.lvNetwork.Handle, "explorer", Nothing)
             SetWindowTheme(Me.lvTask.Handle, "explorer", Nothing)
             SetWindowTheme(Me.lvHandles.Handle, "explorer", Nothing)
@@ -349,6 +350,7 @@ Public Class frmMain
 
         Dim t As Integer = GetTickCount
         clsOpenedHandles.EnableDebug()
+        clsOpenedHandles.EnableShutDown()
 
         Call frmHotkeys.readHotkeysFromXML()
 
@@ -2173,7 +2175,6 @@ Public Class frmMain
             With n1
                 .Text = CStr(IIf(Len(it.GetInstanceName) > 0, it.GetInstanceName & " - ", _
                    vbNullString)) & it.CategoryName
-                .ImageKey = "exe"
                 .ImageIndex = 0
                 .SelectedImageIndex = 0
             End With
@@ -2182,7 +2183,7 @@ Public Class frmMain
             With ncpu
                 .Text = it.CounterName
                 .ImageKey = "sub"
-                .SelectedImageIndex = 2
+                .SelectedImageKey = "sub"
                 .Tag = it
             End With
             n1.Nodes.Add(ncpu)
@@ -2194,7 +2195,7 @@ Public Class frmMain
             With ncpu
                 .Text = it.CounterName
                 .ImageKey = "sub"
-                .SelectedImageIndex = 2
+                .SelectedImageKey = "sub"
                 .Tag = it
             End With
 
@@ -2334,56 +2335,6 @@ Public Class frmMain
             Next
         End If
         Call updateMonitoringLog()
-    End Sub
-
-    ' Update monitoring log
-    Private Sub updateMonitoringLog()
-        Dim s As String
-
-        If Me.tvMonitor.Nodes.Item(0).Nodes.Count > 0 Then
-
-            ' Count counters :-)
-            Dim iCount As Integer = 0
-            Dim n As TreeNode
-            Dim n2 As TreeNode
-            For Each n In Me.tvMonitor.Nodes.Item(0).Nodes
-                For Each n2 In n.Nodes
-                    iCount += 1
-                Next
-            Next
-
-            s = "Monitoring log" & vbNewLine
-            s &= vbNewLine & vbNewLine & "Monitoring " & CStr(iCount) & " item(s)" & vbNewLine
-
-            For Each n In Me.tvMonitor.Nodes.Item(0).Nodes
-                For Each n2 In n.Nodes
-
-                    Dim it As cMonitor = CType(n2.Tag, cMonitor)
-                    s &= vbNewLine & "* Category  : " & it.CategoryName & " -- Instance : " & it.GetInstanceName & " -- Counter : " & it.CounterName
-                    s &= vbNewLine & "      Monitoring creation : " & it.GetMonitorCreationDate.ToLongDateString & " -- " & it.GetMonitorCreationDate.ToLongTimeString
-                    If it.GetLastStarted.Ticks > 0 Then
-                        s &= vbNewLine & "      Last start : " & it.GetLastStarted.ToLongDateString & " -- " & it.GetLastStarted.ToLongTimeString
-                    Else
-                        s &= vbNewLine & "      Not yet started"
-                    End If
-                    s &= vbNewLine & "      State : " & it.Enabled
-                    s &= vbNewLine & "      Interval : " & it.Interval
-
-                    s &= vbNewLine
-                Next
-            Next
-            s = s.Substring(0, s.Length - 2)
-
-            Me.txtMonitoringLog.Text = s
-            Me.txtMonitoringLog.SelectionLength = 0
-            Me.txtMonitoringLog.SelectionStart = 0
-
-        Else
-            Me.txtMonitoringLog.Text = "No process monitored." & vbNewLine & "Click on 'Add' button to monitor a process."
-            Me.txtMonitoringLog.SelectionLength = 0
-            Me.txtMonitoringLog.SelectionStart = 0
-        End If
-
     End Sub
 
     ' Display stats in graph
@@ -4144,5 +4095,120 @@ Public Class frmMain
 
     Private Sub ChooseColumnsToolStripMenuItem6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem6.Click
         Me.lvHandles.ChooseColumns()
+    End Sub
+
+    Private Sub RestartToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RestartToolStripMenuItem.Click
+        Call cSystem.Restart()
+    End Sub
+
+    Private Sub ShutdownToolStripMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShutdownToolStripMenuItem2.Click
+        Call cSystem.Shutdown()
+    End Sub
+
+    Private Sub PoweroffToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PoweroffToolStripMenuItem.Click
+        Call cSystem.Poweroff()
+    End Sub
+
+    Private Sub SleepToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SleepToolStripMenuItem.Click
+        Call cSystem.Sleep()
+    End Sub
+
+    Private Sub HibernateToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HibernateToolStripMenuItem.Click
+        Call cSystem.Hibernate()
+    End Sub
+
+    Private Sub LogoffToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LogoffToolStripMenuItem.Click
+        Call cSystem.Logoff()
+    End Sub
+
+    Private Sub LockToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LockToolStripMenuItem.Click
+        Call cSystem.Lock()
+    End Sub
+
+    ' Update monitoring log
+    Private Sub updateMonitoringLog()
+        '        Dim s As String
+
+        If Me.tvMonitor.Nodes.Item(0).Nodes.Count > 0 Then
+
+            ' Count counters :-)
+            'Dim iCount As Integer = 0
+            'Dim n As TreeNode
+            'Dim n2 As TreeNode
+            'For Each n In Me.tvMonitor.Nodes.Item(0).Nodes
+            '    For Each n2 In n.Nodes
+            '        iCount += 1
+            '    Next
+            'Next
+
+            's = "Monitoring log" & vbNewLine
+            's &= vbNewLine & vbNewLine & "Monitoring " & CStr(iCount) & " item(s)" & vbNewLine
+
+            'For Each n In Me.tvMonitor.Nodes.Item(0).Nodes
+            '    For Each n2 In n.Nodes
+
+            '        Dim it As cMonitor = CType(n2.Tag, cMonitor)
+            '        s &= vbNewLine & "* Category  : " & it.CategoryName & " -- Instance : " & it.GetInstanceName & " -- Counter : " & it.CounterName
+            '        s &= vbNewLine & "      Monitoring creation : " & it.GetMonitorCreationDate.ToLongDateString & " -- " & it.GetMonitorCreationDate.ToLongTimeString
+            '        If it.GetLastStarted.Ticks > 0 Then
+            '            s &= vbNewLine & "      Last start : " & it.GetLastStarted.ToLongDateString & " -- " & it.GetLastStarted.ToLongTimeString
+            '        Else
+            '            s &= vbNewLine & "      Not yet started"
+            '        End If
+            '        s &= vbNewLine & "      State : " & it.Enabled
+            '        s &= vbNewLine & "      Interval : " & it.Interval
+
+            '        s &= vbNewLine
+            '    Next
+            'Next
+            's = s.Substring(0, s.Length - 2)
+
+            'Me.txtMonitoringLog.Text = s
+            'Me.txtMonitoringLog.SelectionLength = 0
+            'Me.txtMonitoringLog.SelectionStart = 0
+
+
+            Me.lvMonitorReport.Items.Clear()
+            Me.lvMonitorReport.BeginUpdate()
+            For Each n As TreeNode In Me.tvMonitor.Nodes.Item(0).Nodes
+                For Each n2 As TreeNode In n.Nodes
+
+                    Dim it As cMonitor = CType(n2.Tag, cMonitor)
+
+                    Dim k As String = n.Text
+                    Try
+                        Dim g As New ListViewGroup(k, k)
+                        g.HeaderAlignment = HorizontalAlignment.Center
+                        Me.lvMonitorReport.Groups.Add(g)
+                    Catch ex As Exception
+                        '
+                    End Try
+
+                    Dim lvit As New ListViewItem(it.CounterName)
+                    lvit.SubItems.Add(it.GetMonitorCreationDate.ToLongDateString & " -- " & it.GetMonitorCreationDate.ToLongTimeString)
+                    If it.GetLastStarted.Ticks > 0 Then
+                        lvit.SubItems.Add(it.GetLastStarted.ToLongDateString & " -- " & it.GetLastStarted.ToLongTimeString)
+                    Else
+                        lvit.SubItems.Add("Not yet started")
+                    End If
+                    lvit.SubItems.Add(it.Enabled.ToString)
+                    lvit.SubItems.Add(it.Interval.ToString)
+
+                    lvit.Group = Me.lvMonitorReport.Groups.Item(k)
+                    Me.lvMonitorReport.Items.Add(lvit)
+
+                Next
+            Next
+
+            Me.lvMonitorReport.EndUpdate()
+            Me.lvMonitorReport.BringToFront()
+
+        Else
+            Me.txtMonitoringLog.Text = "No process monitored." & vbNewLine & "Click on 'Add' button to monitor a process."
+            Me.txtMonitoringLog.SelectionLength = 0
+            Me.txtMonitoringLog.SelectionStart = 0
+            Me.txtMonitoringLog.BringToFront()
+        End If
+
     End Sub
 End Class

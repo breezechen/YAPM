@@ -334,11 +334,11 @@ Public Class frmProcessInfo
         End If
 
         ' Show all items
-        Call ShowModules()
-        Call ShowThreads()
-        Call ShowWindows()
+        'Call ShowModules()
+        'Call ShowThreads()
+        'Call ShowWindows()
         Call ShowRegions()
-        Call ShowNetwork()
+        'Call ShowNetwork()
 
         Call refreshProcessTab()
 

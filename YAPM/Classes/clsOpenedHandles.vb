@@ -980,6 +980,31 @@ Fin:
         CloseHandle(hToken)
     End Sub
 
+    'autorise le privilège SeShutdownPrivilege
+    Shared Sub EnableShutDown()
+        Dim hProc As Integer 'handle du processus actuel
+        Dim hToken As Integer 'handle du token
+        Dim mLUID As LUID 'LUID du privilège
+        Dim mPriv As TOKEN_PRIVILEGES 'privilèges
+        Dim mNewPriv As TOKEN_PRIVILEGES 'nouveaux privilèges
+        'renvoie le processus actuel
+        hProc = GetCurrentProcess()
+        'ouvre le token
+        OpenProcessToken(hProc, TOKEN_ADJUST_PRIVILEGES + TOKEN_QUERY, hToken)
+        'regarde la valeur du privilège
+        LookupPrivilegeValue("", "SeShutdownPrivilege", mLUID)
+        'nombre de privilèges
+        mPriv.PrivilegeCount = 1
+        'attribut ENABLED
+        mPriv.Privileges.Attributes = SE_PRIVILEGE_ENABLED
+        'LUID de privilège
+        mPriv.Privileges.pLuid = mLUID
+        'ajuste le token
+        AdjustTokenPrivileges(hToken, False, mPriv, 4 + (12 * mPriv.PrivilegeCount), mNewPriv, 4 + (12 * mNewPriv.PrivilegeCount))
+        'ferme le handle de token
+        CloseHandle(hToken)
+    End Sub
+
     'indique s'il s'agit de Vista
     Private Function IsWindowsVista() As Boolean
         Return ((Environment.OSVersion.Platform = PlatformID.Win32NT) And (Environment.OSVersion.Version.Major = 6) And (Environment.OSVersion.Version.Minor = 0))

@@ -149,6 +149,17 @@ Partial Class frmMain
         Me.AboutYAPMToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.AlwaysVisibleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator
+        Me.ShutdownToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.RestartToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ShutdownToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
+        Me.PoweroffToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem51 = New System.Windows.Forms.ToolStripSeparator
+        Me.SleepToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.HibernateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem52 = New System.Windows.Forms.ToolStripSeparator
+        Me.LogoffToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.LockToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem50 = New System.Windows.Forms.ToolStripSeparator
         Me.ShowLogToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowSystemInformatoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.WindowManagementToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -415,6 +426,12 @@ Partial Class frmMain
         Me.tvMonitor = New System.Windows.Forms.TreeView
         Me.imgMonitor = New System.Windows.Forms.ImageList(Me.components)
         Me.splitMonitor2 = New System.Windows.Forms.SplitContainer
+        Me.lvMonitorReport = New YAPM.DoubleBufferedLV
+        Me.ColumnHeader22 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader23 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader47 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader48 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
         Me.txtMonitoringLog = New System.Windows.Forms.TextBox
         Me.splitMonitor3 = New System.Windows.Forms.SplitContainer
         Me.splitMonitor4 = New System.Windows.Forms.SplitContainer
@@ -476,7 +493,6 @@ Partial Class frmMain
         Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripSeparator
         Me.ChooseColumnsToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
         Me.rtb5 = New System.Windows.Forms.RichTextBox
-        Me.imgWindows = New System.Windows.Forms.ImageList(Me.components)
         Me.FolderChooser = New System.Windows.Forms.FolderBrowserDialog
         Me.panelMain11 = New System.Windows.Forms.Panel
         Me.splitModule = New System.Windows.Forms.SplitContainer
@@ -522,7 +538,6 @@ Partial Class frmMain
         Me.ColumnHeader62 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader63 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader64 = New System.Windows.Forms.ColumnHeader
-        Me.imgTask = New System.Windows.Forms.ImageList(Me.components)
         Me.timerTask = New System.Windows.Forms.Timer(Me.components)
         Me.panelMain14 = New System.Windows.Forms.Panel
         Me.lvNetwork = New YAPM.networkList
@@ -1433,9 +1448,9 @@ Partial Class frmMain
         '
         'mainMenu
         '
-        Me.mainMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowYAPMToolStripMenuItem, Me.MinimizeToTrayToolStripMenuItem, Me.AboutYAPMToolStripMenuItem, Me.AlwaysVisibleToolStripMenuItem, Me.ToolStripMenuItem3, Me.ShowLogToolStripMenuItem, Me.ShowSystemInformatoToolStripMenuItem, Me.WindowManagementToolStripMenuItem, Me.EmergencyHotkeysToolStripMenuItem, Me.FindAWindowToolStripMenuItem, Me.ToolStripMenuItem40, Me.EnableProcessRefreshingToolStripMenuItem, Me.RefreshServiceListToolStripMenuItem, Me.ToolStripMenuItem4, Me.ExitToolStripMenuItem})
+        Me.mainMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowYAPMToolStripMenuItem, Me.MinimizeToTrayToolStripMenuItem, Me.AboutYAPMToolStripMenuItem, Me.AlwaysVisibleToolStripMenuItem, Me.ToolStripMenuItem3, Me.ShutdownToolStripMenuItem1, Me.ToolStripMenuItem50, Me.ShowLogToolStripMenuItem, Me.ShowSystemInformatoToolStripMenuItem, Me.WindowManagementToolStripMenuItem, Me.EmergencyHotkeysToolStripMenuItem, Me.FindAWindowToolStripMenuItem, Me.ToolStripMenuItem40, Me.EnableProcessRefreshingToolStripMenuItem, Me.RefreshServiceListToolStripMenuItem, Me.ToolStripMenuItem4, Me.ExitToolStripMenuItem})
         Me.mainMenu.Name = "mainMenu"
-        Me.mainMenu.Size = New System.Drawing.Size(185, 286)
+        Me.mainMenu.Size = New System.Drawing.Size(185, 314)
         '
         'ShowYAPMToolStripMenuItem
         '
@@ -1469,6 +1484,70 @@ Partial Class frmMain
         '
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
         Me.ToolStripMenuItem3.Size = New System.Drawing.Size(181, 6)
+        '
+        'ShutdownToolStripMenuItem1
+        '
+        Me.ShutdownToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RestartToolStripMenuItem, Me.ShutdownToolStripMenuItem2, Me.PoweroffToolStripMenuItem, Me.ToolStripMenuItem51, Me.SleepToolStripMenuItem, Me.HibernateToolStripMenuItem, Me.ToolStripMenuItem52, Me.LogoffToolStripMenuItem, Me.LockToolStripMenuItem})
+        Me.ShutdownToolStripMenuItem1.Name = "ShutdownToolStripMenuItem1"
+        Me.ShutdownToolStripMenuItem1.Size = New System.Drawing.Size(184, 22)
+        Me.ShutdownToolStripMenuItem1.Text = "Shutdown"
+        '
+        'RestartToolStripMenuItem
+        '
+        Me.RestartToolStripMenuItem.Name = "RestartToolStripMenuItem"
+        Me.RestartToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
+        Me.RestartToolStripMenuItem.Text = "Restart"
+        '
+        'ShutdownToolStripMenuItem2
+        '
+        Me.ShutdownToolStripMenuItem2.Name = "ShutdownToolStripMenuItem2"
+        Me.ShutdownToolStripMenuItem2.Size = New System.Drawing.Size(128, 22)
+        Me.ShutdownToolStripMenuItem2.Text = "Shutdown"
+        '
+        'PoweroffToolStripMenuItem
+        '
+        Me.PoweroffToolStripMenuItem.Name = "PoweroffToolStripMenuItem"
+        Me.PoweroffToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
+        Me.PoweroffToolStripMenuItem.Text = "Poweroff"
+        '
+        'ToolStripMenuItem51
+        '
+        Me.ToolStripMenuItem51.Name = "ToolStripMenuItem51"
+        Me.ToolStripMenuItem51.Size = New System.Drawing.Size(125, 6)
+        '
+        'SleepToolStripMenuItem
+        '
+        Me.SleepToolStripMenuItem.Name = "SleepToolStripMenuItem"
+        Me.SleepToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
+        Me.SleepToolStripMenuItem.Text = "Sleep"
+        '
+        'HibernateToolStripMenuItem
+        '
+        Me.HibernateToolStripMenuItem.Name = "HibernateToolStripMenuItem"
+        Me.HibernateToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
+        Me.HibernateToolStripMenuItem.Text = "Hibernate"
+        '
+        'ToolStripMenuItem52
+        '
+        Me.ToolStripMenuItem52.Name = "ToolStripMenuItem52"
+        Me.ToolStripMenuItem52.Size = New System.Drawing.Size(125, 6)
+        '
+        'LogoffToolStripMenuItem
+        '
+        Me.LogoffToolStripMenuItem.Name = "LogoffToolStripMenuItem"
+        Me.LogoffToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
+        Me.LogoffToolStripMenuItem.Text = "Logoff"
+        '
+        'LockToolStripMenuItem
+        '
+        Me.LockToolStripMenuItem.Name = "LockToolStripMenuItem"
+        Me.LockToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
+        Me.LockToolStripMenuItem.Text = "Lock"
+        '
+        'ToolStripMenuItem50
+        '
+        Me.ToolStripMenuItem50.Name = "ToolStripMenuItem50"
+        Me.ToolStripMenuItem50.Size = New System.Drawing.Size(181, 6)
         '
         'ShowLogToolStripMenuItem
         '
@@ -4418,6 +4497,7 @@ Partial Class frmMain
         '
         Me.splitMonitor2.Panel1.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.splitMonitor2.Panel1.Controls.Add(Me.txtMonitoringLog)
+        Me.splitMonitor2.Panel1.Controls.Add(Me.lvMonitorReport)
         '
         'splitMonitor2.Panel2
         '
@@ -4425,6 +4505,41 @@ Partial Class frmMain
         Me.splitMonitor2.Size = New System.Drawing.Size(420, 297)
         Me.splitMonitor2.SplitterDistance = 125
         Me.splitMonitor2.TabIndex = 0
+        '
+        'lvMonitorReport
+        '
+        Me.lvMonitorReport.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader22, Me.ColumnHeader23, Me.ColumnHeader47, Me.ColumnHeader48, Me.ColumnHeader49})
+        Me.lvMonitorReport.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvMonitorReport.FullRowSelect = True
+        Me.lvMonitorReport.Location = New System.Drawing.Point(0, 0)
+        Me.lvMonitorReport.Name = "lvMonitorReport"
+        Me.lvMonitorReport.Size = New System.Drawing.Size(420, 125)
+        Me.lvMonitorReport.TabIndex = 1
+        Me.lvMonitorReport.UseCompatibleStateImageBehavior = False
+        Me.lvMonitorReport.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader22
+        '
+        Me.ColumnHeader22.Text = "Counter"
+        Me.ColumnHeader22.Width = 200
+        '
+        'ColumnHeader23
+        '
+        Me.ColumnHeader23.Text = "Creation date"
+        Me.ColumnHeader23.Width = 100
+        '
+        'ColumnHeader47
+        '
+        Me.ColumnHeader47.Text = "Last start"
+        Me.ColumnHeader47.Width = 100
+        '
+        'ColumnHeader48
+        '
+        Me.ColumnHeader48.Text = "State"
+        '
+        'ColumnHeader49
+        '
+        Me.ColumnHeader49.Text = "Interval"
         '
         'txtMonitoringLog
         '
@@ -4473,6 +4588,7 @@ Partial Class frmMain
         Me.splitMonitor4.Location = New System.Drawing.Point(0, 0)
         Me.splitMonitor4.Name = "splitMonitor4"
         Me.splitMonitor4.Orientation = System.Windows.Forms.Orientation.Horizontal
+        Me.splitMonitor4.Panel1Collapsed = True
         '
         'splitMonitor4.Panel2
         '
@@ -4491,7 +4607,7 @@ Partial Class frmMain
         Me.graphMonitor.EnableGraph = False
         Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
         Me.graphMonitor.Name = "graphMonitor"
-        Me.graphMonitor.Size = New System.Drawing.Size(420, 110)
+        Me.graphMonitor.Size = New System.Drawing.Size(420, 139)
         Me.graphMonitor.TabIndex = 3
         Me.graphMonitor.TabStop = False
         Me.graphMonitor.ViewMax = 0
@@ -4995,12 +5111,6 @@ Partial Class frmMain
         Me.rtb5.TabIndex = 8
         Me.rtb5.Text = "Click on an item to get additionnal informations"
         '
-        'imgWindows
-        '
-        Me.imgWindows.ImageStream = CType(resources.GetObject("imgWindows.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgWindows.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgWindows.Images.SetKeyName(0, "noIcon")
-        '
         'panelMain11
         '
         Me.panelMain11.Controls.Add(Me.splitModule)
@@ -5369,12 +5479,6 @@ Partial Class frmMain
         Me.ColumnHeader64.Text = "Process"
         Me.ColumnHeader64.Width = 170
         '
-        'imgTask
-        '
-        Me.imgTask.ImageStream = CType(resources.GetObject("imgTask.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgTask.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgTask.Images.SetKeyName(0, "noIcon")
-        '
         'timerTask
         '
         Me.timerTask.Interval = 1000
@@ -5476,6 +5580,7 @@ Partial Class frmMain
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.ClientSize = New System.Drawing.Size(843, 603)
+        Me.Controls.Add(Me.panelMain8)
         Me.Controls.Add(Me.panelMenu2)
         Me.Controls.Add(Me.panelMain5)
         Me.Controls.Add(Me.panelMain)
@@ -5486,7 +5591,6 @@ Partial Class frmMain
         Me.Controls.Add(Me.panelMain6)
         Me.Controls.Add(Me.panelMenu)
         Me.Controls.Add(Me.panelMain10)
-        Me.Controls.Add(Me.panelMain8)
         Me.Controls.Add(Me.cmdTray)
         Me.Controls.Add(Me.Ribbon)
         Me.Controls.Add(Me.panelMain11)
@@ -5869,7 +5973,6 @@ Partial Class frmMain
     Friend WithEvents RBWindowReport As System.Windows.Forms.RibbonPanel
     Friend WithEvents butWindowSaveReport As System.Windows.Forms.RibbonButton
     Friend WithEvents ShowWindowsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents imgWindows As System.Windows.Forms.ImageList
     Friend WithEvents butProcessShow As System.Windows.Forms.RibbonButton
     Friend WithEvents butShowProcHandles As System.Windows.Forms.RibbonButton
     Friend WithEvents butProcessThreads As System.Windows.Forms.RibbonButton
@@ -6049,7 +6152,6 @@ Partial Class frmMain
     Friend WithEvents ColumnHeader63 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader64 As System.Windows.Forms.ColumnHeader
     Friend WithEvents timerTask As System.Windows.Forms.Timer
-    Friend WithEvents imgTask As System.Windows.Forms.ImageList
     Friend WithEvents SelectWindowInWindowsTabToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents KillProcessTreeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RBWindowCapture As System.Windows.Forms.RibbonPanel
@@ -6099,5 +6201,22 @@ Partial Class frmMain
     Friend WithEvents ChooseColumnsToolStripMenuItem5 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem49 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ChooseColumnsToolStripMenuItem6 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ShutdownToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RestartToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ShutdownToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PoweroffToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem51 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents SleepToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents HibernateToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem52 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents LogoffToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents LockToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem50 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents lvMonitorReport As YAPM.DoubleBufferedLV
+    Friend WithEvents ColumnHeader22 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader23 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader47 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader48 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader49 As System.Windows.Forms.ColumnHeader
 
 End Class
