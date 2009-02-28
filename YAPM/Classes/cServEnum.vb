@@ -36,7 +36,12 @@ Public Class cServEnum
     Private Shared Function CloseServiceHandle(ByVal serviceHandle As IntPtr) As Boolean
     End Function
 
-    Private Declare Function EnumServicesStatusEx Lib "advapi32.dll" Alias "EnumServicesStatusExA" (ByVal hSCManager As IntPtr, ByVal InfoLevel As Integer, ByVal dwServiceType As Integer, ByVal dwServiceState As Integer, ByRef lpServices As cService.ENUM_SERVICE_STATUS_PROCESS, ByVal cbBufSize As Integer, ByRef pcbBytesNeeded As Integer, ByRef lpServicesReturned As Integer, ByRef lpResumeHandle As Integer, ByRef pszGroupName As String) As Integer
+    'Private Declare Function EnumServicesStatus Lib "advapi32.dll" Alias "EnumServicesStatusA" (ByVal hSCManager As Long, ByVal dwServiceType As Long, ByVal dwServiceState As Long, ByVal lpServices As Any, ByVal cbBufSize As Long, ByVal pcbBytesNeeded As Long, ByVal lpServicesReturned As Long, ByVal lpResumeHandle As Long) As Long
+    <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
+    Public Shared Function EnumServicesStatusEx(ByVal SCManager As IntPtr, ByVal InfoLevel As Integer, ByVal ServiceType As Integer, ByVal ServiceState As Integer, ByVal Services As IntPtr, ByVal BufSize As Integer, _
+    ByRef BytesNeeded As Integer, ByRef ServicesReturned As Integer, ByRef ResumeHandle As Integer, ByVal GroupName As Integer) As Integer
+    End Function
+    ' Private Declare Function EnumServicesStatusEx Lib "advapi32.dll" Alias "EnumServicesStatusExA" (ByVal hSCManager As IntPtr, ByVal InfoLevel As Integer, ByVal dwServiceType As Integer, ByVal dwServiceState As Integer, ByRef lpServices As cService.ENUM_SERVICE_STATUS_PROCESS, ByVal cbBufSize As Integer, ByRef pcbBytesNeeded As Integer, ByRef lpServicesReturned As Integer, ByRef lpResumeHandle As Integer, ByRef pszGroupName As String) As Integer
     Private Declare Function lstrlenA Lib "kernel32" (ByVal Ptr As Integer) As Integer
     Private Declare Function lstrcpyA Lib "kernel32" (ByVal RetVal As String, ByVal Ptr As Integer) As Integer
 
@@ -51,7 +56,7 @@ Public Class cServEnum
     Private Const SERVICE_ACTIVE As Integer = &H1
     Private Const SERVICE_INACTIVE As Integer = &H2
     Private Const SERVICE_STATE_ALL As Integer = (SERVICE_ACTIVE Or SERVICE_INACTIVE)
-
+    Private Const SERVICE_ADAPTER As Integer = &H4
     Private Const SERVICE_WIN32_OWN_PROCESS As Integer = &H10
     Private Const SERVICE_WIN32_SHARE_PROCESS As Integer = &H20
     Private Const SERVICE_WIN32 As Integer = SERVICE_WIN32_OWN_PROCESS + SERVICE_WIN32_SHARE_PROCESS
@@ -128,14 +133,14 @@ Public Class cServEnum
         If Not (hSCM = IntPtr.Zero) Then
             lR = EnumServicesStatusEx(hSCM, _
                                       SC_ENUM_PROCESS_INFO, _
-                                      SERVICE_ALL, _
+                                      SERVICE_WIN32 Or SERVICE_ADAPTER Or SERVICE_DRIVER Or SERVICE_INTERACTIVE_PROCESS, _
                                       SERVICE_STATE_ALL, _
                                       Nothing, _
                                       0, _
                                       lBytesNeeded, _
                                       lServicesReturned, _
                                       0, _
-                                      vbNullString)
+                                      0)
 
             If (lR = 0 And Err.LastDllError = ERROR_MORE_DATA) Then
 
@@ -143,25 +148,30 @@ Public Class cServEnum
                 ReDim tServiceStatus(lStructsNeeded - 1)
                 lServiceStatusInfoBuffer = lStructsNeeded * (Marshal.SizeOf(tServiceStatus(0)))
 
+                Dim pt As IntPtr = Marshal.AllocHGlobal(lServiceStatusInfoBuffer)
                 lR = EnumServicesStatusEx(hSCM, _
                                           SC_ENUM_PROCESS_INFO, _
-                                          SERVICE_ALL, _
+                                          SERVICE_WIN32 Or SERVICE_ADAPTER Or SERVICE_DRIVER Or SERVICE_INTERACTIVE_PROCESS, _
                                           SERVICE_STATE_ALL, _
-                                          tServiceStatus(0), _
+                                          pt, _
                                           lServiceStatusInfoBuffer, _
                                           lBytesNeeded, _
                                           lServicesReturned, _
                                           0, _
-                                          vbNullString)
+                                          0)
 
                 If Not (lR = 0) Then
                     ReDim p(lServicesReturned - 1)
+                    Dim obj As New cService.ENUM_SERVICE_STATUS_PROCESS
                     For idx As Integer = 0 To lServicesReturned - 1
-                        p(idx) = GetStrFromPtrA(tServiceStatus(idx).lpServiceName) _
-                            & "@" & _
-                        tServiceStatus(idx).ServiceStatus.dwProcessId.ToString
+                        Dim off As Integer = pt.ToInt32 + Marshal.SizeOf(obj) * idx
+                        obj = CType(Marshal.PtrToStructure(CType(off, IntPtr), _
+                                GetType(cService.ENUM_SERVICE_STATUS_PROCESS)), cService.ENUM_SERVICE_STATUS_PROCESS)
+
+                        p(idx) = obj.ServiceName & "|" & obj.ServiceStatusProcess.dwProcessId.ToString
                     Next idx
                 End If
+                Marshal.FreeHGlobal(pt)
             End If
 
         End If
@@ -190,7 +200,7 @@ Public Class cServEnum
                                       lBytesNeeded, _
                                       lServicesReturned, _
                                       0, _
-                                      vbNullString)
+                                      0)
 
             If (lR = 0 And Err.LastDllError = ERROR_MORE_DATA) Then
 
@@ -198,30 +208,37 @@ Public Class cServEnum
                 ReDim tServiceStatus(lStructsNeeded - 1)
                 lServiceStatusInfoBuffer = lStructsNeeded * (Marshal.SizeOf(tServiceStatus(0)))
 
+                Dim pt As IntPtr = Marshal.AllocHGlobal(lServiceStatusInfoBuffer)
                 lR = EnumServicesStatusEx(hSCM, _
                                           SC_ENUM_PROCESS_INFO, _
                                           SERVICE_ALL, _
                                           SERVICE_STATE_ALL, _
-                                          tServiceStatus(0), _
+                                          pt, _
                                           lServiceStatusInfoBuffer, _
                                           lBytesNeeded, _
                                           lServicesReturned, _
                                           0, _
-                                          vbNullString)
+                                          0)
 
                 If Not (lR = 0) Then
                     ReDim p(lServicesReturned - 1)
                     Dim k As Integer = 0
+                    Dim obj As New cService.ENUM_SERVICE_STATUS_PROCESS
+
                     For idx As Integer = 0 To lServicesReturned - 1
-                        If pid = tServiceStatus(idx).ServiceStatus.dwProcessId Then
-                            p(k) = GetStrFromPtrA(tServiceStatus(idx).lpServiceName) _
-                                & "@" & _
-                            tServiceStatus(idx).ServiceStatus.dwProcessId.ToString
+                        Dim off As Integer = pt.ToInt32 + Marshal.SizeOf(obj) * idx
+                        obj = CType(Marshal.PtrToStructure(CType(off, IntPtr), _
+                                GetType(cService.ENUM_SERVICE_STATUS_PROCESS)), cService.ENUM_SERVICE_STATUS_PROCESS)
+
+                        If pid = obj.ServiceStatusProcess.dwProcessId Then
+                            p(k) = obj.ServiceName & "|" & obj.ServiceStatusProcess.dwProcessId.ToString
                             k += 1
                         End If
                     Next idx
+
                     ReDim Preserve p(k - 1)
                 End If
+                Marshal.FreeHGlobal(pt)
             End If
 
         End If

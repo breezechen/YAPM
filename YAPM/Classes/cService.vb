@@ -126,10 +126,16 @@ Public Class cService
         Dim dwServiceFlags As Integer
     End Structure
 
+    'Public Structure ENUM_SERVICE_STATUS_PROCESS
+    '    Dim lpServiceName As IntPtr
+    '    Dim lpDisplayName As IntPtr
+    '    Dim ServiceStatus As SERVICE_STATUS_PROCESS
+    'End Structure
+    <StructLayout(LayoutKind.Sequential)> _
     Public Structure ENUM_SERVICE_STATUS_PROCESS
-        Dim lpServiceName As Integer
-        Dim lpDisplayName As Integer
-        Dim ServiceStatus As SERVICE_STATUS_PROCESS
+        <MarshalAs(UnmanagedType.LPTStr)> Public ServiceName As String
+        <MarshalAs(UnmanagedType.LPTStr)> Public DisplayName As String
+        <MarshalAs(UnmanagedType.Struct)> Public ServiceStatusProcess As SERVICE_STATUS_PROCESS
     End Structure
 
     Private Declare Function EnumServicesStatusEx Lib "advapi32.dll" Alias "EnumServicesStatusExA" (ByVal hSCManager As IntPtr, ByVal InfoLevel As Integer, ByVal dwServiceType As Integer, ByVal dwServiceState As Integer, ByRef lpServices As ENUM_SERVICE_STATUS_PROCESS, ByVal cbBufSize As Integer, ByRef pcbBytesNeeded As Integer, ByRef lpServicesReturned As Integer, ByRef lpResumeHandle As Integer, ByRef pszGroupName As String) As Integer
@@ -424,9 +430,9 @@ Public Class cService
     Public Sub New(ByVal key As String, ByVal SCMgr As IntPtr)
         MyBase.New()
 
-        ' Key is such as : NAME@PID
+        ' Key is such as : NAME|PID
         _key = key
-        Dim i As Integer = key.IndexOf("@")
+        Dim i As Integer = key.IndexOf("|")
         If i = 0 Then
             _dwProcessId = 0
             _Name = key
