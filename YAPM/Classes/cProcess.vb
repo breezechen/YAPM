@@ -53,6 +53,17 @@ Public Class cProcess
     Private Declare Function CloseHandle Lib "Kernel32.dll" (ByVal hObject As Integer) As Integer
     Private Declare Function SetPriorityClass Lib "kernel32" (ByVal hProcess As Integer, ByVal dwPriorityClass As Integer) As Integer
 
+    'Private Declare Function NtQueryInformationProcess Lib "Ntdll.dll" (ByVal hProcess As Integer, ByVal ProcessInformationClass As Integer, ByRef ProcessInformation As IntPtr, ByVal ProcessInformationLength As Integer, ByVal ReturnLength As Integer) As Integer
+    <DllImport("ntdll.dll", SetLastError:=True)> _
+    Private Shared Function NtQueryInformationProcess(ByVal ProcessHandle As Integer, _
+                                                 ByVal ProcessInformationClass As _
+                                                 Integer, ByVal _
+                                                 ProcessInformation As IntPtr, _
+                                                 ByVal ProcessInformationLength _
+                                                 As Integer, ByRef ReturnLength _
+                                                 As Integer) As Integer
+    End Function
+
     Private Declare Function NtQueryInformationProcess Lib "Ntdll.dll" (ByVal hProcess As Integer, ByVal ProcessInformationClass As Integer, ByRef ProcessInformation As PROCESS_BASIC_INFORMATION, ByVal ProcessInformationLength As Integer, ByVal ReturnLength As Integer) As Integer
     Private Declare Function NtSetInformationProcess Lib "Ntdll.dll" (ByVal hProcess As Integer, ByVal ProcessInformationClass As Integer, ByVal ProcessInformation As Integer, ByVal ProcessInformationLength As Integer) As Integer
 
@@ -130,6 +141,16 @@ Public Class cProcess
         ByVal ProcessInformationLength As Integer, _
         ByRef ReturnLength As Integer) As Integer
 
+    <DllImport("kernel32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
+    Private Shared Function QueryDosDevice(ByVal DeviceName As String, ByVal TargetPath As StringBuilder, ByVal MaxLength As Integer) As Integer
+    End Function
+
+    <StructLayout(LayoutKind.Sequential)> _
+    Public Structure UNICODE_STRING
+        Public Length As UShort
+        Public MaximumLength As UShort
+        Public Buffer As Integer
+    End Structure
 
     ' ========================================
     ' Constants
@@ -430,6 +451,9 @@ Public Class cProcess
     ' Contains list of process names
     Private Shared _procs As New Dictionary(Of String, String)
 
+    ' Contains devices (logical drives) and their corresponding path
+    ' e.g. :        /Device/Harddisk1/...       , C:
+    Private Shared _DicoLogicalDrivesNames As New Dictionary(Of String, String)
 
     ' ========================================
     ' Constructors & destructor
@@ -445,31 +469,17 @@ Public Class cProcess
         _processors = frmMain.PROCESSOR_COUNT
     End Sub
 
-    'Public Sub New(ByVal processId As Integer, ByVal processName As String)
-    '    MyBase.New()
-    '    _pid = processId
-    '    _processors = frmMain.PROCESSOR_COUNT
-    '    _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, _pid)
-    '    _name = processName
-    'End Sub
-
     Public Sub New(ByRef proc As LightProcess)
         MyBase.New()
         _pid = proc.pid
         _processors = frmMain.PROCESSOR_COUNT
         _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, _pid)
+        If _hProcess = 0 Then
+            ' Try to open with limited rights
+            _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION, 0, _pid)
+        End If
         _name = proc.name
     End Sub
-
-    'Public Sub New(ByVal process As cProcess)
-    '    MyBase.New()
-    '    _pid = process.Pid
-    '    Me.IsKilledItem = process.IsKilledItem
-    '    _name = process.Name
-    '    _processors = process.ProcessorCount
-    '    _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION Or PROCESS_VM_READ, 0, _pid)
-    '    Me.IsNewItem = process.IsNewItem
-    'End Sub
 
     Protected Overloads Overrides Sub Finalize()
         CloseHandle(_hProcess)
@@ -685,6 +695,12 @@ Public Class cProcess
                 Else
                     sResult = NO_INFO_RETRIEVED
                 End If
+
+                If System.IO.File.Exists(sResult) = False Then
+                    Call RefreshLogicalDrives()
+                    sResult = GetImageFile(_pid)
+                End If
+
                 _path = sResult
 
                 ' If path does not exist (it sometimes happens, but why ?)
@@ -1783,6 +1799,98 @@ Public Class cProcess
             Return CStr(IIf(domain.ToString <> "", domain.ToString & "\", "")) & name.ToString
         Else
             Return name.ToString()
+        End If
+    End Function
+
+    ' Return the path of a process from its pid
+    Private Function GetImageFile(ByVal pid As Integer) As String
+
+        If _pid > 4 Then
+
+            ' Have to open a handle
+            Dim _h As Integer = OpenProcess(&H1000, 0, pid) ' Limited rights
+
+            If _h > 0 Then
+                ' Get size
+                Dim _size As Integer
+                NtQueryInformationProcess(_h, 27, IntPtr.Zero, 0, _size)
+                If _size = 0 Then
+                    ' Try to get more rights (XP)
+                    _h = OpenProcess(PROCESS_QUERY_INFORMATION, 0, pid)
+                    NtQueryInformationProcess(_h, 27, IntPtr.Zero, 0, _size)
+                    If _size = 0 Then
+                        Return "??"
+                    End If
+                End If
+
+                ' Retrieve unicode string
+                Dim _pt As IntPtr = Marshal.AllocHGlobal(_size)
+                NtQueryInformationProcess(_h, 27, _pt, _size, _size)
+                Dim _str As UNICODE_STRING = CType(Marshal.PtrToStructure(_pt, _
+                                                                         GetType(UNICODE_STRING)), UNICODE_STRING)
+                Marshal.FreeHGlobal(_pt)
+                CloseHandle(_h)
+
+                ' Return string (replace /DEVICE/... by the dos file name)
+                Dim _stemp As String = GetStringFromUNICODE_STRING(_str)
+                If _stemp IsNot Nothing Then
+                    Return DeviceDriveNameToDosDriveName(_stemp)
+                Else
+                    Return "??"
+                End If
+            Else
+                Return "??"
+            End If
+
+        ElseIf _pid = 4 Then
+            Return "SYSTEM"
+        Else
+            Return "[System process]"
+        End If
+
+    End Function
+
+    ' Return dos drive name
+    Private Shared Function DeviceDriveNameToDosDriveName(ByVal drivePath As String) As String
+
+        For Each pair As System.Collections.Generic.KeyValuePair(Of String, String) In _DicoLogicalDrivesNames
+            If drivePath.StartsWith(pair.Key) Then
+                Return pair.Value + drivePath.Substring(pair.Key.Length)
+            End If
+        Next
+        Return drivePath
+
+    End Function
+
+    ' Refresh the dictionnary of logical drives
+    Private Shared Sub RefreshLogicalDrives()
+
+        Dim _tempDico As Dictionary(Of String, String) = New Dictionary(Of String, String)
+
+        ' From 'A' to 'Z'
+        ' It also possible to use GetLogicalDriveStringsA
+        For c As Byte = 65 To 90
+            Dim _badPath As New StringBuilder(1024)
+
+            If QueryDosDevice(Char.ConvertFromUtf32(c) & ":", _badPath, 1024) <> 0 Then
+                _tempDico.Add(_badPath.ToString(), Char.ConvertFromUtf32(c).ToString() & ":")
+            End If
+        Next
+
+        _DicoLogicalDrivesNames = _tempDico
+    End Sub
+
+    ' Return a string from a UNICODE_STRING structure
+    Private Shared Function GetStringFromUNICODE_STRING(ByVal _str As UNICODE_STRING) As String
+        If _str.Length > 0 Then
+            Try
+                Return Marshal.PtrToStringUni(New IntPtr(_str.Buffer), _
+                                              CInt(_str.Length / 2))
+            Catch ex As Exception
+                Return ex.Message & "   " & _str.Buffer & "   " & _str.Length
+            End Try
+        Else
+            Return Nothing
         End If
     End Function
 End Class
