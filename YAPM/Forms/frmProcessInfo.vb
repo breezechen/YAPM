@@ -367,7 +367,8 @@ Public Class frmProcessInfo
         Dim z2 As Double = curProc.AverageCpuUsage
         If Double.IsNegativeInfinity(z) Then z = 0
         Me.graphCPU.Add2Values(z * 100, z2 * 100)
-        Me.graphMemory.AddValue(curProc.MemoryInfos.WorkingSetSize)
+        z = curProc.MemoryInfos.WorkingSetSize / 2147483648 * 100
+        Me.graphMemory.AddValue(z)
         Me.graphIO.AddValue(curProc.GetIOvalues.ReadTransferCount)
         Me.graphCPU.Refresh()
         Me.graphIO.Refresh()

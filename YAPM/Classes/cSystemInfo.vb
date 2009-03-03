@@ -349,18 +349,23 @@ Public Class cSystemInfo
                 zres1 += CLng(_ppi(x).IdleTime / _processors)
                 zres2 += CLng(_ppi(x).InterruptTime / _processors)
                 zres3 += CLng(_ppi(x).UserTime / _processors)
-                zres4 += CLng(_ppi(x).KernelTime / _processors)
-                zres5 += CLng(_ppi(x).DpcTime / _processors)
+                zres4 += CLng(_ppi(x).DpcTime / _processors)
+                zres5 += CLng(_ppi(x).KernelTime / _processors)
             Next
 
             Static oldProcTime As Long = 0
-            Dim newProcTime As Long = zres3 + zres4
+            Dim newProcTime As Long = zres3 + zres5 - zres1
             Dim diffProcTime As Long = newProcTime - oldProcTime
-            oldProcTime = newProcTime
 
-            If diff.Ticks > 0 And _processors > 0 Then
-                Return diffProcTime / diff.Ticks / _processors
+            If oldProcTime > 0 Then
+                oldProcTime = newProcTime
+                If diff.Ticks > 0 And _processors > 0 Then
+                    Return diffProcTime / diff.Ticks '/ _processors
+                Else
+                    Return 0
+                End If
             Else
+                oldProcTime = newProcTime
                 Return 0
             End If
 

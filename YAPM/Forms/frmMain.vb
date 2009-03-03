@@ -3981,15 +3981,12 @@ Public Class frmMain
     End Sub
 
     Private Sub timerTrayIcon_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerTrayIcon.Tick
-        Static perf As New PerformanceCounter("Processor", "% Processor Time", "_Total", ".")
-
+        ' Refresh infos
         Call Me.cInfo.RefreshInfo()
 
         Dim _cpuUsage As Double = Me.cInfo.CpuUsage
         Dim _physMemUsage As Double = Me.cInfo.PhysicalMemoryPercentageUsage
         Dim d As New Decimal(Decimal.Multiply(Me.cInfo.TotalPhysicalMemory, New Decimal(_physMemUsage)))
-
-        _cpuUsage = perf.NextValue / 100
 
         If _cpuUsage > 1 Then _cpuUsage = 1
         Dim s As String = "CPU usage : " & CStr(Math.Round(100 * _cpuUsage, 3)) & " %"

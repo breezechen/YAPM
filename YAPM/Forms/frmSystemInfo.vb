@@ -96,38 +96,45 @@ Public Class frmSystemInfo
                 zres1 += CLng(ppi(x).IdleTime / _processors)
                 zres2 += CLng(ppi(x).InterruptTime / _processors)
                 zres3 += CLng(ppi(x).UserTime / _processors)
-                zres4 += CLng(ppi(x).KernelTime / _processors)
                 zres5 += CLng(ppi(x).DpcTime / _processors)
+                zres4 += CLng(ppi(x).KernelTime / _processors)
             Next
+            zres4 = zres4 - zres5 - zres1 - zres2
             Me.lblCPUinterrupts.Text = CStr(zres0)
             Me.lblCPUprocessors.Text = CStr(_processors)
             Me.lblCPUsystemCalls.Text = CStr(pi.SystemCalls)
+            Dim zTotal As Double = zres4 + zres3 + zres1
 
             Dim ts As Date = New Date(zres1)
             Me.lblCPUidleTime.Text = String.Format("{0:00}", ts.Hour) & ":" & _
                 String.Format("{0:00}", ts.Minute) & ":" & _
                 String.Format("{0:00}", ts.Second) & ":" & _
-                String.Format("{000}", ts.Millisecond)
+                String.Format("{000}", ts.Millisecond) & vbTab & " (" & _
+                Math.Round(zres1 / zTotal * 100, 3).ToString & " %)"
             ts = New Date(zres2)
             Me.lblCPUinterruptTime.Text = String.Format("{0:00}", ts.Hour) & ":" & _
                 String.Format("{0:00}", ts.Minute) & ":" & _
                 String.Format("{0:00}", ts.Second) & ":" & _
-                String.Format("{000}", ts.Millisecond)
+                String.Format("{000}", ts.Millisecond) & vbTab & " (" & _
+                Math.Round(zres2 / zTotal * 100, 3).ToString & " %)"
             ts = New Date(zres3)
             Me.lblCPUuserTime.Text = String.Format("{0:00}", ts.Hour) & ":" & _
                 String.Format("{0:00}", ts.Minute) & ":" & _
                 String.Format("{0:00}", ts.Second) & ":" & _
-                String.Format("{000}", ts.Millisecond)
+                String.Format("{000}", ts.Millisecond) & vbTab & " (" & _
+                Math.Round(zres3 / zTotal * 100, 3).ToString & " %)"
             ts = New Date(zres4)
             Me.lblCPUkernelTime.Text = String.Format("{0:00}", ts.Hour) & ":" & _
                 String.Format("{0:00}", ts.Minute) & ":" & _
                 String.Format("{0:00}", ts.Second) & ":" & _
-                String.Format("{000}", ts.Millisecond)
+                String.Format("{000}", ts.Millisecond) & vbTab & " (" & _
+                Math.Round(zres4 / zTotal * 100, 3).ToString & " %)"
             ts = New Date(zres5)
             Me.lblCPUdpcTime.Text = String.Format("{0:00}", ts.Hour) & ":" & _
                 String.Format("{0:00}", ts.Minute) & ":" & _
                 String.Format("{0:00}", ts.Second) & ":" & _
-                String.Format("{000}", ts.Millisecond)
+                String.Format("{000}", ts.Millisecond) & vbTab & " (" & _
+                Math.Round(zres5 / zTotal * 100, 3).ToString & " %)"
 
             ' Kernel pools
             Me.lblKnpa.Text = CStr(pi.NonPagedPoolAllocs)

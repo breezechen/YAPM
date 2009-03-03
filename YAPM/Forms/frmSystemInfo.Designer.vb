@@ -119,9 +119,9 @@ Partial Class frmSystemInfo
         Me.Label1 = New System.Windows.Forms.Label
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
         Me.g1 = New YAPM.Graph2
         Me.g2 = New YAPM.Graph2
-        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
         Me.g3 = New YAPM.Graph2
         Me.g4 = New YAPM.Graph2
         Me.mainSplit.Panel1.SuspendLayout()
@@ -141,11 +141,11 @@ Partial Class frmSystemInfo
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.g1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.g2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
+        CType(Me.g1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.g2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.g3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.g4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -178,8 +178,8 @@ Partial Class frmSystemInfo
         'mainSplit.Panel2
         '
         Me.mainSplit.Panel2.Controls.Add(Me.SplitContainer2)
-        Me.mainSplit.Size = New System.Drawing.Size(640, 477)
-        Me.mainSplit.SplitterDistance = 341
+        Me.mainSplit.Size = New System.Drawing.Size(729, 477)
+        Me.mainSplit.SplitterDistance = 415
         Me.mainSplit.TabIndex = 11
         '
         'chkOneGraphPerCpu
@@ -208,7 +208,7 @@ Partial Class frmSystemInfo
         Me.GroupBox8.Controls.Add(Me.Label47)
         Me.GroupBox8.Location = New System.Drawing.Point(158, 309)
         Me.GroupBox8.Name = "GroupBox8"
-        Me.GroupBox8.Size = New System.Drawing.Size(178, 125)
+        Me.GroupBox8.Size = New System.Drawing.Size(244, 125)
         Me.GroupBox8.TabIndex = 15
         Me.GroupBox8.TabStop = False
         Me.GroupBox8.Text = "Kernel pools"
@@ -216,7 +216,7 @@ Partial Class frmSystemInfo
         'lblKnpf
         '
         Me.lblKnpf.AutoSize = True
-        Me.lblKnpf.Location = New System.Drawing.Point(109, 98)
+        Me.lblKnpf.Location = New System.Drawing.Point(121, 98)
         Me.lblKnpf.Name = "lblKnpf"
         Me.lblKnpf.Size = New System.Drawing.Size(13, 13)
         Me.lblKnpf.TabIndex = 13
@@ -234,7 +234,7 @@ Partial Class frmSystemInfo
         'lblKnpa
         '
         Me.lblKnpa.AutoSize = True
-        Me.lblKnpa.Location = New System.Drawing.Point(109, 83)
+        Me.lblKnpa.Location = New System.Drawing.Point(121, 83)
         Me.lblKnpa.Name = "lblKnpa"
         Me.lblKnpa.Size = New System.Drawing.Size(13, 13)
         Me.lblKnpa.TabIndex = 11
@@ -252,7 +252,7 @@ Partial Class frmSystemInfo
         'lblKnpu
         '
         Me.lblKnpu.AutoSize = True
-        Me.lblKnpu.Location = New System.Drawing.Point(109, 68)
+        Me.lblKnpu.Location = New System.Drawing.Point(121, 68)
         Me.lblKnpu.Name = "lblKnpu"
         Me.lblKnpu.Size = New System.Drawing.Size(13, 13)
         Me.lblKnpu.TabIndex = 9
@@ -270,7 +270,7 @@ Partial Class frmSystemInfo
         'lblKpf
         '
         Me.lblKpf.AutoSize = True
-        Me.lblKpf.Location = New System.Drawing.Point(109, 53)
+        Me.lblKpf.Location = New System.Drawing.Point(121, 53)
         Me.lblKpf.Name = "lblKpf"
         Me.lblKpf.Size = New System.Drawing.Size(13, 13)
         Me.lblKpf.TabIndex = 7
@@ -288,7 +288,7 @@ Partial Class frmSystemInfo
         'lblKpa
         '
         Me.lblKpa.AutoSize = True
-        Me.lblKpa.Location = New System.Drawing.Point(109, 38)
+        Me.lblKpa.Location = New System.Drawing.Point(121, 38)
         Me.lblKpa.Name = "lblKpa"
         Me.lblKpa.Size = New System.Drawing.Size(13, 13)
         Me.lblKpa.TabIndex = 5
@@ -306,7 +306,7 @@ Partial Class frmSystemInfo
         'lblKpp
         '
         Me.lblKpp.AutoSize = True
-        Me.lblKpp.Location = New System.Drawing.Point(109, 23)
+        Me.lblKpp.Location = New System.Drawing.Point(121, 23)
         Me.lblKpp.Name = "lblKpp"
         Me.lblKpp.Size = New System.Drawing.Size(13, 13)
         Me.lblKpp.TabIndex = 1
@@ -343,7 +343,7 @@ Partial Class frmSystemInfo
         Me.GroupBox7.Controls.Add(Me.Label31)
         Me.GroupBox7.Location = New System.Drawing.Point(158, 3)
         Me.GroupBox7.Name = "GroupBox7"
-        Me.GroupBox7.Size = New System.Drawing.Size(191, 169)
+        Me.GroupBox7.Size = New System.Drawing.Size(244, 169)
         Me.GroupBox7.TabIndex = 14
         Me.GroupBox7.TabStop = False
         Me.GroupBox7.Text = "CPU"
@@ -351,7 +351,7 @@ Partial Class frmSystemInfo
         'lblCPUdpcTime
         '
         Me.lblCPUdpcTime.AutoSize = True
-        Me.lblCPUdpcTime.Location = New System.Drawing.Point(108, 143)
+        Me.lblCPUdpcTime.Location = New System.Drawing.Point(113, 143)
         Me.lblCPUdpcTime.Name = "lblCPUdpcTime"
         Me.lblCPUdpcTime.Size = New System.Drawing.Size(13, 13)
         Me.lblCPUdpcTime.TabIndex = 17
@@ -369,7 +369,7 @@ Partial Class frmSystemInfo
         'lblCPUidleTime
         '
         Me.lblCPUidleTime.AutoSize = True
-        Me.lblCPUidleTime.Location = New System.Drawing.Point(108, 128)
+        Me.lblCPUidleTime.Location = New System.Drawing.Point(113, 128)
         Me.lblCPUidleTime.Name = "lblCPUidleTime"
         Me.lblCPUidleTime.Size = New System.Drawing.Size(13, 13)
         Me.lblCPUidleTime.TabIndex = 15
@@ -387,7 +387,7 @@ Partial Class frmSystemInfo
         'lblCPUuserTime
         '
         Me.lblCPUuserTime.AutoSize = True
-        Me.lblCPUuserTime.Location = New System.Drawing.Point(108, 113)
+        Me.lblCPUuserTime.Location = New System.Drawing.Point(113, 113)
         Me.lblCPUuserTime.Name = "lblCPUuserTime"
         Me.lblCPUuserTime.Size = New System.Drawing.Size(13, 13)
         Me.lblCPUuserTime.TabIndex = 13
@@ -405,7 +405,7 @@ Partial Class frmSystemInfo
         'lblCPUkernelTime
         '
         Me.lblCPUkernelTime.AutoSize = True
-        Me.lblCPUkernelTime.Location = New System.Drawing.Point(108, 98)
+        Me.lblCPUkernelTime.Location = New System.Drawing.Point(113, 98)
         Me.lblCPUkernelTime.Name = "lblCPUkernelTime"
         Me.lblCPUkernelTime.Size = New System.Drawing.Size(13, 13)
         Me.lblCPUkernelTime.TabIndex = 11
@@ -423,7 +423,7 @@ Partial Class frmSystemInfo
         'lblCPUinterruptTime
         '
         Me.lblCPUinterruptTime.AutoSize = True
-        Me.lblCPUinterruptTime.Location = New System.Drawing.Point(108, 83)
+        Me.lblCPUinterruptTime.Location = New System.Drawing.Point(113, 83)
         Me.lblCPUinterruptTime.Name = "lblCPUinterruptTime"
         Me.lblCPUinterruptTime.Size = New System.Drawing.Size(13, 13)
         Me.lblCPUinterruptTime.TabIndex = 9
@@ -441,7 +441,7 @@ Partial Class frmSystemInfo
         'lblCPUcontextSwitches
         '
         Me.lblCPUcontextSwitches.AutoSize = True
-        Me.lblCPUcontextSwitches.Location = New System.Drawing.Point(108, 68)
+        Me.lblCPUcontextSwitches.Location = New System.Drawing.Point(113, 68)
         Me.lblCPUcontextSwitches.Name = "lblCPUcontextSwitches"
         Me.lblCPUcontextSwitches.Size = New System.Drawing.Size(13, 13)
         Me.lblCPUcontextSwitches.TabIndex = 7
@@ -459,7 +459,7 @@ Partial Class frmSystemInfo
         'lblCPUsystemCalls
         '
         Me.lblCPUsystemCalls.AutoSize = True
-        Me.lblCPUsystemCalls.Location = New System.Drawing.Point(108, 53)
+        Me.lblCPUsystemCalls.Location = New System.Drawing.Point(113, 53)
         Me.lblCPUsystemCalls.Name = "lblCPUsystemCalls"
         Me.lblCPUsystemCalls.Size = New System.Drawing.Size(13, 13)
         Me.lblCPUsystemCalls.TabIndex = 5
@@ -477,7 +477,7 @@ Partial Class frmSystemInfo
         'lblCPUinterrupts
         '
         Me.lblCPUinterrupts.AutoSize = True
-        Me.lblCPUinterrupts.Location = New System.Drawing.Point(108, 38)
+        Me.lblCPUinterrupts.Location = New System.Drawing.Point(113, 38)
         Me.lblCPUinterrupts.Name = "lblCPUinterrupts"
         Me.lblCPUinterrupts.Size = New System.Drawing.Size(13, 13)
         Me.lblCPUinterrupts.TabIndex = 3
@@ -495,7 +495,7 @@ Partial Class frmSystemInfo
         'lblCPUprocessors
         '
         Me.lblCPUprocessors.AutoSize = True
-        Me.lblCPUprocessors.Location = New System.Drawing.Point(108, 23)
+        Me.lblCPUprocessors.Location = New System.Drawing.Point(113, 23)
         Me.lblCPUprocessors.Name = "lblCPUprocessors"
         Me.lblCPUprocessors.Size = New System.Drawing.Size(13, 13)
         Me.lblCPUprocessors.TabIndex = 1
@@ -526,7 +526,7 @@ Partial Class frmSystemInfo
         Me.GroupBox6.Controls.Add(Me.Label32)
         Me.GroupBox6.Location = New System.Drawing.Point(158, 178)
         Me.GroupBox6.Name = "GroupBox6"
-        Me.GroupBox6.Size = New System.Drawing.Size(178, 125)
+        Me.GroupBox6.Size = New System.Drawing.Size(244, 125)
         Me.GroupBox6.TabIndex = 13
         Me.GroupBox6.TabStop = False
         Me.GroupBox6.Text = "Page faults"
@@ -534,7 +534,7 @@ Partial Class frmSystemInfo
         'lblPFcache
         '
         Me.lblPFcache.AutoSize = True
-        Me.lblPFcache.Location = New System.Drawing.Point(98, 98)
+        Me.lblPFcache.Location = New System.Drawing.Point(121, 98)
         Me.lblPFcache.Name = "lblPFcache"
         Me.lblPFcache.Size = New System.Drawing.Size(13, 13)
         Me.lblPFcache.TabIndex = 11
@@ -552,7 +552,7 @@ Partial Class frmSystemInfo
         'lblPFdemandZero
         '
         Me.lblPFdemandZero.AutoSize = True
-        Me.lblPFdemandZero.Location = New System.Drawing.Point(98, 83)
+        Me.lblPFdemandZero.Location = New System.Drawing.Point(121, 83)
         Me.lblPFdemandZero.Name = "lblPFdemandZero"
         Me.lblPFdemandZero.Size = New System.Drawing.Size(13, 13)
         Me.lblPFdemandZero.TabIndex = 9
@@ -570,7 +570,7 @@ Partial Class frmSystemInfo
         'lblPFcacheTransition
         '
         Me.lblPFcacheTransition.AutoSize = True
-        Me.lblPFcacheTransition.Location = New System.Drawing.Point(98, 68)
+        Me.lblPFcacheTransition.Location = New System.Drawing.Point(121, 68)
         Me.lblPFcacheTransition.Name = "lblPFcacheTransition"
         Me.lblPFcacheTransition.Size = New System.Drawing.Size(13, 13)
         Me.lblPFcacheTransition.TabIndex = 7
@@ -588,7 +588,7 @@ Partial Class frmSystemInfo
         'lblPFtransition
         '
         Me.lblPFtransition.AutoSize = True
-        Me.lblPFtransition.Location = New System.Drawing.Point(98, 53)
+        Me.lblPFtransition.Location = New System.Drawing.Point(121, 53)
         Me.lblPFtransition.Name = "lblPFtransition"
         Me.lblPFtransition.Size = New System.Drawing.Size(13, 13)
         Me.lblPFtransition.TabIndex = 5
@@ -606,7 +606,7 @@ Partial Class frmSystemInfo
         'lblPFcopyOnWrite
         '
         Me.lblPFcopyOnWrite.AutoSize = True
-        Me.lblPFcopyOnWrite.Location = New System.Drawing.Point(98, 38)
+        Me.lblPFcopyOnWrite.Location = New System.Drawing.Point(121, 38)
         Me.lblPFcopyOnWrite.Name = "lblPFcopyOnWrite"
         Me.lblPFcopyOnWrite.Size = New System.Drawing.Size(13, 13)
         Me.lblPFcopyOnWrite.TabIndex = 3
@@ -624,7 +624,7 @@ Partial Class frmSystemInfo
         'lblPFtotal
         '
         Me.lblPFtotal.AutoSize = True
-        Me.lblPFtotal.Location = New System.Drawing.Point(98, 23)
+        Me.lblPFtotal.Location = New System.Drawing.Point(121, 23)
         Me.lblPFtotal.Name = "lblPFtotal"
         Me.lblPFtotal.Size = New System.Drawing.Size(13, 13)
         Me.lblPFtotal.TabIndex = 1
@@ -1099,7 +1099,7 @@ Partial Class frmSystemInfo
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.SplitContainer3)
-        Me.SplitContainer2.Size = New System.Drawing.Size(295, 477)
+        Me.SplitContainer2.Size = New System.Drawing.Size(310, 477)
         Me.SplitContainer2.SplitterDistance = 239
         Me.SplitContainer2.TabIndex = 0
         '
@@ -1118,38 +1118,9 @@ Partial Class frmSystemInfo
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.g2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(295, 239)
+        Me.SplitContainer1.Size = New System.Drawing.Size(310, 239)
         Me.SplitContainer1.SplitterDistance = 119
         Me.SplitContainer1.TabIndex = 1
-        '
-        'g1
-        '
-        Me.g1.BackColor = System.Drawing.Color.Black
-        Me.g1.Color = System.Drawing.Color.Lime
-        Me.g1.Color2 = System.Drawing.Color.Green
-        Me.g1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.g1.EnableGraph = True
-        Me.g1.Fixedheight = True
-        Me.g1.GridStep = 10
-        Me.g1.Location = New System.Drawing.Point(0, 0)
-        Me.g1.Name = "g1"
-        Me.g1.Size = New System.Drawing.Size(295, 119)
-        Me.g1.TabIndex = 10
-        Me.g1.TabStop = False
-        '
-        'g2
-        '
-        Me.g2.BackColor = System.Drawing.Color.Black
-        Me.g2.Color2 = System.Drawing.Color.Olive
-        Me.g2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.g2.EnableGraph = True
-        Me.g2.Fixedheight = False
-        Me.g2.GridStep = 10
-        Me.g2.Location = New System.Drawing.Point(0, 0)
-        Me.g2.Name = "g2"
-        Me.g2.Size = New System.Drawing.Size(295, 116)
-        Me.g2.TabIndex = 11
-        Me.g2.TabStop = False
         '
         'SplitContainer3
         '
@@ -1166,9 +1137,40 @@ Partial Class frmSystemInfo
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.g4)
-        Me.SplitContainer3.Size = New System.Drawing.Size(295, 234)
+        Me.SplitContainer3.Size = New System.Drawing.Size(310, 234)
         Me.SplitContainer3.SplitterDistance = 117
         Me.SplitContainer3.TabIndex = 0
+        '
+        'g1
+        '
+        Me.g1.BackColor = System.Drawing.Color.Black
+        Me.g1.Color = System.Drawing.Color.Lime
+        Me.g1.Color2 = System.Drawing.Color.Green
+        Me.g1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.g1.EnableGraph = True
+        Me.g1.Fixedheight = True
+        Me.g1.GridStep = 10
+        Me.g1.Location = New System.Drawing.Point(0, 0)
+        Me.g1.Name = "g1"
+        Me.g1.ShowSecondGraph = False
+        Me.g1.Size = New System.Drawing.Size(310, 119)
+        Me.g1.TabIndex = 10
+        Me.g1.TabStop = False
+        '
+        'g2
+        '
+        Me.g2.BackColor = System.Drawing.Color.Black
+        Me.g2.Color2 = System.Drawing.Color.Olive
+        Me.g2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.g2.EnableGraph = True
+        Me.g2.Fixedheight = False
+        Me.g2.GridStep = 10
+        Me.g2.Location = New System.Drawing.Point(0, 0)
+        Me.g2.Name = "g2"
+        Me.g2.ShowSecondGraph = False
+        Me.g2.Size = New System.Drawing.Size(310, 116)
+        Me.g2.TabIndex = 11
+        Me.g2.TabStop = False
         '
         'g3
         '
@@ -1181,7 +1183,8 @@ Partial Class frmSystemInfo
         Me.g3.GridStep = 10
         Me.g3.Location = New System.Drawing.Point(0, 0)
         Me.g3.Name = "g3"
-        Me.g3.Size = New System.Drawing.Size(295, 117)
+        Me.g3.ShowSecondGraph = False
+        Me.g3.Size = New System.Drawing.Size(310, 117)
         Me.g3.TabIndex = 10
         Me.g3.TabStop = False
         '
@@ -1196,7 +1199,8 @@ Partial Class frmSystemInfo
         Me.g4.GridStep = 10
         Me.g4.Location = New System.Drawing.Point(0, 0)
         Me.g4.Name = "g4"
-        Me.g4.Size = New System.Drawing.Size(295, 113)
+        Me.g4.ShowSecondGraph = False
+        Me.g4.Size = New System.Drawing.Size(310, 113)
         Me.g4.TabIndex = 11
         Me.g4.TabStop = False
         '
@@ -1204,7 +1208,7 @@ Partial Class frmSystemInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(640, 477)
+        Me.ClientSize = New System.Drawing.Size(729, 477)
         Me.Controls.Add(Me.mainSplit)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -1238,11 +1242,11 @@ Partial Class frmSystemInfo
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.g1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.g2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer3.Panel1.ResumeLayout(False)
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.ResumeLayout(False)
+        CType(Me.g1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.g2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.g3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.g4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
