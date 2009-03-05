@@ -1285,27 +1285,21 @@ Public Class frmProcessInfo
     Private Sub timerLog_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerLog.Tick
         Dim _i As Integer = GetTickCount
 
-        ' ---------------- Threads
+        Me.lvLog.BeginUpdate()
+
         Call _CheckThreads()
-
-        ' ---------------- Services
         Call _CheckServices()
-
-        ' ---------------- Modules
         Call _CheckModules()
-
-        ' ---------------- Windows
         Call _CheckWindows()
-
-        ' ---------------- Handles
         Call _CheckHandles()
-
-        ' ---------------- Memory
         Call _CheckMemory()
-
-        ' ---------------- Network
         Call _CheckNetwork()
 
+        Me.lvLog.EndUpdate()
+
+        If _autoScroll Then
+            Me.lvLog.Items(Me.lvLog.Items.Count - 1).EnsureVisible()
+        End If
 
         Call ChangeCaption()
         Trace.WriteLine("Log updated in " & (GetTickCount - _i).ToString & " ms")
@@ -1571,7 +1565,7 @@ Public Class frmProcessInfo
             For Each z As String In _dico.Keys
                 If Array.IndexOf(_itemId, z) < 0 Then
                     ' Deleted item
-                    Call addToLog("Thread deleted (" & _dico.Item(z).szModule & ")", LogItemType.ModuleItem, False)
+                    Call addToLog("Module unloaded (" & _dico.Item(z).szModule & ")", LogItemType.ModuleItem, False)
                 End If
             Next
         End If
@@ -1734,9 +1728,6 @@ Public Class frmProcessInfo
                     it.SubItems.Add(_type.ToString)
                     it.SubItems.Add(s)
                     Me.lvLog.Items.Add(it)
-                    If _autoScroll Then
-                        Me.lvLog.Items(Me.lvLog.Items.Count - 1).EnsureVisible()
-                    End If
                 End If
             End If
         End If
