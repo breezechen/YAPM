@@ -1340,7 +1340,7 @@ Public Class frmProcessInfo
             If Not (_dico.ContainsKey(z)) Then
                 ' New item
                 Dim lm As cNetwork.LightConnection = _buffDico.Item(z)
-                Call addToLog("Network connection created (" & lm.dwType.ToString & " -- Local : " & lm.local.ToString & " -- Remote : " & lm.remote.ToString & " -- State: " & lm.dwState.ToString & ")")
+                Call addToLog("Network connection created (" & lm.dwType.ToString & " -- Local : " & lm.local.ToString & IIf(lm.remote IsNot Nothing, " -- Remote : " & lm.remote.ToString, vbNullString).ToString & " -- State: " & lm.dwState.ToString & ")")
             End If
         Next
 
@@ -1350,7 +1350,7 @@ Public Class frmProcessInfo
             If Array.IndexOf(_itemId, z) < 0 Then
                 ' Deleted item
                 Dim lm As cNetwork.LightConnection = _dico.Item(z)
-                Call addToLog("Network connection deleted (" & lm.dwType.ToString & " -- Local : " & lm.local.ToString & " -- Remote : " & lm.remote.ToString & " -- State: " & lm.dwState.ToString & ")")
+                Call addToLog("Network connection deleted (" & lm.dwType.ToString & " -- Local : " & lm.local.ToString & IIf(lm.remote IsNot Nothing, " -- Remote : " & lm.remote.ToString, vbNullString).ToString & " -- State: " & lm.dwState.ToString & ")")
             End If
         Next
 
