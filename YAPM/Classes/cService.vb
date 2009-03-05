@@ -279,6 +279,10 @@ Public Class cService
     Private gotDiag As Boolean = False
     Private gotObj As Boolean = False
 
+    Private __oldState As Integer = -1
+    Private __oldStartType As Integer = -1
+    Private __oldProcessId As Integer = -1
+
     Private lServ As IntPtr
     Private Shared hSCManager As IntPtr
 
@@ -287,6 +291,23 @@ Public Class cService
     ' Getter & Setter
     ' ========================================
 #Region "Getter & setter"
+
+    Public ReadOnly Property HasChanged() As Boolean
+        Get
+            ' State & start & process
+            If ((Me.State <> __oldState) And (Me.ServiceStartTypeInt <> __oldStartType) And (Me.ProcessID <> __oldProcessId)) Then
+                __oldState = Me.State
+                __oldStartType = Me.ServiceStartTypeInt
+                __oldProcessId = Me.ProcessID
+                Return True
+            Else
+                __oldState = Me.State
+                __oldStartType = Me.ServiceStartTypeInt
+                __oldProcessId = Me.ProcessID
+                Return False
+            End If
+        End Get
+    End Property
 
     Public ReadOnly Property Key() As String
         Get

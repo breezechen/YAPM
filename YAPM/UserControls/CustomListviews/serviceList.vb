@@ -182,10 +182,12 @@ Public Class serviceList
             Dim x As Integer = 0
             Dim _item As cService = _dico.Item(it.Name)
             _item.Refresh()
-            For Each isub In it.SubItems
-                isub.Text = _item.GetInformation(_columnsName(x))
-                x += 1
-            Next
+            If _item.HasChanged Then
+                For Each isub In it.SubItems
+                    isub.Text = _item.GetInformation(_columnsName(x))
+                    x += 1
+                Next
+            End If
             If _dico.Item(it.Name).IsNewItem Then
                 _dico.Item(it.Name).IsNewItem = False
                 it.BackColor = Me.NEW_ITEM_COLOR
