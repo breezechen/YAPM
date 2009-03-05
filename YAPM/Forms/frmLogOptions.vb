@@ -113,10 +113,12 @@ Public Class frmLogOptions
         _frm.timerLog.Interval = CInt(Me.logInterval.Value)
         _frm.LvAutoScroll = Me._autoScroll.Checked
 
+        Me.DialogResult = Windows.Forms.DialogResult.OK
         Me.Close()
     End Sub
 
     Private Sub cmdCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdCancel.Click
+        Me.DialogResult = Windows.Forms.DialogResult.Cancel
         Me.Close()
     End Sub
 End Class

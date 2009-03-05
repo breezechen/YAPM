@@ -1748,25 +1748,26 @@ Public Class frmProcessInfo
         frm.LogDisplayMask = _logDisplayMask
         frm.Form = Me
         frm._autoScroll.Checked = _autoScroll
-        frm.ShowDialog()
 
-        ' Redisplay items
-        Me.lvLog.BeginUpdate()
-        Me.lvLog.Items.Clear()
-        For Each pair As System.Collections.Generic.KeyValuePair(Of Integer, LogItem) In _logDico
-            Dim b As Boolean = False
-            If pair.Value._created Then
-                b = ((_logDisplayMask And LogItemType.CreatedItems) = LogItemType.CreatedItems)
-            Else
-                b = ((_logDisplayMask And LogItemType.DeletedItems) = LogItemType.DeletedItems)
-            End If
-            If ((pair.Value._type And _logDisplayMask) = pair.Value._type) AndAlso b Then
-                Dim it As New ListViewItem(pair.Value._date.ToLongDateString & " -- " & pair.Value._date.ToLongTimeString)
-                it.SubItems.Add(pair.Value._type.ToString)
-                it.SubItems.Add(pair.Value._desc)
-                Me.lvLog.Items.Add(it)
-            End If
-        Next
-        Me.lvLog.EndUpdate()
+        If frm.ShowDialog = Windows.Forms.DialogResult.OK Then
+            ' Redisplay items
+            Me.lvLog.BeginUpdate()
+            Me.lvLog.Items.Clear()
+            For Each pair As System.Collections.Generic.KeyValuePair(Of Integer, LogItem) In _logDico
+                Dim b As Boolean = False
+                If pair.Value._created Then
+                    b = ((_logDisplayMask And LogItemType.CreatedItems) = LogItemType.CreatedItems)
+                Else
+                    b = ((_logDisplayMask And LogItemType.DeletedItems) = LogItemType.DeletedItems)
+                End If
+                If ((pair.Value._type And _logDisplayMask) = pair.Value._type) AndAlso b Then
+                    Dim it As New ListViewItem(pair.Value._date.ToLongDateString & " -- " & pair.Value._date.ToLongTimeString)
+                    it.SubItems.Add(pair.Value._type.ToString)
+                    it.SubItems.Add(pair.Value._desc)
+                    Me.lvLog.Items.Add(it)
+                End If
+            Next
+            Me.lvLog.EndUpdate()
+        End If
     End Sub
 End Class
