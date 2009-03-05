@@ -38,6 +38,8 @@ Partial Class frmProcessInfo
         Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Handles", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Strings", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup16 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Me.tabProcess = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
         Me.GroupBox6 = New System.Windows.Forms.GroupBox
@@ -279,10 +281,21 @@ Partial Class frmProcessInfo
         Me.ShowUnnamedHandlesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem9 = New System.Windows.Forms.ToolStripSeparator
         Me.ChooseColumnsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.TabPage14 = New System.Windows.Forms.TabPage
+        Me.SplitContainerLog = New System.Windows.Forms.SplitContainer
+        Me.logInterval = New System.Windows.Forms.NumericUpDown
+        Me.Label2 = New System.Windows.Forms.Label
+        Me.cmdSave = New System.Windows.Forms.Button
+        Me.cmdClearLog = New System.Windows.Forms.Button
+        Me.chkLog = New System.Windows.Forms.CheckBox
+        Me.lvLog = New YAPM.DoubleBufferedLV
+        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerProcPerf = New System.Windows.Forms.Timer(Me.components)
         Me.imgProcess = New System.Windows.Forms.ImageList(Me.components)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
+        Me.timerLog = New System.Windows.Forms.Timer(Me.components)
         Me.tabProcess.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
@@ -338,6 +351,11 @@ Partial Class frmProcessInfo
         Me.menuWindow.SuspendLayout()
         Me.TabPage13.SuspendLayout()
         Me.menuHandles.SuspendLayout()
+        Me.TabPage14.SuspendLayout()
+        Me.SplitContainerLog.Panel1.SuspendLayout()
+        Me.SplitContainerLog.Panel2.SuspendLayout()
+        Me.SplitContainerLog.SuspendLayout()
+        CType(Me.logInterval, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'tabProcess
@@ -356,6 +374,7 @@ Partial Class frmProcessInfo
         Me.tabProcess.Controls.Add(Me.TabPage11)
         Me.tabProcess.Controls.Add(Me.TabPage12)
         Me.tabProcess.Controls.Add(Me.TabPage13)
+        Me.tabProcess.Controls.Add(Me.TabPage14)
         Me.tabProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tabProcess.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tabProcess.ImageList = Me.imgProcessTab
@@ -2531,6 +2550,122 @@ Partial Class frmProcessInfo
         Me.ChooseColumnsToolStripMenuItem1.Size = New System.Drawing.Size(201, 22)
         Me.ChooseColumnsToolStripMenuItem1.Text = "Choose columns..."
         '
+        'TabPage14
+        '
+        Me.TabPage14.Controls.Add(Me.SplitContainerLog)
+        Me.TabPage14.ImageIndex = 6
+        Me.TabPage14.Location = New System.Drawing.Point(4, 42)
+        Me.TabPage14.Name = "TabPage14"
+        Me.TabPage14.Size = New System.Drawing.Size(636, 277)
+        Me.TabPage14.TabIndex = 14
+        Me.TabPage14.Text = "Log"
+        Me.TabPage14.UseVisualStyleBackColor = True
+        '
+        'SplitContainerLog
+        '
+        Me.SplitContainerLog.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainerLog.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainerLog.IsSplitterFixed = True
+        Me.SplitContainerLog.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainerLog.Name = "SplitContainerLog"
+        Me.SplitContainerLog.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainerLog.Panel1
+        '
+        Me.SplitContainerLog.Panel1.Controls.Add(Me.logInterval)
+        Me.SplitContainerLog.Panel1.Controls.Add(Me.Label2)
+        Me.SplitContainerLog.Panel1.Controls.Add(Me.cmdSave)
+        Me.SplitContainerLog.Panel1.Controls.Add(Me.cmdClearLog)
+        Me.SplitContainerLog.Panel1.Controls.Add(Me.chkLog)
+        '
+        'SplitContainerLog.Panel2
+        '
+        Me.SplitContainerLog.Panel2.Controls.Add(Me.lvLog)
+        Me.SplitContainerLog.Size = New System.Drawing.Size(636, 277)
+        Me.SplitContainerLog.SplitterDistance = 25
+        Me.SplitContainerLog.TabIndex = 0
+        '
+        'logInterval
+        '
+        Me.logInterval.Increment = New Decimal(New Integer() {10, 0, 0, 0})
+        Me.logInterval.Location = New System.Drawing.Point(313, 1)
+        Me.logInterval.Maximum = New Decimal(New Integer() {1000000, 0, 0, 0})
+        Me.logInterval.Minimum = New Decimal(New Integer() {50, 0, 0, 0})
+        Me.logInterval.Name = "logInterval"
+        Me.logInterval.Size = New System.Drawing.Size(52, 22)
+        Me.logInterval.TabIndex = 4
+        Me.logInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.logInterval.Value = New Decimal(New Integer() {1000, 0, 0, 0})
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(262, 6)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(45, 13)
+        Me.Label2.TabIndex = 3
+        Me.Label2.Text = "Interval"
+        '
+        'cmdSave
+        '
+        Me.cmdSave.Location = New System.Drawing.Point(181, 1)
+        Me.cmdSave.Name = "cmdSave"
+        Me.cmdSave.Size = New System.Drawing.Size(75, 23)
+        Me.cmdSave.TabIndex = 2
+        Me.cmdSave.Text = "Save log..."
+        Me.cmdSave.UseVisualStyleBackColor = True
+        '
+        'cmdClearLog
+        '
+        Me.cmdClearLog.Location = New System.Drawing.Point(100, 1)
+        Me.cmdClearLog.Name = "cmdClearLog"
+        Me.cmdClearLog.Size = New System.Drawing.Size(75, 23)
+        Me.cmdClearLog.TabIndex = 1
+        Me.cmdClearLog.Text = "Clear log"
+        Me.cmdClearLog.UseVisualStyleBackColor = True
+        '
+        'chkLog
+        '
+        Me.chkLog.AutoSize = True
+        Me.chkLog.Location = New System.Drawing.Point(8, 4)
+        Me.chkLog.Name = "chkLog"
+        Me.chkLog.Size = New System.Drawing.Size(86, 17)
+        Me.chkLog.TabIndex = 0
+        Me.chkLog.Text = "Activate log"
+        Me.chkLog.UseVisualStyleBackColor = True
+        '
+        'lvLog
+        '
+        Me.lvLog.AllowColumnReorder = True
+        Me.lvLog.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader2, Me.ColumnHeader4})
+        Me.lvLog.ContextMenuStrip = Me.menuString
+        Me.lvLog.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvLog.FullRowSelect = True
+        ListViewGroup15.Header = "Strings"
+        ListViewGroup15.Name = "gpOther"
+        ListViewGroup16.Header = "Search result"
+        ListViewGroup16.Name = "gpSearch"
+        Me.lvLog.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup15, ListViewGroup16})
+        Me.lvLog.HideSelection = False
+        Me.lvLog.Location = New System.Drawing.Point(0, 0)
+        Me.lvLog.MultiSelect = False
+        Me.lvLog.Name = "lvLog"
+        Me.lvLog.OverriddenDoubleBuffered = True
+        Me.lvLog.Size = New System.Drawing.Size(636, 248)
+        Me.lvLog.TabIndex = 24
+        Me.lvLog.UseCompatibleStateImageBehavior = False
+        Me.lvLog.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader2
+        '
+        Me.ColumnHeader2.Text = "Date & Time"
+        Me.ColumnHeader2.Width = 172
+        '
+        'ColumnHeader4
+        '
+        Me.ColumnHeader4.Text = "Description"
+        Me.ColumnHeader4.Width = 447
+        '
         'imgProcessTab
         '
         Me.imgProcessTab.ImageStream = CType(resources.GetObject("imgProcessTab.ImageStream"), System.Windows.Forms.ImageListStreamer)
@@ -2567,6 +2702,10 @@ Partial Class frmProcessInfo
         Me.imgMain.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit
         Me.imgMain.ImageSize = New System.Drawing.Size(16, 16)
         Me.imgMain.TransparentColor = System.Drawing.Color.Transparent
+        '
+        'timerLog
+        '
+        Me.timerLog.Interval = 1000
         '
         'frmProcessInfo
         '
@@ -2642,6 +2781,12 @@ Partial Class frmProcessInfo
         Me.menuWindow.ResumeLayout(False)
         Me.TabPage13.ResumeLayout(False)
         Me.menuHandles.ResumeLayout(False)
+        Me.TabPage14.ResumeLayout(False)
+        Me.SplitContainerLog.Panel1.ResumeLayout(False)
+        Me.SplitContainerLog.Panel1.PerformLayout()
+        Me.SplitContainerLog.Panel2.ResumeLayout(False)
+        Me.SplitContainerLog.ResumeLayout(False)
+        CType(Me.logInterval, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -2890,4 +3035,15 @@ Partial Class frmProcessInfo
     Friend WithEvents ChooseColumnsToolStripMenuItem5 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuNetwork As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem15 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents TabPage14 As System.Windows.Forms.TabPage
+    Friend WithEvents SplitContainerLog As System.Windows.Forms.SplitContainer
+    Friend WithEvents lvLog As YAPM.DoubleBufferedLV
+    Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents chkLog As System.Windows.Forms.CheckBox
+    Friend WithEvents timerLog As System.Windows.Forms.Timer
+    Friend WithEvents logInterval As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents cmdSave As System.Windows.Forms.Button
+    Friend WithEvents cmdClearLog As System.Windows.Forms.Button
 End Class

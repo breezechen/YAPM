@@ -450,6 +450,16 @@ Public Class cWindow
     ' ========================================
     ' Shared functions
     ' ========================================
+
+    ' Get caption
+    Public Shared Function GetCaption(ByVal h As IntPtr) As String
+        Dim length As Integer
+        length = GetWindowTextLength(h)
+        Dim _cap As New StringBuilder(Space(length + 1))
+        length = GetWindowText(h, _cap, length + 1)
+        Return _cap.ToString.Substring(0, Len(_cap.ToString))
+    End Function
+
     ' Retrieve windows list
     Public Shared Function Enumerate(ByVal showAll As Boolean, ByRef pidList() As _
                                      Integer, ByRef key() As Integer, ByRef _dico _

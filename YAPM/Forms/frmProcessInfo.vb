@@ -296,6 +296,7 @@ Public Class frmProcessInfo
         SetWindowTheme(Me.lvHandles.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvThreads.Handle, "explorer", Nothing)
         SetWindowTheme(Me.lvWindows.Handle, "explorer", Nothing)
+        SetWindowTheme(Me.lvLog.Handle, "explorer", Nothing)
 
         ' Some tooltips
         frmMain.SetToolTip(Me.chkModules, "Check if you want to retrieve modules and threads infos when you click on listview.")
@@ -415,6 +416,8 @@ Public Class frmProcessInfo
                 Me.Text &= " - " & Me.lvProcEnv.Items.Count.ToString & " variables"
             Case "Token"
                 Me.Text &= " - " & Me.lvPrivileges.Items.Count.ToString & " privileges"
+            Case "Log"
+                Me.Text &= " - " & Me.lvLog.Items.Count.ToString & " entries in log"
         End Select
     End Sub
 
@@ -1273,5 +1276,371 @@ Public Class frmProcessInfo
 
     Private Sub ToolStripMenuItem15_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem15.Click
         Me.lvProcNetwork.ChooseColumns()
+    End Sub
+
+    Private Sub chkLog_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkLog.CheckedChanged
+        Me.timerLog.Enabled = Me.chkLog.Checked
+    End Sub
+
+    Private Sub timerLog_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerLog.Tick
+        Dim _i As Integer = GetTickCount
+
+        ' ---------------- Threads
+        Call _CheckThreads()
+
+        ' ---------------- Services
+        Call _CheckServices()
+
+        ' ---------------- Modules
+        Call _CheckModules()
+
+        ' ---------------- Windows
+        Call _CheckWindows()
+
+        ' ---------------- Handles
+        Call _CheckHandles()
+
+        ' ---------------- Memory
+        Call _CheckMemory()
+
+        ' ---------------- Network
+        Call _CheckNetwork()
+
+
+        Call ChangeCaption()
+        Trace.WriteLine("Log updated in " & (GetTickCount - _i).ToString & " ms")
+    End Sub
+
+    Private Sub addToLog(ByVal s As String)
+        Dim it As New ListViewItem(Date.Now.ToLongDateString & " -- " & Date.Now.ToLongTimeString)
+        it.SubItems.Add(s)
+        Me.lvLog.Items.Add(it)
+    End Sub
+
+    ' Check if there are changes about network
+    Private Sub _CheckNetwork()
+
+        Static _dico As New Dictionary(Of String, cNetwork.LightConnection)
+        Static _first As Boolean = True
+        Dim _buffDico As New Dictionary(Of String, cNetwork.LightConnection)
+
+        Dim _itemId() As String
+        ReDim _itemId(0)
+        Dim _pid(0) As Integer
+        _pid(0) = curProc.Pid
+        Call cNetwork.Enumerate(False, _pid, _itemId, _buffDico)
+
+        If _first Then
+            _dico = _buffDico
+            _first = False
+        End If
+
+        ' Check if there are new items
+        For Each z As String In _itemId
+            If Not (_dico.ContainsKey(z)) Then
+                ' New item
+                Dim lm As cNetwork.LightConnection = _buffDico.Item(z)
+                Call addToLog("Network connection created (" & lm.dwType.ToString & " -- Local : " & lm.local.ToString & " -- Remote : " & lm.remote.ToString & " -- State: " & lm.dwState.ToString & ")")
+            End If
+        Next
+
+
+        ' Check if there are deleted items
+        For Each z As String In _dico.Keys
+            If Array.IndexOf(_itemId, z) < 0 Then
+                ' Deleted item
+                Dim lm As cNetwork.LightConnection = _dico.Item(z)
+                Call addToLog("Network connection deleted (" & lm.dwType.ToString & " -- Local : " & lm.local.ToString & " -- Remote : " & lm.remote.ToString & " -- State: " & lm.dwState.ToString & ")")
+            End If
+        Next
+
+
+        ' Save dico
+        _dico = _buffDico
+
+    End Sub
+
+    ' Check if there are changes about memory areas
+    Private Sub _CheckMemory()
+
+        Static _dico As New Dictionary(Of String, cProcessMemRW.MEMORY_BASIC_INFORMATION)
+        Static _first As Boolean = True
+        Dim _buffDico As New Dictionary(Of String, cProcessMemRW.MEMORY_BASIC_INFORMATION)
+
+        Dim _itemId() As String
+        ReDim _itemId(0)
+        Call cProcessMemRW.Enumerate(curProc.Pid, _itemId, _buffDico)
+
+        If _first Then
+            _dico = _buffDico
+            _first = False
+        End If
+
+        ' Check if there are new items
+        For Each z As String In _itemId
+            If Not (_dico.ContainsKey(z)) Then
+                ' New item
+                Dim lm As cProcessMemRW.MEMORY_BASIC_INFORMATION = _buffDico.Item(z)
+                Call addToLog("Memory region created (0x" & lm.BaseAddress.ToString("x") & " -- Size : " & GetFormatedSize(lm.RegionSize) & " -- Type : " & lm.lType.ToString & " -- Protection : " & lm.Protect.ToString & ")")
+            End If
+        Next
+
+
+        ' Check if there are deleted items
+        For Each z As String In _dico.Keys
+            If Array.IndexOf(_itemId, z) < 0 Then
+                ' Deleted item
+                Dim lm As cProcessMemRW.MEMORY_BASIC_INFORMATION = _dico.Item(z)
+                Call addToLog("Memory region deleted (0x" & lm.BaseAddress.ToString("x") & " -- Size : " & GetFormatedSize(lm.RegionSize) & " -- Type : " & lm.lType.ToString & " -- Protection : " & lm.Protect.ToString & ")")
+            End If
+        Next
+
+
+        ' Save dico
+        _dico = _buffDico
+
+    End Sub
+
+    ' Check if there are changes about handles
+    Private Sub _CheckHandles()
+
+        Static _dico As New Dictionary(Of String, cHandle.LightHandle)
+        Static _first As Boolean = True
+        Dim _buffDico As New Dictionary(Of String, cHandle.LightHandle)
+
+        Dim _itemId() As String
+        ReDim _itemId(0)
+        Dim _pid(0) As Integer
+        _pid(0) = curProc.Pid
+        Call cHandle.Enumerate(_pid, True, _itemId, _buffDico)
+
+        If _first Then
+            _dico = _buffDico
+            _first = False
+        End If
+
+        ' Check if there are new items
+        For Each z As String In _itemId
+            If Not (_dico.ContainsKey(z)) Then
+                ' New item
+                Dim lh As cHandle.LightHandle = _buffDico.Item(z)
+                Call addToLog("Handle created (" & lh.handle.ToString & " -- " & lh.type & " -- " & lh.name & ")")
+            End If
+        Next
+
+
+        ' Check if there are deleted items
+        For Each z As String In _dico.Keys
+            If Array.IndexOf(_itemId, z) < 0 Then
+                ' Deleted item
+                Dim lh As cHandle.LightHandle = _dico.Item(z)
+                Call addToLog("Handle created (" & lh.handle.ToString & " -- " & lh.type & " -- " & lh.name & ")")
+            End If
+        Next
+
+
+        ' Save dico
+        _dico = _buffDico
+
+    End Sub
+
+    ' Check if there are changes about threads
+    Private Sub _CheckThreads()
+
+        Static _dico As New Dictionary(Of String, cThread.LightThread)
+        Static _first As Boolean = True
+        Dim _buffDico As New Dictionary(Of String, cThread.LightThread)
+
+        Dim _itemId() As String
+        ReDim _itemId(0)
+        Dim _pid(0) As Integer
+        _pid(0) = curProc.Pid
+        Call cThread.Enumerate(_pid, _itemId, _buffDico)
+
+        If _first Then
+            _dico = _buffDico
+            _first = False
+        End If
+
+        ' Check if there are new items
+        For Each z As String In _itemId
+            If Not (_dico.ContainsKey(z)) Then
+                ' New item
+                Call addToLog("Thread created (" & _buffDico.Item(z).t.Id.ToString & ")")
+            End If
+        Next
+
+
+        ' Check if there are deleted items
+        For Each z As String In _dico.Keys
+            If Array.IndexOf(_itemId, z) < 0 Then
+                ' Deleted item
+                Call addToLog("Thread deleted (" & _dico.Item(z).t.Id.ToString & ")")
+            End If
+        Next
+
+
+        ' Save dico
+        _dico = _buffDico
+
+    End Sub
+
+    ' Check if there are changes about services
+    Private Sub _CheckServices()
+
+        Static _enum As New cServEnum
+        Static _dico As New Dictionary(Of String, cService.LightService)
+        Static _first As Boolean = True
+        Dim _buffDico As New Dictionary(Of String, cService.LightService)
+        Dim _buffDico2 As New Dictionary(Of String, cService.LightService)  ' Useless
+
+        Dim _itemId() As String
+        ReDim _itemId(0)
+
+        Call _enum.EnumerateApi(curProc.Pid, _itemId, _buffDico, _buffDico2)
+
+        If _first Then
+            _dico = _buffDico
+            _first = False
+        End If
+
+        ' Check if there are new items
+        For Each z As String In _itemId
+            If Not (_dico.ContainsKey(z)) Then
+                ' New item
+                Call addToLog("Service started (" & _buffDico.Item(z).name & ")")
+            End If
+        Next
+
+
+        ' Check if there are deleted items
+        For Each z As String In _dico.Keys
+            If Array.IndexOf(_itemId, z) < 0 Then
+                ' Deleted item
+                Call addToLog("Service stopped (" & _dico.Item(z).name & ")")
+            End If
+        Next
+
+
+        ' Save dico
+        _dico = _buffDico
+
+    End Sub
+
+    ' Check if there are changes about modules
+    Private Sub _CheckModules()
+
+        Static _dico As New Dictionary(Of String, cModule.MODULEENTRY32)
+        Static _first As Boolean = True
+        Dim _buffDico As New Dictionary(Of String, cModule.MODULEENTRY32)
+
+        Dim _itemId() As String
+        ReDim _itemId(0)
+        Call cModule.Enumerate(curProc.Pid, _itemId, _buffDico)
+
+        If _first Then
+            _dico = _buffDico
+            _first = False
+        End If
+
+        ' Check if there are new items
+        For Each z As String In _itemId
+            If Not (_dico.ContainsKey(z)) Then
+                ' New item
+                Call addToLog("Module loaded (" & _buffDico.Item(z).szModule & ")")
+            End If
+        Next
+
+
+        ' Check if there are deleted items
+        For Each z As String In _dico.Keys
+            If Array.IndexOf(_itemId, z) < 0 Then
+                ' Deleted item
+                Call addToLog("Thread deleted (" & _dico.Item(z).szModule & ")")
+            End If
+        Next
+
+
+        ' Save dico
+        _dico = _buffDico
+
+    End Sub
+
+    ' Check if there are changes about windows
+    Private Sub _CheckWindows()
+
+        Static _dico As New Dictionary(Of String, cWindow.LightWindow)
+        Static _first As Boolean = True
+        Dim _buffDico As New Dictionary(Of String, cWindow.LightWindow)
+
+        Dim _itemId() As Integer
+        ReDim _itemId(0)
+        Dim _pid(0) As Integer
+        _pid(0) = curProc.Pid
+        Call cWindow.Enumerate(True, _pid, _itemId, _buffDico)
+
+        If _first Then
+            _dico = _buffDico
+            _first = False
+        End If
+
+        ' Check if there are new items
+        For Each z As Integer In _itemId
+            If Not (_dico.ContainsKey(z.ToString)) Then
+                ' New item
+                Dim _light As cWindow.LightWindow = _buffDico.Item(z.ToString)
+                Call addToLog("Window created (" & _light.handle.ToString & "  --  " & cWindow.GetCaption(_light.handle) & ")")
+            End If
+        Next
+
+
+        ' Check if there are deleted items
+        For Each z As Integer In _dico.Keys
+            If Array.IndexOf(_itemId, z) < 0 Then
+                ' Deleted item
+                Call addToLog("Windows deleted (" & _dico.Item(z.ToString).handle.ToString & ")")
+            End If
+        Next
+
+
+        ' Save dico
+        _dico = _buffDico
+
+    End Sub
+
+    Private Sub logInterval_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles logInterval.ValueChanged
+        Me.timerLog.Interval = CInt(Me.logInterval.Value)
+    End Sub
+
+    Private Sub cmdClearLog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdClearLog.Click
+        Me.lvLog.Items.Clear()
+        Call ChangeCaption()
+    End Sub
+
+    Private Sub cmdSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSave.Click
+        ' Save log
+        frmMain.saveDial.Filter = "Text file (*.txt)|*.txt"
+        frmMain.saveDial.Title = "Save log"
+        Try
+            If frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
+                Dim s As String = frmMain.saveDial.FileName
+                If Len(s) > 0 Then
+                    Dim stream As New System.IO.StreamWriter(s, False)
+                    'Dim x As Integer = 0
+                    For Each cm As ListViewItem In Me.lvLog.Items
+                        stream.WriteLine(cm.Text & vbTab & vbTab & cm.SubItems(1).Text)
+                        'x += 1
+                        '  UpdateProgress(x)
+                    Next
+                    stream.WriteLine()
+                    stream.WriteLine(CStr(Me.lvLog.Items.Count) & " entries(s)")
+                    stream.Close()
+                    MsgBox("Save done.", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Log save")
+                End If
+            End If
+        Catch ex As Exception
+            '
+        End Try
+
     End Sub
 End Class

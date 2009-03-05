@@ -26,7 +26,7 @@ Imports System.Runtime.InteropServices
 Public Class cHandle
     Inherits cGeneralObject
 
-    Public Structure handleType
+    Public Structure LightHandle
         Dim handle As Integer
         Dim type As String
         Dim pid As Integer
@@ -54,7 +54,7 @@ Public Class cHandle
     ' ========================================
     ' Constructors & destructor
     ' ========================================
-    Public Sub New(ByVal key As String, ByRef ent As handleType)
+    Public Sub New(ByVal key As String, ByRef ent As LightHandle)
         _key = key
         With ent
             _handle = .handle
@@ -156,7 +156,7 @@ Public Class cHandle
     ' Retrieve handle list
     Public Shared Function Enumerate(ByVal processId As Integer(), ByVal showUNN As _
                                      Boolean, ByRef key() As String, ByRef _dico As  _
-                                     Dictionary(Of String, cHandle.handleType)) As Integer
+                                     Dictionary(Of String, cHandle.LightHandle)) As Integer
 
         _dico.Clear()
 
@@ -170,7 +170,7 @@ Public Class cHandle
                     If showUNN OrElse (Len(frmMain.handles_Renamed.GetObjectName(i)) > 0) Then
                         With frmMain.handles_Renamed
                             key(x) = .GetProcessID(i).ToString & "|" & .GetHandle(i).ToString & "|" & .GetNameInformation(i) & "|" & .GetObjectName(i) & "|"
-                            Dim ret As cHandle.handleType
+                            Dim ret As cHandle.LightHandle
                             With frmMain.handles_Renamed
                                 ret.handleCount = .GetHandleCount(i)
                                 ret.handle = .GetHandle(i)

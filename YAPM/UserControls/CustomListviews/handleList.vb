@@ -34,7 +34,7 @@ Public Class handleList
     ' ========================================
     Private _dicoNew As New Dictionary(Of String, cHandle)
     Private _dicoDel As New Dictionary(Of String, cHandle)
-    Private _buffDico As New Dictionary(Of String, cHandle.handleType)
+    Private _buffDico As New Dictionary(Of String, cHandle.LightHandle)
     Private _dico As New Dictionary(Of String, cHandle)
 
     Private _firstItemUpdate As Boolean = True
