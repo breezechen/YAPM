@@ -65,7 +65,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MemoryHexEditor, Version=1.0.3336.340, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="System" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms" />
@@ -128,6 +130,9 @@
     <EmbeddedResource Include="Forms\frmAboutG.resx">
       <DependentUpon>frmAboutG.vb</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmLogOptions.resx">
+      <DependentUpon>frmLogOptions.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CustomListviews\handleList.resx">
       <DependentUpon>handleList.vb</DependentUpon>
@@ -306,6 +311,12 @@
       <DependentUpon>frmAboutG.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmAboutG.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmLogOptions.Designer.vb">
+      <DependentUpon>frmLogOptions.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmLogOptions.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UserControls\CustomListviews\handleList.Designer.vb">

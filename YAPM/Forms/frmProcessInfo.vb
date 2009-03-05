@@ -1311,12 +1311,6 @@ Public Class frmProcessInfo
         Trace.WriteLine("Log updated in " & (GetTickCount - _i).ToString & " ms")
     End Sub
 
-    Private Sub addToLog(ByVal s As String)
-        Dim it As New ListViewItem(Date.Now.ToLongDateString & " -- " & Date.Now.ToLongTimeString)
-        it.SubItems.Add(s)
-        Me.lvLog.Items.Add(it)
-    End Sub
-
     ' Check if there are changes about network
     Private Sub _CheckNetwork()
 
@@ -1336,32 +1330,35 @@ Public Class frmProcessInfo
         End If
 
         ' Check if there are new items
-        For Each z As String In _itemId
-            If Not (_dico.ContainsKey(z)) Then
-                ' New item
-                Dim lm As cNetwork.LightConnection = _buffDico.Item(z)
-                If lm.remote IsNot Nothing Then
-                    Call addToLog("Network connection created (" & lm.dwType.ToString & " -- Local : " & lm.local.ToString & " -- Remote : " & lm.remote.ToString & " -- State: " & lm.dwState.ToString & ")")
-                Else
-                    Call addToLog("Network connection created (" & lm.dwType.ToString & " -- Local : " & lm.local.ToString & " -- State: " & lm.dwState.ToString & ")")
+        If (_logCaptureMask And LogItemType.CreatedItems) = LogItemType.CreatedItems Then
+            For Each z As String In _itemId
+                If Not (_dico.ContainsKey(z)) Then
+                    ' New item
+                    Dim lm As cNetwork.LightConnection = _buffDico.Item(z)
+                    If lm.remote IsNot Nothing Then
+                        Call addToLog("Network connection created (" & lm.dwType.ToString & " -- Local : " & lm.local.ToString & " -- Remote : " & lm.remote.ToString & " -- State: " & lm.dwState.ToString & ")", LogItemType.NetworkItem, True)
+                    Else
+                        Call addToLog("Network connection created (" & lm.dwType.ToString & " -- Local : " & lm.local.ToString & " -- State: " & lm.dwState.ToString & ")", LogItemType.NetworkItem, True)
+                    End If
                 End If
-            End If
-        Next
+            Next
+        End If
 
 
         ' Check if there are deleted items
-        For Each z As String In _dico.Keys
-            If Array.IndexOf(_itemId, z) < 0 Then
-                ' Deleted item
-                Dim lm As cNetwork.LightConnection = _dico.Item(z)
-                If lm.remote IsNot Nothing Then
-                    Call addToLog("Network connection created (" & lm.dwType.ToString & " -- Local : " & lm.local.ToString & " -- Remote : " & lm.remote.ToString & " -- State: " & lm.dwState.ToString & ")")
-                Else
-                    Call addToLog("Network connection created (" & lm.dwType.ToString & " -- Local : " & lm.local.ToString & " -- State: " & lm.dwState.ToString & ")")
+        If (_logCaptureMask And LogItemType.DeletedItems) = LogItemType.DeletedItems Then
+            For Each z As String In _dico.Keys
+                If Array.IndexOf(_itemId, z) < 0 Then
+                    ' Deleted item
+                    Dim lm As cNetwork.LightConnection = _dico.Item(z)
+                    If lm.remote IsNot Nothing Then
+                        Call addToLog("Network connection created (" & lm.dwType.ToString & " -- Local : " & lm.local.ToString & " -- Remote : " & lm.remote.ToString & " -- State: " & lm.dwState.ToString & ")", LogItemType.NetworkItem, False)
+                    Else
+                        Call addToLog("Network connection created (" & lm.dwType.ToString & " -- Local : " & lm.local.ToString & " -- State: " & lm.dwState.ToString & ")", LogItemType.NetworkItem, False)
+                    End If
                 End If
-            End If
-        Next
-
+            Next
+        End If
 
         ' Save dico
         _dico = _buffDico
@@ -1385,24 +1382,26 @@ Public Class frmProcessInfo
         End If
 
         ' Check if there are new items
-        For Each z As String In _itemId
-            If Not (_dico.ContainsKey(z)) Then
-                ' New item
-                Dim lm As cProcessMemRW.MEMORY_BASIC_INFORMATION = _buffDico.Item(z)
-                Call addToLog("Memory region created (0x" & lm.BaseAddress.ToString("x") & " -- Size : " & GetFormatedSize(lm.RegionSize) & " -- Type : " & lm.lType.ToString & " -- Protection : " & lm.Protect.ToString & ")")
-            End If
-        Next
-
+        If (_logCaptureMask And LogItemType.CreatedItems) = LogItemType.CreatedItems Then
+            For Each z As String In _itemId
+                If Not (_dico.ContainsKey(z)) Then
+                    ' New item
+                    Dim lm As cProcessMemRW.MEMORY_BASIC_INFORMATION = _buffDico.Item(z)
+                    Call addToLog("Memory region created (0x" & lm.BaseAddress.ToString("x") & " -- Size : " & GetFormatedSize(lm.RegionSize) & " -- Type : " & lm.lType.ToString & " -- Protection : " & lm.Protect.ToString & ")", LogItemType.MemoryItem, True)
+                End If
+            Next
+        End If
 
         ' Check if there are deleted items
-        For Each z As String In _dico.Keys
-            If Array.IndexOf(_itemId, z) < 0 Then
-                ' Deleted item
-                Dim lm As cProcessMemRW.MEMORY_BASIC_INFORMATION = _dico.Item(z)
-                Call addToLog("Memory region deleted (0x" & lm.BaseAddress.ToString("x") & " -- Size : " & GetFormatedSize(lm.RegionSize) & " -- Type : " & lm.lType.ToString & " -- Protection : " & lm.Protect.ToString & ")")
-            End If
-        Next
-
+        If (_logCaptureMask And LogItemType.DeletedItems) = LogItemType.DeletedItems Then
+            For Each z As String In _dico.Keys
+                If Array.IndexOf(_itemId, z) < 0 Then
+                    ' Deleted item
+                    Dim lm As cProcessMemRW.MEMORY_BASIC_INFORMATION = _dico.Item(z)
+                    Call addToLog("Memory region deleted (0x" & lm.BaseAddress.ToString("x") & " -- Size : " & GetFormatedSize(lm.RegionSize) & " -- Type : " & lm.lType.ToString & " -- Protection : " & lm.Protect.ToString & ")", LogItemType.MemoryItem, False)
+                End If
+            Next
+        End If
 
         ' Save dico
         _dico = _buffDico
@@ -1428,24 +1427,26 @@ Public Class frmProcessInfo
         End If
 
         ' Check if there are new items
-        For Each z As String In _itemId
-            If Not (_dico.ContainsKey(z)) Then
-                ' New item
-                Dim lh As cHandle.LightHandle = _buffDico.Item(z)
-                Call addToLog("Handle created (" & lh.handle.ToString & " -- " & lh.type & " -- " & lh.name & ")")
-            End If
-        Next
-
+        If (_logCaptureMask And LogItemType.CreatedItems) = LogItemType.CreatedItems Then
+            For Each z As String In _itemId
+                If Not (_dico.ContainsKey(z)) Then
+                    ' New item
+                    Dim lh As cHandle.LightHandle = _buffDico.Item(z)
+                    Call addToLog("Handle created (" & lh.handle.ToString & " -- " & lh.type & " -- " & lh.name & ")", LogItemType.HandleItem, True)
+                End If
+            Next
+        End If
 
         ' Check if there are deleted items
-        For Each z As String In _dico.Keys
-            If Array.IndexOf(_itemId, z) < 0 Then
-                ' Deleted item
-                Dim lh As cHandle.LightHandle = _dico.Item(z)
-                Call addToLog("Handle created (" & lh.handle.ToString & " -- " & lh.type & " -- " & lh.name & ")")
-            End If
-        Next
-
+        If (_logCaptureMask And LogItemType.DeletedItems) = LogItemType.DeletedItems Then
+            For Each z As String In _dico.Keys
+                If Array.IndexOf(_itemId, z) < 0 Then
+                    ' Deleted item
+                    Dim lh As cHandle.LightHandle = _dico.Item(z)
+                    Call addToLog("Handle created (" & lh.handle.ToString & " -- " & lh.type & " -- " & lh.name & ")", LogItemType.HandleItem, False)
+                End If
+            Next
+        End If
 
         ' Save dico
         _dico = _buffDico
@@ -1471,22 +1472,24 @@ Public Class frmProcessInfo
         End If
 
         ' Check if there are new items
-        For Each z As String In _itemId
-            If Not (_dico.ContainsKey(z)) Then
-                ' New item
-                Call addToLog("Thread created (" & _buffDico.Item(z).t.Id.ToString & ")")
-            End If
-        Next
-
+        If (_logCaptureMask And LogItemType.CreatedItems) = LogItemType.CreatedItems Then
+            For Each z As String In _itemId
+                If Not (_dico.ContainsKey(z)) Then
+                    ' New item
+                    Call addToLog("Thread created (" & _buffDico.Item(z).t.Id.ToString & ")", LogItemType.ThreadItem, True)
+                End If
+            Next
+        End If
 
         ' Check if there are deleted items
-        For Each z As String In _dico.Keys
-            If Array.IndexOf(_itemId, z) < 0 Then
-                ' Deleted item
-                Call addToLog("Thread deleted (" & _dico.Item(z).t.Id.ToString & ")")
-            End If
-        Next
-
+        If (_logCaptureMask And LogItemType.DeletedItems) = LogItemType.DeletedItems Then
+            For Each z As String In _dico.Keys
+                If Array.IndexOf(_itemId, z) < 0 Then
+                    ' Deleted item
+                    Call addToLog("Thread deleted (" & _dico.Item(z).t.Id.ToString & ")", LogItemType.ThreadItem, False)
+                End If
+            Next
+        End If
 
         ' Save dico
         _dico = _buffDico
@@ -1513,22 +1516,24 @@ Public Class frmProcessInfo
         End If
 
         ' Check if there are new items
-        For Each z As String In _itemId
-            If Not (_dico.ContainsKey(z)) Then
-                ' New item
-                Call addToLog("Service started (" & _buffDico.Item(z).name & ")")
-            End If
-        Next
-
+        If (_logCaptureMask And LogItemType.CreatedItems) = LogItemType.CreatedItems Then
+            For Each z As String In _itemId
+                If Not (_dico.ContainsKey(z)) Then
+                    ' New item
+                    Call addToLog("Service started (" & _buffDico.Item(z).name & ")", LogItemType.ServiceItem, True)
+                End If
+            Next
+        End If
 
         ' Check if there are deleted items
-        For Each z As String In _dico.Keys
-            If Array.IndexOf(_itemId, z) < 0 Then
-                ' Deleted item
-                Call addToLog("Service stopped (" & _dico.Item(z).name & ")")
-            End If
-        Next
-
+        If (_logCaptureMask And LogItemType.DeletedItems) = LogItemType.DeletedItems Then
+            For Each z As String In _dico.Keys
+                If Array.IndexOf(_itemId, z) < 0 Then
+                    ' Deleted item
+                    Call addToLog("Service stopped (" & _dico.Item(z).name & ")", LogItemType.ServiceItem, False)
+                End If
+            Next
+        End If
 
         ' Save dico
         _dico = _buffDico
@@ -1552,22 +1557,24 @@ Public Class frmProcessInfo
         End If
 
         ' Check if there are new items
-        For Each z As String In _itemId
-            If Not (_dico.ContainsKey(z)) Then
-                ' New item
-                Call addToLog("Module loaded (" & _buffDico.Item(z).szModule & ")")
-            End If
-        Next
-
+        If (_logCaptureMask And LogItemType.CreatedItems) = LogItemType.CreatedItems Then
+            For Each z As String In _itemId
+                If Not (_dico.ContainsKey(z)) Then
+                    ' New item
+                    Call addToLog("Module loaded (" & _buffDico.Item(z).szModule & ")", LogItemType.ModuleItem, True)
+                End If
+            Next
+        End If
 
         ' Check if there are deleted items
-        For Each z As String In _dico.Keys
-            If Array.IndexOf(_itemId, z) < 0 Then
-                ' Deleted item
-                Call addToLog("Thread deleted (" & _dico.Item(z).szModule & ")")
-            End If
-        Next
-
+        If (_logCaptureMask And LogItemType.DeletedItems) = LogItemType.DeletedItems Then
+            For Each z As String In _dico.Keys
+                If Array.IndexOf(_itemId, z) < 0 Then
+                    ' Deleted item
+                    Call addToLog("Thread deleted (" & _dico.Item(z).szModule & ")", LogItemType.ModuleItem, False)
+                End If
+            Next
+        End If
 
         ' Save dico
         _dico = _buffDico
@@ -1593,35 +1600,34 @@ Public Class frmProcessInfo
         End If
 
         ' Check if there are new items
-        For Each z As Integer In _itemId
-            If Not (_dico.ContainsKey(z.ToString)) Then
-                ' New item
-                Dim _light As cWindow.LightWindow = _buffDico.Item(z.ToString)
-                Call addToLog("Window created (" & _light.handle.ToString & "  --  " & cWindow.GetCaption(_light.handle) & ")")
-            End If
-        Next
-
+        If (_logCaptureMask And LogItemType.CreatedItems) = LogItemType.CreatedItems Then
+            For Each z As Integer In _itemId
+                If Not (_dico.ContainsKey(z.ToString)) Then
+                    ' New item
+                    Dim _light As cWindow.LightWindow = _buffDico.Item(z.ToString)
+                    Call addToLog("Window created (" & _light.handle.ToString & "  --  " & cWindow.GetCaption(_light.handle) & ")", LogItemType.WindowItem, True)
+                End If
+            Next
+        End If
 
         ' Check if there are deleted items
-        For Each z As Integer In _dico.Keys
-            If Array.IndexOf(_itemId, z) < 0 Then
-                ' Deleted item
-                Call addToLog("Windows deleted (" & _dico.Item(z.ToString).handle.ToString & ")")
-            End If
-        Next
-
+        If (_logCaptureMask And LogItemType.DeletedItems) = LogItemType.DeletedItems Then
+            For Each z As Integer In _dico.Keys
+                If Array.IndexOf(_itemId, z) < 0 Then
+                    ' Deleted item
+                    Call addToLog("Windows deleted (" & _dico.Item(z.ToString).handle.ToString & ")", LogItemType.WindowItem, False)
+                End If
+            Next
+        End If
 
         ' Save dico
         _dico = _buffDico
 
     End Sub
 
-    Private Sub logInterval_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles logInterval.ValueChanged
-        Me.timerLog.Interval = CInt(Me.logInterval.Value)
-    End Sub
-
     Private Sub cmdClearLog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdClearLog.Click
         Me.lvLog.Items.Clear()
+        _logDico.Clear()
         Call ChangeCaption()
     End Sub
 
@@ -1650,5 +1656,117 @@ Public Class frmProcessInfo
             '
         End Try
 
+    End Sub
+
+    Private _logCaptureMask As LogItemType = LogItemType.AllItems
+    Private _logDisplayMask As LogItemType = LogItemType.AllItems
+    Private _autoScroll As Boolean = False
+    Private _logDico As New Dictionary(Of Integer, LogItem)
+    Public Enum LogItemType As Integer
+        ModuleItem = 1
+        ThreadItem = 2
+        ServiceItem = 4
+        WindowItem = 8
+        HandleItem = 16
+        MemoryItem = 32
+        NetworkItem = 64
+        DeletedItems = 128
+        CreatedItems = 256
+        AllItems = ModuleItem Or ThreadItem Or ServiceItem Or WindowItem Or HandleItem _
+            Or MemoryItem Or NetworkItem Or DeletedItems Or CreatedItems
+    End Enum
+    Public Structure LogItem
+        Public _date As Date
+        Public _desc As String
+        Public _type As LogItemType
+        Public _created As Boolean
+        Public Sub New(ByVal aDesc As String, ByVal aType As LogItemType, _
+                       ByVal created As Boolean)
+            _date = Date.Now
+            _desc = aDesc
+            _type = aType
+            _created = created
+        End Sub
+    End Structure
+    Public Property LogCaptureMask() As LogItemType
+        Get
+            Return _logCaptureMask
+        End Get
+        Set(ByVal value As LogItemType)
+            _logCaptureMask = value
+        End Set
+    End Property
+    Public Property LogDisplayMask() As LogItemType
+        Get
+            Return _logDisplayMask
+        End Get
+        Set(ByVal value As LogItemType)
+            _logDisplayMask = value
+        End Set
+    End Property
+    Public Property LvAutoScroll() As Boolean
+        Get
+            Return _autoScroll
+        End Get
+        Set(ByVal value As Boolean)
+            _autoScroll = value
+        End Set
+    End Property
+
+    Private Sub addToLog(ByVal s As String, ByVal _type As LogItemType, _
+                         ByVal created As Boolean)
+        Static _number As Integer = 0
+
+        If (_type And _logCaptureMask) = _type Then
+            _number += 1
+            _logDico.Add(_number, New LogItem(s, _type, created))
+
+            If (_type And _logDisplayMask) = _type Then
+                ' Here we add the item to lv
+                Dim b As Boolean
+                If created Then
+                    b = (_logDisplayMask And LogItemType.CreatedItems) = LogItemType.CreatedItems
+                Else
+                    b = (_logDisplayMask And LogItemType.DeletedItems) = LogItemType.DeletedItems
+                End If
+                If b Then
+                    Dim it As New ListViewItem(Date.Now.ToLongDateString & " -- " & Date.Now.ToLongTimeString)
+                    it.SubItems.Add(_type.ToString)
+                    it.SubItems.Add(s)
+                    Me.lvLog.Items.Add(it)
+                    If _autoScroll Then
+                        Me.lvLog.Items(Me.lvLog.Items.Count - 1).EnsureVisible()
+                    End If
+                End If
+            End If
+        End If
+    End Sub
+
+    Private Sub cmdLogOptions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdLogOptions.Click
+        Dim frm As New frmLogOptions
+        frm.LogCaptureMask = _logCaptureMask
+        frm.LogDisplayMask = _logDisplayMask
+        frm.Form = Me
+        frm._autoScroll.Checked = _autoScroll
+        frm.ShowDialog()
+
+        ' Redisplay items
+        Me.lvLog.BeginUpdate()
+        Me.lvLog.Items.Clear()
+        For Each pair As System.Collections.Generic.KeyValuePair(Of Integer, LogItem) In _logDico
+            Dim b As Boolean = False
+            If pair.Value._created Then
+                b = ((_logDisplayMask And LogItemType.CreatedItems) = LogItemType.CreatedItems)
+            Else
+                b = ((_logDisplayMask And LogItemType.DeletedItems) = LogItemType.DeletedItems)
+            End If
+            If ((pair.Value._type And _logDisplayMask) = pair.Value._type) AndAlso b Then
+                Dim it As New ListViewItem(pair.Value._date.ToLongDateString & " -- " & pair.Value._date.ToLongTimeString)
+                it.SubItems.Add(pair.Value._type.ToString)
+                it.SubItems.Add(pair.Value._desc)
+                Me.lvLog.Items.Add(it)
+            End If
+        Next
+        Me.lvLog.EndUpdate()
     End Sub
 End Class

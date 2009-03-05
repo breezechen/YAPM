@@ -283,8 +283,7 @@ Partial Class frmProcessInfo
         Me.ChooseColumnsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.TabPage14 = New System.Windows.Forms.TabPage
         Me.SplitContainerLog = New System.Windows.Forms.SplitContainer
-        Me.logInterval = New System.Windows.Forms.NumericUpDown
-        Me.Label2 = New System.Windows.Forms.Label
+        Me.cmdLogOptions = New System.Windows.Forms.Button
         Me.cmdSave = New System.Windows.Forms.Button
         Me.cmdClearLog = New System.Windows.Forms.Button
         Me.chkLog = New System.Windows.Forms.CheckBox
@@ -296,6 +295,7 @@ Partial Class frmProcessInfo
         Me.imgProcess = New System.Windows.Forms.ImageList(Me.components)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.timerLog = New System.Windows.Forms.Timer(Me.components)
+        Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.tabProcess.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
@@ -355,7 +355,6 @@ Partial Class frmProcessInfo
         Me.SplitContainerLog.Panel1.SuspendLayout()
         Me.SplitContainerLog.Panel2.SuspendLayout()
         Me.SplitContainerLog.SuspendLayout()
-        CType(Me.logInterval, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'tabProcess
@@ -2572,8 +2571,7 @@ Partial Class frmProcessInfo
         '
         'SplitContainerLog.Panel1
         '
-        Me.SplitContainerLog.Panel1.Controls.Add(Me.logInterval)
-        Me.SplitContainerLog.Panel1.Controls.Add(Me.Label2)
+        Me.SplitContainerLog.Panel1.Controls.Add(Me.cmdLogOptions)
         Me.SplitContainerLog.Panel1.Controls.Add(Me.cmdSave)
         Me.SplitContainerLog.Panel1.Controls.Add(Me.cmdClearLog)
         Me.SplitContainerLog.Panel1.Controls.Add(Me.chkLog)
@@ -2585,26 +2583,14 @@ Partial Class frmProcessInfo
         Me.SplitContainerLog.SplitterDistance = 25
         Me.SplitContainerLog.TabIndex = 0
         '
-        'logInterval
+        'cmdLogOptions
         '
-        Me.logInterval.Increment = New Decimal(New Integer() {10, 0, 0, 0})
-        Me.logInterval.Location = New System.Drawing.Point(313, 1)
-        Me.logInterval.Maximum = New Decimal(New Integer() {1000000, 0, 0, 0})
-        Me.logInterval.Minimum = New Decimal(New Integer() {50, 0, 0, 0})
-        Me.logInterval.Name = "logInterval"
-        Me.logInterval.Size = New System.Drawing.Size(52, 22)
-        Me.logInterval.TabIndex = 4
-        Me.logInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.logInterval.Value = New Decimal(New Integer() {1000, 0, 0, 0})
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(262, 6)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(45, 13)
-        Me.Label2.TabIndex = 3
-        Me.Label2.Text = "Interval"
+        Me.cmdLogOptions.Location = New System.Drawing.Point(262, 1)
+        Me.cmdLogOptions.Name = "cmdLogOptions"
+        Me.cmdLogOptions.Size = New System.Drawing.Size(75, 23)
+        Me.cmdLogOptions.TabIndex = 5
+        Me.cmdLogOptions.Text = "Options..."
+        Me.cmdLogOptions.UseVisualStyleBackColor = True
         '
         'cmdSave
         '
@@ -2637,7 +2623,7 @@ Partial Class frmProcessInfo
         'lvLog
         '
         Me.lvLog.AllowColumnReorder = True
-        Me.lvLog.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader2, Me.ColumnHeader4})
+        Me.lvLog.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader2, Me.ColumnHeader5, Me.ColumnHeader4})
         Me.lvLog.ContextMenuStrip = Me.menuString
         Me.lvLog.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvLog.FullRowSelect = True
@@ -2664,7 +2650,7 @@ Partial Class frmProcessInfo
         'ColumnHeader4
         '
         Me.ColumnHeader4.Text = "Description"
-        Me.ColumnHeader4.Width = 447
+        Me.ColumnHeader4.Width = 400
         '
         'imgProcessTab
         '
@@ -2706,6 +2692,11 @@ Partial Class frmProcessInfo
         'timerLog
         '
         Me.timerLog.Interval = 1000
+        '
+        'ColumnHeader5
+        '
+        Me.ColumnHeader5.Text = "Type"
+        Me.ColumnHeader5.Width = 69
         '
         'frmProcessInfo
         '
@@ -2786,7 +2777,6 @@ Partial Class frmProcessInfo
         Me.SplitContainerLog.Panel1.PerformLayout()
         Me.SplitContainerLog.Panel2.ResumeLayout(False)
         Me.SplitContainerLog.ResumeLayout(False)
-        CType(Me.logInterval, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -3042,8 +3032,8 @@ Partial Class frmProcessInfo
     Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
     Friend WithEvents chkLog As System.Windows.Forms.CheckBox
     Friend WithEvents timerLog As System.Windows.Forms.Timer
-    Friend WithEvents logInterval As System.Windows.Forms.NumericUpDown
-    Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents cmdSave As System.Windows.Forms.Button
     Friend WithEvents cmdClearLog As System.Windows.Forms.Button
+    Friend WithEvents cmdLogOptions As System.Windows.Forms.Button
+    Friend WithEvents ColumnHeader5 As System.Windows.Forms.ColumnHeader
 End Class
