@@ -52,7 +52,11 @@ Public Class frmProcessInfo
                 Call ShowNetwork()
 
             Case "Services"
-                Call ShowServices()
+                Try
+                    Call ShowServices()
+                Catch ex As Exception
+                    '
+                End Try
 
             Case "Strings"
                 Call getProcString(curProc)
