@@ -126,6 +126,20 @@ Public Class cService
         Dim dwServiceFlags As Integer
     End Structure
 
+    Public Structure LightService
+        Public processId As Integer
+        Public state As Integer
+        Public name As String
+        Public Sub New(ByVal _name As String, ByVal _state As Integer, ByVal _procId As Integer)
+            name = _name
+            state = _state
+            processId = _procId
+        End Sub
+        Public Sub SetAsChanged()
+            processId = -2
+        End Sub
+    End Structure
+
     'Public Structure ENUM_SERVICE_STATUS_PROCESS
     '    Dim lpServiceName As IntPtr
     '    Dim lpDisplayName As IntPtr
@@ -292,18 +306,16 @@ Public Class cService
     ' ========================================
 #Region "Getter & setter"
 
-    Public ReadOnly Property HasChanged() As Boolean
+    Public ReadOnly Property HasChanged(ByVal _serv As LightService) As Boolean
         Get
             ' State & start & process
-            If ((Me.State <> __oldState) And (Me.ServiceStartTypeInt <> __oldStartType) And (Me.ProcessID <> __oldProcessId)) Then
-                __oldState = Me.State
-                __oldStartType = Me.ServiceStartTypeInt
-                __oldProcessId = Me.ProcessID
+            If ((_serv.state <> __oldState) Or (_serv.processId <> __oldProcessId)) Then
+                __oldState = _serv.state
+                __oldProcessId = _serv.processId
                 Return True
             Else
-                __oldState = Me.State
-                __oldStartType = Me.ServiceStartTypeInt
-                __oldProcessId = Me.ProcessID
+                __oldState = _serv.state
+                __oldProcessId = _serv.processId
                 Return False
             End If
         End Get
@@ -448,19 +460,22 @@ Public Class cService
 
 
     ' Constructor
-    Public Sub New(ByVal key As String, ByVal SCMgr As IntPtr)
+    Public Sub New(ByRef serv As LightService, ByVal key As String, ByVal SCMgr As IntPtr)
         MyBase.New()
 
         ' Key is such as : NAME|PID
         _key = key
-        Dim i As Integer = key.IndexOf("|")
-        If i = 0 Then
-            _dwProcessId = 0
-            _Name = key
-        Else
-            _dwProcessId = Integer.Parse(key.Substring(i + 1, key.Length - i - 1))
-            _Name = key.Substring(0, i)
-        End If
+        'Dim i As Integer = Key.IndexOf("|")
+        'If i = 0 Then
+        '    _dwProcessId = 0
+        '    _Name = Key
+        'Else
+        '    _dwProcessId = Integer.Parse(Key.Substring(i + 1, Key.Length - i - 1))
+        '    _Name = Key.Substring(0, i)
+        'End If
+        _dwProcessId = serv.processId
+        _Name = serv.name
+        _dwCurrentState = CType(serv.state, SERVIVE_STATE)
 
         ' Get param infos
         hSCManager = SCMgr

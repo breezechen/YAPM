@@ -34,6 +34,8 @@ Public Class serviceList
     ' ========================================
     Private _dicoNew As New Dictionary(Of String, cService)
     Private _dicoDel As New Dictionary(Of String, cService)
+    Private _buffDico As New Dictionary(Of String, cService.LightService)
+    Private _buffDico2 As New Dictionary(Of String, cService.LightService)
     Private _dico As New Dictionary(Of String, cService)
 
     Private _firstItemUpdate As Boolean = True
@@ -44,6 +46,7 @@ Public Class serviceList
     Private _IMG As ImageList
     Private m_SortingColumn As ColumnHeader
     Private _pid As Integer
+    Private _haveToRefreshAll As Boolean = False
     Private _all As Boolean = False
 
     Private _foreColor As Color = Color.FromArgb(30, 30, 30)
@@ -110,9 +113,9 @@ Public Class serviceList
         Dim _itemId() As String
         ReDim _itemId(0)
         If _all Then
-            __servEnum.EnumerateApi(_itemId)
+            __servEnum.EnumerateApi(_itemId, _buffDico, _buffDico2)
         Else
-            __servEnum.EnumerateApi(_pid, _itemId)
+            __servEnum.EnumerateApi(_pid, _itemId, _buffDico, _buffDico2)
         End If
 
         ' Now add all items with isKilled = true to _dicoDel dictionnary
@@ -151,7 +154,8 @@ Public Class serviceList
 
         ' Merge _dico and _dicoNew
         For Each z As String In _dicoNew.Keys
-            Dim _it As cService = New cService(z, __servEnum.SCManagerHandle)
+            Dim _it As cService = New cService(_buffDico.Item(z), z, _
+                                               __servEnum.SCManagerHandle)
             _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
             _dico.Add(z, _it)
         Next
@@ -181,8 +185,8 @@ Public Class serviceList
         For Each it In Me.Items
             Dim x As Integer = 0
             Dim _item As cService = _dico.Item(it.Name)
-            _item.Refresh()
-            If _item.HasChanged Then
+            If _item.HasChanged(_buffDico2.Item(_item.Name)) OrElse _haveToRefreshAll Then
+                _item.Refresh()
                 For Each isub In it.SubItems
                     isub.Text = _item.GetInformation(_columnsName(x))
                     x += 1
@@ -197,16 +201,17 @@ Public Class serviceList
                 it.BackColor = Color.White
             End If
         Next
+        _haveToRefreshAll = False
 
         ' This piece of code is needed. Strange behavior, the Text attribute must
         ' be set twice to be properly displayed.
-        If _firstItemUpdate Then
-            For Each it In Me.Items
-                For Each isub In it.SubItems
-                    isub.Text = isub.Text
-                Next
+        ' If _firstItemUpdate Then
+        For Each it In Me.Items
+            For Each isub In it.SubItems
+                isub.Text = isub.Text
             Next
-        End If
+        Next
+        ' End If
 
 
         ' Sort items
@@ -269,11 +274,13 @@ Public Class serviceList
         Next
 
         ' Refresh items
+        _haveToRefreshAll = True
         _firstItemUpdate = True
         Me.BeginUpdate()
         Call Me.UpdateItems()
         Call Me.UpdateItems()
         Me.EndUpdate()
+
     End Sub
 
 

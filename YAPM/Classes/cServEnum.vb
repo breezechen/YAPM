@@ -118,7 +118,9 @@ Public Class cServEnum
     End Function
 
     ' Enumetare all services
-    Public Function EnumerateApi(ByRef p() As String) As Integer
+    Public Function EnumerateApi(ByRef p() As String, ByRef _dico As  _
+                                 Dictionary(Of String, cService.LightService), _
+                                 ByRef _dico2 As Dictionary(Of String, cService.LightService)) As Integer
 
         Dim lR As Integer
         Dim lBytesNeeded As Integer
@@ -129,6 +131,9 @@ Public Class cServEnum
         Dim lServiceStatusInfoBuffer As Integer
 
         ReDim p(0)
+
+        _dico.Clear()
+        _dico2.Clear()
 
         If Not (hSCM = IntPtr.Zero) Then
             lR = EnumServicesStatusEx(hSCM, _
@@ -169,6 +174,10 @@ Public Class cServEnum
                                 GetType(cService.ENUM_SERVICE_STATUS_PROCESS)), cService.ENUM_SERVICE_STATUS_PROCESS)
 
                         p(idx) = obj.ServiceName & "|" & obj.ServiceStatusProcess.dwProcessId.ToString
+                        _dico.Add(p(idx), New cService.LightService(obj.ServiceName, _
+                                                                    obj.ServiceStatusProcess.dwCurrentState, obj.ServiceStatusProcess.dwProcessId))
+                        _dico2.Add(obj.ServiceName, New cService.LightService(obj.ServiceName, _
+                                                                    obj.ServiceStatusProcess.dwCurrentState, obj.ServiceStatusProcess.dwProcessId))
                     Next idx
                 End If
                 Marshal.FreeHGlobal(pt)
@@ -178,7 +187,11 @@ Public Class cServEnum
     End Function
 
     ' Enumerate services for only one process
-    Public Function EnumerateApi(ByVal pid As Integer, ByRef p() As String) As Integer
+    Public Function EnumerateApi(ByVal pid As Integer, ByRef p() As String, _
+                                 ByRef _dico As Dictionary(Of String,  _
+                                                           cService.LightService), _
+                                 ByRef _dico2 As Dictionary(Of String,  _
+                                                            cService.LightService)) As Integer
 
         Dim lR As Integer
         Dim lBytesNeeded As Integer
@@ -188,6 +201,8 @@ Public Class cServEnum
         Dim lStructsNeeded As Integer
         Dim lServiceStatusInfoBuffer As Integer
 
+        _dico.Clear()
+        _dico2.Clear()
         ReDim p(0)
 
         If Not (hSCM = IntPtr.Zero) Then
@@ -232,6 +247,10 @@ Public Class cServEnum
 
                         If pid = obj.ServiceStatusProcess.dwProcessId Then
                             p(k) = obj.ServiceName & "|" & obj.ServiceStatusProcess.dwProcessId.ToString
+                            _dico.Add(p(k), New cService.LightService(obj.ServiceName, _
+                                            obj.ServiceStatusProcess.dwCurrentState, obj.ServiceStatusProcess.dwProcessId))
+                            _dico2.Add(obj.ServiceName, New cService.LightService(obj.ServiceName, _
+                                            obj.ServiceStatusProcess.dwCurrentState, obj.ServiceStatusProcess.dwProcessId))
                             k += 1
                         End If
                     Next idx
