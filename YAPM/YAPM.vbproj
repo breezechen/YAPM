@@ -196,10 +196,6 @@
     <EmbeddedResource Include="Forms\frmProcessInfo.resx">
       <DependentUpon>frmProcessInfo.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmProcessMemRW.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>frmProcessMemRW.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSaveReport.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmSaveReport.vb</DependentUpon>
@@ -412,12 +408,6 @@
       <DependentUpon>frmProcessInfo.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmProcessInfo.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmProcessMemRW.Designer.vb">
-      <DependentUpon>frmProcessMemRW.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmProcessMemRW.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmSaveReport.Designer.vb">

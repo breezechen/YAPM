@@ -99,7 +99,6 @@ Public Class frmProcessMemRW
         lv.Sort()
     End Sub
 
-
     Private Sub drawGraph(ByVal g As Graphics, ByRef ba() As Integer, ByRef rs() As Integer, _
         ByVal minA As Integer, ByVal maxA As Integer)
 
