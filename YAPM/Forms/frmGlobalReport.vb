@@ -232,48 +232,54 @@ Public Class frmGlobalReport
             stream.WriteLine()
 
             If Me.chkThreads.Checked Then
-                stream.WriteLine(_dicoThreads(it.Pid.ToString).Count & " threads running")
-                stream.WriteLine()
-                For Each it2 As cThread.LightThread In _dicoThreads(it.Pid.ToString).Values
-                    stream.WriteLine("---------------")
-                    stream.WriteLine("Threads id : " & it2.t.Id.ToString)
-                    stream.WriteLine("---------------")
-                    Dim __t As cThread = New cThread(it2)
-                    For Each s As String In cThread.GetAvailableProperties
-                        stream.WriteLine(s & " : " & __t.GetInformation(s))
+                If _dicoThreads.ContainsKey(it.Pid.ToString) Then
+                    stream.WriteLine(_dicoThreads(it.Pid.ToString).Count & " threads running")
+                    stream.WriteLine()
+                    For Each it2 As cThread.LightThread In _dicoThreads(it.Pid.ToString).Values
+                        stream.WriteLine("---------------")
+                        stream.WriteLine("Threads id : " & it2.t.Id.ToString)
+                        stream.WriteLine("---------------")
+                        Dim __t As cThread = New cThread(it2)
+                        For Each s As String In cThread.GetAvailableProperties
+                            stream.WriteLine(s & " : " & __t.GetInformation(s))
+                        Next
                     Next
-                Next
-                stream.WriteLine()
+                    stream.WriteLine()
+                End If
             End If
 
             If Me.chkModules.Checked Then
-                stream.WriteLine(_dicoModules(it.Pid.ToString).Count & " modules loaded")
-                stream.WriteLine()
-                For Each it2 As cModule.MODULEENTRY32 In _dicoModules(it.Pid.ToString).Values
-                    stream.WriteLine("---------------")
-                    stream.WriteLine("Module name : " & it2.szModule)
-                    stream.WriteLine("---------------")
-                    Dim __t As cModule = New cModule("no_need", it2)
-                    For Each s As String In cModule.GetAvailableProperties
-                        stream.WriteLine(s & " : " & __t.GetInformation(s))
+                If _dicoModules.ContainsKey(it.Pid.ToString) Then
+                    stream.WriteLine(_dicoModules(it.Pid.ToString).Count & " modules loaded")
+                    stream.WriteLine()
+                    For Each it2 As cModule.MODULEENTRY32 In _dicoModules(it.Pid.ToString).Values
+                        stream.WriteLine("---------------")
+                        stream.WriteLine("Module name : " & it2.szModule)
+                        stream.WriteLine("---------------")
+                        Dim __t As cModule = New cModule("no_need", it2)
+                        For Each s As String In cModule.GetAvailableProperties
+                            stream.WriteLine(s & " : " & __t.GetInformation(s))
+                        Next
                     Next
-                Next
-                stream.WriteLine()
+                    stream.WriteLine()
+                End If
             End If
 
             If Me.chkMemory.Checked Then
-                stream.WriteLine(_dicoMemRegions(it.Pid.ToString).Count & " memory regions")
-                stream.WriteLine()
-                For Each it2 As cProcessMemRW.MEMORY_BASIC_INFORMATION In _dicoMemRegions(it.Pid.ToString).Values
-                    stream.WriteLine("---------------")
-                    stream.WriteLine("Region address : 0x" & it2.BaseAddress.ToString("x"))
-                    stream.WriteLine("---------------")
-                    Dim __t As cMemRegion = New cMemRegion("no_need", it2, it.Pid)
-                    For Each s As String In cMemRegion.GetAvailableProperties
-                        stream.WriteLine(s & " : " & __t.GetInformation(s))
+                If _dicoMemRegions.ContainsKey(it.Pid.ToString) Then
+                    stream.WriteLine(_dicoMemRegions(it.Pid.ToString).Count & " memory regions")
+                    stream.WriteLine()
+                    For Each it2 As cProcessMemRW.MEMORY_BASIC_INFORMATION In _dicoMemRegions(it.Pid.ToString).Values
+                        stream.WriteLine("---------------")
+                        stream.WriteLine("Region address : 0x" & it2.BaseAddress.ToString("x"))
+                        stream.WriteLine("---------------")
+                        Dim __t As cMemRegion = New cMemRegion("no_need", it2, it.Pid)
+                        For Each s As String In cMemRegion.GetAvailableProperties
+                            stream.WriteLine(s & " : " & __t.GetInformation(s))
+                        Next
                     Next
-                Next
-                stream.WriteLine()
+                    stream.WriteLine()
+                End If
             End If
 
             If Me.chkWindows.Checked Then
@@ -286,17 +292,19 @@ Public Class frmGlobalReport
                 For Each i0t As cWindow.LightWindow In _buffServ.Values
                     _dicoWindows.Add(i0t.handle.ToString, New cWindow(i0t))
                 Next
-                stream.WriteLine(_dicoMemRegions(it.Pid.ToString).Count & " memory regions")
-                stream.WriteLine()
-                For Each it2 As cWindow In _dicoWindows.Values
-                    stream.WriteLine("---------------")
-                    stream.WriteLine("Window handle : " & it2.Handle.ToString)
-                    stream.WriteLine("---------------")
-                    For Each s As String In cWindow.GetAvailableProperties
-                        stream.WriteLine(s & " : " & it2.GetInformation(s))
+                If _dicoWindows.ContainsKey(it.Pid.ToString) Then
+                    stream.WriteLine(_dicoMemRegions(it.Pid.ToString).Count & " memory regions")
+                    stream.WriteLine()
+                    For Each it2 As cWindow In _dicoWindows.Values
+                        stream.WriteLine("---------------")
+                        stream.WriteLine("Window handle : " & it2.Handle.ToString)
+                        stream.WriteLine("---------------")
+                        For Each s As String In cWindow.GetAvailableProperties
+                            stream.WriteLine(s & " : " & it2.GetInformation(s))
+                        Next
                     Next
-                Next
-                stream.WriteLine()
+                    stream.WriteLine()
+                End If
             End If
 
             If Me.chkHandles.Checked Then
@@ -310,18 +318,19 @@ Public Class frmGlobalReport
                     Dim _key As String = cHandle.GetKeyFromLight(i0t)
                     _dicoHandles.Add(_key, New cHandle(_key, i0t))
                 Next
-
-                stream.WriteLine(_dicoHandles.Count & " handles opened")
-                stream.WriteLine()
-                For Each it2 As cHandle In _dicoHandles.Values
-                    stream.WriteLine("---------------")
-                    stream.WriteLine("Handle : " & it2.Handle.ToString)
-                    stream.WriteLine("---------------")
-                    For Each s As String In cHandle.GetAvailableProperties
-                        stream.WriteLine(s & " : " & it2.GetInformation(s))
+                If _dicoHandles.ContainsKey(it.Pid.ToString) Then
+                    stream.WriteLine(_dicoHandles.Count & " handles opened")
+                    stream.WriteLine()
+                    For Each it2 As cHandle In _dicoHandles.Values
+                        stream.WriteLine("---------------")
+                        stream.WriteLine("Handle : " & it2.Handle.ToString)
+                        stream.WriteLine("---------------")
+                        For Each s As String In cHandle.GetAvailableProperties
+                            stream.WriteLine(s & " : " & it2.GetInformation(s))
+                        Next
                     Next
-                Next
-                stream.WriteLine()
+                    stream.WriteLine()
+                End If
             End If
         Next
         stream.WriteLine()
