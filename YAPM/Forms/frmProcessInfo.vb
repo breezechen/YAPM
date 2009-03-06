@@ -12,6 +12,8 @@ Public Class frmProcessInfo
     Private curProc As cProcess
     Private Const NO_INFO_RETRIEVED As String = "N/A"
     Private m_SortingColumn As ColumnHeader
+    Private WithEvents _AsyncDownload As cAsyncProcInfoDownload
+    Private _asyncDlThread As Threading.Thread
 
     ' String search (in process image/memory) private attributes
     Private _stringSearchImmediateStop As Boolean   ' Set to true to stop listing of string in process
@@ -389,6 +391,16 @@ Public Class frmProcessInfo
 
         ' Display caption
         Call ChangeCaption()
+
+        ' If online infos received, display it
+        If _asyncDownloadDone Then
+            Me.lblSecurityRisk.Text = "Risk : " & _asyncInfoRes._Risk.ToString
+            Me.rtbOnlineInfos.Text = _asyncInfoRes._Description
+            _asyncDlThread.Abort()
+            _asyncInfoRes = Nothing
+            _asyncDlThread = Nothing
+            _asyncDownloadDone = False
+        End If
 
     End Sub
 
@@ -885,10 +897,19 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub cmdGetOnlineInfos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdGetOnlineInfos.Click
-        Dim ipi As InternetProcessInfo = mdlInternet.GetInternetInfos(curProc.Name)
-        With ipi
-            Me.lblSecurityRisk.Text = "Risk : " & ._Risk.ToString
-            Me.rtbOnlineInfos.Text = ._Description
+        If _asyncDlThread IsNot Nothing Then
+            ' Already trying to get infos
+            Exit Sub
+        End If
+
+        _AsyncDownload = New cAsyncProcInfoDownload(curProc.Name)
+
+        ' Start async download of infos
+        _asyncDlThread = New Threading.Thread(AddressOf _AsyncDownload.BeginDownload)
+        With _asyncDlThread
+            .IsBackground = True
+            .Priority = Threading.ThreadPriority.Lowest
+            .Start()
         End With
     End Sub
 
@@ -1776,5 +1797,13 @@ Public Class frmProcessInfo
         Dim frm As New frmThreadAffinity
         frm.Thread = c
         frm.ShowDialog()
+    End Sub
+
+    ' Here we finished to download informations from internet
+    Private _asyncInfoRes As cAsyncProcInfoDownload.InternetProcessInfo
+    Private _asyncDownloadDone As Boolean = False
+    Private Sub _AsyncDownload_GotInformations(ByRef result As cAsyncProcInfoDownload.InternetProcessInfo) Handles _AsyncDownload.GotInformations
+        _asyncInfoRes = result
+        _asyncDownloadDone = True
     End Sub
 End Class

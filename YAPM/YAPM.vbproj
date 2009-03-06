@@ -271,6 +271,7 @@
     <None Include="Resources\process.png" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\cAsyncProcInfoDownload.vb" />
     <Compile Include="Classes\cDownload.vb" />
     <Compile Include="Classes\cFile.vb" />
     <Compile Include="Classes\cGeneralObject.vb" />
