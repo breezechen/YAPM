@@ -551,6 +551,7 @@ Partial Class frmMain
         Me.ChooseColumnsToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem
         Me.timerTrayIcon = New System.Windows.Forms.Timer(Me.components)
         Me.butProcessPermuteLvTv = New System.Windows.Forms.RibbonButton
+        Me.ColumnHeader20 = New System.Windows.Forms.ColumnHeader
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
         Me.SplitContainerProcess.SuspendLayout()
@@ -721,7 +722,7 @@ Partial Class frmMain
         'lvProcess
         '
         Me.lvProcess.AllowColumnReorder = True
-        Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c7, Me.c8, Me.c9, Me.c10})
+        Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c7, Me.c8, Me.c9, Me.c10, Me.ColumnHeader20})
         Me.lvProcess.ContextMenuStrip = Me.menuProc
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -757,31 +758,31 @@ Partial Class frmMain
         '
         'c4
         '
-        Me.c4.DisplayIndex = 4
+        Me.c4.DisplayIndex = 5
         Me.c4.Text = "TotalCpuTime"
         Me.c4.Width = 80
         '
         'c5
         '
-        Me.c5.DisplayIndex = 5
+        Me.c5.DisplayIndex = 6
         Me.c5.Text = "WorkingSet"
         Me.c5.Width = 80
         '
         'c7
         '
-        Me.c7.DisplayIndex = 6
+        Me.c7.DisplayIndex = 7
         Me.c7.Text = "Priority"
         Me.c7.Width = 70
         '
         'c8
         '
-        Me.c8.DisplayIndex = 7
+        Me.c8.DisplayIndex = 8
         Me.c8.Text = "Path"
         Me.c8.Width = 350
         '
         'c9
         '
-        Me.c9.DisplayIndex = 8
+        Me.c9.DisplayIndex = 9
         Me.c9.Text = "StartTime"
         Me.c9.Width = 250
         '
@@ -789,7 +790,6 @@ Partial Class frmMain
         '
         Me.c10.DisplayIndex = 3
         Me.c10.Text = "CpuUsage"
-        Me.c10.Width = 80
         '
         'menuProc
         '
@@ -4816,7 +4816,7 @@ Partial Class frmMain
         '
         Me.menuThread.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem23, Me.ToolStripMenuItem24, Me.ToolStripMenuItem25, Me.ToolStripMenuItem26, Me.ToolStripMenuItem33, Me.SelectedAssociatedProcessToolStripMenuItem, Me.ToolStripMenuItem43, Me.ChooseColumnsToolStripMenuItem4})
         Me.menuThread.Name = "menuProc"
-        Me.menuThread.Size = New System.Drawing.Size(220, 186)
+        Me.menuThread.Size = New System.Drawing.Size(220, 164)
         '
         'ToolStripMenuItem23
         '
@@ -5574,6 +5574,11 @@ Partial Class frmMain
         Me.butProcessPermuteLvTv.ToolTipImage = Nothing
         Me.butProcessPermuteLvTv.ToolTipTitle = Nothing
         '
+        'ColumnHeader20
+        '
+        Me.ColumnHeader20.DisplayIndex = 4
+        Me.ColumnHeader20.Text = "AverageCpuUsage"
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -6218,5 +6223,6 @@ Partial Class frmMain
     Friend WithEvents ColumnHeader47 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader48 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader49 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader20 As System.Windows.Forms.ColumnHeader
 
 End Class

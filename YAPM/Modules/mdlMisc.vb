@@ -124,7 +124,57 @@ Module mdlMisc
         Return CStr(Math.Round(t, digits)) & " " & sizeUnits(dep)
 
     End Function
+    Public Function GetSizeFromFormatedSize(ByVal _frmtSize As String) As Long
+        ' Get position of space
+        If _frmtSize Is Nothing OrElse _frmtSize.Length < 4 Then
+            Return 0
+        End If
 
+        Dim x As Integer = 0
+        For Each _unit As String In sizeUnits
+            x += 1
+            Dim i As Integer = InStrRev(_frmtSize, " " & _unit)
+            If i > 0 Then
+                Dim z As String = _frmtSize.Substring(0, i - 1)
+                Return CLng(Double.Parse(z, Globalization.NumberStyles.Float) * 1024 ^ x)
+            End If
+        Next
+
+    End Function
+
+    ' Return true if a string is (or seems to be) a formated size
+    Public Function IsFormatedSize(ByVal _str As String) As Boolean
+        If _str Is Nothing OrElse _str.Length < 4 Then
+            Return False
+        End If
+        Dim oo As String = "12 Bytes"
+        ' Try to find " UNIT" in _str
+        ' Return true if first char is a numeric value
+        For Each _unit As String In sizeUnits
+            Dim i As Integer = InStrRev(_str, " " & _unit)
+            If i > 0 AndAlso (i + _unit.Length) = _str.Length Then
+                Return IsNumeric(_str.Substring(0, 1))
+            End If
+        Next
+        Return False
+    End Function
+
+    ' Return true if a string is (or seems to be) a hexadecimal expression
+    Public Function IsHex(ByVal _str As String) As Boolean
+        If _str Is Nothing OrElse _str.Length < 4 Then
+            Return False
+        End If
+        Return (_str.Substring(0, 2) = "0x")
+    End Function
+
+    ' Return long value from hex value
+    Public Function HexToLong(ByVal _str As String) As Long
+        If _str Is Nothing OrElse _str.Length < 4 Then
+            Return 0
+        End If
+        Return Long.Parse(_str.Substring(2, _str.Length - 2), _
+                          Globalization.NumberStyles.AllowHexSpecifier)
+    End Function
 
     ' Get a formated percentage
     Public Function GetFormatedPercentage(ByVal p As Double, Optional ByVal digits As Integer = 3) As String

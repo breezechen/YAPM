@@ -1299,23 +1299,23 @@ Public Class cProcess
                 Dim ts As Date = Me.StartTime
                 res = ts.ToLongDateString & " -- " & ts.ToLongTimeString
             Case "WorkingSet"
-                res = CStr(mem.WorkingSetSize)
+                res = GetFormatedSize(mem.WorkingSetSize)
             Case "PeakWorkingSet"
-                res = CStr(mem.PeakWorkingSetSize)
+                res = GetFormatedSize(mem.PeakWorkingSetSize)
             Case "PageFaultCount"
-                res = CStr(mem.PageFaultCount)
+                res = mem.PageFaultCount.ToString
             Case "PagefileUsage"
-                res = CStr(mem.PagefileUsage)
+                res = GetFormatedSize(mem.PagefileUsage)
             Case "PeakPagefileUsage"
-                res = CStr(mem.PeakPagefileUsage)
+                res = GetFormatedSize(mem.PeakPagefileUsage)
             Case "QuotaPeakPagedPoolUsage"
-                res = CStr(mem.QuotaPeakPagedPoolUsage)
+                res = GetFormatedSize(mem.QuotaPeakPagedPoolUsage)
             Case "QuotaPagedPoolUsage"
-                res = CStr(mem.QuotaPagedPoolUsage)
+                res = GetFormatedSize(mem.QuotaPagedPoolUsage)
             Case "QuotaPeakNonPagedPoolUsage"
-                res = CStr(mem.QuotaPeakNonPagedPoolUsage)
+                res = GetFormatedSize(mem.QuotaPeakNonPagedPoolUsage)
             Case "QuotaNonPagedPoolUsage"
-                res = CStr(mem.QuotaNonPagedPoolUsage)
+                res = GetFormatedSize(mem.QuotaNonPagedPoolUsage)
             Case "Priority"
                 res = Me.PriorityClass.ToString
             Case "Path"
@@ -1356,9 +1356,9 @@ Public Class cProcess
             Case "Name"
                 res = Me.Name
             Case "GdiObjects"
-                res = CStr(Me.GDIObjectsCount)
+                res = Me.GDIObjectsCount.ToString
             Case "UserObjects"
-                res = CStr(Me.UserObjectsCount)
+                res = Me.UserObjectsCount.ToString
             Case "RunTime"
                 Dim ts As New Date(Date.Now.Ticks - Me.StartTime.Ticks)
                 res = String.Format("{0:00}", ts.Hour) & ":" & _
@@ -1366,7 +1366,7 @@ Public Class cProcess
                     String.Format("{0:00}", ts.Second) & ":" & _
                     String.Format("{000}", ts.Millisecond)
             Case "AffinityMask"
-                res = CStr(Me.AffinityMask)
+                res = Me.AffinityMask.ToString
             Case "AverageCpuUsage"
                 Dim i As Long = Date.Now.Ticks - Me.StartTime.Ticks
                 If i > 0 AndAlso _processors > 0 Then

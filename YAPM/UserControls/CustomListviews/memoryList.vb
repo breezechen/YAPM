@@ -43,6 +43,7 @@ Public Class memoryList
 
     Private _pid As Integer
     Private _IMG As ImageList
+    Private _haveToRefreshAll As Boolean = False
     Private m_SortingColumn As ColumnHeader
 
     Private _foreColor As Color = Color.FromArgb(30, 30, 30)
@@ -169,10 +170,16 @@ Public Class memoryList
         For Each it In Me.Items
             Dim x As Integer = 0
             Dim _item As cMemRegion = _dico.Item(it.Name)
-            For Each isub In it.SubItems
-                isub.Text = _item.GetInformation(_columnsName(x))
-                x += 1
-            Next
+            Try
+                If _item.HasChanged(_buffDico.Item(it.Name)) OrElse _haveToRefreshAll Then
+                    For Each isub In it.SubItems
+                        isub.Text = _item.GetInformation(_columnsName(x))
+                        x += 1
+                    Next
+                End If
+            Catch ex As Exception
+                '
+            End Try
             If _dico.Item(it.Name).IsNewItem Then
                 _dico.Item(it.Name).IsNewItem = False
                 it.BackColor = Me.NEW_ITEM_COLOR
@@ -182,10 +189,11 @@ Public Class memoryList
                 it.BackColor = Color.White
             End If
         Next
+        _haveToRefreshAll = False
 
         ' This piece of code is needed. Strange behavior, the Text attribute must
         ' be set twice to be properly displayed.
-        If _firstItemUpdate Then
+        If _firstItemUpdate Then         ' BUGLV
             For Each it In Me.Items
                 For Each isub In it.SubItems
                     isub.Text = isub.Text
@@ -195,7 +203,9 @@ Public Class memoryList
 
 
         ' Sort items
+        Dim opopop As Integer = GetTickCount
         Me.Sort()
+        Trace.WriteLine("------------" & (GetTickCount - opopop).ToString)
 
         _firstItemUpdate = False
 
@@ -254,6 +264,7 @@ Public Class memoryList
         Next
 
         ' Refresh items
+        _haveToRefreshAll = True
         _firstItemUpdate = True
         Me.BeginUpdate()
         Call Me.UpdateItems()

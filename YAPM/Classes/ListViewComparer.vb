@@ -61,16 +61,33 @@ Public Class ListViewComparer
         ' Compare them.
         If m_SortOrder = SortOrder.Ascending Then
             If IsNumeric(string_x) And IsNumeric(string_y) Then
+                ' Values
                 Return Val(string_x).CompareTo(Val(string_y))
+            ElseIf IsHex(string_x) AndAlso IsHex(string_y) Then
+                ' Hex value
+                Return HexToLong(string_x).CompareTo(HexToLong(string_y))
+            ElseIf (IsFormatedSize(string_x) AndAlso IsFormatedSize(string_y)) Then
+                ' Sizes
+                Return GetSizeFromFormatedSize(string_x).CompareTo(GetSizeFromFormatedSize(string_y))
             Else
+                ' String
                 Return String.Compare(string_x, string_y)
             End If
         Else
             If IsNumeric(string_x) And IsNumeric(string_y) Then
+                ' Values
                 Return Val(string_y).CompareTo(Val(string_x))
+            ElseIf IsHex(string_x) AndAlso IsHex(string_y) Then
+                ' Hex value
+                Return HexToLong(string_y).CompareTo(HexToLong(string_x))
+            ElseIf (IsFormatedSize(string_x) AndAlso IsFormatedSize(string_y)) Then
+                ' Sizes
+                Return GetSizeFromFormatedSize(string_y).CompareTo(GetSizeFromFormatedSize(string_x))
             Else
+                ' Strings
                 Return String.Compare(string_y, string_x)
             End If
         End If
     End Function
+
 End Class

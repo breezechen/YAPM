@@ -76,6 +76,11 @@ Public Class cMemRegion
     Private _procId As Integer
     Private _key As String
 
+    Private __oldState As Integer
+    Private __oldType As Integer
+    Private __oldSize As Integer
+    Private __oldProtect As Integer
+
 
     ' ========================================
     ' Constructors & destructor
@@ -98,6 +103,25 @@ Public Class cMemRegion
     ' ========================================
     ' Getter and setter
     ' ========================================
+    Public ReadOnly Property HasChanged(ByVal _mem As cProcessMemRW.MEMORY_BASIC_INFORMATION) As Boolean
+        Get
+            ' State & start & process
+            If ((_mem.State <> __oldState) OrElse (_mem.RegionSize <> __oldSize) _
+                OrElse (_mem.Protect <> __oldProtect) OrElse (_mem.lType <> __oldType)) Then
+                __oldState = _mem.State
+                __oldSize = _mem.RegionSize
+                __oldProtect = _mem.Protect
+                __oldType = _mem.lType
+                Return True
+            Else
+                __oldState = _mem.State
+                __oldSize = _mem.RegionSize
+                __oldProtect = _mem.Protect
+                __oldType = _mem.lType
+                Return False
+            End If
+        End Get
+    End Property
     Public ReadOnly Property ProcessId() As Integer
         Get
             Return _procId

@@ -309,7 +309,7 @@ Public Class cService
     Public ReadOnly Property HasChanged(ByVal _serv As LightService) As Boolean
         Get
             ' State & start & process
-            If ((_serv.state <> __oldState) Or (_serv.processId <> __oldProcessId)) Then
+            If ((_serv.state <> __oldState) OrElse (_serv.processId <> __oldProcessId)) Then
                 __oldState = _serv.state
                 __oldProcessId = _serv.processId
                 Return True
