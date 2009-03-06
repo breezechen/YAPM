@@ -59,7 +59,7 @@ Public Class frmSystemInfo
 
             ' Commit charge
             Me.lblCCC.Text = mdlMisc.GetFormatedSize(pi.CommittedPages * _pagesize)
-            Me.lblCCP.Text = mdlMisc.GetFormatedSize(pi.PeakCommitment * _pagesize)
+            Me.lblCCP.Text = mdlMisc.GetFormatedSize(Decimal.Multiply(pi.PeakCommitment, _pagesize))
             Me.lblCCL.Text = mdlMisc.GetFormatedSize(Decimal.Multiply(pi.CommitLimit, _pagesize))
 
             ' Physical memory
