@@ -120,6 +120,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\frmGlobalReport.resx">
+      <DependentUpon>frmGlobalReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmThreadAffinity.resx">
       <DependentUpon>frmThreadAffinity.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -296,6 +299,12 @@
     <Compile Include="Classes\cTrayIcon.vb" />
     <Compile Include="Classes\cWindow.vb" />
     <Compile Include="Classes\cWinTrust.vb" />
+    <Compile Include="Forms\frmGlobalReport.Designer.vb">
+      <DependentUpon>frmGlobalReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmGlobalReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmThreadAffinity.Designer.vb">
       <DependentUpon>frmThreadAffinity.vb</DependentUpon>
     </Compile>

@@ -24,27 +24,27 @@ Partial Class frmMain
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
-        Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("System")
-        Dim TreeNode5 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("[System process]", New System.Windows.Forms.TreeNode() {TreeNode4})
-        Dim ListViewGroup19 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup20 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("System")
+        Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("[System process]", New System.Windows.Forms.TreeNode() {TreeNode1})
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Results", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Handles", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Processes", 1, 1)
-        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Threads", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Windows", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Results", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Handles", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Processes", 1, 1)
+        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Threads", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Tasks", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Windows", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup16 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup17 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Tasks", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup18 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.panelMain = New System.Windows.Forms.Panel
         Me.SplitContainerProcess = New System.Windows.Forms.SplitContainer
@@ -209,6 +209,8 @@ Partial Class frmMain
         Me.butRealTime = New System.Windows.Forms.RibbonButton
         Me.RBProcessOnline = New System.Windows.Forms.RibbonPanel
         Me.butProcessGoogle = New System.Windows.Forms.RibbonButton
+        Me.panelProcessReport = New System.Windows.Forms.RibbonPanel
+        Me.butSaveProcessReport = New System.Windows.Forms.RibbonButton
         Me.ModulesTab = New System.Windows.Forms.RibbonTab
         Me.RBModuleActions = New System.Windows.Forms.RibbonPanel
         Me.butModuleRefresh = New System.Windows.Forms.RibbonButton
@@ -552,6 +554,7 @@ Partial Class frmMain
         Me.ChooseColumnsToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem
         Me.timerTrayIcon = New System.Windows.Forms.Timer(Me.components)
         Me.butProcessPermuteLvTv = New System.Windows.Forms.RibbonButton
+        Me.SaveSystemReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
         Me.SplitContainerProcess.SuspendLayout()
@@ -702,13 +705,13 @@ Partial Class frmMain
         Me.tvProc.ImageList = Me.imgProcess
         Me.tvProc.Location = New System.Drawing.Point(0, 0)
         Me.tvProc.Name = "tvProc"
-        TreeNode4.Name = "4"
-        TreeNode4.Tag = "4"
-        TreeNode4.Text = "System"
-        TreeNode5.Name = "0"
-        TreeNode5.Tag = "0"
-        TreeNode5.Text = "[System process]"
-        Me.tvProc.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode5})
+        TreeNode1.Name = "4"
+        TreeNode1.Tag = "4"
+        TreeNode1.Text = "System"
+        TreeNode2.Name = "0"
+        TreeNode2.Tag = "0"
+        TreeNode2.Text = "[System process]"
+        Me.tvProc.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode2})
         Me.tvProc.SelectedImageIndex = 0
         Me.tvProc.Size = New System.Drawing.Size(149, 100)
         Me.tvProc.TabIndex = 4
@@ -727,11 +730,11 @@ Partial Class frmMain
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcess.FullRowSelect = True
-        ListViewGroup19.Header = "Processes"
-        ListViewGroup19.Name = "gpOther"
-        ListViewGroup20.Header = "Search result"
-        ListViewGroup20.Name = "gpSearch"
-        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup19, ListViewGroup20})
+        ListViewGroup1.Header = "Processes"
+        ListViewGroup1.Name = "gpOther"
+        ListViewGroup2.Header = "Search result"
+        ListViewGroup2.Name = "gpSearch"
+        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvProcess.HideSelection = False
         Me.lvProcess.Location = New System.Drawing.Point(0, 0)
         Me.lvProcess.Name = "lvProcess"
@@ -1051,11 +1054,11 @@ Partial Class frmMain
         Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvServices.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvServices.FullRowSelect = True
-        ListViewGroup1.Header = "Services"
-        ListViewGroup1.Name = "gpOther"
-        ListViewGroup2.Header = "Search result"
-        ListViewGroup2.Name = "gpSearch"
-        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup3.Header = "Services"
+        ListViewGroup3.Name = "gpOther"
+        ListViewGroup4.Header = "Search result"
+        ListViewGroup4.Name = "gpSearch"
+        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvServices.HideSelection = False
         Me.lvServices.Location = New System.Drawing.Point(0, 0)
         Me.lvServices.Name = "lvServices"
@@ -1400,11 +1403,11 @@ Partial Class frmMain
         Me.lvJobs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader4, Me.ColumnHeader5, Me.ColumnHeader6})
         Me.lvJobs.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvJobs.FullRowSelect = True
-        ListViewGroup3.Header = "Past jobs"
-        ListViewGroup3.Name = "gp1"
-        ListViewGroup4.Header = "Future jobs"
-        ListViewGroup4.Name = "gp2"
-        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup5.Header = "Past jobs"
+        ListViewGroup5.Name = "gp1"
+        ListViewGroup6.Header = "Future jobs"
+        ListViewGroup6.Name = "gp2"
+        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvJobs.HideSelection = False
         Me.lvJobs.Location = New System.Drawing.Point(0, 0)
         Me.lvJobs.Name = "lvJobs"
@@ -1453,48 +1456,48 @@ Partial Class frmMain
         '
         'mainMenu
         '
-        Me.mainMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowYAPMToolStripMenuItem, Me.MinimizeToTrayToolStripMenuItem, Me.AboutYAPMToolStripMenuItem, Me.AlwaysVisibleToolStripMenuItem, Me.ToolStripMenuItem3, Me.ShutdownToolStripMenuItem1, Me.ToolStripMenuItem50, Me.ShowLogToolStripMenuItem, Me.ShowSystemInformatoToolStripMenuItem, Me.WindowManagementToolStripMenuItem, Me.EmergencyHotkeysToolStripMenuItem, Me.FindAWindowToolStripMenuItem, Me.ToolStripMenuItem40, Me.EnableProcessRefreshingToolStripMenuItem, Me.RefreshServiceListToolStripMenuItem, Me.ToolStripMenuItem4, Me.ExitToolStripMenuItem})
+        Me.mainMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowYAPMToolStripMenuItem, Me.MinimizeToTrayToolStripMenuItem, Me.AboutYAPMToolStripMenuItem, Me.AlwaysVisibleToolStripMenuItem, Me.ToolStripMenuItem3, Me.ShutdownToolStripMenuItem1, Me.ToolStripMenuItem50, Me.ShowLogToolStripMenuItem, Me.SaveSystemReportToolStripMenuItem, Me.ShowSystemInformatoToolStripMenuItem, Me.WindowManagementToolStripMenuItem, Me.EmergencyHotkeysToolStripMenuItem, Me.FindAWindowToolStripMenuItem, Me.ToolStripMenuItem40, Me.EnableProcessRefreshingToolStripMenuItem, Me.RefreshServiceListToolStripMenuItem, Me.ToolStripMenuItem4, Me.ExitToolStripMenuItem})
         Me.mainMenu.Name = "mainMenu"
-        Me.mainMenu.Size = New System.Drawing.Size(185, 314)
+        Me.mainMenu.Size = New System.Drawing.Size(192, 358)
         '
         'ShowYAPMToolStripMenuItem
         '
         Me.ShowYAPMToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ShowYAPMToolStripMenuItem.Image = CType(resources.GetObject("ShowYAPMToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ShowYAPMToolStripMenuItem.Name = "ShowYAPMToolStripMenuItem"
-        Me.ShowYAPMToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
+        Me.ShowYAPMToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
         Me.ShowYAPMToolStripMenuItem.Text = "Show YAPM"
         '
         'MinimizeToTrayToolStripMenuItem
         '
         Me.MinimizeToTrayToolStripMenuItem.Image = CType(resources.GetObject("MinimizeToTrayToolStripMenuItem.Image"), System.Drawing.Image)
         Me.MinimizeToTrayToolStripMenuItem.Name = "MinimizeToTrayToolStripMenuItem"
-        Me.MinimizeToTrayToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
+        Me.MinimizeToTrayToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
         Me.MinimizeToTrayToolStripMenuItem.Text = "Minimize to tray"
         '
         'AboutYAPMToolStripMenuItem
         '
         Me.AboutYAPMToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.information_frame
         Me.AboutYAPMToolStripMenuItem.Name = "AboutYAPMToolStripMenuItem"
-        Me.AboutYAPMToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
+        Me.AboutYAPMToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
         Me.AboutYAPMToolStripMenuItem.Text = "About YAPM"
         '
         'AlwaysVisibleToolStripMenuItem
         '
         Me.AlwaysVisibleToolStripMenuItem.Name = "AlwaysVisibleToolStripMenuItem"
-        Me.AlwaysVisibleToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
+        Me.AlwaysVisibleToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
         Me.AlwaysVisibleToolStripMenuItem.Text = "Always visible"
         '
         'ToolStripMenuItem3
         '
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(181, 6)
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(188, 6)
         '
         'ShutdownToolStripMenuItem1
         '
         Me.ShutdownToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RestartToolStripMenuItem, Me.ShutdownToolStripMenuItem2, Me.PoweroffToolStripMenuItem, Me.ToolStripMenuItem51, Me.SleepToolStripMenuItem, Me.HibernateToolStripMenuItem, Me.ToolStripMenuItem52, Me.LogoffToolStripMenuItem, Me.LockToolStripMenuItem})
         Me.ShutdownToolStripMenuItem1.Name = "ShutdownToolStripMenuItem1"
-        Me.ShutdownToolStripMenuItem1.Size = New System.Drawing.Size(184, 22)
+        Me.ShutdownToolStripMenuItem1.Size = New System.Drawing.Size(191, 22)
         Me.ShutdownToolStripMenuItem1.Text = "Shutdown"
         '
         'RestartToolStripMenuItem
@@ -1552,13 +1555,13 @@ Partial Class frmMain
         'ToolStripMenuItem50
         '
         Me.ToolStripMenuItem50.Name = "ToolStripMenuItem50"
-        Me.ToolStripMenuItem50.Size = New System.Drawing.Size(181, 6)
+        Me.ToolStripMenuItem50.Size = New System.Drawing.Size(188, 6)
         '
         'ShowLogToolStripMenuItem
         '
         Me.ShowLogToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.document_text
         Me.ShowLogToolStripMenuItem.Name = "ShowLogToolStripMenuItem"
-        Me.ShowLogToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
+        Me.ShowLogToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
         Me.ShowLogToolStripMenuItem.Text = "Show log"
         '
         'ShowSystemInformatoToolStripMenuItem
@@ -1566,41 +1569,41 @@ Partial Class frmMain
         Me.ShowSystemInformatoToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ShowSystemInformatoToolStripMenuItem.Image = CType(resources.GetObject("ShowSystemInformatoToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ShowSystemInformatoToolStripMenuItem.Name = "ShowSystemInformatoToolStripMenuItem"
-        Me.ShowSystemInformatoToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
+        Me.ShowSystemInformatoToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
         Me.ShowSystemInformatoToolStripMenuItem.Text = "System information"
         '
         'WindowManagementToolStripMenuItem
         '
         Me.WindowManagementToolStripMenuItem.Image = CType(resources.GetObject("WindowManagementToolStripMenuItem.Image"), System.Drawing.Image)
         Me.WindowManagementToolStripMenuItem.Name = "WindowManagementToolStripMenuItem"
-        Me.WindowManagementToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
+        Me.WindowManagementToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
         Me.WindowManagementToolStripMenuItem.Text = "Opened windows"
         '
         'EmergencyHotkeysToolStripMenuItem
         '
         Me.EmergencyHotkeysToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.EmergencyHotkeysToolStripMenuItem.Name = "EmergencyHotkeysToolStripMenuItem"
-        Me.EmergencyHotkeysToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
+        Me.EmergencyHotkeysToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
         Me.EmergencyHotkeysToolStripMenuItem.Text = "Emergency hotkeys"
         '
         'FindAWindowToolStripMenuItem
         '
         Me.FindAWindowToolStripMenuItem.Image = CType(resources.GetObject("FindAWindowToolStripMenuItem.Image"), System.Drawing.Image)
         Me.FindAWindowToolStripMenuItem.Name = "FindAWindowToolStripMenuItem"
-        Me.FindAWindowToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
+        Me.FindAWindowToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
         Me.FindAWindowToolStripMenuItem.Text = "Find a window"
         '
         'ToolStripMenuItem40
         '
         Me.ToolStripMenuItem40.Name = "ToolStripMenuItem40"
-        Me.ToolStripMenuItem40.Size = New System.Drawing.Size(181, 6)
+        Me.ToolStripMenuItem40.Size = New System.Drawing.Size(188, 6)
         '
         'EnableProcessRefreshingToolStripMenuItem
         '
         Me.EnableProcessRefreshingToolStripMenuItem.Checked = True
         Me.EnableProcessRefreshingToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.EnableProcessRefreshingToolStripMenuItem.Name = "EnableProcessRefreshingToolStripMenuItem"
-        Me.EnableProcessRefreshingToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
+        Me.EnableProcessRefreshingToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
         Me.EnableProcessRefreshingToolStripMenuItem.Text = "Refresh process list"
         '
         'RefreshServiceListToolStripMenuItem
@@ -1608,18 +1611,18 @@ Partial Class frmMain
         Me.RefreshServiceListToolStripMenuItem.Checked = True
         Me.RefreshServiceListToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.RefreshServiceListToolStripMenuItem.Name = "RefreshServiceListToolStripMenuItem"
-        Me.RefreshServiceListToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
+        Me.RefreshServiceListToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
         Me.RefreshServiceListToolStripMenuItem.Text = "Refresh service list"
         '
         'ToolStripMenuItem4
         '
         Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(181, 6)
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(188, 6)
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'EnableServiceRefreshingToolStripMenuItem
@@ -1731,6 +1734,7 @@ Partial Class frmMain
         Me.ProcessTab.Panels.Add(Me.RBProcessActions)
         Me.ProcessTab.Panels.Add(Me.RBProcessPriority)
         Me.ProcessTab.Panels.Add(Me.RBProcessOnline)
+        Me.ProcessTab.Panels.Add(Me.panelProcessReport)
         Me.ProcessTab.Tag = Nothing
         Me.ProcessTab.Text = "Processes"
         '
@@ -2084,6 +2088,27 @@ Partial Class frmMain
         Me.butProcessGoogle.ToolTip = Nothing
         Me.butProcessGoogle.ToolTipImage = Nothing
         Me.butProcessGoogle.ToolTipTitle = Nothing
+        '
+        'panelProcessReport
+        '
+        Me.panelProcessReport.ButtonMoreEnabled = False
+        Me.panelProcessReport.ButtonMoreVisible = False
+        Me.panelProcessReport.Items.Add(Me.butSaveProcessReport)
+        Me.panelProcessReport.Tag = Nothing
+        Me.panelProcessReport.Text = "Report"
+        '
+        'butSaveProcessReport
+        '
+        Me.butSaveProcessReport.AltKey = Nothing
+        Me.butSaveProcessReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butSaveProcessReport.Image = CType(resources.GetObject("butSaveProcessReport.Image"), System.Drawing.Image)
+        Me.butSaveProcessReport.SmallImage = CType(resources.GetObject("butSaveProcessReport.SmallImage"), System.Drawing.Image)
+        Me.butSaveProcessReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butSaveProcessReport.Tag = Nothing
+        Me.butSaveProcessReport.Text = "Save report"
+        Me.butSaveProcessReport.ToolTip = Nothing
+        Me.butSaveProcessReport.ToolTipImage = Nothing
+        Me.butSaveProcessReport.ToolTipTitle = Nothing
         '
         'ModulesTab
         '
@@ -4206,11 +4231,11 @@ Partial Class frmMain
         Me.lvSearchResults.ContextMenuStrip = Me.menuSearch
         Me.lvSearchResults.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvSearchResults.FullRowSelect = True
-        ListViewGroup5.Header = "Results"
-        ListViewGroup5.Name = "gpResults"
-        ListViewGroup6.Header = "Search results"
-        ListViewGroup6.Name = "gpSearchResults"
-        Me.lvSearchResults.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
+        ListViewGroup7.Header = "Results"
+        ListViewGroup7.Name = "gpResults"
+        ListViewGroup8.Header = "Search results"
+        ListViewGroup8.Name = "gpSearchResults"
+        Me.lvSearchResults.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
         Me.lvSearchResults.HideSelection = False
         Me.lvSearchResults.Location = New System.Drawing.Point(0, 0)
         Me.lvSearchResults.Name = "lvSearchResults"
@@ -4341,11 +4366,11 @@ Partial Class frmMain
         Me.lvHandles.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvHandles.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvHandles.FullRowSelect = True
-        ListViewGroup7.Header = "Handles"
-        ListViewGroup7.Name = "gpOther"
-        ListViewGroup8.Header = "Search result"
-        ListViewGroup8.Name = "gpSearch"
-        Me.lvHandles.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
+        ListViewGroup9.Header = "Handles"
+        ListViewGroup9.Name = "gpOther"
+        ListViewGroup10.Header = "Search result"
+        ListViewGroup10.Name = "gpSearch"
+        Me.lvHandles.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup9, ListViewGroup10})
         Me.lvHandles.HideSelection = False
         Me.lvHandles.Location = New System.Drawing.Point(0, 0)
         Me.lvHandles.Name = "lvHandles"
@@ -4474,11 +4499,11 @@ Partial Class frmMain
         Me.tvMonitor.ImageList = Me.imgMonitor
         Me.tvMonitor.Location = New System.Drawing.Point(0, 0)
         Me.tvMonitor.Name = "tvMonitor"
-        TreeNode1.ImageIndex = 1
-        TreeNode1.Name = "processes"
-        TreeNode1.SelectedImageIndex = 1
-        TreeNode1.Text = "Processes"
-        Me.tvMonitor.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1})
+        TreeNode3.ImageIndex = 1
+        TreeNode3.Name = "processes"
+        TreeNode3.SelectedImageIndex = 1
+        TreeNode3.Text = "Processes"
+        Me.tvMonitor.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode3})
         Me.tvMonitor.SelectedImageIndex = 0
         Me.tvMonitor.Size = New System.Drawing.Size(210, 297)
         Me.tvMonitor.TabIndex = 0
@@ -4767,11 +4792,11 @@ Partial Class frmMain
         Me.lvThreads.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvThreads.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvThreads.FullRowSelect = True
-        ListViewGroup9.Header = "Threads"
-        ListViewGroup9.Name = "gpOther"
-        ListViewGroup10.Header = "Search results"
-        ListViewGroup10.Name = "gpSearchResults"
-        Me.lvThreads.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup9, ListViewGroup10})
+        ListViewGroup11.Header = "Threads"
+        ListViewGroup11.Name = "gpOther"
+        ListViewGroup12.Header = "Search results"
+        ListViewGroup12.Name = "gpSearchResults"
+        Me.lvThreads.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup11, ListViewGroup12})
         Me.lvThreads.HideSelection = False
         Me.lvThreads.Location = New System.Drawing.Point(0, 0)
         Me.lvThreads.Name = "lvThreads"
@@ -5034,11 +5059,11 @@ Partial Class frmMain
         Me.lvWindows.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvWindows.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvWindows.FullRowSelect = True
-        ListViewGroup11.Header = "Windows"
-        ListViewGroup11.Name = "gpOther"
-        ListViewGroup12.Header = "Search results"
-        ListViewGroup12.Name = "gpSearchResults"
-        Me.lvWindows.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup11, ListViewGroup12})
+        ListViewGroup13.Header = "Windows"
+        ListViewGroup13.Name = "gpOther"
+        ListViewGroup14.Header = "Search results"
+        ListViewGroup14.Name = "gpSearchResults"
+        Me.lvWindows.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup13, ListViewGroup14})
         Me.lvWindows.HideSelection = False
         Me.lvWindows.Location = New System.Drawing.Point(0, 0)
         Me.lvWindows.Name = "lvWindows"
@@ -5198,11 +5223,11 @@ Partial Class frmMain
         Me.lvModules.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvModules.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvModules.FullRowSelect = True
-        ListViewGroup13.Header = "Modules"
-        ListViewGroup13.Name = "gpOther"
-        ListViewGroup14.Header = "Search result"
-        ListViewGroup14.Name = "gpSearchResults"
-        Me.lvModules.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup13, ListViewGroup14})
+        ListViewGroup15.Header = "Modules"
+        ListViewGroup15.Name = "gpOther"
+        ListViewGroup16.Header = "Search result"
+        ListViewGroup16.Name = "gpSearchResults"
+        Me.lvModules.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup15, ListViewGroup16})
         Me.lvModules.HideSelection = False
         Me.lvModules.Location = New System.Drawing.Point(0, 0)
         Me.lvModules.Name = "lvModules"
@@ -5455,11 +5480,11 @@ Partial Class frmMain
         Me.lvTask.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvTask.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvTask.FullRowSelect = True
-        ListViewGroup15.Header = "Tasks"
-        ListViewGroup15.Name = "gpOther"
-        ListViewGroup16.Header = "Search result"
-        ListViewGroup16.Name = "gpSearch"
-        Me.lvTask.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup15, ListViewGroup16})
+        ListViewGroup17.Header = "Tasks"
+        ListViewGroup17.Name = "gpOther"
+        ListViewGroup18.Header = "Search result"
+        ListViewGroup18.Name = "gpSearch"
+        Me.lvTask.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup17, ListViewGroup18})
         Me.lvTask.HideSelection = False
         Me.lvTask.Location = New System.Drawing.Point(0, 0)
         Me.lvTask.Name = "lvTask"
@@ -5578,6 +5603,13 @@ Partial Class frmMain
         Me.butProcessPermuteLvTv.ToolTip = Nothing
         Me.butProcessPermuteLvTv.ToolTipImage = Nothing
         Me.butProcessPermuteLvTv.ToolTipTitle = Nothing
+        '
+        'SaveSystemReportToolStripMenuItem
+        '
+        Me.SaveSystemReportToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SaveSystemReportToolStripMenuItem.Name = "SaveSystemReportToolStripMenuItem"
+        Me.SaveSystemReportToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
+        Me.SaveSystemReportToolStripMenuItem.Text = "Save system report..."
         '
         'frmMain
         '
@@ -6224,5 +6256,8 @@ Partial Class frmMain
     Friend WithEvents ColumnHeader48 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader49 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader20 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents panelProcessReport As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butSaveProcessReport As System.Windows.Forms.RibbonButton
+    Friend WithEvents SaveSystemReportToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

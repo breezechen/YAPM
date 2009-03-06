@@ -528,7 +528,32 @@ Public Class cThread
         Next
 
     End Function
+    Public Shared Function Enumerate(ByVal pid As Integer, ByRef key() As String, _
+                                     ByRef _dico As Dictionary(Of String, LightThread)) As Integer
 
+        _dico.Clear()
+        ReDim key(0)
+
+        Try
+            Dim p As Process = Process.GetProcessById(pid)
+            Dim tT As ProcessThread
+            Dim count As Integer = p.Threads.Count
+
+            Dim i As Integer = key.Length - 1
+            ReDim Preserve key(i + count - 1)
+
+            For Each tT In p.Threads
+                key(i) = pid.ToString & "|" & tT.Id.ToString
+                _dico.Add(key(i), New LightThread(pid, tT))
+                i += 1
+            Next
+
+        Catch ex As Exception
+            ' Process has been killed
+            ReDim Preserve key(key.Length - 2)
+        End Try
+
+    End Function
 
     ' ========================================
     ' Private functions

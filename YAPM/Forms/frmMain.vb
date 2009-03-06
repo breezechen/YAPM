@@ -4135,4 +4135,18 @@ Public Class frmMain
         frm.Thread = c
         frm.ShowDialog()
     End Sub
+
+    Private Sub butSaveProcessReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butSaveProcessReport.Click
+        Dim frm As New frmSaveReport
+        With frm
+            .ReportType = "processes"
+            Call My.Application.DoEvents()
+            .ShowDialog()
+        End With
+    End Sub
+
+    Private Sub SaveSystemReportToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveSystemReportToolStripMenuItem.Click
+        Dim frm As New frmGlobalReport
+        frm.ShowDialog()
+    End Sub
 End Class

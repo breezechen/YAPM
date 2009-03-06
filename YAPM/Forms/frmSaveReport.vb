@@ -1,3 +1,24 @@
+' =======================================================
+' Yet Another Process Monitor (YAPM)
+' Copyright (c) 2008-2009 Alain Descotes (violent_ken)
+' https://sourceforge.net/projects/yaprocmon/
+' =======================================================
+
+
+' YAPM is free software; you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation; either version 3 of the License, or
+' (at your option) any later version.
+'
+' YAPM is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with YAPM; if not, see http://www.gnu.org/licenses/.
+
+
 Option Strict On
 
 Public Class frmSaveReport
@@ -466,10 +487,6 @@ Public Class frmSaveReport
         End Try
         Me.cmdGO.Enabled = True
     End Sub
-    Public Sub SaveReportProcesses()
-
-        ReportSaved("processes")
-    End Sub
     Public Sub SaveReportModules()
         frmMain.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
         frmMain.saveDial.Title = "Save report"
@@ -801,4 +818,107 @@ Public Class frmSaveReport
                 Call Me.SaveReportLog()
         End Select
     End Sub
+    Public Sub SaveReportProcesses()
+        frmMain.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
+        frmMain.saveDial.Title = "Save report"
+        Try
+            If frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
+                Dim s As String = frmMain.saveDial.FileName
+                If Len(s) > 0 Then
+                    ' Create file report
+                    Dim c As String = vbNullString
+
+                    Me.ReportPath = s
+
+                    Me.pgb.Maximum = frmMain.lvServices.Items.Count
+
+                    If s.Substring(s.Length - 3, 3).ToLower = "txt" Then
+                        Dim stream As New System.IO.StreamWriter(s, False)
+                        ' txt
+                        Dim x As Integer = 0
+                        For Each cm As cService In frmMain.lvServices.GetAllItems
+
+                            Try
+                                ' Try to access to the service (avoid to write lines if service
+                                ' is deleted)
+                                Dim suseless As String = cm.LoadOrderGroup
+
+                                c &= "Name" & vbTab & vbTab
+                                c &= cm.Name & vbNewLine
+                                c &= "Common name" & vbTab & vbTab
+                                c &= cm.LongName & vbNewLine
+                                c &= "Path" & vbTab & vbTab
+                                c &= cm.ImagePath & vbNewLine
+                                c &= "ObjectName" & vbTab & vbTab
+                                c &= cm.ObjectName & vbNewLine
+                                c &= "State" & vbTab & vbTab
+                                c &= cm.State.ToString & vbNewLine
+                                c &= "Startup" & vbTab & vbTab
+                                c &= cm.ServiceStartType.ToString & vbNewLine & vbNewLine & vbNewLine
+
+                            Catch ex As Exception
+                                '  Call Me.ReportFailed(ex)
+                            End Try
+
+                            stream.Write(c)
+
+                            x += 1
+                            UpdateProgress(x)
+                        Next
+                        c = CStr(frmMain.lvServices.Items.Count) & " service(s)"
+                        stream.Write(c)
+                        stream.Close()
+                    Else
+                        ' HTML
+                        Dim title As String = CStr(frmMain.lvServices.Items.Count) & " service(s)"
+                        Dim _html As New cHTML2(s, title, 25)
+
+                        Dim x As Integer = 0
+                        For Each cm As cService In frmMain.lvServices.GetAllItems
+                            Try
+                                ' Try to access to the service (avoid to write lines if service
+                                ' is deleted)
+                                Dim suseless As String = cm.LoadOrderGroup
+
+                                _html.AppendTitleLine(cm.Name)
+                                Dim _lin(1) As String
+                                _lin(0) = "Name"
+                                _lin(1) = cm.Name
+                                _html.AppendLine(_lin)
+                                _lin(0) = "Common name"
+                                _lin(1) = cm.LongName
+                                _html.AppendLine(_lin)
+                                _lin(0) = "Path"
+                                _lin(1) = cm.ImagePath
+                                _html.AppendLine(_lin)
+                                _lin(0) = "ObjectName"
+                                _lin(1) = cm.ObjectName
+                                _html.AppendLine(_lin)
+                                _lin(0) = "State"
+                                _lin(1) = cm.State.ToString
+                                _html.AppendLine(_lin)
+                                _lin(0) = "Startup"
+                                _lin(1) = cm.ServiceStartType.ToString
+                                _html.AppendLine(_lin)
+
+                                x += 1
+                                UpdateProgress(x)
+
+                            Catch ex As Exception
+                                '  Call Me.ReportFailed(ex)
+                            End Try
+                        Next
+
+                        _html.ExportHTML()
+                    End If
+
+                    ReportSaved("processes")
+                End If
+            End If
+        Catch ex As Exception
+            Call Me.ReportFailed(ex)
+        End Try
+        Me.cmdGO.Enabled = True
+    End Sub
+    
 End Class

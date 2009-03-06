@@ -198,17 +198,66 @@ Public Class cHandle
         End Try
 
     End Function
+    Public Shared Function EnumerateAll(ByVal showUNN As Boolean, ByRef key() As String, ByRef _dico As  _
+                                     Dictionary(Of String, cHandle.LightHandle)) As Integer
+
+        _dico.Clear()
+
+        Try
+            Call frmMain.handles_Renamed.Refresh()
+
+            ReDim key(frmMain.handles_Renamed.Count)      ' Temporary size
+            Dim x As Integer = 0
+            For i As Integer = 0 To frmMain.handles_Renamed.Count - 1
+                If frmMain.handles_Renamed.GetHandle(i) > 0 Then
+                    If showUNN OrElse (Len(frmMain.handles_Renamed.GetObjectName(i)) > 0) Then
+                        With frmMain.handles_Renamed
+                            key(x) = .GetProcessID(i).ToString & "|" & .GetHandle(i).ToString & "|" & .GetNameInformation(i) & "|" & .GetObjectName(i) & "|"
+                            Dim ret As cHandle.LightHandle
+                            With frmMain.handles_Renamed
+                                ret.handleCount = .GetHandleCount(i)
+                                ret.handle = .GetHandle(i)
+                                ret.name = .GetObjectName(i)
+                                ret.objectCount = .GetObjectCount(i)
+                                ret.pid = .GetProcessID(i)
+                                ret.pointerCount = .GetPointerCount(i)
+                                ret.type = .GetNameInformation(i)
+                            End With
+                            _dico.Add(key(x), ret)
+                        End With
+                        x += 1
+                    End If
+                End If
+            Next
+
+            ' Resize array
+            ReDim Preserve key(x - 1)
+            Return x
+
+        Catch ex As Exception
+            ' Process has been killed
+            ReDim key(0)
+            Return 0
+        End Try
+
+    End Function
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties() As String()
-        Dim s(4) As String
+        Dim s(5) As String
 
-        s(0) = "Name"
-        s(1) = "HandleCount"
-        s(2) = "PointerCount"
-        s(3) = "ObjectCount"
-        s(4) = "Process"
+        s(0) = "Type"
+        s(1) = "Name"
+        s(2) = "HandleCount"
+        s(3) = "PointerCount"
+        s(4) = "ObjectCount"
+        s(5) = "Process"
 
         Return s
+    End Function
+
+    ' Get a key from a light handle
+    Public Shared Function GetKeyFromLight(ByRef light As LightHandle) As String
+        Return light.pid.ToString & "|" & light.handle.ToString & "|" & light.type & "|" & light.name & "|"
     End Function
 End Class
