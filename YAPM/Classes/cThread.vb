@@ -58,6 +58,11 @@ Public Class cThread
     Private Declare Function NtQueryInformationThread Lib "Ntdll.dll" (ByVal hThread As Integer, ByVal ThreadInformationClass As Integer, ByRef ThreadInformation As THREAD_BASIC_INFORMATION, ByVal ThreadInformationLength As Integer, ByVal ReturnLength As Integer) As Integer
     Private Declare Function NtSetInformationThread Lib "Ntdll.dll" (ByVal hThread As Integer, ByVal ThreadInformationClass As Integer, ByVal ThreadInformation As Integer, ByVal ThreadInformationLength As Integer) As Integer
 
+    <DllImport("ntdll.dll", SetLastError:=True)> _
+    Public Shared Function ZwQueryInformationThread(ByVal ThreadHandle As Integer, ByVal ThreadInformationClass As THREAD_INFORMATION_CLASS, ByRef ThreadInformation As UInteger, ByVal ThreadInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
+    End Function
+
+
     ' ========================================
     ' Constants
     ' ========================================

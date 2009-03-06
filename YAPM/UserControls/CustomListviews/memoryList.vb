@@ -199,13 +199,19 @@ Public Class memoryList
                     isub.Text = isub.Text
                 Next
             Next
+            'ElseIf Me.Columns.Count > 1 Then
+            '    For Each it In Me.Items
+            '        For Each isub In it.SubItems
+            '            ' isub.Text = isub.Text
+            '        Next
+            '    Next
+            '    Me.EndUpdate()
+            '    Me.Refresh()
         End If
 
 
         ' Sort items
-        Dim opopop As Integer = GetTickCount
         Me.Sort()
-        Trace.WriteLine("------------" & (GetTickCount - opopop).ToString)
 
         _firstItemUpdate = False
 
