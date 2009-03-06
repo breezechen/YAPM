@@ -32,7 +32,7 @@ Public Class frmHotkeys
     Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
     End Function
 
-    Private Sub frmHotkeys_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub frmHotkeys_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Mybase.FormClosing
         ' Save to XML
         writeXML()
     End Sub

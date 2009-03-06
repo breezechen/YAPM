@@ -51,7 +51,7 @@ Public Class frmLog
         End With
     End Sub
 
-    Private Sub frmLog_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+    Private Sub frmLog_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Mybase.Load
         Call timerRefresh_Tick(Nothing, Nothing)
     End Sub
 

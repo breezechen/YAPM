@@ -209,7 +209,7 @@ Public Class frmSystemInfo
         Call timerRefresh_Tick(Nothing, Nothing)
     End Sub
 
-    Private Sub frmSystemInfo_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
+    Private Sub frmSystemInfo_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Mybase.Resize
         Me.g1.Refresh()
         Me.g2.Refresh()
         Me.g3.Refresh()

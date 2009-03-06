@@ -283,7 +283,7 @@ Public Class frmProcessInfo
         End Select
     End Sub
 
-    Private Sub frmProcessInfo_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+    Private Sub frmProcessInfo_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Mybase.Load
 
         ' Cool theme
         SetWindowTheme(Me.lvProcString.Handle, "explorer", Nothing)

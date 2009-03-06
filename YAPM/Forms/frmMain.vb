@@ -316,7 +316,7 @@ Public Class frmMain
         Call refreshProcessList()
     End Sub
 
-    Private Sub frmMain_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Activated
+    Private Sub frmMain_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles Mybase.Activated
         Static bFirst As Boolean = True
         If bFirst Then
             bFirst = False
@@ -338,7 +338,7 @@ Public Class frmMain
 
     End Sub
 
-    Private Sub frmMain_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub frmMain_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Mybase.FormClosing
         Try
             handles_Renamed.Close()
         Catch ex As Exception
@@ -457,7 +457,7 @@ Public Class frmMain
         Me.lblResCount.Text = CStr(lvProcess.Groups(1).Items.Count) & " result(s)"
     End Sub
 
-    Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
+    Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Mybase.Resize
 
         Me.panelMain.Left = 5
         Me.panelMain.Top = 145
@@ -664,7 +664,7 @@ Public Class frmMain
     End Sub
 
     Private Sub HighToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HighToolStripMenuItem.Click
-       For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
             cp.SetProcessPriority(ProcessPriorityClass.High)
         Next
     End Sub
@@ -836,7 +836,7 @@ Public Class frmMain
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
-    Private Sub frmMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
+    Private Sub frmMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Mybase.Shown
         Static first As Boolean = True
         If first Then
             first = False
@@ -924,7 +924,7 @@ Public Class frmMain
 
     Private Sub butNormal_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butNormal.Click
         ' Set priority to selected processes
-       For Each it As cProcess In Me.lvProcess.GetSelectedItems
+        For Each it As cProcess In Me.lvProcess.GetSelectedItems
             it.SetProcessPriority(ProcessPriorityClass.Normal)
         Next
     End Sub
@@ -1296,7 +1296,7 @@ Public Class frmMain
         cFile.ShellOpenFile("http://sourceforge.net/project/showfiles.php?group_id=244697")
     End Sub
 
-    Private Sub frmMain_VisibleChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.VisibleChanged
+    Private Sub frmMain_VisibleChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Mybase.VisibleChanged
         'Me.timerServices.Enabled = Me.Visible
         'Me.timerProcess.Enabled = Me.Visible
     End Sub

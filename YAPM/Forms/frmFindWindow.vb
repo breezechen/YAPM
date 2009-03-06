@@ -275,11 +275,11 @@ Public Class frmFindWindow
         ReleaseDC(Myhwnd, hdc)
     End Sub
 
-    Private Sub frmFindWindow_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub frmFindWindow_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
         frmMain.Show()
     End Sub
 
-    Private Sub Form_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseDown
+    Private Sub Form_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles MyBase.MouseDown
         Me.Visible = False
         ' Set the selecting flag
         Selecting = True
@@ -289,14 +289,14 @@ Public Class frmFindWindow
         Form_MouseMove(Nothing, Nothing)
     End Sub
 
-    Private Sub Form_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseMove
+    Private Sub Form_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles MyBase.MouseMove
         ' Security catch to make sure that the graphics don't get mucked up when not selecting
         If Selecting = False Then Exit Sub
         ' Call the "Draw" subroutine
         Draw()
     End Sub
 
-    Private Sub Form_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseUp
+    Private Sub Form_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles MyBase.MouseUp
         Me.Visible = True
         ' If not selecting, then skip
         If Selecting = False Then Exit Sub
