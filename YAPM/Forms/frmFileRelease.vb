@@ -125,7 +125,6 @@ Public Class frmFileRelease
                             Case "Module"
                                 ' Module
                                 Call cProcess.UnLoadModuleFromProcess(CType(it.Tag, cModule.MODULEENTRY32))
-                                Call CType(it.Tag, cModule).UnloadModule()
                             Case Else
                                 ' Handle
                                 Dim Handle As Integer = CInt(Val(it.Tag))
