@@ -70,7 +70,10 @@ Public Class frmFileRelease
                         newIt.Text = CStr(cProc.Pid) & " -- " & cProc.Name
                         newIt.SubItems.Add(n2)
                         newIt.ImageKey = "module"
-                        'newIt.Tag = New cModule(cProc.Pid, m)   ' TODO
+                        Dim _tag As New cModule.MODULEENTRY32
+                        _tag.th32ProcessID = cProc.Pid
+                        _tag.modBaseAddr = m.BaseAddress.ToInt32
+                        newIt.Tag = _tag
                         Me.lv.Items.Add(newIt)
                     End If
                 Next
@@ -121,6 +124,7 @@ Public Class frmFileRelease
                         Select Case it.SubItems(1).Text
                             Case "Module"
                                 ' Module
+                                Call cProcess.UnLoadModuleFromProcess(CType(it.Tag, cModule.MODULEENTRY32))
                                 Call CType(it.Tag, cModule).UnloadModule()
                             Case Else
                                 ' Handle

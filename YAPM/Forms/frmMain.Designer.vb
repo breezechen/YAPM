@@ -426,13 +426,13 @@ Partial Class frmMain
         Me.tvMonitor = New System.Windows.Forms.TreeView
         Me.imgMonitor = New System.Windows.Forms.ImageList(Me.components)
         Me.splitMonitor2 = New System.Windows.Forms.SplitContainer
+        Me.txtMonitoringLog = New System.Windows.Forms.TextBox
         Me.lvMonitorReport = New YAPM.DoubleBufferedLV
         Me.ColumnHeader22 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader23 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader47 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader48 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
-        Me.txtMonitoringLog = New System.Windows.Forms.TextBox
         Me.splitMonitor3 = New System.Windows.Forms.SplitContainer
         Me.splitMonitor4 = New System.Windows.Forms.SplitContainer
         Me.graphMonitor = New YAPM.Graph
@@ -4506,6 +4506,20 @@ Partial Class frmMain
         Me.splitMonitor2.SplitterDistance = 125
         Me.splitMonitor2.TabIndex = 0
         '
+        'txtMonitoringLog
+        '
+        Me.txtMonitoringLog.BackColor = System.Drawing.Color.White
+        Me.txtMonitoringLog.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.txtMonitoringLog.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMonitoringLog.Location = New System.Drawing.Point(0, 0)
+        Me.txtMonitoringLog.Multiline = True
+        Me.txtMonitoringLog.Name = "txtMonitoringLog"
+        Me.txtMonitoringLog.ReadOnly = True
+        Me.txtMonitoringLog.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.txtMonitoringLog.Size = New System.Drawing.Size(420, 125)
+        Me.txtMonitoringLog.TabIndex = 0
+        Me.txtMonitoringLog.Text = "No process monitored." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Click on 'Add' button to monitor a process."
+        '
         'lvMonitorReport
         '
         Me.lvMonitorReport.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader22, Me.ColumnHeader23, Me.ColumnHeader47, Me.ColumnHeader48, Me.ColumnHeader49})
@@ -4513,6 +4527,7 @@ Partial Class frmMain
         Me.lvMonitorReport.FullRowSelect = True
         Me.lvMonitorReport.Location = New System.Drawing.Point(0, 0)
         Me.lvMonitorReport.Name = "lvMonitorReport"
+        Me.lvMonitorReport.OverriddenDoubleBuffered = False
         Me.lvMonitorReport.Size = New System.Drawing.Size(420, 125)
         Me.lvMonitorReport.TabIndex = 1
         Me.lvMonitorReport.UseCompatibleStateImageBehavior = False
@@ -4540,20 +4555,6 @@ Partial Class frmMain
         'ColumnHeader49
         '
         Me.ColumnHeader49.Text = "Interval"
-        '
-        'txtMonitoringLog
-        '
-        Me.txtMonitoringLog.BackColor = System.Drawing.Color.White
-        Me.txtMonitoringLog.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.txtMonitoringLog.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMonitoringLog.Location = New System.Drawing.Point(0, 0)
-        Me.txtMonitoringLog.Multiline = True
-        Me.txtMonitoringLog.Name = "txtMonitoringLog"
-        Me.txtMonitoringLog.ReadOnly = True
-        Me.txtMonitoringLog.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.txtMonitoringLog.Size = New System.Drawing.Size(420, 125)
-        Me.txtMonitoringLog.TabIndex = 0
-        Me.txtMonitoringLog.Text = "No process monitored." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Click on 'Add' button to monitor a process."
         '
         'splitMonitor3
         '
@@ -4815,7 +4816,7 @@ Partial Class frmMain
         '
         Me.menuThread.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem23, Me.ToolStripMenuItem24, Me.ToolStripMenuItem25, Me.ToolStripMenuItem26, Me.ToolStripMenuItem33, Me.SelectedAssociatedProcessToolStripMenuItem, Me.ToolStripMenuItem43, Me.ChooseColumnsToolStripMenuItem4})
         Me.menuThread.Name = "menuProc"
-        Me.menuThread.Size = New System.Drawing.Size(220, 164)
+        Me.menuThread.Size = New System.Drawing.Size(220, 186)
         '
         'ToolStripMenuItem23
         '
@@ -4897,7 +4898,6 @@ Partial Class frmMain
         '
         'ToolStripMenuItem33
         '
-        Me.ToolStripMenuItem33.Enabled = False
         Me.ToolStripMenuItem33.Name = "ToolStripMenuItem33"
         Me.ToolStripMenuItem33.Size = New System.Drawing.Size(219, 22)
         Me.ToolStripMenuItem33.Text = "Set affinity..."

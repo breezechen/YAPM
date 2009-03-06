@@ -1503,6 +1503,9 @@ Public Class cProcess
     End Function
 
     ' Unload a module from a process
+    Public Shared Function UnLoadModuleFromProcess(ByRef aModule As cModule.MODULEENTRY32) As Integer
+        Return UnLoadModuleFromProcess(aModule.th32ProcessID, aModule.modBaseAddr)
+    End Function
     Public Shared Function UnLoadModuleFromProcess(ByVal ProcessId As Integer, ByVal ModuleBaseAddress As Integer) As Integer
 
         Dim hProc As Integer = OpenProcess(PROCESS_CREATE_THREAD Or PROCESS_VM_OPERATION Or PROCESS_VM_WRITE Or PROCESS_VM_READ, 0, ProcessId)
@@ -1510,7 +1513,7 @@ Public Class cProcess
         Dim freeLibrary As Integer = cProcess.GetProcAddress(kernel32, "FreeLibrary")
         Dim threadId As Integer
 
-        cProcess.CreateRemoteThread(hProc, 0, 0, freeLibrary, ModuleBaseAddress, 0, threadId)
+        Return cProcess.CreateRemoteThread(hProc, 0, 0, freeLibrary, ModuleBaseAddress, 0, threadId)
     End Function
 
     ' Return path

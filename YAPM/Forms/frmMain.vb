@@ -368,10 +368,10 @@ Public Class frmMain
         creg = New cRegMonitor(cRegMonitor.KEY_TYPE.HKEY_LOCAL_MACHINE, "SYSTEM\CurrentControlSet\Services", _
               cRegMonitor.KEY_MONITORING_TYPE.REG_NOTIFY_CHANGE_NAME)
 
-        isAdmin = mdlPrivileges.IsAdministrator
-        If isAdmin = False Then
-            ' MsgBox("You are not logged as an administrator. You cannot retrieve informations for system processes.", MsgBoxStyle.Critical, "You are not part of administrator group")
-        End If
+        'isAdmin = mdlPrivileges.IsAdministrator
+        'If isAdmin = False Then
+        '    MsgBox("You are not logged as an administrator. You cannot retrieve informations for system processes.", MsgBoxStyle.Critical, "You are not part of administrator group")
+        'End If
 
         With Me.graphMonitor
             .ColorMemory1 = Color.Yellow
@@ -1467,7 +1467,7 @@ Public Class frmMain
                         newIt.Group = Me.lvSearchResults.Groups(0)
                         Try
                             Dim fName As String = cp.Path
-                            imgSearch.Images.Add(fName, imgProcess.Images.Item(fName))
+                            imgSearch.Images.Add(fName, Me.lvProcess.GetImageFromImageList(fName))
                             newIt.ImageKey = fName
                         Catch ex As Exception
                             newIt.ImageKey = "noicon"
@@ -1494,7 +1494,10 @@ Public Class frmMain
                                 Dim n3 As New ListViewItem.ListViewSubItem
                                 Dim n4 As New ListViewItem.ListViewSubItem
                                 newIt.Text = "Module"
-                                'newIt.Tag = New cModule(cp.Pid, m) 'TODO
+                                Dim _tag As New cModule.MODULEENTRY32
+                                _tag.th32ProcessID = cp.Pid
+                                _tag.modBaseAddr = m.BaseAddress.ToInt32
+                                newIt.Tag = _tag
                                 n3.Text = "Module"
                                 n2.Text = newIt.Text & " -- " & cp.Name & " -- " & m.FileVersionInfo.FileName
                                 n4.Text = CStr(cp.Pid) & " -- " & cp.Name
@@ -1578,40 +1581,43 @@ Public Class frmMain
         End If
 
         If Me.chkSearchWindows.Checked Then
-            ' TODO
             'Dim w() As cWindow = Nothing
             'Dim ww As cWindow
-            'Call cWindow.EnumerateAll(w)
-            'For Each ww In w
-            '    With ww
-            '        If (Len(.Caption) > 0) Then
-            '            If Me.chkSearchCase.Checked = False Then
-            '                sComp = .Caption.ToLower
-            '            Else
-            '                sComp = .Caption
-            '            End If
-            '            'type, result, field, process
-            '            If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
-            '                ' So we've found a result
-            '                Dim newIt As New ListViewItem
-            '                Dim n2 As New ListViewItem.ListViewSubItem
-            '                Dim n3 As New ListViewItem.ListViewSubItem
-            '                Dim n4 As New ListViewItem.ListViewSubItem
-            '                newIt.Text = "Window"
-            '                newIt.Tag = "window"
-            '                n3.Text = "Window -- " & CStr(.Handle)
-            '                n2.Text = newIt.Text & " -- " & .Caption
-            '                n4.Text = .ParentProcessId & " -- " & .ParentProcessName
-            '                newIt.SubItems.Add(n2)
-            '                newIt.SubItems.Add(n3)
-            '                newIt.SubItems.Add(n4)
-            '                newIt.ImageKey = "window"
-            '                newIt.Group = Me.lvSearchResults.Groups(0)
-            '                Me.lvSearchResults.Items.Add(newIt)
-            '            End If
-            '        End If
-            '    End With
-            'Next
+            Dim _key() As Integer
+            ReDim _key(0)
+            Dim _dico As New Dictionary(Of String, cWindow.LightWindow)
+            Call cWindow.EnumerateAll(True, _key, _dico)
+            For Each ww As cWindow.LightWindow In _dico.Values
+                With ww
+                    Dim _caption As String = cWindow.GetCaption(ww.handle)
+                    If (Len(_caption) > 0) Then
+                        If Me.chkSearchCase.Checked = False Then
+                            sComp = _caption.ToLower
+                        Else
+                            sComp = _caption
+                        End If
+                        'type, result, field, process
+                        If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
+                            ' So we've found a result
+                            Dim newIt As New ListViewItem
+                            Dim n2 As New ListViewItem.ListViewSubItem
+                            Dim n3 As New ListViewItem.ListViewSubItem
+                            Dim n4 As New ListViewItem.ListViewSubItem
+                            newIt.Text = "Window"
+                            newIt.Tag = "window"
+                            n3.Text = "Window -- " & CStr(.handle)
+                            n2.Text = newIt.Text & " -- " & _caption
+                            n4.Text = .pid & " -- " & .procName
+                            newIt.SubItems.Add(n2)
+                            newIt.SubItems.Add(n3)
+                            newIt.SubItems.Add(n4)
+                            newIt.ImageKey = "window"
+                            newIt.Group = Me.lvSearchResults.Groups(0)
+                            Me.lvSearchResults.Items.Add(newIt)
+                        End If
+                    End If
+                End With
+            Next
         End If
 
         Me.lvSearchResults.EndUpdate()
@@ -1775,17 +1781,9 @@ Public Class frmMain
                         cWindow.CloseWindow(hand)
                     End If
                 Case Else
-                    If TypeOf it.Tag Is cModule Then
+                    If TypeOf it.Tag Is cModule.MODULEENTRY32 Then
                         ' Then it is a module
-                        Dim sp As String = it.SubItems(3).Text
-                        Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
-                        If i > 0 Then
-                            Dim pid As Integer = CInt(Val(sp.Substring(0, i - 1)))
-                            sp = it.SubItems(1).Text
-                            i = InStrRev(sp, " ", , CompareMethod.Binary)
-                            Dim sMod As String = sp.Substring(i, sp.Length - i)
-                            Call CType(it.Tag, cModule).UnloadModule()
-                        End If
+                        Call cProcess.UnLoadModuleFromProcess(CType(it.Tag, cModule.MODULEENTRY32))
                     Else
                         ' Handle
                         Dim sp As String = it.SubItems(3).Text
@@ -1798,92 +1796,6 @@ Public Class frmMain
                     End If
             End Select
         Next
-    End Sub
-
-    Private Sub lvJobs_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvJobs.ColumnClick
-        ' Get the new sorting column.
-        Dim new_sorting_column As ColumnHeader = _
-            lvJobs.Columns(e.Column)
-
-        ' Figure out the new sorting order.
-        Dim sort_order As System.Windows.Forms.SortOrder
-        If m_SortingColumn Is Nothing Then
-            ' New column. Sort ascending.
-            sort_order = SortOrder.Ascending
-        Else
-            ' See if this is the same column.
-            If new_sorting_column.Equals(m_SortingColumn) Then
-                ' Same column. Switch the sort order.
-                If m_SortingColumn.Text.StartsWith("> ") Then
-                    sort_order = SortOrder.Descending
-                Else
-                    sort_order = SortOrder.Ascending
-                End If
-            Else
-                ' New column. Sort ascending.
-                sort_order = SortOrder.Ascending
-            End If
-
-            ' Remove the old sort indicator.
-            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
-        End If
-
-        ' Display the new sort order.
-        m_SortingColumn = new_sorting_column
-        If sort_order = SortOrder.Ascending Then
-            m_SortingColumn.Text = "> " & m_SortingColumn.Text
-        Else
-            m_SortingColumn.Text = "< " & m_SortingColumn.Text
-        End If
-
-        ' Create a comparer.
-        lvJobs.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
-
-        ' Sort.
-        lvJobs.Sort()
-    End Sub
-
-    Private Sub lvSearchResults_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvSearchResults.ColumnClick
-        ' Get the new sorting column.
-        Dim new_sorting_column As ColumnHeader = _
-            lvSearchResults.Columns(e.Column)
-
-        ' Figure out the new sorting order.
-        Dim sort_order As System.Windows.Forms.SortOrder
-        If m_SortingColumn Is Nothing Then
-            ' New column. Sort ascending.
-            sort_order = SortOrder.Ascending
-        Else
-            ' See if this is the same column.
-            If new_sorting_column.Equals(m_SortingColumn) Then
-                ' Same column. Switch the sort order.
-                If m_SortingColumn.Text.StartsWith("> ") Then
-                    sort_order = SortOrder.Descending
-                Else
-                    sort_order = SortOrder.Ascending
-                End If
-            Else
-                ' New column. Sort ascending.
-                sort_order = SortOrder.Ascending
-            End If
-
-            ' Remove the old sort indicator.
-            m_SortingColumn.Text = m_SortingColumn.Text.Substring(2)
-        End If
-
-        ' Display the new sort order.
-        m_SortingColumn = new_sorting_column
-        If sort_order = SortOrder.Ascending Then
-            m_SortingColumn.Text = "> " & m_SortingColumn.Text
-        Else
-            m_SortingColumn.Text = "< " & m_SortingColumn.Text
-        End If
-
-        ' Create a comparer.
-        lvSearchResults.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
-
-        ' Sort.
-        lvSearchResults.Sort()
     End Sub
 
     Private Sub butFileGoogleSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileGoogleSearch.Click
@@ -3064,9 +2976,8 @@ Public Class frmMain
     End Sub
 
     Private Sub txtSearchModule_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchModule.TextChanged
-        Dim it As ListViewItem
-        For Each it In Me.lvModules.Items
-            Dim cM As cModule = CType(it.Tag, cModule)
+        For Each it As ListViewItem In Me.lvModules.Items
+            Dim cM As cModule = Me.lvModules.GetItemByKey(it.Name)
             If InStr(LCase(cM.FileName), LCase(Me.txtSearchModule.Text)) = 0 And _
                     InStr(LCase(cM.FileVersion), LCase(Me.txtSearchModule.Text)) = 0 And _
                     InStr(LCase(cM.FileDescription), LCase(Me.txtSearchModule.Text)) = 0 And _
@@ -4207,5 +4118,21 @@ Public Class frmMain
             Me.txtMonitoringLog.BringToFront()
         End If
 
+    End Sub
+
+    Private Sub ToolStripMenuItem33_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem33.Click
+        If Me.lvThreads.SelectedItems.Count = 0 Then Exit Sub
+
+        Dim c() As cThread
+        ReDim c(Me.lvThreads.SelectedItems.Count - 1)
+        Dim x As Integer = 0
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            c(x) = it
+            x += 1
+        Next
+
+        Dim frm As New frmThreadAffinity
+        frm.Thread = c
+        frm.ShowDialog()
     End Sub
 End Class

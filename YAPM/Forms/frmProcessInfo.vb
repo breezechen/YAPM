@@ -1761,4 +1761,20 @@ Public Class frmProcessInfo
             Me.lvLog.EndUpdate()
         End If
     End Sub
+
+    Private Sub ToolStripMenuItem33_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem33.Click
+        If Me.lvThreads.SelectedItems.Count = 0 Then Exit Sub
+
+        Dim c() As cThread
+        ReDim c(Me.lvThreads.SelectedItems.Count - 1)
+        Dim x As Integer = 0
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            c(x) = it
+            x += 1
+        Next
+
+        Dim frm As New frmThreadAffinity
+        frm.Thread = c
+        frm.ShowDialog()
+    End Sub
 End Class

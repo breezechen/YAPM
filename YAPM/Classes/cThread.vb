@@ -55,6 +55,9 @@ Public Class cThread
     Private Shared Function GetThreadPriority(ByVal hThread As Integer) As UInt32
     End Function
 
+    Private Declare Function NtQueryInformationThread Lib "Ntdll.dll" (ByVal hThread As Integer, ByVal ThreadInformationClass As Integer, ByRef ThreadInformation As THREAD_BASIC_INFORMATION, ByVal ThreadInformationLength As Integer, ByVal ReturnLength As Integer) As Integer
+    Private Declare Function NtSetInformationThread Lib "Ntdll.dll" (ByVal hThread As Integer, ByVal ThreadInformationClass As Integer, ByVal ThreadInformation As Integer, ByVal ThreadInformationLength As Integer) As Integer
+
     ' ========================================
     ' Constants
     ' ========================================
@@ -81,7 +84,18 @@ Public Class cThread
         Dim tpDeltaPri As Integer
         Dim dwFlags As Integer
     End Structure
-
+    Private Structure CLIENT_ID
+        Dim UniqueProcess As Integer
+        Dim UniqueThread As Integer
+    End Structure
+    Private Structure THREAD_BASIC_INFORMATION
+        Dim ExitStatus As Integer
+        Dim TebBaseAddress As Integer
+        Dim ClientId As CLIENT_ID
+        Dim AffinityMask As Integer
+        Dim Priority As Integer
+        Dim BasePriority As Integer
+    End Structure
     Public Enum ThreadPriority As Integer
         Idle = -15
         Lowest = -2
@@ -312,13 +326,25 @@ Public Class cThread
     '
     Public Property ProcessorAffinity() As Integer
         Get
-            Return 0
+            Dim _aff As Integer = 0
+            Dim TBI As THREAD_BASIC_INFORMATION
+
+            If _hThread > 0 Then
+                NtQueryInformationThread(_hThread, 0, TBI, Marshal.SizeOf(TBI), 0)
+                _aff = TBI.AffinityMask
+            End If
+
+            Return _aff
         End Get
         Set(ByVal value As Integer)
-            ' _Thread.ProcessorAffinity = CType(value, IntPtr)
+            Try
+                _Thread.ProcessorAffinity = CType(value, IntPtr)
+            Catch ex As Exception
+                '
+            End Try
         End Set
     End Property
-    '
+
     Public Property IdealProcessor() As Integer
         Get
             Return 0

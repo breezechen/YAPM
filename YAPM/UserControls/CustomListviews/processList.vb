@@ -95,6 +95,11 @@ Public Class processList
 
     End Sub
 
+    ' Get an item from listview
+    Public Function GetImageFromImageList(ByVal key As String) As System.Drawing.Image
+        Return _IMG.Images.Item(key)
+    End Function
+
     ' Call this to update items in listview
     Public Sub UpdateItems()
 

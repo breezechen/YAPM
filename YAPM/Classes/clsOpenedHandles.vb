@@ -763,7 +763,7 @@ Fin:
 
         'on prépare le buffer
         strBuff = Space(255)
-        'on demande la liste des lecteurs   'TODO
+        'on demande la liste des lecteurs
         GetLogicalDriveStrings(255, strBuff)
         'la liste est séparée par des nul et terminée par deux nuls
         'on les remplace par des "|"

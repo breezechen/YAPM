@@ -208,7 +208,6 @@ Public Class cRegMonitor
     Public Shared Function getKeys(ByVal path As String) As String()
         Dim key As Microsoft.Win32.RegistryKey = _
             My.Computer.Registry.LocalMachine.OpenSubKey(path)
-        '  TODO -> delete this Try-Catch block
         Try
             Return key.GetSubKeyNames
         Catch ex As Exception

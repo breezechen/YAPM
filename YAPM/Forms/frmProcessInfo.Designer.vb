@@ -289,13 +289,13 @@ Partial Class frmProcessInfo
         Me.chkLog = New System.Windows.Forms.CheckBox
         Me.lvLog = New YAPM.DoubleBufferedLV
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerProcPerf = New System.Windows.Forms.Timer(Me.components)
         Me.imgProcess = New System.Windows.Forms.ImageList(Me.components)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.timerLog = New System.Windows.Forms.Timer(Me.components)
-        Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.tabProcess.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
@@ -2171,7 +2171,7 @@ Partial Class frmProcessInfo
         '
         Me.menuThread.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem23, Me.ToolStripMenuItem24, Me.ToolStripMenuItem25, Me.ToolStripMenuItem26, Me.ToolStripMenuItem33, Me.ToolStripMenuItem8, Me.ChooseColumnsToolStripMenuItem})
         Me.menuThread.Name = "menuProc"
-        Me.menuThread.Size = New System.Drawing.Size(173, 142)
+        Me.menuThread.Size = New System.Drawing.Size(173, 164)
         '
         'ToolStripMenuItem23
         '
@@ -2253,7 +2253,6 @@ Partial Class frmProcessInfo
         '
         'ToolStripMenuItem33
         '
-        Me.ToolStripMenuItem33.Enabled = False
         Me.ToolStripMenuItem33.Name = "ToolStripMenuItem33"
         Me.ToolStripMenuItem33.Size = New System.Drawing.Size(172, 22)
         Me.ToolStripMenuItem33.Text = "Set affinity..."
@@ -2647,6 +2646,11 @@ Partial Class frmProcessInfo
         Me.ColumnHeader2.Text = "Date & Time"
         Me.ColumnHeader2.Width = 172
         '
+        'ColumnHeader5
+        '
+        Me.ColumnHeader5.Text = "Type"
+        Me.ColumnHeader5.Width = 69
+        '
         'ColumnHeader4
         '
         Me.ColumnHeader4.Text = "Description"
@@ -2692,11 +2696,6 @@ Partial Class frmProcessInfo
         'timerLog
         '
         Me.timerLog.Interval = 1000
-        '
-        'ColumnHeader5
-        '
-        Me.ColumnHeader5.Text = "Type"
-        Me.ColumnHeader5.Width = 69
         '
         'frmProcessInfo
         '
