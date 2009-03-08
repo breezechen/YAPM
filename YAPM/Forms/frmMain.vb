@@ -995,260 +995,61 @@ Public Class frmMain
     End Sub
 
     Public Sub Ribbon_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Ribbon.MouseMove
-        'Static currentText As String = vbNullString
-        'Static bHelpShown As Boolean = False
+        ' Static currentText As String = vbNullString
+        Static bHelpShown As Boolean = False
 
         'If Not (Ribbon.ActiveTab.Text = currentText) Then
-        '    currentText = Ribbon.ActiveTab.Text
-        '    Select Case currentText
-        '        Case "Services"
-        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvServices.Items.Count) & " services running"
-        '            Me.panelMain.Visible = False
-        '            Me.panelMain2.Visible = True
-        '            Me.panelMain3.Visible = False
-        '            Me.panelMain4.Visible = False
-        '            Me.panelMain5.Visible = False
-        '            Me.panelMenu.Visible = False
-        '            Me.panelMenu2.Visible = True
-        '            Me.panelMain2.BringToFront()
-        '            Me.panelMain14.Visible = False
-        '            Me.panelMain6.Visible = False
-        '            Me.panelMain7.Visible = False
-        '            Me.panelMain8.Visible = False
-        '            Me.panelMain9.Visible = False
-        '            Me.panelMain10.Visible = False
-        '            Me.panelMain11.Visible = False
-        '            Me.panelMain13.Visible = False
-        '        Case "Processes"
-        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
-        '            Me.panelMain.Visible = True
-        '            Me.panelMain2.Visible = False
-        '            Me.panelMain3.Visible = False
-        '            Me.panelMain4.Visible = False
-        '            Me.panelMenu.Visible = True
-        '            Me.panelMain.BringToFront()
-        '            Me.panelMenu2.Visible = False
-        '            Me.panelMain5.Visible = False
-        '            Me.panelMain6.Visible = False
-        '            Me.panelMain7.Visible = False
-        '            Me.panelMain8.Visible = False
-        '            Me.panelMain14.Visible = False
-        '            Me.panelMain9.Visible = False
-        '            Me.panelMain10.Visible = False
-        '            Me.panelMain11.Visible = False
-        '            Me.panelMain13.Visible = False
-        '        Case "Jobs"
-        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvJobs.Items.Count) & " jobs in list"
-        '            Me.panelMain.Visible = False
-        '            Me.panelMain2.Visible = False
-        '            Me.panelMain3.Visible = True
-        '            Me.panelMain4.Visible = False
-        '            Me.panelMenu.Visible = False
-        '            Me.panelMain3.BringToFront()
-        '            Me.panelMenu2.Visible = False
-        '            Me.panelMain5.Visible = False
-        '            Me.panelMain6.Visible = False
-        '            Me.panelMain7.Visible = False
-        '            Me.panelMain8.Visible = False
-        '            Me.panelMain9.Visible = False
-        '            Me.panelMain14.Visible = False
-        '            Me.panelMain10.Visible = False
-        '            Me.panelMain11.Visible = False
-        '            Me.panelMain13.Visible = False
-        '        Case "Help"
+        'currentText = Ribbon.ActiveTab.Text
+        Select Case Ribbon.ActiveTab.Text
+            Case "Services"
+                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvServices.Items.Count) & " services running"
+                _tab.SelectedTab = Me.pageServices
+            Case "Processes"
+                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
+                _tab.SelectedTab = Me.pageProcesses
+            Case "Help"
 
-        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
-        '            If Not (bHelpShown) Then
-        '                bHelpShown = True
-        '                ' Load help file
-        '                Dim path As String = HELP_PATH
-        '                If IO.File.Exists(path) = False Then
-        '                    WBHelp.Document.Write("<body link=blue vlink=purple><span>Help file cannot be found. <p></span><span>Please download help file at <a href=" & Chr(34) & "http://sourceforge.net/projects/yaprocmon/" & Chr(34) & ">http://sourceforge.net/projects/yaprocmon</a> and save it in the Help directory.</span></body>")
-        '                Else
-        '                    WBHelp.Navigate(path)
-        '                End If
-        '            End If
+                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
+                If Not (bHelpShown) Then
+                    bHelpShown = True
+                    ' Load help file
+                    Dim path As String = HELP_PATH
+                    If IO.File.Exists(path) = False Then
+                        WBHelp.Document.Write("<body link=blue vlink=purple><span>Help file cannot be found. <p></span><span>Please download help file at <a href=" & Chr(34) & "http://sourceforge.net/projects/yaprocmon/" & Chr(34) & ">http://sourceforge.net/projects/yaprocmon</a> and save it in the Help directory.</span></body>")
+                    Else
+                        WBHelp.Navigate(path)
+                    End If
+                End If
 
-        '            Me.panelMain.Visible = False
-        '            Me.panelMain2.Visible = False
-        '            Me.panelMain3.Visible = False
-        '            Me.panelMain4.Visible = True
-        '            Me.panelMenu.Visible = False
-        '            Me.panelMenu2.Visible = False
-        '            Me.panelMain5.Visible = False
-        '            Me.panelMain14.Visible = False
-        '            Me.panelMain6.Visible = False
-        '            Me.panelMain7.Visible = False
-        '            Me.panelMain8.Visible = False
-        '            Me.panelMain9.Visible = False
-        '            Me.panelMain10.Visible = False
-        '            Me.panelMain11.Visible = False
-        '            Me.panelMain13.Visible = False
-        '            Me.panelMain4.BringToFront()
-        '        Case "File"
-        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
-        '            Me.panelMain.Visible = False
-        '            Me.panelMain2.Visible = False
-        '            Me.panelMain3.Visible = False
-        '            Me.panelMain4.Visible = False
-        '            Me.panelMenu.Visible = False
-        '            Me.panelMenu2.Visible = False
-        '            Me.panelMain5.Visible = True
-        '            Me.panelMain6.Visible = False
-        '            Me.panelMain7.Visible = False
-        '            Me.panelMain8.Visible = False
-        '            Me.panelMain9.Visible = False
-        '            Me.panelMain14.Visible = False
-        '            Me.panelMain11.Visible = False
-        '            Me.panelMain10.Visible = False
-        '            Me.panelMain13.Visible = False
-        '            Me.panelMain5.BringToFront()
-        '        Case "Search"
-        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvSearchResults.Items.Count) & " search results"
-        '            Me.panelMain.Visible = False
-        '            Me.panelMain2.Visible = False
-        '            Me.panelMain3.Visible = False
-        '            Me.panelMain4.Visible = False
-        '            Me.panelMenu.Visible = False
-        '            Me.panelMenu2.Visible = False
-        '            Me.panelMain5.Visible = False
-        '            Me.panelMain6.Visible = True
-        '            Me.panelMain7.Visible = False
-        '            Me.panelMain8.Visible = False
-        '            Me.panelMain9.Visible = False
-        '            Me.panelMain10.Visible = False
-        '            Me.panelMain14.Visible = False
-        '            Me.panelMain11.Visible = False
-        '            Me.panelMain13.Visible = False
-        '            Me.panelMain6.BringToFront()
-        '        Case "Handles"
-        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvHandles.Items.Count) & " handles"
-        '            Me.panelMain.Visible = False
-        '            Me.panelMain2.Visible = False
-        '            Me.panelMain3.Visible = False
-        '            Me.panelMain4.Visible = False
-        '            Me.panelMenu.Visible = False
-        '            Me.panelMenu2.Visible = False
-        '            Me.panelMain5.Visible = False
-        '            Me.panelMain6.Visible = False
-        '            Me.panelMain7.Visible = True
-        '            Me.panelMain8.Visible = False
-        '            Me.panelMain9.Visible = False
-        '            Me.panelMain10.Visible = False
-        '            Me.panelMain11.Visible = False
-        '            Me.panelMain14.Visible = False
-        '            Me.panelMain13.Visible = False
-        '            Me.panelMain7.BringToFront()
-        '        Case "Monitor"
-        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
-        '            Me.panelMain.Visible = False
-        '            Me.panelMain2.Visible = False
-        '            Me.panelMain3.Visible = False
-        '            Me.panelMain4.Visible = False
-        '            Me.panelMenu.Visible = False
-        '            Me.panelMenu2.Visible = False
-        '            Me.panelMain5.Visible = False
-        '            Me.panelMain6.Visible = False
-        '            Me.panelMain7.Visible = False
-        '            Me.panelMain8.Visible = True
-        '            Me.panelMain13.Visible = False
-        '            Me.panelMain9.Visible = False
-        '            Me.panelMain10.Visible = False
-        '            Me.panelMain8.BringToFront()
-        '            Me.panelMain14.Visible = False
-        '            Me.panelMain11.Visible = False
-        '        Case "Threads"
-        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvThreads.Items.Count) & " threads"
-        '            Me.panelMain.Visible = False
-        '            Me.panelMain2.Visible = False
-        '            Me.panelMain3.Visible = False
-        '            Me.panelMain4.Visible = False
-        '            Me.panelMenu.Visible = False
-        '            Me.panelMenu2.Visible = False
-        '            Me.panelMain5.Visible = False
-        '            Me.panelMain6.Visible = False
-        '            Me.panelMain7.Visible = False
-        '            Me.panelMain8.Visible = False
-        '            Me.panelMain9.BringToFront()
-        '            Me.panelMain9.Visible = True
-        '            Me.panelMain14.Visible = False
-        '            Me.panelMain10.Visible = False
-        '            Me.panelMain11.Visible = False
-        '            Me.panelMain13.Visible = False
-        '        Case "Windows"
-        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvWindows.Items.Count) & " windows"
-        '            Me.panelMain.Visible = False
-        '            Me.panelMain2.Visible = False
-        '            Me.panelMain3.Visible = False
-        '            Me.panelMain4.Visible = False
-        '            Me.panelMenu.Visible = False
-        '            Me.panelMenu2.Visible = False
-        '            Me.panelMain5.Visible = False
-        '            Me.panelMain6.Visible = False
-        '            Me.panelMain7.Visible = False
-        '            Me.panelMain8.Visible = False
-        '            Me.panelMain13.Visible = False
-        '            Me.panelMain9.Visible = False
-        '            Me.panelMain10.Visible = True
-        '            Me.panelMain10.BringToFront()
-        '            Me.panelMain14.Visible = False
-        '            Me.panelMain11.Visible = False
-        '        Case "Modules"
-        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
-        '            Me.panelMain.Visible = False
-        '            Me.panelMain2.Visible = False
-        '            Me.panelMain3.Visible = False
-        '            Me.panelMain4.Visible = False
-        '            Me.panelMain8.BringToFront()
-        '            Me.panelMenu.Visible = False
-        '            Me.panelMenu2.Visible = False
-        '            Me.panelMain5.Visible = False
-        '            Me.panelMain6.Visible = False
-        '            Me.panelMain13.Visible = False
-        '            Me.panelMain7.Visible = False
-        '            Me.panelMain8.Visible = False
-        '            Me.panelMain9.Visible = False
-        '            Me.panelMain10.Visible = False
-        '            Me.panelMain11.BringToFront()
-        '            Me.panelMain14.Visible = False
-        '            Me.panelMain11.Visible = True
-        '        Case "Tasks"
-        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvTask.Items.Count) & " tasks running"
-        '            Me.panelMain.Visible = False
-        '            Me.panelMain2.Visible = False
-        '            Me.panelMain3.Visible = False
-        '            Me.panelMain4.Visible = False
-        '            Me.panelMenu.Visible = False
-        '            Me.panelMenu2.Visible = False
-        '            Me.panelMain5.Visible = False
-        '            Me.panelMain6.Visible = False
-        '            Me.panelMain13.Visible = True
-        '            Me.panelMain7.Visible = False
-        '            Me.panelMain8.Visible = False
-        '            Me.panelMain9.Visible = False
-        '            Me.panelMain10.Visible = False
-        '            Me.panelMain13.BringToFront()
-        '            Me.panelMain11.Visible = False
-        '            Me.panelMain14.Visible = False
-        '        Case "Network"
-        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvNetwork.Items.Count) & " connections"
-        '            Me.panelMain.Visible = False
-        '            Me.panelMain2.Visible = False
-        '            Me.panelMain3.Visible = False
-        '            Me.panelMain4.Visible = False
-        '            Me.panelMenu.Visible = False
-        '            Me.panelMenu2.Visible = False
-        '            Me.panelMain5.Visible = False
-        '            Me.panelMain6.Visible = False
-        '            Me.panelMain13.Visible = False
-        '            Me.panelMain7.Visible = False
-        '            Me.panelMain8.Visible = False
-        '            Me.panelMain9.Visible = False
-        '            Me.panelMain10.Visible = False
-        '            Me.panelMain11.Visible = False
-        '            Me.panelMain11.Visible = False
-        '            Me.panelMain14.Visible = True
-        '    End Select
+                _tab.SelectedTab = Me.pageHelp
+            Case "File"
+                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
+                _tab.SelectedTab = Me.pageFile
+            Case "Search"
+                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvSearchResults.Items.Count) & " search results"
+                _tab.SelectedTab = Me.pageSearch
+            Case "Handles"
+                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvHandles.Items.Count) & " handles"
+                _tab.SelectedTab = Me.pageHandles
+            Case "Monitor"
+                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
+                _tab.SelectedTab = Me.pageMonitor
+            Case "Threads"
+                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvThreads.Items.Count) & " threads"
+                _tab.SelectedTab = Me.pageThreads
+            Case "Windows"
+                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvWindows.Items.Count) & " windows"
+                _tab.SelectedTab = Me.pageWindows
+            Case "Modules"
+                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
+                _tab.SelectedTab = Me.pageModules
+            Case "Tasks"
+                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvTask.Items.Count) & " tasks running"
+                _tab.SelectedTab = Me.pageTasks
+            Case "Network"
+                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvNetwork.Items.Count) & " connections"
+                _tab.SelectedTab = Me.pageNetwork
+        End Select
         'End If
 
     End Sub
