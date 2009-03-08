@@ -63,7 +63,7 @@ Partial Class frmLogOptions
         Me.logInterval.Maximum = New Decimal(New Integer() {1000000, 0, 0, 0})
         Me.logInterval.Minimum = New Decimal(New Integer() {50, 0, 0, 0})
         Me.logInterval.Name = "logInterval"
-        Me.logInterval.Size = New System.Drawing.Size(52, 20)
+        Me.logInterval.Size = New System.Drawing.Size(52, 22)
         Me.logInterval.TabIndex = 6
         Me.logInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.logInterval.Value = New Decimal(New Integer() {1000, 0, 0, 0})
@@ -73,7 +73,7 @@ Partial Class frmLogOptions
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(13, 266)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(42, 13)
+        Me.Label2.Size = New System.Drawing.Size(45, 13)
         Me.Label2.TabIndex = 5
         Me.Label2.Text = "Interval"
         '
@@ -103,7 +103,7 @@ Partial Class frmLogOptions
         Me.captureDeleted.CheckState = System.Windows.Forms.CheckState.Checked
         Me.captureDeleted.Location = New System.Drawing.Point(6, 215)
         Me.captureDeleted.Name = "captureDeleted"
-        Me.captureDeleted.Size = New System.Drawing.Size(63, 17)
+        Me.captureDeleted.Size = New System.Drawing.Size(66, 17)
         Me.captureDeleted.TabIndex = 11
         Me.captureDeleted.Text = "Deleted"
         Me.captureDeleted.UseVisualStyleBackColor = True
@@ -115,7 +115,7 @@ Partial Class frmLogOptions
         Me.captureCreated.CheckState = System.Windows.Forms.CheckState.Checked
         Me.captureCreated.Location = New System.Drawing.Point(6, 192)
         Me.captureCreated.Name = "captureCreated"
-        Me.captureCreated.Size = New System.Drawing.Size(63, 17)
+        Me.captureCreated.Size = New System.Drawing.Size(66, 17)
         Me.captureCreated.TabIndex = 10
         Me.captureCreated.Text = "Created"
         Me.captureCreated.UseVisualStyleBackColor = True
@@ -127,7 +127,7 @@ Partial Class frmLogOptions
         Me.captureWindows.CheckState = System.Windows.Forms.CheckState.Checked
         Me.captureWindows.Location = New System.Drawing.Point(8, 157)
         Me.captureWindows.Name = "captureWindows"
-        Me.captureWindows.Size = New System.Drawing.Size(70, 17)
+        Me.captureWindows.Size = New System.Drawing.Size(75, 17)
         Me.captureWindows.TabIndex = 7
         Me.captureWindows.Text = "Windows"
         Me.captureWindows.UseVisualStyleBackColor = True
@@ -139,7 +139,7 @@ Partial Class frmLogOptions
         Me.captureThreads.CheckState = System.Windows.Forms.CheckState.Checked
         Me.captureThreads.Location = New System.Drawing.Point(8, 134)
         Me.captureThreads.Name = "captureThreads"
-        Me.captureThreads.Size = New System.Drawing.Size(65, 17)
+        Me.captureThreads.Size = New System.Drawing.Size(66, 17)
         Me.captureThreads.TabIndex = 6
         Me.captureThreads.Text = "Threads"
         Me.captureThreads.UseVisualStyleBackColor = True
@@ -151,7 +151,7 @@ Partial Class frmLogOptions
         Me.captureServices.CheckState = System.Windows.Forms.CheckState.Checked
         Me.captureServices.Location = New System.Drawing.Point(8, 111)
         Me.captureServices.Name = "captureServices"
-        Me.captureServices.Size = New System.Drawing.Size(67, 17)
+        Me.captureServices.Size = New System.Drawing.Size(66, 17)
         Me.captureServices.TabIndex = 5
         Me.captureServices.Text = "Services"
         Me.captureServices.UseVisualStyleBackColor = True
@@ -163,7 +163,7 @@ Partial Class frmLogOptions
         Me.captureNetwork.CheckState = System.Windows.Forms.CheckState.Checked
         Me.captureNetwork.Location = New System.Drawing.Point(8, 88)
         Me.captureNetwork.Name = "captureNetwork"
-        Me.captureNetwork.Size = New System.Drawing.Size(66, 17)
+        Me.captureNetwork.Size = New System.Drawing.Size(70, 17)
         Me.captureNetwork.TabIndex = 4
         Me.captureNetwork.Text = "Network"
         Me.captureNetwork.UseVisualStyleBackColor = True
@@ -175,7 +175,7 @@ Partial Class frmLogOptions
         Me.captureModules.CheckState = System.Windows.Forms.CheckState.Checked
         Me.captureModules.Location = New System.Drawing.Point(8, 65)
         Me.captureModules.Name = "captureModules"
-        Me.captureModules.Size = New System.Drawing.Size(66, 17)
+        Me.captureModules.Size = New System.Drawing.Size(71, 17)
         Me.captureModules.TabIndex = 3
         Me.captureModules.Text = "Modules"
         Me.captureModules.UseVisualStyleBackColor = True
@@ -187,7 +187,7 @@ Partial Class frmLogOptions
         Me.captureMemoryRegions.CheckState = System.Windows.Forms.CheckState.Checked
         Me.captureMemoryRegions.Location = New System.Drawing.Point(8, 42)
         Me.captureMemoryRegions.Name = "captureMemoryRegions"
-        Me.captureMemoryRegions.Size = New System.Drawing.Size(100, 17)
+        Me.captureMemoryRegions.Size = New System.Drawing.Size(109, 17)
         Me.captureMemoryRegions.TabIndex = 2
         Me.captureMemoryRegions.Text = "Memory regions"
         Me.captureMemoryRegions.UseVisualStyleBackColor = True
@@ -199,18 +199,18 @@ Partial Class frmLogOptions
         Me.captureHandles.CheckState = System.Windows.Forms.CheckState.Checked
         Me.captureHandles.Location = New System.Drawing.Point(8, 19)
         Me.captureHandles.Name = "captureHandles"
-        Me.captureHandles.Size = New System.Drawing.Size(65, 17)
+        Me.captureHandles.Size = New System.Drawing.Size(68, 17)
         Me.captureHandles.TabIndex = 1
         Me.captureHandles.Text = "Handles"
         Me.captureHandles.UseVisualStyleBackColor = True
         '
         'ShapeContainer2
         '
-        Me.ShapeContainer2.Location = New System.Drawing.Point(3, 16)
+        Me.ShapeContainer2.Location = New System.Drawing.Point(3, 18)
         Me.ShapeContainer2.Margin = New System.Windows.Forms.Padding(0)
         Me.ShapeContainer2.Name = "ShapeContainer2"
         Me.ShapeContainer2.Shapes.AddRange(New Microsoft.VisualBasic.PowerPacks.Shape() {Me.LineShape2})
-        Me.ShapeContainer2.Size = New System.Drawing.Size(122, 221)
+        Me.ShapeContainer2.Size = New System.Drawing.Size(122, 219)
         Me.ShapeContainer2.TabIndex = 12
         Me.ShapeContainer2.TabStop = False
         '
@@ -249,7 +249,7 @@ Partial Class frmLogOptions
         Me.showDeleted.CheckState = System.Windows.Forms.CheckState.Checked
         Me.showDeleted.Location = New System.Drawing.Point(8, 215)
         Me.showDeleted.Name = "showDeleted"
-        Me.showDeleted.Size = New System.Drawing.Size(63, 17)
+        Me.showDeleted.Size = New System.Drawing.Size(66, 17)
         Me.showDeleted.TabIndex = 9
         Me.showDeleted.Text = "Deleted"
         Me.showDeleted.UseVisualStyleBackColor = True
@@ -261,7 +261,7 @@ Partial Class frmLogOptions
         Me.showCreated.CheckState = System.Windows.Forms.CheckState.Checked
         Me.showCreated.Location = New System.Drawing.Point(8, 192)
         Me.showCreated.Name = "showCreated"
-        Me.showCreated.Size = New System.Drawing.Size(63, 17)
+        Me.showCreated.Size = New System.Drawing.Size(66, 17)
         Me.showCreated.TabIndex = 8
         Me.showCreated.Text = "Created"
         Me.showCreated.UseVisualStyleBackColor = True
@@ -271,7 +271,7 @@ Partial Class frmLogOptions
         Me.showWindows.AutoSize = True
         Me.showWindows.Location = New System.Drawing.Point(8, 157)
         Me.showWindows.Name = "showWindows"
-        Me.showWindows.Size = New System.Drawing.Size(70, 17)
+        Me.showWindows.Size = New System.Drawing.Size(75, 17)
         Me.showWindows.TabIndex = 7
         Me.showWindows.Text = "Windows"
         Me.showWindows.UseVisualStyleBackColor = True
@@ -281,7 +281,7 @@ Partial Class frmLogOptions
         Me.showThreads.AutoSize = True
         Me.showThreads.Location = New System.Drawing.Point(8, 134)
         Me.showThreads.Name = "showThreads"
-        Me.showThreads.Size = New System.Drawing.Size(65, 17)
+        Me.showThreads.Size = New System.Drawing.Size(66, 17)
         Me.showThreads.TabIndex = 6
         Me.showThreads.Text = "Threads"
         Me.showThreads.UseVisualStyleBackColor = True
@@ -291,7 +291,7 @@ Partial Class frmLogOptions
         Me.showServices.AutoSize = True
         Me.showServices.Location = New System.Drawing.Point(8, 111)
         Me.showServices.Name = "showServices"
-        Me.showServices.Size = New System.Drawing.Size(67, 17)
+        Me.showServices.Size = New System.Drawing.Size(66, 17)
         Me.showServices.TabIndex = 5
         Me.showServices.Text = "Services"
         Me.showServices.UseVisualStyleBackColor = True
@@ -301,7 +301,7 @@ Partial Class frmLogOptions
         Me.showNetwork.AutoSize = True
         Me.showNetwork.Location = New System.Drawing.Point(8, 88)
         Me.showNetwork.Name = "showNetwork"
-        Me.showNetwork.Size = New System.Drawing.Size(66, 17)
+        Me.showNetwork.Size = New System.Drawing.Size(70, 17)
         Me.showNetwork.TabIndex = 4
         Me.showNetwork.Text = "Network"
         Me.showNetwork.UseVisualStyleBackColor = True
@@ -311,7 +311,7 @@ Partial Class frmLogOptions
         Me.showModules.AutoSize = True
         Me.showModules.Location = New System.Drawing.Point(8, 65)
         Me.showModules.Name = "showModules"
-        Me.showModules.Size = New System.Drawing.Size(66, 17)
+        Me.showModules.Size = New System.Drawing.Size(71, 17)
         Me.showModules.TabIndex = 3
         Me.showModules.Text = "Modules"
         Me.showModules.UseVisualStyleBackColor = True
@@ -321,7 +321,7 @@ Partial Class frmLogOptions
         Me.showMemoryRegions.AutoSize = True
         Me.showMemoryRegions.Location = New System.Drawing.Point(8, 42)
         Me.showMemoryRegions.Name = "showMemoryRegions"
-        Me.showMemoryRegions.Size = New System.Drawing.Size(100, 17)
+        Me.showMemoryRegions.Size = New System.Drawing.Size(109, 17)
         Me.showMemoryRegions.TabIndex = 2
         Me.showMemoryRegions.Text = "Memory regions"
         Me.showMemoryRegions.UseVisualStyleBackColor = True
@@ -331,18 +331,18 @@ Partial Class frmLogOptions
         Me.showHandles.AutoSize = True
         Me.showHandles.Location = New System.Drawing.Point(8, 19)
         Me.showHandles.Name = "showHandles"
-        Me.showHandles.Size = New System.Drawing.Size(65, 17)
+        Me.showHandles.Size = New System.Drawing.Size(68, 17)
         Me.showHandles.TabIndex = 1
         Me.showHandles.Text = "Handles"
         Me.showHandles.UseVisualStyleBackColor = True
         '
         'ShapeContainer1
         '
-        Me.ShapeContainer1.Location = New System.Drawing.Point(3, 16)
+        Me.ShapeContainer1.Location = New System.Drawing.Point(3, 18)
         Me.ShapeContainer1.Margin = New System.Windows.Forms.Padding(0)
         Me.ShapeContainer1.Name = "ShapeContainer1"
         Me.ShapeContainer1.Shapes.AddRange(New Microsoft.VisualBasic.PowerPacks.Shape() {Me.LineShape1})
-        Me.ShapeContainer1.Size = New System.Drawing.Size(122, 221)
+        Me.ShapeContainer1.Size = New System.Drawing.Size(122, 219)
         Me.ShapeContainer1.TabIndex = 10
         Me.ShapeContainer1.TabStop = False
         '
@@ -364,14 +364,14 @@ Partial Class frmLogOptions
         Me.cmdOK.Text = "OK"
         Me.cmdOK.UseVisualStyleBackColor = True
         '
-        'autoScroll
+        '_autoScroll
         '
         Me._autoScroll.AutoSize = True
         Me._autoScroll.Checked = True
         Me._autoScroll.CheckState = System.Windows.Forms.CheckState.Checked
         Me._autoScroll.Location = New System.Drawing.Point(154, 265)
-        Me._autoScroll.Name = "autoScroll"
-        Me._autoScroll.Size = New System.Drawing.Size(75, 17)
+        Me._autoScroll.Name = "_autoScroll"
+        Me._autoScroll.Size = New System.Drawing.Size(81, 17)
         Me._autoScroll.TabIndex = 10
         Me._autoScroll.Text = "Auto scroll"
         Me._autoScroll.UseVisualStyleBackColor = True
@@ -397,8 +397,14 @@ Partial Class frmLogOptions
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.logInterval)
         Me.Controls.Add(Me.Label2)
+        Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
         Me.Name = "frmLogOptions"
-        Me.Text = "frmLogOptions"
+        Me.ShowIcon = False
+        Me.ShowInTaskbar = False
+        Me.Text = "Options"
         CType(Me.logInterval, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()

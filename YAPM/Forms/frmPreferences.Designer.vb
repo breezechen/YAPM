@@ -41,10 +41,10 @@ Partial Class frmPreferences
         Me.cmdDownload = New System.Windows.Forms.Button
         Me.cmdCheckUpdate = New System.Windows.Forms.Button
         Me.txtUpdate = New System.Windows.Forms.TextBox
+        Me.IMG = New System.Windows.Forms.ImageList(Me.components)
         Me.cmdSave = New System.Windows.Forms.Button
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
-        Me.IMG = New System.Windows.Forms.ImageList(Me.components)
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -87,7 +87,7 @@ Partial Class frmPreferences
         Me.GroupBox2.Size = New System.Drawing.Size(301, 65)
         Me.GroupBox2.TabIndex = 1
         Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "Intervalls"
+        Me.GroupBox2.Text = "Intervals"
         '
         'txtServiceIntervall
         '
@@ -108,18 +108,18 @@ Partial Class frmPreferences
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(7, 40)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(156, 13)
+        Me.Label2.Size = New System.Drawing.Size(153, 13)
         Me.Label2.TabIndex = 1
-        Me.Label2.Text = "Services refreshment intervall"
+        Me.Label2.Text = "Services refreshment interval"
         '
         'Label1
         '
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(6, 17)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(165, 13)
+        Me.Label1.Size = New System.Drawing.Size(162, 13)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Processes refreshment intervall"
+        Me.Label1.Text = "Processes refreshment interval"
         '
         'GroupBox1
         '
@@ -228,6 +228,13 @@ Partial Class frmPreferences
         Me.txtUpdate.Size = New System.Drawing.Size(316, 184)
         Me.txtUpdate.TabIndex = 10
         '
+        'IMG
+        '
+        Me.IMG.ImageStream = CType(resources.GetObject("IMG.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.IMG.TransparentColor = System.Drawing.Color.Transparent
+        Me.IMG.Images.SetKeyName(0, "globe.png")
+        Me.IMG.Images.SetKeyName(1, "application_text_image.png")
+        '
         'cmdSave
         '
         Me.cmdSave.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -255,13 +262,6 @@ Partial Class frmPreferences
         Me.cmdDefaut.TabIndex = 8
         Me.cmdDefaut.Text = "Default"
         Me.cmdDefaut.UseVisualStyleBackColor = True
-        '
-        'IMG
-        '
-        Me.IMG.ImageStream = CType(resources.GetObject("IMG.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.IMG.TransparentColor = System.Drawing.Color.Transparent
-        Me.IMG.Images.SetKeyName(0, "globe.png")
-        Me.IMG.Images.SetKeyName(1, "application_text_image.png")
         '
         'frmPreferences
         '

@@ -23,6 +23,9 @@ Partial Class frmGlobalReport
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.chkAllWindows = New System.Windows.Forms.CheckBox
+        Me.chkAllHandles = New System.Windows.Forms.CheckBox
+        Me.chkFull = New System.Windows.Forms.CheckBox
         Me.chkModules = New System.Windows.Forms.CheckBox
         Me.chkThreads = New System.Windows.Forms.CheckBox
         Me.chkHandles = New System.Windows.Forms.CheckBox
@@ -33,9 +36,6 @@ Partial Class frmGlobalReport
         Me.cmdCancel = New System.Windows.Forms.Button
         Me.pgb = New System.Windows.Forms.ProgressBar
         Me.lblState = New System.Windows.Forms.Label
-        Me.chkFull = New System.Windows.Forms.CheckBox
-        Me.chkAllWindows = New System.Windows.Forms.CheckBox
-        Me.chkAllHandles = New System.Windows.Forms.CheckBox
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -56,6 +56,36 @@ Partial Class frmGlobalReport
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Informations to save"
+        '
+        'chkAllWindows
+        '
+        Me.chkAllWindows.AutoSize = True
+        Me.chkAllWindows.Location = New System.Drawing.Point(9, 90)
+        Me.chkAllWindows.Name = "chkAllWindows"
+        Me.chkAllWindows.Size = New System.Drawing.Size(126, 17)
+        Me.chkAllWindows.TabIndex = 9
+        Me.chkAllWindows.Text = "Unnamed windows"
+        Me.chkAllWindows.UseVisualStyleBackColor = True
+        '
+        'chkAllHandles
+        '
+        Me.chkAllHandles.AutoSize = True
+        Me.chkAllHandles.Location = New System.Drawing.Point(9, 113)
+        Me.chkAllHandles.Name = "chkAllHandles"
+        Me.chkAllHandles.Size = New System.Drawing.Size(120, 17)
+        Me.chkAllHandles.TabIndex = 8
+        Me.chkAllHandles.Text = "Unnamed handles"
+        Me.chkAllHandles.UseVisualStyleBackColor = True
+        '
+        'chkFull
+        '
+        Me.chkFull.AutoSize = True
+        Me.chkFull.Location = New System.Drawing.Point(9, 136)
+        Me.chkFull.Name = "chkFull"
+        Me.chkFull.Size = New System.Drawing.Size(80, 17)
+        Me.chkFull.TabIndex = 7
+        Me.chkFull.Text = "Full report"
+        Me.chkFull.UseVisualStyleBackColor = True
         '
         'chkModules
         '
@@ -162,40 +192,6 @@ Partial Class frmGlobalReport
         Me.lblState.Name = "lblState"
         Me.lblState.Size = New System.Drawing.Size(0, 13)
         Me.lblState.TabIndex = 5
-        '
-        'chkFull
-        '
-        Me.chkFull.AutoSize = True
-        Me.chkFull.Location = New System.Drawing.Point(9, 136)
-        Me.chkFull.Name = "chkFull"
-        Me.chkFull.Size = New System.Drawing.Size(80, 17)
-        Me.chkFull.TabIndex = 7
-        Me.chkFull.Text = "Full report"
-        Me.chkFull.UseVisualStyleBackColor = True
-        '
-        'chkAllWindows
-        '
-        Me.chkAllWindows.AutoSize = True
-        Me.chkAllWindows.Checked = True
-        Me.chkAllWindows.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkAllWindows.Location = New System.Drawing.Point(9, 90)
-        Me.chkAllWindows.Name = "chkAllWindows"
-        Me.chkAllWindows.Size = New System.Drawing.Size(126, 17)
-        Me.chkAllWindows.TabIndex = 9
-        Me.chkAllWindows.Text = "Unnamed windows"
-        Me.chkAllWindows.UseVisualStyleBackColor = True
-        '
-        'chkAllHandles
-        '
-        Me.chkAllHandles.AutoSize = True
-        Me.chkAllHandles.Checked = True
-        Me.chkAllHandles.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkAllHandles.Location = New System.Drawing.Point(9, 113)
-        Me.chkAllHandles.Name = "chkAllHandles"
-        Me.chkAllHandles.Size = New System.Drawing.Size(120, 17)
-        Me.chkAllHandles.TabIndex = 8
-        Me.chkAllHandles.Text = "Unnamed handles"
-        Me.chkAllHandles.UseVisualStyleBackColor = True
         '
         'frmGlobalReport
         '
