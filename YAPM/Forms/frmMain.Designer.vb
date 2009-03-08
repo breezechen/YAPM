@@ -26,42 +26,25 @@ Partial Class frmMain
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
         Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("System")
         Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("[System process]", New System.Windows.Forms.TreeNode() {TreeNode1})
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Processes", 1, 1)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Tasks", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Past jobs", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Future jobs", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Results", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Threads", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Handles", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Processes", 1, 1)
-        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Threads", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Windows", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Windows", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup16 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup17 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Tasks", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup18 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Results", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup16 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
-        Me.panelMain = New System.Windows.Forms.Panel
-        Me.SplitContainerProcess = New System.Windows.Forms.SplitContainer
-        Me.SplitContainerTvLv = New System.Windows.Forms.SplitContainer
-        Me.tvProc = New System.Windows.Forms.TreeView
         Me.imgProcess = New System.Windows.Forms.ImageList(Me.components)
-        Me.lvProcess = New YAPM.processList
-        Me.c1 = New System.Windows.Forms.ColumnHeader
-        Me.c2 = New System.Windows.Forms.ColumnHeader
-        Me.c3 = New System.Windows.Forms.ColumnHeader
-        Me.c4 = New System.Windows.Forms.ColumnHeader
-        Me.c5 = New System.Windows.Forms.ColumnHeader
-        Me.c7 = New System.Windows.Forms.ColumnHeader
-        Me.c8 = New System.Windows.Forms.ColumnHeader
-        Me.c9 = New System.Windows.Forms.ColumnHeader
-        Me.c10 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader20 = New System.Windows.Forms.ColumnHeader
         Me.menuProc = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.KillToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.KillProcessTreeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -89,21 +72,7 @@ Partial Class frmMain
         Me.GoogleSearchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem37 = New System.Windows.Forms.ToolStripSeparator
         Me.chooseColumns = New System.Windows.Forms.ToolStripMenuItem
-        Me.panelMenu = New System.Windows.Forms.Panel
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.lblResCount = New System.Windows.Forms.Label
-        Me.txtSearch = New System.Windows.Forms.TextBox
         Me.timerProcess = New System.Windows.Forms.Timer(Me.components)
-        Me.panelMain2 = New System.Windows.Forms.Panel
-        Me.splitServices = New System.Windows.Forms.SplitContainer
-        Me.lvServices = New YAPM.serviceList
-        Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader7 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader8 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader9 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader19 = New System.Windows.Forms.ColumnHeader
         Me.menuService = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem9 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem10 = New System.Windows.Forms.ToolStripMenuItem
@@ -123,25 +92,7 @@ Partial Class frmMain
         Me.SelectedAssociatedProcessToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripSeparator
         Me.ChooseColumnsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.splitServices2 = New System.Windows.Forms.SplitContainer
-        Me.cmdCopyServiceToCp = New System.Windows.Forms.Button
-        Me.lblServicePath = New System.Windows.Forms.TextBox
-        Me.lblServiceName = New System.Windows.Forms.Label
-        Me.splitServices3 = New System.Windows.Forms.SplitContainer
-        Me.rtb2 = New System.Windows.Forms.RichTextBox
-        Me.splitServices4 = New System.Windows.Forms.SplitContainer
-        Me.tv2 = New System.Windows.Forms.TreeView
         Me.imgServices = New System.Windows.Forms.ImageList(Me.components)
-        Me.tv = New System.Windows.Forms.TreeView
-        Me.panelMain4 = New System.Windows.Forms.Panel
-        Me.WBHelp = New System.Windows.Forms.WebBrowser
-        Me.panelMain3 = New System.Windows.Forms.Panel
-        Me.lvJobs = New YAPM.DoubleBufferedLV
-        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
         Me.timerServices = New System.Windows.Forms.Timer(Me.components)
         Me.Tray = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.mainMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -162,6 +113,7 @@ Partial Class frmMain
         Me.LockToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem50 = New System.Windows.Forms.ToolStripSeparator
         Me.ShowLogToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.SaveSystemReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowSystemInformatoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.WindowManagementToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.EmergencyHotkeysToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -348,10 +300,309 @@ Partial Class frmMain
         Me.RBOptions = New System.Windows.Forms.RibbonPanel
         Me.butPreferences = New System.Windows.Forms.RibbonButton
         Me.butAlwaysDisplay = New System.Windows.Forms.RibbonButton
+        Me.mnuFileCopyPctSmall = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ToolStripMenuItem17 = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuFileCopyPctBig = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ToolStripMenuItem16 = New System.Windows.Forms.ToolStripMenuItem
+        Me.menuSearch = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.SelectAssociatedProcessToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem18 = New System.Windows.Forms.ToolStripSeparator
+        Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.imgSearch = New System.Windows.Forms.ImageList(Me.components)
+        Me.menuHandles = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ToolStripMenuItem19 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
+        Me.ToolStripMenuItem22 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
+        Me.DisplayUnnamedHandlesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem49 = New System.Windows.Forms.ToolStripSeparator
+        Me.ChooseColumnsToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem
+        Me.imgMonitor = New System.Windows.Forms.ImageList(Me.components)
+        Me.timerMonitoring = New System.Windows.Forms.Timer(Me.components)
+        Me.menuThread = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ToolStripMenuItem23 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem24 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem25 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem26 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem27 = New System.Windows.Forms.ToolStripMenuItem
+        Me.LowestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem28 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem29 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem30 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem31 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem32 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem33 = New System.Windows.Forms.ToolStripMenuItem
+        Me.SelectedAssociatedProcessToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem43 = New System.Windows.Forms.ToolStripSeparator
+        Me.ChooseColumnsToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem
+        Me.menuWindow = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ToolStripMenuItem34 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripSeparator
+        Me.ChooseColumnsToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
+        Me.FolderChooser = New System.Windows.Forms.FolderBrowserDialog
+        Me.menuModule = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ToolStripMenuItem35 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator
+        Me.ShowFileDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem36 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem39 = New System.Windows.Forms.ToolStripSeparator
+        Me.GoogleSearchToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem41 = New System.Windows.Forms.ToolStripSeparator
+        Me.ChooseColumnsToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem
+        Me.menuTasks = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ShowWindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.MaximizeWindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.MinimizeWindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem46 = New System.Windows.Forms.ToolStripSeparator
+        Me.EndTaskToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem47 = New System.Windows.Forms.ToolStripSeparator
+        Me.ToolStripMenuItem45 = New System.Windows.Forms.ToolStripMenuItem
+        Me.SelectWindowInWindowsTabToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripSeparator
+        Me.ChooseColumnsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.timerTask = New System.Windows.Forms.Timer(Me.components)
+        Me.menuNetwork = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ToolStripMenuItem48 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem44 = New System.Windows.Forms.ToolStripSeparator
+        Me.ChooseColumnsToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem
+        Me.timerTrayIcon = New System.Windows.Forms.Timer(Me.components)
+        Me.butProcessPermuteLvTv = New System.Windows.Forms.RibbonButton
+        Me._main = New System.Windows.Forms.SplitContainer
+        Me.cmdTray = New System.Windows.Forms.Button
+        Me.containerSystemMenu = New System.Windows.Forms.SplitContainer
+        Me.menuSystem = New System.Windows.Forms.MenuStrip
+        Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem60 = New System.Windows.Forms.ToolStripSeparator
+        Me.ShowlogToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.SystemreportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem53 = New System.Windows.Forms.ToolStripSeparator
+        Me.SysteminfosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.OpenedWindowsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem54 = New System.Windows.Forms.ToolStripSeparator
+        Me.FindAWindowToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.EmergencyHotkeysToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem55 = New System.Windows.Forms.ToolStripSeparator
+        Me.ExitToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.AlwaysVisibleToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem56 = New System.Windows.Forms.ToolStripSeparator
+        Me.RefreshprocessListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.RefreshserviceListToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem57 = New System.Windows.Forms.ToolStripSeparator
+        Me.OptionsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.SystemToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ShutdownToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem
+        Me.RestartToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ShutdownToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem
+        Me.PoweroffToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem58 = New System.Windows.Forms.ToolStripSeparator
+        Me.SleepToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.HibernateToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem59 = New System.Windows.Forms.ToolStripSeparator
+        Me.LogoffToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.LockToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me._menuTask = New System.Windows.Forms.ToolStripMenuItem
+        Me.ShowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.EndTaskToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me._menuProcess = New System.Windows.Forms.ToolStripMenuItem
+        Me.ShowdetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem61 = New System.Windows.Forms.ToolStripSeparator
+        Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.KillToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.PauseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ResumeToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem63 = New System.Windows.Forms.ToolStripMenuItem
+        Me.AffinityToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ShowToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ModulesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ThreadsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.HandlesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.WindowsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.AllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem62 = New System.Windows.Forms.ToolStripSeparator
+        Me.PriorityToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.IdleToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.BelowNormalToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.NormalToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.AboveNormalToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.HighToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.RealTimeToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem64 = New System.Windows.Forms.ToolStripSeparator
+        Me.GoogleSearchToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem65 = New System.Windows.Forms.ToolStripSeparator
+        Me.SaveReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me._amenuModule = New System.Windows.Forms.ToolStripMenuItem
+        Me.UnloadToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem66 = New System.Windows.Forms.ToolStripSeparator
+        Me.GoogleSearchToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem67 = New System.Windows.Forms.ToolStripSeparator
+        Me.SavereportToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me._amenuThread = New System.Windows.Forms.ToolStripMenuItem
+        Me.KillToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
+        Me.StopToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ResumeToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem68 = New System.Windows.Forms.ToolStripSeparator
+        Me.PriorityToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.IdleToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
+        Me.LowestToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.BelowNormalToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
+        Me.NormalToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
+        Me.AboveNormalToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
+        Me.HighestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.TimeCriticalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem69 = New System.Windows.Forms.ToolStripSeparator
+        Me.SavereportToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
+        Me._menuHandle = New System.Windows.Forms.ToolStripMenuItem
+        Me.CloseToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem70 = New System.Windows.Forms.ToolStripSeparator
+        Me.SavereportToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem
+        Me._amenuWindow = New System.Windows.Forms.ToolStripMenuItem
+        Me.FindProcessToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem71 = New System.Windows.Forms.ToolStripSeparator
+        Me.VisibilityToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.CloseToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
+        Me.PositionSizeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem72 = New System.Windows.Forms.ToolStripSeparator
+        Me.SavereportToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem
+        Me._menuMonitor = New System.Windows.Forms.ToolStripMenuItem
+        Me.AddToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.RemoveSelectionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem73 = New System.Windows.Forms.ToolStripSeparator
+        Me.StartToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.StopToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem74 = New System.Windows.Forms.ToolStripSeparator
+        Me.SavereportToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem
+        Me._menuServices = New System.Windows.Forms.ToolStripMenuItem
+        Me.StopToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem
+        Me.StartToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.PauseToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ResumeToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ShutdownToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem75 = New System.Windows.Forms.ToolStripSeparator
+        Me.StarttypeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.AutomaticToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.OnDemandToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.DisabledToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem76 = New System.Windows.Forms.ToolStripSeparator
+        Me.ShowfilePropertiesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.OpenFileDirectoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.DetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem77 = New System.Windows.Forms.ToolStripSeparator
+        Me.GoogleSearchToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem78 = New System.Windows.Forms.ToolStripSeparator
+        Me.SavereportToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem
+        Me._menuFile = New System.Windows.Forms.ToolStripMenuItem
+        Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem79 = New System.Windows.Forms.ToolStripSeparator
+        Me.ReleaseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem80 = New System.Windows.Forms.ToolStripSeparator
+        Me.TrashToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem81 = New System.Windows.Forms.ToolStripSeparator
+        Me.GoogleSearchToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem82 = New System.Windows.Forms.ToolStripSeparator
+        Me.FilePropertiesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.OpenToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.DirectoryPropertiesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem83 = New System.Windows.Forms.ToolStripSeparator
+        Me.OthersToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me._amenuSearch = New System.Windows.Forms.ToolStripMenuItem
+        Me.LaunchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem84 = New System.Windows.Forms.ToolStripSeparator
+        Me.SavereportToolStripMenuItem7 = New System.Windows.Forms.ToolStripMenuItem
+        Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.CheckupdatesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem85 = New System.Windows.Forms.ToolStripSeparator
+        Me.MakeAdonationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.WebsiteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ProjectPageOnSourceforgenetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.DownloadsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem86 = New System.Windows.Forms.ToolStripSeparator
+        Me.HelpToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me._tab = New System.Windows.Forms.TabControl
+        Me.pageTasks = New System.Windows.Forms.TabPage
+        Me.panelMain13 = New System.Windows.Forms.Panel
+        Me.SplitContainerTask = New System.Windows.Forms.SplitContainer
+        Me.Label19 = New System.Windows.Forms.Label
+        Me.lblTaskCountResult = New System.Windows.Forms.Label
+        Me.txtSearchTask = New System.Windows.Forms.TextBox
+        Me.pageProcesses = New System.Windows.Forms.TabPage
+        Me.containerProcessPage = New System.Windows.Forms.SplitContainer
+        Me.panelMenu = New System.Windows.Forms.Panel
+        Me.Label3 = New System.Windows.Forms.Label
+        Me.lblResCount = New System.Windows.Forms.Label
+        Me.txtSearch = New System.Windows.Forms.TextBox
+        Me.panelMain = New System.Windows.Forms.Panel
+        Me.SplitContainerProcess = New System.Windows.Forms.SplitContainer
+        Me.SplitContainerTvLv = New System.Windows.Forms.SplitContainer
+        Me.tvProc = New System.Windows.Forms.TreeView
+        Me.pageModules = New System.Windows.Forms.TabPage
+        Me.panelMain11 = New System.Windows.Forms.Panel
+        Me.splitModule = New System.Windows.Forms.SplitContainer
+        Me.SplitContainerModules = New System.Windows.Forms.SplitContainer
+        Me.Label7 = New System.Windows.Forms.Label
+        Me.lblModulesCount = New System.Windows.Forms.Label
+        Me.txtSearchModule = New System.Windows.Forms.TextBox
+        Me.rtb6 = New System.Windows.Forms.RichTextBox
+        Me.pageThreads = New System.Windows.Forms.TabPage
+        Me.panelMain9 = New System.Windows.Forms.Panel
+        Me.splitThreads = New System.Windows.Forms.SplitContainer
+        Me.SplitContainerThreads = New System.Windows.Forms.SplitContainer
+        Me.Label8 = New System.Windows.Forms.Label
+        Me.lblThreadResults = New System.Windows.Forms.Label
+        Me.txtSearchThread = New System.Windows.Forms.TextBox
+        Me.rtb4 = New System.Windows.Forms.RichTextBox
+        Me.pageHandles = New System.Windows.Forms.TabPage
+        Me.panelMain7 = New System.Windows.Forms.Panel
+        Me.SplitContainerHandles = New System.Windows.Forms.SplitContainer
+        Me.Label9 = New System.Windows.Forms.Label
+        Me.lblHandlesCount = New System.Windows.Forms.Label
+        Me.txtSearchHandle = New System.Windows.Forms.TextBox
+        Me.pageWindows = New System.Windows.Forms.TabPage
+        Me.panelMain10 = New System.Windows.Forms.Panel
+        Me.splitContainerWindows = New System.Windows.Forms.SplitContainer
+        Me.SplitContainerWindows2 = New System.Windows.Forms.SplitContainer
+        Me.chkAllWindows = New System.Windows.Forms.CheckBox
+        Me.Label10 = New System.Windows.Forms.Label
+        Me.lblWindowsCount = New System.Windows.Forms.Label
+        Me.txtSearchWindow = New System.Windows.Forms.TextBox
+        Me.rtb5 = New System.Windows.Forms.RichTextBox
+        Me.pageMonitor = New System.Windows.Forms.TabPage
+        Me.panelMain8 = New System.Windows.Forms.Panel
+        Me.splitMonitor = New System.Windows.Forms.SplitContainer
+        Me.tvMonitor = New System.Windows.Forms.TreeView
+        Me.splitMonitor2 = New System.Windows.Forms.SplitContainer
+        Me.txtMonitoringLog = New System.Windows.Forms.TextBox
+        Me.splitMonitor3 = New System.Windows.Forms.SplitContainer
+        Me.splitMonitor4 = New System.Windows.Forms.SplitContainer
+        Me.txtMonitorNumber = New System.Windows.Forms.TextBox
+        Me.lblMonitorMaxNumber = New System.Windows.Forms.Label
+        Me.chkMonitorRightAuto = New System.Windows.Forms.CheckBox
+        Me.chkMonitorLeftAuto = New System.Windows.Forms.CheckBox
+        Me.dtMonitorR = New System.Windows.Forms.DateTimePicker
+        Me.dtMonitorL = New System.Windows.Forms.DateTimePicker
+        Me.pageServices = New System.Windows.Forms.TabPage
+        Me.containerServicesPage = New System.Windows.Forms.SplitContainer
         Me.panelMenu2 = New System.Windows.Forms.Panel
         Me.Label2 = New System.Windows.Forms.Label
         Me.lblResCount2 = New System.Windows.Forms.Label
         Me.txtServiceSearch = New System.Windows.Forms.TextBox
+        Me.panelMain2 = New System.Windows.Forms.Panel
+        Me.splitServices = New System.Windows.Forms.SplitContainer
+        Me.splitServices2 = New System.Windows.Forms.SplitContainer
+        Me.cmdCopyServiceToCp = New System.Windows.Forms.Button
+        Me.lblServicePath = New System.Windows.Forms.TextBox
+        Me.lblServiceName = New System.Windows.Forms.Label
+        Me.splitServices3 = New System.Windows.Forms.SplitContainer
+        Me.rtb2 = New System.Windows.Forms.RichTextBox
+        Me.splitServices4 = New System.Windows.Forms.SplitContainer
+        Me.tv2 = New System.Windows.Forms.TreeView
+        Me.tv = New System.Windows.Forms.TreeView
+        Me.pageNetwork = New System.Windows.Forms.TabPage
+        Me.panelMain14 = New System.Windows.Forms.Panel
+        Me.pageFile = New System.Windows.Forms.TabPage
         Me.panelMain5 = New System.Windows.Forms.Panel
         Me.fileSplitContainer = New System.Windows.Forms.SplitContainer
         Me.rtb3 = New System.Windows.Forms.RichTextBox
@@ -376,11 +627,8 @@ Partial Class frmMain
         Me.txtFile = New System.Windows.Forms.TextBox
         Me.cmdFileClipboard = New System.Windows.Forms.Button
         Me.pctFileSmall = New System.Windows.Forms.PictureBox
-        Me.mnuFileCopyPctSmall = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem17 = New System.Windows.Forms.ToolStripMenuItem
         Me.pctFileBig = New System.Windows.Forms.PictureBox
-        Me.mnuFileCopyPctBig = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem16 = New System.Windows.Forms.ToolStripMenuItem
+        Me.pageSearch = New System.Windows.Forms.TabPage
         Me.panelMain6 = New System.Windows.Forms.Panel
         Me.SplitContainerSearch = New System.Windows.Forms.SplitContainer
         Me.Label11 = New System.Windows.Forms.Label
@@ -393,65 +641,32 @@ Partial Class frmMain
         Me.chkSearchServices = New System.Windows.Forms.CheckBox
         Me.chkSearchProcess = New System.Windows.Forms.CheckBox
         Me.chkSearchCase = New System.Windows.Forms.CheckBox
-        Me.lvSearchResults = New YAPM.DoubleBufferedLV
-        Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader13 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader14 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader17 = New System.Windows.Forms.ColumnHeader
-        Me.menuSearch = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.SelectAssociatedProcessToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem18 = New System.Windows.Forms.ToolStripSeparator
-        Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.imgSearch = New System.Windows.Forms.ImageList(Me.components)
-        Me.panelMain7 = New System.Windows.Forms.Panel
-        Me.SplitContainerHandles = New System.Windows.Forms.SplitContainer
-        Me.Label9 = New System.Windows.Forms.Label
-        Me.lblHandlesCount = New System.Windows.Forms.Label
-        Me.txtSearchHandle = New System.Windows.Forms.TextBox
-        Me.lvHandles = New YAPM.handleList
-        Me.ColumnHeader24 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader25 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader26 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader27 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader28 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader15 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader16 = New System.Windows.Forms.ColumnHeader
-        Me.menuHandles = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem19 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
-        Me.ToolStripMenuItem22 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
-        Me.DisplayUnnamedHandlesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem49 = New System.Windows.Forms.ToolStripSeparator
-        Me.ChooseColumnsToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem
-        Me.panelMain8 = New System.Windows.Forms.Panel
-        Me.splitMonitor = New System.Windows.Forms.SplitContainer
-        Me.tvMonitor = New System.Windows.Forms.TreeView
-        Me.imgMonitor = New System.Windows.Forms.ImageList(Me.components)
-        Me.splitMonitor2 = New System.Windows.Forms.SplitContainer
-        Me.txtMonitoringLog = New System.Windows.Forms.TextBox
-        Me.lvMonitorReport = New YAPM.DoubleBufferedLV
-        Me.ColumnHeader22 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader23 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader47 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader48 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
-        Me.splitMonitor3 = New System.Windows.Forms.SplitContainer
-        Me.splitMonitor4 = New System.Windows.Forms.SplitContainer
-        Me.graphMonitor = New YAPM.Graph
-        Me.txtMonitorNumber = New System.Windows.Forms.TextBox
-        Me.lblMonitorMaxNumber = New System.Windows.Forms.Label
-        Me.chkMonitorRightAuto = New System.Windows.Forms.CheckBox
-        Me.chkMonitorLeftAuto = New System.Windows.Forms.CheckBox
-        Me.dtMonitorR = New System.Windows.Forms.DateTimePicker
-        Me.dtMonitorL = New System.Windows.Forms.DateTimePicker
-        Me.timerMonitoring = New System.Windows.Forms.Timer(Me.components)
-        Me.panelMain9 = New System.Windows.Forms.Panel
-        Me.splitThreads = New System.Windows.Forms.SplitContainer
-        Me.SplitContainerThreads = New System.Windows.Forms.SplitContainer
-        Me.Label8 = New System.Windows.Forms.Label
-        Me.lblThreadResults = New System.Windows.Forms.Label
-        Me.txtSearchThread = New System.Windows.Forms.TextBox
+        Me.pageHelp = New System.Windows.Forms.TabPage
+        Me.panelMain4 = New System.Windows.Forms.Panel
+        Me.WBHelp = New System.Windows.Forms.WebBrowser
+        Me.RibbonViewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.lvTask = New YAPM.taskList
+        Me.ColumnHeader62 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader63 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader64 = New System.Windows.Forms.ColumnHeader
+        Me.lvProcess = New YAPM.processList
+        Me.c1 = New System.Windows.Forms.ColumnHeader
+        Me.c2 = New System.Windows.Forms.ColumnHeader
+        Me.c3 = New System.Windows.Forms.ColumnHeader
+        Me.c4 = New System.Windows.Forms.ColumnHeader
+        Me.c5 = New System.Windows.Forms.ColumnHeader
+        Me.c7 = New System.Windows.Forms.ColumnHeader
+        Me.c8 = New System.Windows.Forms.ColumnHeader
+        Me.c9 = New System.Windows.Forms.ColumnHeader
+        Me.c10 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader20 = New System.Windows.Forms.ColumnHeader
+        Me.lvModules = New YAPM.moduleList
+        Me.ColumnHeader29 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader43 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader44 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader45 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader46 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader18 = New System.Windows.Forms.ColumnHeader
         Me.lvThreads = New YAPM.threadList
         Me.ColumnHeader32 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader33 = New System.Windows.Forms.ColumnHeader
@@ -460,30 +675,14 @@ Partial Class frmMain
         Me.ColumnHeader36 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader37 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader38 = New System.Windows.Forms.ColumnHeader
-        Me.menuThread = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem23 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem24 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem25 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem26 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem27 = New System.Windows.Forms.ToolStripMenuItem
-        Me.LowestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem28 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem29 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem30 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem31 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem32 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem33 = New System.Windows.Forms.ToolStripMenuItem
-        Me.SelectedAssociatedProcessToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem43 = New System.Windows.Forms.ToolStripSeparator
-        Me.ChooseColumnsToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem
-        Me.rtb4 = New System.Windows.Forms.RichTextBox
-        Me.panelMain10 = New System.Windows.Forms.Panel
-        Me.splitContainerWindows = New System.Windows.Forms.SplitContainer
-        Me.SplitContainerWindows2 = New System.Windows.Forms.SplitContainer
-        Me.chkAllWindows = New System.Windows.Forms.CheckBox
-        Me.Label10 = New System.Windows.Forms.Label
-        Me.lblWindowsCount = New System.Windows.Forms.Label
-        Me.txtSearchWindow = New System.Windows.Forms.TextBox
+        Me.lvHandles = New YAPM.handleList
+        Me.ColumnHeader24 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader25 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader26 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader27 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader28 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader15 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader16 = New System.Windows.Forms.ColumnHeader
         Me.lvWindows = New YAPM.windowList
         Me.ColumnHeader30 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader31 = New System.Windows.Forms.ColumnHeader
@@ -491,116 +690,98 @@ Partial Class frmMain
         Me.ColumnHeader40 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader41 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader42 = New System.Windows.Forms.ColumnHeader
-        Me.menuWindow = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem34 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripSeparator
-        Me.ChooseColumnsToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
-        Me.rtb5 = New System.Windows.Forms.RichTextBox
-        Me.FolderChooser = New System.Windows.Forms.FolderBrowserDialog
-        Me.panelMain11 = New System.Windows.Forms.Panel
-        Me.splitModule = New System.Windows.Forms.SplitContainer
-        Me.SplitContainerModules = New System.Windows.Forms.SplitContainer
-        Me.Label7 = New System.Windows.Forms.Label
-        Me.lblModulesCount = New System.Windows.Forms.Label
-        Me.txtSearchModule = New System.Windows.Forms.TextBox
-        Me.lvModules = New YAPM.moduleList
-        Me.ColumnHeader29 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader43 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader44 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader45 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader46 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader18 = New System.Windows.Forms.ColumnHeader
-        Me.menuModule = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem35 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator
-        Me.ShowFileDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem36 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem39 = New System.Windows.Forms.ToolStripSeparator
-        Me.GoogleSearchToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem41 = New System.Windows.Forms.ToolStripSeparator
-        Me.ChooseColumnsToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem
-        Me.rtb6 = New System.Windows.Forms.RichTextBox
-        Me.cmdTray = New System.Windows.Forms.Button
-        Me.menuTasks = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ShowWindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.MaximizeWindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.MinimizeWindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem46 = New System.Windows.Forms.ToolStripSeparator
-        Me.EndTaskToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem47 = New System.Windows.Forms.ToolStripSeparator
-        Me.ToolStripMenuItem45 = New System.Windows.Forms.ToolStripMenuItem
-        Me.SelectWindowInWindowsTabToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripSeparator
-        Me.ChooseColumnsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.panelMain13 = New System.Windows.Forms.Panel
-        Me.SplitContainerTask = New System.Windows.Forms.SplitContainer
-        Me.Label19 = New System.Windows.Forms.Label
-        Me.lblTaskCountResult = New System.Windows.Forms.Label
-        Me.txtSearchTask = New System.Windows.Forms.TextBox
-        Me.lvTask = New YAPM.taskList
-        Me.ColumnHeader62 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader63 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader64 = New System.Windows.Forms.ColumnHeader
-        Me.timerTask = New System.Windows.Forms.Timer(Me.components)
-        Me.panelMain14 = New System.Windows.Forms.Panel
+        Me.lvMonitorReport = New YAPM.DoubleBufferedLV
+        Me.ColumnHeader22 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader23 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader47 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader48 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
+        Me.graphMonitor = New YAPM.Graph
+        Me.lvServices = New YAPM.serviceList
+        Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader7 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader8 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader9 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader19 = New System.Windows.Forms.ColumnHeader
         Me.lvNetwork = New YAPM.networkList
         Me.ColumnHeader66 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader67 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader68 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader69 = New System.Windows.Forms.ColumnHeader
-        Me.menuNetwork = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem48 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem44 = New System.Windows.Forms.ToolStripSeparator
-        Me.ChooseColumnsToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem
-        Me.timerTrayIcon = New System.Windows.Forms.Timer(Me.components)
-        Me.butProcessPermuteLvTv = New System.Windows.Forms.RibbonButton
-        Me.SaveSystemReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.lvSearchResults = New YAPM.DoubleBufferedLV
+        Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader13 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader14 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader17 = New System.Windows.Forms.ColumnHeader
+        Me.butPermuteMenuStyle = New System.Windows.Forms.RibbonButton
+        Me.menuProc.SuspendLayout()
+        Me.menuService.SuspendLayout()
+        Me.mainMenu.SuspendLayout()
+        Me.mnuFileCopyPctSmall.SuspendLayout()
+        Me.mnuFileCopyPctBig.SuspendLayout()
+        Me.menuSearch.SuspendLayout()
+        Me.menuHandles.SuspendLayout()
+        Me.menuThread.SuspendLayout()
+        Me.menuWindow.SuspendLayout()
+        Me.menuModule.SuspendLayout()
+        Me.menuTasks.SuspendLayout()
+        Me.menuNetwork.SuspendLayout()
+        Me._main.Panel1.SuspendLayout()
+        Me._main.Panel2.SuspendLayout()
+        Me._main.SuspendLayout()
+        Me.containerSystemMenu.Panel1.SuspendLayout()
+        Me.containerSystemMenu.Panel2.SuspendLayout()
+        Me.containerSystemMenu.SuspendLayout()
+        Me.menuSystem.SuspendLayout()
+        Me._tab.SuspendLayout()
+        Me.pageTasks.SuspendLayout()
+        Me.panelMain13.SuspendLayout()
+        Me.SplitContainerTask.Panel1.SuspendLayout()
+        Me.SplitContainerTask.Panel2.SuspendLayout()
+        Me.SplitContainerTask.SuspendLayout()
+        Me.pageProcesses.SuspendLayout()
+        Me.containerProcessPage.Panel1.SuspendLayout()
+        Me.containerProcessPage.Panel2.SuspendLayout()
+        Me.containerProcessPage.SuspendLayout()
+        Me.panelMenu.SuspendLayout()
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
         Me.SplitContainerProcess.SuspendLayout()
         Me.SplitContainerTvLv.Panel1.SuspendLayout()
         Me.SplitContainerTvLv.Panel2.SuspendLayout()
         Me.SplitContainerTvLv.SuspendLayout()
-        Me.menuProc.SuspendLayout()
-        Me.panelMenu.SuspendLayout()
-        Me.panelMain2.SuspendLayout()
-        Me.splitServices.Panel1.SuspendLayout()
-        Me.splitServices.Panel2.SuspendLayout()
-        Me.splitServices.SuspendLayout()
-        Me.menuService.SuspendLayout()
-        Me.splitServices2.Panel1.SuspendLayout()
-        Me.splitServices2.Panel2.SuspendLayout()
-        Me.splitServices2.SuspendLayout()
-        Me.splitServices3.Panel1.SuspendLayout()
-        Me.splitServices3.Panel2.SuspendLayout()
-        Me.splitServices3.SuspendLayout()
-        Me.splitServices4.Panel1.SuspendLayout()
-        Me.splitServices4.Panel2.SuspendLayout()
-        Me.splitServices4.SuspendLayout()
-        Me.panelMain4.SuspendLayout()
-        Me.panelMain3.SuspendLayout()
-        Me.mainMenu.SuspendLayout()
-        Me.panelMenu2.SuspendLayout()
-        Me.panelMain5.SuspendLayout()
-        Me.fileSplitContainer.Panel1.SuspendLayout()
-        Me.fileSplitContainer.Panel2.SuspendLayout()
-        Me.fileSplitContainer.SuspendLayout()
-        Me.gpFileAttributes.SuspendLayout()
-        Me.gpFileDates.SuspendLayout()
-        CType(Me.pctFileSmall, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.mnuFileCopyPctSmall.SuspendLayout()
-        CType(Me.pctFileBig, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.mnuFileCopyPctBig.SuspendLayout()
-        Me.panelMain6.SuspendLayout()
-        Me.SplitContainerSearch.Panel1.SuspendLayout()
-        Me.SplitContainerSearch.Panel2.SuspendLayout()
-        Me.SplitContainerSearch.SuspendLayout()
-        Me.menuSearch.SuspendLayout()
+        Me.pageModules.SuspendLayout()
+        Me.panelMain11.SuspendLayout()
+        Me.splitModule.Panel1.SuspendLayout()
+        Me.splitModule.Panel2.SuspendLayout()
+        Me.splitModule.SuspendLayout()
+        Me.SplitContainerModules.Panel1.SuspendLayout()
+        Me.SplitContainerModules.Panel2.SuspendLayout()
+        Me.SplitContainerModules.SuspendLayout()
+        Me.pageThreads.SuspendLayout()
+        Me.panelMain9.SuspendLayout()
+        Me.splitThreads.Panel1.SuspendLayout()
+        Me.splitThreads.Panel2.SuspendLayout()
+        Me.splitThreads.SuspendLayout()
+        Me.SplitContainerThreads.Panel1.SuspendLayout()
+        Me.SplitContainerThreads.Panel2.SuspendLayout()
+        Me.SplitContainerThreads.SuspendLayout()
+        Me.pageHandles.SuspendLayout()
         Me.panelMain7.SuspendLayout()
         Me.SplitContainerHandles.Panel1.SuspendLayout()
         Me.SplitContainerHandles.Panel2.SuspendLayout()
         Me.SplitContainerHandles.SuspendLayout()
-        Me.menuHandles.SuspendLayout()
+        Me.pageWindows.SuspendLayout()
+        Me.panelMain10.SuspendLayout()
+        Me.splitContainerWindows.Panel1.SuspendLayout()
+        Me.splitContainerWindows.Panel2.SuspendLayout()
+        Me.splitContainerWindows.SuspendLayout()
+        Me.SplitContainerWindows2.Panel1.SuspendLayout()
+        Me.SplitContainerWindows2.Panel2.SuspendLayout()
+        Me.SplitContainerWindows2.SuspendLayout()
+        Me.pageMonitor.SuspendLayout()
         Me.panelMain8.SuspendLayout()
         Me.splitMonitor.Panel1.SuspendLayout()
         Me.splitMonitor.Panel2.SuspendLayout()
@@ -613,38 +794,43 @@ Partial Class frmMain
         Me.splitMonitor3.SuspendLayout()
         Me.splitMonitor4.Panel2.SuspendLayout()
         Me.splitMonitor4.SuspendLayout()
-        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.panelMain9.SuspendLayout()
-        Me.splitThreads.Panel1.SuspendLayout()
-        Me.splitThreads.Panel2.SuspendLayout()
-        Me.splitThreads.SuspendLayout()
-        Me.SplitContainerThreads.Panel1.SuspendLayout()
-        Me.SplitContainerThreads.Panel2.SuspendLayout()
-        Me.SplitContainerThreads.SuspendLayout()
-        Me.menuThread.SuspendLayout()
-        Me.panelMain10.SuspendLayout()
-        Me.splitContainerWindows.Panel1.SuspendLayout()
-        Me.splitContainerWindows.Panel2.SuspendLayout()
-        Me.splitContainerWindows.SuspendLayout()
-        Me.SplitContainerWindows2.Panel1.SuspendLayout()
-        Me.SplitContainerWindows2.Panel2.SuspendLayout()
-        Me.SplitContainerWindows2.SuspendLayout()
-        Me.menuWindow.SuspendLayout()
-        Me.panelMain11.SuspendLayout()
-        Me.splitModule.Panel1.SuspendLayout()
-        Me.splitModule.Panel2.SuspendLayout()
-        Me.splitModule.SuspendLayout()
-        Me.SplitContainerModules.Panel1.SuspendLayout()
-        Me.SplitContainerModules.Panel2.SuspendLayout()
-        Me.SplitContainerModules.SuspendLayout()
-        Me.menuModule.SuspendLayout()
-        Me.menuTasks.SuspendLayout()
-        Me.panelMain13.SuspendLayout()
-        Me.SplitContainerTask.Panel1.SuspendLayout()
-        Me.SplitContainerTask.Panel2.SuspendLayout()
-        Me.SplitContainerTask.SuspendLayout()
+        Me.pageServices.SuspendLayout()
+        Me.containerServicesPage.Panel1.SuspendLayout()
+        Me.containerServicesPage.Panel2.SuspendLayout()
+        Me.containerServicesPage.SuspendLayout()
+        Me.panelMenu2.SuspendLayout()
+        Me.panelMain2.SuspendLayout()
+        Me.splitServices.Panel1.SuspendLayout()
+        Me.splitServices.Panel2.SuspendLayout()
+        Me.splitServices.SuspendLayout()
+        Me.splitServices2.Panel1.SuspendLayout()
+        Me.splitServices2.Panel2.SuspendLayout()
+        Me.splitServices2.SuspendLayout()
+        Me.splitServices3.Panel1.SuspendLayout()
+        Me.splitServices3.Panel2.SuspendLayout()
+        Me.splitServices3.SuspendLayout()
+        Me.splitServices4.Panel1.SuspendLayout()
+        Me.splitServices4.Panel2.SuspendLayout()
+        Me.splitServices4.SuspendLayout()
+        Me.pageNetwork.SuspendLayout()
         Me.panelMain14.SuspendLayout()
-        Me.menuNetwork.SuspendLayout()
+        Me.pageFile.SuspendLayout()
+        Me.panelMain5.SuspendLayout()
+        Me.fileSplitContainer.Panel1.SuspendLayout()
+        Me.fileSplitContainer.Panel2.SuspendLayout()
+        Me.fileSplitContainer.SuspendLayout()
+        Me.gpFileAttributes.SuspendLayout()
+        Me.gpFileDates.SuspendLayout()
+        CType(Me.pctFileSmall, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pctFileBig, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pageSearch.SuspendLayout()
+        Me.panelMain6.SuspendLayout()
+        Me.SplitContainerSearch.Panel1.SuspendLayout()
+        Me.SplitContainerSearch.Panel2.SuspendLayout()
+        Me.SplitContainerSearch.SuspendLayout()
+        Me.pageHelp.SuspendLayout()
+        Me.panelMain4.SuspendLayout()
+        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'imgMain
@@ -654,150 +840,11 @@ Partial Class frmMain
         Me.imgMain.Images.SetKeyName(0, "main_big2.ico")
         Me.imgMain.Images.SetKeyName(1, "noicon32")
         '
-        'panelMain
-        '
-        Me.panelMain.Controls.Add(Me.SplitContainerProcess)
-        Me.panelMain.Location = New System.Drawing.Point(218, 64)
-        Me.panelMain.Name = "panelMain"
-        Me.panelMain.Size = New System.Drawing.Size(560, 449)
-        Me.panelMain.TabIndex = 2
-        Me.panelMain.Visible = False
-        '
-        'SplitContainerProcess
-        '
-        Me.SplitContainerProcess.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainerProcess.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
-        Me.SplitContainerProcess.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainerProcess.Name = "SplitContainerProcess"
-        Me.SplitContainerProcess.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainerProcess.Panel1
-        '
-        Me.SplitContainerProcess.Panel1.Controls.Add(Me.SplitContainerTvLv)
-        Me.SplitContainerProcess.Size = New System.Drawing.Size(560, 449)
-        Me.SplitContainerProcess.SplitterDistance = 224
-        Me.SplitContainerProcess.TabIndex = 0
-        '
-        'SplitContainerTvLv
-        '
-        Me.SplitContainerTvLv.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainerTvLv.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.SplitContainerTvLv.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainerTvLv.Name = "SplitContainerTvLv"
-        '
-        'SplitContainerTvLv.Panel1
-        '
-        Me.SplitContainerTvLv.Panel1.Controls.Add(Me.tvProc)
-        Me.SplitContainerTvLv.Panel1Collapsed = True
-        '
-        'SplitContainerTvLv.Panel2
-        '
-        Me.SplitContainerTvLv.Panel2.Controls.Add(Me.lvProcess)
-        Me.SplitContainerTvLv.Size = New System.Drawing.Size(560, 224)
-        Me.SplitContainerTvLv.SplitterDistance = 149
-        Me.SplitContainerTvLv.TabIndex = 4
-        '
-        'tvProc
-        '
-        Me.tvProc.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tvProc.FullRowSelect = True
-        Me.tvProc.ImageIndex = 0
-        Me.tvProc.ImageList = Me.imgProcess
-        Me.tvProc.Location = New System.Drawing.Point(0, 0)
-        Me.tvProc.Name = "tvProc"
-        TreeNode1.Name = "4"
-        TreeNode1.Tag = "4"
-        TreeNode1.Text = "System"
-        TreeNode2.Name = "0"
-        TreeNode2.Tag = "0"
-        TreeNode2.Text = "[System process]"
-        Me.tvProc.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode2})
-        Me.tvProc.SelectedImageIndex = 0
-        Me.tvProc.Size = New System.Drawing.Size(149, 100)
-        Me.tvProc.TabIndex = 4
-        '
         'imgProcess
         '
         Me.imgProcess.ImageStream = CType(resources.GetObject("imgProcess.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.imgProcess.TransparentColor = System.Drawing.Color.Transparent
         Me.imgProcess.Images.SetKeyName(0, "noIcon")
-        '
-        'lvProcess
-        '
-        Me.lvProcess.AllowColumnReorder = True
-        Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c7, Me.c8, Me.c9, Me.c10, Me.ColumnHeader20})
-        Me.lvProcess.ContextMenuStrip = Me.menuProc
-        Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvProcess.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvProcess.FullRowSelect = True
-        ListViewGroup1.Header = "Processes"
-        ListViewGroup1.Name = "gpOther"
-        ListViewGroup2.Header = "Search result"
-        ListViewGroup2.Name = "gpSearch"
-        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
-        Me.lvProcess.HideSelection = False
-        Me.lvProcess.Location = New System.Drawing.Point(0, 0)
-        Me.lvProcess.Name = "lvProcess"
-        Me.lvProcess.OverriddenDoubleBuffered = True
-        Me.lvProcess.Size = New System.Drawing.Size(560, 224)
-        Me.lvProcess.TabIndex = 3
-        Me.lvProcess.UseCompatibleStateImageBehavior = False
-        Me.lvProcess.View = System.Windows.Forms.View.Details
-        '
-        'c1
-        '
-        Me.c1.Text = "Name"
-        Me.c1.Width = 100
-        '
-        'c2
-        '
-        Me.c2.Text = "PID"
-        Me.c2.Width = 40
-        '
-        'c3
-        '
-        Me.c3.Text = "UserName"
-        Me.c3.Width = 100
-        '
-        'c4
-        '
-        Me.c4.DisplayIndex = 5
-        Me.c4.Text = "TotalCpuTime"
-        Me.c4.Width = 80
-        '
-        'c5
-        '
-        Me.c5.DisplayIndex = 6
-        Me.c5.Text = "WorkingSet"
-        Me.c5.Width = 80
-        '
-        'c7
-        '
-        Me.c7.DisplayIndex = 7
-        Me.c7.Text = "Priority"
-        Me.c7.Width = 70
-        '
-        'c8
-        '
-        Me.c8.DisplayIndex = 8
-        Me.c8.Text = "Path"
-        Me.c8.Width = 350
-        '
-        'c9
-        '
-        Me.c9.DisplayIndex = 9
-        Me.c9.Text = "StartTime"
-        Me.c9.Width = 250
-        '
-        'c10
-        '
-        Me.c10.DisplayIndex = 3
-        Me.c10.Text = "CpuUsage"
-        '
-        'ColumnHeader20
-        '
-        Me.ColumnHeader20.DisplayIndex = 4
-        Me.ColumnHeader20.Text = "AverageCpuUsage"
         '
         'menuProc
         '
@@ -980,130 +1027,9 @@ Partial Class frmMain
         Me.chooseColumns.Size = New System.Drawing.Size(172, 22)
         Me.chooseColumns.Text = "Choose columns..."
         '
-        'panelMenu
-        '
-        Me.panelMenu.Controls.Add(Me.Label3)
-        Me.panelMenu.Controls.Add(Me.lblResCount)
-        Me.panelMenu.Controls.Add(Me.txtSearch)
-        Me.panelMenu.Location = New System.Drawing.Point(12, 121)
-        Me.panelMenu.Name = "panelMenu"
-        Me.panelMenu.Size = New System.Drawing.Size(766, 28)
-        Me.panelMenu.TabIndex = 4
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(4, 7)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(83, 13)
-        Me.Label3.TabIndex = 4
-        Me.Label3.Text = "Search process"
-        '
-        'lblResCount
-        '
-        Me.lblResCount.AutoSize = True
-        Me.lblResCount.Location = New System.Drawing.Point(394, 7)
-        Me.lblResCount.Name = "lblResCount"
-        Me.lblResCount.Size = New System.Drawing.Size(56, 13)
-        Me.lblResCount.TabIndex = 2
-        Me.lblResCount.Text = "0 result(s)"
-        '
-        'txtSearch
-        '
-        Me.txtSearch.Location = New System.Drawing.Point(90, 4)
-        Me.txtSearch.Name = "txtSearch"
-        Me.txtSearch.Size = New System.Drawing.Size(298, 22)
-        Me.txtSearch.TabIndex = 1
-        '
         'timerProcess
         '
         Me.timerProcess.Interval = 1000
-        '
-        'panelMain2
-        '
-        Me.panelMain2.Controls.Add(Me.splitServices)
-        Me.panelMain2.Location = New System.Drawing.Point(40, 174)
-        Me.panelMain2.Name = "panelMain2"
-        Me.panelMain2.Size = New System.Drawing.Size(642, 315)
-        Me.panelMain2.TabIndex = 15
-        Me.panelMain2.Visible = False
-        '
-        'splitServices
-        '
-        Me.splitServices.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.splitServices.Location = New System.Drawing.Point(0, 0)
-        Me.splitServices.Name = "splitServices"
-        Me.splitServices.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'splitServices.Panel1
-        '
-        Me.splitServices.Panel1.Controls.Add(Me.lvServices)
-        '
-        'splitServices.Panel2
-        '
-        Me.splitServices.Panel2.Controls.Add(Me.splitServices2)
-        Me.splitServices.Size = New System.Drawing.Size(642, 315)
-        Me.splitServices.SplitterDistance = 201
-        Me.splitServices.TabIndex = 0
-        '
-        'lvServices
-        '
-        Me.lvServices.AllowColumnReorder = True
-        Me.lvServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader11, Me.ColumnHeader19})
-        Me.lvServices.ContextMenuStrip = Me.menuService
-        Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvServices.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvServices.FullRowSelect = True
-        ListViewGroup3.Header = "Services"
-        ListViewGroup3.Name = "gpOther"
-        ListViewGroup4.Header = "Search result"
-        ListViewGroup4.Name = "gpSearch"
-        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
-        Me.lvServices.HideSelection = False
-        Me.lvServices.Location = New System.Drawing.Point(0, 0)
-        Me.lvServices.Name = "lvServices"
-        Me.lvServices.OverriddenDoubleBuffered = True
-        Me.lvServices.ProcessId = 0
-        Me.lvServices.ShowAll = False
-        Me.lvServices.Size = New System.Drawing.Size(642, 201)
-        Me.lvServices.TabIndex = 1
-        Me.lvServices.UseCompatibleStateImageBehavior = False
-        Me.lvServices.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader3
-        '
-        Me.ColumnHeader3.Text = "Name"
-        Me.ColumnHeader3.Width = 121
-        '
-        'ColumnHeader7
-        '
-        Me.ColumnHeader7.Text = "DisplayName"
-        Me.ColumnHeader7.Width = 243
-        '
-        'ColumnHeader8
-        '
-        Me.ColumnHeader8.Text = "State"
-        Me.ColumnHeader8.Width = 79
-        '
-        'ColumnHeader9
-        '
-        Me.ColumnHeader9.Text = "StartType"
-        Me.ColumnHeader9.Width = 70
-        '
-        'ColumnHeader10
-        '
-        Me.ColumnHeader10.Text = "ImagePath"
-        Me.ColumnHeader10.Width = 250
-        '
-        'ColumnHeader11
-        '
-        Me.ColumnHeader11.Text = "Process"
-        Me.ColumnHeader11.Width = 150
-        '
-        'ColumnHeader19
-        '
-        Me.ColumnHeader19.Text = "ServiceType"
-        Me.ColumnHeader19.Width = 100
         '
         'menuService
         '
@@ -1227,124 +1153,6 @@ Partial Class frmMain
         Me.ChooseColumnsToolStripMenuItem.Size = New System.Drawing.Size(219, 22)
         Me.ChooseColumnsToolStripMenuItem.Text = "Choose columns..."
         '
-        'splitServices2
-        '
-        Me.splitServices2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.splitServices2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.splitServices2.IsSplitterFixed = True
-        Me.splitServices2.Location = New System.Drawing.Point(0, 0)
-        Me.splitServices2.Name = "splitServices2"
-        Me.splitServices2.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'splitServices2.Panel1
-        '
-        Me.splitServices2.Panel1.Controls.Add(Me.cmdCopyServiceToCp)
-        Me.splitServices2.Panel1.Controls.Add(Me.lblServicePath)
-        Me.splitServices2.Panel1.Controls.Add(Me.lblServiceName)
-        '
-        'splitServices2.Panel2
-        '
-        Me.splitServices2.Panel2.Controls.Add(Me.splitServices3)
-        Me.splitServices2.Size = New System.Drawing.Size(642, 110)
-        Me.splitServices2.SplitterDistance = 35
-        Me.splitServices2.TabIndex = 15
-        '
-        'cmdCopyServiceToCp
-        '
-        Me.cmdCopyServiceToCp.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdCopyServiceToCp.Enabled = False
-        Me.cmdCopyServiceToCp.Image = Global.YAPM.My.Resources.Resources.copy16
-        Me.cmdCopyServiceToCp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.cmdCopyServiceToCp.Location = New System.Drawing.Point(510, 8)
-        Me.cmdCopyServiceToCp.Name = "cmdCopyServiceToCp"
-        Me.cmdCopyServiceToCp.Size = New System.Drawing.Size(130, 24)
-        Me.cmdCopyServiceToCp.TabIndex = 19
-        Me.cmdCopyServiceToCp.Text = "Copy to clipboard"
-        Me.cmdCopyServiceToCp.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.cmdCopyServiceToCp.UseVisualStyleBackColor = True
-        '
-        'lblServicePath
-        '
-        Me.lblServicePath.BackColor = System.Drawing.SystemColors.ButtonFace
-        Me.lblServicePath.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.lblServicePath.ForeColor = System.Drawing.SystemColors.WindowFrame
-        Me.lblServicePath.Location = New System.Drawing.Point(7, 19)
-        Me.lblServicePath.Name = "lblServicePath"
-        Me.lblServicePath.ReadOnly = True
-        Me.lblServicePath.Size = New System.Drawing.Size(440, 15)
-        Me.lblServicePath.TabIndex = 18
-        '
-        'lblServiceName
-        '
-        Me.lblServiceName.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblServiceName.ForeColor = System.Drawing.SystemColors.ControlDarkDark
-        Me.lblServiceName.Location = New System.Drawing.Point(3, 0)
-        Me.lblServiceName.Name = "lblServiceName"
-        Me.lblServiceName.Size = New System.Drawing.Size(554, 32)
-        Me.lblServiceName.TabIndex = 17
-        Me.lblServiceName.Text = "Service name :"
-        '
-        'splitServices3
-        '
-        Me.splitServices3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.splitServices3.Location = New System.Drawing.Point(0, 0)
-        Me.splitServices3.Name = "splitServices3"
-        '
-        'splitServices3.Panel1
-        '
-        Me.splitServices3.Panel1.Controls.Add(Me.rtb2)
-        '
-        'splitServices3.Panel2
-        '
-        Me.splitServices3.Panel2.Controls.Add(Me.splitServices4)
-        Me.splitServices3.Size = New System.Drawing.Size(642, 71)
-        Me.splitServices3.SplitterDistance = 475
-        Me.splitServices3.TabIndex = 0
-        '
-        'rtb2
-        '
-        Me.rtb2.AutoWordSelection = True
-        Me.rtb2.BackColor = System.Drawing.Color.White
-        Me.rtb2.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.rtb2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.rtb2.HideSelection = False
-        Me.rtb2.Location = New System.Drawing.Point(0, 0)
-        Me.rtb2.Name = "rtb2"
-        Me.rtb2.ReadOnly = True
-        Me.rtb2.Size = New System.Drawing.Size(475, 71)
-        Me.rtb2.TabIndex = 13
-        Me.rtb2.Text = ""
-        Me.rtb2.WordWrap = False
-        '
-        'splitServices4
-        '
-        Me.splitServices4.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.splitServices4.Location = New System.Drawing.Point(0, 0)
-        Me.splitServices4.Name = "splitServices4"
-        Me.splitServices4.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'splitServices4.Panel1
-        '
-        Me.splitServices4.Panel1.Controls.Add(Me.tv2)
-        '
-        'splitServices4.Panel2
-        '
-        Me.splitServices4.Panel2.Controls.Add(Me.tv)
-        Me.splitServices4.Size = New System.Drawing.Size(163, 71)
-        Me.splitServices4.SplitterDistance = 32
-        Me.splitServices4.TabIndex = 0
-        '
-        'tv2
-        '
-        Me.tv2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tv2.ImageIndex = 0
-        Me.tv2.ImageList = Me.imgServices
-        Me.tv2.Location = New System.Drawing.Point(0, 0)
-        Me.tv2.Name = "tv2"
-        Me.tv2.SelectedImageIndex = 2
-        Me.tv2.Size = New System.Drawing.Size(163, 32)
-        Me.tv2.TabIndex = 15
-        '
         'imgServices
         '
         Me.imgServices.ImageStream = CType(resources.GetObject("imgServices.ImageStream"), System.Windows.Forms.ImageListStreamer)
@@ -1355,93 +1163,6 @@ Partial Class frmMain
         Me.imgServices.Images.SetKeyName(3, "thread")
         Me.imgServices.Images.SetKeyName(4, "noicon")
         Me.imgServices.Images.SetKeyName(5, "service")
-        '
-        'tv
-        '
-        Me.tv.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tv.ImageIndex = 0
-        Me.tv.ImageList = Me.imgServices
-        Me.tv.Location = New System.Drawing.Point(0, 0)
-        Me.tv.Name = "tv"
-        Me.tv.SelectedImageIndex = 0
-        Me.tv.Size = New System.Drawing.Size(163, 35)
-        Me.tv.TabIndex = 14
-        '
-        'panelMain4
-        '
-        Me.panelMain4.Controls.Add(Me.WBHelp)
-        Me.panelMain4.Location = New System.Drawing.Point(130, 182)
-        Me.panelMain4.Name = "panelMain4"
-        Me.panelMain4.Size = New System.Drawing.Size(560, 240)
-        Me.panelMain4.TabIndex = 16
-        Me.panelMain4.Visible = False
-        '
-        'WBHelp
-        '
-        Me.WBHelp.AllowWebBrowserDrop = False
-        Me.WBHelp.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.WBHelp.IsWebBrowserContextMenuEnabled = False
-        Me.WBHelp.Location = New System.Drawing.Point(0, 0)
-        Me.WBHelp.MinimumSize = New System.Drawing.Size(20, 20)
-        Me.WBHelp.Name = "WBHelp"
-        Me.WBHelp.Size = New System.Drawing.Size(560, 240)
-        Me.WBHelp.TabIndex = 0
-        Me.WBHelp.Url = New System.Uri("", System.UriKind.Relative)
-        '
-        'panelMain3
-        '
-        Me.panelMain3.Controls.Add(Me.lvJobs)
-        Me.panelMain3.Location = New System.Drawing.Point(138, 190)
-        Me.panelMain3.Name = "panelMain3"
-        Me.panelMain3.Size = New System.Drawing.Size(560, 240)
-        Me.panelMain3.TabIndex = 17
-        Me.panelMain3.Visible = False
-        '
-        'lvJobs
-        '
-        Me.lvJobs.AllowColumnReorder = True
-        Me.lvJobs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader4, Me.ColumnHeader5, Me.ColumnHeader6})
-        Me.lvJobs.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvJobs.FullRowSelect = True
-        ListViewGroup5.Header = "Past jobs"
-        ListViewGroup5.Name = "gp1"
-        ListViewGroup6.Header = "Future jobs"
-        ListViewGroup6.Name = "gp2"
-        Me.lvJobs.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
-        Me.lvJobs.HideSelection = False
-        Me.lvJobs.Location = New System.Drawing.Point(0, 0)
-        Me.lvJobs.Name = "lvJobs"
-        Me.lvJobs.OverriddenDoubleBuffered = True
-        Me.lvJobs.Size = New System.Drawing.Size(560, 240)
-        Me.lvJobs.SmallImageList = Me.imgProcess
-        Me.lvJobs.TabIndex = 0
-        Me.lvJobs.UseCompatibleStateImageBehavior = False
-        Me.lvJobs.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader1
-        '
-        Me.ColumnHeader1.Text = "Name"
-        Me.ColumnHeader1.Width = 132
-        '
-        'ColumnHeader2
-        '
-        Me.ColumnHeader2.Text = "Process ID"
-        Me.ColumnHeader2.Width = 69
-        '
-        'ColumnHeader4
-        '
-        Me.ColumnHeader4.Text = "Process Name"
-        Me.ColumnHeader4.Width = 92
-        '
-        'ColumnHeader5
-        '
-        Me.ColumnHeader5.Text = "Action"
-        Me.ColumnHeader5.Width = 127
-        '
-        'ColumnHeader6
-        '
-        Me.ColumnHeader6.Text = "Time"
-        Me.ColumnHeader6.Width = 130
         '
         'timerServices
         '
@@ -1458,7 +1179,7 @@ Partial Class frmMain
         '
         Me.mainMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowYAPMToolStripMenuItem, Me.MinimizeToTrayToolStripMenuItem, Me.AboutYAPMToolStripMenuItem, Me.AlwaysVisibleToolStripMenuItem, Me.ToolStripMenuItem3, Me.ShutdownToolStripMenuItem1, Me.ToolStripMenuItem50, Me.ShowLogToolStripMenuItem, Me.SaveSystemReportToolStripMenuItem, Me.ShowSystemInformatoToolStripMenuItem, Me.WindowManagementToolStripMenuItem, Me.EmergencyHotkeysToolStripMenuItem, Me.FindAWindowToolStripMenuItem, Me.ToolStripMenuItem40, Me.EnableProcessRefreshingToolStripMenuItem, Me.RefreshServiceListToolStripMenuItem, Me.ToolStripMenuItem4, Me.ExitToolStripMenuItem})
         Me.mainMenu.Name = "mainMenu"
-        Me.mainMenu.Size = New System.Drawing.Size(192, 358)
+        Me.mainMenu.Size = New System.Drawing.Size(192, 336)
         '
         'ShowYAPMToolStripMenuItem
         '
@@ -1563,6 +1284,13 @@ Partial Class frmMain
         Me.ShowLogToolStripMenuItem.Name = "ShowLogToolStripMenuItem"
         Me.ShowLogToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
         Me.ShowLogToolStripMenuItem.Text = "Show log"
+        '
+        'SaveSystemReportToolStripMenuItem
+        '
+        Me.SaveSystemReportToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SaveSystemReportToolStripMenuItem.Name = "SaveSystemReportToolStripMenuItem"
+        Me.SaveSystemReportToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
+        Me.SaveSystemReportToolStripMenuItem.Text = "Save system report..."
         '
         'ShowSystemInformatoToolStripMenuItem
         '
@@ -3708,6 +3436,7 @@ Partial Class frmMain
         Me.RBOptions.ButtonMoreVisible = False
         Me.RBOptions.Items.Add(Me.butPreferences)
         Me.RBOptions.Items.Add(Me.butAlwaysDisplay)
+        Me.RBOptions.Items.Add(Me.butPermuteMenuStyle)
         Me.RBOptions.Tag = Nothing
         Me.RBOptions.Text = "Options"
         '
@@ -3737,16 +3466,2224 @@ Partial Class frmMain
         Me.butAlwaysDisplay.ToolTipImage = Nothing
         Me.butAlwaysDisplay.ToolTipTitle = Nothing
         '
+        'mnuFileCopyPctSmall
+        '
+        Me.mnuFileCopyPctSmall.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem17})
+        Me.mnuFileCopyPctSmall.Name = "menuCopyPctbig"
+        Me.mnuFileCopyPctSmall.Size = New System.Drawing.Size(170, 26)
+        '
+        'ToolStripMenuItem17
+        '
+        Me.ToolStripMenuItem17.Image = Global.YAPM.My.Resources.Resources.copy16
+        Me.ToolStripMenuItem17.Name = "ToolStripMenuItem17"
+        Me.ToolStripMenuItem17.Size = New System.Drawing.Size(169, 22)
+        Me.ToolStripMenuItem17.Text = "Copy to clipboard"
+        '
+        'mnuFileCopyPctBig
+        '
+        Me.mnuFileCopyPctBig.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem16})
+        Me.mnuFileCopyPctBig.Name = "menuCopyPctbig"
+        Me.mnuFileCopyPctBig.Size = New System.Drawing.Size(170, 26)
+        '
+        'ToolStripMenuItem16
+        '
+        Me.ToolStripMenuItem16.Image = Global.YAPM.My.Resources.Resources.copy16
+        Me.ToolStripMenuItem16.Name = "ToolStripMenuItem16"
+        Me.ToolStripMenuItem16.Size = New System.Drawing.Size(169, 22)
+        Me.ToolStripMenuItem16.Text = "Copy to clipboard"
+        '
+        'menuSearch
+        '
+        Me.menuSearch.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectAssociatedProcessToolStripMenuItem, Me.ToolStripMenuItem18, Me.CloseToolStripMenuItem})
+        Me.menuSearch.Name = "menuProc"
+        Me.menuSearch.Size = New System.Drawing.Size(260, 54)
+        '
+        'SelectAssociatedProcessToolStripMenuItem
+        '
+        Me.SelectAssociatedProcessToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SelectAssociatedProcessToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.exe
+        Me.SelectAssociatedProcessToolStripMenuItem.Name = "SelectAssociatedProcessToolStripMenuItem"
+        Me.SelectAssociatedProcessToolStripMenuItem.Size = New System.Drawing.Size(259, 22)
+        Me.SelectAssociatedProcessToolStripMenuItem.Text = "Select associated process/service"
+        '
+        'ToolStripMenuItem18
+        '
+        Me.ToolStripMenuItem18.Name = "ToolStripMenuItem18"
+        Me.ToolStripMenuItem18.Size = New System.Drawing.Size(256, 6)
+        '
+        'CloseToolStripMenuItem
+        '
+        Me.CloseToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.cross
+        Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(259, 22)
+        Me.CloseToolStripMenuItem.Text = "Close item"
+        '
+        'imgSearch
+        '
+        Me.imgSearch.ImageStream = CType(resources.GetObject("imgSearch.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imgSearch.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgSearch.Images.SetKeyName(0, "handle")
+        Me.imgSearch.Images.SetKeyName(1, "dll")
+        Me.imgSearch.Images.SetKeyName(2, "window")
+        Me.imgSearch.Images.SetKeyName(3, "noicon")
+        Me.imgSearch.Images.SetKeyName(4, "service")
+        '
+        'menuHandles
+        '
+        Me.menuHandles.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem19, Me.ToolStripSeparator3, Me.ToolStripMenuItem22, Me.ToolStripMenuItem1, Me.DisplayUnnamedHandlesToolStripMenuItem, Me.ToolStripMenuItem49, Me.ChooseColumnsToolStripMenuItem6})
+        Me.menuHandles.Name = "menuProc"
+        Me.menuHandles.Size = New System.Drawing.Size(211, 110)
+        '
+        'ToolStripMenuItem19
+        '
+        Me.ToolStripMenuItem19.Image = Global.YAPM.My.Resources.Resources.exe
+        Me.ToolStripMenuItem19.Name = "ToolStripMenuItem19"
+        Me.ToolStripMenuItem19.Size = New System.Drawing.Size(210, 22)
+        Me.ToolStripMenuItem19.Text = "&Select associated process"
+        '
+        'ToolStripSeparator3
+        '
+        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(207, 6)
+        '
+        'ToolStripMenuItem22
+        '
+        Me.ToolStripMenuItem22.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ToolStripMenuItem22.Image = Global.YAPM.My.Resources.Resources.cross
+        Me.ToolStripMenuItem22.Name = "ToolStripMenuItem22"
+        Me.ToolStripMenuItem22.Size = New System.Drawing.Size(210, 22)
+        Me.ToolStripMenuItem22.Text = "Close item"
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(207, 6)
+        '
+        'DisplayUnnamedHandlesToolStripMenuItem
+        '
+        Me.DisplayUnnamedHandlesToolStripMenuItem.Name = "DisplayUnnamedHandlesToolStripMenuItem"
+        Me.DisplayUnnamedHandlesToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
+        Me.DisplayUnnamedHandlesToolStripMenuItem.Text = "Display unnamed handles"
+        '
+        'ToolStripMenuItem49
+        '
+        Me.ToolStripMenuItem49.Name = "ToolStripMenuItem49"
+        Me.ToolStripMenuItem49.Size = New System.Drawing.Size(207, 6)
+        '
+        'ChooseColumnsToolStripMenuItem6
+        '
+        Me.ChooseColumnsToolStripMenuItem6.Name = "ChooseColumnsToolStripMenuItem6"
+        Me.ChooseColumnsToolStripMenuItem6.Size = New System.Drawing.Size(210, 22)
+        Me.ChooseColumnsToolStripMenuItem6.Text = "Choose columns..."
+        '
+        'imgMonitor
+        '
+        Me.imgMonitor.ImageStream = CType(resources.GetObject("imgMonitor.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imgMonitor.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgMonitor.Images.SetKeyName(0, "down")
+        Me.imgMonitor.Images.SetKeyName(1, "sub")
+        Me.imgMonitor.Images.SetKeyName(2, "exe")
+        '
+        'timerMonitoring
+        '
+        Me.timerMonitoring.Interval = 1000
+        '
+        'menuThread
+        '
+        Me.menuThread.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem23, Me.ToolStripMenuItem24, Me.ToolStripMenuItem25, Me.ToolStripMenuItem26, Me.ToolStripMenuItem33, Me.SelectedAssociatedProcessToolStripMenuItem, Me.ToolStripMenuItem43, Me.ChooseColumnsToolStripMenuItem4})
+        Me.menuThread.Name = "menuProc"
+        Me.menuThread.Size = New System.Drawing.Size(220, 164)
+        '
+        'ToolStripMenuItem23
+        '
+        Me.ToolStripMenuItem23.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ToolStripMenuItem23.Image = Global.YAPM.My.Resources.Resources.cross
+        Me.ToolStripMenuItem23.Name = "ToolStripMenuItem23"
+        Me.ToolStripMenuItem23.Size = New System.Drawing.Size(219, 22)
+        Me.ToolStripMenuItem23.Text = "Terminate"
+        '
+        'ToolStripMenuItem24
+        '
+        Me.ToolStripMenuItem24.Image = Global.YAPM.My.Resources.Resources.control_pause
+        Me.ToolStripMenuItem24.Name = "ToolStripMenuItem24"
+        Me.ToolStripMenuItem24.Size = New System.Drawing.Size(219, 22)
+        Me.ToolStripMenuItem24.Text = "Suspend"
+        '
+        'ToolStripMenuItem25
+        '
+        Me.ToolStripMenuItem25.Image = Global.YAPM.My.Resources.Resources.control
+        Me.ToolStripMenuItem25.Name = "ToolStripMenuItem25"
+        Me.ToolStripMenuItem25.Size = New System.Drawing.Size(219, 22)
+        Me.ToolStripMenuItem25.Text = "Resume"
+        '
+        'ToolStripMenuItem26
+        '
+        Me.ToolStripMenuItem26.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem27, Me.LowestToolStripMenuItem, Me.ToolStripMenuItem28, Me.ToolStripMenuItem29, Me.ToolStripMenuItem30, Me.ToolStripMenuItem31, Me.ToolStripMenuItem32})
+        Me.ToolStripMenuItem26.Name = "ToolStripMenuItem26"
+        Me.ToolStripMenuItem26.Size = New System.Drawing.Size(219, 22)
+        Me.ToolStripMenuItem26.Text = "Priotiy"
+        '
+        'ToolStripMenuItem27
+        '
+        Me.ToolStripMenuItem27.Image = CType(resources.GetObject("ToolStripMenuItem27.Image"), System.Drawing.Image)
+        Me.ToolStripMenuItem27.Name = "ToolStripMenuItem27"
+        Me.ToolStripMenuItem27.Size = New System.Drawing.Size(151, 22)
+        Me.ToolStripMenuItem27.Text = "Idle"
+        '
+        'LowestToolStripMenuItem
+        '
+        Me.LowestToolStripMenuItem.Image = CType(resources.GetObject("LowestToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.LowestToolStripMenuItem.Name = "LowestToolStripMenuItem"
+        Me.LowestToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
+        Me.LowestToolStripMenuItem.Text = "Lowest"
+        '
+        'ToolStripMenuItem28
+        '
+        Me.ToolStripMenuItem28.Image = CType(resources.GetObject("ToolStripMenuItem28.Image"), System.Drawing.Image)
+        Me.ToolStripMenuItem28.Name = "ToolStripMenuItem28"
+        Me.ToolStripMenuItem28.Size = New System.Drawing.Size(151, 22)
+        Me.ToolStripMenuItem28.Text = "Below Normal"
+        '
+        'ToolStripMenuItem29
+        '
+        Me.ToolStripMenuItem29.Image = CType(resources.GetObject("ToolStripMenuItem29.Image"), System.Drawing.Image)
+        Me.ToolStripMenuItem29.Name = "ToolStripMenuItem29"
+        Me.ToolStripMenuItem29.Size = New System.Drawing.Size(151, 22)
+        Me.ToolStripMenuItem29.Text = "Normal"
+        '
+        'ToolStripMenuItem30
+        '
+        Me.ToolStripMenuItem30.Image = CType(resources.GetObject("ToolStripMenuItem30.Image"), System.Drawing.Image)
+        Me.ToolStripMenuItem30.Name = "ToolStripMenuItem30"
+        Me.ToolStripMenuItem30.Size = New System.Drawing.Size(151, 22)
+        Me.ToolStripMenuItem30.Text = "Above Normal"
+        '
+        'ToolStripMenuItem31
+        '
+        Me.ToolStripMenuItem31.Image = CType(resources.GetObject("ToolStripMenuItem31.Image"), System.Drawing.Image)
+        Me.ToolStripMenuItem31.Name = "ToolStripMenuItem31"
+        Me.ToolStripMenuItem31.Size = New System.Drawing.Size(151, 22)
+        Me.ToolStripMenuItem31.Text = "Highest"
+        '
+        'ToolStripMenuItem32
+        '
+        Me.ToolStripMenuItem32.Image = CType(resources.GetObject("ToolStripMenuItem32.Image"), System.Drawing.Image)
+        Me.ToolStripMenuItem32.Name = "ToolStripMenuItem32"
+        Me.ToolStripMenuItem32.Size = New System.Drawing.Size(151, 22)
+        Me.ToolStripMenuItem32.Text = "Time Critical"
+        '
+        'ToolStripMenuItem33
+        '
+        Me.ToolStripMenuItem33.Name = "ToolStripMenuItem33"
+        Me.ToolStripMenuItem33.Size = New System.Drawing.Size(219, 22)
+        Me.ToolStripMenuItem33.Text = "Set affinity..."
+        '
+        'SelectedAssociatedProcessToolStripMenuItem
+        '
+        Me.SelectedAssociatedProcessToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.exe
+        Me.SelectedAssociatedProcessToolStripMenuItem.Name = "SelectedAssociatedProcessToolStripMenuItem"
+        Me.SelectedAssociatedProcessToolStripMenuItem.Size = New System.Drawing.Size(219, 22)
+        Me.SelectedAssociatedProcessToolStripMenuItem.Text = "Selected associated process"
+        '
+        'ToolStripMenuItem43
+        '
+        Me.ToolStripMenuItem43.Name = "ToolStripMenuItem43"
+        Me.ToolStripMenuItem43.Size = New System.Drawing.Size(216, 6)
+        '
+        'ChooseColumnsToolStripMenuItem4
+        '
+        Me.ChooseColumnsToolStripMenuItem4.Name = "ChooseColumnsToolStripMenuItem4"
+        Me.ChooseColumnsToolStripMenuItem4.Size = New System.Drawing.Size(219, 22)
+        Me.ChooseColumnsToolStripMenuItem4.Text = "Choose columns..."
+        '
+        'menuWindow
+        '
+        Me.menuWindow.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem34, Me.ToolStripMenuItem7, Me.ChooseColumnsToolStripMenuItem2})
+        Me.menuWindow.Name = "menuProc"
+        Me.menuWindow.Size = New System.Drawing.Size(207, 54)
+        '
+        'ToolStripMenuItem34
+        '
+        Me.ToolStripMenuItem34.Image = Global.YAPM.My.Resources.Resources.exe
+        Me.ToolStripMenuItem34.Name = "ToolStripMenuItem34"
+        Me.ToolStripMenuItem34.Size = New System.Drawing.Size(206, 22)
+        Me.ToolStripMenuItem34.Text = "&Select associated process"
+        '
+        'ToolStripMenuItem7
+        '
+        Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
+        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(203, 6)
+        '
+        'ChooseColumnsToolStripMenuItem2
+        '
+        Me.ChooseColumnsToolStripMenuItem2.Name = "ChooseColumnsToolStripMenuItem2"
+        Me.ChooseColumnsToolStripMenuItem2.Size = New System.Drawing.Size(206, 22)
+        Me.ChooseColumnsToolStripMenuItem2.Text = "Choose columns..."
+        '
+        'menuModule
+        '
+        Me.menuModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem35, Me.ToolStripSeparator4, Me.ShowFileDetailsToolStripMenuItem, Me.ToolStripMenuItem36, Me.ToolStripMenuItem39, Me.GoogleSearchToolStripMenuItem2, Me.ToolStripMenuItem41, Me.ChooseColumnsToolStripMenuItem3})
+        Me.menuModule.Name = "menuProc"
+        Me.menuModule.Size = New System.Drawing.Size(207, 132)
+        '
+        'ToolStripMenuItem35
+        '
+        Me.ToolStripMenuItem35.Image = Global.YAPM.My.Resources.Resources.exe
+        Me.ToolStripMenuItem35.Name = "ToolStripMenuItem35"
+        Me.ToolStripMenuItem35.Size = New System.Drawing.Size(206, 22)
+        Me.ToolStripMenuItem35.Text = "&Select associated process"
+        '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(203, 6)
+        '
+        'ShowFileDetailsToolStripMenuItem
+        '
+        Me.ShowFileDetailsToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.magnifier
+        Me.ShowFileDetailsToolStripMenuItem.Name = "ShowFileDetailsToolStripMenuItem"
+        Me.ShowFileDetailsToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
+        Me.ShowFileDetailsToolStripMenuItem.Text = "Show file details"
+        '
+        'ToolStripMenuItem36
+        '
+        Me.ToolStripMenuItem36.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ToolStripMenuItem36.Image = Global.YAPM.My.Resources.Resources.cross
+        Me.ToolStripMenuItem36.Name = "ToolStripMenuItem36"
+        Me.ToolStripMenuItem36.Size = New System.Drawing.Size(206, 22)
+        Me.ToolStripMenuItem36.Text = "Unload module"
+        '
+        'ToolStripMenuItem39
+        '
+        Me.ToolStripMenuItem39.Name = "ToolStripMenuItem39"
+        Me.ToolStripMenuItem39.Size = New System.Drawing.Size(203, 6)
+        '
+        'GoogleSearchToolStripMenuItem2
+        '
+        Me.GoogleSearchToolStripMenuItem2.Image = Global.YAPM.My.Resources.Resources.globe
+        Me.GoogleSearchToolStripMenuItem2.Name = "GoogleSearchToolStripMenuItem2"
+        Me.GoogleSearchToolStripMenuItem2.Size = New System.Drawing.Size(206, 22)
+        Me.GoogleSearchToolStripMenuItem2.Text = "Google search"
+        '
+        'ToolStripMenuItem41
+        '
+        Me.ToolStripMenuItem41.Name = "ToolStripMenuItem41"
+        Me.ToolStripMenuItem41.Size = New System.Drawing.Size(203, 6)
+        '
+        'ChooseColumnsToolStripMenuItem3
+        '
+        Me.ChooseColumnsToolStripMenuItem3.Name = "ChooseColumnsToolStripMenuItem3"
+        Me.ChooseColumnsToolStripMenuItem3.Size = New System.Drawing.Size(206, 22)
+        Me.ChooseColumnsToolStripMenuItem3.Text = "Choose columns..."
+        '
+        'menuTasks
+        '
+        Me.menuTasks.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowWindowToolStripMenuItem, Me.MaximizeWindowToolStripMenuItem, Me.MinimizeWindowToolStripMenuItem, Me.ToolStripMenuItem46, Me.EndTaskToolStripMenuItem, Me.ToolStripMenuItem47, Me.ToolStripMenuItem45, Me.SelectWindowInWindowsTabToolStripMenuItem, Me.ToolStripMenuItem6, Me.ChooseColumnsToolStripMenuItem1})
+        Me.menuTasks.Name = "menuProc"
+        Me.menuTasks.Size = New System.Drawing.Size(236, 176)
+        '
+        'ShowWindowToolStripMenuItem
+        '
+        Me.ShowWindowToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ShowWindowToolStripMenuItem.Image = CType(resources.GetObject("ShowWindowToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.ShowWindowToolStripMenuItem.Name = "ShowWindowToolStripMenuItem"
+        Me.ShowWindowToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
+        Me.ShowWindowToolStripMenuItem.Text = "Show window"
+        '
+        'MaximizeWindowToolStripMenuItem
+        '
+        Me.MaximizeWindowToolStripMenuItem.Name = "MaximizeWindowToolStripMenuItem"
+        Me.MaximizeWindowToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
+        Me.MaximizeWindowToolStripMenuItem.Text = "Maximize window"
+        '
+        'MinimizeWindowToolStripMenuItem
+        '
+        Me.MinimizeWindowToolStripMenuItem.Name = "MinimizeWindowToolStripMenuItem"
+        Me.MinimizeWindowToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
+        Me.MinimizeWindowToolStripMenuItem.Text = "Minimize window"
+        '
+        'ToolStripMenuItem46
+        '
+        Me.ToolStripMenuItem46.Name = "ToolStripMenuItem46"
+        Me.ToolStripMenuItem46.Size = New System.Drawing.Size(232, 6)
+        '
+        'EndTaskToolStripMenuItem
+        '
+        Me.EndTaskToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.EndTaskToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.cross
+        Me.EndTaskToolStripMenuItem.Name = "EndTaskToolStripMenuItem"
+        Me.EndTaskToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
+        Me.EndTaskToolStripMenuItem.Text = "End task"
+        '
+        'ToolStripMenuItem47
+        '
+        Me.ToolStripMenuItem47.Name = "ToolStripMenuItem47"
+        Me.ToolStripMenuItem47.Size = New System.Drawing.Size(232, 6)
+        '
+        'ToolStripMenuItem45
+        '
+        Me.ToolStripMenuItem45.Image = Global.YAPM.My.Resources.Resources.exe
+        Me.ToolStripMenuItem45.Name = "ToolStripMenuItem45"
+        Me.ToolStripMenuItem45.Size = New System.Drawing.Size(235, 22)
+        Me.ToolStripMenuItem45.Text = "&Select associated process"
+        '
+        'SelectWindowInWindowsTabToolStripMenuItem
+        '
+        Me.SelectWindowInWindowsTabToolStripMenuItem.Name = "SelectWindowInWindowsTabToolStripMenuItem"
+        Me.SelectWindowInWindowsTabToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
+        Me.SelectWindowInWindowsTabToolStripMenuItem.Text = "Select window in Windows tab"
+        '
+        'ToolStripMenuItem6
+        '
+        Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
+        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(232, 6)
+        '
+        'ChooseColumnsToolStripMenuItem1
+        '
+        Me.ChooseColumnsToolStripMenuItem1.Name = "ChooseColumnsToolStripMenuItem1"
+        Me.ChooseColumnsToolStripMenuItem1.Size = New System.Drawing.Size(235, 22)
+        Me.ChooseColumnsToolStripMenuItem1.Text = "Choose columns..."
+        '
+        'timerTask
+        '
+        Me.timerTask.Interval = 1000
+        '
+        'menuNetwork
+        '
+        Me.menuNetwork.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem48, Me.ToolStripMenuItem44, Me.ChooseColumnsToolStripMenuItem5})
+        Me.menuNetwork.Name = "menuProc"
+        Me.menuNetwork.Size = New System.Drawing.Size(207, 54)
+        '
+        'ToolStripMenuItem48
+        '
+        Me.ToolStripMenuItem48.Image = Global.YAPM.My.Resources.Resources.exe
+        Me.ToolStripMenuItem48.Name = "ToolStripMenuItem48"
+        Me.ToolStripMenuItem48.Size = New System.Drawing.Size(206, 22)
+        Me.ToolStripMenuItem48.Text = "&Select associated process"
+        '
+        'ToolStripMenuItem44
+        '
+        Me.ToolStripMenuItem44.Name = "ToolStripMenuItem44"
+        Me.ToolStripMenuItem44.Size = New System.Drawing.Size(203, 6)
+        '
+        'ChooseColumnsToolStripMenuItem5
+        '
+        Me.ChooseColumnsToolStripMenuItem5.Name = "ChooseColumnsToolStripMenuItem5"
+        Me.ChooseColumnsToolStripMenuItem5.Size = New System.Drawing.Size(206, 22)
+        Me.ChooseColumnsToolStripMenuItem5.Text = "Choose columns..."
+        '
+        'timerTrayIcon
+        '
+        Me.timerTrayIcon.Enabled = True
+        Me.timerTrayIcon.Interval = 1000
+        '
+        'butProcessPermuteLvTv
+        '
+        Me.butProcessPermuteLvTv.AltKey = Nothing
+        Me.butProcessPermuteLvTv.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessPermuteLvTv.Enabled = False
+        Me.butProcessPermuteLvTv.Image = Global.YAPM.My.Resources.Resources.tv2
+        Me.butProcessPermuteLvTv.SmallImage = CType(resources.GetObject("butProcessPermuteLvTv.SmallImage"), System.Drawing.Image)
+        Me.butProcessPermuteLvTv.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessPermuteLvTv.Tag = Nothing
+        Me.butProcessPermuteLvTv.Text = "Listview"
+        Me.butProcessPermuteLvTv.ToolTip = Nothing
+        Me.butProcessPermuteLvTv.ToolTipImage = Nothing
+        Me.butProcessPermuteLvTv.ToolTipTitle = Nothing
+        '
+        '_main
+        '
+        Me._main.Dock = System.Windows.Forms.DockStyle.Fill
+        Me._main.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me._main.IsSplitterFixed = True
+        Me._main.Location = New System.Drawing.Point(0, 0)
+        Me._main.Name = "_main"
+        Me._main.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        '_main.Panel1
+        '
+        Me._main.Panel1.Controls.Add(Me.cmdTray)
+        Me._main.Panel1.Controls.Add(Me.Ribbon)
+        '
+        '_main.Panel2
+        '
+        Me._main.Panel2.Controls.Add(Me.containerSystemMenu)
+        Me._main.Size = New System.Drawing.Size(843, 603)
+        Me._main.SplitterDistance = 113
+        Me._main.TabIndex = 57
+        '
+        'cmdTray
+        '
+        Me.cmdTray.ContextMenuStrip = Me.mainMenu
+        Me.cmdTray.Font = New System.Drawing.Font("Tahoma", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdTray.Image = Global.YAPM.My.Resources.Resources.down
+        Me.cmdTray.Location = New System.Drawing.Point(7, 2)
+        Me.cmdTray.Name = "cmdTray"
+        Me.cmdTray.Size = New System.Drawing.Size(38, 20)
+        Me.cmdTray.TabIndex = 46
+        Me.cmdTray.UseVisualStyleBackColor = True
+        '
+        'containerSystemMenu
+        '
+        Me.containerSystemMenu.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.containerSystemMenu.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.containerSystemMenu.IsSplitterFixed = True
+        Me.containerSystemMenu.Location = New System.Drawing.Point(0, 0)
+        Me.containerSystemMenu.Name = "containerSystemMenu"
+        Me.containerSystemMenu.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'containerSystemMenu.Panel1
+        '
+        Me.containerSystemMenu.Panel1.Controls.Add(Me.menuSystem)
+        '
+        'containerSystemMenu.Panel2
+        '
+        Me.containerSystemMenu.Panel2.Controls.Add(Me._tab)
+        Me.containerSystemMenu.Size = New System.Drawing.Size(843, 486)
+        Me.containerSystemMenu.SplitterDistance = 25
+        Me.containerSystemMenu.TabIndex = 0
+        '
+        'menuSystem
+        '
+        Me.menuSystem.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.OptionsToolStripMenuItem, Me.SystemToolStripMenuItem, Me._menuTask, Me._menuProcess, Me._amenuModule, Me._amenuThread, Me._menuHandle, Me._amenuWindow, Me._menuMonitor, Me._menuServices, Me._menuFile, Me._amenuSearch, Me.HelpToolStripMenuItem})
+        Me.menuSystem.Location = New System.Drawing.Point(0, 0)
+        Me.menuSystem.Name = "menuSystem"
+        Me.menuSystem.Size = New System.Drawing.Size(843, 24)
+        Me.menuSystem.TabIndex = 61
+        Me.menuSystem.Text = "MenuStrip1"
+        Me.menuSystem.Visible = False
+        '
+        'FileToolStripMenuItem
+        '
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RefreshToolStripMenuItem, Me.ToolStripMenuItem60, Me.ShowlogToolStripMenuItem1, Me.SystemreportToolStripMenuItem, Me.ToolStripMenuItem53, Me.SysteminfosToolStripMenuItem, Me.OpenedWindowsToolStripMenuItem, Me.ToolStripMenuItem54, Me.FindAWindowToolStripMenuItem1, Me.EmergencyHotkeysToolStripMenuItem1, Me.ToolStripMenuItem55, Me.ExitToolStripMenuItem1})
+        Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
+        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
+        Me.FileToolStripMenuItem.Text = "&File"
+        '
+        'RefreshToolStripMenuItem
+        '
+        Me.RefreshToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefreshToolStripMenuItem.Name = "RefreshToolStripMenuItem"
+        Me.RefreshToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5
+        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
+        Me.RefreshToolStripMenuItem.Text = "&Refresh"
+        '
+        'ToolStripMenuItem60
+        '
+        Me.ToolStripMenuItem60.Name = "ToolStripMenuItem60"
+        Me.ToolStripMenuItem60.Size = New System.Drawing.Size(174, 6)
+        '
+        'ShowlogToolStripMenuItem1
+        '
+        Me.ShowlogToolStripMenuItem1.Name = "ShowlogToolStripMenuItem1"
+        Me.ShowlogToolStripMenuItem1.Size = New System.Drawing.Size(177, 22)
+        Me.ShowlogToolStripMenuItem1.Text = "Show &log..."
+        '
+        'SystemreportToolStripMenuItem
+        '
+        Me.SystemreportToolStripMenuItem.Name = "SystemreportToolStripMenuItem"
+        Me.SystemreportToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
+        Me.SystemreportToolStripMenuItem.Text = "System &report..."
+        '
+        'ToolStripMenuItem53
+        '
+        Me.ToolStripMenuItem53.Name = "ToolStripMenuItem53"
+        Me.ToolStripMenuItem53.Size = New System.Drawing.Size(174, 6)
+        '
+        'SysteminfosToolStripMenuItem
+        '
+        Me.SysteminfosToolStripMenuItem.Name = "SysteminfosToolStripMenuItem"
+        Me.SysteminfosToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
+        Me.SysteminfosToolStripMenuItem.Text = "System &infos"
+        '
+        'OpenedWindowsToolStripMenuItem
+        '
+        Me.OpenedWindowsToolStripMenuItem.Name = "OpenedWindowsToolStripMenuItem"
+        Me.OpenedWindowsToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
+        Me.OpenedWindowsToolStripMenuItem.Text = "&Opened windows"
+        '
+        'ToolStripMenuItem54
+        '
+        Me.ToolStripMenuItem54.Name = "ToolStripMenuItem54"
+        Me.ToolStripMenuItem54.Size = New System.Drawing.Size(174, 6)
+        '
+        'FindAWindowToolStripMenuItem1
+        '
+        Me.FindAWindowToolStripMenuItem1.Name = "FindAWindowToolStripMenuItem1"
+        Me.FindAWindowToolStripMenuItem1.Size = New System.Drawing.Size(177, 22)
+        Me.FindAWindowToolStripMenuItem1.Text = "&Find a window"
+        '
+        'EmergencyHotkeysToolStripMenuItem1
+        '
+        Me.EmergencyHotkeysToolStripMenuItem1.Name = "EmergencyHotkeysToolStripMenuItem1"
+        Me.EmergencyHotkeysToolStripMenuItem1.Size = New System.Drawing.Size(177, 22)
+        Me.EmergencyHotkeysToolStripMenuItem1.Text = "Emergency &hotkeys"
+        '
+        'ToolStripMenuItem55
+        '
+        Me.ToolStripMenuItem55.Name = "ToolStripMenuItem55"
+        Me.ToolStripMenuItem55.Size = New System.Drawing.Size(174, 6)
+        '
+        'ExitToolStripMenuItem1
+        '
+        Me.ExitToolStripMenuItem1.Name = "ExitToolStripMenuItem1"
+        Me.ExitToolStripMenuItem1.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
+        Me.ExitToolStripMenuItem1.Size = New System.Drawing.Size(177, 22)
+        Me.ExitToolStripMenuItem1.Text = "&Exit"
+        '
+        'OptionsToolStripMenuItem
+        '
+        Me.OptionsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AlwaysVisibleToolStripMenuItem1, Me.RibbonViewToolStripMenuItem, Me.ToolStripMenuItem56, Me.RefreshprocessListToolStripMenuItem, Me.RefreshserviceListToolStripMenuItem1, Me.ToolStripMenuItem57, Me.OptionsToolStripMenuItem1})
+        Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
+        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(61, 20)
+        Me.OptionsToolStripMenuItem.Text = "&Options"
+        '
+        'AlwaysVisibleToolStripMenuItem1
+        '
+        Me.AlwaysVisibleToolStripMenuItem1.Name = "AlwaysVisibleToolStripMenuItem1"
+        Me.AlwaysVisibleToolStripMenuItem1.Size = New System.Drawing.Size(174, 22)
+        Me.AlwaysVisibleToolStripMenuItem1.Text = "&Always visible"
+        '
+        'ToolStripMenuItem56
+        '
+        Me.ToolStripMenuItem56.Name = "ToolStripMenuItem56"
+        Me.ToolStripMenuItem56.Size = New System.Drawing.Size(171, 6)
+        '
+        'RefreshprocessListToolStripMenuItem
+        '
+        Me.RefreshprocessListToolStripMenuItem.Name = "RefreshprocessListToolStripMenuItem"
+        Me.RefreshprocessListToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.RefreshprocessListToolStripMenuItem.Text = "Refresh &process list"
+        '
+        'RefreshserviceListToolStripMenuItem1
+        '
+        Me.RefreshserviceListToolStripMenuItem1.Name = "RefreshserviceListToolStripMenuItem1"
+        Me.RefreshserviceListToolStripMenuItem1.Size = New System.Drawing.Size(174, 22)
+        Me.RefreshserviceListToolStripMenuItem1.Text = "Refresh &service list"
+        '
+        'ToolStripMenuItem57
+        '
+        Me.ToolStripMenuItem57.Name = "ToolStripMenuItem57"
+        Me.ToolStripMenuItem57.Size = New System.Drawing.Size(171, 6)
+        '
+        'OptionsToolStripMenuItem1
+        '
+        Me.OptionsToolStripMenuItem1.Name = "OptionsToolStripMenuItem1"
+        Me.OptionsToolStripMenuItem1.Size = New System.Drawing.Size(174, 22)
+        Me.OptionsToolStripMenuItem1.Text = "&Options..."
+        '
+        'SystemToolStripMenuItem
+        '
+        Me.SystemToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShutdownToolStripMenuItem3})
+        Me.SystemToolStripMenuItem.Name = "SystemToolStripMenuItem"
+        Me.SystemToolStripMenuItem.Size = New System.Drawing.Size(57, 20)
+        Me.SystemToolStripMenuItem.Text = "&System"
+        '
+        'ShutdownToolStripMenuItem3
+        '
+        Me.ShutdownToolStripMenuItem3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RestartToolStripMenuItem1, Me.ShutdownToolStripMenuItem4, Me.PoweroffToolStripMenuItem1, Me.ToolStripMenuItem58, Me.SleepToolStripMenuItem1, Me.HibernateToolStripMenuItem1, Me.ToolStripMenuItem59, Me.LogoffToolStripMenuItem1, Me.LockToolStripMenuItem1})
+        Me.ShutdownToolStripMenuItem3.Name = "ShutdownToolStripMenuItem3"
+        Me.ShutdownToolStripMenuItem3.Size = New System.Drawing.Size(128, 22)
+        Me.ShutdownToolStripMenuItem3.Text = "&Shutdown"
+        '
+        'RestartToolStripMenuItem1
+        '
+        Me.RestartToolStripMenuItem1.Name = "RestartToolStripMenuItem1"
+        Me.RestartToolStripMenuItem1.Size = New System.Drawing.Size(128, 22)
+        Me.RestartToolStripMenuItem1.Text = "&Restart"
+        '
+        'ShutdownToolStripMenuItem4
+        '
+        Me.ShutdownToolStripMenuItem4.Name = "ShutdownToolStripMenuItem4"
+        Me.ShutdownToolStripMenuItem4.Size = New System.Drawing.Size(128, 22)
+        Me.ShutdownToolStripMenuItem4.Text = "Shut&down"
+        '
+        'PoweroffToolStripMenuItem1
+        '
+        Me.PoweroffToolStripMenuItem1.Name = "PoweroffToolStripMenuItem1"
+        Me.PoweroffToolStripMenuItem1.Size = New System.Drawing.Size(128, 22)
+        Me.PoweroffToolStripMenuItem1.Text = "&Poweroff"
+        '
+        'ToolStripMenuItem58
+        '
+        Me.ToolStripMenuItem58.Name = "ToolStripMenuItem58"
+        Me.ToolStripMenuItem58.Size = New System.Drawing.Size(125, 6)
+        '
+        'SleepToolStripMenuItem1
+        '
+        Me.SleepToolStripMenuItem1.Name = "SleepToolStripMenuItem1"
+        Me.SleepToolStripMenuItem1.Size = New System.Drawing.Size(128, 22)
+        Me.SleepToolStripMenuItem1.Text = "&Sleep"
+        '
+        'HibernateToolStripMenuItem1
+        '
+        Me.HibernateToolStripMenuItem1.Name = "HibernateToolStripMenuItem1"
+        Me.HibernateToolStripMenuItem1.Size = New System.Drawing.Size(128, 22)
+        Me.HibernateToolStripMenuItem1.Text = "&Hibernate"
+        '
+        'ToolStripMenuItem59
+        '
+        Me.ToolStripMenuItem59.Name = "ToolStripMenuItem59"
+        Me.ToolStripMenuItem59.Size = New System.Drawing.Size(125, 6)
+        '
+        'LogoffToolStripMenuItem1
+        '
+        Me.LogoffToolStripMenuItem1.Name = "LogoffToolStripMenuItem1"
+        Me.LogoffToolStripMenuItem1.Size = New System.Drawing.Size(128, 22)
+        Me.LogoffToolStripMenuItem1.Text = "Log&off"
+        '
+        'LockToolStripMenuItem1
+        '
+        Me.LockToolStripMenuItem1.Name = "LockToolStripMenuItem1"
+        Me.LockToolStripMenuItem1.Size = New System.Drawing.Size(128, 22)
+        Me.LockToolStripMenuItem1.Text = "&Lock"
+        '
+        '_menuTask
+        '
+        Me._menuTask.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowToolStripMenuItem, Me.EndTaskToolStripMenuItem1})
+        Me._menuTask.Name = "_menuTask"
+        Me._menuTask.Size = New System.Drawing.Size(48, 20)
+        Me._menuTask.Text = "&Tasks"
+        '
+        'ShowToolStripMenuItem
+        '
+        Me.ShowToolStripMenuItem.Name = "ShowToolStripMenuItem"
+        Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(118, 22)
+        Me.ShowToolStripMenuItem.Text = "&Show"
+        '
+        'EndTaskToolStripMenuItem1
+        '
+        Me.EndTaskToolStripMenuItem1.Name = "EndTaskToolStripMenuItem1"
+        Me.EndTaskToolStripMenuItem1.Size = New System.Drawing.Size(118, 22)
+        Me.EndTaskToolStripMenuItem1.Text = "&End task"
+        '
+        '_menuProcess
+        '
+        Me._menuProcess.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowdetailsToolStripMenuItem, Me.ToolStripMenuItem61, Me.NewToolStripMenuItem, Me.KillToolStripMenuItem1, Me.PauseToolStripMenuItem, Me.ResumeToolStripMenuItem1, Me.ToolStripMenuItem63, Me.ShowToolStripMenuItem1, Me.ToolStripMenuItem62, Me.PriorityToolStripMenuItem, Me.ToolStripMenuItem64, Me.GoogleSearchToolStripMenuItem3, Me.ToolStripMenuItem65, Me.SaveReportToolStripMenuItem})
+        Me._menuProcess.Name = "_menuProcess"
+        Me._menuProcess.Size = New System.Drawing.Size(70, 20)
+        Me._menuProcess.Text = "&Processes"
+        Me._menuProcess.Visible = False
+        '
+        'ShowdetailsToolStripMenuItem
+        '
+        Me.ShowdetailsToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ShowdetailsToolStripMenuItem.Name = "ShowdetailsToolStripMenuItem"
+        Me.ShowdetailsToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
+        Me.ShowdetailsToolStripMenuItem.Text = "Show &details"
+        '
+        'ToolStripMenuItem61
+        '
+        Me.ToolStripMenuItem61.Name = "ToolStripMenuItem61"
+        Me.ToolStripMenuItem61.Size = New System.Drawing.Size(146, 6)
+        '
+        'NewToolStripMenuItem
+        '
+        Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
+        Me.NewToolStripMenuItem.Text = "&New..."
+        '
+        'KillToolStripMenuItem1
+        '
+        Me.KillToolStripMenuItem1.Name = "KillToolStripMenuItem1"
+        Me.KillToolStripMenuItem1.Size = New System.Drawing.Size(149, 22)
+        Me.KillToolStripMenuItem1.Text = "&Kill"
+        '
+        'PauseToolStripMenuItem
+        '
+        Me.PauseToolStripMenuItem.Name = "PauseToolStripMenuItem"
+        Me.PauseToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
+        Me.PauseToolStripMenuItem.Text = "&Pause"
+        '
+        'ResumeToolStripMenuItem1
+        '
+        Me.ResumeToolStripMenuItem1.Name = "ResumeToolStripMenuItem1"
+        Me.ResumeToolStripMenuItem1.Size = New System.Drawing.Size(149, 22)
+        Me.ResumeToolStripMenuItem1.Text = "&Resume"
+        '
+        'ToolStripMenuItem63
+        '
+        Me.ToolStripMenuItem63.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AffinityToolStripMenuItem})
+        Me.ToolStripMenuItem63.Name = "ToolStripMenuItem63"
+        Me.ToolStripMenuItem63.Size = New System.Drawing.Size(149, 22)
+        Me.ToolStripMenuItem63.Text = "&Other"
+        '
+        'AffinityToolStripMenuItem
+        '
+        Me.AffinityToolStripMenuItem.Name = "AffinityToolStripMenuItem"
+        Me.AffinityToolStripMenuItem.Size = New System.Drawing.Size(113, 22)
+        Me.AffinityToolStripMenuItem.Text = "&Affinity"
+        '
+        'ShowToolStripMenuItem1
+        '
+        Me.ShowToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ModulesToolStripMenuItem, Me.ThreadsToolStripMenuItem, Me.HandlesToolStripMenuItem, Me.WindowsToolStripMenuItem, Me.AllToolStripMenuItem})
+        Me.ShowToolStripMenuItem1.Name = "ShowToolStripMenuItem1"
+        Me.ShowToolStripMenuItem1.Size = New System.Drawing.Size(149, 22)
+        Me.ShowToolStripMenuItem1.Text = "&Show"
+        '
+        'ModulesToolStripMenuItem
+        '
+        Me.ModulesToolStripMenuItem.Name = "ModulesToolStripMenuItem"
+        Me.ModulesToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.ModulesToolStripMenuItem.Text = "&Modules"
+        '
+        'ThreadsToolStripMenuItem
+        '
+        Me.ThreadsToolStripMenuItem.Name = "ThreadsToolStripMenuItem"
+        Me.ThreadsToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.ThreadsToolStripMenuItem.Text = "&Threads"
+        '
+        'HandlesToolStripMenuItem
+        '
+        Me.HandlesToolStripMenuItem.Name = "HandlesToolStripMenuItem"
+        Me.HandlesToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.HandlesToolStripMenuItem.Text = "&Handles"
+        '
+        'WindowsToolStripMenuItem
+        '
+        Me.WindowsToolStripMenuItem.Name = "WindowsToolStripMenuItem"
+        Me.WindowsToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.WindowsToolStripMenuItem.Text = "&Windows"
+        '
+        'AllToolStripMenuItem
+        '
+        Me.AllToolStripMenuItem.Name = "AllToolStripMenuItem"
+        Me.AllToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.AllToolStripMenuItem.Text = "&All"
+        '
+        'ToolStripMenuItem62
+        '
+        Me.ToolStripMenuItem62.Name = "ToolStripMenuItem62"
+        Me.ToolStripMenuItem62.Size = New System.Drawing.Size(146, 6)
+        '
+        'PriorityToolStripMenuItem
+        '
+        Me.PriorityToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.IdleToolStripMenuItem1, Me.BelowNormalToolStripMenuItem1, Me.NormalToolStripMenuItem1, Me.AboveNormalToolStripMenuItem1, Me.HighToolStripMenuItem1, Me.RealTimeToolStripMenuItem1})
+        Me.PriorityToolStripMenuItem.Name = "PriorityToolStripMenuItem"
+        Me.PriorityToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
+        Me.PriorityToolStripMenuItem.Text = "Prior&ity"
+        '
+        'IdleToolStripMenuItem1
+        '
+        Me.IdleToolStripMenuItem1.Name = "IdleToolStripMenuItem1"
+        Me.IdleToolStripMenuItem1.Size = New System.Drawing.Size(151, 22)
+        Me.IdleToolStripMenuItem1.Text = "&Idle"
+        '
+        'BelowNormalToolStripMenuItem1
+        '
+        Me.BelowNormalToolStripMenuItem1.Name = "BelowNormalToolStripMenuItem1"
+        Me.BelowNormalToolStripMenuItem1.Size = New System.Drawing.Size(151, 22)
+        Me.BelowNormalToolStripMenuItem1.Text = "&Below Normal"
+        '
+        'NormalToolStripMenuItem1
+        '
+        Me.NormalToolStripMenuItem1.Name = "NormalToolStripMenuItem1"
+        Me.NormalToolStripMenuItem1.Size = New System.Drawing.Size(151, 22)
+        Me.NormalToolStripMenuItem1.Text = "&Normal"
+        '
+        'AboveNormalToolStripMenuItem1
+        '
+        Me.AboveNormalToolStripMenuItem1.Name = "AboveNormalToolStripMenuItem1"
+        Me.AboveNormalToolStripMenuItem1.Size = New System.Drawing.Size(151, 22)
+        Me.AboveNormalToolStripMenuItem1.Text = "&Above Normal"
+        '
+        'HighToolStripMenuItem1
+        '
+        Me.HighToolStripMenuItem1.Name = "HighToolStripMenuItem1"
+        Me.HighToolStripMenuItem1.Size = New System.Drawing.Size(151, 22)
+        Me.HighToolStripMenuItem1.Text = "&High"
+        '
+        'RealTimeToolStripMenuItem1
+        '
+        Me.RealTimeToolStripMenuItem1.Name = "RealTimeToolStripMenuItem1"
+        Me.RealTimeToolStripMenuItem1.Size = New System.Drawing.Size(151, 22)
+        Me.RealTimeToolStripMenuItem1.Text = "&Real Time"
+        '
+        'ToolStripMenuItem64
+        '
+        Me.ToolStripMenuItem64.Name = "ToolStripMenuItem64"
+        Me.ToolStripMenuItem64.Size = New System.Drawing.Size(146, 6)
+        '
+        'GoogleSearchToolStripMenuItem3
+        '
+        Me.GoogleSearchToolStripMenuItem3.Name = "GoogleSearchToolStripMenuItem3"
+        Me.GoogleSearchToolStripMenuItem3.Size = New System.Drawing.Size(149, 22)
+        Me.GoogleSearchToolStripMenuItem3.Text = "&Google search"
+        '
+        'ToolStripMenuItem65
+        '
+        Me.ToolStripMenuItem65.Name = "ToolStripMenuItem65"
+        Me.ToolStripMenuItem65.Size = New System.Drawing.Size(146, 6)
+        '
+        'SaveReportToolStripMenuItem
+        '
+        Me.SaveReportToolStripMenuItem.Name = "SaveReportToolStripMenuItem"
+        Me.SaveReportToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
+        Me.SaveReportToolStripMenuItem.Text = "Save &report..."
+        '
+        '_amenuModule
+        '
+        Me._amenuModule.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UnloadToolStripMenuItem, Me.ToolStripMenuItem66, Me.GoogleSearchToolStripMenuItem4, Me.ToolStripMenuItem67, Me.SavereportToolStripMenuItem1})
+        Me._amenuModule.Name = "_amenuModule"
+        Me._amenuModule.Size = New System.Drawing.Size(65, 20)
+        Me._amenuModule.Text = "&Modules"
+        Me._amenuModule.Visible = False
+        '
+        'UnloadToolStripMenuItem
+        '
+        Me.UnloadToolStripMenuItem.Name = "UnloadToolStripMenuItem"
+        Me.UnloadToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
+        Me.UnloadToolStripMenuItem.Text = "&Unload"
+        '
+        'ToolStripMenuItem66
+        '
+        Me.ToolStripMenuItem66.Name = "ToolStripMenuItem66"
+        Me.ToolStripMenuItem66.Size = New System.Drawing.Size(146, 6)
+        '
+        'GoogleSearchToolStripMenuItem4
+        '
+        Me.GoogleSearchToolStripMenuItem4.Name = "GoogleSearchToolStripMenuItem4"
+        Me.GoogleSearchToolStripMenuItem4.Size = New System.Drawing.Size(149, 22)
+        Me.GoogleSearchToolStripMenuItem4.Text = "&Google search"
+        '
+        'ToolStripMenuItem67
+        '
+        Me.ToolStripMenuItem67.Name = "ToolStripMenuItem67"
+        Me.ToolStripMenuItem67.Size = New System.Drawing.Size(146, 6)
+        '
+        'SavereportToolStripMenuItem1
+        '
+        Me.SavereportToolStripMenuItem1.Name = "SavereportToolStripMenuItem1"
+        Me.SavereportToolStripMenuItem1.Size = New System.Drawing.Size(149, 22)
+        Me.SavereportToolStripMenuItem1.Text = "Save &report..."
+        '
+        '_amenuThread
+        '
+        Me._amenuThread.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem2, Me.StopToolStripMenuItem1, Me.ResumeToolStripMenuItem2, Me.ToolStripMenuItem68, Me.PriorityToolStripMenuItem1, Me.ToolStripMenuItem69, Me.SavereportToolStripMenuItem2})
+        Me._amenuThread.Name = "_amenuThread"
+        Me._amenuThread.Size = New System.Drawing.Size(61, 20)
+        Me._amenuThread.Text = "&Threads"
+        Me._amenuThread.Visible = False
+        '
+        'KillToolStripMenuItem2
+        '
+        Me.KillToolStripMenuItem2.Name = "KillToolStripMenuItem2"
+        Me.KillToolStripMenuItem2.Size = New System.Drawing.Size(142, 22)
+        Me.KillToolStripMenuItem2.Text = "&Kill"
+        '
+        'StopToolStripMenuItem1
+        '
+        Me.StopToolStripMenuItem1.Name = "StopToolStripMenuItem1"
+        Me.StopToolStripMenuItem1.Size = New System.Drawing.Size(142, 22)
+        Me.StopToolStripMenuItem1.Text = "&Stop"
+        '
+        'ResumeToolStripMenuItem2
+        '
+        Me.ResumeToolStripMenuItem2.Name = "ResumeToolStripMenuItem2"
+        Me.ResumeToolStripMenuItem2.Size = New System.Drawing.Size(142, 22)
+        Me.ResumeToolStripMenuItem2.Text = "&Resume"
+        '
+        'ToolStripMenuItem68
+        '
+        Me.ToolStripMenuItem68.Name = "ToolStripMenuItem68"
+        Me.ToolStripMenuItem68.Size = New System.Drawing.Size(139, 6)
+        '
+        'PriorityToolStripMenuItem1
+        '
+        Me.PriorityToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.IdleToolStripMenuItem2, Me.LowestToolStripMenuItem1, Me.BelowNormalToolStripMenuItem2, Me.NormalToolStripMenuItem2, Me.AboveNormalToolStripMenuItem2, Me.HighestToolStripMenuItem, Me.TimeCriticalToolStripMenuItem})
+        Me.PriorityToolStripMenuItem1.Name = "PriorityToolStripMenuItem1"
+        Me.PriorityToolStripMenuItem1.Size = New System.Drawing.Size(142, 22)
+        Me.PriorityToolStripMenuItem1.Text = "&Priority"
+        '
+        'IdleToolStripMenuItem2
+        '
+        Me.IdleToolStripMenuItem2.Name = "IdleToolStripMenuItem2"
+        Me.IdleToolStripMenuItem2.Size = New System.Drawing.Size(151, 22)
+        Me.IdleToolStripMenuItem2.Text = "&Idle"
+        '
+        'LowestToolStripMenuItem1
+        '
+        Me.LowestToolStripMenuItem1.Name = "LowestToolStripMenuItem1"
+        Me.LowestToolStripMenuItem1.Size = New System.Drawing.Size(151, 22)
+        Me.LowestToolStripMenuItem1.Text = "&Lowest"
+        '
+        'BelowNormalToolStripMenuItem2
+        '
+        Me.BelowNormalToolStripMenuItem2.Name = "BelowNormalToolStripMenuItem2"
+        Me.BelowNormalToolStripMenuItem2.Size = New System.Drawing.Size(151, 22)
+        Me.BelowNormalToolStripMenuItem2.Text = "&Below Normal"
+        '
+        'NormalToolStripMenuItem2
+        '
+        Me.NormalToolStripMenuItem2.Name = "NormalToolStripMenuItem2"
+        Me.NormalToolStripMenuItem2.Size = New System.Drawing.Size(151, 22)
+        Me.NormalToolStripMenuItem2.Text = "&Normal"
+        '
+        'AboveNormalToolStripMenuItem2
+        '
+        Me.AboveNormalToolStripMenuItem2.Name = "AboveNormalToolStripMenuItem2"
+        Me.AboveNormalToolStripMenuItem2.Size = New System.Drawing.Size(151, 22)
+        Me.AboveNormalToolStripMenuItem2.Text = "&Above Normal"
+        '
+        'HighestToolStripMenuItem
+        '
+        Me.HighestToolStripMenuItem.Name = "HighestToolStripMenuItem"
+        Me.HighestToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
+        Me.HighestToolStripMenuItem.Text = "&Highest"
+        '
+        'TimeCriticalToolStripMenuItem
+        '
+        Me.TimeCriticalToolStripMenuItem.Name = "TimeCriticalToolStripMenuItem"
+        Me.TimeCriticalToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
+        Me.TimeCriticalToolStripMenuItem.Text = "&Time Critical"
+        '
+        'ToolStripMenuItem69
+        '
+        Me.ToolStripMenuItem69.Name = "ToolStripMenuItem69"
+        Me.ToolStripMenuItem69.Size = New System.Drawing.Size(139, 6)
+        '
+        'SavereportToolStripMenuItem2
+        '
+        Me.SavereportToolStripMenuItem2.Name = "SavereportToolStripMenuItem2"
+        Me.SavereportToolStripMenuItem2.Size = New System.Drawing.Size(142, 22)
+        Me.SavereportToolStripMenuItem2.Text = "Save &report..."
+        '
+        '_menuHandle
+        '
+        Me._menuHandle.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CloseToolStripMenuItem1, Me.ToolStripMenuItem70, Me.SavereportToolStripMenuItem3})
+        Me._menuHandle.Name = "_menuHandle"
+        Me._menuHandle.Size = New System.Drawing.Size(62, 20)
+        Me._menuHandle.Text = "&Handles"
+        Me._menuHandle.Visible = False
+        '
+        'CloseToolStripMenuItem1
+        '
+        Me.CloseToolStripMenuItem1.Name = "CloseToolStripMenuItem1"
+        Me.CloseToolStripMenuItem1.Size = New System.Drawing.Size(142, 22)
+        Me.CloseToolStripMenuItem1.Text = "&Close"
+        '
+        'ToolStripMenuItem70
+        '
+        Me.ToolStripMenuItem70.Name = "ToolStripMenuItem70"
+        Me.ToolStripMenuItem70.Size = New System.Drawing.Size(139, 6)
+        '
+        'SavereportToolStripMenuItem3
+        '
+        Me.SavereportToolStripMenuItem3.Name = "SavereportToolStripMenuItem3"
+        Me.SavereportToolStripMenuItem3.Size = New System.Drawing.Size(142, 22)
+        Me.SavereportToolStripMenuItem3.Text = "Save &report..."
+        '
+        '_amenuWindow
+        '
+        Me._amenuWindow.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FindProcessToolStripMenuItem, Me.ToolStripMenuItem71, Me.VisibilityToolStripMenuItem, Me.CloseToolStripMenuItem2, Me.PositionSizeToolStripMenuItem, Me.ToolStripMenuItem72, Me.SavereportToolStripMenuItem4})
+        Me._amenuWindow.Name = "_amenuWindow"
+        Me._amenuWindow.Size = New System.Drawing.Size(68, 20)
+        Me._amenuWindow.Text = "&Windows"
+        Me._amenuWindow.Visible = False
+        '
+        'FindProcessToolStripMenuItem
+        '
+        Me.FindProcessToolStripMenuItem.Name = "FindProcessToolStripMenuItem"
+        Me.FindProcessToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FindProcessToolStripMenuItem.Text = "&Find process"
+        '
+        'ToolStripMenuItem71
+        '
+        Me.ToolStripMenuItem71.Name = "ToolStripMenuItem71"
+        Me.ToolStripMenuItem71.Size = New System.Drawing.Size(149, 6)
+        '
+        'VisibilityToolStripMenuItem
+        '
+        Me.VisibilityToolStripMenuItem.Name = "VisibilityToolStripMenuItem"
+        Me.VisibilityToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.VisibilityToolStripMenuItem.Text = "&Visibility"
+        '
+        'CloseToolStripMenuItem2
+        '
+        Me.CloseToolStripMenuItem2.Name = "CloseToolStripMenuItem2"
+        Me.CloseToolStripMenuItem2.Size = New System.Drawing.Size(152, 22)
+        Me.CloseToolStripMenuItem2.Text = "&Close"
+        '
+        'PositionSizeToolStripMenuItem
+        '
+        Me.PositionSizeToolStripMenuItem.Name = "PositionSizeToolStripMenuItem"
+        Me.PositionSizeToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.PositionSizeToolStripMenuItem.Text = "&Position && size"
+        '
+        'ToolStripMenuItem72
+        '
+        Me.ToolStripMenuItem72.Name = "ToolStripMenuItem72"
+        Me.ToolStripMenuItem72.Size = New System.Drawing.Size(149, 6)
+        '
+        'SavereportToolStripMenuItem4
+        '
+        Me.SavereportToolStripMenuItem4.Name = "SavereportToolStripMenuItem4"
+        Me.SavereportToolStripMenuItem4.Size = New System.Drawing.Size(152, 22)
+        Me.SavereportToolStripMenuItem4.Text = "Save &report..."
+        '
+        '_menuMonitor
+        '
+        Me._menuMonitor.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToolStripMenuItem, Me.RemoveSelectionToolStripMenuItem, Me.ToolStripMenuItem73, Me.StartToolStripMenuItem, Me.StopToolStripMenuItem2, Me.ToolStripMenuItem74, Me.SavereportToolStripMenuItem5})
+        Me._menuMonitor.Name = "_menuMonitor"
+        Me._menuMonitor.Size = New System.Drawing.Size(62, 20)
+        Me._menuMonitor.Text = "&Monitor"
+        Me._menuMonitor.Visible = False
+        '
+        'AddToolStripMenuItem
+        '
+        Me.AddToolStripMenuItem.Name = "AddToolStripMenuItem"
+        Me.AddToolStripMenuItem.Size = New System.Drawing.Size(167, 22)
+        Me.AddToolStripMenuItem.Text = "&Add..."
+        '
+        'RemoveSelectionToolStripMenuItem
+        '
+        Me.RemoveSelectionToolStripMenuItem.Name = "RemoveSelectionToolStripMenuItem"
+        Me.RemoveSelectionToolStripMenuItem.Size = New System.Drawing.Size(167, 22)
+        Me.RemoveSelectionToolStripMenuItem.Text = "&Remove selection"
+        '
+        'ToolStripMenuItem73
+        '
+        Me.ToolStripMenuItem73.Name = "ToolStripMenuItem73"
+        Me.ToolStripMenuItem73.Size = New System.Drawing.Size(164, 6)
+        '
+        'StartToolStripMenuItem
+        '
+        Me.StartToolStripMenuItem.Name = "StartToolStripMenuItem"
+        Me.StartToolStripMenuItem.Size = New System.Drawing.Size(167, 22)
+        Me.StartToolStripMenuItem.Text = "&Start"
+        '
+        'StopToolStripMenuItem2
+        '
+        Me.StopToolStripMenuItem2.Name = "StopToolStripMenuItem2"
+        Me.StopToolStripMenuItem2.Size = New System.Drawing.Size(167, 22)
+        Me.StopToolStripMenuItem2.Text = "&Stop"
+        '
+        'ToolStripMenuItem74
+        '
+        Me.ToolStripMenuItem74.Name = "ToolStripMenuItem74"
+        Me.ToolStripMenuItem74.Size = New System.Drawing.Size(164, 6)
+        '
+        'SavereportToolStripMenuItem5
+        '
+        Me.SavereportToolStripMenuItem5.Name = "SavereportToolStripMenuItem5"
+        Me.SavereportToolStripMenuItem5.Size = New System.Drawing.Size(167, 22)
+        Me.SavereportToolStripMenuItem5.Text = "Save &report..."
+        '
+        '_menuServices
+        '
+        Me._menuServices.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StopToolStripMenuItem3, Me.StartToolStripMenuItem1, Me.PauseToolStripMenuItem1, Me.ResumeToolStripMenuItem3, Me.ShutdownToolStripMenuItem5, Me.ToolStripMenuItem75, Me.StarttypeToolStripMenuItem, Me.ToolStripMenuItem76, Me.ShowfilePropertiesToolStripMenuItem, Me.OpenFileDirectoryToolStripMenuItem, Me.DetailsToolStripMenuItem, Me.ToolStripMenuItem77, Me.GoogleSearchToolStripMenuItem5, Me.ToolStripMenuItem78, Me.SavereportToolStripMenuItem6})
+        Me._menuServices.Name = "_menuServices"
+        Me._menuServices.Size = New System.Drawing.Size(61, 20)
+        Me._menuServices.Text = "&Services"
+        Me._menuServices.Visible = False
+        '
+        'StopToolStripMenuItem3
+        '
+        Me.StopToolStripMenuItem3.Name = "StopToolStripMenuItem3"
+        Me.StopToolStripMenuItem3.Size = New System.Drawing.Size(178, 22)
+        Me.StopToolStripMenuItem3.Text = "&Stop"
+        '
+        'StartToolStripMenuItem1
+        '
+        Me.StartToolStripMenuItem1.Name = "StartToolStripMenuItem1"
+        Me.StartToolStripMenuItem1.Size = New System.Drawing.Size(178, 22)
+        Me.StartToolStripMenuItem1.Text = "&Start"
+        '
+        'PauseToolStripMenuItem1
+        '
+        Me.PauseToolStripMenuItem1.Name = "PauseToolStripMenuItem1"
+        Me.PauseToolStripMenuItem1.Size = New System.Drawing.Size(178, 22)
+        Me.PauseToolStripMenuItem1.Text = "&Pause"
+        '
+        'ResumeToolStripMenuItem3
+        '
+        Me.ResumeToolStripMenuItem3.Name = "ResumeToolStripMenuItem3"
+        Me.ResumeToolStripMenuItem3.Size = New System.Drawing.Size(178, 22)
+        Me.ResumeToolStripMenuItem3.Text = "&Resume"
+        '
+        'ShutdownToolStripMenuItem5
+        '
+        Me.ShutdownToolStripMenuItem5.Name = "ShutdownToolStripMenuItem5"
+        Me.ShutdownToolStripMenuItem5.Size = New System.Drawing.Size(178, 22)
+        Me.ShutdownToolStripMenuItem5.Text = "&Shutdown"
+        '
+        'ToolStripMenuItem75
+        '
+        Me.ToolStripMenuItem75.Name = "ToolStripMenuItem75"
+        Me.ToolStripMenuItem75.Size = New System.Drawing.Size(175, 6)
+        '
+        'StarttypeToolStripMenuItem
+        '
+        Me.StarttypeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AutomaticToolStripMenuItem, Me.OnDemandToolStripMenuItem, Me.DisabledToolStripMenuItem})
+        Me.StarttypeToolStripMenuItem.Name = "StarttypeToolStripMenuItem"
+        Me.StarttypeToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.StarttypeToolStripMenuItem.Text = "Start &type"
+        '
+        'AutomaticToolStripMenuItem
+        '
+        Me.AutomaticToolStripMenuItem.Name = "AutomaticToolStripMenuItem"
+        Me.AutomaticToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
+        Me.AutomaticToolStripMenuItem.Text = "&Automatic"
+        '
+        'OnDemandToolStripMenuItem
+        '
+        Me.OnDemandToolStripMenuItem.Name = "OnDemandToolStripMenuItem"
+        Me.OnDemandToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
+        Me.OnDemandToolStripMenuItem.Text = "&On Demand"
+        '
+        'DisabledToolStripMenuItem
+        '
+        Me.DisabledToolStripMenuItem.Name = "DisabledToolStripMenuItem"
+        Me.DisabledToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
+        Me.DisabledToolStripMenuItem.Text = "&Disabled"
+        '
+        'ToolStripMenuItem76
+        '
+        Me.ToolStripMenuItem76.Name = "ToolStripMenuItem76"
+        Me.ToolStripMenuItem76.Size = New System.Drawing.Size(175, 6)
+        '
+        'ShowfilePropertiesToolStripMenuItem
+        '
+        Me.ShowfilePropertiesToolStripMenuItem.Name = "ShowfilePropertiesToolStripMenuItem"
+        Me.ShowfilePropertiesToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.ShowfilePropertiesToolStripMenuItem.Text = "Show &file properties"
+        '
+        'OpenFileDirectoryToolStripMenuItem
+        '
+        Me.OpenFileDirectoryToolStripMenuItem.Name = "OpenFileDirectoryToolStripMenuItem"
+        Me.OpenFileDirectoryToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.OpenFileDirectoryToolStripMenuItem.Text = "&Open file directory"
+        '
+        'DetailsToolStripMenuItem
+        '
+        Me.DetailsToolStripMenuItem.Name = "DetailsToolStripMenuItem"
+        Me.DetailsToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.DetailsToolStripMenuItem.Text = "&Details"
+        '
+        'ToolStripMenuItem77
+        '
+        Me.ToolStripMenuItem77.Name = "ToolStripMenuItem77"
+        Me.ToolStripMenuItem77.Size = New System.Drawing.Size(175, 6)
+        '
+        'GoogleSearchToolStripMenuItem5
+        '
+        Me.GoogleSearchToolStripMenuItem5.Name = "GoogleSearchToolStripMenuItem5"
+        Me.GoogleSearchToolStripMenuItem5.Size = New System.Drawing.Size(178, 22)
+        Me.GoogleSearchToolStripMenuItem5.Text = "&Google search"
+        '
+        'ToolStripMenuItem78
+        '
+        Me.ToolStripMenuItem78.Name = "ToolStripMenuItem78"
+        Me.ToolStripMenuItem78.Size = New System.Drawing.Size(175, 6)
+        '
+        'SavereportToolStripMenuItem6
+        '
+        Me.SavereportToolStripMenuItem6.Name = "SavereportToolStripMenuItem6"
+        Me.SavereportToolStripMenuItem6.Size = New System.Drawing.Size(178, 22)
+        Me.SavereportToolStripMenuItem6.Text = "Save &report..."
+        '
+        '_menuFile
+        '
+        Me._menuFile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenToolStripMenuItem, Me.ToolStripMenuItem79, Me.ReleaseToolStripMenuItem, Me.ToolStripMenuItem80, Me.TrashToolStripMenuItem, Me.DeleteToolStripMenuItem, Me.ToolStripMenuItem81, Me.GoogleSearchToolStripMenuItem6, Me.ToolStripMenuItem82, Me.FilePropertiesToolStripMenuItem, Me.OpenToolStripMenuItem1, Me.DirectoryPropertiesToolStripMenuItem, Me.ToolStripMenuItem83, Me.OthersToolStripMenuItem})
+        Me._menuFile.Name = "_menuFile"
+        Me._menuFile.Size = New System.Drawing.Size(37, 20)
+        Me._menuFile.Text = "&File"
+        Me._menuFile.Visible = False
+        '
+        'OpenToolStripMenuItem
+        '
+        Me.OpenToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.OpenToolStripMenuItem.Text = "&Open..."
+        '
+        'ToolStripMenuItem79
+        '
+        Me.ToolStripMenuItem79.Name = "ToolStripMenuItem79"
+        Me.ToolStripMenuItem79.Size = New System.Drawing.Size(175, 6)
+        '
+        'ReleaseToolStripMenuItem
+        '
+        Me.ReleaseToolStripMenuItem.Name = "ReleaseToolStripMenuItem"
+        Me.ReleaseToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.ReleaseToolStripMenuItem.Text = "&Release..."
+        '
+        'ToolStripMenuItem80
+        '
+        Me.ToolStripMenuItem80.Name = "ToolStripMenuItem80"
+        Me.ToolStripMenuItem80.Size = New System.Drawing.Size(175, 6)
+        '
+        'TrashToolStripMenuItem
+        '
+        Me.TrashToolStripMenuItem.Name = "TrashToolStripMenuItem"
+        Me.TrashToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.TrashToolStripMenuItem.Text = "&Trash"
+        '
+        'DeleteToolStripMenuItem
+        '
+        Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.DeleteToolStripMenuItem.Text = "&Delete"
+        '
+        'ToolStripMenuItem81
+        '
+        Me.ToolStripMenuItem81.Name = "ToolStripMenuItem81"
+        Me.ToolStripMenuItem81.Size = New System.Drawing.Size(175, 6)
+        '
+        'GoogleSearchToolStripMenuItem6
+        '
+        Me.GoogleSearchToolStripMenuItem6.Name = "GoogleSearchToolStripMenuItem6"
+        Me.GoogleSearchToolStripMenuItem6.Size = New System.Drawing.Size(178, 22)
+        Me.GoogleSearchToolStripMenuItem6.Text = "&Google search"
+        '
+        'ToolStripMenuItem82
+        '
+        Me.ToolStripMenuItem82.Name = "ToolStripMenuItem82"
+        Me.ToolStripMenuItem82.Size = New System.Drawing.Size(175, 6)
+        '
+        'FilePropertiesToolStripMenuItem
+        '
+        Me.FilePropertiesToolStripMenuItem.Name = "FilePropertiesToolStripMenuItem"
+        Me.FilePropertiesToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.FilePropertiesToolStripMenuItem.Text = "&File properties"
+        '
+        'OpenToolStripMenuItem1
+        '
+        Me.OpenToolStripMenuItem1.Name = "OpenToolStripMenuItem1"
+        Me.OpenToolStripMenuItem1.Size = New System.Drawing.Size(178, 22)
+        Me.OpenToolStripMenuItem1.Text = "&Open file directory"
+        '
+        'DirectoryPropertiesToolStripMenuItem
+        '
+        Me.DirectoryPropertiesToolStripMenuItem.Name = "DirectoryPropertiesToolStripMenuItem"
+        Me.DirectoryPropertiesToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.DirectoryPropertiesToolStripMenuItem.Text = "&Directory properties"
+        '
+        'ToolStripMenuItem83
+        '
+        Me.ToolStripMenuItem83.Name = "ToolStripMenuItem83"
+        Me.ToolStripMenuItem83.Size = New System.Drawing.Size(175, 6)
+        '
+        'OthersToolStripMenuItem
+        '
+        Me.OthersToolStripMenuItem.Name = "OthersToolStripMenuItem"
+        Me.OthersToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.OthersToolStripMenuItem.Text = "O&thers"
+        '
+        '_amenuSearch
+        '
+        Me._amenuSearch.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LaunchToolStripMenuItem, Me.ToolStripMenuItem84, Me.SavereportToolStripMenuItem7})
+        Me._amenuSearch.Name = "_amenuSearch"
+        Me._amenuSearch.Size = New System.Drawing.Size(54, 20)
+        Me._amenuSearch.Text = "&Search"
+        Me._amenuSearch.Visible = False
+        '
+        'LaunchToolStripMenuItem
+        '
+        Me.LaunchToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LaunchToolStripMenuItem.Name = "LaunchToolStripMenuItem"
+        Me.LaunchToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
+        Me.LaunchToolStripMenuItem.Text = "&Launch..."
+        '
+        'ToolStripMenuItem84
+        '
+        Me.ToolStripMenuItem84.Name = "ToolStripMenuItem84"
+        Me.ToolStripMenuItem84.Size = New System.Drawing.Size(139, 6)
+        '
+        'SavereportToolStripMenuItem7
+        '
+        Me.SavereportToolStripMenuItem7.Name = "SavereportToolStripMenuItem7"
+        Me.SavereportToolStripMenuItem7.Size = New System.Drawing.Size(142, 22)
+        Me.SavereportToolStripMenuItem7.Text = "Save &report..."
+        '
+        'HelpToolStripMenuItem
+        '
+        Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CheckupdatesToolStripMenuItem, Me.ToolStripMenuItem85, Me.MakeAdonationToolStripMenuItem, Me.WebsiteToolStripMenuItem, Me.ProjectPageOnSourceforgenetToolStripMenuItem, Me.DownloadsToolStripMenuItem, Me.ToolStripMenuItem86, Me.HelpToolStripMenuItem1, Me.AboutToolStripMenuItem})
+        Me.HelpToolStripMenuItem.Name = "HelpToolStripMenuItem"
+        Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
+        Me.HelpToolStripMenuItem.Text = "&Help"
+        '
+        'CheckupdatesToolStripMenuItem
+        '
+        Me.CheckupdatesToolStripMenuItem.Name = "CheckupdatesToolStripMenuItem"
+        Me.CheckupdatesToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
+        Me.CheckupdatesToolStripMenuItem.Text = "Check &updates..."
+        '
+        'ToolStripMenuItem85
+        '
+        Me.ToolStripMenuItem85.Name = "ToolStripMenuItem85"
+        Me.ToolStripMenuItem85.Size = New System.Drawing.Size(238, 6)
+        '
+        'MakeAdonationToolStripMenuItem
+        '
+        Me.MakeAdonationToolStripMenuItem.Name = "MakeAdonationToolStripMenuItem"
+        Me.MakeAdonationToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
+        Me.MakeAdonationToolStripMenuItem.Text = "Make a &donation..."
+        '
+        'WebsiteToolStripMenuItem
+        '
+        Me.WebsiteToolStripMenuItem.Name = "WebsiteToolStripMenuItem"
+        Me.WebsiteToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
+        Me.WebsiteToolStripMenuItem.Text = "&Website"
+        '
+        'ProjectPageOnSourceforgenetToolStripMenuItem
+        '
+        Me.ProjectPageOnSourceforgenetToolStripMenuItem.Name = "ProjectPageOnSourceforgenetToolStripMenuItem"
+        Me.ProjectPageOnSourceforgenetToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
+        Me.ProjectPageOnSourceforgenetToolStripMenuItem.Text = "&Project page on Sourceforgenet"
+        '
+        'DownloadsToolStripMenuItem
+        '
+        Me.DownloadsToolStripMenuItem.Name = "DownloadsToolStripMenuItem"
+        Me.DownloadsToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
+        Me.DownloadsToolStripMenuItem.Text = "&Downloads"
+        '
+        'ToolStripMenuItem86
+        '
+        Me.ToolStripMenuItem86.Name = "ToolStripMenuItem86"
+        Me.ToolStripMenuItem86.Size = New System.Drawing.Size(238, 6)
+        '
+        'HelpToolStripMenuItem1
+        '
+        Me.HelpToolStripMenuItem1.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.HelpToolStripMenuItem1.Name = "HelpToolStripMenuItem1"
+        Me.HelpToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F1
+        Me.HelpToolStripMenuItem1.Size = New System.Drawing.Size(241, 22)
+        Me.HelpToolStripMenuItem1.Text = "Help"
+        '
+        'AboutToolStripMenuItem
+        '
+        Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
+        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
+        Me.AboutToolStripMenuItem.Text = "&About"
+        '
+        '_tab
+        '
+        Me._tab.Controls.Add(Me.pageTasks)
+        Me._tab.Controls.Add(Me.pageProcesses)
+        Me._tab.Controls.Add(Me.pageModules)
+        Me._tab.Controls.Add(Me.pageThreads)
+        Me._tab.Controls.Add(Me.pageHandles)
+        Me._tab.Controls.Add(Me.pageWindows)
+        Me._tab.Controls.Add(Me.pageMonitor)
+        Me._tab.Controls.Add(Me.pageServices)
+        Me._tab.Controls.Add(Me.pageNetwork)
+        Me._tab.Controls.Add(Me.pageFile)
+        Me._tab.Controls.Add(Me.pageSearch)
+        Me._tab.Controls.Add(Me.pageHelp)
+        Me._tab.Dock = System.Windows.Forms.DockStyle.Fill
+        Me._tab.Location = New System.Drawing.Point(0, 0)
+        Me._tab.Name = "_tab"
+        Me._tab.SelectedIndex = 0
+        Me._tab.Size = New System.Drawing.Size(843, 457)
+        Me._tab.TabIndex = 3
+        '
+        'pageTasks
+        '
+        Me.pageTasks.Controls.Add(Me.panelMain13)
+        Me.pageTasks.Location = New System.Drawing.Point(4, 22)
+        Me.pageTasks.Name = "pageTasks"
+        Me.pageTasks.Padding = New System.Windows.Forms.Padding(3)
+        Me.pageTasks.Size = New System.Drawing.Size(835, 431)
+        Me.pageTasks.TabIndex = 11
+        Me.pageTasks.Text = "Tasks"
+        Me.pageTasks.UseVisualStyleBackColor = True
+        '
+        'panelMain13
+        '
+        Me.panelMain13.Controls.Add(Me.SplitContainerTask)
+        Me.panelMain13.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelMain13.Location = New System.Drawing.Point(3, 3)
+        Me.panelMain13.Name = "panelMain13"
+        Me.panelMain13.Size = New System.Drawing.Size(829, 425)
+        Me.panelMain13.TabIndex = 56
+        '
+        'SplitContainerTask
+        '
+        Me.SplitContainerTask.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainerTask.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainerTask.IsSplitterFixed = True
+        Me.SplitContainerTask.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainerTask.Name = "SplitContainerTask"
+        Me.SplitContainerTask.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainerTask.Panel1
+        '
+        Me.SplitContainerTask.Panel1.Controls.Add(Me.Label19)
+        Me.SplitContainerTask.Panel1.Controls.Add(Me.lblTaskCountResult)
+        Me.SplitContainerTask.Panel1.Controls.Add(Me.txtSearchTask)
+        '
+        'SplitContainerTask.Panel2
+        '
+        Me.SplitContainerTask.Panel2.Controls.Add(Me.lvTask)
+        Me.SplitContainerTask.Size = New System.Drawing.Size(829, 425)
+        Me.SplitContainerTask.SplitterDistance = 25
+        Me.SplitContainerTask.TabIndex = 0
+        '
+        'Label19
+        '
+        Me.Label19.AutoSize = True
+        Me.Label19.Location = New System.Drawing.Point(3, 6)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(65, 13)
+        Me.Label19.TabIndex = 13
+        Me.Label19.Text = "Search task"
+        '
+        'lblTaskCountResult
+        '
+        Me.lblTaskCountResult.AutoSize = True
+        Me.lblTaskCountResult.Location = New System.Drawing.Point(393, 6)
+        Me.lblTaskCountResult.Name = "lblTaskCountResult"
+        Me.lblTaskCountResult.Size = New System.Drawing.Size(56, 13)
+        Me.lblTaskCountResult.TabIndex = 12
+        Me.lblTaskCountResult.Text = "0 result(s)"
+        '
+        'txtSearchTask
+        '
+        Me.txtSearchTask.Location = New System.Drawing.Point(72, 1)
+        Me.txtSearchTask.Name = "txtSearchTask"
+        Me.txtSearchTask.Size = New System.Drawing.Size(312, 22)
+        Me.txtSearchTask.TabIndex = 11
+        '
+        'pageProcesses
+        '
+        Me.pageProcesses.Controls.Add(Me.containerProcessPage)
+        Me.pageProcesses.Location = New System.Drawing.Point(4, 22)
+        Me.pageProcesses.Name = "pageProcesses"
+        Me.pageProcesses.Padding = New System.Windows.Forms.Padding(3)
+        Me.pageProcesses.Size = New System.Drawing.Size(835, 431)
+        Me.pageProcesses.TabIndex = 0
+        Me.pageProcesses.Text = "Processes"
+        Me.pageProcesses.UseVisualStyleBackColor = True
+        '
+        'containerProcessPage
+        '
+        Me.containerProcessPage.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.containerProcessPage.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.containerProcessPage.IsSplitterFixed = True
+        Me.containerProcessPage.Location = New System.Drawing.Point(3, 3)
+        Me.containerProcessPage.Name = "containerProcessPage"
+        Me.containerProcessPage.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'containerProcessPage.Panel1
+        '
+        Me.containerProcessPage.Panel1.Controls.Add(Me.panelMenu)
+        '
+        'containerProcessPage.Panel2
+        '
+        Me.containerProcessPage.Panel2.Controls.Add(Me.panelMain)
+        Me.containerProcessPage.Size = New System.Drawing.Size(829, 425)
+        Me.containerProcessPage.SplitterDistance = 25
+        Me.containerProcessPage.TabIndex = 0
+        '
+        'panelMenu
+        '
+        Me.panelMenu.Controls.Add(Me.Label3)
+        Me.panelMenu.Controls.Add(Me.lblResCount)
+        Me.panelMenu.Controls.Add(Me.txtSearch)
+        Me.panelMenu.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelMenu.Location = New System.Drawing.Point(0, 0)
+        Me.panelMenu.Name = "panelMenu"
+        Me.panelMenu.Size = New System.Drawing.Size(829, 25)
+        Me.panelMenu.TabIndex = 48
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(4, 6)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(83, 13)
+        Me.Label3.TabIndex = 4
+        Me.Label3.Text = "Search process"
+        '
+        'lblResCount
+        '
+        Me.lblResCount.AutoSize = True
+        Me.lblResCount.Location = New System.Drawing.Point(394, 6)
+        Me.lblResCount.Name = "lblResCount"
+        Me.lblResCount.Size = New System.Drawing.Size(56, 13)
+        Me.lblResCount.TabIndex = 2
+        Me.lblResCount.Text = "0 result(s)"
+        '
+        'txtSearch
+        '
+        Me.txtSearch.Location = New System.Drawing.Point(90, 1)
+        Me.txtSearch.Name = "txtSearch"
+        Me.txtSearch.Size = New System.Drawing.Size(298, 22)
+        Me.txtSearch.TabIndex = 1
+        '
+        'panelMain
+        '
+        Me.panelMain.Controls.Add(Me.SplitContainerProcess)
+        Me.panelMain.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelMain.Location = New System.Drawing.Point(0, 0)
+        Me.panelMain.Name = "panelMain"
+        Me.panelMain.Size = New System.Drawing.Size(829, 396)
+        Me.panelMain.TabIndex = 4
+        '
+        'SplitContainerProcess
+        '
+        Me.SplitContainerProcess.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainerProcess.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
+        Me.SplitContainerProcess.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainerProcess.Name = "SplitContainerProcess"
+        Me.SplitContainerProcess.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainerProcess.Panel1
+        '
+        Me.SplitContainerProcess.Panel1.Controls.Add(Me.SplitContainerTvLv)
+        Me.SplitContainerProcess.Size = New System.Drawing.Size(829, 396)
+        Me.SplitContainerProcess.SplitterDistance = 247
+        Me.SplitContainerProcess.TabIndex = 0
+        '
+        'SplitContainerTvLv
+        '
+        Me.SplitContainerTvLv.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainerTvLv.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainerTvLv.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainerTvLv.Name = "SplitContainerTvLv"
+        '
+        'SplitContainerTvLv.Panel1
+        '
+        Me.SplitContainerTvLv.Panel1.Controls.Add(Me.tvProc)
+        Me.SplitContainerTvLv.Panel1Collapsed = True
+        '
+        'SplitContainerTvLv.Panel2
+        '
+        Me.SplitContainerTvLv.Panel2.Controls.Add(Me.lvProcess)
+        Me.SplitContainerTvLv.Size = New System.Drawing.Size(829, 247)
+        Me.SplitContainerTvLv.SplitterDistance = 149
+        Me.SplitContainerTvLv.TabIndex = 4
+        '
+        'tvProc
+        '
+        Me.tvProc.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tvProc.FullRowSelect = True
+        Me.tvProc.ImageIndex = 0
+        Me.tvProc.ImageList = Me.imgProcess
+        Me.tvProc.Location = New System.Drawing.Point(0, 0)
+        Me.tvProc.Name = "tvProc"
+        TreeNode1.Name = "4"
+        TreeNode1.Tag = "4"
+        TreeNode1.Text = "System"
+        TreeNode2.Name = "0"
+        TreeNode2.Tag = "0"
+        TreeNode2.Text = "[System process]"
+        Me.tvProc.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode2})
+        Me.tvProc.SelectedImageIndex = 0
+        Me.tvProc.Size = New System.Drawing.Size(149, 100)
+        Me.tvProc.TabIndex = 4
+        '
+        'pageModules
+        '
+        Me.pageModules.Controls.Add(Me.panelMain11)
+        Me.pageModules.Location = New System.Drawing.Point(4, 22)
+        Me.pageModules.Name = "pageModules"
+        Me.pageModules.Padding = New System.Windows.Forms.Padding(3)
+        Me.pageModules.Size = New System.Drawing.Size(835, 431)
+        Me.pageModules.TabIndex = 10
+        Me.pageModules.Text = "Modules"
+        Me.pageModules.UseVisualStyleBackColor = True
+        '
+        'panelMain11
+        '
+        Me.panelMain11.Controls.Add(Me.splitModule)
+        Me.panelMain11.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelMain11.Location = New System.Drawing.Point(3, 3)
+        Me.panelMain11.Name = "panelMain11"
+        Me.panelMain11.Size = New System.Drawing.Size(829, 425)
+        Me.panelMain11.TabIndex = 54
+        '
+        'splitModule
+        '
+        Me.splitModule.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.splitModule.Location = New System.Drawing.Point(0, 0)
+        Me.splitModule.Name = "splitModule"
+        Me.splitModule.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'splitModule.Panel1
+        '
+        Me.splitModule.Panel1.Controls.Add(Me.SplitContainerModules)
+        '
+        'splitModule.Panel2
+        '
+        Me.splitModule.Panel2.Controls.Add(Me.rtb6)
+        Me.splitModule.Size = New System.Drawing.Size(829, 425)
+        Me.splitModule.SplitterDistance = 263
+        Me.splitModule.TabIndex = 0
+        '
+        'SplitContainerModules
+        '
+        Me.SplitContainerModules.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainerModules.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainerModules.IsSplitterFixed = True
+        Me.SplitContainerModules.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainerModules.Name = "SplitContainerModules"
+        Me.SplitContainerModules.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainerModules.Panel1
+        '
+        Me.SplitContainerModules.Panel1.Controls.Add(Me.Label7)
+        Me.SplitContainerModules.Panel1.Controls.Add(Me.lblModulesCount)
+        Me.SplitContainerModules.Panel1.Controls.Add(Me.txtSearchModule)
+        '
+        'SplitContainerModules.Panel2
+        '
+        Me.SplitContainerModules.Panel2.Controls.Add(Me.lvModules)
+        Me.SplitContainerModules.Size = New System.Drawing.Size(829, 263)
+        Me.SplitContainerModules.SplitterDistance = 25
+        Me.SplitContainerModules.TabIndex = 0
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(3, 6)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(83, 13)
+        Me.Label7.TabIndex = 7
+        Me.Label7.Text = "Search module"
+        '
+        'lblModulesCount
+        '
+        Me.lblModulesCount.AutoSize = True
+        Me.lblModulesCount.Location = New System.Drawing.Point(393, 6)
+        Me.lblModulesCount.Name = "lblModulesCount"
+        Me.lblModulesCount.Size = New System.Drawing.Size(56, 13)
+        Me.lblModulesCount.TabIndex = 6
+        Me.lblModulesCount.Text = "0 result(s)"
+        '
+        'txtSearchModule
+        '
+        Me.txtSearchModule.Location = New System.Drawing.Point(86, 1)
+        Me.txtSearchModule.Name = "txtSearchModule"
+        Me.txtSearchModule.Size = New System.Drawing.Size(298, 22)
+        Me.txtSearchModule.TabIndex = 5
+        '
+        'rtb6
+        '
+        Me.rtb6.AutoWordSelection = True
+        Me.rtb6.BackColor = System.Drawing.Color.White
+        Me.rtb6.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.rtb6.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.rtb6.HideSelection = False
+        Me.rtb6.Location = New System.Drawing.Point(0, 0)
+        Me.rtb6.Name = "rtb6"
+        Me.rtb6.ReadOnly = True
+        Me.rtb6.Size = New System.Drawing.Size(829, 158)
+        Me.rtb6.TabIndex = 8
+        Me.rtb6.Text = "Click on an item to get additionnal informations"
+        '
+        'pageThreads
+        '
+        Me.pageThreads.Controls.Add(Me.panelMain9)
+        Me.pageThreads.Location = New System.Drawing.Point(4, 22)
+        Me.pageThreads.Name = "pageThreads"
+        Me.pageThreads.Padding = New System.Windows.Forms.Padding(3)
+        Me.pageThreads.Size = New System.Drawing.Size(835, 431)
+        Me.pageThreads.TabIndex = 8
+        Me.pageThreads.Text = "Threads"
+        Me.pageThreads.UseVisualStyleBackColor = True
+        '
+        'panelMain9
+        '
+        Me.panelMain9.Controls.Add(Me.splitThreads)
+        Me.panelMain9.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelMain9.Location = New System.Drawing.Point(3, 3)
+        Me.panelMain9.Name = "panelMain9"
+        Me.panelMain9.Size = New System.Drawing.Size(829, 425)
+        Me.panelMain9.TabIndex = 52
+        '
+        'splitThreads
+        '
+        Me.splitThreads.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.splitThreads.Location = New System.Drawing.Point(0, 0)
+        Me.splitThreads.Name = "splitThreads"
+        Me.splitThreads.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'splitThreads.Panel1
+        '
+        Me.splitThreads.Panel1.Controls.Add(Me.SplitContainerThreads)
+        '
+        'splitThreads.Panel2
+        '
+        Me.splitThreads.Panel2.Controls.Add(Me.rtb4)
+        Me.splitThreads.Size = New System.Drawing.Size(829, 425)
+        Me.splitThreads.SplitterDistance = 289
+        Me.splitThreads.TabIndex = 0
+        '
+        'SplitContainerThreads
+        '
+        Me.SplitContainerThreads.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainerThreads.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainerThreads.IsSplitterFixed = True
+        Me.SplitContainerThreads.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainerThreads.Name = "SplitContainerThreads"
+        Me.SplitContainerThreads.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainerThreads.Panel1
+        '
+        Me.SplitContainerThreads.Panel1.Controls.Add(Me.Label8)
+        Me.SplitContainerThreads.Panel1.Controls.Add(Me.lblThreadResults)
+        Me.SplitContainerThreads.Panel1.Controls.Add(Me.txtSearchThread)
+        '
+        'SplitContainerThreads.Panel2
+        '
+        Me.SplitContainerThreads.Panel2.Controls.Add(Me.lvThreads)
+        Me.SplitContainerThreads.Size = New System.Drawing.Size(829, 289)
+        Me.SplitContainerThreads.SplitterDistance = 25
+        Me.SplitContainerThreads.TabIndex = 0
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(3, 6)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(78, 13)
+        Me.Label8.TabIndex = 10
+        Me.Label8.Text = "Search thread"
+        '
+        'lblThreadResults
+        '
+        Me.lblThreadResults.AutoSize = True
+        Me.lblThreadResults.Location = New System.Drawing.Point(393, 6)
+        Me.lblThreadResults.Name = "lblThreadResults"
+        Me.lblThreadResults.Size = New System.Drawing.Size(56, 13)
+        Me.lblThreadResults.TabIndex = 9
+        Me.lblThreadResults.Text = "0 result(s)"
+        '
+        'txtSearchThread
+        '
+        Me.txtSearchThread.Location = New System.Drawing.Point(86, 1)
+        Me.txtSearchThread.Name = "txtSearchThread"
+        Me.txtSearchThread.Size = New System.Drawing.Size(298, 22)
+        Me.txtSearchThread.TabIndex = 8
+        '
+        'rtb4
+        '
+        Me.rtb4.AutoWordSelection = True
+        Me.rtb4.BackColor = System.Drawing.Color.White
+        Me.rtb4.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.rtb4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.rtb4.HideSelection = False
+        Me.rtb4.Location = New System.Drawing.Point(0, 0)
+        Me.rtb4.Name = "rtb4"
+        Me.rtb4.ReadOnly = True
+        Me.rtb4.Size = New System.Drawing.Size(829, 132)
+        Me.rtb4.TabIndex = 7
+        Me.rtb4.Text = "Click on a thread to get additionnal informations"
+        '
+        'pageHandles
+        '
+        Me.pageHandles.Controls.Add(Me.panelMain7)
+        Me.pageHandles.Location = New System.Drawing.Point(4, 22)
+        Me.pageHandles.Name = "pageHandles"
+        Me.pageHandles.Padding = New System.Windows.Forms.Padding(3)
+        Me.pageHandles.Size = New System.Drawing.Size(835, 431)
+        Me.pageHandles.TabIndex = 6
+        Me.pageHandles.Text = "Handles"
+        Me.pageHandles.UseVisualStyleBackColor = True
+        '
+        'panelMain7
+        '
+        Me.panelMain7.Controls.Add(Me.SplitContainerHandles)
+        Me.panelMain7.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelMain7.Location = New System.Drawing.Point(3, 3)
+        Me.panelMain7.Name = "panelMain7"
+        Me.panelMain7.Size = New System.Drawing.Size(829, 425)
+        Me.panelMain7.TabIndex = 50
+        '
+        'SplitContainerHandles
+        '
+        Me.SplitContainerHandles.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainerHandles.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainerHandles.IsSplitterFixed = True
+        Me.SplitContainerHandles.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainerHandles.Name = "SplitContainerHandles"
+        Me.SplitContainerHandles.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainerHandles.Panel1
+        '
+        Me.SplitContainerHandles.Panel1.Controls.Add(Me.Label9)
+        Me.SplitContainerHandles.Panel1.Controls.Add(Me.lblHandlesCount)
+        Me.SplitContainerHandles.Panel1.Controls.Add(Me.txtSearchHandle)
+        '
+        'SplitContainerHandles.Panel2
+        '
+        Me.SplitContainerHandles.Panel2.Controls.Add(Me.lvHandles)
+        Me.SplitContainerHandles.Size = New System.Drawing.Size(829, 425)
+        Me.SplitContainerHandles.SplitterDistance = 25
+        Me.SplitContainerHandles.TabIndex = 0
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(3, 6)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(80, 13)
+        Me.Label9.TabIndex = 13
+        Me.Label9.Text = "Search handle"
+        '
+        'lblHandlesCount
+        '
+        Me.lblHandlesCount.AutoSize = True
+        Me.lblHandlesCount.Location = New System.Drawing.Point(393, 6)
+        Me.lblHandlesCount.Name = "lblHandlesCount"
+        Me.lblHandlesCount.Size = New System.Drawing.Size(56, 13)
+        Me.lblHandlesCount.TabIndex = 12
+        Me.lblHandlesCount.Text = "0 result(s)"
+        '
+        'txtSearchHandle
+        '
+        Me.txtSearchHandle.Location = New System.Drawing.Point(86, 1)
+        Me.txtSearchHandle.Name = "txtSearchHandle"
+        Me.txtSearchHandle.Size = New System.Drawing.Size(298, 22)
+        Me.txtSearchHandle.TabIndex = 11
+        '
+        'pageWindows
+        '
+        Me.pageWindows.Controls.Add(Me.panelMain10)
+        Me.pageWindows.Location = New System.Drawing.Point(4, 22)
+        Me.pageWindows.Name = "pageWindows"
+        Me.pageWindows.Padding = New System.Windows.Forms.Padding(3)
+        Me.pageWindows.Size = New System.Drawing.Size(835, 431)
+        Me.pageWindows.TabIndex = 9
+        Me.pageWindows.Text = "Windows"
+        Me.pageWindows.UseVisualStyleBackColor = True
+        '
+        'panelMain10
+        '
+        Me.panelMain10.Controls.Add(Me.splitContainerWindows)
+        Me.panelMain10.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelMain10.Location = New System.Drawing.Point(3, 3)
+        Me.panelMain10.Name = "panelMain10"
+        Me.panelMain10.Size = New System.Drawing.Size(829, 425)
+        Me.panelMain10.TabIndex = 53
+        '
+        'splitContainerWindows
+        '
+        Me.splitContainerWindows.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.splitContainerWindows.Location = New System.Drawing.Point(0, 0)
+        Me.splitContainerWindows.Name = "splitContainerWindows"
+        Me.splitContainerWindows.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'splitContainerWindows.Panel1
+        '
+        Me.splitContainerWindows.Panel1.Controls.Add(Me.SplitContainerWindows2)
+        '
+        'splitContainerWindows.Panel2
+        '
+        Me.splitContainerWindows.Panel2.Controls.Add(Me.rtb5)
+        Me.splitContainerWindows.Size = New System.Drawing.Size(829, 425)
+        Me.splitContainerWindows.SplitterDistance = 263
+        Me.splitContainerWindows.TabIndex = 0
+        '
+        'SplitContainerWindows2
+        '
+        Me.SplitContainerWindows2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainerWindows2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainerWindows2.IsSplitterFixed = True
+        Me.SplitContainerWindows2.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainerWindows2.Name = "SplitContainerWindows2"
+        Me.SplitContainerWindows2.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainerWindows2.Panel1
+        '
+        Me.SplitContainerWindows2.Panel1.Controls.Add(Me.chkAllWindows)
+        Me.SplitContainerWindows2.Panel1.Controls.Add(Me.Label10)
+        Me.SplitContainerWindows2.Panel1.Controls.Add(Me.lblWindowsCount)
+        Me.SplitContainerWindows2.Panel1.Controls.Add(Me.txtSearchWindow)
+        '
+        'SplitContainerWindows2.Panel2
+        '
+        Me.SplitContainerWindows2.Panel2.Controls.Add(Me.lvWindows)
+        Me.SplitContainerWindows2.Size = New System.Drawing.Size(829, 263)
+        Me.SplitContainerWindows2.SplitterDistance = 25
+        Me.SplitContainerWindows2.TabIndex = 0
+        '
+        'chkAllWindows
+        '
+        Me.chkAllWindows.AutoSize = True
+        Me.chkAllWindows.Checked = True
+        Me.chkAllWindows.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkAllWindows.Location = New System.Drawing.Point(543, 4)
+        Me.chkAllWindows.Name = "chkAllWindows"
+        Me.chkAllWindows.Size = New System.Drawing.Size(199, 17)
+        Me.chkAllWindows.TabIndex = 11
+        Me.chkAllWindows.Text = "Display windows without caption"
+        Me.chkAllWindows.UseVisualStyleBackColor = True
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Location = New System.Drawing.Point(3, 6)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(86, 13)
+        Me.Label10.TabIndex = 10
+        Me.Label10.Text = "Search window"
+        '
+        'lblWindowsCount
+        '
+        Me.lblWindowsCount.AutoSize = True
+        Me.lblWindowsCount.Location = New System.Drawing.Point(393, 6)
+        Me.lblWindowsCount.Name = "lblWindowsCount"
+        Me.lblWindowsCount.Size = New System.Drawing.Size(56, 13)
+        Me.lblWindowsCount.TabIndex = 9
+        Me.lblWindowsCount.Text = "0 result(s)"
+        '
+        'txtSearchWindow
+        '
+        Me.txtSearchWindow.Location = New System.Drawing.Point(90, 1)
+        Me.txtSearchWindow.Name = "txtSearchWindow"
+        Me.txtSearchWindow.Size = New System.Drawing.Size(294, 22)
+        Me.txtSearchWindow.TabIndex = 8
+        '
+        'rtb5
+        '
+        Me.rtb5.AutoWordSelection = True
+        Me.rtb5.BackColor = System.Drawing.Color.White
+        Me.rtb5.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.rtb5.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.rtb5.HideSelection = False
+        Me.rtb5.Location = New System.Drawing.Point(0, 0)
+        Me.rtb5.Name = "rtb5"
+        Me.rtb5.ReadOnly = True
+        Me.rtb5.Size = New System.Drawing.Size(829, 158)
+        Me.rtb5.TabIndex = 8
+        Me.rtb5.Text = "Click on an item to get additionnal informations"
+        '
+        'pageMonitor
+        '
+        Me.pageMonitor.Controls.Add(Me.panelMain8)
+        Me.pageMonitor.Location = New System.Drawing.Point(4, 22)
+        Me.pageMonitor.Name = "pageMonitor"
+        Me.pageMonitor.Padding = New System.Windows.Forms.Padding(3)
+        Me.pageMonitor.Size = New System.Drawing.Size(835, 431)
+        Me.pageMonitor.TabIndex = 7
+        Me.pageMonitor.Text = "Monitor"
+        Me.pageMonitor.UseVisualStyleBackColor = True
+        '
+        'panelMain8
+        '
+        Me.panelMain8.Controls.Add(Me.splitMonitor)
+        Me.panelMain8.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelMain8.Location = New System.Drawing.Point(3, 3)
+        Me.panelMain8.Name = "panelMain8"
+        Me.panelMain8.Size = New System.Drawing.Size(829, 425)
+        Me.panelMain8.TabIndex = 51
+        '
+        'splitMonitor
+        '
+        Me.splitMonitor.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.splitMonitor.Location = New System.Drawing.Point(0, 0)
+        Me.splitMonitor.Name = "splitMonitor"
+        '
+        'splitMonitor.Panel1
+        '
+        Me.splitMonitor.Panel1.Controls.Add(Me.tvMonitor)
+        '
+        'splitMonitor.Panel2
+        '
+        Me.splitMonitor.Panel2.Controls.Add(Me.splitMonitor2)
+        Me.splitMonitor.Size = New System.Drawing.Size(829, 425)
+        Me.splitMonitor.SplitterDistance = 274
+        Me.splitMonitor.TabIndex = 0
+        '
+        'tvMonitor
+        '
+        Me.tvMonitor.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tvMonitor.FullRowSelect = True
+        Me.tvMonitor.ImageIndex = 0
+        Me.tvMonitor.ImageList = Me.imgMonitor
+        Me.tvMonitor.Location = New System.Drawing.Point(0, 0)
+        Me.tvMonitor.Name = "tvMonitor"
+        TreeNode3.ImageIndex = 1
+        TreeNode3.Name = "processes"
+        TreeNode3.SelectedImageIndex = 1
+        TreeNode3.Text = "Processes"
+        Me.tvMonitor.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode3})
+        Me.tvMonitor.SelectedImageIndex = 0
+        Me.tvMonitor.Size = New System.Drawing.Size(274, 425)
+        Me.tvMonitor.TabIndex = 0
+        '
+        'splitMonitor2
+        '
+        Me.splitMonitor2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.splitMonitor2.Location = New System.Drawing.Point(0, 0)
+        Me.splitMonitor2.Name = "splitMonitor2"
+        Me.splitMonitor2.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'splitMonitor2.Panel1
+        '
+        Me.splitMonitor2.Panel1.BackColor = System.Drawing.SystemColors.ButtonFace
+        Me.splitMonitor2.Panel1.Controls.Add(Me.txtMonitoringLog)
+        Me.splitMonitor2.Panel1.Controls.Add(Me.lvMonitorReport)
+        '
+        'splitMonitor2.Panel2
+        '
+        Me.splitMonitor2.Panel2.Controls.Add(Me.splitMonitor3)
+        Me.splitMonitor2.Size = New System.Drawing.Size(551, 425)
+        Me.splitMonitor2.SplitterDistance = 178
+        Me.splitMonitor2.TabIndex = 0
+        '
+        'txtMonitoringLog
+        '
+        Me.txtMonitoringLog.BackColor = System.Drawing.Color.White
+        Me.txtMonitoringLog.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.txtMonitoringLog.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMonitoringLog.Location = New System.Drawing.Point(0, 0)
+        Me.txtMonitoringLog.Multiline = True
+        Me.txtMonitoringLog.Name = "txtMonitoringLog"
+        Me.txtMonitoringLog.ReadOnly = True
+        Me.txtMonitoringLog.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.txtMonitoringLog.Size = New System.Drawing.Size(551, 178)
+        Me.txtMonitoringLog.TabIndex = 0
+        Me.txtMonitoringLog.Text = "No process monitored." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Click on 'Add' button to monitor a process."
+        '
+        'splitMonitor3
+        '
+        Me.splitMonitor3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.splitMonitor3.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
+        Me.splitMonitor3.IsSplitterFixed = True
+        Me.splitMonitor3.Location = New System.Drawing.Point(0, 0)
+        Me.splitMonitor3.Name = "splitMonitor3"
+        Me.splitMonitor3.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'splitMonitor3.Panel1
+        '
+        Me.splitMonitor3.Panel1.Controls.Add(Me.splitMonitor4)
+        '
+        'splitMonitor3.Panel2
+        '
+        Me.splitMonitor3.Panel2.Controls.Add(Me.txtMonitorNumber)
+        Me.splitMonitor3.Panel2.Controls.Add(Me.lblMonitorMaxNumber)
+        Me.splitMonitor3.Panel2.Controls.Add(Me.chkMonitorRightAuto)
+        Me.splitMonitor3.Panel2.Controls.Add(Me.chkMonitorLeftAuto)
+        Me.splitMonitor3.Panel2.Controls.Add(Me.dtMonitorR)
+        Me.splitMonitor3.Panel2.Controls.Add(Me.dtMonitorL)
+        Me.splitMonitor3.Size = New System.Drawing.Size(551, 243)
+        Me.splitMonitor3.SplitterDistance = 214
+        Me.splitMonitor3.TabIndex = 0
+        '
+        'splitMonitor4
+        '
+        Me.splitMonitor4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.splitMonitor4.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.splitMonitor4.IsSplitterFixed = True
+        Me.splitMonitor4.Location = New System.Drawing.Point(0, 0)
+        Me.splitMonitor4.Name = "splitMonitor4"
+        Me.splitMonitor4.Orientation = System.Windows.Forms.Orientation.Horizontal
+        Me.splitMonitor4.Panel1Collapsed = True
+        '
+        'splitMonitor4.Panel2
+        '
+        Me.splitMonitor4.Panel2.Controls.Add(Me.graphMonitor)
+        Me.splitMonitor4.Size = New System.Drawing.Size(551, 214)
+        Me.splitMonitor4.SplitterDistance = 25
+        Me.splitMonitor4.TabIndex = 4
+        '
+        'txtMonitorNumber
+        '
+        Me.txtMonitorNumber.Location = New System.Drawing.Point(241, 0)
+        Me.txtMonitorNumber.Name = "txtMonitorNumber"
+        Me.txtMonitorNumber.Size = New System.Drawing.Size(33, 22)
+        Me.txtMonitorNumber.TabIndex = 11
+        Me.txtMonitorNumber.Text = "200"
+        '
+        'lblMonitorMaxNumber
+        '
+        Me.lblMonitorMaxNumber.AutoSize = True
+        Me.lblMonitorMaxNumber.Location = New System.Drawing.Point(171, 6)
+        Me.lblMonitorMaxNumber.Name = "lblMonitorMaxNumber"
+        Me.lblMonitorMaxNumber.Size = New System.Drawing.Size(66, 13)
+        Me.lblMonitorMaxNumber.TabIndex = 10
+        Me.lblMonitorMaxNumber.Text = "Max. values"
+        '
+        'chkMonitorRightAuto
+        '
+        Me.chkMonitorRightAuto.AutoSize = True
+        Me.chkMonitorRightAuto.Checked = True
+        Me.chkMonitorRightAuto.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkMonitorRightAuto.Dock = System.Windows.Forms.DockStyle.Right
+        Me.chkMonitorRightAuto.Location = New System.Drawing.Point(412, 0)
+        Me.chkMonitorRightAuto.Name = "chkMonitorRightAuto"
+        Me.chkMonitorRightAuto.Size = New System.Drawing.Size(50, 25)
+        Me.chkMonitorRightAuto.TabIndex = 9
+        Me.chkMonitorRightAuto.Text = "Now"
+        Me.chkMonitorRightAuto.UseVisualStyleBackColor = True
+        '
+        'chkMonitorLeftAuto
+        '
+        Me.chkMonitorLeftAuto.AutoSize = True
+        Me.chkMonitorLeftAuto.Checked = True
+        Me.chkMonitorLeftAuto.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkMonitorLeftAuto.Location = New System.Drawing.Point(95, 4)
+        Me.chkMonitorLeftAuto.Name = "chkMonitorLeftAuto"
+        Me.chkMonitorLeftAuto.Size = New System.Drawing.Size(78, 17)
+        Me.chkMonitorLeftAuto.TabIndex = 8
+        Me.chkMonitorLeftAuto.Text = "Automatic"
+        Me.chkMonitorLeftAuto.UseVisualStyleBackColor = True
+        '
+        'dtMonitorR
+        '
+        Me.dtMonitorR.Dock = System.Windows.Forms.DockStyle.Right
+        Me.dtMonitorR.Enabled = False
+        Me.dtMonitorR.Format = System.Windows.Forms.DateTimePickerFormat.Time
+        Me.dtMonitorR.Location = New System.Drawing.Point(462, 0)
+        Me.dtMonitorR.Name = "dtMonitorR"
+        Me.dtMonitorR.Size = New System.Drawing.Size(89, 22)
+        Me.dtMonitorR.TabIndex = 7
+        '
+        'dtMonitorL
+        '
+        Me.dtMonitorL.Dock = System.Windows.Forms.DockStyle.Left
+        Me.dtMonitorL.Enabled = False
+        Me.dtMonitorL.Format = System.Windows.Forms.DateTimePickerFormat.Time
+        Me.dtMonitorL.Location = New System.Drawing.Point(0, 0)
+        Me.dtMonitorL.Name = "dtMonitorL"
+        Me.dtMonitorL.Size = New System.Drawing.Size(89, 22)
+        Me.dtMonitorL.TabIndex = 6
+        '
+        'pageServices
+        '
+        Me.pageServices.Controls.Add(Me.containerServicesPage)
+        Me.pageServices.Location = New System.Drawing.Point(4, 22)
+        Me.pageServices.Name = "pageServices"
+        Me.pageServices.Padding = New System.Windows.Forms.Padding(3)
+        Me.pageServices.Size = New System.Drawing.Size(835, 431)
+        Me.pageServices.TabIndex = 1
+        Me.pageServices.Text = "Services"
+        Me.pageServices.UseVisualStyleBackColor = True
+        '
+        'containerServicesPage
+        '
+        Me.containerServicesPage.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.containerServicesPage.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.containerServicesPage.IsSplitterFixed = True
+        Me.containerServicesPage.Location = New System.Drawing.Point(3, 3)
+        Me.containerServicesPage.Name = "containerServicesPage"
+        Me.containerServicesPage.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'containerServicesPage.Panel1
+        '
+        Me.containerServicesPage.Panel1.Controls.Add(Me.panelMenu2)
+        '
+        'containerServicesPage.Panel2
+        '
+        Me.containerServicesPage.Panel2.Controls.Add(Me.panelMain2)
+        Me.containerServicesPage.Size = New System.Drawing.Size(829, 425)
+        Me.containerServicesPage.SplitterDistance = 25
+        Me.containerServicesPage.TabIndex = 0
+        '
         'panelMenu2
         '
         Me.panelMenu2.Controls.Add(Me.Label2)
         Me.panelMenu2.Controls.Add(Me.lblResCount2)
         Me.panelMenu2.Controls.Add(Me.txtServiceSearch)
-        Me.panelMenu2.Location = New System.Drawing.Point(14, 287)
+        Me.panelMenu2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelMenu2.Location = New System.Drawing.Point(0, 0)
         Me.panelMenu2.Name = "panelMenu2"
-        Me.panelMenu2.Size = New System.Drawing.Size(766, 28)
-        Me.panelMenu2.TabIndex = 46
-        Me.panelMenu2.Visible = False
+        Me.panelMenu2.Size = New System.Drawing.Size(829, 25)
+        Me.panelMenu2.TabIndex = 49
         '
         'Label2
         '
@@ -3768,10 +5705,197 @@ Partial Class frmMain
         '
         'txtServiceSearch
         '
-        Me.txtServiceSearch.Location = New System.Drawing.Point(89, 3)
+        Me.txtServiceSearch.Location = New System.Drawing.Point(89, 1)
         Me.txtServiceSearch.Name = "txtServiceSearch"
         Me.txtServiceSearch.Size = New System.Drawing.Size(501, 22)
         Me.txtServiceSearch.TabIndex = 1
+        '
+        'panelMain2
+        '
+        Me.panelMain2.Controls.Add(Me.splitServices)
+        Me.panelMain2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelMain2.Location = New System.Drawing.Point(0, 0)
+        Me.panelMain2.Name = "panelMain2"
+        Me.panelMain2.Size = New System.Drawing.Size(829, 396)
+        Me.panelMain2.TabIndex = 17
+        '
+        'splitServices
+        '
+        Me.splitServices.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.splitServices.Location = New System.Drawing.Point(0, 0)
+        Me.splitServices.Name = "splitServices"
+        Me.splitServices.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'splitServices.Panel1
+        '
+        Me.splitServices.Panel1.Controls.Add(Me.lvServices)
+        '
+        'splitServices.Panel2
+        '
+        Me.splitServices.Panel2.Controls.Add(Me.splitServices2)
+        Me.splitServices.Size = New System.Drawing.Size(829, 396)
+        Me.splitServices.SplitterDistance = 251
+        Me.splitServices.TabIndex = 0
+        '
+        'splitServices2
+        '
+        Me.splitServices2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.splitServices2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.splitServices2.IsSplitterFixed = True
+        Me.splitServices2.Location = New System.Drawing.Point(0, 0)
+        Me.splitServices2.Name = "splitServices2"
+        Me.splitServices2.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'splitServices2.Panel1
+        '
+        Me.splitServices2.Panel1.Controls.Add(Me.cmdCopyServiceToCp)
+        Me.splitServices2.Panel1.Controls.Add(Me.lblServicePath)
+        Me.splitServices2.Panel1.Controls.Add(Me.lblServiceName)
+        '
+        'splitServices2.Panel2
+        '
+        Me.splitServices2.Panel2.Controls.Add(Me.splitServices3)
+        Me.splitServices2.Size = New System.Drawing.Size(829, 141)
+        Me.splitServices2.SplitterDistance = 35
+        Me.splitServices2.TabIndex = 15
+        '
+        'cmdCopyServiceToCp
+        '
+        Me.cmdCopyServiceToCp.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdCopyServiceToCp.Enabled = False
+        Me.cmdCopyServiceToCp.Image = Global.YAPM.My.Resources.Resources.copy16
+        Me.cmdCopyServiceToCp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.cmdCopyServiceToCp.Location = New System.Drawing.Point(697, 8)
+        Me.cmdCopyServiceToCp.Name = "cmdCopyServiceToCp"
+        Me.cmdCopyServiceToCp.Size = New System.Drawing.Size(130, 24)
+        Me.cmdCopyServiceToCp.TabIndex = 19
+        Me.cmdCopyServiceToCp.Text = "Copy to clipboard"
+        Me.cmdCopyServiceToCp.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.cmdCopyServiceToCp.UseVisualStyleBackColor = True
+        '
+        'lblServicePath
+        '
+        Me.lblServicePath.BackColor = System.Drawing.SystemColors.ButtonFace
+        Me.lblServicePath.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.lblServicePath.ForeColor = System.Drawing.SystemColors.WindowFrame
+        Me.lblServicePath.Location = New System.Drawing.Point(7, 19)
+        Me.lblServicePath.Name = "lblServicePath"
+        Me.lblServicePath.ReadOnly = True
+        Me.lblServicePath.Size = New System.Drawing.Size(440, 15)
+        Me.lblServicePath.TabIndex = 18
+        '
+        'lblServiceName
+        '
+        Me.lblServiceName.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblServiceName.ForeColor = System.Drawing.SystemColors.ControlDarkDark
+        Me.lblServiceName.Location = New System.Drawing.Point(3, 0)
+        Me.lblServiceName.Name = "lblServiceName"
+        Me.lblServiceName.Size = New System.Drawing.Size(554, 32)
+        Me.lblServiceName.TabIndex = 17
+        Me.lblServiceName.Text = "Service name :"
+        '
+        'splitServices3
+        '
+        Me.splitServices3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.splitServices3.Location = New System.Drawing.Point(0, 0)
+        Me.splitServices3.Name = "splitServices3"
+        '
+        'splitServices3.Panel1
+        '
+        Me.splitServices3.Panel1.Controls.Add(Me.rtb2)
+        '
+        'splitServices3.Panel2
+        '
+        Me.splitServices3.Panel2.Controls.Add(Me.splitServices4)
+        Me.splitServices3.Size = New System.Drawing.Size(829, 102)
+        Me.splitServices3.SplitterDistance = 613
+        Me.splitServices3.TabIndex = 0
+        '
+        'rtb2
+        '
+        Me.rtb2.AutoWordSelection = True
+        Me.rtb2.BackColor = System.Drawing.Color.White
+        Me.rtb2.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.rtb2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.rtb2.HideSelection = False
+        Me.rtb2.Location = New System.Drawing.Point(0, 0)
+        Me.rtb2.Name = "rtb2"
+        Me.rtb2.ReadOnly = True
+        Me.rtb2.Size = New System.Drawing.Size(613, 102)
+        Me.rtb2.TabIndex = 13
+        Me.rtb2.Text = ""
+        Me.rtb2.WordWrap = False
+        '
+        'splitServices4
+        '
+        Me.splitServices4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.splitServices4.Location = New System.Drawing.Point(0, 0)
+        Me.splitServices4.Name = "splitServices4"
+        Me.splitServices4.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'splitServices4.Panel1
+        '
+        Me.splitServices4.Panel1.Controls.Add(Me.tv2)
+        '
+        'splitServices4.Panel2
+        '
+        Me.splitServices4.Panel2.Controls.Add(Me.tv)
+        Me.splitServices4.Size = New System.Drawing.Size(212, 102)
+        Me.splitServices4.SplitterDistance = 44
+        Me.splitServices4.TabIndex = 0
+        '
+        'tv2
+        '
+        Me.tv2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tv2.ImageIndex = 0
+        Me.tv2.ImageList = Me.imgServices
+        Me.tv2.Location = New System.Drawing.Point(0, 0)
+        Me.tv2.Name = "tv2"
+        Me.tv2.SelectedImageIndex = 2
+        Me.tv2.Size = New System.Drawing.Size(212, 44)
+        Me.tv2.TabIndex = 15
+        '
+        'tv
+        '
+        Me.tv.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tv.ImageIndex = 0
+        Me.tv.ImageList = Me.imgServices
+        Me.tv.Location = New System.Drawing.Point(0, 0)
+        Me.tv.Name = "tv"
+        Me.tv.SelectedImageIndex = 0
+        Me.tv.Size = New System.Drawing.Size(212, 54)
+        Me.tv.TabIndex = 14
+        '
+        'pageNetwork
+        '
+        Me.pageNetwork.Controls.Add(Me.panelMain14)
+        Me.pageNetwork.Location = New System.Drawing.Point(4, 22)
+        Me.pageNetwork.Name = "pageNetwork"
+        Me.pageNetwork.Padding = New System.Windows.Forms.Padding(3)
+        Me.pageNetwork.Size = New System.Drawing.Size(835, 431)
+        Me.pageNetwork.TabIndex = 12
+        Me.pageNetwork.Text = "Network"
+        Me.pageNetwork.UseVisualStyleBackColor = True
+        '
+        'panelMain14
+        '
+        Me.panelMain14.Controls.Add(Me.lvNetwork)
+        Me.panelMain14.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelMain14.Location = New System.Drawing.Point(3, 3)
+        Me.panelMain14.Name = "panelMain14"
+        Me.panelMain14.Size = New System.Drawing.Size(829, 425)
+        Me.panelMain14.TabIndex = 57
+        '
+        'pageFile
+        '
+        Me.pageFile.Controls.Add(Me.panelMain5)
+        Me.pageFile.Location = New System.Drawing.Point(4, 22)
+        Me.pageFile.Name = "pageFile"
+        Me.pageFile.Padding = New System.Windows.Forms.Padding(3)
+        Me.pageFile.Size = New System.Drawing.Size(835, 431)
+        Me.pageFile.TabIndex = 4
+        Me.pageFile.Text = "File"
+        Me.pageFile.UseVisualStyleBackColor = True
         '
         'panelMain5
         '
@@ -3780,11 +5904,11 @@ Partial Class frmMain
         Me.panelMain5.Controls.Add(Me.cmdFileClipboard)
         Me.panelMain5.Controls.Add(Me.pctFileSmall)
         Me.panelMain5.Controls.Add(Me.pctFileBig)
-        Me.panelMain5.Location = New System.Drawing.Point(117, 181)
+        Me.panelMain5.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelMain5.Location = New System.Drawing.Point(3, 3)
         Me.panelMain5.Name = "panelMain5"
-        Me.panelMain5.Size = New System.Drawing.Size(640, 317)
-        Me.panelMain5.TabIndex = 47
-        Me.panelMain5.Visible = False
+        Me.panelMain5.Size = New System.Drawing.Size(829, 425)
+        Me.panelMain5.TabIndex = 48
         '
         'fileSplitContainer
         '
@@ -4047,19 +6171,6 @@ Partial Class frmMain
         Me.pctFileSmall.TabIndex = 9
         Me.pctFileSmall.TabStop = False
         '
-        'mnuFileCopyPctSmall
-        '
-        Me.mnuFileCopyPctSmall.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem17})
-        Me.mnuFileCopyPctSmall.Name = "menuCopyPctbig"
-        Me.mnuFileCopyPctSmall.Size = New System.Drawing.Size(170, 26)
-        '
-        'ToolStripMenuItem17
-        '
-        Me.ToolStripMenuItem17.Image = Global.YAPM.My.Resources.Resources.copy16
-        Me.ToolStripMenuItem17.Name = "ToolStripMenuItem17"
-        Me.ToolStripMenuItem17.Size = New System.Drawing.Size(169, 22)
-        Me.ToolStripMenuItem17.Text = "Copy to clipboard"
-        '
         'pctFileBig
         '
         Me.pctFileBig.ContextMenuStrip = Me.mnuFileCopyPctBig
@@ -4069,27 +6180,25 @@ Partial Class frmMain
         Me.pctFileBig.TabIndex = 8
         Me.pctFileBig.TabStop = False
         '
-        'mnuFileCopyPctBig
+        'pageSearch
         '
-        Me.mnuFileCopyPctBig.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem16})
-        Me.mnuFileCopyPctBig.Name = "menuCopyPctbig"
-        Me.mnuFileCopyPctBig.Size = New System.Drawing.Size(170, 26)
-        '
-        'ToolStripMenuItem16
-        '
-        Me.ToolStripMenuItem16.Image = Global.YAPM.My.Resources.Resources.copy16
-        Me.ToolStripMenuItem16.Name = "ToolStripMenuItem16"
-        Me.ToolStripMenuItem16.Size = New System.Drawing.Size(169, 22)
-        Me.ToolStripMenuItem16.Text = "Copy to clipboard"
+        Me.pageSearch.Controls.Add(Me.panelMain6)
+        Me.pageSearch.Location = New System.Drawing.Point(4, 22)
+        Me.pageSearch.Name = "pageSearch"
+        Me.pageSearch.Padding = New System.Windows.Forms.Padding(3)
+        Me.pageSearch.Size = New System.Drawing.Size(835, 431)
+        Me.pageSearch.TabIndex = 5
+        Me.pageSearch.Text = "Search"
+        Me.pageSearch.UseVisualStyleBackColor = True
         '
         'panelMain6
         '
         Me.panelMain6.Controls.Add(Me.SplitContainerSearch)
-        Me.panelMain6.Location = New System.Drawing.Point(117, 181)
+        Me.panelMain6.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelMain6.Location = New System.Drawing.Point(3, 3)
         Me.panelMain6.Name = "panelMain6"
-        Me.panelMain6.Size = New System.Drawing.Size(565, 276)
-        Me.panelMain6.TabIndex = 48
-        Me.panelMain6.Visible = False
+        Me.panelMain6.Size = New System.Drawing.Size(829, 425)
+        Me.panelMain6.TabIndex = 49
         '
         'SplitContainerSearch
         '
@@ -4116,7 +6225,7 @@ Partial Class frmMain
         'SplitContainerSearch.Panel2
         '
         Me.SplitContainerSearch.Panel2.Controls.Add(Me.lvSearchResults)
-        Me.SplitContainerSearch.Size = New System.Drawing.Size(565, 276)
+        Me.SplitContainerSearch.Size = New System.Drawing.Size(829, 425)
         Me.SplitContainerSearch.SplitterDistance = 55
         Me.SplitContainerSearch.TabIndex = 2
         '
@@ -4224,139 +6333,270 @@ Partial Class frmMain
         Me.chkSearchCase.Text = "Case sensitive"
         Me.chkSearchCase.UseVisualStyleBackColor = True
         '
-        'lvSearchResults
+        'pageHelp
         '
-        Me.lvSearchResults.AllowColumnReorder = True
-        Me.lvSearchResults.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader12, Me.ColumnHeader13, Me.ColumnHeader14, Me.ColumnHeader17})
-        Me.lvSearchResults.ContextMenuStrip = Me.menuSearch
-        Me.lvSearchResults.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvSearchResults.FullRowSelect = True
-        ListViewGroup7.Header = "Results"
-        ListViewGroup7.Name = "gpResults"
+        Me.pageHelp.Controls.Add(Me.panelMain4)
+        Me.pageHelp.Location = New System.Drawing.Point(4, 22)
+        Me.pageHelp.Name = "pageHelp"
+        Me.pageHelp.Padding = New System.Windows.Forms.Padding(3)
+        Me.pageHelp.Size = New System.Drawing.Size(835, 431)
+        Me.pageHelp.TabIndex = 3
+        Me.pageHelp.Text = "Help"
+        Me.pageHelp.UseVisualStyleBackColor = True
+        '
+        'panelMain4
+        '
+        Me.panelMain4.Controls.Add(Me.WBHelp)
+        Me.panelMain4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelMain4.Location = New System.Drawing.Point(3, 3)
+        Me.panelMain4.Name = "panelMain4"
+        Me.panelMain4.Size = New System.Drawing.Size(829, 425)
+        Me.panelMain4.TabIndex = 17
+        '
+        'WBHelp
+        '
+        Me.WBHelp.AllowWebBrowserDrop = False
+        Me.WBHelp.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.WBHelp.IsWebBrowserContextMenuEnabled = False
+        Me.WBHelp.Location = New System.Drawing.Point(0, 0)
+        Me.WBHelp.MinimumSize = New System.Drawing.Size(20, 20)
+        Me.WBHelp.Name = "WBHelp"
+        Me.WBHelp.Size = New System.Drawing.Size(829, 425)
+        Me.WBHelp.TabIndex = 0
+        Me.WBHelp.Url = New System.Uri("", System.UriKind.Relative)
+        '
+        'RibbonViewToolStripMenuItem
+        '
+        Me.RibbonViewToolStripMenuItem.Checked = True
+        Me.RibbonViewToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.RibbonViewToolStripMenuItem.Name = "RibbonViewToolStripMenuItem"
+        Me.RibbonViewToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.RibbonViewToolStripMenuItem.Text = "&Ribbon view"
+        '
+        'lvTask
+        '
+        Me.lvTask.AllowColumnReorder = True
+        Me.lvTask.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader62, Me.ColumnHeader63, Me.ColumnHeader64})
+        Me.lvTask.ContextMenuStrip = Me.menuTasks
+        Me.lvTask.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvTask.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvTask.FullRowSelect = True
+        ListViewGroup1.Header = "Tasks"
+        ListViewGroup1.Name = "gpOther"
+        ListViewGroup2.Header = "Search result"
+        ListViewGroup2.Name = "gpSearch"
+        Me.lvTask.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        Me.lvTask.HideSelection = False
+        Me.lvTask.Location = New System.Drawing.Point(0, 0)
+        Me.lvTask.Name = "lvTask"
+        Me.lvTask.OverriddenDoubleBuffered = True
+        Me.lvTask.Size = New System.Drawing.Size(829, 396)
+        Me.lvTask.TabIndex = 3
+        Me.lvTask.UseCompatibleStateImageBehavior = False
+        Me.lvTask.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader62
+        '
+        Me.ColumnHeader62.Text = "Name"
+        Me.ColumnHeader62.Width = 400
+        '
+        'ColumnHeader63
+        '
+        Me.ColumnHeader63.Text = "CpuUsage"
+        Me.ColumnHeader63.Width = 170
+        '
+        'ColumnHeader64
+        '
+        Me.ColumnHeader64.Text = "Process"
+        Me.ColumnHeader64.Width = 170
+        '
+        'lvProcess
+        '
+        Me.lvProcess.AllowColumnReorder = True
+        Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c7, Me.c8, Me.c9, Me.c10, Me.ColumnHeader20})
+        Me.lvProcess.ContextMenuStrip = Me.menuProc
+        Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvProcess.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvProcess.FullRowSelect = True
+        ListViewGroup3.Header = "Processes"
+        ListViewGroup3.Name = "gpOther"
+        ListViewGroup4.Header = "Search result"
+        ListViewGroup4.Name = "gpSearch"
+        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        Me.lvProcess.HideSelection = False
+        Me.lvProcess.Location = New System.Drawing.Point(0, 0)
+        Me.lvProcess.Name = "lvProcess"
+        Me.lvProcess.OverriddenDoubleBuffered = True
+        Me.lvProcess.Size = New System.Drawing.Size(829, 247)
+        Me.lvProcess.TabIndex = 3
+        Me.lvProcess.UseCompatibleStateImageBehavior = False
+        Me.lvProcess.View = System.Windows.Forms.View.Details
+        '
+        'c1
+        '
+        Me.c1.Text = "Name"
+        Me.c1.Width = 100
+        '
+        'c2
+        '
+        Me.c2.Text = "PID"
+        Me.c2.Width = 40
+        '
+        'c3
+        '
+        Me.c3.Text = "UserName"
+        Me.c3.Width = 100
+        '
+        'c4
+        '
+        Me.c4.DisplayIndex = 5
+        Me.c4.Text = "TotalCpuTime"
+        Me.c4.Width = 80
+        '
+        'c5
+        '
+        Me.c5.DisplayIndex = 6
+        Me.c5.Text = "WorkingSet"
+        Me.c5.Width = 80
+        '
+        'c7
+        '
+        Me.c7.DisplayIndex = 7
+        Me.c7.Text = "Priority"
+        Me.c7.Width = 70
+        '
+        'c8
+        '
+        Me.c8.DisplayIndex = 8
+        Me.c8.Text = "Path"
+        Me.c8.Width = 350
+        '
+        'c9
+        '
+        Me.c9.DisplayIndex = 9
+        Me.c9.Text = "StartTime"
+        Me.c9.Width = 250
+        '
+        'c10
+        '
+        Me.c10.DisplayIndex = 3
+        Me.c10.Text = "CpuUsage"
+        '
+        'ColumnHeader20
+        '
+        Me.ColumnHeader20.DisplayIndex = 4
+        Me.ColumnHeader20.Text = "AverageCpuUsage"
+        '
+        'lvModules
+        '
+        Me.lvModules.AllowColumnReorder = True
+        Me.lvModules.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader29, Me.ColumnHeader43, Me.ColumnHeader44, Me.ColumnHeader45, Me.ColumnHeader46, Me.ColumnHeader18})
+        Me.lvModules.ContextMenuStrip = Me.menuModule
+        Me.lvModules.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvModules.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvModules.FullRowSelect = True
+        ListViewGroup5.Header = "Modules"
+        ListViewGroup5.Name = "gpOther"
+        ListViewGroup6.Header = "Search result"
+        ListViewGroup6.Name = "gpSearchResults"
+        Me.lvModules.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
+        Me.lvModules.HideSelection = False
+        Me.lvModules.Location = New System.Drawing.Point(0, 0)
+        Me.lvModules.Name = "lvModules"
+        Me.lvModules.OverriddenDoubleBuffered = True
+        Me.lvModules.ProcessId = 0
+        Me.lvModules.Size = New System.Drawing.Size(829, 234)
+        Me.lvModules.TabIndex = 6
+        Me.lvModules.UseCompatibleStateImageBehavior = False
+        Me.lvModules.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader29
+        '
+        Me.ColumnHeader29.Text = "Name"
+        Me.ColumnHeader29.Width = 90
+        '
+        'ColumnHeader43
+        '
+        Me.ColumnHeader43.Text = "Version"
+        Me.ColumnHeader43.Width = 85
+        '
+        'ColumnHeader44
+        '
+        Me.ColumnHeader44.Text = "Description"
+        Me.ColumnHeader44.Width = 210
+        '
+        'ColumnHeader45
+        '
+        Me.ColumnHeader45.Text = "CompanyName"
+        Me.ColumnHeader45.Width = 150
+        '
+        'ColumnHeader46
+        '
+        Me.ColumnHeader46.Text = "Path"
+        Me.ColumnHeader46.Width = 300
+        '
+        'ColumnHeader18
+        '
+        Me.ColumnHeader18.Text = "Process"
+        Me.ColumnHeader18.Width = 100
+        '
+        'lvThreads
+        '
+        Me.lvThreads.AllowColumnReorder = True
+        Me.lvThreads.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader33, Me.ColumnHeader34, Me.ColumnHeader35, Me.ColumnHeader36, Me.ColumnHeader37, Me.ColumnHeader38})
+        Me.lvThreads.ContextMenuStrip = Me.menuThread
+        Me.lvThreads.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvThreads.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvThreads.FullRowSelect = True
+        ListViewGroup7.Header = "Threads"
+        ListViewGroup7.Name = "gpOther"
         ListViewGroup8.Header = "Search results"
         ListViewGroup8.Name = "gpSearchResults"
-        Me.lvSearchResults.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
-        Me.lvSearchResults.HideSelection = False
-        Me.lvSearchResults.Location = New System.Drawing.Point(0, 0)
-        Me.lvSearchResults.Name = "lvSearchResults"
-        Me.lvSearchResults.OverriddenDoubleBuffered = True
-        Me.lvSearchResults.Size = New System.Drawing.Size(565, 217)
-        Me.lvSearchResults.SmallImageList = Me.imgSearch
-        Me.lvSearchResults.TabIndex = 3
-        Me.lvSearchResults.UseCompatibleStateImageBehavior = False
-        Me.lvSearchResults.View = System.Windows.Forms.View.Details
+        Me.lvThreads.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
+        Me.lvThreads.HideSelection = False
+        Me.lvThreads.Location = New System.Drawing.Point(0, 0)
+        Me.lvThreads.Name = "lvThreads"
+        Me.lvThreads.OverriddenDoubleBuffered = True
+        Me.lvThreads.ProcessId = Nothing
+        Me.lvThreads.ShowUnNamed = False
+        Me.lvThreads.Size = New System.Drawing.Size(829, 260)
+        Me.lvThreads.TabIndex = 3
+        Me.lvThreads.UseCompatibleStateImageBehavior = False
+        Me.lvThreads.View = System.Windows.Forms.View.Details
         '
-        'ColumnHeader12
+        'ColumnHeader32
         '
-        Me.ColumnHeader12.Text = "Type"
-        Me.ColumnHeader12.Width = 80
+        Me.ColumnHeader32.Text = "Id"
         '
-        'ColumnHeader13
+        'ColumnHeader33
         '
-        Me.ColumnHeader13.Text = "Result"
-        Me.ColumnHeader13.Width = 400
+        Me.ColumnHeader33.Text = "OwnerProcessId"
+        Me.ColumnHeader33.Width = 150
         '
-        'ColumnHeader14
+        'ColumnHeader34
         '
-        Me.ColumnHeader14.Text = "Field"
-        Me.ColumnHeader14.Width = 150
+        Me.ColumnHeader34.Text = "Priority"
+        Me.ColumnHeader34.Width = 100
         '
-        'ColumnHeader17
+        'ColumnHeader35
         '
-        Me.ColumnHeader17.Text = "Process"
-        Me.ColumnHeader17.Width = 150
+        Me.ColumnHeader35.Text = "State"
+        Me.ColumnHeader35.Width = 70
         '
-        'menuSearch
+        'ColumnHeader36
         '
-        Me.menuSearch.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectAssociatedProcessToolStripMenuItem, Me.ToolStripMenuItem18, Me.CloseToolStripMenuItem})
-        Me.menuSearch.Name = "menuProc"
-        Me.menuSearch.Size = New System.Drawing.Size(260, 54)
+        Me.ColumnHeader36.Text = "WaitReason"
+        Me.ColumnHeader36.Width = 100
         '
-        'SelectAssociatedProcessToolStripMenuItem
+        'ColumnHeader37
         '
-        Me.SelectAssociatedProcessToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SelectAssociatedProcessToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.exe
-        Me.SelectAssociatedProcessToolStripMenuItem.Name = "SelectAssociatedProcessToolStripMenuItem"
-        Me.SelectAssociatedProcessToolStripMenuItem.Size = New System.Drawing.Size(259, 22)
-        Me.SelectAssociatedProcessToolStripMenuItem.Text = "Select associated process/service"
+        Me.ColumnHeader37.Text = "StartTime"
+        Me.ColumnHeader37.Width = 200
         '
-        'ToolStripMenuItem18
+        'ColumnHeader38
         '
-        Me.ToolStripMenuItem18.Name = "ToolStripMenuItem18"
-        Me.ToolStripMenuItem18.Size = New System.Drawing.Size(256, 6)
-        '
-        'CloseToolStripMenuItem
-        '
-        Me.CloseToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.cross
-        Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(259, 22)
-        Me.CloseToolStripMenuItem.Text = "Close item"
-        '
-        'imgSearch
-        '
-        Me.imgSearch.ImageStream = CType(resources.GetObject("imgSearch.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgSearch.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgSearch.Images.SetKeyName(0, "handle")
-        Me.imgSearch.Images.SetKeyName(1, "dll")
-        Me.imgSearch.Images.SetKeyName(2, "window")
-        Me.imgSearch.Images.SetKeyName(3, "noicon")
-        Me.imgSearch.Images.SetKeyName(4, "service")
-        '
-        'panelMain7
-        '
-        Me.panelMain7.Controls.Add(Me.SplitContainerHandles)
-        Me.panelMain7.Location = New System.Drawing.Point(116, 163)
-        Me.panelMain7.Name = "panelMain7"
-        Me.panelMain7.Size = New System.Drawing.Size(565, 276)
-        Me.panelMain7.TabIndex = 49
-        Me.panelMain7.Visible = False
-        '
-        'SplitContainerHandles
-        '
-        Me.SplitContainerHandles.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainerHandles.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.SplitContainerHandles.IsSplitterFixed = True
-        Me.SplitContainerHandles.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainerHandles.Name = "SplitContainerHandles"
-        Me.SplitContainerHandles.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainerHandles.Panel1
-        '
-        Me.SplitContainerHandles.Panel1.Controls.Add(Me.Label9)
-        Me.SplitContainerHandles.Panel1.Controls.Add(Me.lblHandlesCount)
-        Me.SplitContainerHandles.Panel1.Controls.Add(Me.txtSearchHandle)
-        '
-        'SplitContainerHandles.Panel2
-        '
-        Me.SplitContainerHandles.Panel2.Controls.Add(Me.lvHandles)
-        Me.SplitContainerHandles.Size = New System.Drawing.Size(565, 276)
-        Me.SplitContainerHandles.SplitterDistance = 25
-        Me.SplitContainerHandles.TabIndex = 0
-        '
-        'Label9
-        '
-        Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(3, 5)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(80, 13)
-        Me.Label9.TabIndex = 13
-        Me.Label9.Text = "Search handle"
-        '
-        'lblHandlesCount
-        '
-        Me.lblHandlesCount.AutoSize = True
-        Me.lblHandlesCount.Location = New System.Drawing.Point(393, 5)
-        Me.lblHandlesCount.Name = "lblHandlesCount"
-        Me.lblHandlesCount.Size = New System.Drawing.Size(56, 13)
-        Me.lblHandlesCount.TabIndex = 12
-        Me.lblHandlesCount.Text = "0 result(s)"
-        '
-        'txtSearchHandle
-        '
-        Me.txtSearchHandle.Location = New System.Drawing.Point(86, 2)
-        Me.txtSearchHandle.Name = "txtSearchHandle"
-        Me.txtSearchHandle.Size = New System.Drawing.Size(298, 22)
-        Me.txtSearchHandle.TabIndex = 11
+        Me.ColumnHeader38.Text = "TotalProcessorTime"
+        Me.ColumnHeader38.Width = 200
         '
         'lvHandles
         '
@@ -4377,7 +6617,7 @@ Partial Class frmMain
         Me.lvHandles.OverriddenDoubleBuffered = True
         Me.lvHandles.ProcessId = Nothing
         Me.lvHandles.ShowUnNamed = False
-        Me.lvHandles.Size = New System.Drawing.Size(565, 247)
+        Me.lvHandles.Size = New System.Drawing.Size(829, 396)
         Me.lvHandles.TabIndex = 3
         Me.lvHandles.UseCompatibleStateImageBehavior = False
         Me.lvHandles.View = System.Windows.Forms.View.Details
@@ -4417,640 +6657,6 @@ Partial Class frmMain
         Me.ColumnHeader16.Text = "Process"
         Me.ColumnHeader16.Width = 170
         '
-        'menuHandles
-        '
-        Me.menuHandles.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem19, Me.ToolStripSeparator3, Me.ToolStripMenuItem22, Me.ToolStripMenuItem1, Me.DisplayUnnamedHandlesToolStripMenuItem, Me.ToolStripMenuItem49, Me.ChooseColumnsToolStripMenuItem6})
-        Me.menuHandles.Name = "menuProc"
-        Me.menuHandles.Size = New System.Drawing.Size(211, 110)
-        '
-        'ToolStripMenuItem19
-        '
-        Me.ToolStripMenuItem19.Image = Global.YAPM.My.Resources.Resources.exe
-        Me.ToolStripMenuItem19.Name = "ToolStripMenuItem19"
-        Me.ToolStripMenuItem19.Size = New System.Drawing.Size(210, 22)
-        Me.ToolStripMenuItem19.Text = "&Select associated process"
-        '
-        'ToolStripSeparator3
-        '
-        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(207, 6)
-        '
-        'ToolStripMenuItem22
-        '
-        Me.ToolStripMenuItem22.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToolStripMenuItem22.Image = Global.YAPM.My.Resources.Resources.cross
-        Me.ToolStripMenuItem22.Name = "ToolStripMenuItem22"
-        Me.ToolStripMenuItem22.Size = New System.Drawing.Size(210, 22)
-        Me.ToolStripMenuItem22.Text = "Close item"
-        '
-        'ToolStripMenuItem1
-        '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(207, 6)
-        '
-        'DisplayUnnamedHandlesToolStripMenuItem
-        '
-        Me.DisplayUnnamedHandlesToolStripMenuItem.Name = "DisplayUnnamedHandlesToolStripMenuItem"
-        Me.DisplayUnnamedHandlesToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
-        Me.DisplayUnnamedHandlesToolStripMenuItem.Text = "Display unnamed handles"
-        '
-        'ToolStripMenuItem49
-        '
-        Me.ToolStripMenuItem49.Name = "ToolStripMenuItem49"
-        Me.ToolStripMenuItem49.Size = New System.Drawing.Size(207, 6)
-        '
-        'ChooseColumnsToolStripMenuItem6
-        '
-        Me.ChooseColumnsToolStripMenuItem6.Name = "ChooseColumnsToolStripMenuItem6"
-        Me.ChooseColumnsToolStripMenuItem6.Size = New System.Drawing.Size(210, 22)
-        Me.ChooseColumnsToolStripMenuItem6.Text = "Choose columns..."
-        '
-        'panelMain8
-        '
-        Me.panelMain8.Controls.Add(Me.splitMonitor)
-        Me.panelMain8.Location = New System.Drawing.Point(123, 171)
-        Me.panelMain8.Name = "panelMain8"
-        Me.panelMain8.Size = New System.Drawing.Size(634, 297)
-        Me.panelMain8.TabIndex = 50
-        Me.panelMain8.Visible = False
-        '
-        'splitMonitor
-        '
-        Me.splitMonitor.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.splitMonitor.Location = New System.Drawing.Point(0, 0)
-        Me.splitMonitor.Name = "splitMonitor"
-        '
-        'splitMonitor.Panel1
-        '
-        Me.splitMonitor.Panel1.Controls.Add(Me.tvMonitor)
-        '
-        'splitMonitor.Panel2
-        '
-        Me.splitMonitor.Panel2.Controls.Add(Me.splitMonitor2)
-        Me.splitMonitor.Size = New System.Drawing.Size(634, 297)
-        Me.splitMonitor.SplitterDistance = 210
-        Me.splitMonitor.TabIndex = 0
-        '
-        'tvMonitor
-        '
-        Me.tvMonitor.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tvMonitor.FullRowSelect = True
-        Me.tvMonitor.ImageIndex = 0
-        Me.tvMonitor.ImageList = Me.imgMonitor
-        Me.tvMonitor.Location = New System.Drawing.Point(0, 0)
-        Me.tvMonitor.Name = "tvMonitor"
-        TreeNode3.ImageIndex = 1
-        TreeNode3.Name = "processes"
-        TreeNode3.SelectedImageIndex = 1
-        TreeNode3.Text = "Processes"
-        Me.tvMonitor.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode3})
-        Me.tvMonitor.SelectedImageIndex = 0
-        Me.tvMonitor.Size = New System.Drawing.Size(210, 297)
-        Me.tvMonitor.TabIndex = 0
-        '
-        'imgMonitor
-        '
-        Me.imgMonitor.ImageStream = CType(resources.GetObject("imgMonitor.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgMonitor.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgMonitor.Images.SetKeyName(0, "down")
-        Me.imgMonitor.Images.SetKeyName(1, "sub")
-        Me.imgMonitor.Images.SetKeyName(2, "exe")
-        '
-        'splitMonitor2
-        '
-        Me.splitMonitor2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.splitMonitor2.Location = New System.Drawing.Point(0, 0)
-        Me.splitMonitor2.Name = "splitMonitor2"
-        Me.splitMonitor2.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'splitMonitor2.Panel1
-        '
-        Me.splitMonitor2.Panel1.BackColor = System.Drawing.SystemColors.ButtonFace
-        Me.splitMonitor2.Panel1.Controls.Add(Me.txtMonitoringLog)
-        Me.splitMonitor2.Panel1.Controls.Add(Me.lvMonitorReport)
-        '
-        'splitMonitor2.Panel2
-        '
-        Me.splitMonitor2.Panel2.Controls.Add(Me.splitMonitor3)
-        Me.splitMonitor2.Size = New System.Drawing.Size(420, 297)
-        Me.splitMonitor2.SplitterDistance = 125
-        Me.splitMonitor2.TabIndex = 0
-        '
-        'txtMonitoringLog
-        '
-        Me.txtMonitoringLog.BackColor = System.Drawing.Color.White
-        Me.txtMonitoringLog.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.txtMonitoringLog.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMonitoringLog.Location = New System.Drawing.Point(0, 0)
-        Me.txtMonitoringLog.Multiline = True
-        Me.txtMonitoringLog.Name = "txtMonitoringLog"
-        Me.txtMonitoringLog.ReadOnly = True
-        Me.txtMonitoringLog.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.txtMonitoringLog.Size = New System.Drawing.Size(420, 125)
-        Me.txtMonitoringLog.TabIndex = 0
-        Me.txtMonitoringLog.Text = "No process monitored." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Click on 'Add' button to monitor a process."
-        '
-        'lvMonitorReport
-        '
-        Me.lvMonitorReport.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader22, Me.ColumnHeader23, Me.ColumnHeader47, Me.ColumnHeader48, Me.ColumnHeader49})
-        Me.lvMonitorReport.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvMonitorReport.FullRowSelect = True
-        Me.lvMonitorReport.Location = New System.Drawing.Point(0, 0)
-        Me.lvMonitorReport.Name = "lvMonitorReport"
-        Me.lvMonitorReport.OverriddenDoubleBuffered = False
-        Me.lvMonitorReport.Size = New System.Drawing.Size(420, 125)
-        Me.lvMonitorReport.TabIndex = 1
-        Me.lvMonitorReport.UseCompatibleStateImageBehavior = False
-        Me.lvMonitorReport.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader22
-        '
-        Me.ColumnHeader22.Text = "Counter"
-        Me.ColumnHeader22.Width = 200
-        '
-        'ColumnHeader23
-        '
-        Me.ColumnHeader23.Text = "Creation date"
-        Me.ColumnHeader23.Width = 100
-        '
-        'ColumnHeader47
-        '
-        Me.ColumnHeader47.Text = "Last start"
-        Me.ColumnHeader47.Width = 100
-        '
-        'ColumnHeader48
-        '
-        Me.ColumnHeader48.Text = "State"
-        '
-        'ColumnHeader49
-        '
-        Me.ColumnHeader49.Text = "Interval"
-        '
-        'splitMonitor3
-        '
-        Me.splitMonitor3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.splitMonitor3.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
-        Me.splitMonitor3.IsSplitterFixed = True
-        Me.splitMonitor3.Location = New System.Drawing.Point(0, 0)
-        Me.splitMonitor3.Name = "splitMonitor3"
-        Me.splitMonitor3.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'splitMonitor3.Panel1
-        '
-        Me.splitMonitor3.Panel1.Controls.Add(Me.splitMonitor4)
-        '
-        'splitMonitor3.Panel2
-        '
-        Me.splitMonitor3.Panel2.Controls.Add(Me.txtMonitorNumber)
-        Me.splitMonitor3.Panel2.Controls.Add(Me.lblMonitorMaxNumber)
-        Me.splitMonitor3.Panel2.Controls.Add(Me.chkMonitorRightAuto)
-        Me.splitMonitor3.Panel2.Controls.Add(Me.chkMonitorLeftAuto)
-        Me.splitMonitor3.Panel2.Controls.Add(Me.dtMonitorR)
-        Me.splitMonitor3.Panel2.Controls.Add(Me.dtMonitorL)
-        Me.splitMonitor3.Size = New System.Drawing.Size(420, 168)
-        Me.splitMonitor3.SplitterDistance = 139
-        Me.splitMonitor3.TabIndex = 0
-        '
-        'splitMonitor4
-        '
-        Me.splitMonitor4.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.splitMonitor4.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.splitMonitor4.IsSplitterFixed = True
-        Me.splitMonitor4.Location = New System.Drawing.Point(0, 0)
-        Me.splitMonitor4.Name = "splitMonitor4"
-        Me.splitMonitor4.Orientation = System.Windows.Forms.Orientation.Horizontal
-        Me.splitMonitor4.Panel1Collapsed = True
-        '
-        'splitMonitor4.Panel2
-        '
-        Me.splitMonitor4.Panel2.Controls.Add(Me.graphMonitor)
-        Me.splitMonitor4.Size = New System.Drawing.Size(420, 139)
-        Me.splitMonitor4.SplitterDistance = 25
-        Me.splitMonitor4.TabIndex = 4
-        '
-        'graphMonitor
-        '
-        Me.graphMonitor.BackColor = System.Drawing.Color.Black
-        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
-        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
-        Me.graphMonitor.dDate = New Date(CType(0, Long))
-        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphMonitor.EnableGraph = False
-        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
-        Me.graphMonitor.Name = "graphMonitor"
-        Me.graphMonitor.Size = New System.Drawing.Size(420, 139)
-        Me.graphMonitor.TabIndex = 3
-        Me.graphMonitor.TabStop = False
-        Me.graphMonitor.ViewMax = 0
-        Me.graphMonitor.ViewMin = 0
-        '
-        'txtMonitorNumber
-        '
-        Me.txtMonitorNumber.Location = New System.Drawing.Point(241, 0)
-        Me.txtMonitorNumber.Name = "txtMonitorNumber"
-        Me.txtMonitorNumber.Size = New System.Drawing.Size(33, 22)
-        Me.txtMonitorNumber.TabIndex = 11
-        Me.txtMonitorNumber.Text = "200"
-        '
-        'lblMonitorMaxNumber
-        '
-        Me.lblMonitorMaxNumber.AutoSize = True
-        Me.lblMonitorMaxNumber.Location = New System.Drawing.Point(171, 6)
-        Me.lblMonitorMaxNumber.Name = "lblMonitorMaxNumber"
-        Me.lblMonitorMaxNumber.Size = New System.Drawing.Size(66, 13)
-        Me.lblMonitorMaxNumber.TabIndex = 10
-        Me.lblMonitorMaxNumber.Text = "Max. values"
-        '
-        'chkMonitorRightAuto
-        '
-        Me.chkMonitorRightAuto.AutoSize = True
-        Me.chkMonitorRightAuto.Checked = True
-        Me.chkMonitorRightAuto.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkMonitorRightAuto.Dock = System.Windows.Forms.DockStyle.Right
-        Me.chkMonitorRightAuto.Location = New System.Drawing.Point(281, 0)
-        Me.chkMonitorRightAuto.Name = "chkMonitorRightAuto"
-        Me.chkMonitorRightAuto.Size = New System.Drawing.Size(50, 25)
-        Me.chkMonitorRightAuto.TabIndex = 9
-        Me.chkMonitorRightAuto.Text = "Now"
-        Me.chkMonitorRightAuto.UseVisualStyleBackColor = True
-        '
-        'chkMonitorLeftAuto
-        '
-        Me.chkMonitorLeftAuto.AutoSize = True
-        Me.chkMonitorLeftAuto.Checked = True
-        Me.chkMonitorLeftAuto.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkMonitorLeftAuto.Location = New System.Drawing.Point(95, 4)
-        Me.chkMonitorLeftAuto.Name = "chkMonitorLeftAuto"
-        Me.chkMonitorLeftAuto.Size = New System.Drawing.Size(78, 17)
-        Me.chkMonitorLeftAuto.TabIndex = 8
-        Me.chkMonitorLeftAuto.Text = "Automatic"
-        Me.chkMonitorLeftAuto.UseVisualStyleBackColor = True
-        '
-        'dtMonitorR
-        '
-        Me.dtMonitorR.Dock = System.Windows.Forms.DockStyle.Right
-        Me.dtMonitorR.Enabled = False
-        Me.dtMonitorR.Format = System.Windows.Forms.DateTimePickerFormat.Time
-        Me.dtMonitorR.Location = New System.Drawing.Point(331, 0)
-        Me.dtMonitorR.Name = "dtMonitorR"
-        Me.dtMonitorR.Size = New System.Drawing.Size(89, 22)
-        Me.dtMonitorR.TabIndex = 7
-        '
-        'dtMonitorL
-        '
-        Me.dtMonitorL.Dock = System.Windows.Forms.DockStyle.Left
-        Me.dtMonitorL.Enabled = False
-        Me.dtMonitorL.Format = System.Windows.Forms.DateTimePickerFormat.Time
-        Me.dtMonitorL.Location = New System.Drawing.Point(0, 0)
-        Me.dtMonitorL.Name = "dtMonitorL"
-        Me.dtMonitorL.Size = New System.Drawing.Size(89, 22)
-        Me.dtMonitorL.TabIndex = 6
-        '
-        'timerMonitoring
-        '
-        Me.timerMonitoring.Interval = 1000
-        '
-        'panelMain9
-        '
-        Me.panelMain9.Controls.Add(Me.splitThreads)
-        Me.panelMain9.Location = New System.Drawing.Point(119, 163)
-        Me.panelMain9.Name = "panelMain9"
-        Me.panelMain9.Size = New System.Drawing.Size(565, 276)
-        Me.panelMain9.TabIndex = 51
-        Me.panelMain9.Visible = False
-        '
-        'splitThreads
-        '
-        Me.splitThreads.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.splitThreads.Location = New System.Drawing.Point(0, 0)
-        Me.splitThreads.Name = "splitThreads"
-        Me.splitThreads.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'splitThreads.Panel1
-        '
-        Me.splitThreads.Panel1.Controls.Add(Me.SplitContainerThreads)
-        '
-        'splitThreads.Panel2
-        '
-        Me.splitThreads.Panel2.Controls.Add(Me.rtb4)
-        Me.splitThreads.Size = New System.Drawing.Size(565, 276)
-        Me.splitThreads.SplitterDistance = 188
-        Me.splitThreads.TabIndex = 0
-        '
-        'SplitContainerThreads
-        '
-        Me.SplitContainerThreads.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainerThreads.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.SplitContainerThreads.IsSplitterFixed = True
-        Me.SplitContainerThreads.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainerThreads.Name = "SplitContainerThreads"
-        Me.SplitContainerThreads.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainerThreads.Panel1
-        '
-        Me.SplitContainerThreads.Panel1.Controls.Add(Me.Label8)
-        Me.SplitContainerThreads.Panel1.Controls.Add(Me.lblThreadResults)
-        Me.SplitContainerThreads.Panel1.Controls.Add(Me.txtSearchThread)
-        '
-        'SplitContainerThreads.Panel2
-        '
-        Me.SplitContainerThreads.Panel2.Controls.Add(Me.lvThreads)
-        Me.SplitContainerThreads.Size = New System.Drawing.Size(565, 188)
-        Me.SplitContainerThreads.SplitterDistance = 25
-        Me.SplitContainerThreads.TabIndex = 0
-        '
-        'Label8
-        '
-        Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(3, 5)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(78, 13)
-        Me.Label8.TabIndex = 10
-        Me.Label8.Text = "Search thread"
-        '
-        'lblThreadResults
-        '
-        Me.lblThreadResults.AutoSize = True
-        Me.lblThreadResults.Location = New System.Drawing.Point(393, 5)
-        Me.lblThreadResults.Name = "lblThreadResults"
-        Me.lblThreadResults.Size = New System.Drawing.Size(56, 13)
-        Me.lblThreadResults.TabIndex = 9
-        Me.lblThreadResults.Text = "0 result(s)"
-        '
-        'txtSearchThread
-        '
-        Me.txtSearchThread.Location = New System.Drawing.Point(86, 2)
-        Me.txtSearchThread.Name = "txtSearchThread"
-        Me.txtSearchThread.Size = New System.Drawing.Size(298, 22)
-        Me.txtSearchThread.TabIndex = 8
-        '
-        'lvThreads
-        '
-        Me.lvThreads.AllowColumnReorder = True
-        Me.lvThreads.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader33, Me.ColumnHeader34, Me.ColumnHeader35, Me.ColumnHeader36, Me.ColumnHeader37, Me.ColumnHeader38})
-        Me.lvThreads.ContextMenuStrip = Me.menuThread
-        Me.lvThreads.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvThreads.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvThreads.FullRowSelect = True
-        ListViewGroup11.Header = "Threads"
-        ListViewGroup11.Name = "gpOther"
-        ListViewGroup12.Header = "Search results"
-        ListViewGroup12.Name = "gpSearchResults"
-        Me.lvThreads.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup11, ListViewGroup12})
-        Me.lvThreads.HideSelection = False
-        Me.lvThreads.Location = New System.Drawing.Point(0, 0)
-        Me.lvThreads.Name = "lvThreads"
-        Me.lvThreads.OverriddenDoubleBuffered = True
-        Me.lvThreads.ProcessId = Nothing
-        Me.lvThreads.ShowUnNamed = False
-        Me.lvThreads.Size = New System.Drawing.Size(565, 159)
-        Me.lvThreads.TabIndex = 3
-        Me.lvThreads.UseCompatibleStateImageBehavior = False
-        Me.lvThreads.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader32
-        '
-        Me.ColumnHeader32.Text = "Id"
-        '
-        'ColumnHeader33
-        '
-        Me.ColumnHeader33.Text = "OwnerProcessId"
-        Me.ColumnHeader33.Width = 150
-        '
-        'ColumnHeader34
-        '
-        Me.ColumnHeader34.Text = "Priority"
-        Me.ColumnHeader34.Width = 100
-        '
-        'ColumnHeader35
-        '
-        Me.ColumnHeader35.Text = "State"
-        Me.ColumnHeader35.Width = 70
-        '
-        'ColumnHeader36
-        '
-        Me.ColumnHeader36.Text = "WaitReason"
-        Me.ColumnHeader36.Width = 100
-        '
-        'ColumnHeader37
-        '
-        Me.ColumnHeader37.Text = "StartTime"
-        Me.ColumnHeader37.Width = 200
-        '
-        'ColumnHeader38
-        '
-        Me.ColumnHeader38.Text = "TotalProcessorTime"
-        Me.ColumnHeader38.Width = 200
-        '
-        'menuThread
-        '
-        Me.menuThread.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem23, Me.ToolStripMenuItem24, Me.ToolStripMenuItem25, Me.ToolStripMenuItem26, Me.ToolStripMenuItem33, Me.SelectedAssociatedProcessToolStripMenuItem, Me.ToolStripMenuItem43, Me.ChooseColumnsToolStripMenuItem4})
-        Me.menuThread.Name = "menuProc"
-        Me.menuThread.Size = New System.Drawing.Size(220, 164)
-        '
-        'ToolStripMenuItem23
-        '
-        Me.ToolStripMenuItem23.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToolStripMenuItem23.Image = Global.YAPM.My.Resources.Resources.cross
-        Me.ToolStripMenuItem23.Name = "ToolStripMenuItem23"
-        Me.ToolStripMenuItem23.Size = New System.Drawing.Size(219, 22)
-        Me.ToolStripMenuItem23.Text = "Terminate"
-        '
-        'ToolStripMenuItem24
-        '
-        Me.ToolStripMenuItem24.Image = Global.YAPM.My.Resources.Resources.control_pause
-        Me.ToolStripMenuItem24.Name = "ToolStripMenuItem24"
-        Me.ToolStripMenuItem24.Size = New System.Drawing.Size(219, 22)
-        Me.ToolStripMenuItem24.Text = "Suspend"
-        '
-        'ToolStripMenuItem25
-        '
-        Me.ToolStripMenuItem25.Image = Global.YAPM.My.Resources.Resources.control
-        Me.ToolStripMenuItem25.Name = "ToolStripMenuItem25"
-        Me.ToolStripMenuItem25.Size = New System.Drawing.Size(219, 22)
-        Me.ToolStripMenuItem25.Text = "Resume"
-        '
-        'ToolStripMenuItem26
-        '
-        Me.ToolStripMenuItem26.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem27, Me.LowestToolStripMenuItem, Me.ToolStripMenuItem28, Me.ToolStripMenuItem29, Me.ToolStripMenuItem30, Me.ToolStripMenuItem31, Me.ToolStripMenuItem32})
-        Me.ToolStripMenuItem26.Name = "ToolStripMenuItem26"
-        Me.ToolStripMenuItem26.Size = New System.Drawing.Size(219, 22)
-        Me.ToolStripMenuItem26.Text = "Priotiy"
-        '
-        'ToolStripMenuItem27
-        '
-        Me.ToolStripMenuItem27.Image = CType(resources.GetObject("ToolStripMenuItem27.Image"), System.Drawing.Image)
-        Me.ToolStripMenuItem27.Name = "ToolStripMenuItem27"
-        Me.ToolStripMenuItem27.Size = New System.Drawing.Size(151, 22)
-        Me.ToolStripMenuItem27.Text = "Idle"
-        '
-        'LowestToolStripMenuItem
-        '
-        Me.LowestToolStripMenuItem.Image = CType(resources.GetObject("LowestToolStripMenuItem.Image"), System.Drawing.Image)
-        Me.LowestToolStripMenuItem.Name = "LowestToolStripMenuItem"
-        Me.LowestToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
-        Me.LowestToolStripMenuItem.Text = "Lowest"
-        '
-        'ToolStripMenuItem28
-        '
-        Me.ToolStripMenuItem28.Image = CType(resources.GetObject("ToolStripMenuItem28.Image"), System.Drawing.Image)
-        Me.ToolStripMenuItem28.Name = "ToolStripMenuItem28"
-        Me.ToolStripMenuItem28.Size = New System.Drawing.Size(151, 22)
-        Me.ToolStripMenuItem28.Text = "Below Normal"
-        '
-        'ToolStripMenuItem29
-        '
-        Me.ToolStripMenuItem29.Image = CType(resources.GetObject("ToolStripMenuItem29.Image"), System.Drawing.Image)
-        Me.ToolStripMenuItem29.Name = "ToolStripMenuItem29"
-        Me.ToolStripMenuItem29.Size = New System.Drawing.Size(151, 22)
-        Me.ToolStripMenuItem29.Text = "Normal"
-        '
-        'ToolStripMenuItem30
-        '
-        Me.ToolStripMenuItem30.Image = CType(resources.GetObject("ToolStripMenuItem30.Image"), System.Drawing.Image)
-        Me.ToolStripMenuItem30.Name = "ToolStripMenuItem30"
-        Me.ToolStripMenuItem30.Size = New System.Drawing.Size(151, 22)
-        Me.ToolStripMenuItem30.Text = "Above Normal"
-        '
-        'ToolStripMenuItem31
-        '
-        Me.ToolStripMenuItem31.Image = CType(resources.GetObject("ToolStripMenuItem31.Image"), System.Drawing.Image)
-        Me.ToolStripMenuItem31.Name = "ToolStripMenuItem31"
-        Me.ToolStripMenuItem31.Size = New System.Drawing.Size(151, 22)
-        Me.ToolStripMenuItem31.Text = "Highest"
-        '
-        'ToolStripMenuItem32
-        '
-        Me.ToolStripMenuItem32.Image = CType(resources.GetObject("ToolStripMenuItem32.Image"), System.Drawing.Image)
-        Me.ToolStripMenuItem32.Name = "ToolStripMenuItem32"
-        Me.ToolStripMenuItem32.Size = New System.Drawing.Size(151, 22)
-        Me.ToolStripMenuItem32.Text = "Time Critical"
-        '
-        'ToolStripMenuItem33
-        '
-        Me.ToolStripMenuItem33.Name = "ToolStripMenuItem33"
-        Me.ToolStripMenuItem33.Size = New System.Drawing.Size(219, 22)
-        Me.ToolStripMenuItem33.Text = "Set affinity..."
-        '
-        'SelectedAssociatedProcessToolStripMenuItem
-        '
-        Me.SelectedAssociatedProcessToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.exe
-        Me.SelectedAssociatedProcessToolStripMenuItem.Name = "SelectedAssociatedProcessToolStripMenuItem"
-        Me.SelectedAssociatedProcessToolStripMenuItem.Size = New System.Drawing.Size(219, 22)
-        Me.SelectedAssociatedProcessToolStripMenuItem.Text = "Selected associated process"
-        '
-        'ToolStripMenuItem43
-        '
-        Me.ToolStripMenuItem43.Name = "ToolStripMenuItem43"
-        Me.ToolStripMenuItem43.Size = New System.Drawing.Size(216, 6)
-        '
-        'ChooseColumnsToolStripMenuItem4
-        '
-        Me.ChooseColumnsToolStripMenuItem4.Name = "ChooseColumnsToolStripMenuItem4"
-        Me.ChooseColumnsToolStripMenuItem4.Size = New System.Drawing.Size(219, 22)
-        Me.ChooseColumnsToolStripMenuItem4.Text = "Choose columns..."
-        '
-        'rtb4
-        '
-        Me.rtb4.AutoWordSelection = True
-        Me.rtb4.BackColor = System.Drawing.Color.White
-        Me.rtb4.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.rtb4.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.rtb4.HideSelection = False
-        Me.rtb4.Location = New System.Drawing.Point(0, 0)
-        Me.rtb4.Name = "rtb4"
-        Me.rtb4.ReadOnly = True
-        Me.rtb4.Size = New System.Drawing.Size(565, 84)
-        Me.rtb4.TabIndex = 7
-        Me.rtb4.Text = "Click on a thread to get additionnal informations"
-        '
-        'panelMain10
-        '
-        Me.panelMain10.Controls.Add(Me.splitContainerWindows)
-        Me.panelMain10.Location = New System.Drawing.Point(127, 171)
-        Me.panelMain10.Name = "panelMain10"
-        Me.panelMain10.Size = New System.Drawing.Size(565, 276)
-        Me.panelMain10.TabIndex = 52
-        Me.panelMain10.Visible = False
-        '
-        'splitContainerWindows
-        '
-        Me.splitContainerWindows.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.splitContainerWindows.Location = New System.Drawing.Point(0, 0)
-        Me.splitContainerWindows.Name = "splitContainerWindows"
-        Me.splitContainerWindows.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'splitContainerWindows.Panel1
-        '
-        Me.splitContainerWindows.Panel1.Controls.Add(Me.SplitContainerWindows2)
-        '
-        'splitContainerWindows.Panel2
-        '
-        Me.splitContainerWindows.Panel2.Controls.Add(Me.rtb5)
-        Me.splitContainerWindows.Size = New System.Drawing.Size(565, 276)
-        Me.splitContainerWindows.SplitterDistance = 172
-        Me.splitContainerWindows.TabIndex = 0
-        '
-        'SplitContainerWindows2
-        '
-        Me.SplitContainerWindows2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainerWindows2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.SplitContainerWindows2.IsSplitterFixed = True
-        Me.SplitContainerWindows2.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainerWindows2.Name = "SplitContainerWindows2"
-        Me.SplitContainerWindows2.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainerWindows2.Panel1
-        '
-        Me.SplitContainerWindows2.Panel1.Controls.Add(Me.chkAllWindows)
-        Me.SplitContainerWindows2.Panel1.Controls.Add(Me.Label10)
-        Me.SplitContainerWindows2.Panel1.Controls.Add(Me.lblWindowsCount)
-        Me.SplitContainerWindows2.Panel1.Controls.Add(Me.txtSearchWindow)
-        '
-        'SplitContainerWindows2.Panel2
-        '
-        Me.SplitContainerWindows2.Panel2.Controls.Add(Me.lvWindows)
-        Me.SplitContainerWindows2.Size = New System.Drawing.Size(565, 172)
-        Me.SplitContainerWindows2.SplitterDistance = 25
-        Me.SplitContainerWindows2.TabIndex = 0
-        '
-        'chkAllWindows
-        '
-        Me.chkAllWindows.AutoSize = True
-        Me.chkAllWindows.Checked = True
-        Me.chkAllWindows.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkAllWindows.Location = New System.Drawing.Point(543, 4)
-        Me.chkAllWindows.Name = "chkAllWindows"
-        Me.chkAllWindows.Size = New System.Drawing.Size(199, 17)
-        Me.chkAllWindows.TabIndex = 11
-        Me.chkAllWindows.Text = "Display windows without caption"
-        Me.chkAllWindows.UseVisualStyleBackColor = True
-        '
-        'Label10
-        '
-        Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(3, 5)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(86, 13)
-        Me.Label10.TabIndex = 10
-        Me.Label10.Text = "Search window"
-        '
-        'lblWindowsCount
-        '
-        Me.lblWindowsCount.AutoSize = True
-        Me.lblWindowsCount.Location = New System.Drawing.Point(393, 5)
-        Me.lblWindowsCount.Name = "lblWindowsCount"
-        Me.lblWindowsCount.Size = New System.Drawing.Size(56, 13)
-        Me.lblWindowsCount.TabIndex = 9
-        Me.lblWindowsCount.Text = "0 result(s)"
-        '
-        'txtSearchWindow
-        '
-        Me.txtSearchWindow.Location = New System.Drawing.Point(90, 2)
-        Me.txtSearchWindow.Name = "txtSearchWindow"
-        Me.txtSearchWindow.Size = New System.Drawing.Size(294, 22)
-        Me.txtSearchWindow.TabIndex = 8
-        '
         'lvWindows
         '
         Me.lvWindows.AllowColumnReorder = True
@@ -5059,11 +6665,11 @@ Partial Class frmMain
         Me.lvWindows.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvWindows.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvWindows.FullRowSelect = True
-        ListViewGroup13.Header = "Windows"
-        ListViewGroup13.Name = "gpOther"
-        ListViewGroup14.Header = "Search results"
-        ListViewGroup14.Name = "gpSearchResults"
-        Me.lvWindows.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup13, ListViewGroup14})
+        ListViewGroup11.Header = "Windows"
+        ListViewGroup11.Name = "gpOther"
+        ListViewGroup12.Header = "Search results"
+        ListViewGroup12.Name = "gpSearchResults"
+        Me.lvWindows.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup11, ListViewGroup12})
         Me.lvWindows.HideSelection = False
         Me.lvWindows.Location = New System.Drawing.Point(0, 0)
         Me.lvWindows.Name = "lvWindows"
@@ -5071,7 +6677,7 @@ Partial Class frmMain
         Me.lvWindows.ProcessId = Nothing
         Me.lvWindows.ShowAllPid = False
         Me.lvWindows.ShowUnNamed = False
-        Me.lvWindows.Size = New System.Drawing.Size(565, 143)
+        Me.lvWindows.Size = New System.Drawing.Size(829, 234)
         Me.lvWindows.TabIndex = 5
         Me.lvWindows.UseCompatibleStateImageBehavior = False
         Me.lvWindows.View = System.Windows.Forms.View.Details
@@ -5103,424 +6709,116 @@ Partial Class frmMain
         '
         Me.ColumnHeader42.Text = "Visible"
         '
-        'menuWindow
+        'lvMonitorReport
         '
-        Me.menuWindow.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem34, Me.ToolStripMenuItem7, Me.ChooseColumnsToolStripMenuItem2})
-        Me.menuWindow.Name = "menuProc"
-        Me.menuWindow.Size = New System.Drawing.Size(207, 54)
+        Me.lvMonitorReport.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader22, Me.ColumnHeader23, Me.ColumnHeader47, Me.ColumnHeader48, Me.ColumnHeader49})
+        Me.lvMonitorReport.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvMonitorReport.FullRowSelect = True
+        Me.lvMonitorReport.Location = New System.Drawing.Point(0, 0)
+        Me.lvMonitorReport.Name = "lvMonitorReport"
+        Me.lvMonitorReport.OverriddenDoubleBuffered = False
+        Me.lvMonitorReport.Size = New System.Drawing.Size(551, 178)
+        Me.lvMonitorReport.TabIndex = 1
+        Me.lvMonitorReport.UseCompatibleStateImageBehavior = False
+        Me.lvMonitorReport.View = System.Windows.Forms.View.Details
         '
-        'ToolStripMenuItem34
+        'ColumnHeader22
         '
-        Me.ToolStripMenuItem34.Image = Global.YAPM.My.Resources.Resources.exe
-        Me.ToolStripMenuItem34.Name = "ToolStripMenuItem34"
-        Me.ToolStripMenuItem34.Size = New System.Drawing.Size(206, 22)
-        Me.ToolStripMenuItem34.Text = "&Select associated process"
+        Me.ColumnHeader22.Text = "Counter"
+        Me.ColumnHeader22.Width = 200
         '
-        'ToolStripMenuItem7
+        'ColumnHeader23
         '
-        Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
-        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(203, 6)
+        Me.ColumnHeader23.Text = "Creation date"
+        Me.ColumnHeader23.Width = 100
         '
-        'ChooseColumnsToolStripMenuItem2
+        'ColumnHeader47
         '
-        Me.ChooseColumnsToolStripMenuItem2.Name = "ChooseColumnsToolStripMenuItem2"
-        Me.ChooseColumnsToolStripMenuItem2.Size = New System.Drawing.Size(206, 22)
-        Me.ChooseColumnsToolStripMenuItem2.Text = "Choose columns..."
+        Me.ColumnHeader47.Text = "Last start"
+        Me.ColumnHeader47.Width = 100
         '
-        'rtb5
-        '
-        Me.rtb5.AutoWordSelection = True
-        Me.rtb5.BackColor = System.Drawing.Color.White
-        Me.rtb5.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.rtb5.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.rtb5.HideSelection = False
-        Me.rtb5.Location = New System.Drawing.Point(0, 0)
-        Me.rtb5.Name = "rtb5"
-        Me.rtb5.ReadOnly = True
-        Me.rtb5.Size = New System.Drawing.Size(565, 100)
-        Me.rtb5.TabIndex = 8
-        Me.rtb5.Text = "Click on an item to get additionnal informations"
-        '
-        'panelMain11
-        '
-        Me.panelMain11.Controls.Add(Me.splitModule)
-        Me.panelMain11.Location = New System.Drawing.Point(120, 163)
-        Me.panelMain11.Name = "panelMain11"
-        Me.panelMain11.Size = New System.Drawing.Size(565, 276)
-        Me.panelMain11.TabIndex = 53
-        Me.panelMain11.Visible = False
-        '
-        'splitModule
+        'ColumnHeader48
         '
-        Me.splitModule.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.splitModule.Location = New System.Drawing.Point(0, 0)
-        Me.splitModule.Name = "splitModule"
-        Me.splitModule.Orientation = System.Windows.Forms.Orientation.Horizontal
+        Me.ColumnHeader48.Text = "State"
         '
-        'splitModule.Panel1
+        'ColumnHeader49
         '
-        Me.splitModule.Panel1.Controls.Add(Me.SplitContainerModules)
+        Me.ColumnHeader49.Text = "Interval"
         '
-        'splitModule.Panel2
+        'graphMonitor
         '
-        Me.splitModule.Panel2.Controls.Add(Me.rtb6)
-        Me.splitModule.Size = New System.Drawing.Size(565, 276)
-        Me.splitModule.SplitterDistance = 172
-        Me.splitModule.TabIndex = 0
+        Me.graphMonitor.BackColor = System.Drawing.Color.Black
+        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
+        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
+        Me.graphMonitor.dDate = New Date(CType(0, Long))
+        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphMonitor.EnableGraph = False
+        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
+        Me.graphMonitor.Name = "graphMonitor"
+        Me.graphMonitor.Size = New System.Drawing.Size(551, 214)
+        Me.graphMonitor.TabIndex = 3
+        Me.graphMonitor.TabStop = False
+        Me.graphMonitor.ViewMax = 0
+        Me.graphMonitor.ViewMin = 0
         '
-        'SplitContainerModules
+        'lvServices
         '
-        Me.SplitContainerModules.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainerModules.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.SplitContainerModules.IsSplitterFixed = True
-        Me.SplitContainerModules.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainerModules.Name = "SplitContainerModules"
-        Me.SplitContainerModules.Orientation = System.Windows.Forms.Orientation.Horizontal
+        Me.lvServices.AllowColumnReorder = True
+        Me.lvServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader11, Me.ColumnHeader19})
+        Me.lvServices.ContextMenuStrip = Me.menuService
+        Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvServices.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvServices.FullRowSelect = True
+        ListViewGroup13.Header = "Services"
+        ListViewGroup13.Name = "gpOther"
+        ListViewGroup14.Header = "Search result"
+        ListViewGroup14.Name = "gpSearch"
+        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup13, ListViewGroup14})
+        Me.lvServices.HideSelection = False
+        Me.lvServices.Location = New System.Drawing.Point(0, 0)
+        Me.lvServices.Name = "lvServices"
+        Me.lvServices.OverriddenDoubleBuffered = True
+        Me.lvServices.ProcessId = 0
+        Me.lvServices.ShowAll = False
+        Me.lvServices.Size = New System.Drawing.Size(829, 251)
+        Me.lvServices.TabIndex = 1
+        Me.lvServices.UseCompatibleStateImageBehavior = False
+        Me.lvServices.View = System.Windows.Forms.View.Details
         '
-        'SplitContainerModules.Panel1
+        'ColumnHeader3
         '
-        Me.SplitContainerModules.Panel1.Controls.Add(Me.Label7)
-        Me.SplitContainerModules.Panel1.Controls.Add(Me.lblModulesCount)
-        Me.SplitContainerModules.Panel1.Controls.Add(Me.txtSearchModule)
+        Me.ColumnHeader3.Text = "Name"
+        Me.ColumnHeader3.Width = 121
         '
-        'SplitContainerModules.Panel2
+        'ColumnHeader7
         '
-        Me.SplitContainerModules.Panel2.Controls.Add(Me.lvModules)
-        Me.SplitContainerModules.Size = New System.Drawing.Size(565, 172)
-        Me.SplitContainerModules.SplitterDistance = 25
-        Me.SplitContainerModules.TabIndex = 0
+        Me.ColumnHeader7.Text = "DisplayName"
+        Me.ColumnHeader7.Width = 243
         '
-        'Label7
+        'ColumnHeader8
         '
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(3, 5)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(83, 13)
-        Me.Label7.TabIndex = 7
-        Me.Label7.Text = "Search module"
+        Me.ColumnHeader8.Text = "State"
+        Me.ColumnHeader8.Width = 79
         '
-        'lblModulesCount
+        'ColumnHeader9
         '
-        Me.lblModulesCount.AutoSize = True
-        Me.lblModulesCount.Location = New System.Drawing.Point(393, 5)
-        Me.lblModulesCount.Name = "lblModulesCount"
-        Me.lblModulesCount.Size = New System.Drawing.Size(56, 13)
-        Me.lblModulesCount.TabIndex = 6
-        Me.lblModulesCount.Text = "0 result(s)"
+        Me.ColumnHeader9.Text = "StartType"
+        Me.ColumnHeader9.Width = 70
         '
-        'txtSearchModule
+        'ColumnHeader10
         '
-        Me.txtSearchModule.Location = New System.Drawing.Point(86, 2)
-        Me.txtSearchModule.Name = "txtSearchModule"
-        Me.txtSearchModule.Size = New System.Drawing.Size(298, 22)
-        Me.txtSearchModule.TabIndex = 5
+        Me.ColumnHeader10.Text = "ImagePath"
+        Me.ColumnHeader10.Width = 250
         '
-        'lvModules
+        'ColumnHeader11
         '
-        Me.lvModules.AllowColumnReorder = True
-        Me.lvModules.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader29, Me.ColumnHeader43, Me.ColumnHeader44, Me.ColumnHeader45, Me.ColumnHeader46, Me.ColumnHeader18})
-        Me.lvModules.ContextMenuStrip = Me.menuModule
-        Me.lvModules.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvModules.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvModules.FullRowSelect = True
-        ListViewGroup15.Header = "Modules"
-        ListViewGroup15.Name = "gpOther"
-        ListViewGroup16.Header = "Search result"
-        ListViewGroup16.Name = "gpSearchResults"
-        Me.lvModules.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup15, ListViewGroup16})
-        Me.lvModules.HideSelection = False
-        Me.lvModules.Location = New System.Drawing.Point(0, 0)
-        Me.lvModules.Name = "lvModules"
-        Me.lvModules.OverriddenDoubleBuffered = True
-        Me.lvModules.ProcessId = 0
-        Me.lvModules.Size = New System.Drawing.Size(565, 143)
-        Me.lvModules.TabIndex = 6
-        Me.lvModules.UseCompatibleStateImageBehavior = False
-        Me.lvModules.View = System.Windows.Forms.View.Details
+        Me.ColumnHeader11.Text = "Process"
+        Me.ColumnHeader11.Width = 150
         '
-        'ColumnHeader29
+        'ColumnHeader19
         '
-        Me.ColumnHeader29.Text = "Name"
-        Me.ColumnHeader29.Width = 90
-        '
-        'ColumnHeader43
-        '
-        Me.ColumnHeader43.Text = "Version"
-        Me.ColumnHeader43.Width = 85
-        '
-        'ColumnHeader44
-        '
-        Me.ColumnHeader44.Text = "Description"
-        Me.ColumnHeader44.Width = 210
-        '
-        'ColumnHeader45
-        '
-        Me.ColumnHeader45.Text = "CompanyName"
-        Me.ColumnHeader45.Width = 150
-        '
-        'ColumnHeader46
-        '
-        Me.ColumnHeader46.Text = "Path"
-        Me.ColumnHeader46.Width = 300
-        '
-        'ColumnHeader18
-        '
-        Me.ColumnHeader18.Text = "Process"
-        Me.ColumnHeader18.Width = 100
-        '
-        'menuModule
-        '
-        Me.menuModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem35, Me.ToolStripSeparator4, Me.ShowFileDetailsToolStripMenuItem, Me.ToolStripMenuItem36, Me.ToolStripMenuItem39, Me.GoogleSearchToolStripMenuItem2, Me.ToolStripMenuItem41, Me.ChooseColumnsToolStripMenuItem3})
-        Me.menuModule.Name = "menuProc"
-        Me.menuModule.Size = New System.Drawing.Size(207, 132)
-        '
-        'ToolStripMenuItem35
-        '
-        Me.ToolStripMenuItem35.Image = Global.YAPM.My.Resources.Resources.exe
-        Me.ToolStripMenuItem35.Name = "ToolStripMenuItem35"
-        Me.ToolStripMenuItem35.Size = New System.Drawing.Size(206, 22)
-        Me.ToolStripMenuItem35.Text = "&Select associated process"
-        '
-        'ToolStripSeparator4
-        '
-        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(203, 6)
-        '
-        'ShowFileDetailsToolStripMenuItem
-        '
-        Me.ShowFileDetailsToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.magnifier
-        Me.ShowFileDetailsToolStripMenuItem.Name = "ShowFileDetailsToolStripMenuItem"
-        Me.ShowFileDetailsToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
-        Me.ShowFileDetailsToolStripMenuItem.Text = "Show file details"
-        '
-        'ToolStripMenuItem36
-        '
-        Me.ToolStripMenuItem36.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToolStripMenuItem36.Image = Global.YAPM.My.Resources.Resources.cross
-        Me.ToolStripMenuItem36.Name = "ToolStripMenuItem36"
-        Me.ToolStripMenuItem36.Size = New System.Drawing.Size(206, 22)
-        Me.ToolStripMenuItem36.Text = "Unload module"
-        '
-        'ToolStripMenuItem39
-        '
-        Me.ToolStripMenuItem39.Name = "ToolStripMenuItem39"
-        Me.ToolStripMenuItem39.Size = New System.Drawing.Size(203, 6)
-        '
-        'GoogleSearchToolStripMenuItem2
-        '
-        Me.GoogleSearchToolStripMenuItem2.Image = Global.YAPM.My.Resources.Resources.globe
-        Me.GoogleSearchToolStripMenuItem2.Name = "GoogleSearchToolStripMenuItem2"
-        Me.GoogleSearchToolStripMenuItem2.Size = New System.Drawing.Size(206, 22)
-        Me.GoogleSearchToolStripMenuItem2.Text = "Google search"
-        '
-        'ToolStripMenuItem41
-        '
-        Me.ToolStripMenuItem41.Name = "ToolStripMenuItem41"
-        Me.ToolStripMenuItem41.Size = New System.Drawing.Size(203, 6)
-        '
-        'ChooseColumnsToolStripMenuItem3
-        '
-        Me.ChooseColumnsToolStripMenuItem3.Name = "ChooseColumnsToolStripMenuItem3"
-        Me.ChooseColumnsToolStripMenuItem3.Size = New System.Drawing.Size(206, 22)
-        Me.ChooseColumnsToolStripMenuItem3.Text = "Choose columns..."
-        '
-        'rtb6
-        '
-        Me.rtb6.AutoWordSelection = True
-        Me.rtb6.BackColor = System.Drawing.Color.White
-        Me.rtb6.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.rtb6.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.rtb6.HideSelection = False
-        Me.rtb6.Location = New System.Drawing.Point(0, 0)
-        Me.rtb6.Name = "rtb6"
-        Me.rtb6.ReadOnly = True
-        Me.rtb6.Size = New System.Drawing.Size(565, 100)
-        Me.rtb6.TabIndex = 8
-        Me.rtb6.Text = "Click on an item to get additionnal informations"
-        '
-        'cmdTray
-        '
-        Me.cmdTray.ContextMenuStrip = Me.mainMenu
-        Me.cmdTray.Font = New System.Drawing.Font("Tahoma", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdTray.Image = Global.YAPM.My.Resources.Resources.down
-        Me.cmdTray.Location = New System.Drawing.Point(5, 2)
-        Me.cmdTray.Name = "cmdTray"
-        Me.cmdTray.Size = New System.Drawing.Size(38, 20)
-        Me.cmdTray.TabIndex = 45
-        Me.cmdTray.UseVisualStyleBackColor = True
-        '
-        'menuTasks
-        '
-        Me.menuTasks.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowWindowToolStripMenuItem, Me.MaximizeWindowToolStripMenuItem, Me.MinimizeWindowToolStripMenuItem, Me.ToolStripMenuItem46, Me.EndTaskToolStripMenuItem, Me.ToolStripMenuItem47, Me.ToolStripMenuItem45, Me.SelectWindowInWindowsTabToolStripMenuItem, Me.ToolStripMenuItem6, Me.ChooseColumnsToolStripMenuItem1})
-        Me.menuTasks.Name = "menuProc"
-        Me.menuTasks.Size = New System.Drawing.Size(236, 176)
-        '
-        'ShowWindowToolStripMenuItem
-        '
-        Me.ShowWindowToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ShowWindowToolStripMenuItem.Image = CType(resources.GetObject("ShowWindowToolStripMenuItem.Image"), System.Drawing.Image)
-        Me.ShowWindowToolStripMenuItem.Name = "ShowWindowToolStripMenuItem"
-        Me.ShowWindowToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
-        Me.ShowWindowToolStripMenuItem.Text = "Show window"
-        '
-        'MaximizeWindowToolStripMenuItem
-        '
-        Me.MaximizeWindowToolStripMenuItem.Name = "MaximizeWindowToolStripMenuItem"
-        Me.MaximizeWindowToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
-        Me.MaximizeWindowToolStripMenuItem.Text = "Maximize window"
-        '
-        'MinimizeWindowToolStripMenuItem
-        '
-        Me.MinimizeWindowToolStripMenuItem.Name = "MinimizeWindowToolStripMenuItem"
-        Me.MinimizeWindowToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
-        Me.MinimizeWindowToolStripMenuItem.Text = "Minimize window"
-        '
-        'ToolStripMenuItem46
-        '
-        Me.ToolStripMenuItem46.Name = "ToolStripMenuItem46"
-        Me.ToolStripMenuItem46.Size = New System.Drawing.Size(232, 6)
-        '
-        'EndTaskToolStripMenuItem
-        '
-        Me.EndTaskToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.EndTaskToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.cross
-        Me.EndTaskToolStripMenuItem.Name = "EndTaskToolStripMenuItem"
-        Me.EndTaskToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
-        Me.EndTaskToolStripMenuItem.Text = "End task"
-        '
-        'ToolStripMenuItem47
-        '
-        Me.ToolStripMenuItem47.Name = "ToolStripMenuItem47"
-        Me.ToolStripMenuItem47.Size = New System.Drawing.Size(232, 6)
-        '
-        'ToolStripMenuItem45
-        '
-        Me.ToolStripMenuItem45.Image = Global.YAPM.My.Resources.Resources.exe
-        Me.ToolStripMenuItem45.Name = "ToolStripMenuItem45"
-        Me.ToolStripMenuItem45.Size = New System.Drawing.Size(235, 22)
-        Me.ToolStripMenuItem45.Text = "&Select associated process"
-        '
-        'SelectWindowInWindowsTabToolStripMenuItem
-        '
-        Me.SelectWindowInWindowsTabToolStripMenuItem.Name = "SelectWindowInWindowsTabToolStripMenuItem"
-        Me.SelectWindowInWindowsTabToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
-        Me.SelectWindowInWindowsTabToolStripMenuItem.Text = "Select window in Windows tab"
-        '
-        'ToolStripMenuItem6
-        '
-        Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
-        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(232, 6)
-        '
-        'ChooseColumnsToolStripMenuItem1
-        '
-        Me.ChooseColumnsToolStripMenuItem1.Name = "ChooseColumnsToolStripMenuItem1"
-        Me.ChooseColumnsToolStripMenuItem1.Size = New System.Drawing.Size(235, 22)
-        Me.ChooseColumnsToolStripMenuItem1.Text = "Choose columns..."
-        '
-        'panelMain13
-        '
-        Me.panelMain13.Controls.Add(Me.SplitContainerTask)
-        Me.panelMain13.Location = New System.Drawing.Point(139, 163)
-        Me.panelMain13.Name = "panelMain13"
-        Me.panelMain13.Size = New System.Drawing.Size(565, 276)
-        Me.panelMain13.TabIndex = 55
-        '
-        'SplitContainerTask
-        '
-        Me.SplitContainerTask.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainerTask.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.SplitContainerTask.IsSplitterFixed = True
-        Me.SplitContainerTask.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainerTask.Name = "SplitContainerTask"
-        Me.SplitContainerTask.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainerTask.Panel1
-        '
-        Me.SplitContainerTask.Panel1.Controls.Add(Me.Label19)
-        Me.SplitContainerTask.Panel1.Controls.Add(Me.lblTaskCountResult)
-        Me.SplitContainerTask.Panel1.Controls.Add(Me.txtSearchTask)
-        '
-        'SplitContainerTask.Panel2
-        '
-        Me.SplitContainerTask.Panel2.Controls.Add(Me.lvTask)
-        Me.SplitContainerTask.Size = New System.Drawing.Size(565, 276)
-        Me.SplitContainerTask.SplitterDistance = 25
-        Me.SplitContainerTask.TabIndex = 0
-        '
-        'Label19
-        '
-        Me.Label19.AutoSize = True
-        Me.Label19.Location = New System.Drawing.Point(3, 5)
-        Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(65, 13)
-        Me.Label19.TabIndex = 13
-        Me.Label19.Text = "Search task"
-        '
-        'lblTaskCountResult
-        '
-        Me.lblTaskCountResult.AutoSize = True
-        Me.lblTaskCountResult.Location = New System.Drawing.Point(393, 5)
-        Me.lblTaskCountResult.Name = "lblTaskCountResult"
-        Me.lblTaskCountResult.Size = New System.Drawing.Size(56, 13)
-        Me.lblTaskCountResult.TabIndex = 12
-        Me.lblTaskCountResult.Text = "0 result(s)"
-        '
-        'txtSearchTask
-        '
-        Me.txtSearchTask.Location = New System.Drawing.Point(72, 2)
-        Me.txtSearchTask.Name = "txtSearchTask"
-        Me.txtSearchTask.Size = New System.Drawing.Size(312, 22)
-        Me.txtSearchTask.TabIndex = 11
-        '
-        'lvTask
-        '
-        Me.lvTask.AllowColumnReorder = True
-        Me.lvTask.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader62, Me.ColumnHeader63, Me.ColumnHeader64})
-        Me.lvTask.ContextMenuStrip = Me.menuTasks
-        Me.lvTask.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvTask.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvTask.FullRowSelect = True
-        ListViewGroup17.Header = "Tasks"
-        ListViewGroup17.Name = "gpOther"
-        ListViewGroup18.Header = "Search result"
-        ListViewGroup18.Name = "gpSearch"
-        Me.lvTask.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup17, ListViewGroup18})
-        Me.lvTask.HideSelection = False
-        Me.lvTask.Location = New System.Drawing.Point(0, 0)
-        Me.lvTask.Name = "lvTask"
-        Me.lvTask.OverriddenDoubleBuffered = True
-        Me.lvTask.Size = New System.Drawing.Size(565, 247)
-        Me.lvTask.TabIndex = 3
-        Me.lvTask.UseCompatibleStateImageBehavior = False
-        Me.lvTask.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader62
-        '
-        Me.ColumnHeader62.Text = "Name"
-        Me.ColumnHeader62.Width = 400
-        '
-        'ColumnHeader63
-        '
-        Me.ColumnHeader63.Text = "CpuUsage"
-        Me.ColumnHeader63.Width = 170
-        '
-        'ColumnHeader64
-        '
-        Me.ColumnHeader64.Text = "Process"
-        Me.ColumnHeader64.Width = 170
-        '
-        'timerTask
-        '
-        Me.timerTask.Interval = 1000
-        '
-        'panelMain14
-        '
-        Me.panelMain14.Controls.Add(Me.lvNetwork)
-        Me.panelMain14.Location = New System.Drawing.Point(147, 171)
-        Me.panelMain14.Name = "panelMain14"
-        Me.panelMain14.Size = New System.Drawing.Size(565, 276)
-        Me.panelMain14.TabIndex = 56
-        Me.panelMain14.Visible = False
+        Me.ColumnHeader19.Text = "ServiceType"
+        Me.ColumnHeader19.Width = 100
         '
         'lvNetwork
         '
@@ -5536,7 +6834,7 @@ Partial Class frmMain
         Me.lvNetwork.OverriddenDoubleBuffered = True
         Me.lvNetwork.ProcessId = Nothing
         Me.lvNetwork.ShowAllPid = False
-        Me.lvNetwork.Size = New System.Drawing.Size(565, 276)
+        Me.lvNetwork.Size = New System.Drawing.Size(829, 425)
         Me.lvNetwork.TabIndex = 4
         Me.lvNetwork.UseCompatibleStateImageBehavior = False
         Me.lvNetwork.View = System.Windows.Forms.View.Details
@@ -5561,55 +6859,60 @@ Partial Class frmMain
         Me.ColumnHeader69.Text = "State"
         Me.ColumnHeader69.Width = 150
         '
-        'menuNetwork
+        'lvSearchResults
         '
-        Me.menuNetwork.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem48, Me.ToolStripMenuItem44, Me.ChooseColumnsToolStripMenuItem5})
-        Me.menuNetwork.Name = "menuProc"
-        Me.menuNetwork.Size = New System.Drawing.Size(207, 54)
+        Me.lvSearchResults.AllowColumnReorder = True
+        Me.lvSearchResults.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader12, Me.ColumnHeader13, Me.ColumnHeader14, Me.ColumnHeader17})
+        Me.lvSearchResults.ContextMenuStrip = Me.menuSearch
+        Me.lvSearchResults.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvSearchResults.FullRowSelect = True
+        ListViewGroup15.Header = "Results"
+        ListViewGroup15.Name = "gpResults"
+        ListViewGroup16.Header = "Search results"
+        ListViewGroup16.Name = "gpSearchResults"
+        Me.lvSearchResults.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup15, ListViewGroup16})
+        Me.lvSearchResults.HideSelection = False
+        Me.lvSearchResults.Location = New System.Drawing.Point(0, 0)
+        Me.lvSearchResults.Name = "lvSearchResults"
+        Me.lvSearchResults.OverriddenDoubleBuffered = True
+        Me.lvSearchResults.Size = New System.Drawing.Size(829, 366)
+        Me.lvSearchResults.SmallImageList = Me.imgSearch
+        Me.lvSearchResults.TabIndex = 3
+        Me.lvSearchResults.UseCompatibleStateImageBehavior = False
+        Me.lvSearchResults.View = System.Windows.Forms.View.Details
         '
-        'ToolStripMenuItem48
+        'ColumnHeader12
         '
-        Me.ToolStripMenuItem48.Image = Global.YAPM.My.Resources.Resources.exe
-        Me.ToolStripMenuItem48.Name = "ToolStripMenuItem48"
-        Me.ToolStripMenuItem48.Size = New System.Drawing.Size(206, 22)
-        Me.ToolStripMenuItem48.Text = "&Select associated process"
+        Me.ColumnHeader12.Text = "Type"
+        Me.ColumnHeader12.Width = 80
         '
-        'ToolStripMenuItem44
+        'ColumnHeader13
         '
-        Me.ToolStripMenuItem44.Name = "ToolStripMenuItem44"
-        Me.ToolStripMenuItem44.Size = New System.Drawing.Size(203, 6)
+        Me.ColumnHeader13.Text = "Result"
+        Me.ColumnHeader13.Width = 400
         '
-        'ChooseColumnsToolStripMenuItem5
+        'ColumnHeader14
         '
-        Me.ChooseColumnsToolStripMenuItem5.Name = "ChooseColumnsToolStripMenuItem5"
-        Me.ChooseColumnsToolStripMenuItem5.Size = New System.Drawing.Size(206, 22)
-        Me.ChooseColumnsToolStripMenuItem5.Text = "Choose columns..."
+        Me.ColumnHeader14.Text = "Field"
+        Me.ColumnHeader14.Width = 150
         '
-        'timerTrayIcon
+        'ColumnHeader17
         '
-        Me.timerTrayIcon.Enabled = True
-        Me.timerTrayIcon.Interval = 1000
+        Me.ColumnHeader17.Text = "Process"
+        Me.ColumnHeader17.Width = 150
         '
-        'butProcessPermuteLvTv
+        'butPermuteMenuStyle
         '
-        Me.butProcessPermuteLvTv.AltKey = Nothing
-        Me.butProcessPermuteLvTv.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessPermuteLvTv.Enabled = False
-        Me.butProcessPermuteLvTv.Image = Global.YAPM.My.Resources.Resources.tv2
-        Me.butProcessPermuteLvTv.SmallImage = CType(resources.GetObject("butProcessPermuteLvTv.SmallImage"), System.Drawing.Image)
-        Me.butProcessPermuteLvTv.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butProcessPermuteLvTv.Tag = Nothing
-        Me.butProcessPermuteLvTv.Text = "Listview"
-        Me.butProcessPermuteLvTv.ToolTip = Nothing
-        Me.butProcessPermuteLvTv.ToolTipImage = Nothing
-        Me.butProcessPermuteLvTv.ToolTipTitle = Nothing
-        '
-        'SaveSystemReportToolStripMenuItem
-        '
-        Me.SaveSystemReportToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SaveSystemReportToolStripMenuItem.Name = "SaveSystemReportToolStripMenuItem"
-        Me.SaveSystemReportToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
-        Me.SaveSystemReportToolStripMenuItem.Text = "Save system report..."
+        Me.butPermuteMenuStyle.AltKey = Nothing
+        Me.butPermuteMenuStyle.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butPermuteMenuStyle.Image = Global.YAPM.My.Resources.Resources.hideDetails
+        Me.butPermuteMenuStyle.SmallImage = CType(resources.GetObject("butPermuteMenuStyle.SmallImage"), System.Drawing.Image)
+        Me.butPermuteMenuStyle.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butPermuteMenuStyle.Tag = Nothing
+        Me.butPermuteMenuStyle.Text = "Classical menus"
+        Me.butPermuteMenuStyle.ToolTip = Nothing
+        Me.butPermuteMenuStyle.ToolTipImage = Nothing
+        Me.butPermuteMenuStyle.ToolTipTitle = Nothing
         '
         'frmMain
         '
@@ -5617,23 +6920,7 @@ Partial Class frmMain
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.ClientSize = New System.Drawing.Size(843, 603)
-        Me.Controls.Add(Me.panelMain13)
-        Me.Controls.Add(Me.panelMenu2)
-        Me.Controls.Add(Me.panelMenu)
-        Me.Controls.Add(Me.cmdTray)
-        Me.Controls.Add(Me.Ribbon)
-        Me.Controls.Add(Me.panelMain14)
-        Me.Controls.Add(Me.panelMain)
-        Me.Controls.Add(Me.panelMain10)
-        Me.Controls.Add(Me.panelMain11)
-        Me.Controls.Add(Me.panelMain9)
-        Me.Controls.Add(Me.panelMain8)
-        Me.Controls.Add(Me.panelMain7)
-        Me.Controls.Add(Me.panelMain6)
-        Me.Controls.Add(Me.panelMain5)
-        Me.Controls.Add(Me.panelMain4)
-        Me.Controls.Add(Me.panelMain3)
-        Me.Controls.Add(Me.panelMain2)
+        Me.Controls.Add(Me._main)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MinimumSize = New System.Drawing.Size(840, 589)
@@ -5641,60 +6928,80 @@ Partial Class frmMain
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Yet Another Process Monitor"
         Me.WindowState = System.Windows.Forms.FormWindowState.Minimized
+        Me.menuProc.ResumeLayout(False)
+        Me.menuService.ResumeLayout(False)
+        Me.mainMenu.ResumeLayout(False)
+        Me.mnuFileCopyPctSmall.ResumeLayout(False)
+        Me.mnuFileCopyPctBig.ResumeLayout(False)
+        Me.menuSearch.ResumeLayout(False)
+        Me.menuHandles.ResumeLayout(False)
+        Me.menuThread.ResumeLayout(False)
+        Me.menuWindow.ResumeLayout(False)
+        Me.menuModule.ResumeLayout(False)
+        Me.menuTasks.ResumeLayout(False)
+        Me.menuNetwork.ResumeLayout(False)
+        Me._main.Panel1.ResumeLayout(False)
+        Me._main.Panel2.ResumeLayout(False)
+        Me._main.ResumeLayout(False)
+        Me.containerSystemMenu.Panel1.ResumeLayout(False)
+        Me.containerSystemMenu.Panel1.PerformLayout()
+        Me.containerSystemMenu.Panel2.ResumeLayout(False)
+        Me.containerSystemMenu.ResumeLayout(False)
+        Me.menuSystem.ResumeLayout(False)
+        Me.menuSystem.PerformLayout()
+        Me._tab.ResumeLayout(False)
+        Me.pageTasks.ResumeLayout(False)
+        Me.panelMain13.ResumeLayout(False)
+        Me.SplitContainerTask.Panel1.ResumeLayout(False)
+        Me.SplitContainerTask.Panel1.PerformLayout()
+        Me.SplitContainerTask.Panel2.ResumeLayout(False)
+        Me.SplitContainerTask.ResumeLayout(False)
+        Me.pageProcesses.ResumeLayout(False)
+        Me.containerProcessPage.Panel1.ResumeLayout(False)
+        Me.containerProcessPage.Panel2.ResumeLayout(False)
+        Me.containerProcessPage.ResumeLayout(False)
+        Me.panelMenu.ResumeLayout(False)
+        Me.panelMenu.PerformLayout()
         Me.panelMain.ResumeLayout(False)
         Me.SplitContainerProcess.Panel1.ResumeLayout(False)
         Me.SplitContainerProcess.ResumeLayout(False)
         Me.SplitContainerTvLv.Panel1.ResumeLayout(False)
         Me.SplitContainerTvLv.Panel2.ResumeLayout(False)
         Me.SplitContainerTvLv.ResumeLayout(False)
-        Me.menuProc.ResumeLayout(False)
-        Me.panelMenu.ResumeLayout(False)
-        Me.panelMenu.PerformLayout()
-        Me.panelMain2.ResumeLayout(False)
-        Me.splitServices.Panel1.ResumeLayout(False)
-        Me.splitServices.Panel2.ResumeLayout(False)
-        Me.splitServices.ResumeLayout(False)
-        Me.menuService.ResumeLayout(False)
-        Me.splitServices2.Panel1.ResumeLayout(False)
-        Me.splitServices2.Panel1.PerformLayout()
-        Me.splitServices2.Panel2.ResumeLayout(False)
-        Me.splitServices2.ResumeLayout(False)
-        Me.splitServices3.Panel1.ResumeLayout(False)
-        Me.splitServices3.Panel2.ResumeLayout(False)
-        Me.splitServices3.ResumeLayout(False)
-        Me.splitServices4.Panel1.ResumeLayout(False)
-        Me.splitServices4.Panel2.ResumeLayout(False)
-        Me.splitServices4.ResumeLayout(False)
-        Me.panelMain4.ResumeLayout(False)
-        Me.panelMain3.ResumeLayout(False)
-        Me.mainMenu.ResumeLayout(False)
-        Me.panelMenu2.ResumeLayout(False)
-        Me.panelMenu2.PerformLayout()
-        Me.panelMain5.ResumeLayout(False)
-        Me.panelMain5.PerformLayout()
-        Me.fileSplitContainer.Panel1.ResumeLayout(False)
-        Me.fileSplitContainer.Panel2.ResumeLayout(False)
-        Me.fileSplitContainer.ResumeLayout(False)
-        Me.gpFileAttributes.ResumeLayout(False)
-        Me.gpFileAttributes.PerformLayout()
-        Me.gpFileDates.ResumeLayout(False)
-        Me.gpFileDates.PerformLayout()
-        CType(Me.pctFileSmall, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.mnuFileCopyPctSmall.ResumeLayout(False)
-        CType(Me.pctFileBig, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.mnuFileCopyPctBig.ResumeLayout(False)
-        Me.panelMain6.ResumeLayout(False)
-        Me.SplitContainerSearch.Panel1.ResumeLayout(False)
-        Me.SplitContainerSearch.Panel1.PerformLayout()
-        Me.SplitContainerSearch.Panel2.ResumeLayout(False)
-        Me.SplitContainerSearch.ResumeLayout(False)
-        Me.menuSearch.ResumeLayout(False)
+        Me.pageModules.ResumeLayout(False)
+        Me.panelMain11.ResumeLayout(False)
+        Me.splitModule.Panel1.ResumeLayout(False)
+        Me.splitModule.Panel2.ResumeLayout(False)
+        Me.splitModule.ResumeLayout(False)
+        Me.SplitContainerModules.Panel1.ResumeLayout(False)
+        Me.SplitContainerModules.Panel1.PerformLayout()
+        Me.SplitContainerModules.Panel2.ResumeLayout(False)
+        Me.SplitContainerModules.ResumeLayout(False)
+        Me.pageThreads.ResumeLayout(False)
+        Me.panelMain9.ResumeLayout(False)
+        Me.splitThreads.Panel1.ResumeLayout(False)
+        Me.splitThreads.Panel2.ResumeLayout(False)
+        Me.splitThreads.ResumeLayout(False)
+        Me.SplitContainerThreads.Panel1.ResumeLayout(False)
+        Me.SplitContainerThreads.Panel1.PerformLayout()
+        Me.SplitContainerThreads.Panel2.ResumeLayout(False)
+        Me.SplitContainerThreads.ResumeLayout(False)
+        Me.pageHandles.ResumeLayout(False)
         Me.panelMain7.ResumeLayout(False)
         Me.SplitContainerHandles.Panel1.ResumeLayout(False)
         Me.SplitContainerHandles.Panel1.PerformLayout()
         Me.SplitContainerHandles.Panel2.ResumeLayout(False)
         Me.SplitContainerHandles.ResumeLayout(False)
-        Me.menuHandles.ResumeLayout(False)
+        Me.pageWindows.ResumeLayout(False)
+        Me.panelMain10.ResumeLayout(False)
+        Me.splitContainerWindows.Panel1.ResumeLayout(False)
+        Me.splitContainerWindows.Panel2.ResumeLayout(False)
+        Me.splitContainerWindows.ResumeLayout(False)
+        Me.SplitContainerWindows2.Panel1.ResumeLayout(False)
+        Me.SplitContainerWindows2.Panel1.PerformLayout()
+        Me.SplitContainerWindows2.Panel2.ResumeLayout(False)
+        Me.SplitContainerWindows2.ResumeLayout(False)
+        Me.pageMonitor.ResumeLayout(False)
         Me.panelMain8.ResumeLayout(False)
         Me.splitMonitor.Panel1.ResumeLayout(False)
         Me.splitMonitor.Panel2.ResumeLayout(False)
@@ -5709,54 +7016,55 @@ Partial Class frmMain
         Me.splitMonitor3.ResumeLayout(False)
         Me.splitMonitor4.Panel2.ResumeLayout(False)
         Me.splitMonitor4.ResumeLayout(False)
-        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.panelMain9.ResumeLayout(False)
-        Me.splitThreads.Panel1.ResumeLayout(False)
-        Me.splitThreads.Panel2.ResumeLayout(False)
-        Me.splitThreads.ResumeLayout(False)
-        Me.SplitContainerThreads.Panel1.ResumeLayout(False)
-        Me.SplitContainerThreads.Panel1.PerformLayout()
-        Me.SplitContainerThreads.Panel2.ResumeLayout(False)
-        Me.SplitContainerThreads.ResumeLayout(False)
-        Me.menuThread.ResumeLayout(False)
-        Me.panelMain10.ResumeLayout(False)
-        Me.splitContainerWindows.Panel1.ResumeLayout(False)
-        Me.splitContainerWindows.Panel2.ResumeLayout(False)
-        Me.splitContainerWindows.ResumeLayout(False)
-        Me.SplitContainerWindows2.Panel1.ResumeLayout(False)
-        Me.SplitContainerWindows2.Panel1.PerformLayout()
-        Me.SplitContainerWindows2.Panel2.ResumeLayout(False)
-        Me.SplitContainerWindows2.ResumeLayout(False)
-        Me.menuWindow.ResumeLayout(False)
-        Me.panelMain11.ResumeLayout(False)
-        Me.splitModule.Panel1.ResumeLayout(False)
-        Me.splitModule.Panel2.ResumeLayout(False)
-        Me.splitModule.ResumeLayout(False)
-        Me.SplitContainerModules.Panel1.ResumeLayout(False)
-        Me.SplitContainerModules.Panel1.PerformLayout()
-        Me.SplitContainerModules.Panel2.ResumeLayout(False)
-        Me.SplitContainerModules.ResumeLayout(False)
-        Me.menuModule.ResumeLayout(False)
-        Me.menuTasks.ResumeLayout(False)
-        Me.panelMain13.ResumeLayout(False)
-        Me.SplitContainerTask.Panel1.ResumeLayout(False)
-        Me.SplitContainerTask.Panel1.PerformLayout()
-        Me.SplitContainerTask.Panel2.ResumeLayout(False)
-        Me.SplitContainerTask.ResumeLayout(False)
+        Me.pageServices.ResumeLayout(False)
+        Me.containerServicesPage.Panel1.ResumeLayout(False)
+        Me.containerServicesPage.Panel2.ResumeLayout(False)
+        Me.containerServicesPage.ResumeLayout(False)
+        Me.panelMenu2.ResumeLayout(False)
+        Me.panelMenu2.PerformLayout()
+        Me.panelMain2.ResumeLayout(False)
+        Me.splitServices.Panel1.ResumeLayout(False)
+        Me.splitServices.Panel2.ResumeLayout(False)
+        Me.splitServices.ResumeLayout(False)
+        Me.splitServices2.Panel1.ResumeLayout(False)
+        Me.splitServices2.Panel1.PerformLayout()
+        Me.splitServices2.Panel2.ResumeLayout(False)
+        Me.splitServices2.ResumeLayout(False)
+        Me.splitServices3.Panel1.ResumeLayout(False)
+        Me.splitServices3.Panel2.ResumeLayout(False)
+        Me.splitServices3.ResumeLayout(False)
+        Me.splitServices4.Panel1.ResumeLayout(False)
+        Me.splitServices4.Panel2.ResumeLayout(False)
+        Me.splitServices4.ResumeLayout(False)
+        Me.pageNetwork.ResumeLayout(False)
         Me.panelMain14.ResumeLayout(False)
-        Me.menuNetwork.ResumeLayout(False)
+        Me.pageFile.ResumeLayout(False)
+        Me.panelMain5.ResumeLayout(False)
+        Me.panelMain5.PerformLayout()
+        Me.fileSplitContainer.Panel1.ResumeLayout(False)
+        Me.fileSplitContainer.Panel2.ResumeLayout(False)
+        Me.fileSplitContainer.ResumeLayout(False)
+        Me.gpFileAttributes.ResumeLayout(False)
+        Me.gpFileAttributes.PerformLayout()
+        Me.gpFileDates.ResumeLayout(False)
+        Me.gpFileDates.PerformLayout()
+        CType(Me.pctFileSmall, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pctFileBig, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pageSearch.ResumeLayout(False)
+        Me.panelMain6.ResumeLayout(False)
+        Me.SplitContainerSearch.Panel1.ResumeLayout(False)
+        Me.SplitContainerSearch.Panel1.PerformLayout()
+        Me.SplitContainerSearch.Panel2.ResumeLayout(False)
+        Me.SplitContainerSearch.ResumeLayout(False)
+        Me.pageHelp.ResumeLayout(False)
+        Me.panelMain4.ResumeLayout(False)
+        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents panelMain As System.Windows.Forms.Panel
-    Friend WithEvents panelMenu As System.Windows.Forms.Panel
     Friend WithEvents timerProcess As System.Windows.Forms.Timer
     Friend WithEvents imgProcess As System.Windows.Forms.ImageList
-    Friend WithEvents txtSearch As System.Windows.Forms.TextBox
     Friend WithEvents imgMain As System.Windows.Forms.ImageList
-    Friend WithEvents panelMain2 As System.Windows.Forms.Panel
-    Friend WithEvents panelMain4 As System.Windows.Forms.Panel
-    Friend WithEvents panelMain3 As System.Windows.Forms.Panel
     Friend WithEvents timerServices As System.Windows.Forms.Timer
     Friend WithEvents imgServices As System.Windows.Forms.ImageList
     Friend WithEvents Tray As System.Windows.Forms.NotifyIcon
@@ -5776,8 +7084,6 @@ Partial Class frmMain
     Friend WithEvents ToolStripMenuItem8 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents PropertiesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OpenFirectoryToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents lblResCount As System.Windows.Forms.Label
-    Friend WithEvents WBHelp As System.Windows.Forms.WebBrowser
     Friend WithEvents menuService As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem9 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem10 As System.Windows.Forms.ToolStripMenuItem
@@ -5837,14 +7143,8 @@ Partial Class frmMain
     Friend WithEvents butWebite As System.Windows.Forms.RibbonButton
     Friend WithEvents butProjectPage As System.Windows.Forms.RibbonButton
     Friend WithEvents butDownload As System.Windows.Forms.RibbonButton
-    Friend WithEvents cmdTray As System.Windows.Forms.Button
     Friend WithEvents RBProcessOnline As System.Windows.Forms.RibbonPanel
     Friend WithEvents butProcessGoogle As System.Windows.Forms.RibbonButton
-    Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents panelMenu2 As System.Windows.Forms.Panel
-    Friend WithEvents Label2 As System.Windows.Forms.Label
-    Friend WithEvents lblResCount2 As System.Windows.Forms.Label
-    Friend WithEvents txtServiceSearch As System.Windows.Forms.TextBox
     Friend WithEvents GoogleSearchToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents GoogleSearchToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
@@ -5859,17 +7159,10 @@ Partial Class frmMain
     Friend WithEvents butFileGoogleSearch As System.Windows.Forms.RibbonButton
     Friend WithEvents butFileProperties As System.Windows.Forms.RibbonButton
     Friend WithEvents butFileOpenDir As System.Windows.Forms.RibbonButton
-    Friend WithEvents panelMain5 As System.Windows.Forms.Panel
-    Friend WithEvents cmdFileClipboard As System.Windows.Forms.Button
-    Friend WithEvents pctFileSmall As System.Windows.Forms.PictureBox
-    Friend WithEvents pctFileBig As System.Windows.Forms.PictureBox
-    Friend WithEvents txtFile As System.Windows.Forms.TextBox
     Friend WithEvents FileDetailsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents butServiceFileDetails As System.Windows.Forms.RibbonButton
     Friend WithEvents FileDetailsToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SearchTab As System.Windows.Forms.RibbonTab
-    Friend WithEvents fileSplitContainer As System.Windows.Forms.SplitContainer
-    Friend WithEvents rtb3 As System.Windows.Forms.RichTextBox
     Friend WithEvents butFileShowFolderProperties As System.Windows.Forms.RibbonButton
     Friend WithEvents RBFileOthers As System.Windows.Forms.RibbonPanel
     Friend WithEvents butFileOthersActions As System.Windows.Forms.RibbonButton
@@ -5891,26 +7184,13 @@ Partial Class frmMain
     Friend WithEvents butSearchGo As System.Windows.Forms.RibbonButton
     Friend WithEvents butSearchSaveReport As System.Windows.Forms.RibbonButton
     Friend WithEvents txtSearchString As System.Windows.Forms.RibbonTextBox
-    Friend WithEvents panelMain6 As System.Windows.Forms.Panel
-    Friend WithEvents SplitContainerSearch As System.Windows.Forms.SplitContainer
-    Friend WithEvents ColumnHeader12 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader13 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents chkSearchModules As System.Windows.Forms.CheckBox
-    Friend WithEvents chkSearchServices As System.Windows.Forms.CheckBox
-    Friend WithEvents chkSearchProcess As System.Windows.Forms.CheckBox
-    Friend WithEvents chkSearchCase As System.Windows.Forms.CheckBox
-    Friend WithEvents ColumnHeader14 As System.Windows.Forms.ColumnHeader
     Friend WithEvents HandlesTab As System.Windows.Forms.RibbonTab
     Friend WithEvents RBHandlesActions As System.Windows.Forms.RibbonPanel
-    Friend WithEvents panelMain7 As System.Windows.Forms.Panel
     Friend WithEvents butHandleRefresh As System.Windows.Forms.RibbonButton
     Friend WithEvents butHandleClose As System.Windows.Forms.RibbonButton
-    Friend WithEvents chkSearchHandles As System.Windows.Forms.CheckBox
     Friend WithEvents imgSearch As System.Windows.Forms.ImageList
     Friend WithEvents RBHandlesReport As System.Windows.Forms.RibbonPanel
     Friend WithEvents butHandlesSaveReport As System.Windows.Forms.RibbonButton
-    Friend WithEvents ColumnHeader17 As System.Windows.Forms.ColumnHeader
     Friend WithEvents menuSearch As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents SelectAssociatedProcessToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ShowHandlesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -5919,30 +7199,11 @@ Partial Class frmMain
     Friend WithEvents ToolStripMenuItem18 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents CloseToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents butFileRefresh As System.Windows.Forms.RibbonButton
-    Friend WithEvents lstFileString As System.Windows.Forms.ListBox
-    Friend WithEvents gpFileAttributes As System.Windows.Forms.GroupBox
-    Friend WithEvents gpFileDates As System.Windows.Forms.GroupBox
-    Friend WithEvents Label6 As System.Windows.Forms.Label
-    Friend WithEvents Label5 As System.Windows.Forms.Label
-    Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents DTlastModification As System.Windows.Forms.DateTimePicker
-    Friend WithEvents DTlastAccess As System.Windows.Forms.DateTimePicker
-    Friend WithEvents DTcreation As System.Windows.Forms.DateTimePicker
-    Friend WithEvents cmdSetFileDates As System.Windows.Forms.Button
-    Friend WithEvents chkFileSystem As System.Windows.Forms.CheckBox
-    Friend WithEvents chkFileReadOnly As System.Windows.Forms.CheckBox
-    Friend WithEvents chkFileHidden As System.Windows.Forms.CheckBox
-    Friend WithEvents chkFileCompressed As System.Windows.Forms.CheckBox
-    Friend WithEvents chkFileArchive As System.Windows.Forms.CheckBox
-    Friend WithEvents chkFileEncrypted As System.Windows.Forms.CheckBox
-    Friend WithEvents chkFileContentNotIndexed As System.Windows.Forms.CheckBox
-    Friend WithEvents chkFileNormal As System.Windows.Forms.CheckBox
     Friend WithEvents menuHandles As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem19 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripMenuItem22 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MonitorTab As System.Windows.Forms.RibbonTab
-    Friend WithEvents panelMain8 As System.Windows.Forms.Panel
     Friend WithEvents RBMonitor As System.Windows.Forms.RibbonPanel
     Friend WithEvents butMonitoringAdd As System.Windows.Forms.RibbonButton
     Friend WithEvents butMonitoringRemove As System.Windows.Forms.RibbonButton
@@ -5951,27 +7212,11 @@ Partial Class frmMain
     Friend WithEvents butMonitorStop As System.Windows.Forms.RibbonButton
     Friend WithEvents butSaveMonitorReport As System.Windows.Forms.RibbonPanel
     Friend WithEvents butMonitorSaveReport As System.Windows.Forms.RibbonButton
-    Friend WithEvents splitMonitor As System.Windows.Forms.SplitContainer
-    Friend WithEvents splitMonitor2 As System.Windows.Forms.SplitContainer
-    Friend WithEvents tvMonitor As System.Windows.Forms.TreeView
     Friend WithEvents imgMonitor As System.Windows.Forms.ImageList
-    Friend WithEvents txtMonitoringLog As System.Windows.Forms.TextBox
     Friend WithEvents timerMonitoring As System.Windows.Forms.Timer
-    Friend WithEvents splitMonitor3 As System.Windows.Forms.SplitContainer
-    Friend WithEvents splitMonitor4 As System.Windows.Forms.SplitContainer
-    Friend WithEvents graphMonitor As YAPM.Graph
-    Friend WithEvents txtMonitorNumber As System.Windows.Forms.TextBox
-    Friend WithEvents lblMonitorMaxNumber As System.Windows.Forms.Label
-    Friend WithEvents chkMonitorRightAuto As System.Windows.Forms.CheckBox
-    Friend WithEvents chkMonitorLeftAuto As System.Windows.Forms.CheckBox
-    Friend WithEvents dtMonitorR As System.Windows.Forms.DateTimePicker
-    Friend WithEvents dtMonitorL As System.Windows.Forms.DateTimePicker
     Friend WithEvents ThreadTab As System.Windows.Forms.RibbonTab
     Friend WithEvents WindowTab As System.Windows.Forms.RibbonTab
     Friend WithEvents ShowThreadsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents panelMain9 As System.Windows.Forms.Panel
-    Friend WithEvents splitThreads As System.Windows.Forms.SplitContainer
-    Friend WithEvents panelMain10 As System.Windows.Forms.Panel
     Friend WithEvents RBThreadsRefresh As System.Windows.Forms.RibbonPanel
     Friend WithEvents butThreadRefresh As System.Windows.Forms.RibbonButton
     Friend WithEvents menuThread As System.Windows.Forms.ContextMenuStrip
@@ -5994,7 +7239,6 @@ Partial Class frmMain
     Friend WithEvents butThreadResume As System.Windows.Forms.RibbonButton
     Friend WithEvents butThreadSaveReport As System.Windows.Forms.RibbonButton
     Friend WithEvents butThreadPriority As System.Windows.Forms.RibbonButton
-    Friend WithEvents rtb4 As System.Windows.Forms.RichTextBox
     Friend WithEvents SelectedAssociatedProcessToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents butThreadPidle As System.Windows.Forms.RibbonButton
     Friend WithEvents butThreadPlowest As System.Windows.Forms.RibbonButton
@@ -6030,19 +7274,13 @@ Partial Class frmMain
     Friend WithEvents butWindowDoNotBringToFront As System.Windows.Forms.RibbonButton
     Friend WithEvents butWindowEnable As System.Windows.Forms.RibbonButton
     Friend WithEvents butWindowDisable As System.Windows.Forms.RibbonButton
-    Friend WithEvents splitContainerWindows As System.Windows.Forms.SplitContainer
-    Friend WithEvents rtb5 As System.Windows.Forms.RichTextBox
     Friend WithEvents butWindowStopFlashing As System.Windows.Forms.RibbonButton
-    Friend WithEvents chkSearchWindows As System.Windows.Forms.CheckBox
     Friend WithEvents menuWindow As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem34 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FolderChooser As System.Windows.Forms.FolderBrowserDialog
     Friend WithEvents ModulesTab As System.Windows.Forms.RibbonTab
     Friend WithEvents ShowModulesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents butProcessShowModules As System.Windows.Forms.RibbonButton
-    Friend WithEvents splitModule As System.Windows.Forms.SplitContainer
-    Friend WithEvents rtb6 As System.Windows.Forms.RichTextBox
-    Friend WithEvents panelMain11 As System.Windows.Forms.Panel
     Friend WithEvents RBModuleActions As System.Windows.Forms.RibbonPanel
     Friend WithEvents butModuleRefresh As System.Windows.Forms.RibbonButton
     Friend WithEvents butModuleUnload As System.Windows.Forms.RibbonButton
@@ -6053,57 +7291,6 @@ Partial Class frmMain
     Friend WithEvents ToolStripSeparator4 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripMenuItem36 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ShowFileDetailsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents SplitContainerModules As System.Windows.Forms.SplitContainer
-    Friend WithEvents ColumnHeader29 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader43 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader44 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader45 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader46 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader18 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents Label7 As System.Windows.Forms.Label
-    Friend WithEvents lblModulesCount As System.Windows.Forms.Label
-    Friend WithEvents txtSearchModule As System.Windows.Forms.TextBox
-    Friend WithEvents SplitContainerThreads As System.Windows.Forms.SplitContainer
-    Friend WithEvents ColumnHeader32 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader33 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader34 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader35 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader36 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader37 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader38 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents Label8 As System.Windows.Forms.Label
-    Friend WithEvents lblThreadResults As System.Windows.Forms.Label
-    Friend WithEvents txtSearchThread As System.Windows.Forms.TextBox
-    Friend WithEvents SplitContainerHandles As System.Windows.Forms.SplitContainer
-    Friend WithEvents Label9 As System.Windows.Forms.Label
-    Friend WithEvents lblHandlesCount As System.Windows.Forms.Label
-    Friend WithEvents txtSearchHandle As System.Windows.Forms.TextBox
-    Friend WithEvents ColumnHeader24 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader25 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader26 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader27 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader28 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader15 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader16 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents SplitContainerWindows2 As System.Windows.Forms.SplitContainer
-    Friend WithEvents ColumnHeader30 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader31 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader39 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader40 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader41 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader42 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents Label10 As System.Windows.Forms.Label
-    Friend WithEvents lblWindowsCount As System.Windows.Forms.Label
-    Friend WithEvents txtSearchWindow As System.Windows.Forms.TextBox
-    Friend WithEvents Label11 As System.Windows.Forms.Label
-    Friend WithEvents lblResultsCount As System.Windows.Forms.Label
-    Friend WithEvents txtSearchResults As System.Windows.Forms.TextBox
-    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader5 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader6 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents chkAllWindows As System.Windows.Forms.CheckBox
     Friend WithEvents RBServiceReport As System.Windows.Forms.RibbonPanel
     Friend WithEvents butServiceReport As System.Windows.Forms.RibbonButton
     Friend WithEvents butProcessShowAll As System.Windows.Forms.RibbonButton
@@ -6118,49 +7305,13 @@ Partial Class frmMain
     Friend WithEvents RBOptions As System.Windows.Forms.RibbonPanel
     Friend WithEvents butPreferences As System.Windows.Forms.RibbonButton
     Friend WithEvents butAlwaysDisplay As System.Windows.Forms.RibbonButton
-    Friend WithEvents SplitContainerProcess As System.Windows.Forms.SplitContainer
     Friend WithEvents butProcessDisplayDetails As System.Windows.Forms.RibbonButton
-    Friend WithEvents SplitContainerTvLv As System.Windows.Forms.SplitContainer
-    Friend WithEvents tvProc As System.Windows.Forms.TreeView
-    Friend WithEvents c1 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents c2 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents c3 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents c4 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents c5 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents c7 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents c8 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents c9 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents lvProcess As YAPM.processList
-    Friend WithEvents lvSearchResults As YAPM.DoubleBufferedLV
-    Friend WithEvents lvModules As YAPM.moduleList
-    Friend WithEvents lvThreads As YAPM.threadList
-    Friend WithEvents lvHandles As YAPM.handleList
-    Friend WithEvents lvWindows As YAPM.windowList
-    Friend WithEvents lvJobs As YAPM.DoubleBufferedLV
     Friend WithEvents mainMenu As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ShowLogToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MinimizeToTrayToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem40 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ExitToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents EnableServiceRefreshingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents splitServices As System.Windows.Forms.SplitContainer
-    Friend WithEvents lvServices As YAPM.serviceList
-    Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader7 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader8 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader9 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader10 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader11 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents splitServices2 As System.Windows.Forms.SplitContainer
-    Friend WithEvents cmdCopyServiceToCp As System.Windows.Forms.Button
-    Friend WithEvents lblServicePath As System.Windows.Forms.TextBox
-    Friend WithEvents lblServiceName As System.Windows.Forms.Label
-    Friend WithEvents splitServices3 As System.Windows.Forms.SplitContainer
-    Friend WithEvents rtb2 As System.Windows.Forms.RichTextBox
-    Friend WithEvents splitServices4 As System.Windows.Forms.SplitContainer
-    Friend WithEvents tv2 As System.Windows.Forms.TreeView
-    Friend WithEvents tv As System.Windows.Forms.TreeView
-    Friend WithEvents ColumnHeader19 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ToolStripMenuItem42 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents SelectedAssociatedProcessToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ShowSystemInformatoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -6179,15 +7330,6 @@ Partial Class frmMain
     Friend WithEvents ToolStripMenuItem46 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents EndTaskToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem47 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents panelMain13 As System.Windows.Forms.Panel
-    Friend WithEvents SplitContainerTask As System.Windows.Forms.SplitContainer
-    Friend WithEvents Label19 As System.Windows.Forms.Label
-    Friend WithEvents lblTaskCountResult As System.Windows.Forms.Label
-    Friend WithEvents txtSearchTask As System.Windows.Forms.TextBox
-    Friend WithEvents lvTask As YAPM.taskList
-    Friend WithEvents ColumnHeader62 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader63 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader64 As System.Windows.Forms.ColumnHeader
     Friend WithEvents timerTask As System.Windows.Forms.Timer
     Friend WithEvents SelectWindowInWindowsTabToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents KillProcessTreeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -6196,15 +7338,8 @@ Partial Class frmMain
     Friend WithEvents NetworkTab As System.Windows.Forms.RibbonTab
     Friend WithEvents RBNetworkRefresh As System.Windows.Forms.RibbonPanel
     Friend WithEvents butNetworkRefresh As System.Windows.Forms.RibbonButton
-    Friend WithEvents panelMain14 As System.Windows.Forms.Panel
-    Friend WithEvents lvNetwork As YAPM.networkList
-    Friend WithEvents ColumnHeader66 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader67 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader68 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader69 As System.Windows.Forms.ColumnHeader
     Friend WithEvents menuNetwork As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem48 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents c10 As System.Windows.Forms.ColumnHeader
     Friend WithEvents timerTrayIcon As System.Windows.Forms.Timer
     Friend WithEvents mnuFileCopyPctSmall As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem17 As System.Windows.Forms.ToolStripMenuItem
@@ -6249,15 +7384,357 @@ Partial Class frmMain
     Friend WithEvents LogoffToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents LockToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem50 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents panelProcessReport As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butSaveProcessReport As System.Windows.Forms.RibbonButton
+    Friend WithEvents SaveSystemReportToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents _main As System.Windows.Forms.SplitContainer
+    Friend WithEvents containerSystemMenu As System.Windows.Forms.SplitContainer
+    Friend WithEvents menuSystem As System.Windows.Forms.MenuStrip
+    Friend WithEvents FileToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RefreshToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem60 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ShowlogToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SystemreportToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem53 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents SysteminfosToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OpenedWindowsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem54 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents FindAWindowToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents EmergencyHotkeysToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem55 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ExitToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OptionsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AlwaysVisibleToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem56 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents RefreshprocessListToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RefreshserviceListToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem57 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents OptionsToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SystemToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ShutdownToolStripMenuItem3 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RestartToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ShutdownToolStripMenuItem4 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PoweroffToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem58 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents SleepToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents HibernateToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem59 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents LogoffToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents LockToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents _menuTask As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ShowToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents EndTaskToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents _menuProcess As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ShowdetailsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem61 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents NewToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents KillToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PauseToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ResumeToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem63 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AffinityToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ShowToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ModulesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ThreadsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents HandlesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents WindowsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AllToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem62 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents PriorityToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents IdleToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents BelowNormalToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents NormalToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AboveNormalToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents HighToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RealTimeToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem64 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents GoogleSearchToolStripMenuItem3 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem65 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents SaveReportToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents _amenuModule As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents UnloadToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem66 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents GoogleSearchToolStripMenuItem4 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem67 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents SavereportToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents _amenuThread As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents KillToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents StopToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ResumeToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem68 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents PriorityToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents IdleToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents LowestToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents BelowNormalToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents NormalToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AboveNormalToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents HighestToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents TimeCriticalToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem69 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents SavereportToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents _menuHandle As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CloseToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem70 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents SavereportToolStripMenuItem3 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents _amenuWindow As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents FindProcessToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem71 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents VisibilityToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CloseToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PositionSizeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem72 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents SavereportToolStripMenuItem4 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents _menuMonitor As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AddToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RemoveSelectionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem73 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents StartToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents StopToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem74 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents SavereportToolStripMenuItem5 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents _menuServices As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents StopToolStripMenuItem3 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents StartToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PauseToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ResumeToolStripMenuItem3 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ShutdownToolStripMenuItem5 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem75 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents StarttypeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AutomaticToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OnDemandToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DisabledToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem76 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ShowfilePropertiesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OpenFileDirectoryToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DetailsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem77 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents GoogleSearchToolStripMenuItem5 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem78 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents SavereportToolStripMenuItem6 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents _menuFile As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OpenToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem79 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ReleaseToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem80 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents TrashToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DeleteToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem81 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents GoogleSearchToolStripMenuItem6 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem82 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents FilePropertiesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OpenToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DirectoryPropertiesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem83 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents OthersToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents _amenuSearch As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents LaunchToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem84 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents SavereportToolStripMenuItem7 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents HelpToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CheckupdatesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem85 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents MakeAdonationToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents WebsiteToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ProjectPageOnSourceforgenetToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DownloadsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem86 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents AboutToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents _tab As System.Windows.Forms.TabControl
+    Friend WithEvents pageTasks As System.Windows.Forms.TabPage
+    Friend WithEvents panelMain13 As System.Windows.Forms.Panel
+    Friend WithEvents SplitContainerTask As System.Windows.Forms.SplitContainer
+    Friend WithEvents Label19 As System.Windows.Forms.Label
+    Friend WithEvents lblTaskCountResult As System.Windows.Forms.Label
+    Friend WithEvents txtSearchTask As System.Windows.Forms.TextBox
+    Friend WithEvents lvTask As YAPM.taskList
+    Friend WithEvents ColumnHeader62 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader63 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader64 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents pageProcesses As System.Windows.Forms.TabPage
+    Friend WithEvents containerProcessPage As System.Windows.Forms.SplitContainer
+    Friend WithEvents panelMenu As System.Windows.Forms.Panel
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents lblResCount As System.Windows.Forms.Label
+    Friend WithEvents txtSearch As System.Windows.Forms.TextBox
+    Friend WithEvents panelMain As System.Windows.Forms.Panel
+    Friend WithEvents SplitContainerProcess As System.Windows.Forms.SplitContainer
+    Friend WithEvents SplitContainerTvLv As System.Windows.Forms.SplitContainer
+    Friend WithEvents tvProc As System.Windows.Forms.TreeView
+    Friend WithEvents lvProcess As YAPM.processList
+    Friend WithEvents c1 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents c2 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents c3 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents c4 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents c5 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents c7 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents c8 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents c9 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents c10 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader20 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents pageModules As System.Windows.Forms.TabPage
+    Friend WithEvents panelMain11 As System.Windows.Forms.Panel
+    Friend WithEvents splitModule As System.Windows.Forms.SplitContainer
+    Friend WithEvents SplitContainerModules As System.Windows.Forms.SplitContainer
+    Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents lblModulesCount As System.Windows.Forms.Label
+    Friend WithEvents txtSearchModule As System.Windows.Forms.TextBox
+    Friend WithEvents lvModules As YAPM.moduleList
+    Friend WithEvents ColumnHeader29 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader43 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader44 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader45 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader46 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader18 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents rtb6 As System.Windows.Forms.RichTextBox
+    Friend WithEvents pageThreads As System.Windows.Forms.TabPage
+    Friend WithEvents panelMain9 As System.Windows.Forms.Panel
+    Friend WithEvents splitThreads As System.Windows.Forms.SplitContainer
+    Friend WithEvents SplitContainerThreads As System.Windows.Forms.SplitContainer
+    Friend WithEvents Label8 As System.Windows.Forms.Label
+    Friend WithEvents lblThreadResults As System.Windows.Forms.Label
+    Friend WithEvents txtSearchThread As System.Windows.Forms.TextBox
+    Friend WithEvents lvThreads As YAPM.threadList
+    Friend WithEvents ColumnHeader32 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader33 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader34 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader35 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader36 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader37 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader38 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents rtb4 As System.Windows.Forms.RichTextBox
+    Friend WithEvents pageHandles As System.Windows.Forms.TabPage
+    Friend WithEvents panelMain7 As System.Windows.Forms.Panel
+    Friend WithEvents SplitContainerHandles As System.Windows.Forms.SplitContainer
+    Friend WithEvents Label9 As System.Windows.Forms.Label
+    Friend WithEvents lblHandlesCount As System.Windows.Forms.Label
+    Friend WithEvents txtSearchHandle As System.Windows.Forms.TextBox
+    Friend WithEvents lvHandles As YAPM.handleList
+    Friend WithEvents ColumnHeader24 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader25 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader26 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader27 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader28 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader15 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader16 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents pageWindows As System.Windows.Forms.TabPage
+    Friend WithEvents panelMain10 As System.Windows.Forms.Panel
+    Friend WithEvents splitContainerWindows As System.Windows.Forms.SplitContainer
+    Friend WithEvents SplitContainerWindows2 As System.Windows.Forms.SplitContainer
+    Friend WithEvents chkAllWindows As System.Windows.Forms.CheckBox
+    Friend WithEvents Label10 As System.Windows.Forms.Label
+    Friend WithEvents lblWindowsCount As System.Windows.Forms.Label
+    Friend WithEvents txtSearchWindow As System.Windows.Forms.TextBox
+    Friend WithEvents lvWindows As YAPM.windowList
+    Friend WithEvents ColumnHeader30 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader31 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader39 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader40 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader41 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader42 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents rtb5 As System.Windows.Forms.RichTextBox
+    Friend WithEvents pageMonitor As System.Windows.Forms.TabPage
+    Friend WithEvents panelMain8 As System.Windows.Forms.Panel
+    Friend WithEvents splitMonitor As System.Windows.Forms.SplitContainer
+    Friend WithEvents tvMonitor As System.Windows.Forms.TreeView
+    Friend WithEvents splitMonitor2 As System.Windows.Forms.SplitContainer
+    Friend WithEvents txtMonitoringLog As System.Windows.Forms.TextBox
     Friend WithEvents lvMonitorReport As YAPM.DoubleBufferedLV
     Friend WithEvents ColumnHeader22 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader23 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader47 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader48 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader49 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader20 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents panelProcessReport As System.Windows.Forms.RibbonPanel
-    Friend WithEvents butSaveProcessReport As System.Windows.Forms.RibbonButton
-    Friend WithEvents SaveSystemReportToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents splitMonitor3 As System.Windows.Forms.SplitContainer
+    Friend WithEvents splitMonitor4 As System.Windows.Forms.SplitContainer
+    Friend WithEvents graphMonitor As YAPM.Graph
+    Friend WithEvents txtMonitorNumber As System.Windows.Forms.TextBox
+    Friend WithEvents lblMonitorMaxNumber As System.Windows.Forms.Label
+    Friend WithEvents chkMonitorRightAuto As System.Windows.Forms.CheckBox
+    Friend WithEvents chkMonitorLeftAuto As System.Windows.Forms.CheckBox
+    Friend WithEvents dtMonitorR As System.Windows.Forms.DateTimePicker
+    Friend WithEvents dtMonitorL As System.Windows.Forms.DateTimePicker
+    Friend WithEvents pageServices As System.Windows.Forms.TabPage
+    Friend WithEvents containerServicesPage As System.Windows.Forms.SplitContainer
+    Friend WithEvents panelMenu2 As System.Windows.Forms.Panel
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents lblResCount2 As System.Windows.Forms.Label
+    Friend WithEvents txtServiceSearch As System.Windows.Forms.TextBox
+    Friend WithEvents panelMain2 As System.Windows.Forms.Panel
+    Friend WithEvents splitServices As System.Windows.Forms.SplitContainer
+    Friend WithEvents lvServices As YAPM.serviceList
+    Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader7 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader8 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader9 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader10 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader11 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader19 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents splitServices2 As System.Windows.Forms.SplitContainer
+    Friend WithEvents cmdCopyServiceToCp As System.Windows.Forms.Button
+    Friend WithEvents lblServicePath As System.Windows.Forms.TextBox
+    Friend WithEvents lblServiceName As System.Windows.Forms.Label
+    Friend WithEvents splitServices3 As System.Windows.Forms.SplitContainer
+    Friend WithEvents rtb2 As System.Windows.Forms.RichTextBox
+    Friend WithEvents splitServices4 As System.Windows.Forms.SplitContainer
+    Friend WithEvents tv2 As System.Windows.Forms.TreeView
+    Friend WithEvents tv As System.Windows.Forms.TreeView
+    Friend WithEvents pageNetwork As System.Windows.Forms.TabPage
+    Friend WithEvents panelMain14 As System.Windows.Forms.Panel
+    Friend WithEvents lvNetwork As YAPM.networkList
+    Friend WithEvents ColumnHeader66 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader67 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader68 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader69 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents pageFile As System.Windows.Forms.TabPage
+    Friend WithEvents panelMain5 As System.Windows.Forms.Panel
+    Friend WithEvents fileSplitContainer As System.Windows.Forms.SplitContainer
+    Friend WithEvents rtb3 As System.Windows.Forms.RichTextBox
+    Friend WithEvents gpFileAttributes As System.Windows.Forms.GroupBox
+    Friend WithEvents chkFileEncrypted As System.Windows.Forms.CheckBox
+    Friend WithEvents chkFileContentNotIndexed As System.Windows.Forms.CheckBox
+    Friend WithEvents chkFileNormal As System.Windows.Forms.CheckBox
+    Friend WithEvents chkFileSystem As System.Windows.Forms.CheckBox
+    Friend WithEvents chkFileReadOnly As System.Windows.Forms.CheckBox
+    Friend WithEvents chkFileHidden As System.Windows.Forms.CheckBox
+    Friend WithEvents chkFileCompressed As System.Windows.Forms.CheckBox
+    Friend WithEvents chkFileArchive As System.Windows.Forms.CheckBox
+    Friend WithEvents gpFileDates As System.Windows.Forms.GroupBox
+    Friend WithEvents cmdSetFileDates As System.Windows.Forms.Button
+    Friend WithEvents DTlastModification As System.Windows.Forms.DateTimePicker
+    Friend WithEvents DTlastAccess As System.Windows.Forms.DateTimePicker
+    Friend WithEvents DTcreation As System.Windows.Forms.DateTimePicker
+    Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents Label5 As System.Windows.Forms.Label
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents lstFileString As System.Windows.Forms.ListBox
+    Friend WithEvents txtFile As System.Windows.Forms.TextBox
+    Friend WithEvents cmdFileClipboard As System.Windows.Forms.Button
+    Friend WithEvents pctFileSmall As System.Windows.Forms.PictureBox
+    Friend WithEvents pctFileBig As System.Windows.Forms.PictureBox
+    Friend WithEvents pageSearch As System.Windows.Forms.TabPage
+    Friend WithEvents panelMain6 As System.Windows.Forms.Panel
+    Friend WithEvents SplitContainerSearch As System.Windows.Forms.SplitContainer
+    Friend WithEvents Label11 As System.Windows.Forms.Label
+    Friend WithEvents lblResultsCount As System.Windows.Forms.Label
+    Friend WithEvents txtSearchResults As System.Windows.Forms.TextBox
+    Friend WithEvents chkSearchWindows As System.Windows.Forms.CheckBox
+    Friend WithEvents chkSearchHandles As System.Windows.Forms.CheckBox
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents chkSearchModules As System.Windows.Forms.CheckBox
+    Friend WithEvents chkSearchServices As System.Windows.Forms.CheckBox
+    Friend WithEvents chkSearchProcess As System.Windows.Forms.CheckBox
+    Friend WithEvents chkSearchCase As System.Windows.Forms.CheckBox
+    Friend WithEvents lvSearchResults As YAPM.DoubleBufferedLV
+    Friend WithEvents ColumnHeader12 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader13 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader14 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader17 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents pageHelp As System.Windows.Forms.TabPage
+    Friend WithEvents panelMain4 As System.Windows.Forms.Panel
+    Friend WithEvents WBHelp As System.Windows.Forms.WebBrowser
+    Friend WithEvents cmdTray As System.Windows.Forms.Button
+    Friend WithEvents HelpToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RibbonViewToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents butPermuteMenuStyle As System.Windows.Forms.RibbonButton
 
 End Class

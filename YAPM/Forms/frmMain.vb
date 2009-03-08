@@ -26,6 +26,7 @@ Imports System.Runtime.InteropServices
 
 Public Class frmMain
 
+    Private _ribbonStyle As Boolean = True
     Public _trayIcon As New cTrayIcon(2)
     Public cInfo As New cSystemInfo
     Private WithEvents creg As cRegMonitor
@@ -325,7 +326,6 @@ Public Class frmMain
             SetWindowTheme(Me.lvNetwork.Handle, "explorer", Nothing)
             SetWindowTheme(Me.lvTask.Handle, "explorer", Nothing)
             SetWindowTheme(Me.lvHandles.Handle, "explorer", Nothing)
-            SetWindowTheme(Me.lvJobs.Handle, "explorer", Nothing)
             SetWindowTheme(Me.lvWindows.Handle, "explorer", Nothing)
             SetWindowTheme(Me.lvSearchResults.Handle, "explorer", Nothing)
             SetWindowTheme(Me.lvModules.Handle, "explorer", Nothing)
@@ -441,30 +441,12 @@ Public Class frmMain
 
     End Sub
 
-    Private Sub txtSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearch.Click
-        Call txtSearch_TextChanged(Nothing, Nothing)
-    End Sub
-
-    Private Sub txtSearch_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearch.TextChanged
-        Dim it As ListViewItem
-        For Each it In lvProcess.Items
-            If InStr(LCase(it.Text), LCase(txtSearch.Text)) = 0 Then
-                it.Group = lvProcess.Groups(0)
-            Else
-                it.Group = lvProcess.Groups(1)
-            End If
-        Next
-        Me.lblResCount.Text = CStr(lvProcess.Groups(1).Items.Count) & " result(s)"
-    End Sub
-
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Mybase.Resize
 
         Me.panelMain.Left = 5
         Me.panelMain.Top = 145
         Me.panelMain2.Left = 5
         Me.panelMain2.Top = 145
-        Me.panelMain3.Left = 5
-        Me.panelMain3.Top = 120
         Me.panelMain4.Left = 5
         Me.panelMain4.Top = 120
         Me.panelMain5.Left = 5
@@ -495,33 +477,29 @@ Public Class frmMain
         Me.panelMain4.Height = Me.Height - panelMain4.Top - 41
         Me.panelMain4.Width = Me.Width - panelMain4.Left - 20
 
-        ' Jobs resizement
-        Me.panelMain3.Height = Me.panelMain4.Height
-        Me.panelMain3.Width = Me.panelMain4.Width - 2
-
         ' Search resizement
-        Me.panelMain6.Height = Me.panelMain3.Height
-        Me.panelMain6.Width = Me.panelMain3.Width
+        Me.panelMain6.Height = Me.panelMain4.Height
+        Me.panelMain6.Width = Me.panelMain4.Width - 2
 
         ' Handles resizement
-        Me.panelMain7.Height = Me.panelMain3.Height
-        Me.panelMain7.Width = Me.panelMain3.Width
+        Me.panelMain7.Height = Me.panelMain4.Height
+        Me.panelMain7.Width = Me.panelMain4.Width - 2
 
         ' Monitor resizement
-        Me.panelMain8.Height = Me.panelMain3.Height
-        Me.panelMain8.Width = Me.panelMain3.Width
+        Me.panelMain8.Height = Me.panelMain4.Height
+        Me.panelMain8.Width = Me.panelMain4.Width - 2
 
         ' Threads resizement
-        Me.panelMain9.Height = Me.panelMain3.Height
-        Me.panelMain9.Width = Me.panelMain3.Width
+        Me.panelMain9.Height = Me.panelMain4.Height
+        Me.panelMain9.Width = Me.panelMain4.Width - 2
 
         ' Windows resizement
-        Me.panelMain10.Height = Me.panelMain3.Height
-        Me.panelMain10.Width = Me.panelMain3.Width
+        Me.panelMain10.Height = Me.panelMain4.Height
+        Me.panelMain10.Width = Me.panelMain4.Width - 2
 
         ' Modules resizement
-        Me.panelMain11.Height = Me.panelMain3.Height
-        Me.panelMain11.Width = Me.panelMain3.Width
+        Me.panelMain11.Height = Me.panelMain4.Height
+        Me.panelMain11.Width = Me.panelMain4.Width - 2
 
         ' Task resizement
         Me.panelMain13.Height = Me.panelMain7.Height
@@ -532,8 +510,8 @@ Public Class frmMain
         Me.panelMain14.Width = Me.panelMain7.Width
 
         ' Process
-        Me.panelMain.Height = Me.panelMain3.Height - 23
-        Me.panelMain.Width = Me.panelMain3.Width
+        Me.panelMain.Height = Me.panelMain4.Height - 23
+        Me.panelMain.Width = Me.panelMain4.Width - 2
 
         Dim i As Integer = CInt((Me.Height - 250) / 2)
         Dim MepanelInfosHeight As Integer = CInt(IIf(i < 340, i, 340))
@@ -541,8 +519,8 @@ Public Class frmMain
 
 
         ' File resizement
-        Me.panelMain5.Height = Me.panelMain3.Height
-        Me.panelMain5.Width = Me.panelMain3.Width
+        Me.panelMain5.Height = Me.panelMain4.Height
+        Me.panelMain5.Width = Me.panelMain4.Width - 2
         Me.pctFileBig.Left = MepanelInfonWidth - 35
         Me.pctFileSmall.Left = MepanelInfonWidth - 57
         Me.cmdFileClipboard.Left = MepanelInfonWidth - 195
@@ -553,9 +531,9 @@ Public Class frmMain
 
         ' Services
 
-        Me.panelMain2.Height = Me.panelMain3.Height - 27 '- CInt(IIf(i < 210, i, 210)) - 187
+        Me.panelMain2.Height = Me.panelMain4.Height - 27 '- CInt(IIf(i < 210, i, 210)) - 187
         '  Me.panelInfos2.Top = Me.panelMain2.Top + Me.panelMain2.Height + 3
-        Me.panelMain2.Width = Me.panelMain3.Width
+        Me.panelMain2.Width = Me.panelMain4.Width - 2
         '  Me.panelInfos2.Width = MepanelInfonWidth
 
         'Me.lblServiceName.Width = Me.panelInfos2.Width - 140
@@ -689,15 +667,6 @@ Public Class frmMain
                 cFile.OpenDirectory(cp.Path)
             End If
         Next
-    End Sub
-
-    Private Sub lblResCount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblResCount.Click
-        If Me.lvProcess.Groups(1).Items.Count > 0 Then
-            Me.lvProcess.Focus()
-            Me.lvProcess.EnsureVisible(Me.lvProcess.Groups(1).Items(0).Index)
-            Me.lvProcess.SelectedItems.Clear()
-            Me.lvProcess.Groups(1).Items(0).Selected = True
-        End If
     End Sub
 
     Public Sub SetToolTip(ByVal ctrl As Control, ByVal text As String)
@@ -1026,264 +995,265 @@ Public Class frmMain
     End Sub
 
     Public Sub Ribbon_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Ribbon.MouseMove
-        Static currentText As String = vbNullString
-        Static bHelpShown As Boolean = False
+        'Static currentText As String = vbNullString
+        'Static bHelpShown As Boolean = False
 
-        If Not (Ribbon.ActiveTab.Text = currentText) Then
-            currentText = Ribbon.ActiveTab.Text
-            Select Case currentText
-                Case "Services"
-                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvServices.Items.Count) & " services running"
-                    Me.panelMain.Visible = False
-                    Me.panelMain2.Visible = True
-                    Me.panelMain3.Visible = False
-                    Me.panelMain4.Visible = False
-                    Me.panelMain5.Visible = False
-                    Me.panelMenu.Visible = False
-                    Me.panelMenu2.Visible = True
-                    Me.panelMain2.BringToFront()
-                    Me.panelMain14.Visible = False
-                    Me.panelMain6.Visible = False
-                    Me.panelMain7.Visible = False
-                    Me.panelMain8.Visible = False
-                    Me.panelMain9.Visible = False
-                    Me.panelMain10.Visible = False
-                    Me.panelMain11.Visible = False
-                    Me.panelMain13.Visible = False
-                Case "Processes"
-                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
-                    Me.panelMain.Visible = True
-                    Me.panelMain2.Visible = False
-                    Me.panelMain3.Visible = False
-                    Me.panelMain4.Visible = False
-                    Me.panelMenu.Visible = True
-                    Me.panelMain.BringToFront()
-                    Me.panelMenu2.Visible = False
-                    Me.panelMain5.Visible = False
-                    Me.panelMain6.Visible = False
-                    Me.panelMain7.Visible = False
-                    Me.panelMain8.Visible = False
-                    Me.panelMain14.Visible = False
-                    Me.panelMain9.Visible = False
-                    Me.panelMain10.Visible = False
-                    Me.panelMain11.Visible = False
-                    Me.panelMain13.Visible = False
-                Case "Jobs"
-                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvJobs.Items.Count) & " jobs in list"
-                    Me.panelMain.Visible = False
-                    Me.panelMain2.Visible = False
-                    Me.panelMain3.Visible = True
-                    Me.panelMain4.Visible = False
-                    Me.panelMenu.Visible = False
-                    Me.panelMain3.BringToFront()
-                    Me.panelMenu2.Visible = False
-                    Me.panelMain5.Visible = False
-                    Me.panelMain6.Visible = False
-                    Me.panelMain7.Visible = False
-                    Me.panelMain8.Visible = False
-                    Me.panelMain9.Visible = False
-                    Me.panelMain14.Visible = False
-                    Me.panelMain10.Visible = False
-                    Me.panelMain11.Visible = False
-                    Me.panelMain13.Visible = False
-                Case "Help"
+        'If Not (Ribbon.ActiveTab.Text = currentText) Then
+        '    currentText = Ribbon.ActiveTab.Text
+        '    Select Case currentText
+        '        Case "Services"
+        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvServices.Items.Count) & " services running"
+        '            Me.panelMain.Visible = False
+        '            Me.panelMain2.Visible = True
+        '            Me.panelMain3.Visible = False
+        '            Me.panelMain4.Visible = False
+        '            Me.panelMain5.Visible = False
+        '            Me.panelMenu.Visible = False
+        '            Me.panelMenu2.Visible = True
+        '            Me.panelMain2.BringToFront()
+        '            Me.panelMain14.Visible = False
+        '            Me.panelMain6.Visible = False
+        '            Me.panelMain7.Visible = False
+        '            Me.panelMain8.Visible = False
+        '            Me.panelMain9.Visible = False
+        '            Me.panelMain10.Visible = False
+        '            Me.panelMain11.Visible = False
+        '            Me.panelMain13.Visible = False
+        '        Case "Processes"
+        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
+        '            Me.panelMain.Visible = True
+        '            Me.panelMain2.Visible = False
+        '            Me.panelMain3.Visible = False
+        '            Me.panelMain4.Visible = False
+        '            Me.panelMenu.Visible = True
+        '            Me.panelMain.BringToFront()
+        '            Me.panelMenu2.Visible = False
+        '            Me.panelMain5.Visible = False
+        '            Me.panelMain6.Visible = False
+        '            Me.panelMain7.Visible = False
+        '            Me.panelMain8.Visible = False
+        '            Me.panelMain14.Visible = False
+        '            Me.panelMain9.Visible = False
+        '            Me.panelMain10.Visible = False
+        '            Me.panelMain11.Visible = False
+        '            Me.panelMain13.Visible = False
+        '        Case "Jobs"
+        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvJobs.Items.Count) & " jobs in list"
+        '            Me.panelMain.Visible = False
+        '            Me.panelMain2.Visible = False
+        '            Me.panelMain3.Visible = True
+        '            Me.panelMain4.Visible = False
+        '            Me.panelMenu.Visible = False
+        '            Me.panelMain3.BringToFront()
+        '            Me.panelMenu2.Visible = False
+        '            Me.panelMain5.Visible = False
+        '            Me.panelMain6.Visible = False
+        '            Me.panelMain7.Visible = False
+        '            Me.panelMain8.Visible = False
+        '            Me.panelMain9.Visible = False
+        '            Me.panelMain14.Visible = False
+        '            Me.panelMain10.Visible = False
+        '            Me.panelMain11.Visible = False
+        '            Me.panelMain13.Visible = False
+        '        Case "Help"
 
-                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
-                    If Not (bHelpShown) Then
-                        bHelpShown = True
-                        ' Load help file
-                        Dim path As String = HELP_PATH
-                        If IO.File.Exists(path) = False Then
-                            WBHelp.Document.Write("<body link=blue vlink=purple><span>Help file cannot be found. <p></span><span>Please download help file at <a href=" & Chr(34) & "http://sourceforge.net/projects/yaprocmon/" & Chr(34) & ">http://sourceforge.net/projects/yaprocmon</a> and save it in the Help directory.</span></body>")
-                        Else
-                            WBHelp.Navigate(path)
-                        End If
-                    End If
+        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
+        '            If Not (bHelpShown) Then
+        '                bHelpShown = True
+        '                ' Load help file
+        '                Dim path As String = HELP_PATH
+        '                If IO.File.Exists(path) = False Then
+        '                    WBHelp.Document.Write("<body link=blue vlink=purple><span>Help file cannot be found. <p></span><span>Please download help file at <a href=" & Chr(34) & "http://sourceforge.net/projects/yaprocmon/" & Chr(34) & ">http://sourceforge.net/projects/yaprocmon</a> and save it in the Help directory.</span></body>")
+        '                Else
+        '                    WBHelp.Navigate(path)
+        '                End If
+        '            End If
 
-                    Me.panelMain.Visible = False
-                    Me.panelMain2.Visible = False
-                    Me.panelMain3.Visible = False
-                    Me.panelMain4.Visible = True
-                    Me.panelMenu.Visible = False
-                    Me.panelMenu2.Visible = False
-                    Me.panelMain5.Visible = False
-                    Me.panelMain14.Visible = False
-                    Me.panelMain6.Visible = False
-                    Me.panelMain7.Visible = False
-                    Me.panelMain8.Visible = False
-                    Me.panelMain9.Visible = False
-                    Me.panelMain10.Visible = False
-                    Me.panelMain11.Visible = False
-                    Me.panelMain13.Visible = False
-                    Me.panelMain4.BringToFront()
-                Case "File"
-                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
-                    Me.panelMain.Visible = False
-                    Me.panelMain2.Visible = False
-                    Me.panelMain3.Visible = False
-                    Me.panelMain4.Visible = False
-                    Me.panelMenu.Visible = False
-                    Me.panelMenu2.Visible = False
-                    Me.panelMain5.Visible = True
-                    Me.panelMain6.Visible = False
-                    Me.panelMain7.Visible = False
-                    Me.panelMain8.Visible = False
-                    Me.panelMain9.Visible = False
-                    Me.panelMain14.Visible = False
-                    Me.panelMain11.Visible = False
-                    Me.panelMain10.Visible = False
-                    Me.panelMain13.Visible = False
-                    Me.panelMain5.BringToFront()
-                Case "Search"
-                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvSearchResults.Items.Count) & " search results"
-                    Me.panelMain.Visible = False
-                    Me.panelMain2.Visible = False
-                    Me.panelMain3.Visible = False
-                    Me.panelMain4.Visible = False
-                    Me.panelMenu.Visible = False
-                    Me.panelMenu2.Visible = False
-                    Me.panelMain5.Visible = False
-                    Me.panelMain6.Visible = True
-                    Me.panelMain7.Visible = False
-                    Me.panelMain8.Visible = False
-                    Me.panelMain9.Visible = False
-                    Me.panelMain10.Visible = False
-                    Me.panelMain14.Visible = False
-                    Me.panelMain11.Visible = False
-                    Me.panelMain13.Visible = False
-                    Me.panelMain6.BringToFront()
-                Case "Handles"
-                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvHandles.Items.Count) & " handles"
-                    Me.panelMain.Visible = False
-                    Me.panelMain2.Visible = False
-                    Me.panelMain3.Visible = False
-                    Me.panelMain4.Visible = False
-                    Me.panelMenu.Visible = False
-                    Me.panelMenu2.Visible = False
-                    Me.panelMain5.Visible = False
-                    Me.panelMain6.Visible = False
-                    Me.panelMain7.Visible = True
-                    Me.panelMain8.Visible = False
-                    Me.panelMain9.Visible = False
-                    Me.panelMain10.Visible = False
-                    Me.panelMain11.Visible = False
-                    Me.panelMain14.Visible = False
-                    Me.panelMain13.Visible = False
-                    Me.panelMain7.BringToFront()
-                Case "Monitor"
-                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
-                    Me.panelMain.Visible = False
-                    Me.panelMain2.Visible = False
-                    Me.panelMain3.Visible = False
-                    Me.panelMain4.Visible = False
-                    Me.panelMenu.Visible = False
-                    Me.panelMenu2.Visible = False
-                    Me.panelMain5.Visible = False
-                    Me.panelMain6.Visible = False
-                    Me.panelMain7.Visible = False
-                    Me.panelMain8.Visible = True
-                    Me.panelMain13.Visible = False
-                    Me.panelMain9.Visible = False
-                    Me.panelMain10.Visible = False
-                    Me.panelMain8.BringToFront()
-                    Me.panelMain14.Visible = False
-                    Me.panelMain11.Visible = False
-                Case "Threads"
-                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvThreads.Items.Count) & " threads"
-                    Me.panelMain.Visible = False
-                    Me.panelMain2.Visible = False
-                    Me.panelMain3.Visible = False
-                    Me.panelMain4.Visible = False
-                    Me.panelMenu.Visible = False
-                    Me.panelMenu2.Visible = False
-                    Me.panelMain5.Visible = False
-                    Me.panelMain6.Visible = False
-                    Me.panelMain7.Visible = False
-                    Me.panelMain8.Visible = False
-                    Me.panelMain9.BringToFront()
-                    Me.panelMain9.Visible = True
-                    Me.panelMain14.Visible = False
-                    Me.panelMain10.Visible = False
-                    Me.panelMain11.Visible = False
-                    Me.panelMain13.Visible = False
-                Case "Windows"
-                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvWindows.Items.Count) & " windows"
-                    Me.panelMain.Visible = False
-                    Me.panelMain2.Visible = False
-                    Me.panelMain3.Visible = False
-                    Me.panelMain4.Visible = False
-                    Me.panelMenu.Visible = False
-                    Me.panelMenu2.Visible = False
-                    Me.panelMain5.Visible = False
-                    Me.panelMain6.Visible = False
-                    Me.panelMain7.Visible = False
-                    Me.panelMain8.Visible = False
-                    Me.panelMain13.Visible = False
-                    Me.panelMain9.Visible = False
-                    Me.panelMain10.Visible = True
-                    Me.panelMain10.BringToFront()
-                    Me.panelMain14.Visible = False
-                    Me.panelMain11.Visible = False
-                Case "Modules"
-                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
-                    Me.panelMain.Visible = False
-                    Me.panelMain2.Visible = False
-                    Me.panelMain3.Visible = False
-                    Me.panelMain4.Visible = False
-                    Me.panelMain8.BringToFront()
-                    Me.panelMenu.Visible = False
-                    Me.panelMenu2.Visible = False
-                    Me.panelMain5.Visible = False
-                    Me.panelMain6.Visible = False
-                    Me.panelMain13.Visible = False
-                    Me.panelMain7.Visible = False
-                    Me.panelMain8.Visible = False
-                    Me.panelMain9.Visible = False
-                    Me.panelMain10.Visible = False
-                    Me.panelMain11.BringToFront()
-                    Me.panelMain14.Visible = False
-                    Me.panelMain11.Visible = True
-                Case "Tasks"
-                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvTask.Items.Count) & " tasks running"
-                    Me.panelMain.Visible = False
-                    Me.panelMain2.Visible = False
-                    Me.panelMain3.Visible = False
-                    Me.panelMain4.Visible = False
-                    Me.panelMenu.Visible = False
-                    Me.panelMenu2.Visible = False
-                    Me.panelMain5.Visible = False
-                    Me.panelMain6.Visible = False
-                    Me.panelMain13.Visible = True
-                    Me.panelMain7.Visible = False
-                    Me.panelMain8.Visible = False
-                    Me.panelMain9.Visible = False
-                    Me.panelMain10.Visible = False
-                    Me.panelMain13.BringToFront()
-                    Me.panelMain11.Visible = False
-                    Me.panelMain14.Visible = False
-                Case "Network"
-                    Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvNetwork.Items.Count) & " connections"
-                    Me.panelMain.Visible = False
-                    Me.panelMain2.Visible = False
-                    Me.panelMain3.Visible = False
-                    Me.panelMain4.Visible = False
-                    Me.panelMenu.Visible = False
-                    Me.panelMenu2.Visible = False
-                    Me.panelMain5.Visible = False
-                    Me.panelMain6.Visible = False
-                    Me.panelMain13.Visible = False
-                    Me.panelMain7.Visible = False
-                    Me.panelMain8.Visible = False
-                    Me.panelMain9.Visible = False
-                    Me.panelMain10.Visible = False
-                    Me.panelMain11.Visible = False
-                    Me.panelMain11.Visible = False
-                    Me.panelMain14.Visible = True
-            End Select
-        End If
+        '            Me.panelMain.Visible = False
+        '            Me.panelMain2.Visible = False
+        '            Me.panelMain3.Visible = False
+        '            Me.panelMain4.Visible = True
+        '            Me.panelMenu.Visible = False
+        '            Me.panelMenu2.Visible = False
+        '            Me.panelMain5.Visible = False
+        '            Me.panelMain14.Visible = False
+        '            Me.panelMain6.Visible = False
+        '            Me.panelMain7.Visible = False
+        '            Me.panelMain8.Visible = False
+        '            Me.panelMain9.Visible = False
+        '            Me.panelMain10.Visible = False
+        '            Me.panelMain11.Visible = False
+        '            Me.panelMain13.Visible = False
+        '            Me.panelMain4.BringToFront()
+        '        Case "File"
+        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
+        '            Me.panelMain.Visible = False
+        '            Me.panelMain2.Visible = False
+        '            Me.panelMain3.Visible = False
+        '            Me.panelMain4.Visible = False
+        '            Me.panelMenu.Visible = False
+        '            Me.panelMenu2.Visible = False
+        '            Me.panelMain5.Visible = True
+        '            Me.panelMain6.Visible = False
+        '            Me.panelMain7.Visible = False
+        '            Me.panelMain8.Visible = False
+        '            Me.panelMain9.Visible = False
+        '            Me.panelMain14.Visible = False
+        '            Me.panelMain11.Visible = False
+        '            Me.panelMain10.Visible = False
+        '            Me.panelMain13.Visible = False
+        '            Me.panelMain5.BringToFront()
+        '        Case "Search"
+        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvSearchResults.Items.Count) & " search results"
+        '            Me.panelMain.Visible = False
+        '            Me.panelMain2.Visible = False
+        '            Me.panelMain3.Visible = False
+        '            Me.panelMain4.Visible = False
+        '            Me.panelMenu.Visible = False
+        '            Me.panelMenu2.Visible = False
+        '            Me.panelMain5.Visible = False
+        '            Me.panelMain6.Visible = True
+        '            Me.panelMain7.Visible = False
+        '            Me.panelMain8.Visible = False
+        '            Me.panelMain9.Visible = False
+        '            Me.panelMain10.Visible = False
+        '            Me.panelMain14.Visible = False
+        '            Me.panelMain11.Visible = False
+        '            Me.panelMain13.Visible = False
+        '            Me.panelMain6.BringToFront()
+        '        Case "Handles"
+        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvHandles.Items.Count) & " handles"
+        '            Me.panelMain.Visible = False
+        '            Me.panelMain2.Visible = False
+        '            Me.panelMain3.Visible = False
+        '            Me.panelMain4.Visible = False
+        '            Me.panelMenu.Visible = False
+        '            Me.panelMenu2.Visible = False
+        '            Me.panelMain5.Visible = False
+        '            Me.panelMain6.Visible = False
+        '            Me.panelMain7.Visible = True
+        '            Me.panelMain8.Visible = False
+        '            Me.panelMain9.Visible = False
+        '            Me.panelMain10.Visible = False
+        '            Me.panelMain11.Visible = False
+        '            Me.panelMain14.Visible = False
+        '            Me.panelMain13.Visible = False
+        '            Me.panelMain7.BringToFront()
+        '        Case "Monitor"
+        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
+        '            Me.panelMain.Visible = False
+        '            Me.panelMain2.Visible = False
+        '            Me.panelMain3.Visible = False
+        '            Me.panelMain4.Visible = False
+        '            Me.panelMenu.Visible = False
+        '            Me.panelMenu2.Visible = False
+        '            Me.panelMain5.Visible = False
+        '            Me.panelMain6.Visible = False
+        '            Me.panelMain7.Visible = False
+        '            Me.panelMain8.Visible = True
+        '            Me.panelMain13.Visible = False
+        '            Me.panelMain9.Visible = False
+        '            Me.panelMain10.Visible = False
+        '            Me.panelMain8.BringToFront()
+        '            Me.panelMain14.Visible = False
+        '            Me.panelMain11.Visible = False
+        '        Case "Threads"
+        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvThreads.Items.Count) & " threads"
+        '            Me.panelMain.Visible = False
+        '            Me.panelMain2.Visible = False
+        '            Me.panelMain3.Visible = False
+        '            Me.panelMain4.Visible = False
+        '            Me.panelMenu.Visible = False
+        '            Me.panelMenu2.Visible = False
+        '            Me.panelMain5.Visible = False
+        '            Me.panelMain6.Visible = False
+        '            Me.panelMain7.Visible = False
+        '            Me.panelMain8.Visible = False
+        '            Me.panelMain9.BringToFront()
+        '            Me.panelMain9.Visible = True
+        '            Me.panelMain14.Visible = False
+        '            Me.panelMain10.Visible = False
+        '            Me.panelMain11.Visible = False
+        '            Me.panelMain13.Visible = False
+        '        Case "Windows"
+        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvWindows.Items.Count) & " windows"
+        '            Me.panelMain.Visible = False
+        '            Me.panelMain2.Visible = False
+        '            Me.panelMain3.Visible = False
+        '            Me.panelMain4.Visible = False
+        '            Me.panelMenu.Visible = False
+        '            Me.panelMenu2.Visible = False
+        '            Me.panelMain5.Visible = False
+        '            Me.panelMain6.Visible = False
+        '            Me.panelMain7.Visible = False
+        '            Me.panelMain8.Visible = False
+        '            Me.panelMain13.Visible = False
+        '            Me.panelMain9.Visible = False
+        '            Me.panelMain10.Visible = True
+        '            Me.panelMain10.BringToFront()
+        '            Me.panelMain14.Visible = False
+        '            Me.panelMain11.Visible = False
+        '        Case "Modules"
+        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
+        '            Me.panelMain.Visible = False
+        '            Me.panelMain2.Visible = False
+        '            Me.panelMain3.Visible = False
+        '            Me.panelMain4.Visible = False
+        '            Me.panelMain8.BringToFront()
+        '            Me.panelMenu.Visible = False
+        '            Me.panelMenu2.Visible = False
+        '            Me.panelMain5.Visible = False
+        '            Me.panelMain6.Visible = False
+        '            Me.panelMain13.Visible = False
+        '            Me.panelMain7.Visible = False
+        '            Me.panelMain8.Visible = False
+        '            Me.panelMain9.Visible = False
+        '            Me.panelMain10.Visible = False
+        '            Me.panelMain11.BringToFront()
+        '            Me.panelMain14.Visible = False
+        '            Me.panelMain11.Visible = True
+        '        Case "Tasks"
+        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvTask.Items.Count) & " tasks running"
+        '            Me.panelMain.Visible = False
+        '            Me.panelMain2.Visible = False
+        '            Me.panelMain3.Visible = False
+        '            Me.panelMain4.Visible = False
+        '            Me.panelMenu.Visible = False
+        '            Me.panelMenu2.Visible = False
+        '            Me.panelMain5.Visible = False
+        '            Me.panelMain6.Visible = False
+        '            Me.panelMain13.Visible = True
+        '            Me.panelMain7.Visible = False
+        '            Me.panelMain8.Visible = False
+        '            Me.panelMain9.Visible = False
+        '            Me.panelMain10.Visible = False
+        '            Me.panelMain13.BringToFront()
+        '            Me.panelMain11.Visible = False
+        '            Me.panelMain14.Visible = False
+        '        Case "Network"
+        '            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvNetwork.Items.Count) & " connections"
+        '            Me.panelMain.Visible = False
+        '            Me.panelMain2.Visible = False
+        '            Me.panelMain3.Visible = False
+        '            Me.panelMain4.Visible = False
+        '            Me.panelMenu.Visible = False
+        '            Me.panelMenu2.Visible = False
+        '            Me.panelMain5.Visible = False
+        '            Me.panelMain6.Visible = False
+        '            Me.panelMain13.Visible = False
+        '            Me.panelMain7.Visible = False
+        '            Me.panelMain8.Visible = False
+        '            Me.panelMain9.Visible = False
+        '            Me.panelMain10.Visible = False
+        '            Me.panelMain11.Visible = False
+        '            Me.panelMain11.Visible = False
+        '            Me.panelMain14.Visible = True
+        '    End Select
+        'End If
+
     End Sub
 
-    Private Sub cmdTray_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdTray.Click
+    Private Sub cmdTray_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Me.Hide()
         Me.Visible = False
     End Sub
@@ -1306,32 +1276,6 @@ Public Class frmMain
             My.Application.DoEvents()
             cFile.ShellOpenFile("http://www.google.com/search?hl=en&q=%22" & cp.Name & "%22")
         Next
-    End Sub
-
-    Private Sub txtServiceSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtServiceSearch.Click
-        Call txtServiceSearch_TextChanged(Nothing, Nothing)
-    End Sub
-
-    Private Sub txtServiceSearch_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtServiceSearch.TextChanged
-        Dim it As ListViewItem
-        For Each it In lvServices.Items
-            If InStr(LCase(it.Text), LCase(txtServiceSearch.Text)) = 0 And _
-                    InStr(LCase(it.SubItems.Item(1).Text), LCase(txtServiceSearch.Text)) = 0 Then
-                it.Group = lvServices.Groups(0)
-            Else
-                it.Group = lvServices.Groups(1)
-            End If
-        Next
-        Me.lblResCount2.Text = CStr(lvServices.Groups(1).Items.Count) & " results(s)"
-    End Sub
-
-    Private Sub lblResCount2_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblResCount2.Click
-        If Me.lvServices.Groups(1).Items.Count > 0 Then
-            Me.lvServices.Focus()
-            Me.lvServices.EnsureVisible(Me.lvServices.Groups(1).Items(0).Index)
-            Me.lvServices.SelectedItems.Clear()
-            Me.lvServices.Groups(1).Items(0).Selected = True
-        End If
     End Sub
 
     Private Sub GoogleSearchToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GoogleSearchToolStripMenuItem.Click
@@ -1382,24 +1326,6 @@ Public Class frmMain
         refreshFileInfos(file)
         Me.Ribbon.ActiveTab = Me.FileTab
         Call Me.Ribbon_MouseMove(Nothing, Nothing)
-    End Sub
-
-    Private Sub cmdFileClipboard_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdFileClipboard.Click
-        If Me.rtb3.Text.Length > 0 Then
-            My.Computer.Clipboard.SetText(Me.rtb3.Text, TextDataFormat.Text)
-        End If
-    End Sub
-
-    Private Sub cmdFileClipboard_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles cmdFileClipboard.MouseDown
-        If e.Button = Windows.Forms.MouseButtons.Right Then
-            If Me.rtb3.Rtf.Length > 0 Then
-                My.Computer.Clipboard.SetText(Me.rtb3.Rtf, TextDataFormat.Rtf)
-            End If
-        End If
-    End Sub
-
-    Private Sub rtb3_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles rtb3.TextChanged
-        Me.cmdFileClipboard.Enabled = (rtb3.Rtf.Length > 0)
     End Sub
 
     Private Sub butUpdate_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butUpdate.Click
@@ -1635,10 +1561,6 @@ Public Class frmMain
         Me.butSearchGo.Enabled = b
     End Sub
 
-    Private Sub chkSearchProcess_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkSearchProcess.CheckedChanged
-        Me.chkSearchModules.Enabled = (Me.chkSearchProcess.Checked)
-    End Sub
-
     Private Sub butSearchSaveReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butSearchSaveReport.Click
         Dim frm As New frmSaveReport
         With frm
@@ -1742,15 +1664,6 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub txtFile_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtFile.TextChanged
-        Dim b As Boolean = IO.File.Exists(Me.txtFile.Text)
-        Me.RBFileDelete.Enabled = b
-        Me.RBFileKillProcess.Enabled = b
-        Me.RBFileOnline.Enabled = b
-        Me.RBFileOther.Enabled = b
-        Me.RBFileOthers.Enabled = b
-    End Sub
-
     Private Sub butFileRelease_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileRelease.Click
         Dim frm As New frmFileRelease
         With frm
@@ -1829,24 +1742,8 @@ Public Class frmMain
         cSelFile.MoveToTrash()
     End Sub
 
-    Private Sub cmdSetFileDates_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSetFileDates.Click
-        ' Set new dates
-        Try
-            cSelFile.CreationTime = Me.DTcreation.Value
-            cSelFile.LastAccessTime = Me.DTlastAccess.Value
-            cSelFile.LastWriteTime = Me.DTlastModification.Value
-            MsgBox("Done.", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Date change ok")
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Date change failed")
-        End Try
-    End Sub
-
     Private Sub butFileSeeStrings_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileSeeStrings.Click
         Call DisplayFileStrings(Me.lstFileString, Me.txtFile.Text)
-    End Sub
-
-    Private Sub lstFileString_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lstFileString.MouseDown
-        Call mdlMisc.CopyLstToClip(e, Me.lstFileString)
     End Sub
 
     Private Function RemoveAttribute(ByVal file As String, ByVal attributesToRemove As IO.FileAttributes) As IO.FileAttributes
@@ -1857,114 +1754,6 @@ Public Class frmMain
         Dim attributes As IO.FileAttributes = cSelFile.Attributes
         Return attributes Or attributesToAdd
     End Function
-
-    Private Sub chkFileArchive_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkFileArchive.CheckedChanged
-        Static accessed As Boolean = False
-        If accessed Then
-            accessed = False
-            Exit Sub
-        End If
-        Try
-            If Me.chkFileArchive.Checked Then
-                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.Archive)
-            Else
-                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.Archive)
-            End If
-        Catch ex As Exception
-            accessed = True
-            Me.chkFileArchive.Checked = Not (Me.chkFileArchive.Checked)
-        End Try
-    End Sub
-
-    Private Sub chkFileHidden_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkFileHidden.CheckedChanged
-        Static accessed As Boolean = False
-        If accessed Then
-            accessed = False
-            Exit Sub
-        End If
-        Try
-            If Me.chkFileHidden.Checked Then
-                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.Hidden)
-            Else
-                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.Hidden)
-            End If
-        Catch ex As Exception
-            accessed = True
-            Me.chkFileHidden.Checked = Not (Me.chkFileHidden.Checked)
-        End Try
-    End Sub
-
-    Private Sub chkFileReadOnly_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkFileReadOnly.CheckedChanged
-        Static accessed As Boolean = False
-        If accessed Then
-            accessed = False
-            Exit Sub
-        End If
-        Try
-            If Me.chkFileReadOnly.Checked Then
-                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.ReadOnly)
-            Else
-                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.ReadOnly)
-            End If
-        Catch ex As Exception
-            accessed = True
-            Me.chkFileReadOnly.Checked = Not (Me.chkFileReadOnly.Checked)
-        End Try
-    End Sub
-
-    Private Sub chkFileContentNotIndexed_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkFileContentNotIndexed.CheckedChanged
-        Static accessed As Boolean = False
-        If accessed Then
-            accessed = False
-            Exit Sub
-        End If
-        Try
-            If Me.chkFileContentNotIndexed.Checked Then
-                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.NotContentIndexed)
-            Else
-                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.NotContentIndexed)
-            End If
-        Catch ex As Exception
-            accessed = True
-            Me.chkFileContentNotIndexed.Checked = Not (Me.chkFileContentNotIndexed.Checked)
-        End Try
-    End Sub
-
-    Private Sub chkFileNormal_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkFileNormal.CheckedChanged
-        Static accessed As Boolean = False
-        If accessed Then
-            accessed = False
-            Exit Sub
-        End If
-        Try
-            If Me.chkFileNormal.Checked Then
-                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.Normal)
-            Else
-                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.Normal)
-            End If
-        Catch ex As Exception
-            accessed = True
-            Me.chkFileNormal.Checked = Not (Me.chkFileNormal.Checked)
-        End Try
-    End Sub
-
-    Private Sub chkFileSystem_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkFileSystem.CheckedChanged
-        Static accessed As Boolean = False
-        If accessed Then
-            accessed = False
-            Exit Sub
-        End If
-        Try
-            If Me.chkFileSystem.Checked Then
-                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.System)
-            Else
-                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.System)
-            End If
-        Catch ex As Exception
-            accessed = True
-            Me.chkFileSystem.Checked = Not (Me.chkFileSystem.Checked)
-        End Try
-    End Sub
 
     Private Sub ToolStripMenuItem22_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem22.Click
         Call Me.butHandleClose_Click(Nothing, Nothing)
@@ -2115,38 +1904,6 @@ Public Class frmMain
         End If
 
         Call updateMonitoringLog()
-    End Sub
-
-    Private Sub tvMonitor_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvMonitor.AfterSelect
-
-        Me.graphMonitor.EnableGraph = False
-
-        If tvMonitor.SelectedNode Is Nothing Then Exit Sub
-
-        If tvMonitor.SelectedNode.Parent IsNot Nothing Then
-            If tvMonitor.SelectedNode.Parent.Name = tvMonitor.Nodes.Item(0).Name Then
-                ' Then we have selected a process
-                Me.butMonitorStart.Enabled = True
-                Me.butMonitorStop.Enabled = True
-                Me.graphMonitor.CreateGraphics.Clear(Color.Black)
-                Me.graphMonitor.CreateGraphics.DrawString("Select in the treeview a monitor item.", Me.Font, Brushes.White, 0, 0)
-            Else
-                Dim it As cMonitor = CType(tvMonitor.SelectedNode.Tag, cMonitor)
-                Me.butMonitorStart.Enabled = Not (it.Enabled)
-                Me.butMonitorStop.Enabled = it.Enabled
-
-                ' We have selected a sub item -> display values in graph
-                Dim sKey As String = tvMonitor.SelectedNode.Text
-                Call ShowMonitorStats(it, sKey, "", "")
-            End If
-        Else
-            ' The we can start/stop all items
-            Me.butMonitorStart.Enabled = True
-            Me.butMonitorStop.Enabled = True
-            Me.graphMonitor.CreateGraphics.Clear(Color.Black)
-            Me.graphMonitor.CreateGraphics.DrawString("Select in the treeview a process and then a monitor item.", Me.Font, Brushes.White, 0, 0)
-        End If
-
     End Sub
 
     Private Sub butMonitorStart_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMonitorStart.Click
@@ -2321,18 +2078,6 @@ Public Class frmMain
         Call tvMonitor_AfterSelect(Nothing, Nothing)
     End Sub
 
-    Private Sub chkMonitorLeftAuto_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkMonitorLeftAuto.CheckedChanged
-        Me.dtMonitorL.Enabled = Not (Me.chkMonitorLeftAuto.Checked)
-        Me.txtMonitorNumber.Enabled = Not (Me.chkMonitorLeftAuto.Checked = False And Me.chkMonitorRightAuto.Checked = False)
-        Me.lblMonitorMaxNumber.Enabled = Me.txtMonitorNumber.Enabled
-    End Sub
-
-    Private Sub chkMonitorRightAuto_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkMonitorRightAuto.CheckedChanged
-        Me.dtMonitorR.Enabled = Not (Me.chkMonitorRightAuto.Checked)
-        Me.txtMonitorNumber.Enabled = Not (Me.chkMonitorLeftAuto.Checked = False And Me.chkMonitorRightAuto.Checked = False)
-        Me.lblMonitorMaxNumber.Enabled = Me.txtMonitorNumber.Enabled
-    End Sub
-
     ' Return an integer that corresponds to a time in a monitor from a date
     Private Function findViewIntegerFromDate(ByVal d As Date, ByVal v() As Graph.ValueItem, _
         ByVal monitor As cMonitor) As Integer
@@ -2361,33 +2106,6 @@ Public Class frmMain
         Dim lMax As Integer = CInt(Val(Me.txtMonitorNumber.Text))
         Return Math.Max(0, max - lMax)
     End Function
-
-    Private Sub dtMonitorL_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles dtMonitorL.ValueChanged
-        If Me.chkMonitorLeftAuto.Checked = False Then
-            Call tvMonitor_AfterSelect(Nothing, Nothing)
-        End If
-    End Sub
-
-    Private Sub dtMonitorR_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles dtMonitorR.ValueChanged
-        If Me.chkMonitorRightAuto.Checked = False Then
-            Call tvMonitor_AfterSelect(Nothing, Nothing)
-        End If
-    End Sub
-
-    Private Sub graphMonitor_OnZoom(ByVal leftVal As Integer, ByVal rightVal As Integer) Handles graphMonitor.OnZoom
-        ' Change dates and set view as fixed (left and right)
-        Try
-            Dim it As cMonitor = CType(tvMonitor.SelectedNode.Tag, cMonitor)
-            Dim l As New Date(it.GetMonitorCreationDate.Ticks + leftVal * 10000)
-            Dim r As New Date(it.GetMonitorCreationDate.Ticks + rightVal * 10000)
-            Me.dtMonitorL.Value = l
-            Me.dtMonitorR.Value = r
-            Me.chkMonitorLeftAuto.Checked = False
-            Me.chkMonitorRightAuto.Checked = False
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
-        End Try
-    End Sub
 
     Private Sub ShowThreadsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowThreadsToolStripMenuItem.Click
         Call Me.butProcessThreads_Click(Nothing, Nothing)
@@ -2860,14 +2578,6 @@ Public Class frmMain
         Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
     End Sub
 
-    Private Sub lvJobs_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvJobs.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvJobs)
-    End Sub
-
-    Private Sub lvSearchResults_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvSearchResults.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvSearchResults)
-    End Sub
-
     Private Sub ToolStripMenuItem36_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem36.Click
         For Each it As ListViewItem In Me.lvModules.SelectedItems
             Call Me.lvModules.GetItemByKey(it.Name).UnloadModule()
@@ -2907,305 +2617,6 @@ Public Class frmMain
                 DisplayDetailsFile(s)
             End If
         End If
-    End Sub
-
-    Private Sub lvModules_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvModules.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvModules)
-    End Sub
-
-    Private Sub lvModules_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvModules.SelectedIndexChanged
-        If lvModules.SelectedItems.Count = 1 Then
-            Try
-
-                Dim cP As cModule = lvModules.GetSelectedItem
-
-                ' Description
-                Dim s As String = ""
-                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Module properties\b0\par"
-                s = s & "\tab Module name :\tab\tab\tab " & cFile.GetFileName(cP.FileName) & "\par"
-                s = s & "\tab Process owner :\tab\tab\tab " & CStr(cP.ProcessId) & " -- " & cProcess.GetProcessName(cP.ProcessId) & "\par"
-                s = s & "\tab Path :\tab\tab\tab\tab " & Replace(cP.FileName, "\", "\\") & "\par"
-                s = s & "\tab Version :\tab\tab\tab " & cP.FileVersion & "\par"
-                s = s & "\tab Comments :\tab\tab\tab " & cP.Comments & "\par"
-                s = s & "\tab CompanyName :\tab\tab\tab " & cP.CompanyName & "\par"
-                s = s & "\tab LegalCopyright :\tab\tab\tab " & cP.LegalCopyright & "\par"
-                s = s & "\tab ProductName :\tab\tab\tab " & cP.ProductName & "\par"
-                s = s & "\tab Language :\tab\tab\tab " & cP.Language & "\par"
-                s = s & "\tab InternalName :\tab\tab\tab " & cP.InternalName & "\par"
-                s = s & "\tab LegalTrademarks :\tab\tab " & cP.LegalTrademarks & "\par"
-                s = s & "\tab OriginalFilename :\tab\tab\tab " & cP.OriginalFilename & "\par"
-                s = s & "\tab FileBuildPart :\tab\tab\tab " & CStr(cP.FileBuildPart) & "\par"
-                s = s & "\tab FileDescription :\tab\tab\tab " & CStr(cP.FileDescription) & "\par"
-                s = s & "\tab FileMajorPart :\tab\tab\tab " & CStr(cP.FileMajorPart) & "\par"
-                s = s & "\tab FileMinorPart :\tab\tab\tab " & CStr(cP.FileMinorPart) & "\par"
-                s = s & "\tab FilePrivatePart :\tab\tab\tab " & CStr(cP.FilePrivatePart) & "\par"
-                s = s & "\tab IsDebug :\tab\tab\tab " & CStr(cP.IsDebug) & "\par"
-                s = s & "\tab IsPatched :\tab\tab\tab " & CStr(cP.IsPatched) & "\par"
-                s = s & "\tab IsPreRelease :\tab\tab\tab " & CStr(cP.IsPreRelease) & "\par"
-                s = s & "\tab IsPrivateBuild :\tab\tab\tab " & CStr(cP.IsPrivateBuild) & "\par"
-                s = s & "\tab IsSpecialBuild :\tab\tab\tab " & CStr(cP.IsSpecialBuild) & "\par"
-                s = s & "\tab PrivateBuild :\tab\tab\tab " & CStr(cP.PrivateBuild) & "\par"
-                s = s & "\tab ProductBuildPart :\tab\tab " & CStr(cP.ProductBuildPart) & "\par"
-                s = s & "\tab ProductMajorPart :\tab\tab " & CStr(cP.ProductMajorPart) & "\par"
-                s = s & "\tab ProductMinorPart :\tab\tab " & CStr(cP.ProductMinorPart) & "\par"
-                s = s & "\tab ProductPrivatePart :\tab\tab " & CStr(cP.ProductPrivatePart) & "\par"
-                s = s & "\tab ProductVersion :\tab\tab\tab " & CStr(cP.ProductVersion) & "\par"
-                s = s & "\tab SpecialBuild :\tab\tab\tab " & CStr(cP.SpecialBuild) & "\par"
-
-                s = s & "}"
-
-                rtb6.Rtf = s
-
-            Catch ex As Exception
-                Dim s As String = ""
-                Dim er As Exception = ex
-
-                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
-                s = s & "\tab Message :\tab " & er.Message & "\par"
-                s = s & "\tab Source :\tab\tab " & er.Source & "\par"
-                If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
-                s = s & "}"
-
-                rtb6.Rtf = s
-
-            End Try
-
-        End If
-    End Sub
-
-    Private Sub txtSearchModule_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchModule.TextChanged
-        For Each it As ListViewItem In Me.lvModules.Items
-            Dim cM As cModule = Me.lvModules.GetItemByKey(it.Name)
-            If InStr(LCase(cM.FileName), LCase(Me.txtSearchModule.Text)) = 0 And _
-                    InStr(LCase(cM.FileVersion), LCase(Me.txtSearchModule.Text)) = 0 And _
-                    InStr(LCase(cM.FileDescription), LCase(Me.txtSearchModule.Text)) = 0 And _
-                    InStr(LCase(cM.CompanyName), LCase(Me.txtSearchModule.Text)) = 0 Then
-                it.Group = lvModules.Groups(0)
-            Else
-                it.Group = lvModules.Groups(1)
-            End If
-        Next
-        Me.lblModulesCount.Text = CStr(lvModules.Groups(1).Items.Count) & " result(s)"
-    End Sub
-
-    Private Sub lblModulesCount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblModulesCount.Click
-        If Me.lvModules.Groups(1).Items.Count > 0 Then
-            Me.lvModules.Focus()
-            Me.lvModules.EnsureVisible(Me.lvModules.Groups(1).Items(0).Index)
-            Me.lvModules.SelectedItems.Clear()
-            Me.lvModules.Groups(1).Items(0).Selected = True
-        End If
-    End Sub
-
-    Private Sub lvThreads_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvThreads.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvThreads)
-
-        If e.Button = Windows.Forms.MouseButtons.Right Then
-
-            Dim p As cThread.ThreadPriority = cThread.ThreadPriority.Unknow
-
-            If Me.lvThreads.SelectedItems.Count > 0 Then
-                p = Me.lvThreads.GetSelectedItem.Priority
-            End If
-            Me.ToolStripMenuItem27.Checked = (p = cThread.ThreadPriority.Idle)
-            Me.LowestToolStripMenuItem.Checked = (p = cThread.ThreadPriority.Lowest)
-            Me.ToolStripMenuItem28.Checked = (p = cThread.ThreadPriority.BelowNormal)
-            Me.ToolStripMenuItem29.Checked = (p = cThread.ThreadPriority.Normal)
-            Me.ToolStripMenuItem30.Checked = (p = cThread.ThreadPriority.AboveNormal)
-            Me.ToolStripMenuItem31.Checked = (p = cThread.ThreadPriority.Highest)
-            Me.ToolStripMenuItem32.Checked = (p = cThread.ThreadPriority.Critical)
-        End If
-    End Sub
-
-    Private Sub lvThreads_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvThreads.SelectedIndexChanged
-        ' New thread selected
-        If lvThreads.SelectedItems.Count = 1 Then
-            Dim cp As cThread = Me.lvThreads.GetSelectedItem
-
-            Try
-
-                ' Description
-                Dim s As String = ""
-                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Thread properties\b0\par"
-                s = s & "\tab Thread ID :\tab\tab\tab " & CStr(cp.Id) & "\par"
-                s = s & "\tab Process owner :\tab\tab\tab " & CStr(cp.ProcessId) & " -- " & cp.ProcessName & "\par"
-
-                s = s & "\tab Priority :\tab\tab\tab\tab " & cp.PriorityString & "\par"
-                s = s & "\tab Base priority :\tab\tab\tab " & CStr(cp.BasePriority) & "\par"
-                s = s & "\tab State :\tab\tab\tab\tab " & cp.ThreadState & "\par"
-                s = s & "\tab Wait reason :\tab\tab\tab " & cp.WaitReason & "\par"
-                s = s & "\tab Start address :\tab\tab\tab " & CStr(cp.StartAddress) & "\par"
-                s = s & "\tab PriorityBoostEnabled :\tab\tab " & CStr(cp.PriorityBoostEnabled) & "\par"
-                s = s & "\tab Start time :\tab\tab\tab " & cp.StartTime.ToLongDateString & " -- " & cp.StartTime.ToLongTimeString & "\par"
-                s = s & "\tab TotalProcessorTime :\tab\tab " & cp.TotalProcessorTime.ToString & "\par"
-                s = s & "\tab PrivilegedProcessorTime :\tab\tab " & cp.PrivilegedProcessorTime.ToString & "\par"
-                s = s & "\tab UserProcessorTime :\tab\tab " & CStr(cp.UserProcessorTime.ToString) & "\par"
-                s = s & "\tab ProcessorAffinity :\tab\tab " & CStr(cp.ProcessorAffinity) & "\par"
-
-                s = s & "}"
-
-                rtb4.Rtf = s
-
-            Catch ex As Exception
-                Dim s As String = ""
-                Dim er As Exception = ex
-
-                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
-                s = s & "\tab Message :\tab " & er.Message & "\par"
-                s = s & "\tab Source :\tab\tab " & er.Source & "\par"
-                If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
-                s = s & "}"
-
-                rtb4.Rtf = s
-
-            End Try
-
-        End If
-    End Sub
-
-    Private Sub txtSearchThread_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchThread.TextChanged
-        Dim it As ListViewItem
-        For Each it In Me.lvThreads.Items
-            If InStr(LCase(it.Text), LCase(Me.txtSearchThread.Text)) = 0 Then
-                it.Group = lvThreads.Groups(0)
-            Else
-                it.Group = lvThreads.Groups(1)
-            End If
-        Next
-        Me.lblThreadResults.Text = CStr(lvThreads.Groups(1).Items.Count) & " result(s)"
-    End Sub
-
-    Private Sub lblThreadResults_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblThreadResults.Click
-        If Me.lvThreads.Groups(1).Items.Count > 0 Then
-            Me.lvThreads.Focus()
-            Me.lvThreads.EnsureVisible(Me.lvThreads.Groups(1).Items(0).Index)
-            Me.lvThreads.SelectedItems.Clear()
-            Me.lvThreads.Groups(1).Items(0).Selected = True
-        End If
-    End Sub
-
-    Private Sub txtSearchHandle_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchHandle.TextChanged
-        Dim it As ListViewItem
-        For Each it In Me.lvHandles.Items
-            If InStr(LCase(it.SubItems(1).Text), LCase(Me.txtSearchHandle.Text)) = 0 Then
-                it.Group = lvHandles.Groups(0)
-            Else
-                it.Group = lvHandles.Groups(1)
-            End If
-        Next
-        Me.lblHandlesCount.Text = CStr(Me.lvHandles.Groups(1).Items.Count) & " result(s)"
-    End Sub
-
-    Private Sub lblHandlesCount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblHandlesCount.Click
-        If Me.lvHandles.Groups(1).Items.Count > 0 Then
-            Me.lvHandles.Focus()
-            Me.lvHandles.EnsureVisible(Me.lvHandles.Groups(1).Items(0).Index)
-            Me.lvHandles.SelectedItems.Clear()
-            Me.lvHandles.Groups(1).Items(0).Selected = True
-        End If
-    End Sub
-
-    Private Sub lvHandles_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHandles.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvHandles)
-    End Sub
-
-    Private Sub txtSearchWindow_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchWindow.TextChanged
-        Dim it As ListViewItem
-        For Each it In Me.lvWindows.Items
-            If InStr(LCase(CType(it.Tag, cWindow).Caption), LCase(Me.txtSearchWindow.Text)) = 0 Then
-                it.Group = lvWindows.Groups(0)
-            Else
-                it.Group = lvWindows.Groups(1)
-            End If
-        Next
-        Me.lblWindowsCount.Text = CStr(lvWindows.Groups(1).Items.Count) & " result(s)"
-    End Sub
-
-    Private Sub lblWindowsCount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblWindowsCount.Click
-        If Me.lvWindows.Groups(1).Items.Count > 0 Then
-            Me.lvWindows.Focus()
-            Me.lvWindows.EnsureVisible(Me.lvWindows.Groups(1).Items(0).Index)
-            Me.lvWindows.SelectedItems.Clear()
-            Me.lvWindows.Groups(1).Items(0).Selected = True
-        End If
-    End Sub
-
-    Private Sub lvWindows_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvWindows.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvWindows)
-    End Sub
-
-    Private Sub lvWindows_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvWindows.SelectedIndexChanged
-        ' New window selected
-        If lvWindows.SelectedItems.Count = 1 Then
-
-            Try
-                Dim cP As cWindow = Me.lvWindows.GetSelectedItem
-
-                ' Description
-                Dim s As String = ""
-                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Window properties\b0\par"
-                s = s & "\tab Window ID :\tab\tab\tab " & CStr(cP.Handle) & "\par"
-                s = s & "\tab Process owner :\tab\tab\tab " & CStr(cP.ParentProcessId) & " -- " & cP.ParentProcessName & " -- thread : " & CStr(cP.ParentThreadId) & "\par"
-                s = s & "\tab Caption :\tab\tab\tab " & cP.Caption & "\par"
-                s = s & "\tab Enabled :\tab\tab\tab " & CStr(cP.Enabled) & "\par"
-                s = s & "\tab Visible :\tab\tab\tab\tab " & CStr(cP.Visible) & "\par"
-                s = s & "\tab IsTask :\tab\tab\tab\tab " & CStr(cP.IsTask) & "\par"
-                s = s & "\tab Opacity :\tab\tab\tab " & CStr(cP.Opacity) & "\par"
-                s = s & "\tab Height :\tab\tab\tab\tab " & CStr(cP.Height) & "\par"
-                s = s & "\tab Left :\tab\tab\tab\tab " & CStr(cP.Left) & "\par"
-                s = s & "\tab Top :\tab\tab\tab\tab " & CStr(cP.Top) & "\par"
-                s = s & "\tab Width :\tab\tab\tab\tab " & CStr(cP.Width) & "\par"
-
-                s = s & "}"
-
-                rtb5.Rtf = s
-
-            Catch ex As Exception
-                Dim s As String = ""
-                Dim er As Exception = ex
-
-                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
-                s = s & "\tab Message :\tab " & er.Message & "\par"
-                s = s & "\tab Source :\tab\tab " & er.Source & "\par"
-                If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
-                s = s & "}"
-
-                rtb5.Rtf = s
-
-            End Try
-
-        End If
-    End Sub
-
-    Private Sub txtSearchResults_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchResults.TextChanged
-        Dim it As ListViewItem
-        For Each it In Me.lvSearchResults.Items
-            If InStr(LCase(it.SubItems(1).Text), LCase(Me.txtSearchResults.Text)) = 0 Then
-                it.Group = lvSearchResults.Groups(0)
-            Else
-                it.Group = lvSearchResults.Groups(1)
-            End If
-        Next
-        Me.lblResultsCount.Text = CStr(lvSearchResults.Groups(1).Items.Count) & " result(s)"
-    End Sub
-
-    Private Sub lblResultsCount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblResultsCount.Click
-        If Me.lvSearchResults.Groups(1).Items.Count > 0 Then
-            Me.lvSearchResults.Focus()
-            Me.lvSearchResults.EnsureVisible(Me.lvSearchResults.Groups(1).Items(0).Index)
-            Me.lvSearchResults.SelectedItems.Clear()
-            Me.lvSearchResults.Groups(1).Items(0).Selected = True
-        End If
-    End Sub
-
-    Private Sub chkAllWindows_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAllWindows.CheckedChanged
-        If windowsToRefresh IsNot Nothing Then Call ShowWindows()
     End Sub
 
     Private Sub butThreadSaveReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadSaveReport.Click
@@ -3325,43 +2736,6 @@ Public Class frmMain
     '    End If
     'End Sub
 
-    Private Sub lvProcess_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseDoubleClick
-        If e.Button = Windows.Forms.MouseButtons.Left Then
-            Call Me.butProcessDisplayDetails_Click(Nothing, Nothing)
-        End If
-    End Sub
-
-    Private Sub lvProcess_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvProcess)
-        If e.Button = Windows.Forms.MouseButtons.Right Then
-
-            Dim p As Integer = -1
-            If Me.lvProcess.SelectedItems Is Nothing Then
-                Me.IdleToolStripMenuItem.Checked = False
-                Me.NormalToolStripMenuItem.Checked = False
-                Me.AboveNormalToolStripMenuItem.Checked = False
-                Me.BelowNormalToolStripMenuItem.Checked = False
-                Me.HighToolStripMenuItem.Checked = False
-                Me.RealTimeToolStripMenuItem.Checked = False
-                Exit Sub
-            End If
-            If Me.lvProcess.SelectedItems.Count = 1 Then
-                p = Me.lvProcess.GetSelectedItem.PriorityClassConstant
-            End If
-            Me.IdleToolStripMenuItem.Checked = (p = ProcessPriorityClass.Idle)
-            Me.NormalToolStripMenuItem.Checked = (p = ProcessPriorityClass.Normal)
-            Me.AboveNormalToolStripMenuItem.Checked = (p = ProcessPriorityClass.AboveNormal)
-            Me.BelowNormalToolStripMenuItem.Checked = (p = ProcessPriorityClass.BelowNormal)
-            Me.HighToolStripMenuItem.Checked = (p = ProcessPriorityClass.High)
-            Me.RealTimeToolStripMenuItem.Checked = (p = ProcessPriorityClass.RealTime)
-        End If
-
-    End Sub
-
-    Private Sub lvProcess_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseUp
-        Call lvProcess_MouseDown(Nothing, e)
-    End Sub
-
     Private Sub butProcessDisplayDetails_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessDisplayDetails.Click
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
             Dim frm As New frmProcessInfo
@@ -3407,17 +2781,6 @@ Public Class frmMain
         Return Nothing
     End Function
 
-    Private Sub tvProc_AfterCollapse(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvProc.AfterCollapse
-        Me.lvProcess.Items(0).Group = Me.lvProcess.Groups(1)
-    End Sub
-
-    Private Sub tvProc_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles tvProc.DoubleClick
-        'Dim i As Integer = Me.lvProcess.View
-        'i += 1
-        'If i = 5 Then i = 0
-        'Me.lvProcess.View = CType(i, View)
-    End Sub
-
     Private Sub creg_KeyAdded(ByVal key As cRegMonitor.KeyDefinition) Handles creg.KeyAdded
         log.AppendLine("Service added : " & key.name)
         With Me.Tray
@@ -3449,153 +2812,6 @@ Public Class frmMain
 
     Private Sub ShowLogToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowLogToolStripMenuItem.Click
         frmLog.Show()
-    End Sub
-
-    Private Sub rtb2_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles rtb2.TextChanged
-        Me.cmdCopyServiceToCp.Enabled = (rtb2.Rtf.Length > 0)
-    End Sub
-
-    Private Sub lvServices_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvServices)
-    End Sub
-
-    Private Sub lvServices_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseUp
-        If lvServices.SelectedItems.Count = 1 Then
-            Dim cSe As cService = Me.lvServices.GetSelectedItem
-            Dim start As cService.TypeServiceStartType = cSe.ServiceStartTypeInt
-            Dim state As cService.SERVIVE_STATE = cSe.State
-            Dim acc As cService.ACCEPTED_CONTROLS = cSe.AcceptedControls
-
-            ToolStripMenuItem9.Text = IIf(state = cService.SERVIVE_STATE.Running, "Pause", "Resume").ToString
-            ToolStripMenuItem9.Enabled = (acc And cService.ACCEPTED_CONTROLS.SERVICE_ACCEPT_PAUSE_CONTINUE) = cService.ACCEPTED_CONTROLS.SERVICE_ACCEPT_PAUSE_CONTINUE
-            ToolStripMenuItem11.Enabled = Not (state = cService.SERVIVE_STATE.Running)
-            ToolStripMenuItem10.Enabled = (acc And cService.ACCEPTED_CONTROLS.SERVICE_ACCEPT_STOP) = cService.ACCEPTED_CONTROLS.SERVICE_ACCEPT_STOP
-            ShutdownToolStripMenuItem.Enabled = (acc And cService.ACCEPTED_CONTROLS.SERVICE_ACCEPT_SHUTDOWN) = cService.ACCEPTED_CONTROLS.SERVICE_ACCEPT_SHUTDOWN
-
-            ToolStripMenuItem13.Checked = (start = cService.TypeServiceStartType.SERVICE_DISABLED)
-            ToolStripMenuItem13.Enabled = Not (ToolStripMenuItem13.Checked)
-            ToolStripMenuItem14.Checked = (start = cService.TypeServiceStartType.SERVICE_AUTO_START)
-            ToolStripMenuItem14.Enabled = Not (ToolStripMenuItem14.Checked)
-            ToolStripMenuItem15.Checked = (start = cService.TypeServiceStartType.SERVICE_DEMAND_START)
-            ToolStripMenuItem15.Enabled = Not (ToolStripMenuItem15.Checked)
-        ElseIf lvServices.SelectedItems.Count > 1 Then
-            ToolStripMenuItem9.Text = "Pause"
-            ToolStripMenuItem9.Enabled = True
-            ToolStripMenuItem11.Enabled = True
-            ToolStripMenuItem10.Enabled = True
-            ShutdownToolStripMenuItem.Enabled = True
-            ToolStripMenuItem13.Checked = True
-            ToolStripMenuItem13.Enabled = True
-            ToolStripMenuItem14.Checked = True
-            ToolStripMenuItem14.Enabled = True
-            ToolStripMenuItem15.Checked = True
-            ToolStripMenuItem15.Enabled = True
-        End If
-    End Sub
-
-    Private Sub lvServices_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvServices.SelectedIndexChanged
-        ' New service selected
-        If lvServices.SelectedItems.Count = 1 Then
-            Try
-                Dim cS As cService = Me.lvServices.GetSelectedItem
-
-                Me.lblServiceName.Text = "Service name : " & cS.Name
-                Me.lblServicePath.Text = "Service path : " & cS.ImagePath
-
-                ' Description
-                Dim s As String = vbNullString
-                Dim description As String = vbNullString
-                Dim diagnosticsMessageFile As String = cS.DiagnosticsMessageFile
-                Dim group As String = cS.LoadOrderGroup
-                Dim objectName As String = cS.ObjectName
-                Dim tag As String = vbNullString
-                Dim sp As String = cS.ImagePath
-
-                ' OK it's not the best way to retrive the description...
-                ' (if @ -> extract string to retrieve description)
-                Dim sTemp As String = cS.Description
-                If InStr(sTemp, "@", CompareMethod.Binary) > 0 Then
-                    description = cFile.IntelligentPathRetrieving(sTemp)
-                Else
-                    description = sTemp
-                End If
-                description = Replace(cS.Description, "\", "\\")
-
-
-                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Service properties\b0\par"
-                s = s & "\tab Name :\tab\tab\tab " & cS.Name & "\par"
-                s = s & "\tab Common name :\tab\tab " & cS.LongName & "\par"
-                If Len(sp) > 0 Then s = s & "\tab Path :\tab\tab\tab " & Replace(cS.ImagePath, "\", "\\") & "\par"
-                If Len(description) > 0 Then s = s & "\tab Description :\tab\tab " & description & "\par"
-                If Len(group) > 0 Then s = s & "\tab Group :\tab\tab\tab " & group & "\par"
-                If Len(objectName) > 0 Then s = s & "\tab ObjectName :\tab\tab " & objectName & "\par"
-                If Len(diagnosticsMessageFile) > 0 Then s = s & "\tab DiagnosticsMessageFile :\tab\tab " & diagnosticsMessageFile & "\par"
-                s = s & "\tab State :\tab\tab\tab " & cS.State.ToString & "\par"
-                s = s & "\tab Startup :\tab\tab " & cS.ServiceStartType.ToString & "\par"
-                If cS.ProcessID > 0 Then s = s & "\tab Owner process :\tab\tab " & cS.ProcessID & "-- " & cProcess.GetProcessName(cS.ProcessID) & "\par"
-                s = s & "\tab Service type :\tab\tab " & cS.Type & "\par"
-
-                s = s & "}"
-
-                rtb2.Rtf = s
-
-                ' Treeviews stuffs
-                Dim n As New TreeNode
-                Dim n3 As New TreeNode
-                n.Text = "Dependencies"
-                n3.Text = "Depends on"
-
-                tv.Nodes.Clear()
-                tv.Nodes.Add(n)
-                tv2.Nodes.Clear()
-                tv2.Nodes.Add(n3)
-
-                n.Expand()
-                n3.Expand()
-
-                Dim o As System.ServiceProcess.ServiceController() = System.ServiceProcess.ServiceController.GetServices()
-                Dim o1 As System.ServiceProcess.ServiceController
-
-                For Each o1 In o
-                    If o1.ServiceName = cS.Name Then
-                        ' Here we have 2 recursive methods to add nodes to treeview
-                        addDependentServices(o1, n)
-                        addServicesDependedOn(o1, n3)
-                        Exit For
-                    End If
-                Next
-
-                If n.Nodes.Count > 0 Then
-                    n.ImageKey = "ko"
-                    n.SelectedImageKey = "ko"
-                Else
-                    n.ImageKey = "ok"
-                    n.SelectedImageKey = "ok"
-                End If
-                If n3.Nodes.Count > 0 Then
-                    n3.ImageKey = "ko"
-                    n3.SelectedImageKey = "ko"
-                Else
-                    n3.ImageKey = "ok"
-                    n3.SelectedImageKey = "ok"
-                End If
-
-            Catch ex As Exception
-                Dim s As String = ""
-                Dim er As Exception = ex
-
-                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
-                s = s & "\tab Message :\tab " & er.Message & "\par"
-                s = s & "\tab Source :\tab\tab " & er.Source & "\par"
-                If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
-                s = s & "}"
-
-                rtb2.Rtf = s
-            End Try
-
-        End If
     End Sub
 
     Private Sub SelectedAssociatedProcessToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SelectedAssociatedProcessToolStripMenuItem1.Click
@@ -3676,27 +2892,6 @@ Public Class frmMain
         If bAddedOneService Then
             Me.Ribbon.ActiveTab = Me.ServiceTab
             Call Me.Ribbon_MouseMove(Nothing, Nothing)
-        End If
-    End Sub
-
-    Private Sub txtSearchTask_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchTask.TextChanged
-        Dim it As ListViewItem
-        For Each it In Me.lvTask.Items
-            If InStr(LCase(it.Text), LCase(Me.txtSearchTask.Text)) = 0 Then
-                it.Group = lvTask.Groups(0)
-            Else
-                it.Group = lvTask.Groups(1)
-            End If
-        Next
-        Me.lblTaskCountResult.Text = CStr(Me.lvTask.Groups(1).Items.Count) & " result(s)"
-    End Sub
-
-    Private Sub lblTaskCountResult_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblTaskCountResult.Click
-        If Me.lvTask.Groups(1).Items.Count > 0 Then
-            Me.lvTask.Focus()
-            Me.lvTask.EnsureVisible(Me.lvTask.Groups(1).Items(0).Index)
-            Me.lvTask.SelectedItems.Clear()
-            Me.lvTask.Groups(1).Items(0).Selected = True
         End If
     End Sub
 
@@ -3809,28 +3004,10 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub lvTask_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvTask.DoubleClick
-        Call Me.ToolStripMenuItem45_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub lvTask_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvTask.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvTask)
-    End Sub
-
     Private Sub KillProcessTreeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles KillProcessTreeToolStripMenuItem.Click
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
             it.KillProcessTree()
         Next
-    End Sub
-
-    Private Sub lvProcess_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvProcess.KeyDown
-        If e.KeyCode = Keys.Delete And Me.lvProcess.SelectedItems.Count > 0 Then
-            If MsgBox("Are you sure ?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo, "Kill processes") = MsgBoxResult.Yes Then
-                For Each it As cProcess In Me.lvProcess.GetSelectedItems
-                    it.Kill()
-                Next
-            End If
-        End If
     End Sub
 
     Private Sub SetAffinityToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SetAffinityToolStripMenuItem.Click
@@ -3909,20 +3086,6 @@ Public Class frmMain
         Me._trayIcon.AddValue(2, _physMemUsage)
     End Sub
 
-    Private Sub cmdCopyServiceToCp_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdCopyServiceToCp.Click
-        If Me.rtb2.Text.Length > 0 Then
-            My.Computer.Clipboard.SetText(Me.rtb2.Text, TextDataFormat.Text)
-        End If
-    End Sub
-
-    Private Sub cmdCopyServiceToCp_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles cmdCopyServiceToCp.MouseDown
-        If e.Button = Windows.Forms.MouseButtons.Right Then
-            If Me.rtb2.Rtf.Length > 0 Then
-                My.Computer.Clipboard.SetText(Me.rtb2.Rtf, TextDataFormat.Rtf)
-            End If
-        End If
-    End Sub
-
     Private Sub ToolStripMenuItem16_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem16.Click
         My.Computer.Clipboard.SetImage(Me.pctFileBig.Image)
     End Sub
@@ -3953,7 +3116,7 @@ Public Class frmMain
         Me.Visible = True
     End Sub
 
-    Private Sub AboutYAPMToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AboutYAPMToolStripMenuItem.Click
+    Private Sub AboutYAPMToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AboutYAPMToolStripMenuItem.Click, AboutToolStripMenuItem.Click
         Me.butAbout_Click(Nothing, Nothing)
     End Sub
 
@@ -4148,5 +3311,914 @@ Public Class frmMain
     Private Sub SaveSystemReportToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveSystemReportToolStripMenuItem.Click
         Dim frm As New frmGlobalReport
         frm.ShowDialog()
+    End Sub
+
+    ' Permute style of menus
+    Private Sub permuteMenuStyle()
+        '=============== ' _tab.Region = New Region(New RectangleF(_tab.TabPages(0).Left, _tab.TabPages(0).Top, _tab.TabPages(0).Width, _tab.TabPages(0).Height))
+
+        ' Change selected tab of tabStrip
+        Call _tab_SelectedIndexChanged(Nothing, Nothing)
+
+        _ribbonStyle = Not (_ribbonStyle)
+        _main.Panel1Collapsed = Not (_ribbonStyle)
+
+        Me.RibbonViewToolStripMenuItem.Checked = _ribbonStyle
+        Me.butPermuteMenuStyle.Checked = Not (_ribbonStyle)
+
+        Me.containerSystemMenu.Panel1Collapsed = _ribbonStyle
+        Me.menuSystem.Visible = _main.Panel1Collapsed
+    End Sub
+
+    Private Sub _tab_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _tab.DoubleClick
+        permuteMenuStyle()
+    End Sub
+
+    Private Sub txtServiceSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtServiceSearch.Click
+        Call txtServiceSearch_TextChanged(Nothing, Nothing)
+    End Sub
+
+    Private Sub txtServiceSearch_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtServiceSearch.TextChanged
+        Dim it As ListViewItem
+        For Each it In lvServices.Items
+            If InStr(LCase(it.Text), LCase(txtServiceSearch.Text)) = 0 And _
+                    InStr(LCase(it.SubItems.Item(1).Text), LCase(txtServiceSearch.Text)) = 0 Then
+                it.Group = lvServices.Groups(0)
+            Else
+                it.Group = lvServices.Groups(1)
+            End If
+        Next
+        Me.lblResCount2.Text = CStr(lvServices.Groups(1).Items.Count) & " results(s)"
+    End Sub
+
+    Private Sub txtSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearch.Click
+        Call txtSearch_TextChanged(Nothing, Nothing)
+    End Sub
+
+    Private Sub txtSearch_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearch.TextChanged
+        Dim it As ListViewItem
+        For Each it In lvProcess.Items
+            If InStr(LCase(it.Text), LCase(txtSearch.Text)) = 0 Then
+                it.Group = lvProcess.Groups(0)
+            Else
+                it.Group = lvProcess.Groups(1)
+            End If
+        Next
+        Me.lblResCount.Text = CStr(lvProcess.Groups(1).Items.Count) & " result(s)"
+    End Sub
+
+    Private Sub txtFile_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtFile.TextChanged
+        Dim b As Boolean = IO.File.Exists(Me.txtFile.Text)
+        Me.RBFileDelete.Enabled = b
+        Me.RBFileKillProcess.Enabled = b
+        Me.RBFileOnline.Enabled = b
+        Me.RBFileOther.Enabled = b
+        Me.RBFileOthers.Enabled = b
+    End Sub
+
+    Private Sub tvMonitor_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvMonitor.AfterSelect
+
+        Me.graphMonitor.EnableGraph = False
+
+        If tvMonitor.SelectedNode Is Nothing Then Exit Sub
+
+        If tvMonitor.SelectedNode.Parent IsNot Nothing Then
+            If tvMonitor.SelectedNode.Parent.Name = tvMonitor.Nodes.Item(0).Name Then
+                ' Then we have selected a process
+                Me.butMonitorStart.Enabled = True
+                Me.butMonitorStop.Enabled = True
+                Me.graphMonitor.CreateGraphics.Clear(Color.Black)
+                Me.graphMonitor.CreateGraphics.DrawString("Select in the treeview a monitor item.", Me.Font, Brushes.White, 0, 0)
+            Else
+                Dim it As cMonitor = CType(tvMonitor.SelectedNode.Tag, cMonitor)
+                Me.butMonitorStart.Enabled = Not (it.Enabled)
+                Me.butMonitorStop.Enabled = it.Enabled
+
+                ' We have selected a sub item -> display values in graph
+                Dim sKey As String = tvMonitor.SelectedNode.Text
+                Call ShowMonitorStats(it, sKey, "", "")
+            End If
+        Else
+            ' The we can start/stop all items
+            Me.butMonitorStart.Enabled = True
+            Me.butMonitorStop.Enabled = True
+            Me.graphMonitor.CreateGraphics.Clear(Color.Black)
+            Me.graphMonitor.CreateGraphics.DrawString("Select in the treeview a process and then a monitor item.", Me.Font, Brushes.White, 0, 0)
+        End If
+
+    End Sub
+
+    Private Sub tvProc_AfterCollapse(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvProc.AfterCollapse
+        Me.lvProcess.Items(0).Group = Me.lvProcess.Groups(1)
+    End Sub
+
+    Private Sub rtb3_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles rtb3.TextChanged
+        Me.cmdFileClipboard.Enabled = (rtb3.Rtf.Length > 0)
+    End Sub
+
+    Private Sub rtb2_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles rtb2.TextChanged
+        Me.cmdCopyServiceToCp.Enabled = (rtb2.Rtf.Length > 0)
+    End Sub
+
+    Private Sub lvTask_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvTask.DoubleClick
+        Call Me.ToolStripMenuItem45_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub lvTask_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvTask.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvTask)
+    End Sub
+
+    Private Sub lvServices_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvServices)
+    End Sub
+
+    Private Sub lvServices_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseUp
+        If lvServices.SelectedItems.Count = 1 Then
+            Dim cSe As cService = Me.lvServices.GetSelectedItem
+            Dim start As cService.TypeServiceStartType = cSe.ServiceStartTypeInt
+            Dim state As cService.SERVIVE_STATE = cSe.State
+            Dim acc As cService.ACCEPTED_CONTROLS = cSe.AcceptedControls
+
+            ToolStripMenuItem9.Text = IIf(state = cService.SERVIVE_STATE.Running, "Pause", "Resume").ToString
+            ToolStripMenuItem9.Enabled = (acc And cService.ACCEPTED_CONTROLS.SERVICE_ACCEPT_PAUSE_CONTINUE) = cService.ACCEPTED_CONTROLS.SERVICE_ACCEPT_PAUSE_CONTINUE
+            ToolStripMenuItem11.Enabled = Not (state = cService.SERVIVE_STATE.Running)
+            ToolStripMenuItem10.Enabled = (acc And cService.ACCEPTED_CONTROLS.SERVICE_ACCEPT_STOP) = cService.ACCEPTED_CONTROLS.SERVICE_ACCEPT_STOP
+            ShutdownToolStripMenuItem.Enabled = (acc And cService.ACCEPTED_CONTROLS.SERVICE_ACCEPT_SHUTDOWN) = cService.ACCEPTED_CONTROLS.SERVICE_ACCEPT_SHUTDOWN
+
+            ToolStripMenuItem13.Checked = (start = cService.TypeServiceStartType.SERVICE_DISABLED)
+            ToolStripMenuItem13.Enabled = Not (ToolStripMenuItem13.Checked)
+            ToolStripMenuItem14.Checked = (start = cService.TypeServiceStartType.SERVICE_AUTO_START)
+            ToolStripMenuItem14.Enabled = Not (ToolStripMenuItem14.Checked)
+            ToolStripMenuItem15.Checked = (start = cService.TypeServiceStartType.SERVICE_DEMAND_START)
+            ToolStripMenuItem15.Enabled = Not (ToolStripMenuItem15.Checked)
+        ElseIf lvServices.SelectedItems.Count > 1 Then
+            ToolStripMenuItem9.Text = "Pause"
+            ToolStripMenuItem9.Enabled = True
+            ToolStripMenuItem11.Enabled = True
+            ToolStripMenuItem10.Enabled = True
+            ShutdownToolStripMenuItem.Enabled = True
+            ToolStripMenuItem13.Checked = True
+            ToolStripMenuItem13.Enabled = True
+            ToolStripMenuItem14.Checked = True
+            ToolStripMenuItem14.Enabled = True
+            ToolStripMenuItem15.Checked = True
+            ToolStripMenuItem15.Enabled = True
+        End If
+    End Sub
+
+    Private Sub lvServices_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvServices.SelectedIndexChanged
+        ' New service selected
+        If lvServices.SelectedItems.Count = 1 Then
+            Try
+                Dim cS As cService = Me.lvServices.GetSelectedItem
+
+                Me.lblServiceName.Text = "Service name : " & cS.Name
+                Me.lblServicePath.Text = "Service path : " & cS.ImagePath
+
+                ' Description
+                Dim s As String = vbNullString
+                Dim description As String = vbNullString
+                Dim diagnosticsMessageFile As String = cS.DiagnosticsMessageFile
+                Dim group As String = cS.LoadOrderGroup
+                Dim objectName As String = cS.ObjectName
+                Dim tag As String = vbNullString
+                Dim sp As String = cS.ImagePath
+
+                ' OK it's not the best way to retrive the description...
+                ' (if @ -> extract string to retrieve description)
+                Dim sTemp As String = cS.Description
+                If InStr(sTemp, "@", CompareMethod.Binary) > 0 Then
+                    description = cFile.IntelligentPathRetrieving(sTemp)
+                Else
+                    description = sTemp
+                End If
+                description = Replace(cS.Description, "\", "\\")
+
+
+                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Service properties\b0\par"
+                s = s & "\tab Name :\tab\tab\tab " & cS.Name & "\par"
+                s = s & "\tab Common name :\tab\tab " & cS.LongName & "\par"
+                If Len(sp) > 0 Then s = s & "\tab Path :\tab\tab\tab " & Replace(cS.ImagePath, "\", "\\") & "\par"
+                If Len(description) > 0 Then s = s & "\tab Description :\tab\tab " & description & "\par"
+                If Len(group) > 0 Then s = s & "\tab Group :\tab\tab\tab " & group & "\par"
+                If Len(objectName) > 0 Then s = s & "\tab ObjectName :\tab\tab " & objectName & "\par"
+                If Len(diagnosticsMessageFile) > 0 Then s = s & "\tab DiagnosticsMessageFile :\tab\tab " & diagnosticsMessageFile & "\par"
+                s = s & "\tab State :\tab\tab\tab " & cS.State.ToString & "\par"
+                s = s & "\tab Startup :\tab\tab " & cS.ServiceStartType.ToString & "\par"
+                If cS.ProcessID > 0 Then s = s & "\tab Owner process :\tab\tab " & cS.ProcessID & "-- " & cProcess.GetProcessName(cS.ProcessID) & "\par"
+                s = s & "\tab Service type :\tab\tab " & cS.Type & "\par"
+
+                s = s & "}"
+
+                rtb2.Rtf = s
+
+                ' Treeviews stuffs
+                Dim n As New TreeNode
+                Dim n3 As New TreeNode
+                n.Text = "Dependencies"
+                n3.Text = "Depends on"
+
+                tv.Nodes.Clear()
+                tv.Nodes.Add(n)
+                tv2.Nodes.Clear()
+                tv2.Nodes.Add(n3)
+
+                n.Expand()
+                n3.Expand()
+
+                Dim o As System.ServiceProcess.ServiceController() = System.ServiceProcess.ServiceController.GetServices()
+                Dim o1 As System.ServiceProcess.ServiceController
+
+                For Each o1 In o
+                    If o1.ServiceName = cS.Name Then
+                        ' Here we have 2 recursive methods to add nodes to treeview
+                        addDependentServices(o1, n)
+                        addServicesDependedOn(o1, n3)
+                        Exit For
+                    End If
+                Next
+
+                If n.Nodes.Count > 0 Then
+                    n.ImageKey = "ko"
+                    n.SelectedImageKey = "ko"
+                Else
+                    n.ImageKey = "ok"
+                    n.SelectedImageKey = "ok"
+                End If
+                If n3.Nodes.Count > 0 Then
+                    n3.ImageKey = "ko"
+                    n3.SelectedImageKey = "ko"
+                Else
+                    n3.ImageKey = "ok"
+                    n3.SelectedImageKey = "ok"
+                End If
+
+            Catch ex As Exception
+                Dim s As String = ""
+                Dim er As Exception = ex
+
+                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+                s = s & "\tab Message :\tab " & er.Message & "\par"
+                s = s & "\tab Source :\tab\tab " & er.Source & "\par"
+                If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
+                s = s & "}"
+
+                rtb2.Rtf = s
+            End Try
+
+        End If
+    End Sub
+
+    Private Sub lvSearchResults_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvSearchResults.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvSearchResults)
+    End Sub
+
+    Private Sub lvProcess_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvProcess.KeyDown
+        If e.KeyCode = Keys.Delete And Me.lvProcess.SelectedItems.Count > 0 Then
+            If MsgBox("Are you sure ?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo, "Kill processes") = MsgBoxResult.Yes Then
+                For Each it As cProcess In Me.lvProcess.GetSelectedItems
+                    it.Kill()
+                Next
+            End If
+        End If
+    End Sub
+
+    Private Sub lvProcess_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseDoubleClick
+        If e.Button = Windows.Forms.MouseButtons.Left Then
+            Call Me.butProcessDisplayDetails_Click(Nothing, Nothing)
+        End If
+    End Sub
+
+    Private Sub lvProcess_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvProcess)
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+
+            Dim p As Integer = -1
+            If Me.lvProcess.SelectedItems Is Nothing Then
+                Me.IdleToolStripMenuItem.Checked = False
+                Me.NormalToolStripMenuItem.Checked = False
+                Me.AboveNormalToolStripMenuItem.Checked = False
+                Me.BelowNormalToolStripMenuItem.Checked = False
+                Me.HighToolStripMenuItem.Checked = False
+                Me.RealTimeToolStripMenuItem.Checked = False
+                Exit Sub
+            End If
+            If Me.lvProcess.SelectedItems.Count = 1 Then
+                p = Me.lvProcess.GetSelectedItem.PriorityClassConstant
+            End If
+            Me.IdleToolStripMenuItem.Checked = (p = ProcessPriorityClass.Idle)
+            Me.NormalToolStripMenuItem.Checked = (p = ProcessPriorityClass.Normal)
+            Me.AboveNormalToolStripMenuItem.Checked = (p = ProcessPriorityClass.AboveNormal)
+            Me.BelowNormalToolStripMenuItem.Checked = (p = ProcessPriorityClass.BelowNormal)
+            Me.HighToolStripMenuItem.Checked = (p = ProcessPriorityClass.High)
+            Me.RealTimeToolStripMenuItem.Checked = (p = ProcessPriorityClass.RealTime)
+        End If
+
+    End Sub
+
+    Private Sub lvProcess_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseUp
+        Call lvProcess_MouseDown(Nothing, e)
+    End Sub
+
+    Private Sub lvModules_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvModules.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvModules)
+    End Sub
+
+    Private Sub lvModules_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvModules.SelectedIndexChanged
+        If lvModules.SelectedItems.Count = 1 Then
+            Try
+
+                Dim cP As cModule = lvModules.GetSelectedItem
+
+                ' Description
+                Dim s As String = ""
+                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Module properties\b0\par"
+                s = s & "\tab Module name :\tab\tab\tab " & cFile.GetFileName(cP.FileName) & "\par"
+                s = s & "\tab Process owner :\tab\tab\tab " & CStr(cP.ProcessId) & " -- " & cProcess.GetProcessName(cP.ProcessId) & "\par"
+                s = s & "\tab Path :\tab\tab\tab\tab " & Replace(cP.FileName, "\", "\\") & "\par"
+                s = s & "\tab Version :\tab\tab\tab " & cP.FileVersion & "\par"
+                s = s & "\tab Comments :\tab\tab\tab " & cP.Comments & "\par"
+                s = s & "\tab CompanyName :\tab\tab\tab " & cP.CompanyName & "\par"
+                s = s & "\tab LegalCopyright :\tab\tab\tab " & cP.LegalCopyright & "\par"
+                s = s & "\tab ProductName :\tab\tab\tab " & cP.ProductName & "\par"
+                s = s & "\tab Language :\tab\tab\tab " & cP.Language & "\par"
+                s = s & "\tab InternalName :\tab\tab\tab " & cP.InternalName & "\par"
+                s = s & "\tab LegalTrademarks :\tab\tab " & cP.LegalTrademarks & "\par"
+                s = s & "\tab OriginalFilename :\tab\tab\tab " & cP.OriginalFilename & "\par"
+                s = s & "\tab FileBuildPart :\tab\tab\tab " & CStr(cP.FileBuildPart) & "\par"
+                s = s & "\tab FileDescription :\tab\tab\tab " & CStr(cP.FileDescription) & "\par"
+                s = s & "\tab FileMajorPart :\tab\tab\tab " & CStr(cP.FileMajorPart) & "\par"
+                s = s & "\tab FileMinorPart :\tab\tab\tab " & CStr(cP.FileMinorPart) & "\par"
+                s = s & "\tab FilePrivatePart :\tab\tab\tab " & CStr(cP.FilePrivatePart) & "\par"
+                s = s & "\tab IsDebug :\tab\tab\tab " & CStr(cP.IsDebug) & "\par"
+                s = s & "\tab IsPatched :\tab\tab\tab " & CStr(cP.IsPatched) & "\par"
+                s = s & "\tab IsPreRelease :\tab\tab\tab " & CStr(cP.IsPreRelease) & "\par"
+                s = s & "\tab IsPrivateBuild :\tab\tab\tab " & CStr(cP.IsPrivateBuild) & "\par"
+                s = s & "\tab IsSpecialBuild :\tab\tab\tab " & CStr(cP.IsSpecialBuild) & "\par"
+                s = s & "\tab PrivateBuild :\tab\tab\tab " & CStr(cP.PrivateBuild) & "\par"
+                s = s & "\tab ProductBuildPart :\tab\tab " & CStr(cP.ProductBuildPart) & "\par"
+                s = s & "\tab ProductMajorPart :\tab\tab " & CStr(cP.ProductMajorPart) & "\par"
+                s = s & "\tab ProductMinorPart :\tab\tab " & CStr(cP.ProductMinorPart) & "\par"
+                s = s & "\tab ProductPrivatePart :\tab\tab " & CStr(cP.ProductPrivatePart) & "\par"
+                s = s & "\tab ProductVersion :\tab\tab\tab " & CStr(cP.ProductVersion) & "\par"
+                s = s & "\tab SpecialBuild :\tab\tab\tab " & CStr(cP.SpecialBuild) & "\par"
+
+                s = s & "}"
+
+                rtb6.Rtf = s
+
+            Catch ex As Exception
+                Dim s As String = ""
+                Dim er As Exception = ex
+
+                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+                s = s & "\tab Message :\tab " & er.Message & "\par"
+                s = s & "\tab Source :\tab\tab " & er.Source & "\par"
+                If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
+                s = s & "}"
+
+                rtb6.Rtf = s
+
+            End Try
+
+        End If
+    End Sub
+
+    Private Sub lstFileString_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lstFileString.MouseDown
+        Call mdlMisc.CopyLstToClip(e, Me.lstFileString)
+    End Sub
+
+    Private Sub lblTaskCountResult_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lblTaskCountResult.MouseDown
+        If Me.lvTask.Groups(1).Items.Count > 0 Then
+            Me.lvTask.Focus()
+            Me.lvTask.EnsureVisible(Me.lvTask.Groups(1).Items(0).Index)
+            Me.lvTask.SelectedItems.Clear()
+            Me.lvTask.Groups(1).Items(0).Selected = True
+        End If
+    End Sub
+
+    Private Sub txtSearchTask_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchTask.TextChanged
+        Dim it As ListViewItem
+        For Each it In Me.lvTask.Items
+            If InStr(LCase(it.Text), LCase(Me.txtSearchTask.Text)) = 0 Then
+                it.Group = lvTask.Groups(0)
+            Else
+                it.Group = lvTask.Groups(1)
+            End If
+        Next
+        Me.lblTaskCountResult.Text = CStr(Me.lvTask.Groups(1).Items.Count) & " result(s)"
+    End Sub
+
+    Private Sub lblResCount2_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblResCount2.Click
+        If Me.lvServices.Groups(1).Items.Count > 0 Then
+            Me.lvServices.Focus()
+            Me.lvServices.EnsureVisible(Me.lvServices.Groups(1).Items(0).Index)
+            Me.lvServices.SelectedItems.Clear()
+            Me.lvServices.Groups(1).Items(0).Selected = True
+        End If
+    End Sub
+
+    Private Sub lblResCount_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblResCount.Click
+        If Me.lvProcess.Groups(1).Items.Count > 0 Then
+            Me.lvProcess.Focus()
+            Me.lvProcess.EnsureVisible(Me.lvProcess.Groups(1).Items(0).Index)
+            Me.lvProcess.SelectedItems.Clear()
+            Me.lvProcess.Groups(1).Items(0).Selected = True
+        End If
+    End Sub
+
+    Private Sub lvWindows_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvWindows.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvWindows)
+    End Sub
+
+    Private Sub lvWindows_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvWindows.SelectedIndexChanged
+        ' New window selected
+        If lvWindows.SelectedItems.Count = 1 Then
+
+            Try
+                Dim cP As cWindow = Me.lvWindows.GetSelectedItem
+
+                ' Description
+                Dim s As String = ""
+                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Window properties\b0\par"
+                s = s & "\tab Window ID :\tab\tab\tab " & CStr(cP.Handle) & "\par"
+                s = s & "\tab Process owner :\tab\tab\tab " & CStr(cP.ParentProcessId) & " -- " & cP.ParentProcessName & " -- thread : " & CStr(cP.ParentThreadId) & "\par"
+                s = s & "\tab Caption :\tab\tab\tab " & cP.Caption & "\par"
+                s = s & "\tab Enabled :\tab\tab\tab " & CStr(cP.Enabled) & "\par"
+                s = s & "\tab Visible :\tab\tab\tab\tab " & CStr(cP.Visible) & "\par"
+                s = s & "\tab IsTask :\tab\tab\tab\tab " & CStr(cP.IsTask) & "\par"
+                s = s & "\tab Opacity :\tab\tab\tab " & CStr(cP.Opacity) & "\par"
+                s = s & "\tab Height :\tab\tab\tab\tab " & CStr(cP.Height) & "\par"
+                s = s & "\tab Left :\tab\tab\tab\tab " & CStr(cP.Left) & "\par"
+                s = s & "\tab Top :\tab\tab\tab\tab " & CStr(cP.Top) & "\par"
+                s = s & "\tab Width :\tab\tab\tab\tab " & CStr(cP.Width) & "\par"
+
+                s = s & "}"
+
+                rtb5.Rtf = s
+
+            Catch ex As Exception
+                Dim s As String = ""
+                Dim er As Exception = ex
+
+                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+                s = s & "\tab Message :\tab " & er.Message & "\par"
+                s = s & "\tab Source :\tab\tab " & er.Source & "\par"
+                If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
+                s = s & "}"
+
+                rtb5.Rtf = s
+
+            End Try
+
+        End If
+    End Sub
+
+    Private Sub lvThreads_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvThreads.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvThreads)
+
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+
+            Dim p As cThread.ThreadPriority = cThread.ThreadPriority.Unknow
+
+            If Me.lvThreads.SelectedItems.Count > 0 Then
+                p = Me.lvThreads.GetSelectedItem.Priority
+            End If
+            Me.ToolStripMenuItem27.Checked = (p = cThread.ThreadPriority.Idle)
+            Me.LowestToolStripMenuItem.Checked = (p = cThread.ThreadPriority.Lowest)
+            Me.ToolStripMenuItem28.Checked = (p = cThread.ThreadPriority.BelowNormal)
+            Me.ToolStripMenuItem29.Checked = (p = cThread.ThreadPriority.Normal)
+            Me.ToolStripMenuItem30.Checked = (p = cThread.ThreadPriority.AboveNormal)
+            Me.ToolStripMenuItem31.Checked = (p = cThread.ThreadPriority.Highest)
+            Me.ToolStripMenuItem32.Checked = (p = cThread.ThreadPriority.Critical)
+        End If
+    End Sub
+
+    Private Sub lvThreads_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvThreads.SelectedIndexChanged
+        ' New thread selected
+        If lvThreads.SelectedItems.Count = 1 Then
+            Dim cp As cThread = Me.lvThreads.GetSelectedItem
+
+            Try
+
+                ' Description
+                Dim s As String = ""
+                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Thread properties\b0\par"
+                s = s & "\tab Thread ID :\tab\tab\tab " & CStr(cp.Id) & "\par"
+                s = s & "\tab Process owner :\tab\tab\tab " & CStr(cp.ProcessId) & " -- " & cp.ProcessName & "\par"
+
+                s = s & "\tab Priority :\tab\tab\tab\tab " & cp.PriorityString & "\par"
+                s = s & "\tab Base priority :\tab\tab\tab " & CStr(cp.BasePriority) & "\par"
+                s = s & "\tab State :\tab\tab\tab\tab " & cp.ThreadState & "\par"
+                s = s & "\tab Wait reason :\tab\tab\tab " & cp.WaitReason & "\par"
+                s = s & "\tab Start address :\tab\tab\tab " & CStr(cp.StartAddress) & "\par"
+                s = s & "\tab PriorityBoostEnabled :\tab\tab " & CStr(cp.PriorityBoostEnabled) & "\par"
+                s = s & "\tab Start time :\tab\tab\tab " & cp.StartTime.ToLongDateString & " -- " & cp.StartTime.ToLongTimeString & "\par"
+                s = s & "\tab TotalProcessorTime :\tab\tab " & cp.TotalProcessorTime.ToString & "\par"
+                s = s & "\tab PrivilegedProcessorTime :\tab\tab " & cp.PrivilegedProcessorTime.ToString & "\par"
+                s = s & "\tab UserProcessorTime :\tab\tab " & CStr(cp.UserProcessorTime.ToString) & "\par"
+                s = s & "\tab ProcessorAffinity :\tab\tab " & CStr(cp.ProcessorAffinity) & "\par"
+
+                s = s & "}"
+
+                rtb4.Rtf = s
+
+            Catch ex As Exception
+                Dim s As String = ""
+                Dim er As Exception = ex
+
+                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+                s = s & "\tab Message :\tab " & er.Message & "\par"
+                s = s & "\tab Source :\tab\tab " & er.Source & "\par"
+                If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
+                s = s & "}"
+
+                rtb4.Rtf = s
+
+            End Try
+
+        End If
+    End Sub
+
+    Private Sub graphMonitor_OnZoom(ByVal leftVal As Integer, ByVal rightVal As Integer) Handles graphMonitor.OnZoom
+        ' Change dates and set view as fixed (left and right)
+        Try
+            Dim it As cMonitor = CType(tvMonitor.SelectedNode.Tag, cMonitor)
+            Dim l As New Date(it.GetMonitorCreationDate.Ticks + leftVal * 10000)
+            Dim r As New Date(it.GetMonitorCreationDate.Ticks + rightVal * 10000)
+            Me.dtMonitorL.Value = l
+            Me.dtMonitorR.Value = r
+            Me.chkMonitorLeftAuto.Checked = False
+            Me.chkMonitorRightAuto.Checked = False
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
+    End Sub
+
+    Private Sub chkAllWindows_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkAllWindows.CheckedChanged
+        If windowsToRefresh IsNot Nothing Then Call ShowWindows()
+    End Sub
+
+    Private Sub chkFileArchive_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkFileArchive.CheckedChanged
+        Static accessed As Boolean = False
+        If accessed Then
+            accessed = False
+            Exit Sub
+        End If
+        Try
+            If Me.chkFileArchive.Checked Then
+                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.Archive)
+            Else
+                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.Archive)
+            End If
+        Catch ex As Exception
+            accessed = True
+            Me.chkFileArchive.Checked = Not (Me.chkFileArchive.Checked)
+        End Try
+    End Sub
+
+    Private Sub chkFileHidden_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkFileHidden.CheckedChanged
+        Static accessed As Boolean = False
+        If accessed Then
+            accessed = False
+            Exit Sub
+        End If
+        Try
+            If Me.chkFileHidden.Checked Then
+                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.Hidden)
+            Else
+                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.Hidden)
+            End If
+        Catch ex As Exception
+            accessed = True
+            Me.chkFileHidden.Checked = Not (Me.chkFileHidden.Checked)
+        End Try
+    End Sub
+
+    Private Sub chkFileReadOnly_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkFileReadOnly.CheckedChanged
+        Static accessed As Boolean = False
+        If accessed Then
+            accessed = False
+            Exit Sub
+        End If
+        Try
+            If Me.chkFileReadOnly.Checked Then
+                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.ReadOnly)
+            Else
+                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.ReadOnly)
+            End If
+        Catch ex As Exception
+            accessed = True
+            Me.chkFileReadOnly.Checked = Not (Me.chkFileReadOnly.Checked)
+        End Try
+    End Sub
+
+    Private Sub chkFileContentNotIndexed_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkFileContentNotIndexed.CheckedChanged
+        Static accessed As Boolean = False
+        If accessed Then
+            accessed = False
+            Exit Sub
+        End If
+        Try
+            If Me.chkFileContentNotIndexed.Checked Then
+                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.NotContentIndexed)
+            Else
+                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.NotContentIndexed)
+            End If
+        Catch ex As Exception
+            accessed = True
+            Me.chkFileContentNotIndexed.Checked = Not (Me.chkFileContentNotIndexed.Checked)
+        End Try
+    End Sub
+
+    Private Sub chkFileNormal_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkFileNormal.CheckedChanged
+        Static accessed As Boolean = False
+        If accessed Then
+            accessed = False
+            Exit Sub
+        End If
+        Try
+            If Me.chkFileNormal.Checked Then
+                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.Normal)
+            Else
+                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.Normal)
+            End If
+        Catch ex As Exception
+            accessed = True
+            Me.chkFileNormal.Checked = Not (Me.chkFileNormal.Checked)
+        End Try
+    End Sub
+
+    Private Sub chkFileSystem_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkFileSystem.CheckedChanged
+        Static accessed As Boolean = False
+        If accessed Then
+            accessed = False
+            Exit Sub
+        End If
+        Try
+            If Me.chkFileSystem.Checked Then
+                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.System)
+            Else
+                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.System)
+            End If
+        Catch ex As Exception
+            accessed = True
+            Me.chkFileSystem.Checked = Not (Me.chkFileSystem.Checked)
+        End Try
+    End Sub
+
+    Private Sub chkMonitorLeftAuto_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkMonitorLeftAuto.CheckedChanged
+        Me.dtMonitorL.Enabled = Not (Me.chkMonitorLeftAuto.Checked)
+        Me.txtMonitorNumber.Enabled = Not (Me.chkMonitorLeftAuto.Checked = False And Me.chkMonitorRightAuto.Checked = False)
+        Me.lblMonitorMaxNumber.Enabled = Me.txtMonitorNumber.Enabled
+    End Sub
+
+    Private Sub chkMonitorRightAuto_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkMonitorRightAuto.CheckedChanged
+        Me.dtMonitorR.Enabled = Not (Me.chkMonitorRightAuto.Checked)
+        Me.txtMonitorNumber.Enabled = Not (Me.chkMonitorLeftAuto.Checked = False And Me.chkMonitorRightAuto.Checked = False)
+        Me.lblMonitorMaxNumber.Enabled = Me.txtMonitorNumber.Enabled
+    End Sub
+
+    Private Sub chkSearchProcess_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkSearchProcess.CheckedChanged
+        Me.chkSearchModules.Enabled = (Me.chkSearchProcess.Checked)
+    End Sub
+
+    Private Sub cmdCopyServiceToCp_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdCopyServiceToCp.Click
+        If Me.rtb2.Text.Length > 0 Then
+            My.Computer.Clipboard.SetText(Me.rtb2.Text, TextDataFormat.Text)
+        End If
+    End Sub
+
+    Private Sub cmdCopyServiceToCp_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles cmdCopyServiceToCp.MouseDown
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            If Me.rtb2.Rtf.Length > 0 Then
+                My.Computer.Clipboard.SetText(Me.rtb2.Rtf, TextDataFormat.Rtf)
+            End If
+        End If
+    End Sub
+
+    Private Sub cmdFileClipboard_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdFileClipboard.Click
+        If Me.rtb3.Text.Length > 0 Then
+            My.Computer.Clipboard.SetText(Me.rtb3.Text, TextDataFormat.Text)
+        End If
+    End Sub
+
+    Private Sub cmdFileClipboard_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles cmdFileClipboard.MouseDown
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            If Me.rtb3.Rtf.Length > 0 Then
+                My.Computer.Clipboard.SetText(Me.rtb3.Rtf, TextDataFormat.Rtf)
+            End If
+        End If
+    End Sub
+
+    Private Sub cmdSetFileDates_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdSetFileDates.Click
+        ' Set new dates
+        Try
+            cSelFile.CreationTime = Me.DTcreation.Value
+            cSelFile.LastAccessTime = Me.DTlastAccess.Value
+            cSelFile.LastWriteTime = Me.DTlastModification.Value
+            MsgBox("Done.", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Date change ok")
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Date change failed")
+        End Try
+    End Sub
+
+    Private Sub dtMonitorL_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles dtMonitorL.ValueChanged
+        If Me.chkMonitorLeftAuto.Checked = False Then
+            Call tvMonitor_AfterSelect(Nothing, Nothing)
+        End If
+    End Sub
+
+    Private Sub dtMonitorR_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles dtMonitorR.ValueChanged
+        If Me.chkMonitorRightAuto.Checked = False Then
+            Call tvMonitor_AfterSelect(Nothing, Nothing)
+        End If
+    End Sub
+
+    Private Sub txtSearchThread_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchThread.TextChanged
+        Dim it As ListViewItem
+        For Each it In Me.lvThreads.Items
+            If InStr(LCase(it.Text), LCase(Me.txtSearchThread.Text)) = 0 Then
+                it.Group = lvThreads.Groups(0)
+            Else
+                it.Group = lvThreads.Groups(1)
+            End If
+        Next
+        Me.lblThreadResults.Text = CStr(lvThreads.Groups(1).Items.Count) & " result(s)"
+    End Sub
+
+    Private Sub lblThreadResults_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblThreadResults.Click
+        If Me.lvThreads.Groups(1).Items.Count > 0 Then
+            Me.lvThreads.Focus()
+            Me.lvThreads.EnsureVisible(Me.lvThreads.Groups(1).Items(0).Index)
+            Me.lvThreads.SelectedItems.Clear()
+            Me.lvThreads.Groups(1).Items(0).Selected = True
+        End If
+    End Sub
+
+    Private Sub txtSearchHandle_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchHandle.TextChanged
+        Dim it As ListViewItem
+        For Each it In Me.lvHandles.Items
+            If InStr(LCase(it.SubItems(1).Text), LCase(Me.txtSearchHandle.Text)) = 0 Then
+                it.Group = lvHandles.Groups(0)
+            Else
+                it.Group = lvHandles.Groups(1)
+            End If
+        Next
+        Me.lblHandlesCount.Text = CStr(Me.lvHandles.Groups(1).Items.Count) & " result(s)"
+    End Sub
+
+    Private Sub lblHandlesCount_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblHandlesCount.Click
+        If Me.lvHandles.Groups(1).Items.Count > 0 Then
+            Me.lvHandles.Focus()
+            Me.lvHandles.EnsureVisible(Me.lvHandles.Groups(1).Items(0).Index)
+            Me.lvHandles.SelectedItems.Clear()
+            Me.lvHandles.Groups(1).Items(0).Selected = True
+        End If
+    End Sub
+
+    Private Sub txtSearchModule_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchModule.TextChanged
+        For Each it As ListViewItem In Me.lvModules.Items
+            Dim cM As cModule = Me.lvModules.GetItemByKey(it.Name)
+            If InStr(LCase(cM.FileName), LCase(Me.txtSearchModule.Text)) = 0 And _
+                    InStr(LCase(cM.FileVersion), LCase(Me.txtSearchModule.Text)) = 0 And _
+                    InStr(LCase(cM.FileDescription), LCase(Me.txtSearchModule.Text)) = 0 And _
+                    InStr(LCase(cM.CompanyName), LCase(Me.txtSearchModule.Text)) = 0 Then
+                it.Group = lvModules.Groups(0)
+            Else
+                it.Group = lvModules.Groups(1)
+            End If
+        Next
+        Me.lblModulesCount.Text = CStr(lvModules.Groups(1).Items.Count) & " result(s)"
+    End Sub
+
+    Private Sub lblModulesCount_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblModulesCount.Click
+        If Me.lvModules.Groups(1).Items.Count > 0 Then
+            Me.lvModules.Focus()
+            Me.lvModules.EnsureVisible(Me.lvModules.Groups(1).Items(0).Index)
+            Me.lvModules.SelectedItems.Clear()
+            Me.lvModules.Groups(1).Items(0).Selected = True
+        End If
+    End Sub
+
+    Private Sub lvHandles_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHandles.MouseDown
+        Call mdlMisc.CopyLvToClip(e, Me.lvHandles)
+    End Sub
+
+    Private Sub txtSearchWindow_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchWindow.TextChanged
+        Dim it As ListViewItem
+        For Each it In Me.lvWindows.Items
+            If InStr(LCase(CType(it.Tag, cWindow).Caption), LCase(Me.txtSearchWindow.Text)) = 0 Then
+                it.Group = lvWindows.Groups(0)
+            Else
+                it.Group = lvWindows.Groups(1)
+            End If
+        Next
+        Me.lblWindowsCount.Text = CStr(lvWindows.Groups(1).Items.Count) & " result(s)"
+    End Sub
+
+    Private Sub lblWindowsCount_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblWindowsCount.Click
+        If Me.lvWindows.Groups(1).Items.Count > 0 Then
+            Me.lvWindows.Focus()
+            Me.lvWindows.EnsureVisible(Me.lvWindows.Groups(1).Items(0).Index)
+            Me.lvWindows.SelectedItems.Clear()
+            Me.lvWindows.Groups(1).Items(0).Selected = True
+        End If
+    End Sub
+
+    Private Sub txtSearchResults_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles txtSearchResults.MouseDown
+        Dim it As ListViewItem
+        For Each it In Me.lvSearchResults.Items
+            If InStr(LCase(it.SubItems(1).Text), LCase(Me.txtSearchResults.Text)) = 0 Then
+                it.Group = lvSearchResults.Groups(0)
+            Else
+                it.Group = lvSearchResults.Groups(1)
+            End If
+        Next
+        Me.lblResultsCount.Text = CStr(lvSearchResults.Groups(1).Items.Count) & " result(s)"
+    End Sub
+
+    Private Sub txtSearchResults_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchResults.TextChanged
+        Dim it As ListViewItem
+        For Each it In Me.lvSearchResults.Items
+            If InStr(LCase(it.SubItems(1).Text), LCase(Me.txtSearchResults.Text)) = 0 Then
+                it.Group = lvSearchResults.Groups(0)
+            Else
+                it.Group = lvSearchResults.Groups(1)
+            End If
+        Next
+        Me.lblResultsCount.Text = CStr(lvSearchResults.Groups(1).Items.Count) & " result(s)"
+    End Sub
+
+    Private Sub lblResultsCount_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblResultsCount.Click
+        If Me.lvSearchResults.Groups(1).Items.Count > 0 Then
+            Me.lvSearchResults.Focus()
+            Me.lvSearchResults.EnsureVisible(Me.lvSearchResults.Groups(1).Items(0).Index)
+            Me.lvSearchResults.SelectedItems.Clear()
+            Me.lvSearchResults.Groups(1).Items(0).Selected = True
+        End If
+    End Sub
+
+    Private Sub _tab_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles _tab.SelectedIndexChanged
+        Dim i As Integer = _tab.SelectedIndex
+        Me._menuTask.Visible = (i = 0)
+        Me._menuProcess.Visible = (i = 1)
+        Me._amenuModule.Visible = (i = 2)
+        Me._amenuThread.Visible = (i = 3)
+        Me._menuHandle.Visible = (i = 4)
+        Me._amenuWindow.Visible = (i = 5)
+        Me._menuMonitor.Visible = (i = 6)
+        Me._menuServices.Visible = (i = 7)
+        'Me._menuNetwork.Visible = (i = 8)
+        Me._menuFile.Visible = (i = 9)
+        Me._amenuSearch.Visible = (i = 10)
+
+        ' Change current tab of ribbon
+        Dim theTab As RibbonTab = Me.HelpTab
+        Select Case i
+            Case 0
+                theTab = Me.TaskTab
+            Case 1
+                theTab = Me.ProcessTab
+            Case 2
+                theTab = Me.ModulesTab
+            Case 3
+                theTab = Me.ThreadTab
+            Case 4
+                theTab = Me.HandlesTab
+            Case 5
+                theTab = Me.WindowTab
+            Case 6
+                theTab = Me.MonitorTab
+            Case 7
+                theTab = Me.ServiceTab
+            Case 8
+                theTab = Me.NetworkTab
+            Case 9
+                theTab = Me.FileTab
+            Case 10
+                theTab = Me.SearchTab
+        End Select
+        Me.Ribbon.ActiveTab = theTab
+    End Sub
+
+    Private Sub HelpToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HelpToolStripMenuItem1.Click
+        Me._tab.SelectedIndex = 11    ' Help
+    End Sub
+
+    Private Sub RibbonViewToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RibbonViewToolStripMenuItem.Click
+        Call permuteMenuStyle()
+    End Sub
+
+    Private Sub butPermuteMenuStyle_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butPermuteMenuStyle.Click
+        Call permuteMenuStyle()
     End Sub
 End Class
