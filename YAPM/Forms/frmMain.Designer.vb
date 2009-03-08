@@ -300,6 +300,7 @@ Partial Class frmMain
         Me.RBOptions = New System.Windows.Forms.RibbonPanel
         Me.butPreferences = New System.Windows.Forms.RibbonButton
         Me.butAlwaysDisplay = New System.Windows.Forms.RibbonButton
+        Me.butPermuteMenuStyle = New System.Windows.Forms.RibbonButton
         Me.mnuFileCopyPctSmall = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem17 = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuFileCopyPctBig = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -386,6 +387,7 @@ Partial Class frmMain
         Me.ExitToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.AlwaysVisibleToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.RibbonViewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem56 = New System.Windows.Forms.ToolStripSeparator
         Me.RefreshprocessListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RefreshserviceListToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
@@ -402,115 +404,6 @@ Partial Class frmMain
         Me.ToolStripMenuItem59 = New System.Windows.Forms.ToolStripSeparator
         Me.LogoffToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.LockToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me._menuTask = New System.Windows.Forms.ToolStripMenuItem
-        Me.ShowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.EndTaskToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me._menuProcess = New System.Windows.Forms.ToolStripMenuItem
-        Me.ShowdetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem61 = New System.Windows.Forms.ToolStripSeparator
-        Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.KillToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.PauseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ResumeToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem63 = New System.Windows.Forms.ToolStripMenuItem
-        Me.AffinityToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ShowToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ModulesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ThreadsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.HandlesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.WindowsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.AllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem62 = New System.Windows.Forms.ToolStripSeparator
-        Me.PriorityToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.IdleToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.BelowNormalToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.NormalToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.AboveNormalToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.HighToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.RealTimeToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem64 = New System.Windows.Forms.ToolStripSeparator
-        Me.GoogleSearchToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem65 = New System.Windows.Forms.ToolStripSeparator
-        Me.SaveReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me._amenuModule = New System.Windows.Forms.ToolStripMenuItem
-        Me.UnloadToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem66 = New System.Windows.Forms.ToolStripSeparator
-        Me.GoogleSearchToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem67 = New System.Windows.Forms.ToolStripSeparator
-        Me.SavereportToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me._amenuThread = New System.Windows.Forms.ToolStripMenuItem
-        Me.KillToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
-        Me.StopToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ResumeToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem68 = New System.Windows.Forms.ToolStripSeparator
-        Me.PriorityToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.IdleToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
-        Me.LowestToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.BelowNormalToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
-        Me.NormalToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
-        Me.AboveNormalToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
-        Me.HighestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.TimeCriticalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem69 = New System.Windows.Forms.ToolStripSeparator
-        Me.SavereportToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
-        Me._menuHandle = New System.Windows.Forms.ToolStripMenuItem
-        Me.CloseToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem70 = New System.Windows.Forms.ToolStripSeparator
-        Me.SavereportToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem
-        Me._amenuWindow = New System.Windows.Forms.ToolStripMenuItem
-        Me.FindProcessToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem71 = New System.Windows.Forms.ToolStripSeparator
-        Me.VisibilityToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.CloseToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
-        Me.PositionSizeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem72 = New System.Windows.Forms.ToolStripSeparator
-        Me.SavereportToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem
-        Me._menuMonitor = New System.Windows.Forms.ToolStripMenuItem
-        Me.AddToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.RemoveSelectionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem73 = New System.Windows.Forms.ToolStripSeparator
-        Me.StartToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.StopToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem74 = New System.Windows.Forms.ToolStripSeparator
-        Me.SavereportToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem
-        Me._menuServices = New System.Windows.Forms.ToolStripMenuItem
-        Me.StopToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem
-        Me.StartToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.PauseToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ResumeToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ShutdownToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem75 = New System.Windows.Forms.ToolStripSeparator
-        Me.StarttypeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.AutomaticToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.OnDemandToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.DisabledToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem76 = New System.Windows.Forms.ToolStripSeparator
-        Me.ShowfilePropertiesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.OpenFileDirectoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.DetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem77 = New System.Windows.Forms.ToolStripSeparator
-        Me.GoogleSearchToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem78 = New System.Windows.Forms.ToolStripSeparator
-        Me.SavereportToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem
-        Me._menuFile = New System.Windows.Forms.ToolStripMenuItem
-        Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem79 = New System.Windows.Forms.ToolStripSeparator
-        Me.ReleaseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem80 = New System.Windows.Forms.ToolStripSeparator
-        Me.TrashToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem81 = New System.Windows.Forms.ToolStripSeparator
-        Me.GoogleSearchToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem82 = New System.Windows.Forms.ToolStripSeparator
-        Me.FilePropertiesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.OpenToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.DirectoryPropertiesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem83 = New System.Windows.Forms.ToolStripSeparator
-        Me.OthersToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me._amenuSearch = New System.Windows.Forms.ToolStripMenuItem
-        Me.LaunchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem84 = New System.Windows.Forms.ToolStripSeparator
-        Me.SavereportToolStripMenuItem7 = New System.Windows.Forms.ToolStripMenuItem
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.CheckupdatesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem85 = New System.Windows.Forms.ToolStripSeparator
@@ -644,7 +537,6 @@ Partial Class frmMain
         Me.pageHelp = New System.Windows.Forms.TabPage
         Me.panelMain4 = New System.Windows.Forms.Panel
         Me.WBHelp = New System.Windows.Forms.WebBrowser
-        Me.RibbonViewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.lvTask = New YAPM.taskList
         Me.ColumnHeader62 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader63 = New System.Windows.Forms.ColumnHeader
@@ -715,7 +607,14 @@ Partial Class frmMain
         Me.ColumnHeader13 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader14 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader17 = New System.Windows.Forms.ColumnHeader
-        Me.butPermuteMenuStyle = New System.Windows.Forms.RibbonButton
+        Me.menuMonitor = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ToolStripMenuItem61 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem62 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem63 = New System.Windows.Forms.ToolStripSeparator
+        Me.menuMonitorStart = New System.Windows.Forms.ToolStripMenuItem
+        Me.menuMonitorStop = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem64 = New System.Windows.Forms.ToolStripSeparator
+        Me.NewSearchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.menuProc.SuspendLayout()
         Me.menuService.SuspendLayout()
         Me.mainMenu.SuspendLayout()
@@ -831,6 +730,7 @@ Partial Class frmMain
         Me.pageHelp.SuspendLayout()
         Me.panelMain4.SuspendLayout()
         CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.menuMonitor.SuspendLayout()
         Me.SuspendLayout()
         '
         'imgMain
@@ -3466,6 +3366,19 @@ Partial Class frmMain
         Me.butAlwaysDisplay.ToolTipImage = Nothing
         Me.butAlwaysDisplay.ToolTipTitle = Nothing
         '
+        'butPermuteMenuStyle
+        '
+        Me.butPermuteMenuStyle.AltKey = Nothing
+        Me.butPermuteMenuStyle.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butPermuteMenuStyle.Image = Global.YAPM.My.Resources.Resources.hideDetails
+        Me.butPermuteMenuStyle.SmallImage = CType(resources.GetObject("butPermuteMenuStyle.SmallImage"), System.Drawing.Image)
+        Me.butPermuteMenuStyle.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butPermuteMenuStyle.Tag = Nothing
+        Me.butPermuteMenuStyle.Text = "Classical menus"
+        Me.butPermuteMenuStyle.ToolTip = Nothing
+        Me.butPermuteMenuStyle.ToolTipImage = Nothing
+        Me.butPermuteMenuStyle.ToolTipTitle = Nothing
+        '
         'mnuFileCopyPctSmall
         '
         Me.mnuFileCopyPctSmall.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem17})
@@ -3494,28 +3407,28 @@ Partial Class frmMain
         '
         'menuSearch
         '
-        Me.menuSearch.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectAssociatedProcessToolStripMenuItem, Me.ToolStripMenuItem18, Me.CloseToolStripMenuItem})
+        Me.menuSearch.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewSearchToolStripMenuItem, Me.ToolStripMenuItem64, Me.SelectAssociatedProcessToolStripMenuItem, Me.ToolStripMenuItem18, Me.CloseToolStripMenuItem})
         Me.menuSearch.Name = "menuProc"
-        Me.menuSearch.Size = New System.Drawing.Size(260, 54)
+        Me.menuSearch.Size = New System.Drawing.Size(248, 104)
         '
         'SelectAssociatedProcessToolStripMenuItem
         '
-        Me.SelectAssociatedProcessToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SelectAssociatedProcessToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SelectAssociatedProcessToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.exe
         Me.SelectAssociatedProcessToolStripMenuItem.Name = "SelectAssociatedProcessToolStripMenuItem"
-        Me.SelectAssociatedProcessToolStripMenuItem.Size = New System.Drawing.Size(259, 22)
+        Me.SelectAssociatedProcessToolStripMenuItem.Size = New System.Drawing.Size(247, 22)
         Me.SelectAssociatedProcessToolStripMenuItem.Text = "Select associated process/service"
         '
         'ToolStripMenuItem18
         '
         Me.ToolStripMenuItem18.Name = "ToolStripMenuItem18"
-        Me.ToolStripMenuItem18.Size = New System.Drawing.Size(256, 6)
+        Me.ToolStripMenuItem18.Size = New System.Drawing.Size(244, 6)
         '
         'CloseToolStripMenuItem
         '
         Me.CloseToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.cross
         Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(259, 22)
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(247, 22)
         Me.CloseToolStripMenuItem.Text = "Close item"
         '
         'imgSearch
@@ -3945,7 +3858,7 @@ Partial Class frmMain
         '
         'menuSystem
         '
-        Me.menuSystem.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.OptionsToolStripMenuItem, Me.SystemToolStripMenuItem, Me._menuTask, Me._menuProcess, Me._amenuModule, Me._amenuThread, Me._menuHandle, Me._amenuWindow, Me._menuMonitor, Me._menuServices, Me._menuFile, Me._amenuSearch, Me.HelpToolStripMenuItem})
+        Me.menuSystem.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.OptionsToolStripMenuItem, Me.SystemToolStripMenuItem, Me.HelpToolStripMenuItem})
         Me.menuSystem.Location = New System.Drawing.Point(0, 0)
         Me.menuSystem.Name = "menuSystem"
         Me.menuSystem.Size = New System.Drawing.Size(843, 24)
@@ -4044,6 +3957,14 @@ Partial Class frmMain
         Me.AlwaysVisibleToolStripMenuItem1.Size = New System.Drawing.Size(174, 22)
         Me.AlwaysVisibleToolStripMenuItem1.Text = "&Always visible"
         '
+        'RibbonViewToolStripMenuItem
+        '
+        Me.RibbonViewToolStripMenuItem.Checked = True
+        Me.RibbonViewToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.RibbonViewToolStripMenuItem.Name = "RibbonViewToolStripMenuItem"
+        Me.RibbonViewToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.RibbonViewToolStripMenuItem.Text = "&Ribbon view"
+        '
         'ToolStripMenuItem56
         '
         Me.ToolStripMenuItem56.Name = "ToolStripMenuItem56"
@@ -4137,664 +4058,6 @@ Partial Class frmMain
         Me.LockToolStripMenuItem1.Name = "LockToolStripMenuItem1"
         Me.LockToolStripMenuItem1.Size = New System.Drawing.Size(128, 22)
         Me.LockToolStripMenuItem1.Text = "&Lock"
-        '
-        '_menuTask
-        '
-        Me._menuTask.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowToolStripMenuItem, Me.EndTaskToolStripMenuItem1})
-        Me._menuTask.Name = "_menuTask"
-        Me._menuTask.Size = New System.Drawing.Size(48, 20)
-        Me._menuTask.Text = "&Tasks"
-        '
-        'ShowToolStripMenuItem
-        '
-        Me.ShowToolStripMenuItem.Name = "ShowToolStripMenuItem"
-        Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(118, 22)
-        Me.ShowToolStripMenuItem.Text = "&Show"
-        '
-        'EndTaskToolStripMenuItem1
-        '
-        Me.EndTaskToolStripMenuItem1.Name = "EndTaskToolStripMenuItem1"
-        Me.EndTaskToolStripMenuItem1.Size = New System.Drawing.Size(118, 22)
-        Me.EndTaskToolStripMenuItem1.Text = "&End task"
-        '
-        '_menuProcess
-        '
-        Me._menuProcess.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowdetailsToolStripMenuItem, Me.ToolStripMenuItem61, Me.NewToolStripMenuItem, Me.KillToolStripMenuItem1, Me.PauseToolStripMenuItem, Me.ResumeToolStripMenuItem1, Me.ToolStripMenuItem63, Me.ShowToolStripMenuItem1, Me.ToolStripMenuItem62, Me.PriorityToolStripMenuItem, Me.ToolStripMenuItem64, Me.GoogleSearchToolStripMenuItem3, Me.ToolStripMenuItem65, Me.SaveReportToolStripMenuItem})
-        Me._menuProcess.Name = "_menuProcess"
-        Me._menuProcess.Size = New System.Drawing.Size(70, 20)
-        Me._menuProcess.Text = "&Processes"
-        Me._menuProcess.Visible = False
-        '
-        'ShowdetailsToolStripMenuItem
-        '
-        Me.ShowdetailsToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ShowdetailsToolStripMenuItem.Name = "ShowdetailsToolStripMenuItem"
-        Me.ShowdetailsToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
-        Me.ShowdetailsToolStripMenuItem.Text = "Show &details"
-        '
-        'ToolStripMenuItem61
-        '
-        Me.ToolStripMenuItem61.Name = "ToolStripMenuItem61"
-        Me.ToolStripMenuItem61.Size = New System.Drawing.Size(146, 6)
-        '
-        'NewToolStripMenuItem
-        '
-        Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
-        Me.NewToolStripMenuItem.Text = "&New..."
-        '
-        'KillToolStripMenuItem1
-        '
-        Me.KillToolStripMenuItem1.Name = "KillToolStripMenuItem1"
-        Me.KillToolStripMenuItem1.Size = New System.Drawing.Size(149, 22)
-        Me.KillToolStripMenuItem1.Text = "&Kill"
-        '
-        'PauseToolStripMenuItem
-        '
-        Me.PauseToolStripMenuItem.Name = "PauseToolStripMenuItem"
-        Me.PauseToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
-        Me.PauseToolStripMenuItem.Text = "&Pause"
-        '
-        'ResumeToolStripMenuItem1
-        '
-        Me.ResumeToolStripMenuItem1.Name = "ResumeToolStripMenuItem1"
-        Me.ResumeToolStripMenuItem1.Size = New System.Drawing.Size(149, 22)
-        Me.ResumeToolStripMenuItem1.Text = "&Resume"
-        '
-        'ToolStripMenuItem63
-        '
-        Me.ToolStripMenuItem63.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AffinityToolStripMenuItem})
-        Me.ToolStripMenuItem63.Name = "ToolStripMenuItem63"
-        Me.ToolStripMenuItem63.Size = New System.Drawing.Size(149, 22)
-        Me.ToolStripMenuItem63.Text = "&Other"
-        '
-        'AffinityToolStripMenuItem
-        '
-        Me.AffinityToolStripMenuItem.Name = "AffinityToolStripMenuItem"
-        Me.AffinityToolStripMenuItem.Size = New System.Drawing.Size(113, 22)
-        Me.AffinityToolStripMenuItem.Text = "&Affinity"
-        '
-        'ShowToolStripMenuItem1
-        '
-        Me.ShowToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ModulesToolStripMenuItem, Me.ThreadsToolStripMenuItem, Me.HandlesToolStripMenuItem, Me.WindowsToolStripMenuItem, Me.AllToolStripMenuItem})
-        Me.ShowToolStripMenuItem1.Name = "ShowToolStripMenuItem1"
-        Me.ShowToolStripMenuItem1.Size = New System.Drawing.Size(149, 22)
-        Me.ShowToolStripMenuItem1.Text = "&Show"
-        '
-        'ModulesToolStripMenuItem
-        '
-        Me.ModulesToolStripMenuItem.Name = "ModulesToolStripMenuItem"
-        Me.ModulesToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
-        Me.ModulesToolStripMenuItem.Text = "&Modules"
-        '
-        'ThreadsToolStripMenuItem
-        '
-        Me.ThreadsToolStripMenuItem.Name = "ThreadsToolStripMenuItem"
-        Me.ThreadsToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
-        Me.ThreadsToolStripMenuItem.Text = "&Threads"
-        '
-        'HandlesToolStripMenuItem
-        '
-        Me.HandlesToolStripMenuItem.Name = "HandlesToolStripMenuItem"
-        Me.HandlesToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
-        Me.HandlesToolStripMenuItem.Text = "&Handles"
-        '
-        'WindowsToolStripMenuItem
-        '
-        Me.WindowsToolStripMenuItem.Name = "WindowsToolStripMenuItem"
-        Me.WindowsToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
-        Me.WindowsToolStripMenuItem.Text = "&Windows"
-        '
-        'AllToolStripMenuItem
-        '
-        Me.AllToolStripMenuItem.Name = "AllToolStripMenuItem"
-        Me.AllToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
-        Me.AllToolStripMenuItem.Text = "&All"
-        '
-        'ToolStripMenuItem62
-        '
-        Me.ToolStripMenuItem62.Name = "ToolStripMenuItem62"
-        Me.ToolStripMenuItem62.Size = New System.Drawing.Size(146, 6)
-        '
-        'PriorityToolStripMenuItem
-        '
-        Me.PriorityToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.IdleToolStripMenuItem1, Me.BelowNormalToolStripMenuItem1, Me.NormalToolStripMenuItem1, Me.AboveNormalToolStripMenuItem1, Me.HighToolStripMenuItem1, Me.RealTimeToolStripMenuItem1})
-        Me.PriorityToolStripMenuItem.Name = "PriorityToolStripMenuItem"
-        Me.PriorityToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
-        Me.PriorityToolStripMenuItem.Text = "Prior&ity"
-        '
-        'IdleToolStripMenuItem1
-        '
-        Me.IdleToolStripMenuItem1.Name = "IdleToolStripMenuItem1"
-        Me.IdleToolStripMenuItem1.Size = New System.Drawing.Size(151, 22)
-        Me.IdleToolStripMenuItem1.Text = "&Idle"
-        '
-        'BelowNormalToolStripMenuItem1
-        '
-        Me.BelowNormalToolStripMenuItem1.Name = "BelowNormalToolStripMenuItem1"
-        Me.BelowNormalToolStripMenuItem1.Size = New System.Drawing.Size(151, 22)
-        Me.BelowNormalToolStripMenuItem1.Text = "&Below Normal"
-        '
-        'NormalToolStripMenuItem1
-        '
-        Me.NormalToolStripMenuItem1.Name = "NormalToolStripMenuItem1"
-        Me.NormalToolStripMenuItem1.Size = New System.Drawing.Size(151, 22)
-        Me.NormalToolStripMenuItem1.Text = "&Normal"
-        '
-        'AboveNormalToolStripMenuItem1
-        '
-        Me.AboveNormalToolStripMenuItem1.Name = "AboveNormalToolStripMenuItem1"
-        Me.AboveNormalToolStripMenuItem1.Size = New System.Drawing.Size(151, 22)
-        Me.AboveNormalToolStripMenuItem1.Text = "&Above Normal"
-        '
-        'HighToolStripMenuItem1
-        '
-        Me.HighToolStripMenuItem1.Name = "HighToolStripMenuItem1"
-        Me.HighToolStripMenuItem1.Size = New System.Drawing.Size(151, 22)
-        Me.HighToolStripMenuItem1.Text = "&High"
-        '
-        'RealTimeToolStripMenuItem1
-        '
-        Me.RealTimeToolStripMenuItem1.Name = "RealTimeToolStripMenuItem1"
-        Me.RealTimeToolStripMenuItem1.Size = New System.Drawing.Size(151, 22)
-        Me.RealTimeToolStripMenuItem1.Text = "&Real Time"
-        '
-        'ToolStripMenuItem64
-        '
-        Me.ToolStripMenuItem64.Name = "ToolStripMenuItem64"
-        Me.ToolStripMenuItem64.Size = New System.Drawing.Size(146, 6)
-        '
-        'GoogleSearchToolStripMenuItem3
-        '
-        Me.GoogleSearchToolStripMenuItem3.Name = "GoogleSearchToolStripMenuItem3"
-        Me.GoogleSearchToolStripMenuItem3.Size = New System.Drawing.Size(149, 22)
-        Me.GoogleSearchToolStripMenuItem3.Text = "&Google search"
-        '
-        'ToolStripMenuItem65
-        '
-        Me.ToolStripMenuItem65.Name = "ToolStripMenuItem65"
-        Me.ToolStripMenuItem65.Size = New System.Drawing.Size(146, 6)
-        '
-        'SaveReportToolStripMenuItem
-        '
-        Me.SaveReportToolStripMenuItem.Name = "SaveReportToolStripMenuItem"
-        Me.SaveReportToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
-        Me.SaveReportToolStripMenuItem.Text = "Save &report..."
-        '
-        '_amenuModule
-        '
-        Me._amenuModule.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UnloadToolStripMenuItem, Me.ToolStripMenuItem66, Me.GoogleSearchToolStripMenuItem4, Me.ToolStripMenuItem67, Me.SavereportToolStripMenuItem1})
-        Me._amenuModule.Name = "_amenuModule"
-        Me._amenuModule.Size = New System.Drawing.Size(65, 20)
-        Me._amenuModule.Text = "&Modules"
-        Me._amenuModule.Visible = False
-        '
-        'UnloadToolStripMenuItem
-        '
-        Me.UnloadToolStripMenuItem.Name = "UnloadToolStripMenuItem"
-        Me.UnloadToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
-        Me.UnloadToolStripMenuItem.Text = "&Unload"
-        '
-        'ToolStripMenuItem66
-        '
-        Me.ToolStripMenuItem66.Name = "ToolStripMenuItem66"
-        Me.ToolStripMenuItem66.Size = New System.Drawing.Size(146, 6)
-        '
-        'GoogleSearchToolStripMenuItem4
-        '
-        Me.GoogleSearchToolStripMenuItem4.Name = "GoogleSearchToolStripMenuItem4"
-        Me.GoogleSearchToolStripMenuItem4.Size = New System.Drawing.Size(149, 22)
-        Me.GoogleSearchToolStripMenuItem4.Text = "&Google search"
-        '
-        'ToolStripMenuItem67
-        '
-        Me.ToolStripMenuItem67.Name = "ToolStripMenuItem67"
-        Me.ToolStripMenuItem67.Size = New System.Drawing.Size(146, 6)
-        '
-        'SavereportToolStripMenuItem1
-        '
-        Me.SavereportToolStripMenuItem1.Name = "SavereportToolStripMenuItem1"
-        Me.SavereportToolStripMenuItem1.Size = New System.Drawing.Size(149, 22)
-        Me.SavereportToolStripMenuItem1.Text = "Save &report..."
-        '
-        '_amenuThread
-        '
-        Me._amenuThread.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem2, Me.StopToolStripMenuItem1, Me.ResumeToolStripMenuItem2, Me.ToolStripMenuItem68, Me.PriorityToolStripMenuItem1, Me.ToolStripMenuItem69, Me.SavereportToolStripMenuItem2})
-        Me._amenuThread.Name = "_amenuThread"
-        Me._amenuThread.Size = New System.Drawing.Size(61, 20)
-        Me._amenuThread.Text = "&Threads"
-        Me._amenuThread.Visible = False
-        '
-        'KillToolStripMenuItem2
-        '
-        Me.KillToolStripMenuItem2.Name = "KillToolStripMenuItem2"
-        Me.KillToolStripMenuItem2.Size = New System.Drawing.Size(142, 22)
-        Me.KillToolStripMenuItem2.Text = "&Kill"
-        '
-        'StopToolStripMenuItem1
-        '
-        Me.StopToolStripMenuItem1.Name = "StopToolStripMenuItem1"
-        Me.StopToolStripMenuItem1.Size = New System.Drawing.Size(142, 22)
-        Me.StopToolStripMenuItem1.Text = "&Stop"
-        '
-        'ResumeToolStripMenuItem2
-        '
-        Me.ResumeToolStripMenuItem2.Name = "ResumeToolStripMenuItem2"
-        Me.ResumeToolStripMenuItem2.Size = New System.Drawing.Size(142, 22)
-        Me.ResumeToolStripMenuItem2.Text = "&Resume"
-        '
-        'ToolStripMenuItem68
-        '
-        Me.ToolStripMenuItem68.Name = "ToolStripMenuItem68"
-        Me.ToolStripMenuItem68.Size = New System.Drawing.Size(139, 6)
-        '
-        'PriorityToolStripMenuItem1
-        '
-        Me.PriorityToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.IdleToolStripMenuItem2, Me.LowestToolStripMenuItem1, Me.BelowNormalToolStripMenuItem2, Me.NormalToolStripMenuItem2, Me.AboveNormalToolStripMenuItem2, Me.HighestToolStripMenuItem, Me.TimeCriticalToolStripMenuItem})
-        Me.PriorityToolStripMenuItem1.Name = "PriorityToolStripMenuItem1"
-        Me.PriorityToolStripMenuItem1.Size = New System.Drawing.Size(142, 22)
-        Me.PriorityToolStripMenuItem1.Text = "&Priority"
-        '
-        'IdleToolStripMenuItem2
-        '
-        Me.IdleToolStripMenuItem2.Name = "IdleToolStripMenuItem2"
-        Me.IdleToolStripMenuItem2.Size = New System.Drawing.Size(151, 22)
-        Me.IdleToolStripMenuItem2.Text = "&Idle"
-        '
-        'LowestToolStripMenuItem1
-        '
-        Me.LowestToolStripMenuItem1.Name = "LowestToolStripMenuItem1"
-        Me.LowestToolStripMenuItem1.Size = New System.Drawing.Size(151, 22)
-        Me.LowestToolStripMenuItem1.Text = "&Lowest"
-        '
-        'BelowNormalToolStripMenuItem2
-        '
-        Me.BelowNormalToolStripMenuItem2.Name = "BelowNormalToolStripMenuItem2"
-        Me.BelowNormalToolStripMenuItem2.Size = New System.Drawing.Size(151, 22)
-        Me.BelowNormalToolStripMenuItem2.Text = "&Below Normal"
-        '
-        'NormalToolStripMenuItem2
-        '
-        Me.NormalToolStripMenuItem2.Name = "NormalToolStripMenuItem2"
-        Me.NormalToolStripMenuItem2.Size = New System.Drawing.Size(151, 22)
-        Me.NormalToolStripMenuItem2.Text = "&Normal"
-        '
-        'AboveNormalToolStripMenuItem2
-        '
-        Me.AboveNormalToolStripMenuItem2.Name = "AboveNormalToolStripMenuItem2"
-        Me.AboveNormalToolStripMenuItem2.Size = New System.Drawing.Size(151, 22)
-        Me.AboveNormalToolStripMenuItem2.Text = "&Above Normal"
-        '
-        'HighestToolStripMenuItem
-        '
-        Me.HighestToolStripMenuItem.Name = "HighestToolStripMenuItem"
-        Me.HighestToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
-        Me.HighestToolStripMenuItem.Text = "&Highest"
-        '
-        'TimeCriticalToolStripMenuItem
-        '
-        Me.TimeCriticalToolStripMenuItem.Name = "TimeCriticalToolStripMenuItem"
-        Me.TimeCriticalToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
-        Me.TimeCriticalToolStripMenuItem.Text = "&Time Critical"
-        '
-        'ToolStripMenuItem69
-        '
-        Me.ToolStripMenuItem69.Name = "ToolStripMenuItem69"
-        Me.ToolStripMenuItem69.Size = New System.Drawing.Size(139, 6)
-        '
-        'SavereportToolStripMenuItem2
-        '
-        Me.SavereportToolStripMenuItem2.Name = "SavereportToolStripMenuItem2"
-        Me.SavereportToolStripMenuItem2.Size = New System.Drawing.Size(142, 22)
-        Me.SavereportToolStripMenuItem2.Text = "Save &report..."
-        '
-        '_menuHandle
-        '
-        Me._menuHandle.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CloseToolStripMenuItem1, Me.ToolStripMenuItem70, Me.SavereportToolStripMenuItem3})
-        Me._menuHandle.Name = "_menuHandle"
-        Me._menuHandle.Size = New System.Drawing.Size(62, 20)
-        Me._menuHandle.Text = "&Handles"
-        Me._menuHandle.Visible = False
-        '
-        'CloseToolStripMenuItem1
-        '
-        Me.CloseToolStripMenuItem1.Name = "CloseToolStripMenuItem1"
-        Me.CloseToolStripMenuItem1.Size = New System.Drawing.Size(142, 22)
-        Me.CloseToolStripMenuItem1.Text = "&Close"
-        '
-        'ToolStripMenuItem70
-        '
-        Me.ToolStripMenuItem70.Name = "ToolStripMenuItem70"
-        Me.ToolStripMenuItem70.Size = New System.Drawing.Size(139, 6)
-        '
-        'SavereportToolStripMenuItem3
-        '
-        Me.SavereportToolStripMenuItem3.Name = "SavereportToolStripMenuItem3"
-        Me.SavereportToolStripMenuItem3.Size = New System.Drawing.Size(142, 22)
-        Me.SavereportToolStripMenuItem3.Text = "Save &report..."
-        '
-        '_amenuWindow
-        '
-        Me._amenuWindow.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FindProcessToolStripMenuItem, Me.ToolStripMenuItem71, Me.VisibilityToolStripMenuItem, Me.CloseToolStripMenuItem2, Me.PositionSizeToolStripMenuItem, Me.ToolStripMenuItem72, Me.SavereportToolStripMenuItem4})
-        Me._amenuWindow.Name = "_amenuWindow"
-        Me._amenuWindow.Size = New System.Drawing.Size(68, 20)
-        Me._amenuWindow.Text = "&Windows"
-        Me._amenuWindow.Visible = False
-        '
-        'FindProcessToolStripMenuItem
-        '
-        Me.FindProcessToolStripMenuItem.Name = "FindProcessToolStripMenuItem"
-        Me.FindProcessToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.FindProcessToolStripMenuItem.Text = "&Find process"
-        '
-        'ToolStripMenuItem71
-        '
-        Me.ToolStripMenuItem71.Name = "ToolStripMenuItem71"
-        Me.ToolStripMenuItem71.Size = New System.Drawing.Size(149, 6)
-        '
-        'VisibilityToolStripMenuItem
-        '
-        Me.VisibilityToolStripMenuItem.Name = "VisibilityToolStripMenuItem"
-        Me.VisibilityToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.VisibilityToolStripMenuItem.Text = "&Visibility"
-        '
-        'CloseToolStripMenuItem2
-        '
-        Me.CloseToolStripMenuItem2.Name = "CloseToolStripMenuItem2"
-        Me.CloseToolStripMenuItem2.Size = New System.Drawing.Size(152, 22)
-        Me.CloseToolStripMenuItem2.Text = "&Close"
-        '
-        'PositionSizeToolStripMenuItem
-        '
-        Me.PositionSizeToolStripMenuItem.Name = "PositionSizeToolStripMenuItem"
-        Me.PositionSizeToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.PositionSizeToolStripMenuItem.Text = "&Position && size"
-        '
-        'ToolStripMenuItem72
-        '
-        Me.ToolStripMenuItem72.Name = "ToolStripMenuItem72"
-        Me.ToolStripMenuItem72.Size = New System.Drawing.Size(149, 6)
-        '
-        'SavereportToolStripMenuItem4
-        '
-        Me.SavereportToolStripMenuItem4.Name = "SavereportToolStripMenuItem4"
-        Me.SavereportToolStripMenuItem4.Size = New System.Drawing.Size(152, 22)
-        Me.SavereportToolStripMenuItem4.Text = "Save &report..."
-        '
-        '_menuMonitor
-        '
-        Me._menuMonitor.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToolStripMenuItem, Me.RemoveSelectionToolStripMenuItem, Me.ToolStripMenuItem73, Me.StartToolStripMenuItem, Me.StopToolStripMenuItem2, Me.ToolStripMenuItem74, Me.SavereportToolStripMenuItem5})
-        Me._menuMonitor.Name = "_menuMonitor"
-        Me._menuMonitor.Size = New System.Drawing.Size(62, 20)
-        Me._menuMonitor.Text = "&Monitor"
-        Me._menuMonitor.Visible = False
-        '
-        'AddToolStripMenuItem
-        '
-        Me.AddToolStripMenuItem.Name = "AddToolStripMenuItem"
-        Me.AddToolStripMenuItem.Size = New System.Drawing.Size(167, 22)
-        Me.AddToolStripMenuItem.Text = "&Add..."
-        '
-        'RemoveSelectionToolStripMenuItem
-        '
-        Me.RemoveSelectionToolStripMenuItem.Name = "RemoveSelectionToolStripMenuItem"
-        Me.RemoveSelectionToolStripMenuItem.Size = New System.Drawing.Size(167, 22)
-        Me.RemoveSelectionToolStripMenuItem.Text = "&Remove selection"
-        '
-        'ToolStripMenuItem73
-        '
-        Me.ToolStripMenuItem73.Name = "ToolStripMenuItem73"
-        Me.ToolStripMenuItem73.Size = New System.Drawing.Size(164, 6)
-        '
-        'StartToolStripMenuItem
-        '
-        Me.StartToolStripMenuItem.Name = "StartToolStripMenuItem"
-        Me.StartToolStripMenuItem.Size = New System.Drawing.Size(167, 22)
-        Me.StartToolStripMenuItem.Text = "&Start"
-        '
-        'StopToolStripMenuItem2
-        '
-        Me.StopToolStripMenuItem2.Name = "StopToolStripMenuItem2"
-        Me.StopToolStripMenuItem2.Size = New System.Drawing.Size(167, 22)
-        Me.StopToolStripMenuItem2.Text = "&Stop"
-        '
-        'ToolStripMenuItem74
-        '
-        Me.ToolStripMenuItem74.Name = "ToolStripMenuItem74"
-        Me.ToolStripMenuItem74.Size = New System.Drawing.Size(164, 6)
-        '
-        'SavereportToolStripMenuItem5
-        '
-        Me.SavereportToolStripMenuItem5.Name = "SavereportToolStripMenuItem5"
-        Me.SavereportToolStripMenuItem5.Size = New System.Drawing.Size(167, 22)
-        Me.SavereportToolStripMenuItem5.Text = "Save &report..."
-        '
-        '_menuServices
-        '
-        Me._menuServices.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StopToolStripMenuItem3, Me.StartToolStripMenuItem1, Me.PauseToolStripMenuItem1, Me.ResumeToolStripMenuItem3, Me.ShutdownToolStripMenuItem5, Me.ToolStripMenuItem75, Me.StarttypeToolStripMenuItem, Me.ToolStripMenuItem76, Me.ShowfilePropertiesToolStripMenuItem, Me.OpenFileDirectoryToolStripMenuItem, Me.DetailsToolStripMenuItem, Me.ToolStripMenuItem77, Me.GoogleSearchToolStripMenuItem5, Me.ToolStripMenuItem78, Me.SavereportToolStripMenuItem6})
-        Me._menuServices.Name = "_menuServices"
-        Me._menuServices.Size = New System.Drawing.Size(61, 20)
-        Me._menuServices.Text = "&Services"
-        Me._menuServices.Visible = False
-        '
-        'StopToolStripMenuItem3
-        '
-        Me.StopToolStripMenuItem3.Name = "StopToolStripMenuItem3"
-        Me.StopToolStripMenuItem3.Size = New System.Drawing.Size(178, 22)
-        Me.StopToolStripMenuItem3.Text = "&Stop"
-        '
-        'StartToolStripMenuItem1
-        '
-        Me.StartToolStripMenuItem1.Name = "StartToolStripMenuItem1"
-        Me.StartToolStripMenuItem1.Size = New System.Drawing.Size(178, 22)
-        Me.StartToolStripMenuItem1.Text = "&Start"
-        '
-        'PauseToolStripMenuItem1
-        '
-        Me.PauseToolStripMenuItem1.Name = "PauseToolStripMenuItem1"
-        Me.PauseToolStripMenuItem1.Size = New System.Drawing.Size(178, 22)
-        Me.PauseToolStripMenuItem1.Text = "&Pause"
-        '
-        'ResumeToolStripMenuItem3
-        '
-        Me.ResumeToolStripMenuItem3.Name = "ResumeToolStripMenuItem3"
-        Me.ResumeToolStripMenuItem3.Size = New System.Drawing.Size(178, 22)
-        Me.ResumeToolStripMenuItem3.Text = "&Resume"
-        '
-        'ShutdownToolStripMenuItem5
-        '
-        Me.ShutdownToolStripMenuItem5.Name = "ShutdownToolStripMenuItem5"
-        Me.ShutdownToolStripMenuItem5.Size = New System.Drawing.Size(178, 22)
-        Me.ShutdownToolStripMenuItem5.Text = "&Shutdown"
-        '
-        'ToolStripMenuItem75
-        '
-        Me.ToolStripMenuItem75.Name = "ToolStripMenuItem75"
-        Me.ToolStripMenuItem75.Size = New System.Drawing.Size(175, 6)
-        '
-        'StarttypeToolStripMenuItem
-        '
-        Me.StarttypeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AutomaticToolStripMenuItem, Me.OnDemandToolStripMenuItem, Me.DisabledToolStripMenuItem})
-        Me.StarttypeToolStripMenuItem.Name = "StarttypeToolStripMenuItem"
-        Me.StarttypeToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
-        Me.StarttypeToolStripMenuItem.Text = "Start &type"
-        '
-        'AutomaticToolStripMenuItem
-        '
-        Me.AutomaticToolStripMenuItem.Name = "AutomaticToolStripMenuItem"
-        Me.AutomaticToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
-        Me.AutomaticToolStripMenuItem.Text = "&Automatic"
-        '
-        'OnDemandToolStripMenuItem
-        '
-        Me.OnDemandToolStripMenuItem.Name = "OnDemandToolStripMenuItem"
-        Me.OnDemandToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
-        Me.OnDemandToolStripMenuItem.Text = "&On Demand"
-        '
-        'DisabledToolStripMenuItem
-        '
-        Me.DisabledToolStripMenuItem.Name = "DisabledToolStripMenuItem"
-        Me.DisabledToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
-        Me.DisabledToolStripMenuItem.Text = "&Disabled"
-        '
-        'ToolStripMenuItem76
-        '
-        Me.ToolStripMenuItem76.Name = "ToolStripMenuItem76"
-        Me.ToolStripMenuItem76.Size = New System.Drawing.Size(175, 6)
-        '
-        'ShowfilePropertiesToolStripMenuItem
-        '
-        Me.ShowfilePropertiesToolStripMenuItem.Name = "ShowfilePropertiesToolStripMenuItem"
-        Me.ShowfilePropertiesToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
-        Me.ShowfilePropertiesToolStripMenuItem.Text = "Show &file properties"
-        '
-        'OpenFileDirectoryToolStripMenuItem
-        '
-        Me.OpenFileDirectoryToolStripMenuItem.Name = "OpenFileDirectoryToolStripMenuItem"
-        Me.OpenFileDirectoryToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
-        Me.OpenFileDirectoryToolStripMenuItem.Text = "&Open file directory"
-        '
-        'DetailsToolStripMenuItem
-        '
-        Me.DetailsToolStripMenuItem.Name = "DetailsToolStripMenuItem"
-        Me.DetailsToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
-        Me.DetailsToolStripMenuItem.Text = "&Details"
-        '
-        'ToolStripMenuItem77
-        '
-        Me.ToolStripMenuItem77.Name = "ToolStripMenuItem77"
-        Me.ToolStripMenuItem77.Size = New System.Drawing.Size(175, 6)
-        '
-        'GoogleSearchToolStripMenuItem5
-        '
-        Me.GoogleSearchToolStripMenuItem5.Name = "GoogleSearchToolStripMenuItem5"
-        Me.GoogleSearchToolStripMenuItem5.Size = New System.Drawing.Size(178, 22)
-        Me.GoogleSearchToolStripMenuItem5.Text = "&Google search"
-        '
-        'ToolStripMenuItem78
-        '
-        Me.ToolStripMenuItem78.Name = "ToolStripMenuItem78"
-        Me.ToolStripMenuItem78.Size = New System.Drawing.Size(175, 6)
-        '
-        'SavereportToolStripMenuItem6
-        '
-        Me.SavereportToolStripMenuItem6.Name = "SavereportToolStripMenuItem6"
-        Me.SavereportToolStripMenuItem6.Size = New System.Drawing.Size(178, 22)
-        Me.SavereportToolStripMenuItem6.Text = "Save &report..."
-        '
-        '_menuFile
-        '
-        Me._menuFile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenToolStripMenuItem, Me.ToolStripMenuItem79, Me.ReleaseToolStripMenuItem, Me.ToolStripMenuItem80, Me.TrashToolStripMenuItem, Me.DeleteToolStripMenuItem, Me.ToolStripMenuItem81, Me.GoogleSearchToolStripMenuItem6, Me.ToolStripMenuItem82, Me.FilePropertiesToolStripMenuItem, Me.OpenToolStripMenuItem1, Me.DirectoryPropertiesToolStripMenuItem, Me.ToolStripMenuItem83, Me.OthersToolStripMenuItem})
-        Me._menuFile.Name = "_menuFile"
-        Me._menuFile.Size = New System.Drawing.Size(37, 20)
-        Me._menuFile.Text = "&File"
-        Me._menuFile.Visible = False
-        '
-        'OpenToolStripMenuItem
-        '
-        Me.OpenToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
-        Me.OpenToolStripMenuItem.Text = "&Open..."
-        '
-        'ToolStripMenuItem79
-        '
-        Me.ToolStripMenuItem79.Name = "ToolStripMenuItem79"
-        Me.ToolStripMenuItem79.Size = New System.Drawing.Size(175, 6)
-        '
-        'ReleaseToolStripMenuItem
-        '
-        Me.ReleaseToolStripMenuItem.Name = "ReleaseToolStripMenuItem"
-        Me.ReleaseToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
-        Me.ReleaseToolStripMenuItem.Text = "&Release..."
-        '
-        'ToolStripMenuItem80
-        '
-        Me.ToolStripMenuItem80.Name = "ToolStripMenuItem80"
-        Me.ToolStripMenuItem80.Size = New System.Drawing.Size(175, 6)
-        '
-        'TrashToolStripMenuItem
-        '
-        Me.TrashToolStripMenuItem.Name = "TrashToolStripMenuItem"
-        Me.TrashToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
-        Me.TrashToolStripMenuItem.Text = "&Trash"
-        '
-        'DeleteToolStripMenuItem
-        '
-        Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
-        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
-        Me.DeleteToolStripMenuItem.Text = "&Delete"
-        '
-        'ToolStripMenuItem81
-        '
-        Me.ToolStripMenuItem81.Name = "ToolStripMenuItem81"
-        Me.ToolStripMenuItem81.Size = New System.Drawing.Size(175, 6)
-        '
-        'GoogleSearchToolStripMenuItem6
-        '
-        Me.GoogleSearchToolStripMenuItem6.Name = "GoogleSearchToolStripMenuItem6"
-        Me.GoogleSearchToolStripMenuItem6.Size = New System.Drawing.Size(178, 22)
-        Me.GoogleSearchToolStripMenuItem6.Text = "&Google search"
-        '
-        'ToolStripMenuItem82
-        '
-        Me.ToolStripMenuItem82.Name = "ToolStripMenuItem82"
-        Me.ToolStripMenuItem82.Size = New System.Drawing.Size(175, 6)
-        '
-        'FilePropertiesToolStripMenuItem
-        '
-        Me.FilePropertiesToolStripMenuItem.Name = "FilePropertiesToolStripMenuItem"
-        Me.FilePropertiesToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
-        Me.FilePropertiesToolStripMenuItem.Text = "&File properties"
-        '
-        'OpenToolStripMenuItem1
-        '
-        Me.OpenToolStripMenuItem1.Name = "OpenToolStripMenuItem1"
-        Me.OpenToolStripMenuItem1.Size = New System.Drawing.Size(178, 22)
-        Me.OpenToolStripMenuItem1.Text = "&Open file directory"
-        '
-        'DirectoryPropertiesToolStripMenuItem
-        '
-        Me.DirectoryPropertiesToolStripMenuItem.Name = "DirectoryPropertiesToolStripMenuItem"
-        Me.DirectoryPropertiesToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
-        Me.DirectoryPropertiesToolStripMenuItem.Text = "&Directory properties"
-        '
-        'ToolStripMenuItem83
-        '
-        Me.ToolStripMenuItem83.Name = "ToolStripMenuItem83"
-        Me.ToolStripMenuItem83.Size = New System.Drawing.Size(175, 6)
-        '
-        'OthersToolStripMenuItem
-        '
-        Me.OthersToolStripMenuItem.Name = "OthersToolStripMenuItem"
-        Me.OthersToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
-        Me.OthersToolStripMenuItem.Text = "O&thers"
-        '
-        '_amenuSearch
-        '
-        Me._amenuSearch.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LaunchToolStripMenuItem, Me.ToolStripMenuItem84, Me.SavereportToolStripMenuItem7})
-        Me._amenuSearch.Name = "_amenuSearch"
-        Me._amenuSearch.Size = New System.Drawing.Size(54, 20)
-        Me._amenuSearch.Text = "&Search"
-        Me._amenuSearch.Visible = False
-        '
-        'LaunchToolStripMenuItem
-        '
-        Me.LaunchToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LaunchToolStripMenuItem.Name = "LaunchToolStripMenuItem"
-        Me.LaunchToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
-        Me.LaunchToolStripMenuItem.Text = "&Launch..."
-        '
-        'ToolStripMenuItem84
-        '
-        Me.ToolStripMenuItem84.Name = "ToolStripMenuItem84"
-        Me.ToolStripMenuItem84.Size = New System.Drawing.Size(139, 6)
-        '
-        'SavereportToolStripMenuItem7
-        '
-        Me.SavereportToolStripMenuItem7.Name = "SavereportToolStripMenuItem7"
-        Me.SavereportToolStripMenuItem7.Size = New System.Drawing.Size(142, 22)
-        Me.SavereportToolStripMenuItem7.Text = "Save &report..."
         '
         'HelpToolStripMenuItem
         '
@@ -5490,6 +4753,7 @@ Partial Class frmMain
         '
         'tvMonitor
         '
+        Me.tvMonitor.ContextMenuStrip = Me.menuMonitor
         Me.tvMonitor.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tvMonitor.FullRowSelect = True
         Me.tvMonitor.ImageIndex = 0
@@ -6365,14 +5629,6 @@ Partial Class frmMain
         Me.WBHelp.TabIndex = 0
         Me.WBHelp.Url = New System.Uri("", System.UriKind.Relative)
         '
-        'RibbonViewToolStripMenuItem
-        '
-        Me.RibbonViewToolStripMenuItem.Checked = True
-        Me.RibbonViewToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.RibbonViewToolStripMenuItem.Name = "RibbonViewToolStripMenuItem"
-        Me.RibbonViewToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
-        Me.RibbonViewToolStripMenuItem.Text = "&Ribbon view"
-        '
         'lvTask
         '
         Me.lvTask.AllowColumnReorder = True
@@ -6901,18 +6157,59 @@ Partial Class frmMain
         Me.ColumnHeader17.Text = "Process"
         Me.ColumnHeader17.Width = 150
         '
-        'butPermuteMenuStyle
+        'menuMonitor
         '
-        Me.butPermuteMenuStyle.AltKey = Nothing
-        Me.butPermuteMenuStyle.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butPermuteMenuStyle.Image = Global.YAPM.My.Resources.Resources.hideDetails
-        Me.butPermuteMenuStyle.SmallImage = CType(resources.GetObject("butPermuteMenuStyle.SmallImage"), System.Drawing.Image)
-        Me.butPermuteMenuStyle.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butPermuteMenuStyle.Tag = Nothing
-        Me.butPermuteMenuStyle.Text = "Classical menus"
-        Me.butPermuteMenuStyle.ToolTip = Nothing
-        Me.butPermuteMenuStyle.ToolTipImage = Nothing
-        Me.butPermuteMenuStyle.ToolTipTitle = Nothing
+        Me.menuMonitor.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem61, Me.ToolStripMenuItem62, Me.ToolStripMenuItem63, Me.menuMonitorStart, Me.menuMonitorStop})
+        Me.menuMonitor.Name = "menuProc"
+        Me.menuMonitor.Size = New System.Drawing.Size(168, 98)
+        '
+        'ToolStripMenuItem61
+        '
+        Me.ToolStripMenuItem61.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ToolStripMenuItem61.Image = CType(resources.GetObject("ToolStripMenuItem61.Image"), System.Drawing.Image)
+        Me.ToolStripMenuItem61.Name = "ToolStripMenuItem61"
+        Me.ToolStripMenuItem61.Size = New System.Drawing.Size(167, 22)
+        Me.ToolStripMenuItem61.Text = "Add..."
+        '
+        'ToolStripMenuItem62
+        '
+        Me.ToolStripMenuItem62.Image = Global.YAPM.My.Resources.Resources.cross
+        Me.ToolStripMenuItem62.Name = "ToolStripMenuItem62"
+        Me.ToolStripMenuItem62.Size = New System.Drawing.Size(167, 22)
+        Me.ToolStripMenuItem62.Text = "Remove selection"
+        '
+        'ToolStripMenuItem63
+        '
+        Me.ToolStripMenuItem63.Name = "ToolStripMenuItem63"
+        Me.ToolStripMenuItem63.Size = New System.Drawing.Size(164, 6)
+        '
+        'menuMonitorStart
+        '
+        Me.menuMonitorStart.Enabled = False
+        Me.menuMonitorStart.Image = Global.YAPM.My.Resources.Resources.control
+        Me.menuMonitorStart.Name = "menuMonitorStart"
+        Me.menuMonitorStart.Size = New System.Drawing.Size(167, 22)
+        Me.menuMonitorStart.Text = "Start"
+        '
+        'menuMonitorStop
+        '
+        Me.menuMonitorStop.Enabled = False
+        Me.menuMonitorStop.Image = Global.YAPM.My.Resources.Resources.control_stop_square
+        Me.menuMonitorStop.Name = "menuMonitorStop"
+        Me.menuMonitorStop.Size = New System.Drawing.Size(167, 22)
+        Me.menuMonitorStop.Text = "Stop"
+        '
+        'ToolStripMenuItem64
+        '
+        Me.ToolStripMenuItem64.Name = "ToolStripMenuItem64"
+        Me.ToolStripMenuItem64.Size = New System.Drawing.Size(244, 6)
+        '
+        'NewSearchToolStripMenuItem
+        '
+        Me.NewSearchToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.NewSearchToolStripMenuItem.Name = "NewSearchToolStripMenuItem"
+        Me.NewSearchToolStripMenuItem.Size = New System.Drawing.Size(247, 22)
+        Me.NewSearchToolStripMenuItem.Text = "New search..."
         '
         'frmMain
         '
@@ -7059,6 +6356,7 @@ Partial Class frmMain
         Me.pageHelp.ResumeLayout(False)
         Me.panelMain4.ResumeLayout(False)
         CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.menuMonitor.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -7421,115 +6719,6 @@ Partial Class frmMain
     Friend WithEvents ToolStripMenuItem59 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents LogoffToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents LockToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents _menuTask As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ShowToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents EndTaskToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents _menuProcess As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ShowdetailsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem61 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents NewToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents KillToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents PauseToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ResumeToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem63 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents AffinityToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ShowToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ModulesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ThreadsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents HandlesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents WindowsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents AllToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem62 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents PriorityToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents IdleToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents BelowNormalToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents NormalToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents AboveNormalToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents HighToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents RealTimeToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem64 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents GoogleSearchToolStripMenuItem3 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem65 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents SaveReportToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents _amenuModule As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents UnloadToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem66 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents GoogleSearchToolStripMenuItem4 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem67 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents SavereportToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents _amenuThread As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents KillToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents StopToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ResumeToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem68 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents PriorityToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents IdleToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents LowestToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents BelowNormalToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents NormalToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents AboveNormalToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents HighestToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents TimeCriticalToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem69 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents SavereportToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents _menuHandle As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents CloseToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem70 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents SavereportToolStripMenuItem3 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents _amenuWindow As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents FindProcessToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem71 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents VisibilityToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents CloseToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents PositionSizeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem72 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents SavereportToolStripMenuItem4 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents _menuMonitor As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents AddToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents RemoveSelectionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem73 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents StartToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents StopToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem74 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents SavereportToolStripMenuItem5 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents _menuServices As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents StopToolStripMenuItem3 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents StartToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents PauseToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ResumeToolStripMenuItem3 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ShutdownToolStripMenuItem5 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem75 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents StarttypeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents AutomaticToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents OnDemandToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents DisabledToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem76 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents ShowfilePropertiesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents OpenFileDirectoryToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents DetailsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem77 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents GoogleSearchToolStripMenuItem5 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem78 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents SavereportToolStripMenuItem6 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents _menuFile As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents OpenToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem79 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents ReleaseToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem80 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents TrashToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents DeleteToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem81 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents GoogleSearchToolStripMenuItem6 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem82 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents FilePropertiesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents OpenToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents DirectoryPropertiesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem83 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents OthersToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents _amenuSearch As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents LaunchToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem84 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents SavereportToolStripMenuItem7 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents HelpToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CheckupdatesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem85 As System.Windows.Forms.ToolStripSeparator
@@ -7736,5 +6925,13 @@ Partial Class frmMain
     Friend WithEvents HelpToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RibbonViewToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents butPermuteMenuStyle As System.Windows.Forms.RibbonButton
+    Friend WithEvents menuMonitor As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents ToolStripMenuItem61 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem62 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem63 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents menuMonitorStart As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuMonitorStop As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents NewSearchToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem64 As System.Windows.Forms.ToolStripSeparator
 
 End Class
