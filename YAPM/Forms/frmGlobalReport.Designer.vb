@@ -33,11 +33,17 @@ Partial Class frmGlobalReport
         Me.cmdCancel = New System.Windows.Forms.Button
         Me.pgb = New System.Windows.Forms.ProgressBar
         Me.lblState = New System.Windows.Forms.Label
+        Me.chkFull = New System.Windows.Forms.CheckBox
+        Me.chkAllWindows = New System.Windows.Forms.CheckBox
+        Me.chkAllHandles = New System.Windows.Forms.CheckBox
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.chkAllWindows)
+        Me.GroupBox1.Controls.Add(Me.chkAllHandles)
+        Me.GroupBox1.Controls.Add(Me.chkFull)
         Me.GroupBox1.Controls.Add(Me.chkModules)
         Me.GroupBox1.Controls.Add(Me.chkThreads)
         Me.GroupBox1.Controls.Add(Me.chkHandles)
@@ -46,7 +52,7 @@ Partial Class frmGlobalReport
         Me.GroupBox1.Controls.Add(Me.chkServices)
         Me.GroupBox1.Location = New System.Drawing.Point(12, 12)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(200, 92)
+        Me.GroupBox1.Size = New System.Drawing.Size(200, 163)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Informations to save"
@@ -126,7 +132,7 @@ Partial Class frmGlobalReport
         'cmdSave
         '
         Me.cmdSave.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdSave.Location = New System.Drawing.Point(21, 162)
+        Me.cmdSave.Location = New System.Drawing.Point(21, 230)
         Me.cmdSave.Name = "cmdSave"
         Me.cmdSave.Size = New System.Drawing.Size(75, 23)
         Me.cmdSave.TabIndex = 2
@@ -135,7 +141,7 @@ Partial Class frmGlobalReport
         '
         'cmdCancel
         '
-        Me.cmdCancel.Location = New System.Drawing.Point(130, 162)
+        Me.cmdCancel.Location = New System.Drawing.Point(130, 230)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.Size = New System.Drawing.Size(75, 23)
         Me.cmdCancel.TabIndex = 3
@@ -144,7 +150,7 @@ Partial Class frmGlobalReport
         '
         'pgb
         '
-        Me.pgb.Location = New System.Drawing.Point(12, 110)
+        Me.pgb.Location = New System.Drawing.Point(12, 178)
         Me.pgb.Name = "pgb"
         Me.pgb.Size = New System.Drawing.Size(200, 23)
         Me.pgb.TabIndex = 4
@@ -152,16 +158,50 @@ Partial Class frmGlobalReport
         'lblState
         '
         Me.lblState.AutoSize = True
-        Me.lblState.Location = New System.Drawing.Point(12, 136)
+        Me.lblState.Location = New System.Drawing.Point(18, 209)
         Me.lblState.Name = "lblState"
         Me.lblState.Size = New System.Drawing.Size(0, 13)
         Me.lblState.TabIndex = 5
+        '
+        'chkFull
+        '
+        Me.chkFull.AutoSize = True
+        Me.chkFull.Location = New System.Drawing.Point(9, 136)
+        Me.chkFull.Name = "chkFull"
+        Me.chkFull.Size = New System.Drawing.Size(80, 17)
+        Me.chkFull.TabIndex = 7
+        Me.chkFull.Text = "Full report"
+        Me.chkFull.UseVisualStyleBackColor = True
+        '
+        'chkAllWindows
+        '
+        Me.chkAllWindows.AutoSize = True
+        Me.chkAllWindows.Checked = True
+        Me.chkAllWindows.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkAllWindows.Location = New System.Drawing.Point(9, 90)
+        Me.chkAllWindows.Name = "chkAllWindows"
+        Me.chkAllWindows.Size = New System.Drawing.Size(126, 17)
+        Me.chkAllWindows.TabIndex = 9
+        Me.chkAllWindows.Text = "Unnamed windows"
+        Me.chkAllWindows.UseVisualStyleBackColor = True
+        '
+        'chkAllHandles
+        '
+        Me.chkAllHandles.AutoSize = True
+        Me.chkAllHandles.Checked = True
+        Me.chkAllHandles.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkAllHandles.Location = New System.Drawing.Point(9, 113)
+        Me.chkAllHandles.Name = "chkAllHandles"
+        Me.chkAllHandles.Size = New System.Drawing.Size(120, 17)
+        Me.chkAllHandles.TabIndex = 8
+        Me.chkAllHandles.Text = "Unnamed handles"
+        Me.chkAllHandles.UseVisualStyleBackColor = True
         '
         'frmGlobalReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(227, 197)
+        Me.ClientSize = New System.Drawing.Size(227, 264)
         Me.Controls.Add(Me.lblState)
         Me.Controls.Add(Me.pgb)
         Me.Controls.Add(Me.cmdCancel)
@@ -191,4 +231,7 @@ Partial Class frmGlobalReport
     Friend WithEvents chkMemory As System.Windows.Forms.CheckBox
     Friend WithEvents chkWindows As System.Windows.Forms.CheckBox
     Friend WithEvents lblState As System.Windows.Forms.Label
+    Friend WithEvents chkFull As System.Windows.Forms.CheckBox
+    Friend WithEvents chkAllWindows As System.Windows.Forms.CheckBox
+    Friend WithEvents chkAllHandles As System.Windows.Forms.CheckBox
 End Class
