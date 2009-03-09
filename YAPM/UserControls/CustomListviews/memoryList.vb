@@ -290,6 +290,7 @@ Public Class memoryList
         item.Name = key
         item.ForeColor = _foreColor
         item.Tag = key
+        item.Group = Me.Groups(0)
 
         Return item
 

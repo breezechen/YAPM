@@ -348,6 +348,11 @@ Public Class frmMain
 
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
+        Dim _col As Color = Color.FromArgb(240, 240, 240)
+        For Each _it As TabPage In _tab.TabPages
+            _it.BackColor = _col
+        Next
+
         Dim t As Integer = GetTickCount
         clsOpenedHandles.EnableDebug()
         clsOpenedHandles.EnableShutDown()
@@ -443,6 +448,10 @@ Public Class frmMain
 
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Mybase.Resize
 
+        For Each t As TabPage In _tab.TabPages
+            t.Hide()
+        Next
+
         Me.panelMain.Left = 5
         Me.panelMain.Top = 145
         Me.panelMain2.Left = 5
@@ -532,30 +541,27 @@ Public Class frmMain
         ' Services
 
         Me.panelMain2.Height = Me.panelMain4.Height - 27 '- CInt(IIf(i < 210, i, 210)) - 187
-        '  Me.panelInfos2.Top = Me.panelMain2.Top + Me.panelMain2.Height + 3
         Me.panelMain2.Width = Me.panelMain4.Width - 2
-        '  Me.panelInfos2.Width = MepanelInfonWidth
 
-        'Me.lblServiceName.Width = Me.panelInfos2.Width - 140
-        'Me.lblServicePath.Width = Me.lblServiceName.Width
-        'Me.cmdCopyServiceToCp.Left = Me.panelInfos2.Width - 107
-        'Me.tv2.Height = CInt((Me.panelInfos2.Height - 48) / 2)
-        'Me.tv.Height = Me.tv2.Height
-        'Me.tv.Top = Me.tv2.Top + 3 + Me.tv2.Height
-        'Me.tv2.Left = Me.panelInfos2.Width - 151
-        'Me.tv.Left = Me.tv2.Left
-        'Me.rtb2.Height = Me.panelInfos2.Height - 45
-        'Me.rtb2.Width = Me.panelInfos2.Width - 157
-
-        ' Economize CPU :-)
-        'If Me.WindowState = FormWindowState.Minimized Then
-        '    Me.timerProcess.Enabled = False
-        '    Me.timerServices.Enabled = False
-        'Else
-        '    Me.timerProcess.Enabled = True
-        '    Me.timerServices.Enabled = True
+        Static _oldStyle As Boolean = _ribbonStyle
+        'If Not (_oldStyle = _ribbonStyle) Then
+        _oldStyle = _ribbonStyle
+        If _ribbonStyle Then
+            ' Hide  _tab columns
+            _tab.Dock = DockStyle.None
+            _tab.Top = -20
+            _tab.Left = -2
+            _tab.Width = Me.Width - 12
+            _tab.Height = Me.Height - 133
+            _tab.Region = New Region(New RectangleF(_tab.Left, _tab.SelectedTab.Top, _tab.SelectedTab.Width + 5, _tab.SelectedTab.Height))
+            _tab.Refresh()
+        Else
+            _tab.Region = Nothing
+            _tab.Dock = DockStyle.Fill
+        End If
         'End If
 
+        _tab.SelectedTab.Show()
     End Sub
 
     Private Sub timerServices_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerServices.Tick
@@ -1000,6 +1006,7 @@ Public Class frmMain
 
         'If Not (Ribbon.ActiveTab.Text = currentText) Then
         'currentText = Ribbon.ActiveTab.Text
+
         Select Case Ribbon.ActiveTab.Text
             Case "Services"
                 Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvServices.Items.Count) & " services running"
@@ -1052,11 +1059,6 @@ Public Class frmMain
         End Select
         'End If
 
-    End Sub
-
-    Private Sub cmdTray_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Me.Hide()
-        Me.Visible = False
     End Sub
 
     Private Sub butNewProcess_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butNewProcess.Click
@@ -2918,6 +2920,8 @@ Public Class frmMain
 
         Me.containerSystemMenu.Panel1Collapsed = _ribbonStyle
         Me.menuSystem.Visible = _main.Panel1Collapsed
+
+        Call Me.frmMain_Resize(Nothing, Nothing)
     End Sub
 
     Private Sub _tab_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _tab.DoubleClick
@@ -4041,4 +4045,8 @@ Public Class frmMain
         End If
     End Sub
 
+    Private Sub cmdTray_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdTray.Click
+        Me.Hide()
+        Me.Visible = False
+    End Sub
 End Class
