@@ -123,6 +123,9 @@
     <EmbeddedResource Include="Forms\frmGlobalReport.resx">
       <DependentUpon>frmGlobalReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmInput.resx">
+      <DependentUpon>frmInput.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmThreadAffinity.resx">
       <DependentUpon>frmThreadAffinity.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -303,6 +306,12 @@
       <DependentUpon>frmGlobalReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmGlobalReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmInput.Designer.vb">
+      <DependentUpon>frmInput.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmInput.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmThreadAffinity.Designer.vb">

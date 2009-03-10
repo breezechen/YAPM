@@ -187,4 +187,17 @@ Module mdlMisc
         Return CStr(IIf(lp < 10, "0", "")) & CStr(lp) & "." & CStr(IIf(rp < 10, "00", "")) & CStr(IIf(rp < 100 And rp >= 10, "0", "")) & CStr(rp)
     End Function
 
+    ' Custom input box
+    Public Function CInputBox(ByVal text As String, ByVal title As String, Optional ByVal defaultValue As String = Nothing) As String
+        Dim frm As New frmInput
+        With frm
+            .Text = title
+            .lblMessage.Text = text
+            .txtRes.Text = defaultValue
+            .ShowDialog()
+            Return .Result
+        End With
+
+    End Function
+
 End Module
