@@ -4163,4 +4163,8 @@ Public Class frmMain
         Me.Hide()
         Me.Visible = False
     End Sub
+
+    Private Sub MinimizeToTrayToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MinimizeToTrayToolStripMenuItem1.Click
+        Call Me.MinimizeToTrayToolStripMenuItem_Click(Nothing, Nothing)
+    End Sub
 End Class
