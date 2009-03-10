@@ -348,12 +348,15 @@ Public Class frmMain
 
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
+        Dim t As Integer = GetTickCount
+
         Dim _col As Color = Color.FromArgb(240, 240, 240)
         For Each _it As TabPage In _tab.TabPages
             _it.BackColor = _col
         Next
 
-        Dim t As Integer = GetTickCount
+        Me.containerSystemMenu.Panel1Collapsed = True
+
         clsOpenedHandles.EnableDebug()
         clsOpenedHandles.EnableShutDown()
 
