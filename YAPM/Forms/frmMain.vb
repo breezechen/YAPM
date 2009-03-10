@@ -2727,7 +2727,7 @@ Public Class frmMain
 
     Private Sub AlwaysVisibleToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AlwaysVisibleToolStripMenuItem.Click
         Me.AlwaysVisibleToolStripMenuItem.Checked = Not (Me.AlwaysVisibleToolStripMenuItem.Checked)
-        Me.butAlwaysDisplay.Checked = Me.AlwaysVisibleToolStripMenuItem.Checked
+        Me.AlwaysVisibleToolStripMenuItem1.Checked = Me.AlwaysVisibleToolStripMenuItem.Checked
         Me.TopMost = Me.AlwaysVisibleToolStripMenuItem.Checked
     End Sub
 
@@ -4093,7 +4093,7 @@ Public Class frmMain
     End Sub
 
     Private Sub AlwaysVisibleToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AlwaysVisibleToolStripMenuItem1.Click
-        Me.butAlwaysDisplay_Click(Nothing, Nothing)
+        Me.AlwaysVisibleToolStripMenuItem_Click(Nothing, Nothing)
     End Sub
 
     Private Sub RefreshprocessListToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshprocessListToolStripMenuItem.Click
