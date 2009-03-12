@@ -23,7 +23,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 
-Public Class cStateBasedAction
+Public Class cStateBasedActions
 
     ' ========================================
     ' Private attributes
@@ -168,7 +168,7 @@ Public Class cStateBasedAction
 
     ' Add a key to collection
     Public Function AddStateBasedAction(ByVal action As cBasedStateActionState) As Boolean
-        Dim sKey As String = "|" & CStr(CInt(action.Key1)) & "|" & CStr(CInt(action.Key2)) & "|" & CStr(CInt(action.Key3))
+        Dim sKey As String = action.Key
         Try
             _col.Add(Key:=sKey, Item:=action)
             Return True
@@ -179,7 +179,7 @@ Public Class cStateBasedAction
 
     ' Remove key from collection
     Public Function RemoveStateBasedAction(ByVal action As cBasedStateActionState) As Boolean
-        Dim sKey As String = "|" & CStr(CInt(action.Key1)) & "|" & CStr(CInt(action.Key2)) & "|" & CStr(CInt(action.Key3))
+        Dim sKey As String = action.Key
         Try
             _col.Remove(sKey)
             Return True
@@ -196,4 +196,19 @@ Public Class cStateBasedAction
         End Try
     End Function
 
+    ' Process actions
+    Public Sub ProcessActions()
+        For Each _it As cBasedStateActionState In _col
+            If haveToRaise(_it) Then
+                _it.RaiseAction()
+            End If
+        Next
+    End Sub
+
+    ' Return true if action must be raised
+    Public Function haveToRaise(ByRef action As cBasedStateActionState) As Boolean
+        '
+        '
+        Return False
+    End Function
 End Class

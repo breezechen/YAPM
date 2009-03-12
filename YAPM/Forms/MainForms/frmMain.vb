@@ -89,7 +89,7 @@ Public Class frmMain
     ' ========================================
     Public handles_Renamed As New clsOpenedHandles
     Public emHotkeys As New cHotkeys
-    Public emStateBasedActions As New cStateBasedAction
+    Public emStateBasedActions As New cStateBasedActions
     Public Pref As New Pref
 
 
@@ -4205,5 +4205,9 @@ Public Class frmMain
 
     Private Sub StateBasedActionsToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StateBasedActionsToolStripMenuItem1.Click
         Call StateBasedActionsToolStripMenuItem_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub timerStateBasedActions_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerStateBasedActions.Tick
+        Me.emStateBasedActions.ProcessActions()
     End Sub
 End Class

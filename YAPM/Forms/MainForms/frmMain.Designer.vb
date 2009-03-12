@@ -118,6 +118,7 @@ Partial Class frmMain
         Me.WindowManagementToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.EmergencyHotkeysToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.FindAWindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.StateBasedActionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem40 = New System.Windows.Forms.ToolStripSeparator
         Me.EnableProcessRefreshingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RefreshServiceListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -385,6 +386,7 @@ Partial Class frmMain
         Me.ToolStripMenuItem54 = New System.Windows.Forms.ToolStripSeparator
         Me.FindAWindowToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.EmergencyHotkeysToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.StateBasedActionsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem55 = New System.Windows.Forms.ToolStripSeparator
         Me.MinimizeToTrayToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.ExitToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
@@ -618,8 +620,7 @@ Partial Class frmMain
         Me.WBHelp = New System.Windows.Forms.WebBrowser
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerNetwork = New System.Windows.Forms.Timer(Me.components)
-        Me.StateBasedActionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.StateBasedActionsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.timerStateBasedActions = New System.Windows.Forms.Timer(Me.components)
         Me.menuProc.SuspendLayout()
         Me.menuService.SuspendLayout()
         Me.mainMenu.SuspendLayout()
@@ -1225,6 +1226,12 @@ Partial Class frmMain
         Me.FindAWindowToolStripMenuItem.Name = "FindAWindowToolStripMenuItem"
         Me.FindAWindowToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
         Me.FindAWindowToolStripMenuItem.Text = "Find a window"
+        '
+        'StateBasedActionsToolStripMenuItem
+        '
+        Me.StateBasedActionsToolStripMenuItem.Name = "StateBasedActionsToolStripMenuItem"
+        Me.StateBasedActionsToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
+        Me.StateBasedActionsToolStripMenuItem.Text = "State based actions..."
         '
         'ToolStripMenuItem40
         '
@@ -3897,74 +3904,80 @@ Partial Class frmMain
         Me.RefreshToolStripMenuItem.Image = CType(resources.GetObject("RefreshToolStripMenuItem.Image"), System.Drawing.Image)
         Me.RefreshToolStripMenuItem.Name = "RefreshToolStripMenuItem"
         Me.RefreshToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5
-        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
+        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
         Me.RefreshToolStripMenuItem.Text = "&Refresh"
         '
         'ToolStripMenuItem60
         '
         Me.ToolStripMenuItem60.Name = "ToolStripMenuItem60"
-        Me.ToolStripMenuItem60.Size = New System.Drawing.Size(179, 6)
+        Me.ToolStripMenuItem60.Size = New System.Drawing.Size(181, 6)
         '
         'ShowlogToolStripMenuItem1
         '
         Me.ShowlogToolStripMenuItem1.Image = Global.YAPM.My.Resources.Resources.document_text
         Me.ShowlogToolStripMenuItem1.Name = "ShowlogToolStripMenuItem1"
-        Me.ShowlogToolStripMenuItem1.Size = New System.Drawing.Size(182, 22)
+        Me.ShowlogToolStripMenuItem1.Size = New System.Drawing.Size(184, 22)
         Me.ShowlogToolStripMenuItem1.Text = "Show &log..."
         '
         'SystemreportToolStripMenuItem
         '
         Me.SystemreportToolStripMenuItem.Name = "SystemreportToolStripMenuItem"
-        Me.SystemreportToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
+        Me.SystemreportToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
         Me.SystemreportToolStripMenuItem.Text = "Save system &report..."
         '
         'ToolStripMenuItem53
         '
         Me.ToolStripMenuItem53.Name = "ToolStripMenuItem53"
-        Me.ToolStripMenuItem53.Size = New System.Drawing.Size(179, 6)
+        Me.ToolStripMenuItem53.Size = New System.Drawing.Size(181, 6)
         '
         'SysteminfosToolStripMenuItem
         '
         Me.SysteminfosToolStripMenuItem.Image = CType(resources.GetObject("SysteminfosToolStripMenuItem.Image"), System.Drawing.Image)
         Me.SysteminfosToolStripMenuItem.Name = "SysteminfosToolStripMenuItem"
-        Me.SysteminfosToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
+        Me.SysteminfosToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
         Me.SysteminfosToolStripMenuItem.Text = "System &infos"
         '
         'OpenedWindowsToolStripMenuItem
         '
         Me.OpenedWindowsToolStripMenuItem.Image = CType(resources.GetObject("OpenedWindowsToolStripMenuItem.Image"), System.Drawing.Image)
         Me.OpenedWindowsToolStripMenuItem.Name = "OpenedWindowsToolStripMenuItem"
-        Me.OpenedWindowsToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
+        Me.OpenedWindowsToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
         Me.OpenedWindowsToolStripMenuItem.Text = "&Opened windows"
         '
         'ToolStripMenuItem54
         '
         Me.ToolStripMenuItem54.Name = "ToolStripMenuItem54"
-        Me.ToolStripMenuItem54.Size = New System.Drawing.Size(179, 6)
+        Me.ToolStripMenuItem54.Size = New System.Drawing.Size(181, 6)
         '
         'FindAWindowToolStripMenuItem1
         '
         Me.FindAWindowToolStripMenuItem1.Image = CType(resources.GetObject("FindAWindowToolStripMenuItem1.Image"), System.Drawing.Image)
         Me.FindAWindowToolStripMenuItem1.Name = "FindAWindowToolStripMenuItem1"
-        Me.FindAWindowToolStripMenuItem1.Size = New System.Drawing.Size(182, 22)
+        Me.FindAWindowToolStripMenuItem1.Size = New System.Drawing.Size(184, 22)
         Me.FindAWindowToolStripMenuItem1.Text = "&Find a window"
         '
         'EmergencyHotkeysToolStripMenuItem1
         '
         Me.EmergencyHotkeysToolStripMenuItem1.Name = "EmergencyHotkeysToolStripMenuItem1"
-        Me.EmergencyHotkeysToolStripMenuItem1.Size = New System.Drawing.Size(182, 22)
+        Me.EmergencyHotkeysToolStripMenuItem1.Size = New System.Drawing.Size(184, 22)
         Me.EmergencyHotkeysToolStripMenuItem1.Text = "Emergency &hotkeys"
+        '
+        'StateBasedActionsToolStripMenuItem1
+        '
+        Me.StateBasedActionsToolStripMenuItem1.Name = "StateBasedActionsToolStripMenuItem1"
+        Me.StateBasedActionsToolStripMenuItem1.Size = New System.Drawing.Size(184, 22)
+        Me.StateBasedActionsToolStripMenuItem1.Text = "State based actions..."
         '
         'ToolStripMenuItem55
         '
         Me.ToolStripMenuItem55.Name = "ToolStripMenuItem55"
-        Me.ToolStripMenuItem55.Size = New System.Drawing.Size(179, 6)
+        Me.ToolStripMenuItem55.Size = New System.Drawing.Size(181, 6)
         '
         'MinimizeToTrayToolStripMenuItem1
         '
         Me.MinimizeToTrayToolStripMenuItem1.Image = Global.YAPM.My.Resources.Resources.down
         Me.MinimizeToTrayToolStripMenuItem1.Name = "MinimizeToTrayToolStripMenuItem1"
-        Me.MinimizeToTrayToolStripMenuItem1.Size = New System.Drawing.Size(182, 22)
+        Me.MinimizeToTrayToolStripMenuItem1.Size = New System.Drawing.Size(184, 22)
         Me.MinimizeToTrayToolStripMenuItem1.Text = "Minimize to tray"
         '
         'ExitToolStripMenuItem1
@@ -3972,7 +3985,7 @@ Partial Class frmMain
         Me.ExitToolStripMenuItem1.Image = Global.YAPM.My.Resources.Resources.cross
         Me.ExitToolStripMenuItem1.Name = "ExitToolStripMenuItem1"
         Me.ExitToolStripMenuItem1.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
-        Me.ExitToolStripMenuItem1.Size = New System.Drawing.Size(182, 22)
+        Me.ExitToolStripMenuItem1.Size = New System.Drawing.Size(184, 22)
         Me.ExitToolStripMenuItem1.Text = "&Exit"
         '
         'OptionsToolStripMenuItem
@@ -6292,17 +6305,10 @@ Partial Class frmMain
         Me.timerNetwork.Enabled = True
         Me.timerNetwork.Interval = 1000
         '
-        'StateBasedActionsToolStripMenuItem
+        'timerStateBasedActions
         '
-        Me.StateBasedActionsToolStripMenuItem.Name = "StateBasedActionsToolStripMenuItem"
-        Me.StateBasedActionsToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
-        Me.StateBasedActionsToolStripMenuItem.Text = "State based actions..."
-        '
-        'StateBasedActionsToolStripMenuItem1
-        '
-        Me.StateBasedActionsToolStripMenuItem1.Name = "StateBasedActionsToolStripMenuItem1"
-        Me.StateBasedActionsToolStripMenuItem1.Size = New System.Drawing.Size(184, 22)
-        Me.StateBasedActionsToolStripMenuItem1.Text = "State based actions..."
+        Me.timerStateBasedActions.Enabled = True
+        Me.timerStateBasedActions.Interval = 1000
         '
         'frmMain
         '
@@ -7031,5 +7037,6 @@ Partial Class frmMain
     Friend WithEvents timerNetwork As System.Windows.Forms.Timer
     Friend WithEvents StateBasedActionsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents StateBasedActionsToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents timerStateBasedActions As System.Windows.Forms.Timer
 
 End Class

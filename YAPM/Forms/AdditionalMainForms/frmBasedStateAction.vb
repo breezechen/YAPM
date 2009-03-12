@@ -26,7 +26,8 @@ Imports System.Runtime.InteropServices
 Public Class frmBasedStateAction
 
     Public Const BASED_STATE_ACTION As String = "hotkeys.xml"
-    Private atxtKey As Integer = -1
+    Private _desc1() As String
+    Private _desc2() As String
 
     <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
     Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
@@ -34,7 +35,7 @@ Public Class frmBasedStateAction
 
     Private Sub frmBasedStateAction_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
         ' Save to XML
-        writeXML()
+        Call writeXML()
     End Sub
 
     Private Sub frmBasedStateAction_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -48,20 +49,18 @@ Public Class frmBasedStateAction
         Next
 
         ' Read collection and add items
-        'For Each ht As cShortcut In frmMain.emStateBasedActions.StateBasedActionCollection
-        '    ' Add hotkey
-        '    Dim skeys As String = CType(ht.Key1, cShortcut.ShorcutKeys).ToString & " + " & _
-        '        CType(ht.Key2, cShortcut.ShorcutKeys).ToString & " + " & _
-        '        CType(ht.Key3, cShortcut.ShorcutKeys).ToString
-        '    Dim it As New ListViewItem(skeys)
-        '    it.Tag = ht
-        '    If ht.Enabled = False Then
-        '        it.ForeColor = Color.Gray
-        '    End If
-        '    it.SubItems.Add(Me.cbAction.Items(ht.Action - 1).ToString)
-        '    it.ImageKey = "default"
-        '    Me.lv.Items.Add(it)
-        'Next
+        For Each _it As cBasedStateActionState In frmMain.emStateBasedActions.StateBasedActionCollection
+            ' Add hotkey
+            Dim it As New ListViewItem(_it.ProcessText)
+            it.Tag = _it
+            If _it.Enabled = False Then
+                it.ForeColor = Color.Gray
+            End If
+            it.SubItems.Add(_it.StateText)
+            it.SubItems.Add(_it.ActionText)
+            it.ImageKey = "default"
+            Me.lv.Items.Add(it)
+        Next
 
         ' Fill comboboxes
         cbAction.Items.Clear()
@@ -72,6 +71,8 @@ Public Class frmBasedStateAction
         For Each s As String In frmMain.emStateBasedActions.CounterAvailables
             cbCounter.Items.Add(s)
         Next
+        _desc1 = frmMain.emStateBasedActions.Param1Description
+        _desc2 = frmMain.emStateBasedActions.Param2Description
 
     End Sub
 
@@ -87,7 +88,7 @@ Public Class frmBasedStateAction
         For Each it As ListViewItem In Me.lv.SelectedItems
             If it.Selected Then
                 ' Remove or ?
-                Dim sKey As String = CType(it.Tag, cShortcut).Key
+                Dim sKey As String = CType(it.Tag, cBasedStateActionState).Key
                 If frmMain.emStateBasedActions.RemoveStateBasedAction(sKey) Then
                     it.Remove()
                 End If
@@ -98,7 +99,7 @@ Public Class frmBasedStateAction
     Private Sub EnableToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EnableToolStripMenuItem.Click
         For Each it As ListViewItem In Me.lv.SelectedItems
             If it.Selected Then
-                CType(it.Tag, cShortcut).Enabled = True
+                CType(it.Tag, cBasedStateActionState).Enabled = True
                 it.ForeColor = Color.Black
             End If
         Next
@@ -107,7 +108,7 @@ Public Class frmBasedStateAction
     Private Sub DisableToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisableToolStripMenuItem.Click
         For Each it As ListViewItem In Me.lv.SelectedItems
             If it.Selected Then
-                CType(it.Tag, cShortcut).Enabled = False
+                CType(it.Tag, cBasedStateActionState).Enabled = False
                 it.ForeColor = Color.Gray
             End If
         Next
@@ -119,15 +120,23 @@ Public Class frmBasedStateAction
         'Dim element As XmlNodeList
         'Dim noeud, noeudEnf As XmlNode
 
-        '<hotkeys>
-        '	<key>
+        '<statebasedactions>
+        '	<sbaction>
         '		<enabled>true</enabled>
-        '		<key1>65</key1>
-        '		<key2>16</key2>
-        '		<key3>17</key3>
-        '		<action>2</action>
-        '	</key>
-        '</hotkeys>
+        '		<checkprocname>true</checkprocname>
+        '		<checkprocid>true</checkprocid>
+        '		<checkprocpath>true</checkprocpath>
+        '		<procname>yapm.exe</procname>
+        '		<procid>654</procid>
+        '		<procpath>c:\*</procpath>
+        '		<counter>CpuUsage</counter>
+        '		<operator>4</operator>
+        '		<threshold>12.5</threshold>
+        '		<action>Kill process</action>
+        '		<param1></param1>
+        '		<param2></param2>
+        '	</sbaction>
+        '</statebasedactions>
 
         'Try
         '    Call XmlDoc.Load(My.Application.Info.DirectoryPath & "\" & BASED_STATE_ACTION)
@@ -169,15 +178,23 @@ Public Class frmBasedStateAction
     ' Write to XML file
     Private Sub writeXML()
 
-        '<hotkeys>
-        '	<key>
+        '<statebasedactions>
+        '	<sbaction>
         '		<enabled>true</enabled>
-        '		<key1>65</key1>
-        '		<key2>16</key2>
-        '		<key3>17</key3>
-        '		<action>2</action>
-        '	</key>
-        '</hotkeys>
+        '		<checkprocname>true</checkprocname>
+        '		<checkprocid>true</checkprocid>
+        '		<checkprocpath>true</checkprocpath>
+        '		<procname>yapm.exe</procname>
+        '		<procid>654</procid>
+        '		<procpath>c:\*</procpath>
+        '		<counter>CpuUsage</counter>
+        '		<operator>4</operator>
+        '		<threshold>12.5</threshold>
+        '		<action>Kill process</action>
+        '		<param1></param1>
+        '		<param2></param2>
+        '	</sbaction>
+        '</statebasedactions>
 
         'Dim XmlDoc As XmlDocument = New XmlDocument()
         'XmlDoc.LoadXml("<hotkeys></hotkeys>")
@@ -233,47 +250,39 @@ Public Class frmBasedStateAction
     End Sub
 
     Private Sub cmdAdd_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdAdd.Click
-        'gp.Visible = False
+        gp.Visible = False
 
-        '' Add shortcut
-        'Dim i As Integer = Me.cbAction.SelectedIndex + 1
-
-        'If i <= 0 Then Exit Sub
-
-        'Dim k1 As Integer = -1
-        'Dim k2 As Integer = -1
-        'Dim k3 As Integer = atxtKey
-
-        'If Me.chkCtrl.Checked Then
-        '    k1 = cShortcut.ShorcutKeys.VK_CONTROL
-        '    If Me.chkShift.Checked Then
-        '        k2 = cShortcut.ShorcutKeys.VK_SHIFT
-        '    ElseIf Me.chkAlt.Checked Then
-        '        k2 = cShortcut.ShorcutKeys.VK_MENU
-        '    End If
-        'ElseIf Me.chkShift.Checked Then
-        '    k1 = cShortcut.ShorcutKeys.VK_SHIFT
-        '    If Me.chkAlt.Checked Then
-        '        k2 = cShortcut.ShorcutKeys.VK_MENU
-        '    End If
-        'ElseIf Me.chkAlt.Checked Then
-        '    k1 = cShortcut.ShorcutKeys.VK_MENU
-        'End If
-
-        'If k1 + k2 + k3 = -3 Then Exit Sub
-
-        'Dim ht As New cShortcut(i, k1, k2, k3)
-        'If frmMain.emStateBasedActions.AddHotkey(ht) Then
-        '    ' Add hotkey
-        '    Dim skeys As String = CType(k1, cShortcut.ShorcutKeys).ToString & " + " & _
-        '        CType(k2, cShortcut.ShorcutKeys).ToString & " + " & _
-        '        CType(k3, cShortcut.ShorcutKeys).ToString
-        '    Dim it As New ListViewItem(skeys)
-        '    it.Tag = ht
-        '    it.SubItems.Add(Me.cbAction.Text)
-        '    it.ImageKey = "default"
-        '    Me.lv.Items.Add(it)
-        'End If
+        Dim _operator As cBasedStateActionState.STATE_OPERATOR
+        Select Case cbOperator.Text
+            Case "<"
+                _operator = cBasedStateActionState.STATE_OPERATOR.less_than
+            Case "<="
+                _operator = cBasedStateActionState.STATE_OPERATOR.less_or_equal_than
+            Case "="
+                _operator = cBasedStateActionState.STATE_OPERATOR.equal
+            Case ">"
+                _operator = cBasedStateActionState.STATE_OPERATOR.greater_than
+            Case ">="
+                _operator = cBasedStateActionState.STATE_OPERATOR.greater_or_equal_than
+            Case "!="
+                _operator = cBasedStateActionState.STATE_OPERATOR.different_from
+        End Select
+        Dim _it As New cBasedStateActionState(Me.chkCheckProcessName.Checked, _
+                                              Me.chkCheckProcessID.Checked, _
+                                              Me.chkCheckProcessPath.Checked, _
+                                              cbCounter.Text, _operator, txtThreshold.Text, _
+                                              cbAction.Text, txtParam1Val.Text, _
+                                              txtParam2Val.Text, txtProcessName.Text, _
+                                              txtProcessID.Text, txtProcessPath.Text)
+        If frmMain.emStateBasedActions.AddStateBasedAction(_it) Then
+            ' Add hotkey
+            Dim it As New ListViewItem(_it.ProcessText)
+            it.Tag = _it.Key
+            it.SubItems.Add(_it.StateText)
+            it.SubItems.Add(_it.ActionText)
+            it.ImageKey = "default"
+            Me.lv.Items.Add(it)
+        End If
     End Sub
 
     Private Sub chkCheckProcessName_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkCheckProcessName.CheckedChanged
@@ -310,9 +319,5 @@ Public Class frmBasedStateAction
 
     Private Sub txtParam2Val_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtParam2Val.TextChanged
         Call checkAddState()
-    End Sub
-
-    Private Sub Label1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Label1.Click
-
     End Sub
 End Class

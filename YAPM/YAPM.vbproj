@@ -292,7 +292,7 @@
     <Compile Include="Classes\Providers\cMonitor.vb" />
     <Compile Include="Classes\Providers\cNetwork.vb" />
     <Compile Include="Classes\StateBasedActions\cBasedStateActionState.vb" />
-    <Compile Include="Classes\StateBasedActions\cStateBasedAction.vb" />
+    <Compile Include="Classes\StateBasedActions\cStateBasedActions.vb" />
     <Compile Include="Classes\Misc\cPrivileges.vb" />
     <Compile Include="Classes\Providers\cProcess.vb" />
     <Compile Include="Classes\Providers\cProcessMemRW.vb" />
