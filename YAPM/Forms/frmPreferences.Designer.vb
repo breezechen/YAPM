@@ -26,17 +26,36 @@ Partial Class frmPreferences
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPreferences))
         Me.TabControl = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox
-        Me.txtServiceIntervall = New System.Windows.Forms.TextBox
-        Me.txtProcessIntervall = New System.Windows.Forms.TextBox
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.Label1 = New System.Windows.Forms.Label
+        Me.chkWarn = New System.Windows.Forms.CheckBox
+        Me.txtSearchEngine = New System.Windows.Forms.TextBox
+        Me.Label6 = New System.Windows.Forms.Label
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.chkTopMost = New System.Windows.Forms.CheckBox
         Me.chkHideDetails = New System.Windows.Forms.CheckBox
         Me.chkStartTray = New System.Windows.Forms.CheckBox
         Me.chkReplaceTaskmgr = New System.Windows.Forms.CheckBox
         Me.chkStart = New System.Windows.Forms.CheckBox
+        Me.TabPage3 = New System.Windows.Forms.TabPage
+        Me.chkRibbon = New System.Windows.Forms.CheckBox
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox
+        Me.pctDeletedItems = New System.Windows.Forms.PictureBox
+        Me.Label8 = New System.Windows.Forms.Label
+        Me.pctNewitems = New System.Windows.Forms.PictureBox
+        Me.Label7 = New System.Windows.Forms.Label
+        Me.chkCloseButton = New System.Windows.Forms.CheckBox
+        Me.chkTrayIcon = New System.Windows.Forms.CheckBox
+        Me.TabPage4 = New System.Windows.Forms.TabPage
+        Me.cbPriority = New System.Windows.Forms.ComboBox
+        Me.Label5 = New System.Windows.Forms.Label
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox
+        Me.txtNetworkInterval = New System.Windows.Forms.TextBox
+        Me.txtTaskInterval = New System.Windows.Forms.TextBox
+        Me.Label3 = New System.Windows.Forms.Label
+        Me.Label4 = New System.Windows.Forms.Label
+        Me.txtServiceIntervall = New System.Windows.Forms.TextBox
+        Me.txtProcessIntervall = New System.Windows.Forms.TextBox
+        Me.Label2 = New System.Windows.Forms.Label
+        Me.Label1 = New System.Windows.Forms.Label
         Me.TabPage2 = New System.Windows.Forms.TabPage
         Me.cmdDownload = New System.Windows.Forms.Button
         Me.cmdCheckUpdate = New System.Windows.Forms.Button
@@ -45,16 +64,24 @@ Partial Class frmPreferences
         Me.cmdSave = New System.Windows.Forms.Button
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
+        Me.colDial = New System.Windows.Forms.ColorDialog
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
-        Me.GroupBox2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        Me.TabPage3.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
+        CType(Me.pctDeletedItems, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pctNewitems, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabPage4.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
         Me.TabPage2.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControl
         '
         Me.TabControl.Controls.Add(Me.TabPage1)
+        Me.TabControl.Controls.Add(Me.TabPage3)
+        Me.TabControl.Controls.Add(Me.TabPage4)
         Me.TabControl.Controls.Add(Me.TabPage2)
         Me.TabControl.ImageList = Me.IMG
         Me.TabControl.Location = New System.Drawing.Point(9, 9)
@@ -65,7 +92,9 @@ Partial Class frmPreferences
         '
         'TabPage1
         '
-        Me.TabPage1.Controls.Add(Me.GroupBox2)
+        Me.TabPage1.Controls.Add(Me.chkWarn)
+        Me.TabPage1.Controls.Add(Me.txtSearchEngine)
+        Me.TabPage1.Controls.Add(Me.Label6)
         Me.TabPage1.Controls.Add(Me.GroupBox1)
         Me.TabPage1.ImageIndex = 1
         Me.TabPage1.Location = New System.Drawing.Point(4, 23)
@@ -76,50 +105,31 @@ Partial Class frmPreferences
         Me.TabPage1.Text = "General"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
-        'GroupBox2
+        'chkWarn
         '
-        Me.GroupBox2.Controls.Add(Me.txtServiceIntervall)
-        Me.GroupBox2.Controls.Add(Me.txtProcessIntervall)
-        Me.GroupBox2.Controls.Add(Me.Label2)
-        Me.GroupBox2.Controls.Add(Me.Label1)
-        Me.GroupBox2.Location = New System.Drawing.Point(14, 153)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(301, 65)
-        Me.GroupBox2.TabIndex = 1
-        Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "Intervals"
+        Me.chkWarn.AutoSize = True
+        Me.chkWarn.Location = New System.Drawing.Point(14, 194)
+        Me.chkWarn.Name = "chkWarn"
+        Me.chkWarn.Size = New System.Drawing.Size(187, 17)
+        Me.chkWarn.TabIndex = 5
+        Me.chkWarn.Text = "Warn about dangerous actions"
+        Me.chkWarn.UseVisualStyleBackColor = True
         '
-        'txtServiceIntervall
+        'txtSearchEngine
         '
-        Me.txtServiceIntervall.Location = New System.Drawing.Point(170, 37)
-        Me.txtServiceIntervall.Name = "txtServiceIntervall"
-        Me.txtServiceIntervall.Size = New System.Drawing.Size(120, 22)
-        Me.txtServiceIntervall.TabIndex = 6
+        Me.txtSearchEngine.Location = New System.Drawing.Point(97, 166)
+        Me.txtSearchEngine.Name = "txtSearchEngine"
+        Me.txtSearchEngine.Size = New System.Drawing.Size(218, 22)
+        Me.txtSearchEngine.TabIndex = 2
         '
-        'txtProcessIntervall
+        'Label6
         '
-        Me.txtProcessIntervall.Location = New System.Drawing.Point(170, 14)
-        Me.txtProcessIntervall.Name = "txtProcessIntervall"
-        Me.txtProcessIntervall.Size = New System.Drawing.Size(120, 22)
-        Me.txtProcessIntervall.TabIndex = 5
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(7, 40)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(153, 13)
-        Me.Label2.TabIndex = 1
-        Me.Label2.Text = "Services refreshment interval"
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(6, 17)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(162, 13)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Processes refreshment interval"
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(11, 169)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(80, 13)
+        Me.Label6.TabIndex = 1
+        Me.Label6.Text = "Search engine"
         '
         'GroupBox1
         '
@@ -130,7 +140,7 @@ Partial Class frmPreferences
         Me.GroupBox1.Controls.Add(Me.chkStart)
         Me.GroupBox1.Location = New System.Drawing.Point(14, 12)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(301, 135)
+        Me.GroupBox1.Size = New System.Drawing.Size(301, 143)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Startup"
@@ -178,12 +188,216 @@ Partial Class frmPreferences
         'chkStart
         '
         Me.chkStart.AutoSize = True
-        Me.chkStart.Location = New System.Drawing.Point(9, 20)
+        Me.chkStart.Location = New System.Drawing.Point(9, 22)
         Me.chkStart.Name = "chkStart"
         Me.chkStart.Size = New System.Drawing.Size(190, 17)
         Me.chkStart.TabIndex = 0
         Me.chkStart.Text = "Start YAPM on Windows startup"
         Me.chkStart.UseVisualStyleBackColor = True
+        '
+        'TabPage3
+        '
+        Me.TabPage3.Controls.Add(Me.chkRibbon)
+        Me.TabPage3.Controls.Add(Me.GroupBox3)
+        Me.TabPage3.Controls.Add(Me.chkCloseButton)
+        Me.TabPage3.Controls.Add(Me.chkTrayIcon)
+        Me.TabPage3.ImageKey = "display16.gif"
+        Me.TabPage3.Location = New System.Drawing.Point(4, 23)
+        Me.TabPage3.Name = "TabPage3"
+        Me.TabPage3.Size = New System.Drawing.Size(328, 226)
+        Me.TabPage3.TabIndex = 2
+        Me.TabPage3.Text = "Display"
+        Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'chkRibbon
+        '
+        Me.chkRibbon.AutoSize = True
+        Me.chkRibbon.Location = New System.Drawing.Point(15, 146)
+        Me.chkRibbon.Name = "chkRibbon"
+        Me.chkRibbon.Size = New System.Drawing.Size(127, 17)
+        Me.chkRibbon.TabIndex = 9
+        Me.chkRibbon.Text = "Ribbon style menus"
+        Me.chkRibbon.UseVisualStyleBackColor = True
+        '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.pctDeletedItems)
+        Me.GroupBox3.Controls.Add(Me.Label8)
+        Me.GroupBox3.Controls.Add(Me.pctNewitems)
+        Me.GroupBox3.Controls.Add(Me.Label7)
+        Me.GroupBox3.Location = New System.Drawing.Point(15, 60)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(296, 77)
+        Me.GroupBox3.TabIndex = 8
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "Colors"
+        '
+        'pctDeletedItems
+        '
+        Me.pctDeletedItems.Location = New System.Drawing.Point(86, 46)
+        Me.pctDeletedItems.Name = "pctDeletedItems"
+        Me.pctDeletedItems.Size = New System.Drawing.Size(16, 16)
+        Me.pctDeletedItems.TabIndex = 3
+        Me.pctDeletedItems.TabStop = False
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(6, 48)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(77, 13)
+        Me.Label8.TabIndex = 2
+        Me.Label8.Text = "Deleted items"
+        '
+        'pctNewitems
+        '
+        Me.pctNewitems.Location = New System.Drawing.Point(86, 21)
+        Me.pctNewitems.Name = "pctNewitems"
+        Me.pctNewitems.Size = New System.Drawing.Size(16, 16)
+        Me.pctNewitems.TabIndex = 1
+        Me.pctNewitems.TabStop = False
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(6, 23)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(60, 13)
+        Me.Label7.TabIndex = 0
+        Me.Label7.Text = "New items"
+        '
+        'chkCloseButton
+        '
+        Me.chkCloseButton.AutoSize = True
+        Me.chkCloseButton.Location = New System.Drawing.Point(15, 37)
+        Me.chkCloseButton.Name = "chkCloseButton"
+        Me.chkCloseButton.Size = New System.Drawing.Size(179, 17)
+        Me.chkCloseButton.TabIndex = 7
+        Me.chkCloseButton.Text = "Close YAPM with close button"
+        Me.chkCloseButton.UseVisualStyleBackColor = True
+        '
+        'chkTrayIcon
+        '
+        Me.chkTrayIcon.AutoSize = True
+        Me.chkTrayIcon.Location = New System.Drawing.Point(15, 14)
+        Me.chkTrayIcon.Name = "chkTrayIcon"
+        Me.chkTrayIcon.Size = New System.Drawing.Size(102, 17)
+        Me.chkTrayIcon.TabIndex = 6
+        Me.chkTrayIcon.Text = "Show tray icon"
+        Me.chkTrayIcon.UseVisualStyleBackColor = True
+        '
+        'TabPage4
+        '
+        Me.TabPage4.Controls.Add(Me.cbPriority)
+        Me.TabPage4.Controls.Add(Me.Label5)
+        Me.TabPage4.Controls.Add(Me.GroupBox2)
+        Me.TabPage4.ImageKey = "icon2.gif"
+        Me.TabPage4.Location = New System.Drawing.Point(4, 23)
+        Me.TabPage4.Name = "TabPage4"
+        Me.TabPage4.Size = New System.Drawing.Size(328, 226)
+        Me.TabPage4.TabIndex = 3
+        Me.TabPage4.Text = "Performances"
+        Me.TabPage4.UseVisualStyleBackColor = True
+        '
+        'cbPriority
+        '
+        Me.cbPriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbPriority.FormattingEnabled = True
+        Me.cbPriority.Items.AddRange(New Object() {"Idle", "Below Normal", "Normal", "Above Normal", "High", "Real Time"})
+        Me.cbPriority.Location = New System.Drawing.Point(74, 140)
+        Me.cbPriority.Name = "cbPriority"
+        Me.cbPriority.Size = New System.Drawing.Size(121, 21)
+        Me.cbPriority.TabIndex = 4
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(14, 143)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(43, 13)
+        Me.Label5.TabIndex = 3
+        Me.Label5.Text = "Priority"
+        '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.txtNetworkInterval)
+        Me.GroupBox2.Controls.Add(Me.txtTaskInterval)
+        Me.GroupBox2.Controls.Add(Me.Label3)
+        Me.GroupBox2.Controls.Add(Me.Label4)
+        Me.GroupBox2.Controls.Add(Me.txtServiceIntervall)
+        Me.GroupBox2.Controls.Add(Me.txtProcessIntervall)
+        Me.GroupBox2.Controls.Add(Me.Label2)
+        Me.GroupBox2.Controls.Add(Me.Label1)
+        Me.GroupBox2.Location = New System.Drawing.Point(14, 14)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(301, 116)
+        Me.GroupBox2.TabIndex = 2
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "Update intervals"
+        '
+        'txtNetworkInterval
+        '
+        Me.txtNetworkInterval.Location = New System.Drawing.Point(170, 83)
+        Me.txtNetworkInterval.Name = "txtNetworkInterval"
+        Me.txtNetworkInterval.Size = New System.Drawing.Size(120, 22)
+        Me.txtNetworkInterval.TabIndex = 10
+        '
+        'txtTaskInterval
+        '
+        Me.txtTaskInterval.Location = New System.Drawing.Point(170, 60)
+        Me.txtTaskInterval.Name = "txtTaskInterval"
+        Me.txtTaskInterval.Size = New System.Drawing.Size(120, 22)
+        Me.txtTaskInterval.TabIndex = 9
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(7, 92)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(51, 13)
+        Me.Label3.TabIndex = 8
+        Me.Label3.Text = "Network"
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(6, 69)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(34, 13)
+        Me.Label4.TabIndex = 7
+        Me.Label4.Text = "Tasks"
+        '
+        'txtServiceIntervall
+        '
+        Me.txtServiceIntervall.Location = New System.Drawing.Point(170, 37)
+        Me.txtServiceIntervall.Name = "txtServiceIntervall"
+        Me.txtServiceIntervall.Size = New System.Drawing.Size(120, 22)
+        Me.txtServiceIntervall.TabIndex = 6
+        '
+        'txtProcessIntervall
+        '
+        Me.txtProcessIntervall.Location = New System.Drawing.Point(170, 14)
+        Me.txtProcessIntervall.Name = "txtProcessIntervall"
+        Me.txtProcessIntervall.Size = New System.Drawing.Size(120, 22)
+        Me.txtProcessIntervall.TabIndex = 5
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(7, 46)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(47, 13)
+        Me.Label2.TabIndex = 1
+        Me.Label2.Text = "Services"
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(6, 23)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(56, 13)
+        Me.Label1.TabIndex = 0
+        Me.Label1.Text = "Processes"
         '
         'TabPage2
         '
@@ -234,6 +448,8 @@ Partial Class frmPreferences
         Me.IMG.TransparentColor = System.Drawing.Color.Transparent
         Me.IMG.Images.SetKeyName(0, "globe.png")
         Me.IMG.Images.SetKeyName(1, "application_text_image.png")
+        Me.IMG.Images.SetKeyName(2, "display16.gif")
+        Me.IMG.Images.SetKeyName(3, "icon2.gif")
         '
         'cmdSave
         '
@@ -263,6 +479,11 @@ Partial Class frmPreferences
         Me.cmdDefaut.Text = "Default"
         Me.cmdDefaut.UseVisualStyleBackColor = True
         '
+        'colDial
+        '
+        Me.colDial.AnyColor = True
+        Me.colDial.FullOpen = True
+        '
         'frmPreferences
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -285,10 +506,19 @@ Partial Class frmPreferences
         Me.TopMost = True
         Me.TabControl.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
-        Me.GroupBox2.ResumeLayout(False)
-        Me.GroupBox2.PerformLayout()
+        Me.TabPage1.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        Me.TabPage3.ResumeLayout(False)
+        Me.TabPage3.PerformLayout()
+        Me.GroupBox3.ResumeLayout(False)
+        Me.GroupBox3.PerformLayout()
+        CType(Me.pctDeletedItems, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pctNewitems, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabPage4.ResumeLayout(False)
+        Me.TabPage4.PerformLayout()
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
         Me.ResumeLayout(False)
@@ -305,14 +535,34 @@ Partial Class frmPreferences
     Friend WithEvents chkStart As System.Windows.Forms.CheckBox
     Friend WithEvents chkStartTray As System.Windows.Forms.CheckBox
     Friend WithEvents chkHideDetails As System.Windows.Forms.CheckBox
-    Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
-    Friend WithEvents Label2 As System.Windows.Forms.Label
-    Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents txtServiceIntervall As System.Windows.Forms.TextBox
-    Friend WithEvents txtProcessIntervall As System.Windows.Forms.TextBox
     Friend WithEvents chkTopMost As System.Windows.Forms.CheckBox
     Friend WithEvents cmdDownload As System.Windows.Forms.Button
     Friend WithEvents cmdCheckUpdate As System.Windows.Forms.Button
     Friend WithEvents txtUpdate As System.Windows.Forms.TextBox
     Friend WithEvents IMG As System.Windows.Forms.ImageList
+    Friend WithEvents TabPage3 As System.Windows.Forms.TabPage
+    Friend WithEvents TabPage4 As System.Windows.Forms.TabPage
+    Friend WithEvents Label5 As System.Windows.Forms.Label
+    Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
+    Friend WithEvents txtNetworkInterval As System.Windows.Forms.TextBox
+    Friend WithEvents txtTaskInterval As System.Windows.Forms.TextBox
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents txtServiceIntervall As System.Windows.Forms.TextBox
+    Friend WithEvents txtProcessIntervall As System.Windows.Forms.TextBox
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents cbPriority As System.Windows.Forms.ComboBox
+    Friend WithEvents txtSearchEngine As System.Windows.Forms.TextBox
+    Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents chkWarn As System.Windows.Forms.CheckBox
+    Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
+    Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents chkCloseButton As System.Windows.Forms.CheckBox
+    Friend WithEvents chkTrayIcon As System.Windows.Forms.CheckBox
+    Friend WithEvents pctDeletedItems As System.Windows.Forms.PictureBox
+    Friend WithEvents Label8 As System.Windows.Forms.Label
+    Friend WithEvents pctNewitems As System.Windows.Forms.PictureBox
+    Friend WithEvents chkRibbon As System.Windows.Forms.CheckBox
+    Friend WithEvents colDial As System.Windows.Forms.ColorDialog
 End Class

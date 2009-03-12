@@ -51,8 +51,8 @@ Public Class serviceList
 
     Private _foreColor As Color = Color.FromArgb(30, 30, 30)
 
-    Private NEW_ITEM_COLOR As Color = Color.FromArgb(128, 255, 0)
-    Private DELETED_ITEM_COLOR As Color = Color.FromArgb(255, 64, 48)
+    Public Shared NEW_ITEM_COLOR As Color = Color.FromArgb(128, 255, 0)
+    Public Shared DELETED_ITEM_COLOR As Color = Color.FromArgb(255, 64, 48)
 
 #Region "Properties"
 
@@ -194,9 +194,9 @@ Public Class serviceList
             End If
             If _dico.Item(it.Name).IsNewItem Then
                 _dico.Item(it.Name).IsNewItem = False
-                it.BackColor = Me.NEW_ITEM_COLOR
+                it.BackColor = NEW_ITEM_COLOR
             ElseIf _dico.Item(it.Name).IsKilledItem Then
-                it.BackColor = Me.DELETED_ITEM_COLOR
+                it.BackColor = DELETED_ITEM_COLOR
             Else
                 it.BackColor = Color.White
             End If

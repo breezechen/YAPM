@@ -917,7 +917,7 @@ Public Class frmProcessInfo
         Dim it As ListViewItem
         For Each it In Me.lvModules.SelectedItems
             My.Application.DoEvents()
-            cFile.ShellOpenFile("http://www.google.com/search?hl=en&q=%22" & it.Text & "%22")
+            Call SearchInternet(it.Text)
         Next
     End Sub
 

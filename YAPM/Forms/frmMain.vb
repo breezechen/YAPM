@@ -116,9 +116,9 @@ Public Class frmMain
 #End If
 
     Public HELP_PATH As String = My.Application.Info.DirectoryPath & "\Help\help.htm"
-    Public Const DEFAULT_TIMER_INTERVAL_PROCESSES As Integer = 1500
+    Public Const DEFAULT_TIMER_INTERVAL_PROCESSES As Integer = 1000
     Private Const NO_INFO_RETRIEVED As String = "N/A"
-    Public Const DEFAULT_TIMER_INTERVAL_SERVICES As Integer = 25000
+    Public Const DEFAULT_TIMER_INTERVAL_SERVICES As Integer = 2500
     Public Const MSGFIRSTTIME As String = "This is the first time you run YAPM. Please remember that it is a beta3 version so there are some bugs and some missing functionnalities :-)" & vbNewLine & vbNewLine & "You should run YAPM as an administrator in order to fully control your processes. Please take care using this YAPM because you will be able to do some irreversible things if you kill or modify some system processes... Use it at your own risks !" & vbNewLine & vbNewLine & "Please let me know any of your ideas of improvement or new functionnalities in YAPM's sourceforge.net project page ('Help' pannel) :-)" & vbNewLine & vbNewLine & "This message won't be shown anymore :-)"
 
     Public NEW_ITEM_COLOR As Color = Color.FromArgb(128, 255, 0)
@@ -426,6 +426,16 @@ Public Class frmMain
                 .startup = False
                 .topmost = False
                 .detailsHidden = True
+                .newItemsColor = Color.FromArgb(128, 255, 0).ToArgb
+                .deletedItemsColor = Color.FromArgb(255, 64, 48).ToArgb
+                .showTrayIcon = True
+                .priority = 1
+                .taskInterval = DEFAULT_TIMER_INTERVAL_PROCESSES
+                .networkInterval = DEFAULT_TIMER_INTERVAL_PROCESSES
+                .ribbonStyle = True
+                .searchEngine = "http://www.google.com/search?hl=en&q=ITEM"
+                .closeYAPMWithCloseButton = True
+                .warnDangerous = True
                 MsgBox(MSGFIRSTTIME, MsgBoxStyle.Information, "Please read this")
                 .Save()
                 .Apply()
@@ -1080,7 +1090,7 @@ Public Class frmMain
     Private Sub butProcessGoogle_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessGoogle.Click
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
             My.Application.DoEvents()
-            cFile.ShellOpenFile("http://www.google.com/search?hl=en&q=%22" & cp.Name & "%22")
+            Call SearchInternet(cp.Name)
         Next
     End Sub
 
@@ -1092,7 +1102,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
             My.Application.DoEvents()
-            cFile.ShellOpenFile("http://www.google.com/search?hl=en&q=%22" & it.Text & "%22")
+            Call SearchInternet(it.Text)
         Next
     End Sub
 
@@ -1308,7 +1318,7 @@ Public Class frmMain
 
     Private Sub butFileGoogleSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileGoogleSearch.Click
         My.Application.DoEvents()
-        cFile.ShellOpenFile("http://www.google.com/search?hl=en&q=%22" & cFile.GetFileName(Me.txtFile.Text) & "%22")
+        Call SearchInternet(cFile.GetFileName(Me.txtFile.Text))
     End Sub
 
     Private Sub butFileEncrypt_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileEncrypt.Click
@@ -2281,7 +2291,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvModules.SelectedItems
             My.Application.DoEvents()
-            cFile.ShellOpenFile("http://www.google.com/search?hl=en&q=%22" & it.Text & "%22")
+            Call SearchInternet(it.Text)
         Next
     End Sub
 
@@ -2508,7 +2518,6 @@ Public Class frmMain
 
     Private Sub timerTask_Tick(ByVal sender As Object, ByVal e As System.EventArgs) Handles timerTask.Tick
         Call refreshTaskList()
-        Call refreshNetworkList()
     End Sub
 
     Private Sub butTaskRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butTaskRefresh.Click
@@ -2912,7 +2921,7 @@ Public Class frmMain
     End Sub
 
     ' Permute style of menus
-    Private Sub permuteMenuStyle()
+    Public Sub permuteMenuStyle()
         '=============== ' _tab.Region = New Region(New RectangleF(_tab.TabPages(0).Left, _tab.TabPages(0).Top, _tab.TabPages(0).Width, _tab.TabPages(0).Height))
 
         ' Change selected tab of tabStrip
@@ -3792,6 +3801,8 @@ Public Class frmMain
                 theTab = Me.FileTab
             Case 10
                 theTab = Me.SearchTab
+            Case 11
+                Call Ribbon_MouseMove(Nothing, Nothing)
         End Select
         Me.Ribbon.ActiveTab = theTab
     End Sub
@@ -4169,5 +4180,9 @@ Public Class frmMain
 
     Private Sub MinimizeToTrayToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MinimizeToTrayToolStripMenuItem1.Click
         Call Me.MinimizeToTrayToolStripMenuItem_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub timerNetwork_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerNetwork.Tick
+        Call refreshNetworkList()
     End Sub
 End Class

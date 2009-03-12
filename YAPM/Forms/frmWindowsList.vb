@@ -48,7 +48,7 @@ Public Class frmWindowsList
 
         ' Remove 'red' items (previosly deleted)
         For Each it As ListViewItem In Me.lv.Items
-            If it.BackColor = Me.DELETED_ITEM_COLOR Then
+            If it.BackColor = DELETED_ITEM_COLOR Then
                 it.Remove()
             End If
         Next
@@ -67,7 +67,7 @@ Public Class frmWindowsList
 
             If exist = False Then
                 ' Deleted
-                it.BackColor = Me.DELETED_ITEM_COLOR
+                it.BackColor = DELETED_ITEM_COLOR
             End If
 
         Next
@@ -75,7 +75,7 @@ Public Class frmWindowsList
 
         ' Remove 'green' items (previosly deleted)
         For Each it As ListViewItem In Me.lv.Items
-            If it.BackColor = Me.NEW_ITEM_COLOR Then
+            If it.BackColor = NEW_ITEM_COLOR Then
                 it.BackColor = Color.White
             End If
         Next
@@ -95,7 +95,7 @@ Public Class frmWindowsList
                 ' Have to create
                 Dim nene As New ListViewItem(frm.Text)
                 If first = False Then
-                    nene.BackColor = Me.NEW_ITEM_COLOR
+                    nene.BackColor = NEW_ITEM_COLOR
                 End If
                 nene.ForeColor = Color.FromArgb(30, 30, 30)
                 nene.Tag = frm.Handle

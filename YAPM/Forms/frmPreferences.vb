@@ -34,15 +34,20 @@ Public Class frmPreferences
     '       <topmost>false</topmost>
     '       <firsttime>firsttime</firsttime>
     '       <detailshidden>detailshidden</detailshidden>
+    '       <Some others...>
     '	</config>
     '</yapm>
 
     Private Declare Function URLDownloadToFile Lib "urlmon" Alias "URLDownloadToFileA" (ByVal pCaller As Integer, ByVal szURL As String, ByVal szFileName As String, ByVal dwReserved As Integer, ByVal lpfnCB As Integer) As Integer
     Private Declare Function DoFileDownload Lib "shdocvw" (ByVal lpszFile As String) As Integer
 
+    Private _newcolor As Integer
+    Private _deletedcolor As Integer
+
     Private Sub cmdQuit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdQuit.Click
         frmMain.timerProcess.Interval = frmMain.Pref.procIntervall
-        frmMain.timerTask.Interval = frmMain.Pref.procIntervall
+        frmMain.timerTask.Interval = frmMain.Pref.taskInterval
+        frmMain.timerNetwork.Interval = frmMain.Pref.networkInterval
         frmMain.timerServices.Interval = frmMain.Pref.serviceIntervall
         Me.Close()
     End Sub
@@ -52,11 +57,22 @@ Public Class frmPreferences
         With frmMain.Pref
             .serviceIntervall = CInt(Val(Me.txtServiceIntervall.Text))
             .procIntervall = CInt(Val(Me.txtProcessIntervall.Text))
-            .startup = CBool(Me.chkStart.Checked)
-            .startHidden = CBool(Me.chkStartTray.Checked)
-            .replaceTaskMgr = CBool(Me.chkReplaceTaskmgr.Checked)
-            .topmost = CBool(Me.chkTopMost.Checked)
-            .detailsHidden = CBool(Me.chkHideDetails.Checked)
+            .startup = Me.chkStart.Checked
+            .startHidden = Me.chkStartTray.Checked
+            .replaceTaskMgr = Me.chkReplaceTaskmgr.Checked
+            .topmost = Me.chkTopMost.Checked
+            .detailsHidden = Me.chkHideDetails.Checked
+            .newItemsColor = _newcolor
+            .deletedItemsColor = _deletedcolor
+            .showTrayIcon = Me.chkTrayIcon.Checked
+            .priority = Me.cbPriority.SelectedIndex
+            .taskInterval = CInt(Val(Me.txtTaskInterval.Text))
+            .networkInterval = CInt(Val(Me.txtNetworkInterval.Text))
+            .ribbonStyle = Me.chkRibbon.Checked
+            .searchEngine = Me.txtSearchEngine.Text
+            .closeYAPMWithCloseButton = Me.chkCloseButton.Checked
+            .warnDangerous = Me.chkWarn.Checked
+
             .Apply()
             Call mdlMisc.StartWithWindows(.startup)
             Call mdlMisc.ReplaceTaskmgr(.replaceTaskMgr)
@@ -80,25 +96,47 @@ Public Class frmPreferences
             .SetToolTip(Me.chkHideDetails, "Start YAPM with details panel hidden.")
             .SetToolTip(Me.chkStart, "Start YAPM on Windows startup.")
             .SetToolTip(Me.chkStartTray, "Start YAPM hidden (only in tray system).")
-            .SetToolTip(Me.txtProcessIntervall, "Set intervall (milliseconds) between two refreshments of processes list.")
-            .SetToolTip(Me.txtServiceIntervall, "Set intervall (milliseconds) between two refreshments of services list.")
+            .SetToolTip(Me.txtProcessIntervall, "Set interval (milliseconds) between two refreshments of process list.")
+            .SetToolTip(Me.txtServiceIntervall, "Set interval (milliseconds) between two refreshments of service list.")
             .SetToolTip(Me.cmdSave, "Save configuration.")
             .SetToolTip(Me.cmdQuit, "Quit without saving.")
             .SetToolTip(Me.cmdDefaut, "Set default configuration.")
             .SetToolTip(Me.chkTopMost, "Start YAPM topmost.")
             .SetToolTip(Me.cmdCheckUpdate, "Check if new updates are availables.")
             .SetToolTip(Me.cmdDownload, "Download last update of YAPM from sourceforge.net.")
+            .SetToolTip(Me.pctDeletedItems, "Color of deleted items.")
+            .SetToolTip(Me.pctNewitems, "Color of new items.")
+            .SetToolTip(Me.chkTrayIcon, "Show tray icon.")
+            .SetToolTip(Me.cbPriority, "Priority of YAPM.")
+            .SetToolTip(Me.txtTaskInterval, "Set interval (milliseconds) between two refreshments of task list.")
+            .SetToolTip(Me.txtNetworkInterval, "Set interval (milliseconds) between two refreshments of network list.")
+            .SetToolTip(Me.chkRibbon, "Show ribbon style menu.")
+            .SetToolTip(Me.txtSearchEngine, "Search engine for 'Internet search'. Use the keyword ITEM to specify the item name to search.")
+            .SetToolTip(Me.chkCloseButton, "Close YAPM when close button is pressed (minimize to tray if not checked).")
+            .SetToolTip(Me.chkWarn, "Warn user for all (potentially) dangerous actions.")
         End With
 
         ' Set control's values
         With frmMain.Pref
-            Me.txtServiceIntervall.Text = CStr(.serviceIntervall)
-            Me.txtProcessIntervall.Text = CStr(.procIntervall)
+            Me.txtServiceIntervall.Text = .serviceIntervall.ToString
+            Me.txtProcessIntervall.Text = .procIntervall.ToString
             Me.chkHideDetails.Checked = .detailsHidden
             Me.chkStart.Checked = .startup
             Me.chkStartTray.Checked = .startHidden
             Me.chkReplaceTaskmgr.Checked = .replaceTaskMgr
             Me.chkTopMost.Checked = .topmost
+            Me.pctNewitems.BackColor = Color.FromArgb(.newItemsColor)
+            Me.pctDeletedItems.BackColor = Color.FromArgb(.deletedItemsColor)
+            _newcolor = .newItemsColor
+            _deletedcolor = .deletedItemsColor
+            Me.chkTrayIcon.Checked = .showTrayIcon
+            Me.cbPriority.SelectedIndex = .priority
+            Me.txtTaskInterval.Text = .taskInterval.ToString
+            Me.txtNetworkInterval.Text = .networkInterval.ToString
+            Me.chkRibbon.Checked = .ribbonStyle
+            Me.txtSearchEngine.Text = .searchEngine
+            Me.chkCloseButton.Checked = .closeYAPMWithCloseButton
+            Me.chkWarn.Checked = .warnDangerous
         End With
 
     End Sub
@@ -109,9 +147,21 @@ Public Class frmPreferences
         Me.chkStart.Checked = False
         Me.chkHideDetails.Checked = True
         Me.chkReplaceTaskmgr.Checked = False
-        Me.txtProcessIntervall.Text = CStr(frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES)
-        Me.txtServiceIntervall.Text = CStr(frmMain.DEFAULT_TIMER_INTERVAL_SERVICES)
+        Me.txtProcessIntervall.Text = frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
+        Me.txtServiceIntervall.Text = frmMain.DEFAULT_TIMER_INTERVAL_SERVICES.ToString
         Me.chkTopMost.Checked = False
+        Me.pctNewitems.BackColor = Color.FromArgb(128, 255, 0)
+        Me.pctDeletedItems.BackColor = Color.FromArgb(255, 64, 48)
+        _newcolor = Color.FromArgb(128, 255, 0).ToArgb
+        _deletedcolor = Color.FromArgb(255, 64, 48).ToArgb
+        Me.chkTrayIcon.Checked = True
+        Me.cbPriority.SelectedIndex = 1
+        Me.txtTaskInterval.Text = frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
+        Me.txtNetworkInterval.Text = frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
+        Me.chkRibbon.Checked = True
+        Me.txtSearchEngine.Text = "http://www.google.com/search?hl=en&q=ITEM"
+        Me.chkCloseButton.Checked = True
+        Me.chkWarn.Checked = True
     End Sub
 
     Private Sub cmdCheckUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdCheckUpdate.Click
@@ -225,5 +275,19 @@ Public Class frmPreferences
         If Me.chkReplaceTaskmgr.Checked Then
             MsgBox("This option simply create a key in registry, that's why it is safe to do it." & vbNewLine & "But remember to disable this option if you decide to move (or delete) YAPM executable.", MsgBoxStyle.Information, "Warning")
         End If
+    End Sub
+
+    Private Sub pctNewitems_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pctNewitems.Click
+        colDial.Color = Me.pctNewitems.BackColor
+        colDial.ShowDialog()
+        Me.pctNewitems.BackColor = colDial.Color
+        _newcolor = colDial.Color.ToArgb
+    End Sub
+
+    Private Sub pctDeletedItems_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pctDeletedItems.Click
+        colDial.Color = Me.pctDeletedItems.BackColor
+        colDial.ShowDialog()
+        Me.pctDeletedItems.BackColor = colDial.Color
+        _deletedcolor = colDial.Color.ToArgb
     End Sub
 End Class

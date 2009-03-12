@@ -200,4 +200,9 @@ Module mdlMisc
 
     End Function
 
+    ' Search on internet
+    Public Sub SearchInternet(ByVal item As String)
+        cFile.ShellOpenFile(frmMain.Pref.searchEngine.Replace("ITEM", item))
+    End Sub
+
 End Module

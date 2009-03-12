@@ -34,6 +34,17 @@ Public Class Pref
     Public firstTime As Boolean
     Public detailsHidden As Boolean
 
+    Public ribbonStyle As Boolean
+    Public newItemsColor As Integer
+    Public deletedItemsColor As Integer
+    Public closeYAPMWithCloseButton As Boolean
+    Public showTrayIcon As Boolean
+    Public priority As Integer
+    Public taskInterval As Integer
+    Public networkInterval As Integer
+    Public searchEngine As String
+    Public warnDangerous As Boolean
+
     ' Open XML
     Public Sub Load()
         Dim XmlDoc As XmlDocument = New XmlDocument
@@ -63,6 +74,26 @@ Public Class Pref
                     detailsHidden = CBool(noeudEnf.InnerText)
                 ElseIf noeudEnf.LocalName = "replacetaskmgr" Then
                     replaceTaskMgr = CBool(noeudEnf.InnerText)
+                ElseIf noeudEnf.LocalName = "ribbonstyle" Then
+                    ribbonStyle = CBool(noeudEnf.InnerText)
+                ElseIf noeudEnf.LocalName = "newitemscolor" Then
+                    newItemsColor = CInt(noeudEnf.InnerText)
+                ElseIf noeudEnf.LocalName = "deleteditemscolor" Then
+                    deletedItemsColor = CInt(noeudEnf.InnerText)
+                ElseIf noeudEnf.LocalName = "closeyapmwithclosebutton" Then
+                    closeYAPMWithCloseButton = CBool(noeudEnf.InnerText)
+                ElseIf noeudEnf.LocalName = "showtrayicon" Then
+                    showTrayIcon = CBool(noeudEnf.InnerText)
+                ElseIf noeudEnf.LocalName = "priority" Then
+                    priority = CInt(noeudEnf.InnerText)
+                ElseIf noeudEnf.LocalName = "taskinterval" Then
+                    taskInterval = CInt(noeudEnf.InnerText)
+                ElseIf noeudEnf.LocalName = "networkinterval" Then
+                    networkInterval = CInt(noeudEnf.InnerText)
+                ElseIf noeudEnf.LocalName = "searchengine" Then
+                    searchEngine = noeudEnf.InnerText
+                ElseIf noeudEnf.LocalName = "warndangerous" Then
+                    warnDangerous = CBool(noeudEnf.InnerText)
                 End If
             Next
         Next
@@ -113,6 +144,48 @@ Public Class Pref
         elemTaskmgr = XmlDoc.CreateElement("replacetaskmgr")
         elemTaskmgr.InnerText = CStr(Me.replaceTaskMgr)
         elemConfig.AppendChild(elemTaskmgr)
+        Dim elemRibbon As XmlElement
+        elemRibbon = XmlDoc.CreateElement("ribbonstyle")
+        elemRibbon.InnerText = CStr(Me.ribbonStyle)
+        elemConfig.AppendChild(elemRibbon)
+        Dim elemEngine As XmlElement
+        elemEngine = XmlDoc.CreateElement("searchengine")
+        elemEngine.InnerText = CStr(Me.searchEngine)
+        elemConfig.AppendChild(elemEngine)
+        Dim elemNewColor As XmlElement
+        elemNewColor = XmlDoc.CreateElement("newitemscolor")
+        elemNewColor.InnerText = CStr(Me.newItemsColor)
+        elemConfig.AppendChild(elemNewColor)
+        Dim elemDeletedColor As XmlElement
+        elemDeletedColor = XmlDoc.CreateElement("deleteditemscolor")
+        elemDeletedColor.InnerText = CStr(Me.deletedItemsColor)
+        elemConfig.AppendChild(elemDeletedColor)
+        Dim elemCloseButton As XmlElement
+        elemCloseButton = XmlDoc.CreateElement("closeyapmwithclosebutton")
+        elemCloseButton.InnerText = CStr(Me.closeYAPMWithCloseButton)
+        elemConfig.AppendChild(elemCloseButton)
+        Dim elemShowTray As XmlElement
+        elemShowTray = XmlDoc.CreateElement("showtrayicon")
+        elemShowTray.InnerText = CStr(Me.showTrayIcon)
+        elemConfig.AppendChild(elemShowTray)
+        Dim elemPriority As XmlElement
+        elemPriority = XmlDoc.CreateElement("priority")
+        elemPriority.InnerText = CStr(Me.priority)
+        elemConfig.AppendChild(elemPriority)
+        Dim elemTaskInterval As XmlElement
+        elemTaskInterval = XmlDoc.CreateElement("taskinterval")
+        elemTaskInterval.InnerText = CStr(Me.taskInterval)
+        elemConfig.AppendChild(elemTaskInterval)
+        Dim elemNetworkInterval As XmlElement
+        elemNetworkInterval = XmlDoc.CreateElement("networkinterval")
+        elemNetworkInterval.InnerText = CStr(Me.networkInterval)
+        elemConfig.AppendChild(elemNetworkInterval)
+        Dim elemWarnDangerous As XmlElement
+        elemWarnDangerous = XmlDoc.CreateElement("warndangerous")
+        elemWarnDangerous.InnerText = CStr(Me.warnDangerous)
+        elemConfig.AppendChild(elemWarnDangerous)
+
+
         XmlDoc.DocumentElement.AppendChild(elemConfig)
         XmlDoc.Save(frmMain.PREF_PATH)
     End Sub
@@ -122,7 +195,44 @@ Public Class Pref
         Static first As Boolean = True
         frmMain.timerProcess.Interval = CInt(IIf(procIntervall > 0, procIntervall, frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES))
         frmMain.timerServices.Interval = CInt(IIf(serviceIntervall > 0, serviceIntervall, frmMain.DEFAULT_TIMER_INTERVAL_SERVICES))
-        frmMain.timerTask.Interval = frmMain.timerProcess.Interval
+        frmMain.timerNetwork.Interval = CInt(IIf(networkInterval > 0, networkInterval, frmMain.DEFAULT_TIMER_INTERVAL_SERVICES))
+        frmMain.timerTask.Interval = CInt(IIf(taskInterval > 0, taskInterval, frmMain.DEFAULT_TIMER_INTERVAL_SERVICES))
+        Select Case priority
+            Case 0
+                Process.GetCurrentProcess.PriorityClass = ProcessPriorityClass.Idle
+            Case 1
+                Process.GetCurrentProcess.PriorityClass = ProcessPriorityClass.BelowNormal
+            Case 2
+                Process.GetCurrentProcess.PriorityClass = ProcessPriorityClass.Normal
+            Case 3
+                Process.GetCurrentProcess.PriorityClass = ProcessPriorityClass.AboveNormal
+            Case 4
+                Process.GetCurrentProcess.PriorityClass = ProcessPriorityClass.High
+            Case 5
+                Process.GetCurrentProcess.PriorityClass = ProcessPriorityClass.RealTime
+        End Select
+        handleList.NEW_ITEM_COLOR = Color.FromArgb(newItemsColor)
+        handleList.DELETED_ITEM_COLOR = Color.FromArgb(deletedItemsColor)
+        memoryList.NEW_ITEM_COLOR = Color.FromArgb(newItemsColor)
+        memoryList.DELETED_ITEM_COLOR = Color.FromArgb(deletedItemsColor)
+        windowList.NEW_ITEM_COLOR = Color.FromArgb(newItemsColor)
+        windowList.DELETED_ITEM_COLOR = Color.FromArgb(deletedItemsColor)
+        moduleList.NEW_ITEM_COLOR = Color.FromArgb(newItemsColor)
+        moduleList.DELETED_ITEM_COLOR = Color.FromArgb(deletedItemsColor)
+        networkList.NEW_ITEM_COLOR = Color.FromArgb(newItemsColor)
+        networkList.DELETED_ITEM_COLOR = Color.FromArgb(deletedItemsColor)
+        processList.NEW_ITEM_COLOR = Color.FromArgb(newItemsColor)
+        processList.DELETED_ITEM_COLOR = Color.FromArgb(deletedItemsColor)
+        serviceList.NEW_ITEM_COLOR = Color.FromArgb(newItemsColor)
+        serviceList.DELETED_ITEM_COLOR = Color.FromArgb(deletedItemsColor)
+        taskList.NEW_ITEM_COLOR = Color.FromArgb(newItemsColor)
+        taskList.DELETED_ITEM_COLOR = Color.FromArgb(deletedItemsColor)
+        threadList.NEW_ITEM_COLOR = Color.FromArgb(newItemsColor)
+        threadList.DELETED_ITEM_COLOR = Color.FromArgb(deletedItemsColor)
+        frmMain.Tray.Visible = showTrayIcon
+        If ribbonStyle = False Then
+            Call frmMain.permuteMenuStyle()
+        End If
         If first Then
             first = False
             frmMain.TopMost = topmost

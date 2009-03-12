@@ -2078,7 +2078,7 @@ Partial Class frmProcessInfo
         Me.GoogleSearchToolStripMenuItem2.Image = Global.YAPM.My.Resources.Resources.globe
         Me.GoogleSearchToolStripMenuItem2.Name = "GoogleSearchToolStripMenuItem2"
         Me.GoogleSearchToolStripMenuItem2.Size = New System.Drawing.Size(172, 22)
-        Me.GoogleSearchToolStripMenuItem2.Text = "Google search"
+        Me.GoogleSearchToolStripMenuItem2.Text = "Internet search"
         '
         'ToolStripMenuItem1
         '
@@ -2171,7 +2171,7 @@ Partial Class frmProcessInfo
         '
         Me.menuThread.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem23, Me.ToolStripMenuItem24, Me.ToolStripMenuItem25, Me.ToolStripMenuItem26, Me.ToolStripMenuItem33, Me.ToolStripMenuItem8, Me.ChooseColumnsToolStripMenuItem})
         Me.menuThread.Name = "menuProc"
-        Me.menuThread.Size = New System.Drawing.Size(173, 164)
+        Me.menuThread.Size = New System.Drawing.Size(173, 142)
         '
         'ToolStripMenuItem23
         '
