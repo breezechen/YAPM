@@ -89,6 +89,7 @@ Public Class frmMain
     ' ========================================
     Public handles_Renamed As New clsOpenedHandles
     Public emHotkeys As New cHotkeys
+    Public emStateBasedActions As New cStateBasedAction
     Public Pref As New Pref
 
 
@@ -3808,6 +3809,7 @@ Public Class frmMain
                 theTab = Me.NetworkTab
             Case 9
                 theTab = Me.FileTab
+                Call frmMain_Resize(Nothing, Nothing)
             Case 10
                 theTab = Me.SearchTab
             Case 11
@@ -4193,5 +4195,15 @@ Public Class frmMain
 
     Private Sub timerNetwork_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerNetwork.Tick
         Call refreshNetworkList()
+    End Sub
+
+    Private Sub StateBasedActionsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StateBasedActionsToolStripMenuItem.Click
+        frmBasedStateAction.BringToFront()
+        frmBasedStateAction.WindowState = FormWindowState.Normal
+        frmBasedStateAction.Show()
+    End Sub
+
+    Private Sub StateBasedActionsToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StateBasedActionsToolStripMenuItem1.Click
+        Call StateBasedActionsToolStripMenuItem_Click(Nothing, Nothing)
     End Sub
 End Class

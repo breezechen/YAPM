@@ -87,17 +87,17 @@
     <Import Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\cService.vb" />
+    <Compile Include="Classes\Providers\cService.vb" />
     <Compile Include="Forms\Misc\frmAbout.Designer.vb">
       <DependentUpon>frmAbout.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\Misc\frmAbout.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmMain.vb">
+    <Compile Include="Forms\MainForms\frmMain.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmMain.Designer.vb">
+    <Compile Include="Forms\MainForms\frmMain.Designer.vb">
       <DependentUpon>frmMain.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
@@ -120,7 +120,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Forms\frmGlobalReport.resx">
+    <EmbeddedResource Include="Forms\AdditionalMainForms\frmBasedStateAction.resx">
+      <DependentUpon>frmBasedStateAction.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AdditionalMainForms\frmGlobalReport.resx">
       <DependentUpon>frmGlobalReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmInput.resx">
@@ -130,18 +133,18 @@
       <DependentUpon>frmThreadAffinity.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Misc\frmChooseColumns.resx">
+    <EmbeddedResource Include="Forms\Preferences\frmChooseColumns.resx">
       <DependentUpon>frmChooseColumns.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmHotkeys.resx">
+    <EmbeddedResource Include="Forms\AdditionalMainForms\frmHotkeys.resx">
       <DependentUpon>frmHotkeys.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmAboutG.resx">
+    <EmbeddedResource Include="Forms\MainForms\frmAboutG.resx">
       <DependentUpon>frmAboutG.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmLogOptions.resx">
+    <EmbeddedResource Include="Forms\Preferences\frmLogOptions.resx">
       <DependentUpon>frmLogOptions.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CustomListviews\handleList.resx">
@@ -160,7 +163,7 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmAbout.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmAddProcessMonitor.resx">
+    <EmbeddedResource Include="Forms\Misc\frmAddProcessMonitor.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmAddProcessMonitor.vb</DependentUpon>
     </EmbeddedResource>
@@ -180,18 +183,18 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmFindWindow.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmHexEditor.resx">
+    <EmbeddedResource Include="Forms\MainForms\frmHexEditor.resx">
       <DependentUpon>frmHexEditor.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmLog.resx">
+    <EmbeddedResource Include="Forms\AdditionalMainForms\frmLog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmLog.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMain.resx">
+    <EmbeddedResource Include="Forms\MainForms\frmMain.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmMain.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmPreferences.resx">
+    <EmbeddedResource Include="Forms\Preferences\frmPreferences.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmPreferences.vb</DependentUpon>
     </EmbeddedResource>
@@ -199,18 +202,18 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmProcessAffinity.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmProcessInfo.resx">
+    <EmbeddedResource Include="Forms\MainForms\frmProcessInfo.resx">
       <DependentUpon>frmProcessInfo.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmSaveReport.resx">
+    <EmbeddedResource Include="Forms\Misc\frmSaveReport.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmSaveReport.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmSearchMonitor.resx">
+    <EmbeddedResource Include="Forms\Misc\frmSearchMonitor.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmSearchMonitor.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmSystemInfo.resx">
+    <EmbeddedResource Include="Forms\AdditionalMainForms\frmSystemInfo.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmSystemInfo.vb</DependentUpon>
     </EmbeddedResource>
@@ -218,7 +221,7 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmWindowPosition.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmWindowsList.resx">
+    <EmbeddedResource Include="Forms\AdditionalMainForms\frmWindowsList.resx">
       <DependentUpon>frmWindowsList.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CustomListviews\serviceList.resx">
@@ -273,39 +276,47 @@
     <None Include="Resources\process.png" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Misc\cAsyncProcInfoDownload.vb" />
-    <Compile Include="Classes\Misc\cDownload.vb" />
-    <Compile Include="Classes\cFile.vb" />
-    <Compile Include="Classes\cGeneralObject.vb" />
-    <Compile Include="Classes\cHandle.vb" />
-    <Compile Include="Classes\Misc\cHotkeys.vb" />
-    <Compile Include="Classes\Misc\cHTML.vb" />
-    <Compile Include="Classes\Misc\cHTML2.vb" />
+    <Compile Include="Classes\Download\cAsyncProcInfoDownload.vb" />
+    <Compile Include="Classes\Download\cDownload.vb" />
+    <Compile Include="Classes\Misc\cFile.vb" />
+    <Compile Include="Classes\Providers\cGeneralObject.vb" />
+    <Compile Include="Classes\Providers\cHandle.vb" />
+    <Compile Include="Classes\Hotkeys\cHotkeys.vb" />
+    <Compile Include="Classes\HTML\cHTML.vb" />
+    <Compile Include="Classes\HTML\cHTML2.vb" />
     <Compile Include="Classes\Misc\cLog.vb" />
-    <Compile Include="Classes\Misc\clsDriverCtrl.vb" />
-    <Compile Include="Classes\Misc\clsOpenedHandles.vb" />
-    <Compile Include="Classes\cMemRegion.vb" />
-    <Compile Include="Classes\cModule.vb" />
-    <Compile Include="Classes\cMonitor.vb" />
-    <Compile Include="Classes\cNetwork.vb" />
+    <Compile Include="Classes\Driver\clsDriverCtrl.vb" />
+    <Compile Include="Classes\Driver\clsOpenedHandles.vb" />
+    <Compile Include="Classes\Providers\cMemRegion.vb" />
+    <Compile Include="Classes\Providers\cModule.vb" />
+    <Compile Include="Classes\Providers\cMonitor.vb" />
+    <Compile Include="Classes\Providers\cNetwork.vb" />
+    <Compile Include="Classes\StateBasedActions\cBasedStateActionState.vb" />
+    <Compile Include="Classes\StateBasedActions\cStateBasedAction.vb" />
     <Compile Include="Classes\Misc\cPrivileges.vb" />
-    <Compile Include="Classes\cProcess.vb" />
-    <Compile Include="Classes\cProcessMemRW.vb" />
+    <Compile Include="Classes\Providers\cProcess.vb" />
+    <Compile Include="Classes\Providers\cProcessMemRW.vb" />
     <Compile Include="Classes\Misc\cRegMonitor.vb" />
-    <Compile Include="Classes\cServEnum.vb" />
-    <Compile Include="Classes\Misc\cShortcut.vb" />
+    <Compile Include="Classes\Providers\cServEnum.vb" />
+    <Compile Include="Classes\Hotkeys\cShortcut.vb" />
     <Compile Include="Classes\Misc\cSystem.vb" />
     <Compile Include="Classes\Misc\cSystemInfo.vb" />
-    <Compile Include="Classes\cTask.vb" />
-    <Compile Include="Classes\cThread.vb">
+    <Compile Include="Classes\Providers\cTask.vb" />
+    <Compile Include="Classes\Providers\cThread.vb">
     </Compile>
     <Compile Include="Classes\Misc\cTrayIcon.vb" />
-    <Compile Include="Classes\cWindow.vb" />
+    <Compile Include="Classes\Providers\cWindow.vb" />
     <Compile Include="Classes\Misc\cWinTrust.vb" />
-    <Compile Include="Forms\frmGlobalReport.Designer.vb">
+    <Compile Include="Forms\AdditionalMainForms\frmBasedStateAction.Designer.vb">
+      <DependentUpon>frmBasedStateAction.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AdditionalMainForms\frmBasedStateAction.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AdditionalMainForms\frmGlobalReport.Designer.vb">
       <DependentUpon>frmGlobalReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmGlobalReport.vb">
+    <Compile Include="Forms\AdditionalMainForms\frmGlobalReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Misc\frmInput.Designer.vb">
@@ -320,28 +331,28 @@
     <Compile Include="Forms\Misc\frmThreadAffinity.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Misc\frmChooseColumns.Designer.vb">
+    <Compile Include="Forms\Preferences\frmChooseColumns.Designer.vb">
       <DependentUpon>frmChooseColumns.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Misc\frmChooseColumns.vb">
+    <Compile Include="Forms\Preferences\frmChooseColumns.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmHotkeys.Designer.vb">
+    <Compile Include="Forms\AdditionalMainForms\frmHotkeys.Designer.vb">
       <DependentUpon>frmHotkeys.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmHotkeys.vb">
+    <Compile Include="Forms\AdditionalMainForms\frmHotkeys.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmAboutG.Designer.vb">
+    <Compile Include="Forms\MainForms\frmAboutG.Designer.vb">
       <DependentUpon>frmAboutG.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmAboutG.vb">
+    <Compile Include="Forms\MainForms\frmAboutG.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmLogOptions.Designer.vb">
+    <Compile Include="Forms\Preferences\frmLogOptions.Designer.vb">
       <DependentUpon>frmLogOptions.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmLogOptions.vb">
+    <Compile Include="Forms\Preferences\frmLogOptions.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UserControls\CustomListviews\handleList.Designer.vb">
@@ -374,10 +385,10 @@
     <Compile Include="Forms\Misc\frmFindWindow.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmHexEditor.Designer.vb">
+    <Compile Include="Forms\MainForms\frmHexEditor.Designer.vb">
       <DependentUpon>frmHexEditor.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmHexEditor.vb">
+    <Compile Include="Forms\MainForms\frmHexEditor.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Misc\frmProcessAffinity.Designer.vb">
@@ -386,10 +397,10 @@
     <Compile Include="Forms\Misc\frmProcessAffinity.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmAddProcessMonitor.Designer.vb">
+    <Compile Include="Forms\Misc\frmAddProcessMonitor.Designer.vb">
       <DependentUpon>frmAddProcessMonitor.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmAddProcessMonitor.vb">
+    <Compile Include="Forms\Misc\frmAddProcessMonitor.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Misc\frmBox.Designer.vb">
@@ -410,40 +421,40 @@
     <Compile Include="Forms\Misc\frmFileRelease.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmLog.Designer.vb">
+    <Compile Include="Forms\AdditionalMainForms\frmLog.Designer.vb">
       <DependentUpon>frmLog.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmLog.vb">
+    <Compile Include="Forms\AdditionalMainForms\frmLog.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmPreferences.Designer.vb">
+    <Compile Include="Forms\Preferences\frmPreferences.Designer.vb">
       <DependentUpon>frmPreferences.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmPreferences.vb">
+    <Compile Include="Forms\Preferences\frmPreferences.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmProcessInfo.Designer.vb">
+    <Compile Include="Forms\MainForms\frmProcessInfo.Designer.vb">
       <DependentUpon>frmProcessInfo.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmProcessInfo.vb">
+    <Compile Include="Forms\MainForms\frmProcessInfo.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmSaveReport.Designer.vb">
+    <Compile Include="Forms\Misc\frmSaveReport.Designer.vb">
       <DependentUpon>frmSaveReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmSaveReport.vb">
+    <Compile Include="Forms\Misc\frmSaveReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmSearchMonitor.Designer.vb">
+    <Compile Include="Forms\Misc\frmSearchMonitor.Designer.vb">
       <DependentUpon>frmSearchMonitor.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmSearchMonitor.vb">
+    <Compile Include="Forms\Misc\frmSearchMonitor.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmSystemInfo.Designer.vb">
+    <Compile Include="Forms\AdditionalMainForms\frmSystemInfo.Designer.vb">
       <DependentUpon>frmSystemInfo.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmSystemInfo.vb">
+    <Compile Include="Forms\AdditionalMainForms\frmSystemInfo.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Misc\frmWindowPosition.Designer.vb">
@@ -452,10 +463,10 @@
     <Compile Include="Forms\Misc\frmWindowPosition.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmWindowsList.Designer.vb">
+    <Compile Include="Forms\AdditionalMainForms\frmWindowsList.Designer.vb">
       <DependentUpon>frmWindowsList.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmWindowsList.vb">
+    <Compile Include="Forms\AdditionalMainForms\frmWindowsList.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UserControls\CustomListviews\serviceList.Designer.vb">
