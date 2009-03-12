@@ -44,6 +44,7 @@ Public Class Pref
     Public networkInterval As Integer
     Public searchEngine As String
     Public warnDangerous As Boolean
+    Public hideMinimized As Boolean
 
     ' Open XML
     Public Sub Load()
@@ -94,6 +95,8 @@ Public Class Pref
                     searchEngine = noeudEnf.InnerText
                 ElseIf noeudEnf.LocalName = "warndangerous" Then
                     warnDangerous = CBool(noeudEnf.InnerText)
+                ElseIf noeudEnf.LocalName = "hideminimized" Then
+                    hideMinimized = CBool(noeudEnf.InnerText)
                 End If
             Next
         Next
@@ -184,7 +187,10 @@ Public Class Pref
         elemWarnDangerous = XmlDoc.CreateElement("warndangerous")
         elemWarnDangerous.InnerText = CStr(Me.warnDangerous)
         elemConfig.AppendChild(elemWarnDangerous)
-
+        Dim elemHideMin As XmlElement
+        elemHideMin = XmlDoc.CreateElement("hideminimized")
+        elemHideMin.InnerText = CStr(Me.hideMinimized)
+        elemConfig.AppendChild(elemHideMin)
 
         XmlDoc.DocumentElement.AppendChild(elemConfig)
         XmlDoc.Save(frmMain.PREF_PATH)
@@ -230,9 +236,7 @@ Public Class Pref
         threadList.NEW_ITEM_COLOR = Color.FromArgb(newItemsColor)
         threadList.DELETED_ITEM_COLOR = Color.FromArgb(deletedItemsColor)
         frmMain.Tray.Visible = showTrayIcon
-        If ribbonStyle = False Then
-            Call frmMain.permuteMenuStyle()
-        End If
+        Call frmMain.permuteMenuStyle(ribbonStyle)
         If first Then
             first = False
             frmMain.TopMost = topmost

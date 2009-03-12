@@ -36,6 +36,7 @@ Partial Class frmPreferences
         Me.chkReplaceTaskmgr = New System.Windows.Forms.CheckBox
         Me.chkStart = New System.Windows.Forms.CheckBox
         Me.TabPage3 = New System.Windows.Forms.TabPage
+        Me.chkHideMinimized = New System.Windows.Forms.CheckBox
         Me.chkRibbon = New System.Windows.Forms.CheckBox
         Me.GroupBox3 = New System.Windows.Forms.GroupBox
         Me.pctDeletedItems = New System.Windows.Forms.PictureBox
@@ -197,6 +198,7 @@ Partial Class frmPreferences
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.chkHideMinimized)
         Me.TabPage3.Controls.Add(Me.chkRibbon)
         Me.TabPage3.Controls.Add(Me.GroupBox3)
         Me.TabPage3.Controls.Add(Me.chkCloseButton)
@@ -208,6 +210,16 @@ Partial Class frmPreferences
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Display"
         Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'chkHideMinimized
+        '
+        Me.chkHideMinimized.AutoSize = True
+        Me.chkHideMinimized.Location = New System.Drawing.Point(15, 169)
+        Me.chkHideMinimized.Name = "chkHideMinimized"
+        Me.chkHideMinimized.Size = New System.Drawing.Size(137, 17)
+        Me.chkHideMinimized.TabIndex = 10
+        Me.chkHideMinimized.Text = "Hide when minimized"
+        Me.chkHideMinimized.UseVisualStyleBackColor = True
         '
         'chkRibbon
         '
@@ -337,16 +349,16 @@ Partial Class frmPreferences
         '
         'txtNetworkInterval
         '
-        Me.txtNetworkInterval.Location = New System.Drawing.Point(170, 83)
+        Me.txtNetworkInterval.Location = New System.Drawing.Point(109, 83)
         Me.txtNetworkInterval.Name = "txtNetworkInterval"
-        Me.txtNetworkInterval.Size = New System.Drawing.Size(120, 22)
+        Me.txtNetworkInterval.Size = New System.Drawing.Size(181, 22)
         Me.txtNetworkInterval.TabIndex = 10
         '
         'txtTaskInterval
         '
-        Me.txtTaskInterval.Location = New System.Drawing.Point(170, 60)
+        Me.txtTaskInterval.Location = New System.Drawing.Point(109, 60)
         Me.txtTaskInterval.Name = "txtTaskInterval"
-        Me.txtTaskInterval.Size = New System.Drawing.Size(120, 22)
+        Me.txtTaskInterval.Size = New System.Drawing.Size(181, 22)
         Me.txtTaskInterval.TabIndex = 9
         '
         'Label3
@@ -354,31 +366,31 @@ Partial Class frmPreferences
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(7, 92)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(51, 13)
+        Me.Label3.Size = New System.Drawing.Size(92, 13)
         Me.Label3.TabIndex = 8
-        Me.Label3.Text = "Network"
+        Me.Label3.Text = "Network interval"
         '
         'Label4
         '
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(6, 69)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(34, 13)
+        Me.Label4.Size = New System.Drawing.Size(75, 13)
         Me.Label4.TabIndex = 7
-        Me.Label4.Text = "Tasks"
+        Me.Label4.Text = "Tasks interval"
         '
         'txtServiceIntervall
         '
-        Me.txtServiceIntervall.Location = New System.Drawing.Point(170, 37)
+        Me.txtServiceIntervall.Location = New System.Drawing.Point(109, 37)
         Me.txtServiceIntervall.Name = "txtServiceIntervall"
-        Me.txtServiceIntervall.Size = New System.Drawing.Size(120, 22)
+        Me.txtServiceIntervall.Size = New System.Drawing.Size(181, 22)
         Me.txtServiceIntervall.TabIndex = 6
         '
         'txtProcessIntervall
         '
-        Me.txtProcessIntervall.Location = New System.Drawing.Point(170, 14)
+        Me.txtProcessIntervall.Location = New System.Drawing.Point(109, 14)
         Me.txtProcessIntervall.Name = "txtProcessIntervall"
-        Me.txtProcessIntervall.Size = New System.Drawing.Size(120, 22)
+        Me.txtProcessIntervall.Size = New System.Drawing.Size(181, 22)
         Me.txtProcessIntervall.TabIndex = 5
         '
         'Label2
@@ -386,18 +398,18 @@ Partial Class frmPreferences
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(7, 46)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(47, 13)
+        Me.Label2.Size = New System.Drawing.Size(88, 13)
         Me.Label2.TabIndex = 1
-        Me.Label2.Text = "Services"
+        Me.Label2.Text = "Services interval"
         '
         'Label1
         '
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(6, 23)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(56, 13)
+        Me.Label1.Size = New System.Drawing.Size(97, 13)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Processes"
+        Me.Label1.Text = "Processes interval"
         '
         'TabPage2
         '
@@ -565,4 +577,5 @@ Partial Class frmPreferences
     Friend WithEvents pctNewitems As System.Windows.Forms.PictureBox
     Friend WithEvents chkRibbon As System.Windows.Forms.CheckBox
     Friend WithEvents colDial As System.Windows.Forms.ColorDialog
+    Friend WithEvents chkHideMinimized As System.Windows.Forms.CheckBox
 End Class

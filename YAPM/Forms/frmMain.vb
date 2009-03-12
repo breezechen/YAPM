@@ -436,6 +436,7 @@ Public Class frmMain
                 .searchEngine = "http://www.google.com/search?hl=en&q=ITEM"
                 .closeYAPMWithCloseButton = True
                 .warnDangerous = True
+                .hideMinimized = False
                 MsgBox(MSGFIRSTTIME, MsgBoxStyle.Information, "Please read this")
                 .Save()
                 .Apply()
@@ -460,6 +461,10 @@ Public Class frmMain
     End Sub
 
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Mybase.Resize
+
+        If Pref.hideMinimized AndAlso Me.WindowState = FormWindowState.Minimized Then
+            Me.Hide()
+        End If
 
         For Each t As TabPage In _tab.TabPages
             t.Hide()
@@ -2921,13 +2926,17 @@ Public Class frmMain
     End Sub
 
     ' Permute style of menus
-    Public Sub permuteMenuStyle()
+    Public Sub permuteMenuStyle(Optional ByVal specified As Boolean = False, Optional ByVal ribbonStyle As Boolean = True)
         '=============== ' _tab.Region = New Region(New RectangleF(_tab.TabPages(0).Left, _tab.TabPages(0).Top, _tab.TabPages(0).Width, _tab.TabPages(0).Height))
 
         ' Change selected tab of tabStrip
         Call _tab_SelectedIndexChanged(Nothing, Nothing)
 
-        _ribbonStyle = Not (_ribbonStyle)
+        If specified Then
+            _ribbonStyle = ribbonStyle
+        Else
+            _ribbonStyle = Not (_ribbonStyle)
+        End If
         _main.Panel1Collapsed = Not (_ribbonStyle)
 
         Me.RibbonViewToolStripMenuItem.Checked = _ribbonStyle

@@ -72,6 +72,7 @@ Public Class frmPreferences
             .searchEngine = Me.txtSearchEngine.Text
             .closeYAPMWithCloseButton = Me.chkCloseButton.Checked
             .warnDangerous = Me.chkWarn.Checked
+            .hideMinimized = Me.chkHideMinimized.Checked
 
             .Apply()
             Call mdlMisc.StartWithWindows(.startup)
@@ -114,6 +115,7 @@ Public Class frmPreferences
             .SetToolTip(Me.txtSearchEngine, "Search engine for 'Internet search'. Use the keyword ITEM to specify the item name to search.")
             .SetToolTip(Me.chkCloseButton, "Close YAPM when close button is pressed (minimize to tray if not checked).")
             .SetToolTip(Me.chkWarn, "Warn user for all (potentially) dangerous actions.")
+            .SetToolTip(Me.chkHideMinimized, "Hide main form when minimized.")
         End With
 
         ' Set control's values
@@ -137,6 +139,7 @@ Public Class frmPreferences
             Me.txtSearchEngine.Text = .searchEngine
             Me.chkCloseButton.Checked = .closeYAPMWithCloseButton
             Me.chkWarn.Checked = .warnDangerous
+            Me.chkHideMinimized.Checked = .hideMinimized
         End With
 
     End Sub
@@ -155,6 +158,7 @@ Public Class frmPreferences
         _newcolor = Color.FromArgb(128, 255, 0).ToArgb
         _deletedcolor = Color.FromArgb(255, 64, 48).ToArgb
         Me.chkTrayIcon.Checked = True
+        Me.chkHideMinimized.Checked = False
         Me.cbPriority.SelectedIndex = 1
         Me.txtTaskInterval.Text = frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
         Me.txtNetworkInterval.Text = frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
@@ -289,5 +293,12 @@ Public Class frmPreferences
         colDial.ShowDialog()
         Me.pctDeletedItems.BackColor = colDial.Color
         _deletedcolor = colDial.Color.ToArgb
+    End Sub
+
+    Private Sub chkTrayIcon_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkTrayIcon.CheckedChanged
+        Me.chkHideMinimized.Enabled = chkTrayIcon.Checked
+        If chkTrayIcon.Checked = False Then
+            Me.chkHideMinimized.Checked = False
+        End If
     End Sub
 End Class
