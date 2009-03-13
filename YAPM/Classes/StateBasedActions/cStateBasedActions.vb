@@ -198,17 +198,47 @@ Public Class cStateBasedActions
 
     ' Process actions
     Public Sub ProcessActions()
-        For Each _it As cBasedStateActionState In _col
-            If haveToRaise(_it) Then
-                _it.RaiseAction()
-            End If
+
+        Dim _dico As Dictionary(Of String, cProcess).ValueCollection = frmMain.lvProcess.GetAllItems
+
+        For Each action As cBasedStateActionState In _col
+
+            ' Check if there is a process concerned
+            Dim b As Boolean = False
+            For Each _p As cProcess In _dico
+
+                If (action.CheckProcID And action.CheckProcIDS = _p.Pid.ToString) OrElse _
+                    (action.CheckProcName And action.CheckProcNameS.ToLower = _p.Name.ToLower) Then
+                    b = True
+                ElseIf action.CheckProcPath Then
+                    ' Test process path
+                    Dim _path As String = _p.Path
+                    If action.CheckProcPathS.Substring(action.CheckProcPathS.Length - 1, 1) = "*" Then
+                        b = (InStr(_path.ToLower, action.CheckProcPathS.ToLower.Replace("*", "")) > 0)
+                    Else
+                        b = (action.CheckProcPathS.ToLower = _path.ToLower)
+                    End If
+                End If
+
+                If b Then
+                    ' Ok we found a process
+                    ' Check state
+                    If isStateOk(action, _p) Then
+                        action.RaiseAction(_p)
+                    End If
+                    b = False
+                End If
+            Next
+
         Next
+
     End Sub
 
-    ' Return true if action must be raised
-    Public Function haveToRaise(ByRef action As cBasedStateActionState) As Boolean
-        '
-        '
-        Return False
+    ' Check if process state is reached
+    Private Function isStateOk(ByRef action As cBasedStateActionState, ByRef _p As cProcess) As Boolean
+
+        Return True
+
     End Function
+
 End Class
