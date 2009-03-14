@@ -4200,4 +4200,10 @@ Public Class frmMain
     Private Sub timerStateBasedActions_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerStateBasedActions.Tick
         Me.emStateBasedActions.ProcessActions()
     End Sub
+
+    Private Sub ReduceWorkingSetSizeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReduceWorkingSetSizeToolStripMenuItem.Click
+        For Each _p As cProcess In Me.lvProcess.GetSelectedItems
+            _p.EmptyWorkingSetSize()
+        Next
+    End Sub
 End Class

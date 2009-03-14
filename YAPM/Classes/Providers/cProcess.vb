@@ -91,6 +91,10 @@ Public Class cProcess
     Private Declare Function LookupPrivilegeValue Lib "advapi32.dll" Alias "LookupPrivilegeValueA" (ByVal lpSystemName As String, ByVal lpName As String, ByRef lpLuid As LUID) As Integer           'Returns a valid LUID which is important when making security changes in NT.
     Private Declare Function OpenProcessToken Lib "advapi32.dll" (ByVal ProcessHandle As Integer, ByVal DesiredAccess As Integer, ByRef TokenHandle As Integer) As Integer
 
+    <DllImport("psapi.dll")> _
+    Private Shared Function SetProcessWorkingSetSize(ByVal hwProc As Integer, ByVal minimumSize As Integer, ByVal maximumSize As Integer) As Integer
+    End Function
+
     <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
     Public Shared Function GetTokenInformation(ByVal TokenHandle As Integer, ByVal TokenInformationClass As TOKEN_INFORMATION_CLASS, ByVal TokenInformation As IntPtr, ByVal TokenInformationLength As Integer, ByRef ReturnLength As Integer) As Boolean
     End Function
@@ -1147,6 +1151,12 @@ Public Class cProcess
         ' Kill all childs recursively
         recursiveKill(_pid)
 
+    End Function
+
+    ' Empty working set size
+    Public Function EmptyWorkingSetSize() As Integer
+        ' Set (and not empty) will be implemented later
+        Return SetProcessWorkingSetSize(_hProcess, -1, -1)
     End Function
 
     ' Return environment variables

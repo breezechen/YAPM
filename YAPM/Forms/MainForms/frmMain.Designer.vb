@@ -619,6 +619,7 @@ Partial Class frmMain
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerNetwork = New System.Windows.Forms.Timer(Me.components)
         Me.timerStateBasedActions = New System.Windows.Forms.Timer(Me.components)
+        Me.ReduceWorkingSetSizeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.menuProc.SuspendLayout()
         Me.menuService.SuspendLayout()
         Me.mainMenu.SuspendLayout()
@@ -752,44 +753,44 @@ Partial Class frmMain
         '
         'menuProc
         '
-        Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.KillProcessTreeToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ToolStripMenuItem38, Me.ShowModulesToolStripMenuItem, Me.ShowThreadsToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.ShowWindowsToolStripMenuItem, Me.ShowAllToolStripMenuItem, Me.SelectedServicesToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.GoogleSearchToolStripMenuItem, Me.ToolStripMenuItem37, Me.chooseColumns})
+        Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.KillProcessTreeToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.ReduceWorkingSetSizeToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ToolStripMenuItem38, Me.ShowModulesToolStripMenuItem, Me.ShowThreadsToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.ShowWindowsToolStripMenuItem, Me.ShowAllToolStripMenuItem, Me.SelectedServicesToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.GoogleSearchToolStripMenuItem, Me.ToolStripMenuItem37, Me.chooseColumns})
         Me.menuProc.Name = "menuProc"
-        Me.menuProc.Size = New System.Drawing.Size(173, 396)
+        Me.menuProc.Size = New System.Drawing.Size(200, 440)
         '
         'KillToolStripMenuItem
         '
         Me.KillToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.KillToolStripMenuItem.Image = CType(resources.GetObject("KillToolStripMenuItem.Image"), System.Drawing.Image)
         Me.KillToolStripMenuItem.Name = "KillToolStripMenuItem"
-        Me.KillToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.KillToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
         Me.KillToolStripMenuItem.Text = "Kill"
         '
         'KillProcessTreeToolStripMenuItem
         '
         Me.KillProcessTreeToolStripMenuItem.Image = CType(resources.GetObject("KillProcessTreeToolStripMenuItem.Image"), System.Drawing.Image)
         Me.KillProcessTreeToolStripMenuItem.Name = "KillProcessTreeToolStripMenuItem"
-        Me.KillProcessTreeToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.KillProcessTreeToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
         Me.KillProcessTreeToolStripMenuItem.Text = "Kill process tree"
         '
         'StopToolStripMenuItem
         '
         Me.StopToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.control_stop_square
         Me.StopToolStripMenuItem.Name = "StopToolStripMenuItem"
-        Me.StopToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.StopToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
         Me.StopToolStripMenuItem.Text = "Stop"
         '
         'ResumeToolStripMenuItem
         '
         Me.ResumeToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.control
         Me.ResumeToolStripMenuItem.Name = "ResumeToolStripMenuItem"
-        Me.ResumeToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.ResumeToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
         Me.ResumeToolStripMenuItem.Text = "Resume"
         '
         'PriotiyToolStripMenuItem
         '
         Me.PriotiyToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.IdleToolStripMenuItem, Me.BelowNormalToolStripMenuItem, Me.NormalToolStripMenuItem, Me.AboveNormalToolStripMenuItem, Me.HighToolStripMenuItem, Me.RealTimeToolStripMenuItem})
         Me.PriotiyToolStripMenuItem.Name = "PriotiyToolStripMenuItem"
-        Me.PriotiyToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.PriotiyToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
         Me.PriotiyToolStripMenuItem.Text = "Priority"
         '
         'IdleToolStripMenuItem
@@ -837,98 +838,98 @@ Partial Class frmMain
         'SetAffinityToolStripMenuItem
         '
         Me.SetAffinityToolStripMenuItem.Name = "SetAffinityToolStripMenuItem"
-        Me.SetAffinityToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.SetAffinityToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
         Me.SetAffinityToolStripMenuItem.Text = "Set affinity..."
         '
         'ToolStripMenuItem38
         '
         Me.ToolStripMenuItem38.Name = "ToolStripMenuItem38"
-        Me.ToolStripMenuItem38.Size = New System.Drawing.Size(169, 6)
+        Me.ToolStripMenuItem38.Size = New System.Drawing.Size(196, 6)
         '
         'ShowModulesToolStripMenuItem
         '
         Me.ShowModulesToolStripMenuItem.Image = CType(resources.GetObject("ShowModulesToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ShowModulesToolStripMenuItem.Name = "ShowModulesToolStripMenuItem"
-        Me.ShowModulesToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.ShowModulesToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
         Me.ShowModulesToolStripMenuItem.Text = "Show modules"
         '
         'ShowThreadsToolStripMenuItem
         '
         Me.ShowThreadsToolStripMenuItem.Image = CType(resources.GetObject("ShowThreadsToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ShowThreadsToolStripMenuItem.Name = "ShowThreadsToolStripMenuItem"
-        Me.ShowThreadsToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.ShowThreadsToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
         Me.ShowThreadsToolStripMenuItem.Text = "Show threads"
         '
         'ShowHandlesToolStripMenuItem
         '
         Me.ShowHandlesToolStripMenuItem.Image = CType(resources.GetObject("ShowHandlesToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ShowHandlesToolStripMenuItem.Name = "ShowHandlesToolStripMenuItem"
-        Me.ShowHandlesToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.ShowHandlesToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
         Me.ShowHandlesToolStripMenuItem.Text = "Show handles"
         '
         'ShowWindowsToolStripMenuItem
         '
         Me.ShowWindowsToolStripMenuItem.Image = CType(resources.GetObject("ShowWindowsToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ShowWindowsToolStripMenuItem.Name = "ShowWindowsToolStripMenuItem"
-        Me.ShowWindowsToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.ShowWindowsToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
         Me.ShowWindowsToolStripMenuItem.Text = "Show windows"
         '
         'ShowAllToolStripMenuItem
         '
         Me.ShowAllToolStripMenuItem.Image = CType(resources.GetObject("ShowAllToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ShowAllToolStripMenuItem.Name = "ShowAllToolStripMenuItem"
-        Me.ShowAllToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.ShowAllToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
         Me.ShowAllToolStripMenuItem.Text = "Show all"
         '
         'SelectedServicesToolStripMenuItem
         '
         Me.SelectedServicesToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.gear
         Me.SelectedServicesToolStripMenuItem.Name = "SelectedServicesToolStripMenuItem"
-        Me.SelectedServicesToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.SelectedServicesToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
         Me.SelectedServicesToolStripMenuItem.Text = "Selected services"
         '
         'ToolStripMenuItem8
         '
         Me.ToolStripMenuItem8.Name = "ToolStripMenuItem8"
-        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(169, 6)
+        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(196, 6)
         '
         'PropertiesToolStripMenuItem
         '
         Me.PropertiesToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.document_text
         Me.PropertiesToolStripMenuItem.Name = "PropertiesToolStripMenuItem"
-        Me.PropertiesToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.PropertiesToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
         Me.PropertiesToolStripMenuItem.Text = "File properties"
         '
         'OpenFirectoryToolStripMenuItem
         '
         Me.OpenFirectoryToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.folder_open
         Me.OpenFirectoryToolStripMenuItem.Name = "OpenFirectoryToolStripMenuItem"
-        Me.OpenFirectoryToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.OpenFirectoryToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
         Me.OpenFirectoryToolStripMenuItem.Text = "Open directory"
         '
         'FileDetailsToolStripMenuItem1
         '
         Me.FileDetailsToolStripMenuItem1.Image = Global.YAPM.My.Resources.Resources.magnifier
         Me.FileDetailsToolStripMenuItem1.Name = "FileDetailsToolStripMenuItem1"
-        Me.FileDetailsToolStripMenuItem1.Size = New System.Drawing.Size(172, 22)
+        Me.FileDetailsToolStripMenuItem1.Size = New System.Drawing.Size(199, 22)
         Me.FileDetailsToolStripMenuItem1.Text = "File details"
         '
         'GoogleSearchToolStripMenuItem
         '
         Me.GoogleSearchToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.globe
         Me.GoogleSearchToolStripMenuItem.Name = "GoogleSearchToolStripMenuItem"
-        Me.GoogleSearchToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.GoogleSearchToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
         Me.GoogleSearchToolStripMenuItem.Text = "Internet search"
         '
         'ToolStripMenuItem37
         '
         Me.ToolStripMenuItem37.Name = "ToolStripMenuItem37"
-        Me.ToolStripMenuItem37.Size = New System.Drawing.Size(169, 6)
+        Me.ToolStripMenuItem37.Size = New System.Drawing.Size(196, 6)
         '
         'chooseColumns
         '
         Me.chooseColumns.Name = "chooseColumns"
-        Me.chooseColumns.Size = New System.Drawing.Size(172, 22)
+        Me.chooseColumns.Size = New System.Drawing.Size(199, 22)
         Me.chooseColumns.Text = "Choose columns..."
         '
         'timerProcess
@@ -6286,6 +6287,12 @@ Partial Class frmMain
         Me.timerStateBasedActions.Enabled = True
         Me.timerStateBasedActions.Interval = 1000
         '
+        'ReduceWorkingSetSizeToolStripMenuItem
+        '
+        Me.ReduceWorkingSetSizeToolStripMenuItem.Name = "ReduceWorkingSetSizeToolStripMenuItem"
+        Me.ReduceWorkingSetSizeToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
+        Me.ReduceWorkingSetSizeToolStripMenuItem.Text = "Reduce working set size"
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -7012,5 +7019,6 @@ Partial Class frmMain
     Friend WithEvents StateBasedActionsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents StateBasedActionsToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents timerStateBasedActions As System.Windows.Forms.Timer
+    Friend WithEvents ReduceWorkingSetSizeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
