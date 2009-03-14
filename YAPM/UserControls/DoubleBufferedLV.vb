@@ -93,6 +93,11 @@ Public Class DoubleBufferedLV
 
     Protected Overrides Sub OnKeyDown(ByVal e As System.Windows.Forms.KeyEventArgs)
         MyBase.OnKeyDown(e)
+        If Me.VirtualMode Then
+            ' Can't enum items in virtual mode
+            Exit Sub
+        End If
+
         If e.Control Then
             If e.KeyCode = Keys.A Then
                 For Each _it As ListViewItem In Me.Items
