@@ -69,6 +69,37 @@ Public Class cStateBasedActions
             Return s
         End Get
     End Property
+    Public ReadOnly Property ThresholdDescription() As String()
+        Get
+            Dim s(24) As String
+            s(0) = "Integer"
+            s(1) = "String"
+            s(2) = "Integer"
+            s(3) = "String"
+            s(4) = "Decimal (%)"
+            s(5) = "Decimal (%)"
+            s(6) = "Decimal (sec)"
+            s(7) = "Decimal (sec)"
+            s(8) = "Decimal (sec)"
+            s(9) = "Date (sec)"
+            s(10) = "Decimal (sec)"
+            s(11) = "Integer"
+            s(12) = "Integer"
+            s(13) = "Integer (mask : Sum(processor_number^2), processor_number start at 0)"
+            s(14) = "Decimal (MB)"
+            s(15) = "Decimal (MB)"
+            s(16) = "Integer"
+            s(17) = "Decimal (MB)"
+            s(18) = "Decimal (MB)"
+            s(19) = "Decimal (MB)"
+            s(20) = "Decimal (MB)"
+            s(21) = "Decimal (MB)"
+            s(22) = "Decimal (MB)"
+            s(23) = "String enum (I-BN-N-AN-H-RT)"
+            s(24) = "String"
+            Return s
+        End Get
+    End Property
     Public ReadOnly Property Param1Description() As String()
         Get
             Dim s(23) As String
@@ -203,32 +234,36 @@ Public Class cStateBasedActions
 
         For Each action As cBasedStateActionState In _col
 
-            ' Check if there is a process concerned
-            Dim b As Boolean = False
-            For Each _p As cProcess In _dico
+            If action.Enabled Then
 
-                If (action.CheckProcID And action.CheckProcIDS = _p.Pid.ToString) OrElse _
-                    (action.CheckProcName And action.CheckProcNameS.ToLower = _p.Name.ToLower) Then
-                    b = True
-                ElseIf action.CheckProcPath Then
-                    ' Test process path
-                    Dim _path As String = _p.Path
-                    If action.CheckProcPathS.Substring(action.CheckProcPathS.Length - 1, 1) = "*" Then
-                        b = (InStr(_path.ToLower, action.CheckProcPathS.ToLower.Replace("*", "")) > 0)
-                    Else
-                        b = (action.CheckProcPathS.ToLower = _path.ToLower)
-                    End If
-                End If
+                ' Check if there is a process concerned
+                Dim b As Boolean = False
+                For Each _p As cProcess In _dico
 
-                If b Then
-                    ' Ok we found a process
-                    ' Check state
-                    If isStateOk(action, _p) Then
-                        action.RaiseAction(_p)
+                    If (action.CheckProcID And action.CheckProcIDS = _p.Pid.ToString) OrElse _
+                        (action.CheckProcName And action.CheckProcNameS.ToLower = _p.Name.ToLower) Then
+                        b = True
+                    ElseIf action.CheckProcPath Then
+                        ' Test process path
+                        Dim _path As String = _p.Path
+                        If action.CheckProcPathS.Substring(action.CheckProcPathS.Length - 1, 1) = "*" Then
+                            b = (InStr(_path.ToLower, action.CheckProcPathS.ToLower.Replace("*", "")) > 0)
+                        Else
+                            b = (action.CheckProcPathS.ToLower = _path.ToLower)
+                        End If
                     End If
-                    b = False
-                End If
-            Next
+
+                    If b Then
+                        ' Ok we found a process
+                        ' Check state
+                        If isStateOk(action, _p) Then
+                            action.RaiseAction(_p)
+                        End If
+                        b = False
+                    End If
+                Next
+
+            End If
 
         Next
 

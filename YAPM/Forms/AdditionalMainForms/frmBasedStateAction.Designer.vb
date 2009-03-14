@@ -43,6 +43,7 @@ Partial Class frmBasedStateAction
         Me.cbAction = New System.Windows.Forms.ComboBox
         Me.Label3 = New System.Windows.Forms.Label
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
+        Me.lblThresholdDesc = New System.Windows.Forms.Label
         Me.cbCounter = New System.Windows.Forms.ComboBox
         Me.Label4 = New System.Windows.Forms.Label
         Me.txtThreshold = New System.Windows.Forms.TextBox
@@ -122,6 +123,7 @@ Partial Class frmBasedStateAction
         '
         'gp
         '
+        Me.gp.BackColor = System.Drawing.Color.White
         Me.gp.Controls.Add(Me.GroupBox3)
         Me.gp.Controls.Add(Me.GroupBox2)
         Me.gp.Controls.Add(Me.GroupBox1)
@@ -220,6 +222,7 @@ Partial Class frmBasedStateAction
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.lblThresholdDesc)
         Me.GroupBox2.Controls.Add(Me.cbCounter)
         Me.GroupBox2.Controls.Add(Me.Label4)
         Me.GroupBox2.Controls.Add(Me.txtThreshold)
@@ -232,6 +235,14 @@ Partial Class frmBasedStateAction
         Me.GroupBox2.TabIndex = 11
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "State to monitor"
+        '
+        'lblThresholdDesc
+        '
+        Me.lblThresholdDesc.AutoSize = True
+        Me.lblThresholdDesc.Location = New System.Drawing.Point(113, 46)
+        Me.lblThresholdDesc.Name = "lblThresholdDesc"
+        Me.lblThresholdDesc.Size = New System.Drawing.Size(0, 13)
+        Me.lblThresholdDesc.TabIndex = 6
         '
         'cbCounter
         '
@@ -501,4 +512,5 @@ Partial Class frmBasedStateAction
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents lblThresholdDesc As System.Windows.Forms.Label
 End Class

@@ -362,6 +362,7 @@ Public Class frmMain
         clsOpenedHandles.EnableShutDown()
 
         Call frmHotkeys.readHotkeysFromXML()
+        Call frmBasedStateAction.readStateBasedActionFromXML()
 
         ' Set tray icon counters
         _trayIcon.SetCounter(1, Color.Red, Color.FromArgb(120, 0, 0))

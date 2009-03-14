@@ -42,17 +42,17 @@ Public Class cBasedStateActionState
     ' Private variables
     ' ========================================
     Private _checkProcName As Boolean
-    Private _checkProcNameS As String
+    Private _checkProcNameS As String = ""
     Private _checkProcID As Boolean
-    Private _checkProcIDS As String
+    Private _checkProcIDS As String = ""
     Private _checkProcPath As Boolean
-    Private _checkProcPathS As String
+    Private _checkProcPathS As String = ""
     Private _stateCounter As String
     Private _stateOperator As STATE_OPERATOR
-    Private _threshold As String
-    Private _action As String
-    Private _param1 As String
-    Private _param2 As String
+    Private _threshold As String = ""
+    Private _action As String = ""
+    Private _param1 As String = ""
+    Private _param2 As String = ""
     Private _enabled As Boolean
     Private _key As String
 
@@ -175,17 +175,28 @@ Public Class cBasedStateActionState
     End Property
     Public ReadOnly Property ProcessText() As String
         Get
-            Return "process"
+            Dim _s As String = ""
+            If _checkProcID Then
+                _s &= "ID (" & _checkProcIDS & ")    "
+            End If
+            If _checkProcName Then
+                _s &= "Name (" & _checkProcNameS & ")    "
+            End If
+            If _checkProcPath Then
+                _s &= "Path (" & _checkProcPathS & ")"
+            End If
+            Return _s
         End Get
     End Property
     Public ReadOnly Property StateText() As String
         Get
-            Return "state"
+            Return _stateCounter & " " & getOperator(_stateOperator) & " " & _
+                    _threshold.ToString
         End Get
     End Property
     Public ReadOnly Property ActionText() As String
         Get
-            Return "action"
+            Return _action
         End Get
     End Property
 #End Region
@@ -207,6 +218,7 @@ Public Class cBasedStateActionState
         _checkProcPath = checkPP
         _checkProcPathS = checkPPS
         _stateCounter = stateCounter
+        _threshold = threshold
         _stateOperator = stateOperator
         _action = action
         _param1 = param1
@@ -278,5 +290,22 @@ Public Class cBasedStateActionState
         End Try
 
     End Sub
+
+    Private Function getOperator(ByVal _op As STATE_OPERATOR) As String
+        Select Case _op
+            Case STATE_OPERATOR.different_from
+                Return "!="
+            Case STATE_OPERATOR.equal
+                Return "="
+            Case STATE_OPERATOR.greater_or_equal_than
+                Return ">="
+            Case STATE_OPERATOR.greater_than
+                Return ">"
+            Case STATE_OPERATOR.less_or_equal_than
+                Return "<="
+            Case Else
+                Return "<"
+        End Select
+    End Function
 
 End Class

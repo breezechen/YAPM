@@ -25,9 +25,12 @@ Imports System.Runtime.InteropServices
 
 Public Class frmBasedStateAction
 
-    Public Const BASED_STATE_ACTION As String = "hotkeys.xml"
+    Public Const BASED_STATE_ACTION As String = "statebasedaction.xml"
     Private _desc1() As String
     Private _desc2() As String
+    Private _modify As Boolean = False
+    Private _selectedAction As cBasedStateActionState
+    Private _selectedItem As ListViewItem
 
     <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
     Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
@@ -82,6 +85,7 @@ Public Class frmBasedStateAction
 
     Private Sub cmdKO_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdKO.Click
         gp.Visible = False
+        _modify = False
     End Sub
 
     Private Sub CloseToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CloseToolStripMenuItem.Click
@@ -115,10 +119,10 @@ Public Class frmBasedStateAction
     End Sub
 
     ' Read from XML file
-    Public Sub readHotkeysFromXML()
-        'Dim XmlDoc As XmlDocument = New XmlDocument
-        'Dim element As XmlNodeList
-        'Dim noeud, noeudEnf As XmlNode
+    Public Sub readStateBasedActionFromXML()
+        Dim XmlDoc As XmlDocument = New XmlDocument
+        Dim element As XmlNodeList
+        Dim noeud, noeudEnf As XmlNode
 
         '<statebasedactions>
         '	<sbaction>
@@ -138,41 +142,71 @@ Public Class frmBasedStateAction
         '	</sbaction>
         '</statebasedactions>
 
-        'Try
-        '    Call XmlDoc.Load(My.Application.Info.DirectoryPath & "\" & BASED_STATE_ACTION)
-        '    element = XmlDoc.DocumentElement.GetElementsByTagName("key")
+        Try
+            Call XmlDoc.Load(My.Application.Info.DirectoryPath & "\" & BASED_STATE_ACTION)
+            element = XmlDoc.DocumentElement.GetElementsByTagName("sbaction")
 
-        '    For Each noeud In element
+            For Each noeud In element
 
-        '        Dim key1 As Integer
-        '        Dim key2 As Integer
-        '        Dim key3 As Integer
-        '        Dim action As Integer
-        '        Dim enabled As Boolean
+                Dim _checkProcName As Boolean
+                Dim _checkProcNameS As String = ""
+                Dim _checkProcID As Boolean
+                Dim _checkProcIDS As String = ""
+                Dim _checkProcPath As Boolean
+                Dim _checkProcPathS As String = ""
+                Dim _stateCounter As String = ""
+                Dim _stateOperator As cBasedStateActionState.STATE_OPERATOR = _
+                    cBasedStateActionState.STATE_OPERATOR.equal
+                Dim _threshold As String = ""
+                Dim _action As String = ""
+                Dim _param1 As String = ""
+                Dim _param2 As String = ""
+                Dim _enabled As Boolean
 
-        '        For Each noeudEnf In noeud.ChildNodes
+                For Each noeudEnf In noeud.ChildNodes
 
-        '            If noeudEnf.LocalName = "enabled" Then
-        '                enabled = CBool(noeudEnf.InnerText)
-        '            ElseIf noeudEnf.LocalName = "key1" Then
-        '                key1 = CInt(noeudEnf.InnerText)
-        '            ElseIf noeudEnf.LocalName = "key2" Then
-        '                key2 = CInt(noeudEnf.InnerText)
-        '            ElseIf noeudEnf.LocalName = "key3" Then
-        '                key3 = CInt(noeudEnf.InnerText)
-        '            ElseIf noeudEnf.LocalName = "action" Then
-        '                action = CInt(noeudEnf.InnerText)
-        '            End If
-        '        Next
+                    If noeudEnf.LocalName = "enabled" Then
+                        _enabled = CBool(noeudEnf.InnerText)
+                    ElseIf noeudEnf.LocalName = "checkprocname" Then
+                        _checkProcName = CBool(noeudEnf.InnerText)
+                    ElseIf noeudEnf.LocalName = "checkprocid" Then
+                        _checkProcID = CBool(noeudEnf.InnerText)
+                    ElseIf noeudEnf.LocalName = "checkprocpath" Then
+                        _checkProcPath = CBool(noeudEnf.InnerText)
+                    ElseIf noeudEnf.LocalName = "procname" Then
+                        _checkProcNameS = noeudEnf.InnerText
+                    ElseIf noeudEnf.LocalName = "procid" Then
+                        _checkProcIDS = noeudEnf.InnerText
+                    ElseIf noeudEnf.LocalName = "procpath" Then
+                        _checkProcPathS = noeudEnf.InnerText
+                    ElseIf noeudEnf.LocalName = "counter" Then
+                        _stateCounter = noeudEnf.InnerText
+                    ElseIf noeudEnf.LocalName = "operator" Then
+                        _stateOperator = CType(CInt(Val(noeudEnf.InnerText)), cBasedStateActionState.STATE_OPERATOR)
+                    ElseIf noeudEnf.LocalName = "action" Then
+                        _action = noeudEnf.InnerText
+                    ElseIf noeudEnf.LocalName = "param1" Then
+                        _param1 = noeudEnf.InnerText
+                    ElseIf noeudEnf.LocalName = "param2" Then
+                        _param2 = noeudEnf.InnerText
+                    ElseIf noeudEnf.LocalName = "threshold" Then
+                        _threshold = noeudEnf.InnerText
+                    End If
+                Next
 
-        '        Dim ht As New cShortcut(action, key1, key2, key3)
-        '        ht.Enabled = enabled
+                Dim ht As New cBasedStateActionState(_checkProcName, _checkProcID, _
+                                                     _checkProcPath, _stateCounter, _
+                                                     _stateOperator, _threshold, _
+                                                     _action, _param1, _param2, _
+                                                     _checkProcNameS, _checkProcIDS, _
+                                                     _checkProcPathS)
+                ht.Enabled = _enabled
 
-        '        frmMain.emStateBasedActions.AddHotkey(ht)
-        '    Next
-        'Catch ex As Exception
-        '    Trace.WriteLine("XML loading failed : " & ex.Message)
-        'End Try
+                frmMain.emStateBasedActions.AddStateBasedAction(ht)
+            Next
+        Catch ex As Exception
+            Trace.WriteLine("XML loading failed : " & ex.Message)
+        End Try
     End Sub
 
     ' Write to XML file
@@ -196,45 +230,71 @@ Public Class frmBasedStateAction
         '	</sbaction>
         '</statebasedactions>
 
-        'Dim XmlDoc As XmlDocument = New XmlDocument()
-        'XmlDoc.LoadXml("<hotkeys></hotkeys>")
+        Dim XmlDoc As XmlDocument = New XmlDocument()
+        XmlDoc.LoadXml("<statebasedactions></statebasedactions>")
 
-        'For Each it As ListViewItem In Me.lv.Items
+        For Each cs As cBasedStateActionState In frmMain.emStateBasedActions.StateBasedActionCollection
 
-        '    Dim cs As cShortcut = CType(it.Tag, cShortcut)
+            Dim elemStateBasedAction As XmlElement = XmlDoc.CreateElement("sbaction")
 
-        '    Dim elemConfig As XmlElement = XmlDoc.CreateElement("key")
+            Dim elemEnabled As XmlElement
+            elemEnabled = XmlDoc.CreateElement("enabled")
+            elemEnabled.InnerText = cs.Enabled.ToString
+            elemStateBasedAction.AppendChild(elemEnabled)
+            Dim elemCheckProcName As XmlElement
+            elemCheckProcName = XmlDoc.CreateElement("checkprocname")
+            elemCheckProcName.InnerText = cs.CheckProcName.ToString
+            elemStateBasedAction.AppendChild(elemCheckProcName)
+            Dim elemCheckProcId As XmlElement
+            elemCheckProcId = XmlDoc.CreateElement("checkprocid")
+            elemCheckProcId.InnerText = cs.CheckProcID.ToString
+            elemStateBasedAction.AppendChild(elemCheckProcId)
+            Dim elemCheckProcPath As XmlElement
+            elemCheckProcPath = XmlDoc.CreateElement("checkprocpath")
+            elemCheckProcPath.InnerText = cs.CheckProcPath.ToString
+            elemStateBasedAction.AppendChild(elemCheckProcPath)
+            Dim elemProcName As XmlElement
+            elemProcName = XmlDoc.CreateElement("procname")
+            elemProcName.InnerText = cs.CheckProcNameS.ToString
+            elemStateBasedAction.AppendChild(elemProcName)
+            Dim elemProcID As XmlElement
+            elemProcID = XmlDoc.CreateElement("procid")
+            elemProcID.InnerText = cs.CheckProcIDS.ToString
+            elemStateBasedAction.AppendChild(elemProcID)
+            Dim elemProcPath As XmlElement
+            elemProcPath = XmlDoc.CreateElement("procpath")
+            elemProcPath.InnerText = cs.CheckProcPathS.ToString
+            elemStateBasedAction.AppendChild(elemProcPath)
+            Dim elemCounter As XmlElement
+            elemCounter = XmlDoc.CreateElement("counter")
+            elemCounter.InnerText = cs.StateCounter.ToString
+            elemStateBasedAction.AppendChild(elemCounter)
+            Dim elemOperator As XmlElement
+            elemOperator = XmlDoc.CreateElement("operator")
+            elemOperator.InnerText = CStr(cs.StateOperator)
+            elemStateBasedAction.AppendChild(elemOperator)
+            Dim elemThreshold As XmlElement
+            elemThreshold = XmlDoc.CreateElement("threshold")
+            elemThreshold.InnerText = cs.Threshold.ToString
+            elemStateBasedAction.AppendChild(elemThreshold)
+            Dim elemAction As XmlElement
+            elemAction = XmlDoc.CreateElement("action")
+            elemAction.InnerText = cs.Action.ToString
+            elemStateBasedAction.AppendChild(elemAction)
+            Dim elemParam1 As XmlElement
+            elemParam1 = XmlDoc.CreateElement("param1")
+            elemParam1.InnerText = cs.Param1.ToString
+            elemStateBasedAction.AppendChild(elemParam1)
+            Dim elemParam2 As XmlElement
+            elemParam2 = XmlDoc.CreateElement("param2")
+            elemParam2.InnerText = cs.Param2.ToString
+            elemStateBasedAction.AppendChild(elemParam2)
 
-        '    Dim elemEnabled As XmlElement
-        '    elemEnabled = XmlDoc.CreateElement("enabled")
-        '    elemEnabled.InnerText = CStr(cs.Enabled)
-        '    elemConfig.AppendChild(elemEnabled)
+            XmlDoc.DocumentElement.AppendChild(elemStateBasedAction)
 
-        '    Dim elemKey1 As XmlElement
-        '    elemKey1 = XmlDoc.CreateElement("key1")
-        '    elemKey1.InnerText = CStr(cs.Key1)
-        '    elemConfig.AppendChild(elemKey1)
+        Next
 
-        '    Dim elemKey2 As XmlElement
-        '    elemKey2 = XmlDoc.CreateElement("key2")
-        '    elemKey2.InnerText = CStr(cs.Key2)
-        '    elemConfig.AppendChild(elemKey2)
-
-        '    Dim elemKey3 As XmlElement
-        '    elemKey3 = XmlDoc.CreateElement("key3")
-        '    elemKey3.InnerText = CStr(cs.Key3)
-        '    elemConfig.AppendChild(elemKey3)
-
-        '    Dim elemAction As XmlElement
-        '    elemAction = XmlDoc.CreateElement("action")
-        '    elemAction.InnerText = CStr(cs.Action)
-        '    elemConfig.AppendChild(elemAction)
-
-        '    XmlDoc.DocumentElement.AppendChild(elemConfig)
-
-        'Next
-
-        'XmlDoc.Save(My.Application.Info.DirectoryPath & "\" & BASED_STATE_ACTION)
+        XmlDoc.Save(My.Application.Info.DirectoryPath & "\" & BASED_STATE_ACTION)
     End Sub
 
     ' Check if we can add the action
@@ -252,36 +312,76 @@ Public Class frmBasedStateAction
     Private Sub cmdAdd_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdAdd.Click
         gp.Visible = False
 
-        Dim _operator As cBasedStateActionState.STATE_OPERATOR
-        Select Case cbOperator.Text
-            Case "<"
-                _operator = cBasedStateActionState.STATE_OPERATOR.less_than
-            Case "<="
-                _operator = cBasedStateActionState.STATE_OPERATOR.less_or_equal_than
-            Case "="
-                _operator = cBasedStateActionState.STATE_OPERATOR.equal
-            Case ">"
-                _operator = cBasedStateActionState.STATE_OPERATOR.greater_than
-            Case ">="
-                _operator = cBasedStateActionState.STATE_OPERATOR.greater_or_equal_than
-            Case "!="
-                _operator = cBasedStateActionState.STATE_OPERATOR.different_from
-        End Select
-        Dim _it As New cBasedStateActionState(Me.chkCheckProcessName.Checked, _
-                                              Me.chkCheckProcessID.Checked, _
-                                              Me.chkCheckProcessPath.Checked, _
-                                              cbCounter.Text, _operator, txtThreshold.Text, _
-                                              cbAction.Text, txtParam1Val.Text, _
-                                              txtParam2Val.Text, txtProcessName.Text, _
-                                              txtProcessID.Text, txtProcessPath.Text)
-        If frmMain.emStateBasedActions.AddStateBasedAction(_it) Then
-            ' Add hotkey
-            Dim it As New ListViewItem(_it.ProcessText)
-            it.Tag = _it.Key
-            it.SubItems.Add(_it.StateText)
-            it.SubItems.Add(_it.ActionText)
-            it.ImageKey = "default"
-            Me.lv.Items.Add(it)
+        If _modify = False Then
+            Dim _operator As cBasedStateActionState.STATE_OPERATOR
+            Select Case cbOperator.Text
+                Case "<"
+                    _operator = cBasedStateActionState.STATE_OPERATOR.less_than
+                Case "<="
+                    _operator = cBasedStateActionState.STATE_OPERATOR.less_or_equal_than
+                Case "="
+                    _operator = cBasedStateActionState.STATE_OPERATOR.equal
+                Case ">"
+                    _operator = cBasedStateActionState.STATE_OPERATOR.greater_than
+                Case ">="
+                    _operator = cBasedStateActionState.STATE_OPERATOR.greater_or_equal_than
+                Case "!="
+                    _operator = cBasedStateActionState.STATE_OPERATOR.different_from
+            End Select
+            Dim _it As New cBasedStateActionState(Me.chkCheckProcessName.Checked, _
+                                                  Me.chkCheckProcessID.Checked, _
+                                                  Me.chkCheckProcessPath.Checked, _
+                                                  cbCounter.Text, _operator, txtThreshold.Text, _
+                                                  cbAction.Text, txtParam1Val.Text, _
+                                                  txtParam2Val.Text, txtProcessName.Text, _
+                                                  txtProcessID.Text, txtProcessPath.Text)
+            If frmMain.emStateBasedActions.AddStateBasedAction(_it) Then
+                ' Add hotkey
+                Dim it As New ListViewItem(_it.ProcessText)
+                it.Tag = _it
+                it.SubItems.Add(_it.StateText)
+                it.SubItems.Add(_it.ActionText)
+                it.ImageKey = "default"
+                Me.lv.Items.Add(it)
+            End If
+
+        Else
+            _modify = False
+
+            ' Delete old action
+            frmMain.emStateBasedActions.RemoveStateBasedAction(_selectedAction.Key)
+
+            ' Add new one
+            Dim _operator As cBasedStateActionState.STATE_OPERATOR
+            Select Case cbOperator.Text
+                Case "<"
+                    _operator = cBasedStateActionState.STATE_OPERATOR.less_than
+                Case "<="
+                    _operator = cBasedStateActionState.STATE_OPERATOR.less_or_equal_than
+                Case "="
+                    _operator = cBasedStateActionState.STATE_OPERATOR.equal
+                Case ">"
+                    _operator = cBasedStateActionState.STATE_OPERATOR.greater_than
+                Case ">="
+                    _operator = cBasedStateActionState.STATE_OPERATOR.greater_or_equal_than
+                Case "!="
+                    _operator = cBasedStateActionState.STATE_OPERATOR.different_from
+            End Select
+            Dim _it As New cBasedStateActionState(Me.chkCheckProcessName.Checked, _
+                                                  Me.chkCheckProcessID.Checked, _
+                                                  Me.chkCheckProcessPath.Checked, _
+                                                  cbCounter.Text, _operator, txtThreshold.Text, _
+                                                  cbAction.Text, txtParam1Val.Text, _
+                                                  txtParam2Val.Text, txtProcessName.Text, _
+                                                  txtProcessID.Text, txtProcessPath.Text)
+            If frmMain.emStateBasedActions.AddStateBasedAction(_it) Then
+                ' Add hotkey
+                _selectedItem.Tag = _it
+                _selectedItem.SubItems(1).Text = _it.StateText
+                _selectedItem.SubItems(2).Text = _it.ActionText
+                _selectedItem.ImageKey = "default"
+            End If
+
         End If
     End Sub
 
@@ -307,10 +407,26 @@ Public Class frmBasedStateAction
 
     Private Sub cbCounter_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbCounter.SelectedIndexChanged
         Call checkAddState()
+        Dim i As Integer = cbCounter.SelectedIndex
+        If i >= 0 Then
+            Me.lblThresholdDesc.Text = frmMain.emStateBasedActions.ThresholdDescription(i)
+        Else
+            Me.lblThresholdDesc.Text = ""
+        End If
     End Sub
 
     Private Sub cbAction_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbAction.SelectedIndexChanged
         Call checkAddState()
+        Dim i As Integer = cbAction.SelectedIndex
+        If i >= 0 Then
+            Me.txtParam1Desc.Text = frmMain.emStateBasedActions.Param1Description(i)
+            Me.txtParam2Desc.Text = frmMain.emStateBasedActions.Param2Description(i)
+        Else
+            Me.txtParam1Desc.Text = ""
+            Me.txtParam2Desc.Text = ""
+        End If
+        Me.txtParam1Val.Enabled = Not (Me.txtParam1Desc.Text = "None")
+        Me.txtParam2Val.Enabled = Not (Me.txtParam2Desc.Text = "None")
     End Sub
 
     Private Sub txtParam1Val_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtParam1Val.TextChanged
@@ -319,5 +435,68 @@ Public Class frmBasedStateAction
 
     Private Sub txtParam2Val_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtParam2Val.TextChanged
         Call checkAddState()
+    End Sub
+
+    Private Sub lv_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lv.DoubleClick
+        If lv.SelectedItems.Count > 0 Then
+            _modify = True
+            _selectedItem = lv.SelectedItems(0)
+            _selectedAction = CType(_selectedItem.Tag, cBasedStateActionState)
+            Me.gp.Visible = True
+        End If
+    End Sub
+
+    Private Sub gp_VisibleChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles gp.VisibleChanged
+        lv.Enabled = Not (gp.Visible)
+        If gp.Visible Then
+            If _modify Then
+                Me.cmdAdd.Text = "Modify"
+                Me.chkCheckProcessName.Checked = CBool(_selectedAction.CheckProcName)
+                Me.chkCheckProcessID.Checked = CBool(_selectedAction.CheckProcID)
+                Me.chkCheckProcessPath.Checked = CBool(_selectedAction.CheckProcPath)
+                cbCounter.Text = _selectedAction.StateCounter
+                Select Case _selectedAction.StateOperator
+                    Case cBasedStateActionState.STATE_OPERATOR.less_than
+                        cbOperator.Text = "<"
+                    Case cBasedStateActionState.STATE_OPERATOR.less_or_equal_than
+                        cbOperator.Text = "<="
+                    Case cBasedStateActionState.STATE_OPERATOR.equal
+                        cbOperator.Text = "="
+                    Case cBasedStateActionState.STATE_OPERATOR.greater_than
+                        cbOperator.Text = ">"
+                    Case cBasedStateActionState.STATE_OPERATOR.greater_or_equal_than
+                        cbOperator.Text = ">="
+                    Case cBasedStateActionState.STATE_OPERATOR.different_from
+                        cbOperator.Text = "!="
+                End Select
+                txtThreshold.Text = _selectedAction.Threshold
+                cbAction.Text = _selectedAction.Action
+                txtParam1Val.Text = _selectedAction.Param1
+                txtParam2Val.Text = _selectedAction.Param2
+                txtProcessName.Text = _selectedAction.CheckProcNameS
+                txtProcessID.Text = _selectedAction.CheckProcIDS
+                txtProcessPath.Text = _selectedAction.CheckProcPathS
+                txtParam1Desc.Text = ""
+                txtParam2Desc.Text = ""
+            Else
+                Me.cmdAdd.Text = "Add"
+                Me.chkCheckProcessName.Checked = False
+                Me.chkCheckProcessID.Checked = False
+                Me.chkCheckProcessPath.Checked = False
+                cbCounter.SelectedIndex = -1
+                cbOperator.SelectedIndex = -1
+                txtThreshold.Text = ""
+                cbAction.SelectedIndex = -1
+                txtParam1Val.Text = ""
+                txtParam2Val.Text = ""
+                txtProcessName.Text = ""
+                txtProcessID.Text = ""
+                txtProcessPath.Text = ""
+                txtParam1Desc.Text = ""
+                txtParam2Desc.Text = ""
+            End If
+            Call cbAction_SelectedIndexChanged(Nothing, Nothing)
+            Call cbCounter_SelectedIndexChanged(Nothing, Nothing)
+        End If
     End Sub
 End Class
