@@ -1,0 +1,48 @@
+﻿' =======================================================
+' Yet Another Process Monitor (YAPM)
+' Copyright (c) 2008-2009 Alain Descotes (violent_ken)
+' https://sourceforge.net/projects/yaprocmon/
+' =======================================================
+
+
+' YAPM is free software; you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation; either version 3 of the License, or
+' (at your option) any later version.
+'
+' YAPM is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' aInteger with YAPM; if not, see http://www.gnu.org/licenses/.
+
+
+Option Strict On
+
+Public Class frmChooseProcess
+
+    Private _cproc As cProcess
+
+    Public ReadOnly Property SelectedProcess() As cProcess
+        Get
+            Return _cproc
+        End Get
+    End Property
+
+    Private Sub timerProcRefresh_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerProcRefresh.Tick
+        lvProcess.UpdateItems()
+    End Sub
+
+    Private Sub lvProcess_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvProcess.DoubleClick
+        If lvProcess.SelectedItems.Count > 0 Then
+            _cproc = lvProcess.GetSelectedItem
+            Me.Close()
+        End If
+    End Sub
+
+    Private Sub frmChooseProcess_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        lvProcess.UpdateItems()
+    End Sub
+End Class

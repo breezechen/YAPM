@@ -156,7 +156,7 @@ Partial Class frmBasedStateAction
         '
         'txtParam2Val
         '
-        Me.txtParam2Val.Location = New System.Drawing.Point(185, 65)
+        Me.txtParam2Val.Location = New System.Drawing.Point(185, 66)
         Me.txtParam2Val.Name = "txtParam2Val"
         Me.txtParam2Val.Size = New System.Drawing.Size(77, 22)
         Me.txtParam2Val.TabIndex = 17

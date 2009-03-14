@@ -499,4 +499,28 @@ Public Class frmBasedStateAction
             Call cbCounter_SelectedIndexChanged(Nothing, Nothing)
         End If
     End Sub
+
+    Private Sub cmdBrowseProcessName_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdBrowseProcessName.Click
+        Dim frm As New frmChooseProcess
+        frm.ShowDialog()
+        If frm.SelectedProcess IsNot Nothing Then
+            Me.txtProcessName.Text = frm.SelectedProcess.Name
+        End If
+    End Sub
+
+    Private Sub cmdBrowseProcessId_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdBrowseProcessId.Click
+        Dim frm As New frmChooseProcess
+        frm.ShowDialog()
+        If frm.SelectedProcess IsNot Nothing Then
+            Me.txtProcessID.Text = frm.SelectedProcess.Pid.ToString
+        End If
+    End Sub
+
+    Private Sub cmdBrowseProcessPath_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdBrowseProcessPath.Click
+        Dim frm As New frmChooseProcess
+        frm.ShowDialog()
+        If frm.SelectedProcess IsNot Nothing Then
+            Me.txtProcessPath.Text = frm.SelectedProcess.Path
+        End If
+    End Sub
 End Class

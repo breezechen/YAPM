@@ -126,6 +126,9 @@
     <EmbeddedResource Include="Forms\AdditionalMainForms\frmGlobalReport.resx">
       <DependentUpon>frmGlobalReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Misc\frmChooseProcess.resx">
+      <DependentUpon>frmChooseProcess.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmInput.resx">
       <DependentUpon>frmInput.vb</DependentUpon>
     </EmbeddedResource>
@@ -317,6 +320,12 @@
       <DependentUpon>frmGlobalReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\AdditionalMainForms\frmGlobalReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Misc\frmChooseProcess.Designer.vb">
+      <DependentUpon>frmChooseProcess.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Misc\frmChooseProcess.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Misc\frmInput.Designer.vb">
