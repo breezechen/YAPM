@@ -236,8 +236,8 @@ Public Class Pref
         threadList.NEW_ITEM_COLOR = Color.FromArgb(newItemsColor)
         threadList.DELETED_ITEM_COLOR = Color.FromArgb(deletedItemsColor)
         frmMain.Tray.Visible = showTrayIcon
-        Call frmMain.permuteMenuStyle(ribbonStyle)
         If first Then
+            Call frmMain.permuteMenuStyle(ribbonStyle)
             first = False
             frmMain.TopMost = topmost
             frmMain.butAlwaysDisplay.Checked = topmost

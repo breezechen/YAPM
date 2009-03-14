@@ -54,6 +54,8 @@ Public Class frmPreferences
 
     Private Sub cmdSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSave.Click
         ' Save
+        Dim _oldRibbonStyle As Boolean = frmMain.Pref.ribbonStyle
+
         With frmMain.Pref
             .serviceIntervall = CInt(Val(Me.txtServiceIntervall.Text))
             .procIntervall = CInt(Val(Me.txtProcessIntervall.Text))
@@ -86,6 +88,13 @@ Public Class frmPreferences
         Catch ex As Exception
             '
         End Try
+
+        If Not (_oldRibbonStyle = frmMain.Pref.ribbonStyle) Then
+            ' Wanna restart app ?
+            If MsgBox("You must restart YAPM to apply the new menu style. Do you want to restart now ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Menu style has changed") = MsgBoxResult.Yes Then
+                Application.Restart()
+            End If
+        End If
 
     End Sub
 

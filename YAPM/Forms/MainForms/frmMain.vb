@@ -2941,9 +2941,6 @@ Public Class frmMain
         End If
         _main.Panel1Collapsed = Not (_ribbonStyle)
 
-        Me.RibbonViewToolStripMenuItem.Checked = _ribbonStyle
-        Me.butPermuteMenuStyle.Checked = Not (_ribbonStyle)
-
         Me.containerSystemMenu.Panel1Collapsed = _ribbonStyle
         Me.menuSystem.Visible = _main.Panel1Collapsed
 
@@ -3821,14 +3818,6 @@ Public Class frmMain
 
     Private Sub HelpToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HelpToolStripMenuItem1.Click
         Me._tab.SelectedIndex = 11    ' Help
-    End Sub
-
-    Private Sub RibbonViewToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RibbonViewToolStripMenuItem.Click
-        Call permuteMenuStyle()
-    End Sub
-
-    Private Sub butPermuteMenuStyle_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butPermuteMenuStyle.Click
-        Call permuteMenuStyle()
     End Sub
 
     Private Sub ToolStripMenuItem61_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem61.Click
