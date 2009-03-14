@@ -90,4 +90,43 @@ Public Class DoubleBufferedLV
         ' Sort.
         Me.Sort()
     End Sub
+
+    Protected Overrides Sub OnKeyDown(ByVal e As System.Windows.Forms.KeyEventArgs)
+        MyBase.OnKeyDown(e)
+        If e.Control Then
+            If e.KeyCode = Keys.A Then
+                For Each _it As ListViewItem In Me.Items
+                    _it.Selected = True
+                Next
+            ElseIf e.KeyCode = Keys.C Then
+                Dim _s As String = ""
+                Dim x As Integer = 0
+                For Each col As ColumnHeader In Me.Columns
+                    x += 1
+                    _s &= col.Text
+                    If x < Me.Columns.Count Then
+                        _s &= vbTab
+                    End If
+                Next
+                _s &= vbNewLine
+                x = 0
+                Dim y As Integer = 0
+                For Each _it As ListViewItem In Me.Items
+                    For Each _sub As ListViewItem.ListViewSubItem In _it.SubItems
+                        _s &= _sub.Text
+                        y += 1
+                        If y < _it.SubItems.Count Then
+                            _s &= vbTab
+                        End If
+                    Next
+                    y = 0
+                    If x < Me.Items.Count Then
+                        _s &= vbNewLine
+                    End If
+                    x += 1
+                Next
+                My.Computer.Clipboard.SetText(_s)
+            End If
+        End If
+    End Sub
 End Class
