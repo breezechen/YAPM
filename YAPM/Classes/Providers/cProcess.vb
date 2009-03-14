@@ -91,7 +91,7 @@ Public Class cProcess
     Private Declare Function LookupPrivilegeValue Lib "advapi32.dll" Alias "LookupPrivilegeValueA" (ByVal lpSystemName As String, ByVal lpName As String, ByRef lpLuid As LUID) As Integer           'Returns a valid LUID which is important when making security changes in NT.
     Private Declare Function OpenProcessToken Lib "advapi32.dll" (ByVal ProcessHandle As Integer, ByVal DesiredAccess As Integer, ByRef TokenHandle As Integer) As Integer
 
-    <DllImport("psapi.dll")> _
+    <DllImport("kernel32.dll")> _
     Private Shared Function SetProcessWorkingSetSize(ByVal hwProc As Integer, ByVal minimumSize As Integer, ByVal maximumSize As Integer) As Integer
     End Function
 
@@ -171,6 +171,7 @@ Public Class cProcess
     Private Const PROCESS_SUSPEND_RESUME As Integer = &H800
     Private Const PROCESS_QUERY_INFORMATION As Integer = &H400
     Private Const PROCESS_TERMINATE As Integer = &H1
+    Private Const PROCESS_SET_QUOTA As Integer = &H100
     Private Const PROCESS_CREATE_THREAD As Integer = &H2
     Private Const PROCESS_VM_OPERATION As Integer = &H8
     Private Const PROCESS_VM_READ As Integer = &H10
@@ -1156,7 +1157,10 @@ Public Class cProcess
     ' Empty working set size
     Public Function EmptyWorkingSetSize() As Integer
         ' Set (and not empty) will be implemented later
-        Return SetProcessWorkingSetSize(_hProcess, -1, -1)
+        Dim _hHandle As Integer = OpenProcess(PROCESS_SET_QUOTA , 0, _pid)
+        Dim _ret As Integer = SetProcessWorkingSetSize(_hHandle, -1, -1)
+        CloseHandle(_hHandle)
+        Return _ret
     End Function
 
     ' Return environment variables
