@@ -1087,8 +1087,8 @@ Public Class cProcess
         Get
             If force Then
                 Dim i As Long = Date.Now.Ticks - Me.StartTime.Ticks
-                If i > 0 Then
-                    Return Me.ProcessorTimeLong / i
+                If i > 0 And _processors > 0 Then
+                    Return Me.ProcessorTimeLong / i / _processors
                 Else
                     Return 0
                 End If
