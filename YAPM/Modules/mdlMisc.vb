@@ -147,7 +147,6 @@ Module mdlMisc
         If _str Is Nothing OrElse _str.Length < 4 Then
             Return False
         End If
-        Dim oo As String = "12 Bytes"
         ' Try to find " UNIT" in _str
         ' Return true if first char is a numeric value
         For Each _unit As String In sizeUnits

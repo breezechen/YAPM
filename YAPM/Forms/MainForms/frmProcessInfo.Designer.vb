@@ -2690,7 +2690,7 @@ Partial Class frmProcessInfo
         '
         Me.lstHistoryCat.Dock = System.Windows.Forms.DockStyle.Left
         Me.lstHistoryCat.FormattingEnabled = True
-        Me.lstHistoryCat.Items.AddRange(New Object() {"KernelCpuTime", "UserCpuTime", "TotalCpuTime", "WorkingSet", "PeakWorkingSet", "PageFaultCount", "PagefileUsage", "PeakPagefileUsage", "QuotaPeakPagedPoolUsage", "QuotaPagedPoolUsage", "QuotaPeakNonPagedPoolUsage", "QuotaNonPagedPoolUsage", "ReadOperationCount", "WriteOperationCount", "OtherOperationCount", "ReadTransferCount ", "WriteTransferCount", "OtherTransferCount"})
+        Me.lstHistoryCat.Items.AddRange(New Object() {"CpuUsage", "AverageCpuUsage", "KernelCpuTime", "UserCpuTime", "TotalCpuTime", "GdiObjects", "UserObjects", "WorkingSet", "PeakWorkingSet", "PageFaultCount", "PagefileUsage", "PeakPagefileUsage", "QuotaPeakPagedPoolUsage", "QuotaPagedPoolUsage", "QuotaPeakNonPagedPoolUsage", "QuotaNonPagedPoolUsage", "ReadOperationCount", "WriteOperationCount", "OtherOperationCount", "ReadTransferCount ", "WriteTransferCount", "OtherTransferCount"})
         Me.lstHistoryCat.Location = New System.Drawing.Point(0, 0)
         Me.lstHistoryCat.Name = "lstHistoryCat"
         Me.lstHistoryCat.Size = New System.Drawing.Size(208, 276)

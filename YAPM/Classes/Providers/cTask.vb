@@ -58,7 +58,7 @@ Public Class cTask
     Public ReadOnly Property CpuUsageS() As String
         Get
             Dim o As Integer = _proc.ProcessorCount
-            Return GetFormatedPercentage(_proc.CpuPercentageUsage)
+            Return GetFormatedPercentage(_proc.CpuPercentageUsage(True))
         End Get
     End Property
     Public ReadOnly Property Process() As cProcess

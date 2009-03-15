@@ -9,7 +9,7 @@ Public Class frmProcessInfo
     End Function
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
 
-    Private curProc As cProcess
+    Private WithEvents curProc As cProcess
     Private Const NO_INFO_RETRIEVED As String = "N/A"
     Private m_SortingColumn As ColumnHeader
     Private WithEvents _AsyncDownload As cAsyncProcInfoDownload
@@ -86,13 +86,16 @@ Public Class frmProcessInfo
 
             Case "Statistics"
 
-                curProc.Refresh()
-                Me.lblProcOther.Text = GetFormatedSize(curProc.GetIOvalues.OtherOperationCount)
+                ' No need to refresh, it's done by the mainform (curProc is only a
+                ' reference to an existing instance).
+                'curProc.Refresh()
+
+                Me.lblProcOther.Text = curProc.GetIOvalues.OtherOperationCount.ToString
                 Me.lblProcOtherBytes.Text = GetFormatedSize(curProc.GetIOvalues.OtherTransferCount)
-                Me.lblProcReads.Text = GetFormatedSize(curProc.GetIOvalues.ReadOperationCount)
+                Me.lblProcReads.Text = curProc.GetIOvalues.ReadOperationCount.ToString
                 Me.lblProcReadBytes.Text = GetFormatedSize(curProc.GetIOvalues.ReadTransferCount)
                 Me.lblProcWriteBytes.Text = GetFormatedSize(curProc.GetIOvalues.WriteTransferCount)
-                Me.lblProcWrites.Text = GetFormatedSize(curProc.GetIOvalues.WriteOperationCount)
+                Me.lblProcWrites.Text = curProc.GetIOvalues.WriteOperationCount.ToString
                 Me.lblGDIcount.Text = CStr(curProc.GDIObjectsCount)
                 Me.lblUserObjectsCount.Text = CStr(curProc.UserObjectsCount)
                 Me.lblAverageCPUusage.Text = curProc.GetInformation("AverageCpuUsage")
@@ -1691,14 +1694,33 @@ Public Class frmProcessInfo
             _g.Visible = True
             _g.ColorGrid = Color.DarkGreen
             _g.BackColor = Color.Black
-            _g.Color = Color.Yellow
             _g.Name = lstHistoryCat.Items.Item(e.Index).ToString
+            _g.EnableGraph = True
+            _g.Fixedheight = (InStr(_g.Name, "CpuUsage") > 0)
+            _g.ShowSecondGraph = False
+            If InStr(_g.Name, "Cpu") > 0 Then
+                _g.Color = Color.LimeGreen
+                _g.Color2 = Color.Green
+            ElseIf InStr(_g.Name, "Transfer") + InStr(_g.Name, "Operation") > 0 Then
+                _g.Color = Color.Red
+                _g.Color2 = Color.Maroon
+            Else
+                _g.Color = Color.Yellow
+                _g.Color2 = Color.Olive
+            End If
             Me.containerHistory.Panel1.Controls.Add(_g)
             Dim _p As New PictureBox
             _p.BackColor = Color.Transparent
             _p.Height = 1
             _p.Dock = DockStyle.Top
             _p.Name = "_" & lstHistoryCat.Items.Item(e.Index).ToString
+
+            ' Now we add all available values to the graph
+            For Each _val As Long In curProc.GetHistory(_g.Name)
+                _g.AddValue(_val)
+            Next
+            _g.Refresh()
+
             Me.containerHistory.Panel1.Controls.Add(_p)
         Else
             _historyGraphNumber -= 1
@@ -1719,6 +1741,18 @@ Public Class frmProcessInfo
         For Each ct As Control In Me.containerHistory.Panel1.Controls
             If TypeOf ct Is Graph2 Then
                 ct.Height = CInt((Me.containerHistory.Panel1.Height - 2 * _historyGraphNumber) / _historyGraphNumber)
+            End If
+        Next
+    End Sub
+
+    Private Sub curProc_Refreshed() Handles curProc.Refreshed
+        ' curProc has been refreshed, so we have to add a value to the different
+        ' graphs in containerHistory
+        For Each ct As Control In Me.containerHistory.Panel1.Controls
+            If TypeOf ct Is Graph2 Then
+                Dim _tempG As Graph2 = CType(ct, Graph2)
+                _tempG.AddValue(curProc.GetInformationNumerical(ct.Name))
+                _tempG.Refresh()
             End If
         Next
     End Sub
