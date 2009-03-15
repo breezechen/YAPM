@@ -775,7 +775,11 @@ Public Class cProcess
                 Else
                     Dim tMain As System.Diagnostics.ProcessModule = Me.MainModule
                     If tMain IsNot Nothing Then
-                        Return tMain.FileVersionInfo
+                        Try
+                            Return tMain.FileVersionInfo
+                        Catch ex As Exception
+                            Return Nothing
+                        End Try
                     Else
                         Return Nothing
                     End If
