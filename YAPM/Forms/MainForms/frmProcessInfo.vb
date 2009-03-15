@@ -1690,7 +1690,7 @@ Public Class frmProcessInfo
             _historyGraphNumber += 1
             Dim _g As New Graph2
             _g.Dock = DockStyle.Top
-            _g.Height = CInt((Me.containerHistory.Panel1.Height - _historyGraphNumber) / _historyGraphNumber)
+            _g.Height = CInt((Me.containerHistory.Panel2.Height - _historyGraphNumber) / _historyGraphNumber)
             _g.Visible = True
             _g.ColorGrid = Color.DarkGreen
             _g.BackColor = Color.Black
@@ -1708,7 +1708,7 @@ Public Class frmProcessInfo
                 _g.Color = Color.Yellow
                 _g.Color2 = Color.Olive
             End If
-            Me.containerHistory.Panel1.Controls.Add(_g)
+            Me.containerHistory.Panel2.Controls.Add(_g)
             Dim _p As New PictureBox
             _p.BackColor = Color.Transparent
             _p.Height = 1
@@ -1721,26 +1721,28 @@ Public Class frmProcessInfo
             Next
             _g.Refresh()
 
-            Me.containerHistory.Panel1.Controls.Add(_p)
+            Me.containerHistory.Panel2.Controls.Add(_p)
         Else
             _historyGraphNumber -= 1
-            Me.containerHistory.Panel1.Controls.RemoveByKey(lstHistoryCat.Items.Item(e.Index).ToString)
-            Me.containerHistory.Panel1.Controls.RemoveByKey("_" & lstHistoryCat.Items.Item(e.Index).ToString)
+            Me.containerHistory.Panel2.Controls.RemoveByKey(lstHistoryCat.Items.Item(e.Index).ToString)
+            Me.containerHistory.Panel2.Controls.RemoveByKey("_" & lstHistoryCat.Items.Item(e.Index).ToString)
         End If
 
+        Me.containerHistory.Panel1Collapsed = (_historyGraphNumber > 0)
+
         ' Recalculate heights
-        For Each ct As Control In Me.containerHistory.Panel1.Controls
+        For Each ct As Control In Me.containerHistory.Panel2.Controls
             If TypeOf ct Is Graph2 Then
-                ct.Height = CInt((Me.containerHistory.Panel1.Height - _historyGraphNumber) / _historyGraphNumber)
+                ct.Height = CInt((Me.containerHistory.Panel2.Height - _historyGraphNumber) / _historyGraphNumber)
             End If
         Next
     End Sub
 
     Private Sub containerHistory_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles containerHistory.Resize
         ' Recalculate heights
-        For Each ct As Control In Me.containerHistory.Panel1.Controls
+        For Each ct As Control In Me.containerHistory.Panel2.Controls
             If TypeOf ct Is Graph2 Then
-                ct.Height = CInt((Me.containerHistory.Panel1.Height - 2 * _historyGraphNumber) / _historyGraphNumber)
+                ct.Height = CInt((Me.containerHistory.Panel2.Height - 2 * _historyGraphNumber) / _historyGraphNumber)
             End If
         Next
     End Sub
@@ -1748,7 +1750,7 @@ Public Class frmProcessInfo
     Private Sub curProc_Refreshed() Handles curProc.Refreshed
         ' curProc has been refreshed, so we have to add a value to the different
         ' graphs in containerHistory
-        For Each ct As Control In Me.containerHistory.Panel1.Controls
+        For Each ct As Control In Me.containerHistory.Panel2.Controls
             If TypeOf ct Is Graph2 Then
                 Dim _tempG As Graph2 = CType(ct, Graph2)
                 _tempG.AddValue(curProc.GetInformationNumerical(ct.Name))
@@ -1756,4 +1758,5 @@ Public Class frmProcessInfo
             End If
         Next
     End Sub
+
 End Class
