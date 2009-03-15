@@ -19,11 +19,11 @@
 ' along with YAPM; if not, see http://www.gnu.org/licenses/.
 
 
-Option Strict On
-
-' Nice part of code !
+' This code is adapted from here :
 ' http://www.vb-helper.com/howto_net_listview_sort_clicked_column.html
 ' Thx to the author :-)
+
+Option Strict On
 
 ' Implements a comparer for ListView columns.
 Public Class ListViewComparer

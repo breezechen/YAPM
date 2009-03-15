@@ -17,7 +17,12 @@
 '
 ' You should have received a copy of the GNU General Public License
 ' along with YAPM; if not, see http://www.gnu.org/licenses/.
-
+'
+'
+' Some pieces of code are inspired by wj32 work (from Process Hacker) :
+' - GetAccountName function (conversion from SID to username as a string)
+' - GetImageFile function, especially DeviceDriveNameToDosDriveName and
+'   RefreshLogicalDrives which are inspired by functions from Process Hacker
 
 Option Strict On
 
