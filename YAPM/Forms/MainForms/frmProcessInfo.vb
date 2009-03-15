@@ -26,6 +26,8 @@ Public Class frmProcessInfo
 
     Private Const SIZE_FOR_STRING As Integer = 4
 
+    Private _historyGraphNumber As Integer = 0
+
 
     ' Refresh current tab
     Private Sub refreshProcessTab()
@@ -1681,26 +1683,43 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub lstHistoryCat_ItemCheck(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckEventArgs) Handles lstHistoryCat.ItemCheck
-        Static _number As Integer = 0
         If e.NewValue = CheckState.Checked Then
-            _number += 1
+            _historyGraphNumber += 1
             Dim _g As New Graph2
             _g.Dock = DockStyle.Top
-            _g.Height = CInt(Me.containerHistory.Panel1.Height / _number)
+            _g.Height = CInt((Me.containerHistory.Panel1.Height - _historyGraphNumber) / _historyGraphNumber)
             _g.Visible = True
             _g.ColorGrid = Color.DarkGreen
             _g.BackColor = Color.Black
             _g.Color = Color.Yellow
             _g.Name = lstHistoryCat.Items.Item(e.Index).ToString
             Me.containerHistory.Panel1.Controls.Add(_g)
+            Dim _p As New PictureBox
+            _p.BackColor = Color.Transparent
+            _p.Height = 1
+            _p.Dock = DockStyle.Top
+            _p.Name = "_" & lstHistoryCat.Items.Item(e.Index).ToString
+            Me.containerHistory.Panel1.Controls.Add(_p)
         Else
-            _number -= 1
+            _historyGraphNumber -= 1
             Me.containerHistory.Panel1.Controls.RemoveByKey(lstHistoryCat.Items.Item(e.Index).ToString)
-            ' Recalculate height
-            For Each ct As Control In Me.containerHistory.Panel1.Controls
-                ct.Height = CInt(Me.containerHistory.Panel1.Height / _number)
-            Next
+            Me.containerHistory.Panel1.Controls.RemoveByKey("_" & lstHistoryCat.Items.Item(e.Index).ToString)
         End If
+
+        ' Recalculate heights
+        For Each ct As Control In Me.containerHistory.Panel1.Controls
+            If TypeOf ct Is Graph2 Then
+                ct.Height = CInt((Me.containerHistory.Panel1.Height - _historyGraphNumber) / _historyGraphNumber)
+            End If
+        Next
     End Sub
 
+    Private Sub containerHistory_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles containerHistory.Resize
+        ' Recalculate heights
+        For Each ct As Control In Me.containerHistory.Panel1.Controls
+            If TypeOf ct Is Graph2 Then
+                ct.Height = CInt((Me.containerHistory.Panel1.Height - 2 * _historyGraphNumber) / _historyGraphNumber)
+            End If
+        Next
+    End Sub
 End Class

@@ -2677,6 +2677,8 @@ Partial Class frmProcessInfo
         'containerHistory
         '
         Me.containerHistory.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.containerHistory.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
+        Me.containerHistory.IsSplitterFixed = True
         Me.containerHistory.Location = New System.Drawing.Point(208, 0)
         Me.containerHistory.Name = "containerHistory"
         Me.containerHistory.Orientation = System.Windows.Forms.Orientation.Horizontal
