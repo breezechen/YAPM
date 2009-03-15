@@ -84,6 +84,7 @@ Public Class frmProcessInfo
 
             Case "Statistics"
 
+                curProc.Refresh()
                 Me.lblProcOther.Text = GetFormatedSize(curProc.GetIOvalues.OtherOperationCount)
                 Me.lblProcOtherBytes.Text = GetFormatedSize(curProc.GetIOvalues.OtherTransferCount)
                 Me.lblProcReads.Text = GetFormatedSize(curProc.GetIOvalues.ReadOperationCount)
@@ -166,6 +167,7 @@ Public Class frmProcessInfo
 
                 ' Description
                 Try
+                    curProc.Refresh()
                     Dim pmc As cProcess.PROCESS_MEMORY_COUNTERS = curProc.MemoryInfos
                     Dim pid As Integer = curProc.Pid
                     Dim s As String = ""
@@ -374,9 +376,9 @@ Public Class frmProcessInfo
         Dim z2 As Double = curProc.AverageCpuUsage
         If Double.IsNegativeInfinity(z) Then z = 0
         Me.graphCPU.Add2Values(z * 100, z2 * 100)
-        z = curProc.MemoryInfos.WorkingSetSize / 2147483648 * 100
+        z = curProc.MemoryInfos(True).WorkingSetSize / 2147483648 * 100
         Me.graphMemory.AddValue(z)
-        Me.graphIO.AddValue(curProc.GetIOvalues.ReadTransferCount)
+        Me.graphIO.AddValue(curProc.GetIOvalues(True).ReadTransferCount)
         Me.graphCPU.Refresh()
         Me.graphIO.Refresh()
         Me.graphMemory.Refresh()
@@ -1677,4 +1679,28 @@ Public Class frmProcessInfo
         _asyncInfoRes = result
         _asyncDownloadDone = True
     End Sub
+
+    Private Sub lstHistoryCat_ItemCheck(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckEventArgs) Handles lstHistoryCat.ItemCheck
+        Static _number As Integer = 0
+        If e.NewValue = CheckState.Checked Then
+            _number += 1
+            Dim _g As New Graph2
+            _g.Dock = DockStyle.Top
+            _g.Height = CInt(Me.containerHistory.Panel1.Height / _number)
+            _g.Visible = True
+            _g.ColorGrid = Color.DarkGreen
+            _g.BackColor = Color.Black
+            _g.Color = Color.Yellow
+            _g.Name = lstHistoryCat.Items.Item(e.Index).ToString
+            Me.containerHistory.Panel1.Controls.Add(_g)
+        Else
+            _number -= 1
+            Me.containerHistory.Panel1.Controls.RemoveByKey(lstHistoryCat.Items.Item(e.Index).ToString)
+            ' Recalculate height
+            For Each ct As Control In Me.containerHistory.Panel1.Controls
+                ct.Height = CInt(Me.containerHistory.Panel1.Height / _number)
+            Next
+        End If
+    End Sub
+
 End Class

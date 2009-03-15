@@ -417,7 +417,40 @@ Public Class cProcess
         Dim GroupCount As Integer
         Dim Groups() As SID_AND_ATTRIBUTES
     End Structure
+
+    Public Structure PROC_TIME_INFO
+        Dim time As Long
+        Dim kernel As Long
+        Dim user As Long
+        Dim total As Long
+        Public Sub New(ByVal aTime As Long, ByVal aUser As Long, ByVal aKernel As Long)
+            time = aTime
+            kernel = aKernel
+            user = aUser
+            total = time + kernel
+        End Sub
+    End Structure
+
+    Public Structure PROC_MEM_INFO
+        Dim time As Long
+        Dim mem As cProcess.PROCESS_MEMORY_COUNTERS
+        Public Sub New(ByVal aTime As Long, ByRef aMem As cProcess.PROCESS_MEMORY_COUNTERS)
+            time = aTime
+            mem = aMem
+        End Sub
+    End Structure
+
+    Public Structure PROC_IO_INFO
+        Dim time As Long
+        Dim io As PIO_COUNTERS
+        Public Sub New(ByVal aTime As Long, ByRef aIo As PIO_COUNTERS)
+            time = aTime
+            io = aIo
+        End Sub
+    End Structure
+
 #End Region
+
     Private Declare Function GetLastError Lib "kernel32" () As Integer
     Private Const FORMAT_MESSAGE_FROM_SYSTEM As Integer = &H1000
     Private Const LANG_NEUTRAL As Integer = &H0
@@ -448,17 +481,29 @@ Public Class cProcess
     Private _processors As Integer = 0
     Private _triedPathMem As Boolean = False
     Private _triedCommandLine As Boolean = False
-
     Private _commandLine As String
+
+    Private _processorTime As Long = 0
+    Private _kernelTime As Long = 0
+    Private _userTime As Long = 0
+    Private _memInfo As cProcess.PROCESS_MEMORY_COUNTERS
+    Private _io As PIO_COUNTERS
+    Private _fileInfo As FileVersionInfo
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
     ' Contains list of process names
     Private Shared _procs As New Dictionary(Of String, String)
 
+    ' Save informations about performance
+    Private _dicoProcMem As New Dictionary(Of Integer, PROC_MEM_INFO)
+    Private _dicoProcTimes As New Dictionary(Of Integer, PROC_TIME_INFO)
+    Private _dicoProcIO As New Dictionary(Of Integer, PROC_IO_INFO)
+
     ' Contains devices (logical drives) and their corresponding path
     ' e.g. :        /Device/Harddisk1/...       , C:
     Private Shared _DicoLogicalDrivesNames As New Dictionary(Of String, String)
+
 
     ' ========================================
     ' Constructors & destructor
@@ -471,6 +516,7 @@ Public Class cProcess
         If Me.Path = NO_INFO_RETRIEVED Then
             _name = getSimpleName(processId)
         End If
+        _fileInfo = Me.FileVersionInfo(True)
         _processors = frmMain.PROCESSOR_COUNT
     End Sub
 
@@ -484,6 +530,7 @@ Public Class cProcess
             _hProcess = OpenProcess(PROCESS_QUERY_INFORMATION, 0, _pid)
         End If
         _name = proc.name
+        _fileInfo = Me.FileVersionInfo(True)
     End Sub
 
     Protected Overloads Overrides Sub Finalize()
@@ -668,13 +715,54 @@ Public Class cProcess
     End Property
 
     ' Get I/O informations
-    Public ReadOnly Property GetIOvalues() As cProcess.PIO_COUNTERS
+    Public ReadOnly Property GetIOvalues(Optional ByVal force As Boolean = False) As cProcess.PIO_COUNTERS
         Get
-            If _hProcess > 0 Then
-                Dim pioc As PIO_COUNTERS
-                GetProcessIoCounters(_hProcess, pioc)
-                Return pioc
+            If force Then
+                If _hProcess > 0 Then
+                    Dim pioc As PIO_COUNTERS
+                    GetProcessIoCounters(_hProcess, pioc)
+                    Return pioc
+                End If
+            Else
+                Return _io
             End If
+        End Get
+    End Property
+
+    ' Get fileinfo
+    Public ReadOnly Property FileVersionInfo(Optional ByVal force As Boolean = False) As FileVersionInfo
+        Get
+            If force Then
+                If Me.Path = NO_INFO_RETRIEVED Then
+                    Return Nothing
+                Else
+                    Dim tMain As System.Diagnostics.ProcessModule = Me.MainModule
+                    If tMain IsNot Nothing Then
+                        Return tMain.FileVersionInfo
+                    Else
+                        Return Nothing
+                    End If
+                End If
+            Else
+                Return _fileInfo
+            End If
+        End Get
+    End Property
+
+    ' Get the performance dictionnaries
+    Public ReadOnly Property DicoPerfMem() As Dictionary(Of Integer, PROC_MEM_INFO)
+        Get
+            Return _dicoProcMem
+        End Get
+    End Property
+    Public ReadOnly Property DicoPerfIO() As Dictionary(Of Integer, PROC_IO_INFO)
+        Get
+            Return _dicoProcIO
+        End Get
+    End Property
+    Public ReadOnly Property DicoPerfTimes() As Dictionary(Of Integer, PROC_TIME_INFO)
+        Get
+            Return _dicoProcTimes
         End Get
     End Property
 
@@ -777,25 +865,30 @@ Public Class cProcess
     End Property
 
     ' Get processor time as a TimeSpan
-    Public ReadOnly Property ProcessorTime() As Date
+    Public ReadOnly Property ProcessorTime(Optional ByVal force As Boolean = False) As Date
         Get
-            Dim T0 As Long
-            Dim T1 As Long
-            Dim curTime2 As Long
-            Dim curTime As Long
-            Dim r As Date
+            If force Then
+                Dim T0 As Long
+                Dim T1 As Long
+                Dim curTime2 As Long
+                Dim curTime As Long
+                Dim r As Date
 
-            If _hProcess > 0 Then
+                If _hProcess > 0 Then
 
-                GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
-                r = New Date(curTime + curTime2)
+                    GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
+                    r = New Date(curTime + curTime2)
+                End If
+
+                Return r
+            Else
+                Return New Date(_processorTime)
             End If
-
-            Return r
         End Get
     End Property
 
     ' Get processor time as a long
+    ' Used without need for a call to 'refresh' sub
     Public ReadOnly Property ProcessorTimeLong() As Long
         Get
             Dim T0 As Long
@@ -816,101 +909,66 @@ Public Class cProcess
     End Property
 
     ' Get kernel time as a TimeSpan
-    Public ReadOnly Property KernelTime() As Date
+    Public ReadOnly Property KernelTime(Optional ByVal force As Boolean = False) As Date
         Get
-            Dim T0 As Long
-            Dim T1 As Long
-            Dim curTime2 As Long
-            Dim curTime As Long
-            Dim r As Date
+            If force Then
+                Dim T0 As Long
+                Dim T1 As Long
+                Dim curTime2 As Long
+                Dim curTime As Long
+                Dim r As Date
 
-            If _hProcess > 0 Then
+                If _hProcess > 0 Then
 
-                GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
-                r = New Date(curTime)
+                    GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
+                    r = New Date(curTime)
+                End If
+
+                Return r
+            Else
+                Return New Date(_kernelTime)
             End If
-
-            Return r
-        End Get
-    End Property
-
-    ' Get kernel time as a long
-    Public ReadOnly Property KernelTimeLong() As Long
-        Get
-            Dim T0 As Long
-            Dim T1 As Long
-            Dim curTime2 As Long
-            Dim curTime As Long
-            Dim r As Long = 0
-
-            If _hProcess > 0 Then
-
-                GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
-                r = curTime
-
-            End If
-
-            Return r
         End Get
     End Property
 
     ' Get user time as a TimeSpan
-    Public ReadOnly Property UserTime() As Date
+    Public ReadOnly Property UserTime(Optional ByVal force As Boolean = False) As Date
         Get
-            Dim T0 As Long
-            Dim T1 As Long
-            Dim curTime2 As Long
-            Dim curTime As Long
-            Dim r As Date
+            If force Then
+                Dim T0 As Long
+                Dim T1 As Long
+                Dim curTime2 As Long
+                Dim curTime As Long
+                Dim r As Date
 
-            If _hProcess > 0 Then
+                If _hProcess > 0 Then
 
-                GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
-                r = New Date(curTime2)
+                    GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
+                    r = New Date(curTime2)
+                End If
+
+                Return r
+            Else
+                Return New Date(_userTime)
             End If
-
-            Return r
-        End Get
-    End Property
-
-    ' Get user time as a long
-    Public ReadOnly Property UserTimeLong() As Long
-        Get
-            Dim T0 As Long
-            Dim T1 As Long
-            Dim curTime2 As Long
-            Dim curTime As Long
-            Dim r As Long = 0
-
-            If _hProcess > 0 Then
-
-                GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
-                r = curTime2
-
-            End If
-
-            Return r
-        End Get
-    End Property
-
-    ' Get the WorkingSet64
-    Public ReadOnly Property WorkingSet64() As Long
-        Get
-            Return MemoryInfos.WorkingSetSize
         End Get
     End Property
 
     ' Get all memory infos
-    Public ReadOnly Property MemoryInfos() As PROCESS_MEMORY_COUNTERS
+    Public ReadOnly Property MemoryInfos(Optional ByVal force As Boolean = False) As PROCESS_MEMORY_COUNTERS
         Get
-            Dim pmc As PROCESS_MEMORY_COUNTERS
+            If force Then
+                Dim pmc As PROCESS_MEMORY_COUNTERS
 
-            If _hProcess > 0 Then
-                pmc.cb = Marshal.SizeOf(pmc)
-                GetProcessMemoryInfo(_hProcess, pmc, pmc.cb)
+                If _hProcess > 0 Then
+                    pmc.cb = Marshal.SizeOf(pmc)
+                    GetProcessMemoryInfo(_hProcess, pmc, pmc.cb)
+                End If
+
+                Return pmc
+            Else
+                Return _memInfo
             End If
-
-            Return pmc
         End Get
     End Property
 
@@ -1087,6 +1145,39 @@ Public Class cProcess
     ' Public functions of this class
     ' ========================================
 
+    ' Refresh infos
+    Public Sub Refresh()
+        Static _refrehNumber As Integer = 0
+        _refrehNumber += 1   ' This is the key
+
+        ' Get date in ms
+        Dim _now As Long = Date.Now.Ticks
+
+        ' Refresh processor infos
+        Dim T0 As Long
+        Dim T1 As Long
+        Dim curTime2 As Long
+        Dim curTime As Long
+        If _hProcess > 0 Then
+            GetProcessTimes(_hProcess, T0, T1, curTime, curTime2)
+            _kernelTime = curTime
+            _userTime = curTime2
+            _processorTime = _userTime + _kernelTime
+        End If
+
+        ' Refresh memory infos
+        _memInfo = Me.MemoryInfos(True)
+
+        ' Refresh IO infos
+        _io = GetIOvalues(True)
+
+        ' Store informations
+        _dicoProcMem.Add(_refrehNumber, New PROC_MEM_INFO(_now, _memInfo))
+        _dicoProcTimes.Add(_refrehNumber, New PROC_TIME_INFO(_now, _userTime, _kernelTime))
+        _dicoProcIO.Add(_refrehNumber, New PROC_IO_INFO(_now, _io))
+    End Sub
+
+
     ' Suspend a process
     Public Function SuspendProcess() As Integer
         Dim hProc As Integer
@@ -1157,7 +1248,7 @@ Public Class cProcess
     ' Empty working set size
     Public Function EmptyWorkingSetSize() As Integer
         ' Set (and not empty) will be implemented later
-        Dim _hHandle As Integer = OpenProcess(PROCESS_SET_QUOTA , 0, _pid)
+        Dim _hHandle As Integer = OpenProcess(PROCESS_SET_QUOTA, 0, _pid)
         Dim _ret As Integer = SetProcessWorkingSetSize(_hHandle, -1, -1)
         CloseHandle(_hHandle)
         Return _ret
@@ -1279,7 +1370,7 @@ Public Class cProcess
     ' Retrieve informations by its name
     Public Overrides Function GetInformation(ByVal infoName As String) As String
         Dim res As String = NO_INFO_RETRIEVED
-        Dim mem As cProcess.PROCESS_MEMORY_COUNTERS = Me.MemoryInfos
+        Dim mem As cProcess.PROCESS_MEMORY_COUNTERS = _memInfo
         Select Case infoName
             Case "ParentPID"
                 res = CStr(Me.ParentProcessId)
@@ -1335,37 +1426,25 @@ Public Class cProcess
             Case "Path"
                 res = Me.Path
             Case "Description"
-                If Me.Path = NO_INFO_RETRIEVED Then
-                    res = ""
+                Dim _fvi As FileVersionInfo = Me.FileVersionInfo
+                If _fvi IsNot Nothing Then
+                    res = _fvi.FileDescription
                 Else
-                    Dim tMain As System.Diagnostics.ProcessModule = Me.MainModule
-                    If tMain IsNot Nothing Then
-                        res = tMain.FileVersionInfo.FileDescription
-                    Else
-                        res = ""
-                    End If
+                    res = NO_INFO_RETRIEVED
                 End If
             Case "Copyright"
-                If Me.Path = NO_INFO_RETRIEVED Then
-                    res = ""
+                Dim _fvi As FileVersionInfo = Me.FileVersionInfo
+                If _fvi IsNot Nothing Then
+                    res = _fvi.LegalCopyright
                 Else
-                    Dim tMain As System.Diagnostics.ProcessModule = Me.MainModule
-                    If tMain IsNot Nothing Then
-                        res = tMain.FileVersionInfo.LegalCopyright
-                    Else
-                        res = ""
-                    End If
+                    res = NO_INFO_RETRIEVED
                 End If
             Case "Version"
-                If Me.Path = NO_INFO_RETRIEVED Then
-                    res = ""
+                Dim _fvi As FileVersionInfo = Me.FileVersionInfo
+                If _fvi IsNot Nothing Then
+                    res = _fvi.FileVersion
                 Else
-                    Dim tMain As System.Diagnostics.ProcessModule = Me.MainModule
-                    If tMain IsNot Nothing Then
-                        res = tMain.FileVersionInfo.FileVersion
-                    Else
-                        res = ""
-                    End If
+                    res = NO_INFO_RETRIEVED
                 End If
             Case "Name"
                 res = Me.Name
@@ -1390,6 +1469,18 @@ Public Class cProcess
                 End If
             Case "CommandLine"
                 res = Me.CommandLine
+            Case "ReadOperationCount"
+                res = Me.GetIOvalues.ReadOperationCount.ToString
+            Case "WriteOperationCount"
+                res = Me.GetIOvalues.WriteOperationCount.ToString
+            Case "OtherOperationCount"
+                res = Me.GetIOvalues.OtherOperationCount.ToString
+            Case "ReadTransferCount "
+                res = Me.GetIOvalues.ReadTransferCount.ToString
+            Case "WriteTransferCount"
+                res = Me.GetIOvalues.WriteTransferCount.ToString
+            Case "OtherTransferCount"
+                res = Me.GetIOvalues.OtherTransferCount.ToString
         End Select
 
         Return res
@@ -1403,7 +1494,7 @@ Public Class cProcess
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties() As String()
-        Dim s(28) As String
+        Dim s(34) As String
 
         s(0) = "PID"
         s(1) = "UserName"
@@ -1428,12 +1519,18 @@ Public Class cProcess
         s(20) = "QuotaPagedPoolUsage"
         s(21) = "QuotaPeakNonPagedPoolUsage"
         s(22) = "QuotaNonPagedPoolUsage"
-        s(23) = "Priority"
-        s(24) = "Path"
-        s(25) = "CommandLine"
-        s(26) = "Description"
-        s(27) = "Copyright"
-        s(28) = "Version"
+        s(23) = "ReadOperationCount"
+        s(24) = "WriteOperationCount"
+        s(25) = "OtherOperationCount"
+        s(26) = "ReadTransferCount "
+        s(27) = "WriteTransferCount"
+        s(28) = "OtherTransferCount"
+        s(29) = "Priority"
+        s(30) = "Path"
+        s(31) = "CommandLine"
+        s(32) = "Description"
+        s(33) = "Copyright"
+        s(34) = "Version"
 
         Return s
     End Function

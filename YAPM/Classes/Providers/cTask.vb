@@ -72,7 +72,7 @@ Public Class cTask
         End Get
     End Property
 
-    Public Overloads Function GetInformation(ByVal info As String) As String
+    Public Overrides Function GetInformation(ByVal info As String) As String
         Select Case info
             Case "CpuUsage"
                 Return CpuUsageS

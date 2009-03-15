@@ -192,6 +192,7 @@ Public Class processList
         For Each it In Me.Items
             Dim x As Integer = 0
             Dim _item As cProcess = _dico.Item(it.Name)
+            _item.Refresh()
             For Each isub In it.SubItems
                 isub.Text = _item.GetInformation(_columnsName(x))
                 x += 1
