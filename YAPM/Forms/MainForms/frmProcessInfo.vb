@@ -1196,7 +1196,7 @@ Public Class frmProcessInfo
 
         Me.lvLog.EndUpdate()
 
-        If _autoScroll Then
+        If _autoScroll AndAlso Me.lvLog.Items.Count > 0 Then
             Me.lvLog.Items(Me.lvLog.Items.Count - 1).EnsureVisible()
         End If
 
