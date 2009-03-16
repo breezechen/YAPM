@@ -25,6 +25,7 @@ Partial Class frmLogOptions
         Me.logInterval = New System.Windows.Forms.NumericUpDown
         Me.Label2 = New System.Windows.Forms.Label
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.Line1 = New YAPM.HorizontalLine
         Me.captureDeleted = New System.Windows.Forms.CheckBox
         Me.captureCreated = New System.Windows.Forms.CheckBox
         Me.captureWindows = New System.Windows.Forms.CheckBox
@@ -34,8 +35,6 @@ Partial Class frmLogOptions
         Me.captureModules = New System.Windows.Forms.CheckBox
         Me.captureMemoryRegions = New System.Windows.Forms.CheckBox
         Me.captureHandles = New System.Windows.Forms.CheckBox
-        Me.ShapeContainer2 = New Microsoft.VisualBasic.PowerPacks.ShapeContainer
-        Me.LineShape2 = New Microsoft.VisualBasic.PowerPacks.LineShape
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
         Me.showDeleted = New System.Windows.Forms.CheckBox
         Me.showCreated = New System.Windows.Forms.CheckBox
@@ -46,11 +45,10 @@ Partial Class frmLogOptions
         Me.showModules = New System.Windows.Forms.CheckBox
         Me.showMemoryRegions = New System.Windows.Forms.CheckBox
         Me.showHandles = New System.Windows.Forms.CheckBox
-        Me.ShapeContainer1 = New Microsoft.VisualBasic.PowerPacks.ShapeContainer
-        Me.LineShape1 = New Microsoft.VisualBasic.PowerPacks.LineShape
         Me.cmdOK = New System.Windows.Forms.Button
         Me._autoScroll = New System.Windows.Forms.CheckBox
         Me.cmdCancel = New System.Windows.Forms.Button
+        Me.Line2 = New YAPM.HorizontalLine
         CType(Me.logInterval, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -79,6 +77,7 @@ Partial Class frmLogOptions
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.Line1)
         Me.GroupBox1.Controls.Add(Me.captureDeleted)
         Me.GroupBox1.Controls.Add(Me.captureCreated)
         Me.GroupBox1.Controls.Add(Me.captureWindows)
@@ -88,13 +87,20 @@ Partial Class frmLogOptions
         Me.GroupBox1.Controls.Add(Me.captureModules)
         Me.GroupBox1.Controls.Add(Me.captureMemoryRegions)
         Me.GroupBox1.Controls.Add(Me.captureHandles)
-        Me.GroupBox1.Controls.Add(Me.ShapeContainer2)
         Me.GroupBox1.Location = New System.Drawing.Point(12, 12)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(128, 240)
         Me.GroupBox1.TabIndex = 7
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Capture"
+        '
+        'Line1
+        '
+        Me.Line1.BackColor = System.Drawing.SystemColors.ActiveBorder
+        Me.Line1.Location = New System.Drawing.Point(14, 181)
+        Me.Line1.Name = "Line1"
+        Me.Line1.Size = New System.Drawing.Size(100, 1)
+        Me.Line1.TabIndex = 12
         '
         'captureDeleted
         '
@@ -204,27 +210,9 @@ Partial Class frmLogOptions
         Me.captureHandles.Text = "Handles"
         Me.captureHandles.UseVisualStyleBackColor = True
         '
-        'ShapeContainer2
-        '
-        Me.ShapeContainer2.Location = New System.Drawing.Point(3, 18)
-        Me.ShapeContainer2.Margin = New System.Windows.Forms.Padding(0)
-        Me.ShapeContainer2.Name = "ShapeContainer2"
-        Me.ShapeContainer2.Shapes.AddRange(New Microsoft.VisualBasic.PowerPacks.Shape() {Me.LineShape2})
-        Me.ShapeContainer2.Size = New System.Drawing.Size(122, 219)
-        Me.ShapeContainer2.TabIndex = 12
-        Me.ShapeContainer2.TabStop = False
-        '
-        'LineShape2
-        '
-        Me.LineShape2.BorderColor = System.Drawing.SystemColors.ActiveBorder
-        Me.LineShape2.Name = "LineShape2"
-        Me.LineShape2.X1 = 1
-        Me.LineShape2.X2 = 118
-        Me.LineShape2.Y1 = 166
-        Me.LineShape2.Y2 = 166
-        '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.Line2)
         Me.GroupBox2.Controls.Add(Me.showDeleted)
         Me.GroupBox2.Controls.Add(Me.showCreated)
         Me.GroupBox2.Controls.Add(Me.showWindows)
@@ -234,7 +222,6 @@ Partial Class frmLogOptions
         Me.GroupBox2.Controls.Add(Me.showModules)
         Me.GroupBox2.Controls.Add(Me.showMemoryRegions)
         Me.GroupBox2.Controls.Add(Me.showHandles)
-        Me.GroupBox2.Controls.Add(Me.ShapeContainer1)
         Me.GroupBox2.Location = New System.Drawing.Point(146, 12)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(128, 240)
@@ -336,25 +323,6 @@ Partial Class frmLogOptions
         Me.showHandles.Text = "Handles"
         Me.showHandles.UseVisualStyleBackColor = True
         '
-        'ShapeContainer1
-        '
-        Me.ShapeContainer1.Location = New System.Drawing.Point(3, 18)
-        Me.ShapeContainer1.Margin = New System.Windows.Forms.Padding(0)
-        Me.ShapeContainer1.Name = "ShapeContainer1"
-        Me.ShapeContainer1.Shapes.AddRange(New Microsoft.VisualBasic.PowerPacks.Shape() {Me.LineShape1})
-        Me.ShapeContainer1.Size = New System.Drawing.Size(122, 219)
-        Me.ShapeContainer1.TabIndex = 10
-        Me.ShapeContainer1.TabStop = False
-        '
-        'LineShape1
-        '
-        Me.LineShape1.BorderColor = System.Drawing.SystemColors.ActiveBorder
-        Me.LineShape1.Name = "LineShape1"
-        Me.LineShape1.X1 = 1
-        Me.LineShape1.X2 = 118
-        Me.LineShape1.Y1 = 166
-        Me.LineShape1.Y2 = 166
-        '
         'cmdOK
         '
         Me.cmdOK.Location = New System.Drawing.Point(40, 295)
@@ -384,6 +352,14 @@ Partial Class frmLogOptions
         Me.cmdCancel.TabIndex = 11
         Me.cmdCancel.Text = "Cancel"
         Me.cmdCancel.UseVisualStyleBackColor = True
+        '
+        'Line2
+        '
+        Me.Line2.BackColor = System.Drawing.SystemColors.ActiveBorder
+        Me.Line2.Location = New System.Drawing.Point(14, 181)
+        Me.Line2.Name = "Line2"
+        Me.Line2.Size = New System.Drawing.Size(100, 1)
+        Me.Line2.TabIndex = 13
         '
         'frmLogOptions
         '
@@ -435,12 +411,10 @@ Partial Class frmLogOptions
     Friend WithEvents showDeleted As System.Windows.Forms.CheckBox
     Friend WithEvents showCreated As System.Windows.Forms.CheckBox
     Friend WithEvents cmdOK As System.Windows.Forms.Button
-    Friend WithEvents ShapeContainer1 As Microsoft.VisualBasic.PowerPacks.ShapeContainer
-    Friend WithEvents LineShape1 As Microsoft.VisualBasic.PowerPacks.LineShape
     Friend WithEvents captureDeleted As System.Windows.Forms.CheckBox
     Friend WithEvents captureCreated As System.Windows.Forms.CheckBox
-    Friend WithEvents ShapeContainer2 As Microsoft.VisualBasic.PowerPacks.ShapeContainer
-    Friend WithEvents LineShape2 As Microsoft.VisualBasic.PowerPacks.LineShape
     Friend WithEvents _autoScroll As System.Windows.Forms.CheckBox
     Friend WithEvents cmdCancel As System.Windows.Forms.Button
+    Friend WithEvents Line1 As HorizontalLine
+    Friend WithEvents Line2 As YAPM.HorizontalLine
 End Class

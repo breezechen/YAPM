@@ -121,4 +121,5 @@ Public Class frmLogOptions
         Me.DialogResult = Windows.Forms.DialogResult.Cancel
         Me.Close()
     End Sub
+
 End Class
