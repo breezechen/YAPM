@@ -57,6 +57,7 @@ Partial Class frmMain
         Me.AboveNormalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.HighToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RealTimeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ReduceWorkingSetSizeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SetAffinityToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem38 = New System.Windows.Forms.ToolStripSeparator
         Me.ShowModulesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -619,7 +620,6 @@ Partial Class frmMain
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerNetwork = New System.Windows.Forms.Timer(Me.components)
         Me.timerStateBasedActions = New System.Windows.Forms.Timer(Me.components)
-        Me.ReduceWorkingSetSizeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.menuProc.SuspendLayout()
         Me.menuService.SuspendLayout()
         Me.mainMenu.SuspendLayout()
@@ -755,7 +755,7 @@ Partial Class frmMain
         '
         Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.KillProcessTreeToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.ReduceWorkingSetSizeToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ToolStripMenuItem38, Me.ShowModulesToolStripMenuItem, Me.ShowThreadsToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.ShowWindowsToolStripMenuItem, Me.ShowAllToolStripMenuItem, Me.SelectedServicesToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.GoogleSearchToolStripMenuItem, Me.ToolStripMenuItem37, Me.chooseColumns})
         Me.menuProc.Name = "menuProc"
-        Me.menuProc.Size = New System.Drawing.Size(200, 440)
+        Me.menuProc.Size = New System.Drawing.Size(200, 418)
         '
         'KillToolStripMenuItem
         '
@@ -834,6 +834,12 @@ Partial Class frmMain
         Me.RealTimeToolStripMenuItem.Name = "RealTimeToolStripMenuItem"
         Me.RealTimeToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
         Me.RealTimeToolStripMenuItem.Text = "Real Time"
+        '
+        'ReduceWorkingSetSizeToolStripMenuItem
+        '
+        Me.ReduceWorkingSetSizeToolStripMenuItem.Name = "ReduceWorkingSetSizeToolStripMenuItem"
+        Me.ReduceWorkingSetSizeToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
+        Me.ReduceWorkingSetSizeToolStripMenuItem.Text = "Reduce working set size"
         '
         'SetAffinityToolStripMenuItem
         '
@@ -4366,6 +4372,7 @@ Partial Class frmMain
         'SplitContainerProcess.Panel1
         '
         Me.SplitContainerProcess.Panel1.Controls.Add(Me.SplitContainerTvLv)
+        Me.SplitContainerProcess.Panel2Collapsed = True
         Me.SplitContainerProcess.Size = New System.Drawing.Size(852, 386)
         Me.SplitContainerProcess.SplitterDistance = 237
         Me.SplitContainerProcess.TabIndex = 0
@@ -4385,7 +4392,7 @@ Partial Class frmMain
         'SplitContainerTvLv.Panel2
         '
         Me.SplitContainerTvLv.Panel2.Controls.Add(Me.lvProcess)
-        Me.SplitContainerTvLv.Size = New System.Drawing.Size(852, 237)
+        Me.SplitContainerTvLv.Size = New System.Drawing.Size(852, 386)
         Me.SplitContainerTvLv.SplitterDistance = 149
         Me.SplitContainerTvLv.TabIndex = 4
         '
@@ -4425,7 +4432,7 @@ Partial Class frmMain
         Me.lvProcess.Location = New System.Drawing.Point(0, 0)
         Me.lvProcess.Name = "lvProcess"
         Me.lvProcess.OverriddenDoubleBuffered = True
-        Me.lvProcess.Size = New System.Drawing.Size(852, 237)
+        Me.lvProcess.Size = New System.Drawing.Size(852, 386)
         Me.lvProcess.TabIndex = 3
         Me.lvProcess.UseCompatibleStateImageBehavior = False
         Me.lvProcess.View = System.Windows.Forms.View.Details
@@ -6286,12 +6293,6 @@ Partial Class frmMain
         '
         Me.timerStateBasedActions.Enabled = True
         Me.timerStateBasedActions.Interval = 1000
-        '
-        'ReduceWorkingSetSizeToolStripMenuItem
-        '
-        Me.ReduceWorkingSetSizeToolStripMenuItem.Name = "ReduceWorkingSetSizeToolStripMenuItem"
-        Me.ReduceWorkingSetSizeToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
-        Me.ReduceWorkingSetSizeToolStripMenuItem.Text = "Reduce working set size"
         '
         'frmMain
         '

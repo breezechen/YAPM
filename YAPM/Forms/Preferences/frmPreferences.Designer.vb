@@ -124,7 +124,7 @@ Partial Class frmPreferences
         Me.txtSearchEngine.Location = New System.Drawing.Point(97, 144)
         Me.txtSearchEngine.Name = "txtSearchEngine"
         Me.txtSearchEngine.Size = New System.Drawing.Size(218, 22)
-        Me.txtSearchEngine.TabIndex = 2
+        Me.txtSearchEngine.TabIndex = 4
         '
         'Label6
         '
@@ -154,7 +154,7 @@ Partial Class frmPreferences
         Me.chkTopMost.Location = New System.Drawing.Point(9, 91)
         Me.chkTopMost.Name = "chkTopMost"
         Me.chkTopMost.Size = New System.Drawing.Size(127, 17)
-        Me.chkTopMost.TabIndex = 4
+        Me.chkTopMost.TabIndex = 3
         Me.chkTopMost.Text = "Start YAPM topmost"
         Me.chkTopMost.UseVisualStyleBackColor = True
         '
@@ -209,7 +209,7 @@ Partial Class frmPreferences
         Me.chkHideMinimized.Location = New System.Drawing.Point(15, 169)
         Me.chkHideMinimized.Name = "chkHideMinimized"
         Me.chkHideMinimized.Size = New System.Drawing.Size(137, 17)
-        Me.chkHideMinimized.TabIndex = 10
+        Me.chkHideMinimized.TabIndex = 3
         Me.chkHideMinimized.Text = "Hide when minimized"
         Me.chkHideMinimized.UseVisualStyleBackColor = True
         '
@@ -219,7 +219,7 @@ Partial Class frmPreferences
         Me.chkRibbon.Location = New System.Drawing.Point(15, 146)
         Me.chkRibbon.Name = "chkRibbon"
         Me.chkRibbon.Size = New System.Drawing.Size(127, 17)
-        Me.chkRibbon.TabIndex = 9
+        Me.chkRibbon.TabIndex = 2
         Me.chkRibbon.Text = "Ribbon style menus"
         Me.chkRibbon.UseVisualStyleBackColor = True
         '
@@ -276,7 +276,7 @@ Partial Class frmPreferences
         Me.chkCloseButton.Location = New System.Drawing.Point(15, 37)
         Me.chkCloseButton.Name = "chkCloseButton"
         Me.chkCloseButton.Size = New System.Drawing.Size(179, 17)
-        Me.chkCloseButton.TabIndex = 7
+        Me.chkCloseButton.TabIndex = 1
         Me.chkCloseButton.Text = "Close YAPM with close button"
         Me.chkCloseButton.UseVisualStyleBackColor = True
         '
@@ -286,7 +286,7 @@ Partial Class frmPreferences
         Me.chkTrayIcon.Location = New System.Drawing.Point(15, 14)
         Me.chkTrayIcon.Name = "chkTrayIcon"
         Me.chkTrayIcon.Size = New System.Drawing.Size(102, 17)
-        Me.chkTrayIcon.TabIndex = 6
+        Me.chkTrayIcon.TabIndex = 0
         Me.chkTrayIcon.Text = "Show tray icon"
         Me.chkTrayIcon.UseVisualStyleBackColor = True
         '
@@ -311,7 +311,7 @@ Partial Class frmPreferences
         Me.cbPriority.Location = New System.Drawing.Point(74, 191)
         Me.cbPriority.Name = "cbPriority"
         Me.cbPriority.Size = New System.Drawing.Size(121, 21)
-        Me.cbPriority.TabIndex = 4
+        Me.cbPriority.TabIndex = 6
         '
         'Label5
         '
@@ -348,14 +348,14 @@ Partial Class frmPreferences
         Me.txtSysInfoInterval.Location = New System.Drawing.Point(109, 129)
         Me.txtSysInfoInterval.Name = "txtSysInfoInterval"
         Me.txtSysInfoInterval.Size = New System.Drawing.Size(181, 22)
-        Me.txtSysInfoInterval.TabIndex = 14
+        Me.txtSysInfoInterval.TabIndex = 5
         '
         'txtTrayInterval
         '
         Me.txtTrayInterval.Location = New System.Drawing.Point(109, 106)
         Me.txtTrayInterval.Name = "txtTrayInterval"
         Me.txtTrayInterval.Size = New System.Drawing.Size(181, 22)
-        Me.txtTrayInterval.TabIndex = 13
+        Me.txtTrayInterval.TabIndex = 4
         '
         'Label9
         '
@@ -380,14 +380,14 @@ Partial Class frmPreferences
         Me.txtNetworkInterval.Location = New System.Drawing.Point(109, 83)
         Me.txtNetworkInterval.Name = "txtNetworkInterval"
         Me.txtNetworkInterval.Size = New System.Drawing.Size(181, 22)
-        Me.txtNetworkInterval.TabIndex = 10
+        Me.txtNetworkInterval.TabIndex = 3
         '
         'txtTaskInterval
         '
         Me.txtTaskInterval.Location = New System.Drawing.Point(109, 60)
         Me.txtTaskInterval.Name = "txtTaskInterval"
         Me.txtTaskInterval.Size = New System.Drawing.Size(181, 22)
-        Me.txtTaskInterval.TabIndex = 9
+        Me.txtTaskInterval.TabIndex = 2
         '
         'Label3
         '
@@ -412,14 +412,14 @@ Partial Class frmPreferences
         Me.txtServiceIntervall.Location = New System.Drawing.Point(109, 37)
         Me.txtServiceIntervall.Name = "txtServiceIntervall"
         Me.txtServiceIntervall.Size = New System.Drawing.Size(181, 22)
-        Me.txtServiceIntervall.TabIndex = 6
+        Me.txtServiceIntervall.TabIndex = 1
         '
         'txtProcessIntervall
         '
         Me.txtProcessIntervall.Location = New System.Drawing.Point(109, 14)
         Me.txtProcessIntervall.Name = "txtProcessIntervall"
         Me.txtProcessIntervall.Size = New System.Drawing.Size(181, 22)
-        Me.txtProcessIntervall.TabIndex = 5
+        Me.txtProcessIntervall.TabIndex = 0
         '
         'Label2
         '

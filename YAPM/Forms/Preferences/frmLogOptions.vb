@@ -81,6 +81,8 @@ Public Class frmLogOptions
 
         Me.captureDeleted.Checked = (_logCaptureMask And LogItemType.DeletedItems) = LogItemType.DeletedItems
         Me.showDeleted.Checked = (_logDisplayMask And LogItemType.DeletedItems) = LogItemType.DeletedItems
+
+        Me.logInterval.Value = _frm.timerLog.Interval
     End Sub
 
     Private Sub cmdOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdOK.Click
