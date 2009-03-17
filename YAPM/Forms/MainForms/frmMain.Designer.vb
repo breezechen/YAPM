@@ -1234,6 +1234,7 @@ Partial Class frmMain
         '
         'StateBasedActionsToolStripMenuItem
         '
+        Me.StateBasedActionsToolStripMenuItem.Enabled = False
         Me.StateBasedActionsToolStripMenuItem.Name = "StateBasedActionsToolStripMenuItem"
         Me.StateBasedActionsToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
         Me.StateBasedActionsToolStripMenuItem.Text = "State based actions..."
@@ -3955,6 +3956,7 @@ Partial Class frmMain
         '
         'StateBasedActionsToolStripMenuItem1
         '
+        Me.StateBasedActionsToolStripMenuItem1.Enabled = False
         Me.StateBasedActionsToolStripMenuItem1.Name = "StateBasedActionsToolStripMenuItem1"
         Me.StateBasedActionsToolStripMenuItem1.Size = New System.Drawing.Size(184, 22)
         Me.StateBasedActionsToolStripMenuItem1.Text = "State based actions..."
