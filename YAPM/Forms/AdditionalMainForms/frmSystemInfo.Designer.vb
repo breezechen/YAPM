@@ -120,7 +120,6 @@ Partial Class frmSystemInfo
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
-        Me.g1 = New YAPM.Graph2
         Me.g2 = New YAPM.Graph2
         Me.g3 = New YAPM.Graph2
         Me.g4 = New YAPM.Graph2
@@ -138,13 +137,11 @@ Partial Class frmSystemInfo
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
-        Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
-        CType(Me.g1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.g2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.g3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.g4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -185,7 +182,7 @@ Partial Class frmSystemInfo
         'chkOneGraphPerCpu
         '
         Me.chkOneGraphPerCpu.AutoSize = True
-        Me.chkOneGraphPerCpu.Location = New System.Drawing.Point(158, 440)
+        Me.chkOneGraphPerCpu.Location = New System.Drawing.Point(168, 446)
         Me.chkOneGraphPerCpu.Name = "chkOneGraphPerCpu"
         Me.chkOneGraphPerCpu.Size = New System.Drawing.Size(124, 17)
         Me.chkOneGraphPerCpu.TabIndex = 16
@@ -1111,10 +1108,6 @@ Partial Class frmSystemInfo
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
-        'SplitContainer1.Panel1
-        '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.g1)
-        '
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.g2)
@@ -1141,29 +1134,13 @@ Partial Class frmSystemInfo
         Me.SplitContainer3.SplitterDistance = 117
         Me.SplitContainer3.TabIndex = 0
         '
-        'g1
-        '
-        Me.g1.BackColor = System.Drawing.Color.Black
-        Me.g1.Color = System.Drawing.Color.Lime
-        Me.g1.Color2 = System.Drawing.Color.Green
-        Me.g1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.g1.EnableGraph = True
-        Me.g1.Fixedheight = True
-        Me.g1.GridStep = 10
-        Me.g1.Location = New System.Drawing.Point(0, 0)
-        Me.g1.Name = "g1"
-        Me.g1.ShowSecondGraph = False
-        Me.g1.Size = New System.Drawing.Size(310, 119)
-        Me.g1.TabIndex = 10
-        Me.g1.TabStop = False
-        '
         'g2
         '
         Me.g2.BackColor = System.Drawing.Color.Black
         Me.g2.Color2 = System.Drawing.Color.Olive
         Me.g2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.g2.EnableGraph = True
-        Me.g2.Fixedheight = False
+        Me.g2.Fixedheight = True
         Me.g2.GridStep = 10
         Me.g2.Location = New System.Drawing.Point(0, 0)
         Me.g2.Name = "g2"
@@ -1239,13 +1216,11 @@ Partial Class frmSystemInfo
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
-        Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         Me.SplitContainer3.Panel1.ResumeLayout(False)
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.ResumeLayout(False)
-        CType(Me.g1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.g2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.g3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.g4, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1347,7 +1322,6 @@ Partial Class frmSystemInfo
     Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
     Friend WithEvents SplitContainer3 As System.Windows.Forms.SplitContainer
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
-    Friend WithEvents g1 As YAPM.Graph2
     Friend WithEvents g2 As YAPM.Graph2
     Friend WithEvents g3 As YAPM.Graph2
     Friend WithEvents g4 As YAPM.Graph2

@@ -23,6 +23,8 @@ Option Strict On
 
 Public Class frmSystemInfo
 
+    Private _processors As Integer = 1
+
     Private Sub timerRefresh_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerRefresh.Tick
 
         ' Get some date and date diff
@@ -43,7 +45,7 @@ Public Class frmSystemInfo
             Dim pi As cSystemInfo.SYSTEM_PERFORMANCE_INFORMATION = .PerformanceInformations
             Dim ppi() As cSystemInfo.SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION = .ProcessorPerformanceInformations
             Dim _pagesize As Integer = bi.PageSize
-            Dim _processors As Integer = bi.NumberOfProcessors
+            _processors = bi.NumberOfProcessors
 
             ' Cache
             Me.lblCacheCurrent.Text = mdlMisc.GetFormatedSize(ci.SystemCacheWsSize)
@@ -147,24 +149,11 @@ Public Class frmSystemInfo
 
             ' ======== Graphics
             ' g1 (CPU)
-            Static oldProcTime As Long = 0
-            Dim newProcTime As Long = zres3 + zres4
-            Dim diffProcTime As Long = newProcTime - oldProcTime
-            oldProcTime = newProcTime
-
-            Dim v1 As Double
-            If diff.Ticks > 0 Then
-                v1 = diffProcTime / diff.Ticks / bi.NumberOfProcessors
-            Else
-                v1 = 0
-            End If
-            Trace.WriteLine(v1)
-            Me.g1.AddValue(v1 * 100)
-            Me.g1.Refresh()
+            Call showCpuUsage(zres3, zres4, ppi, diff)
 
 
             ' g2 (physical memory)
-            Dim ggg2 As Double = (pi.CommittedPages - pi.AvailablePages) * (_pagesize / 1024)
+            Dim ggg2 As Double = 100 * (bi.NumberOfPhysicalPages - pi.AvailablePages) / bi.NumberOfPhysicalPages
             Me.g2.AddValue(ggg2)
             Me.g2.Refresh()
 
@@ -206,13 +195,140 @@ Public Class frmSystemInfo
     End Sub
 
     Private Sub frmSystemInfo_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Call chkOneGraphPerCpu_CheckedChanged(Nothing, Nothing) ' Add graphs
         Call timerRefresh_Tick(Nothing, Nothing)
     End Sub
 
-    Private Sub frmSystemInfo_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Mybase.Resize
-        Me.g1.Refresh()
+    Private Sub frmSystemInfo_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Resize
         Me.g2.Refresh()
         Me.g3.Refresh()
         Me.g4.Refresh()
     End Sub
+
+    Private Sub chkOneGraphPerCpu_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOneGraphPerCpu.CheckedChanged
+        ' Delete graphs
+        Me.SplitContainer1.Panel1.Controls.Clear()
+
+        ' Add graphs
+        If chkOneGraphPerCpu.Checked = False Then
+            ' One graph
+            Dim _g As New Graph2
+            _g.Dock = DockStyle.Fill
+            _g.Visible = True
+            _g.ColorGrid = Color.DarkGreen
+            _g.BackColor = Color.Black
+            _g.Name = "_graphCpuAll"
+            _g.EnableGraph = True
+            _g.Fixedheight = True
+            _g.ShowSecondGraph = False
+            _g.Color = Color.LimeGreen
+            _g.Color2 = Color.Green
+            Me.SplitContainer1.Panel1.Controls.Add(_g)
+            _g.Refresh()
+        Else
+            ' One graph per CPU
+            For x As Integer = 0 To _processors - 1
+                Dim _g As New Graph2
+                _g.Dock = DockStyle.Left
+                _g.Visible = True
+                _g.ColorGrid = Color.DarkGreen
+                _g.BackColor = Color.Black
+                _g.Name = "_graph" & x.ToString
+                _g.Tag = x
+                _g.EnableGraph = True
+                _g.Fixedheight = True
+                _g.ShowSecondGraph = False
+                _g.Color = Color.LimeGreen
+                _g.Color2 = Color.Green
+                Me.SplitContainer1.Panel1.Controls.Add(_g)
+                If x < _processors - 1 Then
+                    Dim _p As New PictureBox
+                    _p.BackColor = Color.Transparent
+                    _p.Width = 2
+                    _p.Dock = DockStyle.Left
+                    _p.Name = "_pct" & x.ToString
+                    Me.SplitContainer1.Panel1.Controls.Add(_p)
+                End If
+                _g.Refresh()
+            Next
+            SplitContainer2_Resize(Nothing, Nothing)
+        End If
+
+    End Sub
+
+    Private Sub SplitContainer2_Resize(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SplitContainer2.Resize
+        ' Recalculate width if one graph per CPU
+        If Me.chkOneGraphPerCpu.Checked Then
+            For Each ct As Control In Me.SplitContainer1.Panel1.Controls
+                If TypeOf ct Is Graph2 Then
+                    ct.Width = CInt((Me.SplitContainer1.Panel1.Width - 2 * (_processors - 1)) / _processors)
+                    ct.Refresh()
+                End If
+            Next
+        End If
+    End Sub
+
+    Private Sub showCpuUsage(ByVal zres3 As Long, ByVal zres4 As Long, ByRef ppi() As  _
+                             cSystemInfo.SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION, _
+                             ByVal diff As Date)
+
+        Static oldProcTime As Long = 0
+
+        If chkOneGraphPerCpu.Checked = False Then
+            ' One graph for all CPUs
+            Dim newProcTime As Long = zres3 + zres4
+            Dim diffProcTime As Long = newProcTime - oldProcTime
+            oldProcTime = newProcTime
+
+            Dim v1 As Double
+            If diff.Ticks > 0 Then
+                v1 = diffProcTime / diff.Ticks / _processors
+            Else
+                v1 = 0
+            End If
+
+            Dim _g1 As Graph2 = CType(Me.SplitContainer1.Panel1.Controls(0), Graph2)
+
+            _g1.AddValue(v1 * 100)
+            _g1.Refresh()
+        Else
+            ' One graph per CPU
+            Static _old() As Long = Nothing
+            If _old Is Nothing Then
+                ReDim _old(_processors - 1)
+            End If
+
+            Dim _new() As Long
+            ReDim _new(_processors - 1)
+            For x As Integer = 0 To _processors - 1
+                _new(x) = ppi(x).UserTime + ppi(x).KernelTime - ppi(x).IdleTime - ppi(x).InterruptTime - ppi(x).DpcTime
+            Next
+
+            Dim _diff() As Long
+            ReDim _diff(_processors - 1)
+            If diff.Ticks > 0 AndAlso _old(0) > 0 Then
+                For x As Integer = 0 To _processors - 1
+                    _diff(x) = _new(x) - _old(x)
+                Next
+            Else
+                For x As Integer = 0 To _processors - 1
+                    _diff(x) = 0
+                Next
+            End If
+            _old = _new
+
+            ' Refresh graphs
+            For Each ct As Control In Me.SplitContainer1.Panel1.Controls
+                If TypeOf ct Is Graph2 Then
+                    Dim _g1 As Graph2 = CType(ct, Graph2)
+                    Dim _i As Integer = CInt(_g1.Tag)
+                    _g1.AddValue(100 * _diff(_i) / diff.Ticks / _processors)
+                    _g1.Refresh()
+                End If
+            Next
+
+
+        End If
+    End Sub
+
 End Class
