@@ -198,6 +198,7 @@ Public Class frmSystemInfo
         Me.timerRefresh.Interval = frmMain.Pref.systemInterval
         Call chkOneGraphPerCpu_CheckedChanged(Nothing, Nothing) ' Add graphs
         Call timerRefresh_Tick(Nothing, Nothing)
+        Me.chkOneGraphPerCpu.Enabled = (frmMain.cInfo.ProcessorCount > 1)
     End Sub
 
     Private Sub frmSystemInfo_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Resize
