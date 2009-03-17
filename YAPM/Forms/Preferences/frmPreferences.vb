@@ -26,8 +26,8 @@ Public Class frmPreferences
     '<!--This file is the config file of YAPM. You should not manually edit it.-->
     '<yapm>
     '	<config>
-    '		<procintervall>2000</procintervall>
-    '		<serviceintervall>10000</serviceintervall>
+    '		<procinterval>2000</procinterval>
+    '		<serviceinterval>10000</serviceinterval>
     '		<startup>false</startup>
     '		<starthidden>false</starthidden>
     '		<lang>english</lang>
@@ -45,10 +45,11 @@ Public Class frmPreferences
     Private _deletedcolor As Integer
 
     Private Sub cmdQuit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdQuit.Click
-        frmMain.timerProcess.Interval = frmMain.Pref.procIntervall
+        frmMain.timerProcess.Interval = frmMain.Pref.procInterval
         frmMain.timerTask.Interval = frmMain.Pref.taskInterval
         frmMain.timerNetwork.Interval = frmMain.Pref.networkInterval
-        frmMain.timerServices.Interval = frmMain.Pref.serviceIntervall
+        frmMain.timerServices.Interval = frmMain.Pref.serviceInterval
+        frmMain.timerTrayIcon.Interval = frmMain.Pref.trayInterval
         Me.Close()
     End Sub
 
@@ -57,8 +58,8 @@ Public Class frmPreferences
         Dim _oldRibbonStyle As Boolean = frmMain.Pref.ribbonStyle
 
         With frmMain.Pref
-            .serviceIntervall = CInt(Val(Me.txtServiceIntervall.Text))
-            .procIntervall = CInt(Val(Me.txtProcessIntervall.Text))
+            .serviceInterval = CInt(Val(Me.txtServiceIntervall.Text))
+            .procInterval = CInt(Val(Me.txtProcessIntervall.Text))
             .startup = Me.chkStart.Checked
             .startHidden = Me.chkStartTray.Checked
             .replaceTaskMgr = Me.chkReplaceTaskmgr.Checked
@@ -75,6 +76,8 @@ Public Class frmPreferences
             .closeYAPMWithCloseButton = Me.chkCloseButton.Checked
             .warnDangerous = Me.chkWarn.Checked
             .hideMinimized = Me.chkHideMinimized.Checked
+            .trayInterval = CInt(Val(Me.txtTrayInterval.Text))
+            .systemInterval = CInt(Val(Me.txtSysInfoInterval.Text))
 
             .Apply()
             Call mdlMisc.StartWithWindows(.startup)
@@ -125,12 +128,14 @@ Public Class frmPreferences
             .SetToolTip(Me.chkCloseButton, "Close YAPM when close button is pressed (minimize to tray if not checked).")
             .SetToolTip(Me.chkWarn, "Warn user for all (potentially) dangerous actions.")
             .SetToolTip(Me.chkHideMinimized, "Hide main form when minimized.")
+            .SetToolTip(Me.txtTrayInterval, "Set interval (milliseconds) between two refreshments of tray icon.")
+            .SetToolTip(Me.txtSysInfoInterval, "Set interval (milliseconds) between two refreshments of system informations.")
         End With
 
         ' Set control's values
         With frmMain.Pref
-            Me.txtServiceIntervall.Text = .serviceIntervall.ToString
-            Me.txtProcessIntervall.Text = .procIntervall.ToString
+            Me.txtServiceIntervall.Text = .serviceInterval.ToString
+            Me.txtProcessIntervall.Text = .procInterval.ToString
             Me.chkHideDetails.Checked = .detailsHidden
             Me.chkStart.Checked = .startup
             Me.chkStartTray.Checked = .startHidden
@@ -149,6 +154,8 @@ Public Class frmPreferences
             Me.chkCloseButton.Checked = .closeYAPMWithCloseButton
             Me.chkWarn.Checked = .warnDangerous
             Me.chkHideMinimized.Checked = .hideMinimized
+            Me.txtTrayInterval.Text = .trayInterval.ToString
+            Me.txtSysInfoInterval.Text = .systemInterval.ToString
         End With
 
     End Sub
@@ -171,6 +178,8 @@ Public Class frmPreferences
         Me.cbPriority.SelectedIndex = 1
         Me.txtTaskInterval.Text = frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
         Me.txtNetworkInterval.Text = frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
+        Me.txtTrayInterval.Text = frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
+        Me.txtSysInfoInterval.Text = frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
         Me.chkRibbon.Checked = True
         Me.txtSearchEngine.Text = "http://www.google.com/search?hl=en&q=ITEM"
         Me.chkCloseButton.Checked = True

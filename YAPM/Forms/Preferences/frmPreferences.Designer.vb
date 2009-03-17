@@ -66,6 +66,10 @@ Partial Class frmPreferences
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
         Me.colDial = New System.Windows.Forms.ColorDialog
+        Me.txtSysInfoInterval = New System.Windows.Forms.TextBox
+        Me.txtTrayInterval = New System.Windows.Forms.TextBox
+        Me.Label9 = New System.Windows.Forms.Label
+        Me.Label10 = New System.Windows.Forms.Label
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -316,7 +320,7 @@ Partial Class frmPreferences
         Me.cbPriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbPriority.FormattingEnabled = True
         Me.cbPriority.Items.AddRange(New Object() {"Idle", "Below Normal", "Normal", "Above Normal", "High", "Real Time"})
-        Me.cbPriority.Location = New System.Drawing.Point(74, 140)
+        Me.cbPriority.Location = New System.Drawing.Point(74, 191)
         Me.cbPriority.Name = "cbPriority"
         Me.cbPriority.Size = New System.Drawing.Size(121, 21)
         Me.cbPriority.TabIndex = 4
@@ -324,7 +328,7 @@ Partial Class frmPreferences
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(14, 143)
+        Me.Label5.Location = New System.Drawing.Point(14, 194)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(43, 13)
         Me.Label5.TabIndex = 3
@@ -332,6 +336,10 @@ Partial Class frmPreferences
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.txtSysInfoInterval)
+        Me.GroupBox2.Controls.Add(Me.txtTrayInterval)
+        Me.GroupBox2.Controls.Add(Me.Label9)
+        Me.GroupBox2.Controls.Add(Me.Label10)
         Me.GroupBox2.Controls.Add(Me.txtNetworkInterval)
         Me.GroupBox2.Controls.Add(Me.txtTaskInterval)
         Me.GroupBox2.Controls.Add(Me.Label3)
@@ -342,7 +350,7 @@ Partial Class frmPreferences
         Me.GroupBox2.Controls.Add(Me.Label1)
         Me.GroupBox2.Location = New System.Drawing.Point(14, 14)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(301, 116)
+        Me.GroupBox2.Size = New System.Drawing.Size(301, 163)
         Me.GroupBox2.TabIndex = 2
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Update intervals"
@@ -364,7 +372,7 @@ Partial Class frmPreferences
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(7, 92)
+        Me.Label3.Location = New System.Drawing.Point(6, 92)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(92, 13)
         Me.Label3.TabIndex = 8
@@ -396,7 +404,7 @@ Partial Class frmPreferences
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(7, 46)
+        Me.Label2.Location = New System.Drawing.Point(6, 46)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(88, 13)
         Me.Label2.TabIndex = 1
@@ -496,6 +504,38 @@ Partial Class frmPreferences
         Me.colDial.AnyColor = True
         Me.colDial.FullOpen = True
         '
+        'txtSysInfoInterval
+        '
+        Me.txtSysInfoInterval.Location = New System.Drawing.Point(109, 129)
+        Me.txtSysInfoInterval.Name = "txtSysInfoInterval"
+        Me.txtSysInfoInterval.Size = New System.Drawing.Size(181, 22)
+        Me.txtSysInfoInterval.TabIndex = 14
+        '
+        'txtTrayInterval
+        '
+        Me.txtTrayInterval.Location = New System.Drawing.Point(109, 106)
+        Me.txtTrayInterval.Name = "txtTrayInterval"
+        Me.txtTrayInterval.Size = New System.Drawing.Size(181, 22)
+        Me.txtTrayInterval.TabIndex = 13
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(6, 138)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(91, 13)
+        Me.Label9.TabIndex = 12
+        Me.Label9.Text = "Sys. info interval"
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Location = New System.Drawing.Point(6, 115)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(68, 13)
+        Me.Label10.TabIndex = 11
+        Me.Label10.Text = "Tray interval"
+        '
         'frmPreferences
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -578,4 +618,8 @@ Partial Class frmPreferences
     Friend WithEvents chkRibbon As System.Windows.Forms.CheckBox
     Friend WithEvents colDial As System.Windows.Forms.ColorDialog
     Friend WithEvents chkHideMinimized As System.Windows.Forms.CheckBox
+    Friend WithEvents txtSysInfoInterval As System.Windows.Forms.TextBox
+    Friend WithEvents txtTrayInterval As System.Windows.Forms.TextBox
+    Friend WithEvents Label9 As System.Windows.Forms.Label
+    Friend WithEvents Label10 As System.Windows.Forms.Label
 End Class

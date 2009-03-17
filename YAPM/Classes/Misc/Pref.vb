@@ -25,8 +25,10 @@ Public Class Pref
 
     ' Options
     Public replaceTaskMgr As Boolean
-    Public procIntervall As Integer
-    Public serviceIntervall As Integer
+    Public procInterval As Integer
+    Public trayInterval As Integer
+    Public systemInterval As Integer
+    Public serviceInterval As Integer
     Public startup As Boolean
     Public startHidden As Boolean
     Public lang As String
@@ -57,10 +59,10 @@ Public Class Pref
 
         For Each noeud In element
             For Each noeudEnf In noeud.ChildNodes
-                If noeudEnf.LocalName = "procintervall" Then
-                    procIntervall = CInt(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "serviceintervall" Then
-                    serviceIntervall = CInt(noeudEnf.InnerText)
+                If noeudEnf.LocalName = "procinterval" Then
+                    procInterval = CInt(noeudEnf.InnerText)
+                ElseIf noeudEnf.LocalName = "serviceinterval" Then
+                    serviceInterval = CInt(noeudEnf.InnerText)
                 ElseIf noeudEnf.LocalName = "startup" Then
                     startup = CBool(noeudEnf.InnerText)
                 ElseIf noeudEnf.LocalName = "starthidden" Then
@@ -97,6 +99,10 @@ Public Class Pref
                     warnDangerous = CBool(noeudEnf.InnerText)
                 ElseIf noeudEnf.LocalName = "hideminimized" Then
                     hideMinimized = CBool(noeudEnf.InnerText)
+                ElseIf noeudEnf.LocalName = "trayinterval" Then
+                    trayInterval = CInt(noeudEnf.InnerText)
+                ElseIf noeudEnf.LocalName = "systeminterval" Then
+                    systemInterval = CInt(noeudEnf.InnerText)
                 End If
             Next
         Next
@@ -112,12 +118,12 @@ Public Class Pref
         elemConfig = XmlDoc.CreateElement("config")
 
         Dim elemProcIntervall As XmlElement
-        elemProcIntervall = XmlDoc.CreateElement("procintervall")
-        elemProcIntervall.InnerText = CStr(Me.procIntervall)
+        elemProcIntervall = XmlDoc.CreateElement("procinterval")
+        elemProcIntervall.InnerText = CStr(Me.procInterval)
         elemConfig.AppendChild(elemProcIntervall)
         Dim elemServiceIntervall As XmlElement
-        elemServiceIntervall = XmlDoc.CreateElement("serviceintervall")
-        elemServiceIntervall.InnerText = CStr(Me.serviceIntervall)
+        elemServiceIntervall = XmlDoc.CreateElement("serviceinterval")
+        elemServiceIntervall.InnerText = CStr(Me.serviceInterval)
         elemConfig.AppendChild(elemServiceIntervall)
         Dim elemStartup As XmlElement
         elemStartup = XmlDoc.CreateElement("startup")
@@ -191,6 +197,14 @@ Public Class Pref
         elemHideMin = XmlDoc.CreateElement("hideminimized")
         elemHideMin.InnerText = CStr(Me.hideMinimized)
         elemConfig.AppendChild(elemHideMin)
+        Dim elemTrayInterval As XmlElement
+        elemTrayInterval = XmlDoc.CreateElement("trayinterval")
+        elemTrayInterval.InnerText = CStr(Me.trayInterval)
+        elemConfig.AppendChild(elemTrayInterval)
+        Dim elemSystemInterval As XmlElement
+        elemSystemInterval = XmlDoc.CreateElement("systeminterval")
+        elemSystemInterval.InnerText = CStr(Me.systemInterval)
+        elemConfig.AppendChild(elemSystemInterval)
 
         XmlDoc.DocumentElement.AppendChild(elemConfig)
         XmlDoc.Save(frmMain.PREF_PATH)
@@ -199,10 +213,11 @@ Public Class Pref
     ' Apply pref
     Public Sub Apply()
         Static first As Boolean = True
-        frmMain.timerProcess.Interval = CInt(IIf(procIntervall > 0, procIntervall, frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES))
-        frmMain.timerServices.Interval = CInt(IIf(serviceIntervall > 0, serviceIntervall, frmMain.DEFAULT_TIMER_INTERVAL_SERVICES))
-        frmMain.timerNetwork.Interval = CInt(IIf(networkInterval > 0, networkInterval, frmMain.DEFAULT_TIMER_INTERVAL_SERVICES))
-        frmMain.timerTask.Interval = CInt(IIf(taskInterval > 0, taskInterval, frmMain.DEFAULT_TIMER_INTERVAL_SERVICES))
+        frmMain.timerProcess.Interval = CInt(IIf(procInterval > 0, procInterval, frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES))
+        frmMain.timerServices.Interval = CInt(IIf(serviceInterval > 0, serviceInterval, frmMain.DEFAULT_TIMER_INTERVAL_SERVICES))
+        frmMain.timerNetwork.Interval = CInt(IIf(networkInterval > 0, networkInterval, frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES))
+        frmMain.timerTask.Interval = CInt(IIf(taskInterval > 0, taskInterval, frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES))
+        frmMain.timerTrayIcon.Interval = CInt(IIf(trayInterval > 0, trayInterval, frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES))
         Select Case priority
             Case 0
                 Process.GetCurrentProcess.PriorityClass = ProcessPriorityClass.Idle

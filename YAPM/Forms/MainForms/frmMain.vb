@@ -421,8 +421,8 @@ Public Class frmMain
             MsgBox("Preference file is missing or corrupted and will be now recreated.", MsgBoxStyle.Critical, "Startup error")
             With Pref
                 .lang = "English"
-                .procIntervall = DEFAULT_TIMER_INTERVAL_PROCESSES
-                .serviceIntervall = DEFAULT_TIMER_INTERVAL_SERVICES
+                .procInterval = DEFAULT_TIMER_INTERVAL_PROCESSES
+                .serviceInterval = DEFAULT_TIMER_INTERVAL_SERVICES
                 .startHidden = False
                 .replaceTaskMgr = False
                 .startup = False
@@ -434,6 +434,8 @@ Public Class frmMain
                 .priority = 1
                 .taskInterval = DEFAULT_TIMER_INTERVAL_PROCESSES
                 .networkInterval = DEFAULT_TIMER_INTERVAL_PROCESSES
+                .trayInterval = DEFAULT_TIMER_INTERVAL_PROCESSES
+                .systemInterval = DEFAULT_TIMER_INTERVAL_PROCESSES
                 .ribbonStyle = True
                 .searchEngine = "http://www.google.com/search?hl=en&q=ITEM"
                 .closeYAPMWithCloseButton = True
