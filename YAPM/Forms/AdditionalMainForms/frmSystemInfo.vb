@@ -273,19 +273,21 @@ Public Class frmSystemInfo
                              ByVal diff As Date)
 
         Static oldProcTime As Long = 0
+        Static _old() As Long = Nothing
 
         If chkOneGraphPerCpu.Checked = False Then
             ' One graph for all CPUs
+            _old = Nothing
             Dim newProcTime As Long = zres3 + zres4
             Dim diffProcTime As Long = newProcTime - oldProcTime
-            oldProcTime = newProcTime
 
             Dim v1 As Double
-            If diff.Ticks > 0 Then
+            If diff.Ticks > 0 AndAlso oldProcTime > 0 Then
                 v1 = diffProcTime / diff.Ticks / _processors
             Else
                 v1 = 0
             End If
+            oldProcTime = newProcTime
 
             Dim _g1 As Graph2 = CType(Me.SplitContainer1.Panel1.Controls(0), Graph2)
 
@@ -293,7 +295,7 @@ Public Class frmSystemInfo
             _g1.Refresh()
         Else
             ' One graph per CPU
-            Static _old() As Long = Nothing
+            oldProcTime = 0
             If _old Is Nothing Then
                 ReDim _old(_processors - 1)
             End If
