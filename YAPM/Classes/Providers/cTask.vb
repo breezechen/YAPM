@@ -48,7 +48,7 @@ Public Class cTask
     Public Sub New(ByVal task As LightWindow)
         MyBase.New(task)
         _proc = New cProcess(task.pid)
-        _key = task.handle.ToString & "|" & task.pid.ToString
+        _key = task.handle.ToString & "|" & task.pid.ToString & "|" & task.threadId.ToString
         _proc.ProcessorCount = frmMain.cInfo.ProcessorCount
     End Sub
 
@@ -90,18 +90,24 @@ Public Class cTask
         _dico.Clear()
         currWnd = GetWindowAPI(GetDesktopWindow(), GW_CHILD)
         cpt = 0
-        ReDim key(0)
+        ReDim key(-1)
         Do While Not (currWnd = IntPtr.Zero)
 
             If _isTask(currWnd) Then
 
                 ' Get procId from hwnd
                 Dim pid As Integer = GetProcIdFromWindowHandle(currWnd)
+                Dim thread As Integer = GetThreadIdFromWindowHandle(currWnd)
 
-                ReDim Preserve key(cpt)
-                key(cpt) = currWnd.ToString & "|" & pid.ToString
-                _dico.Add(key(cpt), New LightWindow(currWnd, pid, GetThreadIdFromWindowHandle(currWnd)))
-                cpt += 1
+                If pid > 0 AndAlso thread > 0 Then
+                    Dim skey As String = currWnd.ToString & "|" & pid.ToString & "|" & thread.ToString
+                    If _dico.ContainsKey(skey) = False Then
+                        ReDim Preserve key(cpt)
+                        key(cpt) = skey
+                        _dico.Add(key(cpt), New LightWindow(currWnd, pid, thread))
+                        cpt += 1
+                    End If
+                End If
             End If
 
             currWnd = GetWindowAPI(currWnd, GW_HWNDNEXT)

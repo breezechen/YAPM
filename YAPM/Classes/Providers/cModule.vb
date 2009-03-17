@@ -358,19 +358,25 @@ Public Class cModule
         Dim t() As MODULEENTRY32 = EnumerateSpeed(pid)
         _dico.Clear()
 
-        ReDim key(t.Length - 1)
-        Dim x As Integer = 0
-        For Each it As MODULEENTRY32 In t
-            Dim s As String = FormatString(it.szExePath)
-            If Len(s) > 2 Then
-                key(x) = s & "|" & it.modBaseAddr.ToString
-                _dico.Add(key(x), it)
-                x += 1
-            End If
-        Next
+        If t.Length > 1 Then
+            ReDim key(t.Length - 1)
+            Dim x As Integer = 0
+            For Each it As MODULEENTRY32 In t
+                Dim s As String = FormatString(it.szExePath)
+                If Len(s) > 2 Then
+                    key(x) = s & "|" & it.modBaseAddr.ToString
+                    _dico.Add(key(x), it)
+                    x += 1
+                End If
+            Next
 
-        ReDim Preserve key(x - 1)
-        Return t.Length
+            ReDim Preserve key(x - 1)
+            Return t.Length
+        Else
+            ReDim key(-1)
+            Return 0
+        End If
+
 
     End Function
 
