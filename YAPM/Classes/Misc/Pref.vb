@@ -260,15 +260,6 @@ Public Class Pref
                 frmMain.WindowState = FormWindowState.Minimized
                 frmMain.Hide()
             End If
-            If detailsHidden Then
-                frmMain.SplitContainerProcess.Panel2Collapsed = True
-                frmMain.butProcessDisplayDetails.Image = My.Resources.showDetails
-                frmMain.butProcessDisplayDetails.Text = "Show details"
-            Else
-                frmMain.SplitContainerProcess.Panel2Collapsed = False
-                frmMain.butProcessDisplayDetails.Text = "Hide details"
-                frmMain.butProcessDisplayDetails.Image = My.Resources.hideDetails
-            End If
         End If
     End Sub
 

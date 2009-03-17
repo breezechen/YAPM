@@ -64,7 +64,6 @@ Public Class frmPreferences
             .startHidden = Me.chkStartTray.Checked
             .replaceTaskMgr = Me.chkReplaceTaskmgr.Checked
             .topmost = Me.chkTopMost.Checked
-            .detailsHidden = Me.chkHideDetails.Checked
             .newItemsColor = _newcolor
             .deletedItemsColor = _deletedcolor
             .showTrayIcon = Me.chkTrayIcon.Checked
@@ -106,7 +105,6 @@ Public Class frmPreferences
         Me.txtUpdate.Text = "Click on 'Check if YAPM is up to date' to check if a new version is available."
         With frmMain
             .SetToolTip(Me.chkReplaceTaskmgr, "Replace taskmgr (it is safe).")
-            .SetToolTip(Me.chkHideDetails, "Start YAPM with details panel hidden.")
             .SetToolTip(Me.chkStart, "Start YAPM on Windows startup.")
             .SetToolTip(Me.chkStartTray, "Start YAPM hidden (only in tray system).")
             .SetToolTip(Me.txtProcessIntervall, "Set interval (milliseconds) between two refreshments of process list.")
@@ -136,7 +134,6 @@ Public Class frmPreferences
         With frmMain.Pref
             Me.txtServiceIntervall.Text = .serviceInterval.ToString
             Me.txtProcessIntervall.Text = .procInterval.ToString
-            Me.chkHideDetails.Checked = .detailsHidden
             Me.chkStart.Checked = .startup
             Me.chkStartTray.Checked = .startHidden
             Me.chkReplaceTaskmgr.Checked = .replaceTaskMgr
@@ -164,7 +161,6 @@ Public Class frmPreferences
         ' Defaut settings
         Me.chkStartTray.Checked = False
         Me.chkStart.Checked = False
-        Me.chkHideDetails.Checked = True
         Me.chkReplaceTaskmgr.Checked = False
         Me.txtProcessIntervall.Text = frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
         Me.txtServiceIntervall.Text = frmMain.DEFAULT_TIMER_INTERVAL_SERVICES.ToString
@@ -317,6 +313,15 @@ Public Class frmPreferences
         Me.chkHideMinimized.Enabled = chkTrayIcon.Checked
         If chkTrayIcon.Checked = False Then
             Me.chkHideMinimized.Checked = False
+        End If
+    End Sub
+
+    Private Sub chkStartTray_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkStartTray.CheckedChanged
+        If Me.chkStartTray.Checked Then
+            Me.chkTrayIcon.Enabled = False
+            Me.chkTrayIcon.Checked = True
+        Else
+            Me.chkTrayIcon.Enabled = True
         End If
     End Sub
 End Class

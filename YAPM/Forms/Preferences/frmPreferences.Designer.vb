@@ -31,7 +31,6 @@ Partial Class frmPreferences
         Me.Label6 = New System.Windows.Forms.Label
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.chkTopMost = New System.Windows.Forms.CheckBox
-        Me.chkHideDetails = New System.Windows.Forms.CheckBox
         Me.chkStartTray = New System.Windows.Forms.CheckBox
         Me.chkReplaceTaskmgr = New System.Windows.Forms.CheckBox
         Me.chkStart = New System.Windows.Forms.CheckBox
@@ -49,6 +48,10 @@ Partial Class frmPreferences
         Me.cbPriority = New System.Windows.Forms.ComboBox
         Me.Label5 = New System.Windows.Forms.Label
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
+        Me.txtSysInfoInterval = New System.Windows.Forms.TextBox
+        Me.txtTrayInterval = New System.Windows.Forms.TextBox
+        Me.Label9 = New System.Windows.Forms.Label
+        Me.Label10 = New System.Windows.Forms.Label
         Me.txtNetworkInterval = New System.Windows.Forms.TextBox
         Me.txtTaskInterval = New System.Windows.Forms.TextBox
         Me.Label3 = New System.Windows.Forms.Label
@@ -66,10 +69,6 @@ Partial Class frmPreferences
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
         Me.colDial = New System.Windows.Forms.ColorDialog
-        Me.txtSysInfoInterval = New System.Windows.Forms.TextBox
-        Me.txtTrayInterval = New System.Windows.Forms.TextBox
-        Me.Label9 = New System.Windows.Forms.Label
-        Me.Label10 = New System.Windows.Forms.Label
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -113,7 +112,7 @@ Partial Class frmPreferences
         'chkWarn
         '
         Me.chkWarn.AutoSize = True
-        Me.chkWarn.Location = New System.Drawing.Point(14, 194)
+        Me.chkWarn.Location = New System.Drawing.Point(14, 172)
         Me.chkWarn.Name = "chkWarn"
         Me.chkWarn.Size = New System.Drawing.Size(187, 17)
         Me.chkWarn.TabIndex = 5
@@ -122,7 +121,7 @@ Partial Class frmPreferences
         '
         'txtSearchEngine
         '
-        Me.txtSearchEngine.Location = New System.Drawing.Point(97, 166)
+        Me.txtSearchEngine.Location = New System.Drawing.Point(97, 144)
         Me.txtSearchEngine.Name = "txtSearchEngine"
         Me.txtSearchEngine.Size = New System.Drawing.Size(218, 22)
         Me.txtSearchEngine.TabIndex = 2
@@ -130,7 +129,7 @@ Partial Class frmPreferences
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(11, 169)
+        Me.Label6.Location = New System.Drawing.Point(11, 147)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(80, 13)
         Me.Label6.TabIndex = 1
@@ -139,13 +138,12 @@ Partial Class frmPreferences
         'GroupBox1
         '
         Me.GroupBox1.Controls.Add(Me.chkTopMost)
-        Me.GroupBox1.Controls.Add(Me.chkHideDetails)
         Me.GroupBox1.Controls.Add(Me.chkStartTray)
         Me.GroupBox1.Controls.Add(Me.chkReplaceTaskmgr)
         Me.GroupBox1.Controls.Add(Me.chkStart)
         Me.GroupBox1.Location = New System.Drawing.Point(14, 12)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(301, 143)
+        Me.GroupBox1.Size = New System.Drawing.Size(301, 120)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Startup"
@@ -153,31 +151,21 @@ Partial Class frmPreferences
         'chkTopMost
         '
         Me.chkTopMost.AutoSize = True
-        Me.chkTopMost.Location = New System.Drawing.Point(9, 114)
+        Me.chkTopMost.Location = New System.Drawing.Point(9, 91)
         Me.chkTopMost.Name = "chkTopMost"
         Me.chkTopMost.Size = New System.Drawing.Size(127, 17)
         Me.chkTopMost.TabIndex = 4
         Me.chkTopMost.Text = "Start YAPM topmost"
         Me.chkTopMost.UseVisualStyleBackColor = True
         '
-        'chkHideDetails
-        '
-        Me.chkHideDetails.AutoSize = True
-        Me.chkHideDetails.Location = New System.Drawing.Point(9, 91)
-        Me.chkHideDetails.Name = "chkHideDetails"
-        Me.chkHideDetails.Size = New System.Drawing.Size(195, 17)
-        Me.chkHideDetails.TabIndex = 3
-        Me.chkHideDetails.Text = "Start with process details hidden"
-        Me.chkHideDetails.UseVisualStyleBackColor = True
-        '
         'chkStartTray
         '
         Me.chkStartTray.AutoSize = True
         Me.chkStartTray.Location = New System.Drawing.Point(9, 68)
         Me.chkStartTray.Name = "chkStartTray"
-        Me.chkStartTray.Size = New System.Drawing.Size(120, 17)
+        Me.chkStartTray.Size = New System.Drawing.Size(121, 17)
         Me.chkStartTray.TabIndex = 2
-        Me.chkStartTray.Text = "Start YAPM on tray"
+        Me.chkStartTray.Text = "Start YAPM hidden"
         Me.chkStartTray.UseVisualStyleBackColor = True
         '
         'chkReplaceTaskmgr
@@ -355,6 +343,38 @@ Partial Class frmPreferences
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Update intervals"
         '
+        'txtSysInfoInterval
+        '
+        Me.txtSysInfoInterval.Location = New System.Drawing.Point(109, 129)
+        Me.txtSysInfoInterval.Name = "txtSysInfoInterval"
+        Me.txtSysInfoInterval.Size = New System.Drawing.Size(181, 22)
+        Me.txtSysInfoInterval.TabIndex = 14
+        '
+        'txtTrayInterval
+        '
+        Me.txtTrayInterval.Location = New System.Drawing.Point(109, 106)
+        Me.txtTrayInterval.Name = "txtTrayInterval"
+        Me.txtTrayInterval.Size = New System.Drawing.Size(181, 22)
+        Me.txtTrayInterval.TabIndex = 13
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(6, 138)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(91, 13)
+        Me.Label9.TabIndex = 12
+        Me.Label9.Text = "Sys. info interval"
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Location = New System.Drawing.Point(6, 115)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(68, 13)
+        Me.Label10.TabIndex = 11
+        Me.Label10.Text = "Tray interval"
+        '
         'txtNetworkInterval
         '
         Me.txtNetworkInterval.Location = New System.Drawing.Point(109, 83)
@@ -504,38 +524,6 @@ Partial Class frmPreferences
         Me.colDial.AnyColor = True
         Me.colDial.FullOpen = True
         '
-        'txtSysInfoInterval
-        '
-        Me.txtSysInfoInterval.Location = New System.Drawing.Point(109, 129)
-        Me.txtSysInfoInterval.Name = "txtSysInfoInterval"
-        Me.txtSysInfoInterval.Size = New System.Drawing.Size(181, 22)
-        Me.txtSysInfoInterval.TabIndex = 14
-        '
-        'txtTrayInterval
-        '
-        Me.txtTrayInterval.Location = New System.Drawing.Point(109, 106)
-        Me.txtTrayInterval.Name = "txtTrayInterval"
-        Me.txtTrayInterval.Size = New System.Drawing.Size(181, 22)
-        Me.txtTrayInterval.TabIndex = 13
-        '
-        'Label9
-        '
-        Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(6, 138)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(91, 13)
-        Me.Label9.TabIndex = 12
-        Me.Label9.Text = "Sys. info interval"
-        '
-        'Label10
-        '
-        Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(6, 115)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(68, 13)
-        Me.Label10.TabIndex = 11
-        Me.Label10.Text = "Tray interval"
-        '
         'frmPreferences
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -586,7 +574,6 @@ Partial Class frmPreferences
     Friend WithEvents chkReplaceTaskmgr As System.Windows.Forms.CheckBox
     Friend WithEvents chkStart As System.Windows.Forms.CheckBox
     Friend WithEvents chkStartTray As System.Windows.Forms.CheckBox
-    Friend WithEvents chkHideDetails As System.Windows.Forms.CheckBox
     Friend WithEvents chkTopMost As System.Windows.Forms.CheckBox
     Friend WithEvents cmdDownload As System.Windows.Forms.Button
     Friend WithEvents cmdCheckUpdate As System.Windows.Forms.Button
