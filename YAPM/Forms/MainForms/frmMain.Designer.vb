@@ -1090,7 +1090,7 @@ Partial Class frmMain
         '
         Me.mainMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowYAPMToolStripMenuItem, Me.MinimizeToTrayToolStripMenuItem, Me.AboutYAPMToolStripMenuItem, Me.AlwaysVisibleToolStripMenuItem, Me.ToolStripMenuItem3, Me.ShutdownToolStripMenuItem1, Me.ToolStripMenuItem50, Me.ShowLogToolStripMenuItem, Me.SaveSystemReportToolStripMenuItem, Me.ShowSystemInformatoToolStripMenuItem, Me.WindowManagementToolStripMenuItem, Me.EmergencyHotkeysToolStripMenuItem, Me.FindAWindowToolStripMenuItem, Me.StateBasedActionsToolStripMenuItem, Me.ToolStripMenuItem40, Me.EnableProcessRefreshingToolStripMenuItem, Me.RefreshServiceListToolStripMenuItem, Me.ToolStripMenuItem4, Me.ExitToolStripMenuItem})
         Me.mainMenu.Name = "mainMenu"
-        Me.mainMenu.Size = New System.Drawing.Size(192, 358)
+        Me.mainMenu.Size = New System.Drawing.Size(192, 380)
         '
         'ShowYAPMToolStripMenuItem
         '
@@ -1234,7 +1234,6 @@ Partial Class frmMain
         '
         'StateBasedActionsToolStripMenuItem
         '
-        Me.StateBasedActionsToolStripMenuItem.Enabled = False
         Me.StateBasedActionsToolStripMenuItem.Name = "StateBasedActionsToolStripMenuItem"
         Me.StateBasedActionsToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
         Me.StateBasedActionsToolStripMenuItem.Text = "State based actions..."
@@ -3956,7 +3955,6 @@ Partial Class frmMain
         '
         'StateBasedActionsToolStripMenuItem1
         '
-        Me.StateBasedActionsToolStripMenuItem1.Enabled = False
         Me.StateBasedActionsToolStripMenuItem1.Name = "StateBasedActionsToolStripMenuItem1"
         Me.StateBasedActionsToolStripMenuItem1.Size = New System.Drawing.Size(184, 22)
         Me.StateBasedActionsToolStripMenuItem1.Text = "State based actions..."

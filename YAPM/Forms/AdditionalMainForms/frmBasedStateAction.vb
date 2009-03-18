@@ -469,7 +469,7 @@ Public Class frmBasedStateAction
                     Case cBasedStateActionState.STATE_OPERATOR.different_from
                         cbOperator.Text = "!="
                 End Select
-                txtThreshold.Text = _selectedAction.Threshold
+                txtThreshold.Text = _selectedAction.Threshold.ToString
                 cbAction.Text = _selectedAction.Action
                 txtParam1Val.Text = _selectedAction.Param1
                 txtParam2Val.Text = _selectedAction.Param2

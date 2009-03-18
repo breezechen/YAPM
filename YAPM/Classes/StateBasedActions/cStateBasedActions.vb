@@ -71,7 +71,7 @@ Public Class cStateBasedActions
     End Property
     Public ReadOnly Property ThresholdDescription() As String()
         Get
-            Dim s(24) As String
+            Dim s(30) As String
             s(0) = "Integer"
             s(1) = "String"
             s(2) = "Integer"
@@ -81,8 +81,8 @@ Public Class cStateBasedActions
             s(6) = "Decimal (sec)"
             s(7) = "Decimal (sec)"
             s(8) = "Decimal (sec)"
-            s(9) = "Date (sec)"
-            s(10) = "Decimal (sec)"
+            s(9) = "Date (hh:mm:ss)"
+            s(10) = "Date (hh:mm:ss)"
             s(11) = "Integer"
             s(12) = "Integer"
             s(13) = "Integer (mask : Sum(processor_number^2), processor_number start at 0)"
@@ -95,8 +95,14 @@ Public Class cStateBasedActions
             s(20) = "Decimal (MB)"
             s(21) = "Decimal (MB)"
             s(22) = "Decimal (MB)"
-            s(23) = "String enum (I-BN-N-AN-H-RT)"
-            s(24) = "String"
+            s(23) = "Decimal (MB)"
+            s(24) = "Decimal (MB)"
+            s(25) = "Decimal (MB)"
+            s(26) = "Integer"
+            s(27) = "Integer"
+            s(28) = "Integer"
+            s(29) = "String enum (I-BN-N-AN-H-RT)"
+            s(30) = "String"
             Return s
         End Get
     End Property
@@ -162,7 +168,7 @@ Public Class cStateBasedActions
     End Property
     Public ReadOnly Property CounterAvailables() As String()
         Get
-            Dim s(24) As String
+            Dim s(30) As String
             s(0) = "PID"
             s(1) = "UserName"
             s(2) = "ParentPID"
@@ -186,8 +192,14 @@ Public Class cStateBasedActions
             s(20) = "QuotaPagedPoolUsage"
             s(21) = "QuotaPeakNonPagedPoolUsage"
             s(22) = "QuotaNonPagedPoolUsage"
-            s(23) = "Priority"
-            s(24) = "Path"
+            s(23) = "ReadOperationCount"
+            s(24) = "WriteOperationCount"
+            s(25) = "OtherOperationCount"
+            s(26) = "ReadTransferCount"
+            s(27) = "WriteTransferCount"
+            s(28) = "OtherTransferCount"
+            s(29) = "Priority"
+            s(30) = "Path"
             Return s
         End Get
     End Property
@@ -272,7 +284,24 @@ Public Class cStateBasedActions
     ' Check if process state is reached
     Private Function isStateOk(ByRef action As cBasedStateActionState, ByRef _p As cProcess) As Boolean
 
-        Return True
+        Dim _currentValue As cBasedStateActionState.StateThreshold = _p.GetInformationAsStateThreshold(action.StateCounter)
+
+        Select Case action.StateOperator
+            Case cBasedStateActionState.STATE_OPERATOR.different_from
+                Return (_currentValue <> action.Threshold)
+            Case cBasedStateActionState.STATE_OPERATOR.equal
+                Return (_currentValue = action.Threshold)
+            Case cBasedStateActionState.STATE_OPERATOR.greater_or_equal_than
+                Return (_currentValue >= action.Threshold)
+            Case cBasedStateActionState.STATE_OPERATOR.greater_than
+                Return (_currentValue > action.Threshold)
+            Case cBasedStateActionState.STATE_OPERATOR.less_or_equal_than
+                Return (_currentValue <= action.Threshold)
+            Case cBasedStateActionState.STATE_OPERATOR.less_than
+                Return (_currentValue < action.Threshold)
+            Case Else
+                Return False
+        End Select
 
     End Function
 

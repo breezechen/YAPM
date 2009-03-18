@@ -37,6 +37,154 @@ Public Class cBasedStateActionState
         [greater_than] = 5
         [different_from] = 6
     End Enum
+    Public Enum ThresoldType As Integer
+        [INTEGER]           ' as an integer
+        [STRING]            ' as a string
+        [DECIMAL]           ' as a double
+        [SIZE_MB]           ' as a string
+        [ENUM_PRIORITY]     ' as a string I-BN-N-AN-H-RT
+    End Enum
+
+
+    ' StateThreshold type
+    Public Structure StateThreshold
+        Dim _type As ThresoldType
+        Dim _sval As String
+        Dim _dval As Double
+        Dim _ival As Integer
+
+        Public Sub New(ByVal theType As ThresoldType, ByVal value As Double)
+            _type = theType
+            _dval = value
+        End Sub
+        Public Sub New(ByVal theType As ThresoldType, ByVal value As String)
+            _type = theType
+            _sval = value
+        End Sub
+        Public Sub New(ByVal theType As ThresoldType, ByVal value As Integer)
+            _type = theType
+            _ival = value
+        End Sub
+
+        ' _type should be the same for h1 and h2 !!!
+        Public Shared Operator <(ByVal h1 As StateThreshold, ByVal h2 As StateThreshold) As Boolean
+            Select Case h1._type
+                Case ThresoldType.DECIMAL
+                    Return h1._dval < h2._dval
+                Case ThresoldType.ENUM_PRIORITY
+                    Return getEnumPriorityCorIntValue(h1._sval) < getEnumPriorityCorIntValue(h2._sval)
+                Case ThresoldType.INTEGER
+                    Return h1._ival < h2._ival
+                Case ThresoldType.SIZE_MB
+                    Return GetSizeFromFormatedSize(h1._sval) < GetSizeFromFormatedSize(h2._sval)
+                Case ThresoldType.STRING
+                    Return h1._sval < h2._sval
+                Case Else
+                    Return False
+            End Select
+        End Operator
+        Public Shared Operator >(ByVal h1 As StateThreshold, ByVal h2 As StateThreshold) As Boolean
+            Select Case h1._type
+                Case ThresoldType.DECIMAL
+                    Return h1._dval > h2._dval
+                Case ThresoldType.ENUM_PRIORITY
+                    Return getEnumPriorityCorIntValue(h1._sval) > getEnumPriorityCorIntValue(h2._sval)
+                Case ThresoldType.INTEGER
+                    Return h1._ival > h2._ival
+                Case ThresoldType.SIZE_MB
+                    Return GetSizeFromFormatedSize(h1._sval) > GetSizeFromFormatedSize(h2._sval)
+                Case ThresoldType.STRING
+                    Return h1._sval > h2._sval
+                Case Else
+                    Return False
+            End Select
+        End Operator
+        Public Shared Operator <>(ByVal h1 As StateThreshold, ByVal h2 As StateThreshold) As Boolean
+            Select Case h1._type
+                Case ThresoldType.DECIMAL
+                    Return h1._dval <> h2._dval
+                Case ThresoldType.ENUM_PRIORITY
+                    Return getEnumPriorityCorIntValue(h1._sval) <> getEnumPriorityCorIntValue(h2._sval)
+                Case ThresoldType.INTEGER
+                    Return h1._ival <> h2._ival
+                Case ThresoldType.SIZE_MB
+                    Return GetSizeFromFormatedSize(h1._sval) <> GetSizeFromFormatedSize(h2._sval)
+                Case ThresoldType.STRING
+                    Return h1._sval <> h2._sval
+                Case Else
+                    Return False
+            End Select
+        End Operator
+        Public Shared Operator =(ByVal h1 As StateThreshold, ByVal h2 As StateThreshold) As Boolean
+            Select Case h1._type
+                Case ThresoldType.DECIMAL
+                    Return h1._dval = h2._dval
+                Case ThresoldType.ENUM_PRIORITY
+                    Return getEnumPriorityCorIntValue(h1._sval) = getEnumPriorityCorIntValue(h2._sval)
+                Case ThresoldType.INTEGER
+                    Return h1._ival = h2._ival
+                Case ThresoldType.SIZE_MB
+                    Return GetSizeFromFormatedSize(h1._sval) = GetSizeFromFormatedSize(h2._sval)
+                Case ThresoldType.STRING
+                    Return h1._sval = h2._sval
+                Case Else
+                    Return False
+            End Select
+        End Operator
+        Public Shared Operator <=(ByVal h1 As StateThreshold, ByVal h2 As StateThreshold) As Boolean
+            Select Case h1._type
+                Case ThresoldType.DECIMAL
+                    Return h1._dval <= h2._dval
+                Case ThresoldType.ENUM_PRIORITY
+                    Return getEnumPriorityCorIntValue(h1._sval) <= getEnumPriorityCorIntValue(h2._sval)
+                Case ThresoldType.INTEGER
+                    Return h1._ival <= h2._ival
+                Case ThresoldType.SIZE_MB
+                    Return GetSizeFromFormatedSize(h1._sval) <= GetSizeFromFormatedSize(h2._sval)
+                Case ThresoldType.STRING
+                    Return h1._sval <= h2._sval
+                Case Else
+                    Return False
+            End Select
+        End Operator
+        Public Shared Operator >=(ByVal h1 As StateThreshold, ByVal h2 As StateThreshold) As Boolean
+            Select Case h1._type
+                Case ThresoldType.DECIMAL
+                    Return h1._dval >= h2._dval
+                Case ThresoldType.ENUM_PRIORITY
+                    Return getEnumPriorityCorIntValue(h1._sval) >= getEnumPriorityCorIntValue(h2._sval)
+                Case ThresoldType.INTEGER
+                    Return h1._ival >= h2._ival
+                Case ThresoldType.SIZE_MB
+                    Return GetSizeFromFormatedSize(h1._sval) >= GetSizeFromFormatedSize(h2._sval)
+                Case ThresoldType.STRING
+                    Return h1._sval >= h2._sval
+                Case Else
+                    Return False
+            End Select
+        End Operator
+
+        Private Shared Function getEnumPriorityCorIntValue(ByVal s As String) As Integer
+            Select Case s   'I-BN-N-AN-H-RT
+                Case "I"
+                    Return 0
+                Case "BN"
+                    Return 1
+                Case "N"
+                    Return 2
+                Case "AN"
+                    Return 3
+                Case "H"
+                    Return 4
+                Case "RT"
+                    Return 5
+                Case Else
+                    Return -1
+            End Select
+        End Function
+    End Structure
+
+
 
     ' ========================================
     ' Private variables
@@ -49,7 +197,7 @@ Public Class cBasedStateActionState
     Private _checkProcPathS As String = ""
     Private _stateCounter As String
     Private _stateOperator As STATE_OPERATOR
-    Private _threshold As String = ""
+    Private _threshold As StateThreshold
     Private _action As String = ""
     Private _param1 As String = ""
     Private _param2 As String = ""
@@ -125,11 +273,11 @@ Public Class cBasedStateActionState
             _stateOperator = value
         End Set
     End Property
-    Public Property Threshold() As String
+    Public Property Threshold() As StateThreshold
         Get
             Return _threshold
         End Get
-        Set(ByVal value As String)
+        Set(ByVal value As StateThreshold)
             _threshold = value
         End Set
     End Property
@@ -218,7 +366,73 @@ Public Class cBasedStateActionState
         _checkProcPath = checkPP
         _checkProcPathS = checkPPS
         _stateCounter = stateCounter
-        _threshold = threshold
+        ' Create _threshold as StateThreshold from a threshold (string)
+        ' and from action (have to make a select case)
+        Select Case action
+            Case "PID"
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(action)))
+            Case "UserName"
+                _threshold = New StateThreshold(ThresoldType.STRING, action)
+            Case "ParentPID"
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(action)))
+            Case "ParentName"
+                _threshold = New StateThreshold(ThresoldType.STRING, action)
+            Case "CpuUsage"
+                _threshold = New StateThreshold(ThresoldType.DECIMAL, Val(action))
+            Case "AverageCpuUsage"
+                _threshold = New StateThreshold(ThresoldType.DECIMAL, Val(action))
+            Case "KernelCpuTime"
+                _threshold = New StateThreshold(ThresoldType.DECIMAL, Val(action))
+            Case "UserCpuTime"
+                _threshold = New StateThreshold(ThresoldType.DECIMAL, Val(action))
+            Case "TotalCpuTime"
+                _threshold = New StateThreshold(ThresoldType.DECIMAL, Val(action))
+            Case "StartTime"     '
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(action)))
+            Case "RunTime"     '
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(action)))
+            Case "GdiObjects"
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(action)))
+            Case "UserObjects"
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(action)))
+            Case "AffinityMask"
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(action)))
+            Case "WorkingSet"
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, action)
+            Case "PeakWorkingSet"
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, action)
+            Case "PageFaultCount"
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(action)))
+            Case "PagefileUsage"
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, action)
+            Case "PeakPagefileUsage"
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, action)
+            Case "QuotaPeakPagedPoolUsage"
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, action)
+            Case "QuotaPagedPoolUsage"     '
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, action)
+            Case "QuotaPeakNonPagedPoolUsage"
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, action)
+            Case "QuotaNonPagedPoolUsage"
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, action)
+            Case "ReadOperationCount"
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(action)))
+            Case "WriteOperationCount"
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(action)))
+            Case "OtherOperationCount"
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(action)))
+            Case "ReadTransferCount"     '
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, action)
+            Case "WriteTransferCount"
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, action)
+            Case "OtherTransferCount"     
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, action)
+            Case "Priority"
+                _threshold = New StateThreshold(ThresoldType.ENUM_PRIORITY, action)
+            Case "Path"
+                _threshold = New StateThreshold(ThresoldType.STRING, action)
+        End Select
+
         _stateOperator = stateOperator
         _action = action
         _param1 = param1
@@ -226,68 +440,69 @@ Public Class cBasedStateActionState
         _key = _checkProcName.ToString & "|" & _checkProcNameS & "|" & _
                 _checkProcID.ToString & "|" & _checkProcIDS & "|" & _
                 _checkProcPath.ToString & "|" & _checkProcPathS & "|" & _
-                _stateCounter & "|" & _stateOperator.ToString & "|" & _threshold & _
+                _stateCounter & "|" & _stateOperator.ToString & "|" & _threshold.ToString & _
                 "|" & _action & "|" & _param1 & "|" & _param2
         _enabled = True
     End Sub
 
     ' Proceed to action !
     Public Sub RaiseAction(ByRef _proc As cProcess)
-        Try
-            Select Case Action
-                Case "Kill process"
-                    _proc.Kill()
-                Case "Pause process"
-                    _proc.SuspendProcess()
-                Case "Resume process"
-                    _proc.ResumeProcess()
-                Case "Change priority"
+        'Try
+        '    Select Case Action
+        '        Case "Kill process"
+        '            _proc.Kill()
+        '        Case "Pause process"
+        '            _proc.SuspendProcess()
+        '        Case "Resume process"
+        '            _proc.ResumeProcess()
+        '        Case "Change priority"
 
-                Case "Reduce priority"
+        '        Case "Reduce priority"
 
-                Case "Increase priority"
+        '        Case "Increase priority"
 
-                Case "Activate process log"
+        '        Case "Activate process log"
 
-                Case "Change affinity"
-                    _proc.AffinityMask = Integer.Parse(_param1)
-                Case "Launch a command"
-                    Shell("cmd.exe /C " & Chr(34) & _param1 & Chr(34), AppWinStyle.Hide)
-                Case "Restart computer"
-                    cSystem.Restart()
-                Case "Shutdown computer"
-                    cSystem.Shutdown()
-                Case "Poweroff computer"
-                    cSystem.Poweroff()
-                Case "Sleep computer"
-                    cSystem.Sleep()
-                Case "Hibernate computer"
-                    cSystem.Hibernate()
-                Case "Logoff computer"
-                    cSystem.Logoff()
-                Case "Lock computer"
-                    cSystem.Lock()
-                Case "Exit YAPM"
-                    frmMain.Close()
-                Case "Show process task windows"
+        '        Case "Change affinity"
+        '            _proc.AffinityMask = Integer.Parse(_param1)
+        '        Case "Launch a command"
+        '            Shell("cmd.exe /C " & Chr(34) & _param1 & Chr(34), AppWinStyle.Hide)
+        '        Case "Restart computer"
+        '            cSystem.Restart()
+        '        Case "Shutdown computer"
+        '            cSystem.Shutdown()
+        '        Case "Poweroff computer"
+        '            cSystem.Poweroff()
+        '        Case "Sleep computer"
+        '            cSystem.Sleep()
+        '        Case "Hibernate computer"
+        '            cSystem.Hibernate()
+        '        Case "Logoff computer"
+        '            cSystem.Logoff()
+        '        Case "Lock computer"
+        '            cSystem.Lock()
+        '        Case "Exit YAPM"
+        '            frmMain.Close()
+        '        Case "Show process task windows"
 
-                Case "Hide process task windows"
+        '        Case "Hide process task windows"
 
-                Case "Maximize process task windows"
+        '        Case "Maximize process task windows"
 
-                Case "Minimize process task windows"
+        '        Case "Minimize process task windows"
 
-                Case "Beep"
-                    Interaction.Beep()
-                    My.Application.DoEvents()
-                Case "Save process list"
+        '        Case "Beep"
+        '            Interaction.Beep()
+        '            My.Application.DoEvents()
+        '        Case "Save process list"
 
-                Case "Save service list"
+        '        Case "Save service list"
 
-            End Select
-        Catch ex As Exception
-            '
-        End Try
+        '    End Select
+        'Catch ex As Exception
+        '    '
+        'End Try
+        Trace.WriteLine("Have to raise action : " & Action)
 
     End Sub
 

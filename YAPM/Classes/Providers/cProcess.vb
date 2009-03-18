@@ -1768,6 +1768,15 @@ Public Class cProcess
         Return res
     End Function
 
+    ' Retrieve informations by its name (StateThreshold)
+    Public Function GetInformationAsStateThreshold(ByVal infoName As String) As  _
+                cBasedStateActionState.StateThreshold
+
+        ' TODO
+
+        Return Nothing
+    End Function
+
 
     ' ========================================
     ' Shared functions
