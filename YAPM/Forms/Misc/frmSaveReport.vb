@@ -777,7 +777,7 @@ Public Class frmSaveReport
     End Sub
 
     Private Sub cmdOpenReport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdOpenReport.Click
-        Call cFile.ShellOpenFile(Me._path)
+        Call cFile.ShellOpenFile(Me._path, Me.Handle)
     End Sub
 
     Private Sub frmSaveReport_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load

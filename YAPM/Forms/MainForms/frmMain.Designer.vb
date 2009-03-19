@@ -425,7 +425,7 @@ Partial Class frmMain
         Me.Label19 = New System.Windows.Forms.Label
         Me.lblTaskCountResult = New System.Windows.Forms.Label
         Me.txtSearchTask = New System.Windows.Forms.TextBox
-        Me.lvTask = New YAPM.taskList
+        Me.lvTask = New Providers.taskList
         Me.ColumnHeader62 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader63 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader64 = New System.Windows.Forms.ColumnHeader
@@ -439,7 +439,7 @@ Partial Class frmMain
         Me.SplitContainerProcess = New System.Windows.Forms.SplitContainer
         Me.SplitContainerTvLv = New System.Windows.Forms.SplitContainer
         Me.tvProc = New System.Windows.Forms.TreeView
-        Me.lvProcess = New YAPM.processList
+        Me.lvProcess = New Providers.processList
         Me.c1 = New System.Windows.Forms.ColumnHeader
         Me.c2 = New System.Windows.Forms.ColumnHeader
         Me.c3 = New System.Windows.Forms.ColumnHeader
@@ -457,7 +457,7 @@ Partial Class frmMain
         Me.Label7 = New System.Windows.Forms.Label
         Me.lblModulesCount = New System.Windows.Forms.Label
         Me.txtSearchModule = New System.Windows.Forms.TextBox
-        Me.lvModules = New YAPM.moduleList
+        Me.lvModules = New Providers.moduleList
         Me.ColumnHeader29 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader43 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader44 = New System.Windows.Forms.ColumnHeader
@@ -472,7 +472,7 @@ Partial Class frmMain
         Me.Label8 = New System.Windows.Forms.Label
         Me.lblThreadResults = New System.Windows.Forms.Label
         Me.txtSearchThread = New System.Windows.Forms.TextBox
-        Me.lvThreads = New YAPM.threadList
+        Me.lvThreads = New Providers.threadList
         Me.ColumnHeader32 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader33 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader34 = New System.Windows.Forms.ColumnHeader
@@ -487,7 +487,7 @@ Partial Class frmMain
         Me.Label9 = New System.Windows.Forms.Label
         Me.lblHandlesCount = New System.Windows.Forms.Label
         Me.txtSearchHandle = New System.Windows.Forms.TextBox
-        Me.lvHandles = New YAPM.handleList
+        Me.lvHandles = New Providers.handleList
         Me.ColumnHeader24 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader25 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader26 = New System.Windows.Forms.ColumnHeader
@@ -503,7 +503,7 @@ Partial Class frmMain
         Me.Label10 = New System.Windows.Forms.Label
         Me.lblWindowsCount = New System.Windows.Forms.Label
         Me.txtSearchWindow = New System.Windows.Forms.TextBox
-        Me.lvWindows = New YAPM.windowList
+        Me.lvWindows = New Providers.windowList
         Me.ColumnHeader30 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader31 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader39 = New System.Windows.Forms.ColumnHeader
@@ -546,7 +546,7 @@ Partial Class frmMain
         Me.txtServiceSearch = New System.Windows.Forms.TextBox
         Me.panelMain2 = New System.Windows.Forms.Panel
         Me.splitServices = New System.Windows.Forms.SplitContainer
-        Me.lvServices = New YAPM.serviceList
+        Me.lvServices = New Providers.serviceList
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader7 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader8 = New System.Windows.Forms.ColumnHeader
@@ -565,7 +565,7 @@ Partial Class frmMain
         Me.tv = New System.Windows.Forms.TreeView
         Me.pageNetwork = New System.Windows.Forms.TabPage
         Me.panelMain14 = New System.Windows.Forms.Panel
-        Me.lvNetwork = New YAPM.networkList
+        Me.lvNetwork = New Providers.networkList
         Me.ColumnHeader66 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader67 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader68 = New System.Windows.Forms.ColumnHeader
@@ -6818,7 +6818,7 @@ Partial Class frmMain
     Friend WithEvents Label19 As System.Windows.Forms.Label
     Friend WithEvents lblTaskCountResult As System.Windows.Forms.Label
     Friend WithEvents txtSearchTask As System.Windows.Forms.TextBox
-    Friend WithEvents lvTask As YAPM.taskList
+    Friend WithEvents lvTask As Providers.taskList
     Friend WithEvents ColumnHeader62 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader63 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader64 As System.Windows.Forms.ColumnHeader
@@ -6832,7 +6832,7 @@ Partial Class frmMain
     Friend WithEvents SplitContainerProcess As System.Windows.Forms.SplitContainer
     Friend WithEvents SplitContainerTvLv As System.Windows.Forms.SplitContainer
     Friend WithEvents tvProc As System.Windows.Forms.TreeView
-    Friend WithEvents lvProcess As YAPM.processList
+    Friend WithEvents lvProcess As Providers.processList
     Friend WithEvents c1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents c2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents c3 As System.Windows.Forms.ColumnHeader
@@ -6850,7 +6850,7 @@ Partial Class frmMain
     Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents lblModulesCount As System.Windows.Forms.Label
     Friend WithEvents txtSearchModule As System.Windows.Forms.TextBox
-    Friend WithEvents lvModules As YAPM.moduleList
+    Friend WithEvents lvModules As Providers.moduleList
     Friend WithEvents ColumnHeader29 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader43 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader44 As System.Windows.Forms.ColumnHeader
@@ -6865,7 +6865,7 @@ Partial Class frmMain
     Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents lblThreadResults As System.Windows.Forms.Label
     Friend WithEvents txtSearchThread As System.Windows.Forms.TextBox
-    Friend WithEvents lvThreads As YAPM.threadList
+    Friend WithEvents lvThreads As Providers.threadList
     Friend WithEvents ColumnHeader32 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader33 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader34 As System.Windows.Forms.ColumnHeader
@@ -6880,7 +6880,7 @@ Partial Class frmMain
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents lblHandlesCount As System.Windows.Forms.Label
     Friend WithEvents txtSearchHandle As System.Windows.Forms.TextBox
-    Friend WithEvents lvHandles As YAPM.handleList
+    Friend WithEvents lvHandles As Providers.handleList
     Friend WithEvents ColumnHeader24 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader25 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader26 As System.Windows.Forms.ColumnHeader
@@ -6896,7 +6896,7 @@ Partial Class frmMain
     Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents lblWindowsCount As System.Windows.Forms.Label
     Friend WithEvents txtSearchWindow As System.Windows.Forms.TextBox
-    Friend WithEvents lvWindows As YAPM.windowList
+    Friend WithEvents lvWindows As Providers.windowList
     Friend WithEvents ColumnHeader30 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader31 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader39 As System.Windows.Forms.ColumnHeader
@@ -6933,7 +6933,7 @@ Partial Class frmMain
     Friend WithEvents txtServiceSearch As System.Windows.Forms.TextBox
     Friend WithEvents panelMain2 As System.Windows.Forms.Panel
     Friend WithEvents splitServices As System.Windows.Forms.SplitContainer
-    Friend WithEvents lvServices As YAPM.serviceList
+    Friend WithEvents lvServices As Providers.serviceList
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader7 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader8 As System.Windows.Forms.ColumnHeader
@@ -6952,7 +6952,7 @@ Partial Class frmMain
     Friend WithEvents tv As System.Windows.Forms.TreeView
     Friend WithEvents pageNetwork As System.Windows.Forms.TabPage
     Friend WithEvents panelMain14 As System.Windows.Forms.Panel
-    Friend WithEvents lvNetwork As YAPM.networkList
+    Friend WithEvents lvNetwork As Providers.networkList
     Friend WithEvents ColumnHeader66 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader67 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader68 As System.Windows.Forms.ColumnHeader

@@ -120,7 +120,7 @@ Public Class frmMain
     Public Const DEFAULT_TIMER_INTERVAL_PROCESSES As Integer = 1000
     Private Const NO_INFO_RETRIEVED As String = "N/A"
     Public Const DEFAULT_TIMER_INTERVAL_SERVICES As Integer = 2500
-    Public Const MSGFIRSTTIME As String = "This is the first time you run YAPM. Please remember that it is a beta3 version so there are some bugs and some missing functionnalities :-)" & vbNewLine & vbNewLine & "You should run YAPM as an administrator in order to fully control your processes. Please take care using this YAPM because you will be able to do some irreversible things if you kill or modify some system processes... Use it at your own risks !" & vbNewLine & vbNewLine & "Please let me know any of your ideas of improvement or new functionnalities in YAPM's sourceforge.net project page ('Help' pannel) :-)" & vbNewLine & vbNewLine & "This message won't be shown anymore :-)"
+    Public Const MSGFIRSTTIME As String = "This is the first time you run YAPM. Please remember that it is a beta5 version so there are some bugs and some missing functionnalities :-)" & vbNewLine & vbNewLine & "You should run YAPM as an administrator in order to fully control your processes. Please take care using this YAPM because you will be able to do some irreversible things if you kill or modify some system processes... Use it at your own risks !" & vbNewLine & vbNewLine & "Please let me know any of your ideas of improvement or new functionnalities in YAPM's sourceforge.net project page ('Help' pannel) :-)" & vbNewLine & vbNewLine & "This message won't be shown anymore :-)"
 
     Public NEW_ITEM_COLOR As Color = Color.FromArgb(128, 255, 0)
     Public DELETED_ITEM_COLOR As Color = Color.FromArgb(255, 64, 48)
@@ -684,7 +684,7 @@ Public Class frmMain
     Private Sub PropertiesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PropertiesToolStripMenuItem.Click
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
             If IO.File.Exists(cp.Path) Then
-                cFile.ShowFileProperty(cp.Path)
+                cFile.ShowFileProperty(cp.Path, Me.Handle)
             End If
         Next
     End Sub
@@ -713,7 +713,7 @@ Public Class frmMain
             If sP <> NO_INFO_RETRIEVED Then
                 s = cService.GetFileNameFromSpecial(sP)
                 If IO.File.Exists(s) Then
-                    cFile.ShowFileProperty(s)
+                    cFile.ShowFileProperty(s, Me.Handle)
                 Else
                     ' Cannot retrieve a good path
                     Dim box As New frmBox
@@ -730,7 +730,7 @@ Public Class frmMain
                         .ShowDialog()
                         If .DialogResult = Windows.Forms.DialogResult.OK Then
                             If IO.File.Exists(.MsgResult2) Then _
-                                cFile.ShowFileProperty(.MsgResult2)
+                                cFile.ShowFileProperty(.MsgResult2, Me.Handle)
                         End If
                     End With
                 End If
@@ -868,15 +868,15 @@ Public Class frmMain
 
     Private Sub butDonate_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butDonate.Click
         MsgBox("You will be redirected on my sourceforge.net donation page.", MsgBoxStyle.Information, "Donation procedure")
-        cFile.ShellOpenFile("https://sourceforge.net/donate/index.php?user_id=1590933#donate")
+        cFile.ShellOpenFile("https://sourceforge.net/donate/index.php?user_id=1590933#donate", Me.Handle)
     End Sub
 
     Private Sub butWebite_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWebite.Click
-        cFile.ShellOpenFile("http://yaprocmon.sourceforge.net/")
+        cFile.ShellOpenFile("http://yaprocmon.sourceforge.net/", Me.Handle)
     End Sub
 
     Private Sub butProjectPage_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProjectPage.Click
-        cFile.ShellOpenFile("http://sourceforge.net/projects/yaprocmon")
+        cFile.ShellOpenFile("http://sourceforge.net/projects/yaprocmon", Me.Handle)
     End Sub
 
     Private Sub butServiceFileProp_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butServiceFileProp.Click
@@ -1088,7 +1088,7 @@ Public Class frmMain
     End Sub
 
     Private Sub butDownload_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butDownload.Click
-        cFile.ShellOpenFile("http://sourceforge.net/project/showfiles.php?group_id=244697")
+        cFile.ShellOpenFile("http://sourceforge.net/project/showfiles.php?group_id=244697", Me.Handle)
     End Sub
 
     Private Sub frmMain_VisibleChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Mybase.VisibleChanged
@@ -1099,7 +1099,7 @@ Public Class frmMain
     Private Sub butProcessGoogle_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessGoogle.Click
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
             My.Application.DoEvents()
-            Call SearchInternet(cp.Name)
+            Call SearchInternet(cp.Name, Me.Handle)
         Next
     End Sub
 
@@ -1111,7 +1111,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
             My.Application.DoEvents()
-            Call SearchInternet(it.Text)
+            Call SearchInternet(it.Text, Me.Handle)
         Next
     End Sub
 
@@ -1256,11 +1256,11 @@ Public Class frmMain
     End Sub
 
     Private Sub butFileProperties_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileProperties.Click
-        Call cFile.ShowFileProperty(Me.txtFile.Text)
+        Call cFile.ShowFileProperty(Me.txtFile.Text, Me.Handle)
     End Sub
 
     Private Sub butFileShowFolderProperties_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileShowFolderProperties.Click
-        Call cFile.ShowFileProperty(IO.Directory.GetParent(Me.txtFile.Text).FullName)
+        Call cFile.ShowFileProperty(IO.Directory.GetParent(Me.txtFile.Text).FullName, Me.Handle)
     End Sub
 
     Private Sub butFileOpenDir_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileOpenDir.Click
@@ -1327,7 +1327,7 @@ Public Class frmMain
 
     Private Sub butFileGoogleSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileGoogleSearch.Click
         My.Application.DoEvents()
-        Call SearchInternet(cFile.GetFileName(Me.txtFile.Text))
+        Call SearchInternet(cFile.GetFileName(Me.txtFile.Text), Me.Handle)
     End Sub
 
     Private Sub butFileEncrypt_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileEncrypt.Click
@@ -1392,7 +1392,7 @@ Public Class frmMain
     End Sub
 
     Private Sub butFileOpen_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileOpen.Click
-        Call cFile.ShellOpenFile(Me.txtFile.Text)
+        Call cFile.ShellOpenFile(Me.txtFile.Text, Me.Handle)
     End Sub
 
     ' Display file strings
@@ -2300,7 +2300,7 @@ Public Class frmMain
         Dim it As ListViewItem
         For Each it In Me.lvModules.SelectedItems
             My.Application.DoEvents()
-            Call SearchInternet(it.Text)
+            Call SearchInternet(it.Text, Me.Handle)
         Next
     End Sub
 
@@ -4201,7 +4201,7 @@ Public Class frmMain
     End Sub
 
     Private Sub timerStateBasedActions_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerStateBasedActions.Tick
-        Me.emStateBasedActions.ProcessActions()
+        Me.emStateBasedActions.ProcessActions(lvProcess.GetAllItems)
     End Sub
 
     Private Sub ReduceWorkingSetSizeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReduceWorkingSetSizeToolStripMenuItem.Click

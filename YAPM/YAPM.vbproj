@@ -64,7 +64,15 @@
     <DefineConstants>CONFIG_INTO_APPDATA0</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CoreFunc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CoreFunc\bin\Release\CoreFunc.dll</HintPath>
+    </Reference>
     <Reference Include="MemoryHexEditor, Version=1.0.3336.340, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Providers, Version=1.0.3365.34447, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Providers\bin\Release\Providers.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.ServiceProcess" />
@@ -75,7 +83,9 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Import Include="CoreFunc" />
     <Import Include="Microsoft.VisualBasic" />
+    <Import Include="Providers" />
     <Import Include="System" />
     <Import Include="System.Collections" />
     <Import Include="System.Collections.Generic" />
@@ -85,7 +95,6 @@
     <Import Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Providers\cService.vb" />
     <Compile Include="Forms\Misc\frmAbout.Designer.vb">
       <DependentUpon>frmAbout.vb</DependentUpon>
     </Compile>
@@ -130,21 +139,14 @@
     <EmbeddedResource Include="Forms\Misc\frmInput.resx">
       <DependentUpon>frmInput.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Misc\frmSBASimulationConsole.resx">
-      <DependentUpon>frmSBASimulationConsole.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmThreadAffinity.resx">
       <DependentUpon>frmThreadAffinity.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Preferences\frmChooseColumns.resx">
-      <DependentUpon>frmChooseColumns.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AdditionalMainForms\frmHotkeys.resx">
       <DependentUpon>frmHotkeys.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MainForms\frmAboutG.resx">
+    <EmbeddedResource Include="Forms\AdditionalMainForms\frmAboutG.resx">
       <DependentUpon>frmAboutG.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -154,18 +156,6 @@
     <EmbeddedResource Include="UserControls\HorizontalLine.resx">
       <DependentUpon>HorizontalLine.vb</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CustomListviews\handleList.resx">
-      <DependentUpon>handleList.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CustomListviews\memoryList.resx">
-      <DependentUpon>memoryList.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CustomListviews\moduleList.resx">
-      <DependentUpon>moduleList.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CustomListviews\networkList.resx">
-      <DependentUpon>networkList.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmAbout.resx">
       <SubType>Designer</SubType>
@@ -190,9 +180,6 @@
     <EmbeddedResource Include="Forms\Misc\frmFindWindow.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmFindWindow.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MainForms\frmHexEditor.resx">
-      <DependentUpon>frmHexEditor.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AdditionalMainForms\frmLog.resx">
       <SubType>Designer</SubType>
@@ -232,18 +219,6 @@
     <EmbeddedResource Include="Forms\AdditionalMainForms\frmWindowsList.resx">
       <DependentUpon>frmWindowsList.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CustomListviews\serviceList.resx">
-      <DependentUpon>serviceList.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CustomListviews\taskList.resx">
-      <DependentUpon>taskList.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CustomListviews\threadList.resx">
-      <DependentUpon>threadList.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CustomListviews\windowList.resx">
-      <DependentUpon>windowList.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DoubleBufferedLV.resx">
       <DependentUpon>DoubleBufferedLV.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -261,9 +236,6 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CustomListviews\processList.resx">
-      <DependentUpon>processList.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -286,34 +258,12 @@
   <ItemGroup>
     <Compile Include="Classes\Download\cAsyncProcInfoDownload.vb" />
     <Compile Include="Classes\Download\cDownload.vb" />
-    <Compile Include="Classes\Misc\cFile.vb" />
-    <Compile Include="Classes\Providers\cGeneralObject.vb" />
-    <Compile Include="Classes\Providers\cHandle.vb" />
-    <Compile Include="Classes\Hotkeys\cHotkeys.vb" />
     <Compile Include="Classes\HTML\cHTML.vb" />
     <Compile Include="Classes\HTML\cHTML2.vb" />
     <Compile Include="Classes\Misc\cLog.vb" />
-    <Compile Include="Classes\Driver\clsDriverCtrl.vb" />
-    <Compile Include="Classes\Driver\clsOpenedHandles.vb" />
-    <Compile Include="Classes\Providers\cMemRegion.vb" />
-    <Compile Include="Classes\Providers\cModule.vb" />
-    <Compile Include="Classes\Providers\cMonitor.vb" />
-    <Compile Include="Classes\Providers\cNetwork.vb" />
-    <Compile Include="Classes\StateBasedActions\cBasedStateActionState.vb" />
-    <Compile Include="Classes\StateBasedActions\cStateBasedActions.vb" />
     <Compile Include="Classes\Misc\cPrivileges.vb" />
-    <Compile Include="Classes\Providers\cProcess.vb" />
-    <Compile Include="Classes\Providers\cProcessMemRW.vb" />
     <Compile Include="Classes\Misc\cRegMonitor.vb" />
-    <Compile Include="Classes\Providers\cServEnum.vb" />
-    <Compile Include="Classes\Hotkeys\cShortcut.vb" />
-    <Compile Include="Classes\Misc\cSystem.vb" />
-    <Compile Include="Classes\Misc\cSystemInfo.vb" />
-    <Compile Include="Classes\Providers\cTask.vb" />
-    <Compile Include="Classes\Providers\cThread.vb">
-    </Compile>
     <Compile Include="Classes\Misc\cTrayIcon.vb" />
-    <Compile Include="Classes\Providers\cWindow.vb" />
     <Compile Include="Classes\Misc\cWinTrust.vb" />
     <Compile Include="Forms\AdditionalMainForms\frmBasedStateAction.Designer.vb">
       <DependentUpon>frmBasedStateAction.vb</DependentUpon>
@@ -339,22 +289,10 @@
     <Compile Include="Forms\Misc\frmInput.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Misc\frmSBASimulationConsole.Designer.vb">
-      <DependentUpon>frmSBASimulationConsole.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Misc\frmSBASimulationConsole.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Forms\Misc\frmThreadAffinity.Designer.vb">
       <DependentUpon>frmThreadAffinity.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\Misc\frmThreadAffinity.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Preferences\frmChooseColumns.Designer.vb">
-      <DependentUpon>frmChooseColumns.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Preferences\frmChooseColumns.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\AdditionalMainForms\frmHotkeys.Designer.vb">
@@ -363,10 +301,10 @@
     <Compile Include="Forms\AdditionalMainForms\frmHotkeys.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MainForms\frmAboutG.Designer.vb">
+    <Compile Include="Forms\AdditionalMainForms\frmAboutG.Designer.vb">
       <DependentUpon>frmAboutG.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MainForms\frmAboutG.vb">
+    <Compile Include="Forms\AdditionalMainForms\frmAboutG.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Preferences\frmLogOptions.Designer.vb">
@@ -378,40 +316,10 @@
     <Compile Include="UserControls\HorizontalLine.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserControls\CustomListviews\handleList.Designer.vb">
-      <DependentUpon>handleList.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\CustomListviews\handleList.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UserControls\CustomListviews\memoryList.Designer.vb">
-      <DependentUpon>memoryList.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\CustomListviews\memoryList.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UserControls\CustomListviews\moduleList.Designer.vb">
-      <DependentUpon>moduleList.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\CustomListviews\moduleList.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UserControls\CustomListviews\networkList.Designer.vb">
-      <DependentUpon>networkList.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\CustomListviews\networkList.vb">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Forms\Misc\frmFindWindow.Designer.vb">
       <DependentUpon>frmFindWindow.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\Misc\frmFindWindow.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\MainForms\frmHexEditor.Designer.vb">
-      <DependentUpon>frmHexEditor.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\MainForms\frmHexEditor.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Misc\frmProcessAffinity.Designer.vb">
@@ -492,30 +400,6 @@
     <Compile Include="Forms\AdditionalMainForms\frmWindowsList.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserControls\CustomListviews\serviceList.Designer.vb">
-      <DependentUpon>serviceList.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\CustomListviews\serviceList.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UserControls\CustomListviews\taskList.Designer.vb">
-      <DependentUpon>taskList.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\CustomListviews\taskList.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UserControls\CustomListviews\threadList.Designer.vb">
-      <DependentUpon>threadList.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\CustomListviews\threadList.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UserControls\CustomListviews\windowList.Designer.vb">
-      <DependentUpon>windowList.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\CustomListviews\windowList.vb">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="UserControls\DoubleBufferedLV.vb">
       <SubType>Component</SubType>
     </Compile>
@@ -525,16 +409,9 @@
     <Compile Include="UserControls\Graph.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Classes\Misc\ListViewComparer.vb" />
     <Compile Include="Modules\mdlInternet.vb" />
     <Compile Include="Modules\mdlMisc.vb" />
     <Compile Include="Classes\Misc\Pref.vb" />
-    <Compile Include="UserControls\CustomListviews\processList.Designer.vb">
-      <DependentUpon>processList.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\CustomListviews\processList.vb">
-      <SubType>Component</SubType>
-    </Compile>
     <None Include="Resources\folder_info.png" />
     <None Include="Resources\info.png" />
     <None Include="Resources\process1.png" />

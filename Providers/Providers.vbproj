@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{657B7CE9-D35C-4E65-A05B-CC6B46A14D7D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Providers</RootNamespace>
+    <AssemblyName>Providers</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionStrict>On</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\YAPM\bin\Debug\</OutputPath>
+    <DocumentationFile>Providers.xml</DocumentationFile>
+    <DefineConstants>_MYFORMS=True</DefineConstants>
+    <NoWarn>
+    </NoWarn>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Providers.xml</DocumentationFile>
+    <DefineConstants>_MYFORMS=True</DefineConstants>
+    <NoWarn>
+    </NoWarn>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CoreFunc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ClassLibrary1\bin\Release\CoreFunc.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="CoreFunc" />
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CustomListviews\handleList.Designer.vb">
+      <DependentUpon>handleList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CustomListviews\handleList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomListviews\memoryList.Designer.vb">
+      <DependentUpon>memoryList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CustomListviews\memoryList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomListviews\moduleList.Designer.vb">
+      <DependentUpon>moduleList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CustomListviews\moduleList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomListviews\networkList.Designer.vb">
+      <DependentUpon>networkList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CustomListviews\networkList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomListviews\processList.Designer.vb">
+      <DependentUpon>processList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CustomListviews\processList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomListviews\serviceList.Designer.vb">
+      <DependentUpon>serviceList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CustomListviews\serviceList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomListviews\taskList.Designer.vb">
+      <DependentUpon>taskList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CustomListviews\taskList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomListviews\threadList.Designer.vb">
+      <DependentUpon>threadList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CustomListviews\threadList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomListviews\windowList.Designer.vb">
+      <DependentUpon>windowList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CustomListviews\windowList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Classes\DoubleBufferedLV.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\frmChooseColumns.Designer.vb">
+      <DependentUpon>frmChooseColumns.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmChooseColumns.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\ListViewComparer.vb" />
+    <Compile Include="Modules\mdlIcon.vb" />
+    <Compile Include="Modules\mdlMisc.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CustomListviews\handleList.resx">
+      <DependentUpon>handleList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomListviews\memoryList.resx">
+      <DependentUpon>memoryList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomListviews\moduleList.resx">
+      <DependentUpon>moduleList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomListviews\networkList.resx">
+      <DependentUpon>networkList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomListviews\processList.resx">
+      <DependentUpon>processList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomListviews\serviceList.resx">
+      <DependentUpon>serviceList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomListviews\taskList.resx">
+      <DependentUpon>taskList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomListviews\threadList.resx">
+      <DependentUpon>threadList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomListviews\windowList.resx">
+      <DependentUpon>windowList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\DoubleBufferedLV.resx">
+      <DependentUpon>DoubleBufferedLV.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmChooseColumns.resx">
+      <DependentUpon>frmChooseColumns.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\application_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\thread.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\key.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dll.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

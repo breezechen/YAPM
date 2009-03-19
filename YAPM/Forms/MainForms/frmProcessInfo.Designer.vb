@@ -143,7 +143,7 @@ Partial Class frmProcessInfo
         Me.DisableToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RemoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.TabPage5 = New System.Windows.Forms.TabPage
-        Me.lvProcMem = New YAPM.memoryList
+        Me.lvProcMem = New Providers.memoryList
         Me.ColumnHeader53 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader54 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader55 = New System.Windows.Forms.ColumnHeader
@@ -162,7 +162,7 @@ Partial Class frmProcessInfo
         Me.cmdInfosToClipB = New System.Windows.Forms.Button
         Me.rtb = New System.Windows.Forms.RichTextBox
         Me.TabPage7 = New System.Windows.Forms.TabPage
-        Me.lvProcServices = New YAPM.serviceList
+        Me.lvProcServices = New Providers.serviceList
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader7 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader8 = New System.Windows.Forms.ColumnHeader
@@ -174,7 +174,7 @@ Partial Class frmProcessInfo
         Me.ToolStripMenuItem13 = New System.Windows.Forms.ToolStripSeparator
         Me.ChooseColumnsToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem
         Me.tabNetwork = New System.Windows.Forms.TabPage
-        Me.lvProcNetwork = New YAPM.networkList
+        Me.lvProcNetwork = New Providers.networkList
         Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader57 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader58 = New System.Windows.Forms.ColumnHeader
@@ -201,7 +201,7 @@ Partial Class frmProcessInfo
         Me.ColumnHeader60 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader61 = New System.Windows.Forms.ColumnHeader
         Me.TabPage10 = New System.Windows.Forms.TabPage
-        Me.lvModules = New YAPM.moduleList
+        Me.lvModules = New Providers.moduleList
         Me.ColumnHeader29 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader43 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader44 = New System.Windows.Forms.ColumnHeader
@@ -218,7 +218,7 @@ Partial Class frmProcessInfo
         Me.ToolStripMenuItem11 = New System.Windows.Forms.ToolStripSeparator
         Me.ChooseColumnsToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem
         Me.TabPage11 = New System.Windows.Forms.TabPage
-        Me.lvThreads = New YAPM.threadList
+        Me.lvThreads = New Providers.threadList
         Me.ColumnHeader32 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader34 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader35 = New System.Windows.Forms.ColumnHeader
@@ -241,7 +241,7 @@ Partial Class frmProcessInfo
         Me.ToolStripMenuItem8 = New System.Windows.Forms.ToolStripSeparator
         Me.ChooseColumnsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.TabPage12 = New System.Windows.Forms.TabPage
-        Me.lvWindows = New YAPM.windowList
+        Me.lvWindows = New Providers.windowList
         Me.ColumnHeader30 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader31 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader39 = New System.Windows.Forms.ColumnHeader
@@ -268,7 +268,7 @@ Partial Class frmProcessInfo
         Me.ToolStripMenuItem10 = New System.Windows.Forms.ToolStripSeparator
         Me.ChooseColumnsToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
         Me.TabPage13 = New System.Windows.Forms.TabPage
-        Me.lvHandles = New YAPM.handleList
+        Me.lvHandles = New Providers.handleList
         Me.ColumnHeader24 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader25 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader26 = New System.Windows.Forms.ColumnHeader
@@ -2924,7 +2924,7 @@ Partial Class frmProcessInfo
     Friend WithEvents ColumnHeader51 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader52 As System.Windows.Forms.ColumnHeader
     Friend WithEvents TabPage5 As System.Windows.Forms.TabPage
-    Friend WithEvents lvProcMem As YAPM.memoryList
+    Friend WithEvents lvProcMem As Providers.memoryList
     Friend WithEvents ColumnHeader53 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader54 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader55 As System.Windows.Forms.ColumnHeader
@@ -2939,7 +2939,7 @@ Partial Class frmProcessInfo
     Friend WithEvents rtb As System.Windows.Forms.RichTextBox
     Friend WithEvents TabPage7 As System.Windows.Forms.TabPage
     Friend WithEvents tabNetwork As System.Windows.Forms.TabPage
-    Friend WithEvents lvProcNetwork As YAPM.networkList
+    Friend WithEvents lvProcNetwork As Providers.networkList
     Friend WithEvents ColumnHeader49 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader57 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader58 As System.Windows.Forms.ColumnHeader
@@ -2986,7 +2986,7 @@ Partial Class frmProcessInfo
     Friend WithEvents lblSecurityRisk As System.Windows.Forms.Label
     Friend WithEvents cmdGetOnlineInfos As System.Windows.Forms.Button
     Friend WithEvents rtbOnlineInfos As System.Windows.Forms.RichTextBox
-    Friend WithEvents lvModules As YAPM.moduleList
+    Friend WithEvents lvModules As Providers.moduleList
     Friend WithEvents ColumnHeader29 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader43 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader44 As System.Windows.Forms.ColumnHeader
@@ -2997,7 +2997,7 @@ Partial Class frmProcessInfo
     Friend WithEvents ToolStripMenuItem36 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem39 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents GoogleSearchToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents lvThreads As YAPM.threadList
+    Friend WithEvents lvThreads As Providers.threadList
     Friend WithEvents ColumnHeader32 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader34 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader35 As System.Windows.Forms.ColumnHeader
@@ -3017,7 +3017,7 @@ Partial Class frmProcessInfo
     Friend WithEvents ToolStripMenuItem31 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem32 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem33 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents lvWindows As YAPM.windowList
+    Friend WithEvents lvWindows As Providers.windowList
     Friend WithEvents ColumnHeader30 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader31 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader39 As System.Windows.Forms.ColumnHeader
@@ -3025,7 +3025,7 @@ Partial Class frmProcessInfo
     Friend WithEvents ColumnHeader41 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader42 As System.Windows.Forms.ColumnHeader
     Friend WithEvents menuWindow As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents lvHandles As YAPM.handleList
+    Friend WithEvents lvHandles As Providers.handleList
     Friend WithEvents ColumnHeader24 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader25 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader26 As System.Windows.Forms.ColumnHeader
@@ -3062,7 +3062,7 @@ Partial Class frmProcessInfo
     Friend WithEvents ShowUnnamedWindowsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuString As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents menuViewMemoryString As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents lvProcServices As YAPM.serviceList
+    Friend WithEvents lvProcServices As Providers.serviceList
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader7 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader8 As System.Windows.Forms.ColumnHeader

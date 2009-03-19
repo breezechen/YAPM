@@ -717,7 +717,7 @@ Public Class frmProcessInfo
     Private Sub cmdShowFileProperties_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdShowFileProperties.Click
         ' File properties for selected process
         If IO.File.Exists(curProc.Path) Then
-            cFile.ShowFileProperty(curProc.Path)
+            cFile.ShowFileProperty(curProc.Path, Me.Handle)
         End If
     End Sub
 
@@ -924,7 +924,7 @@ Public Class frmProcessInfo
         Dim it As ListViewItem
         For Each it In Me.lvModules.SelectedItems
             My.Application.DoEvents()
-            Call SearchInternet(it.Text)
+            Call SearchInternet(it.Text, Me.Handle)
         Next
     End Sub
 
