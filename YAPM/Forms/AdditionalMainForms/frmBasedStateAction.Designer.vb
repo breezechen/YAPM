@@ -43,6 +43,7 @@ Partial Class frmBasedStateAction
         Me.cbAction = New System.Windows.Forms.ComboBox
         Me.Label3 = New System.Windows.Forms.Label
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
+        Me.lblThresholdDesc = New System.Windows.Forms.TextBox
         Me.cbCounter = New System.Windows.Forms.ComboBox
         Me.Label4 = New System.Windows.Forms.Label
         Me.txtThreshold = New System.Windows.Forms.TextBox
@@ -68,7 +69,6 @@ Partial Class frmBasedStateAction
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
-        Me.lblThresholdDesc = New System.Windows.Forms.TextBox
         Me.ContextMenuStrip1.SuspendLayout()
         Me.gp.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -239,6 +239,14 @@ Partial Class frmBasedStateAction
         Me.GroupBox2.TabIndex = 11
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "State to monitor"
+        '
+        'lblThresholdDesc
+        '
+        Me.lblThresholdDesc.Location = New System.Drawing.Point(113, 42)
+        Me.lblThresholdDesc.Name = "lblThresholdDesc"
+        Me.lblThresholdDesc.ReadOnly = True
+        Me.lblThresholdDesc.Size = New System.Drawing.Size(149, 22)
+        Me.lblThresholdDesc.TabIndex = 14
         '
         'cbCounter
         '
@@ -464,14 +472,6 @@ Partial Class frmBasedStateAction
         '
         Me.ColumnHeader4.Text = "Action"
         Me.ColumnHeader4.Width = 350
-        '
-        'lblThresholdDesc
-        '
-        Me.lblThresholdDesc.Location = New System.Drawing.Point(113, 42)
-        Me.lblThresholdDesc.Name = "lblThresholdDesc"
-        Me.lblThresholdDesc.ReadOnly = True
-        Me.lblThresholdDesc.Size = New System.Drawing.Size(149, 22)
-        Me.lblThresholdDesc.TabIndex = 14
         '
         'frmBasedStateAction
         '

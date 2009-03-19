@@ -23,16 +23,16 @@ Partial Class frmSBASimulationConsole
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.lv = New YAPM.DoubleBufferedLV
-        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
         Me.SuspendLayout()
         '
         'lv
         '
         Me.lv.AllowColumnReorder = True
-        Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader5, Me.ColumnHeader1, Me.ColumnHeader6, Me.ColumnHeader2})
+        Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader5, Me.ColumnHeader2, Me.ColumnHeader1, Me.ColumnHeader6})
         Me.lv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lv.FullRowSelect = True
         Me.lv.HideSelection = False
@@ -44,26 +44,25 @@ Partial Class frmSBASimulationConsole
         Me.lv.UseCompatibleStateImageBehavior = False
         Me.lv.View = System.Windows.Forms.View.Details
         '
-        'ColumnHeader1
-        '
-        Me.ColumnHeader1.Text = "Action"
-        Me.ColumnHeader1.Width = 148
-        '
         'ColumnHeader5
         '
         Me.ColumnHeader5.Text = "Time"
         Me.ColumnHeader5.Width = 106
         '
+        'ColumnHeader2
+        '
+        Me.ColumnHeader2.Text = "Process"
+        Me.ColumnHeader2.Width = 125
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Text = "Action"
+        Me.ColumnHeader1.Width = 102
+        '
         'ColumnHeader6
         '
         Me.ColumnHeader6.Text = "Rule"
         Me.ColumnHeader6.Width = 300
-        '
-        'ColumnHeader2
-        '
-        Me.ColumnHeader2.DisplayIndex = 1
-        Me.ColumnHeader2.Text = "Process"
-        Me.ColumnHeader2.Width = 120
         '
         'frmSBASimulationConsole
         '
