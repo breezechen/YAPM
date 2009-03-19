@@ -196,7 +196,7 @@ Public Class taskList
         _firstItemUpdate = False
 
         _test = GetTickCount - _test
-        Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh task list.")
+        'Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh task list.")
 
     End Sub
 

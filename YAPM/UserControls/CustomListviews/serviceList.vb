@@ -220,7 +220,7 @@ Public Class serviceList
         _firstItemUpdate = False
 
         _test = GetTickCount - _test
-        Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh service list.")
+        'Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh service list.")
 
     End Sub
 

@@ -29,6 +29,8 @@ Public Class cStateBasedActions
     ' Private attributes
     ' ========================================
     Private _col As New Collection
+    Private _simulationMode As Boolean = False
+    Private frmConsole As New frmSBASimulationConsole
 
 
     ' ========================================
@@ -203,11 +205,33 @@ Public Class cStateBasedActions
             Return s
         End Get
     End Property
+    Public Property SimulationMode() As Boolean
+        Get
+            Return _simulationMode
+        End Get
+        Set(ByVal value As Boolean)
+            _simulationMode = value
+        End Set
+    End Property
+    Public WriteOnly Property ShowConsole() As Boolean
+        Set(ByVal value As Boolean)
+            If value Then
+                frmConsole.Show()
+            Else
+                frmConsole.Hide()
+            End If
+        End Set
+    End Property
 
 
     ' ========================================
     ' Public functions
     ' ========================================
+
+    ' Clear console
+    Public Sub ClearConsole()
+        Me.frmConsole.lv.Items.Clear()
+    End Sub
 
     ' Add a key to collection
     Public Function AddStateBasedAction(ByVal action As cBasedStateActionState) As Boolean
@@ -258,10 +282,14 @@ Public Class cStateBasedActions
                     ElseIf action.CheckProcPath Then
                         ' Test process path
                         Dim _path As String = _p.Path
-                        If action.CheckProcPathS.Substring(action.CheckProcPathS.Length - 1, 1) = "*" Then
-                            b = (InStr(_path.ToLower, action.CheckProcPathS.ToLower.Replace("*", "")) > 0)
+                        If action.CheckProcPathS.Length = 0 Then
+                            b = True
                         Else
-                            b = (action.CheckProcPathS.ToLower = _path.ToLower)
+                            If action.CheckProcPathS.Substring(action.CheckProcPathS.Length - 1, 1) = "*" Then
+                                b = (InStr(_path.ToLower, action.CheckProcPathS.ToLower.Replace("*", "")) > 0)
+                            Else
+                                b = (action.CheckProcPathS.ToLower = _path.ToLower)
+                            End If
                         End If
                     End If
 
@@ -269,10 +297,19 @@ Public Class cStateBasedActions
                         ' Ok we found a process
                         ' Check state
                         If isStateOk(action, _p) Then
-                            action.RaiseAction(_p)
+                            If _simulationMode = False Then
+                                action.RaiseAction(_p)
+                            Else
+                                ' Just display an information
+                                Dim _it As New ListViewItem(Date.Now.ToLongTimeString)
+                                _it.SubItems.Add(_p.Name & " (" & _p.Pid.ToString & ")")
+                                _it.SubItems.Add(action.ActionText)
+                                _it.SubItems.Add(action.RuleText)
+                                Me.frmConsole.lv.Items.Add(_it)
+                            End If
                         End If
-                        b = False
-                    End If
+                            b = False
+                        End If
                 Next
 
             End If

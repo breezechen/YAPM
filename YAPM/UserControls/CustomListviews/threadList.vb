@@ -110,7 +110,7 @@ Public Class threadList
         ReDim _itemId(0)
         Call cThread.Enumerate(_pid, _itemId, _buffDico)
 
-        Trace.WriteLine(GetTickCount - _test)
+
         ' Now add all items with isKilled = true to _dicoDel dictionnary
         For Each z As cThread In _dico.Values
             If z.IsKilledItem Then
@@ -170,7 +170,7 @@ Public Class threadList
         If _firstItemUpdate Then Me.EndUpdate()
         _dicoNew.Clear()
 
-        Trace.WriteLine(GetTickCount - _test)
+
         ' Now refresh all subitems of the listview
         Dim isub As ListViewItem.ListViewSubItem
         Dim it As ListViewItem

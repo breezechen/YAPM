@@ -76,7 +76,7 @@ Public Class cBasedStateActionState
                 Case ThresoldType.INTEGER
                     Return h1._ival < h2._ival
                 Case ThresoldType.SIZE_MB
-                    Return h1._dval < GetSizeFromFormatedSize(h2._sval)
+                    Return h1._ival < GetSizeFromFormatedSize(h2._sval)
                 Case ThresoldType.STRING
                     Return h1._sval < h2._sval
                 Case Else
@@ -92,7 +92,7 @@ Public Class cBasedStateActionState
                 Case ThresoldType.INTEGER
                     Return h1._ival > h2._ival
                 Case ThresoldType.SIZE_MB
-                    Return h1._dval > GetSizeFromFormatedSize(h2._sval)
+                    Return h1._ival > GetSizeFromFormatedSize(h2._sval)
                 Case ThresoldType.STRING
                     Return h1._sval > h2._sval
                 Case Else
@@ -108,7 +108,7 @@ Public Class cBasedStateActionState
                 Case ThresoldType.INTEGER
                     Return h1._ival <> h2._ival
                 Case ThresoldType.SIZE_MB
-                    Return h1._dval <> GetSizeFromFormatedSize(h2._sval)
+                    Return h1._ival <> GetSizeFromFormatedSize(h2._sval)
                 Case ThresoldType.STRING
                     Return h1._sval <> h2._sval
                 Case Else
@@ -124,7 +124,7 @@ Public Class cBasedStateActionState
                 Case ThresoldType.INTEGER
                     Return h1._ival = h2._ival
                 Case ThresoldType.SIZE_MB
-                    Return h1._dval = GetSizeFromFormatedSize(h2._sval)
+                    Return h1._ival = GetSizeFromFormatedSize(h2._sval)
                 Case ThresoldType.STRING
                     Return h1._sval = h2._sval
                 Case Else
@@ -140,7 +140,7 @@ Public Class cBasedStateActionState
                 Case ThresoldType.INTEGER
                     Return h1._ival <= h2._ival
                 Case ThresoldType.SIZE_MB
-                    Return h1._dval <= GetSizeFromFormatedSize(h2._sval)
+                    Return h1._ival <= GetSizeFromFormatedSize(h2._sval)
                 Case ThresoldType.STRING
                     Return h1._sval <= h2._sval
                 Case Else
@@ -156,7 +156,7 @@ Public Class cBasedStateActionState
                 Case ThresoldType.INTEGER
                     Return h1._ival >= h2._ival
                 Case ThresoldType.SIZE_MB
-                    Return h1._dval >= GetSizeFromFormatedSize(h2._sval)
+                    Return h1._ival >= GetSizeFromFormatedSize(h2._sval)
                 Case ThresoldType.STRING
                     Return h1._sval >= h2._sval
                 Case Else
@@ -362,6 +362,11 @@ Public Class cBasedStateActionState
     Public ReadOnly Property ActionText() As String
         Get
             Return _action
+        End Get
+    End Property
+    Public ReadOnly Property RuleText() As String
+        Get
+            Return ProcessText & " " & StateText
         End Get
     End Property
 #End Region

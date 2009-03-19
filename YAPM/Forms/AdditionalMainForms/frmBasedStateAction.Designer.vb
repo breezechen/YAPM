@@ -62,6 +62,9 @@ Partial Class frmBasedStateAction
         Me.chkCheckProcessName = New System.Windows.Forms.CheckBox
         Me.cmdKO = New System.Windows.Forms.Button
         Me.cmdAdd = New System.Windows.Forms.Button
+        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip
+        Me.DisplayToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.SimulationConsoleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.lv = New YAPM.DoubleBufferedLV
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
@@ -71,6 +74,7 @@ Partial Class frmBasedStateAction
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'timerRefresh
@@ -414,6 +418,29 @@ Partial Class frmBasedStateAction
         Me.cmdAdd.Text = "Add"
         Me.cmdAdd.UseVisualStyleBackColor = True
         '
+        'MenuStrip1
+        '
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DisplayToolStripMenuItem})
+        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip1.Name = "MenuStrip1"
+        Me.MenuStrip1.Size = New System.Drawing.Size(665, 24)
+        Me.MenuStrip1.TabIndex = 7
+        Me.MenuStrip1.Text = "MenuStrip1"
+        '
+        'DisplayToolStripMenuItem
+        '
+        Me.DisplayToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SimulationConsoleToolStripMenuItem})
+        Me.DisplayToolStripMenuItem.Name = "DisplayToolStripMenuItem"
+        Me.DisplayToolStripMenuItem.Size = New System.Drawing.Size(57, 20)
+        Me.DisplayToolStripMenuItem.Text = "&Display"
+        '
+        'SimulationConsoleToolStripMenuItem
+        '
+        Me.SimulationConsoleToolStripMenuItem.Name = "SimulationConsoleToolStripMenuItem"
+        Me.SimulationConsoleToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2
+        Me.SimulationConsoleToolStripMenuItem.Size = New System.Drawing.Size(194, 22)
+        Me.SimulationConsoleToolStripMenuItem.Text = "&Simulation console"
+        '
         'lv
         '
         Me.lv.AllowColumnReorder = True
@@ -422,10 +449,10 @@ Partial Class frmBasedStateAction
         Me.lv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lv.FullRowSelect = True
         Me.lv.HideSelection = False
-        Me.lv.Location = New System.Drawing.Point(0, 0)
+        Me.lv.Location = New System.Drawing.Point(0, 24)
         Me.lv.Name = "lv"
         Me.lv.OverriddenDoubleBuffered = True
-        Me.lv.Size = New System.Drawing.Size(665, 488)
+        Me.lv.Size = New System.Drawing.Size(665, 464)
         Me.lv.SmallImageList = Me.imgList
         Me.lv.TabIndex = 5
         Me.lv.UseCompatibleStateImageBehavior = False
@@ -453,8 +480,10 @@ Partial Class frmBasedStateAction
         Me.ClientSize = New System.Drawing.Size(665, 488)
         Me.Controls.Add(Me.gp)
         Me.Controls.Add(Me.lv)
+        Me.Controls.Add(Me.MenuStrip1)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.MainMenuStrip = Me.MenuStrip1
         Me.MaximizeBox = False
         Me.Name = "frmBasedStateAction"
         Me.ShowIcon = False
@@ -468,7 +497,10 @@ Partial Class frmBasedStateAction
         Me.GroupBox2.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        Me.MenuStrip1.ResumeLayout(False)
+        Me.MenuStrip1.PerformLayout()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents lv As YAPM.DoubleBufferedLV
@@ -513,4 +545,7 @@ Partial Class frmBasedStateAction
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
     Friend WithEvents lblThresholdDesc As System.Windows.Forms.Label
+    Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
+    Friend WithEvents DisplayToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SimulationConsoleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

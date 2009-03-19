@@ -224,7 +224,7 @@ Public Class processList
         _firstItemUpdate = False
 
         _test = GetTickCount - _test
-        Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh process list.")
+        'Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh process list.")
 
     End Sub
 

@@ -37,11 +37,24 @@ Public Class frmBasedStateAction
     End Function
 
     Private Sub frmBasedStateAction_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
-        ' Save to XML
-        Call writeXML()
+
+        If MsgBox("Are you sure you want to apply and save these actions ?", MsgBoxStyle.Information _
+                    Or MsgBoxStyle.YesNo, "State based actions") = MsgBoxResult.Yes Then
+
+            ' Save to XML
+            Call writeXML()
+            frmMain.emStateBasedActions.ShowConsole = False
+            frmMain.emStateBasedActions.SimulationMode = True
+        Else
+            e.Cancel = True
+        End If
+
     End Sub
 
     Private Sub frmBasedStateAction_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        frmMain.emStateBasedActions.ClearConsole()
+        frmMain.emStateBasedActions.SimulationMode = True
+
         SetWindowTheme(lv.Handle, "explorer", Nothing)
 
         Me.cbAction.Items.Clear()
@@ -522,5 +535,10 @@ Public Class frmBasedStateAction
         If frm.SelectedProcess IsNot Nothing Then
             Me.txtProcessPath.Text = frm.SelectedProcess.Path
         End If
+    End Sub
+
+    Private Sub SimulationConsoleToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SimulationConsoleToolStripMenuItem.Click
+        SimulationConsoleToolStripMenuItem.Checked = Not (SimulationConsoleToolStripMenuItem.Checked)
+        frmMain.emStateBasedActions.ShowConsole = SimulationConsoleToolStripMenuItem.Checked
     End Sub
 End Class

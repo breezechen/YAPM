@@ -130,6 +130,9 @@
     <EmbeddedResource Include="Forms\Misc\frmInput.resx">
       <DependentUpon>frmInput.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Misc\frmSBASimulationConsole.resx">
+      <DependentUpon>frmSBASimulationConsole.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmThreadAffinity.resx">
       <DependentUpon>frmThreadAffinity.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -334,6 +337,12 @@
       <DependentUpon>frmInput.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\Misc\frmInput.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Misc\frmSBASimulationConsole.Designer.vb">
+      <DependentUpon>frmSBASimulationConsole.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Misc\frmSBASimulationConsole.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Misc\frmThreadAffinity.Designer.vb">
