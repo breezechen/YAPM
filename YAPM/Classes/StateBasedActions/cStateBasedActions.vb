@@ -298,6 +298,7 @@ Public Class cStateBasedActions
                         ' Check state
                         If isStateOk(action, _p) Then
                             If _simulationMode = False Then
+                                action.Counter -= 1
                                 action.RaiseAction(_p)
                             Else
                                 ' Just display an information
@@ -323,22 +324,28 @@ Public Class cStateBasedActions
 
         Dim _currentValue As cBasedStateActionState.StateThreshold = _p.GetInformationAsStateThreshold(action.StateCounter)
 
-        Select Case action.StateOperator
-            Case cBasedStateActionState.STATE_OPERATOR.different_from
-                Return (_currentValue <> action.Threshold)
-            Case cBasedStateActionState.STATE_OPERATOR.equal
-                Return (_currentValue = action.Threshold)
-            Case cBasedStateActionState.STATE_OPERATOR.greater_or_equal_than
-                Return (_currentValue >= action.Threshold)
-            Case cBasedStateActionState.STATE_OPERATOR.greater_than
-                Return (_currentValue > action.Threshold)
-            Case cBasedStateActionState.STATE_OPERATOR.less_or_equal_than
-                Return (_currentValue <= action.Threshold)
-            Case cBasedStateActionState.STATE_OPERATOR.less_than
-                Return (_currentValue < action.Threshold)
-            Case Else
-                Return False
-        End Select
+        If _simulationMode OrElse action.Counter > 0 OrElse action.Counter = -1 Then
+
+            Select Case action.StateOperator
+                Case cBasedStateActionState.STATE_OPERATOR.different_from
+                    Return (_currentValue <> action.Threshold)
+                Case cBasedStateActionState.STATE_OPERATOR.equal
+                    Return (_currentValue = action.Threshold)
+                Case cBasedStateActionState.STATE_OPERATOR.greater_or_equal_than
+                    Return (_currentValue >= action.Threshold)
+                Case cBasedStateActionState.STATE_OPERATOR.greater_than
+                    Return (_currentValue > action.Threshold)
+                Case cBasedStateActionState.STATE_OPERATOR.less_or_equal_than
+                    Return (_currentValue <= action.Threshold)
+                Case cBasedStateActionState.STATE_OPERATOR.less_than
+                    Return (_currentValue < action.Threshold)
+                Case Else
+                    Return False
+            End Select
+
+        Else
+            Return False
+        End If
 
     End Function
 

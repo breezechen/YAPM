@@ -44,7 +44,7 @@ Public Class frmBasedStateAction
             ' Save to XML
             Call writeXML()
             frmMain.emStateBasedActions.ShowConsole = False
-            frmMain.emStateBasedActions.SimulationMode = True
+            frmMain.emStateBasedActions.SimulationMode = False
         Else
             e.Cancel = True
         End If
@@ -152,6 +152,7 @@ Public Class frmBasedStateAction
         '		<action>Kill process</action>
         '		<param1></param1>
         '		<param2></param2>
+        '       <thecounter>0</thecounter>
         '	</sbaction>
         '</statebasedactions>
 
@@ -175,6 +176,7 @@ Public Class frmBasedStateAction
                 Dim _param1 As String = ""
                 Dim _param2 As String = ""
                 Dim _enabled As Boolean
+                Dim _counter As String = ""
 
                 For Each noeudEnf In noeud.ChildNodes
 
@@ -204,6 +206,8 @@ Public Class frmBasedStateAction
                         _param2 = noeudEnf.InnerText
                     ElseIf noeudEnf.LocalName = "threshold" Then
                         _threshold = noeudEnf.InnerText
+                    ElseIf noeudEnf.LocalName = "thecounter" Then
+                        _counter = noeudEnf.InnerText
                     End If
                 Next
 
@@ -212,7 +216,7 @@ Public Class frmBasedStateAction
                                                      _stateOperator, _threshold, _
                                                      _action, _param1, _param2, _
                                                      _checkProcNameS, _checkProcIDS, _
-                                                     _checkProcPathS)
+                                                     _checkProcPathS, _counter)
                 ht.Enabled = _enabled
 
                 frmMain.emStateBasedActions.AddStateBasedAction(ht)
@@ -240,6 +244,7 @@ Public Class frmBasedStateAction
         '		<action>Kill process</action>
         '		<param1></param1>
         '		<param2></param2>
+        '       <thecounter>0</thecounter>
         '	</sbaction>
         '</statebasedactions>
 
@@ -302,6 +307,10 @@ Public Class frmBasedStateAction
             elemParam2 = XmlDoc.CreateElement("param2")
             elemParam2.InnerText = cs.Param2.ToString
             elemStateBasedAction.AppendChild(elemParam2)
+            Dim elemTheCounter As XmlElement
+            elemTheCounter = XmlDoc.CreateElement("thecounter")
+            elemTheCounter.InnerText = cs.InitialCounter.ToString
+            elemStateBasedAction.AppendChild(elemTheCounter)
 
             XmlDoc.DocumentElement.AppendChild(elemStateBasedAction)
 
@@ -347,7 +356,8 @@ Public Class frmBasedStateAction
                                                   cbCounter.Text, _operator, txtThreshold.Text, _
                                                   cbAction.Text, txtParam1Val.Text, _
                                                   txtParam2Val.Text, txtProcessName.Text, _
-                                                  txtProcessID.Text, txtProcessPath.Text)
+                                                  txtProcessID.Text, txtProcessPath.Text, _
+                                                  Me.updownCounter.Value.ToString)
             If frmMain.emStateBasedActions.AddStateBasedAction(_it) Then
                 ' Add hotkey
                 Dim it As New ListViewItem(_it.ProcessText)
@@ -386,7 +396,8 @@ Public Class frmBasedStateAction
                                                   cbCounter.Text, _operator, txtThreshold.Text, _
                                                   cbAction.Text, txtParam1Val.Text, _
                                                   txtParam2Val.Text, txtProcessName.Text, _
-                                                  txtProcessID.Text, txtProcessPath.Text)
+                                                  txtProcessID.Text, txtProcessPath.Text, _
+                                                  Me.updownCounter.Value.ToString)
             If frmMain.emStateBasedActions.AddStateBasedAction(_it) Then
                 ' Add hotkey
                 _selectedItem.Tag = _it
@@ -491,6 +502,7 @@ Public Class frmBasedStateAction
                 txtProcessPath.Text = _selectedAction.CheckProcPathS
                 txtParam1Desc.Text = ""
                 txtParam2Desc.Text = ""
+                updownCounter.Value = _selectedAction.InitialCounter
             Else
                 Me.cmdAdd.Text = "Add"
                 Me.chkCheckProcessName.Checked = False
@@ -507,6 +519,7 @@ Public Class frmBasedStateAction
                 txtProcessPath.Text = ""
                 txtParam1Desc.Text = ""
                 txtParam2Desc.Text = ""
+                updownCounter.Value = -1
             End If
             Call cbAction_SelectedIndexChanged(Nothing, Nothing)
             Call cbCounter_SelectedIndexChanged(Nothing, Nothing)
@@ -541,4 +554,5 @@ Public Class frmBasedStateAction
         SimulationConsoleToolStripMenuItem.Checked = Not (SimulationConsoleToolStripMenuItem.Checked)
         frmMain.emStateBasedActions.ShowConsole = SimulationConsoleToolStripMenuItem.Checked
     End Sub
+
 End Class

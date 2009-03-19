@@ -218,6 +218,8 @@ Public Class cBasedStateActionState
     Private _action As String = ""
     Private _param1 As String = ""
     Private _param2 As String = ""
+    Private _theCounter As Integer
+    Private _theCounterInitial As Integer
     Private _enabled As Boolean
     Private _key As String
 
@@ -226,6 +228,22 @@ Public Class cBasedStateActionState
     ' Public properties
     ' ========================================
 #Region "Properties"
+    Public Property Counter() As Integer
+        Get
+            Return _theCounter
+        End Get
+        Set(ByVal value As Integer)
+            _theCounter = value
+        End Set
+    End Property
+    Public Property InitialCounter() As Integer
+        Get
+            Return _theCounterInitial
+        End Get
+        Set(ByVal value As Integer)
+            _theCounterInitial = value
+        End Set
+    End Property
     Public Property CheckProcName() As Boolean
         Get
             Return _checkProcName
@@ -380,7 +398,9 @@ Public Class cBasedStateActionState
                    stateOperator As STATE_OPERATOR, ByVal threshold As String, ByVal _
                    action As String, ByVal param1 As String, ByVal param2 As String, _
                    Optional ByVal checkPNS As String = "", Optional ByVal checkPIS _
-                   As String = "", Optional ByVal checkPPS As String = "")
+                   As String = "", Optional ByVal checkPPS As String = "", Optional ByVal _
+                   counter As String = "0")
+
         _checkProcID = checkPI
         _checkProcIDS = checkPIS
         _checkProcName = checkPN
@@ -388,6 +408,8 @@ Public Class cBasedStateActionState
         _checkProcPath = checkPP
         _checkProcPathS = checkPPS
         _stateCounter = stateCounter
+        _theCounterInitial = CInt(Val(counter))
+        _theCounter = _theCounterInitial
         ' Create _threshold as StateThreshold from a threshold (string)
         ' and from action (have to make a select case)
         Select Case stateCounter

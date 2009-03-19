@@ -33,6 +33,7 @@ Partial Class frmBasedStateAction
         Me.DisableToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.imgList = New System.Windows.Forms.ImageList(Me.components)
         Me.gp = New System.Windows.Forms.GroupBox
+        Me.Label7 = New System.Windows.Forms.Label
         Me.GroupBox3 = New System.Windows.Forms.GroupBox
         Me.txtParam2Val = New System.Windows.Forms.TextBox
         Me.txtParam2Desc = New System.Windows.Forms.TextBox
@@ -65,6 +66,7 @@ Partial Class frmBasedStateAction
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip
         Me.DisplayToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SimulationConsoleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.updownCounter = New System.Windows.Forms.NumericUpDown
         Me.lv = New YAPM.DoubleBufferedLV
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
@@ -75,6 +77,7 @@ Partial Class frmBasedStateAction
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
+        CType(Me.updownCounter, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'timerRefresh
@@ -128,18 +131,29 @@ Partial Class frmBasedStateAction
         'gp
         '
         Me.gp.BackColor = System.Drawing.Color.White
+        Me.gp.Controls.Add(Me.updownCounter)
+        Me.gp.Controls.Add(Me.Label7)
         Me.gp.Controls.Add(Me.GroupBox3)
         Me.gp.Controls.Add(Me.GroupBox2)
         Me.gp.Controls.Add(Me.GroupBox1)
         Me.gp.Controls.Add(Me.cmdKO)
         Me.gp.Controls.Add(Me.cmdAdd)
-        Me.gp.Location = New System.Drawing.Point(175, 58)
+        Me.gp.Location = New System.Drawing.Point(175, 48)
         Me.gp.Name = "gp"
-        Me.gp.Size = New System.Drawing.Size(314, 372)
+        Me.gp.Size = New System.Drawing.Size(314, 416)
         Me.gp.TabIndex = 6
         Me.gp.TabStop = False
         Me.gp.Text = "Add a state based action"
         Me.gp.Visible = False
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(11, 345)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(126, 13)
+        Me.Label7.TabIndex = 13
+        Me.Label7.Text = "Counter (-1 for infinite)"
         '
         'GroupBox3
         '
@@ -400,7 +414,7 @@ Partial Class frmBasedStateAction
         '
         'cmdKO
         '
-        Me.cmdKO.Location = New System.Drawing.Point(172, 337)
+        Me.cmdKO.Location = New System.Drawing.Point(172, 383)
         Me.cmdKO.Name = "cmdKO"
         Me.cmdKO.Size = New System.Drawing.Size(55, 23)
         Me.cmdKO.TabIndex = 7
@@ -411,7 +425,7 @@ Partial Class frmBasedStateAction
         '
         Me.cmdAdd.Enabled = False
         Me.cmdAdd.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdAdd.Location = New System.Drawing.Point(88, 337)
+        Me.cmdAdd.Location = New System.Drawing.Point(91, 383)
         Me.cmdAdd.Name = "cmdAdd"
         Me.cmdAdd.Size = New System.Drawing.Size(55, 23)
         Me.cmdAdd.TabIndex = 6
@@ -423,7 +437,7 @@ Partial Class frmBasedStateAction
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DisplayToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(665, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(701, 24)
         Me.MenuStrip1.TabIndex = 7
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -441,6 +455,14 @@ Partial Class frmBasedStateAction
         Me.SimulationConsoleToolStripMenuItem.Size = New System.Drawing.Size(194, 22)
         Me.SimulationConsoleToolStripMenuItem.Text = "&Simulation console"
         '
+        'updownCounter
+        '
+        Me.updownCounter.Location = New System.Drawing.Point(139, 342)
+        Me.updownCounter.Minimum = New Decimal(New Integer() {1, 0, 0, -2147483648})
+        Me.updownCounter.Name = "updownCounter"
+        Me.updownCounter.Size = New System.Drawing.Size(69, 22)
+        Me.updownCounter.TabIndex = 14
+        '
         'lv
         '
         Me.lv.AllowColumnReorder = True
@@ -452,7 +474,7 @@ Partial Class frmBasedStateAction
         Me.lv.Location = New System.Drawing.Point(0, 24)
         Me.lv.Name = "lv"
         Me.lv.OverriddenDoubleBuffered = True
-        Me.lv.Size = New System.Drawing.Size(665, 464)
+        Me.lv.Size = New System.Drawing.Size(701, 489)
         Me.lv.SmallImageList = Me.imgList
         Me.lv.TabIndex = 5
         Me.lv.UseCompatibleStateImageBehavior = False
@@ -477,7 +499,7 @@ Partial Class frmBasedStateAction
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(665, 488)
+        Me.ClientSize = New System.Drawing.Size(701, 513)
         Me.Controls.Add(Me.gp)
         Me.Controls.Add(Me.lv)
         Me.Controls.Add(Me.MenuStrip1)
@@ -491,6 +513,7 @@ Partial Class frmBasedStateAction
         Me.Text = "Based state action"
         Me.ContextMenuStrip1.ResumeLayout(False)
         Me.gp.ResumeLayout(False)
+        Me.gp.PerformLayout()
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
@@ -499,6 +522,7 @@ Partial Class frmBasedStateAction
         Me.GroupBox1.PerformLayout()
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
+        CType(Me.updownCounter, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -548,4 +572,6 @@ Partial Class frmBasedStateAction
     Friend WithEvents DisplayToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SimulationConsoleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents lblThresholdDesc As System.Windows.Forms.TextBox
+    Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents updownCounter As System.Windows.Forms.NumericUpDown
 End Class
