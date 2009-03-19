@@ -71,8 +71,6 @@ Partial Class frmSBASimulationConsole
         Me.ClientSize = New System.Drawing.Size(522, 385)
         Me.Controls.Add(Me.lv)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
-        Me.MaximizeBox = False
         Me.Name = "frmSBASimulationConsole"
         Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
