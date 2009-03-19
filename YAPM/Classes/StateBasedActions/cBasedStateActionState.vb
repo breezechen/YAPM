@@ -76,7 +76,7 @@ Public Class cBasedStateActionState
                 Case ThresoldType.INTEGER
                     Return h1._ival < h2._ival
                 Case ThresoldType.SIZE_MB
-                    Return GetSizeFromFormatedSize(h1._sval) < GetSizeFromFormatedSize(h2._sval)
+                    Return h1._dval < GetSizeFromFormatedSize(h2._sval)
                 Case ThresoldType.STRING
                     Return h1._sval < h2._sval
                 Case Else
@@ -92,7 +92,7 @@ Public Class cBasedStateActionState
                 Case ThresoldType.INTEGER
                     Return h1._ival > h2._ival
                 Case ThresoldType.SIZE_MB
-                    Return GetSizeFromFormatedSize(h1._sval) > GetSizeFromFormatedSize(h2._sval)
+                    Return h1._dval > GetSizeFromFormatedSize(h2._sval)
                 Case ThresoldType.STRING
                     Return h1._sval > h2._sval
                 Case Else
@@ -108,7 +108,7 @@ Public Class cBasedStateActionState
                 Case ThresoldType.INTEGER
                     Return h1._ival <> h2._ival
                 Case ThresoldType.SIZE_MB
-                    Return GetSizeFromFormatedSize(h1._sval) <> GetSizeFromFormatedSize(h2._sval)
+                    Return h1._dval <> GetSizeFromFormatedSize(h2._sval)
                 Case ThresoldType.STRING
                     Return h1._sval <> h2._sval
                 Case Else
@@ -124,7 +124,7 @@ Public Class cBasedStateActionState
                 Case ThresoldType.INTEGER
                     Return h1._ival = h2._ival
                 Case ThresoldType.SIZE_MB
-                    Return GetSizeFromFormatedSize(h1._sval) = GetSizeFromFormatedSize(h2._sval)
+                    Return h1._dval = GetSizeFromFormatedSize(h2._sval)
                 Case ThresoldType.STRING
                     Return h1._sval = h2._sval
                 Case Else
@@ -140,7 +140,7 @@ Public Class cBasedStateActionState
                 Case ThresoldType.INTEGER
                     Return h1._ival <= h2._ival
                 Case ThresoldType.SIZE_MB
-                    Return GetSizeFromFormatedSize(h1._sval) <= GetSizeFromFormatedSize(h2._sval)
+                    Return h1._dval <= GetSizeFromFormatedSize(h2._sval)
                 Case ThresoldType.STRING
                     Return h1._sval <= h2._sval
                 Case Else
@@ -156,7 +156,7 @@ Public Class cBasedStateActionState
                 Case ThresoldType.INTEGER
                     Return h1._ival >= h2._ival
                 Case ThresoldType.SIZE_MB
-                    Return GetSizeFromFormatedSize(h1._sval) >= GetSizeFromFormatedSize(h2._sval)
+                    Return h1._dval >= GetSizeFromFormatedSize(h2._sval)
                 Case ThresoldType.STRING
                     Return h1._sval >= h2._sval
                 Case Else
@@ -167,19 +167,36 @@ Public Class cBasedStateActionState
         Private Shared Function getEnumPriorityCorIntValue(ByVal s As String) As Integer
             Select Case s   'I-BN-N-AN-H-RT
                 Case "I"
-                    Return 0
-                Case "BN"
                     Return 1
-                Case "N"
+                Case "BN"
                     Return 2
-                Case "AN"
+                Case "N"
                     Return 3
-                Case "H"
+                Case "AN"
                     Return 4
-                Case "RT"
+                Case "H"
                     Return 5
+                Case "RT"
+                    Return 6
                 Case Else
-                    Return -1
+                    Return 0
+            End Select
+        End Function
+
+        Public Overrides Function ToString() As String
+            Select Case _type
+                Case ThresoldType.DECIMAL
+                    Return _dval.ToString
+                Case ThresoldType.ENUM_PRIORITY
+                    Return _sval
+                Case ThresoldType.INTEGER
+                    Return _ival.ToString
+                Case ThresoldType.SIZE_MB
+                    Return _sval
+                Case ThresoldType.STRING
+                    Return _sval
+                Case Else
+                    Return "0"
             End Select
         End Function
     End Structure
@@ -368,69 +385,69 @@ Public Class cBasedStateActionState
         _stateCounter = stateCounter
         ' Create _threshold as StateThreshold from a threshold (string)
         ' and from action (have to make a select case)
-        Select Case action
+        Select Case stateCounter
             Case "PID"
-                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(action)))
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(threshold)))
             Case "UserName"
-                _threshold = New StateThreshold(ThresoldType.STRING, action)
+                _threshold = New StateThreshold(ThresoldType.STRING, threshold)
             Case "ParentPID"
-                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(action)))
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(threshold)))
             Case "ParentName"
-                _threshold = New StateThreshold(ThresoldType.STRING, action)
+                _threshold = New StateThreshold(ThresoldType.STRING, threshold)
             Case "CpuUsage"
-                _threshold = New StateThreshold(ThresoldType.DECIMAL, Val(action))
+                _threshold = New StateThreshold(ThresoldType.DECIMAL, Val(threshold))
             Case "AverageCpuUsage"
-                _threshold = New StateThreshold(ThresoldType.DECIMAL, Val(action))
+                _threshold = New StateThreshold(ThresoldType.DECIMAL, Val(threshold))
             Case "KernelCpuTime"
-                _threshold = New StateThreshold(ThresoldType.DECIMAL, Val(action))
+                _threshold = New StateThreshold(ThresoldType.DECIMAL, Val(threshold))
             Case "UserCpuTime"
-                _threshold = New StateThreshold(ThresoldType.DECIMAL, Val(action))
+                _threshold = New StateThreshold(ThresoldType.DECIMAL, Val(threshold))
             Case "TotalCpuTime"
-                _threshold = New StateThreshold(ThresoldType.DECIMAL, Val(action))
+                _threshold = New StateThreshold(ThresoldType.DECIMAL, Val(threshold))
             Case "StartTime"     '
-                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(action)))
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(threshold)))
             Case "RunTime"     '
-                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(action)))
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(threshold)))
             Case "GdiObjects"
-                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(action)))
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(threshold)))
             Case "UserObjects"
-                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(action)))
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(threshold)))
             Case "AffinityMask"
-                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(action)))
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(threshold)))
             Case "WorkingSet"
-                _threshold = New StateThreshold(ThresoldType.SIZE_MB, action)
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, threshold)
             Case "PeakWorkingSet"
-                _threshold = New StateThreshold(ThresoldType.SIZE_MB, action)
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, threshold)
             Case "PageFaultCount"
-                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(action)))
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(threshold)))
             Case "PagefileUsage"
-                _threshold = New StateThreshold(ThresoldType.SIZE_MB, action)
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, threshold)
             Case "PeakPagefileUsage"
-                _threshold = New StateThreshold(ThresoldType.SIZE_MB, action)
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, threshold)
             Case "QuotaPeakPagedPoolUsage"
-                _threshold = New StateThreshold(ThresoldType.SIZE_MB, action)
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, threshold)
             Case "QuotaPagedPoolUsage"     '
-                _threshold = New StateThreshold(ThresoldType.SIZE_MB, action)
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, threshold)
             Case "QuotaPeakNonPagedPoolUsage"
-                _threshold = New StateThreshold(ThresoldType.SIZE_MB, action)
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, threshold)
             Case "QuotaNonPagedPoolUsage"
-                _threshold = New StateThreshold(ThresoldType.SIZE_MB, action)
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, threshold)
             Case "ReadOperationCount"
-                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(action)))
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(threshold)))
             Case "WriteOperationCount"
-                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(action)))
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(threshold)))
             Case "OtherOperationCount"
-                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(action)))
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(threshold)))
             Case "ReadTransferCount"     '
-                _threshold = New StateThreshold(ThresoldType.SIZE_MB, action)
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, threshold)
             Case "WriteTransferCount"
-                _threshold = New StateThreshold(ThresoldType.SIZE_MB, action)
-            Case "OtherTransferCount"     
-                _threshold = New StateThreshold(ThresoldType.SIZE_MB, action)
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, threshold)
+            Case "OtherTransferCount"
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, threshold)
             Case "Priority"
-                _threshold = New StateThreshold(ThresoldType.ENUM_PRIORITY, action)
+                _threshold = New StateThreshold(ThresoldType.ENUM_PRIORITY, threshold)
             Case "Path"
-                _threshold = New StateThreshold(ThresoldType.STRING, action)
+                _threshold = New StateThreshold(ThresoldType.STRING, threshold)
         End Select
 
         _stateOperator = stateOperator

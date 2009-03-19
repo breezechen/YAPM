@@ -29,6 +29,7 @@ Option Strict On
 Imports System.Runtime.InteropServices
 Imports System.Security.Principal
 Imports System.Text
+Imports YAPM.cBasedStateActionState
 
 Public Class cProcess
     Inherits cGeneralObject
@@ -1772,9 +1773,76 @@ Public Class cProcess
     Public Function GetInformationAsStateThreshold(ByVal infoName As String) As  _
                 cBasedStateActionState.StateThreshold
 
-        ' TODO
+        Dim mem As cProcess.PROCESS_MEMORY_COUNTERS = _memInfo
+        Dim io As cProcess.PIO_COUNTERS = _io
+        Dim _threshold As StateThreshold = Nothing
 
-        Return Nothing
+        Select Case infoName
+            Case "PID"
+                _threshold = New StateThreshold(ThresoldType.INTEGER, Me.Pid)
+            Case "UserName"
+                _threshold = New StateThreshold(ThresoldType.STRING, Me.UserName)
+            Case "ParentPID"
+                _threshold = New StateThreshold(ThresoldType.INTEGER, Me.ParentProcessId)
+            Case "ParentName"
+                _threshold = New StateThreshold(ThresoldType.STRING, Me.ParentProcessName)
+            Case "CpuUsage"
+                _threshold = New StateThreshold(ThresoldType.DECIMAL, 100 * Me.CpuPercentageUsage)
+            Case "AverageCpuUsage"
+                _threshold = New StateThreshold(ThresoldType.DECIMAL, 100 * Me.AverageCpuUsage)
+            Case "KernelCpuTime"
+                _threshold = New StateThreshold(ThresoldType.DECIMAL, Me.KernelTime.Second + Me.KernelTime.Millisecond / 1000)
+            Case "UserCpuTime"
+                _threshold = New StateThreshold(ThresoldType.DECIMAL, Me.UserTime.Second + Me.UserTime.Millisecond / 1000)
+            Case "TotalCpuTime"
+                _threshold = New StateThreshold(ThresoldType.DECIMAL, Me.UserTime.Second + Me.KernelTime.Second + Me.UserTime.Millisecond / 1000 + Me.KernelTime.Millisecond / 1000)
+            Case "StartTime"     '
+                _threshold = New StateThreshold(ThresoldType.INTEGER, 0)
+            Case "RunTime"     '
+                _threshold = New StateThreshold(ThresoldType.INTEGER, 0)
+            Case "GdiObjects"
+                _threshold = New StateThreshold(ThresoldType.INTEGER, Me.GDIObjectsCount)
+            Case "UserObjects"
+                _threshold = New StateThreshold(ThresoldType.INTEGER, Me.UserObjectsCount)
+            Case "AffinityMask"
+                _threshold = New StateThreshold(ThresoldType.INTEGER, Me.AffinityMask)
+            Case "WorkingSet"
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, mem.WorkingSetSize)
+            Case "PeakWorkingSet"
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, mem.PeakWorkingSetSize)
+            Case "PageFaultCount"
+                _threshold = New StateThreshold(ThresoldType.INTEGER, mem.PageFaultCount)
+            Case "PagefileUsage"
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, mem.PagefileUsage)
+            Case "PeakPagefileUsage"
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, mem.PeakPagefileUsage)
+            Case "QuotaPeakPagedPoolUsage"
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, mem.QuotaPeakPagedPoolUsage)
+            Case "QuotaPagedPoolUsage"     '
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, mem.QuotaPagedPoolUsage)
+            Case "QuotaPeakNonPagedPoolUsage"
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, mem.QuotaPeakNonPagedPoolUsage)
+            Case "QuotaNonPagedPoolUsage"
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, mem.QuotaNonPagedPoolUsage)
+            Case "ReadOperationCount"
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(_io.ReadOperationCount))
+            Case "WriteOperationCount"
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(_io.WriteOperationCount))
+            Case "OtherOperationCount"
+                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(_io.OtherOperationCount))
+            Case "ReadTransferCount"     '
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, _io.ReadTransferCount)
+            Case "WriteTransferCount"
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, _io.WriteOperationCount)
+            Case "OtherTransferCount"
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, _io.OtherTransferCount)
+            Case "Priority"
+                _threshold = New StateThreshold(ThresoldType.ENUM_PRIORITY, Me.PriorityLevel)
+            Case "Path"
+                _threshold = New StateThreshold(ThresoldType.STRING, Me.Path)
+        End Select
+
+        Return _threshold
     End Function
 
 

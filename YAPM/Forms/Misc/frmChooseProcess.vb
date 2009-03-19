@@ -48,6 +48,10 @@ Public Class frmChooseProcess
         End If
     End Sub
 
+    Private Sub frmChooseProcess_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        Me.timerProcRefresh.Enabled = False
+    End Sub
+
     Private Sub frmChooseProcess_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         SetWindowTheme(lvProcess.Handle, "explorer", Nothing)
         lvProcess.UpdateItems()
