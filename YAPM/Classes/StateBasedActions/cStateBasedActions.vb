@@ -88,21 +88,21 @@ Public Class cStateBasedActions
             s(11) = "Integer"
             s(12) = "Integer"
             s(13) = "Integer (mask : Sum(processor_number^2), processor_number start at 0)"
-            s(14) = "Decimal (MB)"
-            s(15) = "Decimal (MB)"
+            s(14) = "Decimal (+ space char + unit : Bytes, KB, MB, GB)"
+            s(15) = "Decimal (+ space char + unit : Bytes, KB, MB, GB)"
             s(16) = "Integer"
-            s(17) = "Decimal (MB)"
-            s(18) = "Decimal (MB)"
-            s(19) = "Decimal (MB)"
-            s(20) = "Decimal (MB)"
-            s(21) = "Decimal (MB)"
-            s(22) = "Decimal (MB)"
+            s(17) = "Decimal (+ space char + unit : Bytes, KB, MB, GB)"
+            s(18) = "Decimal (+ space char + unit : Bytes, KB, MB, GB)"
+            s(19) = "Decimal (+ space char + unit : Bytes, KB, MB, GB)"
+            s(20) = "Decimal (+ space char + unit : Bytes, KB, MB, GB)"
+            s(21) = "Decimal (+ space char + unit : Bytes, KB, MB, GB)"
+            s(22) = "Decimal (+ space char + unit : Bytes, KB, MB, GB)"
             s(23) = "Integer"
             s(24) = "Integer"
             s(25) = "Integer"
-            s(26) = "Decimal (MB)"
-            s(27) = "Decimal (MB)"
-            s(28) = "Decimal (MB)"
+            s(26) = "Decimal (+ space char + unit : Bytes, KB, MB, GB)"
+            s(27) = "Decimal (+ space char + unit : Bytes, KB, MB, GB)"
+            s(28) = "Decimal (+ space char + unit : Bytes, KB, MB, GB)"
             s(29) = "String enum (I-BN-N-AN-H-RT)"
             s(30) = "String"
             Return s
@@ -308,8 +308,8 @@ Public Class cStateBasedActions
                                 Me.frmConsole.lv.Items.Add(_it)
                             End If
                         End If
-                            b = False
-                        End If
+                        b = False
+                    End If
                 Next
 
             End If

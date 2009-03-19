@@ -130,7 +130,7 @@ Module mdlMisc
             Return 0
         End If
 
-        Dim x As Integer = 0
+        Dim x As Integer = -1
         For Each _unit As String In sizeUnits
             x += 1
             Dim i As Integer = InStrRev(_frmtSize, " " & _unit)
