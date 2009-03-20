@@ -46,14 +46,14 @@ Public Class frmWindowsList
 
         Static first As Boolean = True
 
-        ' Remove 'red' items (previosly deleted)
+        ' Remove 'red' items (previously deleted)
         For Each it As ListViewItem In Me.lv.Items
             If it.BackColor = DELETED_ITEM_COLOR Then
                 it.Remove()
             End If
         Next
 
-        ' Deleted connections
+        ' Deleted items
         For Each it As ListViewItem In Me.lv.Items
             Dim exist As Boolean = False
             For Each frm As Form In Application.OpenForms
@@ -73,7 +73,7 @@ Public Class frmWindowsList
         Next
 
 
-        ' Remove 'green' items (previosly deleted)
+        ' Remove 'green' items (previously deleted)
         For Each it As ListViewItem In Me.lv.Items
             If it.BackColor = NEW_ITEM_COLOR Then
                 it.BackColor = Color.White
@@ -81,12 +81,17 @@ Public Class frmWindowsList
         Next
 
 
-        ' New connections
+        ' New items
         For Each frm As Form In Application.OpenForms
             Dim exist As Boolean = False
             For Each itt As ListViewItem In Me.lv.Items
                 If CType(itt.Tag, IntPtr) = frm.Handle Then
                     exist = True
+                    If frm.Visible Then
+                        itt.ForeColor = Color.Black
+                    Else
+                        itt.ForeColor = Color.Gray
+                    End If
                     Exit For
                 End If
             Next
@@ -109,6 +114,11 @@ Public Class frmWindowsList
                     nene.ImageKey = ""
                 End Try
 
+                If frm.Visible Then
+                    nene.ForeColor = Color.Black
+                Else
+                    nene.ForeColor = Color.Gray
+                End If
                 Me.lv.Items.Add(nene)
             End If
 
@@ -134,4 +144,22 @@ Public Class frmWindowsList
             End If
         Next
     End Sub
+
+    Private Sub lv_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lv.SelectedIndexChanged
+        If Me.lv.SelectedItems.Count = 0 Then
+            Me.ShowToolStripMenuItem.Enabled = False
+            Me.CloseToolStripMenuItem.Enabled = False
+        Else
+            Dim oneGray As Boolean = False
+            For Each it As ListViewItem In Me.lv.SelectedItems
+                If it.ForeColor = Color.Gray Then
+                    oneGray = True
+                    Exit For
+                End If
+            Next
+            Me.ShowToolStripMenuItem.Enabled = Not (oneGray)
+            Me.CloseToolStripMenuItem.Enabled = Not (oneGray)
+        End If
+    End Sub
+
 End Class

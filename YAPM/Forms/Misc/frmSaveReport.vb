@@ -46,7 +46,65 @@ Public Class frmSaveReport
 
     ' Public functions to save reports
     Public Sub SaveReportLog()
-        '
+        frmMain.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
+        frmMain.saveDial.Title = "Save report"
+        Try
+            If frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
+                Dim s As String = frmMain.saveDial.FileName
+                If Len(s) > 0 Then
+                    ' Create file report
+                    Dim c As String = vbNullString
+
+                    Me.ReportPath = s
+                    Me.pgb.Maximum = frmMain.log.LineCount
+
+                    If s.Substring(s.Length - 3, 3).ToLower = "txt" Then
+                        Dim stream As New System.IO.StreamWriter(s, False)
+                        ' txt
+                        Dim it As ListViewItem
+                        Dim x As Integer = 0
+                        For Each it In frmMain.log.Items
+                            c = "Date : " & it.Text
+                            c &= vbTab & "Event : " & it.SubItems(1).Text
+                            c &= vbNewLine
+                            stream.Write(c)
+                            x += 1
+                            UpdateProgress(x)
+                        Next
+                        c = CStr(frmMain.log.LineCount) & " result(s)"
+                        stream.Write(c)
+                        stream.Close()
+                    Else
+                        ' HTML
+                        Dim col(1) As cHTML.HtmlColumnStructure
+                        col(0).sizePercent = 30
+                        col(0).title = "Date"
+                        col(1).sizePercent = 70
+                        col(1).title = "Event"
+                        Dim title As String = "Log : " & CStr(frmMain.log.LineCount) & " item(s)"
+                        Dim _html As New cHTML(col, s, title)
+
+                        Dim it As ListViewItem
+                        Dim x As Integer = 0
+                        For Each it In frmMain.log.Items
+                            Dim _lin(1) As String
+                            _lin(0) = it.Text
+                            _lin(1) = it.SubItems(1).Text
+                            _html.AppendLine(_lin)
+                            x += 1
+                            UpdateProgress(x)
+                        Next
+
+                        _html.ExportHTML()
+                    End If
+
+                    ReportSaved("log")
+                End If
+            End If
+        Catch ex As Exception
+            Call Me.ReportFailed(ex)
+        End Try
+        Me.cmdGO.Enabled = True
     End Sub
     Public Sub SaveReportServices()
         frmMain.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"

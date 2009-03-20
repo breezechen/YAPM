@@ -2397,7 +2397,7 @@ Public Class frmMain
     End Function
 
     Private Sub creg_KeyAdded(ByVal key As cRegMonitor.KeyDefinition) Handles creg.KeyAdded
-        log.AppendLine("Service added : " & key.name)
+        'log.AppendLine("Service added : " & key.name)
         With Me.Tray
             .BalloonTipText = key.name
             .BalloonTipIcon = ToolTipIcon.Info
@@ -2407,7 +2407,7 @@ Public Class frmMain
     End Sub
 
     Private Sub creg_KeyDeleted(ByVal key As cRegMonitor.KeyDefinition) Handles creg.KeyDeleted
-        log.AppendLine("Service deleted : " & key.name)
+        'log.AppendLine("Service deleted : " & key.name)
         With Me.Tray
             .BalloonTipText = key.name
             .BalloonTipIcon = ToolTipIcon.Info
@@ -2426,7 +2426,7 @@ Public Class frmMain
     End Sub
 
     Private Sub ShowLogToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowLogToolStripMenuItem.Click
-        frmLog.Show()
+        Me.log.ShowForm = True
     End Sub
 
     Private Sub SelectedAssociatedProcessToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SelectedAssociatedProcessToolStripMenuItem1.Click
@@ -3191,6 +3191,16 @@ Public Class frmMain
 
     Private Sub lvSearchResults_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvSearchResults.MouseDown
         Call mdlMisc.CopyLvToClip(e, Me.lvSearchResults)
+    End Sub
+
+    Private Sub lvProcess_ItemAdded(ByRef item As CoreFunc.cProcess) Handles lvProcess.ItemAdded
+        If item IsNot Nothing Then _
+        Me.log.AppendLine("Process created : " & item.Name & " (" & item.Pid & ")")
+    End Sub
+
+    Private Sub lvProcess_ItemDeleted(ByRef item As CoreFunc.cProcess) Handles lvProcess.ItemDeleted
+        If item IsNot Nothing Then _
+        Me.log.AppendLine("Process deleted : " & item.Name & " (" & item.Pid & ")")
     End Sub
 
     Private Sub lvProcess_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvProcess.KeyDown

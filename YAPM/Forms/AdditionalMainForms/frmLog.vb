@@ -21,28 +21,38 @@
 
 Option Strict On
 
+Imports System.Runtime.InteropServices
+
 Public Class frmLog
+
+    <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
+    Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
+    End Function
 
     Private lCount As Integer = 0
 
-    Private Sub timerRefresh_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerRefresh.Tick
-        If lCount <> frmMain.log.LineCount Then
-            Dim i As Integer = Me.txtLog.SelectionStart
-            Dim z As Integer = frmMain.log.LineCount
+    'Private Sub timerRefresh_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerRefresh.Tick
+    '    If lCount <> frmMain.log.LineCount Then
+    '        Dim i As Integer = Me.txtLog.SelectionStart
+    '        Dim z As Integer = frmMain.log.LineCount
 
-            ' Add new lines
-            For x As Integer = lCount + 1 To z
-                Me.txtLog.Text &= frmMain.log.Line(x)
-            Next x
+    '        ' Add new lines
+    '        For x As Integer = lCount + 1 To z
+    '            Me.txtLog.Text &= frmMain.log.Line(x)
+    '        Next x
 
-            lCount = z
+    '        lCount = z
 
-            Me.txtLog.SelectionStart = i
-            Me.txtLog.ScrollToCaret()
-        End If
-    End Sub
+    '        Me.txtLog.SelectionStart = i
+    '        Me.txtLog.ScrollToCaret()
+    '    End If
+    'End Sub
 
-    Private Sub butSaveLog_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butSaveLog.Click
+    'Private Sub frmLog_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Mybase.Load
+    '    Call timerRefresh_Tick(Nothing, Nothing)
+    'End Sub
+
+    Private Sub SaveToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveToolStripMenuItem.Click
         Dim frm As New frmSaveReport
         With frm
             .ReportType = "log"
@@ -51,13 +61,16 @@ Public Class frmLog
         End With
     End Sub
 
-    Private Sub frmLog_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Mybase.Load
-        Call timerRefresh_Tick(Nothing, Nothing)
+    Private Sub ClearToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClearToolStripMenuItem.Click
+        frmMain.log.Clear()
     End Sub
 
-    Private Sub butConfig_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butConfig.Click
-        '   Dim c As New cPrivileges(2364)
-        '        Call cService.EnumServicesEx(Nothing)
+    Private Sub frmLog_FormClosing(ByVal sender As System.Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
+        frmMain.log.ShowForm = False
+        e.Cancel = True
     End Sub
 
+    Private Sub frmLog_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        Call SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
+    End Sub
 End Class

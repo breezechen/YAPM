@@ -28,6 +28,9 @@ Public Class processList
 
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
 
+    Public Event ItemAdded(ByRef item As cProcess)
+    Public Event ItemDeleted(ByRef item As cProcess)
+
 
     ' ========================================
     ' Private
@@ -147,6 +150,7 @@ Public Class processList
         ' Now remove all deleted items from listview and _dico
         For Each z As String In _dicoDel.Keys
             Me.Items.RemoveByKey(z)
+            RaiseEvent ItemDeleted(_dico.Item(z))
             _dico.Remove(z)
             cProcess.UnAssociatePidAndName(z)    ' Remove from global dico
         Next
@@ -156,6 +160,7 @@ Public Class processList
         ' Merge _dico and _dicoNew
         For Each z As String In _dicoNew.Keys
             Dim _it As cProcess = New cProcess(_buffDico.Item(z))
+            RaiseEvent ItemAdded(_it)
             _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
             _dico.Add(z.ToString, _it)
         Next

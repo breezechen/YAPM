@@ -28,9 +28,9 @@ Partial Class frmWindowsList
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ShowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.imgList = New System.Windows.Forms.ImageList(Me.components)
         Me.lv = New YAPM.DoubleBufferedLV
         Me.ColumnHeader52 = New System.Windows.Forms.ColumnHeader
-        Me.imgList = New System.Windows.Forms.ImageList(Me.components)
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -42,22 +42,30 @@ Partial Class frmWindowsList
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowToolStripMenuItem, Me.CloseToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(106, 48)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(153, 70)
         '
         'ShowToolStripMenuItem
         '
+        Me.ShowToolStripMenuItem.Enabled = False
         Me.ShowToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ShowToolStripMenuItem.Image = CType(resources.GetObject("ShowToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ShowToolStripMenuItem.Name = "ShowToolStripMenuItem"
-        Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(105, 22)
+        Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ShowToolStripMenuItem.Text = "Show"
         '
         'CloseToolStripMenuItem
         '
+        Me.CloseToolStripMenuItem.Enabled = False
         Me.CloseToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.close
         Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(105, 22)
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.CloseToolStripMenuItem.Text = "Close"
+        '
+        'imgList
+        '
+        Me.imgList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit
+        Me.imgList.ImageSize = New System.Drawing.Size(16, 16)
+        Me.imgList.TransparentColor = System.Drawing.Color.Transparent
         '
         'lv
         '
@@ -80,12 +88,6 @@ Partial Class frmWindowsList
         '
         Me.ColumnHeader52.Text = "Caption"
         Me.ColumnHeader52.Width = 295
-        '
-        'imgList
-        '
-        Me.imgList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit
-        Me.imgList.ImageSize = New System.Drawing.Size(16, 16)
-        Me.imgList.TransparentColor = System.Drawing.Color.Transparent
         '
         'frmWindowsList
         '

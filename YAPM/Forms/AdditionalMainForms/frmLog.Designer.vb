@@ -24,113 +24,88 @@ Partial Class frmLog
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmLog))
-        Me.timerRefresh = New System.Windows.Forms.Timer(Me.components)
-        Me.Ribbon = New System.Windows.Forms.Ribbon
-        Me.tabMain = New System.Windows.Forms.RibbonTab
-        Me.RBLogSave = New System.Windows.Forms.RibbonPanel
-        Me.butSaveLog = New System.Windows.Forms.RibbonButton
-        Me.RBOptions = New System.Windows.Forms.RibbonPanel
-        Me.butConfig = New System.Windows.Forms.RibbonButton
-        Me.txtLog = New System.Windows.Forms.TextBox
+        Me.lv = New YAPM.DoubleBufferedLV
+        Me.ColumnHeader52 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.SaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
+        Me.ClearToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
-        'timerRefresh
+        'lv
         '
-        Me.timerRefresh.Enabled = True
-        Me.timerRefresh.Interval = 1000
+        Me.lv.AllowColumnReorder = True
+        Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader52, Me.ColumnHeader1})
+        Me.lv.ContextMenuStrip = Me.ContextMenuStrip1
+        Me.lv.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lv.FullRowSelect = True
+        Me.lv.HideSelection = False
+        Me.lv.Location = New System.Drawing.Point(0, 0)
+        Me.lv.Name = "lv"
+        Me.lv.OverriddenDoubleBuffered = True
+        Me.lv.Size = New System.Drawing.Size(624, 430)
+        Me.lv.TabIndex = 46
+        Me.lv.UseCompatibleStateImageBehavior = False
+        Me.lv.View = System.Windows.Forms.View.Details
         '
-        'Ribbon
+        'ColumnHeader52
         '
-        Me.Ribbon.Location = New System.Drawing.Point(0, 0)
-        Me.Ribbon.Minimized = False
-        Me.Ribbon.Name = "Ribbon"
-        Me.Ribbon.Size = New System.Drawing.Size(624, 115)
-        Me.Ribbon.TabIndex = 45
-        Me.Ribbon.Tabs.Add(Me.tabMain)
-        Me.Ribbon.TabSpacing = 6
+        Me.ColumnHeader52.Text = "Time"
+        Me.ColumnHeader52.Width = 202
         '
-        'tabMain
+        'ColumnHeader1
         '
-        Me.tabMain.Panels.Add(Me.RBLogSave)
-        Me.tabMain.Panels.Add(Me.RBOptions)
-        Me.tabMain.Tag = Nothing
-        Me.tabMain.Text = "File"
+        Me.ColumnHeader1.Text = "Event"
+        Me.ColumnHeader1.Width = 385
         '
-        'RBLogSave
+        'ContextMenuStrip1
         '
-        Me.RBLogSave.ButtonMoreEnabled = False
-        Me.RBLogSave.ButtonMoreVisible = False
-        Me.RBLogSave.Items.Add(Me.butSaveLog)
-        Me.RBLogSave.Tag = Nothing
-        Me.RBLogSave.Text = "Save log file"
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SaveToolStripMenuItem, Me.ToolStripMenuItem1, Me.ClearToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(111, 54)
         '
-        'butSaveLog
+        'SaveToolStripMenuItem
         '
-        Me.butSaveLog.AltKey = Nothing
-        Me.butSaveLog.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butSaveLog.Image = CType(resources.GetObject("butSaveLog.Image"), System.Drawing.Image)
-        Me.butSaveLog.SmallImage = CType(resources.GetObject("butSaveLog.SmallImage"), System.Drawing.Image)
-        Me.butSaveLog.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butSaveLog.Tag = Nothing
-        Me.butSaveLog.Text = "Save log"
-        Me.butSaveLog.ToolTip = Nothing
-        Me.butSaveLog.ToolTipImage = Nothing
-        Me.butSaveLog.ToolTipTitle = Nothing
+        Me.SaveToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SaveToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources._096
+        Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
+        Me.SaveToolStripMenuItem.Text = "&Save..."
         '
-        'RBOptions
+        'ToolStripMenuItem1
         '
-        Me.RBOptions.ButtonMoreEnabled = False
-        Me.RBOptions.ButtonMoreVisible = False
-        Me.RBOptions.Items.Add(Me.butConfig)
-        Me.RBOptions.Tag = Nothing
-        Me.RBOptions.Text = "Configuration"
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(107, 6)
         '
-        'butConfig
+        'ClearToolStripMenuItem
         '
-        Me.butConfig.AltKey = Nothing
-        Me.butConfig.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butConfig.Image = CType(resources.GetObject("butConfig.Image"), System.Drawing.Image)
-        Me.butConfig.SmallImage = CType(resources.GetObject("butConfig.SmallImage"), System.Drawing.Image)
-        Me.butConfig.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butConfig.Tag = Nothing
-        Me.butConfig.Text = "Preferences"
-        Me.butConfig.ToolTip = Nothing
-        Me.butConfig.ToolTipImage = Nothing
-        Me.butConfig.ToolTipTitle = Nothing
-        '
-        'txtLog
-        '
-        Me.txtLog.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.txtLog.Location = New System.Drawing.Point(0, 115)
-        Me.txtLog.Multiline = True
-        Me.txtLog.Name = "txtLog"
-        Me.txtLog.ReadOnly = True
-        Me.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.txtLog.Size = New System.Drawing.Size(624, 315)
-        Me.txtLog.TabIndex = 46
+        Me.ClearToolStripMenuItem.Name = "ClearToolStripMenuItem"
+        Me.ClearToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
+        Me.ClearToolStripMenuItem.Text = "&Clear"
         '
         'frmLog
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(624, 430)
-        Me.Controls.Add(Me.txtLog)
-        Me.Controls.Add(Me.Ribbon)
+        Me.Controls.Add(Me.lv)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmLog"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Log file"
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
-    Friend WithEvents timerRefresh As System.Windows.Forms.Timer
     Friend WithEvents Ribbon As System.Windows.Forms.Ribbon
-    Friend WithEvents tabMain As System.Windows.Forms.RibbonTab
-    Friend WithEvents RBLogSave As System.Windows.Forms.RibbonPanel
-    Friend WithEvents butSaveLog As System.Windows.Forms.RibbonButton
-    Friend WithEvents txtLog As System.Windows.Forms.TextBox
-    Friend WithEvents RBOptions As System.Windows.Forms.RibbonPanel
-    Friend WithEvents butConfig As System.Windows.Forms.RibbonButton
+    Friend WithEvents lv As YAPM.DoubleBufferedLV
+    Friend WithEvents ColumnHeader52 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ContextMenuStrip1 As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents SaveToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ClearToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class
