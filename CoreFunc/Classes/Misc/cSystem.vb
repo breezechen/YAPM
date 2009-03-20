@@ -72,11 +72,19 @@ Public Class cSystem
         Return ExitWindowsEx(ExitFlags.Shutdown, 0)
     End Function
 
-    Public Shared Function Restart() As Boolean
-        Return ExitWindowsEx(ExitFlags.Reboot, 0)
+    Public Shared Function Restart(Optional ByVal force As Boolean = False) As Boolean
+        If force Then
+            Return ExitWindowsEx(ExitFlags.Reboot Or ExitFlags.Force, 0)
+        Else
+            Return ExitWindowsEx(ExitFlags.Reboot, 0)
+        End If
     End Function
 
-    Public Shared Function Poweroff() As Boolean
-        Return ExitWindowsEx(ExitFlags.Poweroff, 0)
+    Public Shared Function Poweroff(Optional ByVal force As Boolean = False) As Boolean
+        If force Then
+            Return ExitWindowsEx(ExitFlags.Poweroff Or ExitFlags.Force, 0)
+        Else
+            Return ExitWindowsEx(ExitFlags.Poweroff, 0)
+        End If
     End Function
 End Class
