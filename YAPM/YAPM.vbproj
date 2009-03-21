@@ -64,15 +64,6 @@
     <DefineConstants>CONFIG_INTO_APPDATA0</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CoreFunc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\CoreFunc\bin\Release\CoreFunc.dll</HintPath>
-    </Reference>
-    <Reference Include="MemoryHexEditor, Version=1.0.3336.340, Culture=neutral, processorArchitecture=MSIL" />
-    <Reference Include="Providers, Version=1.0.3365.34447, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Providers\bin\Release\Providers.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.ServiceProcess" />
@@ -486,6 +477,20 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoreFunc\CoreFunc.vbproj">
+      <Project>{4F4D09F8-D122-4ACB-B049-881634E67A2C}</Project>
+      <Name>CoreFunc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Providers\Providers.vbproj">
+      <Project>{657B7CE9-D35C-4E65-A05B-CC6B46A14D7D}</Project>
+      <Name>Providers</Name>
+    </ProjectReference>
+    <ProjectReference Include="UserControls\MemoryHexEditor\MemoryHexEditor.vbproj">
+      <Project>{8C885999-147E-4651-AF9C-6F7149F1344D}</Project>
+      <Name>MemoryHexEditor</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
