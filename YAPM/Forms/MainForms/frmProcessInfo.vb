@@ -75,6 +75,7 @@ Public Class frmProcessInfo
                 Dim sp As TimeSpan = New TimeSpan(curProc.StartTime.Ticks)
                 Dim d As Date = Date.Now.Subtract(sp)
                 Me.txtRunTime.Text = d.ToLongTimeString
+                Me.cbPriority.Text = curProc.PriorityClass
                 Dim tMain As System.Diagnostics.ProcessModule = curProc.MainModule
                 If tMain IsNot Nothing Then
                     Me.txtImageVersion.Text = tMain.FileVersionInfo.FileVersion
@@ -211,17 +212,6 @@ Public Class frmProcessInfo
                     s = s & "\tab QuotaPeakPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
                     s = s & "\tab QuotaNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaNonPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
                     s = s & "\tab QuotaPeakNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakNonPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
-
-                    If chkOnline.Checked Then
-                        ' Retrieve online description
-                        s = s & "\par"
-                        s = s & "  \b On line informations\b0\par"
-
-                        Dim ipi As InternetProcessInfo = mdlInternet.GetInternetInfos(curProc.Name)
-
-                        s = s & "\tab Security risk (0-5) :\tab\tab " & CStr(ipi._Risk) & "\par"
-                        s = s & "\tab Description :\tab\tab\tab " & Replace$(ipi._Description, vbNewLine, "\par") & "\par"
-                    End If
 
                     If chkModules.Checked Then
                         ' Retrieve modules
@@ -1782,4 +1772,54 @@ Public Class frmProcessInfo
         Next
     End Sub
 
+    Private Sub cmdRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdRefresh.Click
+        Call Me.tabProcess_SelectedIndexChanged(Nothing, Nothing)
+    End Sub
+
+    Private Sub cmdKill_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdKill.Click
+        If frmMain.Pref.warnDangerous Then
+            If MsgBox("Are you sure you want to kill this process ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                Exit Sub
+            End If
+        End If
+        Call curProc.Kill()
+    End Sub
+
+    Private Sub cmdPause_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdPause.Click
+        If frmMain.Pref.warnDangerous Then
+            If MsgBox("Are you sure you want to suspend this process ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                Exit Sub
+            End If
+        End If
+        Call curProc.SuspendProcess()
+    End Sub
+
+    Private Sub cmdResume_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdResume.Click
+        Call curProc.ResumeProcess()
+    End Sub
+
+    Private Sub cmdSet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSet.Click
+        Select Case cbPriority.Text
+            Case "Idle"
+                Call curProc.SetProcessPriority(ProcessPriorityClass.Idle)
+            Case "BelowNormal"
+                Call curProc.SetProcessPriority(ProcessPriorityClass.BelowNormal)
+            Case "Normal"
+                Call curProc.SetProcessPriority(ProcessPriorityClass.Normal)
+            Case "AboveNormal"
+                Call curProc.SetProcessPriority(ProcessPriorityClass.AboveNormal)
+            Case "High"
+                Call curProc.SetProcessPriority(ProcessPriorityClass.High)
+            Case "RealTime"
+                Call curProc.SetProcessPriority(ProcessPriorityClass.RealTime)
+        End Select
+    End Sub
+
+    Private Sub cmdAffinity_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdAffinity.Click
+        Dim c(0) As cProcess
+        c(0) = curProc
+        Dim frm As New frmProcessAffinity
+        frm.Process = c
+        frm.ShowDialog()
+    End Sub
 End Class
