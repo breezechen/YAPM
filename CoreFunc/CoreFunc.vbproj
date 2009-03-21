@@ -37,7 +37,7 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\YAPM\bin\Release\</OutputPath>
     <DocumentationFile>CoreFunc.xml</DocumentationFile>
     <NoWarn>
     </NoWarn>

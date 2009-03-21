@@ -36,7 +36,7 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\YAPM\bin\Release\</OutputPath>
     <DocumentationFile>Providers.xml</DocumentationFile>
     <DefineConstants>_MYFORMS=True</DefineConstants>
     <NoWarn>
