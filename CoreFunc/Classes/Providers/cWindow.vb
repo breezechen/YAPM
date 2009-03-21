@@ -525,7 +525,20 @@ Public Class cWindow
 
     End Function
 
-    ' Close a window
+    ' Return if a window is a task
+    Public Shared Function IsWindowTask(ByVal hwnd As IntPtr) As Boolean
+        Return _isTask(hwnd)
+    End Function
+
+    Public Shared Function MaximizeWindow(ByVal hWnd As IntPtr) As Integer
+        Return CInt(ShowWindow(hWnd, SW_MAXIMIZE))
+    End Function
+    Public Shared Function MinimizeWindow(ByVal hWnd As IntPtr) As Integer
+        Return CInt(ShowWindow(hWnd, SW_MINIMIZE))
+    End Function
+    Public Shared Function HideWindow(ByVal hWnd As IntPtr) As Integer
+        Return CInt(ShowWindow(hWnd, SW_HIDE))
+    End Function
     Public Shared Function CloseWindow(ByVal hWnd As Integer) As Integer
         Return CInt(SendMessage(CType(hWnd, IntPtr), WM_CLOSE, 0, 0))
     End Function

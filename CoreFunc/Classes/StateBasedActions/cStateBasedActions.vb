@@ -69,7 +69,7 @@ Public Class cStateBasedActions
     End Property
     Public ReadOnly Property ActionsAvailable() As String()
         Get
-            Dim s(23) As String
+            Dim s(24) As String
             s(0) = "Kill process"
             s(1) = "Pause process"
             s(2) = "Resume process"
@@ -94,6 +94,7 @@ Public Class cStateBasedActions
             s(21) = "Beep"
             s(22) = "Save process list"
             s(23) = "Save service list"
+            s(24) = "Do nothing"
             Return s
         End Get
     End Property
@@ -136,7 +137,7 @@ Public Class cStateBasedActions
     End Property
     Public ReadOnly Property Param1Description() As String()
         Get
-            Dim s(23) As String
+            Dim s(24) As String
             s(0) = "None"
             s(1) = "None"
             s(2) = "None"
@@ -161,12 +162,13 @@ Public Class cStateBasedActions
             s(21) = "None"
             s(22) = "Report path (path without file name)"
             s(23) = "Report path (path without file name)"
+            s(24) = "You can add a description here (no effect on rule)"
             Return s
         End Get
     End Property
     Public ReadOnly Property Param2Description() As String()
         Get
-            Dim s(23) As String
+            Dim s(24) As String
             s(0) = "None"
             s(1) = "None"
             s(2) = "None"
@@ -191,6 +193,7 @@ Public Class cStateBasedActions
             s(21) = "None"
             s(22) = "Report file name"
             s(23) = "Report file name"
+            s(24) = "You can add a description here (no effect on rule)"
             Return s
         End Get
     End Property

@@ -504,10 +504,7 @@ Public Class cBasedStateActionState
     Public Sub RaiseAction(ByRef _proc As cProcess)
 
         Trace.WriteLine("Have to raise action : " & Action)
-
-        If _notify Then
-            cStateBasedActions.Notify(Me, _proc)
-        End If
+        cStateBasedActions.Notify(Me, _proc)
 
         Try
             Select Case Action
@@ -559,13 +556,57 @@ Public Class cBasedStateActionState
                 Case "Exit YAPM"
                     cStateBasedActions.ExitYAPM()
                 Case "Show process task windows"
-
+                    ' Get all windows owned by _proc
+                    Dim pid(0) As Integer
+                    Dim keys() As Integer = Nothing
+                    Dim _dico As New Dictionary(Of String, cWindow.LightWindow)
+                    pid(0) = _proc.Pid
+                    cWindow.Enumerate(False, pid, keys, _dico)
+                    For Each win As cWindow.LightWindow In _dico.Values
+                        ' Only if is a task
+                        If cWindow.IsWindowTask(win.handle) Then
+                            cWindow.ShowWindow(win.handle.ToInt32)
+                        End If
+                    Next
                 Case "Hide process task windows"
-
+                    ' Get all windows owned by _proc
+                    Dim pid(0) As Integer
+                    Dim keys() As Integer = Nothing
+                    Dim _dico As New Dictionary(Of String, cWindow.LightWindow)
+                    pid(0) = _proc.Pid
+                    cWindow.Enumerate(False, pid, keys, _dico)
+                    For Each win As cWindow.LightWindow In _dico.Values
+                        ' Only if is a task
+                        If cWindow.IsWindowTask(win.handle) Then
+                            cWindow.HideWindow(win.handle)
+                        End If
+                    Next
                 Case "Maximize process task windows"
-
+                    ' Get all windows owned by _proc
+                    Dim pid(0) As Integer
+                    Dim keys() As Integer = Nothing
+                    Dim _dico As New Dictionary(Of String, cWindow.LightWindow)
+                    pid(0) = _proc.Pid
+                    cWindow.Enumerate(False, pid, keys, _dico)
+                    For Each win As cWindow.LightWindow In _dico.Values
+                        ' Only if is a task
+                        If cWindow.IsWindowTask(win.handle) Then
+                            cWindow.MaximizeWindow(win.handle)
+                        End If
+                    Next
                 Case "Minimize process task windows"
-
+                    ' Get all windows owned by _proc
+                    Dim pid(0) As Integer
+                    Dim keys() As Integer = Nothing
+                    Dim _dico As New Dictionary(Of String, cWindow.LightWindow)
+                    pid(0) = _proc.Pid
+                    cWindow.Enumerate(False, pid, keys, _dico)
+                    For Each win As cWindow.LightWindow In _dico.Values
+                        ' Only if is a task
+                        If cWindow.IsWindowTask(win.handle) Then
+                            cWindow.MinimizeWindow(win.handle)
+                        End If
+                    Next
                 Case "Beep"
                     Interaction.Beep()
                 Case "Save process list"

@@ -2447,7 +2447,7 @@ Public Class frmMain
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem.Click
-        Call Application.Exit()
+        Call Me.Close()
     End Sub
 
     Private Sub MinimizeToTrayToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MinimizeToTrayToolStripMenuItem.Click
@@ -4259,7 +4259,7 @@ Public Class frmMain
     End Sub
 
     Private Sub emStateBasedActions_ExitRequested() Handles emStateBasedActions.ExitRequested
-        Call Application.Exit()
+        Me.Close()
     End Sub
 
     Private Sub emStateBasedActions_LogRequested(ByRef process As CoreFunc.cProcess) Handles emStateBasedActions.LogRequested
@@ -4273,7 +4273,12 @@ Public Class frmMain
 
     Private Sub emStateBasedActions_NotifyAction(ByRef action As CoreFunc.cBasedStateActionState, ByRef process As CoreFunc.cProcess) Handles emStateBasedActions.NotifyAction
         Dim proc As String = process.Name & " (" & process.Pid.ToString & ")"
-        Me.Tray.ShowBalloonTip(2000, "State based action was raised", "Rule : " & action.RuleText & " , process : " & proc, ToolTipIcon.Info)
+        If action.Notify Then
+            Me.Tray.ShowBalloonTip(2000, "State based action was raised", "Rule : " & action.RuleText & " , process : " & proc, ToolTipIcon.Info)
+        End If
+
+        ' Add to log
+        Me.log.AppendLine("State based action was raised -- Rule : " & action.RuleText & " , process : " & proc)
     End Sub
 
     Private Sub emStateBasedActions_SaveProcessListRequested() Handles emStateBasedActions.SaveProcessListRequested
