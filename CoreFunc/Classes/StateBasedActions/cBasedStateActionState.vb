@@ -43,6 +43,7 @@ Public Class cBasedStateActionState
         [DECIMAL]           ' as a double
         [SIZE_MB]           ' as a string
         [ENUM_PRIORITY]     ' as a string I-BN-N-AN-H-RT
+        [TIME]              ' as a string 00:00:00
     End Enum
 
 
@@ -77,7 +78,7 @@ Public Class cBasedStateActionState
                     Return h1._ival < h2._ival
                 Case ThresoldType.SIZE_MB
                     Return h1._dval < GetSizeFromFormatedSize(h2._sval)
-                Case ThresoldType.STRING
+                Case ThresoldType.STRING, ThresoldType.TIME
                     Return h1._sval < h2._sval
                 Case Else
                     Return False
@@ -93,7 +94,7 @@ Public Class cBasedStateActionState
                     Return h1._ival > h2._ival
                 Case ThresoldType.SIZE_MB
                     Return h1._dval > GetSizeFromFormatedSize(h2._sval)
-                Case ThresoldType.STRING
+                Case ThresoldType.STRING, ThresoldType.TIME
                     Return h1._sval > h2._sval
                 Case Else
                     Return False
@@ -109,7 +110,7 @@ Public Class cBasedStateActionState
                     Return h1._ival <> h2._ival
                 Case ThresoldType.SIZE_MB
                     Return h1._dval <> GetSizeFromFormatedSize(h2._sval)
-                Case ThresoldType.STRING
+                Case ThresoldType.STRING, ThresoldType.TIME
                     Return h1._sval <> h2._sval
                 Case Else
                     Return False
@@ -125,7 +126,7 @@ Public Class cBasedStateActionState
                     Return h1._ival = h2._ival
                 Case ThresoldType.SIZE_MB
                     Return h1._dval = GetSizeFromFormatedSize(h2._sval)
-                Case ThresoldType.STRING
+                Case ThresoldType.STRING, ThresoldType.TIME
                     Return h1._sval = h2._sval
                 Case Else
                     Return False
@@ -141,7 +142,7 @@ Public Class cBasedStateActionState
                     Return h1._ival <= h2._ival
                 Case ThresoldType.SIZE_MB
                     Return h1._dval <= GetSizeFromFormatedSize(h2._sval)
-                Case ThresoldType.STRING
+                Case ThresoldType.STRING, ThresoldType.TIME
                     Return h1._sval <= h2._sval
                 Case Else
                     Return False
@@ -157,7 +158,7 @@ Public Class cBasedStateActionState
                     Return h1._ival >= h2._ival
                 Case ThresoldType.SIZE_MB
                     Return h1._dval >= GetSizeFromFormatedSize(h2._sval)
-                Case ThresoldType.STRING
+                Case ThresoldType.STRING, ThresoldType.TIME
                     Return h1._sval >= h2._sval
                 Case Else
                     Return False
@@ -193,7 +194,7 @@ Public Class cBasedStateActionState
                     Return _ival.ToString
                 Case ThresoldType.SIZE_MB
                     Return _sval
-                Case ThresoldType.STRING
+                Case ThresoldType.STRING, ThresoldType.TIME
                     Return _sval
                 Case Else
                     Return "0"
@@ -431,10 +432,10 @@ Public Class cBasedStateActionState
                 _threshold = New StateThreshold(ThresoldType.DECIMAL, Val(threshold))
             Case "TotalCpuTime"
                 _threshold = New StateThreshold(ThresoldType.DECIMAL, Val(threshold))
-            Case "StartTime"     '
-                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(threshold)))
-            Case "RunTime"     '
-                _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(threshold)))
+            Case "StartTime"
+                _threshold = New StateThreshold(ThresoldType.TIME, threshold)
+            Case "RunTime"
+                _threshold = New StateThreshold(ThresoldType.TIME, threshold)
             Case "GdiObjects"
                 _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(Val(threshold)))
             Case "UserObjects"
@@ -565,6 +566,17 @@ Public Class cBasedStateActionState
             Case Else
                 Return "<"
         End Select
+    End Function
+
+    Private Function getTimeFromS(ByVal s As String) As Integer
+        Try
+            Dim s1 As String = s.Substring(0, 2)
+            Dim s2 As String = s.Substring(3, 2)
+            Dim s3 As String = s.Substring(6, 2)
+            Return 10000 * CInt(Val(s1)) + 100 * CInt(Val(s2)) + CInt(Val(s3))
+        Catch ex As Exception
+            Return 0
+        End Try
     End Function
 
 End Class

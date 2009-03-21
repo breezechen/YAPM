@@ -72,6 +72,9 @@ Public Class frmProcessInfo
                 Me.txtProcessStarted.Text = curProc.StartTime.ToLongDateString & " -- " & curProc.StartTime.ToLongTimeString
                 Me.txtProcessUser.Text = curProc.UserName
                 Me.txtCommandLine.Text = curProc.CommandLine
+                Dim sp As TimeSpan = New TimeSpan(curProc.StartTime.Ticks)
+                Dim d As Date = Date.Now.Subtract(sp)
+                Me.txtRunTime.Text = d.ToLongTimeString
                 Dim tMain As System.Diagnostics.ProcessModule = curProc.MainModule
                 If tMain IsNot Nothing Then
                     Me.txtImageVersion.Text = tMain.FileVersionInfo.FileVersion
@@ -328,6 +331,7 @@ Public Class frmProcessInfo
         frmMain.SetToolTip(Me.cmdProcStringSave, "Save list in a file")
         frmMain.SetToolTip(Me.pgbString, "Progression. Click to stop.")
         frmMain.SetToolTip(Me.txtSearchProcString, "Search a specific string")
+        frmMain.SetToolTip(Me.txtRunTime, "Total run time")
         frmMain.SetToolTip(Me.cmdProcSearchL, "Previous result (F2 on listview also works)")
         frmMain.SetToolTip(Me.cmdProcSearchR, "Next result (F3 on listview also works)")
 

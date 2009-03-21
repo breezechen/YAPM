@@ -1796,10 +1796,21 @@ Public Class cProcess
                 _threshold = New StateThreshold(ThresoldType.DECIMAL, Me.UserTime.Second + Me.UserTime.Millisecond / 1000)
             Case "TotalCpuTime"
                 _threshold = New StateThreshold(ThresoldType.DECIMAL, Me.UserTime.Second + Me.KernelTime.Second + Me.UserTime.Millisecond / 1000 + Me.KernelTime.Millisecond / 1000)
-            Case "StartTime"     '
-                _threshold = New StateThreshold(ThresoldType.INTEGER, 0)
-            Case "RunTime"     '
-                _threshold = New StateThreshold(ThresoldType.INTEGER, 0)
+            Case "StartTime"
+                Dim d As Date = Me.StartTime
+                'Dim i As Integer = d.Hour * 10000 + d.Minute * 100 + d.Second
+                Dim _ss As String = CStr(IIf(d.Hour < 10, "0" & d.Hour, d.Hour)) & ":" & _
+                     CStr(IIf(d.Minute < 10, "0" & d.Minute, d.Minute)) & ":" & _
+                     CStr(IIf(d.Second < 10, "0" & d.Second, d.Second))
+                _threshold = New StateThreshold(ThresoldType.TIME, _ss)
+            Case "RunTime"
+                Dim sp As TimeSpan = New TimeSpan(Me.StartTime.Ticks)
+                Dim d As Date = Date.Now.Subtract(sp)
+                'Dim i As Integer = d.Hour * 10000 + d.Minute * 100 + d.Second
+                Dim _ss As String = CStr(IIf(d.Hour < 10, "0" & d.Hour, d.Hour)) & ":" & _
+                     CStr(IIf(d.Minute < 10, "0" & d.Minute, d.Minute)) & ":" & _
+                     CStr(IIf(d.Second < 10, "0" & d.Second, d.Second))
+                _threshold = New StateThreshold(ThresoldType.TIME, _ss)
             Case "GdiObjects"
                 _threshold = New StateThreshold(ThresoldType.INTEGER, Me.GDIObjectsCount)
             Case "UserObjects"
@@ -2365,4 +2376,5 @@ Public Class cProcess
             Return Nothing
         End If
     End Function
+
 End Class
