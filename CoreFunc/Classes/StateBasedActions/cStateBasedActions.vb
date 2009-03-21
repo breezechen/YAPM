@@ -35,6 +35,27 @@ Public Class cStateBasedActions
 
 
     ' ========================================
+    ' Public events & associated functions
+    ' ========================================
+    Public Shared Event ExitRequested()
+    Protected Friend Shared Sub ExitYAPM()
+        RaiseEvent ExitRequested()
+    End Sub
+    Public Shared Event LogRequested(ByRef process As cProcess)
+    Protected Friend Shared Sub StartLog(ByRef process As cProcess)
+        RaiseEvent LogRequested(process)
+    End Sub
+    Public Shared Event SaveServiceListRequested(ByVal path As String)
+    Protected Friend Shared Sub SaveServiceList(ByVal path As String)
+        RaiseEvent SaveServiceListRequested(path)
+    End Sub
+    Public Shared Event SaveProcessListRequested(ByVal path As String)
+    Protected Friend Shared Sub SaveProcessList(ByVal path As String)
+        RaiseEvent SaveProcessListRequested(path)
+    End Sub
+
+
+    ' ========================================
     ' Public properties
     ' ========================================
     Public ReadOnly Property StateBasedActionCollection() As Collection
@@ -133,7 +154,7 @@ Public Class cStateBasedActions
             s(18) = "None"
             s(19) = "None"
             s(20) = "None"
-            s(21) = "Beep time (ms)"
+            s(21) = "None"
             s(22) = "Report path (path without file name)"
             s(23) = "Report path (path without file name)"
             Return s

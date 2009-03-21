@@ -1190,6 +1190,16 @@ Public Class frmProcessInfo
         Me.lvProcNetwork.ChooseColumns()
     End Sub
 
+    Public Sub StartLog()
+        Me.chkLog.Checked = True
+        Me.timerLog.Enabled = True
+    End Sub
+
+    Public Sub StopLog()
+        Me.chkLog.Checked = False
+        Me.timerLog.Enabled = False
+    End Sub
+
     Private Sub chkLog_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkLog.CheckedChanged
         Me.timerLog.Enabled = Me.chkLog.Checked
     End Sub

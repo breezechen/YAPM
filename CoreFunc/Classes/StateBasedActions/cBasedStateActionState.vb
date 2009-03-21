@@ -505,13 +505,26 @@ Public Class cBasedStateActionState
                 Case "Resume process"
                     _proc.ResumeProcess()
                 Case "Change priority"
-
+                    Select Case _param1
+                        Case "RT"
+                            _proc.SetProcessPriority(ProcessPriorityClass.RealTime)
+                        Case "H"
+                            _proc.SetProcessPriority(ProcessPriorityClass.High)
+                        Case "AN"
+                            _proc.SetProcessPriority(ProcessPriorityClass.AboveNormal)
+                        Case "N"
+                            _proc.SetProcessPriority(ProcessPriorityClass.Normal)
+                        Case "BN"
+                            _proc.SetProcessPriority(ProcessPriorityClass.BelowNormal)
+                        Case "I"
+                            _proc.SetProcessPriority(ProcessPriorityClass.Idle)
+                    End Select
                 Case "Reduce priority"
                     _proc.DecreasePriority()
                 Case "Increase priority"
                     _proc.IncreasePriority()
                 Case "Activate process log"
-
+                    cStateBasedActions.StartLog(_proc)
                 Case "Change affinity"
                     _proc.AffinityMask = Integer.Parse(_param1)
                 Case "Launch a command"
@@ -531,7 +544,7 @@ Public Class cBasedStateActionState
                 Case "Lock computer"
                     cSystem.Lock()
                 Case "Exit YAPM"
-
+                    cStateBasedActions.ExitYAPM()
                 Case "Show process task windows"
 
                 Case "Hide process task windows"
@@ -543,9 +556,9 @@ Public Class cBasedStateActionState
                 Case "Beep"
                     Interaction.Beep()
                 Case "Save process list"
-
+                    cStateBasedActions.SaveProcessList(_param1 & "\" & _param2)
                 Case "Save service list"
-
+                    cStateBasedActions.SaveServiceList(_param1 & "\" & _param2)
             End Select
         Catch
 

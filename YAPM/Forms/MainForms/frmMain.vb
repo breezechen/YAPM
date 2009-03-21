@@ -89,7 +89,7 @@ Public Class frmMain
     ' ========================================
     Public handles_Renamed As New clsOpenedHandles
     Public emHotkeys As New cHotkeys
-    Public emStateBasedActions As New cStateBasedActions
+    Public WithEvents emStateBasedActions As New cStateBasedActions
     Public Pref As New Pref
 
 
@@ -2447,7 +2447,7 @@ Public Class frmMain
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem.Click
-        Me.Close()
+        Call Application.Exit()
     End Sub
 
     Private Sub MinimizeToTrayToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MinimizeToTrayToolStripMenuItem.Click
@@ -4257,4 +4257,26 @@ Public Class frmMain
             _p.EmptyWorkingSetSize()
         Next
     End Sub
+
+    Private Sub emStateBasedActions_ExitRequested() Handles emStateBasedActions.ExitRequested
+        Call Application.Exit()
+    End Sub
+
+    Private Sub emStateBasedActions_LogRequested(ByRef process As CoreFunc.cProcess) Handles emStateBasedActions.LogRequested
+        Dim frm As New frmProcessInfo
+        frm.SetProcess(process)
+        frm.WindowState = FormWindowState.Minimized
+        frm.StartLog()
+        frm.tabProcess.SelectedTab = frm.TabPage14
+        frm.Show()
+    End Sub
+
+    Private Sub emStateBasedActions_SaveProcessListRequested() Handles emStateBasedActions.SaveProcessListRequested
+        '
+    End Sub
+
+    Private Sub emStateBasedActions_SaveServiceListRequested() Handles emStateBasedActions.SaveServiceListRequested
+        '
+    End Sub
+
 End Class
