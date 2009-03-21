@@ -4271,6 +4271,11 @@ Public Class frmMain
         frm.Show()
     End Sub
 
+    Private Sub emStateBasedActions_NotifyAction(ByRef action As CoreFunc.cBasedStateActionState, ByRef process As CoreFunc.cProcess) Handles emStateBasedActions.NotifyAction
+        Dim proc As String = process.Name & " (" & process.Pid.ToString & ")"
+        Me.Tray.ShowBalloonTip(2000, "State based action was raised", "Rule : " & action.RuleText & " , process : " & proc, ToolTipIcon.Info)
+    End Sub
+
     Private Sub emStateBasedActions_SaveProcessListRequested() Handles emStateBasedActions.SaveProcessListRequested
         '
     End Sub

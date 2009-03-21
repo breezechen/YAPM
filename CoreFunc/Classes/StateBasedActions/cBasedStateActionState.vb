@@ -222,6 +222,7 @@ Public Class cBasedStateActionState
     Private _theCounter As Integer
     Private _theCounterInitial As Integer
     Private _enabled As Boolean
+    Private _notify As Boolean
     Private _key As String
 
 
@@ -267,6 +268,14 @@ Public Class cBasedStateActionState
         End Get
         Set(ByVal value As Boolean)
             _checkProcID = value
+        End Set
+    End Property
+    Public Property Notify() As Boolean
+        Get
+            Return _notify
+        End Get
+        Set(ByVal value As Boolean)
+            _notify = value
         End Set
     End Property
     Public Property CheckProcIDS() As String
@@ -400,7 +409,7 @@ Public Class cBasedStateActionState
                    action As String, ByVal param1 As String, ByVal param2 As String, _
                    Optional ByVal checkPNS As String = "", Optional ByVal checkPIS _
                    As String = "", Optional ByVal checkPPS As String = "", Optional ByVal _
-                   counter As String = "0")
+                   counter As String = "0", Optional ByVal notif As Boolean = False)
 
         _checkProcID = checkPI
         _checkProcIDS = checkPIS
@@ -409,6 +418,7 @@ Public Class cBasedStateActionState
         _checkProcPath = checkPP
         _checkProcPathS = checkPPS
         _stateCounter = stateCounter
+        _notify = notif
         _theCounterInitial = CInt(Val(counter))
         _theCounter = _theCounterInitial
         ' Create _threshold as StateThreshold from a threshold (string)
@@ -492,9 +502,12 @@ Public Class cBasedStateActionState
 
     ' Proceed to action !
     Public Sub RaiseAction(ByRef _proc As cProcess)
+
         Trace.WriteLine("Have to raise action : " & Action)
 
-        'Exit Sub
+        If _notify Then
+            cStateBasedActions.Notify(Me, _proc)
+        End If
 
         Try
             Select Case Action

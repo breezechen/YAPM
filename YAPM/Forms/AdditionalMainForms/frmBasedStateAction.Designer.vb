@@ -33,6 +33,7 @@ Partial Class frmBasedStateAction
         Me.DisableToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.imgList = New System.Windows.Forms.ImageList(Me.components)
         Me.gp = New System.Windows.Forms.GroupBox
+        Me.updownCounter = New System.Windows.Forms.NumericUpDown
         Me.Label7 = New System.Windows.Forms.Label
         Me.GroupBox3 = New System.Windows.Forms.GroupBox
         Me.txtParam2Val = New System.Windows.Forms.TextBox
@@ -66,18 +67,18 @@ Partial Class frmBasedStateAction
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip
         Me.DisplayToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SimulationConsoleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.updownCounter = New System.Windows.Forms.NumericUpDown
         Me.lv = New YAPM.DoubleBufferedLV
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
+        Me.chkNotify = New System.Windows.Forms.CheckBox
         Me.ContextMenuStrip1.SuspendLayout()
         Me.gp.SuspendLayout()
+        CType(Me.updownCounter, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
-        CType(Me.updownCounter, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'timerRefresh
@@ -131,6 +132,7 @@ Partial Class frmBasedStateAction
         'gp
         '
         Me.gp.BackColor = System.Drawing.Color.White
+        Me.gp.Controls.Add(Me.chkNotify)
         Me.gp.Controls.Add(Me.updownCounter)
         Me.gp.Controls.Add(Me.Label7)
         Me.gp.Controls.Add(Me.GroupBox3)
@@ -145,6 +147,14 @@ Partial Class frmBasedStateAction
         Me.gp.TabStop = False
         Me.gp.Text = "Add a state based action"
         Me.gp.Visible = False
+        '
+        'updownCounter
+        '
+        Me.updownCounter.Location = New System.Drawing.Point(139, 342)
+        Me.updownCounter.Minimum = New Decimal(New Integer() {1, 0, 0, -2147483648})
+        Me.updownCounter.Name = "updownCounter"
+        Me.updownCounter.Size = New System.Drawing.Size(69, 22)
+        Me.updownCounter.TabIndex = 14
         '
         'Label7
         '
@@ -455,14 +465,6 @@ Partial Class frmBasedStateAction
         Me.SimulationConsoleToolStripMenuItem.Size = New System.Drawing.Size(194, 22)
         Me.SimulationConsoleToolStripMenuItem.Text = "&Simulation console"
         '
-        'updownCounter
-        '
-        Me.updownCounter.Location = New System.Drawing.Point(139, 342)
-        Me.updownCounter.Minimum = New Decimal(New Integer() {1, 0, 0, -2147483648})
-        Me.updownCounter.Name = "updownCounter"
-        Me.updownCounter.Size = New System.Drawing.Size(69, 22)
-        Me.updownCounter.TabIndex = 14
-        '
         'lv
         '
         Me.lv.AllowColumnReorder = True
@@ -495,6 +497,16 @@ Partial Class frmBasedStateAction
         Me.ColumnHeader4.Text = "Action"
         Me.ColumnHeader4.Width = 350
         '
+        'chkNotify
+        '
+        Me.chkNotify.AutoSize = True
+        Me.chkNotify.Location = New System.Drawing.Point(238, 344)
+        Me.chkNotify.Name = "chkNotify"
+        Me.chkNotify.Size = New System.Drawing.Size(57, 17)
+        Me.chkNotify.TabIndex = 15
+        Me.chkNotify.Text = "Notify"
+        Me.chkNotify.UseVisualStyleBackColor = True
+        '
         'frmBasedStateAction
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -514,6 +526,7 @@ Partial Class frmBasedStateAction
         Me.ContextMenuStrip1.ResumeLayout(False)
         Me.gp.ResumeLayout(False)
         Me.gp.PerformLayout()
+        CType(Me.updownCounter, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
@@ -522,7 +535,6 @@ Partial Class frmBasedStateAction
         Me.GroupBox1.PerformLayout()
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
-        CType(Me.updownCounter, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -574,4 +586,5 @@ Partial Class frmBasedStateAction
     Friend WithEvents lblThresholdDesc As System.Windows.Forms.TextBox
     Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents updownCounter As System.Windows.Forms.NumericUpDown
+    Friend WithEvents chkNotify As System.Windows.Forms.CheckBox
 End Class

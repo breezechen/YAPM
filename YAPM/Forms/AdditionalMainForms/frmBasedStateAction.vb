@@ -184,6 +184,7 @@ Public Class frmBasedStateAction
                 Dim _param1 As String = ""
                 Dim _param2 As String = ""
                 Dim _enabled As Boolean
+                Dim _notify As Boolean
                 Dim _counter As String = ""
 
                 For Each noeudEnf In noeud.ChildNodes
@@ -216,6 +217,8 @@ Public Class frmBasedStateAction
                         _threshold = noeudEnf.InnerText
                     ElseIf noeudEnf.LocalName = "thecounter" Then
                         _counter = noeudEnf.InnerText
+                    ElseIf noeudEnf.LocalName = "notify" Then
+                        _notify = CBool(noeudEnf.InnerText)
                     End If
                 Next
 
@@ -224,7 +227,7 @@ Public Class frmBasedStateAction
                                                      _stateOperator, _threshold, _
                                                      _action, _param1, _param2, _
                                                      _checkProcNameS, _checkProcIDS, _
-                                                     _checkProcPathS, _counter)
+                                                     _checkProcPathS, _counter, _notify)
                 ht.Enabled = _enabled
 
                 frmMain.emStateBasedActions.AddStateBasedAction(ht)
@@ -365,7 +368,8 @@ Public Class frmBasedStateAction
                                                   cbAction.Text, txtParam1Val.Text, _
                                                   txtParam2Val.Text, txtProcessName.Text, _
                                                   txtProcessID.Text, txtProcessPath.Text, _
-                                                  Me.updownCounter.Value.ToString)
+                                                  Me.updownCounter.Value.ToString, _
+                                                  Me.chkNotify.Checked)
             If frmMain.emStateBasedActions.AddStateBasedAction(_it) Then
                 ' Add hotkey
                 Dim it As New ListViewItem(_it.ProcessText)
@@ -405,7 +409,8 @@ Public Class frmBasedStateAction
                                                   cbAction.Text, txtParam1Val.Text, _
                                                   txtParam2Val.Text, txtProcessName.Text, _
                                                   txtProcessID.Text, txtProcessPath.Text, _
-                                                  Me.updownCounter.Value.ToString)
+                                                  Me.updownCounter.Value.ToString, _
+                                                  Me.chkNotify.Checked)
             If frmMain.emStateBasedActions.AddStateBasedAction(_it) Then
                 ' Add hotkey
                 _selectedItem.Tag = _it
@@ -511,12 +516,14 @@ Public Class frmBasedStateAction
                 txtParam1Desc.Text = ""
                 txtParam2Desc.Text = ""
                 updownCounter.Value = _selectedAction.InitialCounter
+                chkNotify.Checked = _selectedAction.Notify
             Else
                 Me.cmdAdd.Text = "Add"
                 Me.chkCheckProcessName.Checked = False
                 Me.chkCheckProcessID.Checked = False
                 Me.chkCheckProcessPath.Checked = False
                 cbCounter.SelectedIndex = -1
+                chkNotify.Checked = True
                 cbOperator.SelectedIndex = -1
                 txtThreshold.Text = ""
                 cbAction.SelectedIndex = -1

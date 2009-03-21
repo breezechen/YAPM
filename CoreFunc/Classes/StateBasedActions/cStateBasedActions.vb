@@ -53,6 +53,10 @@ Public Class cStateBasedActions
     Protected Friend Shared Sub SaveProcessList(ByVal path As String)
         RaiseEvent SaveProcessListRequested(path)
     End Sub
+    Public Shared Event NotifyAction(ByRef action As cBasedStateActionState, ByRef process As cProcess)
+    Protected Friend Shared Sub Notify(ByRef action As cBasedStateActionState, ByRef process As cProcess)
+        RaiseEvent NotifyAction(action, process)
+    End Sub
 
 
     ' ========================================
