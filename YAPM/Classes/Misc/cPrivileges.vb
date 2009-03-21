@@ -123,7 +123,9 @@ Public Class cPrivileges
     End Function
 
     Private Declare Function LookupPrivilegeValue Lib "advapi32.dll" Alias "LookupPrivilegeValueA" (ByVal lpSystemName As String, ByVal lpName As String, ByRef lpLuid As LUID) As Integer           'Returns a valid LUID which is important when making security changes in NT.
-    Private Declare Function OpenProcessToken Lib "advapi32.dll" (ByVal ProcessHandle As Integer, ByVal DesiredAccess As Integer, ByRef TokenHandle As Integer) As Integer
+    <DllImport("advapi32.dll", SetLastError:=True)> _
+    Private Shared Function OpenProcessToken(ByVal ProcessHandle As Integer, ByVal DesiredAccess As Integer, ByRef TokenHandle As Integer) As Boolean
+    End Function
     Private Declare Function GetTokenInformation Lib "advapi32.dll" (ByVal TokenHandle As Integer, ByVal TokenInformationClass As Integer, ByVal TokenInformation As Integer, ByVal TokenInformationLength As Integer, ByRef ReturnLength As Integer) As Boolean
     Private Declare Function CloseHandle Lib "kernel32" (ByVal hObject As Integer) As Integer
     Private Declare Function OpenProcess Lib "kernel32.dll" (ByVal dwDesiredAccess As Integer, ByVal bInheritHandle As Integer, ByVal dwProcId As Integer) As Integer
@@ -272,7 +274,6 @@ Public Class cPrivileges
     Private Function SetPrivilege(ByVal seName As String, ByVal Status As PrivilegeStatus) As Boolean
 
         Dim hProcess As Integer
-        Dim hProcessToken As Integer
         Dim Ret As Integer
         Dim lngToken As Integer
         Dim typLUID As LUID
@@ -281,8 +282,8 @@ Public Class cPrivileges
 
         hProcess = OpenProcess(PROCESS_ALL_ACCESS, 0, _pid)
         If hProcess > 0 Then
-            hProcessToken = OpenProcessToken(hProcess, TOKEN_ADJUST_PRIVILEGES Or TOKEN_QUERY, lngToken)
-            If hProcessToken > 0 Then
+            OpenProcessToken(hProcess, TOKEN_ADJUST_PRIVILEGES Or TOKEN_QUERY, lngToken)
+            If lngToken > 0 Then
                 Ret = LookupPrivilegeValue(Nothing, seName, typLUID)
                 If Ret > 0 Then
                     typTokenPriv.PrivilegeCount = 1
@@ -292,7 +293,7 @@ Public Class cPrivileges
                     Dim ret2 As Integer
                     SetPrivilege = AdjustTokenPrivileges(lngToken, 0, typTokenPriv, size, newTokenPriv, ret2)
                 End If
-                CloseHandle(hProcessToken)
+                CloseHandle(lngToken)
             End If
             CloseHandle(hProcess)
         End If
