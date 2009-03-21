@@ -26,6 +26,8 @@ Imports System.Runtime.InteropServices
 Public Class frmBasedStateAction
 
     Public Const BASED_STATE_ACTION As String = "statebasedaction.xml"
+
+    Private Const MSG_FIRST_TIME_SBA As String = "This is the first time you use SBA (State Based Actions) feature." & vbNewLine & "Remember this feature is NOT SAFE TO USE. Be careful when using it." & vbNewLine & "Please read help before starting with SBA, and to do not forget to systematically use the simulation console." & vbNewLine & "This console is available with F2 shortcut."
     Private _desc1() As String
     Private _desc2() As String
     Private _modify As Boolean = False
@@ -56,6 +58,12 @@ Public Class frmBasedStateAction
         frmMain.emStateBasedActions.SimulationMode = True
 
         SetWindowTheme(lv.Handle, "explorer", Nothing)
+
+        If frmMain.Pref.firstTimeSBA Then
+            MsgBox(MSG_FIRST_TIME_SBA, MsgBoxStyle.Information, "State based actions")
+            frmMain.Pref.firstTimeSBA = False
+            frmMain.Pref.Save()
+        End If
 
         Me.cbAction.Items.Clear()
         For Each i As String In frmMain.emStateBasedActions.ActionsAvailable

@@ -426,6 +426,7 @@ Public Class frmMain
                 .startHidden = False
                 .replaceTaskMgr = False
                 .startup = False
+                .firstTimeSBA = True
                 .topmost = False
                 .newItemsColor = Color.FromArgb(128, 255, 0).ToArgb
                 .deletedItemsColor = Color.FromArgb(255, 64, 48).ToArgb
