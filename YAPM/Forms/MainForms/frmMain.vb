@@ -87,7 +87,7 @@ Public Class frmMain
     ' ========================================
     ' Public attributes
     ' ========================================
-    Public handles_Renamed As New clsOpenedHandles
+    Public handles_Renamed As clsOpenedHandles = cHandle.GetOpenedHandlesClass
     Public emHotkeys As New cHotkeys
     Public WithEvents emStateBasedActions As New cStateBasedActions
     Public Pref As New Pref

@@ -153,6 +153,12 @@ Public Class cHandle
     ' ========================================
     ' Shared functions
     ' ========================================
+
+    ' Return driver control class
+    Public Shared Function GetOpenedHandlesClass() As clsOpenedHandles
+        Return handles_Renamed
+    End Function
+
     ' Retrieve handle list
     Public Shared Function Enumerate(ByVal processId As Integer(), ByVal showUNN As _
                                      Boolean, ByRef key() As String, ByRef _dico As  _
