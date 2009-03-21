@@ -58,7 +58,6 @@ Partial Class frmAbout
         'lblIntro
         '
         Me.lblIntro.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lblIntro.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblIntro.Location = New System.Drawing.Point(0, 0)
         Me.lblIntro.Name = "lblIntro"
         Me.lblIntro.Size = New System.Drawing.Size(619, 41)
