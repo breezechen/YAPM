@@ -1410,11 +1410,11 @@ Partial Class frmMain
         '
         Me.butProcessDisplayDetails.AltKey = Nothing
         Me.butProcessDisplayDetails.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessDisplayDetails.Image = Global.YAPM.My.Resources.Resources.hideDetails
+        Me.butProcessDisplayDetails.Image = Global.YAPM.My.Resources.Resources.showDetails
         Me.butProcessDisplayDetails.SmallImage = CType(resources.GetObject("butProcessDisplayDetails.SmallImage"), System.Drawing.Image)
         Me.butProcessDisplayDetails.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butProcessDisplayDetails.Tag = Nothing
-        Me.butProcessDisplayDetails.Text = "Hide details"
+        Me.butProcessDisplayDetails.Text = "Show details"
         Me.butProcessDisplayDetails.ToolTip = Nothing
         Me.butProcessDisplayDetails.ToolTipImage = Nothing
         Me.butProcessDisplayDetails.ToolTipTitle = Nothing
