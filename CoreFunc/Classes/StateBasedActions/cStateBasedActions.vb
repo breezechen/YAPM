@@ -297,7 +297,9 @@ Public Class cStateBasedActions
                         ' Check state
                         If isStateOk(action, _p) Then
                             If _simulationMode = False Then
-                                action.Counter -= 1
+                                If action.Counter > 0 Then
+                                    action.Counter -= 1
+                                End If
                                 action.RaiseAction(_p)
                             Else
                                 ' Just display an information

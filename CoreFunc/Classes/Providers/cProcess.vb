@@ -1307,6 +1307,42 @@ Public Class cProcess
 
     End Function
 
+    ' Decrease priority
+    Public Function DecreasePriority() As Integer
+        Select Case Me.PriorityClassConstant
+            Case ProcessPriorityClass.AboveNormal
+                Return Me.SetProcessPriority(ProcessPriorityClass.Normal)
+            Case ProcessPriorityClass.BelowNormal
+                Return Me.SetProcessPriority(ProcessPriorityClass.Idle)
+            Case ProcessPriorityClass.High
+                Return Me.SetProcessPriority(ProcessPriorityClass.AboveNormal)
+            Case ProcessPriorityClass.Normal
+                Return Me.SetProcessPriority(ProcessPriorityClass.BelowNormal)
+            Case ProcessPriorityClass.RealTime
+                Return Me.SetProcessPriority(ProcessPriorityClass.High)
+            Case Else
+                Return -1
+        End Select
+    End Function
+
+    ' Increase priority
+    Public Function IncreasePriority() As Integer
+        Select Case Me.PriorityClassConstant
+            Case ProcessPriorityClass.AboveNormal
+                Return Me.SetProcessPriority(ProcessPriorityClass.High)
+            Case ProcessPriorityClass.BelowNormal
+                Return Me.SetProcessPriority(ProcessPriorityClass.Normal)
+            Case ProcessPriorityClass.High
+                Return Me.SetProcessPriority(ProcessPriorityClass.RealTime)
+            Case ProcessPriorityClass.Normal
+                Return Me.SetProcessPriority(ProcessPriorityClass.AboveNormal)
+            Case ProcessPriorityClass.Idle
+                Return Me.SetProcessPriority(ProcessPriorityClass.BelowNormal)
+            Case Else
+                Return -1
+        End Select
+    End Function
+
     ' Empty working set size
     Public Function EmptyWorkingSetSize() As Integer
         ' Set (and not empty) will be implemented later

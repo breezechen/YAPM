@@ -355,7 +355,7 @@ Public Class frmProcessInfo
         'Call ShowModules()
         'Call ShowThreads()
         'Call ShowWindows()
-        Call ShowRegions()
+        'Call ShowRegions()
         'Call ShowNetwork()
 
         Call refreshProcessTab()
@@ -1127,6 +1127,10 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub ViewMemoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ViewMemoryToolStripMenuItem.Click
+
+        If Me.lvProcMem.Items.Count = 0 Then
+            Call ShowRegions()
+        End If
 
         For Each it As cModule In Me.lvModules.GetSelectedItems
             Dim add As Integer = it.BaseAddress

@@ -492,62 +492,65 @@ Public Class cBasedStateActionState
 
     ' Proceed to action !
     Public Sub RaiseAction(ByRef _proc As cProcess)
-        'Try
-        '    Select Case Action
-        '        Case "Kill process"
-        '            _proc.Kill()
-        '        Case "Pause process"
-        '            _proc.SuspendProcess()
-        '        Case "Resume process"
-        '            _proc.ResumeProcess()
-        '        Case "Change priority"
-
-        '        Case "Reduce priority"
-
-        '        Case "Increase priority"
-
-        '        Case "Activate process log"
-
-        '        Case "Change affinity"
-        '            _proc.AffinityMask = Integer.Parse(_param1)
-        '        Case "Launch a command"
-        '            Shell("cmd.exe /C " & Chr(34) & _param1 & Chr(34), AppWinStyle.Hide)
-        '        Case "Restart computer"
-        '            cSystem.Restart()
-        '        Case "Shutdown computer"
-        '            cSystem.Shutdown()
-        '        Case "Poweroff computer"
-        '            cSystem.Poweroff()
-        '        Case "Sleep computer"
-        '            cSystem.Sleep()
-        '        Case "Hibernate computer"
-        '            cSystem.Hibernate()
-        '        Case "Logoff computer"
-        '            cSystem.Logoff()
-        '        Case "Lock computer"
-        '            cSystem.Lock()
-        '        Case "Exit YAPM"
-        '            frmMain.Close()
-        '        Case "Show process task windows"
-
-        '        Case "Hide process task windows"
-
-        '        Case "Maximize process task windows"
-
-        '        Case "Minimize process task windows"
-
-        '        Case "Beep"
-        '            Interaction.Beep()
-        '            My.Application.DoEvents()
-        '        Case "Save process list"
-
-        '        Case "Save service list"
-
-        '    End Select
-        'Catch ex As Exception
-        '    '
-        'End Try
         Trace.WriteLine("Have to raise action : " & Action)
+
+        'Exit Sub
+
+        Try
+            Select Case Action
+                Case "Kill process"
+                    _proc.Kill()
+                Case "Pause process"
+                    _proc.SuspendProcess()
+                Case "Resume process"
+                    _proc.ResumeProcess()
+                Case "Change priority"
+
+                Case "Reduce priority"
+                    _proc.DecreasePriority()
+                Case "Increase priority"
+                    _proc.IncreasePriority()
+                Case "Activate process log"
+
+                Case "Change affinity"
+                    _proc.AffinityMask = Integer.Parse(_param1)
+                Case "Launch a command"
+                    Shell("cmd.exe /C " & Chr(34) & _param1 & Chr(34), AppWinStyle.Hide)
+                Case "Restart computer"
+                    cSystem.Restart()
+                Case "Shutdown computer"
+                    cSystem.Shutdown()
+                Case "Poweroff computer"
+                    cSystem.Poweroff()
+                Case "Sleep computer"
+                    cSystem.Sleep()
+                Case "Hibernate computer"
+                    cSystem.Hibernate()
+                Case "Logoff computer"
+                    cSystem.Logoff()
+                Case "Lock computer"
+                    cSystem.Lock()
+                Case "Exit YAPM"
+
+                Case "Show process task windows"
+
+                Case "Hide process task windows"
+
+                Case "Maximize process task windows"
+
+                Case "Minimize process task windows"
+
+                Case "Beep"
+                    Interaction.Beep()
+                Case "Save process list"
+
+                Case "Save service list"
+
+            End Select
+        Catch
+
+        End Try
+
 
     End Sub
 
