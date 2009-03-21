@@ -1807,23 +1807,23 @@ Public Class cProcess
             Case "AffinityMask"
                 _threshold = New StateThreshold(ThresoldType.INTEGER, Me.AffinityMask)
             Case "WorkingSet"
-                _threshold = New StateThreshold(ThresoldType.SIZE_MB, mem.WorkingSetSize)
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, CDbl(mem.WorkingSetSize))
             Case "PeakWorkingSet"
-                _threshold = New StateThreshold(ThresoldType.SIZE_MB, mem.PeakWorkingSetSize)
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, CDbl(mem.PeakWorkingSetSize))
             Case "PageFaultCount"
                 _threshold = New StateThreshold(ThresoldType.INTEGER, mem.PageFaultCount)
             Case "PagefileUsage"
-                _threshold = New StateThreshold(ThresoldType.SIZE_MB, mem.PagefileUsage)
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, CDbl(mem.PagefileUsage))
             Case "PeakPagefileUsage"
-                _threshold = New StateThreshold(ThresoldType.SIZE_MB, mem.PeakPagefileUsage)
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, CDbl(mem.PeakPagefileUsage))
             Case "QuotaPeakPagedPoolUsage"
-                _threshold = New StateThreshold(ThresoldType.SIZE_MB, mem.QuotaPeakPagedPoolUsage)
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, CDbl(mem.QuotaPeakPagedPoolUsage))
             Case "QuotaPagedPoolUsage"     '
-                _threshold = New StateThreshold(ThresoldType.SIZE_MB, mem.QuotaPagedPoolUsage)
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, CDbl(mem.QuotaPagedPoolUsage))
             Case "QuotaPeakNonPagedPoolUsage"
-                _threshold = New StateThreshold(ThresoldType.SIZE_MB, mem.QuotaPeakNonPagedPoolUsage)
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, CDbl(mem.QuotaPeakNonPagedPoolUsage))
             Case "QuotaNonPagedPoolUsage"
-                _threshold = New StateThreshold(ThresoldType.SIZE_MB, mem.QuotaNonPagedPoolUsage)
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, CDbl(mem.QuotaNonPagedPoolUsage))
             Case "ReadOperationCount"
                 _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(_io.ReadOperationCount))
             Case "WriteOperationCount"
@@ -1831,11 +1831,11 @@ Public Class cProcess
             Case "OtherOperationCount"
                 _threshold = New StateThreshold(ThresoldType.INTEGER, CInt(_io.OtherOperationCount))
             Case "ReadTransferCount"     '
-                _threshold = New StateThreshold(ThresoldType.SIZE_MB, _io.ReadTransferCount)
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, CDbl(_io.ReadTransferCount))
             Case "WriteTransferCount"
-                _threshold = New StateThreshold(ThresoldType.SIZE_MB, _io.WriteOperationCount)
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, CDbl(_io.WriteOperationCount))
             Case "OtherTransferCount"
-                _threshold = New StateThreshold(ThresoldType.SIZE_MB, _io.OtherTransferCount)
+                _threshold = New StateThreshold(ThresoldType.SIZE_MB, CDbl(_io.OtherTransferCount))
             Case "Priority"
                 _threshold = New StateThreshold(ThresoldType.ENUM_PRIORITY, Me.PriorityLevel)
             Case "Path"

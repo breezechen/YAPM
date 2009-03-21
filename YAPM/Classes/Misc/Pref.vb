@@ -34,7 +34,6 @@ Public Class Pref
     Public lang As String
     Public topmost As Boolean
     Public firstTime As Boolean
-    Public detailsHidden As Boolean
 
     Public ribbonStyle As Boolean
     Public newItemsColor As Integer
@@ -73,8 +72,6 @@ Public Class Pref
                     topmost = CBool(noeudEnf.InnerText)
                 ElseIf noeudEnf.LocalName = "firsttime" Then
                     firstTime = CBool(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "detailshidden" Then
-                    detailsHidden = CBool(noeudEnf.InnerText)
                 ElseIf noeudEnf.LocalName = "replacetaskmgr" Then
                     replaceTaskMgr = CBool(noeudEnf.InnerText)
                 ElseIf noeudEnf.LocalName = "ribbonstyle" Then
@@ -145,10 +142,6 @@ Public Class Pref
         elemFirstTime = XmlDoc.CreateElement("firsttime")
         elemFirstTime.InnerText = CStr(Me.firstTime)
         elemConfig.AppendChild(elemFirstTime)
-        Dim elemDetails As XmlElement
-        elemDetails = XmlDoc.CreateElement("detailshidden")
-        elemDetails.InnerText = CStr(Me.detailsHidden)
-        elemConfig.AppendChild(elemDetails)
         Dim elemTaskmgr As XmlElement
         elemTaskmgr = XmlDoc.CreateElement("replacetaskmgr")
         elemTaskmgr.InnerText = CStr(Me.replaceTaskMgr)

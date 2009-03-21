@@ -1144,6 +1144,11 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub ToolStripMenuItem22_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem22.Click
+        If frmMain.Pref.warnDangerous Then
+            If MsgBox("Are you sure you want to close these handles ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                Exit Sub
+            End If
+        End If
         For Each ch As cHandle In Me.lvHandles.GetSelectedItems
             Call frmMain.handles_Renamed.CloseProcessLocalHandle(ch.ProcessID, ch.Handle)
         Next

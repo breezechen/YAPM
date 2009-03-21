@@ -427,7 +427,6 @@ Public Class frmMain
                 .replaceTaskMgr = False
                 .startup = False
                 .topmost = False
-                .detailsHidden = True
                 .newItemsColor = Color.FromArgb(128, 255, 0).ToArgb
                 .deletedItemsColor = Color.FromArgb(255, 64, 48).ToArgb
                 .showTrayIcon = True
@@ -628,12 +627,22 @@ Public Class frmMain
     End Sub
 
     Private Sub KillToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles KillToolStripMenuItem.Click
+        If Pref.warnDangerous Then
+            If MsgBox("Are you sure you want to kill these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                Exit Sub
+            End If
+        End If
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
             cp.Kill()
         Next
     End Sub
 
     Private Sub StopToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StopToolStripMenuItem.Click
+        If Pref.warnDangerous Then
+            If MsgBox("Are you sure you want to suspend these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                Exit Sub
+            End If
+        End If
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
             cp.SuspendProcess()
         Next
@@ -849,6 +858,11 @@ Public Class frmMain
 
     Private Sub butKill_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butKillProcess.Click
         ' Kill selected processes
+        If Pref.warnDangerous Then
+            If MsgBox("Are you sure you want to kill these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                Exit Sub
+            End If
+        End If
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
             it.Kill()
         Next
@@ -889,6 +903,11 @@ Public Class frmMain
 
     Private Sub butStopProcess_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butStopProcess.Click
         ' Stop selected processes
+        If Pref.warnDangerous Then
+            If MsgBox("Are you sure you want to suspend these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                Exit Sub
+            End If
+        End If
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
             it.SuspendProcess()
         Next
@@ -1203,6 +1222,11 @@ Public Class frmMain
     End Sub
 
     Private Sub butHandleClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butHandleClose.Click
+        If Pref.warnDangerous Then
+            If MsgBox("Are you sure you want to close these handles ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                Exit Sub
+            End If
+        End If
         For Each ch As cHandle In Me.lvHandles.GetSelectedItems
             Call handles_Renamed.CloseProcessLocalHandle(ch.ProcessID, ch.Handle)
         Next
@@ -1288,6 +1312,11 @@ Public Class frmMain
 
     Private Sub CloseToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CloseToolStripMenuItem.Click
         ' Close selected items
+        If Pref.warnDangerous Then
+            If MsgBox("Are you sure you want to close these items ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                Exit Sub
+            End If
+        End If
         Dim it As ListViewItem
         For Each it In Me.lvSearchResults.SelectedItems
             Select Case it.Tag.ToString
@@ -2619,6 +2648,11 @@ Public Class frmMain
     End Sub
 
     Private Sub KillProcessTreeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles KillProcessTreeToolStripMenuItem.Click
+        If Pref.warnDangerous Then
+            If MsgBox("Are you sure you want to kill these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                Exit Sub
+            End If
+        End If
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
             it.KillProcessTree()
         Next
@@ -3205,11 +3239,14 @@ Public Class frmMain
 
     Private Sub lvProcess_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvProcess.KeyDown
         If e.KeyCode = Keys.Delete And Me.lvProcess.SelectedItems.Count > 0 Then
-            If MsgBox("Are you sure ?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo, "Kill processes") = MsgBoxResult.Yes Then
-                For Each it As cProcess In Me.lvProcess.GetSelectedItems
-                    it.Kill()
-                Next
+            If Pref.warnDangerous Then
+                If MsgBox("Are you sure you want to kill these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                    Exit Sub
+                End If
             End If
+            For Each it As cProcess In Me.lvProcess.GetSelectedItems
+                it.Kill()
+            Next
         End If
     End Sub
 

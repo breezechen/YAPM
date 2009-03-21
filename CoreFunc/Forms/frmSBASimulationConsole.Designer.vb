@@ -22,17 +22,22 @@ Partial Class frmSBASimulationConsole
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
         Me.lv = New System.Windows.Forms.ListView
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ClearConsoleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'lv
         '
         Me.lv.AllowColumnReorder = True
         Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader5, Me.ColumnHeader2, Me.ColumnHeader1, Me.ColumnHeader6})
+        Me.lv.ContextMenuStrip = Me.ContextMenuStrip1
         Me.lv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lv.FullRowSelect = True
         Me.lv.HideSelection = False
@@ -63,6 +68,18 @@ Partial Class frmSBASimulationConsole
         Me.ColumnHeader6.Text = "Rule"
         Me.ColumnHeader6.Width = 300
         '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ClearConsoleToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(146, 26)
+        '
+        'ClearConsoleToolStripMenuItem
+        '
+        Me.ClearConsoleToolStripMenuItem.Name = "ClearConsoleToolStripMenuItem"
+        Me.ClearConsoleToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ClearConsoleToolStripMenuItem.Text = "&Clear console"
+        '
         'frmSBASimulationConsole
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -74,6 +91,7 @@ Partial Class frmSBASimulationConsole
         Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Simulation console"
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -82,4 +100,6 @@ Partial Class frmSBASimulationConsole
     Friend WithEvents ColumnHeader5 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader6 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ContextMenuStrip1 As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents ClearConsoleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

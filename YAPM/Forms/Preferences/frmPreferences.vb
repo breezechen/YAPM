@@ -33,7 +33,6 @@ Public Class frmPreferences
     '		<lang>english</lang>
     '       <topmost>false</topmost>
     '       <firsttime>firsttime</firsttime>
-    '       <detailshidden>detailshidden</detailshidden>
     '       <Some others...>
     '	</config>
     '</yapm>
@@ -92,9 +91,8 @@ Public Class frmPreferences
         End Try
 
         If Not (_oldRibbonStyle = frmMain.Pref.ribbonStyle) Then
-            ' Wanna restart app ?
-            If MsgBox("You must restart YAPM to apply the new menu style. Do you want to restart now ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Menu style has changed") = MsgBoxResult.Yes Then
-                Application.Restart()
+            If MsgBox("The new menu style will be displayed next time you start YAPM. Do you want to exit YAPM now ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Menu style has changed") = MsgBoxResult.Yes Then
+                Application.Exit()
             End If
         End If
 

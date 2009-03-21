@@ -30,9 +30,26 @@ Public Class frmSBASimulationConsole
     <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
     Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
     End Function
+    <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
+    Private Shared Function SendMessage(ByVal hWnd As IntPtr, ByVal Msg As Integer, ByVal wParam As Integer, ByVal lParam As Integer) As IntPtr
+    End Function
+
+    Private Enum LVM
+        LVM_FIRST = &H1000
+        LVM_SETEXTENDEDLISTVIEWSTYLE = (LVM_FIRST + 54)
+        LVM_GETEXTENDEDLISTVIEWSTYLE = (LVM_FIRST + 55)
+    End Enum
 
     Private Const SC_CLOSE As Integer = &HF060
     Private Const MF_GRAYED As Integer = &H1
+    Private Const LVS_EX_BORDERSELECT As Integer = &H8000
+    Private Const LVS_EX_DOUBLEBUFFER As Integer = &H10000
+
+    Private Sub DoubleBufferListView(ByRef lvH As IntPtr)
+        Dim styles As Integer = CInt(SendMessage(lvH, LVM.LVM_GETEXTENDEDLISTVIEWSTYLE, 0, 0))
+        styles += LVS_EX_DOUBLEBUFFER Or LVS_EX_BORDERSELECT
+        SendMessage(lv.Handle, LVM.LVM_SETEXTENDEDLISTVIEWSTYLE, 0, styles)
+    End Sub
 
     Private Sub frmSBASimulationConsole_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         e.Cancel = True
@@ -41,5 +58,10 @@ Public Class frmSBASimulationConsole
     Private Sub frmSBASimulationConsole_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         EnableMenuItem(GetSystemMenu(Me.Handle.ToInt32, 0), SC_CLOSE, MF_GRAYED)
         SetWindowTheme(lv.Handle, "explorer", Nothing)
+        DoubleBufferListView(Me.lv.Handle)
+    End Sub
+
+    Private Sub ClearConsoleToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClearConsoleToolStripMenuItem.Click
+        Me.lv.Items.Clear()
     End Sub
 End Class
