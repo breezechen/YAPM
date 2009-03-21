@@ -610,9 +610,9 @@ Public Class cBasedStateActionState
                 Case "Beep"
                     Interaction.Beep()
                 Case "Save process list"
-                    cStateBasedActions.SaveProcessList(_param1 & "\" & _param2)
+                    cStateBasedActions.SaveProcessList(_param1 & "\" & Date.Now.Ticks.ToString & "_" & _param2)
                 Case "Save service list"
-                    cStateBasedActions.SaveServiceList(_param1 & "\" & _param2)
+                    cStateBasedActions.SaveServiceList(_param1 & "\" & Date.Now.Ticks.ToString & "_" & _param2)
             End Select
         Catch
 

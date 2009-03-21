@@ -4281,12 +4281,46 @@ Public Class frmMain
         Me.log.AppendLine("State based action was raised -- Rule : " & action.RuleText & " , process : " & proc)
     End Sub
 
-    Private Sub emStateBasedActions_SaveProcessListRequested() Handles emStateBasedActions.SaveProcessListRequested
-        '
+    Private Sub emStateBasedActions_SaveProcessListRequested(ByVal path As String) Handles emStateBasedActions.SaveProcessListRequested
+        Try
+            ' Create file report
+            Dim c As String = vbNullString
+            Dim stream As New System.IO.StreamWriter(path, False)
+            Dim _count As Integer = Me.lvProcess.GetAllItems.Count
+            For Each it As cProcess In Me.lvProcess.GetAllItems
+                c = "Process : " & it.Name
+                c &= vbTab & "PID : " & it.Pid.ToString
+                c &= vbTab & "Path : " & it.Path
+                c &= vbNewLine
+                stream.Write(c)
+            Next
+            c = CStr(_count) & " result(s)"
+            stream.Write(c)
+            stream.Close()
+        Catch
+            '
+        End Try
     End Sub
 
-    Private Sub emStateBasedActions_SaveServiceListRequested() Handles emStateBasedActions.SaveServiceListRequested
-        '
+    Private Sub emStateBasedActions_SaveServiceListRequested(ByVal path As String) Handles emStateBasedActions.SaveServiceListRequested
+        Try
+            ' Create file report
+            Dim c As String = vbNullString
+            Dim stream As New System.IO.StreamWriter(path, False)
+            Dim _count As Integer = Me.lvServices.GetAllItems.Count
+            For Each it As cService In Me.lvServices.GetAllItems
+                c = "Service : " & it.Name
+                c &= vbTab & "Long name : " & it.LongName
+                c &= vbTab & "Path : " & it.ImagePath
+                c &= vbTab & "Process : " & it.ProcessName & " (" & it.ProcessID & ")"
+                c &= vbNewLine
+                stream.Write(c)
+            Next
+            c = CStr(_count) & " result(s)"
+            stream.Write(c)
+            stream.Close()
+        Catch
+            '
+        End Try
     End Sub
-
 End Class
