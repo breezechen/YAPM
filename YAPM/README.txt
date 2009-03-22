@@ -1,4 +1,4 @@
-Yet Another Process Monitor (YAPM) Beta 4
+Yet Another Process Monitor (YAPM) Beta 5
 
 
 SUMMARY
@@ -42,8 +42,8 @@ REQUIREMENTS
 
 YAPM runs under Windows XP and Vista systems.
 
-For now, to fully control your processes (including system processes) you must have the administrator rights.
-In the future, the major part of the informations about a system process will be availables even if you are not administrator. Of course, if you want to kill system processes, you still will need to have the required rights.
+For now, to fully control your processes (including system processes) you MUST have the administrator rights.
+In the future, the major part of the informations about a system process will be availables even if you are not administrator. Of course, if you want to kill system processes, you still will need to have the required rights...
 
 YAPM take ~50 MB of memory, and less than one percent of cpu usage when minimized (depending of the CPU you have ;-) and depending of the interval of refreshment you specify).
 
@@ -58,6 +58,8 @@ Here is a description of the files which are distributed with YAPM :
 - statebasedactions.xml : contains description of custom actions for State Based Actions features. Not required, and not present if no custom action is specify.
 - MemoryHexEditor.dll : needed to display build-in hex editor. You can run YAPM without this file, but it'll crash if you try to show the hex editor.
 - System.Windows.Forms.Ribbon.dll : ribbon control. Required to launch YAPM.
+- CoreFunc.dll : core functions for processes management. Required.
+- Providers.dll : Custom controls (listviews). Required.
 - YAPM.exe : main executable file (of course required ^^).
 - KernelMemory.sys : driver needed to retrieve handle informations for system processes. Required file.
 - README.txt : the file you are reading :-)
