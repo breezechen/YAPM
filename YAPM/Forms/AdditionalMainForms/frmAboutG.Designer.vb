@@ -113,7 +113,7 @@ Partial Class frmAboutG
         Me.lblDate.Name = "lblDate"
         Me.lblDate.Size = New System.Drawing.Size(63, 13)
         Me.lblDate.TabIndex = 9
-        Me.lblDate.Text = "21/03/2009"
+        Me.lblDate.Text = "22/03/2009"
         '
         'Label4
         '
