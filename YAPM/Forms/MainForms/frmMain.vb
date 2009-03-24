@@ -4370,4 +4370,20 @@ Public Class frmMain
             cRemoteProcess.StartNewProcess(conOpt, sres)
         End If
     End Sub
+
+    Private Sub butLog_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butLog.Click
+        Call ShowLogToolStripMenuItem_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butWindows_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindows.Click
+        Call OpenedWindowsToolStripMenuItem_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butSystemInfo_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butSystemInfo.Click
+        Call ShowSystemInformatoToolStripMenuItem_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butFindWindow_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFindWindow.Click
+        Call FindAWindowToolStripMenuItem_Click(Nothing, Nothing)
+    End Sub
 End Class
