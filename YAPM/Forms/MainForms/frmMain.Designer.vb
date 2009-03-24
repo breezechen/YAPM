@@ -129,7 +129,17 @@ Partial Class frmMain
         Me.saveDial = New System.Windows.Forms.SaveFileDialog
         Me.openDial = New System.Windows.Forms.OpenFileDialog
         Me.Ribbon = New System.Windows.Forms.Ribbon
+        Me.orbMenuEmergency = New System.Windows.Forms.RibbonOrbMenuItem
+        Me.orbMenuSBA = New System.Windows.Forms.RibbonOrbMenuItem
+        Me.RibbonSeparator2 = New System.Windows.Forms.RibbonSeparator
+        Me.orbMenuSaveReport = New System.Windows.Forms.RibbonOrbMenuItem
+        Me.RibbonSeparator3 = New System.Windows.Forms.RibbonSeparator
+        Me.orbMenuAbout = New System.Windows.Forms.RibbonOrbMenuItem
+        Me.orbMenuExit = New System.Windows.Forms.RibbonOrbMenuItem
         Me.butLog = New System.Windows.Forms.RibbonButton
+        Me.butSystemInfo = New System.Windows.Forms.RibbonButton
+        Me.butWindows = New System.Windows.Forms.RibbonButton
+        Me.butFindWindow = New System.Windows.Forms.RibbonButton
         Me.TaskTab = New System.Windows.Forms.RibbonTab
         Me.RBTaskDisplay = New System.Windows.Forms.RibbonPanel
         Me.butTaskRefresh = New System.Windows.Forms.RibbonButton
@@ -375,7 +385,6 @@ Partial Class frmMain
         Me.timerTrayIcon = New System.Windows.Forms.Timer(Me.components)
         Me.butProcessPermuteLvTv = New System.Windows.Forms.RibbonButton
         Me._main = New System.Windows.Forms.SplitContainer
-        Me.cmdTray = New System.Windows.Forms.Button
         Me.containerSystemMenu = New System.Windows.Forms.SplitContainer
         Me.menuSystem = New System.Windows.Forms.MenuStrip
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -633,9 +642,6 @@ Partial Class frmMain
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerNetwork = New System.Windows.Forms.Timer(Me.components)
         Me.timerStateBasedActions = New System.Windows.Forms.Timer(Me.components)
-        Me.butSystemInfo = New System.Windows.Forms.RibbonButton
-        Me.butWindows = New System.Windows.Forms.RibbonButton
-        Me.butFindWindow = New System.Windows.Forms.RibbonButton
         Me.menuProc.SuspendLayout()
         Me.menuService.SuspendLayout()
         Me.mainMenu.SuspendLayout()
@@ -1317,24 +1323,31 @@ Partial Class frmMain
         '
         '
         Me.Ribbon.OrbDropDown.Location = New System.Drawing.Point(0, 0)
+        Me.Ribbon.OrbDropDown.MenuItems.Add(Me.orbMenuEmergency)
+        Me.Ribbon.OrbDropDown.MenuItems.Add(Me.orbMenuSBA)
+        Me.Ribbon.OrbDropDown.MenuItems.Add(Me.RibbonSeparator2)
+        Me.Ribbon.OrbDropDown.MenuItems.Add(Me.orbMenuSaveReport)
+        Me.Ribbon.OrbDropDown.MenuItems.Add(Me.RibbonSeparator3)
+        Me.Ribbon.OrbDropDown.MenuItems.Add(Me.orbMenuAbout)
+        Me.Ribbon.OrbDropDown.MenuItems.Add(Me.orbMenuExit)
         Me.Ribbon.OrbDropDown.Name = ""
         Me.Ribbon.OrbDropDown.NextPopup = Nothing
         Me.Ribbon.OrbDropDown.PreviousPopup = Nothing
-        Me.Ribbon.OrbDropDown.Size = New System.Drawing.Size(527, 72)
+        Me.Ribbon.OrbDropDown.Size = New System.Drawing.Size(527, 298)
         Me.Ribbon.OrbDropDown.TabIndex = 0
-        Me.Ribbon.OrbDropDown.ToolStripDropDown = Nothing
-        Me.Ribbon.OrbImage = Nothing
+        Me.Ribbon.OrbImage = CType(resources.GetObject("Ribbon.OrbImage"), System.Drawing.Image)
         '
         '
         '
         Me.Ribbon.QuickAcessToolbar.AltKey = Nothing
+        Me.Ribbon.QuickAcessToolbar.Checked = True
         Me.Ribbon.QuickAcessToolbar.Image = Nothing
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butLog)
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butSystemInfo)
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butWindows)
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butFindWindow)
         Me.Ribbon.QuickAcessToolbar.Tag = Nothing
-        Me.Ribbon.QuickAcessToolbar.Text = "4545445"
+        Me.Ribbon.QuickAcessToolbar.Text = Nothing
         Me.Ribbon.QuickAcessToolbar.ToolTip = Nothing
         Me.Ribbon.QuickAcessToolbar.ToolTipImage = Nothing
         Me.Ribbon.QuickAcessToolbar.ToolTipTitle = Nothing
@@ -1354,6 +1367,96 @@ Partial Class frmMain
         Me.Ribbon.Tabs.Add(Me.HelpTab)
         Me.Ribbon.TabSpacing = 6
         '
+        'orbMenuEmergency
+        '
+        Me.orbMenuEmergency.AltKey = Nothing
+        Me.orbMenuEmergency.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
+        Me.orbMenuEmergency.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.orbMenuEmergency.Image = CType(resources.GetObject("orbMenuEmergency.Image"), System.Drawing.Image)
+        Me.orbMenuEmergency.SmallImage = CType(resources.GetObject("orbMenuEmergency.SmallImage"), System.Drawing.Image)
+        Me.orbMenuEmergency.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.orbMenuEmergency.Tag = Nothing
+        Me.orbMenuEmergency.Text = "Emergency hotkeys  "
+        Me.orbMenuEmergency.ToolTip = Nothing
+        Me.orbMenuEmergency.ToolTipImage = Nothing
+        Me.orbMenuEmergency.ToolTipTitle = Nothing
+        '
+        'orbMenuSBA
+        '
+        Me.orbMenuSBA.AltKey = Nothing
+        Me.orbMenuSBA.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
+        Me.orbMenuSBA.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.orbMenuSBA.Image = Global.YAPM.My.Resources.Resources.monitoring2
+        Me.orbMenuSBA.SmallImage = Global.YAPM.My.Resources.Resources.monitoring2
+        Me.orbMenuSBA.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.orbMenuSBA.Tag = Nothing
+        Me.orbMenuSBA.Text = "State based actions  "
+        Me.orbMenuSBA.ToolTip = Nothing
+        Me.orbMenuSBA.ToolTipImage = Nothing
+        Me.orbMenuSBA.ToolTipTitle = Nothing
+        '
+        'RibbonSeparator2
+        '
+        Me.RibbonSeparator2.AltKey = Nothing
+        Me.RibbonSeparator2.Image = Nothing
+        Me.RibbonSeparator2.Tag = Nothing
+        Me.RibbonSeparator2.Text = Nothing
+        Me.RibbonSeparator2.ToolTip = Nothing
+        Me.RibbonSeparator2.ToolTipImage = Nothing
+        Me.RibbonSeparator2.ToolTipTitle = Nothing
+        '
+        'orbMenuSaveReport
+        '
+        Me.orbMenuSaveReport.AltKey = Nothing
+        Me.orbMenuSaveReport.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
+        Me.orbMenuSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.orbMenuSaveReport.Image = CType(resources.GetObject("orbMenuSaveReport.Image"), System.Drawing.Image)
+        Me.orbMenuSaveReport.SmallImage = CType(resources.GetObject("orbMenuSaveReport.SmallImage"), System.Drawing.Image)
+        Me.orbMenuSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.orbMenuSaveReport.Tag = Nothing
+        Me.orbMenuSaveReport.Text = "Save report"
+        Me.orbMenuSaveReport.ToolTip = Nothing
+        Me.orbMenuSaveReport.ToolTipImage = Nothing
+        Me.orbMenuSaveReport.ToolTipTitle = Nothing
+        '
+        'RibbonSeparator3
+        '
+        Me.RibbonSeparator3.AltKey = Nothing
+        Me.RibbonSeparator3.Image = Nothing
+        Me.RibbonSeparator3.Tag = Nothing
+        Me.RibbonSeparator3.Text = Nothing
+        Me.RibbonSeparator3.ToolTip = Nothing
+        Me.RibbonSeparator3.ToolTipImage = Nothing
+        Me.RibbonSeparator3.ToolTipTitle = Nothing
+        '
+        'orbMenuAbout
+        '
+        Me.orbMenuAbout.AltKey = Nothing
+        Me.orbMenuAbout.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
+        Me.orbMenuAbout.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.orbMenuAbout.Image = CType(resources.GetObject("orbMenuAbout.Image"), System.Drawing.Image)
+        Me.orbMenuAbout.SmallImage = CType(resources.GetObject("orbMenuAbout.SmallImage"), System.Drawing.Image)
+        Me.orbMenuAbout.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.orbMenuAbout.Tag = Nothing
+        Me.orbMenuAbout.Text = "About"
+        Me.orbMenuAbout.ToolTip = Nothing
+        Me.orbMenuAbout.ToolTipImage = Nothing
+        Me.orbMenuAbout.ToolTipTitle = Nothing
+        '
+        'orbMenuExit
+        '
+        Me.orbMenuExit.AltKey = Nothing
+        Me.orbMenuExit.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
+        Me.orbMenuExit.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.orbMenuExit.Image = CType(resources.GetObject("orbMenuExit.Image"), System.Drawing.Image)
+        Me.orbMenuExit.SmallImage = CType(resources.GetObject("orbMenuExit.SmallImage"), System.Drawing.Image)
+        Me.orbMenuExit.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.orbMenuExit.Tag = Nothing
+        Me.orbMenuExit.Text = "Exit"
+        Me.orbMenuExit.ToolTip = Nothing
+        Me.orbMenuExit.ToolTipImage = Nothing
+        Me.orbMenuExit.ToolTipTitle = Nothing
+        '
         'butLog
         '
         Me.butLog.AltKey = Nothing
@@ -1368,6 +1471,51 @@ Partial Class frmMain
         Me.butLog.ToolTip = Nothing
         Me.butLog.ToolTipImage = Nothing
         Me.butLog.ToolTipTitle = Nothing
+        '
+        'butSystemInfo
+        '
+        Me.butSystemInfo.AltKey = Nothing
+        Me.butSystemInfo.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butSystemInfo.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butSystemInfo.Image = CType(resources.GetObject("butSystemInfo.Image"), System.Drawing.Image)
+        Me.butSystemInfo.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
+        Me.butSystemInfo.SmallImage = CType(resources.GetObject("butSystemInfo.SmallImage"), System.Drawing.Image)
+        Me.butSystemInfo.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butSystemInfo.Tag = Nothing
+        Me.butSystemInfo.Text = Nothing
+        Me.butSystemInfo.ToolTip = Nothing
+        Me.butSystemInfo.ToolTipImage = Nothing
+        Me.butSystemInfo.ToolTipTitle = Nothing
+        '
+        'butWindows
+        '
+        Me.butWindows.AltKey = Nothing
+        Me.butWindows.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butWindows.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butWindows.Image = CType(resources.GetObject("butWindows.Image"), System.Drawing.Image)
+        Me.butWindows.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
+        Me.butWindows.SmallImage = CType(resources.GetObject("butWindows.SmallImage"), System.Drawing.Image)
+        Me.butWindows.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butWindows.Tag = Nothing
+        Me.butWindows.Text = Nothing
+        Me.butWindows.ToolTip = Nothing
+        Me.butWindows.ToolTipImage = Nothing
+        Me.butWindows.ToolTipTitle = Nothing
+        '
+        'butFindWindow
+        '
+        Me.butFindWindow.AltKey = Nothing
+        Me.butFindWindow.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butFindWindow.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFindWindow.Image = CType(resources.GetObject("butFindWindow.Image"), System.Drawing.Image)
+        Me.butFindWindow.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
+        Me.butFindWindow.SmallImage = CType(resources.GetObject("butFindWindow.SmallImage"), System.Drawing.Image)
+        Me.butFindWindow.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFindWindow.Tag = Nothing
+        Me.butFindWindow.Text = Nothing
+        Me.butFindWindow.ToolTip = Nothing
+        Me.butFindWindow.ToolTipImage = Nothing
+        Me.butFindWindow.ToolTipTitle = Nothing
         '
         'TaskTab
         '
@@ -4028,7 +4176,6 @@ Partial Class frmMain
         '
         '_main.Panel1
         '
-        Me._main.Panel1.Controls.Add(Me.cmdTray)
         Me._main.Panel1.Controls.Add(Me.Ribbon)
         '
         '_main.Panel2
@@ -4037,17 +4184,6 @@ Partial Class frmMain
         Me._main.Size = New System.Drawing.Size(866, 594)
         Me._main.SplitterDistance = 138
         Me._main.TabIndex = 57
-        '
-        'cmdTray
-        '
-        Me.cmdTray.ContextMenuStrip = Me.mainMenu
-        Me.cmdTray.Font = New System.Drawing.Font("Tahoma", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdTray.Image = Global.YAPM.My.Resources.Resources.down
-        Me.cmdTray.Location = New System.Drawing.Point(7, 2)
-        Me.cmdTray.Name = "cmdTray"
-        Me.cmdTray.Size = New System.Drawing.Size(38, 20)
-        Me.cmdTray.TabIndex = 46
-        Me.cmdTray.UseVisualStyleBackColor = True
         '
         'containerSystemMenu
         '
@@ -4579,7 +4715,7 @@ Partial Class frmMain
         Me.SplitContainerProcess.Panel2.Controls.Add(Me.optServerLocal)
         Me.SplitContainerProcess.Panel2Collapsed = True
         Me.SplitContainerProcess.Size = New System.Drawing.Size(852, 361)
-        Me.SplitContainerProcess.SplitterDistance = 331
+        Me.SplitContainerProcess.SplitterDistance = 280
         Me.SplitContainerProcess.TabIndex = 0
         '
         'SplitContainerTvLv
@@ -6598,45 +6734,6 @@ Partial Class frmMain
         Me.timerStateBasedActions.Enabled = True
         Me.timerStateBasedActions.Interval = 1000
         '
-        'butSystemInfo
-        '
-        Me.butSystemInfo.AltKey = Nothing
-        Me.butSystemInfo.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
-        Me.butSystemInfo.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butSystemInfo.Image = CType(resources.GetObject("butSystemInfo.Image"), System.Drawing.Image)
-        Me.butSystemInfo.SmallImage = CType(resources.GetObject("butSystemInfo.SmallImage"), System.Drawing.Image)
-        Me.butSystemInfo.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butSystemInfo.Tag = Nothing
-        Me.butSystemInfo.ToolTip = Nothing
-        Me.butSystemInfo.ToolTipImage = Nothing
-        Me.butSystemInfo.ToolTipTitle = Nothing
-        '
-        'butWindows
-        '
-        Me.butWindows.AltKey = Nothing
-        Me.butWindows.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
-        Me.butWindows.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butWindows.Image = CType(resources.GetObject("butWindows.Image"), System.Drawing.Image)
-        Me.butWindows.SmallImage = CType(resources.GetObject("butWindows.SmallImage"), System.Drawing.Image)
-        Me.butWindows.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butWindows.Tag = Nothing
-        Me.butWindows.ToolTip = Nothing
-        Me.butWindows.ToolTipImage = Nothing
-        Me.butWindows.ToolTipTitle = Nothing
-        '
-        'butFindWindow
-        '
-        Me.butFindWindow.AltKey = Nothing
-        Me.butFindWindow.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
-        Me.butFindWindow.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butFindWindow.Image = CType(resources.GetObject("butFindWindow.Image"), System.Drawing.Image)
-        Me.butFindWindow.SmallImage = CType(resources.GetObject("butFindWindow.SmallImage"), System.Drawing.Image)
-        Me.butFindWindow.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butFindWindow.Tag = Nothing
-        Me.butFindWindow.ToolTip = Nothing
-        Me.butFindWindow.ToolTipImage = Nothing
-        Me.butFindWindow.ToolTipTitle = Nothing
-        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -7351,7 +7448,6 @@ Partial Class frmMain
     Friend WithEvents pageHelp As System.Windows.Forms.TabPage
     Friend WithEvents panelMain4 As System.Windows.Forms.Panel
     Friend WithEvents WBHelp As System.Windows.Forms.WebBrowser
-    Friend WithEvents cmdTray As System.Windows.Forms.Button
     Friend WithEvents HelpToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuMonitor As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem61 As System.Windows.Forms.ToolStripMenuItem
@@ -7384,5 +7480,12 @@ Partial Class frmMain
     Friend WithEvents butSystemInfo As System.Windows.Forms.RibbonButton
     Friend WithEvents butWindows As System.Windows.Forms.RibbonButton
     Friend WithEvents butFindWindow As System.Windows.Forms.RibbonButton
+    Friend WithEvents orbMenuEmergency As System.Windows.Forms.RibbonOrbMenuItem
+    Friend WithEvents orbMenuSBA As System.Windows.Forms.RibbonOrbMenuItem
+    Friend WithEvents RibbonSeparator2 As System.Windows.Forms.RibbonSeparator
+    Friend WithEvents orbMenuSaveReport As System.Windows.Forms.RibbonOrbMenuItem
+    Friend WithEvents RibbonSeparator3 As System.Windows.Forms.RibbonSeparator
+    Friend WithEvents orbMenuAbout As System.Windows.Forms.RibbonOrbMenuItem
+    Friend WithEvents orbMenuExit As System.Windows.Forms.RibbonOrbMenuItem
 
 End Class

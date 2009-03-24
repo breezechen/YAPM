@@ -399,7 +399,6 @@ Public Class frmMain
         SetToolTip(Me.lblServicePath, "Path of the main executable of the service.")
         SetToolTip(Me.tv, "Selected service depends on these services.")
         SetToolTip(Me.tv2, "This services depend on selected service.")
-        SetToolTip(Me.cmdTray, "Hide YAPM (double click on icon on tray to show main form).")
         SetToolTip(Me.chkSearchProcess, "Search in processes list.")
         SetToolTip(Me.chkSearchServices, "Search in services list.")
         SetToolTip(Me.chkSearchWindows, "Search in windows list.")
@@ -4222,11 +4221,6 @@ Public Class frmMain
         End Select
     End Sub
 
-    Private Sub cmdTray_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdTray.Click
-        Me.Hide()
-        Me.Visible = False
-    End Sub
-
     Private Sub MinimizeToTrayToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MinimizeToTrayToolStripMenuItem1.Click
         Call Me.MinimizeToTrayToolStripMenuItem_Click(Nothing, Nothing)
     End Sub
@@ -4385,5 +4379,25 @@ Public Class frmMain
 
     Private Sub butFindWindow_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFindWindow.Click
         Call FindAWindowToolStripMenuItem_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub orbMenuAbout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles orbMenuAbout.Click
+        Call AboutYAPMToolStripMenuItem_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub orbMenuEmergency_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles orbMenuEmergency.Click
+        Call EmergencyHotkeysToolStripMenuItem_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub orbMenuExit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles orbMenuExit.Click
+        Call ExitToolStripMenuItem_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub orbMenuSaveReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles orbMenuSaveReport.Click
+        Call SaveSystemReportToolStripMenuItem_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub orbMenuSBA_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles orbMenuSBA.Click
+        Call StateBasedActionsToolStripMenuItem_Click(Nothing, Nothing)
     End Sub
 End Class

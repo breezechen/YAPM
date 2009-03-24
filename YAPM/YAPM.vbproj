@@ -432,6 +432,7 @@
     <None Include="Misc\thread.gif" />
     <None Include="Misc\options.gif" />
     <None Include="Misc\OK_32.png" />
+    <None Include="Misc\yapm32.png" />
     <Content Include="process.ico" />
     <Content Include="process_custom.ico" />
     <None Include="Resources\application_blue.png" />
