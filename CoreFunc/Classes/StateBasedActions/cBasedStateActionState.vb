@@ -501,7 +501,7 @@ Public Class cBasedStateActionState
     End Sub
 
     ' Proceed to action !
-    Public Sub RaiseAction(ByRef _proc As cProcess)
+    Public Sub RaiseAction(ByRef _proc As cLocalProcess)
 
         Trace.WriteLine("Have to raise action : " & Action)
         cStateBasedActions.Notify(Me, _proc)

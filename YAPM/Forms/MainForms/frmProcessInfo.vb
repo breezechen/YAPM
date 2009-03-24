@@ -357,6 +357,11 @@ Public Class frmProcessInfo
         curProc = process
         Me.Text = curProc.Name & " (" & CStr(curProc.Pid) & ")"
 
+        Dim bLocal As Boolean = (TypeOf process Is cLocalProcess)
+        Me.cmdAffinity.Enabled = bLocal
+        Me.cmdPause.Enabled = bLocal
+        Me.cmdResume.Enabled = bLocal
+
         ' Verify file
         Try
             Dim bVer As Boolean = Security.WinTrust.WinTrust.VerifyEmbeddedSignature(curProc.Path)

@@ -157,7 +157,6 @@ Public Class cRegMonitor
         ' Compare with old list and get differences
         Dim s As String = ""
 
-        '  TODO -> delete this Try-Catch block
         Try
 
             ' Deleted keys

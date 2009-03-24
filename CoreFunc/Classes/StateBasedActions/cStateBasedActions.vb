@@ -41,8 +41,8 @@ Public Class cStateBasedActions
     Protected Friend Shared Sub ExitYAPM()
         RaiseEvent ExitRequested()
     End Sub
-    Public Shared Event LogRequested(ByRef process As cProcess)
-    Protected Friend Shared Sub StartLog(ByRef process As cProcess)
+    Public Shared Event LogRequested(ByRef process As cLocalProcess)
+    Protected Friend Shared Sub StartLog(ByRef process As cLocalProcess)
         RaiseEvent LogRequested(process)
     End Sub
     Public Shared Event SaveServiceListRequested(ByVal path As String)
@@ -53,8 +53,8 @@ Public Class cStateBasedActions
     Protected Friend Shared Sub SaveProcessList(ByVal path As String)
         RaiseEvent SaveProcessListRequested(path)
     End Sub
-    Public Shared Event NotifyAction(ByRef action As cBasedStateActionState, ByRef process As cProcess)
-    Protected Friend Shared Sub Notify(ByRef action As cBasedStateActionState, ByRef process As cProcess)
+    Public Shared Event NotifyAction(ByRef action As cBasedStateActionState, ByRef process As cLocalProcess)
+    Protected Friend Shared Sub Notify(ByRef action As cBasedStateActionState, ByRef process As cLocalProcess)
         RaiseEvent NotifyAction(action, process)
     End Sub
 
@@ -293,7 +293,7 @@ Public Class cStateBasedActions
     End Function
 
     ' Process actions
-    Public Sub ProcessActions(ByRef _dico As Dictionary(Of String, cProcess).ValueCollection)
+    Public Sub ProcessActions(ByRef _dico As Dictionary(Of String, cLocalProcess).ValueCollection)
 
         For Each action As cBasedStateActionState In _col
 
@@ -301,7 +301,7 @@ Public Class cStateBasedActions
 
                 ' Check if there is a process concerned
                 Dim b As Boolean = False
-                For Each _p As cProcess In _dico
+                For Each _p As cLocalProcess In _dico
 
                     If (action.CheckProcID And action.CheckProcIDS = _p.Pid.ToString) OrElse _
                         (action.CheckProcName And action.CheckProcNameS.ToLower = _p.Name.ToLower) Then
@@ -349,7 +349,7 @@ Public Class cStateBasedActions
     End Sub
 
     ' Check if process state is reached
-    Private Function isStateOk(ByRef action As cBasedStateActionState, ByRef _p As cProcess) As Boolean
+    Private Function isStateOk(ByRef action As cBasedStateActionState, ByRef _p As cLocalProcess) As Boolean
 
         Dim _currentValue As cBasedStateActionState.StateThreshold = _p.GetInformationAsStateThreshold(action.StateCounter)
 

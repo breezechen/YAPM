@@ -139,6 +139,8 @@ Partial Class frmMain
         Me.RBProcessDisplay = New System.Windows.Forms.RibbonPanel
         Me.butProcessRerfresh = New System.Windows.Forms.RibbonButton
         Me.butProcessDisplayDetails = New System.Windows.Forms.RibbonButton
+        Me.RBProcessConfig = New System.Windows.Forms.RibbonPanel
+        Me.butProcessConfigureServer = New System.Windows.Forms.RibbonButton
         Me.RBProcessActions = New System.Windows.Forms.RibbonPanel
         Me.butNewProcess = New System.Windows.Forms.RibbonButton
         Me.butKillProcess = New System.Windows.Forms.RibbonButton
@@ -450,6 +452,15 @@ Partial Class frmMain
         Me.c9 = New System.Windows.Forms.ColumnHeader
         Me.c10 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader20 = New System.Windows.Forms.ColumnHeader
+        Me.gpServer = New System.Windows.Forms.GroupBox
+        Me.txtServerPassword = New System.Windows.Forms.TextBox
+        Me.Label14 = New System.Windows.Forms.Label
+        Me.txtServerUser = New System.Windows.Forms.TextBox
+        Me.Label13 = New System.Windows.Forms.Label
+        Me.txtServerMachine = New System.Windows.Forms.TextBox
+        Me.Label12 = New System.Windows.Forms.Label
+        Me.optServerRemote = New System.Windows.Forms.RadioButton
+        Me.optServerLocal = New System.Windows.Forms.RadioButton
         Me.pageModules = New System.Windows.Forms.TabPage
         Me.panelMain11 = New System.Windows.Forms.Panel
         Me.splitModule = New System.Windows.Forms.SplitContainer
@@ -620,6 +631,7 @@ Partial Class frmMain
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerNetwork = New System.Windows.Forms.Timer(Me.components)
         Me.timerStateBasedActions = New System.Windows.Forms.Timer(Me.components)
+        Me.cmdServerOK = New System.Windows.Forms.Button
         Me.menuProc.SuspendLayout()
         Me.menuService.SuspendLayout()
         Me.mainMenu.SuspendLayout()
@@ -652,10 +664,12 @@ Partial Class frmMain
         Me.panelMenu.SuspendLayout()
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
+        Me.SplitContainerProcess.Panel2.SuspendLayout()
         Me.SplitContainerProcess.SuspendLayout()
         Me.SplitContainerTvLv.Panel1.SuspendLayout()
         Me.SplitContainerTvLv.Panel2.SuspendLayout()
         Me.SplitContainerTvLv.SuspendLayout()
+        Me.gpServer.SuspendLayout()
         Me.pageModules.SuspendLayout()
         Me.panelMain11.SuspendLayout()
         Me.splitModule.Panel1.SuspendLayout()
@@ -1377,6 +1391,7 @@ Partial Class frmMain
         'ProcessTab
         '
         Me.ProcessTab.Panels.Add(Me.RBProcessDisplay)
+        Me.ProcessTab.Panels.Add(Me.RBProcessConfig)
         Me.ProcessTab.Panels.Add(Me.RBProcessActions)
         Me.ProcessTab.Panels.Add(Me.RBProcessPriority)
         Me.ProcessTab.Panels.Add(Me.RBProcessOnline)
@@ -1418,6 +1433,27 @@ Partial Class frmMain
         Me.butProcessDisplayDetails.ToolTip = Nothing
         Me.butProcessDisplayDetails.ToolTipImage = Nothing
         Me.butProcessDisplayDetails.ToolTipTitle = Nothing
+        '
+        'RBProcessConfig
+        '
+        Me.RBProcessConfig.ButtonMoreEnabled = False
+        Me.RBProcessConfig.ButtonMoreVisible = False
+        Me.RBProcessConfig.Items.Add(Me.butProcessConfigureServer)
+        Me.RBProcessConfig.Tag = Nothing
+        Me.RBProcessConfig.Text = "Configure server"
+        '
+        'butProcessConfigureServer
+        '
+        Me.butProcessConfigureServer.AltKey = Nothing
+        Me.butProcessConfigureServer.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessConfigureServer.Image = Global.YAPM.My.Resources.Resources.options
+        Me.butProcessConfigureServer.SmallImage = CType(resources.GetObject("butProcessConfigureServer.SmallImage"), System.Drawing.Image)
+        Me.butProcessConfigureServer.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessConfigureServer.Tag = Nothing
+        Me.butProcessConfigureServer.Text = "Configuration"
+        Me.butProcessConfigureServer.ToolTip = Nothing
+        Me.butProcessConfigureServer.ToolTipImage = Nothing
+        Me.butProcessConfigureServer.ToolTipTitle = Nothing
         '
         'RBProcessActions
         '
@@ -4365,6 +4401,7 @@ Partial Class frmMain
         '
         Me.SplitContainerProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SplitContainerProcess.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
+        Me.SplitContainerProcess.IsSplitterFixed = True
         Me.SplitContainerProcess.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainerProcess.Name = "SplitContainerProcess"
         Me.SplitContainerProcess.Orientation = System.Windows.Forms.Orientation.Horizontal
@@ -4372,9 +4409,16 @@ Partial Class frmMain
         'SplitContainerProcess.Panel1
         '
         Me.SplitContainerProcess.Panel1.Controls.Add(Me.SplitContainerTvLv)
+        '
+        'SplitContainerProcess.Panel2
+        '
+        Me.SplitContainerProcess.Panel2.Controls.Add(Me.cmdServerOK)
+        Me.SplitContainerProcess.Panel2.Controls.Add(Me.gpServer)
+        Me.SplitContainerProcess.Panel2.Controls.Add(Me.optServerRemote)
+        Me.SplitContainerProcess.Panel2.Controls.Add(Me.optServerLocal)
         Me.SplitContainerProcess.Panel2Collapsed = True
         Me.SplitContainerProcess.Size = New System.Drawing.Size(852, 386)
-        Me.SplitContainerProcess.SplitterDistance = 237
+        Me.SplitContainerProcess.SplitterDistance = 331
         Me.SplitContainerProcess.TabIndex = 0
         '
         'SplitContainerTvLv
@@ -4429,6 +4473,7 @@ Partial Class frmMain
         ListViewGroup4.Name = "gpSearch"
         Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvProcess.HideSelection = False
+        Me.lvProcess.IsLocalMachine = True
         Me.lvProcess.Location = New System.Drawing.Point(0, 0)
         Me.lvProcess.Name = "lvProcess"
         Me.lvProcess.OverriddenDoubleBuffered = True
@@ -4491,6 +4536,95 @@ Partial Class frmMain
         '
         Me.ColumnHeader20.DisplayIndex = 4
         Me.ColumnHeader20.Text = "AverageCpuUsage"
+        '
+        'gpServer
+        '
+        Me.gpServer.Controls.Add(Me.txtServerPassword)
+        Me.gpServer.Controls.Add(Me.Label14)
+        Me.gpServer.Controls.Add(Me.txtServerUser)
+        Me.gpServer.Controls.Add(Me.Label13)
+        Me.gpServer.Controls.Add(Me.txtServerMachine)
+        Me.gpServer.Controls.Add(Me.Label12)
+        Me.gpServer.Enabled = False
+        Me.gpServer.Location = New System.Drawing.Point(134, 0)
+        Me.gpServer.Name = "gpServer"
+        Me.gpServer.Size = New System.Drawing.Size(446, 47)
+        Me.gpServer.TabIndex = 2
+        Me.gpServer.TabStop = False
+        Me.gpServer.Text = "Server"
+        '
+        'txtServerPassword
+        '
+        Me.txtServerPassword.Location = New System.Drawing.Point(348, 15)
+        Me.txtServerPassword.Name = "txtServerPassword"
+        Me.txtServerPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
+        Me.txtServerPassword.Size = New System.Drawing.Size(87, 22)
+        Me.txtServerPassword.TabIndex = 9
+        Me.txtServerPassword.UseSystemPasswordChar = True
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Location = New System.Drawing.Point(286, 18)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(56, 13)
+        Me.Label14.TabIndex = 8
+        Me.Label14.Text = "Password"
+        '
+        'txtServerUser
+        '
+        Me.txtServerUser.Location = New System.Drawing.Point(192, 15)
+        Me.txtServerUser.Name = "txtServerUser"
+        Me.txtServerUser.Size = New System.Drawing.Size(87, 22)
+        Me.txtServerUser.TabIndex = 7
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Location = New System.Drawing.Point(156, 18)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(30, 13)
+        Me.Label13.TabIndex = 6
+        Me.Label13.Text = "User"
+        '
+        'txtServerMachine
+        '
+        Me.txtServerMachine.Location = New System.Drawing.Point(63, 15)
+        Me.txtServerMachine.Name = "txtServerMachine"
+        Me.txtServerMachine.Size = New System.Drawing.Size(87, 22)
+        Me.txtServerMachine.TabIndex = 5
+        Me.txtServerMachine.Text = "localhost"
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Location = New System.Drawing.Point(6, 18)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(51, 13)
+        Me.Label12.TabIndex = 4
+        Me.Label12.Text = "Machine"
+        '
+        'optServerRemote
+        '
+        Me.optServerRemote.AutoSize = True
+        Me.optServerRemote.Location = New System.Drawing.Point(64, 15)
+        Me.optServerRemote.Name = "optServerRemote"
+        Me.optServerRemote.Size = New System.Drawing.Size(64, 17)
+        Me.optServerRemote.TabIndex = 1
+        Me.optServerRemote.Text = "Remote"
+        Me.optServerRemote.UseVisualStyleBackColor = True
+        '
+        'optServerLocal
+        '
+        Me.optServerLocal.AutoSize = True
+        Me.optServerLocal.Checked = True
+        Me.optServerLocal.Location = New System.Drawing.Point(7, 15)
+        Me.optServerLocal.Name = "optServerLocal"
+        Me.optServerLocal.Size = New System.Drawing.Size(51, 17)
+        Me.optServerLocal.TabIndex = 0
+        Me.optServerLocal.TabStop = True
+        Me.optServerLocal.Text = "Local"
+        Me.optServerLocal.UseVisualStyleBackColor = True
         '
         'pageModules
         '
@@ -6294,6 +6428,15 @@ Partial Class frmMain
         Me.timerStateBasedActions.Enabled = True
         Me.timerStateBasedActions.Interval = 1000
         '
+        'cmdServerOK
+        '
+        Me.cmdServerOK.Image = Global.YAPM.My.Resources.Resources.ok
+        Me.cmdServerOK.Location = New System.Drawing.Point(586, 14)
+        Me.cmdServerOK.Name = "cmdServerOK"
+        Me.cmdServerOK.Size = New System.Drawing.Size(47, 22)
+        Me.cmdServerOK.TabIndex = 11
+        Me.cmdServerOK.UseVisualStyleBackColor = True
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -6344,10 +6487,14 @@ Partial Class frmMain
         Me.panelMenu.PerformLayout()
         Me.panelMain.ResumeLayout(False)
         Me.SplitContainerProcess.Panel1.ResumeLayout(False)
+        Me.SplitContainerProcess.Panel2.ResumeLayout(False)
+        Me.SplitContainerProcess.Panel2.PerformLayout()
         Me.SplitContainerProcess.ResumeLayout(False)
         Me.SplitContainerTvLv.Panel1.ResumeLayout(False)
         Me.SplitContainerTvLv.Panel2.ResumeLayout(False)
         Me.SplitContainerTvLv.ResumeLayout(False)
+        Me.gpServer.ResumeLayout(False)
+        Me.gpServer.PerformLayout()
         Me.pageModules.ResumeLayout(False)
         Me.panelMain11.ResumeLayout(False)
         Me.splitModule.Panel1.ResumeLayout(False)
@@ -7021,5 +7168,17 @@ Partial Class frmMain
     Friend WithEvents StateBasedActionsToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents timerStateBasedActions As System.Windows.Forms.Timer
     Friend WithEvents ReduceWorkingSetSizeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RBProcessConfig As System.Windows.Forms.RibbonPanel
+    Friend WithEvents butProcessConfigureServer As System.Windows.Forms.RibbonButton
+    Friend WithEvents gpServer As System.Windows.Forms.GroupBox
+    Friend WithEvents txtServerPassword As System.Windows.Forms.TextBox
+    Friend WithEvents Label14 As System.Windows.Forms.Label
+    Friend WithEvents txtServerUser As System.Windows.Forms.TextBox
+    Friend WithEvents Label13 As System.Windows.Forms.Label
+    Friend WithEvents txtServerMachine As System.Windows.Forms.TextBox
+    Friend WithEvents Label12 As System.Windows.Forms.Label
+    Friend WithEvents optServerRemote As System.Windows.Forms.RadioButton
+    Friend WithEvents optServerLocal As System.Windows.Forms.RadioButton
+    Friend WithEvents cmdServerOK As System.Windows.Forms.Button
 
 End Class

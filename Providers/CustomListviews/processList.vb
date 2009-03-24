@@ -38,9 +38,12 @@ Public Class processList
     Private _dicoNew As New Dictionary(Of String, cProcess)
     Private _dicoDel As New Dictionary(Of String, cProcess)
     Private _buffDico As New Dictionary(Of String, cProcess.LightProcess)
+    Private _remoteSpecialDico As New Dictionary(Of String, System.Management.ManagementObject)
     Private _dico As New Dictionary(Of String, cProcess)
+    Private _local As Boolean = True
+    Private _con As cRemoteProcess.RemoteConnectionInfo
 
-    Private _firstItemUpdate As Boolean = True
+    Private _firstItemUpdate As Boolean = False
     Private _columnsName() As String
 
     Private _IMG As ImageList
@@ -56,31 +59,27 @@ Public Class processList
     ' ========================================
     ' Properties
     ' ========================================
-    'Public ReadOnly Property Items() As ListView.ListViewItemCollection
-    '    Get
-    '        Return Me.lv.Items
-    '    End Get
-    'End Property
-    'Public ReadOnly Property SelectedItems() As ListView.SelectedListViewItemCollection
-    '    Get
-    '        Return Me.lv.SelectedItems
-    '    End Get
-    'End Property
-    'Public ReadOnly Property Columns() As ListView.ColumnHeaderCollection
-    '    Get
-    '        Return lv.Columns
-    '    End Get
-    'End Property
-    'Public ReadOnly Property Groups() As ListViewGroupCollection
-    '    Get
-    '        Return lv.Groups
-    '    End Get
-    'End Property
+    Public Property IsLocalMachine() As Boolean
+        Get
+            Return _local
+        End Get
+        Set(ByVal value As Boolean)
+            _local = value
+        End Set
+    End Property
+    Public Property RemoteConnection() As cRemoteProcess.RemoteConnectionInfo
+        Get
+            Return _con
+        End Get
+        Set(ByVal value As cRemoteProcess.RemoteConnectionInfo)
+            _con = value
+        End Set
+    End Property
 
 #End Region
 
     ' ========================================
-    ' Public properties
+    ' Public functions
     ' ========================================
 
     Public Sub New()
@@ -103,6 +102,17 @@ Public Class processList
         Return _IMG.Images.Item(key)
     End Function
 
+    ' Delete all items
+    Public Sub ClearItems()
+        cProcess.ClearProcessDico()
+        _buffDico.Clear()
+        _dico.Clear()
+        _dicoDel.Clear()
+        _remoteSpecialDico.Clear()
+        _dicoNew.Clear()
+        Me.Items.Clear()
+    End Sub
+
     ' Call this to update items in listview
     Public Sub UpdateItems()
 
@@ -118,7 +128,11 @@ Public Class processList
         ' Now enumerate items
         Dim _itemId() As String
         ReDim _itemId(0)
-        Call cProcess.Enumerate(_itemId, _buffDico)
+        If _local Then
+            Call cLocalProcess.Enumerate(_itemId, _buffDico)
+        Else
+            Call cRemoteProcess.Enumerate(_con, _itemId, _buffDico, _remoteSpecialDico)
+        End If
 
 
         ' Now add all items with isKilled = true to _dicoDel dictionnary
@@ -159,7 +173,12 @@ Public Class processList
 
         ' Merge _dico and _dicoNew
         For Each z As String In _dicoNew.Keys
-            Dim _it As cProcess = New cProcess(_buffDico.Item(z))
+            Dim _it As cProcess
+            If _local Then
+                _it = New cLocalProcess(_buffDico.Item(z))
+            Else
+                _it = New cRemoteProcess(_buffDico.Item(z), _con)
+            End If
             RaiseEvent ItemAdded(_it)
             _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
             _dico.Add(z.ToString, _it)
@@ -197,7 +216,11 @@ Public Class processList
         For Each it In Me.Items
             Dim x As Integer = 0
             Dim _item As cProcess = _dico.Item(it.Name)
-            _item.Refresh()
+            If _local Then
+                _item.Refresh()
+            Else
+                _item.Refresh(_remoteSpecialDico)
+            End If
             For Each isub In it.SubItems
                 isub.Text = _item.GetInformation(_columnsName(x))
                 x += 1

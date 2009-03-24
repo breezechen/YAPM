@@ -33,6 +33,7 @@ Public Class frmMain
     Public log As New cLog
     Private curProc As cProcess
     Private __servEnum As New cServEnum
+    Private _local As Boolean = True
 
     <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
     Private Shared Function SendMessage(ByVal hWnd As IntPtr, ByVal Msg As Integer, ByVal wParam As Integer, ByVal lParam As Integer) As IntPtr
@@ -1101,10 +1102,6 @@ Public Class frmMain
         End Select
         'End If
 
-    End Sub
-
-    Private Sub butNewProcess_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butNewProcess.Click
-        cFile.ShowRunBox(Me.Handle.ToInt32, "Start a new process", "Enter the path of the process you want to start.")
     End Sub
 
     Private Sub butDownload_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butDownload.Click
@@ -4249,7 +4246,8 @@ Public Class frmMain
     End Sub
 
     Private Sub timerStateBasedActions_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerStateBasedActions.Tick
-        Me.emStateBasedActions.ProcessActions(lvProcess.GetAllItems)
+        'TODO
+        'Me.emStateBasedActions.ProcessActions(lvProcess.GetAllItems)
     End Sub
 
     Private Sub ReduceWorkingSetSizeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReduceWorkingSetSizeToolStripMenuItem.Click
@@ -4262,16 +4260,17 @@ Public Class frmMain
         Me.Close()
     End Sub
 
-    Private Sub emStateBasedActions_LogRequested(ByRef process As CoreFunc.cProcess) Handles emStateBasedActions.LogRequested
-        Dim frm As New frmProcessInfo
-        frm.SetProcess(process)
-        frm.WindowState = FormWindowState.Minimized
-        frm.StartLog()
-        frm.tabProcess.SelectedTab = frm.TabPage14
-        frm.Show()
+    Private Sub emStateBasedActions_LogRequested(ByRef process As CoreFunc.cLocalProcess) Handles emStateBasedActions.LogRequested
+        'Dim frm As New frmProcessInfo
+        'frm.SetProcess(process)
+        'frm.WindowState = FormWindowState.Minimized
+        'frm.StartLog()
+        'frm.tabProcess.SelectedTab = frm.TabPage14
+        'frm.Show()
+        'TODO
     End Sub
 
-    Private Sub emStateBasedActions_NotifyAction(ByRef action As CoreFunc.cBasedStateActionState, ByRef process As CoreFunc.cProcess) Handles emStateBasedActions.NotifyAction
+    Private Sub emStateBasedActions_NotifyAction(ByRef action As CoreFunc.cBasedStateActionState, ByRef process As CoreFunc.cLocalProcess) Handles emStateBasedActions.NotifyAction
         Dim proc As String = process.Name & " (" & process.Pid.ToString & ")"
         If action.Notify Then
             Me.Tray.ShowBalloonTip(2000, "State based action was raised", "Rule : " & action.RuleText & " , process : " & proc, ToolTipIcon.Info)
@@ -4322,5 +4321,53 @@ Public Class frmMain
         Catch
             '
         End Try
+    End Sub
+
+    Private Sub optServerLocal_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles optServerLocal.CheckedChanged
+        gpServer.Enabled = optServerRemote.Checked
+        _local = optServerLocal.Checked
+    End Sub
+
+    Private Sub optServerRemote_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles optServerRemote.CheckedChanged
+        gpServer.Enabled = optServerRemote.Checked
+        _local = optServerLocal.Checked
+    End Sub
+
+    Private Sub cmdServerOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdServerOK.Click
+        Me.lvProcess.ClearItems()
+        Me.lvProcess.RemoteConnection = New cRemoteProcess.RemoteConnectionInfo(txtServerMachine.Text, txtServerPassword.Text, txtServerUser.Text)
+        Me.lvProcess.IsLocalMachine = _local
+        Me.lvProcess.BeginUpdate()
+        Me.lvProcess.UpdateItems()
+        Me.lvProcess.EndUpdate()
+        Me.butResumeProcess.Enabled = Me._local
+        Me.butStopProcess.Enabled = Me._local
+        Me.butProcessAffinity.Enabled = Me._local
+        Me.KillProcessTreeToolStripMenuItem.Enabled = Me._local
+        Me.StopToolStripMenuItem.Enabled = Me._local
+        Me.ResumeToolStripMenuItem.Enabled = Me._local
+        Me.SetAffinityToolStripMenuItem.Enabled = Me._local
+        Me.ReduceWorkingSetSizeToolStripMenuItem.Enabled = Me._local
+    End Sub
+
+    Private Sub butProcessConfigureServer_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessConfigureServer.Click
+        If Me.butProcessConfigureServer.Text = "Configuration" Then
+            Me.butProcessConfigureServer.Text = "Hide panel"
+            Me.SplitContainerProcess.Panel2Collapsed = False
+        Else
+            Me.butProcessConfigureServer.Text = "Configuration"
+            Me.SplitContainerProcess.Panel2Collapsed = True
+        End If
+    End Sub
+
+    Private Sub butNewProcess_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butNewProcess.Click
+        If Me._local Then
+            cFile.ShowRunBox(Me.Handle.ToInt32, "Start a new process", "Enter the path of the process you want to start.")
+        Else
+            Dim sres As String = CInputBox("Enter the path of the process you want to start.", "Start a new process", "")
+            If sres Is Nothing OrElse sres.Equals(String.Empty) Then Exit Sub
+            Dim conOpt As New cRemoteProcess.RemoteConnectionInfo(Me.txtServerMachine.Text, Me.txtServerPassword.Text, Me.txtServerUser.Text)
+            cRemoteProcess.StartNewProcess(conOpt, sres)
+        End If
     End Sub
 End Class

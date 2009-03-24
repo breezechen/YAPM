@@ -92,9 +92,9 @@ Public Class frmGlobalReport
             Dim _buffServ As New Dictionary(Of String, cProcess.LightProcess)
             Dim _keyServ() As String
             ReDim _keyServ(0)
-            Dim _servNumber As Integer = cProcess.Enumerate(_keyServ, _buffServ)
+            Dim _servNumber As Integer = cLocalProcess.Enumerate(_keyServ, _buffServ)
             For Each it As cProcess.LightProcess In _buffServ.Values
-                _dicoProcesses.Add(it.pid, New cProcess(it))
+                _dicoProcesses.Add(it.pid, New cLocalProcess(it))
             Next
         End If
 

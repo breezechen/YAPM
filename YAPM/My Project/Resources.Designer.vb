@@ -319,6 +319,20 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property OK_32() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("OK_32", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property options() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("options", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property pause_32() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("pause_32", resourceCulture)

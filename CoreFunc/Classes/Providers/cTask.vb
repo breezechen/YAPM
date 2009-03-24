@@ -47,7 +47,7 @@ Public Class cTask
     ' ========================================
     Public Sub New(ByVal task As LightWindow)
         MyBase.New(task)
-        _proc = New cProcess(task.pid)
+        _proc = New cLocalProcess(task.pid)
         _key = task.handle.ToString & "|" & task.pid.ToString & "|" & task.threadId.ToString
         _proc.ProcessorCount = cSystemInfo.GetProcessorCount
     End Sub
