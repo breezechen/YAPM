@@ -4269,6 +4269,9 @@ Public Class frmMain
 
     Private Sub cmdServerOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdServerOK.Click
         Me.timerProcess.Enabled = _local
+        Me.timerServices.Enabled = _local
+        Me.timerMonitoring.Enabled = _local
+        Me.timerTask.Enabled = _local
         Me.lvProcess.ClearItems()
         Me.lvProcess.RemoteConnection = New cRemoteProcess.RemoteConnectionInfo(txtServerMachine.Text, txtServerPassword.Text, txtServerUser.Text)
         Me.lvProcess.IsLocalMachine = _local
@@ -4308,7 +4311,31 @@ Public Class frmMain
         Me.RBWindowCapture.Enabled = Me._local
         Me.RBWindowRefresh.Enabled = Me._local
         Me.RBWindowReport.Enabled = Me._local
-
+        Me.pageHandles.Enabled = _local
+        Me.pageNetwork.Enabled = _local
+        Me.pageTasks.Enabled = _local
+        Me.pageThreads.Enabled = _local
+        Me.pageWindows.Enabled = _local
+        Me.pageSearch.Enabled = _local
+        Me.RBNetworkRefresh.Enabled = _local
+        Me.RBSearchMain.Enabled = _local
+        Me.RBTaskActions.Enabled = _local
+        Me.RBTaskDisplay.Enabled = _local
+        Me.OpenFirectoryToolStripMenuItem.Enabled = _local
+        Me.PropertiesToolStripMenuItem.Enabled = _local
+        Me.FileDetailsToolStripMenuItem.Enabled = _local
+        Me.SelectedServicesToolStripMenuItem.Enabled = _local
+        Me.FileDetailsToolStripMenuItem1.Enabled = _local
+        Me.ShowAllToolStripMenuItem.Enabled = _local
+        Me.ShowThreadsToolStripMenuItem.Enabled = _local
+        Me.ShowWindowsToolStripMenuItem.Enabled = _local
+        Me.ShowHandlesToolStripMenuItem.Enabled = _local
+        Me.ToolStripMenuItem20.Enabled = _local
+        Me.ToolStripMenuItem21.Enabled = _local
+        Me.ShowFileDetailsToolStripMenuItem.Enabled = _local
+        Me.ToolStripMenuItem36.Enabled = _local
+        Me.RBServiceFile.Enabled = _local
+        Me.butProcessOtherActions.Enabled = _local
     End Sub
 
     Private Sub butProcessConfigureServer_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessConfigureServer.Click

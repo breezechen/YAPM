@@ -402,12 +402,6 @@ Public Class cRemoteProcess
     ' Public functions of this class
     ' ========================================
 
-    ' Retrieve a long array with all available values from dictionnaries
-    Public Overrides Function GetHistory(ByVal infoName As String) As Double()
-        Return Nothing
-    End Function
-
-
     ' NON IMPLEMENTED FUNCTIONS
     Public Overrides Function GetInformationNumerical(ByVal infoName As String) As Double
         '
@@ -430,10 +424,28 @@ Public Class cRemoteProcess
 
 
     Public Overrides Sub Refresh(Optional ByRef tag As Dictionary(Of String, System.Management.ManagementObject) = Nothing)
+        Static _refrehNumber As Integer = 0
+
         ' Refresh _theProcess from the dictionnary we got before
         If tag.ContainsKey(_pid.ToString) Then
             _theProcess = tag.Item(_pid.ToString)
         End If
+
+        _refrehNumber += 1   ' This is the key
+
+        ' Get date in ms
+        Dim _now As Long = Date.Now.Ticks
+
+        ' Refresh memory infos
+        '_memInfo = Me.MemoryInfos(True)
+
+        '' Refresh IO infos
+        '_io = GetIOvalues(True)
+
+        '' Store informations
+        '_dicoProcMem.Add(_refrehNumber, New PROC_MEM_INFO(_now, _memInfo))
+        '_dicoProcTimes.Add(_refrehNumber, New PROC_TIME_INFO(_now, _userTime, _kernelTime))
+        '_dicoProcIO.Add(_refrehNumber, New PROC_IO_INFO(_now, _io))
 
         MyBase.Refresh()
     End Sub
