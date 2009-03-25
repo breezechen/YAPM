@@ -474,76 +474,6 @@ Public Class frmMain
             t.Hide()
         Next
 
-        Me.panelMain.Left = 5
-        Me.panelMain.Top = 145
-        Me.panelMain2.Left = 5
-        Me.panelMain2.Top = 145
-        Me.panelMain4.Left = 5
-        Me.panelMain4.Top = 120
-        Me.panelMain5.Left = 5
-        Me.panelMain5.Top = 120
-        Me.panelMain6.Left = 5
-        Me.panelMain6.Top = 120
-        Me.panelMain7.Left = 5
-        Me.panelMain7.Top = 120
-        Me.panelMain13.Left = 5
-        Me.panelMain13.Top = 120
-        Me.panelMain8.Left = 5
-        Me.panelMain8.Top = 120
-        Me.panelMain9.Left = 5
-        Me.panelMain9.Top = 120
-        Me.panelMain10.Left = 5
-        Me.panelMain10.Top = 120
-        Me.panelMain11.Left = 5
-        Me.panelMain11.Top = 120
-        Me.panelMain14.Left = 5
-        Me.panelMain14.Top = 120
-
-        Me.panelMenu.Top = 117
-        Me.panelMenu.Left = 5
-        Me.panelMenu2.Top = 117
-        Me.panelMenu2.Left = 5
-
-        ' Help resizement
-        Me.panelMain4.Height = Me.Height - panelMain4.Top - 41
-        Me.panelMain4.Width = Me.Width - panelMain4.Left - 20
-
-        ' Search resizement
-        Me.panelMain6.Height = Me.panelMain4.Height
-        Me.panelMain6.Width = Me.panelMain4.Width - 2
-
-        ' Handles resizement
-        Me.panelMain7.Height = Me.panelMain4.Height
-        Me.panelMain7.Width = Me.panelMain4.Width - 2
-
-        ' Monitor resizement
-        Me.panelMain8.Height = Me.panelMain4.Height
-        Me.panelMain8.Width = Me.panelMain4.Width - 2
-
-        ' Threads resizement
-        Me.panelMain9.Height = Me.panelMain4.Height
-        Me.panelMain9.Width = Me.panelMain4.Width - 2
-
-        ' Windows resizement
-        Me.panelMain10.Height = Me.panelMain4.Height
-        Me.panelMain10.Width = Me.panelMain4.Width - 2
-
-        ' Modules resizement
-        Me.panelMain11.Height = Me.panelMain4.Height
-        Me.panelMain11.Width = Me.panelMain4.Width - 2
-
-        ' Task resizement
-        Me.panelMain13.Height = Me.panelMain7.Height
-        Me.panelMain13.Width = Me.panelMain7.Width
-
-        ' Network resizement
-        Me.panelMain14.Height = Me.panelMain7.Height
-        Me.panelMain14.Width = Me.panelMain7.Width
-
-        ' Process
-        Me.panelMain.Height = Me.panelMain4.Height - 23
-        Me.panelMain.Width = Me.panelMain4.Width - 2
-
         Dim i As Integer = CInt((Me.Height - 250) / 2)
         Dim MepanelInfosHeight As Integer = CInt(IIf(i < 340, i, 340))
         Dim MepanelInfonWidth As Integer = Me.panelMain.Width
@@ -560,10 +490,6 @@ Public Class frmMain
         Me.fileSplitContainer.Height = Me.panelMain5.Height - 42
         Me.lstFileString.Width = Me.fileSplitContainer.Width - Me.gpFileAttributes.Width - Me.gpFileDates.Width - 10
 
-        ' Services
-
-        Me.panelMain2.Height = Me.panelMain4.Height - 27 '- CInt(IIf(i < 210, i, 210)) - 187
-        Me.panelMain2.Width = Me.panelMain4.Width - 2
 
         Static _oldStyle As Boolean = _ribbonStyle
         'If Not (_oldStyle = _ribbonStyle) Then
@@ -574,7 +500,7 @@ Public Class frmMain
             _tab.Top = -20
             _tab.Left = -2
             _tab.Width = Me.Width - 12
-            _tab.Height = Me.Height - 133
+            _tab.Height = Me.Height - 157
             _tab.Region = New Region(New RectangleF(_tab.Left, _tab.SelectedTab.Top, _tab.SelectedTab.Width + 5, _tab.SelectedTab.Height))
             _tab.Refresh()
         Else

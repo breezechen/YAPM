@@ -545,15 +545,8 @@ Partial Class frmMain
         Me.menuMonitorStop = New System.Windows.Forms.ToolStripMenuItem
         Me.splitMonitor2 = New System.Windows.Forms.SplitContainer
         Me.txtMonitoringLog = New System.Windows.Forms.TextBox
-        Me.lvMonitorReport = New YAPM.DoubleBufferedLV
-        Me.ColumnHeader22 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader23 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader47 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader48 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
         Me.splitMonitor3 = New System.Windows.Forms.SplitContainer
         Me.splitMonitor4 = New System.Windows.Forms.SplitContainer
-        Me.graphMonitor = New YAPM.Graph
         Me.txtMonitorNumber = New System.Windows.Forms.TextBox
         Me.lblMonitorMaxNumber = New System.Windows.Forms.Label
         Me.chkMonitorRightAuto = New System.Windows.Forms.CheckBox
@@ -631,17 +624,24 @@ Partial Class frmMain
         Me.chkSearchServices = New System.Windows.Forms.CheckBox
         Me.chkSearchProcess = New System.Windows.Forms.CheckBox
         Me.chkSearchCase = New System.Windows.Forms.CheckBox
-        Me.lvSearchResults = New YAPM.DoubleBufferedLV
-        Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader13 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader14 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader17 = New System.Windows.Forms.ColumnHeader
         Me.pageHelp = New System.Windows.Forms.TabPage
         Me.panelMain4 = New System.Windows.Forms.Panel
         Me.WBHelp = New System.Windows.Forms.WebBrowser
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerNetwork = New System.Windows.Forms.Timer(Me.components)
         Me.timerStateBasedActions = New System.Windows.Forms.Timer(Me.components)
+        Me.lvMonitorReport = New YAPM.DoubleBufferedLV
+        Me.ColumnHeader22 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader23 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader47 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader48 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
+        Me.graphMonitor = New YAPM.Graph
+        Me.lvSearchResults = New YAPM.DoubleBufferedLV
+        Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader13 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader14 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader17 = New System.Windows.Forms.ColumnHeader
         Me.menuProc.SuspendLayout()
         Me.menuService.SuspendLayout()
         Me.mainMenu.SuspendLayout()
@@ -723,7 +723,6 @@ Partial Class frmMain
         Me.splitMonitor3.SuspendLayout()
         Me.splitMonitor4.Panel2.SuspendLayout()
         Me.splitMonitor4.SuspendLayout()
-        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageServices.SuspendLayout()
         Me.containerServicesPage.Panel1.SuspendLayout()
         Me.containerServicesPage.Panel2.SuspendLayout()
@@ -760,6 +759,7 @@ Partial Class frmMain
         Me.SplitContainerSearch.SuspendLayout()
         Me.pageHelp.SuspendLayout()
         Me.panelMain4.SuspendLayout()
+        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'imgMain
@@ -1335,6 +1335,7 @@ Partial Class frmMain
         Me.Ribbon.OrbDropDown.PreviousPopup = Nothing
         Me.Ribbon.OrbDropDown.Size = New System.Drawing.Size(527, 298)
         Me.Ribbon.OrbDropDown.TabIndex = 0
+        Me.Ribbon.OrbDropDown.ToolStripDropDown = Nothing
         Me.Ribbon.OrbImage = CType(resources.GetObject("Ribbon.OrbImage"), System.Drawing.Image)
         '
         '
@@ -4715,7 +4716,7 @@ Partial Class frmMain
         Me.SplitContainerProcess.Panel2.Controls.Add(Me.optServerLocal)
         Me.SplitContainerProcess.Panel2Collapsed = True
         Me.SplitContainerProcess.Size = New System.Drawing.Size(852, 361)
-        Me.SplitContainerProcess.SplitterDistance = 280
+        Me.SplitContainerProcess.SplitterDistance = 310
         Me.SplitContainerProcess.TabIndex = 0
         '
         'SplitContainerTvLv
@@ -5672,42 +5673,6 @@ Partial Class frmMain
         Me.txtMonitoringLog.TabIndex = 0
         Me.txtMonitoringLog.Text = "No process monitored." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Click on 'Add' button to monitor a process."
         '
-        'lvMonitorReport
-        '
-        Me.lvMonitorReport.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader22, Me.ColumnHeader23, Me.ColumnHeader47, Me.ColumnHeader48, Me.ColumnHeader49})
-        Me.lvMonitorReport.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvMonitorReport.FullRowSelect = True
-        Me.lvMonitorReport.Location = New System.Drawing.Point(0, 0)
-        Me.lvMonitorReport.Name = "lvMonitorReport"
-        Me.lvMonitorReport.OverriddenDoubleBuffered = False
-        Me.lvMonitorReport.Size = New System.Drawing.Size(567, 160)
-        Me.lvMonitorReport.TabIndex = 1
-        Me.lvMonitorReport.UseCompatibleStateImageBehavior = False
-        Me.lvMonitorReport.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader22
-        '
-        Me.ColumnHeader22.Text = "Counter"
-        Me.ColumnHeader22.Width = 200
-        '
-        'ColumnHeader23
-        '
-        Me.ColumnHeader23.Text = "Creation date"
-        Me.ColumnHeader23.Width = 100
-        '
-        'ColumnHeader47
-        '
-        Me.ColumnHeader47.Text = "Last start"
-        Me.ColumnHeader47.Width = 100
-        '
-        'ColumnHeader48
-        '
-        Me.ColumnHeader48.Text = "State"
-        '
-        'ColumnHeader49
-        '
-        Me.ColumnHeader49.Text = "Interval"
-        '
         'splitMonitor3
         '
         Me.splitMonitor3.Dock = System.Windows.Forms.DockStyle.Fill
@@ -5749,22 +5714,6 @@ Partial Class frmMain
         Me.splitMonitor4.Size = New System.Drawing.Size(567, 197)
         Me.splitMonitor4.SplitterDistance = 25
         Me.splitMonitor4.TabIndex = 4
-        '
-        'graphMonitor
-        '
-        Me.graphMonitor.BackColor = System.Drawing.Color.Black
-        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
-        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
-        Me.graphMonitor.dDate = New Date(CType(0, Long))
-        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphMonitor.EnableGraph = False
-        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
-        Me.graphMonitor.Name = "graphMonitor"
-        Me.graphMonitor.Size = New System.Drawing.Size(567, 197)
-        Me.graphMonitor.TabIndex = 3
-        Me.graphMonitor.TabStop = False
-        Me.graphMonitor.ViewMax = 0
-        Me.graphMonitor.ViewMin = 0
         '
         'txtMonitorNumber
         '
@@ -6624,48 +6573,6 @@ Partial Class frmMain
         Me.chkSearchCase.Text = "Case sensitive"
         Me.chkSearchCase.UseVisualStyleBackColor = True
         '
-        'lvSearchResults
-        '
-        Me.lvSearchResults.AllowColumnReorder = True
-        Me.lvSearchResults.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader12, Me.ColumnHeader13, Me.ColumnHeader14, Me.ColumnHeader17})
-        Me.lvSearchResults.ContextMenuStrip = Me.menuSearch
-        Me.lvSearchResults.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvSearchResults.FullRowSelect = True
-        ListViewGroup15.Header = "Results"
-        ListViewGroup15.Name = "gpResults"
-        ListViewGroup16.Header = "Search results"
-        ListViewGroup16.Name = "gpSearchResults"
-        Me.lvSearchResults.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup15, ListViewGroup16})
-        Me.lvSearchResults.HideSelection = False
-        Me.lvSearchResults.Location = New System.Drawing.Point(0, 0)
-        Me.lvSearchResults.Name = "lvSearchResults"
-        Me.lvSearchResults.OverriddenDoubleBuffered = True
-        Me.lvSearchResults.Size = New System.Drawing.Size(852, 331)
-        Me.lvSearchResults.SmallImageList = Me.imgSearch
-        Me.lvSearchResults.TabIndex = 3
-        Me.lvSearchResults.UseCompatibleStateImageBehavior = False
-        Me.lvSearchResults.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader12
-        '
-        Me.ColumnHeader12.Text = "Type"
-        Me.ColumnHeader12.Width = 80
-        '
-        'ColumnHeader13
-        '
-        Me.ColumnHeader13.Text = "Result"
-        Me.ColumnHeader13.Width = 400
-        '
-        'ColumnHeader14
-        '
-        Me.ColumnHeader14.Text = "Field"
-        Me.ColumnHeader14.Width = 150
-        '
-        'ColumnHeader17
-        '
-        Me.ColumnHeader17.Text = "Process"
-        Me.ColumnHeader17.Width = 150
-        '
         'pageHelp
         '
         Me.pageHelp.BackColor = System.Drawing.Color.Transparent
@@ -6733,6 +6640,100 @@ Partial Class frmMain
         '
         Me.timerStateBasedActions.Enabled = True
         Me.timerStateBasedActions.Interval = 1000
+        '
+        'lvMonitorReport
+        '
+        Me.lvMonitorReport.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader22, Me.ColumnHeader23, Me.ColumnHeader47, Me.ColumnHeader48, Me.ColumnHeader49})
+        Me.lvMonitorReport.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvMonitorReport.FullRowSelect = True
+        Me.lvMonitorReport.Location = New System.Drawing.Point(0, 0)
+        Me.lvMonitorReport.Name = "lvMonitorReport"
+        Me.lvMonitorReport.OverriddenDoubleBuffered = False
+        Me.lvMonitorReport.Size = New System.Drawing.Size(567, 160)
+        Me.lvMonitorReport.TabIndex = 1
+        Me.lvMonitorReport.UseCompatibleStateImageBehavior = False
+        Me.lvMonitorReport.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader22
+        '
+        Me.ColumnHeader22.Text = "Counter"
+        Me.ColumnHeader22.Width = 200
+        '
+        'ColumnHeader23
+        '
+        Me.ColumnHeader23.Text = "Creation date"
+        Me.ColumnHeader23.Width = 100
+        '
+        'ColumnHeader47
+        '
+        Me.ColumnHeader47.Text = "Last start"
+        Me.ColumnHeader47.Width = 100
+        '
+        'ColumnHeader48
+        '
+        Me.ColumnHeader48.Text = "State"
+        '
+        'ColumnHeader49
+        '
+        Me.ColumnHeader49.Text = "Interval"
+        '
+        'graphMonitor
+        '
+        Me.graphMonitor.BackColor = System.Drawing.Color.Black
+        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
+        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
+        Me.graphMonitor.dDate = New Date(CType(0, Long))
+        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphMonitor.EnableGraph = False
+        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
+        Me.graphMonitor.Name = "graphMonitor"
+        Me.graphMonitor.Size = New System.Drawing.Size(567, 197)
+        Me.graphMonitor.TabIndex = 3
+        Me.graphMonitor.TabStop = False
+        Me.graphMonitor.ViewMax = 0
+        Me.graphMonitor.ViewMin = 0
+        '
+        'lvSearchResults
+        '
+        Me.lvSearchResults.AllowColumnReorder = True
+        Me.lvSearchResults.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader12, Me.ColumnHeader13, Me.ColumnHeader14, Me.ColumnHeader17})
+        Me.lvSearchResults.ContextMenuStrip = Me.menuSearch
+        Me.lvSearchResults.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvSearchResults.FullRowSelect = True
+        ListViewGroup15.Header = "Results"
+        ListViewGroup15.Name = "gpResults"
+        ListViewGroup16.Header = "Search results"
+        ListViewGroup16.Name = "gpSearchResults"
+        Me.lvSearchResults.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup15, ListViewGroup16})
+        Me.lvSearchResults.HideSelection = False
+        Me.lvSearchResults.Location = New System.Drawing.Point(0, 0)
+        Me.lvSearchResults.Name = "lvSearchResults"
+        Me.lvSearchResults.OverriddenDoubleBuffered = True
+        Me.lvSearchResults.Size = New System.Drawing.Size(852, 331)
+        Me.lvSearchResults.SmallImageList = Me.imgSearch
+        Me.lvSearchResults.TabIndex = 3
+        Me.lvSearchResults.UseCompatibleStateImageBehavior = False
+        Me.lvSearchResults.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader12
+        '
+        Me.ColumnHeader12.Text = "Type"
+        Me.ColumnHeader12.Width = 80
+        '
+        'ColumnHeader13
+        '
+        Me.ColumnHeader13.Text = "Result"
+        Me.ColumnHeader13.Width = 400
+        '
+        'ColumnHeader14
+        '
+        Me.ColumnHeader14.Text = "Field"
+        Me.ColumnHeader14.Width = 150
+        '
+        'ColumnHeader17
+        '
+        Me.ColumnHeader17.Text = "Process"
+        Me.ColumnHeader17.Width = 150
         '
         'frmMain
         '
@@ -6841,7 +6842,6 @@ Partial Class frmMain
         Me.splitMonitor3.ResumeLayout(False)
         Me.splitMonitor4.Panel2.ResumeLayout(False)
         Me.splitMonitor4.ResumeLayout(False)
-        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pageServices.ResumeLayout(False)
         Me.containerServicesPage.Panel1.ResumeLayout(False)
         Me.containerServicesPage.Panel2.ResumeLayout(False)
@@ -6884,6 +6884,7 @@ Partial Class frmMain
         Me.SplitContainerSearch.ResumeLayout(False)
         Me.pageHelp.ResumeLayout(False)
         Me.panelMain4.ResumeLayout(False)
+        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
