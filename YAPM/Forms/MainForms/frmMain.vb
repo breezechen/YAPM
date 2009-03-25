@@ -34,6 +34,7 @@ Public Class frmMain
     Private curProc As cProcess
     Private __servEnum As New cServEnum
     Private _local As Boolean = True
+    Private _connOpt As cRemoteProcess.RemoteConnectionInfo
 
     <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
     Private Shared Function SendMessage(ByVal hWnd As IntPtr, ByVal Msg As Integer, ByVal wParam As Integer, ByVal lParam As Integer) As IntPtr
@@ -319,7 +320,7 @@ Public Class frmMain
         Call refreshProcessList()
     End Sub
 
-    Private Sub frmMain_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles Mybase.Activated
+    Private Sub frmMain_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Activated
         Static bFirst As Boolean = True
         If bFirst Then
             bFirst = False
@@ -340,7 +341,7 @@ Public Class frmMain
 
     End Sub
 
-    Private Sub frmMain_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Mybase.FormClosing
+    Private Sub frmMain_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
         Try
             handles_Renamed.Close()
         Catch ex As Exception
@@ -464,7 +465,7 @@ Public Class frmMain
 
     End Sub
 
-    Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Mybase.Resize
+    Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Resize
 
         If Pref.hideMinimized AndAlso Me.WindowState = FormWindowState.Minimized Then
             Me.Hide()
@@ -769,7 +770,7 @@ Public Class frmMain
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
-    Private Sub frmMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Mybase.Shown
+    Private Sub frmMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Shown
         Static first As Boolean = True
         If first Then
             first = False
@@ -1033,7 +1034,7 @@ Public Class frmMain
         cFile.ShellOpenFile("http://sourceforge.net/project/showfiles.php?group_id=244697", Me.Handle)
     End Sub
 
-    Private Sub frmMain_VisibleChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Mybase.VisibleChanged
+    Private Sub frmMain_VisibleChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.VisibleChanged
         'Me.timerServices.Enabled = Me.Visible
         'Me.timerProcess.Enabled = Me.Visible
     End Sub
@@ -2116,7 +2117,20 @@ Public Class frmMain
 
         For x As Integer = 0 To UBound(modulesToRefresh)
             Me.lvModules.ProcessId = modulesToRefresh(x)
-            Me.lvModules.UpdateItems()
+            If _local = False Then
+                ' Set management process object
+                Me.lvModules.MngObjProcess = Nothing
+                For Each pp As cProcess In Me.lvProcess.GetAllItems
+                    If Me.lvModules.ProcessId = pp.Pid Then
+                        Me.lvModules.MngObjProcess = pp.MngObjProcess
+                    End If
+                Next
+                If Me.lvModules.MngObjProcess IsNot Nothing Then
+                    Me.lvModules.UpdateItems()
+                End If
+            Else
+                Me.lvModules.UpdateItems()
+            End If
         Next
 
         If showTab Then _
@@ -2306,7 +2320,7 @@ Public Class frmMain
     Private Sub butProcessDisplayDetails_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessDisplayDetails.Click
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
             Dim frm As New frmProcessInfo
-            frm.SetProcess(it)
+            frm.SetProcess(it, _connOpt)
             frm.Show()
         Next
     End Sub
@@ -4254,12 +4268,20 @@ Public Class frmMain
     End Sub
 
     Private Sub cmdServerOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdServerOK.Click
+        Me.timerProcess.Enabled = _local
         Me.lvProcess.ClearItems()
         Me.lvProcess.RemoteConnection = New cRemoteProcess.RemoteConnectionInfo(txtServerMachine.Text, txtServerPassword.Text, txtServerUser.Text)
         Me.lvProcess.IsLocalMachine = _local
         Me.lvProcess.BeginUpdate()
         Me.lvProcess.UpdateItems()
+        Me.lvProcess.UpdateItems()
         Me.lvProcess.EndUpdate()
+
+        Me.lvModules.ClearItems()
+        rtb6.Text = ""
+        Me.lvModules.RemoteConnection = New cRemoteProcess.RemoteConnectionInfo(txtServerMachine.Text, txtServerPassword.Text, txtServerUser.Text)
+        Me.lvModules.IsLocalMachine = _local
+
         Me.butResumeProcess.Enabled = Me._local
         Me.butStopProcess.Enabled = Me._local
         Me.butProcessAffinity.Enabled = Me._local
@@ -4268,6 +4290,25 @@ Public Class frmMain
         Me.ResumeToolStripMenuItem.Enabled = Me._local
         Me.SetAffinityToolStripMenuItem.Enabled = Me._local
         Me.ReduceWorkingSetSizeToolStripMenuItem.Enabled = Me._local
+        Me.butProcessShowAll.Enabled = Me._local
+        Me.butProcessThreads.Enabled = Me._local
+        Me.butProcessWindows.Enabled = Me._local
+        Me.butProcessAffinity.Enabled = Me._local
+        Me.butShowProcHandles.Enabled = Me._local
+        Me.butStopProcess.Enabled = Me._local
+        Me.butResumeProcess.Enabled = Me._local
+        Me.butModuleUnload.Enabled = Me._local
+        Me.RBThreadAction.Enabled = Me._local
+        Me.RBThreadPriority.Enabled = Me._local
+        Me.RBThreadReport.Enabled = Me._local
+        Me.RBThreadsRefresh.Enabled = Me._local
+        Me.RBHandlesActions.Enabled = Me._local
+        Me.RBHandlesReport.Enabled = Me._local
+        Me.RBWindowActions.Enabled = Me._local
+        Me.RBWindowCapture.Enabled = Me._local
+        Me.RBWindowRefresh.Enabled = Me._local
+        Me.RBWindowReport.Enabled = Me._local
+
     End Sub
 
     Private Sub butProcessConfigureServer_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessConfigureServer.Click
@@ -4286,8 +4327,8 @@ Public Class frmMain
         Else
             Dim sres As String = CInputBox("Enter the path of the process you want to start.", "Start a new process", "")
             If sres Is Nothing OrElse sres.Equals(String.Empty) Then Exit Sub
-            Dim conOpt As New cRemoteProcess.RemoteConnectionInfo(Me.txtServerMachine.Text, Me.txtServerPassword.Text, Me.txtServerUser.Text)
-            cRemoteProcess.StartNewProcess(conOpt, sres)
+            _connOpt = New cRemoteProcess.RemoteConnectionInfo(Me.txtServerMachine.Text, Me.txtServerPassword.Text, Me.txtServerUser.Text)
+            cRemoteProcess.StartNewProcess(_connOpt, sres)
         End If
     End Sub
 

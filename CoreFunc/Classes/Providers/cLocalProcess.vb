@@ -453,6 +453,11 @@ Public Class cLocalProcess
     ' ========================================
     ' Getter and setter
     ' ========================================
+    Public Overrides ReadOnly Property MngObjProcess() As Management.ManagementObject
+        Get
+            Return Nothing
+        End Get
+    End Property
     Public Overrides ReadOnly Property UserObjectsCount(Optional ByVal force As Boolean = False) As Integer
         Get
             If force Then
@@ -1668,7 +1673,7 @@ Public Class cLocalProcess
 
     ' Retrieve process list
     ' This so much faster than VB.Net methods...
-    Public Shared Shadows Function Enumerate(ByRef p() As String, ByRef _dico As  _
+    Public Shared Function Enumerate(ByRef p() As String, ByRef _dico As  _
                                      Dictionary(Of String, LightProcess)) As Integer
         Dim hSnapshot As Integer
         Dim uProcess As ProcessEntry32 = Nothing
@@ -1712,7 +1717,7 @@ Public Class cLocalProcess
 
     End Function
 
-    Public Shared Shadows Function Enumerate(ByRef _dico As Dictionary(Of String,  _
+    Public Shared Function Enumerate(ByRef _dico As Dictionary(Of String,  _
                                                                LightProcess)) As Integer
         Dim hSnapshot As Integer
         Dim uProcess As ProcessEntry32 = Nothing

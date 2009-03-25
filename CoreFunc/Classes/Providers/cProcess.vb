@@ -258,6 +258,7 @@ Public MustInherit Class cProcess
     Public MustOverride ReadOnly Property StartTime() As Date
     Public MustOverride ReadOnly Property MainModule() As System.Diagnostics.ProcessModule
     Public MustOverride ReadOnly Property Modules() As System.Diagnostics.ProcessModuleCollection
+    Public MustOverride ReadOnly Property MngObjProcess() As Management.ManagementObject
 
     ' Get the performance dictionnaries
     Public ReadOnly Property DicoPerfMem() As SortedList(Of Integer, PROC_MEM_INFO)
@@ -410,18 +411,6 @@ Public MustInherit Class cProcess
     Public Shared Sub ClearProcessDico()
         _procs.Clear()
     End Sub
-
-    ' Retrieve process list
-    ' This so much faster than VB.Net methods...
-    Public Function Enumerate(ByRef p() As String, ByRef _dico As  _
-                                     Dictionary(Of String, LightProcess)) As Integer
-        Return 0
-    End Function
-
-    Public Function Enumerate(ByRef _dico As Dictionary(Of String,  _
-                                                               LightProcess)) As Integer
-        Return 0
-    End Function
 
     ' Unload a module from a process
     Public Shared Function UnLoadModuleFromProcess(ByRef aModule As cModule.MODULEENTRY32) As Integer

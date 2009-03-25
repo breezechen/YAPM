@@ -35,7 +35,11 @@ Public Class moduleList
     Private _dicoNew As New Dictionary(Of String, cModule)
     Private _dicoDel As New Dictionary(Of String, cModule)
     Private _buffDico As New Dictionary(Of String, cModule.MODULEENTRY32)
+    Private _remoteSpecialDico As New Dictionary(Of String, System.Management.ManagementObject)
     Private _dico As New Dictionary(Of String, cModule)
+    Private _local As Boolean = True
+    Private _theProc As Management.ManagementObject
+    Private _con As cRemoteProcess.RemoteConnectionInfo
 
     Private _firstItemUpdate As Boolean = True
     Private _columnsName() As String
@@ -62,12 +66,49 @@ Public Class moduleList
             _pid = value
         End Set
     End Property
+    Public Property IsLocalMachine() As Boolean
+        Get
+            Return _local
+        End Get
+        Set(ByVal value As Boolean)
+            _local = value
+        End Set
+    End Property
+    Public Property RemoteConnection() As cRemoteProcess.RemoteConnectionInfo
+        Get
+            Return _con
+        End Get
+        Set(ByVal value As cRemoteProcess.RemoteConnectionInfo)
+            _con = value
+        End Set
+    End Property
+    Public Property MngObjProcess() As Management.ManagementObject
+        Get
+            Return _theProc
+        End Get
+        Set(ByVal value As Management.ManagementObject)
+            _theProc = value
+        End Set
+    End Property
 
 #End Region
 
     ' ========================================
     ' Public properties
     ' ========================================
+
+    ' Delete all items
+    Public Sub ClearItems()
+        cProcess.ClearProcessDico()
+        _buffDico.Clear()
+        _dico.Clear()
+        _dicoDel.Clear()
+        _remoteSpecialDico.Clear()
+        _dicoNew.Clear()
+        _IMG.Images.Clear()
+        _IMG.Images.Add("noIcon", My.Resources.application_blue)
+        Me.Items.Clear()
+    End Sub
 
     Public Sub New()
 
@@ -99,7 +140,11 @@ Public Class moduleList
         ' Now enumerate items
         Dim _itemId() As String
         ReDim _itemId(0)
-        Call cModule.Enumerate(_pid, _itemId, _buffDico)
+        If _local Then
+            Call cLocalModule.Enumerate(_pid, _itemId, _buffDico)
+        Else
+            Call cRemoteModule.Enumerate(_con, _theProc, _itemId, _buffDico, _remoteSpecialDico)
+        End If
 
         ' Now add all items with isKilled = true to _dicoDel dictionnary
         For Each z As cModule In _dico.Values
@@ -137,7 +182,12 @@ Public Class moduleList
 
         ' Merge _dico and _dicoNew
         For Each z As String In _dicoNew.Keys
-            Dim _it As cModule = New cModule(z, _buffDico.Item(z))
+            Dim _it As cModule
+            If _local Then
+                _it = New cLocalModule(z, _buffDico.Item(z))
+            Else
+                _it = New cRemoteModule(z, _buffDico.Item(z), _con, _remoteSpecialDico(z))
+            End If
             _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
             _dico.Add(z, _it)
         Next

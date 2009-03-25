@@ -128,7 +128,7 @@ Public Class frmGlobalReport
                 Dim _buffServ As New Dictionary(Of String, cModule.MODULEENTRY32)
                 Dim _moduleKey() As String
                 ReDim _moduleKey(0)
-                cModule.Enumerate(pid, _moduleKey, _buffServ)
+                cLocalModule.Enumerate(pid, _moduleKey, _buffServ)
                 _dicoModules.Add(pid.ToString, _buffServ)
             Next
         End If
@@ -241,7 +241,7 @@ Public Class frmGlobalReport
                             stream.WriteLine("---------------")
                             stream.WriteLine("Module name : " & it2.szModule)
                             stream.WriteLine("---------------")
-                            Dim __t As cModule = New cModule("no_need", it2)
+                            Dim __t As cModule = New cLocalModule("no_need", it2)
                             For Each s As String In cModule.GetAvailableProperties
                                 stream.WriteLine(s & " : " & __t.GetInformation(s))
                             Next

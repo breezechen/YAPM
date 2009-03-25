@@ -110,6 +110,8 @@ Public Class processList
         _dicoDel.Clear()
         _remoteSpecialDico.Clear()
         _dicoNew.Clear()
+        _IMG.Images.Clear()
+        _IMG.Images.Add("noIcon", My.Resources.application_blue)
         Me.Items.Clear()
     End Sub
 

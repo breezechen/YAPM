@@ -52,7 +52,7 @@ Public Class cRemoteProcess
     End Function
 
     ' All informations availables from WMI
-    Public Enum WMI_INFO
+    Private Enum WMI_INFO
         'Caption
         CommandLine
         'CreationClassName
@@ -388,6 +388,11 @@ Public Class cRemoteProcess
             Return Nothing
         End Get
     End Property
+    Public Overrides ReadOnly Property MngObjProcess() As Management.ManagementObject
+        Get
+            Return _theProcess
+        End Get
+    End Property
 
 
 
@@ -550,13 +555,18 @@ Public Class cRemoteProcess
     ' Shared functions
     ' ========================================
 
-    Public Shared Shadows Function Enumerate(ByRef _remoteCon As cRemoteProcess.RemoteConnectionInfo, ByRef key() As String, ByRef _dico As Dictionary(Of String, LightProcess), ByRef _dicoMng As Dictionary(Of String, Management.ManagementObject)) As Integer
+    Public Shared Function Enumerate(ByRef _remoteCon As cRemoteProcess.RemoteConnectionInfo, ByRef key() As String, ByRef _dico As Dictionary(Of String, LightProcess), ByRef _dicoMng As Dictionary(Of String, Management.ManagementObject)) As Integer
 
         Dim colProcesses As Management.ManagementObjectSearcher
 
         ' Launch request
+        Dim __con As New ConnectionOptions
+        __con.Impersonation = ImpersonationLevel.Impersonate
+        __con.Password = _remoteCon.password
+        __con.Username = _remoteCon.user
+
         colProcesses = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Process")
-        colProcesses.Scope = New Management.ManagementScope("\\" & _remoteCon.serverName & "\root\cimv2", _con)
+        colProcesses.Scope = New Management.ManagementScope("\\" & _remoteCon.serverName & "\root\cimv2", __con)
 
         ' Save current collection
         Dim res As ManagementObjectCollection = colProcesses.Get

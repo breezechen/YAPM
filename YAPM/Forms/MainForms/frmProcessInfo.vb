@@ -27,6 +27,7 @@ Public Class frmProcessInfo
     Private Const SIZE_FOR_STRING As Integer = 4
 
     Private _historyGraphNumber As Integer = 0
+    Private _local As Boolean = True
 
 
     ' Refresh current tab
@@ -41,28 +42,35 @@ Public Class frmProcessInfo
                 Call ShowModules()
 
             Case "Threads"
+                If _local Then _
                 Call ShowThreads()
 
             Case "Windows"
+                If _local Then _
                 Call ShowWindows()
 
             Case "Handles"
+                If _local Then _
                 Call ShowHandles()
 
             Case "Memory"
+                If _local Then _
                 Call ShowRegions()
 
             Case "Network"
+                If _local Then _
                 Call ShowNetwork()
 
             Case "Services"
                 Try
+                    If _local Then _
                     Call ShowServices()
                 Catch ex As Exception
                     '
                 End Try
 
             Case "Strings"
+                If _local Then _
                 Call getProcString(curProc)
 
             Case "General"
@@ -137,39 +145,42 @@ Public Class frmProcessInfo
 
 
             Case "Environment"
-
-                Me.lvProcEnv.Items.Clear()
-                Dim cVar() As String = Nothing
-                Dim cVal() As String = Nothing
-                If curProc.GetEnvironmentVariables(cVar, cVal) > 0 Then
-                    For x As Integer = 0 To cVar.Length - 1
-                        If cVar(x).Length > 0 Then
-                            Dim itpr As New ListViewItem(cVar(x))
-                            itpr.SubItems.Add(CStr(cVal(x)))
-                            Me.lvProcEnv.Items.Add(itpr)
-                        End If
-                    Next
+                If _local Then
+                    Me.lvProcEnv.Items.Clear()
+                    Dim cVar() As String = Nothing
+                    Dim cVal() As String = Nothing
+                    If curProc.GetEnvironmentVariables(cVar, cVal) > 0 Then
+                        For x As Integer = 0 To cVar.Length - 1
+                            If cVar(x).Length > 0 Then
+                                Dim itpr As New ListViewItem(cVar(x))
+                                itpr.SubItems.Add(CStr(cVal(x)))
+                                Me.lvProcEnv.Items.Add(itpr)
+                            End If
+                        Next
+                    End If
                 End If
 
             Case "Token"
 
                 ' Privileges
-                Dim cPriv As New cPrivileges(curProc.Pid)
-                Dim lPriv() As cPrivileges.PrivilegeInfo = cPriv.GetPrivilegesList
+                If _local Then
+                    Dim cPriv As New cPrivileges(curProc.Pid)
+                    Dim lPriv() As cPrivileges.PrivilegeInfo = cPriv.GetPrivilegesList
 
-                Me.lvPrivileges.Items.Clear()
-                If lPriv.Length > 0 Then
-                    For Each l As cPrivileges.PrivilegeInfo In lPriv
-                        Dim newIt As New ListViewItem(l.Name)
-                        Dim sub1 As New ListViewItem.ListViewSubItem
-                        sub1.Text = cPrivileges.PrivilegeStatusToString(l.Status)
-                        Dim sub2 As New ListViewItem.ListViewSubItem
-                        sub2.Text = cPrivileges.GetPrivilegeDescription(l.Name)
-                        newIt.SubItems.Add(sub1)
-                        newIt.SubItems.Add(sub2)
-                        newIt.BackColor = cPrivileges.GetColorFromStatus(l.Status)
-                        Me.lvPrivileges.Items.Add(newIt)
-                    Next
+                    Me.lvPrivileges.Items.Clear()
+                    If lPriv.Length > 0 Then
+                        For Each l As cPrivileges.PrivilegeInfo In lPriv
+                            Dim newIt As New ListViewItem(l.Name)
+                            Dim sub1 As New ListViewItem.ListViewSubItem
+                            sub1.Text = cPrivileges.PrivilegeStatusToString(l.Status)
+                            Dim sub2 As New ListViewItem.ListViewSubItem
+                            sub2.Text = cPrivileges.GetPrivilegeDescription(l.Name)
+                            newIt.SubItems.Add(sub1)
+                            newIt.SubItems.Add(sub2)
+                            newIt.BackColor = cPrivileges.GetColorFromStatus(l.Status)
+                            Me.lvPrivileges.Items.Add(newIt)
+                        Next
+                    End If
                 End If
 
             Case "Informations"
@@ -353,14 +364,40 @@ Public Class frmProcessInfo
     End Sub
 
     ' Get process to monitor
-    Public Sub SetProcess(ByRef process As cProcess)
+    Public Sub SetProcess(ByRef process As cProcess, ByRef theConnection As cRemoteProcess.RemoteConnectionInfo)
         curProc = process
         Me.Text = curProc.Name & " (" & CStr(curProc.Pid) & ")"
 
-        Dim bLocal As Boolean = (TypeOf process Is cLocalProcess)
-        Me.cmdAffinity.Enabled = bLocal
-        Me.cmdPause.Enabled = bLocal
-        Me.cmdResume.Enabled = bLocal
+        _local = (TypeOf process Is cLocalProcess)
+        Me.cmdAffinity.Enabled = _local
+        Me.cmdPause.Enabled = _local
+        Me.cmdResume.Enabled = _local
+        Me.lvModules.IsLocalMachine = _local
+        Me.timerProcPerf.Enabled = _local
+        If _local = False Then
+            Me.lvModules.RemoteConnection = theConnection
+            Me.lvModules.MngObjProcess = process.MngObjProcess
+            Me.lvPrivileges.Enabled = False
+            Me.lvHandles.Enabled = False
+            Me.lvLog.Enabled = False
+            Me.lvProcEnv.Enabled = False
+            Me.lvProcMem.Enabled = False
+            Me.lvProcNetwork.Enabled = False
+            Me.lvProcServices.Enabled = False
+            Me.lvProcString.Enabled = False
+            Me.lvThreads.Enabled = False
+            Me.lvWindows.Enabled = False
+            Me.SplitContainerStrings.Enabled = False
+            Me.SplitContainerLog.Enabled = False
+            Me.cmdShowFileDetails.Enabled = False
+            Me.cmdShowFileProperties.Enabled = False
+            Me.cmdOpenDirectory.Enabled = False
+            Me.chkModules.Enabled = False
+            Me.chkHandles.Enabled = False
+            Me.ShowFileDetailsToolStripMenuItem.Enabled = False
+            Me.ToolStripMenuItem36.Enabled = False
+            Me.ViewMemoryToolStripMenuItem.Enabled = False
+        End If
 
         ' Verify file
         Try
@@ -1460,7 +1497,12 @@ Public Class frmProcessInfo
 
         Dim _itemId() As String
         ReDim _itemId(0)
-        Call cModule.Enumerate(curProc.Pid, _itemId, _buffDico)
+
+        If _local Then
+            Call cLocalModule.Enumerate(curProc.Pid, _itemId, _buffDico)
+        Else
+            Call cLocalModule.Enumerate(curProc.Pid, _itemId, _buffDico)
+        End If
 
         If _first Then
             _dico = _buffDico
@@ -1826,5 +1868,9 @@ Public Class frmProcessInfo
         Dim frm As New frmProcessAffinity
         frm.Process = c
         frm.ShowDialog()
+    End Sub
+
+    Private Sub RefreshToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshToolStripMenuItem.Click
+        Call tabProcess_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 End Class
