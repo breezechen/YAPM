@@ -64,7 +64,7 @@ Public MustInherit Class customLV
 
     ' Call this to update items in listview
     Public Overridable Sub UpdateItems()
-        '
+        ' It's overriden, nothing here
     End Sub
 
     ' Update the items and display an error
@@ -73,7 +73,13 @@ Public MustInherit Class customLV
             Try
                 Call UpdateItems()
             Catch ex As Exception
-                MsgBox(ex.StackTrace)
+                If InStr(ex.Message, "0x800706BA", CompareMethod.Binary) > 0 Then
+                    MsgBox("RPC server is not available. Make sure that WMI is installed, that 'remote procedure call (RPC)' service is started and that no firewall restrict access to RPC service.", MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Cannot retrieve information")
+                ElseIf InStr(ex.Message, "0x80070005", CompareMethod.Binary) > 0 Then
+                    MsgBox("Access is denied. Make sure that you have the rights to access to the remote computer, and that the passwork and login you entered are correct.", MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Cannot retrieve information")
+                Else
+                    MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Cannot retrieve information")
+                End If
             End Try
         Else
             Call UpdateItems()

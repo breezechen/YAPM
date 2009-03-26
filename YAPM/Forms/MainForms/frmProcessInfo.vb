@@ -28,6 +28,8 @@ Public Class frmProcessInfo
 
     Private _historyGraphNumber As Integer = 0
     Private _local As Boolean = True
+    Private _theCon As cRemoteProcess.RemoteConnectionInfo
+    Private __con As Management.ConnectionOptions
 
 
     ' Refresh current tab
@@ -98,9 +100,26 @@ Public Class frmProcessInfo
 
             Case "Statistics"
 
-                ' No need to refresh, it's done by the mainform (curProc is only a
+                ' No need to refresh if local, it's done by the mainform (curProc is only a
                 ' reference to an existing instance).
-                'curProc.Refresh()
+                ' If it is a remote process, we have to query again
+                If _local = False Then
+                    Dim colProcesses As Management.ManagementObjectSearcher
+
+                    colProcesses = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Process WHERE ProcessID ='" & curProc.Pid.ToString & "'")
+                    colProcesses.Scope = New Management.ManagementScope("\\" & _theCon.serverName & "\root\cimv2", __con)
+
+                    ' Save current collection
+                    Dim res As Management.ManagementObjectCollection = colProcesses.Get
+
+                    Dim newRefProc As Management.ManagementObject = curProc.MngObjProcess
+                    Dim refProcess As Management.ManagementObject
+                    For Each refProcess In res
+                        newRefProc = refProcess
+                    Next
+
+                    curProc.Refresh(newRefProc)
+                End If
 
                 Me.lblProcOther.Text = curProc.GetIOvalues.OtherOperationCount.ToString
                 Me.lblProcOtherBytes.Text = GetFormatedSize(curProc.GetIOvalues.OtherTransferCount)
@@ -364,7 +383,7 @@ Public Class frmProcessInfo
     End Sub
 
     ' Get process to monitor
-    Public Sub SetProcess(ByRef process As cProcess, ByRef theConnection As cRemoteProcess.RemoteConnectionInfo)
+    Public Sub SetProcess(ByRef process As cProcess, ByVal theConnection As cRemoteProcess.RemoteConnectionInfo)
         curProc = process
         Me.Text = curProc.Name & " (" & CStr(curProc.Pid) & ")"
 
@@ -375,7 +394,12 @@ Public Class frmProcessInfo
         Me.lvModules.IsLocalMachine = _local
         Me.lvModules.CatchErrors = Not (_local)
         Me.timerProcPerf.Enabled = _local
+        _theCon = theConnection
         If _local = False Then
+            __con = New Management.ConnectionOptions
+            __con.Impersonation = Management.ImpersonationLevel.Impersonate
+            __con.Password = _theCon.password
+            __con.Username = _theCon.user
             Me.lvModules.RemoteConnection = theConnection
             Me.lvModules.MngObjProcess = process.MngObjProcess
             Me.lvPrivileges.Enabled = False

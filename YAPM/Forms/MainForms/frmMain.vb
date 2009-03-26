@@ -34,7 +34,7 @@ Public Class frmMain
     Private curProc As cProcess
     Private __servEnum As New cServEnum
     Private _local As Boolean = True
-    Private _connOpt As cRemoteProcess.RemoteConnectionInfo
+    Public _connOpt As cRemoteProcess.RemoteConnectionInfo
 
     <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
     Private Shared Function SendMessage(ByVal hWnd As IntPtr, ByVal Msg As Integer, ByVal wParam As Integer, ByVal lParam As Integer) As IntPtr
@@ -479,6 +479,7 @@ Public Class frmMain
         Dim MepanelInfosHeight As Integer = CInt(IIf(i < 340, i, 340))
         Dim MepanelInfonWidth As Integer = Me.panelMain.Width
 
+        Me.txtServerMachine.Text = My.Computer.Name
 
         ' File resizement
         Me.panelMain5.Height = Me.panelMain4.Height
@@ -4268,17 +4269,20 @@ Public Class frmMain
     End Sub
 
     Private Sub cmdServerOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdServerOK.Click
+
+        _connOpt = New cRemoteProcess.RemoteConnectionInfo(Me.txtServerMachine.Text, Me.txtServerPassword.Text, Me.txtServerUser.Text)
+
         Me.timerProcess.Enabled = _local
         Me.timerServices.Enabled = _local
         Me.timerMonitoring.Enabled = _local
         Me.timerTask.Enabled = _local
         Me.lvProcess.ClearItems()
-        Me.lvProcess.RemoteConnection = New cRemoteProcess.RemoteConnectionInfo(txtServerMachine.Text, txtServerPassword.Text, txtServerUser.Text)
+        Me.lvProcess.RemoteConnection = _connOpt
         Me.lvProcess.IsLocalMachine = _local
 
         Me.lvModules.ClearItems()
         rtb6.Text = ""
-        Me.lvModules.RemoteConnection = New cRemoteProcess.RemoteConnectionInfo(txtServerMachine.Text, txtServerPassword.Text, txtServerUser.Text)
+        Me.lvModules.RemoteConnection = _connOpt
         Me.lvModules.IsLocalMachine = _local
 
         Me.butResumeProcess.Enabled = Me._local
@@ -4371,7 +4375,6 @@ Public Class frmMain
         Else
             Dim sres As String = CInputBox("Enter the path of the process you want to start.", "Start a new process", "")
             If sres Is Nothing OrElse sres.Equals(String.Empty) Then Exit Sub
-            _connOpt = New cRemoteProcess.RemoteConnectionInfo(Me.txtServerMachine.Text, Me.txtServerPassword.Text, Me.txtServerUser.Text)
             cRemoteProcess.StartNewProcess(_connOpt, sres)
         End If
     End Sub

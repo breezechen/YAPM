@@ -291,7 +291,7 @@ Public MustInherit Class cProcess
     ' ========================================
 
     ' Refresh infos
-    Public Overridable Sub Refresh(Optional ByRef tag As Dictionary(Of String, System.Management.ManagementObject) = Nothing)
+    Public Overridable Sub Refresh(Optional ByRef tag As System.Management.ManagementObject = Nothing)
         RaiseEvent Refreshed()
     End Sub
 

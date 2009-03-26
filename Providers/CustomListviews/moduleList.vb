@@ -94,7 +94,8 @@ Public Class moduleList
         _remoteSpecialDico.Clear()
         _dicoNew.Clear()
         _IMG.Images.Clear()
-        _IMG.Images.Add("noIcon", My.Resources.application_blue)
+        _IMG.Images.Add("dllIcon", My.Resources.dllIcon)
+        _IMG.Images.Add("exeFile", My.Resources.application_blue)
         Me.Items.Clear()
     End Sub
 
@@ -110,6 +111,7 @@ Public Class moduleList
 
         Me.SmallImageList = _IMG
         _IMG.Images.Add("dllIcon", My.Resources.dllIcon)
+        _IMG.Images.Add("exeFile", My.Resources.application_blue)
 
     End Sub
 
@@ -286,27 +288,36 @@ Public Class moduleList
         item.ForeColor = _foreColor
 
         ' Add icon
-        If InStr(key.ToLowerInvariant, "exe|") > 0 Then
-            Try
+        If IsLocalMachine Then
+            If InStr(key.ToLowerInvariant, "exe|") > 0 Then
+                Try
 
-                Dim fName As String = _dico.Item(key).FilePath
+                    Dim fName As String = _dico.Item(key).FilePath
 
-                If IO.File.Exists(fName) Then
-                    Me.SmallImageList.Images.Add(fName, GetIcon(fName, True))
-                    item.ImageKey = fName
-                Else
+                    If IO.File.Exists(fName) Then
+                        Me.SmallImageList.Images.Add(fName, GetIcon(fName, True))
+                        item.ImageKey = fName
+                    Else
+                        item.ImageKey = "dllIcon"
+                        item.ForeColor = Drawing.Color.Gray
+                    End If
+
+                Catch ex As Exception
                     item.ImageKey = "dllIcon"
                     item.ForeColor = Drawing.Color.Gray
-                End If
+                End Try
 
-            Catch ex As Exception
+            Else
+                ' Standard dll file
                 item.ImageKey = "dllIcon"
-                item.ForeColor = Drawing.Color.Gray
-            End Try
-
+            End If
         Else
-            ' Standard dll file
-            item.ImageKey = "dllIcon"
+            ' Remote file -> standard icons
+            If InStr(key.ToLowerInvariant, "exe|") > 0 Then
+                item.ImageKey = "exeFile"
+            Else
+                item.ImageKey = "dllIcon"
+            End If
         End If
 
         item.Tag = key

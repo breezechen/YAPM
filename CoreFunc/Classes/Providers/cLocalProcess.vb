@@ -1000,7 +1000,7 @@ Public Class cLocalProcess
     ' ========================================
 
     ' Refresh infos
-    Public Overrides Sub Refresh(Optional ByRef tag As Dictionary(Of String, System.Management.ManagementObject) = Nothing)
+    Public Overrides Sub Refresh(Optional ByRef tag As System.Management.ManagementObject = Nothing)
         Static _refrehNumber As Integer = 0
         _refrehNumber += 1   ' This is the key
 

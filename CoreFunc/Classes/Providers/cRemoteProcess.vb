@@ -423,13 +423,13 @@ Public Class cRemoteProcess
     End Function
 
 
-    Public Overrides Sub Refresh(Optional ByRef tag As Dictionary(Of String, System.Management.ManagementObject) = Nothing)
+    Public Overrides Sub Refresh(Optional ByRef tag As System.Management.ManagementObject = Nothing)
         Static _refrehNumber As Integer = 0
 
         ' Refresh _theProcess from the dictionnary we got before
-        If tag.ContainsKey(_pid.ToString) Then
-            _theProcess = tag.Item(_pid.ToString)
-        End If
+        'If tag.ContainsKey(_pid.ToString) Then
+        _theProcess = tag '.Item(_pid.ToString)
+        'End If
 
         _refrehNumber += 1   ' This is the key
 
