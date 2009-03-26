@@ -1,6 +1,6 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class networkList
-    Inherits Providers.customLV
+Partial MustInherit Class customLV
+    Inherits DoubleBufferedLV
 
     'UserControl remplace la méthode Dispose pour nettoyer la liste des composants.
     <System.Diagnostics.DebuggerNonUserCode()> _

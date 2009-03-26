@@ -1,6 +1,6 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class taskList
-    Inherits DoubleBufferedLV
+    Inherits Providers.customLV
 
     'UserControl remplace la méthode Dispose pour nettoyer la liste des composants.
     <System.Diagnostics.DebuggerNonUserCode()> _

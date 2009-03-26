@@ -128,6 +128,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Classes\ListViewComparer.vb" />
+    <Compile Include="customLV.Designer.vb">
+      <DependentUpon>customLV.vb</DependentUpon>
+    </Compile>
+    <Compile Include="customLV.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Modules\mdlIcon.vb" />
     <Compile Include="Modules\mdlMisc.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -181,6 +187,9 @@
     <EmbeddedResource Include="Forms\frmChooseColumns.resx">
       <DependentUpon>frmChooseColumns.vb</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="customLV.resx">
+      <DependentUpon>customLV.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
