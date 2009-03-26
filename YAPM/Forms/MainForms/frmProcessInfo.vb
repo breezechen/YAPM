@@ -373,6 +373,7 @@ Public Class frmProcessInfo
         Me.cmdPause.Enabled = _local
         Me.cmdResume.Enabled = _local
         Me.lvModules.IsLocalMachine = _local
+        Me.lvModules.CatchErrors = Not (_local)
         Me.timerProcPerf.Enabled = _local
         If _local = False Then
             Me.lvModules.RemoteConnection = theConnection
@@ -876,7 +877,7 @@ Public Class frmProcessInfo
         ' Update list
         Me.lvProcServices.ShowAll = False
         Me.lvProcServices.ProcessId = curProc.Pid
-        Me.lvProcServices.UpdateItems()
+        Me.lvProcServices.UpdateTheItems()
 
     End Sub
 
@@ -884,7 +885,7 @@ Public Class frmProcessInfo
     Public Sub ShowModules()
 
         lvModules.ProcessId = curProc.Pid
-        lvModules.UpdateItems()
+        lvModules.UpdateTheItems()
 
     End Sub
 
@@ -895,7 +896,7 @@ Public Class frmProcessInfo
         ReDim pid(0)
         pid(0) = curProc.Pid
         Me.lvThreads.ProcessId = pid
-        Me.lvThreads.UpdateItems()
+        Me.lvThreads.UpdateTheItems()
 
     End Sub
 
@@ -906,7 +907,7 @@ Public Class frmProcessInfo
         pid(0) = curProc.Pid
         Me.lvProcNetwork.ShowAllPid = False
         Me.lvProcNetwork.ProcessId = pid
-        Me.lvProcNetwork.UpdateItems()
+        Me.lvProcNetwork.UpdateTheItems()
 
     End Sub
 
@@ -914,7 +915,7 @@ Public Class frmProcessInfo
     Public Sub ShowRegions()
 
         Me.lvProcMem.ProcessId = curProc.Pid
-        Me.lvProcMem.UpdateItems()
+        Me.lvProcMem.UpdateTheItems()
 
     End Sub
 
@@ -926,7 +927,7 @@ Public Class frmProcessInfo
         Me.lvWindows.ProcessId = pid
         Me.lvWindows.ShowAllPid = False
         Me.lvWindows.ShowUnNamed = Me.ShowUnnamedWindowsToolStripMenuItem.Checked
-        Me.lvWindows.UpdateItems()
+        Me.lvWindows.UpdateTheItems()
 
     End Sub
 
@@ -937,8 +938,8 @@ Public Class frmProcessInfo
         Dim pids(0) As Integer
         pids(0) = curProc.Pid
         Me.lvHandles.ProcessId = pids
-        Me.lvHandles.UpdateItems()
-       
+        Me.lvHandles.UpdateTheItems()
+
     End Sub
 
     Private Sub ToolStripMenuItem36_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem36.Click

@@ -45,16 +45,40 @@ Public MustInherit Class customLV
     Public Shared DELETED_ITEM_COLOR As Color = Color.FromArgb(255, 64, 48)
 
 
+    Private _catchErrors As Boolean = False
+
 
     ' ========================================
     ' Public
     ' ========================================
+
+    ' Catch or not errors
+    Public Property CatchErrors() As Boolean
+        Get
+            Return _catchErrors
+        End Get
+        Set(ByVal value As Boolean)
+            _catchErrors = value
+        End Set
+    End Property
 
     ' Call this to update items in listview
     Public Overridable Sub UpdateItems()
         '
     End Sub
 
+    ' Update the items and display an error
+    Public Overridable Sub UpdateTheItems()
+        If _catchErrors Then
+            Try
+                Call UpdateItems()
+            Catch ex As Exception
+                MsgBox(ex.StackTrace)
+            End Try
+        Else
+            Call UpdateItems()
+        End If
+    End Sub
 
     ' Choose column
     Public Sub ChooseColumns()

@@ -38,7 +38,7 @@ Public Class frmChooseProcess
     End Property
 
     Private Sub timerProcRefresh_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerProcRefresh.Tick
-        lvProcess.UpdateItems()
+        lvProcess.UpdateTheItems()
     End Sub
 
     Private Sub lvProcess_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvProcess.DoubleClick
@@ -54,6 +54,6 @@ Public Class frmChooseProcess
 
     Private Sub frmChooseProcess_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         SetWindowTheme(lvProcess.Handle, "explorer", Nothing)
-        lvProcess.UpdateItems()
+        lvProcess.UpdateTheItems()
     End Sub
 End Class

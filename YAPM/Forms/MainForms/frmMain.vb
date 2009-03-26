@@ -291,7 +291,7 @@ Public Class frmMain
 
         ' Update list
         Me.lvServices.ShowAll = True
-        Me.lvServices.UpdateItems()
+        Me.lvServices.UpdateTheItems()
 
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
             If Me.Ribbon.ActiveTab.Text = "Services" Then
@@ -305,7 +305,7 @@ Public Class frmMain
     Public Sub refreshProcessList()
 
         ' Update list
-        Me.lvProcess.UpdateItems()
+        Me.lvProcess.UpdateTheItems()
 
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
             Dim ss As String = Me.Ribbon.ActiveTab.Text
@@ -1131,7 +1131,7 @@ Public Class frmMain
 
         Me.lvHandles.ShowUnNamed = DisplayUnnamedHandlesToolStripMenuItem.Checked
         Me.lvHandles.ProcessId = Me.handlesToRefresh
-        Me.lvHandles.UpdateItems()
+        Me.lvHandles.UpdateTheItems()
 
         If showTab Then
             Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvHandles.Items.Count) & " handles"
@@ -1683,7 +1683,7 @@ Public Class frmMain
     Private Sub ShowThreads(Optional ByVal showTab As Boolean = True)
 
         Me.lvThreads.ProcessId = Me.threadsToRefresh
-        Me.lvThreads.UpdateItems()
+        Me.lvThreads.UpdateTheItems()
 
         If showTab Then _
             Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvThreads.Items.Count) & " threads"
@@ -1824,7 +1824,7 @@ Public Class frmMain
         Me.lvWindows.ProcessId = Me.windowsToRefresh
         Me.lvWindows.ShowAllPid = False
         Me.lvWindows.ShowUnNamed = Me.chkAllWindows.Checked
-        Me.lvWindows.UpdateItems()
+        Me.lvWindows.UpdateTheItems()
 
         If showTab Then _
             Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvWindows.Items.Count) & " windows"
@@ -2126,10 +2126,10 @@ Public Class frmMain
                     End If
                 Next
                 If Me.lvModules.MngObjProcess IsNot Nothing Then
-                    Me.lvModules.UpdateItems()
+                    Me.lvModules.UpdateTheItems()
                 End If
             Else
-                Me.lvModules.UpdateItems()
+                Me.lvModules.UpdateTheItems()
             End If
         Next
 
@@ -2480,7 +2480,7 @@ Public Class frmMain
     Public Sub refreshTaskList()
 
         ' Update list
-        Me.lvTask.UpdateItems()
+        Me.lvTask.UpdateTheItems()
 
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
             Dim ss As String = Me.Ribbon.ActiveTab.Text
@@ -2620,7 +2620,7 @@ Public Class frmMain
     Private Sub refreshNetworkList()
 
         Me.lvNetwork.ShowAllPid = True
-        Me.lvNetwork.UpdateItems()
+        Me.lvNetwork.UpdateTheItems()
 
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
             Dim ss As String = Me.Ribbon.ActiveTab.Text
@@ -4275,10 +4275,6 @@ Public Class frmMain
         Me.lvProcess.ClearItems()
         Me.lvProcess.RemoteConnection = New cRemoteProcess.RemoteConnectionInfo(txtServerMachine.Text, txtServerPassword.Text, txtServerUser.Text)
         Me.lvProcess.IsLocalMachine = _local
-        Me.lvProcess.BeginUpdate()
-        Me.lvProcess.UpdateItems()
-        Me.lvProcess.UpdateItems()
-        Me.lvProcess.EndUpdate()
 
         Me.lvModules.ClearItems()
         rtb6.Text = ""
@@ -4336,6 +4332,27 @@ Public Class frmMain
         Me.ToolStripMenuItem36.Enabled = _local
         Me.RBServiceFile.Enabled = _local
         Me.butProcessOtherActions.Enabled = _local
+
+        Me.lvProcess.CatchErrors = Not (_local)
+        Me.lvModules.CatchErrors = Not (_local)
+
+        ' Now refresh processes
+        Me.lvProcess.BeginUpdate()
+        Me.lvProcess.UpdateTheItems()
+        Me.lvProcess.UpdateTheItems()
+        'Try
+        '    Me.lvProcess.UpdateTheItems()
+        'Catch ex As Exception
+        '    Me.lvProcess.EndUpdate()
+        '    Exit Sub
+        'End Try
+        'Try
+        '    Me.lvProcess.UpdateTheItems()
+        'Catch ex As Exception
+        '    Me.lvProcess.EndUpdate()
+        '    Exit Sub
+        'End Try
+        Me.lvProcess.EndUpdate()
     End Sub
 
     Private Sub butProcessConfigureServer_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessConfigureServer.Click
