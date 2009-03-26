@@ -81,7 +81,7 @@ Public Class frmGlobalReport
             Dim _servNumber As Integer = _enumServ.EnumerateApi(_keyServ, _
                                                                 _buffServ, _buffServ2)
             For Each it As cService.LightService In _buffServ2.Values
-                _dicoServices.Add(it.name, New cService(it, it.name, _enumServ.SCManagerHandle))
+                _dicoServices.Add(it.name, New cLocalService(it, it.name, _enumServ.SCManagerHandle))
             Next
         End If
 

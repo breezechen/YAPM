@@ -1253,7 +1253,7 @@ Public Class frmMain
                         Call cProcess.Kill(pid)
                     End If
                 Case "service"
-                    cService.StopService(it.SubItems(3).Text)
+                    cLocalService.StopTheService(it.SubItems(3).Text)
                 Case "window"
                     Dim sp As String = it.SubItems(2).Text
                     Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)

@@ -141,7 +141,7 @@ Public Class serviceList
 
         ' Merge _dico and _dicoNew
         For Each z As String In _dicoNew.Keys
-            Dim _it As cService = New cService(_buffDico.Item(z), z, _
+            Dim _it As cService = New cLocalService(_buffDico.Item(z), z, _
                                                __servEnum.SCManagerHandle)
             _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
             _dico.Add(z, _it)

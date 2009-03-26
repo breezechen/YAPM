@@ -71,6 +71,8 @@
     <Compile Include="Classes\Providers\cMonitor.vb" />
     <Compile Include="Classes\Providers\cNetwork.vb" />
     <Compile Include="Classes\Providers\cLocalProcess.vb" />
+    <Compile Include="Classes\Providers\cRemoteService.vb" />
+    <Compile Include="Classes\Providers\cLocalService.vb" />
     <Compile Include="Classes\Providers\cRemoteModule.vb" />
     <Compile Include="Classes\Providers\cLocalModule.vb" />
     <Compile Include="Classes\Providers\cRemoteProcess.vb" />
