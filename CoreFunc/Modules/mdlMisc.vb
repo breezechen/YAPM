@@ -111,4 +111,65 @@ Module mdlMisc
         Return CStr(IIf(lp < 10, "0", "")) & CStr(lp) & "." & CStr(IIf(rp < 10, "00", "")) & CStr(IIf(rp < 100 And rp >= 10, "0", "")) & CStr(rp)
     End Function
 
+    ' Convert a DMTF datetime to a valid Date
+    Public Function DMTFDateToDateTime(ByVal dmtfDate As String) As Date
+        Try
+            Dim initializer As Date = Date.MinValue
+            Dim year As Integer = initializer.Year
+            Dim month As Integer = initializer.Month
+            Dim day As Integer = initializer.Day
+            Dim hour As Integer = initializer.Hour
+            Dim minute As Integer = initializer.Minute
+            Dim second As Integer = initializer.Second
+            Dim ticks As Long = 0
+            Dim dmtf As String = dmtfDate
+            Dim datetime As Date = Date.MinValue
+            Dim tempString As String = String.Empty
+            tempString = dmtf.Substring(0, 4)
+            If ("****" <> tempString) Then
+                year = Integer.Parse(tempString)
+            End If
+            tempString = dmtf.Substring(4, 2)
+            If ("**" <> tempString) Then
+                month = Integer.Parse(tempString)
+            End If
+            tempString = dmtf.Substring(6, 2)
+            If ("**" <> tempString) Then
+                day = Integer.Parse(tempString)
+            End If
+            tempString = dmtf.Substring(8, 2)
+            If ("**" <> tempString) Then
+                hour = Integer.Parse(tempString)
+            End If
+            tempString = dmtf.Substring(10, 2)
+            If ("**" <> tempString) Then
+                minute = Integer.Parse(tempString)
+            End If
+            tempString = dmtf.Substring(12, 2)
+            If ("**" <> tempString) Then
+                second = Integer.Parse(tempString)
+            End If
+            tempString = dmtf.Substring(15, 6)
+            If ("******" <> tempString) Then
+                ticks = (Long.Parse(tempString) * CType((System.TimeSpan.TicksPerMillisecond / 1000), Long))
+            End If
+
+            datetime = New Date(year, month, day, hour, minute, second, 0)
+            datetime = datetime.AddTicks(ticks)
+            Dim tickOffset As System.TimeSpan = System.TimeZone.CurrentTimeZone.GetUtcOffset(datetime)
+            Dim UTCOffset As Integer = 0
+            Dim OffsetToBeAdjusted As Integer = 0
+            Dim OffsetMins As Long = CType((tickOffset.Ticks / System.TimeSpan.TicksPerMinute), Long)
+            tempString = dmtf.Substring(22, 3)
+            If (tempString <> "******") Then
+                tempString = dmtf.Substring(21, 4)
+                UTCOffset = Integer.Parse(tempString)
+                OffsetToBeAdjusted = CType((OffsetMins - UTCOffset), Integer)
+                datetime = datetime.AddMinutes(CType(OffsetToBeAdjusted, Double))
+            End If
+            Return datetime
+        Catch ex As Exception
+            Return New Date(0)
+        End Try
+    End Function
 End Module

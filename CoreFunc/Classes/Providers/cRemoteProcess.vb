@@ -280,6 +280,12 @@ Public Class cRemoteProcess
             If _userName = vbNullString Then
                 Dim s1(1) As String
                 _theProcess.InvokeMethod("GetOwner", s1)
+                If Len(s1(0)) = 0 Then
+                    s1(0) = NO_INFO_RETRIEVED
+                End If
+                If Len(s1(1)) = 0 Then
+                    s1(1) = NO_INFO_RETRIEVED
+                End If
                 _userName = s1(1) & "\" & s1(0)
                 If _userName = vbNullString Then
                     _userName = NO_INFO_RETRIEVED
@@ -386,7 +392,7 @@ Public Class cRemoteProcess
     Public Overrides ReadOnly Property StartTime() As Date
         Get
             If _startTime = Nothing Then
-                '_startTime = New Date(CLng(Me.GetInformationFromWMICollection(WMI_INFO.CreationDate)))
+                _startTime = DMTFDateToDateTime(CStr(Me.GetInformationFromWMICollection(WMI_INFO.CreationDate)))
             End If
             Return _startTime
         End Get
