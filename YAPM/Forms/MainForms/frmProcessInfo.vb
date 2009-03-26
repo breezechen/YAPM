@@ -104,21 +104,21 @@ Public Class frmProcessInfo
                 ' reference to an existing instance).
                 ' If it is a remote process, we have to query again
                 If _local = False Then
-                    Dim colProcesses As Management.ManagementObjectSearcher
 
+                    Dim colProcesses As Management.ManagementObjectSearcher
                     colProcesses = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Process WHERE ProcessID ='" & curProc.Pid.ToString & "'")
                     colProcesses.Scope = New Management.ManagementScope("\\" & _theCon.serverName & "\root\cimv2", __con)
 
-                    ' Save current collection
-                    Dim res As Management.ManagementObjectCollection = colProcesses.Get
-
                     Dim newRefProc As Management.ManagementObject = curProc.MngObjProcess
-                    Dim refProcess As Management.ManagementObject
-                    For Each refProcess In res
+                    For Each refProcess As Management.ManagementObject In colProcesses.Get
                         newRefProc = refProcess
                     Next
 
-                    curProc.Refresh(newRefProc)
+                    Try
+                        curProc.Refresh(newRefProc)
+                    Catch ex As Exception
+                        MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Could not refresh statistics")
+                    End Try
                 End If
 
                 Me.lblProcOther.Text = curProc.GetIOvalues.OtherOperationCount.ToString

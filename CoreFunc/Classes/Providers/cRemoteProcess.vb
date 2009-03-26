@@ -295,22 +295,22 @@ Public Class cRemoteProcess
     End Property
     Public Overrides ReadOnly Property ProcessorTime(Optional ByVal force As Boolean = False) As Date
         Get
-
+            Return New Date(Me.ProcessorTimeLong)
         End Get
     End Property
     Public Overrides ReadOnly Property ProcessorTimeLong() As Long
         Get
-
+            Return KernelTime.Ticks + UserTime.Ticks
         End Get
     End Property
     Public Overrides ReadOnly Property KernelTime(Optional ByVal force As Boolean = False) As Date
         Get
-
+            Return New Date(CLng(Me.GetInformationFromWMICollection(WMI_INFO.KernelModeTime)))
         End Get
     End Property
     Public Overrides ReadOnly Property UserTime(Optional ByVal force As Boolean = False) As Date
         Get
-
+            Return New Date(CLng(Me.GetInformationFromWMICollection(WMI_INFO.UserModeTime)))
         End Get
     End Property
     Public Overrides ReadOnly Property MemoryInfos(Optional ByVal force As Boolean = False) As PROCESS_MEMORY_COUNTERS
@@ -337,22 +337,35 @@ Public Class cRemoteProcess
     End Property
     Public Overrides ReadOnly Property PriorityClass() As String
         Get
-            Return ""
+            Return Me.PriorityClassConstant.ToString
         End Get
     End Property
     Public Overrides ReadOnly Property PriorityClassInt() As Integer
         Get
-
+            Return CInt(Me.GetInformationFromWMICollection(WMI_INFO.Priority))
         End Get
     End Property
     Public Overrides ReadOnly Property PriorityLevel() As Integer
         Get
-
+            Return CInt(Me.GetInformationFromWMICollection(WMI_INFO.Priority))
         End Get
     End Property
     Public Overrides ReadOnly Property PriorityClassConstant() As ProcessPriorityClass
         Get
-
+            Dim i As Integer = Me.PriorityClassInt
+            If i >= 24 Then
+                Return ProcessPriorityClass.RealTime
+            ElseIf i >= 13 Then
+                Return ProcessPriorityClass.High
+            ElseIf i >= 10 Then
+                Return ProcessPriorityClass.AboveNormal
+            ElseIf i >= 8 Then
+                Return ProcessPriorityClass.Normal
+            ElseIf i >= 6 Then
+                Return ProcessPriorityClass.BelowNormal
+            Else
+                Return ProcessPriorityClass.Idle
+            End If
         End Get
     End Property
     Public Overrides ReadOnly Property AverageCpuUsage(Optional ByVal force As Boolean = False) As Double
@@ -458,8 +471,18 @@ Public Class cRemoteProcess
 
     ' Kill a process
     Public Overrides Function Kill() As Integer
-        _theProcess.InvokeMethod("Terminate", Nothing)
+        Dim _t As New Threading.Thread(AddressOf KillAsync)
+        _t.IsBackground = True
+        _t.Priority = Threading.ThreadPriority.Lowest
+        _t.Start()
     End Function
+    Private Sub KillAsync()
+        Try
+            _theProcess.InvokeMethod("Terminate", Nothing)
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Could not kill process " & Me.Name)
+        End Try
+    End Sub
 
     ' Retrieve informations by its name
     Public Overrides Function GetInformation(ByVal infoName As String) As String

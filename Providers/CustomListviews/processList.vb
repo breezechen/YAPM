@@ -208,7 +208,9 @@ Public Class processList
             If _local Then
                 _item.Refresh()
             Else
-                _item.Refresh(_remoteSpecialDico(it.Name))
+                If _remoteSpecialDico.ContainsKey(it.Name) Then
+                    _item.Refresh(_remoteSpecialDico(it.Name))
+                End If
             End If
             For Each isub In it.SubItems
                 isub.Text = _item.GetInformation(_columnsName(x))

@@ -77,6 +77,8 @@ Public MustInherit Class customLV
                     MsgBox("RPC server is not available. Make sure that WMI is installed, that 'remote procedure call (RPC)' service is started and that no firewall restrict access to RPC service.", MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Cannot retrieve information")
                 ElseIf InStr(ex.Message, "0x80070005", CompareMethod.Binary) > 0 Then
                     MsgBox("Access is denied. Make sure that you have the rights to access to the remote computer, and that the passwork and login you entered are correct.", MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Cannot retrieve information")
+                ElseIf InStr(ex.Message, "0x80010108", CompareMethod.Binary) > 0 Then
+                    MsgBox("Diconnected. Try to establish connection again.", MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Cannot retrieve information")
                 Else
                     MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Cannot retrieve information")
                 End If

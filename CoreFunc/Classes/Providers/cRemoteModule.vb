@@ -80,6 +80,7 @@ Public Class cRemoteModule
     Private _version As String
     Private _companyName As String
     Private _key As String
+    Private _processID As Integer
 
 
     ' ========================================
@@ -103,7 +104,7 @@ Public Class cRemoteModule
     End Property
     Public Overrides ReadOnly Property ProcessId() As Integer
         Get
-
+            Return _processID
         End Get
     End Property
     Public Overrides ReadOnly Property Comments() As String
@@ -253,7 +254,7 @@ Public Class cRemoteModule
     End Property
     Public Overrides ReadOnly Property ModuleMemorySize() As Integer
         Get
-
+            Return 0
         End Get
     End Property
 #End Region
@@ -271,6 +272,7 @@ Public Class cRemoteModule
         _name = process.szModule
         _path = process.szExePath
         _baseA = process.modBaseAddr
+        _processID = 0      'TODO
         _companyName = CStr(_module.GetPropertyValue("Manufacturer"))
         If _companyName = vbNullString Then
             _companyName = NO_INFO_RETRIEVED
