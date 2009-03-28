@@ -37,7 +37,7 @@ Public Class moduleList
     Private _dico As New Dictionary(Of String, cModule)
     Private _local As Boolean = True
     Private _theProc As Management.ManagementObject
-    Private _con As cRemoteProcessWMI.RemoteConnectionInfo
+    Private _con As cRemoteProcessWMI.RemoteConnectionInfoWMI
 
     Private _pid As Integer
 
@@ -62,11 +62,11 @@ Public Class moduleList
             _local = value
         End Set
     End Property
-    Public Property RemoteConnection() As cRemoteProcessWMI.RemoteConnectionInfo
+    Public Property RemoteConnectionWMI() As cRemoteProcessWMI.RemoteConnectionInfoWMI
         Get
             Return _con
         End Get
-        Set(ByVal value As cRemoteProcessWMI.RemoteConnectionInfo)
+        Set(ByVal value As cRemoteProcessWMI.RemoteConnectionInfoWMI)
             _con = value
         End Set
     End Property

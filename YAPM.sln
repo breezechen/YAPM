@@ -4,6 +4,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "YAPM", "YAPM\YAPM.vbproj", "{A82E9888-6B2A-44A7-B79A-27C93079ACDD}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8C885999-147E-4651-AF9C-6F7149F1344D} = {8C885999-147E-4651-AF9C-6F7149F1344D}
+		{EB8EB6CC-F92E-4A0F-B73D-F60F9DB4898D} = {EB8EB6CC-F92E-4A0F-B73D-F60F9DB4898D}
 		{657B7CE9-D35C-4E65-A05B-CC6B46A14D7D} = {657B7CE9-D35C-4E65-A05B-CC6B46A14D7D}
 		{4F4D09F8-D122-4ACB-B049-881634E67A2C} = {4F4D09F8-D122-4ACB-B049-881634E67A2C}
 	EndProjectSection
@@ -19,6 +20,10 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Providers", "Providers\Prov
 	EndProjectSection
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MemoryHexEditor", "YAPM\UserControls\MemoryHexEditor\MemoryHexEditor.vbproj", "{8C885999-147E-4651-AF9C-6F7149F1344D}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RemoteControl", "RemoteControl\RemoteControl\RemoteControl.vbproj", "{EB8EB6CC-F92E-4A0F-B73D-F60F9DB4898D}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "YAPMRemote", "YAPMRemote\YAPMRemote.vbproj", "{F69D7994-0F74-4662-BFE7-1BE74C24EF6D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +47,14 @@ Global
 		{8C885999-147E-4651-AF9C-6F7149F1344D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C885999-147E-4651-AF9C-6F7149F1344D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C885999-147E-4651-AF9C-6F7149F1344D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB8EB6CC-F92E-4A0F-B73D-F60F9DB4898D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB8EB6CC-F92E-4A0F-B73D-F60F9DB4898D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB8EB6CC-F92E-4A0F-B73D-F60F9DB4898D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB8EB6CC-F92E-4A0F-B73D-F60F9DB4898D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F69D7994-0F74-4662-BFE7-1BE74C24EF6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F69D7994-0F74-4662-BFE7-1BE74C24EF6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F69D7994-0F74-4662-BFE7-1BE74C24EF6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F69D7994-0F74-4662-BFE7-1BE74C24EF6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

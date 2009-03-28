@@ -52,6 +52,12 @@ Public MustInherit Class customLV
     ' Public
     ' ========================================
 
+    Public Enum ProvidersConnectionType
+        [Local]
+        [RemoteWMI]
+        [Remote]
+    End Enum
+
     ' Catch or not errors
     Public Property CatchErrors() As Boolean
         Get

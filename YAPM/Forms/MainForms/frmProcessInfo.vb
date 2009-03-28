@@ -28,7 +28,7 @@ Public Class frmProcessInfo
 
     Private _historyGraphNumber As Integer = 0
     Private _local As Boolean = True
-    Private _theCon As cRemoteProcessWMI.RemoteConnectionInfo
+    Private _theCon As cRemoteProcessWMI.RemoteConnectionInfoWMI
     Private __con As Management.ConnectionOptions
 
 
@@ -383,7 +383,7 @@ Public Class frmProcessInfo
     End Sub
 
     ' Get process to monitor
-    Public Sub SetProcess(ByRef process As cProcess, ByVal theConnection As cRemoteProcessWMI.RemoteConnectionInfo)
+    Public Sub SetProcess(ByRef process As cProcess, ByVal theConnection As cRemoteProcessWMI.RemoteConnectionInfoWMI)
         curProc = process
         Me.Text = curProc.Name & " (" & CStr(curProc.Pid) & ")"
 
@@ -400,7 +400,7 @@ Public Class frmProcessInfo
             __con.Impersonation = Management.ImpersonationLevel.Impersonate
             __con.Password = _theCon.password
             __con.Username = _theCon.user
-            Me.lvModules.RemoteConnection = theConnection
+            Me.lvModules.RemoteConnectionWMI = theConnection
             Me.lvModules.MngObjProcess = process.MngObjProcess
             Me.lvPrivileges.Enabled = False
             Me.lvHandles.Enabled = False

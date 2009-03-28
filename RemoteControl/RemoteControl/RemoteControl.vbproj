@@ -5,10 +5,10 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4F4D09F8-D122-4ACB-B049-881634E67A2C}</ProjectGuid>
+    <ProjectGuid>{EB8EB6CC-F92E-4A0F-B73D-F60F9DB4898D}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>CoreFunc</RootNamespace>
-    <AssemblyName>CoreFunc</AssemblyName>
+    <RootNamespace>RemoteControl</RootNamespace>
+    <AssemblyName>RemoteControl</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
@@ -24,31 +24,30 @@
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\YAPM\bin\Debug\</OutputPath>
-    <DocumentationFile>CoreFunc.xml</DocumentationFile>
+    <OutputPath>..\..\YAPM\bin\Debug\</OutputPath>
+    <DocumentationFile>RemoteControl.xml</DocumentationFile>
+    <DefineConstants>_MYFORMS=True</DefineConstants>
     <NoWarn>
     </NoWarn>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <RemoveIntegerChecks>true</RemoveIntegerChecks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
-    <OutputPath>..\YAPM\bin\Release\</OutputPath>
-    <DocumentationFile>CoreFunc.xml</DocumentationFile>
+    <OutputPath>..\..\YAPM\bin\Release\</OutputPath>
+    <DocumentationFile>RemoteControl.xml</DocumentationFile>
+    <DefineConstants>_MYFORMS=True</DefineConstants>
     <NoWarn>
     </NoWarn>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <RemoveIntegerChecks>true</RemoveIntegerChecks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Management" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
@@ -57,56 +56,18 @@
     <Import Include="System.Collections" />
     <Import Include="System.Collections.Generic" />
     <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Driver\clsDriverCtrl.vb" />
-    <Compile Include="Classes\Driver\clsOpenedHandles.vb" />
-    <Compile Include="Classes\Misc\cFile.vb" />
-    <Compile Include="Classes\Misc\cSystem.vb" />
-    <Compile Include="Classes\Misc\cSystemInfo.vb" />
-    <Compile Include="Classes\Providers\cGeneralObject.vb" />
-    <Compile Include="Classes\Providers\cHandle.vb" />
-    <Compile Include="Classes\Providers\cMemRegion.vb" />
-    <Compile Include="Classes\Providers\cModule.vb" />
-    <Compile Include="Classes\Providers\cMonitor.vb" />
-    <Compile Include="Classes\Providers\cNetwork.vb" />
-    <Compile Include="Classes\Providers\cLocalProcess.vb" />
-    <Compile Include="Classes\Providers\cRemoteProcess.vb" />
-    <Compile Include="Classes\Providers\cRemoteServiceWMI.vb" />
-    <Compile Include="Classes\Providers\cLocalService.vb" />
-    <Compile Include="Classes\Providers\cRemoteModuleWMI.vb" />
-    <Compile Include="Classes\Providers\cLocalModule.vb" />
-    <Compile Include="Classes\Providers\cRemoteProcessWMI.vb" />
-    <Compile Include="Classes\Providers\cProcess.vb" />
-    <Compile Include="Classes\Providers\cProcessMemRW.vb" />
-    <Compile Include="Classes\Providers\cServEnum.vb" />
-    <Compile Include="Classes\Providers\cService.vb" />
-    <Compile Include="Classes\Providers\cTask.vb" />
-    <Compile Include="Classes\Providers\cThread.vb" />
-    <Compile Include="Classes\Providers\cWindow.vb" />
-    <Compile Include="Classes\StateBasedActions\cBasedStateActionState.vb" />
-    <Compile Include="Classes\StateBasedActions\cStateBasedActions.vb" />
-    <Compile Include="Classes\Hotkeys\cHotkeys.vb" />
-    <Compile Include="Classes\Hotkeys\cShortcut.vb" />
-    <Compile Include="Forms\frmHexEditor.Designer.vb">
-      <DependentUpon>frmHexEditor.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmHexEditor.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmSBASimulationConsole.Designer.vb">
-      <DependentUpon>frmSBASimulationConsole.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmSBASimulationConsole.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Modules\mdlMisc.vb" />
-    <Compile Include="Modules\mdlPrivileges.vb" />
-    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="Classes\cAsyncSocket.vb" />
+    <Compile Include="Classes\cAsyncSocketServer.vb" />
+    <Compile Include="Classes\cSerialization.vb" />
+    <Compile Include="Classes\cSocketData.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
     </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -119,12 +80,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Forms\frmHexEditor.resx">
-      <DependentUpon>frmHexEditor.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmSBASimulationConsole.resx">
-      <DependentUpon>frmSBASimulationConsole.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -145,14 +100,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RemoteControl\RemoteControl\RemoteControl.vbproj">
-      <Project>{EB8EB6CC-F92E-4A0F-B73D-F60F9DB4898D}</Project>
-      <Name>RemoteControl</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\YAPM\UserControls\MemoryHexEditor\MemoryHexEditor.vbproj">
-      <Project>{8C885999-147E-4651-AF9C-6F7149F1344D}</Project>
-      <Name>MemoryHexEditor</Name>
-    </ProjectReference>
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

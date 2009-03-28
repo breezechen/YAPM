@@ -69,7 +69,7 @@ Public Class cRemoteModuleWMI
     ' ========================================
     ' Private attributes
     ' ========================================
-    Private Shared _connection As cRemoteProcessWMI.RemoteConnectionInfo
+    Private Shared _connection As cRemoteProcessWMI.RemoteConnectionInfoWMI
     Private Shared _con As ConnectionOptions
     Private Shared _tempProcCol As ManagementObjectCollection
 
@@ -264,7 +264,7 @@ Public Class cRemoteModuleWMI
     ' Public functions
     ' ========================================
     Public Sub New(ByVal key As String, ByRef process As MODULEENTRY32, _
-                   ByRef connection As cRemoteProcessWMI.RemoteConnectionInfo, ByRef _module As ManagementObject)
+                   ByRef connection As cRemoteProcessWMI.RemoteConnectionInfoWMI, ByRef _module As ManagementObject)
         MyBase.New()
         _connection = connection
         _con = New ConnectionOptions
@@ -288,7 +288,7 @@ Public Class cRemoteModuleWMI
         End With
 
         ' Get _theProcess from the collection
-        _theModule = _Module
+        _theModule = _module
     End Sub
 
     ' Unload the specified module
@@ -297,7 +297,7 @@ Public Class cRemoteModuleWMI
     End Function
 
     ' List modules of an exe file
-    Public Shared Function Enumerate(ByRef _remoteCon As cRemoteProcessWMI.RemoteConnectionInfo, ByRef _process As ManagementObject, ByRef key() As String, _
+    Public Shared Function Enumerate(ByRef _remoteCon As cRemoteProcessWMI.RemoteConnectionInfoWMI, ByRef _process As ManagementObject, ByRef key() As String, _
                                      ByRef _dico As Dictionary(Of String, MODULEENTRY32), ByVal _dicoRemote As Dictionary(Of String, System.Management.ManagementObject)) As Integer
 
         _dico.Clear()

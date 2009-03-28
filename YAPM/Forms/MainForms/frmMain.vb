@@ -34,7 +34,9 @@ Public Class frmMain
     Private curProc As cProcess
     Private __servEnum As New cServEnum
     Private _local As Boolean = True
-    Public _connOpt As cRemoteProcessWMI.RemoteConnectionInfo
+    Private _connType As Providers.customLV.ProvidersConnectionType
+    Public _connOptRemoteWMI As cRemoteProcessWMI.RemoteConnectionInfoWMI
+    Public _connOptRemote As cRemoteProcess.RemoteConnectionInfo
 
     <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
     Private Shared Function SendMessage(ByVal hWnd As IntPtr, ByVal Msg As Integer, ByVal wParam As Integer, ByVal lParam As Integer) As IntPtr
@@ -350,7 +352,7 @@ Public Class frmMain
     End Sub
 
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
+        frmServeur.Show()
         Dim t As Integer = GetTickCount
 
         Dim _col As Color = Color.FromArgb(240, 240, 240)
@@ -2321,7 +2323,7 @@ Public Class frmMain
     Private Sub butProcessDisplayDetails_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessDisplayDetails.Click
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
             Dim frm As New frmProcessInfo
-            frm.SetProcess(it, _connOpt)
+            frm.SetProcess(it, _connOptRemoteWMI)
             frm.Show()
         Next
     End Sub
@@ -4258,31 +4260,32 @@ Public Class frmMain
         End Try
     End Sub
 
-    Private Sub optServerLocal_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles optServerLocal.CheckedChanged
-        gpServer.Enabled = optServerRemote.Checked
-        _local = optServerLocal.Checked
-    End Sub
-
-    Private Sub optServerRemote_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles optServerRemote.CheckedChanged
-        gpServer.Enabled = optServerRemote.Checked
-        _local = optServerLocal.Checked
-    End Sub
-
+    Private Const REMOTE_PORT As Integer = 8081
     Private Sub cmdServerOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdServerOK.Click
 
-        _connOpt = New cRemoteProcessWMI.RemoteConnectionInfo(Me.txtServerMachine.Text, Me.txtServerPassword.Text, Me.txtServerUser.Text)
+        _connOptRemoteWMI = New cRemoteProcessWMI.RemoteConnectionInfoWMI(Me.txtServerMachine.Text, Me.txtServerPassword.Text, Me.txtServerUser.Text)
+        _connOptRemote = New cRemoteProcess.RemoteConnectionInfo(Me.txtServerIP.Text, REMOTE_PORT)
 
         Me.timerProcess.Enabled = _local
         Me.timerServices.Enabled = _local
         Me.timerMonitoring.Enabled = _local
         Me.timerTask.Enabled = _local
         Me.lvProcess.ClearItems()
-        Me.lvProcess.RemoteConnection = _connOpt
+        If _connType = customLV.ProvidersConnectionType.RemoteWMI Then
+            Me.lvProcess.RemoteConnectionWMI = _connOptRemoteWMI
+        ElseIf _connType = customLV.ProvidersConnectionType.Remote Then
+            Me.lvProcess.RemoteConnection = _connOptRemote
+        End If
         Me.lvProcess.IsLocalMachine = _local
+        Me.lvProcess.Connection = _connType
 
         Me.lvModules.ClearItems()
         rtb6.Text = ""
-        Me.lvModules.RemoteConnection = _connOpt
+        If _connType = customLV.ProvidersConnectionType.RemoteWMI Then
+            Me.lvModules.RemoteConnectionWMI = _connOptRemoteWMI
+        ElseIf _connType = customLV.ProvidersConnectionType.Remote Then
+            '    Me.lvProcess.RemoteConnection = _connOptRemote
+        End If
         Me.lvModules.IsLocalMachine = _local
 
         Me.butResumeProcess.Enabled = Me._local
@@ -4341,22 +4344,22 @@ Public Class frmMain
         Me.lvModules.CatchErrors = Not (_local)
 
         ' Now refresh processes
-        Me.lvProcess.BeginUpdate()
-        Me.lvProcess.UpdateTheItems()
-        Me.lvProcess.UpdateTheItems()
-        'Try
-        '    Me.lvProcess.UpdateTheItems()
-        'Catch ex As Exception
-        '    Me.lvProcess.EndUpdate()
-        '    Exit Sub
-        'End Try
-        'Try
-        '    Me.lvProcess.UpdateTheItems()
-        'Catch ex As Exception
-        '    Me.lvProcess.EndUpdate()
-        '    Exit Sub
-        'End Try
-        Me.lvProcess.EndUpdate()
+        'Me.lvProcess.BeginUpdate()
+        'Me.lvProcess.UpdateTheItems()
+        'Me.lvProcess.UpdateTheItems()
+        ''Try
+        ''    Me.lvProcess.UpdateTheItems()
+        ''Catch ex As Exception
+        ''    Me.lvProcess.EndUpdate()
+        ''    Exit Sub
+        ''End Try
+        ''Try
+        ''    Me.lvProcess.UpdateTheItems()
+        ''Catch ex As Exception
+        ''    Me.lvProcess.EndUpdate()
+        ''    Exit Sub
+        ''End Try
+        'Me.lvProcess.EndUpdate()
     End Sub
 
     Private Sub butProcessConfigureServer_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessConfigureServer.Click
@@ -4375,7 +4378,11 @@ Public Class frmMain
         Else
             Dim sres As String = CInputBox("Enter the path of the process you want to start.", "Start a new process", "")
             If sres Is Nothing OrElse sres.Equals(String.Empty) Then Exit Sub
-            cRemoteProcessWMI.StartNewProcess(_connOpt, sres)
+            If Me._connType = customLV.ProvidersConnectionType.RemoteWMI Then
+                cRemoteProcessWMI.StartNewProcess(_connOptRemoteWMI, sres)
+            Else
+                cRemoteProcess.StartNewProcess(sres)
+            End If
         End If
     End Sub
 
@@ -4413,5 +4420,44 @@ Public Class frmMain
 
     Private Sub orbMenuSBA_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles orbMenuSBA.Click
         Call StateBasedActionsToolStripMenuItem_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub optServerRemoteWMI_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles optServerRemoteWMI.CheckedChanged
+        gpServerWMI.Visible = optServerRemoteWMI.Checked
+        gpServer.Visible = optServerRemote.Checked
+        _local = optServerLocal.Checked
+        If optServerRemoteWMI.Checked Then
+            _connType = customLV.ProvidersConnectionType.RemoteWMI
+        ElseIf optServerRemote.Checked Then
+            _connType = customLV.ProvidersConnectionType.Remote
+        Else
+            _connType = customLV.ProvidersConnectionType.Local
+        End If
+    End Sub
+
+    Private Sub optServerLocal_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles optServerLocal.CheckedChanged
+        gpServerWMI.Visible = optServerRemoteWMI.Checked
+        gpServer.Visible = optServerRemote.Checked
+        _local = optServerLocal.Checked
+        If optServerRemoteWMI.Checked Then
+            _connType = customLV.ProvidersConnectionType.RemoteWMI
+        ElseIf optServerRemote.Checked Then
+            _connType = customLV.ProvidersConnectionType.Remote
+        Else
+            _connType = customLV.ProvidersConnectionType.Local
+        End If
+    End Sub
+
+    Private Sub optServerRemote_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles optServerRemote.CheckedChanged
+        gpServerWMI.Visible = optServerRemoteWMI.Checked
+        gpServer.Visible = optServerRemote.Checked
+        _local = optServerLocal.Checked
+        If optServerRemoteWMI.Checked Then
+            _connType = customLV.ProvidersConnectionType.RemoteWMI
+        ElseIf optServerRemote.Checked Then
+            _connType = customLV.ProvidersConnectionType.Remote
+        Else
+            _connType = customLV.ProvidersConnectionType.Local
+        End If
     End Sub
 End Class

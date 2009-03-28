@@ -28,9 +28,11 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 Imports System.Management
+Imports System.Net
+Imports System.Net.Sockets
 
 
-Public Class cRemoteProcessWMI
+Public Class cRemoteProcess
     Inherits cProcess
 
     ' ========================================
@@ -51,86 +53,29 @@ Public Class cRemoteProcessWMI
         Return Trim$(Buffer)
     End Function
 
-    ' All informations availables from WMI
-    Private Enum WMI_INFO
-        'Caption
-        CommandLine
-        'CreationClassName
-        CreationDate
-        'CSCreationClassName
-        'CSName
-        'Description
-        ExecutablePath
-        'ExecutionState
-        'Handle
-        HandleCount
-        'InstallDate
-        KernelModeTime
-        MaximumWorkingSetSize
-        MinimumWorkingSetSize
-        'Name
-        'OSCreationClassName
-        'OSName
-        OtherOperationCount
-        OtherTransferCount
-        PageFaults
-        PageFileUsage
-        ParentProcessId
-        PeakPageFileUsage
-        PeakVirtualSize
-        PeakWorkingSetSize
-        Priority
-        PrivatePageCount
-        ProcessId
-        QuotaNonPagedPoolUsage
-        QuotaPagedPoolUsage
-        QuotaPeakNonPagedPoolUsage
-        QuotaPeakPagedPoolUsage
-        ReadOperationCount
-        ReadTransferCount
-        'SessionId
-        'Status
-        TerminationDate
-        ThreadCount
-        UserModeTime
-        VirtualSize
-        WindowsVersion
-        WorkingSetSize
-        WriteOperationCount
-        WriteTransferCount
-    End Enum
-
-
     ' Structure for remote connection
-    Public Structure RemoteConnectionInfoWMI
-        Dim serverName As String
-        Dim password As String
-        Dim user As String
-        Public Sub New(ByVal aServer As String, ByVal aPassword As String, ByVal aUser As String)
-            serverName = aServer
-            If Len(serverName) = 0 Or Len(aUser) = 0 Then
-                ' Local
-                password = Nothing
-                user = Nothing
-            Else
-                ' Remote
-                password = aPassword
-                user = aUser
-            End If
+    Public Structure RemoteConnectionInfo
+        Dim ip As IPAddress
+        Dim port As Integer
+        Dim conn As IPEndPoint
+        Public Sub New(ByVal ipAdd As String, ByVal aport As Integer)
+            ip = IPAddress.Parse(ipAdd)
+            port = aport
+            conn = New IPEndPoint(ip, port)
         End Sub
     End Structure
 
 
-
+    Private Shared WithEvents sock As RemoteControl.cAsyncSocket
+    Private Shared isConnected As Boolean = False
+    Private Shared receivedData As RemoteControl.cSocketData
+    Private Shared received As Boolean = False
 
     ' ========================================
     ' Private attributes
     ' ========================================
-    Private Shared _connection As RemoteConnectionInfoWMI
-    Private Shared _con As ConnectionOptions
-    Private Shared _tempProcCol As ManagementObjectCollection
+    Private Shared _connection As RemoteConnectionInfo
 
-    Private _theProcess As ManagementObject
     Private _pid As Integer
     Private _parentPid As Integer
     Private _parentName As String
@@ -145,28 +90,11 @@ Public Class cRemoteProcessWMI
     ' ========================================
     ' Constructors & destructor
     ' ========================================
-    Public Sub New(ByVal process As LightProcess, ByRef connection As RemoteConnectionInfoWMI)
+    Public Sub New(ByVal process As LightProcess)
         MyBase.New()
         _pid = process.pid
         _name = process.name
-        _parentPid = -1
-        _connection = connection
-        _con = New ConnectionOptions
-        With _con
-            .Username = connection.user
-            .Password = connection.password
-            .Impersonation = ImpersonationLevel.Impersonate
-        End With
         _processors = cSystemInfo.GetProcessorCount
-
-        ' Get _theProcess from the collection
-        For Each refProcess As Management.ManagementObject In _tempProcCol
-            Dim ID As Integer = CInt(refProcess.GetPropertyValue("ProcessId"))
-            If ID = _pid Then
-                _theProcess = refProcess
-                Exit For
-            End If
-        Next
     End Sub
 
 
@@ -174,7 +102,7 @@ Public Class cRemoteProcessWMI
     ' ========================================
     ' Getter and setter
     ' ========================================   
-
+#Region "Properties"
     Public Overrides ReadOnly Property UserObjectsCount(Optional ByVal force As Boolean = False) As Integer
         Get
             Return 0
@@ -188,10 +116,7 @@ Public Class cRemoteProcessWMI
     Public Overrides ReadOnly Property CommandLine() As String
         Get
             If _commandLine = vbNullString Then
-                _commandLine = CStr(Me.GetInformationFromWMICollection(WMI_INFO.CommandLine))
-                If _commandLine = vbNullString Then
-                    _commandLine = NO_INFO_RETRIEVED
-                End If
+
             End If
             Return _commandLine
         End Get
@@ -225,7 +150,7 @@ Public Class cRemoteProcessWMI
     Public Overrides ReadOnly Property ParentProcessId() As Integer
         Get
             If _parentPid = -1 Then
-                _parentPid = CInt(Me.GetInformationFromWMICollection(WMI_INFO.ParentProcessId))
+
             End If
             Return _parentPid
         End Get
@@ -233,14 +158,7 @@ Public Class cRemoteProcessWMI
     Public Overrides ReadOnly Property ParentProcessName() As String
         Get
             If _parentName = vbNullString Then
-                If _procs.ContainsKey(Me.ParentProcessId.ToString) Then
-                    _parentName = _procs.Item(Me.ParentProcessId.ToString)
-                    If _parentName = vbNullString Then
-                        _parentName = NO_INFO_RETRIEVED
-                    End If
-                Else
-                    _parentName = NO_INFO_RETRIEVED
-                End If
+
             End If
             Return _parentName
         End Get
@@ -248,14 +166,7 @@ Public Class cRemoteProcessWMI
     Public Overrides ReadOnly Property GetIOvalues(Optional ByVal force As Boolean = False) As cProcess.PIO_COUNTERS
         Get
             Dim io As cProcess.PIO_COUNTERS
-            With io
-                .OtherOperationCount = CULng(Me.GetInformationFromWMICollection(WMI_INFO.OtherOperationCount))
-                .OtherTransferCount = CULng(Me.GetInformationFromWMICollection(WMI_INFO.OtherTransferCount))
-                .ReadOperationCount = CULng(Me.GetInformationFromWMICollection(WMI_INFO.ReadOperationCount))
-                .ReadTransferCount = CULng(Me.GetInformationFromWMICollection(WMI_INFO.ReadTransferCount))
-                .WriteOperationCount = CULng(Me.GetInformationFromWMICollection(WMI_INFO.WriteOperationCount))
-                .WriteTransferCount = CULng(Me.GetInformationFromWMICollection(WMI_INFO.WriteTransferCount))
-            End With
+
             Return io
         End Get
     End Property
@@ -267,10 +178,7 @@ Public Class cRemoteProcessWMI
     Public Overrides ReadOnly Property Path() As String
         Get
             If _path = vbNullString Then
-                _path = CStr(Me.GetInformationFromWMICollection(WMI_INFO.ExecutablePath))
-                If _path = vbNullString Then
-                    _path = NO_INFO_RETRIEVED
-                End If
+
             End If
             Return _path
         End Get
@@ -278,18 +186,7 @@ Public Class cRemoteProcessWMI
     Public Overrides ReadOnly Property UserName() As String
         Get
             If _userName = vbNullString Then
-                Dim s1(1) As String
-                _theProcess.InvokeMethod("GetOwner", s1)
-                If Len(s1(0)) = 0 Then
-                    s1(0) = NO_INFO_RETRIEVED
-                End If
-                If Len(s1(1)) = 0 Then
-                    s1(1) = NO_INFO_RETRIEVED
-                End If
-                _userName = s1(1) & "\" & s1(0)
-                If _userName = vbNullString Then
-                    _userName = NO_INFO_RETRIEVED
-                End If
+
             End If
             Return _userName
         End Get
@@ -311,28 +208,18 @@ Public Class cRemoteProcessWMI
     End Property
     Public Overrides ReadOnly Property KernelTime(Optional ByVal force As Boolean = False) As Date
         Get
-            Return New Date(CLng(Me.GetInformationFromWMICollection(WMI_INFO.KernelModeTime)))
+            Return New Date(CLng(0))
         End Get
     End Property
     Public Overrides ReadOnly Property UserTime(Optional ByVal force As Boolean = False) As Date
         Get
-            Return New Date(CLng(Me.GetInformationFromWMICollection(WMI_INFO.UserModeTime)))
+            Return New Date(CLng(0))
         End Get
     End Property
     Public Overrides ReadOnly Property MemoryInfos(Optional ByVal force As Boolean = False) As PROCESS_MEMORY_COUNTERS
         Get
             Dim mem As cProcess.PROCESS_MEMORY_COUNTERS
-            With mem
-                .PageFaultCount = CInt(Me.GetInformationFromWMICollection(WMI_INFO.PageFaults))
-                .PagefileUsage = CInt(Me.GetInformationFromWMICollection(WMI_INFO.PageFileUsage))
-                .PeakPagefileUsage = CInt(Me.GetInformationFromWMICollection(WMI_INFO.PeakPageFileUsage))
-                .PeakWorkingSetSize = CInt(Me.GetInformationFromWMICollection(WMI_INFO.PeakWorkingSetSize))
-                .QuotaNonPagedPoolUsage = CInt(Me.GetInformationFromWMICollection(WMI_INFO.QuotaNonPagedPoolUsage))
-                .QuotaPagedPoolUsage = CInt(Me.GetInformationFromWMICollection(WMI_INFO.QuotaPagedPoolUsage))
-                .QuotaPeakNonPagedPoolUsage = CInt(Me.GetInformationFromWMICollection(WMI_INFO.QuotaPeakNonPagedPoolUsage))
-                .QuotaPeakPagedPoolUsage = CInt(Me.GetInformationFromWMICollection(WMI_INFO.QuotaPeakPagedPoolUsage))
-                .WorkingSetSize = CInt(Me.GetInformationFromWMICollection(WMI_INFO.WorkingSetSize))
-            End With
+
             Return mem
         End Get
     End Property
@@ -348,30 +235,17 @@ Public Class cRemoteProcessWMI
     End Property
     Public Overrides ReadOnly Property PriorityClassInt() As Integer
         Get
-            Return CInt(Me.GetInformationFromWMICollection(WMI_INFO.Priority))
+            Return 0
         End Get
     End Property
     Public Overrides ReadOnly Property PriorityLevel() As Integer
         Get
-            Return CInt(Me.GetInformationFromWMICollection(WMI_INFO.Priority))
+            Return 0
         End Get
     End Property
     Public Overrides ReadOnly Property PriorityClassConstant() As ProcessPriorityClass
         Get
-            Dim i As Integer = Me.PriorityClassInt
-            If i >= 24 Then
-                Return ProcessPriorityClass.RealTime
-            ElseIf i >= 13 Then
-                Return ProcessPriorityClass.High
-            ElseIf i >= 10 Then
-                Return ProcessPriorityClass.AboveNormal
-            ElseIf i >= 8 Then
-                Return ProcessPriorityClass.Normal
-            ElseIf i >= 6 Then
-                Return ProcessPriorityClass.BelowNormal
-            Else
-                Return ProcessPriorityClass.Idle
-            End If
+
         End Get
     End Property
     Public Overrides ReadOnly Property AverageCpuUsage(Optional ByVal force As Boolean = False) As Double
@@ -386,13 +260,13 @@ Public Class cRemoteProcessWMI
     End Property
     Public Overrides ReadOnly Property HandleCount() As Integer
         Get
-            Return CInt(Me.GetInformationFromWMICollection(WMI_INFO.HandleCount))
+            Return 0
         End Get
     End Property
     Public Overrides ReadOnly Property StartTime() As Date
         Get
             If _startTime = Nothing Then
-                _startTime = DMTFDateToDateTime(CStr(Me.GetInformationFromWMICollection(WMI_INFO.CreationDate)))
+
             End If
             Return _startTime
         End Get
@@ -409,10 +283,10 @@ Public Class cRemoteProcessWMI
     End Property
     Public Overrides ReadOnly Property MngObjProcess() As Management.ManagementObject
         Get
-            Return _theProcess
+            Return Nothing
         End Get
     End Property
-
+#End Region
 
 
 
@@ -421,7 +295,6 @@ Public Class cRemoteProcessWMI
     ' Public functions of this class
     ' ========================================
 
-    ' NON IMPLEMENTED FUNCTIONS
     Public Overrides Function GetInformationNumerical(ByVal infoName As String) As Double
         '
     End Function
@@ -444,51 +317,25 @@ Public Class cRemoteProcessWMI
 
     Public Overrides Sub Refresh(Optional ByRef tag As System.Management.ManagementObject = Nothing)
         Static _refrehNumber As Integer = 0
-
-        ' Refresh _theProcess from the dictionnary we got before
-        'If tag.ContainsKey(_pid.ToString) Then
-        _theProcess = tag '.Item(_pid.ToString)
-        'End If
-
         _refrehNumber += 1   ' This is the key
 
         ' Get date in ms
         Dim _now As Long = Date.Now.Ticks
 
-        ' Refresh memory infos
-        '_memInfo = Me.MemoryInfos(True)
-
-        '' Refresh IO infos
-        '_io = GetIOvalues(True)
-
-        '' Store informations
-        '_dicoProcMem.Add(_refrehNumber, New PROC_MEM_INFO(_now, _memInfo))
-        '_dicoProcTimes.Add(_refrehNumber, New PROC_TIME_INFO(_now, _userTime, _kernelTime))
-        '_dicoProcIO.Add(_refrehNumber, New PROC_IO_INFO(_now, _io))
 
         MyBase.Refresh()
     End Sub
 
     ' Set priority
     Public Overrides Function SetProcessPriority(ByVal level As ProcessPriorityClass) As Integer
-        Dim i As Integer = 0
-        '_theProcess.InvokeMethod("Terminate", Nothing)
+
     End Function
 
     ' Kill a process
     Public Overrides Function Kill() As Integer
-        Dim _t As New Threading.Thread(AddressOf KillAsync)
-        _t.IsBackground = True
-        _t.Priority = Threading.ThreadPriority.Lowest
-        _t.Start()
+
     End Function
-    Private Sub KillAsync()
-        Try
-            _theProcess.InvokeMethod("Terminate", Nothing)
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Could not kill process " & Me.Name)
-        End Try
-    End Sub
+
 
     ' Retrieve informations by its name
     Public Overrides Function GetInformation(ByVal infoName As String) As String
@@ -527,23 +374,23 @@ Public Class cRemoteProcessWMI
                 Dim ts As Date = Me.StartTime
                 res = ts.ToLongDateString & " -- " & ts.ToLongTimeString
             Case "WorkingSet"
-                res = GetFormatedSize(CInt(Me.GetInformationFromWMICollection(WMI_INFO.WorkingSetSize)))
+
             Case "PeakWorkingSet"
-                res = GetFormatedSize(CInt(Me.GetInformationFromWMICollection(WMI_INFO.PeakWorkingSetSize)))
+
             Case "PageFaultCount"
-                res = CInt(Me.GetInformationFromWMICollection(WMI_INFO.PageFaults)).ToString
+
             Case "PagefileUsage"
-                res = GetFormatedSize(CInt(Me.GetInformationFromWMICollection(WMI_INFO.PageFileUsage)))
+
             Case "PeakPagefileUsage"
-                res = GetFormatedSize(CInt(Me.GetInformationFromWMICollection(WMI_INFO.PeakPageFileUsage)))
+
             Case "QuotaPeakPagedPoolUsage"
-                res = GetFormatedSize(CInt(Me.GetInformationFromWMICollection(WMI_INFO.QuotaPeakPagedPoolUsage)))
+
             Case "QuotaPagedPoolUsage"
-                res = GetFormatedSize(CInt(Me.GetInformationFromWMICollection(WMI_INFO.QuotaPagedPoolUsage)))
+
             Case "QuotaPeakNonPagedPoolUsage"
-                res = GetFormatedSize(CInt(Me.GetInformationFromWMICollection(WMI_INFO.QuotaPeakNonPagedPoolUsage)))
+
             Case "QuotaNonPagedPoolUsage"
-                res = GetFormatedSize(CInt(Me.GetInformationFromWMICollection(WMI_INFO.QuotaNonPagedPoolUsage)))
+
             Case "Priority"
                 res = Me.PriorityClass.ToString
             Case "Path"
@@ -596,66 +443,71 @@ Public Class cRemoteProcessWMI
     ' Shared functions
     ' ========================================
 
-    Public Shared Function Enumerate(ByRef _remoteCon As cRemoteProcessWMI.RemoteConnectionInfoWMI, ByRef key() As String, ByRef _dico As Dictionary(Of String, LightProcess), ByRef _dicoMng As Dictionary(Of String, Management.ManagementObject)) As Integer
+    ' Connect to the selected server
+    Public Shared Sub ConnectToServer(ByVal ip As String, ByVal port As Integer)
+        sock = New RemoteControl.cAsyncSocket(Nothing)
+        _connection = New RemoteConnectionInfo(ip, port)
+        sock.Connect(_connection.ip, port)
+    End Sub
+    Public Shared Sub ConnectToServer(ByVal conn As RemoteConnectionInfo)
+        sock = New RemoteControl.cAsyncSocket(Nothing)
+        _connection = conn
+        sock.Connect(conn.ip, conn.port)
+    End Sub
 
-        Dim colProcesses As Management.ManagementObjectSearcher
+    ' Disconnect from server
+    Public Shared Sub DisconnectFromServer()
+        If isConnected Then
+            sock.Disconnect()
+        End If
+    End Sub
 
-        ' Launch request
-        Dim __con As New ConnectionOptions
-        __con.Impersonation = ImpersonationLevel.Impersonate
-        __con.Password = _remoteCon.password
-        __con.Username = _remoteCon.user
+    Public Shared Function Enumerate(ByRef key() As String, ByRef _dico As Dictionary(Of String, LightProcess)) As Integer
 
-        colProcesses = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Process")
-        colProcesses.Scope = New Management.ManagementScope("\\" & _remoteCon.serverName & "\root\cimv2", __con)
-
-        ' Save current collection
-        Dim res As ManagementObjectCollection = colProcesses.Get
-        _tempProcCol = res
-
-        ' Create dictionnary
+        ReDim key(-1)
         _dico.Clear()
-        _dicoMng.Clear()
-        Dim refProcess As Management.ManagementObject
-        ReDim key(res.Count - 1)
-        Dim x As Integer = 0
-        For Each refProcess In res
-            Dim ID As Integer = CInt(refProcess.GetPropertyValue("ProcessId"))
-            Dim NAME As String = CStr(refProcess.GetPropertyValue("Name"))
-            _dico.Add(ID.ToString, New LightProcess(ID, NAME))
-            _dicoMng.Add(ID.ToString, refProcess)
-            key(x) = ID.ToString
-            x += 1
-        Next
+        If isConnected Then
+
+            ' Request a process list
+            Dim cDat As New RemoteControl.cSocketData(RemoteControl.cSocketData.DataType.Order, RemoteControl.cSocketData.OrderType.RequestProcessList)
+            sock.Send(cDat)
+            While Not (received)
+                Threading.Thread.Sleep(10)
+            End While
+            received = False
+
+            ' Ok we got informations
+            ReDim key(receivedData.GetDico.Length - 1)
+            Dim x As Integer = 0
+            For Each proc As RemoteControl.cSocketData.LightProcess In receivedData.GetDico
+                key(x) = proc.ID.ToString
+                _dico.Add(key(x), New LightProcess(proc.ID, proc.name))
+                x += 1
+            Next
+        End If
 
     End Function
 
     ' New process
-    Public Shared Sub StartNewProcess(ByRef connectionOpt As cRemoteProcessWMI.RemoteConnectionInfoWMI, ByVal processPath As String)
-        Dim connOptions As ConnectionOptions = New ConnectionOptions()
-        connOptions.Impersonation = ImpersonationLevel.Impersonate
-        connOptions.Username = connectionOpt.user
-        connOptions.Password = connectionOpt.password
-        connOptions.EnablePrivileges = True
-        Dim manScope As ManagementScope = New ManagementScope([String].Format("\\{0}\ROOT\CIMV2", connectionOpt.serverName), connOptions)
-        manScope.Connect()
-        Dim objectGetOptions As New ObjectGetOptions()
-        Dim managementPath As New ManagementPath("Win32_Process")
-        Dim processClass As New ManagementClass(manScope, managementPath, objectGetOptions)
-        Dim inParams As ManagementBaseObject = processClass.GetMethodParameters("Create")
-        inParams("CommandLine") = processPath
-        Dim outParams As ManagementBaseObject = processClass.InvokeMethod("Create", inParams, Nothing)
-        'Console.WriteLine("Creation of the process returned: " & outParams("returnValue").ToString)
-        'Console.WriteLine("Process ID: " & outParams("processId").ToString)
+    Public Shared Sub StartNewProcess(ByVal processPath As String)
+
     End Sub
 
 
+    Private Shared Sub sock_Connected() Handles sock.Connected
+        isConnected = True
+    End Sub
 
-    ' ========================================
-    ' Private functions of this class
-    ' ========================================
-    Private Function GetInformationFromWMICollection(ByVal infoName As WMI_INFO) As Object
-        Return _theProcess.GetPropertyValue(infoName.ToString)
-    End Function
+    Private Shared Sub sock_Disconnected() Handles sock.Disconnected
+        isConnected = False
+    End Sub
 
+    Private Shared Sub sock_ReceivedData(ByRef data() As Byte, ByVal length As Integer) Handles sock.ReceivedData
+        receivedData = RemoteControl.cSerialization.DeserializeObject(data)
+        received = True
+    End Sub
+
+    Private Shared Sub sock_SentData() Handles sock.SentData
+        Dim i As Integer = 0
+    End Sub
 End Class

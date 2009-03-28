@@ -39,7 +39,9 @@ Public Class processList
     Private _remoteSpecialDico As New Dictionary(Of String, System.Management.ManagementObject)
     Private _dico As New Dictionary(Of String, cProcess)
     Private _local As Boolean = True
-    Private _con As cRemoteProcessWMI.RemoteConnectionInfo
+    Private _con As cRemoteProcessWMI.RemoteConnectionInfoWMI
+    Private _con2 As cRemoteProcess.RemoteConnectionInfo
+    Private _conType As ProvidersConnectionType
 
 #Region "Properties"
 
@@ -54,12 +56,30 @@ Public Class processList
             _local = value
         End Set
     End Property
-    Public Property RemoteConnection() As cRemoteProcessWMI.RemoteConnectionInfo
+    Public Property RemoteConnectionWMI() As cRemoteProcessWMI.RemoteConnectionInfoWMI
         Get
             Return _con
         End Get
-        Set(ByVal value As cRemoteProcessWMI.RemoteConnectionInfo)
+        Set(ByVal value As cRemoteProcessWMI.RemoteConnectionInfoWMI)
             _con = value
+        End Set
+    End Property
+    Public Property RemoteConnection() As cRemoteProcess.RemoteConnectionInfo
+        Get
+            Return _con2
+        End Get
+        Set(ByVal value As cRemoteProcess.RemoteConnectionInfo)
+            _con2 = value
+            cRemoteProcess.DisconnectFromServer()
+            cRemoteProcess.ConnectToServer(value)
+        End Set
+    End Property
+    Public Property Connection() As ProvidersConnectionType
+        Get
+            Return _conType
+        End Get
+        Set(ByVal value As ProvidersConnectionType)
+            _conType = value
         End Set
     End Property
 
@@ -120,7 +140,11 @@ Public Class processList
         If _local Then
             Call cLocalProcess.Enumerate(_itemId, _buffDico)
         Else
-            Call cRemoteProcessWMI.Enumerate(_con, _itemId, _buffDico, _remoteSpecialDico)
+            If _conType = ProvidersConnectionType.RemoteWMI Then
+                Call cRemoteProcessWMI.Enumerate(_con, _itemId, _buffDico, _remoteSpecialDico)
+            Else
+                Call cRemoteProcess.Enumerate(_itemId, _buffDico)
+            End If
         End If
 
 
@@ -166,7 +190,11 @@ Public Class processList
             If _local Then
                 _it = New cLocalProcess(_buffDico.Item(z))
             Else
-                _it = New cRemoteProcessWMI(_buffDico.Item(z), _con)
+                If _conType = ProvidersConnectionType.RemoteWMI Then
+                    _it = New cRemoteProcessWMI(_buffDico.Item(z), _con)
+                Else
+                    _it = New cRemoteProcess(_buffDico.Item(z))
+                End If
             End If
             RaiseEvent ItemAdded(_it)
             _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
