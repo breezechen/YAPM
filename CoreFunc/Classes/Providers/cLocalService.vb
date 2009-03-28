@@ -24,7 +24,7 @@ Option Strict On
 Imports System.Runtime.InteropServices
 Imports System.Diagnostics
 
-Public Class cRemoteService
+Public Class cLocalService
     Inherits cService
 
 #Region "API"

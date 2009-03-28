@@ -39,7 +39,7 @@ Public Class processList
     Private _remoteSpecialDico As New Dictionary(Of String, System.Management.ManagementObject)
     Private _dico As New Dictionary(Of String, cProcess)
     Private _local As Boolean = True
-    Private _con As cRemoteProcess.RemoteConnectionInfo
+    Private _con As cRemoteProcessWMI.RemoteConnectionInfo
 
 #Region "Properties"
 
@@ -54,11 +54,11 @@ Public Class processList
             _local = value
         End Set
     End Property
-    Public Property RemoteConnection() As cRemoteProcess.RemoteConnectionInfo
+    Public Property RemoteConnection() As cRemoteProcessWMI.RemoteConnectionInfo
         Get
             Return _con
         End Get
-        Set(ByVal value As cRemoteProcess.RemoteConnectionInfo)
+        Set(ByVal value As cRemoteProcessWMI.RemoteConnectionInfo)
             _con = value
         End Set
     End Property
@@ -120,7 +120,7 @@ Public Class processList
         If _local Then
             Call cLocalProcess.Enumerate(_itemId, _buffDico)
         Else
-            Call cRemoteProcess.Enumerate(_con, _itemId, _buffDico, _remoteSpecialDico)
+            Call cRemoteProcessWMI.Enumerate(_con, _itemId, _buffDico, _remoteSpecialDico)
         End If
 
 
@@ -166,7 +166,7 @@ Public Class processList
             If _local Then
                 _it = New cLocalProcess(_buffDico.Item(z))
             Else
-                _it = New cRemoteProcess(_buffDico.Item(z), _con)
+                _it = New cRemoteProcessWMI(_buffDico.Item(z), _con)
             End If
             RaiseEvent ItemAdded(_it)
             _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item

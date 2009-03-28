@@ -71,11 +71,11 @@
     <Compile Include="Classes\Providers\cMonitor.vb" />
     <Compile Include="Classes\Providers\cNetwork.vb" />
     <Compile Include="Classes\Providers\cLocalProcess.vb" />
-    <Compile Include="Classes\Providers\cRemoteService.vb" />
+    <Compile Include="Classes\Providers\cRemoteServiceWMI.vb" />
     <Compile Include="Classes\Providers\cLocalService.vb" />
-    <Compile Include="Classes\Providers\cRemoteModule.vb" />
+    <Compile Include="Classes\Providers\cRemoteModuleWMI.vb" />
     <Compile Include="Classes\Providers\cLocalModule.vb" />
-    <Compile Include="Classes\Providers\cRemoteProcess.vb" />
+    <Compile Include="Classes\Providers\cRemoteProcessWMI.vb" />
     <Compile Include="Classes\Providers\cProcess.vb" />
     <Compile Include="Classes\Providers\cProcessMemRW.vb" />
     <Compile Include="Classes\Providers\cServEnum.vb" />

@@ -30,7 +30,7 @@ Imports System.Runtime.InteropServices
 Imports System.Management
 
 
-Public Class cRemoteProcess
+Public Class cRemoteProcessWMI
     Inherits cProcess
 
     ' ========================================
@@ -596,7 +596,7 @@ Public Class cRemoteProcess
     ' Shared functions
     ' ========================================
 
-    Public Shared Function Enumerate(ByRef _remoteCon As cRemoteProcess.RemoteConnectionInfo, ByRef key() As String, ByRef _dico As Dictionary(Of String, LightProcess), ByRef _dicoMng As Dictionary(Of String, Management.ManagementObject)) As Integer
+    Public Shared Function Enumerate(ByRef _remoteCon As cRemoteProcessWMI.RemoteConnectionInfo, ByRef key() As String, ByRef _dico As Dictionary(Of String, LightProcess), ByRef _dicoMng As Dictionary(Of String, Management.ManagementObject)) As Integer
 
         Dim colProcesses As Management.ManagementObjectSearcher
 
@@ -631,7 +631,7 @@ Public Class cRemoteProcess
     End Function
 
     ' New process
-    Public Shared Sub StartNewProcess(ByRef connectionOpt As cRemoteProcess.RemoteConnectionInfo, ByVal processPath As String)
+    Public Shared Sub StartNewProcess(ByRef connectionOpt As cRemoteProcessWMI.RemoteConnectionInfo, ByVal processPath As String)
         Dim connOptions As ConnectionOptions = New ConnectionOptions()
         connOptions.Impersonation = ImpersonationLevel.Impersonate
         connOptions.Username = connectionOpt.user

@@ -37,7 +37,7 @@ Public Class moduleList
     Private _dico As New Dictionary(Of String, cModule)
     Private _local As Boolean = True
     Private _theProc As Management.ManagementObject
-    Private _con As cRemoteProcess.RemoteConnectionInfo
+    Private _con As cRemoteProcessWMI.RemoteConnectionInfo
 
     Private _pid As Integer
 
@@ -62,11 +62,11 @@ Public Class moduleList
             _local = value
         End Set
     End Property
-    Public Property RemoteConnection() As cRemoteProcess.RemoteConnectionInfo
+    Public Property RemoteConnection() As cRemoteProcessWMI.RemoteConnectionInfo
         Get
             Return _con
         End Get
-        Set(ByVal value As cRemoteProcess.RemoteConnectionInfo)
+        Set(ByVal value As cRemoteProcessWMI.RemoteConnectionInfo)
             _con = value
         End Set
     End Property
@@ -133,7 +133,7 @@ Public Class moduleList
         If _local Then
             Call cLocalModule.Enumerate(_pid, _itemId, _buffDico)
         Else
-            Call cRemoteModule.Enumerate(_con, _theProc, _itemId, _buffDico, _remoteSpecialDico)
+            Call cRemoteModuleWMI.Enumerate(_con, _theProc, _itemId, _buffDico, _remoteSpecialDico)
         End If
 
         ' Now add all items with isKilled = true to _dicoDel dictionnary
@@ -176,7 +176,7 @@ Public Class moduleList
             If _local Then
                 _it = New cLocalModule(z, _buffDico.Item(z))
             Else
-                _it = New cRemoteModule(z, _buffDico.Item(z), _con, _remoteSpecialDico(z))
+                _it = New cRemoteModuleWMI(z, _buffDico.Item(z), _con, _remoteSpecialDico(z))
             End If
             _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
             _dico.Add(z, _it)

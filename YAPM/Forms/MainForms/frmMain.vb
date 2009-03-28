@@ -34,7 +34,7 @@ Public Class frmMain
     Private curProc As cProcess
     Private __servEnum As New cServEnum
     Private _local As Boolean = True
-    Public _connOpt As cRemoteProcess.RemoteConnectionInfo
+    Public _connOpt As cRemoteProcessWMI.RemoteConnectionInfo
 
     <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
     Private Shared Function SendMessage(ByVal hWnd As IntPtr, ByVal Msg As Integer, ByVal wParam As Integer, ByVal lParam As Integer) As IntPtr
@@ -4270,7 +4270,7 @@ Public Class frmMain
 
     Private Sub cmdServerOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdServerOK.Click
 
-        _connOpt = New cRemoteProcess.RemoteConnectionInfo(Me.txtServerMachine.Text, Me.txtServerPassword.Text, Me.txtServerUser.Text)
+        _connOpt = New cRemoteProcessWMI.RemoteConnectionInfo(Me.txtServerMachine.Text, Me.txtServerPassword.Text, Me.txtServerUser.Text)
 
         Me.timerProcess.Enabled = _local
         Me.timerServices.Enabled = _local
@@ -4375,7 +4375,7 @@ Public Class frmMain
         Else
             Dim sres As String = CInputBox("Enter the path of the process you want to start.", "Start a new process", "")
             If sres Is Nothing OrElse sres.Equals(String.Empty) Then Exit Sub
-            cRemoteProcess.StartNewProcess(_connOpt, sres)
+            cRemoteProcessWMI.StartNewProcess(_connOpt, sres)
         End If
     End Sub
 

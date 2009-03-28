@@ -24,7 +24,7 @@ Option Strict On
 Imports System.Runtime.InteropServices
 Imports System.Management
 
-Public Class cRemoteModule
+Public Class cRemoteModuleWMI
     Inherits cModule
 
 
@@ -69,7 +69,7 @@ Public Class cRemoteModule
     ' ========================================
     ' Private attributes
     ' ========================================
-    Private Shared _connection As cRemoteProcess.RemoteConnectionInfo
+    Private Shared _connection As cRemoteProcessWMI.RemoteConnectionInfo
     Private Shared _con As ConnectionOptions
     Private Shared _tempProcCol As ManagementObjectCollection
 
@@ -264,7 +264,7 @@ Public Class cRemoteModule
     ' Public functions
     ' ========================================
     Public Sub New(ByVal key As String, ByRef process As MODULEENTRY32, _
-                   ByRef connection As cRemoteProcess.RemoteConnectionInfo, ByRef _module As ManagementObject)
+                   ByRef connection As cRemoteProcessWMI.RemoteConnectionInfo, ByRef _module As ManagementObject)
         MyBase.New()
         _connection = connection
         _con = New ConnectionOptions
@@ -297,7 +297,7 @@ Public Class cRemoteModule
     End Function
 
     ' List modules of an exe file
-    Public Shared Function Enumerate(ByRef _remoteCon As cRemoteProcess.RemoteConnectionInfo, ByRef _process As ManagementObject, ByRef key() As String, _
+    Public Shared Function Enumerate(ByRef _remoteCon As cRemoteProcessWMI.RemoteConnectionInfo, ByRef _process As ManagementObject, ByRef key() As String, _
                                      ByRef _dico As Dictionary(Of String, MODULEENTRY32), ByVal _dicoRemote As Dictionary(Of String, System.Management.ManagementObject)) As Integer
 
         _dico.Clear()

@@ -28,7 +28,7 @@ Public Class frmProcessInfo
 
     Private _historyGraphNumber As Integer = 0
     Private _local As Boolean = True
-    Private _theCon As cRemoteProcess.RemoteConnectionInfo
+    Private _theCon As cRemoteProcessWMI.RemoteConnectionInfo
     Private __con As Management.ConnectionOptions
 
 
@@ -383,7 +383,7 @@ Public Class frmProcessInfo
     End Sub
 
     ' Get process to monitor
-    Public Sub SetProcess(ByRef process As cProcess, ByVal theConnection As cRemoteProcess.RemoteConnectionInfo)
+    Public Sub SetProcess(ByRef process As cProcess, ByVal theConnection As cRemoteProcessWMI.RemoteConnectionInfo)
         curProc = process
         Me.Text = curProc.Name & " (" & CStr(curProc.Pid) & ")"
 
