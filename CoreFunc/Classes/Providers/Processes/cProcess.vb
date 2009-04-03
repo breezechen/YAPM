@@ -92,8 +92,8 @@ Public Class cProcess
         End Get
     End Property
 
-    ' Some different kind of property, because it's changed by the call
-    ' of aVariable= aProcess.CpuUsage
+    ' Different kind of property, because it's changed by the call
+    ' of aVariable = aProcess.CpuUsage
     Public ReadOnly Property CpuUsage() As Double
         Get
             Static oldDate As Long = Date.Now.Ticks
