@@ -9,7 +9,7 @@ Public Class asyncCallbackResume
     Private _pid As Integer
     Private _connection As cProcessConnection
 
-    Public Event HasResumed(ByVal Success As Boolean)
+    Public Event HasResumed(ByVal Success As Boolean, ByVal msg As String)
 
     Public Sub New(ByVal pid As Integer, ByRef procConnection As cProcessConnection)
         _pid = pid
@@ -30,9 +30,9 @@ Public Class asyncCallbackResume
                 If hProc > 0 Then
                     r = API.NtResumeProcess(hProc)
                     API.CloseHandle(hProc)
-                    RaiseEvent HasResumed(r = 0)
+                    RaiseEvent HasResumed(r = 0, API.GetError)
                 Else
-                    RaiseEvent HasResumed(False)
+                    RaiseEvent HasResumed(False, API.GetError)
                 End If
         End Select
     End Sub

@@ -11,7 +11,7 @@ Public Class asyncCallbackSetPriority
     Private _level As ProcessPriorityClass
     Private _connection As cProcessConnection
 
-    Public Event HasSetPriority(ByVal Success As Boolean)
+    Public Event HasSetPriority(ByVal Success As Boolean, ByVal msg As String)
 
     Public Sub New(ByVal pid As Integer, ByVal level As ProcessPriorityClass, ByRef procConnection As cProcessConnection)
         _pid = pid
@@ -59,13 +59,13 @@ Public Class asyncCallbackSetPriority
                         'Return System.Convert.ToUInt32(outParams.Properties("ReturnValue").Value)
 
 
-                        RaiseEvent HasSetPriority(CInt(outParams("ReturnValue")) = 0)
+                        RaiseEvent HasSetPriority(CInt(outParams("ReturnValue")) = 0, "")
                     Else
-                        RaiseEvent HasSetPriority(False)
+                        RaiseEvent HasSetPriority(False, "Internal error")
                     End If
 
                 Catch ex As Exception
-                    RaiseEvent HasSetPriority(False)
+                    RaiseEvent HasSetPriority(False, ex.Message)
                 End Try
 
             Case Else
@@ -76,9 +76,9 @@ Public Class asyncCallbackSetPriority
                 If hProc > 0 Then
                     r = API.SetPriorityClass(hProc, _level)
                     API.CloseHandle(hProc)
-                    RaiseEvent HasSetPriority(r <> 0)
+                    RaiseEvent HasSetPriority(r <> 0, API.GetError)
                 Else
-                    RaiseEvent HasSetPriority(False)
+                    RaiseEvent HasSetPriority(False, API.GetError)
                 End If
         End Select
     End Sub

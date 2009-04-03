@@ -81,7 +81,6 @@
     <Compile Include="Classes\Providers\cTask.vb" />
     <Compile Include="Classes\Providers\cThread.vb" />
     <Compile Include="Classes\Providers\cWindow.vb" />
-    <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackFixedInfos.vb" />
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackKill.vb" />
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackSuspend.vb" />
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackResume.vb" />

@@ -1911,7 +1911,7 @@ Public Class frmProcessInfo
     End Sub
 
     ' When we've finished to get all non fixed infos
-    Private Sub asyncAllNonFixedInfos_HasGotAllNonFixedInfos(ByVal Success As Boolean, ByRef newInfos As CoreFunc.API.SYSTEM_PROCESS_INFORMATION) Handles asyncAllNonFixedInfos.HasGotAllNonFixedInfos
+    Private Sub asyncAllNonFixedInfos_HasGotAllNonFixedInfos(ByVal Success As Boolean, ByRef newInfos As CoreFunc.API.SYSTEM_PROCESS_INFORMATION, ByVal msg As String) Handles asyncAllNonFixedInfos.HasGotAllNonFixedInfos
         If Success Then
             curProc.Merge(newInfos)
         Else

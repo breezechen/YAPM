@@ -14,8 +14,6 @@ Public Class asyncCallbackEnumerate
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
-    ' Private _all As Boolean
-    ' Private _connection As cProcessConnection
     Public Shared dicoNewProcesses As New Dictionary(Of Integer, Boolean)
 
     Public Structure poolObj
@@ -31,12 +29,6 @@ Public Class asyncCallbackEnumerate
 
     Public Shared Sub ClearDico()
         dicoNewProcesses.Clear()
-    End Sub
-
-    'Public Sub New(ByRef dico As Dictionary(Of Integer, Boolean), ByRef procConnection As cConnection)
-    Public Sub New(ByRef procConnection As cProcessConnection)
-        '   _dicoFirst = dico
-        '_connection = procConnection
     End Sub
 
     Public Shared Sub Process(ByVal thePoolObj As Object)
@@ -215,7 +207,7 @@ Public Class asyncCallbackEnumerate
                             dicoNewProcesses.Remove(it.Key)
                         End If
                     Next
-                    pObj.ctrl.Invoke(pObj.deg, True, _dico, Nothing)
+                    pObj.ctrl.Invoke(pObj.deg, True, _dico, API.GetError)
             End Select
 
         End SyncLock

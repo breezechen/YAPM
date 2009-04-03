@@ -10,7 +10,7 @@ Public Class asyncCallbackSetAffinity
     Private _level As Integer
     Private _connection As cProcessConnection
 
-    Public Event HasSetAffinity(ByVal Success As Boolean)
+    Public Event HasSetAffinity(ByVal Success As Boolean, ByVal msg As String)
 
     Public Sub New(ByVal pid As Integer, ByVal level As Integer, ByRef procConnection As cProcessConnection)
         _pid = pid
@@ -30,9 +30,9 @@ Public Class asyncCallbackSetAffinity
                 If __hProcess > 0 Then
                     Dim ret As Integer = API.SetProcessAffinityMask(__hProcess, _level)
                     API.CloseHandle(__hProcess)
-                    RaiseEvent HasSetAffinity(ret <> 0)
+                    RaiseEvent HasSetAffinity(ret <> 0, API.GetError)
                 Else
-                    RaiseEvent HasSetAffinity(False)
+                    RaiseEvent HasSetAffinity(False, API.GetError)
                 End If
         End Select
     End Sub

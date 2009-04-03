@@ -10,7 +10,7 @@ Public Class asyncCallbackUnloadModule
     Private _baseA As Integer
     Private _connection As cProcessConnection
 
-    Public Event HasUnloadedModule(ByVal Success As Boolean, ByVal pid As Integer)
+    Public Event HasUnloadedModule(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String)
 
     Public Sub New(ByVal pid As Integer, ByVal baseAddress As Integer, ByRef procConnection As cProcessConnection)
         _pid = pid
@@ -36,9 +36,9 @@ Public Class asyncCallbackUnloadModule
                     Dim freeLibrary As Integer = API.GetProcAddress(kernel32, "FreeLibrary")
                     Dim threadId As Integer
                     Dim ret As Integer = API.CreateRemoteThread(hProc, 0, 0, freeLibrary, _baseA, 0, threadId)
-                    RaiseEvent HasUnloadedModule(ret <> 0, _pid)
+                    RaiseEvent HasUnloadedModule(ret <> 0, _pid, API.GetError)
                 Else
-                    RaiseEvent HasUnloadedModule(False, _pid)
+                    RaiseEvent HasUnloadedModule(False, _pid, API.GetError)
                 End If
 
         End Select

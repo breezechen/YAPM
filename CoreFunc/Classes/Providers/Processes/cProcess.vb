@@ -166,9 +166,9 @@ Public Class cProcess
         t.Name = "SetPriority"
         t.Start()
     End Function
-    Private Sub setPriorityDone(ByVal success As Boolean) Handles asyncSetPriority.HasSetPriority
+    Private Sub setPriorityDone(ByVal success As Boolean, ByVal msg As String) Handles asyncSetPriority.HasSetPriority
         If success = False Then
-            MsgBox("Error : " & API.GetError, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not set priority to process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
     End Sub
@@ -183,9 +183,9 @@ Public Class cProcess
         t.Name = "Kill"
         t.Start()
     End Function
-    Private Sub killDone(ByVal Success As Boolean, ByVal pid As Integer) Handles asyncKill.HasKilled
+    Private Sub killDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String) Handles asyncKill.HasKilled
         If Success = False Then
-            MsgBox("Error : " & API.GetError, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not kill process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
     End Sub
@@ -200,9 +200,9 @@ Public Class cProcess
         t.Name = "DecreasePriority"
         t.Start()
     End Function
-    Private Sub decreasePriorityDone(ByVal success As Boolean) Handles asyncDecPriority.HasDecreasedPriority
+    Private Sub decreasePriorityDone(ByVal success As Boolean, ByVal msg As String) Handles asyncDecPriority.HasDecreasedPriority
         If success = False Then
-            MsgBox("Error : " & API.GetError, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not set priority to process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
     End Sub
@@ -217,9 +217,9 @@ Public Class cProcess
         t.IsBackground = True
         t.Start()
     End Function
-    Private Sub increasePriorityDone(ByVal success As Boolean) Handles asyncInPriority.HasIncreasedPriority
+    Private Sub increasePriorityDone(ByVal success As Boolean, ByVal msg As String) Handles asyncInPriority.HasIncreasedPriority
         If success = False Then
-            MsgBox("Error : " & API.GetError, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not set priority to process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
     End Sub
@@ -234,9 +234,9 @@ Public Class cProcess
         t.IsBackground = True
         t.Start()
     End Function
-    Private Sub suspendDone(ByVal success As Boolean) Handles asyncSuspend.HasSuspended
+    Private Sub suspendDone(ByVal success As Boolean, ByVal msg As String) Handles asyncSuspend.HasSuspended
         If success = False Then
-            MsgBox("Error : " & API.GetError, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not suspend process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
     End Sub
@@ -251,9 +251,9 @@ Public Class cProcess
         t.IsBackground = True
         t.Start()
     End Function
-    Private Sub resumeDone(ByVal success As Boolean) Handles asyncResume.HasResumed
+    Private Sub resumeDone(ByVal success As Boolean, ByVal msg As String) Handles asyncResume.HasResumed
         If success = False Then
-            MsgBox("Error : " & Err.Description & " (" & Err.LastDllError.ToString & _
+            MsgBox("Error : " & msg & " (" & Err.LastDllError.ToString & _
                    ")", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not resume process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
@@ -269,9 +269,9 @@ Public Class cProcess
         t.IsBackground = True
         t.Start()
     End Function
-    Private Sub recursiveKillDone(ByVal success As Boolean) Handles asyncRecursiveKill.HasKilled
+    Private Sub recursiveKillDone(ByVal success As Boolean, ByVal msg As String) Handles asyncRecursiveKill.HasKilled
         If success = False Then
-            MsgBox("Error : " & Err.Description & " (" & Err.LastDllError.ToString & _
+            MsgBox("Error : " & msg & " (" & Err.LastDllError.ToString & _
                    ")", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not kill process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
@@ -287,9 +287,9 @@ Public Class cProcess
         t.IsBackground = True
         t.Start()
     End Function
-    Private Sub emptyWorkingSetSizeDone(ByVal success As Boolean) Handles asyncEmptyWorkingSetSize.HasReducedWorkingSet
+    Private Sub emptyWorkingSetSizeDone(ByVal success As Boolean, ByVal msg As String) Handles asyncEmptyWorkingSetSize.HasReducedWorkingSet
         If success = False Then
-            MsgBox("Error : " & Err.Description & " (" & Err.LastDllError.ToString & _
+            MsgBox("Error : " & msg & " (" & Err.LastDllError.ToString & _
                    ")", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not empty working set" & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
@@ -322,9 +322,9 @@ Public Class cProcess
         t.Name = "SetAffinity"
         t.Start()
     End Function
-    Private Sub setAffinityDone(ByVal success As Boolean) Handles asyncSetAffinity.HasSetAffinity
+    Private Sub setAffinityDone(ByVal success As Boolean, ByVal msg As String) Handles asyncSetAffinity.HasSetAffinity
         If success = False Then
-            MsgBox("Error : " & API.GetError, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not set affinity " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
     End Sub
@@ -547,9 +547,9 @@ Public Class cProcess
         t.Name = "Kill"
         t.Start()
     End Function
-    Private Shared Sub killDoneShared(ByVal Success As Boolean, ByVal pid As Integer) Handles asyncKillShared.HasKilled
+    Private Shared Sub killDoneShared(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String) Handles asyncKillShared.HasKilled
         If Success = False Then
-            MsgBox("Error : " & API.GetError, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not kill process " & pid.ToString)
         End If
     End Sub
@@ -564,9 +564,9 @@ Public Class cProcess
         t.Name = "StartNewProcess"
         t.Start()
     End Function
-    Private Shared Sub newProcessDoneShared(ByVal Success As Boolean, ByVal path As String) Handles asyncStartShared.HasCreated
+    Private Shared Sub newProcessDoneShared(ByVal Success As Boolean, ByVal path As String, ByVal msg As String) Handles asyncStartShared.HasCreated
         If Success = False Then
-            MsgBox("Error : cannot start process.", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+            MsgBox("Error : cannot start process : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not start new process " & path)
         End If
     End Sub
@@ -585,9 +585,9 @@ Public Class cProcess
         t.Name = "UnloadModule"
         t.Start()
     End Function
-    Private Shared Sub unloadModuleDoneShared(ByVal Success As Boolean, ByVal pid As Integer) Handles asyncUnloadModuleShared.HasUnloadedModule
+    Private Shared Sub unloadModuleDoneShared(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String) Handles asyncUnloadModuleShared.HasUnloadedModule
         If Success = False Then
-            MsgBox("Error : " & API.GetError, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not unload the module from process " & pid.ToString)
         End If
     End Sub

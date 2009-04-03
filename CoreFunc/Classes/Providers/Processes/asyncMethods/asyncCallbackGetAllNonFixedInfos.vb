@@ -7,7 +7,7 @@ Imports System.Windows.Forms
 
 Public Class asyncCallbackGetAllNonFixedInfos
 
-    Public Event HasGotAllNonFixedInfos(ByVal Success As Boolean, ByRef newInfos As API.SYSTEM_PROCESS_INFORMATION)
+    Public Event HasGotAllNonFixedInfos(ByVal Success As Boolean, ByRef newInfos As API.SYSTEM_PROCESS_INFORMATION, ByVal msg As String)
 
     Private _connection As cProcessConnection
     Private _process As cProcess
@@ -39,7 +39,7 @@ Public Class asyncCallbackGetAllNonFixedInfos
                     Next
                 Catch ex As Exception
                     ' Could not enumerate processes
-                    RaiseEvent HasGotAllNonFixedInfos(False, Nothing)
+                    RaiseEvent HasGotAllNonFixedInfos(False, Nothing, ex.Message)
                 End Try
                 ' Get informations from found process
                 If refProcess IsNot Nothing Then
@@ -82,10 +82,10 @@ Public Class asyncCallbackGetAllNonFixedInfos
                         .VirtualMemoryCounters = _VM
                     End With
 
-                    RaiseEvent HasGotAllNonFixedInfos(True, _newInfos)
+                    RaiseEvent HasGotAllNonFixedInfos(True, _newInfos, API.GetError)
                 Else
                     ' Could not get process
-                    RaiseEvent HasGotAllNonFixedInfos(False, Nothing)
+                    RaiseEvent HasGotAllNonFixedInfos(False, Nothing, API.GetError)
                 End If
 
 

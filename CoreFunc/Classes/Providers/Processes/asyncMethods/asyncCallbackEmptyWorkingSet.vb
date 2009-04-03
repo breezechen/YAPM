@@ -9,7 +9,7 @@ Public Class asyncCallbackEmptyWorkingSet
     Private _pid As Integer
     Private _connection As cProcessConnection
 
-    Public Event HasReducedWorkingSet(ByVal Success As Boolean)
+    Public Event HasReducedWorkingSet(ByVal Success As Boolean, ByVal msg As String)
 
     Public Sub New(ByVal pid As Integer, ByRef procConnection As cProcessConnection)
         _pid = pid
@@ -28,9 +28,9 @@ Public Class asyncCallbackEmptyWorkingSet
                 If _hHandle > 0 Then
                     Dim _ret As Integer = API.SetProcessWorkingSetSize(_hHandle, -1, -1)
                     API.CloseHandle(_hHandle)
-                    RaiseEvent HasReducedWorkingSet(_ret <> 0)
+                    RaiseEvent HasReducedWorkingSet(_ret <> 0, API.GetError)
                 Else
-                    RaiseEvent HasReducedWorkingSet(False)
+                    RaiseEvent HasReducedWorkingSet(False, API.GetError)
                 End If
         End Select
     End Sub

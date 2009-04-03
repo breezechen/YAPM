@@ -9,7 +9,7 @@ Public Class asyncCallbackKill
     Private _pid As Integer
     Private _connection As cProcessConnection
 
-    Public Event HasKilled(ByVal Success As Boolean, ByVal pid As Integer)
+    Public Event HasKilled(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String)
 
     Public Sub New(ByVal pid As Integer, ByRef procConnection As cProcessConnection)
         _pid = pid
@@ -32,12 +32,12 @@ Public Class asyncCallbackKill
                     Dim ret As Integer = 0
                     Try
                         ret = CInt(_theProcess.InvokeMethod("Terminate", Nothing))
-                        RaiseEvent HasKilled(ret = 0, _pid)
+                        RaiseEvent HasKilled(ret = 0, _pid, Nothing)
                     Catch ex As Exception
-                        RaiseEvent HasKilled(False, _pid)
+                        RaiseEvent HasKilled(False, _pid, ex.Message)
                     End Try
                 Else
-                    RaiseEvent HasKilled(False, _pid)
+                    RaiseEvent HasKilled(False, _pid, "Internal error")
                 End If
             Case Else
                 ' Local
@@ -47,9 +47,9 @@ Public Class asyncCallbackKill
                 If hProc > 0 Then
                     ret = API.TerminateProcess(hProc, 0)
                     API.CloseHandle(hProc)
-                    RaiseEvent HasKilled(ret <> 0, 0)
+                    RaiseEvent HasKilled(ret <> 0, 0, API.GetError)
                 Else
-                    RaiseEvent HasKilled(False, _pid)
+                    RaiseEvent HasKilled(False, _pid, API.GetError)
                 End If
         End Select
     End Sub

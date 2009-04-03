@@ -10,7 +10,7 @@ Public Class asyncCallbackDecreasePriority
     Private _level As ProcessPriorityClass
     Private _connection As cProcessConnection
 
-    Public Event HasDecreasedPriority(ByVal Success As Boolean)
+    Public Event HasDecreasedPriority(ByVal Success As Boolean, ByVal msg As String)
 
     Public Sub New(ByVal pid As Integer, ByVal level As ProcessPriorityClass, ByRef procConnection As cProcessConnection)
         _pid = pid
@@ -47,9 +47,9 @@ Public Class asyncCallbackDecreasePriority
                 If hProc > 0 Then
                     r = API.SetPriorityClass(hProc, _newlevel)
                     API.CloseHandle(hProc)
-                    RaiseEvent HasDecreasedPriority(r <> 0)
+                    RaiseEvent HasDecreasedPriority(r <> 0, API.GetError)
                 Else
-                    RaiseEvent HasDecreasedPriority(False)
+                    RaiseEvent HasDecreasedPriority(False, API.GetError)
                 End If
         End Select
     End Sub

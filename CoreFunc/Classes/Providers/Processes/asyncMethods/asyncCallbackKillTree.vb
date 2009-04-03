@@ -9,7 +9,7 @@ Public Class asyncCallbackKillTree
     Private _pid As Integer
     Private _connection As cProcessConnection
 
-    Public Event HasKilled(ByVal Success As Boolean)
+    Public Event HasKilled(ByVal Success As Boolean, ByVal msg As String)
 
     Public Sub New(ByVal pid As Integer, ByRef procConnection As cProcessConnection)
         _pid = pid
@@ -24,7 +24,7 @@ Public Class asyncCallbackKillTree
 
             Case Else
                 ' Local
-                RaiseEvent HasKilled(recursiveKill(_pid))
+                RaiseEvent HasKilled(recursiveKill(_pid), API.GetError)
 
         End Select
     End Sub

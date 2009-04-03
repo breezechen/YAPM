@@ -10,7 +10,7 @@ Public Class asyncCallbackNewProcess
     Private _path As String
     Private _connection As cProcessConnection
 
-    Public Event HasCreated(ByVal Success As Boolean, ByVal path As String)
+    Public Event HasCreated(ByVal Success As Boolean, ByVal path As String, ByVal msg As String)
 
     Public Sub New(ByVal path As String, ByRef procConnection As cProcessConnection)
         _path = path
@@ -29,16 +29,16 @@ Public Class asyncCallbackNewProcess
                     Dim inParams As ManagementBaseObject = processClass.GetMethodParameters("Create")
                     inParams("CommandLine") = _path
                     Dim outParams As ManagementBaseObject = processClass.InvokeMethod("Create", inParams, Nothing)
-                    RaiseEvent HasCreated(CInt(outParams("ProcessId")) > 0, _path)
+                    RaiseEvent HasCreated(CInt(outParams("ProcessId")) > 0, _path, "")
                 Catch ex As Exception
-                    RaiseEvent HasCreated(False, _path)
+                    RaiseEvent HasCreated(False, _path, ex.Message)
                 End Try
             Case Else
                 ' Local
                 ' OK, normally the local startNewProcess is not done here
                 ' because of RunBox need
                 Dim pid As Integer = Shell(_path)
-                RaiseEvent HasCreated(pid <> 0, _path)
+                RaiseEvent HasCreated(pid <> 0, _path, API.GetError)
         End Select
     End Sub
 

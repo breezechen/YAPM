@@ -9,7 +9,7 @@ Public Class asyncCallbackSuspend
     Private _pid As Integer
     Private _connection As cProcessConnection
 
-    Public Event HasSuspended(ByVal Success As Boolean)
+    Public Event HasSuspended(ByVal Success As Boolean, ByVal msg As String)
 
     Public Sub New(ByVal pid As Integer, ByRef procConnection As cProcessConnection)
         _pid = pid
@@ -30,9 +30,9 @@ Public Class asyncCallbackSuspend
                 If hProc > 0 Then
                     r = API.NtSuspendProcess(hProc)
                     API.CloseHandle(hProc)
-                    RaiseEvent HasSuspended(r = 0)
+                    RaiseEvent HasSuspended(r = 0, API.GetError)
                 Else
-                    RaiseEvent HasSuspended(False)
+                    RaiseEvent HasSuspended(False, API.GetError)
                 End If
         End Select
     End Sub
