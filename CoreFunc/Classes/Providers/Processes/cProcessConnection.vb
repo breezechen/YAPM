@@ -34,6 +34,9 @@ Public Class cProcessConnection
     ' We will invoke this control
     Private _control As Control
 
+    ' For processor count
+    Private Shared _processors As Integer = 1
+
     ' For WMI
     Friend wmiSearcher As Management.ManagementObjectSearcher
 
@@ -51,6 +54,16 @@ Public Class cProcessConnection
     Public Connected As ConnectedEventHandler
     Public Disconnected As DisconnectedEventHandler
     Public HasEnumerated As HasEnumeratedEventHandler
+
+#End Region
+
+#Region "Properties"
+
+    Public Shared ReadOnly Property ProcessorCount() As Integer
+        Get
+            Return _processors
+        End Get
+    End Property
 
 #End Region
 
@@ -87,6 +100,8 @@ Public Class cProcessConnection
         t.Start()
     End Sub
     Public Sub asyncConnect()
+
+        ' Connect
         Select Case _conObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
@@ -110,6 +125,26 @@ Public Class cProcessConnection
                 _connected = True
                 _control.Invoke(Connected, True)
         End Select
+
+
+        ' Get processor count
+        Select Case _conObj.ConnectionType
+            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+
+            Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                Dim objSearcherSystem = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Processor")
+                objSearcherSystem.Scope = wmiSearcher.Scope
+                Dim _count As Integer = 0
+                For Each res As Management.ManagementObject In objSearcherSystem.Get
+                    _count += 1
+                Next
+                _processors = _count
+
+            Case Else
+                ' Local
+                _processors = cSystemInfo.GetProcessorCount
+        End Select
+
     End Sub
 
     ' Disconnect

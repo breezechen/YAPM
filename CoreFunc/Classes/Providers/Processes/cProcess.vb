@@ -30,12 +30,14 @@ Public Class cProcess
 
     Private _infos As API.SYSTEM_PROCESS_INFORMATION
     Private _processInfos As processInfos
-    Private _processors As Integer
+    Private _processors As Integer = 1       ' By default we consider that there is only one processor
     Private Shared WithEvents _connection As cProcessConnection
 
     Private _parentName As String = vbNullString
 
     Private _handleQueryInfo As Integer
+
+#Region "Properties"
 
     Public Shared Property Connection() As cProcessConnection
         Get
@@ -46,13 +48,15 @@ Public Class cProcess
         End Set
     End Property
 
-#Region "Constructor & destructor"
+#End Region
+
+#Region "Constructors & destructor"
 
     Public Sub New(ByRef infos As API.SYSTEM_PROCESS_INFORMATION)
         _infos = infos
         _processInfos = New processInfos(_infos)
-        _processors = cSystemInfo.GetProcessorCount
-        _connection = connection
+        _connection = Connection
+        _processors = cProcessConnection.ProcessorCount
         ' Get a handle if local
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
             _handleQueryInfo = API.OpenProcess(API.PROCESS_QUERY_INFORMATION, 0, infos.ProcessId)
@@ -61,8 +65,8 @@ Public Class cProcess
 
     Public Sub New(ByRef infos As processInfos)
         _processInfos = infos
-        _processors = cSystemInfo.GetProcessorCount
         _connection = Connection
+        _processors = cProcessConnection.ProcessorCount
         ' Get a handle if local
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
             _handleQueryInfo = API.OpenProcess(API.PROCESS_QUERY_INFORMATION, 0, infos.Pid)
@@ -80,11 +84,39 @@ Public Class cProcess
 
 #End Region
 
+#Region "Normal properties"
+
     Public ReadOnly Property Infos() As processInfos
         Get
             Return _processInfos
         End Get
     End Property
+
+    ' Some different kind of property, because it's changed by the call
+    ' of aVariable= aProcess.CpuUsage
+    Public ReadOnly Property CpuUsage() As Double
+        Get
+            Static oldDate As Long = Date.Now.Ticks
+            Static oldProcTime As Long = Me.Infos.ProcessorTime
+
+            Dim currDate As Long = Date.Now.Ticks
+            Dim proctime As Long = Me.Infos.ProcessorTime
+
+            Dim diff As Long = currDate - oldDate
+            Dim procDiff As Long = proctime - oldProcTime
+
+            oldProcTime = proctime
+            oldDate = currDate
+
+            If diff > 0 AndAlso _processors > 0 Then
+                Return procDiff / diff / _processors
+            Else
+                Return 0
+            End If
+        End Get
+    End Property
+
+#End Region
 
     ' Merge current infos and new infos
     Public Sub Merge(ByRef Proc As processInfos)
@@ -152,7 +184,7 @@ Public Class cProcess
         t.Start()
     End Function
     Private Sub killDone(ByVal Success As Boolean, ByVal pid As Integer) Handles asyncKill.HasKilled
-        If success = False Then
+        If Success = False Then
             MsgBox("Error : " & API.GetError, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not kill process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
@@ -326,7 +358,7 @@ Public Class cProcess
             Case "UserName"
                 res = Me.Infos.UserName
             Case "CpuUsage"
-                '
+                res = GetFormatedPercentage(Me.CpuUsage)
             Case "KernelCpuTime"
                 Dim ts As Date = New Date(Me.Infos.KernelTime)
                 res = String.Format("{0:00}", ts.Hour) & ":" & _

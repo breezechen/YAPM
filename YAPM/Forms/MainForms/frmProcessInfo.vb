@@ -450,7 +450,7 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub timerProcPerf_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerProcPerf.Tick
-        Dim z As Double = 0 'TODO_ curProc.Infos.CpuPercentageUsage
+        Dim z As Double = curProc.CpuUsage
         Dim z2 As Double = curProc.Infos.AverageCpuUsage
         If Double.IsNegativeInfinity(z) Then z = 0
         Me.graphCPU.Add2Values(z * 100, z2 * 100)

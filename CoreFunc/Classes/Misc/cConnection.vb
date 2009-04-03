@@ -30,7 +30,6 @@ Public Class cConnection
     Public Event Connected()
     Public Event Disconnected()
 
-
     ' Type of connection
     Public Enum TypeOfConnection
         [LocalConnection]
