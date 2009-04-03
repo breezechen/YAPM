@@ -33,6 +33,8 @@ Public Class cProcess
     Private _processors As Integer
     Private Shared WithEvents _connection As cProcessConnection
 
+    Private _parentName As String = vbNullString
+
     Private _handleQueryInfo As Integer
 
     Public Shared Property Connection() As cProcessConnection
@@ -305,7 +307,20 @@ Public Class cProcess
             Case "ParentPID"
                 res = Me.Infos.ParentProcessId.ToString
             Case "ParentName"
-                '
+                If _parentName = vbNullString Then
+                    Dim _pi As Integer = Me.Infos.ParentProcessId
+                    If _pi > 4 Then
+                        _parentName = GetProcessName(Me.Infos.ParentProcessId)
+                        If Len(_parentName) = 0 Then
+                            _parentName = "[Parent killed]"
+                        End If
+                    ElseIf _pi = 4 Then
+                        _parentName = "Idle process"
+                    Else
+                        _parentName = NO_INFO_RETRIEVED
+                    End If
+                End If
+                res = _parentName
             Case "PID"
                 res = Me.Infos.Pid.ToString
             Case "UserName"
