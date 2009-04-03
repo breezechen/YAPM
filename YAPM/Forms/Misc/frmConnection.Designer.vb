@@ -152,6 +152,7 @@ Partial Class frmConnection
         Me.txtServerPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
         Me.txtServerPassword.Size = New System.Drawing.Size(87, 22)
         Me.txtServerPassword.TabIndex = 15
+        Me.txtServerPassword.Text = "0"
         Me.txtServerPassword.UseSystemPasswordChar = True
         '
         'Label14
@@ -169,6 +170,7 @@ Partial Class frmConnection
         Me.txtServerUser.Name = "txtServerUser"
         Me.txtServerUser.Size = New System.Drawing.Size(108, 22)
         Me.txtServerUser.TabIndex = 13
+        Me.txtServerUser.Text = "admin"
         '
         'Label13
         '
@@ -185,7 +187,7 @@ Partial Class frmConnection
         Me.txtServerMachine.Name = "txtServerMachine"
         Me.txtServerMachine.Size = New System.Drawing.Size(87, 22)
         Me.txtServerMachine.TabIndex = 11
-        Me.txtServerMachine.Text = "localhost"
+        Me.txtServerMachine.Text = "admin-virtual"
         '
         'Label12
         '
@@ -207,8 +209,8 @@ Partial Class frmConnection
         Me.Controls.Add(Me.optServer)
         Me.Controls.Add(Me.optWMI)
         Me.Controls.Add(Me.optLocal)
-        Me.Controls.Add(Me.gpServer)
         Me.Controls.Add(Me.gpWMI)
+        Me.Controls.Add(Me.gpServer)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximizeBox = False

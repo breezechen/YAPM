@@ -15,7 +15,7 @@ Public Class asyncCallbackEnumerate
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
     ' Private _all As Boolean
-    Private _connection As cProcessConnection
+    ' Private _connection As cProcessConnection
     Public Shared dicoNewProcesses As New Dictionary(Of Integer, Boolean)
 
     Public Structure poolObj
@@ -36,7 +36,7 @@ Public Class asyncCallbackEnumerate
     'Public Sub New(ByRef dico As Dictionary(Of Integer, Boolean), ByRef procConnection As cConnection)
     Public Sub New(ByRef procConnection As cProcessConnection)
         '   _dicoFirst = dico
-        _connection = procConnection
+        '_connection = procConnection
     End Sub
 
     Public Shared Sub Process(ByVal thePoolObj As Object)

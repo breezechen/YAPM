@@ -45,7 +45,7 @@ Public Class frmConnection
 
     Private Sub frmConnection_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Call changeInfos()
-        Me.txtServerMachine.Text = My.Computer.Name
+        'Me.txtServerMachine.Text = My.Computer.Name
     End Sub
 
     Private Sub optServer_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles optServer.CheckedChanged

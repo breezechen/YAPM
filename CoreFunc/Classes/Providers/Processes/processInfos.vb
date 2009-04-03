@@ -245,7 +245,20 @@ Public Class processInfos
             _AffinityMask = .AffinityMask
         End With
     End Sub
+    Public Sub Merge(ByRef newI As API.SYSTEM_PROCESS_INFORMATION)
 
+        With newI
+            _KernelTime = .KernelTime
+            _UserTime = .UserTime
+            _Priority = getPriorityClass(.BasePriority)
+            _MemoryInfos = .VirtualMemoryCounters
+            _IOValues = .IoCounters
+            _HandleCount = .HandleCount
+            '_gdiObjects = .GdiObjects
+            '_userObjects = .UserObjects
+            '_AffinityMask = .AffinityMask
+        End With
+    End Sub
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties() As String()

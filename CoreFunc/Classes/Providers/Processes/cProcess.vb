@@ -88,8 +88,11 @@ Public Class cProcess
     Public Sub Merge(ByRef Proc As processInfos)
         _processInfos.Merge(Proc)
     End Sub
+    Public Sub Merge(ByRef Proc As API.SYSTEM_PROCESS_INFORMATION)
+        _processInfos.Merge(Proc)
+    End Sub
 
-#Region "Special informations (GDI, affinity)"
+#Region "Special informations (GDI, affinity) and special refresh"
 
     ' Refresh some non fixed infos
     ' For now IT IS NOT ASYNC

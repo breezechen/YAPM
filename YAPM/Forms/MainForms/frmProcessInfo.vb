@@ -9,6 +9,8 @@ Public Class frmProcessInfo
     End Function
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
 
+    Private WithEvents asyncAllNonFixedInfos As asyncCallbackGetAllNonFixedInfos
+
     Private WithEvents curProc As cProcess
     Private Const NO_INFO_RETRIEVED As String = "N/A"
     Private m_SortingColumn As ColumnHeader
@@ -28,8 +30,6 @@ Public Class frmProcessInfo
 
     Private _historyGraphNumber As Integer = 0
     Private _local As Boolean = True
-    '    Private _connWMI As cProcessConnection.WMIConnectionParameters
-    '    Private _connSocket As cProcessConnection.SocketConnectionParameters
     Private __con As Management.ConnectionOptions
 
 
@@ -79,7 +79,7 @@ Public Class frmProcessInfo
             Case "General"
                 Me.txtProcessPath.Text = curProc.Infos.Path
                 Me.txtProcessId.Text = curProc.Infos.Pid.ToString
-                'TODO_ (parent)                Me.txtParentProcess.Text = curProc.Infos.ParentProcessId.ToString & " -- " & curProc.Infos.ParentProcessName
+                Me.txtParentProcess.Text = curProc.Infos.ParentProcessId.ToString & " -- " & cProcess.GetProcessName(curProc.Infos.Pid)
                 Me.txtProcessStarted.Text = New Date(curProc.Infos.StartTime).ToLongDateString & " -- " & New Date(curProc.Infos.StartTime).ToLongTimeString
                 Me.txtProcessUser.Text = curProc.Infos.UserName
                 Me.txtCommandLine.Text = curProc.Infos.CommandLine
@@ -98,70 +98,23 @@ Public Class frmProcessInfo
                 End If
 
 
-                'Case "Statistics"
+            Case "Statistics"
 
-                '    ' No need to refresh if local, it's done by the mainform (curProc is only a
-                '    ' reference to an existing instance).
-                '    ' If it is a remote process, we have to query again
-                '    If _local = False Then
+                ' OK, here's the deal :
+                ' - if we are in local mode, we just display informations that
+                '   are available in curproc, because the refreshment is done
+                '   by the main form.
+                ' - if it is a remote connection, we juste demand a refreshment, and
+                '   the refreshment will be done next time we call the refreshProcessTab
+                '   method.
 
-                '        Dim colProcesses As Management.ManagementObjectSearcher
-                '        colProcesses = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Process WHERE ProcessID ='" & curProc.Pid.ToString & "'")
-                '        colProcesses.Scope = New Management.ManagementScope("\\" & _theCon.serverName & "\root\cimv2", __con)
-
-                '        Dim newRefProc As Management.ManagementObject = curProc.MngObjProcess
-                '        For Each refProcess As Management.ManagementObject In colProcesses.Get
-                '            newRefProc = refProcess
-                '        Next
-
-                '        Try
-                '            curProc.Refresh(newRefProc)
-                '        Catch ex As Exception
-                '            MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Could not refresh statistics")
-                '        End Try
-                '    End If
-
-                '    Me.lblProcOther.Text = curProc.GetIOvalues.OtherOperationCount.ToString
-                '    Me.lblProcOtherBytes.Text = GetFormatedSize(curProc.GetIOvalues.OtherTransferCount)
-                '    Me.lblProcReads.Text = curProc.GetIOvalues.ReadOperationCount.ToString
-                '    Me.lblProcReadBytes.Text = GetFormatedSize(curProc.GetIOvalues.ReadTransferCount)
-                '    Me.lblProcWriteBytes.Text = GetFormatedSize(curProc.GetIOvalues.WriteTransferCount)
-                '    Me.lblProcWrites.Text = curProc.GetIOvalues.WriteOperationCount.ToString
-                '    Me.lblGDIcount.Text = CStr(curProc.GDIObjectsCount)
-                '    Me.lblUserObjectsCount.Text = CStr(curProc.UserObjectsCount)
-                '    Me.lblAverageCPUusage.Text = curProc.GetInformation("AverageCpuUsage")
-
-                '    Dim mem As cProcess.PROCESS_MEMORY_COUNTERS = curProc.MemoryInfos
-                '    Me.lblHandles.Text = CStr(curProc.HandleCount)
-                '    Dim ts As Date = curProc.KernelTime
-                '    Dim s As String = String.Format("{0:00}", ts.Hour) & ":" & _
-                '        String.Format("{0:00}", ts.Minute) & ":" & _
-                '        String.Format("{0:00}", ts.Second) & ":" & _
-                '        String.Format("{000}", ts.Millisecond)
-                '    Me.lblKernelTime.Text = s
-                '    Me.lblPageFaults.Text = CStr(mem.PageFaultCount)
-                '    Me.lblPageFileUsage.Text = GetFormatedSize(mem.PagefileUsage)
-                '    Me.lblPeakPageFileUsage.Text = GetFormatedSize(mem.PeakPagefileUsage)
-                '    Me.lblPeakWorkingSet.Text = GetFormatedSize(mem.PeakWorkingSetSize)
-                '    ts = curProc.ProcessorTime
-                '    s = String.Format("{0:00}", ts.Hour) & ":" & _
-                '        String.Format("{0:00}", ts.Minute) & ":" & _
-                '        String.Format("{0:00}", ts.Second) & ":" & _
-                '        String.Format("{000}", ts.Millisecond)
-                '    Me.lblTotalTime.Text = s
-                '    ts = curProc.UserTime
-                '    s = String.Format("{0:00}", ts.Hour) & ":" & _
-                '        String.Format("{0:00}", ts.Minute) & ":" & _
-                '        String.Format("{0:00}", ts.Second) & ":" & _
-                '        String.Format("{000}", ts.Millisecond)
-                '    Me.lblUserTime.Text = s
-                '    Me.lblPriority.Text = curProc.PriorityClass.ToString
-                '    Me.lblWorkingSet.Text = GetFormatedSize(mem.WorkingSetSize)
-                '    Me.lblQuotaNPP.Text = GetFormatedSize(mem.QuotaNonPagedPoolUsage)
-                '    Me.lblQuotaPNPP.Text = GetFormatedSize(mem.QuotaPeakNonPagedPoolUsage)
-                '    Me.lblQuotaPP.Text = GetFormatedSize(mem.QuotaPagedPoolUsage)
-                '    Me.lblQuotaPPP.Text = GetFormatedSize(mem.QuotaPeakPagedPoolUsage)
-
+                Call refreshStatisticsTab()
+                If cProcess.Connection.ConnectionObj.ConnectionType <> _
+                        cConnection.TypeOfConnection.LocalConnection Then
+                    Call Threading.ThreadPool.QueueUserWorkItem(New  _
+                       System.Threading.WaitCallback(AddressOf _
+                       asyncAllNonFixedInfos.Process))
+                End If
 
                 'Case "Environment"
                 '    If _local Then
@@ -202,117 +155,177 @@ Public Class frmProcessInfo
                 '        End If
                 '    End If
 
-                'Case "Informations"
+            Case "Informations"
 
-                '    ' Description
-                '    Try
-                '        curProc.Refresh()
-                '        Dim pmc As cProcess.PROCESS_MEMORY_COUNTERS = curProc.MemoryInfos
-                '        Dim pid As Integer = curProc.Pid
-                '        Dim s As String = ""
-                '        s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                '        s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b File properties\b0\par"
-                '        s = s & "\tab File name :\tab\tab\tab " & curProc.Name & "\par"
-                '        s = s & "\tab Path :\tab\tab\tab\tab " & Replace(curProc.Path, "\", "\\") & "\par"
-                '        Dim mainModule As System.Diagnostics.ProcessModule = curProc.MainModule
-                '        If mainModule IsNot Nothing Then
-                '            s = s & "\tab Description :\tab\tab\tab " & mainModule.FileVersionInfo.FileDescription & "\par"
-                '            s = s & "\tab Company name :\tab\tab\tab " & mainModule.FileVersionInfo.CompanyName & "\par"
-                '            s = s & "\tab Version :\tab\tab\tab " & mainModule.FileVersionInfo.FileVersion & "\par"
-                '            s = s & "\tab Copyright :\tab\tab\tab " & mainModule.FileVersionInfo.LegalCopyright & "\par"
-                '        End If
-                '        s = s & "\par"
-                '        s = s & "  \b Process description\b0\par"
-                '        s = s & "\tab PID :\tab\tab\tab\tab " & CStr(curProc.Pid) & "\par"
-                '        s = s & "\tab Start time :\tab\tab\tab " & curProc.StartTime.ToLongDateString & " -- " & curProc.StartTime.ToLongTimeString & "\par"
-                '        s = s & "\tab Priority :\tab\tab\tab\tab " & curProc.PriorityClass.ToString & "\par"
-                '        s = s & "\tab User :\tab\tab\tab\tab " & curProc.UserName & "\par"
-                '        Dim ts As Date = curProc.ProcessorTime
-                '        Dim proctime As String = String.Format("{0:00}", ts.Hour) & ":" & _
-                '            String.Format("{0:00}", ts.Minute) & ":" & _
-                '            String.Format("{0:00}", ts.Second) & ":" & _
-                '            String.Format("{000}", ts.Millisecond)
-                '        s = s & "\tab Processor time :\tab\tab\tab " & proctime & "\par"
-                '        s = s & "\tab Memory :\tab\tab\tab " & CStr(pmc.WorkingSetSize / 1024) & " Kb" & "\par"
-                '        s = s & "\tab Memory peak :\tab\tab\tab " & CStr(pmc.PeakWorkingSetSize / 1024) & " Kb" & "\par"
-                '        s = s & "\tab Page faults :\tab\tab\tab " & CStr(pmc.PageFaultCount) & "\par"
-                '        s = s & "\tab Page file usage :\tab\tab\tab " & CStr(pmc.PagefileUsage / 1024) & " Kb" & "\par"
-                '        s = s & "\tab Peak page file usage :\tab\tab " & CStr(pmc.PeakPagefileUsage / 1024) & " Kb" & "\par"
-                '        s = s & "\tab QuotaPagedPoolUsage :\tab\tab " & CStr(Math.Round(pmc.QuotaPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
-                '        s = s & "\tab QuotaPeakPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
-                '        s = s & "\tab QuotaNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaNonPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
-                '        s = s & "\tab QuotaPeakNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakNonPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
+                ' OK, here's the deal :
+                ' - if we are in local mode, we just display informations that
+                '   are available in curproc, because the refreshment is done
+                '   by the main form.
+                ' - if it is a remote connection, we juste demand a refreshment, and
+                '   the refreshment will be done next time we call the refreshProcessTab
+                '   method.
 
-                '        If chkModules.Checked Then
-                '            ' Retrieve modules
-                '            s = s & "\par"
-                '            s = s & "  \b Loaded modules\b0\par"
-                '            Dim m As ProcessModule
-                '            Dim mdl As ProcessModuleCollection = curProc.Modules
-                '            s = s & "\tab " & CStr(mdl.Count) & " modules loaded" & "\par"
-                '            For Each m In mdl
-                '                s = s & "\tab " & Replace(m.FileVersionInfo.FileName, "\", "\\") & "\par"
-                '            Next
-
-                '            ' Retrieve threads infos
-                '            s = s & "\par"
-                '            s = s & "  \b Threads\b0\par"
-                '            Dim pt As ProcessThread
-                '            Dim thr As System.Diagnostics.ProcessThreadCollection = curProc.Threads
-                '            s = s & "\tab " & CStr(thr.Count) & " threads \par"
-                '            For Each pt In thr
-                '                s = s & "\tab " & CStr(pt.Id) & "\par"
-                '                s = s & "\tab\tab " & "Priority level : " & CStr(pt.PriorityLevel.ToString) & "\par"
-                '                Dim tsp As TimeSpan = pt.TotalProcessorTime
-                '                Dim s2 As String = String.Format("{0:00}", tsp.TotalHours) & ":" & _
-                '                    String.Format("{0:00}", tsp.Minutes) & ":" & _
-                '                    String.Format("{0:00}", tsp.Seconds)
-                '                s = s & "\tab\tab " & "Start address : " & CStr(pt.StartAddress) & "\par"
-                '                s = s & "\tab\tab " & "Start time : " & pt.StartTime.ToLongDateString & " -- " & pt.StartTime.ToLongTimeString & "\par"
-                '                s = s & "\tab\tab " & "State : " & CStr(pt.ThreadState.ToString) & "\par"
-                '                s = s & "\tab\tab " & "Processor time : " & s2 & "\par"
-                '            Next
-                '        End If
-
-                '        If chkHandles.Checked Then
-                '            ' Retrieve handles
-                '            s = s & "\par"
-                '            s = s & "  \b Loaded handles\b0\par"
-                '            Dim i As Integer
-                '            frmMain.handles_Renamed.Refresh()
-                '            For i = 0 To frmMain.handles_Renamed.Count - 1
-                '                With frmMain.handles_Renamed
-                '                    If (.GetProcessID(i) = pid) And (Len(.GetObjectName(i)) > 0) Then
-                '                        s = s & "\tab " & .GetNameInformation(i) & " : " & Replace(.GetObjectName(i), "\", "\\") & "\par"
-                '                    End If
-                '                End With
-                '            Next
-                '        End If
-
-                '        s = s & "}"
-
-                '        rtb.Rtf = s
-
-                '    Catch ex As Exception
-
-                '        Dim s As String = ""
-                '        Dim er As Exception = ex
-
-                '        s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                '        s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
-                '        s = s & "\tab Message :\tab " & er.Message & "\par"
-                '        s = s & "\tab Source :\tab\tab " & er.Source & "\par"
-                '        If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
-                '        s = s & "}"
-
-                '        rtb.Rtf = s
-
-                '        pctSmallIcon.Image = Me.imgProcess.Images("noicon")
-                '        pctBigIcon.Image = Me.imgMain.Images("noicon32")
-
-                '    End Try
+                Call refreshInfosTab()
+                If cProcess.Connection.ConnectionObj.ConnectionType <> _
+                        cConnection.TypeOfConnection.LocalConnection Then
+                    Call Threading.ThreadPool.QueueUserWorkItem(New  _
+                       System.Threading.WaitCallback(AddressOf _
+                       asyncAllNonFixedInfos.Process))
+                End If
 
         End Select
+    End Sub
+
+    ' Refresh statistics tab
+    Private Sub refreshStatisticsTab()
+        Me.lblProcOther.Text = curProc.Infos.IOValues.OtherOperationCount.ToString
+        Me.lblProcOtherBytes.Text = GetFormatedSize(curProc.Infos.IOValues.OtherTransferCount)
+        Me.lblProcReads.Text = curProc.Infos.IOValues.ReadOperationCount.ToString
+        Me.lblProcReadBytes.Text = GetFormatedSize(curProc.Infos.IOValues.ReadTransferCount)
+        Me.lblProcWriteBytes.Text = GetFormatedSize(curProc.Infos.IOValues.WriteTransferCount)
+        Me.lblProcWrites.Text = curProc.Infos.IOValues.WriteOperationCount.ToString
+        Me.lblGDIcount.Text = CStr(curProc.Infos.GdiObjects)
+        Me.lblUserObjectsCount.Text = CStr(curProc.Infos.UserObjects)
+        Me.lblAverageCPUusage.Text = curProc.GetInformation("AverageCpuUsage")
+
+        Dim mem As API.VM_COUNTERS_EX = curProc.Infos.MemoryInfos
+        Me.lblHandles.Text = CStr(curProc.Infos.HandleCount)
+        Dim ts As Date = New Date(curProc.Infos.KernelTime)
+        Dim s As String = String.Format("{0:00}", ts.Hour) & ":" & _
+            String.Format("{0:00}", ts.Minute) & ":" & _
+            String.Format("{0:00}", ts.Second) & ":" & _
+            String.Format("{000}", ts.Millisecond)
+        Me.lblKernelTime.Text = s
+        Me.lblPageFaults.Text = CStr(mem.PageFaultCount)
+        Me.lblPageFileUsage.Text = GetFormatedSize(mem.PagefileUsage)
+        Me.lblPeakPageFileUsage.Text = GetFormatedSize(mem.PeakPagefileUsage)
+        Me.lblPeakWorkingSet.Text = GetFormatedSize(mem.PeakWorkingSetSize)
+        ts = New Date(curProc.Infos.ProcessorTime)
+        s = String.Format("{0:00}", ts.Hour) & ":" & _
+            String.Format("{0:00}", ts.Minute) & ":" & _
+            String.Format("{0:00}", ts.Second) & ":" & _
+            String.Format("{000}", ts.Millisecond)
+        Me.lblTotalTime.Text = s
+        ts = New Date(curProc.Infos.UserTime)
+        s = String.Format("{0:00}", ts.Hour) & ":" & _
+            String.Format("{0:00}", ts.Minute) & ":" & _
+            String.Format("{0:00}", ts.Second) & ":" & _
+            String.Format("{000}", ts.Millisecond)
+        Me.lblUserTime.Text = s
+        Me.lblPriority.Text = curProc.Infos.Priority.ToString
+        Me.lblWorkingSet.Text = GetFormatedSize(mem.WorkingSetSize)
+        Me.lblQuotaNPP.Text = GetFormatedSize(mem.QuotaNonPagedPoolUsage)
+        Me.lblQuotaPNPP.Text = GetFormatedSize(mem.QuotaPeakNonPagedPoolUsage)
+        Me.lblQuotaPP.Text = GetFormatedSize(mem.QuotaPagedPoolUsage)
+        Me.lblQuotaPPP.Text = GetFormatedSize(mem.QuotaPeakPagedPoolUsage)
+    End Sub
+
+    ' Refresh information tab
+    Private Sub refreshInfosTab()
+        Try
+            Dim pmc As API.VM_COUNTERS_EX = curProc.Infos.MemoryInfos
+            Dim pid As Integer = curProc.Infos.Pid
+            Dim s As String = ""
+            s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+            s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b File properties\b0\par"
+            s = s & "\tab File name :\tab\tab\tab " & curProc.Infos.Name & "\par"
+            s = s & "\tab Path :\tab\tab\tab\tab " & Replace(curProc.Infos.Path, "\", "\\") & "\par"
+            If curProc.Infos.FileInfo IsNot Nothing Then
+                s = s & "\tab Description :\tab\tab\tab " & curProc.Infos.FileInfo.FileDescription & "\par"
+                s = s & "\tab Company name :\tab\tab\tab " & curProc.Infos.FileInfo.CompanyName & "\par"
+                s = s & "\tab Version :\tab\tab\tab " & curProc.Infos.FileInfo.FileVersion & "\par"
+                s = s & "\tab Copyright :\tab\tab\tab " & curProc.Infos.FileInfo.LegalCopyright & "\par"
+            End If
+            s = s & "\par"
+            s = s & "  \b Process description\b0\par"
+            s = s & "\tab PID :\tab\tab\tab\tab " & CStr(curProc.Infos.Pid) & "\par"
+            s = s & "\tab Start time :\tab\tab\tab " & New Date(curProc.Infos.StartTime).ToLongDateString & " -- " & New Date(curProc.Infos.StartTime).ToLongTimeString & "\par"
+            s = s & "\tab Priority :\tab\tab\tab\tab " & curProc.Infos.Priority.ToString & "\par"
+            s = s & "\tab User :\tab\tab\tab\tab " & curProc.Infos.UserName & "\par"
+            Dim ts As Date = New Date(curProc.Infos.ProcessorTime)
+            Dim proctime As String = String.Format("{0:00}", ts.Hour) & ":" & _
+                String.Format("{0:00}", ts.Minute) & ":" & _
+                String.Format("{0:00}", ts.Second) & ":" & _
+                String.Format("{000}", ts.Millisecond)
+            s = s & "\tab Processor time :\tab\tab\tab " & proctime & "\par"
+            s = s & "\tab Memory :\tab\tab\tab " & CStr(pmc.WorkingSetSize / 1024) & " Kb" & "\par"
+            s = s & "\tab Memory peak :\tab\tab\tab " & CStr(pmc.PeakWorkingSetSize / 1024) & " Kb" & "\par"
+            s = s & "\tab Page faults :\tab\tab\tab " & CStr(pmc.PageFaultCount) & "\par"
+            s = s & "\tab Page file usage :\tab\tab\tab " & CStr(pmc.PagefileUsage / 1024) & " Kb" & "\par"
+            s = s & "\tab Peak page file usage :\tab\tab " & CStr(pmc.PeakPagefileUsage / 1024) & " Kb" & "\par"
+            s = s & "\tab QuotaPagedPoolUsage :\tab\tab " & CStr(Math.Round(pmc.QuotaPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
+            s = s & "\tab QuotaPeakPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
+            s = s & "\tab QuotaNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaNonPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
+            s = s & "\tab QuotaPeakNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakNonPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
+
+            'If chkModules.Checked Then
+            '    ' Retrieve modules
+            '    s = s & "\par"
+            '    s = s & "  \b Loaded modules\b0\par"
+            '    Dim m As ProcessModule
+            '    Dim mdl As ProcessModuleCollection = curProc.Modules
+            '    s = s & "\tab " & CStr(mdl.Count) & " modules loaded" & "\par"
+            '    For Each m In mdl
+            '        s = s & "\tab " & Replace(m.FileVersionInfo.FileName, "\", "\\") & "\par"
+            '    Next
+
+            '    ' Retrieve threads infos
+            '    s = s & "\par"
+            '    s = s & "  \b Threads\b0\par"
+            '    Dim pt As ProcessThread
+            '    Dim thr As System.Diagnostics.ProcessThreadCollection = curProc.Threads
+            '    s = s & "\tab " & CStr(thr.Count) & " threads \par"
+            '    For Each pt In thr
+            '        s = s & "\tab " & CStr(pt.Id) & "\par"
+            '        s = s & "\tab\tab " & "Priority level : " & CStr(pt.PriorityLevel.ToString) & "\par"
+            '        Dim tsp As TimeSpan = pt.TotalProcessorTime
+            '        Dim s2 As String = String.Format("{0:00}", tsp.TotalHours) & ":" & _
+            '            String.Format("{0:00}", tsp.Minutes) & ":" & _
+            '            String.Format("{0:00}", tsp.Seconds)
+            '        s = s & "\tab\tab " & "Start address : " & CStr(pt.StartAddress) & "\par"
+            '        s = s & "\tab\tab " & "Start time : " & pt.StartTime.ToLongDateString & " -- " & pt.StartTime.ToLongTimeString & "\par"
+            '        s = s & "\tab\tab " & "State : " & CStr(pt.ThreadState.ToString) & "\par"
+            '        s = s & "\tab\tab " & "Processor time : " & s2 & "\par"
+            '    Next
+            'End If
+
+            'If chkHandles.Checked Then
+            '    ' Retrieve handles
+            '    s = s & "\par"
+            '    s = s & "  \b Loaded handles\b0\par"
+            '    Dim i As Integer
+            '    frmMain.handles_Renamed.Refresh()
+            '    For i = 0 To frmMain.handles_Renamed.Count - 1
+            '        With frmMain.handles_Renamed
+            '            If (.GetProcessID(i) = pid) And (Len(.GetObjectName(i)) > 0) Then
+            '                s = s & "\tab " & .GetNameInformation(i) & " : " & Replace(.GetObjectName(i), "\", "\\") & "\par"
+            '            End If
+            '        End With
+            '    Next
+            'End If
+
+            s = s & "}"
+
+            rtb.Rtf = s
+
+        Catch ex As Exception
+
+            Dim s As String = ""
+            Dim er As Exception = ex
+
+            s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+            s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+            s = s & "\tab Message :\tab " & er.Message & "\par"
+            s = s & "\tab Source :\tab\tab " & er.Source & "\par"
+            If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
+            s = s & "}"
+
+            rtb.Rtf = s
+
+            pctSmallIcon.Image = Me.imgProcess.Images("noicon")
+            pctBigIcon.Image = Me.imgMain.Images("noicon32")
+
+        End Try
     End Sub
 
     Private Sub frmProcessInfo_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Mybase.Load
@@ -384,56 +397,56 @@ Public Class frmProcessInfo
 
     ' Get process to monitor
     Public Sub SetProcess(ByRef process As cProcess)
+
         curProc = process
+        asyncAllNonFixedInfos = New asyncCallbackGetAllNonFixedInfos(cProcess.Connection, curProc)
+
         Me.Text = curProc.Infos.Name & " (" & CStr(curProc.Infos.Pid) & ")"
 
         _local = (cProcess.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
+
         Me.cmdAffinity.Enabled = _local
         Me.cmdPause.Enabled = _local
         Me.cmdResume.Enabled = _local
-        Me.lvModules.IsLocalMachine = _local
+        Me.lvModules.Enabled = _local
         Me.lvModules.CatchErrors = Not (_local)
         Me.timerProcPerf.Enabled = _local
-        If _local = False Then
-            '__con = New Management.ConnectionOptions
-            '__con.Impersonation = Management.ImpersonationLevel.Impersonate
-            '__con.Password = _theCon.password
-            '__con.Username = _theCon.user
-            'Me.lvModules.RemoteConnectionWMI = theConnection   'TODO_
-            'Me.lvModules.MngObjProcess = process.MngObjProcess
-            Me.lvPrivileges.Enabled = False
-            Me.lvHandles.Enabled = False
-            Me.lvLog.Enabled = False
-            Me.lvProcEnv.Enabled = False
-            Me.lvProcMem.Enabled = False
-            Me.lvProcNetwork.Enabled = False
-            Me.lvProcServices.Enabled = False
-            Me.lvProcString.Enabled = False
-            Me.lvThreads.Enabled = False
-            Me.lvWindows.Enabled = False
-            Me.SplitContainerStrings.Enabled = False
-            Me.SplitContainerLog.Enabled = False
-            Me.cmdShowFileDetails.Enabled = False
-            Me.cmdShowFileProperties.Enabled = False
-            Me.cmdOpenDirectory.Enabled = False
-            Me.chkModules.Enabled = False
-            Me.chkHandles.Enabled = False
-            Me.ShowFileDetailsToolStripMenuItem.Enabled = False
-            Me.ToolStripMenuItem36.Enabled = False
-            Me.ViewMemoryToolStripMenuItem.Enabled = False
-        End If
+        Me.lvPrivileges.Enabled = _local
+        Me.lvHandles.Enabled = _local
+        Me.lvLog.Enabled = _local
+        Me.lvProcEnv.Enabled = _local
+        Me.lvProcMem.Enabled = _local
+        Me.lvProcNetwork.Enabled = _local
+        Me.lvProcServices.Enabled = _local
+        Me.lvProcString.Enabled = _local
+        Me.lvThreads.Enabled = _local
+        Me.lvWindows.Enabled = _local
+        Me.SplitContainerStrings.Enabled = _local
+        Me.SplitContainerLog.Enabled = _local
+        Me.cmdShowFileDetails.Enabled = _local
+        Me.cmdShowFileProperties.Enabled = _local
+        Me.cmdOpenDirectory.Enabled = _local
+        Me.chkModules.Enabled = _local
+        Me.chkHandles.Enabled = _local
+        Me.ShowFileDetailsToolStripMenuItem.Enabled = _local
+        Me.ToolStripMenuItem36.Enabled = _local
+        Me.ViewMemoryToolStripMenuItem.Enabled = _local
 
         ' Verify file
-        Try
-            Dim bVer As Boolean = Security.WinTrust.WinTrust.VerifyEmbeddedSignature(curProc.Infos.Path)
-            If bVer Then
-                gpProcGeneralFile.Text = "Image file (successfully verified)"
-            Else
-                gpProcGeneralFile.Text = "Image file (not verified)"
-            End If
-        Catch ex As Exception
-            '
-        End Try
+        If _local Then
+            Try
+                Dim bVer As Boolean = Security.WinTrust.WinTrust.VerifyEmbeddedSignature(curProc.Infos.Path)
+                If bVer Then
+                    gpProcGeneralFile.Text = "Image file (successfully verified)"
+                Else
+                    gpProcGeneralFile.Text = "Image file (not verified)"
+                End If
+            Catch ex As Exception
+                '
+            End Try
+        Else
+            gpProcGeneralFile.Text = "Image file (no verification was made)"
+        End If
     End Sub
 
     Private Sub timerProcPerf_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerProcPerf.Tick
@@ -1895,5 +1908,14 @@ Public Class frmProcessInfo
 
     Private Sub RefreshToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshToolStripMenuItem.Click
         Call tabProcess_SelectedIndexChanged(Nothing, Nothing)
+    End Sub
+
+    ' When we've finished to get all non fixed infos
+    Private Sub asyncAllNonFixedInfos_HasGotAllNonFixedInfos(ByVal Success As Boolean, ByRef newInfos As CoreFunc.API.SYSTEM_PROCESS_INFORMATION) Handles asyncAllNonFixedInfos.HasGotAllNonFixedInfos
+        If Success Then
+            curProc.Merge(newInfos)
+        Else
+            ' ERROR HERE
+        End If
     End Sub
 End Class

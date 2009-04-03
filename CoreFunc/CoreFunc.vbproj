@@ -95,6 +95,7 @@
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackEnumerate.vb" />
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackUnloadModule.vb" />
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackNewProcess.vb" />
+    <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackGetAllNonFixedInfos.vb" />
     <Compile Include="Classes\Providers\Processes\cProcess.vb" />
     <Compile Include="Classes\Providers\Processes\cProcessConnection.vb" />
     <Compile Include="Classes\Providers\Processes\processInfos.vb" />

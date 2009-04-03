@@ -40,7 +40,7 @@ Public Class cTask
 #End Region
 
     Private _key As String
-    ' Private _proc As cProcess
+    Private _proc As cProcess
 
     ' ========================================
     ' Constructors
@@ -64,7 +64,7 @@ Public Class cTask
     End Property
     Public ReadOnly Property Process() As cProcess
         Get
-            Return Nothing ' _proc   'TODO_
+            Return _proc
         End Get
     End Property
     Public ReadOnly Property Key() As String
