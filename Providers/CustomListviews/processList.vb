@@ -28,58 +28,32 @@ Public Class processList
 
     Public Event ItemAdded(ByRef item As cProcess)
     Public Event ItemDeleted(ByRef item As cProcess)
+    Public Event HasRefreshed()
+    Public Event GotAnError(ByVal origin As String, ByVal msg As String)
 
 
     ' ========================================
     ' Private
     ' ========================================
+    Private _first As Boolean
     Private _dicoNew As New Dictionary(Of String, cProcess)
     Private _dicoDel As New Dictionary(Of String, cProcess)
-    Private _buffDico As New Dictionary(Of String, cProcess.LightProcess)
-    Private _remoteSpecialDico As New Dictionary(Of String, System.Management.ManagementObject)
+    Private _buffDico As New Dictionary(Of String, cProcess)
     Private _dico As New Dictionary(Of String, cProcess)
-    Private _local As Boolean = True
-    Private _con As cRemoteProcessWMI.RemoteConnectionInfoWMI
-    Private _con2 As cRemoteProcess.RemoteConnectionInfo
-    Private _conType As ProvidersConnectionType
+    Private WithEvents _connectionObject As New cConnection
+    Private WithEvents _processConnection As New cProcessConnection(Me, _connectionObject)
 
 #Region "Properties"
 
     ' ========================================
     ' Properties
     ' ========================================
-    Public Property IsLocalMachine() As Boolean
+    Public Property ConnectionObj() As cConnection
         Get
-            Return _local
+            Return _connectionObject
         End Get
-        Set(ByVal value As Boolean)
-            _local = value
-        End Set
-    End Property
-    Public Property RemoteConnectionWMI() As cRemoteProcessWMI.RemoteConnectionInfoWMI
-        Get
-            Return _con
-        End Get
-        Set(ByVal value As cRemoteProcessWMI.RemoteConnectionInfoWMI)
-            _con = value
-        End Set
-    End Property
-    Public Property RemoteConnection() As cRemoteProcess.RemoteConnectionInfo
-        Get
-            Return _con2
-        End Get
-        Set(ByVal value As cRemoteProcess.RemoteConnectionInfo)
-            _con2 = value
-            cRemoteProcess.DisconnectFromServer()
-            cRemoteProcess.ConnectToServer(value)
-        End Set
-    End Property
-    Public Property Connection() As ProvidersConnectionType
-        Get
-            Return _conType
-        End Get
-        Set(ByVal value As ProvidersConnectionType)
-            _conType = value
+        Set(ByVal value As cConnection)
+            _connectionObject = value
         End Set
     End Property
 
@@ -102,6 +76,12 @@ Public Class processList
         Me.SmallImageList = _IMG
         _IMG.Images.Add("noIcon", My.Resources.application_blue)
 
+        _first = True
+
+        ' Set handlers
+        _processConnection.HasEnumerated = New cProcessConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler)
+        _processConnection.Disconnected = New cProcessConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
+        _processConnection.Connected = New cProcessConnection.ConnectedEventHandler(AddressOf HasConnected)
     End Sub
 
     ' Get an item from listview
@@ -111,11 +91,10 @@ Public Class processList
 
     ' Delete all items
     Public Sub ClearItems()
-        cProcess.ClearProcessDico()
+        _first = True
         _buffDico.Clear()
         _dico.Clear()
         _dicoDel.Clear()
-        _remoteSpecialDico.Clear()
         _dicoNew.Clear()
         _IMG.Images.Clear()
         _IMG.Images.Add("noIcon", My.Resources.application_blue)
@@ -125,155 +104,18 @@ Public Class processList
     ' Call this to update items in listview
     Public Overrides Sub UpdateItems()
 
-        Dim _test As Integer = GetTickCount
-
-
         ' Create a buffer of subitems if necessary
         If _columnsName Is Nothing Then
             Call CreateSubItemsBuffer()
         End If
 
+        If _processConnection.IsConnected Then
 
-        ' Now enumerate items
-        Dim _itemId() As String
-        ReDim _itemId(0)
-        If _local Then
-            Call cLocalProcess.Enumerate(_itemId, _buffDico)
-        Else
-            If _conType = ProvidersConnectionType.RemoteWMI Then
-                Call cRemoteProcessWMI.Enumerate(_con, _itemId, _buffDico, _remoteSpecialDico)
-            Else
-                Call cRemoteProcess.Enumerate(_itemId, _buffDico)
-            End If
+            ' Now enumerate items
+            _processConnection.Enumerate(_first)
+
         End If
 
-
-        ' Now add all items with isKilled = true to _dicoDel dictionnary
-        For Each z As cProcess In _dico.Values
-            If z.IsKilledItem Then
-                _dicoDel.Add(z.Pid.ToString, Nothing)
-            End If
-        Next
-
-
-        ' Now add new items to dictionnary
-        For Each z As String In _itemId
-            If Not (_dico.ContainsKey(z)) Then
-                ' Add to dico
-                _dicoNew.Add(z, Nothing)
-            End If
-        Next
-
-
-        ' Now remove deleted items from dictionnary
-        For Each z As String In _dico.Keys
-            If Array.IndexOf(_itemId, z) < 0 Then
-                ' Remove from dico
-                _dico.Item(z).IsKilledItem = True  ' Will be deleted next time
-            End If
-        Next
-
-
-        ' Now remove all deleted items from listview and _dico
-        For Each z As String In _dicoDel.Keys
-            Me.Items.RemoveByKey(z)
-            RaiseEvent ItemDeleted(_dico.Item(z))
-            _dico.Remove(z)
-            cProcess.UnAssociatePidAndName(z)    ' Remove from global dico
-        Next
-        _dicoDel.Clear()
-
-
-        ' Merge _dico and _dicoNew
-        For Each z As String In _dicoNew.Keys
-            Dim _it As cProcess
-            If _local Then
-                _it = New cLocalProcess(_buffDico.Item(z))
-            Else
-                If _conType = ProvidersConnectionType.RemoteWMI Then
-                    _it = New cRemoteProcessWMI(_buffDico.Item(z), _con)
-                Else
-                    _it = New cRemoteProcess(_buffDico.Item(z))
-                End If
-            End If
-            RaiseEvent ItemAdded(_it)
-            _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
-            _dico.Add(z.ToString, _it)
-        Next
-
-
-        ' Now add all new items to listview
-        ' If first time, lock listview
-        If _firstItemUpdate Then Me.BeginUpdate()
-        For Each z As String In _dicoNew.Keys
-
-            ' Add to listview
-            Dim _subItems() As ListViewItem.ListViewSubItem
-            ReDim _subItems(Me.Columns.Count - 1)
-            For x As Integer = 1 To _subItems.Length - 1
-                _subItems(x) = New ListViewItem.ListViewSubItem
-            Next
-            AddItemWithStyle(z).SubItems.AddRange(_subItems)
-
-            '' ----------------------
-            '' Specific to a process
-            'Dim cP As cProcess = _dico(z)
-            'If cP.ProcessorCount < 1 Then
-            '    cP.ProcessorCount = frmMain.cInfo.ProcessorCount
-            'End If
-            '' ----------------------
-        Next
-        If _firstItemUpdate Then Me.EndUpdate()
-        _dicoNew.Clear()
-
-
-        ' Now refresh all subitems of the listview
-        Dim isub As ListViewItem.ListViewSubItem
-        Dim it As ListViewItem
-        For Each it In Me.Items
-            Dim x As Integer = 0
-            Dim _item As cProcess = _dico.Item(it.Name)
-            If _local Then
-                _item.Refresh()
-            Else
-                If _remoteSpecialDico.ContainsKey(it.Name) Then
-                    _item.Refresh(_remoteSpecialDico(it.Name))
-                End If
-            End If
-            For Each isub In it.SubItems
-                isub.Text = _item.GetInformation(_columnsName(x))
-                x += 1
-            Next
-            If _dico.Item(it.Name).IsNewItem Then
-                _dico.Item(it.Name).IsNewItem = False
-                it.BackColor = NEW_ITEM_COLOR
-            ElseIf _dico.Item(it.Name).IsKilledItem Then
-                it.BackColor = DELETED_ITEM_COLOR
-            Else
-                it.BackColor = Color.White
-            End If
-        Next
-
-        ' This piece of code is needed. Strange behavior, the Text attribute must
-        ' be set twice to be properly displayed.
-        If _firstItemUpdate Then
-            For Each it In Me.Items
-                For Each isub In it.SubItems
-                    isub.Text = isub.Text
-                Next
-            Next
-        End If
-
-
-        ' Sort items
-        Me.Sort()
-
-        _firstItemUpdate = False
-
-        _test = GetTickCount - _test
-        'Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh process list.")
-
-        MyBase.UpdateItems()
     End Sub
 
     ' Get all items (associated to listviewitems)
@@ -311,6 +153,126 @@ Public Class processList
     ' Private properties
     ' ========================================
 
+    ' Executed when enumeration is done
+    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, processInfos), ByVal errorMessage As String)
+
+        If Success = False Then
+            Trace.WriteLine("Cannot enumerate, an error was raised...")
+            RaiseEvent GotAnError("Process enumeration", errorMessage)
+            Exit Sub
+        End If
+
+        ' We won't enumerate next time with all informations (included fixed infos)
+        _first = False
+
+
+        ' Now add all items with isKilled = true to _dicoDel dictionnary
+        For Each z As cProcess In _dico.Values
+            If z.IsKilledItem Then
+                _dicoDel.Add(z.Infos.Pid.ToString, Nothing)
+            End If
+        Next
+
+
+        ' Now add new items to dictionnary
+        For Each pair As System.Collections.Generic.KeyValuePair(Of String, processInfos) In Dico
+            If Not (_dico.ContainsKey(pair.Key)) Then
+                ' Add to dico
+                _dicoNew.Add(pair.Key, New cProcess(pair.Value))
+            End If
+
+        Next
+
+
+        ' Now remove deleted items from dictionnary
+        For Each z As String In _dico.Keys
+            If Dico.ContainsKey(z) = False Then
+                ' Remove from dico
+                _dico.Item(z).IsKilledItem = True  ' Will be deleted next time
+            End If
+        Next
+
+
+        ' Now remove all deleted items from listview and _dico
+        For Each z As String In _dicoDel.Keys
+            Me.Items.RemoveByKey(z)
+            RaiseEvent ItemDeleted(_dico.Item(z))
+            _dico.Remove(z)
+            cProcess.UnAssociatePidAndName(z)    ' Remove from global dico
+        Next
+        _dicoDel.Clear()
+
+
+        ' Merge _dico and _dicoNew
+        For Each z As String In _dicoNew.Keys
+            Dim _it As cProcess = _dicoNew.Item(z)
+            RaiseEvent ItemAdded(_it)
+            _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
+            _dico.Add(z.ToString, _it)
+        Next
+
+
+        ' Now add all new items to listview
+        ' If first time, lock listview
+        If _firstItemUpdate Then Me.BeginUpdate()
+        For Each z As String In _dicoNew.Keys
+
+            ' Add to listview
+            Dim _subItems() As ListViewItem.ListViewSubItem
+            ReDim _subItems(Me.Columns.Count - 1)
+            For x As Integer = 1 To _subItems.Length - 1
+                _subItems(x) = New ListViewItem.ListViewSubItem
+            Next
+            AddItemWithStyle(z).SubItems.AddRange(_subItems)
+        Next
+        If _firstItemUpdate Then Me.EndUpdate()
+        _dicoNew.Clear()
+
+
+        ' Now refresh all subitems of the listview
+        Dim isub As ListViewItem.ListViewSubItem
+        Dim it As ListViewItem
+        For Each it In Me.Items
+            Dim x As Integer = 0
+            Dim _item As cProcess = _dico.Item(it.Name)
+            If Dico.ContainsKey(it.Name) Then
+                _item.Merge(Dico.Item(it.Name))
+            End If
+            For Each isub In it.SubItems
+                isub.Text = _item.GetInformation(_columnsName(x))
+                x += 1
+            Next
+            If _dico.Item(it.Name).IsNewItem Then
+                _dico.Item(it.Name).IsNewItem = False
+                it.BackColor = NEW_ITEM_COLOR
+            ElseIf _dico.Item(it.Name).IsKilledItem Then
+                it.BackColor = DELETED_ITEM_COLOR
+            Else
+                it.BackColor = Color.White
+            End If
+        Next
+
+        ' This piece of code is needed. Strange behavior, the Text attribute must
+        ' be set twice to be properly displayed.
+        If _firstItemUpdate Then
+            For Each it In Me.Items
+                For Each isub In it.SubItems
+                    isub.Text = isub.Text
+                Next
+            Next
+        End If
+
+        ' Sort items
+        Me.Sort()
+
+        _firstItemUpdate = False
+
+        'Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh process list.")
+
+        MyBase.UpdateItems()
+    End Sub
+
+
     ' Add an item (specific to type of list)
     Friend Overrides Function AddItemWithStyle(ByVal key As String) As ListViewItem
 
@@ -319,9 +281,9 @@ Public Class processList
         item.Name = key
 
         ' Add to global dico
-        cProcess.AssociatePidAndName(key, _buffDico.Item(key).name)
+        cProcess.AssociatePidAndName(key, _dico.Item(key).Infos.Name)
 
-        If proc.Pid > 4 Then
+        If proc.Infos.Pid > 4 Then
 
             ' Forecolor
             item.ForeColor = _foreColor
@@ -329,7 +291,7 @@ Public Class processList
             ' Add icon
             Try
 
-                Dim fName As String = proc.Path
+                Dim fName As String = proc.Infos.Path
 
                 If IO.File.Exists(fName) Then
                     Me.SmallImageList.Images.Add(fName, GetIcon(fName, True))
@@ -354,5 +316,39 @@ Public Class processList
         Return item
 
     End Function
+
+#Region "Connection stuffs"
+
+    Private Sub _connectionObject_Connected() Handles _connectionObject.Connected
+        Call Connect()
+    End Sub
+
+    Private Sub _connectionObject_Disconnected() Handles _connectionObject.Disconnected
+        Call Disconnect()
+    End Sub
+
+    Private Sub Connect()
+        _first = True
+        _processConnection.ConnectionObj = _connectionObject
+        asyncCallbackEnumerate.ClearDico()
+        _processConnection.Connect()
+        cProcess.Connection = _processConnection
+    End Sub
+
+    Private Sub Disconnect()
+        _processConnection.Disconnect()
+    End Sub
+
+    Private Sub HasDisconnected(ByVal Success As Boolean)
+        ' We HAVE TO disconnect, because this event is raised when we got an error
+        '_processConnection.Disconnect()
+        '     _processConnection.Con()
+    End Sub
+
+    Private Sub HasConnected(ByVal Success As Boolean)
+        '
+    End Sub
+
+#End Region
 
 End Class

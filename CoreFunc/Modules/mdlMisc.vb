@@ -172,4 +172,11 @@ Module mdlMisc
             Return New Date(0)
         End Try
     End Function
+
+    Public Function ReadUnicodeString(ByVal str As API.UNICODE_STRING) As String
+        If str.Length = 0 Then
+            Return Nothing
+        End If
+        Return System.Runtime.InteropServices.Marshal.PtrToStringUni(New IntPtr(str.Buffer), CInt(str.Length / 2))
+    End Function
 End Module

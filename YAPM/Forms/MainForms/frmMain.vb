@@ -34,9 +34,11 @@ Public Class frmMain
     Private curProc As cProcess
     Private __servEnum As New cServEnum
     Private _local As Boolean = True
-    Private _connType As Providers.customLV.ProvidersConnectionType
-    Public _connOptRemoteWMI As cRemoteProcessWMI.RemoteConnectionInfoWMI
-    Public _connOptRemote As cRemoteProcess.RemoteConnectionInfo
+    Public theConnection As New cConnection
+    Private _connType As New cConnection.TypeOfConnection
+    Public _connectionForm As New frmConnection(theConnection)
+    '    Public _connOptRemoteWMI As cProcessConnection.WMIConnectionParameters
+    '    Public _connOptRemoteSocket As cProcessConnection.SocketConnectionParameters
 
     <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
     Private Shared Function SendMessage(ByVal hWnd As IntPtr, ByVal Msg As Integer, ByVal wParam As Integer, ByVal lParam As Integer) As IntPtr
@@ -93,7 +95,7 @@ Public Class frmMain
     ' ========================================
     Public handles_Renamed As clsOpenedHandles = cHandle.GetOpenedHandlesClass
     Public emHotkeys As New cHotkeys
-    Public WithEvents emStateBasedActions As New cStateBasedActions
+    '    Public WithEvents emStateBasedActions As New cStateBasedActions
     Public Pref As New Pref
 
 
@@ -346,13 +348,14 @@ Public Class frmMain
     Private Sub frmMain_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
         Try
             handles_Renamed.Close()
+            ' Application.Exit()
         Catch ex As Exception
             '
         End Try
     End Sub
 
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        frmServeur.Show()
+
         Dim t As Integer = GetTickCount
 
         Dim _col As Color = Color.FromArgb(240, 240, 240)
@@ -366,7 +369,7 @@ Public Class frmMain
         clsOpenedHandles.EnableShutDown()
 
         Call frmHotkeys.readHotkeysFromXML()
-        Call frmBasedStateAction.readStateBasedActionFromXML()
+        '        Call frmBasedStateAction.readStateBasedActionFromXML()
 
         ' Set tray icon counters
         _trayIcon.SetCounter(1, Color.Red, Color.FromArgb(120, 0, 0))
@@ -450,6 +453,10 @@ Public Class frmMain
             End With
         End Try
 
+        theConnection.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.lvProcess.ConnectionObj = theConnection
+        theConnection.Connect()
+
         Me.timerMonitoring.Enabled = True
         Me.timerProcess.Enabled = True
         Me.timerTask.Enabled = True
@@ -480,8 +487,6 @@ Public Class frmMain
         Dim i As Integer = CInt((Me.Height - 250) / 2)
         Dim MepanelInfosHeight As Integer = CInt(IIf(i < 340, i, 340))
         Dim MepanelInfonWidth As Integer = Me.panelMain.Width
-
-        Me.txtServerMachine.Text = My.Computer.Name
 
         ' File resizement
         Me.panelMain5.Height = Me.panelMain4.Height
@@ -587,52 +592,52 @@ Public Class frmMain
 
     Private Sub IdleToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IdleToolStripMenuItem.Click
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
-            cp.SetProcessPriority(ProcessPriorityClass.Idle)
+            cp.SetPriority(ProcessPriorityClass.Idle)
         Next
     End Sub
 
     Private Sub BelowNormalToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BelowNormalToolStripMenuItem.Click
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
-            cp.SetProcessPriority(ProcessPriorityClass.BelowNormal)
+            cp.SetPriority(ProcessPriorityClass.BelowNormal)
         Next
     End Sub
 
     Private Sub NormalToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NormalToolStripMenuItem.Click
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
-            cp.SetProcessPriority(ProcessPriorityClass.Normal)
+            cp.SetPriority(ProcessPriorityClass.Normal)
         Next
     End Sub
 
     Private Sub AboveNormalToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AboveNormalToolStripMenuItem.Click
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
-            cp.SetProcessPriority(ProcessPriorityClass.AboveNormal)
+            cp.SetPriority(ProcessPriorityClass.AboveNormal)
         Next
     End Sub
 
     Private Sub HighToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HighToolStripMenuItem.Click
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
-            cp.SetProcessPriority(ProcessPriorityClass.High)
+            cp.SetPriority(ProcessPriorityClass.High)
         Next
     End Sub
 
     Private Sub RealTimeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RealTimeToolStripMenuItem.Click
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
-            cp.SetProcessPriority(ProcessPriorityClass.RealTime)
+            cp.SetPriority(ProcessPriorityClass.RealTime)
         Next
     End Sub
 
     Private Sub PropertiesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PropertiesToolStripMenuItem.Click
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
-            If IO.File.Exists(cp.Path) Then
-                cFile.ShowFileProperty(cp.Path, Me.Handle)
+            If IO.File.Exists(cp.Infos.Path) Then
+                cFile.ShowFileProperty(cp.Infos.Path, Me.Handle)
             End If
         Next
     End Sub
 
     Private Sub OpenFirectoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpenFirectoryToolStripMenuItem.Click
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
-            If cp.Path <> NO_INFO_RETRIEVED Then
-                cFile.OpenDirectory(cp.Path)
+            If cp.Infos.Path <> NO_INFO_RETRIEVED Then
+                cFile.OpenDirectory(cp.Infos.Path)
             End If
         Next
     End Sub
@@ -858,42 +863,42 @@ Public Class frmMain
     Private Sub butIdle_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butIdle.Click
         ' Set priority to selected processes
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
-            it.SetProcessPriority(ProcessPriorityClass.Idle)
+            it.SetPriority(ProcessPriorityClass.Idle)
         Next
     End Sub
 
     Private Sub butHigh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butHigh.Click
         ' Set priority to selected processes
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
-            it.SetProcessPriority(ProcessPriorityClass.High)
+            it.SetPriority(ProcessPriorityClass.High)
         Next
     End Sub
 
     Private Sub butNormal_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butNormal.Click
         ' Set priority to selected processes
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
-            it.SetProcessPriority(ProcessPriorityClass.Normal)
+            it.SetPriority(ProcessPriorityClass.Normal)
         Next
     End Sub
 
     Private Sub butRealTime_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butRealTime.Click
         ' Set priority to selected processes
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
-            it.SetProcessPriority(ProcessPriorityClass.RealTime)
+            it.SetPriority(ProcessPriorityClass.RealTime)
         Next
     End Sub
 
     Private Sub butBelowNormal_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butBelowNormal.Click
         ' Set priority to selected processes
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
-            it.SetProcessPriority(ProcessPriorityClass.BelowNormal)
+            it.SetPriority(ProcessPriorityClass.BelowNormal)
         Next
     End Sub
 
     Private Sub butAboveNormal_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butAboveNormal.Click
         ' Set priority to selected processes
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
-            it.SetProcessPriority(ProcessPriorityClass.AboveNormal)
+            it.SetPriority(ProcessPriorityClass.AboveNormal)
         Next
     End Sub
 
@@ -1045,7 +1050,7 @@ Public Class frmMain
     Private Sub butProcessGoogle_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessGoogle.Click
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
             My.Application.DoEvents()
-            Call SearchInternet(cp.Name, Me.Handle)
+            Call SearchInternet(cp.Infos.Name, Me.Handle)
         Next
     End Sub
 
@@ -1072,7 +1077,7 @@ Public Class frmMain
     Private Sub FileDetailsToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileDetailsToolStripMenuItem1.Click
         If Me.lvProcess.SelectedItems.Count > 0 Then
             Dim cp As cProcess = Me.lvProcess.GetSelectedItem
-            Dim s As String = cp.Path
+            Dim s As String = cp.Infos.Path
             If IO.File.Exists(s) Then
                 DisplayDetailsFile(s)
             End If
@@ -1186,7 +1191,7 @@ Public Class frmMain
                         Dim it2 As ListViewItem
                         For Each it2 In Me.lvProcess.Items
                             Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                            If CStr(cp.Pid) = pid Then
+                            If CStr(cp.Infos.Pid) = pid Then
                                 it2.Selected = True
                                 it2.EnsureVisible()
                             End If
@@ -1337,7 +1342,7 @@ Public Class frmMain
             Dim it2 As ListViewItem
             For Each it2 In Me.lvProcess.Items
                 Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                If cp.Pid = pid Then
+                If cp.Infos.Pid = pid Then
                     it2.Selected = True
                     it2.EnsureVisible()
                 End If
@@ -1743,7 +1748,7 @@ Public Class frmMain
             Dim it2 As ListViewItem
             For Each it2 In Me.lvProcess.Items
                 Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                If cp.Pid = pid And pid > 0 Then
+                If cp.Infos.Pid = pid And pid > 0 Then
                     it2.Selected = True
                     it2.EnsureVisible()
                     bOne = True
@@ -1849,7 +1854,7 @@ Public Class frmMain
             ReDim threadsToRefresh(Me.lvProcess.SelectedItems.Count - 1)
 
             For Each it As cProcess In Me.lvProcess.GetSelectedItems
-                threadsToRefresh(x) = it.Pid
+                threadsToRefresh(x) = it.Infos.Pid
                 x += 1
             Next
 
@@ -1866,7 +1871,7 @@ Public Class frmMain
             ReDim windowsToRefresh(Me.lvProcess.SelectedItems.Count - 1)
 
             For Each it As cProcess In Me.lvProcess.GetSelectedItems
-                windowsToRefresh(x) = it.Pid
+                windowsToRefresh(x) = it.Infos.Pid
                 x += 1
             Next
 
@@ -1880,7 +1885,7 @@ Public Class frmMain
         Dim x As Integer = 0
         ReDim handlesToRefresh(Me.lvProcess.SelectedItems.Count - 1)
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
-            handlesToRefresh(x) = it.Pid
+            handlesToRefresh(x) = it.Infos.Pid
             x += 1
         Next
         Call ShowHandles()
@@ -2036,7 +2041,7 @@ Public Class frmMain
             Dim it2 As ListViewItem
             For Each it2 In Me.lvProcess.Items
                 Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                If cp.Pid = pid Then
+                If cp.Infos.Pid = pid Then
                     it2.Selected = True
                     bOne = True
                     it2.EnsureVisible()
@@ -2105,7 +2110,7 @@ Public Class frmMain
             ReDim modulesToRefresh(Me.lvProcess.SelectedItems.Count - 1)
 
             For Each it As cProcess In Me.lvProcess.GetSelectedItems
-                modulesToRefresh(x) = it.Pid
+                modulesToRefresh(x) = it.Infos.Pid
                 x += 1
             Next
 
@@ -2123,11 +2128,11 @@ Public Class frmMain
             If _local = False Then
                 ' Set management process object
                 Me.lvModules.MngObjProcess = Nothing
-                For Each pp As cProcess In Me.lvProcess.GetAllItems
-                    If Me.lvModules.ProcessId = pp.Pid Then
-                        Me.lvModules.MngObjProcess = pp.MngObjProcess
-                    End If
-                Next
+                'For Each pp As cProcess In Me.lvProcess.GetAllItems
+                '    If Me.lvModules.ProcessId = pp.Pid Then 'TODO_
+                '        Me.lvModules.MngObjProcess = pp.MngObjProcess
+                '    End If
+                'Next
                 If Me.lvModules.MngObjProcess IsNot Nothing Then
                     Me.lvModules.UpdateTheItems()
                 End If
@@ -2180,7 +2185,7 @@ Public Class frmMain
             Dim it2 As ListViewItem
             For Each it2 In Me.lvProcess.Items
                 Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                If cp.Pid = pid And pid > 0 Then
+                If cp.Infos.Pid = pid And pid > 0 Then
                     it2.Selected = True
                     bOne = True
                     it2.EnsureVisible()
@@ -2242,10 +2247,10 @@ Public Class frmMain
             ReDim threadsToRefresh(Me.lvProcess.SelectedItems.Count - 1)
 
             For Each cp As cProcess In Me.lvProcess.GetSelectedItems
-                modulesToRefresh(x) = cp.Pid
-                windowsToRefresh(x) = cp.Pid
-                handlesToRefresh(x) = cp.Pid
-                threadsToRefresh(x) = cp.Pid
+                modulesToRefresh(x) = cp.Infos.Pid
+                windowsToRefresh(x) = cp.Infos.Pid
+                handlesToRefresh(x) = cp.Infos.Pid
+                threadsToRefresh(x) = cp.Infos.Pid
                 x += 1
             Next
 
@@ -2323,47 +2328,47 @@ Public Class frmMain
     Private Sub butProcessDisplayDetails_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessDisplayDetails.Click
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
             Dim frm As New frmProcessInfo
-            frm.SetProcess(it, _connOptRemoteWMI)
+            frm.SetProcess(it)
             frm.Show()
         Next
     End Sub
 
     ' Add a process node
-    Private Sub addNewProcessNode(ByRef p As cProcess, ByVal imgkey As String)
-        Dim parent As Integer = p.ParentProcessId
-        Dim pid As Integer = p.Pid
+    'Private Sub addNewProcessNode(ByRef p As cProcess, ByVal imgkey As String)
+    '    Dim parent As Integer = p.ParentProcessId
+    '    Dim pid As Integer = p.Pid
 
-        Dim n As TreeNode = findNode(Me.tvProc.Nodes(0).Nodes, parent)
+    '    Dim n As TreeNode = findNode(Me.tvProc.Nodes(0).Nodes, parent)
 
-        Dim nn As New TreeNode
-        nn.Text = p.Name
-        nn.Tag = CStr(pid)
-        nn.ImageKey = imgkey
-        nn.SelectedImageKey = imgkey
+    '    Dim nn As New TreeNode
+    '    nn.Text = p.Name
+    '    nn.Tag = CStr(pid)
+    '    nn.ImageKey = imgkey
+    '    nn.SelectedImageKey = imgkey
 
-        If n Is Nothing Then
-            ' New node (parent was killed)
-            Me.tvProc.Nodes(0).Nodes.Add(nn)
-            Me.tvProc.Nodes(0).ExpandAll()
-        Else
-            ' Found parent
-            n.Nodes.Add(nn)
-            n.ExpandAll()
-        End If
+    '    If n Is Nothing Then
+    '        ' New node (parent was killed)
+    '        Me.tvProc.Nodes(0).Nodes.Add(nn)
+    '        Me.tvProc.Nodes(0).ExpandAll()
+    '    Else
+    '        ' Found parent
+    '        n.Nodes.Add(nn)
+    '        n.ExpandAll()
+    '    End If
 
-    End Sub
+    'End Sub
 
-    Private Function findNode(ByRef nodes As TreeNodeCollection, ByVal pid As Integer) As TreeNode
-        Dim n As TreeNode
-        For Each n In nodes
-            If n.Tag.ToString = CStr(pid) Then
-                Return n
-            Else
-                findNode(n.Nodes, pid)
-            End If
-        Next
-        Return Nothing
-    End Function
+    'Private Function findNode(ByRef nodes As TreeNodeCollection, ByVal pid As Integer) As TreeNode
+    '    Dim n As TreeNode
+    '    For Each n In nodes
+    '        If n.Tag.ToString = CStr(pid) Then
+    '            Return n
+    '        Else
+    '            findNode(n.Nodes, pid)
+    '        End If
+    '    Next
+    '    Return Nothing
+    'End Function
 
     Private Sub creg_KeyAdded(ByVal key As cRegMonitor.KeyDefinition) Handles creg.KeyAdded
         'log.AppendLine("Service added : " & key.name)
@@ -2408,7 +2413,7 @@ Public Class frmMain
             Dim it2 As ListViewItem
             For Each it2 In Me.lvProcess.Items
                 Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                If cp.Pid = pid And pid > 0 Then
+                If cp.Infos.Pid = pid And pid > 0 Then
                     it2.Selected = True
                     bOne = True
                     it2.EnsureVisible()
@@ -2437,7 +2442,7 @@ Public Class frmMain
         For Each lvi As cProcess In Me.lvProcess.GetSelectedItems
             x += 1
             ReDim Preserve pid(x)
-            pid(x) = lvi.Pid
+            pid(x) = lvi.Infos.Pid
         Next
 
         ' Get services names of all associated services
@@ -2526,7 +2531,7 @@ Public Class frmMain
             Dim it2 As ListViewItem
             For Each it2 In Me.lvProcess.Items
                 Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                If cp.Pid = pid Then
+                If cp.Infos.Pid = pid Then
                     it2.Selected = True
                     it2.EnsureVisible()
                 End If
@@ -2646,7 +2651,7 @@ Public Class frmMain
             Dim it2 As ListViewItem
             For Each it2 In Me.lvProcess.Items
                 Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                If cp.Pid = pid Then
+                If cp.Infos.Pid = pid Then
                     it2.Selected = True
                     it2.EnsureVisible()
                 End If
@@ -3167,14 +3172,19 @@ Public Class frmMain
         Call mdlMisc.CopyLvToClip(e, Me.lvSearchResults)
     End Sub
 
+    Private Sub lvProcess_GotAnError(ByVal origin As String, ByVal msg As String) Handles lvProcess.GotAnError
+        MsgBox("Error : " & msg & vbNewLine & "Origin : " & origin & vbNewLine & vbNewLine & "YAPM will be disconnected from the machine.", MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Error")
+        Call Me.DisconnectFromMachine()
+    End Sub
+
     Private Sub lvProcess_ItemAdded(ByRef item As CoreFunc.cProcess) Handles lvProcess.ItemAdded
         If item IsNot Nothing Then _
-        Me.log.AppendLine("Process created : " & item.Name & " (" & item.Pid & ")")
+        Me.log.AppendLine("Process created : " & item.Infos.Name & " (" & item.Infos.Pid & ")")
     End Sub
 
     Private Sub lvProcess_ItemDeleted(ByRef item As CoreFunc.cProcess) Handles lvProcess.ItemDeleted
         If item IsNot Nothing Then _
-        Me.log.AppendLine("Process deleted : " & item.Name & " (" & item.Pid & ")")
+        Me.log.AppendLine("Process deleted : " & item.Infos.Name & " (" & item.Infos.Pid & ")")
     End Sub
 
     Private Sub lvProcess_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvProcess.KeyDown
@@ -3211,7 +3221,7 @@ Public Class frmMain
                 Exit Sub
             End If
             If Me.lvProcess.SelectedItems.Count = 1 Then
-                p = Me.lvProcess.GetSelectedItem.PriorityClassConstant
+                p = Me.lvProcess.GetSelectedItem.Infos.Priority
             End If
             Me.IdleToolStripMenuItem.Checked = (p = ProcessPriorityClass.Idle)
             Me.NormalToolStripMenuItem.Checked = (p = ProcessPriorityClass.Normal)
@@ -3852,83 +3862,83 @@ Public Class frmMain
         Dim sComp As String
         Dim i As Integer = 0
         Dim id As Integer = 0
+        'TODO_ (search)
+        'If Me.chkSearchProcess.Checked Then
+        '    For Each it In Me.lvProcess.Items
+        '        Dim cp As cProcess = Me.lvProcess.GetItemByKey(it.Name)
+        '        c = -1
+        '        For Each subit In it.SubItems
+        '            If Me.chkSearchCase.Checked = False Then
+        '                sComp = subit.Text.ToLower
+        '            Else
+        '                sComp = subit.Text
+        '            End If
+        '            c += 1
+        '            If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
+        '                ' So we've found a result
+        '                Dim newIt As New ListViewItem
+        '                Dim n2 As New ListViewItem.ListViewSubItem
+        '                Dim n3 As New ListViewItem.ListViewSubItem
+        '                Dim n4 As New ListViewItem.ListViewSubItem
+        '                newIt.Text = "Process"
+        '                n3.Text = Me.lvProcess.Columns.Item(c).Text
+        '                n2.Text = newIt.Text & " -- " & n3.Text & " -- " & cp.Name & " -- " & subit.Text
+        '                n4.Text = CStr(cp.Pid) & " -- " & cp.Name
+        '                newIt.SubItems.Add(n2)
+        '                newIt.SubItems.Add(n3)
+        '                newIt.SubItems.Add(n4)
+        '                newIt.Tag = "process"
+        '                newIt.Group = Me.lvSearchResults.Groups(0)
+        '                Try
+        '                    Dim fName As String = cp.Path
+        '                    imgSearch.Images.Add(fName, Me.lvProcess.GetImageFromImageList(fName))
+        '                    newIt.ImageKey = fName
+        '                Catch ex As Exception
+        '                    newIt.ImageKey = "noicon"
+        '                End Try
+        '                Me.lvSearchResults.Items.Add(newIt)
+        '            End If
+        '        Next
 
-        If Me.chkSearchProcess.Checked Then
-            For Each it In Me.lvProcess.Items
-                Dim cp As cProcess = Me.lvProcess.GetItemByKey(it.Name)
-                c = -1
-                For Each subit In it.SubItems
-                    If Me.chkSearchCase.Checked = False Then
-                        sComp = subit.Text.ToLower
-                    Else
-                        sComp = subit.Text
-                    End If
-                    c += 1
-                    If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
-                        ' So we've found a result
-                        Dim newIt As New ListViewItem
-                        Dim n2 As New ListViewItem.ListViewSubItem
-                        Dim n3 As New ListViewItem.ListViewSubItem
-                        Dim n4 As New ListViewItem.ListViewSubItem
-                        newIt.Text = "Process"
-                        n3.Text = Me.lvProcess.Columns.Item(c).Text
-                        n2.Text = newIt.Text & " -- " & n3.Text & " -- " & cp.Name & " -- " & subit.Text
-                        n4.Text = CStr(cp.Pid) & " -- " & cp.Name
-                        newIt.SubItems.Add(n2)
-                        newIt.SubItems.Add(n3)
-                        newIt.SubItems.Add(n4)
-                        newIt.Tag = "process"
-                        newIt.Group = Me.lvSearchResults.Groups(0)
-                        Try
-                            Dim fName As String = cp.Path
-                            imgSearch.Images.Add(fName, Me.lvProcess.GetImageFromImageList(fName))
-                            newIt.ImageKey = fName
-                        Catch ex As Exception
-                            newIt.ImageKey = "noicon"
-                        End Try
-                        Me.lvSearchResults.Items.Add(newIt)
-                    End If
-                Next
-
-                ' Check for modules
-                Try
-                    If Me.chkSearchModules.Checked Then
-                        Dim p As ProcessModuleCollection = cp.Modules
-                        Dim m As ProcessModule
-                        For Each m In p
-                            If Me.chkSearchCase.Checked = False Then
-                                sComp = m.FileVersionInfo.FileName.ToLower
-                            Else
-                                sComp = m.FileVersionInfo.FileName
-                            End If
-                            If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
-                                ' So we've found a result
-                                Dim newIt As New ListViewItem
-                                Dim n2 As New ListViewItem.ListViewSubItem
-                                Dim n3 As New ListViewItem.ListViewSubItem
-                                Dim n4 As New ListViewItem.ListViewSubItem
-                                newIt.Text = "Module"
-                                Dim _tag As New cModule.MODULEENTRY32
-                                _tag.th32ProcessID = cp.Pid
-                                _tag.modBaseAddr = m.BaseAddress.ToInt32
-                                newIt.Tag = _tag
-                                n3.Text = "Module"
-                                n2.Text = newIt.Text & " -- " & cp.Name & " -- " & m.FileVersionInfo.FileName
-                                n4.Text = CStr(cp.Pid) & " -- " & cp.Name
-                                newIt.SubItems.Add(n2)
-                                newIt.SubItems.Add(n3)
-                                newIt.SubItems.Add(n4)
-                                newIt.ImageKey = "dll"
-                                newIt.Group = Me.lvSearchResults.Groups(0)
-                                Me.lvSearchResults.Items.Add(newIt)
-                            End If
-                        Next
-                    End If
-                Catch ex As Exception
-                    '
-                End Try
-            Next
-        End If
+        '        ' Check for modules
+        '        Try
+        '            If Me.chkSearchModules.Checked Then
+        '                Dim p As ProcessModuleCollection = cp.Modules
+        '                Dim m As ProcessModule
+        '                For Each m In p
+        '                    If Me.chkSearchCase.Checked = False Then
+        '                        sComp = m.FileVersionInfo.FileName.ToLower
+        '                    Else
+        '                        sComp = m.FileVersionInfo.FileName
+        '                    End If
+        '                    If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
+        '                        ' So we've found a result
+        '                        Dim newIt As New ListViewItem
+        '                        Dim n2 As New ListViewItem.ListViewSubItem
+        '                        Dim n3 As New ListViewItem.ListViewSubItem
+        '                        Dim n4 As New ListViewItem.ListViewSubItem
+        '                        newIt.Text = "Module"
+        '                        Dim _tag As New cModule.MODULEENTRY32
+        '                        _tag.th32ProcessID = cp.Pid
+        '                        _tag.modBaseAddr = m.BaseAddress.ToInt32
+        '                        newIt.Tag = _tag
+        '                        n3.Text = "Module"
+        '                        n2.Text = newIt.Text & " -- " & cp.Name & " -- " & m.FileVersionInfo.FileName
+        '                        n4.Text = CStr(cp.Pid) & " -- " & cp.Name
+        '                        newIt.SubItems.Add(n2)
+        '                        newIt.SubItems.Add(n3)
+        '                        newIt.SubItems.Add(n4)
+        '                        newIt.ImageKey = "dll"
+        '                        newIt.Group = Me.lvSearchResults.Groups(0)
+        '                        Me.lvSearchResults.Items.Add(newIt)
+        '                    End If
+        '                Next
+        '            End If
+        '        Catch ex As Exception
+        '            '
+        '        End Try
+        '    Next
+        'End If
         If Me.chkSearchServices.Checked Then
             For Each it In Me.lvServices.Items
                 c = -1
@@ -3981,7 +3991,7 @@ Public Class frmMain
                             newIt.Tag = .GetHandle(i)
                             n3.Text = .GetNameInformation(i)
                             n2.Text = newIt.Text & " -- " & n3.Text & " -- " & .GetObjectName(i)
-                            n4.Text = .GetProcessID(i) & " -- " & cProcess.GetProcessName(.GetProcessID(i))
+                            'TODO_    (search)                        'n4.Text = .GetProcessID(i) & " -- " & cProcess.GetProcessName(.GetProcessID(i))
                             newIt.SubItems.Add(n2)
                             newIt.SubItems.Add(n3)
                             newIt.SubItems.Add(n4)
@@ -4183,7 +4193,7 @@ Public Class frmMain
     End Sub
 
     Private Sub timerStateBasedActions_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerStateBasedActions.Tick
-        'TODO
+        'TODO_ (sba)
         'Me.emStateBasedActions.ProcessActions(lvProcess.GetAllItems)
     End Sub
 
@@ -4193,101 +4203,151 @@ Public Class frmMain
         Next
     End Sub
 
-    Private Sub emStateBasedActions_ExitRequested() Handles emStateBasedActions.ExitRequested
-        Me.Close()
-    End Sub
+    'Private Sub emStateBasedActions_ExitRequested() Handles emStateBasedActions.ExitRequested
+    '    Me.Close()
+    'End Sub
 
-    Private Sub emStateBasedActions_LogRequested(ByRef process As CoreFunc.cLocalProcess) Handles emStateBasedActions.LogRequested
-        'Dim frm As New frmProcessInfo
-        'frm.SetProcess(process)
-        'frm.WindowState = FormWindowState.Minimized
-        'frm.StartLog()
-        'frm.tabProcess.SelectedTab = frm.TabPage14
-        'frm.Show()
-        'TODO
-    End Sub
+    'Private Sub emStateBasedActions_LogRequested(ByRef process As CoreFunc.cLocalProcess) Handles emStateBasedActions.LogRequested
+    '    'Dim frm As New frmProcessInfo
+    '    'frm.SetProcess(process)
+    '    'frm.WindowState = FormWindowState.Minimized
+    '    'frm.StartLog()
+    '    'frm.tabProcess.SelectedTab = frm.TabPage14
+    '    'frm.Show()
+    '    'TODO_  (sba)
+    'End Sub
 
-    Private Sub emStateBasedActions_NotifyAction(ByRef action As CoreFunc.cBasedStateActionState, ByRef process As CoreFunc.cLocalProcess) Handles emStateBasedActions.NotifyAction
-        Dim proc As String = process.Name & " (" & process.Pid.ToString & ")"
-        If action.Notify Then
-            Me.Tray.ShowBalloonTip(2000, "State based action was raised", "Rule : " & action.RuleText & " , process : " & proc, ToolTipIcon.Info)
+    'Private Sub emStateBasedActions_NotifyAction(ByRef action As CoreFunc.cBasedStateActionState, ByRef process As CoreFunc.cLocalProcess) Handles emStateBasedActions.NotifyAction
+    '    Dim proc As String = process.Name & " (" & process.Pid.ToString & ")"
+    '    If action.Notify Then
+    '        Me.Tray.ShowBalloonTip(2000, "State based action was raised", "Rule : " & action.RuleText & " , process : " & proc, ToolTipIcon.Info)
+    '    End If
+
+    '    ' Add to log
+    '    Me.log.AppendLine("State based action was raised -- Rule : " & action.RuleText & " , process : " & proc)
+    'End Sub
+
+    'Private Sub emStateBasedActions_SaveProcessListRequested(ByVal path As String) Handles emStateBasedActions.SaveProcessListRequested
+    '    Try
+    '        ' Create file report
+    '        Dim c As String = vbNullString
+    '        Dim stream As New System.IO.StreamWriter(path, False)
+    '        Dim _count As Integer = Me.lvProcess.GetAllItems.Count
+    '        For Each it As cProcess In Me.lvProcess.GetAllItems
+    '            c = "Process : " & it.Name
+    '            c &= vbTab & "PID : " & it.Pid.ToString
+    '            c &= vbTab & "Path : " & it.Path
+    '            c &= vbNewLine
+    '            stream.Write(c)
+    '        Next
+    '        c = CStr(_count) & " result(s)"
+    '        stream.Write(c)
+    '        stream.Close()
+    '    Catch
+    '        '
+    '    End Try
+    'End Sub
+
+    'Private Sub emStateBasedActions_SaveServiceListRequested(ByVal path As String) Handles emStateBasedActions.SaveServiceListRequested
+    '    Try
+    '        ' Create file report
+    '        Dim c As String = vbNullString
+    '        Dim stream As New System.IO.StreamWriter(path, False)
+    '        Dim _count As Integer = Me.lvServices.GetAllItems.Count
+    '        For Each it As cService In Me.lvServices.GetAllItems
+    '            c = "Service : " & it.Name
+    '            c &= vbTab & "Long name : " & it.LongName
+    '            c &= vbTab & "Path : " & it.ImagePath
+    '            c &= vbTab & "Process : " & it.ProcessName & " (" & it.ProcessID & ")"
+    '            c &= vbNewLine
+    '            stream.Write(c)
+    '        Next
+    '        c = CStr(_count) & " result(s)"
+    '        stream.Write(c)
+    '        stream.Close()
+    '    Catch
+    '        '
+    '    End Try
+    'End Sub
+
+    Private Sub butNewProcess_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butNewProcess.Click
+        If Me.theConnection.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+            cFile.ShowRunBox(Me.Handle.ToInt32, "Start a new process", "Enter the path of the process you want to start.")
+        Else
+            Dim sres As String = CInputBox("Enter the path of the process you want to start.", "Start a new process", "")
+            If sres Is Nothing OrElse sres.Equals(String.Empty) Then Exit Sub
+            cProcess.StartNewProcess(sres)
         End If
-
-        ' Add to log
-        Me.log.AppendLine("State based action was raised -- Rule : " & action.RuleText & " , process : " & proc)
     End Sub
 
-    Private Sub emStateBasedActions_SaveProcessListRequested(ByVal path As String) Handles emStateBasedActions.SaveProcessListRequested
-        Try
-            ' Create file report
-            Dim c As String = vbNullString
-            Dim stream As New System.IO.StreamWriter(path, False)
-            Dim _count As Integer = Me.lvProcess.GetAllItems.Count
-            For Each it As cProcess In Me.lvProcess.GetAllItems
-                c = "Process : " & it.Name
-                c &= vbTab & "PID : " & it.Pid.ToString
-                c &= vbTab & "Path : " & it.Path
-                c &= vbNewLine
-                stream.Write(c)
-            Next
-            c = CStr(_count) & " result(s)"
-            stream.Write(c)
-            stream.Close()
-        Catch
-            '
-        End Try
+    Private Sub butLog_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butLog.Click
+        Call ShowLogToolStripMenuItem_Click(Nothing, Nothing)
     End Sub
 
-    Private Sub emStateBasedActions_SaveServiceListRequested(ByVal path As String) Handles emStateBasedActions.SaveServiceListRequested
-        Try
-            ' Create file report
-            Dim c As String = vbNullString
-            Dim stream As New System.IO.StreamWriter(path, False)
-            Dim _count As Integer = Me.lvServices.GetAllItems.Count
-            For Each it As cService In Me.lvServices.GetAllItems
-                c = "Service : " & it.Name
-                c &= vbTab & "Long name : " & it.LongName
-                c &= vbTab & "Path : " & it.ImagePath
-                c &= vbTab & "Process : " & it.ProcessName & " (" & it.ProcessID & ")"
-                c &= vbNewLine
-                stream.Write(c)
-            Next
-            c = CStr(_count) & " result(s)"
-            stream.Write(c)
-            stream.Close()
-        Catch
-            '
-        End Try
+    Private Sub butWindows_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindows.Click
+        Call OpenedWindowsToolStripMenuItem_Click(Nothing, Nothing)
     End Sub
 
-    Private Const REMOTE_PORT As Integer = 8081
-    Private Sub cmdServerOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdServerOK.Click
+    Private Sub butSystemInfo_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butSystemInfo.Click
+        Call ShowSystemInformatoToolStripMenuItem_Click(Nothing, Nothing)
+    End Sub
 
-        _connOptRemoteWMI = New cRemoteProcessWMI.RemoteConnectionInfoWMI(Me.txtServerMachine.Text, Me.txtServerPassword.Text, Me.txtServerUser.Text)
-        _connOptRemote = New cRemoteProcess.RemoteConnectionInfo(Me.txtServerIP.Text, REMOTE_PORT)
+    Private Sub butFindWindow_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFindWindow.Click
+        Call FindAWindowToolStripMenuItem_Click(Nothing, Nothing)
+    End Sub
 
-        Me.timerProcess.Enabled = _local
-        Me.timerServices.Enabled = _local
-        Me.timerMonitoring.Enabled = _local
-        Me.timerTask.Enabled = _local
+    Private Sub orbMenuAbout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles orbMenuAbout.Click
+        Call AboutYAPMToolStripMenuItem_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub orbMenuEmergency_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles orbMenuEmergency.Click
+        Call EmergencyHotkeysToolStripMenuItem_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub orbMenuExit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles orbMenuExit.Click
+        Call ExitToolStripMenuItem_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub orbMenuSaveReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles orbMenuSaveReport.Click
+        Call SaveSystemReportToolStripMenuItem_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub orbMenuSBA_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles orbMenuSBA.Click
+        Call StateBasedActionsToolStripMenuItem_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butNetwork_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butNetwork.Click
+        Call orbMenuNetwork_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub orbMenuNetwork_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles orbMenuNetwork.Click
+        If _connectionForm.Visible Then
+            _connectionForm.Hide()
+        Else
+            _connectionForm.Show()
+        End If
+    End Sub
+
+    Public Sub ConnectToToMachine()
+
+        _local = (Me.theConnection.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
+
+        ' Disable all refreshments
+        Me.timerProcess.Enabled = False
+        Me.timerServices.Enabled = False
+        Me.timerMonitoring.Enabled = False
+        Me.timerTask.Enabled = False
+
+        ' Clear all lvItems
         Me.lvProcess.ClearItems()
-        If _connType = customLV.ProvidersConnectionType.RemoteWMI Then
-            Me.lvProcess.RemoteConnectionWMI = _connOptRemoteWMI
-        ElseIf _connType = customLV.ProvidersConnectionType.Remote Then
-            Me.lvProcess.RemoteConnection = _connOptRemote
-        End If
-        Me.lvProcess.IsLocalMachine = _local
-        Me.lvProcess.Connection = _connType
-
         Me.lvModules.ClearItems()
-        rtb6.Text = ""
-        If _connType = customLV.ProvidersConnectionType.RemoteWMI Then
-            Me.lvModules.RemoteConnectionWMI = _connOptRemoteWMI
-        ElseIf _connType = customLV.ProvidersConnectionType.Remote Then
-            '    Me.lvProcess.RemoteConnection = _connOptRemote
-        End If
-        Me.lvModules.IsLocalMachine = _local
+        Me.rtb6.Text = ""
 
+        ' Connect all lvItems
+        Me.lvProcess.ConnectionObj = theConnection
+        Me.theConnection.Connect()
+
+        ' Disable some controls depending the connection type
         Me.butResumeProcess.Enabled = Me._local
         Me.butStopProcess.Enabled = Me._local
         Me.butProcessAffinity.Enabled = Me._local
@@ -4343,121 +4403,18 @@ Public Class frmMain
         Me.lvProcess.CatchErrors = Not (_local)
         Me.lvModules.CatchErrors = Not (_local)
 
-        ' Now refresh processes
-        'Me.lvProcess.BeginUpdate()
-        'Me.lvProcess.UpdateTheItems()
-        'Me.lvProcess.UpdateTheItems()
-        ''Try
-        ''    Me.lvProcess.UpdateTheItems()
-        ''Catch ex As Exception
-        ''    Me.lvProcess.EndUpdate()
-        ''    Exit Sub
-        ''End Try
-        ''Try
-        ''    Me.lvProcess.UpdateTheItems()
-        ''Catch ex As Exception
-        ''    Me.lvProcess.EndUpdate()
-        ''    Exit Sub
-        ''End Try
-        'Me.lvProcess.EndUpdate()
+        ' Enable all refreshments
+        Me.timerProcess.Enabled = True
+        Me.timerServices.Enabled = True
+        Me.timerMonitoring.Enabled = True
+        Me.timerTask.Enabled = True
     End Sub
 
-    Private Sub butProcessConfigureServer_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessConfigureServer.Click
-        If Me.butProcessConfigureServer.Text = "Configuration" Then
-            Me.butProcessConfigureServer.Text = "Hide panel"
-            Me.SplitContainerProcess.Panel2Collapsed = False
-        Else
-            Me.butProcessConfigureServer.Text = "Configuration"
-            Me.SplitContainerProcess.Panel2Collapsed = True
-        End If
+    Public Sub DisconnectFromMachine()
+        theConnection.Disconnect()
     End Sub
 
-    Private Sub butNewProcess_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butNewProcess.Click
-        If Me._local Then
-            cFile.ShowRunBox(Me.Handle.ToInt32, "Start a new process", "Enter the path of the process you want to start.")
-        Else
-            Dim sres As String = CInputBox("Enter the path of the process you want to start.", "Start a new process", "")
-            If sres Is Nothing OrElse sres.Equals(String.Empty) Then Exit Sub
-            If Me._connType = customLV.ProvidersConnectionType.RemoteWMI Then
-                cRemoteProcessWMI.StartNewProcess(_connOptRemoteWMI, sres)
-            Else
-                cRemoteProcess.StartNewProcess(sres)
-            End If
-        End If
-    End Sub
-
-    Private Sub butLog_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butLog.Click
-        Call ShowLogToolStripMenuItem_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub butWindows_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindows.Click
-        Call OpenedWindowsToolStripMenuItem_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub butSystemInfo_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butSystemInfo.Click
-        Call ShowSystemInformatoToolStripMenuItem_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub butFindWindow_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFindWindow.Click
-        Call FindAWindowToolStripMenuItem_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub orbMenuAbout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles orbMenuAbout.Click
-        Call AboutYAPMToolStripMenuItem_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub orbMenuEmergency_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles orbMenuEmergency.Click
-        Call EmergencyHotkeysToolStripMenuItem_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub orbMenuExit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles orbMenuExit.Click
-        Call ExitToolStripMenuItem_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub orbMenuSaveReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles orbMenuSaveReport.Click
-        Call SaveSystemReportToolStripMenuItem_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub orbMenuSBA_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles orbMenuSBA.Click
-        Call StateBasedActionsToolStripMenuItem_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub optServerRemoteWMI_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles optServerRemoteWMI.CheckedChanged
-        gpServerWMI.Visible = optServerRemoteWMI.Checked
-        gpServer.Visible = optServerRemote.Checked
-        _local = optServerLocal.Checked
-        If optServerRemoteWMI.Checked Then
-            _connType = customLV.ProvidersConnectionType.RemoteWMI
-        ElseIf optServerRemote.Checked Then
-            _connType = customLV.ProvidersConnectionType.Remote
-        Else
-            _connType = customLV.ProvidersConnectionType.Local
-        End If
-    End Sub
-
-    Private Sub optServerLocal_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles optServerLocal.CheckedChanged
-        gpServerWMI.Visible = optServerRemoteWMI.Checked
-        gpServer.Visible = optServerRemote.Checked
-        _local = optServerLocal.Checked
-        If optServerRemoteWMI.Checked Then
-            _connType = customLV.ProvidersConnectionType.RemoteWMI
-        ElseIf optServerRemote.Checked Then
-            _connType = customLV.ProvidersConnectionType.Remote
-        Else
-            _connType = customLV.ProvidersConnectionType.Local
-        End If
-    End Sub
-
-    Private Sub optServerRemote_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles optServerRemote.CheckedChanged
-        gpServerWMI.Visible = optServerRemoteWMI.Checked
-        gpServer.Visible = optServerRemote.Checked
-        _local = optServerLocal.Checked
-        If optServerRemoteWMI.Checked Then
-            _connType = customLV.ProvidersConnectionType.RemoteWMI
-        ElseIf optServerRemote.Checked Then
-            _connType = customLV.ProvidersConnectionType.Remote
-        Else
-            _connType = customLV.ProvidersConnectionType.Local
-        End If
+    Private Sub ConnectionToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ConnectionToolStripMenuItem.Click
+        Call orbMenuNetwork_Click(Nothing, Nothing)
     End Sub
 End Class

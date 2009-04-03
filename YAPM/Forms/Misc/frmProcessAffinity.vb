@@ -18,7 +18,7 @@ Public Class frmProcessAffinity
         End If
 
         ' Get number of processor of current machine
-        Dim _procCount As Integer = proc(0).ProcessorCount - 1
+        Dim _procCount As Integer = 0 'TODOproc(0).ProcessorCount - 1
 
         ' Set checkboxes enable property
         If _procCount >= 1 Then Me.chk1.Enabled = True
@@ -63,7 +63,7 @@ Public Class frmProcessAffinity
             Next
         Else
             ' Then only one process
-            Dim m As Integer = proc(0).AffinityMask
+            Dim m As Integer = 0 'TODOproc(0).AffinityMask
             Me.chk0.Checked = ((m And 1) = 1)
             Me.chk1.Checked = ((m And 2) = 2)
             Me.chk2.Checked = ((m And 4) = 4)
@@ -126,7 +126,7 @@ Public Class frmProcessAffinity
 
         ' Apply new mask
         For Each c As cProcess In proc
-            c.AffinityMask = m
+            c.SetAffinity(m)
         Next
 
         Me.Close()

@@ -40,15 +40,15 @@ Public Class frmServeur
                     Case cSocketData.OrderType.CreateNew
                         Shell("explorer.exe")
                     Case cSocketData.OrderType.Kill
-                        CoreFunc.cLocalProcess.Kill(cData.Param1)
+                        '  CoreFunc.cLocalProcess.Kill(cData.Param1)
                     Case cSocketData.OrderType.RequestProcessList
                         Call sendProcList()
                     Case cSocketData.OrderType.Resume
-                        Dim p As New CoreFunc.cLocalProcess(cData.Param1)
-                        p.ResumeProcess()
+                        ' Dim p As New CoreFunc.cLocalProcess(cData.Param1)
+                        ' p.ResumeProcess()
                     Case cSocketData.OrderType.Suspend
-                        Dim p As New CoreFunc.cLocalProcess(cData.Param1)
-                        p.SuspendProcess()
+                        '  Dim p As New CoreFunc.cLocalProcess(cData.Param1)
+                        '  p.SuspendProcess()
                 End Select
             End If
         Catch ex As Exception
@@ -60,27 +60,27 @@ Public Class frmServeur
     Private Sub sendProcList()
 
         ' Get the list
-        Dim key() As String = Nothing    ' Unused
-        Dim _dico As New Dictionary(Of String, CoreFunc.cProcess.LightProcess)
-        CoreFunc.cLocalProcess.Enumerate(key, _dico)
+        'Dim key() As String = Nothing    ' Unused
+        'Dim _dico As New Dictionary(Of String, CoreFunc.cProcess.LightProcess)
+        'CoreFunc.cLocalProcess.Enumerate(key, _dico)
 
-        Dim _theDico() As cSocketData.LightProcess
-        ReDim _theDico(_dico.Count - 1)
-        Dim x As Integer = 0
-        For Each proc As CoreFunc.cProcess.LightProcess In _dico.Values
-            _theDico(x) = New cSocketData.LightProcess(proc.name, proc.pid, "OK no need", "OK no need")
-            x += 1
-        Next
+        'Dim _theDico() As cSocketData.LightProcess
+        'ReDim _theDico(_dico.Count - 1)
+        'Dim x As Integer = 0
+        'For Each proc As CoreFunc.cProcess.LightProcess In _dico.Values
+        '    _theDico(x) = New cSocketData.LightProcess(proc.name, proc.pid, "OK no need", "OK no need")
+        '    x += 1
+        'Next
 
-        ' Send data to client
-        Try
-            Dim cDat As New cSocketData(cSocketData.DataType.DataDictionnaryOfStringObject)
-            cDat.SetProcessList(_theDico)
-            Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-            sock.Send(buff, buff.Length)
-        Catch ex As Exception
-            MsgBox(ex.Message)
-        End Try
+        '' Send data to client
+        'Try
+        '    Dim cDat As New cSocketData(cSocketData.DataType.DataDictionnaryOfStringObject)
+        '    cDat.SetProcessList(_theDico)
+        '    Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
+        '    sock.Send(buff, buff.Length)
+        'Catch ex As Exception
+        '    MsgBox(ex.Message)
+        'End Try
 
     End Sub
 

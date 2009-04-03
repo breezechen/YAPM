@@ -40,16 +40,16 @@ Public Class cTask
 #End Region
 
     Private _key As String
-    Private _proc As cProcess
+    ' Private _proc As cProcess
 
     ' ========================================
     ' Constructors
     ' ========================================
     Public Sub New(ByVal task As LightWindow)
         MyBase.New(task)
-        _proc = New cLocalProcess(task.pid)
+        '_proc = New cProcess(New processInfos(Nothing), Nothing)    ' cLocalProcess(task.pid)   'TODO_
         _key = task.handle.ToString & "|" & task.pid.ToString & "|" & task.threadId.ToString
-        _proc.ProcessorCount = cSystemInfo.GetProcessorCount
+        '_proc.ProcessorCount = cSystemInfo.GetProcessorCount   'TODO_
     End Sub
 
     ' ========================================
@@ -57,13 +57,14 @@ Public Class cTask
     ' ========================================
     Public ReadOnly Property CpuUsageS() As String
         Get
-            Dim o As Integer = _proc.ProcessorCount
-            Return GetFormatedPercentage(_proc.CpuPercentageUsage(True))
+            'Dim o As Integer = _proc.ProcessorCount
+            'Return GetFormatedPercentage(_proc.CpuPercentageUsage(True))
+            Return "TODO_"   'TODO_
         End Get
     End Property
     Public ReadOnly Property Process() As cProcess
         Get
-            Return _proc
+            Return Nothing ' _proc   'TODO_
         End Get
     End Property
     Public ReadOnly Property Key() As String

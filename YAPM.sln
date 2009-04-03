@@ -25,6 +25,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RemoteControl", "RemoteCont
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "YAPMRemote", "YAPMRemote\YAPMRemote.vbproj", "{F69D7994-0F74-4662-BFE7-1BE74C24EF6D}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "aPoubelle", "aPoubelle\aPoubelle.vbproj", "{1742DD66-0EA5-47A4-B6DF-59423CE7682F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{F69D7994-0F74-4662-BFE7-1BE74C24EF6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F69D7994-0F74-4662-BFE7-1BE74C24EF6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F69D7994-0F74-4662-BFE7-1BE74C24EF6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1742DD66-0EA5-47A4-B6DF-59423CE7682F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1742DD66-0EA5-47A4-B6DF-59423CE7682F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1742DD66-0EA5-47A4-B6DF-59423CE7682F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1742DD66-0EA5-47A4-B6DF-59423CE7682F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -28,7 +28,8 @@ Public Class frmProcessInfo
 
     Private _historyGraphNumber As Integer = 0
     Private _local As Boolean = True
-    Private _theCon As cRemoteProcessWMI.RemoteConnectionInfoWMI
+    '    Private _connWMI As cProcessConnection.WMIConnectionParameters
+    '    Private _connSocket As cProcessConnection.SocketConnectionParameters
     Private __con As Management.ConnectionOptions
 
 
@@ -76,21 +77,20 @@ Public Class frmProcessInfo
                 Call getProcString(curProc)
 
             Case "General"
-                Me.txtProcessPath.Text = curProc.Path
-                Me.txtProcessId.Text = CStr(curProc.Pid)
-                Me.txtParentProcess.Text = CStr(curProc.ParentProcessId) & " -- " & curProc.ParentProcessName
-                Me.txtProcessStarted.Text = curProc.StartTime.ToLongDateString & " -- " & curProc.StartTime.ToLongTimeString
-                Me.txtProcessUser.Text = curProc.UserName
-                Me.txtCommandLine.Text = curProc.CommandLine
-                Dim sp As TimeSpan = New TimeSpan(curProc.StartTime.Ticks)
+                Me.txtProcessPath.Text = curProc.Infos.Path
+                Me.txtProcessId.Text = curProc.Infos.Pid.ToString
+                'TODO_ (parent)                Me.txtParentProcess.Text = curProc.Infos.ParentProcessId.ToString & " -- " & curProc.Infos.ParentProcessName
+                Me.txtProcessStarted.Text = New Date(curProc.Infos.StartTime).ToLongDateString & " -- " & New Date(curProc.Infos.StartTime).ToLongTimeString
+                Me.txtProcessUser.Text = curProc.Infos.UserName
+                Me.txtCommandLine.Text = curProc.Infos.CommandLine
+                Dim sp As TimeSpan = New TimeSpan(curProc.Infos.StartTime)
                 Dim d As Date = Date.Now.Subtract(sp)
                 Me.txtRunTime.Text = d.ToLongTimeString
-                Me.cbPriority.Text = curProc.PriorityClass
-                Dim tMain As System.Diagnostics.ProcessModule = curProc.MainModule
-                If tMain IsNot Nothing Then
-                    Me.txtImageVersion.Text = tMain.FileVersionInfo.FileVersion
-                    Me.lblCopyright.Text = tMain.FileVersionInfo.LegalCopyright
-                    Me.lblDescription.Text = tMain.FileVersionInfo.FileDescription
+                Me.cbPriority.Text = curProc.Infos.Priority.ToString
+                If curProc.Infos.FileInfo IsNot Nothing Then
+                    Me.txtImageVersion.Text = curProc.Infos.FileInfo.FileVersion
+                    Me.lblCopyright.Text = curProc.Infos.FileInfo.LegalCopyright
+                    Me.lblDescription.Text = curProc.Infos.FileInfo.FileDescription
                 Else
                     Me.txtImageVersion.Text = NO_INFO_RETRIEVED
                     Me.lblCopyright.Text = NO_INFO_RETRIEVED
@@ -98,219 +98,219 @@ Public Class frmProcessInfo
                 End If
 
 
-            Case "Statistics"
+                'Case "Statistics"
 
-                ' No need to refresh if local, it's done by the mainform (curProc is only a
-                ' reference to an existing instance).
-                ' If it is a remote process, we have to query again
-                If _local = False Then
+                '    ' No need to refresh if local, it's done by the mainform (curProc is only a
+                '    ' reference to an existing instance).
+                '    ' If it is a remote process, we have to query again
+                '    If _local = False Then
 
-                    Dim colProcesses As Management.ManagementObjectSearcher
-                    colProcesses = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Process WHERE ProcessID ='" & curProc.Pid.ToString & "'")
-                    colProcesses.Scope = New Management.ManagementScope("\\" & _theCon.serverName & "\root\cimv2", __con)
+                '        Dim colProcesses As Management.ManagementObjectSearcher
+                '        colProcesses = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Process WHERE ProcessID ='" & curProc.Pid.ToString & "'")
+                '        colProcesses.Scope = New Management.ManagementScope("\\" & _theCon.serverName & "\root\cimv2", __con)
 
-                    Dim newRefProc As Management.ManagementObject = curProc.MngObjProcess
-                    For Each refProcess As Management.ManagementObject In colProcesses.Get
-                        newRefProc = refProcess
-                    Next
+                '        Dim newRefProc As Management.ManagementObject = curProc.MngObjProcess
+                '        For Each refProcess As Management.ManagementObject In colProcesses.Get
+                '            newRefProc = refProcess
+                '        Next
 
-                    Try
-                        curProc.Refresh(newRefProc)
-                    Catch ex As Exception
-                        MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Could not refresh statistics")
-                    End Try
-                End If
+                '        Try
+                '            curProc.Refresh(newRefProc)
+                '        Catch ex As Exception
+                '            MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Could not refresh statistics")
+                '        End Try
+                '    End If
 
-                Me.lblProcOther.Text = curProc.GetIOvalues.OtherOperationCount.ToString
-                Me.lblProcOtherBytes.Text = GetFormatedSize(curProc.GetIOvalues.OtherTransferCount)
-                Me.lblProcReads.Text = curProc.GetIOvalues.ReadOperationCount.ToString
-                Me.lblProcReadBytes.Text = GetFormatedSize(curProc.GetIOvalues.ReadTransferCount)
-                Me.lblProcWriteBytes.Text = GetFormatedSize(curProc.GetIOvalues.WriteTransferCount)
-                Me.lblProcWrites.Text = curProc.GetIOvalues.WriteOperationCount.ToString
-                Me.lblGDIcount.Text = CStr(curProc.GDIObjectsCount)
-                Me.lblUserObjectsCount.Text = CStr(curProc.UserObjectsCount)
-                Me.lblAverageCPUusage.Text = curProc.GetInformation("AverageCpuUsage")
+                '    Me.lblProcOther.Text = curProc.GetIOvalues.OtherOperationCount.ToString
+                '    Me.lblProcOtherBytes.Text = GetFormatedSize(curProc.GetIOvalues.OtherTransferCount)
+                '    Me.lblProcReads.Text = curProc.GetIOvalues.ReadOperationCount.ToString
+                '    Me.lblProcReadBytes.Text = GetFormatedSize(curProc.GetIOvalues.ReadTransferCount)
+                '    Me.lblProcWriteBytes.Text = GetFormatedSize(curProc.GetIOvalues.WriteTransferCount)
+                '    Me.lblProcWrites.Text = curProc.GetIOvalues.WriteOperationCount.ToString
+                '    Me.lblGDIcount.Text = CStr(curProc.GDIObjectsCount)
+                '    Me.lblUserObjectsCount.Text = CStr(curProc.UserObjectsCount)
+                '    Me.lblAverageCPUusage.Text = curProc.GetInformation("AverageCpuUsage")
 
-                Dim mem As cProcess.PROCESS_MEMORY_COUNTERS = curProc.MemoryInfos
-                Me.lblHandles.Text = CStr(curProc.HandleCount)
-                Dim ts As Date = curProc.KernelTime
-                Dim s As String = String.Format("{0:00}", ts.Hour) & ":" & _
-                    String.Format("{0:00}", ts.Minute) & ":" & _
-                    String.Format("{0:00}", ts.Second) & ":" & _
-                    String.Format("{000}", ts.Millisecond)
-                Me.lblKernelTime.Text = s
-                Me.lblPageFaults.Text = CStr(mem.PageFaultCount)
-                Me.lblPageFileUsage.Text = GetFormatedSize(mem.PagefileUsage)
-                Me.lblPeakPageFileUsage.Text = GetFormatedSize(mem.PeakPagefileUsage)
-                Me.lblPeakWorkingSet.Text = GetFormatedSize(mem.PeakWorkingSetSize)
-                ts = curProc.ProcessorTime
-                s = String.Format("{0:00}", ts.Hour) & ":" & _
-                    String.Format("{0:00}", ts.Minute) & ":" & _
-                    String.Format("{0:00}", ts.Second) & ":" & _
-                    String.Format("{000}", ts.Millisecond)
-                Me.lblTotalTime.Text = s
-                ts = curProc.UserTime
-                s = String.Format("{0:00}", ts.Hour) & ":" & _
-                    String.Format("{0:00}", ts.Minute) & ":" & _
-                    String.Format("{0:00}", ts.Second) & ":" & _
-                    String.Format("{000}", ts.Millisecond)
-                Me.lblUserTime.Text = s
-                Me.lblPriority.Text = curProc.PriorityClass.ToString
-                Me.lblWorkingSet.Text = GetFormatedSize(mem.WorkingSetSize)
-                Me.lblQuotaNPP.Text = GetFormatedSize(mem.QuotaNonPagedPoolUsage)
-                Me.lblQuotaPNPP.Text = GetFormatedSize(mem.QuotaPeakNonPagedPoolUsage)
-                Me.lblQuotaPP.Text = GetFormatedSize(mem.QuotaPagedPoolUsage)
-                Me.lblQuotaPPP.Text = GetFormatedSize(mem.QuotaPeakPagedPoolUsage)
+                '    Dim mem As cProcess.PROCESS_MEMORY_COUNTERS = curProc.MemoryInfos
+                '    Me.lblHandles.Text = CStr(curProc.HandleCount)
+                '    Dim ts As Date = curProc.KernelTime
+                '    Dim s As String = String.Format("{0:00}", ts.Hour) & ":" & _
+                '        String.Format("{0:00}", ts.Minute) & ":" & _
+                '        String.Format("{0:00}", ts.Second) & ":" & _
+                '        String.Format("{000}", ts.Millisecond)
+                '    Me.lblKernelTime.Text = s
+                '    Me.lblPageFaults.Text = CStr(mem.PageFaultCount)
+                '    Me.lblPageFileUsage.Text = GetFormatedSize(mem.PagefileUsage)
+                '    Me.lblPeakPageFileUsage.Text = GetFormatedSize(mem.PeakPagefileUsage)
+                '    Me.lblPeakWorkingSet.Text = GetFormatedSize(mem.PeakWorkingSetSize)
+                '    ts = curProc.ProcessorTime
+                '    s = String.Format("{0:00}", ts.Hour) & ":" & _
+                '        String.Format("{0:00}", ts.Minute) & ":" & _
+                '        String.Format("{0:00}", ts.Second) & ":" & _
+                '        String.Format("{000}", ts.Millisecond)
+                '    Me.lblTotalTime.Text = s
+                '    ts = curProc.UserTime
+                '    s = String.Format("{0:00}", ts.Hour) & ":" & _
+                '        String.Format("{0:00}", ts.Minute) & ":" & _
+                '        String.Format("{0:00}", ts.Second) & ":" & _
+                '        String.Format("{000}", ts.Millisecond)
+                '    Me.lblUserTime.Text = s
+                '    Me.lblPriority.Text = curProc.PriorityClass.ToString
+                '    Me.lblWorkingSet.Text = GetFormatedSize(mem.WorkingSetSize)
+                '    Me.lblQuotaNPP.Text = GetFormatedSize(mem.QuotaNonPagedPoolUsage)
+                '    Me.lblQuotaPNPP.Text = GetFormatedSize(mem.QuotaPeakNonPagedPoolUsage)
+                '    Me.lblQuotaPP.Text = GetFormatedSize(mem.QuotaPagedPoolUsage)
+                '    Me.lblQuotaPPP.Text = GetFormatedSize(mem.QuotaPeakPagedPoolUsage)
 
 
-            Case "Environment"
-                If _local Then
-                    Me.lvProcEnv.Items.Clear()
-                    Dim cVar() As String = Nothing
-                    Dim cVal() As String = Nothing
-                    If curProc.GetEnvironmentVariables(cVar, cVal) > 0 Then
-                        For x As Integer = 0 To cVar.Length - 1
-                            If cVar(x).Length > 0 Then
-                                Dim itpr As New ListViewItem(cVar(x))
-                                itpr.SubItems.Add(CStr(cVal(x)))
-                                Me.lvProcEnv.Items.Add(itpr)
-                            End If
-                        Next
-                    End If
-                End If
+                'Case "Environment"
+                '    If _local Then
+                '        Me.lvProcEnv.Items.Clear()
+                '        Dim cVar() As String = Nothing
+                '        Dim cVal() As String = Nothing
+                '        If curProc.GetEnvironmentVariables(cVar, cVal) > 0 Then
+                '            For x As Integer = 0 To cVar.Length - 1
+                '                If cVar(x).Length > 0 Then
+                '                    Dim itpr As New ListViewItem(cVar(x))
+                '                    itpr.SubItems.Add(CStr(cVal(x)))
+                '                    Me.lvProcEnv.Items.Add(itpr)
+                '                End If
+                '            Next
+                '        End If
+                '    End If
 
-            Case "Token"
+                'Case "Token"
 
-                ' Privileges
-                If _local Then
-                    Dim cPriv As New cPrivileges(curProc.Pid)
-                    Dim lPriv() As cPrivileges.PrivilegeInfo = cPriv.GetPrivilegesList
+                '    ' Privileges
+                '    If _local Then
+                '        Dim cPriv As New cPrivileges(curProc.Pid)
+                '        Dim lPriv() As cPrivileges.PrivilegeInfo = cPriv.GetPrivilegesList
 
-                    Me.lvPrivileges.Items.Clear()
-                    If lPriv.Length > 0 Then
-                        For Each l As cPrivileges.PrivilegeInfo In lPriv
-                            Dim newIt As New ListViewItem(l.Name)
-                            Dim sub1 As New ListViewItem.ListViewSubItem
-                            sub1.Text = cPrivileges.PrivilegeStatusToString(l.Status)
-                            Dim sub2 As New ListViewItem.ListViewSubItem
-                            sub2.Text = cPrivileges.GetPrivilegeDescription(l.Name)
-                            newIt.SubItems.Add(sub1)
-                            newIt.SubItems.Add(sub2)
-                            newIt.BackColor = cPrivileges.GetColorFromStatus(l.Status)
-                            Me.lvPrivileges.Items.Add(newIt)
-                        Next
-                    End If
-                End If
+                '        Me.lvPrivileges.Items.Clear()
+                '        If lPriv.Length > 0 Then
+                '            For Each l As cPrivileges.PrivilegeInfo In lPriv
+                '                Dim newIt As New ListViewItem(l.Name)
+                '                Dim sub1 As New ListViewItem.ListViewSubItem
+                '                sub1.Text = cPrivileges.PrivilegeStatusToString(l.Status)
+                '                Dim sub2 As New ListViewItem.ListViewSubItem
+                '                sub2.Text = cPrivileges.GetPrivilegeDescription(l.Name)
+                '                newIt.SubItems.Add(sub1)
+                '                newIt.SubItems.Add(sub2)
+                '                newIt.BackColor = cPrivileges.GetColorFromStatus(l.Status)
+                '                Me.lvPrivileges.Items.Add(newIt)
+                '            Next
+                '        End If
+                '    End If
 
-            Case "Informations"
+                'Case "Informations"
 
-                ' Description
-                Try
-                    curProc.Refresh()
-                    Dim pmc As cProcess.PROCESS_MEMORY_COUNTERS = curProc.MemoryInfos
-                    Dim pid As Integer = curProc.Pid
-                    Dim s As String = ""
-                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b File properties\b0\par"
-                    s = s & "\tab File name :\tab\tab\tab " & curProc.Name & "\par"
-                    s = s & "\tab Path :\tab\tab\tab\tab " & Replace(curProc.Path, "\", "\\") & "\par"
-                    Dim mainModule As System.Diagnostics.ProcessModule = curProc.MainModule
-                    If mainModule IsNot Nothing Then
-                        s = s & "\tab Description :\tab\tab\tab " & mainModule.FileVersionInfo.FileDescription & "\par"
-                        s = s & "\tab Company name :\tab\tab\tab " & mainModule.FileVersionInfo.CompanyName & "\par"
-                        s = s & "\tab Version :\tab\tab\tab " & mainModule.FileVersionInfo.FileVersion & "\par"
-                        s = s & "\tab Copyright :\tab\tab\tab " & mainModule.FileVersionInfo.LegalCopyright & "\par"
-                    End If
-                    s = s & "\par"
-                    s = s & "  \b Process description\b0\par"
-                    s = s & "\tab PID :\tab\tab\tab\tab " & CStr(curProc.Pid) & "\par"
-                    s = s & "\tab Start time :\tab\tab\tab " & curProc.StartTime.ToLongDateString & " -- " & curProc.StartTime.ToLongTimeString & "\par"
-                    s = s & "\tab Priority :\tab\tab\tab\tab " & curProc.PriorityClass.ToString & "\par"
-                    s = s & "\tab User :\tab\tab\tab\tab " & curProc.UserName & "\par"
-                    Dim ts As Date = curProc.ProcessorTime
-                    Dim proctime As String = String.Format("{0:00}", ts.Hour) & ":" & _
-                        String.Format("{0:00}", ts.Minute) & ":" & _
-                        String.Format("{0:00}", ts.Second) & ":" & _
-                        String.Format("{000}", ts.Millisecond)
-                    s = s & "\tab Processor time :\tab\tab\tab " & proctime & "\par"
-                    s = s & "\tab Memory :\tab\tab\tab " & CStr(pmc.WorkingSetSize / 1024) & " Kb" & "\par"
-                    s = s & "\tab Memory peak :\tab\tab\tab " & CStr(pmc.PeakWorkingSetSize / 1024) & " Kb" & "\par"
-                    s = s & "\tab Page faults :\tab\tab\tab " & CStr(pmc.PageFaultCount) & "\par"
-                    s = s & "\tab Page file usage :\tab\tab\tab " & CStr(pmc.PagefileUsage / 1024) & " Kb" & "\par"
-                    s = s & "\tab Peak page file usage :\tab\tab " & CStr(pmc.PeakPagefileUsage / 1024) & " Kb" & "\par"
-                    s = s & "\tab QuotaPagedPoolUsage :\tab\tab " & CStr(Math.Round(pmc.QuotaPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
-                    s = s & "\tab QuotaPeakPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
-                    s = s & "\tab QuotaNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaNonPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
-                    s = s & "\tab QuotaPeakNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakNonPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
+                '    ' Description
+                '    Try
+                '        curProc.Refresh()
+                '        Dim pmc As cProcess.PROCESS_MEMORY_COUNTERS = curProc.MemoryInfos
+                '        Dim pid As Integer = curProc.Pid
+                '        Dim s As String = ""
+                '        s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                '        s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b File properties\b0\par"
+                '        s = s & "\tab File name :\tab\tab\tab " & curProc.Name & "\par"
+                '        s = s & "\tab Path :\tab\tab\tab\tab " & Replace(curProc.Path, "\", "\\") & "\par"
+                '        Dim mainModule As System.Diagnostics.ProcessModule = curProc.MainModule
+                '        If mainModule IsNot Nothing Then
+                '            s = s & "\tab Description :\tab\tab\tab " & mainModule.FileVersionInfo.FileDescription & "\par"
+                '            s = s & "\tab Company name :\tab\tab\tab " & mainModule.FileVersionInfo.CompanyName & "\par"
+                '            s = s & "\tab Version :\tab\tab\tab " & mainModule.FileVersionInfo.FileVersion & "\par"
+                '            s = s & "\tab Copyright :\tab\tab\tab " & mainModule.FileVersionInfo.LegalCopyright & "\par"
+                '        End If
+                '        s = s & "\par"
+                '        s = s & "  \b Process description\b0\par"
+                '        s = s & "\tab PID :\tab\tab\tab\tab " & CStr(curProc.Pid) & "\par"
+                '        s = s & "\tab Start time :\tab\tab\tab " & curProc.StartTime.ToLongDateString & " -- " & curProc.StartTime.ToLongTimeString & "\par"
+                '        s = s & "\tab Priority :\tab\tab\tab\tab " & curProc.PriorityClass.ToString & "\par"
+                '        s = s & "\tab User :\tab\tab\tab\tab " & curProc.UserName & "\par"
+                '        Dim ts As Date = curProc.ProcessorTime
+                '        Dim proctime As String = String.Format("{0:00}", ts.Hour) & ":" & _
+                '            String.Format("{0:00}", ts.Minute) & ":" & _
+                '            String.Format("{0:00}", ts.Second) & ":" & _
+                '            String.Format("{000}", ts.Millisecond)
+                '        s = s & "\tab Processor time :\tab\tab\tab " & proctime & "\par"
+                '        s = s & "\tab Memory :\tab\tab\tab " & CStr(pmc.WorkingSetSize / 1024) & " Kb" & "\par"
+                '        s = s & "\tab Memory peak :\tab\tab\tab " & CStr(pmc.PeakWorkingSetSize / 1024) & " Kb" & "\par"
+                '        s = s & "\tab Page faults :\tab\tab\tab " & CStr(pmc.PageFaultCount) & "\par"
+                '        s = s & "\tab Page file usage :\tab\tab\tab " & CStr(pmc.PagefileUsage / 1024) & " Kb" & "\par"
+                '        s = s & "\tab Peak page file usage :\tab\tab " & CStr(pmc.PeakPagefileUsage / 1024) & " Kb" & "\par"
+                '        s = s & "\tab QuotaPagedPoolUsage :\tab\tab " & CStr(Math.Round(pmc.QuotaPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
+                '        s = s & "\tab QuotaPeakPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
+                '        s = s & "\tab QuotaNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaNonPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
+                '        s = s & "\tab QuotaPeakNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakNonPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
 
-                    If chkModules.Checked Then
-                        ' Retrieve modules
-                        s = s & "\par"
-                        s = s & "  \b Loaded modules\b0\par"
-                        Dim m As ProcessModule
-                        Dim mdl As ProcessModuleCollection = curProc.Modules
-                        s = s & "\tab " & CStr(mdl.Count) & " modules loaded" & "\par"
-                        For Each m In mdl
-                            s = s & "\tab " & Replace(m.FileVersionInfo.FileName, "\", "\\") & "\par"
-                        Next
+                '        If chkModules.Checked Then
+                '            ' Retrieve modules
+                '            s = s & "\par"
+                '            s = s & "  \b Loaded modules\b0\par"
+                '            Dim m As ProcessModule
+                '            Dim mdl As ProcessModuleCollection = curProc.Modules
+                '            s = s & "\tab " & CStr(mdl.Count) & " modules loaded" & "\par"
+                '            For Each m In mdl
+                '                s = s & "\tab " & Replace(m.FileVersionInfo.FileName, "\", "\\") & "\par"
+                '            Next
 
-                        ' Retrieve threads infos
-                        s = s & "\par"
-                        s = s & "  \b Threads\b0\par"
-                        Dim pt As ProcessThread
-                        Dim thr As System.Diagnostics.ProcessThreadCollection = curProc.Threads
-                        s = s & "\tab " & CStr(thr.Count) & " threads \par"
-                        For Each pt In thr
-                            s = s & "\tab " & CStr(pt.Id) & "\par"
-                            s = s & "\tab\tab " & "Priority level : " & CStr(pt.PriorityLevel.ToString) & "\par"
-                            Dim tsp As TimeSpan = pt.TotalProcessorTime
-                            Dim s2 As String = String.Format("{0:00}", tsp.TotalHours) & ":" & _
-                                String.Format("{0:00}", tsp.Minutes) & ":" & _
-                                String.Format("{0:00}", tsp.Seconds)
-                            s = s & "\tab\tab " & "Start address : " & CStr(pt.StartAddress) & "\par"
-                            s = s & "\tab\tab " & "Start time : " & pt.StartTime.ToLongDateString & " -- " & pt.StartTime.ToLongTimeString & "\par"
-                            s = s & "\tab\tab " & "State : " & CStr(pt.ThreadState.ToString) & "\par"
-                            s = s & "\tab\tab " & "Processor time : " & s2 & "\par"
-                        Next
-                    End If
+                '            ' Retrieve threads infos
+                '            s = s & "\par"
+                '            s = s & "  \b Threads\b0\par"
+                '            Dim pt As ProcessThread
+                '            Dim thr As System.Diagnostics.ProcessThreadCollection = curProc.Threads
+                '            s = s & "\tab " & CStr(thr.Count) & " threads \par"
+                '            For Each pt In thr
+                '                s = s & "\tab " & CStr(pt.Id) & "\par"
+                '                s = s & "\tab\tab " & "Priority level : " & CStr(pt.PriorityLevel.ToString) & "\par"
+                '                Dim tsp As TimeSpan = pt.TotalProcessorTime
+                '                Dim s2 As String = String.Format("{0:00}", tsp.TotalHours) & ":" & _
+                '                    String.Format("{0:00}", tsp.Minutes) & ":" & _
+                '                    String.Format("{0:00}", tsp.Seconds)
+                '                s = s & "\tab\tab " & "Start address : " & CStr(pt.StartAddress) & "\par"
+                '                s = s & "\tab\tab " & "Start time : " & pt.StartTime.ToLongDateString & " -- " & pt.StartTime.ToLongTimeString & "\par"
+                '                s = s & "\tab\tab " & "State : " & CStr(pt.ThreadState.ToString) & "\par"
+                '                s = s & "\tab\tab " & "Processor time : " & s2 & "\par"
+                '            Next
+                '        End If
 
-                    If chkHandles.Checked Then
-                        ' Retrieve handles
-                        s = s & "\par"
-                        s = s & "  \b Loaded handles\b0\par"
-                        Dim i As Integer
-                        frmMain.handles_Renamed.Refresh()
-                        For i = 0 To frmMain.handles_Renamed.Count - 1
-                            With frmMain.handles_Renamed
-                                If (.GetProcessID(i) = pid) And (Len(.GetObjectName(i)) > 0) Then
-                                    s = s & "\tab " & .GetNameInformation(i) & " : " & Replace(.GetObjectName(i), "\", "\\") & "\par"
-                                End If
-                            End With
-                        Next
-                    End If
+                '        If chkHandles.Checked Then
+                '            ' Retrieve handles
+                '            s = s & "\par"
+                '            s = s & "  \b Loaded handles\b0\par"
+                '            Dim i As Integer
+                '            frmMain.handles_Renamed.Refresh()
+                '            For i = 0 To frmMain.handles_Renamed.Count - 1
+                '                With frmMain.handles_Renamed
+                '                    If (.GetProcessID(i) = pid) And (Len(.GetObjectName(i)) > 0) Then
+                '                        s = s & "\tab " & .GetNameInformation(i) & " : " & Replace(.GetObjectName(i), "\", "\\") & "\par"
+                '                    End If
+                '                End With
+                '            Next
+                '        End If
 
-                    s = s & "}"
+                '        s = s & "}"
 
-                    rtb.Rtf = s
+                '        rtb.Rtf = s
 
-                Catch ex As Exception
+                '    Catch ex As Exception
 
-                    Dim s As String = ""
-                    Dim er As Exception = ex
+                '        Dim s As String = ""
+                '        Dim er As Exception = ex
 
-                    s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                    s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
-                    s = s & "\tab Message :\tab " & er.Message & "\par"
-                    s = s & "\tab Source :\tab\tab " & er.Source & "\par"
-                    If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
-                    s = s & "}"
+                '        s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
+                '        s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
+                '        s = s & "\tab Message :\tab " & er.Message & "\par"
+                '        s = s & "\tab Source :\tab\tab " & er.Source & "\par"
+                '        If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
+                '        s = s & "}"
 
-                    rtb.Rtf = s
+                '        rtb.Rtf = s
 
-                    pctSmallIcon.Image = Me.imgProcess.Images("noicon")
-                    pctBigIcon.Image = Me.imgMain.Images("noicon32")
+                '        pctSmallIcon.Image = Me.imgProcess.Images("noicon")
+                '        pctBigIcon.Image = Me.imgMain.Images("noicon32")
 
-                End Try
+                '    End Try
 
         End Select
     End Sub
@@ -363,8 +363,8 @@ Public Class frmProcessInfo
         ' Icons
         If pctBigIcon.Image Is Nothing Then
             Try
-                pctBigIcon.Image = GetIcon(curProc.Path, False).ToBitmap
-                pctSmallIcon.Image = GetIcon(curProc.Path, True).ToBitmap
+                pctBigIcon.Image = GetIcon(curProc.Infos.Path, False).ToBitmap
+                pctSmallIcon.Image = GetIcon(curProc.Infos.Path, True).ToBitmap
             Catch ex As Exception
                 pctSmallIcon.Image = Me.imgProcess.Images("noicon")
                 pctBigIcon.Image = Me.imgMain.Images("noicon32")
@@ -383,25 +383,24 @@ Public Class frmProcessInfo
     End Sub
 
     ' Get process to monitor
-    Public Sub SetProcess(ByRef process As cProcess, ByVal theConnection As cRemoteProcessWMI.RemoteConnectionInfoWMI)
+    Public Sub SetProcess(ByRef process As cProcess)
         curProc = process
-        Me.Text = curProc.Name & " (" & CStr(curProc.Pid) & ")"
+        Me.Text = curProc.Infos.Name & " (" & CStr(curProc.Infos.Pid) & ")"
 
-        _local = (TypeOf process Is cLocalProcess)
+        _local = (cProcess.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
         Me.cmdAffinity.Enabled = _local
         Me.cmdPause.Enabled = _local
         Me.cmdResume.Enabled = _local
         Me.lvModules.IsLocalMachine = _local
         Me.lvModules.CatchErrors = Not (_local)
         Me.timerProcPerf.Enabled = _local
-        _theCon = theConnection
         If _local = False Then
-            __con = New Management.ConnectionOptions
-            __con.Impersonation = Management.ImpersonationLevel.Impersonate
-            __con.Password = _theCon.password
-            __con.Username = _theCon.user
-            Me.lvModules.RemoteConnectionWMI = theConnection
-            Me.lvModules.MngObjProcess = process.MngObjProcess
+            '__con = New Management.ConnectionOptions
+            '__con.Impersonation = Management.ImpersonationLevel.Impersonate
+            '__con.Password = _theCon.password
+            '__con.Username = _theCon.user
+            'Me.lvModules.RemoteConnectionWMI = theConnection   'TODO_
+            'Me.lvModules.MngObjProcess = process.MngObjProcess
             Me.lvPrivileges.Enabled = False
             Me.lvHandles.Enabled = False
             Me.lvLog.Enabled = False
@@ -426,7 +425,7 @@ Public Class frmProcessInfo
 
         ' Verify file
         Try
-            Dim bVer As Boolean = Security.WinTrust.WinTrust.VerifyEmbeddedSignature(curProc.Path)
+            Dim bVer As Boolean = Security.WinTrust.WinTrust.VerifyEmbeddedSignature(curProc.Infos.Path)
             If bVer Then
                 gpProcGeneralFile.Text = "Image file (successfully verified)"
             Else
@@ -438,13 +437,13 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub timerProcPerf_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerProcPerf.Tick
-        Dim z As Double = curProc.CpuPercentageUsage
-        Dim z2 As Double = curProc.AverageCpuUsage
+        Dim z As Double = 0 'TODO_ curProc.Infos.CpuPercentageUsage
+        Dim z2 As Double = curProc.Infos.AverageCpuUsage
         If Double.IsNegativeInfinity(z) Then z = 0
         Me.graphCPU.Add2Values(z * 100, z2 * 100)
-        z = curProc.MemoryInfos(True).WorkingSetSize / 2147483648 * 100
+        z = curProc.Infos.MemoryInfos.WorkingSetSize / 2147483648 * 100
         Me.graphMemory.AddValue(z)
-        Me.graphIO.AddValue(curProc.GetIOvalues(True).ReadTransferCount)
+        Me.graphIO.AddValue(curProc.Infos.IOValues.ReadTransferCount)
         Me.graphCPU.Refresh()
         Me.graphIO.Refresh()
         Me.graphMemory.Refresh()
@@ -474,7 +473,7 @@ Public Class frmProcessInfo
 
     ' Change caption
     Private Sub ChangeCaption()
-        Me.Text = curProc.Name & " (" & curProc.Pid.ToString & ")"
+        Me.Text = curProc.Infos.Name & " (" & curProc.Infos.Pid.ToString & ")"
         Select Case Me.tabProcess.SelectedTab.Text
             Case "Modules"
                 Me.Text &= " - " & Me.lvModules.Items.Count.ToString & " modules"
@@ -513,7 +512,7 @@ Public Class frmProcessInfo
             Call DisplayFileStringsImage(curProc)
         Else
             ' Memory
-            cRW = New cProcessMemRW(curProc.Pid)
+            cRW = New cProcessMemRW(curProc.Infos.Pid)
             Dim lRes() As Integer
             ReDim lRes(0)
             Dim sRes() As String
@@ -547,7 +546,7 @@ Public Class frmProcessInfo
 
         ReDim tRes(BUF_SIZE)
 
-        Dim file As String = cp.Path
+        Dim file As String = cp.Infos.Path
 
         _stringSearchImmediateStop = False
 
@@ -661,8 +660,8 @@ Public Class frmProcessInfo
 
     Private Sub cmdOpenDirectory_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdOpenDirectory.Click
         ' Open directory of selected process
-        If curProc.Path <> NO_INFO_RETRIEVED Then
-            cFile.OpenDirectory(curProc.Path)
+        If curProc.Infos.Path <> NO_INFO_RETRIEVED Then
+            cFile.OpenDirectory(curProc.Infos.Path)
         End If
     End Sub
 
@@ -769,7 +768,7 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub cmdShowFileDetails_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdShowFileDetails.Click
-        Dim s As String = curProc.Path
+        Dim s As String = curProc.Infos.Path
         If IO.File.Exists(s) Then
             frmMain.DisplayDetailsFile(s)
         End If
@@ -777,8 +776,8 @@ Public Class frmProcessInfo
 
     Private Sub cmdShowFileProperties_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdShowFileProperties.Click
         ' File properties for selected process
-        If IO.File.Exists(curProc.Path) Then
-            cFile.ShowFileProperty(curProc.Path, Me.Handle)
+        If IO.File.Exists(curProc.Infos.Path) Then
+            cFile.ShowFileProperty(curProc.Infos.Path, Me.Handle)
         End If
     End Sub
 
@@ -800,12 +799,12 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub JumpToPEBAddressToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles JumpToPEBAddressToolStripMenuItem.Click
-        Dim peb As Integer = curProc.PEBAddress
+        Dim peb As Integer = curProc.Infos.PEBAddress
         For Each reg As cMemRegion In Me.lvProcMem.GetAllItems
             If reg.BaseAddress <= peb AndAlso peb <= (reg.BaseAddress + reg.RegionSize) Then
                 Dim frm As New frmHexEditor
                 Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.BaseAddress, reg.RegionSize)
-                frm.SetPidAndRegion(curProc.Pid, regio)
+                frm.SetPidAndRegion(curProc.Infos.Pid, regio)
                 frm._hex.NavigateToOffset(peb)
                 frm.Show()
                 Exit For
@@ -814,7 +813,7 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub ToolStripMenuItem44_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem44.Click
-        Dim cPriv As New cPrivileges(curProc.Pid)
+        Dim cPriv As New cPrivileges(curProc.Infos.Pid)
         Dim it As ListViewItem
         For Each it In Me.lvPrivileges.SelectedItems
             cPriv.Privilege(it.Text) = cPrivileges.PrivilegeStatus.PRIVILEGE_ENABLED
@@ -824,7 +823,7 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub DisableToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles DisableToolStripMenuItem.Click
-        Dim cPriv As New cPrivileges(curProc.Pid)
+        Dim cPriv As New cPrivileges(curProc.Infos.Pid)
         Dim it As ListViewItem
         For Each it In Me.lvPrivileges.SelectedItems
             cPriv.Privilege(it.Text) = cPrivileges.PrivilegeStatus.PRIVILEGE_DISBALED
@@ -834,7 +833,7 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub RemoveToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles RemoveToolStripMenuItem.Click
-        Dim cPriv As New cPrivileges(curProc.Pid)
+        Dim cPriv As New cPrivileges(curProc.Infos.Pid)
         Dim it As ListViewItem
         For Each it In Me.lvPrivileges.SelectedItems
             cPriv.Privilege(it.Text) = cPrivileges.PrivilegeStatus.PRIVILEGE_REMOVED
@@ -883,8 +882,7 @@ Public Class frmProcessInfo
             ' Already trying to get infos
             Exit Sub
         End If
-
-        _AsyncDownload = New cAsyncProcInfoDownload(curProc.Name)
+        _AsyncDownload = New cAsyncProcInfoDownload(curProc.Infos.Name)
 
         ' Start async download of infos
         _asyncDlThread = New Threading.Thread(AddressOf _AsyncDownload.BeginDownload)
@@ -900,7 +898,7 @@ Public Class frmProcessInfo
 
         ' Update list
         Me.lvProcServices.ShowAll = False
-        Me.lvProcServices.ProcessId = curProc.Pid
+        Me.lvProcServices.ProcessId = curProc.Infos.Pid
         Me.lvProcServices.UpdateTheItems()
 
     End Sub
@@ -908,7 +906,7 @@ Public Class frmProcessInfo
     ' Show modules
     Public Sub ShowModules()
 
-        lvModules.ProcessId = curProc.Pid
+        lvModules.ProcessId = curProc.Infos.Pid
         lvModules.UpdateTheItems()
 
     End Sub
@@ -918,7 +916,7 @@ Public Class frmProcessInfo
 
         Dim pid() As Integer
         ReDim pid(0)
-        pid(0) = curProc.Pid
+        pid(0) = curProc.Infos.Pid
         Me.lvThreads.ProcessId = pid
         Me.lvThreads.UpdateTheItems()
 
@@ -928,7 +926,7 @@ Public Class frmProcessInfo
     Public Sub ShowNetwork()
 
         Dim pid(0) As Integer
-        pid(0) = curProc.Pid
+        pid(0) = curProc.Infos.Pid
         Me.lvProcNetwork.ShowAllPid = False
         Me.lvProcNetwork.ProcessId = pid
         Me.lvProcNetwork.UpdateTheItems()
@@ -938,7 +936,7 @@ Public Class frmProcessInfo
     ' Show memory regions
     Public Sub ShowRegions()
 
-        Me.lvProcMem.ProcessId = curProc.Pid
+        Me.lvProcMem.ProcessId = curProc.Infos.Pid
         Me.lvProcMem.UpdateTheItems()
 
     End Sub
@@ -947,7 +945,7 @@ Public Class frmProcessInfo
     Public Sub ShowWindows(Optional ByVal allWindows As Boolean = True)
 
         Dim pid(0) As Integer
-        pid(0) = curProc.Pid
+        pid(0) = curProc.Infos.Pid
         Me.lvWindows.ProcessId = pid
         Me.lvWindows.ShowAllPid = False
         Me.lvWindows.ShowUnNamed = Me.ShowUnnamedWindowsToolStripMenuItem.Checked
@@ -960,7 +958,7 @@ Public Class frmProcessInfo
 
         Me.lvHandles.ShowUnNamed = ShowUnnamedHandlesToolStripMenuItem.Checked
         Dim pids(0) As Integer
-        pids(0) = curProc.Pid
+        pids(0) = curProc.Infos.Pid
         Me.lvHandles.ProcessId = pids
         Me.lvHandles.UpdateTheItems()
 
@@ -1174,7 +1172,7 @@ Public Class frmProcessInfo
             If reg.BaseAddress <= add AndAlso add <= (reg.BaseAddress + reg.RegionSize) Then
                 Dim frm As New frmHexEditor
                 Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.BaseAddress, reg.RegionSize)
-                frm.SetPidAndRegion(curProc.Pid, regio)
+                frm.SetPidAndRegion(curProc.Infos.Pid, regio)
                 frm._hex.NavigateToOffset(CInt((add - regio.BeginningAddress) / 16))
                 frm.Show()
                 Exit For
@@ -1197,8 +1195,8 @@ Public Class frmProcessInfo
                 If reg.BaseAddress <= add AndAlso add < (reg.BaseAddress + reg.RegionSize) Then
                     Dim frm As New frmHexEditor
                     Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.BaseAddress, reg.RegionSize)
-                    frm.SetPidAndRegion(curProc.Pid, regio)
-                    'frm._hex.NavigateToOffset(CInt((add - regio.BeginningAddress) / 16) - 1)
+                    frm.SetPidAndRegion(curProc.Infos.Pid, regio)
+                    frm._hex.NavigateToOffset(CInt((add - regio.BeginningAddress) / 16) - 1)
                     frm.Show()
                     Exit For
                 End If
@@ -1294,7 +1292,7 @@ Public Class frmProcessInfo
         Dim _itemId() As String
         ReDim _itemId(0)
         Dim _pid(0) As Integer
-        _pid(0) = curProc.Pid
+        _pid(0) = curProc.Infos.Pid
         Call cNetwork.Enumerate(False, _pid, _itemId, _buffDico)
 
         If _first Then
@@ -1347,7 +1345,7 @@ Public Class frmProcessInfo
 
         Dim _itemId() As String
         ReDim _itemId(0)
-        Call cProcessMemRW.Enumerate(curProc.Pid, _itemId, _buffDico)
+        Call cProcessMemRW.Enumerate(curProc.Infos.Pid, _itemId, _buffDico)
 
         If _first Then
             _dico = _buffDico
@@ -1391,7 +1389,7 @@ Public Class frmProcessInfo
         Dim _itemId() As String
         ReDim _itemId(0)
         Dim _pid(0) As Integer
-        _pid(0) = curProc.Pid
+        _pid(0) = curProc.Infos.Pid
         Call cHandle.Enumerate(_pid, True, _itemId, _buffDico)
 
         If _first Then
@@ -1436,7 +1434,7 @@ Public Class frmProcessInfo
         Dim _itemId() As String
         ReDim _itemId(0)
         Dim _pid(0) As Integer
-        _pid(0) = curProc.Pid
+        _pid(0) = curProc.Infos.Pid
         Call cThread.Enumerate(_pid, _itemId, _buffDico)
 
         If _first Then
@@ -1481,7 +1479,7 @@ Public Class frmProcessInfo
         Dim _itemId() As String
         ReDim _itemId(0)
 
-        Call _enum.EnumerateApi(curProc.Pid, _itemId, _buffDico, _buffDico2)
+        Call _enum.EnumerateApi(curProc.Infos.Pid, _itemId, _buffDico, _buffDico2)
 
         If _first Then
             _dico = _buffDico
@@ -1524,9 +1522,9 @@ Public Class frmProcessInfo
         ReDim _itemId(0)
 
         If _local Then
-            Call cLocalModule.Enumerate(curProc.Pid, _itemId, _buffDico)
+            Call cLocalModule.Enumerate(curProc.Infos.Pid, _itemId, _buffDico)
         Else
-            Call cLocalModule.Enumerate(curProc.Pid, _itemId, _buffDico)
+            Call cLocalModule.Enumerate(curProc.Infos.Pid, _itemId, _buffDico)
         End If
 
         If _first Then
@@ -1569,7 +1567,7 @@ Public Class frmProcessInfo
         Dim _itemId() As Integer
         ReDim _itemId(0)
         Dim _pid(0) As Integer
-        _pid(0) = curProc.Pid
+        _pid(0) = curProc.Infos.Pid
         Call cWindow.Enumerate(True, _pid, _itemId, _buffDico)
 
         If _first Then
@@ -1801,9 +1799,9 @@ Public Class frmProcessInfo
             _p.Name = "_" & lstHistoryCat.Items.Item(e.Index).ToString
 
             ' Now we add all available values to the graph
-            For Each _val As Long In curProc.GetHistory(_g.Name)
-                _g.AddValue(_val)
-            Next
+            'For Each _val As Long In curProc.GetHistory(_g.Name)
+            '    _g.AddValue(_val)
+            'Next'TODO_
             _g.Refresh()
 
             Me.containerHistory.Panel2.Controls.Add(_p)
@@ -1831,18 +1829,18 @@ Public Class frmProcessInfo
             End If
         Next
     End Sub
-
-    Private Sub curProc_Refreshed() Handles curProc.Refreshed
-        ' curProc has been refreshed, so we have to add a value to the different
-        ' graphs in containerHistory
-        For Each ct As Control In Me.containerHistory.Panel2.Controls
-            If TypeOf ct Is Graph2 Then
-                Dim _tempG As Graph2 = CType(ct, Graph2)
-                _tempG.AddValue(curProc.GetInformationNumerical(ct.Name))
-                _tempG.Refresh()
-            End If
-        Next
-    End Sub
+    'TODO_
+    'Private Sub curProc_Refreshed() Handles curProc.Refreshed
+    '    ' curProc has been refreshed, so we have to add a value to the different
+    '    ' graphs in containerHistory
+    '    For Each ct As Control In Me.containerHistory.Panel2.Controls
+    '        If TypeOf ct Is Graph2 Then
+    '            Dim _tempG As Graph2 = CType(ct, Graph2)
+    '            _tempG.AddValue(curProc.GetInformationNumerical(ct.Name))
+    '            _tempG.Refresh()
+    '        End If
+    '    Next
+    'End Sub
 
     Private Sub cmdRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdRefresh.Click
         Call Me.tabProcess_SelectedIndexChanged(Nothing, Nothing)
@@ -1873,17 +1871,17 @@ Public Class frmProcessInfo
     Private Sub cmdSet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSet.Click
         Select Case cbPriority.Text
             Case "Idle"
-                Call curProc.SetProcessPriority(ProcessPriorityClass.Idle)
+                Call curProc.SetPriority(ProcessPriorityClass.Idle)
             Case "BelowNormal"
-                Call curProc.SetProcessPriority(ProcessPriorityClass.BelowNormal)
+                Call curProc.SetPriority(ProcessPriorityClass.BelowNormal)
             Case "Normal"
-                Call curProc.SetProcessPriority(ProcessPriorityClass.Normal)
+                Call curProc.SetPriority(ProcessPriorityClass.Normal)
             Case "AboveNormal"
-                Call curProc.SetProcessPriority(ProcessPriorityClass.AboveNormal)
+                Call curProc.SetPriority(ProcessPriorityClass.AboveNormal)
             Case "High"
-                Call curProc.SetProcessPriority(ProcessPriorityClass.High)
+                Call curProc.SetPriority(ProcessPriorityClass.High)
             Case "RealTime"
-                Call curProc.SetProcessPriority(ProcessPriorityClass.RealTime)
+                Call curProc.SetPriority(ProcessPriorityClass.RealTime)
         End Select
     End Sub
 

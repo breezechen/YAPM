@@ -177,6 +177,7 @@ Public Class cHotkeys
 
             hKeyHook = CInt(SetWindowsHookEx(HookType.WH_KEYBOARD_LL, _
                         Me.myCallbackDelegate, 0, 0)) ' 0 -> all threads
+            GC.KeepAlive(Me.myCallbackDelegate)
         End If
 
     End Sub

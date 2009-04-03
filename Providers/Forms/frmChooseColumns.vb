@@ -110,7 +110,7 @@ Public Class frmChooseColumns
         ElseIf TypeOf (ConcernedListView) Is networkList Then
             ss = cNetwork.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is processList Then
-            ss = cProcess.GetAvailableProperties
+            ss = processInfos.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is serviceList Then
             ss = cService.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is taskList Then

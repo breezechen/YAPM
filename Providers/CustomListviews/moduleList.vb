@@ -37,7 +37,7 @@ Public Class moduleList
     Private _dico As New Dictionary(Of String, cModule)
     Private _local As Boolean = True
     Private _theProc As Management.ManagementObject
-    Private _con As cRemoteProcessWMI.RemoteConnectionInfoWMI
+    '    Private _con As cRemoteProcessWMI.RemoteConnectionInfoWMI
 
     Private _pid As Integer
 
@@ -62,14 +62,14 @@ Public Class moduleList
             _local = value
         End Set
     End Property
-    Public Property RemoteConnectionWMI() As cRemoteProcessWMI.RemoteConnectionInfoWMI
-        Get
-            Return _con
-        End Get
-        Set(ByVal value As cRemoteProcessWMI.RemoteConnectionInfoWMI)
-            _con = value
-        End Set
-    End Property
+    'Public Property RemoteConnectionWMI() As cRemoteProcessWMI.RemoteConnectionInfoWMI
+    '    Get
+    '        Return _con
+    '    End Get
+    '    Set(ByVal value As cRemoteProcessWMI.RemoteConnectionInfoWMI)
+    '        _con = value
+    '    End Set
+    'End Property
     Public Property MngObjProcess() As Management.ManagementObject
         Get
             Return _theProc
@@ -133,7 +133,7 @@ Public Class moduleList
         If _local Then
             Call cLocalModule.Enumerate(_pid, _itemId, _buffDico)
         Else
-            Call cRemoteModuleWMI.Enumerate(_con, _theProc, _itemId, _buffDico, _remoteSpecialDico)
+            '   Call cRemoteModuleWMI.Enumerate(_con, _theProc, _itemId, _buffDico, _remoteSpecialDico)
         End If
 
         ' Now add all items with isKilled = true to _dicoDel dictionnary
@@ -173,11 +173,11 @@ Public Class moduleList
         ' Merge _dico and _dicoNew
         For Each z As String In _dicoNew.Keys
             Dim _it As cModule
-            If _local Then
-                _it = New cLocalModule(z, _buffDico.Item(z))
-            Else
-                _it = New cRemoteModuleWMI(z, _buffDico.Item(z), _con, _remoteSpecialDico(z))
-            End If
+            'If _local Then
+            _it = New cLocalModule(z, _buffDico.Item(z))
+            ' Else
+            ' _it = New cRemoteModuleWMI(z, _buffDico.Item(z), _con, _remoteSpecialDico(z))
+            ' End If
             _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
             _dico.Add(z, _it)
         Next

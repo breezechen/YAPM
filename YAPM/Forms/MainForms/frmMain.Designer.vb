@@ -28,6 +28,7 @@ Partial Class frmMain
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("System")
         Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("[System process]", New System.Windows.Forms.TreeNode() {TreeNode1})
+        Dim CConnection1 As CoreFunc.cConnection = New CoreFunc.cConnection
         Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
@@ -129,6 +130,8 @@ Partial Class frmMain
         Me.saveDial = New System.Windows.Forms.SaveFileDialog
         Me.openDial = New System.Windows.Forms.OpenFileDialog
         Me.Ribbon = New System.Windows.Forms.Ribbon
+        Me.orbMenuNetwork = New System.Windows.Forms.RibbonOrbMenuItem
+        Me.RibbonSeparator4 = New System.Windows.Forms.RibbonSeparator
         Me.orbMenuEmergency = New System.Windows.Forms.RibbonOrbMenuItem
         Me.orbMenuSBA = New System.Windows.Forms.RibbonOrbMenuItem
         Me.RibbonSeparator2 = New System.Windows.Forms.RibbonSeparator
@@ -140,6 +143,7 @@ Partial Class frmMain
         Me.butSystemInfo = New System.Windows.Forms.RibbonButton
         Me.butWindows = New System.Windows.Forms.RibbonButton
         Me.butFindWindow = New System.Windows.Forms.RibbonButton
+        Me.butNetwork = New System.Windows.Forms.RibbonButton
         Me.TaskTab = New System.Windows.Forms.RibbonTab
         Me.RBTaskDisplay = New System.Windows.Forms.RibbonPanel
         Me.butTaskRefresh = New System.Windows.Forms.RibbonButton
@@ -150,8 +154,6 @@ Partial Class frmMain
         Me.RBProcessDisplay = New System.Windows.Forms.RibbonPanel
         Me.butProcessRerfresh = New System.Windows.Forms.RibbonButton
         Me.butProcessDisplayDetails = New System.Windows.Forms.RibbonButton
-        Me.RBProcessConfig = New System.Windows.Forms.RibbonPanel
-        Me.butProcessConfigureServer = New System.Windows.Forms.RibbonButton
         Me.RBProcessActions = New System.Windows.Forms.RibbonPanel
         Me.butNewProcess = New System.Windows.Forms.RibbonButton
         Me.butKillProcess = New System.Windows.Forms.RibbonButton
@@ -462,20 +464,6 @@ Partial Class frmMain
         Me.c9 = New System.Windows.Forms.ColumnHeader
         Me.c10 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader20 = New System.Windows.Forms.ColumnHeader
-        Me.gpServer = New System.Windows.Forms.GroupBox
-        Me.txtServerIP = New System.Windows.Forms.TextBox
-        Me.Label17 = New System.Windows.Forms.Label
-        Me.optServerRemoteWMI = New System.Windows.Forms.RadioButton
-        Me.cmdServerOK = New System.Windows.Forms.Button
-        Me.gpServerWMI = New System.Windows.Forms.GroupBox
-        Me.txtServerPassword = New System.Windows.Forms.TextBox
-        Me.Label14 = New System.Windows.Forms.Label
-        Me.txtServerUser = New System.Windows.Forms.TextBox
-        Me.Label13 = New System.Windows.Forms.Label
-        Me.txtServerMachine = New System.Windows.Forms.TextBox
-        Me.Label12 = New System.Windows.Forms.Label
-        Me.optServerRemote = New System.Windows.Forms.RadioButton
-        Me.optServerLocal = New System.Windows.Forms.RadioButton
         Me.pageModules = New System.Windows.Forms.TabPage
         Me.panelMain11 = New System.Windows.Forms.Panel
         Me.splitModule = New System.Windows.Forms.SplitContainer
@@ -646,6 +634,8 @@ Partial Class frmMain
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerNetwork = New System.Windows.Forms.Timer(Me.components)
         Me.timerStateBasedActions = New System.Windows.Forms.Timer(Me.components)
+        Me.ToolStripMenuItem65 = New System.Windows.Forms.ToolStripSeparator
+        Me.ConnectionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.menuProc.SuspendLayout()
         Me.menuService.SuspendLayout()
         Me.mainMenu.SuspendLayout()
@@ -678,13 +668,10 @@ Partial Class frmMain
         Me.panelMenu.SuspendLayout()
         Me.panelMain.SuspendLayout()
         Me.SplitContainerProcess.Panel1.SuspendLayout()
-        Me.SplitContainerProcess.Panel2.SuspendLayout()
         Me.SplitContainerProcess.SuspendLayout()
         Me.SplitContainerTvLv.Panel1.SuspendLayout()
         Me.SplitContainerTvLv.Panel2.SuspendLayout()
         Me.SplitContainerTvLv.SuspendLayout()
-        Me.gpServer.SuspendLayout()
-        Me.gpServerWMI.SuspendLayout()
         Me.pageModules.SuspendLayout()
         Me.panelMain11.SuspendLayout()
         Me.splitModule.Panel1.SuspendLayout()
@@ -1328,6 +1315,8 @@ Partial Class frmMain
         '
         '
         Me.Ribbon.OrbDropDown.Location = New System.Drawing.Point(0, 0)
+        Me.Ribbon.OrbDropDown.MenuItems.Add(Me.orbMenuNetwork)
+        Me.Ribbon.OrbDropDown.MenuItems.Add(Me.RibbonSeparator4)
         Me.Ribbon.OrbDropDown.MenuItems.Add(Me.orbMenuEmergency)
         Me.Ribbon.OrbDropDown.MenuItems.Add(Me.orbMenuSBA)
         Me.Ribbon.OrbDropDown.MenuItems.Add(Me.RibbonSeparator2)
@@ -1338,7 +1327,7 @@ Partial Class frmMain
         Me.Ribbon.OrbDropDown.Name = ""
         Me.Ribbon.OrbDropDown.NextPopup = Nothing
         Me.Ribbon.OrbDropDown.PreviousPopup = Nothing
-        Me.Ribbon.OrbDropDown.Size = New System.Drawing.Size(527, 298)
+        Me.Ribbon.OrbDropDown.Size = New System.Drawing.Size(527, 345)
         Me.Ribbon.OrbDropDown.TabIndex = 0
         Me.Ribbon.OrbDropDown.ToolStripDropDown = Nothing
         Me.Ribbon.OrbImage = CType(resources.GetObject("Ribbon.OrbImage"), System.Drawing.Image)
@@ -1352,6 +1341,7 @@ Partial Class frmMain
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butSystemInfo)
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butWindows)
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butFindWindow)
+        Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butNetwork)
         Me.Ribbon.QuickAcessToolbar.Tag = Nothing
         Me.Ribbon.QuickAcessToolbar.Text = Nothing
         Me.Ribbon.QuickAcessToolbar.ToolTip = Nothing
@@ -1372,6 +1362,30 @@ Partial Class frmMain
         Me.Ribbon.Tabs.Add(Me.SearchTab)
         Me.Ribbon.Tabs.Add(Me.HelpTab)
         Me.Ribbon.TabSpacing = 6
+        '
+        'orbMenuNetwork
+        '
+        Me.orbMenuNetwork.AltKey = Nothing
+        Me.orbMenuNetwork.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
+        Me.orbMenuNetwork.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.orbMenuNetwork.Image = CType(resources.GetObject("orbMenuNetwork.Image"), System.Drawing.Image)
+        Me.orbMenuNetwork.SmallImage = CType(resources.GetObject("orbMenuNetwork.SmallImage"), System.Drawing.Image)
+        Me.orbMenuNetwork.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.orbMenuNetwork.Tag = Nothing
+        Me.orbMenuNetwork.Text = "Connection type..."
+        Me.orbMenuNetwork.ToolTip = Nothing
+        Me.orbMenuNetwork.ToolTipImage = Nothing
+        Me.orbMenuNetwork.ToolTipTitle = Nothing
+        '
+        'RibbonSeparator4
+        '
+        Me.RibbonSeparator4.AltKey = Nothing
+        Me.RibbonSeparator4.Image = Nothing
+        Me.RibbonSeparator4.Tag = Nothing
+        Me.RibbonSeparator4.Text = Nothing
+        Me.RibbonSeparator4.ToolTip = Nothing
+        Me.RibbonSeparator4.ToolTipImage = Nothing
+        Me.RibbonSeparator4.ToolTipTitle = Nothing
         '
         'orbMenuEmergency
         '
@@ -1523,6 +1537,21 @@ Partial Class frmMain
         Me.butFindWindow.ToolTipImage = Nothing
         Me.butFindWindow.ToolTipTitle = Nothing
         '
+        'butNetwork
+        '
+        Me.butNetwork.AltKey = Nothing
+        Me.butNetwork.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butNetwork.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butNetwork.Image = Nothing
+        Me.butNetwork.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
+        Me.butNetwork.SmallImage = CType(resources.GetObject("butNetwork.SmallImage"), System.Drawing.Image)
+        Me.butNetwork.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butNetwork.Tag = Nothing
+        Me.butNetwork.Text = "Network"
+        Me.butNetwork.ToolTip = Nothing
+        Me.butNetwork.ToolTipImage = Nothing
+        Me.butNetwork.ToolTipTitle = Nothing
+        '
         'TaskTab
         '
         Me.TaskTab.Panels.Add(Me.RBTaskDisplay)
@@ -1592,7 +1621,6 @@ Partial Class frmMain
         'ProcessTab
         '
         Me.ProcessTab.Panels.Add(Me.RBProcessDisplay)
-        Me.ProcessTab.Panels.Add(Me.RBProcessConfig)
         Me.ProcessTab.Panels.Add(Me.RBProcessActions)
         Me.ProcessTab.Panels.Add(Me.RBProcessPriority)
         Me.ProcessTab.Panels.Add(Me.RBProcessOnline)
@@ -1636,28 +1664,6 @@ Partial Class frmMain
         Me.butProcessDisplayDetails.ToolTip = Nothing
         Me.butProcessDisplayDetails.ToolTipImage = Nothing
         Me.butProcessDisplayDetails.ToolTipTitle = Nothing
-        '
-        'RBProcessConfig
-        '
-        Me.RBProcessConfig.ButtonMoreEnabled = False
-        Me.RBProcessConfig.ButtonMoreVisible = False
-        Me.RBProcessConfig.Items.Add(Me.butProcessConfigureServer)
-        Me.RBProcessConfig.Tag = Nothing
-        Me.RBProcessConfig.Text = "Configure server"
-        '
-        'butProcessConfigureServer
-        '
-        Me.butProcessConfigureServer.AltKey = Nothing
-        Me.butProcessConfigureServer.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
-        Me.butProcessConfigureServer.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessConfigureServer.Image = Global.YAPM.My.Resources.Resources.options
-        Me.butProcessConfigureServer.SmallImage = CType(resources.GetObject("butProcessConfigureServer.SmallImage"), System.Drawing.Image)
-        Me.butProcessConfigureServer.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butProcessConfigureServer.Tag = Nothing
-        Me.butProcessConfigureServer.Text = "Configuration"
-        Me.butProcessConfigureServer.ToolTip = Nothing
-        Me.butProcessConfigureServer.ToolTipImage = Nothing
-        Me.butProcessConfigureServer.ToolTipTitle = Nothing
         '
         'RBProcessActions
         '
@@ -4223,7 +4229,7 @@ Partial Class frmMain
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RefreshToolStripMenuItem, Me.ToolStripMenuItem60, Me.ShowlogToolStripMenuItem1, Me.SystemreportToolStripMenuItem, Me.ToolStripMenuItem53, Me.SysteminfosToolStripMenuItem, Me.OpenedWindowsToolStripMenuItem, Me.ToolStripMenuItem54, Me.FindAWindowToolStripMenuItem1, Me.EmergencyHotkeysToolStripMenuItem1, Me.StateBasedActionsToolStripMenuItem1, Me.ToolStripMenuItem55, Me.MinimizeToTrayToolStripMenuItem1, Me.ExitToolStripMenuItem1})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RefreshToolStripMenuItem, Me.ToolStripMenuItem60, Me.ConnectionToolStripMenuItem, Me.ToolStripMenuItem65, Me.ShowlogToolStripMenuItem1, Me.SystemreportToolStripMenuItem, Me.ToolStripMenuItem53, Me.SysteminfosToolStripMenuItem, Me.OpenedWindowsToolStripMenuItem, Me.ToolStripMenuItem54, Me.FindAWindowToolStripMenuItem1, Me.EmergencyHotkeysToolStripMenuItem1, Me.StateBasedActionsToolStripMenuItem1, Me.ToolStripMenuItem55, Me.MinimizeToTrayToolStripMenuItem1, Me.ExitToolStripMenuItem1})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
         Me.FileToolStripMenuItem.Text = "&File"
@@ -4713,18 +4719,9 @@ Partial Class frmMain
         'SplitContainerProcess.Panel1
         '
         Me.SplitContainerProcess.Panel1.Controls.Add(Me.SplitContainerTvLv)
-        '
-        'SplitContainerProcess.Panel2
-        '
-        Me.SplitContainerProcess.Panel2.Controls.Add(Me.gpServer)
-        Me.SplitContainerProcess.Panel2.Controls.Add(Me.optServerRemoteWMI)
-        Me.SplitContainerProcess.Panel2.Controls.Add(Me.cmdServerOK)
-        Me.SplitContainerProcess.Panel2.Controls.Add(Me.gpServerWMI)
-        Me.SplitContainerProcess.Panel2.Controls.Add(Me.optServerRemote)
-        Me.SplitContainerProcess.Panel2.Controls.Add(Me.optServerLocal)
         Me.SplitContainerProcess.Panel2Collapsed = True
         Me.SplitContainerProcess.Size = New System.Drawing.Size(852, 361)
-        Me.SplitContainerProcess.SplitterDistance = 306
+        Me.SplitContainerProcess.SplitterDistance = 298
         Me.SplitContainerProcess.TabIndex = 0
         '
         'SplitContainerTvLv
@@ -4770,7 +4767,8 @@ Partial Class frmMain
         Me.lvProcess.AllowColumnReorder = True
         Me.lvProcess.CatchErrors = False
         Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c7, Me.c8, Me.c9, Me.c10, Me.ColumnHeader20})
-        Me.lvProcess.Connection = Providers.customLV.ProvidersConnectionType.Local
+        CConnection1.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.lvProcess.ConnectionObj = CConnection1
         Me.lvProcess.ContextMenuStrip = Me.menuProc
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -4781,7 +4779,6 @@ Partial Class frmMain
         ListViewGroup4.Name = "gpSearch"
         Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvProcess.HideSelection = False
-        Me.lvProcess.IsLocalMachine = True
         Me.lvProcess.Location = New System.Drawing.Point(0, 0)
         Me.lvProcess.Name = "lvProcess"
         Me.lvProcess.OverriddenDoubleBuffered = True
@@ -4844,143 +4841,6 @@ Partial Class frmMain
         '
         Me.ColumnHeader20.DisplayIndex = 4
         Me.ColumnHeader20.Text = "AverageCpuUsage"
-        '
-        'gpServer
-        '
-        Me.gpServer.Controls.Add(Me.txtServerIP)
-        Me.gpServer.Controls.Add(Me.Label17)
-        Me.gpServer.Location = New System.Drawing.Point(189, 0)
-        Me.gpServer.Name = "gpServer"
-        Me.gpServer.Size = New System.Drawing.Size(136, 47)
-        Me.gpServer.TabIndex = 13
-        Me.gpServer.TabStop = False
-        Me.gpServer.Text = "Server"
-        Me.gpServer.Visible = False
-        '
-        'txtServerIP
-        '
-        Me.txtServerIP.Location = New System.Drawing.Point(28, 15)
-        Me.txtServerIP.Name = "txtServerIP"
-        Me.txtServerIP.Size = New System.Drawing.Size(87, 22)
-        Me.txtServerIP.TabIndex = 5
-        Me.txtServerIP.Text = "192.168.0.4"
-        '
-        'Label17
-        '
-        Me.Label17.AutoSize = True
-        Me.Label17.Location = New System.Drawing.Point(6, 18)
-        Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(16, 13)
-        Me.Label17.TabIndex = 4
-        Me.Label17.Text = "IP"
-        '
-        'optServerRemoteWMI
-        '
-        Me.optServerRemoteWMI.AutoSize = True
-        Me.optServerRemoteWMI.Location = New System.Drawing.Point(134, 15)
-        Me.optServerRemoteWMI.Name = "optServerRemoteWMI"
-        Me.optServerRemoteWMI.Size = New System.Drawing.Size(49, 17)
-        Me.optServerRemoteWMI.TabIndex = 12
-        Me.optServerRemoteWMI.Text = "WMI"
-        Me.optServerRemoteWMI.UseVisualStyleBackColor = True
-        '
-        'cmdServerOK
-        '
-        Me.cmdServerOK.Image = Global.YAPM.My.Resources.Resources.ok
-        Me.cmdServerOK.Location = New System.Drawing.Point(641, 14)
-        Me.cmdServerOK.Name = "cmdServerOK"
-        Me.cmdServerOK.Size = New System.Drawing.Size(47, 22)
-        Me.cmdServerOK.TabIndex = 11
-        Me.cmdServerOK.UseVisualStyleBackColor = True
-        '
-        'gpServerWMI
-        '
-        Me.gpServerWMI.Controls.Add(Me.txtServerPassword)
-        Me.gpServerWMI.Controls.Add(Me.Label14)
-        Me.gpServerWMI.Controls.Add(Me.txtServerUser)
-        Me.gpServerWMI.Controls.Add(Me.Label13)
-        Me.gpServerWMI.Controls.Add(Me.txtServerMachine)
-        Me.gpServerWMI.Controls.Add(Me.Label12)
-        Me.gpServerWMI.Location = New System.Drawing.Point(189, 0)
-        Me.gpServerWMI.Name = "gpServerWMI"
-        Me.gpServerWMI.Size = New System.Drawing.Size(446, 47)
-        Me.gpServerWMI.TabIndex = 2
-        Me.gpServerWMI.TabStop = False
-        Me.gpServerWMI.Text = "Server"
-        Me.gpServerWMI.Visible = False
-        '
-        'txtServerPassword
-        '
-        Me.txtServerPassword.Location = New System.Drawing.Point(348, 15)
-        Me.txtServerPassword.Name = "txtServerPassword"
-        Me.txtServerPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtServerPassword.Size = New System.Drawing.Size(87, 22)
-        Me.txtServerPassword.TabIndex = 9
-        Me.txtServerPassword.UseSystemPasswordChar = True
-        '
-        'Label14
-        '
-        Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(286, 18)
-        Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(56, 13)
-        Me.Label14.TabIndex = 8
-        Me.Label14.Text = "Password"
-        '
-        'txtServerUser
-        '
-        Me.txtServerUser.Location = New System.Drawing.Point(192, 15)
-        Me.txtServerUser.Name = "txtServerUser"
-        Me.txtServerUser.Size = New System.Drawing.Size(87, 22)
-        Me.txtServerUser.TabIndex = 7
-        '
-        'Label13
-        '
-        Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(156, 18)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(30, 13)
-        Me.Label13.TabIndex = 6
-        Me.Label13.Text = "User"
-        '
-        'txtServerMachine
-        '
-        Me.txtServerMachine.Location = New System.Drawing.Point(63, 15)
-        Me.txtServerMachine.Name = "txtServerMachine"
-        Me.txtServerMachine.Size = New System.Drawing.Size(87, 22)
-        Me.txtServerMachine.TabIndex = 5
-        Me.txtServerMachine.Text = "localhost"
-        '
-        'Label12
-        '
-        Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(6, 18)
-        Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(51, 13)
-        Me.Label12.TabIndex = 4
-        Me.Label12.Text = "Machine"
-        '
-        'optServerRemote
-        '
-        Me.optServerRemote.AutoSize = True
-        Me.optServerRemote.Location = New System.Drawing.Point(64, 15)
-        Me.optServerRemote.Name = "optServerRemote"
-        Me.optServerRemote.Size = New System.Drawing.Size(64, 17)
-        Me.optServerRemote.TabIndex = 1
-        Me.optServerRemote.Text = "Remote"
-        Me.optServerRemote.UseVisualStyleBackColor = True
-        '
-        'optServerLocal
-        '
-        Me.optServerLocal.AutoSize = True
-        Me.optServerLocal.Checked = True
-        Me.optServerLocal.Location = New System.Drawing.Point(7, 15)
-        Me.optServerLocal.Name = "optServerLocal"
-        Me.optServerLocal.Size = New System.Drawing.Size(51, 17)
-        Me.optServerLocal.TabIndex = 0
-        Me.optServerLocal.TabStop = True
-        Me.optServerLocal.Text = "Local"
-        Me.optServerLocal.UseVisualStyleBackColor = True
         '
         'pageModules
         '
@@ -6792,6 +6652,18 @@ Partial Class frmMain
         Me.timerStateBasedActions.Enabled = True
         Me.timerStateBasedActions.Interval = 1000
         '
+        'ToolStripMenuItem65
+        '
+        Me.ToolStripMenuItem65.Name = "ToolStripMenuItem65"
+        Me.ToolStripMenuItem65.Size = New System.Drawing.Size(181, 6)
+        '
+        'ConnectionToolStripMenuItem
+        '
+        Me.ConnectionToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ConnectionToolStripMenuItem.Name = "ConnectionToolStripMenuItem"
+        Me.ConnectionToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
+        Me.ConnectionToolStripMenuItem.Text = "Connection..."
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -6842,16 +6714,10 @@ Partial Class frmMain
         Me.panelMenu.PerformLayout()
         Me.panelMain.ResumeLayout(False)
         Me.SplitContainerProcess.Panel1.ResumeLayout(False)
-        Me.SplitContainerProcess.Panel2.ResumeLayout(False)
-        Me.SplitContainerProcess.Panel2.PerformLayout()
         Me.SplitContainerProcess.ResumeLayout(False)
         Me.SplitContainerTvLv.Panel1.ResumeLayout(False)
         Me.SplitContainerTvLv.Panel2.ResumeLayout(False)
         Me.SplitContainerTvLv.ResumeLayout(False)
-        Me.gpServer.ResumeLayout(False)
-        Me.gpServer.PerformLayout()
-        Me.gpServerWMI.ResumeLayout(False)
-        Me.gpServerWMI.PerformLayout()
         Me.pageModules.ResumeLayout(False)
         Me.panelMain11.ResumeLayout(False)
         Me.splitModule.Panel1.ResumeLayout(False)
@@ -7524,18 +7390,6 @@ Partial Class frmMain
     Friend WithEvents StateBasedActionsToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents timerStateBasedActions As System.Windows.Forms.Timer
     Friend WithEvents ReduceWorkingSetSizeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents RBProcessConfig As System.Windows.Forms.RibbonPanel
-    Friend WithEvents butProcessConfigureServer As System.Windows.Forms.RibbonButton
-    Friend WithEvents gpServerWMI As System.Windows.Forms.GroupBox
-    Friend WithEvents txtServerPassword As System.Windows.Forms.TextBox
-    Friend WithEvents Label14 As System.Windows.Forms.Label
-    Friend WithEvents txtServerUser As System.Windows.Forms.TextBox
-    Friend WithEvents Label13 As System.Windows.Forms.Label
-    Friend WithEvents txtServerMachine As System.Windows.Forms.TextBox
-    Friend WithEvents Label12 As System.Windows.Forms.Label
-    Friend WithEvents optServerRemote As System.Windows.Forms.RadioButton
-    Friend WithEvents optServerLocal As System.Windows.Forms.RadioButton
-    Friend WithEvents cmdServerOK As System.Windows.Forms.Button
     Friend WithEvents butLog As System.Windows.Forms.RibbonButton
     Friend WithEvents butSystemInfo As System.Windows.Forms.RibbonButton
     Friend WithEvents butWindows As System.Windows.Forms.RibbonButton
@@ -7547,9 +7401,10 @@ Partial Class frmMain
     Friend WithEvents RibbonSeparator3 As System.Windows.Forms.RibbonSeparator
     Friend WithEvents orbMenuAbout As System.Windows.Forms.RibbonOrbMenuItem
     Friend WithEvents orbMenuExit As System.Windows.Forms.RibbonOrbMenuItem
-    Friend WithEvents optServerRemoteWMI As System.Windows.Forms.RadioButton
-    Friend WithEvents gpServer As System.Windows.Forms.GroupBox
-    Friend WithEvents txtServerIP As System.Windows.Forms.TextBox
-    Friend WithEvents Label17 As System.Windows.Forms.Label
+    Friend WithEvents orbMenuNetwork As System.Windows.Forms.RibbonOrbMenuItem
+    Friend WithEvents RibbonSeparator4 As System.Windows.Forms.RibbonSeparator
+    Friend WithEvents butNetwork As System.Windows.Forms.RibbonButton
+    Friend WithEvents ConnectionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem65 As System.Windows.Forms.ToolStripSeparator
 
 End Class

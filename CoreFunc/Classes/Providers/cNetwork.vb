@@ -198,6 +198,7 @@ Public Class cNetwork
             If _Local.Address.Equals(nullAddress) = False Then
                 Dim callback As System.AsyncCallback = AddressOf ProcessLocalDnsInformation
                 Dns.BeginGetHostEntry(_Local.Address, callback, Nothing)
+                GC.KeepAlive(callback)
             End If
         Catch ex As Exception
             '
@@ -206,6 +207,7 @@ Public Class cNetwork
             If _remote IsNot Nothing AndAlso _remote.Address.Equals(nullAddress) = False Then
                 Dim callback2 As System.AsyncCallback = AddressOf ProcessRemoteDnsInformation
                 Dns.BeginGetHostEntry(_remote.Address, callback2, Nothing)
+                GC.KeepAlive(callback2)
             End If
         Catch ex As Exception
             '
@@ -228,6 +230,11 @@ Public Class cNetwork
         GetExtendedTcpTable(IntPtr.Zero, length, False, 2, TCP_TABLE_CLASS.TCP_TABLE_OWNER_PID_ALL, 0)
         Dim pt As IntPtr = Marshal.AllocHGlobal(length)
         GetExtendedTcpTable(pt, length, False, 2, TCP_TABLE_CLASS.TCP_TABLE_OWNER_PID_ALL, 0)
+
+        If length = 0 Then
+            ReDim key(-1)
+            Return 0
+        End If
 
         Dim count As Integer = Marshal.ReadInt32(pt, 0)
         ReDim key(count)        ' Temporary size
