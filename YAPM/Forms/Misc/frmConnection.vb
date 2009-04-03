@@ -106,7 +106,7 @@ Public Class frmConnection
                 End If
             End With
             Me.Text = "Connecting to machine..."
-            Call frmMain.ConnectToToMachine()
+            Call frmMain.ConnectToMachine()
         End If
 
     End Sub

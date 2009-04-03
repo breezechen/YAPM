@@ -5,7 +5,7 @@ Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Management
 
-Public Class asyncCallbackNewProcess
+Public Class asyncCallbackProcNewProcess
 
     Private _path As String
     Private _connection As cProcessConnection

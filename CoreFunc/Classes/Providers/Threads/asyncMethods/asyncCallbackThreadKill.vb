@@ -4,14 +4,14 @@ Imports CoreFunc.cProcessConnection
 Imports System.Runtime.InteropServices
 Imports System.Text
 
-Public Class asyncCallbackKill
+Public Class asyncCallbackThreadKill
 
     Private _pid As Integer
-    Private _connection As cProcessConnection
+    Private _connection As cThreadConnection
 
     Public Event HasKilled(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String)
 
-    Public Sub New(ByVal pid As Integer, ByRef procConnection As cProcessConnection)
+    Public Sub New(ByVal pid As Integer, ByRef procConnection As cThreadConnection)
         _pid = pid
         _connection = procConnection
     End Sub

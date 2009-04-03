@@ -52,6 +52,9 @@ Public Class processInfos
     Private _fileInfo As FileVersionInfo
     Private _gdiObjects As Integer
     Private _userObjects As Integer
+    Private _threadCount As Integer
+
+    Private _threads As Dictionary(Of String, threadInfos)
 
     Private _processors As Integer
 
@@ -59,6 +62,17 @@ Public Class processInfos
 
 #Region "Read only properties"
 
+    Public ReadOnly Property Threads() As Dictionary(Of String, threadInfos)
+        Get
+            Return _threads
+        End Get
+    End Property
+
+    Public ReadOnly Property ThreadCount() As Integer
+        Get
+            Return _threadCount
+        End Get
+    End Property
     Public ReadOnly Property Pid() As Integer
         Get
             Return _Pid
@@ -215,6 +229,7 @@ Public Class processInfos
             _IOValues = .IoCounters
             _HandleCount = .HandleCount
             _Pid = .ProcessId
+            _threadCount = .NumberOfThreads
             _ParentProcessId = .InheritedFromProcessId
             If _Pid > 0 Then
                 If ProcessName IsNot Nothing Then
@@ -227,6 +242,7 @@ Public Class processInfos
             End If
         End With
 
+        _threads = New Dictionary(Of String, threadInfos)
         _processors = cSystemInfo.GetProcessorCount
     End Sub
 
@@ -243,26 +259,14 @@ Public Class processInfos
             _gdiObjects = .GdiObjects
             _userObjects = .UserObjects
             _AffinityMask = .AffinityMask
-        End With
-    End Sub
-    Public Sub Merge(ByRef newI As API.SYSTEM_PROCESS_INFORMATION)
-
-        With newI
-            _KernelTime = .KernelTime
-            _UserTime = .UserTime
-            _Priority = getPriorityClass(.BasePriority)
-            _MemoryInfos = .VirtualMemoryCounters
-            _IOValues = .IoCounters
-            _HandleCount = .HandleCount
-            '_gdiObjects = .GdiObjects
-            '_userObjects = .UserObjects
-            '_AffinityMask = .AffinityMask
+            _threads = .Threads
+            _threadCount = .ThreadCount
         End With
     End Sub
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties() As String()
-        Dim s(35) As String
+        Dim s(36) As String
 
         s(0) = "PID"
         s(1) = "UserName"
@@ -279,27 +283,28 @@ Public Class processInfos
         s(12) = "UserObjects"
         s(13) = "AffinityMask"
         s(14) = "HandleCount"
-        s(15) = "WorkingSet"
-        s(16) = "PeakWorkingSet"
-        s(17) = "PageFaultCount"
-        s(18) = "PagefileUsage"
-        s(19) = "PeakPagefileUsage"
-        s(20) = "QuotaPeakPagedPoolUsage"
-        s(21) = "QuotaPagedPoolUsage"
-        s(22) = "QuotaPeakNonPagedPoolUsage"
-        s(23) = "QuotaNonPagedPoolUsage"
-        s(24) = "ReadOperationCount"
-        s(25) = "WriteOperationCount"
-        s(26) = "OtherOperationCount"
-        s(27) = "ReadTransferCount "
-        s(28) = "WriteTransferCount"
-        s(29) = "OtherTransferCount"
-        s(30) = "Priority"
-        s(31) = "Path"
-        s(32) = "CommandLine"
-        s(33) = "Description"
-        s(34) = "Copyright"
-        s(35) = "Version"
+        s(15) = "ThreadCount"
+        s(16) = "WorkingSet"
+        s(17) = "PeakWorkingSet"
+        s(18) = "PageFaultCount"
+        s(19) = "PagefileUsage"
+        s(20) = "PeakPagefileUsage"
+        s(21) = "QuotaPeakPagedPoolUsage"
+        s(22) = "QuotaPagedPoolUsage"
+        s(23) = "QuotaPeakNonPagedPoolUsage"
+        s(24) = "QuotaNonPagedPoolUsage"
+        s(25) = "ReadOperationCount"
+        s(26) = "WriteOperationCount"
+        s(27) = "OtherOperationCount"
+        s(28) = "ReadTransferCount "
+        s(29) = "WriteTransferCount"
+        s(30) = "OtherTransferCount"
+        s(31) = "Priority"
+        s(32) = "Path"
+        s(33) = "CommandLine"
+        s(34) = "Description"
+        s(35) = "Copyright"
+        s(36) = "Version"
 
         Return s
     End Function

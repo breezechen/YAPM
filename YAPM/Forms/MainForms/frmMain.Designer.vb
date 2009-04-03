@@ -33,8 +33,6 @@ Partial Class frmMain
         Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Threads", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Handles", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Windows", System.Windows.Forms.HorizontalAlignment.Left)
@@ -44,6 +42,9 @@ Partial Class frmMain
         Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Results", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup16 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim CConnection2 As CoreFunc.cConnection = New CoreFunc.cConnection
+        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Threads", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.imgProcess = New System.Windows.Forms.ImageList(Me.components)
         Me.menuProc = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -392,6 +393,8 @@ Partial Class frmMain
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem60 = New System.Windows.Forms.ToolStripSeparator
+        Me.ConnectionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem65 = New System.Windows.Forms.ToolStripSeparator
         Me.ShowlogToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.SystemreportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem53 = New System.Windows.Forms.ToolStripSeparator
@@ -486,14 +489,6 @@ Partial Class frmMain
         Me.Label8 = New System.Windows.Forms.Label
         Me.lblThreadResults = New System.Windows.Forms.Label
         Me.txtSearchThread = New System.Windows.Forms.TextBox
-        Me.lvThreads = New Providers.threadList
-        Me.ColumnHeader32 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader33 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader34 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader35 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader36 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader37 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader38 = New System.Windows.Forms.ColumnHeader
         Me.rtb4 = New System.Windows.Forms.RichTextBox
         Me.pageHandles = New System.Windows.Forms.TabPage
         Me.panelMain7 = New System.Windows.Forms.Panel
@@ -634,8 +629,16 @@ Partial Class frmMain
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerNetwork = New System.Windows.Forms.Timer(Me.components)
         Me.timerStateBasedActions = New System.Windows.Forms.Timer(Me.components)
-        Me.ToolStripMenuItem65 = New System.Windows.Forms.ToolStripSeparator
-        Me.ConnectionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.lvThreads = New Providers.threadList
+        Me.ColumnHeader32 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader33 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader34 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader35 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader36 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader37 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader38 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.menuProc.SuspendLayout()
         Me.menuService.SuspendLayout()
         Me.mainMenu.SuspendLayout()
@@ -4248,6 +4251,18 @@ Partial Class frmMain
         Me.ToolStripMenuItem60.Name = "ToolStripMenuItem60"
         Me.ToolStripMenuItem60.Size = New System.Drawing.Size(181, 6)
         '
+        'ConnectionToolStripMenuItem
+        '
+        Me.ConnectionToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ConnectionToolStripMenuItem.Name = "ConnectionToolStripMenuItem"
+        Me.ConnectionToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
+        Me.ConnectionToolStripMenuItem.Text = "Connection..."
+        '
+        'ToolStripMenuItem65
+        '
+        Me.ToolStripMenuItem65.Name = "ToolStripMenuItem65"
+        Me.ToolStripMenuItem65.Size = New System.Drawing.Size(181, 6)
+        '
         'ShowlogToolStripMenuItem1
         '
         Me.ShowlogToolStripMenuItem1.Image = Global.YAPM.My.Resources.Resources.document_text
@@ -5085,65 +5100,6 @@ Partial Class frmMain
         Me.txtSearchThread.Name = "txtSearchThread"
         Me.txtSearchThread.Size = New System.Drawing.Size(298, 22)
         Me.txtSearchThread.TabIndex = 8
-        '
-        'lvThreads
-        '
-        Me.lvThreads.AllowColumnReorder = True
-        Me.lvThreads.CatchErrors = False
-        Me.lvThreads.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader33, Me.ColumnHeader34, Me.ColumnHeader35, Me.ColumnHeader36, Me.ColumnHeader37, Me.ColumnHeader38})
-        Me.lvThreads.ContextMenuStrip = Me.menuThread
-        Me.lvThreads.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvThreads.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvThreads.FullRowSelect = True
-        ListViewGroup7.Header = "Threads"
-        ListViewGroup7.Name = "gpOther"
-        ListViewGroup8.Header = "Search results"
-        ListViewGroup8.Name = "gpSearchResults"
-        Me.lvThreads.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
-        Me.lvThreads.HideSelection = False
-        Me.lvThreads.Location = New System.Drawing.Point(0, 0)
-        Me.lvThreads.Name = "lvThreads"
-        Me.lvThreads.OverriddenDoubleBuffered = True
-        Me.lvThreads.ProcessId = Nothing
-        Me.lvThreads.ShowUnNamed = False
-        Me.lvThreads.Size = New System.Drawing.Size(852, 232)
-        Me.lvThreads.TabIndex = 3
-        Me.lvThreads.UseCompatibleStateImageBehavior = False
-        Me.lvThreads.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader32
-        '
-        Me.ColumnHeader32.Text = "Id"
-        '
-        'ColumnHeader33
-        '
-        Me.ColumnHeader33.Text = "OwnerProcessId"
-        Me.ColumnHeader33.Width = 150
-        '
-        'ColumnHeader34
-        '
-        Me.ColumnHeader34.Text = "Priority"
-        Me.ColumnHeader34.Width = 100
-        '
-        'ColumnHeader35
-        '
-        Me.ColumnHeader35.Text = "State"
-        Me.ColumnHeader35.Width = 70
-        '
-        'ColumnHeader36
-        '
-        Me.ColumnHeader36.Text = "WaitReason"
-        Me.ColumnHeader36.Width = 100
-        '
-        'ColumnHeader37
-        '
-        Me.ColumnHeader37.Text = "StartTime"
-        Me.ColumnHeader37.Width = 200
-        '
-        'ColumnHeader38
-        '
-        Me.ColumnHeader38.Text = "TotalProcessorTime"
-        Me.ColumnHeader38.Width = 200
         '
         'rtb4
         '
@@ -6652,17 +6608,75 @@ Partial Class frmMain
         Me.timerStateBasedActions.Enabled = True
         Me.timerStateBasedActions.Interval = 1000
         '
-        'ToolStripMenuItem65
+        'lvThreads
         '
-        Me.ToolStripMenuItem65.Name = "ToolStripMenuItem65"
-        Me.ToolStripMenuItem65.Size = New System.Drawing.Size(181, 6)
+        Me.lvThreads.AllowColumnReorder = True
+        Me.lvThreads.CatchErrors = False
+        Me.lvThreads.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader33, Me.ColumnHeader34, Me.ColumnHeader35, Me.ColumnHeader36, Me.ColumnHeader37, Me.ColumnHeader38, Me.ColumnHeader6, Me.ColumnHeader1})
+        CConnection2.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.lvThreads.ConnectionObj = CConnection2
+        Me.lvThreads.ContextMenuStrip = Me.menuThread
+        Me.lvThreads.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvThreads.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvThreads.FullRowSelect = True
+        ListViewGroup7.Header = "Threads"
+        ListViewGroup7.Name = "gpOther"
+        ListViewGroup8.Header = "Search results"
+        ListViewGroup8.Name = "gpSearchResults"
+        Me.lvThreads.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
+        Me.lvThreads.HideSelection = False
+        Me.lvThreads.Location = New System.Drawing.Point(0, 0)
+        Me.lvThreads.Name = "lvThreads"
+        Me.lvThreads.OverriddenDoubleBuffered = True
+        Me.lvThreads.ProcessId = Nothing
+        Me.lvThreads.Size = New System.Drawing.Size(852, 232)
+        Me.lvThreads.TabIndex = 5
+        Me.lvThreads.UseCompatibleStateImageBehavior = False
+        Me.lvThreads.View = System.Windows.Forms.View.Details
         '
-        'ConnectionToolStripMenuItem
+        'ColumnHeader32
         '
-        Me.ConnectionToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ConnectionToolStripMenuItem.Name = "ConnectionToolStripMenuItem"
-        Me.ConnectionToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
-        Me.ConnectionToolStripMenuItem.Text = "Connection..."
+        Me.ColumnHeader32.Text = "Id"
+        '
+        'ColumnHeader33
+        '
+        Me.ColumnHeader33.Text = "ProcessId"
+        Me.ColumnHeader33.Width = 78
+        '
+        'ColumnHeader34
+        '
+        Me.ColumnHeader34.Text = "Priority"
+        Me.ColumnHeader34.Width = 100
+        '
+        'ColumnHeader35
+        '
+        Me.ColumnHeader35.Text = "State"
+        Me.ColumnHeader35.Width = 70
+        '
+        'ColumnHeader36
+        '
+        Me.ColumnHeader36.Text = "WaitReason"
+        Me.ColumnHeader36.Width = 100
+        '
+        'ColumnHeader37
+        '
+        Me.ColumnHeader37.Text = "CreateTime"
+        Me.ColumnHeader37.Width = 119
+        '
+        'ColumnHeader38
+        '
+        Me.ColumnHeader38.Text = "TotalTime"
+        Me.ColumnHeader38.Width = 200
+        '
+        'ColumnHeader6
+        '
+        Me.ColumnHeader6.Text = "StartAddress"
+        Me.ColumnHeader6.Width = 100
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Text = "ContextSwitchCount"
+        Me.ColumnHeader1.Width = 200
         '
         'frmMain
         '
@@ -7235,14 +7249,6 @@ Partial Class frmMain
     Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents lblThreadResults As System.Windows.Forms.Label
     Friend WithEvents txtSearchThread As System.Windows.Forms.TextBox
-    Friend WithEvents lvThreads As Providers.threadList
-    Friend WithEvents ColumnHeader32 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader33 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader34 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader35 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader36 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader37 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader38 As System.Windows.Forms.ColumnHeader
     Friend WithEvents rtb4 As System.Windows.Forms.RichTextBox
     Friend WithEvents pageHandles As System.Windows.Forms.TabPage
     Friend WithEvents panelMain7 As System.Windows.Forms.Panel
@@ -7406,5 +7412,15 @@ Partial Class frmMain
     Friend WithEvents butNetwork As System.Windows.Forms.RibbonButton
     Friend WithEvents ConnectionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem65 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents lvThreads As Providers.threadList
+    Friend WithEvents ColumnHeader32 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader33 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader34 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader35 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader36 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader37 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader38 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader6 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
 
 End Class

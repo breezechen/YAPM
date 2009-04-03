@@ -103,22 +103,22 @@ Public Class frmGlobalReport
         ' ======== Every informations about processes
 
         ' pid <-> (Xid <-> lightX)
-        Dim _dicoThreads As New Dictionary(Of String, Dictionary(Of String, cThread.LightThread))
+        'Dim _dicoThreads As New Dictionary(Of String, Dictionary(Of String, cThread.LightThread))
         Dim _dicoModules As New Dictionary(Of String, Dictionary(Of String, cModule.MODULEENTRY32))
         Dim _dicoMemRegions As New Dictionary(Of String, Dictionary(Of String, cProcessMemRW.MEMORY_BASIC_INFORMATION))
 
 
         ' == Threads
-        If Me.chkThreads.Checked Then
-            setCaption("Retrieving opened threads...")
-            For Each pid As Integer In _dicoProcesses.Keys
-                Dim _buffServ As New Dictionary(Of String, cThread.LightThread)
-                Dim _threadKey() As String
-                ReDim _threadKey(0)
-                cThread.Enumerate(pid, _threadKey, _buffServ)
-                _dicoThreads.Add(pid.ToString, _buffServ)
-            Next
-        End If
+        'If Me.chkThreads.Checked Then
+        '    setCaption("Retrieving opened threads...")
+        '    For Each pid As Integer In _dicoProcesses.Keys
+        '        Dim _buffServ As New Dictionary(Of String, cThread.LightThread)
+        '        Dim _threadKey() As String
+        '        ReDim _threadKey(0)
+        '        cThread.Enumerate(pid, _threadKey, _buffServ)
+        '        _dicoThreads.Add(pid.ToString, _buffServ)
+        '    Next
+        'End If
 
 
         ' == Modules

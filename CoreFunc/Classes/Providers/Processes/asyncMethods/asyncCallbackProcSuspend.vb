@@ -4,7 +4,7 @@ Imports CoreFunc.cProcessConnection
 Imports System.Runtime.InteropServices
 Imports System.Text
 
-Public Class asyncCallbackSuspend
+Public Class asyncCallbackProcSuspend
 
     Private _pid As Integer
     Private _connection As cProcessConnection

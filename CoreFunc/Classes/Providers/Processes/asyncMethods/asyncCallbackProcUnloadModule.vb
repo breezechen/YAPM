@@ -4,7 +4,7 @@ Imports CoreFunc.cProcessConnection
 Imports System.Runtime.InteropServices
 Imports System.Text
 
-Public Class asyncCallbackUnloadModule
+Public Class asyncCallbackProcUnloadModule
 
     Private _pid As Integer
     Private _baseA As Integer

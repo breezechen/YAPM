@@ -454,8 +454,9 @@ Public Class frmMain
         End Try
 
         theConnection.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvProcess.ConnectionObj = theConnection
-        theConnection.Connect()
+        'Me.lvProcess.ConnectionObj = theConnection
+        'theConnection.Connect()
+        Call ConnectToMachine()
 
         Me.timerMonitoring.Enabled = True
         Me.timerProcess.Enabled = True
@@ -1722,7 +1723,7 @@ Public Class frmMain
 
     Private Sub ToolStripMenuItem27_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem27.Click
         For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.Priority = cThread.ThreadPriority.Idle
+            it.SetPriority(ThreadPriorityLevel.Idle)
         Next
     End Sub
 
@@ -1744,7 +1745,7 @@ Public Class frmMain
         Dim bOne As Boolean = False
         If Me.lvThreads.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
         For Each it In Me.lvThreads.SelectedItems
-            Dim pid As Integer = Me.lvThreads.GetItemByKey(it.Name).ProcessId
+            Dim pid As Integer = Me.lvThreads.GetItemByKey(it.Name).Infos.ProcessId
             Dim it2 As ListViewItem
             For Each it2 In Me.lvProcess.Items
                 Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
@@ -1764,37 +1765,37 @@ Public Class frmMain
 
     Private Sub LowestToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LowestToolStripMenuItem.Click
         For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.Priority = cThread.ThreadPriority.Lowest
+            it.SetPriority(ThreadPriorityLevel.Lowest)
         Next
     End Sub
 
     Private Sub ToolStripMenuItem28_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem28.Click
         For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.Priority = cThread.ThreadPriority.BelowNormal
+            it.SetPriority(ThreadPriorityLevel.BelowNormal)
         Next
     End Sub
 
     Private Sub ToolStripMenuItem29_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem29.Click
         For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.Priority = cThread.ThreadPriority.Normal
+            it.SetPriority(ThreadPriorityLevel.Normal)
         Next
     End Sub
 
     Private Sub ToolStripMenuItem30_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem30.Click
         For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.Priority = cThread.ThreadPriority.AboveNormal
+            it.SetPriority(ThreadPriorityLevel.AboveNormal)
         Next
     End Sub
 
     Private Sub ToolStripMenuItem31_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem31.Click
         For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.Priority = cThread.ThreadPriority.Highest
+            it.SetPriority(ThreadPriorityLevel.Highest)
         Next
     End Sub
 
     Private Sub ToolStripMenuItem32_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem32.Click
         For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.Priority = cThread.ThreadPriority.Critical
+            it.SetPriority(ThreadPriorityLevel.TimeCritical)
         Next
     End Sub
 
@@ -3399,18 +3400,18 @@ Public Class frmMain
 
         If e.Button = Windows.Forms.MouseButtons.Right Then
 
-            Dim p As cThread.ThreadPriority = cThread.ThreadPriority.Unknow
+            Dim p As System.Diagnostics.ThreadPriorityLevel
 
             If Me.lvThreads.SelectedItems.Count > 0 Then
-                p = Me.lvThreads.GetSelectedItem.Priority
+                p = Me.lvThreads.GetSelectedItem.Infos.Priority
             End If
-            Me.ToolStripMenuItem27.Checked = (p = cThread.ThreadPriority.Idle)
-            Me.LowestToolStripMenuItem.Checked = (p = cThread.ThreadPriority.Lowest)
-            Me.ToolStripMenuItem28.Checked = (p = cThread.ThreadPriority.BelowNormal)
-            Me.ToolStripMenuItem29.Checked = (p = cThread.ThreadPriority.Normal)
-            Me.ToolStripMenuItem30.Checked = (p = cThread.ThreadPriority.AboveNormal)
-            Me.ToolStripMenuItem31.Checked = (p = cThread.ThreadPriority.Highest)
-            Me.ToolStripMenuItem32.Checked = (p = cThread.ThreadPriority.Critical)
+            Me.ToolStripMenuItem27.Checked = (p = ThreadPriorityLevel.Idle)
+            Me.LowestToolStripMenuItem.Checked = (p = ThreadPriorityLevel.Lowest)
+            Me.ToolStripMenuItem28.Checked = (p = ThreadPriorityLevel.BelowNormal)
+            Me.ToolStripMenuItem29.Checked = (p = ThreadPriorityLevel.Normal)
+            Me.ToolStripMenuItem30.Checked = (p = ThreadPriorityLevel.AboveNormal)
+            Me.ToolStripMenuItem31.Checked = (p = ThreadPriorityLevel.Highest)
+            Me.ToolStripMenuItem32.Checked = (p = ThreadPriorityLevel.TimeCritical)
         End If
     End Sub
 
@@ -3425,20 +3426,19 @@ Public Class frmMain
                 Dim s As String = ""
                 s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
                 s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Thread properties\b0\par"
-                s = s & "\tab Thread ID :\tab\tab\tab " & CStr(cp.Id) & "\par"
-                s = s & "\tab Process owner :\tab\tab\tab " & CStr(cp.ProcessId) & " -- " & cp.ProcessName & "\par"
+                s = s & "\tab Thread ID :\tab\tab\tab " & cp.Infos.Id.ToString & "\par"
+                s = s & "\tab Process owner :\tab\tab\tab " & cp.Infos.ProcessId.ToString & "\par" '& " -- " & cp.ProcessName & "\par"
 
-                s = s & "\tab Priority :\tab\tab\tab\tab " & cp.PriorityString & "\par"
-                s = s & "\tab Base priority :\tab\tab\tab " & CStr(cp.BasePriority) & "\par"
-                s = s & "\tab State :\tab\tab\tab\tab " & cp.ThreadState & "\par"
-                s = s & "\tab Wait reason :\tab\tab\tab " & cp.WaitReason & "\par"
-                s = s & "\tab Start address :\tab\tab\tab " & CStr(cp.StartAddress) & "\par"
-                s = s & "\tab PriorityBoostEnabled :\tab\tab " & CStr(cp.PriorityBoostEnabled) & "\par"
-                s = s & "\tab Start time :\tab\tab\tab " & cp.StartTime.ToLongDateString & " -- " & cp.StartTime.ToLongTimeString & "\par"
-                s = s & "\tab TotalProcessorTime :\tab\tab " & cp.TotalProcessorTime.ToString & "\par"
-                s = s & "\tab PrivilegedProcessorTime :\tab\tab " & cp.PrivilegedProcessorTime.ToString & "\par"
-                s = s & "\tab UserProcessorTime :\tab\tab " & CStr(cp.UserProcessorTime.ToString) & "\par"
-                s = s & "\tab ProcessorAffinity :\tab\tab " & CStr(cp.ProcessorAffinity) & "\par"
+                s = s & "\tab Priority :\tab\tab\tab\tab " & cp.Infos.Priority.ToString & "\par"
+                s = s & "\tab Base priority :\tab\tab\tab " & CStr(cp.Infos.BasePriority) & "\par"
+                s = s & "\tab State :\tab\tab\tab\tab " & cp.Infos.State.ToString & "\par"
+                s = s & "\tab Wait reason :\tab\tab\tab " & cp.Infos.WaitReason.ToString & "\par"
+                s = s & "\tab Start address :\tab\tab\tab " & "0x" & cp.Infos.StartAddress.ToString("x") & "\par"
+                's = s & "\tab Start time :\tab\tab\tab " & cp.Infos.CreateTime.ToLongDateString & " -- " & cp.StartTime.ToLongTimeString & "\par"
+                's = s & "\tab TotalProcessorTime :\tab\tab " & cp.TotalProcessorTime.ToString & "\par"
+                's = s & "\tab PrivilegedProcessorTime :\tab\tab " & cp.PrivilegedProcessorTime.ToString & "\par"
+                's = s & "\tab UserProcessorTime :\tab\tab " & CStr(cp.UserProcessorTime.ToString) & "\par"
+                's = s & "\tab ProcessorAffinity :\tab\tab " & CStr(cp.Infos.AffinityMask) & "\par"
 
                 s = s & "}"
 
@@ -4327,7 +4327,7 @@ Public Class frmMain
         End If
     End Sub
 
-    Public Sub ConnectToToMachine()
+    Public Sub ConnectToMachine()
 
         _local = (Me.theConnection.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
 
@@ -4344,9 +4344,12 @@ Public Class frmMain
 
         ' Connect all lvItems
         Me.lvProcess.ConnectionObj = theConnection
+        Me.lvThreads.ConnectionObj = theConnection
         Me.theConnection.Connect()
 
         ' Disable some controls depending the connection type
+        Me.pageThreads.Enabled = (theConnection.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
+
         Me.butResumeProcess.Enabled = Me._local
         Me.butStopProcess.Enabled = Me._local
         Me.butProcessAffinity.Enabled = Me._local
@@ -4376,7 +4379,6 @@ Public Class frmMain
         Me.pageHandles.Enabled = _local
         Me.pageNetwork.Enabled = _local
         Me.pageTasks.Enabled = _local
-        Me.pageThreads.Enabled = _local
         Me.pageWindows.Enabled = _local
         Me.pageSearch.Enabled = _local
         Me.RBNetworkRefresh.Enabled = _local

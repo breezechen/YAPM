@@ -5,7 +5,7 @@ Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Management
 
-Public Class asyncCallbackSetPriority
+Public Class asyncCallbackProcSetPriority
 
     Private _pid As Integer
     Private _level As ProcessPriorityClass

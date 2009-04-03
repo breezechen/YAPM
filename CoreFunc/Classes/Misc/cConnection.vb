@@ -103,6 +103,21 @@ Public Class cConnection
     End Property
 
 
+    Public Sub New()
+        '
+    End Sub
+    Public Sub New(ByRef ccon As cConnection)
+        _conSocket = ccon.SocketParameters
+        _conType = ccon.ConnectionType
+        _conWMI = ccon.WmiParameters
+    End Sub
+
+    Public Sub CopyFromInstance(ByRef ccon As cConnection)
+        _conType = ccon.ConnectionType
+        _conSocket = ccon.SocketParameters
+        _conWMI = ccon.WmiParameters
+    End Sub
+
     ' BAD WAY (because of withevents, this is raised JUST WHEN frmMain.theConnection.Connect
     ' is call. BAD THING (should wait asyncMethod, but there are LOTS of asyncMethids
     ' (one for each lvItem).

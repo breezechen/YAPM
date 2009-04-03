@@ -37,6 +37,7 @@ Public Class cProcess
 
     Private _handleQueryInfo As Integer
 
+
 #Region "Properties"
 
     Public Shared Property Connection() As cProcessConnection
@@ -51,17 +52,6 @@ Public Class cProcess
 #End Region
 
 #Region "Constructors & destructor"
-
-    Public Sub New(ByRef infos As API.SYSTEM_PROCESS_INFORMATION)
-        _infos = infos
-        _processInfos = New processInfos(_infos)
-        _connection = Connection
-        _processors = cProcessConnection.ProcessorCount
-        ' Get a handle if local
-        If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            _handleQueryInfo = API.OpenProcess(API.PROCESS_QUERY_INFORMATION, 0, infos.ProcessId)
-        End If
-    End Sub
 
     Public Sub New(ByRef infos As processInfos)
         _processInfos = infos
@@ -130,7 +120,7 @@ Public Class cProcess
         Call RefreshSpecialInformations()
     End Sub
     Public Sub Merge(ByRef Proc As API.SYSTEM_PROCESS_INFORMATION)
-        _processInfos.Merge(Proc)
+        _processInfos.Merge(New processInfos(Proc))
         Call RefreshSpecialInformations()
     End Sub
 
@@ -139,7 +129,7 @@ Public Class cProcess
     ' Refresh some non fixed infos
     ' For now IT IS NOT ASYNC
     ' Because create ~50 threads/sec is not really cool
-    Private WithEvents asyncNonFixed As asyncCallbackGetNonFixedInfos
+    Private WithEvents asyncNonFixed As asyncCallbackProcGetNonFixedInfos
     Private Sub RefreshSpecialInformations()
         Select Case _connection.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
@@ -149,12 +139,12 @@ Public Class cProcess
             Case Else
                 ' Local
                 If asyncNonFixed Is Nothing Then
-                    asyncNonFixed = New asyncCallbackGetNonFixedInfos(Me.Infos.Pid, _connection, _handleQueryInfo)
+                    asyncNonFixed = New asyncCallbackProcGetNonFixedInfos(Me.Infos.Pid, _connection, _handleQueryInfo)
                 End If
                 asyncNonFixed.Process()
         End Select
     End Sub
-    Private Sub nonFixedInfosGathered(ByVal infos As asyncCallbackGetNonFixedInfos.TheseInfos) Handles asyncNonFixed.GatheredInfos
+    Private Sub nonFixedInfosGathered(ByVal infos As asyncCallbackProcGetNonFixedInfos.TheseInfos) Handles asyncNonFixed.GatheredInfos
         Me.Infos.UserObjects = infos.userO
         Me.Infos.GdiObjects = infos.gdiO
         Me.Infos.AffinityMask = infos.affinity
@@ -165,9 +155,9 @@ Public Class cProcess
 #Region "All actions on process (kill, enum...)"
 
     ' Set priority
-    Private WithEvents asyncSetPriority As asyncCallbackSetPriority
+    Private WithEvents asyncSetPriority As asyncCallbackProcSetPriority
     Public Function SetPriority(ByVal level As ProcessPriorityClass) As Integer
-        asyncSetPriority = New asyncCallbackSetPriority(Me.Infos.Pid, level, _connection)
+        asyncSetPriority = New asyncCallbackProcSetPriority(Me.Infos.Pid, level, _connection)
         Dim t As New Threading.Thread(AddressOf asyncSetPriority.Process)
         t.Priority = Threading.ThreadPriority.Lowest
         t.IsBackground = True
@@ -182,9 +172,9 @@ Public Class cProcess
     End Sub
 
     ' Kill a process
-    Private WithEvents asyncKill As asyncCallbackKill
+    Private WithEvents asyncKill As asyncCallbackProcKill
     Public Function Kill() As Integer
-        asyncKill = New asyncCallbackKill(Me.Infos.Pid, _connection)
+        asyncKill = New asyncCallbackProcKill(Me.Infos.Pid, _connection)
         Dim t As New Threading.Thread(AddressOf asyncKill.Process)
         t.Priority = Threading.ThreadPriority.Lowest
         t.IsBackground = True
@@ -199,9 +189,9 @@ Public Class cProcess
     End Sub
 
     ' Decrease priority
-    Private WithEvents asyncDecPriority As asyncCallbackDecreasePriority
+    Private WithEvents asyncDecPriority As asyncCallbackProcDecreasePriority
     Public Function DecreasePriority() As Integer
-        asyncDecPriority = New asyncCallbackDecreasePriority(Me.Infos.Pid, Me.Infos.Priority, _connection)
+        asyncDecPriority = New asyncCallbackProcDecreasePriority(Me.Infos.Pid, Me.Infos.Priority, _connection)
         Dim t As New Threading.Thread(AddressOf asyncDecPriority.Process)
         t.Priority = Threading.ThreadPriority.Lowest
         t.IsBackground = True
@@ -216,9 +206,9 @@ Public Class cProcess
     End Sub
 
     ' Increase priority
-    Private WithEvents asyncInPriority As asyncCallbackIncreasePriority
+    Private WithEvents asyncInPriority As asyncCallbackProcIncreasePriority
     Public Function IncreasePriority() As Integer
-        asyncInPriority = New asyncCallbackIncreasePriority(Me.Infos.Pid, Me.Infos.Priority, _connection)
+        asyncInPriority = New asyncCallbackProcIncreasePriority(Me.Infos.Pid, Me.Infos.Priority, _connection)
         Dim t As New Threading.Thread(AddressOf asyncInPriority.Process)
         t.Priority = Threading.ThreadPriority.Lowest
         t.Name = "IncreasePriority"
@@ -233,9 +223,9 @@ Public Class cProcess
     End Sub
 
     ' Suspend a process
-    Private WithEvents asyncSuspend As asyncCallbackSuspend
+    Private WithEvents asyncSuspend As asyncCallbackProcSuspend
     Public Function SuspendProcess() As Integer
-        asyncSuspend = New asyncCallbackSuspend(Me.Infos.Pid, _connection)
+        asyncSuspend = New asyncCallbackProcSuspend(Me.Infos.Pid, _connection)
         Dim t As New Threading.Thread(AddressOf asyncSuspend.Process)
         t.Name = "SuspendProcess"
         t.Priority = Threading.ThreadPriority.Lowest
@@ -250,9 +240,9 @@ Public Class cProcess
     End Sub
 
     ' Resume a process
-    Private WithEvents asyncResume As asyncCallbackResume
+    Private WithEvents asyncResume As asyncCallbackProcResume
     Public Function ResumeProcess() As Integer
-        asyncResume = New asyncCallbackResume(Me.Infos.Pid, _connection)
+        asyncResume = New asyncCallbackProcResume(Me.Infos.Pid, _connection)
         Dim t As New Threading.Thread(AddressOf asyncResume.Process)
         t.Priority = Threading.ThreadPriority.Lowest
         t.Name = "ResumeProcess"
@@ -268,9 +258,9 @@ Public Class cProcess
     End Sub
 
     ' Kill a process tree
-    Private WithEvents asyncRecursiveKill As asyncCallbackKillTree
+    Private WithEvents asyncRecursiveKill As asyncCallbackProcKillTree
     Public Function KillProcessTree() As Integer
-        asyncRecursiveKill = New asyncCallbackKillTree(Me.Infos.Pid, _connection)
+        asyncRecursiveKill = New asyncCallbackProcKillTree(Me.Infos.Pid, _connection)
         Dim t As New Threading.Thread(AddressOf asyncRecursiveKill.Process)
         t.Priority = Threading.ThreadPriority.Lowest
         t.Name = "KillProcessTree"
@@ -286,9 +276,9 @@ Public Class cProcess
     End Sub
 
     '' Empty working set size
-    Private WithEvents asyncEmptyWorkingSetSize As asyncCallbackEmptyWorkingSet
+    Private WithEvents asyncEmptyWorkingSetSize As asyncCallbackProcEmptyWorkingSet
     Public Function EmptyWorkingSetSize() As Integer
-        asyncEmptyWorkingSetSize = New asyncCallbackEmptyWorkingSet(Me.Infos.Pid, _connection)
+        asyncEmptyWorkingSetSize = New asyncCallbackProcEmptyWorkingSet(Me.Infos.Pid, _connection)
         Dim t As New Threading.Thread(AddressOf asyncEmptyWorkingSetSize.Process)
         t.Priority = Threading.ThreadPriority.Lowest
         t.Name = "EmptyWorkingSetSize"
@@ -314,16 +304,16 @@ Public Class cProcess
 
     '' Unload a module
     'Public Function UnloadModule(ByVal baseAddress As Integer) As Integer
-    '    Dim t As New Threading.Thread(AddressOf asyncCallbackUnloadModule)
+    '    Dim t As New Threading.Thread(AddressOf asyncCallbackProcUnloadModule)
     '    t.Priority = Threading.ThreadPriority.Lowest
     '    t.IsBackground = True
     '    t.Start()
     'End Function
 
     ' Change affinity
-    Private WithEvents asyncSetAffinity As asyncCallbackSetAffinity
+    Private WithEvents asyncSetAffinity As asyncCallbackProcSetAffinity
     Public Function SetAffinity(ByVal affinity As Integer) As Integer
-        asyncSetAffinity = New asyncCallbackSetAffinity(Me.Infos.Pid, affinity, _connection)
+        asyncSetAffinity = New asyncCallbackProcSetAffinity(Me.Infos.Pid, affinity, _connection)
         Dim t As New Threading.Thread(AddressOf asyncSetAffinity.Process)
         t.Priority = Threading.ThreadPriority.Lowest
         t.IsBackground = True
@@ -459,6 +449,8 @@ Public Class cProcess
                 res = GetFormatedSize(Me.Infos.IOValues.OtherTransferCount)
             Case "HandleCount"
                 res = Me.Infos.HandleCount.ToString
+            Case "ThreadCount"
+                res = Me.Infos.ThreadCount.ToString
         End Select
 
         Return res
@@ -526,7 +518,7 @@ Public Class cProcess
 
     ' Return path
     Public Shared Function GetPath(ByVal pid As Integer) As String
-        Return asyncCallbackEnumerate.GetImageFile(pid)
+        Return asyncCallbackProcEnumerate.GetImageFile(pid)
     End Function
 
     ' Return Process name
@@ -540,15 +532,15 @@ Public Class cProcess
                 If _procs.ContainsKey(pid.ToString) Then
                     Return _procs.Item(pid.ToString)
                 Else
-                    Return cFile.GetFileName(asyncCallbackEnumerate.GetImageFile(pid))
+                    Return cFile.GetFileName(asyncCallbackProcEnumerate.GetImageFile(pid))
                 End If
         End Select
     End Function
 
     ' Kill a process
-    Private Shared WithEvents asyncKillShared As asyncCallbackKill
+    Private Shared WithEvents asyncKillShared As asyncCallbackProcKill
     Public Shared Function Kill(ByVal pid As Integer) As Integer
-        asyncKillShared = New asyncCallbackKill(pid, _connection)
+        asyncKillShared = New asyncCallbackProcKill(pid, _connection)
         Dim t As New Threading.Thread(AddressOf asyncKillShared.Process)
         t.Priority = Threading.ThreadPriority.Lowest
         t.IsBackground = True
@@ -563,9 +555,9 @@ Public Class cProcess
     End Sub
 
     ' Start a process
-    Private Shared WithEvents asyncStartShared As asyncCallbackNewProcess
+    Private Shared WithEvents asyncStartShared As asyncCallbackProcNewProcess
     Public Shared Function StartNewProcess(ByVal path As String) As Integer
-        asyncStartShared = New asyncCallbackNewProcess(path, _connection)
+        asyncStartShared = New asyncCallbackProcNewProcess(path, _connection)
         Dim t As New Threading.Thread(AddressOf asyncStartShared.Process)
         t.Priority = Threading.ThreadPriority.Lowest
         t.IsBackground = True
@@ -581,12 +573,12 @@ Public Class cProcess
 
 
     ' Unload a module from a process
-    Private Shared WithEvents asyncUnloadModuleShared As asyncCallbackUnloadModule
+    Private Shared WithEvents asyncUnloadModuleShared As asyncCallbackProcUnloadModule
     Public Shared Function UnLoadModuleFromProcess(ByRef aModule As cModule.MODULEENTRY32) As Integer
         Return UnLoadModuleFromProcess(aModule.th32ProcessID, aModule.modBaseAddr)
     End Function
     Public Shared Function UnLoadModuleFromProcess(ByVal pid As Integer, ByVal ModuleBaseAddress As Integer) As Integer
-        asyncUnloadModuleShared = New asyncCallbackUnloadModule(pid, ModuleBaseAddress, _connection)
+        asyncUnloadModuleShared = New asyncCallbackProcUnloadModule(pid, ModuleBaseAddress, _connection)
         Dim t As New Threading.Thread(AddressOf asyncUnloadModuleShared.Process)
         t.Priority = Threading.ThreadPriority.Lowest
         t.IsBackground = True

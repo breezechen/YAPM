@@ -9,13 +9,15 @@ Public Class frmProcessInfo
     End Function
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
 
-    Private WithEvents asyncAllNonFixedInfos As asyncCallbackGetAllNonFixedInfos
+    Private WithEvents asyncAllNonFixedInfos As asyncCallbackProcGetAllNonFixedInfos
 
     Private WithEvents curProc As cProcess
     Private Const NO_INFO_RETRIEVED As String = "N/A"
     Private m_SortingColumn As ColumnHeader
     Private WithEvents _AsyncDownload As cAsyncProcInfoDownload
     Private _asyncDlThread As Threading.Thread
+
+    Private WithEvents theConnection As New cConnection
 
     ' String search (in process image/memory) private attributes
     Private _stringSearchImmediateStop As Boolean   ' Set to true to stop listing of string in process
@@ -328,7 +330,7 @@ Public Class frmProcessInfo
         End Try
     End Sub
 
-    Private Sub frmProcessInfo_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Mybase.Load
+    Private Sub frmProcessInfo_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         ' Cool theme
         SetWindowTheme(Me.lvProcString.Handle, "explorer", Nothing)
@@ -391,6 +393,7 @@ Public Class frmProcessInfo
         'Call ShowRegions()
         'Call ShowNetwork()
 
+        Call Connect()
         Call refreshProcessTab()
 
     End Sub
@@ -399,11 +402,13 @@ Public Class frmProcessInfo
     Public Sub SetProcess(ByRef process As cProcess)
 
         curProc = process
-        asyncAllNonFixedInfos = New asyncCallbackGetAllNonFixedInfos(cProcess.Connection, curProc)
+        asyncAllNonFixedInfos = New asyncCallbackProcGetAllNonFixedInfos(cProcess.Connection, curProc)
 
         Me.Text = curProc.Infos.Name & " (" & CStr(curProc.Infos.Pid) & ")"
 
         _local = (cProcess.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
+
+        Me.lvThreads.Enabled = (cProcess.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
 
         Me.cmdAffinity.Enabled = _local
         Me.cmdPause.Enabled = _local
@@ -419,7 +424,6 @@ Public Class frmProcessInfo
         Me.lvProcNetwork.Enabled = _local
         Me.lvProcServices.Enabled = _local
         Me.lvProcString.Enabled = _local
-        Me.lvThreads.Enabled = _local
         Me.lvWindows.Enabled = _local
         Me.SplitContainerStrings.Enabled = _local
         Me.SplitContainerLog.Enabled = _local
@@ -1020,61 +1024,61 @@ Public Class frmProcessInfo
 
     Private Sub ToolStripMenuItem27_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem27.Click
         For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.Priority = cThread.ThreadPriority.Idle
+            it.SetPriority(ThreadPriorityLevel.Idle)
         Next
     End Sub
 
     Private Sub LowestToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LowestToolStripMenuItem.Click
         For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.Priority = cThread.ThreadPriority.Lowest
+            it.SetPriority(ThreadPriorityLevel.Lowest)
         Next
     End Sub
 
     Private Sub ToolStripMenuItem28_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem28.Click
         For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.Priority = cThread.ThreadPriority.BelowNormal
+            it.SetPriority(ThreadPriorityLevel.BelowNormal)
         Next
     End Sub
 
     Private Sub ToolStripMenuItem29_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem29.Click
         For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.Priority = cThread.ThreadPriority.Normal
+            it.SetPriority(ThreadPriorityLevel.Normal)
         Next
     End Sub
 
     Private Sub ToolStripMenuItem30_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem30.Click
         For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.Priority = cThread.ThreadPriority.AboveNormal
+            it.SetPriority(ThreadPriorityLevel.AboveNormal)
         Next
     End Sub
 
     Private Sub ToolStripMenuItem31_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem31.Click
         For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.Priority = cThread.ThreadPriority.Highest
+            it.SetPriority(ThreadPriorityLevel.Highest)
         Next
     End Sub
 
     Private Sub ToolStripMenuItem32_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem32.Click
         For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.Priority = cThread.ThreadPriority.Critical
+            it.SetPriority(ThreadPriorityLevel.TimeCritical)
         Next
     End Sub
 
     Private Sub lvThreads_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvThreads.MouseDown
         If e.Button = Windows.Forms.MouseButtons.Right Then
 
-            Dim p As cThread.ThreadPriority = cThread.ThreadPriority.Unknow
+            Dim p As System.Diagnostics.ThreadPriorityLevel
 
             If Me.lvThreads.SelectedItems.Count > 0 Then
-                p = Me.lvThreads.GetSelectedItem.Priority
+                p = Me.lvThreads.GetSelectedItem.Infos.Priority
             End If
-            Me.ToolStripMenuItem27.Checked = (p = cThread.ThreadPriority.Idle)
-            Me.LowestToolStripMenuItem.Checked = (p = cThread.ThreadPriority.Lowest)
-            Me.ToolStripMenuItem28.Checked = (p = cThread.ThreadPriority.BelowNormal)
-            Me.ToolStripMenuItem29.Checked = (p = cThread.ThreadPriority.Normal)
-            Me.ToolStripMenuItem30.Checked = (p = cThread.ThreadPriority.AboveNormal)
-            Me.ToolStripMenuItem31.Checked = (p = cThread.ThreadPriority.Highest)
-            Me.ToolStripMenuItem32.Checked = (p = cThread.ThreadPriority.Critical)
+            Me.ToolStripMenuItem27.Checked = (p = ThreadPriorityLevel.Idle)
+            Me.LowestToolStripMenuItem.Checked = (p = ThreadPriorityLevel.Lowest)
+            Me.ToolStripMenuItem28.Checked = (p = ThreadPriorityLevel.BelowNormal)
+            Me.ToolStripMenuItem29.Checked = (p = ThreadPriorityLevel.Normal)
+            Me.ToolStripMenuItem30.Checked = (p = ThreadPriorityLevel.AboveNormal)
+            Me.ToolStripMenuItem31.Checked = (p = ThreadPriorityLevel.Highest)
+            Me.ToolStripMenuItem32.Checked = (p = ThreadPriorityLevel.TimeCritical)
         End If
     End Sub
 
@@ -1439,44 +1443,44 @@ Public Class frmProcessInfo
 
     ' Check if there are changes about threads
     Private Sub _CheckThreads()
+        'TODO_
+        'Static _dico As New Dictionary(Of String, cThread.LightThread)
+        'Static _first As Boolean = True
+        'Dim _buffDico As New Dictionary(Of String, cThread.LightThread)
 
-        Static _dico As New Dictionary(Of String, cThread.LightThread)
-        Static _first As Boolean = True
-        Dim _buffDico As New Dictionary(Of String, cThread.LightThread)
+        'Dim _itemId() As String
+        'ReDim _itemId(0)
+        'Dim _pid(0) As Integer
+        '_pid(0) = curProc.Infos.Pid
+        'Call cThread.Enumerate(_pid, _itemId, _buffDico)
 
-        Dim _itemId() As String
-        ReDim _itemId(0)
-        Dim _pid(0) As Integer
-        _pid(0) = curProc.Infos.Pid
-        Call cThread.Enumerate(_pid, _itemId, _buffDico)
+        'If _first Then
+        '    _dico = _buffDico
+        '    _first = False
+        'End If
 
-        If _first Then
-            _dico = _buffDico
-            _first = False
-        End If
+        '' Check if there are new items
+        'If (_logCaptureMask And LogItemType.CreatedItems) = LogItemType.CreatedItems Then
+        '    For Each z As String In _itemId
+        '        If Not (_dico.ContainsKey(z)) Then
+        '            ' New item
+        '            Call addToLog("Thread created (" & _buffDico.Item(z).t.Id.ToString & ")", LogItemType.ThreadItem, True)
+        '        End If
+        '    Next
+        'End If
 
-        ' Check if there are new items
-        If (_logCaptureMask And LogItemType.CreatedItems) = LogItemType.CreatedItems Then
-            For Each z As String In _itemId
-                If Not (_dico.ContainsKey(z)) Then
-                    ' New item
-                    Call addToLog("Thread created (" & _buffDico.Item(z).t.Id.ToString & ")", LogItemType.ThreadItem, True)
-                End If
-            Next
-        End If
+        '' Check if there are deleted items
+        'If (_logCaptureMask And LogItemType.DeletedItems) = LogItemType.DeletedItems Then
+        '    For Each z As String In _dico.Keys
+        '        If Array.IndexOf(_itemId, z) < 0 Then
+        '            ' Deleted item
+        '            Call addToLog("Thread deleted (" & _dico.Item(z).t.Id.ToString & ")", LogItemType.ThreadItem, False)
+        '        End If
+        '    Next
+        'End If
 
-        ' Check if there are deleted items
-        If (_logCaptureMask And LogItemType.DeletedItems) = LogItemType.DeletedItems Then
-            For Each z As String In _dico.Keys
-                If Array.IndexOf(_itemId, z) < 0 Then
-                    ' Deleted item
-                    Call addToLog("Thread deleted (" & _dico.Item(z).t.Id.ToString & ")", LogItemType.ThreadItem, False)
-                End If
-            Next
-        End If
-
-        ' Save dico
-        _dico = _buffDico
+        '' Save dico
+        '_dico = _buffDico
 
     End Sub
 
@@ -1916,5 +1920,21 @@ Public Class frmProcessInfo
         Else
             ' ERROR HERE
         End If
+    End Sub
+
+    ' Connection
+    Public Sub Connect()
+        ' Connect providers
+        theConnection.CopyFromInstance(frmMain.theConnection)
+        Me.lvThreads.ConnectionObj = theConnection
+        theConnection.Connect()
+    End Sub
+
+    Private Sub theConnection_Connected() Handles theConnection.Connected
+        '
+    End Sub
+
+    Private Sub theConnection_Disconnected() Handles theConnection.Disconnected
+        '
     End Sub
 End Class

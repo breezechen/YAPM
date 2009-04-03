@@ -330,7 +330,7 @@ Public Class processList
     Private Sub Connect()
         _first = True
         _processConnection.ConnectionObj = _connectionObject
-        asyncCallbackEnumerate.ClearDico()
+        asyncCallbackProcEnumerate.ClearDico()
         _processConnection.Connect()
         cProcess.Connection = _processConnection
     End Sub

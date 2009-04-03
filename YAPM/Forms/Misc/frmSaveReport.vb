@@ -358,31 +358,32 @@ Public Class frmSaveReport
                             Try
                                 ' Try to access to the thread (avoid to write lines if thread
                                 ' is deleted)
-                                Dim suseless As String = cm.PriorityString
+                                'TODO_
+                                'Dim suseless As String = cm.PriorityString
 
-                                c = "ProcessId" & CStr(cm.Id) & "   --   thread : " & it.Text & vbNewLine
-                                c &= "Priority" & vbTab & vbTab
-                                c &= cm.PriorityString & vbNewLine
-                                c &= "Base priority " & vbTab & vbTab
-                                c &= CStr(cm.BasePriority) & vbNewLine
-                                c &= "State" & vbTab & vbTab
-                                c &= cm.ThreadState & vbNewLine
-                                c &= "Wait reason" & vbTab & vbTab
-                                c &= cm.WaitReason & vbNewLine
-                                c &= "Start address" & vbTab & vbTab
-                                c &= CStr(cm.StartAddress) & vbNewLine
-                                c &= "PriorityBoostEnabled" & vbTab & vbTab
-                                c &= CStr(cm.PriorityBoostEnabled) & vbNewLine
-                                c &= "Start time" & vbTab & vbTab
-                                c &= cm.StartTime.ToLongDateString & " -- " & cm.StartTime.ToLongTimeString & vbNewLine
-                                c &= "TotalProcessorTime" & vbTab & vbTab
-                                c &= cm.TotalProcessorTime.ToString & vbNewLine
-                                c &= "PrivilegedProcessorTime" & vbTab & vbTab
-                                c &= cm.PrivilegedProcessorTime.ToString & vbNewLine
-                                c &= "UserProcessorTime" & vbTab & vbTab
-                                c &= CStr(cm.UserProcessorTime.ToString) & vbNewLine
-                                c &= "ProcessorAffinity" & vbTab & vbTab
-                                c &= CStr(cm.ProcessorAffinity) & vbNewLine & vbNewLine & vbNewLine
+                                'c = "ProcessId" & CStr(cm.Id) & "   --   thread : " & it.Text & vbNewLine
+                                'c &= "Priority" & vbTab & vbTab
+                                'c &= cm.PriorityString & vbNewLine
+                                'c &= "Base priority " & vbTab & vbTab
+                                'c &= CStr(cm.BasePriority) & vbNewLine
+                                'c &= "State" & vbTab & vbTab
+                                'c &= cm.ThreadState & vbNewLine
+                                'c &= "Wait reason" & vbTab & vbTab
+                                'c &= cm.WaitReason & vbNewLine
+                                'c &= "Start address" & vbTab & vbTab
+                                'c &= CStr(cm.StartAddress) & vbNewLine
+                                'c &= "PriorityBoostEnabled" & vbTab & vbTab
+                                'c &= CStr(cm.PriorityBoostEnabled) & vbNewLine
+                                'c &= "Start time" & vbTab & vbTab
+                                'c &= cm.StartTime.ToLongDateString & " -- " & cm.StartTime.ToLongTimeString & vbNewLine
+                                'c &= "TotalProcessorTime" & vbTab & vbTab
+                                'c &= cm.TotalProcessorTime.ToString & vbNewLine
+                                'c &= "PrivilegedProcessorTime" & vbTab & vbTab
+                                'c &= cm.PrivilegedProcessorTime.ToString & vbNewLine
+                                'c &= "UserProcessorTime" & vbTab & vbTab
+                                'c &= CStr(cm.UserProcessorTime.ToString) & vbNewLine
+                                'c &= "ProcessorAffinity" & vbTab & vbTab
+                                'c &= CStr(cm.ProcessorAffinity) & vbNewLine & vbNewLine & vbNewLine
                             Catch ex As Exception
                                 'Call Me.ReportFailed(ex)
                             End Try
@@ -407,42 +408,41 @@ Public Class frmSaveReport
                             Try
                                 ' Try to access to the thread (avoid to write lines if thread
                                 ' is deleted)
-                                Dim suseless As String = cm.PriorityString
+                                Dim suseless As String = cm.Infos.Priority.ToString
 
-                                _html.AppendTitleLine("ProcessId" & CStr(cm.Id) & "   --   thread : " & it.Text)
+                                _html.AppendTitleLine("ProcessId" & CStr(cm.Infos.Id) & "   --   thread : " & it.Text)
                                 Dim _lin(1) As String
                                 _lin(0) = "Priority"
-                                _lin(1) = cm.PriorityString
+                                _lin(1) = cm.Infos.Priority.ToString
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Base priority "
-                                _lin(1) = CStr(cm.BasePriority)
+                                _lin(1) = cm.Infos.BasePriority.ToString
                                 _html.AppendLine(_lin)
                                 _lin(0) = "State"
-                                _lin(1) = cm.ThreadState
+                                _lin(1) = cm.Infos.State.ToString
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Wait reason"
-                                _lin(1) = cm.WaitReason
+                                _lin(1) = cm.Infos.WaitReason.ToString
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Start address"
-                                _lin(1) = CStr(cm.StartAddress)
-                                _html.AppendLine(_lin)
-                                _lin(0) = "PriorityBoostEnabled"
-                                _lin(1) = CStr(cm.PriorityBoostEnabled)
+                                _lin(1) = "0x" & cm.Infos.StartAddress.ToString("x")
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Start time"
-                                _lin(1) = cm.StartTime.ToLongDateString & " -- " & cm.StartTime.ToLongTimeString
-                                _html.AppendLine(_lin)
-                                _lin(0) = "TotalProcessorTime"
-                                _lin(1) = cm.TotalProcessorTime.ToString
-                                _html.AppendLine(_lin)
-                                _lin(0) = "PrivilegedProcessorTime"
-                                _lin(1) = cm.PrivilegedProcessorTime.ToString
-                                _html.AppendLine(_lin)
-                                _lin(0) = "UserProcessorTime"
-                                _lin(1) = CStr(cm.UserProcessorTime.ToString)
-                                _html.AppendLine(_lin)
+                                'TODO_
+                                ' ADD MISSING PROPERTIES
+                                '_lin(1) = cm.StartTime.ToLongDateString & " -- " & cm.StartTime.ToLongTimeString
+                                '_html.AppendLine(_lin)
+                                '_lin(0) = "TotalProcessorTime"
+                                '_lin(1) = cm.TotalProcessorTime.ToString
+                                '_html.AppendLine(_lin)
+                                '_lin(0) = "PrivilegedProcessorTime"
+                                '_lin(1) = cm.PrivilegedProcessorTime.ToString
+                                '_html.AppendLine(_lin)
+                                '_lin(0) = "UserProcessorTime"
+                                '_lin(1) = CStr(cm.UserProcessorTime.ToString)
+                                '_html.AppendLine(_lin)
                                 _lin(0) = "ProcessorAffinity"
-                                _lin(1) = CStr(cm.ProcessorAffinity)
+                                _lin(1) = CStr(cm.Infos.AffinityMask)
                                 _html.AppendLine(_lin)
 
                                 x += 1

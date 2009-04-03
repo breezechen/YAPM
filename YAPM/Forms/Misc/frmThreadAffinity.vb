@@ -64,7 +64,7 @@ Public Class frmThreadAffinity
             Next
         Else
             ' Then only one thread
-            Dim m As Integer = threads(0).ProcessorAffinity
+            Dim m As Integer = threads(0).Infos.AffinityMask
             Me.chk0.Checked = ((m And 1) = 1)
             Me.chk1.Checked = ((m And 2) = 2)
             Me.chk2.Checked = ((m And 4) = 4)
@@ -164,7 +164,7 @@ Public Class frmThreadAffinity
 
         ' Apply new mask
         For Each c As cThread In threads
-            c.ProcessorAffinity = m
+            c.SetAffinity(m)
         Next
 
         Me.Close()

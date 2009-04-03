@@ -4,7 +4,7 @@ Imports CoreFunc.cProcessConnection
 Imports System.Runtime.InteropServices
 Imports System.Text
 
-Public Class asyncCallbackGetNonFixedInfos
+Public Class asyncCallbackProcGetNonFixedInfos
 
     Private _pid As Integer
     Private _handle As Integer

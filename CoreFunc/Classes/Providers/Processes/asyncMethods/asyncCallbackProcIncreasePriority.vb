@@ -4,7 +4,7 @@ Imports CoreFunc.cProcessConnection
 Imports System.Runtime.InteropServices
 Imports System.Text
 
-Public Class asyncCallbackIncreasePriority
+Public Class asyncCallbackProcIncreasePriority
 
     Private _pid As Integer
     Private _level As ProcessPriorityClass

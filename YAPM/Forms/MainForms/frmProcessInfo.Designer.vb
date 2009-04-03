@@ -32,6 +32,7 @@ Partial Class frmProcessInfo
         Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim CConnection1 As CoreFunc.cConnection = New CoreFunc.cConnection
         Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Threads", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Windows", System.Windows.Forms.HorizontalAlignment.Left)
@@ -227,11 +228,14 @@ Partial Class frmProcessInfo
         Me.TabPage11 = New System.Windows.Forms.TabPage
         Me.lvThreads = New Providers.threadList
         Me.ColumnHeader32 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader33 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader34 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader35 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader36 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader37 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader38 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
         Me.menuThread = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem23 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem24 = New System.Windows.Forms.ToolStripMenuItem
@@ -1568,6 +1572,7 @@ Partial Class frmProcessInfo
         'lvProcMem
         '
         Me.lvProcMem.AllowColumnReorder = True
+        Me.lvProcMem.CatchErrors = False
         Me.lvProcMem.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader53, Me.ColumnHeader54, Me.ColumnHeader55, Me.ColumnHeader56})
         Me.lvProcMem.ContextMenuStrip = Me.menuProcMem
         Me.lvProcMem.Dock = System.Windows.Forms.DockStyle.Fill
@@ -1742,6 +1747,7 @@ Partial Class frmProcessInfo
         'lvProcServices
         '
         Me.lvProcServices.AllowColumnReorder = True
+        Me.lvProcServices.CatchErrors = False
         Me.lvProcServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader19})
         Me.lvProcServices.ContextMenuStrip = Me.menuProcServ
         Me.lvProcServices.Dock = System.Windows.Forms.DockStyle.Fill
@@ -1833,6 +1839,7 @@ Partial Class frmProcessInfo
         'lvProcNetwork
         '
         Me.lvProcNetwork.AllowColumnReorder = True
+        Me.lvProcNetwork.CatchErrors = False
         Me.lvProcNetwork.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader49, Me.ColumnHeader57, Me.ColumnHeader58, Me.ColumnHeader59})
         Me.lvProcNetwork.ContextMenuStrip = Me.menuNetwork
         Me.lvProcNetwork.Dock = System.Windows.Forms.DockStyle.Fill
@@ -2093,6 +2100,7 @@ Partial Class frmProcessInfo
         'lvModules
         '
         Me.lvModules.AllowColumnReorder = True
+        Me.lvModules.CatchErrors = False
         Me.lvModules.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader29, Me.ColumnHeader43, Me.ColumnHeader44, Me.ColumnHeader45, Me.ColumnHeader46, Me.ColumnHeader1})
         Me.lvModules.ContextMenuStrip = Me.menuModule
         Me.lvModules.Dock = System.Windows.Forms.DockStyle.Fill
@@ -2154,7 +2162,7 @@ Partial Class frmProcessInfo
         '
         Me.menuModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowFileDetailsToolStripMenuItem, Me.ToolStripMenuItem36, Me.ToolStripMenuItem39, Me.GoogleSearchToolStripMenuItem2, Me.ToolStripMenuItem1, Me.ViewMemoryToolStripMenuItem, Me.ToolStripMenuItem11, Me.ChooseColumnsToolStripMenuItem3})
         Me.menuModule.Name = "menuProc"
-        Me.menuModule.Size = New System.Drawing.Size(173, 154)
+        Me.menuModule.Size = New System.Drawing.Size(173, 132)
         '
         'ShowFileDetailsToolStripMenuItem
         '
@@ -2220,7 +2228,10 @@ Partial Class frmProcessInfo
         'lvThreads
         '
         Me.lvThreads.AllowColumnReorder = True
-        Me.lvThreads.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader34, Me.ColumnHeader35, Me.ColumnHeader36, Me.ColumnHeader37, Me.ColumnHeader38})
+        Me.lvThreads.CatchErrors = False
+        Me.lvThreads.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader33, Me.ColumnHeader34, Me.ColumnHeader35, Me.ColumnHeader36, Me.ColumnHeader37, Me.ColumnHeader38, Me.ColumnHeader6, Me.ColumnHeader11})
+        CConnection1.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.lvThreads.ConnectionObj = CConnection1
         Me.lvThreads.ContextMenuStrip = Me.menuThread
         Me.lvThreads.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvThreads.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2235,15 +2246,19 @@ Partial Class frmProcessInfo
         Me.lvThreads.Name = "lvThreads"
         Me.lvThreads.OverriddenDoubleBuffered = True
         Me.lvThreads.ProcessId = Nothing
-        Me.lvThreads.ShowUnNamed = False
         Me.lvThreads.Size = New System.Drawing.Size(647, 277)
-        Me.lvThreads.TabIndex = 32
+        Me.lvThreads.TabIndex = 4
         Me.lvThreads.UseCompatibleStateImageBehavior = False
         Me.lvThreads.View = System.Windows.Forms.View.Details
         '
         'ColumnHeader32
         '
         Me.ColumnHeader32.Text = "Id"
+        '
+        'ColumnHeader33
+        '
+        Me.ColumnHeader33.Text = "ProcessId"
+        Me.ColumnHeader33.Width = 78
         '
         'ColumnHeader34
         '
@@ -2262,13 +2277,23 @@ Partial Class frmProcessInfo
         '
         'ColumnHeader37
         '
-        Me.ColumnHeader37.Text = "StartTime"
-        Me.ColumnHeader37.Width = 200
+        Me.ColumnHeader37.Text = "CreateTime"
+        Me.ColumnHeader37.Width = 119
         '
         'ColumnHeader38
         '
-        Me.ColumnHeader38.Text = "TotalProcessorTime"
+        Me.ColumnHeader38.Text = "TotalTime"
         Me.ColumnHeader38.Width = 200
+        '
+        'ColumnHeader6
+        '
+        Me.ColumnHeader6.Text = "StartAddress"
+        Me.ColumnHeader6.Width = 100
+        '
+        'ColumnHeader11
+        '
+        Me.ColumnHeader11.Text = "ContextSwitchCount"
+        Me.ColumnHeader11.Width = 200
         '
         'menuThread
         '
@@ -2385,6 +2410,7 @@ Partial Class frmProcessInfo
         'lvWindows
         '
         Me.lvWindows.AllowColumnReorder = True
+        Me.lvWindows.CatchErrors = False
         Me.lvWindows.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader30, Me.ColumnHeader31, Me.ColumnHeader39, Me.ColumnHeader40, Me.ColumnHeader41, Me.ColumnHeader42})
         Me.lvWindows.ContextMenuStrip = Me.menuWindow
         Me.lvWindows.Dock = System.Windows.Forms.DockStyle.Fill
@@ -2564,6 +2590,7 @@ Partial Class frmProcessInfo
         'lvHandles
         '
         Me.lvHandles.AllowColumnReorder = True
+        Me.lvHandles.CatchErrors = False
         Me.lvHandles.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader24, Me.ColumnHeader25, Me.ColumnHeader26, Me.ColumnHeader27, Me.ColumnHeader28, Me.ColumnHeader15})
         Me.lvHandles.ContextMenuStrip = Me.menuHandles
         Me.lvHandles.Dock = System.Windows.Forms.DockStyle.Fill
@@ -3121,13 +3148,6 @@ Partial Class frmProcessInfo
     Friend WithEvents ToolStripMenuItem36 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem39 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents GoogleSearchToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents lvThreads As Providers.threadList
-    Friend WithEvents ColumnHeader32 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader34 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader35 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader36 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader37 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader38 As System.Windows.Forms.ColumnHeader
     Friend WithEvents menuThread As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem23 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem24 As System.Windows.Forms.ToolStripMenuItem
@@ -3234,4 +3254,14 @@ Partial Class frmProcessInfo
     Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
     Friend WithEvents MainToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RefreshToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents lvThreads As Providers.threadList
+    Friend WithEvents ColumnHeader32 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader33 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader34 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader35 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader36 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader37 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader38 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader6 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader11 As System.Windows.Forms.ColumnHeader
 End Class

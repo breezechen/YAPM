@@ -6,7 +6,7 @@ Imports System.Text
 Imports System.Windows.Forms
 Imports System.Management
 
-Public Class asyncCallbackEnumerate
+Public Class asyncCallbackProcEnumerate
 
     ' Contains devices (logical drives) and their corresponding path
     ' e.g. :        /Device/Harddisk1/...       , C:
@@ -15,6 +15,8 @@ Public Class asyncCallbackEnumerate
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
     Public Shared dicoNewProcesses As New Dictionary(Of Integer, Boolean)
+    ' PID <-> (PID-TID <-> THREAD)
+    Public Shared AvailableThreads As New Dictionary(Of Integer, Dictionary(Of String, threadInfos))
 
     Public Structure poolObj
         Public ctrl As Control
@@ -29,10 +31,13 @@ Public Class asyncCallbackEnumerate
 
     Public Shared Sub ClearDico()
         dicoNewProcesses.Clear()
+        AvailableThreads.Clear()
     End Sub
 
     Public Shared Sub Process(ByVal thePoolObj As Object)
         SyncLock dicoNewProcesses
+
+            AvailableThreads.Clear()
 
             Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
             If pObj.con.ConnectionObj.IsConnected = False Then
@@ -156,8 +161,28 @@ Public Class asyncCallbackEnumerate
                             offset), GetType(API.SYSTEM_PROCESS_INFORMATION)),  _
                             API.SYSTEM_PROCESS_INFORMATION)
 
-                        ' Do we have to get fixed infos ?
                         Dim _procInfos As New processInfos(obj)
+
+                        For j As Integer = 0 To obj.NumberOfThreads - 1
+
+                            Dim _off As Integer = ptr.ToInt32 + offset + Marshal.SizeOf(GetType(API.SYSTEM_PROCESS_INFORMATION)) + j _
+                                    * Marshal.SizeOf(GetType(API.SYSTEM_THREAD_INFORMATION))
+
+                            Dim thread As API.SYSTEM_THREAD_INFORMATION = _
+                                CType(Marshal.PtrToStructure(New IntPtr(_off), _
+                                    GetType(API.SYSTEM_THREAD_INFORMATION)),  _
+                                    API.SYSTEM_THREAD_INFORMATION)
+
+                            Dim _key As String = thread.ClientId.UniqueThread.ToString & "-" & thread.ClientId.UniqueProcess.ToString
+                            Dim _th As New threadInfos(thread)
+                            If _procInfos.Threads.ContainsKey(_key) = False Then
+                                _procInfos.Threads.Add(_key, _th)
+                            End If
+                        Next
+                        AvailableThreads.Add(obj.ProcessId, _procInfos.Threads)
+
+
+                        ' Do we have to get fixed infos ?
                         If dicoNewProcesses.ContainsKey(obj.ProcessId) = False Then
 
                             Dim _path As String = GetPath(obj.ProcessId)

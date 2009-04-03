@@ -5,7 +5,7 @@ Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Windows.Forms
 
-Public Class asyncCallbackGetAllNonFixedInfos
+Public Class asyncCallbackProcGetAllNonFixedInfos
 
     Public Event HasGotAllNonFixedInfos(ByVal Success As Boolean, ByRef newInfos As API.SYSTEM_PROCESS_INFORMATION, ByVal msg As String)
 

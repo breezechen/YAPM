@@ -27,15 +27,12 @@ Imports System.Management
 Imports System.Net.Sockets
 Imports System.Text
 
-Public Class cProcessConnection
+Public Class cThreadConnection
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
     ' We will invoke this control
     Private _control As Control
-
-    ' For processor count
-    Private Shared _processors As Integer = 1
 
     ' For WMI
     Friend wmiSearcher As Management.ManagementObjectSearcher
@@ -49,21 +46,11 @@ Public Class cProcessConnection
 
     Public Delegate Sub ConnectedEventHandler(ByVal Success As Boolean)
     Public Delegate Sub DisconnectedEventHandler(ByVal Success As Boolean)
-    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, processInfos), ByVal errorMessage As String)
+    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, threadInfos), ByVal errorMessage As String)
 
     Public Connected As ConnectedEventHandler
     Public Disconnected As DisconnectedEventHandler
     Public HasEnumerated As HasEnumeratedEventHandler
-
-#End Region
-
-#Region "Properties"
-
-    Public Shared ReadOnly Property ProcessorCount() As Integer
-        Get
-            Return _processors
-        End Get
-    End Property
 
 #End Region
 
@@ -113,6 +100,7 @@ Public Class cProcessConnection
                 __con.Username = _conObj.WmiParameters.userName
 
                 Try
+                    'TOCHANGE
                     wmiSearcher = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Process")
                     wmiSearcher.Scope = New Management.ManagementScope("\\" & _conObj.WmiParameters.serverName & "\root\cimv2", __con)
                     _connected = True
@@ -124,25 +112,6 @@ Public Class cProcessConnection
                 ' Local
                 _connected = True
                 _control.Invoke(Connected, True)
-        End Select
-
-
-        ' Get processor count
-        Select Case _conObj.ConnectionType
-            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-
-            Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
-                Dim objSearcherSystem = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Processor")
-                objSearcherSystem.Scope = wmiSearcher.Scope
-                Dim _count As Integer = 0
-                For Each res As Management.ManagementObject In objSearcherSystem.Get
-                    _count += 1
-                Next
-                _processors = _count
-
-            Case Else
-                ' Local
-                _processors = cSystemInfo.GetProcessorCount
         End Select
 
     End Sub
@@ -171,14 +140,14 @@ Public Class cProcessConnection
 
 #End Region
 
-#Region "Enumerate processes"
+#Region "Enumerate threads"
 
-    ' Enumerate processes
-    Public Function Enumerate(ByVal getFixedInfos As Boolean) As Integer
+    ' Enumerate threads
+    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid() As Integer) As Integer
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
                 System.Threading.WaitCallback(AddressOf _
-                asyncCallbackProcEnumerate.Process), New  _
-                asyncCallbackProcEnumerate.poolObj(_control, HasEnumerated, Me))
+                asyncCallbackThreadEnumerate.Process), New  _
+                asyncCallbackThreadEnumerate.poolObj(_control, HasEnumerated, Me, pid))
     End Function
 
 #End Region
