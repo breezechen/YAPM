@@ -2615,8 +2615,7 @@ Public Class frmMain
             x += 1
         Next
 
-        Dim frm As New frmProcessAffinity
-        frm.Process = c
+        Dim frm As New frmProcessAffinity(c)
         frm.ShowDialog()
 
     End Sub

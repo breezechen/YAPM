@@ -92,6 +92,12 @@ Public Class cProcess
         End Get
     End Property
 
+    Public ReadOnly Property ProcessorCount() As Integer
+        Get
+            Return _processors
+        End Get
+    End Property
+
     ' Different kind of property, because it's changed by the call
     ' of aVariable = aProcess.CpuUsage
     Public ReadOnly Property CpuUsage() As Double
@@ -121,9 +127,11 @@ Public Class cProcess
     ' Merge current infos and new infos
     Public Sub Merge(ByRef Proc As processInfos)
         _processInfos.Merge(Proc)
+        Call RefreshSpecialInformations()
     End Sub
     Public Sub Merge(ByRef Proc As API.SYSTEM_PROCESS_INFORMATION)
         _processInfos.Merge(Proc)
+        Call RefreshSpecialInformations()
     End Sub
 
 #Region "Special informations (GDI, affinity) and special refresh"
@@ -132,7 +140,7 @@ Public Class cProcess
     ' For now IT IS NOT ASYNC
     ' Because create ~50 threads/sec is not really cool
     Private WithEvents asyncNonFixed As asyncCallbackGetNonFixedInfos
-    Public Sub Refresh()
+    Private Sub RefreshSpecialInformations()
         Select Case _connection.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 

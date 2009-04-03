@@ -1901,8 +1901,7 @@ Public Class frmProcessInfo
     Private Sub cmdAffinity_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdAffinity.Click
         Dim c(0) As cProcess
         c(0) = curProc
-        Dim frm As New frmProcessAffinity
-        frm.Process = c
+        Dim frm As New frmProcessAffinity(c)
         frm.ShowDialog()
     End Sub
 

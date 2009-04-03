@@ -4,12 +4,11 @@ Public Class frmProcessAffinity
 
     Private proc As cProcess()
 
-    Public WriteOnly Property Process() As cProcess()
-        Set(ByVal value As cProcess())
-            proc = value
-        End Set
-    End Property
-    
+    Public Sub New(ByRef cProcs() As cProcess)
+        InitializeComponent()
+        proc = cProcs
+    End Sub
+
     Private Sub frmProcessAffinity_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         If proc Is Nothing OrElse proc.Length = 0 Then
@@ -18,7 +17,7 @@ Public Class frmProcessAffinity
         End If
 
         ' Get number of processor of current machine
-        Dim _procCount As Integer = 0 'TODOproc(0).ProcessorCount - 1
+        Dim _procCount As Integer = proc(0).ProcessorCount - 1
 
         ' Set checkboxes enable property
         If _procCount >= 1 Then Me.chk1.Enabled = True
@@ -63,7 +62,7 @@ Public Class frmProcessAffinity
             Next
         Else
             ' Then only one process
-            Dim m As Integer = 0 'TODOproc(0).AffinityMask
+            Dim m As Integer = proc(0).Infos.AffinityMask
             Me.chk0.Checked = ((m And 1) = 1)
             Me.chk1.Checked = ((m And 2) = 2)
             Me.chk2.Checked = ((m And 4) = 4)
