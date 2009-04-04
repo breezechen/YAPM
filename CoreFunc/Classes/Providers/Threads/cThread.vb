@@ -244,7 +244,7 @@ Public Class cThread
 
         Select Case info
             Case "Priority"
-                res = Me.Infos.Priority.ToString  'threadInfos.getPriorityClass(Me.Infos.Priority).ToString
+                res = CInt(Me.Infos.Priority).ToString  'threadInfos.getPriorityClass(Me.Infos.Priority).ToString
             Case "State"
                 res = Me.Infos.State.ToString
             Case "WaitReason"
