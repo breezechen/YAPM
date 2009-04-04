@@ -70,15 +70,15 @@ Public Class cModule
     ' Increase priority
     Private WithEvents asyncUModule As asyncCallbackModuleUnload
     Public Function UnloadModule() As Integer
-        asyncUModule = New asyncCallbackModuleUnload(Me.Infos.processid, Me.Infos.BaseAddress, _connection)
+        asyncUModule = New asyncCallbackModuleUnload(Me.Infos.ProcessId, Me.Infos.BaseAddress, Me.Infos.Name, _connection)
         Dim t As New Threading.Thread(AddressOf asyncUModule.Process)
         t.Priority = Threading.ThreadPriority.Lowest
         t.Name = "IncreasePriority"
         t.IsBackground = True
         t.Start()
     End Function
-    Private Sub unloadModuleDone(ByVal success As Boolean, ByVal name As String, ByVal msg As String) Handles asyncUModule.HasUnloadedModule
-        If success = False Then
+    Private Sub unloadModuleDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String) Handles asyncUModule.HasUnloadedModule
+        If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not unload module " & name)
         End If
