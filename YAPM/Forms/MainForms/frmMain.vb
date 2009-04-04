@@ -453,9 +453,8 @@ Public Class frmMain
             End With
         End Try
 
+        ' Connect to the local machine
         theConnection.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        'Me.lvProcess.ConnectionObj = theConnection
-        'theConnection.Connect()
         Call ConnectToMachine()
 
         Me.timerMonitoring.Enabled = True
@@ -1161,7 +1160,7 @@ Public Class frmMain
             End If
         End If
         For Each ch As cHandle In Me.lvHandles.GetSelectedItems
-            Call handles_Renamed.CloseProcessLocalHandle(ch.ProcessID, ch.Handle)
+            Call handles_Renamed.CloseProcessLocalHandle(ch.Infos.ProcessID, ch.Infos.Handle)
         Next
     End Sub
 
@@ -1340,7 +1339,7 @@ Public Class frmMain
         ' Select processes associated to selected handles results
         If Me.lvHandles.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
         For Each it As cHandle In Me.lvHandles.GetSelectedItems
-            Dim pid As Integer = it.ProcessID
+            Dim pid As Integer = it.Infos.ProcessID
             Dim it2 As ListViewItem
             For Each it2 In Me.lvProcess.Items
                 Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
@@ -4332,6 +4331,7 @@ Public Class frmMain
         Me.lvProcess.ConnectionObj = theConnection
         Me.lvThreads.ConnectionObj = theConnection
         Me.lvModules.ConnectionObj = theConnection
+        Me.lvHandles.ConnectionObj = theConnection
         Me.theConnection.Connect()
 
         ' Disable some controls depending the connection type

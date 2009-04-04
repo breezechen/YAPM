@@ -1232,7 +1232,7 @@ Public Class frmProcessInfo
             End If
         End If
         For Each ch As cHandle In Me.lvHandles.GetSelectedItems
-            Call frmMain.handles_Renamed.CloseProcessLocalHandle(ch.ProcessID, ch.Handle)
+            Call frmMain.handles_Renamed.CloseProcessLocalHandle(ch.Infos.ProcessID, ch.Infos.Handle)
         Next
     End Sub
 
@@ -1400,46 +1400,46 @@ Public Class frmProcessInfo
 
     ' Check if there are changes about handles
     Private Sub _CheckHandles()
+        'TODO_
+        'Static _dico As New Dictionary(Of String, cHandle.LightHandle)
+        'Static _first As Boolean = True
+        'Dim _buffDico As New Dictionary(Of String, cHandle.LightHandle)
 
-        Static _dico As New Dictionary(Of String, cHandle.LightHandle)
-        Static _first As Boolean = True
-        Dim _buffDico As New Dictionary(Of String, cHandle.LightHandle)
+        'Dim _itemId() As String
+        'ReDim _itemId(0)
+        'Dim _pid(0) As Integer
+        '_pid(0) = curProc.Infos.Pid
+        'Call cHandle.Enumerate(_pid, True, _itemId, _buffDico)
 
-        Dim _itemId() As String
-        ReDim _itemId(0)
-        Dim _pid(0) As Integer
-        _pid(0) = curProc.Infos.Pid
-        Call cHandle.Enumerate(_pid, True, _itemId, _buffDico)
+        'If _first Then
+        '    _dico = _buffDico
+        '    _first = False
+        'End If
 
-        If _first Then
-            _dico = _buffDico
-            _first = False
-        End If
+        '' Check if there are new items
+        'If (_logCaptureMask And LogItemType.CreatedItems) = LogItemType.CreatedItems Then
+        '    For Each z As String In _itemId
+        '        If Not (_dico.ContainsKey(z)) Then
+        '            ' New item
+        '            Dim lh As cHandle.LightHandle = _buffDico.Item(z)
+        '            Call addToLog("Handle created (" & lh.handle.ToString & " -- " & lh.type & " -- " & lh.name & ")", LogItemType.HandleItem, True)
+        '        End If
+        '    Next
+        'End If
 
-        ' Check if there are new items
-        If (_logCaptureMask And LogItemType.CreatedItems) = LogItemType.CreatedItems Then
-            For Each z As String In _itemId
-                If Not (_dico.ContainsKey(z)) Then
-                    ' New item
-                    Dim lh As cHandle.LightHandle = _buffDico.Item(z)
-                    Call addToLog("Handle created (" & lh.handle.ToString & " -- " & lh.type & " -- " & lh.name & ")", LogItemType.HandleItem, True)
-                End If
-            Next
-        End If
+        '' Check if there are deleted items
+        'If (_logCaptureMask And LogItemType.DeletedItems) = LogItemType.DeletedItems Then
+        '    For Each z As String In _dico.Keys
+        '        If Array.IndexOf(_itemId, z) < 0 Then
+        '            ' Deleted item
+        '            Dim lh As cHandle.LightHandle = _dico.Item(z)
+        '            Call addToLog("Handle created (" & lh.handle.ToString & " -- " & lh.type & " -- " & lh.name & ")", LogItemType.HandleItem, False)
+        '        End If
+        '    Next
+        'End If
 
-        ' Check if there are deleted items
-        If (_logCaptureMask And LogItemType.DeletedItems) = LogItemType.DeletedItems Then
-            For Each z As String In _dico.Keys
-                If Array.IndexOf(_itemId, z) < 0 Then
-                    ' Deleted item
-                    Dim lh As cHandle.LightHandle = _dico.Item(z)
-                    Call addToLog("Handle created (" & lh.handle.ToString & " -- " & lh.type & " -- " & lh.name & ")", LogItemType.HandleItem, False)
-                End If
-            Next
-        End If
-
-        ' Save dico
-        _dico = _buffDico
+        '' Save dico
+        '_dico = _buffDico
 
     End Sub
 
@@ -1930,6 +1930,7 @@ Public Class frmProcessInfo
         theConnection.CopyFromInstance(frmMain.theConnection)
         Me.lvThreads.ConnectionObj = theConnection
         Me.lvModules.ConnectionObj = theConnection
+        Me.lvHandles.ConnectionObj = theConnection
         theConnection.Connect()
     End Sub
 
