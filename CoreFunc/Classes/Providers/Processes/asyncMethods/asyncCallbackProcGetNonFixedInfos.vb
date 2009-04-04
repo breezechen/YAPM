@@ -49,11 +49,9 @@ Public Class asyncCallbackProcGetNonFixedInfos
     ' Return affinity
     Private Function GetAffinity(ByVal _pid As Integer) As Integer
         If _pid > 4 Then
-            Dim _h As Integer = API.OpenProcess(cProcessConnection.ProcessMinRights, 0, _pid)
             Dim pbi As New API.PROCESS_BASIC_INFORMATION
             Dim ret As Integer
-            API.ZwQueryInformationProcess(_h, API.PROCESS_INFORMATION_CLASS.ProcessBasicInformation, pbi, Marshal.SizeOf(pbi), ret)
-            API.CloseHandle(_h)
+            API.ZwQueryInformationProcess(_handle, API.PROCESS_INFORMATION_CLASS.ProcessBasicInformation, pbi, Marshal.SizeOf(pbi), ret)
             Return pbi.AffinityMask
         Else
             Return 0

@@ -202,7 +202,7 @@ Public Class threadInfos
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties() As String()
-        Dim s(12) As String
+        Dim s(13) As String
 
         s(0) = "Priority"
         s(1) = "State"
@@ -214,9 +214,10 @@ Public Class threadInfos
         s(7) = "TotalTime"
         s(8) = "StartAddress"
         s(9) = "BasePriority"
-        s(10) = "ContextSwitchCount"
-        s(11) = "ContextSwitchDelta"
-        s(12) = "ProcessId"
+        s(10) = "AffinityMask"
+        s(11) = "ContextSwitchCount"
+        s(12) = "ContextSwitchDelta"
+        s(13) = "ProcessId"
 
         Return s
     End Function

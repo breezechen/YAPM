@@ -51,7 +51,7 @@ Public Class cThread
         _connection = Connection
         ' Get a handle if local
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            _handleQueryInfo = API.OpenThread(cThreadConnection.ThreadMinRights, 0, infos.Id)
+            _handleQueryInfo = API.OpenThread(API.THREAD_RIGHTS.THREAD_QUERY_INFORMATION, 0, infos.Id)
         End If
     End Sub
 
@@ -79,10 +79,38 @@ Public Class cThread
     ' Merge current infos and new infos
     Public Sub Merge(ByRef Thr As threadInfos)
         _threadInfos.Merge(Thr)
+        Call RefreshSpecialInformations()
     End Sub
     Public Sub Merge(ByRef Thr As API.SYSTEM_THREAD_INFORMATION)
         _threadInfos.Merge(Thr)
+        Call RefreshSpecialInformations()
     End Sub
+
+#Region "Special informations (affinity)"
+
+    ' Refresh some non fixed infos
+    ' For now IT IS NOT ASYNC
+    ' Because create ~50 threads/sec is not really cool
+    Private WithEvents asyncNonFixed As asyncCallbackThreadGetOtherInfos
+    Private Sub RefreshSpecialInformations()
+        Select Case _connection.ConnectionObj.ConnectionType
+            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+
+            Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+
+            Case Else
+                ' Local
+                If asyncNonFixed Is Nothing Then
+                    asyncNonFixed = New asyncCallbackThreadGetOtherInfos(Me.Infos.Id, _connection, _handleQueryInfo)
+                End If
+                asyncNonFixed.Process()
+        End Select
+    End Sub
+    Private Sub nonFixedInfosGathered(ByVal infos As asyncCallbackThreadGetOtherInfos.TheseInfos) Handles asyncNonFixed.GatheredInfos
+        Me.Infos.AffinityMask = infos.affinity
+    End Sub
+
+#End Region
 
 #Region "All actions on process (kill, enum...)"
 
@@ -264,6 +292,8 @@ Public Class cThread
                 res = Me.Infos.ProcessId.ToString
             Case "Id"
                 res = Me.Infos.Id.ToString
+            Case "AffinityMask"
+                res = Me.Infos.AffinityMask.ToString
         End Select
 
         Return res

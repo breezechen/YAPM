@@ -94,6 +94,7 @@
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackProcUnloadModule.vb" />
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackProcNewProcess.vb" />
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackProcGetAllNonFixedInfos.vb" />
+    <Compile Include="Classes\Providers\Threads\asyncMethods\asyncCallbackThreadGetOtherInfos.vb" />
     <Compile Include="Classes\Providers\Threads\asyncMethods\asyncCallbackThreadEnumerate.vb" />
     <Compile Include="Classes\Providers\Processes\cProcess.vb" />
     <Compile Include="Classes\Providers\Processes\cProcessConnection.vb" />

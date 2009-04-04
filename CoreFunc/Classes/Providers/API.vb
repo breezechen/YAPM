@@ -327,6 +327,37 @@ Public Class API
         PROCESS_QUERY_LIMITED_INFORMATION = &H1000
         PROCESS_ALL_ACCESS = STANDARD_RIGHTS.STANDARD_RIGHTS_REQUIRED Or STANDARD_RIGHTS.SYNCHRONIZE Or &HFFFF
     End Enum
+    Public Enum THREAD_INFORMATION_CLASS
+        ThreadBasicInformation
+        ThreadTimes
+        ThreadPriority
+        ThreadBasePriority
+        ThreadAffinityMask
+        ThreadImpersonationToken
+        ThreadDescriptorTableEntry
+        ThreadEnableAlignmentFaultFixup
+        ThreadEventPair
+        ThreadQuerySetWin32StartAddress
+        ThreadZeroTlsCell
+        ThreadPerformanceCount
+        ThreadAmILastThread
+        ThreadIdealProcessor
+        ThreadPriorityBoost
+        ThreadSetTlsArrayAddress
+        ThreadIsIoPending
+        ThreadHideFromDebugger
+        ThreadBreakOnTermination
+        ThreadSwitchLegacyState
+        ThreadIsTerminated
+        ThreadLastSystemCall
+        ThreadIoPriority
+        ThreadCycleTime
+        ThreadPagePriority
+        ThreadActualBasePriority
+        ThreadTebInformation
+        ThreadCSwitchMon
+        MaxThreadInfoClass
+    End Enum
 
     <StructLayout(LayoutKind.Sequential)> _
     Public Structure CLIENT_ID
@@ -384,9 +415,23 @@ Public Class API
     Public Shared Function ZwQuerySystemInformation(ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByVal SystemInformation As IntPtr, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As UInteger
     End Function
 
+    <DllImport("ntdll.dll", SetLastError:=True)> _
+    Public Shared Function ZwQueryInformationThread(ByVal ThreadHandle As Integer, ByVal ThreadInformationClass As THREAD_INFORMATION_CLASS, ByRef ThreadInformation As THREAD_BASIC_INFORMATION, ByVal ThreadInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
+    End Function
+
     <DllImport("kernel32.dll")> _
     Public Shared Function SetProcessWorkingSetSize(ByVal hwProc As Integer, ByVal minimumSize As Integer, ByVal maximumSize As Integer) As Integer
     End Function
+
+    <StructLayout(LayoutKind.Sequential)> _
+    Public Structure THREAD_BASIC_INFORMATION
+        Public ExitStatus As Integer
+        Public TebBaseAddress As Integer
+        Public ClientId As CLIENT_ID
+        Public AffinityMask As Integer
+        Public Priority As Integer
+        Public BasePriority As Integer
+    End Structure
 
     <System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)> _
     Public Structure UNICODE_STRING
@@ -409,7 +454,6 @@ Public Class API
         Public State As Integer
         Public WaitReason As KWAIT_REASON
     End Structure
-
 
     <StructLayout(LayoutKind.Sequential)> _
     Public Structure SYSTEM_PROCESS_INFORMATION

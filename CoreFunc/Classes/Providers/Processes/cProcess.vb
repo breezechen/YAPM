@@ -124,7 +124,7 @@ Public Class cProcess
         Call RefreshSpecialInformations()
     End Sub
 
-#Region "Special informations (GDI, affinity) and special refresh"
+#Region "Special informations (GDI, affinity)"
 
     ' Refresh some non fixed infos
     ' For now IT IS NOT ASYNC
