@@ -37,8 +37,71 @@ Public Class asyncCallbackModuleEnumerate
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
+                ' Save current collection
+                Dim res As ManagementObjectCollection = Nothing
+                Try
+                    res = pObj.con.wmiSearcher.Get()
+                Catch ex As Exception
+                    pObj.ctrl.Invoke(pObj.deg, False, Nothing, ex.Message)
+                    Exit Sub
+                End Try
 
-                ' pObj.ctrl.Invoke(pObj.deg, True, _dico, Nothing)
+
+                'For Each refProcess As Management.ManagementObject In res
+                '    Dim colMod As ManagementObjectCollection = refProcess.GetRelationships("CIM_ProcessExecutable")
+                '    Dim _dicoBaseA As New Dictionary(Of String, Integer)
+                '    For Each refModule As ManagementObject In colMod
+                '        Dim _s As String = CStr(refModule.GetPropertyValue("Antecedent")).ToLowerInvariant
+                '        ' Extract dll path from _s
+                '        Dim i As Integer = InStr(_s, "name=", CompareMethod.Binary)
+                '        Dim __s As String = vbNullString
+                '        If i > 0 Then
+                '            __s = _s.Substring(i + 5, _s.Length - i - 6).Replace("\\", "\")
+                '        End If
+                '        If __s IsNot Nothing Then
+                '            _dicoBaseA.Add(__s, CInt(refModule.GetPropertyValue("BaseAddress")))
+                '        End If
+                '    Next
+                'Next
+
+                Dim _dico As New Dictionary(Of String, moduleInfos)
+                For Each refProcess As Management.ManagementObject In res
+
+                    Dim pid As Integer = CInt(refProcess.GetPropertyValue(API.WMI_INFO.ProcessId.ToString))
+                    Dim ex As Boolean = False
+                    For Each _iii As Integer In pObj.pid
+                        If pid = _iii Then
+                            ex = True
+                            Exit For
+                        End If
+                    Next
+
+                    ' If ex -> OK, we get modules for this process
+                    If ex Then
+
+                        Dim colModule As ManagementObjectCollection = refProcess.GetRelated("CIM_DataFile")
+                        For Each refModule As ManagementObject In colModule
+                            Dim obj As New API.MODULEINFO
+                            Dim path As String = CStr(refModule.GetPropertyValue("Name"))
+
+                            With obj
+                                ' Get base address from dico
+                                .BaseOfDll = CType(0, IntPtr)
+                                .EntryPoint = CType(0, IntPtr)
+                                .SizeOfImage = 0
+                            End With
+
+
+                            ' Do we have to get fixed infos ?
+                            Dim _module As New moduleInfos(obj, pid, path, False)
+                            Dim _key As String = path & "-" & pid.ToString & "-" & obj.BaseOfDll.ToString
+                            _dico.Add(_key, _module)
+
+                        Next
+                    End If
+                Next
+
+                pObj.ctrl.Invoke(pObj.deg, True, _dico, Nothing)
 
             Case Else
                 ' Local

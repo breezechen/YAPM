@@ -88,7 +88,8 @@ Public Class moduleInfos
     ' ========================================
 
     ' Constructor of this class
-    Public Sub New(ByRef Thr As API.MODULEINFO, ByVal pid As Integer, ByVal path As String)
+    Public Sub New(ByRef Thr As API.MODULEINFO, ByVal pid As Integer, _
+                   ByVal path As String, Optional ByVal getFileInfos As Boolean = True)
         With Thr
             _size = .SizeOfImage
             _entryPoint = .EntryPoint.ToInt32
@@ -108,11 +109,15 @@ Public Class moduleInfos
         End If
         _path = path
         _name = cFile.GetFileName(_path)
-        Try
-            _fileInfo = FileVersionInfo.GetVersionInfo(path)
-        Catch ex As Exception
+        If getFileInfos Then
+            Try
+                _fileInfo = FileVersionInfo.GetVersionInfo(path)
+            Catch ex As Exception
+                _fileInfo = Nothing
+            End Try
+        Else
             _fileInfo = Nothing
-        End Try
+        End If
     End Sub
 
     ' Merge an old and a new instance
