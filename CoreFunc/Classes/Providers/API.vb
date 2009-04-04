@@ -42,6 +42,29 @@ Public Class API
     Public Const PROCESS_VM_READ As Integer = &H10
     Public Const PROCESS_VM_WRITE As Integer = &H20
 
+    Public Enum PROTECTION_TYPE As Integer
+        PAGE_EXECUTE = &H10
+        PAGE_EXECUTE_READ = &H20
+        PAGE_EXECUTE_READWRITE = &H40
+        PAGE_EXECUTE_WRITECOPY = &H80
+        PAGE_NOACCESS = &H1
+        PAGE_READONLY = &H2
+        PAGE_READWRITE = &H4
+        PAGE_WRITECOPY = &H8
+        PAGE_GUARD = &H100
+        PAGE_NOCACHE = &H200
+        PAGE_WRITECOMBINE = &H400
+    End Enum
+    Public Enum MEMORY_STATE As Integer
+        MEM_FREE = &H10000
+        MEM_COMMIT = &H1000
+        MEM_RESERVE = &H2000
+    End Enum
+    Public Enum MEMORY_TYPE As Integer
+        MEM_IMAGE = &H1000000
+        MEM_PRIVATE = &H20000
+        MEM_MAPPED = &H40000
+    End Enum
     Public Enum PROCESS_INFORMATION_CLASS As Integer
         ProcessBasicInformation
         ProcessQuotaLimits
@@ -529,6 +552,20 @@ Public Class API
         Public PeakPagefileUsage As Integer
         Public PrivateBytes As Integer
     End Structure
+
+    Public Structure MEMORY_BASIC_INFORMATION ' 28 bytes
+        Dim BaseAddress As Integer
+        Dim AllocationBase As Integer
+        Dim AllocationProtect As Integer
+        Dim RegionSize As Integer
+        Dim State As Integer
+        Dim Protect As Integer
+        Dim lType As Integer
+    End Structure
+
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Public Shared Function VirtualQueryEx(ByVal Process As Integer, ByVal Address As Integer, <MarshalAs(UnmanagedType.Struct)> ByRef Buffer As MEMORY_BASIC_INFORMATION, ByVal Size As Integer) As Boolean
+    End Function
 
     <DllImport("kernel32.dll", SetLastError:=True)> _
     Public Shared Function OpenProcess(ByVal DesiredAccess As PROCESS_RIGHTS, ByVal InheritHandle As Integer, ByVal ProcessId As Integer) As Integer

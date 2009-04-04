@@ -104,7 +104,7 @@ Public Class frmChooseColumns
         If TypeOf (ConcernedListView) Is handleList Then
             ss = handleInfos.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is memoryList Then
-            ss = cMemRegion.GetAvailableProperties
+            ss = memRegionInfos.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is moduleList Then
             ss = moduleInfos.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is networkList Then

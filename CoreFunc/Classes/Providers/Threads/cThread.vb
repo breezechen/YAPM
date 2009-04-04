@@ -108,7 +108,7 @@ Public Class cThread
 
 #End Region
 
-#Region "All actions on process (kill, enum...)"
+#Region "All actions on thread (kill, ...)"
 
     ' Set priority
     Private WithEvents asyncSetPriority As asyncCallbackThreadSetPriority

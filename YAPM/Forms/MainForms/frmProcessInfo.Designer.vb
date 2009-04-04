@@ -1583,7 +1583,6 @@ Partial Class frmProcessInfo
         Me.lvProcMem.Name = "lvProcMem"
         Me.lvProcMem.OverriddenDoubleBuffered = True
         Me.lvProcMem.ProcessId = 0
-        Me.lvProcMem.ShowUnNamed = False
         Me.lvProcMem.Size = New System.Drawing.Size(641, 271)
         Me.lvProcMem.TabIndex = 14
         Me.lvProcMem.UseCompatibleStateImageBehavior = False

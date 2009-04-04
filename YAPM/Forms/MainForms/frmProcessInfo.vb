@@ -779,7 +779,10 @@ Public Class frmProcessInfo
 
     Private Sub lvProcMem_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvProcMem.DoubleClick
         For Each it As cMemRegion In Me.lvProcMem.GetSelectedItems
-            it.ShowHexEditor()
+            Dim frm As New frmHexEditor
+            Dim reg As New MemoryHexEditor.control.MemoryRegion(it.Infos.BaseAddress, it.Infos.RegionSize)
+            frm.SetPidAndRegion(it.Infos.ProcessId, reg)
+            frm.Show()
         Next
     End Sub
 
@@ -817,9 +820,9 @@ Public Class frmProcessInfo
     Private Sub JumpToPEBAddressToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles JumpToPEBAddressToolStripMenuItem.Click
         Dim peb As Integer = curProc.Infos.PEBAddress
         For Each reg As cMemRegion In Me.lvProcMem.GetAllItems
-            If reg.BaseAddress <= peb AndAlso peb <= (reg.BaseAddress + reg.RegionSize) Then
+            If reg.Infos.BaseAddress <= peb AndAlso peb <= (reg.Infos.BaseAddress + reg.Infos.RegionSize) Then
                 Dim frm As New frmHexEditor
-                Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.BaseAddress, reg.RegionSize)
+                Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
                 frm.SetPidAndRegion(curProc.Infos.Pid, regio)
                 frm._hex.NavigateToOffset(peb)
                 frm.Show()
@@ -1188,9 +1191,9 @@ Public Class frmProcessInfo
         Dim add As Integer = CInt(Me.lvProcString.Items(Me.lvProcString.SelectedIndices(0)).Tag)
         For Each reg As cMemRegion In Me.lvProcMem.GetAllItems
 
-            If reg.BaseAddress <= add AndAlso add <= (reg.BaseAddress + reg.RegionSize) Then
+            If reg.Infos.BaseAddress <= add AndAlso add <= (reg.Infos.BaseAddress + reg.Infos.RegionSize) Then
                 Dim frm As New frmHexEditor
-                Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.BaseAddress, reg.RegionSize)
+                Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
                 frm.SetPidAndRegion(curProc.Infos.Pid, regio)
                 frm._hex.NavigateToOffset(CInt((add - regio.BeginningAddress) / 16))
                 frm.Show()
@@ -1211,9 +1214,9 @@ Public Class frmProcessInfo
 
             For Each reg As cMemRegion In Me.lvProcMem.GetAllItems
 
-                If reg.BaseAddress <= add AndAlso add < (reg.BaseAddress + reg.RegionSize) Then
+                If reg.Infos.BaseAddress <= add AndAlso add < (reg.Infos.BaseAddress + reg.Infos.RegionSize) Then
                     Dim frm As New frmHexEditor
-                    Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.BaseAddress, reg.RegionSize)
+                    Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
                     frm.SetPidAndRegion(curProc.Infos.Pid, regio)
                     frm._hex.NavigateToOffset(CInt((add - regio.BeginningAddress) / 16) - 1)
                     frm.Show()
@@ -1931,6 +1934,7 @@ Public Class frmProcessInfo
         Me.lvThreads.ConnectionObj = theConnection
         Me.lvModules.ConnectionObj = theConnection
         Me.lvHandles.ConnectionObj = theConnection
+        Me.lvProcMem.ConnectionObj = theConnection
         theConnection.Connect()
     End Sub
 

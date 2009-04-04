@@ -67,7 +67,6 @@
     <Compile Include="Classes\Misc\cSystemInfo.vb" />
     <Compile Include="Classes\Providers\API.vb" />
     <Compile Include="Classes\Providers\cGeneralObject.vb" />
-    <Compile Include="Classes\Providers\cMemRegion.vb" />
     <Compile Include="Classes\Providers\cMonitor.vb" />
     <Compile Include="Classes\Providers\cNetwork.vb" />
     <Compile Include="Classes\Providers\cLocalService.vb" />
@@ -81,6 +80,10 @@
     <Compile Include="Classes\Providers\Handles\cHandle.vb" />
     <Compile Include="Classes\Providers\Handles\cHandleConnection.vb" />
     <Compile Include="Classes\Providers\Handles\handleInfos.vb" />
+    <Compile Include="Classes\Providers\MemoryRegions\asyncMethods\asyncCallbackMemRegionEnumerate.vb" />
+    <Compile Include="Classes\Providers\MemoryRegions\cMemRegion.vb" />
+    <Compile Include="Classes\Providers\MemoryRegions\cMemRegionConnection.vb" />
+    <Compile Include="Classes\Providers\MemoryRegions\memRegionInfos.vb" />
     <Compile Include="Classes\Providers\Modules\asyncMethods\asyncCallbackModuleEnumerate.vb" />
     <Compile Include="Classes\Providers\Modules\asyncMethods\asyncCallbackModuleUnload.vb" />
     <Compile Include="Classes\Providers\Modules\cModule.vb" />
@@ -186,7 +189,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Classes\Providers\MemoryRegions\" />
     <Folder Include="Classes\Providers\Services\" />
     <Folder Include="Classes\Providers\Tasks\" />
     <Folder Include="Classes\Providers\Windows\" />
