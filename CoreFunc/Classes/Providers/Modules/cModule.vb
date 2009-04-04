@@ -180,6 +180,8 @@ Public Class cModule
             Case "SpecialBuild"
                 If Me.Infos.FileInfo IsNot Nothing Then _
                 res = Me.Infos.FileInfo.SpecialBuild
+            Case "ProcessId"
+                res = Me.Infos.ProcessId.ToString
         End Select
  
         Return res
