@@ -24,7 +24,7 @@ Public Class asyncCallbackProcEmptyWorkingSet
 
             Case Else
                 ' Local
-                Dim _hHandle As Integer = API.OpenProcess(API.PROCESS_SET_QUOTA, 0, _pid)
+                Dim _hHandle As Integer = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_SET_QUOTA, 0, _pid)
                 If _hHandle > 0 Then
                     Dim _ret As Integer = API.SetProcessWorkingSetSize(_hHandle, -1, -1)
                     API.CloseHandle(_hHandle)

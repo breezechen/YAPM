@@ -43,7 +43,7 @@ Public Class asyncCallbackProcDecreasePriority
                     Case ProcessPriorityClass.RealTime
                         _newlevel = ProcessPriorityClass.High
                 End Select
-                hProc = API.OpenProcess(API.PROCESS_SET_INFORMATION, 0, _pid)
+                hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_SET_INFORMATION, 0, _pid)
                 If hProc > 0 Then
                     r = API.SetPriorityClass(hProc, _newlevel)
                     API.CloseHandle(hProc)

@@ -246,21 +246,12 @@ Public Class asyncCallbackProcEnumerate
         Dim sResult As String = Space(512)
         Dim hModule As Integer
 
-        Dim _hProcess As Integer = API.OpenProcess(&H1000, 0, _pid)
-        If _hProcess > 0 Then
-            Call API.EnumProcessModules(_hProcess, hModule, 4, Ret)
-            sResult = Space(260)
-            Call API.GetModuleFileNameExA(_hProcess, hModule, sResult, 260)
-            s = sResult
-            API.CloseHandle(_hProcess)
-        Else
-            _hProcess = API.OpenProcess(API.PROCESS_QUERY_INFORMATION, 0, _pid)
-            Call API.EnumProcessModules(_hProcess, hModule, 4, Ret)
-            sResult = Space(260)
-            Call API.GetModuleFileNameExA(_hProcess, hModule, sResult, 260)
-            s = sResult
-            API.CloseHandle(_hProcess)
-        End If
+        Dim _hProcess As Integer = API.OpenProcess(cProcessConnection.ProcessMinRights, 0, _pid)
+        Call API.EnumProcessModules(_hProcess, hModule, 4, Ret)
+        sResult = Space(260)
+        Call API.GetModuleFileNameExA(_hProcess, hModule, sResult, 260)
+        s = sResult
+        API.CloseHandle(_hProcess)
 
         If InStr(sResult, vbNullChar) > 1 Then
             sResult = Left(sResult, InStr(sResult, vbNullChar) - 1)
@@ -284,10 +275,8 @@ Public Class asyncCallbackProcEnumerate
         If _pid > 4 Then
 
             Dim hToken As Integer
-            Dim _hProcess As Integer = API.OpenProcess(&H1000, 0, _pid)
-            If _hProcess = 0 Then
-                _hProcess = API.OpenProcess(API.PROCESS_QUERY_INFORMATION, 0, _pid)
-            End If
+            Dim _hProcess As Integer = API.OpenProcess(cProcessConnection.ProcessMinRights, 0, _pid)
+
 
             If API.OpenProcessToken(_hProcess, &H8, hToken) > 0 Then
 
@@ -320,20 +309,14 @@ Public Class asyncCallbackProcEnumerate
         If _pid > 4 Then
 
             ' Have to open a handle
-            Dim _h As Integer = API.OpenProcess(&H1000, 0, _pid) ' Limited rights
+            Dim _h As Integer = API.OpenProcess(cProcessConnection.ProcessMinRights, 0, _pid)
 
             If _h > 0 Then
                 ' Get size
                 Dim _size As Integer
                 API.ZwQueryInformationProcess(_h, API.PROCESS_INFORMATION_CLASS.ProcessImageFileName, IntPtr.Zero, 0, _size)
                 If _size = 0 Then
-                    ' Try to get more rights (XP)
-                    API.CloseHandle(_h)
-                    _h = API.OpenProcess(API.PROCESS_QUERY_INFORMATION, 0, _pid)
-                    API.ZwQueryInformationProcess(_h, API.PROCESS_INFORMATION_CLASS.ProcessImageFileName, IntPtr.Zero, 0, _size)
-                    If _size = 0 Then
-                        Return "??"
-                    End If
+                    Return "??"
                 End If
 
                 ' Retrieve unicode string
@@ -366,7 +349,7 @@ Public Class asyncCallbackProcEnumerate
     ' Return PEB address
     Private Shared Function GetPebAddress(ByVal _pid As Integer) As Integer
         If _pid > 4 Then
-            Dim _h As Integer = API.OpenProcess(&H1000, 0, _pid) ' Limited rights
+            Dim _h As Integer = API.OpenProcess(cProcessConnection.ProcessMinRights, 0, _pid)
             Dim pbi As New API.PROCESS_BASIC_INFORMATION
             Dim ret As Integer
             API.ZwQueryInformationProcess(_h, API.PROCESS_INFORMATION_CLASS.ProcessBasicInformation, pbi, Marshal.SizeOf(pbi), ret)

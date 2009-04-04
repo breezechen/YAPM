@@ -26,7 +26,7 @@ Public Class asyncCallbackProcResume
                 ' Local
                 Dim hProc As Integer
                 Dim r As Integer = -1
-                hProc = API.OpenProcess(API.PROCESS_SUSPEND_RESUME, 0, _pid)
+                hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_SUSPEND_RESUME, 0, _pid)
                 If hProc > 0 Then
                     r = API.NtResumeProcess(hProc)
                     API.CloseHandle(hProc)

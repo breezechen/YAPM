@@ -29,6 +29,8 @@ Public Class cThread
     Private _threadInfos As threadInfos
     Private Shared WithEvents _connection As cThreadConnection
 
+    Private _handleQueryInfo As Integer
+
 #Region "Properties"
 
     Public Shared Property Connection() As cThreadConnection
@@ -44,15 +46,22 @@ Public Class cThread
 
 #Region "Constructors & destructor"
 
-    Public Sub New(ByRef infos As API.SYSTEM_THREAD_INFORMATION)
-        _infos = infos
-        _threadInfos = New threadInfos(_infos)
-        _connection = Connection
-    End Sub
-
     Public Sub New(ByRef infos As threadInfos)
         _threadInfos = infos
         _connection = Connection
+        ' Get a handle if local
+        If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+            _handleQueryInfo = API.OpenThread(cThreadConnection.ThreadMinRights, 0, infos.Id)
+        End If
+    End Sub
+
+    Protected Overrides Sub Finalize()
+        ' Close a handle if local
+        If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+            If _handleQueryInfo > 0 Then
+                API.CloseHandle(_handleQueryInfo)
+            End If
+        End If
     End Sub
 
 #End Region
@@ -207,11 +216,13 @@ Public Class cThread
 
         Select Case info
             Case "Priority"
-                res = threadInfos.getPriorityClass(Me.Infos.Priority).ToString
+                res = Me.Infos.Priority.ToString  'threadInfos.getPriorityClass(Me.Infos.Priority).ToString
             Case "State"
                 res = Me.Infos.State.ToString
             Case "WaitReason"
                 res = Me.Infos.WaitReason.ToString
+            Case "ContextSwitchDelta"
+                res = Me.Infos.ContextSwitchDelta.ToString
             Case "CreateTime"
                 Dim ts As Date = New Date(Me.Infos.CreateTime)
                 res = ts.ToLongDateString & " -- " & ts.ToLongTimeString

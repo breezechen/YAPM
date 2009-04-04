@@ -6,13 +6,13 @@ Imports System.Text
 
 Public Class asyncCallbackThreadResume
 
-    Private _pid As Integer
+    Private _id As Integer
     Private _connection As cThreadConnection
 
     Public Event HasResumed(ByVal Success As Boolean, ByVal msg As String)
 
-    Public Sub New(ByVal pid As Integer, ByRef procConnection As cThreadConnection)
-        _pid = pid
+    Public Sub New(ByVal id As Integer, ByRef procConnection As cThreadConnection)
+        _id = id
         _connection = procConnection
     End Sub
 
@@ -25,12 +25,12 @@ Public Class asyncCallbackThreadResume
             Case Else
                 ' Local
                 Dim hProc As Integer
-                Dim r As Integer = -1
-                hProc = API.OpenProcess(API.PROCESS_SUSPEND_RESUME, 0, _pid)
+                Dim r As UInteger = -1
+                hProc = API.OpenThread(API.THREAD_RIGHTS.THREAD_SUSPEND_RESUME, 0, _id)
                 If hProc > 0 Then
-                    r = API.NtResumeProcess(hProc)
+                    r = API.ResumeThread(New IntPtr(hProc))
                     API.CloseHandle(hProc)
-                    RaiseEvent HasResumed(r = 0, API.GetError)
+                    RaiseEvent HasResumed(r <> -1, API.GetError)
                 Else
                     RaiseEvent HasResumed(False, API.GetError)
                 End If

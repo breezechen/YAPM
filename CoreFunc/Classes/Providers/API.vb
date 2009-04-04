@@ -278,6 +278,55 @@ Public Class API
         WrRundown = 36
         MaximumWaitReason = 37
     End Enum
+    Public Enum THREAD_RIGHTS As UInteger
+        THREAD_TERMINATE = &H1
+        THREAD_SUSPEND_RESUME = &H2
+        THREAD_GET_CONTEXT = &H8
+        THREAD_SET_CONTEXT = &H10
+        THREAD_QUERY_INFORMATION = &H40
+        THREAD_SET_INFORMATION = &H20
+        THREAD_SET_THREAD_TOKEN = &H80
+        THREAD_IMPERSONATE = &H100
+        THREAD_DIRECT_IMPERSONATION = &H200
+        THREAD_SET_LIMITED_INFORMATION = &H400
+        THREAD_QUERY_LIMITED_INFORMATION = &H800
+        THREAD_ALL_ACCESS = STANDARD_RIGHTS.STANDARD_RIGHTS_REQUIRED Or STANDARD_RIGHTS.SYNCHRONIZE Or &HFFFF
+    End Enum
+    Public Enum STANDARD_RIGHTS As UInteger
+        WRITE_OWNER = &H80000
+        WRITE_DAC = &H40000
+        READ_CONTROL = &H20000
+        DELETE = &H10000
+        SYNCHRONIZE = &H100000
+        STANDARD_RIGHTS_REQUIRED = &HF0000
+        STANDARD_RIGHTS_WRITE = READ_CONTROL
+        STANDARD_RIGHTS_EXECUTE = READ_CONTROL
+        STANDARD_RIGHTS_READ = READ_CONTROL
+        STANDARD_RIGHTS_ALL = &H1F0000
+        SPECIFIC_RIGHTS_ALL = &HFFFF
+        ACCESS_SYSTEM_SECURITY = &H1000000
+        MAXIMUM_ALLOWED = &H2000000
+        GENERIC_WRITE = &H40000000
+        GENERIC_EXECUTE = &H20000000
+        GENERIC_READ = &H80000000
+        GENERIC_ALL = &H10000000
+    End Enum
+    Public Enum PROCESS_RIGHTS As UInteger
+        PROCESS_TERMINATE = &H1
+        PROCESS_CREATE_THREAD = &H2
+        PROCESS_SET_SESSIONID = &H4
+        PROCESS_VM_OPERATION = &H8
+        PROCESS_VM_READ = &H10
+        PROCESS_VM_WRITE = &H20
+        PROCESS_DUP_HANDLE = &H40
+        PROCESS_CREATE_PROCESS = &H80
+        PROCESS_SET_QUOTA = &H100
+        PROCESS_SET_INFORMATION = &H200
+        PROCESS_QUERY_INFORMATION = &H400
+        PROCESS_SUSPEND_RESUME = &H800
+        PROCESS_QUERY_LIMITED_INFORMATION = &H1000
+        PROCESS_ALL_ACCESS = STANDARD_RIGHTS.STANDARD_RIGHTS_REQUIRED Or STANDARD_RIGHTS.SYNCHRONIZE Or &HFFFF
+    End Enum
 
     <StructLayout(LayoutKind.Sequential)> _
     Public Structure CLIENT_ID
@@ -294,6 +343,22 @@ Public Class API
         Dim Attributes As Integer
     End Structure
 
+    <DllImport("kernel32.dll")> _
+    Public Shared Function ResumeThread(ByVal hThread As IntPtr) As UInt32
+    End Function
+    <DllImport("kernel32.dll")> _
+    Public Shared Function SuspendThread(ByVal hThread As IntPtr) As UInt32
+    End Function
+    <DllImport("kernel32.dll")> _
+    Public Shared Function SetThreadPriority(ByVal hThread As IntPtr, ByVal priority As Integer) As UInt32
+    End Function
+    <DllImport("kernel32.dll")> _
+    Public Shared Function TerminateThread(ByVal hThread As IntPtr, ByVal exitcode As Integer) As UInt32
+    End Function
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Public Shared Function OpenThread(ByVal DesiredAccess As THREAD_RIGHTS, ByVal InheritHandle As Integer, ByVal ThreadId As Integer) As Integer
+    End Function
+
     <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
     Public Shared Function GetTokenInformation(ByVal TokenHandle As Integer, ByVal TokenInformationClass As TOKEN_INFORMATION_CLASS, ByVal TokenInformation As IntPtr, ByVal TokenInformationLength As Integer, ByRef ReturnLength As Integer) As Boolean
     End Function
@@ -309,8 +374,7 @@ Public Class API
     Public Shared Function QueryDosDevice(ByVal DeviceName As String, ByVal TargetPath As StringBuilder, ByVal MaxLength As Integer) As Integer
     End Function
     <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
-    Public Shared Function LookupAccountSid(ByVal SystemName As String, ByVal SID As Integer, ByVal Name As StringBuilder, ByRef NameSize As Integer, ByVal ReferencedDomainName As StringBuilder, ByRef ReferencedDomainNameSize As Integer, _
-    ByRef Use As SID_NAME_USE) As Boolean
+    Public Shared Function LookupAccountSid(ByVal SystemName As String, ByVal SID As Integer, ByVal Name As StringBuilder, ByRef NameSize As Integer, ByVal ReferencedDomainName As StringBuilder, ByRef ReferencedDomainNameSize As Integer, ByRef Use As SID_NAME_USE) As Boolean
     End Function
 
     Public Declare Function GetModuleFileNameExA Lib "PSAPI.DLL" (ByVal hProcess As Integer, ByVal hModule As Integer, ByVal ModuleName As String, ByVal nSize As Integer) As Integer
@@ -403,7 +467,10 @@ Public Class API
         Public PrivateBytes As Integer
     End Structure
 
-    Public Declare Function OpenProcess Lib "Kernel32.dll" (ByVal dwDesiredAccess As Integer, ByVal bInheritHandle As Integer, ByVal dwProcessId As Integer) As Integer
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Public Shared Function OpenProcess(ByVal DesiredAccess As PROCESS_RIGHTS, ByVal InheritHandle As Integer, ByVal ProcessId As Integer) As Integer
+    End Function
+
     Public Declare Function CloseHandle Lib "Kernel32.dll" (ByVal hObject As Integer) As Integer
     Public Declare Function TerminateProcess Lib "kernel32" (ByVal hProcess As Integer, ByVal uExitCode As Integer) As Integer
     Public Declare Function OpenProcessToken Lib "advapi32.dll" (ByVal ProcessHandle As Integer, ByVal DesiredAccess As Integer, ByRef TokenHandle As Integer) As Integer
@@ -432,6 +499,11 @@ Public Class API
         Buffer = Space$(1024)
         FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, GetLastError, LANG_NEUTRAL, Buffer, Len(Buffer), 0)
         Return Trim$(Buffer)
+    End Function
+
+    ' Return true if it is Vista
+    Public Shared Function IsWindowsVista() As Boolean
+        Return ((Environment.OSVersion.Platform = PlatformID.Win32NT) And (Environment.OSVersion.Version.Major = 6) And (Environment.OSVersion.Version.Minor = 0))
     End Function
 
 End Class

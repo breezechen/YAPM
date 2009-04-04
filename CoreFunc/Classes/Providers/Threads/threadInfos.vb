@@ -93,12 +93,12 @@ Public Class threadInfos
     End Property
     Public ReadOnly Property Priority() As System.Diagnostics.ThreadPriorityLevel
         Get
-            Return CType(_Priority, ThreadPriorityLevel)
+            Return getPriorityClass(_Priority)
         End Get
     End Property
-    Public ReadOnly Property BasePriority() As Integer
+    Public ReadOnly Property BasePriority() As System.Diagnostics.ThreadPriorityLevel
         Get
-            Return _BasePriority
+            Return getPriorityClass(_BasePriority)
         End Get
     End Property
     Public ReadOnly Property ContextSwitchCount() As Integer
@@ -114,6 +114,15 @@ Public Class threadInfos
     Public ReadOnly Property WaitReason() As API.KWAIT_REASON
         Get
             Return _WaitReason
+        End Get
+    End Property
+
+    Public ReadOnly Property ContextSwitchDelta() As Integer
+        Get
+            Static oldCount As Integer = Me.ContextSwitchCount
+            Dim res As Integer = Me.ContextSwitchCount - oldCount
+            oldCount = Me.ContextSwitchCount
+            Return res
         End Get
     End Property
 
@@ -193,7 +202,7 @@ Public Class threadInfos
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties() As String()
-        Dim s(11) As String
+        Dim s(12) As String
 
         s(0) = "Priority"
         s(1) = "State"
@@ -206,13 +215,18 @@ Public Class threadInfos
         s(8) = "StartAddress"
         s(9) = "BasePriority"
         s(10) = "ContextSwitchCount"
-        s(11) = "ProcessId"
+        s(11) = "ContextSwitchDelta"
+        s(12) = "ProcessId"
 
         Return s
     End Function
 
     ' Return a class from an int (concerning priority)
     Friend Shared Function getPriorityClass(ByVal priority As Integer) As System.Diagnostics.ThreadPriorityLevel
+
+
+
+
         If priority >= 15 Then
             Return ThreadPriorityLevel.TimeCritical
         ElseIf priority >= 2 Then

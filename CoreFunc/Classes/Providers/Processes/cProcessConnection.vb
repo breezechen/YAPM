@@ -34,15 +34,27 @@ Public Class cProcessConnection
     ' We will invoke this control
     Private _control As Control
 
+    ' Rights to query infos with a handle
+    Private Shared _minRights As API.PROCESS_RIGHTS = API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION
+
     ' For processor count
     Private Shared _processors As Integer = 1
 
     ' For WMI
     Friend wmiSearcher As Management.ManagementObjectSearcher
 
+    Public Shared ReadOnly Property ProcessMinRights() As API.PROCESS_RIGHTS
+        Get
+            Return _minRights
+        End Get
+    End Property
+
     Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection)
         _control = ControlWhichGetInvoked
         _conObj = Conn
+        If API.IsWindowsVista Then
+            _minRights = API.PROCESS_RIGHTS.PROCESS_QUERY_LIMITED_INFORMATION
+        End If
     End Sub
 
 #Region "Events, delegate, invoke..."

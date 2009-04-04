@@ -7,14 +7,14 @@ Imports System.Management
 
 Public Class asyncCallbackThreadSetPriority
 
-    Private _pid As Integer
+    Private _id As Integer
     Private _level As System.Diagnostics.ThreadPriorityLevel
     Private _connection As cThreadConnection
 
     Public Event HasSetPriority(ByVal Success As Boolean, ByVal msg As String)
 
-    Public Sub New(ByVal pid As Integer, ByVal level As System.Diagnostics.ThreadPriorityLevel, ByRef procConnection As cThreadConnection)
-        _pid = pid
+    Public Sub New(ByVal id As Integer, ByVal level As System.Diagnostics.ThreadPriorityLevel, ByRef procConnection As cThreadConnection)
+        _id = id
         _level = level
         _connection = procConnection
     End Sub
@@ -27,7 +27,16 @@ Public Class asyncCallbackThreadSetPriority
                
             Case Else
                 ' Local
-
+                Dim hProc As Integer
+                Dim r As UInteger = -1
+                hProc = API.OpenThread(API.THREAD_RIGHTS.THREAD_SET_INFORMATION, 0, _id)
+                If hProc > 0 Then
+                    r = API.SetThreadPriority(New IntPtr(hProc), _level)
+                    API.CloseHandle(hProc)
+                    RaiseEvent HasSetPriority(r <> 0, API.GetError)
+                Else
+                    RaiseEvent HasSetPriority(False, API.GetError)
+                End If
         End Select
     End Sub
 

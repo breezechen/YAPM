@@ -31,15 +31,27 @@ Public Class cThreadConnection
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
+    ' Rights to query infos with a handle
+    Private Shared _minRights As API.THREAD_RIGHTS = API.THREAD_RIGHTS.THREAD_QUERY_INFORMATION
+
     ' We will invoke this control
     Private _control As Control
 
     ' For WMI
     Friend wmiSearcher As Management.ManagementObjectSearcher
 
+    Public Shared ReadOnly Property ThreadMinRights() As API.THREAD_RIGHTS
+        Get
+            Return _minRights
+        End Get
+    End Property
+
     Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection)
         _control = ControlWhichGetInvoked
         _conObj = Conn
+        If API.IsWindowsVista Then
+            _minRights = API.THREAD_RIGHTS.THREAD_SET_LIMITED_INFORMATION
+        End If
     End Sub
 
 #Region "Events, delegate, invoke..."
@@ -76,7 +88,6 @@ Public Class cThreadConnection
             End If
         End Set
     End Property
-
 
     ' Connection
     Public Sub Connect()

@@ -72,7 +72,7 @@ Public Class asyncCallbackProcSetPriority
                 ' Local
                 Dim hProc As Integer
                 Dim r As Integer
-                hProc = API.OpenProcess(API.PROCESS_SET_INFORMATION, 0, _pid)
+                hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_SET_INFORMATION, 0, _pid)
                 If hProc > 0 Then
                     r = API.SetPriorityClass(hProc, _level)
                     API.CloseHandle(hProc)

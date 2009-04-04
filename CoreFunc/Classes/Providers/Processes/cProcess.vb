@@ -59,7 +59,7 @@ Public Class cProcess
         _processors = cProcessConnection.ProcessorCount
         ' Get a handle if local
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            _handleQueryInfo = API.OpenProcess(API.PROCESS_QUERY_INFORMATION, 0, infos.Pid)
+            _handleQueryInfo = API.OpenProcess(cProcessConnection.ProcessMinRights, 0, infos.Pid)
         End If
     End Sub
 

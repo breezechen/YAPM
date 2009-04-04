@@ -52,7 +52,7 @@ Public Class asyncCallbackProcKillTree
     Private Function Kill(ByVal pid As Integer) As Boolean
         Dim hProc As Integer
         Dim ret As Integer = -1
-        hProc = API.OpenProcess(API.PROCESS_TERMINATE, 0, pid)
+        hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_TERMINATE, 0, pid)
         If hProc > 0 Then
             ret = API.TerminateProcess(hProc, 0)
             API.CloseHandle(hProc)
