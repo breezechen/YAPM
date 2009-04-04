@@ -247,7 +247,7 @@ Public Class asyncCallbackProcEnumerate
         Dim hModule As Integer
 
         Dim _hProcess As Integer = API.OpenProcess(cProcessConnection.ProcessMinRights, 0, _pid)
-        Call API.EnumProcessModules(_hProcess, hModule, 4, Ret)
+        Call API.EnumProcessModules2(_hProcess, hModule, 4, Ret)
         sResult = Space(260)
         Call API.GetModuleFileNameExA(_hProcess, hModule, sResult, 260)
         s = sResult

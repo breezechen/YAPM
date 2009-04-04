@@ -574,9 +574,6 @@ Public Class cProcess
 
     ' Unload a module from a process
     Private Shared WithEvents asyncUnloadModuleShared As asyncCallbackProcUnloadModule
-    Public Shared Function UnLoadModuleFromProcess(ByRef aModule As cModule.MODULEENTRY32) As Integer
-        Return UnLoadModuleFromProcess(aModule.th32ProcessID, aModule.modBaseAddr)
-    End Function
     Public Shared Function UnLoadModuleFromProcess(ByVal pid As Integer, ByVal ModuleBaseAddress As Integer) As Integer
         asyncUnloadModuleShared = New asyncCallbackProcUnloadModule(pid, ModuleBaseAddress, _connection)
         Dim t As New Threading.Thread(AddressOf asyncUnloadModuleShared.Process)

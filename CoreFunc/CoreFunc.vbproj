@@ -69,17 +69,19 @@
     <Compile Include="Classes\Providers\cGeneralObject.vb" />
     <Compile Include="Classes\Providers\cHandle.vb" />
     <Compile Include="Classes\Providers\cMemRegion.vb" />
-    <Compile Include="Classes\Providers\cModule.vb" />
     <Compile Include="Classes\Providers\cMonitor.vb" />
     <Compile Include="Classes\Providers\cNetwork.vb" />
     <Compile Include="Classes\Providers\cLocalService.vb" />
-    <Compile Include="Classes\Providers\cRemoteModuleWMI.vb" />
-    <Compile Include="Classes\Providers\cLocalModule.vb" />
     <Compile Include="Classes\Providers\cProcessMemRW.vb" />
     <Compile Include="Classes\Providers\cServEnum.vb" />
     <Compile Include="Classes\Providers\cService.vb" />
     <Compile Include="Classes\Providers\cTask.vb" />
     <Compile Include="Classes\Providers\cWindow.vb" />
+    <Compile Include="Classes\Providers\Modules\asyncMethods\asyncCallbackModuleEnumerate.vb" />
+    <Compile Include="Classes\Providers\Modules\asyncMethods\asyncCallbackModuleUnload.vb" />
+    <Compile Include="Classes\Providers\Modules\cModule.vb" />
+    <Compile Include="Classes\Providers\Modules\cModuleConnection.vb" />
+    <Compile Include="Classes\Providers\Modules\moduleInfos.vb" />
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackProcKill.vb" />
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackProcSuspend.vb" />
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackProcResume.vb" />
@@ -178,6 +180,13 @@
       <Project>{8C885999-147E-4651-AF9C-6F7149F1344D}</Project>
       <Name>MemoryHexEditor</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Classes\Providers\Handles\" />
+    <Folder Include="Classes\Providers\MemoryRegions\" />
+    <Folder Include="Classes\Providers\Services\" />
+    <Folder Include="Classes\Providers\Tasks\" />
+    <Folder Include="Classes\Providers\Windows\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

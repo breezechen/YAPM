@@ -413,7 +413,6 @@ Public Class frmProcessInfo
         Me.cmdAffinity.Enabled = _local
         Me.cmdPause.Enabled = _local
         Me.cmdResume.Enabled = _local
-        Me.lvModules.Enabled = _local
         Me.lvModules.CatchErrors = Not (_local)
         Me.timerProcPerf.Enabled = _local
         Me.lvPrivileges.Enabled = _local
@@ -923,7 +922,10 @@ Public Class frmProcessInfo
     ' Show modules
     Public Sub ShowModules()
 
-        lvModules.ProcessId = curProc.Infos.Pid
+        Dim pid() As Integer
+        ReDim pid(0)
+        pid(0) = curProc.Infos.Pid
+        lvModules.ProcessId = pid
         lvModules.UpdateTheItems()
 
     End Sub
@@ -989,7 +991,7 @@ Public Class frmProcessInfo
 
     Private Sub ShowFileDetailsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowFileDetailsToolStripMenuItem.Click
         If Me.lvModules.SelectedItems.Count > 0 Then
-            Dim s As String = Me.lvModules.GetSelectedItem.FilePath
+            Dim s As String = Me.lvModules.GetSelectedItem.Infos.Path
             If IO.File.Exists(s) Then
                 frmMain.DisplayDetailsFile(s)
             End If
@@ -1205,7 +1207,7 @@ Public Class frmProcessInfo
         End If
 
         For Each it As cModule In Me.lvModules.GetSelectedItems
-            Dim add As Integer = it.BaseAddress
+            Dim add As Integer = it.Infos.BaseAddress
 
             For Each reg As cMemRegion In Me.lvProcMem.GetAllItems
 
@@ -1530,47 +1532,47 @@ Public Class frmProcessInfo
 
     ' Check if there are changes about modules
     Private Sub _CheckModules()
+        'TODO_
+        'Static _dico As New Dictionary(Of String, cModule.MODULEENTRY32)
+        'Static _first As Boolean = True
+        'Dim _buffDico As New Dictionary(Of String, cModule.MODULEENTRY32)
 
-        Static _dico As New Dictionary(Of String, cModule.MODULEENTRY32)
-        Static _first As Boolean = True
-        Dim _buffDico As New Dictionary(Of String, cModule.MODULEENTRY32)
+        'Dim _itemId() As String
+        'ReDim _itemId(0)
 
-        Dim _itemId() As String
-        ReDim _itemId(0)
+        'If _local Then
+        '    Call cLocalModule.Enumerate(curProc.Infos.Pid, _itemId, _buffDico)
+        'Else
+        '    Call cLocalModule.Enumerate(curProc.Infos.Pid, _itemId, _buffDico)
+        'End If
 
-        If _local Then
-            Call cLocalModule.Enumerate(curProc.Infos.Pid, _itemId, _buffDico)
-        Else
-            Call cLocalModule.Enumerate(curProc.Infos.Pid, _itemId, _buffDico)
-        End If
+        'If _first Then
+        '    _dico = _buffDico
+        '    _first = False
+        'End If
 
-        If _first Then
-            _dico = _buffDico
-            _first = False
-        End If
+        '' Check if there are new items
+        'If (_logCaptureMask And LogItemType.CreatedItems) = LogItemType.CreatedItems Then
+        '    For Each z As String In _itemId
+        '        If Not (_dico.ContainsKey(z)) Then
+        '            ' New item
+        '            Call addToLog("Module loaded (" & _buffDico.Item(z).szModule & ")", LogItemType.ModuleItem, True)
+        '        End If
+        '    Next
+        'End If
 
-        ' Check if there are new items
-        If (_logCaptureMask And LogItemType.CreatedItems) = LogItemType.CreatedItems Then
-            For Each z As String In _itemId
-                If Not (_dico.ContainsKey(z)) Then
-                    ' New item
-                    Call addToLog("Module loaded (" & _buffDico.Item(z).szModule & ")", LogItemType.ModuleItem, True)
-                End If
-            Next
-        End If
+        '' Check if there are deleted items
+        'If (_logCaptureMask And LogItemType.DeletedItems) = LogItemType.DeletedItems Then
+        '    For Each z As String In _dico.Keys
+        '        If Array.IndexOf(_itemId, z) < 0 Then
+        '            ' Deleted item
+        '            Call addToLog("Module unloaded (" & _dico.Item(z).szModule & ")", LogItemType.ModuleItem, False)
+        '        End If
+        '    Next
+        'End If
 
-        ' Check if there are deleted items
-        If (_logCaptureMask And LogItemType.DeletedItems) = LogItemType.DeletedItems Then
-            For Each z As String In _dico.Keys
-                If Array.IndexOf(_itemId, z) < 0 Then
-                    ' Deleted item
-                    Call addToLog("Module unloaded (" & _dico.Item(z).szModule & ")", LogItemType.ModuleItem, False)
-                End If
-            Next
-        End If
-
-        ' Save dico
-        _dico = _buffDico
+        '' Save dico
+        '_dico = _buffDico
 
     End Sub
 
@@ -1927,6 +1929,7 @@ Public Class frmProcessInfo
         ' Connect providers
         theConnection.CopyFromInstance(frmMain.theConnection)
         Me.lvThreads.ConnectionObj = theConnection
+        Me.lvModules.ConnectionObj = theConnection
         theConnection.Connect()
     End Sub
 

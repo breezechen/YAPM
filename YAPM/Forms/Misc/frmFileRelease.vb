@@ -123,7 +123,8 @@ Public Class frmFileRelease
                         Select Case it.SubItems(1).Text
                             Case "Module"
                                 ' Module
-                                Call cProcess.UnLoadModuleFromProcess(CType(it.Tag, cModule.MODULEENTRY32))
+                                'TODO_
+                                'Call cProcess.UnLoadModuleFromProcess(CType(it.Tag, cModule.MODULEENTRY32))
                             Case Else
                                 ' Handle
                                 Dim Handle As Integer = CInt(Val(it.Tag))

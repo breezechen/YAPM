@@ -184,21 +184,6 @@ Public Class threadInfos
         End With
 
     End Sub
-    Public Sub Merge(ByRef newI As API.SYSTEM_THREAD_INFORMATION)
-
-        With newI
-            _BasePriority = .BasePriority
-            _ContextSwitchCount = .ContextSwitchCount
-            _CreateTime = .CreateTime
-            _KernelTime = .KernelTime
-            _Priority = .Priority
-            _State = .State
-            _UserTime = .UserTime
-            _WaitReason = .WaitReason
-            _WaitTime = .WaitTime
-            '_AffinityMask = .AffinityMask
-        End With
-    End Sub
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties() As String()

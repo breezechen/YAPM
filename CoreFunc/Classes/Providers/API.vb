@@ -369,10 +369,30 @@ Public Class API
         Dim User As SID_AND_ATTRIBUTES
     End Structure
 
+    <StructLayout(LayoutKind.Sequential)> _
+    Public Structure MODULEINFO
+        Public BaseOfDll As IntPtr
+        Public SizeOfImage As Integer
+        Public EntryPoint As IntPtr
+    End Structure
+
     Public Structure SID_AND_ATTRIBUTES
         Dim Sid As Integer
         Dim Attributes As Integer
     End Structure
+
+    <DllImport("psapi.dll")> _
+    Public Shared Function EnumProcessModules(ByVal ProcessHandle As Integer, ByVal ModuleHandles As IntPtr(), ByVal Size As Integer, ByRef RequiredSize As Integer) As Boolean
+    End Function
+    <DllImport("psapi.dll", CharSet:=CharSet.Unicode)> _
+    Public Shared Function GetModuleBaseName(ByVal ProcessHandle As Integer, ByVal ModuleHandle As IntPtr, ByVal BaseName As StringBuilder, ByVal Size As Integer) As Integer
+    End Function
+    <DllImport("psapi.dll", CharSet:=CharSet.Unicode)> _
+    Public Shared Function GetModuleFileNameEx(ByVal ProcessHandle As Integer, ByVal ModuleHandle As IntPtr, ByVal FileName As StringBuilder, ByVal Size As Integer) As Integer
+    End Function
+    <DllImport("psapi.dll")> _
+    Public Shared Function GetModuleInformation(ByVal ProcessHandle As Integer, ByVal ModuleHandle As IntPtr, ByRef ModInfo As MODULEINFO, ByVal Size As Integer) As Boolean
+    End Function
 
     <DllImport("kernel32.dll")> _
     Public Shared Function ResumeThread(ByVal hThread As IntPtr) As UInt32
@@ -409,7 +429,6 @@ Public Class API
     End Function
 
     Public Declare Function GetModuleFileNameExA Lib "PSAPI.DLL" (ByVal hProcess As Integer, ByVal hModule As Integer, ByVal ModuleName As String, ByVal nSize As Integer) As Integer
-    Public Declare Function EnumProcessModules Lib "psapi.dll" (ByVal hProcess As Integer, ByVal lphModule As Integer, ByVal cb As Integer, ByVal lpcbNeeded As Integer) As Boolean
 
     <DllImport("ntdll.dll", SetLastError:=True)> _
     Public Shared Function ZwQuerySystemInformation(ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByVal SystemInformation As IntPtr, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As UInteger
@@ -515,6 +534,7 @@ Public Class API
     Public Shared Function OpenProcess(ByVal DesiredAccess As PROCESS_RIGHTS, ByVal InheritHandle As Integer, ByVal ProcessId As Integer) As Integer
     End Function
 
+    Public Declare Function EnumProcessModules2 Lib "psapi.dll" Alias "EnumProcessModules" (ByVal hProcess As Integer, ByVal lphModule As Integer, ByVal cb As Integer, ByVal lpcbNeeded As Integer) As Boolean
     Public Declare Function CloseHandle Lib "Kernel32.dll" (ByVal hObject As Integer) As Integer
     Public Declare Function TerminateProcess Lib "kernel32" (ByVal hProcess As Integer, ByVal uExitCode As Integer) As Integer
     Public Declare Function OpenProcessToken Lib "advapi32.dll" (ByVal ProcessHandle As Integer, ByVal DesiredAccess As Integer, ByRef TokenHandle As Integer) As Integer

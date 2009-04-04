@@ -4959,12 +4959,9 @@ Partial Class frmMain
         ListViewGroup6.Name = "gpSearchResults"
         Me.lvModules.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvModules.HideSelection = False
-        Me.lvModules.IsLocalMachine = True
         Me.lvModules.Location = New System.Drawing.Point(0, 0)
-        Me.lvModules.MngObjProcess = Nothing
         Me.lvModules.Name = "lvModules"
         Me.lvModules.OverriddenDoubleBuffered = True
-        Me.lvModules.ProcessId = 0
         Me.lvModules.Size = New System.Drawing.Size(852, 210)
         Me.lvModules.TabIndex = 6
         Me.lvModules.UseCompatibleStateImageBehavior = False

@@ -565,62 +565,62 @@ Public Class frmSaveReport
                         Dim x As Integer = 0
                         For Each it In frmMain.lvModules.Items
                             Dim cm As cModule = CType(it.Tag, cModule)
-                            c = "Module : " & it.Text & "  --  " & cm.FileName & vbNewLine
+                            c = "Module : " & it.Text & "  --  " & cm.Infos.FileInfo.FileName & vbNewLine
 
                             c &= "Process owner" & vbTab & vbTab
-                            c &= CStr(cm.ProcessId) & " -- " & cProcess.GetProcessName(cm.ProcessId) & vbNewLine
+                            c &= CStr(cm.Infos.ProcessId) & " -- " & cProcess.GetProcessName(cm.Infos.ProcessId) & vbNewLine
                             c &= "Version" & vbTab & vbTab
-                            c &= cm.FileVersion & vbNewLine
+                            c &= cm.Infos.FileInfo.FileVersion & vbNewLine
                             c &= "Comments" & vbTab & vbTab
-                            c &= cm.Comments & vbNewLine
+                            c &= cm.Infos.FileInfo.Comments & vbNewLine
                             c &= "CompanyName" & vbTab & vbTab
-                            c &= cm.CompanyName & vbNewLine
+                            c &= cm.Infos.FileInfo.CompanyName & vbNewLine
                             c &= "LegalCopyright" & vbTab & vbTab
-                            c &= cm.LegalCopyright & vbNewLine
+                            c &= cm.Infos.FileInfo.LegalCopyright & vbNewLine
                             c &= "ProductName" & vbTab & vbTab
-                            c &= cm.ProductName & vbNewLine
+                            c &= cm.Infos.FileInfo.ProductName & vbNewLine
                             c &= "Language" & vbTab & vbTab
-                            c &= cm.Language & vbNewLine
+                            c &= cm.Infos.FileInfo.Language & vbNewLine
                             c &= "InternalName" & vbTab & vbTab
-                            c &= cm.InternalName & vbNewLine
+                            c &= cm.Infos.FileInfo.InternalName & vbNewLine
                             c &= "LegalTrademarks" & vbTab & vbTab
-                            c &= cm.LegalTrademarks & vbNewLine
+                            c &= cm.Infos.FileInfo.LegalTrademarks & vbNewLine
                             c &= "OriginalFilename" & vbTab & vbTab
-                            c &= cm.OriginalFilename & vbNewLine
+                            c &= cm.Infos.FileInfo.OriginalFilename & vbNewLine
                             c &= "FileBuildPart" & vbTab & vbTab
-                            c &= CStr(cm.FileBuildPart) & vbNewLine
+                            c &= CStr(cm.Infos.FileInfo.FileBuildPart) & vbNewLine
                             c &= "FileDescription" & vbTab & vbTab
-                            c &= cm.FileDescription & vbNewLine
+                            c &= cm.Infos.FileInfo.FileDescription & vbNewLine
                             c &= "FileMajorPart" & vbTab & vbTab
-                            c &= CStr(cm.FileMajorPart) & vbNewLine
+                            c &= CStr(cm.Infos.FileInfo.FileMajorPart) & vbNewLine
                             c &= "FileMinorPart" & vbTab & vbTab
-                            c &= CStr(cm.FileMinorPart) & vbNewLine
+                            c &= CStr(cm.Infos.FileInfo.FileMinorPart) & vbNewLine
                             c &= "FilePrivatePart" & vbTab & vbTab
-                            c &= CStr(cm.FilePrivatePart) & vbNewLine
+                            c &= CStr(cm.Infos.FileInfo.FilePrivatePart) & vbNewLine
                             c &= "IsDebug" & vbTab & vbTab
-                            c &= CStr(cm.IsDebug) & vbNewLine
+                            c &= CStr(cm.Infos.FileInfo.IsDebug) & vbNewLine
                             c &= "IsPatched" & vbTab & vbTab
-                            c &= CStr(cm.IsPatched) & vbNewLine
+                            c &= CStr(cm.Infos.FileInfo.IsPatched) & vbNewLine
                             c &= "IsPreRelease" & vbTab & vbTab
-                            c &= CStr(cm.IsPreRelease) & vbNewLine
+                            c &= CStr(cm.Infos.FileInfo.IsPreRelease) & vbNewLine
                             c &= "IsPrivateBuild" & vbTab & vbTab
-                            c &= CStr(cm.IsPrivateBuild) & vbNewLine
+                            c &= CStr(cm.Infos.FileInfo.IsPrivateBuild) & vbNewLine
                             c &= "IsSpecialBuild" & vbTab & vbTab
-                            c &= CStr(cm.IsSpecialBuild) & vbNewLine
+                            c &= CStr(cm.Infos.FileInfo.IsSpecialBuild) & vbNewLine
                             c &= "PrivateBuild" & vbTab & vbTab
-                            c &= cm.PrivateBuild & vbNewLine
+                            c &= cm.Infos.FileInfo.PrivateBuild & vbNewLine
                             c &= "ProductBuildPart" & vbTab & vbTab
-                            c &= CStr(cm.ProductBuildPart) & vbNewLine
+                            c &= CStr(cm.Infos.FileInfo.ProductBuildPart) & vbNewLine
                             c &= "ProductMajorPart" & vbTab & vbTab
-                            c &= CStr(cm.ProductMajorPart) & vbNewLine
+                            c &= CStr(cm.Infos.FileInfo.ProductMajorPart) & vbNewLine
                             c &= "ProductMinorPart" & vbTab & vbTab
-                            c &= CStr(cm.ProductMinorPart) & vbNewLine
+                            c &= CStr(cm.Infos.FileInfo.ProductMinorPart) & vbNewLine
                             c &= "ProductPrivatePart" & vbTab & vbTab
-                            c &= CStr(cm.ProductPrivatePart) & vbNewLine
+                            c &= CStr(cm.Infos.FileInfo.ProductPrivatePart) & vbNewLine
                             c &= "ProductVersion" & vbTab & vbTab
-                            c &= cm.ProductVersion & vbNewLine
+                            c &= cm.Infos.FileInfo.ProductVersion & vbNewLine
                             c &= "SpecialBuild" & vbTab & vbTab
-                            c &= cm.SpecialBuild & vbNewLine & vbNewLine & vbNewLine
+                            c &= cm.Infos.FileInfo.SpecialBuild & vbNewLine & vbNewLine & vbNewLine
 
                             stream.Write(c)
                             x += 1
@@ -638,88 +638,88 @@ Public Class frmSaveReport
                         Dim x As Integer = 0
                         For Each it In frmMain.lvModules.Items
                             Dim cm As cModule = CType(it.Tag, cModule)
-                            _html.AppendTitleLine("Module : " & it.Text & "  --  " & cm.FileName)
+                            _html.AppendTitleLine("Module : " & it.Text & "  --  " & cm.Infos.FileInfo.FileName)
                             Dim _lin(1) As String
                             _lin(0) = "Process owner"
-                            _lin(1) = CStr(cm.ProcessId) & " -- " & cProcess.GetProcessName(cm.ProcessId)
+                            _lin(1) = CStr(cm.Infos.ProcessId) & " -- " & cProcess.GetProcessName(cm.Infos.ProcessId)
                             _html.AppendLine(_lin)
                             _lin(0) = "Version"
-                            _lin(1) = cm.FileVersion
+                            _lin(1) = cm.Infos.FileInfo.FileVersion
                             _html.AppendLine(_lin)
                             _lin(0) = "Comments"
-                            _lin(1) = cm.Comments
+                            _lin(1) = cm.Infos.FileInfo.Comments
                             _html.AppendLine(_lin)
                             _lin(0) = "CompanyName"
-                            _lin(1) = cm.CompanyName
+                            _lin(1) = cm.Infos.FileInfo.CompanyName
                             _html.AppendLine(_lin)
                             _lin(0) = "LegalCopyright"
-                            _lin(1) = cm.LegalCopyright
+                            _lin(1) = cm.Infos.FileInfo.LegalCopyright
                             _html.AppendLine(_lin)
                             _lin(0) = "ProductName"
-                            _lin(1) = cm.ProductName
+                            _lin(1) = cm.Infos.FileInfo.ProductName
                             _html.AppendLine(_lin)
                             _lin(0) = "Language"
-                            _lin(1) = cm.Language
+                            _lin(1) = cm.Infos.FileInfo.Language
                             _html.AppendLine(_lin)
                             _lin(0) = "InternalName"
-                            _lin(1) = cm.InternalName
+                            _lin(1) = cm.Infos.FileInfo.InternalName
                             _html.AppendLine(_lin)
                             _lin(0) = "LegalTrademarks"
-                            _lin(1) = cm.LegalTrademarks
+                            _lin(1) = cm.Infos.FileInfo.LegalTrademarks
                             _html.AppendLine(_lin)
                             _lin(0) = "OriginalFilename"
-                            _lin(1) = cm.OriginalFilename
+                            _lin(1) = cm.Infos.FileInfo.OriginalFilename
                             _html.AppendLine(_lin)
                             _lin(0) = "FileBuildPart"
-                            _lin(1) = CStr(cm.FileBuildPart)
+                            _lin(1) = CStr(cm.Infos.FileInfo.FileBuildPart)
                             _html.AppendLine(_lin)
                             _lin(0) = "FileDescription"
-                            _lin(1) = cm.FileDescription
+                            _lin(1) = cm.Infos.FileInfo.FileDescription
                             _html.AppendLine(_lin)
                             _lin(0) = "FileMajorPart"
-                            _lin(1) = CStr(cm.FileMajorPart)
+                            _lin(1) = CStr(cm.Infos.FileInfo.FileMajorPart)
                             _html.AppendLine(_lin)
                             _lin(0) = "FileMinorPart"
-                            _lin(1) = CStr(cm.FileMinorPart)
+                            _lin(1) = CStr(cm.Infos.FileInfo.FileMinorPart)
                             _html.AppendLine(_lin)
                             _lin(0) = "FilePrivatePart"
-                            _lin(1) = CStr(cm.FilePrivatePart)
+                            _lin(1) = CStr(cm.Infos.FileInfo.FilePrivatePart)
                             _html.AppendLine(_lin)
                             _lin(0) = "IsDebug"
-                            _lin(1) = CStr(cm.IsDebug)
+                            _lin(1) = CStr(cm.Infos.FileInfo.IsDebug)
                             _html.AppendLine(_lin)
                             _lin(0) = "IsPatched"
-                            _lin(1) = CStr(cm.IsPatched)
+                            _lin(1) = CStr(cm.Infos.FileInfo.IsPatched)
                             _html.AppendLine(_lin)
                             _lin(0) = "IsPreRelease"
-                            _lin(1) = CStr(cm.IsPreRelease)
+                            _lin(1) = CStr(cm.Infos.FileInfo.IsPreRelease)
                             _html.AppendLine(_lin)
                             _lin(0) = "IsPrivateBuild"
-                            _lin(1) = CStr(cm.IsPrivateBuild)
+                            _lin(1) = CStr(cm.Infos.FileInfo.IsPrivateBuild)
                             _html.AppendLine(_lin)
                             _lin(0) = "IsSpecialBuild"
-                            _lin(1) = CStr(cm.IsSpecialBuild)
+                            _lin(1) = CStr(cm.Infos.FileInfo.IsSpecialBuild)
                             _html.AppendLine(_lin)
                             _lin(0) = "PrivateBuild"
-                            _lin(1) = cm.PrivateBuild
+                            _lin(1) = cm.Infos.FileInfo.PrivateBuild
                             _html.AppendLine(_lin)
                             _lin(0) = "ProductBuildPart"
-                            _lin(1) = CStr(cm.ProductBuildPart)
+                            _lin(1) = CStr(cm.Infos.FileInfo.ProductBuildPart)
                             _html.AppendLine(_lin)
                             _lin(0) = "ProductMajorPart"
-                            _lin(1) = CStr(cm.ProductMajorPart)
+                            _lin(1) = CStr(cm.Infos.FileInfo.ProductMajorPart)
                             _html.AppendLine(_lin)
                             _lin(0) = "ProductMinorPart"
-                            _lin(1) = CStr(cm.ProductMinorPart)
+                            _lin(1) = CStr(cm.Infos.FileInfo.ProductMinorPart)
                             _html.AppendLine(_lin)
                             _lin(0) = "ProductPrivatePart"
-                            _lin(1) = CStr(cm.ProductPrivatePart)
+                            _lin(1) = CStr(cm.Infos.FileInfo.ProductPrivatePart)
                             _html.AppendLine(_lin)
                             _lin(0) = "ProductVersion"
-                            _lin(1) = cm.ProductVersion
+                            _lin(1) = cm.Infos.FileInfo.ProductVersion
                             _html.AppendLine(_lin)
                             _lin(0) = "SpecialBuild"
-                            _lin(1) = cm.SpecialBuild
+                            _lin(1) = cm.Infos.FileInfo.SpecialBuild
                             _html.AppendLine(_lin)
 
                             x += 1

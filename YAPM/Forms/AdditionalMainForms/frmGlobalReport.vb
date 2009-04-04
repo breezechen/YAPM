@@ -104,7 +104,7 @@ Public Class frmGlobalReport
 
         ' pid <-> (Xid <-> lightX)
         'Dim _dicoThreads As New Dictionary(Of String, Dictionary(Of String, cThread.LightThread))
-        Dim _dicoModules As New Dictionary(Of String, Dictionary(Of String, cModule.MODULEENTRY32))
+        ' Dim _dicoModules As New Dictionary(Of String, Dictionary(Of String, cModule.MODULEENTRY32))
         Dim _dicoMemRegions As New Dictionary(Of String, Dictionary(Of String, cProcessMemRW.MEMORY_BASIC_INFORMATION))
 
 
@@ -122,16 +122,16 @@ Public Class frmGlobalReport
 
 
         ' == Modules
-        If Me.chkModules.Checked Then
-            setCaption("Retrieving loaded modules...")
-            For Each pid As Integer In _dicoProcesses.Keys
-                Dim _buffServ As New Dictionary(Of String, cModule.MODULEENTRY32)
-                Dim _moduleKey() As String
-                ReDim _moduleKey(0)
-                cLocalModule.Enumerate(pid, _moduleKey, _buffServ)
-                _dicoModules.Add(pid.ToString, _buffServ)
-            Next
-        End If
+        'If Me.chkModules.Checked Then
+        '    setCaption("Retrieving loaded modules...")
+        '    For Each pid As Integer In _dicoProcesses.Keys
+        '        Dim _buffServ As New Dictionary(Of String, cModule.MODULEENTRY32)
+        '        Dim _moduleKey() As String
+        '        ReDim _moduleKey(0)
+        '        cLocalModule.Enumerate(pid, _moduleKey, _buffServ)
+        '        _dicoModules.Add(pid.ToString, _buffServ)
+        '    Next
+        'End If
 
 
         ' == Memory regions

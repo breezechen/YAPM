@@ -1,0 +1,102 @@
+﻿Option Strict On
+
+Imports CoreFunc.cModuleConnection
+Imports System.Runtime.InteropServices
+Imports System.Text
+Imports System.Windows.Forms
+Imports System.Management
+
+Public Class asyncCallbackModuleEnumerate
+
+    Private Const NO_INFO_RETRIEVED As String = "N/A"
+
+    Public Structure poolObj
+        Public ctrl As Control
+        Public deg As [Delegate]
+        Public con As cModuleConnection
+        Public pid() As Integer
+        Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cModuleConnection, ByVal pi() As Integer)
+            ctrl = ctr
+            deg = de
+            con = co
+            pid = pi
+        End Sub
+    End Structure
+
+
+    Public Shared Sub Process(ByVal thePoolObj As Object)
+
+        Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
+        If pObj.con.ConnectionObj.IsConnected = False Then
+            Exit Sub
+        End If
+
+        Select Case pObj.con.ConnectionObj.ConnectionType
+
+            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+
+            Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+
+
+                ' pObj.ctrl.Invoke(pObj.deg, True, _dico, Nothing)
+
+            Case Else
+                ' Local
+                Dim _dico As New Dictionary(Of String, moduleInfos)
+                For Each id As Integer In pObj.pid
+                    Dim _md As New Dictionary(Of String, moduleInfos)
+                    _md = GetModules(id)
+                    For Each pair As System.Collections.Generic.KeyValuePair(Of String, moduleInfos) In _md
+                        _dico.Add(pair.Key, pair.Value)
+                    Next
+                Next
+                pObj.ctrl.Invoke(pObj.deg, True, _dico, API.GetError)
+
+        End Select
+
+    End Sub
+
+    Private Shared Function GetModules(ByVal pid As Integer) As Dictionary(Of String, moduleInfos)
+        Dim size As Integer
+        Dim _handles As IntPtr()
+
+        Dim ret As New Dictionary(Of String, moduleInfos)
+
+        ' Get handle
+        Dim hProc As Integer = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION Or API.PROCESS_RIGHTS.PROCESS_VM_READ, 0, pid)
+        If hProc > 0 Then
+
+            ' Get size & number of modules
+            API.EnumProcessModules(hProc, Nothing, 0, size)
+            Dim count As Integer = CInt(size / 4 - 1)
+
+            If count > 0 Then
+                _handles = New IntPtr(count) {}
+
+                ' Get handles
+                API.EnumProcessModules(hProc, _handles, size, size)
+
+                ' For each handle, we add the associated module to dico
+                For Each z As IntPtr In _handles
+                    Dim baseName As New StringBuilder(1024)
+                    Dim fileName As New StringBuilder(1024)
+                    Dim MI As New API.MODULEINFO
+
+                    API.GetModuleBaseName(hProc, z, baseName, 1024)
+                    API.GetModuleFileNameEx(hProc, z, fileName, 1024)
+                    API.GetModuleInformation(hProc, z, MI, Marshal.SizeOf(MI))
+
+                    ' path-pid-baseAddress
+                    Dim _key As String = fileName.ToString & "-" & pid.ToString & "-" & MI.BaseOfDll.ToString
+
+                    ret.Add(_key, New moduleInfos(MI, pid, fileName.ToString))
+                Next
+            Else
+
+            End If
+
+        End If
+
+        Return ret
+    End Function
+End Class

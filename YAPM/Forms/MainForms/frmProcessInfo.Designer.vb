@@ -2112,12 +2112,9 @@ Partial Class frmProcessInfo
         ListViewGroup8.Name = "gpSearchResults"
         Me.lvModules.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
         Me.lvModules.HideSelection = False
-        Me.lvModules.IsLocalMachine = True
         Me.lvModules.Location = New System.Drawing.Point(0, 0)
-        Me.lvModules.MngObjProcess = Nothing
         Me.lvModules.Name = "lvModules"
         Me.lvModules.OverriddenDoubleBuffered = True
-        Me.lvModules.ProcessId = 0
         Me.lvModules.Size = New System.Drawing.Size(647, 277)
         Me.lvModules.TabIndex = 31
         Me.lvModules.UseCompatibleStateImageBehavior = False

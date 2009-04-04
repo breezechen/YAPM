@@ -1270,19 +1270,20 @@ Public Class frmMain
                         cWindow.CloseWindow(hand)
                     End If
                 Case Else
-                    If TypeOf it.Tag Is cModule.MODULEENTRY32 Then
-                        ' Then it is a module
-                        Call cProcess.UnLoadModuleFromProcess(CType(it.Tag, cModule.MODULEENTRY32))
-                    Else
-                        ' Handle
-                        Dim sp As String = it.SubItems(3).Text
-                        Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
-                        Dim handle As Integer = CInt(it.Tag)
-                        If i > 0 Then
-                            Dim pid As Integer = CInt(Val(sp.Substring(0, i - 1)))
-                            Call handles_Renamed.CloseProcessLocalHandle(pid, handle)
-                        End If
-                    End If
+                    'TODO_
+                    'If TypeOf it.Tag Is cModule.MODULEENTRY32 Then
+                    '    ' Then it is a module
+                    '    Call cProcess.UnLoadModuleFromProcess(CType(it.Tag, cModule.MODULEENTRY32))
+                    'Else
+                    '    ' Handle
+                    '    Dim sp As String = it.SubItems(3).Text
+                    '    Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
+                    '    Dim handle As Integer = CInt(it.Tag)
+                    '    If i > 0 Then
+                    '        Dim pid As Integer = CInt(Val(sp.Substring(0, i - 1)))
+                    '        Call handles_Renamed.CloseProcessLocalHandle(pid, handle)
+                    '    End If
+                    'End If
             End Select
         Next
     End Sub
@@ -2124,23 +2125,8 @@ Public Class frmMain
     ' Show modules of selected processes (modulesToRefresh)
     Private Sub ShowModules(Optional ByVal showTab As Boolean = True)
 
-        For x As Integer = 0 To UBound(modulesToRefresh)
-            Me.lvModules.ProcessId = modulesToRefresh(x)
-            If _local = False Then
-                ' Set management process object
-                Me.lvModules.MngObjProcess = Nothing
-                'For Each pp As cProcess In Me.lvProcess.GetAllItems
-                '    If Me.lvModules.ProcessId = pp.Pid Then 'TODO_
-                '        Me.lvModules.MngObjProcess = pp.MngObjProcess
-                '    End If
-                'Next
-                If Me.lvModules.MngObjProcess IsNot Nothing Then
-                    Me.lvModules.UpdateTheItems()
-                End If
-            Else
-                Me.lvModules.UpdateTheItems()
-            End If
-        Next
+        Me.lvModules.ProcessId = Me.modulesToRefresh
+        Me.lvModules.UpdateTheItems()
 
         If showTab Then _
             Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
@@ -2182,7 +2168,7 @@ Public Class frmMain
         Dim bOne As Boolean = False
         If Me.lvModules.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
         For Each it In Me.lvModules.SelectedItems
-            Dim pid As Integer = Me.lvModules.GetItemByKey(it.Name).ProcessId
+            Dim pid As Integer = Me.lvModules.GetItemByKey(it.Name).Infos.ProcessId
             Dim it2 As ListViewItem
             For Each it2 In Me.lvProcess.Items
                 Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
@@ -2202,7 +2188,7 @@ Public Class frmMain
 
     Private Sub ShowFileDetailsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowFileDetailsToolStripMenuItem.Click
         If Me.lvModules.SelectedItems.Count > 0 Then
-            Dim s As String = Me.lvModules.GetSelectedItem.FilePath
+            Dim s As String = Me.lvModules.GetSelectedItem.Infos.Path
             If IO.File.Exists(s) Then
                 DisplayDetailsFile(s)
             End If
@@ -3251,35 +3237,35 @@ Public Class frmMain
                 Dim s As String = ""
                 s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
                 s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Module properties\b0\par"
-                s = s & "\tab Module name :\tab\tab\tab " & cFile.GetFileName(cP.FileName) & "\par"
-                s = s & "\tab Process owner :\tab\tab\tab " & CStr(cP.ProcessId) & " -- " & cProcess.GetProcessName(cP.ProcessId) & "\par"
-                s = s & "\tab Path :\tab\tab\tab\tab " & Replace(cP.FileName, "\", "\\") & "\par"
-                s = s & "\tab Version :\tab\tab\tab " & cP.FileVersion & "\par"
-                s = s & "\tab Comments :\tab\tab\tab " & cP.Comments & "\par"
-                s = s & "\tab CompanyName :\tab\tab\tab " & cP.CompanyName & "\par"
-                s = s & "\tab LegalCopyright :\tab\tab\tab " & cP.LegalCopyright & "\par"
-                s = s & "\tab ProductName :\tab\tab\tab " & cP.ProductName & "\par"
-                s = s & "\tab Language :\tab\tab\tab " & cP.Language & "\par"
-                s = s & "\tab InternalName :\tab\tab\tab " & cP.InternalName & "\par"
-                s = s & "\tab LegalTrademarks :\tab\tab " & cP.LegalTrademarks & "\par"
-                s = s & "\tab OriginalFilename :\tab\tab\tab " & cP.OriginalFilename & "\par"
-                s = s & "\tab FileBuildPart :\tab\tab\tab " & CStr(cP.FileBuildPart) & "\par"
-                s = s & "\tab FileDescription :\tab\tab\tab " & CStr(cP.FileDescription) & "\par"
-                s = s & "\tab FileMajorPart :\tab\tab\tab " & CStr(cP.FileMajorPart) & "\par"
-                s = s & "\tab FileMinorPart :\tab\tab\tab " & CStr(cP.FileMinorPart) & "\par"
-                s = s & "\tab FilePrivatePart :\tab\tab\tab " & CStr(cP.FilePrivatePart) & "\par"
-                s = s & "\tab IsDebug :\tab\tab\tab " & CStr(cP.IsDebug) & "\par"
-                s = s & "\tab IsPatched :\tab\tab\tab " & CStr(cP.IsPatched) & "\par"
-                s = s & "\tab IsPreRelease :\tab\tab\tab " & CStr(cP.IsPreRelease) & "\par"
-                s = s & "\tab IsPrivateBuild :\tab\tab\tab " & CStr(cP.IsPrivateBuild) & "\par"
-                s = s & "\tab IsSpecialBuild :\tab\tab\tab " & CStr(cP.IsSpecialBuild) & "\par"
-                s = s & "\tab PrivateBuild :\tab\tab\tab " & CStr(cP.PrivateBuild) & "\par"
-                s = s & "\tab ProductBuildPart :\tab\tab " & CStr(cP.ProductBuildPart) & "\par"
-                s = s & "\tab ProductMajorPart :\tab\tab " & CStr(cP.ProductMajorPart) & "\par"
-                s = s & "\tab ProductMinorPart :\tab\tab " & CStr(cP.ProductMinorPart) & "\par"
-                s = s & "\tab ProductPrivatePart :\tab\tab " & CStr(cP.ProductPrivatePart) & "\par"
-                s = s & "\tab ProductVersion :\tab\tab\tab " & CStr(cP.ProductVersion) & "\par"
-                s = s & "\tab SpecialBuild :\tab\tab\tab " & CStr(cP.SpecialBuild) & "\par"
+                s = s & "\tab Module name :\tab\tab\tab " & cFile.GetFileName(cP.Infos.FileInfo.FileName) & "\par"
+                s = s & "\tab Process owner :\tab\tab\tab " & CStr(cP.Infos.ProcessId) & " -- " & cProcess.GetProcessName(cP.Infos.ProcessId) & "\par"
+                s = s & "\tab Path :\tab\tab\tab\tab " & Replace(cP.Infos.FileInfo.FileName, "\", "\\") & "\par"
+                s = s & "\tab Version :\tab\tab\tab " & cP.Infos.FileInfo.FileVersion & "\par"
+                s = s & "\tab Comments :\tab\tab\tab " & cP.Infos.FileInfo.Comments & "\par"
+                s = s & "\tab CompanyName :\tab\tab\tab " & cP.Infos.FileInfo.CompanyName & "\par"
+                s = s & "\tab LegalCopyright :\tab\tab\tab " & cP.Infos.FileInfo.LegalCopyright & "\par"
+                s = s & "\tab ProductName :\tab\tab\tab " & cP.Infos.FileInfo.ProductName & "\par"
+                s = s & "\tab Language :\tab\tab\tab " & cP.Infos.FileInfo.Language & "\par"
+                s = s & "\tab InternalName :\tab\tab\tab " & cP.Infos.FileInfo.InternalName & "\par"
+                s = s & "\tab LegalTrademarks :\tab\tab " & cP.Infos.FileInfo.LegalTrademarks & "\par"
+                s = s & "\tab OriginalFilename :\tab\tab\tab " & cP.Infos.FileInfo.OriginalFilename & "\par"
+                s = s & "\tab FileBuildPart :\tab\tab\tab " & CStr(cP.Infos.FileInfo.FileBuildPart) & "\par"
+                s = s & "\tab FileDescription :\tab\tab\tab " & CStr(cP.Infos.FileInfo.FileDescription) & "\par"
+                s = s & "\tab FileMajorPart :\tab\tab\tab " & CStr(cP.Infos.FileInfo.FileMajorPart) & "\par"
+                s = s & "\tab FileMinorPart :\tab\tab\tab " & CStr(cP.Infos.FileInfo.FileMinorPart) & "\par"
+                s = s & "\tab FilePrivatePart :\tab\tab\tab " & CStr(cP.Infos.FileInfo.FilePrivatePart) & "\par"
+                s = s & "\tab IsDebug :\tab\tab\tab " & CStr(cP.Infos.FileInfo.IsDebug) & "\par"
+                s = s & "\tab IsPatched :\tab\tab\tab " & CStr(cP.Infos.FileInfo.IsPatched) & "\par"
+                s = s & "\tab IsPreRelease :\tab\tab\tab " & CStr(cP.Infos.FileInfo.IsPreRelease) & "\par"
+                s = s & "\tab IsPrivateBuild :\tab\tab\tab " & CStr(cP.Infos.FileInfo.IsPrivateBuild) & "\par"
+                s = s & "\tab IsSpecialBuild :\tab\tab\tab " & CStr(cP.Infos.FileInfo.IsSpecialBuild) & "\par"
+                s = s & "\tab PrivateBuild :\tab\tab\tab " & CStr(cP.Infos.FileInfo.PrivateBuild) & "\par"
+                s = s & "\tab ProductBuildPart :\tab\tab " & CStr(cP.Infos.FileInfo.ProductBuildPart) & "\par"
+                s = s & "\tab ProductMajorPart :\tab\tab " & CStr(cP.Infos.FileInfo.ProductMajorPart) & "\par"
+                s = s & "\tab ProductMinorPart :\tab\tab " & CStr(cP.Infos.FileInfo.ProductMinorPart) & "\par"
+                s = s & "\tab ProductPrivatePart :\tab\tab " & CStr(cP.Infos.FileInfo.ProductPrivatePart) & "\par"
+                s = s & "\tab ProductVersion :\tab\tab\tab " & CStr(cP.Infos.FileInfo.ProductVersion) & "\par"
+                s = s & "\tab SpecialBuild :\tab\tab\tab " & CStr(cP.Infos.FileInfo.SpecialBuild) & "\par"
 
                 s = s & "}"
 
@@ -3702,10 +3688,10 @@ Public Class frmMain
     Private Sub txtSearchModule_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchModule.TextChanged
         For Each it As ListViewItem In Me.lvModules.Items
             Dim cM As cModule = Me.lvModules.GetItemByKey(it.Name)
-            If InStr(LCase(cM.FileName), LCase(Me.txtSearchModule.Text)) = 0 And _
-                    InStr(LCase(cM.FileVersion), LCase(Me.txtSearchModule.Text)) = 0 And _
-                    InStr(LCase(cM.FileDescription), LCase(Me.txtSearchModule.Text)) = 0 And _
-                    InStr(LCase(cM.CompanyName), LCase(Me.txtSearchModule.Text)) = 0 Then
+            If InStr(LCase(cM.Infos.FileInfo.FileName), LCase(Me.txtSearchModule.Text)) = 0 And _
+                    InStr(LCase(cM.Infos.FileInfo.FileVersion), LCase(Me.txtSearchModule.Text)) = 0 And _
+                    InStr(LCase(cM.Infos.FileInfo.FileDescription), LCase(Me.txtSearchModule.Text)) = 0 And _
+                    InStr(LCase(cM.Infos.FileInfo.CompanyName), LCase(Me.txtSearchModule.Text)) = 0 Then
                 it.Group = lvModules.Groups(0)
             Else
                 it.Group = lvModules.Groups(1)
@@ -4345,6 +4331,7 @@ Public Class frmMain
         ' Connect all lvItems
         Me.lvProcess.ConnectionObj = theConnection
         Me.lvThreads.ConnectionObj = theConnection
+        Me.lvModules.ConnectionObj = theConnection
         Me.theConnection.Connect()
 
         ' Disable some controls depending the connection type

@@ -81,10 +81,6 @@ Public Class cThread
         _threadInfos.Merge(Thr)
         Call RefreshSpecialInformations()
     End Sub
-    Public Sub Merge(ByRef Thr As API.SYSTEM_THREAD_INFORMATION)
-        _threadInfos.Merge(Thr)
-        Call RefreshSpecialInformations()
-    End Sub
 
 #Region "Special informations (affinity)"
 
@@ -285,7 +281,7 @@ Public Class cThread
             Case "StartAddress"
                 res = "0x" & Me.Infos.StartAddress.ToString("x")
             Case "BasePriority"
-                res = threadInfos.getPriorityClass(Me.Infos.BasePriority).ToString
+                res = CInt(Me.Infos.BasePriority).ToString ' threadInfos.getPriorityClass(Me.Infos.BasePriority).ToString
             Case "ContextSwitchCount"
                 res = Me.Infos.ContextSwitchCount.ToString
             Case "ProcessId"
