@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+	<HEAD>
+		<TITLE>Yet Another Process Monitor (YAPM)</TITLE>
+		<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+		<META content="A free, open source and advanced process/service monitor." name=description>
+		<META content="yapm,yet,another,process,monitor,windows,thread,module,handle,search,kernel,window,monitor,monitoring,ribbon,violent_ken,advanced" name=keywords>
+		<LINK href="styles.css" type="text/css" rel=stylesheet>
+		<META content="Namo WebEditor(Trial)" name=GENERATOR>
+	</HEAD>
+	<BODY>
+<DIV id=content>
+    <P class=sflogo>
+<A class=sflogo href="http://sourceforge.net/"><IMG class=sflogo height=37 alt="SourceForge.net Logo" src="Images/sflogo.png" width=125 border=0>
+			</A>		</P>
+    <DIV id=header>
+        <H1 align="center"><span style="background-color:white;"><font color="#602826"><img class=yapmicon src="Images/icon.png" width="48" height="48" border="0" alt="Yet Another Process Monitor" hspace="0"></font></span><font color="#602826"><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt; background-color:white;"> &nbsp;</span></font><span style="background-color:white;"><font color="#602826">Yet Another Process Monitor</font></span></H1>
+        <h4 align="center"><A href="index.html">Home</a> &nbsp;&nbsp;&nbsp;<A href="features.html">Features</a> &nbsp;&nbsp;&nbsp;<A href="faq.html">FAQ</a> &nbsp;&nbsp;&nbsp;<A href="http://sourceforge.net/forum/?group_id=244697">Forums</A> &nbsp;&nbsp;&nbsp;<A href="http://sourceforge.net/projects/yaprocmon/">Project Page</A> &nbsp;&nbsp;&nbsp;<A href="http://sourceforge.net/project/showfiles.php?group_id=244697">Downloads</A> &nbsp;&nbsp;&nbsp;<a href="developer.html">Developer page</a> &nbsp;&nbsp;&nbsp;<a
+href="changelog.html">Changelog</a></h4>
+    </DIV>
+    <DIV>
+        <H2>&nbsp;</H2>
+        <H2>List of main features</H2>
+        <p>The main purpose of YAPM is to display all informations availables about processes, and to update all informations&nbsp;in real time. The application has two principal forms :</p>
+        <ul>
+            <LI>the main form : displays the list of tasks/processes/services/TCP-UDP connections in real time. The other lists (modules, handles, threads...) can display objects of multiple processes, but it is not automatically refreshed</LI>
+            <LI>the process detail form : displays in real time all informations about a specific process. Double-click on a process to open this form.</LI>
+        </ul>
+        <p>For all lists, it is possible to choose the columns to display.</p>
+        <p>Lots of informations and functions&nbsp;are available, here are the main :</p>
+        <h3>Processes</h3>
+        <p>YAPM is able to kill (simple or kill process tree), stop, resume, set priority, set affinity of processes (multiple selection). You can also choose the columns you want to display (~40 available).</p>
+        <p align="center"><img src="Images/processes.png" width="881" height="693" border="0" alt="List of processes"></p>
+        <h3>Statistics &amp; performance graphs</h3>
+        <p>YAPM can display a lot of statistics about your processes. YAPM save a complete history of all statistics.</p>
+        <p align="center"><img src="Images/statistics.png" width="671" height="720" border="0" alt="Some of the available statistics"></p>
+        <h3>Token</h3>
+        <p>YAPM is able to manage process privileges (you can enable/disable/remove them).</p>
+        <p align="center"><img src="Images/privileges.png" width="811" height="327" border="0" alt="Privileges"></p>
+        <h3>Memory</h3>
+        <p>YAPM can display the memory regions in the virtual memory space of a process. You also can view it in&nbsp;a build-in hexadecimal editor.</p>
+        <p align="center"><img src="Images/memory.png" width="647" height="890" border="0" alt="Memory management"></p>
+        <h3>Modules</h3>
+        <p>YAPM can unload modules and show complete informations about them. You can of course save a detailed report.</p>
+        <p align="center"><img src="Images/modules.png" width="879" height="632" border="0" alt="Module list"></p>
+        <h3>Threads</h3>
+        <p>YAPM can kill, stop, resume and set affinity of threads.</p>
+        <p align="center"><img src="Images/threads.png" width="859" height="639" border="0" alt="Thread list"></p>
+        <h3>Handles</h3>
+        <p>YAPM is able to list all&nbsp;opened handles (even of system process if your have administrator rights) and show useful informations.</p>
+        <p align="center"><img src="Images/handles.png" width="881" height="631" border="0" alt="Handle list"></p>
+        <h3>Windows</h3>
+        <p>YAPM can close, set position, show, hide, flash, change caption/opacity, set as active/foreground window...etc. each of opened Windows. You are also able to find the owner process of a specific window by dragging your mouse over the screen.</p>
+        <p align="center"><img src="Images/windows.png" width="883" height="629" border="0" alt="Windows list"></p>
+        <h3>Services</h3>
+        <p>YAPM can shutdown, stop, resume, pause and change start type of all services.</p>
+        <p align="center"><img src="Images/services.png" width="880" height="631" border="0" alt="List of services"></p>
+        <h3>Monitoring</h3>
+        <p>YAPM allows to add all available Windows perfmon' counters and see evolution of theirs values in a timescale graph. The &quot;log mode&quot; is also a useful feature to know what is done by a process in real time.</p>
+        <p align="center"><img src="Images/monitoring.png" width="857" height="638" border="0" alt="Monitoring"></p>
+        <h3>Files</h3>
+        <p>YAPM can also manage your files. You can change dates/attributes, find string in file, encrypt, move/copy, delete and even shredd files.</p>
+        <p align="center"><img src="Images/files.png" width="858" height="637" border="0" alt="File management"></p>
+        <h3>Search</h3>
+        <p>YAPM allows you to search for a specified string into opened processes, modules, handles and windows.</p>
+        <p align="center"><img src="Images/search.png" width="857" height="638" border="0" alt="Search"></p>
+        <h3>Remote management</h3>
+        <p>In the next release, YAPM will offer the possibility to manage remote processes of machines of your workgroup via WMI (nothing to install in on the remote machine) or via a client-server architecture (all actions and informations are available, just like if it is a local machine).</p>
+        <p align="center"><img src="Images/remote.png" width="355" height="283" border="0" alt="Remote connection"></p>
+        <p>&nbsp;</p>
+        <DIV>
+            <P id=footer><i>Copyright (c) 2008-2009 violent_ken</i></P>
+            <P><i>Last update of this page : 2009-04-05&nbsp;23:59</i></P>
+        </DIV>
+        <P></P>
+        <p>
+<a class=w3clogo href="http://validator.w3.org/check?uri=referer"><img
+        src="http://www.w3.org/Icons/valid-html401"
+        alt="Valid HTML 4.01 Transitional" height="31" width="88"></a>
+</p>
+    </DIV>
+</DIV>
+	</BODY>
+</HTML>

@@ -1,0 +1,27 @@
+BODY {
+	FONT-SIZE: 13pt; FONT-FAMILY: "Calibri", "Verdana", "Tahoma", "Sans-Serif"
+}
+A {
+	BORDER-BOTTOM: #b73e22 1px groove; TEXT-DECORATION: none
+}
+A {
+	COLOR: #702715; TEXT-DECORATION: none
+}
+A:link {
+	COLOR: #702715; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #b73e22; TEXT-DECORATION: none
+}
+IMG {
+	BORDER-RIGHT: #777 2px groove; BORDER-TOP: #777 2px groove; MARGIN-LEFT: 5px; BORDER-LEFT: #777 2px groove; BORDER-BOTTOM: #777 2px groove
+}
+.yapmicon {
+	WIDTH: 48px; BORDER-TOP-STYLE: none! important; BORDER-RIGHT-STYLE: none! important; BORDER-LEFT-STYLE: none! important; BORDER-BOTTOM-STYLE: none! important; vertical-align : middle
+}
+.sflogo {
+	DISPLAY: block; MARGIN: 0px auto 0px 0px; WIDTH: 125px; BORDER-TOP-STYLE: none! important; BORDER-RIGHT-STYLE: none! important; BORDER-LEFT-STYLE: none! important; BORDER-BOTTOM-STYLE: none! important
+}
+.w3clogo {
+	DISPLAY: block; MARGIN: 0px auto 0px 0px; BORDER-TOP-STYLE: none! important; BORDER-RIGHT-STYLE: none! important; BORDER-LEFT-STYLE: none! important; BORDER-BOTTOM-STYLE: none! important
+}
