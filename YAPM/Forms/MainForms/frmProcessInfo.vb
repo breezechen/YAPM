@@ -48,11 +48,11 @@ Public Class frmProcessInfo
                 Call ShowPrivileges()
 
             Case "Modules"
-                If _local Then _
+                'If _local Then _
                 Call ShowModules()
 
             Case "Threads"
-                If _local Then _
+                'If _local Then _
                 Call ShowThreads()
 
             Case "Windows"
@@ -378,8 +378,6 @@ Public Class frmProcessInfo
         Me.Text = curProc.Infos.Name & " (" & CStr(curProc.Infos.Pid) & ")"
 
         _local = (cProcess.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
-
-        Me.lvThreads.Enabled = (cProcess.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
 
         Me.cmdAffinity.Enabled = _local
         Me.cmdPause.Enabled = _local

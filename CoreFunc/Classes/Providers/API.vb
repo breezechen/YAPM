@@ -227,7 +227,7 @@ Public Class API
         SystemAddVerifier
         SystemSessionProcessesInformation
     End Enum
-    Public Enum WMI_INFO
+    Public Enum WMI_INFO_PROCESS
         'Caption
         CommandLine
         'CreationClassName
@@ -273,6 +273,20 @@ Public Class API
         WorkingSetSize
         WriteOperationCount
         WriteTransferCount
+    End Enum
+    Public Enum WMI_INFO_THREAD
+        ElapsedTime
+        ExecutionState
+        Handle
+        KernelModeTime
+        Name
+        Priority
+        PriorityBase
+        ProcessHandle
+        StartAddress
+        ThreadState
+        ThreadWaitReason
+        UserModeTime
     End Enum
     Public Enum KWAIT_REASON As Integer
         Executive = 0

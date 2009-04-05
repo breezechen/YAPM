@@ -112,7 +112,7 @@ Public Class cThreadConnection
 
                 Try
                     'TOCHANGE
-                    wmiSearcher = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Process")
+                    wmiSearcher = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Thread")
                     wmiSearcher.Scope = New Management.ManagementScope("\\" & _conObj.WmiParameters.serverName & "\root\cimv2", __con)
                     _connected = True
                 Catch ex As Exception

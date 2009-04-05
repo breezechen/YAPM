@@ -147,7 +147,7 @@ Public Class threadInfos
     ' ========================================
 
     ' Constructor of this class
-    Public Sub New(ByRef Thr As API.SYSTEM_THREAD_INFORMATION, Optional ByVal ProcessName As String = Nothing)
+    Public Sub New(ByRef Thr As API.SYSTEM_THREAD_INFORMATION)
 
         With Thr
             _AffinityMask = 0

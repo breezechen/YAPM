@@ -3687,7 +3687,7 @@ Public Class frmMain
     Private Sub txtSearchModule_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchModule.TextChanged
         For Each it As ListViewItem In Me.lvModules.Items
             Dim cM As cModule = Me.lvModules.GetItemByKey(it.Name)
-            If InStr(LCase(cM.Infos.FileInfo.FileName), LCase(Me.txtSearchModule.Text)) = 0 And _
+            If cM.Infos.FileInfo IsNot Nothing AndAlso InStr(LCase(cM.Infos.FileInfo.FileName), LCase(Me.txtSearchModule.Text)) = 0 And _
                     InStr(LCase(cM.Infos.FileInfo.FileVersion), LCase(Me.txtSearchModule.Text)) = 0 And _
                     InStr(LCase(cM.Infos.FileInfo.FileDescription), LCase(Me.txtSearchModule.Text)) = 0 And _
                     InStr(LCase(cM.Infos.FileInfo.CompanyName), LCase(Me.txtSearchModule.Text)) = 0 Then
@@ -4325,6 +4325,8 @@ Public Class frmMain
         ' Clear all lvItems
         Me.lvProcess.ClearItems()
         Me.lvModules.ClearItems()
+        Me.lvThreads.ClearItems()
+        Me.lvHandles.ClearItems()
         Me.rtb6.Text = ""
 
         ' Connect all lvItems
@@ -4334,8 +4336,7 @@ Public Class frmMain
         Me.lvHandles.ConnectionObj = theConnection
         Me.theConnection.Connect()
 
-        ' Disable some controls depending the connection type
-        Me.pageThreads.Enabled = (theConnection.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
+        Me.menuThread.Enabled = (theConnection.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
 
         Me.butResumeProcess.Enabled = Me._local
         Me.butStopProcess.Enabled = Me._local
@@ -4346,17 +4347,12 @@ Public Class frmMain
         Me.SetAffinityToolStripMenuItem.Enabled = Me._local
         Me.ReduceWorkingSetSizeToolStripMenuItem.Enabled = Me._local
         Me.butProcessShowAll.Enabled = Me._local
-        Me.butProcessThreads.Enabled = Me._local
         Me.butProcessWindows.Enabled = Me._local
         Me.butProcessAffinity.Enabled = Me._local
         Me.butShowProcHandles.Enabled = Me._local
         Me.butStopProcess.Enabled = Me._local
         Me.butResumeProcess.Enabled = Me._local
         Me.butModuleUnload.Enabled = Me._local
-        Me.RBThreadAction.Enabled = Me._local
-        Me.RBThreadPriority.Enabled = Me._local
-        Me.RBThreadReport.Enabled = Me._local
-        Me.RBThreadsRefresh.Enabled = Me._local
         Me.RBHandlesActions.Enabled = Me._local
         Me.RBHandlesReport.Enabled = Me._local
         Me.RBWindowActions.Enabled = Me._local
@@ -4378,7 +4374,6 @@ Public Class frmMain
         Me.SelectedServicesToolStripMenuItem.Enabled = _local
         Me.FileDetailsToolStripMenuItem1.Enabled = _local
         Me.ShowAllToolStripMenuItem.Enabled = _local
-        Me.ShowThreadsToolStripMenuItem.Enabled = _local
         Me.ShowWindowsToolStripMenuItem.Enabled = _local
         Me.ShowHandlesToolStripMenuItem.Enabled = _local
         Me.ToolStripMenuItem20.Enabled = _local
@@ -4390,6 +4385,8 @@ Public Class frmMain
 
         Me.lvProcess.CatchErrors = Not (_local)
         Me.lvModules.CatchErrors = Not (_local)
+        Me.lvThreads.CatchErrors = Not (_local)
+        Me.lvHandles.CatchErrors = Not (_local)
 
         ' Enable all refreshments
         Me.timerProcess.Enabled = True

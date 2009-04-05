@@ -67,7 +67,7 @@ Public Class asyncCallbackModuleEnumerate
                 Dim _dico As New Dictionary(Of String, moduleInfos)
                 For Each refProcess As Management.ManagementObject In res
 
-                    Dim pid As Integer = CInt(refProcess.GetPropertyValue(API.WMI_INFO.ProcessId.ToString))
+                    Dim pid As Integer = CInt(refProcess.GetPropertyValue(API.WMI_INFO_PROCESS.ProcessId.ToString))
                     Dim ex As Boolean = False
                     For Each _iii As Integer In pObj.pid
                         If pid = _iii Then

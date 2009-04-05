@@ -37,8 +37,58 @@ Public Class asyncCallbackThreadEnumerate
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
-                ' NOT possible to get thread list from WMI               
-                ' pObj.ctrl.Invoke(pObj.deg, True, _dico, Nothing)
+                ' Save current collection
+                Dim _dico As New Dictionary(Of String, threadInfos)
+
+                For Each id As Integer In pObj.pid
+
+                    Dim res As ManagementObjectCollection = Nothing
+                    Try
+                        res = pObj.con.wmiSearcher.Get()
+                    Catch ex As Exception
+                        pObj.ctrl.Invoke(pObj.deg, False, Nothing, ex.Message)
+                        Exit Sub
+                    End Try
+
+                    For Each refThread As Management.ManagementObject In res
+
+                        Dim wmiId As Integer = CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.ProcessHandle.ToString))
+                        Dim ex As Boolean = False
+                        For Each ii As Integer In pObj.pid
+                            If ii = wmiId Then
+                                ex = True
+                                Exit For
+                            End If
+                        Next
+                        ' If we have to get threads for this process...
+                        If ex Then
+                            Dim obj As New API.SYSTEM_THREAD_INFORMATION
+                            With obj
+                                .BasePriority = CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.PriorityBase.ToString))
+                                .CreateTime = 0
+                                .ClientId.UniqueProcess = wmiId
+                                .ClientId.UniqueThread = CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.Handle.ToString))
+                                .KernelTime = 10000 * CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.KernelModeTime.ToString))
+                                .Priority = CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.Priority.ToString))
+                                Try
+                                    .StartAddress = CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.StartAddress.ToString))
+                                Catch ex0 As Exception
+                                    .StartAddress = -1
+                                End Try
+                                .State = CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.ThreadState.ToString))
+                                .UserTime = 10000 * CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.UserModeTime.ToString))
+                                .WaitReason = CType(CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.ThreadWaitReason.ToString)), API.KWAIT_REASON)
+                                .WaitTime = 10000 * CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.ElapsedTime.ToString))
+                            End With
+                            Dim _procInfos As New threadInfos(obj)
+                            Dim _key As String = obj.ClientId.UniqueThread.ToString & "-" & obj.ClientId.UniqueProcess.ToString
+                            If _dico.ContainsKey(_key) = False Then
+                                _dico.Add(_key, _procInfos)
+                            End If
+                        End If
+                    Next
+                Next
+                pObj.ctrl.Invoke(pObj.deg, True, _dico, Nothing)
 
             Case Else
                 ' Local
