@@ -121,6 +121,8 @@ Public Class frmChooseColumns
             ss = cWindow.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is privilegeList Then
             ss = privilegeInfos.GetAvailableProperties
+        ElseIf TypeOf (ConcernedListView) Is envVariableList Then
+            ss = envVariableInfos.GetAvailableProperties
         End If
 
 
