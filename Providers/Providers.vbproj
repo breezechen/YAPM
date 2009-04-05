@@ -64,6 +64,12 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomListviews\privilegeList.Designer.vb">
+      <DependentUpon>privilegeList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CustomListviews\privilegeList.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CustomListviews\handleList.Designer.vb">
       <DependentUpon>handleList.vb</DependentUpon>
     </Compile>
@@ -153,6 +159,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CustomListviews\privilegeList.resx">
+      <DependentUpon>privilegeList.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CustomListviews\handleList.resx">
       <DependentUpon>handleList.vb</DependentUpon>
     </EmbeddedResource>

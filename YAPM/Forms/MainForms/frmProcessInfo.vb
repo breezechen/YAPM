@@ -43,6 +43,9 @@ Public Class frmProcessInfo
         ' General informations
         Select Case Me.tabProcess.SelectedTab.Text
 
+            Case "Token"
+                Call Showprivileges()
+
             Case "Modules"
                 Call ShowModules()
 
@@ -134,28 +137,6 @@ Public Class frmProcessInfo
                 '        End If
                 '    End If
 
-                'Case "Token"
-
-                '    ' Privileges
-                '    If _local Then
-                '        Dim cPriv As New cPrivileges(curProc.Pid)
-                '        Dim lPriv() As cPrivileges.PrivilegeInfo = cPriv.GetPrivilegesList
-
-                '        Me.lvPrivileges.Items.Clear()
-                '        If lPriv.Length > 0 Then
-                '            For Each l As cPrivileges.PrivilegeInfo In lPriv
-                '                Dim newIt As New ListViewItem(l.Name)
-                '                Dim sub1 As New ListViewItem.ListViewSubItem
-                '                sub1.Text = cPrivileges.PrivilegeStatusToString(l.Status)
-                '                Dim sub2 As New ListViewItem.ListViewSubItem
-                '                sub2.Text = cPrivileges.GetPrivilegeDescription(l.Name)
-                '                newIt.SubItems.Add(sub1)
-                '                newIt.SubItems.Add(sub2)
-                '                newIt.BackColor = cPrivileges.GetColorFromStatus(l.Status)
-                '                Me.lvPrivileges.Items.Add(newIt)
-                '            Next
-                '        End If
-                '    End If
 
             Case "Informations"
 
@@ -467,7 +448,6 @@ Public Class frmProcessInfo
 
         ' Refresh informations about process
         If Not (Me.tabProcess.SelectedTab.Text = "Informations" Or _
-            Me.tabProcess.SelectedTab.Text = "Token" Or _
             Me.tabProcess.SelectedTab.Text = "Strings" Or _
             Me.tabProcess.SelectedTab.Text = "Environment") Then _
             Call Me.refreshProcessTab()
@@ -832,32 +812,20 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub ToolStripMenuItem44_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem44.Click
-        Dim cPriv As New cPrivileges(curProc.Infos.Pid)
-        Dim it As ListViewItem
-        For Each it In Me.lvPrivileges.SelectedItems
-            cPriv.Privilege(it.Text) = cPrivileges.PrivilegeStatus.PRIVILEGE_ENABLED
-            it.SubItems(1).Text = cPrivileges.PrivilegeStatusToString(cPriv.Privilege(it.Text))
-            it.BackColor = cPrivileges.GetColorFromStatus(cPriv.Privilege(it.Text))
+        For Each it As cPrivilege In Me.lvPrivileges.GetSelectedItems
+            it.ChangeStatus(API.PRIVILEGE_STATUS.PRIVILEGE_ENABLED)
         Next
     End Sub
 
     Private Sub DisableToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles DisableToolStripMenuItem.Click
-        Dim cPriv As New cPrivileges(curProc.Infos.Pid)
-        Dim it As ListViewItem
-        For Each it In Me.lvPrivileges.SelectedItems
-            cPriv.Privilege(it.Text) = cPrivileges.PrivilegeStatus.PRIVILEGE_DISBALED
-            it.SubItems(1).Text = cPrivileges.PrivilegeStatusToString(cPriv.Privilege(it.Text))
-            it.BackColor = cPrivileges.GetColorFromStatus(cPriv.Privilege(it.Text))
+        For Each it As cPrivilege In Me.lvPrivileges.GetSelectedItems
+            it.ChangeStatus(API.PRIVILEGE_STATUS.PRIVILEGE_DISBALED)
         Next
     End Sub
 
     Private Sub RemoveToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles RemoveToolStripMenuItem.Click
-        Dim cPriv As New cPrivileges(curProc.Infos.Pid)
-        Dim it As ListViewItem
-        For Each it In Me.lvPrivileges.SelectedItems
-            cPriv.Privilege(it.Text) = cPrivileges.PrivilegeStatus.PRIVILEGE_REMOVED
-            it.SubItems(1).Text = cPrivileges.PrivilegeStatusToString(cPriv.Privilege(it.Text))
-            it.BackColor = cPrivileges.GetColorFromStatus(cPriv.Privilege(it.Text))
+        For Each it As cPrivilege In Me.lvPrivileges.GetSelectedItems
+            it.ChangeStatus(API.PRIVILEGE_STATUS.PRIVILEGE_REMOVED)
         Next
     End Sub
 
@@ -930,6 +898,14 @@ Public Class frmProcessInfo
         pid(0) = curProc.Infos.Pid
         lvModules.ProcessId = pid
         lvModules.UpdateTheItems()
+
+    End Sub
+
+    ' Show modules
+    Public Sub ShowPrivileges()
+
+        lvPrivileges.ProcessId = curProc.Infos.Pid
+        lvPrivileges.UpdateTheItems()
 
     End Sub
 
@@ -1935,6 +1911,7 @@ Public Class frmProcessInfo
         Me.lvModules.ConnectionObj = theConnection
         Me.lvHandles.ConnectionObj = theConnection
         Me.lvProcMem.ConnectionObj = theConnection
+        Me.lvPrivileges.ConnectionObj = theConnection
         theConnection.Connect()
     End Sub
 

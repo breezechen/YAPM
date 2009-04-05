@@ -89,6 +89,11 @@
     <Compile Include="Classes\Providers\Modules\cModule.vb" />
     <Compile Include="Classes\Providers\Modules\cModuleConnection.vb" />
     <Compile Include="Classes\Providers\Modules\moduleInfos.vb" />
+    <Compile Include="Classes\Providers\Privileges\asyncMethods\asyncCallbackPrivilegeChangeStatus.vb" />
+    <Compile Include="Classes\Providers\Privileges\asyncMethods\asyncCallbackPrivilegesEnumerate.vb" />
+    <Compile Include="Classes\Providers\Privileges\cPrivilege.vb" />
+    <Compile Include="Classes\Providers\Privileges\cPrivilegeConnection.vb" />
+    <Compile Include="Classes\Providers\Privileges\privilegeInfos.vb" />
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackProcKill.vb" />
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackProcSuspend.vb" />
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackProcResume.vb" />

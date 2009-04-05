@@ -42,6 +42,19 @@ Public Class API
     Public Const PROCESS_VM_READ As Integer = &H10
     Public Const PROCESS_VM_WRITE As Integer = &H20
 
+    Public Const TOKEN_QUERY As Integer = &H8
+    Public Const TOKEN_ADJUST_PRIVILEGES As Integer = &H20
+
+    Public Const SE_PRIVILEGE_ENABLED As Integer = &H2
+    Public Const SE_PRIVILEGE_ENABLED_BY_DEFAULT As Integer = &H1
+    Public Const SE_PRIVILEGE_DISBALED As Integer = &H0
+    Public Const SE_PRIVILEGE_REMOVED As Integer = &H4
+
+    Public Enum PRIVILEGE_STATUS
+        PRIVILEGE_ENABLED = &H2
+        PRIVILEGE_DISBALED = &H0
+        PRIVILEGE_REMOVED = &H4
+    End Enum
     Public Enum PROTECTION_TYPE As Integer
         PAGE_EXECUTE = &H10
         PAGE_EXECUTE_READ = &H20
@@ -465,6 +478,11 @@ Public Class API
     Public Shared Function SetProcessWorkingSetSize(ByVal hwProc As Integer, ByVal minimumSize As Integer, ByVal maximumSize As Integer) As Integer
     End Function
 
+    Public Structure TOKEN_PRIVILEGES2
+        Dim PrivilegeCount As Integer
+        Dim Privileges As LUID_AND_ATTRIBUTES
+    End Structure
+
     <StructLayout(LayoutKind.Sequential)> _
     Public Structure THREAD_BASIC_INFORMATION
         Public ExitStatus As Integer
@@ -562,6 +580,60 @@ Public Class API
         Dim Protect As Integer
         Dim lType As Integer
     End Structure
+
+    Public Structure LUID
+        Dim lowpart As Integer
+        Dim highpart As Integer
+    End Structure
+
+    Public Structure LUID_AND_ATTRIBUTES
+        Dim pLuid As LUID
+        Dim Attributes As Integer
+    End Structure
+
+    Public Structure PrivilegeInfo
+        Dim Name As String
+        Dim Status As Integer
+        Dim pLuid As LUID
+    End Structure
+
+    <DllImport("advapi32.dll", SetLastError:=True)> _
+    Public Shared Function AdjustTokenPrivileges( _
+        ByVal TokenHandle As Integer, _
+        ByVal DisableAllPrivileges As Integer, _
+        ByRef NewState As TOKEN_PRIVILEGES, _
+        ByVal BufferLength As Integer, _
+        ByRef PreviousState As TOKEN_PRIVILEGES, _
+        ByRef ReturnLength As Integer) As Boolean
+    End Function
+
+    <DllImport("advapi32.dll", SetLastError:=True)> _
+    Public Shared Function AdjustTokenPrivileges( _
+        ByVal TokenHandle As Integer, _
+        ByVal DisableAllPrivileges As Integer, _
+        ByRef NewState As TOKEN_PRIVILEGES2, _
+        ByVal BufferLength As Integer, _
+        ByRef PreviousState As TOKEN_PRIVILEGES2, _
+        ByRef ReturnLength As Integer) As Boolean
+    End Function
+
+    Public Structure TOKEN_PRIVILEGES
+        Dim PrivilegeCount As Integer
+        '<VBFixedArray(25)> _
+        Dim Privileges() As LUID_AND_ATTRIBUTES
+    End Structure
+
+    Public Declare Function GetTokenInformation Lib "advapi32.dll" (ByVal TokenHandle As Integer, ByVal TokenInformationClass As Integer, ByVal TokenInformation As Integer, ByVal TokenInformationLength As Integer, ByRef ReturnLength As Integer) As Boolean
+    Public Declare Function LookupPrivilegeValue Lib "advapi32.dll" Alias "LookupPrivilegeValueA" (ByVal lpSystemName As String, ByVal lpName As String, ByRef lpLuid As LUID) As Integer           'Returns a valid LUID which is important when making security changes in NT.
+
+    <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
+    Public Shared Function LookupPrivilegeDisplayName( _
+        ByVal SystemName As Integer, ByVal Name As String, ByVal DisplayName As String, _
+        ByRef DisplayNameSize As Integer, ByRef LanguageId As Integer) As Boolean
+    End Function
+
+    Public Declare Function LookupPrivilegeNameA Lib "advapi32.dll" (ByVal lpSystemName As String, ByRef lpLuid As LUID, ByVal lpName As String, ByRef cchName As Integer) As Integer                'Used to adjust your program's security privileges, can't restore without it!
+
 
     <DllImport("kernel32.dll", SetLastError:=True)> _
     Public Shared Function VirtualQueryEx(ByVal Process As Integer, ByVal Address As Integer, <MarshalAs(UnmanagedType.Struct)> ByRef Buffer As MEMORY_BASIC_INFORMATION, ByVal Size As Integer) As Boolean
