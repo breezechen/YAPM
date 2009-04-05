@@ -40,6 +40,9 @@ Public Class moduleInfos
     Private _processId As Integer
     Private _fileInfo As FileVersionInfo
 
+    Private _manufacturer As String
+    Private _version As String
+
 #End Region
 
 #Region "Read only properties"
@@ -79,6 +82,16 @@ Public Class moduleInfos
             Return _fileInfo
         End Get
     End Property
+    Public ReadOnly Property Manufacturer() As String
+        Get
+            Return _manufacturer
+        End Get
+    End Property
+    Public ReadOnly Property Version() As String
+        Get
+            Return _version
+        End Get
+    End Property
 
 #End Region
 
@@ -89,7 +102,7 @@ Public Class moduleInfos
 
     ' Constructor of this class
     Public Sub New(ByRef Thr As API.MODULEINFO, ByVal pid As Integer, _
-                   ByVal path As String, Optional ByVal getFileInfos As Boolean = True)
+                   ByVal path As String) ', Optional ByVal getFileInfos As Boolean = True)
         With Thr
             _size = .SizeOfImage
             _entryPoint = .EntryPoint.ToInt32
@@ -109,15 +122,39 @@ Public Class moduleInfos
         End If
         _path = path
         _name = cFile.GetFileName(_path)
-        If getFileInfos Then
-            Try
-                _fileInfo = FileVersionInfo.GetVersionInfo(path)
-            Catch ex As Exception
-                _fileInfo = Nothing
-            End Try
-        Else
+        'If getFileInfos Then
+        Try
+            _fileInfo = FileVersionInfo.GetVersionInfo(path)
+        Catch ex As Exception
             _fileInfo = Nothing
+        End Try
+        'Else
+        '_fileInfo = Nothing
+        'End If
+    End Sub
+    Public Sub New(ByRef Thr As API.MODULEINFO, ByVal pid As Integer, _
+                   ByVal path As String, ByVal version As String, ByVal manufacturer As String)
+        With Thr
+            _size = .SizeOfImage
+            _entryPoint = .EntryPoint.ToInt32
+            _address = .BaseOfDll.ToInt32
+        End With
+        _processId = pid
+
+        If path.ToLowerInvariant.StartsWith("\systemroot\") Then
+            path = path.Substring(12, path.Length - 12)
+            Dim ii As Integer = InStr(path, "\", CompareMethod.Binary)
+            If ii > 0 Then
+                path = path.Substring(ii, path.Length - ii)
+                path = Environment.SystemDirectory & "\" & path
+            End If
+        ElseIf path.StartsWith("\??\") Then
+            path = path.Substring(4)
         End If
+        _path = path
+        _name = cFile.GetFileName(_path)
+        _manufacturer = manufacturer
+        _version = version
     End Sub
 
     ' Merge an old and a new instance

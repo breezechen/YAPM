@@ -144,13 +144,18 @@ Public Class cProcessConnection
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
-                Dim objSearcherSystem = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Processor")
-                objSearcherSystem.Scope = wmiSearcher.Scope
-                Dim _count As Integer = 0
-                For Each res As Management.ManagementObject In objSearcherSystem.Get
-                    _count += 1
-                Next
-                _processors = _count
+                Try
+                    Dim objSearcherSystem = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Processor")
+                    objSearcherSystem.Scope = wmiSearcher.Scope
+                    Dim _count As Integer = 0
+                    For Each res As Management.ManagementObject In objSearcherSystem.Get
+                        _count += 1
+                    Next
+                    _processors = _count
+                Catch ex As Exception
+                    MsgBox("Cannot get informations about system : " & ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "WMI connection")
+                    _processors = 1
+                End Try
 
             Case Else
                 ' Local

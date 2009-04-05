@@ -86,6 +86,7 @@ Public Class asyncCallbackModuleEnumerate
 
                             With obj
                                 ' Get base address from dico
+                                ' TOCHANGE
                                 .BaseOfDll = CType(0, IntPtr)
                                 .EntryPoint = CType(0, IntPtr)
                                 .SizeOfImage = 0
@@ -93,7 +94,9 @@ Public Class asyncCallbackModuleEnumerate
 
 
                             ' Do we have to get fixed infos ?
-                            Dim _module As New moduleInfos(obj, pid, path, False)
+                            Dim _manuf As String = CStr(refModule.GetPropertyValue("Manufacturer"))
+                            Dim _vers As String = CStr(refModule.GetPropertyValue("Version"))
+                            Dim _module As New moduleInfos(obj, pid, path, _vers, _manuf)
                             Dim _key As String = path & "-" & pid.ToString & "-" & obj.BaseOfDll.ToString
                             _dico.Add(_key, _module)
 

@@ -99,14 +99,22 @@ Public Class cModule
             Case "Name"
                 res = Me.Infos.Name
             Case "Version"
-                If Me.Infos.FileInfo IsNot Nothing Then _
-                res = Me.Infos.FileInfo.FileVersion
+                If Me.Infos.Version Is Nothing Then
+                    If Me.Infos.FileInfo IsNot Nothing Then _
+                    res = Me.Infos.FileInfo.FileVersion
+                Else
+                    res = Me.Infos.Version
+                End If
             Case "Description"
                 If Me.Infos.FileInfo IsNot Nothing Then _
                 res = Me.Infos.FileInfo.FileDescription
             Case "CompanyName"
-                If Me.Infos.FileInfo IsNot Nothing Then _
-                res = Me.Infos.FileInfo.CompanyName
+                If Me.Infos.Manufacturer Is Nothing Then
+                    If Me.Infos.FileInfo IsNot Nothing Then _
+                    res = Me.Infos.FileInfo.CompanyName
+                Else
+                    res = Me.Infos.Manufacturer
+                End If
             Case "Path"
                 res = Me.Infos.Path
             Case "Address"
