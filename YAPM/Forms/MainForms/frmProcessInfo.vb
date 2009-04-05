@@ -44,9 +44,11 @@ Public Class frmProcessInfo
         Select Case Me.tabProcess.SelectedTab.Text
 
             Case "Token"
-                Call Showprivileges()
+                If _local Then _
+                Call ShowPrivileges()
 
             Case "Modules"
+                If _local Then _
                 Call ShowModules()
 
             Case "Threads"
@@ -64,6 +66,10 @@ Public Class frmProcessInfo
             Case "Memory"
                 If _local Then _
                 Call ShowRegions()
+
+            Case "Environment"
+                If _local Then _
+                Call showenvvariables()
 
             Case "Network"
                 If _local Then _
@@ -120,22 +126,6 @@ Public Class frmProcessInfo
                        System.Threading.WaitCallback(AddressOf _
                        asyncAllNonFixedInfos.Process))
                 End If
-
-                'Case "Environment"
-                '    If _local Then
-                '        Me.lvProcEnv.Items.Clear()
-                '        Dim cVar() As String = Nothing
-                '        Dim cVal() As String = Nothing
-                '        If curProc.GetEnvironmentVariables(cVar, cVal) > 0 Then
-                '            For x As Integer = 0 To cVar.Length - 1
-                '                If cVar(x).Length > 0 Then
-                '                    Dim itpr As New ListViewItem(cVar(x))
-                '                    itpr.SubItems.Add(CStr(cVal(x)))
-                '                    Me.lvProcEnv.Items.Add(itpr)
-                '                End If
-                '            Next
-                '        End If
-                '    End If
 
 
             Case "Informations"
@@ -448,8 +438,7 @@ Public Class frmProcessInfo
 
         ' Refresh informations about process
         If Not (Me.tabProcess.SelectedTab.Text = "Informations" Or _
-            Me.tabProcess.SelectedTab.Text = "Strings" Or _
-            Me.tabProcess.SelectedTab.Text = "Environment") Then _
+            Me.tabProcess.SelectedTab.Text = "Strings") Then _
             Call Me.refreshProcessTab()
 
         ' Display caption
@@ -901,7 +890,16 @@ Public Class frmProcessInfo
 
     End Sub
 
-    ' Show modules
+    ' Show env variables
+    Public Sub ShowEnvVariables()
+
+        lvProcEnv.ProcessId = curProc.Infos.Pid
+        lvProcEnv.peb = curProc.Infos.PEBAddress
+        lvProcEnv.UpdateTheItems()
+
+    End Sub
+
+    ' Show privileges
     Public Sub ShowPrivileges()
 
         lvPrivileges.ProcessId = curProc.Infos.Pid
@@ -1912,6 +1910,7 @@ Public Class frmProcessInfo
         Me.lvHandles.ConnectionObj = theConnection
         Me.lvProcMem.ConnectionObj = theConnection
         Me.lvPrivileges.ConnectionObj = theConnection
+        Me.lvProcEnv.ConnectionObj = theConnection
         theConnection.Connect()
     End Sub
 

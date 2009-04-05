@@ -119,6 +119,8 @@ Public Class frmChooseColumns
             ss = threadInfos.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is windowList Then
             ss = cWindow.GetAvailableProperties
+        ElseIf TypeOf (ConcernedListView) Is privilegeList Then
+            ss = privilegeInfos.GetAvailableProperties
         End If
 
 

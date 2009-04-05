@@ -23,11 +23,11 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 
-Public Class privilegeList
+Public Class envVariableList
     Inherits customLV
 
-    Public Event ItemAdded(ByRef item As cPrivilege)
-    Public Event ItemDeleted(ByRef item As cPrivilege)
+    Public Event ItemAdded(ByRef item As cEnvVariable)
+    Public Event ItemDeleted(ByRef item As cEnvVariable)
     Public Event HasRefreshed()
     Public Event GotAnError(ByVal origin As String, ByVal msg As String)
 
@@ -36,13 +36,14 @@ Public Class privilegeList
     ' Private
     ' ========================================
     Private _pid As Integer
+    Private _peb As Integer
     Private _first As Boolean
-    Private _dicoNew As New Dictionary(Of String, cPrivilege)
-    Private _dicoDel As New Dictionary(Of String, cPrivilege)
-    Private _buffDico As New Dictionary(Of String, cPrivilege)
-    Private _dico As New Dictionary(Of String, cPrivilege)
+    Private _dicoNew As New Dictionary(Of String, cEnvVariable)
+    Private _dicoDel As New Dictionary(Of String, cEnvVariable)
+    Private _buffDico As New Dictionary(Of String, cEnvVariable)
+    Private _dico As New Dictionary(Of String, cEnvVariable)
     Private WithEvents _connectionObject As New cConnection
-    Private WithEvents _privilegeConnection As New cPrivilegeConnection(Me, _connectionObject)
+    Private WithEvents _envvariableConnection As New cEnvVariableConnection(Me, _connectionObject)
 
 #Region "Properties"
 
@@ -65,6 +66,14 @@ Public Class privilegeList
             _pid = value
         End Set
     End Property
+    Public Property Peb() As Integer
+        Get
+            Return _peb
+        End Get
+        Set(ByVal value As Integer)
+            _peb = value
+        End Set
+    End Property
 
 #End Region
 
@@ -80,9 +89,9 @@ Public Class privilegeList
         _first = True
 
         ' Set handlers
-        _privilegeConnection.HasEnumerated = New cPrivilegeConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler)
-        _privilegeConnection.Disconnected = New cPrivilegeConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
-        _privilegeConnection.Connected = New cPrivilegeConnection.ConnectedEventHandler(AddressOf HasConnected)
+        _envvariableConnection.HasEnumerated = New cEnvVariableConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler)
+        _envvariableConnection.Disconnected = New cEnvVariableConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
+        _envvariableConnection.Connected = New cEnvVariableConnection.ConnectedEventHandler(AddressOf HasConnected)
     End Sub
 
     ' Delete all items
@@ -103,22 +112,22 @@ Public Class privilegeList
             Call CreateSubItemsBuffer()
         End If
 
-        If _privilegeConnection.IsConnected Then
+        If _envvariableConnection.IsConnected Then
 
             ' Now enumerate items
-            _privilegeConnection.Enumerate(_first, _pid)
+            _envvariableConnection.Enumerate(_first, _pid, _peb)
 
         End If
 
     End Sub
 
     ' Get all items (associated to listviewitems)
-    Public Function GetAllItems() As Dictionary(Of String, cPrivilege).ValueCollection
+    Public Function GetAllItems() As Dictionary(Of String, cEnvVariable).ValueCollection
         Return _dico.Values
     End Function
 
     ' Get the selected item
-    Public Function GetSelectedItem() As cPrivilege
+    Public Function GetSelectedItem() As cEnvVariable
         If Me.SelectedItems.Count > 0 Then
             Return _dico.Item(Me.SelectedItems.Item(0).Name)
         Else
@@ -127,13 +136,13 @@ Public Class privilegeList
     End Function
 
     ' Get a specified item
-    Public Function GetItemByKey(ByVal key As String) As cPrivilege
+    Public Function GetItemByKey(ByVal key As String) As cEnvVariable
         Return _dico.Item(key)
     End Function
 
     ' Get selected items
-    Public Function GetSelectedItems() As Dictionary(Of String, cPrivilege).ValueCollection
-        Dim res As New Dictionary(Of String, cPrivilege)
+    Public Function GetSelectedItems() As Dictionary(Of String, cEnvVariable).ValueCollection
+        Dim res As New Dictionary(Of String, cEnvVariable)
 
         For Each it As ListViewItem In Me.SelectedItems
             res.Add(it.Name, _dico.Item(it.Name))
@@ -148,11 +157,11 @@ Public Class privilegeList
     ' ========================================
 
     ' Executed when enumeration is done
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, privilegeInfos), ByVal errorMessage As String)
+    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, envVariableInfos), ByVal errorMessage As String)
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
-            RaiseEvent GotAnError("Privilege enumeration", errorMessage)
+            RaiseEvent GotAnError("Environment variable enumeration", errorMessage)
             Exit Sub
         End If
 
@@ -161,18 +170,18 @@ Public Class privilegeList
 
 
         ' Now add all items with isKilled = true to _dicoDel dictionnary
-        For Each z As cPrivilege In _dico.Values
+        For Each z As cEnvVariable In _dico.Values
             If z.IsKilledItem Then
-                _dicoDel.Add(z.Infos.Name, Nothing)
+                _dicoDel.Add(z.Infos.Variable, Nothing)
             End If
         Next
 
 
         ' Now add new items to dictionnary
-        For Each pair As System.Collections.Generic.KeyValuePair(Of String, privilegeInfos) In Dico
+        For Each pair As System.Collections.Generic.KeyValuePair(Of String, envVariableInfos) In Dico
             If Not (_dico.ContainsKey(pair.Key)) Then
                 ' Add to dico
-                _dicoNew.Add(pair.Key, New cPrivilege(pair.Value))
+                _dicoNew.Add(pair.Key, New cEnvVariable(pair.Value))
             End If
 
         Next
@@ -198,7 +207,7 @@ Public Class privilegeList
 
         ' Merge _dico and _dicoNew
         For Each z As String In _dicoNew.Keys
-            Dim _it As cPrivilege = _dicoNew.Item(z)
+            Dim _it As cEnvVariable = _dicoNew.Item(z)
             RaiseEvent ItemAdded(_it)
             _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
             _dico.Add(z.ToString, _it)
@@ -227,7 +236,7 @@ Public Class privilegeList
         Dim it As ListViewItem
         For Each it In Me.Items
             Dim x As Integer = 0
-            Dim _item As cPrivilege = _dico.Item(it.Name)
+            Dim _item As cEnvVariable = _dico.Item(it.Name)
             If Dico.ContainsKey(it.Name) Then
                 _item.Merge(Dico.Item(it.Name))
             End If
@@ -235,15 +244,14 @@ Public Class privilegeList
                 isub.Text = _item.GetInformation(_columnsName(x))
                 x += 1
             Next
-            'If _dico.Item(it.Name).IsNewItem Then
-            '    _dico.Item(it.Name).IsNewItem = False
-            '    it.BackColor = NEW_ITEM_COLOR
-            'ElseIf _dico.Item(it.Name).IsKilledItem Then
-            '    it.BackColor = DELETED_ITEM_COLOR
-            'Else
-            '    it.BackColor = Color.White
-            'End If
-            Call SetItemBackColor(it)
+            If _dico.Item(it.Name).IsNewItem Then
+                _dico.Item(it.Name).IsNewItem = False
+                it.BackColor = NEW_ITEM_COLOR
+            ElseIf _dico.Item(it.Name).IsKilledItem Then
+                it.BackColor = DELETED_ITEM_COLOR
+            Else
+                it.BackColor = Color.White
+            End If
         Next
 
         ' This piece of code is needed. Strange behavior, the Text attribute must
@@ -280,24 +288,6 @@ Public Class privilegeList
 
     End Function
 
-    ' Set backcolor
-    Private Sub SetItemBackColor(ByRef item As ListViewItem)
-
-        Select Case CInt(_dico.Item(item.Name).Infos.Status)
-            Case API.PRIVILEGE_STATUS.PRIVILEGE_ENABLED
-                item.BackColor = Color.FromArgb(224, 240, 224)
-            Case 1, 3
-                item.BackColor = Color.FromArgb(192, 240, 192)
-            Case API.PRIVILEGE_STATUS.PRIVILEGE_DISBALED
-                item.BackColor = Color.FromArgb(240, 224, 224)
-            Case API.PRIVILEGE_STATUS.PRIVILEGE_REMOVED
-                item.BackColor = Color.FromArgb(240, 192, 192)
-            Case Else
-                item.BackColor = Color.White
-        End Select
-
-    End Sub
-
 
 #Region "Connection stuffs"
 
@@ -311,19 +301,19 @@ Public Class privilegeList
 
     Private Sub Connect()
         _first = True
-        _privilegeConnection.ConnectionObj = _connectionObject
-        _privilegeConnection.Connect()
-        cPrivilege.Connection = _privilegeConnection
+        _envvariableConnection.ConnectionObj = _connectionObject
+        _envvariableConnection.Connect()
+        cEnvVariable.Connection = _envvariableConnection
     End Sub
 
     Private Sub Disconnect()
-        _privilegeConnection.Disconnect()
+        _envvariableConnection.Disconnect()
     End Sub
 
     Private Sub HasDisconnected(ByVal Success As Boolean)
         ' We HAVE TO disconnect, because this event is raised when we got an error
-        '_privilegeConnection.Disconnect()
-        '     _privilegeConnection.Con()
+        '_envvariableConnection.Disconnect()
+        '     _envvariableConnection.Con()
     End Sub
 
     Private Sub HasConnected(ByVal Success As Boolean)

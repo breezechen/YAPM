@@ -208,7 +208,7 @@ Partial Class frmProcessInfo
         Me.optProcStringMemory = New System.Windows.Forms.RadioButton
         Me.optProcStringImage = New System.Windows.Forms.RadioButton
         Me.TabPage9 = New System.Windows.Forms.TabPage
-        Me.lvProcEnv = New YAPM.DoubleBufferedLV
+        Me.lvProcEnv = New Providers.envVariableList
         Me.ColumnHeader60 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader61 = New System.Windows.Forms.ColumnHeader
         Me.TabPage10 = New System.Windows.Forms.TabPage
@@ -3115,7 +3115,7 @@ Partial Class frmProcessInfo
     Friend WithEvents optProcStringMemory As System.Windows.Forms.RadioButton
     Friend WithEvents optProcStringImage As System.Windows.Forms.RadioButton
     Friend WithEvents TabPage9 As System.Windows.Forms.TabPage
-    Friend WithEvents lvProcEnv As YAPM.DoubleBufferedLV
+    Friend WithEvents lvProcEnv As Providers.envVariableList
     Friend WithEvents ColumnHeader60 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader61 As System.Windows.Forms.ColumnHeader
     Friend WithEvents menuProcServ As System.Windows.Forms.ContextMenuStrip

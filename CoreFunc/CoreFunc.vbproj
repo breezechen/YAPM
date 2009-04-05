@@ -70,6 +70,10 @@
     <Compile Include="Classes\Providers\cMonitor.vb" />
     <Compile Include="Classes\Providers\cNetwork.vb" />
     <Compile Include="Classes\Providers\cLocalService.vb" />
+    <Compile Include="Classes\Providers\EnvVariables\asyncMethods\asyncCallbackEnvVariableEnumerate.vb" />
+    <Compile Include="Classes\Providers\EnvVariables\cEnvVariable.vb" />
+    <Compile Include="Classes\Providers\EnvVariables\cEnvVariableConnection.vb" />
+    <Compile Include="Classes\Providers\EnvVariables\envVariableInfos.vb" />
     <Compile Include="Classes\Providers\cProcessMemRW.vb" />
     <Compile Include="Classes\Providers\cServEnum.vb" />
     <Compile Include="Classes\Providers\cService.vb" />
