@@ -125,7 +125,8 @@ Public Class frmChooseColumns
             ss = envVariableInfos.GetAvailableProperties
         End If
 
-
+        ReDim Preserve ss(ss.Length)
+        ss(ss.Length - 1) = "ObjectCreationDate"
 
         For Each s As String In ss
             Dim it As New ListViewItem(s)

@@ -90,6 +90,11 @@ Public Class cModule
 
     ' Retrieve informations by its name
     Public Overrides Function GetInformation(ByVal info As String) As String
+
+        If info = "ObjectCreationDate" Then
+            Return _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
+        End If
+
         Dim res As String = NO_INFO_RETRIEVED
         Select Case info
             Case "EntryPoint"

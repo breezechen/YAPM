@@ -176,8 +176,12 @@ Public Class cService
 
     ' Retrieve informations by its name
     Public Overrides Function GetInformation(ByVal info As String) As String
-        Dim res As String = NO_INFO_RETRIEVED
 
+        If info = "ObjectCreationDate" Then
+            Return _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
+        End If
+
+        Dim res As String = NO_INFO_RETRIEVED
         Select Case info
             Case "Name"
                 res = Me.Infos.Name
@@ -189,45 +193,45 @@ Public Class cService
                 If _path = vbNullString Then
                     _path = mdlMisc.GetRealPath(Me.Infos.ImagePath)
                 End If
-                    res = _path
+                res = _path
             Case "ErrorControl"
-                    res = Me.Infos.ErrorControl.ToString
+                res = Me.Infos.ErrorControl.ToString
             Case "StartType"
-                    res = Me.Infos.StartType.ToString
+                res = Me.Infos.StartType.ToString
             Case "ProcessId"
-                    res = Me.Infos.ProcessId.ToString
+                res = Me.Infos.ProcessId.ToString
             Case "ProcessName"
-                    res = Me.Infos.ProcessName
+                res = Me.Infos.ProcessName
             Case "LoadOrderGroup"
-                    res = Me.Infos.LoadOrderGroup
+                res = Me.Infos.LoadOrderGroup
             Case "ServiceStartName"
-                    res = Me.Infos.ServiceStartName
+                res = Me.Infos.ServiceStartName
             Case "State"
-                    res = Me.Infos.State.ToString
+                res = Me.Infos.State.ToString
             Case "Description"
-                    res = Me.Infos.Description
+                res = Me.Infos.Description
             Case "DiagnosticMessageFile"
-                    res = Me.Infos.DiagnosticMessageFile
+                res = Me.Infos.DiagnosticMessageFile
             Case "ObjectName"
-                    res = Me.Infos.ObjectName
+                res = Me.Infos.ObjectName
             Case "Process"
-                    If Me.Infos.ProcessId > 0 Then
-                        res = cProcess.GetProcessName(Me.Infos.ProcessId) & " -- " & Me.Infos.ProcessId.ToString
-                    End If
+                If Me.Infos.ProcessId > 0 Then
+                    res = cProcess.GetProcessName(Me.Infos.ProcessId) & " -- " & Me.Infos.ProcessId.ToString
+                End If
             Case "Dependencies"
-                    res = Me.Infos.Dependencies
+                res = Me.Infos.Dependencies
             Case "TagID"
-                    res = Me.Infos.TagID.ToString
+                res = Me.Infos.TagID.ToString
             Case "ServiceFlags"
-                    res = Me.Infos.ServiceFlags.ToString
+                res = Me.Infos.ServiceFlags.ToString
             Case "WaitHint"
-                    res = Me.Infos.WaitHint.ToString
+                res = Me.Infos.WaitHint.ToString
             Case "CheckPoint"
-                    res = Me.Infos.CheckPoint.ToString
+                res = Me.Infos.CheckPoint.ToString
             Case "Win32ExitCode"
-                    res = Me.Infos.Win32ExitCode.ToString
+                res = Me.Infos.Win32ExitCode.ToString
             Case "ServiceSpecificExitCode"
-                    res = Me.Infos.ServiceSpecificExitCode.ToString
+                res = Me.Infos.ServiceSpecificExitCode.ToString
         End Select
 
         Return res

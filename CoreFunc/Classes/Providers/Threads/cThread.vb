@@ -236,8 +236,12 @@ Public Class cThread
 
     ' Retrieve informations by its name
     Public Overrides Function GetInformation(ByVal info As String) As String
-        Dim res As String = ""
 
+        If info = "ObjectCreationDate" Then
+            Return _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
+        End If
+
+        Dim res As String = NO_INFO_RETRIEVED
         Select Case info
             Case "Priority"
                 res = CInt(Me.Infos.Priority).ToString  'threadInfos.getPriorityClass(Me.Infos.Priority).ToString

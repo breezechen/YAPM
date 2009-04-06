@@ -5,6 +5,11 @@ Public MustInherit Class cGeneralObject
     Private _newItem As Boolean = False
     Private _killedItem As Boolean = False
     Private _isDisplayed As Boolean = False
+    Friend _objectCreationDate As Date
+
+    Public Sub New()
+        _objectCreationDate = Date.Now
+    End Sub
 
     Public Property IsDisplayed() As Boolean
         Get
