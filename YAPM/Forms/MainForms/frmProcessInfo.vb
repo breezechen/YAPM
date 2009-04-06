@@ -76,12 +76,9 @@ Public Class frmProcessInfo
                 Call ShowNetwork()
 
             Case "Services"
-                Try
-                    If _local Then _
-                    Call ShowServices()
-                Catch ex As Exception
-                    '
-                End Try
+                If _local Then _
+                Call ShowServices()
+
 
             Case "Strings"
                 If _local Then _
@@ -1909,6 +1906,7 @@ Public Class frmProcessInfo
         Me.lvProcMem.ConnectionObj = theConnection
         Me.lvPrivileges.ConnectionObj = theConnection
         Me.lvProcEnv.ConnectionObj = theConnection
+        Me.lvProcServices.ConnectionObj = theConnection
         theConnection.Connect()
     End Sub
 

@@ -653,7 +653,7 @@ Public Class frmMain
     Private Sub ToolStripMenuItem20_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem20.Click
         Dim s As String = vbNullString
         For Each it As cService In Me.lvServices.GetSelectedItems
-            Dim sP As String = it.Infos.ImagePath
+            Dim sP As String = it.GetInformation("ImagePath")
             If sP <> NO_INFO_RETRIEVED Then
                 'TODO_
                 s = sP  'cService.GetFileNameFromSpecial(sP)
@@ -686,7 +686,7 @@ Public Class frmMain
     Private Sub ToolStripMenuItem21_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem21.Click
         Dim s As String = vbNullString
         For Each it As cService In Me.lvServices.GetSelectedItems
-            Dim sP As String = it.Infos.ImagePath
+            Dim sP As String = it.GetInformation("ImagePath")
             If sP <> NO_INFO_RETRIEVED Then
                 s = cFile.GetParentDir(sP)
                 If IO.Directory.Exists(s) Then
@@ -1086,7 +1086,7 @@ Public Class frmMain
 
     Private Sub butServiceFileDetails_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butServiceFileDetails.Click
         If Me.lvServices.SelectedItems.Count > 0 Then
-            Dim s As String = Me.lvServices.GetSelectedItem.Infos.ImagePath
+            Dim s As String = Me.lvServices.GetSelectedItem.GetInformation("ImagePath")
             If IO.File.Exists(s) = False Then
                 s = cFile.IntelligentPathRetrieving2(s)
             End If
@@ -3056,7 +3056,7 @@ Public Class frmMain
                 Dim cS As cService = Me.lvServices.GetSelectedItem
 
                 Me.lblServiceName.Text = "Service name : " & cS.Infos.Name
-                Me.lblServicePath.Text = "Service path : " & cS.Infos.ImagePath
+                Me.lblServicePath.Text = "Service path : " & cS.GetInformation("ImagePath")
 
                 ' Description
                 Dim s As String = vbNullString
@@ -3065,7 +3065,7 @@ Public Class frmMain
                 Dim group As String = cS.Infos.LoadOrderGroup
                 Dim objectName As String = cS.Infos.ObjectName
                 Dim tag As String = vbNullString
-                Dim sp As String = cS.Infos.ImagePath
+                Dim sp As String = cS.GetInformation("ImagePath")
 
                 ' OK it's not the best way to retrive the description...
                 ' (if @ -> extract string to retrieve description)
@@ -3082,7 +3082,7 @@ Public Class frmMain
                 s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Service properties\b0\par"
                 s = s & "\tab Name :\tab\tab\tab " & cS.Infos.Name & "\par"
                 s = s & "\tab Common name :\tab\tab " & cS.Infos.DisplayName & "\par"
-                If Len(sp) > 0 Then s = s & "\tab Path :\tab\tab\tab " & Replace(cS.Infos.ImagePath, "\", "\\") & "\par"
+                If Len(sp) > 0 Then s = s & "\tab Path :\tab\tab\tab " & Replace(cS.GetInformation("ImagePath"), "\", "\\") & "\par"
                 If Len(description) > 0 Then s = s & "\tab Description :\tab\tab " & description & "\par"
                 If Len(group) > 0 Then s = s & "\tab Group :\tab\tab\tab " & group & "\par"
                 If Len(objectName) > 0 Then s = s & "\tab ObjectName :\tab\tab " & objectName & "\par"

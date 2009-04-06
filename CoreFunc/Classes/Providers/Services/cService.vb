@@ -26,6 +26,7 @@ Public Class cService
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
     Private _serviceInfos As serviceInfos
+    Private _path As String
     Private Shared WithEvents _connection As cServiceConnection
 
 #Region "Properties"
@@ -160,45 +161,67 @@ Public Class cService
             Case "ServiceType"
                 res = Me.Infos.ServiceType.ToString
             Case "ImagePath"
-                res = Me.Infos.ImagePath
-            Case "ErrorControl"
-                res = Me.Infos.ErrorControl.ToString
-            Case "StartType"
-                res = Me.Infos.StartType.ToString
-            Case "ProcessId"
-                res = Me.Infos.ProcessId.ToString
-            Case "ProcessName"
-                res = Me.Infos.ProcessName
-            Case "LoadOrderGroup"
-                res = Me.Infos.LoadOrderGroup
-            Case "ServiceStartName"
-                res = Me.Infos.ServiceStartName
-            Case "State"
-                res = Me.Infos.State.ToString
-            Case "Description"
-                res = Me.Infos.Description
-            Case "DiagnosticMessageFile"
-                res = Me.Infos.DiagnosticMessageFile
-            Case "ObjectName"
-                res = Me.Infos.ObjectName
-            Case "Process"
-                If Me.Infos.ProcessId > 0 Then
-                    res = cProcess.GetProcessName(Me.Infos.ProcessId) & " -- " & Me.Infos.ProcessId.ToString
+                If _path = vbNullString Then
+                    Dim path As String = Me.Infos.ImagePath
+                    If Len(path) > 0 Then
+                        If path.ToLowerInvariant.StartsWith("\systemroot\") Then
+                            path = path.Substring(12, path.Length - 12)
+                            Dim ii As Integer = InStr(path, "\", CompareMethod.Binary)
+                            If ii > 0 Then
+                                path = path.Substring(ii, path.Length - ii)
+                                path = Environment.SystemDirectory & "\" & path
+                            End If
+                        ElseIf path.StartsWith("\??\") Then
+                            path = path.Substring(4)
+                        ElseIf path.StartsWith(Char.ConvertFromUtf32(34)) Then
+                            If path.Length > 2 Then
+                                path = path.Substring(1, path.Length - 2)
+                            End If
+                        End If
+                    Else
+                        path = NO_INFO_RETRIEVED
+                    End If
+                    _path = path
                 End If
+                    res = _path
+            Case "ErrorControl"
+                    res = Me.Infos.ErrorControl.ToString
+            Case "StartType"
+                    res = Me.Infos.StartType.ToString
+            Case "ProcessId"
+                    res = Me.Infos.ProcessId.ToString
+            Case "ProcessName"
+                    res = Me.Infos.ProcessName
+            Case "LoadOrderGroup"
+                    res = Me.Infos.LoadOrderGroup
+            Case "ServiceStartName"
+                    res = Me.Infos.ServiceStartName
+            Case "State"
+                    res = Me.Infos.State.ToString
+            Case "Description"
+                    res = Me.Infos.Description
+            Case "DiagnosticMessageFile"
+                    res = Me.Infos.DiagnosticMessageFile
+            Case "ObjectName"
+                    res = Me.Infos.ObjectName
+            Case "Process"
+                    If Me.Infos.ProcessId > 0 Then
+                        res = cProcess.GetProcessName(Me.Infos.ProcessId) & " -- " & Me.Infos.ProcessId.ToString
+                    End If
             Case "Dependencies"
-                res = Me.Infos.Dependencies
+                    res = Me.Infos.Dependencies
             Case "TagID"
-                res = Me.Infos.TagID.ToString
+                    res = Me.Infos.TagID.ToString
             Case "ServiceFlags"
-                res = Me.Infos.ServiceFlags.ToString
+                    res = Me.Infos.ServiceFlags.ToString
             Case "WaitHint"
-                res = Me.Infos.WaitHint.ToString
+                    res = Me.Infos.WaitHint.ToString
             Case "CheckPoint"
-                res = Me.Infos.CheckPoint.ToString
+                    res = Me.Infos.CheckPoint.ToString
             Case "Win32ExitCode"
-                res = Me.Infos.Win32ExitCode.ToString
+                    res = Me.Infos.Win32ExitCode.ToString
             Case "ServiceSpecificExitCode"
-                res = Me.Infos.ServiceSpecificExitCode.ToString
+                    res = Me.Infos.ServiceSpecificExitCode.ToString
         End Select
 
         Return res
