@@ -43,6 +43,7 @@ Partial Class frmMain
         Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Windows", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
         Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Processes", 1, 1)
+        Dim CConnection5 As CoreFunc.cConnection = New CoreFunc.cConnection
         Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Results", System.Windows.Forms.HorizontalAlignment.Left)
@@ -63,6 +64,7 @@ Partial Class frmMain
         Me.RealTimeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ReduceWorkingSetSizeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SetAffinityToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ReanalizeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem38 = New System.Windows.Forms.ToolStripSeparator
         Me.ShowModulesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowThreadsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -641,7 +643,6 @@ Partial Class frmMain
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerNetwork = New System.Windows.Forms.Timer(Me.components)
         Me.timerStateBasedActions = New System.Windows.Forms.Timer(Me.components)
-        Me.ReanalizeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.menuProc.SuspendLayout()
         Me.menuService.SuspendLayout()
         Me.mainMenu.SuspendLayout()
@@ -777,7 +778,7 @@ Partial Class frmMain
         '
         Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.KillProcessTreeToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.ReduceWorkingSetSizeToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ReanalizeToolStripMenuItem, Me.ToolStripMenuItem38, Me.ShowModulesToolStripMenuItem, Me.ShowThreadsToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.ShowWindowsToolStripMenuItem, Me.ShowAllToolStripMenuItem, Me.SelectedServicesToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.GoogleSearchToolStripMenuItem, Me.ToolStripMenuItem37, Me.chooseColumns})
         Me.menuProc.Name = "menuProc"
-        Me.menuProc.Size = New System.Drawing.Size(200, 462)
+        Me.menuProc.Size = New System.Drawing.Size(200, 440)
         '
         'KillToolStripMenuItem
         '
@@ -868,6 +869,12 @@ Partial Class frmMain
         Me.SetAffinityToolStripMenuItem.Name = "SetAffinityToolStripMenuItem"
         Me.SetAffinityToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
         Me.SetAffinityToolStripMenuItem.Text = "Set affinity..."
+        '
+        'ReanalizeToolStripMenuItem
+        '
+        Me.ReanalizeToolStripMenuItem.Name = "ReanalizeToolStripMenuItem"
+        Me.ReanalizeToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
+        Me.ReanalizeToolStripMenuItem.Text = "Reanalize"
         '
         'ToolStripMenuItem38
         '
@@ -5876,6 +5883,8 @@ Partial Class frmMain
         Me.lvServices.AllowColumnReorder = True
         Me.lvServices.CatchErrors = False
         Me.lvServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader11, Me.ColumnHeader19})
+        CConnection5.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.lvServices.ConnectionObj = CConnection5
         Me.lvServices.ContextMenuStrip = Me.menuService
         Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvServices.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -5890,7 +5899,7 @@ Partial Class frmMain
         Me.lvServices.Name = "lvServices"
         Me.lvServices.OverriddenDoubleBuffered = True
         Me.lvServices.ProcessId = 0
-        Me.lvServices.ShowAll = False
+        Me.lvServices.ShowAll = True
         Me.lvServices.Size = New System.Drawing.Size(852, 225)
         Me.lvServices.TabIndex = 1
         Me.lvServices.UseCompatibleStateImageBehavior = False
@@ -6682,12 +6691,6 @@ Partial Class frmMain
         '
         Me.timerStateBasedActions.Enabled = True
         Me.timerStateBasedActions.Interval = 1000
-        '
-        'ReanalizeToolStripMenuItem
-        '
-        Me.ReanalizeToolStripMenuItem.Name = "ReanalizeToolStripMenuItem"
-        Me.ReanalizeToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
-        Me.ReanalizeToolStripMenuItem.Text = "Reanalize"
         '
         'frmMain
         '

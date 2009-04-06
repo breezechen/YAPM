@@ -829,7 +829,7 @@ Public Class frmProcessInfo
             Dim it2 As ListViewItem
             For Each it2 In frmMain.lvServices.Items
                 Dim cp As cService = frmMain.lvServices.GetItemByKey(it2.Name)
-                If cp.Name = it.Name Then
+                If cp.Infos.Name = it.Infos.Name Then
                     it2.Selected = True
                     it2.EnsureVisible()
                 End If
@@ -1463,45 +1463,45 @@ Public Class frmProcessInfo
 
     ' Check if there are changes about services
     Private Sub _CheckServices()
+        'TODO_
+        'Static _enum As New cServEnum
+        'Static _dico As New Dictionary(Of String, cService.LightService)
+        'Static _first As Boolean = True
+        'Dim _buffDico As New Dictionary(Of String, cService.LightService)
+        'Dim _buffDico2 As New Dictionary(Of String, cService.LightService)  ' Useless
 
-        Static _enum As New cServEnum
-        Static _dico As New Dictionary(Of String, cService.LightService)
-        Static _first As Boolean = True
-        Dim _buffDico As New Dictionary(Of String, cService.LightService)
-        Dim _buffDico2 As New Dictionary(Of String, cService.LightService)  ' Useless
+        'Dim _itemId() As String
+        'ReDim _itemId(0)
 
-        Dim _itemId() As String
-        ReDim _itemId(0)
+        'Call _enum.EnumerateApi(curProc.Infos.Pid, _itemId, _buffDico, _buffDico2)
 
-        Call _enum.EnumerateApi(curProc.Infos.Pid, _itemId, _buffDico, _buffDico2)
+        'If _first Then
+        '    _dico = _buffDico
+        '    _first = False
+        'End If
 
-        If _first Then
-            _dico = _buffDico
-            _first = False
-        End If
+        '' Check if there are new items
+        'If (_logCaptureMask And LogItemType.CreatedItems) = LogItemType.CreatedItems Then
+        '    For Each z As String In _itemId
+        '        If Not (_dico.ContainsKey(z)) Then
+        '            ' New item
+        '            Call addToLog("Service started (" & _buffDico.Item(z).name & ")", LogItemType.ServiceItem, True)
+        '        End If
+        '    Next
+        'End If
 
-        ' Check if there are new items
-        If (_logCaptureMask And LogItemType.CreatedItems) = LogItemType.CreatedItems Then
-            For Each z As String In _itemId
-                If Not (_dico.ContainsKey(z)) Then
-                    ' New item
-                    Call addToLog("Service started (" & _buffDico.Item(z).name & ")", LogItemType.ServiceItem, True)
-                End If
-            Next
-        End If
+        '' Check if there are deleted items
+        'If (_logCaptureMask And LogItemType.DeletedItems) = LogItemType.DeletedItems Then
+        '    For Each z As String In _dico.Keys
+        '        If Array.IndexOf(_itemId, z) < 0 Then
+        '            ' Deleted item
+        '            Call addToLog("Service stopped (" & _dico.Item(z).name & ")", LogItemType.ServiceItem, False)
+        '        End If
+        '    Next
+        'End If
 
-        ' Check if there are deleted items
-        If (_logCaptureMask And LogItemType.DeletedItems) = LogItemType.DeletedItems Then
-            For Each z As String In _dico.Keys
-                If Array.IndexOf(_itemId, z) < 0 Then
-                    ' Deleted item
-                    Call addToLog("Service stopped (" & _dico.Item(z).name & ")", LogItemType.ServiceItem, False)
-                End If
-            Next
-        End If
-
-        ' Save dico
-        _dico = _buffDico
+        '' Save dico
+        '_dico = _buffDico
 
     End Sub
 

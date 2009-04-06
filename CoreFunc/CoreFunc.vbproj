@@ -69,14 +69,11 @@
     <Compile Include="Classes\Providers\cGeneralObject.vb" />
     <Compile Include="Classes\Providers\cMonitor.vb" />
     <Compile Include="Classes\Providers\cNetwork.vb" />
-    <Compile Include="Classes\Providers\cLocalService.vb" />
     <Compile Include="Classes\Providers\EnvVariables\asyncMethods\asyncCallbackEnvVariableEnumerate.vb" />
     <Compile Include="Classes\Providers\EnvVariables\cEnvVariable.vb" />
     <Compile Include="Classes\Providers\EnvVariables\cEnvVariableConnection.vb" />
     <Compile Include="Classes\Providers\EnvVariables\envVariableInfos.vb" />
-    <Compile Include="Classes\Providers\cProcessMemRW.vb" />
-    <Compile Include="Classes\Providers\cServEnum.vb" />
-    <Compile Include="Classes\Providers\cService.vb" />
+    <Compile Include="Classes\Providers\Processes\cProcessMemRW.vb" />
     <Compile Include="Classes\Providers\cTask.vb" />
     <Compile Include="Classes\Providers\cWindow.vb" />
     <Compile Include="Classes\Providers\Handles\asyncMethods\asyncCallbackHandleEnumerate.vb" />
@@ -112,6 +109,10 @@
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackProcUnloadModule.vb" />
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackProcNewProcess.vb" />
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackProcGetAllNonFixedInfos.vb" />
+    <Compile Include="Classes\Providers\Services\asyncMethods\asyncCallbackServiceEnumerate.vb" />
+    <Compile Include="Classes\Providers\Services\cService.vb" />
+    <Compile Include="Classes\Providers\Services\cServiceConnection.vb" />
+    <Compile Include="Classes\Providers\Services\serviceInfos.vb" />
     <Compile Include="Classes\Providers\Threads\asyncMethods\asyncCallbackThreadGetOtherInfos.vb" />
     <Compile Include="Classes\Providers\Threads\asyncMethods\asyncCallbackThreadEnumerate.vb" />
     <Compile Include="Classes\Providers\Processes\cProcess.vb" />
@@ -189,7 +190,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Classes\Providers\Services\" />
+    <Folder Include="Classes\Providers\NetworkConnections\" />
     <Folder Include="Classes\Providers\Tasks\" />
     <Folder Include="Classes\Providers\Windows\" />
   </ItemGroup>

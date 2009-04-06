@@ -129,20 +129,20 @@ Public Class frmSaveReport
                             Try
                                 ' Try to access to the service (avoid to write lines if service
                                 ' is deleted)
-                                Dim suseless As String = cm.LoadOrderGroup
+                                Dim suseless As String = cm.Infos.LoadOrderGroup
 
                                 c &= "Name" & vbTab & vbTab
-                                c &= cm.Name & vbNewLine
+                                c &= cm.Infos.Name & vbNewLine
                                 c &= "Common name" & vbTab & vbTab
-                                c &= cm.LongName & vbNewLine
+                                c &= cm.Infos.DisplayName & vbNewLine
                                 c &= "Path" & vbTab & vbTab
-                                c &= cm.ImagePath & vbNewLine
+                                c &= cm.Infos.ImagePath & vbNewLine
                                 c &= "ObjectName" & vbTab & vbTab
-                                c &= cm.ObjectName & vbNewLine
+                                c &= cm.Infos.ObjectName & vbNewLine
                                 c &= "State" & vbTab & vbTab
-                                c &= cm.State.ToString & vbNewLine
+                                c &= cm.Infos.State.ToString & vbNewLine
                                 c &= "Startup" & vbTab & vbTab
-                                c &= cm.ServiceStartType.ToString & vbNewLine & vbNewLine & vbNewLine
+                                c &= cm.Infos.StartType.ToString & vbNewLine & vbNewLine & vbNewLine
 
                             Catch ex As Exception
                                 '  Call Me.ReportFailed(ex)
@@ -166,27 +166,27 @@ Public Class frmSaveReport
                             Try
                                 ' Try to access to the service (avoid to write lines if service
                                 ' is deleted)
-                                Dim suseless As String = cm.LoadOrderGroup
+                                Dim suseless As String = cm.Infos.LoadOrderGroup
 
-                                _html.AppendTitleLine(cm.Name)
+                                _html.AppendTitleLine(cm.Infos.Name)
                                 Dim _lin(1) As String
                                 _lin(0) = "Name"
-                                _lin(1) = cm.Name
+                                _lin(1) = cm.Infos.Name
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Common name"
-                                _lin(1) = cm.LongName
+                                _lin(1) = cm.Infos.DisplayName
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Path"
-                                _lin(1) = cm.ImagePath
+                                _lin(1) = cm.Infos.ImagePath
                                 _html.AppendLine(_lin)
                                 _lin(0) = "ObjectName"
-                                _lin(1) = cm.ObjectName
+                                _lin(1) = cm.Infos.ObjectName
                                 _html.AppendLine(_lin)
                                 _lin(0) = "State"
-                                _lin(1) = cm.State.ToString
+                                _lin(1) = cm.Infos.State.ToString
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Startup"
-                                _lin(1) = cm.ServiceStartType.ToString
+                                _lin(1) = cm.Infos.StartType.ToString
                                 _html.AppendLine(_lin)
 
                                 x += 1
@@ -899,20 +899,20 @@ Public Class frmSaveReport
                             Try
                                 ' Try to access to the service (avoid to write lines if service
                                 ' is deleted)
-                                Dim suseless As String = cm.LoadOrderGroup
+                                Dim suseless As String = cm.Infos.LoadOrderGroup
 
                                 c &= "Name" & vbTab & vbTab
-                                c &= cm.Name & vbNewLine
+                                c &= cm.Infos.Name & vbNewLine
                                 c &= "Common name" & vbTab & vbTab
-                                c &= cm.LongName & vbNewLine
+                                c &= cm.Infos.DisplayName & vbNewLine
                                 c &= "Path" & vbTab & vbTab
-                                c &= cm.ImagePath & vbNewLine
+                                c &= cm.Infos.ImagePath & vbNewLine
                                 c &= "ObjectName" & vbTab & vbTab
-                                c &= cm.ObjectName & vbNewLine
+                                c &= cm.Infos.ObjectName & vbNewLine
                                 c &= "State" & vbTab & vbTab
-                                c &= cm.State.ToString & vbNewLine
+                                c &= cm.Infos.State.ToString & vbNewLine
                                 c &= "Startup" & vbTab & vbTab
-                                c &= cm.ServiceStartType.ToString & vbNewLine & vbNewLine & vbNewLine
+                                c &= cm.Infos.StartType.ToString & vbNewLine & vbNewLine & vbNewLine
 
                             Catch ex As Exception
                                 '  Call Me.ReportFailed(ex)
@@ -936,27 +936,27 @@ Public Class frmSaveReport
                             Try
                                 ' Try to access to the service (avoid to write lines if service
                                 ' is deleted)
-                                Dim suseless As String = cm.LoadOrderGroup
+                                Dim suseless As String = cm.Infos.LoadOrderGroup
 
-                                _html.AppendTitleLine(cm.Name)
+                                _html.AppendTitleLine(cm.Infos.Name)
                                 Dim _lin(1) As String
                                 _lin(0) = "Name"
-                                _lin(1) = cm.Name
+                                _lin(1) = cm.Infos.Name
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Common name"
-                                _lin(1) = cm.LongName
+                                _lin(1) = cm.Infos.DisplayName
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Path"
-                                _lin(1) = cm.ImagePath
+                                _lin(1) = cm.Infos.ImagePath
                                 _html.AppendLine(_lin)
                                 _lin(0) = "ObjectName"
-                                _lin(1) = cm.ObjectName
+                                _lin(1) = cm.Infos.ObjectName
                                 _html.AppendLine(_lin)
                                 _lin(0) = "State"
-                                _lin(1) = cm.State.ToString
+                                _lin(1) = cm.Infos.State.ToString
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Startup"
-                                _lin(1) = cm.ServiceStartType.ToString
+                                _lin(1) = cm.Infos.StartType.ToString
                                 _html.AppendLine(_lin)
 
                                 x += 1

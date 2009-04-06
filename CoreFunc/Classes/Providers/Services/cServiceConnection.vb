@@ -27,12 +27,9 @@ Imports System.Management
 Imports System.Net.Sockets
 Imports System.Text
 
-Public Class cModuleConnection
+Public Class cServiceConnection
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
-
-    ' Rights to query infos with a handle
-    Private Shared _minRights As API.THREAD_RIGHTS = API.THREAD_RIGHTS.THREAD_QUERY_INFORMATION
 
     ' We will invoke this control
     Private _control As Control
@@ -40,25 +37,17 @@ Public Class cModuleConnection
     ' For WMI
     Friend wmiSearcher As Management.ManagementObjectSearcher
 
-    Public Shared ReadOnly Property ThreadMinRights() As API.THREAD_RIGHTS
-        Get
-            Return _minRights
-        End Get
-    End Property
-
     Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection)
         _control = ControlWhichGetInvoked
         _conObj = Conn
-        If API.IsWindowsVista Then
-            _minRights = API.THREAD_RIGHTS.THREAD_SET_LIMITED_INFORMATION
-        End If
     End Sub
+
 
 #Region "Events, delegate, invoke..."
 
     Public Delegate Sub ConnectedEventHandler(ByVal Success As Boolean)
     Public Delegate Sub DisconnectedEventHandler(ByVal Success As Boolean)
-    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, moduleInfos), ByVal errorMessage As String)
+    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, serviceInfos), ByVal errorMessage As String)
 
     Public Connected As ConnectedEventHandler
     Public Disconnected As DisconnectedEventHandler
@@ -69,10 +58,16 @@ Public Class cModuleConnection
 #Region "Description of the type of connection"
 
     ' Attributes
+    Private hSCM As IntPtr
     Private _connected As Boolean = False
     Private _conObj As cConnection
     Private WithEvents _sock As RemoteControl.cAsyncSocket
 
+    Public ReadOnly Property SCManagerLocalHandle() As IntPtr
+        Get
+            Return hSCM
+        End Get
+    End Property
     Public ReadOnly Property IsConnected() As Boolean
         Get
             Return _connected
@@ -105,22 +100,25 @@ Public Class cModuleConnection
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
-                Dim __con As New ConnectionOptions
-                __con.Impersonation = ImpersonationLevel.Impersonate
-                __con.Password = _conObj.WmiParameters.password
-                __con.Username = _conObj.WmiParameters.userName
+                'Dim __con As New ConnectionOptions
+                '__con.Impersonation = ImpersonationLevel.Impersonate
+                '__con.Password = _conObj.WmiParameters.password
+                '__con.Username = _conObj.WmiParameters.userName
 
-                Try
-                    'TOCHANGE
-                    wmiSearcher = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Process")
-                    wmiSearcher.Scope = New Management.ManagementScope("\\" & _conObj.WmiParameters.serverName & "\root\cimv2", __con)
-                    _connected = True
-                Catch ex As Exception
-                    '
-                End Try
+                'Try
+                '    'TOCHANGE
+                '    wmiSearcher = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Process")
+                '    wmiSearcher.Scope = New Management.ManagementScope("\\" & _conObj.WmiParameters.serverName & "\root\cimv2", __con)
+                '    _connected = True
+                'Catch ex As Exception
+                '    '
+                'End Try
 
             Case Else
                 ' Local
+                If hSCM = IntPtr.Zero Then
+                    hSCM = API.OpenSCManager(vbNullString, vbNullString, API.SC_MANAGER_ENUMERATE_SERVICE)
+                End If
                 _connected = True
                 _control.Invoke(Connected, True)
         End Select
@@ -144,6 +142,9 @@ Public Class cModuleConnection
                 _control.Invoke(Disconnected, True)
             Case Else
                 ' Local
+                If hSCM.ToInt32 > 0 Then
+                    Call API.CloseServiceHandle(hSCM)
+                End If
                 _connected = False
                 _control.Invoke(Disconnected, True)
         End Select
@@ -151,14 +152,14 @@ Public Class cModuleConnection
 
 #End Region
 
-#Region "Enumerate modules"
+#Region "Enumerate services"
 
-    ' Enumerate threads
-    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid() As Integer) As Integer
+    ' Enumerate services
+    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByVal pid As Integer, ByVal all As Boolean) As Integer
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
                 System.Threading.WaitCallback(AddressOf _
-                asyncCallbackModuleEnumerate.Process), New  _
-                asyncCallbackModuleEnumerate.poolObj(_control, HasEnumerated, Me, pid))
+                asyncCallbackServiceEnumerate.Process), New  _
+                asyncCallbackServiceEnumerate.poolObj(_control, HasEnumerated, Me, pid, all))
     End Function
 
 #End Region

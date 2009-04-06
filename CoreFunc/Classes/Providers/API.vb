@@ -17,6 +17,12 @@
 '
 ' You should have received a copy of the GNU General Public License
 ' along with YAPM; if not, see http://www.gnu.org/licenses/.
+'
+'
+' Some pieces of code are inspired by wj32 work (from Process Hacker) :
+' - Declarations of Enums and Structures (converted from C# to VB.Net)
+'   * xxx
+'   * yyy
 
 Option Strict On
 
@@ -31,6 +37,32 @@ Public Class API
     ' Const
     Public Const GR_USEROBJECTS As Integer = 1
     Public Const GR_GDIOBJECTS As Integer = 0
+
+    Public Const ERROR_MORE_DATA As Integer = 234
+    Public Const SC_ENUM_PROCESS_INFO As Integer = &H0
+    Public Const SC_MANAGER_ENUMERATE_SERVICE As Integer = &H4
+
+    Public Const SC_STATUS_PROCESS_INFO As Integer = 0
+    Public Const SERVICE_ACTIVE As Integer = &H1
+    Public Const SERVICE_INACTIVE As Integer = &H2
+    Public Const SERVICE_STATE_ALL As Integer = (SERVICE_ACTIVE Or SERVICE_INACTIVE)
+    Public Const SERVICE_ADAPTER As Integer = &H4
+    Public Const SERVICE_WIN32_OWN_PROCESS As Integer = &H10
+    Public Const SERVICE_WIN32_SHARE_PROCESS As Integer = &H20
+    Public Const SERVICE_WIN32 As Integer = SERVICE_WIN32_OWN_PROCESS + SERVICE_WIN32_SHARE_PROCESS
+
+    Public Const SERVICE_DRIVER As Integer = &HB
+    Public Const SERVICE_INTERACTIVE_PROCESS As Integer = &H100
+    Public Const SERVICE_ALL As Integer = SERVICE_DRIVER Or SERVICE_WIN32_OWN_PROCESS Or _
+            SERVICE_WIN32_SHARE_PROCESS Or SERVICE_WIN32 Or SERVICE_INTERACTIVE_PROCESS
+
+    Public Const STANDARD_RIGHTS_REQUIRED As Integer = &HF0000
+    Public Const SC_MANAGER_CONNECT As Integer = &H1
+    Public Const SC_MANAGER_CREATE_SERVICE As Integer = &H2
+    Public Const SC_MANAGER_LOCK As Integer = &H8
+    Public Const SC_MANAGER_QUERY_LOCK_STATUS As Integer = &H10
+    Public Const SC_MANAGER_MODIFY_BOOT_CONFIG As Integer = &H20
+    Public Const SC_MANAGER_ALL_ACCESS As Integer = (STANDARD_RIGHTS_REQUIRED + SC_MANAGER_CONNECT + SC_MANAGER_CREATE_SERVICE + SC_MANAGER_ENUMERATE_SERVICE + SC_MANAGER_LOCK + SC_MANAGER_QUERY_LOCK_STATUS + SC_MANAGER_MODIFY_BOOT_CONFIG)
 
     Public Const PROCESS_SET_INFORMATION As Integer = &H200
     Public Const PROCESS_SUSPEND_RESUME As Integer = &H800
@@ -49,6 +81,8 @@ Public Class API
     Public Const SE_PRIVILEGE_ENABLED_BY_DEFAULT As Integer = &H1
     Public Const SE_PRIVILEGE_DISBALED As Integer = &H0
     Public Const SE_PRIVILEGE_REMOVED As Integer = &H4
+
+    Public Const SERVICE_NO_CHANGE As Integer = &HFFFFFFFF
 
     Public Enum PRIVILEGE_STATUS
         PRIVILEGE_ENABLED = &H2
@@ -408,6 +442,63 @@ Public Class API
         ThreadCSwitchMon
         MaxThreadInfoClass
     End Enum
+    Public Enum SERVICE_START_TYPE As Integer
+        SERVICE_BOOT_START = &H0
+        SERVICE_SYSTEM_START = &H1
+        SERVICE_AUTO_START = &H2
+        SERVICE_DEMAND_START = &H3
+        SERVICE_DISABLED = &H4
+        SERVICESTARTTYPE_NO_CHANGE = SERVICE_NO_CHANGE
+    End Enum
+    Public Enum SERVICE_STATE As Integer
+        ContinuePending = &H5
+        PausePending = &H6
+        Paused = &H7
+        Running = &H4
+        StartPending = &H2
+        StopPending = &H3
+        Stopped = &H1
+    End Enum
+    Public Enum SERVICE_TYPE As Integer
+        FileSystemDriver = &H2
+        KernelDriver = &H1
+        Win32OwnProcess = &H10
+        Win32ShareProcess = &H20
+        InteractiveProcess = &H100
+    End Enum
+    Public Enum SERVICE_ERROR_CONTROL As Integer
+        Critical = &H3
+        Ignore = &H0
+        Normal = &H1
+        Severe = &H2
+    End Enum
+    Public Enum SERVICE_FLAGS As Integer
+        None = 0
+        RunsInSystemProcess = &H1
+    End Enum
+    Public Enum SERVICE_ACCEPT As Integer
+        [NetBindChange] = &H10
+        [ParamChange] = &H8
+        [PauseContinue] = &H2
+        [PreShutdown] = &H100
+        [Shutdown] = &H4
+        [Stop] = &H1
+        [HardwareProfileChange] = &H20
+        [PowerEvent] = &H40
+        [SessionChange] = &H80
+    End Enum
+    Public Enum SERVICE_RIGHTS As UInteger
+        SERVICE_QUERY_CONFIG = &H1
+        SERVICE_CHANGE_CONFIG = &H2
+        SERVICE_QUERY_STATUS = &H4
+        SERVICE_ENUMERATE_DEPENDENTS = &H8
+        SERVICE_START = &H10
+        SERVICE_STOP = &H20
+        SERVICE_PAUSE_CONTINUE = &H40
+        SERVICE_INTERROGATE = &H80
+        SERVICE_USER_DEFINED_CONTROL = &H100
+        SERVICE_ALL_ACCESS = STANDARD_RIGHTS.STANDARD_RIGHTS_REQUIRED Or SERVICE_QUERY_CONFIG Or SERVICE_CHANGE_CONFIG Or SERVICE_QUERY_STATUS Or SERVICE_ENUMERATE_DEPENDENTS Or SERVICE_START Or SERVICE_STOP Or SERVICE_PAUSE_CONTINUE Or SERVICE_INTERROGATE Or SERVICE_USER_DEFINED_CONTROL
+    End Enum
 
     <StructLayout(LayoutKind.Sequential)> _
     Public Structure CLIENT_ID
@@ -430,6 +521,15 @@ Public Class API
         Dim Sid As Integer
         Dim Attributes As Integer
     End Structure
+
+    <DllImport("advapi32.dll", SetLastError:=True)> _
+    Public Shared Function CloseServiceHandle(ByVal serviceHandle As IntPtr) As Boolean
+    End Function
+
+    <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
+    Public Shared Function EnumServicesStatusEx(ByVal SCManager As IntPtr, ByVal InfoLevel As Integer, ByVal ServiceType As Integer, ByVal ServiceState As Integer, ByVal Services As IntPtr, ByVal BufSize As Integer, _
+        ByRef BytesNeeded As Integer, ByRef ServicesReturned As Integer, ByRef ResumeHandle As Integer, ByVal GroupName As Integer) As Integer
+    End Function
 
     <DllImport("psapi.dll")> _
     Public Shared Function EnumProcessModules(ByVal ProcessHandle As Integer, ByVal ModuleHandles As IntPtr(), ByVal Size As Integer, ByRef RequiredSize As Integer) As Boolean
@@ -492,6 +592,34 @@ Public Class API
     Public Shared Function SetProcessWorkingSetSize(ByVal hwProc As Integer, ByVal minimumSize As Integer, ByVal maximumSize As Integer) As Integer
     End Function
 
+    <StructLayout(LayoutKind.Sequential)> _
+    Public Structure SERVICE_STATUS_PROCESS
+        Public ServiceType As SERVICE_TYPE
+        Public CurrentState As SERVICE_STATE
+        Public ControlsAccepted As SERVICE_ACCEPT
+        Public Win32ExitCode As Integer
+        Public ServiceSpecificExitCode As Integer
+        Public CheckPoint As Integer
+        Public WaitHint As Integer
+        Public ProcessID As Integer
+        Public ServiceFlags As SERVICE_FLAGS
+    End Structure
+
+    <DllImport("advapi32.dll", EntryPoint:="QueryServiceConfigW", SetLastError:=True, CharSet:=CharSet.Unicode, ExactSpelling:=True, CallingConvention:=CallingConvention.StdCall)> _
+    Public Shared Function _
+        QueryServiceConfig(ByVal hService As IntPtr, _
+        ByVal pBuffer As IntPtr, _
+        ByVal cbBufSize As Integer, _
+        ByRef pcbBytesNeeded As Integer) As Boolean
+    End Function
+
+    <StructLayout(LayoutKind.Sequential)> _
+    Public Structure ENUM_SERVICE_STATUS_PROCESS
+        <MarshalAs(UnmanagedType.LPTStr)> Public ServiceName As String
+        <MarshalAs(UnmanagedType.LPTStr)> Public DisplayName As String
+        <MarshalAs(UnmanagedType.Struct)> Public ServiceStatusProcess As SERVICE_STATUS_PROCESS
+    End Structure
+
     Public Structure TOKEN_PRIVILEGES2
         Dim PrivilegeCount As Integer
         Dim Privileges As LUID_AND_ATTRIBUTES
@@ -528,6 +656,24 @@ Public Class API
         Public State As Integer
         Public WaitReason As KWAIT_REASON
     End Structure
+
+    <StructLayout(LayoutKind.Sequential)> _
+    Public Structure QUERY_SERVICE_CONFIG
+        Public ServiceType As SERVICE_TYPE
+        Public StartType As SERVICE_START_TYPE
+        Public ErrorControl As SERVICE_ERROR_CONTROL
+        <MarshalAs(UnmanagedType.LPTStr)> _
+        Public BinaryPathName As String
+        <MarshalAs(UnmanagedType.LPTStr)> _
+        Public LoadOrderGroup As String
+        Public TagID As Integer
+        Public Dependencies As Integer
+        <MarshalAs(UnmanagedType.LPTStr)> _
+        Public ServiceStartName As String
+        <MarshalAs(UnmanagedType.LPTStr)> _
+        Public DisplayName As String
+    End Structure
+
 
     <StructLayout(LayoutKind.Sequential)> _
     Public Structure SYSTEM_PROCESS_INFORMATION
@@ -639,6 +785,7 @@ Public Class API
 
     Public Declare Function GetTokenInformation Lib "advapi32.dll" (ByVal TokenHandle As Integer, ByVal TokenInformationClass As Integer, ByVal TokenInformation As Integer, ByVal TokenInformationLength As Integer, ByRef ReturnLength As Integer) As Boolean
     Public Declare Function LookupPrivilegeValue Lib "advapi32.dll" Alias "LookupPrivilegeValueA" (ByVal lpSystemName As String, ByVal lpName As String, ByRef lpLuid As LUID) As Integer           'Returns a valid LUID which is important when making security changes in NT.
+    Public Declare Function LookupPrivilegeNameA Lib "advapi32.dll" (ByVal lpSystemName As String, ByRef lpLuid As LUID, ByVal lpName As String, ByRef cchName As Integer) As Integer                'Used to adjust your program's security privileges, can't restore without it!
 
     <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
     Public Shared Function LookupPrivilegeDisplayName( _
@@ -646,8 +793,9 @@ Public Class API
         ByRef DisplayNameSize As Integer, ByRef LanguageId As Integer) As Boolean
     End Function
 
-    Public Declare Function LookupPrivilegeNameA Lib "advapi32.dll" (ByVal lpSystemName As String, ByRef lpLuid As LUID, ByVal lpName As String, ByRef cchName As Integer) As Integer                'Used to adjust your program's security privileges, can't restore without it!
-
+    <DllImport("advapi32.dll", CharSet:=CharSet.Unicode, SetLastError:=True)> _
+    Public Shared Function QueryServiceStatusEx(ByVal serviceHandle As IntPtr, ByVal infoLevel As Integer, ByVal buffer As IntPtr, ByVal bufferSize As Integer, ByRef bytesNeeded As Integer) As Boolean
+    End Function
 
     <DllImport("kernel32.dll", SetLastError:=True)> _
     Public Shared Function VirtualQueryEx(ByVal Process As Integer, ByVal Address As Integer, <MarshalAs(UnmanagedType.Struct)> ByRef Buffer As MEMORY_BASIC_INFORMATION, ByVal Size As Integer) As Boolean
@@ -669,7 +817,10 @@ Public Class API
     Public Declare Function GetProcAddress Lib "kernel32" (ByVal hModule As Integer, ByVal lpProcName As String) As Integer
     Public Declare Function GetModuleHandle Lib "kernel32" Alias "GetModuleHandleA" (ByVal lpModuleName As String) As Integer
     Public Declare Function CreateRemoteThread Lib "kernel32" (ByVal hProcess As Integer, ByVal lpThreadAttributes As Integer, ByVal dwStackSize As Integer, ByVal lpStartAddress As Integer, ByVal lpParameter As Integer, ByVal dwCreationFlags As Integer, ByRef lpThreadId As Integer) As Integer
-
+    Public Declare Function OpenSCManager Lib "advapi32.dll" Alias "OpenSCManagerA" (ByVal lpMachineName As String, ByVal lpDatabaseName As String, ByVal dwDesiredAccess As Integer) As IntPtr
+    Public Declare Function lstrlenA Lib "kernel32" (ByVal Ptr As Integer) As Integer
+    Public Declare Function lstrcpyA Lib "kernel32" (ByVal RetVal As String, ByVal Ptr As Integer) As Integer
+    Public Declare Function OpenService Lib "advapi32.dll" Alias "OpenServiceA" (ByVal hSCManager As IntPtr, ByVal lpServiceName As String, ByVal dwDesiredAccess As SERVICE_RIGHTS) As IntPtr
 
 #End Region
 

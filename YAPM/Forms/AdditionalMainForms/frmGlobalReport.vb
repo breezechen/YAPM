@@ -71,19 +71,20 @@ Public Class frmGlobalReport
         Dim _dicoProcesses As New Dictionary(Of Integer, cProcess)
 
         ' == Services
-        If Me.chkServices.Checked Then
-            setCaption("Retrieving running services...")
-            Dim _buffServ As New Dictionary(Of String, cService.LightService)
-            Dim _buffServ2 As New Dictionary(Of String, cService.LightService)
-            Dim _keyServ() As String
-            ReDim _keyServ(0)
-            Dim _enumServ As New cServEnum
-            Dim _servNumber As Integer = _enumServ.EnumerateApi(_keyServ, _
-                                                                _buffServ, _buffServ2)
-            For Each it As cService.LightService In _buffServ2.Values
-                _dicoServices.Add(it.name, New cLocalService(it, it.name, _enumServ.SCManagerHandle))
-            Next
-        End If
+        'TODO_
+        'If Me.chkServices.Checked Then
+        '    setCaption("Retrieving running services...")
+        '    Dim _buffServ As New Dictionary(Of String, cService.LightService)
+        '    Dim _buffServ2 As New Dictionary(Of String, cService.LightService)
+        '    Dim _keyServ() As String
+        '    ReDim _keyServ(0)
+        '    Dim _enumServ As New cServEnum
+        '    Dim _servNumber As Integer = _enumServ.EnumerateApi(_keyServ, _
+        '                                                        _buffServ, _buffServ2)
+        '    For Each it As cService.LightService In _buffServ2.Values
+        '        _dicoServices.Add(it.name, New cLocalService(it, it.name, _enumServ.SCManagerHandle))
+        '    Next
+        'End If
 
 
         ' == Processes
@@ -171,9 +172,9 @@ Public Class frmGlobalReport
             stream.WriteLine()
             For Each it As cService In _dicoServices.Values
                 stream.WriteLine("--------------------------------")
-                stream.WriteLine("Service name : " & it.Name)
+                stream.WriteLine("Service name : " & it.Infos.Name)
                 stream.WriteLine("--------------------------------")
-                For Each s As String In cService.GetAvailableProperties
+                For Each s As String In serviceInfos.GetAvailableProperties
                     stream.WriteLine(s & " : " & it.GetInformation(s))
                 Next
                 stream.WriteLine()

@@ -32,7 +32,6 @@ Public Class frmMain
     Private WithEvents creg As cRegMonitor
     Public log As New cLog
     Private curProc As cProcess
-    Private __servEnum As New cServEnum
     Private _local As Boolean = True
     Public theConnection As New cConnection
     Private _connType As New cConnection.TypeOfConnection
@@ -654,9 +653,10 @@ Public Class frmMain
     Private Sub ToolStripMenuItem20_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem20.Click
         Dim s As String = vbNullString
         For Each it As cService In Me.lvServices.GetSelectedItems
-            Dim sP As String = it.ImagePath
+            Dim sP As String = it.Infos.ImagePath
             If sP <> NO_INFO_RETRIEVED Then
-                s = cService.GetFileNameFromSpecial(sP)
+                'TODO_
+                s = sP  'cService.GetFileNameFromSpecial(sP)
                 If IO.File.Exists(s) Then
                     cFile.ShowFileProperty(s, Me.Handle)
                 Else
@@ -686,7 +686,7 @@ Public Class frmMain
     Private Sub ToolStripMenuItem21_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem21.Click
         Dim s As String = vbNullString
         For Each it As cService In Me.lvServices.GetSelectedItems
-            Dim sP As String = it.ImagePath
+            Dim sP As String = it.Infos.ImagePath
             If sP <> NO_INFO_RETRIEVED Then
                 s = cFile.GetParentDir(sP)
                 If IO.Directory.Exists(s) Then
@@ -718,7 +718,7 @@ Public Class frmMain
 
     Private Sub ToolStripMenuItem9_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem9.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            If it.State = cService.SERVIVE_STATE.Running Then
+            If it.Infos.State = API.SERVICE_STATE.Running Then
                 it.PauseService()
             Else
                 it.ResumeService()
@@ -748,7 +748,7 @@ Public Class frmMain
 
     Private Sub ToolStripMenuItem13_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem13.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            it.SetServiceStartType(cService.TypeServiceStartType.SERVICE_DISABLED)
+            it.SetServiceStartType(API.SERVICE_START_TYPE.SERVICE_DISABLED)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -756,7 +756,7 @@ Public Class frmMain
 
     Private Sub ToolStripMenuItem14_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem14.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            it.SetServiceStartType(cService.TypeServiceStartType.SERVICE_AUTO_START)
+            it.SetServiceStartType(API.SERVICE_START_TYPE.SERVICE_AUTO_START)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -764,7 +764,7 @@ Public Class frmMain
 
     Private Sub ToolStripMenuItem15_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem15.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            it.SetServiceStartType(cService.TypeServiceStartType.SERVICE_DEMAND_START)
+            it.SetServiceStartType(API.SERVICE_START_TYPE.SERVICE_DEMAND_START)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -936,7 +936,7 @@ Public Class frmMain
 
     Private Sub butAutomaticStart_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butAutomaticStart.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            it.SetServiceStartType(cService.TypeServiceStartType.SERVICE_AUTO_START)
+            it.SetServiceStartType(API.SERVICE_START_TYPE.SERVICE_AUTO_START)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -944,7 +944,7 @@ Public Class frmMain
 
     Private Sub butDisabledStart_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butDisabledStart.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            it.SetServiceStartType(cService.TypeServiceStartType.SERVICE_DISABLED)
+            it.SetServiceStartType(API.SERVICE_START_TYPE.SERVICE_DISABLED)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -952,7 +952,7 @@ Public Class frmMain
 
     Private Sub butOnDemandStart_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butOnDemandStart.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            it.SetServiceStartType(cService.TypeServiceStartType.SERVICE_DEMAND_START)
+            it.SetServiceStartType(API.SERVICE_START_TYPE.SERVICE_DEMAND_START)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -1086,7 +1086,7 @@ Public Class frmMain
 
     Private Sub butServiceFileDetails_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butServiceFileDetails.Click
         If Me.lvServices.SelectedItems.Count > 0 Then
-            Dim s As String = Me.lvServices.GetSelectedItem.ImagePath
+            Dim s As String = Me.lvServices.GetSelectedItem.Infos.ImagePath
             If IO.File.Exists(s) = False Then
                 s = cFile.IntelligentPathRetrieving2(s)
             End If
@@ -1176,7 +1176,7 @@ Public Class frmMain
                     Dim it2 As ListViewItem
                     For Each it2 In Me.lvServices.Items
                         Dim cp As cService = Me.lvServices.GetItemByKey(it2.Name)
-                        If cp.Name = sp Then
+                        If cp.Infos.Name = sp Then
                             it2.Selected = True
                             it2.EnsureVisible()
                         End If
@@ -1260,7 +1260,8 @@ Public Class frmMain
                         Call cProcess.Kill(pid)
                     End If
                 Case "service"
-                    cLocalService.StopTheService(it.SubItems(3).Text)
+                    'TODO_
+                    ' cLocalService.StopTheService(it.SubItems(3).Text)
                 Case "window"
                     Dim sp As String = it.SubItems(2).Text
                     Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
@@ -2395,7 +2396,7 @@ Public Class frmMain
         Dim bOne As Boolean = False
         If Me.lvServices.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
         For Each it In Me.lvServices.SelectedItems
-            Dim pid As Integer = Me.lvServices.GetItemByKey(it.Name).ProcessID
+            Dim pid As Integer = Me.lvServices.GetItemByKey(it.Name).Infos.ProcessId
             Dim it2 As ListViewItem
             For Each it2 In Me.lvProcess.Items
                 Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
@@ -2444,7 +2445,7 @@ Public Class frmMain
 
             Dim bToAdd As Boolean = False
             For Each _pid As Integer In pid
-                If cServ.ProcessID = _pid And _pid > 0 Then
+                If cServ.Infos.ProcessId = _pid And _pid > 0 Then
                     bToAdd = True
                     Exit For
                 End If
@@ -3017,21 +3018,21 @@ Public Class frmMain
     Private Sub lvServices_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseUp
         If lvServices.SelectedItems.Count = 1 Then
             Dim cSe As cService = Me.lvServices.GetSelectedItem
-            Dim start As cService.TypeServiceStartType = cSe.ServiceStartTypeInt
-            Dim state As cService.SERVIVE_STATE = cSe.State
-            Dim acc As cService.ACCEPTED_CONTROLS = cSe.AcceptedControls
+            Dim start As API.SERVICE_START_TYPE = cSe.Infos.StartType
+            Dim state As API.SERVICE_STATE = cSe.Infos.State
+            Dim acc As API.SERVICE_ACCEPT = cSe.Infos.AcceptedControl
 
-            ToolStripMenuItem9.Text = IIf(state = cService.SERVIVE_STATE.Running, "Pause", "Resume").ToString
-            ToolStripMenuItem9.Enabled = (acc And cService.ACCEPTED_CONTROLS.SERVICE_ACCEPT_PAUSE_CONTINUE) = cService.ACCEPTED_CONTROLS.SERVICE_ACCEPT_PAUSE_CONTINUE
-            ToolStripMenuItem11.Enabled = Not (state = cService.SERVIVE_STATE.Running)
-            ToolStripMenuItem10.Enabled = (acc And cService.ACCEPTED_CONTROLS.SERVICE_ACCEPT_STOP) = cService.ACCEPTED_CONTROLS.SERVICE_ACCEPT_STOP
-            ShutdownToolStripMenuItem.Enabled = (acc And cService.ACCEPTED_CONTROLS.SERVICE_ACCEPT_SHUTDOWN) = cService.ACCEPTED_CONTROLS.SERVICE_ACCEPT_SHUTDOWN
+            ToolStripMenuItem9.Text = IIf(state = API.SERVICE_STATE.Running, "Pause", "Resume").ToString
+            ToolStripMenuItem9.Enabled = (acc And API.SERVICE_ACCEPT.PauseContinue) = API.SERVICE_ACCEPT.PauseContinue
+            ToolStripMenuItem11.Enabled = Not (state = API.SERVICE_STATE.Running)
+            ToolStripMenuItem10.Enabled = (acc And API.SERVICE_ACCEPT.Stop) = API.SERVICE_ACCEPT.Stop
+            ShutdownToolStripMenuItem.Enabled = (acc And API.SERVICE_ACCEPT.PreShutdown) = API.SERVICE_ACCEPT.PreShutdown
 
-            ToolStripMenuItem13.Checked = (start = cService.TypeServiceStartType.SERVICE_DISABLED)
+            ToolStripMenuItem13.Checked = (start = API.SERVICE_START_TYPE.SERVICE_DISABLED)
             ToolStripMenuItem13.Enabled = Not (ToolStripMenuItem13.Checked)
-            ToolStripMenuItem14.Checked = (start = cService.TypeServiceStartType.SERVICE_AUTO_START)
+            ToolStripMenuItem14.Checked = (start = API.SERVICE_START_TYPE.SERVICE_AUTO_START)
             ToolStripMenuItem14.Enabled = Not (ToolStripMenuItem14.Checked)
-            ToolStripMenuItem15.Checked = (start = cService.TypeServiceStartType.SERVICE_DEMAND_START)
+            ToolStripMenuItem15.Checked = (start = API.SERVICE_START_TYPE.SERVICE_DEMAND_START)
             ToolStripMenuItem15.Enabled = Not (ToolStripMenuItem15.Checked)
         ElseIf lvServices.SelectedItems.Count > 1 Then
             ToolStripMenuItem9.Text = "Pause"
@@ -3054,42 +3055,42 @@ Public Class frmMain
             Try
                 Dim cS As cService = Me.lvServices.GetSelectedItem
 
-                Me.lblServiceName.Text = "Service name : " & cS.Name
-                Me.lblServicePath.Text = "Service path : " & cS.ImagePath
+                Me.lblServiceName.Text = "Service name : " & cS.Infos.Name
+                Me.lblServicePath.Text = "Service path : " & cS.Infos.ImagePath
 
                 ' Description
                 Dim s As String = vbNullString
                 Dim description As String = vbNullString
-                Dim diagnosticsMessageFile As String = cS.DiagnosticsMessageFile
-                Dim group As String = cS.LoadOrderGroup
-                Dim objectName As String = cS.ObjectName
+                Dim diagnosticsMessageFile As String = cS.Infos.DiagnosticMessageFile
+                Dim group As String = cS.Infos.LoadOrderGroup
+                Dim objectName As String = cS.Infos.ObjectName
                 Dim tag As String = vbNullString
-                Dim sp As String = cS.ImagePath
+                Dim sp As String = cS.Infos.ImagePath
 
                 ' OK it's not the best way to retrive the description...
                 ' (if @ -> extract string to retrieve description)
-                Dim sTemp As String = cS.Description
+                Dim sTemp As String = cS.Infos.Description
                 If InStr(sTemp, "@", CompareMethod.Binary) > 0 Then
                     description = cFile.IntelligentPathRetrieving(sTemp)
                 Else
                     description = sTemp
                 End If
-                description = Replace(cS.Description, "\", "\\")
+                description = Replace(cS.Infos.Description, "\", "\\")
 
 
                 s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
                 s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Service properties\b0\par"
-                s = s & "\tab Name :\tab\tab\tab " & cS.Name & "\par"
-                s = s & "\tab Common name :\tab\tab " & cS.LongName & "\par"
-                If Len(sp) > 0 Then s = s & "\tab Path :\tab\tab\tab " & Replace(cS.ImagePath, "\", "\\") & "\par"
+                s = s & "\tab Name :\tab\tab\tab " & cS.Infos.Name & "\par"
+                s = s & "\tab Common name :\tab\tab " & cS.Infos.DisplayName & "\par"
+                If Len(sp) > 0 Then s = s & "\tab Path :\tab\tab\tab " & Replace(cS.Infos.ImagePath, "\", "\\") & "\par"
                 If Len(description) > 0 Then s = s & "\tab Description :\tab\tab " & description & "\par"
                 If Len(group) > 0 Then s = s & "\tab Group :\tab\tab\tab " & group & "\par"
                 If Len(objectName) > 0 Then s = s & "\tab ObjectName :\tab\tab " & objectName & "\par"
                 If Len(diagnosticsMessageFile) > 0 Then s = s & "\tab DiagnosticsMessageFile :\tab\tab " & diagnosticsMessageFile & "\par"
-                s = s & "\tab State :\tab\tab\tab " & cS.State.ToString & "\par"
-                s = s & "\tab Startup :\tab\tab " & cS.ServiceStartType.ToString & "\par"
-                If cS.ProcessID > 0 Then s = s & "\tab Owner process :\tab\tab " & cS.ProcessID & "-- " & cProcess.GetProcessName(cS.ProcessID) & "\par"
-                s = s & "\tab Service type :\tab\tab " & cS.Type & "\par"
+                s = s & "\tab State :\tab\tab\tab " & cS.Infos.State.ToString & "\par"
+                s = s & "\tab Startup :\tab\tab " & cS.Infos.StartType.ToString & "\par"
+                If cS.Infos.ProcessId > 0 Then s = s & "\tab Owner process :\tab\tab " & cS.Infos.ProcessId & "-- " & cProcess.GetProcessName(cS.Infos.ProcessId) & "\par"
+                s = s & "\tab Service type :\tab\tab " & cS.Infos.ServiceType.ToString & "\par"
 
                 s = s & "}"
 
@@ -3113,7 +3114,7 @@ Public Class frmMain
                 Dim o1 As System.ServiceProcess.ServiceController
 
                 For Each o1 In o
-                    If o1.ServiceName = cS.Name Then
+                    If o1.ServiceName = cS.Infos.Name Then
                         ' Here we have 2 recursive methods to add nodes to treeview
                         addDependentServices(o1, n)
                         addServicesDependedOn(o1, n3)
@@ -4327,6 +4328,7 @@ Public Class frmMain
         Me.lvModules.ClearItems()
         Me.lvThreads.ClearItems()
         Me.lvHandles.ClearItems()
+        Me.lvServices.ClearItems()
         Me.rtb6.Text = ""
 
         ' Connect all lvItems
@@ -4334,6 +4336,7 @@ Public Class frmMain
         Me.lvThreads.ConnectionObj = theConnection
         Me.lvModules.ConnectionObj = theConnection
         Me.lvHandles.ConnectionObj = theConnection
+        Me.lvServices.ConnectionObj = theConnection
         Me.theConnection.Connect()
 
         Me.menuThread.Enabled = (theConnection.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
@@ -4387,6 +4390,7 @@ Public Class frmMain
         Me.lvModules.CatchErrors = Not (_local)
         Me.lvThreads.CatchErrors = Not (_local)
         Me.lvHandles.CatchErrors = Not (_local)
+        Me.lvServices.CatchErrors = Not (_local)
 
         ' Enable all refreshments
         Me.timerProcess.Enabled = True

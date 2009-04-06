@@ -842,7 +842,7 @@ Public Class cFile
         iD = CUInt(Val(Right(s, s.Length - i - 5)))
 
         ' Get ressource
-        Return Replace(ExtractString(filePath, iD), "\", "\\")
+        Return Replace(ExtractString(file, iD), "\", "\\")
 
     End Function
 
