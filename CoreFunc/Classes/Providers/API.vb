@@ -395,6 +395,22 @@ Public Class API
         GENERIC_READ = &H80000000
         GENERIC_ALL = &H10000000
     End Enum
+    Public Enum SERVICE_CONTROL
+        _STOP = 1
+        _PAUSE = 2
+        _CONTINUE = 3
+        _INTERROGATE = 4
+        _SHUTDOWN = 5
+        _PARAMCHANGE = 6
+        _NETBINDADD = 7
+        _NETBINDREMOVE = 8
+        _NETBINDENABLE = 9
+        _NETBINDDISABLE = 10
+        _DEVICEEVENT = 11
+        _HARDWAREPROFILECHANGE = 12
+        _POWEREVENT = 13
+        _SESSIONCHANGE = 14
+    End Enum
     Public Enum PROCESS_RIGHTS As UInteger
         PROCESS_TERMINATE = &H1
         PROCESS_CREATE_THREAD = &H2
@@ -571,6 +587,21 @@ Public Class API
     Public Shared Function ZwQueryInformationProcess(ByVal ProcessHandle As Integer, ByVal ProcessInformationClass As PROCESS_INFORMATION_CLASS, ByRef ProcessInformation As PROCESS_BASIC_INFORMATION, ByVal ProcessInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
     End Function
 
+    <DllImport("advapi32.dll", SetLastError:=True)> _
+    Public Shared Function ControlService(ByVal hService As IntPtr, ByVal dwControl As SERVICE_CONTROL, ByRef lpServiceStatus As SERVICE_STATUS) As Boolean
+    End Function
+
+    <DllImport("advapi32.dll", CharSet:=CharSet.Auto, entrypoint:="ChangeServiceConfigA", SetLastError:=True)> _
+    Public Shared Function ChangeServiceConfig(ByVal hService As Integer, ByVal dwServiceType As Integer, ByVal dwStartType As SERVICE_START_TYPE, ByVal dwErrorControl As Integer, ByVal lpBinaryPathName As String, ByVal lpLoadOrderGroup As String, ByVal lpdwTagId As Integer, ByVal lpDependencies As String, <MarshalAs(UnmanagedType.LPStr)> ByVal lpServiceStartName As String, <MarshalAs(UnmanagedType.LPStr)> ByVal lpPassword As String, <MarshalAs(UnmanagedType.LPStr)> ByVal lpDisplayName As String) As Boolean
+    End Function
+
+    <DllImport("advapi32.dll", CharSet:=CharSet.Auto)> _
+    Public Shared Function LockServiceDatabase(ByVal hSCManager As Integer) As Integer
+    End Function
+    <DllImport("advapi32.dll", CharSet:=CharSet.Auto)> _
+    Public Shared Function UnlockServiceDatabase(ByVal hSCManager As Integer) As Boolean
+    End Function
+
     <DllImport("kernel32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
     Public Shared Function QueryDosDevice(ByVal DeviceName As String, ByVal TargetPath As StringBuilder, ByVal MaxLength As Integer) As Integer
     End Function
@@ -633,6 +664,16 @@ Public Class API
         Public AffinityMask As Integer
         Public Priority As Integer
         Public BasePriority As Integer
+    End Structure
+
+    Public Structure SERVICE_STATUS
+        Dim dwServiceType As Integer
+        Dim dwCurrentState As Integer
+        Dim dwControlsAccepted As Integer
+        Dim dwWin32ExitCode As Integer
+        Dim dwServiceSpecificExitCode As Integer
+        Dim dwCheckPoint As Integer
+        Dim dwWaitHint As Integer
     End Structure
 
     <System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)> _
@@ -821,6 +862,7 @@ Public Class API
     Public Declare Function lstrlenA Lib "kernel32" (ByVal Ptr As Integer) As Integer
     Public Declare Function lstrcpyA Lib "kernel32" (ByVal RetVal As String, ByVal Ptr As Integer) As Integer
     Public Declare Function OpenService Lib "advapi32.dll" Alias "OpenServiceA" (ByVal hSCManager As IntPtr, ByVal lpServiceName As String, ByVal dwDesiredAccess As SERVICE_RIGHTS) As IntPtr
+    Public Declare Function apiStartService Lib "advapi32.dll" Alias "StartServiceA" (ByVal hService As IntPtr, ByVal dwNumServiceArgs As Integer, ByVal lpServiceArgVectors As Integer) As Integer
 
 #End Region
 

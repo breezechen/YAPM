@@ -24,7 +24,17 @@ Public Class asyncCallbackServiceStop
 
             Case Else
                 ' Local
-
+                Dim hSCManager As IntPtr = _connection.SCManagerLocalHandle
+                Dim lServ As IntPtr = API.OpenService(hSCManager, _name, API.SERVICE_RIGHTS.SERVICE_STOP)
+                Dim res As Boolean = False
+                If hSCManager <> IntPtr.Zero Then
+                    If lServ <> IntPtr.Zero Then
+                        Dim lpss As API.SERVICE_STATUS
+                        res = API.ControlService(lServ, API.SERVICE_CONTROL._STOP, lpss)
+                        API.CloseServiceHandle(lServ)
+                    End If
+                End If
+                RaiseEvent HasStopped(res, _name, API.GetError)
         End Select
     End Sub
 
