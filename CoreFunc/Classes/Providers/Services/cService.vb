@@ -25,6 +25,7 @@ Public Class cService
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
+    Private _firstRefresh As Boolean = True
     Private _serviceInfos As serviceInfos
     Private _path As String
     Private Shared WithEvents _connection As cServiceConnection
@@ -64,6 +65,18 @@ Public Class cService
     ' Merge current infos and new infos
     Public Sub Merge(ByRef Thr As serviceInfos)
         _serviceInfos.Merge(Thr)
+    End Sub
+
+    ' Return true if the state has changed
+    Public Function HasChanged(ByRef infos As serviceInfos) As Boolean
+        Dim b As Boolean = (_firstRefresh OrElse Me.Infos.State <> infos.State OrElse Me.Infos.ProcessId <> infos.ProcessId)
+        _firstRefresh = False
+        Return b
+    End Function
+
+    ' Refresh Config
+    Public Sub Refresh()
+        asyncCallbackServiceEnumerate.getServiceConfig(Me.Infos.Name, _connection.SCManagerLocalHandle, Me.Infos)
     End Sub
 
 #Region "All actions on services (start...)"

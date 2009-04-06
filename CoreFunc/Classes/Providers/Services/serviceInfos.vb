@@ -200,23 +200,23 @@ Public Class serviceInfos
         With newI
             _pid = .ProcessId
             _state = .State
-            _serviceType = .ServiceType
-            _errorControl = .ErrorControl
-            _startType = .StartType
-            _path = .ImagePath
-            _displayName = .DisplayName
-            _loadOrderGroup = .LoadOrderGroup
-            _startName = .ServiceStartName
+            '_serviceType = .ServiceType
+            '_errorControl = .ErrorControl
+            '_startType = .StartType
+            '_path = .ImagePath
+            '_displayName = .DisplayName
+            '_loadOrderGroup = .LoadOrderGroup
+            '_startName = .ServiceStartName
             _acceptedCtrls = .AcceptedControl
             _CheckPoint = .CheckPoint
-            _Dependencies = .Dependencies
+            '_Dependencies = .Dependencies
             '  _desc = .Description                 ' UPDATED ONCE (no merge)
             '  _diagMF = .DiagnosticMessageFile     ' UPDATED ONCE (no merge)
             ' _objName = .ObjectName                ' UPDATED ONCE (no merge)
             _processName = .ProcessName
             _ServiceFlags = .ServiceFlags
             _ServiceSpecificExitCode = .ServiceSpecificExitCode
-            _tagID = .TagID
+            '_tagID = .TagID
             _WaitHint = .WaitHint
             _Win32ExitCode = .Win32ExitCode
         End With

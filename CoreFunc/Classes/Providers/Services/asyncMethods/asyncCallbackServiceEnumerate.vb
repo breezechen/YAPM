@@ -104,7 +104,6 @@ Public Class asyncCallbackServiceEnumerate
 
                                     If pObj.all OrElse pObj.pid = obj.ServiceStatusProcess.ProcessID Then
                                         Dim _servINFO As New serviceInfos(obj)
-                                        getServiceConfig(obj.ServiceName, hSCM, _servINFO)
 
                                         If dicoNewServices.ContainsKey(obj.ServiceName) = False Then
                                             getRegInfos(obj.ServiceName, _servINFO)
@@ -138,7 +137,7 @@ Public Class asyncCallbackServiceEnumerate
 
 
     ' Get config of service
-    Private Shared Sub getServiceConfig(ByVal name As String, ByVal hSCManager As IntPtr, ByRef _infos As serviceInfos)
+    Public Shared Sub getServiceConfig(ByVal name As String, ByVal hSCManager As IntPtr, ByRef _infos As serviceInfos)
 
         Dim lServ As IntPtr = API.OpenService(hSCManager, name, API.SERVICE_RIGHTS.SERVICE_QUERY_CONFIG)
 

@@ -39,8 +39,8 @@ Public Class serviceList
     Private _pid As Integer
     Private _first As Boolean
     Private _dicoNew As New Dictionary(Of String, cService)
-    Private _dicoDel As New Dictionary(Of String, cService)
-    Private _buffDico As New Dictionary(Of String, cService)
+    Private _dicoDel As New Dictionary(Of String, serviceInfos)
+    Private _buffDico As New Dictionary(Of String, serviceInfos)
     Private _dico As New Dictionary(Of String, cService)
     Private WithEvents _connectionObject As New cConnection
     Private WithEvents _serviceConnection As New cServiceConnection(Me, _connectionObject)
@@ -233,7 +233,6 @@ Public Class serviceList
         ' If first time, lock listview
         If _firstItemUpdate Then Me.BeginUpdate()
         For Each z As String In _dicoNew.Keys
-
             ' Add to listview
             Dim _subItems() As ListViewItem.ListViewSubItem
             ReDim _subItems(Me.Columns.Count - 1)
@@ -254,6 +253,9 @@ Public Class serviceList
             Dim _item As cService = _dico.Item(it.Name)
             If Dico.ContainsKey(it.Name) Then
                 _item.Merge(Dico.Item(it.Name))
+            End If
+            If _item.HasChanged(Dico.Item(it.Name)) Then
+                _item.Refresh()
             End If
             For Each isub In it.SubItems
                 isub.Text = _item.GetInformation(_columnsName(x))

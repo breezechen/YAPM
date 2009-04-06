@@ -4412,4 +4412,10 @@ Public Class frmMain
             Me.lvProcess.ReAnalizeProcess(_p.Name)
         Next
     End Sub
+
+    Private Sub ReanalyzeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReanalyzeToolStripMenuItem.Click
+        For Each it As cService In Me.lvServices.GetSelectedItems
+            it.Refresh()
+        Next
+    End Sub
 End Class
