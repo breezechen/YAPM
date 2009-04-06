@@ -141,17 +141,7 @@ Public Class moduleInfos
         End With
         _processId = pid
 
-        If path.ToLowerInvariant.StartsWith("\systemroot\") Then
-            path = path.Substring(12, path.Length - 12)
-            Dim ii As Integer = InStr(path, "\", CompareMethod.Binary)
-            If ii > 0 Then
-                path = path.Substring(ii, path.Length - ii)
-                path = Environment.SystemDirectory & "\" & path
-            End If
-        ElseIf path.StartsWith("\??\") Then
-            path = path.Substring(4)
-        End If
-        _path = path
+        _path = mdlMisc.GetRealPath(path)
         _name = cFile.GetFileName(_path)
         _manufacturer = manufacturer
         _version = version

@@ -25,6 +25,7 @@ Imports Microsoft.Win32
 
 Module mdlMisc
 
+    Private Const NO_INFO_RETRIEVED As String = "N/A"
     Private sizeUnits() As String = {"Bytes", "KB", "MB", "GB", "TB", "PB", "EB"}
 
     ' Get a formated value as a string (in Bytes, KB, MB or GB) from an Integer
@@ -178,5 +179,28 @@ Module mdlMisc
             Return Nothing
         End If
         Return System.Runtime.InteropServices.Marshal.PtrToStringUni(New IntPtr(str.Buffer), CInt(str.Length / 2))
+    End Function
+
+    ' Get a good path
+    Public Function GetRealPath(ByVal path As String) As String
+        If Len(path) > 0 Then
+            If path.ToLowerInvariant.StartsWith("\systemroot\") Then
+                path = path.Substring(12, path.Length - 12)
+                Dim ii As Integer = InStr(path, "\", CompareMethod.Binary)
+                If ii > 0 Then
+                    path = path.Substring(ii, path.Length - ii)
+                    path = Environment.SystemDirectory & "\" & path
+                End If
+            ElseIf path.StartsWith("\??\") Then
+                path = path.Substring(4)
+            ElseIf path.StartsWith(Char.ConvertFromUtf32(34)) Then
+                If path.Length > 2 Then
+                    path = path.Substring(1, path.Length - 2)
+                End If
+            End If
+        Else
+            path = NO_INFO_RETRIEVED
+        End If
+        Return path
     End Function
 End Module

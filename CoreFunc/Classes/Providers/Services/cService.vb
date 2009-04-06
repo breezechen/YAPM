@@ -69,81 +69,106 @@ Public Class cService
 #Region "All actions on services (start...)"
 
     ' Start service
-    'Private WithEvents asyncUModule As asyncCallbackModuleUnload
+    Private WithEvents asyncStart As asyncCallbackServiceStart
     Public Sub StartService()
-        'asyncUModule = New asyncCallbackModuleUnload(Me.Infos.ProcessId, Me.Infos.BaseAddress, Me.Infos.Name, _connection)
-        'Dim t As New Threading.Thread(AddressOf asyncUModule.Process)
-        't.Priority = Threading.ThreadPriority.Lowest
-        't.Name = "IncreasePriority"
-        't.IsBackground = True
-        't.Start()
+        asyncStart = New asyncCallbackServiceStart(Me.Infos.Name, _connection)
+        Dim t As New Threading.Thread(AddressOf asyncStart.Process)
+        t.Priority = Threading.ThreadPriority.Lowest
+        t.Name = "StartService"
+        t.IsBackground = True
+        t.Start()
     End Sub
-    'Private Sub unloadModuleDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String) Handles asyncUModule.HasUnloadedModule
-    '    If Success = False Then
-    '        MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-    '               "Could not unload module " & name)
-    '    End If
-    'End Sub
+    Private Sub startServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String) Handles asyncStart.HasStarted
+        If Success = False Then
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                   "Could not start service " & name)
+        End If
+    End Sub
 
     ' Pause a service
-    'Private WithEvents asyncUModule As asyncCallbackModuleUnload
+    Private WithEvents asyncPause As asyncCallbackServicePause
     Public Sub PauseService()
-
+        asyncPause = New asyncCallbackServicePause(Me.Infos.Name, _connection)
+        Dim t As New Threading.Thread(AddressOf asyncPause.Process)
+        t.Priority = Threading.ThreadPriority.Lowest
+        t.Name = "PauseService"
+        t.IsBackground = True
+        t.Start()
     End Sub
-    'Private Sub unloadModuleDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String) Handles asyncUModule.HasUnloadedModule
-    '    If Success = False Then
-    '        MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-    '               "Could not unload module " & name)
-    '    End If
-    'End Sub
+    Private Sub pauseServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String) Handles asyncPause.HasPaused
+        If Success = False Then
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                   "Could not pause service " & name)
+        End If
+    End Sub
 
     ' Resume a service
-    'Private WithEvents asyncUModule As asyncCallbackModuleUnload
+    Private WithEvents asyncResume As asyncCallbackServiceResume
     Public Sub ResumeService()
-
+        asyncResume = New asyncCallbackServiceResume(Me.Infos.Name, _connection)
+        Dim t As New Threading.Thread(AddressOf asyncResume.Process)
+        t.Priority = Threading.ThreadPriority.Lowest
+        t.Name = "ResumeService"
+        t.IsBackground = True
+        t.Start()
     End Sub
-    'Private Sub unloadModuleDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String) Handles asyncUModule.HasUnloadedModule
-    '    If Success = False Then
-    '        MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-    '               "Could not unload module " & name)
-    '    End If
-    'End Sub
+    Private Sub resumeServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String) Handles asyncResume.HasResumed
+        If Success = False Then
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                   "Could not resume service " & name)
+        End If
+    End Sub
 
     ' Stop a service
-    'Private WithEvents asyncUModule As asyncCallbackModuleUnload
+    Private WithEvents asyncStop As asyncCallbackServiceStop
     Public Sub StopService()
-
+        asyncStop = New asyncCallbackServiceStop(Me.Infos.Name, _connection)
+        Dim t As New Threading.Thread(AddressOf asyncStop.Process)
+        t.Priority = Threading.ThreadPriority.Lowest
+        t.Name = "StopService"
+        t.IsBackground = True
+        t.Start()
     End Sub
-    'Private Sub unloadModuleDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String) Handles asyncUModule.HasUnloadedModule
-    '    If Success = False Then
-    '        MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-    '               "Could not unload module " & name)
-    '    End If
-    'End Sub
+    Private Sub stopServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String) Handles asyncStop.HasStopped
+        If Success = False Then
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                   "Could not stop service " & name)
+        End If
+    End Sub
 
     ' Shutdown a service
-    'Private WithEvents asyncUModule As asyncCallbackModuleUnload
+    Private WithEvents asyncShutdown As asyncCallbackServiceShutdown
     Public Sub ShutDownService()
-
+        asyncShutdown = New asyncCallbackServiceShutdown(Me.Infos.Name, _connection)
+        Dim t As New Threading.Thread(AddressOf asyncShutdown.Process)
+        t.Priority = Threading.ThreadPriority.Lowest
+        t.Name = "ShutdownService"
+        t.IsBackground = True
+        t.Start()
     End Sub
-    'Private Sub unloadModuleDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String) Handles asyncUModule.HasUnloadedModule
-    '    If Success = False Then
-    '        MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-    '               "Could not unload module " & name)
-    '    End If
-    'End Sub
+    Private Sub shutdownServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String) Handles asyncShutdown.HasShutdowned
+        If Success = False Then
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                   "Could not shutdown service " & name)
+        End If
+    End Sub
 
     ' Set service start type
-    'Private WithEvents asyncUModule As asyncCallbackModuleUnload
+    Private WithEvents asyncSetStartType As asyncCallbackServiceSetStartType
     Public Sub SetServiceStartType(ByVal type As API.SERVICE_START_TYPE)
-
+        asyncSetStartType = New asyncCallbackServiceSetStartType(Me.Infos.Name, type, _connection)
+        Dim t As New Threading.Thread(AddressOf asyncSetStartType.Process)
+        t.Priority = Threading.ThreadPriority.Lowest
+        t.Name = "SetServiceStartType"
+        t.IsBackground = True
+        t.Start()
     End Sub
-    'Private Sub unloadModuleDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String) Handles asyncUModule.HasUnloadedModule
-    '    If Success = False Then
-    '        MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-    '               "Could not unload module " & name)
-    '    End If
-    'End Sub
+    Private Sub setServiceStartTypeDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String) Handles asyncSetStartType.HasChangedStartType
+        If Success = False Then
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                   "Could not change start type of service " & name)
+        End If
+    End Sub
 
 #End Region
 
@@ -162,26 +187,7 @@ Public Class cService
                 res = Me.Infos.ServiceType.ToString
             Case "ImagePath"
                 If _path = vbNullString Then
-                    Dim path As String = Me.Infos.ImagePath
-                    If Len(path) > 0 Then
-                        If path.ToLowerInvariant.StartsWith("\systemroot\") Then
-                            path = path.Substring(12, path.Length - 12)
-                            Dim ii As Integer = InStr(path, "\", CompareMethod.Binary)
-                            If ii > 0 Then
-                                path = path.Substring(ii, path.Length - ii)
-                                path = Environment.SystemDirectory & "\" & path
-                            End If
-                        ElseIf path.StartsWith("\??\") Then
-                            path = path.Substring(4)
-                        ElseIf path.StartsWith(Char.ConvertFromUtf32(34)) Then
-                            If path.Length > 2 Then
-                                path = path.Substring(1, path.Length - 2)
-                            End If
-                        End If
-                    Else
-                        path = NO_INFO_RETRIEVED
-                    End If
-                    _path = path
+                    _path = mdlMisc.GetRealPath(Me.Infos.ImagePath)
                 End If
                     res = _path
             Case "ErrorControl"

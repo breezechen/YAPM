@@ -109,7 +109,13 @@
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackProcUnloadModule.vb" />
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackProcNewProcess.vb" />
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackProcGetAllNonFixedInfos.vb" />
+    <Compile Include="Classes\Providers\Services\asyncMethods\asyncCallbackServiceStart.vb" />
     <Compile Include="Classes\Providers\Services\asyncMethods\asyncCallbackServiceEnumerate.vb" />
+    <Compile Include="Classes\Providers\Services\asyncMethods\asyncCallbackServicePause.vb" />
+    <Compile Include="Classes\Providers\Services\asyncMethods\asyncCallbackServiceResume.vb" />
+    <Compile Include="Classes\Providers\Services\asyncMethods\asyncCallbackServiceShutdown.vb" />
+    <Compile Include="Classes\Providers\Services\asyncMethods\asyncCallbackServiceSetStartType.vb" />
+    <Compile Include="Classes\Providers\Services\asyncMethods\asyncCallbackServiceStop.vb" />
     <Compile Include="Classes\Providers\Services\cService.vb" />
     <Compile Include="Classes\Providers\Services\cServiceConnection.vb" />
     <Compile Include="Classes\Providers\Services\serviceInfos.vb" />
