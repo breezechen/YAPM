@@ -45,9 +45,75 @@ Public Class asyncCallbackServiceEnumerate
 
                 Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
+                    ' Save current collection
+                    Dim res As ManagementObjectCollection = Nothing
+                    Try
+                        res = pObj.con.wmiSearcher.Get()
+                    Catch ex As Exception
+                        pObj.ctrl.Invoke(pObj.deg, False, Nothing, ex.Message)
+                        Exit Sub
+                    End Try
+
+                    Dim _dico As New Dictionary(Of String, serviceInfos)
+                    For Each refService As Management.ManagementObject In res
+
+                        Dim obj As New API.ENUM_SERVICE_STATUS_PROCESS
+                        With obj
+                            .DisplayName = CStr(refService.GetPropertyValue(API.WMI_INFO_SERVICE.DisplayName.ToString))
+                            .ServiceName = CStr(refService.GetPropertyValue(API.WMI_INFO_SERVICE.Name.ToString))
+                            With .ServiceStatusProcess
+                                .CheckPoint = CInt(refService.GetPropertyValue(API.WMI_INFO_SERVICE.CheckPoint.ToString))
+                                If CBool(refService.GetPropertyValue(API.WMI_INFO_SERVICE.AcceptPause.ToString)) Then
+                                    .ControlsAccepted = .ControlsAccepted Or API.SERVICE_ACCEPT.PauseContinue
+                                End If
+                                If CBool(refService.GetPropertyValue(API.WMI_INFO_SERVICE.AcceptStop.ToString)) Then
+                                    .ControlsAccepted = .ControlsAccepted Or API.SERVICE_ACCEPT.Stop
+                                End If
+                                '.CurrentState = CType(refService.GetPropertyValue(API.WMI_INFO_SERVICE.State.ToString), API.SERVICE_STATE)
+                                .ProcessID = CInt(refService.GetPropertyValue(API.WMI_INFO_SERVICE.ProcessId.ToString))
+                                '.ServiceFlags
+                                .ServiceSpecificExitCode = CInt(refService.GetPropertyValue(API.WMI_INFO_SERVICE.ServiceSpecificExitCode.ToString))
+                                '.ServiceType = CType(refService.GetPropertyValue(API.WMI_INFO_SERVICE.ServiceType.ToString), API.SERVICE_TYPE)
+                                .WaitHint = CInt(refService.GetPropertyValue(API.WMI_INFO_SERVICE.WaitHint.ToString))
+                                .Win32ExitCode = CInt(refService.GetPropertyValue(API.WMI_INFO_SERVICE.ExitCode.ToString))
+                            End With
+                        End With
 
 
-                    ' pObj.ctrl.Invoke(pObj.deg, True, _dico, Nothing)
+                        ' Do we have to get fixed infos ?
+                        Dim _servInfos As New serviceInfos(obj)
+                        If dicoNewServices.ContainsKey(obj.ServiceName) = False Then
+
+                            Dim conf As New API.QUERY_SERVICE_CONFIG
+                            With conf
+                                .BinaryPathName = CStr(refService.GetPropertyValue(API.WMI_INFO_SERVICE.PathName.ToString))
+                                '.Dependencies
+                                .DisplayName = CStr(refService.GetPropertyValue(API.WMI_INFO_SERVICE.DisplayName.ToString))
+                                '.ErrorControl = CType(refService.GetPropertyValue(API.WMI_INFO_SERVICE.ErrorControl.ToString), API.SERVICE_ERROR_CONTROL)
+                                '.LoadOrderGroup 
+                                .ServiceStartName = CStr(refService.GetPropertyValue(API.WMI_INFO_SERVICE.StartName.ToString))
+                                '.StartType = CType(refService.GetPropertyValue(API.WMI_INFO_SERVICE.StartMode.ToString), API.SERVICE_START_TYPE)
+                                .TagID = CInt(refService.GetPropertyValue(API.WMI_INFO_SERVICE.TagId.ToString))
+                            End With
+                            _servInfos.SetConfig(conf)
+
+                            dicoNewServices.Add(obj.ServiceName, False)
+
+                        End If
+
+                        ' Set true so that the process is marked as existing
+                        dicoNewServices(obj.ServiceName) = True
+                        _dico.Add(obj.ServiceName, _servInfos)
+                    Next
+
+                    ' Remove all services that not exist anymore
+                    Dim _dicoTemp As Dictionary(Of String, Boolean) = dicoNewServices
+                    For Each it As System.Collections.Generic.KeyValuePair(Of String, Boolean) In _dicoTemp
+                        If it.Value = False Then
+                            dicoNewServices.Remove(it.Key)
+                        End If
+                    Next
+                    pObj.ctrl.Invoke(pObj.deg, True, _dico, Nothing)
 
                 Case Else
                     ' Local

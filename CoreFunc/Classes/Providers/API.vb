@@ -112,6 +112,28 @@ Public Class API
         MEM_PRIVATE = &H20000
         MEM_MAPPED = &H40000
     End Enum
+    Public Enum WMI_INFO_SERVICE
+        AcceptPause
+        AcceptStop
+        CheckPoint
+        DesktopInteract
+        DisplayName
+        ErrorControl
+        ExitCode
+        Name
+        PathName
+        ProcessId
+        ServiceSpecificExitCode
+        ServiceType
+        Started
+        StartMode
+        StartName
+        State
+        SystemCreationClassName
+        SystemName
+        TagId
+        WaitHint
+    End Enum
     Public Enum PROCESS_INFORMATION_CLASS As Integer
         ProcessBasicInformation
         ProcessQuotaLimits

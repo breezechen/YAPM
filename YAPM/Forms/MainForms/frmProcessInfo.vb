@@ -76,7 +76,7 @@ Public Class frmProcessInfo
                 Call ShowNetwork()
 
             Case "Services"
-                If _local Then _
+                'If _local Then _
                 Call ShowServices()
 
 
@@ -387,7 +387,6 @@ Public Class frmProcessInfo
         Me.lvProcEnv.Enabled = _local
         Me.lvProcMem.Enabled = _local
         Me.lvProcNetwork.Enabled = _local
-        Me.lvProcServices.Enabled = _local
         Me.lvProcString.Enabled = _local
         Me.lvWindows.Enabled = _local
         Me.SplitContainerStrings.Enabled = _local

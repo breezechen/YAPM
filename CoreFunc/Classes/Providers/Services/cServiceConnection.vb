@@ -100,19 +100,18 @@ Public Class cServiceConnection
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
-                'Dim __con As New ConnectionOptions
-                '__con.Impersonation = ImpersonationLevel.Impersonate
-                '__con.Password = _conObj.WmiParameters.password
-                '__con.Username = _conObj.WmiParameters.userName
+                Dim __con As New ConnectionOptions
+                __con.Impersonation = ImpersonationLevel.Impersonate
+                __con.Password = _conObj.WmiParameters.password
+                __con.Username = _conObj.WmiParameters.userName
 
-                'Try
-                '    'TOCHANGE
-                '    wmiSearcher = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Process")
-                '    wmiSearcher.Scope = New Management.ManagementScope("\\" & _conObj.WmiParameters.serverName & "\root\cimv2", __con)
-                '    _connected = True
-                'Catch ex As Exception
-                '    '
-                'End Try
+                Try
+                    wmiSearcher = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Service")
+                    wmiSearcher.Scope = New Management.ManagementScope("\\" & _conObj.WmiParameters.serverName & "\root\cimv2", __con)
+                    _connected = True
+                Catch ex As Exception
+                    '
+                End Try
 
             Case Else
                 ' Local
