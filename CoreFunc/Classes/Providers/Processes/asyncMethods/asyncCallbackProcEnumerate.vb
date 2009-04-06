@@ -34,6 +34,14 @@ Public Class asyncCallbackProcEnumerate
         AvailableThreads.Clear()
     End Sub
 
+    Public Shared Sub RemoveItemFromNewProcesses(ByVal pid As Integer)
+        SyncLock dicoNewProcesses
+            If dicoNewProcesses.ContainsKey(pid) Then
+                dicoNewProcesses.Remove(pid)
+            End If
+        End SyncLock
+    End Sub
+
     Public Shared Sub Process(ByVal thePoolObj As Object)
         SyncLock dicoNewProcesses
 

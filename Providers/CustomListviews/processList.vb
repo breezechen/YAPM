@@ -101,6 +101,14 @@ Public Class processList
         Me.Items.Clear()
     End Sub
 
+    ' Reanalize a process
+    Public Sub ReAnalizeProcess(ByVal it As String)
+        Dim pid As Integer = -1
+        If _dico.ContainsKey(it) Then
+            asyncCallbackProcEnumerate.RemoveItemFromNewProcesses(_dico(it).Infos.Pid)
+        End If
+    End Sub
+
     ' Call this to update items in listview
     Public Overrides Sub UpdateItems()
 

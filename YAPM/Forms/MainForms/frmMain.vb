@@ -4402,4 +4402,10 @@ Public Class frmMain
     Private Sub ConnectionToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ConnectionToolStripMenuItem.Click
         Call orbMenuNetwork_Click(Nothing, Nothing)
     End Sub
+
+    Private Sub ReanalizeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReanalizeToolStripMenuItem.Click
+        For Each _p As ListViewItem In Me.lvProcess.SelectedItems
+            Me.lvProcess.ReAnalizeProcess(_p.Name)
+        Next
+    End Sub
 End Class
