@@ -37,7 +37,7 @@ Public Class serviceInfos
     Private _displayName As String
     Private _startType As API.SERVICE_START_TYPE
     Private _path As String
-    Private _serviceType As Integer
+    Private _serviceType As API.SERVICE_TYPE
     Private _desc As String
     Private _errorControl As Integer
     Private _processName As String
@@ -89,7 +89,7 @@ Public Class serviceInfos
             Return _path
         End Get
     End Property
-    Public ReadOnly Property ServiceType() As Integer
+    Public ReadOnly Property ServiceType() As API.SERVICE_TYPE
         Get
             Return _serviceType
         End Get
