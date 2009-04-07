@@ -69,11 +69,11 @@ Public Class asyncCallbackServiceEnumerate
                                 If CBool(refService.GetPropertyValue(API.WMI_INFO_SERVICE.AcceptStop.ToString)) Then
                                     .ControlsAccepted = .ControlsAccepted Or API.SERVICE_ACCEPT.Stop
                                 End If
-                                '.CurrentState = CType(refService.GetPropertyValue(API.WMI_INFO_SERVICE.State.ToString), API.SERVICE_STATE)
+                                .CurrentState = getStateFromString(CStr(refService.GetPropertyValue(API.WMI_INFO_SERVICE.State.ToString)))
                                 .ProcessID = CInt(refService.GetPropertyValue(API.WMI_INFO_SERVICE.ProcessId.ToString))
                                 '.ServiceFlags
                                 .ServiceSpecificExitCode = CInt(refService.GetPropertyValue(API.WMI_INFO_SERVICE.ServiceSpecificExitCode.ToString))
-                                '.ServiceType = CType(refService.GetPropertyValue(API.WMI_INFO_SERVICE.ServiceType.ToString), API.SERVICE_TYPE)
+                                .ServiceType = getTypeFromString(CStr(refService.GetPropertyValue(API.WMI_INFO_SERVICE.ServiceType.ToString)))
                                 .WaitHint = CInt(refService.GetPropertyValue(API.WMI_INFO_SERVICE.WaitHint.ToString))
                                 .Win32ExitCode = CInt(refService.GetPropertyValue(API.WMI_INFO_SERVICE.ExitCode.ToString))
                             End With
@@ -89,10 +89,10 @@ Public Class asyncCallbackServiceEnumerate
                                 .BinaryPathName = CStr(refService.GetPropertyValue(API.WMI_INFO_SERVICE.PathName.ToString))
                                 '.Dependencies
                                 .DisplayName = CStr(refService.GetPropertyValue(API.WMI_INFO_SERVICE.DisplayName.ToString))
-                                '.ErrorControl = CType(refService.GetPropertyValue(API.WMI_INFO_SERVICE.ErrorControl.ToString), API.SERVICE_ERROR_CONTROL)
+                                .ErrorControl = getErrorControlFromString(CStr(refService.GetPropertyValue(API.WMI_INFO_SERVICE.ErrorControl.ToString)))
                                 '.LoadOrderGroup 
                                 .ServiceStartName = CStr(refService.GetPropertyValue(API.WMI_INFO_SERVICE.StartName.ToString))
-                                '.StartType = CType(refService.GetPropertyValue(API.WMI_INFO_SERVICE.StartMode.ToString), API.SERVICE_START_TYPE)
+                                .StartType = getStartModeFromString(CStr(refService.GetPropertyValue(API.WMI_INFO_SERVICE.StartMode.ToString)))
                                 .TagID = CInt(refService.GetPropertyValue(API.WMI_INFO_SERVICE.TagId.ToString))
                             End With
                             _servInfos.SetConfig(conf)
@@ -254,5 +254,73 @@ Public Class asyncCallbackServiceEnumerate
         Catch ex As Exception
             Return ""
         End Try
+    End Function
+
+    ' Get state/errorcontrol/starttype from a string (returned by wmi) as a type
+    Private Shared Function getErrorControlFromString(ByVal s As String) As API.SERVICE_ERROR_CONTROL
+        Select Case s
+            Case "Ignore"
+                Return API.SERVICE_ERROR_CONTROL.Ignore
+            Case "Normal"
+                Return API.SERVICE_ERROR_CONTROL.Normal
+            Case "Severe"
+                Return API.SERVICE_ERROR_CONTROL.Severe
+            Case "Critical"
+                Return API.SERVICE_ERROR_CONTROL.Critical
+            Case Else
+                Return API.SERVICE_ERROR_CONTROL.Unknown
+        End Select
+    End Function
+    Private Shared Function getStartModeFromString(ByVal s As String) As API.SERVICE_START_TYPE
+        Select Case s
+            Case "Boot"
+                Return API.SERVICE_START_TYPE.BootStart
+            Case "System"
+                Return API.SERVICE_START_TYPE.SystemStart
+            Case "Auto"
+                Return API.SERVICE_START_TYPE.AutoStart
+            Case "Manual"
+                Return API.SERVICE_START_TYPE.DemandStart
+            Case "Disabled"
+                Return API.SERVICE_START_TYPE.StartDisabled
+        End Select
+    End Function
+    Private Shared Function getStateFromString(ByVal s As String) As API.SERVICE_STATE
+        Select Case s
+            Case "Stopped"
+                Return API.SERVICE_STATE.Stopped
+            Case "Start Pending"
+                Return API.SERVICE_STATE.StartPending
+            Case "Stop Pending"
+                Return API.SERVICE_STATE.StopPending
+            Case "Running"
+                Return API.SERVICE_STATE.Running
+            Case "Continue Pending"
+                Return API.SERVICE_STATE.ContinuePending
+            Case "Pause Pending"
+                Return API.SERVICE_STATE.PausePending
+            Case "Paused"
+                Return API.SERVICE_STATE.Paused
+            Case Else
+                Return API.SERVICE_STATE.Unknown
+        End Select
+    End Function
+    Private Shared Function getTypeFromString(ByVal s As String) As API.SERVICE_TYPE
+        Select Case s
+            Case "Kernel Driver"
+                Return API.SERVICE_TYPE.KernelDriver
+            Case "File System Driver"
+                Return API.SERVICE_TYPE.FileSystemDriver
+            Case "Adapter"
+                Return API.SERVICE_TYPE.Adapter
+            Case "Recognizer Driver"
+                Return API.SERVICE_TYPE.RecognizerDriver
+            Case "Own Process"
+                Return API.SERVICE_TYPE.Win32OwnProcess
+            Case "Share Process"
+                Return API.SERVICE_TYPE.Win32ShareProcess
+            Case "Interactive Process"
+                Return API.SERVICE_TYPE.InteractiveProcess
+        End Select
     End Function
 End Class

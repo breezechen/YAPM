@@ -481,11 +481,11 @@ Public Class API
         MaxThreadInfoClass
     End Enum
     Public Enum SERVICE_START_TYPE As Integer
-        SERVICE_BOOT_START = &H0
-        SERVICE_SYSTEM_START = &H1
-        SERVICE_AUTO_START = &H2
-        SERVICE_DEMAND_START = &H3
-        SERVICE_DISABLED = &H4
+        BootStart = &H0
+        SystemStart = &H1
+        AutoStart = &H2
+        DemandStart = &H3
+        StartDisabled = &H4
         SERVICESTARTTYPE_NO_CHANGE = SERVICE_NO_CHANGE
     End Enum
     Public Enum SERVICE_STATE As Integer
@@ -496,10 +496,13 @@ Public Class API
         StartPending = &H2
         StopPending = &H3
         Stopped = &H1
+        Unknown = &HF
     End Enum
     Public Enum SERVICE_TYPE As Integer
         FileSystemDriver = &H2
         KernelDriver = &H1
+        Adapter = &H4
+        RecognizerDriver = &H8
         Win32OwnProcess = &H10
         Win32ShareProcess = &H20
         InteractiveProcess = &H100
@@ -509,6 +512,7 @@ Public Class API
         Ignore = &H0
         Normal = &H1
         Severe = &H2
+        Unknown = &HF
     End Enum
     Public Enum SERVICE_FLAGS As Integer
         None = 0
@@ -536,6 +540,33 @@ Public Class API
         SERVICE_INTERROGATE = &H80
         SERVICE_USER_DEFINED_CONTROL = &H100
         SERVICE_ALL_ACCESS = STANDARD_RIGHTS.STANDARD_RIGHTS_REQUIRED Or SERVICE_QUERY_CONFIG Or SERVICE_CHANGE_CONFIG Or SERVICE_QUERY_STATUS Or SERVICE_ENUMERATE_DEPENDENTS Or SERVICE_START Or SERVICE_STOP Or SERVICE_PAUSE_CONTINUE Or SERVICE_INTERROGATE Or SERVICE_USER_DEFINED_CONTROL
+    End Enum
+    Public Enum SERVICE_RETURN_CODE_WMI
+        Success = 0
+        NotSupported = 1
+        AccessDenied = 2
+        DependentServicesRunning = 3
+        InvalidServiceControl = 4
+        ServiceCannotAcceptControl = 5
+        ServiceNotActive = 6
+        ServiceRequestTimeout = 7
+        UnknownFailure = 8
+        PathNotFound = 9
+        ServiceAlreadyRunning = 10
+        ServiceDatabaseLocked = 11
+        ServiceDependencyDeleted = 12
+        ServiceDependencyFailure = 13
+        ServiceDisabled = 14
+        ServiceLogonFailure = 15
+        ServiceMarkedForDeletion = 16
+        ServiceNoThread = 17
+        StatusCircularDependency = 18
+        StatusDuplicateName = 19
+        StatusInvalidName = 20
+        StatusInvalidParameter = 21
+        StatusInvalidServiceAccount = 22
+        StatusServiceExists = 23
+        ServiceAlreadyPaused = 24
     End Enum
 
     <StructLayout(LayoutKind.Sequential)> _

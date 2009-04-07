@@ -748,7 +748,7 @@ Public Class frmMain
 
     Private Sub ToolStripMenuItem13_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem13.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            it.SetServiceStartType(API.SERVICE_START_TYPE.SERVICE_DISABLED)
+            it.SetServiceStartType(API.SERVICE_START_TYPE.StartDisabled)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -756,7 +756,7 @@ Public Class frmMain
 
     Private Sub ToolStripMenuItem14_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem14.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            it.SetServiceStartType(API.SERVICE_START_TYPE.SERVICE_AUTO_START)
+            it.SetServiceStartType(API.SERVICE_START_TYPE.AutoStart)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -764,7 +764,7 @@ Public Class frmMain
 
     Private Sub ToolStripMenuItem15_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem15.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            it.SetServiceStartType(API.SERVICE_START_TYPE.SERVICE_DEMAND_START)
+            it.SetServiceStartType(API.SERVICE_START_TYPE.DemandStart)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -936,7 +936,7 @@ Public Class frmMain
 
     Private Sub butAutomaticStart_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butAutomaticStart.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            it.SetServiceStartType(API.SERVICE_START_TYPE.SERVICE_AUTO_START)
+            it.SetServiceStartType(API.SERVICE_START_TYPE.AutoStart)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -944,7 +944,7 @@ Public Class frmMain
 
     Private Sub butDisabledStart_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butDisabledStart.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            it.SetServiceStartType(API.SERVICE_START_TYPE.SERVICE_DISABLED)
+            it.SetServiceStartType(API.SERVICE_START_TYPE.StartDisabled)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -952,7 +952,7 @@ Public Class frmMain
 
     Private Sub butOnDemandStart_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butOnDemandStart.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            it.SetServiceStartType(API.SERVICE_START_TYPE.SERVICE_DEMAND_START)
+            it.SetServiceStartType(API.SERVICE_START_TYPE.DemandStart)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -3028,11 +3028,11 @@ Public Class frmMain
             ToolStripMenuItem10.Enabled = (acc And API.SERVICE_ACCEPT.Stop) = API.SERVICE_ACCEPT.Stop
             ShutdownToolStripMenuItem.Enabled = (acc And API.SERVICE_ACCEPT.PreShutdown) = API.SERVICE_ACCEPT.PreShutdown
 
-            ToolStripMenuItem13.Checked = (start = API.SERVICE_START_TYPE.SERVICE_DISABLED)
+            ToolStripMenuItem13.Checked = (start = API.SERVICE_START_TYPE.StartDisabled)
             ToolStripMenuItem13.Enabled = Not (ToolStripMenuItem13.Checked)
-            ToolStripMenuItem14.Checked = (start = API.SERVICE_START_TYPE.SERVICE_AUTO_START)
+            ToolStripMenuItem14.Checked = (start = API.SERVICE_START_TYPE.AutoStart)
             ToolStripMenuItem14.Enabled = Not (ToolStripMenuItem14.Checked)
-            ToolStripMenuItem15.Checked = (start = API.SERVICE_START_TYPE.SERVICE_DEMAND_START)
+            ToolStripMenuItem15.Checked = (start = API.SERVICE_START_TYPE.DemandStart)
             ToolStripMenuItem15.Enabled = Not (ToolStripMenuItem15.Checked)
         ElseIf lvServices.SelectedItems.Count > 1 Then
             ToolStripMenuItem9.Text = "Pause"
