@@ -29,10 +29,12 @@ Public Class asyncCallbackProcNewProcess
                     Dim inParams As ManagementBaseObject = processClass.GetMethodParameters("Create")
                     inParams("CommandLine") = _path
                     Dim outParams As ManagementBaseObject = processClass.InvokeMethod("Create", inParams, Nothing)
-                    RaiseEvent HasCreated(CInt(outParams("ProcessId")) > 0, _path, "")
+                    Dim res As Integer = CInt(outParams("ProcessId"))
+                    RaiseEvent HasCreated(res > 0, _path, CType(res, API.PROCESS_RETURN_CODE_WMI).ToString)
                 Catch ex As Exception
                     RaiseEvent HasCreated(False, _path, ex.Message)
                 End Try
+
             Case Else
                 ' Local
                 ' OK, normally the local startNewProcess is not done here

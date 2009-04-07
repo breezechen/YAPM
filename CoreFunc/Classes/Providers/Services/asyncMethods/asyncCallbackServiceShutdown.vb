@@ -21,6 +21,8 @@ Public Class asyncCallbackServiceShutdown
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                ' ERK
+                RaiseEvent HasShutdowned(False, _name, "Shutdown not possible via WMI...")
 
             Case Else
                 ' Local

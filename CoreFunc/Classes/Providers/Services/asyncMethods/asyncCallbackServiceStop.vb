@@ -22,14 +22,18 @@ Public Class asyncCallbackServiceStop
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
-                Dim res As Integer = 2        ' Access denied
-                For Each srv As ManagementObject In _connection.wmiSearcher.Get
-                    If CStr(srv.GetPropertyValue(API.WMI_INFO_SERVICE.Name.ToString)) = _name Then
-                        res = CInt(srv.InvokeMethod("StopService", Nothing))
-                        Exit For
-                    End If
-                Next
-                RaiseEvent HasStopped(res = 0, _name, CType(res, API.SERVICE_RETURN_CODE_WMI).ToString)
+                Try
+                    Dim res As Integer = 2        ' Access denied
+                    For Each srv As ManagementObject In _connection.wmiSearcher.Get
+                        If CStr(srv.GetPropertyValue(API.WMI_INFO_SERVICE.Name.ToString)) = _name Then
+                            res = CInt(srv.InvokeMethod("StopService", Nothing))
+                            Exit For
+                        End If
+                    Next
+                    RaiseEvent HasStopped(res = 0, _name, CType(res, API.SERVICE_RETURN_CODE_WMI).ToString)
+                Catch ex As Exception
+                    RaiseEvent HasStopped(False, _name, ex.Message)
+                End Try
 
             Case Else
                 ' Local

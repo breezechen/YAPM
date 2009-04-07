@@ -21,24 +21,25 @@ Public Class asyncCallbackProcKill
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
-                Dim _theProcess As Management.ManagementObject = Nothing
-                For Each pp As Management.ManagementObject In _connection.wmiSearcher.Get
-                    If CInt(pp("ProcessId")) = _pid Then
-                        _theProcess = pp
-                        Exit For
-                    End If
-                Next
-                If _theProcess IsNot Nothing Then
-                    Dim ret As Integer = 0
-                    Try
+                Try
+                    Dim _theProcess As Management.ManagementObject = Nothing
+                    For Each pp As Management.ManagementObject In _connection.wmiSearcher.Get
+                        If CInt(pp("ProcessId")) = _pid Then
+                            _theProcess = pp
+                            Exit For
+                        End If
+                    Next
+                    If _theProcess IsNot Nothing Then
+                        Dim ret As Integer = 0
                         ret = CInt(_theProcess.InvokeMethod("Terminate", Nothing))
-                        RaiseEvent HasKilled(ret = 0, _pid, Nothing)
-                    Catch ex As Exception
-                        RaiseEvent HasKilled(False, _pid, ex.Message)
-                    End Try
-                Else
-                    RaiseEvent HasKilled(False, _pid, "Internal error")
-                End If
+                        RaiseEvent HasKilled(ret = 0, _pid, CType(ret, API.PROCESS_RETURN_CODE_WMI).ToString)
+                    Else
+                        RaiseEvent HasKilled(False, _pid, "Internal error")
+                    End If
+                Catch ex As Exception
+                    RaiseEvent HasKilled(False, _pid, ex.Message)
+                End Try
+
             Case Else
                 ' Local
                 Dim hProc As Integer

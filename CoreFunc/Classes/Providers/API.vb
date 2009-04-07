@@ -541,6 +541,14 @@ Public Class API
         SERVICE_USER_DEFINED_CONTROL = &H100
         SERVICE_ALL_ACCESS = STANDARD_RIGHTS.STANDARD_RIGHTS_REQUIRED Or SERVICE_QUERY_CONFIG Or SERVICE_CHANGE_CONFIG Or SERVICE_QUERY_STATUS Or SERVICE_ENUMERATE_DEPENDENTS Or SERVICE_START Or SERVICE_STOP Or SERVICE_PAUSE_CONTINUE Or SERVICE_INTERROGATE Or SERVICE_USER_DEFINED_CONTROL
     End Enum
+    Public Enum PROCESS_RETURN_CODE_WMI
+        SuccessfulCompletion = 0
+        AccessDenied = 2
+        InsufficientPrivilege = 3
+        UnknownFailure = 8
+        PathNotFound = 9
+        InvalidParameter = 21
+    End Enum
     Public Enum SERVICE_RETURN_CODE_WMI
         Success = 0
         NotSupported = 1

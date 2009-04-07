@@ -3,6 +3,7 @@
 Imports CoreFunc.cProcessConnection
 Imports System.Runtime.InteropServices
 Imports System.Text
+Imports System.Management
 
 Public Class asyncCallbackProcIncreasePriority
 
@@ -23,6 +24,37 @@ Public Class asyncCallbackProcIncreasePriority
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                Try
+                    Dim _newlevel As ProcessPriorityClass
+                    Select Case _level
+                        Case ProcessPriorityClass.AboveNormal
+                            _newlevel = ProcessPriorityClass.High
+                        Case ProcessPriorityClass.BelowNormal
+                            _newlevel = ProcessPriorityClass.Normal
+                        Case ProcessPriorityClass.High
+                            _newlevel = ProcessPriorityClass.RealTime
+                        Case ProcessPriorityClass.Idle
+                            _newlevel = ProcessPriorityClass.BelowNormal
+                        Case ProcessPriorityClass.Normal
+                            _newlevel = ProcessPriorityClass.AboveNormal
+                        Case ProcessPriorityClass.RealTime
+                            '
+                    End Select
+
+                    Dim res As Integer = 2        ' Access denied
+                    For Each srv As ManagementObject In _connection.wmiSearcher.Get
+                        If CInt(srv.GetPropertyValue(API.WMI_INFO_PROCESS.ProcessId.ToString)) = _pid Then
+                            Dim inParams As ManagementBaseObject = srv.GetMethodParameters("SetPriority")
+                            inParams("Priority") = _newlevel
+                            Dim outParams As ManagementBaseObject = srv.InvokeMethod("SetPriority", inParams, Nothing)
+                            res = CInt(outParams("ReturnValue"))
+                            Exit For
+                        End If
+                    Next
+                    RaiseEvent HasIncreasedPriority(res = 0, CType(res, API.PROCESS_RETURN_CODE_WMI).ToString)
+                Catch ex As Exception
+                    RaiseEvent HasIncreasedPriority(False, ex.Message)
+                End Try
 
             Case Else
                 ' Local

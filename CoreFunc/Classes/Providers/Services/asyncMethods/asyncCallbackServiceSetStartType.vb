@@ -2,7 +2,7 @@
 
 Imports CoreFunc.cProcessConnection
 Imports System.Runtime.InteropServices
-Imports System.Text
+Imports System.Management
 
 Public Class asyncCallbackServiceSetStartType
 
@@ -26,6 +26,21 @@ Public Class asyncCallbackServiceSetStartType
                 Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
                 Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                    Try
+                        Dim res As Integer = 2        ' Access denied
+                        For Each srv As ManagementObject In _connection.wmiSearcher.Get
+                            If CStr(srv.GetPropertyValue(API.WMI_INFO_SERVICE.Name.ToString)) = _name Then
+                                Dim inParams As ManagementBaseObject = srv.GetMethodParameters("ChangeStartMode")
+                                inParams("StartMode") = getWMIStartMode(_type)
+                                Dim outParams As ManagementBaseObject = srv.InvokeMethod("ChangeStartMode", inParams, Nothing)
+                                res = CInt(outParams("ReturnValue"))
+                                Exit For
+                            End If
+                        Next
+                        RaiseEvent HasChangedStartType(res = 0, _name, CType(res, API.SERVICE_RETURN_CODE_WMI).ToString)
+                    Catch ex As Exception
+                        RaiseEvent HasChangedStartType(False, _name, ex.Message)
+                    End Try
 
                 Case Else
                     ' Local
@@ -50,5 +65,22 @@ Public Class asyncCallbackServiceSetStartType
             End Select
         End SyncLock
     End Sub
+
+    Private Function getWMIStartMode(ByVal s As API.SERVICE_START_TYPE) As String
+        Select Case s
+            Case API.SERVICE_START_TYPE.AutoStart
+                Return "Automatic"
+            Case API.SERVICE_START_TYPE.BootStart
+                Return "Boot"
+            Case API.SERVICE_START_TYPE.DemandStart
+                Return "Manual"
+            Case API.SERVICE_START_TYPE.StartDisabled
+                Return "Disabled"
+            Case API.SERVICE_START_TYPE.SystemStart
+                Return "System"
+            Case Else
+                Return Nothing
+        End Select
+    End Function
 
 End Class

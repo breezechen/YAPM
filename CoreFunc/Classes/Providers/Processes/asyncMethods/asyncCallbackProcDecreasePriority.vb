@@ -3,6 +3,7 @@
 Imports CoreFunc.cProcessConnection
 Imports System.Runtime.InteropServices
 Imports System.Text
+Imports System.Management
 
 Public Class asyncCallbackProcDecreasePriority
 
@@ -23,6 +24,37 @@ Public Class asyncCallbackProcDecreasePriority
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                Try
+                    Dim _newlevel As ProcessPriorityClass
+                    Select Case _level
+                        Case ProcessPriorityClass.AboveNormal
+                            _newlevel = ProcessPriorityClass.Normal
+                        Case ProcessPriorityClass.BelowNormal
+                            _newlevel = ProcessPriorityClass.Idle
+                        Case ProcessPriorityClass.High
+                            _newlevel = ProcessPriorityClass.AboveNormal
+                        Case ProcessPriorityClass.Idle
+                            '
+                        Case ProcessPriorityClass.Normal
+                            _newlevel = ProcessPriorityClass.BelowNormal
+                        Case ProcessPriorityClass.RealTime
+                            _newlevel = ProcessPriorityClass.High
+                    End Select
+
+                    Dim res As Integer = 2        ' Access denied
+                    For Each srv As ManagementObject In _connection.wmiSearcher.Get
+                        If CInt(srv.GetPropertyValue(API.WMI_INFO_PROCESS.ProcessId.ToString)) = _pid Then
+                            Dim inParams As ManagementBaseObject = srv.GetMethodParameters("SetPriority")
+                            inParams("Priority") = _newlevel
+                            Dim outParams As ManagementBaseObject = srv.InvokeMethod("SetPriority", inParams, Nothing)
+                            res = CInt(outParams("ReturnValue"))
+                            Exit For
+                        End If
+                    Next
+                    RaiseEvent HasDecreasedPriority(res = 0, CType(res, API.PROCESS_RETURN_CODE_WMI).ToString)
+                Catch ex As Exception
+                    RaiseEvent HasDecreasedPriority(False, ex.Message)
+                End Try
 
             Case Else
                 ' Local
