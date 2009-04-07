@@ -204,6 +204,7 @@ Public Class serviceInfos
             '_errorControl = .ErrorControl
             '_startType = .StartType
             '_path = .ImagePath
+            _serviceType = .ServiceType
             '_displayName = .DisplayName
             '_loadOrderGroup = .LoadOrderGroup
             '_startName = .ServiceStartName
