@@ -17,15 +17,17 @@ Public MustInherit Class cGeneralObject
     End Sub
 
     Public Sub RemoveDeadTasks()
-        SyncLock _pendingTasks
-            Dim _temp As List(Of Threading.Thread) = _pendingTasks
-            For Each task As Threading.Thread In _temp
-                If task Is Nothing OrElse task.IsAlive = False Then
-                    _pendingTasks.Remove(task)
-                End If
-            Next
-            _pendingTasks = _temp
-        End SyncLock
+        ' NOTHING FOR NOW
+        'SyncLock _pendingTasks
+        '    Dim _temp As New List(Of Threading.Thread) '= _pendingTasks
+        '    _temp = _pendingTasks
+        '    For Each task As Threading.Thread In _temp
+        '        If task Is Nothing OrElse task.IsAlive = False Then
+        '            _pendingTasks.Remove(task)
+        '        End If
+        '    Next
+        '    _pendingTasks = _temp
+        'End SyncLock
     End Sub
 
     Public ReadOnly Property GetPendingTasks() As List(Of Threading.Thread)
@@ -36,7 +38,16 @@ Public MustInherit Class cGeneralObject
 
     Public ReadOnly Property PendingTaskCount() As Integer
         Get
-            Return _pendingTasks.Count
+            Dim _cout As Integer = 0
+            For Each th As System.Threading.Thread In _pendingTasks
+                If th IsNot Nothing AndAlso th.IsAlive Then
+                    _cout += 1
+                End If
+            Next
+            'If _pendingTasks.Count > 0 Then
+            '    RemoveDeadTasks()
+            'End If
+            Return _cout '_pendingTasks.Count
         End Get
     End Property
 

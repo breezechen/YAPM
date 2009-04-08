@@ -44,7 +44,7 @@ Partial Class frmPendingTasks
         Me.lv.FullRowSelect = True
         Me.lv.Location = New System.Drawing.Point(0, 0)
         Me.lv.Name = "lv"
-        Me.lv.OverriddenDoubleBuffered = False
+        Me.lv.OverriddenDoubleBuffered = True
         Me.lv.Size = New System.Drawing.Size(455, 349)
         Me.lv.TabIndex = 0
         Me.lv.UseCompatibleStateImageBehavior = False
@@ -69,27 +69,27 @@ Partial Class frmPendingTasks
         '
         Me.ContextMenuStrip22.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TerminateToolStripMenuItem, Me.SuspendToolStripMenuItem, Me.ResumeToolStripMenuItem})
         Me.ContextMenuStrip22.Name = "ContextMenuStrip22"
-        Me.ContextMenuStrip22.Size = New System.Drawing.Size(153, 92)
+        Me.ContextMenuStrip22.Size = New System.Drawing.Size(129, 70)
         '
         'TerminateToolStripMenuItem
         '
         Me.TerminateToolStripMenuItem.Image = CType(resources.GetObject("TerminateToolStripMenuItem.Image"), System.Drawing.Image)
         Me.TerminateToolStripMenuItem.Name = "TerminateToolStripMenuItem"
-        Me.TerminateToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.TerminateToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
         Me.TerminateToolStripMenuItem.Text = "Terminate"
         '
         'SuspendToolStripMenuItem
         '
         Me.SuspendToolStripMenuItem.Enabled = False
         Me.SuspendToolStripMenuItem.Name = "SuspendToolStripMenuItem"
-        Me.SuspendToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.SuspendToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
         Me.SuspendToolStripMenuItem.Text = "Suspend"
         '
         'ResumeToolStripMenuItem
         '
         Me.ResumeToolStripMenuItem.Enabled = False
         Me.ResumeToolStripMenuItem.Name = "ResumeToolStripMenuItem"
-        Me.ResumeToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ResumeToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
         Me.ResumeToolStripMenuItem.Text = "Resume"
         '
         'Timer
@@ -105,7 +105,7 @@ Partial Class frmPendingTasks
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Name = "frmPendingTasks"
         Me.ShowIcon = False
-        Me.Text = "Pending tasks for "
+        Me.Text = "Pending tasks for the object"
         Me.ContextMenuStrip22.ResumeLayout(False)
         Me.ResumeLayout(False)
 

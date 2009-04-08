@@ -45,7 +45,7 @@ Public Class frmPendingTasks
         For Each it As ListViewItem In Me.lv.Items
             Dim exist As Boolean = False
             For Each thr As Threading.Thread In _list
-                If thr.ToString = CStr(it.Tag) Then
+                If thr.Name = it.Text AndAlso thr.IsAlive Then
                     ' Still existing -> update infos
                     it.Text = thr.Name
                     exist = True
@@ -73,20 +73,19 @@ Public Class frmPendingTasks
         For Each thr As Threading.Thread In _list
             Dim exist As Boolean = False
             For Each itt As ListViewItem In Me.lv.Items
-                If CStr(itt.Tag) = thr.ToString Then
+                If itt.Text = thr.Name Then
                     exist = True
                     Exit For
                 End If
             Next
 
-            If exist = False Then
+            If exist = False AndAlso thr.IsAlive Then
                 ' Have to create
                 Dim nene As New ListViewItem(thr.Name)
                 If first = False Then
                     nene.BackColor = NEW_ITEM_COLOR
                 End If
                 nene.ForeColor = Color.FromArgb(30, 30, 30)
-                nene.Tag = thr.ToString
                 Dim items(1) As String
                 items(0) = thr.ThreadState.ToString
                 items(1) = thr.Priority.ToString
@@ -100,7 +99,7 @@ Public Class frmPendingTasks
         For Each it As ListViewItem In Me.lv.Items
             Dim theThread As Threading.Thread = Nothing
             For Each thr As Threading.Thread In _list
-                If thr.ToString = CStr(it.Tag) Then
+                If thr.Name = it.Text Then
                     theThread = thr
                     Exit For
                 End If
