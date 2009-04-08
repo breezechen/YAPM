@@ -10,11 +10,13 @@ Public Class asyncCallbackThreadSetPriority
     Private _id As Integer
     Private _level As System.Diagnostics.ThreadPriorityLevel
     Private _connection As cThreadConnection
+    Private _deg As HasSetPriority
 
-    Public Event HasSetPriority(ByVal Success As Boolean, ByVal msg As String)
+    Public Delegate Sub HasSetPriority(ByVal Success As Boolean, ByVal msg As String)
 
-    Public Sub New(ByVal id As Integer, ByVal level As System.Diagnostics.ThreadPriorityLevel, ByRef procConnection As cThreadConnection)
+    Public Sub New(ByVal deg As HasSetPriority, ByVal id As Integer, ByVal level As System.Diagnostics.ThreadPriorityLevel, ByRef procConnection As cThreadConnection)
         _id = id
+        _deg = deg
         _level = level
         _connection = procConnection
     End Sub
@@ -33,9 +35,9 @@ Public Class asyncCallbackThreadSetPriority
                 If hProc > 0 Then
                     r = API.SetThreadPriority(New IntPtr(hProc), _level)
                     API.CloseHandle(hProc)
-                    RaiseEvent HasSetPriority(r <> 0, API.GetError)
+                    _deg.Invoke(r <> 0, API.GetError)
                 Else
-                    RaiseEvent HasSetPriority(False, API.GetError)
+                    _deg.Invoke(False, API.GetError)
                 End If
         End Select
     End Sub

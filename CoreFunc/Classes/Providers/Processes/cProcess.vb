@@ -331,14 +331,16 @@ Public Class cProcess
 
 #Region "Get information overriden methods"
     ' Retrieve informations by its name
-    Public Overrides Function GetInformation(ByVal infoName As String) As String
+    Public Overrides Function GetInformation(ByVal info As String) As String
 
-        If infoName = "ObjectCreationDate" Then
+        If info = "ObjectCreationDate" Then
             Return _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
+        ElseIf info = "PendingTaskCount" Then
+            Return PendingTaskCount.ToString
         End If
 
         Dim res As String = NO_INFO_RETRIEVED
-        Select Case infoName
+        Select Case info
             Case "ParentPID"
                 res = Me.Infos.ParentProcessId.ToString
             Case "ParentName"

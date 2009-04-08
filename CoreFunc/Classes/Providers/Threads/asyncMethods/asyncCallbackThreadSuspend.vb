@@ -8,11 +8,13 @@ Public Class asyncCallbackThreadSuspend
 
     Private _id As Integer
     Private _connection As cThreadConnection
+    Private _deg As HasSuspended
 
-    Public Event HasSuspended(ByVal Success As Boolean, ByVal msg As String)
+    Public Delegate Sub HasSuspended(ByVal Success As Boolean, ByVal msg As String)
 
-    Public Sub New(ByVal id As Integer, ByRef procConnection As cThreadConnection)
+    Public Sub New(ByVal deg As HasSuspended, ByVal id As Integer, ByRef procConnection As cThreadConnection)
         _id = id
+        _deg = deg
         _connection = procConnection
     End Sub
 
@@ -30,9 +32,9 @@ Public Class asyncCallbackThreadSuspend
                 If hProc > 0 Then
                     r = API.SuspendThread(New IntPtr(hProc))
                     API.CloseHandle(hProc)
-                    RaiseEvent HasSuspended(r <> -1, API.GetError)
+                    _deg.Invoke(r <> -1, API.GetError)
                 Else
-                    RaiseEvent HasSuspended(False, API.GetError)
+                    _deg.Invoke(False, API.GetError)
                 End If
         End Select
     End Sub

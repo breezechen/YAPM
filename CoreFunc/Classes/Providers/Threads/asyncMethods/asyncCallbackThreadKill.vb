@@ -8,11 +8,13 @@ Public Class asyncCallbackThreadKill
 
     Private _id As Integer
     Private _connection As cThreadConnection
+    Private _deg As HasKilled
 
-    Public Event HasKilled(ByVal Success As Boolean, ByVal id As Integer, ByVal msg As String)
+    Public Delegate Sub HasKilled(ByVal Success As Boolean, ByVal id As Integer, ByVal msg As String)
 
-    Public Sub New(ByVal id As Integer, ByRef procConnection As cThreadConnection)
+    Public Sub New(ByVal deg As HasKilled, ByVal id As Integer, ByRef procConnection As cThreadConnection)
         _id = id
+        _deg = deg
         _connection = procConnection
     End Sub
 
@@ -30,9 +32,9 @@ Public Class asyncCallbackThreadKill
                 If hProc > 0 Then
                     ret = API.TerminateThread(New IntPtr(hProc), 0)
                     API.CloseHandle(hProc)
-                    RaiseEvent HasKilled(ret <> 0, 0, API.GetError)
+                    _deg.Invoke(ret <> 0, 0, API.GetError)
                 Else
-                    RaiseEvent HasKilled(False, _id, API.GetError)
+                    _deg.Invoke(False, _id, API.GetError)
                 End If
         End Select
     End Sub

@@ -9,6 +9,7 @@ Public Class asyncCallbackThreadGetOtherInfos
     Private _id As Integer
     Private _handle As Integer
     Private _connection As cThreadConnection
+    '  Private _deg As GatheredInfos
 
     Public Structure TheseInfos
         Public affinity As Integer
@@ -21,6 +22,7 @@ Public Class asyncCallbackThreadGetOtherInfos
 
     Public Sub New(ByVal pid As Integer, ByRef procConnection As cThreadConnection, Optional ByVal handle As Integer = 0)
         _id = pid
+        ' _deg = deg
         _handle = handle
         _connection = procConnection
     End Sub

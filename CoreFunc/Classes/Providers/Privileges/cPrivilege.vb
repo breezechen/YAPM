@@ -97,6 +97,8 @@ Public Class cPrivilege
 
         If info = "ObjectCreationDate" Then
             Return _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
+        ElseIf info = "PendingTaskCount" Then
+            Return PendingTaskCount.ToString
         End If
 
         Dim res As String = NO_INFO_RETRIEVED

@@ -9,12 +9,14 @@ Public Class asyncCallbackThreadDecreasePriority
     Private _id As Integer
     Private _level As Integer
     Private _connection As cThreadConnection
+    Private _deg As HasDecreasedPriority
 
-    Public Event HasDecreasedPriority(ByVal Success As Boolean, ByVal msg As String)
+    Public Delegate Sub HasDecreasedPriority(ByVal Success As Boolean, ByVal msg As String)
 
-    Public Sub New(ByVal id As Integer, ByVal level As Integer, ByRef procConnection As cThreadConnection)
+    Public Sub New(ByVal deg As HasDecreasedPriority, ByVal id As Integer, ByVal level As Integer, ByRef procConnection As cThreadConnection)
         _id = id
         _level = level
+        _deg = deg
         _connection = procConnection
     End Sub
 
@@ -50,9 +52,9 @@ Public Class asyncCallbackThreadDecreasePriority
                 If hProc > 0 Then
                     r = API.SetThreadPriority(New IntPtr(hProc), _level2)
                     API.CloseHandle(hProc)
-                    RaiseEvent HasDecreasedPriority(r <> 0, API.GetError)
+                    _deg.Invoke(r <> 0, API.GetError)
                 Else
-                    RaiseEvent HasDecreasedPriority(False, API.GetError)
+                    _deg.Invoke(False, API.GetError)
                 End If
         End Select
     End Sub

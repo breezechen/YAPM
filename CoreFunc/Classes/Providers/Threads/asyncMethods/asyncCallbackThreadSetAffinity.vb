@@ -9,11 +9,13 @@ Public Class asyncCallbackThreadSetAffinity
     Private _pid As Integer
     Private _level As Integer
     Private _connection As cThreadConnection
+    Private _deg As HasSetAffinity
 
-    Public Event HasSetAffinity(ByVal Success As Boolean, ByVal msg As String)
+    Public Delegate Sub HasSetAffinity(ByVal Success As Boolean, ByVal msg As String)
 
-    Public Sub New(ByVal pid As Integer, ByVal level As Integer, ByRef procConnection As cThreadConnection)
+    Public Sub New(ByVal deg As HasSetAffinity, ByVal pid As Integer, ByVal level As Integer, ByRef procConnection As cThreadConnection)
         _pid = pid
+        _deg = deg
         _level = level
         _connection = procConnection
     End Sub
@@ -30,9 +32,9 @@ Public Class asyncCallbackThreadSetAffinity
                 If __hProcess > 0 Then
                     Dim ret As Integer = API.SetProcessAffinityMask(__hProcess, _level)
                     API.CloseHandle(__hProcess)
-                    RaiseEvent HasSetAffinity(ret <> 0, API.GetError)
+                    _deg.Invoke(ret <> 0, API.GetError)
                 Else
-                    RaiseEvent HasSetAffinity(False, API.GetError)
+                    _deg.Invoke(False, API.GetError)
                 End If
         End Select
     End Sub

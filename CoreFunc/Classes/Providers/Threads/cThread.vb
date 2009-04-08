@@ -87,6 +87,7 @@ Public Class cThread
     ' Refresh some non fixed infos
     ' For now IT IS NOT ASYNC
     ' Because create ~50 threads/sec is not really cool
+    ' TOCHANGE
     Private WithEvents asyncNonFixed As asyncCallbackThreadGetOtherInfos
     Private Sub RefreshSpecialInformations()
         Select Case _connection.ConnectionObj.ConnectionType
@@ -111,123 +112,137 @@ Public Class cThread
 #Region "All actions on thread (kill, ...)"
 
     ' Set priority
-    Private WithEvents asyncSetPriority As asyncCallbackThreadSetPriority
     Public Function SetPriority(ByVal level As System.Diagnostics.ThreadPriorityLevel) As Integer
-        asyncSetPriority = New asyncCallbackThreadSetPriority(Me.Infos.Id, level, _connection)
+        Dim deg As New asyncCallbackThreadSetPriority.HasSetPriority(AddressOf setPriorityDone)
+        Dim asyncSetPriority As New asyncCallbackThreadSetPriority(deg, Me.Infos.Id, level, _connection)
         Dim t As New Threading.Thread(AddressOf asyncSetPriority.Process)
         t.Priority = Threading.ThreadPriority.Lowest
         t.IsBackground = True
-        t.Name = "SetPriority"
+        t.Name = "SetPriority (" & Me.Infos.Id.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
+        AddPendingTask(t)
         t.Start()
     End Function
-    Private Sub setPriorityDone(ByVal success As Boolean, ByVal msg As String) Handles asyncSetPriority.HasSetPriority
+    Private Sub setPriorityDone(ByVal success As Boolean, ByVal msg As String)
         If success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not set priority to thread " & Me.Infos.Id.ToString)
         End If
+        RemoveDeadTasks()
     End Sub
 
     ' Kill a process
-    Private WithEvents asyncKill As asyncCallbackThreadKill
     Public Function ThreadTerminate() As Integer
-        asyncKill = New asyncCallbackThreadKill(Me.Infos.Id, _connection)
+        Dim deg As New asyncCallbackThreadKill.HasKilled(AddressOf killDone)
+        Dim asyncKill As New asyncCallbackThreadKill(deg, Me.Infos.Id, _connection)
         Dim t As New Threading.Thread(AddressOf asyncKill.Process)
         t.Priority = Threading.ThreadPriority.Lowest
         t.IsBackground = True
-        t.Name = "Kill"
+        t.Name = "Kill (" & Me.Infos.Id.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
+        AddPendingTask(t)
         t.Start()
     End Function
-    Private Sub killDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String) Handles asyncKill.HasKilled
+    Private Sub killDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not kill thread " & Me.Infos.Id.ToString)
         End If
+        RemoveDeadTasks()
     End Sub
 
     ' Decrease priority
-    Private WithEvents asyncDecPriority As asyncCallbackThreadDecreasePriority
     Public Function DecreasePriority() As Integer
-        asyncDecPriority = New asyncCallbackThreadDecreasePriority(Me.Infos.Id, Me.Infos.Priority, _connection)
+        Dim deg As New asyncCallbackThreadDecreasePriority.HasDecreasedPriority(AddressOf decreasePriorityDone)
+        Dim asyncDecPriority As New asyncCallbackThreadDecreasePriority(deg, Me.Infos.Id, Me.Infos.Priority, _connection)
         Dim t As New Threading.Thread(AddressOf asyncDecPriority.Process)
         t.Priority = Threading.ThreadPriority.Lowest
         t.IsBackground = True
-        t.Name = "DecreasePriority"
+        t.Name = "DecreasePriority (" & Me.Infos.Id.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
+        AddPendingTask(t)
         t.Start()
     End Function
-    Private Sub decreasePriorityDone(ByVal success As Boolean, ByVal msg As String) Handles asyncDecPriority.HasDecreasedPriority
+    Private Sub decreasePriorityDone(ByVal success As Boolean, ByVal msg As String)
         If success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not set priority to thread " & Me.Infos.Id.ToString)
         End If
+        RemoveDeadTasks()
     End Sub
 
     ' Increase priority
-    Private WithEvents asyncInPriority As asyncCallbackThreadIncreasePriority
     Public Function IncreasePriority() As Integer
-        asyncInPriority = New asyncCallbackThreadIncreasePriority(Me.Infos.Id, Me.Infos.Priority, _connection)
+        Dim deg As New asyncCallbackThreadIncreasePriority.HasIncreasedPriority(AddressOf increasePriorityDone)
+        Dim asyncInPriority As New asyncCallbackThreadIncreasePriority(deg, Me.Infos.Id, Me.Infos.Priority, _connection)
         Dim t As New Threading.Thread(AddressOf asyncInPriority.Process)
         t.Priority = Threading.ThreadPriority.Lowest
-        t.Name = "IncreasePriority"
+        t.Name = "IncreasePriority (" & Me.Infos.Id.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
         t.IsBackground = True
+        AddPendingTask(t)
         t.Start()
     End Function
-    Private Sub increasePriorityDone(ByVal success As Boolean, ByVal msg As String) Handles asyncInPriority.HasIncreasedPriority
+    Private Sub increasePriorityDone(ByVal success As Boolean, ByVal msg As String)
         If success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not set priority to process " & Me.Infos.Id.ToString)
         End If
+        RemoveDeadTasks()
     End Sub
 
     ' Suspend a process
-    Private WithEvents asyncSuspend As asyncCallbackThreadSuspend
     Public Function ThreadSuspend() As Integer
-        asyncSuspend = New asyncCallbackThreadSuspend(Me.Infos.Id, _connection)
+        Dim deg As New asyncCallbackThreadSuspend.HasSuspended(AddressOf suspendDone)
+        Dim asyncSuspend As New asyncCallbackThreadSuspend(deg, Me.Infos.Id, _connection)
         Dim t As New Threading.Thread(AddressOf asyncSuspend.Process)
-        t.Name = "SuspendThread"
+        t.Name = "SuspendThread (" & Me.Infos.Id.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
         t.Priority = Threading.ThreadPriority.Lowest
         t.IsBackground = True
+        AddPendingTask(t)
         t.Start()
     End Function
-    Private Sub suspendDone(ByVal success As Boolean, ByVal msg As String) Handles asyncSuspend.HasSuspended
+    Private Sub suspendDone(ByVal success As Boolean, ByVal msg As String)
         If success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not suspend thread " & Me.Infos.Id.ToString)
         End If
+        RemoveDeadTasks()
     End Sub
 
     ' Resume a process
-    Private WithEvents asyncResume As asyncCallbackThreadResume
     Public Function ThreadResume() As Integer
-        asyncResume = New asyncCallbackThreadResume(Me.Infos.Id, _connection)
+        Dim deg As New asyncCallbackThreadResume.HasResumed(AddressOf resumeDone)
+        Dim asyncResume As New asyncCallbackThreadResume(deg, Me.Infos.Id, _connection)
         Dim t As New Threading.Thread(AddressOf asyncResume.Process)
         t.Priority = Threading.ThreadPriority.Lowest
-        t.Name = "ResumeThread"
+        t.Name = "ResumeThread (" & Me.Infos.Id.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
         t.IsBackground = True
+        AddPendingTask(t)
         t.Start()
     End Function
-    Private Sub resumeDone(ByVal success As Boolean, ByVal msg As String) Handles asyncResume.HasResumed
+    Private Sub resumeDone(ByVal success As Boolean, ByVal msg As String)
         If success = False Then
             MsgBox("Error : " & msg & " (" & Err.LastDllError.ToString & _
                    ")", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not resume process " & Me.Infos.Id.ToString)
         End If
+        RemoveDeadTasks()
     End Sub
 
     ' Change affinity
-    Private WithEvents asyncSetAffinity As asyncCallbackThreadSetAffinity
     Public Function SetAffinity(ByVal affinity As Integer) As Integer
-        asyncSetAffinity = New asyncCallbackThreadSetAffinity(Me.Infos.Id, affinity, _connection)
+        Dim deg As New asyncCallbackThreadSetAffinity.HasSetAffinity(AddressOf setAffinityDone)
+        Dim asyncSetAffinity As New asyncCallbackThreadSetAffinity(deg, Me.Infos.Id, affinity, _connection)
         Dim t As New Threading.Thread(AddressOf asyncSetAffinity.Process)
         t.Priority = Threading.ThreadPriority.Lowest
         t.IsBackground = True
-        t.Name = "SetAffinity"
+        t.Name = "SetAffinity (" & Me.Infos.Id.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
+        AddPendingTask(t)
         t.Start()
     End Function
-    Private Sub setAffinityDone(ByVal success As Boolean, ByVal msg As String) Handles asyncSetAffinity.HasSetAffinity
+    Private Sub setAffinityDone(ByVal success As Boolean, ByVal msg As String)
         If success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not set affinity " & Me.Infos.Id.ToString)
         End If
+        RemoveDeadTasks()
     End Sub
 
 #End Region
@@ -239,6 +254,8 @@ Public Class cThread
 
         If info = "ObjectCreationDate" Then
             Return _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
+        ElseIf info = "PendingTaskCount" Then
+            Return PendingTaskCount.ToString
         End If
 
         Dim res As String = NO_INFO_RETRIEVED
