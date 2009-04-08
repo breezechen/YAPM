@@ -75,7 +75,6 @@
     <Compile Include="Classes\Providers\EnvVariables\envVariableInfos.vb" />
     <Compile Include="Classes\Providers\Processes\cProcessMemRW.vb" />
     <Compile Include="Classes\Providers\cTask.vb" />
-    <Compile Include="Classes\Providers\cWindow.vb" />
     <Compile Include="Classes\Providers\Handles\asyncMethods\asyncCallbackHandleEnumerate.vb" />
     <Compile Include="Classes\Providers\Handles\asyncMethods\asyncCallbackHandleUnload.vb" />
     <Compile Include="Classes\Providers\Handles\cHandle.vb" />
@@ -134,6 +133,12 @@
     <Compile Include="Classes\Providers\Threads\cThread.vb" />
     <Compile Include="Classes\Providers\Threads\cThreadConnection.vb" />
     <Compile Include="Classes\Providers\Threads\threadInfos.vb" />
+    <Compile Include="Classes\Providers\Windows\asyncMethods\asyncCallbackWindowAction.vb" />
+    <Compile Include="Classes\Providers\Windows\asyncMethods\asyncCallbackWindowGetNonFixedInfos.vb" />
+    <Compile Include="Classes\Providers\Windows\asyncMethods\asyncCallbackWindowEnumerate.vb" />
+    <Compile Include="Classes\Providers\Windows\cWindow.vb" />
+    <Compile Include="Classes\Providers\Windows\cWindowConnection.vb" />
+    <Compile Include="Classes\Providers\Windows\windowInfos.vb" />
     <Compile Include="Classes\StateBasedActions\cBasedStateActionState.vb" />
     <Compile Include="Classes\StateBasedActions\cStateBasedActions.vb" />
     <Compile Include="Classes\Hotkeys\cHotkeys.vb" />
@@ -198,7 +203,6 @@
   <ItemGroup>
     <Folder Include="Classes\Providers\NetworkConnections\" />
     <Folder Include="Classes\Providers\Tasks\" />
-    <Folder Include="Classes\Providers\Windows\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

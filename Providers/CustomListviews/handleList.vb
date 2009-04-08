@@ -161,7 +161,7 @@ Public Class handleList
     End Function
 
     ' Get selected items
-    Public Function GetSelectedItems() As Dictionary(Of String, cHandle).ValueCollection
+    Public Shadows Function GetSelectedItems() As Dictionary(Of String, cHandle).ValueCollection
         Dim res As New Dictionary(Of String, cHandle)
 
         For Each it As ListViewItem In Me.SelectedItems
@@ -366,4 +366,14 @@ Public Class handleList
 
 #End Region
 
+    Protected Overrides Sub OnKeyDown(ByVal e As System.Windows.Forms.KeyEventArgs)
+        MyBase.OnKeyDown(e)
+        If e.Shift AndAlso e.Control Then
+            ' OK, show thread management
+            For Each obj As cGeneralObject In Me.GetSelectedItems
+                Dim frm As New frmPendingTasks(obj)
+                frm.Show()
+            Next
+        End If
+    End Sub
 End Class

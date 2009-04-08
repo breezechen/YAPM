@@ -10,11 +10,13 @@ Public Class asyncCallbackPrivilegeChangeStatus
     Private _name As String
     Private _status As API.PRIVILEGE_STATUS
     Private _connection As cPrivilegeConnection
+    Private _deg As HasChangedStatus
 
-    Public Event HasChangedStatus(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String)
+    Public Delegate Sub HasChangedStatus(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String)
 
-    Public Sub New(ByVal pid As Integer, ByVal status As API.PRIVILEGE_STATUS, ByVal name As String, ByRef procConnection As cPrivilegeConnection)
+    Public Sub New(ByVal deg As HasChangedStatus, ByVal pid As Integer, ByVal status As API.PRIVILEGE_STATUS, ByVal name As String, ByRef procConnection As cPrivilegeConnection)
         _pid = pid
+        _deg = deg
         _name = name
         _status = status
         _connection = procConnection
@@ -29,7 +31,7 @@ Public Class asyncCallbackPrivilegeChangeStatus
             Case Else
                 ' Local
                 Dim ret As Boolean = SetPrivilege(_name, _status)
-                RaiseEvent HasChangedStatus(ret, _pid, _name, API.GetError)
+                _deg.Invoke(ret, _pid, _name, API.GetError)
         End Select
     End Sub
 

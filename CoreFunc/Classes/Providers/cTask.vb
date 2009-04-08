@@ -45,10 +45,10 @@ Public Class cTask
     ' ========================================
     ' Constructors
     ' ========================================
-    Public Sub New(ByVal task As LightWindow)
+    Public Sub New(ByVal task As windowInfos.LightWindow)
         MyBase.New(task)
         '_proc = New cProcess(New processInfos(Nothing), Nothing)    ' cLocalProcess(task.pid)   'TODO_
-        _key = task.handle.ToString & "|" & task.pid.ToString & "|" & task.threadId.ToString
+        _key = task.handle.ToString & "|" & task.pid.ToString & "|" & task.tid.ToString
         '_proc.ProcessorCount = cSystemInfo.GetProcessorCount   'TODO_
     End Sub
 
@@ -84,7 +84,7 @@ Public Class cTask
 
     ' Retrieve all tasks
     Public Overloads Shared Function Enumerate(ByRef key() As String, _
-                                               ByRef _dico As Dictionary(Of String, LightWindow)) As Integer
+                                               ByRef _dico As Dictionary(Of String, windowInfos.LightWindow)) As Integer
         Dim currWnd As IntPtr
         Dim cpt As Integer
 
@@ -92,27 +92,28 @@ Public Class cTask
         currWnd = GetWindowAPI(GetDesktopWindow(), GW_CHILD)
         cpt = 0
         ReDim key(-1)
-        Do While Not (currWnd = IntPtr.Zero)
+        ' TODO_
+        'Do While Not (currWnd = IntPtr.Zero)
 
-            If _isTask(currWnd) Then
+        '    If _isTask(currWnd) Then
 
-                ' Get procId from hwnd
-                Dim pid As Integer = GetProcIdFromWindowHandle(currWnd)
-                Dim thread As Integer = GetThreadIdFromWindowHandle(currWnd)
+        '        ' Get procId from hwnd
+        '        Dim pid As Integer = GetProcIdFromWindowHandle(currWnd)
+        '        Dim thread As Integer = GetThreadIdFromWindowHandle(currWnd)
 
-                If pid > 0 AndAlso thread > 0 Then
-                    Dim skey As String = currWnd.ToString & "|" & pid.ToString & "|" & thread.ToString
-                    If _dico.ContainsKey(skey) = False Then
-                        ReDim Preserve key(cpt)
-                        key(cpt) = skey
-                        _dico.Add(key(cpt), New LightWindow(currWnd, pid, thread))
-                        cpt += 1
-                    End If
-                End If
-            End If
+        '        If pid > 0 AndAlso thread > 0 Then
+        '            Dim skey As String = currWnd.ToString & "|" & pid.ToString & "|" & thread.ToString
+        '            If _dico.ContainsKey(skey) = False Then
+        '                ReDim Preserve key(cpt)
+        '                key(cpt) = skey
+        '                _dico.Add(key(cpt), New LightWindow(currWnd, pid, thread))
+        '                cpt += 1
+        '            End If
+        '        End If
+        '    End If
 
-            currWnd = GetWindowAPI(currWnd, GW_HWNDNEXT)
-        Loop
+        '    currWnd = GetWindowAPI(currWnd, GW_HWNDNEXT)
+        'Loop
 
         Return key.Length
 

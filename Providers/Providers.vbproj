@@ -146,6 +146,12 @@
     <Compile Include="customLV.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Forms\frmPendingTasks.Designer.vb">
+      <DependentUpon>frmPendingTasks.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmPendingTasks.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Modules\mdlIcon.vb" />
     <Compile Include="Modules\mdlMisc.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -208,6 +214,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="customLV.resx">
       <DependentUpon>customLV.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmPendingTasks.resx">
+      <DependentUpon>frmPendingTasks.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

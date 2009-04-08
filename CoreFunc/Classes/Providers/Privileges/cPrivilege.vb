@@ -69,20 +69,22 @@ Public Class cPrivilege
 #Region "All available actions"
 
     ' Increase priority
-    Private WithEvents asyncPrivStatus As asyncCallbackPrivilegeChangeStatus
     Public Function ChangeStatus(ByVal status As API.PRIVILEGE_STATUS) As Integer
-        asyncPrivStatus = New asyncCallbackPrivilegeChangeStatus(Me.Infos.ProcessId, status, Me.Infos.Name, _connection)
+        Dim deg As New asyncCallbackPrivilegeChangeStatus.HasChangedStatus(AddressOf changeStatusDone)
+        Dim asyncPrivStatus As New asyncCallbackPrivilegeChangeStatus(deg, Me.Infos.ProcessId, status, Me.Infos.Name, _connection)
         Dim t As New Threading.Thread(AddressOf asyncPrivStatus.Process)
         t.Priority = Threading.ThreadPriority.Lowest
-        t.Name = "ChangePrivilegeStatus"
+        t.Name = "ChangePrivilegeStatus (" & Me.Infos.Name & ")" & "  -- " & Date.Now.Ticks.ToString
         t.IsBackground = True
+        AddPendingTask(t)
         t.Start()
     End Function
-    Private Sub changeStatusDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String) Handles asyncPrivStatus.HasChangedStatus
+    Private Sub changeStatusDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not change privilege status " & name)
         End If
+        RemoveDeadTasks()
     End Sub
 
 

@@ -70,20 +70,22 @@ Public Class cHandle
 #Region "All actions on handles (unload)"
 
     ' Increase priority
-    Private WithEvents asyncUHandle As asyncCallbackHandleUnload
     Public Function UnloadHandle() As Integer
-        asyncUHandle = New asyncCallbackHandleUnload(Me.Infos.ProcessId, Me.Infos.handle, _connection)
+        Dim deg As New asyncCallbackHandleUnload.HasUnloadedHandle(AddressOf unloadHandleDone)
+        Dim asyncUHandle As New asyncCallbackHandleUnload(deg, Me.Infos.ProcessID, Me.Infos.Handle, _connection)
         Dim t As New Threading.Thread(AddressOf asyncUHandle.Process)
         t.Priority = Threading.ThreadPriority.Lowest
-        t.Name = "IncreasePriority"
+        t.Name = "HandleUnload (" & Me.Infos.Handle.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
         t.IsBackground = True
+        AddPendingTask(t)
         t.Start()
     End Function
-    Private Sub unloadHandleDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal handle As Integer, ByVal msg As String) Handles asyncUHandle.HasUnloadedHandle
+    Private Sub unloadHandleDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal handle As Integer, ByVal msg As String)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not unload handle " & handle.ToString)
         End If
+        RemoveDeadTasks()
     End Sub
 
 #End Region

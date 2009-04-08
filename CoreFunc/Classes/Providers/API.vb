@@ -28,6 +28,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 Imports System.Text
+Imports System.Drawing
 
 Public Class API
 
@@ -35,6 +36,38 @@ Public Class API
 #Region "Declarations used for processes"
 
     ' Const
+    Public Const GWL_HWNDPARENT As Integer = -8
+    Public Const GW_CHILD As Integer = 5
+    Public Const GW_HWNDNEXT As Integer = 2
+    Public Const WM_GETICON As Integer = &H7F
+    Public Const ICON_BIG As Integer = 1
+    Public Const ICON_SMALL As Integer = 0
+    Public Const GCL_HICON As Integer = -14
+    Public Const GCL_HICONSM As Integer = -34
+    Public Const WM_CLOSE As Integer = &H10
+    Public Const SW_HIDE As Integer = 0
+    Public Const SW_SHOWNORMAL As Integer = 1
+    Public Const SW_SHOWMINIMIZED As Integer = 2
+    Public Const SW_SHOWMAXIMIZED As Integer = 3
+    Public Const SW_MAXIMIZE As Integer = 3
+    Public Const SW_SHOWNOACTIVATE As Integer = 4
+    Public Const SW_SHOW As Integer = 5
+    Public Const SW_MINIMIZE As Integer = 6
+    Public Const SW_SHOWMINNOACTIVE As Integer = 7
+    Public Const SW_SHOWNA As Integer = 8
+    Public Const SW_RESTORE As Integer = 9
+    Public Const SW_SHOWDEFAULT As Integer = 10
+    Public Const SWP_NOSIZE As Integer = &H1
+    Public Const SWP_NOMOVE As Integer = &H2
+    Public Const SWP_NOACTIVATE As Integer = &H10
+    Public Const HWND_TOPMOST As Integer = -1
+    Public Const SWP_SHOWWINDOW As Integer = &H40
+    Public Const HWND_NOTOPMOST As Integer = -2
+    Public Const GWL_EXSTYLE As Integer = -20
+    Public Const WS_EX_LAYERED As Integer = &H80000
+    Public Const LWA_COLORKEY As Integer = &H1
+    Public Const LWA_ALPHA As Integer = &H2
+
     Public Const GR_USEROBJECTS As Integer = 1
     Public Const GR_GDIOBJECTS As Integer = 0
 
@@ -576,6 +609,19 @@ Public Class API
         StatusServiceExists = 23
         ServiceAlreadyPaused = 24
     End Enum
+    Public Enum ShowState As UInteger
+        SW_HIDE = 0
+        SW_SHOWNORMAL = 1
+        SW_SHOWMINIMIZED = 2
+        SW_SHOWMAXIMIZED = 3
+        SW_SHOWNOACTIVATE = 4
+        SW_SHOW = 5
+        SW_MINIMIZE = 6
+        SW_SHOWMINNOACTIVE = 7
+        SW_SHOWNA = 8
+        SW_RESTORE = 9
+        SW_SHOWDEFAULT = 10
+    End Enum
 
     <StructLayout(LayoutKind.Sequential)> _
     Public Structure CLIENT_ID
@@ -737,6 +783,14 @@ Public Class API
         Dim dwWaitHint As Integer
     End Structure
 
+    <StructLayout(LayoutKind.Sequential)> _
+    Public Structure RECT
+        Public Left As Integer
+        Public Top As Integer
+        Public Right As Integer
+        Public Bottom As Integer
+    End Structure
+
     <System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)> _
     Public Structure UNICODE_STRING
         Public Length As UShort
@@ -879,6 +933,24 @@ Public Class API
         ByRef ReturnLength As Integer) As Boolean
     End Function
 
+    <StructLayout(LayoutKind.Sequential)> _
+    Public Structure WindowPlacement
+        Public Length As UInteger
+        Public Flags As UInteger
+        Public ShowCmd As ShowState
+        Public MinPosition As Point
+        Public MaxPosition As Point
+        Public NormalPosition As RECT
+    End Structure
+    <StructLayout(LayoutKind.Sequential)> _
+    Public Structure FLASHWINFO
+        Public cbSize As Integer
+        Public hWnd As Integer
+        Public dwFlags As Integer
+        Public uCount As Integer
+        Public dwTimeout As Integer
+    End Structure
+
     Public Structure TOKEN_PRIVILEGES
         Dim PrivilegeCount As Integer
         '<VBFixedArray(25)> _
@@ -924,6 +996,63 @@ Public Class API
     Public Declare Function lstrcpyA Lib "kernel32" (ByVal RetVal As String, ByVal Ptr As Integer) As Integer
     Public Declare Function OpenService Lib "advapi32.dll" Alias "OpenServiceA" (ByVal hSCManager As IntPtr, ByVal lpServiceName As String, ByVal dwDesiredAccess As SERVICE_RIGHTS) As IntPtr
     Public Declare Function apiStartService Lib "advapi32.dll" Alias "StartServiceA" (ByVal hService As IntPtr, ByVal dwNumServiceArgs As Integer, ByVal lpServiceArgVectors As Integer) As Integer
+
+
+
+    Public Declare Function GetForegroundWindow Lib "user32" () As IntPtr
+
+    Public Declare Function GetLayeredWindowAttributes Lib "User32.Dll" (ByVal hwnd As IntPtr, ByRef pcrKey As Integer, ByRef pbAlpha As Byte, ByRef pdwFlags As Integer) As Boolean
+    Public Declare Auto Function SetLayeredWindowAttributes Lib "User32.Dll" (ByVal hWnd As IntPtr, ByVal crKey As Integer, ByVal Alpha As Byte, ByVal dwFlags As Integer) As Boolean
+    <DllImport("user32.dll")> _
+    Public Shared Function SetWindowLong(ByVal hWnd As IntPtr, ByVal nIndex As Integer, ByVal dwNewLong As IntPtr) As Integer
+    End Function
+    <DllImport("user32.dll", SetLastError:=True)> _
+    Public Shared Function SetWindowPos(ByVal hWnd As IntPtr, ByVal hWndInsertAfter As Integer, ByVal X As Integer, ByVal Y As Integer, ByVal cx As Integer, ByVal cy As Integer, ByVal uFlags As UInt32) As Boolean
+    End Function
+    Public Declare Function FlashWindowEx Lib "user32" (ByRef pfwi As FLASHWINFO) As Boolean
+    Public Declare Function SetForegroundWindowAPI Lib "user32" Alias "SetForegroundWindow" (ByVal hWnd As IntPtr) As Integer
+    Public Declare Function SetActiveWindowAPI Lib "user32.dll" Alias "SetActiveWindow" (ByVal hWnd As IntPtr) As Integer
+    <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
+    Public Shared Function ShowWindow(ByVal hwnd As IntPtr, ByVal nCmdShow As Int32) As Boolean
+    End Function
+    Public Declare Function EnableWindow Lib "user32" (ByVal hwnd As IntPtr, ByVal fEnable As Integer) As Integer
+    Public Declare Function GetClassLong Lib "user32.dll" Alias "GetClassLongA" (ByVal hWnd As IntPtr, ByVal nIndex As Integer) As IntPtr
+    <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
+    Public Shared Function SendMessage(ByVal hWnd As IntPtr, ByVal Msg As Integer, ByVal wParam As Integer, ByVal lParam As Integer) As IntPtr
+    End Function
+    Public Declare Function GetWindowThreadProcessId Lib "user32" (ByVal hWnd As IntPtr, ByRef lpdwProcessId As Integer) As Integer
+    Public Declare Function GetWindowAPI Lib "user32" Alias "GetWindow" (ByVal hWnd As IntPtr, ByVal wCmd As Integer) As IntPtr
+    Public Declare Auto Function GetDesktopWindow Lib "user32.dll" () As IntPtr
+    <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
+    Public Shared Function SetWindowText(ByVal hwnd As IntPtr, ByVal lpString As System.Text.StringBuilder) As Integer
+    End Function
+    <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
+    Public Shared Function GetWindowText(ByVal hwnd As IntPtr, ByVal lpString As StringBuilder, ByVal cch As Integer) As Integer
+    End Function
+    <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
+    Public Shared Function GetWindowTextLength(ByVal hwnd As IntPtr) As Integer
+    End Function
+    <DllImport("user32.dll", SetLastError:=True)> _
+    Public Shared Function IsWindowVisible(ByVal hwnd As IntPtr) As <MarshalAs(UnmanagedType.Bool)> Boolean
+    End Function
+    <DllImport("user32.dll", SetLastError:=True)> _
+    Public Shared Function GetWindowLong(ByVal hWnd As IntPtr, ByVal nIndex As Integer) As IntPtr
+    End Function
+    <DllImport("user32.dll", CharSet:=CharSet.Auto)> _
+    Public Shared Sub GetClassName(ByVal hWnd As System.IntPtr, ByVal lpClassName As System.Text.StringBuilder, ByVal nMaxCount As Integer)
+    End Sub
+    <DllImport("user32.dll", SetLastError:=True)> _
+    Public Shared Function IsWindowEnabled(ByVal hwnd As IntPtr) As <MarshalAs(UnmanagedType.Bool)> Boolean
+    End Function
+    <DllImport("user32.dll")> _
+    Public Shared Function GetWindowRect(ByVal hWnd As IntPtr, ByRef lpRect As RECT) As Boolean
+    End Function
+    <DllImport("user32.dll")> _
+    Public Shared Function SetWindowPlacement(ByVal hWnd As IntPtr, ByRef lpwndpl As WindowPlacement) As Boolean
+    End Function
+    <DllImport("user32.dll")> _
+    Public Shared Function GetWindowPlacement(ByVal hWnd As IntPtr, ByRef lpwndpl As WindowPlacement) As Boolean
+    End Function
 
 #End Region
 

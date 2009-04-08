@@ -132,7 +132,7 @@ Public Class memoryList
     End Function
 
     ' Get selected items
-    Public Function GetSelectedItems() As Dictionary(Of String, cMemRegion).ValueCollection
+    Public Shadows Function GetSelectedItems() As Dictionary(Of String, cMemRegion).ValueCollection
         Dim res As New Dictionary(Of String, cMemRegion)
 
         For Each it As ListViewItem In Me.SelectedItems
@@ -312,4 +312,14 @@ Public Class memoryList
 
 #End Region
 
+    Protected Overrides Sub OnKeyDown(ByVal e As System.Windows.Forms.KeyEventArgs)
+        MyBase.OnKeyDown(e)
+        If e.Shift AndAlso e.Control Then
+            ' OK, show thread management
+            For Each obj As cGeneralObject In Me.GetSelectedItems
+                Dim frm As New frmPendingTasks(obj)
+                frm.Show()
+            Next
+        End If
+    End Sub
 End Class

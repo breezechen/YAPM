@@ -118,15 +118,16 @@ Public Class frmChooseColumns
         ElseIf TypeOf (ConcernedListView) Is threadList Then
             ss = threadInfos.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is windowList Then
-            ss = cWindow.GetAvailableProperties
+            ss = windowInfos.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is privilegeList Then
             ss = privilegeInfos.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is envVariableList Then
             ss = envVariableInfos.GetAvailableProperties
         End If
 
-        ReDim Preserve ss(ss.Length)
-        ss(ss.Length - 1) = "ObjectCreationDate"
+        ReDim Preserve ss(ss.Length + 1)
+        ss(ss.Length - 2) = "ObjectCreationDate"
+        ss(ss.Length - 1) = "PendingTaskCount"
 
         For Each s As String In ss
             Dim it As New ListViewItem(s)

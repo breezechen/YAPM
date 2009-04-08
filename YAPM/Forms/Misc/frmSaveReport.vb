@@ -232,28 +232,28 @@ Public Class frmSaveReport
                                 ' is deleted)
                                 Dim suseless As String = cm.Caption
 
-                                c &= "ParentProcess" & vbTab & vbTab & CStr(cm.ParentProcessId) & " -- " & cm.ParentProcessName & vbNewLine
-                                c &= "ThreadId" & vbTab & vbTab & CStr(cm.ParentThreadId) & vbNewLine
+                                c &= "ParentProcess" & vbTab & vbTab & CStr(cm.Infos.ProcessId) & " -- " & cm.Infos.ProcessName & vbNewLine
+                                c &= "ThreadId" & vbTab & vbTab & CStr(cm.Infos.ProcessId) & vbNewLine
                                 c &= "Window ID" & vbTab & vbTab
-                                c &= CStr(cm.Handle) & vbNewLine
+                                c &= CStr(cm.Infos.Handle) & vbNewLine
                                 c &= "Caption" & vbTab & vbTab
                                 c &= cm.Caption & vbNewLine
                                 c &= "Enabled" & vbTab & vbTab
-                                c &= CStr(cm.Enabled) & vbNewLine
+                                c &= CStr(cm.Infos.Enabled) & vbNewLine
                                 c &= "Visible" & vbTab & vbTab
-                                c &= CStr(cm.Visible) & vbNewLine
+                                c &= CStr(cm.Infos.Visible) & vbNewLine
                                 c &= "IsTask" & vbTab & vbTab
-                                c &= CStr(cm.IsTask) & vbNewLine
+                                c &= CStr(cm.Infos.IsTask) & vbNewLine
                                 c &= "Opacity" & vbTab & vbTab
-                                c &= CStr(cm.Opacity) & vbNewLine
+                                c &= CStr(cm.Infos.Opacity) & vbNewLine
                                 c &= "Height" & vbTab & vbTab
-                                c &= CStr(cm.Height) & vbNewLine
+                                c &= CStr(cm.Infos.Height) & vbNewLine
                                 c &= "Left" & vbTab & vbTab
-                                c &= CStr(cm.Left) & vbNewLine
+                                c &= CStr(cm.Infos.Left) & vbNewLine
                                 c &= "Top" & vbTab & vbTab
-                                c &= CStr(cm.Top) & vbNewLine
+                                c &= CStr(cm.Infos.Top) & vbNewLine
                                 c &= "Width" & vbTab & vbTab
-                                c &= CStr(cm.Width) & vbNewLine & vbNewLine & vbNewLine
+                                c &= CStr(cm.Infos.Width) & vbNewLine & vbNewLine & vbNewLine
 
                             Catch ex As Exception
                                 '  Call Me.ReportFailed(ex)
@@ -279,41 +279,41 @@ Public Class frmSaveReport
                                 ' is deleted)
                                 Dim suseless As String = cm.Caption
 
-                                _html.AppendTitleLine("ParentProcess  " & CStr(cm.ParentProcessId) & "  --  " & cm.ParentProcessName)
+                                _html.AppendTitleLine("ParentProcess  " & CStr(cm.Infos.ProcessId) & "  --  " & cm.Infos.ProcessName)
                                 Dim _lin(1) As String
                                 _lin(0) = "ThreadID"
-                                _lin(1) = CStr(cm.ParentThreadId)
+                                _lin(1) = CStr(cm.Infos.ThreadId)
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Window ID"
-                                _lin(1) = CStr(cm.Handle)
+                                _lin(1) = CStr(cm.Infos.Handle)
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Caption"
                                 _lin(1) = cm.Caption
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Enabled"
-                                _lin(1) = CStr(cm.Enabled)
+                                _lin(1) = CStr(cm.Infos.Enabled)
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Visible"
-                                _lin(1) = CStr(cm.Visible)
+                                _lin(1) = CStr(cm.Infos.Visible)
                                 _html.AppendLine(_lin)
                                 _lin(0) = "IsTask"
-                                _lin(1) = CStr(cm.IsTask)
+                                _lin(1) = CStr(cm.Infos.IsTask)
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Opacity"
-                                _lin(1) = CStr(cm.Opacity)
+                                _lin(1) = CStr(cm.Infos.Opacity)
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Height"
-                                _lin(1) = CStr(cm.Height)
+                                _lin(1) = CStr(cm.Infos.Height)
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Left"
-                                _lin(1) = CStr(cm.Left)
+                                _lin(1) = CStr(cm.Infos.Left)
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Top"
-                                _lin(1) = CStr(cm.Top)
+                                _lin(1) = CStr(cm.Infos.Top)
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Width"
                                 _html.AppendLine(_lin)
-                                _lin(1) = CStr(cm.Width)
+                                _lin(1) = CStr(cm.Infos.Width)
 
                                 x += 1
                                 UpdateProgress(x)

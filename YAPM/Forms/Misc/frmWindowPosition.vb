@@ -24,17 +24,17 @@ Option Strict On
 Public Class frmWindowPosition
 
     ' Default values
-    Private defR As cWindow.RECT
+    Private defR As API.RECT
 
     ' New positions (defR must be initialized by cmdOk_Click)
-    Public ReadOnly Property NewRect() As cWindow.RECT
+    Public ReadOnly Property NewRect() As API.RECT
         Get
             Return defR
         End Get
     End Property
 
     ' Define current position of form
-    Public Sub SetCurrentPositions(ByVal r As cWindow.RECT)
+    Public Sub SetCurrentPositions(ByVal r As API.RECT)
         defR = r
         Me.txtHeight.Text = CStr(r.Bottom - r.Top)
         Me.txtLeft.Text = CStr(r.Left)

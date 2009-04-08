@@ -138,8 +138,8 @@ Public Class frmWindowsList
 
     Private Sub CloseToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CloseToolStripMenuItem.Click
         For Each it As ListViewItem In Me.lv.SelectedItems
-            Dim hWnd As Integer = CInt(CType(it.Tag, IntPtr))
-            If hWnd > 0 Then
+            Dim hWnd As IntPtr = CType(it.Tag, IntPtr)
+            If hWnd <> IntPtr.Zero Then
                 Call cWindow.CloseWindow(hWnd)
             End If
         Next

@@ -32,7 +32,7 @@ Public Class taskList
     ' ========================================
     Private _dicoNew As New Dictionary(Of String, cTask)
     Private _dicoDel As New Dictionary(Of String, cTask)
-    Private _buffDico As New Dictionary(Of String, cTask.LightWindow)
+    Private _buffDico As New Dictionary(Of String, windowInfos.LightWindow)
     Private _dico As New Dictionary(Of String, cTask)
 
 
@@ -197,7 +197,7 @@ Public Class taskList
     End Function
 
     ' Get selected items
-    Public Function GetSelectedItems() As Dictionary(Of String, cTask).ValueCollection
+    Public Shadows Function GetSelectedItems() As Dictionary(Of String, cTask).ValueCollection
         Dim res As New Dictionary(Of String, cTask)
 
         For Each it As ListViewItem In Me.SelectedItems
@@ -239,4 +239,14 @@ Public Class taskList
 
     End Function
 
+    Protected Overrides Sub OnKeyDown(ByVal e As System.Windows.Forms.KeyEventArgs)
+        MyBase.OnKeyDown(e)
+        If e.Shift AndAlso e.Control Then
+            ' OK, show thread management
+            For Each obj As cGeneralObject In Me.GetSelectedItems
+                Dim frm As New frmPendingTasks(obj)
+                frm.Show()
+            Next
+        End If
+    End Sub
 End Class

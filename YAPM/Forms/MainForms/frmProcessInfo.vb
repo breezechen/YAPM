@@ -1110,13 +1110,13 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub PositionSizeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PositionSizeToolStripMenuItem.Click
-        Dim r As cWindow.RECT
+        Dim r As API.RECT
 
         If Me.lvWindows.SelectedItems.Count > 0 Then
 
             Dim frm As New frmWindowPosition
             With frm
-                .SetCurrentPositions(Me.lvWindows.GetSelectedItem.Positions)
+                .SetCurrentPositions(Me.lvWindows.GetSelectedItem.Infos.Positions)
 
                 If .ShowDialog() = Windows.Forms.DialogResult.OK Then
                     r = .NewRect
@@ -1549,45 +1549,45 @@ Public Class frmProcessInfo
 
     ' Check if there are changes about windows
     Private Sub _CheckWindows()
+        ' TODO_
+        'Static _dico As New Dictionary(Of String, cWindow.LightWindow)
+        'Static _first As Boolean = True
+        'Dim _buffDico As New Dictionary(Of String, cWindow.LightWindow)
 
-        Static _dico As New Dictionary(Of String, cWindow.LightWindow)
-        Static _first As Boolean = True
-        Dim _buffDico As New Dictionary(Of String, cWindow.LightWindow)
+        'Dim _itemId() As Integer
+        'ReDim _itemId(0)
+        'Dim _pid(0) As Integer
+        '_pid(0) = curProc.Infos.Pid
+        'Call cWindow.Enumerate(True, _pid, _itemId, _buffDico)
 
-        Dim _itemId() As Integer
-        ReDim _itemId(0)
-        Dim _pid(0) As Integer
-        _pid(0) = curProc.Infos.Pid
-        Call cWindow.Enumerate(True, _pid, _itemId, _buffDico)
+        'If _first Then
+        '    _dico = _buffDico
+        '    _first = False
+        'End If
 
-        If _first Then
-            _dico = _buffDico
-            _first = False
-        End If
+        '' Check if there are new items
+        'If (_logCaptureMask And LogItemType.CreatedItems) = LogItemType.CreatedItems Then
+        '    For Each z As Integer In _itemId
+        '        If Not (_dico.ContainsKey(z.ToString)) Then
+        '            ' New item
+        '            Dim _light As cWindow.LightWindow = _buffDico.Item(z.ToString)
+        '            Call addToLog("Window created (" & _light.handle.ToString & "  --  " & cWindow.GetCaption(_light.handle) & ")", LogItemType.WindowItem, True)
+        '        End If
+        '    Next
+        'End If
 
-        ' Check if there are new items
-        If (_logCaptureMask And LogItemType.CreatedItems) = LogItemType.CreatedItems Then
-            For Each z As Integer In _itemId
-                If Not (_dico.ContainsKey(z.ToString)) Then
-                    ' New item
-                    Dim _light As cWindow.LightWindow = _buffDico.Item(z.ToString)
-                    Call addToLog("Window created (" & _light.handle.ToString & "  --  " & cWindow.GetCaption(_light.handle) & ")", LogItemType.WindowItem, True)
-                End If
-            Next
-        End If
+        '' Check if there are deleted items
+        'If (_logCaptureMask And LogItemType.DeletedItems) = LogItemType.DeletedItems Then
+        '    For Each z As Integer In _dico.Keys
+        '        If Array.IndexOf(_itemId, z) < 0 Then
+        '            ' Deleted item
+        '            Call addToLog("Windows deleted (" & _dico.Item(z.ToString).handle.ToString & ")", LogItemType.WindowItem, False)
+        '        End If
+        '    Next
+        'End If
 
-        ' Check if there are deleted items
-        If (_logCaptureMask And LogItemType.DeletedItems) = LogItemType.DeletedItems Then
-            For Each z As Integer In _dico.Keys
-                If Array.IndexOf(_itemId, z) < 0 Then
-                    ' Deleted item
-                    Call addToLog("Windows deleted (" & _dico.Item(z.ToString).handle.ToString & ")", LogItemType.WindowItem, False)
-                End If
-            Next
-        End If
-
-        ' Save dico
-        _dico = _buffDico
+        '' Save dico
+        '_dico = _buffDico
 
     End Sub
 
@@ -1906,6 +1906,7 @@ Public Class frmProcessInfo
         Me.lvPrivileges.ConnectionObj = theConnection
         Me.lvProcEnv.ConnectionObj = theConnection
         Me.lvProcServices.ConnectionObj = theConnection
+        Me.lvWindows.ConnectionObj = theConnection
         theConnection.Connect()
     End Sub
 
@@ -1916,4 +1917,5 @@ Public Class frmProcessInfo
     Private Sub theConnection_Disconnected() Handles theConnection.Disconnected
         '
     End Sub
+
 End Class
