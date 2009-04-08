@@ -8,11 +8,13 @@ Public Class asyncCallbackProcEmptyWorkingSet
 
     Private _pid As Integer
     Private _connection As cProcessConnection
+    Private _deg As HasReducedWorkingSet
 
-    Public Event HasReducedWorkingSet(ByVal Success As Boolean, ByVal msg As String)
+    Public Delegate Sub HasReducedWorkingSet(ByVal Success As Boolean, ByVal msg As String)
 
-    Public Sub New(ByVal pid As Integer, ByRef procConnection As cProcessConnection)
+    Public Sub New(ByVal deg As HasReducedWorkingSet, ByVal pid As Integer, ByRef procConnection As cProcessConnection)
         _pid = pid
+        _deg = deg
         _connection = procConnection
     End Sub
 
@@ -28,9 +30,9 @@ Public Class asyncCallbackProcEmptyWorkingSet
                 If _hHandle > 0 Then
                     Dim _ret As Integer = API.SetProcessWorkingSetSize(_hHandle, -1, -1)
                     API.CloseHandle(_hHandle)
-                    RaiseEvent HasReducedWorkingSet(_ret <> 0, API.GetError)
+                    _deg.Invoke(_ret <> 0, API.GetError)
                 Else
-                    RaiseEvent HasReducedWorkingSet(False, API.GetError)
+                    _deg.Invoke(False, API.GetError)
                 End If
         End Select
     End Sub

@@ -8,11 +8,13 @@ Public Class asyncCallbackProcResume
 
     Private _pid As Integer
     Private _connection As cProcessConnection
+    Private _deg As HasResumed
 
-    Public Event HasResumed(ByVal Success As Boolean, ByVal msg As String)
+    Public Delegate Sub HasResumed(ByVal Success As Boolean, ByVal msg As String)
 
-    Public Sub New(ByVal pid As Integer, ByRef procConnection As cProcessConnection)
+    Public Sub New(ByVal deg As HasResumed, ByVal pid As Integer, ByRef procConnection As cProcessConnection)
         _pid = pid
+        _deg = deg
         _connection = procConnection
     End Sub
 
@@ -30,9 +32,9 @@ Public Class asyncCallbackProcResume
                 If hProc > 0 Then
                     r = API.NtResumeProcess(hProc)
                     API.CloseHandle(hProc)
-                    RaiseEvent HasResumed(r = 0, API.GetError)
+                    _deg.Invoke(r = 0, API.GetError)
                 Else
-                    RaiseEvent HasResumed(False, API.GetError)
+                    _deg.Invoke(False, API.GetError)
                 End If
         End Select
     End Sub

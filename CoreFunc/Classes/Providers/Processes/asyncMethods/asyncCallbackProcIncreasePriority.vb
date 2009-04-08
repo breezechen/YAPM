@@ -10,11 +10,13 @@ Public Class asyncCallbackProcIncreasePriority
     Private _pid As Integer
     Private _level As ProcessPriorityClass
     Private _connection As cProcessConnection
+    Private _deg As HasIncreasedPriority
 
-    Public Event HasIncreasedPriority(ByVal Success As Boolean, ByVal msg As String)
+    Public Delegate Sub HasIncreasedPriority(ByVal Success As Boolean, ByVal msg As String)
 
-    Public Sub New(ByVal pid As Integer, ByVal level As ProcessPriorityClass, ByRef procConnection As cProcessConnection)
+    Public Sub New(ByVal deg As HasIncreasedPriority, ByVal pid As Integer, ByVal level As ProcessPriorityClass, ByRef procConnection As cProcessConnection)
         _pid = pid
+        _deg = deg
         _level = level
         _connection = procConnection
     End Sub
@@ -51,9 +53,9 @@ Public Class asyncCallbackProcIncreasePriority
                             Exit For
                         End If
                     Next
-                    RaiseEvent HasIncreasedPriority(res = 0, CType(res, API.PROCESS_RETURN_CODE_WMI).ToString)
+                    _deg.Invoke(res = 0, CType(res, API.PROCESS_RETURN_CODE_WMI).ToString)
                 Catch ex As Exception
-                    RaiseEvent HasIncreasedPriority(False, ex.Message)
+                    _deg.Invoke(False, ex.Message)
                 End Try
 
             Case Else
@@ -79,9 +81,9 @@ Public Class asyncCallbackProcIncreasePriority
                 If hProc > 0 Then
                     r = API.SetPriorityClass(hProc, _newlevel)
                     API.CloseHandle(hProc)
-                    RaiseEvent HasIncreasedPriority(r <> 0, API.GetError)
+                    _deg.Invoke(r <> 0, API.GetError)
                 Else
-                    RaiseEvent HasIncreasedPriority(False, API.GetError)
+                    _deg.Invoke(False, API.GetError)
                 End If
         End Select
     End Sub

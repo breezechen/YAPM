@@ -155,152 +155,159 @@ Public Class cProcess
 #Region "All actions on process (kill, enum...)"
 
     ' Set priority
-    Private WithEvents asyncSetPriority As asyncCallbackProcSetPriority
     Public Function SetPriority(ByVal level As ProcessPriorityClass) As Integer
-        asyncSetPriority = New asyncCallbackProcSetPriority(Me.Infos.Pid, level, _connection)
+        Dim deg As New asyncCallbackProcSetPriority.HasSetPriority(AddressOf setPriorityDone)
+        Dim asyncSetPriority As New asyncCallbackProcSetPriority(deg, Me.Infos.Pid, level, _connection)
         Dim t As New Threading.Thread(AddressOf asyncSetPriority.Process)
         t.Priority = Threading.ThreadPriority.Lowest
         t.IsBackground = True
-        t.Name = "SetPriority"
+        t.Name = "SetPriority (" & Me.Infos.Pid.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
+        AddPendingTask(t)
         t.Start()
     End Function
-    Private Sub setPriorityDone(ByVal success As Boolean, ByVal msg As String) Handles asyncSetPriority.HasSetPriority
+    Private Sub setPriorityDone(ByVal success As Boolean, ByVal msg As String)
         If success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not set priority to process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
+        RemoveDeadTasks()
     End Sub
 
     ' Kill a process
-    Private WithEvents asyncKill As asyncCallbackProcKill
     Public Function Kill() As Integer
-        asyncKill = New asyncCallbackProcKill(Me.Infos.Pid, _connection)
+        Dim deg As New asyncCallbackProcKill.HasKilled(AddressOf killDone)
+        Dim asyncKill As New asyncCallbackProcKill(deg, Me.Infos.Pid, _connection)
         Dim t As New Threading.Thread(AddressOf asyncKill.Process)
         t.Priority = Threading.ThreadPriority.Lowest
+        t.Name = "Kill (" & Me.Infos.Pid.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
         t.IsBackground = True
-        t.Name = "Kill"
+        AddPendingTask(t)
         t.Start()
     End Function
-    Private Sub killDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String) Handles asyncKill.HasKilled
+    Private Sub killDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not kill process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
+        RemoveDeadTasks()
     End Sub
 
     ' Decrease priority
-    Private WithEvents asyncDecPriority As asyncCallbackProcDecreasePriority
     Public Function DecreasePriority() As Integer
-        asyncDecPriority = New asyncCallbackProcDecreasePriority(Me.Infos.Pid, Me.Infos.Priority, _connection)
+        Dim deg As New asyncCallbackProcDecreasePriority.HasDecreasedPriority(AddressOf decreasePriorityDone)
+        Dim asyncDecPriority As New asyncCallbackProcDecreasePriority(deg, Me.Infos.Pid, Me.Infos.Priority, _connection)
         Dim t As New Threading.Thread(AddressOf asyncDecPriority.Process)
         t.Priority = Threading.ThreadPriority.Lowest
+        t.Name = "DecreasePriority (" & Me.Infos.Pid.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
         t.IsBackground = True
-        t.Name = "DecreasePriority"
+        AddPendingTask(t)
         t.Start()
     End Function
-    Private Sub decreasePriorityDone(ByVal success As Boolean, ByVal msg As String) Handles asyncDecPriority.HasDecreasedPriority
+    Private Sub decreasePriorityDone(ByVal success As Boolean, ByVal msg As String)
         If success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not set priority to process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
+        RemoveDeadTasks()
     End Sub
 
     ' Increase priority
-    Private WithEvents asyncInPriority As asyncCallbackProcIncreasePriority
     Public Function IncreasePriority() As Integer
-        asyncInPriority = New asyncCallbackProcIncreasePriority(Me.Infos.Pid, Me.Infos.Priority, _connection)
+        Dim deg As New asyncCallbackProcIncreasePriority.HasIncreasedPriority(AddressOf increasePriorityDone)
+        Dim asyncInPriority As New asyncCallbackProcIncreasePriority(deg, Me.Infos.Pid, Me.Infos.Priority, _connection)
         Dim t As New Threading.Thread(AddressOf asyncInPriority.Process)
         t.Priority = Threading.ThreadPriority.Lowest
-        t.Name = "IncreasePriority"
+        t.Name = "IncreasePriority (" & Me.Infos.Pid.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
         t.IsBackground = True
+        AddPendingTask(t)
         t.Start()
     End Function
-    Private Sub increasePriorityDone(ByVal success As Boolean, ByVal msg As String) Handles asyncInPriority.HasIncreasedPriority
+    Private Sub increasePriorityDone(ByVal success As Boolean, ByVal msg As String)
         If success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not set priority to process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
+        RemoveDeadTasks()
     End Sub
 
     ' Suspend a process
-    Private WithEvents asyncSuspend As asyncCallbackProcSuspend
     Public Function SuspendProcess() As Integer
-        asyncSuspend = New asyncCallbackProcSuspend(Me.Infos.Pid, _connection)
+        Dim deg As New asyncCallbackProcSuspend.HasSuspended(AddressOf suspendDone)
+        Dim asyncSuspend As New asyncCallbackProcSuspend(deg, Me.Infos.Pid, _connection)
         Dim t As New Threading.Thread(AddressOf asyncSuspend.Process)
-        t.Name = "SuspendProcess"
+        t.Name = "SuspendProcess (" & Me.Infos.Pid.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
         t.Priority = Threading.ThreadPriority.Lowest
         t.IsBackground = True
+        AddPendingTask(t)
         t.Start()
     End Function
-    Private Sub suspendDone(ByVal success As Boolean, ByVal msg As String) Handles asyncSuspend.HasSuspended
+    Private Sub suspendDone(ByVal success As Boolean, ByVal msg As String)
         If success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not suspend process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
+        RemoveDeadTasks()
     End Sub
 
     ' Resume a process
-    Private WithEvents asyncResume As asyncCallbackProcResume
     Public Function ResumeProcess() As Integer
-        asyncResume = New asyncCallbackProcResume(Me.Infos.Pid, _connection)
+        Dim deg As New asyncCallbackProcResume.HasResumed(AddressOf resumeDone)
+        Dim asyncResume As New asyncCallbackProcResume(deg, Me.Infos.Pid, _connection)
         Dim t As New Threading.Thread(AddressOf asyncResume.Process)
         t.Priority = Threading.ThreadPriority.Lowest
-        t.Name = "ResumeProcess"
+        t.Name = "ResumeProcess (" & Me.Infos.Pid.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
         t.IsBackground = True
+        AddPendingTask(t)
         t.Start()
     End Function
-    Private Sub resumeDone(ByVal success As Boolean, ByVal msg As String) Handles asyncResume.HasResumed
+    Private Sub resumeDone(ByVal success As Boolean, ByVal msg As String)
         If success = False Then
             MsgBox("Error : " & msg & " (" & Err.LastDllError.ToString & _
                    ")", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not resume process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
+        RemoveDeadTasks()
     End Sub
 
     ' Kill a process tree
-    Private WithEvents asyncRecursiveKill As asyncCallbackProcKillTree
     Public Function KillProcessTree() As Integer
-        asyncRecursiveKill = New asyncCallbackProcKillTree(Me.Infos.Pid, _connection)
+        Dim deg As New asyncCallbackProcKillTree.HasKilled(AddressOf recursiveKillDone)
+        Dim asyncRecursiveKill As New asyncCallbackProcKillTree(deg, Me.Infos.Pid, _connection)
         Dim t As New Threading.Thread(AddressOf asyncRecursiveKill.Process)
         t.Priority = Threading.ThreadPriority.Lowest
-        t.Name = "KillProcessTree"
+        t.Name = "KillProcessTree (" & Me.Infos.Pid.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
         t.IsBackground = True
+        AddPendingTask(t)
         t.Start()
     End Function
-    Private Sub recursiveKillDone(ByVal success As Boolean, ByVal msg As String) Handles asyncRecursiveKill.HasKilled
+    Private Sub recursiveKillDone(ByVal success As Boolean, ByVal msg As String)
         If success = False Then
             MsgBox("Error : " & msg & " (" & Err.LastDllError.ToString & _
                    ")", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not kill process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
+        RemoveDeadTasks()
     End Sub
 
-    '' Empty working set size
-    Private WithEvents asyncEmptyWorkingSetSize As asyncCallbackProcEmptyWorkingSet
+    ' Empty working set size
     Public Function EmptyWorkingSetSize() As Integer
-        asyncEmptyWorkingSetSize = New asyncCallbackProcEmptyWorkingSet(Me.Infos.Pid, _connection)
+        Dim deg As New asyncCallbackProcEmptyWorkingSet.HasReducedWorkingSet(AddressOf emptyWorkingSetSizeDone)
+        Dim asyncEmptyWorkingSetSize As New asyncCallbackProcEmptyWorkingSet(deg, Me.Infos.Pid, _connection)
         Dim t As New Threading.Thread(AddressOf asyncEmptyWorkingSetSize.Process)
         t.Priority = Threading.ThreadPriority.Lowest
-        t.Name = "EmptyWorkingSetSize"
+        t.Name = "EmptyWorkingSetSize (" & Me.Infos.Pid.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
         t.IsBackground = True
+        AddPendingTask(t)
         t.Start()
     End Function
-    Private Sub emptyWorkingSetSizeDone(ByVal success As Boolean, ByVal msg As String) Handles asyncEmptyWorkingSetSize.HasReducedWorkingSet
+    Private Sub emptyWorkingSetSizeDone(ByVal success As Boolean, ByVal msg As String)
         If success = False Then
             MsgBox("Error : " & msg & " (" & Err.LastDllError.ToString & _
                    ")", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not empty working set" & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
+        RemoveDeadTasks()
     End Sub
-
-    '' Get env variables
-    'Public Function GetEnvironmentVariables(ByRef variables() As String, _
-    '                                        ByRef values() As String) As Integer
-    '    Dim t As New Threading.Thread(AddressOf asyncCallbackGetEnvironmentVariables)
-    '    t.Priority = Threading.ThreadPriority.Lowest
-    '    t.IsBackground = True
-    '    t.Start()
-    'End Function
 
     '' Unload a module
     'Public Function UnloadModule(ByVal baseAddress As Integer) As Integer
@@ -311,20 +318,22 @@ Public Class cProcess
     'End Function
 
     ' Change affinity
-    Private WithEvents asyncSetAffinity As asyncCallbackProcSetAffinity
     Public Function SetAffinity(ByVal affinity As Integer) As Integer
-        asyncSetAffinity = New asyncCallbackProcSetAffinity(Me.Infos.Pid, affinity, _connection)
+        Dim deg As New asyncCallbackProcSetAffinity.HasSetAffinity(AddressOf setAffinityDone)
+        Dim asyncSetAffinity As New asyncCallbackProcSetAffinity(deg, Me.Infos.Pid, affinity, _connection)
         Dim t As New Threading.Thread(AddressOf asyncSetAffinity.Process)
         t.Priority = Threading.ThreadPriority.Lowest
         t.IsBackground = True
-        t.Name = "SetAffinity"
+        t.Name = "SetAffinity (" & Me.Infos.Pid.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
+        AddPendingTask(t)
         t.Start()
     End Function
-    Private Sub setAffinityDone(ByVal success As Boolean, ByVal msg As String) Handles asyncSetAffinity.HasSetAffinity
+    Private Sub setAffinityDone(ByVal success As Boolean, ByVal msg As String)
         If success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not set affinity " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
+        RemoveDeadTasks()
     End Sub
 
 #End Region
@@ -545,16 +554,16 @@ Public Class cProcess
     End Function
 
     ' Kill a process
-    Private Shared WithEvents asyncKillShared As asyncCallbackProcKill
     Public Shared Function Kill(ByVal pid As Integer) As Integer
-        asyncKillShared = New asyncCallbackProcKill(pid, _connection)
+        Dim deg As New asyncCallbackProcKill.HasKilled(AddressOf killDoneShared)
+        Dim asyncKillShared As New asyncCallbackProcKill(deg, pid, _connection)
         Dim t As New Threading.Thread(AddressOf asyncKillShared.Process)
         t.Priority = Threading.ThreadPriority.Lowest
         t.IsBackground = True
-        t.Name = "Kill"
+        t.Name = "Kill (" & pid.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
         t.Start()
     End Function
-    Private Shared Sub killDoneShared(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String) Handles asyncKillShared.HasKilled
+    Private Shared Sub killDoneShared(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not kill process " & pid.ToString)
@@ -562,16 +571,16 @@ Public Class cProcess
     End Sub
 
     ' Start a process
-    Private Shared WithEvents asyncStartShared As asyncCallbackProcNewProcess
     Public Shared Function StartNewProcess(ByVal path As String) As Integer
-        asyncStartShared = New asyncCallbackProcNewProcess(path, _connection)
+        Dim deg As New asyncCallbackProcNewProcess.HasCreated(AddressOf newProcessDoneShared)
+        Dim asyncStartShared As New asyncCallbackProcNewProcess(deg, path, _connection)
         Dim t As New Threading.Thread(AddressOf asyncStartShared.Process)
         t.Priority = Threading.ThreadPriority.Lowest
         t.IsBackground = True
-        t.Name = "StartNewProcess"
+        t.Name = "StartNewProcess (" & path & ")" & "  -- " & Date.Now.Ticks.ToString
         t.Start()
     End Function
-    Private Shared Sub newProcessDoneShared(ByVal Success As Boolean, ByVal path As String, ByVal msg As String) Handles asyncStartShared.HasCreated
+    Private Shared Sub newProcessDoneShared(ByVal Success As Boolean, ByVal path As String, ByVal msg As String)
         If Success = False Then
             MsgBox("Error : cannot start process : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not start new process " & path)
@@ -580,16 +589,16 @@ Public Class cProcess
 
 
     ' Unload a module from a process
-    Private Shared WithEvents asyncUnloadModuleShared As asyncCallbackProcUnloadModule
     Public Shared Function UnLoadModuleFromProcess(ByVal pid As Integer, ByVal ModuleBaseAddress As Integer) As Integer
-        asyncUnloadModuleShared = New asyncCallbackProcUnloadModule(pid, ModuleBaseAddress, _connection)
+        Dim deg As New asyncCallbackProcUnloadModule.HasUnloadedModule(AddressOf unloadModuleDoneShared)
+        Dim asyncUnloadModuleShared As New asyncCallbackProcUnloadModule(deg, pid, ModuleBaseAddress, _connection)
         Dim t As New Threading.Thread(AddressOf asyncUnloadModuleShared.Process)
         t.Priority = Threading.ThreadPriority.Lowest
         t.IsBackground = True
-        t.Name = "UnloadModule"
+        t.Name = "UnloadModule (" & pid.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
         t.Start()
     End Function
-    Private Shared Sub unloadModuleDoneShared(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String) Handles asyncUnloadModuleShared.HasUnloadedModule
+    Private Shared Sub unloadModuleDoneShared(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not unload the module from process " & pid.ToString)

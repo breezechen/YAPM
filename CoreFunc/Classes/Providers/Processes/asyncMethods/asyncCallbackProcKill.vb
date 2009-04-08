@@ -8,11 +8,13 @@ Public Class asyncCallbackProcKill
 
     Private _pid As Integer
     Private _connection As cProcessConnection
+    Private _deg As HasKilled
 
-    Public Event HasKilled(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String)
+    Public Delegate Sub HasKilled(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String)
 
-    Public Sub New(ByVal pid As Integer, ByRef procConnection As cProcessConnection)
+    Public Sub New(ByVal deg As HasKilled, ByVal pid As Integer, ByRef procConnection As cProcessConnection)
         _pid = pid
+        _deg = deg
         _connection = procConnection
     End Sub
 
@@ -32,12 +34,12 @@ Public Class asyncCallbackProcKill
                     If _theProcess IsNot Nothing Then
                         Dim ret As Integer = 0
                         ret = CInt(_theProcess.InvokeMethod("Terminate", Nothing))
-                        RaiseEvent HasKilled(ret = 0, _pid, CType(ret, API.PROCESS_RETURN_CODE_WMI).ToString)
+                        _deg.Invoke(ret = 0, _pid, CType(ret, API.PROCESS_RETURN_CODE_WMI).ToString)
                     Else
-                        RaiseEvent HasKilled(False, _pid, "Internal error")
+                        _deg.Invoke(False, _pid, "Internal error")
                     End If
                 Catch ex As Exception
-                    RaiseEvent HasKilled(False, _pid, ex.Message)
+                    _deg.Invoke(False, _pid, ex.Message)
                 End Try
 
             Case Else
@@ -48,9 +50,9 @@ Public Class asyncCallbackProcKill
                 If hProc > 0 Then
                     ret = API.TerminateProcess(hProc, 0)
                     API.CloseHandle(hProc)
-                    RaiseEvent HasKilled(ret <> 0, 0, API.GetError)
+                    _deg.Invoke(ret <> 0, 0, API.GetError)
                 Else
-                    RaiseEvent HasKilled(False, _pid, API.GetError)
+                    _deg.Invoke(False, _pid, API.GetError)
                 End If
         End Select
     End Sub

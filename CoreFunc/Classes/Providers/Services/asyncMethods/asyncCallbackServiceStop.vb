@@ -9,11 +9,13 @@ Public Class asyncCallbackServiceStop
 
     Private _name As String
     Private _connection As cServiceConnection
+    Private _deg As HasStopped
 
-    Public Event HasStopped(ByVal Success As Boolean, ByVal name As String, ByVal msg As String)
+    Public Delegate Sub HasStopped(ByVal Success As Boolean, ByVal name As String, ByVal msg As String)
 
-    Public Sub New(ByVal name As String, ByRef procConnection As cServiceConnection)
+    Public Sub New(ByVal deg As HasStopped, ByVal name As String, ByRef procConnection As cServiceConnection)
         _name = name
+        _deg = deg
         _connection = procConnection
     End Sub
 
@@ -30,9 +32,9 @@ Public Class asyncCallbackServiceStop
                             Exit For
                         End If
                     Next
-                    RaiseEvent HasStopped(res = 0, _name, CType(res, API.SERVICE_RETURN_CODE_WMI).ToString)
+                    _deg.Invoke(res = 0, _name, CType(res, API.SERVICE_RETURN_CODE_WMI).ToString)
                 Catch ex As Exception
-                    RaiseEvent HasStopped(False, _name, ex.Message)
+                    _deg.Invoke(False, _name, ex.Message)
                 End Try
 
             Case Else
@@ -47,7 +49,7 @@ Public Class asyncCallbackServiceStop
                         API.CloseServiceHandle(lServ)
                     End If
                 End If
-                RaiseEvent HasStopped(res, _name, API.GetError)
+                _deg.Invoke(res, _name, API.GetError)
         End Select
     End Sub
 

@@ -9,13 +9,15 @@ Public Class asyncCallbackServiceSetStartType
     Private _name As String
     Private _connection As cServiceConnection
     Private _type As API.SERVICE_START_TYPE
+    Private _deg As HasChangedStartType
 
     Private Shared _syncLockObj As New Object
 
-    Public Event HasChangedStartType(ByVal Success As Boolean, ByVal name As String, ByVal msg As String)
+    Public Delegate Sub HasChangedStartType(ByVal Success As Boolean, ByVal name As String, ByVal msg As String)
 
-    Public Sub New(ByVal name As String, ByVal type As API.SERVICE_START_TYPE, ByRef procConnection As cServiceConnection)
+    Public Sub New(ByVal deg As HasChangedStartType, ByVal name As String, ByVal type As API.SERVICE_START_TYPE, ByRef procConnection As cServiceConnection)
         _name = name
+        _deg = deg
         _type = type
         _connection = procConnection
     End Sub
@@ -37,9 +39,9 @@ Public Class asyncCallbackServiceSetStartType
                                 Exit For
                             End If
                         Next
-                        RaiseEvent HasChangedStartType(res = 0, _name, CType(res, API.SERVICE_RETURN_CODE_WMI).ToString)
+                        _deg.Invoke(res = 0, _name, CType(res, API.SERVICE_RETURN_CODE_WMI).ToString)
                     Catch ex As Exception
-                        RaiseEvent HasChangedStartType(False, _name, ex.Message)
+                        _deg.Invoke(False, _name, ex.Message)
                     End Try
 
                 Case Else
@@ -61,7 +63,7 @@ Public Class asyncCallbackServiceSetStartType
                         API.UnlockServiceDatabase(hLockSCManager)
                     End If
 
-                    RaiseEvent HasChangedStartType(ret, _name, API.GetError)
+                    _deg.Invoke(ret, _name, API.GetError)
             End Select
         End SyncLock
     End Sub

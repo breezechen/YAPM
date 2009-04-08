@@ -8,11 +8,13 @@ Public Class asyncCallbackServiceShutdown
 
     Private _name As String
     Private _connection As cServiceConnection
+    Private _deg As HasShutdowned
 
-    Public Event HasShutdowned(ByVal Success As Boolean, ByVal name As String, ByVal msg As String)
+    Public Delegate Sub HasShutdowned(ByVal Success As Boolean, ByVal name As String, ByVal msg As String)
 
-    Public Sub New(ByVal name As String, ByRef procConnection As cServiceConnection)
+    Public Sub New(ByVal deg As HasShutdowned, ByVal name As String, ByRef procConnection As cServiceConnection)
         _name = name
+        _deg = deg
         _connection = procConnection
     End Sub
 
@@ -22,7 +24,7 @@ Public Class asyncCallbackServiceShutdown
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
                 ' ERK
-                RaiseEvent HasShutdowned(False, _name, "Shutdown not possible via WMI...")
+                _deg.Invoke(False, _name, "Shutdown not possible via WMI...")
 
             Case Else
                 ' Local
@@ -36,7 +38,7 @@ Public Class asyncCallbackServiceShutdown
                         API.CloseServiceHandle(lServ)
                     End If
                 End If
-                RaiseEvent HasShutdowned(res, _name, API.GetError)
+                _deg.Invoke(res, _name, API.GetError)
         End Select
     End Sub
 
