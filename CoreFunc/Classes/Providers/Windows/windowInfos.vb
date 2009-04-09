@@ -29,23 +29,23 @@ Imports System.Runtime.InteropServices
 
 Public Class windowInfos
 
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
+    Protected Const NO_INFO_RETRIEVED As String = "N/A"
 
 #Region "Private attributes"
 
-    Private _procName As String
-    Private _processId As Integer
-    Private _handle As IntPtr
-    Private _isTask As Boolean
-    Private _positions As API.RECT
-    Private _enabled As Boolean
-    Private _visible As Boolean
-    Private _threadId As Integer
-    Private _height As Integer
-    Private _width As Integer
-    Private _top As Integer
-    Private _left As Integer
-    Private _opacity As Byte
+    Protected _procName As String
+    Protected _processId As Integer
+    Protected _handle As IntPtr
+    Protected _isTask As Boolean
+    Protected _positions As API.RECT
+    Protected _enabled As Boolean
+    Protected _visible As Boolean
+    Protected _threadId As Integer
+    Protected _height As Integer
+    Protected _width As Integer
+    Protected _top As Integer
+    Protected _left As Integer
+    Protected _opacity As Byte
 
 #End Region
 

@@ -44,7 +44,7 @@ Public Class windowList
     Private _buffDico As New Dictionary(Of String, cWindow)
     Private _dico As New Dictionary(Of String, cWindow)
     Private WithEvents _connectionObject As New cConnection
-    Private WithEvents _threadConnection As New cWindowConnection(Me, _connectionObject)
+    Private WithEvents _windowConnection As New cWindowConnection(Me, _connectionObject)
 
 #Region "Properties"
 
@@ -106,9 +106,9 @@ Public Class windowList
         _first = True
 
         ' Set handlers
-        _threadConnection.HasEnumerated = New cWindowConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler)
-        _threadConnection.Disconnected = New cWindowConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
-        _threadConnection.Connected = New cWindowConnection.ConnectedEventHandler(AddressOf HasConnected)
+        _windowConnection.HasEnumerated = New cWindowConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler)
+        _windowConnection.Disconnected = New cWindowConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
+        _windowConnection.Connected = New cWindowConnection.ConnectedEventHandler(AddressOf HasConnected)
     End Sub
 
     ' Get an item from listview
@@ -136,10 +136,10 @@ Public Class windowList
             Call CreateSubItemsBuffer()
         End If
 
-        If _threadConnection.IsConnected Then
+        If _windowConnection.IsConnected Then
 
             ' Now enumerate items
-            _threadConnection.Enumerate(_first, _pid, _unNamed, _allPid)
+            _windowConnection.Enumerate(_first, _pid, _unNamed, _allPid)
 
         End If
 
@@ -185,7 +185,7 @@ Public Class windowList
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
-            RaiseEvent GotAnError("Thread enumeration", errorMessage)
+            RaiseEvent GotAnError("Window enumeration", errorMessage)
             Exit Sub
         End If
 
@@ -335,19 +335,19 @@ Public Class windowList
 
     Private Sub Connect()
         _first = True
-        _threadConnection.ConnectionObj = _connectionObject
-        _threadConnection.Connect()
-        cWindow.Connection = _threadConnection
+        _windowConnection.ConnectionObj = _connectionObject
+        _windowConnection.Connect()
+        cWindow.Connection = _windowConnection
     End Sub
 
     Private Sub Disconnect()
-        _threadConnection.Disconnect()
+        _windowConnection.Disconnect()
     End Sub
 
     Private Sub HasDisconnected(ByVal Success As Boolean)
         ' We HAVE TO disconnect, because this event is raised when we got an error
-        '_threadConnection.Disconnect()
-        '     _threadConnection.Con()
+        '_windowConnection.Disconnect()
+        '     _windowConnection.Con()
     End Sub
 
     Private Sub HasConnected(ByVal Success As Boolean)

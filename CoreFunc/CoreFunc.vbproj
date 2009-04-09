@@ -74,7 +74,6 @@
     <Compile Include="Classes\Providers\EnvVariables\cEnvVariableConnection.vb" />
     <Compile Include="Classes\Providers\EnvVariables\envVariableInfos.vb" />
     <Compile Include="Classes\Providers\Processes\cProcessMemRW.vb" />
-    <Compile Include="Classes\Providers\cTask.vb" />
     <Compile Include="Classes\Providers\Handles\asyncMethods\asyncCallbackHandleEnumerate.vb" />
     <Compile Include="Classes\Providers\Handles\asyncMethods\asyncCallbackHandleUnload.vb" />
     <Compile Include="Classes\Providers\Handles\cHandle.vb" />
@@ -118,6 +117,10 @@
     <Compile Include="Classes\Providers\Services\cService.vb" />
     <Compile Include="Classes\Providers\Services\cServiceConnection.vb" />
     <Compile Include="Classes\Providers\Services\serviceInfos.vb" />
+    <Compile Include="Classes\Providers\Tasks\asyncMethods\asyncCallbackTaskEnumerate.vb" />
+    <Compile Include="Classes\Providers\Tasks\cTask.vb" />
+    <Compile Include="Classes\Providers\Tasks\cTaskConnection.vb" />
+    <Compile Include="Classes\Providers\Tasks\taskInfos.vb" />
     <Compile Include="Classes\Providers\Threads\asyncMethods\asyncCallbackThreadGetOtherInfos.vb" />
     <Compile Include="Classes\Providers\Threads\asyncMethods\asyncCallbackThreadEnumerate.vb" />
     <Compile Include="Classes\Providers\Processes\cProcess.vb" />
@@ -202,7 +205,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Classes\Providers\NetworkConnections\" />
-    <Folder Include="Classes\Providers\Tasks\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

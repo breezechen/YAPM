@@ -80,7 +80,7 @@ Public Class asyncCallbackWindowGetNonFixedInfos
 
     Private Shared Function _isTask(ByVal hwnd As IntPtr) As Boolean
         ' Window must be visible
-        If API.IsWindowVisible(hwnd) And (CInt(API.GetWindowLong(hwnd, API.GWL_HWNDPARENT)) = 0) And Not _
+        If API.IsWindowVisible(hwnd) AndAlso (CInt(API.GetWindowLong(hwnd, API.GWL_HWNDPARENT)) = 0) AndAlso Not _
             (API.GetWindowTextLength(hwnd) = 0) Then
             ' Must not be taskmgr
             If GetWindowClass(hwnd) <> "Progman" Then

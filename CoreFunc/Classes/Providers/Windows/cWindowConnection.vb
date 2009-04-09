@@ -32,7 +32,7 @@ Public Class cWindowConnection
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
     ' We will invoke this control
-    Private _control As Control
+    Protected _control As Control
 
     ' For WMI
     Friend wmiSearcher As Management.ManagementObjectSearcher
@@ -57,9 +57,9 @@ Public Class cWindowConnection
 #Region "Description of the type of connection"
 
     ' Attributes
-    Private _connected As Boolean = False
-    Private _conObj As cConnection
-    Private WithEvents _sock As RemoteControl.cAsyncSocket
+    Protected _connected As Boolean = False
+    Protected _conObj As cConnection
+    Protected WithEvents _sock As RemoteControl.cAsyncSocket
 
     Public ReadOnly Property IsConnected() As Boolean
         Get

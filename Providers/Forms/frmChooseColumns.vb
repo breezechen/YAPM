@@ -114,7 +114,7 @@ Public Class frmChooseColumns
         ElseIf TypeOf (ConcernedListView) Is serviceList Then
             ss = serviceInfos.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is taskList Then
-            ss = cTask.GetAvailableProperties
+            ss = taskInfos.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is threadList Then
             ss = threadInfos.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is windowList Then

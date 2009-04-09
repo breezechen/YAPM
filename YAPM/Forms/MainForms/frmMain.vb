@@ -4331,6 +4331,7 @@ Public Class frmMain
         Me.lvThreads.ClearItems()
         Me.lvHandles.ClearItems()
         Me.lvWindows.ClearItems()
+        Me.lvTask.ClearItems()
         Me.lvServices.ClearItems()
         Me.rtb6.Text = ""
 
@@ -4341,6 +4342,7 @@ Public Class frmMain
         Me.lvHandles.ConnectionObj = theConnection
         Me.lvServices.ConnectionObj = theConnection
         Me.lvWindows.ConnectionObj = theConnection
+        Me.lvTask.ConnectionObj = theConnection
         Me.theConnection.Connect()
 
         Me.menuThread.Enabled = (theConnection.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
@@ -4395,6 +4397,7 @@ Public Class frmMain
         Me.lvThreads.CatchErrors = Not (_local)
         Me.lvHandles.CatchErrors = Not (_local)
         Me.lvServices.CatchErrors = Not (_local)
+        Me.lvTask.CatchErrors = Not (_local)
 
         ' Enable all refreshments
         Me.timerProcess.Enabled = True
