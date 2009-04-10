@@ -24,28 +24,31 @@ Partial Class frmMain
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
+        Dim CConnection1 As CoreFunc.cConnection = New CoreFunc.cConnection
         Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Tasks", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("System")
         Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("[System process]", New System.Windows.Forms.TreeNode() {TreeNode1})
-        Dim CConnection1 As CoreFunc.cConnection = New CoreFunc.cConnection
+        Dim CConnection2 As CoreFunc.cConnection = New CoreFunc.cConnection
         Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim CConnection2 As CoreFunc.cConnection = New CoreFunc.cConnection
+        Dim CConnection3 As CoreFunc.cConnection = New CoreFunc.cConnection
         Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim CConnection3 As CoreFunc.cConnection = New CoreFunc.cConnection
+        Dim CConnection4 As CoreFunc.cConnection = New CoreFunc.cConnection
         Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Threads", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim CConnection4 As CoreFunc.cConnection = New CoreFunc.cConnection
+        Dim CConnection5 As CoreFunc.cConnection = New CoreFunc.cConnection
         Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Handles", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim CConnection6 As CoreFunc.cConnection = New CoreFunc.cConnection
         Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Windows", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
         Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Processes", 1, 1)
-        Dim CConnection5 As CoreFunc.cConnection = New CoreFunc.cConnection
+        Dim CConnection7 As CoreFunc.cConnection = New CoreFunc.cConnection
         Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim CConnection8 As CoreFunc.cConnection = New CoreFunc.cConnection
         Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Results", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup16 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
@@ -89,6 +92,7 @@ Partial Class frmMain
         Me.ToolStripMenuItem13 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem14 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem15 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ReanalyzeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStripMenuItem20 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem21 = New System.Windows.Forms.ToolStripMenuItem
@@ -643,7 +647,7 @@ Partial Class frmMain
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerNetwork = New System.Windows.Forms.Timer(Me.components)
         Me.timerStateBasedActions = New System.Windows.Forms.Timer(Me.components)
-        Me.ReanalyzeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.butFeedBack = New System.Windows.Forms.RibbonButton
         Me.menuProc.SuspendLayout()
         Me.menuService.SuspendLayout()
         Me.mainMenu.SuspendLayout()
@@ -976,7 +980,7 @@ Partial Class frmMain
         '
         Me.menuService.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem9, Me.ToolStripMenuItem10, Me.ShutdownToolStripMenuItem, Me.ToolStripMenuItem11, Me.ToolStripMenuItem12, Me.ReanalyzeToolStripMenuItem, Me.ToolStripSeparator2, Me.ToolStripMenuItem20, Me.ToolStripMenuItem21, Me.FileDetailsToolStripMenuItem, Me.ToolStripMenuItem2, Me.GoogleSearchToolStripMenuItem1, Me.ToolStripMenuItem42, Me.SelectedAssociatedProcessToolStripMenuItem1, Me.ToolStripMenuItem5, Me.ChooseColumnsToolStripMenuItem})
         Me.menuService.Name = "menuProc"
-        Me.menuService.Size = New System.Drawing.Size(220, 314)
+        Me.menuService.Size = New System.Drawing.Size(220, 292)
         '
         'ToolStripMenuItem9
         '
@@ -1032,6 +1036,12 @@ Partial Class frmMain
         Me.ToolStripMenuItem15.Name = "ToolStripMenuItem15"
         Me.ToolStripMenuItem15.Size = New System.Drawing.Size(137, 22)
         Me.ToolStripMenuItem15.Text = "On demand"
+        '
+        'ReanalyzeToolStripMenuItem
+        '
+        Me.ReanalyzeToolStripMenuItem.Name = "ReanalyzeToolStripMenuItem"
+        Me.ReanalyzeToolStripMenuItem.Size = New System.Drawing.Size(219, 22)
+        Me.ReanalyzeToolStripMenuItem.Text = "Reanalyze"
         '
         'ToolStripSeparator2
         '
@@ -1356,6 +1366,7 @@ Partial Class frmMain
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butWindows)
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butFindWindow)
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butNetwork)
+        Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butFeedBack)
         Me.Ribbon.QuickAcessToolbar.Tag = Nothing
         Me.Ribbon.QuickAcessToolbar.Text = Nothing
         Me.Ribbon.QuickAcessToolbar.ToolTip = Nothing
@@ -4622,6 +4633,8 @@ Partial Class frmMain
         Me.lvTask.AllowColumnReorder = True
         Me.lvTask.CatchErrors = False
         Me.lvTask.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader62, Me.ColumnHeader63, Me.ColumnHeader64})
+        CConnection1.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.lvTask.ConnectionObj = CConnection1
         Me.lvTask.ContextMenuStrip = Me.menuTasks
         Me.lvTask.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvTask.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -4793,8 +4806,8 @@ Partial Class frmMain
         Me.lvProcess.AllowColumnReorder = True
         Me.lvProcess.CatchErrors = False
         Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c7, Me.c8, Me.c9, Me.c10, Me.ColumnHeader20})
-        CConnection1.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
-        Me.lvProcess.ConnectionObj = CConnection1
+        CConnection2.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.lvProcess.ConnectionObj = CConnection2
         Me.lvProcess.ContextMenuStrip = Me.menuProc
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -4960,8 +4973,8 @@ Partial Class frmMain
         Me.lvModules.AllowColumnReorder = True
         Me.lvModules.CatchErrors = False
         Me.lvModules.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader29, Me.ColumnHeader43, Me.ColumnHeader44, Me.ColumnHeader45, Me.ColumnHeader46, Me.ColumnHeader18})
-        CConnection2.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
-        Me.lvModules.ConnectionObj = CConnection2
+        CConnection3.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.lvModules.ConnectionObj = CConnection3
         Me.lvModules.ContextMenuStrip = Me.menuModule
         Me.lvModules.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvModules.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -5117,8 +5130,8 @@ Partial Class frmMain
         Me.lvThreads.AllowColumnReorder = True
         Me.lvThreads.CatchErrors = False
         Me.lvThreads.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader33, Me.ColumnHeader34, Me.ColumnHeader35, Me.ColumnHeader36, Me.ColumnHeader37, Me.ColumnHeader38, Me.ColumnHeader6, Me.ColumnHeader1})
-        CConnection3.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
-        Me.lvThreads.ConnectionObj = CConnection3
+        CConnection4.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.lvThreads.ConnectionObj = CConnection4
         Me.lvThreads.ContextMenuStrip = Me.menuThread
         Me.lvThreads.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvThreads.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -5270,8 +5283,8 @@ Partial Class frmMain
         Me.lvHandles.AllowColumnReorder = True
         Me.lvHandles.CatchErrors = False
         Me.lvHandles.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader24, Me.ColumnHeader25, Me.ColumnHeader26, Me.ColumnHeader27, Me.ColumnHeader28, Me.ColumnHeader15, Me.ColumnHeader16})
-        CConnection4.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
-        Me.lvHandles.ConnectionObj = CConnection4
+        CConnection5.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.lvHandles.ConnectionObj = CConnection5
         Me.lvHandles.ContextMenuStrip = Me.menuHandles
         Me.lvHandles.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvHandles.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -5432,6 +5445,8 @@ Partial Class frmMain
         Me.lvWindows.AllowColumnReorder = True
         Me.lvWindows.CatchErrors = False
         Me.lvWindows.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader30, Me.ColumnHeader31, Me.ColumnHeader39, Me.ColumnHeader40, Me.ColumnHeader41, Me.ColumnHeader42})
+        CConnection6.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.lvWindows.ConnectionObj = CConnection6
         Me.lvWindows.ContextMenuStrip = Me.menuWindow
         Me.lvWindows.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvWindows.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -5884,8 +5899,8 @@ Partial Class frmMain
         Me.lvServices.AllowColumnReorder = True
         Me.lvServices.CatchErrors = False
         Me.lvServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader11, Me.ColumnHeader19})
-        CConnection5.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
-        Me.lvServices.ConnectionObj = CConnection5
+        CConnection7.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.lvServices.ConnectionObj = CConnection7
         Me.lvServices.ContextMenuStrip = Me.menuService
         Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvServices.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -6097,6 +6112,8 @@ Partial Class frmMain
         Me.lvNetwork.AllowColumnReorder = True
         Me.lvNetwork.CatchErrors = False
         Me.lvNetwork.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader66, Me.ColumnHeader67, Me.ColumnHeader68, Me.ColumnHeader69})
+        CConnection8.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.lvNetwork.ConnectionObj = CConnection8
         Me.lvNetwork.ContextMenuStrip = Me.menuNetwork
         Me.lvNetwork.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvNetwork.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -6693,11 +6710,19 @@ Partial Class frmMain
         Me.timerStateBasedActions.Enabled = True
         Me.timerStateBasedActions.Interval = 1000
         '
-        'ReanalyzeToolStripMenuItem
+        'butFeedBack
         '
-        Me.ReanalyzeToolStripMenuItem.Name = "ReanalyzeToolStripMenuItem"
-        Me.ReanalyzeToolStripMenuItem.Size = New System.Drawing.Size(219, 22)
-        Me.ReanalyzeToolStripMenuItem.Text = "Reanalyze"
+        Me.butFeedBack.AltKey = Nothing
+        Me.butFeedBack.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butFeedBack.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFeedBack.Image = CType(resources.GetObject("butFeedBack.Image"), System.Drawing.Image)
+        Me.butFeedBack.SmallImage = Global.YAPM.My.Resources.Resources.information_frame
+        Me.butFeedBack.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFeedBack.Tag = Nothing
+        Me.butFeedBack.Text = "Feed back"
+        Me.butFeedBack.ToolTip = Nothing
+        Me.butFeedBack.ToolTipImage = Nothing
+        Me.butFeedBack.ToolTipTitle = Nothing
         '
         'frmMain
         '
@@ -7445,5 +7470,6 @@ Partial Class frmMain
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ReanalizeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ReanalyzeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents butFeedBack As System.Windows.Forms.RibbonButton
 
 End Class
