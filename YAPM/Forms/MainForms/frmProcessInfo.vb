@@ -1939,4 +1939,178 @@ Public Class frmProcessInfo
         '
     End Sub
 
+    Private Sub lvProcServices_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcServices.MouseUp
+        Me.OpenDirToolStripMenuItem35.Enabled = _local
+        Me.FilePropToolStripMenuItem34.Enabled = _local
+        Me.FileDetailsToolStripMenuItem.Enabled = _local
+        If lvProcServices.SelectedItems.Count = 1 Then
+            Dim cSe As cService = Me.lvProcServices.GetSelectedItem
+            Dim start As API.SERVICE_START_TYPE = cSe.Infos.StartType
+            Dim state As API.SERVICE_STATE = cSe.Infos.State
+            Dim acc As API.SERVICE_ACCEPT = cSe.Infos.AcceptedControl
+
+            Me.PauseToolStripMenuItem14.Text = IIf(state = API.SERVICE_STATE.Running, "Pause", "Resume").ToString
+            PauseToolStripMenuItem14.Enabled = (acc And API.SERVICE_ACCEPT.PauseContinue) = API.SERVICE_ACCEPT.PauseContinue
+            Me.StartToolStripMenuItem17.Enabled = Not (state = API.SERVICE_STATE.Running)
+            Me.StopToolStripMenuItem16.Enabled = (acc And API.SERVICE_ACCEPT.Stop) = API.SERVICE_ACCEPT.Stop
+            ShutdownShutdownToolStripMenuItem.Enabled = (acc And API.SERVICE_ACCEPT.PreShutdown) = API.SERVICE_ACCEPT.PreShutdown
+
+            Me.DisabledToolStripMenuItem19.Checked = (start = API.SERVICE_START_TYPE.StartDisabled)
+            DisabledToolStripMenuItem19.Enabled = Not (DisabledToolStripMenuItem19.Checked)
+            Me.AutoToolStripMenuItem20.Checked = (start = API.SERVICE_START_TYPE.AutoStart)
+            AutoToolStripMenuItem20.Enabled = Not (AutoToolStripMenuItem20.Checked)
+            Me.DemandToolStripMenuItem21.Checked = (start = API.SERVICE_START_TYPE.DemandStart)
+            DemandToolStripMenuItem21.Enabled = Not (DemandToolStripMenuItem21.Checked)
+        ElseIf lvProcServices.SelectedItems.Count > 1 Then
+            PauseToolStripMenuItem14.Text = "Pause"
+            PauseToolStripMenuItem14.Enabled = True
+            StartToolStripMenuItem17.Enabled = True
+            StopToolStripMenuItem16.Enabled = True
+            ShutdownShutdownToolStripMenuItem.Enabled = True
+            DisabledToolStripMenuItem19.Checked = True
+            DisabledToolStripMenuItem19.Enabled = True
+            AutoToolStripMenuItem20.Checked = True
+            AutoToolStripMenuItem20.Enabled = True
+            DemandToolStripMenuItem21.Checked = True
+            DemandToolStripMenuItem21.Enabled = True
+        End If
+    End Sub
+
+    Private Sub PauseToolStripMenuItem14_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PauseToolStripMenuItem14.Click
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            If it.Infos.State = API.SERVICE_STATE.Running Then
+                it.PauseService()
+            Else
+                it.ResumeService()
+            End If
+        Next
+    End Sub
+
+    Private Sub StopToolStripMenuItem16_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StopToolStripMenuItem16.Click
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            it.StopService()
+        Next
+    End Sub
+
+    Private Sub ShutdownShutdownToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShutdownShutdownToolStripMenuItem.Click
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            it.ShutDownService()
+        Next
+    End Sub
+
+    Private Sub StartToolStripMenuItem17_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StartToolStripMenuItem17.Click
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            it.StartService()
+        Next
+    End Sub
+
+    Private Sub ReanalyzeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReanalyzeToolStripMenuItem.Click
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            it.Refresh()
+        Next
+    End Sub
+
+    Private Sub DisabledToolStripMenuItem19_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisabledToolStripMenuItem19.Click
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            it.SetServiceStartType(API.SERVICE_START_TYPE.StartDisabled)
+        Next
+    End Sub
+
+    Private Sub AutoToolStripMenuItem20_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AutoToolStripMenuItem20.Click
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            it.SetServiceStartType(API.SERVICE_START_TYPE.AutoStart)
+        Next
+    End Sub
+
+    Private Sub DemandToolStripMenuItem21_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DemandToolStripMenuItem21.Click
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            it.SetServiceStartType(API.SERVICE_START_TYPE.DemandStart)
+        Next
+    End Sub
+
+    Private Sub FilePropToolStripMenuItem34_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FilePropToolStripMenuItem34.Click
+        Dim s As String = vbNullString
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            Dim sP As String = it.GetInformation("ImagePath")
+            If sP <> NO_INFO_RETRIEVED Then
+                'TODO_
+                s = sP  'cService.GetFileNameFromSpecial(sP)
+                If IO.File.Exists(s) Then
+                    cFile.ShowFileProperty(s, Me.Handle)
+                Else
+                    ' Cannot retrieve a good path
+                    Dim box As New frmBox
+                    With box
+                        .txtMsg1.Text = "The file path cannot be extracted. Please edit it and then click 'OK' to open file properties box, or click 'Cancel' to cancel."
+                        .txtMsg1.Height = 35
+                        .txtMsg2.Top = 50
+                        .txtMsg2.Height = 25
+                        .txtMsg2.Text = s
+                        .txtMsg2.ReadOnly = False
+                        .txtMsg2.BackColor = Drawing.Color.White
+                        .Text = "Show file properties box"
+                        .Height = 150
+                        .ShowDialog()
+                        If .DialogResult = Windows.Forms.DialogResult.OK Then
+                            If IO.File.Exists(.MsgResult2) Then _
+                                cFile.ShowFileProperty(.MsgResult2, Me.Handle)
+                        End If
+                    End With
+                End If
+            End If
+        Next
+    End Sub
+
+    Private Sub OpenDirToolStripMenuItem35_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpenDirToolStripMenuItem35.Click
+        Dim s As String = vbNullString
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            Dim sP As String = it.GetInformation("ImagePath")
+            If sP <> NO_INFO_RETRIEVED Then
+                s = cFile.GetParentDir(sP)
+                If IO.Directory.Exists(s) Then
+                    cFile.OpenADirectory(s)
+                Else
+                    ' Cannot retrieve a good path
+                    Dim box As New frmBox
+                    With box
+                        .txtMsg1.Text = "The file directory cannot be extracted. Please edit it and then click 'OK' to open directory, or click 'Cancel' to cancel."
+                        .txtMsg1.Height = 35
+                        .txtMsg2.Top = 50
+                        .txtMsg2.Height = 25
+                        .txtMsg2.Text = s
+                        .txtMsg2.ReadOnly = False
+                        .txtMsg2.BackColor = Drawing.Color.White
+                        .Text = "Open directory"
+                        .Height = 150
+                        .ShowDialog()
+                        If .DialogResult = Windows.Forms.DialogResult.OK Then
+                            If IO.Directory.Exists(.MsgResult2) Then
+                                cFile.OpenADirectory(.MsgResult2)
+                            End If
+                        End If
+                    End With
+                End If
+            End If
+        Next
+    End Sub
+
+    Private Sub FileDetailsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileDetailsToolStripMenuItem.Click
+        If Me.lvProcServices.SelectedItems.Count > 0 Then
+            Dim s As String = Me.lvProcServices.GetSelectedItem.GetInformation("ImagePath")
+            If IO.File.Exists(s) = False Then
+                s = cFile.IntelligentPathRetrieving2(s)
+            End If
+            If IO.File.Exists(s) Then
+                frmMain.DisplayDetailsFile(s)
+            End If
+        End If
+    End Sub
+
+    Private Sub GoogleSearchToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GoogleSearchToolStripMenuItem1.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvProcServices.SelectedItems
+            My.Application.DoEvents()
+            Call SearchInternet(it.Text, Me.Handle)
+        Next
+    End Sub
 End Class

@@ -187,6 +187,22 @@ Partial Class frmProcessInfo
         Me.menuProcServ = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem43 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem13 = New System.Windows.Forms.ToolStripSeparator
+        Me.PauseToolStripMenuItem14 = New System.Windows.Forms.ToolStripMenuItem
+        Me.StopToolStripMenuItem16 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ShutdownShutdownToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.StartToolStripMenuItem17 = New System.Windows.Forms.ToolStripMenuItem
+        Me.TypeOfStartToolStripMenuItem18 = New System.Windows.Forms.ToolStripMenuItem
+        Me.DisabledToolStripMenuItem19 = New System.Windows.Forms.ToolStripMenuItem
+        Me.AutoToolStripMenuItem20 = New System.Windows.Forms.ToolStripMenuItem
+        Me.DemandToolStripMenuItem21 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ReanalyzeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
+        Me.FilePropToolStripMenuItem34 = New System.Windows.Forms.ToolStripMenuItem
+        Me.OpenDirToolStripMenuItem35 = New System.Windows.Forms.ToolStripMenuItem
+        Me.FileDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
+        Me.GoogleSearchToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem37 = New System.Windows.Forms.ToolStripSeparator
         Me.ChooseColumnsToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem
         Me.tabNetwork = New System.Windows.Forms.TabPage
         Me.lvProcNetwork = New Providers.networkList
@@ -1815,9 +1831,9 @@ Partial Class frmProcessInfo
         '
         'menuProcServ
         '
-        Me.menuProcServ.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem43, Me.ToolStripMenuItem13, Me.ChooseColumnsToolStripMenuItem5})
+        Me.menuProcServ.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem43, Me.ToolStripMenuItem13, Me.PauseToolStripMenuItem14, Me.StopToolStripMenuItem16, Me.ShutdownShutdownToolStripMenuItem, Me.StartToolStripMenuItem17, Me.TypeOfStartToolStripMenuItem18, Me.ReanalyzeToolStripMenuItem, Me.ToolStripSeparator2, Me.FilePropToolStripMenuItem34, Me.OpenDirToolStripMenuItem35, Me.FileDetailsToolStripMenuItem, Me.ToolStripSeparator1, Me.GoogleSearchToolStripMenuItem1, Me.ToolStripMenuItem37, Me.ChooseColumnsToolStripMenuItem5})
         Me.menuProcServ.Name = "menuProc"
-        Me.menuProcServ.Size = New System.Drawing.Size(173, 54)
+        Me.menuProcServ.Size = New System.Drawing.Size(173, 314)
         '
         'ToolStripMenuItem43
         '
@@ -1831,6 +1847,110 @@ Partial Class frmProcessInfo
         '
         Me.ToolStripMenuItem13.Name = "ToolStripMenuItem13"
         Me.ToolStripMenuItem13.Size = New System.Drawing.Size(169, 6)
+        '
+        'PauseToolStripMenuItem14
+        '
+        Me.PauseToolStripMenuItem14.Image = Global.YAPM.My.Resources.Resources.control_pause
+        Me.PauseToolStripMenuItem14.Name = "PauseToolStripMenuItem14"
+        Me.PauseToolStripMenuItem14.Size = New System.Drawing.Size(172, 22)
+        Me.PauseToolStripMenuItem14.Text = "Pause"
+        '
+        'StopToolStripMenuItem16
+        '
+        Me.StopToolStripMenuItem16.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.StopToolStripMenuItem16.Image = Global.YAPM.My.Resources.Resources.control_stop_square
+        Me.StopToolStripMenuItem16.Name = "StopToolStripMenuItem16"
+        Me.StopToolStripMenuItem16.Size = New System.Drawing.Size(172, 22)
+        Me.StopToolStripMenuItem16.Text = "Stop"
+        '
+        'ShutdownShutdownToolStripMenuItem
+        '
+        Me.ShutdownShutdownToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.cross
+        Me.ShutdownShutdownToolStripMenuItem.Name = "ShutdownShutdownToolStripMenuItem"
+        Me.ShutdownShutdownToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.ShutdownShutdownToolStripMenuItem.Text = "Shutdown"
+        '
+        'StartToolStripMenuItem17
+        '
+        Me.StartToolStripMenuItem17.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.StartToolStripMenuItem17.Image = Global.YAPM.My.Resources.Resources.control
+        Me.StartToolStripMenuItem17.Name = "StartToolStripMenuItem17"
+        Me.StartToolStripMenuItem17.Size = New System.Drawing.Size(172, 22)
+        Me.StartToolStripMenuItem17.Text = "Start"
+        '
+        'TypeOfStartToolStripMenuItem18
+        '
+        Me.TypeOfStartToolStripMenuItem18.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DisabledToolStripMenuItem19, Me.AutoToolStripMenuItem20, Me.DemandToolStripMenuItem21})
+        Me.TypeOfStartToolStripMenuItem18.Name = "TypeOfStartToolStripMenuItem18"
+        Me.TypeOfStartToolStripMenuItem18.Size = New System.Drawing.Size(172, 22)
+        Me.TypeOfStartToolStripMenuItem18.Text = "Type of start"
+        '
+        'DisabledToolStripMenuItem19
+        '
+        Me.DisabledToolStripMenuItem19.Name = "DisabledToolStripMenuItem19"
+        Me.DisabledToolStripMenuItem19.Size = New System.Drawing.Size(152, 22)
+        Me.DisabledToolStripMenuItem19.Text = "Disabled"
+        '
+        'AutoToolStripMenuItem20
+        '
+        Me.AutoToolStripMenuItem20.Name = "AutoToolStripMenuItem20"
+        Me.AutoToolStripMenuItem20.Size = New System.Drawing.Size(152, 22)
+        Me.AutoToolStripMenuItem20.Text = "Auto start"
+        '
+        'DemandToolStripMenuItem21
+        '
+        Me.DemandToolStripMenuItem21.Name = "DemandToolStripMenuItem21"
+        Me.DemandToolStripMenuItem21.Size = New System.Drawing.Size(152, 22)
+        Me.DemandToolStripMenuItem21.Text = "On demand"
+        '
+        'ReanalyzeToolStripMenuItem
+        '
+        Me.ReanalyzeToolStripMenuItem.Name = "ReanalyzeToolStripMenuItem"
+        Me.ReanalyzeToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.ReanalyzeToolStripMenuItem.Text = "Reanalyze"
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(169, 6)
+        '
+        'FilePropToolStripMenuItem34
+        '
+        Me.FilePropToolStripMenuItem34.Image = Global.YAPM.My.Resources.Resources.document_text
+        Me.FilePropToolStripMenuItem34.Name = "FilePropToolStripMenuItem34"
+        Me.FilePropToolStripMenuItem34.Size = New System.Drawing.Size(172, 22)
+        Me.FilePropToolStripMenuItem34.Text = "File properties"
+        '
+        'OpenDirToolStripMenuItem35
+        '
+        Me.OpenDirToolStripMenuItem35.Image = Global.YAPM.My.Resources.Resources.folder_open
+        Me.OpenDirToolStripMenuItem35.Name = "OpenDirToolStripMenuItem35"
+        Me.OpenDirToolStripMenuItem35.Size = New System.Drawing.Size(172, 22)
+        Me.OpenDirToolStripMenuItem35.Text = "Open directory"
+        '
+        'FileDetailsToolStripMenuItem
+        '
+        Me.FileDetailsToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.magnifier
+        Me.FileDetailsToolStripMenuItem.Name = "FileDetailsToolStripMenuItem"
+        Me.FileDetailsToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.FileDetailsToolStripMenuItem.Text = "File details"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(169, 6)
+        '
+        'GoogleSearchToolStripMenuItem1
+        '
+        Me.GoogleSearchToolStripMenuItem1.Image = Global.YAPM.My.Resources.Resources.globe
+        Me.GoogleSearchToolStripMenuItem1.Name = "GoogleSearchToolStripMenuItem1"
+        Me.GoogleSearchToolStripMenuItem1.Size = New System.Drawing.Size(172, 22)
+        Me.GoogleSearchToolStripMenuItem1.Text = "Internet search"
+        '
+        'ToolStripMenuItem37
+        '
+        Me.ToolStripMenuItem37.Name = "ToolStripMenuItem37"
+        Me.ToolStripMenuItem37.Size = New System.Drawing.Size(169, 6)
         '
         'ChooseColumnsToolStripMenuItem5
         '
@@ -3131,8 +3251,6 @@ Partial Class frmProcessInfo
     Friend WithEvents lvProcEnv As Providers.envVariableList
     Friend WithEvents ColumnHeader60 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader61 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents menuProcServ As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ToolStripMenuItem43 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuCopyPctbig As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem6 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuCopyPctSmall As System.Windows.Forms.ContextMenuStrip
@@ -3241,8 +3359,6 @@ Partial Class frmProcessInfo
     Friend WithEvents ChooseColumnsToolStripMenuItem3 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem12 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ChooseColumnsToolStripMenuItem4 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem13 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents ChooseColumnsToolStripMenuItem5 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuNetwork As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem15 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TabPage14 As System.Windows.Forms.TabPage
@@ -3282,4 +3398,24 @@ Partial Class frmProcessInfo
     Friend WithEvents ColumnHeader6 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader11 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader12 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents menuProcServ As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents ToolStripMenuItem43 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem13 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents PauseToolStripMenuItem14 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents StopToolStripMenuItem16 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ShutdownShutdownToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents StartToolStripMenuItem17 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents TypeOfStartToolStripMenuItem18 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DisabledToolStripMenuItem19 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AutoToolStripMenuItem20 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DemandToolStripMenuItem21 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ReanalyzeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents FilePropToolStripMenuItem34 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OpenDirToolStripMenuItem35 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents FileDetailsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents GoogleSearchToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem37 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ChooseColumnsToolStripMenuItem5 As System.Windows.Forms.ToolStripMenuItem
 End Class
