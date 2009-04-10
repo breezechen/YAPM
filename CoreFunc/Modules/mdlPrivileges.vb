@@ -33,4 +33,8 @@ Public Module mdlPrivileges
         Return False
     End Function
 
+    ' Return true if it is Vista
+    Public Function IsWindowsVista() As Boolean
+        Return ((Environment.OSVersion.Platform = PlatformID.Win32NT) And (Environment.OSVersion.Version.Major = 6) And (Environment.OSVersion.Version.Minor = 0))
+    End Function
 End Module

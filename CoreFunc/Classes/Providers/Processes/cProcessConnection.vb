@@ -52,7 +52,7 @@ Public Class cProcessConnection
     Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection)
         _control = ControlWhichGetInvoked
         _conObj = Conn
-        If API.IsWindowsVista Then
+        If IsWindowsVista() Then
             _minRights = API.PROCESS_RIGHTS.PROCESS_QUERY_LIMITED_INFORMATION
         End If
     End Sub

@@ -49,7 +49,7 @@ Public Class cThreadConnection
     Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection)
         _control = ControlWhichGetInvoked
         _conObj = Conn
-        If API.IsWindowsVista Then
+        If IsWindowsVista() Then
             _minRights = API.THREAD_RIGHTS.THREAD_SET_LIMITED_INFORMATION
         End If
     End Sub
