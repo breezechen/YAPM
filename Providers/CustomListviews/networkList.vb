@@ -157,7 +157,7 @@ Public Class networkList
     ' ========================================
 
     ' Executed when enumeration is done
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, API.LightConnection), ByVal errorMessage As String)
+    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, networkInfos), ByVal errorMessage As String)
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
@@ -178,10 +178,10 @@ Public Class networkList
 
 
         ' Now add new items to dictionnary
-        For Each pair As System.Collections.Generic.KeyValuePair(Of String, API.LightConnection) In Dico
+        For Each pair As System.Collections.Generic.KeyValuePair(Of String, networkInfos) In Dico
             If Not (_dico.ContainsKey(pair.Key)) Then
                 ' Add to dico
-                _dicoNew.Add(pair.Key, New cNetwork(New networkInfos(pair.Value)))
+                _dicoNew.Add(pair.Key, New cNetwork(pair.Value))
             End If
 
         Next

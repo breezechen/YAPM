@@ -47,7 +47,7 @@ Public Class cNetworkConnection
 
     Public Delegate Sub ConnectedEventHandler(ByVal Success As Boolean)
     Public Delegate Sub DisconnectedEventHandler(ByVal Success As Boolean)
-    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, API.LightConnection), ByVal errorMessage As String)
+    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, networkInfos), ByVal errorMessage As String)
 
     Public Connected As ConnectedEventHandler
     Public Disconnected As DisconnectedEventHandler

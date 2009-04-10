@@ -64,7 +64,7 @@ Public Class asyncCallbackNetworkEnumerate
             Case Else
                 ' Local
 
-                Dim _dico As New Dictionary(Of String, API.LightConnection)
+                Dim _dico As New Dictionary(Of String, networkInfos)
                 Dim length As Integer = 0
 
 
@@ -128,7 +128,7 @@ Public Class asyncCallbackNetworkEnumerate
                         End With
                         Dim key As String = res.dwOwningPid.ToString & "-" & API.NetworkProtocol.Tcp.ToString & "-" & res.local.ToString
                         If _dico.ContainsKey(key) = False Then
-                            _dico.Add(key, res)
+                            _dico.Add(key, New networkInfos(res))
                         End If
                     End If
                 Next
@@ -186,7 +186,7 @@ Public Class asyncCallbackNetworkEnumerate
 
                         Dim key As String = res.dwOwningPid.ToString & "-" & API.NetworkProtocol.Udp.ToString & "-" & res.local.ToString
                         If _dico.ContainsKey(key) = False Then
-                            _dico.Add(key, res)
+                            _dico.Add(key, New networkInfos(res))
                         End If
                     End If
                 Next
