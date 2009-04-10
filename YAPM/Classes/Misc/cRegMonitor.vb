@@ -26,61 +26,6 @@ Imports System.Threading
 
 Public Class cRegMonitor
 
-#Region "API"
-
-    ' Event api
-    Private Declare Function WaitForSingleObject Lib "kernel32" (ByVal hHandle As Integer, ByVal dwMilliseconds As Integer) As Integer
-    Private Declare Function CloseHandle Lib "kernel32" (ByVal hObject As Integer) As Integer
-    <DllImport("kernel32.dll", _
-     EntryPoint:="CreateEventA")> _
-    Private Shared Function CreateEvent( _
-        ByVal lpEventAttributes As IntPtr, _
-        ByVal bManualReset As Boolean, _
-        ByVal bInitialState As Boolean, _
-        ByVal lpName As String) As IntPtr
-    End Function
-
-    ' Key api
-    Private Declare Auto Function RegCloseKey Lib "advapi32.dll" (ByVal hKey As Integer) As Integer
-    Private Declare Auto Function RegOpenKeyEx Lib "advapi32.dll" ( _
-       ByVal hKey As IntPtr, _
-       ByVal lpSubKey As String, _
-       ByVal ulOptions As Integer, _
-       ByVal samDesired As Integer, _
-       ByRef phkResult As Integer) As Integer
-    Private Declare Function RegNotifyChangeKeyValue Lib "advapi32.dll" Alias _
-        "RegNotifyChangeKeyValue" (ByVal hKey As Integer, ByVal bWatchSubtree As Integer, _
-        ByVal dwNotifyFilter As Integer, ByVal hEvent As Integer, ByVal fAsynchronus As _
-        Integer) As Integer
-
-
-    ' http://msdn.microsoft.com/en-us/library/ms724892(VS.85).aspx
-    ' Type of Key
-    Public Enum KEY_TYPE
-        HKEY_CLASSES_ROOT = &H80000000
-        HKEY_CURRENT_USER = &H80000001
-        HKEY_LOCAL_MACHINE = &H80000002
-        HKEY_USERS = &H80000003
-        HKEY_CURRENT_CONFIG = &H80000005
-        HKEY_PERFORMANCE_DATA = &H80000004
-        HKEY_DYN_DATA = &H80000006
-    End Enum
-
-    ' Type of monitoring to apply
-    Public Enum KEY_MONITORING_TYPE
-        REG_NOTIFY_CHANGE_NAME = &H1            ' Subkey added or deleted
-        REG_NOTIFY_CHANGE_ATTRIBUTES = &H2      ' Attributes changed
-        REG_NOTIFY_CHANGE_LAST_SET = &H4        ' Value changed (changed, deleted, added)
-        REG_NOTIFY_CHANGE_SECURITY = &H8        ' Security descriptor changed
-    End Enum
-
-
-    Private Const WAIT_FAILED As Integer = &HFFFFFFFF
-    Private Const INFINITE As Integer = &HFFFF
-    Private Const KEY_NOTIFY As Integer = &H10
-
-#End Region
-
     ' Definition of a key
     Public Structure KeyDefinition
         Dim name As String
@@ -93,16 +38,16 @@ Public Class cRegMonitor
 
     Private _hEvent As Integer
     Private _hKey As Integer
-    Private _type As KEY_MONITORING_TYPE
+    Private _type As API.KEY_MONITORING_TYPE
     Private _keys() As String
     Private _ss() As String
     Private _path As String
-    Private _kt As KEY_TYPE
+    Private _kt As API.KEY_TYPE
     Public _t As Thread
 
     ' Constructor
-    Public Sub New(ByVal KeyType As KEY_TYPE, ByVal path As String, ByVal monType As _
-        KEY_MONITORING_TYPE)
+    Public Sub New(ByVal KeyType As API.KEY_TYPE, ByVal path As String, ByVal monType As  _
+        API.KEY_MONITORING_TYPE)
 
         ' Launch event waiting
         _kt = KeyType
@@ -116,8 +61,8 @@ Public Class cRegMonitor
     End Sub
 
     Protected Overrides Sub Finalize()
-        RegCloseKey(_hKey)
-        CloseHandle(_hEvent)
+        API.RegCloseKey(_hKey)
+        API.CloseHandle(_hEvent)
     End Sub
 
     ' Process thread
@@ -126,18 +71,18 @@ Public Class cRegMonitor
         ' Create an event
         Do While True
 
-            Call RegOpenKeyEx(CType(_kt, IntPtr), _path, 0, KEY_NOTIFY, _hKey)
+            Call API.RegOpenKeyEx(CType(_kt, IntPtr), _path, 0, API.KEY_NOTIFY, _hKey)
 
-            _hEvent = CInt(CreateEvent(CType(0, IntPtr), True, False, Nothing))
+            _hEvent = CInt(API.CreateEvent(CType(0, IntPtr), True, False, Nothing))
 
             ' Set monitoring
-            Call RegNotifyChangeKeyValue(_hKey, 1, _type, _hEvent, 1)
+            Call API.RegNotifyChangeKeyValue(_hKey, 1, _type, _hEvent, 1)
 
             ' Get current keys
             _keys = getKeys(_path)
 
             ' Wait for modification
-            If WaitForSingleObject(_hEvent, INFINITE) = WAIT_FAILED Then
+            If API.WaitForSingleObject(_hEvent, API.INFINITE) = API.WAIT_FAILED Then
                 ' Buggy
             Else
                 ' Changed
@@ -146,8 +91,8 @@ Public Class cRegMonitor
                 Call keysChanged()
 
             End If
-            Call CloseHandle(_hEvent)
-            Call RegCloseKey(_hKey)
+            Call API.CloseHandle(_hEvent)
+            Call API.RegCloseKey(_hKey)
         Loop
 
     End Sub

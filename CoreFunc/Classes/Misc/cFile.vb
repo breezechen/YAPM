@@ -26,187 +26,6 @@ Imports System.Text
 
 Public Class cFile
 
-#Region "API"
-
-    ' ========================================
-    ' Strctures
-    ' ========================================
-
-    Private Structure _FILETIME
-        Dim dwLowDateTime As Integer
-        Dim dwHighDateTime As Integer
-    End Structure
-
-    '<StructLayout(LayoutKind.Sequential, CharSet:=CharSet.Unicode)> _
-    'Private Structure SHFILEOPSTRUCT
-    '    Public hwnd As IntPtr
-    '    Public wFunc As Integer
-    '    <MarshalAs(UnmanagedType.LPWStr)> _
-    '    Public pFrom As String
-    '    <MarshalAs(UnmanagedType.LPWStr)> _
-    '    Public pTo As String
-    '    Public fFlags As Integer
-    '    Public fAnyOperationsAborted As Boolean
-    '    Public hNameMappings As IntPtr
-    '    <MarshalAs(UnmanagedType.LPWStr)> _
-    '    Public lpszProgressTitle As String '  only used if FOF_SIMPLEPROGRESS
-    'End Structure
-    <StructLayout(LayoutKind.Explicit, CharSet:=CharSet.Ansi)> _
-        Private Structure SHFILEOPSTRUCT
-        <FieldOffset(0)> Public hWnd As Integer
-        <FieldOffset(4)> Public wFunc As Integer
-        <FieldOffset(8)> Public pFrom As String
-        <FieldOffset(12)> Public pTo As String
-        <FieldOffset(16)> Public fFlags As Short
-        <FieldOffset(18)> Public fAnyOperationsAborted As Boolean
-        <FieldOffset(20)> Public hNameMappings As Object
-        <FieldOffset(24)> Public lpszProgressTitle As String
-    End Structure
-
-    <StructLayout(LayoutKind.Sequential)> _
-    Private Structure SYSTEMTIME
-        <MarshalAs(UnmanagedType.U2)> Public Year As Short
-        <MarshalAs(UnmanagedType.U2)> Public Month As Short
-        <MarshalAs(UnmanagedType.U2)> Public DayOfWeek As Short
-        <MarshalAs(UnmanagedType.U2)> Public Day As Short
-        <MarshalAs(UnmanagedType.U2)> Public Hour As Short
-        <MarshalAs(UnmanagedType.U2)> Public Minute As Short
-        <MarshalAs(UnmanagedType.U2)> Public Second As Short
-        <MarshalAs(UnmanagedType.U2)> Public Milliseconds As Short
-    End Structure
-
-    Private Structure BY_HANDLE_FILE_INFORMATION
-        Dim dwFileAttributes As Long
-        Dim ftCreationTime As _FILETIME
-        Dim ftLastAccessTime As _FILETIME
-        Dim ftLastWriteTime As _FILETIME
-        Dim dwVolumeSerialNumber As Integer
-        Dim nFileSizeHigh As Integer
-        Dim nFileSizeLow As Integer
-        Dim nNumberOfLinks As Integer
-        Dim nFileIndexHigh As Integer
-        Dim nFileIndexLow As Integer
-    End Structure
-
-    Private Structure SHELLEXECUTEINFO
-        Public cbSize As Integer
-        Public fMask As Integer
-        Public hwnd As IntPtr
-        <MarshalAs(UnmanagedType.LPTStr)> Public lpVerb As String
-        <MarshalAs(UnmanagedType.LPTStr)> Public lpFile As String
-        <MarshalAs(UnmanagedType.LPTStr)> Public lpParameters As String
-        <MarshalAs(UnmanagedType.LPTStr)> Public lpDirectory As String
-        Dim nShow As Integer
-        Dim hInstApp As IntPtr
-        Dim lpIDList As IntPtr
-        <MarshalAs(UnmanagedType.LPTStr)> Public lpClass As String
-        Public hkeyClass As IntPtr
-        Public dwHotKey As Integer
-        Public hIcon As IntPtr
-        Public hProcess As IntPtr
-    End Structure
-
-    ' ========================================
-    ' API declaration
-    ' ========================================
-    <DllImport("kernel32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
-    Private Shared Function GetShortPathName(ByVal longPath As String, _
-          <MarshalAs(UnmanagedType.LPTStr)> ByVal ShortPath As System.Text.StringBuilder, _
-          <MarshalAs(Runtime.InteropServices.UnmanagedType.U4)> ByVal bufferSize As Integer) As Integer
-    End Function
-
-    <DllImport("kernel32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> Private Shared Function CreateFile(ByVal lpFileName As String, ByVal dwDesiredAccess As EFileAccess, ByVal dwShareMode As EFileShare, ByVal lpSecurityAttributes As IntPtr, ByVal dwCreationDisposition As ECreationDisposition, ByVal dwFlagsAndAttributes As EFileAttributes, ByVal hTemplateFile As IntPtr) As IntPtr
-    End Function
-
-    Private Declare Function CloseHandle Lib "kernel32" Alias "CloseHandle" (ByVal hObject As IntPtr) As Integer
-
-    <DllImport("kernel32.dll", CharSet:=CharSet.Auto)> _
-    Private Shared Function GetFileSizeEx(<[In]()> ByVal hFile As IntPtr, <[In](), Out()> ByRef lpFileSize As Long) As Boolean
-    End Function
-
-    Private Declare Unicode Function SHRunDialog Lib "shell32" Alias "#61" (ByVal hwnd As Integer, ByVal dummy1 As Integer, ByVal dummy2 As Integer, ByVal Title As String, ByVal Prompt As String, ByVal Flags As Integer) As Integer
-
-    Private Declare Function GetWindowsDirectory Lib "kernel32" Alias "GetWindowsDirectoryA" _
-        (ByVal Buffer As String, ByVal Size As Integer) As Integer
-
-    <DllImport("Shell32", CharSet:=CharSet.Auto, SetLastError:=True)> _
-    Private Shared Function ShellExecuteEx(ByRef lpExecInfo As SHELLEXECUTEINFO) As Boolean
-    End Function
-
-    <DllImport("User32", SetLastError:=True)> _
-    Private Shared Function LoadString(ByVal hInstance As IntPtr, ByVal uID As UInt32, ByVal lpBuffer As System.Text.StringBuilder, ByVal nBufferMax As Integer) As Integer
-    End Function
-
-    <DllImport("shell32.dll")> _
-    Private Shared Function FindExecutable(ByVal lpFile As String, ByVal lpDirectory As String, ByVal lpResult As StringBuilder) As IntPtr
-    End Function
-
-    Private Declare Auto Function LoadLibrary Lib "kernel32.dll" (ByVal lpFileName As String) As IntPtr
-
-    <DllImport("kernel32.dll", SetLastError:=True, EntryPoint:="FreeLibrary")> _
-    Private Shared Function FreeLibrary(ByVal hModule As IntPtr) As Boolean
-    End Function
-
-    Private Declare Function GetCompressedFileSize Lib "kernel32" Alias "GetCompressedFileSizeA" (ByVal lpFileName As String, ByVal lpFileSizeHigh As Integer) As Integer
-    Private Declare Function SHFileOperation Lib "shell32.dll" Alias "SHFileOperation" (ByRef lpFileOp As SHFILEOPSTRUCT) As Integer
-    'Private Declare Function SHFileOperation Lib "shell32.dll" Alias "SHFileOperationW" (ByRef lpFileOp As SHFILEOPSTRUCT) As Integer
-
-    ' ========================================
-    ' Enums & constants
-    ' ========================================
-    Private Enum EFileAccess
-        _GenericRead = &H80000000
-        _GenericWrite = &H40000000
-        _GenericExecute = &H20000000
-        _GenericAll = &H10000000
-    End Enum
-    Private Enum EFileShare
-        _None = &H0
-        _Read = &H1
-        _Write = &H2
-        _Delete = &H4
-    End Enum
-    Private Enum ECreationDisposition
-        _New = 1
-        _CreateAlways = 2
-        _OpenExisting = 3
-        _OpenAlways = 4
-        _TruncateExisting = 5
-    End Enum
-    Private Enum EFileAttributes
-        _Readonly = &H1
-        _Hidden = &H2
-        _System = &H4
-        _Directory = &H10
-        _Archive = &H20
-        _Device = &H40
-        _Normal = &H80
-        _Temporary = &H100
-        _SparseFile = &H200
-        _ReparsePoint = &H400
-        _Compressed = &H800
-        _Offline = &H1000
-        _NotContentIndexed = &H2000
-        _Encrypted = &H4000
-        _Write_Through = &H80000000
-        _Overlapped = &H40000000
-        _NoBuffering = &H20000000
-        _RandomAccess = &H10000000
-        _SequentialScan = &H8000000
-        _DeleteOnClose = &H4000000
-        _BackupSemantics = &H2000000
-        _PosixSemantics = &H1000000
-        _OpenReparsePoint = &H200000
-        _OpenNoRecall = &H100000
-        _FirstPipeInstance = &H80000
-    End Enum
-
-    Private Const SEE_MASK_INVOKEIDLIST As Integer = &HC
-    Private Const SEE_MASK_NOCLOSEPROCESS As Integer = &H40
-    Private Const SEE_MASK_FLAG_NO_UI As Integer = &H400
-
-#End Region
-
     ' ========================================
     ' Private attributes
     ' ========================================
@@ -458,14 +277,14 @@ Public Class cFile
     Public Sub Refresh()
 
         ' Get a handle
-        Dim ptr As IntPtr = CreateFile(_Path, EFileAccess._GenericRead, EFileShare._Read Or _
-            EFileShare._Write, IntPtr.Zero, ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
+        Dim ptr As IntPtr = API.CreateFile(_Path, API.EFileAccess._GenericRead, API.EFileShare._Read Or _
+            API.EFileShare._Write, IntPtr.Zero, API.ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
 
         If ptr = CType(-1, IntPtr) Then Exit Sub
 
         ' Get sizes
-        GetFileSizeEx(ptr, _FileSize)
-        _CompressedFileSize = GetCompressedFileSize(_Path, 0)
+        API.GetFileSizeEx(ptr, _FileSize)
+        _CompressedFileSize = API.GetCompressedFileSize(_Path, 0)
 
         ' Get dates and attributes
         Dim dC As Date = IO.File.GetCreationTime(_Path)
@@ -502,7 +321,7 @@ Public Class cFile
         _Name = Right(_Path, _Path.Length - x)
 
         Dim sb As New StringBuilder(255)
-        FindExecutable(_Path, vbNullString, sb)
+        API.FindExecutable(_Path, vbNullString, sb)
         _FileAssociatedProgram = Replace(sb.ToString, "\", "\\")
 
         ' File type
@@ -517,24 +336,24 @@ Public Class cFile
         ' Short name/path
         Dim sb2 As New StringBuilder(80)
         Dim sb3 As New StringBuilder(80)
-        GetShortPathName(_Path, sb2, 80)
-        GetShortPathName(_ParentDirectory, sb3, 80)
+        API.GetShortPathName(_Path, sb2, 80)
+        API.GetShortPathName(_ParentDirectory, sb3, 80)
         _ShortName = Replace(sb2.ToString, "\", "\\")
         _ShortPath = Replace(sb3.ToString, "\", "\\")
 
-        Dim ptrR As IntPtr = CreateFile(_Path, EFileAccess._GenericRead, _
-                    EFileShare._Read Or EFileShare._Write, IntPtr.Zero, _
-                    ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
+        Dim ptrR As IntPtr = API.CreateFile(_Path, API.EFileAccess._GenericRead, _
+                    API.EFileShare._Read Or API.EFileShare._Write, IntPtr.Zero, _
+                    API.ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
         If Not (ptrR = IntPtr.Zero) Then
-            CloseHandle(ptrR)
+            API.CloseHandle(ptrR)
             _FileAvailableForRead = True
         End If
 
-        Dim ptrW As IntPtr = CreateFile(_Path, EFileAccess._GenericWrite, _
-                    EFileShare._Read Or EFileShare._Write, IntPtr.Zero, _
-                    ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
+        Dim ptrW As IntPtr = API.CreateFile(_Path, API.EFileAccess._GenericWrite, _
+                   API.EFileShare._Read Or API.EFileShare._Write, IntPtr.Zero, _
+                    API.ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
         If Not (ptrW = IntPtr.Zero) Then
-            CloseHandle(ptrW)
+            API.CloseHandle(ptrW)
             _FileAvailableForWrite = True
         End If
 
@@ -544,15 +363,15 @@ Public Class cFile
         sb2 = Nothing
         sb3 = Nothing
         sb = Nothing
-        CloseHandle(ptr)
+        API.CloseHandle(ptr)
     End Sub
 
     ' Display File Property Box
     Public Function ShowFileProperty(ByVal handle As IntPtr) As Boolean
-        Dim SEI As SHELLEXECUTEINFO = Nothing
+        Dim SEI As API.SHELLEXECUTEINFO = Nothing
         With SEI
-            .fMask = SEE_MASK_NOCLOSEPROCESS Or SEE_MASK_INVOKEIDLIST Or _
-                SEE_MASK_FLAG_NO_UI
+            .fMask = API.SEE_MASK_NOCLOSEPROCESS Or API.SEE_MASK_INVOKEIDLIST Or _
+                API.SEE_MASK_FLAG_NO_UI
             .cbSize = System.Runtime.InteropServices.Marshal.SizeOf(SEI)
             .hwnd = handle
             .lpVerb = "properties"
@@ -564,7 +383,7 @@ Public Class cFile
             .lpIDList = IntPtr.Zero
         End With
 
-        Return ShellExecuteEx(SEI)
+        Return API.ShellExecuteEx(SEI)
     End Function
 
     ' Open directory
@@ -590,10 +409,10 @@ Public Class cFile
 
     ' Open a file/URL
     Public Function ShellOpenFile(ByVal handle As IntPtr) As Boolean
-        Dim SEI As SHELLEXECUTEINFO = Nothing
+        Dim SEI As API.SHELLEXECUTEINFO = Nothing
         With SEI
-            .fMask = SEE_MASK_NOCLOSEPROCESS Or SEE_MASK_INVOKEIDLIST Or _
-                SEE_MASK_FLAG_NO_UI
+            .fMask = API.SEE_MASK_NOCLOSEPROCESS Or API.SEE_MASK_INVOKEIDLIST Or _
+               API.SEE_MASK_FLAG_NO_UI
             .cbSize = System.Runtime.InteropServices.Marshal.SizeOf(SEI)
             .hwnd = handle
             .lpVerb = vbNullChar
@@ -605,13 +424,13 @@ Public Class cFile
             .lpIDList = IntPtr.Zero
         End With
 
-        Return ShellExecuteEx(SEI)
+        Return API.ShellExecuteEx(SEI)
     End Function
 
     ' Retrieve a good formated path from a bad string
     Public Function IntelligentPathRetrieving() As String
         Dim rootDir As String = Space$(256)
-        GetWindowsDirectory(rootDir, 256)
+        API.GetWindowsDirectory(rootDir, 256)
         rootDir = Left(rootDir, InStr(rootDir, vbNullChar, CompareMethod.Binary) - 1)
 
         Dim s As String = Replace(_Path.ToLowerInvariant, "@%systemroot%", rootDir)
@@ -750,7 +569,7 @@ Public Class cFile
     Public Shared Function ShowRunBox(ByVal hWnd As Integer, ByVal Title As String, _
         ByVal Message As String) As Integer
 
-        Return SHRunDialog(hWnd, 0, 0, Title, Message, 0)
+        Return API.SHRunDialog(hWnd, 0, 0, Title, Message, 0)
 
     End Function
 
@@ -758,16 +577,16 @@ Public Class cFile
     Public Shared Function GetFileSize(ByVal filePath As String) As Long
         Dim ret As Long
 
-        Dim ptr As IntPtr = CreateFile(filePath, EFileAccess._GenericRead, _
-            EFileShare._Read Or EFileShare._Write, IntPtr.Zero, _
-            ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
+        Dim ptr As IntPtr = API.CreateFile(filePath, API.EFileAccess._GenericRead, _
+            API.EFileShare._Read Or API.EFileShare._Write, IntPtr.Zero, _
+            API.ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
 
         If ptr = CType(-1, IntPtr) Then Return -1
 
         ' Get sizes
-        GetFileSizeEx(ptr, ret)
+        API.GetFileSizeEx(ptr, ret)
 
-        CloseHandle(ptr)
+        API.CloseHandle(ptr)
 
         Return ret
 
@@ -775,10 +594,10 @@ Public Class cFile
 
     ' Open a file/URL
     Public Shared Function ShellOpenFile(ByVal filePath As String, ByVal handle As IntPtr) As Boolean
-        Dim SEI As SHELLEXECUTEINFO = Nothing
+        Dim SEI As API.SHELLEXECUTEINFO = Nothing
         With SEI
-            .fMask = SEE_MASK_NOCLOSEPROCESS Or SEE_MASK_INVOKEIDLIST Or _
-                SEE_MASK_FLAG_NO_UI
+            .fMask = API.SEE_MASK_NOCLOSEPROCESS Or API.SEE_MASK_INVOKEIDLIST Or _
+                API.SEE_MASK_FLAG_NO_UI
             .cbSize = System.Runtime.InteropServices.Marshal.SizeOf(SEI)
             .hwnd = handle
             .lpVerb = vbNullChar
@@ -790,15 +609,15 @@ Public Class cFile
             .lpIDList = IntPtr.Zero
         End With
 
-        Return ShellExecuteEx(SEI)
+        Return API.ShellExecuteEx(SEI)
     End Function
 
     ' Display File Property Box
     Public Shared Function ShowFileProperty(ByVal filePath As String, ByVal handle As IntPtr) As Boolean
-        Dim SEI As SHELLEXECUTEINFO = Nothing
+        Dim SEI As API.SHELLEXECUTEINFO = Nothing
         With SEI
-            .fMask = SEE_MASK_NOCLOSEPROCESS Or SEE_MASK_INVOKEIDLIST Or _
-                SEE_MASK_FLAG_NO_UI
+            .fMask = API.SEE_MASK_NOCLOSEPROCESS Or API.SEE_MASK_INVOKEIDLIST Or _
+                API.SEE_MASK_FLAG_NO_UI
             .cbSize = System.Runtime.InteropServices.Marshal.SizeOf(SEI)
             .hwnd = handle
             .lpVerb = "properties"
@@ -810,7 +629,7 @@ Public Class cFile
             .lpIDList = IntPtr.Zero
         End With
 
-        Return ShellExecuteEx(SEI)
+        Return API.ShellExecuteEx(SEI)
     End Function
 
     ' Open directory
@@ -827,7 +646,7 @@ Public Class cFile
     ' Retrieve a good formated path from a bad string
     Public Shared Function IntelligentPathRetrieving(ByVal filePath As String) As String
         Dim rootDir As String = Space$(256)
-        GetWindowsDirectory(rootDir, 256)
+        API.GetWindowsDirectory(rootDir, 256)
         rootDir = Left(rootDir, InStr(rootDir, vbNullChar, CompareMethod.Binary) - 1)
 
         Dim s As String = Replace(filePath.ToLowerInvariant, "@%systemroot%", rootDir)
@@ -865,10 +684,10 @@ Public Class cFile
 
     ' Extract an ressource (string) from a file
     Private Shared Function ExtractString(ByVal file As String, ByVal id As UInteger) As String
-        Dim hInst As IntPtr = LoadLibrary(file)
+        Dim hInst As IntPtr = API.LoadLibrary(file)
         Dim sb As New StringBuilder(1024)
-        Dim len As Integer = LoadString(hInst, id, sb, sb.Capacity)
-        FreeLibrary(hInst)
+        Dim len As Integer = API.LoadString(hInst, id, sb, sb.Capacity)
+        API.FreeLibrary(hInst)
         Return sb.ToString
     End Function
 

@@ -21,7 +21,7 @@
 
 Option Strict On
 
-Module mdlPrivileges
+Public Module mdlPrivileges
 
     ' Return true if your are logged as an administrator
     Public Function IsAdministrator() As Boolean

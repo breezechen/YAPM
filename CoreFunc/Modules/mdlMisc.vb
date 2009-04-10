@@ -23,7 +23,7 @@ Option Strict On
 
 Imports Microsoft.Win32
 
-Module mdlMisc
+Public Module mdlMisc
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
     Private sizeUnits() As String = {"Bytes", "KB", "MB", "GB", "TB", "PB", "EB"}

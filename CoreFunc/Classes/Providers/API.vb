@@ -29,11 +29,18 @@ Option Strict On
 Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Drawing
+Imports System.Net
 
 Public Class API
 
 
 #Region "Declarations used for processes"
+
+    Public Declare Function GetTickCount Lib "kernel32" () As Integer
+
+    <System.Runtime.InteropServices.DllImport("user32.dll")> _
+    Public Shared Function DestroyIcon(ByVal Handle As IntPtr) As Boolean
+    End Function
 
     ' Const
     Public Const GWL_HWNDPARENT As Integer = -8
@@ -259,62 +266,6 @@ Public Class API
         SidTypeUnknown
         SidTypeComputer
         SidTypeLabel
-    End Enum
-    Public Enum SYSTEM_INFORMATION_CLASS As Integer
-        SystemBasicInformation
-        SystemProcessorInformation
-        SystemPerformanceInformation
-        SystemTimeOfDayInformation
-        SystemNotImplemented1
-        SystemProcessesAndThreadsInformation
-        SystemCallCounts
-        SystemConfigurationInformation
-        SystemProcessorTimes
-        SystemGlobalFlag
-        SystemNotImplemented2
-        SystemModuleInformation
-        SystemLockInformation
-        SystemNotImplemented3
-        SystemNotImplemented4
-        SystemNotImplemented5
-        SystemHandleInformation
-        SystemObjectInformation
-        SystemPagefileInformation
-        SystemInstructionEmulationCounts
-        SystemInvalidInfoClass1
-        SystemFileCacheInformation
-        SystemPoolTagInformation
-        SystemProcessorStatistics
-        SystemDpcInformation
-        SystemNotImplemented6
-        SystemLoadImage
-        SystemUnloadImage
-        SystemTimeAdjustment
-        SystemNotImplemented7
-        SystemNotImplemented8
-        SystemNotImplemented9
-        SystemCrashDumpInformation
-        SystemExceptionInformation
-        SystemCrashDumpStateInformation
-        SystemKernelDebuggerInformation
-        SystemContextSwitchInformation
-        SystemRegistryQuotaInformation
-        SystemLoadAndCallImage
-        SystemPrioritySeparation
-        SystemNotImplemented10
-        SystemNotImplemented11
-        SystemInvalidInfoClass2
-        SystemInvalidInfoClass3
-        SystemTimeZoneInformation
-        SystemLookasideInformation
-        SystemSetTimeSlipEvent
-        SystemCreateSession
-        SystemDeleteSession
-        SystemInvalidInfoClass4
-        SystemRangeStartInformation
-        SystemVerifierInformation
-        SystemAddVerifier
-        SystemSessionProcessesInformation
     End Enum
     Public Enum WMI_INFO_PROCESS
         'Caption
@@ -980,7 +931,6 @@ Public Class API
     End Function
 
     Public Declare Function EnumProcessModules2 Lib "psapi.dll" Alias "EnumProcessModules" (ByVal hProcess As Integer, ByVal lphModule As Integer, ByVal cb As Integer, ByVal lpcbNeeded As Integer) As Boolean
-    Public Declare Function CloseHandle Lib "Kernel32.dll" (ByVal hObject As Integer) As Integer
     Public Declare Function TerminateProcess Lib "kernel32" (ByVal hProcess As Integer, ByVal uExitCode As Integer) As Integer
     Public Declare Function OpenProcessToken Lib "advapi32.dll" (ByVal ProcessHandle As Integer, ByVal DesiredAccess As Integer, ByRef TokenHandle As Integer) As Integer
     Public Declare Function NtSuspendProcess Lib "Ntdll.dll" (ByVal hProc As Integer) As Integer
@@ -1055,6 +1005,587 @@ Public Class API
     End Function
 
 #End Region
+
+    Public Declare Function GetSystemMenu Lib "user32" (ByVal hwnd As Integer, ByVal bRevert As Integer) As Integer
+    Public Declare Function EnableMenuItem Lib "user32" (ByVal hMenu As Integer, ByVal wIDEnableItem As Integer, ByVal wEnable As Integer) As Integer
+
+    Public Enum LVM
+        LVM_FIRST = &H1000
+        LVM_SETEXTENDEDLISTVIEWSTYLE = (LVM_FIRST + 54)
+        LVM_GETEXTENDEDLISTVIEWSTYLE = (LVM_FIRST + 55)
+    End Enum
+
+    Public Const SC_CLOSE As Integer = &HF060
+    Public Const MF_GRAYED As Integer = &H1
+    Public Const LVS_EX_BORDERSELECT As Integer = &H8000
+    Public Const LVS_EX_DOUBLEBUFFER As Integer = &H10000
+
+
+    Public Enum NetworkProtocol As Integer
+        Tcp
+        Udp
+    End Enum
+    Public Enum TCP_TABLE_CLASS As Integer
+        TCP_TABLE_BASIC_LISTENER
+        TCP_TABLE_BASIC_CONNECTIONS
+        TCP_TABLE_BASIC_ALL
+        TCP_TABLE_OWNER_PID_LISTENER
+        TCP_TABLE_OWNER_PID_CONNECTIONS
+        TCP_TABLE_OWNER_PID_ALL
+        TCP_TABLE_OWNER_MODULE_LISTENER
+        TCP_TABLE_OWNER_MODULE_CONNECTIONS
+        TCP_TABLE_OWNER_MODULE_ALL
+    End Enum
+    Public Enum UDP_TABLE_CLASS As Integer
+        UDP_TABLE_BASIC
+        UDP_TABLE_OWNER_PID
+        UDP_TABLE_OWNER_MODULE
+    End Enum
+    Public Structure MIB_TCPROW_OWNER_PID
+        Dim dwState As Integer
+        Dim dwLocalAddr As Integer
+        Dim dwLocalPort As Integer
+        Dim dwRemoteAddr As Integer
+        Dim dwRemotePort As Integer
+        Dim dwOwningPid As Integer
+    End Structure
+    Public Structure MIB_UDPROW_OWNER_PID
+        'Dim dwState As Integer
+        Dim dwLocalAddr As Integer
+        Dim dwLocalPort As Integer
+        'Dim dwRemoteAddr As Integer
+        'Dim dwRemotePort As Integer
+        Dim dwOwningPid As Integer
+    End Structure
+    Public Structure LightConnection
+        Dim dwState As Integer
+        Dim local As IPEndPoint
+        Dim remote As IPEndPoint
+        Dim dwOwningPid As Integer
+        Dim dwType As NetworkProtocol
+        Dim key As String
+    End Structure
+    Public Enum MIB_TCP_STATE As Integer
+        Closed = 1
+        Listening
+        SynSent
+        SynReceived
+        Established
+        FinWait1
+        FinWait2
+        CloseWait
+        Closing
+        LastAck
+        TimeWait
+        DeleteTcb
+    End Enum
+
+    <DllImport("iphlpapi.dll", SetLastError:=True)> _
+    Public Shared Function GetExtendedTcpTable(ByVal Table As IntPtr, ByRef Size As Integer, _
+        ByVal Order As Boolean, ByVal IpVersion As Integer, _
+        ByVal TableClass As TCP_TABLE_CLASS, ByVal Reserved As Integer) As Integer
+    End Function
+    <DllImport("iphlpapi.dll", SetLastError:=True)> _
+    Public Shared Function GetExtendedUdpTable(ByVal Table As IntPtr, ByRef Size As Integer, _
+        ByVal Order As Boolean, ByVal IpVersion As Integer, _
+        ByVal TableClass As UDP_TABLE_CLASS, ByVal Reserved As Integer) As Integer
+    End Function
+
+
+
+    <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
+    Public Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
+    End Function
+
+    Public Structure PERFORMANCE_INFORMATION
+        Dim Size As Integer
+        <MarshalAs(UnmanagedType.ByValArray, SizeConst:=10)> _
+        Dim noNeed() As Integer          ' No need because informations are retrieved elsewhere
+        Dim HandlesCount As Integer
+        Dim ProcessCount As Integer
+        Dim ThreadCount As Integer
+    End Structure
+    Public Structure SYSTEM_PERFORMANCE_INFORMATION
+        Dim IdleTime As Long
+        Dim IoReadTransferCount As Long
+        Dim IoWriteTransferCount As Long
+        Dim IoOtherTransferCount As Long
+        Dim IoReadOperationCount As Integer
+        Dim IoWriteOperationCount As Integer
+        Dim IoOtherOperationCount As Integer
+        Dim AvailablePages As Integer
+        Dim CommittedPages As Integer
+        Dim CommitLimit As Integer
+        Dim PeakCommitment As Integer
+        Dim PageFaults As Integer
+        Dim CopyOnWriteFaults As Integer
+        Dim TransitionFaults As Integer
+        Dim CacheTransitionFaults As Integer
+        Dim DemandZeroFaults As Integer
+        Dim PagesRead As Integer
+        Dim PagesReadIos As Integer
+        Dim CacheRead As Integer
+        Dim CacheReadIos As Integer
+        Dim PagefilePagesWritten As Integer
+        Dim PagefilePagesWriteIos As Integer
+        Dim MappedFilePagesWritten As Integer
+        Dim MappedFilePageWriteIos As Integer
+        Dim PagedPoolUsage As Integer
+        Dim NonPagedPoolUsage As Integer
+        Dim PagedPoolAllocs As Integer
+        Dim PagedPoolFrees As Integer
+        Dim NonPagedPoolAllocs As Integer
+        Dim NonPagedPoolFrees As Integer
+        Dim FreeSystemPtes As Integer
+        Dim SystemCodePages As Integer
+        Dim TotalSystemDriverPages As Integer
+        Dim TotalSystemCodePages As Integer
+        Dim SmallNonPagedPoolLookasideListAllocateHits As Integer
+        Dim SmallPagedPoolLookasideAllocateHits As Integer
+        Dim Reserved3 As Integer
+        Dim SystemCachePages As Integer
+        Dim PagedPoolPages As Integer
+        Dim SystemDriverPages As Integer
+        Dim FastReadNoWait As Integer
+        Dim FastReadWait As Integer
+        Dim FastReadResourceMiss As Integer
+        Dim FastReadNotPossible As Integer
+        Dim FastMdlReadNoWait As Integer
+        Dim FastMdlReadWait As Integer
+        Dim FastMdlReadResourceMiss As Integer
+        Dim FastMdlReadNotPossible As Integer
+        Dim MapDataNoWait As Integer
+        Dim MapDataWait As Integer
+        Dim MapDataNoWaitMiss As Integer
+        Dim MapDataWaitMiss As Integer
+        Dim PinMappedDataCount As Integer
+        Dim PinReadNoWait As Integer
+        Dim PinReadWait As Integer
+        Dim PinReadNoWaitMiss As Integer
+        Dim PinReadWaitMiss As Integer
+        Dim CopyReadNoWait As Integer
+        Dim CopyReadWait As Integer
+        Dim CopyReadNoWaitMiss As Integer
+        Dim CopyReadWaitMiss As Integer
+        Dim MdlReadNoWait As Integer
+        Dim MdlReadWait As Integer
+        Dim MdlReadNoWaitMiss As Integer
+        Dim MdlReadWaitMiss As Integer
+        Dim ReadAheadIos As Integer
+        Dim LazyWriteIos As Integer
+        Dim LazyWritePages As Integer
+        Dim DataFlushes As Integer
+        Dim DataPages As Integer
+        Dim ContextSwitches As Integer
+        Dim FirstLevelTbFills As Integer
+        Dim SecondLevelTbFills As Integer
+        Dim SystemCalls As Integer
+    End Structure
+    Public Structure SYSTEM_CACHE_INFORMATION
+        Dim SystemCacheWsSize As Integer
+        Dim SystemCacheWsPeakSize As Integer
+        Dim SystemCacheWsFaults As Integer
+        Dim SystemCacheWsMinimum As Integer
+        Dim SystemCacheWsMaximum As Integer
+        Dim TransitionSharedPages As Integer
+        Dim TransitionSharedPagesPeak As Integer
+        Private Reserved1 As Integer
+        Private Reserved2 As Integer
+    End Structure
+    <StructLayout(LayoutKind.Sequential)> _
+    Public Structure SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION
+        Dim IdleTime As Long
+        Dim KernelTime As Long
+        Dim UserTime As Long
+        Dim DpcTime As Long
+        Dim InterruptTime As Long
+        Dim InterruptCount As Integer
+    End Structure
+    Public Structure SYSTEM_BASIC_INFORMATION
+        Private Reserved As Integer
+        Dim TimerResolution As Integer
+        Dim PageSize As Integer
+        Dim NumberOfPhysicalPages As Integer
+        Dim LowestPhysicalPageNumber As Integer
+        Dim HighestPhysicalPageNumber As Integer
+        Dim AllocationGranularity As Integer
+        Dim MinimumUserModeAddress As Integer
+        Dim MaximumUserModeAddress As Integer
+        Dim ActiveProcessorsAffinityMask As Integer
+        Dim NumberOfProcessors As Byte
+    End Structure
+    Public Enum SYSTEM_INFORMATION_CLASS As Integer
+        SystemBasicInformation
+        SystemProcessorInformation
+        SystemPerformanceInformation
+        SystemTimeOfDayInformation
+        SystemNotImplemented1
+        SystemProcessesAndThreadsInformation
+        SystemCallCounts
+        SystemConfigurationInformation
+        SystemProcessorTimes
+        SystemGlobalFlag
+        SystemNotImplemented2
+        SystemModuleInformation
+        SystemLockInformation
+        SystemNotImplemented3
+        SystemNotImplemented4
+        SystemNotImplemented5
+        SystemHandleInformation
+        SystemObjectInformation
+        SystemPagefileInformation
+        SystemInstructionEmulationCounts
+        SystemInvalidInfoClass1
+        SystemCacheInformation
+        SystemPoolTagInformation
+        SystemProcessorStatistics
+        SystemDpcInformation
+        SystemNotImplemented6
+        SystemLoadImage
+        SystemUnloadImage
+        SystemTimeAdjustment
+        SystemNotImplemented7
+        SystemNotImplemented8
+        SystemNotImplemented9
+        SystemCrashDumpInformation
+        SystemExceptionInformation
+        SystemCrashDumpStateInformation
+        SystemKernelDebuggerInformation
+        SystemContextSwitchInformation
+        SystemRegistryQuotaInformation
+        SystemLoadAndCallImage
+        SystemPrioritySeparation
+        SystemNotImplemented10
+        SystemNotImplemented11
+        SystemInvalidInfoClass2
+        SystemInvalidInfoClass3
+        SystemTimeZoneInformation
+        SystemLookasideInformation
+        SystemSetTimeSlipEvent
+        SystemCreateSession
+        SystemDeleteSession
+        SystemInvalidInfoClass4
+        SystemRangeStartInformation
+        SystemVerifierInformation
+        SystemAddVerifier
+        SystemSessionProcessesInformation
+    End Enum
+    Public Declare Function GetPerformanceInfo Lib "psapi.dll" (ByRef PerformanceInformation As PERFORMANCE_INFORMATION, ByVal Size As Integer) As Integer
+    Public Declare Function ZwQuerySystemInformation Lib "ntdll.dll" (ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByRef SystemInformation As SYSTEM_BASIC_INFORMATION, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
+    Public Declare Function ZwQuerySystemInformation Lib "ntdll.dll" (ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByRef SystemInformation As SYSTEM_CACHE_INFORMATION, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
+    Public Declare Function ZwQuerySystemInformation Lib "ntdll.dll" (ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByRef SystemInformation As SYSTEM_PERFORMANCE_INFORMATION, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
+    Public Declare Function ZwQuerySystemInformation Lib "ntdll.dll" (ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByRef SystemInformation As SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
+
+    <DllImport("user32.dll", SetLastError:=True)> _
+    Public Shared Function ExitWindowsEx(ByVal flags As ExitFlags, ByVal reason As Integer) As Boolean
+    End Function
+    <DllImport("powrprof.dll", SetLastError:=True)> _
+    Public Shared Function SetSuspendState(ByVal Hibernate As Boolean, ByVal ForceCritical As Boolean, ByVal DisableWakeEvent As Boolean) As Boolean
+    End Function
+    <DllImport("user32.dll", SetLastError:=True)> _
+    Public Shared Function LockWorkStation() As Boolean
+    End Function
+
+    Public Enum ExitFlags As Integer
+        Logoff = &H0
+        Shutdown = &H1
+        Reboot = &H2
+        Poweroff = &H8
+        RestartApps = &H40
+        Force = &H4
+        ForceIfHung = &H10
+    End Enum
+
+
+    Public Structure _FILETIME
+        Dim dwLowDateTime As Integer
+        Dim dwHighDateTime As Integer
+    End Structure
+
+    <StructLayout(LayoutKind.Explicit, CharSet:=CharSet.Ansi)> _
+    Public Structure SHFILEOPSTRUCT
+        <FieldOffset(0)> Public hWnd As Integer
+        <FieldOffset(4)> Public wFunc As Integer
+        <FieldOffset(8)> Public pFrom As String
+        <FieldOffset(12)> Public pTo As String
+        <FieldOffset(16)> Public fFlags As Short
+        <FieldOffset(18)> Public fAnyOperationsAborted As Boolean
+        <FieldOffset(20)> Public hNameMappings As Object
+        <FieldOffset(24)> Public lpszProgressTitle As String
+    End Structure
+
+    <StructLayout(LayoutKind.Sequential)> _
+    Public Structure SYSTEMTIME
+        <MarshalAs(UnmanagedType.U2)> Public Year As Short
+        <MarshalAs(UnmanagedType.U2)> Public Month As Short
+        <MarshalAs(UnmanagedType.U2)> Public DayOfWeek As Short
+        <MarshalAs(UnmanagedType.U2)> Public Day As Short
+        <MarshalAs(UnmanagedType.U2)> Public Hour As Short
+        <MarshalAs(UnmanagedType.U2)> Public Minute As Short
+        <MarshalAs(UnmanagedType.U2)> Public Second As Short
+        <MarshalAs(UnmanagedType.U2)> Public Milliseconds As Short
+    End Structure
+
+    Public Structure BY_HANDLE_FILE_INFORMATION
+        Dim dwFileAttributes As Long
+        Dim ftCreationTime As _FILETIME
+        Dim ftLastAccessTime As _FILETIME
+        Dim ftLastWriteTime As _FILETIME
+        Dim dwVolumeSerialNumber As Integer
+        Dim nFileSizeHigh As Integer
+        Dim nFileSizeLow As Integer
+        Dim nNumberOfLinks As Integer
+        Dim nFileIndexHigh As Integer
+        Dim nFileIndexLow As Integer
+    End Structure
+
+    Public Structure SHELLEXECUTEINFO
+        Public cbSize As Integer
+        Public fMask As Integer
+        Public hwnd As IntPtr
+        <MarshalAs(UnmanagedType.LPTStr)> Public lpVerb As String
+        <MarshalAs(UnmanagedType.LPTStr)> Public lpFile As String
+        <MarshalAs(UnmanagedType.LPTStr)> Public lpParameters As String
+        <MarshalAs(UnmanagedType.LPTStr)> Public lpDirectory As String
+        Dim nShow As Integer
+        Dim hInstApp As IntPtr
+        Dim lpIDList As IntPtr
+        <MarshalAs(UnmanagedType.LPTStr)> Public lpClass As String
+        Public hkeyClass As IntPtr
+        Public dwHotKey As Integer
+        Public hIcon As IntPtr
+        Public hProcess As IntPtr
+    End Structure
+
+    ' ========================================
+    ' API declaration
+    ' ========================================
+    <DllImport("kernel32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
+    Public Shared Function GetShortPathName(ByVal longPath As String, _
+          <MarshalAs(UnmanagedType.LPTStr)> ByVal ShortPath As System.Text.StringBuilder, _
+          <MarshalAs(Runtime.InteropServices.UnmanagedType.U4)> ByVal bufferSize As Integer) As Integer
+    End Function
+
+    <DllImport("kernel32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
+    Public Shared Function CreateFile(ByVal lpFileName As String, ByVal dwDesiredAccess As EFileAccess, ByVal dwShareMode As EFileShare, ByVal lpSecurityAttributes As IntPtr, ByVal dwCreationDisposition As ECreationDisposition, ByVal dwFlagsAndAttributes As EFileAttributes, ByVal hTemplateFile As IntPtr) As IntPtr
+    End Function
+
+    Public Declare Function CloseHandle Lib "kernel32" Alias "CloseHandle" (ByVal hObject As IntPtr) As Integer
+
+    <DllImport("kernel32.dll", CharSet:=CharSet.Auto)> _
+    Public Shared Function GetFileSizeEx(<[In]()> ByVal hFile As IntPtr, <[In](), Out()> ByRef lpFileSize As Long) As Boolean
+    End Function
+
+    Public Declare Unicode Function SHRunDialog Lib "shell32" Alias "#61" (ByVal hwnd As Integer, ByVal dummy1 As Integer, ByVal dummy2 As Integer, ByVal Title As String, ByVal Prompt As String, ByVal Flags As Integer) As Integer
+
+    Public Declare Function GetWindowsDirectory Lib "kernel32" Alias "GetWindowsDirectoryA" _
+        (ByVal Buffer As String, ByVal Size As Integer) As Integer
+
+    <DllImport("Shell32", CharSet:=CharSet.Auto, SetLastError:=True)> _
+    Public Shared Function ShellExecuteEx(ByRef lpExecInfo As SHELLEXECUTEINFO) As Boolean
+    End Function
+
+    <DllImport("User32", SetLastError:=True)> _
+    Public Shared Function LoadString(ByVal hInstance As IntPtr, ByVal uID As UInt32, ByVal lpBuffer As System.Text.StringBuilder, ByVal nBufferMax As Integer) As Integer
+    End Function
+
+    <DllImport("shell32.dll")> _
+    Public Shared Function FindExecutable(ByVal lpFile As String, ByVal lpDirectory As String, ByVal lpResult As StringBuilder) As IntPtr
+    End Function
+
+    Public Declare Auto Function LoadLibrary Lib "kernel32.dll" (ByVal lpFileName As String) As IntPtr
+
+    <DllImport("kernel32.dll", SetLastError:=True, EntryPoint:="FreeLibrary")> _
+    Public Shared Function FreeLibrary(ByVal hModule As IntPtr) As Boolean
+    End Function
+
+    Public Declare Function GetCompressedFileSize Lib "kernel32" Alias "GetCompressedFileSizeA" (ByVal lpFileName As String, ByVal lpFileSizeHigh As Integer) As Integer
+    Public Declare Function SHFileOperation Lib "shell32.dll" Alias "SHFileOperation" (ByRef lpFileOp As SHFILEOPSTRUCT) As Integer
+
+    ' ========================================
+    ' Enums & constants
+    ' ========================================
+    Public Enum EFileAccess
+        _GenericRead = &H80000000
+        _GenericWrite = &H40000000
+        _GenericExecute = &H20000000
+        _GenericAll = &H10000000
+    End Enum
+    Public Enum EFileShare
+        _None = &H0
+        _Read = &H1
+        _Write = &H2
+        _Delete = &H4
+    End Enum
+    Public Enum ECreationDisposition
+        _New = 1
+        _CreateAlways = 2
+        _OpenExisting = 3
+        _OpenAlways = 4
+        _TruncateExisting = 5
+    End Enum
+    Public Enum EFileAttributes
+        _Readonly = &H1
+        _Hidden = &H2
+        _System = &H4
+        _Directory = &H10
+        _Archive = &H20
+        _Device = &H40
+        _Normal = &H80
+        _Temporary = &H100
+        _SparseFile = &H200
+        _ReparsePoint = &H400
+        _Compressed = &H800
+        _Offline = &H1000
+        _NotContentIndexed = &H2000
+        _Encrypted = &H4000
+        _Write_Through = &H80000000
+        _Overlapped = &H40000000
+        _NoBuffering = &H20000000
+        _RandomAccess = &H10000000
+        _SequentialScan = &H8000000
+        _DeleteOnClose = &H4000000
+        _BackupSemantics = &H2000000
+        _PosixSemantics = &H1000000
+        _OpenReparsePoint = &H200000
+        _OpenNoRecall = &H100000
+        _FirstPipeInstance = &H80000
+    End Enum
+
+    Public Const SEE_MASK_INVOKEIDLIST As Integer = &HC
+    Public Const SEE_MASK_NOCLOSEPROCESS As Integer = &H40
+    Public Const SEE_MASK_FLAG_NO_UI As Integer = &H400
+
+
+
+
+    Public Structure SHFILEINFO
+        Public hIcon As IntPtr            ' : icon
+        Public iIcon As Integer           ' : icondex
+        Public dwAttributes As Integer    ' : SFGAO_ flags
+        <MarshalAs(UnmanagedType.ByValTStr, SizeConst:=260)> _
+        Public szDisplayName As String
+        <MarshalAs(UnmanagedType.ByValTStr, SizeConst:=80)> _
+        Public szTypeName As String
+    End Structure
+
+    Public Declare Auto Function SHGetFileInfo Lib "shell32.dll" _
+            (ByVal pszPath As String, _
+             ByVal dwFileAttributes As Integer, _
+             ByRef psfi As SHFILEINFO, _
+             ByVal cbFileInfo As Integer, _
+             ByVal uFlags As Integer) As IntPtr
+
+    Public Const SHGFI_ICON As Integer = &H100
+    Public Const SHGFI_SMALLICON As Integer = &H1
+    Public Const SHGFI_LARGEICON As Integer = &H0    ' Large icon
+
+
+
+    Public Const HC_ACTION As Integer = 0
+
+    Public Enum HookType
+        WH_JOURNALRECORD = 0
+        WH_JOURNALPLAYBACK = 1
+        WH_KEYBOARD = 2
+        WH_GETMESSAGE = 3
+        WH_CALLWNDPROC = 4
+        WH_CBT = 5
+        WH_SYSMSGFILTER = 6
+        WH_MOUSE = 7
+        WH_HARDWARE = 8
+        WH_DEBUG = 9
+        WH_SHELL = 10
+        WH_FOREGROUNDIDLE = 11
+        WH_CALLWNDPROCRET = 12
+        WH_KEYBOARD_LL = 13
+        WH_MOUSE_LL = 14
+    End Enum
+
+
+    Public Declare Function UnhookWindowsHookEx Lib "user32" (ByVal hHook As Integer) As Integer
+    Public Declare Function CallNextHookEx Lib "user32" (ByVal hHook As Integer, ByVal nCode As Integer, ByVal wParam As Integer, ByRef lParam As KBDLLHOOKSTRUCT) As Integer
+    Public Declare Function GetCurrentThreadId Lib "kernel32" () As Integer
+    Public Declare Function GetAsyncKeyState Lib "user32" (ByVal vKey As Integer) As Integer
+    Public Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByVal pDst As Object, ByVal pSrc As Object, ByVal ByteLen As Integer)
+
+    <StructLayout(LayoutKind.Sequential)> _
+    Public Structure KBDLLHOOKSTRUCT
+        Public vkCode As Integer
+        Public scanCode As Integer
+        Public flags As KBDLLHOOKSTRUCTFlags
+        Public time As Integer
+        Public dwExtraInfo As IntPtr
+    End Structure
+
+    <Flags()> _
+    Public Enum KBDLLHOOKSTRUCTFlags As Integer
+        LLKHF_EXTENDED = &H1
+        LLKHF_INJECTED = &H10
+        LLKHF_ALTDOWN = &H20
+        LLKHF_UP = &H80
+    End Enum
+
+
+
+
+
+
+
+
+    ' Event api
+    Public Declare Function WaitForSingleObject Lib "kernel32" (ByVal hHandle As Integer, ByVal dwMilliseconds As Integer) As Integer
+    Public Declare Function CloseHandle Lib "kernel32" (ByVal hObject As Integer) As Integer
+    <DllImport("kernel32.dll", _
+     EntryPoint:="CreateEventA")> _
+    Public Shared Function CreateEvent( _
+        ByVal lpEventAttributes As IntPtr, _
+        ByVal bManualReset As Boolean, _
+        ByVal bInitialState As Boolean, _
+        ByVal lpName As String) As IntPtr
+    End Function
+
+    ' Key api
+    Public Declare Auto Function RegCloseKey Lib "advapi32.dll" (ByVal hKey As Integer) As Integer
+    Public Declare Auto Function RegOpenKeyEx Lib "advapi32.dll" ( _
+       ByVal hKey As IntPtr, _
+       ByVal lpSubKey As String, _
+       ByVal ulOptions As Integer, _
+       ByVal samDesired As Integer, _
+       ByRef phkResult As Integer) As Integer
+    Public Declare Function RegNotifyChangeKeyValue Lib "advapi32.dll" Alias _
+        "RegNotifyChangeKeyValue" (ByVal hKey As Integer, ByVal bWatchSubtree As Integer, _
+        ByVal dwNotifyFilter As Integer, ByVal hEvent As Integer, ByVal fAsynchronus As _
+        Integer) As Integer
+
+
+    ' http://msdn.microsoft.com/en-us/library/ms724892(VS.85).aspx
+    ' Type of Key
+    Public Enum KEY_TYPE
+        HKEY_CLASSES_ROOT = &H80000000
+        HKEY_CURRENT_USER = &H80000001
+        HKEY_LOCAL_MACHINE = &H80000002
+        HKEY_USERS = &H80000003
+        HKEY_CURRENT_CONFIG = &H80000005
+        HKEY_PERFORMANCE_DATA = &H80000004
+        HKEY_DYN_DATA = &H80000006
+    End Enum
+
+    ' Type of monitoring to apply
+    Public Enum KEY_MONITORING_TYPE
+        REG_NOTIFY_CHANGE_NAME = &H1            ' Subkey added or deleted
+        REG_NOTIFY_CHANGE_ATTRIBUTES = &H2      ' Attributes changed
+        REG_NOTIFY_CHANGE_LAST_SET = &H4        ' Value changed (changed, deleted, added)
+        REG_NOTIFY_CHANGE_SECURITY = &H8        ' Security descriptor changed
+    End Enum
+
+
+    Public Const WAIT_FAILED As Integer = &HFFFFFFFF
+    Public Const INFINITE As Integer = &HFFFF
+    Public Const KEY_NOTIFY As Integer = &H10
+
+
+
 
 
     Private Declare Function GetLastError Lib "kernel32" () As Integer

@@ -28,54 +28,6 @@ Public Class cHotkeys
     ' ========================================
     ' API declarations
     ' ========================================
-#Region "API"
-
-    Private Const HC_ACTION As Integer = 0
-
-    Private Enum HookType
-        WH_JOURNALRECORD = 0
-        WH_JOURNALPLAYBACK = 1
-        WH_KEYBOARD = 2
-        WH_GETMESSAGE = 3
-        WH_CALLWNDPROC = 4
-        WH_CBT = 5
-        WH_SYSMSGFILTER = 6
-        WH_MOUSE = 7
-        WH_HARDWARE = 8
-        WH_DEBUG = 9
-        WH_SHELL = 10
-        WH_FOREGROUNDIDLE = 11
-        WH_CALLWNDPROCRET = 12
-        WH_KEYBOARD_LL = 13
-        WH_MOUSE_LL = 14
-    End Enum
-
-    <DllImport("user32.dll", SetLastError:=True)> _
-    Private Shared Function SetWindowsHookEx(ByVal hook As HookType, ByVal callback As HookProc, ByVal hMod As Integer, ByVal dwThreadId As UInteger) As IntPtr
-    End Function
-
-    Private Declare Function UnhookWindowsHookEx Lib "user32" (ByVal hHook As Integer) As Integer
-    Private Declare Function CallNextHookEx Lib "user32" (ByVal hHook As Integer, ByVal nCode As Integer, ByVal wParam As Integer, ByRef lParam As KBDLLHOOKSTRUCT) As Integer
-    Private Declare Function GetCurrentThreadId Lib "kernel32" () As Integer
-    Private Declare Function GetAsyncKeyState Lib "user32" (ByVal vKey As Integer) As Integer
-    Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByVal pDst As Object, ByVal pSrc As Object, ByVal ByteLen As Integer)
-
-    <StructLayout(LayoutKind.Sequential)> _
-    Private Structure KBDLLHOOKSTRUCT
-        Public vkCode As Integer
-        Public scanCode As Integer
-        Public flags As KBDLLHOOKSTRUCTFlags
-        Public time As Integer
-        Public dwExtraInfo As IntPtr
-    End Structure
-
-    <Flags()> _
-    Private Enum KBDLLHOOKSTRUCTFlags As Integer
-        LLKHF_EXTENDED = &H1
-        LLKHF_INJECTED = &H10
-        LLKHF_ALTDOWN = &H20
-        LLKHF_UP = &H80
-    End Enum
 
     Private Const vbKeyShift As Integer = 16
     Private Const vbKeyControl As Integer = 17
@@ -83,8 +35,6 @@ Public Class cHotkeys
     Private Const vbShiftMask As Integer = vbKeyShift
     Private Const vbCtrlMask As Integer = vbKeyControl
     Private Const vbAltMask As Integer = vbKeyAlt
-
-#End Region
 
 
     ' ========================================
@@ -98,9 +48,11 @@ Public Class cHotkeys
     Private myCallbackDelegate As HookProc = Nothing
 
     Private Delegate Function HookProc(ByVal code As Integer, ByVal wParam As Integer, _
-                        ByRef lParam As KBDLLHOOKSTRUCT) As Integer
+                        ByRef lParam As API.KBDLLHOOKSTRUCT) As Integer
 
-
+    <DllImport("user32.dll", SetLastError:=True)> _
+    Private Shared Function SetWindowsHookEx(ByVal hook As API.HookType, ByVal callback As HookProc, ByVal hMod As Integer, ByVal dwThreadId As UInteger) As IntPtr
+    End Function
 
     ' ========================================
     ' Public properties
@@ -175,7 +127,7 @@ Public Class cHotkeys
             ' Initialize our delegate
             Me.myCallbackDelegate = New HookProc(AddressOf Me.KeyboardFilter)
 
-            hKeyHook = CInt(SetWindowsHookEx(HookType.WH_KEYBOARD_LL, _
+            hKeyHook = CInt(SetWindowsHookEx(API.HookType.WH_KEYBOARD_LL, _
                         Me.myCallbackDelegate, 0, 0)) ' 0 -> all threads
             GC.KeepAlive(Me.myCallbackDelegate)
         End If
@@ -188,7 +140,7 @@ Public Class cHotkeys
     Private Sub DetachKeyboardHook()
 
         If (hKeyHook <> 0) Then
-            Call UnhookWindowsHookEx(hKeyHook)
+            Call API.UnhookWindowsHookEx(hKeyHook)
             hKeyHook = 0
         End If
 
@@ -198,18 +150,18 @@ Public Class cHotkeys
     ' ========================================
     ' This function is called each time a key is pressed
     ' ========================================
-    Private Function KeyboardFilter(ByVal nCode As Integer, ByVal wParam As Integer, ByRef lParam As KBDLLHOOKSTRUCT) As Integer
+    Private Function KeyboardFilter(ByVal nCode As Integer, ByVal wParam As Integer, ByRef lParam As API.KBDLLHOOKSTRUCT) As Integer
         Dim bAlt As Boolean
         Dim bCtrl As Boolean
         Dim bShift As Boolean
         Dim cSs As Object
 
 
-        If nCode = HC_ACTION And Not boolStopHooking Then
+        If nCode = API.HC_ACTION And Not boolStopHooking Then
 
-            bShift = (GetAsyncKeyState(vbKeyShift) <> 0)
-            bAlt = (GetAsyncKeyState(vbKeyAlt) <> 0)
-            bCtrl = (GetAsyncKeyState(vbKeyControl) <> 0)
+            bShift = (API.GetAsyncKeyState(vbKeyShift) <> 0)
+            bAlt = (API.GetAsyncKeyState(vbKeyAlt) <> 0)
+            bCtrl = (API.GetAsyncKeyState(vbKeyControl) <> 0)
 
             ' Check for each of our cShortCut if the shortcut is activated
             For Each cSs In _col
@@ -252,7 +204,7 @@ Public Class cHotkeys
         End If
 
         ' Next hook
-        KeyboardFilter = CallNextHookEx(hKeyHook, nCode, wParam, lParam)
+        KeyboardFilter = API.CallNextHookEx(hKeyHook, nCode, wParam, lParam)
 
     End Function
 End Class

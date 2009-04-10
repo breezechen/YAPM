@@ -23,10 +23,6 @@ Option Strict On
 
 Public Class cTrayIcon
 
-    <System.Runtime.InteropServices.DllImport("user32.dll")> _
-    Private Shared Function DestroyIcon(ByVal Handle As IntPtr) As Boolean
-    End Function
-
     Private _values(,) As Byte
     Private _counterPensLine() As Pen
     Private _counterPensFill() As Pen
@@ -102,7 +98,7 @@ Public Class cTrayIcon
 
         ' MUST destroy previous icon to avoid memory exception after long time...
         If frmMain.Tray.Icon IsNot Nothing Then
-            DestroyIcon(frmMain.Tray.Icon.Handle)
+            API.DestroyIcon(frmMain.Tray.Icon.Handle)
         End If
 
         ' Set icon

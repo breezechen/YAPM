@@ -30,12 +30,8 @@ Public Class frmPendingTasks
     Private NEW_ITEM_COLOR As Color = Color.FromArgb(128, 255, 0)
     Private DELETED_ITEM_COLOR As Color = Color.FromArgb(255, 64, 48)
 
-    <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
-    Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
-    End Function
-
     Private Sub frm_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        SetWindowTheme(lv.Handle, "explorer", Nothing)
+        API.SetWindowTheme(lv.Handle, "explorer", Nothing)
         Call RefreshTasksList()
     End Sub
 

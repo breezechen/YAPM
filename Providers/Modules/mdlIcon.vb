@@ -25,28 +25,8 @@ Imports System.Runtime.InteropServices
 
 ' Here is some unsafe code from VB6
 
-Module mdlIcon
+Public Module mdlIcon
 
-    Private Structure SHFILEINFO
-        Public hIcon As IntPtr            ' : icon
-        Public iIcon As Integer           ' : icondex
-        Public dwAttributes As Integer    ' : SFGAO_ flags
-        <MarshalAs(UnmanagedType.ByValTStr, SizeConst:=260)> _
-        Public szDisplayName As String
-        <MarshalAs(UnmanagedType.ByValTStr, SizeConst:=80)> _
-        Public szTypeName As String
-    End Structure
-
-    Private Declare Auto Function SHGetFileInfo Lib "shell32.dll" _
-            (ByVal pszPath As String, _
-             ByVal dwFileAttributes As Integer, _
-             ByRef psfi As SHFILEINFO, _
-             ByVal cbFileInfo As Integer, _
-             ByVal uFlags As Integer) As IntPtr
-
-    Private Const SHGFI_ICON As Integer = &H100
-    Private Const SHGFI_SMALLICON As Integer = &H1
-    Private Const SHGFI_LARGEICON As Integer = &H0    ' Large icon
     Private nIndex As Integer
 
 
@@ -55,19 +35,19 @@ Module mdlIcon
 
         Dim hImgSmall As IntPtr
         Dim hImgLarge As IntPtr
-        Dim shinfo As SHFILEINFO
-        shinfo = New SHFILEINFO()
+        Dim shinfo As API.SHFILEINFO
+        shinfo = New API.SHFILEINFO()
 
         If System.IO.File.Exists(fName) = False Then Return Nothing
 
         If small Then
-            hImgSmall = SHGetFileInfo(fName, 0, shinfo, _
+            hImgSmall = API.SHGetFileInfo(fName, 0, shinfo, _
                 Marshal.SizeOf(shinfo), _
-                SHGFI_ICON Or SHGFI_SMALLICON)
+                API.SHGFI_ICON Or API.SHGFI_SMALLICON)
         Else
-            hImgLarge = SHGetFileInfo(fName, 0, _
+            hImgLarge = API.SHGetFileInfo(fName, 0, _
                 shinfo, Marshal.SizeOf(shinfo), _
-                SHGFI_ICON Or SHGFI_LARGEICON)
+                API.SHGFI_ICON Or API.SHGFI_LARGEICON)
         End If
 
         Dim img As System.Drawing.Icon = Nothing
@@ -88,17 +68,17 @@ Module mdlIcon
 
         Dim hImgSmall As IntPtr
         Dim hImgLarge As IntPtr
-        Dim shinfo As SHFILEINFO
-        shinfo = New SHFILEINFO()
+        Dim shinfo As API.SHFILEINFO
+        shinfo = New API.SHFILEINFO()
 
         If small Then
-            hImgSmall = SHGetFileInfo(fName, 0, shinfo, _
+            hImgSmall = API.SHGetFileInfo(fName, 0, shinfo, _
                 Marshal.SizeOf(shinfo), _
-                SHGFI_ICON Or SHGFI_SMALLICON)
+               API.SHGFI_ICON Or API.SHGFI_SMALLICON)
         Else
-            hImgLarge = SHGetFileInfo(fName, 0, _
+            hImgLarge = API.SHGetFileInfo(fName, 0, _
                 shinfo, Marshal.SizeOf(shinfo), _
-                SHGFI_ICON Or SHGFI_LARGEICON)
+                API.SHGFI_ICON Or API.SHGFI_LARGEICON)
         End If
 
         Dim img As System.Drawing.Icon = Nothing

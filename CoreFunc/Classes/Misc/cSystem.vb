@@ -26,65 +26,41 @@ Imports System.Runtime.InteropServices
 Public Class cSystem
 
     ' ========================================
-    ' API declarations
-    ' ========================================
-    <DllImport("user32.dll", SetLastError:=True)> _
-    Private Shared Function ExitWindowsEx(ByVal flags As ExitFlags, ByVal reason As Integer) As Boolean
-    End Function
-    <DllImport("powrprof.dll", SetLastError:=True)> _
-    Private Shared Function SetSuspendState(ByVal Hibernate As Boolean, ByVal ForceCritical As Boolean, ByVal DisableWakeEvent As Boolean) As Boolean
-    End Function
-    <DllImport("user32.dll", SetLastError:=True)> _
-    Private Shared Function LockWorkStation() As Boolean
-    End Function
-
-    Private Enum ExitFlags As Integer
-        Logoff = &H0
-        Shutdown = &H1
-        Reboot = &H2
-        Poweroff = &H8
-        RestartApps = &H40
-        Force = &H4
-        ForceIfHung = &H10
-    End Enum
-
-
-    ' ========================================
     ' Public
     ' ========================================
     Public Shared Function Hibernate() As Boolean
-        Return SetSuspendState(True, False, False)
+        Return API.SetSuspendState(True, False, False)
     End Function
 
     Public Shared Function Sleep() As Boolean
-        Return SetSuspendState(False, False, False)
+        Return API.SetSuspendState(False, False, False)
     End Function
 
     Public Shared Function Logoff() As Boolean
-        Return ExitWindowsEx(ExitFlags.Logoff, 0)
+        Return API.ExitWindowsEx(API.ExitFlags.Logoff, 0)
     End Function
 
     Public Shared Function Lock() As Boolean
-        Return LockWorkStation()
+        Return API.LockWorkStation()
     End Function
 
     Public Shared Function Shutdown() As Boolean
-        Return ExitWindowsEx(ExitFlags.Shutdown, 0)
+        Return API.ExitWindowsEx(API.ExitFlags.Shutdown, 0)
     End Function
 
     Public Shared Function Restart(Optional ByVal force As Boolean = False) As Boolean
         If force Then
-            Return ExitWindowsEx(ExitFlags.Reboot Or ExitFlags.Force, 0)
+            Return API.ExitWindowsEx(API.ExitFlags.Reboot Or API.ExitFlags.Force, 0)
         Else
-            Return ExitWindowsEx(ExitFlags.Reboot, 0)
+            Return API.ExitWindowsEx(API.ExitFlags.Reboot, 0)
         End If
     End Function
 
     Public Shared Function Poweroff(Optional ByVal force As Boolean = False) As Boolean
         If force Then
-            Return ExitWindowsEx(ExitFlags.Poweroff Or ExitFlags.Force, 0)
+            Return API.ExitWindowsEx(API.ExitFlags.Poweroff Or API.ExitFlags.Force, 0)
         Else
-            Return ExitWindowsEx(ExitFlags.Poweroff, 0)
+            Return API.ExitWindowsEx(API.ExitFlags.Poweroff, 0)
         End If
     End Function
 End Class

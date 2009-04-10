@@ -25,10 +25,6 @@ Imports System.Runtime.InteropServices
 
 Public Class frmChooseColumns
 
-    <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
-    Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
-    End Function
-
     Private theListview As DoubleBufferedLV
     Private theClass As cGeneralObject
 
@@ -92,7 +88,7 @@ Public Class frmChooseColumns
     End Sub
 
     Private Sub frmChooseProcessColumns_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
+        API.SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
 
         'frmMain.timerProcess.Enabled = False
 

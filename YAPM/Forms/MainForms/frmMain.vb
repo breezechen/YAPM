@@ -381,8 +381,8 @@ Public Class frmMain
 
         Me.lblServicePath.BackColor = Me.BackColor
 
-        creg = New cRegMonitor(cRegMonitor.KEY_TYPE.HKEY_LOCAL_MACHINE, "SYSTEM\CurrentControlSet\Services", _
-              cRegMonitor.KEY_MONITORING_TYPE.REG_NOTIFY_CHANGE_NAME)
+        creg = New cRegMonitor(API.KEY_TYPE.HKEY_LOCAL_MACHINE, "SYSTEM\CurrentControlSet\Services", _
+              API.KEY_MONITORING_TYPE.REG_NOTIFY_CHANGE_NAME)
 
         'isAdmin = mdlPrivileges.IsAdministrator
         'If isAdmin = False Then
@@ -2659,7 +2659,7 @@ Public Class frmMain
         If _cpuUsage > 1 Then _cpuUsage = 1
 
         Dim s As String = "CPU usage : " & CStr(Math.Round(100 * _cpuUsage, 3)) & " %"
-        s &= vbNewLine & "Phys. mem. usage : " & mdlMisc.GetFormatedSize(d) & " (" & CStr(Math.Round(100 * _physMemUsage, 3)) & " %)"
+        s &= vbNewLine & "Phys. mem. usage : " & GetFormatedSize(d) & " (" & CStr(Math.Round(100 * _physMemUsage, 3)) & " %)"
 
         Me.Tray.Text = s
 

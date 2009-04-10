@@ -28,191 +28,6 @@ Imports System.Runtime.InteropServices
 
 Public Class cSystemInfo
 
-    ' ========================================
-    ' API declarations
-    ' ========================================
-#Region "API"
-    Private Structure PERFORMANCE_INFORMATION
-        Dim Size As Integer
-        <MarshalAs(UnmanagedType.ByValArray, SizeConst:=10)> _
-        Dim noNeed() As Integer          ' No need because informations are retrieved elsewhere
-        Dim HandlesCount As Integer
-        Dim ProcessCount As Integer
-        Dim ThreadCount As Integer
-    End Structure
-    Public Structure SYSTEM_PERFORMANCE_INFORMATION
-        Dim IdleTime As Long
-        Dim IoReadTransferCount As Long
-        Dim IoWriteTransferCount As Long
-        Dim IoOtherTransferCount As Long
-        Dim IoReadOperationCount As Integer
-        Dim IoWriteOperationCount As Integer
-        Dim IoOtherOperationCount As Integer
-        Dim AvailablePages As Integer
-        Dim CommittedPages As Integer
-        Dim CommitLimit As Integer
-        Dim PeakCommitment As Integer
-        Dim PageFaults As Integer
-        Dim CopyOnWriteFaults As Integer
-        Dim TransitionFaults As Integer
-        Dim CacheTransitionFaults As Integer
-        Dim DemandZeroFaults As Integer
-        Dim PagesRead As Integer
-        Dim PagesReadIos As Integer
-        Dim CacheRead As Integer
-        Dim CacheReadIos As Integer
-        Dim PagefilePagesWritten As Integer
-        Dim PagefilePagesWriteIos As Integer
-        Dim MappedFilePagesWritten As Integer
-        Dim MappedFilePageWriteIos As Integer
-        Dim PagedPoolUsage As Integer
-        Dim NonPagedPoolUsage As Integer
-        Dim PagedPoolAllocs As Integer
-        Dim PagedPoolFrees As Integer
-        Dim NonPagedPoolAllocs As Integer
-        Dim NonPagedPoolFrees As Integer
-        Dim FreeSystemPtes As Integer
-        Dim SystemCodePages As Integer
-        Dim TotalSystemDriverPages As Integer
-        Dim TotalSystemCodePages As Integer
-        Dim SmallNonPagedPoolLookasideListAllocateHits As Integer
-        Dim SmallPagedPoolLookasideAllocateHits As Integer
-        Dim Reserved3 As Integer
-        Dim SystemCachePages As Integer
-        Dim PagedPoolPages As Integer
-        Dim SystemDriverPages As Integer
-        Dim FastReadNoWait As Integer
-        Dim FastReadWait As Integer
-        Dim FastReadResourceMiss As Integer
-        Dim FastReadNotPossible As Integer
-        Dim FastMdlReadNoWait As Integer
-        Dim FastMdlReadWait As Integer
-        Dim FastMdlReadResourceMiss As Integer
-        Dim FastMdlReadNotPossible As Integer
-        Dim MapDataNoWait As Integer
-        Dim MapDataWait As Integer
-        Dim MapDataNoWaitMiss As Integer
-        Dim MapDataWaitMiss As Integer
-        Dim PinMappedDataCount As Integer
-        Dim PinReadNoWait As Integer
-        Dim PinReadWait As Integer
-        Dim PinReadNoWaitMiss As Integer
-        Dim PinReadWaitMiss As Integer
-        Dim CopyReadNoWait As Integer
-        Dim CopyReadWait As Integer
-        Dim CopyReadNoWaitMiss As Integer
-        Dim CopyReadWaitMiss As Integer
-        Dim MdlReadNoWait As Integer
-        Dim MdlReadWait As Integer
-        Dim MdlReadNoWaitMiss As Integer
-        Dim MdlReadWaitMiss As Integer
-        Dim ReadAheadIos As Integer
-        Dim LazyWriteIos As Integer
-        Dim LazyWritePages As Integer
-        Dim DataFlushes As Integer
-        Dim DataPages As Integer
-        Dim ContextSwitches As Integer
-        Dim FirstLevelTbFills As Integer
-        Dim SecondLevelTbFills As Integer
-        Dim SystemCalls As Integer
-    End Structure
-    Public Structure SYSTEM_CACHE_INFORMATION
-        Dim SystemCacheWsSize As Integer
-        Dim SystemCacheWsPeakSize As Integer
-        Dim SystemCacheWsFaults As Integer
-        Dim SystemCacheWsMinimum As Integer
-        Dim SystemCacheWsMaximum As Integer
-        Dim TransitionSharedPages As Integer
-        Dim TransitionSharedPagesPeak As Integer
-        Private Reserved1 As Integer
-        Private Reserved2 As Integer
-    End Structure
-    <StructLayout(LayoutKind.Sequential)> _
-    Public Structure SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION
-        Dim IdleTime As Long
-        Dim KernelTime As Long
-        Dim UserTime As Long
-        Dim DpcTime As Long
-        Dim InterruptTime As Long
-        Dim InterruptCount As Integer
-    End Structure
-    Public Structure SYSTEM_BASIC_INFORMATION
-        Private Reserved As Integer
-        Dim TimerResolution As Integer
-        Dim PageSize As Integer
-        Dim NumberOfPhysicalPages As Integer
-        Dim LowestPhysicalPageNumber As Integer
-        Dim HighestPhysicalPageNumber As Integer
-        Dim AllocationGranularity As Integer
-        Dim MinimumUserModeAddress As Integer
-        Dim MaximumUserModeAddress As Integer
-        Dim ActiveProcessorsAffinityMask As Integer
-        Dim NumberOfProcessors As Byte
-    End Structure
-    Public Enum SYSTEM_INFORMATION_CLASS As Integer
-        SystemBasicInformation
-        SystemProcessorInformation
-        SystemPerformanceInformation
-        SystemTimeOfDayInformation
-        SystemNotImplemented1
-        SystemProcessesAndThreadsInformation
-        SystemCallCounts
-        SystemConfigurationInformation
-        SystemProcessorTimes
-        SystemGlobalFlag
-        SystemNotImplemented2
-        SystemModuleInformation
-        SystemLockInformation
-        SystemNotImplemented3
-        SystemNotImplemented4
-        SystemNotImplemented5
-        SystemHandleInformation
-        SystemObjectInformation
-        SystemPagefileInformation
-        SystemInstructionEmulationCounts
-        SystemInvalidInfoClass1
-        SystemCacheInformation
-        SystemPoolTagInformation
-        SystemProcessorStatistics
-        SystemDpcInformation
-        SystemNotImplemented6
-        SystemLoadImage
-        SystemUnloadImage
-        SystemTimeAdjustment
-        SystemNotImplemented7
-        SystemNotImplemented8
-        SystemNotImplemented9
-        SystemCrashDumpInformation
-        SystemExceptionInformation
-        SystemCrashDumpStateInformation
-        SystemKernelDebuggerInformation
-        SystemContextSwitchInformation
-        SystemRegistryQuotaInformation
-        SystemLoadAndCallImage
-        SystemPrioritySeparation
-        SystemNotImplemented10
-        SystemNotImplemented11
-        SystemInvalidInfoClass2
-        SystemInvalidInfoClass3
-        SystemTimeZoneInformation
-        SystemLookasideInformation
-        SystemSetTimeSlipEvent
-        SystemCreateSession
-        SystemDeleteSession
-        SystemInvalidInfoClass4
-        SystemRangeStartInformation
-        SystemVerifierInformation
-        SystemAddVerifier
-        SystemSessionProcessesInformation
-    End Enum
-    Private Declare Function GetPerformanceInfo Lib "psapi.dll" (ByRef PerformanceInformation As PERFORMANCE_INFORMATION, ByVal Size As Integer) As Integer
-    Private Declare Function ZwQuerySystemInformation Lib "ntdll.dll" (ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByRef SystemInformation As SYSTEM_BASIC_INFORMATION, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
-    Private Declare Function ZwQuerySystemInformation Lib "ntdll.dll" (ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByRef SystemInformation As SYSTEM_CACHE_INFORMATION, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
-    Private Declare Function ZwQuerySystemInformation Lib "ntdll.dll" (ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByRef SystemInformation As SYSTEM_PERFORMANCE_INFORMATION, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
-    Private Declare Function ZwQuerySystemInformation Lib "ntdll.dll" (ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByRef SystemInformation As SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
-    Private Declare Function ZwQuerySystemInformation Lib "ntdll.dll" (ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByVal pt As IntPtr, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
-#End Region
-
 
     ' ========================================
     ' Private
@@ -228,10 +43,10 @@ Public Class cSystemInfo
     Private _minCache As Integer
     Private _peakCache As Integer
     Private _cacheErrors As Integer
-    Private _spi As SYSTEM_PERFORMANCE_INFORMATION
-    Private _sbi As SYSTEM_BASIC_INFORMATION
-    Private _ci As SYSTEM_CACHE_INFORMATION
-    Private _ppi() As SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION
+    Private _spi As API.SYSTEM_PERFORMANCE_INFORMATION
+    Private _sbi As API.SYSTEM_BASIC_INFORMATION
+    Private _ci As API.SYSTEM_CACHE_INFORMATION
+    Private _ppi() As API.SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION
     Private _totPhysMem As Decimal
 
     ' ========================================
@@ -300,22 +115,22 @@ Public Class cSystemInfo
             Return _maxCache
         End Get
     End Property
-    Public ReadOnly Property PerformanceInformations() As SYSTEM_PERFORMANCE_INFORMATION
+    Public ReadOnly Property PerformanceInformations() As API.SYSTEM_PERFORMANCE_INFORMATION
         Get
             Return _spi
         End Get
     End Property
-    Public ReadOnly Property BasicInformations() As SYSTEM_BASIC_INFORMATION
+    Public ReadOnly Property BasicInformations() As API.SYSTEM_BASIC_INFORMATION
         Get
             Return _sbi
         End Get
     End Property
-    Public ReadOnly Property CacheInformations() As SYSTEM_CACHE_INFORMATION
+    Public ReadOnly Property CacheInformations() As API.SYSTEM_CACHE_INFORMATION
         Get
             Return _ci
         End Get
     End Property
-    Public ReadOnly Property ProcessorPerformanceInformations() As SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION()
+    Public ReadOnly Property ProcessorPerformanceInformations() As API.SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION()
         Get
             Return _ppi
         End Get
@@ -381,9 +196,9 @@ Public Class cSystemInfo
     Public Shared Function GetProcessorCount() As Integer
         Static _count As Integer = 0
         If _count = 0 Then
-            Dim bi As New SYSTEM_BASIC_INFORMATION
+            Dim bi As New API.SYSTEM_BASIC_INFORMATION
             Dim ret As Integer
-            ZwQuerySystemInformation(SYSTEM_INFORMATION_CLASS.SystemBasicInformation, bi, Marshal.SizeOf(bi), ret)
+            API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemBasicInformation, bi, Marshal.SizeOf(bi), ret)
             _count = bi.NumberOfProcessors
         End If
         Return _count
@@ -393,9 +208,9 @@ Public Class cSystemInfo
         MyBase.New()
 
         ' Basic informations (do not change)
-        Dim bi As New SYSTEM_BASIC_INFORMATION
+        Dim bi As New API.SYSTEM_BASIC_INFORMATION
         Dim ret As Integer
-        ZwQuerySystemInformation(SYSTEM_INFORMATION_CLASS.SystemBasicInformation, bi, Marshal.SizeOf(bi), ret)
+        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemBasicInformation, bi, Marshal.SizeOf(bi), ret)
         With bi
             _physicalPagesCount = .NumberOfPhysicalPages
             _processors = .NumberOfProcessors
@@ -408,16 +223,16 @@ Public Class cSystemInfo
     Public Sub RefreshInfo()
         Dim ret As Integer
 
-        Dim pi As New PERFORMANCE_INFORMATION
-        GetPerformanceInfo(pi, Marshal.SizeOf(pi))
+        Dim pi As New API.PERFORMANCE_INFORMATION
+        API.GetPerformanceInfo(pi, Marshal.SizeOf(pi))
         With pi
             _threads = .ThreadCount
             _handles = .HandlesCount
             _processes = .ProcessCount
         End With
 
-        Dim ci As New SYSTEM_CACHE_INFORMATION
-        ZwQuerySystemInformation(SYSTEM_INFORMATION_CLASS.SystemCacheInformation, ci, Marshal.SizeOf(ci), ret)
+        Dim ci As New API.SYSTEM_CACHE_INFORMATION
+        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemCacheInformation, ci, Marshal.SizeOf(ci), ret)
         With ci
             _currentCache = .SystemCacheWsSize
             _peakCache = .SystemCacheWsPeakSize
@@ -427,20 +242,20 @@ Public Class cSystemInfo
         End With
         _ci = ci
 
-        Dim spi As New SYSTEM_PERFORMANCE_INFORMATION
-        ZwQuerySystemInformation(SYSTEM_INFORMATION_CLASS.SystemPerformanceInformation, spi, Marshal.SizeOf(spi), ret)
+        Dim spi As New API.SYSTEM_PERFORMANCE_INFORMATION
+        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemPerformanceInformation, spi, Marshal.SizeOf(spi), ret)
         _spi = spi
 
         If _processors > 0 Then
             ReDim _ppi(_processors - 1)
             Dim __size As Integer = _processors * Marshal.SizeOf(_ppi(0))
             Dim pt As IntPtr = Marshal.AllocHGlobal(__size)
-            ZwQuerySystemInformation(SYSTEM_INFORMATION_CLASS.SystemProcessorTimes, pt, __size, ret)
+            API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessorTimes, pt, __size, ret)
 
             ' Conversion from unmanaged memory to valid array
             For x As Integer = 0 To _processors - 1
                 Dim pt2 As IntPtr = CType(pt.ToInt32 + 48 * x, IntPtr)
-                _ppi(x) = CType(Marshal.PtrToStructure(pt2, GetType(SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION)), SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION)
+                _ppi(x) = CType(Marshal.PtrToStructure(pt2, GetType(API.SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION)), API.SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION)
             Next
 
             'Dim dest() As Long

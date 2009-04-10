@@ -40,19 +40,19 @@ Public Class frmSystemInfo
 
             ' Highest values are Decimals
 
-            Dim bi As cSystemInfo.SYSTEM_BASIC_INFORMATION = .BasicInformations
-            Dim ci As cSystemInfo.SYSTEM_CACHE_INFORMATION = .CacheInformations
-            Dim pi As cSystemInfo.SYSTEM_PERFORMANCE_INFORMATION = .PerformanceInformations
-            Dim ppi() As cSystemInfo.SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION = .ProcessorPerformanceInformations
+            Dim bi As API.SYSTEM_BASIC_INFORMATION = .BasicInformations
+            Dim ci As API.SYSTEM_CACHE_INFORMATION = .CacheInformations
+            Dim pi As API.SYSTEM_PERFORMANCE_INFORMATION = .PerformanceInformations
+            Dim ppi() As API.SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION = .ProcessorPerformanceInformations
             Dim _pagesize As Integer = bi.PageSize
             _processors = bi.NumberOfProcessors
 
             ' Cache
-            Me.lblCacheCurrent.Text = mdlMisc.GetFormatedSize(ci.SystemCacheWsSize)
+            Me.lblCacheCurrent.Text = GetFormatedSize(ci.SystemCacheWsSize)
             Me.lblCacheErrors.Text = CStr(ci.SystemCacheWsFaults)
-            Me.lblCacheMaximum.Text = mdlMisc.GetFormatedSize(Decimal.Multiply(ci.SystemCacheWsMaximum, _pagesize))
-            Me.lblCacheMinimum.Text = mdlMisc.GetFormatedSize(ci.SystemCacheWsMinimum * _pagesize)
-            Me.lblCachePeak.Text = mdlMisc.GetFormatedSize(ci.SystemCacheWsPeakSize)
+            Me.lblCacheMaximum.Text = GetFormatedSize(Decimal.Multiply(ci.SystemCacheWsMaximum, _pagesize))
+            Me.lblCacheMinimum.Text = GetFormatedSize(ci.SystemCacheWsMinimum * _pagesize)
+            Me.lblCachePeak.Text = GetFormatedSize(ci.SystemCacheWsPeakSize)
 
             ' Total
             Me.lblHandles.Text = CStr(.HandleCount)
@@ -60,21 +60,21 @@ Public Class frmSystemInfo
             Me.lblThreads.Text = CStr(.ThreadCount)
 
             ' Commit charge
-            Me.lblCCC.Text = mdlMisc.GetFormatedSize(pi.CommittedPages * _pagesize)
-            Me.lblCCP.Text = mdlMisc.GetFormatedSize(Decimal.Multiply(pi.PeakCommitment, _pagesize))
-            Me.lblCCL.Text = mdlMisc.GetFormatedSize(Decimal.Multiply(pi.CommitLimit, _pagesize))
+            Me.lblCCC.Text = GetFormatedSize(pi.CommittedPages * _pagesize)
+            Me.lblCCP.Text = GetFormatedSize(Decimal.Multiply(pi.PeakCommitment, _pagesize))
+            Me.lblCCL.Text = GetFormatedSize(Decimal.Multiply(pi.CommitLimit, _pagesize))
 
             ' Physical memory
-            Me.lblPMF.Text = mdlMisc.GetFormatedSize(Decimal.Multiply(pi.AvailablePages, _pagesize))
-            Me.lblPMT.Text = mdlMisc.GetFormatedSize(Decimal.Multiply(bi.NumberOfPhysicalPages, _pagesize))
-            Me.lblPMU.Text = mdlMisc.GetFormatedSize(Decimal.Multiply(Decimal.Subtract(bi.NumberOfPhysicalPages, pi.AvailablePages), _pagesize))
+            Me.lblPMF.Text = GetFormatedSize(Decimal.Multiply(pi.AvailablePages, _pagesize))
+            Me.lblPMT.Text = GetFormatedSize(Decimal.Multiply(bi.NumberOfPhysicalPages, _pagesize))
+            Me.lblPMU.Text = GetFormatedSize(Decimal.Multiply(Decimal.Subtract(bi.NumberOfPhysicalPages, pi.AvailablePages), _pagesize))
 
             ' I/O
-            Me.lblIOotherBytes.Text = mdlMisc.GetFormatedSize(pi.IoOtherTransferCount)
+            Me.lblIOotherBytes.Text = GetFormatedSize(pi.IoOtherTransferCount)
             Me.lblIOothers.Text = CStr(pi.IoOtherOperationCount)
-            Me.lblIOreadBytes.Text = mdlMisc.GetFormatedSize(pi.IoReadTransferCount)
+            Me.lblIOreadBytes.Text = GetFormatedSize(pi.IoReadTransferCount)
             Me.lblIOreads.Text = CStr(pi.IoReadOperationCount)
-            Me.lblIOwriteBytes.Text = mdlMisc.GetFormatedSize(pi.IoWriteTransferCount)
+            Me.lblIOwriteBytes.Text = GetFormatedSize(pi.IoWriteTransferCount)
             Me.lblIOwrites.Text = CStr(pi.IoWriteOperationCount)
 
             ' Page faults
@@ -141,9 +141,9 @@ Public Class frmSystemInfo
             ' Kernel pools
             Me.lblKnpa.Text = CStr(pi.NonPagedPoolAllocs)
             Me.lblKnpf.Text = CStr(pi.NonPagedPoolFrees)
-            Me.lblKnpu.Text = mdlMisc.GetFormatedSize(Decimal.Multiply(pi.NonPagedPoolUsage, _pagesize))
+            Me.lblKnpu.Text = GetFormatedSize(Decimal.Multiply(pi.NonPagedPoolUsage, _pagesize))
             Me.lblKpf.Text = CStr(pi.PagedPoolFrees)
-            Me.lblKpp.Text = mdlMisc.GetFormatedSize(Decimal.Multiply(pi.PagedPoolPages, _pagesize))
+            Me.lblKpp.Text = GetFormatedSize(Decimal.Multiply(pi.PagedPoolPages, _pagesize))
             Me.lblKpa.Text = CStr(pi.PagedPoolAllocs)
 
 
@@ -271,7 +271,7 @@ Public Class frmSystemInfo
     End Sub
 
     Private Sub showCpuUsage(ByVal zres3 As Long, ByVal zres4 As Long, ByRef ppi() As  _
-                             cSystemInfo.SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION, _
+                             API.SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION, _
                              ByVal diff As Date)
 
         Static oldProcTime As Long = 0

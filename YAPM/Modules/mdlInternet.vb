@@ -23,7 +23,6 @@ Option Strict On
 
 Module mdlInternet
 
-    Private Declare Function GetTickCount Lib "kernel32" () As Integer
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
     Public Enum SecurityRisk As Integer
