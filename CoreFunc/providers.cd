@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CoreFunc.cGeneralConnection" Collapsed="true">
+    <Position X="10.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAACMAAAAAAJIAAQAgIAAAAAFAAAAQAAAAQAAIAA=</HashCode>
+      <FileName>Classes\Providers\cGeneralConnection.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cGeneralObject" Collapsed="true">
+    <Position X="10.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAgAACAAAgEQAAAAAIAAIAAAACACAAAAAEI=</HashCode>
+      <FileName>Classes\Providers\cGeneralObject.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cEnvVariable" Collapsed="true">
+    <Position X="5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAEAAAUAAAAAAAAAAQAAAAEAAAAABAA=</HashCode>
+      <FileName>Classes\Providers\EnvVariables\cEnvVariable.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cEnvVariableConnection" Collapsed="true">
+    <Position X="7.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAQAIIAEAAAAAAAAABAAAAQAAAA4AAAAA=</HashCode>
+      <FileName>Classes\Providers\EnvVariables\cEnvVariableConnection.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.envVariableInfos" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAIEAAAAAAAAAAAAAAAAAEYAAAAQgAAAAAAA=</HashCode>
+      <FileName>Classes\Providers\EnvVariables\envVariableInfos.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.generalInfos" Collapsed="true">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Providers\generalInfos.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cHandle" Collapsed="true">
+    <Position X="20.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAgAAFAAAUAAAAAAAAEAQAAQAAAAAAABAg=</HashCode>
+      <FileName>Classes\Providers\Handles\cHandle.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cHandleConnection" Collapsed="true">
+    <Position X="0.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAQAIIAEAAAAAAAAABAAAAQAAAA4AAAAA=</HashCode>
+      <FileName>Classes\Providers\Handles\cHandleConnection.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.handleInfos" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAEAIAAAAECAAAQggAAAAAQAAAgAEYIAAQAAAAgAAAA=</HashCode>
+      <FileName>Classes\Providers\Handles\handleInfos.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cMemRegion" Collapsed="true">
+    <Position X="7.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAEAAAUAAAAAgAABAYAAAAAAAAAABAA=</HashCode>
+      <FileName>Classes\Providers\MemoryRegions\cMemRegion.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cMemRegionConnection" Collapsed="true">
+    <Position X="9.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAQAIIAEAAAAAAAAABAAAAQAAAA4AAAAA=</HashCode>
+      <FileName>Classes\Providers\MemoryRegions\cMemRegionConnection.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.memRegionInfos" Collapsed="true">
+    <Position X="11.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAIAAAAIAAAAQAQAAACAQCAAABEYAAAQAEBEIAAAA=</HashCode>
+      <FileName>Classes\Providers\MemoryRegions\memRegionInfos.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cModule" Collapsed="true">
+    <Position X="18.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAABAwAAEAAAUAAAAAAAAAAQAAAAAAAAAABAA=</HashCode>
+      <FileName>Classes\Providers\Modules\cModule.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cModuleConnection" Collapsed="true">
+    <Position X="20.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAQAIIQEAAAAAAAAABAAAAQAAAA4AAAAg=</HashCode>
+      <FileName>Classes\Providers\Modules\cModuleConnection.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.moduleInfos" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAgAIAAAAAACoAIAAAAEAAQCAAAAEYAAKEABAEIAAAA=</HashCode>
+      <FileName>Classes\Providers\Modules\moduleInfos.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cNetwork" Collapsed="true">
+    <Position X="2.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAiAAEAAQUAAAAAAAAAAUEAAAgAAAAABAA=</HashCode>
+      <FileName>Classes\Providers\NetworkConnections\cNetwork.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cNetworkConnection" Collapsed="true">
+    <Position X="5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAQAIIAEAAAAAAAAABAAAAQAAAA4AAAAA=</HashCode>
+      <FileName>Classes\Providers\NetworkConnections\cNetworkConnection.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.networkInfos" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAEAIACIAAAQgAQBgwCAAABEAgBgEYABAAAABCQAABA=</HashCode>
+      <FileName>Classes\Providers\NetworkConnections\networkInfos.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cPrivilege" Collapsed="true">
+    <Position X="14" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAgAAEAAAUAEAAAAAQAAQAAAAAAAAAABAA=</HashCode>
+      <FileName>Classes\Providers\Privileges\cPrivilege.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cPrivilegeConnection" Collapsed="true">
+    <Position X="16.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAQAIIAEAAAAAAAAABAAAAQAAAA4AAAAA=</HashCode>
+      <FileName>Classes\Providers\Privileges\cPrivilegeConnection.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.privilegeInfos" Collapsed="true">
+    <Position X="18.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAIAAEAIAgAAAEBEAAAAQAAAAAMYAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Providers\Privileges\privilegeInfos.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cProcess" Collapsed="true">
+    <Position X="9.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAKAkhEGWEAwIAEEIIUAQMgACYAiASRCAAAgBJAAhAA=</HashCode>
+      <FileName>Classes\Providers\Processes\cProcess.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cProcessConnection" Collapsed="true">
+    <Position X="11.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAQAIMQEAAQAAAAAABAAAAQAAAA4AAAAA=</HashCode>
+      <FileName>Classes\Providers\Processes\cProcessConnection.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.processInfos" Collapsed="true">
+    <Position X="14" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gIwAgEAAAAgIEBIkAxMSYAYAIAiEQegBAeAAAAIAQAE=</HashCode>
+      <FileName>Classes\Providers\Processes\processInfos.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cService" Collapsed="true">
+    <Position X="11.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAoAAAAAABiAAECIAUAAkAAAAAAEREAAJAAAAAABAA=</HashCode>
+      <FileName>Classes\Providers\Services\cService.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cServiceConnection" Collapsed="true">
+    <Position X="14" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABIAAAAQgIIAEAAAAAAAAABAAAAQAAAA4AAAAA=</HashCode>
+      <FileName>Classes\Providers\Services\cServiceConnection.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.serviceInfos" Collapsed="true">
+    <Position X="16.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>YAiKMIAgAEAiggCAkCAAKcQEgAAAEZEIUQCADCQBAAA=</HashCode>
+      <FileName>Classes\Providers\Services\serviceInfos.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cTask" Collapsed="true">
+    <Position X="16.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAhAAAAgAUAAAFAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Providers\Tasks\cTask.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cTaskConnection" Collapsed="true">
+    <Position X="18.5" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAIIAEAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Providers\Tasks\cTaskConnection.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.taskInfos" Collapsed="true">
+    <Position X="20.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Providers\Tasks\taskInfos.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cThread" Collapsed="true">
+    <Position X="0.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAgEAWAAwIAEEMAUAAIAAAYAAASAAAAAgBAAAhAA=</HashCode>
+      <FileName>Classes\Providers\Threads\cThread.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cThreadConnection" Collapsed="true">
+    <Position X="2.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAQAIIQEAAAAAAAAABAAAAQAAAA4AAAAg=</HashCode>
+      <FileName>Classes\Providers\Threads\cThreadConnection.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.threadInfos" Collapsed="true">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAgEAAAEAwAAAAAQMAUGUYEICGAgDCAECCA=</HashCode>
+      <FileName>Classes\Providers\Threads\threadInfos.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cWindow" Collapsed="true">
+    <Position X="16.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAIBEEAAQABoQKEAEDWAAAFAAAAVAgAICAIggADI5oA=</HashCode>
+      <FileName>Classes\Providers\Windows\cWindow.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.cWindowConnection" Collapsed="true">
+    <Position X="18.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAQAIIAEAAAAAAAAABAAAAQAAAA4AAAAA=</HashCode>
+      <FileName>Classes\Providers\Windows\cWindowConnection.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoreFunc.windowInfos" Collapsed="true">
+    <Position X="20.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>YAAAEAgABESiAIAgAAAAgEAAABQpUIoYKAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Providers\Windows\windowInfos.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
