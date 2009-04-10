@@ -68,6 +68,8 @@
     <Compile Include="Classes\Providers\API.vb" />
     <Compile Include="Classes\Providers\cGeneralObject.vb" />
     <Compile Include="Classes\Providers\cMonitor.vb" />
+    <Compile Include="Classes\Providers\cGeneralConnection.vb" />
+    <Compile Include="Classes\Providers\generalInfos.vb" />
     <Compile Include="Classes\Providers\EnvVariables\asyncMethods\asyncCallbackEnvVariableEnumerate.vb" />
     <Compile Include="Classes\Providers\EnvVariables\cEnvVariable.vb" />
     <Compile Include="Classes\Providers\EnvVariables\cEnvVariableConnection.vb" />

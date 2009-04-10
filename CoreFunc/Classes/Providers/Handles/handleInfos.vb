@@ -27,8 +27,7 @@ Option Strict On
 Imports System.Runtime.InteropServices
 
 Public Class handleInfos
-
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
+    Inherits generalInfos
 
 #Region "Private attributes"
 

@@ -30,8 +30,6 @@ Imports System.Text
 Public Class cTaskConnection
     Inherits cWindowConnection
 
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
-
     Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection)
         MyBase.New(ControlWhichGetInvoked, Conn)
     End Sub
@@ -50,19 +48,19 @@ Public Class cTaskConnection
 
 #Region "Sock events"
 
-    Private Sub _sock_Connected() Handles _sock.Connected
+    Protected Overrides Sub _sock_Connected() Handles _sock.Connected
         _connected = True
     End Sub
 
-    Private Sub _sock_Disconnected() Handles _sock.Disconnected
+    Protected Overrides Sub _sock_Disconnected() Handles _sock.Disconnected
         _connected = False
     End Sub
 
-    Private Sub _sock_ReceivedData(ByRef data() As Byte, ByVal length As Integer) Handles _sock.ReceivedData
+    Protected Overrides Sub _sock_ReceivedData(ByRef data() As Byte, ByVal length As Integer) Handles _sock.ReceivedData
         '
     End Sub
 
-    Private Sub _sock_SentData() Handles _sock.SentData
+    Protected Overrides Sub _sock_SentData() Handles _sock.SentData
         '
     End Sub
 

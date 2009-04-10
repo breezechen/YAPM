@@ -20,10 +20,14 @@
 
 Option Strict On
 
+Imports System.Net
+
 Public Class cNetwork
     Inherits cGeneralObject
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
+
+    Private nullAddress As New IPAddress(0)     ' For address comparison
 
     Private _firstRefresh As Boolean = True
     Private _networkInfos As networkInfos
@@ -48,6 +52,26 @@ Public Class cNetwork
     Public Sub New(ByRef infos As networkInfos)
         _networkInfos = infos
         _connection = Connection
+
+        ' Solve DNS
+        Try
+            If Me.Infos._Local.Address.Equals(nullAddress) = False Then
+                Dim callback As System.AsyncCallback = AddressOf ProcessLocalDnsInformation
+                Dns.BeginGetHostEntry(Me.Infos._Local.Address, callback, Nothing)
+                GC.KeepAlive(callback)
+            End If
+        Catch ex As Exception
+            '
+        End Try
+        Try
+            If Me.Infos._remote IsNot Nothing AndAlso Me.Infos._remote.Address.Equals(nullAddress) = False Then
+                Dim callback2 As System.AsyncCallback = AddressOf ProcessRemoteDnsInformation
+                Dns.BeginGetHostEntry(Me.Infos._remote.Address, callback2, Nothing)
+                GC.KeepAlive(callback2)
+            End If
+        Catch ex As Exception
+            '
+        End Try
     End Sub
 
 #End Region
@@ -114,4 +138,22 @@ Public Class cNetwork
 
 #End Region
 
+
+    Private Sub ProcessLocalDnsInformation(ByVal result As IAsyncResult)
+        Try
+            Dim host As IPHostEntry = Dns.EndGetHostEntry(result)
+            Me.Infos._localString = host.HostName
+        Catch ex As Exception
+            '
+        End Try
+    End Sub
+
+    Private Sub ProcessRemoteDnsInformation(ByVal result As IAsyncResult)
+        Try
+            Dim host As IPHostEntry = Dns.EndGetHostEntry(result)
+            Me.Infos._remoteString = host.HostName
+        Catch ex As Exception
+            '
+        End Try
+    End Sub
 End Class

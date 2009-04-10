@@ -28,20 +28,18 @@ Imports System.Runtime.InteropServices
 Imports System.Net
 
 Public Class networkInfos
-
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
+    Inherits generalInfos
 
 #Region "Private attributes"
 
-    Private nullAddress As New IPAddress(0)     ' For address comparison
     Private _pid As Integer
     Private _Protocol As API.NetworkProtocol
     Private _dwLocalAddr As Integer
     Private _dwLocalPort As Integer
     Private _dwRemoteAddr As Integer
     Private _dwRemotePort As Integer
-    Private _Local As IPEndPoint
-    Private _remote As IPEndPoint
+    Friend _Local As IPEndPoint
+    Friend _remote As IPEndPoint
     Private _key As String
     Private _State As API.MIB_TCP_STATE
     Private _localPort As Integer
@@ -121,25 +119,7 @@ Public Class networkInfos
         _remote = lc.remote
         _procName = cProcess.GetProcessName(_pid)
 
-        ' Solve DNS
-        Try
-            If _Local.Address.Equals(nullAddress) = False Then
-                Dim callback As System.AsyncCallback = AddressOf ProcessLocalDnsInformation
-                Dns.BeginGetHostEntry(_Local.Address, callback, Nothing)
-                GC.KeepAlive(callback)
-            End If
-        Catch ex As Exception
-            '
-        End Try
-        Try
-            If _remote IsNot Nothing AndAlso _remote.Address.Equals(nullAddress) = False Then
-                Dim callback2 As System.AsyncCallback = AddressOf ProcessRemoteDnsInformation
-                Dns.BeginGetHostEntry(_remote.Address, callback2, Nothing)
-                GC.KeepAlive(callback2)
-            End If
-        Catch ex As Exception
-            '
-        End Try
+
     End Sub
 
     ' Merge an old and a new instance
@@ -160,24 +140,5 @@ Public Class networkInfos
 
         Return s
     End Function
-
-
-    Private Sub ProcessLocalDnsInformation(ByVal result As IAsyncResult)
-        Try
-            Dim host As IPHostEntry = Dns.EndGetHostEntry(result)
-            _localString = host.HostName
-        Catch ex As Exception
-            '
-        End Try
-    End Sub
-
-    Private Sub ProcessRemoteDnsInformation(ByVal result As IAsyncResult)
-        Try
-            Dim host As IPHostEntry = Dns.EndGetHostEntry(result)
-            _remoteString = host.HostName
-        Catch ex As Exception
-            '
-        End Try
-    End Sub
 
 End Class

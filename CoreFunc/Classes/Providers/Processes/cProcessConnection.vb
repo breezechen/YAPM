@@ -28,20 +28,13 @@ Imports System.Net.Sockets
 Imports System.Text
 
 Public Class cProcessConnection
-
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
-
-    ' We will invoke this control
-    Private _control As Control
+    Inherits cGeneralConnection
 
     ' Rights to query infos with a handle
     Private Shared _minRights As API.PROCESS_RIGHTS = API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION
 
     ' For processor count
     Private Shared _processors As Integer = 1
-
-    ' For WMI
-    Friend wmiSearcher As Management.ManagementObjectSearcher
 
     Public Shared ReadOnly Property ProcessMinRights() As API.PROCESS_RIGHTS
         Get
@@ -50,8 +43,7 @@ Public Class cProcessConnection
     End Property
 
     Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection)
-        _control = ControlWhichGetInvoked
-        _conObj = Conn
+        MyBase.New(ControlWhichGetInvoked, Conn)
         If IsWindowsVista() Then
             _minRights = API.PROCESS_RIGHTS.PROCESS_QUERY_LIMITED_INFORMATION
         End If
@@ -81,37 +73,9 @@ Public Class cProcessConnection
 
 #Region "Description of the type of connection"
 
-    ' Attributes
-    Private _connected As Boolean = False
-    Private _conObj As cConnection
-    Private WithEvents _sock As RemoteControl.cAsyncSocket
-
-    Public ReadOnly Property IsConnected() As Boolean
-        Get
-            Return _connected
-        End Get
-    End Property
-    Public Property ConnectionObj() As cConnection
-        Get
-            Return _conObj
-        End Get
-        Set(ByVal value As cConnection)
-            If _connected = False Then
-                _conObj = value
-            End If
-        End Set
-    End Property
-
 
     ' Connection
-    Public Sub Connect()
-        Dim t As New Threading.Thread(AddressOf asyncConnect)
-        t.Priority = Threading.ThreadPriority.Highest
-        t.IsBackground = True
-        t.Name = "Connect"
-        t.Start()
-    End Sub
-    Public Sub asyncConnect()
+    Protected Overrides Sub asyncConnect()
 
         ' Connect
         Select Case _conObj.ConnectionType
@@ -165,14 +129,7 @@ Public Class cProcessConnection
     End Sub
 
     ' Disconnect
-    Public Sub Disconnect()
-        Dim t As New Threading.Thread(AddressOf asyncDisconnect)
-        t.Priority = Threading.ThreadPriority.Highest
-        t.Name = "Disconnect"
-        t.IsBackground = True
-        t.Start()
-    End Sub
-    Public Sub asyncDisconnect()
+    Protected Overrides Sub asyncDisconnect()
         Select Case _conObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
@@ -202,19 +159,19 @@ Public Class cProcessConnection
 
 #Region "Sock events"
 
-    Private Sub _sock_Connected() Handles _sock.Connected
+    Protected Overrides Sub _sock_Connected() Handles _sock.Connected
         _connected = True
     End Sub
 
-    Private Sub _sock_Disconnected() Handles _sock.Disconnected
+    Protected Overrides Sub _sock_Disconnected() Handles _sock.Disconnected
         _connected = False
     End Sub
 
-    Private Sub _sock_ReceivedData(ByRef data() As Byte, ByVal length As Integer) Handles _sock.ReceivedData
+    Protected Overrides Sub _sock_ReceivedData(ByRef data() As Byte, ByVal length As Integer) Handles _sock.ReceivedData
         '
     End Sub
 
-    Private Sub _sock_SentData() Handles _sock.SentData
+    Protected Overrides Sub _sock_SentData() Handles _sock.SentData
         '
     End Sub
 

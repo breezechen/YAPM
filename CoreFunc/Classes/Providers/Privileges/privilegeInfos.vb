@@ -28,8 +28,7 @@ Imports CoreFunc.cProcessConnection
 Imports System.Runtime.InteropServices
 
 Public Class privilegeInfos
-
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
+    Inherits generalInfos
 
 #Region "Private attributes"
 
