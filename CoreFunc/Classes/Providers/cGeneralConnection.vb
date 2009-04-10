@@ -47,7 +47,7 @@ Public MustInherit Class cGeneralConnection
     ' Attributes
     Protected _connected As Boolean = False
     Protected _conObj As cConnection
-    Protected WithEvents _sock As RemoteControl.cAsyncSocket
+    Protected WithEvents _sock As cAsyncSocket
 
     Public ReadOnly Property IsConnected() As Boolean
         Get
@@ -63,6 +63,11 @@ Public MustInherit Class cGeneralConnection
                 _conObj = value
             End If
         End Set
+    End Property
+    Public ReadOnly Property Socket() As cAsyncSocket
+        Get
+            Return _sock
+        End Get
     End Property
 
     ' Connection

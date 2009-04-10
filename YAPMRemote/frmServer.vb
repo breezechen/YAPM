@@ -26,7 +26,7 @@ Imports System.Net.Sockets
 
 Public Class frmServeur
 
-    Private WithEvents sock As New cAsyncSocketServer(Me)
+    Private WithEvents sock As New CoreFunc.cAsyncSocketServer(Me)
     Private Const PORT As Integer = 8081
     Private _readyToLeave As Boolean = True
 
@@ -53,11 +53,11 @@ Public Class frmServeur
     Private Sub sock_ReceivedData(ByRef data() As Byte, ByVal length As Integer)
         Try
             ' Recreate the data class
-            Dim cData As cSocketData = cSerialization.DeserializeObject(data)
+            Dim cData As CoreFunc.cSocketData = CoreFunc.cSerialization.DeserializeObject(data)
             ' Extract the type of information we have to send
-            If cData.Type = cSocketData.DataType.Order Then
+            If cData.Type = CoreFunc.cSocketData.DataType.Order Then
                 Select Case cData.Order
-                    Case cSocketData.OrderType.CreateNew
+                    Case CoreFunc.cSocketData.OrderType.ProcessCreateNew
                         Shell("explorer.exe")
                         'Case cSocketData.OrderType.Kill
                         '    CoreFunc.cLocalProcess.Kill(cData.Param1)
@@ -119,10 +119,10 @@ Public Class frmServeur
     End Sub
 
     Private Sub frmServeur_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        sock.ConnexionAccepted = New cAsyncSocketServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
-        sock.Disconnected = New cAsyncSocketServer.DisconnectedEventHandler(AddressOf sock_Disconnected)
+        sock.ConnexionAccepted = New CoreFunc.cAsyncSocketServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
+        sock.Disconnected = New CoreFunc.cAsyncSocketServer.DisconnectedEventHandler(AddressOf sock_Disconnected)
         '        sock.ReceivedData = New cAsyncSocketServer.ReceivedDataEventHandler(AddressOf sock_ReceivedData)
-        sock.SentData = New cAsyncSocketServer.SentDataEventHandler(AddressOf sock_SentData)
+        sock.SentData = New CoreFunc.cAsyncSocketServer.SentDataEventHandler(AddressOf sock_SentData)
     End Sub
 
     Private Sub sock_ReceivedData1(ByRef data() As Byte, ByVal length As Integer) Handles sock.ReceivedData

@@ -259,10 +259,6 @@
       <Project>{4F4D09F8-D122-4ACB-B049-881634E67A2C}</Project>
       <Name>CoreFunc</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RemoteControl\RemoteControl\RemoteControl.vbproj">
-      <Project>{EB8EB6CC-F92E-4A0F-B73D-F60F9DB4898D}</Project>
-      <Name>RemoteControl</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

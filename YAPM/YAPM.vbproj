@@ -523,10 +523,6 @@
       <Project>{657B7CE9-D35C-4E65-A05B-CC6B46A14D7D}</Project>
       <Name>Providers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RemoteControl\RemoteControl\RemoteControl.vbproj">
-      <Project>{EB8EB6CC-F92E-4A0F-B73D-F60F9DB4898D}</Project>
-      <Name>RemoteControl</Name>
-    </ProjectReference>
     <ProjectReference Include="UserControls\MemoryHexEditor\MemoryHexEditor.vbproj">
       <Project>{8C885999-147E-4651-AF9C-6F7149F1344D}</Project>
       <Name>MemoryHexEditor</Name>

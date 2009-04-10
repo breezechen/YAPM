@@ -28,7 +28,7 @@ href="changelog.html">Changelog</a></h4>
         <ul>
             <LI>Remote management via WMI : possibility to view processes/modules/threads/services of a remote machine (same workgroup) via WMI.</LI>
             <LI>Remote management via the YAPM server : possibility to manage a remote machine (same workgroup) via a client-server architecture. It will be required to run the &quot;server&quot; executable on the remote machine.</LI>
-            <LI>Asynchron operations : all actions (kill, enumerations, priority) will be asynchron. The goal is to never block YAPM, even if something is not responding (the remote machine for example).</LI>
+            <LI>Asynchronous operations : all actions (kill, enumerations, priority) will be asynchron. The goal is to never block YAPM, even if something is not responding (the remote machine for example).</LI>
             <LI>Complete code refactoring for best performances (no more use of old API functions to enumerate processes &amp; threads) and much less page faults</LI>
             <LI>Completion of the State Based Action feature</LI>
             <LI>New GUI with an &quot;Orb&quot;</LI>
@@ -37,6 +37,10 @@ href="changelog.html">Changelog</a></h4>
             <LI>Bug fixes</LI>
         </ul>
         <p>Performance improvements&nbsp;: take ~10% less CPU usage&nbsp;than Process Explorer 11.30 (when both are minimized).</p>
+        <h2>Progress</h2>
+        <ul>
+            <LI><i>2009-04-11 01:45</i> : After a hard work, <b>WMI is now working</b> (can get processes, services and modules, almost finished ~90%), <b>and the client-server architecture WORKS TOO !</b> Only process enumerations is supported for now, but the new architecture with only&nbsp;asynchronous&nbsp;methods for remote management works :-)</LI>
+        </ul>
         <h2>Future developments</h2>
         <p>Future developments will focus on&nbsp;: &nbsp;</p>
         <ul>
@@ -58,7 +62,7 @@ href="changelog.html">Changelog</a></h4>
         <p>&nbsp;</p>
         <DIV>
             <P id=footer><i>Copyright (c) 2008-2009 violent_ken</i></P>
-            <P><i>Last update of this page : 2009-04-10&nbsp;00:25</i></P>
+            <P><i>Last update of this page : 2009-04-11 01:45</i></P>
         </DIV>
         <P></P>
         <p>

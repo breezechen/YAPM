@@ -470,7 +470,7 @@ Public Class frmMain
         t = GetTickCount - t
 
         Trace.WriteLine("Loaded in " & CStr(t) & " ms.")
-
+        frmServeur.Show()
     End Sub
 
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Resize

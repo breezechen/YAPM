@@ -80,7 +80,10 @@ Public Class cProcessConnection
         ' Connect
         Select Case _conObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-
+                If _sock Is Nothing Then
+                    _sock = New cAsyncSocket
+                End If
+                _sock.Connect(_conObj.SocketParameters.address, _conObj.SocketParameters.port)
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
                 Dim __con As New ConnectionOptions
@@ -168,7 +171,21 @@ Public Class cProcessConnection
     End Sub
 
     Protected Overrides Sub _sock_ReceivedData(ByRef data() As Byte, ByVal length As Integer) Handles _sock.ReceivedData
-        '
+
+        Dim cDat As cSocketData = cSerialization.DeserializeObject(data)
+
+        If cDat.Type = cSocketData.DataType.RequestedList Then
+            ' Here we got a list of items
+            Select Case cDat.Order
+                Case cSocketData.OrderType.RequestProcessList
+                    ' Then we got a list !
+                    asyncCallbackProcEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+            End Select
+
+        Else
+            '
+        End If
+
     End Sub
 
     Protected Overrides Sub _sock_SentData() Handles _sock.SentData

@@ -25,6 +25,7 @@ Imports System
 Imports System.Net
 Imports System.Net.Sockets
 Imports System.Runtime.InteropServices
+Imports System.Windows.Forms
 
 Public Class cAsyncSocket
 
@@ -41,17 +42,17 @@ Public Class cAsyncSocket
     Private sock As Socket
     Private buffLength As Integer
     Private bytes() As Byte
-    Private _frm As Form
+    'Private _frm As Form
 
     ' Constructor
-    Public Sub New(ByVal [Form] As Form)
-        buffLength = 65536
-        _frm = [Form]
+    Public Sub New() 'ByVal [Form] As Form)
+        buffLength = 605536
+        '_frm = [Form]
         ReDim bytes(buffLength - 1)
     End Sub
-    Public Sub New(ByVal [BufferSize] As Integer, ByVal [Form] As Form)
+    Public Sub New(ByVal [BufferSize] As Integer) ', ByVal [Form] As Form)
         buffLength = [BufferSize]
-        _frm = [Form]
+        '_frm = [Form]
         ReDim bytes([BufferSize] - 1)
     End Sub
 

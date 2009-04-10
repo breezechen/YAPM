@@ -27,7 +27,7 @@ Option Strict On
 Imports CoreFunc.cProcessConnection
 Imports System.Runtime.InteropServices
 
-Public Class processInfos
+<Serializable()> Public Class processInfos
     Inherits generalInfos
 
 #Region "Private attributes"
@@ -48,7 +48,7 @@ Public Class processInfos
     Private _HandleCount As Integer
     Private _StartTime As Long
     Private _Priority As ProcessPriorityClass
-    Private _fileInfo As FileVersionInfo
+    <NonSerialized()> Private _fileInfo As FileVersionInfo
     Private _gdiObjects As Integer
     Private _userObjects As Integer
     Private _threadCount As Integer

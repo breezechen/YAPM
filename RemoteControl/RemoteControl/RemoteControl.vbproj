@@ -59,8 +59,6 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\cAsyncSocket.vb" />
-    <Compile Include="Classes\cAsyncSocketServer.vb" />
     <Compile Include="Classes\cSerialization.vb" />
     <Compile Include="Classes\cSocketData.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -101,6 +99,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CoreFunc\CoreFunc.vbproj">
+      <Project>{4F4D09F8-D122-4ACB-B049-881634E67A2C}</Project>
+      <Name>CoreFunc</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

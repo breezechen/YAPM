@@ -147,6 +147,10 @@
     <Compile Include="Classes\Providers\Windows\cWindow.vb" />
     <Compile Include="Classes\Providers\Windows\cWindowConnection.vb" />
     <Compile Include="Classes\Providers\Windows\windowInfos.vb" />
+    <Compile Include="Classes\Socket\cAsyncSocket.vb" />
+    <Compile Include="Classes\Socket\cAsyncSocketServer.vb" />
+    <Compile Include="Classes\Socket\cSerialization.vb" />
+    <Compile Include="Classes\Socket\cSocketData.vb" />
     <Compile Include="Classes\StateBasedActions\cBasedStateActionState.vb" />
     <Compile Include="Classes\StateBasedActions\cStateBasedActions.vb" />
     <Compile Include="Classes\Hotkeys\cHotkeys.vb" />
@@ -200,10 +204,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RemoteControl\RemoteControl\RemoteControl.vbproj">
-      <Project>{EB8EB6CC-F92E-4A0F-B73D-F60F9DB4898D}</Project>
-      <Name>RemoteControl</Name>
-    </ProjectReference>
     <ProjectReference Include="..\YAPM\UserControls\MemoryHexEditor\MemoryHexEditor.vbproj">
       <Project>{8C885999-147E-4651-AF9C-6F7149F1344D}</Project>
       <Name>MemoryHexEditor</Name>

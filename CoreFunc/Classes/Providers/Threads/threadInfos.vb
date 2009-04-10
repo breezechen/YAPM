@@ -27,7 +27,7 @@ Option Strict On
 Imports CoreFunc.cProcessConnection
 Imports System.Runtime.InteropServices
 
-Public Class threadInfos
+<Serializable()> Public Class threadInfos
     Inherits generalInfos
 
 #Region "Private attributes"

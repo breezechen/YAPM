@@ -100,7 +100,7 @@ Public Class frmConnection
             With frmMain.theConnection
                 .ConnectionType = _connType
                 If _connType = cConnection.TypeOfConnection.RemoteConnectionViaSocket Then
-                    .SocketParameters = New cConnection.SocketConnectionParameters(System.Net.IPAddress.Parse(Me.txtServerIP.Text), CInt(Val(Me.txtServerIP.Text)))
+                    .SocketParameters = New cConnection.SocketConnectionParameters(System.Net.IPAddress.Parse(Me.txtServerIP.Text), REMOTE_PORT)
                 ElseIf _connType = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
                     .WmiParameters = New cConnection.WMIConnectionParameters(Me.txtServerMachine.Text, Me.txtServerUser.Text, Me.txtServerPassword.Text)
                 End If

@@ -145,7 +145,7 @@ Public Class API
         Public InheritedFromUniqueProcessId As Integer
     End Structure
 
-    <StructLayout(LayoutKind.Sequential)> _
+    <StructLayout(LayoutKind.Sequential), Serializable()> _
     Public Structure IO_COUNTERS
         Public ReadOperationCount As ULong
         Public WriteOperationCount As ULong
@@ -155,7 +155,7 @@ Public Class API
         Public OtherTransferCount As ULong
     End Structure
 
-    <StructLayout(LayoutKind.Sequential)> _
+    <StructLayout(LayoutKind.Sequential), Serializable()> _
     Public Structure VM_COUNTERS_EX
         Public PeakVirtualSize As Integer
         Public VirtualSize As Integer

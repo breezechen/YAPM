@@ -25,6 +25,7 @@ Imports System
 Imports System.Net
 Imports System.Net.Sockets
 Imports System.Runtime.InteropServices
+Imports System.Windows.Forms
 
 Public Class cAsyncSocketServer
 

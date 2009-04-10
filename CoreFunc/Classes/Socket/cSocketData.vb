@@ -80,17 +80,29 @@ Option Strict On
     End Enum
 
 
-    ' Attributes
+    ' Type of data to send/receive
     Private _datatType As DataType
     Private _orderType As OrderType
-    Private _param1 As Integer
-    '<NonSerialized()> Private _dico As New Dictionary(Of String, LightProcess)
-    Private _dico As New Dictionary(Of String,
+
+    ' Some parameters for our functions
+    Private _param1 As Object
+    Private _param2 As Object
+    Private _param3 As Object
+    Private _param4 As Object
+
+    ' Contains items requested
+    Private _list() As generalInfos
+    Private _keys() As String
 
     ' Properties
-    Public ReadOnly Property GetDico() As LightProcess() ' Dictionary(Of String, LightProcess)
+    Public ReadOnly Property GetList() As generalInfos()
         Get
-            Return _dico
+            Return _list
+        End Get
+    End Property
+    Public ReadOnly Property GetKeys() As String()
+        Get
+            Return _keys
         End Get
     End Property
     Public ReadOnly Property Type() As DataType
@@ -103,24 +115,58 @@ Option Strict On
             Return _orderType
         End Get
     End Property
-    Public ReadOnly Property Param1() As Integer
+    Public ReadOnly Property Param1() As Object
         Get
             Return _param1
         End Get
     End Property
-
+    Public ReadOnly Property Param2() As Object
+        Get
+            Return _param2
+        End Get
+    End Property
+    Public ReadOnly Property Param3() As Object
+        Get
+            Return _param3
+        End Get
+    End Property
+    Public ReadOnly Property Param4() As Object
+        Get
+            Return _param4
+        End Get
+    End Property
 
     ' Create a SocketData
     Public Sub New(ByVal dataT As DataType, Optional ByVal orderT As OrderType = _
-                   OrderType.DoNothing, Optional ByVal param As Integer = -1)
+                    OrderType.DoNothing, Optional ByVal param1 As Object = Nothing, _
+                    Optional ByVal param2 As Object = Nothing, _
+                    Optional ByVal param3 As Object = Nothing, _
+                    Optional ByVal param4 As Object = Nothing)
         _datatType = dataT
         _orderType = orderT
-        _param1 = param
+        _param1 = param1
+        _param2 = param2
+        _param3 = param3
+        _param4 = param4
     End Sub
 
     ' Set process list
-    Public Sub SetProcessList(ByVal dico() As LightProcess) '  Dictionary(Of String, LightProcess))
-        _dico = dico
+    Public Sub SetProcessList(ByVal dico As Dictionary(Of String, processInfos))
+        If dico Is Nothing Then
+            Exit Sub
+        End If
+
+        ' Transform a dico into two lists
+        ReDim _list(dico.Count - 1)
+        ReDim _keys(dico.Count - 1)
+
+        Dim x As Integer = 0
+        For Each pp As System.Collections.Generic.KeyValuePair(Of String, processInfos) In dico
+            _list(x) = pp.Value
+            _keys(x) = pp.Key
+            x += 1
+        Next
+
     End Sub
 
 End Class
