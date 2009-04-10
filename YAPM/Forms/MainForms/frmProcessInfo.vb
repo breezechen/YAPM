@@ -1810,9 +1810,9 @@ Public Class frmProcessInfo
             _p.Name = "_" & lstHistoryCat.Items.Item(e.Index).ToString
 
             ' Now we add all available values to the graph
-            'For Each _val As Long In curProc.GetHistory(_g.Name)
-            '    _g.AddValue(_val)
-            'Next'TODO_
+            For Each _val As Long In curProc.GetHistory(_g.Name)
+                _g.AddValue(_val)
+            Next
             _g.Refresh()
 
             Me.containerHistory.Panel2.Controls.Add(_p)
@@ -1840,18 +1840,18 @@ Public Class frmProcessInfo
             End If
         Next
     End Sub
-    'TODO_
-    'Private Sub curProc_Refreshed() Handles curProc.Refreshed
-    '    ' curProc has been refreshed, so we have to add a value to the different
-    '    ' graphs in containerHistory
-    '    For Each ct As Control In Me.containerHistory.Panel2.Controls
-    '        If TypeOf ct Is Graph2 Then
-    '            Dim _tempG As Graph2 = CType(ct, Graph2)
-    '            _tempG.AddValue(curProc.GetInformationNumerical(ct.Name))
-    '            _tempG.Refresh()
-    '        End If
-    '    Next
-    'End Sub
+
+    Private Sub curProc_Refreshed() Handles curProc.HasMerged
+        ' curProc has been merged, so we have to add a value to the different
+        ' graphs in containerHistory
+        For Each ct As Control In Me.containerHistory.Panel2.Controls
+            If TypeOf ct Is Graph2 Then
+                Dim _tempG As Graph2 = CType(ct, Graph2)
+                _tempG.AddValue(curProc.GetInformationNumerical(ct.Name))
+                _tempG.Refresh()
+            End If
+        Next
+    End Sub
 
     Private Sub cmdRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdRefresh.Click
         Call Me.tabProcess_SelectedIndexChanged(Nothing, Nothing)

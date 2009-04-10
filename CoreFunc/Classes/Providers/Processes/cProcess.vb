@@ -23,6 +23,59 @@ Option Strict On
 Public Class cProcess
     Inherits cGeneralObject
 
+#Region "History structure"
+
+    Public Structure PROC_TIME_INFO
+        Dim time As Long
+        Dim kernel As Long
+        Dim user As Long
+        Dim total As Long
+        Public Sub New(ByVal aTime As Long, ByVal aUser As Long, ByVal aKernel As Long)
+            time = aTime
+            kernel = aKernel
+            user = aUser
+            total = time + kernel
+        End Sub
+    End Structure
+
+    Public Structure PROC_MEM_INFO
+        Dim time As Long
+        Dim mem As API.VM_COUNTERS_EX
+        Public Sub New(ByVal aTime As Long, ByRef aMem As API.VM_COUNTERS_EX)
+            time = aTime
+            mem = aMem
+        End Sub
+    End Structure
+
+    Public Structure PROC_IO_INFO
+        Dim time As Long
+        Dim io As API.IO_COUNTERS
+        Public Sub New(ByVal aTime As Long, ByRef aIo As API.IO_COUNTERS)
+            time = aTime
+            io = aIo
+        End Sub
+    End Structure
+
+    Public Structure PROC_MISC_INFO
+        Dim time As Long
+        Dim gdiO As Integer
+        Dim userO As Integer
+        Dim cpuUsage As Double
+        Dim averageCpuUsage As Double
+        Public Sub New(ByVal aTime As Long, ByVal aGdi As Integer, ByVal aUser As _
+                       Integer, ByVal aCpu As Double, ByVal aAverage As Double)
+            time = aTime
+            gdiO = aGdi
+            userO = aUser
+            cpuUsage = aCpu
+            averageCpuUsage = aAverage
+        End Sub
+    End Structure
+
+#End Region
+
+    Public Event HasMerged()
+
     ' Contains list of process names
     Friend Shared _procs As New Dictionary(Of String, String)
 
@@ -34,6 +87,13 @@ Public Class cProcess
     Private Shared WithEvents _connection As cProcessConnection
 
     Private _parentName As String = vbNullString
+
+    ' Save informations about performance
+    Friend _dicoProcMem As New SortedList(Of Integer, PROC_MEM_INFO)
+    Friend _dicoProcTimes As New SortedList(Of Integer, PROC_TIME_INFO)
+    Friend _dicoProcIO As New SortedList(Of Integer, PROC_IO_INFO)
+    Friend _dicoProcMisc As New SortedList(Of Integer, PROC_MISC_INFO)
+
 
     Private _handleQueryInfo As Integer
 
@@ -47,6 +107,23 @@ Public Class cProcess
         Set(ByVal value As cProcessConnection)
             _connection = value
         End Set
+    End Property
+
+    ' Get the performance dictionnaries
+    Public ReadOnly Property DicoPerfMem() As SortedList(Of Integer, PROC_MEM_INFO)
+        Get
+            Return _dicoProcMem
+        End Get
+    End Property
+    Public ReadOnly Property DicoPerfIO() As SortedList(Of Integer, PROC_IO_INFO)
+        Get
+            Return _dicoProcIO
+        End Get
+    End Property
+    Public ReadOnly Property DicoPerfTimes() As SortedList(Of Integer, PROC_TIME_INFO)
+        Get
+            Return _dicoProcTimes
+        End Get
     End Property
 
 #End Region
@@ -116,8 +193,24 @@ Public Class cProcess
 
     ' Merge current infos and new infos
     Public Sub Merge(ByRef Proc As processInfos)
+
+        Static _refrehNumber As Integer = 0
+        _refrehNumber += 1   ' This is the key for the history
+
+        ' Get date in ms
+        Dim _now As Long = Date.Now.Ticks
+
         _processInfos.Merge(Proc)
         Call RefreshSpecialInformations()
+
+        ' Store informations
+        _dicoProcMem.Add(_refrehNumber, New PROC_MEM_INFO(_now, Me.Infos.MemoryInfos))
+        _dicoProcTimes.Add(_refrehNumber, New PROC_TIME_INFO(_now, Me.Infos.UserTime, Me.Infos.KernelTime))
+        _dicoProcIO.Add(_refrehNumber, New PROC_IO_INFO(_now, Me.Infos.IOValues))
+        _dicoProcMisc.Add(_refrehNumber, New PROC_MISC_INFO(_now, Me.Infos.GdiObjects, Me.Infos.UserObjects, _
+                 100 * Me.CpuUsage, 100 * Me.Infos.AverageCpuUsage))
+
+        RaiseEvent HasMerged()
     End Sub
     Public Sub Merge(ByRef Proc As API.SYSTEM_PROCESS_INFORMATION)
         _processInfos.Merge(New processInfos(Proc))
@@ -502,9 +595,9 @@ Public Class cProcess
             Case "QuotaNonPagedPoolUsage"
                 res = Me.Infos.MemoryInfos.QuotaNonPagedPoolUsage
             Case "GdiObjects"
-                '
+                res = Me.Infos.GdiObjects
             Case "UserObjects"
-                '
+                res = Me.Infos.UserObjects
             Case "ReadOperationCount"
                 res = Me.Infos.IOValues.ReadOperationCount
             Case "WriteOperationCount"
@@ -518,7 +611,7 @@ Public Class cProcess
             Case "OtherTransferCount"
                 res = Me.Infos.IOValues.OtherTransferCount
             Case "CpuUsage"
-                '
+                res = Me.CpuUsage
             Case "AverageCpuUsage"
                 res = 100 * Me.Infos.AverageCpuUsage
             Case "HandleCount"
@@ -621,5 +714,171 @@ Public Class cProcess
     End Sub
 
 #End Region
+
+    ' Retrieve a long array with all available values from dictionnaries
+    Public Function GetHistory(ByVal infoName As String) As Double()
+        Dim ret() As Double
+
+        Select Case infoName
+            Case "KernelCpuTime"
+                ReDim ret(_dicoProcTimes.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_TIME_INFO In _dicoProcTimes.Values
+                    ret(x) = t.kernel
+                    x += 1
+                Next
+            Case "UserCpuTime"
+                ReDim ret(_dicoProcTimes.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_TIME_INFO In _dicoProcTimes.Values
+                    ret(x) = t.user
+                    x += 1
+                Next
+            Case "TotalCpuTime"
+                ReDim ret(_dicoProcTimes.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_TIME_INFO In _dicoProcTimes.Values
+                    ret(x) = t.total
+                    x += 1
+                Next
+            Case "WorkingSet"
+                ReDim ret(_dicoProcMem.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_MEM_INFO In _dicoProcMem.Values
+                    ret(x) = t.mem.WorkingSetSize
+                    x += 1
+                Next
+            Case "PeakWorkingSet"
+                ReDim ret(_dicoProcMem.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_MEM_INFO In _dicoProcMem.Values
+                    ret(x) = t.mem.PeakWorkingSetSize
+                    x += 1
+                Next
+            Case "PageFaultCount"
+                ReDim ret(_dicoProcMem.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_MEM_INFO In _dicoProcMem.Values
+                    ret(x) = t.mem.PageFaultCount
+                    x += 1
+                Next
+            Case "PagefileUsage"
+                ReDim ret(_dicoProcMem.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_MEM_INFO In _dicoProcMem.Values
+                    ret(x) = t.mem.PagefileUsage
+                    x += 1
+                Next
+            Case "PeakPagefileUsage"
+                ReDim ret(_dicoProcMem.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_MEM_INFO In _dicoProcMem.Values
+                    ret(x) = t.mem.PeakPagefileUsage
+                    x += 1
+                Next
+            Case "QuotaPeakPagedPoolUsage"
+                ReDim ret(_dicoProcMem.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_MEM_INFO In _dicoProcMem.Values
+                    ret(x) = t.mem.QuotaPeakPagedPoolUsage
+                    x += 1
+                Next
+            Case "QuotaPagedPoolUsage"
+                ReDim ret(_dicoProcMem.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_MEM_INFO In _dicoProcMem.Values
+                    ret(x) = t.mem.QuotaPagedPoolUsage
+                    x += 1
+                Next
+            Case "QuotaPeakNonPagedPoolUsage"
+                ReDim ret(_dicoProcMem.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_MEM_INFO In _dicoProcMem.Values
+                    ret(x) = t.mem.QuotaPeakNonPagedPoolUsage
+                    x += 1
+                Next
+            Case "QuotaNonPagedPoolUsage"
+                ReDim ret(_dicoProcMem.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_MEM_INFO In _dicoProcMem.Values
+                    ret(x) = t.mem.QuotaNonPagedPoolUsage
+                    x += 1
+                Next
+            Case "ReadOperationCount"
+                ReDim ret(_dicoProcIO.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_IO_INFO In _dicoProcIO.Values
+                    ret(x) = CLng(t.io.ReadOperationCount)
+                    x += 1
+                Next
+            Case "WriteOperationCount"
+                ReDim ret(_dicoProcIO.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_IO_INFO In _dicoProcIO.Values
+                    ret(x) = CLng(t.io.WriteOperationCount)
+                    x += 1
+                Next
+            Case "OtherOperationCount"
+                ReDim ret(_dicoProcIO.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_IO_INFO In _dicoProcIO.Values
+                    ret(x) = CLng(t.io.OtherOperationCount)
+                    x += 1
+                Next
+            Case "ReadTransferCount "
+                ReDim ret(_dicoProcIO.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_IO_INFO In _dicoProcIO.Values
+                    ret(x) = CLng(t.io.ReadTransferCount)
+                    x += 1
+                Next
+            Case "WriteTransferCount"
+                ReDim ret(_dicoProcIO.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_IO_INFO In _dicoProcIO.Values
+                    ret(x) = CLng(t.io.WriteTransferCount)
+                    x += 1
+                Next
+            Case "OtherTransferCount"
+                ReDim ret(_dicoProcIO.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_IO_INFO In _dicoProcIO.Values
+                    ret(x) = CLng(t.io.OtherTransferCount)
+                    x += 1
+                Next
+            Case "GdiObjects"
+                ReDim ret(_dicoProcMisc.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_MISC_INFO In _dicoProcMisc.Values
+                    ret(x) = t.gdiO
+                    x += 1
+                Next
+            Case "UserObjects"
+                ReDim ret(_dicoProcMisc.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_MISC_INFO In _dicoProcMisc.Values
+                    ret(x) = t.userO
+                    x += 1
+                Next
+            Case "CpuUsage"
+                ReDim ret(_dicoProcMisc.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_MISC_INFO In _dicoProcMisc.Values
+                    ret(x) = t.cpuUsage
+                    x += 1
+                Next
+            Case "AverageCpuUsage"
+                ReDim ret(_dicoProcMisc.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_MISC_INFO In _dicoProcMisc.Values
+                    ret(x) = t.averageCpuUsage
+                    x += 1
+                Next
+            Case Else
+                ReDim ret(0)
+        End Select
+
+        Return ret
+    End Function
 
 End Class
