@@ -1,5 +1,5 @@
 ﻿'' =======================================================
-'' Yet Another Process Monitor (YAPM)
+'' Yet Another (remote) Process Monitor (YAPM)
 '' Copyright (c) 2008-2009 Alain Descotes (violent_ken)
 '' https://sourceforge.net/projects/yaprocmon/
 '' =======================================================
@@ -16,7 +16,7 @@
 '' GNU General Public License for more details.
 ''
 '' You should have received a copy of the GNU General Public License
-'' aInteger with YAPM; if not, see http://www.gnu.org/licenses/.
+'' along with YAPM; if not, see http://www.gnu.org/licenses/.
 
 
 'Option Strict On

@@ -1,5 +1,5 @@
 ﻿'' =======================================================
-'' Yet Another Process Monitor (YAPM)
+'' Yet Another (remote) Process Monitor (YAPM)
 '' Copyright (c) 2008-2009 Alain Descotes (violent_ken)
 '' https://sourceforge.net/projects/yaprocmon/
 '' =======================================================
