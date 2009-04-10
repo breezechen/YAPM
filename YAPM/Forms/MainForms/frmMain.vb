@@ -4407,6 +4407,18 @@ Public Class frmMain
     End Sub
 
     Public Sub DisconnectFromMachine()
+        ' Close all frmInfo forms
+        ' No ForEach but a simple For
+        For x As Integer = My.Application.OpenForms.Count - 1 To 0 Step -1
+            Dim frm As Form = My.Application.OpenForms(x)
+            If TypeOf frm Is frmProcessInfo Then
+                Try
+                    frm.Close()
+                Catch ex As Exception
+                    '
+                End Try
+            End If
+        Next
         theConnection.Disconnect()
     End Sub
 
