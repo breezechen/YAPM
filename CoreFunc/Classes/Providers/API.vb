@@ -637,7 +637,6 @@ Public Class API
         Dim remote As IPEndPoint
         Dim dwOwningPid As Integer
         Dim dwType As NetworkProtocol
-        Dim key As String
     End Structure
 
     Public Enum MIB_TCP_STATE As Integer

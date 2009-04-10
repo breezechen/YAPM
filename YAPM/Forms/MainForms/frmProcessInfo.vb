@@ -1295,55 +1295,55 @@ Public Class frmProcessInfo
 
     ' Check if there are changes about network
     Private Sub _CheckNetwork()
+        ' TODO
+        'Static _dico As New Dictionary(Of String, cNetwork.LightConnection)
+        'Static _first As Boolean = True
+        'Dim _buffDico As New Dictionary(Of String, cNetwork.LightConnection)
 
-        Static _dico As New Dictionary(Of String, cNetwork.LightConnection)
-        Static _first As Boolean = True
-        Dim _buffDico As New Dictionary(Of String, cNetwork.LightConnection)
+        'Dim _itemId() As String
+        'ReDim _itemId(0)
+        'Dim _pid(0) As Integer
+        '_pid(0) = curProc.Infos.Pid
+        'Call cNetwork.Enumerate(False, _pid, _itemId, _buffDico)
 
-        Dim _itemId() As String
-        ReDim _itemId(0)
-        Dim _pid(0) As Integer
-        _pid(0) = curProc.Infos.Pid
-        Call cNetwork.Enumerate(False, _pid, _itemId, _buffDico)
+        'If _first Then
+        '    _dico = _buffDico
+        '    _first = False
+        'End If
 
-        If _first Then
-            _dico = _buffDico
-            _first = False
-        End If
-
-        ' Check if there are new items
-        If (_logCaptureMask And LogItemType.CreatedItems) = LogItemType.CreatedItems Then
-            For Each z As String In _itemId
-                If Not (_dico.ContainsKey(z)) Then
-                    ' New item
-                    Dim lm As cNetwork.LightConnection = _buffDico.Item(z)
-                    If lm.remote IsNot Nothing Then
-                        Call addToLog("Network connection created (" & lm.dwType.ToString & " -- Local : " & lm.local.ToString & " -- Remote : " & lm.remote.ToString & " -- State: " & lm.dwState.ToString & ")", LogItemType.NetworkItem, True)
-                    Else
-                        Call addToLog("Network connection created (" & lm.dwType.ToString & " -- Local : " & lm.local.ToString & " -- State: " & lm.dwState.ToString & ")", LogItemType.NetworkItem, True)
-                    End If
-                End If
-            Next
-        End If
+        '' Check if there are new items
+        'If (_logCaptureMask And LogItemType.CreatedItems) = LogItemType.CreatedItems Then
+        '    For Each z As String In _itemId
+        '        If Not (_dico.ContainsKey(z)) Then
+        '            ' New item
+        '            Dim lm As cNetwork.LightConnection = _buffDico.Item(z)
+        '            If lm.remote IsNot Nothing Then
+        '                Call addToLog("Network connection created (" & lm.dwType.ToString & " -- Local : " & lm.local.ToString & " -- Remote : " & lm.remote.ToString & " -- State: " & lm.dwState.ToString & ")", LogItemType.NetworkItem, True)
+        '            Else
+        '                Call addToLog("Network connection created (" & lm.dwType.ToString & " -- Local : " & lm.local.ToString & " -- State: " & lm.dwState.ToString & ")", LogItemType.NetworkItem, True)
+        '            End If
+        '        End If
+        '    Next
+        'End If
 
 
-        ' Check if there are deleted items
-        If (_logCaptureMask And LogItemType.DeletedItems) = LogItemType.DeletedItems Then
-            For Each z As String In _dico.Keys
-                If Array.IndexOf(_itemId, z) < 0 Then
-                    ' Deleted item
-                    Dim lm As cNetwork.LightConnection = _dico.Item(z)
-                    If lm.remote IsNot Nothing Then
-                        Call addToLog("Network connection created (" & lm.dwType.ToString & " -- Local : " & lm.local.ToString & " -- Remote : " & lm.remote.ToString & " -- State: " & lm.dwState.ToString & ")", LogItemType.NetworkItem, False)
-                    Else
-                        Call addToLog("Network connection created (" & lm.dwType.ToString & " -- Local : " & lm.local.ToString & " -- State: " & lm.dwState.ToString & ")", LogItemType.NetworkItem, False)
-                    End If
-                End If
-            Next
-        End If
+        '' Check if there are deleted items
+        'If (_logCaptureMask And LogItemType.DeletedItems) = LogItemType.DeletedItems Then
+        '    For Each z As String In _dico.Keys
+        '        If Array.IndexOf(_itemId, z) < 0 Then
+        '            ' Deleted item
+        '            Dim lm As cNetwork.LightConnection = _dico.Item(z)
+        '            If lm.remote IsNot Nothing Then
+        '                Call addToLog("Network connection created (" & lm.dwType.ToString & " -- Local : " & lm.local.ToString & " -- Remote : " & lm.remote.ToString & " -- State: " & lm.dwState.ToString & ")", LogItemType.NetworkItem, False)
+        '            Else
+        '                Call addToLog("Network connection created (" & lm.dwType.ToString & " -- Local : " & lm.local.ToString & " -- State: " & lm.dwState.ToString & ")", LogItemType.NetworkItem, False)
+        '            End If
+        '        End If
+        '    Next
+        'End If
 
-        ' Save dico
-        _dico = _buffDico
+        '' Save dico
+        '_dico = _buffDico
 
     End Sub
 
@@ -1928,6 +1928,7 @@ Public Class frmProcessInfo
         Me.lvProcEnv.ConnectionObj = theConnection
         Me.lvProcServices.ConnectionObj = theConnection
         Me.lvWindows.ConnectionObj = theConnection
+        Me.lvProcNetwork.ConnectionObj = theConnection
         theConnection.Connect()
     End Sub
 

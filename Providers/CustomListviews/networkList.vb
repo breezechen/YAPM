@@ -26,16 +26,23 @@ Imports System.Runtime.InteropServices
 Public Class networkList
     Inherits customLV
 
+    Public Event ItemAdded(ByRef item As cNetwork)
+    Public Event ItemDeleted(ByRef item As cNetwork)
+    Public Event HasRefreshed()
+    Public Event GotAnError(ByVal origin As String, ByVal msg As String)
+
 
     ' ========================================
     ' Private
     ' ========================================
+    Private _first As Boolean
     Private _dicoNew As New Dictionary(Of String, cNetwork)
     Private _dicoDel As New Dictionary(Of String, cNetwork)
-    Private _buffDico As New Dictionary(Of String, cNetwork.LightConnection)
+    Private _buffDico As New Dictionary(Of String, api.lightconnection)
     Private _dico As New Dictionary(Of String, cNetwork)
+    Private WithEvents _connectionObject As New cConnection
+    Private WithEvents _networkConnection As New cnetworkConnection(Me, _connectionObject)
     Private _all As Boolean = False
-
     Private _pid As Integer()
 
 #Region "Properties"
@@ -43,6 +50,14 @@ Public Class networkList
     ' ========================================
     ' Properties
     ' ========================================
+    Public Property ConnectionObj() As cConnection
+        Get
+            Return _connectionObject
+        End Get
+        Set(ByVal value As cConnection)
+            _connectionObject = value
+        End Set
+    End Property
     Public Property ProcessId() As Integer()
         Get
             Return _pid
@@ -63,7 +78,7 @@ Public Class networkList
 #End Region
 
     ' ========================================
-    ' Public properties
+    ' Public functions
     ' ========================================
 
     Public Sub New()
@@ -71,124 +86,39 @@ Public Class networkList
         ' Cet appel est requis par le Concepteur Windows Form.
         InitializeComponent()
 
+        _first = True
+
+        ' Set handlers
+        _networkConnection.HasEnumerated = New cnetworkConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler)
+        _networkConnection.Disconnected = New cnetworkConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
+        _networkConnection.Connected = New cnetworkConnection.ConnectedEventHandler(AddressOf HasConnected)
+    End Sub
+
+    ' Delete all items
+    Public Sub ClearItems()
+        _first = True
+        _buffDico.Clear()
+        _dico.Clear()
+        _dicoDel.Clear()
+        _dicoNew.Clear()
+        Me.Items.Clear()
     End Sub
 
     ' Call this to update items in listview
     Public Overrides Sub UpdateItems()
-
-        Dim _test As Integer = GetTickCount
-
 
         ' Create a buffer of subitems if necessary
         If _columnsName Is Nothing Then
             Call CreateSubItemsBuffer()
         End If
 
+        If _networkConnection.IsConnected Then
 
-        ' Now enumerate items
-        Dim _itemId() As String
-        ReDim _itemId(0)
-        Call cNetwork.Enumerate(_all, _pid, _itemId, _buffDico)
+            ' Now enumerate items
+            _networkConnection.Enumerate(_first, _pid, _all)
 
-        ' Now add all items with isKilled = true to _dicoDel dictionnary
-        For Each z As cNetwork In _dico.Values
-            If z.IsKilledItem Then
-                _dicoDel.Add(z.Key, Nothing)
-            End If
-        Next
-
-
-        ' Now add new items to dictionnary
-        For Each z As String In _itemId
-            If Not (_dico.ContainsKey(z)) Then
-                ' Add to dico
-                _dicoNew.Add(z, Nothing)
-            End If
-        Next
-
-
-        ' Now remove deleted items from dictionnary
-        For Each z As String In _dico.Keys
-            If Array.IndexOf(_itemId, z) < 0 Then
-                ' Remove from dico
-                _dico.Item(z).IsKilledItem = True  ' Will be deleted next time
-            End If
-        Next
-
-
-        ' Now remove all deleted items from listview and _dico
-        For Each z As String In _dicoDel.Keys
-            Me.Items.RemoveByKey(z)
-            _dico.Remove(z)
-        Next
-        _dicoDel.Clear()
-
-
-        ' Merge _dico and _dicoNew
-        For Each z As String In _dicoNew.Keys
-            Dim _it As cNetwork = New cNetwork(_buffDico.Item(z))
-            _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
-            _dico.Add(z, _it)
-        Next
-
-
-        ' Now add all new items to listview
-        ' If first time, lock listview
-        If _firstItemUpdate Then Me.BeginUpdate()
-        For Each z As String In _dicoNew.Keys
-
-            ' Add to listview
-            Dim _subItems() As ListViewItem.ListViewSubItem
-            ReDim _subItems(Me.Columns.Count - 1)
-            For x As Integer = 1 To _subItems.Length - 1
-                _subItems(x) = New ListViewItem.ListViewSubItem
-            Next
-            AddItemWithStyle(z, _dico(z)).SubItems.AddRange(_subItems)
-
-        Next
-        If _firstItemUpdate Then Me.EndUpdate()
-        _dicoNew.Clear()
-
-        ' Now refresh all subitems of the listview
-        Dim isub As ListViewItem.ListViewSubItem
-        Dim it As ListViewItem
-        For Each it In Me.Items
-            Dim x As Integer = 0
-            Dim _item As cNetwork = _dico.Item(it.Name)
-            For Each isub In it.SubItems
-                isub.Text = _item.GetInformation(_columnsName(x))
-                x += 1
-            Next
-            If _dico.Item(it.Name).IsNewItem Then
-                _dico.Item(it.Name).IsNewItem = False
-                it.BackColor = NEW_ITEM_COLOR
-            ElseIf _dico.Item(it.Name).IsKilledItem Then
-                it.BackColor = DELETED_ITEM_COLOR
-            Else
-                it.BackColor = Color.White
-            End If
-        Next
-
-        ' This piece of code is needed. Strange behavior, the Text attribute must
-        ' be set twice to be properly displayed.
-        If _firstItemUpdate Then
-            For Each it In Me.Items
-                For Each isub In it.SubItems
-                    isub.Text = isub.Text
-                Next
-            Next
         End If
 
-
-        ' Sort items
-        Me.Sort()
-
-        _firstItemUpdate = False
-
-        _test = GetTickCount - _test
-        'Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh network list.")
-
-        MyBase.UpdateItems()
     End Sub
 
     ' Get all items (associated to listviewitems)
@@ -226,6 +156,123 @@ Public Class networkList
     ' Private properties
     ' ========================================
 
+    ' Executed when enumeration is done
+    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, API.LightConnection), ByVal errorMessage As String)
+
+        If Success = False Then
+            Trace.WriteLine("Cannot enumerate, an error was raised...")
+            RaiseEvent GotAnError("Network connection enumeration", errorMessage)
+            Exit Sub
+        End If
+
+        ' We won't enumerate next time with all informations (included fixed infos)
+        _first = False
+
+
+        ' Now add all items with isKilled = true to _dicoDel dictionnary
+        For Each z As cNetwork In _dico.Values
+            If z.IsKilledItem Then
+                _dicoDel.Add(z.Infos.ProcessId.ToString & "-" & z.Infos.Protocol.ToString & "-" & z.Infos.Local.ToString, Nothing)
+            End If
+        Next
+
+
+        ' Now add new items to dictionnary
+        For Each pair As System.Collections.Generic.KeyValuePair(Of String, API.LightConnection) In Dico
+            If Not (_dico.ContainsKey(pair.Key)) Then
+                ' Add to dico
+                _dicoNew.Add(pair.Key, New cNetwork(New networkInfos(pair.Value)))
+            End If
+
+        Next
+
+
+        ' Now remove deleted items from dictionnary
+        For Each z As String In _dico.Keys
+            If Dico.ContainsKey(z) = False Then
+                ' Remove from dico
+                _dico.Item(z).IsKilledItem = True  ' Will be deleted next time
+            End If
+        Next
+
+
+        ' Now remove all deleted items from listview and _dico
+        For Each z As String In _dicoDel.Keys
+            Me.Items.RemoveByKey(z)
+            RaiseEvent ItemDeleted(_dico.Item(z))
+            _dico.Remove(z)
+        Next
+        _dicoDel.Clear()
+
+
+        ' Merge _dico and _dicoNew
+        For Each z As String In _dicoNew.Keys
+            Dim _it As cNetwork = _dicoNew.Item(z)
+            RaiseEvent ItemAdded(_it)
+            _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
+            _dico.Add(z.ToString, _it)
+        Next
+
+
+        ' Now add all new items to listview
+        ' If first time, lock listview
+        If _firstItemUpdate Then Me.BeginUpdate()
+        For Each z As String In _dicoNew.Keys
+
+            ' Add to listview
+            Dim _subItems() As ListViewItem.ListViewSubItem
+            ReDim _subItems(Me.Columns.Count - 1)
+            For x As Integer = 1 To _subItems.Length - 1
+                _subItems(x) = New ListViewItem.ListViewSubItem
+            Next
+            Dim _tmp As cNetwork = _dico.Item(z)
+            AddItemWithStyle(z, _tmp).SubItems.AddRange(_subItems)
+        Next
+        If _firstItemUpdate Then Me.EndUpdate()
+        _dicoNew.Clear()
+
+
+        ' Now refresh all subitems of the listview
+        Dim isub As ListViewItem.ListViewSubItem
+        Dim it As ListViewItem
+        For Each it In Me.Items
+            Dim x As Integer = 0
+            Dim _item As cNetwork = _dico.Item(it.Name)
+            For Each isub In it.SubItems
+                isub.Text = _item.GetInformation(_columnsName(x))
+                x += 1
+            Next
+            If _dico.Item(it.Name).IsNewItem Then
+                _dico.Item(it.Name).IsNewItem = False
+                it.BackColor = NEW_ITEM_COLOR
+            ElseIf _dico.Item(it.Name).IsKilledItem Then
+                it.BackColor = DELETED_ITEM_COLOR
+            Else
+                it.BackColor = Color.White
+            End If
+        Next
+
+        ' This piece of code is needed. Strange behavior, the Text attribute must
+        ' be set twice to be properly displayed.
+        If _firstItemUpdate Then
+            For Each it In Me.Items
+                For Each isub In it.SubItems
+                    isub.Text = isub.Text
+                Next
+            Next
+        End If
+
+        ' Sort items
+        Me.Sort()
+
+        _firstItemUpdate = False
+
+        'Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh thread list.")
+
+        MyBase.UpdateItems()
+    End Sub
+
+
     ' Add an item (specific to type of list)
     Private Shadows Function AddItemWithStyle(ByVal key As String, ByRef net As cNetwork) As ListViewItem
 
@@ -236,15 +283,48 @@ Public Class networkList
 
         ' Add a group if necessary
         If _all Then
-            If Me.Groups(CStr(net.ProcessId)) Is Nothing Then
-                Me.Groups.Add(CStr(net.ProcessId), net.ProcessName & " (" & CStr(net.ProcessId) & ")")
+            If Me.Groups(CStr(net.Infos.ProcessId)) Is Nothing Then
+                Me.Groups.Add(CStr(net.Infos.ProcessId), net.Infos.ProcessName & " (" & CStr(net.Infos.ProcessId) & ")")
             End If
-            item.Group = Me.Groups(CStr(net.ProcessId))
+            item.Group = Me.Groups(CStr(net.Infos.ProcessId))
         End If
 
         Return item
 
     End Function
+
+#Region "Connection stuffs"
+
+    Private Sub _connectionObject_Connected() Handles _connectionObject.Connected
+        Call Connect()
+    End Sub
+
+    Private Sub _connectionObject_Disconnected() Handles _connectionObject.Disconnected
+        Call Disconnect()
+    End Sub
+
+    Private Sub Connect()
+        _first = True
+        _networkConnection.ConnectionObj = _connectionObject
+        _networkConnection.Connect()
+        cNetwork.Connection = _networkConnection
+    End Sub
+
+    Private Sub Disconnect()
+        _networkConnection.Disconnect()
+    End Sub
+
+    Private Sub HasDisconnected(ByVal Success As Boolean)
+        ' We HAVE TO disconnect, because this event is raised when we got an error
+        '_networkConnection.Disconnect()
+        '     _networkConnection.Con()
+    End Sub
+
+    Private Sub HasConnected(ByVal Success As Boolean)
+        '
+    End Sub
+
+#End Region
 
     Protected Overrides Sub OnKeyDown(ByVal e As System.Windows.Forms.KeyEventArgs)
         MyBase.OnKeyDown(e)

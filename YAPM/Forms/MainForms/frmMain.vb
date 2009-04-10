@@ -2634,7 +2634,7 @@ Public Class frmMain
         Dim it As ListViewItem
         If Me.lvNetwork.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
         For Each it In Me.lvNetwork.SelectedItems
-            Dim pid As Integer = lvNetwork.GetItemByKey(it.Name).ProcessId
+            Dim pid As Integer = lvNetwork.GetItemByKey(it.Name).Infos.ProcessId
             Dim it2 As ListViewItem
             For Each it2 In Me.lvProcess.Items
                 Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
@@ -4333,6 +4333,7 @@ Public Class frmMain
         Me.lvWindows.ClearItems()
         Me.lvTask.ClearItems()
         Me.lvServices.ClearItems()
+        Me.lvNetwork.ClearItems()
         Me.rtb6.Text = ""
 
         ' Connect all lvItems
@@ -4342,6 +4343,7 @@ Public Class frmMain
         Me.lvHandles.ConnectionObj = theConnection
         Me.lvServices.ConnectionObj = theConnection
         Me.lvWindows.ConnectionObj = theConnection
+        Me.lvNetwork.ConnectionObj = theConnection
         Me.lvTask.ConnectionObj = theConnection
         Me.theConnection.Connect()
 
@@ -4398,6 +4400,7 @@ Public Class frmMain
         Me.lvHandles.CatchErrors = Not (_local)
         Me.lvServices.CatchErrors = Not (_local)
         Me.lvTask.CatchErrors = Not (_local)
+        Me.lvNetwork.CatchErrors = Not (_local)
 
         ' Enable all refreshments
         Me.timerProcess.Enabled = True
