@@ -169,8 +169,27 @@ Public Class cConnection
             ' Here we got a list of items
             Select Case cDat.Order
                 Case cSocketData.OrderType.RequestProcessList
-                    ' Then we got a list !
                     asyncCallbackProcEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+                Case cSocketData.OrderType.RequestEnvironmentVariableList
+                    asyncCallbackEnvVariableEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+                Case cSocketData.OrderType.RequestHandleList
+                    asyncCallbackHandleEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+                Case cSocketData.OrderType.RequestMemoryRegionList
+                    asyncCallbackMemRegionEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+                Case cSocketData.OrderType.RequestModuleList
+                    asyncCallbackModuleEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+                Case cSocketData.OrderType.RequestNetworkConnectionList
+                    asyncCallbackNetworkEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+                Case cSocketData.OrderType.RequestPrivilegesList
+                    asyncCallbackPrivilegesEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+                Case cSocketData.OrderType.RequestServiceList
+                    asyncCallbackServiceEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+                Case cSocketData.OrderType.RequestTaskList
+                    asyncCallbackTaskEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+                Case cSocketData.OrderType.RequestThreadList
+                    asyncCallbackThreadEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+                Case cSocketData.OrderType.RequestWindowList
+                    asyncCallbackWindowEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
             End Select
 
         Else

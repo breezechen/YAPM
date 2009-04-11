@@ -33,6 +33,7 @@ Public Class frmMain
     Public log As New cLog
     Private curProc As cProcess
     Private _local As Boolean = True
+    Private _notWMI As Boolean = True
     Public theConnection As New cConnection
     Private _connType As New cConnection.TypeOfConnection
     Public _connectionForm As New frmConnection(theConnection)
@@ -4318,12 +4319,14 @@ Public Class frmMain
     Public Sub ConnectToMachine()
 
         _local = (Me.theConnection.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
+        _notWMI = (Me.theConnection.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
 
         ' Disable all refreshments
         Me.timerProcess.Enabled = False
         Me.timerServices.Enabled = False
         Me.timerMonitoring.Enabled = False
         Me.timerTask.Enabled = False
+        Me.timerNetwork.Enabled = False
 
         ' Clear all lvItems
         Me.lvProcess.ClearItems()
@@ -4338,61 +4341,61 @@ Public Class frmMain
 
         ' Connect all lvItems
         Me.lvProcess.ConnectionObj = theConnection
-        Me.lvThreads.ConnectionObj = theConnection
-        Me.lvModules.ConnectionObj = theConnection
-        Me.lvHandles.ConnectionObj = theConnection
+        'Me.lvThreads.ConnectionObj = theConnection
+        'Me.lvModules.ConnectionObj = theConnection
+        'Me.lvHandles.ConnectionObj = theConnection
         Me.lvServices.ConnectionObj = theConnection
-        Me.lvWindows.ConnectionObj = theConnection
+        'Me.lvWindows.ConnectionObj = theConnection
         Me.lvNetwork.ConnectionObj = theConnection
-        Me.lvTask.ConnectionObj = theConnection
+        ' Me.lvTask.ConnectionObj = theConnection
         Me.theConnection.Connect()
 
         Me.menuThread.Enabled = (theConnection.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
 
-        Me.butResumeProcess.Enabled = Me._local
-        Me.butStopProcess.Enabled = Me._local
-        Me.butProcessAffinity.Enabled = Me._local
-        Me.KillProcessTreeToolStripMenuItem.Enabled = Me._local
-        Me.StopToolStripMenuItem.Enabled = Me._local
-        Me.ResumeToolStripMenuItem.Enabled = Me._local
-        Me.SetAffinityToolStripMenuItem.Enabled = Me._local
-        Me.ReduceWorkingSetSizeToolStripMenuItem.Enabled = Me._local
-        Me.butProcessShowAll.Enabled = Me._local
-        Me.butProcessWindows.Enabled = Me._local
-        Me.butProcessAffinity.Enabled = Me._local
-        Me.butShowProcHandles.Enabled = Me._local
-        Me.butStopProcess.Enabled = Me._local
-        Me.butResumeProcess.Enabled = Me._local
-        Me.butModuleUnload.Enabled = Me._local
-        Me.RBHandlesActions.Enabled = Me._local
-        Me.RBHandlesReport.Enabled = Me._local
-        Me.RBWindowActions.Enabled = Me._local
-        Me.RBWindowCapture.Enabled = Me._local
-        Me.RBWindowRefresh.Enabled = Me._local
-        Me.RBWindowReport.Enabled = Me._local
-        Me.pageHandles.Enabled = _local
-        Me.pageNetwork.Enabled = _local
-        Me.pageTasks.Enabled = _local
-        Me.pageWindows.Enabled = _local
-        Me.pageSearch.Enabled = _local
-        Me.RBNetworkRefresh.Enabled = _local
-        Me.RBSearchMain.Enabled = _local
-        Me.RBTaskActions.Enabled = _local
-        Me.RBTaskDisplay.Enabled = _local
-        Me.OpenFirectoryToolStripMenuItem.Enabled = _local
-        Me.PropertiesToolStripMenuItem.Enabled = _local
-        Me.FileDetailsToolStripMenuItem.Enabled = _local
-        Me.SelectedServicesToolStripMenuItem.Enabled = _local
-        Me.FileDetailsToolStripMenuItem1.Enabled = _local
-        Me.ShowAllToolStripMenuItem.Enabled = _local
-        Me.ShowWindowsToolStripMenuItem.Enabled = _local
-        Me.ShowHandlesToolStripMenuItem.Enabled = _local
-        Me.ToolStripMenuItem20.Enabled = _local
-        Me.ToolStripMenuItem21.Enabled = _local
-        Me.ShowFileDetailsToolStripMenuItem.Enabled = _local
-        Me.ToolStripMenuItem36.Enabled = _local
-        Me.RBServiceFile.Enabled = _local
-        Me.butProcessOtherActions.Enabled = _local
+        Me.butResumeProcess.Enabled = Me._notWMI
+        Me.butStopProcess.Enabled = Me._notWMI
+        Me.butProcessAffinity.Enabled = Me._notWMI
+        Me.KillProcessTreeToolStripMenuItem.Enabled = Me._notWMI
+        Me.StopToolStripMenuItem.Enabled = Me._notWMI
+        Me.ResumeToolStripMenuItem.Enabled = Me._notWMI
+        Me.SetAffinityToolStripMenuItem.Enabled = Me._notWMI
+        Me.ReduceWorkingSetSizeToolStripMenuItem.Enabled = Me._notWMI
+        Me.butProcessShowAll.Enabled = Me._notWMI
+        Me.butProcessWindows.Enabled = Me._notWMI
+        Me.butProcessAffinity.Enabled = Me._notWMI
+        Me.butShowProcHandles.Enabled = Me._notWMI
+        Me.butStopProcess.Enabled = Me._notWMI
+        Me.butResumeProcess.Enabled = Me._notWMI
+        Me.butModuleUnload.Enabled = Me._notWMI
+        Me.RBHandlesActions.Enabled = Me._notWMI
+        Me.RBHandlesReport.Enabled = Me._notWMI
+        Me.RBWindowActions.Enabled = Me._notWMI
+        Me.RBWindowCapture.Enabled = Me._notWMI
+        Me.RBWindowRefresh.Enabled = Me._notWMI
+        Me.RBWindowReport.Enabled = Me._notWMI
+        Me.pageHandles.Enabled = _notWMI
+        Me.pageNetwork.Enabled = _notWMI
+        Me.pageTasks.Enabled = _notWMI
+        Me.pageWindows.Enabled = _notWMI
+        Me.pageSearch.Enabled = _notWMI
+        Me.RBNetworkRefresh.Enabled = _notWMI
+        Me.RBSearchMain.Enabled = _notWMI
+        Me.RBTaskActions.Enabled = _notWMI
+        Me.RBTaskDisplay.Enabled = _notWMI
+        Me.OpenFirectoryToolStripMenuItem.Enabled = _notWMI
+        Me.PropertiesToolStripMenuItem.Enabled = _notWMI
+        Me.FileDetailsToolStripMenuItem.Enabled = _notWMI
+        Me.SelectedServicesToolStripMenuItem.Enabled = _notWMI
+        Me.FileDetailsToolStripMenuItem1.Enabled = _notWMI
+        Me.ShowAllToolStripMenuItem.Enabled = _notWMI
+        Me.ShowWindowsToolStripMenuItem.Enabled = _notWMI
+        Me.ShowHandlesToolStripMenuItem.Enabled = _notWMI
+        Me.ToolStripMenuItem20.Enabled = _notWMI
+        Me.ToolStripMenuItem21.Enabled = _notWMI
+        Me.ShowFileDetailsToolStripMenuItem.Enabled = _notWMI
+        Me.ToolStripMenuItem36.Enabled = _notWMI
+        Me.RBServiceFile.Enabled = _notWMI
+        Me.butProcessOtherActions.Enabled = _notWMI
 
         Me.lvProcess.CatchErrors = Not (_local)
         Me.lvModules.CatchErrors = Not (_local)
@@ -4406,6 +4409,7 @@ Public Class frmMain
         Me.timerProcess.Enabled = True
         Me.timerServices.Enabled = True
         Me.timerMonitoring.Enabled = True
+        Me.timerNetwork.Enabled = True
         Me.timerTask.Enabled = True
     End Sub
 

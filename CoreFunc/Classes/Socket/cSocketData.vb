@@ -150,7 +150,8 @@ Option Strict On
         _param4 = param4
     End Sub
 
-    ' Set process list
+#Region "Set list to data"
+
     Public Sub SetProcessList(ByVal dico As Dictionary(Of String, processInfos))
         If dico Is Nothing Then
             Exit Sub
@@ -168,5 +169,43 @@ Option Strict On
         Next
 
     End Sub
+
+    Public Sub SetNetworkList(ByVal dico As Dictionary(Of String, networkInfos))
+        If dico Is Nothing Then
+            Exit Sub
+        End If
+
+        ' Transform a dico into two lists
+        ReDim _list(dico.Count - 1)
+        ReDim _keys(dico.Count - 1)
+
+        Dim x As Integer = 0
+        For Each pp As System.Collections.Generic.KeyValuePair(Of String, networkInfos) In dico
+            _list(x) = pp.Value
+            _keys(x) = pp.Key
+            x += 1
+        Next
+
+    End Sub
+
+    Public Sub SetServiceList(ByVal dico As Dictionary(Of String, serviceInfos))
+        If dico Is Nothing Then
+            Exit Sub
+        End If
+
+        ' Transform a dico into two lists
+        ReDim _list(dico.Count - 1)
+        ReDim _keys(dico.Count - 1)
+
+        Dim x As Integer = 0
+        For Each pp As System.Collections.Generic.KeyValuePair(Of String, serviceInfos) In dico
+            _list(x) = pp.Value
+            _keys(x) = pp.Key
+            x += 1
+        Next
+
+    End Sub
+
+#End Region
 
 End Class

@@ -27,7 +27,7 @@ Option Strict On
 Imports System.Runtime.InteropServices
 Imports System.Net
 
-Public Class networkInfos
+<Serializable()> Public Class networkInfos
     Inherits generalInfos
 
 #Region "Private attributes"
@@ -101,7 +101,7 @@ Public Class networkInfos
             Return _localString
         End Get
     End Property
-    
+
 #End Region
 
 

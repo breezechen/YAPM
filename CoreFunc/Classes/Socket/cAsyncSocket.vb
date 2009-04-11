@@ -46,7 +46,7 @@ Public Class cAsyncSocket
 
     ' Constructor
     Public Sub New() 'ByVal [Form] As Form)
-        buffLength = 605536
+        buffLength = 6005536
         '_frm = [Form]
         ReDim bytes(buffLength - 1)
     End Sub

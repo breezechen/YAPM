@@ -30,9 +30,10 @@ Imports System.Text
 Public Class cServiceConnection
     Inherits cGeneralConnection
 
-
-    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection)
+    Private _forceHCM As Boolean
+    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, Optional ByVal forceHCM As Boolean = False)
         MyBase.New(ControlWhichGetInvoked, Conn)
+        _forceHCM = forceHCM
     End Sub
 
 
@@ -68,6 +69,10 @@ Public Class cServiceConnection
                 ' When we are here, the socket IS CONNECTED
                 _sock = ConnectionObj.Socket
                 _connected = True
+
+                If _forceHCM Then
+                    ' Then we are in the SERVER. We 
+                End If
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
                 Dim __con As New ConnectionOptions

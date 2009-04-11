@@ -44,7 +44,17 @@ Public Class asyncCallbackModuleEnumerate
         End Sub
     End Structure
 
-
+    ' When socket got a list  !
+    Private Shared _poolObj As poolObj
+    Friend Shared Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String)
+        Dim dico As New Dictionary(Of String, moduleInfos)
+        If lst IsNot Nothing AndAlso keys IsNot Nothing AndAlso lst.Length = keys.Length Then
+            For x As Integer = 0 To lst.Length - 1
+                dico.Add(keys(x), DirectCast(lst(x), moduleInfos))
+            Next
+        End If
+        _poolObj.ctrl.Invoke(_poolObj.deg, True, dico, Nothing)
+    End Sub
     Public Shared Sub Process(ByVal thePoolObj As Object)
 
         Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
@@ -55,6 +65,14 @@ Public Class asyncCallbackModuleEnumerate
         Select Case pObj.con.ConnectionObj.ConnectionType
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                _poolObj = pObj
+                Try
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestModuleList)
+                    Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
+                    pObj.con.ConnectionObj.Socket.Send(buff, buff.Length)
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 

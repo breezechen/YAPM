@@ -32,25 +32,41 @@ Public Class frmServeur
 
     Private theConnection As New cConnection
     Private _procCon As New cProcessConnection(Me, theConnection)
+    Private _envCon As New cEnvVariableConnection(Me, theConnection)
+    Private _handleCon As New cHandleConnection(Me, theConnection)
+    Private _memoryCon As New cMemRegionConnection(Me, theConnection)
+    Private _moduleCon As New cModuleConnection(Me, theConnection)
+    Private _networkCon As New cNetworkConnection(Me, theConnection)
+    Private _serviceCon As New cServiceConnection(Me, theConnection)
+    Private _priviCon As New cPrivilegeConnection(Me, theConnection)
+    Private _taskCon As New cTaskConnection(Me, theConnection)
+    Private _threadCon As New cThreadConnection(Me, theConnection)
+    Private _windowCon As New cWindowConnection(Me, theConnection)
 
     ' Connect to local machine
     Private Sub connectLocal()
+
         ' Set handlers
-        With _procCon
-            .HasEnumerated = New cProcessConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedProcess)
-            '.Disconnected = New cProcessConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
-            '.Connected = New cProcessConnection.ConnectedEventHandler(AddressOf HasConnected)
-        End With
+        _procCon.HasEnumerated = New cProcessConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedProcess)
+        _networkCon.HasEnumerated = New cNetworkConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedNetwork)
+        _serviceCon.HasEnumerated = New cServiceConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedService)
+
         ' Set connection
         With theConnection
             .ConnectionType = cConnection.TypeOfConnection.LocalConnection
             .Connect()
         End With
         _procCon.ConnectionObj = theConnection
+        _networkCon.ConnectionObj = theConnection
+        _serviceCon.ConnectionObj = theConnection
+        _networkCon.Connect()
+        _serviceCon.Connect()
         _procCon.Connect()
+
     End Sub
 
-    ' Send process list
+#Region "Has enumerated lists"
+
     Private Sub HasEnumeratedProcess(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, processInfos), ByVal errorMessage As String)
 
         If Success Then
@@ -67,6 +83,42 @@ Public Class frmServeur
         End If
 
     End Sub
+
+    Private Sub HasEnumeratedService(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, serviceInfos), ByVal errorMessage As String)
+
+        If Success Then
+            Try
+                Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestServiceList)
+                cDat.SetServiceList(Dico)
+                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
+                sock.Send(buff, buff.Length)
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+        Else
+            ' Send an error
+        End If
+
+    End Sub
+
+    Private Sub HasEnumeratedNetwork(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, networkInfos), ByVal errorMessage As String)
+
+        If Success Then
+            Try
+                Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestNetworkConnectionList)
+                cDat.SetNetworkList(Dico)
+                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
+                sock.Send(buff, buff.Length)
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+        Else
+            ' Send an error
+        End If
+
+    End Sub
+
+#End Region
 
     Private Sub frmServeur_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         Try
@@ -100,7 +152,14 @@ Public Class frmServeur
 
                     Case cSocketData.OrderType.RequestProcessList
                         Call _procCon.Enumerate(True)
-
+                    Case cSocketData.OrderType.RequestNetworkConnectionList
+                        Dim pid() As Integer = CType(cData.Param1, Integer())
+                        Dim all As Boolean = CBool(cData.Param2)
+                        Call _networkCon.Enumerate(True, pid, all)
+                    Case cSocketData.OrderType.RequestServiceList
+                        Dim pid As Integer = CType(cData.Param1, Integer)
+                        Dim all As Boolean = CBool(cData.Param2)
+                        Call _serviceCon.Enumerate(True, pid, all)
                 End Select
 
             End If
