@@ -124,7 +124,7 @@ Public Class cNetworkConnection
             data.Order = cSocketData.OrderType.RequestNetworkConnectionList Then
             If _instanceId = data.InstanceId Then
                 ' OK it is for me
-                _networkenum.GotListFromSocket(data.GetList, data.GetKeys)
+                _networkEnum.GotListFromSocket(data.GetList, data.GetKeys)
             End If
         End If
     End Sub

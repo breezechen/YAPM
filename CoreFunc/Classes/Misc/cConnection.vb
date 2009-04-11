@@ -184,7 +184,7 @@ Public Class cConnection
                 Case cSocketData.OrderType.RequestMemoryRegionList
                     asyncCallbackMemRegionEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestModuleList
-                    asyncCallbackModuleEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+                    ' asyncCallbackModuleEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestNetworkConnectionList
                     ' asyncCallbackNetworkEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestPrivilegesList

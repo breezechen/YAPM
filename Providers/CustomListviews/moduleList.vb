@@ -42,7 +42,7 @@ Public Class moduleList
     Private _buffDico As New Dictionary(Of String, cModule)
     Private _dico As New Dictionary(Of String, cModule)
     Private WithEvents _connectionObject As New cConnection
-    Private WithEvents _moduleConnection As New cModuleConnection(Me, _connectionObject)
+    Private WithEvents _moduleConnection As New cModuleConnection(Me, _connectionObject, New cModuleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
 
 #Region "Properties"
 
@@ -88,7 +88,6 @@ Public Class moduleList
         _first = True
 
         ' Set handlers
-        _moduleConnection.HasEnumerated = New cModuleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler)
         _moduleConnection.Disconnected = New cModuleConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
         _moduleConnection.Connected = New cModuleConnection.ConnectedEventHandler(AddressOf HasConnected)
     End Sub
@@ -164,7 +163,7 @@ Public Class moduleList
     ' ========================================
 
     ' Executed when enumeration is done
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, moduleInfos), ByVal errorMessage As String)
+    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, moduleInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
