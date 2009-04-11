@@ -4348,7 +4348,12 @@ Public Class frmMain
         'Me.lvWindows.ConnectionObj = theConnection
         Me.lvNetwork.ConnectionObj = theConnection
         ' Me.lvTask.ConnectionObj = theConnection
-        Me.theConnection.Connect()
+        Try
+            Me.theConnection.Connect()
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Can not connect")
+            Exit Sub
+        End Try
 
         Me.menuThread.Enabled = (theConnection.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
 
@@ -4426,7 +4431,12 @@ Public Class frmMain
                 End Try
             End If
         Next
-        theConnection.Disconnect()
+        Try
+            Me.theConnection.Disconnect()
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Can not disconnect")
+            Exit Sub
+        End Try
     End Sub
 
     Private Sub ConnectionToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ConnectionToolStripMenuItem.Click

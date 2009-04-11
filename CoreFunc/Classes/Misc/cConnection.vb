@@ -194,7 +194,7 @@ Public Class cConnection
                 Case cSocketData.OrderType.RequestTaskList
                     asyncCallbackTaskEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestThreadList
-                    asyncCallbackThreadEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+                    '  asyncCallbackThreadEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestWindowList
                     asyncCallbackWindowEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
             End Select

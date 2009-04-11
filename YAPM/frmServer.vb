@@ -40,7 +40,7 @@ Public Class frmServeur
     Private _serviceCon As New cServiceConnection(Me, theConnection, New cServiceConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedService))
     Private _priviCon As New cPrivilegeConnection(Me, theConnection)
     Private _taskCon As New cTaskConnection(Me, theConnection)
-    Private _threadCon As New cThreadConnection(Me, theConnection)
+    Private _threadCon As New cThreadConnection(Me, theConnection, New cThreadConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedThread))
     Private _windowCon As New cWindowConnection(Me, theConnection)
 
     ' Connect to local machine
@@ -50,7 +50,6 @@ Public Class frmServeur
         _procCon.HasEnumerated = New cProcessConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedProcess)
         _networkCon.HasEnumerated = New cNetworkConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedNetwork)
         _moduleCon.HasEnumerated = New cModuleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedModule)
-        _threadCon.HasEnumerated = New cThreadConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedThread)
 
         ' Set connection
         With theConnection
@@ -106,11 +105,12 @@ Public Class frmServeur
 
     End Sub
 
-    Private Sub HasEnumeratedThread(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, threadInfos), ByVal errorMessage As String)
+    Private Sub HasEnumeratedThread(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, threadInfos), ByVal errorMessage As String, ByVal forII As Integer)
 
         If Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestThreadList)
+                cDat.InstanceId = forII   ' The instance which requested the list
                 cDat.SetThreadList(Dico)
                 Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
                 sock.Send(buff, buff.Length)

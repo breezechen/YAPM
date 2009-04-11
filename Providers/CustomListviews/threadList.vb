@@ -42,7 +42,7 @@ Public Class threadList
     Private _buffDico As New Dictionary(Of String, cThread)
     Private _dico As New Dictionary(Of String, cThread)
     Private WithEvents _connectionObject As New cConnection
-    Private WithEvents _threadConnection As New cThreadConnection(Me, _connectionObject)
+    Private WithEvents _threadConnection As New cThreadConnection(Me, _connectionObject, New cThreadConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
 
 #Region "Properties"
 
@@ -87,7 +87,6 @@ Public Class threadList
         _first = True
 
         ' Set handlers
-        _threadConnection.HasEnumerated = New cThreadConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler)
         _threadConnection.Disconnected = New cThreadConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
         _threadConnection.Connected = New cThreadConnection.ConnectedEventHandler(AddressOf HasConnected)
     End Sub
@@ -162,7 +161,7 @@ Public Class threadList
     ' ========================================
 
     ' Executed when enumeration is done
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, threadInfos), ByVal errorMessage As String)
+    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, threadInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")

@@ -30,6 +30,10 @@ Imports System.Text
 Public Class cThreadConnection
     Inherits cGeneralConnection
 
+    Friend Shared instanceId As Integer = 1
+    Private _instanceId As Integer = 1
+    Dim _threadEnum As asyncCallbackThreadEnumerate
+
     ' Rights to query infos with a handle
     Private Shared _minRights As API.THREAD_RIGHTS = API.THREAD_RIGHTS.THREAD_QUERY_INFORMATION
 
@@ -39,18 +43,21 @@ Public Class cThreadConnection
         End Get
     End Property
 
-    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection)
+    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, ByRef de As HasEnumeratedEventHandler)
         MyBase.New(ControlWhichGetInvoked, Conn)
         If IsWindowsVista() Then
             _minRights = API.THREAD_RIGHTS.THREAD_SET_LIMITED_INFORMATION
         End If
+        instanceId += 1
+        _instanceId = instanceId
+        _threadEnum = New asyncCallbackThreadEnumerate(_control, de, Me, _instanceId)
     End Sub
 
 #Region "Events, delegate, invoke..."
 
     Public Delegate Sub ConnectedEventHandler(ByVal Success As Boolean)
     Public Delegate Sub DisconnectedEventHandler(ByVal Success As Boolean)
-    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, threadInfos), ByVal errorMessage As String)
+    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, threadInfos), ByVal errorMessage As String, ByVal InstanceId As Integer)
 
     Public Connected As ConnectedEventHandler
     Public Disconnected As DisconnectedEventHandler
@@ -117,8 +124,8 @@ Public Class cThreadConnection
     Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid() As Integer, Optional ByVal forInstanceId As Integer = -1) As Integer
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
                 System.Threading.WaitCallback(AddressOf _
-                asyncCallbackThreadEnumerate.Process), New  _
-                asyncCallbackThreadEnumerate.poolObj(_control, HasEnumerated, Me, pid, forInstanceId))
+                _threadEnum.Process), New  _
+                asyncCallbackThreadEnumerate.poolObj(pid, forInstanceId))
     End Function
 
 #End Region
@@ -134,7 +141,18 @@ Public Class cThreadConnection
     End Sub
 
     Protected Overrides Sub _sock_ReceivedData(ByRef data As cSocketData) Handles _sock.ReceivedData
-        '
+        If data Is Nothing Then
+            Trace.WriteLine("Serialization error")
+            Exit Sub
+        End If
+
+        If data.Type = cSocketData.DataType.RequestedList AndAlso _
+            data.Order = cSocketData.OrderType.RequestThreadList Then
+            If _instanceId = data.InstanceId Then
+                ' OK it is for me
+                _threadEnum.GotListFromSocket(data.GetList, data.GetKeys)
+            End If
+        End If
     End Sub
 
     Protected Overrides Sub _sock_SentData() Handles _sock.SentData
