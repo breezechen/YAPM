@@ -38,7 +38,7 @@ Public Class frmProcessInfo
     Private WithEvents _AsyncDownload As cAsyncProcInfoDownload
     Private _asyncDlThread As Threading.Thread
 
-    Private WithEvents theConnection As New cConnection
+    Private WithEvents theConnection As cConnection
 
     ' String search (in process image/memory) private attributes
     Private _stringSearchImmediateStop As Boolean   ' Set to true to stop listing of string in process
@@ -53,6 +53,7 @@ Public Class frmProcessInfo
 
     Private _historyGraphNumber As Integer = 0
     Private _local As Boolean = True
+    Private _notWMI As Boolean
     Private __con As Management.ConnectionOptions
 
 
@@ -396,29 +397,30 @@ Public Class frmProcessInfo
         Me.Text = curProc.Infos.Name & " (" & CStr(curProc.Infos.Pid) & ")"
 
         _local = (cProcess.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
+        _notWMI = (cProcess.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
 
-        Me.cmdAffinity.Enabled = _local
-        Me.cmdPause.Enabled = _local
-        Me.cmdResume.Enabled = _local
+        Me.cmdAffinity.Enabled = _notWMI
+        Me.cmdPause.Enabled = _notWMI
+        Me.cmdResume.Enabled = _notWMI
         Me.lvModules.CatchErrors = Not (_local)
-        Me.timerProcPerf.Enabled = _local
-        Me.lvPrivileges.Enabled = _local
-        Me.lvHandles.Enabled = _local
-        Me.lvLog.Enabled = _local
-        Me.lvProcEnv.Enabled = _local
-        Me.lvProcMem.Enabled = _local
-        Me.lvProcNetwork.Enabled = _local
-        Me.lvProcString.Enabled = _local
-        Me.lvWindows.Enabled = _local
-        Me.SplitContainerStrings.Enabled = _local
-        Me.SplitContainerLog.Enabled = _local
+        Me.timerProcPerf.Enabled = _notWMI
+        Me.lvPrivileges.Enabled = _notWMI
+        Me.lvHandles.Enabled = _notWMI
+        Me.lvLog.Enabled = _notWMI
+        Me.lvProcEnv.Enabled = _notWMI
+        Me.lvProcMem.Enabled = _notWMI
+        Me.lvProcNetwork.Enabled = _notWMI
+        Me.lvProcString.Enabled = _notWMI
+        Me.lvWindows.Enabled = _notWMI
+        Me.SplitContainerStrings.Enabled = _notWMI
+        Me.SplitContainerLog.Enabled = _notWMI
         Me.cmdShowFileDetails.Enabled = _local
         Me.cmdShowFileProperties.Enabled = _local
         Me.cmdOpenDirectory.Enabled = _local
-        Me.chkModules.Enabled = _local
+        Me.chkModules.Enabled = _notWMI
         Me.chkHandles.Enabled = _local
-        Me.ShowFileDetailsToolStripMenuItem.Enabled = _local
-        Me.ToolStripMenuItem36.Enabled = _local
+        Me.ShowFileDetailsToolStripMenuItem.Enabled = _notWMI
+        Me.ToolStripMenuItem36.Enabled = _notWMI
         Me.ViewMemoryToolStripMenuItem.Enabled = _local
 
         ' Verify file
@@ -1919,7 +1921,8 @@ Public Class frmProcessInfo
     ' Connection
     Public Sub Connect()
         ' Connect providers
-        theConnection.CopyFromInstance(frmMain.theConnection)
+        'theConnection.CopyFromInstance(frmMain.theConnection)
+        theConnection = frmMain.theConnection
         Me.lvThreads.ConnectionObj = theConnection
         Me.lvModules.ConnectionObj = theConnection
         Me.lvHandles.ConnectionObj = theConnection

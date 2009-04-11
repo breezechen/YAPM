@@ -132,6 +132,9 @@ Public Class cConnection
             If _sock Is Nothing Then
                 _sock = New cAsyncSocket()
                 _sock.Connect(_conSocket)
+            Else
+                _isConnected = True
+                RaiseEvent Connected()
             End If
         Else
             _isConnected = True
