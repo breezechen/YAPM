@@ -92,7 +92,7 @@ Public Class asyncCallbackProcEnumerate
                     Try
                         Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestProcessList)
                         Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                        pObj.con.Socket.Send(buff, buff.Length)
+                        pObj.con.ConnectionObj.Socket.Send(buff, buff.Length)
                     Catch ex As Exception
                         MsgBox(ex.Message)
                     End Try

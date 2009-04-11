@@ -33,6 +33,7 @@ Public MustInherit Class cGeneralConnection
 
     ' We will invoke this control
     Protected _control As Control
+    Protected WithEvents _sock As cAsyncSocket
 
     ' For WMI
     Friend wmiSearcher As Management.ManagementObjectSearcher
@@ -40,6 +41,9 @@ Public MustInherit Class cGeneralConnection
     Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection)
         _control = ControlWhichGetInvoked
         _conObj = Conn
+        _sock = Conn.Socket     ' Get a reference to the general socket, so that it si
+        ' possible to get an event in every cXXXXConnection when
+        ' the socket is (dis)connected
     End Sub
 
 #Region "Description of the type of connection"
@@ -47,7 +51,6 @@ Public MustInherit Class cGeneralConnection
     ' Attributes
     Protected _connected As Boolean = False
     Protected _conObj As cConnection
-    Protected WithEvents _sock As cAsyncSocket
 
     Public ReadOnly Property IsConnected() As Boolean
         Get

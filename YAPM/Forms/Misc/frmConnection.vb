@@ -125,11 +125,18 @@ Public Class frmConnection
     ' BAD WAY (because of withevents, this is raised JUST WHEN frmMain.theConnection.Connect
     ' is call. BAD THING (should wait asyncMethod, but there are LOTS of asyncMethids
     ' (one for each lvItem).
-    Private Sub _formConnectionReference_Connected() Handles _formConnectionReference.Connected
-        Call ChangeCaption()
-    End Sub
-    Private Sub _formConnectionReference_Disconnected() Handles _formConnectionReference.Disconnected
+    'Private Sub _formConnectionReference_Connected() Handles _formConnectionReference.Connected
+    '    Call ChangeCaption()
+    'End Sub
+    'Private Sub _formConnectionReference_Disconnected() Handles _formConnectionReference.Disconnected
+    '    Call ChangeCaption()
+    'End Sub
+
+    Private Sub Timer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer.Tick
         Call ChangeCaption()
     End Sub
 
+    Private Sub frmConnection_VisibleChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.VisibleChanged
+        Me.Timer.Enabled = Me.Visible
+    End Sub
 End Class

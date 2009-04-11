@@ -54,7 +54,9 @@ Public Class cPrivilegeConnection
         ' Connect
         Select Case _conObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-
+                ' When we are here, the socket IS CONNECTED
+                _sock = ConnectionObj.Socket
+                _connected = True
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
             Case Else
@@ -69,7 +71,8 @@ Public Class cPrivilegeConnection
     Protected Overrides Sub asyncDisconnect()
         Select Case _conObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-
+                _connected = False
+                _control.Invoke(Disconnected, True)
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
             Case Else

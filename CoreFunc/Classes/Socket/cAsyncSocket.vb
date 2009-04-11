@@ -65,6 +65,14 @@ Public Class cAsyncSocket
         Trace.WriteLine("Client connecting...")
         sock.BeginConnect(New System.Net.IPEndPoint([IpAddress], [Port]), AddressOf connectCallback, Nothing)
     End Sub
+    Public Sub Connect(ByVal [Connection] As cConnection.SocketConnectionParameters)
+        ' New socket
+        Trace.WriteLine("Client Creating socket...")
+        sock = New Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
+        ' OK, connect
+        Trace.WriteLine("Client connecting...")
+        sock.BeginConnect(New System.Net.IPEndPoint([Connection].address, [Connection].port), AddressOf connectCallback, Nothing)
+    End Sub
 
     ' Disconnect
     Public Sub Disconnect()

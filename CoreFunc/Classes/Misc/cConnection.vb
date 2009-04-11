@@ -59,11 +59,17 @@ Public Class cConnection
         End Sub
     End Structure
 
-
+    Private WithEvents _sock As cAsyncSocket
     Private _conType As TypeOfConnection
     Private _conSocket As SocketConnectionParameters
     Private _conWMI As WMIConnectionParameters
     Private _isConnected As Boolean
+
+    Public ReadOnly Property Socket() As cAsyncSocket
+        Get
+            Return _sock
+        End Get
+    End Property
 
     Public Property ConnectionType() As TypeOfConnection
         Get
@@ -119,15 +125,57 @@ Public Class cConnection
     End Sub
 
     ' BAD WAY (because of withevents, this is raised JUST WHEN frmMain.theConnection.Connect
-    ' is call. BAD THING (should wait asyncMethod, but there are LOTS of asyncMethids
+    ' is called. BAD THING (should wait asyncMethod, but there are LOTS of asyncMethids
     ' (one for each lvItem).
     Public Sub Connect()
+        If Me.ConnectionType = TypeOfConnection.RemoteConnectionViaSocket Then
+            If _sock Is Nothing Then
+                _sock = New cAsyncSocket()
+                _sock.Connect(_conSocket)
+            End If
+        Else
+            _isConnected = True
+            RaiseEvent Connected()
+        End If
+    End Sub
+    Public Sub Disconnect()
+        If Me.ConnectionType = TypeOfConnection.RemoteConnectionViaSocket Then
+            _sock.Disconnect()
+        Else
+            _isConnected = False
+            RaiseEvent Disconnected()
+        End If
+    End Sub
+
+    Private Sub _sock_Connected() Handles _sock.Connected
         _isConnected = True
         RaiseEvent Connected()
     End Sub
-    Public Sub Disconnect()
+    Private Sub _sock_Disconnected() Handles _sock.Disconnected
         _isConnected = False
+        _sock = Nothing
         RaiseEvent Disconnected()
+    End Sub
+
+    Private Sub _sock_SentData() Handles _sock.SentData
+        ' When we have sent datas
+    End Sub
+
+    ' When we receive datas
+    Private Sub _sock_ReceivedData(ByRef data() As Byte, ByVal length As Integer) Handles _sock.ReceivedData
+        Dim cDat As cSocketData = cSerialization.DeserializeObject(data)
+
+        If cDat.Type = cSocketData.DataType.RequestedList Then
+            ' Here we got a list of items
+            Select Case cDat.Order
+                Case cSocketData.OrderType.RequestProcessList
+                    ' Then we got a list !
+                    asyncCallbackProcEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+            End Select
+
+        Else
+            '
+        End If
     End Sub
 
 End Class

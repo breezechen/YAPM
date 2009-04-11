@@ -22,6 +22,7 @@ Partial Class frmConnection
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
         Me.optLocal = New System.Windows.Forms.RadioButton
         Me.optWMI = New System.Windows.Forms.RadioButton
         Me.optServer = New System.Windows.Forms.RadioButton
@@ -38,6 +39,7 @@ Partial Class frmConnection
         Me.Label13 = New System.Windows.Forms.Label
         Me.txtServerMachine = New System.Windows.Forms.TextBox
         Me.Label12 = New System.Windows.Forms.Label
+        Me.Timer = New System.Windows.Forms.Timer(Me.components)
         Me.gpServer.SuspendLayout()
         Me.gpWMI.SuspendLayout()
         Me.SuspendLayout()
@@ -198,6 +200,10 @@ Partial Class frmConnection
         Me.Label12.TabIndex = 10
         Me.Label12.Text = "Machine"
         '
+        'Timer
+        '
+        Me.Timer.Enabled = True
+        '
         'frmConnection
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -242,4 +248,5 @@ Partial Class frmConnection
     Friend WithEvents Label12 As System.Windows.Forms.Label
     Friend WithEvents txtServerIP As System.Windows.Forms.TextBox
     Friend WithEvents Label17 As System.Windows.Forms.Label
+    Friend WithEvents Timer As System.Windows.Forms.Timer
 End Class

@@ -44,7 +44,7 @@ Partial Class frmServeur
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(100, 22)
         Me.TextBox1.TabIndex = 6
-        Me.TextBox1.Text = "192.168.0."
+        Me.TextBox1.Text = "192.168.0.4"
         '
         'Label2
         '
@@ -64,7 +64,7 @@ Partial Class frmServeur
         Me.Label1.TabIndex = 4
         Me.Label1.Text = resources.GetString("Label1.Text")
         '
-        'frmServer
+        'frmServeur
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -77,7 +77,7 @@ Partial Class frmServeur
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
-        Me.Name = "frmServer"
+        Me.Name = "frmServeur"
         Me.Text = "YAPM remote process"
         Me.ResumeLayout(False)
         Me.PerformLayout()

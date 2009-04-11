@@ -131,6 +131,8 @@ Public Class frmServeur
         sock.SentData = New cAsyncSocketServer.SentDataEventHandler(AddressOf sock_SentData)
 
         connectLocal()
+
+        Button1_Click(Nothing, Nothing)
     End Sub
 
     Private Sub sock_ReceivedData1(ByRef data() As Byte, ByVal length As Integer) Handles sock.ReceivedData
