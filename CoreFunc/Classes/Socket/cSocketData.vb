@@ -85,6 +85,7 @@ Option Strict On
     Private _orderType As OrderType
 
     ' Some parameters for our functions
+    Private _instanceId As Integer
     Private _param1 As Object
     Private _param2 As Object
     Private _param3 As Object
@@ -95,6 +96,14 @@ Option Strict On
     Private _keys() As String
 
     ' Properties
+    Public Property InstanceId() As Integer
+        Get
+            Return _instanceId
+        End Get
+        Set(ByVal value As Integer)
+            _instanceId = value
+        End Set
+    End Property
     Public ReadOnly Property GetList() As generalInfos()
         Get
             Return _list

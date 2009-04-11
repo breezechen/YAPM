@@ -34,27 +34,35 @@ Public Class asyncCallbackServiceEnumerate
     Private ctrl As Control
     Private deg As [Delegate]
     Private con As cServiceConnection
+    Private _instanceId As Integer
+
+#Region "Shared code (for dico of services)"
 
     Public Shared dicoNewServices As New Dictionary(Of String, Boolean)
+    Public Shared Sub ClearDico()
+        dicoNewServices.Clear()
+    End Sub
 
-    Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cServiceConnection)
+#End Region
+
+    Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cServiceConnection, ByVal iId As Integer)
         ctrl = ctr
         deg = de
+        _instanceId = iId
         con = co
     End Sub
 
     Public Structure poolObj
         Public pid As Integer
         Public all As Boolean
-        Public Sub New(ByVal pi As Integer, ByVal al As Boolean)
+        Public forInstanceId As Integer
+        Public Sub New(ByVal pi As Integer, ByVal al As Boolean, ByVal forII As Integer)
             all = al
+            forInstanceId = forII
             pid = pi
         End Sub
     End Structure
 
-    Public Shared Sub ClearDico()
-        dicoNewServices.Clear()
-    End Sub
 
     ' When socket got a list !
     Private _poolObj As poolObj
@@ -65,7 +73,7 @@ Public Class asyncCallbackServiceEnumerate
                 dico.Add(keys(x), DirectCast(lst(x), serviceInfos))
             Next
         End If
-        ctrl.Invoke(deg, True, dico, Nothing)
+        ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
     End Sub
     Public Sub Process(ByVal thePoolObj As Object)
 
@@ -81,6 +89,7 @@ Public Class asyncCallbackServiceEnumerate
                     _poolObj = pObj
                     Try
                         Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestServiceList, pObj.pid, pObj.all)
+                        cDat.InstanceId = _instanceId   ' Instance which request the list
                         Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
                         con.ConnectionObj.Socket.Send(buff, buff.Length)
                     Catch ex As Exception
@@ -126,7 +135,7 @@ Public Class asyncCallbackServiceEnumerate
 
                         ' Do we have to get fixed infos ?
                         Dim _servInfos As New serviceInfos(obj)
-                        If dicoNewServices.ContainsKey(obj.ServiceName) = False Then
+                        If pObj.all = False OrElse dicoNewServices.ContainsKey(obj.ServiceName) = False Then
 
                             Dim conf As New API.QUERY_SERVICE_CONFIG
                             With conf
@@ -141,22 +150,28 @@ Public Class asyncCallbackServiceEnumerate
                             End With
                             _servInfos.SetConfig(conf)
 
-                            dicoNewServices.Add(obj.ServiceName, False)
+                            If pObj.all Then
+                                dicoNewServices.Add(obj.ServiceName, False)
+                            End If
 
                         End If
 
                         ' Set true so that the process is marked as existing
-                        dicoNewServices(obj.ServiceName) = True
+                        If pObj.all Then
+                            dicoNewServices(obj.ServiceName) = True
+                        End If
                         _dico.Add(obj.ServiceName, _servInfos)
                     Next
 
                     ' Remove all services that not exist anymore
-                    Dim _dicoTemp As Dictionary(Of String, Boolean) = dicoNewServices
-                    For Each it As System.Collections.Generic.KeyValuePair(Of String, Boolean) In _dicoTemp
-                        If it.Value = False Then
-                            dicoNewServices.Remove(it.Key)
-                        End If
-                    Next
+                    If pObj.all Then
+                        Dim _dicoTemp As Dictionary(Of String, Boolean) = dicoNewServices
+                        For Each it As System.Collections.Generic.KeyValuePair(Of String, Boolean) In _dicoTemp
+                            If it.Value = False Then
+                                dicoNewServices.Remove(it.Key)
+                            End If
+                        Next
+                    End If
                     ctrl.Invoke(deg, True, _dico, Nothing)
 
                 Case Else
@@ -215,14 +230,18 @@ Public Class asyncCallbackServiceEnumerate
                                     If pObj.all OrElse pObj.pid = obj.ServiceStatusProcess.ProcessID Then
                                         Dim _servINFO As New serviceInfos(obj)
 
-                                        If dicoNewServices.ContainsKey(obj.ServiceName) = False Then
+                                        If pObj.all = False OrElse dicoNewServices.ContainsKey(obj.ServiceName) = False Then
                                             getRegInfos(obj.ServiceName, _servINFO)
-                                            dicoNewServices.Add(obj.ServiceName, False)
+                                            If pObj.all Then
+                                                dicoNewServices.Add(obj.ServiceName, False)
+                                            End If
                                         End If
 
                                         _dico.Add(obj.ServiceName, _servINFO)
                                     End If
-                                    dicoNewServices(obj.ServiceName) = True
+                                    If pObj.all Then
+                                        dicoNewServices(obj.ServiceName) = True
+                                    End If
                                 Next idx
 
                             End If
@@ -232,14 +251,16 @@ Public Class asyncCallbackServiceEnumerate
                     End If
 
                     ' Remove all services that not exist anymore
-                    Dim _dicoTemp As Dictionary(Of String, Boolean) = dicoNewServices
-                    For Each it As System.Collections.Generic.KeyValuePair(Of String, Boolean) In _dicoTemp
-                        If it.Value = False Then
-                            dicoNewServices.Remove(it.Key)
-                        End If
-                    Next
+                    If pObj.all Then
+                        Dim _dicoTemp As Dictionary(Of String, Boolean) = dicoNewServices
+                        For Each it As System.Collections.Generic.KeyValuePair(Of String, Boolean) In _dicoTemp
+                            If it.Value = False Then
+                                dicoNewServices.Remove(it.Key)
+                            End If
+                        Next
+                    End If
 
-                    ctrl.Invoke(deg, True, _dico, API.GetError)
+                    ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
 
             End Select
         End SyncLock

@@ -89,11 +89,12 @@ Public Class frmServeur
 
     End Sub
 
-    Private Sub HasEnumeratedService(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, serviceInfos), ByVal errorMessage As String)
+    Private Sub HasEnumeratedService(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, serviceInfos), ByVal errorMessage As String, ByVal forII As Integer)
 
         If Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestServiceList)
+                cDat.InstanceId = forII   ' The instance which requested the list
                 cDat.SetServiceList(Dico)
                 Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
                 sock.Send(buff, buff.Length)
@@ -206,6 +207,8 @@ Public Class frmServeur
                 Exit Sub
             End If
 
+            Dim _forInstanceId As Integer = cData.InstanceId
+
             ' Extract the type of information we have to send
             If cData.Type = cSocketData.DataType.Order Then
 
@@ -219,7 +222,7 @@ Public Class frmServeur
                     Case cSocketData.OrderType.RequestServiceList
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim all As Boolean = CBool(cData.Param2)
-                        Call _serviceCon.Enumerate(True, pid, all)
+                        Call _serviceCon.Enumerate(True, pid, all, _forInstanceId)
                     Case cSocketData.OrderType.RequestModuleList
                         Dim pid() As Integer = CType(cData.Param1, Integer())
                         Call _moduleCon.Enumerate(True, pid)
@@ -261,7 +264,7 @@ Public Class frmServeur
 
         connectLocal()
 
-        Button1_Click(Nothing, Nothing)
+        '  Button1_Click(Nothing, Nothing)
     End Sub
 
     Private Sub sock_ReceivedData1(ByRef data() As Byte, ByVal length As Integer) Handles sock.ReceivedData

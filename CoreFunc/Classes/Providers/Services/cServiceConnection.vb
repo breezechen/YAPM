@@ -30,12 +30,15 @@ Imports System.Text
 Public Class cServiceConnection
     Inherits cGeneralConnection
 
+    Friend Shared instanceId As Integer = 1
+    Private _instanceId As Integer = 1
     Dim _servEnum As asyncCallbackServiceEnumerate
 
-    Private _forceHCM As Boolean
     Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, ByRef de As HasEnumeratedEventHandler)
         MyBase.New(ControlWhichGetInvoked, Conn)
-        _servEnum = New asyncCallbackServiceEnumerate(_control, de, Me)
+        instanceId += 1
+        _instanceId = instanceId
+        _servEnum = New asyncCallbackServiceEnumerate(_control, de, Me, _instanceId)
     End Sub
 
 
@@ -43,7 +46,7 @@ Public Class cServiceConnection
 
     Public Delegate Sub ConnectedEventHandler(ByVal Success As Boolean)
     Public Delegate Sub DisconnectedEventHandler(ByVal Success As Boolean)
-    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, serviceInfos), ByVal errorMessage As String)
+    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, serviceInfos), ByVal errorMessage As String, ByVal forII As Integer)
 
     Public Connected As ConnectedEventHandler
     Public Disconnected As DisconnectedEventHandler
@@ -122,11 +125,11 @@ Public Class cServiceConnection
 #Region "Enumerate services"
 
     ' Enumerate services
-    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByVal pid As Integer, ByVal all As Boolean) As Integer
+    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByVal pid As Integer, ByVal all As Boolean, Optional ByVal forInstanceId As Integer = -1) As Integer
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
                 System.Threading.WaitCallback(AddressOf _
                 _servEnum.Process), New  _
-                asyncCallbackServiceEnumerate.poolObj(pid, all))
+                asyncCallbackServiceEnumerate.poolObj(pid, all, forInstanceId))
     End Function
 
 #End Region
@@ -149,7 +152,10 @@ Public Class cServiceConnection
 
         If data.Type = cSocketData.DataType.RequestedList AndAlso _
             data.Order = cSocketData.OrderType.RequestServiceList Then
-            _servEnum.GotListFromSocket(data.GetList, data.GetKeys)
+            If _instanceId = data.InstanceId Then
+                ' OK it is for me
+                _servEnum.GotListFromSocket(data.GetList, data.GetKeys)
+            End If
         End If
     End Sub
 

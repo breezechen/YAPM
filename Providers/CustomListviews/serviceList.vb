@@ -171,7 +171,7 @@ Public Class serviceList
     ' ========================================
 
     ' Executed when enumeration is done
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, serviceInfos), ByVal errorMessage As String)
+    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, serviceInfos), ByVal errorMessage As String, ByVal forII As Integer)
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
