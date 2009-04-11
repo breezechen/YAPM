@@ -31,7 +31,7 @@ Public Class frmServeur
     Private _readyToLeave As Boolean = True
 
     Private theConnection As New cConnection
-    Private _procCon As New cProcessConnection(Me, theConnection)
+    Private _procCon As New cProcessConnection(Me, theConnection, New cProcessConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedProcess))
     Private _envCon As New cEnvVariableConnection(Me, theConnection)
     Private _handleCon As New cHandleConnection(Me, theConnection, New cHandleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedHandle))
     Private _memoryCon As New cMemRegionConnection(Me, theConnection)
@@ -46,14 +46,12 @@ Public Class frmServeur
     ' Connect to local machine
     Private Sub connectLocal()
 
-        ' Set handlers
-        _procCon.HasEnumerated = New cProcessConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedProcess)
-
         ' Set connection
         With theConnection
             .ConnectionType = cConnection.TypeOfConnection.LocalConnection
             .Connect()
         End With
+
         _procCon.ConnectionObj = theConnection
         _networkCon.ConnectionObj = theConnection
         _serviceCon.ConnectionObj = theConnection
@@ -68,11 +66,12 @@ Public Class frmServeur
 
 #Region "Has enumerated lists"
 
-    Private Sub HasEnumeratedProcess(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, processInfos), ByVal errorMessage As String)
+    Private Sub HasEnumeratedProcess(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
         If Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestProcessList)
+                cDat.InstanceId = instanceId   ' The instance which requested the list
                 cDat.SetProcessList(Dico)
                 Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
                 sock.Send(buff, buff.Length)

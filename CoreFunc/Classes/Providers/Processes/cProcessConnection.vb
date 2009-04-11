@@ -30,6 +30,10 @@ Imports System.Text
 Public Class cProcessConnection
     Inherits cGeneralConnection
 
+    Friend Shared instanceId As Integer = 1
+    Private _instanceId As Integer = 1
+    Dim _procEnum As asyncCallbackProcEnumerate
+
     ' Rights to query infos with a handle
     Private Shared _minRights As API.PROCESS_RIGHTS = API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION
 
@@ -42,18 +46,21 @@ Public Class cProcessConnection
         End Get
     End Property
 
-    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection)
+    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, ByRef de As HasEnumeratedEventHandler)
         MyBase.New(ControlWhichGetInvoked, Conn)
         If IsWindowsVista() Then
             _minRights = API.PROCESS_RIGHTS.PROCESS_QUERY_LIMITED_INFORMATION
         End If
+        instanceId += 1
+        _instanceId = instanceId
+        _procEnum = New asyncCallbackProcEnumerate(_control, de, Me, _instanceId)
     End Sub
 
 #Region "Events, delegate, invoke..."
 
     Public Delegate Sub ConnectedEventHandler(ByVal Success As Boolean)
     Public Delegate Sub DisconnectedEventHandler(ByVal Success As Boolean)
-    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, processInfos), ByVal errorMessage As String)
+    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
     Public Connected As ConnectedEventHandler
     Public Disconnected As DisconnectedEventHandler
@@ -154,8 +161,8 @@ Public Class cProcessConnection
     Public Function Enumerate(ByVal getFixedInfos As Boolean, Optional ByVal forInstanceId As Integer = -1) As Integer
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
                 System.Threading.WaitCallback(AddressOf _
-                asyncCallbackProcEnumerate.Process), New  _
-                asyncCallbackProcEnumerate.poolObj(_control, HasEnumerated, Me, forInstanceId))
+                _procEnum.Process), New  _
+                asyncCallbackProcEnumerate.poolObj(forInstanceId))
     End Function
 
 #End Region
@@ -171,7 +178,18 @@ Public Class cProcessConnection
     End Sub
 
     Protected Overrides Sub _sock_ReceivedData(ByRef data As cSocketData) Handles _sock.ReceivedData
-        '
+        If data Is Nothing Then
+            Trace.WriteLine("Serialization error")
+            Exit Sub
+        End If
+
+        If data.Type = cSocketData.DataType.RequestedList AndAlso _
+            data.Order = cSocketData.OrderType.RequestProcessList Then
+            If _instanceId = data.InstanceId Then
+                ' OK it is for me
+                _procEnum.GotListFromSocket(data.GetList, data.GetKeys)
+            End If
+        End If
     End Sub
 
     Protected Overrides Sub _sock_SentData() Handles _sock.SentData

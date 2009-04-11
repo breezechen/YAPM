@@ -176,7 +176,7 @@ Public Class cConnection
             ' Here we got a list of items
             Select Case cDat.Order
                 Case cSocketData.OrderType.RequestProcessList
-                    asyncCallbackProcEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+                    'asyncCallbackProcEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestEnvironmentVariableList
                     asyncCallbackEnvVariableEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestHandleList

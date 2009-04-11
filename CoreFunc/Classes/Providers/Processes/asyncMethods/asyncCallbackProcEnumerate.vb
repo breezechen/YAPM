@@ -29,28 +29,28 @@ Imports System.Management
 
 Public Class asyncCallbackProcEnumerate
 
+    Private Const NO_INFO_RETRIEVED As String = "N/A"
+
+    Private ctrl As Control
+    Private deg As [Delegate]
+    Private con As cProcessConnection
+    Private _instanceId As Integer
+    Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cProcessConnection, ByVal iId As Integer)
+        ctrl = ctr
+        deg = de
+        _instanceId = iId
+        con = co
+    End Sub
+
+#Region "Shared code"
+
     ' Contains devices (logical drives) and their corresponding path
     ' e.g. :        /Device/Harddisk1/...       , C:
     Private Shared _DicoLogicalDrivesNames As New Dictionary(Of String, String)
 
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
-
     Public Shared dicoNewProcesses As New Dictionary(Of Integer, Boolean)
     ' PID <-> (PID-TID <-> THREAD)
     Public Shared AvailableThreads As New Dictionary(Of Integer, Dictionary(Of String, threadInfos))
-
-    Public Structure poolObj
-        Public ctrl As Control
-        Public deg As [Delegate]
-        Public con As cProcessConnection
-        Public forInstanceId As Integer
-        Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cProcessConnection, ByVal iid As Integer)
-            ctrl = ctr
-            forInstanceId = iid
-            deg = de
-            con = co
-        End Sub
-    End Structure
 
     Public Shared Sub ClearDico()
         dicoNewProcesses.Clear()
@@ -65,36 +65,48 @@ Public Class asyncCallbackProcEnumerate
         End SyncLock
     End Sub
 
+#End Region
+
+    Public Structure poolObj
+        Public forInstanceId As Integer
+        Public Sub New(ByVal iid As Integer)
+            forInstanceId = iid
+        End Sub
+    End Structure
+
+
+
     ' When socket got a list of processes !
-    Private Shared _poolObj As poolObj
-    Friend Shared Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String)
+    Private _poolObj As poolObj
+    Friend Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String)
         Dim dico As New Dictionary(Of String, processInfos)
         If lst IsNot Nothing AndAlso keys IsNot Nothing AndAlso lst.Length = keys.Length Then
             For x As Integer = 0 To lst.Length - 1
                 dico.Add(keys(x), DirectCast(lst(x), processInfos))
             Next
         End If
-        _poolObj.ctrl.Invoke(_poolObj.deg, True, dico, Nothing)
+        ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
     End Sub
 
-    Public Shared Sub Process(ByVal thePoolObj As Object)
+    Public Sub Process(ByVal thePoolObj As Object)
         SyncLock dicoNewProcesses
 
             AvailableThreads.Clear()
 
             Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-            If pObj.con.ConnectionObj.IsConnected = False Then
+            If con.ConnectionObj.IsConnected = False Then
                 Exit Sub
             End If
 
-            Select Case pObj.con.ConnectionObj.ConnectionType
+            Select Case con.ConnectionObj.ConnectionType
 
                 Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                     _poolObj = pObj
                     Try
                         Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestProcessList)
+                        cDat.InstanceId = _instanceId   ' Instance which request the list
                         Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                        pObj.con.ConnectionObj.Socket.Send(buff, buff.Length)
+                        con.ConnectionObj.Socket.Send(buff, buff.Length)
                     Catch ex As Exception
                         MsgBox(ex.Message)
                     End Try
@@ -104,9 +116,9 @@ Public Class asyncCallbackProcEnumerate
                     ' Save current collection
                     Dim res As ManagementObjectCollection = Nothing
                     Try
-                        res = pObj.con.wmiSearcher.Get()
+                        res = con.wmiSearcher.Get()
                     Catch ex As Exception
-                        pObj.ctrl.Invoke(pObj.deg, False, Nothing, ex.Message)
+                        ctrl.Invoke(deg, False, Nothing, ex.Message, pObj.forInstanceId)
                         Exit Sub
                     End Try
 
@@ -192,7 +204,7 @@ Public Class asyncCallbackProcEnumerate
                             dicoNewProcesses.Remove(it.Key)
                         End If
                     Next
-                    pObj.ctrl.Invoke(pObj.deg, True, _dico, Nothing)
+                    ctrl.Invoke(deg, True, _dico, Nothing, pObj.forInstanceId)
 
                 Case Else
                     ' Local
@@ -283,7 +295,7 @@ Public Class asyncCallbackProcEnumerate
                             dicoNewProcesses.Remove(it.Key)
                         End If
                     Next
-                    pObj.ctrl.Invoke(pObj.deg, True, _dico, API.GetError)
+                    ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
             End Select
 
         End SyncLock

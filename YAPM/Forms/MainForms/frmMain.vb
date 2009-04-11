@@ -1032,7 +1032,7 @@ Public Class frmMain
                 Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvTask.Items.Count) & " tasks running"
                 _tab.SelectedTab = Me.pageTasks
             Case "Network"
-                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvNetwork.Items.Count) & " connections"
+                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvNetwork.Items.Count) & " connections opened"
                 _tab.SelectedTab = Me.pageNetwork
         End Select
         'End If
@@ -2621,7 +2621,7 @@ Public Class frmMain
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
             Dim ss As String = Me.Ribbon.ActiveTab.Text
             If ss = "Network" Then
-                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvNetwork.Items.Count) & " connections running"
+                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvNetwork.Items.Count) & " connections opened"
             End If
         End If
     End Sub

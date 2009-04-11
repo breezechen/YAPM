@@ -41,7 +41,7 @@ Public Class processList
     Private _buffDico As New Dictionary(Of String, cProcess)
     Private _dico As New Dictionary(Of String, cProcess)
     Private WithEvents _connectionObject As New cConnection
-    Private WithEvents _processConnection As New cProcessConnection(Me, _connectionObject)
+    Private WithEvents _processConnection As New cProcessConnection(Me, _connectionObject, New cProcessConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
 
 #Region "Properties"
 
@@ -79,7 +79,6 @@ Public Class processList
         _first = True
 
         ' Set handlers
-        _processConnection.HasEnumerated = New cProcessConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler)
         _processConnection.Disconnected = New cProcessConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
         _processConnection.Connected = New cProcessConnection.ConnectedEventHandler(AddressOf HasConnected)
     End Sub
@@ -162,7 +161,7 @@ Public Class processList
     ' ========================================
 
     ' Executed when enumeration is done
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, processInfos), ByVal errorMessage As String)
+    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
