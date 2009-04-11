@@ -31,19 +31,23 @@ Public Class asyncCallbackServiceEnumerate
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
+    Private ctrl As Control
+    Private deg As [Delegate]
+    Private con As cServiceConnection
+
     Public Shared dicoNewServices As New Dictionary(Of String, Boolean)
 
+    Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cServiceConnection)
+        ctrl = ctr
+        deg = de
+        con = co
+    End Sub
+
     Public Structure poolObj
-        Public ctrl As Control
-        Public deg As [Delegate]
-        Public con As cServiceConnection
         Public pid As Integer
         Public all As Boolean
-        Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cServiceConnection, ByVal pi As Integer, ByVal al As Boolean)
-            ctrl = ctr
-            deg = de
+        Public Sub New(ByVal pi As Integer, ByVal al As Boolean)
             all = al
-            con = co
             pid = pi
         End Sub
     End Structure
@@ -53,32 +57,32 @@ Public Class asyncCallbackServiceEnumerate
     End Sub
 
     ' When socket got a list !
-    Private Shared _poolObj As poolObj
-    Friend Shared Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String)
+    Private _poolObj As poolObj
+    Friend Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String)
         Dim dico As New Dictionary(Of String, serviceInfos)
         If lst IsNot Nothing AndAlso keys IsNot Nothing AndAlso lst.Length = keys.Length Then
             For x As Integer = 0 To lst.Length - 1
                 dico.Add(keys(x), DirectCast(lst(x), serviceInfos))
             Next
         End If
-        _poolObj.ctrl.Invoke(_poolObj.deg, True, dico, Nothing)
+        ctrl.Invoke(deg, True, dico, Nothing)
     End Sub
-    Public Shared Sub Process(ByVal thePoolObj As Object)
+    Public Sub Process(ByVal thePoolObj As Object)
 
         SyncLock dicoNewServices
             Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-            If pObj.con.ConnectionObj.IsConnected = False Then
+            If con.ConnectionObj.IsConnected = False Then
                 Exit Sub
             End If
 
-            Select Case pObj.con.ConnectionObj.ConnectionType
+            Select Case con.ConnectionObj.ConnectionType
 
                 Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                     _poolObj = pObj
                     Try
                         Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestServiceList, pObj.pid, pObj.all)
                         Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                        pObj.con.ConnectionObj.Socket.Send(buff, buff.Length)
+                        con.ConnectionObj.Socket.Send(buff, buff.Length)
                     Catch ex As Exception
                         MsgBox(ex.Message)
                     End Try
@@ -88,9 +92,9 @@ Public Class asyncCallbackServiceEnumerate
                     ' Save current collection
                     Dim res As ManagementObjectCollection = Nothing
                     Try
-                        res = pObj.con.wmiSearcher.Get()
+                        res = con.wmiSearcher.Get()
                     Catch ex As Exception
-                        pObj.ctrl.Invoke(pObj.deg, False, Nothing, ex.Message)
+                        ctrl.Invoke(deg, False, Nothing, ex.Message)
                         Exit Sub
                     End Try
 
@@ -153,7 +157,7 @@ Public Class asyncCallbackServiceEnumerate
                             dicoNewServices.Remove(it.Key)
                         End If
                     Next
-                    pObj.ctrl.Invoke(pObj.deg, True, _dico, Nothing)
+                    ctrl.Invoke(deg, True, _dico, Nothing)
 
                 Case Else
                     ' Local
@@ -167,7 +171,7 @@ Public Class asyncCallbackServiceEnumerate
                     Dim lStructsNeeded As Integer
                     Dim lServiceStatusInfoBuffer As Integer
 
-                    Dim hSCM As IntPtr = pObj.con.SCManagerLocalHandle
+                    Dim hSCM As IntPtr = con.SCManagerLocalHandle
 
                     If Not (hSCM = IntPtr.Zero) Then
                         lR = API.EnumServicesStatusEx(hSCM, _
@@ -235,7 +239,7 @@ Public Class asyncCallbackServiceEnumerate
                         End If
                     Next
 
-                    pObj.ctrl.Invoke(pObj.deg, True, _dico, API.GetError)
+                    ctrl.Invoke(deg, True, _dico, API.GetError)
 
             End Select
         End SyncLock
@@ -272,7 +276,7 @@ Public Class asyncCallbackServiceEnumerate
     End Sub
 
     ' Get infos from registry
-    Private Shared Sub getRegInfos(ByVal name As String, ByRef _infos As serviceInfos)
+    Private Sub getRegInfos(ByVal name As String, ByRef _infos As serviceInfos)
         Dim desc As String = GetServiceInfo(name, "Description")
 
         If InStr(desc, "@", CompareMethod.Binary) > 0 Then
@@ -286,7 +290,7 @@ Public Class asyncCallbackServiceEnumerate
     End Sub
 
     ' Retrieve information about a service from registry
-    Private Shared Function GetServiceInfo(ByVal name As String, ByVal info As String) As String
+    Private Function GetServiceInfo(ByVal name As String, ByVal info As String) As String
         Try
             Return CStr(My.Computer.Registry.GetValue( _
                         "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\" & name, _
@@ -297,7 +301,7 @@ Public Class asyncCallbackServiceEnumerate
     End Function
 
     ' Get state/errorcontrol/starttype from a string (returned by wmi) as a type
-    Private Shared Function getErrorControlFromString(ByVal s As String) As API.SERVICE_ERROR_CONTROL
+    Private Function getErrorControlFromString(ByVal s As String) As API.SERVICE_ERROR_CONTROL
         Select Case s
             Case "Ignore"
                 Return API.SERVICE_ERROR_CONTROL.Ignore
@@ -311,7 +315,7 @@ Public Class asyncCallbackServiceEnumerate
                 Return API.SERVICE_ERROR_CONTROL.Unknown
         End Select
     End Function
-    Private Shared Function getStartModeFromString(ByVal s As String) As API.SERVICE_START_TYPE
+    Private Function getStartModeFromString(ByVal s As String) As API.SERVICE_START_TYPE
         Select Case s
             Case "Boot"
                 Return API.SERVICE_START_TYPE.BootStart
@@ -325,7 +329,7 @@ Public Class asyncCallbackServiceEnumerate
                 Return API.SERVICE_START_TYPE.StartDisabled
         End Select
     End Function
-    Private Shared Function getStateFromString(ByVal s As String) As API.SERVICE_STATE
+    Private Function getStateFromString(ByVal s As String) As API.SERVICE_STATE
         Select Case s
             Case "Stopped"
                 Return API.SERVICE_STATE.Stopped
@@ -345,7 +349,7 @@ Public Class asyncCallbackServiceEnumerate
                 Return API.SERVICE_STATE.Unknown
         End Select
     End Function
-    Private Shared Function getTypeFromString(ByVal s As String) As API.SERVICE_TYPE
+    Private Function getTypeFromString(ByVal s As String) As API.SERVICE_TYPE
         Select Case s
             Case "Kernel Driver"
                 Return API.SERVICE_TYPE.KernelDriver

@@ -29,7 +29,7 @@ Imports System.Windows.Forms
 
 Public Class cAsyncSocket
 
-    Public Delegate Sub ReceivedDataEventHandler(ByRef data As Byte(), ByVal length As Integer)
+    Public Delegate Sub ReceivedDataEventHandler(ByRef data As cSocketData)
     Public Delegate Sub SentDataEventHandler()
     Public Delegate Sub DisconnectedEventHandler()
     Public Delegate Sub ConnectedEventHandler()
@@ -135,7 +135,9 @@ Public Class cAsyncSocket
         If result > 0 Then
             sock.BeginReceive(bytes, 0, bytes.Length, SocketFlags.None, AddressOf receiveCallback, Nothing)
         End If
-        RaiseEvent ReceivedData(bytes, result)
+
+        Dim cDat As cSocketData = cSerialization.DeserializeObject(bytes)
+        RaiseEvent ReceivedData(cDat)
     End Sub
 
 End Class

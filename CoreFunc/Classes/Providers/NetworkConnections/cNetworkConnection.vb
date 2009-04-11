@@ -108,7 +108,7 @@ Public Class cNetworkConnection
         _connected = False
     End Sub
 
-    Protected Overrides Sub _sock_ReceivedData(ByRef data() As Byte, ByVal length As Integer) Handles _sock.ReceivedData
+    Protected Overrides Sub _sock_ReceivedData(ByRef data As cSocketData) Handles _sock.ReceivedData
         '
     End Sub
 

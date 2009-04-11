@@ -165,8 +165,7 @@ Public Class cConnection
     End Sub
 
     ' When we receive datas
-    Private Sub _sock_ReceivedData(ByRef data() As Byte, ByVal length As Integer) Handles _sock.ReceivedData
-        Dim cDat As cSocketData = cSerialization.DeserializeObject(data)
+    Private Sub _sock_ReceivedData(ByRef cDat As cSocketData) Handles _sock.ReceivedData
 
         If cDat Is Nothing Then
             Trace.WriteLine("Serialization error")
@@ -191,7 +190,7 @@ Public Class cConnection
                 Case cSocketData.OrderType.RequestPrivilegesList
                     asyncCallbackPrivilegesEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestServiceList
-                    asyncCallbackServiceEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+                    ' asyncCallbackServiceEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestTaskList
                     asyncCallbackTaskEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestThreadList

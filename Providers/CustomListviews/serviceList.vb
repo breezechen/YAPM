@@ -43,7 +43,7 @@ Public Class serviceList
     Private _buffDico As New Dictionary(Of String, serviceInfos)
     Private _dico As New Dictionary(Of String, cService)
     Private WithEvents _connectionObject As New cConnection
-    Private WithEvents _serviceConnection As New cServiceConnection(Me, _connectionObject)
+    Private WithEvents _serviceConnection As New cServiceConnection(Me, _connectionObject, New cServiceConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
 
 #Region "Properties"
 
@@ -97,7 +97,6 @@ Public Class serviceList
         _first = True
 
         ' Set handlers
-        _serviceConnection.HasEnumerated = New cServiceConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler)
         _serviceConnection.Disconnected = New cServiceConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
         _serviceConnection.Connected = New cServiceConnection.ConnectedEventHandler(AddressOf HasConnected)
     End Sub

@@ -37,7 +37,7 @@ Public Class frmServeur
     Private _memoryCon As New cMemRegionConnection(Me, theConnection)
     Private _moduleCon As New cModuleConnection(Me, theConnection)
     Private _networkCon As New cNetworkConnection(Me, theConnection)
-    Private _serviceCon As New cServiceConnection(Me, theConnection)
+    Private _serviceCon As New cServiceConnection(Me, theConnection, New cServiceConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedService))
     Private _priviCon As New cPrivilegeConnection(Me, theConnection)
     Private _taskCon As New cTaskConnection(Me, theConnection)
     Private _threadCon As New cThreadConnection(Me, theConnection)
@@ -49,7 +49,6 @@ Public Class frmServeur
         ' Set handlers
         _procCon.HasEnumerated = New cProcessConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedProcess)
         _networkCon.HasEnumerated = New cNetworkConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedNetwork)
-        _serviceCon.HasEnumerated = New cServiceConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedService)
         _moduleCon.HasEnumerated = New cModuleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedModule)
         _threadCon.HasEnumerated = New cThreadConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedThread)
         _handleCon.HasEnumerated = New cHandleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedHandle)

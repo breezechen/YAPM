@@ -30,10 +30,12 @@ Imports System.Text
 Public Class cServiceConnection
     Inherits cGeneralConnection
 
+    Dim _servEnum As asyncCallbackServiceEnumerate
+
     Private _forceHCM As Boolean
-    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, Optional ByVal forceHCM As Boolean = False)
+    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, ByRef de As HasEnumeratedEventHandler)
         MyBase.New(ControlWhichGetInvoked, Conn)
-        _forceHCM = forceHCM
+        _servEnum = New asyncCallbackServiceEnumerate(_control, de, Me)
     End Sub
 
 
@@ -45,7 +47,7 @@ Public Class cServiceConnection
 
     Public Connected As ConnectedEventHandler
     Public Disconnected As DisconnectedEventHandler
-    Public HasEnumerated As HasEnumeratedEventHandler
+    ' Public HasEnumerated As HasEnumeratedEventHandler
 
 #End Region
 
@@ -70,9 +72,6 @@ Public Class cServiceConnection
                 _sock = ConnectionObj.Socket
                 _connected = True
 
-                If _forceHCM Then
-                    ' Then we are in the SERVER. We 
-                End If
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
                 Dim __con As New ConnectionOptions
@@ -126,8 +125,8 @@ Public Class cServiceConnection
     Public Function Enumerate(ByVal getFixedInfos As Boolean, ByVal pid As Integer, ByVal all As Boolean) As Integer
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
                 System.Threading.WaitCallback(AddressOf _
-                asyncCallbackServiceEnumerate.Process), New  _
-                asyncCallbackServiceEnumerate.poolObj(_control, HasEnumerated, Me, pid, all))
+                _servEnum.Process), New  _
+                asyncCallbackServiceEnumerate.poolObj(pid, all))
     End Function
 
 #End Region
@@ -142,8 +141,16 @@ Public Class cServiceConnection
         _connected = False
     End Sub
 
-    Protected Overrides Sub _sock_ReceivedData(ByRef data() As Byte, ByVal length As Integer) Handles _sock.ReceivedData
-        '
+    Protected Overrides Sub _sock_ReceivedData(ByRef data As cSocketData) Handles _sock.ReceivedData
+        If data Is Nothing Then
+            Trace.WriteLine("Serialization error")
+            Exit Sub
+        End If
+
+        If data.Type = cSocketData.DataType.RequestedList AndAlso _
+            data.Order = cSocketData.OrderType.RequestServiceList Then
+            _servEnum.GotListFromSocket(data.GetList, data.GetKeys)
+        End If
     End Sub
 
     Protected Overrides Sub _sock_SentData() Handles _sock.SentData

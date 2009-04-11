@@ -100,7 +100,7 @@ Public MustInherit Class cGeneralConnection
 
     Protected MustOverride Sub _sock_Connected() Handles _sock.Connected
     Protected MustOverride Sub _sock_Disconnected() Handles _sock.Disconnected
-    Protected MustOverride Sub _sock_ReceivedData(ByRef data() As Byte, ByVal length As Integer) Handles _sock.ReceivedData
+    Protected MustOverride Sub _sock_ReceivedData(ByRef data As cSocketData) Handles _sock.ReceivedData
     Protected MustOverride Sub _sock_SentData() Handles _sock.SentData
 
 #End Region
