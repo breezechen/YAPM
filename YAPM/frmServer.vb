@@ -202,6 +202,11 @@ Public Class frmServeur
             ' Recreate the data class
             Dim cData As cSocketData = cSerialization.DeserializeObject(data)
 
+            If cData Is Nothing Then
+                Trace.WriteLine("Serialization error")
+                Exit Sub
+            End If
+
             ' Extract the type of information we have to send
             If cData.Type = cSocketData.DataType.Order Then
 

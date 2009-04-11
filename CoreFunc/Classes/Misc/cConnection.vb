@@ -168,6 +168,11 @@ Public Class cConnection
     Private Sub _sock_ReceivedData(ByRef data() As Byte, ByVal length As Integer) Handles _sock.ReceivedData
         Dim cDat As cSocketData = cSerialization.DeserializeObject(data)
 
+        If cDat Is Nothing Then
+            Trace.WriteLine("Serialization error")
+            Exit Sub
+        End If
+
         If cDat.Type = cSocketData.DataType.RequestedList Then
             ' Here we got a list of items
             Select Case cDat.Order
