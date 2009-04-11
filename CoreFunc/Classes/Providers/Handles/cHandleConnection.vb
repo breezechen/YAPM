@@ -30,15 +30,22 @@ Imports System.Text
 Public Class cHandleConnection
     Inherits cGeneralConnection
 
-    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection)
+    Friend Shared instanceId As Integer = 1
+    Private _instanceId As Integer = 1
+    Dim _handleEnum As asyncCallbackHandleEnumerate
+
+    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, ByRef de As HasEnumeratedEventHandler)
         MyBase.New(ControlWhichGetInvoked, Conn)
+        instanceId += 1
+        _instanceId = instanceId
+        _handleEnum = New asyncCallbackHandleEnumerate(_control, de, Me, _instanceId)
     End Sub
 
 #Region "Events, delegate, invoke..."
 
     Public Delegate Sub ConnectedEventHandler(ByVal Success As Boolean)
     Public Delegate Sub DisconnectedEventHandler(ByVal Success As Boolean)
-    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, handleInfos), ByVal errorMessage As String)
+    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, handleInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
     Public Connected As ConnectedEventHandler
     Public Disconnected As DisconnectedEventHandler
@@ -87,11 +94,11 @@ Public Class cHandleConnection
 #Region "Enumerate threads"
 
     ' Enumerate threads
-    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid() As Integer, ByVal showUnnamed As Boolean) As Integer
+    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid() As Integer, ByVal showUnnamed As Boolean, Optional ByVal forInstanceId As Integer = -1) As Integer
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
                 System.Threading.WaitCallback(AddressOf _
-                asyncCallbackHandleEnumerate.Process), New  _
-                asyncCallbackHandleEnumerate.poolObj(_control, HasEnumerated, Me, pid, showUnnamed))
+                _handleEnum.Process), New  _
+                asyncCallbackHandleEnumerate.poolObj(pid, showUnnamed, forInstanceId))
     End Function
 
 #End Region
@@ -107,7 +114,18 @@ Public Class cHandleConnection
     End Sub
 
     Protected Overrides Sub _sock_ReceivedData(ByRef data As cSocketData) Handles _sock.ReceivedData
-        '
+        If data Is Nothing Then
+            Trace.WriteLine("Serialization error")
+            Exit Sub
+        End If
+
+        If data.Type = cSocketData.DataType.RequestedList AndAlso _
+            data.Order = cSocketData.OrderType.RequestHandleList Then
+            If _instanceId = data.InstanceId Then
+                ' OK it is for me
+                _handleEnum.GotListFromSocket(data.GetList, data.GetKeys)
+            End If
+        End If
     End Sub
 
     Protected Overrides Sub _sock_SentData() Handles _sock.SentData

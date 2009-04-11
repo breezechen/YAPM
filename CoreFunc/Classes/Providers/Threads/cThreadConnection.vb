@@ -114,11 +114,11 @@ Public Class cThreadConnection
 #Region "Enumerate threads"
 
     ' Enumerate threads
-    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid() As Integer) As Integer
+    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid() As Integer, Optional ByVal forInstanceId As Integer = -1) As Integer
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
                 System.Threading.WaitCallback(AddressOf _
                 asyncCallbackThreadEnumerate.Process), New  _
-                asyncCallbackThreadEnumerate.poolObj(_control, HasEnumerated, Me, pid))
+                asyncCallbackThreadEnumerate.poolObj(_control, HasEnumerated, Me, pid, forInstanceId))
     End Function
 
 #End Region

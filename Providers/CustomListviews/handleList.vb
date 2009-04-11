@@ -43,7 +43,7 @@ Public Class handleList
     Private _buffDico As New Dictionary(Of String, cHandle)
     Private _dico As New Dictionary(Of String, cHandle)
     Private WithEvents _connectionObject As New cConnection
-    Private WithEvents _handleConnection As New cHandleConnection(Me, _connectionObject)
+    Private WithEvents _handleConnection As New cHandleConnection(Me, _connectionObject, New cHandleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
 
 #Region "Properties"
 
@@ -99,7 +99,6 @@ Public Class handleList
         _first = True
 
         ' Set handlers
-        _handleConnection.HasEnumerated = New cHandleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler)
         _handleConnection.Disconnected = New cHandleConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
         _handleConnection.Connected = New cHandleConnection.ConnectedEventHandler(AddressOf HasConnected)
     End Sub
@@ -177,7 +176,7 @@ Public Class handleList
     ' ========================================
 
     ' Executed when enumeration is done
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, handleInfos), ByVal errorMessage As String)
+    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, handleInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")

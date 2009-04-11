@@ -89,11 +89,11 @@ Public Class cNetworkConnection
 #Region "Enumerate services"
 
     ' Enumerate services
-    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid() As Integer, ByVal all As Boolean) As Integer
+    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid() As Integer, ByVal all As Boolean, Optional ByVal forInstanceId As Integer = -1) As Integer
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
                 System.Threading.WaitCallback(AddressOf _
                 asyncCallbackNetworkEnumerate.Process), New  _
-                asyncCallbackNetworkEnumerate.poolObj(_control, HasEnumerated, Me, pid, all))
+                asyncCallbackNetworkEnumerate.poolObj(_control, HasEnumerated, Me, pid, all, forInstanceId))
     End Function
 
 #End Region

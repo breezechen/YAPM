@@ -180,7 +180,7 @@ Public Class cConnection
                 Case cSocketData.OrderType.RequestEnvironmentVariableList
                     asyncCallbackEnvVariableEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestHandleList
-                    asyncCallbackHandleEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+                    '  asyncCallbackHandleEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestMemoryRegionList
                     asyncCallbackMemRegionEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestModuleList

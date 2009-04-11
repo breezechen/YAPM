@@ -172,7 +172,7 @@ Public Class asyncCallbackServiceEnumerate
                             End If
                         Next
                     End If
-                    ctrl.Invoke(deg, True, _dico, Nothing)
+                    ctrl.Invoke(deg, True, _dico, Nothing, 0)
 
                 Case Else
                     ' Local

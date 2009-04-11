@@ -33,7 +33,7 @@ Public Class frmServeur
     Private theConnection As New cConnection
     Private _procCon As New cProcessConnection(Me, theConnection)
     Private _envCon As New cEnvVariableConnection(Me, theConnection)
-    Private _handleCon As New cHandleConnection(Me, theConnection)
+    Private _handleCon As New cHandleConnection(Me, theConnection, New cHandleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedHandle))
     Private _memoryCon As New cMemRegionConnection(Me, theConnection)
     Private _moduleCon As New cModuleConnection(Me, theConnection)
     Private _networkCon As New cNetworkConnection(Me, theConnection)
@@ -51,7 +51,6 @@ Public Class frmServeur
         _networkCon.HasEnumerated = New cNetworkConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedNetwork)
         _moduleCon.HasEnumerated = New cModuleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedModule)
         _threadCon.HasEnumerated = New cThreadConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedThread)
-        _handleCon.HasEnumerated = New cHandleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedHandle)
 
         ' Set connection
         With theConnection
@@ -141,12 +140,13 @@ Public Class frmServeur
 
     End Sub
 
-    Private Sub HasEnumeratedHandle(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, handleInfos), ByVal errorMessage As String)
+    Private Sub HasEnumeratedHandle(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, handleInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
         If Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestHandleList)
-                cDat.SethandleList(Dico)
+                cDat.InstanceId = instanceId  ' The instance which requested the list
+                cDat.SetHandleList(Dico)
                 Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
                 sock.Send(buff, buff.Length)
             Catch ex As Exception
@@ -214,25 +214,25 @@ Public Class frmServeur
 
                 Select Case cData.Order
                     Case cSocketData.OrderType.RequestProcessList
-                        Call _procCon.Enumerate(True)
+                        Call _procCon.Enumerate(True, _forInstanceId)
                     Case cSocketData.OrderType.RequestNetworkConnectionList
                         Dim pid() As Integer = CType(cData.Param1, Integer())
                         Dim all As Boolean = CBool(cData.Param2)
-                        Call _networkCon.Enumerate(True, pid, all)
+                        Call _networkCon.Enumerate(True, pid, all, _forInstanceId)
                     Case cSocketData.OrderType.RequestServiceList
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim all As Boolean = CBool(cData.Param2)
                         Call _serviceCon.Enumerate(True, pid, all, _forInstanceId)
                     Case cSocketData.OrderType.RequestModuleList
                         Dim pid() As Integer = CType(cData.Param1, Integer())
-                        Call _moduleCon.Enumerate(True, pid)
+                        Call _moduleCon.Enumerate(True, pid, _forInstanceId)
                     Case cSocketData.OrderType.RequestThreadList
                         Dim pid() As Integer = CType(cData.Param1, Integer())
-                        Call _threadCon.Enumerate(True, pid)
+                        Call _threadCon.Enumerate(True, pid, _forInstanceId)
                     Case cSocketData.OrderType.RequestHandleList
                         Dim pid() As Integer = CType(cData.Param1, Integer())
                         Dim unn As Boolean = CBool(cData.Param2)
-                        Call _handleCon.Enumerate(True, pid, unn)
+                        Call _handleCon.Enumerate(True, pid, unn, _forInstanceId)
                 End Select
 
             End If

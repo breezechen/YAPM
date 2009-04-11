@@ -38,11 +38,13 @@ Public Class asyncCallbackNetworkEnumerate
         Public con As cNetworkConnection
         Public pid() As Integer
         Public all As Boolean
-        Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cNetworkConnection, ByRef pi() As Integer, ByVal al As Boolean)
+        Public forInstanceId As Integer
+        Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cNetworkConnection, ByRef pi() As Integer, ByVal al As Boolean, ByVal ii As Integer)
             ctrl = ctr
             deg = de
+            forInstanceId = ii
             con = co
-            pid = Pi
+            pid = pi
             all = al
         End Sub
     End Structure

@@ -36,10 +36,12 @@ Public Class asyncCallbackThreadEnumerate
         Public deg As [Delegate]
         Public con As cThreadConnection
         Public pid() As Integer
-        Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cThreadConnection, ByVal pi() As Integer)
+        Public forInstanceId As Integer
+        Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cThreadConnection, ByVal pi() As Integer, ByVal iid As Integer)
             ctrl = ctr
             deg = de
             con = co
+            forInstanceId = iid
             pid = pi
         End Sub
     End Structure

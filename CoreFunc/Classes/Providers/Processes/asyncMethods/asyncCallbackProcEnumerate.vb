@@ -43,8 +43,10 @@ Public Class asyncCallbackProcEnumerate
         Public ctrl As Control
         Public deg As [Delegate]
         Public con As cProcessConnection
-        Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cProcessConnection)
+        Public forInstanceId As Integer
+        Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cProcessConnection, ByVal iid As Integer)
             ctrl = ctr
+            forInstanceId = iid
             deg = de
             con = co
         End Sub
