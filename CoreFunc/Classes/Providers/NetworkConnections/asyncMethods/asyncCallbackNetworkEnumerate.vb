@@ -32,49 +32,55 @@ Public Class asyncCallbackNetworkEnumerate
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
+    Private ctrl As Control
+    Private deg As [Delegate]
+    Private con As cNetworkConnection
+    Private _instanceId As Integer
+    Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cNetworkConnection, ByVal iId As Integer)
+        ctrl = ctr
+        deg = de
+        _instanceId = iId
+        con = co
+    End Sub
+
     Public Structure poolObj
-        Public ctrl As Control
-        Public deg As [Delegate]
-        Public con As cNetworkConnection
         Public pid() As Integer
         Public all As Boolean
         Public forInstanceId As Integer
-        Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cNetworkConnection, ByRef pi() As Integer, ByVal al As Boolean, ByVal ii As Integer)
-            ctrl = ctr
-            deg = de
+        Public Sub New(ByRef pi() As Integer, ByVal al As Boolean, ByVal ii As Integer)
             forInstanceId = ii
-            con = co
             pid = pi
             all = al
         End Sub
     End Structure
 
     ' When socket got a list  !
-    Private Shared _poolObj As poolObj
-    Friend Shared Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String)
+    Private _poolObj As poolObj
+    Friend Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String)
         Dim dico As New Dictionary(Of String, networkInfos)
         If lst IsNot Nothing AndAlso keys IsNot Nothing AndAlso lst.Length = keys.Length Then
             For x As Integer = 0 To lst.Length - 1
                 dico.Add(keys(x), DirectCast(lst(x), networkInfos))
             Next
         End If
-        _poolObj.ctrl.Invoke(_poolObj.deg, True, dico, Nothing)
+        ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
     End Sub
-    Public Shared Sub Process(ByVal thePoolObj As Object)
+    Public Sub Process(ByVal thePoolObj As Object)
 
         Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If pObj.con.ConnectionObj.IsConnected = False Then
+        If con.ConnectionObj.IsConnected = False Then
             Exit Sub
         End If
 
-        Select Case pObj.con.ConnectionObj.ConnectionType
+        Select Case con.ConnectionObj.ConnectionType
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 _poolObj = pObj
                 Try
                     Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestNetworkConnectionList, pObj.pid, pObj.all)
+                    cDat.InstanceId = _instanceId   ' Instance which request the list
                     Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                    pObj.con.ConnectionObj.Socket.Send(buff, buff.Length)
+                    con.ConnectionObj.Socket.Send(buff, buff.Length)
                 Catch ex As Exception
                     MsgBox(ex.Message)
                 End Try
@@ -214,7 +220,7 @@ Public Class asyncCallbackNetworkEnumerate
 
                 Marshal.FreeHGlobal(pt)
 
-                pObj.ctrl.Invoke(pObj.deg, True, _dico, API.GetError)
+                ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
 
         End Select
 

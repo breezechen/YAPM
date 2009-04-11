@@ -66,7 +66,7 @@ Public Class frmProcessInfo
         Select Case Me.tabProcess.SelectedTab.Text
 
             Case "Token"
-                If _local Then _
+                If _notWMI Then _
                 Call ShowPrivileges()
 
             Case "Modules"
@@ -78,23 +78,23 @@ Public Class frmProcessInfo
                 Call ShowThreads()
 
             Case "Windows"
-                If _local Then _
+                If _notWMI Then _
                 Call ShowWindows()
 
             Case "Handles"
-                If _local Then _
+                If _notWMI Then _
                 Call ShowHandles()
 
             Case "Memory"
-                If _local Then _
+                If _notWMI Then _
                 Call ShowRegions()
 
             Case "Environment"
-                If _local Then _
-                Call showenvvariables()
+                If _notWMI Then _
+                Call ShowEnvVariables()
 
             Case "Network"
-                If _local Then _
+                If _notWMI Then _
                 Call ShowNetwork()
 
             Case "Services"

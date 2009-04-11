@@ -186,7 +186,7 @@ Public Class cConnection
                 Case cSocketData.OrderType.RequestModuleList
                     asyncCallbackModuleEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestNetworkConnectionList
-                    asyncCallbackNetworkEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+                    ' asyncCallbackNetworkEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestPrivilegesList
                     asyncCallbackPrivilegesEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestServiceList

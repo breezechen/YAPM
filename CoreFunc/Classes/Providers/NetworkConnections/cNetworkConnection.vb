@@ -30,9 +30,15 @@ Imports System.Text
 Public Class cNetworkConnection
     Inherits cGeneralConnection
 
+    Friend Shared instanceId As Integer = 1
+    Private _instanceId As Integer = 1
+    Dim _networkEnum As asyncCallbackNetworkEnumerate
 
-    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection)
+    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, ByRef de As HasEnumeratedEventHandler)
         MyBase.New(ControlWhichGetInvoked, Conn)
+        instanceId += 1
+        _instanceId = instanceId
+        _networkEnum = New asyncCallbackNetworkEnumerate(_control, de, Me, _instanceId)
     End Sub
 
 
@@ -40,7 +46,7 @@ Public Class cNetworkConnection
 
     Public Delegate Sub ConnectedEventHandler(ByVal Success As Boolean)
     Public Delegate Sub DisconnectedEventHandler(ByVal Success As Boolean)
-    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, networkInfos), ByVal errorMessage As String)
+    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, networkInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
     Public Connected As ConnectedEventHandler
     Public Disconnected As DisconnectedEventHandler
@@ -92,8 +98,8 @@ Public Class cNetworkConnection
     Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid() As Integer, ByVal all As Boolean, Optional ByVal forInstanceId As Integer = -1) As Integer
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
                 System.Threading.WaitCallback(AddressOf _
-                asyncCallbackNetworkEnumerate.Process), New  _
-                asyncCallbackNetworkEnumerate.poolObj(_control, HasEnumerated, Me, pid, all, forInstanceId))
+                _networkEnum.Process), New  _
+                asyncCallbackNetworkEnumerate.poolObj(pid, all, forInstanceId))
     End Function
 
 #End Region
@@ -109,7 +115,18 @@ Public Class cNetworkConnection
     End Sub
 
     Protected Overrides Sub _sock_ReceivedData(ByRef data As cSocketData) Handles _sock.ReceivedData
-        '
+        If data Is Nothing Then
+            Trace.WriteLine("Serialization error")
+            Exit Sub
+        End If
+
+        If data.Type = cSocketData.DataType.RequestedList AndAlso _
+            data.Order = cSocketData.OrderType.RequestNetworkConnectionList Then
+            If _instanceId = data.InstanceId Then
+                ' OK it is for me
+                _networkenum.GotListFromSocket(data.GetList, data.GetKeys)
+            End If
+        End If
     End Sub
 
     Protected Overrides Sub _sock_SentData() Handles _sock.SentData

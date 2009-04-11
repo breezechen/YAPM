@@ -41,7 +41,7 @@ Public Class networkList
     Private _buffDico As New Dictionary(Of String, api.lightconnection)
     Private _dico As New Dictionary(Of String, cNetwork)
     Private WithEvents _connectionObject As New cConnection
-    Private WithEvents _networkConnection As New cnetworkConnection(Me, _connectionObject)
+    Private WithEvents _networkConnection As New cNetworkConnection(Me, _connectionObject, New cNetworkConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
     Private _all As Boolean = False
     Private _pid As Integer()
 
@@ -89,7 +89,6 @@ Public Class networkList
         _first = True
 
         ' Set handlers
-        _networkConnection.HasEnumerated = New cnetworkConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler)
         _networkConnection.Disconnected = New cnetworkConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
         _networkConnection.Connected = New cnetworkConnection.ConnectedEventHandler(AddressOf HasConnected)
     End Sub
@@ -157,7 +156,7 @@ Public Class networkList
     ' ========================================
 
     ' Executed when enumeration is done
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, networkInfos), ByVal errorMessage As String)
+    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, networkInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
