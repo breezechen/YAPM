@@ -26,7 +26,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 
-Public Class moduleInfos
+<Serializable()> Public Class moduleInfos
     Inherits generalInfos
 
 #Region "Private attributes"
@@ -37,7 +37,7 @@ Public Class moduleInfos
     Private _size As Integer
     Private _entryPoint As Integer
     Private _processId As Integer
-    Private _fileInfo As FileVersionInfo
+    <NonSerialized()> Private _fileInfo As FileVersionInfo
 
     Private _manufacturer As String
     Private _version As String

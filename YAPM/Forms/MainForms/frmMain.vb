@@ -4342,7 +4342,7 @@ Public Class frmMain
         ' Connect all lvItems
         Me.lvProcess.ConnectionObj = theConnection
         'Me.lvThreads.ConnectionObj = theConnection
-        'Me.lvModules.ConnectionObj = theConnection
+        Me.lvModules.ConnectionObj = theConnection
         'Me.lvHandles.ConnectionObj = theConnection
         Me.lvServices.ConnectionObj = theConnection
         'Me.lvWindows.ConnectionObj = theConnection

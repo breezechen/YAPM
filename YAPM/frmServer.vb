@@ -50,6 +50,7 @@ Public Class frmServeur
         _procCon.HasEnumerated = New cProcessConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedProcess)
         _networkCon.HasEnumerated = New cNetworkConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedNetwork)
         _serviceCon.HasEnumerated = New cServiceConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedService)
+        _moduleCon.HasEnumerated = New cModuleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedModule)
 
         ' Set connection
         With theConnection
@@ -60,6 +61,7 @@ Public Class frmServeur
         _networkCon.ConnectionObj = theConnection
         _serviceCon.ConnectionObj = theConnection
         _networkCon.Connect()
+        _moduleCon.Connect()
         _serviceCon.Connect()
         _procCon.Connect()
 
@@ -90,6 +92,23 @@ Public Class frmServeur
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestServiceList)
                 cDat.SetServiceList(Dico)
+                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
+                sock.Send(buff, buff.Length)
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+        Else
+            ' Send an error
+        End If
+
+    End Sub
+
+    Private Sub HasEnumeratedModule(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, moduleInfos), ByVal errorMessage As String)
+
+        If Success Then
+            Try
+                Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestModuleList)
+                cDat.SetModuleList(Dico)
                 Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
                 sock.Send(buff, buff.Length)
             Catch ex As Exception
@@ -160,6 +179,9 @@ Public Class frmServeur
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim all As Boolean = CBool(cData.Param2)
                         Call _serviceCon.Enumerate(True, pid, all)
+                    Case cSocketData.OrderType.RequestModuleList
+                        Dim pid() As Integer = CType(cData.Param1, Integer())
+                        Call _moduleCon.Enumerate(True, pid)
                 End Select
 
             End If
