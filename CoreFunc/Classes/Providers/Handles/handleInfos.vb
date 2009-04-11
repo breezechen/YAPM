@@ -26,7 +26,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 
-Public Class handleInfos
+<Serializable()> Public Class handleInfos
     Inherits generalInfos
 
 #Region "Private attributes"

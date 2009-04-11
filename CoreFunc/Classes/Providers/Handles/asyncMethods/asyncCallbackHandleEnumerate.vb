@@ -71,7 +71,7 @@ Public Class asyncCallbackHandleEnumerate
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 _poolObj = pObj
                 Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestHandleList)
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestHandleList, pObj.pid, pObj.unNamed)
                     Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
                     pObj.con.ConnectionObj.Socket.Send(buff, buff.Length)
                 Catch ex As Exception

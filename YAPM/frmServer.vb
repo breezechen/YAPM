@@ -52,6 +52,7 @@ Public Class frmServeur
         _serviceCon.HasEnumerated = New cServiceConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedService)
         _moduleCon.HasEnumerated = New cModuleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedModule)
         _threadCon.HasEnumerated = New cThreadConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedThread)
+        _handleCon.HasEnumerated = New cHandleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedHandle)
 
         ' Set connection
         With theConnection
@@ -65,6 +66,7 @@ Public Class frmServeur
         _moduleCon.Connect()
         _serviceCon.Connect()
         _threadCon.Connect()
+        _handleCon.Connect()
         _procCon.Connect()
 
     End Sub
@@ -128,6 +130,23 @@ Public Class frmServeur
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestModuleList)
                 cDat.SetModuleList(Dico)
+                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
+                sock.Send(buff, buff.Length)
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+        Else
+            ' Send an error
+        End If
+
+    End Sub
+
+    Private Sub HasEnumeratedHandle(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, handleInfos), ByVal errorMessage As String)
+
+        If Success Then
+            Try
+                Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestHandleList)
+                cDat.SethandleList(Dico)
                 Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
                 sock.Send(buff, buff.Length)
             Catch ex As Exception
@@ -203,6 +222,10 @@ Public Class frmServeur
                     Case cSocketData.OrderType.RequestThreadList
                         Dim pid() As Integer = CType(cData.Param1, Integer())
                         Call _threadCon.Enumerate(True, pid)
+                    Case cSocketData.OrderType.RequestHandleList
+                        Dim pid() As Integer = CType(cData.Param1, Integer())
+                        Dim unn As Boolean = CBool(cData.Param2)
+                        Call _handleCon.Enumerate(True, pid, unn)
                 End Select
 
             End If
