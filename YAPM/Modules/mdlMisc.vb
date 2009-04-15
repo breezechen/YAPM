@@ -117,4 +117,26 @@ Module mdlMisc
         cFile.ShellOpenFile(frmMain.Pref.searchEngine.Replace("ITEM", item), Handle)
     End Sub
 
+    ' Standard Vista message box
+    Public Function ShowVistaMessage(ByVal Owner As IntPtr, Optional ByVal Title As String = "", _
+                                     Optional ByVal HeaderMessage As String = "", _
+                                     Optional ByVal Content As String = "", Optional ByVal Buttons As  _
+                                     TaskDialogCommonButtons = TaskDialogCommonButtons.Ok, Optional _
+                                     ByVal Icon As TaskDialogIcon = TaskDialogIcon.Information) _
+                                     As Integer
+        If IsWindowsVista() Then
+            Dim dlg As New TaskDialog
+            With dlg
+                .WindowTitle = Title
+                .Content = Content
+                .MainInstruction = HeaderMessage
+                .MainIcon = Icon
+                .CommonButtons = Buttons
+            End With
+            Return dlg.Show(Owner)
+        Else
+            Return -1
+        End If
+    End Function
+
 End Module

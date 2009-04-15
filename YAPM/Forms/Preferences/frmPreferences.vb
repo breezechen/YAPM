@@ -91,7 +91,13 @@ Public Class frmPreferences
         End Try
 
         If Not (_oldRibbonStyle = frmMain.Pref.ribbonStyle) Then
-            If MsgBox("The new menu style will be displayed next time you start YAPM. Do you want to exit YAPM now ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Menu style has changed") = MsgBoxResult.Yes Then
+            Dim ret As Integer
+            If Not (IsWindowsVista()) Then
+                ret = MsgBox("The new menu style will be displayed next time you start YAPM. Do you want to exit YAPM now ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Menu style has changed")
+            Else
+                ret = ShowVistaMessage(Me.Handle, "Menu style has changed", "The new menu style will be displayed next time you start YAPM.", "Do you want to exit YAPM now ?", TaskDialogCommonButtons.Yes Or TaskDialogCommonButtons.No, TaskDialogIcon.Information)
+            End If
+            If ret = DialogResult.Yes Then
                 Application.Exit()
             End If
         End If
@@ -181,9 +187,17 @@ Public Class frmPreferences
     End Sub
 
     Private Sub cmdCheckUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdCheckUpdate.Click
-        MsgBox("YAPM will connect to Internet and will check if new updates are availables.", MsgBoxStyle.Information, "Check for an update")
+        If Not (IsWindowsVista()) Then
+            MsgBox("YAPM will connect to Internet and will check if new updates are availables.", MsgBoxStyle.Information, "Check for an update")
+        Else
+            ShowVistaMessage(Me.Handle, "Check for an update", "YAPM will connect to Internet and will check if new updates are availables.", , TaskDialogCommonButtons.Ok, TaskDialogIcon.ShieldOk)
+        End If
         If checkUpdate() = False Then
-            MsgBox("Cannot connect to Internet or cannot retrieve informations.", MsgBoxStyle.Exclamation, "Error")
+            If Not (IsWindowsVista()) Then
+                MsgBox("Cannot connect to Internet or cannot retrieve informations.", MsgBoxStyle.Exclamation, "Error")
+            Else
+                ShowVistaMessage(Me.Handle, "Error while checking update", "Cannot connect to Internet or cannot retrieve informations.", , TaskDialogCommonButtons.Ok, TaskDialogIcon.Error)
+            End If
         End If
     End Sub
 
@@ -289,7 +303,11 @@ Public Class frmPreferences
 
     Private Sub chkReplaceTaskmgr_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkReplaceTaskmgr.Click
         If Me.chkReplaceTaskmgr.Checked Then
-            MsgBox("This option simply create a key in registry, that's why it is safe to do it." & vbNewLine & "But remember to disable this option if you decide to move (or delete) YAPM executable.", MsgBoxStyle.Information, "Warning")
+            If IsWindowsVista() Then
+                ShowVistaMessage(Me.Handle, "Replace taskmgr by YAPM", "This option is safe", "This option simply create a key in registry, that's why it is safe to do it." & vbNewLine & "But remember to disable this option if you decide to move (or delete) YAPM executable.", TaskDialogCommonButtons.Ok, TaskDialogIcon.ShieldOk)
+            Else
+                MsgBox("This option simply create a key in registry, that's why it is safe to do it." & vbNewLine & "But remember to disable this option if you decide to move (or delete) YAPM executable.", MsgBoxStyle.OkOnly, "Warning")
+            End If
         End If
     End Sub
 
