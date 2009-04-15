@@ -42,6 +42,7 @@ Partial Class frmAboutG
         Me.lblShareVB = New System.Windows.Forms.LinkLabel
         Me.lblMe = New System.Windows.Forms.LinkLabel
         Me.cmdLicense = New System.Windows.Forms.Button
+        Me.lblTaskDialog = New System.Windows.Forms.LinkLabel
         CType(Me.pctIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -232,6 +233,16 @@ Partial Class frmAboutG
         Me.cmdLicense.Text = "Licenses..."
         Me.cmdLicense.UseVisualStyleBackColor = True
         '
+        'lblTaskDialog
+        '
+        Me.lblTaskDialog.AutoSize = True
+        Me.lblTaskDialog.Location = New System.Drawing.Point(216, 203)
+        Me.lblTaskDialog.Name = "lblTaskDialog"
+        Me.lblTaskDialog.Size = New System.Drawing.Size(162, 13)
+        Me.lblTaskDialog.TabIndex = 20
+        Me.lblTaskDialog.TabStop = True
+        Me.lblTaskDialog.Text = "KevinGre (Taskdialog wrapper)"
+        '
         'frmAboutG
         '
         Me.AcceptButton = Me.btnOK
@@ -240,6 +251,7 @@ Partial Class frmAboutG
         Me.CancelButton = Me.btnOK
         Me.ClientSize = New System.Drawing.Size(416, 290)
         Me.ControlBox = False
+        Me.Controls.Add(Me.lblTaskDialog)
         Me.Controls.Add(Me.cmdLicense)
         Me.Controls.Add(Me.lblMe)
         Me.Controls.Add(Me.lblShareVB)
@@ -290,4 +302,5 @@ Partial Class frmAboutG
     Friend WithEvents lblShareVB As System.Windows.Forms.LinkLabel
     Friend WithEvents lblMe As System.Windows.Forms.LinkLabel
     Friend WithEvents cmdLicense As System.Windows.Forms.Button
+    Friend WithEvents lblTaskDialog As System.Windows.Forms.LinkLabel
 End Class
