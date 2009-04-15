@@ -102,8 +102,8 @@ Public Class asyncCallbackEnvVariableEnumerate
     Private Shared Function GetEnvironmentVariables(ByVal peb As Integer, ByVal pid As Integer, ByRef variables() As String, _
                                             ByRef values() As String) As Integer
 
-        ReDim variables(0)
-        ReDim values(0)
+        ReDim variables(-1)
+        ReDim values(-1)
 
         ' Get PEB address of process
         Dim __pebAd As Integer = peb

@@ -96,7 +96,11 @@ Public Class cServiceConnection
                     hSCM = API.OpenSCManager(vbNullString, vbNullString, API.SC_MANAGER_ENUMERATE_SERVICE)
                 End If
                 _connected = True
-                _control.Invoke(Connected, True)
+                Try
+                    _control.Invoke(Connected, True)
+                Catch ex As Exception
+                    '
+                End Try
         End Select
 
     End Sub

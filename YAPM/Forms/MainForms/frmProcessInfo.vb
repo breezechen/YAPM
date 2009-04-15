@@ -1922,17 +1922,21 @@ Public Class frmProcessInfo
     Public Sub Connect()
         ' Connect providers
         'theConnection.CopyFromInstance(frmMain.theConnection)
-        theConnection = frmMain.theConnection
-        Me.lvThreads.ConnectionObj = theConnection
-        Me.lvModules.ConnectionObj = theConnection
-        Me.lvHandles.ConnectionObj = theConnection
-        Me.lvProcMem.ConnectionObj = theConnection
-        Me.lvPrivileges.ConnectionObj = theConnection
-        Me.lvProcEnv.ConnectionObj = theConnection
-        Me.lvProcServices.ConnectionObj = theConnection
-        Me.lvWindows.ConnectionObj = theConnection
-        Me.lvProcNetwork.ConnectionObj = theConnection
-        theConnection.Connect()
+        Try
+            theConnection = frmMain.theConnection
+            Me.lvThreads.ConnectionObj = theConnection
+            Me.lvModules.ConnectionObj = theConnection
+            Me.lvHandles.ConnectionObj = theConnection
+            Me.lvProcMem.ConnectionObj = theConnection
+            Me.lvPrivileges.ConnectionObj = theConnection
+            Me.lvProcEnv.ConnectionObj = theConnection
+            Me.lvProcServices.ConnectionObj = theConnection
+            Me.lvWindows.ConnectionObj = theConnection
+            Me.lvProcNetwork.ConnectionObj = theConnection
+            theConnection.Connect()
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Can not connect")
+        End Try
     End Sub
 
     Private Sub theConnection_Connected() Handles theConnection.Connected

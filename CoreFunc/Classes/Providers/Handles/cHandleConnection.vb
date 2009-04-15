@@ -70,7 +70,11 @@ Public Class cHandleConnection
             Case Else
                 ' Local
                 _connected = True
-                _control.Invoke(Connected, True)
+                Try
+                    _control.Invoke(Connected, True)
+                Catch ex As Exception
+                    '
+                End Try
         End Select
 
     End Sub
