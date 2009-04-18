@@ -290,32 +290,36 @@ Public Class processList
         ' Add to global dico
         cProcess.AssociatePidAndName(key, _dico.Item(key).Infos.Name)
 
-        If proc.Infos.Pid > 4 Then
+        If _connectionObject.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+            If proc.Infos.Pid > 4 Then
 
-            ' Forecolor
-            item.ForeColor = _foreColor
+                ' Forecolor
+                item.ForeColor = _foreColor
 
-            ' Add icon
-            Try
+                ' Add icon
+                Try
 
-                Dim fName As String = proc.Infos.Path
+                    Dim fName As String = proc.Infos.Path
 
-                If IO.File.Exists(fName) Then
-                    Me.SmallImageList.Images.Add(fName, GetIcon(fName, True))
-                    item.ImageKey = fName
-                Else
+                    If IO.File.Exists(fName) Then
+                        Me.SmallImageList.Images.Add(fName, GetIcon(fName, True))
+                        item.ImageKey = fName
+                    Else
+                        item.ImageKey = "noIcon"
+                        item.ForeColor = Drawing.Color.Gray
+                    End If
+
+                Catch ex As Exception
                     item.ImageKey = "noIcon"
                     item.ForeColor = Drawing.Color.Gray
-                End If
+                End Try
 
-            Catch ex As Exception
+            Else
                 item.ImageKey = "noIcon"
                 item.ForeColor = Drawing.Color.Gray
-            End Try
-
+            End If
         Else
             item.ImageKey = "noIcon"
-            item.ForeColor = Drawing.Color.Gray
         End If
 
         item.Tag = key
