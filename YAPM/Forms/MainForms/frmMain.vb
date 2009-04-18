@@ -355,7 +355,7 @@ Public Class frmMain
     End Sub
 
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
+        Me.timerProcess.Enabled = False
         Dim t As Integer = GetTickCount
 
         Dim _col As Color = Color.FromArgb(240, 240, 240)
@@ -4421,6 +4421,25 @@ Public Class frmMain
     Public Sub DisconnectFromMachine()
         ' Close all frmInfo forms
         ' No ForEach but a simple For
+
+        ' Disable all refreshments
+        Me.timerProcess.Enabled = False
+        Me.timerServices.Enabled = False
+        Me.timerMonitoring.Enabled = False
+        Me.timerTask.Enabled = False
+        Me.timerNetwork.Enabled = False
+
+        ' Clear all lvItems
+        Me.lvProcess.ClearItems()
+        Me.lvModules.ClearItems()
+        Me.lvThreads.ClearItems()
+        Me.lvHandles.ClearItems()
+        Me.lvWindows.ClearItems()
+        Me.lvTask.ClearItems()
+        Me.lvServices.ClearItems()
+        Me.lvNetwork.ClearItems()
+        Me.rtb6.Text = ""
+
         For x As Integer = My.Application.OpenForms.Count - 1 To 0 Step -1
             Dim frm As Form = My.Application.OpenForms(x)
             If TypeOf frm Is frmProcessInfo Then

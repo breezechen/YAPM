@@ -327,6 +327,7 @@ Public Class serviceList
 
     Private Sub Disconnect()
         _serviceConnection.Disconnect()
+        asyncCallbackServiceEnumerate.ClearDico()
     End Sub
 
     Private Sub HasDisconnected(ByVal Success As Boolean)

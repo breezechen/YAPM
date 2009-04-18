@@ -231,7 +231,10 @@ Public Class asyncCallbackServiceEnumerate
                                         Dim _servINFO As New serviceInfos(obj)
 
                                         If pObj.all = False OrElse dicoNewServices.ContainsKey(obj.ServiceName) = False Then
+
                                             getRegInfos(obj.ServiceName, _servINFO)
+                                            getServiceConfig(obj.ServiceName, con.SCManagerLocalHandle, _servINFO)
+
                                             If pObj.all Then
                                                 dicoNewServices.Add(obj.ServiceName, False)
                                             End If

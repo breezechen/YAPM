@@ -109,6 +109,8 @@ Public Class cAsyncSocket
     ' Callback for disconnect
     Private Sub disconnectCallback(ByVal asyncResult As IAsyncResult)
         ' OK we are now disconnected
+        Trace.WriteLine("Client EndDisconnect...")
+        Call sock.EndDisconnect(asyncResult)
         Trace.WriteLine("Client disconnected...")
         RaiseEvent Disconnected()
     End Sub
@@ -130,10 +132,23 @@ Public Class cAsyncSocket
     Private Sub receiveCallback(ByVal asyncResult As IAsyncResult)
         ' OK validate reception
         Trace.WriteLine("Client EndReceive...")
-        Dim result As Integer = sock.EndReceive(asyncResult)
+        Dim result As Integer
+        Try
+            result = sock.EndReceive(asyncResult)
+        Catch ex As Exception
+            ' Socket disconnected, or...
+            Trace.WriteLine("Client received data FAILED !")
+            Exit Sub
+        End Try
         Trace.WriteLine("Client received data...")
         If result > 0 Then
-            sock.BeginReceive(bytes, 0, bytes.Length, SocketFlags.None, AddressOf receiveCallback, Nothing)
+            Try
+                sock.BeginReceive(bytes, 0, bytes.Length, SocketFlags.None, AddressOf receiveCallback, Nothing)
+            Catch ex As Exception
+                ' Socket disconnected, or...
+                Trace.WriteLine("Client received data FAILED !")
+                Exit Sub
+            End Try
         End If
 
         Dim cDat As cSocketData = cSerialization.DeserializeObject(bytes)

@@ -344,6 +344,7 @@ Public Class processList
 
     Private Sub Disconnect()
         _processConnection.Disconnect()
+        asyncCallbackProcEnumerate.ClearDico()
     End Sub
 
     Private Sub HasDisconnected(ByVal Success As Boolean)

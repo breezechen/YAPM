@@ -76,7 +76,9 @@ Public Class cService
 
     ' Refresh Config
     Public Sub Refresh()
-        asyncCallbackServiceEnumerate.getServiceConfig(Me.Infos.Name, _connection.SCManagerLocalHandle, Me.Infos)
+        If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+            asyncCallbackServiceEnumerate.getServiceConfig(Me.Infos.Name, _connection.SCManagerLocalHandle, Me.Infos)
+        End If
     End Sub
 
 #Region "All actions on services (start...)"
