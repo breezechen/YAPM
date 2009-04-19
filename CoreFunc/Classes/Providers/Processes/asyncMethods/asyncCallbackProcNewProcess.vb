@@ -43,6 +43,13 @@ Public Class asyncCallbackProcNewProcess
     Public Sub Process()
         Select Case _connection.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                Try
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ProcessCreateNew, _path)
+                    Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
+                    _connection.ConnectionObj.Socket.Send(buff, buff.Length)
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
                 Try
@@ -53,9 +60,9 @@ Public Class asyncCallbackProcNewProcess
                     inParams("CommandLine") = _path
                     Dim outParams As ManagementBaseObject = processClass.InvokeMethod("Create", inParams, Nothing)
                     Dim res As Integer = CInt(outParams("ProcessId"))
-                    _deg.invoke(res > 0, _path, CType(res, API.PROCESS_RETURN_CODE_WMI).ToString)
+                    _deg.Invoke(res > 0, _path, CType(res, API.PROCESS_RETURN_CODE_WMI).ToString)
                 Catch ex As Exception
-                    _deg.invoke(False, _path, ex.Message)
+                    _deg.Invoke(False, _path, ex.Message)
                 End Try
 
             Case Else

@@ -277,6 +277,13 @@ Public Class frmServeur
                         Call _windowCon.Enumerate(True, pid, unn, all, _forInstanceId)
                     Case cSocketData.OrderType.RequestTaskList
                         Call _taskCon.Enumerate(True, _forInstanceId)
+                    Case cSocketData.OrderType.ProcessCreateNew
+                        Try
+                            Dim s As String = CStr(cData.Param1)
+                            Dim pid As Integer = Shell(s, AppWinStyle.NormalFocus)
+                        Catch ex As Exception
+                            '
+                        End Try
                 End Select
 
             End If
