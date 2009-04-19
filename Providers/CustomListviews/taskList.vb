@@ -41,7 +41,7 @@ Public Class taskList
     Private _buffDico As New Dictionary(Of String, cTask)
     Private _dico As New Dictionary(Of String, cTask)
     Private WithEvents _connectionObject As New cConnection
-    Private WithEvents _taskConnection As New cTaskConnection(Me, _connectionObject)
+    Private WithEvents _taskConnection As New cTaskConnection(Me, _connectionObject, New cTaskConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
 
 #Region "Properties"
 
@@ -79,7 +79,6 @@ Public Class taskList
         _first = True
 
         ' Set handlers
-        _taskConnection.HasEnumerated = New cTaskConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler)
         _taskConnection.Disconnected = New cTaskConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
         _taskConnection.Connected = New cTaskConnection.ConnectedEventHandler(AddressOf HasConnected)
     End Sub
@@ -154,7 +153,7 @@ Public Class taskList
     ' ========================================
 
     ' Executed when enumeration is done
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, windowInfos), ByVal errorMessage As String)
+    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, windowInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")

@@ -44,7 +44,7 @@ Public Class windowList
     Private _buffDico As New Dictionary(Of String, cWindow)
     Private _dico As New Dictionary(Of String, cWindow)
     Private WithEvents _connectionObject As New cConnection
-    Private WithEvents _windowConnection As New cWindowConnection(Me, _connectionObject)
+    Private WithEvents _windowConnection As New cWindowConnection(Me, _connectionObject, New cWindowConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
 
 #Region "Properties"
 
@@ -106,7 +106,6 @@ Public Class windowList
         _first = True
 
         ' Set handlers
-        _windowConnection.HasEnumerated = New cWindowConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler)
         _windowConnection.Disconnected = New cWindowConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
         _windowConnection.Connected = New cWindowConnection.ConnectedEventHandler(AddressOf HasConnected)
     End Sub
@@ -181,7 +180,7 @@ Public Class windowList
     ' ========================================
 
     ' Executed when enumeration is done
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, windowInfos), ByVal errorMessage As String)
+    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, windowInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")

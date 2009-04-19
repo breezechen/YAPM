@@ -27,7 +27,7 @@ Option Strict On
 Imports CoreFunc.cProcessConnection
 Imports System.Runtime.InteropServices
 
-Public Class windowInfos
+<Serializable()> Public Class windowInfos
     Inherits generalInfos
 
 #Region "Private attributes"
@@ -148,7 +148,7 @@ Public Class windowInfos
     Public Sub New(ByRef window As windowInfos)
         _processId = window.ProcessId
         _threadId = window.ThreadId
-        _handle = window.handle
+        _handle = window.Handle
     End Sub
     Public Sub New(ByVal pid As Integer, ByVal tid As Integer, ByVal handle As IntPtr)
         _processId = pid

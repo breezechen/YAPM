@@ -1119,8 +1119,7 @@ Public Class API
         Public dwTimeout As Integer
     End Structure
 
-    <StructLayout(LayoutKind.Sequential)> _
-    Public Structure RECT
+    <StructLayout(LayoutKind.Sequential)> <Serializable()> Public Structure RECT
         Public Left As Integer
         Public Top As Integer
         Public Right As Integer

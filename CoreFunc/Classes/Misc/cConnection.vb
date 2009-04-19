@@ -192,11 +192,11 @@ Public Class cConnection
                 Case cSocketData.OrderType.RequestServiceList
                     ' asyncCallbackServiceEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestTaskList
-                    asyncCallbackTaskEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+                    'asyncCallbackTaskEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestThreadList
                     '  asyncCallbackThreadEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestWindowList
-                    asyncCallbackWindowEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+                    ' asyncCallbackWindowEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
             End Select
 
         Else

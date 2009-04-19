@@ -39,9 +39,9 @@ Public Class frmServeur
     Private _networkCon As New cNetworkConnection(Me, theConnection, New cNetworkConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedNetwork))
     Private _serviceCon As New cServiceConnection(Me, theConnection, New cServiceConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedService))
     Private _priviCon As New cPrivilegeConnection(Me, theConnection)
-    Private _taskCon As New cTaskConnection(Me, theConnection)
+    Private _taskCon As New cTaskConnection(Me, theConnection, New cTaskConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedTask))
     Private _threadCon As New cThreadConnection(Me, theConnection, New cThreadConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedThread))
-    Private _windowCon As New cWindowConnection(Me, theConnection)
+    Private _windowCon As New cWindowConnection(Me, theConnection, New cWindowConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedWindows))
 
     ' Connect to local machine
     Private Sub connectLocal()
@@ -55,9 +55,12 @@ Public Class frmServeur
         _procCon.ConnectionObj = theConnection
         _networkCon.ConnectionObj = theConnection
         _serviceCon.ConnectionObj = theConnection
+
         _networkCon.Connect()
         _moduleCon.Connect()
         _serviceCon.Connect()
+        _taskCon.Connect()
+        _windowCon.Connect()
         _threadCon.Connect()
         _handleCon.Connect()
         _procCon.Connect()
@@ -174,6 +177,41 @@ Public Class frmServeur
 
     End Sub
 
+    Private Sub HasEnumeratedTask(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, windowInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+
+        If Success Then
+            Try
+                Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestTaskList)
+                cDat.InstanceId = instanceId  ' The instance which requested the list
+                cDat.SetWindowsList(Dico)
+                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
+                sock.Send(buff, buff.Length)
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+        Else
+            ' Send an error
+        End If
+
+    End Sub
+
+    Private Sub HasEnumeratedWindows(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, windowInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+
+        If Success Then
+            Try
+                Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestWindowList)
+                cDat.InstanceId = instanceId  ' The instance which requested the list
+                cDat.SetWindowsList(Dico)
+                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
+                sock.Send(buff, buff.Length)
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+        Else
+            ' Send an error
+        End If
+
+    End Sub
 #End Region
 
     Private Sub frmServeur_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
@@ -233,7 +271,12 @@ Public Class frmServeur
                         Dim unn As Boolean = CBool(cData.Param2)
                         Call _handleCon.Enumerate(True, pid, unn, _forInstanceId)
                     Case cSocketData.OrderType.RequestWindowList
-
+                        Dim pid() As Integer = CType(cData.Param1, Integer())
+                        Dim all As Boolean = CBool(cData.Param3)
+                        Dim unn As Boolean = CBool(cData.Param2)
+                        Call _windowCon.Enumerate(True, pid, unn, all, _forInstanceId)
+                    Case cSocketData.OrderType.RequestTaskList
+                        Call _taskCon.Enumerate(True, _forInstanceId)
                 End Select
 
             End If

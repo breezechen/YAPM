@@ -27,7 +27,7 @@ Option Strict On
 Imports CoreFunc.cProcessConnection
 Imports System.Runtime.InteropServices
 
-Public Class taskInfos
+<Serializable()> Public Class taskInfos
     Inherits windowInfos
 
 
