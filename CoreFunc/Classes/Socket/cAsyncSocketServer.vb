@@ -124,7 +124,14 @@ Public Class cAsyncSocketServer
     Private Sub receiveCallback(ByVal asyncResult As IAsyncResult)
         ' OK validate reception
         Trace.WriteLine("Server EndReceive...")
-        Dim result As Integer = sock.EndReceive(asyncResult)
+        Dim result As Integer = -1
+        Try
+            result = sock.EndReceive(asyncResult)
+        Catch ex2 As SocketException
+            MsgBox(ex2.Message, MsgBoxStyle.Critical, "Socket Error")
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
         Trace.WriteLine("Server received data...")
         If result > 0 Then
             sock.BeginReceive(bytes, 0, bytes.Length, SocketFlags.None, AddressOf receiveCallback, Nothing)
