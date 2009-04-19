@@ -4345,9 +4345,9 @@ Public Class frmMain
         Me.lvModules.ConnectionObj = theConnection
         Me.lvHandles.ConnectionObj = theConnection
         Me.lvServices.ConnectionObj = theConnection
-        'Me.lvWindows.ConnectionObj = theConnection
+        Me.lvWindows.ConnectionObj = theConnection
         Me.lvNetwork.ConnectionObj = theConnection
-        ' Me.lvTask.ConnectionObj = theConnection
+        Me.lvTask.ConnectionObj = theConnection
         Try
             Me.theConnection.Connect()
         Catch ex As Exception

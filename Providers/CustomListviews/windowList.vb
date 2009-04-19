@@ -181,7 +181,7 @@ Public Class windowList
     ' ========================================
 
     ' Executed when enumeration is done
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, windowInfos.LightWindow), ByVal errorMessage As String)
+    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, windowInfos), ByVal errorMessage As String)
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
@@ -202,7 +202,7 @@ Public Class windowList
 
 
         ' Now add new items to dictionnary
-        For Each pair As System.Collections.Generic.KeyValuePair(Of String, windowInfos.LightWindow) In Dico
+        For Each pair As System.Collections.Generic.KeyValuePair(Of String, windowInfos) In Dico
             If Not (_dico.ContainsKey(pair.Key)) Then
                 ' Add to dico
                 _dicoNew.Add(pair.Key, New cWindow(pair.Value))

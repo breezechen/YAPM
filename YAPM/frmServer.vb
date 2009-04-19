@@ -232,6 +232,8 @@ Public Class frmServeur
                         Dim pid() As Integer = CType(cData.Param1, Integer())
                         Dim unn As Boolean = CBool(cData.Param2)
                         Call _handleCon.Enumerate(True, pid, unn, _forInstanceId)
+                    Case cSocketData.OrderType.RequestWindowList
+
                 End Select
 
             End If

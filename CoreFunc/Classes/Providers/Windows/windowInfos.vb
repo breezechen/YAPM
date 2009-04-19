@@ -128,22 +128,32 @@ Public Class windowInfos
     ' Public
     ' ========================================
 
-    Public Structure LightWindow
-        Public pid As Integer
-        Public tid As Integer
-        Public handle As IntPtr
-        Public Sub New(ByVal _pid As Integer, ByVal _tid As Integer, ByVal _handle As IntPtr)
-            pid = _pid
-            tid = _tid
-            handle = _handle
-        End Sub
-    End Structure
+    'Public Structure LightWindow
+    '    Public pid As Integer
+    '    Public tid As Integer
+    '    Public handle As IntPtr
+    '    Public Sub New(ByVal _pid As Integer, ByVal _tid As Integer, ByVal _handle As IntPtr)
+    '        pid = _pid
+    '        tid = _tid
+    '        handle = _handle
+    '    End Sub
+    'End Structure
 
     ' Constructor of this class
-    Public Sub New(ByRef window As LightWindow)
-        _processId = window.pid
-        _threadId = window.tid
+    'Public Sub New(ByRef window As LightWindow)
+    '    _processId = window.pid
+    '    _threadId = window.tid
+    '    _handle = window.handle
+    'End Sub
+    Public Sub New(ByRef window As windowInfos)
+        _processId = window.ProcessId
+        _threadId = window.ThreadId
         _handle = window.handle
+    End Sub
+    Public Sub New(ByVal pid As Integer, ByVal tid As Integer, ByVal handle As IntPtr)
+        _processId = pid
+        _threadId = tid
+        _handle = handle
     End Sub
 
     '' Merge an old and a new instance

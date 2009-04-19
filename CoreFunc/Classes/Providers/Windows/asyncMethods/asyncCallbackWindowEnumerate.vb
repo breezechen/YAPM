@@ -73,6 +73,7 @@ Public Class asyncCallbackWindowEnumerate
                 _poolObj = pObj
                 Try
                     Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestWindowList)
+                    '  cDat.InstanceId = _instanceId   ' Instance which request the list
                     Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
                     pObj.con.ConnectionObj.Socket.Send(buff, buff.Length)
                 Catch ex As Exception
@@ -86,7 +87,7 @@ Public Class asyncCallbackWindowEnumerate
                 Dim currWnd As IntPtr
                 Dim cpt As Integer
 
-                Dim _dico As New Dictionary(Of String, windowInfos.LightWindow)
+                Dim _dico As New Dictionary(Of String, windowInfos)
 
                 currWnd = API.GetWindowAPI(API.GetDesktopWindow(), API.GW_CHILD)
                 cpt = 0
@@ -100,7 +101,7 @@ Public Class asyncCallbackWindowEnumerate
                             Dim tid As Integer = GetThreadIdFromWindowHandle(currWnd)
                             Dim key As String = pid.ToString & "-" & tid.ToString & "-" & currWnd.ToString
                             If _dico.ContainsKey(key) = False Then
-                                _dico.Add(key, New windowInfos.LightWindow(pid, tid, currWnd))
+                                _dico.Add(key, New windowInfos(pid, tid, currWnd))
                             End If
                         End If
                     End If

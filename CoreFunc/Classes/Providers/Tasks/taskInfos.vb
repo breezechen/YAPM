@@ -36,7 +36,7 @@ Public Class taskInfos
     ' ========================================
 
     ' Constructor of this class
-    Public Sub New(ByRef window As windowInfos.LightWindow)
+    Public Sub New(ByRef window As windowInfos)
         MyBase.New(window)
     End Sub
 

@@ -47,7 +47,7 @@ Public Class cWindow
 
 #Region "Constructors & destructor"
 
-    Public Sub New(ByRef infos As windowInfos.LightWindow)
+    Public Sub New(ByRef infos As windowInfos)
         _windowInfos = New windowInfos(infos)
         _connection = Connection
     End Sub

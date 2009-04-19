@@ -154,7 +154,7 @@ Public Class taskList
     ' ========================================
 
     ' Executed when enumeration is done
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, windowInfos.LightWindow), ByVal errorMessage As String)
+    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, windowInfos), ByVal errorMessage As String)
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
@@ -175,7 +175,7 @@ Public Class taskList
 
 
         ' Now add new items to dictionnary
-        For Each pair As System.Collections.Generic.KeyValuePair(Of String, windowInfos.LightWindow) In Dico
+        For Each pair As System.Collections.Generic.KeyValuePair(Of String, windowInfos) In Dico
             If Not (_dico.ContainsKey(pair.Key)) Then
                 ' Add to dico
                 _dicoNew.Add(pair.Key, New cTask(pair.Value))

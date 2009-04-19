@@ -79,7 +79,7 @@ Public Class asyncCallbackTaskEnumerate
                 Dim currWnd As IntPtr
                 Dim cpt As Integer
 
-                Dim _dico As New Dictionary(Of String, windowInfos.LightWindow)
+                Dim _dico As New Dictionary(Of String, windowInfos)
 
                 currWnd = API.GetWindowAPI(API.GetDesktopWindow(), API.GW_CHILD)
                 cpt = 0
@@ -90,7 +90,7 @@ Public Class asyncCallbackTaskEnumerate
                         Dim tid As Integer = GetThreadIdFromWindowHandle(currWnd)
                         Dim key As String = pid.ToString & "-" & tid.ToString & "-" & currWnd.ToString
                         If _dico.ContainsKey(key) = False Then
-                            _dico.Add(key, New windowInfos.LightWindow(pid, tid, currWnd))
+                            _dico.Add(key, New windowInfos(pid, tid, currWnd))
                         End If
                     End If
 

@@ -36,9 +36,9 @@ Public Class cTask
 
 #Region "Constructors & destructor"
 
-    Public Sub New(ByRef infos As windowInfos.LightWindow)
+    Public Sub New(ByRef infos As windowInfos)
         MyBase.New(infos)
-        _pid = infos.pid
+        _pid = infos.ProcessId
         _taskinfos = New taskInfos(infos)
     End Sub
 
