@@ -43,7 +43,7 @@ Imports System.Runtime.InteropServices
     Private _Priority As Integer
     Private _BasePriority As Integer
     Private _ContextSwitchCount As Integer
-    Private _State As Integer
+    Private _State As ThreadState
     Private _WaitReason As API.KWAIT_REASON
 
 #End Region
@@ -105,7 +105,7 @@ Imports System.Runtime.InteropServices
             Return _ContextSwitchCount
         End Get
     End Property
-    Public ReadOnly Property State() As Integer
+    Public ReadOnly Property State() As ThreadState
         Get
             Return _State
         End Get
@@ -158,7 +158,7 @@ Imports System.Runtime.InteropServices
             _KernelTime = .KernelTime
             _Priority = .Priority
             _StartAddress = .StartAddress
-            _State = .State
+            _State = CType(.State, ThreadState)
             _UserTime = .UserTime
             _WaitReason = .WaitReason
             _WaitTime = .WaitTime
