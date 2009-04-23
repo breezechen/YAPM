@@ -38,6 +38,8 @@ Public Class API
     Public Const GR_USEROBJECTS As Integer = 1
     Public Const GR_GDIOBJECTS As Integer = 0
 
+    Public Const DUPLICATE_SAME_ACCESS As Integer = &H2
+
     Public Const PROCESS_SET_INFORMATION As Integer = &H200
     Public Const PROCESS_SUSPEND_RESUME As Integer = &H800
     Public Const PROCESS_QUERY_INFORMATION As Integer = &H400
@@ -115,6 +117,10 @@ Public Class API
     Public Shared Function SetProcessWorkingSetSize(ByVal hwProc As Integer, ByVal minimumSize As Integer, ByVal maximumSize As Integer) As Integer
     End Function
 
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Public Shared Function GetProcessId(ByVal ProcessHandle As Integer) As Integer
+    End Function
+
     <StructLayout(LayoutKind.Sequential)> _
     Public Structure SYSTEM_PROCESS_INFORMATION
         Public NextEntryOffset As Integer
@@ -184,6 +190,7 @@ Public Class API
     Public Declare Function SetProcessAffinityMask Lib "kernel32" (ByVal hProcess As Integer, ByVal dwProcessAffinityMask As Integer) As Integer
     Public Declare Function GetGuiResources Lib "user32.dll" (ByVal hProcess As Integer, ByVal uiFlags As Integer) As Integer
     Public Declare Function GetProcAddress Lib "kernel32" (ByVal hModule As Integer, ByVal lpProcName As String) As Integer
+    Public Declare Function GetCurrentProcess Lib "kernel32.dll" () As Integer
 
 #End Region
 
@@ -1696,6 +1703,32 @@ Public Class API
         FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, GetLastError, LANG_NEUTRAL, Buffer, Len(Buffer), 0)
         Return Trim$(Buffer)
     End Function
+
+#End Region
+
+#Region "Declarations used for handles"
+
+    Public Const INVALID_HANDLE_VALUE As Integer = -1
+
+    <DllImport("ntdll.dll", SetLastError:=True)> _
+    Public Shared Function ZwDuplicateObject(ByVal SourceProcessHandle As Integer, ByVal SourceHandle As Integer, ByVal TargetProcessHandle As Integer, ByRef TargetHandle As Integer, ByVal DesiredAccess As Integer, ByVal Attributes As Integer, ByVal Options As Integer) As Integer
+    End Function
+
+    Public Declare Function DuplicateHandle Lib "kernel32" (ByVal hSourceProcessHandle As Integer, ByVal hSourceHandle As Integer, ByVal hTargetProcessHandle As Integer, ByRef lpTargetHandle As Integer, ByVal dwDesiredAccess As Integer, ByVal bInheritHandle As Integer, ByVal dwOptions As Integer) As Integer
+
+    Public Enum HANDLE_FLAG As Byte
+        Inherit = 1
+        ProtectFromClose = 2
+    End Enum
+
+    Public Structure SYSTEM_HANDLE_INFORMATION
+        Public ProcessId As Integer
+        Public ObjectTypeNumber As Byte
+        Public Flags As HANDLE_FLAG
+        Public Handle As Short
+        Public _Object As Integer
+        Public GrantedAccess As STANDARD_RIGHTS
+    End Structure
 
 #End Region
 

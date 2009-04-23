@@ -169,7 +169,7 @@ Public Class asyncCallbackModuleEnumerate
 
     End Sub
 
-    Private Function GetModules(ByVal pid As Integer) As Dictionary(Of String, moduleInfos)
+    Private Shared Function GetModules(ByVal pid As Integer) As Dictionary(Of String, moduleInfos)
         Dim size As Integer
         Dim _handles As IntPtr()
 
@@ -212,4 +212,19 @@ Public Class asyncCallbackModuleEnumerate
 
         Return ret
     End Function
+
+    Public Shared Function GetModules2(ByVal pid As Integer) As Dictionary(Of String, moduleInfos)
+        Return GetModules(pid)
+    End Function
+
+    Public Shared Function GetModules3(ByVal pid As Integer) As String
+        For Each s As moduleInfos In GetModules2(pid).Values
+            Return s.Path
+        Next
+        Return "N/A"
+    End Function
+
+
+
+
 End Class

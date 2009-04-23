@@ -30,6 +30,7 @@ Imports System.Management
 Public Class asyncCallbackProcEnumerate
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
+    Private PROCESS_MIN_RIGHTS As API.PROCESS_RIGHTS = API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION
 
     Private ctrl As Control
     Private deg As [Delegate]
@@ -40,6 +41,9 @@ Public Class asyncCallbackProcEnumerate
         deg = de
         _instanceId = iId
         con = co
+        If IsWindowsVista() Then
+            PROCESS_MIN_RIGHTS = API.PROCESS_RIGHTS.PROCESS_QUERY_LIMITED_INFORMATION
+        End If
     End Sub
 
 #Region "Shared code"
@@ -68,12 +72,18 @@ Public Class asyncCallbackProcEnumerate
 #End Region
 
     Public Structure poolObj
+        Public method As ProcessEnumMethode
         Public forInstanceId As Integer
-        Public Sub New(ByVal iid As Integer)
+        Public Sub New(ByVal iid As Integer, Optional ByVal tmethod As ProcessEnumMethode = ProcessEnumMethode.VisibleProcesses)
             forInstanceId = iid
+            method = tmethod
         End Sub
     End Structure
-
+    Public Enum ProcessEnumMethode As Integer
+        VisibleProcesses
+        BruteForce
+        HandleMethod
+    End Enum
 
 
     ' When socket got a list of processes !
@@ -208,93 +218,17 @@ Public Class asyncCallbackProcEnumerate
 
                 Case Else
                     ' Local
-                    Dim ret As Integer
-                    API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, IntPtr.Zero, 0, ret)
-                    Dim size As Integer = ret
-                    Dim ptr As IntPtr = Marshal.AllocHGlobal(size)
-                    API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, ptr, size, ret)
+                    Dim _dico As Dictionary(Of String, processInfos)
 
-                    ' Extract structures from unmanaged memory
-                    Dim structSize As Integer = Marshal.SizeOf(GetType(API.SYSTEM_PROCESS_INFORMATION))
-                    Dim x As Integer = 0
-                    Dim offset As Integer = 0
-                    Dim _dico As New Dictionary(Of String, processInfos)
-                    Do While True
-                        Dim obj As API.SYSTEM_PROCESS_INFORMATION = CType(Marshal.PtrToStructure(New IntPtr(ptr.ToInt32 + _
-                            offset), GetType(API.SYSTEM_PROCESS_INFORMATION)),  _
-                            API.SYSTEM_PROCESS_INFORMATION)
-
-                        Dim _procInfos As New processInfos(obj)
-
-                        For j As Integer = 0 To obj.NumberOfThreads - 1
-
-                            Dim _off As Integer = ptr.ToInt32 + offset + Marshal.SizeOf(GetType(API.SYSTEM_PROCESS_INFORMATION)) + j _
-                                    * Marshal.SizeOf(GetType(API.SYSTEM_THREAD_INFORMATION))
-
-                            Dim thread As API.SYSTEM_THREAD_INFORMATION = _
-                                CType(Marshal.PtrToStructure(New IntPtr(_off), _
-                                    GetType(API.SYSTEM_THREAD_INFORMATION)),  _
-                                    API.SYSTEM_THREAD_INFORMATION)
-
-                            Dim _key As String = thread.ClientId.UniqueThread.ToString & "-" & thread.ClientId.UniqueProcess.ToString
-                            Dim _th As New threadInfos(thread)
-                            If _procInfos.Threads.ContainsKey(_key) = False Then
-                                _procInfos.Threads.Add(_key, _th)
-                            End If
-                        Next
-                        AvailableThreads.Add(obj.ProcessId, _procInfos.Threads)
-
-
-                        ' Do we have to get fixed infos ?
-                        If dicoNewProcesses.ContainsKey(obj.ProcessId) = False Then
-
-                            Dim _path As String = GetPath(obj.ProcessId)
-                            Dim _user As String = GetUser(obj.ProcessId)
-                            Dim _command As String = NO_INFO_RETRIEVED
-                            Dim _peb As Integer = GetPebAddress(obj.ProcessId)
-                            If _peb > 0 Then
-                                _command = GetCommandLine(obj.ProcessId, _peb)
-                            End If
-                            Dim _finfo As FileVersionInfo = Nothing
-                            Try
-                                _finfo = FileVersionInfo.GetVersionInfo(_path)
-                            Catch ex As Exception
-                                ' File not available or ?
-                            End Try
-
-                            With _procInfos
-                                .Path = _path
-                                .UserName = _user
-                                .CommandLine = _command
-                                .FileInfo = _finfo
-                                .PEBAddress = _peb
-                            End With
-
-                            dicoNewProcesses.Add(obj.ProcessId, False)
-
-                            Trace.WriteLine("Got fixed infos for id = " & obj.ProcessId.ToString)
-                        End If
-
-                        ' Set true so that the process is marked as existing
-                        dicoNewProcesses(obj.ProcessId) = True
-
-                        offset += obj.NextEntryOffset
-                        _dico.Add(obj.ProcessId.ToString, _procInfos)
-
-                        If obj.NextEntryOffset = 0 Then
-                            Exit Do
-                        End If
-                        x += 1
-                    Loop
-                    Marshal.FreeHGlobal(ptr)
-
-                    ' Remove all processes that not exist anymore
-                    Dim _dicoTemp As Dictionary(Of Integer, Boolean) = dicoNewProcesses
-                    For Each it As System.Collections.Generic.KeyValuePair(Of Integer, Boolean) In _dicoTemp
-                        If it.Value = False Then
-                            dicoNewProcesses.Remove(it.Key)
-                        End If
-                    Next
+                    Select Case pObj.method
+                        Case ProcessEnumMethode.BruteForce
+                            _dico = getHiddenProcessesBruteForce()
+                        Case ProcessEnumMethode.HandleMethod
+                            _dico = getHiddenProcessesHandleMethod()
+                        Case Else
+                            _dico = getVisibleProcesses()
+                    End Select
+                    
                     ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
             End Select
 
@@ -538,4 +472,313 @@ Public Class asyncCallbackProcEnumerate
             Return name.ToString()
         End If
     End Function
+
+    ' Enumerate all handes opened by all processes
+    Private Function EnumerateHandles() As API.SYSTEM_HANDLE_INFORMATION()
+        Dim handleCount As Integer = 0
+        Dim retLen As Integer
+        Dim _handles As API.SYSTEM_HANDLE_INFORMATION()
+
+        ' I did not manage to get the good needed size with the first call to
+        ' ZwQuerySystemInformation with SystemHandleInformation flag when the buffer
+        ' is too small. So each time the call to ZwQuerySystemInformation fails with
+        ' a too small buffer, the size is multiplicated by 2 and I call ZwQuerySystemInformation
+        ' again. And again, until the return is not STATUS_INFO_LENGTH_MISMATCH.
+        ' Strange behavior.
+        ' See http://forum.sysinternals.com/forum_posts.asp?TID=3577 for details.
+        Const STATUS_INFO_LENGTH_MISMATCH As UInteger = &HC0000004
+
+        Dim size As Integer = 1024
+        Dim ptr As IntPtr = Marshal.AllocHGlobal(size)
+
+        While CUInt(API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemHandleInformation, ptr, size, retLen)) = STATUS_INFO_LENGTH_MISMATCH
+
+            size *= 2
+            Marshal.FreeHGlobal(ptr)
+            ptr = Marshal.AllocHGlobal(size)
+
+        End While
+
+        ' The handlecount value is the first integer (4 bytes) of the unmanaged memory.
+        handleCount = Marshal.ReadInt32(ptr, 0)
+        _handles = New API.SYSTEM_HANDLE_INFORMATION(handleCount - 1) {}
+
+        For x As Integer = 0 To handleCount - 1
+            Dim offset As Integer = ptr.ToInt32 + 4 + x * Marshal.SizeOf(GetType(API.SYSTEM_HANDLE_INFORMATION))
+            Dim temp As API.SYSTEM_HANDLE_INFORMATION = _
+                CType(Marshal.PtrToStructure(New IntPtr(offset), _
+                                         GetType(API.SYSTEM_HANDLE_INFORMATION)),  _
+                                         API.SYSTEM_HANDLE_INFORMATION)
+            _handles(x) = temp
+        Next
+
+        Marshal.FreeHGlobal(ptr)
+
+        Return _handles
+
+    End Function
+
+    ' Get all hidden processes (handle method)
+    Private Function getHiddenProcessesHandleMethod() As Dictionary(Of String, processInfos)
+
+        ' Refresh list of drives
+        RefreshLogicalDrives()
+
+        ' For each Process Id (PID) possible
+        Dim _dico As New Dictionary(Of String, processInfos)
+
+        ' Firstly, we get all instances of csrss.exe process.
+        ' We retrieve them from visible list. So if csrss.exe processes are hidden... DAMN !!!
+        ' Note : There are more than once instance of csrss.exe on Vista.
+        Dim _csrss As New Dictionary(Of Integer, Integer)
+        For Each proc As processInfos In getVisibleProcesses.Values
+            If proc.Name.ToLowerInvariant = "csrss.exe" Then
+                Dim _theHandle As Integer = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_DUP_HANDLE, 0, proc.Pid)
+                _csrss.Add(proc.Pid, _theHandle)
+            End If
+        Next
+
+        ' Now we get all handles from all processes
+        Dim _handles As API.SYSTEM_HANDLE_INFORMATION() = EnumerateHandles()
+
+        ' For handles which belongs to a csrss.exe process
+        For Each h As API.SYSTEM_HANDLE_INFORMATION In _handles
+            If _csrss.ContainsKey(h.ProcessId) Then
+                Dim _dup As Integer
+                If (API.DuplicateHandle(_csrss(h.ProcessId), h.Handle, API.INVALID_HANDLE_VALUE, _dup, 0, 0, API.DUPLICATE_SAME_ACCESS)) <> 0 Then
+                    Dim pid As Integer = API.GetProcessId(_dup)
+                    Dim obj As New API.SYSTEM_PROCESS_INFORMATION
+                    With obj
+                        .ProcessId = pid
+                    End With
+                    Dim _path As String = GetImageFile(obj.ProcessId)
+                    Dim _procInfos As New processInfos(obj, GetFileName(_path))
+                    _procInfos.Path = _path
+                    If _dico.ContainsKey(pid.ToString) = False Then
+                        _dico.Add(pid.ToString, _procInfos)
+                    End If
+                End If
+            End If
+        Next
+
+        ' Add the two instances of csrss.exe to result
+        ' & close previously opened handles
+        For Each h As Integer In _csrss.Keys
+            Dim obj As New API.SYSTEM_PROCESS_INFORMATION
+            With obj
+                .ProcessId = h
+            End With
+            Dim _path As String = GetImageFile(obj.ProcessId)
+            Dim _procInfos As New processInfos(obj, GetFileName(_path))
+            _procInfos.Path = _path
+            If _dico.ContainsKey(h.ToString) = False Then
+                _dico.Add(h.ToString, _procInfos)
+            End If
+
+            API.CloseHandle(_csrss(h))
+        Next
+
+
+        ' Get visible processes
+        Dim _visible As Dictionary(Of String, processInfos) = getVisibleProcessesSimp()
+
+        ' Merge results
+        For Each pp As processInfos In _visible.Values
+            If _dico.ContainsKey(pp.Pid.ToString) = False Then
+                _dico.Add(pp.Pid.ToString, pp)
+            End If
+        Next
+
+        ' Mark processes that are not present in _visible as hidden
+        For Each pp As processInfos In _dico.Values
+            If _visible.ContainsKey(pp.Pid.ToString) = False Then
+                pp.IsHidden = True
+            End If
+        Next
+
+        Return _dico
+
+    End Function
+
+    ' Get all hidden processes (brute force)
+    Private Function getHiddenProcessesBruteForce() As Dictionary(Of String, processInfos)
+
+        ' Refresh list of drives
+        RefreshLogicalDrives()
+
+        ' For each Process Id (PID) possible
+        Dim _dico As New Dictionary(Of String, processInfos)
+
+        ' We could stop before &hffff....
+        For pid As Integer = &H8 To &HFFFF Step 4
+            Dim handle As Integer = API.OpenProcess(PROCESS_MIN_RIGHTS, 0, pid)
+            If handle > 0 Then
+                Dim obj As New API.SYSTEM_PROCESS_INFORMATION
+                With obj
+                    .ProcessId = pid
+                End With
+                Dim _path As String = GetImageFile(obj.ProcessId)
+                Dim _procInfos As New processInfos(obj, GetFileName(_path))
+                _procInfos.Path = _path
+                _dico.Add(pid.ToString, _procInfos)
+                API.CloseHandle(handle)
+            End If
+        Next
+
+        ' Get visible processes
+        Dim _visible As Dictionary(Of String, processInfos) = getVisibleProcessesSimp()
+
+        ' Merge results
+        For Each pp As processInfos In _visible.Values
+            If _dico.ContainsKey(pp.Pid.ToString) = False Then
+                _dico.Add(pp.Pid.ToString, pp)
+            End If
+        Next
+
+        ' Mark processes that are not present in _visible as hidden
+        For Each pp As processInfos In _dico.Values
+            If _visible.ContainsKey(pp.Pid.ToString) = False Then
+                pp.IsHidden = True
+            End If
+        Next
+
+        Return _dico
+
+    End Function
+
+    ' Get all visible processes
+    Private Function getVisibleProcesses() As Dictionary(Of String, processInfos)
+        Dim ret As Integer
+        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, IntPtr.Zero, 0, ret)
+        Dim size As Integer = ret
+        Dim ptr As IntPtr = Marshal.AllocHGlobal(size)
+        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, ptr, size, ret)
+
+        ' Extract structures from unmanaged memory
+        Dim structSize As Integer = Marshal.SizeOf(GetType(API.SYSTEM_PROCESS_INFORMATION))
+        Dim x As Integer = 0
+        Dim offset As Integer = 0
+        Dim _dico As New Dictionary(Of String, processInfos)
+        Do While True
+            Dim obj As API.SYSTEM_PROCESS_INFORMATION = CType(Marshal.PtrToStructure(New IntPtr(ptr.ToInt32 + _
+                offset), GetType(API.SYSTEM_PROCESS_INFORMATION)),  _
+                API.SYSTEM_PROCESS_INFORMATION)
+
+            Dim _procInfos As New processInfos(obj)
+
+            For j As Integer = 0 To obj.NumberOfThreads - 1
+
+                Dim _off As Integer = ptr.ToInt32 + offset + Marshal.SizeOf(GetType(API.SYSTEM_PROCESS_INFORMATION)) + j _
+                        * Marshal.SizeOf(GetType(API.SYSTEM_THREAD_INFORMATION))
+
+                Dim thread As API.SYSTEM_THREAD_INFORMATION = _
+                    CType(Marshal.PtrToStructure(New IntPtr(_off), _
+                        GetType(API.SYSTEM_THREAD_INFORMATION)),  _
+                        API.SYSTEM_THREAD_INFORMATION)
+
+                Dim _key As String = thread.ClientId.UniqueThread.ToString & "-" & thread.ClientId.UniqueProcess.ToString
+                Dim _th As New threadInfos(thread)
+                If _procInfos.Threads.ContainsKey(_key) = False Then
+                    _procInfos.Threads.Add(_key, _th)
+                End If
+            Next
+            AvailableThreads.Add(obj.ProcessId, _procInfos.Threads)
+
+
+            ' Do we have to get fixed infos ?
+            If dicoNewProcesses.ContainsKey(obj.ProcessId) = False Then
+
+                Dim _path As String = GetPath(obj.ProcessId)
+                Dim _user As String = GetUser(obj.ProcessId)
+                Dim _command As String = NO_INFO_RETRIEVED
+                Dim _peb As Integer = GetPebAddress(obj.ProcessId)
+                If _peb > 0 Then
+                    _command = GetCommandLine(obj.ProcessId, _peb)
+                End If
+                Dim _finfo As FileVersionInfo = Nothing
+                Try
+                    _finfo = FileVersionInfo.GetVersionInfo(_path)
+                Catch ex As Exception
+                    ' File not available or ?
+                End Try
+
+                With _procInfos
+                    .Path = _path
+                    .UserName = _user
+                    .CommandLine = _command
+                    .FileInfo = _finfo
+                    .PEBAddress = _peb
+                End With
+
+                dicoNewProcesses.Add(obj.ProcessId, False)
+
+                Trace.WriteLine("Got fixed infos for id = " & obj.ProcessId.ToString)
+            End If
+
+            ' Set true so that the process is marked as existing
+            dicoNewProcesses(obj.ProcessId) = True
+
+            offset += obj.NextEntryOffset
+            _dico.Add(obj.ProcessId.ToString, _procInfos)
+
+            If obj.NextEntryOffset = 0 Then
+                Exit Do
+            End If
+            x += 1
+        Loop
+        Marshal.FreeHGlobal(ptr)
+
+        ' Remove all processes that not exist anymore
+        Dim _dicoTemp As Dictionary(Of Integer, Boolean) = dicoNewProcesses
+        For Each it As System.Collections.Generic.KeyValuePair(Of Integer, Boolean) In _dicoTemp
+            If it.Value = False Then
+                dicoNewProcesses.Remove(it.Key)
+            End If
+        Next
+
+        Return _dico
+    End Function
+
+    ' Get all visible processes (simplified)
+    Private Function getVisibleProcessesSimp() As Dictionary(Of String, processInfos)
+        Dim ret As Integer
+        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, IntPtr.Zero, 0, ret)
+        Dim size As Integer = ret
+        Dim ptr As IntPtr = Marshal.AllocHGlobal(size)
+        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, ptr, size, ret)
+
+        ' Extract structures from unmanaged memory
+        Dim structSize As Integer = Marshal.SizeOf(GetType(API.SYSTEM_PROCESS_INFORMATION))
+        Dim x As Integer = 0
+        Dim offset As Integer = 0
+        Dim _dico As New Dictionary(Of String, processInfos)
+
+        Do While True
+            Dim obj As API.SYSTEM_PROCESS_INFORMATION = CType(Marshal.PtrToStructure(New IntPtr(ptr.ToInt32 + _
+                offset), GetType(API.SYSTEM_PROCESS_INFORMATION)),  _
+                API.SYSTEM_PROCESS_INFORMATION)
+
+            Dim _procInfos As New processInfos(obj)
+            Dim _path As String = GetPath(obj.ProcessId)
+            With _procInfos
+                .Path = _path
+                .UserName = NO_INFO_RETRIEVED
+                .CommandLine = NO_INFO_RETRIEVED
+                .FileInfo = Nothing
+                .PEBAddress = 0
+            End With
+
+            offset += obj.NextEntryOffset
+            _dico.Add(obj.ProcessId.ToString, _procInfos)
+
+            If obj.NextEntryOffset = 0 Then
+                Exit Do
+            End If
+            x += 1
+        Loop
+        Marshal.FreeHGlobal(ptr)
+
+        Return _dico
+    End Function
+
 End Class

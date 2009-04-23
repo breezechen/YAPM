@@ -33,6 +33,7 @@ Public Class cProcessConnection
     Friend Shared instanceId As Integer = 1
     Private _instanceId As Integer = 1
     Dim _procEnum As asyncCallbackProcEnumerate
+    Dim _enumMethod As asyncCallbackProcEnumerate.ProcessEnumMethode = asyncCallbackProcEnumerate.ProcessEnumMethode.VisibleProcesses
 
     ' Rights to query infos with a handle
     Private Shared _minRights As API.PROCESS_RIGHTS = API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION
@@ -74,6 +75,14 @@ Public Class cProcessConnection
         Get
             Return _processors
         End Get
+    End Property
+    Public Property EnumMethod() As asyncCallbackProcEnumerate.ProcessEnumMethode
+        Get
+            Return _enumMethod
+        End Get
+        Set(ByVal value As asyncCallbackProcEnumerate.ProcessEnumMethode)
+            _enumMethod = value
+        End Set
     End Property
 
 #End Region
@@ -158,11 +167,11 @@ Public Class cProcessConnection
 #Region "Enumerate processes"
 
     ' Enumerate processes
-    Public Function Enumerate(ByVal getFixedInfos As Boolean, Optional ByVal forInstanceId As Integer = -1) As Integer
+    Public Function Enumerate(ByVal getFixedInfos As Boolean, Optional ByVal forInstanceId As Integer = -1, Optional ByVal enumMethod As asyncCallbackProcEnumerate.ProcessEnumMethode = asyncCallbackProcEnumerate.ProcessEnumMethode.VisibleProcesses) As Integer
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
                 System.Threading.WaitCallback(AddressOf _
                 _procEnum.Process), New  _
-                asyncCallbackProcEnumerate.poolObj(forInstanceId))
+                asyncCallbackProcEnumerate.poolObj(forInstanceId, _enumMethod))
     End Function
 
 #End Region

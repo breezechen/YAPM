@@ -36,6 +36,7 @@ Public Class processList
     ' Private
     ' ========================================
     Private _first As Boolean
+    Private _enumMethod As asyncCallbackProcEnumerate.ProcessEnumMethode = asyncCallbackProcEnumerate.ProcessEnumMethode.VisibleProcesses
     Private _dicoNew As New Dictionary(Of String, cProcess)
     Private _dicoDel As New Dictionary(Of String, cProcess)
     Private _buffDico As New Dictionary(Of String, cProcess)
@@ -54,6 +55,15 @@ Public Class processList
         End Get
         Set(ByVal value As cConnection)
             _connectionObject = value
+        End Set
+    End Property
+    Public Property EnumMethod() As asyncCallbackProcEnumerate.ProcessEnumMethode
+        Get
+            Return _enumMethod
+        End Get
+        Set(ByVal value As asyncCallbackProcEnumerate.ProcessEnumMethode)
+            _enumMethod = value
+            _processConnection.EnumMethod = _enumMethod
         End Set
     End Property
 
@@ -119,7 +129,7 @@ Public Class processList
         If _processConnection.IsConnected Then
 
             ' Now enumerate items
-            _processConnection.Enumerate(_first)
+            _processConnection.Enumerate(_first, enumMethod:=_enumMethod)
 
         End If
 
@@ -257,6 +267,16 @@ Public Class processList
             Else
                 it.BackColor = Color.White
             End If
+
+            ' If we are in 'show hidden process mode', we have to set color red for
+            ' hidden processes
+            If _item.Infos.IsHidden Then
+                it.ForeColor = Color.Red
+            Else
+                If it.ForeColor = Color.Red Then
+                    it.ForeColor = Color.Black
+                End If
+            End If
         Next
 
         ' This piece of code is needed. Strange behavior, the Text attribute must
@@ -268,6 +288,7 @@ Public Class processList
                 Next
             Next
         End If
+
 
         ' Sort items
         Me.Sort()

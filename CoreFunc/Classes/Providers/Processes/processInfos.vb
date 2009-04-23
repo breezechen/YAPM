@@ -33,6 +33,7 @@ Imports System.Runtime.InteropServices
 #Region "Private attributes"
 
     Private _CommandLine As String
+    Private _isHidden As Boolean
     Private _Pid As Integer
     Private _AffinityMask As Integer
     Private _PEBAddress As Integer
@@ -60,6 +61,15 @@ Imports System.Runtime.InteropServices
 #End Region
 
 #Region "Read only properties"
+
+    Public Property IsHidden() As Boolean
+        Get
+            Return _isHidden
+        End Get
+        Set(ByVal value As Boolean)
+            _isHidden = value
+        End Set
+    End Property
 
     Public ReadOnly Property Threads() As Dictionary(Of String, threadInfos)
         Get
@@ -228,6 +238,7 @@ Imports System.Runtime.InteropServices
             _IOValues = .IoCounters
             _HandleCount = .HandleCount
             _Pid = .ProcessId
+            _isHidden = False
             _threadCount = .NumberOfThreads
             _ParentProcessId = .InheritedFromProcessId
             If _Pid > 0 Then
@@ -259,6 +270,7 @@ Imports System.Runtime.InteropServices
             _userObjects = .UserObjects
             _AffinityMask = .AffinityMask
             _threads = .Threads
+            _isHidden = .IsHidden
             _threadCount = .ThreadCount
         End With
     End Sub
