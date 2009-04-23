@@ -67,4 +67,13 @@ Public Class frmHiddenProcesses
         Me.lvProcess.ClearItems()
         Me.lvProcess.EnumMethod = asyncCallbackProcEnumerate.ProcessEnumMethode.BruteForce
     End Sub
+
+    Private Sub lvProcess_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseDoubleClick
+        For Each it As cProcess In Me.lvProcess.GetSelectedItems
+            Dim frm As New frmProcessInfo
+            frm.SetProcess(it)
+            frm.Show()
+        Next
+    End Sub
+
 End Class

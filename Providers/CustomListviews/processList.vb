@@ -101,6 +101,7 @@ Public Class processList
     ' Delete all items
     Public Sub ClearItems()
         _first = True
+        _firstItemUpdate = True
         _buffDico.Clear()
         _dico.Clear()
         _dicoDel.Clear()

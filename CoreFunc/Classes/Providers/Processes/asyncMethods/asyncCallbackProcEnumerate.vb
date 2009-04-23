@@ -613,15 +613,19 @@ Public Class asyncCallbackProcEnumerate
         For pid As Integer = &H8 To &HFFFF Step 4
             Dim handle As Integer = API.OpenProcess(PROCESS_MIN_RIGHTS, 0, pid)
             If handle > 0 Then
-                Dim obj As New API.SYSTEM_PROCESS_INFORMATION
-                With obj
-                    .ProcessId = pid
-                End With
-                Dim _path As String = GetImageFile(obj.ProcessId)
-                Dim _procInfos As New processInfos(obj, GetFileName(_path))
-                _procInfos.Path = _path
-                _dico.Add(pid.ToString, _procInfos)
-                API.CloseHandle(handle)
+                Dim exitcode As Integer
+                Dim res As Integer = API.GetExitCodeProcess(handle, exitcode)
+                If exitcode = 259 Then  ' Process still exists
+                    Dim obj As New API.SYSTEM_PROCESS_INFORMATION
+                    With obj
+                        .ProcessId = pid
+                    End With
+                    Dim _path As String = GetImageFile(obj.ProcessId)
+                    Dim _procInfos As New processInfos(obj, GetFileName(_path))
+                    _procInfos.Path = _path
+                    _dico.Add(pid.ToString, _procInfos)
+                    API.CloseHandle(handle)
+                End If
             End If
         Next
 
