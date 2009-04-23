@@ -523,12 +523,6 @@ Public Class cProcess
             Case "AffinityMask"
                 res = Me.Infos.AffinityMask.ToString
             Case "AverageCpuUsage"
-                'Dim i As Long = Date.Now.Ticks - Me.Infos.StartTime
-                'If i > 0 AndAlso _processors > 0 Then
-                '    res = GetFormatedPercentage(Me.Infos.ProcessorTime / i / _processors)
-                'Else
-                '    res = GetFormatedPercentage(0)
-                'End If
                 res = GetFormatedPercentage(Me.Infos.AverageCpuUsage)
             Case "CommandLine"
                 res = Me.Infos.CommandLine
