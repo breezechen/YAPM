@@ -33,6 +33,10 @@ Public Class cTask
 
     Private _pid As Integer
     Private _cpuUsage As Double
+    Private _process As cProcess
+    Private _retried As Boolean = False
+
+    Private Shared _procList As Dictionary(Of String, cProcess)
 
 #Region "Constructors & destructor"
 
@@ -40,6 +44,13 @@ Public Class cTask
         MyBase.New(infos)
         _pid = infos.ProcessId
         _taskinfos = New taskInfos(infos)
+
+        ' Get process from process list
+        If _procList IsNot Nothing Then
+            If _procList.ContainsKey(_pid.ToString) Then
+                _process = _procList(_pid.ToString)
+            End If
+        End If
     End Sub
 
 #End Region
@@ -52,11 +63,39 @@ Public Class cTask
         End Get
     End Property
 
+    Public Shared Property ProcessCollection() As Dictionary(Of String, cProcess)
+        Get
+            Return _procList
+        End Get
+        Set(ByVal value As Dictionary(Of String, cProcess))
+            _procList = value
+        End Set
+    End Property
+
 #End Region
 
 #Region "Other properties"
 
+    Public ReadOnly Property CpuUsage() As Double
+        Get
+            If _process IsNot Nothing Then
+                Return _process.CpuUsage
+            Else
+                ' _process does not exist -> we try to get it
+                If _procList IsNot Nothing Then
+                    If _retried = False Then
+                        ' We have a list and we never tried to get _process -> do it
+                        If _procList.ContainsKey(_pid.ToString) Then
+                            _process = _procList(_pid.ToString)
+                        End If
+                        _retried = True
+                    End If
+                End If
+            End If
 
+            Return 0
+        End Get
+    End Property
 
 #End Region
 
@@ -68,7 +107,7 @@ Public Class cTask
 
         Select Case info
             Case "CpuUsage"
-                Return GetFormatedPercentage(_cpuUsage)
+                Return GetFormatedPercentage(Me.CpuUsage)
             Case Else
                 Return MyBase.GetInformation(info)
         End Select

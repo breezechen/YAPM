@@ -291,6 +291,10 @@ Public Class processList
         End If
 
 
+        ' Set processes to task class
+        cTask.ProcessCollection = _dico
+
+
         ' Sort items
         Me.Sort()
 
