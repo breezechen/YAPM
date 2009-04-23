@@ -23,6 +23,10 @@ Option Strict On
 
 Public Class Pref
 
+    Public Const DEFAULT_TIMER_INTERVAL_PROCESSES As Integer = 1000
+    Public Const DEFAULT_TIMER_INTERVAL_SERVICES As Integer = 2500
+    Public Const MSGFIRSTTIME As String = "This is the first time you run YAPM. Please remember that it is a beta5 version so there are some bugs and some missing functionnalities :-)" & vbNewLine & vbNewLine & "You should run YAPM as an administrator in order to fully control your processes. Please take care using this YAPM because you will be able to do some irreversible things if you kill or modify some system processes... Use it at your own risks !" & vbNewLine & vbNewLine & "Please let me know any of your ideas of improvement or new functionnalities in YAPM's sourceforge.net project page ('Help' pannel) :-)" & vbNewLine & vbNewLine & "This message won't be shown anymore :-)"
+
     ' Options
     Public replaceTaskMgr As Boolean
     Public procInterval As Integer
@@ -47,6 +51,7 @@ Public Class Pref
     Public searchEngine As String
     Public warnDangerous As Boolean
     Public hideMinimized As Boolean
+    Public hideClose As Boolean
 
     ' Open XML
     Public Sub Load()
@@ -103,6 +108,8 @@ Public Class Pref
                     trayInterval = CInt(noeudEnf.InnerText)
                 ElseIf noeudEnf.LocalName = "systeminterval" Then
                     systemInterval = CInt(noeudEnf.InnerText)
+                ElseIf noeudEnf.LocalName = "hideclose" Then
+                    hideClose = CBool(noeudEnf.InnerText)
                 End If
             Next
         Next
@@ -205,19 +212,56 @@ Public Class Pref
         elemSystemInterval = XmlDoc.CreateElement("systeminterval")
         elemSystemInterval.InnerText = CStr(Me.systemInterval)
         elemConfig.AppendChild(elemSystemInterval)
+        Dim elemHideClose As XmlElement
+        elemHideClose = XmlDoc.CreateElement("hideclose")
+        elemHideClose.InnerText = CStr(Me.hideClose)
+        elemConfig.AppendChild(elemHideClose)
 
         XmlDoc.DocumentElement.AppendChild(elemConfig)
         XmlDoc.Save(frmMain.PREF_PATH)
     End Sub
 
+    ' Set to default
+    Public Sub SetDefault()
+
+        With Me
+            .lang = "English"
+            .procInterval = DEFAULT_TIMER_INTERVAL_PROCESSES
+            .serviceInterval = DEFAULT_TIMER_INTERVAL_SERVICES
+            .startHidden = False
+            .replaceTaskMgr = False
+            .startup = False
+            .firstTimeSBA = True
+            .topmost = False
+            .hideClose = True
+            .newItemsColor = Color.FromArgb(128, 255, 0).ToArgb
+            .deletedItemsColor = Color.FromArgb(255, 64, 48).ToArgb
+            .showTrayIcon = True
+            .priority = 1
+            .taskInterval = DEFAULT_TIMER_INTERVAL_PROCESSES
+            .networkInterval = DEFAULT_TIMER_INTERVAL_PROCESSES
+            .trayInterval = DEFAULT_TIMER_INTERVAL_PROCESSES
+            .systemInterval = DEFAULT_TIMER_INTERVAL_PROCESSES
+            .ribbonStyle = True
+            .searchEngine = "http://www.google.com/search?hl=en&q=ITEM"
+            .closeYAPMWithCloseButton = True
+            .warnDangerous = True
+            .hideMinimized = False
+            MsgBox(MSGFIRSTTIME, MsgBoxStyle.Information, "Please read this")
+            .Save()
+            .Apply()
+        End With
+
+    End Sub
+
     ' Apply pref
     Public Sub Apply()
         Static first As Boolean = True
-        frmMain.timerProcess.Interval = CInt(IIf(procInterval > 0, procInterval, frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES))
-        frmMain.timerServices.Interval = CInt(IIf(serviceInterval > 0, serviceInterval, frmMain.DEFAULT_TIMER_INTERVAL_SERVICES))
-        frmMain.timerNetwork.Interval = CInt(IIf(networkInterval > 0, networkInterval, frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES))
-        frmMain.timerTask.Interval = CInt(IIf(taskInterval > 0, taskInterval, frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES))
-        frmMain.timerTrayIcon.Interval = CInt(IIf(trayInterval > 0, trayInterval, frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES))
+        frmMain.timerProcess.Interval = CInt(IIf(procInterval > 0, procInterval, DEFAULT_TIMER_INTERVAL_PROCESSES))
+        frmMain.timerServices.Interval = CInt(IIf(serviceInterval > 0, serviceInterval, DEFAULT_TIMER_INTERVAL_SERVICES))
+        frmMain.timerNetwork.Interval = CInt(IIf(networkInterval > 0, networkInterval, DEFAULT_TIMER_INTERVAL_PROCESSES))
+        frmMain.timerTask.Interval = CInt(IIf(taskInterval > 0, taskInterval, DEFAULT_TIMER_INTERVAL_PROCESSES))
+        frmMain.timerTrayIcon.Interval = CInt(IIf(trayInterval > 0, trayInterval, DEFAULT_TIMER_INTERVAL_PROCESSES))
         Select Case priority
             Case 0
                 Process.GetCurrentProcess.PriorityClass = ProcessPriorityClass.Idle

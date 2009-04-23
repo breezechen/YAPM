@@ -123,10 +123,7 @@ Public Class frmMain
 #End If
 
     Public HELP_PATH As String = My.Application.Info.DirectoryPath & "\Help\help.htm"
-    Public Const DEFAULT_TIMER_INTERVAL_PROCESSES As Integer = 1000
     Private Const NO_INFO_RETRIEVED As String = "N/A"
-    Public Const DEFAULT_TIMER_INTERVAL_SERVICES As Integer = 2500
-    Public Const MSGFIRSTTIME As String = "This is the first time you run YAPM. Please remember that it is a beta5 version so there are some bugs and some missing functionnalities :-)" & vbNewLine & vbNewLine & "You should run YAPM as an administrator in order to fully control your processes. Please take care using this YAPM because you will be able to do some irreversible things if you kill or modify some system processes... Use it at your own risks !" & vbNewLine & vbNewLine & "Please let me know any of your ideas of improvement or new functionnalities in YAPM's sourceforge.net project page ('Help' pannel) :-)" & vbNewLine & vbNewLine & "This message won't be shown anymore :-)"
 
     Public NEW_ITEM_COLOR As Color = Color.FromArgb(128, 255, 0)
     Public DELETED_ITEM_COLOR As Color = Color.FromArgb(255, 64, 48)
@@ -346,12 +343,11 @@ Public Class frmMain
     End Sub
 
     Private Sub frmMain_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
-        Try
-            handles_Renamed.Close()
-            ' Application.Exit()
-        Catch ex As Exception
-            '
-        End Try
+        If Pref.hideClose Then
+            Me.Hide()
+            e.Cancel = True
+            Exit Sub
+        End If
     End Sub
 
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -417,7 +413,7 @@ Public Class frmMain
         Try
             Pref.Load()
             If Pref.firstTime Then
-                MsgBox(MSGFIRSTTIME, MsgBoxStyle.Information, "Please read this")
+                MsgBox(Pref.MSGFIRSTTIME, MsgBoxStyle.Information, "Please read this")
                 Pref.firstTime = False
                 Pref.Save()
             End If
@@ -425,32 +421,7 @@ Public Class frmMain
         Catch ex As Exception
             ' Preference file corrupted/missing
             MsgBox("Preference file is missing or corrupted and will be now recreated.", MsgBoxStyle.Critical, "Startup error")
-            With Pref
-                .lang = "English"
-                .procInterval = DEFAULT_TIMER_INTERVAL_PROCESSES
-                .serviceInterval = DEFAULT_TIMER_INTERVAL_SERVICES
-                .startHidden = False
-                .replaceTaskMgr = False
-                .startup = False
-                .firstTimeSBA = True
-                .topmost = False
-                .newItemsColor = Color.FromArgb(128, 255, 0).ToArgb
-                .deletedItemsColor = Color.FromArgb(255, 64, 48).ToArgb
-                .showTrayIcon = True
-                .priority = 1
-                .taskInterval = DEFAULT_TIMER_INTERVAL_PROCESSES
-                .networkInterval = DEFAULT_TIMER_INTERVAL_PROCESSES
-                .trayInterval = DEFAULT_TIMER_INTERVAL_PROCESSES
-                .systemInterval = DEFAULT_TIMER_INTERVAL_PROCESSES
-                .ribbonStyle = True
-                .searchEngine = "http://www.google.com/search?hl=en&q=ITEM"
-                .closeYAPMWithCloseButton = True
-                .warnDangerous = True
-                .hideMinimized = False
-                MsgBox(MSGFIRSTTIME, MsgBoxStyle.Information, "Please read this")
-                .Save()
-                .Apply()
-            End With
+            Pref.SetDefault()
         End Try
 
         ' Connect to the local machine
@@ -2379,7 +2350,7 @@ Public Class frmMain
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem.Click
-        Call Me.Close()
+        Call exitYAPM()
     End Sub
 
     Private Sub MinimizeToTrayToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MinimizeToTrayToolStripMenuItem.Click
@@ -4496,6 +4467,17 @@ Public Class frmMain
 
     Private Sub butHiddenProcesses_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butHiddenProcesses.Click
         frmHiddenProcesses.Show()
+    End Sub
+
+    Public Sub exitYAPM()
+        Try
+            handles_Renamed.Close()
+            ' Application.Exit()
+        Catch ex As Exception
+            '
+        End Try
+        Pref.hideClose = False
+        Application.Exit()
     End Sub
 
 End Class

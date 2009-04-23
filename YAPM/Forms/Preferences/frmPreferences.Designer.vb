@@ -69,6 +69,7 @@ Partial Class frmPreferences
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
         Me.colDial = New System.Windows.Forms.ColorDialog
+        Me.chkHideClosed = New System.Windows.Forms.CheckBox
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -190,6 +191,7 @@ Partial Class frmPreferences
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.chkHideClosed)
         Me.TabPage3.Controls.Add(Me.chkHideMinimized)
         Me.TabPage3.Controls.Add(Me.chkRibbon)
         Me.TabPage3.Controls.Add(Me.GroupBox3)
@@ -524,6 +526,16 @@ Partial Class frmPreferences
         Me.colDial.AnyColor = True
         Me.colDial.FullOpen = True
         '
+        'chkHideClosed
+        '
+        Me.chkHideClosed.AutoSize = True
+        Me.chkHideClosed.Location = New System.Drawing.Point(15, 192)
+        Me.chkHideClosed.Name = "chkHideClosed"
+        Me.chkHideClosed.Size = New System.Drawing.Size(118, 17)
+        Me.chkHideClosed.TabIndex = 9
+        Me.chkHideClosed.Text = "Hide when closed"
+        Me.chkHideClosed.UseVisualStyleBackColor = True
+        '
         'frmPreferences
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -609,4 +621,5 @@ Partial Class frmPreferences
     Friend WithEvents txtTrayInterval As System.Windows.Forms.TextBox
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents Label10 As System.Windows.Forms.Label
+    Friend WithEvents chkHideClosed As System.Windows.Forms.CheckBox
 End Class

@@ -64,6 +64,7 @@ Public Class frmPreferences
             .replaceTaskMgr = Me.chkReplaceTaskmgr.Checked
             .topmost = Me.chkTopMost.Checked
             .newItemsColor = _newcolor
+            .hideClose = Me.chkHideClosed.Checked
             .deletedItemsColor = _deletedcolor
             .showTrayIcon = Me.chkTrayIcon.Checked
             .priority = Me.cbPriority.SelectedIndex
@@ -132,6 +133,7 @@ Public Class frmPreferences
             .SetToolTip(Me.chkHideMinimized, "Hide main form when minimized.")
             .SetToolTip(Me.txtTrayInterval, "Set interval (milliseconds) between two refreshments of tray icon.")
             .SetToolTip(Me.txtSysInfoInterval, "Set interval (milliseconds) between two refreshments of system informations.")
+            .SetToolTip(Me.chkHideClosed, "Hide YAPM when user click on 'close' button")
         End With
 
         ' Set control's values
@@ -157,6 +159,7 @@ Public Class frmPreferences
             Me.chkHideMinimized.Checked = .hideMinimized
             Me.txtTrayInterval.Text = .trayInterval.ToString
             Me.txtSysInfoInterval.Text = .systemInterval.ToString
+            Me.chkHideClosed.Checked = .hideClose
         End With
 
     End Sub
@@ -166,8 +169,8 @@ Public Class frmPreferences
         Me.chkStartTray.Checked = False
         Me.chkStart.Checked = False
         Me.chkReplaceTaskmgr.Checked = False
-        Me.txtProcessIntervall.Text = frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
-        Me.txtServiceIntervall.Text = frmMain.DEFAULT_TIMER_INTERVAL_SERVICES.ToString
+        Me.txtProcessIntervall.Text = Pref.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
+        Me.txtServiceIntervall.Text = Pref.DEFAULT_TIMER_INTERVAL_SERVICES.ToString
         Me.chkTopMost.Checked = False
         Me.pctNewitems.BackColor = Color.FromArgb(128, 255, 0)
         Me.pctDeletedItems.BackColor = Color.FromArgb(255, 64, 48)
@@ -176,14 +179,15 @@ Public Class frmPreferences
         Me.chkTrayIcon.Checked = True
         Me.chkHideMinimized.Checked = False
         Me.cbPriority.SelectedIndex = 1
-        Me.txtTaskInterval.Text = frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
-        Me.txtNetworkInterval.Text = frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
-        Me.txtTrayInterval.Text = frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
-        Me.txtSysInfoInterval.Text = frmMain.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
+        Me.txtTaskInterval.Text = Pref.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
+        Me.txtNetworkInterval.Text = Pref.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
+        Me.txtTrayInterval.Text = Pref.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
+        Me.txtSysInfoInterval.Text = Pref.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
         Me.chkRibbon.Checked = True
         Me.txtSearchEngine.Text = "http://www.google.com/search?hl=en&q=ITEM"
         Me.chkCloseButton.Checked = True
         Me.chkWarn.Checked = True
+        Me.chkHideClosed.Checked = True
     End Sub
 
     Private Sub cmdCheckUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdCheckUpdate.Click
