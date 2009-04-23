@@ -87,6 +87,7 @@ Public Class cProcess
     Private Shared WithEvents _connection As cProcessConnection
 
     Private _parentName As String = vbNullString
+    Private _cpuUsage As Double
 
     ' Save informations about performance
     Friend _dicoProcMem As New SortedList(Of Integer, PROC_MEM_INFO)
@@ -169,23 +170,7 @@ Public Class cProcess
     ' of aVariable = aProcess.CpuUsage
     Public ReadOnly Property CpuUsage() As Double
         Get
-            Static oldDate As Long = Date.Now.Ticks
-            Static oldProcTime As Long = Me.Infos.ProcessorTime
-
-            Dim currDate As Long = Date.Now.Ticks
-            Dim proctime As Long = Me.Infos.ProcessorTime
-
-            Dim diff As Long = currDate - oldDate
-            Dim procDiff As Long = proctime - oldProcTime
-
-            oldProcTime = proctime
-            oldDate = currDate
-
-            If diff > 0 AndAlso _processors > 0 Then
-                Return procDiff / diff / _processors
-            Else
-                Return 0
-            End If
+            Return _cpuUsage
         End Get
     End Property
 
@@ -193,6 +178,8 @@ Public Class cProcess
 
     ' Merge current infos and new infos
     Public Sub Merge(ByRef Proc As processInfos)
+
+        Call refreshCpuUsage()
 
         Static _refrehNumber As Integer = 0
         _refrehNumber += 1   ' This is the key for the history
@@ -536,12 +523,13 @@ Public Class cProcess
             Case "AffinityMask"
                 res = Me.Infos.AffinityMask.ToString
             Case "AverageCpuUsage"
-                Dim i As Long = Date.Now.Ticks - Me.Infos.StartTime
-                If i > 0 AndAlso _processors > 0 Then
-                    res = GetFormatedPercentage(Me.Infos.ProcessorTime / i / _processors)
-                Else
-                    res = GetFormatedPercentage(0)
-                End If
+                'Dim i As Long = Date.Now.Ticks - Me.Infos.StartTime
+                'If i > 0 AndAlso _processors > 0 Then
+                '    res = GetFormatedPercentage(Me.Infos.ProcessorTime / i / _processors)
+                'Else
+                '    res = GetFormatedPercentage(0)
+                'End If
+                res = GetFormatedPercentage(Me.Infos.AverageCpuUsage)
             Case "CommandLine"
                 res = Me.Infos.CommandLine
             Case "ReadOperationCount"
@@ -611,7 +599,7 @@ Public Class cProcess
             Case "OtherTransferCount"
                 res = Me.Infos.IOValues.OtherTransferCount
             Case "CpuUsage"
-                res = Me.CpuUsage
+                res = 100 * Me.CpuUsage
             Case "AverageCpuUsage"
                 res = 100 * Me.Infos.AverageCpuUsage
             Case "HandleCount"
@@ -881,4 +869,23 @@ Public Class cProcess
         Return ret
     End Function
 
+    Private Sub refreshCpuUsage()
+        Static oldDate As Long = Date.Now.Ticks
+        Static oldProcTime As Long = Me.Infos.ProcessorTime
+
+        Dim currDate As Long = Date.Now.Ticks
+        Dim proctime As Long = Me.Infos.ProcessorTime
+
+        Dim diff As Long = currDate - oldDate
+        Dim procDiff As Long = proctime - oldProcTime
+
+        oldProcTime = proctime
+        oldDate = currDate
+
+        If diff > 0 AndAlso _processors > 0 Then
+            _cpuUsage = procDiff / diff / _processors
+        Else
+            _cpuUsage = 0
+        End If
+    End Sub
 End Class

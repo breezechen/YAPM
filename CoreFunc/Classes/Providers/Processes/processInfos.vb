@@ -129,7 +129,12 @@ Imports System.Runtime.InteropServices
     End Property
     Public ReadOnly Property AverageCpuUsage() As Double
         Get
-            Return _AverageCpuUsage
+            Dim i As Long = Date.Now.Ticks - Me.StartTime
+            If i > 0 AndAlso _processors > 0 Then
+                Return (Me.ProcessorTime / i / _processors)
+            Else
+                Return 0
+            End If
         End Get
     End Property
     Public ReadOnly Property HandleCount() As Integer
