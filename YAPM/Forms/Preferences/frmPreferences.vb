@@ -263,20 +263,20 @@ Public Class frmPreferences
     Private Sub cmdDownload_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdDownload.Click
 
         ' Download webpage and extract URL
-        Dim tofind As String = "<h3 class=" & Chr(34) & "downloadbar" & Chr(34) & ">"
-        Dim source As String = mdlInternet.DownloadPage("https://sourceforge.net/project/platformdownload.php?group_id=244697")
+        Dim tofind As String = "<LI><A href=" & Chr(34) & "http://downloads"
+        Dim source As String = mdlInternet.DownloadPage("http://yaprocmon.sourceforge.net/index.html")
         If source.Length = 0 Then
             MsgBox("Failed...", MsgBoxStyle.Critical, "Error")
             Exit Sub
         End If
         Dim x As Integer = InStr(source, tofind, CompareMethod.Binary)
-        Dim x2 As Integer = InStr(x + 10, source, "onclick", CompareMethod.Binary)
+        Dim x2 As Integer = InStr(x + 30, source, Chr(34), CompareMethod.Binary)
         If x = 0 Or x2 = 0 Then
             MsgBox("Failed...", MsgBoxStyle.Critical, "Error")
             Exit Sub
         End If
 
-        Dim sUrl As String = source.Substring(x + 32, x2 - x - 35)
+        Dim sUrl As String = source.Substring(x + 12, x2 - x - 13)
         Try
             If Len(sUrl) = 0 Then
                 MsgBox("Failed...", MsgBoxStyle.Critical, "Error")
