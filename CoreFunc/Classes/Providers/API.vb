@@ -40,6 +40,8 @@ Public Class API
 
     Public Const DUPLICATE_SAME_ACCESS As Integer = &H2
 
+    Public Const STILL_ACTIVE As Integer = 259
+
     Public Const PROCESS_SET_INFORMATION As Integer = &H200
     Public Const PROCESS_SUSPEND_RESUME As Integer = &H800
     Public Const PROCESS_QUERY_INFORMATION As Integer = &H400

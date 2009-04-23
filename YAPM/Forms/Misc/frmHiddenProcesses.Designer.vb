@@ -41,9 +41,15 @@ Partial Class frmHiddenProcesses
         Me.c2 = New System.Windows.Forms.ColumnHeader
         Me.c8 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader20 = New System.Windows.Forms.ColumnHeader
+        Me.menuProc = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.PropertiesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.OpenFirectoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.FileDetailsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.GoogleSearchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.sb.SuspendLayout()
         Me.SplitContainer.Panel1.SuspendLayout()
         Me.SplitContainer.SuspendLayout()
+        Me.menuProc.SuspendLayout()
         Me.SuspendLayout()
         '
         'sb
@@ -122,6 +128,7 @@ Partial Class frmHiddenProcesses
         Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c8, Me.ColumnHeader20})
         CConnection1.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
         Me.lvProcess.ConnectionObj = CConnection1
+        Me.lvProcess.ContextMenuStrip = Me.menuProc
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.EnumMethod = CoreFunc.asyncCallbackProcEnumerate.ProcessEnumMethode.HandleMethod
         Me.lvProcess.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -160,6 +167,40 @@ Partial Class frmHiddenProcesses
         Me.ColumnHeader20.Text = "ObjectCreationDate"
         Me.ColumnHeader20.Width = 152
         '
+        'menuProc
+        '
+        Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.GoogleSearchToolStripMenuItem})
+        Me.menuProc.Name = "menuProc"
+        Me.menuProc.Size = New System.Drawing.Size(154, 114)
+        '
+        'PropertiesToolStripMenuItem
+        '
+        Me.PropertiesToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.document_text
+        Me.PropertiesToolStripMenuItem.Name = "PropertiesToolStripMenuItem"
+        Me.PropertiesToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.PropertiesToolStripMenuItem.Text = "File properties"
+        '
+        'OpenFirectoryToolStripMenuItem
+        '
+        Me.OpenFirectoryToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.folder_open
+        Me.OpenFirectoryToolStripMenuItem.Name = "OpenFirectoryToolStripMenuItem"
+        Me.OpenFirectoryToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.OpenFirectoryToolStripMenuItem.Text = "Open directory"
+        '
+        'FileDetailsToolStripMenuItem1
+        '
+        Me.FileDetailsToolStripMenuItem1.Image = Global.YAPM.My.Resources.Resources.magnifier
+        Me.FileDetailsToolStripMenuItem1.Name = "FileDetailsToolStripMenuItem1"
+        Me.FileDetailsToolStripMenuItem1.Size = New System.Drawing.Size(153, 22)
+        Me.FileDetailsToolStripMenuItem1.Text = "File details"
+        '
+        'GoogleSearchToolStripMenuItem
+        '
+        Me.GoogleSearchToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.globe
+        Me.GoogleSearchToolStripMenuItem.Name = "GoogleSearchToolStripMenuItem"
+        Me.GoogleSearchToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.GoogleSearchToolStripMenuItem.Text = "Internet search"
+        '
         'frmHiddenProcesses
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -175,6 +216,7 @@ Partial Class frmHiddenProcesses
         Me.sb.PerformLayout()
         Me.SplitContainer.Panel1.ResumeLayout(False)
         Me.SplitContainer.ResumeLayout(False)
+        Me.menuProc.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -193,5 +235,10 @@ Partial Class frmHiddenProcesses
     Friend WithEvents c2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents c8 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader20 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents menuProc As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents PropertiesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OpenFirectoryToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents FileDetailsToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents GoogleSearchToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

@@ -25,12 +25,12 @@ Imports System.Windows.Forms
 
 Public Class frmHiddenProcesses
 
+    Private Const NO_INFO_RETRIEVED As String = "N/A"
+
     Private Sub frmHiddenProcesses_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         Call API.SetWindowTheme(Me.lvProcess.Handle, "explorer", Nothing)
-
         Dim theConnection As New cConnection
-
         theConnection.ConnectionType = cConnection.TypeOfConnection.LocalConnection
 
         Me.lvProcess.ClearItems()
@@ -76,4 +76,36 @@ Public Class frmHiddenProcesses
         Next
     End Sub
 
+    Private Sub FileDetailsToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileDetailsToolStripMenuItem1.Click
+        If Me.lvProcess.SelectedItems.Count > 0 Then
+            Dim cp As cProcess = Me.lvProcess.GetSelectedItem
+            Dim s As String = cp.Infos.Path
+            If IO.File.Exists(s) Then
+                frmMain.DisplayDetailsFile(s)
+            End If
+        End If
+    End Sub
+
+    Private Sub PropertiesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PropertiesToolStripMenuItem.Click
+        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+            If IO.File.Exists(cp.Infos.Path) Then
+                cFile.ShowFileProperty(cp.Infos.Path, Me.Handle)
+            End If
+        Next
+    End Sub
+
+    Private Sub OpenFirectoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpenFirectoryToolStripMenuItem.Click
+        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+            If cp.Infos.Path <> NO_INFO_RETRIEVED Then
+                cFile.OpenDirectory(cp.Infos.Path)
+            End If
+        Next
+    End Sub
+
+    Private Sub GoogleSearchToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GoogleSearchToolStripMenuItem.Click
+        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+            My.Application.DoEvents()
+            Call SearchInternet(cp.Infos.Name, Me.Handle)
+        Next
+    End Sub
 End Class

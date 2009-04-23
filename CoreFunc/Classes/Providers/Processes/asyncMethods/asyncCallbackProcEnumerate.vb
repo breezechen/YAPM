@@ -615,7 +615,7 @@ Public Class asyncCallbackProcEnumerate
             If handle > 0 Then
                 Dim exitcode As Integer
                 Dim res As Integer = API.GetExitCodeProcess(handle, exitcode)
-                If exitcode = 259 Then  ' Process still exists
+                If exitcode = API.STILL_ACTIVE Then  ' Process still exists
                     Dim obj As New API.SYSTEM_PROCESS_INFORMATION
                     With obj
                         .ProcessId = pid
