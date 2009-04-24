@@ -47,8 +47,13 @@ Public Class cTask
 
         ' Get process from process list
         If _procList IsNot Nothing Then
-            If _procList.ContainsKey(_pid.ToString) Then
-                _process = _procList(_pid.ToString)
+            If _procList.Count = 0 Then
+                ' When we have disconnected (no more processes)
+                _procList = Nothing
+            Else
+                If _procList.ContainsKey(_pid.ToString) Then
+                    _process = _procList(_pid.ToString)
+                End If
             End If
         End If
     End Sub
