@@ -560,6 +560,7 @@ Public Class asyncCallbackProcEnumerate
                         _dico.Add(pid.ToString, _procInfos)
                     End If
                 End If
+                API.CloseHandle(_dup)
             End If
         Next
 
@@ -626,8 +627,8 @@ Public Class asyncCallbackProcEnumerate
                     Dim _procInfos As New processInfos(obj, GetFileName(_path))
                     _procInfos.Path = _path
                     _dico.Add(pid.ToString, _procInfos)
-                    API.CloseHandle(handle)
                 End If
+                API.CloseHandle(handle)
             End If
         Next
 
