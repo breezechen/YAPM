@@ -27,35 +27,48 @@ Imports System.Text
 
 Public Class asyncCallbackProcSetAffinity
 
-    Private _pid As Integer
-    Private _level As Integer
-    Private _connection As cProcessConnection
+    Private con As cProcessConnection
     Private _deg As HasSetAffinity
 
-    Public Delegate Sub HasSetAffinity(ByVal Success As Boolean, ByVal msg As String)
+    Public Delegate Sub HasSetAffinity(ByVal Success As Boolean, ByVal msg As String, ByVal actionN As Integer)
 
-    Public Sub New(ByVal deg As HasSetAffinity, ByVal pid As Integer, ByVal level As Integer, ByRef procConnection As cProcessConnection)
-        _pid = pid
-        _level = level
+    Public Sub New(ByVal deg As HasSetAffinity, ByRef procConnection As cProcessConnection)
         _deg = deg
-        _connection = procConnection
+        con = procConnection
     End Sub
 
-    Public Sub Process()
-        Select Case _connection.ConnectionObj.ConnectionType
+    Public Structure poolObj
+        Public pid As Integer
+        Public level As Integer
+        Public newAction As Integer
+        Public Sub New(ByVal pi As Integer, ByVal lvl As Integer, ByVal act As Integer)
+            newAction = act
+            level = lvl
+            pid = pi
+        End Sub
+    End Structure
+
+    Public Sub Process(ByVal thePoolObj As Object)
+
+        Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
+        If con.ConnectionObj.IsConnected = False Then
+            Exit Sub
+        End If
+
+        Select Case con.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
             Case Else
                 ' Local
-                Dim __hProcess As Integer = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_SET_INFORMATION, 0, _pid)
+                Dim __hProcess As Integer = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_SET_INFORMATION, 0, pObj.pid)
                 If __hProcess > 0 Then
-                    Dim ret As Integer = API.SetProcessAffinityMask(__hProcess, _level)
+                    Dim ret As Integer = API.SetProcessAffinityMask(__hProcess, pObj.level)
                     API.CloseHandle(__hProcess)
-                    _deg.Invoke(ret <> 0, API.GetError)
+                    _deg.Invoke(ret <> 0, API.GetError, pObj.newAction)
                 Else
-                    _deg.Invoke(False, API.GetError)
+                    _deg.Invoke(False, API.GetError, pObj.newAction)
                 End If
         End Select
     End Sub

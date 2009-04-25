@@ -52,17 +52,17 @@ Partial Class frmPendingTasks
         '
         'ColumnHeader1
         '
-        Me.ColumnHeader1.Text = "Name"
-        Me.ColumnHeader1.Width = 186
+        Me.ColumnHeader1.Text = "ID"
+        Me.ColumnHeader1.Width = 77
         '
         'ColumnHeader2
         '
-        Me.ColumnHeader2.Text = "State"
-        Me.ColumnHeader2.Width = 119
+        Me.ColumnHeader2.Text = "Target"
+        Me.ColumnHeader2.Width = 210
         '
         'ColumnHeader3
         '
-        Me.ColumnHeader3.Text = "Priority"
+        Me.ColumnHeader3.Text = "Method"
         Me.ColumnHeader3.Width = 141
         '
         'ContextMenuStrip22

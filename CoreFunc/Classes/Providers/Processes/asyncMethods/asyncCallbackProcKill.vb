@@ -27,27 +27,40 @@ Imports System.Text
 
 Public Class asyncCallbackProcKill
 
-    Private _pid As Integer
-    Private _connection As cProcessConnection
+    Private con As cProcessConnection
     Private _deg As HasKilled
 
-    Public Delegate Sub HasKilled(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String)
+    Public Delegate Sub HasKilled(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String, ByVal actionN As Integer)
 
-    Public Sub New(ByVal deg As HasKilled, ByVal pid As Integer, ByRef procConnection As cProcessConnection)
-        _pid = pid
+    Public Sub New(ByVal deg As HasKilled, ByRef procConnection As cProcessConnection)
         _deg = deg
-        _connection = procConnection
+        con = procConnection
     End Sub
 
-    Public Sub Process()
-        Select Case _connection.ConnectionObj.ConnectionType
+    Public Structure poolObj
+        Public pid As Integer
+        Public newAction As Integer
+        Public Sub New(ByVal pi As Integer, ByVal act As Integer)
+            newAction = act
+            pid = pi
+        End Sub
+    End Structure
+
+    Public Sub Process(ByVal thePoolObj As Object)
+
+        Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
+        If con.ConnectionObj.IsConnected = False Then
+            Exit Sub
+        End If
+
+        Select Case con.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
                 Try
                     Dim _theProcess As Management.ManagementObject = Nothing
-                    For Each pp As Management.ManagementObject In _connection.wmiSearcher.Get
-                        If CInt(pp("ProcessId")) = _pid Then
+                    For Each pp As Management.ManagementObject In con.wmiSearcher.Get
+                        If CInt(pp("ProcessId")) = pObj.pid Then
                             _theProcess = pp
                             Exit For
                         End If
@@ -55,25 +68,25 @@ Public Class asyncCallbackProcKill
                     If _theProcess IsNot Nothing Then
                         Dim ret As Integer = 0
                         ret = CInt(_theProcess.InvokeMethod("Terminate", Nothing))
-                        _deg.Invoke(ret = 0, _pid, CType(ret, API.PROCESS_RETURN_CODE_WMI).ToString)
+                        _deg.Invoke(ret = 0, pObj.pid, CType(ret, API.PROCESS_RETURN_CODE_WMI).ToString, pObj.newAction)
                     Else
-                        _deg.Invoke(False, _pid, "Internal error")
+                        _deg.Invoke(False, pObj.pid, "Internal error", pObj.newAction)
                     End If
                 Catch ex As Exception
-                    _deg.Invoke(False, _pid, ex.Message)
+                    _deg.Invoke(False, pObj.pid, ex.Message, pObj.newAction)
                 End Try
 
             Case Else
                 ' Local
                 Dim hProc As Integer
                 Dim ret As Integer = -1
-                hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_TERMINATE, 0, _pid)
+                hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_TERMINATE, 0, pObj.pid)
                 If hProc > 0 Then
                     ret = API.TerminateProcess(hProc, 0)
                     API.CloseHandle(hProc)
-                    _deg.Invoke(ret <> 0, 0, API.GetError)
+                    _deg.Invoke(ret <> 0, 0, API.GetError, pObj.newAction)
                 Else
-                    _deg.Invoke(False, _pid, API.GetError)
+                    _deg.Invoke(False, pObj.pid, API.GetError, pObj.newAction)
                 End If
         End Select
     End Sub

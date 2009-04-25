@@ -27,40 +27,56 @@ Imports System.Text
 
 Public Class asyncCallbackModuleUnload
 
-    Private _pid As Integer
-    Private _baseA As Integer
-    Private _name As String
-    Private _connection As cModuleConnection
+    Private con As cModuleConnection
     Private _deg As HasUnloadedModule
 
-    Public Delegate Sub HasUnloadedModule(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String)
+    Public Delegate Sub HasUnloadedModule(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasUnloadedModule, ByVal pid As Integer, ByVal address As Integer, ByVal name As String, ByRef procConnection As cModuleConnection)
-        _pid = pid
+    Public Sub New(ByVal deg As HasUnloadedModule, ByRef procConnection As cModuleConnection)
         _deg = deg
-        _name = name
-        _baseA = address
-        _connection = procConnection
+        con = procConnection
     End Sub
 
-    Public Sub Process()
-        Select Case _connection.ConnectionObj.ConnectionType
+    Public Structure poolObj
+        Public pid As Integer
+        Public name As String
+        Public newAction As Integer
+        Public baseA As Integer
+        Public Sub New(ByVal pi As Integer, _
+                       ByVal nam As String, _
+                       ByVal add As Integer, _
+                       ByVal act As Integer)
+            name = nam
+            baseA = add
+            newAction = act
+            pid = pi
+        End Sub
+    End Structure
+
+    Public Sub Process(ByVal thePoolObj As Object)
+
+        Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
+        If con.ConnectionObj.IsConnected = False Then
+            Exit Sub
+        End If
+
+        Select Case con.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
             Case Else
                 ' Local
-                Dim hProc As Integer = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_CREATE_THREAD, 0, _pid)
+                Dim hProc As Integer = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_CREATE_THREAD, 0, pObj.pid)
 
                 If hProc > 0 Then
                     Dim kernel32 As Integer = API.GetModuleHandle("kernel32.dll")
                     Dim freeLibrary As Integer = API.GetProcAddress(kernel32, "FreeLibrary")
                     Dim threadId As Integer
-                    Dim ret As Integer = API.CreateRemoteThread(hProc, 0, 0, freeLibrary, _baseA, 0, threadId)
-                    _deg.Invoke(ret <> 0, _pid, _name, API.GetError)
+                    Dim ret As Integer = API.CreateRemoteThread(hProc, 0, 0, freeLibrary, pObj.baseA, 0, threadId)
+                    _deg.Invoke(ret <> 0, pObj.pid, pObj.name, API.GetError, pObj.newAction)
                 Else
-                    _deg.Invoke(False, _pid, _name, API.GetError)
+                    _deg.Invoke(False, pObj.pid, pObj.name, API.GetError, pObj.newAction)
                 End If
         End Select
     End Sub

@@ -27,29 +27,45 @@ Imports System.Text
 
 Public Class asyncCallbackHandleUnload
 
-    Private _pid As Integer
-    Private _handle As Integer
-    Private _connection As cHandleConnection
+    Private con As cHandleConnection
     Private _deg As HasUnloadedHandle
 
-    Public Delegate Sub HasUnloadedHandle(ByVal Success As Boolean, ByVal pid As Integer, ByVal handle As Integer, ByVal msg As String)
+    Public Delegate Sub HasUnloadedHandle(ByVal Success As Boolean, ByVal pid As Integer, ByVal handle As Integer, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasUnloadedHandle, ByVal pid As Integer, ByVal handle As Integer, ByRef procConnection As cHandleConnection)
-        _pid = pid
+    Public Sub New(ByVal deg As HasUnloadedHandle, ByRef procConnection As cHandleConnection)
         _deg = deg
-        _handle = handle
-        _connection = procConnection
+        con = procConnection
     End Sub
 
-    Public Sub Process()
-        Select Case _connection.ConnectionObj.ConnectionType
+    Public Structure poolObj
+        Public pid As Integer
+        Public handle As Integer
+        Public newAction As Integer
+        Public Sub New(ByVal pi As Integer, _
+                       ByVal hand As Integer, _
+                       ByVal act As Integer)
+            handle = hand
+            newAction = act
+            pid = pi
+        End Sub
+    End Structure
+
+    Public Sub Process(ByVal thePoolObj As Object)
+
+        Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
+        If con.ConnectionObj.IsConnected = False Then
+            Exit Sub
+        End If
+
+        Select Case con.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
             Case Else
                 ' Local
-              
+
+                _deg.Invoke(True, pObj.pid, pObj.handle, "teset", pObj.newAction)
         End Select
     End Sub
 

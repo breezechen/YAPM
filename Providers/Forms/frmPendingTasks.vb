@@ -49,7 +49,7 @@ Public Class frmPendingTasks
 
         Static first As Boolean = True
 
-        Dim _list As List(Of Threading.Thread) = _obj.GetPendingTasks
+        Dim _list As Dictionary(Of Integer, System.Threading.WaitCallback) = _obj.GetPendingTasks2
 
         ' Remove 'red' items (previously deleted)
         For Each it As ListViewItem In Me.lv.Items
@@ -61,10 +61,9 @@ Public Class frmPendingTasks
         ' Deleted items
         For Each it As ListViewItem In Me.lv.Items
             Dim exist As Boolean = False
-            For Each thr As Threading.Thread In _list
-                If thr.Name = it.Text AndAlso thr.IsAlive Then
+            For Each thr As System.Collections.Generic.KeyValuePair(Of Integer, System.Threading.WaitCallback) In _list
+                If thr.Key.ToString = it.Text Then
                     ' Still existing -> update infos
-                    it.Text = thr.Name
                     exist = True
                     Exit For
                 End If
@@ -87,25 +86,25 @@ Public Class frmPendingTasks
 
 
         ' New items
-        For Each thr As Threading.Thread In _list
+        For Each thr As System.Collections.Generic.KeyValuePair(Of Integer, System.Threading.WaitCallback) In _list
             Dim exist As Boolean = False
             For Each itt As ListViewItem In Me.lv.Items
-                If itt.Text = thr.Name Then
+                If itt.Text = thr.Key.ToString Then
                     exist = True
                     Exit For
                 End If
             Next
 
-            If exist = False AndAlso thr.IsAlive Then
+            If exist = False Then
                 ' Have to create
-                Dim nene As New ListViewItem(thr.Name)
+                Dim nene As New ListViewItem(thr.Key.ToString)
                 If first = False Then
                     nene.BackColor = NEW_ITEM_COLOR
                 End If
                 nene.ForeColor = Color.FromArgb(30, 30, 30)
                 Dim items(1) As String
-                items(0) = thr.ThreadState.ToString
-                items(1) = thr.Priority.ToString
+                items(0) = thr.Value.Target.ToString
+                items(1) = thr.Value.Method.ToString
                 nene.SubItems.AddRange(items)
                 Me.lv.Items.Add(nene)
             End If
@@ -113,20 +112,20 @@ Public Class frmPendingTasks
         Next
 
         ' Change infos
-        For Each it As ListViewItem In Me.lv.Items
-            Dim theThread As Threading.Thread = Nothing
-            For Each thr As Threading.Thread In _list
-                If thr.Name = it.Text Then
-                    theThread = thr
-                    Exit For
-                End If
-            Next
+        'For Each it As ListViewItem In Me.lv.Items
+        '    Dim theThread As System.Threading.WaitCallback = Nothing
+        '    For Each thr As System.Collections.Generic.KeyValuePair(Of Integer, System.Threading.WaitCallback) In _list
+        '        If thr.Key.ToString = it.Text Then
+        '            theThread = thr.Value
+        '            Exit For
+        '        End If
+        '    Next
 
-            If theThread IsNot Nothing AndAlso theThread.IsAlive Then
-                it.SubItems(1).Text = theThread.ThreadState.ToString
-                it.SubItems(2).Text = theThread.Priority.ToString
-            End If
-        Next
+        '    'If theThread IsNot Nothing Then
+        '    '    it.SubItems(1).Text = theThread.ThreadState.ToString
+        '    '    it.SubItems(2).Text = theThread.Priority.ToString
+        '    'End If
+        'Next
 
         first = False
     End Sub

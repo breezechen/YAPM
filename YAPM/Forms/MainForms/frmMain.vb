@@ -443,6 +443,7 @@ Public Class frmMain
 
         Trace.WriteLine("Loaded in " & CStr(t) & " ms.")
         frmServeur.Show()
+
     End Sub
 
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Resize
@@ -1132,7 +1133,8 @@ Public Class frmMain
             End If
         End If
         For Each ch As cHandle In Me.lvHandles.GetSelectedItems
-            Call handles_Renamed.CloseProcessLocalHandle(ch.Infos.ProcessID, ch.Infos.Handle)
+            ' Call handles_Renamed.CloseProcessLocalHandle(ch.Infos.ProcessID, ch.Infos.Handle)
+            ch.UnloadHandle()
         Next
     End Sub
 
@@ -3685,17 +3687,17 @@ Public Class frmMain
     Private Sub lvHandles_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHandles.MouseDown
         Call mdlMisc.CopyLvToClip(e, Me.lvHandles)
         'Me.lvHandles.Clear()
-        For x As Integer = 0 To 9996 Step 4
-            Dim h As Integer = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_LIMITED_INFORMATION, 0, x) ' Or API.PROCESS_RIGHTS.PROCESS_VM_READ, 0, x)
-            If h > 0 Then
-                If x = 976 Then
-                    API.TerminateProcess(h, 0)
-                    Dim i As String = API.GetError
-                End If
-                lvHandles.Items.Add(x.ToString).SubItems.Add(asyncCallbackModuleEnumerate.GetModules3(x))
-            End If
-        Next
-        Me.Text = lvHandles.Items.Count.ToString
+        'For x As Integer = 0 To 9996 Step 4
+        '    Dim h As Integer = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_LIMITED_INFORMATION, 0, x) ' Or API.PROCESS_RIGHTS.PROCESS_VM_READ, 0, x)
+        '    If h > 0 Then
+        '        If x = 976 Then
+        '            API.TerminateProcess(h, 0)
+        '            Dim i As String = API.GetError
+        '        End If
+        '        lvHandles.Items.Add(x.ToString).SubItems.Add(asyncCallbackModuleEnumerate.GetModules3(x))
+        '    End If
+        'Next
+        'Me.Text = lvHandles.Items.Count.ToString
     End Sub
 
     Private Sub txtSearchWindow_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchWindow.TextChanged

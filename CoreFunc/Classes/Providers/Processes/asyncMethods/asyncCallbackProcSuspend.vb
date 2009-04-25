@@ -27,20 +27,33 @@ Imports System.Text
 
 Public Class asyncCallbackProcSuspend
 
-    Private _pid As Integer
-    Private _connection As cProcessConnection
+    Private con As cProcessConnection
     Private _deg As HasSuspended
 
-    Public Delegate Sub HasSuspended(ByVal Success As Boolean, ByVal msg As String)
+    Public Delegate Sub HasSuspended(ByVal Success As Boolean, ByVal msg As String, ByVal actionN As Integer)
 
-    Public Sub New(ByVal deg As HasSuspended, ByVal pid As Integer, ByRef procConnection As cProcessConnection)
-        _pid = pid
+    Public Sub New(ByVal deg As HasSuspended, ByRef procConnection As cProcessConnection)
         _deg = deg
-        _connection = procConnection
+        con = procConnection
     End Sub
 
-    Public Sub Process()
-        Select Case _connection.ConnectionObj.ConnectionType
+    Public Structure poolObj
+        Public pid As Integer
+        Public newAction As Integer
+        Public Sub New(ByVal pi As Integer, ByVal act As Integer)
+            newAction = act
+            pid = pi
+        End Sub
+    End Structure
+
+    Public Sub Process(ByVal thePoolObj As Object)
+
+        Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
+        If con.ConnectionObj.IsConnected = False Then
+            Exit Sub
+        End If
+
+        Select Case con.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
@@ -49,13 +62,13 @@ Public Class asyncCallbackProcSuspend
                 ' Local
                 Dim hProc As Integer
                 Dim r As Integer = -1
-                hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_SUSPEND_RESUME, 0, _pid)
+                hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_SUSPEND_RESUME, 0, pObj.pid)
                 If hProc > 0 Then
                     r = API.NtSuspendProcess(hProc)
                     API.CloseHandle(hProc)
-                    _deg.Invoke(r = 0, API.GetError)
+                    _deg.Invoke(r = 0, API.GetError, pObj.newAction)
                 Else
-                    _deg.Invoke(False, API.GetError)
+                    _deg.Invoke(False, API.GetError, pObj.newAction)
                 End If
         End Select
     End Sub

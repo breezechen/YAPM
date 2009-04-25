@@ -27,30 +27,44 @@ Imports System.Text
 
 Public Class asyncCallbackServiceShutdown
 
-    Private _name As String
-    Private _connection As cServiceConnection
+    Private con As cServiceConnection
     Private _deg As HasShutdowned
 
-    Public Delegate Sub HasShutdowned(ByVal Success As Boolean, ByVal name As String, ByVal msg As String)
+    Public Delegate Sub HasShutdowned(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasShutdowned, ByVal name As String, ByRef procConnection As cServiceConnection)
-        _name = name
+    Public Sub New(ByVal deg As HasShutdowned, ByRef procConnection As cServiceConnection)
         _deg = deg
-        _connection = procConnection
+        con = procConnection
     End Sub
 
-    Public Sub Process()
-        Select Case _connection.ConnectionObj.ConnectionType
+    Public Structure poolObj
+        Public name As String
+        Public newAction As Integer
+        Public Sub New(ByVal nam As String, _
+                       ByVal act As Integer)
+            name = nam
+            newAction = act
+        End Sub
+    End Structure
+
+    Public Sub Process(ByVal thePoolObj As Object)
+
+        Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
+        If con.ConnectionObj.IsConnected = False Then
+            Exit Sub
+        End If
+
+        Select Case con.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
                 ' ERK
-                _deg.Invoke(False, _name, "Shutdown not possible via WMI...")
+                _deg.Invoke(False, pObj.name, "Shutdown not possible via WMI...", pObj.newAction)
 
             Case Else
                 ' Local
-                Dim hSCManager As IntPtr = _connection.SCManagerLocalHandle
-                Dim lServ As IntPtr = API.OpenService(hSCManager, _name, API.SERVICE_RIGHTS.SERVICE_STOP)    'TOCHANGE ?
+                Dim hSCManager As IntPtr = con.SCManagerLocalHandle
+                Dim lServ As IntPtr = API.OpenService(hSCManager, pObj.name, API.SERVICE_RIGHTS.SERVICE_STOP)    'TOCHANGE ?
                 Dim res As Boolean = False
                 If hSCManager <> IntPtr.Zero Then
                     If lServ <> IntPtr.Zero Then
@@ -59,7 +73,7 @@ Public Class asyncCallbackServiceShutdown
                         API.CloseServiceHandle(lServ)
                     End If
                 End If
-                _deg.Invoke(res, _name, API.GetError)
+                _deg.Invoke(res, pObj.name, API.GetError, pObj.newAction)
         End Select
     End Sub
 

@@ -84,117 +84,148 @@ Public Class cService
 #Region "All actions on services (start...)"
 
     ' Start service
-    Public Sub StartService()
-        Dim deg As New asyncCallbackServiceStart.HasStarted(AddressOf startServiceDone)
-        Dim asyncStart As New asyncCallbackServiceStart(deg, Me.Infos.Name, _connection)
-        Dim t As New Threading.Thread(AddressOf asyncStart.Process)
-        t.Priority = Threading.ThreadPriority.Lowest
-        t.Name = "StartService (" & Me.Infos.Name & ")" & "  -- " & Date.Now.Ticks.ToString
-        t.IsBackground = True
-        AddPendingTask(t)
-        t.Start()
-    End Sub
-    Private Sub startServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String)
+    Private _startServ As asyncCallbackServiceStart
+    Public Function StartService() As Integer
+
+        If _startServ Is Nothing Then
+            _startServ = New asyncCallbackServiceStart(New asyncCallbackServiceStart.HasStarted(AddressOf startServiceDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _startServ.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackServiceStart.poolObj(Me.Infos.Name, newAction))
+
+        AddPendingTask2(newAction, t)
+    End Function
+    Private Sub startServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not start service " & name)
         End If
-        RemoveDeadTasks()
+        RemovePendingTask(actionNumber)
     End Sub
 
+
     ' Pause a service
-    Public Sub PauseService()
-        Dim deg As New asyncCallbackServicePause.HasPaused(AddressOf pauseServiceDone)
-        Dim asyncPause As New asyncCallbackServicePause(deg, Me.Infos.Name, _connection)
-        Dim t As New Threading.Thread(AddressOf asyncPause.Process)
-        t.Priority = Threading.ThreadPriority.Lowest
-        t.Name = "PauseService (" & Me.Infos.Name & ")" & "  -- " & Date.Now.Ticks.ToString
-        t.IsBackground = True
-        AddPendingTask(t)
-        t.Start()
-    End Sub
-    Private Sub pauseServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String)
+    Private _pauseServ As asyncCallbackServicePause
+    Public Function PauseService() As Integer
+
+        If _pauseServ Is Nothing Then
+            _pauseServ = New asyncCallbackServicePause(New asyncCallbackServicePause.HasPaused(AddressOf pauseServiceDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _pauseServ.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackServicePause.poolObj(Me.Infos.Name, newAction))
+
+        AddPendingTask2(newAction, t)
+    End Function
+    Private Sub pauseServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not pause service " & name)
         End If
-        RemoveDeadTasks()
+        RemovePendingTask(actionNumber)
     End Sub
 
     ' Resume a service
-    Public Sub ResumeService()
-        Dim deg As New asyncCallbackServiceResume.HasResumed(AddressOf resumeServiceDone)
-        Dim asyncResume As New asyncCallbackServiceResume(deg, Me.Infos.Name, _connection)
-        Dim t As New Threading.Thread(AddressOf asyncResume.Process)
-        t.Priority = Threading.ThreadPriority.Lowest
-        t.Name = "ResumeService (" & Me.Infos.Name & ")" & "  -- " & Date.Now.Ticks.ToString
-        t.IsBackground = True
-        AddPendingTask(t)
-        t.Start()
-    End Sub
-    Private Sub resumeServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String)
+    Private _resumeServ As asyncCallbackServiceResume
+    Public Function ResumeService() As Integer
+
+        If _resumeServ Is Nothing Then
+            _resumeServ = New asyncCallbackServiceResume(New asyncCallbackServiceResume.HasResumed(AddressOf resumeServiceDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _resumeServ.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackServiceResume.poolObj(Me.Infos.Name, newAction))
+
+        AddPendingTask2(newAction, t)
+    End Function
+    Private Sub resumeServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not resume service " & name)
         End If
-        RemoveDeadTasks()
+        RemovePendingTask(actionNumber)
     End Sub
 
     ' Stop a service
-    Public Sub StopService()
-        Dim deg As New asyncCallbackServiceStop.HasStopped(AddressOf stopServiceDone)
-        Dim asyncStop As New asyncCallbackServiceStop(deg, Me.Infos.Name, _connection)
-        Dim t As New Threading.Thread(AddressOf asyncStop.Process)
-        t.Priority = Threading.ThreadPriority.Lowest
-        t.Name = "StopService (" & Me.Infos.Name & ")" & "  -- " & Date.Now.Ticks.ToString
-        t.IsBackground = True
-        AddPendingTask(t)
-        t.Start()
-    End Sub
-    Private Sub stopServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String)
+    Private _stopServ As asyncCallbackServiceStop
+    Public Function StopService() As Integer
+
+        If _stopServ Is Nothing Then
+            _stopServ = New asyncCallbackServiceStop(New asyncCallbackServiceStop.HasStopped(AddressOf stopServiceDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _stopServ.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackServiceStop.poolObj(Me.Infos.Name, newAction))
+
+        AddPendingTask2(newAction, t)
+    End Function
+    Private Sub stopServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not stop service " & name)
         End If
-        RemoveDeadTasks()
+        RemovePendingTask(actionNumber)
     End Sub
 
     ' Shutdown a service
-    Public Sub ShutDownService()
-        Dim deg As New asyncCallbackServiceShutdown.HasShutdowned(AddressOf shutdownServiceDone)
-        Dim asyncShutdown As New asyncCallbackServiceShutdown(deg, Me.Infos.Name, _connection)
-        Dim t As New Threading.Thread(AddressOf asyncShutdown.Process)
-        t.Priority = Threading.ThreadPriority.Lowest
-        t.Name = "ShutdownService (" & Me.Infos.Name & ")" & "  -- " & Date.Now.Ticks.ToString
-        t.IsBackground = True
-        AddPendingTask(t)
-        t.Start()
-    End Sub
-    Private Sub shutdownServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String)
+    Private _shutdownServ As asyncCallbackServiceShutdown
+    Public Function ShutDownService() As Integer
+
+        If _shutdownServ Is Nothing Then
+            _shutdownServ = New asyncCallbackServiceShutdown(New asyncCallbackServiceShutdown.HasShutdowned(AddressOf shutdownServiceDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _shutdownServ.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackServiceShutdown.poolObj(Me.Infos.Name, newAction))
+
+        AddPendingTask2(newAction, t)
+    End Function
+    Private Sub shutdownServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not shutdown service " & name)
         End If
-        RemoveDeadTasks()
+        RemovePendingTask(actionNumber)
     End Sub
 
     ' Set service start type
+    Private _setStartTypeServ As asyncCallbackServiceSetStartType
     Public Sub SetServiceStartType(ByVal type As API.SERVICE_START_TYPE)
-        Dim deg As New asyncCallbackServiceSetStartType.HasChangedStartType(AddressOf setServiceStartTypeDone)
-        Dim asyncSetStartType As New asyncCallbackServiceSetStartType(deg, Me.Infos.Name, type, _connection)
-        Dim t As New Threading.Thread(AddressOf asyncSetStartType.Process)
-        t.Priority = Threading.ThreadPriority.Lowest
-        t.Name = "SetServiceStartType (" & Me.Infos.Name & ")" & "  -- " & Date.Now.Ticks.ToString
-        t.IsBackground = True
-        AddPendingTask(t)
-        t.Start()
+
+        If _setStartTypeServ Is Nothing Then
+            _setStartTypeServ = New asyncCallbackServiceSetStartType(New asyncCallbackServiceSetStartType.HasChangedStartType(AddressOf setServiceStartTypeDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _setStartTypeServ.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackServiceSetStartType.poolObj(Me.Infos.Name, type, newAction))
+
+        AddPendingTask2(newAction, t)
     End Sub
-    Private Sub setServiceStartTypeDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String)
+    Private Sub setServiceStartTypeDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not change start type of service " & name)
         End If
-        RemoveDeadTasks()
+        RemovePendingTask(actionNumber)
     End Sub
 
 #End Region

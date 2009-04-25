@@ -67,24 +67,30 @@ Public Class cModule
 
 #Region "All actions on modules (unload)"
 
-    ' Increase priority
+    ' Unload module
+    Private _closeM As asyncCallbackModuleUnload
     Public Function UnloadModule() As Integer
-        Dim deg As New asyncCallbackModuleUnload.HasUnloadedModule(AddressOf unloadModuleDone)
-        Dim asyncUModule As New asyncCallbackModuleUnload(deg, Me.Infos.ProcessId, Me.Infos.BaseAddress, Me.Infos.Name, _connection)
-        Dim t As New Threading.Thread(AddressOf asyncUModule.Process)
-        t.Priority = Threading.ThreadPriority.Lowest
-        t.Name = "UnloadModule (" & Me.Infos.Name & ")" & "  -- " & Date.Now.Ticks.ToString
-        t.IsBackground = True
-        AddPendingTask(t)
-        t.Start()
+
+        If _closeM Is Nothing Then
+            _closeM = New asyncCallbackModuleUnload(New asyncCallbackModuleUnload.HasUnloadedModule(AddressOf unloadModuleDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _closeM.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackModuleUnload.poolObj(Me.Infos.ProcessId, Me.Infos.Name, Me.Infos.BaseAddress, newAction))
+
+        AddPendingTask2(newAction, t)
     End Function
-    Private Sub unloadModuleDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String)
+    Private Sub unloadModuleDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not unload module " & name)
         End If
-        RemoveDeadTasks()
+        RemovePendingTask(actionNumber)
     End Sub
+
 
 #End Region
 

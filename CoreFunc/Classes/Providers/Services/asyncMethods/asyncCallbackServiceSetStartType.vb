@@ -27,56 +27,70 @@ Imports System.Management
 
 Public Class asyncCallbackServiceSetStartType
 
-    Private _name As String
-    Private _connection As cServiceConnection
-    Private _type As API.SERVICE_START_TYPE
+    Private Shared _syncLockObj As New Object
+    Private con As cServiceConnection
     Private _deg As HasChangedStartType
 
-    Private Shared _syncLockObj As New Object
+    Public Delegate Sub HasChangedStartType(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Delegate Sub HasChangedStartType(ByVal Success As Boolean, ByVal name As String, ByVal msg As String)
-
-    Public Sub New(ByVal deg As HasChangedStartType, ByVal name As String, ByVal type As API.SERVICE_START_TYPE, ByRef procConnection As cServiceConnection)
-        _name = name
+    Public Sub New(ByVal deg As HasChangedStartType, ByRef procConnection As cServiceConnection)
         _deg = deg
-        _type = type
-        _connection = procConnection
+        con = procConnection
     End Sub
 
-    Public Sub Process()
+    Public Structure poolObj
+        Public name As String
+        Public type As API.SERVICE_START_TYPE
+        Public newAction As Integer
+        Public Sub New(ByVal nam As String, _
+                       ByVal typ As API.SERVICE_START_TYPE, _
+                       ByVal act As Integer)
+            name = nam
+            newAction = act
+            type = typ
+        End Sub
+    End Structure
+
+    Public Sub Process(ByVal thePoolObj As Object)
+
         SyncLock _syncLockObj
-            Select Case _connection.ConnectionObj.ConnectionType
+            Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
+            If con.ConnectionObj.IsConnected = False Then
+                Exit Sub
+            End If
+
+            Select Case con.ConnectionObj.ConnectionType
                 Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
                 Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
                     Try
                         Dim res As Integer = 2        ' Access denied
-                        For Each srv As ManagementObject In _connection.wmiSearcher.Get
-                            If CStr(srv.GetPropertyValue(API.WMI_INFO_SERVICE.Name.ToString)) = _name Then
+                        For Each srv As ManagementObject In con.wmiSearcher.Get
+                            If CStr(srv.GetPropertyValue(API.WMI_INFO_SERVICE.Name.ToString)) = pObj.name Then
                                 Dim inParams As ManagementBaseObject = srv.GetMethodParameters("ChangeStartMode")
-                                inParams("StartMode") = getWMIStartMode(_type)
+                                inParams("StartMode") = getWMIStartMode(pObj.type)
                                 Dim outParams As ManagementBaseObject = srv.InvokeMethod("ChangeStartMode", inParams, Nothing)
                                 res = CInt(outParams("ReturnValue"))
                                 Exit For
                             End If
                         Next
-                        _deg.Invoke(res = 0, _name, CType(res, API.SERVICE_RETURN_CODE_WMI).ToString)
+                        _deg.Invoke(res = 0, pObj.name, CType(res, API.SERVICE_RETURN_CODE_WMI).ToString, pObj.newAction)
                     Catch ex As Exception
-                        _deg.Invoke(False, _name, ex.Message)
+                        _deg.Invoke(False, pObj.name, ex.Message, pObj.newAction)
                     End Try
 
                 Case Else
                     ' Local
                     Dim hLockSCManager As Integer
-                    Dim hSCManager As IntPtr = _connection.SCManagerLocalHandle
-                    Dim lServ As IntPtr = API.OpenService(hSCManager, _name, API.SERVICE_RIGHTS.SERVICE_CHANGE_CONFIG)
+                    Dim hSCManager As IntPtr = con.SCManagerLocalHandle
+                    Dim lServ As IntPtr = API.OpenService(hSCManager, pObj.name, API.SERVICE_RIGHTS.SERVICE_CHANGE_CONFIG)
                     Dim ret As Boolean = False
 
                     hLockSCManager = API.LockServiceDatabase(CInt(hSCManager))
 
                     If hSCManager <> IntPtr.Zero Then
                         If lServ <> IntPtr.Zero Then
-                            ret = API.ChangeServiceConfig(CInt(lServ), API.SERVICE_NO_CHANGE, _type, _
+                            ret = API.ChangeServiceConfig(CInt(lServ), API.SERVICE_NO_CHANGE, pObj.type, _
                                 API.SERVICE_NO_CHANGE, vbNullString, vbNullString, Nothing, _
                                 vbNullString, vbNullString, vbNullString, vbNullString)
                             API.CloseServiceHandle(lServ)
@@ -84,7 +98,7 @@ Public Class asyncCallbackServiceSetStartType
                         API.UnlockServiceDatabase(hLockSCManager)
                     End If
 
-                    _deg.Invoke(ret, _name, API.GetError)
+                    _deg.Invoke(ret, pObj.name, API.GetError, pObj.newAction)
             End Select
         End SyncLock
     End Sub

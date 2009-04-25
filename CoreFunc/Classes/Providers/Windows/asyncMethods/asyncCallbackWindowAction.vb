@@ -27,13 +27,8 @@ Imports System.Text
 
 Public Class asyncCallbackWindowAction
 
-    Private _handle As IntPtr
-    Private _o1 As Integer
-    Private _o3 As Integer
-    Private _o2 As Integer
     Private _theDeg As HasMadeAction
-    Private _action As ASYNC_WINDOW_ACTION
-    Private _connection As cWindowConnection
+    Private con As cWindowConnection
 
     Public Enum ASYNC_WINDOW_ACTION
         Close
@@ -51,22 +46,40 @@ Public Class asyncCallbackWindowAction
         SetEnabled
     End Enum
 
-    Public Delegate Sub HasMadeAction(ByVal Success As Boolean, ByVal action As ASYNC_WINDOW_ACTION, ByVal handle As Integer, ByVal msg As String)
+    Public Delegate Sub HasMadeAction(ByVal Success As Boolean, ByVal action As ASYNC_WINDOW_ACTION, ByVal handle As Integer, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasMadeAction, ByVal action As ASYNC_WINDOW_ACTION, ByVal handle As IntPtr, _
-                   ByVal o1 As Integer, ByVal o2 As Integer, ByVal o3 As Integer, ByRef procConnection As  _
-                   cWindowConnection)
-        _handle = handle
-        _action = action
-        _o1 = o1
-        _o2 = o2
-        _o3 = o3
+    Public Sub New(ByVal deg As HasMadeAction, ByRef procConnection As cWindowConnection)
         _theDeg = deg
-        _connection = procConnection
+        con = procConnection
     End Sub
 
-    Public Sub Process()
-        Select Case _connection.ConnectionObj.ConnectionType
+    Public Structure poolObj
+        Public handle As IntPtr
+        Public o1 As Integer
+        Public o3 As Integer
+        Public o2 As Integer
+        Public action As ASYNC_WINDOW_ACTION
+        Public newAction As Integer
+        Public Sub New(ByVal _action As ASYNC_WINDOW_ACTION, ByVal _handle As IntPtr, _
+                        ByVal _o1 As Integer, ByVal _o2 As Integer, ByVal _o3 As Integer, _
+                        ByVal act As Integer)
+            newAction = act
+            handle = _handle
+            action = _action
+            o1 = _o1
+            o2 = _o2
+            o3 = _o3
+        End Sub
+    End Structure
+
+    Public Sub Process(ByVal thePoolObj As Object)
+
+        Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
+        If con.ConnectionObj.IsConnected = False Then
+            Exit Sub
+        End If
+
+        Select Case con.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
@@ -75,51 +88,51 @@ Public Class asyncCallbackWindowAction
                 ' Local
 
                 Dim res As Integer = 0
-                Select Case _action
+                Select Case pObj.action
                     Case ASYNC_WINDOW_ACTION.BringToFront
-                        res = BringToFront(CBool(_o1))
+                        res = BringToFront(pObj.handle, CBool(pObj.o1))
                     Case ASYNC_WINDOW_ACTION.Close
-                        res = Close()
+                        res = Close(pObj.handle)
                     Case ASYNC_WINDOW_ACTION.Flash
-                        res = Flash()
+                        res = Flash(pObj.handle)
                     Case ASYNC_WINDOW_ACTION.Hide
-                        res = Hide()
+                        res = Hide(pObj.handle)
                     Case ASYNC_WINDOW_ACTION.Maximize
-                        res = Maximize()
+                        res = Maximize(pObj.handle)
                     Case ASYNC_WINDOW_ACTION.Minimize
-                        res = Minimize()
+                        res = Minimize(pObj.handle)
                     Case ASYNC_WINDOW_ACTION.SendMessage
-                        res = SendMessage(_o1, _o2, _o3)
+                        res = SendMessage(pObj.handle, pObj.o1, pObj.o2, pObj.o3)
                     Case ASYNC_WINDOW_ACTION.SetAsActiveWindow
-                        res = SetAsActiveWindow()
+                        res = SetAsActiveWindow(pObj.handle)
                     Case ASYNC_WINDOW_ACTION.SetAsForegroundWindow
-                        res = SetAsForegroundWindow()
+                        res = SetAsForegroundWindow(pObj.handle)
                     Case ASYNC_WINDOW_ACTION.SetEnabled
-                        res = SetEnabled(CBool(_o1))
+                        res = SetEnabled(pObj.handle, CBool(pObj.o1))
                     Case ASYNC_WINDOW_ACTION.SetOpacity
-                        If _o1 = 255 Then
-                            Call DisableWindowOpacity()
+                        If pObj.o1 = 255 Then
+                            Call DisableWindowOpacity(pObj.handle)
                         Else
-                            Call EnableWindowOpacity()
-                            Call SetOpacity(CByte(_o1))
+                            Call EnableWindowOpacity(pObj.handle)
+                            Call SetOpacity(pObj.handle, CByte(pObj.o1))
                         End If
                     Case ASYNC_WINDOW_ACTION.Show
-                        res = Show()
+                        res = Show(pObj.handle)
                     Case ASYNC_WINDOW_ACTION.StopFlashing
-                        res = StopFlashing()
+                        res = StopFlashing(pObj.handle)
                 End Select
 
-                _theDeg.BeginInvoke(res <> 0, _action, _handle.ToInt32, API.GetError, Nothing, Nothing)
+                _theDeg.Invoke(res <> 0, pObj.action, pObj.handle.ToInt32, API.GetError, pObj.newAction)
         End Select
     End Sub
 
 
 #Region "Local methods"
 
-    Private Function Close() As Integer
+    Private Function Close(ByVal _handle As IntPtr) As Integer
         Return API.SendMessage(_handle, API.WM_CLOSE, 0, 0).ToInt32
     End Function
-    Private Function Flash() As Integer
+    Private Function Flash(ByVal _handle As IntPtr) As Integer
         Dim FlashInfo As API.FLASHWINFO
 
         With FlashInfo
@@ -132,7 +145,7 @@ Public Class asyncCallbackWindowAction
 
         Return CInt(API.FlashWindowEx(FlashInfo))
     End Function
-    Private Function StopFlashing() As Integer
+    Private Function StopFlashing(ByVal _handle As IntPtr) As Integer
         Dim FlashInfo As API.FLASHWINFO
 
         With FlashInfo
@@ -145,7 +158,7 @@ Public Class asyncCallbackWindowAction
 
         Return CInt(API.FlashWindowEx(FlashInfo))
     End Function
-    Private Function BringToFront(ByVal val As Boolean) As Integer
+    Private Function BringToFront(ByVal _handle As IntPtr, ByVal val As Boolean) As Integer
         If val Then
             Return CInt(API.SetWindowPos(_handle, API.HWND_TOPMOST, 0, 0, 0, 0, _
                 API.SWP_NOACTIVATE Or API.SWP_SHOWWINDOW Or API.SWP_NOMOVE Or API.SWP_NOSIZE))
@@ -154,37 +167,37 @@ Public Class asyncCallbackWindowAction
                 API.SWP_NOACTIVATE Or API.SWP_SHOWWINDOW Or API.SWP_NOMOVE Or API.SWP_NOSIZE))
         End If
     End Function
-    Private Function SetAsForegroundWindow() As Integer
+    Private Function SetAsForegroundWindow(ByVal _handle As IntPtr) As Integer
         Return API.SetForegroundWindowAPI(_handle)
     End Function
-    Private Function SetAsActiveWindow() As Integer
+    Private Function SetAsActiveWindow(ByVal _handle As IntPtr) As Integer
         Return API.SetActiveWindowAPI(_handle)
     End Function
-    Private Function Minimize() As Integer
+    Private Function Minimize(ByVal _handle As IntPtr) As Integer
         Return CInt(API.ShowWindow(_handle, API.SW_MINIMIZE))
     End Function
-    Private Function Maximize() As Integer
+    Private Function Maximize(ByVal _handle As IntPtr) As Integer
         Return CInt(API.ShowWindow(_handle, API.SW_MAXIMIZE))
     End Function
-    Private Function Show() As Integer
+    Private Function Show(ByVal _handle As IntPtr) As Integer
         Return CInt(API.ShowWindow(_handle, API.SW_SHOW))
     End Function
-    Private Function Hide() As Integer
+    Private Function Hide(ByVal _handle As IntPtr) As Integer
         Return CInt(API.ShowWindow(_handle, API.SW_HIDE))
     End Function
-    Private Function SendMessage(ByVal val As Integer, ByVal o1 As Integer, ByVal o2 As Integer) As Integer
+    Private Function SendMessage(ByVal _handle As IntPtr, ByVal val As Integer, ByVal o1 As Integer, ByVal o2 As Integer) As Integer
         Return API.SendMessage(_handle, val, o1, o2).ToInt32
     End Function
-    Private Function SetOpacity(ByVal val As Byte) As Integer
+    Private Function SetOpacity(ByVal _handle As IntPtr, ByVal val As Byte) As Integer
         Return CInt(API.SetLayeredWindowAttributes(_handle, 0, val, API.LWA_ALPHA))
     End Function
-    Private Function SetEnabled(ByVal val As Boolean) As Integer
+    Private Function SetEnabled(ByVal _handle As IntPtr, ByVal val As Boolean) As Integer
         Return API.EnableWindow(_handle, CInt(val))
     End Function
-    Private Function DisableWindowOpacity() As Integer
+    Private Function DisableWindowOpacity(ByVal _handle As IntPtr) As Integer
         Return API.SetWindowLong(_handle, API.GWL_EXSTYLE, CType(CInt(API.GetWindowLong(_handle, API.GWL_EXSTYLE)) - API.WS_EX_LAYERED, IntPtr))
     End Function
-    Private Function EnableWindowOpacity() As Integer
+    Private Function EnableWindowOpacity(ByVal _handle As IntPtr) As Integer
         Return API.SetWindowLong(_handle, API.GWL_EXSTYLE, CType(CInt(API.GetWindowLong(_handle, API.GWL_EXSTYLE)) Or API.WS_EX_LAYERED, IntPtr))
     End Function
 

@@ -28,25 +28,38 @@ Imports System.Management
 
 Public Class asyncCallbackProcNewProcess
 
-    Private _path As String
-    Private _connection As cProcessConnection
+    Private con As cProcessConnection
     Private _deg As HasCreated
 
-    Public Delegate Sub HasCreated(ByVal Success As Boolean, ByVal path As String, ByVal msg As String)
+    Public Delegate Sub HasCreated(ByVal Success As Boolean, ByVal path As String, ByVal msg As String, ByVal actionN As Integer)
 
-    Public Sub New(ByVal deg As HasCreated, ByVal path As String, ByRef procConnection As cProcessConnection)
-        _path = path
+    Public Sub New(ByVal deg As HasCreated, ByRef procConnection As cProcessConnection)
         _deg = deg
-        _connection = procConnection
+        con = procConnection
     End Sub
 
-    Public Sub Process()
-        Select Case _connection.ConnectionObj.ConnectionType
+    Public Structure poolObj
+        Public path As String
+        Public newAction As Integer
+        Public Sub New(ByVal s As String, ByVal act As Integer)
+            newAction = act
+            path = s
+        End Sub
+    End Structure
+
+    Public Sub Process(ByVal thePoolObj As Object)
+
+        Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
+        If con.ConnectionObj.IsConnected = False Then
+            Exit Sub
+        End If
+
+        Select Case con.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ProcessCreateNew, _path)
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ProcessCreateNew, pObj.path)
                     Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                    _connection.ConnectionObj.Socket.Send(buff, buff.Length)
+                    con.ConnectionObj.Socket.Send(buff, buff.Length)
                 Catch ex As Exception
                     MsgBox(ex.Message)
                 End Try
@@ -55,22 +68,22 @@ Public Class asyncCallbackProcNewProcess
                 Try
                     Dim objectGetOptions As New ObjectGetOptions()
                     Dim managementPath As New ManagementPath("Win32_Process")
-                    Dim processClass As New ManagementClass(_connection.wmiSearcher.Scope, managementPath, objectGetOptions)
+                    Dim processClass As New ManagementClass(con.wmiSearcher.Scope, managementPath, objectGetOptions)
                     Dim inParams As ManagementBaseObject = processClass.GetMethodParameters("Create")
-                    inParams("CommandLine") = _path
+                    inParams("CommandLine") = pObj.path
                     Dim outParams As ManagementBaseObject = processClass.InvokeMethod("Create", inParams, Nothing)
                     Dim res As Integer = CInt(outParams("ProcessId"))
-                    _deg.Invoke(res > 0, _path, CType(res, API.PROCESS_RETURN_CODE_WMI).ToString)
+                    _deg.Invoke(res > 0, pObj.path, CType(res, API.PROCESS_RETURN_CODE_WMI).ToString, pObj.newAction)
                 Catch ex As Exception
-                    _deg.Invoke(False, _path, ex.Message)
+                    _deg.Invoke(False, pObj.path, ex.Message, pObj.newAction)
                 End Try
 
             Case Else
                 ' Local
                 ' OK, normally the local startNewProcess is not done here
                 ' because of RunBox need
-                Dim pid As Integer = Shell(_path)
-                _deg.invoke(pid <> 0, _path, API.GetError)
+                Dim pid As Integer = Shell(pObj.path)
+                _deg.Invoke(pid <> 0, pObj.path, API.GetError, pObj.newAction)
         End Select
     End Sub
 

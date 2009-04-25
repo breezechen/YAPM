@@ -27,38 +27,54 @@ Imports System.Text
 
 Public Class asyncCallbackPrivilegeChangeStatus
 
-    Private _pid As Integer
-    Private _name As String
-    Private _status As API.PRIVILEGE_STATUS
-    Private _connection As cPrivilegeConnection
+    Private con As cPrivilegeConnection
     Private _deg As HasChangedStatus
 
-    Public Delegate Sub HasChangedStatus(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String)
+    Public Delegate Sub HasChangedStatus(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasChangedStatus, ByVal pid As Integer, ByVal status As API.PRIVILEGE_STATUS, ByVal name As String, ByRef procConnection As cPrivilegeConnection)
-        _pid = pid
+    Public Sub New(ByVal deg As HasChangedStatus, ByRef procConnection As cPrivilegeConnection)
         _deg = deg
-        _name = name
-        _status = status
-        _connection = procConnection
+        con = procConnection
     End Sub
 
-    Public Sub Process()
-        Select Case _connection.ConnectionObj.ConnectionType
+    Public Structure poolObj
+        Public pid As Integer
+        Public name As String
+        Public status As API.PRIVILEGE_STATUS
+        Public newAction As Integer
+        Public Sub New(ByVal pi As Integer, _
+                       ByVal nam As String, _
+                       ByVal stat As API.PRIVILEGE_STATUS, _
+                       ByVal act As Integer)
+            name = nam
+            newAction = act
+            status = stat
+            pid = pi
+        End Sub
+    End Structure
+
+    Public Sub Process(ByVal thePoolObj As Object)
+
+        Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
+        If con.ConnectionObj.IsConnected = False Then
+            Exit Sub
+        End If
+
+        Select Case con.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
             Case Else
                 ' Local
-                Dim ret As Boolean = SetPrivilege(_name, _status)
-                _deg.Invoke(ret, _pid, _name, API.GetError)
+                Dim ret As Boolean = SetPrivilege(pObj.pid, pObj.name, pObj.status)
+                _deg.Invoke(ret, pObj.pid, pObj.name, API.GetError, pObj.newAction)
         End Select
     End Sub
 
 
     ' Set privilege status
-    Private Function SetPrivilege(ByVal seName As String, ByVal Status As API.PRIVILEGE_STATUS) As Boolean
+    Private Function SetPrivilege(ByVal _pid As Integer, ByVal seName As String, ByVal Status As API.PRIVILEGE_STATUS) As Boolean
 
         Dim hProcess As Integer
         Dim Ret As Integer

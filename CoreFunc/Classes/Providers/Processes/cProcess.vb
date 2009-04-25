@@ -235,158 +235,198 @@ Public Class cProcess
 #Region "All actions on process (kill, enum...)"
 
     ' Set priority
+    Private _setPriorityP As asyncCallbackProcSetPriority
     Public Function SetPriority(ByVal level As ProcessPriorityClass) As Integer
-        Dim deg As New asyncCallbackProcSetPriority.HasSetPriority(AddressOf setPriorityDone)
-        Dim asyncSetPriority As New asyncCallbackProcSetPriority(deg, Me.Infos.Pid, level, _connection)
-        Dim t As New Threading.Thread(AddressOf asyncSetPriority.Process)
-        t.Priority = Threading.ThreadPriority.Lowest
-        t.IsBackground = True
-        t.Name = "SetPriority (" & Me.Infos.Pid.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
-        AddPendingTask(t)
-        t.Start()
+
+        If _setPriorityP Is Nothing Then
+            _setPriorityP = New asyncCallbackProcSetPriority(New asyncCallbackProcSetPriority.HasSetPriority(AddressOf setPriorityDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _setPriorityP.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackProcSetPriority.poolObj(Me.Infos.Pid, level, newAction))
+
+        AddPendingTask2(newAction, t)
     End Function
-    Private Sub setPriorityDone(ByVal success As Boolean, ByVal msg As String)
-        If success = False Then
+    Private Sub setPriorityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not set priority to process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
-        RemoveDeadTasks()
+        RemovePendingTask(actionNumber)
     End Sub
 
     ' Kill a process
+    Private _killP As asyncCallbackProcKill
     Public Function Kill() As Integer
-        Dim deg As New asyncCallbackProcKill.HasKilled(AddressOf killDone)
-        Dim asyncKill As New asyncCallbackProcKill(deg, Me.Infos.Pid, _connection)
-        Dim t As New Threading.Thread(AddressOf asyncKill.Process)
-        t.Priority = Threading.ThreadPriority.Lowest
-        t.Name = "Kill (" & Me.Infos.Pid.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
-        t.IsBackground = True
-        AddPendingTask(t)
-        t.Start()
+
+        If _killP Is Nothing Then
+            _killP = New asyncCallbackProcKill(New asyncCallbackProcKill.HasKilled(AddressOf killDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _killP.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackProcKill.poolObj(Me.Infos.Pid, newAction))
+
+        AddPendingTask2(newAction, t)
     End Function
-    Private Sub killDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String)
+    Private Sub killDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not kill process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
-        RemoveDeadTasks()
+        RemovePendingTask(actionNumber)
     End Sub
 
     ' Decrease priority
+    Private _decP As asyncCallbackProcDecreasePriority
     Public Function DecreasePriority() As Integer
-        Dim deg As New asyncCallbackProcDecreasePriority.HasDecreasedPriority(AddressOf decreasePriorityDone)
-        Dim asyncDecPriority As New asyncCallbackProcDecreasePriority(deg, Me.Infos.Pid, Me.Infos.Priority, _connection)
-        Dim t As New Threading.Thread(AddressOf asyncDecPriority.Process)
-        t.Priority = Threading.ThreadPriority.Lowest
-        t.Name = "DecreasePriority (" & Me.Infos.Pid.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
-        t.IsBackground = True
-        AddPendingTask(t)
-        t.Start()
+
+        If _decP Is Nothing Then
+            _decP = New asyncCallbackProcDecreasePriority(New asyncCallbackProcDecreasePriority.HasDecreasedPriority(AddressOf decreasePriorityDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _decP.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackProcDecreasePriority.poolObj(Me.Infos.Pid, Me.Infos.Priority, newAction))
+
+        AddPendingTask2(newAction, t)
     End Function
-    Private Sub decreasePriorityDone(ByVal success As Boolean, ByVal msg As String)
-        If success = False Then
+    Private Sub decreasePriorityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not set priority to process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
-        RemoveDeadTasks()
+        RemovePendingTask(actionNumber)
     End Sub
 
     ' Increase priority
+    Private _incP As asyncCallbackProcIncreasePriority
     Public Function IncreasePriority() As Integer
-        Dim deg As New asyncCallbackProcIncreasePriority.HasIncreasedPriority(AddressOf increasePriorityDone)
-        Dim asyncInPriority As New asyncCallbackProcIncreasePriority(deg, Me.Infos.Pid, Me.Infos.Priority, _connection)
-        Dim t As New Threading.Thread(AddressOf asyncInPriority.Process)
-        t.Priority = Threading.ThreadPriority.Lowest
-        t.Name = "IncreasePriority (" & Me.Infos.Pid.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
-        t.IsBackground = True
-        AddPendingTask(t)
-        t.Start()
+
+        If _incP Is Nothing Then
+            _incP = New asyncCallbackProcIncreasePriority(New asyncCallbackProcIncreasePriority.HasIncreasedPriority(AddressOf increasePriorityDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _incP.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackProcIncreasePriority.poolObj(Me.Infos.Pid, Me.Infos.Priority, newAction))
+
+        AddPendingTask2(newAction, t)
     End Function
-    Private Sub increasePriorityDone(ByVal success As Boolean, ByVal msg As String)
-        If success = False Then
+    Private Sub increasePriorityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not set priority to process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
-        RemoveDeadTasks()
+        RemovePendingTask(actionNumber)
     End Sub
 
     ' Suspend a process
+    Private _suspP As asyncCallbackProcSuspend
     Public Function SuspendProcess() As Integer
-        Dim deg As New asyncCallbackProcSuspend.HasSuspended(AddressOf suspendDone)
-        Dim asyncSuspend As New asyncCallbackProcSuspend(deg, Me.Infos.Pid, _connection)
-        Dim t As New Threading.Thread(AddressOf asyncSuspend.Process)
-        t.Name = "SuspendProcess (" & Me.Infos.Pid.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
-        t.Priority = Threading.ThreadPriority.Lowest
-        t.IsBackground = True
-        AddPendingTask(t)
-        t.Start()
+
+        If _suspP Is Nothing Then
+            _suspP = New asyncCallbackProcSuspend(New asyncCallbackProcSuspend.HasSuspended(AddressOf suspendDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _suspP.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackProcSuspend.poolObj(Me.Infos.Pid, newAction))
+
+        AddPendingTask2(newAction, t)
     End Function
-    Private Sub suspendDone(ByVal success As Boolean, ByVal msg As String)
-        If success = False Then
+    Private Sub suspendDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not suspend process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
-        RemoveDeadTasks()
+        RemovePendingTask(actionNumber)
     End Sub
 
     ' Resume a process
+    Private _resuP As asyncCallbackProcResume
     Public Function ResumeProcess() As Integer
-        Dim deg As New asyncCallbackProcResume.HasResumed(AddressOf resumeDone)
-        Dim asyncResume As New asyncCallbackProcResume(deg, Me.Infos.Pid, _connection)
-        Dim t As New Threading.Thread(AddressOf asyncResume.Process)
-        t.Priority = Threading.ThreadPriority.Lowest
-        t.Name = "ResumeProcess (" & Me.Infos.Pid.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
-        t.IsBackground = True
-        AddPendingTask(t)
-        t.Start()
+
+        If _resuP Is Nothing Then
+            _resuP = New asyncCallbackProcResume(New asyncCallbackProcResume.HasResumed(AddressOf resumeDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _resuP.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackProcResume.poolObj(Me.Infos.Pid, newAction))
+
+        AddPendingTask2(newAction, t)
     End Function
-    Private Sub resumeDone(ByVal success As Boolean, ByVal msg As String)
-        If success = False Then
+    Private Sub resumeDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
             MsgBox("Error : " & msg & " (" & Err.LastDllError.ToString & _
                    ")", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not resume process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
-        RemoveDeadTasks()
+        RemovePendingTask(actionNumber)
     End Sub
 
     ' Kill a process tree
+    Private _killTP As asyncCallbackProcKillTree
     Public Function KillProcessTree() As Integer
-        Dim deg As New asyncCallbackProcKillTree.HasKilled(AddressOf recursiveKillDone)
-        Dim asyncRecursiveKill As New asyncCallbackProcKillTree(deg, Me.Infos.Pid, _connection)
-        Dim t As New Threading.Thread(AddressOf asyncRecursiveKill.Process)
-        t.Priority = Threading.ThreadPriority.Lowest
-        t.Name = "KillProcessTree (" & Me.Infos.Pid.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
-        t.IsBackground = True
-        AddPendingTask(t)
-        t.Start()
+
+        If _killTP Is Nothing Then
+            _killTP = New asyncCallbackProcKillTree(New asyncCallbackProcKillTree.HasKilled(AddressOf recursiveKillDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _killTP.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackProcKillTree.poolObj(Me.Infos.Pid, newAction))
+
+        AddPendingTask2(newAction, t)
     End Function
-    Private Sub recursiveKillDone(ByVal success As Boolean, ByVal msg As String)
-        If success = False Then
+    Private Sub recursiveKillDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
             MsgBox("Error : " & msg & " (" & Err.LastDllError.ToString & _
                    ")", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not kill process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
-        RemoveDeadTasks()
+        RemovePendingTask(actionNumber)
     End Sub
 
     ' Empty working set size
+    Private _emptyP As asyncCallbackProcEmptyWorkingSet
     Public Function EmptyWorkingSetSize() As Integer
-        Dim deg As New asyncCallbackProcEmptyWorkingSet.HasReducedWorkingSet(AddressOf emptyWorkingSetSizeDone)
-        Dim asyncEmptyWorkingSetSize As New asyncCallbackProcEmptyWorkingSet(deg, Me.Infos.Pid, _connection)
-        Dim t As New Threading.Thread(AddressOf asyncEmptyWorkingSetSize.Process)
-        t.Priority = Threading.ThreadPriority.Lowest
-        t.Name = "EmptyWorkingSetSize (" & Me.Infos.Pid.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
-        t.IsBackground = True
-        AddPendingTask(t)
-        t.Start()
+
+        If _emptyP Is Nothing Then
+            _emptyP = New asyncCallbackProcEmptyWorkingSet(New asyncCallbackProcEmptyWorkingSet.HasReducedWorkingSet(AddressOf emptyWorkingSetSizeDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _emptyP.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackProcEmptyWorkingSet.poolObj(Me.Infos.Pid, newAction))
+
+        AddPendingTask2(newAction, t)
     End Function
-    Private Sub emptyWorkingSetSizeDone(ByVal success As Boolean, ByVal msg As String)
-        If success = False Then
+    Private Sub emptyWorkingSetSizeDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
             MsgBox("Error : " & msg & " (" & Err.LastDllError.ToString & _
                    ")", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not empty working set" & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
-        RemoveDeadTasks()
+        RemovePendingTask(actionNumber)
     End Sub
 
     '' Unload a module
@@ -398,22 +438,27 @@ Public Class cProcess
     'End Function
 
     ' Change affinity
+    Private _setAffinityP As asyncCallbackProcSetAffinity
     Public Function SetAffinity(ByVal affinity As Integer) As Integer
-        Dim deg As New asyncCallbackProcSetAffinity.HasSetAffinity(AddressOf setAffinityDone)
-        Dim asyncSetAffinity As New asyncCallbackProcSetAffinity(deg, Me.Infos.Pid, affinity, _connection)
-        Dim t As New Threading.Thread(AddressOf asyncSetAffinity.Process)
-        t.Priority = Threading.ThreadPriority.Lowest
-        t.IsBackground = True
-        t.Name = "SetAffinity (" & Me.Infos.Pid.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
-        AddPendingTask(t)
-        t.Start()
+
+        If _setAffinityP Is Nothing Then
+            _setAffinityP = New asyncCallbackProcSetAffinity(New asyncCallbackProcSetAffinity.HasSetAffinity(AddressOf setAffinityDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _setAffinityP.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackProcSetAffinity.poolObj(Me.Infos.Pid, affinity, newAction))
+
+        AddPendingTask2(newAction, t)
     End Function
-    Private Sub setAffinityDone(ByVal success As Boolean, ByVal msg As String)
-        If success = False Then
+    Private Sub setAffinityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not set affinity " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
         End If
-        RemoveDeadTasks()
+        RemovePendingTask(actionNumber)
     End Sub
 
 #End Region
@@ -629,56 +674,78 @@ Public Class cProcess
     End Function
 
     ' Kill a process
+    Private Shared _sharedKillP As asyncCallbackProcKill
     Public Shared Function Kill(ByVal pid As Integer) As Integer
-        Dim deg As New asyncCallbackProcKill.HasKilled(AddressOf killDoneShared)
-        Dim asyncKillShared As New asyncCallbackProcKill(deg, pid, _connection)
-        Dim t As New Threading.Thread(AddressOf asyncKillShared.Process)
-        t.Priority = Threading.ThreadPriority.Lowest
-        t.IsBackground = True
-        t.Name = "Kill (" & pid.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
-        t.Start()
+
+        If _sharedKillP Is Nothing Then
+            _sharedKillP = New asyncCallbackProcKill(New asyncCallbackProcKill.HasKilled(AddressOf killDoneShared), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _sharedKillP.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackProcKill.poolObj(pid, newAction))
+
+        AddPendingTask2(newAction, t)
     End Function
-    Private Shared Sub killDoneShared(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String)
+    Private Shared Sub killDoneShared(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not kill process " & pid.ToString)
         End If
+        RemovePendingTask(actionNumber)
     End Sub
 
     ' Start a process
+    Private Shared _newSharedP As asyncCallbackProcNewProcess
     Public Shared Function StartNewProcess(ByVal path As String) As Integer
-        Dim deg As New asyncCallbackProcNewProcess.HasCreated(AddressOf newProcessDoneShared)
-        Dim asyncStartShared As New asyncCallbackProcNewProcess(deg, path, _connection)
-        Dim t As New Threading.Thread(AddressOf asyncStartShared.Process)
-        t.Priority = Threading.ThreadPriority.Lowest
-        t.IsBackground = True
-        t.Name = "StartNewProcess (" & path & ")" & "  -- " & Date.Now.Ticks.ToString
-        t.Start()
+
+        If _newSharedP Is Nothing Then
+            _newSharedP = New asyncCallbackProcNewProcess(New asyncCallbackProcNewProcess.HasCreated(AddressOf newProcessDoneShared), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _newSharedP.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackProcNewProcess.poolObj(path, newAction))
+
+        AddPendingTask2(newAction, t)
     End Function
-    Private Shared Sub newProcessDoneShared(ByVal Success As Boolean, ByVal path As String, ByVal msg As String)
+    Private Shared Sub newProcessDoneShared(ByVal Success As Boolean, ByVal path As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : cannot start process : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not start new process " & path)
         End If
+        RemovePendingTask(actionNumber)
     End Sub
 
 
     ' Unload a module from a process
+    Private Shared _unloadMSharedP As asyncCallbackProcUnloadModule
     Public Shared Function UnLoadModuleFromProcess(ByVal pid As Integer, ByVal ModuleBaseAddress As Integer) As Integer
-        Dim deg As New asyncCallbackProcUnloadModule.HasUnloadedModule(AddressOf unloadModuleDoneShared)
-        Dim asyncUnloadModuleShared As New asyncCallbackProcUnloadModule(deg, pid, ModuleBaseAddress, _connection)
-        Dim t As New Threading.Thread(AddressOf asyncUnloadModuleShared.Process)
-        t.Priority = Threading.ThreadPriority.Lowest
-        t.IsBackground = True
-        t.Name = "UnloadModule (" & pid.ToString & ")" & "  -- " & Date.Now.Ticks.ToString
-        t.Start()
+
+        If _unloadMSharedP Is Nothing Then
+            _unloadMSharedP = New asyncCallbackProcUnloadModule(New asyncCallbackProcUnloadModule.HasUnloadedModule(AddressOf unloadModuleDoneShared), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _unloadMSharedP.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackProcUnloadModule.poolObj(pid, ModuleBaseAddress, newAction))
+
+        AddPendingTask2(newAction, t)
     End Function
-    Private Shared Sub unloadModuleDoneShared(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String)
+    Private Shared Sub unloadModuleDoneShared(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not unload the module from process " & pid.ToString)
         End If
+        RemovePendingTask(actionNumber)
     End Sub
+
 
     ' Clear process dico
     Public Shared Sub ClearProcessDico()

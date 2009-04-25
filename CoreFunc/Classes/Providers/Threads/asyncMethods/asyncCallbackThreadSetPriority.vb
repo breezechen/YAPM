@@ -28,37 +28,52 @@ Imports System.Management
 
 Public Class asyncCallbackThreadSetPriority
 
-    Private _id As Integer
-    Private _level As System.Diagnostics.ThreadPriorityLevel
-    Private _connection As cThreadConnection
+    Private con As cThreadConnection
     Private _deg As HasSetPriority
 
-    Public Delegate Sub HasSetPriority(ByVal Success As Boolean, ByVal msg As String)
+    Public Delegate Sub HasSetPriority(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasSetPriority, ByVal id As Integer, ByVal level As System.Diagnostics.ThreadPriorityLevel, ByRef procConnection As cThreadConnection)
-        _id = id
+    Public Sub New(ByVal deg As HasSetPriority, ByRef procConnection As cThreadConnection)
         _deg = deg
-        _level = level
-        _connection = procConnection
+        con = procConnection
     End Sub
 
-    Public Sub Process()
-        Select Case _connection.ConnectionObj.ConnectionType
+    Public Structure poolObj
+        Public id As Integer
+        Public level As System.Diagnostics.ThreadPriorityLevel
+        Public newAction As Integer
+        Public Sub New(ByVal _id As Integer, _
+                        ByVal _level As System.Diagnostics.ThreadPriorityLevel, _
+                       ByVal action As Integer)
+            newAction = action
+            id = _id
+            level = _level
+        End Sub
+    End Structure
+
+    Public Sub Process(ByVal thePoolObj As Object)
+
+        Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
+        If con.ConnectionObj.IsConnected = False Then
+            Exit Sub
+        End If
+
+        Select Case con.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
-               
+
             Case Else
                 ' Local
                 Dim hProc As Integer
                 Dim r As UInteger = -1
-                hProc = API.OpenThread(API.THREAD_RIGHTS.THREAD_SET_INFORMATION, 0, _id)
+                hProc = API.OpenThread(API.THREAD_RIGHTS.THREAD_SET_INFORMATION, 0, pObj.id)
                 If hProc > 0 Then
-                    r = API.SetThreadPriority(New IntPtr(hProc), _level)
+                    r = API.SetThreadPriority(New IntPtr(hProc), pObj.level)
                     API.CloseHandle(hProc)
-                    _deg.Invoke(r <> 0, API.GetError)
+                    _deg.Invoke(r <> 0, API.GetError, pObj.newAction)
                 Else
-                    _deg.Invoke(False, API.GetError)
+                    _deg.Invoke(False, API.GetError, pObj.newAction)
                 End If
         End Select
     End Sub

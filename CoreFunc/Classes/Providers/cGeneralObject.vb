@@ -23,14 +23,33 @@ Option Strict On
 
 Public MustInherit Class cGeneralObject
 
+    Private Shared _sharedObj As New Object
+    Private Shared _actionCount As Integer = 1
     Private _newItem As Boolean = False
     Private _killedItem As Boolean = False
     Private _isDisplayed As Boolean = False
     Friend _objectCreationDate As Date
-    Friend _pendingTasks As New List(Of Threading.Thread)
+    Friend Shared _pendingTasks As New List(Of Threading.Thread)
+    Friend Shared _pendingTasks2 As New Dictionary(Of Integer, System.Threading.WaitCallback)
 
     Public Sub New()
         _objectCreationDate = Date.Now
+    End Sub
+
+    Public Shared Function GetActionCount() As Integer
+        SyncLock _sharedObj
+            _actionCount += 1
+            Return _actionCount
+        End SyncLock
+    End Function
+
+    Public Shared Sub AddPendingTask2(ByVal actionCount As Integer, ByRef thr As System.Threading.WaitCallback)
+        _pendingTasks2.Add(actionCount, thr)
+    End Sub
+    Public Shared Sub RemovePendingTask(ByVal actionCount As Integer)
+        If _pendingTasks2.ContainsKey(actionCount) Then
+            _pendingTasks2.Remove(actionCount)
+        End If
     End Sub
 
     Public Sub AddPendingTask(ByRef thr As Threading.Thread)
@@ -38,17 +57,6 @@ Public MustInherit Class cGeneralObject
     End Sub
 
     Public Sub RemoveDeadTasks()
-        ' NOTHING FOR NOW
-        'SyncLock _pendingTasks
-        '    Dim _temp As New List(Of Threading.Thread) '= _pendingTasks
-        '    _temp = _pendingTasks
-        '    For Each task As Threading.Thread In _temp
-        '        If task Is Nothing OrElse task.IsAlive = False Then
-        '            _pendingTasks.Remove(task)
-        '        End If
-        '    Next
-        '    _pendingTasks = _temp
-        'End SyncLock
     End Sub
 
     Public ReadOnly Property GetPendingTasks() As List(Of Threading.Thread)
@@ -56,19 +64,20 @@ Public MustInherit Class cGeneralObject
             Return _pendingTasks
         End Get
     End Property
-
+    Public ReadOnly Property GetPendingTasks2() As Dictionary(Of Integer, System.Threading.WaitCallback)
+        Get
+            Return _pendingTasks2
+        End Get
+    End Property
     Public ReadOnly Property PendingTaskCount() As Integer
         Get
             Dim _cout As Integer = 0
-            For Each th As System.Threading.Thread In _pendingTasks
-                If th IsNot Nothing AndAlso th.IsAlive Then
+            For Each th As System.Threading.WaitCallback In _pendingTasks2.Values
+                If th IsNot Nothing Then
                     _cout += 1
                 End If
             Next
-            'If _pendingTasks.Count > 0 Then
-            '    RemoveDeadTasks()
-            'End If
-            Return _cout '_pendingTasks.Count
+            Return _cout
         End Get
     End Property
 
