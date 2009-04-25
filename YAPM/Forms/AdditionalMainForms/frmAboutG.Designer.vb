@@ -59,7 +59,7 @@ Partial Class frmAboutG
         'btnOK
         '
         Me.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK
-        Me.btnOK.Location = New System.Drawing.Point(317, 249)
+        Me.btnOK.Location = New System.Drawing.Point(328, 249)
         Me.btnOK.Name = "btnOK"
         Me.btnOK.Size = New System.Drawing.Size(73, 25)
         Me.btnOK.TabIndex = 1
@@ -81,9 +81,9 @@ Partial Class frmAboutG
         Me.Label1.Font = New System.Drawing.Font("Tahoma", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.Location = New System.Drawing.Point(94, 12)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(246, 23)
+        Me.Label1.Size = New System.Drawing.Size(325, 23)
         Me.Label1.TabIndex = 5
-        Me.Label1.Text = "Yet Another Process Monitor"
+        Me.Label1.Text = "Yet Another (remote) Process Monitor"
         '
         'Label2
         '
@@ -103,7 +103,7 @@ Partial Class frmAboutG
         Me.lblVersion.Name = "lblVersion"
         Me.lblVersion.Size = New System.Drawing.Size(43, 13)
         Me.lblVersion.TabIndex = 7
-        Me.lblVersion.Text = "1.0.0.0"
+        Me.lblVersion.Text = "2.0.0.0"
         '
         'lblDate
         '
@@ -130,9 +130,9 @@ Partial Class frmAboutG
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(16, 95)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(303, 13)
+        Me.Label3.Size = New System.Drawing.Size(348, 13)
         Me.Label3.TabIndex = 10
-        Me.Label3.Text = "Yet Another Process Monitor is under GNU GPL 3.0 license"
+        Me.Label3.Text = "Yet Another (remote) Process Monitor is under GNU GPL 3.0 license"
         '
         'Label5
         '
@@ -226,7 +226,7 @@ Partial Class frmAboutG
         '
         'cmdLicense
         '
-        Me.cmdLicense.Location = New System.Drawing.Point(230, 249)
+        Me.cmdLicense.Location = New System.Drawing.Point(241, 249)
         Me.cmdLicense.Name = "cmdLicense"
         Me.cmdLicense.Size = New System.Drawing.Size(73, 25)
         Me.cmdLicense.TabIndex = 19
@@ -249,7 +249,7 @@ Partial Class frmAboutG
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnOK
-        Me.ClientSize = New System.Drawing.Size(416, 290)
+        Me.ClientSize = New System.Drawing.Size(435, 290)
         Me.ControlBox = False
         Me.Controls.Add(Me.lblTaskDialog)
         Me.Controls.Add(Me.cmdLicense)

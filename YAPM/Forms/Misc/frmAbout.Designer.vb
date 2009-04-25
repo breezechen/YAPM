@@ -62,7 +62,7 @@ Partial Class frmAbout
         Me.lblIntro.Name = "lblIntro"
         Me.lblIntro.Size = New System.Drawing.Size(619, 41)
         Me.lblIntro.TabIndex = 0
-        Me.lblIntro.Text = "Yet Another Process Monitor and some of its components are under licenses. Terms " & _
+        Me.lblIntro.Text = "Yet Another (remote) Process Monitor and some of its components are under licenses. Terms " & _
             "and conditions are explicited below."
         Me.lblIntro.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '

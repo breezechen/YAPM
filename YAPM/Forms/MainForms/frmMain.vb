@@ -296,7 +296,7 @@ Public Class frmMain
 
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
             If Me.Ribbon.ActiveTab.Text = "Services" Then
-                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvServices.Items.Count) & " services running"
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvServices.Items.Count) & " services running"
             End If
         End If
 
@@ -311,7 +311,7 @@ Public Class frmMain
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
             Dim ss As String = Me.Ribbon.ActiveTab.Text
             If ss = "Processes" Or ss = "Monitor" Or ss = "Misc" Or ss = "Help" Or ss = "File" Then
-                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
             End If
         End If
 
@@ -960,14 +960,14 @@ Public Class frmMain
 
         Select Case Ribbon.ActiveTab.Text
             Case "Services"
-                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvServices.Items.Count) & " services running"
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvServices.Items.Count) & " services running"
                 _tab.SelectedTab = Me.pageServices
             Case "Processes"
-                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
                 _tab.SelectedTab = Me.pageProcesses
             Case "Help"
 
-                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
                 If Not (bHelpShown) Then
                     bHelpShown = True
                     ' Load help file
@@ -981,31 +981,31 @@ Public Class frmMain
 
                 _tab.SelectedTab = Me.pageHelp
             Case "File"
-                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
                 _tab.SelectedTab = Me.pageFile
             Case "Search"
-                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvSearchResults.Items.Count) & " search results"
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvSearchResults.Items.Count) & " search results"
                 _tab.SelectedTab = Me.pageSearch
             Case "Handles"
-                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvHandles.Items.Count) & " handles"
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvHandles.Items.Count) & " handles"
                 _tab.SelectedTab = Me.pageHandles
             Case "Monitor"
-                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
                 _tab.SelectedTab = Me.pageMonitor
             Case "Threads"
-                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvThreads.Items.Count) & " threads"
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvThreads.Items.Count) & " threads"
                 _tab.SelectedTab = Me.pageThreads
             Case "Windows"
-                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvWindows.Items.Count) & " windows"
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvWindows.Items.Count) & " windows"
                 _tab.SelectedTab = Me.pageWindows
             Case "Modules"
-                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
                 _tab.SelectedTab = Me.pageModules
             Case "Tasks"
-                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvTask.Items.Count) & " tasks running"
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvTask.Items.Count) & " tasks running"
                 _tab.SelectedTab = Me.pageTasks
             Case "Network"
-                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvNetwork.Items.Count) & " connections opened"
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvNetwork.Items.Count) & " connections opened"
                 _tab.SelectedTab = Me.pageNetwork
         End Select
         'End If
@@ -1111,12 +1111,12 @@ Public Class frmMain
 
     Private Sub ShowHandles(Optional ByVal showTab As Boolean = True)
 
-        Me.lvHandles.ShowUnNamed = DisplayUnnamedHandlesToolStripMenuItem.Checked
+        Me.lvHandles.ShowUnnamed = DisplayUnnamedHandlesToolStripMenuItem.Checked
         Me.lvHandles.ProcessId = Me.handlesToRefresh
         Me.lvHandles.UpdateTheItems()
 
         If showTab Then
-            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvHandles.Items.Count) & " handles"
+            Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvHandles.Items.Count) & " handles"
             My.Application.DoEvents()
             Me.Ribbon.ActiveTab = Me.HandlesTab
             Call Me.Ribbon_MouseMove(Nothing, Nothing)
@@ -1671,7 +1671,7 @@ Public Class frmMain
         Me.lvThreads.UpdateTheItems()
 
         If showTab Then _
-            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvThreads.Items.Count) & " threads"
+            Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvThreads.Items.Count) & " threads"
 
     End Sub
 
@@ -1812,7 +1812,7 @@ Public Class frmMain
         Me.lvWindows.UpdateTheItems()
 
         If showTab Then _
-            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvWindows.Items.Count) & " windows"
+            Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvWindows.Items.Count) & " windows"
 
     End Sub
 
@@ -2104,7 +2104,7 @@ Public Class frmMain
         Me.lvModules.UpdateTheItems()
 
         If showTab Then _
-            Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
+            Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
 
     End Sub
 
@@ -2126,7 +2126,7 @@ Public Class frmMain
             Call Me.lvModules.GetItemByKey(it.Name).UnloadModule()
             it.Remove()
         Next
-        Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
+        Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
     End Sub
 
     Private Sub ToolStripMenuItem36_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem36.Click
@@ -2134,7 +2134,7 @@ Public Class frmMain
             Call Me.lvModules.GetItemByKey(it.Name).UnloadModule()
             it.Remove()
         Next
-        Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
+        Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
     End Sub
 
     Private Sub ToolStripMenuItem35_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem35.Click
@@ -2455,7 +2455,7 @@ Public Class frmMain
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
             Dim ss As String = Me.Ribbon.ActiveTab.Text
             If ss = "Tasks" Then
-                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvTask.Items.Count) & " tasks running"
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvTask.Items.Count) & " tasks running"
             End If
         End If
 
@@ -2595,7 +2595,7 @@ Public Class frmMain
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
             Dim ss As String = Me.Ribbon.ActiveTab.Text
             If ss = "Network" Then
-                Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvNetwork.Items.Count) & " connections opened"
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvNetwork.Items.Count) & " connections opened"
             End If
         End If
     End Sub
@@ -4022,7 +4022,7 @@ Public Class frmMain
 
         Me.timerServices.Enabled = True
         Me.timerProcess.Enabled = True
-        Me.Text = "Yet Another Process Monitor -- " & CStr(Me.lvSearchResults.Items.Count) & " search results"
+        Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvSearchResults.Items.Count) & " search results"
 
     End Sub
 

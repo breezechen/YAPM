@@ -11,7 +11,7 @@ Imports System.Runtime.InteropServices
 ' Vérifiez les valeurs des attributs de l'assembly
 
 <Assembly: AssemblyTitle("YAPM")> 
-<Assembly: AssemblyDescription("Yet Another Process Monitor")> 
+<Assembly: AssemblyDescription("Yet Another (remote) Process Monitor")> 
 <Assembly: AssemblyCompany("")> 
 <Assembly: AssemblyProduct("YAPM")> 
 <Assembly: AssemblyCopyright("Copyright ©  2008 by violent_ken")> 
@@ -33,7 +33,7 @@ Imports System.Runtime.InteropServices
 ' en utilisant '*', comme indiqué ci-dessous :
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.0.0.0")> 
-<Assembly: AssemblyFileVersion("1.0.0.0")> 
+<Assembly: AssemblyVersion("2.0.0.0")> 
+<Assembly: AssemblyFileVersion("2.0.0.0")> 
 
 <Assembly: NeutralResourcesLanguageAttribute("en-US")> 

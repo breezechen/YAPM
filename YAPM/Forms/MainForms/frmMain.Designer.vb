@@ -1126,7 +1126,7 @@ Partial Class frmMain
         '
         Me.Tray.ContextMenuStrip = Me.mainMenu
         Me.Tray.Icon = CType(resources.GetObject("Tray.Icon"), System.Drawing.Icon)
-        Me.Tray.Text = "Yet Another Process Monitor"
+        Me.Tray.Text = "Yet Another (remote) Process Monitor"
         Me.Tray.Visible = True
         '
         'mainMenu
@@ -6770,7 +6770,7 @@ Partial Class frmMain
         Me.MinimumSize = New System.Drawing.Size(882, 589)
         Me.Name = "frmMain"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Yet Another Process Monitor"
+        Me.Text = "Yet Another (remote) Process Monitor"
         Me.WindowState = System.Windows.Forms.FormWindowState.Minimized
         Me.menuProc.ResumeLayout(False)
         Me.menuService.ResumeLayout(False)
