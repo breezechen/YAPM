@@ -72,6 +72,15 @@ Public Class cProcess
         End Sub
     End Structure
 
+    Private Const HIST_SIZE As Integer = 226                ' Size of an item of the history
+    Private Shared _histBuff As Integer = 1000              ' Number of items to save
+
+    Public Shared WriteOnly Property BuffSize() As Integer
+        Set(ByVal value As Integer)
+            _histBuff = CInt(value / HIST_SIZE)
+        End Set
+    End Property
+
 #End Region
 
     Public Event HasMerged()
@@ -177,11 +186,22 @@ Public Class cProcess
 #End Region
 
     ' Merge current infos and new infos
+    Private _refrehNumber As Integer = 0
+
+    Public Sub ClearHistory()
+        SyncLock _dicoProcIO
+            _dicoProcMem.Clear()
+            _dicoProcTimes.Clear()
+            _dicoProcIO.Clear()
+            _dicoProcMisc.Clear()
+            _refrehNumber = 0
+        End SyncLock
+    End Sub
+
     Public Sub Merge(ByRef Proc As processInfos)
 
         Call refreshCpuUsage()
 
-        Static _refrehNumber As Integer = 0
         _refrehNumber += 1   ' This is the key for the history
 
         ' Get date in ms
@@ -190,12 +210,23 @@ Public Class cProcess
         _processInfos.Merge(Proc)
         Call RefreshSpecialInformations()
 
-        ' Store informations
-        _dicoProcMem.Add(_refrehNumber, New PROC_MEM_INFO(_now, Me.Infos.MemoryInfos))
-        _dicoProcTimes.Add(_refrehNumber, New PROC_TIME_INFO(_now, Me.Infos.UserTime, Me.Infos.KernelTime))
-        _dicoProcIO.Add(_refrehNumber, New PROC_IO_INFO(_now, Me.Infos.IOValues))
-        _dicoProcMisc.Add(_refrehNumber, New PROC_MISC_INFO(_now, Me.Infos.GdiObjects, Me.Infos.UserObjects, _
-                 100 * Me.CpuUsage, 100 * Me.Infos.AverageCpuUsage))
+        ' Remove items from history if buffer is full
+        Dim d As Integer = _refrehNumber - _histBuff
+        If _histBuff > 0 AndAlso d > 0 Then
+            _dicoProcMem.Remove(d)
+            _dicoProcTimes.Remove(d)
+            _dicoProcIO.Remove(d)
+            _dicoProcMisc.Remove(d)
+        End If
+
+        ' Store history
+        SyncLock _dicoProcIO
+            _dicoProcMem.Add(_refrehNumber, New PROC_MEM_INFO(_now, Me.Infos.MemoryInfos))
+            _dicoProcTimes.Add(_refrehNumber, New PROC_TIME_INFO(_now, Me.Infos.UserTime, Me.Infos.KernelTime))
+            _dicoProcIO.Add(_refrehNumber, New PROC_IO_INFO(_now, Me.Infos.IOValues))
+            _dicoProcMisc.Add(_refrehNumber, New PROC_MISC_INFO(_now, Me.Infos.GdiObjects, Me.Infos.UserObjects, _
+                     100 * Me.CpuUsage, 100 * Me.Infos.AverageCpuUsage))
+        End SyncLock
 
         RaiseEvent HasMerged()
     End Sub

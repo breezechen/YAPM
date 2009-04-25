@@ -418,6 +418,7 @@ Public Class frmMain
                 Pref.Save()
             End If
             Pref.Apply()
+            cProcess.BuffSize = Pref.histSize
         Catch ex As Exception
             ' Preference file corrupted/missing
             MsgBox("Preference file is missing or corrupted and will be now recreated.", MsgBoxStyle.Critical, "Startup error")

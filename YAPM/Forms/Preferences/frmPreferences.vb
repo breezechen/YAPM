@@ -77,6 +77,11 @@ Public Class frmPreferences
             .hideMinimized = Me.chkHideMinimized.Checked
             .trayInterval = CInt(Val(Me.txtTrayInterval.Text))
             .systemInterval = CInt(Val(Me.txtSysInfoInterval.Text))
+            If Me.chkUnlimitedBuf.Checked Then
+                .histSize = -1
+            Else
+                .histSize = CInt(Me.bufferSize.Value * 1024)
+            End If
 
             .Apply()
             Call mdlMisc.StartWithWindows(.startup)
@@ -134,6 +139,8 @@ Public Class frmPreferences
             .SetToolTip(Me.txtTrayInterval, "Set interval (milliseconds) between two refreshments of tray icon.")
             .SetToolTip(Me.txtSysInfoInterval, "Set interval (milliseconds) between two refreshments of system informations.")
             .SetToolTip(Me.chkHideClosed, "Hide YAPM when user click on 'close' button")
+            .SetToolTip(Me.chkUnlimitedBuf, "No size limit for history")
+            .SetToolTip(Me.bufferSize, "Size of the buffer used to save history of statistics of one process (KB). The change of this value will be applied on the next start of YAPM.")
         End With
 
         ' Set control's values
@@ -160,6 +167,13 @@ Public Class frmPreferences
             Me.txtTrayInterval.Text = .trayInterval.ToString
             Me.txtSysInfoInterval.Text = .systemInterval.ToString
             Me.chkHideClosed.Checked = .hideClose
+            If .histSize > 0 Then
+                Me.bufferSize.Value = CInt(.histSize / 1024)
+                Me.chkUnlimitedBuf.Checked = False
+            Else
+                Me.bufferSize.Value = 0
+                Me.chkUnlimitedBuf.Checked = True
+            End If
         End With
 
     End Sub
@@ -188,6 +202,8 @@ Public Class frmPreferences
         Me.chkCloseButton.Checked = True
         Me.chkWarn.Checked = True
         Me.chkHideClosed.Checked = True
+        Me.chkUnlimitedBuf.Checked = False
+        Me.bufferSize.Value = 100
     End Sub
 
     Private Sub cmdCheckUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdCheckUpdate.Click

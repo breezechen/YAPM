@@ -35,6 +35,7 @@ Partial Class frmPreferences
         Me.chkReplaceTaskmgr = New System.Windows.Forms.CheckBox
         Me.chkStart = New System.Windows.Forms.CheckBox
         Me.TabPage3 = New System.Windows.Forms.TabPage
+        Me.chkHideClosed = New System.Windows.Forms.CheckBox
         Me.chkHideMinimized = New System.Windows.Forms.CheckBox
         Me.chkRibbon = New System.Windows.Forms.CheckBox
         Me.GroupBox3 = New System.Windows.Forms.GroupBox
@@ -69,7 +70,9 @@ Partial Class frmPreferences
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
         Me.colDial = New System.Windows.Forms.ColorDialog
-        Me.chkHideClosed = New System.Windows.Forms.CheckBox
+        Me.Label11 = New System.Windows.Forms.Label
+        Me.bufferSize = New System.Windows.Forms.NumericUpDown
+        Me.chkUnlimitedBuf = New System.Windows.Forms.CheckBox
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -80,6 +83,7 @@ Partial Class frmPreferences
         Me.TabPage4.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.TabPage2.SuspendLayout()
+        CType(Me.bufferSize, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TabControl
@@ -92,7 +96,7 @@ Partial Class frmPreferences
         Me.TabControl.Location = New System.Drawing.Point(9, 9)
         Me.TabControl.Name = "TabControl"
         Me.TabControl.SelectedIndex = 0
-        Me.TabControl.Size = New System.Drawing.Size(336, 253)
+        Me.TabControl.Size = New System.Drawing.Size(336, 306)
         Me.TabControl.TabIndex = 0
         '
         'TabPage1
@@ -105,7 +109,7 @@ Partial Class frmPreferences
         Me.TabPage1.Location = New System.Drawing.Point(4, 23)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(328, 226)
+        Me.TabPage1.Size = New System.Drawing.Size(328, 279)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "General"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -205,6 +209,16 @@ Partial Class frmPreferences
         Me.TabPage3.Text = "Display"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
+        'chkHideClosed
+        '
+        Me.chkHideClosed.AutoSize = True
+        Me.chkHideClosed.Location = New System.Drawing.Point(15, 192)
+        Me.chkHideClosed.Name = "chkHideClosed"
+        Me.chkHideClosed.Size = New System.Drawing.Size(118, 17)
+        Me.chkHideClosed.TabIndex = 9
+        Me.chkHideClosed.Text = "Hide when closed"
+        Me.chkHideClosed.UseVisualStyleBackColor = True
+        '
         'chkHideMinimized
         '
         Me.chkHideMinimized.AutoSize = True
@@ -294,13 +308,16 @@ Partial Class frmPreferences
         '
         'TabPage4
         '
+        Me.TabPage4.Controls.Add(Me.chkUnlimitedBuf)
+        Me.TabPage4.Controls.Add(Me.bufferSize)
+        Me.TabPage4.Controls.Add(Me.Label11)
         Me.TabPage4.Controls.Add(Me.cbPriority)
         Me.TabPage4.Controls.Add(Me.Label5)
         Me.TabPage4.Controls.Add(Me.GroupBox2)
         Me.TabPage4.ImageKey = "icon2.gif"
         Me.TabPage4.Location = New System.Drawing.Point(4, 23)
         Me.TabPage4.Name = "TabPage4"
-        Me.TabPage4.Size = New System.Drawing.Size(328, 226)
+        Me.TabPage4.Size = New System.Drawing.Size(328, 279)
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "Performances"
         Me.TabPage4.UseVisualStyleBackColor = True
@@ -450,14 +467,14 @@ Partial Class frmPreferences
         Me.TabPage2.Location = New System.Drawing.Point(4, 23)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(328, 226)
+        Me.TabPage2.Size = New System.Drawing.Size(328, 279)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Update"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
         'cmdDownload
         '
-        Me.cmdDownload.Location = New System.Drawing.Point(186, 196)
+        Me.cmdDownload.Location = New System.Drawing.Point(186, 248)
         Me.cmdDownload.Name = "cmdDownload"
         Me.cmdDownload.Size = New System.Drawing.Size(136, 25)
         Me.cmdDownload.TabIndex = 12
@@ -466,7 +483,7 @@ Partial Class frmPreferences
         '
         'cmdCheckUpdate
         '
-        Me.cmdCheckUpdate.Location = New System.Drawing.Point(6, 196)
+        Me.cmdCheckUpdate.Location = New System.Drawing.Point(6, 248)
         Me.cmdCheckUpdate.Name = "cmdCheckUpdate"
         Me.cmdCheckUpdate.Size = New System.Drawing.Size(158, 25)
         Me.cmdCheckUpdate.TabIndex = 11
@@ -481,7 +498,7 @@ Partial Class frmPreferences
         Me.txtUpdate.Multiline = True
         Me.txtUpdate.Name = "txtUpdate"
         Me.txtUpdate.ReadOnly = True
-        Me.txtUpdate.Size = New System.Drawing.Size(316, 184)
+        Me.txtUpdate.Size = New System.Drawing.Size(316, 236)
         Me.txtUpdate.TabIndex = 10
         '
         'IMG
@@ -496,7 +513,7 @@ Partial Class frmPreferences
         'cmdSave
         '
         Me.cmdSave.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdSave.Location = New System.Drawing.Point(12, 270)
+        Me.cmdSave.Location = New System.Drawing.Point(12, 323)
         Me.cmdSave.Name = "cmdSave"
         Me.cmdSave.Size = New System.Drawing.Size(100, 26)
         Me.cmdSave.TabIndex = 7
@@ -505,7 +522,7 @@ Partial Class frmPreferences
         '
         'cmdQuit
         '
-        Me.cmdQuit.Location = New System.Drawing.Point(242, 270)
+        Me.cmdQuit.Location = New System.Drawing.Point(242, 323)
         Me.cmdQuit.Name = "cmdQuit"
         Me.cmdQuit.Size = New System.Drawing.Size(100, 26)
         Me.cmdQuit.TabIndex = 9
@@ -514,7 +531,7 @@ Partial Class frmPreferences
         '
         'cmdDefaut
         '
-        Me.cmdDefaut.Location = New System.Drawing.Point(127, 270)
+        Me.cmdDefaut.Location = New System.Drawing.Point(127, 323)
         Me.cmdDefaut.Name = "cmdDefaut"
         Me.cmdDefaut.Size = New System.Drawing.Size(100, 26)
         Me.cmdDefaut.TabIndex = 8
@@ -526,21 +543,37 @@ Partial Class frmPreferences
         Me.colDial.AnyColor = True
         Me.colDial.FullOpen = True
         '
-        'chkHideClosed
+        'Label11
         '
-        Me.chkHideClosed.AutoSize = True
-        Me.chkHideClosed.Location = New System.Drawing.Point(15, 192)
-        Me.chkHideClosed.Name = "chkHideClosed"
-        Me.chkHideClosed.Size = New System.Drawing.Size(118, 17)
-        Me.chkHideClosed.TabIndex = 9
-        Me.chkHideClosed.Text = "Hide when closed"
-        Me.chkHideClosed.UseVisualStyleBackColor = True
+        Me.Label11.AutoSize = True
+        Me.Label11.Location = New System.Drawing.Point(14, 226)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(100, 13)
+        Me.Label11.TabIndex = 7
+        Me.Label11.Text = "History buffer (KB)"
+        '
+        'bufferSize
+        '
+        Me.bufferSize.Location = New System.Drawing.Point(120, 224)
+        Me.bufferSize.Name = "bufferSize"
+        Me.bufferSize.Size = New System.Drawing.Size(75, 22)
+        Me.bufferSize.TabIndex = 8
+        '
+        'chkUnlimitedBuf
+        '
+        Me.chkUnlimitedBuf.AutoSize = True
+        Me.chkUnlimitedBuf.Location = New System.Drawing.Point(201, 226)
+        Me.chkUnlimitedBuf.Name = "chkUnlimitedBuf"
+        Me.chkUnlimitedBuf.Size = New System.Drawing.Size(76, 17)
+        Me.chkUnlimitedBuf.TabIndex = 9
+        Me.chkUnlimitedBuf.Text = "Unlimited"
+        Me.chkUnlimitedBuf.UseVisualStyleBackColor = True
         '
         'frmPreferences
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(354, 304)
+        Me.ClientSize = New System.Drawing.Size(354, 360)
         Me.ControlBox = False
         Me.Controls.Add(Me.cmdDefaut)
         Me.Controls.Add(Me.cmdQuit)
@@ -573,6 +606,7 @@ Partial Class frmPreferences
         Me.GroupBox2.PerformLayout()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
+        CType(Me.bufferSize, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -622,4 +656,7 @@ Partial Class frmPreferences
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents chkHideClosed As System.Windows.Forms.CheckBox
+    Friend WithEvents Label11 As System.Windows.Forms.Label
+    Friend WithEvents chkUnlimitedBuf As System.Windows.Forms.CheckBox
+    Friend WithEvents bufferSize As System.Windows.Forms.NumericUpDown
 End Class

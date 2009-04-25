@@ -29,6 +29,7 @@ Public Class Pref
 
     ' Options
     Public replaceTaskMgr As Boolean
+    Public histSize As Integer
     Public procInterval As Integer
     Public trayInterval As Integer
     Public systemInterval As Integer
@@ -110,6 +111,8 @@ Public Class Pref
                     systemInterval = CInt(noeudEnf.InnerText)
                 ElseIf noeudEnf.LocalName = "hideclose" Then
                     hideClose = CBool(noeudEnf.InnerText)
+                ElseIf noeudEnf.LocalName = "histsize" Then
+                    histSize = CInt(noeudEnf.InnerText)
                 End If
             Next
         Next
@@ -216,6 +219,10 @@ Public Class Pref
         elemHideClose = XmlDoc.CreateElement("hideclose")
         elemHideClose.InnerText = CStr(Me.hideClose)
         elemConfig.AppendChild(elemHideClose)
+        Dim elemHistSize As XmlElement
+        elemHistSize = XmlDoc.CreateElement("histsize")
+        elemHistSize.InnerText = CStr(Me.histSize)
+        elemConfig.AppendChild(elemHistSize)
 
         XmlDoc.DocumentElement.AppendChild(elemConfig)
         XmlDoc.Save(frmMain.PREF_PATH)
@@ -247,6 +254,7 @@ Public Class Pref
             .closeYAPMWithCloseButton = True
             .warnDangerous = True
             .hideMinimized = False
+            .histSize = 1024100
             MsgBox(MSGFIRSTTIME, MsgBoxStyle.Information, "Please read this")
             .Save()
             .Apply()
