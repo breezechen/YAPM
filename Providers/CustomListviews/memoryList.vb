@@ -148,7 +148,10 @@ Public Class memoryList
     ' ========================================
 
     ' Executed when enumeration is done
+    Private Shared sem As New System.Threading.Semaphore(1, 1)
     Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, memRegionInfos), ByVal errorMessage As String)
+
+        sem.WaitOne()
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
@@ -263,6 +266,9 @@ Public Class memoryList
         'Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh thread list.")
 
         MyBase.UpdateItems()
+
+        sem.Release()
+
     End Sub
 
 

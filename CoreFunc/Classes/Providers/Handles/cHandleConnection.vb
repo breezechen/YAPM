@@ -56,7 +56,7 @@ Public Class cHandleConnection
 #Region "Description of the type of connection"
 
     ' Connect
-    Protected Overrides Sub asyncConnect()
+    Protected Overrides Sub asyncConnect(ByVal useless As Object)
 
         ' Connect
         Select Case _conObj.ConnectionType
@@ -79,7 +79,7 @@ Public Class cHandleConnection
 
     End Sub
 
-    Protected Overrides Sub asyncDisconnect()
+    Protected Overrides Sub asyncDisconnect(ByVal useless As Object)
         Select Case _conObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 _connected = False

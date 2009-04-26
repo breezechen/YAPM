@@ -176,7 +176,10 @@ Public Class handleList
     ' ========================================
 
     ' Executed when enumeration is done
+    Private Shared sem As New System.Threading.Semaphore(1, 1)
     Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, handleInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+
+        sem.WaitOne()
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
@@ -292,6 +295,8 @@ Public Class handleList
         'Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh module list.")
 
         MyBase.UpdateItems()
+
+        sem.Release()
     End Sub
 
 

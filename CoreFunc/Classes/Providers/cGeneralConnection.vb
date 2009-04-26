@@ -75,24 +75,20 @@ Public MustInherit Class cGeneralConnection
 
     ' Connection
     Public Sub Connect()
-        Dim t As New Threading.Thread(AddressOf asyncConnect)
-        t.Priority = Threading.ThreadPriority.Highest
-        t.IsBackground = True
-        t.Name = "Connect"
-        t.Start()
+        Call Threading.ThreadPool.QueueUserWorkItem(New  _
+            System.Threading.WaitCallback(AddressOf _
+            asyncConnect), Nothing)
     End Sub
-    Protected MustOverride Sub asyncConnect()
+    Protected MustOverride Sub asyncConnect(ByVal useless As Object)
 
 
     ' Disconnect
     Public Sub Disconnect()
-        Dim t As New Threading.Thread(AddressOf asyncDisconnect)
-        t.Priority = Threading.ThreadPriority.Highest
-        t.Name = "Disconnect"
-        t.IsBackground = True
-        t.Start()
+        Call Threading.ThreadPool.QueueUserWorkItem(New  _
+            System.Threading.WaitCallback(AddressOf _
+            asyncDisconnect), Nothing)
     End Sub
-    Protected MustOverride Sub asyncDisconnect()
+    Protected MustOverride Sub asyncDisconnect(ByVal useless As Object)
 
 #End Region
 

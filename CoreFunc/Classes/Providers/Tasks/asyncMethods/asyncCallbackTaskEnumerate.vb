@@ -60,7 +60,10 @@ Public Class asyncCallbackTaskEnumerate
         End If
         ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
     End Sub
+    Private Shared sem As New System.Threading.Semaphore(1, 1)
     Public Sub Process(ByVal thePoolObj As Object)
+
+        sem.WaitOne()
 
         Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
         If con.ConnectionObj.IsConnected = False Then
@@ -108,6 +111,8 @@ Public Class asyncCallbackTaskEnumerate
                 ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
 
         End Select
+
+        sem.Release()
 
     End Sub
 

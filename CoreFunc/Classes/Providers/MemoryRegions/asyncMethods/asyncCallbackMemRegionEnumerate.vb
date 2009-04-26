@@ -57,7 +57,10 @@ Public Class asyncCallbackMemRegionEnumerate
         End If
         _poolObj.ctrl.Invoke(_poolObj.deg, True, dico, Nothing)
     End Sub
+    Private Shared sem As New System.Threading.Semaphore(1, 1)
     Public Shared Sub Process(ByVal thePoolObj As Object)
+
+        sem.WaitOne()
 
         Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
         If pObj.con.ConnectionObj.IsConnected = False Then
@@ -119,6 +122,8 @@ Public Class asyncCallbackMemRegionEnumerate
                 pObj.ctrl.Invoke(pObj.deg, True, _dico, API.GetError)
 
         End Select
+
+        sem.Release()
 
     End Sub
 

@@ -66,7 +66,7 @@ Public Class cServiceConnection
     End Property
 
     ' Connection
-    Protected Overrides Sub asyncConnect()
+    Protected Overrides Sub asyncConnect(ByVal useless As Object)
 
         ' Connect
         Select Case _conObj.ConnectionType
@@ -106,7 +106,7 @@ Public Class cServiceConnection
     End Sub
 
     ' Disconnect
-    Protected Overrides Sub asyncDisconnect()
+    Protected Overrides Sub asyncDisconnect(ByVal useless As Object)
         Select Case _conObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 _connected = False

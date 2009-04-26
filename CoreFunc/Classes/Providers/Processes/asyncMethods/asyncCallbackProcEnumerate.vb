@@ -98,7 +98,11 @@ Public Class asyncCallbackProcEnumerate
         ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
     End Sub
 
+    Private Shared sem As New System.Threading.Semaphore(1, 1)
     Public Sub Process(ByVal thePoolObj As Object)
+
+        sem.WaitOne()
+
         SyncLock dicoNewProcesses
 
             AvailableThreads.Clear()
@@ -228,11 +232,13 @@ Public Class asyncCallbackProcEnumerate
                         Case Else
                             _dico = getVisibleProcesses()
                     End Select
-                    
+
                     ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
             End Select
 
         End SyncLock
+
+        sem.Release()
 
     End Sub
 
