@@ -206,26 +206,39 @@ Public Class frmPreferences
         Me.bufferSize.Value = 100
     End Sub
 
-    Private Sub cmdCheckUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdCheckUpdate.Click
-        If Not (IsWindowsVista()) Then
-            MsgBox("YAPM will connect to Internet and will check if new updates are availables.", MsgBoxStyle.Information, "Check for an update")
+    Private Delegate Sub setUpdateText(ByVal s As String, ByVal b As Boolean, ByVal b2 As Boolean)
+    Private Structure degObj
+        Public deg As setUpdateText
+        Public ctrl As Control
+        Public Sub New(ByVal d As setUpdateText, ByVal ctr As Control)
+            deg = d
+            ctrl = ctr
+        End Sub
+    End Structure
+
+    Private Sub impSetUpdateText(ByVal s As String, ByVal b As Boolean, ByVal b2 As Boolean)
+        If b = False Then
+            Me.txtUpdate.Text &= vbNewLine & s & vbNewLine
         Else
-            ShowVistaMessage(Me.Handle, "Check for an update", "YAPM will connect to Internet and will check if new updates are availables.", , TaskDialogCommonButtons.Ok, TaskDialogIcon.ShieldOk)
-        End If
-        If checkUpdate() = False Then
-            If Not (IsWindowsVista()) Then
-                MsgBox("Cannot connect to Internet or cannot retrieve informations.", MsgBoxStyle.Exclamation, "Error")
-            Else
-                ShowVistaMessage(Me.Handle, "Error while checking update", "Cannot connect to Internet or cannot retrieve informations.", , TaskDialogCommonButtons.Ok, TaskDialogIcon.Error)
+            If b2 = False Then
+                If Not (IsWindowsVista()) Then
+                    MsgBox("Cannot connect to Internet or cannot retrieve informations.", MsgBoxStyle.Exclamation, "Error")
+                Else
+                    ShowVistaMessage(Me.Handle, "Error while checking update", "Cannot connect to Internet or cannot retrieve informations.", , TaskDialogCommonButtons.Ok, TaskDialogIcon.Error)
+                End If
             End If
         End If
     End Sub
 
-    Private Function checkUpdate() As Boolean
+    Private Function checkUpdate(ByVal useless As Object) As Boolean
         ' Check if new updates are availables
         ' 1) Download source code of download page on sourceforge.net
         ' 2) Parse code to retrieve last versiob
         ' 3) Display results
+
+        Dim r As Boolean = True
+        Dim dObj As degObj = DirectCast(useless, degObj)
+
         Try
             Dim cVersion As Integer = 0
             With My.Application.Info.Version
@@ -236,16 +249,15 @@ Public Class frmPreferences
 
             Dim s As String
             s = "Downloading informations on sourceforge.net webpage..."
-            Me.txtUpdate.Text = s
-            My.Application.DoEvents()
+            dObj.ctrl.Invoke(dObj.deg, s, False, False)
+            ' _inv.Invoke(s, False, False)
 
             'download code
             Dim source As String = mdlInternet.DownloadPage("https://sourceforge.net/project/platformdownload.php?group_id=244697")
             If source.Length = 0 Then Return False
 
             s = "Retrieve last version number from downloaded informations..."
-            Me.txtUpdate.Text = Me.txtUpdate.Text & vbNewLine & s
-            My.Application.DoEvents()
+            dObj.ctrl.Invoke(dObj.deg, s, False, False)
 
             ' parse code, retrive last update info and if necessary changelog
 
@@ -257,7 +269,6 @@ Public Class frmPreferences
             Dim sV As String() = Split(sVers, ".")
             lVersion = CInt(Val(sV(0)) * 10000 + Val(sV(1)) * 1000 + Val(sV(2)) * 1000 + Val(sV(3)) * 100 + Val(sV(4)))
 
-
             s = "Last version is : " & lVersion & vbNewLine
             s &= "Your version is : " & cVersion & vbNewLine
 
@@ -268,57 +279,110 @@ Public Class frmPreferences
                 s &= "Result : YOUR VERSION IS UP TO DATE"
             End If
 
-            Me.txtUpdate.Text = Me.txtUpdate.Text & vbNewLine & s
+            dObj.ctrl.Invoke(dObj.deg, s, False, False)
         Catch ex As Exception
-            Return False
+            r = False
         End Try
 
-        Return True
+        dObj.ctrl.Invoke(dObj.deg, Nothing, True, r)
+
     End Function
 
-    Private Sub cmdDownload_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdDownload.Click
+    Private Sub cmdCheckUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdCheckUpdate.Click
+        If Not (IsWindowsVista()) Then
+            MsgBox("YAPM will connect to Internet and will check if new updates are availables.", MsgBoxStyle.Information, "Check for an update")
+        Else
+            ShowVistaMessage(Me.Handle, "Check for an update", "YAPM will connect to Internet and will check if new updates are availables.", , TaskDialogCommonButtons.Ok, TaskDialogIcon.ShieldOk)
+        End If
+
+        Dim _inv As New setUpdateText(AddressOf impSetUpdateText)
+        Call Threading.ThreadPool.QueueUserWorkItem(New  _
+               System.Threading.WaitCallback(AddressOf checkUpdate), New degObj(_inv, Me))
+    End Sub
+
+
+    Private Delegate Sub downloadUpdate(ByVal tObj As Object)
+    Private Delegate Sub msgShowMessage()
+    Private Delegate Sub startDownload(ByVal surl As String, ByVal path As String)
+    Private Structure degObj2
+        Public deg As msgShowMessage
+        Public deg2 As startDownload
+        Public ctrl As Control
+        Public path As String
+        Public Sub New(ByVal d As msgShowMessage, ByVal d2 As startDownload, ByVal ctr As Control, ByVal s As String)
+            deg = d
+            deg2 = d2
+            ctrl = ctr
+            path = s
+        End Sub
+    End Structure
+
+    Private Sub impShowMessage()
+        MsgBox("Failed...", MsgBoxStyle.Critical, "Error")
+    End Sub
+
+    Private Sub impStartDownload(ByVal surl As String, ByVal path As String)
+        Dim down As New cDownload(surl, path)
+        Dim frm As New frmDownload
+        With frm
+            .DownloadObject = down
+            .StartDownload(path)
+            .TopMost = True
+            .Show()
+        End With
+    End Sub
+
+    Private Sub fctDownloadUpdate(ByVal tObj As Object)
+
+        Dim dObj As degObj2 = DirectCast(tObj, degObj2)
 
         ' Download webpage and extract URL
-        Dim tofind As String = "<LI><A href=" & Chr(34) & "http://downloads"
-        Dim source As String = mdlInternet.DownloadPage("http://yaprocmon.sourceforge.net/index.html")
-        If source.Length = 0 Then
-            MsgBox("Failed...", MsgBoxStyle.Critical, "Error")
-            Exit Sub
-        End If
-        Dim x As Integer = InStr(source, tofind, CompareMethod.Binary)
-        Dim x2 As Integer = InStr(x + 30, source, Chr(34), CompareMethod.Binary)
-        If x = 0 Or x2 = 0 Then
-            MsgBox("Failed...", MsgBoxStyle.Critical, "Error")
-            Exit Sub
-        End If
-
-        Dim sUrl As String = source.Substring(x + 12, x2 - x - 13)
         Try
-            If Len(sUrl) = 0 Then
-                MsgBox("Failed...", MsgBoxStyle.Critical, "Error")
+            Dim tofind As String = "<LI><A href=" & Chr(34) & "http://downloads"
+            Dim source As String = mdlInternet.DownloadPage("http://yaprocmon.sourceforge.net/index.html")
+            If source.Length = 0 Then
+                dObj.ctrl.Invoke(dObj.deg)
                 Exit Sub
             End If
+            Dim x As Integer = InStr(source, tofind, CompareMethod.Binary)
+            Dim x2 As Integer = InStr(x + 30, source, Chr(34), CompareMethod.Binary)
+            If x = 0 Or x2 = 0 Then
+                dObj.ctrl.Invoke(dObj.deg)
+                Exit Sub
+            End If
+
+            Dim sUrl As String = source.Substring(x + 12, x2 - x - 13)
+            Try
+                If Len(sUrl) = 0 Then
+                    dObj.ctrl.Invoke(dObj.deg)
+                    Exit Sub
+                End If
+            Catch ex As Exception
+                dObj.ctrl.Invoke(dObj.deg)
+                Exit Sub
+            End Try
+
+            dObj.ctrl.Invoke(dObj.deg2, sUrl, dObj.path)
         Catch ex As Exception
-            MsgBox("Failed...", MsgBoxStyle.Critical, "Error")
-            Exit Sub
+            dObj.ctrl.Invoke(dObj.deg)
         End Try
 
+    End Sub
+
+    Private Sub cmdDownload_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdDownload.Click
 
         frmMain.saveDial.Filter = "Zip file (*.zip)|*.zip"
         frmMain.saveDial.Title = "Save last update package"
         Dim r As DialogResult = frmMain.saveDial.ShowDialog()
         Dim s As String = frmMain.saveDial.FileName
-        If r = Windows.Forms.DialogResult.OK Then
 
-            Dim down As New cDownload(sUrl, frmMain.saveDial.FileName)
-            Dim frm As New frmDownload
-            With frm
-                .DownloadObject = down
-                .StartDownload(frmMain.saveDial.FileName)
-                .TopMost = True
-                .ShowDialog()
-            End With
+        If r = Windows.Forms.DialogResult.OK Then
+            Dim _inv As New msgShowMessage(AddressOf impShowMessage)
+            Dim _inv1 As New startDownload(AddressOf impStartDownload)
+            Call Threading.ThreadPool.QueueUserWorkItem(New  _
+                   System.Threading.WaitCallback(AddressOf fctDownloadUpdate), New degObj2(_inv, _inv1, Me, s))
         End If
+
     End Sub
 
     Private Sub chkReplaceTaskmgr_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkReplaceTaskmgr.Click

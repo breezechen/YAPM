@@ -293,9 +293,10 @@ Public Class asyncCallbackProcEnumerate
                 Dim user As New API.TOKEN_USER
                 user = CType(Marshal.PtrToStructure(data, GetType(API.TOKEN_USER)), API.TOKEN_USER)
 
+                _UserName = GetAccountName(user.User.Sid, True)
+
                 Marshal.FreeHGlobal(data)
 
-                _UserName = GetAccountName(user.User.Sid, True)
                 If _UserName = vbNullString Then
                     _UserName = NO_INFO_RETRIEVED
                 End If

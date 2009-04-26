@@ -46,6 +46,9 @@ Partial Class frmPreferences
         Me.chkCloseButton = New System.Windows.Forms.CheckBox
         Me.chkTrayIcon = New System.Windows.Forms.CheckBox
         Me.TabPage4 = New System.Windows.Forms.TabPage
+        Me.chkUnlimitedBuf = New System.Windows.Forms.CheckBox
+        Me.bufferSize = New System.Windows.Forms.NumericUpDown
+        Me.Label11 = New System.Windows.Forms.Label
         Me.cbPriority = New System.Windows.Forms.ComboBox
         Me.Label5 = New System.Windows.Forms.Label
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
@@ -70,9 +73,6 @@ Partial Class frmPreferences
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
         Me.colDial = New System.Windows.Forms.ColorDialog
-        Me.Label11 = New System.Windows.Forms.Label
-        Me.bufferSize = New System.Windows.Forms.NumericUpDown
-        Me.chkUnlimitedBuf = New System.Windows.Forms.CheckBox
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -81,9 +81,9 @@ Partial Class frmPreferences
         CType(Me.pctDeletedItems, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pctNewitems, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage4.SuspendLayout()
+        CType(Me.bufferSize, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
         Me.TabPage2.SuspendLayout()
-        CType(Me.bufferSize, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TabControl
@@ -204,7 +204,7 @@ Partial Class frmPreferences
         Me.TabPage3.ImageKey = "display16.gif"
         Me.TabPage3.Location = New System.Drawing.Point(4, 23)
         Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.Size = New System.Drawing.Size(328, 226)
+        Me.TabPage3.Size = New System.Drawing.Size(328, 279)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Display"
         Me.TabPage3.UseVisualStyleBackColor = True
@@ -321,6 +321,32 @@ Partial Class frmPreferences
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "Performances"
         Me.TabPage4.UseVisualStyleBackColor = True
+        '
+        'chkUnlimitedBuf
+        '
+        Me.chkUnlimitedBuf.AutoSize = True
+        Me.chkUnlimitedBuf.Location = New System.Drawing.Point(201, 226)
+        Me.chkUnlimitedBuf.Name = "chkUnlimitedBuf"
+        Me.chkUnlimitedBuf.Size = New System.Drawing.Size(76, 17)
+        Me.chkUnlimitedBuf.TabIndex = 9
+        Me.chkUnlimitedBuf.Text = "Unlimited"
+        Me.chkUnlimitedBuf.UseVisualStyleBackColor = True
+        '
+        'bufferSize
+        '
+        Me.bufferSize.Location = New System.Drawing.Point(120, 224)
+        Me.bufferSize.Name = "bufferSize"
+        Me.bufferSize.Size = New System.Drawing.Size(75, 22)
+        Me.bufferSize.TabIndex = 8
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Location = New System.Drawing.Point(14, 226)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(100, 13)
+        Me.Label11.TabIndex = 7
+        Me.Label11.Text = "History buffer (KB)"
         '
         'cbPriority
         '
@@ -498,6 +524,7 @@ Partial Class frmPreferences
         Me.txtUpdate.Multiline = True
         Me.txtUpdate.Name = "txtUpdate"
         Me.txtUpdate.ReadOnly = True
+        Me.txtUpdate.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.txtUpdate.Size = New System.Drawing.Size(316, 236)
         Me.txtUpdate.TabIndex = 10
         '
@@ -543,32 +570,6 @@ Partial Class frmPreferences
         Me.colDial.AnyColor = True
         Me.colDial.FullOpen = True
         '
-        'Label11
-        '
-        Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(14, 226)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(100, 13)
-        Me.Label11.TabIndex = 7
-        Me.Label11.Text = "History buffer (KB)"
-        '
-        'bufferSize
-        '
-        Me.bufferSize.Location = New System.Drawing.Point(120, 224)
-        Me.bufferSize.Name = "bufferSize"
-        Me.bufferSize.Size = New System.Drawing.Size(75, 22)
-        Me.bufferSize.TabIndex = 8
-        '
-        'chkUnlimitedBuf
-        '
-        Me.chkUnlimitedBuf.AutoSize = True
-        Me.chkUnlimitedBuf.Location = New System.Drawing.Point(201, 226)
-        Me.chkUnlimitedBuf.Name = "chkUnlimitedBuf"
-        Me.chkUnlimitedBuf.Size = New System.Drawing.Size(76, 17)
-        Me.chkUnlimitedBuf.TabIndex = 9
-        Me.chkUnlimitedBuf.Text = "Unlimited"
-        Me.chkUnlimitedBuf.UseVisualStyleBackColor = True
-        '
         'frmPreferences
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -602,11 +603,11 @@ Partial Class frmPreferences
         CType(Me.pctNewitems, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage4.ResumeLayout(False)
         Me.TabPage4.PerformLayout()
+        CType(Me.bufferSize, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
-        CType(Me.bufferSize, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
