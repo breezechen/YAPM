@@ -40,40 +40,6 @@ Public Class frmMain
     '    Public _connOptRemoteWMI As cProcessConnection.WMIConnectionParameters
     '    Public _connOptRemoteSocket As cProcessConnection.SocketConnectionParameters
 
-    <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
-    Private Shared Function SendMessage(ByVal hWnd As IntPtr, ByVal Msg As Integer, ByVal wParam As Integer, ByVal lParam As Integer) As IntPtr
-    End Function
-
-    Private Enum LVM
-        LVM_FIRST = &H1000
-        LVM_SETEXTENDEDLISTVIEWSTYLE = (LVM_FIRST + 54)
-        LVM_GETEXTENDEDLISTVIEWSTYLE = (LVM_FIRST + 55)
-    End Enum
-
-    Private Enum LVS_EX
-        LVS_EX_GRIDLINES = &H1
-        LVS_EX_SUBITEMIMAGES = &H2
-        LVS_EX_CHECKBOXES = &H4
-        LVS_EX_TRACKSELECT = &H8
-        LVS_EX_HEADERDRAGDROP = &H10
-        LVS_EX_FULLROWSELECT = &H20
-        LVS_EX_ONECLICKACTIVATE = &H40
-        LVS_EX_TWOCLICKACTIVATE = &H80
-        LVS_EX_FLATSB = &H100
-        LVS_EX_REGIONAL = &H200
-        LVS_EX_INFOTIP = &H400
-        LVS_EX_UNDERLINEHOT = &H800
-        LVS_EX_UNDERLINECOLD = &H1000
-        LVS_EX_MULTIWORKAREAS = &H2000
-        LVS_EX_LABELTIP = &H4000
-        LVS_EX_BORDERSELECT = &H8000
-        LVS_EX_DOUBLEBUFFER = &H10000
-        LVS_EX_HIDELABELS = &H20000
-        LVS_EX_SINGLEROW = &H40000
-        LVS_EX_SNAPTOGRID = &H80000
-        LVS_EX_SIMPLESELECT = &H100000
-    End Enum
-
     ' ========================================
     ' Private attributes
     ' ========================================
@@ -138,9 +104,9 @@ Public Class frmMain
 
     ' Set double buffer property to a listview
     Public Sub DoubleBufferListView(ByRef lv As ListView)
-        Dim styles As Integer = CInt(SendMessage(lv.Handle, LVM.LVM_GETEXTENDEDLISTVIEWSTYLE, 0, 0))
-        styles += LVS_EX.LVS_EX_DOUBLEBUFFER Or LVS_EX.LVS_EX_BORDERSELECT
-        SendMessage(lv.Handle, LVM.LVM_SETEXTENDEDLISTVIEWSTYLE, 0, styles)
+        Dim styles As Integer = CInt(API.SendMessage(lv.Handle, API.LVM.LVM_GETEXTENDEDLISTVIEWSTYLE, 0, 0))
+        styles += API.LVS_EX.LVS_EX_DOUBLEBUFFER Or API.LVS_EX.LVS_EX_BORDERSELECT
+        API.SendMessage(lv.Handle, API.LVM.LVM_SETEXTENDEDLISTVIEWSTYLE, 0, styles)
     End Sub
 
     ' Refresh File informations

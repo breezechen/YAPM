@@ -25,10 +25,6 @@ Imports System.Runtime.InteropServices
 
 Public Class frmAddProcessMonitor
 
-    <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
-    Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
-    End Function
-
     ' Process to select by default
     Public _selProcess As Integer
 
@@ -50,10 +46,10 @@ Public Class frmAddProcessMonitor
             .SetToolTip(Me.lstCategory, "Available categories.")
         End With
 
-        SetWindowTheme(Me.lstToAdd.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lstInstance.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lstCounterType.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lstCategory.Handle, "explorer", Nothing)
+        API.SetWindowTheme(Me.lstToAdd.Handle, "explorer", Nothing)
+        API.SetWindowTheme(Me.lstInstance.Handle, "explorer", Nothing)
+        API.SetWindowTheme(Me.lstCounterType.Handle, "explorer", Nothing)
+        API.SetWindowTheme(Me.lstCategory.Handle, "explorer", Nothing)
 
         'Call Me.cmdRefresh_Click(Nothing, Nothing)
 

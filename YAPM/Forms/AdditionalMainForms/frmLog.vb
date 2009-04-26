@@ -25,10 +25,6 @@ Imports System.Runtime.InteropServices
 
 Public Class frmLog
 
-    <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
-    Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
-    End Function
-
     Private lCount As Integer = 0
 
     'Private Sub timerRefresh_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerRefresh.Tick
@@ -71,6 +67,6 @@ Public Class frmLog
     End Sub
 
     Private Sub frmLog_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        Call SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
+        Call API.SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
     End Sub
 End Class

@@ -25,12 +25,8 @@ Imports System.Runtime.InteropServices
 
 Public Class frmSearchMonitor
 
-    <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
-    Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
-    End Function
-
     Private Sub frmSearchMonitor_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        SetWindowTheme(Me.LV.Handle, "explorer", Nothing)
+        API.SetWindowTheme(Me.LV.Handle, "explorer", Nothing)
     End Sub
 
     ' Launch search

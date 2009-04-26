@@ -1068,6 +1068,8 @@ Public Class API
 
 #Region "Declarations used for windows (not Windows :-p)"
 
+    Public Const NULL_BRUSH As Integer = 5 ' Stock Object
+
     Public Const GWL_HWNDPARENT As Integer = -8
     Public Const GW_CHILD As Integer = 5
     Public Const GW_HWNDNEXT As Integer = 2
@@ -1098,6 +1100,48 @@ Public Class API
     Public Const LWA_COLORKEY As Integer = &H1
     Public Const LWA_ALPHA As Integer = &H2
 
+    Public Enum LVS_EX
+        LVS_EX_GRIDLINES = &H1
+        LVS_EX_SUBITEMIMAGES = &H2
+        LVS_EX_CHECKBOXES = &H4
+        LVS_EX_TRACKSELECT = &H8
+        LVS_EX_HEADERDRAGDROP = &H10
+        LVS_EX_FULLROWSELECT = &H20
+        LVS_EX_ONECLICKACTIVATE = &H40
+        LVS_EX_TWOCLICKACTIVATE = &H80
+        LVS_EX_FLATSB = &H100
+        LVS_EX_REGIONAL = &H200
+        LVS_EX_INFOTIP = &H400
+        LVS_EX_UNDERLINEHOT = &H800
+        LVS_EX_UNDERLINECOLD = &H1000
+        LVS_EX_MULTIWORKAREAS = &H2000
+        LVS_EX_LABELTIP = &H4000
+        LVS_EX_BORDERSELECT = &H8000
+        LVS_EX_DOUBLEBUFFER = &H10000
+        LVS_EX_HIDELABELS = &H20000
+        LVS_EX_SINGLEROW = &H40000
+        LVS_EX_SNAPTOGRID = &H80000
+        LVS_EX_SIMPLESELECT = &H100000
+    End Enum
+
+    Public Declare Function GetWindowThreadProcessId Lib "user32" (ByVal hwnd As Integer, ByRef lpdwProcessId As Integer) As Integer
+    Public Declare Function GetCursorPos Lib "user32" (ByRef lpPoint As POINTAPI) As Integer ' Get the cursor position
+    Public Declare Function WindowFromPoint Lib "user32" (ByVal xPoint As Integer, ByVal yPoint As Integer) As Integer ' Get the handle of the window that is foremost on a particular X, Y position. Used here To get the window under the cursor
+    Public Declare Function GetWindowRect Lib "user32" (ByVal hwnd As Integer, ByRef lpRect As RECT) As Integer ' Get the window co-ordinates in a RECT structure
+    Public Declare Function GetWindowDC Lib "user32" (ByVal hwnd As Integer) As Integer ' Retrieve a handle For the hDC of a window
+    Public Declare Function ReleaseDC Lib "user32" (ByVal hwnd As Integer, ByVal hdc As Integer) As Integer ' Release the memory occupied by an hDC
+    Public Declare Function CreatePen Lib "gdi32" (ByVal nPenStyle As Integer, ByVal nWidth As Integer, ByVal crColor As Integer) As Integer ' Create a GDI graphics pen object
+    Public Declare Function SelectObject Lib "gdi32" (ByVal hdc As Integer, ByVal hObject As Integer) As Integer ' Used to select brushes, pens, and clipping regions
+    Public Declare Function GetStockObject Lib "gdi32" (ByVal nIndex As Integer) As Integer ' Get hold of a "stock" object. I use it to get a Null Brush
+    Public Declare Function SetROP2 Lib "gdi32" (ByVal hdc As Integer, ByVal nDrawMode As Integer) As Integer ' Used To set the Raster OPeration of a window
+    Public Declare Function DeleteObject Lib "gdi32" (ByVal hObject As Integer) As Integer ' Delete a GDI Object
+    Public Declare Function Rectangle Lib "gdi32" (ByVal hdc As Integer, ByVal X1 As Integer, ByVal Y1 As Integer, ByVal X2 As Integer, ByVal Y2 As Integer) As Integer ' GDI Graphics- draw a rectangle using current pen, brush, etc.
+    Public Declare Function SetCapture Lib "user32" (ByVal hwnd As Integer) As Integer ' Set mouse events only For one window
+    Public Declare Function ReleaseCapture Lib "user32" () As Integer ' Release the mouse capture
+    Public Declare Function CreateRectRgn Lib "gdi32" (ByVal X1 As Integer, ByVal Y1 As Integer, ByVal X2 As Integer, ByVal Y2 As Integer) As Integer ' Create a rectangular region
+    Public Declare Function SelectClipRgn Lib "gdi32" (ByVal hdc As Integer, ByVal hRgn As Integer) As Integer ' Select the clipping region of an hDC
+    Public Declare Function GetClipRgn Lib "gdi32" (ByVal hdc As Integer, ByVal hRgn As Integer) As Integer ' Get the Clipping region of an hDC
+
     Public Declare Function GetForegroundWindow Lib "user32" () As IntPtr
     Public Declare Function GetLayeredWindowAttributes Lib "User32.Dll" (ByVal hwnd As IntPtr, ByRef pcrKey As Integer, ByRef pbAlpha As Byte, ByRef pdwFlags As Integer) As Boolean
     Public Declare Auto Function SetLayeredWindowAttributes Lib "User32.Dll" (ByVal hWnd As IntPtr, ByVal crKey As Integer, ByVal Alpha As Byte, ByVal dwFlags As Integer) As Boolean
@@ -1109,6 +1153,11 @@ Public Class API
     Public Declare Function GetWindowThreadProcessId Lib "user32" (ByVal hWnd As IntPtr, ByRef lpdwProcessId As Integer) As Integer
     Public Declare Function GetWindowAPI Lib "user32" Alias "GetWindow" (ByVal hWnd As IntPtr, ByVal wCmd As Integer) As IntPtr
     Public Declare Auto Function GetDesktopWindow Lib "user32.dll" () As IntPtr
+
+    Public Structure POINTAPI
+        Dim X As Integer
+        Dim Y As Integer
+    End Structure
 
     <StructLayout(LayoutKind.Sequential)> _
     Public Structure WindowPlacement
@@ -1732,6 +1781,13 @@ Public Class API
         Public _Object As Integer
         Public GrantedAccess As STANDARD_RIGHTS
     End Structure
+
+#End Region
+
+#Region "Declarations used for internet download"
+
+    'Public Declare Function URLDownloadToFile Lib "urlmon" Alias "URLDownloadToFileA" (ByVal pCaller As Integer, ByVal szURL As String, ByVal szFileName As String, ByVal dwReserved As Integer, ByVal lpfnCB As Integer) As Integer
+    'Public Declare Function DoFileDownload Lib "shdocvw" (ByVal lpszFile As String) As Integer
 
 #End Region
 

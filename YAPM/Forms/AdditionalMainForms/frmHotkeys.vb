@@ -28,17 +28,13 @@ Public Class frmHotkeys
     Public Const HOTKEYS_SAVE_FILE As String = "hotkeys.xml"
     Private atxtKey As Integer = -1
 
-    <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
-    Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
-    End Function
-
     Private Sub frmHotkeys_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Mybase.FormClosing
         ' Save to XML
         writeXML()
     End Sub
 
     Private Sub frmWindowsList_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        SetWindowTheme(lv.Handle, "explorer", Nothing)
+        API.SetWindowTheme(lv.Handle, "explorer", Nothing)
 
         Me.cbAction.Items.Clear()
         For Each i As String In frmMain.emHotkeys.ActionsAvailable

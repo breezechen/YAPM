@@ -37,9 +37,6 @@ Public Class frmPreferences
     '	</config>
     '</yapm>
 
-    Private Declare Function URLDownloadToFile Lib "urlmon" Alias "URLDownloadToFileA" (ByVal pCaller As Integer, ByVal szURL As String, ByVal szFileName As String, ByVal dwReserved As Integer, ByVal lpfnCB As Integer) As Integer
-    Private Declare Function DoFileDownload Lib "shdocvw" (ByVal lpszFile As String) As Integer
-
     Private _newcolor As Integer
     Private _deletedcolor As Integer
 

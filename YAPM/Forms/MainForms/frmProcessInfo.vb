@@ -25,11 +25,6 @@ Imports System.Runtime.InteropServices
 
 Public Class frmProcessInfo
 
-    <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
-    Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
-    End Function
-    Private Declare Function GetTickCount Lib "kernel32" () As Integer
-
     Private WithEvents asyncAllNonFixedInfos As asyncCallbackProcGetAllNonFixedInfos
 
     Private WithEvents curProc As cProcess
@@ -323,17 +318,17 @@ Public Class frmProcessInfo
     Private Sub frmProcessInfo_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         ' Cool theme
-        SetWindowTheme(Me.lvProcString.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lvProcEnv.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lvProcNetwork.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lvProcMem.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lvProcServices.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lvPrivileges.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lvModules.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lvHandles.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lvThreads.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lvWindows.Handle, "explorer", Nothing)
-        SetWindowTheme(Me.lvLog.Handle, "explorer", Nothing)
+        API.SetWindowTheme(Me.lvProcString.Handle, "explorer", Nothing)
+        API.SetWindowTheme(Me.lvProcEnv.Handle, "explorer", Nothing)
+        API.SetWindowTheme(Me.lvProcNetwork.Handle, "explorer", Nothing)
+        API.SetWindowTheme(Me.lvProcMem.Handle, "explorer", Nothing)
+        API.SetWindowTheme(Me.lvProcServices.Handle, "explorer", Nothing)
+        API.SetWindowTheme(Me.lvPrivileges.Handle, "explorer", Nothing)
+        API.SetWindowTheme(Me.lvModules.Handle, "explorer", Nothing)
+        API.SetWindowTheme(Me.lvHandles.Handle, "explorer", Nothing)
+        API.SetWindowTheme(Me.lvThreads.Handle, "explorer", Nothing)
+        API.SetWindowTheme(Me.lvWindows.Handle, "explorer", Nothing)
+        API.SetWindowTheme(Me.lvLog.Handle, "explorer", Nothing)
 
         ' Some tooltips
         frmMain.SetToolTip(Me.chkModules, "Check if you want to retrieve modules and threads infos when you click on listview.")
@@ -1273,7 +1268,7 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub timerLog_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerLog.Tick
-        Dim _i As Integer = GetTickCount
+        Dim _i As Integer = API.GetTickCount
 
         Me.lvLog.BeginUpdate()
 
@@ -1292,7 +1287,7 @@ Public Class frmProcessInfo
         End If
 
         Call ChangeCaption()
-        Trace.WriteLine("Log updated in " & (GetTickCount - _i).ToString & " ms")
+        Trace.WriteLine("Log updated in " & (API.GetTickCount - _i).ToString & " ms")
     End Sub
 
     ' Check if there are changes about network

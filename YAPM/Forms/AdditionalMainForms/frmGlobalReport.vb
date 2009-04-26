@@ -23,8 +23,6 @@ Option Strict On
 
 Public Class frmGlobalReport
 
-    Private Declare Function GetTickCount Lib "kernel32" () As Integer
-
     Private Sub UpdateProgress(ByVal x As Integer)
         Me.pgb.Value = x
     End Sub
@@ -62,7 +60,7 @@ Public Class frmGlobalReport
         ' Memory regions
 
         Dim stream As New System.IO.StreamWriter(_fileToSave, False)
-        Dim _test As Integer = GetTickCount
+        Dim _test As Integer = API.GetTickCount
 
         ' The goal is to retrieve all informations before saving it
         Dim _dicoServices As New Dictionary(Of String, cService)
@@ -354,7 +352,7 @@ Public Class frmGlobalReport
 
 
         stream.Close()
-        _test = GetTickCount - _test
+        _test = API.GetTickCount - _test
         setCaption("Done in " & _test.ToString & " ms")
 
         MsgBox("Report saved !", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "General report")

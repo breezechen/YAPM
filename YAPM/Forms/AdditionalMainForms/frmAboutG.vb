@@ -25,10 +25,6 @@ Imports System.Runtime.InteropServices
 
 Public Class frmAboutG
 
-    <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
-    Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
-    End Function
-
     Private Sub btnOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOK.Click
         Me.Close()
     End Sub
@@ -39,7 +35,7 @@ Public Class frmAboutG
 
     Private Sub frmAboutG_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
+        API.SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
 
         Try
             Me.lblVersion.Text = My.Application.Info.Version.ToString

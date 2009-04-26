@@ -25,10 +25,6 @@ Imports System.Runtime.InteropServices
 
 Public Class frmChooseProcess
 
-    <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
-    Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
-    End Function
-
     Private _cproc As cProcess
 
     Public ReadOnly Property SelectedProcess() As cProcess
@@ -53,7 +49,7 @@ Public Class frmChooseProcess
     End Sub
 
     Private Sub frmChooseProcess_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        SetWindowTheme(lvProcess.Handle, "explorer", Nothing)
+        API.SetWindowTheme(lvProcess.Handle, "explorer", Nothing)
         lvProcess.UpdateTheItems()
     End Sub
 End Class
