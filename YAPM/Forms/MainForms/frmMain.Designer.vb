@@ -24,33 +24,33 @@ Partial Class frmMain
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
-        Dim CConnection1 As CoreFunc.cConnection = New CoreFunc.cConnection
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Tasks", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim CConnection7 As CoreFunc.cConnection = New CoreFunc.cConnection
+        Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Tasks", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("System")
-        Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("[System process]", New System.Windows.Forms.TreeNode() {TreeNode1})
+        Dim TreeNode5 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("[System process]", New System.Windows.Forms.TreeNode() {TreeNode1})
+        Dim CConnection8 As CoreFunc.cConnection = New CoreFunc.cConnection
+        Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup16 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim CConnection9 As CoreFunc.cConnection = New CoreFunc.cConnection
+        Dim ListViewGroup17 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup18 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim CConnection1 As CoreFunc.cConnection = New CoreFunc.cConnection
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Threads", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
         Dim CConnection2 As CoreFunc.cConnection = New CoreFunc.cConnection
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Handles", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim CConnection3 As CoreFunc.cConnection = New CoreFunc.cConnection
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Windows", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Processes", 1, 1)
         Dim CConnection4 As CoreFunc.cConnection = New CoreFunc.cConnection
-        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Threads", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim CConnection5 As CoreFunc.cConnection = New CoreFunc.cConnection
-        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Handles", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim CConnection6 As CoreFunc.cConnection = New CoreFunc.cConnection
-        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Windows", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Processes", 1, 1)
-        Dim CConnection7 As CoreFunc.cConnection = New CoreFunc.cConnection
-        Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim CConnection8 As CoreFunc.cConnection = New CoreFunc.cConnection
-        Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Results", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup16 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Results", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.imgProcess = New System.Windows.Forms.ImageList(Me.components)
         Me.menuProc = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -603,7 +603,13 @@ Partial Class frmMain
         Me.ColumnHeader69 = New System.Windows.Forms.ColumnHeader
         Me.pageFile = New System.Windows.Forms.TabPage
         Me.panelMain5 = New System.Windows.Forms.Panel
-        Me.fileSplitContainer = New System.Windows.Forms.SplitContainer
+        Me.SplitContainerFilexx = New System.Windows.Forms.SplitContainer
+        Me.txtFile = New System.Windows.Forms.TextBox
+        Me.cmdFileClipboard = New System.Windows.Forms.Button
+        Me.pctFileSmall = New System.Windows.Forms.PictureBox
+        Me.pctFileBig = New System.Windows.Forms.PictureBox
+        Me.SplitContainerFile = New System.Windows.Forms.SplitContainer
+        Me.SplitContainerFile2 = New System.Windows.Forms.SplitContainer
         Me.rtb3 = New System.Windows.Forms.RichTextBox
         Me.gpFileAttributes = New System.Windows.Forms.GroupBox
         Me.chkFileEncrypted = New System.Windows.Forms.CheckBox
@@ -623,10 +629,6 @@ Partial Class frmMain
         Me.Label5 = New System.Windows.Forms.Label
         Me.Label4 = New System.Windows.Forms.Label
         Me.lstFileString = New System.Windows.Forms.ListBox
-        Me.txtFile = New System.Windows.Forms.TextBox
-        Me.cmdFileClipboard = New System.Windows.Forms.Button
-        Me.pctFileSmall = New System.Windows.Forms.PictureBox
-        Me.pctFileBig = New System.Windows.Forms.PictureBox
         Me.pageSearch = New System.Windows.Forms.TabPage
         Me.panelMain6 = New System.Windows.Forms.Panel
         Me.SplitContainerSearch = New System.Windows.Forms.SplitContainer
@@ -753,13 +755,19 @@ Partial Class frmMain
         Me.panelMain14.SuspendLayout()
         Me.pageFile.SuspendLayout()
         Me.panelMain5.SuspendLayout()
-        Me.fileSplitContainer.Panel1.SuspendLayout()
-        Me.fileSplitContainer.Panel2.SuspendLayout()
-        Me.fileSplitContainer.SuspendLayout()
-        Me.gpFileAttributes.SuspendLayout()
-        Me.gpFileDates.SuspendLayout()
+        Me.SplitContainerFilexx.Panel1.SuspendLayout()
+        Me.SplitContainerFilexx.Panel2.SuspendLayout()
+        Me.SplitContainerFilexx.SuspendLayout()
         CType(Me.pctFileSmall, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pctFileBig, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainerFile.Panel1.SuspendLayout()
+        Me.SplitContainerFile.Panel2.SuspendLayout()
+        Me.SplitContainerFile.SuspendLayout()
+        Me.SplitContainerFile2.Panel1.SuspendLayout()
+        Me.SplitContainerFile2.Panel2.SuspendLayout()
+        Me.SplitContainerFile2.SuspendLayout()
+        Me.gpFileAttributes.SuspendLayout()
+        Me.gpFileDates.SuspendLayout()
         Me.pageSearch.SuspendLayout()
         Me.panelMain6.SuspendLayout()
         Me.SplitContainerSearch.Panel1.SuspendLayout()
@@ -4680,17 +4688,17 @@ Partial Class frmMain
         Me.lvTask.AllowColumnReorder = True
         Me.lvTask.CatchErrors = False
         Me.lvTask.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader62, Me.ColumnHeader63, Me.ColumnHeader64})
-        CConnection1.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
-        Me.lvTask.ConnectionObj = CConnection1
+        CConnection7.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.lvTask.ConnectionObj = CConnection7
         Me.lvTask.ContextMenuStrip = Me.menuTasks
         Me.lvTask.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvTask.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvTask.FullRowSelect = True
-        ListViewGroup1.Header = "Tasks"
-        ListViewGroup1.Name = "gpOther"
-        ListViewGroup2.Header = "Search result"
-        ListViewGroup2.Name = "gpSearch"
-        Me.lvTask.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup13.Header = "Tasks"
+        ListViewGroup13.Name = "gpOther"
+        ListViewGroup14.Header = "Search result"
+        ListViewGroup14.Name = "gpSearch"
+        Me.lvTask.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup13, ListViewGroup14})
         Me.lvTask.HideSelection = False
         Me.lvTask.Location = New System.Drawing.Point(0, 0)
         Me.lvTask.Name = "lvTask"
@@ -4840,10 +4848,10 @@ Partial Class frmMain
         TreeNode1.Name = "4"
         TreeNode1.Tag = "4"
         TreeNode1.Text = "System"
-        TreeNode2.Name = "0"
-        TreeNode2.Tag = "0"
-        TreeNode2.Text = "[System process]"
-        Me.tvProc.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode2})
+        TreeNode5.Name = "0"
+        TreeNode5.Tag = "0"
+        TreeNode5.Text = "[System process]"
+        Me.tvProc.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode5})
         Me.tvProc.SelectedImageIndex = 0
         Me.tvProc.Size = New System.Drawing.Size(149, 100)
         Me.tvProc.TabIndex = 4
@@ -4853,18 +4861,18 @@ Partial Class frmMain
         Me.lvProcess.AllowColumnReorder = True
         Me.lvProcess.CatchErrors = False
         Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c7, Me.c8, Me.c9, Me.c10, Me.ColumnHeader20})
-        CConnection2.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
-        Me.lvProcess.ConnectionObj = CConnection2
+        CConnection8.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.lvProcess.ConnectionObj = CConnection8
         Me.lvProcess.ContextMenuStrip = Me.menuProc
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.EnumMethod = CoreFunc.asyncCallbackProcEnumerate.ProcessEnumMethode.VisibleProcesses
         Me.lvProcess.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcess.FullRowSelect = True
-        ListViewGroup3.Header = "Processes"
-        ListViewGroup3.Name = "gpOther"
-        ListViewGroup4.Header = "Search result"
-        ListViewGroup4.Name = "gpSearch"
-        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup15.Header = "Processes"
+        ListViewGroup15.Name = "gpOther"
+        ListViewGroup16.Header = "Search result"
+        ListViewGroup16.Name = "gpSearch"
+        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup15, ListViewGroup16})
         Me.lvProcess.HideSelection = False
         Me.lvProcess.Location = New System.Drawing.Point(0, 0)
         Me.lvProcess.Name = "lvProcess"
@@ -5021,17 +5029,17 @@ Partial Class frmMain
         Me.lvModules.AllowColumnReorder = True
         Me.lvModules.CatchErrors = False
         Me.lvModules.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader29, Me.ColumnHeader43, Me.ColumnHeader44, Me.ColumnHeader45, Me.ColumnHeader46, Me.ColumnHeader18})
-        CConnection3.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
-        Me.lvModules.ConnectionObj = CConnection3
+        CConnection9.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.lvModules.ConnectionObj = CConnection9
         Me.lvModules.ContextMenuStrip = Me.menuModule
         Me.lvModules.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvModules.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvModules.FullRowSelect = True
-        ListViewGroup5.Header = "Modules"
-        ListViewGroup5.Name = "gpOther"
-        ListViewGroup6.Header = "Search result"
-        ListViewGroup6.Name = "gpSearchResults"
-        Me.lvModules.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
+        ListViewGroup17.Header = "Modules"
+        ListViewGroup17.Name = "gpOther"
+        ListViewGroup18.Header = "Search result"
+        ListViewGroup18.Name = "gpSearchResults"
+        Me.lvModules.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup17, ListViewGroup18})
         Me.lvModules.HideSelection = False
         Me.lvModules.Location = New System.Drawing.Point(0, 0)
         Me.lvModules.Name = "lvModules"
@@ -5178,17 +5186,17 @@ Partial Class frmMain
         Me.lvThreads.AllowColumnReorder = True
         Me.lvThreads.CatchErrors = False
         Me.lvThreads.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader33, Me.ColumnHeader34, Me.ColumnHeader35, Me.ColumnHeader36, Me.ColumnHeader37, Me.ColumnHeader38, Me.ColumnHeader6, Me.ColumnHeader1})
-        CConnection4.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
-        Me.lvThreads.ConnectionObj = CConnection4
+        CConnection1.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.lvThreads.ConnectionObj = CConnection1
         Me.lvThreads.ContextMenuStrip = Me.menuThread
         Me.lvThreads.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvThreads.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvThreads.FullRowSelect = True
-        ListViewGroup7.Header = "Threads"
-        ListViewGroup7.Name = "gpOther"
-        ListViewGroup8.Header = "Search results"
-        ListViewGroup8.Name = "gpSearchResults"
-        Me.lvThreads.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
+        ListViewGroup1.Header = "Threads"
+        ListViewGroup1.Name = "gpOther"
+        ListViewGroup2.Header = "Search results"
+        ListViewGroup2.Name = "gpSearchResults"
+        Me.lvThreads.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvThreads.HideSelection = False
         Me.lvThreads.Location = New System.Drawing.Point(0, 0)
         Me.lvThreads.Name = "lvThreads"
@@ -5331,17 +5339,17 @@ Partial Class frmMain
         Me.lvHandles.AllowColumnReorder = True
         Me.lvHandles.CatchErrors = False
         Me.lvHandles.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader24, Me.ColumnHeader25, Me.ColumnHeader26, Me.ColumnHeader27, Me.ColumnHeader28, Me.ColumnHeader15, Me.ColumnHeader16})
-        CConnection5.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
-        Me.lvHandles.ConnectionObj = CConnection5
+        CConnection2.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.lvHandles.ConnectionObj = CConnection2
         Me.lvHandles.ContextMenuStrip = Me.menuHandles
         Me.lvHandles.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvHandles.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvHandles.FullRowSelect = True
-        ListViewGroup9.Header = "Handles"
-        ListViewGroup9.Name = "gpOther"
-        ListViewGroup10.Header = "Search result"
-        ListViewGroup10.Name = "gpSearch"
-        Me.lvHandles.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup9, ListViewGroup10})
+        ListViewGroup3.Header = "Handles"
+        ListViewGroup3.Name = "gpOther"
+        ListViewGroup4.Header = "Search result"
+        ListViewGroup4.Name = "gpSearch"
+        Me.lvHandles.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvHandles.HideSelection = False
         Me.lvHandles.Location = New System.Drawing.Point(0, 0)
         Me.lvHandles.Name = "lvHandles"
@@ -5493,17 +5501,17 @@ Partial Class frmMain
         Me.lvWindows.AllowColumnReorder = True
         Me.lvWindows.CatchErrors = False
         Me.lvWindows.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader30, Me.ColumnHeader31, Me.ColumnHeader39, Me.ColumnHeader40, Me.ColumnHeader41, Me.ColumnHeader42})
-        CConnection6.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
-        Me.lvWindows.ConnectionObj = CConnection6
+        CConnection3.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.lvWindows.ConnectionObj = CConnection3
         Me.lvWindows.ContextMenuStrip = Me.menuWindow
         Me.lvWindows.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvWindows.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvWindows.FullRowSelect = True
-        ListViewGroup11.Header = "Windows"
-        ListViewGroup11.Name = "gpOther"
-        ListViewGroup12.Header = "Search results"
-        ListViewGroup12.Name = "gpSearchResults"
-        Me.lvWindows.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup11, ListViewGroup12})
+        ListViewGroup5.Header = "Windows"
+        ListViewGroup5.Name = "gpOther"
+        ListViewGroup6.Header = "Search results"
+        ListViewGroup6.Name = "gpSearchResults"
+        Me.lvWindows.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvWindows.HideSelection = False
         Me.lvWindows.Location = New System.Drawing.Point(0, 0)
         Me.lvWindows.Name = "lvWindows"
@@ -5605,11 +5613,11 @@ Partial Class frmMain
         Me.tvMonitor.ImageList = Me.imgMonitor
         Me.tvMonitor.Location = New System.Drawing.Point(0, 0)
         Me.tvMonitor.Name = "tvMonitor"
-        TreeNode3.ImageIndex = 1
-        TreeNode3.Name = "processes"
-        TreeNode3.SelectedImageIndex = 1
-        TreeNode3.Text = "Processes"
-        Me.tvMonitor.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode3})
+        TreeNode2.ImageIndex = 1
+        TreeNode2.Name = "processes"
+        TreeNode2.SelectedImageIndex = 1
+        TreeNode2.Text = "Processes"
+        Me.tvMonitor.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode2})
         Me.tvMonitor.SelectedImageIndex = 0
         Me.tvMonitor.Size = New System.Drawing.Size(281, 390)
         Me.tvMonitor.TabIndex = 0
@@ -5947,17 +5955,17 @@ Partial Class frmMain
         Me.lvServices.AllowColumnReorder = True
         Me.lvServices.CatchErrors = False
         Me.lvServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader11, Me.ColumnHeader19})
-        CConnection7.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
-        Me.lvServices.ConnectionObj = CConnection7
+        CConnection4.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.lvServices.ConnectionObj = CConnection4
         Me.lvServices.ContextMenuStrip = Me.menuService
         Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvServices.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvServices.FullRowSelect = True
-        ListViewGroup13.Header = "Services"
-        ListViewGroup13.Name = "gpOther"
-        ListViewGroup14.Header = "Search result"
-        ListViewGroup14.Name = "gpSearch"
-        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup13, ListViewGroup14})
+        ListViewGroup7.Header = "Services"
+        ListViewGroup7.Name = "gpOther"
+        ListViewGroup8.Header = "Search result"
+        ListViewGroup8.Name = "gpSearch"
+        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
         Me.lvServices.HideSelection = False
         Me.lvServices.Location = New System.Drawing.Point(0, 0)
         Me.lvServices.Name = "lvServices"
@@ -6160,8 +6168,8 @@ Partial Class frmMain
         Me.lvNetwork.AllowColumnReorder = True
         Me.lvNetwork.CatchErrors = False
         Me.lvNetwork.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader66, Me.ColumnHeader67, Me.ColumnHeader68, Me.ColumnHeader69})
-        CConnection8.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
-        Me.lvNetwork.ConnectionObj = CConnection8
+        CConnection5.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.lvNetwork.ConnectionObj = CConnection5
         Me.lvNetwork.ContextMenuStrip = Me.menuNetwork
         Me.lvNetwork.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvNetwork.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -6212,38 +6220,120 @@ Partial Class frmMain
         '
         'panelMain5
         '
-        Me.panelMain5.Controls.Add(Me.fileSplitContainer)
-        Me.panelMain5.Controls.Add(Me.txtFile)
-        Me.panelMain5.Controls.Add(Me.cmdFileClipboard)
-        Me.panelMain5.Controls.Add(Me.pctFileSmall)
-        Me.panelMain5.Controls.Add(Me.pctFileBig)
+        Me.panelMain5.Controls.Add(Me.SplitContainerFilexx)
         Me.panelMain5.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelMain5.Location = New System.Drawing.Point(3, 3)
         Me.panelMain5.Name = "panelMain5"
         Me.panelMain5.Size = New System.Drawing.Size(852, 390)
         Me.panelMain5.TabIndex = 48
         '
-        'fileSplitContainer
+        'SplitContainerFilexx
         '
-        Me.fileSplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
-        Me.fileSplitContainer.IsSplitterFixed = True
-        Me.fileSplitContainer.Location = New System.Drawing.Point(3, 43)
-        Me.fileSplitContainer.Name = "fileSplitContainer"
-        Me.fileSplitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal
+        Me.SplitContainerFilexx.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainerFilexx.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainerFilexx.IsSplitterFixed = True
+        Me.SplitContainerFilexx.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainerFilexx.Name = "SplitContainerFilexx"
+        Me.SplitContainerFilexx.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
-        'fileSplitContainer.Panel1
+        'SplitContainerFilexx.Panel1
         '
-        Me.fileSplitContainer.Panel1.Controls.Add(Me.rtb3)
+        Me.SplitContainerFilexx.Panel1.Controls.Add(Me.txtFile)
+        Me.SplitContainerFilexx.Panel1.Controls.Add(Me.cmdFileClipboard)
+        Me.SplitContainerFilexx.Panel1.Controls.Add(Me.pctFileSmall)
+        Me.SplitContainerFilexx.Panel1.Controls.Add(Me.pctFileBig)
         '
-        'fileSplitContainer.Panel2
+        'SplitContainerFilexx.Panel2
         '
-        Me.fileSplitContainer.Panel2.Controls.Add(Me.gpFileAttributes)
-        Me.fileSplitContainer.Panel2.Controls.Add(Me.gpFileDates)
-        Me.fileSplitContainer.Panel2.Controls.Add(Me.lstFileString)
-        Me.fileSplitContainer.Panel2MinSize = 109
-        Me.fileSplitContainer.Size = New System.Drawing.Size(634, 271)
-        Me.fileSplitContainer.SplitterDistance = 158
-        Me.fileSplitContainer.TabIndex = 0
+        Me.SplitContainerFilexx.Panel2.Controls.Add(Me.SplitContainerFile)
+        Me.SplitContainerFilexx.Size = New System.Drawing.Size(852, 390)
+        Me.SplitContainerFilexx.SplitterDistance = 35
+        Me.SplitContainerFilexx.TabIndex = 0
+        '
+        'txtFile
+        '
+        Me.txtFile.BackColor = System.Drawing.SystemColors.ButtonFace
+        Me.txtFile.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtFile.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtFile.ForeColor = System.Drawing.SystemColors.WindowFrame
+        Me.txtFile.Location = New System.Drawing.Point(5, 9)
+        Me.txtFile.Name = "txtFile"
+        Me.txtFile.ReadOnly = True
+        Me.txtFile.Size = New System.Drawing.Size(240, 16)
+        Me.txtFile.TabIndex = 22
+        Me.txtFile.Text = "No selected file"
+        '
+        'cmdFileClipboard
+        '
+        Me.cmdFileClipboard.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdFileClipboard.Enabled = False
+        Me.cmdFileClipboard.Image = Global.YAPM.My.Resources.Resources.copy16
+        Me.cmdFileClipboard.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.cmdFileClipboard.Location = New System.Drawing.Point(651, 7)
+        Me.cmdFileClipboard.Name = "cmdFileClipboard"
+        Me.cmdFileClipboard.Size = New System.Drawing.Size(130, 24)
+        Me.cmdFileClipboard.TabIndex = 21
+        Me.cmdFileClipboard.Text = "Copy to clipboard"
+        Me.cmdFileClipboard.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.cmdFileClipboard.UseVisualStyleBackColor = True
+        '
+        'pctFileSmall
+        '
+        Me.pctFileSmall.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.pctFileSmall.ContextMenuStrip = Me.mnuFileCopyPctSmall
+        Me.pctFileSmall.Location = New System.Drawing.Point(794, 16)
+        Me.pctFileSmall.Name = "pctFileSmall"
+        Me.pctFileSmall.Size = New System.Drawing.Size(16, 16)
+        Me.pctFileSmall.TabIndex = 20
+        Me.pctFileSmall.TabStop = False
+        '
+        'pctFileBig
+        '
+        Me.pctFileBig.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.pctFileBig.ContextMenuStrip = Me.mnuFileCopyPctBig
+        Me.pctFileBig.Location = New System.Drawing.Point(816, 0)
+        Me.pctFileBig.Name = "pctFileBig"
+        Me.pctFileBig.Size = New System.Drawing.Size(32, 32)
+        Me.pctFileBig.TabIndex = 19
+        Me.pctFileBig.TabStop = False
+        '
+        'SplitContainerFile
+        '
+        Me.SplitContainerFile.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainerFile.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainerFile.Name = "SplitContainerFile"
+        '
+        'SplitContainerFile.Panel1
+        '
+        Me.SplitContainerFile.Panel1.Controls.Add(Me.SplitContainerFile2)
+        '
+        'SplitContainerFile.Panel2
+        '
+        Me.SplitContainerFile.Panel2.Controls.Add(Me.lstFileString)
+        Me.SplitContainerFile.Size = New System.Drawing.Size(852, 351)
+        Me.SplitContainerFile.SplitterDistance = 581
+        Me.SplitContainerFile.TabIndex = 15
+        '
+        'SplitContainerFile2
+        '
+        Me.SplitContainerFile2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainerFile2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
+        Me.SplitContainerFile2.IsSplitterFixed = True
+        Me.SplitContainerFile2.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainerFile2.Name = "SplitContainerFile2"
+        Me.SplitContainerFile2.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainerFile2.Panel1
+        '
+        Me.SplitContainerFile2.Panel1.Controls.Add(Me.rtb3)
+        '
+        'SplitContainerFile2.Panel2
+        '
+        Me.SplitContainerFile2.Panel2.Controls.Add(Me.gpFileAttributes)
+        Me.SplitContainerFile2.Panel2.Controls.Add(Me.gpFileDates)
+        Me.SplitContainerFile2.Size = New System.Drawing.Size(581, 351)
+        Me.SplitContainerFile2.SplitterDistance = 235
+        Me.SplitContainerFile2.TabIndex = 3
         '
         'rtb3
         '
@@ -6255,8 +6345,8 @@ Partial Class frmMain
         Me.rtb3.Location = New System.Drawing.Point(0, 0)
         Me.rtb3.Name = "rtb3"
         Me.rtb3.ReadOnly = True
-        Me.rtb3.Size = New System.Drawing.Size(634, 158)
-        Me.rtb3.TabIndex = 12
+        Me.rtb3.Size = New System.Drawing.Size(581, 235)
+        Me.rtb3.TabIndex = 21
         Me.rtb3.Text = ""
         '
         'gpFileAttributes
@@ -6272,8 +6362,8 @@ Partial Class frmMain
         Me.gpFileAttributes.Dock = System.Windows.Forms.DockStyle.Left
         Me.gpFileAttributes.Location = New System.Drawing.Point(203, 0)
         Me.gpFileAttributes.Name = "gpFileAttributes"
-        Me.gpFileAttributes.Size = New System.Drawing.Size(173, 109)
-        Me.gpFileAttributes.TabIndex = 2
+        Me.gpFileAttributes.Size = New System.Drawing.Size(173, 112)
+        Me.gpFileAttributes.TabIndex = 19
         Me.gpFileAttributes.TabStop = False
         Me.gpFileAttributes.Text = "File attributes"
         '
@@ -6372,15 +6462,15 @@ Partial Class frmMain
         Me.gpFileDates.Dock = System.Windows.Forms.DockStyle.Left
         Me.gpFileDates.Location = New System.Drawing.Point(0, 0)
         Me.gpFileDates.Name = "gpFileDates"
-        Me.gpFileDates.Size = New System.Drawing.Size(203, 109)
-        Me.gpFileDates.TabIndex = 1
+        Me.gpFileDates.Size = New System.Drawing.Size(203, 112)
+        Me.gpFileDates.TabIndex = 18
         Me.gpFileDates.TabStop = False
         Me.gpFileDates.Text = "File dates"
         '
         'cmdSetFileDates
         '
         Me.cmdSetFileDates.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.cmdSetFileDates.Location = New System.Drawing.Point(3, 84)
+        Me.cmdSetFileDates.Location = New System.Drawing.Point(3, 87)
         Me.cmdSetFileDates.Name = "cmdSetFileDates"
         Me.cmdSetFileDates.Size = New System.Drawing.Size(197, 22)
         Me.cmdSetFileDates.TabIndex = 6
@@ -6441,57 +6531,13 @@ Partial Class frmMain
         '
         'lstFileString
         '
-        Me.lstFileString.Dock = System.Windows.Forms.DockStyle.Right
+        Me.lstFileString.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lstFileString.FormattingEnabled = True
-        Me.lstFileString.Location = New System.Drawing.Point(406, 0)
+        Me.lstFileString.Location = New System.Drawing.Point(0, 0)
         Me.lstFileString.Name = "lstFileString"
         Me.lstFileString.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
-        Me.lstFileString.Size = New System.Drawing.Size(228, 108)
-        Me.lstFileString.TabIndex = 0
-        '
-        'txtFile
-        '
-        Me.txtFile.BackColor = System.Drawing.SystemColors.ButtonFace
-        Me.txtFile.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtFile.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtFile.ForeColor = System.Drawing.SystemColors.WindowFrame
-        Me.txtFile.Location = New System.Drawing.Point(8, 12)
-        Me.txtFile.Name = "txtFile"
-        Me.txtFile.ReadOnly = True
-        Me.txtFile.Size = New System.Drawing.Size(240, 16)
-        Me.txtFile.TabIndex = 13
-        Me.txtFile.Text = "No selected file"
-        '
-        'cmdFileClipboard
-        '
-        Me.cmdFileClipboard.Enabled = False
-        Me.cmdFileClipboard.Image = Global.YAPM.My.Resources.Resources.copy16
-        Me.cmdFileClipboard.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.cmdFileClipboard.Location = New System.Drawing.Point(360, 10)
-        Me.cmdFileClipboard.Name = "cmdFileClipboard"
-        Me.cmdFileClipboard.Size = New System.Drawing.Size(130, 24)
-        Me.cmdFileClipboard.TabIndex = 12
-        Me.cmdFileClipboard.Text = "Copy to clipboard"
-        Me.cmdFileClipboard.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.cmdFileClipboard.UseVisualStyleBackColor = True
-        '
-        'pctFileSmall
-        '
-        Me.pctFileSmall.ContextMenuStrip = Me.mnuFileCopyPctSmall
-        Me.pctFileSmall.Location = New System.Drawing.Point(503, 19)
-        Me.pctFileSmall.Name = "pctFileSmall"
-        Me.pctFileSmall.Size = New System.Drawing.Size(16, 16)
-        Me.pctFileSmall.TabIndex = 9
-        Me.pctFileSmall.TabStop = False
-        '
-        'pctFileBig
-        '
-        Me.pctFileBig.ContextMenuStrip = Me.mnuFileCopyPctBig
-        Me.pctFileBig.Location = New System.Drawing.Point(525, 3)
-        Me.pctFileBig.Name = "pctFileBig"
-        Me.pctFileBig.Size = New System.Drawing.Size(32, 32)
-        Me.pctFileBig.TabIndex = 8
-        Me.pctFileBig.TabStop = False
+        Me.lstFileString.Size = New System.Drawing.Size(267, 342)
+        Me.lstFileString.TabIndex = 22
         '
         'pageSearch
         '
@@ -6655,11 +6701,11 @@ Partial Class frmMain
         Me.lvSearchResults.ContextMenuStrip = Me.menuSearch
         Me.lvSearchResults.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvSearchResults.FullRowSelect = True
-        ListViewGroup15.Header = "Results"
-        ListViewGroup15.Name = "gpResults"
-        ListViewGroup16.Header = "Search results"
-        ListViewGroup16.Name = "gpSearchResults"
-        Me.lvSearchResults.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup15, ListViewGroup16})
+        ListViewGroup9.Header = "Results"
+        ListViewGroup9.Name = "gpResults"
+        ListViewGroup10.Header = "Search results"
+        ListViewGroup10.Name = "gpSearchResults"
+        Me.lvSearchResults.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup9, ListViewGroup10})
         Me.lvSearchResults.HideSelection = False
         Me.lvSearchResults.Location = New System.Drawing.Point(0, 0)
         Me.lvSearchResults.Name = "lvSearchResults"
@@ -6886,16 +6932,22 @@ Partial Class frmMain
         Me.panelMain14.ResumeLayout(False)
         Me.pageFile.ResumeLayout(False)
         Me.panelMain5.ResumeLayout(False)
-        Me.panelMain5.PerformLayout()
-        Me.fileSplitContainer.Panel1.ResumeLayout(False)
-        Me.fileSplitContainer.Panel2.ResumeLayout(False)
-        Me.fileSplitContainer.ResumeLayout(False)
+        Me.SplitContainerFilexx.Panel1.ResumeLayout(False)
+        Me.SplitContainerFilexx.Panel1.PerformLayout()
+        Me.SplitContainerFilexx.Panel2.ResumeLayout(False)
+        Me.SplitContainerFilexx.ResumeLayout(False)
+        CType(Me.pctFileSmall, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pctFileBig, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainerFile.Panel1.ResumeLayout(False)
+        Me.SplitContainerFile.Panel2.ResumeLayout(False)
+        Me.SplitContainerFile.ResumeLayout(False)
+        Me.SplitContainerFile2.Panel1.ResumeLayout(False)
+        Me.SplitContainerFile2.Panel2.ResumeLayout(False)
+        Me.SplitContainerFile2.ResumeLayout(False)
         Me.gpFileAttributes.ResumeLayout(False)
         Me.gpFileAttributes.PerformLayout()
         Me.gpFileDates.ResumeLayout(False)
         Me.gpFileDates.PerformLayout()
-        CType(Me.pctFileSmall, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pctFileBig, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pageSearch.ResumeLayout(False)
         Me.panelMain6.ResumeLayout(False)
         Me.SplitContainerSearch.Panel1.ResumeLayout(False)
@@ -7415,30 +7467,6 @@ Partial Class frmMain
     Friend WithEvents ColumnHeader69 As System.Windows.Forms.ColumnHeader
     Friend WithEvents pageFile As System.Windows.Forms.TabPage
     Friend WithEvents panelMain5 As System.Windows.Forms.Panel
-    Friend WithEvents fileSplitContainer As System.Windows.Forms.SplitContainer
-    Friend WithEvents rtb3 As System.Windows.Forms.RichTextBox
-    Friend WithEvents gpFileAttributes As System.Windows.Forms.GroupBox
-    Friend WithEvents chkFileEncrypted As System.Windows.Forms.CheckBox
-    Friend WithEvents chkFileContentNotIndexed As System.Windows.Forms.CheckBox
-    Friend WithEvents chkFileNormal As System.Windows.Forms.CheckBox
-    Friend WithEvents chkFileSystem As System.Windows.Forms.CheckBox
-    Friend WithEvents chkFileReadOnly As System.Windows.Forms.CheckBox
-    Friend WithEvents chkFileHidden As System.Windows.Forms.CheckBox
-    Friend WithEvents chkFileCompressed As System.Windows.Forms.CheckBox
-    Friend WithEvents chkFileArchive As System.Windows.Forms.CheckBox
-    Friend WithEvents gpFileDates As System.Windows.Forms.GroupBox
-    Friend WithEvents cmdSetFileDates As System.Windows.Forms.Button
-    Friend WithEvents DTlastModification As System.Windows.Forms.DateTimePicker
-    Friend WithEvents DTlastAccess As System.Windows.Forms.DateTimePicker
-    Friend WithEvents DTcreation As System.Windows.Forms.DateTimePicker
-    Friend WithEvents Label6 As System.Windows.Forms.Label
-    Friend WithEvents Label5 As System.Windows.Forms.Label
-    Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents lstFileString As System.Windows.Forms.ListBox
-    Friend WithEvents txtFile As System.Windows.Forms.TextBox
-    Friend WithEvents cmdFileClipboard As System.Windows.Forms.Button
-    Friend WithEvents pctFileSmall As System.Windows.Forms.PictureBox
-    Friend WithEvents pctFileBig As System.Windows.Forms.PictureBox
     Friend WithEvents pageSearch As System.Windows.Forms.TabPage
     Friend WithEvents panelMain6 As System.Windows.Forms.Panel
     Friend WithEvents SplitContainerSearch As System.Windows.Forms.SplitContainer
@@ -7508,5 +7536,31 @@ Partial Class frmMain
     Friend WithEvents butHiddenProcesses As System.Windows.Forms.RibbonButton
     Friend WithEvents ToolsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ShowHiddenProcessesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SplitContainerFilexx As System.Windows.Forms.SplitContainer
+    Friend WithEvents txtFile As System.Windows.Forms.TextBox
+    Friend WithEvents cmdFileClipboard As System.Windows.Forms.Button
+    Friend WithEvents pctFileSmall As System.Windows.Forms.PictureBox
+    Friend WithEvents pctFileBig As System.Windows.Forms.PictureBox
+    Friend WithEvents SplitContainerFile2 As System.Windows.Forms.SplitContainer
+    Friend WithEvents rtb3 As System.Windows.Forms.RichTextBox
+    Friend WithEvents gpFileAttributes As System.Windows.Forms.GroupBox
+    Friend WithEvents chkFileEncrypted As System.Windows.Forms.CheckBox
+    Friend WithEvents chkFileContentNotIndexed As System.Windows.Forms.CheckBox
+    Friend WithEvents chkFileNormal As System.Windows.Forms.CheckBox
+    Friend WithEvents chkFileSystem As System.Windows.Forms.CheckBox
+    Friend WithEvents chkFileReadOnly As System.Windows.Forms.CheckBox
+    Friend WithEvents chkFileHidden As System.Windows.Forms.CheckBox
+    Friend WithEvents chkFileCompressed As System.Windows.Forms.CheckBox
+    Friend WithEvents chkFileArchive As System.Windows.Forms.CheckBox
+    Friend WithEvents gpFileDates As System.Windows.Forms.GroupBox
+    Friend WithEvents cmdSetFileDates As System.Windows.Forms.Button
+    Friend WithEvents DTlastModification As System.Windows.Forms.DateTimePicker
+    Friend WithEvents DTlastAccess As System.Windows.Forms.DateTimePicker
+    Friend WithEvents DTcreation As System.Windows.Forms.DateTimePicker
+    Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents Label5 As System.Windows.Forms.Label
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents SplitContainerFile As System.Windows.Forms.SplitContainer
+    Friend WithEvents lstFileString As System.Windows.Forms.ListBox
 
 End Class

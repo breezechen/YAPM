@@ -462,15 +462,7 @@ Public Class frmMain
         Dim MepanelInfonWidth As Integer = Me.panelMain.Width
 
         ' File resizement
-        Me.panelMain5.Height = Me.panelMain4.Height
-        Me.panelMain5.Width = Me.panelMain4.Width - 2
-        Me.pctFileBig.Left = MepanelInfonWidth - 35
-        Me.pctFileSmall.Left = MepanelInfonWidth - 57
-        Me.cmdFileClipboard.Left = MepanelInfonWidth - 195
-        Me.txtFile.Width = MepanelInfonWidth - 205
-        Me.fileSplitContainer.Width = MepanelInfonWidth - 3
-        Me.fileSplitContainer.Height = Me.panelMain5.Height - 42
-        Me.lstFileString.Width = Me.fileSplitContainer.Width - Me.gpFileAttributes.Width - Me.gpFileDates.Width - 10
+        Me.txtFile.Width = Me.Width - 260
 
 
         Static _oldStyle As Boolean = _ribbonStyle
@@ -2971,7 +2963,7 @@ Public Class frmMain
         Me.lvProcess.Items(0).Group = Me.lvProcess.Groups(1)
     End Sub
 
-    Private Sub rtb3_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles rtb3.TextChanged
+    Private Sub rtb3_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs)
         Me.cmdFileClipboard.Enabled = (rtb3.Rtf.Length > 0)
     End Sub
 
