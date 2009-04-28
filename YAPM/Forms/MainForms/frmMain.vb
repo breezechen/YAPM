@@ -4430,6 +4430,7 @@ Public Class frmMain
             '
         End Try
         Pref.hideClose = False
+        Me.Close()
         Application.Exit()
     End Sub
 
