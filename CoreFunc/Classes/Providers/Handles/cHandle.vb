@@ -71,7 +71,7 @@ Public Class cHandle
 
     ' Unload handle
     Private _closeH As asyncCallbackHandleUnload
-    Public Function UnloadHandle() As Integer
+    Public Function CloseHandle() As Integer
 
         If _closeH Is Nothing Then
             _closeH = New asyncCallbackHandleUnload(New asyncCallbackHandleUnload.HasUnloadedHandle(AddressOf unloadHandleDone), _connection)

@@ -82,9 +82,9 @@ Public Class frmFileRelease
         '    End Try
         'Next
 
-        frmMain.handles_Renamed.Refresh()
-        For i = 0 To frmMain.handles_Renamed.Count - 1
-            With frmMain.handles_Renamed
+        cHandle.GetOpenedHandlesClass.Refresh()
+        For i = 0 To cHandle.GetOpenedHandlesClass.Count - 1
+            With cHandle.GetOpenedHandlesClass
                 If (Len(.GetObjectName(i)) > 0) Then
                     sComp = .GetObjectName(i).ToLower
                     If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
@@ -128,7 +128,8 @@ Public Class frmFileRelease
                             Case Else
                                 ' Handle
                                 Dim Handle As Integer = CInt(Val(it.Tag))
-                                Call frmMain.handles_Renamed.CloseProcessLocalHandle(pid, Handle)
+                                'TOCHANGE
+                                Call cHandle.GetOpenedHandlesClass.CloseProcessLocalHandle(pid, Handle)
                         End Select
                     End If
                 End If

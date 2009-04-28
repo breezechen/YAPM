@@ -281,9 +281,9 @@ Public Class frmProcessInfo
             '    s = s & "\par"
             '    s = s & "  \b Loaded handles\b0\par"
             '    Dim i As Integer
-            '    frmMain.handles_Renamed.Refresh()
-            '    For i = 0 To frmMain.handles_Renamed.Count - 1
-            '        With frmMain.handles_Renamed
+            '    cHandle.GetOpenedHandlesClass.Refresh()
+            '    For i = 0 To cHandle.GetOpenedHandlesClass.Count - 1
+            '        With cHandle.GetOpenedHandlesClass
             '            If (.GetProcessID(i) = pid) And (Len(.GetObjectName(i)) > 0) Then
             '                s = s & "\tab " & .GetNameInformation(i) & " : " & Replace(.GetObjectName(i), "\", "\\") & "\par"
             '            End If
@@ -1221,7 +1221,7 @@ Public Class frmProcessInfo
             End If
         End If
         For Each ch As cHandle In Me.lvHandles.GetSelectedItems
-            Call frmMain.handles_Renamed.CloseProcessLocalHandle(ch.Infos.ProcessID, ch.Infos.Handle)
+            ch.CloseHandle()
         Next
     End Sub
 

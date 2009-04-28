@@ -37,8 +37,6 @@ Public Class frmMain
     Public theConnection As New cConnection
     Private _connType As New cConnection.TypeOfConnection
     Public _connectionForm As New frmConnection(theConnection)
-    '    Public _connOptRemoteWMI As cProcessConnection.WMIConnectionParameters
-    '    Public _connOptRemoteSocket As cProcessConnection.SocketConnectionParameters
 
     ' ========================================
     ' Private attributes
@@ -59,9 +57,9 @@ Public Class frmMain
     ' ========================================
     ' Public attributes
     ' ========================================
-    Public handles_Renamed As clsOpenedHandles = cHandle.GetOpenedHandlesClass
-    Public emHotkeys As New cHotkeys
     '    Public WithEvents emStateBasedActions As New cStateBasedActions
+    'Public cHandle.GetOpenedHandlesClass As clsOpenedHandles = cHandle.GetOpenedHandlesClass
+    Public emHotkeys As New cHotkeys
     Public Pref As New Pref
 
 
@@ -70,11 +68,6 @@ Public Class frmMain
     ' ========================================
     Private Declare Function InvalidateRect Lib "user32" (ByVal hWnd As Integer, ByVal t As Integer, ByVal bErase As Integer) As Boolean
     Private Declare Function ValidateRect Lib "user32" (ByVal hWnd As Integer, ByVal t As Integer) As Boolean
-    Private Declare Function GetTickCount Lib "kernel32" () As Integer
-    'Private Declare Unicode Function SetWindowTheme Lib "uxtheme.dll" (ByVal hWnd As IntPtr, ByVal pszSubAppName As String, ByVal pszSubIdList As String) As Integer
-    <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
-    Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
-    End Function
 
 
     ' ========================================
@@ -291,19 +284,19 @@ Public Class frmMain
         Static bFirst As Boolean = True
         If bFirst Then
             bFirst = False
-            SetWindowTheme(Me.lvProcess.Handle, "explorer", Nothing)
-            SetWindowTheme(Me.lvMonitorReport.Handle, "explorer", Nothing)
-            SetWindowTheme(Me.lvNetwork.Handle, "explorer", Nothing)
-            SetWindowTheme(Me.lvTask.Handle, "explorer", Nothing)
-            SetWindowTheme(Me.lvHandles.Handle, "explorer", Nothing)
-            SetWindowTheme(Me.lvWindows.Handle, "explorer", Nothing)
-            SetWindowTheme(Me.lvSearchResults.Handle, "explorer", Nothing)
-            SetWindowTheme(Me.lvModules.Handle, "explorer", Nothing)
-            SetWindowTheme(Me.lvThreads.Handle, "explorer", Nothing)
-            SetWindowTheme(Me.lvServices.Handle, "explorer", Nothing)
-            SetWindowTheme(Me.tv.Handle, "explorer", Nothing)
-            SetWindowTheme(Me.tv2.Handle, "explorer", Nothing)
-            SetWindowTheme(Me.tvMonitor.Handle, "explorer", Nothing)
+            API.SetWindowTheme(Me.lvProcess.Handle, "explorer", Nothing)
+            API.SetWindowTheme(Me.lvMonitorReport.Handle, "explorer", Nothing)
+            API.SetWindowTheme(Me.lvNetwork.Handle, "explorer", Nothing)
+            API.SetWindowTheme(Me.lvTask.Handle, "explorer", Nothing)
+            API.SetWindowTheme(Me.lvHandles.Handle, "explorer", Nothing)
+            API.SetWindowTheme(Me.lvWindows.Handle, "explorer", Nothing)
+            API.SetWindowTheme(Me.lvSearchResults.Handle, "explorer", Nothing)
+            API.SetWindowTheme(Me.lvModules.Handle, "explorer", Nothing)
+            API.SetWindowTheme(Me.lvThreads.Handle, "explorer", Nothing)
+            API.SetWindowTheme(Me.lvServices.Handle, "explorer", Nothing)
+            API.SetWindowTheme(Me.tv.Handle, "explorer", Nothing)
+            API.SetWindowTheme(Me.tv2.Handle, "explorer", Nothing)
+            API.SetWindowTheme(Me.tvMonitor.Handle, "explorer", Nothing)
         End If
 
     End Sub
@@ -318,7 +311,7 @@ Public Class frmMain
 
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Me.timerProcess.Enabled = False
-        Dim t As Integer = GetTickCount
+        Dim t As Integer = API.GetTickCount
 
         Dim _col As Color = Color.FromArgb(240, 240, 240)
         For Each _it As TabPage In _tab.TabPages
@@ -406,7 +399,7 @@ Public Class frmMain
             Me.lvProcess.Items(Me.lvProcess.Items.Count - 1).EnsureVisible()
         End If
 
-        t = GetTickCount - t
+        t = API.GetTickCount - t
 
         Trace.WriteLine("Loaded in " & CStr(t) & " ms.")
         frmServeur.Show()
@@ -1092,8 +1085,7 @@ Public Class frmMain
             End If
         End If
         For Each ch As cHandle In Me.lvHandles.GetSelectedItems
-            ' Call handles_Renamed.CloseProcessLocalHandle(ch.Infos.ProcessID, ch.Infos.Handle)
-            ch.UnloadHandle()
+            ch.CloseHandle()
         Next
     End Sub
 
@@ -1214,7 +1206,7 @@ Public Class frmMain
                     '    Dim handle As Integer = CInt(it.Tag)
                     '    If i > 0 Then
                     '        Dim pid As Integer = CInt(Val(sp.Substring(0, i - 1)))
-                    '        Call handles_Renamed.CloseProcessLocalHandle(pid, handle)
+                    '        Call cHandle.GetOpenedHandlesClass.CloseProcessLocalHandle(pid, handle)
                     '    End If
                     'End If
             End Select
@@ -3903,9 +3895,9 @@ Public Class frmMain
         End If
 
         If Me.chkSearchHandles.Checked Then
-            handles_Renamed.Refresh()
-            For i = 0 To handles_Renamed.Count - 1
-                With handles_Renamed
+            cHandle.GetOpenedHandlesClass.Refresh()
+            For i = 0 To cHandle.GetOpenedHandlesClass.Count - 1
+                With cHandle.GetOpenedHandlesClass
                     If (Len(.GetObjectName(i)) > 0) Then
                         If Me.chkSearchCase.Checked = False Then
                             sComp = .GetObjectName(i).ToLower
@@ -4432,7 +4424,7 @@ Public Class frmMain
 
     Public Sub exitYAPM()
         Try
-            handles_Renamed.Close()
+            cHandle.GetOpenedHandlesClass.Close()
             ' Application.Exit()
         Catch ex As Exception
             '
