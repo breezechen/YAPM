@@ -34,7 +34,7 @@ Public Class cProcess
             time = aTime
             kernel = aKernel
             user = aUser
-            total = time + kernel
+            total = user + kernel
         End Sub
     End Structure
 

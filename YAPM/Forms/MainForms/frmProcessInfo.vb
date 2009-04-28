@@ -1807,7 +1807,7 @@ Public Class frmProcessInfo
             _p.Name = "_" & lstHistoryCat.Items.Item(e.Index).ToString
 
             ' Now we add all available values to the graph
-            For Each _val As Long In curProc.GetHistory(_g.Name)
+            For Each _val As Double In curProc.GetHistory(_g.Name)
                 _g.AddValue(_val)
             Next
             _g.Refresh()
