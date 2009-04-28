@@ -28,11 +28,18 @@ Public Class frmAddProcessMonitor
     ' Process to select by default
     Public _selProcess As Integer
 
+    Private _con As cConnection
+
     Private Structure monCounter
         Dim instanceName As String
         Dim counterTypeName As String
         Dim categoryName As String
     End Structure
+
+    Public Sub New(ByRef connection As cConnection)
+        InitializeComponent()
+        _con = connection
+    End Sub
 
     Private Sub frmAddProcessMonitor_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         With frmMain
@@ -68,7 +75,11 @@ Public Class frmAddProcessMonitor
         Dim myCat2 As PerformanceCounterCategory()
         Dim i As Integer
         Me.lstCategory.Items.Clear()
-        myCat2 = PerformanceCounterCategory.GetCategories
+        If _con.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
+            myCat2 = PerformanceCounterCategory.GetCategories(_con.WmiParameters.serverName)
+        Else    ' Local
+            myCat2 = PerformanceCounterCategory.GetCategories
+        End If
         For i = 0 To myCat2.Length - 1
             Me.lstCategory.Items.Add(myCat2(i).CategoryName)
         Next
@@ -88,7 +99,12 @@ Public Class frmAddProcessMonitor
                 Dim _cat As String = .categoryName
                 Dim _count As String = .counterTypeName
 
-                Dim it As New cMonitor(_cat, _count, _name)
+                Dim it As cMonitor
+                If _con.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
+                    it = New cMonitor(_cat, _count, _name, _con.WmiParameters.serverName)
+                Else
+                    it = New cMonitor(_cat, _count, _name)
+                End If
                 it.Interval = CInt(Val(Me.txtInterval.Text))
                 frmMain.AddMonitoringItem(it)
             End With
@@ -162,7 +178,12 @@ Public Class frmAddProcessMonitor
         Dim mypc() As String
         Dim i As Integer
         If lstCategory.SelectedItems IsNot Nothing AndAlso lstCategory.SelectedItems.Count > 0 Then
-            Dim myCat As New PerformanceCounterCategory(lstCategory.SelectedItems(0).Text)
+            Dim myCat As PerformanceCounterCategory
+            If _con.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
+                myCat = New PerformanceCounterCategory(lstCategory.SelectedItems(0).Text, _con.WmiParameters.serverName)
+            Else
+                myCat = New PerformanceCounterCategory(lstCategory.SelectedItems(0).Text)
+            End If
             txtHelp.Text = myCat.CategoryHelp
             Me.lstInstance.Items.Clear()
             Me.lstCounterType.Items.Clear()
@@ -187,7 +208,12 @@ Public Class frmAddProcessMonitor
         Dim i As Integer
         Me.lstCounterType.Items.Clear()
         If lstInstance.SelectedItems.Count = 0 Then
-            Dim myCat As New PerformanceCounterCategory(lstCategory.SelectedItems(0).Text)
+            Dim myCat As PerformanceCounterCategory
+            If _con.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
+                myCat = New PerformanceCounterCategory(lstCategory.SelectedItems(0).Text, _con.WmiParameters.serverName)
+            Else
+                myCat = New PerformanceCounterCategory(lstCategory.SelectedItems(0).Text)
+            End If
             Me.lstCounterType.Items.Clear()
             Try
                 mypc = myCat.GetCounters()
@@ -197,7 +223,12 @@ Public Class frmAddProcessMonitor
             Catch ex As Exception
             End Try
         Else
-            Dim myCat As New PerformanceCounterCategory(lstCategory.SelectedItems(0).Text)
+            Dim myCat As PerformanceCounterCategory
+            If _con.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
+                myCat = New PerformanceCounterCategory(lstCategory.SelectedItems(0).Text, _con.WmiParameters.serverName)
+            Else
+                myCat = New PerformanceCounterCategory(lstCategory.SelectedItems(0).Text)
+            End If
             Me.lstCounterType.Items.Clear()
             Try
                 mypc = myCat.GetCounters(lstInstance.SelectedItems(0).Text)
@@ -216,7 +247,12 @@ Public Class frmAddProcessMonitor
 
     Private Sub lstCounterType_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstCounterType.SelectedIndexChanged
         If lstCounterType.SelectedItems IsNot Nothing AndAlso lstCounterType.SelectedItems.Count > 0 Then
-            Dim myCat As New PerformanceCounter(Me.lstCategory.SelectedItems(0).Text, lstCounterType.SelectedItems(0).Text)
+            Dim myCat As PerformanceCounter
+            If _con.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
+                myCat = New PerformanceCounter(Me.lstCategory.SelectedItems(0).Text, lstCounterType.SelectedItems(0).Text, Nothing, _con.WmiParameters.serverName)
+            Else
+                myCat = New PerformanceCounter(Me.lstCategory.SelectedItems(0).Text, lstCounterType.SelectedItems(0).Text)
+            End If
             txtHelp.Text = myCat.CounterHelp
         End If
     End Sub

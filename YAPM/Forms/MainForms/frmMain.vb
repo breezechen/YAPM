@@ -1353,7 +1353,7 @@ Public Class frmMain
     End Sub
 
     Private Sub butMonitoringAdd_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMonitoringAdd.Click
-        Dim frm As New frmAddProcessMonitor
+        Dim frm As New frmAddProcessMonitor(Me.theConnection)
         frm.ShowDialog()
     End Sub
 
@@ -1364,9 +1364,8 @@ Public Class frmMain
         Dim nExistingItem As TreeNode = Nothing
         Dim n As TreeNode
         For Each n In Me.tvMonitor.Nodes.Item(0).Nodes
-            If CStr(IIf(Len(it.GetInstanceName) > 0, it.GetInstanceName & " - ", vbNullString)) & _
-                it.CategoryName = n.Text Then
-
+            If CStr(IIf(Len(it.InstanceName) > 0, it.InstanceName & " - ", vbNullString)) & _
+                        it.CategoryName = n.Text Then
                 nExistingItem = n
                 Exit For
             End If
@@ -1376,7 +1375,7 @@ Public Class frmMain
             ' New sub item
             Dim n1 As New TreeNode
             With n1
-                .Text = CStr(IIf(Len(it.GetInstanceName) > 0, it.GetInstanceName & " - ", _
+                .Text = CStr(IIf(Len(it.InstanceName) > 0, it.InstanceName & " - ", _
                    vbNullString)) & it.CategoryName
                 .ImageIndex = 0
                 .SelectedImageIndex = 0
@@ -1527,7 +1526,7 @@ Public Class frmMain
 
         ' Limit DT pickers
         Me.dtMonitorL.MaxDate = Date.Now
-        Me.dtMonitorL.MinDate = it.GetMonitorCreationDate
+        Me.dtMonitorL.MinDate = it.MonitorCreationDate
         Me.dtMonitorR.MaxDate = Me.dtMonitorL.MaxDate
         Me.dtMonitorR.MinDate = Me.dtMonitorL.MinDate
 
@@ -1569,7 +1568,7 @@ Public Class frmMain
                 End If
 
                 .SetValues(v)
-                .dDate = it.GetMonitorCreationDate
+                .dDate = it.MonitorCreationDate
                 .EnableGraph = True
                 Call .Refresh()
             End With
@@ -1586,7 +1585,7 @@ Public Class frmMain
 
         Dim it As Graph.ValueItem
         Dim l As Long = d.Ticks
-        Dim start As Long = monitor.GetMonitorCreationDate.Ticks
+        Dim start As Long = monitor.MonitorCreationDate.Ticks
         Dim o As Integer = 0
         For Each it In v
             If (start + 10000 * it.x) >= l Then
@@ -2727,10 +2726,10 @@ Public Class frmMain
             '    For Each n2 In n.Nodes
 
             '        Dim it As cMonitor = CType(n2.Tag, cMonitor)
-            '        s &= vbNewLine & "* Category  : " & it.CategoryName & " -- Instance : " & it.GetInstanceName & " -- Counter : " & it.CounterName
-            '        s &= vbNewLine & "      Monitoring creation : " & it.GetMonitorCreationDate.ToLongDateString & " -- " & it.GetMonitorCreationDate.ToLongTimeString
-            '        If it.GetLastStarted.Ticks > 0 Then
-            '            s &= vbNewLine & "      Last start : " & it.GetLastStarted.ToLongDateString & " -- " & it.GetLastStarted.ToLongTimeString
+            '        s &= vbNewLine & "* Category  : " & it.CategoryName & " -- Instance : " & it.InstanceName & " -- Counter : " & it.CounterName
+            '        s &= vbNewLine & "      Monitoring creation : " & it.MonitorCreationDate.ToLongDateString & " -- " & it.MonitorCreationDate.ToLongTimeString
+            '        If it.LastStarted.Ticks > 0 Then
+            '            s &= vbNewLine & "      Last start : " & it.LastStarted.ToLongDateString & " -- " & it.LastStarted.ToLongTimeString
             '        Else
             '            s &= vbNewLine & "      Not yet started"
             '        End If
@@ -2764,9 +2763,10 @@ Public Class frmMain
                     End Try
 
                     Dim lvit As New ListViewItem(it.CounterName)
-                    lvit.SubItems.Add(it.GetMonitorCreationDate.ToLongDateString & " -- " & it.GetMonitorCreationDate.ToLongTimeString)
-                    If it.GetLastStarted.Ticks > 0 Then
-                        lvit.SubItems.Add(it.GetLastStarted.ToLongDateString & " -- " & it.GetLastStarted.ToLongTimeString)
+                    lvit.SubItems.Add(it.MachineName)
+                    lvit.SubItems.Add(it.MonitorCreationDate.ToLongDateString & " -- " & it.MonitorCreationDate.ToLongTimeString)
+                    If it.LastStarted.Ticks > 0 Then
+                        lvit.SubItems.Add(it.LastStarted.ToLongDateString & " -- " & it.LastStarted.ToLongTimeString)
                     Else
                         lvit.SubItems.Add("Not yet started")
                     End If
@@ -3378,8 +3378,8 @@ Public Class frmMain
         ' Change dates and set view as fixed (left and right)
         Try
             Dim it As cMonitor = CType(tvMonitor.SelectedNode.Tag, cMonitor)
-            Dim l As New Date(it.GetMonitorCreationDate.Ticks + leftVal * 10000)
-            Dim r As New Date(it.GetMonitorCreationDate.Ticks + rightVal * 10000)
+            Dim l As New Date(it.MonitorCreationDate.Ticks + leftVal * 10000)
+            Dim r As New Date(it.MonitorCreationDate.Ticks + rightVal * 10000)
             Me.dtMonitorL.Value = l
             Me.dtMonitorR.Value = r
             Me.chkMonitorLeftAuto.Checked = False

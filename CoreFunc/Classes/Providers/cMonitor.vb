@@ -47,6 +47,7 @@ Public Class cMonitor
     Private _colInfos As Collection
     Private _enabled As Boolean = False
     Private _monitorCreated As Date
+    Private _machineName As String
     Private _lastStarted As Date
 
 
@@ -54,21 +55,24 @@ Public Class cMonitor
     ' Getter & setter
     ' ========================================
 #Region "getter & setter"
-    Public Property CategoryName() As String
+    Public ReadOnly Property MachineName() As String
+        Get
+            If _machineName Is Nothing Then
+                Return "localhost"
+            Else
+                Return _machineName
+            End If
+        End Get
+    End Property
+    Public ReadOnly Property CategoryName() As String
         Get
             Return _categoryName
         End Get
-        Set(ByVal value As String)
-            _categoryName = value
-        End Set
     End Property
-    Public Property CounterName() As String
+    Public ReadOnly Property CounterName() As String
         Get
             Return _counterName
         End Get
-        Set(ByVal value As String)
-            _counterName = value
-        End Set
     End Property
     Public Function GetMonitorItem(ByVal Index As Integer) As MonitorStructure
         Return CType(_colInfos.Item(Index), MonitorStructure)
@@ -79,19 +83,20 @@ Public Class cMonitor
     Public Function GetMonitorItem(ByVal Key As String) As MonitorStructure
         Return CType(_colInfos.Item(Key), MonitorStructure)
     End Function
-    Public Function GetMonitorCreationDate() As Date
-        Return _monitorCreated
-    End Function
-    Public Function GetLastStarted() As Date
-        Return _lastStarted
-    End Function
-    Public Property Name() As String
+    Public ReadOnly Property MonitorCreationDate() As Date
+        Get
+            Return _monitorCreated
+        End Get
+    End Property
+    Public ReadOnly Property LastStarted() As Date
+        Get
+            Return _lastStarted
+        End Get
+    End Property
+    Public ReadOnly Property Name() As String
         Get
             Return _procName
         End Get
-        Set(ByVal value As String)
-            _procName = value
-        End Set
     End Property
     Public Function GetMonitorItems() As Collection
         Return _colInfos
@@ -115,9 +120,11 @@ Public Class cMonitor
             _enabled = value
         End Set
     End Property
-    Public Function GetInstanceName() As String
-        Return _instanceName
-    End Function
+    Public ReadOnly Property InstanceName() As String
+        Get
+            Return _instanceName
+        End Get
+    End Property
 #End Region
 
 
@@ -125,7 +132,7 @@ Public Class cMonitor
     ' Constructor & destructor
     ' ========================================
     Public Sub New(ByVal category As String, ByVal counter As String, _
-        ByVal instance As String)
+        ByVal instance As String, Optional ByVal machine As String = Nothing)
 
         MyBase.New()
         timer.Stop()
@@ -133,8 +140,13 @@ Public Class cMonitor
         _categoryName = category
         _counterName = counter
         _instanceName = instance
+        _machineName = machine
         Try
-            _pc = New System.Diagnostics.PerformanceCounter(category, counter, instance)
+            If machine IsNot Nothing Then
+                _pc = New System.Diagnostics.PerformanceCounter(category, counter, instance, machine)
+            Else
+                _pc = New System.Diagnostics.PerformanceCounter(category, counter, instance)
+            End If
         Catch ex As Exception
             MsgBox("Monitoring failed." & vbNewLine & ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
@@ -175,7 +187,7 @@ Public Class cMonitor
         locTime += 1
         Dim it As New MonitorStructure
         With it
-            Dim tmp As Long = Date.Now.Ticks - Me.GetMonitorCreationDate.Ticks
+            Dim tmp As Long = Date.Now.Ticks - Me.MonitorCreationDate.Ticks
             .time = CInt(tmp / 10000)   ' milliseconds from start
             Try
                 .value = _pc.NextValue
