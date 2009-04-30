@@ -71,18 +71,26 @@ Public Class frmAddProcessMonitor
         '        Exit For
         '    End If
         'Next
-
-        Dim myCat2 As PerformanceCounterCategory()
-        Dim i As Integer
-        Me.lstCategory.Items.Clear()
-        If _con.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
-            myCat2 = PerformanceCounterCategory.GetCategories(_con.WmiParameters.serverName)
-        Else    ' Local
-            myCat2 = PerformanceCounterCategory.GetCategories
-        End If
-        For i = 0 To myCat2.Length - 1
-            Me.lstCategory.Items.Add(myCat2(i).CategoryName)
-        Next
+        Try
+            Dim myCat2 As PerformanceCounterCategory()
+            Dim i As Integer
+            Me.lstCategory.Items.Clear()
+            If _con.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
+                myCat2 = PerformanceCounterCategory.GetCategories(_con.WmiParameters.serverName)
+            Else    ' Local
+                myCat2 = PerformanceCounterCategory.GetCategories
+            End If
+            For i = 0 To myCat2.Length - 1
+                Me.lstCategory.Items.Add(myCat2(i).CategoryName)
+            Next
+        Catch ex As Exception
+            ' Cannot connect to network or ??
+            If IsWindowsVista() Then
+                ShowVistaMessage(Me.Handle, "Error", "An error occured", ex.Message, TaskDialogCommonButtons.Ok, TaskDialogIcon.ShieldError)
+            Else
+                MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
+            End If
+        End Try
 
     End Sub
 
