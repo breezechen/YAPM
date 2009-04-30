@@ -99,21 +99,27 @@ Module mdlInternet
     ' Download web page
     Public Function DownloadPage(ByVal sURL As String) As String
 
-        Dim objWebRequest As System.Net.WebRequest = System.Net.HttpWebRequest.Create(sURL)
-        Dim objWebResponse As System.Net.WebResponse = objWebRequest.GetResponse()
-        Dim objStreamReader As System.IO.StreamReader = Nothing
-        Dim ret As String = vbNullString
-
         Try
-            objStreamReader = New System.IO.StreamReader(objWebResponse.GetResponseStream())
-            ret = objStreamReader.ReadToEnd()
-        Finally
-            If Not objWebResponse Is Nothing Then
-                objWebResponse.Close()
-            End If
+            Dim objWebRequest As System.Net.WebRequest = System.Net.HttpWebRequest.Create(sURL)
+            Dim objWebResponse As System.Net.WebResponse = objWebRequest.GetResponse()
+            Dim objStreamReader As System.IO.StreamReader = Nothing
+            Dim ret As String = vbNullString
+
+            Try
+                objStreamReader = New System.IO.StreamReader(objWebResponse.GetResponseStream())
+                ret = objStreamReader.ReadToEnd()
+            Finally
+                If Not objWebResponse Is Nothing Then
+                    objWebResponse.Close()
+                End If
+            End Try
+
+            Return ret
+
+        Catch ex As Exception
+            Return Nothing
         End Try
 
-        Return ret
     End Function
 
 End Module
