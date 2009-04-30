@@ -451,28 +451,26 @@ Public Class frmMain
 
 #Region "Powerfull recursives methods for treeviews"
     ' Recursive method to add items in our treeview
-    Private Sub addDependentServices(ByVal o As System.ServiceProcess.ServiceController, ByVal n As TreeNode)
-        Dim o1 As System.ServiceProcess.ServiceController
-        For Each o1 In o.DependentServices
+    Private Sub addDependentServices(ByRef o As cService, ByVal n As TreeNode)
+        For Each o1 As cService In cService.GetServiceWhichDependFrom(o.Infos.Name).Values
             Dim n2 As New TreeNode
             With n2
                 .ImageKey = "service"
                 .SelectedImageKey = "service"
-                .Text = o1.ServiceName
+                .Text = o1.Infos.Name
             End With
             n.Nodes.Add(n2)
             addDependentServices(o1, n2)
         Next o1
     End Sub
     ' Recursive method to add items in our treeview
-    Private Sub addServicesDependedOn(ByVal o As System.ServiceProcess.ServiceController, ByVal n As TreeNode)
-        Dim o1 As System.ServiceProcess.ServiceController
-        For Each o1 In o.ServicesDependedOn
+    Private Sub addServicesDependedOn(ByRef o As cService, ByVal n As TreeNode)
+        For Each o1 As cService In cService.GetDependencies(o.Infos.Name).Values
             Dim n2 As New TreeNode
             With n2
                 .ImageKey = "service"
                 .SelectedImageKey = "service"
-                .Text = o1.ServiceName
+                .Text = o1.Infos.Name
             End With
             n.Nodes.Add(n2)
             addServicesDependedOn(o1, n2)
@@ -3036,17 +3034,8 @@ Public Class frmMain
                 n.Expand()
                 n3.Expand()
 
-                Dim o As System.ServiceProcess.ServiceController() = System.ServiceProcess.ServiceController.GetServices()
-                Dim o1 As System.ServiceProcess.ServiceController
-
-                For Each o1 In o
-                    If o1.ServiceName = cS.Infos.Name Then
-                        ' Here we have 2 recursive methods to add nodes to treeview
-                        addDependentServices(o1, n)
-                        addServicesDependedOn(o1, n3)
-                        Exit For
-                    End If
-                Next
+                addDependentServices(cS, n)
+                addServicesDependedOn(cS, n3)
 
                 If n.Nodes.Count > 0 Then
                     n.ImageKey = "ko"

@@ -26,6 +26,8 @@ Public Class cService
     Private Const NO_INFO_RETRIEVED As String = "N/A"
     Private Const NO_DEPENDENCIES As String = ""
 
+    ' Current services running
+    Public Shared _currentServices As Dictionary(Of String, cService)
 
     Private _firstRefresh As Boolean = True
     Private _serviceInfos As serviceInfos
@@ -314,5 +316,55 @@ Public Class cService
 
 
 #End Region
+
+    ' Get dependencies of a service
+    Public Shared Function GetDependencies(ByVal serviceName As String) As Dictionary(Of String, cService)
+
+        Dim _d As New Dictionary(Of String, cService)
+        Dim dep() As String = Nothing
+
+        For Each serv As cService In _currentServices.Values
+            If serv.Infos.Name = serviceName Then
+                dep = serv.Infos.Dependencies
+                Exit For
+            End If
+        Next
+
+        If dep Is Nothing OrElse dep.Length = 0 Then
+            Return _d
+        End If
+
+        For Each servName As String In dep
+            For Each serv As cService In _currentServices.Values
+                If servName = serv.Infos.Name Then
+                    _d.Add(servName, serv)
+                    Exit For
+                End If
+            Next
+        Next
+
+        Return _d
+    End Function
+
+    ' Get services which depends from a specific service
+    Public Shared Function GetServiceWhichDependFrom(ByVal serviceName As String) As Dictionary(Of String, cService)
+
+        Dim _d As New Dictionary(Of String, cService)
+        Dim dep() As String = Nothing
+
+        For Each serv As cService In _currentServices.Values
+            dep = serv.Infos.Dependencies
+            If dep IsNot Nothing Then
+                For Each s As String In dep
+                    If s = serviceName Then
+                        _d.Add(serv.Infos.Name, serv)
+                        Exit For
+                    End If
+                Next
+            End If
+        Next
+
+        Return _d
+    End Function
 
 End Class

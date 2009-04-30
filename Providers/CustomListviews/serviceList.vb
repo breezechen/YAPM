@@ -231,6 +231,9 @@ Public Class serviceList
         Next
 
 
+        cService._currentServices = _dico
+
+
         ' Now add all new items to listview
         ' If first time, lock listview
         If _firstItemUpdate Then Me.BeginUpdate()
