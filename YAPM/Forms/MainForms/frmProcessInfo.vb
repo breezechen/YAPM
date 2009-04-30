@@ -1924,6 +1924,14 @@ Public Class frmProcessInfo
         '
     End Sub
 
+    Private Sub lvProcServices_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcServices.MouseDoubleClick
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            Dim frm As New frmServiceInfo
+            frm.SetService(it)
+            frm.Show()
+        Next
+    End Sub
+
     Private Sub lvProcServices_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcServices.MouseUp
         Me.OpenDirToolStripMenuItem35.Enabled = _local
         Me.FilePropToolStripMenuItem34.Enabled = _local
@@ -2121,4 +2129,5 @@ Public Class frmProcessInfo
             frm.Show()
         Next
     End Sub
+
 End Class
