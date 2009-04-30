@@ -113,6 +113,15 @@ Public Class cEnvVariableConnection
 
     Protected Overrides Sub _sock_ReceivedData(ByRef data As cSocketData) Handles _sock.ReceivedData
         '
+
+        ' OK, THIS IS NOT THE BEST WAY TO AVOID THE BUG
+        Static _antiEcho As Boolean = False
+        _antiEcho = Not (_antiEcho)
+        If _antiEcho Then
+            Exit Sub
+        End If
+        ' OK, THIS IS NOT THE BEST WAY TO AVOID THE BUG
+
     End Sub
 
     Protected Overrides Sub _sock_SentData() Handles _sock.SentData

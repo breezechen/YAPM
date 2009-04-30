@@ -149,6 +149,15 @@ Public Class cServiceConnection
     End Sub
 
     Protected Overrides Sub _sock_ReceivedData(ByRef data As cSocketData) Handles _sock.ReceivedData
+
+        ' OK, THIS IS NOT THE BEST WAY TO AVOID THE BUG
+        Static _antiEcho As Boolean = False
+        _antiEcho = Not (_antiEcho)
+        If _antiEcho Then
+            Exit Sub
+        End If
+        ' OK, THIS IS NOT THE BEST WAY TO AVOID THE BUG
+
         If data Is Nothing Then
             Trace.WriteLine("Serialization error")
             Exit Sub

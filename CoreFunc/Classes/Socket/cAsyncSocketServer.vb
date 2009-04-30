@@ -105,7 +105,11 @@ Public Class cAsyncSocketServer
     Private Sub disconnectCallback(ByVal asyncResult As IAsyncResult)
         ' OK we are now disconnected
         Trace.WriteLine("Server disconnected...")
-        _frm.Invoke(Disconnected)
+        Try
+            _frm.Invoke(Disconnected)
+        Catch ex As Exception
+            Trace.WriteLine("ERROR : Could not invoke Disconnected to a form")
+        End Try
     End Sub
 
     ' Callback for connexion accept
