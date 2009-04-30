@@ -156,6 +156,7 @@ Public Class privilegeList
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
             RaiseEvent GotAnError("Privilege enumeration", errorMessage)
+            sem.Release()
             Exit Sub
         End If
 

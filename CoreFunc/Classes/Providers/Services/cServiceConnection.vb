@@ -97,7 +97,8 @@ Public Class cServiceConnection
                 End If
                 _connected = True
                 Try
-                    _control.Invoke(Connected, True)
+                    If Connected IsNot Nothing Then _
+                        _control.Invoke(Connected, True)
                 Catch ex As Exception
                     '
                 End Try
@@ -110,17 +111,20 @@ Public Class cServiceConnection
         Select Case _conObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 _connected = False
-                _control.Invoke(Disconnected, True)
+                If Disconnected IsNot Nothing Then _
+                    _control.Invoke(Disconnected, True)
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
                 _connected = False
-                _control.Invoke(Disconnected, True)
+                If Disconnected IsNot Nothing Then _
+                    _control.Invoke(Disconnected, True)
             Case Else
                 ' Local
                 If hSCM.ToInt32 > 0 Then
                     Call API.CloseServiceHandle(hSCM)
                 End If
                 _connected = False
-                _control.Invoke(Disconnected, True)
+                If Disconnected IsNot Nothing Then _
+                    _control.Invoke(Disconnected, True)
         End Select
     End Sub
 

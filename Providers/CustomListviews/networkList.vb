@@ -164,6 +164,7 @@ Public Class networkList
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
             RaiseEvent GotAnError("Network connection enumeration", errorMessage)
+            sem.Release()
             Exit Sub
         End If
 

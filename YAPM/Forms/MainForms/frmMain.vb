@@ -4393,6 +4393,7 @@ Public Class frmMain
             Me.theConnection.Disconnect()
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Can not disconnect")
+            Me.theConnection.DisconnectForce()
             Exit Sub
         End Try
     End Sub

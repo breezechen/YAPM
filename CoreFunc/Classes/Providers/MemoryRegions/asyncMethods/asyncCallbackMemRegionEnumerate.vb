@@ -64,6 +64,7 @@ Public Class asyncCallbackMemRegionEnumerate
 
         Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
         If pObj.con.ConnectionObj.IsConnected = False Then
+            sem.Release()
             Exit Sub
         End If
 

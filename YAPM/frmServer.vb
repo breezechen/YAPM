@@ -47,23 +47,27 @@ Public Class frmServeur
     Private Sub connectLocal()
 
         ' Set connection
-        With theConnection
-            .ConnectionType = cConnection.TypeOfConnection.LocalConnection
-            .Connect()
-        End With
+        Try
+            With theConnection
+                .ConnectionType = cConnection.TypeOfConnection.LocalConnection
+                .Connect()
+            End With
 
-        _procCon.ConnectionObj = theConnection
-        _networkCon.ConnectionObj = theConnection
-        _serviceCon.ConnectionObj = theConnection
+            _procCon.ConnectionObj = theConnection
+            _networkCon.ConnectionObj = theConnection
+            _serviceCon.ConnectionObj = theConnection
 
-        _networkCon.Connect()
-        _moduleCon.Connect()
-        _serviceCon.Connect()
-        _taskCon.Connect()
-        _windowCon.Connect()
-        _threadCon.Connect()
-        _handleCon.Connect()
-        _procCon.Connect()
+            _networkCon.Connect()
+            _moduleCon.Connect()
+            _serviceCon.Connect()
+            _taskCon.Connect()
+            _windowCon.Connect()
+            _threadCon.Connect()
+            _handleCon.Connect()
+            _procCon.Connect()
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
 
     End Sub
 

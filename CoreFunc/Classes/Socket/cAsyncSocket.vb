@@ -119,7 +119,12 @@ Public Class cAsyncSocket
     Private Sub connectCallback(ByVal asyncResult As IAsyncResult)
         ' OK, accept
         Trace.WriteLine("Client EndConnect...")
-        Call sock.EndConnect(asyncResult)
+        Try
+            Call sock.EndConnect(asyncResult)
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
+            Exit Sub
+        End Try
         Trace.WriteLine("Client connected...")
         ' Ready to receive
         ReDim bytes(buffLength - 1)

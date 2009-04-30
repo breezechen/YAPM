@@ -156,6 +156,7 @@ Public Class memoryList
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
             RaiseEvent GotAnError("Mem region enumeration", errorMessage)
+            sem.Release()
             Exit Sub
         End If
 

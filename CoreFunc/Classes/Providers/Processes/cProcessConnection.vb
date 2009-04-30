@@ -117,7 +117,8 @@ Public Class cProcessConnection
             Case Else
                 ' Local
                 _connected = True
-                _control.Invoke(Connected, True)
+                If Connected IsNot Nothing Then _
+                    _control.Invoke(Connected, True)
         End Select
 
 
@@ -151,14 +152,17 @@ Public Class cProcessConnection
         Select Case _conObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 _connected = False
-                _control.Invoke(Disconnected, True)
+                If Disconnected IsNot Nothing Then _
+                    _control.Invoke(Disconnected, True)
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
                 _connected = False
-                _control.Invoke(Disconnected, True)
+                If Disconnected IsNot Nothing Then _
+                    _control.Invoke(Disconnected, True)
             Case Else
                 ' Local
                 _connected = False
-                _control.Invoke(Disconnected, True)
+                If Disconnected IsNot Nothing Then _
+                    _control.Invoke(Disconnected, True)
         End Select
     End Sub
 

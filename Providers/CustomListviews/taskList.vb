@@ -161,6 +161,7 @@ Public Class taskList
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
             RaiseEvent GotAnError("Task enumeration", errorMessage)
+            sem.Release()
             Exit Sub
         End If
 

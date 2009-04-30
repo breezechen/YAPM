@@ -72,6 +72,7 @@ Public Class asyncCallbackNetworkEnumerate
 
         Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
         If con.ConnectionObj.IsConnected = False Then
+            sem.Release()
             Exit Sub
         End If
 
@@ -104,6 +105,7 @@ Public Class asyncCallbackNetworkEnumerate
                 API.GetExtendedTcpTable(pt, length, False, 2, API.TCP_TABLE_CLASS.TCP_TABLE_OWNER_PID_ALL, 0)
 
                 If length = 0 Then
+                    sem.Release()
                     Exit Sub
                 End If
 

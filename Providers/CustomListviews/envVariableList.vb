@@ -165,6 +165,7 @@ Public Class envVariableList
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
             RaiseEvent GotAnError("Environment variable enumeration", errorMessage)
+            sem.Release()
             Exit Sub
         End If
 

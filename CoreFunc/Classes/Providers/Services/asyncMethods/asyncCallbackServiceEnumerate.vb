@@ -83,6 +83,7 @@ Public Class asyncCallbackServiceEnumerate
         SyncLock dicoNewServices
             Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
             If con.ConnectionObj.IsConnected = False Then
+                sem.Release()
                 Exit Sub
             End If
 
@@ -107,6 +108,7 @@ Public Class asyncCallbackServiceEnumerate
                         res = con.wmiSearcher.Get()
                     Catch ex As Exception
                         ctrl.Invoke(deg, False, Nothing, ex.Message)
+                        sem.Release()
                         Exit Sub
                     End Try
 

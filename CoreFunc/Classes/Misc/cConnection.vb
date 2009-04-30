@@ -149,6 +149,10 @@ Public Class cConnection
             RaiseEvent Disconnected()
         End If
     End Sub
+    Public Sub DisconnectForce()        ' Set state as 'disconnected'
+        _isConnected = False
+        RaiseEvent Disconnected()
+    End Sub
 
     Private Sub _sock_Connected() Handles _sock.Connected
         _isConnected = True

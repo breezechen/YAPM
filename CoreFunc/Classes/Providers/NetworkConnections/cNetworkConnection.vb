@@ -71,7 +71,9 @@ Public Class cNetworkConnection
                 ' Local
                 _connected = True
                 Try
-                    _control.Invoke(Connected, True)
+                    If Connected IsNot Nothing Then
+                        _control.Invoke(Connected, True)
+                    End If
                 Catch ex As Exception
                     '
                 End Try
@@ -90,7 +92,9 @@ Public Class cNetworkConnection
             Case Else
                 ' Local
                 _connected = False
-                _control.Invoke(Disconnected, True)
+                If Disconnected IsNot Nothing Then
+                    _control.Invoke(Disconnected, True)
+                End If
         End Select
     End Sub
 

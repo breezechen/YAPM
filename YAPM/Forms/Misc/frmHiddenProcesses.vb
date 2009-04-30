@@ -36,7 +36,11 @@ Public Class frmHiddenProcesses
         Me.lvProcess.ClearItems()
         Me.lvProcess.ConnectionObj = theConnection
 
-        theConnection.Connect()
+        Try
+            theConnection.Connect()
+        Catch ex As Exception
+            '
+        End Try
         Me.TimerProcess.Enabled = True
 
     End Sub

@@ -184,6 +184,7 @@ Public Class handleList
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
             RaiseEvent GotAnError("Handle enumeration", errorMessage)
+            sem.Release()
             Exit Sub
         End If
 

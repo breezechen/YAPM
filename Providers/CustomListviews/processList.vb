@@ -180,6 +180,7 @@ Public Class processList
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
             RaiseEvent GotAnError("Process enumeration", errorMessage)
+            sem.Release()
             Exit Sub
         End If
 

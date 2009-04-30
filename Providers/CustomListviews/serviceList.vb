@@ -179,6 +179,7 @@ Public Class serviceList
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
             RaiseEvent GotAnError("Service enumeration", errorMessage)
+            sem.Release()
             Exit Sub
         End If
 

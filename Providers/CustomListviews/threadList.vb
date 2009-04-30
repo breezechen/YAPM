@@ -169,6 +169,7 @@ Public Class threadList
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
             RaiseEvent GotAnError("Thread enumeration", errorMessage)
+            sem.Release()
             Exit Sub
         End If
 

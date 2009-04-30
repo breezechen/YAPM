@@ -109,6 +109,7 @@ Public Class asyncCallbackProcEnumerate
 
             Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
             If con.ConnectionObj.IsConnected = False Then
+                sem.Release()
                 Exit Sub
             End If
 
@@ -133,6 +134,7 @@ Public Class asyncCallbackProcEnumerate
                         res = con.wmiSearcher.Get()
                     Catch ex As Exception
                         ctrl.Invoke(deg, False, Nothing, ex.Message, pObj.forInstanceId)
+                        sem.Release()
                         Exit Sub
                     End Try
 

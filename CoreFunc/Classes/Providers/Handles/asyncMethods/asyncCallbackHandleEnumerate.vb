@@ -72,6 +72,7 @@ Public Class asyncCallbackHandleEnumerate
 
         Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
         If con.ConnectionObj.IsConnected = False Then
+            sem.Release()
             Exit Sub
         End If
 
