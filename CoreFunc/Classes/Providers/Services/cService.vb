@@ -24,10 +24,13 @@ Public Class cService
     Inherits cGeneralObject
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
+    Private Const NO_DEPENDENCIES As String = ""
+
 
     Private _firstRefresh As Boolean = True
     Private _serviceInfos As serviceInfos
     Private _path As String
+    Private __dep As String
     Private Shared WithEvents _connection As cServiceConnection
 
 #Region "Properties"
@@ -279,19 +282,31 @@ Public Class cService
                     res = cProcess.GetProcessName(Me.Infos.ProcessId) & " -- " & Me.Infos.ProcessId.ToString
                 End If
             Case "Dependencies"
-                res = Me.Infos.Dependencies
+                If __dep Is Nothing Then
+                    If Me.Infos.Dependencies IsNot Nothing Then
+                        For Each s As String In Me.Infos.Dependencies
+                            __dep &= s & "   "
+                        Next
+                    Else
+                        __dep = NO_DEPENDENCIES
+                    End If
+                    If __dep Is Nothing Then
+                        __dep = NO_DEPENDENCIES
+                    End If
+                End If
+                    res = __dep
             Case "TagID"
-                res = Me.Infos.TagID.ToString
+                    res = Me.Infos.TagID.ToString
             Case "ServiceFlags"
-                res = Me.Infos.ServiceFlags.ToString
+                    res = Me.Infos.ServiceFlags.ToString
             Case "WaitHint"
-                res = Me.Infos.WaitHint.ToString
+                    res = Me.Infos.WaitHint.ToString
             Case "CheckPoint"
-                res = Me.Infos.CheckPoint.ToString
+                    res = Me.Infos.CheckPoint.ToString
             Case "Win32ExitCode"
-                res = Me.Infos.Win32ExitCode.ToString
+                    res = Me.Infos.Win32ExitCode.ToString
             Case "ServiceSpecificExitCode"
-                res = Me.Infos.ServiceSpecificExitCode.ToString
+                    res = Me.Infos.ServiceSpecificExitCode.ToString
         End Select
 
         Return res
