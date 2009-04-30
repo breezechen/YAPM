@@ -433,6 +433,10 @@ Public Class API
     Public Shared Function ZwQueryInformationThread(ByVal ThreadHandle As Integer, ByVal ThreadInformationClass As THREAD_INFORMATION_CLASS, ByRef ThreadInformation As THREAD_BASIC_INFORMATION, ByVal ThreadInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
     End Function
 
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Public Shared Function GetThreadPriority(ByVal ThreadHandle As Integer) As Integer
+    End Function
+
     <DllImport("kernel32.dll")> _
     Public Shared Function ResumeThread(ByVal hThread As IntPtr) As UInt32
     End Function

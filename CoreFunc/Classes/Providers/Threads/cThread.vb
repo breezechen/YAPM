@@ -74,6 +74,17 @@ Public Class cThread
         End Get
     End Property
 
+    Public ReadOnly Property PriorityMod() As ThreadPriorityLevel
+        Get
+            If _handleQueryInfo > 0 Then
+                Dim priority As Integer = API.GetThreadPriority(_handleQueryInfo)
+                Return CType(priority, ThreadPriorityLevel)
+            Else
+                Return Me.Infos.Priority
+            End If
+        End Get
+    End Property
+
 #End Region
 
     ' Merge current infos and new infos
@@ -172,7 +183,7 @@ Public Class cThread
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackThreadDecreasePriority.poolObj(Me.Infos.Id, Me.Infos.Priority, newAction))
+            asyncCallbackThreadDecreasePriority.poolObj(Me.Infos.Id, Me.PriorityMod, newAction))
 
         AddPendingTask2(newAction, t)
     End Function
@@ -196,7 +207,7 @@ Public Class cThread
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackThreadIncreasePriority.poolObj(Me.Infos.Id, Me.Infos.Priority, newAction))
+            asyncCallbackThreadIncreasePriority.poolObj(Me.Infos.Id, Me.PriorityMod, newAction))
 
         AddPendingTask2(newAction, t)
     End Function
@@ -297,7 +308,7 @@ Public Class cThread
         Dim res As String = NO_INFO_RETRIEVED
         Select Case info
             Case "Priority"
-                res = CInt(Me.Infos.Priority).ToString  'threadInfos.getPriorityClass(Me.Infos.Priority).ToString
+                res = Me.PriorityMod.ToString
             Case "State"
                 res = Me.Infos.State.ToString
             Case "WaitReason"

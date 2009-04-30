@@ -408,12 +408,12 @@ Public Class frmSaveReport
                             Try
                                 ' Try to access to the thread (avoid to write lines if thread
                                 ' is deleted)
-                                Dim suseless As String = cm.Infos.Priority.ToString
+                                Dim suseless As String = cm.PriorityMod.ToString
 
                                 _html.AppendTitleLine("ProcessId" & CStr(cm.Infos.Id) & "   --   thread : " & it.Text)
                                 Dim _lin(1) As String
                                 _lin(0) = "Priority"
-                                _lin(1) = cm.Infos.Priority.ToString
+                                _lin(1) = cm.PriorityMod.ToString
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Base priority "
                                 _lin(1) = cm.Infos.BasePriority.ToString

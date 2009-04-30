@@ -1055,24 +1055,6 @@ Public Class frmProcessInfo
         Next
     End Sub
 
-    Private Sub lvThreads_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvThreads.MouseDown
-        If e.Button = Windows.Forms.MouseButtons.Right Then
-
-            Dim p As System.Diagnostics.ThreadPriorityLevel
-
-            If Me.lvThreads.SelectedItems.Count > 0 Then
-                p = Me.lvThreads.GetSelectedItem.Infos.Priority
-            End If
-            Me.ToolStripMenuItem27.Checked = (p = ThreadPriorityLevel.Idle)
-            Me.LowestToolStripMenuItem.Checked = (p = ThreadPriorityLevel.Lowest)
-            Me.ToolStripMenuItem28.Checked = (p = ThreadPriorityLevel.BelowNormal)
-            Me.ToolStripMenuItem29.Checked = (p = ThreadPriorityLevel.Normal)
-            Me.ToolStripMenuItem30.Checked = (p = ThreadPriorityLevel.AboveNormal)
-            Me.ToolStripMenuItem31.Checked = (p = ThreadPriorityLevel.Highest)
-            Me.ToolStripMenuItem32.Checked = (p = ThreadPriorityLevel.TimeCritical)
-        End If
-    End Sub
-
     Private Sub ShowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowToolStripMenuItem.Click
         For Each it As cWindow In Me.lvWindows.GetSelectedItems
             it.Show()
@@ -2115,5 +2097,20 @@ Public Class frmProcessInfo
             My.Application.DoEvents()
             Call SearchInternet(it.Text, Me.Handle)
         Next
+    End Sub
+
+    Private Sub menuThread_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles menuThread.Opening
+        Dim p As System.Diagnostics.ThreadPriorityLevel
+
+        If Me.lvThreads.SelectedItems.Count > 0 Then
+            p = Me.lvThreads.GetSelectedItem.PriorityMod
+        End If
+        Me.ToolStripMenuItem27.Checked = (p = ThreadPriorityLevel.Idle)
+        Me.LowestToolStripMenuItem.Checked = (p = ThreadPriorityLevel.Lowest)
+        Me.ToolStripMenuItem28.Checked = (p = ThreadPriorityLevel.BelowNormal)
+        Me.ToolStripMenuItem29.Checked = (p = ThreadPriorityLevel.Normal)
+        Me.ToolStripMenuItem30.Checked = (p = ThreadPriorityLevel.AboveNormal)
+        Me.ToolStripMenuItem31.Checked = (p = ThreadPriorityLevel.Highest)
+        Me.ToolStripMenuItem32.Checked = (p = ThreadPriorityLevel.TimeCritical)
     End Sub
 End Class

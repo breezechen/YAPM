@@ -3309,13 +3309,16 @@ Public Class frmMain
 
     Private Sub lvThreads_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvThreads.MouseDown
         Call mdlMisc.CopyLvToClip(e, Me.lvThreads)
+    End Sub
+
+    Private Sub lvThreads_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvThreads.MouseUp
 
         If e.Button = Windows.Forms.MouseButtons.Right Then
 
             Dim p As System.Diagnostics.ThreadPriorityLevel
 
             If Me.lvThreads.SelectedItems.Count > 0 Then
-                p = Me.lvThreads.GetSelectedItem.Infos.Priority
+                p = Me.lvThreads.GetSelectedItem.PriorityMod
             End If
             Me.ToolStripMenuItem27.Checked = (p = ThreadPriorityLevel.Idle)
             Me.LowestToolStripMenuItem.Checked = (p = ThreadPriorityLevel.Lowest)
@@ -3325,6 +3328,7 @@ Public Class frmMain
             Me.ToolStripMenuItem31.Checked = (p = ThreadPriorityLevel.Highest)
             Me.ToolStripMenuItem32.Checked = (p = ThreadPriorityLevel.TimeCritical)
         End If
+
     End Sub
 
     Private Sub lvThreads_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvThreads.SelectedIndexChanged
@@ -3346,11 +3350,11 @@ Public Class frmMain
                 s = s & "\tab State :\tab\tab\tab\tab " & cp.Infos.State.ToString & "\par"
                 s = s & "\tab Wait reason :\tab\tab\tab " & cp.Infos.WaitReason.ToString & "\par"
                 s = s & "\tab Start address :\tab\tab\tab " & "0x" & cp.Infos.StartAddress.ToString("x") & "\par"
-                's = s & "\tab Start time :\tab\tab\tab " & cp.Infos.CreateTime.ToLongDateString & " -- " & cp.StartTime.ToLongTimeString & "\par"
-                's = s & "\tab TotalProcessorTime :\tab\tab " & cp.TotalProcessorTime.ToString & "\par"
-                's = s & "\tab PrivilegedProcessorTime :\tab\tab " & cp.PrivilegedProcessorTime.ToString & "\par"
-                's = s & "\tab UserProcessorTime :\tab\tab " & CStr(cp.UserProcessorTime.ToString) & "\par"
-                's = s & "\tab ProcessorAffinity :\tab\tab " & CStr(cp.Infos.AffinityMask) & "\par"
+                s = s & "\tab Start time :\tab\tab\tab " & cp.GetInformation("CreateTime") & "\par"
+                s = s & "\tab TotalProcessorTime :\tab\tab " & cp.GetInformation("TotalTime") & "\par"
+                s = s & "\tab KernelTime :\tab\tab\tab " & cp.GetInformation("KernelTime") & "\par"
+                s = s & "\tab UserTime :\tab\tab\tab " & cp.GetInformation("UserTime") & "\par"
+                s = s & "\tab ProcessorAffinity :\tab\tab " & CStr(cp.Infos.AffinityMask) & "\par"
 
                 s = s & "}"
 
