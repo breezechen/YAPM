@@ -337,6 +337,7 @@ Partial Class frmProcessInfo
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip
         Me.MainToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ServiceDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.tabProcess.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -1832,9 +1833,9 @@ Partial Class frmProcessInfo
         '
         'menuProcServ
         '
-        Me.menuProcServ.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem43, Me.ToolStripMenuItem13, Me.PauseToolStripMenuItem14, Me.StopToolStripMenuItem16, Me.ShutdownShutdownToolStripMenuItem, Me.StartToolStripMenuItem17, Me.TypeOfStartToolStripMenuItem18, Me.ReanalyzeToolStripMenuItem, Me.ToolStripSeparator2, Me.FilePropToolStripMenuItem34, Me.OpenDirToolStripMenuItem35, Me.FileDetailsToolStripMenuItem, Me.ToolStripSeparator1, Me.GoogleSearchToolStripMenuItem1, Me.ToolStripMenuItem37, Me.ChooseColumnsToolStripMenuItem5})
+        Me.menuProcServ.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ServiceDetailsToolStripMenuItem, Me.ToolStripMenuItem43, Me.ToolStripMenuItem13, Me.PauseToolStripMenuItem14, Me.StopToolStripMenuItem16, Me.ShutdownShutdownToolStripMenuItem, Me.StartToolStripMenuItem17, Me.TypeOfStartToolStripMenuItem18, Me.ReanalyzeToolStripMenuItem, Me.ToolStripSeparator2, Me.FilePropToolStripMenuItem34, Me.OpenDirToolStripMenuItem35, Me.FileDetailsToolStripMenuItem, Me.ToolStripSeparator1, Me.GoogleSearchToolStripMenuItem1, Me.ToolStripMenuItem37, Me.ChooseColumnsToolStripMenuItem5})
         Me.menuProcServ.Name = "menuProc"
-        Me.menuProcServ.Size = New System.Drawing.Size(173, 292)
+        Me.menuProcServ.Size = New System.Drawing.Size(173, 336)
         '
         'ToolStripMenuItem43
         '
@@ -2442,7 +2443,7 @@ Partial Class frmProcessInfo
         '
         Me.menuThread.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem23, Me.ToolStripMenuItem24, Me.ToolStripMenuItem25, Me.ToolStripMenuItem26, Me.ToolStripMenuItem33, Me.ToolStripMenuItem8, Me.ChooseColumnsToolStripMenuItem})
         Me.menuThread.Name = "menuProc"
-        Me.menuThread.Size = New System.Drawing.Size(173, 164)
+        Me.menuThread.Size = New System.Drawing.Size(173, 142)
         '
         'ToolStripMenuItem23
         '
@@ -3042,6 +3043,13 @@ Partial Class frmProcessInfo
         Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(132, 22)
         Me.RefreshToolStripMenuItem.Text = "&Refresh"
         '
+        'ServiceDetailsToolStripMenuItem
+        '
+        Me.ServiceDetailsToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ServiceDetailsToolStripMenuItem.Name = "ServiceDetailsToolStripMenuItem"
+        Me.ServiceDetailsToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.ServiceDetailsToolStripMenuItem.Text = "Service details"
+        '
         'frmProcessInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3421,4 +3429,5 @@ Partial Class frmProcessInfo
     Friend WithEvents GoogleSearchToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem37 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ChooseColumnsToolStripMenuItem5 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ServiceDetailsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

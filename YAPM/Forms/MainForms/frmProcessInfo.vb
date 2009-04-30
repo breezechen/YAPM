@@ -2113,4 +2113,12 @@ Public Class frmProcessInfo
         Me.ToolStripMenuItem31.Checked = (p = ThreadPriorityLevel.Highest)
         Me.ToolStripMenuItem32.Checked = (p = ThreadPriorityLevel.TimeCritical)
     End Sub
+
+    Private Sub ServiceDetailsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ServiceDetailsToolStripMenuItem.Click
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            Dim frm As New frmServiceInfo
+            frm.SetService(it)
+            frm.Show()
+        Next
+    End Sub
 End Class

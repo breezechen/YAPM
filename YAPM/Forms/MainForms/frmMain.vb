@@ -4437,4 +4437,11 @@ Public Class frmMain
         Application.Exit()
     End Sub
 
+    Private Sub butServiceDetails_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butServiceDetails.Click
+        For Each it As cService In Me.lvServices.GetSelectedItems
+            Dim frm As New frmServiceInfo
+            frm.SetService(it)
+            frm.Show()
+        Next
+    End Sub
 End Class

@@ -654,6 +654,7 @@ Partial Class frmMain
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerNetwork = New System.Windows.Forms.Timer(Me.components)
         Me.timerStateBasedActions = New System.Windows.Forms.Timer(Me.components)
+        Me.butServiceDetails = New System.Windows.Forms.RibbonButton
         Me.menuProc.SuspendLayout()
         Me.menuService.SuspendLayout()
         Me.mainMenu.SuspendLayout()
@@ -2939,6 +2940,7 @@ Partial Class frmMain
         Me.RBServiceDisplay.ButtonMoreEnabled = False
         Me.RBServiceDisplay.ButtonMoreVisible = False
         Me.RBServiceDisplay.Items.Add(Me.butServiceRefresh)
+        Me.RBServiceDisplay.Items.Add(Me.butServiceDetails)
         Me.RBServiceDisplay.Tag = Nothing
         Me.RBServiceDisplay.Text = "Display"
         '
@@ -6810,6 +6812,19 @@ Partial Class frmMain
         Me.timerStateBasedActions.Enabled = True
         Me.timerStateBasedActions.Interval = 1000
         '
+        'butServiceDetails
+        '
+        Me.butServiceDetails.AltKey = Nothing
+        Me.butServiceDetails.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butServiceDetails.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butServiceDetails.Image = Global.YAPM.My.Resources.Resources.showDetails
+        Me.butServiceDetails.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butServiceDetails.Tag = Nothing
+        Me.butServiceDetails.Text = "Show details"
+        Me.butServiceDetails.ToolTip = Nothing
+        Me.butServiceDetails.ToolTipImage = Nothing
+        Me.butServiceDetails.ToolTipTitle = Nothing
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -7569,5 +7584,6 @@ Partial Class frmMain
     Friend WithEvents SplitContainerFile As System.Windows.Forms.SplitContainer
     Friend WithEvents lstFileString As System.Windows.Forms.ListBox
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents butServiceDetails As System.Windows.Forms.RibbonButton
 
 End Class
