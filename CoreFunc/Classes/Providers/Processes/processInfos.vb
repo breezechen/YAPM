@@ -54,6 +54,8 @@ Imports System.Runtime.InteropServices
     Private _userObjects As Integer
     Private _threadCount As Integer
 
+    Private _hasReanalize As Boolean = False
+
     Private _threads As Dictionary(Of String, threadInfos)
 
     Private _processors As Integer
@@ -61,6 +63,15 @@ Imports System.Runtime.InteropServices
 #End Region
 
 #Region "Read only properties"
+
+    Public Property HasReanalize() As Boolean
+        Get
+            Return _hasReanalize
+        End Get
+        Set(ByVal value As Boolean)
+            _hasReanalize = value
+        End Set
+    End Property
 
     Public Property IsHidden() As Boolean
         Get
@@ -277,6 +288,16 @@ Imports System.Runtime.InteropServices
             _threads = .Threads
             _isHidden = .IsHidden
             _threadCount = .ThreadCount
+
+            ' Merge fixed info (in case of 'Reanalize')
+            'If _Path <> ._Path OrElse _UserName <> .UserName OrElse _CommandLine <> .CommandLine Then
+            If .HasReanalize Then
+                _Path = .Path
+                _UserName = .UserName
+                _CommandLine = .CommandLine
+                _hasReanalize = False
+                _fileInfo = .FileInfo
+            End If
         End With
     End Sub
 

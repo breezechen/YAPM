@@ -722,6 +722,7 @@ Public Class asyncCallbackProcEnumerate
                     .CommandLine = _command
                     .FileInfo = _finfo
                     .PEBAddress = _peb
+                    .HasReanalize = True
                 End With
 
                 dicoNewProcesses.Add(obj.ProcessId, False)
