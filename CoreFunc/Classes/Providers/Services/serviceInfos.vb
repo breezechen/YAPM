@@ -47,6 +47,7 @@ Imports System.Text
     Private _objName As String
     Private _acceptedCtrls As API.SERVICE_ACCEPT
     Private _name As String
+    <NonSerialized()> Private _fileInfo As FileVersionInfo
 
     Private _Dependencies As String()
     Private _tagID As Integer
@@ -169,6 +170,14 @@ Imports System.Text
             Return _Win32ExitCode
         End Get
     End Property
+    Public Property FileInfo() As FileVersionInfo
+        Get
+            Return _fileInfo
+        End Get
+        Set(ByVal value As FileVersionInfo)
+            _fileInfo = value
+        End Set
+    End Property
 #End Region
 
 
@@ -290,7 +299,6 @@ Imports System.Text
                                 Marshal.FreeHGlobal(ptr)
 
                             Catch ex As Exception
-                                MsgBox(ex.Message)
                                 __var = ""
                             End Try
 

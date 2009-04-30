@@ -129,6 +129,9 @@
     <EmbeddedResource Include="Forms\AdditionalMainForms\frmHexEditor.resx">
       <DependentUpon>frmHexEditor.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MainForms\frmServiceInfo.resx">
+      <DependentUpon>frmServiceInfo.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmHiddenProcesses.resx">
       <DependentUpon>frmHiddenProcesses.vb</DependentUpon>
     </EmbeddedResource>
@@ -287,6 +290,12 @@
       <DependentUpon>frmHexEditor.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\AdditionalMainForms\frmHexEditor.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MainForms\frmServiceInfo.Designer.vb">
+      <DependentUpon>frmServiceInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MainForms\frmServiceInfo.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Misc\frmHiddenProcesses.Designer.vb">

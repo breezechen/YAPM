@@ -90,6 +90,9 @@ Public Class cProcess
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
+    ' Current processes running
+    Public Shared _currentProcesses As Dictionary(Of String, cProcess)
+
     Private _infos As API.SYSTEM_PROCESS_INFORMATION
     Private _processInfos As processInfos
     Private _processors As Integer = 1       ' By default we consider that there is only one processor

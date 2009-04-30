@@ -367,4 +367,15 @@ Public Class cService
         Return _d
     End Function
 
+    ' Get a service by name
+    Public Shared Function GetServiceByName(ByVal name As String) As cService
+
+        If _currentServices.ContainsKey(name) Then
+            Return _currentServices.Item(name)
+        Else
+            Return Nothing
+        End If
+
+    End Function
+
 End Class

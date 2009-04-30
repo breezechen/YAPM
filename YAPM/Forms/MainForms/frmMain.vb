@@ -2935,6 +2935,16 @@ Public Class frmMain
         Call mdlMisc.CopyLvToClip(e, Me.lvTask)
     End Sub
 
+    Private Sub lvServices_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseDoubleClick
+        If e.Button = Windows.Forms.MouseButtons.Left Then
+            For Each it As cService In Me.lvServices.GetSelectedItems
+                Dim frm As New frmServiceInfo
+                frm.SetService(it)
+                frm.Show()
+            Next
+        End If
+    End Sub
+
     Private Sub lvServices_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseDown
         Call mdlMisc.CopyLvToClip(e, Me.lvServices)
     End Sub
