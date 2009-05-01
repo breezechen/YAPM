@@ -279,7 +279,7 @@ Public Class asyncCallbackServiceEnumerate
 
 
     ' Get config of service
-    Public Shared Sub getServiceConfig(ByVal name As String, ByVal hSCManager As IntPtr, ByRef _infos As serviceInfos)
+    Public Shared Sub getServiceConfig(ByVal name As String, ByVal hSCManager As IntPtr, ByRef _infos As serviceInfos, ByVal getFileInfo As Boolean)
 
         Dim lServ As IntPtr = API.OpenService(hSCManager, name, API.SERVICE_RIGHTS.SERVICE_QUERY_CONFIG)
 

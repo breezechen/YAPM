@@ -82,7 +82,7 @@ Public Class cService
     ' Refresh Config
     Public Sub Refresh()
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            asyncCallbackServiceEnumerate.getServiceConfig(Me.Infos.Name, _connection.SCManagerLocalHandle, Me.Infos)
+            asyncCallbackServiceEnumerate.getServiceConfig(Me.Infos.Name, _connection.SCManagerLocalHandle, Me.Infos, True)
         End If
     End Sub
 

@@ -221,6 +221,18 @@ Public Class frmServiceInfo
         Me.cmdShowFileProperties.Enabled = _local
         Me.cmdOpenDirectory.Enabled = _local
 
+        Me.txtServicePath.Text = curServ.GetInformation("ImagePath")
+
+        If _local Then
+            Try
+                If IO.File.Exists(Me.txtServicePath.Text) AndAlso curServ.Infos.FileInfo Is Nothing Then
+                    curServ.Infos.FileInfo = FileVersionInfo.GetVersionInfo(Me.txtServicePath.Text)
+                End If
+            Catch ex As Exception
+                ex = ex
+            End Try
+        End If
+
         ' Verify file
         If _local Then
             Try

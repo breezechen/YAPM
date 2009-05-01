@@ -229,6 +229,10 @@ Imports System.Text
             '_tagID = .TagID
             _WaitHint = .WaitHint
             _Win32ExitCode = .Win32ExitCode
+
+            If _fileInfo Is Nothing Then
+                _fileInfo = .FileInfo
+            End If
         End With
     End Sub
 
@@ -242,7 +246,6 @@ Imports System.Text
             _loadOrderGroup = .LoadOrderGroup
             _startName = .ServiceStartName
             _tagID = .TagID
-
 
             ' === Get dependencies of service
             If .Dependencies > 0 Then
@@ -314,6 +317,10 @@ Imports System.Text
             End If
 
         End With
+    End Sub
+
+    Friend Sub SetRealImagePath()
+        _path = GetRealPath(_path)
     End Sub
 
     Friend Sub SetRegInfos(ByVal desc As String, ByVal dmf As String, ByVal obj As String)
