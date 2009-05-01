@@ -121,6 +121,7 @@ Public Class cServiceConnection
                 ' Local
                 If hSCM.ToInt32 > 0 Then
                     Call API.CloseServiceHandle(hSCM)
+                    hSCM = IntPtr.Zero
                 End If
                 _connected = False
                 If Disconnected IsNot Nothing Then _

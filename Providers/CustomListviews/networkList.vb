@@ -186,7 +186,6 @@ Public Class networkList
                 ' Add to dico
                 _dicoNew.Add(pair.Key, New cNetwork(pair.Value))
             End If
-
         Next
 
 
@@ -201,10 +200,12 @@ Public Class networkList
 
         ' Now remove all deleted items from listview and _dico
         For Each z As String In _dicoDel.Keys
-            Me.Items.RemoveByKey(z)
-            RaiseEvent ItemDeleted(_dico.Item(z))
-            _dico.Item(z).Dispose()
-            _dico.Remove(z)
+            If Me.Items.ContainsKey(z) Then
+                Me.Items.RemoveByKey(z)
+                RaiseEvent ItemDeleted(_dico.Item(z))
+                _dico.Item(z).Dispose()
+                _dico.Remove(z)
+            End If
         Next
         _dicoDel.Clear()
 
@@ -222,7 +223,6 @@ Public Class networkList
         ' If first time, lock listview
         If _firstItemUpdate Then Me.BeginUpdate()
         For Each z As String In _dicoNew.Keys
-
             ' Add to listview
             Dim _subItems() As ListViewItem.ListViewSubItem
             ReDim _subItems(Me.Columns.Count - 1)
@@ -241,18 +241,20 @@ Public Class networkList
         Dim it As ListViewItem
         For Each it In Me.Items
             Dim x As Integer = 0
-            Dim _item As cNetwork = _dico.Item(it.Name)
-            For Each isub In it.SubItems
-                isub.Text = _item.GetInformation(_columnsName(x))
-                x += 1
-            Next
-            If _dico.Item(it.Name).IsNewItem Then
-                _dico.Item(it.Name).IsNewItem = False
-                it.BackColor = NEW_ITEM_COLOR
-            ElseIf _dico.Item(it.Name).IsKilledItem Then
-                it.BackColor = DELETED_ITEM_COLOR
-            Else
-                it.BackColor = Color.White
+            If _dico.ContainsKey(it.Name) Then
+                Dim _item As cNetwork = _dico.Item(it.Name)
+                For Each isub In it.SubItems
+                    isub.Text = _item.GetInformation(_columnsName(x))
+                    x += 1
+                Next
+                If _item.IsNewItem Then
+                    _item.IsNewItem = False
+                    it.BackColor = NEW_ITEM_COLOR
+                ElseIf _item.IsKilledItem Then
+                    it.BackColor = DELETED_ITEM_COLOR
+                Else
+                    it.BackColor = Color.White
+                End If
             End If
         Next
 
