@@ -693,14 +693,6 @@ Public Class frmMain
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
-    Private Sub ShutdownToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShutdownToolStripMenuItem.Click
-        For Each it As cService In Me.lvServices.GetSelectedItems
-            it.ShutDownService()
-        Next
-        Call Me.refreshServiceList()
-        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
-    End Sub
-
     Private Sub frmMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Shown
         Static first As Boolean = True
         If first Then
@@ -836,14 +828,6 @@ Public Class frmMain
     Private Sub butStartService_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butStartService.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
             it.StartService()
-        Next
-        Call Me.refreshServiceList()
-        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
-    End Sub
-
-    Private Sub butShutdownService_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butShutdownService.Click
-        For Each it As cService In Me.lvServices.GetSelectedItems
-            it.ShutDownService()
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -2960,7 +2944,6 @@ Public Class frmMain
             ToolStripMenuItem9.Enabled = (acc And API.SERVICE_ACCEPT.PauseContinue) = API.SERVICE_ACCEPT.PauseContinue
             ToolStripMenuItem11.Enabled = Not (state = API.SERVICE_STATE.Running)
             ToolStripMenuItem10.Enabled = (acc And API.SERVICE_ACCEPT.Stop) = API.SERVICE_ACCEPT.Stop
-            ShutdownToolStripMenuItem.Enabled = (acc And API.SERVICE_ACCEPT.PreShutdown) = API.SERVICE_ACCEPT.PreShutdown
 
             ToolStripMenuItem13.Checked = (start = API.SERVICE_START_TYPE.StartDisabled)
             ToolStripMenuItem13.Enabled = Not (ToolStripMenuItem13.Checked)
@@ -2973,7 +2956,6 @@ Public Class frmMain
             ToolStripMenuItem9.Enabled = True
             ToolStripMenuItem11.Enabled = True
             ToolStripMenuItem10.Enabled = True
-            ShutdownToolStripMenuItem.Enabled = True
             ToolStripMenuItem13.Checked = True
             ToolStripMenuItem13.Enabled = True
             ToolStripMenuItem14.Checked = True

@@ -116,7 +116,6 @@
     <Compile Include="Classes\Providers\Services\asyncMethods\asyncCallbackServiceEnumerate.vb" />
     <Compile Include="Classes\Providers\Services\asyncMethods\asyncCallbackServicePause.vb" />
     <Compile Include="Classes\Providers\Services\asyncMethods\asyncCallbackServiceResume.vb" />
-    <Compile Include="Classes\Providers\Services\asyncMethods\asyncCallbackServiceShutdown.vb" />
     <Compile Include="Classes\Providers\Services\asyncMethods\asyncCallbackServiceSetStartType.vb" />
     <Compile Include="Classes\Providers\Services\asyncMethods\asyncCallbackServiceStop.vb" />
     <Compile Include="Classes\Providers\Services\cService.vb" />

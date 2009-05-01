@@ -67,7 +67,6 @@ Public Class frmServiceInfo
                 Me.cbStart.Text = Me.txtStartType.Text
                 Me.cmdGoProcess.Enabled = (Me.curServ.Infos.ProcessId > 0)
                 Me.cmdPause.Enabled = ((Me.curServ.Infos.AcceptedControl And API.SERVICE_ACCEPT.PauseContinue) = API.SERVICE_ACCEPT.PauseContinue)
-                Me.cmdShutdown.Enabled = ((Me.curServ.Infos.AcceptedControl And API.SERVICE_ACCEPT.Shutdown) = API.SERVICE_ACCEPT.Shutdown)
                 Me.cmdStop.Enabled = ((Me.curServ.Infos.AcceptedControl And API.SERVICE_ACCEPT.Stop) = API.SERVICE_ACCEPT.Stop)
                 Me.cmdStart.Enabled = (Me.curServ.Infos.State = API.SERVICE_STATE.Stopped)
 
@@ -166,6 +165,7 @@ Public Class frmServiceInfo
     Private Sub refreshInfosTab()
         Try
 
+            'TODO
 
         Catch ex As Exception
 
@@ -190,6 +190,37 @@ Public Class frmServiceInfo
     Private Sub frmProcessInfo_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         ' Some tooltips
+        frmMain.SetToolTip(Me.txtServicePath, "Path of the image file")
+        frmMain.SetToolTip(Me.txtCheckPoint, "Check point value during when service is starting, stopping, pausing...")
+        frmMain.SetToolTip(Me.txtDiagnosticMessageFile, "Diagnostic message file")
+        frmMain.SetToolTip(Me.txtErrorControl, "Severity error is start failed")
+        frmMain.SetToolTip(Me.txtImageVersion, "Version of the image file")
+        frmMain.SetToolTip(Me.txtLoadOrderGroup, "The name of the load ordering group to which this service belongs")
+        frmMain.SetToolTip(Me.txtName, "Name of the service")
+        frmMain.SetToolTip(Me.txtObjectName, "Object name")
+        frmMain.SetToolTip(Me.txtProcess, "Associated process, if any")
+        frmMain.SetToolTip(Me.txtServiceFlags, "Flags (0 or SERVICE_RUNS_IN_SYSTEM_PROCESS, which means that service" & vbNewLine & "is part of the system and should not be terminated")
+        frmMain.SetToolTip(Me.txtServiceSpecificExitCode, "The service-specific error code that the service returns when an error occurs while the service is starting or stopping")
+        frmMain.SetToolTip(Me.txtServiceStartName, "Name of the account that the service process will be logged on as when it runs.")
+        frmMain.SetToolTip(Me.txtStartType, "Type of start")
+        frmMain.SetToolTip(Me.txtState, "State (running...)")
+        frmMain.SetToolTip(Me.txtTagID, "A unique tag value for this service in the group specified by the lpLoadOrderGroup parameter")
+        frmMain.SetToolTip(Me.txtType, "Type of the service")
+        frmMain.SetToolTip(Me.txtWaitHint, "The estimated time required for a pending start, stop, pause, or continue operation, in milliseconds")
+        frmMain.SetToolTip(Me.txtWin32ExitCode, "The error code that the service uses to report an error that occurs when it is starting or stopping")
+        frmMain.SetToolTip(Me.cmdGetOnlineInfos, "Get online description")
+        frmMain.SetToolTip(Me.cmdGoProcess, "Open details of the associated process")
+        frmMain.SetToolTip(Me.cmdOpenDirectory, "Open direcotry of the image file")
+        frmMain.SetToolTip(Me.cmdPause, "Pause service")
+        frmMain.SetToolTip(Me.cmdRefresh, "Refresh informations")
+        frmMain.SetToolTip(Me.cmdResume, "Resume service")
+        frmMain.SetToolTip(Me.cmdServDet1, "Open details of the selected service")
+        frmMain.SetToolTip(Me.cmdServDet2, "Open details of the selected service")
+        frmMain.SetToolTip(Me.cmdSetStartType, "Change start type of the service")
+        frmMain.SetToolTip(Me.cmdShowFileDetails, "Show details of image file")
+        frmMain.SetToolTip(Me.cmdShowFileProperties, "Show file properties")
+        frmMain.SetToolTip(Me.cmdStart, "Start service")
+        frmMain.SetToolTip(Me.cmdStop, "Stop service")
 
         ' Icons
         If pctBigIcon.Image Is Nothing Then
@@ -391,15 +422,6 @@ Public Class frmServiceInfo
             End If
         End If
         curServ.StopService()
-    End Sub
-
-    Private Sub cmdShutdown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdShutdown.Click
-        If frmMain.Pref.warnDangerous Then
-            If MsgBox("Are you sure you want to shutdown this service ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
-            End If
-        End If
-        curServ.ShutDownService()
     End Sub
 
     Private Sub cmdSetStartType_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSetStartType.Click

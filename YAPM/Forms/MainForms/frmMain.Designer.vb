@@ -86,7 +86,6 @@ Partial Class frmMain
         Me.menuService = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem9 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem10 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ShutdownToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem11 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem12 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem13 = New System.Windows.Forms.ToolStripMenuItem
@@ -260,13 +259,13 @@ Partial Class frmMain
         Me.ServiceTab = New System.Windows.Forms.RibbonTab
         Me.RBServiceDisplay = New System.Windows.Forms.RibbonPanel
         Me.butServiceRefresh = New System.Windows.Forms.RibbonButton
+        Me.butServiceDetails = New System.Windows.Forms.RibbonButton
         Me.RBServiceAction = New System.Windows.Forms.RibbonPanel
         Me.butStopService = New System.Windows.Forms.RibbonButton
         Me.butStartService = New System.Windows.Forms.RibbonButton
         Me.RibbonSeparator1 = New System.Windows.Forms.RibbonSeparator
         Me.butPauseService = New System.Windows.Forms.RibbonButton
         Me.butResumeService = New System.Windows.Forms.RibbonButton
-        Me.butShutdownService = New System.Windows.Forms.RibbonButton
         Me.RBServiceStartType = New System.Windows.Forms.RibbonPanel
         Me.butServiceStartType = New System.Windows.Forms.RibbonButton
         Me.butAutomaticStart = New System.Windows.Forms.RibbonButton
@@ -654,7 +653,6 @@ Partial Class frmMain
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerNetwork = New System.Windows.Forms.Timer(Me.components)
         Me.timerStateBasedActions = New System.Windows.Forms.Timer(Me.components)
-        Me.butServiceDetails = New System.Windows.Forms.RibbonButton
         Me.menuProc.SuspendLayout()
         Me.menuService.SuspendLayout()
         Me.mainMenu.SuspendLayout()
@@ -991,7 +989,7 @@ Partial Class frmMain
         '
         'menuService
         '
-        Me.menuService.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem9, Me.ToolStripMenuItem10, Me.ShutdownToolStripMenuItem, Me.ToolStripMenuItem11, Me.ToolStripMenuItem12, Me.ReanalyzeToolStripMenuItem, Me.ToolStripSeparator2, Me.ToolStripMenuItem20, Me.ToolStripMenuItem21, Me.FileDetailsToolStripMenuItem, Me.ToolStripMenuItem2, Me.GoogleSearchToolStripMenuItem1, Me.ToolStripMenuItem42, Me.SelectedAssociatedProcessToolStripMenuItem1, Me.ToolStripMenuItem5, Me.ChooseColumnsToolStripMenuItem})
+        Me.menuService.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem9, Me.ToolStripMenuItem10, Me.ToolStripMenuItem11, Me.ToolStripMenuItem12, Me.ReanalyzeToolStripMenuItem, Me.ToolStripSeparator2, Me.ToolStripMenuItem20, Me.ToolStripMenuItem21, Me.FileDetailsToolStripMenuItem, Me.ToolStripMenuItem2, Me.GoogleSearchToolStripMenuItem1, Me.ToolStripMenuItem42, Me.SelectedAssociatedProcessToolStripMenuItem1, Me.ToolStripMenuItem5, Me.ChooseColumnsToolStripMenuItem})
         Me.menuService.Name = "menuProc"
         Me.menuService.Size = New System.Drawing.Size(220, 292)
         '
@@ -1009,13 +1007,6 @@ Partial Class frmMain
         Me.ToolStripMenuItem10.Name = "ToolStripMenuItem10"
         Me.ToolStripMenuItem10.Size = New System.Drawing.Size(219, 22)
         Me.ToolStripMenuItem10.Text = "Stop"
-        '
-        'ShutdownToolStripMenuItem
-        '
-        Me.ShutdownToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.cross
-        Me.ShutdownToolStripMenuItem.Name = "ShutdownToolStripMenuItem"
-        Me.ShutdownToolStripMenuItem.Size = New System.Drawing.Size(219, 22)
-        Me.ShutdownToolStripMenuItem.Text = "Shutdown"
         '
         'ToolStripMenuItem11
         '
@@ -2958,6 +2949,20 @@ Partial Class frmMain
         Me.butServiceRefresh.ToolTipImage = Nothing
         Me.butServiceRefresh.ToolTipTitle = Nothing
         '
+        'butServiceDetails
+        '
+        Me.butServiceDetails.AltKey = Nothing
+        Me.butServiceDetails.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butServiceDetails.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butServiceDetails.Image = Global.YAPM.My.Resources.Resources.showDetails
+        Me.butServiceDetails.SmallImage = CType(resources.GetObject("butServiceDetails.SmallImage"), System.Drawing.Image)
+        Me.butServiceDetails.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butServiceDetails.Tag = Nothing
+        Me.butServiceDetails.Text = "Show details"
+        Me.butServiceDetails.ToolTip = Nothing
+        Me.butServiceDetails.ToolTipImage = Nothing
+        Me.butServiceDetails.ToolTipTitle = Nothing
+        '
         'RBServiceAction
         '
         Me.RBServiceAction.ButtonMoreEnabled = False
@@ -2967,7 +2972,6 @@ Partial Class frmMain
         Me.RBServiceAction.Items.Add(Me.RibbonSeparator1)
         Me.RBServiceAction.Items.Add(Me.butPauseService)
         Me.RBServiceAction.Items.Add(Me.butResumeService)
-        Me.RBServiceAction.Items.Add(Me.butShutdownService)
         Me.RBServiceAction.Tag = Nothing
         Me.RBServiceAction.Text = "Service actions"
         '
@@ -3036,20 +3040,6 @@ Partial Class frmMain
         Me.butResumeService.ToolTip = Nothing
         Me.butResumeService.ToolTipImage = Nothing
         Me.butResumeService.ToolTipTitle = Nothing
-        '
-        'butShutdownService
-        '
-        Me.butShutdownService.AltKey = Nothing
-        Me.butShutdownService.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
-        Me.butShutdownService.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butShutdownService.Image = Global.YAPM.My.Resources.Resources.delete2
-        Me.butShutdownService.SmallImage = CType(resources.GetObject("butShutdownService.SmallImage"), System.Drawing.Image)
-        Me.butShutdownService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butShutdownService.Tag = Nothing
-        Me.butShutdownService.Text = "Shutdown"
-        Me.butShutdownService.ToolTip = Nothing
-        Me.butShutdownService.ToolTipImage = Nothing
-        Me.butShutdownService.ToolTipTitle = Nothing
         '
         'RBServiceStartType
         '
@@ -6812,19 +6802,6 @@ Partial Class frmMain
         Me.timerStateBasedActions.Enabled = True
         Me.timerStateBasedActions.Interval = 1000
         '
-        'butServiceDetails
-        '
-        Me.butServiceDetails.AltKey = Nothing
-        Me.butServiceDetails.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
-        Me.butServiceDetails.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butServiceDetails.Image = Global.YAPM.My.Resources.Resources.showDetails
-        Me.butServiceDetails.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butServiceDetails.Tag = Nothing
-        Me.butServiceDetails.Text = "Show details"
-        Me.butServiceDetails.ToolTip = Nothing
-        Me.butServiceDetails.ToolTipImage = Nothing
-        Me.butServiceDetails.ToolTipTitle = Nothing
-        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -7013,7 +6990,6 @@ Partial Class frmMain
     Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripMenuItem20 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem21 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ShutdownToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents openDial As System.Windows.Forms.OpenFileDialog
     Friend WithEvents Ribbon As System.Windows.Forms.Ribbon
     Friend WithEvents ProcessTab As System.Windows.Forms.RibbonTab
@@ -7042,7 +7018,6 @@ Partial Class frmMain
     Friend WithEvents butStartService As System.Windows.Forms.RibbonButton
     Friend WithEvents butPauseService As System.Windows.Forms.RibbonButton
     Friend WithEvents butResumeService As System.Windows.Forms.RibbonButton
-    Friend WithEvents butShutdownService As System.Windows.Forms.RibbonButton
     Friend WithEvents butServiceStartType As System.Windows.Forms.RibbonButton
     Friend WithEvents butAutomaticStart As System.Windows.Forms.RibbonButton
     Friend WithEvents butOnDemandStart As System.Windows.Forms.RibbonButton

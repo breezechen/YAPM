@@ -1985,12 +1985,6 @@ Public Class frmProcessInfo
         Next
     End Sub
 
-    Private Sub ShutdownShutdownToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShutdownShutdownToolStripMenuItem.Click
-        For Each it As cService In Me.lvProcServices.GetSelectedItems
-            it.ShutDownService()
-        Next
-    End Sub
-
     Private Sub StartToolStripMenuItem17_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StartToolStripMenuItem17.Click
         For Each it As cService In Me.lvProcServices.GetSelectedItems
             it.StartService()

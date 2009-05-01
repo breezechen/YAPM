@@ -185,30 +185,6 @@ Public Class cService
         RemovePendingTask(actionNumber)
     End Sub
 
-    ' Shutdown a service
-    Private _shutdownServ As asyncCallbackServiceShutdown
-    Public Function ShutDownService() As Integer
-
-        If _shutdownServ Is Nothing Then
-            _shutdownServ = New asyncCallbackServiceShutdown(New asyncCallbackServiceShutdown.HasShutdowned(AddressOf shutdownServiceDone), _connection)
-        End If
-
-        Dim t As New System.Threading.WaitCallback(AddressOf _shutdownServ.Process)
-        Dim newAction As Integer = cGeneralObject.GetActionCount
-
-        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackServiceShutdown.poolObj(Me.Infos.Name, newAction))
-
-        AddPendingTask2(newAction, t)
-    End Function
-    Private Sub shutdownServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
-        If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not shutdown service " & name)
-        End If
-        RemovePendingTask(actionNumber)
-    End Sub
-
     ' Set service start type
     Private _setStartTypeServ As asyncCallbackServiceSetStartType
     Public Sub SetServiceStartType(ByVal type As API.SERVICE_START_TYPE)

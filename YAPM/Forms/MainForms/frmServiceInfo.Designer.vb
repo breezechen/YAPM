@@ -31,7 +31,6 @@ Partial Class frmServiceInfo
         Me.Label2 = New System.Windows.Forms.Label
         Me.cbStart = New System.Windows.Forms.ComboBox
         Me.cmdSetStartType = New System.Windows.Forms.Button
-        Me.cmdShutdown = New System.Windows.Forms.Button
         Me.cmdStop = New System.Windows.Forms.Button
         Me.cmdPause = New System.Windows.Forms.Button
         Me.cmdStart = New System.Windows.Forms.Button
@@ -102,10 +101,12 @@ Partial Class frmServiceInfo
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
         Me.tv2 = New System.Windows.Forms.TreeView
         Me.imgServices = New System.Windows.Forms.ImageList(Me.components)
+        Me.cmdServDet1 = New System.Windows.Forms.Button
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
         Me.Label21 = New System.Windows.Forms.Label
         Me.SplitContainer4 = New System.Windows.Forms.SplitContainer
         Me.tv = New System.Windows.Forms.TreeView
+        Me.cmdServDet2 = New System.Windows.Forms.Button
         Me.TabPage6 = New System.Windows.Forms.TabPage
         Me.SplitContainerInfoProcess = New System.Windows.Forms.SplitContainer
         Me.cmdRefresh = New System.Windows.Forms.Button
@@ -118,8 +119,6 @@ Partial Class frmServiceInfo
         Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip
         Me.Timer = New System.Windows.Forms.Timer(Me.components)
-        Me.cmdServDet1 = New System.Windows.Forms.Button
-        Me.cmdServDet2 = New System.Windows.Forms.Button
         Me.tabProcess.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -197,7 +196,6 @@ Partial Class frmServiceInfo
         Me.GroupBox7.Controls.Add(Me.Label2)
         Me.GroupBox7.Controls.Add(Me.cbStart)
         Me.GroupBox7.Controls.Add(Me.cmdSetStartType)
-        Me.GroupBox7.Controls.Add(Me.cmdShutdown)
         Me.GroupBox7.Controls.Add(Me.cmdStop)
         Me.GroupBox7.Controls.Add(Me.cmdPause)
         Me.GroupBox7.Controls.Add(Me.cmdStart)
@@ -250,19 +248,6 @@ Partial Class frmServiceInfo
         Me.cmdSetStartType.Text = "Set"
         Me.cmdSetStartType.UseVisualStyleBackColor = True
         '
-        'cmdShutdown
-        '
-        Me.cmdShutdown.Enabled = False
-        Me.cmdShutdown.Image = Global.YAPM.My.Resources.Resources.cross
-        Me.cmdShutdown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.cmdShutdown.Location = New System.Drawing.Point(94, 50)
-        Me.cmdShutdown.Name = "cmdShutdown"
-        Me.cmdShutdown.Size = New System.Drawing.Size(90, 23)
-        Me.cmdShutdown.TabIndex = 6
-        Me.cmdShutdown.Text = "Shutdown"
-        Me.cmdShutdown.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.cmdShutdown.UseVisualStyleBackColor = True
-        '
         'cmdStop
         '
         Me.cmdStop.Enabled = False
@@ -294,7 +279,7 @@ Partial Class frmServiceInfo
         Me.cmdStart.Enabled = False
         Me.cmdStart.Image = Global.YAPM.My.Resources.Resources.control
         Me.cmdStart.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.cmdStart.Location = New System.Drawing.Point(166, 21)
+        Me.cmdStart.Location = New System.Drawing.Point(94, 50)
         Me.cmdStart.Name = "cmdStart"
         Me.cmdStart.Size = New System.Drawing.Size(66, 23)
         Me.cmdStart.TabIndex = 3
@@ -1013,6 +998,15 @@ Partial Class frmServiceInfo
         Me.imgServices.Images.SetKeyName(4, "noicon")
         Me.imgServices.Images.SetKeyName(5, "service")
         '
+        'cmdServDet1
+        '
+        Me.cmdServDet1.Location = New System.Drawing.Point(90, 2)
+        Me.cmdServDet1.Name = "cmdServDet1"
+        Me.cmdServDet1.Size = New System.Drawing.Size(140, 23)
+        Me.cmdServDet1.TabIndex = 0
+        Me.cmdServDet1.Text = "View services details"
+        Me.cmdServDet1.UseVisualStyleBackColor = True
+        '
         'SplitContainer3
         '
         Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
@@ -1073,6 +1067,15 @@ Partial Class frmServiceInfo
         Me.tv.SelectedImageIndex = 0
         Me.tv.Size = New System.Drawing.Size(317, 231)
         Me.tv.TabIndex = 15
+        '
+        'cmdServDet2
+        '
+        Me.cmdServDet2.Location = New System.Drawing.Point(88, 2)
+        Me.cmdServDet2.Name = "cmdServDet2"
+        Me.cmdServDet2.Size = New System.Drawing.Size(140, 23)
+        Me.cmdServDet2.TabIndex = 1
+        Me.cmdServDet2.Text = "View services details"
+        Me.cmdServDet2.UseVisualStyleBackColor = True
         '
         'TabPage6
         '
@@ -1206,24 +1209,6 @@ Partial Class frmServiceInfo
         Me.Timer.Enabled = True
         Me.Timer.Interval = 1000
         '
-        'cmdServDet1
-        '
-        Me.cmdServDet1.Location = New System.Drawing.Point(90, 2)
-        Me.cmdServDet1.Name = "cmdServDet1"
-        Me.cmdServDet1.Size = New System.Drawing.Size(140, 23)
-        Me.cmdServDet1.TabIndex = 0
-        Me.cmdServDet1.Text = "View services details"
-        Me.cmdServDet1.UseVisualStyleBackColor = True
-        '
-        'cmdServDet2
-        '
-        Me.cmdServDet2.Location = New System.Drawing.Point(88, 2)
-        Me.cmdServDet2.Name = "cmdServDet2"
-        Me.cmdServDet2.Size = New System.Drawing.Size(140, 23)
-        Me.cmdServDet2.TabIndex = 1
-        Me.cmdServDet2.Text = "View services details"
-        Me.cmdServDet2.UseVisualStyleBackColor = True
-        '
         'frmServiceInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1334,7 +1319,6 @@ Partial Class frmServiceInfo
     Friend WithEvents MainToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RefreshToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
-    Friend WithEvents cmdShutdown As System.Windows.Forms.Button
     Friend WithEvents cmdStop As System.Windows.Forms.Button
     Friend WithEvents cmdPause As System.Windows.Forms.Button
     Friend WithEvents cmdStart As System.Windows.Forms.Button
