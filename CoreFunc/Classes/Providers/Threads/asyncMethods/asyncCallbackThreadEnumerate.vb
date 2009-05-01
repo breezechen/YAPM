@@ -130,7 +130,11 @@ Public Class asyncCallbackThreadEnumerate
                                 .State = CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.ThreadState.ToString))
                                 .UserTime = 10000 * CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.UserModeTime.ToString))
                                 .WaitReason = CType(CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.ThreadWaitReason.ToString)), API.KWAIT_REASON)
-                                .WaitTime = 10000 * CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.ElapsedTime.ToString))
+                                Try
+                                    .WaitTime = 10000 * CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.ElapsedTime.ToString))
+                                Catch ex1 As Exception
+                                    '
+                                End Try
                             End With
                             Dim _procInfos As New threadInfos(obj)
                             Dim _key As String = obj.ClientId.UniqueThread.ToString & "-" & obj.ClientId.UniqueProcess.ToString

@@ -551,8 +551,10 @@ Public Class cProcess
                     String.Format("{0:00}", ts.Second) & ":" & _
                     String.Format("{000}", ts.Millisecond)
             Case "StartTime"
-                Dim ts As Date = New Date(Me.Infos.StartTime)
-                res = ts.ToLongDateString & " -- " & ts.ToLongTimeString
+                If Me.Infos.StartTime > 0 Then
+                    Dim ts As Date = New Date(Me.Infos.StartTime)
+                    res = ts.ToLongDateString & " -- " & ts.ToLongTimeString
+                End If
             Case "WorkingSet"
                 res = GetFormatedSize(Me.Infos.MemoryInfos.WorkingSetSize)
             Case "PeakWorkingSet"

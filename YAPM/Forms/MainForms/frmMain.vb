@@ -4294,8 +4294,6 @@ Public Class frmMain
             Exit Sub
         End Try
 
-        Me.menuThread.Enabled = (theConnection.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
-
         Me.butResumeProcess.Enabled = Me._notWMI
         Me.butStopProcess.Enabled = Me._notWMI
         Me.butProcessAffinity.Enabled = Me._notWMI
@@ -4340,6 +4338,11 @@ Public Class frmMain
         Me.ToolStripMenuItem36.Enabled = _notWMI
         Me.RBServiceFile.Enabled = _notWMI
         Me.butProcessOtherActions.Enabled = _notWMI
+        Me.ToolStripMenuItem23.Enabled = _notWMI
+        Me.ToolStripMenuItem24.Enabled = _notWMI
+        Me.ToolStripMenuItem25.Enabled = _notWMI
+        Me.ToolStripMenuItem26.Enabled = _notWMI
+        Me.ToolStripMenuItem33.Enabled = _notWMI
 
         Me.lvProcess.CatchErrors = Not (_local)
         Me.lvModules.CatchErrors = Not (_local)

@@ -316,8 +316,10 @@ Public Class cThread
             Case "ContextSwitchDelta"
                 res = Me.Infos.ContextSwitchDelta.ToString
             Case "CreateTime"
-                Dim ts As Date = New Date(Me.Infos.CreateTime)
-                res = ts.ToLongDateString & " -- " & ts.ToLongTimeString
+                If Me.Infos.CreateTime > 0 Then
+                    Dim ts As Date = New Date(Me.Infos.CreateTime)
+                    res = ts.ToLongDateString & " -- " & ts.ToLongTimeString
+                End If
             Case "KernelTime"
                 Dim ts As Date = New Date(Me.Infos.KernelTime)
                 res = String.Format("{0:00}", ts.Hour) & ":" & _
