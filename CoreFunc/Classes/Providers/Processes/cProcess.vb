@@ -800,6 +800,21 @@ Public Class cProcess
 
 #End Region
 
+#Region "Shared functions (local)"
+
+    Public Shared Function LocalKill(ByVal pid As Integer) As Integer
+        Dim hProc As Integer
+        Dim ret As Integer = -1
+        hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_TERMINATE, 0, pid)
+        If hProc > 0 Then
+            ret = API.TerminateProcess(hProc, 0)
+            API.CloseHandle(hProc)
+        End If
+        Return ret
+    End Function
+
+#End Region
+
     ' Retrieve a long array with all available values from dictionnaries
     Public Function GetHistory(ByVal infoName As String) As Double()
         Dim ret() As Double

@@ -130,48 +130,4 @@ Public Class frmPendingTasks
         first = False
     End Sub
 
-    Private Sub TerminateToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TerminateToolStripMenuItem.Click
-        Dim _list As List(Of Threading.Thread) = _obj.GetPendingTasks
-        For Each it As ListViewItem In Me.lv.SelectedItems
-            For Each tt As Threading.Thread In _list
-                If tt.ToString = CStr(it.Tag) Then
-                    Try
-                        tt.Abort()  'TOCHANGE
-                    Catch ex As Exception
-                        '
-                    End Try
-                End If
-            Next
-        Next
-    End Sub
-
-    Private Sub SuspendToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SuspendToolStripMenuItem.Click
-        Dim _list As List(Of Threading.Thread) = _obj.GetPendingTasks
-        For Each it As ListViewItem In Me.lv.SelectedItems
-            For Each tt As Threading.Thread In _list
-                If tt.ToString = CStr(it.Tag) Then
-                    Try
-                        '   tt.Suspend()
-                    Catch ex As Exception
-                        '
-                    End Try
-                End If
-            Next
-        Next
-    End Sub
-
-    Private Sub ResumeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ResumeToolStripMenuItem.Click
-        Dim _list As List(Of Threading.Thread) = _obj.GetPendingTasks
-        For Each it As ListViewItem In Me.lv.SelectedItems
-            For Each tt As Threading.Thread In _list
-                If tt.ToString = CStr(it.Tag) Then
-                    Try
-                        '    tt.Resume()
-                    Catch ex As Exception
-                        '
-                    End Try
-                End If
-            Next
-        Next
-    End Sub
 End Class

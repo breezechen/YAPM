@@ -23,23 +23,16 @@ Partial Class frmPendingTasks
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPendingTasks))
         Me.lv = New Providers.DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
-        Me.ContextMenuStrip22 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.TerminateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.SuspendToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ResumeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.Timer = New System.Windows.Forms.Timer(Me.components)
-        Me.ContextMenuStrip22.SuspendLayout()
         Me.SuspendLayout()
         '
         'lv
         '
         Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader3})
-        Me.lv.ContextMenuStrip = Me.ContextMenuStrip22
         Me.lv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lv.FullRowSelect = True
         Me.lv.Location = New System.Drawing.Point(0, 0)
@@ -65,33 +58,6 @@ Partial Class frmPendingTasks
         Me.ColumnHeader3.Text = "Method"
         Me.ColumnHeader3.Width = 141
         '
-        'ContextMenuStrip22
-        '
-        Me.ContextMenuStrip22.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TerminateToolStripMenuItem, Me.SuspendToolStripMenuItem, Me.ResumeToolStripMenuItem})
-        Me.ContextMenuStrip22.Name = "ContextMenuStrip22"
-        Me.ContextMenuStrip22.Size = New System.Drawing.Size(129, 70)
-        '
-        'TerminateToolStripMenuItem
-        '
-        Me.TerminateToolStripMenuItem.Image = CType(resources.GetObject("TerminateToolStripMenuItem.Image"), System.Drawing.Image)
-        Me.TerminateToolStripMenuItem.Name = "TerminateToolStripMenuItem"
-        Me.TerminateToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
-        Me.TerminateToolStripMenuItem.Text = "Terminate"
-        '
-        'SuspendToolStripMenuItem
-        '
-        Me.SuspendToolStripMenuItem.Enabled = False
-        Me.SuspendToolStripMenuItem.Name = "SuspendToolStripMenuItem"
-        Me.SuspendToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
-        Me.SuspendToolStripMenuItem.Text = "Suspend"
-        '
-        'ResumeToolStripMenuItem
-        '
-        Me.ResumeToolStripMenuItem.Enabled = False
-        Me.ResumeToolStripMenuItem.Name = "ResumeToolStripMenuItem"
-        Me.ResumeToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
-        Me.ResumeToolStripMenuItem.Text = "Resume"
-        '
         'Timer
         '
         Me.Timer.Enabled = True
@@ -106,7 +72,6 @@ Partial Class frmPendingTasks
         Me.Name = "frmPendingTasks"
         Me.ShowIcon = False
         Me.Text = "Pending tasks for the object"
-        Me.ContextMenuStrip22.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -115,8 +80,4 @@ Partial Class frmPendingTasks
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
     Friend WithEvents Timer As System.Windows.Forms.Timer
-    Friend WithEvents ContextMenuStrip22 As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents TerminateToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents SuspendToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ResumeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

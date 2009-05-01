@@ -306,10 +306,6 @@ Public Class cWindow
         Return ""
     End Function
 
-    Public Shared Function GetForegroundAppPID() As Integer
-
-    End Function
-
     Public Shared Sub SetEnabled(ByVal hWnd As IntPtr, ByVal en As Boolean)
 
     End Sub
@@ -431,4 +427,13 @@ Public Class cWindow
 
         Return res
     End Function
+
+#Region "Shared functions (local)"
+
+    Public Shared Function GetForegroundAppPID() As Integer
+
+    End Function
+
+#End Region
+
 End Class

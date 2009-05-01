@@ -1274,7 +1274,7 @@ Public Class frmProcessInfo
 
     ' Check if there are changes about network
     Private Sub _CheckNetwork()
-        ' TODO
+        ' TODO_
         'Static _dico As New Dictionary(Of String, cNetwork.LightConnection)
         'Static _first As Boolean = True
         'Dim _buffDico As New Dictionary(Of String, cNetwork.LightConnection)
@@ -2018,10 +2018,8 @@ Public Class frmProcessInfo
     Private Sub FilePropToolStripMenuItem34_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FilePropToolStripMenuItem34.Click
         Dim s As String = vbNullString
         For Each it As cService In Me.lvProcServices.GetSelectedItems
-            Dim sP As String = it.GetInformation("ImagePath")
-            If sP <> NO_INFO_RETRIEVED Then
-                'TODO_
-                s = sP  'cService.GetFileNameFromSpecial(sP)
+            s = it.GetInformation("ImagePath")
+            If s <> NO_INFO_RETRIEVED Then
                 If IO.File.Exists(s) Then
                     cFile.ShowFileProperty(s, Me.Handle)
                 Else
