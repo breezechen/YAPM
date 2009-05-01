@@ -24,6 +24,7 @@ Imports System.Net
 
 Public Class cNetwork
     Inherits cGeneralObject
+    Implements IDisposable
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
@@ -58,7 +59,7 @@ Public Class cNetwork
             If Me.Infos._Local.Address.Equals(nullAddress) = False Then
                 Dim callback As System.AsyncCallback = AddressOf ProcessLocalDnsInformation
                 Dns.BeginGetHostEntry(Me.Infos._Local.Address, callback, Nothing)
-                GC.KeepAlive(callback)
+                'GC.KeepAlive(callback)
             End If
         Catch ex As Exception
             '
@@ -67,11 +68,36 @@ Public Class cNetwork
             If Me.Infos._remote IsNot Nothing AndAlso Me.Infos._remote.Address.Equals(nullAddress) = False Then
                 Dim callback2 As System.AsyncCallback = AddressOf ProcessRemoteDnsInformation
                 Dns.BeginGetHostEntry(Me.Infos._remote.Address, callback2, Nothing)
-                GC.KeepAlive(callback2)
+                'GC.KeepAlive(callback2)
             End If
         Catch ex As Exception
             '
         End Try
+    End Sub
+    Private disposed As Boolean = False
+    Public Overloads Sub Dispose() Implements IDisposable.Dispose
+        Dispose(True)
+        ' This object will be cleaned up by the Dispose method.
+        ' Therefore, you should call GC.SupressFinalize to
+        ' take this object off the finalization queue 
+        ' and prevent finalization code for this object
+        ' from executing a second time.
+        GC.SuppressFinalize(Me)
+    End Sub
+    Private Overloads Sub Dispose(ByVal disposing As Boolean)
+        ' Check to see if Dispose has already been called.
+        If Not Me.disposed Then
+            ' If disposing equals true, dispose all managed 
+            ' and unmanaged resources.
+            If disposing Then
+                ' Dispose managed resources.
+
+            End If
+
+            ' Note disposing has been done.
+            disposed = True
+
+        End If
     End Sub
 
 #End Region

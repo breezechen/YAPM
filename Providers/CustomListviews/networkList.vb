@@ -203,6 +203,7 @@ Public Class networkList
         For Each z As String In _dicoDel.Keys
             Me.Items.RemoveByKey(z)
             RaiseEvent ItemDeleted(_dico.Item(z))
+            _dico.Item(z).Dispose()
             _dico.Remove(z)
         Next
         _dicoDel.Clear()
@@ -290,7 +291,13 @@ Public Class networkList
         ' Add a group if necessary
         If _all Then
             If Me.Groups(CStr(net.Infos.ProcessId)) Is Nothing Then
-                Me.Groups.Add(CStr(net.Infos.ProcessId), net.Infos.ProcessName & " (" & CStr(net.Infos.ProcessId) & ")")
+                Dim sText As String
+                If net.Infos.ProcessId > 0 Then
+                    sText = net.Infos.ProcessName & " (" & CStr(net.Infos.ProcessId) & ")"
+                Else
+                    sText = "Unknow process"
+                End If
+                Me.Groups.Add(CStr(net.Infos.ProcessId), sText)
             End If
             item.Group = Me.Groups(CStr(net.Infos.ProcessId))
         End If
