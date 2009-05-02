@@ -105,7 +105,11 @@ Public Class asyncCallbackEnvVariableEnumerate
 
 
     ' Return environment variables
-    Private Shared Function GetEnvironmentVariables(ByVal peb As Integer, ByVal pid As Integer, ByRef variables() As String, _
+    Friend Shared Function GetEnvironmentVariables(ByRef process As cProcess, ByRef variables() As String, _
+                                            ByRef values() As String) As Integer
+        Return GetEnvironmentVariables(process.Infos.PEBAddress, process.Infos.Pid, variables, values)
+    End Function
+    Friend Shared Function GetEnvironmentVariables(ByVal peb As Integer, ByVal pid As Integer, ByRef variables() As String, _
                                             ByRef values() As String) As Integer
 
         ReDim variables(-1)

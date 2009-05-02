@@ -101,7 +101,7 @@ Imports System.Runtime.InteropServices
 
     ' Constructor of this class
     Public Sub New(ByRef Thr As API.MODULEINFO, ByVal pid As Integer, _
-                   ByVal path As String) ', Optional ByVal getFileInfos As Boolean = True)
+                   ByVal path As String, Optional ByVal noFileInfo As Boolean = False) ', Optional ByVal getFileInfos As Boolean = True)
         With Thr
             _size = .SizeOfImage
             _entryPoint = .EntryPoint.ToInt32
@@ -121,15 +121,17 @@ Imports System.Runtime.InteropServices
         End If
         _path = path
         _name = cFile.GetFileName(_path)
-        'If getFileInfos Then
-        Try
-            _fileInfo = FileVersionInfo.GetVersionInfo(path)
-        Catch ex As Exception
+
+        If noFileInfo = False Then
+            Try
+                _fileInfo = FileVersionInfo.GetVersionInfo(path)
+            Catch ex As Exception
+                _fileInfo = Nothing
+            End Try
+        Else
             _fileInfo = Nothing
-        End Try
-        'Else
-        '_fileInfo = Nothing
-        'End If
+        End If
+
     End Sub
     Public Sub New(ByRef Thr As API.MODULEINFO, ByVal pid As Integer, _
                    ByVal path As String, ByVal version As String, ByVal manufacturer As String)

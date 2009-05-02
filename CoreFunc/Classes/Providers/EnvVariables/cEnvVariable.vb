@@ -90,4 +90,22 @@ Public Class cEnvVariable
 
 #End Region
 
+#Region "Shared functions (local)"
+
+    Public Shared Function CurrentEnvVariables(ByVal process As cProcess) As Dictionary(Of String, cEnvVariable)
+        Dim _dico As New Dictionary(Of String, cEnvVariable)
+
+        Dim var() As String = Nothing
+        Dim val() As String = Nothing
+        Call asyncCallbackEnvVariableEnumerate.GetEnvironmentVariables(process, var, val)
+
+        For x As Integer = 0 To var.Length - 1
+            _dico.Add(var(x), New cEnvVariable(New envVariableInfos(var(x), val(x), process.Infos.Pid)))
+        Next
+
+        Return _dico
+    End Function
+
+#End Region
+
 End Class

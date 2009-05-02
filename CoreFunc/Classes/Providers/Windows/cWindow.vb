@@ -434,6 +434,37 @@ Public Class cWindow
 
     End Function
 
+    ' Get all windows
+    Public Shared Function CurrentLocalWindows(Optional ByVal all As Boolean = True) As Dictionary(Of String, cWindow)
+        ' Local
+        Dim currWnd As IntPtr
+        Dim cpt As Integer
+
+        Dim _dico As New Dictionary(Of String, cWindow)
+
+        currWnd = API.GetWindowAPI(API.GetDesktopWindow(), API.GW_CHILD)
+        cpt = 0
+        Do While Not (currWnd = IntPtr.Zero)
+
+            ' Get procId from hwnd
+            Dim pid As Integer = asyncCallbackWindowEnumerate.GetProcIdFromWindowHandle(currWnd)
+            'If all OrElse Array.IndexOf(pObj.pid, pid) >= 0 Then
+            ' Then this window belongs to one of our processes
+            'If all OrElse asyncCallbackWindowEnumerate.GetCaptionLenght(currWnd) > 0 Then
+            Dim tid As Integer = asyncCallbackWindowEnumerate.GetThreadIdFromWindowHandle(currWnd)
+            Dim key As String = pid.ToString & "-" & tid.ToString & "-" & currWnd.ToString
+            If _dico.ContainsKey(key) = False Then
+                _dico.Add(key, New cWindow(New windowInfos(pid, tid, currWnd)))
+            End If
+            'End If
+            'End If
+
+            currWnd = API.GetWindowAPI(currWnd, API.GW_HWNDNEXT)
+        Loop
+
+        Return _dico
+    End Function
+
 #End Region
 
 End Class

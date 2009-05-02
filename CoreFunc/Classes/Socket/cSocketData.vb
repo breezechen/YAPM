@@ -63,6 +63,7 @@ Option Strict On
         [RequestPrivilegesList]
         [RequestMemoryRegionList]
         [RequestEnvironmentVariableList]
+        [RequestSearchList]
 
         ' General commands
         [GeneralCommandSearch]

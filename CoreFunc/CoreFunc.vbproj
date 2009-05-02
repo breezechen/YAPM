@@ -112,6 +112,9 @@
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackProcUnloadModule.vb" />
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackProcNewProcess.vb" />
     <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackProcGetAllNonFixedInfos.vb" />
+    <Compile Include="Classes\Providers\Search\asyncMethods\asyncCallbackSearchEnumerate.vb" />
+    <Compile Include="Classes\Providers\Search\cSearchConnection.vb" />
+    <Compile Include="Classes\Providers\Search\searchInfos.vb" />
     <Compile Include="Classes\Providers\Services\asyncMethods\asyncCallbackServiceStart.vb" />
     <Compile Include="Classes\Providers\Services\asyncMethods\asyncCallbackServiceEnumerate.vb" />
     <Compile Include="Classes\Providers\Services\asyncMethods\asyncCallbackServicePause.vb" />

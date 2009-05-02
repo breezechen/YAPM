@@ -67,9 +67,23 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property display16() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("display16", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property dllIcon() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("dllIcon", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property exe() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("exe", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -81,9 +95,23 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property handle() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("handle", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property key() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("key", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property text() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("text", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

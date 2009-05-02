@@ -176,7 +176,7 @@ Public Class asyncCallbackModuleEnumerate
 
     End Sub
 
-    Private Shared Function GetModules(ByVal pid As Integer) As Dictionary(Of String, moduleInfos)
+    Friend Shared Function GetModules(ByVal pid As Integer, Optional ByVal noFileInfo As Boolean = False) As Dictionary(Of String, moduleInfos)
         Dim size As Integer
         Dim _handles As IntPtr()
 
@@ -209,7 +209,7 @@ Public Class asyncCallbackModuleEnumerate
                     ' path-pid-baseAddress
                     Dim _key As String = fileName.ToString & "-" & pid.ToString & "-" & MI.BaseOfDll.ToString
 
-                    ret.Add(_key, New moduleInfos(MI, pid, fileName.ToString))
+                    ret.Add(_key, New moduleInfos(MI, pid, fileName.ToString, nofileinfo))
                 Next
             Else
 

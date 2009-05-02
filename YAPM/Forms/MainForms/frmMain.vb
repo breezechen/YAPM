@@ -1073,13 +1073,12 @@ Public Class frmMain
 
     Private Sub SelectAssociatedProcessToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SelectAssociatedProcessToolStripMenuItem.Click
         ' Select processes associated to selected search results
-        Dim it As ListViewItem
         If Me.lvSearchResults.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
-        For Each it In Me.lvSearchResults.SelectedItems
+        For Each it As searchInfos In Me.lvSearchResults.GetSelectedItems
             Try
-                If it.Tag.ToString = "service" Then
+                If it.Type = searchInfos.ResultType.Service Then
                     ' Select service
-                    Dim sp As String = it.SubItems(3).Text
+                    Dim sp As String = it.Service
                     Dim it2 As ListViewItem
                     For Each it2 In Me.lvServices.Items
                         Dim cp As cService = Me.lvServices.GetItemByKey(it2.Name)
@@ -1091,14 +1090,12 @@ Public Class frmMain
                     Me.Ribbon.ActiveTab = Me.ServiceTab
                 Else
                     ' Select process
-                    Dim sp As String = it.SubItems(3).Text
-                    Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
+                    Dim i As Integer = it.ProcessId
                     If i > 0 Then
-                        Dim pid As String = sp.Substring(0, i - 1)
                         Dim it2 As ListViewItem
                         For Each it2 In Me.lvProcess.Items
                             Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                            If CStr(cp.Infos.Pid) = pid Then
+                            If cp.Infos.Pid = i Then
                                 it2.Selected = True
                                 it2.EnsureVisible()
                             End If
@@ -3500,6 +3497,7 @@ Public Class frmMain
 
     Private Sub chkSearchProcess_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkSearchProcess.CheckedChanged
         Me.chkSearchModules.Enabled = (Me.chkSearchProcess.Checked)
+        Me.chkSearchEnvVar.Enabled = (Me.chkSearchProcess.Checked)
     End Sub
 
     Private Sub cmdCopyServiceToCp_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdCopyServiceToCp.Click
@@ -3745,220 +3743,34 @@ Public Class frmMain
     End Sub
 
     Private Sub goSearch(ByVal ssearch As String)
-        ' Launch search
-        Dim sToSearch As String = ssearch
-        If (sToSearch Is Nothing) OrElse sToSearch.Length < 1 Then Exit Sub
-
-        If Me.chkSearchCase.Checked = False Then
-            sToSearch = sToSearch.ToLower
+        If ssearch IsNot Nothing AndAlso ssearch.Length > 0 Then
+            With Me.lvSearchResults
+                .CaseSensitive = Me.chkSearchCase.Checked
+                .SearchString = ssearch
+                Dim t As searchInfos.SearchInclude
+                If Me.chkSearchEnvVar.Checked And Me.chkSearchEnvVar.Enabled Then
+                    t = t Or searchInfos.SearchInclude.SearchEnvVar
+                End If
+                If Me.chkSearchHandles.Checked Then
+                    t = t Or searchInfos.SearchInclude.SearchHandles
+                End If
+                If Me.chkSearchModules.Checked And Me.chkSearchModules.Enabled Then
+                    t = t Or searchInfos.SearchInclude.SearchModules
+                End If
+                If Me.chkSearchProcess.Checked Then
+                    t = t Or searchInfos.SearchInclude.SearchProcesses
+                End If
+                If Me.chkSearchServices.Checked Then
+                    t = t Or searchInfos.SearchInclude.SearchServices
+                End If
+                If Me.chkSearchWindows.Checked Then
+                    t = t Or searchInfos.SearchInclude.SearchWindows
+                End If
+                .Includes = t
+                .ClearItems()
+                .UpdateItems()
+            End With
         End If
-
-        Me.lvSearchResults.Items.Clear()
-        Me.lvSearchResults.BeginUpdate()
-
-        ' Refresh services and processes lists (easy way to have up to date informations)
-        Call Me.refreshProcessList()
-        Call Me.refreshServiceList()
-
-        ' Lock timers so we won't refresh
-        Me.timerProcess.Enabled = False
-        Me.timerServices.Enabled = False
-
-        Dim it As ListViewItem
-        Dim subit As ListViewItem.ListViewSubItem
-        Dim c As Integer
-        Dim sComp As String
-        Dim i As Integer = 0
-        Dim id As Integer = 0
-        'TODO_ (search)
-        'If Me.chkSearchProcess.Checked Then
-        '    For Each it In Me.lvProcess.Items
-        '        Dim cp As cProcess = Me.lvProcess.GetItemByKey(it.Name)
-        '        c = -1
-        '        For Each subit In it.SubItems
-        '            If Me.chkSearchCase.Checked = False Then
-        '                sComp = subit.Text.ToLower
-        '            Else
-        '                sComp = subit.Text
-        '            End If
-        '            c += 1
-        '            If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
-        '                ' So we've found a result
-        '                Dim newIt As New ListViewItem
-        '                Dim n2 As New ListViewItem.ListViewSubItem
-        '                Dim n3 As New ListViewItem.ListViewSubItem
-        '                Dim n4 As New ListViewItem.ListViewSubItem
-        '                newIt.Text = "Process"
-        '                n3.Text = Me.lvProcess.Columns.Item(c).Text
-        '                n2.Text = newIt.Text & " -- " & n3.Text & " -- " & cp.Name & " -- " & subit.Text
-        '                n4.Text = CStr(cp.Pid) & " -- " & cp.Name
-        '                newIt.SubItems.Add(n2)
-        '                newIt.SubItems.Add(n3)
-        '                newIt.SubItems.Add(n4)
-        '                newIt.Tag = "process"
-        '                newIt.Group = Me.lvSearchResults.Groups(0)
-        '                Try
-        '                    Dim fName As String = cp.Path
-        '                    imgSearch.Images.Add(fName, Me.lvProcess.GetImageFromImageList(fName))
-        '                    newIt.ImageKey = fName
-        '                Catch ex As Exception
-        '                    newIt.ImageKey = "noicon"
-        '                End Try
-        '                Me.lvSearchResults.Items.Add(newIt)
-        '            End If
-        '        Next
-
-        '        ' Check for modules
-        '        Try
-        '            If Me.chkSearchModules.Checked Then
-        '                Dim p As ProcessModuleCollection = cp.Modules
-        '                Dim m As ProcessModule
-        '                For Each m In p
-        '                    If Me.chkSearchCase.Checked = False Then
-        '                        sComp = m.FileVersionInfo.FileName.ToLower
-        '                    Else
-        '                        sComp = m.FileVersionInfo.FileName
-        '                    End If
-        '                    If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
-        '                        ' So we've found a result
-        '                        Dim newIt As New ListViewItem
-        '                        Dim n2 As New ListViewItem.ListViewSubItem
-        '                        Dim n3 As New ListViewItem.ListViewSubItem
-        '                        Dim n4 As New ListViewItem.ListViewSubItem
-        '                        newIt.Text = "Module"
-        '                        Dim _tag As New cModule.MODULEENTRY32
-        '                        _tag.th32ProcessID = cp.Pid
-        '                        _tag.modBaseAddr = m.BaseAddress.ToInt32
-        '                        newIt.Tag = _tag
-        '                        n3.Text = "Module"
-        '                        n2.Text = newIt.Text & " -- " & cp.Name & " -- " & m.FileVersionInfo.FileName
-        '                        n4.Text = CStr(cp.Pid) & " -- " & cp.Name
-        '                        newIt.SubItems.Add(n2)
-        '                        newIt.SubItems.Add(n3)
-        '                        newIt.SubItems.Add(n4)
-        '                        newIt.ImageKey = "dll"
-        '                        newIt.Group = Me.lvSearchResults.Groups(0)
-        '                        Me.lvSearchResults.Items.Add(newIt)
-        '                    End If
-        '                Next
-        '            End If
-        '        Catch ex As Exception
-        '            '
-        '        End Try
-        '    Next
-        'End If
-        If Me.chkSearchServices.Checked Then
-            For Each it In Me.lvServices.Items
-                c = -1
-                For Each subit In it.SubItems
-                    If Me.chkSearchCase.Checked = False Then
-                        sComp = subit.Text.ToLower
-                    Else
-                        sComp = subit.Text
-                    End If
-                    c += 1
-                    If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
-                        ' So we've found a result
-                        Dim newIt As New ListViewItem
-                        Dim n2 As New ListViewItem.ListViewSubItem
-                        Dim n3 As New ListViewItem.ListViewSubItem
-                        Dim n4 As New ListViewItem.ListViewSubItem
-                        newIt.Text = "Service"
-                        newIt.Tag = "service"
-                        n3.Text = Me.lvServices.Columns.Item(c).Text
-                        n2.Text = newIt.Text & " -- " & n3.Text & " -- " & it.Text & " -- " & subit.Text
-                        n4.Text = it.Text
-                        newIt.SubItems.Add(n2)
-                        newIt.SubItems.Add(n3)
-                        newIt.SubItems.Add(n4)
-                        newIt.ImageKey = "service"
-                        newIt.Group = Me.lvSearchResults.Groups(0)
-                        Me.lvSearchResults.Items.Add(newIt)
-                    End If
-                Next
-            Next
-        End If
-
-        If Me.chkSearchHandles.Checked Then
-            cHandle.GetOpenedHandlesClass.Refresh()
-            For i = 0 To cHandle.GetOpenedHandlesClass.Count - 1
-                With cHandle.GetOpenedHandlesClass
-                    If (Len(.GetObjectName(i)) > 0) Then
-                        If Me.chkSearchCase.Checked = False Then
-                            sComp = .GetObjectName(i).ToLower
-                        Else
-                            sComp = .GetObjectName(i)
-                        End If
-                        If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
-                            ' So we've found a result
-                            Dim newIt As New ListViewItem
-                            Dim n2 As New ListViewItem.ListViewSubItem
-                            Dim n3 As New ListViewItem.ListViewSubItem
-                            Dim n4 As New ListViewItem.ListViewSubItem
-                            newIt.Text = "Handle"
-                            newIt.Tag = .GetHandle(i)
-                            n3.Text = .GetNameInformation(i)
-                            n2.Text = newIt.Text & " -- " & n3.Text & " -- " & .GetObjectName(i)
-                            'TODO_    (search)                        'n4.Text = .GetProcessID(i) & " -- " & cProcess.GetProcessName(.GetProcessID(i))
-                            newIt.SubItems.Add(n2)
-                            newIt.SubItems.Add(n3)
-                            newIt.SubItems.Add(n4)
-                            newIt.ImageKey = "handle"
-                            newIt.Group = Me.lvSearchResults.Groups(0)
-                            Me.lvSearchResults.Items.Add(newIt)
-                        End If
-                    End If
-                End With
-            Next
-        End If
-
-        If Me.chkSearchWindows.Checked Then
-            ' TODO_
-            'Dim w() As cWindow = Nothing
-            'Dim ww As cWindow
-            'Dim _key() As Integer
-            'ReDim _key(0)
-            'Dim _dico As New Dictionary(Of String, windowInfos.LightWindow)
-            'Call cWindow.EnumerateAll(True, _key, _dico)
-            'For Each ww As windowInfos.LightWindow In _dico.Values
-            '    With ww
-            '        Dim _caption As String = cWindow.GetCaption(ww.handle)
-            '        If (Len(_caption) > 0) Then
-            '            If Me.chkSearchCase.Checked = False Then
-            '                sComp = _caption.ToLower
-            '            Else
-            '                sComp = _caption
-            '            End If
-            '            'type, result, field, process
-            '            If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
-            '                ' So we've found a result
-            '                Dim newIt As New ListViewItem
-            '                Dim n2 As New ListViewItem.ListViewSubItem
-            '                Dim n3 As New ListViewItem.ListViewSubItem
-            '                Dim n4 As New ListViewItem.ListViewSubItem
-            '                newIt.Text = "Window"
-            '                newIt.Tag = "window"
-            '                n3.Text = "Window -- " & CStr(.handle)
-            '                n2.Text = newIt.Text & " -- " & _caption
-            '                n4.Text = .pid & " -- " & cProcess.GetProcessName(.pid)
-            '                newIt.SubItems.Add(n2)
-            '                newIt.SubItems.Add(n3)
-            '                newIt.SubItems.Add(n4)
-            '                newIt.ImageKey = "window"
-            '                newIt.Group = Me.lvSearchResults.Groups(0)
-            '                Me.lvSearchResults.Items.Add(newIt)
-            '            End If
-            '        End If
-            '    End With
-            'Next
-        End If
-
-        Me.lvSearchResults.EndUpdate()
-
-        Me.timerServices.Enabled = True
-        Me.timerProcess.Enabled = True
-        Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvSearchResults.Items.Count) & " search results"
-
     End Sub
 
     Private Sub NewSearchToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewSearchToolStripMenuItem.Click
@@ -4253,6 +4065,7 @@ Public Class frmMain
         Me.lvProcess.ClearItems()
         Me.lvModules.ClearItems()
         Me.lvThreads.ClearItems()
+        Me.lvSearchResults.ClearItems()
         Me.lvHandles.ClearItems()
         Me.lvWindows.ClearItems()
         Me.lvTask.ClearItems()
@@ -4269,6 +4082,7 @@ Public Class frmMain
         Me.lvWindows.ConnectionObj = theConnection
         Me.lvNetwork.ConnectionObj = theConnection
         Me.lvTask.ConnectionObj = theConnection
+        Me.lvSearchResults.ConnectionObj = theConnection
         Try
             Me.theConnection.Connect()
         Catch ex As Exception
@@ -4331,6 +4145,7 @@ Public Class frmMain
         Me.lvThreads.CatchErrors = Not (_local)
         Me.lvHandles.CatchErrors = Not (_local)
         Me.lvServices.CatchErrors = Not (_local)
+        Me.lvSearchResults.CatchErrors = Not (_local)
         Me.lvTask.CatchErrors = Not (_local)
         Me.lvNetwork.CatchErrors = Not (_local)
 
@@ -4356,6 +4171,7 @@ Public Class frmMain
         ' Clear all lvItems
         Me.lvProcess.ClearItems()
         Me.lvModules.ClearItems()
+        Me.lvSearchResults.ClearItems()
         Me.lvThreads.ClearItems()
         Me.lvHandles.ClearItems()
         Me.lvWindows.ClearItems()
@@ -4447,5 +4263,9 @@ Public Class frmMain
                 cFile.ShowFileProperty(s, Me.Handle)
             End If
         End If
+    End Sub
+
+    Private Sub chkSearchEnvVar_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkSearchEnvVar.CheckedChanged
+
     End Sub
 End Class

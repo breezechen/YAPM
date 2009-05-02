@@ -135,4 +135,43 @@ Public Class cHandle
         Return handles_Renamed
     End Function
 
+    ' Return all handles
+    Public Shared Function CurrentLocalHandles(Optional ByVal all As Boolean = True) As Dictionary(Of String, cHandle)
+
+        Dim _dico As New Dictionary(Of String, cHandle)
+
+        Call cHandle.handles_Renamed.Refresh()
+
+        Dim x As Integer = 0
+        For i As Integer = 0 To cHandle.handles_Renamed.Count - 1
+            If cHandle.handles_Renamed.GetHandle(i) > 0 Then
+                If all OrElse (Len(cHandle.handles_Renamed.GetObjectName(i)) > 0) Then
+                    With cHandle.handles_Renamed
+                        Dim retHandleCount As Integer
+                        Dim retHandle As Integer
+                        Dim retName As String
+                        Dim retObjectCount As Integer
+                        Dim retPid As Integer
+                        Dim retPointerCount As Integer
+                        Dim retType As String
+                        With cHandle.handles_Renamed
+                            retHandleCount = .GetHandleCount(i)
+                            retHandle = .GetHandle(i)
+                            retName = .GetObjectName(i)
+                            retObjectCount = .GetObjectCount(i)
+                            retPid = .GetProcessID(i)
+                            retPointerCount = .GetPointerCount(i)
+                            retType = .GetNameInformation(i)
+                        End With
+                        Dim _key As String = retPid.ToString & "-" & retHandle.ToString & "-" & retType & "-" & retName
+                        Dim ret As New handleInfos(retHandle, retType, retPid, retName, retHandleCount, retPointerCount, retObjectCount)
+                        _dico.Add(_key, New cHandle(ret))
+                    End With
+                End If
+            End If
+        Next
+
+        Return _dico
+    End Function
+
 End Class
