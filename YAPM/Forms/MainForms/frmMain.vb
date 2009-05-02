@@ -1149,8 +1149,21 @@ Public Class frmMain
     Private Sub CloseToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CloseToolStripMenuItem.Click
         ' Close selected items
         If Pref.warnDangerous Then
-            If MsgBox("Are you sure you want to close these items ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
+            If IsWindowsVista() Then
+                If ShowVistaMessage(Me.Handle, "Dangerous action", _
+                                    "Are you sure you want to close these items ?", _
+                                    "This will close handles, unload module, stop service, kill process or close window depending on the selected object.", _
+                                    TaskDialogCommonButtons.Yes Or _
+                                    TaskDialogCommonButtons.No, _
+                                    TaskDialogIcon.ShieldWarning) <> MsgBoxResult.Yes Then
+                    Exit Sub
+                End If
+            Else
+                If MsgBox("Are you sure you want to close these items ?", _
+                          MsgBoxStyle.Information Or MsgBoxStyle.YesNo, _
+                          "Dangerous action") <> MsgBoxResult.Yes Then
+                    Exit Sub
+                End If
             End If
         End If
         For Each it As searchInfos In Me.lvSearchResults.GetSelectedItems
