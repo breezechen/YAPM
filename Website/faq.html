@@ -14,30 +14,29 @@
 <A class=sflogo href="http://sourceforge.net/"><IMG class=sflogo height=37 alt="SourceForge.net Logo" src="Images/sflogo.png" width=125 border=0>
 			</A>		</P>
     <DIV id=header>
-        <H1 align="center"><span style="background-color:white;"><font color="#602826"><img class=yapmicon src="Images/icon.png" width="48" height="48" border="0" alt="Yet Another Process Monitor" hspace="0"></font></span><font color="#602826"><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt; background-color:white;"> &nbsp;</span></font><span style="background-color:white;"><font color="#602826">Yet Another Process Monitor</font></span></H1>
-        <h4 align="center"><A href="index.html">Home</a> &nbsp;&nbsp;&nbsp;<A href="features.html">Features</a> &nbsp;&nbsp;&nbsp;<A href="faq.html">FAQ</a> &nbsp;&nbsp;&nbsp;<A href="http://sourceforge.net/forum/?group_id=244697">Forums</A> &nbsp;&nbsp;&nbsp;<A href="http://sourceforge.net/projects/yaprocmon/">Project Page</A> &nbsp;&nbsp;&nbsp;<A href="http://sourceforge.net/project/showfiles.php?group_id=244697">Downloads</A> &nbsp;&nbsp;&nbsp;<a href="developer.html">Developer page</a> &nbsp;&nbsp;&nbsp;<a
-href="changelog.html">Changelog</a></h4>
+        <H1 align="center"><span style="background-color:white;"><font color="#602826"><img class=yapmicon src="Images/icon.png" width="48" height="48" border="0" alt="Yet Another Process Monitor" hspace="0"></font></span><font color="#602826"><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt; background-color:white;"> &nbsp;</span></font><span style="background-color:white;"><font color="#602826">Yet Another (remote)</font></span><font color="#602826"><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif;
+font-size:13pt; background-color:white;"> </span></font><span style="background-color:white;"><font color="#602826">Process Monitor</font></span></H1>
+        <h4 align="center"><A href="index.html">Home</a> &nbsp;&nbsp;&nbsp;<A href="features.html">Features</a> &nbsp;&nbsp;&nbsp;<A href="faq.html">FAQ</a> &nbsp;&nbsp;&nbsp;<A href="http://sourceforge.net/forum/?group_id=244697">Forums</A> &nbsp;&nbsp;&nbsp;<A href="http://sourceforge.net/projects/yaprocmon/">Project Page</A> &nbsp;&nbsp;&nbsp;<A href="http://sourceforge.net/project/showfiles.php?group_id=244697">Downloads</A> &nbsp;&nbsp;&nbsp;<a href="developer.html">Developer page</a> &nbsp;&nbsp;&nbsp;<a href="changelog.html">Changelog</a> &nbsp;&nbsp;&nbsp;<a href="help.html">Help</a></h4>
     </DIV>
     <H2>&nbsp;</H2>
     <H2>How much cost YAPM ?</H2>
 </DIV>
-<p><b><font size="4" color="red">Nothing</font></b>. YAPM is a free and open source software, under GNU GPL 3.0 license. But if you want&nbsp;<b>make a donation</b>, you're welcome ! Just click on 'Donate' button in 'Help' view and you will be redirected to the <a href="https://sourceforge.net/donate/index.php?user_id=1590933">donation page on sourceforge.net</a>.</p>
+<p><b><font size="4" color="red">Nothing</font></b>. YAPM is a free and open source software, under GNU GPL 3.0 license. But if you want&nbsp;<b><font color="red">make a donation</font></b>, you're welcome ! Just click on 'Donate' button in 'Help' view and you will be redirected to the <a href="https://sourceforge.net/donate/index.php?user_id=1590933">donation page on sourceforge.net</a>.</p>
 <h2>Why should I use Yet Another Process Monitor ?</h2>
-<p>YAPM offers lots of useful features that Windows Task Manager does not have. For example, Windows Task Manager can't show loaded modules, threads, windows and handle. You can't search for a specific item, and you can't even select multiple items. If the standard Task Manager is a light and useful tool, it is really limited.</p>
-<h2>Okay, but Process Explorer offers some of these features !</h2>
-<p>Yes, Process Explorer offers some of these features. But remember Process Explorer is now <b>owned by Microsoft</b>, that's why&nbsp;you can't download its source code. So if you want to add some functions to Process Explorer, you can't ! With YAPM, just ask in the forums and I'll try to implement it (or you can of course do it by yourself if you are able to do it).&nbsp;Moreover,YAPM offers <b>A LOT OF</b>&nbsp;features that Process Explorer does not have (windows, tasks,&nbsp;file, network&nbsp;management,
+<p>YAPM offers lots of useful features that Windows Task Manager does not have. For example, Windows Task Manager can't show loaded modules, threads, windows and handle. You can't search for a specific item, and you can't even select multiple items. If the standard Task Manager is a light and a useful tool, it is really limited.</p>
+<p>Process Explorer offers some of these features, but remember Process Explorer is now <b>owned by Microsoft</b>, that's why&nbsp;you can't download its source code. So if you want to add some functions to Process Explorer, you can't ! With YAPM, just ask in the forums and I'll try to implement it (or you can of course do it by yourself if you are able to do it).&nbsp;Moreover,YAPM offers <b>A LOT OF</b>&nbsp;features that Process Explorer does not have (windows, tasks,&nbsp;file, network&nbsp;management,
 advanced monitoring... etc).</p>
-<p><b><font size="4" color="red">The next release of YAPM will also offer the possibility to manage and monitor remote processes/services, via WMI or via a client-server architecture.</font></b></p>
+<p><b><font color="red">And of course, neither Windows Task Manager&nbsp;nor Process Explorer is able to monitor remote processes :-)</font></b></p>
 <h2>I think I found a bug...</h2>
 <p>Yes it's possible, as YAPM is always in development. Please report the bugs you found and/or your suggestion <a href="http://sourceforge.net/tracker/?group_id=244697">to YAPM's tracker</a>.</p>
 <h2>I can't make the remote connection work...</h2>
 <ul>
     <LI>Make sure your firewall is configured to let YAPM work properly</LI>
     <LI>Make sure the remote machine is in the same workgroup than the host machine</LI>
-    <LI>Make sure you have the rights to etablish the connection</LI>
-    <LI>If you use WMI, make sure WMI in installed on both machine, <a href="http://www.google.com/search?q=RPC+Server+Unavailable">make sure the RPC server in started</a> and make sure you have entered the good username/password. Normally, you can't connect YAPM to a account which has no password</LI>
-    <LI>If you use the client-server method, make sure the IP your entered is correct</LI>
-    <LI><b>Make sure you have the good version of YAPM ! The management of remote processes is not yet available (2009-04-05) !</b></LI>
+    <LI>Make sure you have the rights to establish&nbsp;the connection </LI>
+    <LI>If you are using&nbsp;WMI, make sure WMI in installed on both machine, <a href="http://www.google.com/search?q=RPC+Server+Unavailable">make sure the RPC server in started</a> and make sure you have entered the good username/password. Normally, you can't connect YAPM to a account which has no password</LI>
+    <LI>If you are using&nbsp;the client-server method, make sure the IP your entered is correct.</LI>
+    <LI>If you can't make it work, just <a href="developer.html#Contact">ask me</a> !</LI>
 </ul>
 <DIV>
     <DIV>
@@ -45,7 +44,7 @@ advanced monitoring... etc).</p>
     </DIV>
     <DIV>
         <P id=footer><i>Copyright (c) 2008-2009 violent_ken</i></P>
-        <P><i>Last update of this page : 2009-04-10&nbsp;00:25</i></P>
+        <P><i>Last update of this page : 2009-05-01&nbsp;14:25</i></P>
     </DIV>
     <P></P>
     <p>
