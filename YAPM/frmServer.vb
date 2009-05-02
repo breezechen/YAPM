@@ -42,6 +42,7 @@ Public Class frmServeur
     Private _taskCon As New cTaskConnection(Me, theConnection, New cTaskConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedTask))
     Private _threadCon As New cThreadConnection(Me, theConnection, New cThreadConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedThread))
     Private _windowCon As New cWindowConnection(Me, theConnection, New cWindowConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedWindows))
+    Private _searchCon As New cSearchConnection(Me, theConnection, New cSearchConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedSearch))
 
     ' Connect to local machine
     Private Sub connectLocal()
@@ -59,6 +60,7 @@ Public Class frmServeur
 
             _networkCon.Connect()
             _moduleCon.Connect()
+            _searchCon.Connect()
             _serviceCon.Connect()
             _taskCon.Connect()
             _windowCon.Connect()
@@ -181,6 +183,24 @@ Public Class frmServeur
 
     End Sub
 
+    Private Sub HasEnumeratedSearch(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, searchInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+
+        If Success Then
+            Try
+                Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestSearchList)
+                cDat.InstanceId = instanceId  ' The instance which requested the list
+                cDat.SetSearchList(Dico)
+                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
+                sock.Send(buff, buff.Length)
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+        Else
+            ' Send an error
+        End If
+
+    End Sub
+
     Private Sub HasEnumeratedTask(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, windowInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
         If Success Then
@@ -288,6 +308,11 @@ Public Class frmServeur
                         Catch ex As Exception
                             '
                         End Try
+                    Case cSocketData.OrderType.RequestSearchList
+                        Dim st As String = CStr(cData.Param1)
+                        Dim include As searchInfos.SearchInclude = CType(cData.Param2, searchInfos.SearchInclude)
+                        Dim _case As Boolean = CBool(cData.Param3)
+                        Call _searchCon.Enumerate(st, _case, include, _forInstanceId)
                 End Select
 
             End If
