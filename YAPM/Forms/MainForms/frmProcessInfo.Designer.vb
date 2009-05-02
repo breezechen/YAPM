@@ -338,6 +338,8 @@ Partial Class frmProcessInfo
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip
         Me.MainToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.PropertiesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.OpenFirectoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.tabProcess.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -2311,9 +2313,9 @@ Partial Class frmProcessInfo
         '
         'menuModule
         '
-        Me.menuModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowFileDetailsToolStripMenuItem, Me.ToolStripMenuItem36, Me.ToolStripMenuItem39, Me.GoogleSearchToolStripMenuItem2, Me.ToolStripMenuItem1, Me.ViewMemoryToolStripMenuItem, Me.ToolStripMenuItem11, Me.ChooseColumnsToolStripMenuItem3})
+        Me.menuModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowFileDetailsToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.PropertiesToolStripMenuItem, Me.ToolStripMenuItem36, Me.ToolStripMenuItem39, Me.GoogleSearchToolStripMenuItem2, Me.ToolStripMenuItem1, Me.ViewMemoryToolStripMenuItem, Me.ToolStripMenuItem11, Me.ChooseColumnsToolStripMenuItem3})
         Me.menuModule.Name = "menuProc"
-        Me.menuModule.Size = New System.Drawing.Size(173, 132)
+        Me.menuModule.Size = New System.Drawing.Size(173, 198)
         '
         'ShowFileDetailsToolStripMenuItem
         '
@@ -3050,6 +3052,20 @@ Partial Class frmProcessInfo
         Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(132, 22)
         Me.RefreshToolStripMenuItem.Text = "&Refresh"
         '
+        'PropertiesToolStripMenuItem
+        '
+        Me.PropertiesToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.document_text
+        Me.PropertiesToolStripMenuItem.Name = "PropertiesToolStripMenuItem"
+        Me.PropertiesToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.PropertiesToolStripMenuItem.Text = "File properties"
+        '
+        'OpenFirectoryToolStripMenuItem
+        '
+        Me.OpenFirectoryToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.folder_open
+        Me.OpenFirectoryToolStripMenuItem.Name = "OpenFirectoryToolStripMenuItem"
+        Me.OpenFirectoryToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.OpenFirectoryToolStripMenuItem.Text = "Open directory"
+        '
         'frmProcessInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3430,4 +3446,6 @@ Partial Class frmProcessInfo
     Friend WithEvents ToolStripMenuItem37 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ChooseColumnsToolStripMenuItem5 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ServiceDetailsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OpenFirectoryToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PropertiesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

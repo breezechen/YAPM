@@ -4430,4 +4430,22 @@ Public Class frmMain
             frm.Show()
         Next
     End Sub
+
+    Private Sub ToolStripMenuItem67_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem67.Click
+        If Me.lvModules.SelectedItems.Count > 0 Then
+            Dim s As String = Me.lvModules.GetSelectedItem.Infos.Path
+            If IO.File.Exists(s) Then
+                cFile.OpenDirectory(s)
+            End If
+        End If
+    End Sub
+
+    Private Sub ToolStripMenuItem66_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem66.Click
+        If Me.lvModules.SelectedItems.Count > 0 Then
+            Dim s As String = Me.lvModules.GetSelectedItem.Infos.Path
+            If IO.File.Exists(s) Then
+                cFile.ShowFileProperty(s, Me.Handle)
+            End If
+        End If
+    End Sub
 End Class

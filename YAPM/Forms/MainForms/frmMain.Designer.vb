@@ -653,6 +653,8 @@ Partial Class frmMain
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerNetwork = New System.Windows.Forms.Timer(Me.components)
         Me.timerStateBasedActions = New System.Windows.Forms.Timer(Me.components)
+        Me.ToolStripMenuItem66 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem67 = New System.Windows.Forms.ToolStripMenuItem
         Me.menuProc.SuspendLayout()
         Me.menuService.SuspendLayout()
         Me.mainMenu.SuspendLayout()
@@ -991,7 +993,7 @@ Partial Class frmMain
         '
         Me.menuService.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem9, Me.ToolStripMenuItem10, Me.ToolStripMenuItem11, Me.ToolStripMenuItem12, Me.ReanalyzeToolStripMenuItem, Me.ToolStripSeparator2, Me.ToolStripMenuItem20, Me.ToolStripMenuItem21, Me.FileDetailsToolStripMenuItem, Me.ToolStripMenuItem2, Me.GoogleSearchToolStripMenuItem1, Me.ToolStripMenuItem42, Me.SelectedAssociatedProcessToolStripMenuItem1, Me.ToolStripMenuItem5, Me.ChooseColumnsToolStripMenuItem})
         Me.menuService.Name = "menuProc"
-        Me.menuService.Size = New System.Drawing.Size(220, 292)
+        Me.menuService.Size = New System.Drawing.Size(220, 270)
         '
         'ToolStripMenuItem9
         '
@@ -4067,9 +4069,9 @@ Partial Class frmMain
         '
         'menuModule
         '
-        Me.menuModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem35, Me.ToolStripSeparator4, Me.ShowFileDetailsToolStripMenuItem, Me.ToolStripMenuItem36, Me.ToolStripMenuItem39, Me.GoogleSearchToolStripMenuItem2, Me.ToolStripMenuItem41, Me.ChooseColumnsToolStripMenuItem3})
+        Me.menuModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem35, Me.ToolStripSeparator4, Me.ToolStripMenuItem36, Me.ShowFileDetailsToolStripMenuItem, Me.ToolStripMenuItem67, Me.ToolStripMenuItem66, Me.ToolStripMenuItem39, Me.GoogleSearchToolStripMenuItem2, Me.ToolStripMenuItem41, Me.ChooseColumnsToolStripMenuItem3})
         Me.menuModule.Name = "menuProc"
-        Me.menuModule.Size = New System.Drawing.Size(207, 132)
+        Me.menuModule.Size = New System.Drawing.Size(207, 198)
         '
         'ToolStripMenuItem35
         '
@@ -6802,6 +6804,20 @@ Partial Class frmMain
         Me.timerStateBasedActions.Enabled = True
         Me.timerStateBasedActions.Interval = 1000
         '
+        'ToolStripMenuItem66
+        '
+        Me.ToolStripMenuItem66.Image = Global.YAPM.My.Resources.Resources.document_text
+        Me.ToolStripMenuItem66.Name = "ToolStripMenuItem66"
+        Me.ToolStripMenuItem66.Size = New System.Drawing.Size(206, 22)
+        Me.ToolStripMenuItem66.Text = "File properties"
+        '
+        'ToolStripMenuItem67
+        '
+        Me.ToolStripMenuItem67.Image = Global.YAPM.My.Resources.Resources.folder_open
+        Me.ToolStripMenuItem67.Name = "ToolStripMenuItem67"
+        Me.ToolStripMenuItem67.Size = New System.Drawing.Size(206, 22)
+        Me.ToolStripMenuItem67.Text = "Open directory"
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -7560,5 +7576,7 @@ Partial Class frmMain
     Friend WithEvents lstFileString As System.Windows.Forms.ListBox
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents butServiceDetails As System.Windows.Forms.RibbonButton
+    Friend WithEvents ToolStripMenuItem67 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem66 As System.Windows.Forms.ToolStripMenuItem
 
 End Class
