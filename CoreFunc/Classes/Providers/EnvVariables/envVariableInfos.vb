@@ -27,7 +27,7 @@ Option Strict On
 Imports CoreFunc.cProcessConnection
 Imports System.Runtime.InteropServices
 
-Public Class envVariableInfos
+<Serializable()> Public Class envVariableInfos
     Inherits generalInfos
 
 #Region "Private attributes"

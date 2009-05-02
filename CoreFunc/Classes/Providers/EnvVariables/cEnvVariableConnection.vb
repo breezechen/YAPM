@@ -30,16 +30,22 @@ Imports System.Text
 Public Class cEnvVariableConnection
     Inherits cGeneralConnection
 
+    Friend Shared instanceId As Integer = 1
+    Private _instanceId As Integer = 1
+    Private _envVarEnum As asyncCallbackEnvVariableEnumerate
 
-    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection)
+    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, ByRef de As HasEnumeratedEventHandler)
         MyBase.New(ControlWhichGetInvoked, Conn)
+        instanceId += 1
+        _instanceId = instanceId
+        _envVarEnum = New asyncCallbackEnvVariableEnumerate(_control, de, Me, _instanceId)
     End Sub
 
 #Region "Events, delegate, invoke..."
 
     Public Delegate Sub ConnectedEventHandler(ByVal Success As Boolean)
     Public Delegate Sub DisconnectedEventHandler(ByVal Success As Boolean)
-    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, envVariableInfos), ByVal errorMessage As String)
+    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, envVariableInfos), ByVal errorMessage As String, ByVal InstanceId As Integer)
 
     Public Connected As ConnectedEventHandler
     Public Disconnected As DisconnectedEventHandler
@@ -95,11 +101,11 @@ Public Class cEnvVariableConnection
 #Region "Enumerate privileges"
 
     ' Enumerate threads
-    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid As Integer, ByVal peb As Integer) As Integer
+    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid As Integer, ByVal peb As Integer, Optional ByVal forInstanceId As Integer = -1) As Integer
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
-                System.Threading.WaitCallback(AddressOf _
-                asyncCallbackEnvVariableEnumerate.Process), New  _
-                asyncCallbackEnvVariableEnumerate.poolObj(_control, HasEnumerated, Me, pid, peb))
+            System.Threading.WaitCallback(AddressOf _
+            _envVarEnum.Process), New  _
+            asyncCallbackEnvVariableEnumerate.poolObj(pid, peb, forInstanceId))
     End Function
 
 #End Region
@@ -125,6 +131,18 @@ Public Class cEnvVariableConnection
         End If
         ' OK, THIS IS NOT THE BEST WAY TO AVOID THE BUG
 
+        If data Is Nothing Then
+            Trace.WriteLine("Serialization error")
+            Exit Sub
+        End If
+
+        If data.Type = cSocketData.DataType.RequestedList AndAlso _
+            data.Order = cSocketData.OrderType.RequestEnvironmentVariableList Then
+            If _instanceId = data.InstanceId Then
+                ' OK it is for me
+                _envVarEnum.GotListFromSocket(data.GetList, data.GetKeys)
+            End If
+        End If
     End Sub
 
     Protected Overrides Sub _sock_SentData() Handles _sock.SentData

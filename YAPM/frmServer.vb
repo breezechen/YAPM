@@ -32,9 +32,9 @@ Public Class frmServeur
 
     Private theConnection As New cConnection
     Private _procCon As New cProcessConnection(Me, theConnection, New cProcessConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedProcess))
-    Private _envCon As New cEnvVariableConnection(Me, theConnection)
+    Private _envCon As New cEnvVariableConnection(Me, theConnection, New cEnvVariableConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEnvVar))
     Private _handleCon As New cHandleConnection(Me, theConnection, New cHandleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedHandle))
-    Private _memoryCon As New cMemRegionConnection(Me, theConnection)
+    Private _memoryCon As New cMemRegionConnection(Me, theConnection, New cMemRegionConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedMemoryReg))
     Private _moduleCon As New cModuleConnection(Me, theConnection, New cModuleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedModule))
     Private _networkCon As New cNetworkConnection(Me, theConnection, New cNetworkConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedNetwork))
     Private _serviceCon As New cServiceConnection(Me, theConnection, New cServiceConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedService))
@@ -62,6 +62,8 @@ Public Class frmServeur
             _moduleCon.Connect()
             _searchCon.Connect()
             _serviceCon.Connect()
+            _envCon.Connect()
+            _memoryCon.Connect()
             _taskCon.Connect()
             _priviCon.Connect()
             _windowCon.Connect()
@@ -75,6 +77,42 @@ Public Class frmServeur
     End Sub
 
 #Region "Has enumerated lists"
+
+    Private Sub HasEnumeratedEnvVar(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, envVariableInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+
+        If Success Then
+            Try
+                Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestEnvironmentVariableList)
+                cDat.InstanceId = instanceId   ' The instance which requested the list
+                cDat.SetEnvVarList(Dico)
+                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
+                sock.Send(buff, buff.Length)
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+        Else
+            ' Send an error
+        End If
+
+    End Sub
+
+    Private Sub HasEnumeratedMemoryReg(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, memRegionInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+
+        If Success Then
+            Try
+                Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestMemoryRegionList)
+                cDat.InstanceId = instanceId   ' The instance which requested the list
+                cDat.SetMemoryRegList(Dico)
+                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
+                sock.Send(buff, buff.Length)
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+        Else
+            ' Send an error
+        End If
+
+    End Sub
 
     Private Sub HasEnumeratedProcess(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
@@ -335,6 +373,14 @@ Public Class frmServeur
                     Case cSocketData.OrderType.RequestPrivilegesList
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Call _priviCon.Enumerate(True, pid, _forInstanceId)
+                    Case cSocketData.OrderType.RequestEnvironmentVariableList
+                        Dim pid As Integer = CType(cData.Param1, Integer)
+                        Dim peb As Integer = CType(cData.Param2, Integer)
+                        Call _envCon.Enumerate(True, pid, peb, _forInstanceId)
+                    Case cSocketData.OrderType.RequestMemoryRegionList
+                        Dim pid As Integer = CType(cData.Param1, Integer)
+                        'Dim all As Boolean = CBool(cData.Param2)   ' NOT NEEDED
+                        Call _memoryCon.Enumerate(True, pid, _forInstanceId)
                 End Select
 
             End If

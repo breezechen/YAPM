@@ -31,51 +31,59 @@ Public Class asyncCallbackMemRegionEnumerate
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
+    Private ctrl As Control
+    Private deg As [Delegate]
+    Private con As cMemRegionConnection
+    Private _instanceId As Integer
+    Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cMemRegionConnection, ByVal iId As Integer)
+        ctrl = ctr
+        deg = de
+        _instanceId = iId
+        con = co
+    End Sub
+
     Public Structure poolObj
-        Public ctrl As Control
-        Public deg As [Delegate]
-        Public con As cMemRegionConnection
         Public pid As Integer
         Public onlyProcRegion As Boolean
-        Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cMemRegionConnection, ByVal pi As Integer, ByVal onlyPR As Boolean)
-            ctrl = ctr
-            deg = de
-            con = co
+        Public forInstanceId As Integer
+        Public Sub New(ByVal pi As Integer, ByVal onlyp As Boolean, ByVal ii As Integer)
+            forInstanceId = ii
+            onlyProcRegion = onlyp
             pid = pi
-            onlyProcRegion = onlyPR
         End Sub
     End Structure
 
     ' When socket got a list  !
-    Private Shared _poolObj As poolObj
-    Friend Shared Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String)
+    Private _poolObj As poolObj
+    Friend Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String)
         Dim dico As New Dictionary(Of String, memRegionInfos)
         If lst IsNot Nothing AndAlso keys IsNot Nothing AndAlso lst.Length = keys.Length Then
             For x As Integer = 0 To lst.Length - 1
                 dico.Add(keys(x), DirectCast(lst(x), memRegionInfos))
             Next
         End If
-        _poolObj.ctrl.Invoke(_poolObj.deg, True, dico, Nothing)
+        ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
     End Sub
     Private Shared sem As New System.Threading.Semaphore(1, 1)
-    Public Shared Sub Process(ByVal thePoolObj As Object)
+    Public Sub Process(ByVal thePoolObj As Object)
 
         sem.WaitOne()
 
         Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If pObj.con.ConnectionObj.IsConnected = False Then
+        If con.ConnectionObj.IsConnected = False Then
             sem.Release()
             Exit Sub
         End If
 
-        Select Case pObj.con.ConnectionObj.ConnectionType
+        Select Case con.ConnectionObj.ConnectionType
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 _poolObj = pObj
                 Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestMemoryRegionList)
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestMemoryRegionList, pObj.pid, pObj.onlyProcRegion)
+                    cDat.InstanceId = _instanceId   ' Instance which request the list
                     Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                    pObj.con.ConnectionObj.Socket.Send(buff, buff.Length)
+                    con.ConnectionObj.Socket.Send(buff, buff.Length)
                 Catch ex As Exception
                     MsgBox(ex.Message)
                 End Try
@@ -120,7 +128,7 @@ Public Class asyncCallbackMemRegionEnumerate
                     Call API.CloseHandle(lHandle)
                 End If
 
-                pObj.ctrl.Invoke(pObj.deg, True, _dico, API.GetError)
+                ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
 
         End Select
 

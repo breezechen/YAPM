@@ -43,7 +43,7 @@ Public Class envVariableList
     Private _buffDico As New Dictionary(Of String, cEnvVariable)
     Private _dico As New Dictionary(Of String, cEnvVariable)
     Private WithEvents _connectionObject As New cConnection
-    Private WithEvents _envvariableConnection As New cEnvVariableConnection(Me, _connectionObject)
+    Private WithEvents _envvariableConnection As New cEnvVariableConnection(Me, _connectionObject, New cEnvVariableConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
 
 #Region "Properties"
 
@@ -89,7 +89,6 @@ Public Class envVariableList
         _first = True
 
         ' Set handlers
-        _envvariableConnection.HasEnumerated = New cEnvVariableConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler)
         _envvariableConnection.Disconnected = New cEnvVariableConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
         _envvariableConnection.Connected = New cEnvVariableConnection.ConnectedEventHandler(AddressOf HasConnected)
     End Sub
@@ -158,7 +157,7 @@ Public Class envVariableList
 
     ' Executed when enumeration is done
     Private Shared sem As New System.Threading.Semaphore(1, 1)
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, envVariableInfos), ByVal errorMessage As String)
+    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, envVariableInfos), ByVal errorMessage As String, ByVal InstanceId As Integer)
 
         sem.WaitOne()
 

@@ -30,15 +30,22 @@ Imports System.Text
 Public Class cMemRegionConnection
     Inherits cGeneralConnection
 
-    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection)
+    Friend Shared instanceId As Integer = 1
+    Private _instanceId As Integer = 1
+    Private _memRegionEnum As asyncCallbackMemRegionEnumerate
+
+    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, ByRef de As HasEnumeratedEventHandler)
         MyBase.New(ControlWhichGetInvoked, Conn)
+        instanceId += 1
+        _instanceId = instanceId
+        _memRegionEnum = New asyncCallbackMemRegionEnumerate(_control, de, Me, _instanceId)
     End Sub
 
 #Region "Events, delegate, invoke..."
 
     Public Delegate Sub ConnectedEventHandler(ByVal Success As Boolean)
     Public Delegate Sub DisconnectedEventHandler(ByVal Success As Boolean)
-    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, memRegionInfos), ByVal errorMessage As String)
+    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, memRegionInfos), ByVal errorMessage As String, ByVal InstanceId As Integer)
 
     Public Connected As ConnectedEventHandler
     Public Disconnected As DisconnectedEventHandler
@@ -94,11 +101,11 @@ Public Class cMemRegionConnection
 #Region "Enumerate mem regions"
 
     ' Enumerate threads
-    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid As Integer) As Integer
+    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid As Integer, Optional ByVal forInstanceId As Integer = -1) As Integer
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
-                System.Threading.WaitCallback(AddressOf _
-                asyncCallbackMemRegionEnumerate.Process), New  _
-                asyncCallbackMemRegionEnumerate.poolObj(_control, HasEnumerated, Me, pid, False))
+            System.Threading.WaitCallback(AddressOf _
+            _memRegionEnum.Process), New  _
+            asyncCallbackMemRegionEnumerate.poolObj(pid, False, forInstanceId))
     End Function
 
 #End Region
@@ -124,6 +131,18 @@ Public Class cMemRegionConnection
         End If
         ' OK, THIS IS NOT THE BEST WAY TO AVOID THE BUG
 
+        If data Is Nothing Then
+            Trace.WriteLine("Serialization error")
+            Exit Sub
+        End If
+
+        If data.Type = cSocketData.DataType.RequestedList AndAlso _
+            data.Order = cSocketData.OrderType.RequestMemoryRegionList Then
+            If _instanceId = data.InstanceId Then
+                ' OK it is for me
+                _memRegionEnum.GotListFromSocket(data.GetList, data.GetKeys)
+            End If
+        End If
     End Sub
 
     Protected Overrides Sub _sock_SentData() Handles _sock.SentData

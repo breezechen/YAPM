@@ -27,7 +27,7 @@ Option Strict On
 Imports CoreFunc.cProcessConnection
 Imports System.Runtime.InteropServices
 
-Public Class memRegionInfos
+<Serializable()> Public Class memRegionInfos
     Inherits generalInfos
 
 #Region "Private attributes"
@@ -132,12 +132,12 @@ Public Class memRegionInfos
     Private Function getName() As String
         If _state = API.MEMORY_STATE.MEM_FREE Then
             Return "Free"
-        ElseIf _Type = API.MEMORY_TYPE.MEM_IMAGE Then
+        ElseIf _type = API.MEMORY_TYPE.MEM_IMAGE Then
             ' TOCHANGE
             ' Should return MODULE name
             Return "Image"
         Else
-            Return _Type.ToString & " (" & _state.ToString & ")"
+            Return _type.ToString & " (" & _state.ToString & ")"
         End If
     End Function
 

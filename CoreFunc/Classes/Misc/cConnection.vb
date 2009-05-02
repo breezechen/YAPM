@@ -182,11 +182,11 @@ Public Class cConnection
                 Case cSocketData.OrderType.RequestProcessList
                     'asyncCallbackProcEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestEnvironmentVariableList
-                    asyncCallbackEnvVariableEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+                    ' asyncCallbackEnvVariableEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestHandleList
                     '  asyncCallbackHandleEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestMemoryRegionList
-                    asyncCallbackMemRegionEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+                    ' asyncCallbackMemRegionEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestModuleList
                     ' asyncCallbackModuleEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
                 Case cSocketData.OrderType.RequestNetworkConnectionList
