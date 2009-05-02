@@ -1153,42 +1153,24 @@ Public Class frmMain
                 Exit Sub
             End If
         End If
-        Dim it As ListViewItem
-        For Each it In Me.lvSearchResults.SelectedItems
-            Select Case it.Tag.ToString
-                Case "process"
-                    Dim sp As String = it.SubItems(3).Text
-                    Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
-                    If i > 0 Then
-                        Dim pid As Integer = CInt(Val(sp.Substring(0, i - 1)))
-                        Call cProcess.Kill(pid)
-                    End If
-                Case "service"
-                    'TODO_
-                    ' cLocalService.StopTheService(it.SubItems(3).Text)
-                Case "window"
-                    Dim sp As String = it.SubItems(2).Text
-                    Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
-                    If i > 0 Then
-                        Dim hand As Integer = CInt(Val(sp.Substring(i + 3, sp.Length - i - 3)))
-                        cWindow.CloseWindow(New IntPtr(hand))
-                    End If
-                Case Else
-                    'TODO_
-                    'If TypeOf it.Tag Is cModule.MODULEENTRY32 Then
-                    '    ' Then it is a module
-                    '    Call cProcess.UnLoadModuleFromProcess(CType(it.Tag, cModule.MODULEENTRY32))
-                    'Else
-                    '    ' Handle
-                    '    Dim sp As String = it.SubItems(3).Text
-                    '    Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
-                    '    Dim handle As Integer = CInt(it.Tag)
-                    '    If i > 0 Then
-                    '        Dim pid As Integer = CInt(Val(sp.Substring(0, i - 1)))
-                    '        Call cHandle.GetOpenedHandlesClass.CloseProcessLocalHandle(pid, handle)
-                    '    End If
-                    'End If
-            End Select
+        For Each it As searchInfos In Me.lvSearchResults.GetSelectedItems
+
+            If it.Type = searchInfos.ResultType.Process Then
+                cProcess.SharedLRKill(it.ProcessId)
+
+            ElseIf it.Type = searchInfos.ResultType.Service Then
+                cService.SharedLRStopService(it.Service)
+
+            ElseIf it.Type = searchInfos.ResultType.Window Then
+                'TODO_
+
+            ElseIf it.Type = searchInfos.ResultType.Module Then
+                cModule.SharedLRUnloadModule(it.ProcessId, it.ModuleName, it.PebAddress) 'OK
+
+            ElseIf it.Type = searchInfos.ResultType.Handle Then
+                cHandle.SharedLRCloseHandle(it.ProcessId, it.Handle)
+            End If
+
         Next
     End Sub
 
@@ -3058,6 +3040,11 @@ Public Class frmMain
         End If
     End Sub
 
+    Private Sub lvSearchResults_HasRefreshed() Handles lvSearchResults.HasRefreshed
+        Me.butSearchGo.Enabled = True
+        Me.NewSearchToolStripMenuItem.Enabled = True
+    End Sub
+
     Private Sub lvSearchResults_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvSearchResults.MouseDown
         Call mdlMisc.CopyLvToClip(e, Me.lvSearchResults)
     End Sub
@@ -3768,6 +3755,8 @@ Public Class frmMain
                 End If
                 .Includes = t
                 .ClearItems()
+                Me.butSearchGo.Enabled = False
+                Me.NewSearchToolStripMenuItem.Enabled = False
                 .UpdateItems()
             End With
         End If
@@ -3997,7 +3986,7 @@ Public Class frmMain
         Else
             Dim sres As String = CInputBox("Enter the path of the process you want to start.", "Start a new process", "")
             If sres Is Nothing OrElse sres.Equals(String.Empty) Then Exit Sub
-            cProcess.StartNewProcess(sres)
+            cProcess.SharedRLStartNewProcess(sres)
         End If
     End Sub
 

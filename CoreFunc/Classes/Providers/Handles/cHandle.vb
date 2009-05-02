@@ -130,6 +130,33 @@ Public Class cHandle
 
 #End Region
 
+#Region "Shared functions"
+
+    Private Shared _sharedcloseH As asyncCallbackHandleUnload
+    Public Shared Function SharedLRCloseHandle(ByVal pid As Integer, ByVal handle As Integer) As Integer
+
+        If _sharedcloseH Is Nothing Then
+            _sharedcloseH = New asyncCallbackHandleUnload(New asyncCallbackHandleUnload.HasUnloadedHandle(AddressOf unloadsharedHandleDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _sharedcloseH.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackHandleUnload.poolObj(pid, handle, newAction))
+
+        AddPendingTask2(newAction, t)
+    End Function
+    Private Shared Sub unloadsharedHandleDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal handle As Integer, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                   "Could not unload handle " & handle.ToString)
+        End If
+        RemovePendingTask(actionNumber)
+    End Sub
+
+#End Region
+
     ' Return driver control class
     Public Shared Function GetOpenedHandlesClass() As clsOpenedHandles
         Return handles_Renamed

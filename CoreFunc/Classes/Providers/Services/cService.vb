@@ -293,6 +293,33 @@ Public Class cService
 
 #End Region
 
+#Region "Shared function"
+
+    Private Shared _sharedstopServ As asyncCallbackServiceStop
+    Public Shared Function SharedLRStopService(ByVal name As String) As Integer
+
+        If _sharedstopServ Is Nothing Then
+            _sharedstopServ = New asyncCallbackServiceStop(New asyncCallbackServiceStop.HasStopped(AddressOf stopsharedServiceDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _sharedstopServ.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackServiceStop.poolObj(name, newAction))
+
+        AddPendingTask2(newAction, t)
+    End Function
+    Private Shared Sub stopsharedServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                   "Could not stop service " & name)
+        End If
+        RemovePendingTask(actionNumber)
+    End Sub
+
+#End Region
+
     ' Get dependencies of a service
     Public Shared Function GetDependencies(ByVal serviceName As String) As Dictionary(Of String, cService)
 

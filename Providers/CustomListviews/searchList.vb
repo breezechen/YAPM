@@ -231,6 +231,7 @@ Public Class searchList
 
         sem.Release()
 
+        RaiseEvent HasRefreshed()
     End Sub
 
 

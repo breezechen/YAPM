@@ -711,7 +711,7 @@ Public Class cProcess
 
     ' Kill a process
     Private Shared _sharedKillP As asyncCallbackProcKill
-    Public Shared Function Kill(ByVal pid As Integer) As Integer
+    Public Shared Function SharedLRKill(ByVal pid As Integer) As Integer
 
         If _sharedKillP Is Nothing Then
             _sharedKillP = New asyncCallbackProcKill(New asyncCallbackProcKill.HasKilled(AddressOf killDoneShared), _connection)
@@ -735,7 +735,7 @@ Public Class cProcess
 
     ' Start a process
     Private Shared _newSharedP As asyncCallbackProcNewProcess
-    Public Shared Function StartNewProcess(ByVal path As String) As Integer
+    Public Shared Function SharedRLStartNewProcess(ByVal path As String) As Integer
 
         If _newSharedP Is Nothing Then
             _newSharedP = New asyncCallbackProcNewProcess(New asyncCallbackProcNewProcess.HasCreated(AddressOf newProcessDoneShared), _connection)
@@ -760,7 +760,7 @@ Public Class cProcess
 
     ' Unload a module from a process
     Private Shared _unloadMSharedP As asyncCallbackProcUnloadModule
-    Public Shared Function UnLoadModuleFromProcess(ByVal pid As Integer, ByVal ModuleBaseAddress As Integer) As Integer
+    Public Shared Function SharedRLUnLoadModuleFromProcess(ByVal pid As Integer, ByVal ModuleBaseAddress As Integer) As Integer
 
         If _unloadMSharedP Is Nothing Then
             _unloadMSharedP = New asyncCallbackProcUnloadModule(New asyncCallbackProcUnloadModule.HasUnloadedModule(AddressOf unloadModuleDoneShared), _connection)

@@ -213,6 +213,33 @@ Public Class cModule
 
 #End Region
 
+#Region "Shared function"
+
+    Private Shared _sharedcloseM As asyncCallbackModuleUnload
+    Public Shared Function SharedLRUnloadModule(ByVal pid As Integer, ByVal name As String, ByVal baseAddress As Integer) As Integer
+
+        If _sharedcloseM Is Nothing Then
+            _sharedcloseM = New asyncCallbackModuleUnload(New asyncCallbackModuleUnload.HasUnloadedModule(AddressOf unloadsharedModuleDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _sharedcloseM.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackModuleUnload.poolObj(pid, name, baseAddress, newAction))
+
+        AddPendingTask2(newAction, t)
+    End Function
+    Private Shared Sub unloadsharedModuleDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                   "Could not unload module " & name)
+        End If
+        RemovePendingTask(actionNumber)
+    End Sub
+
+#End Region
+
 #Region "Shared functions (local)"
 
     ' Return opened modules
