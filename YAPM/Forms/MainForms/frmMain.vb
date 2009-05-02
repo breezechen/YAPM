@@ -4090,6 +4090,19 @@ Public Class frmMain
             Exit Sub
         End Try
 
+        Me.PropertiesToolStripMenuItem.Enabled = _local
+        Me.FileDetailsToolStripMenuItem1.Enabled = _local
+        Me.FileDetailsToolStripMenuItem.Enabled = _local
+        Me.ToolStripMenuItem20.Enabled = _local
+        Me.ToolStripMenuItem66.Enabled = _local
+        Me.ToolStripMenuItem67.Enabled = _local
+        Me.ShowFileDetailsToolStripMenuItem.Enabled = _local
+        Me.ToolStripMenuItem21.Enabled = _local
+        Me.OpenFirectoryToolStripMenuItem.Enabled = _local
+        Me.butServiceFileDetails.Enabled = _local
+        Me.butServiceFileProp.Enabled = _local
+        Me.butServiceOpenDir.Enabled = _local
+
         Me.butResumeProcess.Enabled = Me._notWMI
         Me.butStopProcess.Enabled = Me._notWMI
         Me.butProcessAffinity.Enabled = Me._notWMI

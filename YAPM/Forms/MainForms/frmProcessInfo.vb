@@ -418,6 +418,11 @@ Public Class frmProcessInfo
         Me.ToolStripMenuItem36.Enabled = _notWMI
         Me.ViewMemoryToolStripMenuItem.Enabled = _local
 
+        Me.OpenFirectoryToolStripMenuItem.Enabled = _local
+        Me.FileDetailsToolStripMenuItem.Enabled = _local
+        Me.FilePropToolStripMenuItem34.Enabled = _local
+
+
         ' Verify file
         If _local Then
             Try
