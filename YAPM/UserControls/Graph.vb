@@ -321,7 +321,7 @@ Public Class Graph
             If _values(x).y > yMax Then yMax = _values(x).y
         Next
 
-        If yMax = 0 Then Exit Sub
+        'If yMax = 0 Then Exit Sub
         yMax += 1
 
         Dim yCoef As Double = (Me.Height - 25) / yMax
@@ -354,8 +354,8 @@ Public Class Graph
 
             xx1 = CInt(x1 * xCoef)
             xx2 = CInt(x2 * xCoef)
-            yy1 = CInt(Me.Height - y1 * yCoef) + 10
-            yy2 = CInt(Me.Height - y2 * yCoef) + 10
+            yy1 = CInt(Me.Height - y1 * yCoef) - 5
+            yy2 = CInt(Me.Height - y2 * yCoef) - 5
             g.DrawLine(_colorMemory1, xx1, yy1, xx2, yy2)
         Next
 
