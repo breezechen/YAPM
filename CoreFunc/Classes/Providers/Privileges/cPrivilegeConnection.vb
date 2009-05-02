@@ -30,15 +30,22 @@ Imports System.Text
 Public Class cPrivilegeConnection
     Inherits cGeneralConnection
 
-    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection)
+    Friend Shared instanceId As Integer = 1
+    Private _instanceId As Integer = 1
+    Private _privEnum As asyncCallbackPrivilegesEnumerate
+
+    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, ByRef de As HasEnumeratedEventHandler)
         MyBase.New(ControlWhichGetInvoked, Conn)
+        instanceId += 1
+        _instanceId = instanceId
+        _privEnum = New asyncCallbackPrivilegesEnumerate(_control, de, Me, _instanceId)
     End Sub
 
 #Region "Events, delegate, invoke..."
 
     Public Delegate Sub ConnectedEventHandler(ByVal Success As Boolean)
     Public Delegate Sub DisconnectedEventHandler(ByVal Success As Boolean)
-    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, privilegeInfos), ByVal errorMessage As String)
+    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, privilegeInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
     Public Connected As ConnectedEventHandler
     Public Disconnected As DisconnectedEventHandler
@@ -94,11 +101,11 @@ Public Class cPrivilegeConnection
 #Region "Enumerate privileges"
 
     ' Enumerate threads
-    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid As Integer) As Integer
+    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid As Integer, Optional ByVal forInstanceId As Integer = -1) As Integer
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
-                System.Threading.WaitCallback(AddressOf _
-                asyncCallbackPrivilegesEnumerate.Process), New  _
-                asyncCallbackPrivilegesEnumerate.poolObj(_control, HasEnumerated, Me, pid))
+            System.Threading.WaitCallback(AddressOf _
+            _privEnum.Process), New  _
+            asyncCallbackPrivilegesEnumerate.poolObj(pid, forInstanceId))
     End Function
 
 #End Region
@@ -124,6 +131,18 @@ Public Class cPrivilegeConnection
         End If
         ' OK, THIS IS NOT THE BEST WAY TO AVOID THE BUG
 
+        If data Is Nothing Then
+            Trace.WriteLine("Serialization error")
+            Exit Sub
+        End If
+
+        If data.Type = cSocketData.DataType.RequestedList AndAlso _
+            data.Order = cSocketData.OrderType.RequestPrivilegesList Then
+            If _instanceId = data.InstanceId Then
+                ' OK it is for me
+                _privEnum.GotListFromSocket(data.GetList, data.GetKeys)
+            End If
+        End If
     End Sub
 
     Protected Overrides Sub _sock_SentData() Handles _sock.SentData

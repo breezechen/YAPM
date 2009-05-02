@@ -38,7 +38,7 @@ Public Class frmServeur
     Private _moduleCon As New cModuleConnection(Me, theConnection, New cModuleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedModule))
     Private _networkCon As New cNetworkConnection(Me, theConnection, New cNetworkConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedNetwork))
     Private _serviceCon As New cServiceConnection(Me, theConnection, New cServiceConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedService))
-    Private _priviCon As New cPrivilegeConnection(Me, theConnection)
+    Private _priviCon As New cPrivilegeConnection(Me, theConnection, New cPrivilegeConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedPrivilege))
     Private _taskCon As New cTaskConnection(Me, theConnection, New cTaskConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedTask))
     Private _threadCon As New cThreadConnection(Me, theConnection, New cThreadConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedThread))
     Private _windowCon As New cWindowConnection(Me, theConnection, New cWindowConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedWindows))
@@ -63,6 +63,7 @@ Public Class frmServeur
             _searchCon.Connect()
             _serviceCon.Connect()
             _taskCon.Connect()
+            _priviCon.Connect()
             _windowCon.Connect()
             _threadCon.Connect()
             _handleCon.Connect()
@@ -82,6 +83,24 @@ Public Class frmServeur
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestProcessList)
                 cDat.InstanceId = instanceId   ' The instance which requested the list
                 cDat.SetProcessList(Dico)
+                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
+                sock.Send(buff, buff.Length)
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+        Else
+            ' Send an error
+        End If
+
+    End Sub
+
+    Private Sub HasEnumeratedPrivilege(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, privilegeInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+
+        If Success Then
+            Try
+                Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestPrivilegesList)
+                cDat.InstanceId = instanceId   ' The instance which requested the list
+                cDat.SetPrivilegeList(Dico)
                 Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
                 sock.Send(buff, buff.Length)
             Catch ex As Exception
@@ -313,6 +332,9 @@ Public Class frmServeur
                         Dim include As searchInfos.SearchInclude = CType(cData.Param2, searchInfos.SearchInclude)
                         Dim _case As Boolean = CBool(cData.Param3)
                         Call _searchCon.Enumerate(st, _case, include, _forInstanceId)
+                    Case cSocketData.OrderType.RequestPrivilegesList
+                        Dim pid As Integer = CType(cData.Param1, Integer)
+                        Call _priviCon.Enumerate(True, pid, _forInstanceId)
                 End Select
 
             End If

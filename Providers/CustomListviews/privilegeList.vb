@@ -42,7 +42,7 @@ Public Class privilegeList
     Private _buffDico As New Dictionary(Of String, cPrivilege)
     Private _dico As New Dictionary(Of String, cPrivilege)
     Private WithEvents _connectionObject As New cConnection
-    Private WithEvents _privilegeConnection As New cPrivilegeConnection(Me, _connectionObject)
+    Private WithEvents _privilegeConnection As New cPrivilegeConnection(Me, _connectionObject, New cPrivilegeConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
 
 #Region "Properties"
 
@@ -80,7 +80,6 @@ Public Class privilegeList
         _first = True
 
         ' Set handlers
-        _privilegeConnection.HasEnumerated = New cPrivilegeConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler)
         _privilegeConnection.Disconnected = New cPrivilegeConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
         _privilegeConnection.Connected = New cPrivilegeConnection.ConnectedEventHandler(AddressOf HasConnected)
     End Sub
@@ -149,7 +148,7 @@ Public Class privilegeList
 
     ' Executed when enumeration is done
     Private Shared sem As New System.Threading.Semaphore(1, 1)
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, privilegeInfos), ByVal errorMessage As String)
+    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, privilegeInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
         sem.WaitOne()
 

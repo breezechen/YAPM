@@ -27,7 +27,7 @@ Option Strict On
 Imports CoreFunc.cProcessConnection
 Imports System.Runtime.InteropServices
 
-Public Class privilegeInfos
+<Serializable()> Public Class privilegeInfos
     Inherits generalInfos
 
 #Region "Private attributes"
