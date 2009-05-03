@@ -171,9 +171,17 @@ Public Class frmProcessInfo
         Me.lblProcReadBytes.Text = GetFormatedSize(curProc.Infos.IOValues.ReadTransferCount)
         Me.lblProcWriteBytes.Text = GetFormatedSize(curProc.Infos.IOValues.WriteTransferCount)
         Me.lblProcWrites.Text = curProc.Infos.IOValues.WriteOperationCount.ToString
-        Me.lblGDIcount.Text = CStr(curProc.Infos.GdiObjects)
-        Me.lblUserObjectsCount.Text = CStr(curProc.Infos.UserObjects)
+        Me.lblGDIcount.Text = curProc.Infos.GdiObjects.ToString
+        Me.lblThreads.Text = curProc.Infos.ThreadCount.ToString
+        Me.lblUserObjectsCount.Text = curProc.Infos.UserObjects.ToString
         Me.lblAverageCPUusage.Text = curProc.GetInformation("AverageCpuUsage")
+
+        Me.lblRBD.Text = curProc.GetInformation("ReadTransferCountDelta")
+        Me.lblRD.Text = curProc.IODelta.ReadOperationCount.ToString
+        Me.lblWBD.Text = curProc.GetInformation("WriteTransferCountDelta")
+        Me.lblWD.Text = curProc.IODelta.WriteOperationCount.ToString
+        Me.lblOtherD.Text = curProc.IODelta.OtherOperationCount.ToString
+        Me.lblOthersBD.Text = curProc.GetInformation("OtherTransferCountDelta")
 
         Dim mem As API.VM_COUNTERS_EX = curProc.Infos.MemoryInfos
         Me.lblHandles.Text = CStr(curProc.Infos.HandleCount)

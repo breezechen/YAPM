@@ -340,6 +340,20 @@ Partial Class frmProcessInfo
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
+        Me.lblOthersBD = New System.Windows.Forms.Label
+        Me.Label5 = New System.Windows.Forms.Label
+        Me.lblOtherD = New System.Windows.Forms.Label
+        Me.Label7 = New System.Windows.Forms.Label
+        Me.lblWBD = New System.Windows.Forms.Label
+        Me.Label9 = New System.Windows.Forms.Label
+        Me.lblWD = New System.Windows.Forms.Label
+        Me.Label11 = New System.Windows.Forms.Label
+        Me.lblRBD = New System.Windows.Forms.Label
+        Me.Label34 = New System.Windows.Forms.Label
+        Me.lblRD = New System.Windows.Forms.Label
+        Me.Label41 = New System.Windows.Forms.Label
+        Me.lblThreads = New System.Windows.Forms.Label
+        Me.Label44 = New System.Windows.Forms.Label
         Me.tabProcess.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -875,6 +889,8 @@ Partial Class frmProcessInfo
         '
         'GroupBox5
         '
+        Me.GroupBox5.Controls.Add(Me.lblThreads)
+        Me.GroupBox5.Controls.Add(Me.Label44)
         Me.GroupBox5.Controls.Add(Me.lblUserObjectsCount)
         Me.GroupBox5.Controls.Add(Me.Label37)
         Me.GroupBox5.Controls.Add(Me.lblGDIcount)
@@ -883,7 +899,7 @@ Partial Class frmProcessInfo
         Me.GroupBox5.Controls.Add(Me.Label53)
         Me.GroupBox5.Location = New System.Drawing.Point(416, 135)
         Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(180, 75)
+        Me.GroupBox5.Size = New System.Drawing.Size(180, 122)
         Me.GroupBox5.TabIndex = 3
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Other"
@@ -910,7 +926,7 @@ Partial Class frmProcessInfo
         'lblGDIcount
         '
         Me.lblGDIcount.AutoSize = True
-        Me.lblGDIcount.Location = New System.Drawing.Point(101, 35)
+        Me.lblGDIcount.Location = New System.Drawing.Point(102, 35)
         Me.lblGDIcount.Name = "lblGDIcount"
         Me.lblGDIcount.Size = New System.Drawing.Size(19, 13)
         Me.lblGDIcount.TabIndex = 3
@@ -920,7 +936,7 @@ Partial Class frmProcessInfo
         'lbl789
         '
         Me.lbl789.AutoSize = True
-        Me.lbl789.Location = New System.Drawing.Point(7, 35)
+        Me.lbl789.Location = New System.Drawing.Point(8, 35)
         Me.lbl789.Name = "lbl789"
         Me.lbl789.Size = New System.Drawing.Size(66, 13)
         Me.lbl789.TabIndex = 2
@@ -929,7 +945,7 @@ Partial Class frmProcessInfo
         'lblHandles
         '
         Me.lblHandles.AutoSize = True
-        Me.lblHandles.Location = New System.Drawing.Point(100, 16)
+        Me.lblHandles.Location = New System.Drawing.Point(102, 16)
         Me.lblHandles.Name = "lblHandles"
         Me.lblHandles.Size = New System.Drawing.Size(19, 13)
         Me.lblHandles.TabIndex = 1
@@ -939,7 +955,7 @@ Partial Class frmProcessInfo
         'Label53
         '
         Me.Label53.AutoSize = True
-        Me.Label53.Location = New System.Drawing.Point(6, 16)
+        Me.Label53.Location = New System.Drawing.Point(8, 16)
         Me.Label53.Name = "Label53"
         Me.Label53.Size = New System.Drawing.Size(49, 13)
         Me.Label53.TabIndex = 0
@@ -947,6 +963,18 @@ Partial Class frmProcessInfo
         '
         'GroupBox4
         '
+        Me.GroupBox4.Controls.Add(Me.lblOthersBD)
+        Me.GroupBox4.Controls.Add(Me.Label5)
+        Me.GroupBox4.Controls.Add(Me.lblOtherD)
+        Me.GroupBox4.Controls.Add(Me.Label7)
+        Me.GroupBox4.Controls.Add(Me.lblWBD)
+        Me.GroupBox4.Controls.Add(Me.Label9)
+        Me.GroupBox4.Controls.Add(Me.lblWD)
+        Me.GroupBox4.Controls.Add(Me.Label11)
+        Me.GroupBox4.Controls.Add(Me.lblRBD)
+        Me.GroupBox4.Controls.Add(Me.Label34)
+        Me.GroupBox4.Controls.Add(Me.lblRD)
+        Me.GroupBox4.Controls.Add(Me.Label41)
         Me.GroupBox4.Controls.Add(Me.lblProcOtherBytes)
         Me.GroupBox4.Controls.Add(Me.Label23)
         Me.GroupBox4.Controls.Add(Me.lblProcOther)
@@ -961,7 +989,7 @@ Partial Class frmProcessInfo
         Me.GroupBox4.Controls.Add(Me.Label42)
         Me.GroupBox4.Location = New System.Drawing.Point(234, 8)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(176, 202)
+        Me.GroupBox4.Size = New System.Drawing.Size(176, 249)
         Me.GroupBox4.TabIndex = 2
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "I/O"
@@ -969,7 +997,7 @@ Partial Class frmProcessInfo
         'lblProcOtherBytes
         '
         Me.lblProcOtherBytes.AutoSize = True
-        Me.lblProcOtherBytes.Location = New System.Drawing.Point(99, 107)
+        Me.lblProcOtherBytes.Location = New System.Drawing.Point(102, 107)
         Me.lblProcOtherBytes.Name = "lblProcOtherBytes"
         Me.lblProcOtherBytes.Size = New System.Drawing.Size(19, 13)
         Me.lblProcOtherBytes.TabIndex = 31
@@ -988,7 +1016,7 @@ Partial Class frmProcessInfo
         'lblProcOther
         '
         Me.lblProcOther.AutoSize = True
-        Me.lblProcOther.Location = New System.Drawing.Point(99, 89)
+        Me.lblProcOther.Location = New System.Drawing.Point(102, 89)
         Me.lblProcOther.Name = "lblProcOther"
         Me.lblProcOther.Size = New System.Drawing.Size(19, 13)
         Me.lblProcOther.TabIndex = 29
@@ -1007,7 +1035,7 @@ Partial Class frmProcessInfo
         'lblProcWriteBytes
         '
         Me.lblProcWriteBytes.AutoSize = True
-        Me.lblProcWriteBytes.Location = New System.Drawing.Point(99, 70)
+        Me.lblProcWriteBytes.Location = New System.Drawing.Point(102, 70)
         Me.lblProcWriteBytes.Name = "lblProcWriteBytes"
         Me.lblProcWriteBytes.Size = New System.Drawing.Size(19, 13)
         Me.lblProcWriteBytes.TabIndex = 27
@@ -1026,7 +1054,7 @@ Partial Class frmProcessInfo
         'lblProcWrites
         '
         Me.lblProcWrites.AutoSize = True
-        Me.lblProcWrites.Location = New System.Drawing.Point(99, 52)
+        Me.lblProcWrites.Location = New System.Drawing.Point(102, 52)
         Me.lblProcWrites.Name = "lblProcWrites"
         Me.lblProcWrites.Size = New System.Drawing.Size(19, 13)
         Me.lblProcWrites.TabIndex = 25
@@ -1045,7 +1073,7 @@ Partial Class frmProcessInfo
         'lblProcReadBytes
         '
         Me.lblProcReadBytes.AutoSize = True
-        Me.lblProcReadBytes.Location = New System.Drawing.Point(99, 34)
+        Me.lblProcReadBytes.Location = New System.Drawing.Point(102, 34)
         Me.lblProcReadBytes.Name = "lblProcReadBytes"
         Me.lblProcReadBytes.Size = New System.Drawing.Size(19, 13)
         Me.lblProcReadBytes.TabIndex = 23
@@ -1064,7 +1092,7 @@ Partial Class frmProcessInfo
         'lblProcReads
         '
         Me.lblProcReads.AutoSize = True
-        Me.lblProcReads.Location = New System.Drawing.Point(99, 16)
+        Me.lblProcReads.Location = New System.Drawing.Point(102, 16)
         Me.lblProcReads.Name = "lblProcReads"
         Me.lblProcReads.Size = New System.Drawing.Size(19, 13)
         Me.lblProcReads.TabIndex = 21
@@ -1102,7 +1130,7 @@ Partial Class frmProcessInfo
         Me.GroupBox3.Controls.Add(Me.Label27)
         Me.GroupBox3.Location = New System.Drawing.Point(6, 8)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(222, 202)
+        Me.GroupBox3.Size = New System.Drawing.Size(222, 249)
         Me.GroupBox3.TabIndex = 1
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Memory"
@@ -1463,7 +1491,7 @@ Partial Class frmProcessInfo
         Me.tabProcessToken.Location = New System.Drawing.Point(3, 3)
         Me.tabProcessToken.Name = "tabProcessToken"
         Me.tabProcessToken.SelectedIndex = 0
-        Me.tabProcessToken.Size = New System.Drawing.Size(641, 290)
+        Me.tabProcessToken.Size = New System.Drawing.Size(641, 271)
         Me.tabProcessToken.TabIndex = 0
         '
         'tabProcessTokenPagePrivileges
@@ -1472,7 +1500,7 @@ Partial Class frmProcessInfo
         Me.tabProcessTokenPagePrivileges.Location = New System.Drawing.Point(4, 22)
         Me.tabProcessTokenPagePrivileges.Name = "tabProcessTokenPagePrivileges"
         Me.tabProcessTokenPagePrivileges.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabProcessTokenPagePrivileges.Size = New System.Drawing.Size(633, 264)
+        Me.tabProcessTokenPagePrivileges.Size = New System.Drawing.Size(633, 245)
         Me.tabProcessTokenPagePrivileges.TabIndex = 0
         Me.tabProcessTokenPagePrivileges.Text = "Privileges"
         Me.tabProcessTokenPagePrivileges.UseVisualStyleBackColor = True
@@ -1493,7 +1521,7 @@ Partial Class frmProcessInfo
         Me.lvPrivileges.Name = "lvPrivileges"
         Me.lvPrivileges.OverriddenDoubleBuffered = True
         Me.lvPrivileges.ProcessId = 0
-        Me.lvPrivileges.Size = New System.Drawing.Size(627, 258)
+        Me.lvPrivileges.Size = New System.Drawing.Size(627, 239)
         Me.lvPrivileges.TabIndex = 13
         Me.lvPrivileges.UseCompatibleStateImageBehavior = False
         Me.lvPrivileges.View = System.Windows.Forms.View.Details
@@ -1569,7 +1597,7 @@ Partial Class frmProcessInfo
         Me.lvProcMem.Name = "lvProcMem"
         Me.lvProcMem.OverriddenDoubleBuffered = True
         Me.lvProcMem.ProcessId = 0
-        Me.lvProcMem.Size = New System.Drawing.Size(641, 290)
+        Me.lvProcMem.Size = New System.Drawing.Size(641, 271)
         Me.lvProcMem.TabIndex = 14
         Me.lvProcMem.UseCompatibleStateImageBehavior = False
         Me.lvProcMem.View = System.Windows.Forms.View.Details
@@ -1655,7 +1683,7 @@ Partial Class frmProcessInfo
         'SplitContainerInfoProcess.Panel2
         '
         Me.SplitContainerInfoProcess.Panel2.Controls.Add(Me.rtb)
-        Me.SplitContainerInfoProcess.Size = New System.Drawing.Size(641, 290)
+        Me.SplitContainerInfoProcess.Size = New System.Drawing.Size(641, 271)
         Me.SplitContainerInfoProcess.SplitterDistance = 25
         Me.SplitContainerInfoProcess.TabIndex = 0
         '
@@ -1713,7 +1741,7 @@ Partial Class frmProcessInfo
         Me.rtb.Location = New System.Drawing.Point(0, 0)
         Me.rtb.Name = "rtb"
         Me.rtb.ReadOnly = True
-        Me.rtb.Size = New System.Drawing.Size(641, 261)
+        Me.rtb.Size = New System.Drawing.Size(641, 242)
         Me.rtb.TabIndex = 4
         Me.rtb.Text = ""
         '
@@ -1751,7 +1779,7 @@ Partial Class frmProcessInfo
         Me.lvProcServices.OverriddenDoubleBuffered = True
         Me.lvProcServices.ProcessId = 0
         Me.lvProcServices.ShowAll = False
-        Me.lvProcServices.Size = New System.Drawing.Size(641, 290)
+        Me.lvProcServices.Size = New System.Drawing.Size(641, 271)
         Me.lvProcServices.TabIndex = 2
         Me.lvProcServices.UseCompatibleStateImageBehavior = False
         Me.lvProcServices.View = System.Windows.Forms.View.Details
@@ -1951,7 +1979,7 @@ Partial Class frmProcessInfo
         Me.lvProcNetwork.OverriddenDoubleBuffered = True
         Me.lvProcNetwork.ProcessId = Nothing
         Me.lvProcNetwork.ShowAllPid = False
-        Me.lvProcNetwork.Size = New System.Drawing.Size(641, 290)
+        Me.lvProcNetwork.Size = New System.Drawing.Size(641, 271)
         Me.lvProcNetwork.TabIndex = 21
         Me.lvProcNetwork.UseCompatibleStateImageBehavior = False
         Me.lvProcNetwork.View = System.Windows.Forms.View.Details
@@ -3067,6 +3095,139 @@ Partial Class frmProcessInfo
         Me.ColumnHeader4.Text = "Description"
         Me.ColumnHeader4.Width = 400
         '
+        'lblOthersBD
+        '
+        Me.lblOthersBD.AutoSize = True
+        Me.lblOthersBD.Location = New System.Drawing.Point(102, 217)
+        Me.lblOthersBD.Name = "lblOthersBD"
+        Me.lblOthersBD.Size = New System.Drawing.Size(19, 13)
+        Me.lblOthersBD.TabIndex = 43
+        Me.lblOthersBD.Text = "00"
+        Me.lblOthersBD.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(6, 217)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(96, 13)
+        Me.Label5.TabIndex = 42
+        Me.Label5.Text = "Other bytes delta"
+        '
+        'lblOtherD
+        '
+        Me.lblOtherD.AutoSize = True
+        Me.lblOtherD.Location = New System.Drawing.Point(102, 199)
+        Me.lblOtherD.Name = "lblOtherD"
+        Me.lblOtherD.Size = New System.Drawing.Size(19, 13)
+        Me.lblOtherD.TabIndex = 41
+        Me.lblOtherD.Text = "00"
+        Me.lblOtherD.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(6, 199)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(66, 13)
+        Me.Label7.TabIndex = 40
+        Me.Label7.Text = "Other delta"
+        '
+        'lblWBD
+        '
+        Me.lblWBD.AutoSize = True
+        Me.lblWBD.Location = New System.Drawing.Point(102, 180)
+        Me.lblWBD.Name = "lblWBD"
+        Me.lblWBD.Size = New System.Drawing.Size(19, 13)
+        Me.lblWBD.TabIndex = 39
+        Me.lblWBD.Text = "00"
+        Me.lblWBD.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(6, 180)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(94, 13)
+        Me.Label9.TabIndex = 38
+        Me.Label9.Text = "Write bytes delta"
+        '
+        'lblWD
+        '
+        Me.lblWD.AutoSize = True
+        Me.lblWD.Location = New System.Drawing.Point(102, 162)
+        Me.lblWD.Name = "lblWD"
+        Me.lblWD.Size = New System.Drawing.Size(19, 13)
+        Me.lblWD.TabIndex = 37
+        Me.lblWD.Text = "00"
+        Me.lblWD.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Location = New System.Drawing.Point(6, 162)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(69, 13)
+        Me.Label11.TabIndex = 36
+        Me.Label11.Text = "Writes delta"
+        '
+        'lblRBD
+        '
+        Me.lblRBD.AutoSize = True
+        Me.lblRBD.Location = New System.Drawing.Point(102, 144)
+        Me.lblRBD.Name = "lblRBD"
+        Me.lblRBD.Size = New System.Drawing.Size(19, 13)
+        Me.lblRBD.TabIndex = 35
+        Me.lblRBD.Text = "00"
+        Me.lblRBD.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label34
+        '
+        Me.Label34.AutoSize = True
+        Me.Label34.Location = New System.Drawing.Point(6, 144)
+        Me.Label34.Name = "Label34"
+        Me.Label34.Size = New System.Drawing.Size(92, 13)
+        Me.Label34.TabIndex = 34
+        Me.Label34.Text = "Read bytes delta"
+        '
+        'lblRD
+        '
+        Me.lblRD.AutoSize = True
+        Me.lblRD.Location = New System.Drawing.Point(102, 126)
+        Me.lblRD.Name = "lblRD"
+        Me.lblRD.Size = New System.Drawing.Size(19, 13)
+        Me.lblRD.TabIndex = 33
+        Me.lblRD.Text = "00"
+        Me.lblRD.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label41
+        '
+        Me.Label41.AutoSize = True
+        Me.Label41.Location = New System.Drawing.Point(6, 126)
+        Me.Label41.Name = "Label41"
+        Me.Label41.Size = New System.Drawing.Size(67, 13)
+        Me.Label41.TabIndex = 32
+        Me.Label41.Text = "Reads delta"
+        '
+        'lblThreads
+        '
+        Me.lblThreads.AutoSize = True
+        Me.lblThreads.Location = New System.Drawing.Point(102, 72)
+        Me.lblThreads.Name = "lblThreads"
+        Me.lblThreads.Size = New System.Drawing.Size(19, 13)
+        Me.lblThreads.TabIndex = 7
+        Me.lblThreads.Text = "00"
+        Me.lblThreads.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label44
+        '
+        Me.Label44.AutoSize = True
+        Me.Label44.Location = New System.Drawing.Point(8, 72)
+        Me.Label44.Name = "Label44"
+        Me.Label44.Size = New System.Drawing.Size(47, 13)
+        Me.Label44.TabIndex = 6
+        Me.Label44.Text = "Threads"
+        '
         'frmProcessInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3449,4 +3610,18 @@ Partial Class frmProcessInfo
     Friend WithEvents ServiceDetailsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OpenFirectoryToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PropertiesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents lblOthersBD As System.Windows.Forms.Label
+    Friend WithEvents Label5 As System.Windows.Forms.Label
+    Friend WithEvents lblOtherD As System.Windows.Forms.Label
+    Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents lblWBD As System.Windows.Forms.Label
+    Friend WithEvents Label9 As System.Windows.Forms.Label
+    Friend WithEvents lblWD As System.Windows.Forms.Label
+    Friend WithEvents Label11 As System.Windows.Forms.Label
+    Friend WithEvents lblRBD As System.Windows.Forms.Label
+    Friend WithEvents Label34 As System.Windows.Forms.Label
+    Friend WithEvents lblRD As System.Windows.Forms.Label
+    Friend WithEvents Label41 As System.Windows.Forms.Label
+    Friend WithEvents lblThreads As System.Windows.Forms.Label
+    Friend WithEvents Label44 As System.Windows.Forms.Label
 End Class
