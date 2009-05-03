@@ -303,7 +303,7 @@ Imports System.Runtime.InteropServices
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties() As String()
-        Dim s(36) As String
+        Dim s(42) As String
 
         s(0) = "PID"
         s(1) = "UserName"
@@ -333,15 +333,21 @@ Imports System.Runtime.InteropServices
         s(25) = "ReadOperationCount"
         s(26) = "WriteOperationCount"
         s(27) = "OtherOperationCount"
-        s(28) = "ReadTransferCount "
+        s(28) = "ReadTransferCount"
         s(29) = "WriteTransferCount"
         s(30) = "OtherTransferCount"
-        s(31) = "Priority"
-        s(32) = "Path"
-        s(33) = "CommandLine"
-        s(34) = "Description"
-        s(35) = "Copyright"
-        s(36) = "Version"
+        s(31) = "ReadOperationCountDelta"
+        s(32) = "WriteOperationCountDelta"
+        s(33) = "OtherOperationCountDelta"
+        s(34) = "ReadTransferCountDelta"
+        s(35) = "WriteTransferCountDelta"
+        s(36) = "OtherTransferCountDelta"
+        s(37) = "Priority"
+        s(38) = "Path"
+        s(39) = "CommandLine"
+        s(40) = "Description"
+        s(41) = "Copyright"
+        s(42) = "Version"
 
         Return s
     End Function

@@ -447,7 +447,9 @@ Public Class frmProcessInfo
         Me.graphCPU.Add2Values(z * 100, z2 * 100)
         z = curProc.Infos.MemoryInfos.WorkingSetSize / 2147483648 * 100
         Me.graphMemory.AddValue(z)
-        Me.graphIO.AddValue(curProc.Infos.IOValues.ReadTransferCount)
+        Me.graphIO.Add2Values(curProc.IODelta.ReadTransferCount, curProc.IODelta.WriteTransferCount)
+        Trace.WriteLine("w  " & curProc.IODelta.WriteTransferCount)
+        Trace.WriteLine("r  " & curProc.IODelta.ReadTransferCount)
         Me.graphCPU.Refresh()
         Me.graphIO.Refresh()
         Me.graphMemory.Refresh()
@@ -2143,5 +2145,9 @@ Public Class frmProcessInfo
                 cFile.ShowFileProperty(s, Me.Handle)
             End If
         End If
+    End Sub
+
+    Private Sub lstHistoryCat_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstHistoryCat.SelectedIndexChanged
+
     End Sub
 End Class

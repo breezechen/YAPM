@@ -100,13 +100,14 @@ Public Class cProcess
 
     Private _parentName As String = vbNullString
     Private _cpuUsage As Double
+    Private _ioDelta As API.IO_COUNTERS
 
     ' Save informations about performance
     Friend _dicoProcMem As New SortedList(Of Integer, PROC_MEM_INFO)
     Friend _dicoProcTimes As New SortedList(Of Integer, PROC_TIME_INFO)
     Friend _dicoProcIO As New SortedList(Of Integer, PROC_IO_INFO)
     Friend _dicoProcMisc As New SortedList(Of Integer, PROC_MISC_INFO)
-
+    Friend _dicoProcIODelta As New SortedList(Of Integer, PROC_IO_INFO)
 
     Private _handleQueryInfo As Integer
 
@@ -131,6 +132,11 @@ Public Class cProcess
     Public ReadOnly Property DicoPerfIO() As SortedList(Of Integer, PROC_IO_INFO)
         Get
             Return _dicoProcIO
+        End Get
+    End Property
+    Public ReadOnly Property DicoPerfIODelta() As SortedList(Of Integer, PROC_IO_INFO)
+        Get
+            Return _dicoProcIODelta
         End Get
     End Property
     Public ReadOnly Property DicoPerfTimes() As SortedList(Of Integer, PROC_TIME_INFO)
@@ -186,6 +192,12 @@ Public Class cProcess
         End Get
     End Property
 
+    Public ReadOnly Property IODelta() As API.IO_COUNTERS
+        Get
+            Return _ioDelta
+        End Get
+    End Property
+
 #End Region
 
     ' Merge current infos and new infos
@@ -196,6 +208,7 @@ Public Class cProcess
             _dicoProcMem.Clear()
             _dicoProcTimes.Clear()
             _dicoProcIO.Clear()
+            _dicoProcIODelta.Clear()
             _dicoProcMisc.Clear()
             _refrehNumber = 0
         End SyncLock
@@ -204,6 +217,7 @@ Public Class cProcess
     Public Sub Merge(ByRef Proc As processInfos)
 
         Call refreshCpuUsage()
+        Call refreshIOdelta()
 
         _refrehNumber += 1   ' This is the key for the history
 
@@ -227,6 +241,7 @@ Public Class cProcess
             _dicoProcMem.Add(_refrehNumber, New PROC_MEM_INFO(_now, Me.Infos.MemoryInfos))
             _dicoProcTimes.Add(_refrehNumber, New PROC_TIME_INFO(_now, Me.Infos.UserTime, Me.Infos.KernelTime))
             _dicoProcIO.Add(_refrehNumber, New PROC_IO_INFO(_now, Me.Infos.IOValues))
+            _dicoProcIODelta.Add(_refrehNumber, New PROC_IO_INFO(_now, _ioDelta))
             _dicoProcMisc.Add(_refrehNumber, New PROC_MISC_INFO(_now, Me.Infos.GdiObjects, Me.Infos.UserObjects, _
                      100 * Me.CpuUsage, 100 * Me.Infos.AverageCpuUsage))
         End SyncLock
@@ -613,12 +628,24 @@ Public Class cProcess
                 res = Me.Infos.IOValues.WriteOperationCount.ToString
             Case "OtherOperationCount"
                 res = Me.Infos.IOValues.OtherOperationCount.ToString
-            Case "ReadTransferCount "
+            Case "ReadTransferCount"
                 res = GetFormatedSize(Me.Infos.IOValues.ReadTransferCount)
             Case "WriteTransferCount"
                 res = GetFormatedSize(Me.Infos.IOValues.WriteTransferCount)
             Case "OtherTransferCount"
                 res = GetFormatedSize(Me.Infos.IOValues.OtherTransferCount)
+            Case "ReadOperationCountDelta"
+                res = _ioDelta.ReadOperationCount.ToString
+            Case "WriteOperationCountDelta"
+                res = _ioDelta.WriteOperationCount.ToString
+            Case "OtherOperationCountDelta"
+                res = _ioDelta.OtherOperationCount.ToString
+            Case "ReadTransferCountDelta"
+                res = GetFormatedSizePerSecond(_ioDelta.ReadTransferCount)
+            Case "WriteTransferCountDelta"
+                res = GetFormatedSizePerSecond(_ioDelta.WriteTransferCount)
+            Case "OtherTransferCountDelta"
+                res = GetFormatedSizePerSecond(_ioDelta.OtherTransferCount)
             Case "HandleCount"
                 res = Me.Infos.HandleCount.ToString
             Case "ThreadCount"
@@ -667,12 +694,24 @@ Public Class cProcess
                 res = Me.Infos.IOValues.WriteOperationCount
             Case "OtherOperationCount"
                 res = Me.Infos.IOValues.OtherOperationCount
-            Case "ReadTransferCount "
+            Case "ReadTransferCount"
                 res = Me.Infos.IOValues.ReadTransferCount
             Case "WriteTransferCount"
                 res = Me.Infos.IOValues.WriteTransferCount
             Case "OtherTransferCount"
                 res = Me.Infos.IOValues.OtherTransferCount
+            Case "ReadOperationCountDelta"
+                res = _ioDelta.ReadOperationCount
+            Case "WriteOperationCountDelta"
+                res = _ioDelta.WriteOperationCount
+            Case "OtherOperationCountDelta"
+                res = _ioDelta.OtherOperationCount
+            Case "ReadTransferCountDelta"
+                res = _ioDelta.ReadTransferCount
+            Case "WriteTransferCountDelta"
+                res = _ioDelta.WriteTransferCount
+            Case "OtherTransferCountDelta"
+                res = _ioDelta.OtherTransferCount
             Case "CpuUsage"
                 res = 100 * Me.CpuUsage
             Case "AverageCpuUsage"
@@ -925,7 +964,7 @@ Public Class cProcess
                     ret(x) = CLng(t.io.OtherOperationCount)
                     x += 1
                 Next
-            Case "ReadTransferCount "
+            Case "ReadTransferCount"
                 ReDim ret(_dicoProcIO.Count - 1)
                 Dim x As Integer = 0
                 For Each t As PROC_IO_INFO In _dicoProcIO.Values
@@ -974,6 +1013,48 @@ Public Class cProcess
                     ret(x) = t.averageCpuUsage
                     x += 1
                 Next
+            Case "ReadOperationCountDelta"
+                ReDim ret(_dicoProcIO.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_IO_INFO In _dicoProcIODelta.Values
+                    ret(x) = CLng(t.io.ReadOperationCount)
+                    x += 1
+                Next
+            Case "WriteOperationCountDelta"
+                ReDim ret(_dicoProcIO.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_IO_INFO In _dicoProcIODelta.Values
+                    ret(x) = CLng(t.io.WriteOperationCount)
+                    x += 1
+                Next
+            Case "OtherOperationCountDelta"
+                ReDim ret(_dicoProcIO.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_IO_INFO In _dicoProcIODelta.Values
+                    ret(x) = CLng(t.io.OtherOperationCount)
+                    x += 1
+                Next
+            Case "ReadTransferCountDelta"
+                ReDim ret(_dicoProcIO.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_IO_INFO In _dicoProcIODelta.Values
+                    ret(x) = CLng(t.io.ReadTransferCount)
+                    x += 1
+                Next
+            Case "WriteTransferCountDelta"
+                ReDim ret(_dicoProcIO.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_IO_INFO In _dicoProcIODelta.Values
+                    ret(x) = CLng(t.io.WriteTransferCount)
+                    x += 1
+                Next
+            Case "OtherTransferCountDelta"
+                ReDim ret(_dicoProcIO.Count - 1)
+                Dim x As Integer = 0
+                For Each t As PROC_IO_INFO In _dicoProcIODelta.Values
+                    ret(x) = CLng(t.io.OtherTransferCount)
+                    x += 1
+                Next
             Case Else
                 ReDim ret(0)
         End Select
@@ -981,6 +1062,7 @@ Public Class cProcess
         Return ret
     End Function
 
+    ' Refresh CPU usage once
     Private Sub refreshCpuUsage()
         Static oldDate As Long = Date.Now.Ticks
         Static oldProcTime As Long = Me.Infos.ProcessorTime
@@ -1000,4 +1082,48 @@ Public Class cProcess
             _cpuUsage = 0
         End If
     End Sub
+
+    ' Refresh IO delta once
+    Private Sub refreshIODelta()
+        Static oldDate As Long = Date.Now.Ticks
+        Static oldIO As API.IO_COUNTERS = Me.Infos.IOValues
+
+        Dim currDate As Long = Date.Now.Ticks
+        Dim ioValues As API.IO_COUNTERS = Me.Infos.IOValues
+
+        Dim diff As Long = currDate - oldDate
+        Dim ioDiff As API.IO_COUNTERS
+        With ioDiff
+            .OtherOperationCount = ioValues.OtherOperationCount - oldIO.OtherOperationCount
+            .OtherTransferCount = ioValues.OtherTransferCount - oldIO.OtherTransferCount
+            .ReadOperationCount = ioValues.ReadOperationCount - oldIO.ReadOperationCount
+            .ReadTransferCount = ioValues.ReadTransferCount - oldIO.ReadTransferCount
+            .WriteOperationCount = ioValues.WriteOperationCount - oldIO.WriteOperationCount
+            .WriteTransferCount = ioValues.WriteTransferCount - oldIO.WriteTransferCount
+        End With
+
+        oldIO = ioValues
+        oldDate = currDate
+
+        If diff > 0 Then
+            With _ioDelta
+                .OtherOperationCount = CULng(ioDiff.OtherOperationCount)
+                .OtherTransferCount = CULng(10000000 * ioDiff.OtherTransferCount / diff)
+                .ReadOperationCount = CULng(ioDiff.ReadOperationCount)
+                .ReadTransferCount = CULng(10000000 * ioDiff.ReadTransferCount / diff)
+                .WriteOperationCount = CULng(ioDiff.WriteOperationCount)
+                .WriteTransferCount = CULng(10000000 * ioDiff.WriteTransferCount / diff)
+            End With
+        Else
+            With _ioDelta
+                .OtherOperationCount = 0
+                .OtherTransferCount = 0
+                .ReadOperationCount = 0
+                .ReadTransferCount = 0
+                .WriteOperationCount = 0
+                .WriteTransferCount = 0
+            End With
+        End If
+    End Sub
+
 End Class

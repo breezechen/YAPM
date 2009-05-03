@@ -68,6 +68,20 @@ Public Module mdlMisc
 
     End Function
 
+    ' Get formated size per second
+    Public Function GetFormatedSizePerSecond(ByVal size As Decimal, Optional ByVal digits As Integer = 3) As String
+        Dim t As Decimal = size
+        Dim dep As Integer = 0
+
+        While t >= 1024
+            t /= 1024
+            dep += 1
+        End While
+
+        Return CStr(Math.Round(t, digits)) & " " & sizeUnits(dep) & "/s"
+
+    End Function
+
     ' Return true if a string is (or seems to be) a formated size
     Public Function IsFormatedSize(ByVal _str As String) As Boolean
         If _str Is Nothing OrElse _str.Length < 4 Then
