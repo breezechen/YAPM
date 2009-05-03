@@ -91,6 +91,7 @@ Public Class cProcess
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
     ' Current processes running
+    ' Protected by a semaphore (sem from asyncProcEnum)
     Public Shared _currentProcesses As Dictionary(Of String, cProcess)
 
     Private _infos As API.SYSTEM_PROCESS_INFORMATION

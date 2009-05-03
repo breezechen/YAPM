@@ -98,11 +98,11 @@ Public Class searchList
 
         Me.SmallImageList = _IMG
         _IMG.Images.Add("service", My.Resources.gear)   ' Icon is specific
-        _IMG.Images.Add("proc", My.Resources.exe)
+        _IMG.Images.Add("exeFile", My.Resources.exe)
         _IMG.Images.Add("window", My.Resources.display16)
         _IMG.Images.Add("handle", My.Resources.handle)
         _IMG.Images.Add("envvar", My.Resources.text)
-        _IMG.Images.Add("module", My.Resources.dllIcon)
+        _IMG.Images.Add("dllIcon", My.Resources.dllIcon)
 
 
         ' Set handlers
@@ -249,12 +249,12 @@ Public Class searchList
             Case ResultType.Handle
                 item.ImageKey = "handle"
             Case ResultType.Module
-                item.ImageKey = "module"
+                item.ImageKey = "dllIcon"
             Case ResultType.Process
-                item.ImageKey = "proc"
+                item.ImageKey = "exeFile"
             Case ResultType.Service
                 item.ImageKey = "service"
-            Case ResultType.Window
+            Case Else
                 item.ImageKey = "window"
         End Select
 

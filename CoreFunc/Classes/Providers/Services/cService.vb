@@ -27,6 +27,7 @@ Public Class cService
     Private Const NO_DEPENDENCIES As String = ""
 
     ' Current services running
+    ' Protected by sem (semaphore)
     Public Shared _currentServices As Dictionary(Of String, cService)
 
     Private _firstRefresh As Boolean = True
@@ -335,6 +336,8 @@ Public Class cService
         Dim _d As New Dictionary(Of String, cService)
         Dim dep() As String = Nothing
 
+        asyncCallbackServiceEnumerate.sem.WaitOne()
+
         For Each serv As cService In _currentServices.Values
             If serv.Infos.Name = serviceName Then
                 dep = serv.Infos.Dependencies
@@ -355,6 +358,8 @@ Public Class cService
             Next
         Next
 
+        asyncCallbackServiceEnumerate.sem.Release()
+
         Return _d
     End Function
 
@@ -363,6 +368,8 @@ Public Class cService
 
         Dim _d As New Dictionary(Of String, cService)
         Dim dep() As String = Nothing
+
+        asyncCallbackServiceEnumerate.sem.WaitOne()
 
         For Each serv As cService In _currentServices.Values
             dep = serv.Infos.Dependencies
@@ -375,6 +382,8 @@ Public Class cService
                 Next
             End If
         Next
+
+        asyncCallbackServiceEnumerate.sem.Release()
 
         Return _d
     End Function
