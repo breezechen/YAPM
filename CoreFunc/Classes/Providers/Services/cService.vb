@@ -330,64 +330,6 @@ Public Class cService
 
 #End Region
 
-    ' Get dependencies of a service
-    Public Shared Function GetDependencies(ByVal serviceName As String) As Dictionary(Of String, cService)
-
-        Dim _d As New Dictionary(Of String, cService)
-        Dim dep() As String = Nothing
-
-        asyncCallbackServiceEnumerate.sem.WaitOne()
-
-        For Each serv As cService In _currentServices.Values
-            If serv.Infos.Name = serviceName Then
-                dep = serv.Infos.Dependencies
-                Exit For
-            End If
-        Next
-
-        If dep Is Nothing OrElse dep.Length = 0 Then
-            Return _d
-        End If
-
-        For Each servName As String In dep
-            For Each serv As cService In _currentServices.Values
-                If servName = serv.Infos.Name Then
-                    _d.Add(servName, serv)
-                    Exit For
-                End If
-            Next
-        Next
-
-        asyncCallbackServiceEnumerate.sem.Release()
-
-        Return _d
-    End Function
-
-    ' Get services which depends from a specific service
-    Public Shared Function GetServiceWhichDependFrom(ByVal serviceName As String) As Dictionary(Of String, cService)
-
-        Dim _d As New Dictionary(Of String, cService)
-        Dim dep() As String = Nothing
-
-        asyncCallbackServiceEnumerate.sem.WaitOne()
-
-        For Each serv As cService In _currentServices.Values
-            dep = serv.Infos.Dependencies
-            If dep IsNot Nothing Then
-                For Each s As String In dep
-                    If s = serviceName Then
-                        _d.Add(serv.Infos.Name, serv)
-                        Exit For
-                    End If
-                Next
-            End If
-        Next
-
-        asyncCallbackServiceEnumerate.sem.Release()
-
-        Return _d
-    End Function
-
     ' Get a service by name
     Public Shared Function GetServiceByName(ByVal name As String) As cService
 

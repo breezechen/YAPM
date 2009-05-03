@@ -64,6 +64,12 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomListviews\serviceDependenciesList.Designer.vb">
+      <DependentUpon>serviceDependenciesList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CustomListviews\serviceDependenciesList.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CustomListviews\searchList.Designer.vb">
       <DependentUpon>searchList.vb</DependentUpon>
     </Compile>
@@ -176,6 +182,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CustomListviews\serviceDependenciesList.resx">
+      <DependentUpon>serviceDependenciesList.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CustomListviews\searchList.resx">
       <DependentUpon>searchList.vb</DependentUpon>
     </EmbeddedResource>

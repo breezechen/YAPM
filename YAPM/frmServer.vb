@@ -38,6 +38,7 @@ Public Class frmServeur
     Private _moduleCon As New cModuleConnection(Me, theConnection, New cModuleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedModule))
     Private _networkCon As New cNetworkConnection(Me, theConnection, New cNetworkConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedNetwork))
     Private _serviceCon As New cServiceConnection(Me, theConnection, New cServiceConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedService))
+    Private _servdepCon As New cServDepConnection(Me, theConnection, New cServDepConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedServDep))
     Private _priviCon As New cPrivilegeConnection(Me, theConnection, New cPrivilegeConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedPrivilege))
     Private _taskCon As New cTaskConnection(Me, theConnection, New cTaskConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedTask))
     Private _threadCon As New cThreadConnection(Me, theConnection, New cThreadConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedThread))
@@ -62,6 +63,7 @@ Public Class frmServeur
             _moduleCon.Connect()
             _searchCon.Connect()
             _serviceCon.Connect()
+            _servdepCon.Connect()
             _envCon.Connect()
             _memoryCon.Connect()
             _taskCon.Connect()
@@ -85,6 +87,24 @@ Public Class frmServeur
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestEnvironmentVariableList)
                 cDat.InstanceId = instanceId   ' The instance which requested the list
                 cDat.SetEnvVarList(Dico)
+                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
+                sock.Send(buff, buff.Length)
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+        Else
+            ' Send an error
+        End If
+
+    End Sub
+
+    Private Sub HasEnumeratedServDep(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, serviceInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+
+        If Success Then
+            Try
+                Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestServDepList)
+                cDat.InstanceId = instanceId   ' The instance which requested the list
+                cDat.SetServiceList(Dico)
                 Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
                 sock.Send(buff, buff.Length)
             Catch ex As Exception
@@ -385,6 +405,10 @@ Public Class frmServeur
                         asyncCallbackProcEnumerate.ReanalizeLocalAfterSocket(CType(cData.Param1, Integer()))
                     Case cSocketData.OrderType.ServiceReanalize
                         asyncCallbackServiceEnumerate.ReanalizeLocalAfterSocket(CType(cData.Param1, String()))
+                    Case cSocketData.OrderType.RequestServDepList
+                        Dim name As String = CStr(cData.Param1)
+                        Dim type As cServDepConnection.DependenciesToget = CType(cData.Param2, cServDepConnection.DependenciesToget)
+                        Call _servdepCon.Enumerate(name, type, _forInstanceId)
                 End Select
 
             End If

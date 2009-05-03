@@ -54,7 +54,7 @@ Public Class frmServiceInfo
                     Me.lblCopyright.Text = NO_INFO_RETRIEVED
                     Me.lblDescription.Text = NO_INFO_RETRIEVED
                 End If
-                Me.txtName.Text = curServ.Infos.Name
+                Me.txtName.Text = curServ.Infos.DisplayName
                 If Me.curServ.Infos.ProcessId > 0 Then
                     Me.txtProcess.Text = curServ.Infos.ProcessName & " -- " & curServ.Infos.ProcessId
                 Else
@@ -87,37 +87,16 @@ Public Class frmServiceInfo
 
 
             Case "Dependencies"
-                Dim n As New TreeNode
-                Dim n3 As New TreeNode
-                n.Text = "Dependencies"
-                n3.Text = "Depends on"
-
-                tv.Nodes.Clear()
-                tv.Nodes.Add(n)
-                tv2.Nodes.Clear()
-                tv2.Nodes.Add(n3)
-
-                n.Expand()
-                n3.Expand()
-
-                addDependentServices(curServ, n)
-                addServicesDependedOn(curServ, n3)
-
-                If n.Nodes.Count > 0 Then
-                    n.ImageKey = "ko"
-                    n.SelectedImageKey = "ko"
-                Else
-                    n.ImageKey = "ok"
-                    n.SelectedImageKey = "ok"
-                End If
-                If n3.Nodes.Count > 0 Then
-                    n3.ImageKey = "ko"
-                    n3.SelectedImageKey = "ko"
-                Else
-                    n3.ImageKey = "ok"
-                    n3.SelectedImageKey = "ok"
-                End If
-
+                With tv
+                    .RootService = curServ.Infos.Name
+                    .InfosToGet = cServDepConnection.DependenciesToget.DependenciesOfMe
+                    .UpdateItems()
+                End With
+                With tv2
+                    .RootService = curServ.Infos.Name
+                    .InfosToGet = cServDepConnection.DependenciesToget.ServiceWhichDependsFromMe
+                    .UpdateItems()
+                End With
 
             Case "Informations"
 
@@ -243,7 +222,7 @@ Public Class frmServiceInfo
 
         curServ = service
 
-        Me.Text = curServ.Infos.Name
+        Me.Text = curServ.Infos.Name & " (" & curServ.Infos.DisplayName & ")"
 
         _local = (cProcess.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
         _notWMI = (cProcess.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
@@ -370,6 +349,8 @@ Public Class frmServiceInfo
         'theConnection.CopyFromInstance(frmMain.theConnection)
         Try
             theConnection = frmMain.theConnection
+            Me.tv.ConnectionObj = theConnection
+            Me.tv2.ConnectionObj = theConnection
             theConnection.Connect()
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Can not connect")
@@ -481,38 +462,9 @@ Public Class frmServiceInfo
         End If
     End Sub
 
-#Region "Powerfull recursives methods for treeviews"
-    ' Recursive method to add items in our treeview
-    Private Sub addDependentServices(ByRef o As cService, ByVal n As TreeNode)
-        For Each o1 As cService In cService.GetServiceWhichDependFrom(o.Infos.Name).Values
-            Dim n2 As New TreeNode
-            With n2
-                .ImageKey = "service"
-                .SelectedImageKey = "service"
-                .Text = o1.Infos.Name
-            End With
-            n.Nodes.Add(n2)
-            addDependentServices(o1, n2)
-        Next o1
-    End Sub
-    ' Recursive method to add items in our treeview
-    Private Sub addServicesDependedOn(ByRef o As cService, ByVal n As TreeNode)
-        For Each o1 As cService In cService.GetDependencies(o.Infos.Name).Values
-            Dim n2 As New TreeNode
-            With n2
-                .ImageKey = "service"
-                .SelectedImageKey = "service"
-                .Text = o1.Infos.Name
-            End With
-            n.Nodes.Add(n2)
-            addServicesDependedOn(o1, n2)
-        Next o1
-    End Sub
-#End Region
-
     Private Sub cmdServDet1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdServDet1.Click
         If Me.tv2.SelectedNode IsNot Nothing Then
-            Dim s As String = Me.tv2.SelectedNode.Text
+            Dim s As String = CType(Me.tv2.SelectedNode.Tag, serviceDependenciesList.servTag).name
             Dim it As cService = cService.GetServiceByName(s)
             If it IsNot Nothing Then
                 Dim frm As New frmServiceInfo
@@ -524,7 +476,7 @@ Public Class frmServiceInfo
 
     Private Sub cmdServDet2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdServDet2.Click
         If Me.tv.SelectedNode IsNot Nothing Then
-            Dim s As String = Me.tv.SelectedNode.Text
+            Dim s As String = CType(Me.tv.SelectedNode.Tag, serviceDependenciesList.servTag).name
             Dim it As cService = cService.GetServiceByName(s)
             If it IsNot Nothing Then
                 Dim frm As New frmServiceInfo

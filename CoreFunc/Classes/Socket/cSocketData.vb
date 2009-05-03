@@ -56,6 +56,7 @@ Option Strict On
         ' Request lists
         [RequestProcessList]
         [RequestServiceList]
+        [RequestServDepList]
         [RequestModuleList]
         [RequestThreadList]
         [RequestWindowList]

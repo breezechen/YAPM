@@ -121,6 +121,8 @@
     <Compile Include="Classes\Providers\Services\asyncMethods\asyncCallbackServiceResume.vb" />
     <Compile Include="Classes\Providers\Services\asyncMethods\asyncCallbackServiceSetStartType.vb" />
     <Compile Include="Classes\Providers\Services\asyncMethods\asyncCallbackServiceStop.vb" />
+    <Compile Include="Classes\Providers\Services\asyncMethods\asyncCallbackServDepEnumerate.vb" />
+    <Compile Include="Classes\Providers\Services\cServDepConnection.vb" />
     <Compile Include="Classes\Providers\Services\cService.vb" />
     <Compile Include="Classes\Providers\Services\cServiceConnection.vb" />
     <Compile Include="Classes\Providers\Services\serviceInfos.vb" />

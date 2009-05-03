@@ -452,29 +452,29 @@ Public Class frmMain
 #Region "Powerfull recursives methods for treeviews"
     ' Recursive method to add items in our treeview
     Private Sub addDependentServices(ByRef o As cService, ByVal n As TreeNode)
-        For Each o1 As cService In cService.GetServiceWhichDependFrom(o.Infos.Name).Values
-            Dim n2 As New TreeNode
-            With n2
-                .ImageKey = "service"
-                .SelectedImageKey = "service"
-                .Text = o1.Infos.Name
-            End With
-            n.Nodes.Add(n2)
-            addDependentServices(o1, n2)
-        Next o1
+        'For Each o1 As cService In cService.GetServiceWhichDependFrom(o.Infos.Name).Values
+        '    Dim n2 As New TreeNode
+        '    With n2
+        '        .ImageKey = "service"
+        '        .SelectedImageKey = "service"
+        '        .Text = o1.Infos.Name
+        '    End With
+        '    n.Nodes.Add(n2)
+        '    addDependentServices(o1, n2)
+        'Next o1
     End Sub
     ' Recursive method to add items in our treeview
     Private Sub addServicesDependedOn(ByRef o As cService, ByVal n As TreeNode)
-        For Each o1 As cService In cService.GetDependencies(o.Infos.Name).Values
-            Dim n2 As New TreeNode
-            With n2
-                .ImageKey = "service"
-                .SelectedImageKey = "service"
-                .Text = o1.Infos.Name
-            End With
-            n.Nodes.Add(n2)
-            addServicesDependedOn(o1, n2)
-        Next o1
+        'For Each o1 As cService In cService.GetDependencies(o.Infos.Name).Values
+        '    Dim n2 As New TreeNode
+        '    With n2
+        '        .ImageKey = "service"
+        '        .SelectedImageKey = "service"
+        '        .Text = o1.Infos.Name
+        '    End With
+        '    n.Nodes.Add(n2)
+        '    addServicesDependedOn(o1, n2)
+        'Next o1
     End Sub
 #End Region
 
@@ -3005,36 +3005,16 @@ Public Class frmMain
                 rtb2.Rtf = s
 
                 ' Treeviews stuffs
-                Dim n As New TreeNode
-                Dim n3 As New TreeNode
-                n.Text = "Dependencies"
-                n3.Text = "Depends on"
-
-                tv.Nodes.Clear()
-                tv.Nodes.Add(n)
-                tv2.Nodes.Clear()
-                tv2.Nodes.Add(n3)
-
-                n.Expand()
-                n3.Expand()
-
-                addDependentServices(cS, n)
-                addServicesDependedOn(cS, n3)
-
-                If n.Nodes.Count > 0 Then
-                    n.ImageKey = "ko"
-                    n.SelectedImageKey = "ko"
-                Else
-                    n.ImageKey = "ok"
-                    n.SelectedImageKey = "ok"
-                End If
-                If n3.Nodes.Count > 0 Then
-                    n3.ImageKey = "ko"
-                    n3.SelectedImageKey = "ko"
-                Else
-                    n3.ImageKey = "ok"
-                    n3.SelectedImageKey = "ok"
-                End If
+                With tv
+                    .RootService = cS.Infos.Name
+                    .InfosToGet = cServDepConnection.DependenciesToget.DependenciesOfMe
+                    .UpdateItems()
+                End With
+                With tv2
+                    .RootService = cS.Infos.Name
+                    .InfosToGet = cServDepConnection.DependenciesToget.ServiceWhichDependsFromMe
+                    .UpdateItems()
+                End With
 
             Catch ex As Exception
                 Dim s As String = ""
@@ -4070,6 +4050,8 @@ Public Class frmMain
         Me.lvSearchResults.ClearItems()
         Me.lvHandles.ClearItems()
         Me.lvWindows.ClearItems()
+        Me.tv.ClearItems()
+        Me.tv2.ClearItems()
         Me.lvTask.ClearItems()
         Me.lvServices.ClearItems()
         Me.lvNetwork.ClearItems()
@@ -4084,6 +4066,8 @@ Public Class frmMain
         Me.lvWindows.ConnectionObj = theConnection
         Me.lvNetwork.ConnectionObj = theConnection
         Me.lvTask.ConnectionObj = theConnection
+        Me.tv.ConnectionObj = theConnection
+        Me.tv2.ConnectionObj = theConnection
         Me.lvSearchResults.ConnectionObj = theConnection
         Try
             Me.theConnection.Connect()

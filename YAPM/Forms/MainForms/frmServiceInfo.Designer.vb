@@ -23,7 +23,9 @@ Partial Class frmServiceInfo
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
+        Dim CConnection1 As CoreFunc.cConnection = New CoreFunc.cConnection
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmServiceInfo))
+        Dim CConnection2 As CoreFunc.cConnection = New CoreFunc.cConnection
         Me.tabProcess = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
         Me.GroupBox7 = New System.Windows.Forms.GroupBox
@@ -99,13 +101,13 @@ Partial Class frmServiceInfo
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
         Me.Label9 = New System.Windows.Forms.Label
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
-        Me.tv2 = New System.Windows.Forms.TreeView
+        Me.tv2 = New Providers.serviceDependenciesList
         Me.imgServices = New System.Windows.Forms.ImageList(Me.components)
         Me.cmdServDet1 = New System.Windows.Forms.Button
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
         Me.Label21 = New System.Windows.Forms.Label
         Me.SplitContainer4 = New System.Windows.Forms.SplitContainer
-        Me.tv = New System.Windows.Forms.TreeView
+        Me.tv = New Providers.serviceDependenciesList
         Me.cmdServDet2 = New System.Windows.Forms.Button
         Me.TabPage6 = New System.Windows.Forms.TabPage
         Me.SplitContainerInfoProcess = New System.Windows.Forms.SplitContainer
@@ -467,9 +469,9 @@ Partial Class frmServiceInfo
         Me.Label15.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label15.Location = New System.Drawing.Point(6, 25)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(38, 13)
+        Me.Label15.Size = New System.Drawing.Size(77, 13)
         Me.Label15.TabIndex = 15
-        Me.Label15.Text = "Name"
+        Me.Label15.Text = "Display name"
         '
         'gpProcGeneralFile
         '
@@ -978,11 +980,16 @@ Partial Class frmServiceInfo
         '
         'tv2
         '
+        CConnection1.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.tv2.ConnectionObj = CConnection1
         Me.tv2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tv2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tv2.ImageIndex = 0
         Me.tv2.ImageList = Me.imgServices
+        Me.tv2.InfosToGet = CoreFunc.cServDepConnection.DependenciesToget.ServiceWhichDependsFromMe
         Me.tv2.Location = New System.Drawing.Point(0, 0)
         Me.tv2.Name = "tv2"
+        Me.tv2.RootService = Nothing
         Me.tv2.SelectedImageIndex = 2
         Me.tv2.Size = New System.Drawing.Size(320, 231)
         Me.tv2.TabIndex = 16
@@ -1059,11 +1066,16 @@ Partial Class frmServiceInfo
         '
         'tv
         '
+        CConnection2.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.tv.ConnectionObj = CConnection2
         Me.tv.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tv.ImageIndex = 0
         Me.tv.ImageList = Me.imgServices
+        Me.tv.InfosToGet = CoreFunc.cServDepConnection.DependenciesToget.ServiceWhichDependsFromMe
         Me.tv.Location = New System.Drawing.Point(0, 0)
         Me.tv.Name = "tv"
+        Me.tv.RootService = Nothing
         Me.tv.SelectedImageIndex = 0
         Me.tv.Size = New System.Drawing.Size(317, 231)
         Me.tv.TabIndex = 15
@@ -1362,8 +1374,8 @@ Partial Class frmServiceInfo
     Friend WithEvents SplitContainer4 As System.Windows.Forms.SplitContainer
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents Label21 As System.Windows.Forms.Label
-    Friend WithEvents tv2 As System.Windows.Forms.TreeView
-    Friend WithEvents tv As System.Windows.Forms.TreeView
+    Friend WithEvents tv2 As Providers.serviceDependenciesList
+    Friend WithEvents tv As Providers.serviceDependenciesList
     Friend WithEvents imgServices As System.Windows.Forms.ImageList
     Friend WithEvents cmdServDet1 As System.Windows.Forms.Button
     Friend WithEvents cmdServDet2 As System.Windows.Forms.Button

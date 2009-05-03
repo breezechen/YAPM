@@ -49,6 +49,7 @@ Imports System.Text
     Private _name As String
     <NonSerialized()> Private _fileInfo As FileVersionInfo
 
+    Private _tag As Boolean = False
     Private _Dependencies As String()
     Private _tagID As Integer
     Private _ServiceFlags As API.SERVICE_FLAGS
@@ -60,6 +61,14 @@ Imports System.Text
 
 #Region "Read only properties"
 
+    Public Property Tag() As Boolean
+        Get
+            Return _tag
+        End Get
+        Set(ByVal value As Boolean)
+            _tag = value
+        End Set
+    End Property
     Public ReadOnly Property ProcessId() As Integer
         Get
             Return _pid
