@@ -43,6 +43,7 @@ Option Strict On
         [ProcessResume]
         [ProcessSuspend]
         [ProcessCreateNew]
+        [ProcessReanalize]
 
         ' Service functions
         [ServicePause]
@@ -50,6 +51,7 @@ Option Strict On
         [ServiceStop]
         [ServiceShutdown]
         [ServiceChangeServiceStartType]
+        [ServiceReanalize]
 
         ' Request lists
         [RequestProcessList]

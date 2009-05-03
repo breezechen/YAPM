@@ -112,11 +112,15 @@ Public Class processList
     End Sub
 
     ' Reanalize a process
-    Public Sub ReAnalizeProcess(ByVal it As String)
-        Dim pid As Integer = -1
-        If _dico.ContainsKey(it) Then
-            asyncCallbackProcEnumerate.RemoveItemFromNewProcesses(_dico(it).Infos.Pid)
-        End If
+    Public Sub ReAnalizeProcesses()
+        Dim pid() As Integer
+        ReDim pid(Me.GetSelectedItems.Count - 1)
+        Dim x As Integer = 0
+        For Each cp As cProcess In Me.GetSelectedItems
+            pid(x) = cp.Infos.Pid
+            x += 1
+        Next
+        asyncCallbackProcEnumerate.ReanalizeProcess(New asyncCallbackProcEnumerate.ReanalizeProcessObj(pid, _processConnection))
     End Sub
 
     ' Call this to update items in listview

@@ -61,11 +61,59 @@ Public Class asyncCallbackProcEnumerate
         AvailableThreads.Clear()
     End Sub
 
-    Public Shared Sub RemoveItemFromNewProcesses(ByVal pid As Integer)
+    ' Reanalize a process by removing (or asking to remove) its PID from
+    ' the shared dictionnary of known PID
+    Public Structure ReanalizeProcessObj
+        Public pid() As Integer
+        Public con As cProcessConnection
+        Public Sub New(ByRef pi() As Integer, ByRef co As cProcessConnection)
+            pid = pi
+            con = co
+        End Sub
+    End Structure
+    Public Shared Sub ReanalizeProcess(ByVal thePoolObj As Object)
+
+        sem.WaitOne()
+
+        Dim pObj As ReanalizeProcessObj = DirectCast(thePoolObj, ReanalizeProcessObj)
+        If pObj.con.ConnectionObj.IsConnected = False Then
+            sem.Release()
+            Exit Sub
+        End If
+
+        Select Case pObj.con.ConnectionObj.ConnectionType
+            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                Try
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ProcessReanalize, pObj.pid)
+                    Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
+                    pObj.con.ConnectionObj.Socket.Send(buff, buff.Length)
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
+
+            Case cConnection.TypeOfConnection.LocalConnection, cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                SyncLock dicoNewProcesses
+                    For Each id As Integer In pObj.pid
+                        If dicoNewProcesses.ContainsKey(id) Then
+                            dicoNewProcesses.Remove(id)
+                        End If
+                    Next
+                End SyncLock
+
+        End Select
+
+        sem.Release()
+    End Sub
+
+    ' Called to remove PIDs from shared dico by the server after it receive
+    ' a command to reanalize some PIDs
+    Public Shared Sub ReanalizeLocalAfterSocket(ByRef pid() As Integer)
         SyncLock dicoNewProcesses
-            If dicoNewProcesses.ContainsKey(pid) Then
-                dicoNewProcesses.Remove(pid)
-            End If
+            For Each id As Integer In pid
+                If dicoNewProcesses.ContainsKey(id) Then
+                    dicoNewProcesses.Remove(id)
+                End If
+            Next
         End SyncLock
     End Sub
 

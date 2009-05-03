@@ -43,6 +43,62 @@ Public Class asyncCallbackServiceEnumerate
         dicoNewServices.Clear()
     End Sub
 
+    ' Reanalize a process by removing (or asking to remove) its PID from
+    ' the shared dictionnary of known PID
+    Public Structure ReanalizeServiceObj
+        Public names() As String
+        Public con As cServiceConnection
+        Public Sub New(ByRef nam() As String, ByRef co As cServiceConnection)
+            names = nam
+            con = co
+        End Sub
+    End Structure
+    Public Shared Sub ReanalizeService(ByVal thePoolObj As Object)
+
+        sem.WaitOne()
+
+        Dim pObj As ReanalizeServiceObj = DirectCast(thePoolObj, ReanalizeServiceObj)
+        If pObj.con.ConnectionObj.IsConnected = False Then
+            sem.Release()
+            Exit Sub
+        End If
+
+        Select Case pObj.con.ConnectionObj.ConnectionType
+            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                Try
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ServiceReanalize, pObj.names)
+                    Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
+                    pObj.con.ConnectionObj.Socket.Send(buff, buff.Length)
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
+
+            Case cConnection.TypeOfConnection.LocalConnection, cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                SyncLock dicoNewServices
+                    For Each name As String In pObj.names
+                        If dicoNewServices.ContainsKey(name) Then
+                            dicoNewServices.Remove(name)
+                        End If
+                    Next
+                End SyncLock
+
+        End Select
+
+        sem.Release()
+    End Sub
+
+    ' Called to remove PIDs from shared dico by the server after it receive
+    ' a command to reanalize some PIDs
+    Public Shared Sub ReanalizeLocalAfterSocket(ByRef names() As String)
+        SyncLock dicoNewServices
+            For Each name As String In names
+                If dicoNewServices.ContainsKey(name) Then
+                    dicoNewServices.Remove(name)
+                End If
+            Next
+        End SyncLock
+    End Sub
+
 #End Region
 
     Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cServiceConnection, ByVal iId As Integer)

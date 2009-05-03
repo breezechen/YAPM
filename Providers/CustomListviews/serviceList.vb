@@ -118,6 +118,24 @@ Public Class serviceList
         Me.Items.Clear()
     End Sub
 
+    ' Reanalize a process
+    Public Sub ReAnalizeServices()
+        If _serviceConnection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+            For Each cs As cService In Me.GetSelectedItems
+                cs.Refresh()
+            Next
+        Else
+            Dim names() As String
+            ReDim names(Me.GetSelectedItems.Count - 1)
+            Dim x As Integer = 0
+            For Each cp As cService In Me.GetSelectedItems
+                names(x) = cp.Infos.Name
+                x += 1
+            Next
+            asyncCallbackServiceEnumerate.ReanalizeService(New asyncCallbackServiceEnumerate.ReanalizeServiceObj(names, _serviceConnection))
+        End If
+    End Sub
+
     ' Call this to update items in listview
     Public Overrides Sub UpdateItems()
 

@@ -4219,15 +4219,14 @@ Public Class frmMain
     End Sub
 
     Private Sub ReanalizeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReanalizeToolStripMenuItem.Click
-        For Each _p As ListViewItem In Me.lvProcess.SelectedItems
-            Me.lvProcess.ReAnalizeProcess(_p.Name)
-        Next
+        Me.lvProcess.ReAnalizeProcesses()
     End Sub
 
     Private Sub ReanalyzeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReanalyzeToolStripMenuItem.Click
-        For Each it As cService In Me.lvServices.GetSelectedItems
-            it.Refresh()
-        Next
+        'For Each it As cService In Me.lvServices.GetSelectedItems
+        '    it.Refresh()
+        'Next
+        Me.lvServices.ReAnalizeServices()
     End Sub
 
     Private Sub butFeedBack_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFeedBack.Click

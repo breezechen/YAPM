@@ -381,6 +381,10 @@ Public Class frmServeur
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         'Dim all As Boolean = CBool(cData.Param2)   ' NOT NEEDED
                         Call _memoryCon.Enumerate(True, pid, _forInstanceId)
+                    Case cSocketData.OrderType.ProcessReanalize
+                        asyncCallbackProcEnumerate.ReanalizeLocalAfterSocket(CType(cData.Param1, Integer()))
+                    Case cSocketData.OrderType.ServiceReanalize
+                        asyncCallbackServiceEnumerate.ReanalizeLocalAfterSocket(CType(cData.Param1, String()))
                 End Select
 
             End If
