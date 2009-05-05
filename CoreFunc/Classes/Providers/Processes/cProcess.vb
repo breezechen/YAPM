@@ -234,6 +234,7 @@ Public Class cProcess
             _dicoProcMem.Remove(d)
             _dicoProcTimes.Remove(d)
             _dicoProcIO.Remove(d)
+            _dicoProcIODelta.Remove(d)
             _dicoProcMisc.Remove(d)
         End If
 
