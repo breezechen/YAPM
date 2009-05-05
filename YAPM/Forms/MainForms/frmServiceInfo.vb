@@ -262,7 +262,7 @@ Public Class frmServiceInfo
 
     ' Change caption
     Private Sub ChangeCaption()
-        Me.Text = curServ.Infos.Name
+        Me.Text = curServ.Infos.Name & " (" & curServ.Infos.DisplayName & ")"
     End Sub
 
     Private Sub cmdInfosToClipB_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdInfosToClipB.Click

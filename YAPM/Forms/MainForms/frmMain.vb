@@ -81,6 +81,7 @@ Public Class frmMain
     Public PREF_PATH As String = My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData & "\config.xml"
 #End If
 
+    'Public Const HELP_PATH As String = "http://yaprocmon.sourceforge.net/help.html"
     Public HELP_PATH As String = My.Application.Info.DirectoryPath & "\Help\help.htm"
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
@@ -4263,7 +4264,7 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub chkSearchEnvVar_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkSearchEnvVar.CheckedChanged
-
+    Private Sub butOptions_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butOptions.Click
+        frmPreferences.ShowDialog()
     End Sub
 End Class

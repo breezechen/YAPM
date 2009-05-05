@@ -102,10 +102,14 @@ Public Class cEnvVariableConnection
 
     ' Enumerate threads
     Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid As Integer, ByVal peb As Integer, Optional ByVal forInstanceId As Integer = -1) As Integer
+        Dim _pe As Integer = peb
+        If _pe = -1 Then
+            _pe = cProcess._currentProcesses(pid.ToString).Infos.PEBAddress
+        End If
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
             System.Threading.WaitCallback(AddressOf _
             _envVarEnum.Process), New  _
-            asyncCallbackEnvVariableEnumerate.poolObj(pid, peb, forInstanceId))
+            asyncCallbackEnvVariableEnumerate.poolObj(pid, _pe, forInstanceId))
     End Function
 
 #End Region

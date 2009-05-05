@@ -93,6 +93,8 @@ Partial Class frmProcessInfo
         Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem
         Me.TabPage2 = New System.Windows.Forms.TabPage
         Me.GroupBox5 = New System.Windows.Forms.GroupBox
+        Me.lblThreads = New System.Windows.Forms.Label
+        Me.Label44 = New System.Windows.Forms.Label
         Me.lblUserObjectsCount = New System.Windows.Forms.Label
         Me.Label37 = New System.Windows.Forms.Label
         Me.lblGDIcount = New System.Windows.Forms.Label
@@ -100,6 +102,18 @@ Partial Class frmProcessInfo
         Me.lblHandles = New System.Windows.Forms.Label
         Me.Label53 = New System.Windows.Forms.Label
         Me.GroupBox4 = New System.Windows.Forms.GroupBox
+        Me.lblOthersBD = New System.Windows.Forms.Label
+        Me.Label5 = New System.Windows.Forms.Label
+        Me.lblOtherD = New System.Windows.Forms.Label
+        Me.Label7 = New System.Windows.Forms.Label
+        Me.lblWBD = New System.Windows.Forms.Label
+        Me.Label9 = New System.Windows.Forms.Label
+        Me.lblWD = New System.Windows.Forms.Label
+        Me.Label11 = New System.Windows.Forms.Label
+        Me.lblRBD = New System.Windows.Forms.Label
+        Me.Label34 = New System.Windows.Forms.Label
+        Me.lblRD = New System.Windows.Forms.Label
+        Me.Label41 = New System.Windows.Forms.Label
         Me.lblProcOtherBytes = New System.Windows.Forms.Label
         Me.Label23 = New System.Windows.Forms.Label
         Me.lblProcOther = New System.Windows.Forms.Label
@@ -170,8 +184,6 @@ Partial Class frmProcessInfo
         Me.TabPage6 = New System.Windows.Forms.TabPage
         Me.SplitContainerInfoProcess = New System.Windows.Forms.SplitContainer
         Me.cmdRefresh = New System.Windows.Forms.Button
-        Me.chkHandles = New System.Windows.Forms.CheckBox
-        Me.chkModules = New System.Windows.Forms.CheckBox
         Me.cmdInfosToClipB = New System.Windows.Forms.Button
         Me.rtb = New System.Windows.Forms.RichTextBox
         Me.TabPage7 = New System.Windows.Forms.TabPage
@@ -211,7 +223,7 @@ Partial Class frmProcessInfo
         Me.ColumnHeader59 = New System.Windows.Forms.ColumnHeader
         Me.menuNetwork = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem15 = New System.Windows.Forms.ToolStripMenuItem
-        Me.TabPage8 = New System.Windows.Forms.TabPage
+        Me.TabPageString = New System.Windows.Forms.TabPage
         Me.SplitContainerStrings = New System.Windows.Forms.SplitContainer
         Me.menuString = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.menuViewMemoryString = New System.Windows.Forms.ToolStripMenuItem
@@ -340,20 +352,6 @@ Partial Class frmProcessInfo
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
-        Me.lblOthersBD = New System.Windows.Forms.Label
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.lblOtherD = New System.Windows.Forms.Label
-        Me.Label7 = New System.Windows.Forms.Label
-        Me.lblWBD = New System.Windows.Forms.Label
-        Me.Label9 = New System.Windows.Forms.Label
-        Me.lblWD = New System.Windows.Forms.Label
-        Me.Label11 = New System.Windows.Forms.Label
-        Me.lblRBD = New System.Windows.Forms.Label
-        Me.Label34 = New System.Windows.Forms.Label
-        Me.lblRD = New System.Windows.Forms.Label
-        Me.Label41 = New System.Windows.Forms.Label
-        Me.lblThreads = New System.Windows.Forms.Label
-        Me.Label44 = New System.Windows.Forms.Label
         Me.tabProcess.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -393,7 +391,7 @@ Partial Class frmProcessInfo
         Me.menuProcServ.SuspendLayout()
         Me.tabNetwork.SuspendLayout()
         Me.menuNetwork.SuspendLayout()
-        Me.TabPage8.SuspendLayout()
+        Me.TabPageString.SuspendLayout()
         Me.SplitContainerStrings.Panel1.SuspendLayout()
         Me.SplitContainerStrings.Panel2.SuspendLayout()
         Me.SplitContainerStrings.SuspendLayout()
@@ -430,7 +428,7 @@ Partial Class frmProcessInfo
         Me.tabProcess.Controls.Add(Me.TabPage6)
         Me.tabProcess.Controls.Add(Me.TabPage7)
         Me.tabProcess.Controls.Add(Me.tabNetwork)
-        Me.tabProcess.Controls.Add(Me.TabPage8)
+        Me.tabProcess.Controls.Add(Me.TabPageString)
         Me.tabProcess.Controls.Add(Me.TabPage9)
         Me.tabProcess.Controls.Add(Me.TabPage10)
         Me.tabProcess.Controls.Add(Me.TabPage11)
@@ -904,6 +902,25 @@ Partial Class frmProcessInfo
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Other"
         '
+        'lblThreads
+        '
+        Me.lblThreads.AutoSize = True
+        Me.lblThreads.Location = New System.Drawing.Point(102, 72)
+        Me.lblThreads.Name = "lblThreads"
+        Me.lblThreads.Size = New System.Drawing.Size(19, 13)
+        Me.lblThreads.TabIndex = 7
+        Me.lblThreads.Text = "00"
+        Me.lblThreads.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label44
+        '
+        Me.Label44.AutoSize = True
+        Me.Label44.Location = New System.Drawing.Point(8, 72)
+        Me.Label44.Name = "Label44"
+        Me.Label44.Size = New System.Drawing.Size(47, 13)
+        Me.Label44.TabIndex = 6
+        Me.Label44.Text = "Threads"
+        '
         'lblUserObjectsCount
         '
         Me.lblUserObjectsCount.AutoSize = True
@@ -993,6 +1010,120 @@ Partial Class frmProcessInfo
         Me.GroupBox4.TabIndex = 2
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "I/O"
+        '
+        'lblOthersBD
+        '
+        Me.lblOthersBD.AutoSize = True
+        Me.lblOthersBD.Location = New System.Drawing.Point(102, 217)
+        Me.lblOthersBD.Name = "lblOthersBD"
+        Me.lblOthersBD.Size = New System.Drawing.Size(19, 13)
+        Me.lblOthersBD.TabIndex = 43
+        Me.lblOthersBD.Text = "00"
+        Me.lblOthersBD.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(6, 217)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(96, 13)
+        Me.Label5.TabIndex = 42
+        Me.Label5.Text = "Other bytes delta"
+        '
+        'lblOtherD
+        '
+        Me.lblOtherD.AutoSize = True
+        Me.lblOtherD.Location = New System.Drawing.Point(102, 199)
+        Me.lblOtherD.Name = "lblOtherD"
+        Me.lblOtherD.Size = New System.Drawing.Size(19, 13)
+        Me.lblOtherD.TabIndex = 41
+        Me.lblOtherD.Text = "00"
+        Me.lblOtherD.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(6, 199)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(66, 13)
+        Me.Label7.TabIndex = 40
+        Me.Label7.Text = "Other delta"
+        '
+        'lblWBD
+        '
+        Me.lblWBD.AutoSize = True
+        Me.lblWBD.Location = New System.Drawing.Point(102, 180)
+        Me.lblWBD.Name = "lblWBD"
+        Me.lblWBD.Size = New System.Drawing.Size(19, 13)
+        Me.lblWBD.TabIndex = 39
+        Me.lblWBD.Text = "00"
+        Me.lblWBD.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(6, 180)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(94, 13)
+        Me.Label9.TabIndex = 38
+        Me.Label9.Text = "Write bytes delta"
+        '
+        'lblWD
+        '
+        Me.lblWD.AutoSize = True
+        Me.lblWD.Location = New System.Drawing.Point(102, 162)
+        Me.lblWD.Name = "lblWD"
+        Me.lblWD.Size = New System.Drawing.Size(19, 13)
+        Me.lblWD.TabIndex = 37
+        Me.lblWD.Text = "00"
+        Me.lblWD.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Location = New System.Drawing.Point(6, 162)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(69, 13)
+        Me.Label11.TabIndex = 36
+        Me.Label11.Text = "Writes delta"
+        '
+        'lblRBD
+        '
+        Me.lblRBD.AutoSize = True
+        Me.lblRBD.Location = New System.Drawing.Point(102, 144)
+        Me.lblRBD.Name = "lblRBD"
+        Me.lblRBD.Size = New System.Drawing.Size(19, 13)
+        Me.lblRBD.TabIndex = 35
+        Me.lblRBD.Text = "00"
+        Me.lblRBD.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label34
+        '
+        Me.Label34.AutoSize = True
+        Me.Label34.Location = New System.Drawing.Point(6, 144)
+        Me.Label34.Name = "Label34"
+        Me.Label34.Size = New System.Drawing.Size(92, 13)
+        Me.Label34.TabIndex = 34
+        Me.Label34.Text = "Read bytes delta"
+        '
+        'lblRD
+        '
+        Me.lblRD.AutoSize = True
+        Me.lblRD.Location = New System.Drawing.Point(102, 126)
+        Me.lblRD.Name = "lblRD"
+        Me.lblRD.Size = New System.Drawing.Size(19, 13)
+        Me.lblRD.TabIndex = 33
+        Me.lblRD.Text = "00"
+        Me.lblRD.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label41
+        '
+        Me.Label41.AutoSize = True
+        Me.Label41.Location = New System.Drawing.Point(6, 126)
+        Me.Label41.Name = "Label41"
+        Me.Label41.Size = New System.Drawing.Size(67, 13)
+        Me.Label41.TabIndex = 32
+        Me.Label41.Text = "Reads delta"
         '
         'lblProcOtherBytes
         '
@@ -1447,8 +1578,8 @@ Partial Class frmProcessInfo
         'splitPerformances.Panel2
         '
         Me.splitPerformances.Panel2.Controls.Add(Me.splitPerformance2)
-        Me.splitPerformances.Size = New System.Drawing.Size(641, 271)
-        Me.splitPerformances.SplitterDistance = 86
+        Me.splitPerformances.Size = New System.Drawing.Size(641, 290)
+        Me.splitPerformances.SplitterDistance = 92
         Me.splitPerformances.SplitterWidth = 1
         Me.splitPerformances.TabIndex = 3
         '
@@ -1467,8 +1598,8 @@ Partial Class frmProcessInfo
         'splitPerformance2.Panel2
         '
         Me.splitPerformance2.Panel2.Controls.Add(Me.graphIO)
-        Me.splitPerformance2.Size = New System.Drawing.Size(641, 184)
-        Me.splitPerformance2.SplitterDistance = 89
+        Me.splitPerformance2.Size = New System.Drawing.Size(641, 197)
+        Me.splitPerformance2.SplitterDistance = 95
         Me.splitPerformance2.SplitterWidth = 1
         Me.splitPerformance2.TabIndex = 0
         '
@@ -1491,7 +1622,7 @@ Partial Class frmProcessInfo
         Me.tabProcessToken.Location = New System.Drawing.Point(3, 3)
         Me.tabProcessToken.Name = "tabProcessToken"
         Me.tabProcessToken.SelectedIndex = 0
-        Me.tabProcessToken.Size = New System.Drawing.Size(641, 271)
+        Me.tabProcessToken.Size = New System.Drawing.Size(641, 290)
         Me.tabProcessToken.TabIndex = 0
         '
         'tabProcessTokenPagePrivileges
@@ -1500,7 +1631,7 @@ Partial Class frmProcessInfo
         Me.tabProcessTokenPagePrivileges.Location = New System.Drawing.Point(4, 22)
         Me.tabProcessTokenPagePrivileges.Name = "tabProcessTokenPagePrivileges"
         Me.tabProcessTokenPagePrivileges.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabProcessTokenPagePrivileges.Size = New System.Drawing.Size(633, 245)
+        Me.tabProcessTokenPagePrivileges.Size = New System.Drawing.Size(633, 264)
         Me.tabProcessTokenPagePrivileges.TabIndex = 0
         Me.tabProcessTokenPagePrivileges.Text = "Privileges"
         Me.tabProcessTokenPagePrivileges.UseVisualStyleBackColor = True
@@ -1521,7 +1652,7 @@ Partial Class frmProcessInfo
         Me.lvPrivileges.Name = "lvPrivileges"
         Me.lvPrivileges.OverriddenDoubleBuffered = True
         Me.lvPrivileges.ProcessId = 0
-        Me.lvPrivileges.Size = New System.Drawing.Size(627, 239)
+        Me.lvPrivileges.Size = New System.Drawing.Size(627, 258)
         Me.lvPrivileges.TabIndex = 13
         Me.lvPrivileges.UseCompatibleStateImageBehavior = False
         Me.lvPrivileges.View = System.Windows.Forms.View.Details
@@ -1597,7 +1728,7 @@ Partial Class frmProcessInfo
         Me.lvProcMem.Name = "lvProcMem"
         Me.lvProcMem.OverriddenDoubleBuffered = True
         Me.lvProcMem.ProcessId = 0
-        Me.lvProcMem.Size = New System.Drawing.Size(641, 271)
+        Me.lvProcMem.Size = New System.Drawing.Size(641, 290)
         Me.lvProcMem.TabIndex = 14
         Me.lvProcMem.UseCompatibleStateImageBehavior = False
         Me.lvProcMem.View = System.Windows.Forms.View.Details
@@ -1676,8 +1807,6 @@ Partial Class frmProcessInfo
         'SplitContainerInfoProcess.Panel1
         '
         Me.SplitContainerInfoProcess.Panel1.Controls.Add(Me.cmdRefresh)
-        Me.SplitContainerInfoProcess.Panel1.Controls.Add(Me.chkHandles)
-        Me.SplitContainerInfoProcess.Panel1.Controls.Add(Me.chkModules)
         Me.SplitContainerInfoProcess.Panel1.Controls.Add(Me.cmdInfosToClipB)
         '
         'SplitContainerInfoProcess.Panel2
@@ -1698,26 +1827,6 @@ Partial Class frmProcessInfo
         Me.cmdRefresh.Text = "Refresh   "
         Me.cmdRefresh.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.cmdRefresh.UseVisualStyleBackColor = True
-        '
-        'chkHandles
-        '
-        Me.chkHandles.AutoSize = True
-        Me.chkHandles.Location = New System.Drawing.Point(411, 4)
-        Me.chkHandles.Name = "chkHandles"
-        Me.chkHandles.Size = New System.Drawing.Size(68, 17)
-        Me.chkHandles.TabIndex = 3
-        Me.chkHandles.Text = "Handles"
-        Me.chkHandles.UseVisualStyleBackColor = True
-        '
-        'chkModules
-        '
-        Me.chkModules.AutoSize = True
-        Me.chkModules.Location = New System.Drawing.Point(250, 4)
-        Me.chkModules.Name = "chkModules"
-        Me.chkModules.Size = New System.Drawing.Size(155, 17)
-        Me.chkModules.TabIndex = 2
-        Me.chkModules.Text = "Retrive modules/trhreads"
-        Me.chkModules.UseVisualStyleBackColor = True
         '
         'cmdInfosToClipB
         '
@@ -1779,7 +1888,7 @@ Partial Class frmProcessInfo
         Me.lvProcServices.OverriddenDoubleBuffered = True
         Me.lvProcServices.ProcessId = 0
         Me.lvProcServices.ShowAll = False
-        Me.lvProcServices.Size = New System.Drawing.Size(641, 271)
+        Me.lvProcServices.Size = New System.Drawing.Size(641, 290)
         Me.lvProcServices.TabIndex = 2
         Me.lvProcServices.UseCompatibleStateImageBehavior = False
         Me.lvProcServices.View = System.Windows.Forms.View.Details
@@ -1979,7 +2088,7 @@ Partial Class frmProcessInfo
         Me.lvProcNetwork.OverriddenDoubleBuffered = True
         Me.lvProcNetwork.ProcessId = Nothing
         Me.lvProcNetwork.ShowAllPid = False
-        Me.lvProcNetwork.Size = New System.Drawing.Size(641, 271)
+        Me.lvProcNetwork.Size = New System.Drawing.Size(641, 290)
         Me.lvProcNetwork.TabIndex = 21
         Me.lvProcNetwork.UseCompatibleStateImageBehavior = False
         Me.lvProcNetwork.View = System.Windows.Forms.View.Details
@@ -2015,16 +2124,16 @@ Partial Class frmProcessInfo
         Me.ToolStripMenuItem15.Size = New System.Drawing.Size(172, 22)
         Me.ToolStripMenuItem15.Text = "Choose columns..."
         '
-        'TabPage8
+        'TabPageString
         '
-        Me.TabPage8.Controls.Add(Me.SplitContainerStrings)
-        Me.TabPage8.ImageKey = "font"
-        Me.TabPage8.Location = New System.Drawing.Point(4, 42)
-        Me.TabPage8.Name = "TabPage8"
-        Me.TabPage8.Size = New System.Drawing.Size(647, 277)
-        Me.TabPage8.TabIndex = 8
-        Me.TabPage8.Text = "Strings"
-        Me.TabPage8.UseVisualStyleBackColor = True
+        Me.TabPageString.Controls.Add(Me.SplitContainerStrings)
+        Me.TabPageString.ImageKey = "font"
+        Me.TabPageString.Location = New System.Drawing.Point(4, 42)
+        Me.TabPageString.Name = "TabPageString"
+        Me.TabPageString.Size = New System.Drawing.Size(647, 277)
+        Me.TabPageString.TabIndex = 8
+        Me.TabPageString.Text = "Strings"
+        Me.TabPageString.UseVisualStyleBackColor = True
         '
         'SplitContainerStrings
         '
@@ -2988,7 +3097,7 @@ Partial Class frmProcessInfo
         Me.graphCPU.Location = New System.Drawing.Point(0, 0)
         Me.graphCPU.Name = "graphCPU"
         Me.graphCPU.ShowSecondGraph = True
-        Me.graphCPU.Size = New System.Drawing.Size(641, 86)
+        Me.graphCPU.Size = New System.Drawing.Size(641, 92)
         Me.graphCPU.TabIndex = 1
         Me.graphCPU.TabStop = False
         '
@@ -3005,7 +3114,7 @@ Partial Class frmProcessInfo
         Me.graphMemory.Location = New System.Drawing.Point(0, 0)
         Me.graphMemory.Name = "graphMemory"
         Me.graphMemory.ShowSecondGraph = True
-        Me.graphMemory.Size = New System.Drawing.Size(641, 89)
+        Me.graphMemory.Size = New System.Drawing.Size(641, 95)
         Me.graphMemory.TabIndex = 2
         Me.graphMemory.TabStop = False
         '
@@ -3021,7 +3130,7 @@ Partial Class frmProcessInfo
         Me.graphIO.Location = New System.Drawing.Point(0, 0)
         Me.graphIO.Name = "graphIO"
         Me.graphIO.ShowSecondGraph = False
-        Me.graphIO.Size = New System.Drawing.Size(641, 94)
+        Me.graphIO.Size = New System.Drawing.Size(641, 101)
         Me.graphIO.TabIndex = 3
         Me.graphIO.TabStop = False
         '
@@ -3095,139 +3204,6 @@ Partial Class frmProcessInfo
         Me.ColumnHeader4.Text = "Description"
         Me.ColumnHeader4.Width = 400
         '
-        'lblOthersBD
-        '
-        Me.lblOthersBD.AutoSize = True
-        Me.lblOthersBD.Location = New System.Drawing.Point(102, 217)
-        Me.lblOthersBD.Name = "lblOthersBD"
-        Me.lblOthersBD.Size = New System.Drawing.Size(19, 13)
-        Me.lblOthersBD.TabIndex = 43
-        Me.lblOthersBD.Text = "00"
-        Me.lblOthersBD.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(6, 217)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(96, 13)
-        Me.Label5.TabIndex = 42
-        Me.Label5.Text = "Other bytes delta"
-        '
-        'lblOtherD
-        '
-        Me.lblOtherD.AutoSize = True
-        Me.lblOtherD.Location = New System.Drawing.Point(102, 199)
-        Me.lblOtherD.Name = "lblOtherD"
-        Me.lblOtherD.Size = New System.Drawing.Size(19, 13)
-        Me.lblOtherD.TabIndex = 41
-        Me.lblOtherD.Text = "00"
-        Me.lblOtherD.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(6, 199)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(66, 13)
-        Me.Label7.TabIndex = 40
-        Me.Label7.Text = "Other delta"
-        '
-        'lblWBD
-        '
-        Me.lblWBD.AutoSize = True
-        Me.lblWBD.Location = New System.Drawing.Point(102, 180)
-        Me.lblWBD.Name = "lblWBD"
-        Me.lblWBD.Size = New System.Drawing.Size(19, 13)
-        Me.lblWBD.TabIndex = 39
-        Me.lblWBD.Text = "00"
-        Me.lblWBD.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label9
-        '
-        Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(6, 180)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(94, 13)
-        Me.Label9.TabIndex = 38
-        Me.Label9.Text = "Write bytes delta"
-        '
-        'lblWD
-        '
-        Me.lblWD.AutoSize = True
-        Me.lblWD.Location = New System.Drawing.Point(102, 162)
-        Me.lblWD.Name = "lblWD"
-        Me.lblWD.Size = New System.Drawing.Size(19, 13)
-        Me.lblWD.TabIndex = 37
-        Me.lblWD.Text = "00"
-        Me.lblWD.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label11
-        '
-        Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(6, 162)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(69, 13)
-        Me.Label11.TabIndex = 36
-        Me.Label11.Text = "Writes delta"
-        '
-        'lblRBD
-        '
-        Me.lblRBD.AutoSize = True
-        Me.lblRBD.Location = New System.Drawing.Point(102, 144)
-        Me.lblRBD.Name = "lblRBD"
-        Me.lblRBD.Size = New System.Drawing.Size(19, 13)
-        Me.lblRBD.TabIndex = 35
-        Me.lblRBD.Text = "00"
-        Me.lblRBD.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label34
-        '
-        Me.Label34.AutoSize = True
-        Me.Label34.Location = New System.Drawing.Point(6, 144)
-        Me.Label34.Name = "Label34"
-        Me.Label34.Size = New System.Drawing.Size(92, 13)
-        Me.Label34.TabIndex = 34
-        Me.Label34.Text = "Read bytes delta"
-        '
-        'lblRD
-        '
-        Me.lblRD.AutoSize = True
-        Me.lblRD.Location = New System.Drawing.Point(102, 126)
-        Me.lblRD.Name = "lblRD"
-        Me.lblRD.Size = New System.Drawing.Size(19, 13)
-        Me.lblRD.TabIndex = 33
-        Me.lblRD.Text = "00"
-        Me.lblRD.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label41
-        '
-        Me.Label41.AutoSize = True
-        Me.Label41.Location = New System.Drawing.Point(6, 126)
-        Me.Label41.Name = "Label41"
-        Me.Label41.Size = New System.Drawing.Size(67, 13)
-        Me.Label41.TabIndex = 32
-        Me.Label41.Text = "Reads delta"
-        '
-        'lblThreads
-        '
-        Me.lblThreads.AutoSize = True
-        Me.lblThreads.Location = New System.Drawing.Point(102, 72)
-        Me.lblThreads.Name = "lblThreads"
-        Me.lblThreads.Size = New System.Drawing.Size(19, 13)
-        Me.lblThreads.TabIndex = 7
-        Me.lblThreads.Text = "00"
-        Me.lblThreads.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label44
-        '
-        Me.Label44.AutoSize = True
-        Me.Label44.Location = New System.Drawing.Point(8, 72)
-        Me.Label44.Name = "Label44"
-        Me.Label44.Size = New System.Drawing.Size(47, 13)
-        Me.Label44.TabIndex = 6
-        Me.Label44.Text = "Threads"
-        '
         'frmProcessInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3280,14 +3256,13 @@ Partial Class frmProcessInfo
         Me.menuProcMem.ResumeLayout(False)
         Me.TabPage6.ResumeLayout(False)
         Me.SplitContainerInfoProcess.Panel1.ResumeLayout(False)
-        Me.SplitContainerInfoProcess.Panel1.PerformLayout()
         Me.SplitContainerInfoProcess.Panel2.ResumeLayout(False)
         Me.SplitContainerInfoProcess.ResumeLayout(False)
         Me.TabPage7.ResumeLayout(False)
         Me.menuProcServ.ResumeLayout(False)
         Me.tabNetwork.ResumeLayout(False)
         Me.menuNetwork.ResumeLayout(False)
-        Me.TabPage8.ResumeLayout(False)
+        Me.TabPageString.ResumeLayout(False)
         Me.SplitContainerStrings.Panel1.ResumeLayout(False)
         Me.SplitContainerStrings.Panel2.ResumeLayout(False)
         Me.SplitContainerStrings.Panel2.PerformLayout()
@@ -3412,8 +3387,6 @@ Partial Class frmProcessInfo
     Friend WithEvents ColumnHeader56 As System.Windows.Forms.ColumnHeader
     Friend WithEvents TabPage6 As System.Windows.Forms.TabPage
     Friend WithEvents SplitContainerInfoProcess As System.Windows.Forms.SplitContainer
-    Friend WithEvents chkHandles As System.Windows.Forms.CheckBox
-    Friend WithEvents chkModules As System.Windows.Forms.CheckBox
     Friend WithEvents cmdInfosToClipB As System.Windows.Forms.Button
     Friend WithEvents rtb As System.Windows.Forms.RichTextBox
     Friend WithEvents TabPage7 As System.Windows.Forms.TabPage
@@ -3423,7 +3396,7 @@ Partial Class frmProcessInfo
     Friend WithEvents ColumnHeader57 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader58 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader59 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents TabPage8 As System.Windows.Forms.TabPage
+    Friend WithEvents TabPageString As System.Windows.Forms.TabPage
     Friend WithEvents SplitContainerStrings As System.Windows.Forms.SplitContainer
     Friend WithEvents lvProcString As YAPM.DoubleBufferedLV
     Friend WithEvents ColumnHeader76 As System.Windows.Forms.ColumnHeader

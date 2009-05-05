@@ -253,52 +253,6 @@ Public Class frmProcessInfo
             s = s & "\tab QuotaNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaNonPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
             s = s & "\tab QuotaPeakNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakNonPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
 
-            'If chkModules.Checked Then
-            '    ' Retrieve modules
-            '    s = s & "\par"
-            '    s = s & "  \b Loaded modules\b0\par"
-            '    Dim m As ProcessModule
-            '    Dim mdl As ProcessModuleCollection = curProc.Modules
-            '    s = s & "\tab " & CStr(mdl.Count) & " modules loaded" & "\par"
-            '    For Each m In mdl
-            '        s = s & "\tab " & Replace(m.FileVersionInfo.FileName, "\", "\\") & "\par"
-            '    Next
-
-            '    ' Retrieve threads infos
-            '    s = s & "\par"
-            '    s = s & "  \b Threads\b0\par"
-            '    Dim pt As ProcessThread
-            '    Dim thr As System.Diagnostics.ProcessThreadCollection = curProc.Threads
-            '    s = s & "\tab " & CStr(thr.Count) & " threads \par"
-            '    For Each pt In thr
-            '        s = s & "\tab " & CStr(pt.Id) & "\par"
-            '        s = s & "\tab\tab " & "Priority level : " & CStr(pt.PriorityLevel.ToString) & "\par"
-            '        Dim tsp As TimeSpan = pt.TotalProcessorTime
-            '        Dim s2 As String = String.Format("{0:00}", tsp.TotalHours) & ":" & _
-            '            String.Format("{0:00}", tsp.Minutes) & ":" & _
-            '            String.Format("{0:00}", tsp.Seconds)
-            '        s = s & "\tab\tab " & "Start address : " & CStr(pt.StartAddress) & "\par"
-            '        s = s & "\tab\tab " & "Start time : " & pt.StartTime.ToLongDateString & " -- " & pt.StartTime.ToLongTimeString & "\par"
-            '        s = s & "\tab\tab " & "State : " & CStr(pt.ThreadState.ToString) & "\par"
-            '        s = s & "\tab\tab " & "Processor time : " & s2 & "\par"
-            '    Next
-            'End If
-
-            'If chkHandles.Checked Then
-            '    ' Retrieve handles
-            '    s = s & "\par"
-            '    s = s & "  \b Loaded handles\b0\par"
-            '    Dim i As Integer
-            '    cHandle.GetOpenedHandlesClass.Refresh()
-            '    For i = 0 To cHandle.GetOpenedHandlesClass.Count - 1
-            '        With cHandle.GetOpenedHandlesClass
-            '            If (.GetProcessID(i) = pid) And (Len(.GetObjectName(i)) > 0) Then
-            '                s = s & "\tab " & .GetNameInformation(i) & " : " & Replace(.GetObjectName(i), "\", "\\") & "\par"
-            '            End If
-            '        End With
-            '    Next
-            'End If
-
             s = s & "}"
 
             rtb.Rtf = s
@@ -339,10 +293,7 @@ Public Class frmProcessInfo
         API.SetWindowTheme(Me.lvLog.Handle, "explorer", Nothing)
 
         ' Some tooltips
-        frmMain.SetToolTip(Me.chkModules, "Check if you want to retrieve modules and threads infos when you click on listview.")
-        frmMain.SetToolTip(Me.chkModules, "Check if you want to retrieve online infos when you click on listview.")
         frmMain.SetToolTip(Me.cmdInfosToClipB, "Copy process informations to clipboard. Use left click to copy as text, right click to copy as rtf (preserve text style).")
-        frmMain.SetToolTip(Me.chkHandles, "Check if you want to retrieve handles infos when you click on listview.")
         frmMain.SetToolTip(Me.txtImageVersion, "Version of file")
         frmMain.SetToolTip(Me.txtProcessPath, "Path of file")
         frmMain.SetToolTip(Me.cmdShowFileDetails, "Show file details")
@@ -420,8 +371,6 @@ Public Class frmProcessInfo
         Me.cmdShowFileDetails.Enabled = _local
         Me.cmdShowFileProperties.Enabled = _local
         Me.cmdOpenDirectory.Enabled = _local
-        Me.chkModules.Enabled = _notWMI
-        Me.chkHandles.Enabled = _local
         Me.ShowFileDetailsToolStripMenuItem.Enabled = _notWMI
         Me.ToolStripMenuItem36.Enabled = _notWMI
         Me.ViewMemoryToolStripMenuItem.Enabled = _local
@@ -429,6 +378,9 @@ Public Class frmProcessInfo
         Me.OpenFirectoryToolStripMenuItem.Enabled = _local
         Me.FileDetailsToolStripMenuItem.Enabled = _local
         Me.FilePropToolStripMenuItem34.Enabled = _local
+        Me.ShowFileDetailsToolStripMenuItem.Enabled = _local
+        Me.PropertiesToolStripMenuItem.Enabled = _local
+        Me.TabPageString.Enabled = _local
 
 
         ' Verify file

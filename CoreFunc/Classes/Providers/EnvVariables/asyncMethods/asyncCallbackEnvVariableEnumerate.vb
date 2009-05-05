@@ -80,7 +80,7 @@ Public Class asyncCallbackEnvVariableEnumerate
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 _poolObj = pObj
                 Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestEnvironmentVariableList, pObj.pid, pObj.peb)
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestEnvironmentVariableList, pObj.pid, -1)
                     cDat.InstanceId = _instanceId   ' Instance which request the list
                     Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
                     con.ConnectionObj.Socket.Send(buff, buff.Length)
@@ -125,7 +125,7 @@ Public Class asyncCallbackEnvVariableEnumerate
 
         ' Get PEB address of process
         Dim __pebAd As Integer = peb
-        If __pebAd = -1 Then
+        If __pebAd <= 0 Then
             Return 0
         End If
 

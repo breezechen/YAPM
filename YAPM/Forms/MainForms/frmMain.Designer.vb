@@ -659,6 +659,8 @@ Partial Class frmMain
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerNetwork = New System.Windows.Forms.Timer(Me.components)
         Me.timerStateBasedActions = New System.Windows.Forms.Timer(Me.components)
+        Me.RibbonSeparator5 = New System.Windows.Forms.RibbonSeparator
+        Me.butOptions = New System.Windows.Forms.RibbonOrbMenuItem
         Me.menuProc.SuspendLayout()
         Me.menuService.SuspendLayout()
         Me.mainMenu.SuspendLayout()
@@ -1356,12 +1358,14 @@ Partial Class frmMain
         Me.Ribbon.OrbDropDown.MenuItems.Add(Me.RibbonSeparator2)
         Me.Ribbon.OrbDropDown.MenuItems.Add(Me.orbMenuSaveReport)
         Me.Ribbon.OrbDropDown.MenuItems.Add(Me.RibbonSeparator3)
+        Me.Ribbon.OrbDropDown.MenuItems.Add(Me.butOptions)
+        Me.Ribbon.OrbDropDown.MenuItems.Add(Me.RibbonSeparator5)
         Me.Ribbon.OrbDropDown.MenuItems.Add(Me.orbMenuAbout)
         Me.Ribbon.OrbDropDown.MenuItems.Add(Me.orbMenuExit)
         Me.Ribbon.OrbDropDown.Name = ""
         Me.Ribbon.OrbDropDown.NextPopup = Nothing
         Me.Ribbon.OrbDropDown.PreviousPopup = Nothing
-        Me.Ribbon.OrbDropDown.Size = New System.Drawing.Size(527, 345)
+        Me.Ribbon.OrbDropDown.Size = New System.Drawing.Size(527, 392)
         Me.Ribbon.OrbDropDown.TabIndex = 0
         Me.Ribbon.OrbDropDown.ToolStripDropDown = Nothing
         Me.Ribbon.OrbImage = CType(resources.GetObject("Ribbon.OrbImage"), System.Drawing.Image)
@@ -6852,6 +6856,30 @@ Partial Class frmMain
         Me.timerStateBasedActions.Enabled = True
         Me.timerStateBasedActions.Interval = 1000
         '
+        'RibbonSeparator5
+        '
+        Me.RibbonSeparator5.AltKey = Nothing
+        Me.RibbonSeparator5.Image = Nothing
+        Me.RibbonSeparator5.Tag = Nothing
+        Me.RibbonSeparator5.Text = Nothing
+        Me.RibbonSeparator5.ToolTip = Nothing
+        Me.RibbonSeparator5.ToolTipImage = Nothing
+        Me.RibbonSeparator5.ToolTipTitle = Nothing
+        '
+        'butOptions
+        '
+        Me.butOptions.AltKey = Nothing
+        Me.butOptions.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
+        Me.butOptions.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butOptions.Image = Global.YAPM.My.Resources.Resources.options
+        Me.butOptions.SmallImage = Global.YAPM.My.Resources.Resources.options
+        Me.butOptions.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butOptions.Tag = Nothing
+        Me.butOptions.Text = "Options"
+        Me.butOptions.ToolTip = Nothing
+        Me.butOptions.ToolTipImage = Nothing
+        Me.butOptions.ToolTipTitle = Nothing
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -7613,5 +7641,7 @@ Partial Class frmMain
     Friend WithEvents ToolStripMenuItem67 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem66 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents chkSearchEnvVar As System.Windows.Forms.CheckBox
+    Friend WithEvents RibbonSeparator5 As System.Windows.Forms.RibbonSeparator
+    Friend WithEvents butOptions As System.Windows.Forms.RibbonOrbMenuItem
 
 End Class

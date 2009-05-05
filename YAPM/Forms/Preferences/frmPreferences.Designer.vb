@@ -589,7 +589,6 @@ Partial Class frmPreferences
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Preferences"
-        Me.TopMost = True
         Me.TabControl.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout()
