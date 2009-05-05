@@ -81,8 +81,8 @@ Public Class frmMain
     Public PREF_PATH As String = My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData & "\config.xml"
 #End If
 
-    'Public Const HELP_PATH As String = "http://yaprocmon.sourceforge.net/help.html"
-    Public HELP_PATH As String = My.Application.Info.DirectoryPath & "\Help\help.htm"
+    Public Const HELP_PATH As String = "http://yaprocmon.sourceforge.net/help.html"
+    'Public HELP_PATH As String = My.Application.Info.DirectoryPath & "\Help\help.htm"
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
     Public NEW_ITEM_COLOR As Color = Color.FromArgb(128, 255, 0)
@@ -906,11 +906,11 @@ Public Class frmMain
                     bHelpShown = True
                     ' Load help file
                     Dim path As String = HELP_PATH
-                    If IO.File.Exists(path) = False Then
-                        WBHelp.Document.Write("<body link=blue vlink=purple><span>Help file cannot be found. <p></span><span>Please download help file at <a href=" & Chr(34) & "http://sourceforge.net/projects/yaprocmon/" & Chr(34) & ">http://sourceforge.net/projects/yaprocmon</a> and save it in the Help directory.</span></body>")
-                    Else
-                        WBHelp.Navigate(path)
-                    End If
+                    'If IO.File.Exists(path) = False Then
+                    '    WBHelp.Document.Write("<body link=blue vlink=purple><span>Help file cannot be found. <p></span><span>Please download help file at <a href=" & Chr(34) & "http://sourceforge.net/projects/yaprocmon/" & Chr(34) & ">http://sourceforge.net/projects/yaprocmon</a> and save it in the Help directory.</span></body>")
+                    'Else
+                    WBHelp.Navigate(path)
+                    'End If
                 End If
 
                 _tab.SelectedTab = Me.pageHelp
