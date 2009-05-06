@@ -1363,11 +1363,11 @@ Partial Class frmMain
         Me.Ribbon.OrbDropDown.MenuItems.Add(Me.orbMenuAbout)
         Me.Ribbon.OrbDropDown.MenuItems.Add(Me.orbMenuExit)
         Me.Ribbon.OrbDropDown.Name = ""
-        Me.Ribbon.OrbDropDown.NextPopup = Nothing
-        Me.Ribbon.OrbDropDown.PreviousPopup = Nothing
+        'Me.Ribbon.OrbDropDown.NextPopup = Nothing
+        'Me.Ribbon.OrbDropDown.PreviousPopup = Nothing
         Me.Ribbon.OrbDropDown.Size = New System.Drawing.Size(527, 392)
         Me.Ribbon.OrbDropDown.TabIndex = 0
-        Me.Ribbon.OrbDropDown.ToolStripDropDown = Nothing
+        'Me.Ribbon.OrbDropDown.ToolStripDropDown = Nothing
         Me.Ribbon.OrbImage = CType(resources.GetObject("Ribbon.OrbImage"), System.Drawing.Image)
         '
         '
