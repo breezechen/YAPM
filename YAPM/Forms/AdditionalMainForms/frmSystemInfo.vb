@@ -195,7 +195,7 @@ Public Class frmSystemInfo
     End Sub
 
     Private Sub frmSystemInfo_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Me.timerRefresh.Interval = Program.Preferences.systemInterval
+        Me.timerRefresh.Interval = My.Settings.SystemInterval
         Call chkOneGraphPerCpu_CheckedChanged(Nothing, Nothing) ' Add graphs
         Call timerRefresh_Tick(Nothing, Nothing)
         Me.chkOneGraphPerCpu.Enabled = (Program.SystemInfo.ProcessorCount > 1)

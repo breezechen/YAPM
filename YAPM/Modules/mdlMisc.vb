@@ -114,7 +114,7 @@ Module mdlMisc
 
     ' Search on internet
     Public Sub SearchInternet(ByVal item As String, ByVal handle As IntPtr)
-        cFile.ShellOpenFile(Program.Preferences.searchEngine.Replace("ITEM", item), Handle)
+        cFile.ShellOpenFile(My.Settings.SearchEngine.Replace("ITEM", item), handle)
     End Sub
 
     ' Standard Vista message box

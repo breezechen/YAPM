@@ -23,78 +23,54 @@ Option Strict On
 
 Public Class frmPreferences
 
-    '<!--This file is the config file of YAPM. You should not manually edit it.-->
-    '<yapm>
-    '	<config>
-    '		<procinterval>2000</procinterval>
-    '		<serviceinterval>10000</serviceinterval>
-    '		<startup>false</startup>
-    '		<starthidden>false</starthidden>
-    '		<lang>english</lang>
-    '       <topmost>false</topmost>
-    '       <firsttime>firsttime</firsttime>
-    '       <Some others...>
-    '	</config>
-    '</yapm>
-
     Private _newcolor As Integer
     Private _deletedcolor As Integer
 
     Private Sub cmdQuit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdQuit.Click
-        _frmMain.timerProcess.Interval = Program.Preferences.procInterval
-        _frmMain.timerTask.Interval = Program.Preferences.taskInterval
-        _frmMain.timerNetwork.Interval = Program.Preferences.networkInterval
-        _frmMain.timerServices.Interval = Program.Preferences.serviceInterval
-        _frmMain.timerTrayIcon.Interval = Program.Preferences.trayInterval
+        _frmMain.timerProcess.Interval = My.Settings.ProcessInterval
+        _frmMain.timerTask.Interval = My.Settings.TaskInterval
+        _frmMain.timerNetwork.Interval = My.Settings.NetworkInterval
+        _frmMain.timerServices.Interval = My.Settings.ServiceInterval
+        _frmMain.timerTrayIcon.Interval = My.Settings.TrayInterval
         Me.Close()
     End Sub
 
     Private Sub cmdSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSave.Click
         ' Save
-        Dim _oldRibbonStyle As Boolean = Program.Preferences.ribbonStyle
+        Dim _oldRibbonStyle As Boolean = My.Settings.UseRibbonStyle
+        My.Settings.ServiceInterval = CInt(Val(Me.txtServiceIntervall.Text))
         My.Settings.ProcessInterval = CInt(Val(Me.txtProcessIntervall.Text))
-        My.Settings.Save()
-        With Program.Preferences
-            .serviceInterval = CInt(Val(Me.txtServiceIntervall.Text))
-            .procInterval = CInt(Val(Me.txtProcessIntervall.Text))
-            .startup = Me.chkStart.Checked
-            .startHidden = Me.chkStartTray.Checked
-            .replaceTaskMgr = Me.chkReplaceTaskmgr.Checked
-            .topmost = Me.chkTopMost.Checked
-            .newItemsColor = _newcolor
-            .hideClose = Me.chkHideClosed.Checked
-            .deletedItemsColor = _deletedcolor
-            .showTrayIcon = Me.chkTrayIcon.Checked
-            .priority = Me.cbPriority.SelectedIndex
-            .taskInterval = CInt(Val(Me.txtTaskInterval.Text))
-            .networkInterval = CInt(Val(Me.txtNetworkInterval.Text))
-            .ribbonStyle = Me.chkRibbon.Checked
-            .searchEngine = Me.txtSearchEngine.Text
-            .closeYAPMWithCloseButton = Me.chkCloseButton.Checked
-            .warnDangerous = Me.chkWarn.Checked
-            .hideMinimized = Me.chkHideMinimized.Checked
-            .trayInterval = CInt(Val(Me.txtTrayInterval.Text))
-            .systemInterval = CInt(Val(Me.txtSysInfoInterval.Text))
-            If Me.chkUnlimitedBuf.Checked Then
-                .histSize = -1
-            Else
-                .histSize = CInt(Me.bufferSize.Value * 1024)
-            End If
+        My.Settings.WindowsStartup = Me.chkStart.Checked
+        My.Settings.StartHidden = Me.chkStartTray.Checked
+        My.Settings.ReplaceTaskmgr = Me.chkReplaceTaskmgr.Checked
+        My.Settings.TopMost = Me.chkTopMost.Checked
+        My.Settings.NewItemColor = _newcolor
+        My.Settings.HideWhenClosed = Me.chkHideClosed.Checked
+        My.Settings.DeletedItemColor = _deletedcolor
+        My.Settings.ShowTrayIcon = Me.chkTrayIcon.Checked
+        My.Settings.Priority = Me.cbPriority.SelectedIndex
+        My.Settings.TaskInterval = CInt(Val(Me.txtTaskInterval.Text))
+        My.Settings.NetworkInterval = CInt(Val(Me.txtNetworkInterval.Text))
+        My.Settings.UseRibbonStyle = Me.chkRibbon.Checked
+        My.Settings.SearchEngine = Me.txtSearchEngine.Text
+        My.Settings.CloseYAPMWithCloseButton = Me.chkCloseButton.Checked
+        My.Settings.WarnDangerousActions = Me.chkWarn.Checked
+        My.Settings.HideWhenMinimized = Me.chkHideMinimized.Checked
+        My.Settings.TrayInterval = CInt(Val(Me.txtTrayInterval.Text))
+        My.Settings.SystemInterval = CInt(Val(Me.txtSysInfoInterval.Text))
+        If Me.chkUnlimitedBuf.Checked Then
+            My.Settings.HistorySize = -1
+        Else
+            My.Settings.HistorySize = CInt(Me.bufferSize.Value * 1024)
+        End If
 
-            .Apply()
-            Call mdlMisc.StartWithWindows(.startup)
-            Call mdlMisc.ReplaceTaskmgr(.replaceTaskMgr)
-        End With
+        Call mdlMisc.StartWithWindows(My.Settings.WindowsStartup)
+        Call mdlMisc.ReplaceTaskmgr(My.Settings.ReplaceTaskmgr)
 
-        ' Save XML
-        Try
-            Call Program.Preferences.Save()
-            MsgBox("Save is done.", MsgBoxStyle.Information, "Preferences")
-        Catch ex As Exception
-            '
-        End Try
+        Program.Preferences.Save()
+        Program.Preferences.Apply()
 
-        If Not (_oldRibbonStyle = Program.Preferences.ribbonStyle) Then
+        If Not (_oldRibbonStyle = My.Settings.UseRibbonStyle) Then
             Dim ret As Integer
             If Not (IsWindowsVista()) Then
                 ret = MsgBox("The new menu style will be displayed next time you start YAPM. Do you want to exit YAPM now ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Menu style has changed")
@@ -102,9 +78,11 @@ Public Class frmPreferences
                 ret = ShowVistaMessage(Me.Handle, "Menu style has changed", "The new menu style will be displayed next time you start YAPM.", "Do you want to exit YAPM now ?", TaskDialogCommonButtons.Yes Or TaskDialogCommonButtons.No, TaskDialogIcon.Information)
             End If
             If ret = DialogResult.Yes Then
-                Application.Exit()
+                Program.ExitYAPM()
             End If
         End If
+
+        MsgBox("Save is OK !", MsgBoxStyle.OkOnly, "Preferences")
 
     End Sub
 
@@ -142,37 +120,35 @@ Public Class frmPreferences
         End With
 
         ' Set control's values
-        With Program.Preferences
-            Me.txtServiceIntervall.Text = .serviceInterval.ToString
-            Me.txtProcessIntervall.Text = .procInterval.ToString
-            Me.chkStart.Checked = .startup
-            Me.chkStartTray.Checked = .startHidden
-            Me.chkReplaceTaskmgr.Checked = .replaceTaskMgr
-            Me.chkTopMost.Checked = .topmost
-            Me.pctNewitems.BackColor = Color.FromArgb(.newItemsColor)
-            Me.pctDeletedItems.BackColor = Color.FromArgb(.deletedItemsColor)
-            _newcolor = .newItemsColor
-            _deletedcolor = .deletedItemsColor
-            Me.chkTrayIcon.Checked = .showTrayIcon
-            Me.cbPriority.SelectedIndex = .priority
-            Me.txtTaskInterval.Text = .taskInterval.ToString
-            Me.txtNetworkInterval.Text = .networkInterval.ToString
-            Me.chkRibbon.Checked = .ribbonStyle
-            Me.txtSearchEngine.Text = .searchEngine
-            Me.chkCloseButton.Checked = .closeYAPMWithCloseButton
-            Me.chkWarn.Checked = .warnDangerous
-            Me.chkHideMinimized.Checked = .hideMinimized
-            Me.txtTrayInterval.Text = .trayInterval.ToString
-            Me.txtSysInfoInterval.Text = .systemInterval.ToString
-            Me.chkHideClosed.Checked = .hideClose
-            If .histSize > 0 Then
-                Me.bufferSize.Value = CInt(.histSize / 1024)
-                Me.chkUnlimitedBuf.Checked = False
-            Else
-                Me.bufferSize.Value = 0
-                Me.chkUnlimitedBuf.Checked = True
-            End If
-        End With
+        Me.txtServiceIntervall.Text = My.Settings.ServiceInterval.ToString
+        Me.txtProcessIntervall.Text = My.Settings.ProcessInterval.ToString
+        Me.chkStart.Checked = My.Settings.WindowsStartup
+        Me.chkStartTray.Checked = My.Settings.StartHidden
+        Me.chkReplaceTaskmgr.Checked = My.Settings.ReplaceTaskmgr
+        Me.chkTopMost.Checked = My.Settings.TopMost
+        Me.pctNewitems.BackColor = Color.FromArgb(My.Settings.NewItemColor)
+        Me.pctDeletedItems.BackColor = Color.FromArgb(My.Settings.DeletedItemColor)
+        _newcolor = My.Settings.NewItemColor
+        _deletedcolor = My.Settings.DeletedItemColor
+        Me.chkTrayIcon.Checked = My.Settings.ShowTrayIcon
+        Me.cbPriority.SelectedIndex = My.Settings.Priority
+        Me.txtTaskInterval.Text = My.Settings.TaskInterval.ToString
+        Me.txtNetworkInterval.Text = My.Settings.NetworkInterval.ToString
+        Me.chkRibbon.Checked = My.Settings.UseRibbonStyle
+        Me.txtSearchEngine.Text = My.Settings.SearchEngine
+        Me.chkCloseButton.Checked = My.Settings.CloseYAPMWithCloseButton
+        Me.chkWarn.Checked = My.Settings.WarnDangerousActions
+        Me.chkHideMinimized.Checked = My.Settings.HideWhenMinimized
+        Me.txtTrayInterval.Text = My.Settings.TrayInterval.ToString
+        Me.txtSysInfoInterval.Text = My.Settings.SystemInterval.ToString
+        Me.chkHideClosed.Checked = My.Settings.HideWhenClosed
+        If My.Settings.HistorySize > 0 Then
+            Me.bufferSize.Value = CInt(My.Settings.HistorySize / 1024)
+            Me.chkUnlimitedBuf.Checked = False
+        Else
+            Me.bufferSize.Value = 0
+            Me.chkUnlimitedBuf.Checked = True
+        End If
 
     End Sub
 
@@ -181,26 +157,27 @@ Public Class frmPreferences
         Me.chkStartTray.Checked = False
         Me.chkStart.Checked = False
         Me.chkReplaceTaskmgr.Checked = False
-        Me.txtProcessIntervall.Text = Pref.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
-        Me.txtServiceIntervall.Text = Pref.DEFAULT_TIMER_INTERVAL_SERVICES.ToString
+        Me.txtProcessIntervall.Text = "1000"
+        Me.txtServiceIntervall.Text = "2500"
         Me.chkTopMost.Checked = False
-        Me.pctNewitems.BackColor = Color.FromArgb(128, 255, 0)
-        Me.pctDeletedItems.BackColor = Color.FromArgb(255, 64, 48)
-        _newcolor = Color.FromArgb(128, 255, 0).ToArgb
-        _deletedcolor = Color.FromArgb(255, 64, 48).ToArgb
+        Me.pctNewitems.BackColor = Color.FromArgb(-8323328)
+        Me.pctDeletedItems.BackColor = Color.FromArgb(-49104)
+        _newcolor = -8323328
+        _deletedcolor = -49104
         Me.chkTrayIcon.Checked = True
         Me.chkHideMinimized.Checked = False
         Me.cbPriority.SelectedIndex = 1
-        Me.txtTaskInterval.Text = Pref.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
-        Me.txtNetworkInterval.Text = Pref.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
-        Me.txtTrayInterval.Text = Pref.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
-        Me.txtSysInfoInterval.Text = Pref.DEFAULT_TIMER_INTERVAL_PROCESSES.ToString
+        Me.txtTaskInterval.Text = "1000"
+        Me.txtNetworkInterval.Text = "1000"
+        Me.txtTrayInterval.Text = "1000"
+        Me.txtSysInfoInterval.Text = "1000"
         Me.chkRibbon.Checked = True
         Me.txtSearchEngine.Text = "http://www.google.com/search?hl=en&q=ITEM"
         Me.chkCloseButton.Checked = True
         Me.chkWarn.Checked = True
-        Me.chkHideClosed.Checked = True
+        Me.chkHideClosed.Checked = False
         Me.chkUnlimitedBuf.Checked = False
+
         Me.bufferSize.Value = 100
     End Sub
 

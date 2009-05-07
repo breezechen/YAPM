@@ -65,6 +65,294 @@ Namespace My
                 Me("ProcessInterval") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("2500")>  _
+        Public Property ServiceInterval() As Integer
+            Get
+                Return CType(Me("ServiceInterval"),Integer)
+            End Get
+            Set
+                Me("ServiceInterval") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1000")>  _
+        Public Property SystemInterval() As Integer
+            Get
+                Return CType(Me("SystemInterval"),Integer)
+            End Get
+            Set
+                Me("SystemInterval") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1000")>  _
+        Public Property TrayInterval() As Integer
+            Get
+                Return CType(Me("TrayInterval"),Integer)
+            End Get
+            Set
+                Me("TrayInterval") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("102400")>  _
+        Public Property HistorySize() As Integer
+            Get
+                Return CType(Me("HistorySize"),Integer)
+            End Get
+            Set
+                Me("HistorySize") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property WindowsStartup() As Boolean
+            Get
+                Return CType(Me("WindowsStartup"),Boolean)
+            End Get
+            Set
+                Me("WindowsStartup") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property StartHidden() As Boolean
+            Get
+                Return CType(Me("StartHidden"),Boolean)
+            End Get
+            Set
+                Me("StartHidden") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("English")>  _
+        Public Property Lang() As String
+            Get
+                Return CType(Me("Lang"),String)
+            End Get
+            Set
+                Me("Lang") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property TopMost() As Boolean
+            Get
+                Return CType(Me("TopMost"),Boolean)
+            End Get
+            Set
+                Me("TopMost") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property FirstTime() As Boolean
+            Get
+                Return CType(Me("FirstTime"),Boolean)
+            End Get
+            Set
+                Me("FirstTime") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property FirstTimeSBA() As Boolean
+            Get
+                Return CType(Me("FirstTimeSBA"),Boolean)
+            End Get
+            Set
+                Me("FirstTimeSBA") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property UseRibbonStyle() As Boolean
+            Get
+                Return CType(Me("UseRibbonStyle"),Boolean)
+            End Get
+            Set
+                Me("UseRibbonStyle") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("-8323328")>  _
+        Public Property NewItemColor() As Integer
+            Get
+                Return CType(Me("NewItemColor"),Integer)
+            End Get
+            Set
+                Me("NewItemColor") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("-49104")>  _
+        Public Property DeletedItemColor() As Integer
+            Get
+                Return CType(Me("DeletedItemColor"),Integer)
+            End Get
+            Set
+                Me("DeletedItemColor") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property CloseYAPMWithCloseButton() As Boolean
+            Get
+                Return CType(Me("CloseYAPMWithCloseButton"),Boolean)
+            End Get
+            Set
+                Me("CloseYAPMWithCloseButton") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property ShowTrayIcon() As Boolean
+            Get
+                Return CType(Me("ShowTrayIcon"),Boolean)
+            End Get
+            Set
+                Me("ShowTrayIcon") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
+        Public Property Priority() As Integer
+            Get
+                Return CType(Me("Priority"),Integer)
+            End Get
+            Set
+                Me("Priority") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1000")>  _
+        Public Property TaskInterval() As Integer
+            Get
+                Return CType(Me("TaskInterval"),Integer)
+            End Get
+            Set
+                Me("TaskInterval") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1000")>  _
+        Public Property NetworkInterval() As Integer
+            Get
+                Return CType(Me("NetworkInterval"),Integer)
+            End Get
+            Set
+                Me("NetworkInterval") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("http://www.google.com/search?hl=en&q=ITEM")>  _
+        Public Property SearchEngine() As String
+            Get
+                Return CType(Me("SearchEngine"),String)
+            End Get
+            Set
+                Me("SearchEngine") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property WarnDangerousActions() As Boolean
+            Get
+                Return CType(Me("WarnDangerousActions"),Boolean)
+            End Get
+            Set
+                Me("WarnDangerousActions") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property HideWhenMinimized() As Boolean
+            Get
+                Return CType(Me("HideWhenMinimized"),Boolean)
+            End Get
+            Set
+                Me("HideWhenMinimized") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property HideWhenClosed() As Boolean
+            Get
+                Return CType(Me("HideWhenClosed"),Boolean)
+            End Get
+            Set
+                Me("HideWhenClosed") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property ReplaceTaskmgr() As Boolean
+            Get
+                Return CType(Me("ReplaceTaskmgr"),Boolean)
+            End Get
+            Set
+                Me("ReplaceTaskmgr") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property HideClose() As Boolean
+            Get
+                Return CType(Me("HideClose"),Boolean)
+            End Get
+            Set
+                Me("HideClose") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

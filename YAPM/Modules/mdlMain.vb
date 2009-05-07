@@ -122,14 +122,13 @@ Public Module Program
 
         ' Load preferences
         Try
-            Program.Preferences.Load()
-            If Program.Preferences.firstTime Then
+            If My.Settings.FirstTime Then
                 MsgBox(Pref.MSGFIRSTTIME, MsgBoxStyle.Information, "Please read this")
-                Program.Preferences.firstTime = False
+                My.Settings.FirstTime = False
                 Program.Preferences.Save()
             End If
             Program.Preferences.Apply()
-            cProcess.BuffSize = Program.Preferences.histSize
+            cProcess.BuffSize = My.Settings.HistorySize
         Catch ex As Exception
             ' Preference file corrupted/missing
             MsgBox("Preference file is missing or corrupted and will be now recreated.", MsgBoxStyle.Critical, "Startup error")
@@ -178,7 +177,7 @@ Public Module Program
             '
         End Try
 
-        Program.Preferences.hideClose = False
+        My.Settings.HideClose = False
         Application.Exit()
 
     End Sub
@@ -201,7 +200,11 @@ Public Module Program
                 hPid = Marshal.ReadInt32(pMem, 0)
                 If hPid <> 0 Then
                     '# On active l'instance précedente
-                    AppActivate(hPid)
+                    Try
+                        AppActivate(hPid)
+                    Catch ex As Exception
+                        '
+                    End Try
                 End If
                 API.UnmapViewOfFile(pMem)
             End If

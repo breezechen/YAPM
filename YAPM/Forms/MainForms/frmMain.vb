@@ -262,11 +262,11 @@ Public Class frmMain
             API.SetWindowTheme(Me.tv2.Handle, "explorer", Nothing)
             API.SetWindowTheme(Me.tvMonitor.Handle, "explorer", Nothing)
         End If
-
+        Call frmMain_Resize(Nothing, Nothing)
     End Sub
 
     Private Sub frmMain_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
-        If Program.Preferences.hideClose Then
+        If My.Settings.HideClose Then
             Me.Hide()
             e.Cancel = True
             Exit Sub
@@ -348,7 +348,7 @@ Public Class frmMain
 
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Resize
 
-        If Program.Preferences.hideMinimized AndAlso Me.WindowState = FormWindowState.Minimized Then
+        If My.Settings.HideWhenMinimized AndAlso Me.WindowState = FormWindowState.Minimized Then
             Me.Hide()
         End If
 
@@ -425,7 +425,7 @@ Public Class frmMain
     End Sub
 
     Private Sub KillToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles KillToolStripMenuItem.Click
-        If Program.Preferences.warnDangerous Then
+        If My.Settings.WarnDangerousActions Then
             If MsgBox("Are you sure you want to kill these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                 Exit Sub
             End If
@@ -436,7 +436,7 @@ Public Class frmMain
     End Sub
 
     Private Sub StopToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StopToolStripMenuItem.Click
-        If Program.Preferences.warnDangerous Then
+        If My.Settings.WarnDangerousActions Then
             If MsgBox("Are you sure you want to suspend these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                 Exit Sub
             End If
@@ -637,7 +637,7 @@ Public Class frmMain
         Static first As Boolean = True
         If first Then
             first = False
-            If Program.Preferences.startHidden Then
+            If My.Settings.StartHidden Then
                 Me.Hide()
                 Me.WindowState = FormWindowState.Minimized
             Else
@@ -649,7 +649,7 @@ Public Class frmMain
 
     Private Sub butKill_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butKillProcess.Click
         ' Kill selected processes
-        If Program.Preferences.warnDangerous Then
+        If My.Settings.WarnDangerousActions Then
             If MsgBox("Are you sure you want to kill these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                 Exit Sub
             End If
@@ -694,7 +694,7 @@ Public Class frmMain
 
     Private Sub butStopProcess_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butStopProcess.Click
         ' Stop selected processes
-        If Program.Preferences.warnDangerous Then
+        If My.Settings.WarnDangerousActions Then
             If MsgBox("Are you sure you want to suspend these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                 Exit Sub
             End If
@@ -1001,7 +1001,7 @@ Public Class frmMain
     End Sub
 
     Private Sub butHandleClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butHandleClose.Click
-        If Program.Preferences.warnDangerous Then
+        If My.Settings.WarnDangerousActions Then
             If MsgBox("Are you sure you want to close these handles ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                 Exit Sub
             End If
@@ -1088,7 +1088,7 @@ Public Class frmMain
 
     Private Sub CloseToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CloseToolStripMenuItem.Click
         ' Close selected items
-        If Program.Preferences.warnDangerous Then
+        If My.Settings.WarnDangerousActions Then
             If IsWindowsVista() Then
                 If ShowVistaMessage(Me.Handle, "Dangerous action", _
                                     "Are you sure you want to close these items ?", _
@@ -2216,7 +2216,7 @@ Public Class frmMain
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem.Click
-        Call exitYAPM()
+        Call ExitYAPM()
     End Sub
 
     Private Sub MinimizeToTrayToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MinimizeToTrayToolStripMenuItem.Click
@@ -2419,7 +2419,7 @@ Public Class frmMain
     End Sub
 
     Private Sub KillProcessTreeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles KillProcessTreeToolStripMenuItem.Click
-        If Program.Preferences.warnDangerous Then
+        If My.Settings.WarnDangerousActions Then
             If MsgBox("Are you sure you want to kill these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                 Exit Sub
             End If
@@ -2747,6 +2747,7 @@ Public Class frmMain
         Else
             _ribbonStyle = Not (_ribbonStyle)
         End If
+        _ribbonStyle = True
         _main.Panel1Collapsed = Not (_ribbonStyle)
 
         Me.containerSystemMenu.Panel1Collapsed = _ribbonStyle
@@ -2999,7 +3000,7 @@ Public Class frmMain
 
     Private Sub lvProcess_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvProcess.KeyDown
         If e.KeyCode = Keys.Delete And Me.lvProcess.SelectedItems.Count > 0 Then
-            If Program.Preferences.warnDangerous Then
+            If My.Settings.WarnDangerousActions Then
                 If MsgBox("Are you sure you want to kill these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                     Exit Sub
                 End If

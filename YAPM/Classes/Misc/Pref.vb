@@ -23,254 +23,29 @@ Option Strict On
 
 Public Class Pref
 
-    Public Const DEFAULT_TIMER_INTERVAL_PROCESSES As Integer = 1000
-    Public Const DEFAULT_TIMER_INTERVAL_SERVICES As Integer = 2500
     Public Const MSGFIRSTTIME As String = "This is the first time you run YAPM. Please remember that it is a beta5 version so there are some bugs and some missing functionnalities :-)" & vbNewLine & vbNewLine & "You should run YAPM as an administrator in order to fully control your processes. Please take care using this YAPM because you will be able to do some irreversible things if you kill or modify some system processes... Use it at your own risks !" & vbNewLine & vbNewLine & "Please let me know any of your ideas of improvement or new functionnalities in YAPM's sourceforge.net project page ('Help' pannel) :-)" & vbNewLine & vbNewLine & "This message won't be shown anymore :-)"
 
-    ' Options
-    Public replaceTaskMgr As Boolean
-    Public histSize As Integer
-    Public procInterval As Integer
-    Public trayInterval As Integer
-    Public systemInterval As Integer
-    Public serviceInterval As Integer
-    Public startup As Boolean
-    Public startHidden As Boolean
-    Public lang As String
-    Public topmost As Boolean
-    Public firstTime As Boolean
-    Public firstTimeSBA As Boolean
-
-    Public ribbonStyle As Boolean
-    Public newItemsColor As Integer
-    Public deletedItemsColor As Integer
-    Public closeYAPMWithCloseButton As Boolean
-    Public showTrayIcon As Boolean
-    Public priority As Integer
-    Public taskInterval As Integer
-    Public networkInterval As Integer
-    Public searchEngine As String
-    Public warnDangerous As Boolean
-    Public hideMinimized As Boolean
-    Public hideClose As Boolean
-
-    ' Open XML
-    Public Sub Load()
-        Dim XmlDoc As XmlDocument = New XmlDocument
-        Dim element As XmlNodeList
-        Dim noeud, noeudEnf As XmlNode
-
-        Call XmlDoc.Load(Program.PREF_PATH)
-        element = XmlDoc.DocumentElement.GetElementsByTagName("config")
-
-        For Each noeud In element
-            For Each noeudEnf In noeud.ChildNodes
-                If noeudEnf.LocalName = "procinterval" Then
-                    procInterval = CInt(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "serviceinterval" Then
-                    serviceInterval = CInt(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "startup" Then
-                    startup = CBool(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "starthidden" Then
-                    startHidden = CBool(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "lang" Then
-                    lang = noeudEnf.InnerText
-                ElseIf noeudEnf.LocalName = "topmost" Then
-                    topmost = CBool(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "firsttime" Then
-                    firstTime = CBool(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "firsttimesba" Then
-                    firstTimeSBA = CBool(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "replacetaskmgr" Then
-                    replaceTaskMgr = CBool(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "ribbonstyle" Then
-                    ribbonStyle = CBool(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "newitemscolor" Then
-                    newItemsColor = CInt(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "deleteditemscolor" Then
-                    deletedItemsColor = CInt(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "closeyapmwithclosebutton" Then
-                    closeYAPMWithCloseButton = CBool(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "showtrayicon" Then
-                    showTrayIcon = CBool(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "priority" Then
-                    priority = CInt(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "taskinterval" Then
-                    taskInterval = CInt(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "networkinterval" Then
-                    networkInterval = CInt(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "searchengine" Then
-                    searchEngine = noeudEnf.InnerText
-                ElseIf noeudEnf.LocalName = "warndangerous" Then
-                    warnDangerous = CBool(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "hideminimized" Then
-                    hideMinimized = CBool(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "trayinterval" Then
-                    trayInterval = CInt(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "systeminterval" Then
-                    systemInterval = CInt(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "hideclose" Then
-                    hideClose = CBool(noeudEnf.InnerText)
-                ElseIf noeudEnf.LocalName = "histsize" Then
-                    histSize = CInt(noeudEnf.InnerText)
-                End If
-            Next
-        Next
-
-    End Sub
-
-    ' Save XML
+    ' Save
     Public Sub Save()
-
-        Dim XmlDoc As XmlDocument = New XmlDocument()
-        XmlDoc.LoadXml("<YAPM></YAPM>")
-        Dim elemConfig As XmlElement
-        elemConfig = XmlDoc.CreateElement("config")
-
-        Dim elemProcIntervall As XmlElement
-        elemProcIntervall = XmlDoc.CreateElement("procinterval")
-        elemProcIntervall.InnerText = CStr(Me.procInterval)
-        elemConfig.AppendChild(elemProcIntervall)
-        Dim elemServiceIntervall As XmlElement
-        elemServiceIntervall = XmlDoc.CreateElement("serviceinterval")
-        elemServiceIntervall.InnerText = CStr(Me.serviceInterval)
-        elemConfig.AppendChild(elemServiceIntervall)
-        Dim elemStartup As XmlElement
-        elemStartup = XmlDoc.CreateElement("startup")
-        elemStartup.InnerText = CStr(Me.startup)
-        elemConfig.AppendChild(elemStartup)
-        Dim elemStartHidden As XmlElement
-        elemStartHidden = XmlDoc.CreateElement("starthidden")
-        elemStartHidden.InnerText = CStr(Me.startHidden)
-        elemConfig.AppendChild(elemStartHidden)
-        Dim elemLang As XmlElement
-        elemLang = XmlDoc.CreateElement("lang")
-        elemLang.InnerText = Me.lang
-        elemConfig.AppendChild(elemLang)
-        Dim elemTopMost As XmlElement
-        elemTopMost = XmlDoc.CreateElement("topmost")
-        elemTopMost.InnerText = CStr(Me.topmost)
-        elemConfig.AppendChild(elemTopMost)
-        Dim elemFirstTime As XmlElement
-        elemFirstTime = XmlDoc.CreateElement("firsttime")
-        elemFirstTime.InnerText = CStr(Me.firstTime)
-        elemConfig.AppendChild(elemFirstTime)
-        Dim elemFirstTimeSBA As XmlElement
-        elemFirstTimeSBA = XmlDoc.CreateElement("firsttimesba")
-        elemFirstTimeSBA.InnerText = CStr(Me.firstTimeSBA)
-        elemConfig.AppendChild(elemFirstTimeSBA)
-        Dim elemTaskmgr As XmlElement
-        elemTaskmgr = XmlDoc.CreateElement("replacetaskmgr")
-        elemTaskmgr.InnerText = CStr(Me.replaceTaskMgr)
-        elemConfig.AppendChild(elemTaskmgr)
-        Dim elemRibbon As XmlElement
-        elemRibbon = XmlDoc.CreateElement("ribbonstyle")
-        elemRibbon.InnerText = CStr(Me.ribbonStyle)
-        elemConfig.AppendChild(elemRibbon)
-        Dim elemEngine As XmlElement
-        elemEngine = XmlDoc.CreateElement("searchengine")
-        elemEngine.InnerText = CStr(Me.searchEngine)
-        elemConfig.AppendChild(elemEngine)
-        Dim elemNewColor As XmlElement
-        elemNewColor = XmlDoc.CreateElement("newitemscolor")
-        elemNewColor.InnerText = CStr(Me.newItemsColor)
-        elemConfig.AppendChild(elemNewColor)
-        Dim elemDeletedColor As XmlElement
-        elemDeletedColor = XmlDoc.CreateElement("deleteditemscolor")
-        elemDeletedColor.InnerText = CStr(Me.deletedItemsColor)
-        elemConfig.AppendChild(elemDeletedColor)
-        Dim elemCloseButton As XmlElement
-        elemCloseButton = XmlDoc.CreateElement("closeyapmwithclosebutton")
-        elemCloseButton.InnerText = CStr(Me.closeYAPMWithCloseButton)
-        elemConfig.AppendChild(elemCloseButton)
-        Dim elemShowTray As XmlElement
-        elemShowTray = XmlDoc.CreateElement("showtrayicon")
-        elemShowTray.InnerText = CStr(Me.showTrayIcon)
-        elemConfig.AppendChild(elemShowTray)
-        Dim elemPriority As XmlElement
-        elemPriority = XmlDoc.CreateElement("priority")
-        elemPriority.InnerText = CStr(Me.priority)
-        elemConfig.AppendChild(elemPriority)
-        Dim elemTaskInterval As XmlElement
-        elemTaskInterval = XmlDoc.CreateElement("taskinterval")
-        elemTaskInterval.InnerText = CStr(Me.taskInterval)
-        elemConfig.AppendChild(elemTaskInterval)
-        Dim elemNetworkInterval As XmlElement
-        elemNetworkInterval = XmlDoc.CreateElement("networkinterval")
-        elemNetworkInterval.InnerText = CStr(Me.networkInterval)
-        elemConfig.AppendChild(elemNetworkInterval)
-        Dim elemWarnDangerous As XmlElement
-        elemWarnDangerous = XmlDoc.CreateElement("warndangerous")
-        elemWarnDangerous.InnerText = CStr(Me.warnDangerous)
-        elemConfig.AppendChild(elemWarnDangerous)
-        Dim elemHideMin As XmlElement
-        elemHideMin = XmlDoc.CreateElement("hideminimized")
-        elemHideMin.InnerText = CStr(Me.hideMinimized)
-        elemConfig.AppendChild(elemHideMin)
-        Dim elemTrayInterval As XmlElement
-        elemTrayInterval = XmlDoc.CreateElement("trayinterval")
-        elemTrayInterval.InnerText = CStr(Me.trayInterval)
-        elemConfig.AppendChild(elemTrayInterval)
-        Dim elemSystemInterval As XmlElement
-        elemSystemInterval = XmlDoc.CreateElement("systeminterval")
-        elemSystemInterval.InnerText = CStr(Me.systemInterval)
-        elemConfig.AppendChild(elemSystemInterval)
-        Dim elemHideClose As XmlElement
-        elemHideClose = XmlDoc.CreateElement("hideclose")
-        elemHideClose.InnerText = CStr(Me.hideClose)
-        elemConfig.AppendChild(elemHideClose)
-        Dim elemHistSize As XmlElement
-        elemHistSize = XmlDoc.CreateElement("histsize")
-        elemHistSize.InnerText = CStr(Me.histSize)
-        elemConfig.AppendChild(elemHistSize)
-
-        XmlDoc.DocumentElement.AppendChild(elemConfig)
-        XmlDoc.Save(Program.PREF_PATH)
+        My.Settings.Save()
     End Sub
 
     ' Set to default
     Public Sub SetDefault()
-
-        With Me
-            .lang = "English"
-            .procInterval = DEFAULT_TIMER_INTERVAL_PROCESSES
-            .serviceInterval = DEFAULT_TIMER_INTERVAL_SERVICES
-            .startHidden = False
-            .replaceTaskMgr = False
-            .startup = False
-            .firstTimeSBA = True
-            .topmost = False
-            .hideClose = True
-            .newItemsColor = Color.FromArgb(128, 255, 0).ToArgb
-            .deletedItemsColor = Color.FromArgb(255, 64, 48).ToArgb
-            .showTrayIcon = True
-            .priority = 1
-            .taskInterval = DEFAULT_TIMER_INTERVAL_PROCESSES
-            .networkInterval = DEFAULT_TIMER_INTERVAL_PROCESSES
-            .trayInterval = DEFAULT_TIMER_INTERVAL_PROCESSES
-            .systemInterval = DEFAULT_TIMER_INTERVAL_PROCESSES
-            .ribbonStyle = True
-            .searchEngine = "http://www.google.com/search?hl=en&q=ITEM"
-            .closeYAPMWithCloseButton = True
-            .warnDangerous = True
-            .hideMinimized = False
-            .histSize = 1024100
-            MsgBox(MSGFIRSTTIME, MsgBoxStyle.Information, "Please read this")
-            .Save()
-            .Apply()
-        End With
-
+        My.Settings.Reset()
+        My.Settings.Save()
+        Me.Apply()
     End Sub
 
     ' Apply pref
     Public Sub Apply()
         Static first As Boolean = True
-        _frmMain.timerProcess.Interval = My.Settings.ProcessInterval ' CInt(IIf(procInterval > 0, procInterval, DEFAULT_TIMER_INTERVAL_PROCESSES))
-        _frmMain.timerServices.Interval = CInt(IIf(serviceInterval > 0, serviceInterval, DEFAULT_TIMER_INTERVAL_SERVICES))
-        _frmMain.timerNetwork.Interval = CInt(IIf(networkInterval > 0, networkInterval, DEFAULT_TIMER_INTERVAL_PROCESSES))
-        _frmMain.timerTask.Interval = CInt(IIf(taskInterval > 0, taskInterval, DEFAULT_TIMER_INTERVAL_PROCESSES))
-        _frmMain.timerTrayIcon.Interval = CInt(IIf(trayInterval > 0, trayInterval, DEFAULT_TIMER_INTERVAL_PROCESSES))
-        Select Case priority
+        _frmMain.timerProcess.Interval = My.Settings.ProcessInterval
+        _frmMain.timerServices.Interval = My.Settings.ServiceInterval
+        _frmMain.timerNetwork.Interval = My.Settings.NetworkInterval
+        _frmMain.timerTask.Interval = My.Settings.TaskInterval
+        _frmMain.timerTrayIcon.Interval = My.Settings.TrayInterval
+        Select Case My.Settings.Priority
             Case 0
                 Process.GetCurrentProcess.PriorityClass = ProcessPriorityClass.Idle
             Case 1
@@ -284,31 +59,31 @@ Public Class Pref
             Case 5
                 Process.GetCurrentProcess.PriorityClass = ProcessPriorityClass.RealTime
         End Select
-        handleList.NEW_ITEM_COLOR = Color.FromArgb(newItemsColor)
-        handleList.DELETED_ITEM_COLOR = Color.FromArgb(deletedItemsColor)
-        memoryList.NEW_ITEM_COLOR = Color.FromArgb(newItemsColor)
-        memoryList.DELETED_ITEM_COLOR = Color.FromArgb(deletedItemsColor)
-        windowList.NEW_ITEM_COLOR = Color.FromArgb(newItemsColor)
-        windowList.DELETED_ITEM_COLOR = Color.FromArgb(deletedItemsColor)
-        moduleList.NEW_ITEM_COLOR = Color.FromArgb(newItemsColor)
-        moduleList.DELETED_ITEM_COLOR = Color.FromArgb(deletedItemsColor)
-        networkList.NEW_ITEM_COLOR = Color.FromArgb(newItemsColor)
-        networkList.DELETED_ITEM_COLOR = Color.FromArgb(deletedItemsColor)
-        processList.NEW_ITEM_COLOR = Color.FromArgb(newItemsColor)
-        processList.DELETED_ITEM_COLOR = Color.FromArgb(deletedItemsColor)
-        serviceList.NEW_ITEM_COLOR = Color.FromArgb(newItemsColor)
-        serviceList.DELETED_ITEM_COLOR = Color.FromArgb(deletedItemsColor)
-        taskList.NEW_ITEM_COLOR = Color.FromArgb(newItemsColor)
-        taskList.DELETED_ITEM_COLOR = Color.FromArgb(deletedItemsColor)
-        threadList.NEW_ITEM_COLOR = Color.FromArgb(newItemsColor)
-        threadList.DELETED_ITEM_COLOR = Color.FromArgb(deletedItemsColor)
-        _frmMain.Tray.Visible = showTrayIcon
+        handleList.NEW_ITEM_COLOR = Color.FromArgb(My.Settings.NewItemColor)
+        handleList.DELETED_ITEM_COLOR = Color.FromArgb(My.Settings.DeletedItemColor)
+        memoryList.NEW_ITEM_COLOR = Color.FromArgb(My.Settings.NewItemColor)
+        memoryList.DELETED_ITEM_COLOR = Color.FromArgb(My.Settings.DeletedItemColor)
+        windowList.NEW_ITEM_COLOR = Color.FromArgb(My.Settings.NewItemColor)
+        windowList.DELETED_ITEM_COLOR = Color.FromArgb(My.Settings.DeletedItemColor)
+        moduleList.NEW_ITEM_COLOR = Color.FromArgb(My.Settings.NewItemColor)
+        moduleList.DELETED_ITEM_COLOR = Color.FromArgb(My.Settings.DeletedItemColor)
+        networkList.NEW_ITEM_COLOR = Color.FromArgb(My.Settings.NewItemColor)
+        networkList.DELETED_ITEM_COLOR = Color.FromArgb(My.Settings.DeletedItemColor)
+        processList.NEW_ITEM_COLOR = Color.FromArgb(My.Settings.NewItemColor)
+        processList.DELETED_ITEM_COLOR = Color.FromArgb(My.Settings.DeletedItemColor)
+        serviceList.NEW_ITEM_COLOR = Color.FromArgb(My.Settings.NewItemColor)
+        serviceList.DELETED_ITEM_COLOR = Color.FromArgb(My.Settings.DeletedItemColor)
+        taskList.NEW_ITEM_COLOR = Color.FromArgb(My.Settings.NewItemColor)
+        taskList.DELETED_ITEM_COLOR = Color.FromArgb(My.Settings.DeletedItemColor)
+        threadList.NEW_ITEM_COLOR = Color.FromArgb(My.Settings.NewItemColor)
+        threadList.DELETED_ITEM_COLOR = Color.FromArgb(My.Settings.DeletedItemColor)
+        _frmMain.Tray.Visible = My.Settings.ShowTrayIcon
         If first Then
-            Call _frmMain.permuteMenuStyle(ribbonStyle)
+            Call _frmMain.permuteMenuStyle(True, My.Settings.UseRibbonStyle)
             first = False
-            _frmMain.TopMost = topmost
-            _frmMain.butAlwaysDisplay.Checked = topmost
-            If startHidden Then
+            _frmMain.TopMost = My.Settings.TopMost
+            _frmMain.butAlwaysDisplay.Checked = My.Settings.TopMost
+            If My.Settings.StartHidden Then
                 _frmMain.WindowState = FormWindowState.Minimized
                 _frmMain.Hide()
             End If

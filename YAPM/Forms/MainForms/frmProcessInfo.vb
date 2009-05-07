@@ -1164,7 +1164,7 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub ToolStripMenuItem22_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem22.Click
-        If Program.Preferences.warnDangerous Then
+        If My.Settings.WarnDangerousActions Then
             If MsgBox("Are you sure you want to close these handles ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                 Exit Sub
             End If
@@ -1804,7 +1804,7 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub cmdKill_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdKill.Click
-        If Program.Preferences.warnDangerous Then
+        If My.Settings.WarnDangerousActions Then
             If MsgBox("Are you sure you want to kill this process ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                 Exit Sub
             End If
@@ -1813,7 +1813,7 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub cmdPause_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdPause.Click
-        If Program.Preferences.warnDangerous Then
+        If My.Settings.WarnDangerousActions Then
             If MsgBox("Are you sure you want to suspend this process ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                 Exit Sub
             End If
