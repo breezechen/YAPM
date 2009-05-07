@@ -183,6 +183,10 @@ Public Class API
     Public Shared Function OpenProcess(ByVal DesiredAccess As PROCESS_RIGHTS, ByVal InheritHandle As Integer, ByVal ProcessId As Integer) As Integer
     End Function
 
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Public Shared Sub ExitProcess(ByVal ExitCode As Integer)
+    End Sub
+
     Public Declare Function GetModuleFileNameExA Lib "PSAPI.DLL" (ByVal hProcess As Integer, ByVal hModule As Integer, ByVal ModuleName As String, ByVal nSize As Integer) As Integer
     Public Declare Function TerminateProcess Lib "kernel32" (ByVal hProcess As Integer, ByVal uExitCode As Integer) As Integer
     Public Declare Function OpenProcessToken Lib "advapi32.dll" (ByVal ProcessHandle As Integer, ByVal DesiredAccess As Integer, ByRef TokenHandle As Integer) As Integer
@@ -194,6 +198,7 @@ Public Class API
     Public Declare Function GetProcAddress Lib "kernel32" (ByVal hModule As Integer, ByVal lpProcName As String) As Integer
     Public Declare Function GetCurrentProcess Lib "kernel32.dll" () As Integer
     Public Declare Function GetExitCodeProcess Lib "kernel32" (ByVal hProcess As Integer, ByRef lpExitCode As Integer) As Integer
+    Public Declare Function GetCurrentProcessId Lib "kernel32.dll" () As Integer
 
 #End Region
 
@@ -684,6 +689,12 @@ Public Class API
 
 #Region "Declarations used for files"
 
+    Public Const FILE_MAP_READ As Integer = SECTION_MAP_READ
+    Public Const FILE_MAP_WRITE As Integer = SECTION_MAP_WRITE
+    Public Const PAGE_READWRITE As Integer = &H4
+    Public Const SECTION_MAP_READ As Integer = &H4
+    Public Const SECTION_MAP_WRITE As Integer = &H2
+
     Public Structure _FILETIME
         Dim dwLowDateTime As Integer
         Dim dwHighDateTime As Integer
@@ -743,6 +754,22 @@ Public Class API
         Public hIcon As IntPtr
         Public hProcess As IntPtr
     End Structure
+
+    <DllImport("kernel32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
+    Public Shared Function CreateFileMapping(ByVal hFile As IntPtr, ByVal lpFileMappingAttributes As IntPtr, ByVal flProtect As FileMapProtection, ByVal dwMaximumSizeHigh As UInteger, ByVal dwMaximumSizeLow As UInteger, <MarshalAs(UnmanagedType.LPTStr)> ByVal lpName As String) As IntPtr
+    End Function
+
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Public Shared Function OpenFileMapping(ByVal dwDesiredAccess As UInteger, ByVal bInheritHandle As Boolean, ByVal lpName As String) As IntPtr
+    End Function
+
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Public Shared Function UnmapViewOfFile(ByVal lpBaseAddress As IntPtr) As Boolean
+    End Function
+
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Public Shared Function MapViewOfFile(ByVal hFileMappingObject As IntPtr, ByVal dwDesiredAccess As FileMapAccess, ByVal dwFileOffsetHigh As UInteger, ByVal dwFileOffsetLow As UInteger, ByVal dwNumberOfBytesToMap As UInteger) As IntPtr
+    End Function
 
     <DllImport("kernel32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
     Public Shared Function QueryDosDevice(ByVal DeviceName As String, ByVal TargetPath As StringBuilder, ByVal MaxLength As Integer) As Integer
@@ -830,6 +857,28 @@ Public Class API
         _OpenReparsePoint = &H200000
         _OpenNoRecall = &H100000
         _FirstPipeInstance = &H80000
+    End Enum
+
+    <Flags()> _
+    Public Enum FileMapAccess As UInteger
+        FileMapCopy = &H1
+        FileMapWrite = &H2
+        FileMapRead = &H4
+        FileMapAllAccess = &H1F
+        fileMapExecute = &H20
+    End Enum
+
+    <Flags()> _
+   Public Enum FileMapProtection As UInteger
+        PageReadonly = &H2
+        PageReadWrite = &H4
+        PageWriteCopy = &H8
+        PageExecuteRead = &H20
+        PageExecuteReadWrite = &H40
+        SectionCommit = &H8000000
+        SectionImage = &H1000000
+        SectionNoCache = &H10000000
+        SectionReserve = &H4000000
     End Enum
 
     Public Const SEE_MASK_INVOKEIDLIST As Integer = &HC

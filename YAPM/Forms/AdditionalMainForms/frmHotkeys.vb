@@ -37,14 +37,14 @@ Public Class frmHotkeys
         API.SetWindowTheme(lv.Handle, "explorer", Nothing)
 
         Me.cbAction.Items.Clear()
-        For Each i As String In frmMain.emHotkeys.ActionsAvailable
+        For Each i As String In Program.Hotkeys.ActionsAvailable
             If i IsNot Nothing Then
                 Me.cbAction.Items.Add(i)
             End If
         Next
 
         ' Read collection and add items
-        For Each ht As cShortcut In frmMain.emHotkeys.HotKeysCollection
+        For Each ht As cShortcut In Program.Hotkeys.HotKeysCollection
             ' Add hotkey
             Dim skeys As String = CType(ht.Key1, cShortcut.ShorcutKeys).ToString & " + " & _
                 CType(ht.Key2, cShortcut.ShorcutKeys).ToString & " + " & _
@@ -99,7 +99,7 @@ Public Class frmHotkeys
         If k1 + k2 + k3 = -3 Then Exit Sub
 
         Dim ht As New cShortcut(i, k1, k2, k3)
-        If frmMain.emHotkeys.AddHotkey(ht) Then
+        If Program.Hotkeys.AddHotkey(ht) Then
             ' Add hotkey
             Dim skeys As String = CType(k1, cShortcut.ShorcutKeys).ToString & " + " & _
                 CType(k2, cShortcut.ShorcutKeys).ToString & " + " & _
@@ -122,7 +122,7 @@ Public Class frmHotkeys
             If it.Selected Then
                 ' Remove or ?
                 Dim sKey As String = CType(it.Tag, cShortcut).Key
-                If frmMain.emHotkeys.RemoveHotKey(sKey) Then
+                If Program.Hotkeys.RemoveHotKey(sKey) Then
                     it.Remove()
                 End If
             End If
@@ -216,7 +216,7 @@ Public Class frmHotkeys
                 Dim ht As New cShortcut(action, key1, key2, key3)
                 ht.Enabled = enabled
 
-                frmMain.emHotkeys.AddHotkey(ht)
+                Program.Hotkeys.AddHotkey(ht)
             Next
         Catch ex As Exception
             Trace.WriteLine("XML loading failed : " & ex.Message)

@@ -7,10 +7,10 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{A82E9888-6B2A-44A7-B79A-27C93079ACDD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>YAPM.My.MyApplication</StartupObject>
+    <StartupObject>Sub Main</StartupObject>
     <RootNamespace>YAPM</RootNamespace>
     <AssemblyName>YAPM</AssemblyName>
-    <MyType>WindowsForms</MyType>
+    <MyType>WindowsFormsWithCustomSubMain</MyType>
     <OptionStrict>On</OptionStrict>
     <ApplicationIcon>process_custom.ico</ApplicationIcon>
     <SignAssembly>false</SignAssembly>
@@ -128,6 +128,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForms\frmServiceInfo.resx">
       <DependentUpon>frmServiceInfo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Misc\frmError.resx">
+      <DependentUpon>frmError.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmHiddenProcesses.resx">
       <DependentUpon>frmHiddenProcesses.vb</DependentUpon>
@@ -295,6 +298,12 @@
     <Compile Include="Forms\MainForms\frmServiceInfo.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\Misc\frmError.Designer.vb">
+      <DependentUpon>frmError.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Misc\frmError.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\Misc\frmHiddenProcesses.Designer.vb">
       <DependentUpon>frmHiddenProcesses.vb</DependentUpon>
     </Compile>
@@ -355,6 +364,7 @@
     <Compile Include="frmServer.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Modules\mdlMain.vb" />
     <Compile Include="UserControls\HorizontalLine.vb">
       <SubType>Component</SubType>
     </Compile>

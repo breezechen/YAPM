@@ -39,7 +39,7 @@ Public Class frmThreadAffinity
         End If
 
         ' Get number of processor of current machine
-        Dim _procCount As Integer = frmMain.cInfo.ProcessorCount - 1
+        Dim _procCount As Integer = Program.SystemInfo.ProcessorCount - 1
 
         ' Set checkboxes enable property
         If _procCount >= 1 Then Me.chk1.Enabled = True

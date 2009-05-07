@@ -59,10 +59,10 @@
 
 '        SetWindowTheme(lv.Handle, "explorer", Nothing)
 
-'        If frmMain.Pref.firstTimeSBA Then
+'        If Program.Preferences.firstTimeSBA Then
 '            MsgBox(MSG_FIRST_TIME_SBA, MsgBoxStyle.Information, "State based actions")
-'            frmMain.Pref.firstTimeSBA = False
-'            frmMain.Pref.Save()
+'            Program.Preferences.firstTimeSBA = False
+'            Program.Preferences.Save()
 '        End If
 
 '        Me.cbAction.Items.Clear()

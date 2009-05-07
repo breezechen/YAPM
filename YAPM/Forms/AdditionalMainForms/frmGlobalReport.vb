@@ -45,7 +45,7 @@ Public Class frmGlobalReport
         'Dim x As Integer = CInt((pgb.Width - Me.pgb.CreateGraphics.MeasureString(s, Me.Font).Width) / 2)
         'Dim y As Integer = CInt((pgb.Height - Me.pgb.CreateGraphics.MeasureString(s, Me.Font).Height) / 2)
         'Me.pgb.CreateGraphics.DrawString(s, Me.Font, Brushes.Black, x, y)
-        My.Application.DoEvents()
+        Application.DoEvents()
     End Sub
 
     ' Save global report

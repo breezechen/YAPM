@@ -108,7 +108,7 @@ Public Class frmHiddenProcesses
 
     Private Sub GoogleSearchToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GoogleSearchToolStripMenuItem.Click
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
-            My.Application.DoEvents()
+            Application.DoEvents()
             Call SearchInternet(cp.Infos.Name, Me.Handle)
         Next
     End Sub

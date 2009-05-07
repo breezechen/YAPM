@@ -22,21 +22,16 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
-
+Imports YAPM.Program
 
 Public Class frmMain
 
-    Private _ribbonStyle As Boolean = True
-    Public _trayIcon As New cTrayIcon(2)
-    Public cInfo As New cSystemInfo
     Private WithEvents creg As cRegMonitor
-    Public log As New cLog
+    Private _ribbonStyle As Boolean = True
     Private curProc As cProcess
     Private _local As Boolean = True
     Private _notWMI As Boolean = True
-    Public theConnection As New cConnection
     Private _connType As New cConnection.TypeOfConnection
-    Public _connectionForm As New frmConnection(theConnection)
 
     ' ========================================
     ' Private attributes
@@ -55,42 +50,10 @@ Public Class frmMain
 
 
     ' ========================================
-    ' Public attributes
-    ' ========================================
-    '    Public WithEvents emStateBasedActions As New cStateBasedActions
-    'Public cHandle.GetOpenedHandlesClass As clsOpenedHandles = cHandle.GetOpenedHandlesClass
-    Public emHotkeys As New cHotkeys
-    Public Pref As New Pref
-
-
-    ' ========================================
-    ' Some API declaration
-    ' ========================================
-    Private Declare Function InvalidateRect Lib "user32" (ByVal hWnd As Integer, ByVal t As Integer, ByVal bErase As Integer) As Boolean
-    Private Declare Function ValidateRect Lib "user32" (ByVal hWnd As Integer, ByVal t As Integer) As Boolean
-
-
-    ' ========================================
     ' Constants
     ' ========================================
-
-    ' NOT UP TO DATE : There is a Config.xml file for for each user, but in IDE the file should be located in Config dir
-#If Not (CONFIG_INTO_APPDATA) Then
-    Public PREF_PATH As String = My.Application.Info.DirectoryPath & "\config.xml"
-#Else
-    Public PREF_PATH As String = My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData & "\config.xml"
-#End If
-
-    Public Const HELP_PATH As String = "http://yaprocmon.sourceforge.net/help.html"
-    'Public HELP_PATH As String = My.Application.Info.DirectoryPath & "\Help\help.htm"
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
-
-    Public NEW_ITEM_COLOR As Color = Color.FromArgb(128, 255, 0)
-    Public DELETED_ITEM_COLOR As Color = Color.FromArgb(255, 64, 48)
-
     Private Const SIZE_FOR_STRING As Integer = 4
 
-    Public PROCESSOR_COUNT As Integer
 
     ' ========================================
     ' Form functions
@@ -303,7 +266,7 @@ Public Class frmMain
     End Sub
 
     Private Sub frmMain_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
-        If Pref.hideClose Then
+        If Program.Preferences.hideClose Then
             Me.Hide()
             e.Cancel = True
             Exit Sub
@@ -321,25 +284,18 @@ Public Class frmMain
 
         Me.containerSystemMenu.Panel1Collapsed = True
 
-        clsOpenedHandles.EnableDebug()
-        clsOpenedHandles.EnableShutDown()
-
-        Call frmHotkeys.readHotkeysFromXML()
-        '        Call frmBasedStateAction.readStateBasedActionFromXML()
-
         ' Set tray icon counters
-        _trayIcon.SetCounter(1, Color.Red, Color.FromArgb(120, 0, 0))
-        _trayIcon.SetCounter(2, Color.LightGreen, Color.FromArgb(0, 120, 0))
+        TrayIcon.SetCounter(1, Color.Red, Color.FromArgb(120, 0, 0))
+        TrayIcon.SetCounter(2, Color.LightGreen, Color.FromArgb(0, 120, 0))
 
-        Application.EnableVisualStyles()
         Call refreshTaskList()
 
-        PROCESSOR_COUNT = Me.cInfo.ProcessorCount
+        PROCESSOR_COUNT = Program.SystemInfo.ProcessorCount
 
         Me.lblServicePath.BackColor = Me.BackColor
 
         creg = New cRegMonitor(API.KEY_TYPE.HKEY_LOCAL_MACHINE, "SYSTEM\CurrentControlSet\Services", _
-              API.KEY_MONITORING_TYPE.REG_NOTIFY_CHANGE_NAME)
+                API.KEY_MONITORING_TYPE.REG_NOTIFY_CHANGE_NAME)
 
         'isAdmin = mdlPrivileges.IsAdministrator
         'If isAdmin = False Then
@@ -368,25 +324,8 @@ Public Class frmMain
         SetToolTip(Me.chkSearchModules, "Check also for processes modules.")
         SetToolTip(Me.lstFileString, "List of strings in file. Right click to copy to clipboard. Middle click to refresh the list.")
 
-
-        ' Load preferences
-        Try
-            Pref.Load()
-            If Pref.firstTime Then
-                MsgBox(Pref.MSGFIRSTTIME, MsgBoxStyle.Information, "Please read this")
-                Pref.firstTime = False
-                Pref.Save()
-            End If
-            Pref.Apply()
-            cProcess.BuffSize = Pref.histSize
-        Catch ex As Exception
-            ' Preference file corrupted/missing
-            MsgBox("Preference file is missing or corrupted and will be now recreated.", MsgBoxStyle.Critical, "Startup error")
-            Pref.SetDefault()
-        End Try
-
         ' Connect to the local machine
-        theConnection.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Program.Connection.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Call ConnectToMachine()
 
         Me.timerMonitoring.Enabled = True
@@ -409,7 +348,7 @@ Public Class frmMain
 
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Resize
 
-        If Pref.hideMinimized AndAlso Me.WindowState = FormWindowState.Minimized Then
+        If Program.Preferences.hideMinimized AndAlso Me.WindowState = FormWindowState.Minimized Then
             Me.Hide()
         End If
 
@@ -486,7 +425,7 @@ Public Class frmMain
     End Sub
 
     Private Sub KillToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles KillToolStripMenuItem.Click
-        If Pref.warnDangerous Then
+        If Program.Preferences.warnDangerous Then
             If MsgBox("Are you sure you want to kill these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                 Exit Sub
             End If
@@ -497,7 +436,7 @@ Public Class frmMain
     End Sub
 
     Private Sub StopToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StopToolStripMenuItem.Click
-        If Pref.warnDangerous Then
+        If Program.Preferences.warnDangerous Then
             If MsgBox("Are you sure you want to suspend these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                 Exit Sub
             End If
@@ -698,7 +637,7 @@ Public Class frmMain
         Static first As Boolean = True
         If first Then
             first = False
-            If Pref.startHidden Then
+            If Program.Preferences.startHidden Then
                 Me.Hide()
                 Me.WindowState = FormWindowState.Minimized
             Else
@@ -710,7 +649,7 @@ Public Class frmMain
 
     Private Sub butKill_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butKillProcess.Click
         ' Kill selected processes
-        If Pref.warnDangerous Then
+        If Program.Preferences.warnDangerous Then
             If MsgBox("Are you sure you want to kill these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                 Exit Sub
             End If
@@ -755,7 +694,7 @@ Public Class frmMain
 
     Private Sub butStopProcess_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butStopProcess.Click
         ' Stop selected processes
-        If Pref.warnDangerous Then
+        If Program.Preferences.warnDangerous Then
             If MsgBox("Are you sure you want to suspend these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                 Exit Sub
             End If
@@ -957,7 +896,7 @@ Public Class frmMain
 
     Private Sub butProcessGoogle_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessGoogle.Click
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
-            My.Application.DoEvents()
+            Application.DoEvents()
             Call SearchInternet(cp.Infos.Name, Me.Handle)
         Next
     End Sub
@@ -969,7 +908,7 @@ Public Class frmMain
     Private Sub butServiceGoogle_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butServiceGoogle.Click
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
-            My.Application.DoEvents()
+            Application.DoEvents()
             Call SearchInternet(it.Text, Me.Handle)
         Next
     End Sub
@@ -1038,7 +977,7 @@ Public Class frmMain
         Dim frm As New frmSaveReport
         With frm
             .ReportType = "search"
-            Call My.Application.DoEvents()
+            Call Application.DoEvents()
             .ShowDialog()
         End With
     End Sub
@@ -1051,7 +990,7 @@ Public Class frmMain
 
         If showTab Then
             Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvHandles.Items.Count) & " handles"
-            My.Application.DoEvents()
+            Application.DoEvents()
             Me.Ribbon.ActiveTab = Me.HandlesTab
             Call Me.Ribbon_MouseMove(Nothing, Nothing)
         End If
@@ -1062,7 +1001,7 @@ Public Class frmMain
     End Sub
 
     Private Sub butHandleClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butHandleClose.Click
-        If Pref.warnDangerous Then
+        If Program.Preferences.warnDangerous Then
             If MsgBox("Are you sure you want to close these handles ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                 Exit Sub
             End If
@@ -1149,7 +1088,7 @@ Public Class frmMain
 
     Private Sub CloseToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CloseToolStripMenuItem.Click
         ' Close selected items
-        If Pref.warnDangerous Then
+        If Program.Preferences.warnDangerous Then
             If IsWindowsVista() Then
                 If ShowVistaMessage(Me.Handle, "Dangerous action", _
                                     "Are you sure you want to close these items ?", _
@@ -1189,7 +1128,7 @@ Public Class frmMain
     End Sub
 
     Private Sub butFileGoogleSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileGoogleSearch.Click
-        My.Application.DoEvents()
+        Application.DoEvents()
         Call SearchInternet(cFile.GetFileName(Me.txtFile.Text), Me.Handle)
     End Sub
 
@@ -1328,7 +1267,7 @@ Public Class frmMain
     End Sub
 
     Private Sub butMonitoringAdd_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMonitoringAdd.Click
-        Dim frm As New frmAddProcessMonitor(Me.theConnection)
+        Dim frm As New frmAddProcessMonitor(Program.Connection)
         frm.ShowDialog()
     End Sub
 
@@ -1960,7 +1899,7 @@ Public Class frmMain
         Dim frm As New frmSaveReport
         With frm
             .ReportType = "handles"
-            Call My.Application.DoEvents()
+            Call Application.DoEvents()
             .ShowDialog()
         End With
     End Sub
@@ -2040,7 +1979,7 @@ Public Class frmMain
         Dim frm As New frmSaveReport
         With frm
             .ReportType = "modules"
-            Call My.Application.DoEvents()
+            Call Application.DoEvents()
             .ShowDialog()
         End With
     End Sub
@@ -2098,7 +2037,7 @@ Public Class frmMain
         Dim frm As New frmSaveReport
         With frm
             .ReportType = "threads"
-            Call My.Application.DoEvents()
+            Call Application.DoEvents()
             .ShowDialog()
         End With
     End Sub
@@ -2107,7 +2046,7 @@ Public Class frmMain
         Dim frm As New frmSaveReport
         With frm
             .ReportType = "windows"
-            Call My.Application.DoEvents()
+            Call Application.DoEvents()
             .ShowDialog()
         End With
     End Sub
@@ -2116,7 +2055,7 @@ Public Class frmMain
         Dim frm As New frmSaveReport
         With frm
             .ReportType = "services"
-            Call My.Application.DoEvents()
+            Call Application.DoEvents()
             .ShowDialog()
         End With
     End Sub
@@ -2159,7 +2098,7 @@ Public Class frmMain
     Private Sub butModuleGoogle_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butModuleGoogle.Click
         Dim it As ListViewItem
         For Each it In Me.lvModules.SelectedItems
-            My.Application.DoEvents()
+            Application.DoEvents()
             Call SearchInternet(it.Text, Me.Handle)
         Next
     End Sub
@@ -2286,7 +2225,7 @@ Public Class frmMain
     End Sub
 
     Private Sub ShowLogToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowLogToolStripMenuItem.Click
-        Me.log.ShowForm = True
+        Program.Log.ShowForm = True
     End Sub
 
     Private Sub SelectedAssociatedProcessToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SelectedAssociatedProcessToolStripMenuItem1.Click
@@ -2480,7 +2419,7 @@ Public Class frmMain
     End Sub
 
     Private Sub KillProcessTreeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles KillProcessTreeToolStripMenuItem.Click
-        If Pref.warnDangerous Then
+        If Program.Preferences.warnDangerous Then
             If MsgBox("Are you sure you want to kill these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                 Exit Sub
             End If
@@ -2549,11 +2488,11 @@ Public Class frmMain
 
     Private Sub timerTrayIcon_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerTrayIcon.Tick
         ' Refresh infos
-        Call Me.cInfo.RefreshInfo()
+        Call Program.SystemInfo.RefreshInfo()
 
-        Dim _cpuUsage As Double = Me.cInfo.CpuUsage
-        Dim _physMemUsage As Double = Me.cInfo.PhysicalMemoryPercentageUsage
-        Dim d As New Decimal(Decimal.Multiply(Me.cInfo.TotalPhysicalMemory, New Decimal(_physMemUsage)))
+        Dim _cpuUsage As Double = Program.SystemInfo.CpuUsage
+        Dim _physMemUsage As Double = Program.SystemInfo.PhysicalMemoryPercentageUsage
+        Dim d As New Decimal(Decimal.Multiply(Program.SystemInfo.TotalPhysicalMemory, New Decimal(_physMemUsage)))
 
         If _cpuUsage > 1 Then _cpuUsage = 1
 
@@ -2562,8 +2501,8 @@ Public Class frmMain
 
         Me.Tray.Text = s
 
-        Me._trayIcon.AddValue(1, _cpuUsage)
-        Me._trayIcon.AddValue(2, _physMemUsage)
+        Program.TrayIcon.AddValue(1, _cpuUsage)
+        Program.TrayIcon.AddValue(2, _physMemUsage)
     End Sub
 
     Private Sub ToolStripMenuItem16_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem16.Click
@@ -2786,7 +2725,7 @@ Public Class frmMain
         Dim frm As New frmSaveReport
         With frm
             .ReportType = "processes"
-            Call My.Application.DoEvents()
+            Call Application.DoEvents()
             .ShowDialog()
         End With
     End Sub
@@ -3050,17 +2989,17 @@ Public Class frmMain
 
     Private Sub lvProcess_ItemAdded(ByRef item As CoreFunc.cProcess) Handles lvProcess.ItemAdded
         If item IsNot Nothing Then _
-        Me.log.AppendLine("Process created : " & item.Infos.Name & " (" & item.Infos.Pid & ")")
+        Program.Log.AppendLine("Process created : " & item.Infos.Name & " (" & item.Infos.Pid & ")")
     End Sub
 
     Private Sub lvProcess_ItemDeleted(ByRef item As CoreFunc.cProcess) Handles lvProcess.ItemDeleted
         If item IsNot Nothing Then _
-        Me.log.AppendLine("Process deleted : " & item.Infos.Name & " (" & item.Infos.Pid & ")")
+        Program.Log.AppendLine("Process deleted : " & item.Infos.Name & " (" & item.Infos.Pid & ")")
     End Sub
 
     Private Sub lvProcess_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvProcess.KeyDown
         If e.KeyCode = Keys.Delete And Me.lvProcess.SelectedItems.Count > 0 Then
-            If Pref.warnDangerous Then
+            If Program.Preferences.warnDangerous Then
                 If MsgBox("Are you sure you want to kill these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                     Exit Sub
                 End If
@@ -3928,7 +3867,7 @@ Public Class frmMain
     '    End If
 
     '    ' Add to log
-    '    Me.log.AppendLine("State based action was raised -- Rule : " & action.RuleText & " , process : " & proc)
+    '    Program.Log.AppendLine("State based action was raised -- Rule : " & action.RuleText & " , process : " & proc)
     'End Sub
 
     'Private Sub emStateBasedActions_SaveProcessListRequested(ByVal path As String) Handles emStateBasedActions.SaveProcessListRequested
@@ -3975,7 +3914,7 @@ Public Class frmMain
     'End Sub
 
     Private Sub butNewProcess_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butNewProcess.Click
-        If Me.theConnection.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+        If Program.Connection.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
             cFile.ShowRunBox(Me.Handle.ToInt32, "Start a new process", "Enter the path of the process you want to start.")
         Else
             Dim sres As String = CInputBox("Enter the path of the process you want to start.", "Start a new process", "")
@@ -4025,17 +3964,17 @@ Public Class frmMain
     End Sub
 
     Private Sub orbMenuNetwork_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles orbMenuNetwork.Click
-        If _connectionForm.Visible Then
-            _connectionForm.Hide()
+        If ConnectionForm.Visible Then
+            ConnectionForm.Hide()
         Else
-            _connectionForm.Show()
+            ConnectionForm.Show()
         End If
     End Sub
 
     Public Sub ConnectToMachine()
 
-        _local = (Me.theConnection.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
-        _notWMI = (Me.theConnection.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
+        _local = (Program.Connection.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
+        _notWMI = (Program.Connection.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
 
         ' Disable all refreshments
         Me.timerProcess.Enabled = False
@@ -4059,19 +3998,19 @@ Public Class frmMain
         Me.rtb6.Text = ""
 
         ' Connect all lvItems
-        Me.lvProcess.ConnectionObj = theConnection
-        Me.lvThreads.ConnectionObj = theConnection
-        Me.lvModules.ConnectionObj = theConnection
-        Me.lvHandles.ConnectionObj = theConnection
-        Me.lvServices.ConnectionObj = theConnection
-        Me.lvWindows.ConnectionObj = theConnection
-        Me.lvNetwork.ConnectionObj = theConnection
-        Me.lvTask.ConnectionObj = theConnection
-        Me.tv.ConnectionObj = theConnection
-        Me.tv2.ConnectionObj = theConnection
-        Me.lvSearchResults.ConnectionObj = theConnection
+        Me.lvProcess.ConnectionObj = Program.Connection
+        Me.lvThreads.ConnectionObj = Program.Connection
+        Me.lvModules.ConnectionObj = Program.Connection
+        Me.lvHandles.ConnectionObj = Program.Connection
+        Me.lvServices.ConnectionObj = Program.Connection
+        Me.lvWindows.ConnectionObj = Program.Connection
+        Me.lvNetwork.ConnectionObj = Program.Connection
+        Me.lvTask.ConnectionObj = Program.Connection
+        Me.tv.ConnectionObj = Program.Connection
+        Me.tv2.ConnectionObj = Program.Connection
+        Me.lvSearchResults.ConnectionObj = Program.Connection
         Try
-            Me.theConnection.Connect()
+            Program.Connection.Connect()
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Can not connect")
             Exit Sub
@@ -4180,8 +4119,8 @@ Public Class frmMain
         Me.lvNetwork.ClearItems()
         Me.rtb6.Text = ""
 
-        For x As Integer = My.Application.OpenForms.Count - 1 To 0 Step -1
-            Dim frm As Form = My.Application.OpenForms(x)
+        For x As Integer = Application.OpenForms.Count - 1 To 0 Step -1
+            Dim frm As Form = Application.OpenForms(x)
             If TypeOf frm Is frmProcessInfo Then
                 Try
                     frm.Close()
@@ -4191,10 +4130,10 @@ Public Class frmMain
             End If
         Next
         Try
-            Me.theConnection.Disconnect()
+            Program.Connection.Disconnect()
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Can not disconnect")
-            Me.theConnection.DisconnectForce()
+            Program.Connection.DisconnectForce()
             Exit Sub
         End Try
     End Sub
@@ -4224,18 +4163,6 @@ Public Class frmMain
 
     Private Sub butHiddenProcesses_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butHiddenProcesses.Click
         frmHiddenProcesses.Show()
-    End Sub
-
-    Public Sub exitYAPM()
-        Try
-            cHandle.GetOpenedHandlesClass.Close()
-            ' Application.Exit()
-        Catch ex As Exception
-            '
-        End Try
-        Pref.hideClose = False
-        Me.Close()
-        Application.Exit()
     End Sub
 
     Private Sub butServiceDetails_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butServiceDetails.Click

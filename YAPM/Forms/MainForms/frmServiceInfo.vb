@@ -346,9 +346,9 @@ Public Class frmServiceInfo
     ' Connection
     Public Sub Connect()
         ' Connect providers
-        'theConnection.CopyFromInstance(frmMain.theConnection)
+        'theConnection.CopyFromInstance(Program.Connection)
         Try
-            theConnection = frmMain.theConnection
+            theConnection = Program.Connection
             Me.tv.ConnectionObj = theConnection
             Me.tv2.ConnectionObj = theConnection
             theConnection.Connect()
@@ -380,7 +380,7 @@ Public Class frmServiceInfo
     End Sub
 
     Private Sub cmdPause_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdPause.Click
-        If frmMain.Pref.warnDangerous Then
+        If Program.Preferences.warnDangerous Then
             If MsgBox("Are you sure you want to suspend this service ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                 Exit Sub
             End If
@@ -397,7 +397,7 @@ Public Class frmServiceInfo
     End Sub
 
     Private Sub cmdStop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdStop.Click
-        If frmMain.Pref.warnDangerous Then
+        If Program.Preferences.warnDangerous Then
             If MsgBox("Are you sure you want to stop this service ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                 Exit Sub
             End If
@@ -406,7 +406,7 @@ Public Class frmServiceInfo
     End Sub
 
     Private Sub cmdSetStartType_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSetStartType.Click
-        If frmMain.Pref.warnDangerous Then
+        If Program.Preferences.warnDangerous Then
             If MsgBox("Are you sure you want to change start type ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                 Exit Sub
             End If

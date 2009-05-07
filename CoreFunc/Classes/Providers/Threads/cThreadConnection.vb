@@ -45,7 +45,7 @@ Public Class cThreadConnection
 
     Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, ByRef de As HasEnumeratedEventHandler)
         MyBase.New(ControlWhichGetInvoked, Conn)
-        If IsWindowsVista() Then
+        If IsOsWindowsVista() Then
             _minRights = API.THREAD_RIGHTS.THREAD_SET_LIMITED_INFORMATION
         End If
         instanceId += 1

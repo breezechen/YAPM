@@ -56,14 +56,14 @@ Public Class frmSaveReport
                     Dim c As String = vbNullString
 
                     Me.ReportPath = s
-                    Me.pgb.Maximum = frmMain.log.LineCount
+                    Me.pgb.Maximum = Program.Log.LineCount
 
                     If s.Substring(s.Length - 3, 3).ToLower = "txt" Then
                         Dim stream As New System.IO.StreamWriter(s, False)
                         ' txt
                         Dim it As ListViewItem
                         Dim x As Integer = 0
-                        For Each it In frmMain.log.Items
+                        For Each it In Program.Log.Items
                             c = "Date : " & it.Text
                             c &= vbTab & "Event : " & it.SubItems(1).Text
                             c &= vbNewLine
@@ -71,7 +71,7 @@ Public Class frmSaveReport
                             x += 1
                             UpdateProgress(x)
                         Next
-                        c = CStr(frmMain.log.LineCount) & " result(s)"
+                        c = CStr(Program.Log.LineCount) & " result(s)"
                         stream.Write(c)
                         stream.Close()
                     Else
@@ -81,12 +81,12 @@ Public Class frmSaveReport
                         col(0).title = "Date"
                         col(1).sizePercent = 70
                         col(1).title = "Event"
-                        Dim title As String = "Log : " & CStr(frmMain.log.LineCount) & " item(s)"
+                        Dim title As String = "Log : " & CStr(Program.Log.LineCount) & " item(s)"
                         Dim _html As New cHTML(col, s, title)
 
                         Dim it As ListViewItem
                         Dim x As Integer = 0
-                        For Each it In frmMain.log.Items
+                        For Each it In Program.Log.Items
                             Dim _lin(1) As String
                             _lin(0) = it.Text
                             _lin(1) = it.SubItems(1).Text
@@ -850,7 +850,7 @@ Public Class frmSaveReport
     Private Sub UpdateProgress(ByVal value As Integer)
         Me.pgb.Value = value
         Me.lblProgress.Text = "Computing item " & CStr(value) & "/" & CStr(Me.pgb.Maximum)
-        My.Application.DoEvents()
+        Application.DoEvents()
     End Sub
 
     Private Sub cmdGO_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdGO.Click

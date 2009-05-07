@@ -34,9 +34,9 @@ Public Class frmSystemInfo
         oldDate = newDate
 
         ' Refresh informations
-        Call frmMain.cInfo.RefreshInfo()
+        Call Program.SystemInfo.RefreshInfo()
 
-        With frmMain.cInfo
+        With Program.SystemInfo
 
             ' Highest values are Decimals
 
@@ -195,10 +195,10 @@ Public Class frmSystemInfo
     End Sub
 
     Private Sub frmSystemInfo_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Me.timerRefresh.Interval = frmMain.Pref.systemInterval
+        Me.timerRefresh.Interval = Program.Preferences.systemInterval
         Call chkOneGraphPerCpu_CheckedChanged(Nothing, Nothing) ' Add graphs
         Call timerRefresh_Tick(Nothing, Nothing)
-        Me.chkOneGraphPerCpu.Enabled = (frmMain.cInfo.ProcessorCount > 1)
+        Me.chkOneGraphPerCpu.Enabled = (Program.SystemInfo.ProcessorCount > 1)
     End Sub
 
     Private Sub frmSystemInfo_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Resize

@@ -124,7 +124,7 @@ Public Class cConnection
         _conWMI = ccon.WmiParameters
     End Sub
 
-    ' BAD WAY (because of withevents, this is raised JUST WHEN frmMain.theConnection.Connect
+    ' BAD WAY (because of withevents, this is raised JUST WHEN Program.Connection.Connect
     ' is called. BAD THING (should wait asyncMethod, but there are LOTS of asyncMethids
     ' (one for each lvItem).
     Public Sub Connect()

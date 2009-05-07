@@ -364,7 +364,7 @@ Public Class cProcessMemRW
 
             If Not (PGB Is Nothing) Then PGB.Value = x
 
-            'Call My.Application.DoEvents()
+            'Call Application.DoEvents()
 
         Next x
 
@@ -434,7 +434,7 @@ Public Class cProcessMemRW
 
             ' Get entire region
             strBuffer = ReadBytesH(lHandle, LB(x), LS(x))
-            'My.Application.DoEvents()
+            'Application.DoEvents()
 
             strCtemp = vbNullString
 
@@ -450,7 +450,7 @@ Public Class cProcessMemRW
                 End If
 
                 If (i Mod 1000) = 0 Then
-                    'My.Application.DoEvents()
+                    'Application.DoEvents()
                 End If
 
                 If isLetter(strBuffer(i)) Then

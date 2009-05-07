@@ -69,7 +69,7 @@ Public Class frmConnection
     End Sub
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdCancel.Click
-        Select Case frmMain.theConnection.ConnectionType
+        Select Case Program.Connection.ConnectionType
             Case cConnection.TypeOfConnection.LocalConnection
                 Me.optLocal.Checked = True
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
@@ -97,7 +97,7 @@ Public Class frmConnection
             Me.Text = "Disconnecting from current machine..."
             Call frmMain.DisconnectFromMachine()
         Else
-            With frmMain.theConnection
+            With Program.Connection
                 .ConnectionType = _connType
                 If _connType = cConnection.TypeOfConnection.RemoteConnectionViaSocket Then
                     .SocketParameters = New cConnection.SocketConnectionParameters(System.Net.IPAddress.Parse(Me.txtServerIP.Text), REMOTE_PORT)
@@ -122,7 +122,7 @@ Public Class frmConnection
         End If
     End Sub
 
-    ' BAD WAY (because of withevents, this is raised JUST WHEN frmMain.theConnection.Connect
+    ' BAD WAY (because of withevents, this is raised JUST WHEN Program.Connection.Connect
     ' is call. BAD THING (should wait asyncMethod, but there are LOTS of asyncMethids
     ' (one for each lvItem).
     'Private Sub _formConnectionReference_Connected() Handles _formConnectionReference.Connected

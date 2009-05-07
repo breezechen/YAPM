@@ -560,7 +560,7 @@ Public Class frmProcessInfo
 
                 If (x Mod 10000) = 0 Then
                     Me.pgbString.Value += 1
-                    My.Application.DoEvents()
+                    Application.DoEvents()
                 End If
 
                 x += 1
@@ -873,7 +873,7 @@ Public Class frmProcessInfo
     Public Sub ShowEnvVariables()
 
         lvProcEnv.ProcessId = curProc.Infos.Pid
-        lvProcEnv.peb = curProc.Infos.PEBAddress
+        lvProcEnv.Peb = curProc.Infos.PEBAddress
         lvProcEnv.UpdateTheItems()
 
     End Sub
@@ -931,7 +931,7 @@ Public Class frmProcessInfo
     ' Display handles of process
     Private Sub ShowHandles()
 
-        Me.lvHandles.ShowUnNamed = ShowUnnamedHandlesToolStripMenuItem.Checked
+        Me.lvHandles.ShowUnnamed = ShowUnnamedHandlesToolStripMenuItem.Checked
         Dim pids(0) As Integer
         pids(0) = curProc.Infos.Pid
         Me.lvHandles.ProcessId = pids
@@ -957,7 +957,7 @@ Public Class frmProcessInfo
     Private Sub GoogleSearchToolStripMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GoogleSearchToolStripMenuItem2.Click
         Dim it As ListViewItem
         For Each it In Me.lvModules.SelectedItems
-            My.Application.DoEvents()
+            Application.DoEvents()
             Call SearchInternet(it.Text, Me.Handle)
         Next
     End Sub
@@ -1164,7 +1164,7 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub ToolStripMenuItem22_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem22.Click
-        If frmMain.Pref.warnDangerous Then
+        If Program.Preferences.warnDangerous Then
             If MsgBox("Are you sure you want to close these handles ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                 Exit Sub
             End If
@@ -1804,7 +1804,7 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub cmdKill_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdKill.Click
-        If frmMain.Pref.warnDangerous Then
+        If Program.Preferences.warnDangerous Then
             If MsgBox("Are you sure you want to kill this process ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                 Exit Sub
             End If
@@ -1813,7 +1813,7 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub cmdPause_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdPause.Click
-        If frmMain.Pref.warnDangerous Then
+        If Program.Preferences.warnDangerous Then
             If MsgBox("Are you sure you want to suspend this process ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
                 Exit Sub
             End If
@@ -1865,9 +1865,9 @@ Public Class frmProcessInfo
     ' Connection
     Public Sub Connect()
         ' Connect providers
-        'theConnection.CopyFromInstance(frmMain.theConnection)
+        'theConnection.CopyFromInstance(Program.Connection)
         Try
-            theConnection = frmMain.theConnection
+            theConnection = Program.Connection
             Me.lvThreads.ConnectionObj = theConnection
             Me.lvModules.ConnectionObj = theConnection
             Me.lvHandles.ConnectionObj = theConnection
@@ -2061,7 +2061,7 @@ Public Class frmProcessInfo
     Private Sub GoogleSearchToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GoogleSearchToolStripMenuItem1.Click
         Dim it As ListViewItem
         For Each it In Me.lvProcServices.SelectedItems
-            My.Application.DoEvents()
+            Application.DoEvents()
             Call SearchInternet(it.Text, Me.Handle)
         Next
     End Sub

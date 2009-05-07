@@ -51,7 +51,7 @@ Public Class frmDownload
                 .Value = e.ProgressPercentage
             End With
             Me.lblProgress.Text = s
-            My.Application.DoEvents()
+            Application.DoEvents()
 
             'If e.ProgressPercentage = 100 Then
             '    Call _download_CompleteCallback(Nothing)
@@ -68,7 +68,7 @@ Public Class frmDownload
         Me.txtPath.Text = dest
         Me.pgb.Maximum = 1
         Me.Text = "Waiting for download..."
-        My.Application.DoEvents()
+        Application.DoEvents()
         _download.StartDownload()
     End Sub
 

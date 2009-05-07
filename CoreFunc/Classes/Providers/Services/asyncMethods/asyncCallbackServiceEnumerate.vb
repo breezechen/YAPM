@@ -163,7 +163,7 @@ Public Class asyncCallbackServiceEnumerate
                     Try
                         res = con.wmiSearcher.Get()
                     Catch ex As Exception
-                        ctrl.Invoke(deg, False, Nothing, ex.Message)
+                        ctrl.Invoke(deg, False, Nothing, ex.Message, pObj.forInstanceId)
                         sem.Release()
                         Exit Sub
                     End Try

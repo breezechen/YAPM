@@ -41,19 +41,19 @@ Public Class frmPreferences
     Private _deletedcolor As Integer
 
     Private Sub cmdQuit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdQuit.Click
-        frmMain.timerProcess.Interval = frmMain.Pref.procInterval
-        frmMain.timerTask.Interval = frmMain.Pref.taskInterval
-        frmMain.timerNetwork.Interval = frmMain.Pref.networkInterval
-        frmMain.timerServices.Interval = frmMain.Pref.serviceInterval
-        frmMain.timerTrayIcon.Interval = frmMain.Pref.trayInterval
+        frmMain.timerProcess.Interval = Program.Preferences.procInterval
+        frmMain.timerTask.Interval = Program.Preferences.taskInterval
+        frmMain.timerNetwork.Interval = Program.Preferences.networkInterval
+        frmMain.timerServices.Interval = Program.Preferences.serviceInterval
+        frmMain.timerTrayIcon.Interval = Program.Preferences.trayInterval
         Me.Close()
     End Sub
 
     Private Sub cmdSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSave.Click
         ' Save
-        Dim _oldRibbonStyle As Boolean = frmMain.Pref.ribbonStyle
+        Dim _oldRibbonStyle As Boolean = Program.Preferences.ribbonStyle
 
-        With frmMain.Pref
+        With Program.Preferences
             .serviceInterval = CInt(Val(Me.txtServiceIntervall.Text))
             .procInterval = CInt(Val(Me.txtProcessIntervall.Text))
             .startup = Me.chkStart.Checked
@@ -87,13 +87,13 @@ Public Class frmPreferences
 
         ' Save XML
         Try
-            Call frmMain.Pref.Save()
+            Call Program.Preferences.Save()
             MsgBox("Save is done.", MsgBoxStyle.Information, "Preferences")
         Catch ex As Exception
             '
         End Try
 
-        If Not (_oldRibbonStyle = frmMain.Pref.ribbonStyle) Then
+        If Not (_oldRibbonStyle = Program.Preferences.ribbonStyle) Then
             Dim ret As Integer
             If Not (IsWindowsVista()) Then
                 ret = MsgBox("The new menu style will be displayed next time you start YAPM. Do you want to exit YAPM now ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Menu style has changed")
@@ -141,7 +141,7 @@ Public Class frmPreferences
         End With
 
         ' Set control's values
-        With frmMain.Pref
+        With Program.Preferences
             Me.txtServiceIntervall.Text = .serviceInterval.ToString
             Me.txtProcessIntervall.Text = .procInterval.ToString
             Me.chkStart.Checked = .startup

@@ -28,13 +28,13 @@ Public Class frmLog
     Private lCount As Integer = 0
 
     'Private Sub timerRefresh_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerRefresh.Tick
-    '    If lCount <> frmMain.log.LineCount Then
+    '    If lCount <> Program.Log.LineCount Then
     '        Dim i As Integer = Me.txtLog.SelectionStart
-    '        Dim z As Integer = frmMain.log.LineCount
+    '        Dim z As Integer = Program.Log.LineCount
 
     '        ' Add new lines
     '        For x As Integer = lCount + 1 To z
-    '            Me.txtLog.Text &= frmMain.log.Line(x)
+    '            Me.txtLog.Text &= Program.Log.Line(x)
     '        Next x
 
     '        lCount = z
@@ -52,17 +52,17 @@ Public Class frmLog
         Dim frm As New frmSaveReport
         With frm
             .ReportType = "log"
-            Call My.Application.DoEvents()
+            Call Application.DoEvents()
             .ShowDialog()
         End With
     End Sub
 
     Private Sub ClearToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClearToolStripMenuItem.Click
-        frmMain.log.Clear()
+        Program.Log.Clear()
     End Sub
 
     Private Sub frmLog_FormClosing(ByVal sender As System.Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
-        frmMain.log.ShowForm = False
+        Program.Log.ShowForm = False
         e.Cancel = True
     End Sub
 

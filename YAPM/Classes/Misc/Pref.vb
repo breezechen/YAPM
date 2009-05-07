@@ -60,7 +60,7 @@ Public Class Pref
         Dim element As XmlNodeList
         Dim noeud, noeudEnf As XmlNode
 
-        Call XmlDoc.Load(frmMain.PREF_PATH)
+        Call XmlDoc.Load(Program.PREF_PATH)
         element = XmlDoc.DocumentElement.GetElementsByTagName("config")
 
         For Each noeud In element
@@ -225,7 +225,7 @@ Public Class Pref
         elemConfig.AppendChild(elemHistSize)
 
         XmlDoc.DocumentElement.AppendChild(elemConfig)
-        XmlDoc.Save(frmMain.PREF_PATH)
+        XmlDoc.Save(Program.PREF_PATH)
     End Sub
 
     ' Set to default
