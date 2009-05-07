@@ -265,11 +265,11 @@ Public Class Pref
     ' Apply pref
     Public Sub Apply()
         Static first As Boolean = True
-        frmMain.timerProcess.Interval = CInt(IIf(procInterval > 0, procInterval, DEFAULT_TIMER_INTERVAL_PROCESSES))
-        frmMain.timerServices.Interval = CInt(IIf(serviceInterval > 0, serviceInterval, DEFAULT_TIMER_INTERVAL_SERVICES))
-        frmMain.timerNetwork.Interval = CInt(IIf(networkInterval > 0, networkInterval, DEFAULT_TIMER_INTERVAL_PROCESSES))
-        frmMain.timerTask.Interval = CInt(IIf(taskInterval > 0, taskInterval, DEFAULT_TIMER_INTERVAL_PROCESSES))
-        frmMain.timerTrayIcon.Interval = CInt(IIf(trayInterval > 0, trayInterval, DEFAULT_TIMER_INTERVAL_PROCESSES))
+        _frmMain.timerProcess.Interval = My.Settings.ProcessInterval ' CInt(IIf(procInterval > 0, procInterval, DEFAULT_TIMER_INTERVAL_PROCESSES))
+        _frmMain.timerServices.Interval = CInt(IIf(serviceInterval > 0, serviceInterval, DEFAULT_TIMER_INTERVAL_SERVICES))
+        _frmMain.timerNetwork.Interval = CInt(IIf(networkInterval > 0, networkInterval, DEFAULT_TIMER_INTERVAL_PROCESSES))
+        _frmMain.timerTask.Interval = CInt(IIf(taskInterval > 0, taskInterval, DEFAULT_TIMER_INTERVAL_PROCESSES))
+        _frmMain.timerTrayIcon.Interval = CInt(IIf(trayInterval > 0, trayInterval, DEFAULT_TIMER_INTERVAL_PROCESSES))
         Select Case priority
             Case 0
                 Process.GetCurrentProcess.PriorityClass = ProcessPriorityClass.Idle
@@ -302,15 +302,15 @@ Public Class Pref
         taskList.DELETED_ITEM_COLOR = Color.FromArgb(deletedItemsColor)
         threadList.NEW_ITEM_COLOR = Color.FromArgb(newItemsColor)
         threadList.DELETED_ITEM_COLOR = Color.FromArgb(deletedItemsColor)
-        frmMain.Tray.Visible = showTrayIcon
+        _frmMain.Tray.Visible = showTrayIcon
         If first Then
-            Call frmMain.permuteMenuStyle(ribbonStyle)
+            Call _frmMain.permuteMenuStyle(ribbonStyle)
             first = False
-            frmMain.TopMost = topmost
-            frmMain.butAlwaysDisplay.Checked = topmost
+            _frmMain.TopMost = topmost
+            _frmMain.butAlwaysDisplay.Checked = topmost
             If startHidden Then
-                frmMain.WindowState = FormWindowState.Minimized
-                frmMain.Hide()
+                _frmMain.WindowState = FormWindowState.Minimized
+                _frmMain.Hide()
             End If
         End If
     End Sub

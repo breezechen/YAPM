@@ -293,26 +293,26 @@ Public Class frmProcessInfo
         API.SetWindowTheme(Me.lvLog.Handle, "explorer", Nothing)
 
         ' Some tooltips
-        frmMain.SetToolTip(Me.cmdInfosToClipB, "Copy process informations to clipboard. Use left click to copy as text, right click to copy as rtf (preserve text style).")
-        frmMain.SetToolTip(Me.txtImageVersion, "Version of file")
-        frmMain.SetToolTip(Me.txtProcessPath, "Path of file")
-        frmMain.SetToolTip(Me.cmdShowFileDetails, "Show file details")
-        frmMain.SetToolTip(Me.cmdShowFileProperties, "Open file property window")
-        frmMain.SetToolTip(Me.cmdOpenDirectory, "Open directory of file")
-        frmMain.SetToolTip(Me.txtParentProcess, "Parent process")
-        frmMain.SetToolTip(Me.txtProcessStarted, "Start time")
-        frmMain.SetToolTip(Me.txtProcessId, "Process ID")
-        frmMain.SetToolTip(Me.txtProcessUser, "Process user")
-        frmMain.SetToolTip(Me.txtCommandLine, "Command line which launched process")
-        frmMain.SetToolTip(Me.cmdGetOnlineInfos, "Retrieve online information (based on process name)")
-        frmMain.SetToolTip(Me.optProcStringImage, "Get strings from image file on disk")
-        frmMain.SetToolTip(Me.optProcStringMemory, "Get strings from memory")
-        frmMain.SetToolTip(Me.cmdProcStringSave, "Save list in a file")
-        frmMain.SetToolTip(Me.pgbString, "Progression. Click to stop.")
-        frmMain.SetToolTip(Me.txtSearchProcString, "Search a specific string")
-        frmMain.SetToolTip(Me.txtRunTime, "Total run time")
-        frmMain.SetToolTip(Me.cmdProcSearchL, "Previous result (F2 on listview also works)")
-        frmMain.SetToolTip(Me.cmdProcSearchR, "Next result (F3 on listview also works)")
+        _frmMain.SetToolTip(Me.cmdInfosToClipB, "Copy process informations to clipboard. Use left click to copy as text, right click to copy as rtf (preserve text style).")
+        _frmMain.SetToolTip(Me.txtImageVersion, "Version of file")
+        _frmMain.SetToolTip(Me.txtProcessPath, "Path of file")
+        _frmMain.SetToolTip(Me.cmdShowFileDetails, "Show file details")
+        _frmMain.SetToolTip(Me.cmdShowFileProperties, "Open file property window")
+        _frmMain.SetToolTip(Me.cmdOpenDirectory, "Open directory of file")
+        _frmMain.SetToolTip(Me.txtParentProcess, "Parent process")
+        _frmMain.SetToolTip(Me.txtProcessStarted, "Start time")
+        _frmMain.SetToolTip(Me.txtProcessId, "Process ID")
+        _frmMain.SetToolTip(Me.txtProcessUser, "Process user")
+        _frmMain.SetToolTip(Me.txtCommandLine, "Command line which launched process")
+        _frmMain.SetToolTip(Me.cmdGetOnlineInfos, "Retrieve online information (based on process name)")
+        _frmMain.SetToolTip(Me.optProcStringImage, "Get strings from image file on disk")
+        _frmMain.SetToolTip(Me.optProcStringMemory, "Get strings from memory")
+        _frmMain.SetToolTip(Me.cmdProcStringSave, "Save list in a file")
+        _frmMain.SetToolTip(Me.pgbString, "Progression. Click to stop.")
+        _frmMain.SetToolTip(Me.txtSearchProcString, "Search a specific string")
+        _frmMain.SetToolTip(Me.txtRunTime, "Total run time")
+        _frmMain.SetToolTip(Me.cmdProcSearchL, "Previous result (F2 on listview also works)")
+        _frmMain.SetToolTip(Me.cmdProcSearchR, "Next result (F3 on listview also works)")
 
         ' Refresh infos
         Me.graphCPU.ClearValue()
@@ -691,7 +691,7 @@ Public Class frmProcessInfo
     Private Sub cmdProcStringSave_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdProcStringSave.Click
 
         ' Save list of strings
-        With frmMain.saveDial
+        With _frmMain.saveDial
             .AddExtension = True
             .Filter = "Txt (*.txt*)|*.txt"
             .InitialDirectory = My.Application.Info.DirectoryPath
@@ -702,7 +702,7 @@ Public Class frmProcessInfo
 
         ' Save our file
         Try
-            Dim stream As New System.IO.StreamWriter(frmMain.saveDial.FileName, False)
+            Dim stream As New System.IO.StreamWriter(_frmMain.saveDial.FileName, False)
             For x As Integer = 0 To Me.lvProcString.Items.Count - 1
                 stream.WriteLine(Me.lvProcString.Items(x).SubItems(1).Text)
             Next
@@ -737,7 +737,7 @@ Public Class frmProcessInfo
     Private Sub cmdShowFileDetails_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdShowFileDetails.Click
         Dim s As String = curProc.Infos.Path
         If IO.File.Exists(s) Then
-            frmMain.DisplayDetailsFile(s)
+            _frmMain.DisplayDetailsFile(s)
         End If
     End Sub
 
@@ -799,25 +799,25 @@ Public Class frmProcessInfo
 
     Private Sub ToolStripMenuItem43_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem43.Click
         ' Select services associated to selected process
-        If Me.lvProcServices.SelectedItems.Count > 0 Then frmMain.lvServices.SelectedItems.Clear()
+        If Me.lvProcServices.SelectedItems.Count > 0 Then _frmMain.lvServices.SelectedItems.Clear()
 
-        If frmMain.lvServices.Items.Count = 0 Then
+        If _frmMain.lvServices.Items.Count = 0 Then
             ' Refresh list
-            Call frmMain.refreshServiceList()
+            Call _frmMain.refreshServiceList()
         End If
 
         For Each it As cService In Me.lvProcServices.GetSelectedItems
             Dim it2 As ListViewItem
-            For Each it2 In frmMain.lvServices.Items
-                Dim cp As cService = frmMain.lvServices.GetItemByKey(it2.Name)
+            For Each it2 In _frmMain.lvServices.Items
+                Dim cp As cService = _frmMain.lvServices.GetItemByKey(it2.Name)
                 If cp.Infos.Name = it.Infos.Name Then
                     it2.Selected = True
                     it2.EnsureVisible()
                 End If
             Next
         Next
-        frmMain.Ribbon.ActiveTab = frmMain.ServiceTab
-        Call frmMain.Ribbon_MouseMove(Nothing, Nothing)
+        _frmMain.Ribbon.ActiveTab = _frmMain.ServiceTab
+        Call _frmMain.Ribbon_MouseMove(Nothing, Nothing)
     End Sub
 
     Private Sub ToolStripMenuItem49_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem49.Click
@@ -949,7 +949,7 @@ Public Class frmProcessInfo
         If Me.lvModules.SelectedItems.Count > 0 Then
             Dim s As String = Me.lvModules.GetSelectedItem.Infos.Path
             If IO.File.Exists(s) Then
-                frmMain.DisplayDetailsFile(s)
+                _frmMain.DisplayDetailsFile(s)
             End If
         End If
     End Sub
@@ -1566,11 +1566,11 @@ Public Class frmProcessInfo
 
     Private Sub cmdSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSave.Click
         ' Save log
-        frmMain.saveDial.Filter = "Text file (*.txt)|*.txt"
-        frmMain.saveDial.Title = "Save log"
+        _frmMain.saveDial.Filter = "Text file (*.txt)|*.txt"
+        _frmMain.saveDial.Title = "Save log"
         Try
-            If frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
-                Dim s As String = frmMain.saveDial.FileName
+            If _frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
+                Dim s As String = _frmMain.saveDial.FileName
                 If Len(s) > 0 Then
                     Dim stream As New System.IO.StreamWriter(s, False)
                     'Dim x As Integer = 0
@@ -2053,7 +2053,7 @@ Public Class frmProcessInfo
                 s = cFile.IntelligentPathRetrieving2(s)
             End If
             If IO.File.Exists(s) Then
-                frmMain.DisplayDetailsFile(s)
+                _frmMain.DisplayDetailsFile(s)
             End If
         End If
     End Sub

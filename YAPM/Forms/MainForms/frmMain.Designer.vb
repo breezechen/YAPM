@@ -148,6 +148,8 @@ Partial Class frmMain
         Me.RibbonSeparator2 = New System.Windows.Forms.RibbonSeparator
         Me.orbMenuSaveReport = New System.Windows.Forms.RibbonOrbMenuItem
         Me.RibbonSeparator3 = New System.Windows.Forms.RibbonSeparator
+        Me.butOptions = New System.Windows.Forms.RibbonOrbMenuItem
+        Me.RibbonSeparator5 = New System.Windows.Forms.RibbonSeparator
         Me.orbMenuAbout = New System.Windows.Forms.RibbonOrbMenuItem
         Me.orbMenuExit = New System.Windows.Forms.RibbonOrbMenuItem
         Me.butLog = New System.Windows.Forms.RibbonButton
@@ -659,8 +661,6 @@ Partial Class frmMain
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerNetwork = New System.Windows.Forms.Timer(Me.components)
         Me.timerStateBasedActions = New System.Windows.Forms.Timer(Me.components)
-        Me.RibbonSeparator5 = New System.Windows.Forms.RibbonSeparator
-        Me.butOptions = New System.Windows.Forms.RibbonOrbMenuItem
         Me.menuProc.SuspendLayout()
         Me.menuService.SuspendLayout()
         Me.mainMenu.SuspendLayout()
@@ -1363,11 +1363,11 @@ Partial Class frmMain
         Me.Ribbon.OrbDropDown.MenuItems.Add(Me.orbMenuAbout)
         Me.Ribbon.OrbDropDown.MenuItems.Add(Me.orbMenuExit)
         Me.Ribbon.OrbDropDown.Name = ""
-        'Me.Ribbon.OrbDropDown.NextPopup = Nothing
-        'Me.Ribbon.OrbDropDown.PreviousPopup = Nothing
+        Me.Ribbon.OrbDropDown.NextPopup = Nothing
+        Me.Ribbon.OrbDropDown.PreviousPopup = Nothing
         Me.Ribbon.OrbDropDown.Size = New System.Drawing.Size(527, 392)
         Me.Ribbon.OrbDropDown.TabIndex = 0
-        'Me.Ribbon.OrbDropDown.ToolStripDropDown = Nothing
+        Me.Ribbon.OrbDropDown.ToolStripDropDown = Nothing
         Me.Ribbon.OrbImage = CType(resources.GetObject("Ribbon.OrbImage"), System.Drawing.Image)
         '
         '
@@ -1488,6 +1488,30 @@ Partial Class frmMain
         Me.RibbonSeparator3.ToolTip = Nothing
         Me.RibbonSeparator3.ToolTipImage = Nothing
         Me.RibbonSeparator3.ToolTipTitle = Nothing
+        '
+        'butOptions
+        '
+        Me.butOptions.AltKey = Nothing
+        Me.butOptions.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
+        Me.butOptions.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butOptions.Image = Global.YAPM.My.Resources.Resources.options
+        Me.butOptions.SmallImage = Global.YAPM.My.Resources.Resources.options
+        Me.butOptions.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butOptions.Tag = Nothing
+        Me.butOptions.Text = "Options"
+        Me.butOptions.ToolTip = Nothing
+        Me.butOptions.ToolTipImage = Nothing
+        Me.butOptions.ToolTipTitle = Nothing
+        '
+        'RibbonSeparator5
+        '
+        Me.RibbonSeparator5.AltKey = Nothing
+        Me.RibbonSeparator5.Image = Nothing
+        Me.RibbonSeparator5.Tag = Nothing
+        Me.RibbonSeparator5.Text = Nothing
+        Me.RibbonSeparator5.ToolTip = Nothing
+        Me.RibbonSeparator5.ToolTipImage = Nothing
+        Me.RibbonSeparator5.ToolTipTitle = Nothing
         '
         'orbMenuAbout
         '
@@ -6855,30 +6879,6 @@ Partial Class frmMain
         '
         Me.timerStateBasedActions.Enabled = True
         Me.timerStateBasedActions.Interval = 1000
-        '
-        'RibbonSeparator5
-        '
-        Me.RibbonSeparator5.AltKey = Nothing
-        Me.RibbonSeparator5.Image = Nothing
-        Me.RibbonSeparator5.Tag = Nothing
-        Me.RibbonSeparator5.Text = Nothing
-        Me.RibbonSeparator5.ToolTip = Nothing
-        Me.RibbonSeparator5.ToolTipImage = Nothing
-        Me.RibbonSeparator5.ToolTipTitle = Nothing
-        '
-        'butOptions
-        '
-        Me.butOptions.AltKey = Nothing
-        Me.butOptions.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
-        Me.butOptions.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butOptions.Image = Global.YAPM.My.Resources.Resources.options
-        Me.butOptions.SmallImage = Global.YAPM.My.Resources.Resources.options
-        Me.butOptions.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butOptions.Tag = Nothing
-        Me.butOptions.Text = "Options"
-        Me.butOptions.ToolTip = Nothing
-        Me.butOptions.ToolTipImage = Nothing
-        Me.butOptions.ToolTipTitle = Nothing
         '
         'frmMain
         '

@@ -85,7 +85,7 @@ Public Class frmHiddenProcesses
             Dim cp As cProcess = Me.lvProcess.GetSelectedItem
             Dim s As String = cp.Infos.Path
             If IO.File.Exists(s) Then
-                frmMain.DisplayDetailsFile(s)
+                _frmMain.DisplayDetailsFile(s)
             End If
         End If
     End Sub

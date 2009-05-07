@@ -45,8 +45,8 @@
 
 '            ' Save to XML
 '            Call writeXML()
-'            frmMain.emStateBasedActions.ShowConsole = False
-'            frmMain.emStateBasedActions.SimulationMode = False
+'            _frmMain.emStateBasedActions.ShowConsole = False
+'            _frmMain.emStateBasedActions.SimulationMode = False
 '        Else
 '            e.Cancel = True
 '        End If
@@ -54,8 +54,8 @@
 '    End Sub
 
 '    Private Sub frmBasedStateAction_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-'        frmMain.emStateBasedActions.ClearConsole()
-'        frmMain.emStateBasedActions.SimulationMode = True
+'        _frmMain.emStateBasedActions.ClearConsole()
+'        _frmMain.emStateBasedActions.SimulationMode = True
 
 '        SetWindowTheme(lv.Handle, "explorer", Nothing)
 
@@ -66,14 +66,14 @@
 '        End If
 
 '        Me.cbAction.Items.Clear()
-'        For Each i As String In frmMain.emStateBasedActions.ActionsAvailable
+'        For Each i As String In _frmMain.emStateBasedActions.ActionsAvailable
 '            If i IsNot Nothing Then
 '                Me.cbAction.Items.Add(i)
 '            End If
 '        Next
 
 '        ' Read collection and add items
-'        For Each _it As cBasedStateActionState In frmMain.emStateBasedActions.StateBasedActionCollection
+'        For Each _it As cBasedStateActionState In _frmMain.emStateBasedActions.StateBasedActionCollection
 '            ' Add hotkey
 '            Dim it As New ListViewItem(_it.ProcessText)
 '            it.Tag = _it
@@ -88,15 +88,15 @@
 
 '        ' Fill comboboxes
 '        cbAction.Items.Clear()
-'        For Each s As String In frmMain.emStateBasedActions.ActionsAvailable
+'        For Each s As String In _frmMain.emStateBasedActions.ActionsAvailable
 '            cbAction.Items.Add(s)
 '        Next
 '        cbCounter.Items.Clear()
-'        For Each s As String In frmMain.emStateBasedActions.CounterAvailables
+'        For Each s As String In _frmMain.emStateBasedActions.CounterAvailables
 '            cbCounter.Items.Add(s)
 '        Next
-'        _desc1 = frmMain.emStateBasedActions.Param1Description
-'        _desc2 = frmMain.emStateBasedActions.Param2Description
+'        _desc1 = _frmMain.emStateBasedActions.Param1Description
+'        _desc2 = _frmMain.emStateBasedActions.Param2Description
 
 '    End Sub
 
@@ -114,7 +114,7 @@
 '            If it.Selected Then
 '                ' Remove or ?
 '                Dim sKey As String = CType(it.Tag, cBasedStateActionState).Key
-'                If frmMain.emStateBasedActions.RemoveStateBasedAction(sKey) Then
+'                If _frmMain.emStateBasedActions.RemoveStateBasedAction(sKey) Then
 '                    it.Remove()
 '                End If
 '            End If
@@ -230,7 +230,7 @@
 '                                                     _checkProcPathS, _counter, _notify)
 '                ht.Enabled = _enabled
 
-'                frmMain.emStateBasedActions.AddStateBasedAction(ht)
+'                _frmMain.emStateBasedActions.AddStateBasedAction(ht)
 '            Next
 '        Catch ex As Exception
 '            Trace.WriteLine("XML loading failed : " & ex.Message)
@@ -262,7 +262,7 @@
 '        Dim XmlDoc As XmlDocument = New XmlDocument()
 '        XmlDoc.LoadXml("<statebasedactions></statebasedactions>")
 
-'        For Each cs As cBasedStateActionState In frmMain.emStateBasedActions.StateBasedActionCollection
+'        For Each cs As cBasedStateActionState In _frmMain.emStateBasedActions.StateBasedActionCollection
 
 '            Dim elemStateBasedAction As XmlElement = XmlDoc.CreateElement("sbaction")
 
@@ -370,7 +370,7 @@
 '                                                  txtProcessID.Text, txtProcessPath.Text, _
 '                                                  Me.updownCounter.Value.ToString, _
 '                                                  Me.chkNotify.Checked)
-'            If frmMain.emStateBasedActions.AddStateBasedAction(_it) Then
+'            If _frmMain.emStateBasedActions.AddStateBasedAction(_it) Then
 '                ' Add hotkey
 '                Dim it As New ListViewItem(_it.ProcessText)
 '                it.Tag = _it
@@ -384,7 +384,7 @@
 '            _modify = False
 
 '            ' Delete old action
-'            frmMain.emStateBasedActions.RemoveStateBasedAction(_selectedAction.Key)
+'            _frmMain.emStateBasedActions.RemoveStateBasedAction(_selectedAction.Key)
 
 '            ' Add new one
 '            Dim _operator As cBasedStateActionState.STATE_OPERATOR
@@ -411,7 +411,7 @@
 '                                                  txtProcessID.Text, txtProcessPath.Text, _
 '                                                  Me.updownCounter.Value.ToString, _
 '                                                  Me.chkNotify.Checked)
-'            If frmMain.emStateBasedActions.AddStateBasedAction(_it) Then
+'            If _frmMain.emStateBasedActions.AddStateBasedAction(_it) Then
 '                ' Add hotkey
 '                _selectedItem.Tag = _it
 '                _selectedItem.SubItems(1).Text = _it.StateText
@@ -446,7 +446,7 @@
 '        Call checkAddState()
 '        Dim i As Integer = cbCounter.SelectedIndex
 '        If i >= 0 Then
-'            Me.lblThresholdDesc.Text = frmMain.emStateBasedActions.ThresholdDescription(i)
+'            Me.lblThresholdDesc.Text = _frmMain.emStateBasedActions.ThresholdDescription(i)
 '        Else
 '            Me.lblThresholdDesc.Text = ""
 '        End If
@@ -456,8 +456,8 @@
 '        Call checkAddState()
 '        Dim i As Integer = cbAction.SelectedIndex
 '        If i >= 0 Then
-'            Me.txtParam1Desc.Text = frmMain.emStateBasedActions.Param1Description(i)
-'            Me.txtParam2Desc.Text = frmMain.emStateBasedActions.Param2Description(i)
+'            Me.txtParam1Desc.Text = _frmMain.emStateBasedActions.Param1Description(i)
+'            Me.txtParam2Desc.Text = _frmMain.emStateBasedActions.Param2Description(i)
 '        Else
 '            Me.txtParam1Desc.Text = ""
 '            Me.txtParam2Desc.Text = ""
@@ -567,7 +567,7 @@
 
 '    Private Sub SimulationConsoleToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SimulationConsoleToolStripMenuItem.Click
 '        SimulationConsoleToolStripMenuItem.Checked = Not (SimulationConsoleToolStripMenuItem.Checked)
-'        frmMain.emStateBasedActions.ShowConsole = SimulationConsoleToolStripMenuItem.Checked
+'        _frmMain.emStateBasedActions.ShowConsole = SimulationConsoleToolStripMenuItem.Checked
 '    End Sub
 
 'End Class

@@ -63,13 +63,11 @@ Public Class frmChooseColumns
             theListview.Columns.Add(it.Text, 90)
         Next
 
-        'frmMain.timerProcess.Enabled = True
         Me.Close()
     End Sub
 
     Private Sub Cancel_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Cancel_Button.Click
         Me.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        'frmMain.timerProcess.Enabled = True
         Me.Close()
     End Sub
 
@@ -89,8 +87,6 @@ Public Class frmChooseColumns
 
     Private Sub frmChooseProcessColumns_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         API.SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
-
-        'frmMain.timerProcess.Enabled = False
 
         Dim ss() As String
         ReDim ss(-1)

@@ -119,8 +119,8 @@ Partial Class frmSystemInfo
         Me.Label1 = New System.Windows.Forms.Label
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
         Me.g2 = New YAPM.Graph2
+        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
         Me.g3 = New YAPM.Graph2
         Me.g4 = New YAPM.Graph2
         Me.mainSplit.Panel1.SuspendLayout()
@@ -139,10 +139,10 @@ Partial Class frmSystemInfo
         Me.SplitContainer2.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.g2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
-        CType(Me.g2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.g3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.g4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -1115,6 +1115,21 @@ Partial Class frmSystemInfo
         Me.SplitContainer1.SplitterDistance = 119
         Me.SplitContainer1.TabIndex = 1
         '
+        'g2
+        '
+        Me.g2.BackColor = System.Drawing.Color.Black
+        Me.g2.Color2 = System.Drawing.Color.Olive
+        Me.g2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.g2.EnableGraph = True
+        Me.g2.Fixedheight = True
+        Me.g2.GridStep = 10
+        Me.g2.Location = New System.Drawing.Point(0, 0)
+        Me.g2.Name = "g2"
+        Me.g2.ShowSecondGraph = False
+        Me.g2.Size = New System.Drawing.Size(310, 116)
+        Me.g2.TabIndex = 11
+        Me.g2.TabStop = False
+        '
         'SplitContainer3
         '
         Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
@@ -1133,21 +1148,6 @@ Partial Class frmSystemInfo
         Me.SplitContainer3.Size = New System.Drawing.Size(310, 234)
         Me.SplitContainer3.SplitterDistance = 117
         Me.SplitContainer3.TabIndex = 0
-        '
-        'g2
-        '
-        Me.g2.BackColor = System.Drawing.Color.Black
-        Me.g2.Color2 = System.Drawing.Color.Olive
-        Me.g2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.g2.EnableGraph = True
-        Me.g2.Fixedheight = True
-        Me.g2.GridStep = 10
-        Me.g2.Location = New System.Drawing.Point(0, 0)
-        Me.g2.Name = "g2"
-        Me.g2.ShowSecondGraph = False
-        Me.g2.Size = New System.Drawing.Size(310, 116)
-        Me.g2.TabIndex = 11
-        Me.g2.TabStop = False
         '
         'g3
         '
@@ -1185,7 +1185,6 @@ Partial Class frmSystemInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(729, 477)
         Me.Controls.Add(Me.mainSplit)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -1218,10 +1217,10 @@ Partial Class frmSystemInfo
         Me.SplitContainer2.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.g2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer3.Panel1.ResumeLayout(False)
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.ResumeLayout(False)
-        CType(Me.g2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.g3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.g4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)

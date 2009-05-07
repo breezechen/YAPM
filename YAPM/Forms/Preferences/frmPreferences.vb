@@ -41,18 +41,19 @@ Public Class frmPreferences
     Private _deletedcolor As Integer
 
     Private Sub cmdQuit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdQuit.Click
-        frmMain.timerProcess.Interval = Program.Preferences.procInterval
-        frmMain.timerTask.Interval = Program.Preferences.taskInterval
-        frmMain.timerNetwork.Interval = Program.Preferences.networkInterval
-        frmMain.timerServices.Interval = Program.Preferences.serviceInterval
-        frmMain.timerTrayIcon.Interval = Program.Preferences.trayInterval
+        _frmMain.timerProcess.Interval = Program.Preferences.procInterval
+        _frmMain.timerTask.Interval = Program.Preferences.taskInterval
+        _frmMain.timerNetwork.Interval = Program.Preferences.networkInterval
+        _frmMain.timerServices.Interval = Program.Preferences.serviceInterval
+        _frmMain.timerTrayIcon.Interval = Program.Preferences.trayInterval
         Me.Close()
     End Sub
 
     Private Sub cmdSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSave.Click
         ' Save
         Dim _oldRibbonStyle As Boolean = Program.Preferences.ribbonStyle
-
+        My.Settings.ProcessInterval = CInt(Val(Me.txtProcessIntervall.Text))
+        My.Settings.Save()
         With Program.Preferences
             .serviceInterval = CInt(Val(Me.txtServiceIntervall.Text))
             .procInterval = CInt(Val(Me.txtProcessIntervall.Text))
@@ -368,10 +369,10 @@ Public Class frmPreferences
 
     Private Sub cmdDownload_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdDownload.Click
 
-        frmMain.saveDial.Filter = "Zip file (*.zip)|*.zip"
-        frmMain.saveDial.Title = "Save last update package"
-        Dim r As DialogResult = frmMain.saveDial.ShowDialog()
-        Dim s As String = frmMain.saveDial.FileName
+        _frmMain.saveDial.Filter = "Zip file (*.zip)|*.zip"
+        _frmMain.saveDial.Title = "Save last update package"
+        Dim r As DialogResult = _frmMain.saveDial.ShowDialog()
+        Dim s As String = _frmMain.saveDial.FileName
 
         If r = Windows.Forms.DialogResult.OK Then
             Dim _inv As New msgShowMessage(AddressOf impShowMessage)

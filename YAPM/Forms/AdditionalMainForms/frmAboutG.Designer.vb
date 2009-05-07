@@ -275,7 +275,7 @@ Partial Class frmAboutG
         Me.Name = "frmAboutG"
         Me.ShowIcon = False
         Me.ShowInTaskbar = False
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "About YAPM"
         CType(Me.pctIcon, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)

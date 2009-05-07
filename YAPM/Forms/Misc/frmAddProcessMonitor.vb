@@ -114,7 +114,7 @@ Public Class frmAddProcessMonitor
                     it = New cMonitor(_cat, _count, _name)
                 End If
                 it.Interval = CInt(Val(Me.txtInterval.Text))
-                frmMain.AddMonitoringItem(it)
+                _frmMain.AddMonitoringItem(it)
             End With
 
         Next

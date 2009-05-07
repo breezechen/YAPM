@@ -44,18 +44,18 @@ Public Class frmFileRelease
         Me.lv.Items.Clear()
 
         ' Refresh services and processes lists (easy way to have up to date informations)
-        Call frmMain.refreshProcessList()
-        Call frmMain.refreshServiceList()
+        Call _frmMain.refreshProcessList()
+        Call _frmMain.refreshServiceList()
 
         ' Lock timers so we won't refresh
-        frmMain.timerProcess.Enabled = False
-        frmMain.timerServices.Enabled = False
+        _frmMain.timerProcess.Enabled = False
+        _frmMain.timerServices.Enabled = False
 
         Dim sComp As String
         Dim i As Integer = 0
         Dim id As Integer = 0
         'TODO_       
-        'For Each cProc As cProcess In frmMain.lvProcess.GetAllItems
+        'For Each cProc As cProcess In _frmMain.lvProcess.GetAllItems
         '    Try
         '        ' Check for modules
         '        Dim p As ProcessModuleCollection = cProc.Modules
@@ -103,8 +103,8 @@ Public Class frmFileRelease
         Next
 
 
-        frmMain.timerServices.Enabled = True
-        frmMain.timerProcess.Enabled = True
+        _frmMain.timerServices.Enabled = True
+        _frmMain.timerProcess.Enabled = True
     End Sub
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click

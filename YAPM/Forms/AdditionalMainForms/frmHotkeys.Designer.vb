@@ -58,38 +58,38 @@ Partial Class frmHotkeys
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowToolStripMenuItem, Me.CloseToolStripMenuItem, Me.ToolStripMenuItem1, Me.EnableToolStripMenuItem, Me.DisableToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(153, 120)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(118, 98)
         '
         'ShowToolStripMenuItem
         '
         Me.ShowToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ShowToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.plus_circle
         Me.ShowToolStripMenuItem.Name = "ShowToolStripMenuItem"
-        Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.ShowToolStripMenuItem.Text = "Add"
         '
         'CloseToolStripMenuItem
         '
         Me.CloseToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.cross_circle1
         Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.CloseToolStripMenuItem.Text = "Remove"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(149, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(114, 6)
         '
         'EnableToolStripMenuItem
         '
         Me.EnableToolStripMenuItem.Name = "EnableToolStripMenuItem"
-        Me.EnableToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.EnableToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.EnableToolStripMenuItem.Text = "Enable"
         '
         'DisableToolStripMenuItem
         '
         Me.DisableToolStripMenuItem.Name = "DisableToolStripMenuItem"
-        Me.DisableToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.DisableToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.DisableToolStripMenuItem.Text = "Disable"
         '
         'imgList

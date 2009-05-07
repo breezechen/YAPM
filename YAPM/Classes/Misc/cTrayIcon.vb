@@ -97,12 +97,12 @@ Public Class cTrayIcon
         End Try
 
         ' MUST destroy previous icon to avoid memory exception after long time...
-        If frmMain.Tray.Icon IsNot Nothing Then
-            API.DestroyIcon(frmMain.Tray.Icon.Handle)
+        If _frmMain.Tray.Icon IsNot Nothing Then
+            API.DestroyIcon(_frmMain.Tray.Icon.Handle)
         End If
 
         ' Set icon
-        frmMain.Tray.Icon = oIcon
+        _frmMain.Tray.Icon = oIcon
 
     End Sub
 

@@ -46,11 +46,11 @@ Public Class frmSaveReport
 
     ' Public functions to save reports
     Public Sub SaveReportLog()
-        frmMain.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
-        frmMain.saveDial.Title = "Save report"
+        _frmMain.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
+        _frmMain.saveDial.Title = "Save report"
         Try
-            If frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
-                Dim s As String = frmMain.saveDial.FileName
+            If _frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
+                Dim s As String = _frmMain.saveDial.FileName
                 If Len(s) > 0 Then
                     ' Create file report
                     Dim c As String = vbNullString
@@ -107,24 +107,24 @@ Public Class frmSaveReport
         Me.cmdGO.Enabled = True
     End Sub
     Public Sub SaveReportServices()
-        frmMain.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
-        frmMain.saveDial.Title = "Save report"
+        _frmMain.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
+        _frmMain.saveDial.Title = "Save report"
         Try
-            If frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
-                Dim s As String = frmMain.saveDial.FileName
+            If _frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
+                Dim s As String = _frmMain.saveDial.FileName
                 If Len(s) > 0 Then
                     ' Create file report
                     Dim c As String = vbNullString
 
                     Me.ReportPath = s
 
-                    Me.pgb.Maximum = frmMain.lvServices.Items.Count
+                    Me.pgb.Maximum = _frmMain.lvServices.Items.Count
 
                     If s.Substring(s.Length - 3, 3).ToLower = "txt" Then
                         Dim stream As New System.IO.StreamWriter(s, False)
                         ' txt
                         Dim x As Integer = 0
-                        For Each cm As cService In frmMain.lvServices.GetAllItems
+                        For Each cm As cService In _frmMain.lvServices.GetAllItems
 
                             Try
                                 ' Try to access to the service (avoid to write lines if service
@@ -153,16 +153,16 @@ Public Class frmSaveReport
                             x += 1
                             UpdateProgress(x)
                         Next
-                        c = CStr(frmMain.lvServices.Items.Count) & " service(s)"
+                        c = CStr(_frmMain.lvServices.Items.Count) & " service(s)"
                         stream.Write(c)
                         stream.Close()
                     Else
                         ' HTML
-                        Dim title As String = CStr(frmMain.lvServices.Items.Count) & " service(s)"
+                        Dim title As String = CStr(_frmMain.lvServices.Items.Count) & " service(s)"
                         Dim _html As New cHTML2(s, title, 25)
 
                         Dim x As Integer = 0
-                        For Each cm As cService In frmMain.lvServices.GetAllItems
+                        For Each cm As cService In _frmMain.lvServices.GetAllItems
                             Try
                                 ' Try to access to the service (avoid to write lines if service
                                 ' is deleted)
@@ -209,23 +209,23 @@ Public Class frmSaveReport
         Me.cmdGO.Enabled = True
     End Sub
     Public Sub SaveReportWindows()
-        frmMain.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
-        frmMain.saveDial.Title = "Save report"
+        _frmMain.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
+        _frmMain.saveDial.Title = "Save report"
         Try
-            If frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
-                Dim s As String = frmMain.saveDial.FileName
+            If _frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
+                Dim s As String = _frmMain.saveDial.FileName
                 If Len(s) > 0 Then
                     ' Create file report
                     Dim c As String = vbNullString
 
                     Me.ReportPath = s
-                    Me.pgb.Maximum = frmMain.lvWindows.Items.Count
+                    Me.pgb.Maximum = _frmMain.lvWindows.Items.Count
 
                     If s.Substring(s.Length - 3, 3).ToLower = "txt" Then
                         Dim stream As New System.IO.StreamWriter(s, False)
                         ' txt
                         Dim x As Integer = 0
-                        For Each cm As cWindow In frmMain.lvWindows.GetAllItems
+                        For Each cm As cWindow In _frmMain.lvWindows.GetAllItems
 
                             Try
                                 ' Try to access to the window (avoid to write lines if window
@@ -264,16 +264,16 @@ Public Class frmSaveReport
                             x += 1
                             UpdateProgress(x)
                         Next
-                        c = CStr(frmMain.lvWindows.Items.Count) & " windows(s)"
+                        c = CStr(_frmMain.lvWindows.Items.Count) & " windows(s)"
                         stream.Write(c)
                         stream.Close()
                     Else
                         ' HTML
-                        Dim title As String = CStr(frmMain.lvWindows.Items.Count) & " windows(s)"
+                        Dim title As String = CStr(_frmMain.lvWindows.Items.Count) & " windows(s)"
                         Dim _html As New cHTML2(s, title, 25)
 
                         Dim x As Integer = 0
-                        For Each cm As cWindow In frmMain.lvWindows.GetAllItems
+                        For Each cm As cWindow In _frmMain.lvWindows.GetAllItems
                             Try
                                 ' Try to access to the window (avoid to write lines if window
                                 ' is deleted)
@@ -335,24 +335,24 @@ Public Class frmSaveReport
         Me.cmdGO.Enabled = True
     End Sub
     Public Sub SaveReportThreads()
-        frmMain.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
-        frmMain.saveDial.Title = "Save report"
+        _frmMain.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
+        _frmMain.saveDial.Title = "Save report"
         Try
-            If frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
-                Dim s As String = frmMain.saveDial.FileName
+            If _frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
+                Dim s As String = _frmMain.saveDial.FileName
                 If Len(s) > 0 Then
                     ' Create file report
                     Dim c As String = vbNullString
 
                     Me.ReportPath = s
-                    Me.pgb.Maximum = frmMain.lvThreads.Items.Count
+                    Me.pgb.Maximum = _frmMain.lvThreads.Items.Count
 
                     If s.Substring(s.Length - 3, 3).ToLower = "txt" Then
                         Dim stream As New System.IO.StreamWriter(s, False)
                         ' txt
                         Dim it As ListViewItem
                         Dim x As Integer = 0
-                        For Each it In frmMain.lvThreads.Items
+                        For Each it In _frmMain.lvThreads.Items
                             Dim cm As cThread = CType(it.Tag, cThread)
 
                             Try
@@ -393,17 +393,17 @@ Public Class frmSaveReport
                             x += 1
                             UpdateProgress(x)
                         Next
-                        c = CStr(frmMain.lvThreads.Items.Count) & " thread(s)"
+                        c = CStr(_frmMain.lvThreads.Items.Count) & " thread(s)"
                         stream.Write(c)
                         stream.Close()
                     Else
                         ' HTML
-                        Dim title As String = CStr(frmMain.lvThreads.Items.Count) & " thread(s)"
+                        Dim title As String = CStr(_frmMain.lvThreads.Items.Count) & " thread(s)"
                         Dim _html As New cHTML2(s, title, 25)
 
                         Dim x As Integer = 0
                         Dim it As ListViewItem
-                        For Each it In frmMain.lvThreads.Items
+                        For Each it In _frmMain.lvThreads.Items
                             Dim cm As cThread = CType(it.Tag, cThread)
                             Try
                                 ' Try to access to the thread (avoid to write lines if thread
@@ -465,24 +465,24 @@ Public Class frmSaveReport
         Me.cmdGO.Enabled = True
     End Sub
     Public Sub SaveReportHandles()
-        frmMain.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
-        frmMain.saveDial.Title = "Save report"
+        _frmMain.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
+        _frmMain.saveDial.Title = "Save report"
         Try
-            If frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
-                Dim s As String = frmMain.saveDial.FileName
+            If _frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
+                Dim s As String = _frmMain.saveDial.FileName
                 If Len(s) > 0 Then
                     ' Create file report
                     Dim c As String = vbNullString
 
                     Me.ReportPath = s
-                    Me.pgb.Maximum = frmMain.lvHandles.Items.Count
+                    Me.pgb.Maximum = _frmMain.lvHandles.Items.Count
 
                     If s.Substring(s.Length - 3, 3).ToLower = "txt" Then
                         Dim stream As New System.IO.StreamWriter(s, False)
                         ' txt
                         Dim x As Integer = 0
                         Dim it As ListViewItem
-                        For Each it In frmMain.lvHandles.Items
+                        For Each it In _frmMain.lvHandles.Items
                             c = "Type : " & it.Text
                             c &= "  Process : " & it.SubItems(6).Text
                             c &= "  Name: " & it.SubItems(1).Text
@@ -494,7 +494,7 @@ Public Class frmSaveReport
                             x += 1
                             UpdateProgress(x)
                         Next
-                        c = CStr(frmMain.lvHandles.Items.Count) & " handle(s)"
+                        c = CStr(_frmMain.lvHandles.Items.Count) & " handle(s)"
                         stream.Write(c)
                         stream.Close()
                     Else
@@ -515,12 +515,12 @@ Public Class frmSaveReport
                         col(6).sizePercent = 9
                         col(6).title = "ObjectCount"
 
-                        Dim title As String = CStr(frmMain.lvHandles.Items.Count) & " handle(s)"
+                        Dim title As String = CStr(_frmMain.lvHandles.Items.Count) & " handle(s)"
                         Dim _html As New cHTML(col, s, title)
 
                         Dim it As ListViewItem
                         Dim x As Integer = 0
-                        For Each it In frmMain.lvHandles.Items
+                        For Each it In _frmMain.lvHandles.Items
                             Dim _lin(6) As String
                             _lin(0) = it.Text
                             _lin(1) = it.SubItems(6).Text
@@ -546,24 +546,24 @@ Public Class frmSaveReport
         Me.cmdGO.Enabled = True
     End Sub
     Public Sub SaveReportModules()
-        frmMain.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
-        frmMain.saveDial.Title = "Save report"
+        _frmMain.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
+        _frmMain.saveDial.Title = "Save report"
         Try
-            If frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
-                Dim s As String = frmMain.saveDial.FileName
+            If _frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
+                Dim s As String = _frmMain.saveDial.FileName
                 If Len(s) > 0 Then
                     ' Create file report
                     Dim c As String = vbNullString
 
                     Me.ReportPath = s
-                    Me.pgb.Maximum = frmMain.lvModules.Items.Count
+                    Me.pgb.Maximum = _frmMain.lvModules.Items.Count
 
                     If s.Substring(s.Length - 3, 3).ToLower = "txt" Then
                         Dim stream As New System.IO.StreamWriter(s, False)
                         ' txt
                         Dim it As ListViewItem
                         Dim x As Integer = 0
-                        For Each it In frmMain.lvModules.Items
+                        For Each it In _frmMain.lvModules.Items
                             Dim cm As cModule = CType(it.Tag, cModule)
                             c = "Module : " & it.Text & "  --  " & cm.Infos.FileInfo.FileName & vbNewLine
 
@@ -626,17 +626,17 @@ Public Class frmSaveReport
                             x += 1
                             UpdateProgress(x)
                         Next
-                        c = CStr(frmMain.lvModules.Items.Count) & " modules(s)"
+                        c = CStr(_frmMain.lvModules.Items.Count) & " modules(s)"
                         stream.Write(c)
                         stream.Close()
                     Else
                         ' HTML
-                        Dim title As String = CStr(frmMain.lvModules.Items.Count) & " modules(s)"
+                        Dim title As String = CStr(_frmMain.lvModules.Items.Count) & " modules(s)"
                         Dim _html As New cHTML2(s, title, 25)
 
                         Dim it As ListViewItem
                         Dim x As Integer = 0
-                        For Each it In frmMain.lvModules.Items
+                        For Each it In _frmMain.lvModules.Items
                             Dim cm As cModule = CType(it.Tag, cModule)
                             _html.AppendTitleLine("Module : " & it.Text & "  --  " & cm.Infos.FileInfo.FileName)
                             Dim _lin(1) As String
@@ -738,24 +738,24 @@ Public Class frmSaveReport
         Me.cmdGO.Enabled = True
     End Sub
     Public Sub SaveReportSearch()
-        frmMain.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
-        frmMain.saveDial.Title = "Save report"
+        _frmMain.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
+        _frmMain.saveDial.Title = "Save report"
         Try
-            If frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
-                Dim s As String = frmMain.saveDial.FileName
+            If _frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
+                Dim s As String = _frmMain.saveDial.FileName
                 If Len(s) > 0 Then
                     ' Create file report
                     Dim c As String = vbNullString
 
                     Me.ReportPath = s
-                    Me.pgb.Maximum = frmMain.lvSearchResults.Items.Count
+                    Me.pgb.Maximum = _frmMain.lvSearchResults.Items.Count
 
                     If s.Substring(s.Length - 3, 3).ToLower = "txt" Then
                         Dim stream As New System.IO.StreamWriter(s, False)
                         ' txt
                         Dim it As ListViewItem
                         Dim x As Integer = 0
-                        For Each it In frmMain.lvSearchResults.Items
+                        For Each it In _frmMain.lvSearchResults.Items
                             c = "Type : " & it.Text
                             c &= "  Result : " & it.SubItems(1).Text
                             c &= "  Field : " & it.SubItems(2).Text & vbNewLine
@@ -763,7 +763,7 @@ Public Class frmSaveReport
                             x += 1
                             UpdateProgress(x)
                         Next
-                        c = CStr(frmMain.lvSearchResults.Items.Count) & " result(s)"
+                        c = CStr(_frmMain.lvSearchResults.Items.Count) & " result(s)"
                         stream.Write(c)
                         stream.Close()
                     Else
@@ -775,12 +775,12 @@ Public Class frmSaveReport
                         col(1).title = "Result"
                         col(2).sizePercent = 28
                         col(2).title = "Field"
-                        Dim title As String = "Search result for '" & frmMain.txtSearchString.TextBoxText & "' -- " & CStr(frmMain.lvSearchResults.Items.Count) & " result(s)"
+                        Dim title As String = "Search result for '" & _frmMain.txtSearchString.TextBoxText & "' -- " & CStr(_frmMain.lvSearchResults.Items.Count) & " result(s)"
                         Dim _html As New cHTML(col, s, title)
 
                         Dim it As ListViewItem
                         Dim x As Integer = 0
-                        For Each it In frmMain.lvSearchResults.Items
+                        For Each it In _frmMain.lvSearchResults.Items
                             Dim _lin(2) As String
                             _lin(0) = it.Text
                             _lin(1) = it.SubItems(1).Text
@@ -877,24 +877,24 @@ Public Class frmSaveReport
         End Select
     End Sub
     Public Sub SaveReportProcesses()
-        frmMain.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
-        frmMain.saveDial.Title = "Save report"
+        _frmMain.saveDial.Filter = "HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
+        _frmMain.saveDial.Title = "Save report"
         Try
-            If frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
-                Dim s As String = frmMain.saveDial.FileName
+            If _frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
+                Dim s As String = _frmMain.saveDial.FileName
                 If Len(s) > 0 Then
                     ' Create file report
                     Dim c As String = vbNullString
 
                     Me.ReportPath = s
 
-                    Me.pgb.Maximum = frmMain.lvServices.Items.Count
+                    Me.pgb.Maximum = _frmMain.lvServices.Items.Count
 
                     If s.Substring(s.Length - 3, 3).ToLower = "txt" Then
                         Dim stream As New System.IO.StreamWriter(s, False)
                         ' txt
                         Dim x As Integer = 0
-                        For Each cm As cService In frmMain.lvServices.GetAllItems
+                        For Each cm As cService In _frmMain.lvServices.GetAllItems
 
                             Try
                                 ' Try to access to the service (avoid to write lines if service
@@ -923,16 +923,16 @@ Public Class frmSaveReport
                             x += 1
                             UpdateProgress(x)
                         Next
-                        c = CStr(frmMain.lvServices.Items.Count) & " service(s)"
+                        c = CStr(_frmMain.lvServices.Items.Count) & " service(s)"
                         stream.Write(c)
                         stream.Close()
                     Else
                         ' HTML
-                        Dim title As String = CStr(frmMain.lvServices.Items.Count) & " service(s)"
+                        Dim title As String = CStr(_frmMain.lvServices.Items.Count) & " service(s)"
                         Dim _html As New cHTML2(s, title, 25)
 
                         Dim x As Integer = 0
-                        For Each cm As cService In frmMain.lvServices.GetAllItems
+                        For Each cm As cService In _frmMain.lvServices.GetAllItems
                             Try
                                 ' Try to access to the service (avoid to write lines if service
                                 ' is deleted)

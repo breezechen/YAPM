@@ -95,7 +95,7 @@ Public Class frmConnection
 
         If _formConnectionReference.IsConnected Then
             Me.Text = "Disconnecting from current machine..."
-            Call frmMain.DisconnectFromMachine()
+            Call _frmMain.DisconnectFromMachine()
         Else
             With Program.Connection
                 .ConnectionType = _connType
@@ -106,7 +106,7 @@ Public Class frmConnection
                 End If
             End With
             Me.Text = "Connecting to machine..."
-            Call frmMain.ConnectToMachine()
+            Call _frmMain.ConnectToMachine()
         End If
 
     End Sub

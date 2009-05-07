@@ -53,6 +53,18 @@ Namespace My
                 Return defaultInstance
             End Get
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1000")>  _
+        Public Property ProcessInterval() As Integer
+            Get
+                Return CType(Me("ProcessInterval"),Integer)
+            End Get
+            Set
+                Me("ProcessInterval") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

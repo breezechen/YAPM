@@ -373,8 +373,8 @@ Public Class Graph
 
         ' Draw current date
         Dim d As New Date(_date.Ticks + _mouseCurrentDate)
-        g.DrawString(d.ToLongDateString & " -- " & d.ToLongTimeString, frmMain.Font, Brushes.Beige, 0, 0)
-        g.DrawString("Value : " & _mouseCurrentValue.ToString, frmMain.Font, Brushes.Beige, 200, 0)
+        g.DrawString(d.ToLongDateString & " -- " & d.ToLongTimeString, _frmMain.Font, Brushes.Beige, 0, 0)
+        g.DrawString("Value : " & _mouseCurrentValue.ToString, _frmMain.Font, Brushes.Beige, 200, 0)
     End Sub
 
     Private Sub DrawValues2(ByVal g As Graphics)

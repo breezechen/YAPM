@@ -4,7 +4,7 @@ Imports System.Runtime.InteropServices
 
 Public Module Program
 
-    Private _frmMain As frmMain
+    Public _frmMain As frmMain
     Private theConnection As cConnection
     Private _systemInfo As cSystemInfo
     Private _hotkeys As cHotkeys
@@ -105,13 +105,14 @@ Public Module Program
 
 
         ' Instanciate all classes
+        _pref = New Pref                    ' Preferences
         theConnection = New cConnection     ' The cConnection instance of the connection
         _systemInfo = New cSystemInfo       ' System informations
         _hotkeys = New cHotkeys             ' Hotkeys
-        _pref = New Pref                    ' Preferences
         _log = New cLog                     ' Log instance
-        _trayIcon = New cTrayIcon(2)        ' Tray icons
         _ConnectionForm = New frmConnection(theConnection)
+        _frmMain = New frmMain              ' Main form
+        _trayIcon = New cTrayIcon(2)        ' Tray icons
 
 
         ' Other init
@@ -147,7 +148,6 @@ Public Module Program
 
 
         ' Show main form & start application
-        _frmMain = New frmMain
         Application.Run(_frmMain)
 
     End Sub
@@ -158,12 +158,12 @@ Public Module Program
         ex = CType(e.ExceptionObject, Exception)
         Console.WriteLine(ex.StackTrace)
         Dim t As New frmError(ex)
-        t.ShowDialog()
+        't.ShowDialog()
     End Sub
     Private Sub MYThreadHandler(ByVal sender As Object, ByVal e As Threading.ThreadExceptionEventArgs)
         Console.WriteLine(e.Exception.StackTrace)
         Dim t As New frmError(e.Exception)
-        t.ShowDialog()
+        't.ShowDialog()
     End Sub
 
 

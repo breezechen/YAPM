@@ -304,7 +304,7 @@ Public Class Graph2
         'End If
 
         '' Draw current date
-        'g.DrawString("Value : " & _mouseCurrentValue.ToString, frmMain.Font, Brushes.Beige, 200, 0)
+        'g.DrawString("Value : " & _mouseCurrentValue.ToString, _frmMain.Font, Brushes.Beige, 200, 0)
     End Sub
 
     Private Sub DrawValuesDown(ByVal g As Graphics)

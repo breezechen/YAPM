@@ -245,7 +245,7 @@ Public Class frmFindWindow
     End Sub
 
     Private Sub frmFindWindow_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
-        frmMain.Show()
+        _frmMain.Show()
     End Sub
 
     Private Sub Form_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles MyBase.MouseDown
@@ -282,7 +282,7 @@ Public Class frmFindWindow
     End Sub
 
     Private Sub frmFindWindow_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        frmMain.Hide()
+        _frmMain.Hide()
     End Sub
 
     Private Sub found(ByVal hWnd As Integer)
@@ -291,19 +291,19 @@ Public Class frmFindWindow
         Dim pid As Integer
         API.GetWindowThreadProcessId(hWnd, pid)
 
-        frmMain.lvProcess.SelectedItems.Clear()
-        For Each it As ListViewItem In frmMain.lvProcess.Items
-            If frmMain.lvProcess.GetItemByKey(it.Name).Infos.Pid = pid Then
+        _frmMain.lvProcess.SelectedItems.Clear()
+        For Each it As ListViewItem In _frmMain.lvProcess.Items
+            If _frmMain.lvProcess.GetItemByKey(it.Name).Infos.Pid = pid Then
                 it.Selected = True
                 it.EnsureVisible()
                 Exit For
             End If
         Next
 
-        frmMain.Ribbon.ActiveTab = frmMain.ProcessTab
-        Call frmMain.Ribbon_MouseMove(Nothing, Nothing)
-        frmMain.Show()
-        frmMain.lvProcess.Focus()
+        _frmMain.Ribbon.ActiveTab = _frmMain.ProcessTab
+        Call _frmMain.Ribbon_MouseMove(Nothing, Nothing)
+        _frmMain.Show()
+        _frmMain.lvProcess.Focus()
 
         Me.Close()
 

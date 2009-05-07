@@ -32,10 +32,10 @@ Public Class frmGlobalReport
     End Sub
 
     Private Sub cmdSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSave.Click
-        frmMain.saveDial.Filter = "Text file (*.txt)|*.txt"
-        frmMain.saveDial.Title = "Save report"
-        If frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
-            Call saveReport(frmMain.saveDial.FileName)
+        _frmMain.saveDial.Filter = "Text file (*.txt)|*.txt"
+        _frmMain.saveDial.Title = "Save report"
+        If _frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
+            Call saveReport(_frmMain.saveDial.FileName)
         End If
     End Sub
 
@@ -360,16 +360,16 @@ Public Class frmGlobalReport
     End Sub
 
     Private Sub frmGlobalReport_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        frmMain.SetToolTip(Me.chkAllHandles, "Get all handles (including unnamed handles)")
-        frmMain.SetToolTip(Me.chkAllWindows, "Get all windows (including unnamed windows)")
-        frmMain.SetToolTip(Me.chkFull, "Write a complet report, with all informations availables. You should NOT use this option because report file can be up to 100MB")
-        frmMain.SetToolTip(Me.chkHandles, "Write handles infos")
-        frmMain.SetToolTip(Me.chkMemory, "Write memory regions infos")
-        frmMain.SetToolTip(Me.chkModules, "Write modules infos")
-        frmMain.SetToolTip(Me.chkServices, "Write services infos")
-        frmMain.SetToolTip(Me.chkThreads, "Write threads infos")
-        frmMain.SetToolTip(Me.chkWindows, "Write windows infos")
-        frmMain.SetToolTip(Me.cmdCancel, "Cancel")
-        frmMain.SetToolTip(Me.cmdSave, "Save report as a text file")
+        _frmMain.SetToolTip(Me.chkAllHandles, "Get all handles (including unnamed handles)")
+        _frmMain.SetToolTip(Me.chkAllWindows, "Get all windows (including unnamed windows)")
+        _frmMain.SetToolTip(Me.chkFull, "Write a complet report, with all informations availables. You should NOT use this option because report file can be up to 100MB")
+        _frmMain.SetToolTip(Me.chkHandles, "Write handles infos")
+        _frmMain.SetToolTip(Me.chkMemory, "Write memory regions infos")
+        _frmMain.SetToolTip(Me.chkModules, "Write modules infos")
+        _frmMain.SetToolTip(Me.chkServices, "Write services infos")
+        _frmMain.SetToolTip(Me.chkThreads, "Write threads infos")
+        _frmMain.SetToolTip(Me.chkWindows, "Write windows infos")
+        _frmMain.SetToolTip(Me.cmdCancel, "Cancel")
+        _frmMain.SetToolTip(Me.cmdSave, "Save report as a text file")
     End Sub
 End Class
