@@ -49,7 +49,7 @@ Public Class cProcessConnection
 
     Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, ByRef de As HasEnumeratedEventHandler)
         MyBase.New(ControlWhichGetInvoked, Conn)
-        If IsWindowsVista() Then
+        If IsOsWindowsVista() Then
             _minRights = API.PROCESS_RIGHTS.PROCESS_QUERY_LIMITED_INFORMATION
         End If
         instanceId += 1
