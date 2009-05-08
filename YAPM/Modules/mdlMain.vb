@@ -117,6 +117,7 @@ Public Module Program
 
         ' Some basic initialisations
         Application.EnableVisualStyles()
+        Application.SetCompatibleTextRenderingDefault(False)    ' Use GDI, not GDI+
 
 
         ' Set handler for exceptions

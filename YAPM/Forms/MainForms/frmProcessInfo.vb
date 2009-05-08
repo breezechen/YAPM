@@ -111,7 +111,7 @@ Public Class frmProcessInfo
                 Dim sp As TimeSpan = New TimeSpan(curProc.Infos.StartTime)
                 Dim d As Date = Date.Now.Subtract(sp)
                 Me.txtRunTime.Text = d.ToLongTimeString
-                Me.cbPriority.Text = curProc.Infos.Priority.ToString
+                Me.txtPriority.Text = curProc.Infos.Priority.ToString
                 If curProc.Infos.FileInfo IsNot Nothing Then
                     Me.txtImageVersion.Text = curProc.Infos.FileInfo.FileVersion
                     Me.lblCopyright.Text = curProc.Infos.FileInfo.LegalCopyright
@@ -351,6 +351,7 @@ Public Class frmProcessInfo
         asyncAllNonFixedInfos = New asyncCallbackProcGetAllNonFixedInfos(cProcess.Connection, curProc)
 
         Me.Text = curProc.Infos.Name & " (" & CStr(curProc.Infos.Pid) & ")"
+        Me.cbPriority.Text = curProc.Infos.Priority.ToString
 
         _local = (cProcess.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
         _notWMI = (cProcess.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)

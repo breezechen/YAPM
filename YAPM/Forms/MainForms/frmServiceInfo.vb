@@ -65,7 +65,6 @@ Public Class frmServiceInfo
                 Me.txtStartType.Text = curServ.Infos.StartType.ToString
                 Me.txtState.Text = curServ.Infos.State.ToString
                 Me.txtType.Text = curServ.Infos.ServiceType.ToString
-                Me.cbStart.Text = Me.txtStartType.Text
                 Me.cmdGoProcess.Enabled = (Me.curServ.Infos.ProcessId > 0)
                 Me.cmdPause.Enabled = ((Me.curServ.Infos.AcceptedControl And API.SERVICE_ACCEPT.PauseContinue) = API.SERVICE_ACCEPT.PauseContinue)
                 Me.cmdStop.Enabled = ((Me.curServ.Infos.AcceptedControl And API.SERVICE_ACCEPT.Stop) = API.SERVICE_ACCEPT.Stop)
@@ -235,6 +234,7 @@ Public Class frmServiceInfo
         Me.cmdOpenDirectory.Enabled = _local
 
         Me.txtServicePath.Text = GetPathFromCommand(curServ.GetInformation("ImagePath"))
+        Me.cbStart.Text = curServ.Infos.StartType.ToString
 
         If _local Then
             Try
