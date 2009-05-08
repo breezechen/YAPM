@@ -760,11 +760,13 @@ Public Class asyncCallbackProcEnumerate
                     _command = GetCommandLine(obj.ProcessId, _peb)
                 End If
                 Dim _finfo As FileVersionInfo = Nothing
-                Try
-                    _finfo = FileVersionInfo.GetVersionInfo(_path)
-                Catch ex As Exception
-                    ' File not available or ?
-                End Try
+                If IO.File.Exists(_path) Then
+                    Try
+                        _finfo = FileVersionInfo.GetVersionInfo(_path)
+                    Catch ex As Exception
+                        ' File not available or ?
+                    End Try
+                End If
 
                 With _procInfos
                     .Path = _path

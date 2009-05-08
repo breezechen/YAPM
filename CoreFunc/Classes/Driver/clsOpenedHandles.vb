@@ -898,7 +898,8 @@ Fin:
         'nom d'un type
         Dim strType As String
 
-        If IsWindowsVista() Then
+        'is vista ??
+        If Environment.OSVersion.Platform = PlatformID.Win32NT AndAlso Environment.OSVersion.Version.Major >= VISTA_MAJOR_VERSION Then
             Dim b As IntPtr = Marshal.AllocHGlobal(4)
             'on demande la taille requise pour la liste des infos de type
             NtQueryObject(0&, ObjectAllTypesInformation, b, 4&, cbReqLength)
@@ -1007,7 +1008,7 @@ Fin:
 
     'indique s'il s'agit de Vista
     Private Function IsWindowsVista() As Boolean
-        Return ((Environment.OSVersion.Platform = PlatformID.Win32NT) And (Environment.OSVersion.Version.Major = 6) And (Environment.OSVersion.Version.Minor = 0))
+        Return ((Environment.OSVersion.Platform = PlatformID.Win32NT) And (Environment.OSVersion.Version.Major >= 6) And (Environment.OSVersion.Version.Minor = 0))
     End Function
 
     'permet de fermer un handle hHandle dans le processus dwProcessID
