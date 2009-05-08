@@ -266,7 +266,7 @@ Public Class frmMain
     End Sub
 
     Private Sub frmMain_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
-        If My.Settings.HideClose Then
+        If My.Settings.HideWhenClosed Then
             Me.Hide()
             e.Cancel = True
             Exit Sub
