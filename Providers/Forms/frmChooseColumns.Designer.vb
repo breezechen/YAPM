@@ -22,13 +22,17 @@ Partial Class frmChooseColumns
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmChooseColumns))
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
         Me.OK_Button = New System.Windows.Forms.Button
         Me.Cancel_Button = New System.Windows.Forms.Button
         Me.Label1 = New System.Windows.Forms.Label
         Me.cmdSelAll = New System.Windows.Forms.Button
         Me.btnUnSelAll = New System.Windows.Forms.Button
-        Me.lv = New DoubleBufferedLV
+        Me.cmdInvert = New System.Windows.Forms.Button
+        Me.cmdMoveUp = New System.Windows.Forms.Button
+        Me.cmdMoveDown = New System.Windows.Forms.Button
+        Me.lv = New Providers.DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.TableLayoutPanel1.SuspendLayout()
         Me.SuspendLayout()
@@ -41,7 +45,7 @@ Partial Class frmChooseColumns
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel1.Controls.Add(Me.OK_Button, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.Cancel_Button, 1, 0)
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(178, 250)
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(178, 282)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
@@ -80,7 +84,7 @@ Partial Class frmChooseColumns
         '
         Me.cmdSelAll.Location = New System.Drawing.Point(8, 227)
         Me.cmdSelAll.Name = "cmdSelAll"
-        Me.cmdSelAll.Size = New System.Drawing.Size(75, 23)
+        Me.cmdSelAll.Size = New System.Drawing.Size(99, 23)
         Me.cmdSelAll.TabIndex = 4
         Me.cmdSelAll.Text = "Select all"
         Me.cmdSelAll.UseVisualStyleBackColor = True
@@ -89,10 +93,37 @@ Partial Class frmChooseColumns
         '
         Me.btnUnSelAll.Location = New System.Drawing.Point(8, 256)
         Me.btnUnSelAll.Name = "btnUnSelAll"
-        Me.btnUnSelAll.Size = New System.Drawing.Size(75, 23)
+        Me.btnUnSelAll.Size = New System.Drawing.Size(99, 23)
         Me.btnUnSelAll.TabIndex = 5
         Me.btnUnSelAll.Text = "Unselect all"
         Me.btnUnSelAll.UseVisualStyleBackColor = True
+        '
+        'cmdInvert
+        '
+        Me.cmdInvert.Location = New System.Drawing.Point(8, 285)
+        Me.cmdInvert.Name = "cmdInvert"
+        Me.cmdInvert.Size = New System.Drawing.Size(99, 23)
+        Me.cmdInvert.TabIndex = 7
+        Me.cmdInvert.Text = "Invert selection"
+        Me.cmdInvert.UseVisualStyleBackColor = True
+        '
+        'cmdMoveUp
+        '
+        Me.cmdMoveUp.Image = CType(resources.GetObject("cmdMoveUp.Image"), System.Drawing.Image)
+        Me.cmdMoveUp.Location = New System.Drawing.Point(264, 227)
+        Me.cmdMoveUp.Name = "cmdMoveUp"
+        Me.cmdMoveUp.Size = New System.Drawing.Size(28, 28)
+        Me.cmdMoveUp.TabIndex = 8
+        Me.cmdMoveUp.UseVisualStyleBackColor = True
+        '
+        'cmdMoveDown
+        '
+        Me.cmdMoveDown.Image = CType(resources.GetObject("cmdMoveDown.Image"), System.Drawing.Image)
+        Me.cmdMoveDown.Location = New System.Drawing.Point(293, 227)
+        Me.cmdMoveDown.Name = "cmdMoveDown"
+        Me.cmdMoveDown.Size = New System.Drawing.Size(28, 28)
+        Me.cmdMoveDown.TabIndex = 9
+        Me.cmdMoveDown.UseVisualStyleBackColor = True
         '
         'lv
         '
@@ -113,11 +144,14 @@ Partial Class frmChooseColumns
         '
         Me.ColumnHeader1.Width = 280
         '
-        'frmChooseProcessColumns
+        'frmChooseColumns
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(336, 291)
+        Me.ClientSize = New System.Drawing.Size(336, 323)
+        Me.Controls.Add(Me.cmdMoveDown)
+        Me.Controls.Add(Me.cmdMoveUp)
+        Me.Controls.Add(Me.cmdInvert)
         Me.Controls.Add(Me.lv)
         Me.Controls.Add(Me.btnUnSelAll)
         Me.Controls.Add(Me.cmdSelAll)
@@ -127,7 +161,7 @@ Partial Class frmChooseColumns
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "frmChooseProcessColumns"
+        Me.Name = "frmChooseColumns"
         Me.ShowIcon = False
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
@@ -145,4 +179,7 @@ Partial Class frmChooseColumns
     Friend WithEvents btnUnSelAll As System.Windows.Forms.Button
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents lv As DoubleBufferedLV
+    Friend WithEvents cmdInvert As System.Windows.Forms.Button
+    Friend WithEvents cmdMoveUp As System.Windows.Forms.Button
+    Friend WithEvents cmdMoveDown As System.Windows.Forms.Button
 End Class

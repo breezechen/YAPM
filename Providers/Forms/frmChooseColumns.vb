@@ -123,18 +123,106 @@ Public Class frmChooseColumns
         ss(ss.Length - 2) = "ObjectCreationDate"
         ss(ss.Length - 1) = "PendingTaskCount"
 
-        For Each s As String In ss
-            Dim it As New ListViewItem(s)
-
-            ' Checked displayed columns
-            For x As Integer = 0 To theListview.Columns.Count - 1
-                If s = theListview.Columns(x).Text.Replace("< ", "").Replace("> ", "") Then
-                    it.Checked = True
-                    Exit For
-                End If
-            Next
-
+        ' Now add displayed columns names to list
+        For x As Integer = 1 To ConcernedListView.Columns.Count - 1
+            Dim col As ColumnHeader = ConcernedListView.Columns(x)
+            Dim sss As String = col.Text.Replace("< ", "").Replace("> ", "")
+            Dim it As New ListViewItem(sss)
+            it.Checked = True
+            it.Name = sss
             Me.lv.Items.Add(it)
         Next
+
+        ' Add other columns (which are not displayed)
+        For Each s As String In ss
+            If Me.lv.Items.ContainsKey(s) = False Then
+                Dim it As New ListViewItem(s)
+                Me.lv.Items.Add(it)
+            End If
+        Next
+
+    End Sub
+
+    Private Sub cmdInvert_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdInvert.Click
+        Dim it As ListViewItem
+        For Each it In Me.lv.Items
+            it.Checked = Not (it.Checked)
+        Next
+    End Sub
+
+    Private Sub cmdMoveUp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdMoveUp.Click
+        If Me.lv.SelectedItems Is Nothing OrElse Me.lv.SelectedItems.Count <> 1 Then
+            Exit Sub
+        End If
+        If Me.lv.SelectedItems(0).Index = 0 Then
+            Exit Sub
+        End If
+
+        Me.lv.BeginUpdate()
+        MoveListViewItem(Me.lv, True)
+        Me.lv.EndUpdate()
+    End Sub
+
+    Private Sub cmdMoveDown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdMoveDown.Click
+        If Me.lv.SelectedItems Is Nothing OrElse Me.lv.SelectedItems.Count <> 1 Then
+            Exit Sub
+        End If
+        If Me.lv.SelectedItems(0).Index = Me.lv.Items.Count - 1 Then
+            Exit Sub
+        End If
+
+        Me.lv.BeginUpdate()
+        MoveListViewItem(Me.lv, False)
+        Me.lv.EndUpdate()
+    End Sub
+
+    ' Move a listview item (up or down)
+    ' Come from here : http://www.knowdotnet.com/articles/listviewmoveitem.html
+    Private Sub MoveListViewItem(ByVal lv As ListView, ByVal moveUp As Boolean)
+        Dim i As Integer
+        Dim cache As String
+        Dim cacheSel As Boolean
+        Dim selIdx As Integer
+
+        With lv
+            selIdx = .SelectedItems.Item(0).Index
+            If moveUp Then
+                ' ignore moveup of row(0)
+                If selIdx = 0 Then
+                    Exit Sub
+                End If
+                ' move the subitems for the previous row
+                ' to cache so we can move the selected row up
+                cacheSel = .Items(selIdx - 1).Checked
+                For i = 0 To .Items(selIdx).SubItems.Count - 1
+                    cache = .Items(selIdx - 1).SubItems(i).Text
+                    .Items(selIdx - 1).SubItems(i).Text = .Items(selIdx).SubItems(i).Text
+                    .Items(selIdx).SubItems(i).Text = cache
+                Next
+                .Items(selIdx - 1).Checked = .Items(selIdx).Checked
+                .Items(selIdx).Checked = cacheSel
+                .Items(selIdx - 1).Selected = True
+                .Refresh()
+                .Focus()
+            Else
+                ' ignore move down of last row
+                If selIdx = .Items.Count - 1 Then
+                    Exit Sub
+                End If
+                ' move the subitems for the next row
+                ' to cache so we can move the selected row down
+                cacheSel = .Items(selIdx + 1).Checked
+                For i = 0 To .Items(selIdx).SubItems.Count - 1
+                    cache = .Items(selIdx + 1).SubItems(i).Text
+                    .Items(selIdx + 1).SubItems(i).Text = .Items(selIdx).SubItems(i).Text
+                    .Items(selIdx).SubItems(i).Text = cache
+                Next
+                .Items(selIdx + 1).Checked = .Items(selIdx).Checked
+                .Items(selIdx).Checked = cacheSel
+                .Items(selIdx + 1).Selected = True
+                .Refresh()
+                .Focus()
+            End If
+        End With
     End Sub
 End Class

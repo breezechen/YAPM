@@ -42,7 +42,7 @@ Imports System.Runtime.InteropServices
 
     ' Retrieve all information's names availables
     Public Overloads Shared Function GetAvailableProperties() As String()
-        Dim s(10) As String
+        Dim s(11) As String
 
         s(0) = "Caption"
         s(1) = "Process"
