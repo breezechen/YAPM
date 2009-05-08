@@ -2736,18 +2736,14 @@ Public Class frmMain
     End Sub
 
     ' Permute style of menus
-    Public Sub permuteMenuStyle(Optional ByVal specified As Boolean = False, Optional ByVal ribbonStyle As Boolean = True)
+    Public Sub permuteMenuStyle(ByVal ribbonStyle As Boolean)
         '=============== ' _tab.Region = New Region(New RectangleF(_tab.TabPages(0).Left, _tab.TabPages(0).Top, _tab.TabPages(0).Width, _tab.TabPages(0).Height))
 
         ' Change selected tab of tabStrip
+        _ribbonStyle = ribbonStyle
+
         Call _tab_SelectedIndexChanged(Nothing, Nothing)
 
-        If specified Then
-            _ribbonStyle = ribbonStyle
-        Else
-            _ribbonStyle = Not (_ribbonStyle)
-        End If
-        _ribbonStyle = True
         _main.Panel1Collapsed = Not (_ribbonStyle)
 
         Me.containerSystemMenu.Panel1Collapsed = _ribbonStyle
@@ -3610,6 +3606,7 @@ Public Class frmMain
     End Sub
 
     Private Sub _tab_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles _tab.SelectedIndexChanged
+        Static bHelpShown As Boolean = False
 
         ' Change current tab of ribbon
         Dim theTab As RibbonTab = Me.HelpTab
@@ -3634,11 +3631,22 @@ Public Class frmMain
                 theTab = Me.NetworkTab
             Case 9
                 theTab = Me.FileTab
-                Call frmMain_Resize(Nothing, Nothing)
             Case 10
                 theTab = Me.SearchTab
             Case 11
-                Call Ribbon_MouseMove(Nothing, Nothing)
+                theTab = Me.HelpTab
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
+                If Not (bHelpShown) Then
+                    bHelpShown = True
+                    ' Load help file
+                    Dim path As String = HELP_PATH
+                    'If IO.File.Exists(path) = False Then
+                    '    WBHelp.Document.Write("<body link=blue vlink=purple><span>Help file cannot be found. <p></span><span>Please download help file at <a href=" & Chr(34) & "http://sourceforge.net/projects/yaprocmon/" & Chr(34) & ">http://sourceforge.net/projects/yaprocmon</a> and save it in the Help directory.</span></body>")
+                    'Else
+                    WBHelp.Navigate(path)
+                    'End If
+                End If
+                _tab.SelectedTab = Me.pageHelp
         End Select
         Me.Ribbon.ActiveTab = theTab
     End Sub

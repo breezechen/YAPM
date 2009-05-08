@@ -178,12 +178,12 @@ Public Module Program
         ex = CType(e.ExceptionObject, Exception)
         Console.WriteLine(ex.StackTrace)
         Dim t As New frmError(ex)
-        't.ShowDialog()
+        t.ShowDialog()
     End Sub
     Private Sub MYThreadHandler(ByVal sender As Object, ByVal e As Threading.ThreadExceptionEventArgs)
         Console.WriteLine(e.Exception.StackTrace)
         Dim t As New frmError(e.Exception)
-        't.ShowDialog()
+        t.ShowDialog()
     End Sub
 
 

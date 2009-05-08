@@ -79,7 +79,7 @@ Public Class Pref
         threadList.DELETED_ITEM_COLOR = Color.FromArgb(My.Settings.DeletedItemColor)
         _frmMain.Tray.Visible = My.Settings.ShowTrayIcon
         If first Then
-            Call _frmMain.permuteMenuStyle(True, My.Settings.UseRibbonStyle)
+            Call _frmMain.permuteMenuStyle(My.Settings.UseRibbonStyle)
             first = False
             _frmMain.TopMost = My.Settings.TopMost
             _frmMain.butAlwaysDisplay.Checked = My.Settings.TopMost

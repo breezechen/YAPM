@@ -4333,7 +4333,6 @@ Partial Class frmMain
         Me.menuSystem.Size = New System.Drawing.Size(866, 24)
         Me.menuSystem.TabIndex = 61
         Me.menuSystem.Text = "MenuStrip1"
-        Me.menuSystem.Visible = False
         '
         'FileToolStripMenuItem
         '
