@@ -20,6 +20,8 @@
 
 Option Strict On
 
+Imports System.Text
+
 Public Class cMemRegion
     Inherits cGeneralObject
 
@@ -27,7 +29,7 @@ Public Class cMemRegion
 
     Private _memInfos As memRegionInfos
     Private Shared WithEvents _connection As cMemRegionConnection
-
+    Private _moduleFileName As String
 
 #Region "Properties"
 
@@ -47,7 +49,41 @@ Public Class cMemRegion
     Public Sub New(ByRef infos As memRegionInfos)
         _memInfos = infos
         _connection = Connection
+
+        If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+            If infos.Type = API.MEMORY_TYPE.MEM_IMAGE Then
+                _moduleFileName = getModuleName(infos.BaseAddress)
+            ElseIf infos.Type = API.MEMORY_TYPE.MEM_MAPPED Then
+                If infos.State = API.MEMORY_STATE.MEM_COMMIT Then
+                    _moduleFileName = getModuleName(infos.BaseAddress)
+                End If
+            End If
+        End If
     End Sub
+
+    ' Return the name of the mapped file
+    Private Function getModuleName(ByVal ad As Integer) As String
+
+        Dim sb As New StringBuilder(1024)
+        Dim _h As Integer = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION Or API.PROCESS_RIGHTS.PROCESS_VM_READ, 0, Infos.ProcessId)
+
+        If _h > 0 Then
+            Dim leng As Integer = API.GetMappedFileName(_h, ad, sb, sb.Capacity)
+            API.CloseHandle(_h)
+
+            If leng > 0 Then
+                Dim file As String = sb.ToString(0, leng)
+                If file.StartsWith("\") Then
+                    file = asyncCallbackProcEnumerate.DeviceDriveNameToDosDriveName(file)
+                End If
+                Return file
+            Else
+                Return NO_INFO_RETRIEVED
+            End If
+        Else
+            Return NO_INFO_RETRIEVED
+        End If
+    End Function
 
 #End Region
 
@@ -56,6 +92,11 @@ Public Class cMemRegion
     Public ReadOnly Property Infos() As memRegionInfos
         Get
             Return _memInfos
+        End Get
+    End Property
+    Public ReadOnly Property ModuleFileName() As String
+        Get
+            Return _moduleFileName
         End Get
     End Property
 
@@ -91,6 +132,8 @@ Public Class cMemRegion
                 res = "0x" & Me.Infos.BaseAddress.ToString("x")
             Case "Size"
                 res = getSizeString()
+            Case "File"
+                res = _moduleFileName
         End Select
 
         Return res

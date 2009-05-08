@@ -60,7 +60,8 @@ Public Class frmServiceInfo
                 Else
                     Me.txtProcess.Text = "Not started"
                 End If
-                Me.txtServicePath.Text = curServ.GetInformation("ImagePath")
+                Me.txtCommand.Text = curServ.GetInformation("ImagePath")
+                Me.txtServicePath.Text = GetPathFromCommand(Me.txtCommand.Text)
                 Me.txtStartType.Text = curServ.Infos.StartType.ToString
                 Me.txtState.Text = curServ.Infos.State.ToString
                 Me.txtType.Text = curServ.Infos.ServiceType.ToString
@@ -168,6 +169,8 @@ Public Class frmServiceInfo
 
     Private Sub frmProcessInfo_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
+        closeWithEchapKey(Me)
+
         ' Some tooltips
         _frmMain.SetToolTip(Me.txtServicePath, "Path of the image file")
         _frmMain.SetToolTip(Me.txtCheckPoint, "Check point value during when service is starting, stopping, pausing...")
@@ -231,7 +234,7 @@ Public Class frmServiceInfo
         Me.cmdShowFileProperties.Enabled = _local
         Me.cmdOpenDirectory.Enabled = _local
 
-        Me.txtServicePath.Text = curServ.GetInformation("ImagePath")
+        Me.txtServicePath.Text = GetPathFromCommand(curServ.GetInformation("ImagePath"))
 
         If _local Then
             Try

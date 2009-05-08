@@ -35,6 +35,8 @@ Public Class frmAboutG
 
     Private Sub frmAboutG_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
+        closeWithEchapKey(Me)
+
         API.SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
 
         Try

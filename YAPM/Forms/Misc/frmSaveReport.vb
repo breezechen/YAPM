@@ -839,6 +839,9 @@ Public Class frmSaveReport
     End Sub
 
     Private Sub frmSaveReport_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        closeWithEchapKey(Me)
+
         Me.lblProgress.Text = "Waiting for save..."
         With Me.pgb
             .Maximum = 1

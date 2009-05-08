@@ -55,6 +55,9 @@ Public Class frmLogOptions
     End Property
 
     Private Sub frmLogOptions_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        closeWithEchapKey(Me)
+
         Me.captureHandles.Checked = (_logCaptureMask And LogItemType.HandleItem) = LogItemType.HandleItem
         Me.showHandles.Checked = (_logDisplayMask And LogItemType.HandleItem) = LogItemType.HandleItem
 

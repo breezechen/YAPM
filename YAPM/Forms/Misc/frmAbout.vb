@@ -28,8 +28,11 @@ Public Class frmAbout
     End Sub
 
     Private Sub frmAbout_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        closeWithEchapKey(Me)
+
         Dim s As String _
-         = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Microsoft Sans Serif;}{\f1\fmodern\fprq1\fcharset0 Courier New;}{\f2\fswiss\fcharset0 Arial;}}" & vbNewLine
+                 = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Microsoft Sans Serif;}{\f1\fmodern\fprq1\fcharset0 Courier New;}{\f2\fswiss\fcharset0 Arial;}}" & vbNewLine
         s &= "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\b\f0\fs28 YAPM License\par" & vbNewLine
         s &= "\b0\fs20\par" & vbNewLine
         s &= "\f1\fs18 Yet Another (remote) Process Monitor (YAPM) is under GNU GPL 3.0.\par" & vbNewLine

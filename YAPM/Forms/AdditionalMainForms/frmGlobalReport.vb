@@ -360,6 +360,9 @@ Public Class frmGlobalReport
     End Sub
 
     Private Sub frmGlobalReport_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
+        closeWithEchapKey(Me)
+
         _frmMain.SetToolTip(Me.chkAllHandles, "Get all handles (including unnamed handles)")
         _frmMain.SetToolTip(Me.chkAllWindows, "Get all windows (including unnamed windows)")
         _frmMain.SetToolTip(Me.chkFull, "Write a complet report, with all informations availables. You should NOT use this option because report file can be up to 100MB")

@@ -121,6 +121,8 @@ Partial Class frmServiceInfo
         Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip
         Me.Timer = New System.Windows.Forms.Timer(Me.components)
+        Me.txtCommand = New System.Windows.Forms.TextBox
+        Me.Label22 = New System.Windows.Forms.Label
         Me.tabProcess.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -174,20 +176,20 @@ Partial Class frmServiceInfo
         Me.tabProcess.Multiline = True
         Me.tabProcess.Name = "tabProcess"
         Me.tabProcess.SelectedIndex = 0
-        Me.tabProcess.Size = New System.Drawing.Size(655, 323)
+        Me.tabProcess.Size = New System.Drawing.Size(655, 335)
         Me.tabProcess.TabIndex = 0
         '
         'TabPage1
         '
         Me.TabPage1.Controls.Add(Me.GroupBox7)
         Me.TabPage1.Controls.Add(Me.GroupBox6)
-        Me.TabPage1.Controls.Add(Me.GroupBox1)
         Me.TabPage1.Controls.Add(Me.gpProcGeneralFile)
+        Me.TabPage1.Controls.Add(Me.GroupBox1)
         Me.TabPage1.ImageIndex = 0
         Me.TabPage1.Location = New System.Drawing.Point(4, 23)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(647, 296)
+        Me.TabPage1.Size = New System.Drawing.Size(647, 308)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "General - 1"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -354,7 +356,11 @@ Partial Class frmServiceInfo
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.txtCommand)
+        Me.GroupBox1.Controls.Add(Me.Label22)
         Me.GroupBox1.Controls.Add(Me.cmdGoProcess)
+        Me.GroupBox1.Controls.Add(Me.txtName)
+        Me.GroupBox1.Controls.Add(Me.Label15)
         Me.GroupBox1.Controls.Add(Me.txtProcess)
         Me.GroupBox1.Controls.Add(Me.Label1)
         Me.GroupBox1.Controls.Add(Me.txtStartType)
@@ -363,11 +369,9 @@ Partial Class frmServiceInfo
         Me.GroupBox1.Controls.Add(Me.Label16)
         Me.GroupBox1.Controls.Add(Me.txtState)
         Me.GroupBox1.Controls.Add(Me.Label14)
-        Me.GroupBox1.Controls.Add(Me.txtName)
-        Me.GroupBox1.Controls.Add(Me.Label15)
         Me.GroupBox1.Location = New System.Drawing.Point(6, 129)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(376, 142)
+        Me.GroupBox1.Size = New System.Drawing.Size(376, 171)
         Me.GroupBox1.TabIndex = 16
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Service"
@@ -376,7 +380,7 @@ Partial Class frmServiceInfo
         '
         Me.cmdGoProcess.Enabled = False
         Me.cmdGoProcess.Image = Global.YAPM.My.Resources.Resources.down
-        Me.cmdGoProcess.Location = New System.Drawing.Point(345, 114)
+        Me.cmdGoProcess.Location = New System.Drawing.Point(341, 136)
         Me.cmdGoProcess.Name = "cmdGoProcess"
         Me.cmdGoProcess.Size = New System.Drawing.Size(26, 26)
         Me.cmdGoProcess.TabIndex = 24
@@ -385,7 +389,7 @@ Partial Class frmServiceInfo
         'txtProcess
         '
         Me.txtProcess.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.txtProcess.Location = New System.Drawing.Point(89, 114)
+        Me.txtProcess.Location = New System.Drawing.Point(85, 136)
         Me.txtProcess.Name = "txtProcess"
         Me.txtProcess.ReadOnly = True
         Me.txtProcess.Size = New System.Drawing.Size(250, 22)
@@ -394,7 +398,7 @@ Partial Class frmServiceInfo
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(6, 117)
+        Me.Label1.Location = New System.Drawing.Point(2, 139)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(45, 13)
         Me.Label1.TabIndex = 23
@@ -403,7 +407,7 @@ Partial Class frmServiceInfo
         'txtStartType
         '
         Me.txtStartType.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.txtStartType.Location = New System.Drawing.Point(89, 90)
+        Me.txtStartType.Location = New System.Drawing.Point(85, 112)
         Me.txtStartType.Name = "txtStartType"
         Me.txtStartType.ReadOnly = True
         Me.txtStartType.Size = New System.Drawing.Size(282, 22)
@@ -412,7 +416,7 @@ Partial Class frmServiceInfo
         'Label17
         '
         Me.Label17.AutoSize = True
-        Me.Label17.Location = New System.Drawing.Point(6, 93)
+        Me.Label17.Location = New System.Drawing.Point(2, 115)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(56, 13)
         Me.Label17.TabIndex = 21
@@ -421,7 +425,7 @@ Partial Class frmServiceInfo
         'txtType
         '
         Me.txtType.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.txtType.Location = New System.Drawing.Point(89, 67)
+        Me.txtType.Location = New System.Drawing.Point(85, 89)
         Me.txtType.Name = "txtType"
         Me.txtType.ReadOnly = True
         Me.txtType.Size = New System.Drawing.Size(282, 22)
@@ -430,7 +434,7 @@ Partial Class frmServiceInfo
         'Label16
         '
         Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(6, 70)
+        Me.Label16.Location = New System.Drawing.Point(2, 92)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(30, 13)
         Me.Label16.TabIndex = 19
@@ -439,7 +443,7 @@ Partial Class frmServiceInfo
         'txtState
         '
         Me.txtState.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.txtState.Location = New System.Drawing.Point(89, 45)
+        Me.txtState.Location = New System.Drawing.Point(85, 67)
         Me.txtState.Name = "txtState"
         Me.txtState.ReadOnly = True
         Me.txtState.Size = New System.Drawing.Size(282, 22)
@@ -448,7 +452,7 @@ Partial Class frmServiceInfo
         'Label14
         '
         Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(6, 48)
+        Me.Label14.Location = New System.Drawing.Point(2, 70)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(33, 13)
         Me.Label14.TabIndex = 17
@@ -457,7 +461,7 @@ Partial Class frmServiceInfo
         'txtName
         '
         Me.txtName.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.txtName.Location = New System.Drawing.Point(89, 22)
+        Me.txtName.Location = New System.Drawing.Point(85, 21)
         Me.txtName.Name = "txtName"
         Me.txtName.ReadOnly = True
         Me.txtName.Size = New System.Drawing.Size(282, 22)
@@ -467,7 +471,7 @@ Partial Class frmServiceInfo
         '
         Me.Label15.AutoSize = True
         Me.Label15.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label15.Location = New System.Drawing.Point(6, 25)
+        Me.Label15.Location = New System.Drawing.Point(2, 24)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(77, 13)
         Me.Label15.TabIndex = 15
@@ -630,7 +634,7 @@ Partial Class frmServiceInfo
         Me.TabPage2.Location = New System.Drawing.Point(4, 23)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(647, 296)
+        Me.TabPage2.Size = New System.Drawing.Size(647, 308)
         Me.TabPage2.TabIndex = 8
         Me.TabPage2.Text = "General - 2"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -750,7 +754,7 @@ Partial Class frmServiceInfo
         Me.GroupBox3.Controls.Add(Me.rtbDescription)
         Me.GroupBox3.Location = New System.Drawing.Point(8, 181)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(376, 103)
+        Me.GroupBox3.Size = New System.Drawing.Size(376, 119)
         Me.GroupBox3.TabIndex = 18
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Description"
@@ -765,7 +769,7 @@ Partial Class frmServiceInfo
         Me.rtbDescription.Location = New System.Drawing.Point(3, 18)
         Me.rtbDescription.Name = "rtbDescription"
         Me.rtbDescription.ReadOnly = True
-        Me.rtbDescription.Size = New System.Drawing.Size(370, 82)
+        Me.rtbDescription.Size = New System.Drawing.Size(370, 98)
         Me.rtbDescription.TabIndex = 13
         Me.rtbDescription.Text = ""
         '
@@ -906,7 +910,7 @@ Partial Class frmServiceInfo
         Me.tabDep.Location = New System.Drawing.Point(4, 23)
         Me.tabDep.Name = "tabDep"
         Me.tabDep.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabDep.Size = New System.Drawing.Size(647, 296)
+        Me.tabDep.Size = New System.Drawing.Size(647, 308)
         Me.tabDep.TabIndex = 7
         Me.tabDep.Text = "Dependencies"
         Me.tabDep.UseVisualStyleBackColor = True
@@ -924,7 +928,7 @@ Partial Class frmServiceInfo
         'SplitContainer.Panel2
         '
         Me.SplitContainer.Panel2.Controls.Add(Me.SplitContainer3)
-        Me.SplitContainer.Size = New System.Drawing.Size(641, 290)
+        Me.SplitContainer.Size = New System.Drawing.Size(641, 302)
         Me.SplitContainer.SplitterDistance = 320
         Me.SplitContainer.TabIndex = 0
         '
@@ -944,7 +948,7 @@ Partial Class frmServiceInfo
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.SplitContainer2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(320, 290)
+        Me.SplitContainer1.Size = New System.Drawing.Size(320, 302)
         Me.SplitContainer1.SplitterDistance = 25
         Me.SplitContainer1.TabIndex = 0
         '
@@ -974,8 +978,8 @@ Partial Class frmServiceInfo
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.cmdServDet1)
-        Me.SplitContainer2.Size = New System.Drawing.Size(320, 261)
-        Me.SplitContainer2.SplitterDistance = 231
+        Me.SplitContainer2.Size = New System.Drawing.Size(320, 273)
+        Me.SplitContainer2.SplitterDistance = 243
         Me.SplitContainer2.TabIndex = 0
         '
         'tv2
@@ -991,7 +995,7 @@ Partial Class frmServiceInfo
         Me.tv2.Name = "tv2"
         Me.tv2.RootService = Nothing
         Me.tv2.SelectedImageIndex = 2
-        Me.tv2.Size = New System.Drawing.Size(320, 231)
+        Me.tv2.Size = New System.Drawing.Size(320, 243)
         Me.tv2.TabIndex = 16
         '
         'imgServices
@@ -1030,7 +1034,7 @@ Partial Class frmServiceInfo
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.SplitContainer4)
-        Me.SplitContainer3.Size = New System.Drawing.Size(317, 290)
+        Me.SplitContainer3.Size = New System.Drawing.Size(317, 302)
         Me.SplitContainer3.SplitterDistance = 25
         Me.SplitContainer3.TabIndex = 1
         '
@@ -1060,8 +1064,8 @@ Partial Class frmServiceInfo
         'SplitContainer4.Panel2
         '
         Me.SplitContainer4.Panel2.Controls.Add(Me.cmdServDet2)
-        Me.SplitContainer4.Size = New System.Drawing.Size(317, 261)
-        Me.SplitContainer4.SplitterDistance = 231
+        Me.SplitContainer4.Size = New System.Drawing.Size(317, 273)
+        Me.SplitContainer4.SplitterDistance = 243
         Me.SplitContainer4.TabIndex = 0
         '
         'tv
@@ -1077,7 +1081,7 @@ Partial Class frmServiceInfo
         Me.tv.Name = "tv"
         Me.tv.RootService = Nothing
         Me.tv.SelectedImageIndex = 0
-        Me.tv.Size = New System.Drawing.Size(317, 231)
+        Me.tv.Size = New System.Drawing.Size(317, 243)
         Me.tv.TabIndex = 15
         '
         'cmdServDet2
@@ -1221,11 +1225,29 @@ Partial Class frmServiceInfo
         Me.Timer.Enabled = True
         Me.Timer.Interval = 1000
         '
+        'txtCommand
+        '
+        Me.txtCommand.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.txtCommand.Location = New System.Drawing.Point(85, 44)
+        Me.txtCommand.Name = "txtCommand"
+        Me.txtCommand.ReadOnly = True
+        Me.txtCommand.Size = New System.Drawing.Size(282, 22)
+        Me.txtCommand.TabIndex = 25
+        '
+        'Label22
+        '
+        Me.Label22.AutoSize = True
+        Me.Label22.Location = New System.Drawing.Point(2, 47)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(59, 13)
+        Me.Label22.TabIndex = 26
+        Me.Label22.Text = "Command"
+        '
         'frmServiceInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(655, 323)
+        Me.ClientSize = New System.Drawing.Size(655, 335)
         Me.Controls.Add(Me.MenuStrip1)
         Me.Controls.Add(Me.tabProcess)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -1379,4 +1401,6 @@ Partial Class frmServiceInfo
     Friend WithEvents imgServices As System.Windows.Forms.ImageList
     Friend WithEvents cmdServDet1 As System.Windows.Forms.Button
     Friend WithEvents cmdServDet2 As System.Windows.Forms.Button
+    Friend WithEvents txtCommand As System.Windows.Forms.TextBox
+    Friend WithEvents Label22 As System.Windows.Forms.Label
 End Class

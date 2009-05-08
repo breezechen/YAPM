@@ -33,6 +33,8 @@ Public Class frmThreadAffinity
 
     Private Sub frmProcessAffinity_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
+        closeWithEchapKey(Me)
+
         If threads Is Nothing OrElse threads.Length = 0 Then
             Me.Close()
             Exit Sub

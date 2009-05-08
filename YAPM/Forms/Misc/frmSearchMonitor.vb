@@ -26,6 +26,9 @@ Imports System.Runtime.InteropServices
 Public Class frmSearchMonitor
 
     Private Sub frmSearchMonitor_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        closeWithEchapKey(Me)
+
         API.SetWindowTheme(Me.LV.Handle, "explorer", Nothing)
     End Sub
 

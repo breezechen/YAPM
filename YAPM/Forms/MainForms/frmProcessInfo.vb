@@ -279,6 +279,8 @@ Public Class frmProcessInfo
 
     Private Sub frmProcessInfo_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
+        closeWithEchapKey(Me)
+
         ' Cool theme
         API.SetWindowTheme(Me.lvProcString.Handle, "explorer", Nothing)
         API.SetWindowTheme(Me.lvProcEnv.Handle, "explorer", Nothing)

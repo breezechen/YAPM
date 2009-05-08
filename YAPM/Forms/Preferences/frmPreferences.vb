@@ -88,6 +88,8 @@ Public Class frmPreferences
 
     Private Sub frmPreferences_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
+        closeWithEchapKey(Me)
+
         Me.txtUpdate.Text = "Click on 'Check if YAPM is up to date' to check if a new version is available."
         With frmMain
             .SetToolTip(Me.chkReplaceTaskmgr, "Replace taskmgr (it is safe).")

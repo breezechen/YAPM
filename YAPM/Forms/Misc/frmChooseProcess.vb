@@ -49,6 +49,9 @@ Public Class frmChooseProcess
     End Sub
 
     Private Sub frmChooseProcess_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
+        closeWithEchapKey(Me)
+
         API.SetWindowTheme(lvProcess.Handle, "explorer", Nothing)
         lvProcess.UpdateTheItems()
     End Sub

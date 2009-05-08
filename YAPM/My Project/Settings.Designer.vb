@@ -353,6 +353,18 @@ Namespace My
                 Me("HideClose") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Processes")>  _
+        Public Property SelectedTab() As String
+            Get
+                Return CType(Me("SelectedTab"),String)
+            End Get
+            Set
+                Me("SelectedTab") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

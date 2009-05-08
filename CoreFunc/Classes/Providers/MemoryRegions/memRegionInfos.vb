@@ -118,13 +118,14 @@ Imports System.Runtime.InteropServices
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties() As String()
-        Dim s(4) As String
+        Dim s(5) As String
 
         s(0) = "Type"
         s(1) = "Protection"
         s(2) = "State"
         s(3) = "Address"
         s(4) = "Size"
+        s(5) = "File"
 
         Return s
     End Function

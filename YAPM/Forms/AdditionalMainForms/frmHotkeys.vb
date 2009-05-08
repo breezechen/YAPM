@@ -34,6 +34,9 @@ Public Class frmHotkeys
     End Sub
 
     Private Sub frmWindowsList_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        closeWithEchapKey(Me)
+
         API.SetWindowTheme(lv.Handle, "explorer", Nothing)
 
         Me.cbAction.Items.Clear()

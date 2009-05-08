@@ -67,6 +67,9 @@ Public Class frmLog
     End Sub
 
     Private Sub frmLog_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
+        closeWithEchapKey(Me)
+
         Call API.SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
     End Sub
 End Class

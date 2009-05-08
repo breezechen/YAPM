@@ -218,6 +218,15 @@ Public Module mdlMisc
         Return path
     End Function
 
+    ' Get path from a command
+    Public Function GetPathFromCommand(ByVal path As String) As String
+        If IO.File.Exists(path) Then
+            Return path
+        Else
+            Return cFile.IntelligentPathRetrieving2(path)
+        End If
+    End Function
+
     ' Get a file name from a path
     Public Function GetFileName(ByVal _path As String) As String
         Dim i As Integer = InStrRev(_Path, "\", , CompareMethod.Binary)

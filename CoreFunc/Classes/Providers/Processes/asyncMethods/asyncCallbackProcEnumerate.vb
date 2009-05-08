@@ -417,7 +417,7 @@ Public Class asyncCallbackProcEnumerate
     End Function
 
     ' Return dos drive name
-    Private Shared Function DeviceDriveNameToDosDriveName(ByVal drivePath As String) As String
+    Public Shared Function DeviceDriveNameToDosDriveName(ByVal drivePath As String) As String
 
         For Each pair As System.Collections.Generic.KeyValuePair(Of String, String) In _DicoLogicalDrivesNames
             If drivePath.StartsWith(pair.Key) Then

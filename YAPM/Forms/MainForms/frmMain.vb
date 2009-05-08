@@ -288,8 +288,6 @@ Public Class frmMain
         TrayIcon.SetCounter(1, Color.Red, Color.FromArgb(120, 0, 0))
         TrayIcon.SetCounter(2, Color.LightGreen, Color.FromArgb(0, 120, 0))
 
-        Call refreshTaskList()
-
         PROCESSOR_COUNT = Program.SystemInfo.ProcessorCount
 
         Me.lblServicePath.BackColor = Me.BackColor
@@ -297,10 +295,6 @@ Public Class frmMain
         creg = New cRegMonitor(API.KEY_TYPE.HKEY_LOCAL_MACHINE, "SYSTEM\CurrentControlSet\Services", _
                 API.KEY_MONITORING_TYPE.REG_NOTIFY_CHANGE_NAME)
 
-        'isAdmin = mdlPrivileges.IsAdministrator
-        'If isAdmin = False Then
-        '    MsgBox("You are not logged as an administrator. You cannot retrieve informations for system processes.", MsgBoxStyle.Critical, "You are not part of administrator group")
-        'End If
 
         With Me.graphMonitor
             .ColorMemory1 = Color.Yellow
@@ -342,6 +336,7 @@ Public Class frmMain
         t = API.GetTickCount - t
 
         Trace.WriteLine("Loaded in " & CStr(t) & " ms.")
+        Call refreshTaskList()
         frmServeur.Show()
 
     End Sub
@@ -645,6 +640,33 @@ Public Class frmMain
                 Me.WindowState = FormWindowState.Normal
             End If
         End If
+        Select Case My.Settings.SelectedTab
+            Case "Tasks"
+                Me.Ribbon.ActiveTab = Me.TaskTab
+            Case "Processes"
+                Me.Ribbon.ActiveTab = Me.ProcessTab
+            Case "Modules"
+                Me.Ribbon.ActiveTab = Me.ModulesTab
+            Case "Threads"
+                Me.Ribbon.ActiveTab = Me.ThreadTab
+            Case "Handles"
+                Me.Ribbon.ActiveTab = Me.HandlesTab
+            Case "Windows"
+                Me.Ribbon.ActiveTab = Me.WindowTab
+            Case "Monitor"
+                Me.Ribbon.ActiveTab = Me.MonitorTab
+            Case "Services"
+                Me.Ribbon.ActiveTab = Me.ServiceTab
+            Case "Network"
+                Me.Ribbon.ActiveTab = Me.NetworkTab
+            Case "File"
+                Me.Ribbon.ActiveTab = Me.FileTab
+            Case "Search"
+                Me.Ribbon.ActiveTab = Me.SearchTab
+            Case "Help"
+                Me.Ribbon.ActiveTab = Me.HelpTab
+        End Select
+        Call Ribbon_MouseMove(Nothing, Nothing)
     End Sub
 
     Private Sub butKill_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butKillProcess.Click
@@ -2742,7 +2764,7 @@ Public Class frmMain
         ' Change selected tab of tabStrip
         _ribbonStyle = ribbonStyle
 
-        Call _tab_SelectedIndexChanged(Nothing, Nothing)
+        ' Call _tab_SelectedIndexChanged(Nothing, Nothing)
 
         _main.Panel1Collapsed = Not (_ribbonStyle)
 
@@ -3612,28 +3634,40 @@ Public Class frmMain
         Dim theTab As RibbonTab = Me.HelpTab
         Select Case _tab.SelectedIndex
             Case 0
+                My.Settings.SelectedTab = "Tasks"
                 theTab = Me.TaskTab
             Case 1
+                My.Settings.SelectedTab = "Processes"
                 theTab = Me.ProcessTab
             Case 2
+                My.Settings.SelectedTab = "Modules"
                 theTab = Me.ModulesTab
             Case 3
+                My.Settings.SelectedTab = "Threads"
                 theTab = Me.ThreadTab
             Case 4
+                My.Settings.SelectedTab = "Handles"
                 theTab = Me.HandlesTab
             Case 5
+                My.Settings.SelectedTab = "Windows"
                 theTab = Me.WindowTab
             Case 6
+                My.Settings.SelectedTab = "Monitor"
                 theTab = Me.MonitorTab
             Case 7
+                My.Settings.SelectedTab = "Services"
                 theTab = Me.ServiceTab
             Case 8
+                My.Settings.SelectedTab = "Network"
                 theTab = Me.NetworkTab
             Case 9
+                My.Settings.SelectedTab = "File"
                 theTab = Me.FileTab
             Case 10
+                My.Settings.SelectedTab = "Search"
                 theTab = Me.SearchTab
             Case 11
+                My.Settings.SelectedTab = "Help"
                 theTab = Me.HelpTab
                 Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
                 If Not (bHelpShown) Then

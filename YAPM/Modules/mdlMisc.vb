@@ -25,6 +25,25 @@ Imports Microsoft.Win32
 
 Module mdlMisc
 
+    ' Escape will close the form frm
+    Public Sub closeWithEchapKey(ByRef frm As Form)
+        frm.KeyPreview = True
+        Dim oo As New System.Windows.Forms.KeyEventHandler(AddressOf handlerCloseForm_)
+        AddHandler frm.KeyDown, oo
+    End Sub
+
+    Private Sub handlerCloseForm_(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs)
+        If e.KeyCode = Keys.Escape Then
+            Try
+                DirectCast(sender, Form).Close()
+            Catch ex As Exception
+                '
+            End Try
+            e.Handled = True
+        End If
+    End Sub
+
+
     ' Copy content of a listview (selected items) into clipboard
     Public Sub CopyLvToClip(ByVal e As MouseEventArgs, ByVal lv As ListView)
         If e.Button = Windows.Forms.MouseButtons.Middle Then

@@ -294,6 +294,10 @@ Public Class API
     Public Shared Function VirtualQueryEx(ByVal Process As Integer, ByVal Address As Integer, <MarshalAs(UnmanagedType.Struct)> ByRef Buffer As MEMORY_BASIC_INFORMATION, ByVal Size As Integer) As Boolean
     End Function
 
+    <DllImport("psapi.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
+    Public Shared Function GetMappedFileName(ByVal ProcessHandle As Integer, ByVal Address As Integer, ByVal Buffer As StringBuilder, ByVal Size As Integer) As Integer
+    End Function
+
     Public Structure MEMORY_BASIC_INFORMATION ' 28 bytes
         Dim BaseAddress As Integer
         Dim AllocationBase As Integer

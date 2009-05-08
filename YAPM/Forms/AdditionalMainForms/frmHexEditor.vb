@@ -37,6 +37,9 @@ Public Class frmHexEditor
     End Sub
 
     Private Sub frmHexEditor_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        closeWithEchapKey(Me)
+
         With _hex
             .BackColor = Color.White
             .Location = New Point(0, 0)

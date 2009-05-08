@@ -178,12 +178,12 @@ Public Module Program
         ex = CType(e.ExceptionObject, Exception)
         Console.WriteLine(ex.StackTrace)
         Dim t As New frmError(ex)
-        t.ShowDialog()
+        '    t.ShowDialog()
     End Sub
     Private Sub MYThreadHandler(ByVal sender As Object, ByVal e As Threading.ThreadExceptionEventArgs)
         Console.WriteLine(e.Exception.StackTrace)
         Dim t As New frmError(e.Exception)
-        t.ShowDialog()
+        '  t.ShowDialog()
     End Sub
 
 
@@ -192,13 +192,21 @@ Public Module Program
     ' Exit application
     Public Sub ExitYAPM()
 
+        ' Save settings
+        My.Settings.Save()
+
+        ' Uninstall driver
         Try
             cHandle.GetOpenedHandlesClass.Close()
         Catch ex As Exception
             '
         End Try
 
+        ' Close forms & exit
         My.Settings.HideClose = False
+        If _frmMain IsNot Nothing Then
+            _frmMain.Close()
+        End If
         Application.Exit()
 
     End Sub

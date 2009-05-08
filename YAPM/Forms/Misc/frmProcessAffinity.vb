@@ -32,6 +32,8 @@ Public Class frmProcessAffinity
 
     Private Sub frmProcessAffinity_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
+        closeWithEchapKey(Me)
+
         If proc Is Nothing OrElse proc.Length = 0 Then
             Me.Close()
             Exit Sub
