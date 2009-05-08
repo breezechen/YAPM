@@ -1,0 +1,179 @@
+YAPM 2.0 BETA
+
+CHANGES FROM BETA 5
+
+* General changes
+- Possibility to now monitor remote processes, via WMI or via a client-server architecture
+- Major code refactoring designed for multi-threading and a good genericity
+- Performance improvements
+
+* GUI changes
+- Added an Orb (Ribbon style)
+- Windows Vista message boxes
+- Detail form for Services
+- New about box
+- Command button (kill, pause, resume...) on 'process details form'
+- Save preferences for columns, form position...
+- Possibility to change the order of columns
+- Echap key close forms
+
+* New functions
+- 'Hidden processes' feature to detect basic rootkits (local only for now)
+
+* New informations availables
+- New services (now all services) are displayed with more informations
+- Pending tasks view + meta-counters (obj creation date + pending tasks count)
+- Displays information of all processes (even System Process) thanks to ZwQuerySystemInformation
+- HandleCount counter
+- IO delta for processes
+- ImageFile of memory regions
+
+* New options
+- Hide when close
+- Customizable history buffer
+
+* Minor changes
+- Check update & download last update are asynchrons
+- Removed 'Shutdown Service' command (useless)
+
+* Bug fixes
+- Too much to be listed
+
+
+CHANGES FROM BETA 4
+
+* General changes
+- Code refactoring
+
+* GUI changes
+- 1 graphe per CPU is OK
+- start hidden OK
+- actions (kill, suspend...) in process detail form
+
+* New functions
+- State Based Actions
+- log is OK
+
+* New informations availables
+- runTime counter in process detail form
+
+* New options
+- intervals configuration (tray & system info)
+
+
+
+CHANGES FROM BETA 3
+
+* General changes
+- GNU GPL 2.0 to 3.0 migration
+
+* GUI Changes
+- new GUI (just like Process Explorer) with separated form
+- added classical menu style
+- new icons (Fugue icons & only 32 bits icons)
+- real time display of all informations in listview
+- now it is possible to select columns for all listview
+- can now sort columns by size (e.g 10MB) and by hexadecimal value
+- added real time items sorting for all listviews
+- now new items/deleted items are displayed with a different color
+- custom inputbox
+- new about form
+- dynamic tray icon with CPU usage and physical memory usage
+- graphics are much more better
+- average value is displayed on graphs
+- addresses are displayed as hexadecimal values
+- listview for monitoring log (no more textbox)
+- now display only formated sizes
+- added a form to manage windows opened by YAPM
+- toolitps + tabOrder are OK
+- new font
+- Ctrl+A (select all) and Ctrl+C (copy) for all listviews
+
+* New functions
+- added hex editor for memory reading
+- added history of all statistics of processes
+- added network management
+- added 'find window's process' function
+- added a form with all general informations about system
+- added shutdown/logoff functions
+- added State Based Actions function
+- added general report function
+- added thread affinity function
+- added log function for processes
+- added emergency hotkeys function
+- now can add/remove privileges to processes
+
+* New informations availables
+- now can retrieve strings of processes (in image file or in memory)
+- now can displays environment variables for all processes
+- added command line information
+- added handle count counter
+- added DNS solving for TCP connections
+- process's username is now OK
+- now displays cpu usage per task
+- wintrust verification of exe files
+- more informations about handles
+- new columns availables for process listview (IO counters)
+
+* Minor changes
+- double click on lvTask select associated process
+- now download of informations about a process is asynchron
+- Ctrl+A (select all) and Ctrl+C (copy) works on all listviews
+
+* New options
+- showUnnamed handles option
+- showUnnamed windows option
+- priority of YAPM
+- interval for processes/services/tasks/network refresh
+- show tray icon
+- close YAPM with close button
+- colors of new/deleted items
+- hide when minimized
+- warn about dangerous action
+- search engine is now configurable
+
+* Optimization & improvements
+- LOTS OF performance improvements thanks to a complete code refactoring
+- Cpu usage divided by ~5
+
+* Bugs fixed
+- TOO MUCH to be listed
+
+
+
+
+CHANGES FROM BETA 2
+- lots of bug fixed
+- no more Setup but a 'binaries-zip-file'
+- simplification of GUI
+- auto update doesn't crashes anymore
+- possibility to choose process columns (dbl click on the listview)
+- unloadModule function works fine
+- some report can now be saved
+- better management of GUI resizement
+- better services management (retrieve more services, more informations and now processes can be associated with services)
+- all file functions are available
+- faster search
+- better display (no more flickering)
+- new GUI area (process details with all useful functions)
+- new statistics are availables (I/O, GDI objects...)
+- privilege management
+- memory areas management
+- icons in GUI menus
+- monitoring of created/deleted services works fine
+- log file (right click on Tray button -> Show log)
+- Better OO programmation for better performances
+- no more crash when app is launched without admin rights
+- simplification of some pieces of code
+- 'display all processes' works fine
+- now can get CPU usage (support multi-processor)
+- possibility to search a monitor item
+- preferences are OK
+- possibility to replace taskmgr
+- faster loading of application
+- it is now possible to select services associated to processes from process view
+- added Task view
+- added icons for Windows view
+- added new counters (RunTime, GDI Objects, AffinityMask, UserObjects)
+- process list refreshement is now faster
+- now user can change processor affinity for processes
