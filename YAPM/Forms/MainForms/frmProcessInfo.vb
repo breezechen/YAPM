@@ -316,6 +316,17 @@ Public Class frmProcessInfo
         _frmMain.SetToolTip(Me.cmdProcSearchL, "Previous result (F2 on listview also works)")
         _frmMain.SetToolTip(Me.cmdProcSearchR, "Next result (F3 on listview also works)")
 
+        ' Init columns
+        Pref.LoadListViewColumns(Me.lvPrivileges, "COLprocdetail_privilege")
+        Pref.LoadListViewColumns(Me.lvProcMem, "COLprocdetail_memory")
+        Pref.LoadListViewColumns(Me.lvProcServices, "COLprocdetail_service")
+        Pref.LoadListViewColumns(Me.lvProcNetwork, "COLprocdetail_network")
+        Pref.LoadListViewColumns(Me.lvHandles, "COLprocdetail_handle")
+        Pref.LoadListViewColumns(Me.lvWindows, "COLprocdetail_window")
+        Pref.LoadListViewColumns(Me.lvThreads, "COLprocdetail_thread")
+        Pref.LoadListViewColumns(Me.lvModules, "COLprocdetail_module")
+        Pref.LoadListViewColumns(Me.lvProcEnv, "COLprocdetail_envvariable")
+
         ' Refresh infos
         Me.graphCPU.ClearValue()
         Me.graphIO.ClearValue()
@@ -1894,6 +1905,10 @@ Public Class frmProcessInfo
         '
     End Sub
 
+    Private Sub lvProcServices_HasChangedColumns() Handles lvProcServices.HasChangedColumns
+        Pref.SaveListViewColumns(Me.lvProcServices, "COLprocdetail_service")
+    End Sub
+
     Private Sub lvProcServices_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcServices.MouseDoubleClick
         For Each it As cService In Me.lvProcServices.GetSelectedItems
             Dim frm As New frmServiceInfo
@@ -2110,7 +2125,47 @@ Public Class frmProcessInfo
         End If
     End Sub
 
-    Private Sub lstHistoryCat_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstHistoryCat.SelectedIndexChanged
+    Private Sub lvThreads_HasChangedColumns() Handles lvThreads.HasChangedColumns
+        Pref.SaveListViewColumns(Me.lvThreads, "COLprocdetail_thread")
+    End Sub
 
+    Private Sub lvThreads_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvThreads.KeyDown
+        Pref.LoadListViewColumns(Me.lvPrivileges, "COLprocdetail_privilege")
+        Pref.LoadListViewColumns(Me.lvProcMem, "COLprocdetail_memory")
+        Pref.LoadListViewColumns(Me.lvProcServices, "COLprocdetail_service")
+        Pref.LoadListViewColumns(Me.lvProcNetwork, "COLprocdetail_network")
+        Pref.LoadListViewColumns(Me.lvHandles, "COLprocdetail_handle")
+        Pref.LoadListViewColumns(Me.lvWindows, "COLprocdetail_window")
+        Pref.LoadListViewColumns(Me.lvThreads, "COLprocdetail_thread")
+        Pref.LoadListViewColumns(Me.lvModules, "COLprocdetail_module")
+        Pref.LoadListViewColumns(Me.lvProcEnv, "COLprocdetail_envvariable")
+    End Sub
+
+    Private Sub lvWindows_HasChangedColumns() Handles lvWindows.HasChangedColumns
+        Pref.SaveListViewColumns(Me.lvWindows, "COLprocdetail_window")
+    End Sub
+
+    Private Sub lvPrivileges_HasChangedColumns() Handles lvPrivileges.HasChangedColumns
+        Pref.SaveListViewColumns(Me.lvPrivileges, "COLprocdetail_privilege")
+    End Sub
+
+    Private Sub lvProcMem_HasChangedColumns() Handles lvProcMem.HasChangedColumns
+        Pref.SaveListViewColumns(Me.lvProcMem, "COLprocdetail_memory")
+    End Sub
+
+    Private Sub lvProcNetwork_HasChangedColumns() Handles lvProcNetwork.HasChangedColumns
+        Pref.SaveListViewColumns(Me.lvProcNetwork, "COLprocdetail_network")
+    End Sub
+
+    Private Sub lvHandles_HasChangedColumns() Handles lvHandles.HasChangedColumns
+        Pref.SaveListViewColumns(Me.lvHandles, "COLprocdetail_handle")
+    End Sub
+
+    Private Sub lvModules_HasChangedColumns() Handles lvModules.HasChangedColumns
+        Pref.SaveListViewColumns(Me.lvModules, "COLprocdetail_module")
+    End Sub
+
+    Private Sub lvProcEnv_HasChangedColumns() Handles lvProcEnv.HasChangedColumns
+        Pref.SaveListViewColumns(Me.lvProcEnv, "COLprocdetail_envvariable")
     End Sub
 End Class

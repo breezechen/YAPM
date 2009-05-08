@@ -401,4 +401,34 @@ Public Class frmPreferences
             Me.chkTrayIcon.Enabled = True
         End If
     End Sub
+
+    'Private Sub cmdResetLv_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '    If MsgBox("Are you sure ?", MsgBoxStyle.YesNo, "Reset settings") = MsgBoxResult.Yes Then
+    '        My.Settings.COLmain_handle = My.MySettings.Default.COLmain_handle
+    '        My.Settings.COLmain_module = My.MySettings.Default.COLmain_module
+    '        My.Settings.COLmain_network = My.MySettings.Default.COLmain_network
+    '        My.Settings.COLmain_process = My.MySettings.Default.COLmain_process
+    '        My.Settings.COLmain_service = My.MySettings.Default.COLmain_service
+    '        My.Settings.COLmain_task = My.MySettings.Default.COLmain_task
+    '        My.Settings.COLmain_thread = My.MySettings.Default.COLmain_thread
+    '        My.Settings.COLmain_window = My.MySettings.Default.COLmain_window
+    '        My.Settings.COLprocdetail_envvariable = My.MySettings.Default.COLprocdetail_envvariable
+    '        My.Settings.COLprocdetail_handle = My.MySettings.Default.COLprocdetail_handle
+    '        My.Settings.COLprocdetail_memory = My.MySettings.Default.COLprocdetail_memory
+    '        My.Settings.COLprocdetail_module = My.MySettings.Default.COLprocdetail_module
+    '        My.Settings.COLprocdetail_network = My.MySettings.Default.COLprocdetail_network
+    '        My.Settings.COLprocdetail_privilege = My.MySettings.Default.COLprocdetail_privilege
+    '        My.Settings.COLprocdetail_service = My.MySettings.Default.COLprocdetail_service
+    '        My.Settings.COLprocdetail_thread = My.MySettings.Default.COLprocdetail_thread
+    '        My.Settings.COLprocdetail_window = My.MySettings.Default.COLprocdetail_window
+    '        My.Settings.Save()
+    '    End If
+    'End Sub
+
+    Private Sub cmdResetAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdResetAll.Click
+        If MsgBox("Are you sure ?", MsgBoxStyle.YesNo, "Reset settings") = MsgBoxResult.Yes Then
+            My.Settings.Reset()
+            My.Settings.Save()
+        End If
+    End Sub
 End Class

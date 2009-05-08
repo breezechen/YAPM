@@ -91,4 +91,63 @@ Public Class Pref
         End If
     End Sub
 
+    ' Display columns of a listview (previously saved)
+    Public Shared Sub LoadListViewColumns(ByVal lv As customLV, ByVal name As String)
+
+
+        ' Here is an example of column description :
+        ' col1?width1$col2?width2$...
+        Dim s As String = ""
+        Try
+            s = CStr(My.Settings(name))
+        Catch ex As Exception
+            Trace.WriteLine(ex.Message)
+        End Try
+
+        If s Is Nothing OrElse s.Length < 3 Then
+            Trace.WriteLine("could not read column configuration for a listview" & vbNewLine & name & "  " & getColumnDesc(lv))
+            Exit Sub
+        End If
+
+        lv.BeginUpdate()
+        lv.ReorganizeColumns = True
+        lv.Columns.Clear()
+
+        Dim res() As String = Split(s, "$")
+        For Each column As String In res
+            If Len(column) > 0 Then
+                Dim obj() As String = Split(column, "?")
+                lv.Columns.Add(obj(0), CInt(Val((obj(1)))))
+            End If
+        Next
+
+        lv.ReorganizeColumns = False
+        lv.EndUpdate()
+    End Sub
+
+    ' Save columns list of a listview
+    Public Shared Sub SaveListViewColumns(ByVal lv As ListView, ByVal name As String)
+
+        Dim s As String = ""
+
+        For Each it As ColumnHeader In lv.Columns
+            s &= it.Text & "?" & it.Width.ToString & "$"
+        Next
+
+        My.Settings(name) = s
+        My.Settings.Save()
+
+    End Sub
+
+    ' Get current configuration of columns of a listview
+    Private Shared Function getColumnDesc(ByVal lv As ListView) As String
+        Dim s As String = ""
+
+        For Each it As ColumnHeader In lv.Columns
+            s &= it.Text & "?" & it.Width.ToString & "$"
+        Next
+
+        Return s
+    End Function
+
 End Class

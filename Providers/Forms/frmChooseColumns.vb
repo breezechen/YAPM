@@ -25,14 +25,14 @@ Imports System.Runtime.InteropServices
 
 Public Class frmChooseColumns
 
-    Private theListview As DoubleBufferedLV
+    Private theListview As customLV
     Private theClass As cGeneralObject
 
-    Public Property ConcernedListView() As DoubleBufferedLV
+    Public Property ConcernedListView() As customLV
         Get
             Return theListview
         End Get
-        Set(ByVal value As DoubleBufferedLV)
+        Set(ByVal value As customLV)
             theListview = value
         End Set
     End Property
@@ -42,6 +42,7 @@ Public Class frmChooseColumns
         Me.DialogResult = System.Windows.Forms.DialogResult.OK
 
         ' Remove all columns
+        theListview.ReorganizeColumns = True
         For x As Integer = theListview.Columns.Count - 1 To 1 Step -1
             theListview.Columns.Remove(theListview.Columns(x))
         Next
@@ -63,6 +64,7 @@ Public Class frmChooseColumns
             theListview.Columns.Add(it.Text, 90)
         Next
 
+        theListview.ReorganizeColumns = False
         Me.Close()
     End Sub
 

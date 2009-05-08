@@ -27,7 +27,7 @@ Public MustInherit Class customLV
     Inherits DoubleBufferedLV
 
     Friend Declare Function GetTickCount Lib "kernel32" () As Integer
-
+    Public Event HasChangedColumns()
 
     ' ========================================
     ' Friend
@@ -46,6 +46,7 @@ Public MustInherit Class customLV
 
 
     Private _catchErrors As Boolean = False
+    Private _reorgCol As Boolean = True
 
 
     ' ========================================
@@ -65,6 +66,16 @@ Public MustInherit Class customLV
         End Get
         Set(ByVal value As Boolean)
             _catchErrors = value
+        End Set
+    End Property
+
+    ' Reorganize columns ?
+    Public Property ReorganizeColumns() As Boolean
+        Get
+            Return _reorgCol
+        End Get
+        Set(ByVal value As Boolean)
+            _reorgCol = value
         End Set
     End Property
 
@@ -119,6 +130,15 @@ Public MustInherit Class customLV
         Call Me.UpdateItems()
         Call Me.UpdateItems()
         Me.EndUpdate()
+
+        RaiseEvent HasChangedColumns()
+    End Sub
+
+    Protected Overrides Sub OnColumnWidthChanged(ByVal e As System.Windows.Forms.ColumnWidthChangedEventArgs)
+        MyBase.OnColumnWidthChanged(e)
+        If _reorgCol = False Then
+            RaiseEvent HasChangedColumns()
+        End If
     End Sub
 
 

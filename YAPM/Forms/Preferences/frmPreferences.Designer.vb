@@ -26,6 +26,7 @@ Partial Class frmPreferences
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPreferences))
         Me.TabControl = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
+        Me.cmdResetAll = New System.Windows.Forms.Button
         Me.chkWarn = New System.Windows.Forms.CheckBox
         Me.txtSearchEngine = New System.Windows.Forms.TextBox
         Me.Label6 = New System.Windows.Forms.Label
@@ -101,6 +102,7 @@ Partial Class frmPreferences
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.cmdResetAll)
         Me.TabPage1.Controls.Add(Me.chkWarn)
         Me.TabPage1.Controls.Add(Me.txtSearchEngine)
         Me.TabPage1.Controls.Add(Me.Label6)
@@ -113,6 +115,16 @@ Partial Class frmPreferences
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "General"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'cmdResetAll
+        '
+        Me.cmdResetAll.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdResetAll.Location = New System.Drawing.Point(189, 247)
+        Me.cmdResetAll.Name = "cmdResetAll"
+        Me.cmdResetAll.Size = New System.Drawing.Size(133, 26)
+        Me.cmdResetAll.TabIndex = 8
+        Me.cmdResetAll.Text = "Reset all settings"
+        Me.cmdResetAll.UseVisualStyleBackColor = True
         '
         'chkWarn
         '
@@ -659,4 +671,5 @@ Partial Class frmPreferences
     Friend WithEvents Label11 As System.Windows.Forms.Label
     Friend WithEvents chkUnlimitedBuf As System.Windows.Forms.CheckBox
     Friend WithEvents bufferSize As System.Windows.Forms.NumericUpDown
+    Friend WithEvents cmdResetAll As System.Windows.Forms.Button
 End Class
