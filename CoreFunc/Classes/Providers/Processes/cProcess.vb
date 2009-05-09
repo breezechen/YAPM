@@ -91,7 +91,7 @@ Public Class cProcess
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
     ' Current processes running
-    ' Protected by a semaphore (sem from asyncProcEnum)
+    ' Protected by a semaphore (see property associated below, _semCurrentProcesses)
     Public Shared _currentProcesses As Dictionary(Of String, cProcess)
 
     Private _infos As API.SYSTEM_PROCESS_INFORMATION
@@ -143,6 +143,21 @@ Public Class cProcess
     Public ReadOnly Property DicoPerfTimes() As SortedList(Of Integer, PROC_TIME_INFO)
         Get
             Return _dicoProcTimes
+        End Get
+    End Property
+
+    Private Shared _semCurrentProcesses As New System.Threading.Semaphore(1, 1)
+    Public Shared Property CurrentProcesses() As Dictionary(Of String, cProcess)
+        Get
+            Return _currentProcesses
+        End Get
+        Set(ByVal value As Dictionary(Of String, cProcess))
+            _currentProcesses = value
+        End Set
+    End Property
+    Public Shared ReadOnly Property SemCurrentProcesses() As System.Threading.Semaphore
+        Get
+            Return _semCurrentProcesses
         End Get
     End Property
 

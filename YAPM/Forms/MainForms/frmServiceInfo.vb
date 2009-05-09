@@ -441,9 +441,15 @@ Public Class frmServiceInfo
     End Sub
 
     Private Sub cmdGoProcess_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdGoProcess.Click
-        If cProcess._currentProcesses.ContainsKey(curServ.Infos.ProcessId.ToString) Then
+        Dim _t As cProcess = Nothing
+        cProcess.SemCurrentProcesses.WaitOne()
+        If cProcess.CurrentProcesses.ContainsKey(curServ.Infos.ProcessId.ToString) Then
+            _t = cProcess.CurrentProcesses(curServ.Infos.ProcessId.ToString)
+        End If
+        cProcess.SemCurrentProcesses.Release()
+        If _t IsNot Nothing Then
             Dim frm As New frmProcessInfo
-            frm.SetProcess(cProcess._currentProcesses(curServ.Infos.ProcessId.ToString))
+            frm.SetProcess(_t)
             frm.Show()
         End If
     End Sub

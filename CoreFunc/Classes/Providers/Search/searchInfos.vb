@@ -164,9 +164,10 @@ Imports System.Net
                 If _type = ResultType.Service Then
                     res = _service
                 Else
-                    If cProcess._currentProcesses.ContainsKey(_pid.ToString) Then
+                    cProcess.SemCurrentProcesses.WaitOne()
+                    If cProcess.CurrentProcesses.ContainsKey(_pid.ToString) Then
                         Dim nn As String = ""
-                        nn = cProcess._currentProcesses.Item(_pid.ToString).Infos.Name
+                        nn = cProcess.CurrentProcesses.Item(_pid.ToString).Infos.Name
                         If nn.Length > 0 Then
                             res = nn & " (" & _pid.ToString & ")"
                         Else
@@ -175,6 +176,7 @@ Imports System.Net
                     Else
                         res = _pid.ToString
                     End If
+                    cProcess.SemCurrentProcesses.Release()
                 End If
         End Select
 

@@ -108,9 +108,9 @@ Public Class asyncCallbackSearchEnumerate
 
                 ' ---- PROCESSES
                 If (pObj.includ And SearchProcesses) = SearchProcesses Then
-                    asyncCallbackProcEnumerate.sem.WaitOne()
+                    cProcess.SemCurrentProcesses.WaitOne()
                     Dim _tmpDico As New Dictionary(Of String, cProcess)
-                    _tmpDico = cProcess._currentProcesses
+                    _tmpDico = cProcess.CurrentProcesses
                     For Each cp As cProcess In _tmpDico.Values
                         For Each field As String In processInfos.GetAvailableProperties
                             Dim scomp As String = cp.GetInformation(field)
@@ -170,12 +170,12 @@ Public Class asyncCallbackSearchEnumerate
                         End If
 
                     Next
-                    asyncCallbackProcEnumerate.sem.Release()
+                    cProcess.SemCurrentProcesses.Release()
                 End If
 
                 ' ---- SERVICES
                 If (pObj.includ And SearchServices) = SearchServices Then
-                    asyncCallbackServiceEnumerate.sem.WaitOne()
+                    cService.SemCurrentServices.WaitOne()
                     Dim _tmpDico As New Dictionary(Of String, cService)
                     _tmpDico = cService._currentServices
                     For Each cp As cService In _tmpDico.Values
@@ -194,7 +194,7 @@ Public Class asyncCallbackSearchEnumerate
                             End If
                         Next
                     Next
-                    asyncCallbackServiceEnumerate.sem.Release()
+                    cService.SemCurrentServices.Release()
                 End If
 
 

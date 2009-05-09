@@ -281,6 +281,19 @@ Public Class asyncCallbackProcEnumerate
                             _dico = getHiddenProcessesHandleMethod()
                         Case Else
                             _dico = getVisibleProcesses()
+
+                            ' Here we fill _currentProcesses if necessary
+                            cProcess.SemCurrentProcesses.WaitOne()
+                            If cProcess.CurrentProcesses Is Nothing Then
+                                cProcess.CurrentProcesses = New Dictionary(Of String, cProcess)
+                            End If
+                            For Each pc As processInfos In _dico.Values
+                                If cProcess.CurrentProcesses.ContainsKey(pc.Pid.ToString) = False Then
+                                    cProcess.CurrentProcesses.Add(pc.Pid.ToString, New cProcess(pc))
+                                End If
+                            Next
+                            cProcess.SemCurrentProcesses.Release()
+
                     End Select
 
                     ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)

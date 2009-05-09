@@ -250,7 +250,9 @@ Public Class serviceList
         Next
 
 
-        cService._currentServices = _dico
+        cService.SemCurrentServices.WaitOne()
+        cService.CurrentServices = _dico
+        cService.SemCurrentServices.Release()
 
 
         ' Now add all new items to listview

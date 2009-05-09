@@ -238,8 +238,9 @@ Public Class processList
         Next
 
 
-
-        cProcess._currentProcesses = _dico
+        cProcess.SemCurrentProcesses.WaitOne()
+        cProcess.CurrentProcesses = _dico
+        cProcess.SemCurrentProcesses.Release()
 
 
         ' Now add all new items to listview

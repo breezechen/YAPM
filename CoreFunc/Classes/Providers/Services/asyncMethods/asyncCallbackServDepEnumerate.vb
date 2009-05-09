@@ -134,7 +134,7 @@ Public Class asyncCallbackServDepEnumerate
         Dim _d As New Dictionary(Of String, serviceInfos)
         Dim dep() As String = Nothing
 
-        'asyncCallbackServiceEnumerate.sem.WaitOne()
+        cService.SemCurrentServices.WaitOne()
 
         For Each serv As cService In cService._currentServices.Values
             If serv.Infos.Name.ToLowerInvariant = serviceName.ToLowerInvariant Then
@@ -144,6 +144,7 @@ Public Class asyncCallbackServDepEnumerate
         Next
 
         If dep Is Nothing OrElse dep.Length = 0 Then
+            cService.SemCurrentServices.Release()
             Return _d
         End If
 
@@ -156,7 +157,7 @@ Public Class asyncCallbackServDepEnumerate
             Next
         Next
 
-        'asyncCallbackServiceEnumerate.sem.Release()
+        cService.SemCurrentServices.Release()
 
         Return _d
     End Function
@@ -167,7 +168,7 @@ Public Class asyncCallbackServDepEnumerate
         Dim _d As New Dictionary(Of String, serviceInfos)
         Dim dep() As String = Nothing
 
-        'asyncCallbackServiceEnumerate.sem.WaitOne()
+        cService.SemCurrentServices.WaitOne()
 
         For Each serv As cService In cService._currentServices.Values
             dep = serv.Infos.Dependencies
@@ -181,7 +182,7 @@ Public Class asyncCallbackServDepEnumerate
             End If
         Next
 
-        'asyncCallbackServiceEnumerate.sem.Release()
+        cService.SemCurrentServices.Release()
 
         Return _d
     End Function

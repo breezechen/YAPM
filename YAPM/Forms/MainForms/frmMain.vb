@@ -393,35 +393,6 @@ Public Class frmMain
         refreshServiceList()
     End Sub
 
-#Region "Powerfull recursives methods for treeviews"
-    ' Recursive method to add items in our treeview
-    Private Sub addDependentServices(ByRef o As cService, ByVal n As TreeNode)
-        'For Each o1 As cService In cService.GetServiceWhichDependFrom(o.Infos.Name).Values
-        '    Dim n2 As New TreeNode
-        '    With n2
-        '        .ImageKey = "service"
-        '        .SelectedImageKey = "service"
-        '        .Text = o1.Infos.Name
-        '    End With
-        '    n.Nodes.Add(n2)
-        '    addDependentServices(o1, n2)
-        'Next o1
-    End Sub
-    ' Recursive method to add items in our treeview
-    Private Sub addServicesDependedOn(ByRef o As cService, ByVal n As TreeNode)
-        'For Each o1 As cService In cService.GetDependencies(o.Infos.Name).Values
-        '    Dim n2 As New TreeNode
-        '    With n2
-        '        .ImageKey = "service"
-        '        .SelectedImageKey = "service"
-        '        .Text = o1.Infos.Name
-        '    End With
-        '    n.Nodes.Add(n2)
-        '    addServicesDependedOn(o1, n2)
-        'Next o1
-    End Sub
-#End Region
-
     Private Sub Tray_MouseDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Tray.MouseDoubleClick
         Me.Show()
         Me.WindowState = FormWindowState.Normal

@@ -131,11 +131,11 @@ Public Class asyncCallbackServiceEnumerate
         End If
         ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
     End Sub
-    Friend Shared sem As New System.Threading.Semaphore(1, 1)
+    Public Shared sem As New System.Threading.Semaphore(1, 1)
     Public Sub Process(ByVal thePoolObj As Object)
 
         sem.WaitOne()
-
+        Beep()
         SyncLock dicoNewServices
             Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
             If con.ConnectionObj.IsConnected = False Then
@@ -323,6 +323,18 @@ Public Class asyncCallbackServiceEnumerate
                             End If
                         Next
                     End If
+
+                    ' Here we fill _currentServices if necessary
+                    cService.SemCurrentServices.WaitOne()
+                    If cService._currentServices Is Nothing Then
+                        cService._currentServices = New Dictionary(Of String, cService)
+                    End If
+                    For Each pc As serviceInfos In _dico.Values
+                        If cService._currentServices.ContainsKey(pc.Name) = False Then
+                            cService._currentServices.Add(pc.Name, New cService(pc))
+                        End If
+                    Next
+                    cService.SemCurrentServices.Release()
 
                     ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
 

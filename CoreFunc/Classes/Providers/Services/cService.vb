@@ -47,6 +47,21 @@ Public Class cService
         End Set
     End Property
 
+    Private Shared _semCurrentServ As New System.Threading.Semaphore(1, 1)
+    Public Shared Property CurrentServices() As Dictionary(Of String, cService)
+        Get
+            Return _currentServices
+        End Get
+        Set(ByVal value As Dictionary(Of String, cService))
+            _currentServices = value
+        End Set
+    End Property
+    Public Shared ReadOnly Property SemCurrentServices() As System.Threading.Semaphore
+        Get
+            Return _semCurrentServ
+        End Get
+    End Property
+
 #End Region
 
 #Region "Constructors & destructor"
@@ -333,11 +348,14 @@ Public Class cService
     ' Get a service by name
     Public Shared Function GetServiceByName(ByVal name As String) As cService
 
+        Dim tt As cService = Nothing
+        cService.SemCurrentServices.WaitOne()
         If _currentServices.ContainsKey(name) Then
-            Return _currentServices.Item(name)
-        Else
-            Return Nothing
+            tt = _currentServices.Item(name)
         End If
+        cService.SemCurrentServices.Release()
+
+        Return tt
 
     End Function
 
