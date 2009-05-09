@@ -49,9 +49,20 @@ Option Strict On
         [ServicePause]
         [ServiceResume]
         [ServiceStop]
-        [ServiceShutdown]
+        [ServiceStart]
         [ServiceChangeServiceStartType]
         [ServiceReanalize]
+
+        ' Thread functions
+        [ThreadTerminate]
+        [ThreadSuspend]
+        [ThreadResume]
+        [ThreadSetPriority]
+        [ThreadSetAffinity]
+
+        ' Other functions
+        [HandleClose]
+        [ModuleUnload]
 
         ' Request lists
         [RequestProcessList]

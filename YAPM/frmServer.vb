@@ -350,6 +350,7 @@ Public Class frmServeur
             ' Extract the type of information we have to send
             If cData.Type = cSocketData.DataType.Order Then
 
+                ' ===== Request lists
                 Select Case cData.Order
                     Case cSocketData.OrderType.RequestProcessList
                         Call _procCon.Enumerate(True, _forInstanceId)
@@ -378,13 +379,6 @@ Public Class frmServeur
                         Call _windowCon.Enumerate(True, pid, unn, all, _forInstanceId)
                     Case cSocketData.OrderType.RequestTaskList
                         Call _taskCon.Enumerate(True, _forInstanceId)
-                    Case cSocketData.OrderType.ProcessCreateNew
-                        Try
-                            Dim s As String = CStr(cData.Param1)
-                            Dim pid As Integer = Shell(s, AppWinStyle.NormalFocus)
-                        Catch ex As Exception
-                            '
-                        End Try
                     Case cSocketData.OrderType.RequestSearchList
                         Dim st As String = CStr(cData.Param1)
                         Dim include As searchInfos.SearchInclude = CType(cData.Param2, searchInfos.SearchInclude)
@@ -401,14 +395,98 @@ Public Class frmServeur
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         'Dim all As Boolean = CBool(cData.Param2)   ' NOT NEEDED
                         Call _memoryCon.Enumerate(True, pid, _forInstanceId)
-                    Case cSocketData.OrderType.ProcessReanalize
-                        asyncCallbackProcEnumerate.ReanalizeLocalAfterSocket(CType(cData.Param1, Integer()))
-                    Case cSocketData.OrderType.ServiceReanalize
-                        asyncCallbackServiceEnumerate.ReanalizeLocalAfterSocket(CType(cData.Param1, String()))
                     Case cSocketData.OrderType.RequestServDepList
                         Dim name As String = CStr(cData.Param1)
                         Dim type As cServDepConnection.DependenciesToget = CType(cData.Param2, cServDepConnection.DependenciesToget)
                         Call _servdepCon.Enumerate(name, type, _forInstanceId)
+                End Select
+
+
+
+                ' ===== Process functions
+                Select Case cData.Order
+                    Case cSocketData.OrderType.ProcessCreateNew
+                        Try
+                            Dim s As String = CStr(cData.Param1)
+                            Dim pid As Integer = Shell(s, AppWinStyle.NormalFocus)
+                        Catch ex As Exception
+                            '
+                        End Try
+                    Case cSocketData.OrderType.ProcessReanalize
+                        asyncCallbackProcEnumerate.ReanalizeLocalAfterSocket(CType(cData.Param1, Integer()))
+                    Case cSocketData.OrderType.ProcessChangeAffinity
+                        Dim pid As Integer = CType(cData.Param1, Integer)
+                        Dim aff As Integer = CType(cData.Param2, Integer)
+                        Try
+                            cProcess.GetProcessById(pid).SetAffinity(aff)
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
+                    Case cSocketData.OrderType.ProcessChangePriority
+                        Dim pid As Integer = CType(cData.Param1, Integer)
+                        Dim level As System.Diagnostics.ProcessPriorityClass = CType(cData.Param2, ProcessPriorityClass)
+                        Try
+                            cProcess.GetProcessById(pid).SetPriority(level)
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
+                    Case cSocketData.OrderType.ProcessDecreasePriority
+                        Dim pid As Integer = CType(cData.Param1, Integer)
+                        Try
+                            cProcess.GetProcessById(pid).DecreasePriority()
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
+                    Case cSocketData.OrderType.ProcessIncreasePriority
+                        Dim pid As Integer = CType(cData.Param1, Integer)
+                        Try
+                            cProcess.GetProcessById(pid).IncreasePriority()
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
+                    Case cSocketData.OrderType.ProcessKill
+                        Dim pid As Integer = CType(cData.Param1, Integer)
+                        Try
+                            cProcess.GetProcessById(pid).Kill()
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
+                    Case cSocketData.OrderType.ProcessKillTree
+                        Dim pid As Integer = CType(cData.Param1, Integer)
+                        Try
+                            cProcess.GetProcessById(pid).KillProcessTree()
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
+                    Case cSocketData.OrderType.ProcessReduceWorkingSet
+                        Dim pid As Integer = CType(cData.Param1, Integer)
+                        Try
+                            cProcess.GetProcessById(pid).EmptyWorkingSetSize()
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
+                    Case cSocketData.OrderType.ProcessResume
+                        Dim pid As Integer = CType(cData.Param1, Integer)
+                        Try
+                            cProcess.GetProcessById(pid).ResumeProcess()
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
+                    Case cSocketData.OrderType.ProcessSuspend
+                        Dim pid As Integer = CType(cData.Param1, Integer)
+                        Try
+                            cProcess.GetProcessById(pid).SuspendProcess()
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
+                End Select
+
+
+
+                ' ===== Service functions
+                Select Case cData.Order
+                    Case cSocketData.OrderType.ServiceReanalize
+                        asyncCallbackServiceEnumerate.ReanalizeLocalAfterSocket(CType(cData.Param1, String()))
                 End Select
 
             End If

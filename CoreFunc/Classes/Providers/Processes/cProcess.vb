@@ -1143,4 +1143,17 @@ Public Class cProcess
         End If
     End Sub
 
+    ' Get a service by name
+    Public Shared Function GetProcessById(ByVal id As Integer) As cProcess
+
+        Dim tt As cProcess = Nothing
+        cProcess.SemCurrentProcesses.WaitOne()
+        If _currentProcesses.ContainsKey(id.ToString) Then
+            tt = _currentProcesses.Item(id.ToString)
+        End If
+        cProcess.SemCurrentProcesses.Release()
+
+        Return tt
+
+    End Function
 End Class

@@ -4190,9 +4190,6 @@ Public Class frmMain
     End Sub
 
     Private Sub ReanalyzeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReanalyzeToolStripMenuItem.Click
-        'For Each it As cService In Me.lvServices.GetSelectedItems
-        '    it.Refresh()
-        'Next
         Me.lvServices.ReAnalizeServices()
     End Sub
 
