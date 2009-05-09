@@ -279,9 +279,9 @@ Public Class serviceList
             Dim _item As cService = _dico.Item(it.Name)
             If Dico.ContainsKey(it.Name) Then
                 _item.Merge(Dico.Item(it.Name))
-                If _item.HasChanged(Dico.Item(it.Name)) Then
-                    _item.Refresh()
-                End If
+                'If _item.HasChanged(Dico.Item(it.Name)) Then
+                '    _item.Refresh()
+                'End If
             End If
             For Each isub In it.SubItems
                 isub.Text = _item.GetInformation(_columnsName(x))

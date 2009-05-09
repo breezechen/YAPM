@@ -283,6 +283,7 @@ Public Class asyncCallbackProcEnumerate
                             _dico = getVisibleProcesses()
 
                             ' Here we fill _currentProcesses if necessary
+                            'PERFISSUE
                             cProcess.SemCurrentProcesses.WaitOne()
                             If cProcess.CurrentProcesses Is Nothing Then
                                 cProcess.CurrentProcesses = New Dictionary(Of String, cProcess)

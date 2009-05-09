@@ -83,7 +83,7 @@ Public Class asyncCallbackServDepEnumerate
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 _poolObj = pObj
                 Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestServDepList, pObj.name)
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestServDepList, pObj.name, cServDepConnection.DependenciesToget.DependenciesOfMe)
                     cDat.InstanceId = _instanceId   ' Instance which request the list
                     Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
                     con.ConnectionObj.Socket.Send(buff, buff.Length)

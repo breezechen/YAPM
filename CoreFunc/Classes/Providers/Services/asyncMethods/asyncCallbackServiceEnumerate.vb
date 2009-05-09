@@ -293,7 +293,9 @@ Public Class asyncCallbackServiceEnumerate
                                         If pObj.all = False OrElse dicoNewServices.ContainsKey(obj.ServiceName) = False Then
 
                                             getRegInfos(obj.ServiceName, _servINFO)
-                                            'getServiceConfig(obj.ServiceName, con.SCManagerLocalHandle, _servINFO)
+
+                                            'PERFISSUE
+                                            getServiceConfig(obj.ServiceName, con.SCManagerLocalHandle, _servINFO, True)
 
                                             If pObj.all Then
                                                 dicoNewServices.Add(obj.ServiceName, False)
@@ -324,6 +326,7 @@ Public Class asyncCallbackServiceEnumerate
                     End If
 
                     ' Here we fill _currentServices if necessary
+                    'PERFISSUE
                     cService.SemCurrentServices.WaitOne()
                     If cService._currentServices Is Nothing Then
                         cService._currentServices = New Dictionary(Of String, cService)

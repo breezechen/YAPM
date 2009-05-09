@@ -96,6 +96,7 @@ Public Class cService
     End Function
 
     ' Refresh Config
+    ' (used for Reanalize)
     Public Sub Refresh()
         Select Case _connection.ConnectionObj.ConnectionType
 
