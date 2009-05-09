@@ -204,7 +204,7 @@ Public Module Program
         End Try
 
         ' Close forms & exit
-        My.Settings.HideClose = False
+        My.Settings.HideWhenClosed = False
         If _frmMain IsNot Nothing Then
             _frmMain.Close()
         End If

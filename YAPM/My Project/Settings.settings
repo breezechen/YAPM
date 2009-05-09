@@ -74,9 +74,6 @@
     <Setting Name="ReplaceTaskmgr" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="HideClose" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
     <Setting Name="SelectedTab" Type="System.String" Scope="User">
       <Value Profile="(Default)">Processes</Value>
     </Setting>
