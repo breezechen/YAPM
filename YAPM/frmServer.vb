@@ -334,7 +334,6 @@ Public Class frmServeur
     Private Sub sock_Disconnected()
         '_readyToLeave = True
     End Sub
-
     Private Sub sock_ReceivedData(ByRef data() As Byte, ByVal length As Integer)
         Try
             ' Recreate the data class
@@ -490,6 +489,42 @@ Public Class frmServeur
                 Select Case cData.Order
                     Case cSocketData.OrderType.ServiceReanalize
                         asyncCallbackServiceEnumerate.ReanalizeLocalAfterSocket(CType(cData.Param1, String()))
+                    Case cSocketData.OrderType.ServicePause
+                        Dim name As String = CStr(cData.Param1)
+                        Try
+                            cService.GetServiceByName(name).PauseService()
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
+                    Case cSocketData.OrderType.ServiceChangeServiceStartType
+                        Dim name As String = CStr(cData.Param1)
+                        Dim type As API.SERVICE_START_TYPE = CType(cData.Param2, API.SERVICE_START_TYPE)
+                        Try
+                            cService.GetServiceByName(name).SetServiceStartType(type)
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
+                    Case cSocketData.OrderType.ServiceResume
+                        Dim name As String = CStr(cData.Param1)
+                        Try
+                            cService.GetServiceByName(name).ResumeService()
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
+                    Case cSocketData.OrderType.ServiceStart
+                        Dim name As String = CStr(cData.Param1)
+                        Try
+                            cService.GetServiceByName(name).StartService()
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
+                    Case cSocketData.OrderType.ServiceStop
+                        Dim name As String = CStr(cData.Param1)
+                        Try
+                            cService.GetServiceByName(name).StopService()
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
                 End Select
 
             End If
@@ -512,19 +547,16 @@ Public Class frmServeur
         '   MsgBox("serveur sent")
         Dim oo As Integer = 0
     End Sub
-
     Private Sub frmServeur_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         API.SetWindowTheme(Me.lvServer.Handle, "explorer", Nothing)
 
         sock.ConnexionAccepted = New cAsyncSocketServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
         sock.Disconnected = New cAsyncSocketServer.DisconnectedEventHandler(AddressOf sock_Disconnected)
-        ' sock.ReceivedData = New cAsyncSocketServer.ReceivedDataEventHandler(AddressOf sock_ReceivedData)
         sock.SentData = New cAsyncSocketServer.SentDataEventHandler(AddressOf sock_SentData)
 
         connectLocal()
 
-        '  Button1_Click(Nothing, Nothing)
     End Sub
 
     Private Sub sock_ReceivedData1(ByRef data() As Byte, ByVal length As Integer) Handles sock.ReceivedData
