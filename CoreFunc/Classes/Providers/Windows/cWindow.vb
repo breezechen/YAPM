@@ -52,6 +52,14 @@ Public Class cWindow
         _connection = Connection
     End Sub
 
+    ' This constructor should NOT be used to get informations of a window, has
+    ' it creates only an instance of cWindow with 'handle' information.
+    ' It is used to call instance.Close(), instance.Show().... etc., rather
+    ' than call cWindow.SharedClose(hWnd), cWindow.SharedShow(hWnd)...
+    Public Sub New(ByVal handle As Integer)
+        _windowInfos = New windowInfos(0, 0, New IntPtr(handle))
+    End Sub
+
 #End Region
 
 #Region "Normal properties"
@@ -113,7 +121,7 @@ Public Class cWindow
             End If
         End Get
         Set(ByVal value As String)
-            API.SetWindowText(Me.Infos.Handle, New StringBuilder(value))
+            Call SetCaption(value)
         End Set
     End Property
 
@@ -300,6 +308,16 @@ Public Class cWindow
         Dim newAction As Integer = cGeneralObject.GetActionCount
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.SetOpacity, Me.Infos.Handle, CInt(value), 0, 0, newAction))
+        AddPendingTask2(newAction, t)
+    End Function
+    Private Function SetCaption(ByVal st As String) As Integer
+        If _theAction Is Nothing Then
+            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone), _connection)
+        End If
+        Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.SetCaption, Me.Infos.Handle, 0, 0, 0, newAction, ss:=st))
         AddPendingTask2(newAction, t)
     End Function
 

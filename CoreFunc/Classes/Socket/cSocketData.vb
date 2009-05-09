@@ -64,6 +64,24 @@ Option Strict On
         [ThreadSetPriority]
         [ThreadSetAffinity]
 
+        ' Windows functions
+        [WindowClose]
+        [WindowSetPositions]
+        [WindowShow]
+        [WindowHide]
+        [WindowEnable]
+        [WindowDisable]
+        [WindowBringToFront]
+        [WindowDoNotBringToFront]
+        [WindowSetAsForegroundWindow]
+        [WindowSetAsActiveWindow]
+        [WindowSetCaption]
+        [WindowSetOpacity]
+        [WindowMinimize]
+        [WindowMaximize]
+        [WindowFlash]
+        [WindowStopFlashing]
+
         ' Other functions
         [HandleClose]
         [ModuleUnload]

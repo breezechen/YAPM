@@ -45,6 +45,7 @@ Public Class asyncCallbackWindowAction
         SetOpacity
         SetEnabled
         SetPosition
+        SetCaption
     End Enum
 
     Public Delegate Sub HasMadeAction(ByVal Success As Boolean, ByVal action As ASYNC_WINDOW_ACTION, ByVal handle As Integer, ByVal msg As String, ByVal actionNumber As Integer)
@@ -59,18 +60,21 @@ Public Class asyncCallbackWindowAction
         Public o1 As Integer
         Public o3 As Integer
         Public o2 As Integer
+        Public s As String
         Public r As API.RECT
         Public action As ASYNC_WINDOW_ACTION
         Public newAction As Integer
         Public Sub New(ByVal _action As ASYNC_WINDOW_ACTION, ByVal _handle As IntPtr, _
                         ByVal _o1 As Integer, ByVal _o2 As Integer, ByVal _o3 As Integer, _
-                        ByVal act As Integer, Optional ByVal obj As Object = Nothing)
+                        ByVal act As Integer, Optional ByVal obj As Object = Nothing, _
+                        Optional ByVal ss As String = Nothing)
             newAction = act
             handle = _handle
             action = _action
             o1 = _o1
             o2 = _o2
             o3 = _o3
+            s = ss
             If obj IsNot Nothing Then
                 r = DirectCast(obj, API.RECT)
             End If
@@ -86,6 +90,62 @@ Public Class asyncCallbackWindowAction
 
         Select Case con.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+
+                Try
+                    Dim cDat As cSocketData = Nothing
+                    Select Case pObj.action
+                        Case ASYNC_WINDOW_ACTION.BringToFront
+                            cDat = New cSocketData(cSocketData.DataType.Order, _
+                             cSocketData.OrderType.WindowBringToFront, pObj.handle)
+                        Case ASYNC_WINDOW_ACTION.Close
+                            cDat = New cSocketData(cSocketData.DataType.Order, _
+                             cSocketData.OrderType.WindowClose, pObj.handle)
+                        Case ASYNC_WINDOW_ACTION.Flash
+                            cDat = New cSocketData(cSocketData.DataType.Order, _
+                             cSocketData.OrderType.WindowFlash, pObj.handle)
+                        Case ASYNC_WINDOW_ACTION.Hide
+                            cDat = New cSocketData(cSocketData.DataType.Order, _
+                             cSocketData.OrderType.WindowHide, pObj.handle)
+                        Case ASYNC_WINDOW_ACTION.Maximize
+                            cDat = New cSocketData(cSocketData.DataType.Order, _
+                             cSocketData.OrderType.WindowMaximize, pObj.handle)
+                        Case ASYNC_WINDOW_ACTION.Minimize
+                            cDat = New cSocketData(cSocketData.DataType.Order, _
+                             cSocketData.OrderType.WindowMinimize, pObj.handle)
+                        Case ASYNC_WINDOW_ACTION.SendMessage
+                            cDat = New cSocketData(cSocketData.DataType.Order, _
+                             cSocketData.OrderType.WindowShow, pObj.handle, pObj.o1, pObj.o2, pObj.o3)
+                        Case ASYNC_WINDOW_ACTION.SetAsActiveWindow
+                            cDat = New cSocketData(cSocketData.DataType.Order, _
+                             cSocketData.OrderType.WindowSetAsActiveWindow, pObj.handle)
+                        Case ASYNC_WINDOW_ACTION.SetAsForegroundWindow
+                            cDat = New cSocketData(cSocketData.DataType.Order, _
+                             cSocketData.OrderType.WindowSetAsForegroundWindow, pObj.handle)
+                        Case ASYNC_WINDOW_ACTION.SetEnabled
+                            cDat = New cSocketData(cSocketData.DataType.Order, _
+                             cSocketData.OrderType.WindowEnable, pObj.handle, CBool(pObj.o1))
+                        Case ASYNC_WINDOW_ACTION.SetOpacity
+                            cDat = New cSocketData(cSocketData.DataType.Order, _
+                             cSocketData.OrderType.WindowEnable, pObj.handle, CByte(pObj.o1))
+                        Case ASYNC_WINDOW_ACTION.Show
+                            cDat = New cSocketData(cSocketData.DataType.Order, _
+                             cSocketData.OrderType.WindowShow, pObj.handle)
+                        Case ASYNC_WINDOW_ACTION.StopFlashing
+                            cDat = New cSocketData(cSocketData.DataType.Order, _
+                             cSocketData.OrderType.WindowStopFlashing, pObj.handle)
+                        Case ASYNC_WINDOW_ACTION.SetPosition
+                            cDat = New cSocketData(cSocketData.DataType.Order, _
+                             cSocketData.OrderType.WindowSetPositions, pObj.handle, pObj.r)
+                        Case ASYNC_WINDOW_ACTION.SetCaption
+                            cDat = New cSocketData(cSocketData.DataType.Order, _
+                             cSocketData.OrderType.WindowSetCaption, pObj.handle, pObj.s)
+                    End Select
+
+                    Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
+                    con.ConnectionObj.Socket.Send(buff, buff.Length)
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
@@ -127,6 +187,8 @@ Public Class asyncCallbackWindowAction
                         res = StopFlashing(pObj.handle)
                     Case ASYNC_WINDOW_ACTION.SetPosition
                         res = SetPosition(pObj.handle, pObj.r)
+                    Case ASYNC_WINDOW_ACTION.SetCaption
+                        res = API.SetWindowText(pObj.handle, New StringBuilder(pObj.s))
                 End Select
 
                 _theDeg.Invoke(res <> 0, pObj.action, pObj.handle.ToInt32, API.GetError, pObj.newAction)

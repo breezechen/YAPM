@@ -485,6 +485,67 @@ Public Class frmServeur
 
 
 
+                ' ===== Windows functions
+                Select Case cData.Order
+                    Case cSocketData.OrderType.WindowBringToFront
+                        Dim hWnd As Integer = CInt(cData.Param1)
+                        Call (New cWindow(hWnd)).BringToFront(True)
+                    Case cSocketData.OrderType.WindowClose
+                        Dim hWnd As Integer = CInt(cData.Param1)
+                        Call (New cWindow(hWnd)).Close()
+                    Case cSocketData.OrderType.WindowDisable
+                        Dim hWnd As Integer = CInt(cData.Param1)
+                        Dim w As cWindow = New cWindow(hWnd)
+                        w.Enabled = False
+                    Case cSocketData.OrderType.WindowDoNotBringToFront
+                        Dim hWnd As Integer = CInt(cData.Param1)
+                        Call (New cWindow(hWnd)).BringToFront(False)
+                    Case cSocketData.OrderType.WindowEnable
+                        Dim hWnd As Integer = CInt(cData.Param1)
+                        Dim w As cWindow = New cWindow(hWnd)
+                        w.Enabled = True
+                    Case cSocketData.OrderType.WindowFlash
+                        Dim hWnd As Integer = CInt(cData.Param1)
+                        Call (New cWindow(hWnd)).Flash()
+                    Case cSocketData.OrderType.WindowHide
+                        Dim hWnd As Integer = CInt(cData.Param1)
+                        Call (New cWindow(hWnd)).Hide()
+                    Case cSocketData.OrderType.WindowMaximize
+                        Dim hWnd As Integer = CInt(cData.Param1)
+                        Call (New cWindow(hWnd)).Maximize()
+                    Case cSocketData.OrderType.WindowMinimize
+                        Dim hWnd As Integer = CInt(cData.Param1)
+                        Call (New cWindow(hWnd)).Minimize()
+                    Case cSocketData.OrderType.WindowSetAsActiveWindow
+                        Dim hWnd As Integer = CInt(cData.Param1)
+                        Call (New cWindow(hWnd)).SetAsActiveWindow()
+                    Case cSocketData.OrderType.WindowSetAsForegroundWindow
+                        Dim hWnd As Integer = CInt(cData.Param1)
+                        Call (New cWindow(hWnd)).SetAsForegroundWindow()
+                    Case cSocketData.OrderType.WindowSetCaption
+                        Dim hWnd As Integer = CInt(cData.Param1)
+                        Dim s As String = CStr(cData.Param2)
+                        Dim w As cWindow = New cWindow(hWnd)
+                        w.Caption = s
+                    Case cSocketData.OrderType.WindowSetOpacity
+                        Dim hWnd As Integer = CInt(cData.Param1)
+                        Dim o As Byte = CByte(cData.Param2)
+                        Dim w As cWindow = New cWindow(hWnd)
+                        w.Opacity = o
+                    Case cSocketData.OrderType.WindowSetPositions
+                        Dim hWnd As Integer = CInt(cData.Param1)
+                        Dim r As API.RECT = CType(cData.Param2, API.RECT)
+                        Call (New cWindow(hWnd)).SetPositions(r)
+                    Case cSocketData.OrderType.WindowShow
+                        Dim hWnd As Integer = CInt(cData.Param1)
+                        Call (New cWindow(hWnd)).Show()
+                    Case cSocketData.OrderType.WindowStopFlashing
+                        Dim hWnd As Integer = CInt(cData.Param1)
+                        Call (New cWindow(hWnd)).StopFlashing()
+                End Select
+
+
+
                 ' ===== Service functions
                 Select Case cData.Order
                     Case cSocketData.OrderType.ServiceReanalize
