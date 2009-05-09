@@ -327,6 +327,41 @@ Public Class frmProcessInfo
         Pref.LoadListViewColumns(Me.lvModules, "COLprocdetail_module")
         Pref.LoadListViewColumns(Me.lvProcEnv, "COLprocdetail_envvariable")
 
+        Select Case My.Settings.ProcSelectedTab
+            Case "Token"
+                Me.tabProcess.SelectedTab = Me.TabPage4
+            Case "Modules"
+                Me.tabProcess.SelectedTab = Me.TabPage10
+            Case "Threads"
+                Me.tabProcess.SelectedTab = Me.TabPage11
+            Case "Windows"
+                Me.tabProcess.SelectedTab = Me.TabPage12
+            Case "Handles"
+                Me.tabProcess.SelectedTab = Me.TabPage13
+            Case "Memory"
+                Me.tabProcess.SelectedTab = Me.TabPage5
+            Case "Environment"
+                Me.tabProcess.SelectedTab = Me.TabPage9
+            Case "Network"
+                Me.tabProcess.SelectedTab = Me.tabNetwork
+            Case "Services"
+                Me.tabProcess.SelectedTab = Me.TabPage7
+            Case "Strings"
+                Me.tabProcess.SelectedTab = Me.TabPageString
+            Case "General"
+                Me.tabProcess.SelectedTab = Me.TabPage1
+            Case "Statistics"
+                Me.tabProcess.SelectedTab = Me.TabPage2
+            Case "Informations"
+                Me.tabProcess.SelectedTab = Me.TabPage6
+            Case "Performances"
+                Me.tabProcess.SelectedTab = Me.TabPage3
+            Case "Log"
+                Me.tabProcess.SelectedTab = Me.TabPage14
+            Case "History"
+                Me.tabProcess.SelectedTab = Me.TabPage15
+        End Select
+
         ' Refresh infos
         Me.graphCPU.ClearValue()
         Me.graphIO.ClearValue()
@@ -654,6 +689,7 @@ Public Class frmProcessInfo
     Private Sub tabProcess_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabProcess.SelectedIndexChanged
         Call Me.refreshProcessTab()
         Call ChangeCaption()
+        My.Settings.ProcSelectedTab = Me.tabProcess.SelectedTab.Text
     End Sub
 
     Private Sub cmdProcSearchL_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdProcSearchL.Click
@@ -2168,4 +2204,5 @@ Public Class frmProcessInfo
     Private Sub lvProcEnv_HasChangedColumns() Handles lvProcEnv.HasChangedColumns
         Pref.SaveListViewColumns(Me.lvProcEnv, "COLprocdetail_envvariable")
     End Sub
+
 End Class

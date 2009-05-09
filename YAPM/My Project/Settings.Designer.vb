@@ -574,6 +574,30 @@ Namespace My
                 Me("COLprocdetail_envvariable") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("General")>  _
+        Public Property ProcSelectedTab() As String
+            Get
+                Return CType(Me("ProcSelectedTab"),String)
+            End Get
+            Set
+                Me("ProcSelectedTab") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("General - 1")>  _
+        Public Property ServSelectedTab() As String
+            Get
+                Return CType(Me("ServSelectedTab"),String)
+            End Get
+            Set
+                Me("ServSelectedTab") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

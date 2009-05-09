@@ -41,18 +41,6 @@ Partial Class frmServiceInfo
         Me.lblSecurityRisk = New System.Windows.Forms.Label
         Me.cmdGetOnlineInfos = New System.Windows.Forms.Button
         Me.rtbOnlineInfos = New System.Windows.Forms.RichTextBox
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox
-        Me.cmdGoProcess = New System.Windows.Forms.Button
-        Me.txtProcess = New System.Windows.Forms.TextBox
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.txtStartType = New System.Windows.Forms.TextBox
-        Me.Label17 = New System.Windows.Forms.Label
-        Me.txtType = New System.Windows.Forms.TextBox
-        Me.Label16 = New System.Windows.Forms.Label
-        Me.txtState = New System.Windows.Forms.TextBox
-        Me.Label14 = New System.Windows.Forms.Label
-        Me.txtName = New System.Windows.Forms.TextBox
-        Me.Label15 = New System.Windows.Forms.Label
         Me.gpProcGeneralFile = New System.Windows.Forms.GroupBox
         Me.cmdShowFileDetails = New System.Windows.Forms.Button
         Me.cmdShowFileProperties = New System.Windows.Forms.Button
@@ -69,6 +57,20 @@ Partial Class frmServiceInfo
         Me.pctBigIcon = New System.Windows.Forms.PictureBox
         Me.menuCopyPctbig = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.txtCommand = New System.Windows.Forms.TextBox
+        Me.Label22 = New System.Windows.Forms.Label
+        Me.cmdGoProcess = New System.Windows.Forms.Button
+        Me.txtName = New System.Windows.Forms.TextBox
+        Me.Label15 = New System.Windows.Forms.Label
+        Me.txtProcess = New System.Windows.Forms.TextBox
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.txtStartType = New System.Windows.Forms.TextBox
+        Me.Label17 = New System.Windows.Forms.Label
+        Me.txtType = New System.Windows.Forms.TextBox
+        Me.Label16 = New System.Windows.Forms.Label
+        Me.txtState = New System.Windows.Forms.TextBox
+        Me.Label14 = New System.Windows.Forms.Label
         Me.TabPage2 = New System.Windows.Forms.TabPage
         Me.GroupBox4 = New System.Windows.Forms.GroupBox
         Me.txtServiceSpecificExitCode = New System.Windows.Forms.TextBox
@@ -121,8 +123,6 @@ Partial Class frmServiceInfo
         Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip
         Me.Timer = New System.Windows.Forms.Timer(Me.components)
-        Me.txtCommand = New System.Windows.Forms.TextBox
-        Me.Label22 = New System.Windows.Forms.Label
         Me.tabProcess.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -130,12 +130,12 @@ Partial Class frmServiceInfo
         Me.SplitContainerOnlineInfo.Panel1.SuspendLayout()
         Me.SplitContainerOnlineInfo.Panel2.SuspendLayout()
         Me.SplitContainerOnlineInfo.SuspendLayout()
-        Me.GroupBox1.SuspendLayout()
         Me.gpProcGeneralFile.SuspendLayout()
         CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.menuCopyPctSmall.SuspendLayout()
         CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.menuCopyPctbig.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -354,129 +354,6 @@ Partial Class frmServiceInfo
         Me.rtbOnlineInfos.TabIndex = 12
         Me.rtbOnlineInfos.Text = ""
         '
-        'GroupBox1
-        '
-        Me.GroupBox1.Controls.Add(Me.txtCommand)
-        Me.GroupBox1.Controls.Add(Me.Label22)
-        Me.GroupBox1.Controls.Add(Me.cmdGoProcess)
-        Me.GroupBox1.Controls.Add(Me.txtName)
-        Me.GroupBox1.Controls.Add(Me.Label15)
-        Me.GroupBox1.Controls.Add(Me.txtProcess)
-        Me.GroupBox1.Controls.Add(Me.Label1)
-        Me.GroupBox1.Controls.Add(Me.txtStartType)
-        Me.GroupBox1.Controls.Add(Me.Label17)
-        Me.GroupBox1.Controls.Add(Me.txtType)
-        Me.GroupBox1.Controls.Add(Me.Label16)
-        Me.GroupBox1.Controls.Add(Me.txtState)
-        Me.GroupBox1.Controls.Add(Me.Label14)
-        Me.GroupBox1.Location = New System.Drawing.Point(6, 129)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(376, 171)
-        Me.GroupBox1.TabIndex = 16
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Service"
-        '
-        'cmdGoProcess
-        '
-        Me.cmdGoProcess.Enabled = False
-        Me.cmdGoProcess.Image = Global.YAPM.My.Resources.Resources.down
-        Me.cmdGoProcess.Location = New System.Drawing.Point(341, 136)
-        Me.cmdGoProcess.Name = "cmdGoProcess"
-        Me.cmdGoProcess.Size = New System.Drawing.Size(26, 26)
-        Me.cmdGoProcess.TabIndex = 24
-        Me.cmdGoProcess.UseVisualStyleBackColor = True
-        '
-        'txtProcess
-        '
-        Me.txtProcess.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.txtProcess.Location = New System.Drawing.Point(85, 136)
-        Me.txtProcess.Name = "txtProcess"
-        Me.txtProcess.ReadOnly = True
-        Me.txtProcess.Size = New System.Drawing.Size(250, 22)
-        Me.txtProcess.TabIndex = 10
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(2, 139)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(45, 13)
-        Me.Label1.TabIndex = 23
-        Me.Label1.Text = "Process"
-        '
-        'txtStartType
-        '
-        Me.txtStartType.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.txtStartType.Location = New System.Drawing.Point(85, 112)
-        Me.txtStartType.Name = "txtStartType"
-        Me.txtStartType.ReadOnly = True
-        Me.txtStartType.Size = New System.Drawing.Size(282, 22)
-        Me.txtStartType.TabIndex = 9
-        '
-        'Label17
-        '
-        Me.Label17.AutoSize = True
-        Me.Label17.Location = New System.Drawing.Point(2, 115)
-        Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(56, 13)
-        Me.Label17.TabIndex = 21
-        Me.Label17.Text = "Start type"
-        '
-        'txtType
-        '
-        Me.txtType.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.txtType.Location = New System.Drawing.Point(85, 89)
-        Me.txtType.Name = "txtType"
-        Me.txtType.ReadOnly = True
-        Me.txtType.Size = New System.Drawing.Size(282, 22)
-        Me.txtType.TabIndex = 8
-        '
-        'Label16
-        '
-        Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(2, 92)
-        Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(30, 13)
-        Me.Label16.TabIndex = 19
-        Me.Label16.Text = "Type"
-        '
-        'txtState
-        '
-        Me.txtState.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.txtState.Location = New System.Drawing.Point(85, 67)
-        Me.txtState.Name = "txtState"
-        Me.txtState.ReadOnly = True
-        Me.txtState.Size = New System.Drawing.Size(282, 22)
-        Me.txtState.TabIndex = 7
-        '
-        'Label14
-        '
-        Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(2, 70)
-        Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(33, 13)
-        Me.Label14.TabIndex = 17
-        Me.Label14.Text = "State"
-        '
-        'txtName
-        '
-        Me.txtName.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.txtName.Location = New System.Drawing.Point(85, 21)
-        Me.txtName.Name = "txtName"
-        Me.txtName.ReadOnly = True
-        Me.txtName.Size = New System.Drawing.Size(282, 22)
-        Me.txtName.TabIndex = 6
-        '
-        'Label15
-        '
-        Me.Label15.AutoSize = True
-        Me.Label15.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label15.Location = New System.Drawing.Point(2, 24)
-        Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(77, 13)
-        Me.Label15.TabIndex = 15
-        Me.Label15.Text = "Display name"
-        '
         'gpProcGeneralFile
         '
         Me.gpProcGeneralFile.Controls.Add(Me.cmdShowFileDetails)
@@ -624,6 +501,147 @@ Partial Class frmServiceInfo
         Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
         Me.ToolStripMenuItem6.Size = New System.Drawing.Size(169, 22)
         Me.ToolStripMenuItem6.Text = "Copy to clipboard"
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.txtCommand)
+        Me.GroupBox1.Controls.Add(Me.Label22)
+        Me.GroupBox1.Controls.Add(Me.cmdGoProcess)
+        Me.GroupBox1.Controls.Add(Me.txtName)
+        Me.GroupBox1.Controls.Add(Me.Label15)
+        Me.GroupBox1.Controls.Add(Me.txtProcess)
+        Me.GroupBox1.Controls.Add(Me.Label1)
+        Me.GroupBox1.Controls.Add(Me.txtStartType)
+        Me.GroupBox1.Controls.Add(Me.Label17)
+        Me.GroupBox1.Controls.Add(Me.txtType)
+        Me.GroupBox1.Controls.Add(Me.Label16)
+        Me.GroupBox1.Controls.Add(Me.txtState)
+        Me.GroupBox1.Controls.Add(Me.Label14)
+        Me.GroupBox1.Location = New System.Drawing.Point(6, 129)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(376, 171)
+        Me.GroupBox1.TabIndex = 16
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Service"
+        '
+        'txtCommand
+        '
+        Me.txtCommand.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.txtCommand.Location = New System.Drawing.Point(85, 44)
+        Me.txtCommand.Name = "txtCommand"
+        Me.txtCommand.ReadOnly = True
+        Me.txtCommand.Size = New System.Drawing.Size(282, 22)
+        Me.txtCommand.TabIndex = 25
+        '
+        'Label22
+        '
+        Me.Label22.AutoSize = True
+        Me.Label22.Location = New System.Drawing.Point(2, 47)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(59, 13)
+        Me.Label22.TabIndex = 26
+        Me.Label22.Text = "Command"
+        '
+        'cmdGoProcess
+        '
+        Me.cmdGoProcess.Enabled = False
+        Me.cmdGoProcess.Image = Global.YAPM.My.Resources.Resources.down
+        Me.cmdGoProcess.Location = New System.Drawing.Point(341, 136)
+        Me.cmdGoProcess.Name = "cmdGoProcess"
+        Me.cmdGoProcess.Size = New System.Drawing.Size(26, 26)
+        Me.cmdGoProcess.TabIndex = 24
+        Me.cmdGoProcess.UseVisualStyleBackColor = True
+        '
+        'txtName
+        '
+        Me.txtName.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.txtName.Location = New System.Drawing.Point(85, 21)
+        Me.txtName.Name = "txtName"
+        Me.txtName.ReadOnly = True
+        Me.txtName.Size = New System.Drawing.Size(282, 22)
+        Me.txtName.TabIndex = 6
+        '
+        'Label15
+        '
+        Me.Label15.AutoSize = True
+        Me.Label15.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label15.Location = New System.Drawing.Point(2, 24)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(77, 13)
+        Me.Label15.TabIndex = 15
+        Me.Label15.Text = "Display name"
+        '
+        'txtProcess
+        '
+        Me.txtProcess.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.txtProcess.Location = New System.Drawing.Point(85, 136)
+        Me.txtProcess.Name = "txtProcess"
+        Me.txtProcess.ReadOnly = True
+        Me.txtProcess.Size = New System.Drawing.Size(250, 22)
+        Me.txtProcess.TabIndex = 10
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(2, 139)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(45, 13)
+        Me.Label1.TabIndex = 23
+        Me.Label1.Text = "Process"
+        '
+        'txtStartType
+        '
+        Me.txtStartType.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.txtStartType.Location = New System.Drawing.Point(85, 112)
+        Me.txtStartType.Name = "txtStartType"
+        Me.txtStartType.ReadOnly = True
+        Me.txtStartType.Size = New System.Drawing.Size(282, 22)
+        Me.txtStartType.TabIndex = 9
+        '
+        'Label17
+        '
+        Me.Label17.AutoSize = True
+        Me.Label17.Location = New System.Drawing.Point(2, 115)
+        Me.Label17.Name = "Label17"
+        Me.Label17.Size = New System.Drawing.Size(56, 13)
+        Me.Label17.TabIndex = 21
+        Me.Label17.Text = "Start type"
+        '
+        'txtType
+        '
+        Me.txtType.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.txtType.Location = New System.Drawing.Point(85, 89)
+        Me.txtType.Name = "txtType"
+        Me.txtType.ReadOnly = True
+        Me.txtType.Size = New System.Drawing.Size(282, 22)
+        Me.txtType.TabIndex = 8
+        '
+        'Label16
+        '
+        Me.Label16.AutoSize = True
+        Me.Label16.Location = New System.Drawing.Point(2, 92)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(30, 13)
+        Me.Label16.TabIndex = 19
+        Me.Label16.Text = "Type"
+        '
+        'txtState
+        '
+        Me.txtState.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.txtState.Location = New System.Drawing.Point(85, 67)
+        Me.txtState.Name = "txtState"
+        Me.txtState.ReadOnly = True
+        Me.txtState.Size = New System.Drawing.Size(282, 22)
+        Me.txtState.TabIndex = 7
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Location = New System.Drawing.Point(2, 70)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(33, 13)
+        Me.Label14.TabIndex = 17
+        Me.Label14.Text = "State"
         '
         'TabPage2
         '
@@ -1100,7 +1118,7 @@ Partial Class frmServiceInfo
         Me.TabPage6.Location = New System.Drawing.Point(4, 23)
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage6.Size = New System.Drawing.Size(647, 296)
+        Me.TabPage6.Size = New System.Drawing.Size(647, 308)
         Me.TabPage6.TabIndex = 5
         Me.TabPage6.Text = "Informations"
         Me.TabPage6.UseVisualStyleBackColor = True
@@ -1121,7 +1139,7 @@ Partial Class frmServiceInfo
         'SplitContainerInfoProcess.Panel2
         '
         Me.SplitContainerInfoProcess.Panel2.Controls.Add(Me.rtb)
-        Me.SplitContainerInfoProcess.Size = New System.Drawing.Size(641, 290)
+        Me.SplitContainerInfoProcess.Size = New System.Drawing.Size(641, 302)
         Me.SplitContainerInfoProcess.SplitterDistance = 25
         Me.SplitContainerInfoProcess.TabIndex = 0
         '
@@ -1159,7 +1177,7 @@ Partial Class frmServiceInfo
         Me.rtb.Location = New System.Drawing.Point(0, 0)
         Me.rtb.Name = "rtb"
         Me.rtb.ReadOnly = True
-        Me.rtb.Size = New System.Drawing.Size(641, 261)
+        Me.rtb.Size = New System.Drawing.Size(641, 273)
         Me.rtb.TabIndex = 4
         Me.rtb.Text = ""
         '
@@ -1225,24 +1243,6 @@ Partial Class frmServiceInfo
         Me.Timer.Enabled = True
         Me.Timer.Interval = 1000
         '
-        'txtCommand
-        '
-        Me.txtCommand.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.txtCommand.Location = New System.Drawing.Point(85, 44)
-        Me.txtCommand.Name = "txtCommand"
-        Me.txtCommand.ReadOnly = True
-        Me.txtCommand.Size = New System.Drawing.Size(282, 22)
-        Me.txtCommand.TabIndex = 25
-        '
-        'Label22
-        '
-        Me.Label22.AutoSize = True
-        Me.Label22.Location = New System.Drawing.Point(2, 47)
-        Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(59, 13)
-        Me.Label22.TabIndex = 26
-        Me.Label22.Text = "Command"
-        '
         'frmServiceInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1264,14 +1264,14 @@ Partial Class frmServiceInfo
         Me.SplitContainerOnlineInfo.Panel1.PerformLayout()
         Me.SplitContainerOnlineInfo.Panel2.ResumeLayout(False)
         Me.SplitContainerOnlineInfo.ResumeLayout(False)
-        Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
         Me.gpProcGeneralFile.ResumeLayout(False)
         Me.gpProcGeneralFile.PerformLayout()
         CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).EndInit()
         Me.menuCopyPctSmall.ResumeLayout(False)
         CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).EndInit()
         Me.menuCopyPctbig.ResumeLayout(False)
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
         Me.TabPage2.ResumeLayout(False)
         Me.GroupBox4.ResumeLayout(False)
         Me.GroupBox4.PerformLayout()

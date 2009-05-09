@@ -203,6 +203,17 @@ Public Class frmServiceInfo
         _frmMain.SetToolTip(Me.cmdStart, "Start service")
         _frmMain.SetToolTip(Me.cmdStop, "Stop service")
 
+        Select Case My.Settings.ServSelectedTab
+            Case "General - 1"
+                Me.tabProcess.SelectedTab = Me.TabPage1
+            Case "General - 2"
+                Me.tabProcess.SelectedTab = Me.TabPage2
+            Case "Dependencies"
+                Me.tabProcess.SelectedTab = Me.tabDep
+            Case "Informations"
+                Me.tabProcess.SelectedTab = Me.TabPage6
+        End Select
+
         ' Icons
         If pctBigIcon.Image Is Nothing Then
             Try
@@ -300,6 +311,7 @@ Public Class frmServiceInfo
     Private Sub tabProcess_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabProcess.SelectedIndexChanged
         Call Me.refreshServiceTab()
         Call ChangeCaption()
+        My.Settings.ServSelectedTab = Me.tabProcess.SelectedTab.Text
     End Sub
 
     Private Sub rtb_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles rtb.TextChanged
