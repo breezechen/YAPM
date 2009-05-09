@@ -130,7 +130,7 @@ Public Class frmWindowsList
         For Each it As ListViewItem In Me.lv.SelectedItems
             Dim hWnd As IntPtr = CType(it.Tag, IntPtr)
             If Not (hWnd = IntPtr.Zero) Then
-                Call cWindow.ShowWindowForeground(hWnd)
+                Call cWindow.LocalShowWindowForeground(hWnd)
             End If
         Next
     End Sub
@@ -139,7 +139,7 @@ Public Class frmWindowsList
         For Each it As ListViewItem In Me.lv.SelectedItems
             Dim hWnd As IntPtr = CType(it.Tag, IntPtr)
             If hWnd <> IntPtr.Zero Then
-                Call cWindow.CloseWindow(hWnd)
+                Call cWindow.LocalClose(hWnd)
             End If
         Next
     End Sub

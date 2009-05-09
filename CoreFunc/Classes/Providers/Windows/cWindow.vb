@@ -77,11 +77,7 @@ Public Class cWindow
     End Property
     Public WriteOnly Property Opacity() As Byte
         Set(ByVal value As Byte)
-            If value = 255 Then
-                SetOpacity(False)
-            Else
-                SetOpacity(True, value)
-            End If
+            SetOpacity(value)
         End Set
     End Property
     Public WriteOnly Property Enabled() As Boolean
@@ -165,6 +161,7 @@ Public Class cWindow
     End Sub
 
     Private _theAction As asyncCallbackWindowAction
+
     Public Function Close() As Integer
         If _theAction Is Nothing Then
             _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone), _connection)
@@ -175,8 +172,6 @@ Public Class cWindow
             asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.Close, Me.Infos.Handle, 0, 0, 0, newAction))
         AddPendingTask2(newAction, t)
     End Function
-
-
     Public Function Flash() As Boolean
         If _theAction Is Nothing Then
             _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone), _connection)
@@ -268,7 +263,14 @@ Public Class cWindow
         AddPendingTask2(newAction, t)
     End Function
     Public Function SetPositions(ByVal r As API.RECT) As Boolean
-
+        If _theAction Is Nothing Then
+            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone), _connection)
+        End If
+        Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.SetPosition, Me.Infos.Handle, 0, 0, 0, newAction, r))
+        AddPendingTask2(newAction, t)
     End Function
     Public Function SendMessage(ByVal msg As Integer, ByVal param1 As Integer, ByVal param2 As Integer) As Integer
         If _theAction Is Nothing Then
@@ -280,66 +282,6 @@ Public Class cWindow
             asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.SendMessage, Me.Infos.Handle, msg, param1, param2, newAction))
         AddPendingTask2(newAction, t)
     End Function
-
-    Public Shared Function IsWindowTask(ByVal hwnd As IntPtr) As Boolean
-
-    End Function
-    Public Shared Function MaximizeWindow(ByVal hWnd As IntPtr) As Integer
-
-    End Function
-    Public Shared Function MinimizeWindow(ByVal hWnd As IntPtr) As Integer
-
-    End Function
-    Public Shared Function HideWindow(ByVal hWnd As IntPtr) As Integer
-
-    End Function
-    Public Shared Function CloseWindow(ByVal hWnd As IntPtr) As Integer
-
-    End Function
-    Public Shared Function ShowWindow(ByVal hWnd As IntPtr) As Integer
-
-    End Function
-    Public Shared Function ShowWindowForeground(ByVal hWnd As IntPtr) As Integer
-
-    End Function
-    Public Shared Function GetCaption(ByVal h As IntPtr) As String
-        Return ""
-    End Function
-
-    Public Shared Sub SetEnabled(ByVal hWnd As IntPtr, ByVal en As Boolean)
-
-    End Sub
-
-    Public Shared Sub SetOpacity(ByVal b As Boolean, Optional ByVal value As Byte = 0)
-        If value = 255 Then
-            'Call DisableWindowOpacity()
-        Else
-            'Call EnableWindowOpacity()
-            'Call ChangeWindowOpacity(value)
-        End If
-    End Sub
-
-    Public Shared Function SetWindowPosition(ByVal hWnd As IntPtr, Optional ByVal _Left As Integer = Nothing, _
-         Optional ByVal _Top As Integer = Nothing, Optional ByVal _Width As Integer = Nothing, _
-         Optional ByVal _Height As Integer = Nothing) As Boolean
-        ' ASYNC
-        'Dim WndPl As API.WindowPlacement
-        'WndPl.Length = CUInt(System.Runtime.InteropServices.Marshal.SizeOf(WndPl))
-        'API.GetWindowPlacement(hWnd, WndPl)
-        'If (Not (_Left = Nothing)) And IsNumeric(_Left) Then
-        '    WndPl.NormalPosition.Right = WndPl.NormalPosition.Right - WndPl.NormalPosition.Left + _Left
-        '    WndPl.NormalPosition.Left = _Left
-        'End If
-        'If (Not (_Top = Nothing)) And IsNumeric(_Top) Then
-        '    WndPl.NormalPosition.Bottom = WndPl.NormalPosition.Bottom - WndPl.NormalPosition.Top + _Top
-        '    WndPl.NormalPosition.Top = _Top
-        'End If
-        'If (Not (_Width = Nothing)) And IsNumeric(_Width) Then WndPl.NormalPosition.Right = WndPl.NormalPosition.Left + _Width
-        'If (Not (_Height = Nothing)) And IsNumeric(_Height) Then WndPl.NormalPosition.Bottom = WndPl.NormalPosition.Top + _Height
-        'Return API.SetWindowPlacement(hWnd, WndPl)
-    End Function
-
-
     Private Function SetEnabled(ByVal value As Boolean) As Integer
         If _theAction Is Nothing Then
             _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone), _connection)
@@ -360,7 +302,6 @@ Public Class cWindow
             asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.SetOpacity, Me.Infos.Handle, CInt(value), 0, 0, newAction))
         AddPendingTask2(newAction, t)
     End Function
-
 
 #End Region
 
@@ -463,6 +404,16 @@ Public Class cWindow
         Loop
 
         Return _dico
+    End Function
+
+    ' Close
+    Public Shared Function LocalClose(ByVal handle As IntPtr) As Integer
+        Return API.SendMessage(handle, API.WM_CLOSE, 0, 0).ToInt32
+    End Function
+
+    ' ShowWindowForeground
+    Public Shared Function LocalShowWindowForeground(ByVal handle As IntPtr) As Integer
+        Return API.SetForegroundWindowAPI(handle)
     End Function
 
 #End Region

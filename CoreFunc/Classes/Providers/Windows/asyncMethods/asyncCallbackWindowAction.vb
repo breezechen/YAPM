@@ -44,6 +44,7 @@ Public Class asyncCallbackWindowAction
         SendMessage
         SetOpacity
         SetEnabled
+        SetPosition
     End Enum
 
     Public Delegate Sub HasMadeAction(ByVal Success As Boolean, ByVal action As ASYNC_WINDOW_ACTION, ByVal handle As Integer, ByVal msg As String, ByVal actionNumber As Integer)
@@ -58,17 +59,21 @@ Public Class asyncCallbackWindowAction
         Public o1 As Integer
         Public o3 As Integer
         Public o2 As Integer
+        Public r As API.RECT
         Public action As ASYNC_WINDOW_ACTION
         Public newAction As Integer
         Public Sub New(ByVal _action As ASYNC_WINDOW_ACTION, ByVal _handle As IntPtr, _
                         ByVal _o1 As Integer, ByVal _o2 As Integer, ByVal _o3 As Integer, _
-                        ByVal act As Integer)
+                        ByVal act As Integer, Optional ByVal obj As Object = Nothing)
             newAction = act
             handle = _handle
             action = _action
             o1 = _o1
             o2 = _o2
             o3 = _o3
+            If obj IsNot Nothing Then
+                r = DirectCast(obj, API.RECT)
+            End If
         End Sub
     End Structure
 
@@ -120,6 +125,8 @@ Public Class asyncCallbackWindowAction
                         res = Show(pObj.handle)
                     Case ASYNC_WINDOW_ACTION.StopFlashing
                         res = StopFlashing(pObj.handle)
+                    Case ASYNC_WINDOW_ACTION.SetPosition
+                        res = SetPosition(pObj.handle, pObj.r)
                 End Select
 
                 _theDeg.Invoke(res <> 0, pObj.action, pObj.handle.ToInt32, API.GetError, pObj.newAction)
@@ -199,6 +206,13 @@ Public Class asyncCallbackWindowAction
     End Function
     Private Function EnableWindowOpacity(ByVal _handle As IntPtr) As Integer
         Return API.SetWindowLong(_handle, API.GWL_EXSTYLE, CType(CInt(API.GetWindowLong(_handle, API.GWL_EXSTYLE)) Or API.WS_EX_LAYERED, IntPtr))
+    End Function
+    Private Function SetPosition(ByVal _handle As IntPtr, ByRef r As API.RECT) As Integer
+        Dim WndPl As API.WindowPlacement
+        WndPl.Length = CUInt(System.Runtime.InteropServices.Marshal.SizeOf(WndPl))
+        API.GetWindowPlacement(_handle, WndPl)
+        WndPl.NormalPosition = r
+        Return CInt(API.SetWindowPlacement(_handle, WndPl))
     End Function
 
 #End Region
