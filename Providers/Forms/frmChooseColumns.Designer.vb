@@ -34,6 +34,7 @@ Partial Class frmChooseColumns
         Me.cmdMoveDown = New System.Windows.Forms.Button
         Me.lv = New Providers.DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.TableLayoutPanel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -128,7 +129,7 @@ Partial Class frmChooseColumns
         'lv
         '
         Me.lv.CheckBoxes = True
-        Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
+        Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
         Me.lv.FullRowSelect = True
         Me.lv.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lv.Location = New System.Drawing.Point(12, 25)
@@ -143,6 +144,11 @@ Partial Class frmChooseColumns
         'ColumnHeader1
         '
         Me.ColumnHeader1.Width = 280
+        '
+        'ColumnHeader2
+        '
+        Me.ColumnHeader2.Text = "Width"
+        Me.ColumnHeader2.Width = 0
         '
         'frmChooseColumns
         '
@@ -182,4 +188,5 @@ Partial Class frmChooseColumns
     Friend WithEvents cmdInvert As System.Windows.Forms.Button
     Friend WithEvents cmdMoveUp As System.Windows.Forms.Button
     Friend WithEvents cmdMoveDown As System.Windows.Forms.Button
+    Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
 End Class

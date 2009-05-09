@@ -41,12 +41,24 @@ Public Class frmChooseColumns
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
         Me.DialogResult = System.Windows.Forms.DialogResult.OK
 
-        ' Remove all columns
         theListview.ReorganizeColumns = True
+        theListview.BeginUpdate()
+
+        ' Remove all columns
         For x As Integer = theListview.Columns.Count - 1 To 1 Step -1
             theListview.Columns.Remove(theListview.Columns(x))
         Next
 
+        ' Add new columns
+        For Each it As ListViewItem In Me.lv.CheckedItems
+            Dim width As Integer = CInt(Val(it.SubItems(1).Text))
+            If width <= 0 Then
+                width = 90        ' Default size
+            End If
+            theListview.Columns.Add(it.Text, width)
+        Next
+
+        ' Add items which are selected
         For Each it As ListViewItem In theListview.Items
             it.SubItems.Clear()
             Dim subit() As ListViewItem.ListViewSubItem
@@ -59,12 +71,8 @@ Public Class frmChooseColumns
             it.SubItems.AddRange(subit)
         Next
 
-        ' Add new columns
-        For Each it As ListViewItem In Me.lv.CheckedItems
-            theListview.Columns.Add(it.Text, 90)
-        Next
-
         theListview.ReorganizeColumns = False
+        theListview.EndUpdate()
         Me.Close()
     End Sub
 
@@ -130,6 +138,7 @@ Public Class frmChooseColumns
             Dim it As New ListViewItem(sss)
             it.Checked = True
             it.Name = sss
+            it.SubItems.Add(col.Width.ToString)
             Me.lv.Items.Add(it)
         Next
 
@@ -137,6 +146,7 @@ Public Class frmChooseColumns
         For Each s As String In ss
             If Me.lv.Items.ContainsKey(s) = False Then
                 Dim it As New ListViewItem(s)
+                it.SubItems.Add("")
                 Me.lv.Items.Add(it)
             End If
         Next
