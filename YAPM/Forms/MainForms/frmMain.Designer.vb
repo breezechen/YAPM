@@ -147,11 +147,8 @@ Partial Class frmMain
         Me.orbMenuSBA = New System.Windows.Forms.RibbonOrbMenuItem
         Me.RibbonSeparator2 = New System.Windows.Forms.RibbonSeparator
         Me.orbMenuSaveReport = New System.Windows.Forms.RibbonOrbMenuItem
-        Me.RibbonSeparator3 = New System.Windows.Forms.RibbonSeparator
-        Me.butOptions = New System.Windows.Forms.RibbonOrbMenuItem
         Me.RibbonSeparator5 = New System.Windows.Forms.RibbonSeparator
         Me.orbMenuAbout = New System.Windows.Forms.RibbonOrbMenuItem
-        Me.orbMenuExit = New System.Windows.Forms.RibbonOrbMenuItem
         Me.butLog = New System.Windows.Forms.RibbonButton
         Me.butSystemInfo = New System.Windows.Forms.RibbonButton
         Me.butWindows = New System.Windows.Forms.RibbonButton
@@ -661,6 +658,8 @@ Partial Class frmMain
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerNetwork = New System.Windows.Forms.Timer(Me.components)
         Me.timerStateBasedActions = New System.Windows.Forms.Timer(Me.components)
+        Me.butExit = New System.Windows.Forms.RibbonOrbOptionButton
+        Me.butShowPreferences = New System.Windows.Forms.RibbonOrbOptionButton
         Me.menuProc.SuspendLayout()
         Me.menuService.SuspendLayout()
         Me.mainMenu.SuspendLayout()
@@ -1357,17 +1356,15 @@ Partial Class frmMain
         Me.Ribbon.OrbDropDown.MenuItems.Add(Me.orbMenuSBA)
         Me.Ribbon.OrbDropDown.MenuItems.Add(Me.RibbonSeparator2)
         Me.Ribbon.OrbDropDown.MenuItems.Add(Me.orbMenuSaveReport)
-        Me.Ribbon.OrbDropDown.MenuItems.Add(Me.RibbonSeparator3)
-        Me.Ribbon.OrbDropDown.MenuItems.Add(Me.butOptions)
         Me.Ribbon.OrbDropDown.MenuItems.Add(Me.RibbonSeparator5)
         Me.Ribbon.OrbDropDown.MenuItems.Add(Me.orbMenuAbout)
-        Me.Ribbon.OrbDropDown.MenuItems.Add(Me.orbMenuExit)
         Me.Ribbon.OrbDropDown.Name = ""
         Me.Ribbon.OrbDropDown.NextPopup = Nothing
+        Me.Ribbon.OrbDropDown.OptionItems.Add(Me.butExit)
+        Me.Ribbon.OrbDropDown.OptionItems.Add(Me.butShowPreferences)
         Me.Ribbon.OrbDropDown.PreviousPopup = Nothing
-        Me.Ribbon.OrbDropDown.Size = New System.Drawing.Size(527, 392)
+        Me.Ribbon.OrbDropDown.Size = New System.Drawing.Size(527, 301)
         Me.Ribbon.OrbDropDown.TabIndex = 0
-        Me.Ribbon.OrbDropDown.ToolStripDropDown = Nothing
         Me.Ribbon.OrbImage = CType(resources.GetObject("Ribbon.OrbImage"), System.Drawing.Image)
         '
         '
@@ -1479,30 +1476,6 @@ Partial Class frmMain
         Me.orbMenuSaveReport.ToolTipImage = Nothing
         Me.orbMenuSaveReport.ToolTipTitle = Nothing
         '
-        'RibbonSeparator3
-        '
-        Me.RibbonSeparator3.AltKey = Nothing
-        Me.RibbonSeparator3.Image = Nothing
-        Me.RibbonSeparator3.Tag = Nothing
-        Me.RibbonSeparator3.Text = Nothing
-        Me.RibbonSeparator3.ToolTip = Nothing
-        Me.RibbonSeparator3.ToolTipImage = Nothing
-        Me.RibbonSeparator3.ToolTipTitle = Nothing
-        '
-        'butOptions
-        '
-        Me.butOptions.AltKey = Nothing
-        Me.butOptions.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
-        Me.butOptions.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butOptions.Image = Global.YAPM.My.Resources.Resources.options
-        Me.butOptions.SmallImage = Global.YAPM.My.Resources.Resources.options
-        Me.butOptions.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butOptions.Tag = Nothing
-        Me.butOptions.Text = "Options"
-        Me.butOptions.ToolTip = Nothing
-        Me.butOptions.ToolTipImage = Nothing
-        Me.butOptions.ToolTipTitle = Nothing
-        '
         'RibbonSeparator5
         '
         Me.RibbonSeparator5.AltKey = Nothing
@@ -1526,20 +1499,6 @@ Partial Class frmMain
         Me.orbMenuAbout.ToolTip = Nothing
         Me.orbMenuAbout.ToolTipImage = Nothing
         Me.orbMenuAbout.ToolTipTitle = Nothing
-        '
-        'orbMenuExit
-        '
-        Me.orbMenuExit.AltKey = Nothing
-        Me.orbMenuExit.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
-        Me.orbMenuExit.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.orbMenuExit.Image = CType(resources.GetObject("orbMenuExit.Image"), System.Drawing.Image)
-        Me.orbMenuExit.SmallImage = CType(resources.GetObject("orbMenuExit.SmallImage"), System.Drawing.Image)
-        Me.orbMenuExit.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.orbMenuExit.Tag = Nothing
-        Me.orbMenuExit.Text = "Exit"
-        Me.orbMenuExit.ToolTip = Nothing
-        Me.orbMenuExit.ToolTipImage = Nothing
-        Me.orbMenuExit.ToolTipTitle = Nothing
         '
         'butLog
         '
@@ -4743,6 +4702,7 @@ Partial Class frmMain
         Me.lvTask.Location = New System.Drawing.Point(0, 0)
         Me.lvTask.Name = "lvTask"
         Me.lvTask.OverriddenDoubleBuffered = True
+        Me.lvTask.ReorganizeColumns = True
         Me.lvTask.Size = New System.Drawing.Size(852, 361)
         Me.lvTask.TabIndex = 3
         Me.lvTask.UseCompatibleStateImageBehavior = False
@@ -4917,6 +4877,7 @@ Partial Class frmMain
         Me.lvProcess.Location = New System.Drawing.Point(0, 0)
         Me.lvProcess.Name = "lvProcess"
         Me.lvProcess.OverriddenDoubleBuffered = True
+        Me.lvProcess.ReorganizeColumns = True
         Me.lvProcess.Size = New System.Drawing.Size(852, 361)
         Me.lvProcess.TabIndex = 3
         Me.lvProcess.UseCompatibleStateImageBehavior = False
@@ -5085,6 +5046,7 @@ Partial Class frmMain
         Me.lvModules.Name = "lvModules"
         Me.lvModules.OverriddenDoubleBuffered = True
         Me.lvModules.ProcessId = Nothing
+        Me.lvModules.ReorganizeColumns = True
         Me.lvModules.Size = New System.Drawing.Size(852, 210)
         Me.lvModules.TabIndex = 6
         Me.lvModules.UseCompatibleStateImageBehavior = False
@@ -5242,6 +5204,7 @@ Partial Class frmMain
         Me.lvThreads.Name = "lvThreads"
         Me.lvThreads.OverriddenDoubleBuffered = True
         Me.lvThreads.ProcessId = Nothing
+        Me.lvThreads.ReorganizeColumns = True
         Me.lvThreads.Size = New System.Drawing.Size(852, 232)
         Me.lvThreads.TabIndex = 5
         Me.lvThreads.UseCompatibleStateImageBehavior = False
@@ -5395,6 +5358,7 @@ Partial Class frmMain
         Me.lvHandles.Name = "lvHandles"
         Me.lvHandles.OverriddenDoubleBuffered = True
         Me.lvHandles.ProcessId = Nothing
+        Me.lvHandles.ReorganizeColumns = True
         Me.lvHandles.ShowUnnamed = False
         Me.lvHandles.Size = New System.Drawing.Size(852, 361)
         Me.lvHandles.TabIndex = 3
@@ -5557,6 +5521,7 @@ Partial Class frmMain
         Me.lvWindows.Name = "lvWindows"
         Me.lvWindows.OverriddenDoubleBuffered = True
         Me.lvWindows.ProcessId = Nothing
+        Me.lvWindows.ReorganizeColumns = True
         Me.lvWindows.ShowAllPid = False
         Me.lvWindows.ShowUnNamed = False
         Me.lvWindows.Size = New System.Drawing.Size(852, 210)
@@ -6016,6 +5981,7 @@ Partial Class frmMain
         Me.lvServices.Name = "lvServices"
         Me.lvServices.OverriddenDoubleBuffered = True
         Me.lvServices.ProcessId = 0
+        Me.lvServices.ReorganizeColumns = True
         Me.lvServices.ShowAll = True
         Me.lvServices.Size = New System.Drawing.Size(852, 225)
         Me.lvServices.TabIndex = 1
@@ -6234,6 +6200,7 @@ Partial Class frmMain
         Me.lvNetwork.Name = "lvNetwork"
         Me.lvNetwork.OverriddenDoubleBuffered = True
         Me.lvNetwork.ProcessId = Nothing
+        Me.lvNetwork.ReorganizeColumns = True
         Me.lvNetwork.ShowAllPid = False
         Me.lvNetwork.Size = New System.Drawing.Size(852, 390)
         Me.lvNetwork.TabIndex = 4
@@ -6784,6 +6751,7 @@ Partial Class frmMain
         Me.lvSearchResults.Location = New System.Drawing.Point(0, 0)
         Me.lvSearchResults.Name = "lvSearchResults"
         Me.lvSearchResults.OverriddenDoubleBuffered = True
+        Me.lvSearchResults.ReorganizeColumns = True
         Me.lvSearchResults.SearchString = Nothing
         Me.lvSearchResults.Size = New System.Drawing.Size(852, 331)
         Me.lvSearchResults.SmallImageList = Me.imgSearch
@@ -6878,6 +6846,34 @@ Partial Class frmMain
         '
         Me.timerStateBasedActions.Enabled = True
         Me.timerStateBasedActions.Interval = 1000
+        '
+        'butExit
+        '
+        Me.butExit.AltKey = Nothing
+        Me.butExit.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butExit.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butExit.Image = Global.YAPM.My.Resources.Resources.cross_circle
+        Me.butExit.SmallImage = Global.YAPM.My.Resources.Resources.cross_circle
+        Me.butExit.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butExit.Tag = Nothing
+        Me.butExit.Text = "Quit"
+        Me.butExit.ToolTip = Nothing
+        Me.butExit.ToolTipImage = Nothing
+        Me.butExit.ToolTipTitle = Nothing
+        '
+        'butShowPreferences
+        '
+        Me.butShowPreferences.AltKey = Nothing
+        Me.butShowPreferences.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
+        Me.butShowPreferences.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butShowPreferences.Image = CType(resources.GetObject("butShowPreferences.Image"), System.Drawing.Image)
+        Me.butShowPreferences.SmallImage = CType(resources.GetObject("butShowPreferences.SmallImage"), System.Drawing.Image)
+        Me.butShowPreferences.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butShowPreferences.Tag = Nothing
+        Me.butShowPreferences.Text = "Preferences"
+        Me.butShowPreferences.ToolTip = Nothing
+        Me.butShowPreferences.ToolTipImage = Nothing
+        Me.butShowPreferences.ToolTipTitle = Nothing
         '
         'frmMain
         '
@@ -7585,9 +7581,7 @@ Partial Class frmMain
     Friend WithEvents orbMenuSBA As System.Windows.Forms.RibbonOrbMenuItem
     Friend WithEvents RibbonSeparator2 As System.Windows.Forms.RibbonSeparator
     Friend WithEvents orbMenuSaveReport As System.Windows.Forms.RibbonOrbMenuItem
-    Friend WithEvents RibbonSeparator3 As System.Windows.Forms.RibbonSeparator
     Friend WithEvents orbMenuAbout As System.Windows.Forms.RibbonOrbMenuItem
-    Friend WithEvents orbMenuExit As System.Windows.Forms.RibbonOrbMenuItem
     Friend WithEvents orbMenuNetwork As System.Windows.Forms.RibbonOrbMenuItem
     Friend WithEvents RibbonSeparator4 As System.Windows.Forms.RibbonSeparator
     Friend WithEvents butNetwork As System.Windows.Forms.RibbonButton
@@ -7641,6 +7635,7 @@ Partial Class frmMain
     Friend WithEvents ToolStripMenuItem66 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents chkSearchEnvVar As System.Windows.Forms.CheckBox
     Friend WithEvents RibbonSeparator5 As System.Windows.Forms.RibbonSeparator
-    Friend WithEvents butOptions As System.Windows.Forms.RibbonOrbMenuItem
+    Friend WithEvents butExit As System.Windows.Forms.RibbonOrbOptionButton
+    Friend WithEvents butShowPreferences As System.Windows.Forms.RibbonOrbOptionButton
 
 End Class

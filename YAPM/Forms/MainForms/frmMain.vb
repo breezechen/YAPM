@@ -2863,10 +2863,6 @@ Public Class frmMain
         Me.lvProcess.Items(0).Group = Me.lvProcess.Groups(1)
     End Sub
 
-    Private Sub rtb3_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs)
-        Me.cmdFileClipboard.Enabled = (rtb3.Rtf.Length > 0)
-    End Sub
-
     Private Sub rtb2_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles rtb2.TextChanged
         Me.cmdCopyServiceToCp.Enabled = (rtb2.Rtf.Length > 0)
     End Sub
@@ -4027,10 +4023,6 @@ Public Class frmMain
         Call EmergencyHotkeysToolStripMenuItem_Click(Nothing, Nothing)
     End Sub
 
-    Private Sub orbMenuExit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles orbMenuExit.Click
-        Call ExitToolStripMenuItem_Click(Nothing, Nothing)
-    End Sub
-
     Private Sub orbMenuSaveReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles orbMenuSaveReport.Click
         Call SaveSystemReportToolStripMenuItem_Click(Nothing, Nothing)
     End Sub
@@ -4271,11 +4263,19 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub butOptions_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butOptions.Click
+    Private Sub lvNetwork_HasChangedColumns() Handles lvNetwork.HasChangedColumns
+        Pref.SaveListViewColumns(Me.lvNetwork, "COLmain_network")
+    End Sub
+
+    Private Sub butShowPreferences_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butShowPreferences.Click
         frmPreferences.ShowDialog()
     End Sub
 
-    Private Sub lvNetwork_HasChangedColumns() Handles lvNetwork.HasChangedColumns
-        Pref.SaveListViewColumns(Me.lvNetwork, "COLmain_network")
+    Private Sub butExit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butExit.Click
+        Call ExitToolStripMenuItem_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub rtb3_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles rtb3.TextChanged
+        Me.cmdFileClipboard.Enabled = (rtb3.Rtf.Length > 0)
     End Sub
 End Class
