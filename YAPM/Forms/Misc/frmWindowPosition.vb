@@ -61,7 +61,7 @@ Public Class frmWindowPosition
 
         closeWithEchapKey(Me)
 
-        With frmMain
+        With _frmMain
             .SetToolTip(Me.txtHeight, "Height of the form.")
             .SetToolTip(Me.txtLeft, "Left position of the form.")
             .SetToolTip(Me.txtWidth, "Width of the form.")

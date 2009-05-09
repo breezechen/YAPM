@@ -91,7 +91,7 @@ Public Class frmPreferences
         closeWithEchapKey(Me)
 
         Me.txtUpdate.Text = "Click on 'Check if YAPM is up to date' to check if a new version is available."
-        With frmMain
+        With _frmMain
             .SetToolTip(Me.chkReplaceTaskmgr, "Replace taskmgr (it is safe).")
             .SetToolTip(Me.chkStart, "Start YAPM on Windows startup.")
             .SetToolTip(Me.chkStartTray, "Start YAPM hidden (only in tray system).")

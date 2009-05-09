@@ -45,7 +45,7 @@ Public Class frmAddProcessMonitor
 
         closeWithEchapKey(Me)
 
-        With frmMain
+        With _frmMain
             .SetToolTip(Me.butAdd, "Monitor the selected process.")
             .SetToolTip(Me.txtInterval, "Set the refresh interval (milliseconds).")
             .SetToolTip(Me.cmdAddToList, "Add counters from list.")
