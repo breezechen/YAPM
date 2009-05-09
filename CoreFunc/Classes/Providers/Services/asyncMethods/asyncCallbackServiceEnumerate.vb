@@ -135,7 +135,6 @@ Public Class asyncCallbackServiceEnumerate
     Public Sub Process(ByVal thePoolObj As Object)
 
         sem.WaitOne()
-        Beep()
         SyncLock dicoNewServices
             Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
             If con.ConnectionObj.IsConnected = False Then
