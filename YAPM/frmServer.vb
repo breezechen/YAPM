@@ -627,7 +627,7 @@ Public Class frmServeur
     Private Sub addItem(ByRef dat As cSocketData)
         Dim it As New ListViewItem(Date.Now.ToLongDateString & " - " & Date.Now.ToLongTimeString)
         it.SubItems.Add(dat.ToString)
-        Me.lvServer.Items.Add(it)
+        '  Me.lvServer.Items.Add(it)
     End Sub
 
 End Class
