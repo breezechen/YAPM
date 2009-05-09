@@ -23,6 +23,10 @@ Option Strict On
 
 <Serializable()> Public Class cSocketData
 
+    Public Overrides Function ToString() As String
+        Return _orderType.ToString
+    End Function
+
     ' Type of data to send
     Public Enum DataType As Byte
         [Order] = 1                 ' An order (nothing expected after)

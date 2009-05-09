@@ -27,6 +27,9 @@ Partial Class frmServeur
         Me.TextBox1 = New System.Windows.Forms.TextBox
         Me.Label2 = New System.Windows.Forms.Label
         Me.Label1 = New System.Windows.Forms.Label
+        Me.lvServer = New DoubleBufferedLV
+        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.SuspendLayout()
         '
         'Button1
@@ -64,11 +67,33 @@ Partial Class frmServeur
         Me.Label1.TabIndex = 4
         Me.Label1.Text = resources.GetString("Label1.Text")
         '
+        'lvServer
+        '
+        Me.lvServer.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
+        Me.lvServer.FullRowSelect = True
+        Me.lvServer.Location = New System.Drawing.Point(12, 117)
+        Me.lvServer.Name = "lvServer"
+        Me.lvServer.Size = New System.Drawing.Size(567, 327)
+        Me.lvServer.TabIndex = 8
+        Me.lvServer.UseCompatibleStateImageBehavior = False
+        Me.lvServer.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Text = "Time"
+        Me.ColumnHeader1.Width = 172
+        '
+        'ColumnHeader2
+        '
+        Me.ColumnHeader2.Text = "Command received"
+        Me.ColumnHeader2.Width = 384
+        '
         'frmServeur
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(589, 110)
+        Me.ClientSize = New System.Drawing.Size(589, 456)
+        Me.Controls.Add(Me.lvServer)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Label2)
@@ -87,5 +112,8 @@ Partial Class frmServeur
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents lvServer As DoubleBufferedLV
+    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
 
 End Class

@@ -347,6 +347,9 @@ Public Class frmServeur
 
             Dim _forInstanceId As Integer = cData.InstanceId
 
+            ' Add item to history
+            Call addItem(cData)
+
             ' Extract the type of information we have to send
             If cData.Type = cSocketData.DataType.Order Then
 
@@ -511,6 +514,9 @@ Public Class frmServeur
     End Sub
 
     Private Sub frmServeur_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        API.SetWindowTheme(Me.lvServer.Handle, "explorer", Nothing)
+
         sock.ConnexionAccepted = New cAsyncSocketServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
         sock.Disconnected = New cAsyncSocketServer.DisconnectedEventHandler(AddressOf sock_Disconnected)
         ' sock.ReceivedData = New cAsyncSocketServer.ReceivedDataEventHandler(AddressOf sock_ReceivedData)
@@ -524,4 +530,11 @@ Public Class frmServeur
     Private Sub sock_ReceivedData1(ByRef data() As Byte, ByVal length As Integer) Handles sock.ReceivedData
         sock_ReceivedData(data, length)
     End Sub
+
+    Private Sub addItem(ByRef dat As cSocketData)
+        Dim it As New ListViewItem(Date.Now.ToLongDateString & " - " & Date.Now.ToLongTimeString)
+        it.SubItems.Add(dat.ToString)
+        Me.lvServer.Items.Add(it)
+    End Sub
+
 End Class
