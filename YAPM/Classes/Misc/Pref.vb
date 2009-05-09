@@ -131,7 +131,7 @@ Public Class Pref
         Dim s As String = ""
 
         For Each it As ColumnHeader In lv.Columns
-            s &= it.Text & "?" & it.Width.ToString & "$"
+            s &= it.Text.Replace("< ", "").Replace("> ", "") & "?" & it.Width.ToString & "$"
         Next
 
         My.Settings(name) = s
@@ -140,11 +140,12 @@ Public Class Pref
     End Sub
 
     ' Get current configuration of columns of a listview
+    ' (only used for debug)
     Private Shared Function getColumnDesc(ByVal lv As ListView) As String
         Dim s As String = ""
 
         For Each it As ColumnHeader In lv.Columns
-            s &= it.Text & "?" & it.Width.ToString & "$"
+            s &= it.Text.Replace("< ", "").Replace("> ", "") & "?" & it.Width.ToString & "$"
         Next
 
         Return s
