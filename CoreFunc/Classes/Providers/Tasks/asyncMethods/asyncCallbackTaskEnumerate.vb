@@ -102,7 +102,7 @@ Public Class asyncCallbackTaskEnumerate
                         Dim tid As Integer = GetThreadIdFromWindowHandle(currWnd)
                         Dim key As String = pid.ToString & "-" & tid.ToString & "-" & currWnd.ToString
                         If _dico.ContainsKey(key) = False Then
-                            _dico.Add(key, New windowInfos(pid, tid, currWnd))
+                            _dico.Add(key, New windowInfos(pid, tid, currWnd, asyncCallbackWindowEnumerate.GetCaption(currWnd)))
                         End If
                     End If
 

@@ -108,11 +108,12 @@ Public Class asyncCallbackWindowEnumerate
                     Dim pid As Integer = GetProcIdFromWindowHandle(currWnd)
                     If pObj.all OrElse Array.IndexOf(pObj.pid, pid) >= 0 Then
                         ' Then this window belongs to one of our processes
-                        If pObj.unnamed OrElse GetCaptionLenght(currWnd) > 0 Then
+                        Dim sCap As String = GetCaption(currWnd)
+                        If pObj.unnamed OrElse sCap.Length > 0 Then
                             Dim tid As Integer = GetThreadIdFromWindowHandle(currWnd)
                             Dim key As String = pid.ToString & "-" & tid.ToString & "-" & currWnd.ToString
                             If _dico.ContainsKey(key) = False Then
-                                _dico.Add(key, New windowInfos(pid, tid, currWnd))
+                                _dico.Add(key, New windowInfos(pid, tid, currWnd, sCap))
                             End If
                         End If
                     End If
@@ -137,8 +138,16 @@ Public Class asyncCallbackWindowEnumerate
     End Function
 
     ' Return caption
-    Friend Shared Function GetCaptionLenght(ByVal hwnd As IntPtr) As Integer
-        Return API.GetWindowTextLength(hwnd)
+    Friend Shared Function GetCaption(ByVal hWnd As IntPtr) As String
+        Dim length As Integer
+        length = API.GetWindowTextLength(hWnd)
+        If length > 0 Then
+            Dim _cap As New StringBuilder(Space(length + 1))
+            length = API.GetWindowText(hWnd, _cap, length + 1)
+            Return _cap.ToString.Substring(0, Len(_cap.ToString))
+        Else
+            Return ""
+        End If
     End Function
 
     ' Return thread id from a handle

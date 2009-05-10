@@ -57,7 +57,7 @@ Public Class cWindow
     ' It is used to call instance.Close(), instance.Show().... etc., rather
     ' than call cWindow.SharedClose(hWnd), cWindow.SharedShow(hWnd)...
     Public Sub New(ByVal handle As Integer)
-        _windowInfos = New windowInfos(0, 0, New IntPtr(handle))
+        _windowInfos = New windowInfos(0, 0, New IntPtr(handle), "")
     End Sub
 
 #End Region
@@ -110,11 +110,7 @@ Public Class cWindow
     Public Property Caption() As String
         Get
             If Me.IsKilledItem = False Then
-                Dim length As Integer
-                length = API.GetWindowTextLength(Me.Infos.Handle)
-                Dim _cap As New StringBuilder(Space(length + 1))
-                length = API.GetWindowText(Me.Infos.Handle, _cap, length + 1)
-                _oldCaption = _cap.ToString.Substring(0, Len(_cap.ToString))
+                _oldCaption = Me.Infos.Caption
                 Return _oldCaption
             Else
                 Return _oldCaption
@@ -390,7 +386,7 @@ Public Class cWindow
 #Region "Shared functions (local)"
 
     Public Shared Function GetForegroundAppPID() As Integer
-
+        'TODO
     End Function
 
     ' Get all windows
@@ -413,7 +409,7 @@ Public Class cWindow
             Dim tid As Integer = asyncCallbackWindowEnumerate.GetThreadIdFromWindowHandle(currWnd)
             Dim key As String = pid.ToString & "-" & tid.ToString & "-" & currWnd.ToString
             If _dico.ContainsKey(key) = False Then
-                _dico.Add(key, New cWindow(New windowInfos(pid, tid, currWnd)))
+                _dico.Add(key, New cWindow(New windowInfos(pid, tid, currWnd, asyncCallbackWindowEnumerate.GetCaption(currWnd))))
             End If
             'End If
             'End If

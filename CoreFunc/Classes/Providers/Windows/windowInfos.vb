@@ -45,11 +45,17 @@ Imports System.Runtime.InteropServices
     Protected _top As Integer
     Protected _left As Integer
     Protected _opacity As Byte
+    Protected _caption As String
 
 #End Region
 
 #Region "Properties"
 
+    Friend ReadOnly Property Caption() As String
+        Get
+            Return _caption
+        End Get
+    End Property
     Public ReadOnly Property ProcessId() As Integer
         Get
             Return _processId
@@ -127,50 +133,19 @@ Imports System.Runtime.InteropServices
     ' ========================================
     ' Public
     ' ========================================
-
-    'Public Structure LightWindow
-    '    Public pid As Integer
-    '    Public tid As Integer
-    '    Public handle As IntPtr
-    '    Public Sub New(ByVal _pid As Integer, ByVal _tid As Integer, ByVal _handle As IntPtr)
-    '        pid = _pid
-    '        tid = _tid
-    '        handle = _handle
-    '    End Sub
-    'End Structure
-
-    ' Constructor of this class
-    'Public Sub New(ByRef window As LightWindow)
-    '    _processId = window.pid
-    '    _threadId = window.tid
-    '    _handle = window.handle
-    'End Sub
     Public Sub New(ByRef window As windowInfos)
         _processId = window.ProcessId
         _threadId = window.ThreadId
         _handle = window.Handle
+        _caption = window.Caption
     End Sub
-    Public Sub New(ByVal pid As Integer, ByVal tid As Integer, ByVal handle As IntPtr)
+    Public Sub New(ByVal pid As Integer, ByVal tid As Integer, ByVal handle As IntPtr, ByVal caption As String)
         _processId = pid
         _threadId = tid
         _handle = handle
+        _caption = caption
     End Sub
 
-    '' Merge an old and a new instance
-    'Public Sub Merge(ByRef newI As windowInfos)
-
-    '    With newI
-    '        _enabled = .Enabled
-    '        _height = .Height
-    '        _isTask = .IsTask
-    '        _left = .Left
-    '        _opacity = .Opacity
-    '        _top = .Top
-    '        _visible = .Visible
-    '        _width = .Width
-    '    End With
-
-    'End Sub
     Friend Sub SetNonFixedInfos(ByRef infos As asyncCallbackWindowGetNonFixedInfos.TheseInfos)
         With infos
             _enabled = .enabled
