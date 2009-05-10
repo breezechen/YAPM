@@ -111,6 +111,10 @@
       <Project>{4F4D09F8-D122-4ACB-B049-881634E67A2C}</Project>
       <Name>CoreFunc</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Providers\Providers.vbproj">
+      <Project>{657B7CE9-D35C-4E65-A05B-CC6B46A14D7D}</Project>
+      <Name>Providers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -247,6 +247,8 @@ Public Class frmServiceInfo
         Me.txtServicePath.Text = GetPathFromCommand(curServ.GetInformation("ImagePath"))
         Me.cbStart.Text = curServ.Infos.StartType.ToString
 
+        Me.Timer.Enabled = _local
+
         If _local Then
             Try
                 If IO.File.Exists(Me.txtServicePath.Text) AndAlso curServ.Infos.FileInfo Is Nothing Then

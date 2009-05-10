@@ -33,7 +33,7 @@ Public MustInherit Class cGeneralConnection
 
     ' We will invoke this control
     Protected _control As Control
-    Protected WithEvents _sock As cAsyncSocket
+    Protected WithEvents _sock As AsynchronousClient
 
     ' For WMI
     Friend wmiSearcher As Management.ManagementObjectSearcher
@@ -67,7 +67,7 @@ Public MustInherit Class cGeneralConnection
             End If
         End Set
     End Property
-    Public ReadOnly Property Socket() As cAsyncSocket
+    Public ReadOnly Property Socket() As AsynchronousClient
         Get
             Return _sock
         End Get

@@ -60,8 +60,7 @@ Public Class asyncCallbackProcSetPriority
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 Try
                     Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ProcessChangePriority, pObj.pid, pObj.lvl)
-                    Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                    con.ConnectionObj.Socket.Send(buff, buff.Length)
+                    con.ConnectionObj.Socket.Send(cDat)
                 Catch ex As Exception
                     MsgBox(ex.Message)
                 End Try

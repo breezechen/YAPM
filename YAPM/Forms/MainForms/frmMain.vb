@@ -4132,11 +4132,11 @@ Public Class frmMain
         Me.lvNetwork.CatchErrors = Not (_local)
 
         ' Enable all refreshments
-        Me.timerProcess.Enabled = True
-        Me.timerServices.Enabled = True
-        Me.timerMonitoring.Enabled = True
-        Me.timerNetwork.Enabled = True
-        Me.timerTask.Enabled = True
+        Me.timerProcess.Enabled = _local
+        Me.timerServices.Enabled = _local
+        Me.timerMonitoring.Enabled = _local
+        Me.timerNetwork.Enabled = _local
+        Me.timerTask.Enabled = _local
     End Sub
 
     Public Sub DisconnectFromMachine()

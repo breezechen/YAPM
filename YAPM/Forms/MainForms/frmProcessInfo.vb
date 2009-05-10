@@ -431,6 +431,8 @@ Public Class frmProcessInfo
         Me.PropertiesToolStripMenuItem.Enabled = _local
         Me.TabPageString.Enabled = _local
 
+        Me.timerLog.Enabled = _local
+        Me.timerProcPerf.Enabled = _local
 
         ' Verify file
         If _local Then

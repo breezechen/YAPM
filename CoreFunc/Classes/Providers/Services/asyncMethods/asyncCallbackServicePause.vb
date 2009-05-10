@@ -59,8 +59,7 @@ Public Class asyncCallbackServicePause
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 Try
                     Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ServicePause, pObj.name)
-                    Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                    con.ConnectionObj.Socket.Send(buff, buff.Length)
+                    con.ConnectionObj.Socket.Send(cDat)
                 Catch ex As Exception
                     MsgBox(ex.Message)
                 End Try

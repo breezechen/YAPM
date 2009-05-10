@@ -59,13 +59,13 @@ Public Class cConnection
         End Sub
     End Structure
 
-    Private WithEvents _sock As cAsyncSocket
+    Private WithEvents _sock As AsynchronousClient
     Private _conType As TypeOfConnection
     Private _conSocket As SocketConnectionParameters
     Private _conWMI As WMIConnectionParameters
     Private _isConnected As Boolean
 
-    Public ReadOnly Property Socket() As cAsyncSocket
+    Public ReadOnly Property Socket() As AsynchronousClient
         Get
             Return _sock
         End Get
@@ -130,8 +130,8 @@ Public Class cConnection
     Public Sub Connect()
         If Me.ConnectionType = TypeOfConnection.RemoteConnectionViaSocket Then
             If _sock Is Nothing Then
-                _sock = New cAsyncSocket()
-                _sock.Connect(_conSocket)
+                _sock = New AsynchronousClient()
+                _sock.Connect(_conSocket.address, _conSocket.port)
             Else
                 _isConnected = True
                 RaiseEvent Connected()
@@ -168,44 +168,44 @@ Public Class cConnection
         ' When we have sent datas
     End Sub
 
-    ' When we receive datas
-    Private Sub _sock_ReceivedData(ByRef cDat As cSocketData) Handles _sock.ReceivedData
+    '' When we receive datas
+    'Private Sub _sock_ReceivedData(ByRef cDat As cSocketData) Handles _sock.ReceivedData
 
-        If cDat Is Nothing Then
-            Trace.WriteLine("Serialization error")
-            Exit Sub
-        End If
+    '    If cDat Is Nothing Then
+    '        Trace.WriteLine("Serialization error")
+    '        Exit Sub
+    '    End If
 
-        If cDat.Type = cSocketData.DataType.RequestedList Then
-            ' Here we got a list of items
-            Select Case cDat.Order
-                Case cSocketData.OrderType.RequestProcessList
-                    'asyncCallbackProcEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
-                Case cSocketData.OrderType.RequestEnvironmentVariableList
-                    ' asyncCallbackEnvVariableEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
-                Case cSocketData.OrderType.RequestHandleList
-                    '  asyncCallbackHandleEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
-                Case cSocketData.OrderType.RequestMemoryRegionList
-                    ' asyncCallbackMemRegionEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
-                Case cSocketData.OrderType.RequestModuleList
-                    ' asyncCallbackModuleEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
-                Case cSocketData.OrderType.RequestNetworkConnectionList
-                    ' asyncCallbackNetworkEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
-                Case cSocketData.OrderType.RequestPrivilegesList
-                    'asyncCallbackPrivilegesEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
-                Case cSocketData.OrderType.RequestServiceList
-                    ' asyncCallbackServiceEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
-                Case cSocketData.OrderType.RequestTaskList
-                    'asyncCallbackTaskEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
-                Case cSocketData.OrderType.RequestThreadList
-                    '  asyncCallbackThreadEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
-                Case cSocketData.OrderType.RequestWindowList
-                    ' asyncCallbackWindowEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
-            End Select
+    '    If cDat.Type = cSocketData.DataType.RequestedList Then
+    '        ' Here we got a list of items
+    '        Select Case cDat.Order
+    '            Case cSocketData.OrderType.RequestProcessList
+    '                'asyncCallbackProcEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+    '            Case cSocketData.OrderType.RequestEnvironmentVariableList
+    '                ' asyncCallbackEnvVariableEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+    '            Case cSocketData.OrderType.RequestHandleList
+    '                '  asyncCallbackHandleEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+    '            Case cSocketData.OrderType.RequestMemoryRegionList
+    '                ' asyncCallbackMemRegionEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+    '            Case cSocketData.OrderType.RequestModuleList
+    '                ' asyncCallbackModuleEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+    '            Case cSocketData.OrderType.RequestNetworkConnectionList
+    '                ' asyncCallbackNetworkEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+    '            Case cSocketData.OrderType.RequestPrivilegesList
+    '                'asyncCallbackPrivilegesEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+    '            Case cSocketData.OrderType.RequestServiceList
+    '                ' asyncCallbackServiceEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+    '            Case cSocketData.OrderType.RequestTaskList
+    '                'asyncCallbackTaskEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+    '            Case cSocketData.OrderType.RequestThreadList
+    '                '  asyncCallbackThreadEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+    '            Case cSocketData.OrderType.RequestWindowList
+    '                ' asyncCallbackWindowEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
+    '        End Select
 
-        Else
-            '
-        End If
-    End Sub
+    '    Else
+    '        '
+    '    End If
+    'End Sub
 
 End Class

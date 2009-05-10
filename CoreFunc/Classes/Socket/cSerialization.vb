@@ -50,27 +50,27 @@ Public Class cSerialization
     End Function
 
     Private Shared Function CompressByteArray(ByRef b() As Byte) As Byte()
-        Return b
-        'Dim ms As New MemoryStream()
-        'Dim s As Stream = New GZipStream(ms, CompressionMode.Compress)
-        's.Write(b, 0, b.Length)
-        's.Close()
-        'Return DirectCast(ms.ToArray(), Byte())
+        'Return b
+        Dim ms As New MemoryStream()
+        Dim s As Stream = New GZipStream(ms, CompressionMode.Compress)
+        s.Write(b, 0, b.Length)
+        s.Close()
+        Return DirectCast(ms.ToArray(), Byte())
     End Function
 
     Private Shared Function DeCompressByteArray(ByRef b() As Byte) As Byte()
-        Return b
-        'Dim writeData(4096) As Byte ' = new byte[4096]
-        'Dim memStream As MemoryStream = New MemoryStream()
-        'Dim s2 As Stream = New GZipStream(New MemoryStream(b), CompressionMode.Decompress)
-        'Dim size As Integer = 1
+        ' Return b
+        Dim writeData(4096) As Byte ' = new byte[4096]
+        Dim memStream As MemoryStream = New MemoryStream()
+        Dim s2 As Stream = New GZipStream(New MemoryStream(b), CompressionMode.Decompress)
+        Dim size As Integer = 1
 
-        'While (size > 0)
-        '    size = s2.Read(writeData, 0, writeData.Length)
-        '    memStream.Write(writeData, 0, size)
-        '    memStream.Flush()
-        'End While
-        'Return memStream.ToArray()
+        While (size > 0)
+            size = s2.Read(writeData, 0, writeData.Length)
+            memStream.Write(writeData, 0, size)
+            memStream.Flush()
+        End While
+        Return memStream.ToArray()
 
     End Function
 

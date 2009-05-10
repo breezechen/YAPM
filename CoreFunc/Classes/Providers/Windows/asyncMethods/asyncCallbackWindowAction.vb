@@ -141,8 +141,7 @@ Public Class asyncCallbackWindowAction
                              cSocketData.OrderType.WindowSetCaption, CInt(pObj.handle), pObj.s)
                     End Select
 
-                    Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                    con.ConnectionObj.Socket.Send(buff, buff.Length)
+                    con.ConnectionObj.Socket.Send(cDat)
                 Catch ex As Exception
                     MsgBox(ex.Message)
                 End Try

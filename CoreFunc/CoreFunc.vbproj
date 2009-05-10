@@ -151,8 +151,8 @@
     <Compile Include="Classes\Providers\Windows\cWindow.vb" />
     <Compile Include="Classes\Providers\Windows\cWindowConnection.vb" />
     <Compile Include="Classes\Providers\Windows\windowInfos.vb" />
-    <Compile Include="Classes\Socket\cAsyncSocket.vb" />
-    <Compile Include="Classes\Socket\cAsyncSocketServer.vb" />
+    <Compile Include="Classes\Socket\AsynchronousClient.vb" />
+    <Compile Include="Classes\Socket\AsynchronousServer.vb" />
     <Compile Include="Classes\Socket\cSerialization.vb" />
     <Compile Include="Classes\Socket\cSocketData.vb" />
     <Compile Include="Classes\StateBasedActions\cBasedStateActionState.vb" />

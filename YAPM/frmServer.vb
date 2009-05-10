@@ -26,7 +26,7 @@ Imports System.Net.Sockets
 
 Public Class frmServeur
 
-    Private WithEvents sock As New cAsyncSocketServer(Me)
+    Private WithEvents sock As New AsynchronousSocketListener
     Private Const PORT As Integer = 8081
     Private _readyToLeave As Boolean = True
 
@@ -110,8 +110,7 @@ Public Class frmServeur
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestEnvironmentVariableList)
                 cDat.InstanceId = instanceId   ' The instance which requested the list
                 cDat.SetEnvVarList(Dico)
-                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                sock.Send(buff, buff.Length)
+                sock.Send(cDat)
             Catch ex As Exception
                 MsgBox(ex.Message)
             End Try
@@ -128,8 +127,7 @@ Public Class frmServeur
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestServDepList)
                 cDat.InstanceId = instanceId   ' The instance which requested the list
                 cDat.SetServiceList(Dico)
-                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                sock.Send(buff, buff.Length)
+                sock.Send(cDat)
             Catch ex As Exception
                 MsgBox(ex.Message)
             End Try
@@ -146,8 +144,7 @@ Public Class frmServeur
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestMemoryRegionList)
                 cDat.InstanceId = instanceId   ' The instance which requested the list
                 cDat.SetMemoryRegList(Dico)
-                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                sock.Send(buff, buff.Length)
+                sock.Send(cDat)
             Catch ex As Exception
                 MsgBox(ex.Message)
             End Try
@@ -164,8 +161,7 @@ Public Class frmServeur
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestProcessList)
                 cDat.InstanceId = instanceId   ' The instance which requested the list
                 cDat.SetProcessList(Dico)
-                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                sock.Send(buff, buff.Length)
+                sock.Send(cDat)
             Catch ex As Exception
                 MsgBox(ex.Message)
             End Try
@@ -182,8 +178,7 @@ Public Class frmServeur
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestPrivilegesList)
                 cDat.InstanceId = instanceId   ' The instance which requested the list
                 cDat.SetPrivilegeList(Dico)
-                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                sock.Send(buff, buff.Length)
+                sock.Send(cDat)
             Catch ex As Exception
                 MsgBox(ex.Message)
             End Try
@@ -200,8 +195,7 @@ Public Class frmServeur
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestServiceList)
                 cDat.InstanceId = forII   ' The instance which requested the list
                 cDat.SetServiceList(Dico)
-                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                sock.Send(buff, buff.Length)
+                sock.Send(cDat)
             Catch ex As Exception
                 MsgBox(ex.Message)
             End Try
@@ -218,8 +212,7 @@ Public Class frmServeur
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestThreadList)
                 cDat.InstanceId = forII   ' The instance which requested the list
                 cDat.SetThreadList(Dico)
-                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                sock.Send(buff, buff.Length)
+                sock.Send(cDat)
             Catch ex As Exception
                 MsgBox(ex.Message)
             End Try
@@ -236,8 +229,7 @@ Public Class frmServeur
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestModuleList)
                 cDat.InstanceId = instanceId  ' The instance which requested the list
                 cDat.SetModuleList(Dico)
-                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                sock.Send(buff, buff.Length)
+                sock.Send(cDat)
             Catch ex As Exception
                 MsgBox(ex.Message)
             End Try
@@ -254,8 +246,7 @@ Public Class frmServeur
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestHandleList)
                 cDat.InstanceId = instanceId  ' The instance which requested the list
                 cDat.SetHandleList(Dico)
-                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                sock.Send(buff, buff.Length)
+                sock.Send(cDat)
             Catch ex As Exception
                 MsgBox(ex.Message)
             End Try
@@ -272,8 +263,7 @@ Public Class frmServeur
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestNetworkConnectionList)
                 cDat.InstanceId = instanceId  ' The instance which requested the list
                 cDat.SetNetworkList(Dico)
-                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                sock.Send(buff, buff.Length)
+                sock.Send(cDat)
             Catch ex As Exception
                 MsgBox(ex.Message)
             End Try
@@ -290,8 +280,7 @@ Public Class frmServeur
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestSearchList)
                 cDat.InstanceId = instanceId  ' The instance which requested the list
                 cDat.SetSearchList(Dico)
-                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                sock.Send(buff, buff.Length)
+                sock.Send(cDat)
             Catch ex As Exception
                 MsgBox(ex.Message)
             End Try
@@ -308,8 +297,7 @@ Public Class frmServeur
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestTaskList)
                 cDat.InstanceId = instanceId  ' The instance which requested the list
                 cDat.SetWindowsList(Dico)
-                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                sock.Send(buff, buff.Length)
+                sock.Send(cDat)
             Catch ex As Exception
                 MsgBox(ex.Message)
             End Try
@@ -326,8 +314,7 @@ Public Class frmServeur
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestWindowList)
                 cDat.InstanceId = instanceId  ' The instance which requested the list
                 cDat.SetWindowsList(Dico)
-                Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                sock.Send(buff, buff.Length)
+                sock.Send(cDat)
             Catch ex As Exception
                 MsgBox(ex.Message)
             End Try
@@ -349,18 +336,16 @@ Public Class frmServeur
         'End If
     End Sub
 
-    Private Sub sock_ConnexionAccepted()
+    Private Sub sock_ConnexionAccepted() Handles sock.Connected
         '_readyToLeave = False
-        Me.Text = "Connected"
+        'Me.Text = "Connected"  ' -> not the same thread
     End Sub
 
-    Private Sub sock_Disconnected()
+    Private Sub sock_Disconnected() Handles sock.Disconnected
         '_readyToLeave = True
     End Sub
-    Private Sub sock_ReceivedData(ByRef data() As Byte, ByVal length As Integer)
+    Private Sub sock_ReceivedData(ByRef cData As cSocketData) Handles sock.ReceivedData
         Try
-            ' Recreate the data class
-            Dim cData As cSocketData = cSerialization.DeserializeObject(data)
 
             If cData Is Nothing Then
                 Trace.WriteLine("Serialization error")
@@ -370,7 +355,7 @@ Public Class frmServeur
             Dim _forInstanceId As Integer = cData.InstanceId
 
             ' Add item to history
-            Call addItem(cData)
+            Me.Invoke(New addItemHandler(AddressOf addItem), cData)
 
             ' Extract the type of information we have to send
             If cData.Type = cSocketData.DataType.Order Then
@@ -621,13 +606,13 @@ Public Class frmServeur
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
         ' Connect the socket (server)
         Try
-            sock.Connect(Net.IPAddress.Parse(TextBox1.Text), PORT)
+            sock.Connect(PORT)
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
     End Sub
 
-    Private Sub sock_SentData()
+    Private Sub sock_SentData() Handles sock.SentData
         '   MsgBox("serveur sent")
         Dim oo As Integer = 0
     End Sub
@@ -635,22 +620,19 @@ Public Class frmServeur
 
         API.SetWindowTheme(Me.lvServer.Handle, "explorer", Nothing)
 
-        sock.ConnexionAccepted = New cAsyncSocketServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
-        sock.Disconnected = New cAsyncSocketServer.DisconnectedEventHandler(AddressOf sock_Disconnected)
-        sock.SentData = New cAsyncSocketServer.SentDataEventHandler(AddressOf sock_SentData)
+        'sock.ConnexionAccepted = New AsynchronousServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
+        'sock.Disconnected = New AsynchronousServer.DisconnectedEventHandler(AddressOf sock_Disconnected)
+        'sock.SentData = New AsynchronousServer.SentDataEventHandler(AddressOf sock_SentData)
 
         connectLocal()
 
     End Sub
 
-    Private Sub sock_ReceivedData1(ByRef data() As Byte, ByVal length As Integer) Handles sock.ReceivedData
-        sock_ReceivedData(data, length)
-    End Sub
-
+    Private Delegate Sub addItemHandler(ByRef dat As cSocketData)
     Private Sub addItem(ByRef dat As cSocketData)
         Dim it As New ListViewItem(Date.Now.ToLongDateString & " - " & Date.Now.ToLongTimeString)
         it.SubItems.Add(dat.ToString)
-        '  Me.lvServer.Items.Add(it)
+        Me.lvServer.Items.Add(it)
     End Sub
 
 End Class

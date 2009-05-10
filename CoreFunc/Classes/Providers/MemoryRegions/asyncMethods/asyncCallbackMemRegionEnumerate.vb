@@ -82,8 +82,7 @@ Public Class asyncCallbackMemRegionEnumerate
                 Try
                     Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestMemoryRegionList, pObj.pid, pObj.onlyProcRegion)
                     cDat.InstanceId = _instanceId   ' Instance which request the list
-                    Dim buff() As Byte = cSerialization.GetSerializedObject(cDat)
-                    con.ConnectionObj.Socket.Send(buff, buff.Length)
+                    con.ConnectionObj.Socket.Send(cDat)
                 Catch ex As Exception
                     MsgBox(ex.Message)
                 End Try
