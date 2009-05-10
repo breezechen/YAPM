@@ -32,6 +32,7 @@ Public Class frmServeur
 
     Private theConnection As New cConnection
     Private _procCon As New cProcessConnection(Me, theConnection, New cProcessConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedProcess))
+    Private _windowCon As New cWindowConnection(Me, theConnection, New cWindowConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedWindows))
     Private _envCon As New cEnvVariableConnection(Me, theConnection, New cEnvVariableConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEnvVar))
     Private _handleCon As New cHandleConnection(Me, theConnection, New cHandleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedHandle))
     Private _memoryCon As New cMemRegionConnection(Me, theConnection, New cMemRegionConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedMemoryReg))
@@ -42,8 +43,50 @@ Public Class frmServeur
     Private _priviCon As New cPrivilegeConnection(Me, theConnection, New cPrivilegeConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedPrivilege))
     Private _taskCon As New cTaskConnection(Me, theConnection, New cTaskConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedTask))
     Private _threadCon As New cThreadConnection(Me, theConnection, New cThreadConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedThread))
-    Private _windowCon As New cWindowConnection(Me, theConnection, New cWindowConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedWindows))
     Private _searchCon As New cSearchConnection(Me, theConnection, New cSearchConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedSearch))
+
+    Private WithEvents _windowConnection As New cWindowConnection(Me, theConnection, New cWindowConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedWindowEventHandler))
+    Private WithEvents _processConnection As New cProcessConnection(Me, theConnection, New cProcessConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedProcessEventHandler))
+    Private WithEvents _envVarConnection As New cEnvVariableConnection(Me, theConnection, New cEnvVariableConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEnvVarEventHandler))
+    Private WithEvents _handleConnection As New cHandleConnection(Me, theConnection, New cHandleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedHandleEventHandler))
+    Private WithEvents _memRegionConnection As New cMemRegionConnection(Me, theConnection, New cMemRegionConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedMemRegionEventHandler))
+    Private WithEvents _moduleConnection As New cModuleConnection(Me, theConnection, New cModuleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedModuleEventHandler))
+    Private WithEvents _networkConnection As New cNetworkConnection(Me, theConnection, New cNetworkConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedNetworkEventHandler))
+    Private WithEvents _serviceConnection As New cServiceConnection(Me, theConnection, New cServiceConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedServiceEventHandler))
+    'Private WithEvents _servDepConnection As New cServDepConnection(Me, theConnection, New cServDepConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedServiceDepEventHandler))
+    Private WithEvents _privilegeConnection As New cPrivilegeConnection(Me, theConnection, New cPrivilegeConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedPrivilegeEventHandler))
+    Private WithEvents _taskConnection As New cTaskConnection(Me, theConnection, New cTaskConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedWindowEventHandler))  ' Ok, no special handler for Handle thanks to the heritage from Window
+    Private WithEvents _threadConnection As New cThreadConnection(Me, theConnection, New cThreadConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedThreadEventHandler))
+    'Private WithEvents _searchConnection As New cSearchConnection(Me, theConnection, New cSearchConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedSearchEventHandler))
+
+#Region "Useless pieces of code, but should not be removed"
+
+    Private Sub HasEnumeratedWindowEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, windowInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    End Sub
+    Private Sub HasEnumeratedProcessEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    End Sub
+    Private Sub HasEnumeratedServiceEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, serviceInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    End Sub
+    'Private Sub HasEnumeratedServiceDepEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, serviceInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    'End Sub
+    Private Sub HasEnumeratedModuleEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, moduleInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    End Sub
+    Private Sub HasEnumeratedHandleEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, handleInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    End Sub
+    Private Sub HasEnumeratedPrivilegeEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, privilegeInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    End Sub
+    Private Sub HasEnumeratedNetworkEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, networkInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    End Sub
+    Private Sub HasEnumeratedThreadEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, threadInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    End Sub
+    'Private Sub HasEnumeratedSearchEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, searchInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    'End Sub
+    Private Sub HasEnumeratedEnvVarEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, envVariableInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    End Sub
+    Private Sub HasEnumeratedMemRegionEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, memRegionInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    End Sub
+
+#End Region
 
     ' Connect to local machine
     Private Sub connectLocal()
@@ -72,6 +115,41 @@ Public Class frmServeur
             _threadCon.Connect()
             _handleCon.Connect()
             _procCon.Connect()
+
+            _windowConnection.ConnectionObj = theConnection
+            _windowConnection.Connect()
+            cWindow.Connection = _windowConnection
+            _processConnection.ConnectionObj = theConnection
+            _processConnection.Connect()
+            cProcess.Connection = _processConnection
+            _threadConnection.ConnectionObj = theConnection
+            _threadConnection.Connect()
+            cThread.Connection = _threadConnection
+            _envVarConnection.ConnectionObj = theConnection
+            _envVarConnection.Connect()
+            cEnvVariable.Connection = _envVarConnection
+            _handleConnection.ConnectionObj = theConnection
+            _handleConnection.Connect()
+            cHandle.Connection = _handleConnection
+            _memRegionConnection.ConnectionObj = theConnection
+            _memRegionConnection.Connect()
+            cMemRegion.Connection = _memRegionConnection
+            _moduleConnection.ConnectionObj = theConnection
+            _moduleConnection.Connect()
+            cModule.Connection = _moduleConnection
+            _networkConnection.ConnectionObj = theConnection
+            _networkConnection.Connect()
+            cNetwork.Connection = _networkConnection
+            _serviceConnection.ConnectionObj = theConnection
+            _serviceConnection.Connect()
+            cService.Connection = _serviceConnection
+            _privilegeConnection.ConnectionObj = theConnection
+            _privilegeConnection.Connect()
+            cPrivilege.Connection = _privilegeConnection
+            _taskConnection.ConnectionObj = theConnection
+            _taskConnection.Connect()
+            cTask.Connection = _taskConnection
+
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
