@@ -179,12 +179,16 @@ Public Module Program
         ex = CType(e.ExceptionObject, Exception)
         Console.WriteLine(ex.StackTrace)
         Dim t As New frmError(ex)
-        '    t.ShowDialog()
+#If RELEASE_MODE = 1 Then
+        t.ShowDialog()
+#End If
     End Sub
     Private Sub MYThreadHandler(ByVal sender As Object, ByVal e As Threading.ThreadExceptionEventArgs)
         Console.WriteLine(e.Exception.StackTrace)
         Dim t As New frmError(e.Exception)
-        '  t.ShowDialog()
+#If RELEASE_MODE = 1 Then
+        t.ShowDialog()
+#End If
     End Sub
 
 

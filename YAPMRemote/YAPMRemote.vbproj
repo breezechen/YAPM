@@ -51,7 +51,9 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Import Include="CoreFunc" />
     <Import Include="Microsoft.VisualBasic" />
+    <Import Include="Providers" />
     <Import Include="System" />
     <Import Include="System.Collections" />
     <Import Include="System.Collections.Generic" />

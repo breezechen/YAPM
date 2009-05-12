@@ -346,7 +346,10 @@ Public Class frmMain
 
         Trace.WriteLine("Loaded in " & CStr(t) & " ms.")
         Call refreshTaskList()
+
+#If RELEASE_MODE = 0 Then
         frmServeur.Show()
+#End If
 
     End Sub
 

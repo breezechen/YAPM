@@ -23,7 +23,6 @@ Option Strict On
 
 Imports System.Net
 Imports System.Net.Sockets
-Imports CoreFunc
 
 Public Class frmServeur
 
@@ -195,6 +194,7 @@ Public Class frmServeur
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestServiceList)
                 cDat.InstanceId = forII   ' The instance which requested the list
+                cDat.SetServiceList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
                 MsgBox(ex.Message)
@@ -338,7 +338,7 @@ Public Class frmServeur
 
     Private Sub sock_ConnexionAccepted() Handles sock.Connected
         '_readyToLeave = False
-        Me.Text = "Connected"
+        'Me.Text = "Connected"  ' -> not the same thread
     End Sub
 
     Private Sub sock_Disconnected() Handles sock.Disconnected
@@ -355,7 +355,7 @@ Public Class frmServeur
             Dim _forInstanceId As Integer = cData.InstanceId
 
             ' Add item to history
-            Call addItem(cData)
+            Me.Invoke(New addItemHandler(AddressOf addItem), cData)
 
             ' Extract the type of information we have to send
             If cData.Type = cSocketData.DataType.Order Then
@@ -628,13 +628,11 @@ Public Class frmServeur
 
     End Sub
 
+    Private Delegate Sub addItemHandler(ByRef dat As cSocketData)
     Private Sub addItem(ByRef dat As cSocketData)
         Dim it As New ListViewItem(Date.Now.ToLongDateString & " - " & Date.Now.ToLongTimeString)
         it.SubItems.Add(dat.ToString)
-        '  Me.lvServer.Items.Add(it)
+        Me.lvServer.Items.Add(it)
     End Sub
 
-    Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
-        '
-    End Sub
 End Class

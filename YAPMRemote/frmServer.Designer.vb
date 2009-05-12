@@ -27,10 +27,9 @@ Partial Class frmServeur
         Me.TextBox1 = New System.Windows.Forms.TextBox
         Me.Label2 = New System.Windows.Forms.Label
         Me.Label1 = New System.Windows.Forms.Label
-        Me.lvServer = New Providers.DoubleBufferedLV
+        Me.lvServer = New DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
-        Me.Button2 = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'Button1
@@ -74,7 +73,6 @@ Partial Class frmServeur
         Me.lvServer.FullRowSelect = True
         Me.lvServer.Location = New System.Drawing.Point(12, 117)
         Me.lvServer.Name = "lvServer"
-        Me.lvServer.OverriddenDoubleBuffered = False
         Me.lvServer.Size = New System.Drawing.Size(567, 327)
         Me.lvServer.TabIndex = 8
         Me.lvServer.UseCompatibleStateImageBehavior = False
@@ -90,21 +88,11 @@ Partial Class frmServeur
         Me.ColumnHeader2.Text = "Command received"
         Me.ColumnHeader2.Width = 384
         '
-        'Button2
-        '
-        Me.Button2.Location = New System.Drawing.Point(234, 78)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(88, 23)
-        Me.Button2.TabIndex = 9
-        Me.Button2.Text = "Disconnect"
-        Me.Button2.UseVisualStyleBackColor = True
-        '
         'frmServeur
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(589, 456)
-        Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.lvServer)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.TextBox1)
@@ -124,9 +112,8 @@ Partial Class frmServeur
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents lvServer As Providers.DoubleBufferedLV
+    Friend WithEvents lvServer As DoubleBufferedLV
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents Button2 As System.Windows.Forms.Button
 
 End Class
