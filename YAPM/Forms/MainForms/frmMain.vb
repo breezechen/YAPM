@@ -2842,6 +2842,7 @@ Public Class frmMain
     End Sub
 
     Private Sub lvTask_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvTask.DoubleClick
+        If ToolStripMenuItem45.Enabled Then _
         Call Me.ToolStripMenuItem45_Click(Nothing, Nothing)
     End Sub
 
@@ -3000,6 +3001,9 @@ Public Class frmMain
     Private Sub lvProcess_ItemAdded(ByRef item As CoreFunc.cProcess) Handles lvProcess.ItemAdded
         If item IsNot Nothing Then _
         Program.Log.AppendLine("Process created : " & item.Infos.Name & " (" & item.Infos.Pid & ")")
+        If Me.ToolStripMenuItem45.Enabled = False Then
+            ToolStripMenuItem45.Enabled = True
+        End If
     End Sub
 
     Private Sub lvProcess_ItemDeleted(ByRef item As CoreFunc.cProcess) Handles lvProcess.ItemDeleted

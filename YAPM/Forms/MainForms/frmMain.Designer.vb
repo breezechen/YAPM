@@ -149,6 +149,8 @@ Partial Class frmMain
         Me.orbMenuSaveReport = New System.Windows.Forms.RibbonOrbMenuItem
         Me.RibbonSeparator5 = New System.Windows.Forms.RibbonSeparator
         Me.orbMenuAbout = New System.Windows.Forms.RibbonOrbMenuItem
+        Me.butExit = New System.Windows.Forms.RibbonOrbOptionButton
+        Me.butShowPreferences = New System.Windows.Forms.RibbonOrbOptionButton
         Me.butLog = New System.Windows.Forms.RibbonButton
         Me.butSystemInfo = New System.Windows.Forms.RibbonButton
         Me.butWindows = New System.Windows.Forms.RibbonButton
@@ -658,8 +660,6 @@ Partial Class frmMain
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerNetwork = New System.Windows.Forms.Timer(Me.components)
         Me.timerStateBasedActions = New System.Windows.Forms.Timer(Me.components)
-        Me.butExit = New System.Windows.Forms.RibbonOrbOptionButton
-        Me.butShowPreferences = New System.Windows.Forms.RibbonOrbOptionButton
         Me.menuProc.SuspendLayout()
         Me.menuService.SuspendLayout()
         Me.mainMenu.SuspendLayout()
@@ -1365,6 +1365,7 @@ Partial Class frmMain
         Me.Ribbon.OrbDropDown.PreviousPopup = Nothing
         Me.Ribbon.OrbDropDown.Size = New System.Drawing.Size(527, 301)
         Me.Ribbon.OrbDropDown.TabIndex = 0
+        Me.Ribbon.OrbDropDown.ToolStripDropDown = Nothing
         Me.Ribbon.OrbImage = CType(resources.GetObject("Ribbon.OrbImage"), System.Drawing.Image)
         '
         '
@@ -1499,6 +1500,34 @@ Partial Class frmMain
         Me.orbMenuAbout.ToolTip = Nothing
         Me.orbMenuAbout.ToolTipImage = Nothing
         Me.orbMenuAbout.ToolTipTitle = Nothing
+        '
+        'butExit
+        '
+        Me.butExit.AltKey = Nothing
+        Me.butExit.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butExit.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butExit.Image = Global.YAPM.My.Resources.Resources.cross_circle
+        Me.butExit.SmallImage = Global.YAPM.My.Resources.Resources.cross_circle
+        Me.butExit.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butExit.Tag = Nothing
+        Me.butExit.Text = "Quit"
+        Me.butExit.ToolTip = Nothing
+        Me.butExit.ToolTipImage = Nothing
+        Me.butExit.ToolTipTitle = Nothing
+        '
+        'butShowPreferences
+        '
+        Me.butShowPreferences.AltKey = Nothing
+        Me.butShowPreferences.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
+        Me.butShowPreferences.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butShowPreferences.Image = CType(resources.GetObject("butShowPreferences.Image"), System.Drawing.Image)
+        Me.butShowPreferences.SmallImage = CType(resources.GetObject("butShowPreferences.SmallImage"), System.Drawing.Image)
+        Me.butShowPreferences.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butShowPreferences.Tag = Nothing
+        Me.butShowPreferences.Text = "Preferences"
+        Me.butShowPreferences.ToolTip = Nothing
+        Me.butShowPreferences.ToolTipImage = Nothing
+        Me.butShowPreferences.ToolTipTitle = Nothing
         '
         'butLog
         '
@@ -4174,6 +4203,7 @@ Partial Class frmMain
         '
         'ToolStripMenuItem45
         '
+        Me.ToolStripMenuItem45.Enabled = False
         Me.ToolStripMenuItem45.Image = Global.YAPM.My.Resources.Resources.exe
         Me.ToolStripMenuItem45.Name = "ToolStripMenuItem45"
         Me.ToolStripMenuItem45.Size = New System.Drawing.Size(235, 22)
@@ -6846,34 +6876,6 @@ Partial Class frmMain
         '
         Me.timerStateBasedActions.Enabled = True
         Me.timerStateBasedActions.Interval = 1000
-        '
-        'butExit
-        '
-        Me.butExit.AltKey = Nothing
-        Me.butExit.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
-        Me.butExit.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butExit.Image = Global.YAPM.My.Resources.Resources.cross_circle
-        Me.butExit.SmallImage = Global.YAPM.My.Resources.Resources.cross_circle
-        Me.butExit.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butExit.Tag = Nothing
-        Me.butExit.Text = "Quit"
-        Me.butExit.ToolTip = Nothing
-        Me.butExit.ToolTipImage = Nothing
-        Me.butExit.ToolTipTitle = Nothing
-        '
-        'butShowPreferences
-        '
-        Me.butShowPreferences.AltKey = Nothing
-        Me.butShowPreferences.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
-        Me.butShowPreferences.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butShowPreferences.Image = CType(resources.GetObject("butShowPreferences.Image"), System.Drawing.Image)
-        Me.butShowPreferences.SmallImage = CType(resources.GetObject("butShowPreferences.SmallImage"), System.Drawing.Image)
-        Me.butShowPreferences.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butShowPreferences.Tag = Nothing
-        Me.butShowPreferences.Text = "Preferences"
-        Me.butShowPreferences.ToolTip = Nothing
-        Me.butShowPreferences.ToolTipImage = Nothing
-        Me.butShowPreferences.ToolTipTitle = Nothing
         '
         'frmMain
         '
