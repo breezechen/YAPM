@@ -348,7 +348,7 @@ Public Class frmMain
         Call refreshTaskList()
 
 #If RELEASE_MODE = 0 Then
-        frmServeur.Show()
+        'frmServer.Show()
 #End If
 
     End Sub

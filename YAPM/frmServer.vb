@@ -24,7 +24,7 @@ Option Strict On
 Imports System.Net
 Imports System.Net.Sockets
 
-Public Class frmServeur
+Public Class frmServer
 
     Private WithEvents sock As New AsynchronousSocketListener
     Private Const PORT As Integer = 8081

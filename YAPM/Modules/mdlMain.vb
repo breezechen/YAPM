@@ -25,7 +25,33 @@ Imports System.Runtime.InteropServices
 
 Public Module Program
 
+    ' Represent options passed with command line
+    Public Class ProgramParameters
+
+        ' Available parameters
+        Private isServerMode As Boolean = False
+        Public ReadOnly Property ModeServer() As Boolean
+            Get
+                Return isServerMode
+            End Get
+        End Property
+        Public Sub New(ByRef parameters As String())
+            If parameters Is Nothing Then
+                Exit Sub
+            End If
+            For i As Integer = 0 To parameters.Length - 1
+                If parameters(i).ToLowerInvariant = "-server" Then
+                    isServerMode = True
+                End If
+            Next
+        End Sub
+    End Class
+
+
+
     Public _frmMain As frmMain
+    Public _frmServer As frmServer
+    Private _progParameters As ProgramParameters
     Private theConnection As cConnection
     Private _systemInfo As cSystemInfo
     Private _hotkeys As cHotkeys
@@ -37,6 +63,11 @@ Public Module Program
     Private _ConnectionForm As frmConnection
     Private _time As Integer
 
+    Public ReadOnly Property Parameters() As ProgramParameters
+        Get
+            Return _progParameters
+        End Get
+    End Property
     Public ReadOnly Property ElapsedTime() As Integer
         Get
             Return API.GetTickCount - _time
@@ -105,71 +136,102 @@ Public Module Program
 
     Sub Main()
 
-        ' Save time of start
+        ' ======= Save time of start
         _time = API.GetTickCount
 
 
-        ' Close application if there is a previous instance of YAPM running
+
+        ' ======= Close application if there is a previous instance of YAPM running
         If IsAlreadyRunning() Then
             Exit Sub
         End If
 
 
-        ' Some basic initialisations
+
+        ' ======= Some basic initialisations
         Application.EnableVisualStyles()
         Application.SetCompatibleTextRenderingDefault(False)    ' Use GDI, not GDI+
 
 
-        ' Set handler for exceptions
+
+        ' ======= Set handler for exceptions
         AddHandler Application.ThreadException, AddressOf MYThreadHandler
         AddHandler AppDomain.CurrentDomain.UnhandledException, AddressOf MYExnHandler
         Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException)
 
 
-        ' Instanciate all classes
-        _pref = New Pref                    ' Preferences
+
+        ' ======= Read parameters
+        _progParameters = New ProgramParameters(Environment.GetCommandLineArgs)
+
+
+
+        ' ======= Instanciate all classes
+
+        ' Common classes
         theConnection = New cConnection     ' The cConnection instance of the connection
         _systemInfo = New cSystemInfo       ' System informations
-        _hotkeys = New cHotkeys             ' Hotkeys
-        _log = New cLog                     ' Log instance
         _ConnectionForm = New frmConnection(theConnection)
-        _frmMain = New frmMain              ' Main form
-        _trayIcon = New cTrayIcon(2)        ' Tray icons
+
+        ' Classes for client only
+        If _progParameters.ModeServer = False Then
+            _pref = New Pref                    ' Preferences
+            _hotkeys = New cHotkeys             ' Hotkeys
+            _log = New cLog                     ' Log instance
+            _trayIcon = New cTrayIcon(2)        ' Tray icons
+            _frmMain = New frmMain              ' Main form
+        Else
+            _frmMain = New frmMain              ' Main form
+            _frmServer = New frmServer         ' Server form (server mode)
+        End If
 
 
-        ' Other init
+
+        ' ======= Other init
         _isVista = IsOsWindowsVista()
         _isAdmin = IsUserAdministrator()
 
 
-        ' Load preferences
-        Try
-            If My.Settings.FirstTime Then
-                MsgBox(Pref.MSGFIRSTTIME, MsgBoxStyle.Information, "Please read this")
-                My.Settings.FirstTime = False
-                Program.Preferences.Save()
-            End If
-            Program.Preferences.Apply()
-            cProcess.BuffSize = My.Settings.HistorySize
-        Catch ex As Exception
-            ' Preference file corrupted/missing
-            MsgBox("Preference file is missing or corrupted and will be now recreated.", MsgBoxStyle.Critical, "Startup error")
-            Program.Preferences.SetDefault()
-        End Try
+
+        ' ======= Load preferences
+        If _progParameters.ModeServer = False Then
+            Try
+                If My.Settings.FirstTime Then
+                    MsgBox(Pref.MSGFIRSTTIME, MsgBoxStyle.Information, "Please read this")
+                    My.Settings.FirstTime = False
+                    Program.Preferences.Save()
+                End If
+                Program.Preferences.Apply()
+                cProcess.BuffSize = My.Settings.HistorySize
+            Catch ex As Exception
+                ' Preference file corrupted/missing
+                MsgBox("Preference file is missing or corrupted and will be now recreated.", MsgBoxStyle.Critical, "Startup error")
+                Program.Preferences.SetDefault()
+            End Try
+        End If
 
 
-        ' Enable some privileges
+
+        ' ======= Enable some privileges
         clsOpenedHandles.EnableDebug()
         clsOpenedHandles.EnableShutDown()
 
 
-        ' Read hotkeys & state based actions from XML files
-        Call frmHotkeys.readHotkeysFromXML()
-        'Call frmBasedStateAction.readStateBasedActionFromXML()
+
+        ' ======= Read hotkeys & state based actions from XML files
+        If _progParameters.ModeServer = False Then
+            Call frmHotkeys.readHotkeysFromXML()
+            'Call frmBasedStateAction.readStateBasedActionFromXML()
+        End If
 
 
-        ' Show main form & start application
-        Application.Run(_frmMain)
+
+        ' ======= Show main form & start application
+        If _progParameters.ModeServer Then
+            Application.Run(_frmServer)
+        Else
+            Application.Run(_frmMain)
+        End If
 
     End Sub
 
