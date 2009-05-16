@@ -18,11 +18,13 @@ Public Class AsynchronousSocketListener
     Public Delegate Sub DisconnectedEventHandler()
     Public Delegate Sub ConnectedEventHandler()
     Public Delegate Sub SocketErrorHandler()
+    Public Delegate Sub WaitingForConnectionHandler()
 
     Public Event ReceivedData As ReceivedDataEventHandler
     Public Event SentData As SentDataEventHandler
     Public Event Disconnected As DisconnectedEventHandler
     Public Event Connected As ConnectedEventHandler
+    Public Event WaitingForConnection As WaitingForConnectionHandler
     Public Event SocketError As SocketErrorHandler
 
 
@@ -49,6 +51,8 @@ Public Class AsynchronousSocketListener
             listener.BeginAccept(New AsyncCallback(AddressOf AcceptCallback), listener)
             'End While
 
+            RaiseEvent WaitingForConnection()
+
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error while connecting")
             RaiseEvent Disconnected()
@@ -62,7 +66,11 @@ Public Class AsynchronousSocketListener
             If listener IsNot Nothing Then
                 Trace.WriteLine("Client Shudown connection...")
                 ' Do not accept anymore send/receive
-                listener.Shutdown(SocketShutdown.Both)
+                Try
+                    listener.Shutdown(SocketShutdown.Both)
+                Catch ex As Exception
+                    '
+                End Try
                 ' Disconnect
                 Trace.WriteLine("Client BeginDisconnect...")
                 listener.BeginDisconnect(False, AddressOf disconnectCallback, Nothing)

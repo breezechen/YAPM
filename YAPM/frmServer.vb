@@ -28,7 +28,13 @@ Public Class frmServer
 
     Private WithEvents sock As New AsynchronousSocketListener
     Private Const PORT As Integer = 8081
-    Private _readyToLeave As Boolean = True
+    Private _state As SOCK_STATE = SOCK_STATE.Disconnected
+
+    Private Enum SOCK_STATE As Integer
+        Connected
+        WaitingConnection
+        Disconnected
+    End Enum
 
     Private theConnection As New cConnection
     Private _procCon As New cProcessConnection(Me, theConnection, New cProcessConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedProcess))
@@ -331,19 +337,38 @@ Public Class frmServer
         Catch ex As Exception
             '
         End Try
-        'If _readyToLeave = False Then
-        '    ' e.Cancel = True
-        'End If
     End Sub
 
+    Private Delegate Sub ChangeConnectState(ByVal state As SOCK_STATE)
+    Private Sub handlerChangeConnectState(ByVal state As SOCK_STATE)
+        Select Case state
+            Case SOCK_STATE.Connected
+                Me.cmdConnection.Text = "Disconnect !"
+                Me.Text = "YAPM remote process (connected)"
+            Case SOCK_STATE.Disconnected
+                Me.cmdConnection.Text = "Connect !"
+                Me.Text = "YAPM remote process (disconnected)"
+            Case SOCK_STATE.WaitingConnection
+                Me.cmdConnection.Text = "Disconnect !"
+                Me.Text = "YAPM remote process (waiting for client to connect...)"
+        End Select
+    End Sub
     Private Sub sock_ConnexionAccepted() Handles sock.Connected
-        '_readyToLeave = False
-        'Me.Text = "Connected"  ' -> not the same thread
+        _state = SOCK_STATE.Connected
+        Dim h As New ChangeConnectState(AddressOf handlerChangeConnectState)
+        h.Invoke(SOCK_STATE.Connected)
+    End Sub
+    Private Sub sock_Disconnected() Handles sock.Disconnected
+        _state = SOCK_STATE.Disconnected
+        Dim h As New ChangeConnectState(AddressOf handlerChangeConnectState)
+        h.Invoke(SOCK_STATE.Disconnected)
+    End Sub
+    Private Sub sock_Waiting() Handles sock.WaitingForConnection
+        _state = SOCK_STATE.WaitingConnection
+        Dim h As New ChangeConnectState(AddressOf handlerChangeConnectState)
+        h.Invoke(SOCK_STATE.WaitingConnection)
     End Sub
 
-    Private Sub sock_Disconnected() Handles sock.Disconnected
-        '_readyToLeave = True
-    End Sub
     Private Sub sock_ReceivedData(ByRef cData As cSocketData) Handles sock.ReceivedData
         Try
 
@@ -603,19 +628,19 @@ Public Class frmServer
         End Try
     End Sub
 
-    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
-        ' Connect the socket (server)
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdConnection.Click
+        ' Connect or disconnect the socket (server)
         Try
-            sock.Connect(PORT)
-        Catch ex As Exception
+            If _state = SOCK_STATE.Disconnected Then
+                sock.Connect(PORT)
+            Else
+                sock.Disconnect()
+            End If
+            Catch ex As Exception
             MsgBox(ex.Message)
         End Try
     End Sub
 
-    Private Sub sock_SentData() Handles sock.SentData
-        '   MsgBox("serveur sent")
-        Dim oo As Integer = 0
-    End Sub
     Private Sub frmServeur_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         API.SetWindowTheme(Me.lvServer.Handle, "explorer", Nothing)

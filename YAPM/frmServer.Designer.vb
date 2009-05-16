@@ -23,22 +23,22 @@ Partial Class frmServer
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmServer))
-        Me.Button1 = New System.Windows.Forms.Button
+        Me.cmdConnection = New System.Windows.Forms.Button
         Me.Label1 = New System.Windows.Forms.Label
         Me.lvServer = New YAPM.DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.SuspendLayout()
         '
-        'Button1
+        'cmdConnection
         '
-        Me.Button1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button1.Location = New System.Drawing.Point(489, 12)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(88, 23)
-        Me.Button1.TabIndex = 7
-        Me.Button1.Text = "Connect !"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.cmdConnection.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdConnection.Location = New System.Drawing.Point(455, 12)
+        Me.cmdConnection.Name = "cmdConnection"
+        Me.cmdConnection.Size = New System.Drawing.Size(122, 23)
+        Me.cmdConnection.TabIndex = 7
+        Me.cmdConnection.Text = "Connect !"
+        Me.cmdConnection.UseVisualStyleBackColor = True
         '
         'Label1
         '
@@ -78,19 +78,19 @@ Partial Class frmServer
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(589, 379)
         Me.Controls.Add(Me.lvServer)
-        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.cmdConnection)
         Me.Controls.Add(Me.Label1)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.Name = "frmServer"
-        Me.Text = "YAPM remote process"
+        Me.Text = "YAPM remote process (disconnected)"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents cmdConnection As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents lvServer As DoubleBufferedLV
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
