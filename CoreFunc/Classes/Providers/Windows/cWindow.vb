@@ -385,8 +385,9 @@ Public Class cWindow
 
 #Region "Shared functions (local)"
 
-    Public Shared Function GetForegroundAppPID() As Integer
-        'TODO
+    Public Shared Function LocalGetForegroundAppPID() As Integer
+        Dim l As IntPtr = API.GetForegroundWindow
+        Return asyncCallbackWindowEnumerate.GetProcIdFromWindowHandle(l)
     End Function
 
     ' Get all windows

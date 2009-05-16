@@ -305,7 +305,7 @@ Public Class cShortcut
         If once Then
             Select Case _action
                 Case HOTKEYS_ACTIONS.KILL_FOREGROUND
-                    Call cProcess.LocalKill(cWindow.GetForegroundAppPID)
+                    Call cProcess.LocalKill(cWindow.LocalGetForegroundAppPID)
                 Case HOTKEYS_ACTIONS.EXIT_YAPM
                     'TODO
                 Case Else
