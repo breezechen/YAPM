@@ -382,6 +382,26 @@ Public Class frmServiceInfo
         '
     End Sub
 
+    Private Sub servDep_Connected() Handles tv.Connected
+        If Me.tabProcess.SelectedTab.Text = "Dependencies" Then
+            With tv
+                .RootService = curServ.Infos.Name
+                .InfosToGet = cServDepConnection.DependenciesToget.DependenciesOfMe
+                .UpdateItems()
+            End With
+        End If
+    End Sub
+
+    Private Sub servDep2_Connected() Handles tv2.Connected
+        If Me.tabProcess.SelectedTab.Text = "Dependencies" Then
+            With tv2
+                .RootService = curServ.Infos.Name
+                .InfosToGet = cServDepConnection.DependenciesToget.ServiceWhichDependsFromMe
+                .UpdateItems()
+            End With
+        End If
+    End Sub
+
     Private Sub cmdShowFileDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdShowFileDetails.Click
         Dim s As String = Me.txtServicePath.Text
         If IO.File.Exists(s) Then

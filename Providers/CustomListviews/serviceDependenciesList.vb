@@ -33,6 +33,7 @@ Public Class serviceDependenciesList
     Public Event ItemDeleted(ByRef item As cGeneralObject)
     Public Event HasRefreshed()
     Public Event GotAnError(ByVal origin As String, ByVal msg As String)
+    Public Event Connected()
 
     ' ========================================
     ' Private
@@ -220,7 +221,9 @@ Public Class serviceDependenciesList
     End Sub
 
     Private Sub HasConnected(ByVal Success As Boolean)
-        '
+        If Success Then
+            RaiseEvent Connected()
+        End If
     End Sub
 
 #End Region
