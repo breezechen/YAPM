@@ -283,6 +283,7 @@ Public Class frmMain
         Next
 
         Me.containerSystemMenu.Panel1Collapsed = True
+        Me.Tray.Visible = True
 
         ' Set tray icon counters
         TrayIcon.SetCounter(1, Color.Red, Color.FromArgb(120, 0, 0))
@@ -334,6 +335,9 @@ Public Class frmMain
         Me.timerMonitoring.Enabled = True
         Me.timerProcess.Enabled = True
         Me.timerTask.Enabled = True
+        Me.timerNetwork.Enabled = True
+        Me.timerStateBasedActions.Enabled = True
+        Me.timerTrayIcon.Enabled = True
         Me.timerServices.Enabled = True
 
         If Me.lvProcess.Items.Count > 1 Then
@@ -346,6 +350,7 @@ Public Class frmMain
 
         Trace.WriteLine("Loaded in " & CStr(t) & " ms.")
         Call refreshTaskList()
+
 
 #If RELEASE_MODE = 0 Then
         frmServer.Show()
