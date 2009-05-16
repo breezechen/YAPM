@@ -94,6 +94,14 @@ Public Class cPrivilege
 
 #End Region
 
+#Region "Local shared method"
+
+    Public Shared Function LocalChangeStatus(ByVal pid As Integer, ByVal name As String, ByVal status As API.PRIVILEGE_STATUS) As Boolean
+        Return asyncCallbackPrivilegeChangeStatus.SetPrivilege(pid, name, status)
+    End Function
+
+#End Region
+
 #Region "Get information overriden methods"
 
     ' Retrieve informations by its name

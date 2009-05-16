@@ -58,6 +58,12 @@ Public Class asyncCallbackProcUnloadModule
 
         Select Case con.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                Try
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ModuleUnload, pObj.pid, pObj.baseA)
+                    con.ConnectionObj.Socket.Send(cDat)
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
@@ -69,7 +75,7 @@ Public Class asyncCallbackProcUnloadModule
                     Dim kernel32 As Integer = API.GetModuleHandle("kernel32.dll")
                     Dim freeLibrary As Integer = API.GetProcAddress(kernel32, "FreeLibrary")
                     Dim threadId As Integer
-                    Dim ret As Integer = API.CreateRemoteThread(hProc, 0, 0, freeLibrary, pObj.pid, 0, threadId)
+                    Dim ret As Integer = API.CreateRemoteThread(hProc, 0, 0, freeLibrary, pObj.baseA, 0, threadId)
                     _deg.Invoke(ret <> 0, pObj.pid, API.GetError, pObj.newAction)
                 Else
                     _deg.Invoke(False, pObj.pid, API.GetError, pObj.newAction)

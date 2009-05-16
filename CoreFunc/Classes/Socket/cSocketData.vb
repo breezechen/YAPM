@@ -61,6 +61,8 @@ Option Strict On
         [ThreadTerminate]
         [ThreadSuspend]
         [ThreadResume]
+        [ThreadIncreasePriority]
+        [ThreadDecreasePriority]
         [ThreadSetPriority]
         [ThreadSetAffinity]
 
@@ -85,6 +87,7 @@ Option Strict On
         ' Other functions
         [HandleClose]
         [ModuleUnload]
+        [PrivilegeChangeStatus]
 
         ' Request lists
         [RequestProcessList]

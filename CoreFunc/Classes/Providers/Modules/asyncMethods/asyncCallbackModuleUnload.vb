@@ -62,6 +62,12 @@ Public Class asyncCallbackModuleUnload
 
         Select Case con.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                Try
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ModuleUnload, pObj.pid, pObj.baseA)
+                    con.ConnectionObj.Socket.Send(cDat)
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 

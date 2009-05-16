@@ -62,6 +62,12 @@ Public Class asyncCallbackPrivilegeChangeStatus
 
         Select Case con.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                Try
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.PrivilegeChangeStatus, pObj.pid, pObj.name, pObj.status)
+                    con.ConnectionObj.Socket.Send(cDat)
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
@@ -74,7 +80,7 @@ Public Class asyncCallbackPrivilegeChangeStatus
 
 
     ' Set privilege status
-    Private Function SetPrivilege(ByVal _pid As Integer, ByVal seName As String, ByVal Status As API.PRIVILEGE_STATUS) As Boolean
+    Public Shared Function SetPrivilege(ByVal _pid As Integer, ByVal seName As String, ByVal Status As API.PRIVILEGE_STATUS) As Boolean
 
         Dim hProcess As Integer
         Dim Ret As Integer

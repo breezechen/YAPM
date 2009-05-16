@@ -62,7 +62,7 @@
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DefineConstants>CONFIG_INTO_APPDATA0, RELEASE_MODE=0</DefineConstants>
+    <DefineConstants>CONFIG_INTO_APPDATA0, RELEASE_MODE=1</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -162,7 +162,7 @@
     <EmbeddedResource Include="Forms\Preferences\frmLogOptions.resx">
       <DependentUpon>frmLogOptions.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmServer.resx">
+    <EmbeddedResource Include="Forms\MainForms\frmServer.resx">
       <DependentUpon>frmServer.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\HorizontalLine.resx">
@@ -359,10 +359,10 @@
     <Compile Include="Forms\Preferences\frmLogOptions.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmServer.Designer.vb">
+    <Compile Include="Forms\MainForms\frmServer.Designer.vb">
       <DependentUpon>frmServer.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmServer.vb">
+    <Compile Include="Forms\MainForms\frmServer.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Modules\mdlMain.vb" />

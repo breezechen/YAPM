@@ -621,6 +621,38 @@ Public Class frmServer
                         End Try
                 End Select
 
+
+
+                ' ===== Other functions
+                Select cData.Order
+                    Case cSocketData.OrderType.HandleClose
+                        Dim pid As Integer = CType(cData.Param1, Integer)
+                        Dim handle As Integer = CType(cData.Param2, Integer)
+                        Try
+                            cHandle.SharedLRCloseHandle(pid, handle)
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
+                    Case cSocketData.OrderType.ModuleUnload
+                        Dim pid As Integer = CType(cData.Param1, Integer)
+                        Dim address As Integer = CType(cData.Param2, Integer)
+                        Try
+                            cProcess.SharedRLUnLoadModuleFromProcess(pid, address)
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
+                    Case cSocketData.OrderType.PrivilegeChangeStatus
+                        Dim pid As Integer = CType(cData.Param1, Integer)
+                        Dim name As String = CType(cData.Param2, String)
+                        Dim status As API.PRIVILEGE_STATUS = CType(cData.Param3, API.PRIVILEGE_STATUS)
+                        Try
+                            cPrivilege.LocalChangeStatus(pid, name, status)
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
+                End Select
+
+
             End If
 
         Catch ex As Exception

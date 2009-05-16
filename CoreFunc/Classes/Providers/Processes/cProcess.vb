@@ -495,14 +495,6 @@ Public Class cProcess
         RemovePendingTask(actionNumber)
     End Sub
 
-    '' Unload a module
-    'Public Function UnloadModule(ByVal baseAddress As Integer) As Integer
-    '    Dim t As New Threading.Thread(AddressOf asyncCallbackProcUnloadModule)
-    '    t.Priority = Threading.ThreadPriority.Lowest
-    '    t.IsBackground = True
-    '    t.Start()
-    'End Function
-
     ' Change affinity
     Private _setAffinityP As asyncCallbackProcSetAffinity
     Public Function SetAffinity(ByVal affinity As Integer) As Integer
