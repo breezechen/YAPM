@@ -26,27 +26,26 @@ Imports System.Runtime.InteropServices
 Public MustInherit Class customLV
     Inherits DoubleBufferedLV
 
-    Friend Declare Function GetTickCount Lib "kernel32" () As Integer
     Public Event HasChangedColumns()
 
     ' ========================================
     ' Friend
     ' ========================================
 
-    Friend _firstItemUpdate As Boolean = True
-    Friend _columnsName() As String
+    Protected _firstItemUpdate As Boolean = True
+    Protected _columnsName() As String
 
-    Friend _IMG As ImageList
-    Friend m_SortingColumn As ColumnHeader
+    Protected _IMG As ImageList
+    Protected m_SortingColumn As ColumnHeader
 
-    Friend _foreColor As Color = Color.FromArgb(30, 30, 30)
+    Protected _foreColor As Color = Color.FromArgb(30, 30, 30)
 
     Public Shared NEW_ITEM_COLOR As Color = Color.FromArgb(128, 255, 0)
     Public Shared DELETED_ITEM_COLOR As Color = Color.FromArgb(255, 64, 48)
 
 
-    Private _catchErrors As Boolean = False
-    Private _reorgCol As Boolean = True
+    Protected _catchErrors As Boolean = False
+    Protected _reorgCol As Boolean = True
 
 
     ' ========================================

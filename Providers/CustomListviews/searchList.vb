@@ -99,10 +99,10 @@ Public Class searchList
         Me.SmallImageList = _IMG
         _IMG.Images.Add("service", My.Resources.gear)   ' Icon is specific
         _IMG.Images.Add("exeFile", My.Resources.exe)
-        _IMG.Images.Add("window", My.Resources.display16)
         _IMG.Images.Add("handle", My.Resources.handle)
         _IMG.Images.Add("envvar", My.Resources.text)
         _IMG.Images.Add("dllIcon", My.Resources.dllIcon)
+        _IMG.Images.Add("window", My.Resources.application_blue)
 
 
         ' Set handlers
@@ -113,6 +113,13 @@ Public Class searchList
     ' Delete all items
     Public Sub ClearItems()
         _dico.Clear()
+        _IMG.Images.Clear()
+        _IMG.Images.Add("service", My.Resources.gear)   ' Icon is specific
+        _IMG.Images.Add("exeFile", My.Resources.exe)
+        _IMG.Images.Add("handle", My.Resources.handle)
+        _IMG.Images.Add("envvar", My.Resources.text)
+        _IMG.Images.Add("dllIcon", My.Resources.dllIcon)
+        _IMG.Images.Add("window", My.Resources.application_blue)
         Me.Items.Clear()
     End Sub
 

@@ -341,7 +341,6 @@ Partial Class frmMain
         Me.SelectAssociatedProcessToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem18 = New System.Windows.Forms.ToolStripSeparator
         Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.imgSearch = New System.Windows.Forms.ImageList(Me.components)
         Me.menuHandles = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem19 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
@@ -3885,16 +3884,6 @@ Partial Class frmMain
         Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(247, 22)
         Me.CloseToolStripMenuItem.Text = "Close item"
         '
-        'imgSearch
-        '
-        Me.imgSearch.ImageStream = CType(resources.GetObject("imgSearch.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgSearch.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgSearch.Images.SetKeyName(0, "handle")
-        Me.imgSearch.Images.SetKeyName(1, "dll")
-        Me.imgSearch.Images.SetKeyName(2, "window")
-        Me.imgSearch.Images.SetKeyName(3, "noicon")
-        Me.imgSearch.Images.SetKeyName(4, "service")
-        '
         'menuHandles
         '
         Me.menuHandles.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem19, Me.ToolStripSeparator3, Me.ToolStripMenuItem22, Me.ToolStripMenuItem1, Me.DisplayUnnamedHandlesToolStripMenuItem, Me.ToolStripMenuItem49, Me.ChooseColumnsToolStripMenuItem6})
@@ -6784,7 +6773,6 @@ Partial Class frmMain
         Me.lvSearchResults.ReorganizeColumns = True
         Me.lvSearchResults.SearchString = Nothing
         Me.lvSearchResults.Size = New System.Drawing.Size(852, 331)
-        Me.lvSearchResults.SmallImageList = Me.imgSearch
         Me.lvSearchResults.TabIndex = 3
         Me.lvSearchResults.UseCompatibleStateImageBehavior = False
         Me.lvSearchResults.View = System.Windows.Forms.View.Details
@@ -7156,7 +7144,6 @@ Partial Class frmMain
     Friend WithEvents RBHandlesActions As System.Windows.Forms.RibbonPanel
     Friend WithEvents butHandleRefresh As System.Windows.Forms.RibbonButton
     Friend WithEvents butHandleClose As System.Windows.Forms.RibbonButton
-    Friend WithEvents imgSearch As System.Windows.Forms.ImageList
     Friend WithEvents RBHandlesReport As System.Windows.Forms.RibbonPanel
     Friend WithEvents butHandlesSaveReport As System.Windows.Forms.RibbonButton
     Friend WithEvents menuSearch As System.Windows.Forms.ContextMenuStrip
