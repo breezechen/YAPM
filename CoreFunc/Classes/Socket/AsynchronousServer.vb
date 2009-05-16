@@ -59,12 +59,14 @@ Public Class AsynchronousSocketListener
 
     Public Sub Disconnect()
         Try
-            ' Do not accept anymore send/receive
-            Trace.WriteLine("Client Shudown connection...")
-            listener.Shutdown(SocketShutdown.Both)
-            ' Disconnect
-            Trace.WriteLine("Client BeginDisconnect...")
-            listener.BeginDisconnect(False, AddressOf disconnectCallback, Nothing)
+            If listener IsNot Nothing Then
+                Trace.WriteLine("Client Shudown connection...")
+                ' Do not accept anymore send/receive
+                listener.Shutdown(SocketShutdown.Both)
+                ' Disconnect
+                Trace.WriteLine("Client BeginDisconnect...")
+                listener.BeginDisconnect(False, AddressOf disconnectCallback, Nothing)
+            End If
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error while disconnecting")
             RaiseEvent Disconnected()

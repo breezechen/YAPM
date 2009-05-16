@@ -24,55 +24,39 @@ Partial Class frmServer
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmServer))
         Me.Button1 = New System.Windows.Forms.Button
-        Me.TextBox1 = New System.Windows.Forms.TextBox
-        Me.Label2 = New System.Windows.Forms.Label
         Me.Label1 = New System.Windows.Forms.Label
-        Me.lvServer = New DoubleBufferedLV
+        Me.lvServer = New YAPM.DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.SuspendLayout()
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(140, 78)
+        Me.Button1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button1.Location = New System.Drawing.Point(489, 12)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(88, 23)
         Me.Button1.TabIndex = 7
         Me.Button1.Text = "Connect !"
         Me.Button1.UseVisualStyleBackColor = True
         '
-        'TextBox1
-        '
-        Me.TextBox1.Location = New System.Drawing.Point(34, 78)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(100, 22)
-        Me.TextBox1.TabIndex = 6
-        Me.TextBox1.Text = "192.168.0.4"
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(12, 81)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(16, 13)
-        Me.Label2.TabIndex = 5
-        Me.Label2.Text = "IP"
-        '
         'Label1
         '
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(12, 9)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(567, 52)
+        Me.Label1.Size = New System.Drawing.Size(350, 26)
         Me.Label1.TabIndex = 4
-        Me.Label1.Text = resources.GetString("Label1.Text")
+        Me.Label1.Text = "This process is the 'server' of Yet Another (remote) Process Monitor." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "If you clo" & _
+            "se this form, the connection will be interrupted."
         '
         'lvServer
         '
         Me.lvServer.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
         Me.lvServer.FullRowSelect = True
-        Me.lvServer.Location = New System.Drawing.Point(12, 117)
+        Me.lvServer.Location = New System.Drawing.Point(10, 41)
         Me.lvServer.Name = "lvServer"
+        Me.lvServer.OverriddenDoubleBuffered = False
         Me.lvServer.Size = New System.Drawing.Size(567, 327)
         Me.lvServer.TabIndex = 8
         Me.lvServer.UseCompatibleStateImageBehavior = False
@@ -88,29 +72,25 @@ Partial Class frmServer
         Me.ColumnHeader2.Text = "Command received"
         Me.ColumnHeader2.Width = 384
         '
-        'frmServeur
+        'frmServer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(589, 456)
+        Me.ClientSize = New System.Drawing.Size(589, 379)
         Me.Controls.Add(Me.lvServer)
         Me.Controls.Add(Me.Button1)
-        Me.Controls.Add(Me.TextBox1)
-        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
-        Me.Name = "frmServeur"
+        Me.Name = "frmServer"
         Me.Text = "YAPM remote process"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
     Friend WithEvents Button1 As System.Windows.Forms.Button
-    Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
-    Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents lvServer As DoubleBufferedLV
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader

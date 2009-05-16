@@ -117,12 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>Ceci est le processus 'serveur' de l'application. 
-Ne le fermez pas, sinon la connexion sera coupée.
-Les requêtes envoyées par le client seront traitées de manière transparente sur le PC distant par ce processus.
-Spécifiez uniquement l'adresse IP de la machine sur laquelle s'exécute ce processus (ex : 192.168.0.2)</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
