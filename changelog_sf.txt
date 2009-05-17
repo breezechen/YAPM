@@ -33,7 +33,7 @@ CHANGES FROM BETA 5
 - Customizable history buffer
 
 * Minor changes
-- Check update & download last update are asynchrons
+- Check update & download last update are asynchronous
 - Removed 'Shutdown Service' command (useless)
 
 * Bug fixes
