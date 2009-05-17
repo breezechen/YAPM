@@ -239,7 +239,7 @@ Public Class processList
 
 
         cProcess.SemCurrentProcesses.WaitOne()
-        cProcess.CurrentProcesses = _dico
+        cProcess.CurrentProcesses = New Dictionary(Of String, cProcess)((_dico))
         cProcess.SemCurrentProcesses.Release()
 
 

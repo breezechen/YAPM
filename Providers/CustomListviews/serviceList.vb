@@ -251,7 +251,7 @@ Public Class serviceList
 
 
         cService.SemCurrentServices.WaitOne()
-        cService.CurrentServices = _dico
+        cService.CurrentServices = New Dictionary(Of String, cService)(_dico)
         cService.SemCurrentServices.Release()
 
 
