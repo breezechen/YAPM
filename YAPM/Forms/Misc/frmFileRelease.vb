@@ -54,33 +54,36 @@ Public Class frmFileRelease
         Dim sComp As String
         Dim i As Integer = 0
         Dim id As Integer = 0
-        'TODO_       
-        'For Each cProc As cProcess In _frmMain.lvProcess.GetAllItems
-        '    Try
-        '        ' Check for modules
-        '        Dim p As ProcessModuleCollection = cProc.Modules
-        '        Dim m As ProcessModule
-        '        For Each m In p
-        '            sComp = m.FileVersionInfo.FileName.ToLower
-        '            If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
-        '                ' So we've found a result
-        '                Dim newIt As New ListViewItem
-        '                Dim n2 As New ListViewItem.ListViewSubItem
-        '                n2.Text = "Module"
-        '                newIt.Text = CStr(cProc.Pid) & " -- " & cProc.Name
-        '                newIt.SubItems.Add(n2)
-        '                newIt.ImageKey = "module"
-        '                Dim _tag As New cModule.MODULEENTRY32
-        '                _tag.th32ProcessID = cProc.Pid
-        '                _tag.modBaseAddr = m.BaseAddress.ToInt32
-        '                newIt.Tag = _tag
-        '                Me.lv.Items.Add(newIt)
-        '            End If
-        '        Next
-        '    Catch ex As Exception
-        '        '
-        '    End Try
-        'Next
+
+        cProcess.SemCurrentProcesses.WaitOne()
+        For Each cProc As cProcess In cProcess.CurrentProcesses.Values
+            Try
+                ' TODO_
+                '' Check for modules
+                'Dim p As ProcessModuleCollection = cProc.Modules
+                'Dim m As ProcessModule
+                'For Each m In p
+                '    sComp = m.FileVersionInfo.FileName.ToLower
+                '    If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
+                '        ' So we've found a result
+                '        Dim newIt As New ListViewItem
+                '        Dim n2 As New ListViewItem.ListViewSubItem
+                '        n2.Text = "Module"
+                '        newIt.Text = CStr(cProc.Pid) & " -- " & cProc.Name
+                '        newIt.SubItems.Add(n2)
+                '        newIt.ImageKey = "module"
+                '        Dim _tag As New cModule.MODULEENTRY32
+                '        _tag.th32ProcessID = cProc.Pid
+                '        _tag.modBaseAddr = m.BaseAddress.ToInt32
+                '        newIt.Tag = _tag
+                '        Me.lv.Items.Add(newIt)
+                '    End If
+                'Next
+            Catch ex As Exception
+                '
+            End Try
+        Next
+        cProcess.SemCurrentProcesses.Release()
 
         cHandle.GetOpenedHandlesClass.Refresh()
         For i = 0 To cHandle.GetOpenedHandlesClass.Count - 1

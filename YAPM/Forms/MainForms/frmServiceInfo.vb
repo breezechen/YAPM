@@ -134,36 +134,18 @@ Public Class frmServiceInfo
                 If curServ.Infos.ProcessId > 0 Then s = s & "\tab Owner process :\tab\tab " & curServ.Infos.ProcessId & "-- " & cProcess.GetProcessName(curServ.Infos.ProcessId) & "\par"
                 s = s & "\tab Service type :\tab\tab " & curServ.Infos.ServiceType.ToString & "\par"
 
+                s = s & "\tab AcceptedControl :\tab " & curServ.Infos.AcceptedControl.ToString & "\par"
+                s = s & "\tab CheckPoint :\tab\tab " & curServ.Infos.CheckPoint.ToString & "\par"
+                s = s & "\tab ServiceFlags :\tab\tab " & curServ.Infos.ServiceFlags.ToString & "\par"
+                s = s & "\tab Win32ExitCode :\tab\tab " & curServ.Infos.Win32ExitCode.ToString & "\par"
+                s = s & "\tab WaitHint :\tab\tab " & curServ.Infos.WaitHint.ToString & "\par"
+                s = s & "\tab TagID :\tab\tab\tab " & curServ.Infos.TagID.ToString & "\par"
+                s = s & "\tab ServiceSpecificExitCode :\tab " & curServ.Infos.ServiceSpecificExitCode.ToString & "\par"
+
                 s = s & "}"
 
                 rtb.Rtf = s
         End Select
-    End Sub
-
-    ' Refresh information tab
-    Private Sub refreshInfosTab()
-        Try
-
-            'TODO
-
-        Catch ex As Exception
-
-            Dim s As String = ""
-            Dim er As Exception = ex
-
-            s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-            s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
-            s = s & "\tab Message :\tab " & er.Message & "\par"
-            s = s & "\tab Source :\tab\tab " & er.Source & "\par"
-            If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
-            s = s & "}"
-
-            rtb.Rtf = s
-
-            pctSmallIcon.Image = Me.imgProcess.Images("noicon")
-            pctBigIcon.Image = Me.imgMain.Images("noicon32")
-
-        End Try
     End Sub
 
     Private Sub frmProcessInfo_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
