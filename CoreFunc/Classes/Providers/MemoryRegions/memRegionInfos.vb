@@ -134,8 +134,6 @@ Imports System.Runtime.InteropServices
         If _state = API.MEMORY_STATE.MEM_FREE Then
             Return "Free"
         ElseIf _type = API.MEMORY_TYPE.MEM_IMAGE Then
-            ' TOCHANGE
-            ' Should return MODULE name
             Return "Image"
         Else
             Return _type.ToString & " (" & _state.ToString & ")"
