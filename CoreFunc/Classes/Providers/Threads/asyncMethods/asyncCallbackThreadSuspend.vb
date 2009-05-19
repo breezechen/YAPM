@@ -40,10 +40,13 @@ Public Class asyncCallbackThreadSuspend
     Public Structure poolObj
         Public id As Integer
         Public newAction As Integer
+        Public pid As Integer
         Public Sub New(ByVal _id As Integer, _
-                       ByVal action As Integer)
+                       ByVal action As Integer, Optional _
+                       ByVal processId As Integer = 0)
             newAction = action
             id = _id
+            pid = processId
         End Sub
     End Structure
 
@@ -56,6 +59,12 @@ Public Class asyncCallbackThreadSuspend
 
         Select Case con.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                Try
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ThreadSuspend, pObj.pid, pObj.id)
+                    con.ConnectionObj.Socket.Send(cDat)
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 

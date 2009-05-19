@@ -42,11 +42,13 @@ Public Class asyncCallbackThreadSetPriority
         Public id As Integer
         Public level As System.Diagnostics.ThreadPriorityLevel
         Public newAction As Integer
+        Public pid As Integer
         Public Sub New(ByVal _id As Integer, _
                         ByVal _level As System.Diagnostics.ThreadPriorityLevel, _
-                       ByVal action As Integer)
+                       ByVal action As Integer, Optional ByVal procId As Integer = 0)
             newAction = action
             id = _id
+            pid = procId
             level = _level
         End Sub
     End Structure
@@ -60,6 +62,12 @@ Public Class asyncCallbackThreadSetPriority
 
         Select Case con.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                Try
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ThreadSetPriority, pObj.pid, pObj.id, pObj.level)
+                    con.ConnectionObj.Socket.Send(cDat)
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 

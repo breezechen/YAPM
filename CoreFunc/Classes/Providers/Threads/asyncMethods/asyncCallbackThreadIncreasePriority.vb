@@ -35,13 +35,15 @@ Public Class asyncCallbackThreadIncreasePriority
     Public Structure poolObj
         Public id As Integer
         Public level As Integer
+        Public pid As Integer
         Public newAction As Integer
         Public Sub New(ByVal _id As Integer, _
                         ByVal _level As Integer, _
-                       ByVal action As Integer)
+                       ByVal action As Integer, Optional ByVal processId As Integer = 0)
             newAction = action
             id = _id
             level = _level
+            pid = processId
         End Sub
     End Structure
 
@@ -59,6 +61,12 @@ Public Class asyncCallbackThreadIncreasePriority
 
         Select Case con.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                Try
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ThreadIncreasePriority, pObj.pid, pObj.id, pObj.level)
+                    con.ConnectionObj.Socket.Send(cDat)
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
