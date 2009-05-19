@@ -623,6 +623,81 @@ Public Class frmServer
 
 
 
+                ' ===== Thread functions
+                Select Case cData.Order
+                    Case cSocketData.OrderType.ThreadDecreasePriority
+                        Dim pid As Integer = CInt(cData.Param1)
+                        Dim tid As Integer = CInt(cData.Param2)
+                        Try
+                            Dim sti As New API.SYSTEM_THREAD_INFORMATION
+                            sti.ClientId.UniqueProcess = pid
+                            sti.ClientId.UniqueThread = tid
+                            Call (New cThread(New threadInfos(sti), True)).DecreasePriority()
+                        Catch ex As Exception
+                            ' Thread does not exist
+                        End Try
+                    Case cSocketData.OrderType.ThreadIncreasePriority
+                        Dim pid As Integer = CInt(cData.Param1)
+                        Dim tid As Integer = CInt(cData.Param2)
+                        Try
+                            Dim sti As New API.SYSTEM_THREAD_INFORMATION
+                            sti.ClientId.UniqueProcess = pid
+                            sti.ClientId.UniqueThread = tid
+                            Call (New cThread(New threadInfos(sti), True)).IncreasePriority()
+                        Catch ex As Exception
+                            ' Thread does not exist
+                        End Try
+                    Case cSocketData.OrderType.ThreadResume
+                        Dim pid As Integer = CInt(cData.Param1)
+                        Dim tid As Integer = CInt(cData.Param2)
+                        Try
+                            Dim sti As New API.SYSTEM_THREAD_INFORMATION
+                            sti.ClientId.UniqueProcess = pid
+                            sti.ClientId.UniqueThread = tid
+                            Call (New cThread(New threadInfos(sti), False)).ThreadResume()
+                        Catch ex As Exception
+                            ' Thread does not exist
+                        End Try
+                    Case cSocketData.OrderType.ThreadSetAffinity
+                        'TODO
+                    Case cSocketData.OrderType.ThreadSetPriority
+                        Dim pid As Integer = CInt(cData.Param1)
+                        Dim tid As Integer = CInt(cData.Param2)
+                        Dim level As Integer = CInt(cData.Param3)
+                        Try
+                            Dim sti As New API.SYSTEM_THREAD_INFORMATION
+                            sti.ClientId.UniqueProcess = pid
+                            sti.ClientId.UniqueThread = tid
+                            Call (New cThread(New threadInfos(sti), False)).SetPriority(CType(level, ThreadPriorityLevel))
+                        Catch ex As Exception
+                            ' Thread does not exist
+                        End Try
+                    Case cSocketData.OrderType.ThreadSuspend
+                        Dim pid As Integer = CInt(cData.Param1)
+                        Dim tid As Integer = CInt(cData.Param2)
+                        Try
+                            Dim sti As New API.SYSTEM_THREAD_INFORMATION
+                            sti.ClientId.UniqueProcess = pid
+                            sti.ClientId.UniqueThread = tid
+                            Call (New cThread(New threadInfos(sti), False)).ThreadSuspend()
+                        Catch ex As Exception
+                            ' Thread does not exist
+                        End Try
+                    Case cSocketData.OrderType.ThreadTerminate
+                        Dim pid As Integer = CInt(cData.Param1)
+                        Dim tid As Integer = CInt(cData.Param2)
+                        Try
+                            Dim sti As New API.SYSTEM_THREAD_INFORMATION
+                            sti.ClientId.UniqueProcess = pid
+                            sti.ClientId.UniqueThread = tid
+                            Call (New cThread(New threadInfos(sti), False)).ThreadTerminate()
+                        Catch ex As Exception
+                            ' Thread does not exist
+                        End Try
+                End Select
+
+
+
                 ' ===== Other functions
                 Select cData.Order
                     Case cSocketData.OrderType.HandleClose

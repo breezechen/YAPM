@@ -46,12 +46,16 @@ Public Class cThread
 
 #Region "Constructors & destructor"
 
-    Public Sub New(ByRef infos As threadInfos)
+    Public Sub New(ByRef infos As threadInfos, Optional ByVal getPriorityInfo As Boolean = False)
         _threadInfos = infos
         _connection = Connection
         ' Get a handle if local
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
             _handleQueryInfo = API.OpenThread(API.THREAD_RIGHTS.THREAD_QUERY_INFORMATION, 0, infos.Id)
+            If getPriorityInfo Then
+                ' Here we get priority (used when YAPM is used as a server)
+                Call infos.SetPriority(API.GetThreadPriority(_handleQueryInfo))
+            End If
         End If
     End Sub
 

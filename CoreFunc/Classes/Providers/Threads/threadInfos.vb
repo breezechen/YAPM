@@ -125,6 +125,10 @@ Imports System.Runtime.InteropServices
         End Get
     End Property
 
+    Friend Sub SetPriority(ByVal i As Integer)
+        _Priority = i
+    End Sub
+
 #End Region
 
 #Region "Other Non-fixed informations"
