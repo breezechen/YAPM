@@ -198,7 +198,7 @@ Public Module mdlMisc
     ' Get a good path
     Public Function GetRealPath(ByVal path As String) As String
         If Len(path) > 0 Then
-            If path.ToLowerInvariant.StartsWith("\systemroot\") Then
+            If path.ToLowerInvariant.StartsWith("\systemroot\") OrElse path.ToLowerInvariant.StartsWith("system32\") Then
                 path = path.Substring(12, path.Length - 12)
                 Dim ii As Integer = InStr(path, "\", CompareMethod.Binary)
                 If ii > 0 Then
