@@ -47,7 +47,13 @@ Public Module mdlMisc
             dep += 1
         End While
 
-        Return CStr(Math.Round(t, digits)) & " " & sizeUnits(dep)
+        Dim d As Double = Math.Round(t, digits)
+
+        If d > 0 Then
+            Return d.ToString & " " & sizeUnits(dep)
+        Else
+            Return ""
+        End If
 
     End Function
     Public Function GetSizeFromFormatedSize(ByVal _frmtSize As String) As Long
@@ -78,7 +84,11 @@ Public Module mdlMisc
             dep += 1
         End While
 
-        Return CStr(Math.Round(t, digits)) & " " & sizeUnits(dep) & "/s"
+        If size > 0 Then
+            Return CStr(Math.Round(t, digits)) & " " & sizeUnits(dep) & "/s"
+        Else
+            Return ""
+        End If
 
     End Function
 
@@ -116,14 +126,18 @@ Public Module mdlMisc
     End Function
 
     ' Get a formated percentage
-    Public Function GetFormatedPercentage(ByVal p As Double, Optional ByVal digits As Integer = 3) As String
-        Dim d100 As Double = p * 100
-        Dim d As Double = Math.Round(d100, digits)
-        Dim tr As Double = Math.Truncate(d)
-        Dim lp As Integer = CInt(tr)
-        Dim rp As Integer = CInt((d100 - tr) * 10 ^ digits)
+    Public Function GetFormatedPercentage(ByVal p As Double, Optional ByVal digits As Integer = 3, Optional ByVal force0 As Boolean = False) As String
+        If force0 OrElse p > 0 Then
+            Dim d100 As Double = p * 100
+            Dim d As Double = Math.Round(d100, digits)
+            Dim tr As Double = Math.Truncate(d)
+            Dim lp As Integer = CInt(tr)
+            Dim rp As Integer = CInt((d100 - tr) * 10 ^ digits)
 
-        Return CStr(IIf(lp < 10, "0", "")) & CStr(lp) & "." & CStr(IIf(rp < 10, "00", "")) & CStr(IIf(rp < 100 And rp >= 10, "0", "")) & CStr(rp)
+            Return CStr(IIf(lp < 10, "0", "")) & CStr(lp) & "." & CStr(IIf(rp < 10, "00", "")) & CStr(IIf(rp < 100 And rp >= 10, "0", "")) & CStr(rp)
+        Else
+            Return ""
+        End If
     End Function
 
     ' Convert a DMTF datetime to a valid Date

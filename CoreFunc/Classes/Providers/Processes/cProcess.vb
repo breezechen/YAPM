@@ -628,7 +628,7 @@ Public Class cProcess
             Case "AffinityMask"
                 res = Me.Infos.AffinityMask.ToString
             Case "AverageCpuUsage"
-                res = GetFormatedPercentage(Me.Infos.AverageCpuUsage)
+                res = GetFormatedPercentage(Me.Infos.AverageCpuUsage, force0:=True)
             Case "CommandLine"
                 res = Me.Infos.CommandLine
             Case "ReadOperationCount"
