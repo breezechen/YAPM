@@ -42,6 +42,7 @@ Public Class AsynchronousClient
 
 
     Private client As Socket
+    Private Shared semQueue As New Semaphore(1, 1)
 
     Public Sub Connect(ByVal ip As IPAddress, ByVal port As Integer)
         ' Establish the remote endpoint for the socket.
@@ -204,6 +205,9 @@ Public Class AsynchronousClient
 
             Dim cDat As cSocketData = cSerialization.DeserializeObject(state.receivedBuff)
             If cDat IsNot Nothing Then
+                If cDat.Ack Then
+                    semQueue.Release(1)
+                End If
                 RaiseEvent ReceivedData(cDat)
                 Trace.WriteLine("DATA HAS A SIZE OF " & state.receivedSize.ToString)
             End If
@@ -215,6 +219,9 @@ Public Class AsynchronousClient
             ' the datas
             Dim cDat As cSocketData = cSerialization.DeserializeObject(state.receivedBuff)
             If cDat IsNot Nothing Then
+                If cDat.Ack Then
+                    semQueue.Release(1)
+                End If
                 RaiseEvent ReceivedData(cDat)
                 Trace.WriteLine("DATA HAS A SIZE OF " & state.receivedSize.ToString)
                 ReDim state.receivedBuff(0)
@@ -224,8 +231,17 @@ Public Class AsynchronousClient
 
     End Sub 'ReceiveCallback
 
+    ' When we receive an acknowledge, next "send" will be authorized
+    Public Sub AckReceived()
+        semQueue.Release(1)
+    End Sub
 
     Public Sub Send(ByVal dat As cSocketData)
+        ' Add the object to send into the list (queue)
+        semQueue.WaitOne()
+        pvtSend(dat)
+    End Sub
+    Private Sub pvtSend(ByRef dat As cSocketData)
         ' Convert the string data to byte data using ASCII encoding.
         Dim byteData As Byte() = cSerialization.GetSerializedObject(dat)
 
@@ -239,7 +255,6 @@ Public Class AsynchronousClient
             Exit Sub
         End Try
     End Sub 'Send
-
 
     Private Sub SendCallback(ByVal ar As IAsyncResult)
         ' Retrieve the socket from the state object.

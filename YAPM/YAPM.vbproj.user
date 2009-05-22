@@ -17,4 +17,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug - server|AnyCPU' ">
     <StartArguments>-server</StartArguments>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release - server|AnyCPU' ">
+    <StartArguments>-server</StartArguments>
+  </PropertyGroup>
 </Project>

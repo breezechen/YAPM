@@ -78,6 +78,18 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release - server|AnyCPU' ">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Release - server\</OutputPath>
+    <DefineConstants>CONFIG_INTO_APPDATA0, RELEASE_MODE=1</DefineConstants>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>YAPM.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
@@ -87,6 +99,10 @@
       <HintPath>bin\Release\System.Windows.Forms.Ribbon.dll</HintPath>
     </Reference>
     <Reference Include="System.XML" />
+    <Reference Include="TaskDialog, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Release\Dll\TaskDialog.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="CoreFunc" />
@@ -566,10 +582,6 @@
     <ProjectReference Include="..\Providers\Providers.vbproj">
       <Project>{657B7CE9-D35C-4E65-A05B-CC6B46A14D7D}</Project>
       <Name>Providers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TaskDialog\TaskDialog.csproj">
-      <Project>{5BF15AF5-DEB8-46A8-99C7-21993617D0C8}</Project>
-      <Name>TaskDialog</Name>
     </ProjectReference>
     <ProjectReference Include="UserControls\MemoryHexEditor\MemoryHexEditor.vbproj">
       <Project>{8C885999-147E-4651-AF9C-6F7149F1344D}</Project>

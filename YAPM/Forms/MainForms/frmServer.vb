@@ -372,6 +372,8 @@ Public Class frmServer
     Private Sub sock_ReceivedData(ByRef cData As cSocketData) Handles sock.ReceivedData
         Try
 
+            Dim ret As Boolean = True       ' Return for the functions (orders)
+
             If cData Is Nothing Then
                 Trace.WriteLine("Serialization error")
                 Exit Sub
@@ -389,51 +391,64 @@ Public Class frmServer
                 Select Case cData.Order
                     Case cSocketData.OrderType.RequestProcessList
                         Call _procCon.Enumerate(True, _forInstanceId)
+                        Exit Sub
                     Case cSocketData.OrderType.RequestNetworkConnectionList
                         Dim pid() As Integer = CType(cData.Param1, Integer())
                         Dim all As Boolean = CBool(cData.Param2)
                         Call _networkCon.Enumerate(True, pid, all, _forInstanceId)
+                        Exit Sub
                     Case cSocketData.OrderType.RequestServiceList
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim all As Boolean = CBool(cData.Param2)
                         Call _serviceCon.Enumerate(True, pid, all, _forInstanceId)
+                        Exit Sub
                     Case cSocketData.OrderType.RequestModuleList
                         Dim pid() As Integer = CType(cData.Param1, Integer())
                         Call _moduleCon.Enumerate(True, pid, _forInstanceId)
+                        Exit Sub
                     Case cSocketData.OrderType.RequestThreadList
                         Dim pid() As Integer = CType(cData.Param1, Integer())
                         Call _threadCon.Enumerate(True, pid, _forInstanceId)
+                        Exit Sub
                     Case cSocketData.OrderType.RequestHandleList
                         Dim pid() As Integer = CType(cData.Param1, Integer())
                         Dim unn As Boolean = CBool(cData.Param2)
                         Call _handleCon.Enumerate(True, pid, unn, _forInstanceId)
+                        Exit Sub
                     Case cSocketData.OrderType.RequestWindowList
                         Dim pid() As Integer = CType(cData.Param1, Integer())
                         Dim all As Boolean = CBool(cData.Param3)
                         Dim unn As Boolean = CBool(cData.Param2)
                         Call _windowCon.Enumerate(True, pid, unn, all, _forInstanceId)
+                        Exit Sub
                     Case cSocketData.OrderType.RequestTaskList
                         Call _taskCon.Enumerate(True, _forInstanceId)
+                        Exit Sub
                     Case cSocketData.OrderType.RequestSearchList
                         Dim st As String = CStr(cData.Param1)
                         Dim include As searchInfos.SearchInclude = CType(cData.Param2, searchInfos.SearchInclude)
                         Dim _case As Boolean = CBool(cData.Param3)
                         Call _searchCon.Enumerate(st, _case, include, _forInstanceId)
+                        Exit Sub
                     Case cSocketData.OrderType.RequestPrivilegesList
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Call _priviCon.Enumerate(True, pid, _forInstanceId)
+                        Exit Sub
                     Case cSocketData.OrderType.RequestEnvironmentVariableList
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim peb As Integer = CType(cData.Param2, Integer)
                         Call _envCon.Enumerate(True, pid, peb, _forInstanceId)
+                        Exit Sub
                     Case cSocketData.OrderType.RequestMemoryRegionList
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         'Dim all As Boolean = CBool(cData.Param2)   ' NOT NEEDED
                         Call _memoryCon.Enumerate(True, pid, _forInstanceId)
+                        Exit Sub
                     Case cSocketData.OrderType.RequestServDepList
                         Dim name As String = CStr(cData.Param1)
                         Dim type As cServDepConnection.DependenciesToget = CType(cData.Param2, cServDepConnection.DependenciesToget)
                         Call _servdepCon.Enumerate(name, type, _forInstanceId)
+                        Exit Sub
                 End Select
 
 
@@ -728,22 +743,19 @@ Public Class frmServer
                 End Select
 
 
+
+                ' Send an ACK for orders executed (except enumerations)
+                Try
+                    Dim cDat As New cSocketData(cSocketData.DataType.Ack, , ret)
+                    sock.Send(cDat)
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
+
+
             End If
 
         Catch ex As Exception
-            MsgBox(ex.Message)
-        End Try
-    End Sub
-
-    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdConnection.Click
-        ' Connect or disconnect the socket (server)
-        Try
-            If _state = SOCK_STATE.Disconnected Then
-                sock.Connect(PORT)
-            Else
-                sock.Disconnect()
-            End If
-            Catch ex As Exception
             MsgBox(ex.Message)
         End Try
     End Sub
@@ -758,6 +770,19 @@ Public Class frmServer
 
         connectLocal()
 
+        Dim s() As String = GetIpv4Ips()
+        If (s Is Nothing) OrElse s.Length = 0 Then
+            Me.txtIp.Text = "Error while trying to retrieve local IP address."
+        ElseIf s.Length = 1 Then
+            Me.txtIp.Text = "You will have to configure YAPM with this IP : " & s(0)
+        Else
+            Me.txtIp.Text = "You have more than one network card, so you will have to use one of these IP addresses to configure YAPM : " & vbNewLine
+            For Each x As String In s
+                Me.txtIp.Text &= x & vbNewLine
+            Next
+            Me.txtIp.Text = Me.txtIp.Text.Substring(0, Me.txtIp.Text.Length - 2)
+        End If
+
     End Sub
 
     Private Delegate Sub addItemHandler(ByRef dat As cSocketData)
@@ -767,4 +792,16 @@ Public Class frmServer
         Me.lvServer.Items.Add(it)
     End Sub
 
+    Private Sub cmdConnection_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdConnection.Click
+        ' Connect or disconnect the socket (server)
+        Try
+            If _state = SOCK_STATE.Disconnected Then
+                sock.Connect(PORT)
+            Else
+                sock.Disconnect()
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
 End Class

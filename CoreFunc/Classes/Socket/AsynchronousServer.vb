@@ -191,6 +191,7 @@ Public Class AsynchronousSocketListener
 
     Public Sub Send(ByVal dat As cSocketData)
         ' Convert the string data to byte data using ASCII encoding.
+        dat.Ack = True      ' Client will also received an acknowledge
         Dim byteData As Byte() = cSerialization.GetSerializedObject(dat)
 
         ' Begin sending the data to the remote device.

@@ -158,4 +158,21 @@ Module mdlMisc
         End If
     End Function
 
+    ' Get available IPV-4 IP
+    Public Function GetIpv4Ips() As String()
+        Dim res() As String
+        Dim x As Integer = -1
+        ReDim res(x)
+        Dim s() As System.Net.IPAddress = System.Net.Dns.GetHostAddresses(My.Computer.Name)
+        For Each t As System.Net.IPAddress In s
+            If t.AddressFamily = Net.Sockets.AddressFamily.InterNetwork Then
+                x += 1
+                ReDim Preserve res(x)
+                res(x) = t.ToString
+            End If
+        Next
+        Return res
+    End Function
+
+
 End Module
