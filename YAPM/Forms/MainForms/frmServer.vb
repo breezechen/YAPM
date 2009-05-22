@@ -341,6 +341,7 @@ Public Class frmServer
 
     Private Delegate Sub ChangeConnectState(ByVal state As SOCK_STATE)
     Private Sub handlerChangeConnectState(ByVal state As SOCK_STATE)
+#If RELEASE_MODE Then
         Select Case state
             Case SOCK_STATE.Connected
                 Me.cmdConnection.Text = "Disconnect !"
@@ -352,6 +353,7 @@ Public Class frmServer
                 Me.cmdConnection.Text = "Disconnect !"
                 Me.Text = "YAPM remote process (waiting for client to connect...)"
         End Select
+#End If
     End Sub
     Private Sub sock_ConnexionAccepted() Handles sock.Connected
         _state = SOCK_STATE.Connected

@@ -1,0 +1,33 @@
+<package>
+	<roots>
+		<dir>YAPM</dir>
+		<dir>TaskDialog</dir>
+		<dir>Providers</dir>
+		<dir>CoreFunc</dir>
+	</roots>
+	<included_file>
+		<file>changelog_sf.txt</file>
+		<file>YAPM.sln</file>
+		<file>\YAPM\bin\release\KernelMemory.sys</file>
+		<file>\YAPM\bin\release\System.Windows.Forms.Ribbon.dll</file>
+		<file>\YAPM\bin\release\Dll\TaskDialog.dll</file>
+		<file>\YAPM\bin\release\license.rtf</file>
+		<file>\YAPM\bin\release\README.txt</file>
+		<file>\YAPM\bin\release\launch server.bat</file>
+		<file>YAPM_without_C#_needed.sln</file>
+	</included_file>
+	<excluded_file>
+		<ext>user</ext>
+		<ext>idc</ext>
+		<ext>suo</ext>
+	</excluded_file>
+	<excluded_dir>
+		<dir all="true">bin</dir>
+		<dir all="true">obj</dir>
+		<dir all="true">.svn</dir>
+		<dir all="false">\YAPM\Help</dir>
+	</excluded_dir>
+	<excluded_project>
+		<proj>aPoubelle</proj>
+	</excluded_project>
+</package>
