@@ -58,14 +58,14 @@ Public Class asyncCallbackServDepEnumerate
 
     ' When socket got a list !
     Private _poolObj As poolObj
-    Friend Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String)
+    Friend Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String, ByVal type As cServDepConnection.DependenciesToget)
         Dim dico As New Dictionary(Of String, serviceInfos)
         If lst IsNot Nothing AndAlso keys IsNot Nothing AndAlso lst.Length = keys.Length Then
             For x As Integer = 0 To lst.Length - 1
                 dico.Add(keys(x), DirectCast(lst(x), serviceInfos))
             Next
         End If
-        ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
+        ctrl.Invoke(deg, True, dico, Nothing, _instanceId, type)
     End Sub
     Friend Shared sem As New System.Threading.Semaphore(1, 1)
     Public Sub Process(ByVal thePoolObj As Object)
@@ -83,7 +83,7 @@ Public Class asyncCallbackServDepEnumerate
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 _poolObj = pObj
                 Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestServDepList, pObj.name, cServDepConnection.DependenciesToget.DependenciesOfMe)
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestServDepList, pObj.name, pObj.type)
                     cDat.InstanceId = _instanceId   ' Instance which request the list
                     con.ConnectionObj.Socket.Send(cDat)
                 Catch ex As Exception
@@ -97,14 +97,12 @@ Public Class asyncCallbackServDepEnumerate
             Case Else
                 ' Local
                 Dim _dico As New Dictionary(Of String, serviceInfos)
-
                 If pObj.type = DependenciesToget.ServiceWhichDependsFromMe Then
                     recursiveAddDep(pObj.name, pObj.name, _dico)
                 Else
                     recursiveAddDep2(pObj.name, pObj.name, _dico)
                 End If
-
-                ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
+                ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId, pObj.type)
 
         End Select
 

@@ -2957,16 +2957,24 @@ Public Class frmMain
                 rtb2.Rtf = s
 
                 ' Treeviews stuffs
-                With tv
-                    .RootService = cS.Infos.Name
-                    .InfosToGet = cServDepConnection.DependenciesToget.DependenciesOfMe
-                    .UpdateItems()
-                End With
-                With tv2
-                    .RootService = cS.Infos.Name
-                    .InfosToGet = cServDepConnection.DependenciesToget.ServiceWhichDependsFromMe
-                    .UpdateItems()
-                End With
+                ' Only if we are in local mode...
+                If Program.Connection.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+                    With tv
+                        .RootService = cS.Infos.Name
+                        .InfosToGet = cServDepConnection.DependenciesToget.DependenciesOfMe
+                        .UpdateItems()
+                    End With
+                    With tv2
+                        .RootService = cS.Infos.Name
+                        .InfosToGet = cServDepConnection.DependenciesToget.ServiceWhichDependsFromMe
+                        .UpdateItems()
+                    End With
+                Else
+                    tv.ClearItems()
+                    tv.SafeAdd("No auto refresh for remote monitoring")
+                    tv2.ClearItems()
+                    tv2.SafeAdd("No auto refresh for remote monitoring")
+                End If
 
             Catch ex As Exception
                 Dim s As String = ""

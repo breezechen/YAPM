@@ -51,7 +51,7 @@ Public Class cServDepConnection
 
     Public Delegate Sub ConnectedEventHandler(ByVal Success As Boolean)
     Public Delegate Sub DisconnectedEventHandler(ByVal Success As Boolean)
-    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, serviceInfos), ByVal errorMessage As String, ByVal forII As Integer)
+    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, serviceInfos), ByVal errorMessage As String, ByVal forII As Integer, ByVal type As cServDepConnection.DependenciesToget)
 
     Public Connected As ConnectedEventHandler
     Public Disconnected As DisconnectedEventHandler
@@ -149,7 +149,7 @@ Public Class cServDepConnection
             data.Order = cSocketData.OrderType.RequestServDepList Then
             If _instanceId = data.InstanceId Then
                 ' OK it is for me
-                _servEnum.GotListFromSocket(data.GetList, data.GetKeys)
+                _servEnum.GotListFromSocket(data.GetList, data.GetKeys, CType(data.Param2, DependenciesToget))
             End If
         End If
     End Sub

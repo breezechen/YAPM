@@ -1094,7 +1094,7 @@ Partial Class frmServiceInfo
         Me.tv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tv.ImageIndex = 0
         Me.tv.ImageList = Me.imgServices
-        Me.tv.InfosToGet = CoreFunc.cServDepConnection.DependenciesToget.ServiceWhichDependsFromMe
+        Me.tv.InfosToGet = CoreFunc.cServDepConnection.DependenciesToget.DependenciesOfMe
         Me.tv.Location = New System.Drawing.Point(0, 0)
         Me.tv.Name = "tv"
         Me.tv.RootService = Nothing

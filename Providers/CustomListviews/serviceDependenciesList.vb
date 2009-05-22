@@ -129,6 +129,16 @@ Public Class serviceDependenciesList
         Return _dico.Item(key)
     End Function
 
+    ' Safe add (manage icon stuff)
+    Public Sub SafeAdd(ByVal text As String)
+        Me.ClearItems()
+        Dim n As New TreeNode(text)
+        n.ImageKey = "ok"
+        n.SelectedImageKey = n.ImageKey
+        Me.Nodes.Add(n)
+        Me.Update()
+    End Sub
+
 
     ' ========================================
     ' Private properties
@@ -136,7 +146,10 @@ Public Class serviceDependenciesList
 
     ' Executed when enumeration is done
     Private Shared sem As New System.Threading.Semaphore(1, 1)
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, serviceInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, serviceInfos), ByVal errorMessage As String, ByVal instanceId As Integer, ByVal type As cServDepConnection.DependenciesToget)
+        If Not (type = _infoToGet) Then
+            Exit Sub
+        End If
 
         sem.WaitOne()
 
