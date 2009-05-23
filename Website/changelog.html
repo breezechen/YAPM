@@ -6,7 +6,7 @@
 		<META content="A free, open source and advanced process/service monitor." name=description>
 		<META content="yapm,yet,another,process,monitor,windows,thread,module,handle,search,kernel,window,monitor,monitoring,ribbon,violent_ken,advanced" name=keywords>
 		<LINK href="styles.css" type="text/css" rel=stylesheet>
-		<META content="Namo WebEditor(Trial)" name=GENERATOR>
+		<META content="Namo WebEditor" name=GENERATOR>
 	</HEAD>
 	<BODY>
 <DIV id=content>
@@ -21,8 +21,52 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
     <DIV>
         <H2>&nbsp;</H2>
         <H2>Changelog</H2>
-        <h3>CHANGES FROM BETA 4</h3>
-        <h4 style="line-height:100%; margin-top:0; margin-bottom:0;">* General changes</h4>
+        <h3 style="margin-top:0; margin-bottom:0;">CHANGES FROM BETA 5</h3>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <p style="margin-top:0; margin-bottom:0;"><b>* General changes</b></p>
+        <p style="margin-top:0; margin-bottom:0;">- Possibility to now monitor remote processes, via WMI or via a client-server architecture</p>
+        <p style="margin-top:0; margin-bottom:0;">- Major code refactoring designed for multi-threading and a good genericity</p>
+        <p style="margin-top:0; margin-bottom:0;">- Performance improvements</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <p style="margin-top:0; margin-bottom:0;"><b>* GUI changes</b></p>
+        <p style="margin-top:0; margin-bottom:0;">- Added an Orb (Ribbon style)</p>
+        <p style="margin-top:0; margin-bottom:0;">- Windows Vista message boxes</p>
+        <p style="margin-top:0; margin-bottom:0;">- Detail form for Services</p>
+        <p style="margin-top:0; margin-bottom:0;">- New about box</p>
+        <p style="margin-top:0; margin-bottom:0;">- Command button (kill, pause, resume...) on 'process details form'</p>
+        <p style="margin-top:0; margin-bottom:0;">- Save preferences for columns, form position...</p>
+        <p style="margin-top:0; margin-bottom:0;">- Possibility to change the order of columns</p>
+        <p style="margin-top:0; margin-bottom:0;">- Echap key close forms</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <p style="margin-top:0; margin-bottom:0;"><b>* New functions</b></p>
+        <p style="margin-top:0; margin-bottom:0;">- 'Hidden processes' feature to detect basic rootkits (local only for now)</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <p style="margin-top:0; margin-bottom:0;"><b>* New informations availables</b></p>
+        <p style="margin-top:0; margin-bottom:0;">- New services (now all services) are displayed with more informations</p>
+        <p style="margin-top:0; margin-bottom:0;">- Pending tasks view + meta-counters (obj creation date + pending tasks count)</p>
+        <p style="margin-top:0; margin-bottom:0;">- Displays information of all processes (even System Process) thanks to ZwQuerySystemInformation</p>
+        <p style="margin-top:0; margin-bottom:0;">- HandleCount counter</p>
+        <p style="margin-top:0; margin-bottom:0;">- IO delta for processes</p>
+        <p style="margin-top:0; margin-bottom:0;">- ImageFile of memory regions</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <p style="margin-top:0; margin-bottom:0;"><b>* New options</b></p>
+        <p style="margin-top:0; margin-bottom:0;">- Hide when close</p>
+        <p style="margin-top:0; margin-bottom:0;">- Customizable history buffer</p>
+        <p style="margin-top:0; margin-bottom:0;">- Reset settings options</p>
+        <p style="margin-top:0; margin-bottom:0;">- Now options are saved in AppData (no more XML file)</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <p style="margin-top:0; margin-bottom:0;"><b>* Minor changes</b></p>
+        <p style="margin-top:0; margin-bottom:0;">- Check update &amp; download last update are asynchronous</p>
+        <p style="margin-top:0; margin-bottom:0;">- Removed 'Shutdown Service' command (useless)</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <p style="margin-top:0; margin-bottom:0;"><b>* Bug fixes</b></p>
+        <p style="margin-top:0; margin-bottom:0;">- Too much to be listed</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <h3 style="margin-top:0; margin-bottom:0;">CHANGES FROM BETA 4</h3>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <h4 style="margin-top:0; margin-bottom:0;">* General changes</h4>
         <p style="line-height:100%; margin-top:0; margin-bottom:0;">- Code refactoring</p>
         <p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
         <h4 style="line-height:100%; margin-top:0; margin-bottom:0;">* GUI changes</h4>
@@ -159,7 +203,7 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
         <p>&nbsp;</p>
         <DIV>
             <P id=footer><i>Copyright (c) 2008-2009 violent_ken</i></P>
-            <P><i>Last update of this page : 2009-05-01&nbsp;14:25</i></P>
+            <P><i>Last update of this page : 2009-05-23&nbsp;20:00</i></P>
         </DIV>
         <P></P>
         <p>
