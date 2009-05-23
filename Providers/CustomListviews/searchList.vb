@@ -225,10 +225,10 @@ Public Class searchList
                 isub.Text = isub.Text
             Next
         Next
-        Me.EndUpdate()
 
         ' Sort items
         Me.Sort()
+        Me.EndUpdate()
 
         _firstItemUpdate = False
 

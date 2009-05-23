@@ -29,7 +29,7 @@ Public MustInherit Class customLV
     Public Event HasChangedColumns()
 
     ' ========================================
-    ' Friend
+    ' Protected
     ' ========================================
 
     Protected _firstItemUpdate As Boolean = True
@@ -43,6 +43,7 @@ Public MustInherit Class customLV
     Public Shared NEW_ITEM_COLOR As Color = Color.FromArgb(128, 255, 0)
     Public Shared DELETED_ITEM_COLOR As Color = Color.FromArgb(255, 64, 48)
 
+    Protected Const EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE As Integer = 5
 
     Protected _catchErrors As Boolean = False
     Protected _reorgCol As Boolean = True

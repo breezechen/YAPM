@@ -221,7 +221,7 @@ Public Class networkList
 
         ' Now add all new items to listview
         ' If first time, lock listview
-        If _firstItemUpdate Then Me.BeginUpdate()
+        If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE Then Me.BeginUpdate()
         For Each z As String In _dicoNew.Keys
             ' Add to listview
             Dim _subItems() As ListViewItem.ListViewSubItem
@@ -232,7 +232,7 @@ Public Class networkList
             Dim _tmp As cNetwork = _dico.Item(z)
             AddItemWithStyle(z, _tmp).SubItems.AddRange(_subItems)
         Next
-        If _firstItemUpdate Then Me.EndUpdate()
+        If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE Then Me.EndUpdate()
         _dicoNew.Clear()
 
 
