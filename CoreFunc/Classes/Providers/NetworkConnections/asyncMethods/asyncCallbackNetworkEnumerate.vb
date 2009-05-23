@@ -156,6 +156,7 @@ Public Class asyncCallbackNetworkEnumerate
                             .dwState = tcp_item.dwState
                             .local = n
                             .remote = n2
+                            .dwType = API.NetworkProtocol.Tcp
                         End With
                         Dim key As String = res.dwOwningPid.ToString & "-" & API.NetworkProtocol.Tcp.ToString & "-" & res.local.ToString
                         If _dico.ContainsKey(key) = False Then
@@ -212,6 +213,7 @@ Public Class asyncCallbackNetworkEnumerate
                             .dwOwningPid = udp_item.dwOwningPid
                             .dwState = 0
                             .local = n
+                            .dwType = API.NetworkProtocol.Udp
                             .remote = Nothing
                         End With
 
