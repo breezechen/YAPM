@@ -86,15 +86,15 @@ Public Class cNetworkConnection
         Select Case _conObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 _connected = False
-                _control.Invoke(Disconnected, True)
+                If Disconnected IsNot Nothing AndAlso _control.Created Then _
+                    _control.Invoke(Disconnected, True)
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
             Case Else
                 ' Local
                 _connected = False
-                If Disconnected IsNot Nothing Then
+                If Disconnected IsNot Nothing AndAlso _control.Created Then _
                     _control.Invoke(Disconnected, True)
-                End If
         End Select
     End Sub
 

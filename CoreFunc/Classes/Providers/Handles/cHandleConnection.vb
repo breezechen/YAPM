@@ -71,8 +71,8 @@ Public Class cHandleConnection
                 ' Local
                 _connected = True
                 Try
-                    If Connected IsNot Nothing Then _
-                    _control.Invoke(Connected, True)
+                    If Connected IsNot Nothing AndAlso _control.Created Then _
+                        _control.Invoke(Connected, True)
                 Catch ex As Exception
                     '
                 End Try
@@ -84,14 +84,14 @@ Public Class cHandleConnection
         Select Case _conObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 _connected = False
-                If Disconnected IsNot Nothing Then _
+                If Disconnected IsNot Nothing AndAlso _control.Created Then _
                     _control.Invoke(Disconnected, True)
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
             Case Else
                 ' Local
                 _connected = False
-                If Disconnected IsNot Nothing Then _
+                If Disconnected IsNot Nothing AndAlso _control.Created Then _
                     _control.Invoke(Disconnected, True)
         End Select
     End Sub

@@ -97,7 +97,7 @@ Public Class cServiceConnection
                 End If
                 _connected = True
                 Try
-                    If Connected IsNot Nothing Then _
+                    If Connected IsNot Nothing AndAlso _control.Created Then _
                         _control.Invoke(Connected, True)
                 Catch ex As Exception
                     '
@@ -111,11 +111,11 @@ Public Class cServiceConnection
         Select Case _conObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 _connected = False
-                If Disconnected IsNot Nothing Then _
+                If Disconnected IsNot Nothing AndAlso _control.Created Then _
                     _control.Invoke(Disconnected, True)
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
                 _connected = False
-                If Disconnected IsNot Nothing Then _
+                If Disconnected IsNot Nothing AndAlso _control.Created Then _
                     _control.Invoke(Disconnected, True)
             Case Else
                 ' Local
@@ -124,7 +124,7 @@ Public Class cServiceConnection
                     hSCM = IntPtr.Zero
                 End If
                 _connected = False
-                If Disconnected IsNot Nothing Then _
+                If Disconnected IsNot Nothing AndAlso _control.Created Then _
                     _control.Invoke(Disconnected, True)
         End Select
     End Sub
