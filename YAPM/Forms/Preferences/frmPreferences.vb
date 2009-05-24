@@ -226,7 +226,8 @@ Public Class frmPreferences
 
             Dim s As String
             s = "Downloading informations on sourceforge.net webpage..."
-            dObj.ctrl.Invoke(dObj.deg, s, False, False)
+            If dObj.deg IsNot Nothing AndAlso dObj.ctrl.Created Then _
+                dObj.ctrl.Invoke(dObj.deg, s, False, False)
             ' _inv.Invoke(s, False, False)
 
             'download code
@@ -234,7 +235,8 @@ Public Class frmPreferences
             If source.Length = 0 Then Return False
 
             s = "Retrieve last version number from downloaded informations..."
-            dObj.ctrl.Invoke(dObj.deg, s, False, False)
+            If dObj.deg IsNot Nothing AndAlso dObj.ctrl.Created Then _
+                dObj.ctrl.Invoke(dObj.deg, s, False, False)
 
             ' parse code, retrive last update info and if necessary changelog
 
@@ -256,12 +258,14 @@ Public Class frmPreferences
                 s &= "Result : YOUR VERSION IS UP TO DATE"
             End If
 
-            dObj.ctrl.Invoke(dObj.deg, s, False, False)
+            If dObj.deg IsNot Nothing AndAlso dObj.ctrl.Created Then _
+                dObj.ctrl.Invoke(dObj.deg, s, False, False)
         Catch ex As Exception
             r = False
         End Try
 
-        dObj.ctrl.Invoke(dObj.deg, Nothing, True, r)
+        If dObj.deg IsNot Nothing AndAlso dObj.ctrl.Created Then _
+            dObj.ctrl.Invoke(dObj.deg, Nothing, True, r)
 
     End Function
 
@@ -318,30 +322,35 @@ Public Class frmPreferences
             Dim tofind As String = "<LI><A href=" & Chr(34) & "http://downloads"
             Dim source As String = mdlInternet.DownloadPage("http://yaprocmon.sourceforge.net/index.html")
             If source.Length = 0 Then
-                dObj.ctrl.Invoke(dObj.deg)
+                If dObj.deg IsNot Nothing AndAlso dObj.ctrl.Created Then _
+                    dObj.ctrl.Invoke(dObj.deg)
                 Exit Sub
             End If
             Dim x As Integer = InStr(source, tofind, CompareMethod.Binary)
             Dim x2 As Integer = InStr(x + 30, source, Chr(34), CompareMethod.Binary)
             If x = 0 Or x2 = 0 Then
-                dObj.ctrl.Invoke(dObj.deg)
+                If dObj.deg IsNot Nothing AndAlso dObj.ctrl.Created Then _
+                    dObj.ctrl.Invoke(dObj.deg)
                 Exit Sub
             End If
 
             Dim sUrl As String = source.Substring(x + 12, x2 - x - 13)
             Try
                 If Len(sUrl) = 0 Then
-                    dObj.ctrl.Invoke(dObj.deg)
+                    If dObj.deg IsNot Nothing AndAlso dObj.ctrl.Created Then _
+                        dObj.ctrl.Invoke(dObj.deg)
                     Exit Sub
                 End If
             Catch ex As Exception
-                dObj.ctrl.Invoke(dObj.deg)
+                If dObj.deg IsNot Nothing AndAlso dObj.ctrl.Created Then _
+                    dObj.ctrl.Invoke(dObj.deg)
                 Exit Sub
             End Try
-
-            dObj.ctrl.Invoke(dObj.deg2, sUrl, dObj.path)
+            If dObj.deg IsNot Nothing AndAlso dObj.ctrl.Created Then _
+                dObj.ctrl.Invoke(dObj.deg2, sUrl, dObj.path)
         Catch ex As Exception
-            dObj.ctrl.Invoke(dObj.deg)
+            If dObj.deg IsNot Nothing AndAlso dObj.ctrl.Created Then _
+                dObj.ctrl.Invoke(dObj.deg)
         End Try
 
     End Sub
@@ -428,6 +437,7 @@ Public Class frmPreferences
     Private Sub cmdResetAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdResetAll.Click
         If MsgBox("Are you sure ?", MsgBoxStyle.YesNo, "Reset settings") = MsgBoxResult.Yes Then
             My.Settings.Reset()
+            Call cmdDefaut_Click(Nothing, Nothing)
             My.Settings.Save()
         End If
     End Sub

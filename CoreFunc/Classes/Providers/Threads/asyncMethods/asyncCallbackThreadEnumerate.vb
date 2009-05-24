@@ -60,7 +60,8 @@ Public Class asyncCallbackThreadEnumerate
                 dico.Add(keys(x), DirectCast(lst(x), threadInfos))
             Next
         End If
-        ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
+        If deg IsNot Nothing AndAlso ctrl.Created Then _
+            ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
     End Sub
     Private Shared sem As New System.Threading.Semaphore(1, 1)
     Public Sub Process(ByVal thePoolObj As Object)
@@ -96,7 +97,8 @@ Public Class asyncCallbackThreadEnumerate
                     Try
                         res = con.wmiSearcher.Get()
                     Catch ex As Exception
-                        ctrl.Invoke(deg, False, Nothing, ex.Message)
+                        If deg IsNot Nothing AndAlso ctrl.Created Then _
+                            ctrl.Invoke(deg, False, Nothing, ex.Message)
                         sem.Release()
                         Exit Sub
                     End Try
@@ -143,7 +145,9 @@ Public Class asyncCallbackThreadEnumerate
                         End If
                     Next
                 Next
-                ctrl.Invoke(deg, True, _dico, Nothing, pObj.forInstanceId)
+
+                If deg IsNot Nothing AndAlso ctrl.Created Then _
+                    ctrl.Invoke(deg, True, _dico, Nothing, pObj.forInstanceId)
 
             Case Else
                 ' Local
@@ -157,7 +161,9 @@ Public Class asyncCallbackThreadEnumerate
                     End If
                 Next
                 asyncCallbackProcEnumerate.sem.Release()
-                ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
+
+                If deg IsNot Nothing AndAlso ctrl.Created Then _
+                    ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
 
         End Select
 

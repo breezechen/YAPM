@@ -65,7 +65,8 @@ Public Class asyncCallbackServDepEnumerate
                 dico.Add(keys(x), DirectCast(lst(x), serviceInfos))
             Next
         End If
-        ctrl.Invoke(deg, True, dico, Nothing, _instanceId, type)
+        If deg IsNot Nothing AndAlso ctrl.Created Then _
+            ctrl.Invoke(deg, True, dico, Nothing, _instanceId, type)
     End Sub
     Friend Shared sem As New System.Threading.Semaphore(1, 1)
     Public Sub Process(ByVal thePoolObj As Object)
@@ -102,7 +103,8 @@ Public Class asyncCallbackServDepEnumerate
                 Else
                     recursiveAddDep2(pObj.name, pObj.name, _dico)
                 End If
-                ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId, pObj.type)
+                If deg IsNot Nothing AndAlso ctrl.Created Then _
+                    ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId, pObj.type)
 
         End Select
 

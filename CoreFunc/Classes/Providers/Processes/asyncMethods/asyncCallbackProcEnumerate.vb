@@ -142,7 +142,8 @@ Public Class asyncCallbackProcEnumerate
                 dico.Add(keys(x), DirectCast(lst(x), processInfos))
             Next
         End If
-        ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
+        If deg IsNot Nothing AndAlso ctrl.Created Then _
+            ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
     End Sub
 
     Friend Shared sem As New System.Threading.Semaphore(1, 1)
@@ -179,7 +180,8 @@ Public Class asyncCallbackProcEnumerate
                     Try
                         res = con.wmiSearcher.Get()
                     Catch ex As Exception
-                        ctrl.Invoke(deg, False, Nothing, ex.Message, pObj.forInstanceId)
+                        If deg IsNot Nothing AndAlso ctrl.Created Then _
+                            ctrl.Invoke(deg, False, Nothing, ex.Message, pObj.forInstanceId)
                         sem.Release()
                         Exit Sub
                     End Try
@@ -266,7 +268,8 @@ Public Class asyncCallbackProcEnumerate
                             dicoNewProcesses.Remove(it.Key)
                         End If
                     Next
-                    ctrl.Invoke(deg, True, _dico, Nothing, pObj.forInstanceId)
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, True, _dico, Nothing, pObj.forInstanceId)
 
                 Case Else
                     ' Local
@@ -295,7 +298,8 @@ Public Class asyncCallbackProcEnumerate
 
                     End Select
 
-                    ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
             End Select
 
         End SyncLock

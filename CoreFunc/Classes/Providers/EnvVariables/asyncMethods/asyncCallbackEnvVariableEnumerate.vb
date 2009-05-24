@@ -62,7 +62,8 @@ Public Class asyncCallbackEnvVariableEnumerate
                 dico.Add(keys(x), DirectCast(lst(x), envVariableInfos))
             Next
         End If
-        ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
+        If deg IsNot Nothing AndAlso ctrl.Created Then _
+            ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
     End Sub
     Private Shared sem As New System.Threading.Semaphore(1, 1)
     Public Sub Process(ByVal thePoolObj As Object)
@@ -101,7 +102,8 @@ Public Class asyncCallbackEnvVariableEnumerate
                     _dico.Add(var(x), New envVariableInfos(var(x), val(x), pObj.pid))
                 Next
 
-                ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
+                If deg IsNot Nothing AndAlso ctrl.Created Then _
+                    ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
 
         End Select
 

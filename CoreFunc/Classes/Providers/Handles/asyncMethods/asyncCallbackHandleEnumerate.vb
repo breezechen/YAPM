@@ -63,7 +63,8 @@ Public Class asyncCallbackHandleEnumerate
                 dico.Add(keys(x), DirectCast(lst(x), handleInfos))
             Next
         End If
-        ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
+        If deg IsNot Nothing AndAlso ctrl.Created Then _
+            ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
     End Sub
     Private Shared sem As New System.Threading.Semaphore(1, 1)
     Public Sub Process(ByVal thePoolObj As Object)
@@ -125,7 +126,8 @@ Public Class asyncCallbackHandleEnumerate
                     End If
                 Next
 
-                ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
+                If deg IsNot Nothing AndAlso ctrl.Created Then _
+                    ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
 
         End Select
 

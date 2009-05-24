@@ -60,7 +60,8 @@ Public Class asyncCallbackModuleEnumerate
                 dico.Add(keys(x), DirectCast(lst(x), moduleInfos))
             Next
         End If
-        ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
+        If deg IsNot Nothing AndAlso ctrl.Created Then _
+            ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
     End Sub
     Private Shared sem As New System.Threading.Semaphore(1, 1)
     Public Sub Process(ByVal thePoolObj As Object)
@@ -92,7 +93,8 @@ Public Class asyncCallbackModuleEnumerate
                 Try
                     res = con.wmiSearcher.Get()
                 Catch ex As Exception
-                    ctrl.Invoke(deg, False, Nothing, ex.Message, pObj.forInstanceId)
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, False, Nothing, ex.Message, pObj.forInstanceId)
                     sem.Release()
                     Exit Sub
                 End Try
