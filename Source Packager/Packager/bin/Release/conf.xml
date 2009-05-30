@@ -4,6 +4,7 @@
 		<dir>TaskDialog</dir>
 		<dir>Providers</dir>
 		<dir>CoreFunc</dir>
+		<dir>DependenciesViewer</dir>
 	</roots>
 	<included_file>
 		<file>changelog_sf.txt</file>
@@ -15,6 +16,7 @@
 		<file>\YAPM\bin\release\README.txt</file>
 		<file>\YAPM\bin\release\launch server.bat</file>
 		<file>YAPM_without_C#_needed.sln</file>
+		<file>TODO.txt</file>
 	</included_file>
 	<excluded_file>
 		<ext>user</ext>
