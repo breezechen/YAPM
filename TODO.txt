@@ -12,12 +12,12 @@ TODO LIST
 - affinity process/thread (socket)
 - bug connections (crashes...)
 - refresh services trop rapide -> impossible de récupérer des infos par socket après (checker semaphore)
+- reports
+- log processus
+- TODO, TOCHANGE, TODO_
 
 - getmappedimage... pour socket
 - UAC -> tester
-- reports
-- TODO, TOCHANGE, TODO_
-- log processus
 - SBA ???
 - ~~ : refresh des threads (details) nécessite refresh des process
 - Exception non gérée à 0x71fb5108 dans YAPM.exe : 0xC0000005: Violation d'accès lors de la lecture de l'emplacement 0x00000004. (lors de création/destruction de process -> tester avec les 20000)

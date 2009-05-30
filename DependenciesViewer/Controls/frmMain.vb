@@ -122,20 +122,9 @@ Public Class frmMain
         Call SetWindowTheme(Me.lvImports.Handle, "explorer", Nothing)
     End Sub
 
-    Private Sub OpenToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpenToolStripMenuItem.Click
-        CDO.AddExtension = True
-        CDO.CheckFileExists = True
-        CDO.CheckPathExists = True
-        CDO.DereferenceLinks = True
-        CDO.Filter = "Assemblies (exe,dll)|*.exe;*.dll|All|*.*"
-        CDO.RestoreDirectory = True
-        If CDO.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
-            Call OpenReferences(CDO.FileName)
-        End If
-    End Sub
-
     Public Sub HideOpenMenu()
         Me.OpenToolStripMenuItem.Visible = False
+        Me.ToolStripMenuItem3.Visible = False
     End Sub
 
     Private Sub ToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem1.Click
@@ -186,5 +175,21 @@ Public Class frmMain
         Catch ex As Exception
             '
         End Try
+    End Sub
+
+    Private Sub QuitToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles QuitToolStripMenuItem.Click
+        Me.Close()
+    End Sub
+
+    Private Sub OpenToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles OpenToolStripMenuItem.Click
+        CDO.AddExtension = True
+        CDO.CheckFileExists = True
+        CDO.CheckPathExists = True
+        CDO.DereferenceLinks = True
+        CDO.Filter = "Assemblies (exe,dll)|*.exe;*.dll|All|*.*"
+        CDO.RestoreDirectory = True
+        If CDO.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
+            Call OpenReferences(CDO.FileName)
+        End If
     End Sub
 End Class

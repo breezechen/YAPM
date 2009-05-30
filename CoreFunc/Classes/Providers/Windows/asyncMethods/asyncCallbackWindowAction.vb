@@ -190,7 +190,7 @@ Public Class asyncCallbackWindowAction
                         res = API.SetWindowText(pObj.handle, New StringBuilder(pObj.s))
                 End Select
 
-                _theDeg.Invoke(Err.LastDllError <> 0, pObj.action, pObj.handle.ToInt32, API.GetError, pObj.newAction)
+                _theDeg.Invoke(Err.LastDllError = 0, pObj.action, pObj.handle.ToInt32, API.GetError, pObj.newAction)
         End Select
     End Sub
 
