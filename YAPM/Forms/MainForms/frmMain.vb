@@ -4284,7 +4284,6 @@ Public Class frmMain
             Dim _depForm As New DependenciesViewer.frmMain
             With _depForm
                 .OpenReferences(it.Infos.Path)
-                .Text = "Dependencies - " & it.Infos.Path
                 .HideOpenMenu()
                 .Show()
             End With
@@ -4297,5 +4296,23 @@ Public Class frmMain
 
     Private Sub DependenciesViewerToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DependenciesViewerToolStripMenuItem.Click
         Call butShowDepViewer_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub DependenyViewerToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DependencyViewerToolStripMenuItem.Click
+        For Each it As cProcess In Me.lvProcess.GetSelectedItems
+            Dim frm As New DependenciesViewer.frmMain
+            frm.HideOpenMenu()
+            frm.OpenReferences(it.Infos.Path)
+            frm.Show()
+        Next
+    End Sub
+
+    Private Sub DependencyViewerToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DependencyViewerToolStripMenuItem1.Click
+        For Each it As cService In Me.lvServices.GetSelectedItems
+            Dim frm As New DependenciesViewer.frmMain
+            frm.HideOpenMenu()
+            frm.OpenReferences(it.Infos.ImagePath)
+            frm.Show()
+        Next
     End Sub
 End Class

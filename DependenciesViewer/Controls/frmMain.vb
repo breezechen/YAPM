@@ -12,6 +12,7 @@ Public Class frmMain
 
     Public Sub OpenReferences(ByVal asmFile As String)
 
+        Me.Text = "Dependencies - " & asmFile
         Try
             tree = New NativeDependenciesTree(asmFile)
             tvDepends.Nodes.Clear()
@@ -129,7 +130,6 @@ Public Class frmMain
         CDO.Filter = "Assemblies (exe,dll)|*.exe;*.dll|All|*.*"
         CDO.RestoreDirectory = True
         If CDO.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
-            Me.Text = "Dependencies - " & CDO.FileName
             Call OpenReferences(CDO.FileName)
         End If
     End Sub

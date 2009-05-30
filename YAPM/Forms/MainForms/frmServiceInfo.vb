@@ -516,7 +516,6 @@ Public Class frmServiceInfo
         Dim _depForm As New DependenciesViewer.frmMain
         With _depForm
             .OpenReferences(Me.curServ.Infos.ImagePath)
-            .Text = "Dependencies - " & Me.curServ.Infos.ImagePath
             .HideOpenMenu()
             .Show()
         End With

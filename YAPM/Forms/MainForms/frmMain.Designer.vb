@@ -663,6 +663,8 @@ Partial Class frmMain
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerNetwork = New System.Windows.Forms.Timer(Me.components)
         Me.timerStateBasedActions = New System.Windows.Forms.Timer(Me.components)
+        Me.DependencyViewerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.DependencyViewerToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.menuProc.SuspendLayout()
         Me.menuService.SuspendLayout()
         Me.mainMenu.SuspendLayout()
@@ -802,9 +804,9 @@ Partial Class frmMain
         '
         'menuProc
         '
-        Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.KillProcessTreeToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.ReduceWorkingSetSizeToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ReanalizeToolStripMenuItem, Me.ToolStripMenuItem38, Me.ShowModulesToolStripMenuItem, Me.ShowThreadsToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.ShowWindowsToolStripMenuItem, Me.ShowAllToolStripMenuItem, Me.SelectedServicesToolStripMenuItem, Me.ToolStripMenuItem8, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.GoogleSearchToolStripMenuItem, Me.ToolStripMenuItem37, Me.chooseColumns})
+        Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.KillProcessTreeToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.ReduceWorkingSetSizeToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.ReanalizeToolStripMenuItem, Me.ToolStripMenuItem38, Me.ShowModulesToolStripMenuItem, Me.ShowThreadsToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.ShowWindowsToolStripMenuItem, Me.ShowAllToolStripMenuItem, Me.SelectedServicesToolStripMenuItem, Me.ToolStripMenuItem8, Me.DependencyViewerToolStripMenuItem, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.GoogleSearchToolStripMenuItem, Me.ToolStripMenuItem37, Me.chooseColumns})
         Me.menuProc.Name = "menuProc"
-        Me.menuProc.Size = New System.Drawing.Size(200, 440)
+        Me.menuProc.Size = New System.Drawing.Size(200, 462)
         '
         'KillToolStripMenuItem
         '
@@ -999,9 +1001,9 @@ Partial Class frmMain
         '
         'menuService
         '
-        Me.menuService.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem9, Me.ToolStripMenuItem10, Me.ToolStripMenuItem11, Me.ToolStripMenuItem12, Me.ReanalyzeToolStripMenuItem, Me.ToolStripSeparator2, Me.ToolStripMenuItem20, Me.ToolStripMenuItem21, Me.FileDetailsToolStripMenuItem, Me.ToolStripMenuItem2, Me.GoogleSearchToolStripMenuItem1, Me.ToolStripMenuItem42, Me.SelectedAssociatedProcessToolStripMenuItem1, Me.ToolStripMenuItem5, Me.ChooseColumnsToolStripMenuItem})
+        Me.menuService.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem9, Me.ToolStripMenuItem10, Me.ToolStripMenuItem11, Me.ToolStripMenuItem12, Me.ReanalyzeToolStripMenuItem, Me.ToolStripSeparator2, Me.DependencyViewerToolStripMenuItem1, Me.ToolStripMenuItem20, Me.ToolStripMenuItem21, Me.FileDetailsToolStripMenuItem, Me.ToolStripMenuItem2, Me.GoogleSearchToolStripMenuItem1, Me.ToolStripMenuItem42, Me.SelectedAssociatedProcessToolStripMenuItem1, Me.ToolStripMenuItem5, Me.ChooseColumnsToolStripMenuItem})
         Me.menuService.Name = "menuProc"
-        Me.menuService.Size = New System.Drawing.Size(220, 270)
+        Me.menuService.Size = New System.Drawing.Size(220, 314)
         '
         'ToolStripMenuItem9
         '
@@ -6910,6 +6912,18 @@ Partial Class frmMain
         '
         Me.timerStateBasedActions.Interval = 1000
         '
+        'DependencyViewerToolStripMenuItem
+        '
+        Me.DependencyViewerToolStripMenuItem.Name = "DependencyViewerToolStripMenuItem"
+        Me.DependencyViewerToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
+        Me.DependencyViewerToolStripMenuItem.Text = "Dependeny viewer..."
+        '
+        'DependencyViewerToolStripMenuItem1
+        '
+        Me.DependencyViewerToolStripMenuItem1.Name = "DependencyViewerToolStripMenuItem1"
+        Me.DependencyViewerToolStripMenuItem1.Size = New System.Drawing.Size(219, 22)
+        Me.DependencyViewerToolStripMenuItem1.Text = "Dependency viewer..."
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -7675,5 +7689,7 @@ Partial Class frmMain
     Friend WithEvents butModuleViewModuleDep As System.Windows.Forms.RibbonButton
     Friend WithEvents DependenciesViewerToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FeedBackToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DependencyViewerToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DependencyViewerToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
 
 End Class

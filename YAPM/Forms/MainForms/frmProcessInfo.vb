@@ -2214,7 +2214,6 @@ Public Class frmProcessInfo
         Dim _depForm As New DependenciesViewer.frmMain
         With _depForm
             .OpenReferences(Me.curProc.Infos.Path)
-            .Text = "Dependencies - " & Me.curProc.Infos.Path
             .HideOpenMenu()
             .Show()
         End With
@@ -2226,7 +2225,6 @@ Public Class frmProcessInfo
             Dim _depForm As New DependenciesViewer.frmMain
             With _depForm
                 .OpenReferences(s)
-                .Text = "Dependencies - " & s
                 .HideOpenMenu()
                 .Show()
             End With
