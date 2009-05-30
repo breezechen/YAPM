@@ -23,9 +23,9 @@ Partial Class frmServiceInfo
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim CConnection1 As CoreFunc.cConnection = New CoreFunc.cConnection
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmServiceInfo))
         Dim CConnection2 As CoreFunc.cConnection = New CoreFunc.cConnection
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmServiceInfo))
+        Dim CConnection3 As CoreFunc.cConnection = New CoreFunc.cConnection
         Me.tabProcess = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
         Me.GroupBox7 = New System.Windows.Forms.GroupBox
@@ -123,6 +123,7 @@ Partial Class frmServiceInfo
         Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip
         Me.Timer = New System.Windows.Forms.Timer(Me.components)
+        Me.cmdInspectExe = New System.Windows.Forms.Button
         Me.tabProcess.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -356,6 +357,7 @@ Partial Class frmServiceInfo
         '
         'gpProcGeneralFile
         '
+        Me.gpProcGeneralFile.Controls.Add(Me.cmdInspectExe)
         Me.gpProcGeneralFile.Controls.Add(Me.cmdShowFileDetails)
         Me.gpProcGeneralFile.Controls.Add(Me.cmdShowFileProperties)
         Me.gpProcGeneralFile.Controls.Add(Me.cmdOpenDirectory)
@@ -410,7 +412,7 @@ Partial Class frmServiceInfo
         Me.txtServicePath.Location = New System.Drawing.Point(85, 82)
         Me.txtServicePath.Name = "txtServicePath"
         Me.txtServicePath.ReadOnly = True
-        Me.txtServicePath.Size = New System.Drawing.Size(202, 22)
+        Me.txtServicePath.Size = New System.Drawing.Size(175, 22)
         Me.txtServicePath.TabIndex = 2
         '
         'Label13
@@ -1002,8 +1004,8 @@ Partial Class frmServiceInfo
         '
         'tv2
         '
-        CConnection1.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
-        Me.tv2.ConnectionObj = CConnection1
+        CConnection2.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.tv2.ConnectionObj = CConnection2
         Me.tv2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tv2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tv2.ImageIndex = 0
@@ -1088,8 +1090,8 @@ Partial Class frmServiceInfo
         '
         'tv
         '
-        CConnection2.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
-        Me.tv.ConnectionObj = CConnection2
+        CConnection3.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.tv.ConnectionObj = CConnection3
         Me.tv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tv.ImageIndex = 0
@@ -1242,6 +1244,15 @@ Partial Class frmServiceInfo
         '
         Me.Timer.Enabled = True
         Me.Timer.Interval = 1000
+        '
+        'cmdInspectExe
+        '
+        Me.cmdInspectExe.Image = Global.YAPM.My.Resources.Resources.dllIcon
+        Me.cmdInspectExe.Location = New System.Drawing.Point(266, 81)
+        Me.cmdInspectExe.Name = "cmdInspectExe"
+        Me.cmdInspectExe.Size = New System.Drawing.Size(26, 26)
+        Me.cmdInspectExe.TabIndex = 19
+        Me.cmdInspectExe.UseVisualStyleBackColor = True
         '
         'frmServiceInfo
         '
@@ -1403,4 +1414,5 @@ Partial Class frmServiceInfo
     Friend WithEvents cmdServDet2 As System.Windows.Forms.Button
     Friend WithEvents txtCommand As System.Windows.Forms.TextBox
     Friend WithEvents Label22 As System.Windows.Forms.Label
+    Friend WithEvents cmdInspectExe As System.Windows.Forms.Button
 End Class

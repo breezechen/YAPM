@@ -225,6 +225,7 @@ Public Class frmServiceInfo
         Me.cmdShowFileDetails.Enabled = _local
         Me.cmdShowFileProperties.Enabled = _local
         Me.cmdOpenDirectory.Enabled = _local
+        Me.cmdInspectExe.Enabled = _local
 
         Me.txtServicePath.Text = GetPathFromCommand(curServ.GetInformation("ImagePath"))
         Me.cbStart.Text = curServ.Infos.StartType.ToString
@@ -511,4 +512,13 @@ Public Class frmServiceInfo
         End If
     End Sub
 
+    Private Sub cmdInspectExe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdInspectExe.Click
+        Dim _depForm As New DependenciesViewer.frmMain
+        With _depForm
+            .OpenReferences(Me.curServ.Infos.ImagePath)
+            .Text = "Dependencies - " & Me.curServ.Infos.ImagePath
+            .HideOpenMenu()
+            .Show()
+        End With
+    End Sub
 End Class

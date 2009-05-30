@@ -142,8 +142,12 @@ Public Class asyncCallbackProcEnumerate
                 dico.Add(keys(x), DirectCast(lst(x), processInfos))
             Next
         End If
-        If deg IsNot Nothing AndAlso ctrl.Created Then _
+        Try
+            'If deg IsNot Nothing AndAlso ctrl.Created Then _
             ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
+        Catch ex As Exception
+            '
+        End Try
     End Sub
 
     Friend Shared sem As New System.Threading.Semaphore(1, 1)
@@ -268,8 +272,12 @@ Public Class asyncCallbackProcEnumerate
                             dicoNewProcesses.Remove(it.Key)
                         End If
                     Next
-                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                    Try
+                        'If deg IsNot Nothing AndAlso ctrl.Created Then _
                         ctrl.Invoke(deg, True, _dico, Nothing, pObj.forInstanceId)
+                    Catch ex As Exception
+                        '
+                    End Try
 
                 Case Else
                     ' Local
@@ -297,9 +305,13 @@ Public Class asyncCallbackProcEnumerate
                             cProcess.SemCurrentProcesses.Release()
 
                     End Select
-
-                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+ 
+                    Try
+                        'If deg IsNot Nothing AndAlso ctrl.Created Then _
                         ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
+                    Catch ex As Exception
+                        '
+                    End Try
             End Select
 
         End SyncLock

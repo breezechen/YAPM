@@ -299,6 +299,7 @@ Public Class frmProcessInfo
         _frmMain.SetToolTip(Me.txtImageVersion, "Version of file")
         _frmMain.SetToolTip(Me.txtProcessPath, "Path of file")
         _frmMain.SetToolTip(Me.cmdShowFileDetails, "Show file details")
+        _frmMain.SetToolTip(Me.cmdInspectExe, "Show dependencies")
         _frmMain.SetToolTip(Me.cmdShowFileProperties, "Open file property window")
         _frmMain.SetToolTip(Me.cmdOpenDirectory, "Open directory of file")
         _frmMain.SetToolTip(Me.txtParentProcess, "Parent process")
@@ -418,11 +419,13 @@ Public Class frmProcessInfo
         Me.SplitContainerStrings.Enabled = _notWMI
         Me.SplitContainerLog.Enabled = _notWMI
         Me.cmdShowFileDetails.Enabled = _local
+        Me.cmdInspectExe.Enabled = _local
         Me.cmdShowFileProperties.Enabled = _local
         Me.cmdOpenDirectory.Enabled = _local
         Me.ShowFileDetailsToolStripMenuItem.Enabled = _notWMI
         Me.ToolStripMenuItem36.Enabled = _notWMI
         Me.ViewMemoryToolStripMenuItem.Enabled = _local
+        Me.ViewDependenciesToolStripMenuItem.Enabled = _local
 
         Me.OpenFirectoryToolStripMenuItem.Enabled = _local
         Me.FileDetailsToolStripMenuItem.Enabled = _local
@@ -2207,4 +2210,26 @@ Public Class frmProcessInfo
         Pref.SaveListViewColumns(Me.lvProcEnv, "COLprocdetail_envvariable")
     End Sub
 
+    Private Sub cmdInspectExe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdInspectExe.Click
+        Dim _depForm As New DependenciesViewer.frmMain
+        With _depForm
+            .OpenReferences(Me.curProc.Infos.Path)
+            .Text = "Dependencies - " & Me.curProc.Infos.Path
+            .HideOpenMenu()
+            .Show()
+        End With
+    End Sub
+
+    Private Sub ViewDependenciesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ViewDependenciesToolStripMenuItem.Click
+        If Me.lvModules.SelectedItems.Count > 0 Then
+            Dim s As String = Me.lvModules.GetSelectedItem.Infos.Path
+            Dim _depForm As New DependenciesViewer.frmMain
+            With _depForm
+                .OpenReferences(s)
+                .Text = "Dependencies - " & s
+                .HideOpenMenu()
+                .Show()
+            End With
+        End If
+    End Sub
 End Class

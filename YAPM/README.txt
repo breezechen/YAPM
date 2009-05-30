@@ -21,7 +21,8 @@ Yet Another (remote) Process Monitor (YAPM) is a powerful aplication for Windows
 
 HOW TO USE
 
-For now there is no help file available, so you'll have to learn to use YAPM by yourself :-) But don't worry, it's easy and intuitive ! It just looks like Process Explorer or other task manager.
+Help is available here : http://yaprocmon.sourceforge.net/help.html.
+But don't worry, YAPM is easy and intuitive ! It just looks like Process Explorer or other task manager.
 No installation is needed, just double-click on YAPM to run it. For now, you should run YAPM with an administrator account.
 
 If you want to monitor remote systems, there are two methods :
@@ -60,6 +61,7 @@ YAPM supports :
 - State Based Action feature (allows to assign a custom command which is launched when the state of a process changes. Example : reduce priority when cpu usage is up to 50%)
 - Find Window's Process feature (allows to find the process which owns a specific window with a simple drag & drop over the screen)
 - Find hidden processes feature (find hidden basic rootkits)
+- Dependencies Viewer
 - etc.
 
 
@@ -88,6 +90,7 @@ Here is a description of the files which are distributed with YAPM :
 - Taskdialog.dll : used to display custom dialog messages on Vista.
 - YAPM.exe : main executable file (of course required ^^).
 - KernelMemory.sys : driver needed to retrieve handle informations for system processes. Required.
+- DependenciesViewer.dll : the dependencies viewer
 - README.txt : the file you are reading :-)
 - license.rtf : license file.
 - launch server.bat : launch YAPM as a server.
@@ -116,7 +119,8 @@ cProcess.vb file : some pieces of code are inspired by wj32 work (from Process H
 
 Some other pieces of code come from the public domain :
 - KernelMemory driver by ShareVB
-- Some other tiny pieces of code
+- All the code used by the Dependecies Viewer from ShareVB too
+- Some other tiny pieces of code from other people.
 
 See the license.rtf file for details about the license.
 

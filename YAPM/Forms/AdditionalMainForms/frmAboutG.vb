@@ -53,12 +53,15 @@ Public Class frmAboutG
             it5.SubItems.Add(System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\Providers.dll").FileVersion)
             Dim it6 As New ListViewItem("TaskDialog.dll")
             it6.SubItems.Add(System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\TaskDialog.dll").FileVersion)
+            Dim it7 As New ListViewItem("DependenciesViewer.dll")
+            it7.SubItems.Add(System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\DependenciesViewer.dll").FileVersion)
             Me.lv.Items.Add(it)
             Me.lv.Items.Add(it2)
             Me.lv.Items.Add(it3)
             Me.lv.Items.Add(it4)
             Me.lv.Items.Add(it5)
             Me.lv.Items.Add(it6)
+            Me.lv.Items.Add(it7)
         Catch ex As Exception
             '
         End Try
@@ -81,7 +84,7 @@ Public Class frmAboutG
     End Sub
 
     Private Sub lblShareVB_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblShareVB.LinkClicked
-        cFile.ShellOpenFile("http://www.vbfrance.com/codes/LISTER-HANDLES-FICHIERS-CLE-REGISTRES-OUVERTS-PROGRAMME-NT_39333.aspx", Me.Handle)
+        cFile.ShellOpenFile("http://www.sharevb.net/", Me.Handle)
     End Sub
 
     Private Sub lblTaskDialog_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblTaskDialog.LinkClicked

@@ -112,7 +112,7 @@ Option Strict On
         [GeneralCommandPoweroff]
         [GeneralCommandSleep]
         [GeneralCommandHibernate]
-        [GeneralCommandLogout]
+        [GeneralCommandLogoff]
         [GeneralCommandLock]
 
         ' Nothing

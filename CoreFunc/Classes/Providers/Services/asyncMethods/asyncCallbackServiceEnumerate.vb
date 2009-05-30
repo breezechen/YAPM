@@ -128,8 +128,14 @@ Public Class asyncCallbackServiceEnumerate
                 dico.Add(keys(x), DirectCast(lst(x), serviceInfos))
             Next
         End If
-        If deg IsNot Nothing AndAlso ctrl.Created Then _
+
+        Try
+            'If deg IsNot Nothing AndAlso ctrl.Created Then _
             ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
+        Catch ex As Exception
+            '
+        End Try
+
     End Sub
     Public Shared sem As New System.Threading.Semaphore(1, 1)
     Public Sub Process(ByVal thePoolObj As Object)
@@ -232,8 +238,13 @@ Public Class asyncCallbackServiceEnumerate
                             End If
                         Next
                     End If
-                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+
+                    Try
+                        'If deg IsNot Nothing AndAlso ctrl.Created Then _
                         ctrl.Invoke(deg, True, _dico, Nothing, 0)
+                    Catch ex As Exception
+                        '
+                    End Try
 
                 Case Else
                     ' Local
@@ -339,8 +350,12 @@ Public Class asyncCallbackServiceEnumerate
                     Next
                     cService.SemCurrentServices.Release()
 
-                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                    Try
+                        'If deg IsNot Nothing AndAlso ctrl.Created Then _
                         ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
+                    Catch ex As Exception
+                        '
+                    End Try
 
             End Select
         End SyncLock

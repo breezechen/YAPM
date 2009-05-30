@@ -47,6 +47,7 @@ Public Class frmMain
     Private windowsToRefresh() As Integer
     Private isAdmin As Boolean = False
     Private cSelFile As cFile
+    Public _shutdownConnection As New cShutdownConnection(Me, Program.Connection)
 
 
     ' ========================================
@@ -327,6 +328,9 @@ Public Class frmMain
         Pref.LoadListViewColumns(Me.lvWindows, "COLmain_window")
         Pref.LoadListViewColumns(Me.lvServices, "COLmain_service")
         Pref.LoadListViewColumns(Me.lvNetwork, "COLmain_network")
+
+        ' Init listviews
+
 
         ' Connect to the local machine
         Program.Connection.ConnectionType = cConnection.TypeOfConnection.LocalConnection
@@ -827,9 +831,9 @@ Public Class frmMain
         If Me.lvServices.Items.Count = 0 Then
             If Me.Ribbon.ActiveTab.Text = "Services" Then
                 ' First display of service tab
-                'Me.lvServices.BeginUpdate()
                 Call refreshServiceList()
-                'Me.lvServices.EndUpdate()
+            ElseIf Me.Ribbon.ActiveTab.Text = "Processes" Then
+                Call refreshProcessList()
             End If
         End If
     End Sub
@@ -1997,7 +2001,7 @@ Public Class frmMain
     Private Sub butModuleUnload_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butModuleUnload.Click
         For Each it As ListViewItem In Me.lvModules.SelectedItems
             Call Me.lvModules.GetItemByKey(it.Name).UnloadModule()
-            it.Remove()
+            'it.Remove()
         Next
         Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
     End Sub
@@ -4072,8 +4076,10 @@ Public Class frmMain
         Me.tv.ConnectionObj = Program.Connection
         Me.tv2.ConnectionObj = Program.Connection
         Me.lvSearchResults.ConnectionObj = Program.Connection
+        _shutdownConnection.ConnectionObj = Program.Connection
         Try
             Program.Connection.Connect()
+            _shutdownConnection.Connect()
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Can not connect")
             Exit Sub
@@ -4090,6 +4096,7 @@ Public Class frmMain
         Me.OpenFirectoryToolStripMenuItem.Enabled = _local
         Me.butServiceFileDetails.Enabled = _local
         Me.butServiceFileProp.Enabled = _local
+        Me.butModuleViewModuleDep.Enabled = _local
         Me.butServiceOpenDir.Enabled = _local
 
         Me.butResumeProcess.Enabled = Me._notWMI
@@ -4265,5 +4272,30 @@ Public Class frmMain
 
     Private Sub rtb3_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles rtb3.TextChanged
         Me.cmdFileClipboard.Enabled = (rtb3.Rtf.Length > 0)
+    End Sub
+
+    Private Sub butShowDepViewer_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butShowDepViewer.Click
+        Dim _depFrm As New DependenciesViewer.frmMain
+        _depFrm.Show()
+    End Sub
+
+    Private Sub butViewModuleDep_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butModuleViewModuleDep.Click
+        For Each it As cModule In Me.lvModules.GetSelectedItems
+            Dim _depForm As New DependenciesViewer.frmMain
+            With _depForm
+                .OpenReferences(it.Infos.Path)
+                .Text = "Dependencies - " & it.Infos.Path
+                .HideOpenMenu()
+                .Show()
+            End With
+        Next
+    End Sub
+
+    Private Sub FeedBackToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FeedBackToolStripMenuItem.Click
+        Call butFeedBack_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub DependenciesViewerToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DependenciesViewerToolStripMenuItem.Click
+        Call butShowDepViewer_Click(Nothing, Nothing)
     End Sub
 End Class

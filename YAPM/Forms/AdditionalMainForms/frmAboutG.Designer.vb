@@ -49,7 +49,7 @@ Partial Class frmAboutG
         'lnklblSF
         '
         Me.lnklblSF.AutoSize = True
-        Me.lnklblSF.Location = New System.Drawing.Point(18, 246)
+        Me.lnklblSF.Location = New System.Drawing.Point(16, 296)
         Me.lnklblSF.Name = "lnklblSF"
         Me.lnklblSF.Size = New System.Drawing.Size(138, 13)
         Me.lnklblSF.TabIndex = 2
@@ -59,7 +59,7 @@ Partial Class frmAboutG
         'btnOK
         '
         Me.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK
-        Me.btnOK.Location = New System.Drawing.Point(328, 249)
+        Me.btnOK.Location = New System.Drawing.Point(383, 296)
         Me.btnOK.Name = "btnOK"
         Me.btnOK.Size = New System.Drawing.Size(73, 25)
         Me.btnOK.TabIndex = 1
@@ -137,7 +137,7 @@ Partial Class frmAboutG
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(16, 112)
+        Me.Label5.Location = New System.Drawing.Point(285, 63)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(189, 13)
         Me.Label5.TabIndex = 11
@@ -148,10 +148,10 @@ Partial Class frmAboutG
         Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
         Me.lv.FullRowSelect = True
         Me.lv.GridLines = True
-        Me.lv.Location = New System.Drawing.Point(12, 155)
+        Me.lv.Location = New System.Drawing.Point(12, 137)
         Me.lv.MultiSelect = False
         Me.lv.Name = "lv"
-        Me.lv.Size = New System.Drawing.Size(186, 79)
+        Me.lv.Size = New System.Drawing.Size(242, 145)
         Me.lv.TabIndex = 12
         Me.lv.UseCompatibleStateImageBehavior = False
         Me.lv.View = System.Windows.Forms.View.Details
@@ -159,7 +159,7 @@ Partial Class frmAboutG
         'ColumnHeader1
         '
         Me.ColumnHeader1.Text = "File"
-        Me.ColumnHeader1.Width = 83
+        Me.ColumnHeader1.Width = 152
         '
         'ColumnHeader2
         '
@@ -169,7 +169,7 @@ Partial Class frmAboutG
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(16, 139)
+        Me.Label6.Location = New System.Drawing.Point(16, 121)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(70, 13)
         Me.Label6.TabIndex = 13
@@ -178,7 +178,7 @@ Partial Class frmAboutG
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(205, 139)
+        Me.Label7.Location = New System.Drawing.Point(260, 186)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(89, 13)
         Me.Label7.TabIndex = 14
@@ -187,7 +187,7 @@ Partial Class frmAboutG
         'lblRibbon
         '
         Me.lblRibbon.AutoSize = True
-        Me.lblRibbon.Location = New System.Drawing.Point(216, 155)
+        Me.lblRibbon.Location = New System.Drawing.Point(271, 202)
         Me.lblRibbon.Name = "lblRibbon"
         Me.lblRibbon.Size = New System.Drawing.Size(198, 13)
         Me.lblRibbon.TabIndex = 15
@@ -197,7 +197,7 @@ Partial Class frmAboutG
         'lblFugueIcons
         '
         Me.lblFugueIcons.AutoSize = True
-        Me.lblFugueIcons.Location = New System.Drawing.Point(216, 171)
+        Me.lblFugueIcons.Location = New System.Drawing.Point(271, 218)
         Me.lblFugueIcons.Name = "lblFugueIcons"
         Me.lblFugueIcons.Size = New System.Drawing.Size(181, 13)
         Me.lblFugueIcons.TabIndex = 16
@@ -207,17 +207,17 @@ Partial Class frmAboutG
         'lblShareVB
         '
         Me.lblShareVB.AutoSize = True
-        Me.lblShareVB.Location = New System.Drawing.Point(216, 187)
+        Me.lblShareVB.Location = New System.Drawing.Point(271, 234)
         Me.lblShareVB.Name = "lblShareVB"
-        Me.lblShareVB.Size = New System.Drawing.Size(164, 13)
+        Me.lblShareVB.Size = New System.Drawing.Size(184, 26)
         Me.lblShareVB.TabIndex = 17
         Me.lblShareVB.TabStop = True
-        Me.lblShareVB.Text = "ShareVB (KernelMemory driver)"
+        Me.lblShareVB.Text = "ShareVB (KernelMemory driver and" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Dependencies Viewer)"
         '
         'lblMe
         '
         Me.lblMe.AutoSize = True
-        Me.lblMe.Location = New System.Drawing.Point(18, 262)
+        Me.lblMe.Location = New System.Drawing.Point(16, 312)
         Me.lblMe.Name = "lblMe"
         Me.lblMe.Size = New System.Drawing.Size(83, 13)
         Me.lblMe.TabIndex = 18
@@ -226,7 +226,7 @@ Partial Class frmAboutG
         '
         'cmdLicense
         '
-        Me.cmdLicense.Location = New System.Drawing.Point(241, 249)
+        Me.cmdLicense.Location = New System.Drawing.Point(296, 296)
         Me.cmdLicense.Name = "cmdLicense"
         Me.cmdLicense.Size = New System.Drawing.Size(73, 25)
         Me.cmdLicense.TabIndex = 19
@@ -236,7 +236,7 @@ Partial Class frmAboutG
         'lblTaskDialog
         '
         Me.lblTaskDialog.AutoSize = True
-        Me.lblTaskDialog.Location = New System.Drawing.Point(216, 203)
+        Me.lblTaskDialog.Location = New System.Drawing.Point(271, 263)
         Me.lblTaskDialog.Name = "lblTaskDialog"
         Me.lblTaskDialog.Size = New System.Drawing.Size(162, 13)
         Me.lblTaskDialog.TabIndex = 20
@@ -249,7 +249,7 @@ Partial Class frmAboutG
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnOK
-        Me.ClientSize = New System.Drawing.Size(435, 290)
+        Me.ClientSize = New System.Drawing.Size(486, 333)
         Me.ControlBox = False
         Me.Controls.Add(Me.lblTaskDialog)
         Me.Controls.Add(Me.cmdLicense)

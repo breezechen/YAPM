@@ -142,6 +142,7 @@ Partial Class frmHiddenProcesses
         Me.lvProcess.Location = New System.Drawing.Point(0, 0)
         Me.lvProcess.Name = "lvProcess"
         Me.lvProcess.OverriddenDoubleBuffered = True
+        Me.lvProcess.ReorganizeColumns = True
         Me.lvProcess.Size = New System.Drawing.Size(633, 484)
         Me.lvProcess.TabIndex = 5
         Me.lvProcess.UseCompatibleStateImageBehavior = False
@@ -171,7 +172,7 @@ Partial Class frmHiddenProcesses
         '
         Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.GoogleSearchToolStripMenuItem})
         Me.menuProc.Name = "menuProc"
-        Me.menuProc.Size = New System.Drawing.Size(154, 114)
+        Me.menuProc.Size = New System.Drawing.Size(154, 92)
         '
         'PropertiesToolStripMenuItem
         '
@@ -209,6 +210,7 @@ Partial Class frmHiddenProcesses
         Me.Controls.Add(Me.SplitContainer)
         Me.Controls.Add(Me.sb)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmHiddenProcesses"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Hidden processes"

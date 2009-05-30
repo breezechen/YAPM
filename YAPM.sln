@@ -25,6 +25,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "aPoubelle", "aPoubelle\aPou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskDialog", "TaskDialog\TaskDialog.csproj", "{5BF15AF5-DEB8-46A8-99C7-21993617D0C8}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DependenciesViewer", "DependenciesViewer\DependenciesViewer.vbproj", "{896A4EE8-7588-4582-9F3D-A48E7AD21A0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug - server|Any CPU = Debug - server|Any CPU
@@ -79,6 +81,14 @@ Global
 		{5BF15AF5-DEB8-46A8-99C7-21993617D0C8}.Release - server|Any CPU.Build.0 = Release - server|Any CPU
 		{5BF15AF5-DEB8-46A8-99C7-21993617D0C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BF15AF5-DEB8-46A8-99C7-21993617D0C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{896A4EE8-7588-4582-9F3D-A48E7AD21A0D}.Debug - server|Any CPU.ActiveCfg = Debug|Any CPU
+		{896A4EE8-7588-4582-9F3D-A48E7AD21A0D}.Debug - server|Any CPU.Build.0 = Debug|Any CPU
+		{896A4EE8-7588-4582-9F3D-A48E7AD21A0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{896A4EE8-7588-4582-9F3D-A48E7AD21A0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{896A4EE8-7588-4582-9F3D-A48E7AD21A0D}.Release - server|Any CPU.ActiveCfg = Release|Any CPU
+		{896A4EE8-7588-4582-9F3D-A48E7AD21A0D}.Release - server|Any CPU.Build.0 = Release|Any CPU
+		{896A4EE8-7588-4582-9F3D-A48E7AD21A0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{896A4EE8-7588-4582-9F3D-A48E7AD21A0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

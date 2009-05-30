@@ -742,6 +742,55 @@ Public Class frmServer
                         Catch ex As Exception
                             ' Process does not exist
                         End Try
+                    Case cSocketData.OrderType.GeneralCommandHibernate
+                        Dim force As Boolean = CBool(cData.Param1)
+                        Try
+                            cSystem.Hibernate(force)
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
+                    Case cSocketData.OrderType.GeneralCommandLock
+                        Dim force As Boolean = CBool(cData.Param1)
+                        Try
+                            cSystem.Lock()
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
+                    Case cSocketData.OrderType.GeneralCommandLogoff
+                        Dim force As Boolean = CBool(cData.Param1)
+                        Try
+                            cSystem.Logoff(force)
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
+                    Case cSocketData.OrderType.GeneralCommandPoweroff
+                        Dim force As Boolean = CBool(cData.Param1)
+                        Try
+                            cSystem.Poweroff(force)
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
+                    Case cSocketData.OrderType.GeneralCommandRestart
+                        Dim force As Boolean = CBool(cData.Param1)
+                        Try
+                            cSystem.Restart(force)
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
+                    Case cSocketData.OrderType.GeneralCommandShutdown
+                        Dim force As Boolean = CBool(cData.Param1)
+                        Try
+                            cSystem.Shutdown(force)
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
+                    Case cSocketData.OrderType.GeneralCommandSleep
+                        Dim force As Boolean = CBool(cData.Param1)
+                        Try
+                            cSystem.Sleep(force)
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
                 End Select
 
 

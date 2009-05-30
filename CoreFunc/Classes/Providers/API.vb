@@ -1656,6 +1656,14 @@ Public Class API
         ServiceAlreadyPaused = 24
     End Enum
 
+    Public Enum WMI_SHUTDOWN_VALUES As Integer
+        [LogOff] = 0
+        [Shutdown] = 1
+        [Reboot] = 2
+        [PowerOff] = 8
+        [Force] = 4
+    End Enum
+
     Public Enum WMI_INFO_PROCESS
         'Caption
         CommandLine

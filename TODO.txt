@@ -1,0 +1,51 @@
+TODO LIST
+
+---- GENERAL
+- transformer .Created par try/catch ? + manque des Invoke pour les connected dans les cXXXConnection
+- régression performances d'affichage + clignotements des listviews quand changement de foreground window
+- recherche avant récupération des process -> foreach de CurrentProcesses foireux
+
+---- RESEAU
+- ReAnalize service marche pas
+- gérer déconnection socket (reconnection doit être possible)
+- cpu usage pour remote (socket) -> récupérer processor count
+- affinity process/thread (socket)
+- bug connections (crashes...)
+- refresh services trop rapide -> impossible de récupérer des infos par socket après (checker semaphore)
+
+- getmappedimage... pour socket
+- UAC -> tester
+- reports
+- TODO, TOCHANGE, TODO_
+- log processus
+- SBA ???
+- ~~ : refresh des threads (details) nécessite refresh des process
+- Exception non gérée à 0x71fb5108 dans YAPM.exe : 0xC0000005: Violation d'accès lors de la lecture de l'emplacement 0x00000004. (lors de création/destruction de process -> tester avec les 20000)
+- messages Vista like partout
+- msgbox encombrant quand pleins d'erreurs connexion !!
+- erreurs fonctions via socket qui échouent sur le client, pas le server
+- ' BUGLV
+- rapport monitoring
+- one graph per CPU -> conserver historique
+- SBA -> sendmessage configurable
+- performances (_currentServices et _currentProcesses remplis 2 fois au démarrage -> customLV qui créé des cObject, et asyncEnum aussi)
+- EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE -> trouver moyen idem pour Remove
+- smss.exe reste dans les modules (en rouge) si on change les processus sélectionnés ???
+- enumtask -> fige YAPM quand un processus est figé (vient peut être de GetCaption)
+
+2) Plus tard
+- JOBs
+- cycles pour vista, I/O priority, WS shared
+- TCP close (settcp...)
+- "monitor" sur les processus (sélection du PID, sélection de la catégorie Process/Processus et sélection des bonnes instances)
+- infos système dans le general report
+- changement privileges processus système
+- "other actions" pour les processus (limitation CPU usage...)
+- tooltip sur graphes
+
+4) Fonctions à ajouter pleinement
+- autres token
+- monitoring de plusieurs instances en même temps (multiselection)
+- vue treeview
+- isPacked, isDotnet...
+- fonctionnement avec privilèges réduits

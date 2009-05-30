@@ -158,6 +158,7 @@ Partial Class frmMain
         Me.butNetwork = New System.Windows.Forms.RibbonButton
         Me.butFeedBack = New System.Windows.Forms.RibbonButton
         Me.butHiddenProcesses = New System.Windows.Forms.RibbonButton
+        Me.butShowDepViewer = New System.Windows.Forms.RibbonButton
         Me.TaskTab = New System.Windows.Forms.RibbonTab
         Me.RBTaskDisplay = New System.Windows.Forms.RibbonPanel
         Me.butTaskRefresh = New System.Windows.Forms.RibbonButton
@@ -198,6 +199,7 @@ Partial Class frmMain
         Me.RBModuleActions = New System.Windows.Forms.RibbonPanel
         Me.butModuleRefresh = New System.Windows.Forms.RibbonButton
         Me.butModuleUnload = New System.Windows.Forms.RibbonButton
+        Me.butModuleViewModuleDep = New System.Windows.Forms.RibbonButton
         Me.RBModuleReport = New System.Windows.Forms.RibbonPanel
         Me.butModulesSaveReport = New System.Windows.Forms.RibbonButton
         Me.RBModuleOnline = New System.Windows.Forms.RibbonPanel
@@ -430,6 +432,7 @@ Partial Class frmMain
         Me.OptionsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowHiddenProcessesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.DependenciesViewerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SystemToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShutdownToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem
         Me.RestartToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
@@ -445,6 +448,7 @@ Partial Class frmMain
         Me.CheckupdatesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem85 = New System.Windows.Forms.ToolStripSeparator
         Me.MakeAdonationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.FeedBackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.WebsiteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ProjectPageOnSourceforgenetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.DownloadsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -558,8 +562,16 @@ Partial Class frmMain
         Me.menuMonitorStop = New System.Windows.Forms.ToolStripMenuItem
         Me.splitMonitor2 = New System.Windows.Forms.SplitContainer
         Me.txtMonitoringLog = New System.Windows.Forms.TextBox
+        Me.lvMonitorReport = New YAPM.DoubleBufferedLV
+        Me.ColumnHeader22 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader23 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader47 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader48 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
         Me.splitMonitor3 = New System.Windows.Forms.SplitContainer
         Me.splitMonitor4 = New System.Windows.Forms.SplitContainer
+        Me.graphMonitor = New YAPM.Graph
         Me.txtMonitorNumber = New System.Windows.Forms.TextBox
         Me.lblMonitorMaxNumber = New System.Windows.Forms.Label
         Me.chkMonitorRightAuto = New System.Windows.Forms.CheckBox
@@ -651,14 +663,6 @@ Partial Class frmMain
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerNetwork = New System.Windows.Forms.Timer(Me.components)
         Me.timerStateBasedActions = New System.Windows.Forms.Timer(Me.components)
-        Me.lvMonitorReport = New YAPM.DoubleBufferedLV
-        Me.ColumnHeader22 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader23 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader47 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader48 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
-        Me.graphMonitor = New YAPM.Graph
         Me.menuProc.SuspendLayout()
         Me.menuService.SuspendLayout()
         Me.mainMenu.SuspendLayout()
@@ -738,6 +742,7 @@ Partial Class frmMain
         Me.splitMonitor3.SuspendLayout()
         Me.splitMonitor4.Panel2.SuspendLayout()
         Me.splitMonitor4.SuspendLayout()
+        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageServices.SuspendLayout()
         Me.containerServicesPage.Panel1.SuspendLayout()
         Me.containerServicesPage.Panel2.SuspendLayout()
@@ -780,7 +785,6 @@ Partial Class frmMain
         Me.SplitContainerSearch.SuspendLayout()
         Me.pageHelp.SuspendLayout()
         Me.panelMain4.SuspendLayout()
-        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'imgMain
@@ -1378,6 +1382,7 @@ Partial Class frmMain
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butNetwork)
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butFeedBack)
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butHiddenProcesses)
+        Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butShowDepViewer)
         Me.Ribbon.QuickAcessToolbar.Tag = Nothing
         Me.Ribbon.QuickAcessToolbar.Text = Nothing
         Me.Ribbon.QuickAcessToolbar.ToolTip = Nothing
@@ -1632,6 +1637,21 @@ Partial Class frmMain
         Me.butHiddenProcesses.ToolTip = Nothing
         Me.butHiddenProcesses.ToolTipImage = Nothing
         Me.butHiddenProcesses.ToolTipTitle = Nothing
+        '
+        'butShowDepViewer
+        '
+        Me.butShowDepViewer.AltKey = Nothing
+        Me.butShowDepViewer.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butShowDepViewer.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butShowDepViewer.Image = CType(resources.GetObject("butShowDepViewer.Image"), System.Drawing.Image)
+        Me.butShowDepViewer.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
+        Me.butShowDepViewer.SmallImage = Global.YAPM.My.Resources.Resources.dllIcon
+        Me.butShowDepViewer.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butShowDepViewer.Tag = Nothing
+        Me.butShowDepViewer.Text = "Dependencies viewer"
+        Me.butShowDepViewer.ToolTip = Nothing
+        Me.butShowDepViewer.ToolTipImage = Nothing
+        Me.butShowDepViewer.ToolTipTitle = Nothing
         '
         'TaskTab
         '
@@ -2119,6 +2139,7 @@ Partial Class frmMain
         Me.RBModuleActions.ButtonMoreVisible = False
         Me.RBModuleActions.Items.Add(Me.butModuleRefresh)
         Me.RBModuleActions.Items.Add(Me.butModuleUnload)
+        Me.RBModuleActions.Items.Add(Me.butModuleViewModuleDep)
         Me.RBModuleActions.Tag = Nothing
         Me.RBModuleActions.Text = "Actions"
         '
@@ -2149,6 +2170,20 @@ Partial Class frmMain
         Me.butModuleUnload.ToolTip = Nothing
         Me.butModuleUnload.ToolTipImage = Nothing
         Me.butModuleUnload.ToolTipTitle = Nothing
+        '
+        'butModuleViewModuleDep
+        '
+        Me.butModuleViewModuleDep.AltKey = Nothing
+        Me.butModuleViewModuleDep.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butModuleViewModuleDep.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butModuleViewModuleDep.Image = CType(resources.GetObject("butModuleViewModuleDep.Image"), System.Drawing.Image)
+        Me.butModuleViewModuleDep.SmallImage = CType(resources.GetObject("butModuleViewModuleDep.SmallImage"), System.Drawing.Image)
+        Me.butModuleViewModuleDep.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butModuleViewModuleDep.Tag = Nothing
+        Me.butModuleViewModuleDep.Text = "View dependencies"
+        Me.butModuleViewModuleDep.ToolTip = Nothing
+        Me.butModuleViewModuleDep.ToolTipImage = Nothing
+        Me.butModuleViewModuleDep.ToolTipTitle = Nothing
         '
         'RBModuleReport
         '
@@ -4469,7 +4504,7 @@ Partial Class frmMain
         '
         'ToolsToolStripMenuItem
         '
-        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowHiddenProcessesToolStripMenuItem})
+        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowHiddenProcessesToolStripMenuItem, Me.DependenciesViewerToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
         Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(48, 20)
         Me.ToolsToolStripMenuItem.Text = "&Tools"
@@ -4479,6 +4514,12 @@ Partial Class frmMain
         Me.ShowHiddenProcessesToolStripMenuItem.Name = "ShowHiddenProcessesToolStripMenuItem"
         Me.ShowHiddenProcessesToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
         Me.ShowHiddenProcessesToolStripMenuItem.Text = "&Show hidden processes..."
+        '
+        'DependenciesViewerToolStripMenuItem
+        '
+        Me.DependenciesViewerToolStripMenuItem.Name = "DependenciesViewerToolStripMenuItem"
+        Me.DependenciesViewerToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
+        Me.DependenciesViewerToolStripMenuItem.Text = "&Dependencies viewer..."
         '
         'SystemToolStripMenuItem
         '
@@ -4548,7 +4589,7 @@ Partial Class frmMain
         '
         'HelpToolStripMenuItem
         '
-        Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CheckupdatesToolStripMenuItem, Me.ToolStripMenuItem85, Me.MakeAdonationToolStripMenuItem, Me.WebsiteToolStripMenuItem, Me.ProjectPageOnSourceforgenetToolStripMenuItem, Me.DownloadsToolStripMenuItem, Me.ToolStripMenuItem86, Me.HelpToolStripMenuItem1, Me.AboutToolStripMenuItem})
+        Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CheckupdatesToolStripMenuItem, Me.ToolStripMenuItem85, Me.MakeAdonationToolStripMenuItem, Me.FeedBackToolStripMenuItem, Me.WebsiteToolStripMenuItem, Me.ProjectPageOnSourceforgenetToolStripMenuItem, Me.DownloadsToolStripMenuItem, Me.ToolStripMenuItem86, Me.HelpToolStripMenuItem1, Me.AboutToolStripMenuItem})
         Me.HelpToolStripMenuItem.Name = "HelpToolStripMenuItem"
         Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
         Me.HelpToolStripMenuItem.Text = "&Help"
@@ -4570,6 +4611,12 @@ Partial Class frmMain
         Me.MakeAdonationToolStripMenuItem.Name = "MakeAdonationToolStripMenuItem"
         Me.MakeAdonationToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
         Me.MakeAdonationToolStripMenuItem.Text = "Make a &donation..."
+        '
+        'FeedBackToolStripMenuItem
+        '
+        Me.FeedBackToolStripMenuItem.Name = "FeedBackToolStripMenuItem"
+        Me.FeedBackToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
+        Me.FeedBackToolStripMenuItem.Text = "&Feed back..."
         '
         'WebsiteToolStripMenuItem
         '
@@ -5722,6 +5769,47 @@ Partial Class frmMain
         Me.txtMonitoringLog.TabIndex = 0
         Me.txtMonitoringLog.Text = "No process monitored." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Click on 'Add' button to monitor a process."
         '
+        'lvMonitorReport
+        '
+        Me.lvMonitorReport.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader22, Me.ColumnHeader2, Me.ColumnHeader23, Me.ColumnHeader47, Me.ColumnHeader48, Me.ColumnHeader49})
+        Me.lvMonitorReport.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvMonitorReport.FullRowSelect = True
+        Me.lvMonitorReport.Location = New System.Drawing.Point(0, 0)
+        Me.lvMonitorReport.Name = "lvMonitorReport"
+        Me.lvMonitorReport.OverriddenDoubleBuffered = False
+        Me.lvMonitorReport.Size = New System.Drawing.Size(567, 160)
+        Me.lvMonitorReport.TabIndex = 1
+        Me.lvMonitorReport.UseCompatibleStateImageBehavior = False
+        Me.lvMonitorReport.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader22
+        '
+        Me.ColumnHeader22.Text = "Counter"
+        Me.ColumnHeader22.Width = 150
+        '
+        'ColumnHeader2
+        '
+        Me.ColumnHeader2.Text = "MachineName"
+        Me.ColumnHeader2.Width = 100
+        '
+        'ColumnHeader23
+        '
+        Me.ColumnHeader23.Text = "Creation date"
+        Me.ColumnHeader23.Width = 100
+        '
+        'ColumnHeader47
+        '
+        Me.ColumnHeader47.Text = "Last start"
+        Me.ColumnHeader47.Width = 100
+        '
+        'ColumnHeader48
+        '
+        Me.ColumnHeader48.Text = "State"
+        '
+        'ColumnHeader49
+        '
+        Me.ColumnHeader49.Text = "Interval"
+        '
         'splitMonitor3
         '
         Me.splitMonitor3.Dock = System.Windows.Forms.DockStyle.Fill
@@ -5763,6 +5851,22 @@ Partial Class frmMain
         Me.splitMonitor4.Size = New System.Drawing.Size(567, 197)
         Me.splitMonitor4.SplitterDistance = 25
         Me.splitMonitor4.TabIndex = 4
+        '
+        'graphMonitor
+        '
+        Me.graphMonitor.BackColor = System.Drawing.Color.Black
+        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
+        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
+        Me.graphMonitor.dDate = New Date(CType(0, Long))
+        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphMonitor.EnableGraph = False
+        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
+        Me.graphMonitor.Name = "graphMonitor"
+        Me.graphMonitor.Size = New System.Drawing.Size(567, 197)
+        Me.graphMonitor.TabIndex = 3
+        Me.graphMonitor.TabStop = False
+        Me.graphMonitor.ViewMax = 0
+        Me.graphMonitor.ViewMin = 0
         '
         'txtMonitorNumber
         '
@@ -6806,63 +6910,6 @@ Partial Class frmMain
         '
         Me.timerStateBasedActions.Interval = 1000
         '
-        'lvMonitorReport
-        '
-        Me.lvMonitorReport.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader22, Me.ColumnHeader2, Me.ColumnHeader23, Me.ColumnHeader47, Me.ColumnHeader48, Me.ColumnHeader49})
-        Me.lvMonitorReport.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvMonitorReport.FullRowSelect = True
-        Me.lvMonitorReport.Location = New System.Drawing.Point(0, 0)
-        Me.lvMonitorReport.Name = "lvMonitorReport"
-        Me.lvMonitorReport.OverriddenDoubleBuffered = False
-        Me.lvMonitorReport.Size = New System.Drawing.Size(567, 160)
-        Me.lvMonitorReport.TabIndex = 1
-        Me.lvMonitorReport.UseCompatibleStateImageBehavior = False
-        Me.lvMonitorReport.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader22
-        '
-        Me.ColumnHeader22.Text = "Counter"
-        Me.ColumnHeader22.Width = 150
-        '
-        'ColumnHeader2
-        '
-        Me.ColumnHeader2.Text = "MachineName"
-        Me.ColumnHeader2.Width = 100
-        '
-        'ColumnHeader23
-        '
-        Me.ColumnHeader23.Text = "Creation date"
-        Me.ColumnHeader23.Width = 100
-        '
-        'ColumnHeader47
-        '
-        Me.ColumnHeader47.Text = "Last start"
-        Me.ColumnHeader47.Width = 100
-        '
-        'ColumnHeader48
-        '
-        Me.ColumnHeader48.Text = "State"
-        '
-        'ColumnHeader49
-        '
-        Me.ColumnHeader49.Text = "Interval"
-        '
-        'graphMonitor
-        '
-        Me.graphMonitor.BackColor = System.Drawing.Color.Black
-        Me.graphMonitor.ColorMemory2 = System.Drawing.Color.Blue
-        Me.graphMonitor.ColorMemory3 = System.Drawing.Color.Orange
-        Me.graphMonitor.dDate = New Date(CType(0, Long))
-        Me.graphMonitor.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphMonitor.EnableGraph = False
-        Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
-        Me.graphMonitor.Name = "graphMonitor"
-        Me.graphMonitor.Size = New System.Drawing.Size(567, 197)
-        Me.graphMonitor.TabIndex = 3
-        Me.graphMonitor.TabStop = False
-        Me.graphMonitor.ViewMax = 0
-        Me.graphMonitor.ViewMin = 0
-        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -6966,6 +7013,7 @@ Partial Class frmMain
         Me.splitMonitor3.ResumeLayout(False)
         Me.splitMonitor4.Panel2.ResumeLayout(False)
         Me.splitMonitor4.ResumeLayout(False)
+        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pageServices.ResumeLayout(False)
         Me.containerServicesPage.Panel1.ResumeLayout(False)
         Me.containerServicesPage.Panel2.ResumeLayout(False)
@@ -7014,7 +7062,6 @@ Partial Class frmMain
         Me.SplitContainerSearch.ResumeLayout(False)
         Me.pageHelp.ResumeLayout(False)
         Me.panelMain4.ResumeLayout(False)
-        CType(Me.graphMonitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -7624,5 +7671,9 @@ Partial Class frmMain
     Friend WithEvents RibbonSeparator5 As System.Windows.Forms.RibbonSeparator
     Friend WithEvents butExit As System.Windows.Forms.RibbonOrbOptionButton
     Friend WithEvents butShowPreferences As System.Windows.Forms.RibbonOrbOptionButton
+    Friend WithEvents butShowDepViewer As System.Windows.Forms.RibbonButton
+    Friend WithEvents butModuleViewModuleDep As System.Windows.Forms.RibbonButton
+    Friend WithEvents DependenciesViewerToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents FeedBackToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

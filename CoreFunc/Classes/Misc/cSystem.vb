@@ -28,24 +28,32 @@ Public Class cSystem
     ' ========================================
     ' Public
     ' ========================================
-    Public Shared Function Hibernate() As Boolean
-        Return API.SetSuspendState(True, False, False)
+    Public Shared Function Hibernate(Optional ByVal force As Boolean = False) As Boolean
+        Return API.SetSuspendState(True, force, False)
     End Function
 
-    Public Shared Function Sleep() As Boolean
-        Return API.SetSuspendState(False, False, False)
+    Public Shared Function Sleep(Optional ByVal force As Boolean = False) As Boolean
+        Return API.SetSuspendState(False, force, False)
     End Function
 
-    Public Shared Function Logoff() As Boolean
-        Return API.ExitWindowsEx(API.ExitFlags.Logoff, 0)
+    Public Shared Function Logoff(Optional ByVal force As Boolean = False) As Boolean
+        If force Then
+            Return API.ExitWindowsEx(API.ExitFlags.Logoff Or API.ExitFlags.Force, 0)
+        Else
+            Return API.ExitWindowsEx(API.ExitFlags.Logoff, 0)
+        End If
     End Function
 
     Public Shared Function Lock() As Boolean
         Return API.LockWorkStation()
     End Function
 
-    Public Shared Function Shutdown() As Boolean
-        Return API.ExitWindowsEx(API.ExitFlags.Shutdown, 0)
+    Public Shared Function Shutdown(Optional ByVal force As Boolean = False) As Boolean
+        If force Then
+            Return API.ExitWindowsEx(API.ExitFlags.Shutdown Or API.ExitFlags.Force, 0)
+        Else
+            Return API.ExitWindowsEx(API.ExitFlags.Shutdown, 0)
+        End If
     End Function
 
     Public Shared Function Restart(Optional ByVal force As Boolean = False) As Boolean

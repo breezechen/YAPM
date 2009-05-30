@@ -37,6 +37,7 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
         <LI>Find Window' Process (See <a href="#FindWindowProcess">Find Window' Process</a>)</LI>
         <LI>Bug report &amp; feedbacks (open a window with links to send feed back to me)</LI>
         <LI>Hidden processes feature (show hidden processes, e.g. rootkits. See <a href="#ShowHiddenProcesses">Show hidden processes</a>)</LI>
+        <LI>Dependency viewer (show dependencies of a process/dll/... <a href="#DependenciesViewer">See Dependency Viewer</a>)</LI>
     </UL>
     <h2><a name="Process"></a>Process features</h2>
     <p>The features available for process management are available in the 'Processes' tab of the main form. Use the icons on the ribbon, or right-click on the list. All actions are available for the different processes you select in the list.<br>
@@ -75,6 +76,7 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
     <UL>
         <LI>Select associated process (select the owner process in the 'Processes' tab)</LI>
         <LI>Unload module (unload the selected modules from the memory of the process. You should NOT do it if you do not have a good reason !)</LI>
+        <LI>View dependency (show the dependencies of the module. See <a href="#DependenciesViewer">Dependency viewer</a>)</LI>
         <LI>File properties (open the Windows property dialog box about the executable)</LI>
         <LI>Open directory (open the directory which contains the executable)</LI>
         <LI>Show file details (show details of the executable in the 'File' tab)</LI>
@@ -278,6 +280,9 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
         <LI>Interval : the interval between two 'snapshots of informations'. If you specify a small value, it may will require a lot of CPU time.</LI>
         <LI>Auto scroll : automatically scroll (or not) the view (i.e. ensure that the last item of the listview is available).</LI>
     </ul>
+    <h2><a name="DependenciesViewer"></a>Dependency viewer</h2>
+    <p>This feature allows to view dependencies of an executable/*.dll/*.sys. If the Dependencies viewer is shown with Module-&gt;Show dependencies or Process-&gt;Show dependency, there is no need to select the file, otherwise you will have to use 'Open...' menu.</p>
+    <p>Once your file is opened, you will see the import/export tables and all informations available in a standard Dependency viewer.</p>
     <h2><a name="OtherFeatures"></a>Other features and tips</h2>
     <p>Here are some other features and tips you should know :</p>
     <ul>

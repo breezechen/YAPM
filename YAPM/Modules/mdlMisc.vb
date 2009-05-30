@@ -174,5 +174,16 @@ Module mdlMisc
         Return res
     End Function
 
+    ' Return Assembly GUID
+    ' Could be used ??
+    Public Function GetAppGuid() As String
+        Dim assemblyGuid As Guid = Nothing
+        Dim assemblyObjects As Object() = System.Reflection.Assembly.GetEntryAssembly().GetCustomAttributes(GetType(System.Runtime.InteropServices.GuidAttribute), True)
+        If assemblyObjects.Length > 0 Then
+            assemblyGuid = New Guid(DirectCast(assemblyObjects(0),  _
+                                    System.Runtime.InteropServices.GuidAttribute).Value)
+        End If
+        Return assemblyGuid.ToString
+    End Function
 
 End Module

@@ -579,6 +579,10 @@
       <Project>{4F4D09F8-D122-4ACB-B049-881634E67A2C}</Project>
       <Name>CoreFunc</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DependenciesViewer\DependenciesViewer.vbproj">
+      <Project>{896A4EE8-7588-4582-9F3D-A48E7AD21A0D}</Project>
+      <Name>DependenciesViewer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Providers\Providers.vbproj">
       <Project>{657B7CE9-D35C-4E65-A05B-CC6B46A14D7D}</Project>
       <Name>Providers</Name>

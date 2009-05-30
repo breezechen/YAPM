@@ -113,12 +113,36 @@ Public Class frmConnection
 
     ' Change the caption of the button 'Connect/Disconnect'
     Private Sub ChangeCaption()
+        Static _oldType As cConnection.TypeOfConnection = cConnection.TypeOfConnection.LocalConnection
         If _formConnectionReference.IsConnected Then
             Me.cmdConnect.Text = "Disconnect"
             Me.Text = "Connected"
         Else
             Me.cmdConnect.Text = "Connect"
             Me.Text = "Disconnected"
+        End If
+        Me.gpShutdown.Enabled = _formConnectionReference.IsConnected
+
+        If _oldType <> _formConnectionReference.ConnectionType Then
+            ' Changed connection type --> changed shutdown options
+            _oldType = _formConnectionReference.ConnectionType
+            Select Case _oldType
+                Case cConnection.TypeOfConnection.LocalConnection
+                    Me.cbShutdown.Items.Clear()
+                    Dim _items() As String = {"Restart", "Shutdown", "Poweroff", "Sleep", "Logoff", "Lock"}
+                    Me.cbShutdown.Items.AddRange(_items)
+                    Me.gpShutdown.Text = "Shutdown local system"
+                Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                    Me.cbShutdown.Items.Clear()
+                    Dim _items() As String = {"Restart", "Shutdown", "Poweroff", "Sleep", "Logoff", "Lock"}
+                    Me.cbShutdown.Items.AddRange(_items)
+                    Me.gpShutdown.Text = "Shutdown remote system via socket"
+                Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                    Me.cbShutdown.Items.Clear()
+                    Dim _items() As String = {"Restart", "Shutdown", "Poweroff", "Logoff"}
+                    Me.cbShutdown.Items.AddRange(_items)
+                    Me.gpShutdown.Text = "Shutdown remote system via WMI"
+            End Select
         End If
     End Sub
 
@@ -132,6 +156,8 @@ Public Class frmConnection
     '    Call ChangeCaption()
     'End Sub
 
+    ' BAD WAY -> should kick all timers from project (see commented lines about delegates
+    ' just below)
     Private Sub Timer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer.Tick
         Call ChangeCaption()
     End Sub
@@ -139,4 +165,71 @@ Public Class frmConnection
     Private Sub frmConnection_VisibleChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.VisibleChanged
         Me.Timer.Enabled = Me.Visible
     End Sub
+
+    'Private Sub _formConnectionReference_Connected() Handles _formConnectionReference.Connected
+    '    Try
+    '        Dim _deg As New degActivateShutdown(AddressOf ActivateShutdown)
+    '        Me.Invoke(_deg, True)
+    '    Catch ex As Exception
+    '        '
+    '    End Try
+    'End Sub
+
+    'Private Sub _formConnectionReference_Disconnected() Handles _formConnectionReference.Disconnected
+    '    Try
+    '        Dim _deg As New degActivateShutdown(AddressOf ActivateShutdown)
+    '        Me.Invoke(_deg, False)
+    '    Catch ex As Exception
+    '        '
+    '    End Try
+    'End Sub
+
+    'Private Delegate Sub degActivateShutdown(ByVal value As Boolean)
+    'Private Sub ActivateShutdown(ByVal value As Boolean)
+    '    Me.gpShutdown.Enabled = value
+    'End Sub
+
+
+
+#Region "Shutdown functions"
+
+    Private _shutdownAction As asyncCallbackShutdownAction
+    Public Function ShutdownAction(ByVal type As asyncCallbackShutdownAction.ShutdownType, ByVal force As Boolean) As Integer
+
+        If _shutdownAction Is Nothing Then
+            _shutdownAction = New asyncCallbackShutdownAction(New asyncCallbackShutdownAction.HasShutdowned(AddressOf shutdownDone), Program._frmMain._shutdownConnection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _shutdownAction.Process)
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackShutdownAction.poolObj(type, force))
+
+    End Function
+    Private Sub shutdownDone(ByVal Success As Boolean, ByVal type As asyncCallbackShutdownAction.ShutdownType, ByVal msg As String)
+        If Success = False Then
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                   "Could not send " & type.ToString & " command")
+        End If
+    End Sub
+
+    Private Sub cmdShutdown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdShutdown.Click
+        Select Case Me.cbShutdown.Text
+            Case "Restart"
+                Call ShutdownAction(asyncCallbackShutdownAction.ShutdownType.Restart, Me.chkForceShutdown.Checked)
+            Case "Shutdown"
+                Call ShutdownAction(asyncCallbackShutdownAction.ShutdownType.Shutdown, Me.chkForceShutdown.Checked)
+            Case "Poweroff"
+                Call ShutdownAction(asyncCallbackShutdownAction.ShutdownType.Poweroff, Me.chkForceShutdown.Checked)
+            Case "Sleep"
+                Call ShutdownAction(asyncCallbackShutdownAction.ShutdownType.Sleep, Me.chkForceShutdown.Checked)
+            Case "Logoff"
+                Call ShutdownAction(asyncCallbackShutdownAction.ShutdownType.Logoff, Me.chkForceShutdown.Checked)
+            Case "Lock"
+                Call ShutdownAction(asyncCallbackShutdownAction.ShutdownType.Lock, Me.chkForceShutdown.Checked)
+        End Select
+    End Sub
+
+#End Region
+
 End Class

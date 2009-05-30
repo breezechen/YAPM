@@ -40,8 +40,13 @@ Partial Class frmConnection
         Me.txtServerMachine = New System.Windows.Forms.TextBox
         Me.Label12 = New System.Windows.Forms.Label
         Me.Timer = New System.Windows.Forms.Timer(Me.components)
+        Me.gpShutdown = New System.Windows.Forms.GroupBox
+        Me.cmdShutdown = New System.Windows.Forms.Button
+        Me.cbShutdown = New System.Windows.Forms.ComboBox
+        Me.chkForceShutdown = New System.Windows.Forms.CheckBox
         Me.gpServer.SuspendLayout()
         Me.gpWMI.SuspendLayout()
+        Me.gpShutdown.SuspendLayout()
         Me.SuspendLayout()
         '
         'optLocal
@@ -88,8 +93,9 @@ Partial Class frmConnection
         '
         'cmdConnect
         '
+        Me.cmdConnect.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.cmdConnect.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdConnect.Location = New System.Drawing.Point(42, 206)
+        Me.cmdConnect.Location = New System.Drawing.Point(42, 262)
         Me.cmdConnect.Name = "cmdConnect"
         Me.cmdConnect.Size = New System.Drawing.Size(103, 28)
         Me.cmdConnect.TabIndex = 4
@@ -98,8 +104,9 @@ Partial Class frmConnection
         '
         'cmdCancel
         '
+        Me.cmdCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.cmdCancel.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdCancel.Location = New System.Drawing.Point(188, 206)
+        Me.cmdCancel.Location = New System.Drawing.Point(188, 262)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.Size = New System.Drawing.Size(103, 28)
         Me.cmdCancel.TabIndex = 5
@@ -108,9 +115,10 @@ Partial Class frmConnection
         '
         'gpServer
         '
+        Me.gpServer.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.gpServer.Controls.Add(Me.txtServerIP)
         Me.gpServer.Controls.Add(Me.Label17)
-        Me.gpServer.Location = New System.Drawing.Point(13, 125)
+        Me.gpServer.Location = New System.Drawing.Point(13, 181)
         Me.gpServer.Name = "gpServer"
         Me.gpServer.Size = New System.Drawing.Size(314, 73)
         Me.gpServer.TabIndex = 6
@@ -135,13 +143,14 @@ Partial Class frmConnection
         '
         'gpWMI
         '
+        Me.gpWMI.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.gpWMI.Controls.Add(Me.txtServerPassword)
         Me.gpWMI.Controls.Add(Me.Label14)
         Me.gpWMI.Controls.Add(Me.txtServerUser)
         Me.gpWMI.Controls.Add(Me.Label13)
         Me.gpWMI.Controls.Add(Me.txtServerMachine)
         Me.gpWMI.Controls.Add(Me.Label12)
-        Me.gpWMI.Location = New System.Drawing.Point(13, 125)
+        Me.gpWMI.Location = New System.Drawing.Point(13, 181)
         Me.gpWMI.Name = "gpWMI"
         Me.gpWMI.Size = New System.Drawing.Size(314, 73)
         Me.gpWMI.TabIndex = 7
@@ -204,11 +213,54 @@ Partial Class frmConnection
         '
         Me.Timer.Enabled = True
         '
+        'gpShutdown
+        '
+        Me.gpShutdown.Controls.Add(Me.cmdShutdown)
+        Me.gpShutdown.Controls.Add(Me.cbShutdown)
+        Me.gpShutdown.Controls.Add(Me.chkForceShutdown)
+        Me.gpShutdown.Location = New System.Drawing.Point(13, 122)
+        Me.gpShutdown.Name = "gpShutdown"
+        Me.gpShutdown.Size = New System.Drawing.Size(308, 53)
+        Me.gpShutdown.TabIndex = 8
+        Me.gpShutdown.TabStop = False
+        Me.gpShutdown.Text = "Shutdown local system"
+        '
+        'cmdShutdown
+        '
+        Me.cmdShutdown.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdShutdown.Location = New System.Drawing.Point(260, 17)
+        Me.cmdShutdown.Name = "cmdShutdown"
+        Me.cmdShutdown.Size = New System.Drawing.Size(42, 23)
+        Me.cmdShutdown.TabIndex = 2
+        Me.cmdShutdown.Text = "Go"
+        Me.cmdShutdown.UseVisualStyleBackColor = True
+        '
+        'cbShutdown
+        '
+        Me.cbShutdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbShutdown.FormattingEnabled = True
+        Me.cbShutdown.Items.AddRange(New Object() {"Restart", "Shutdown", "Poweroff", "Sleep", "Poweroff", "Logoff", "Lock"})
+        Me.cbShutdown.Location = New System.Drawing.Point(70, 19)
+        Me.cbShutdown.Name = "cbShutdown"
+        Me.cbShutdown.Size = New System.Drawing.Size(184, 21)
+        Me.cbShutdown.TabIndex = 1
+        '
+        'chkForceShutdown
+        '
+        Me.chkForceShutdown.AutoSize = True
+        Me.chkForceShutdown.Location = New System.Drawing.Point(10, 21)
+        Me.chkForceShutdown.Name = "chkForceShutdown"
+        Me.chkForceShutdown.Size = New System.Drawing.Size(54, 17)
+        Me.chkForceShutdown.TabIndex = 0
+        Me.chkForceShutdown.Text = "Force"
+        Me.chkForceShutdown.UseVisualStyleBackColor = True
+        '
         'frmConnection
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(339, 243)
+        Me.ClientSize = New System.Drawing.Size(339, 299)
+        Me.Controls.Add(Me.gpShutdown)
         Me.Controls.Add(Me.cmdCancel)
         Me.Controls.Add(Me.cmdConnect)
         Me.Controls.Add(Me.txtDesc)
@@ -228,6 +280,8 @@ Partial Class frmConnection
         Me.gpServer.PerformLayout()
         Me.gpWMI.ResumeLayout(False)
         Me.gpWMI.PerformLayout()
+        Me.gpShutdown.ResumeLayout(False)
+        Me.gpShutdown.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -249,4 +303,8 @@ Partial Class frmConnection
     Friend WithEvents txtServerIP As System.Windows.Forms.TextBox
     Friend WithEvents Label17 As System.Windows.Forms.Label
     Friend WithEvents Timer As System.Windows.Forms.Timer
+    Friend WithEvents gpShutdown As System.Windows.Forms.GroupBox
+    Friend WithEvents cmdShutdown As System.Windows.Forms.Button
+    Friend WithEvents cbShutdown As System.Windows.Forms.ComboBox
+    Friend WithEvents chkForceShutdown As System.Windows.Forms.CheckBox
 End Class
