@@ -54,6 +54,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Import Include="CoreFunc" />
     <Import Include="Microsoft.VisualBasic" />
     <Import Include="System" />
     <Import Include="System.Collections" />
@@ -63,11 +64,14 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Directories\ExportDirectory.vb" />
-    <Compile Include="Directories\ImportDirectory.vb" />
     <Compile Include="Controls\DoubleBufferedLV.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\ListViewComparer.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Directories\ExportDirectory.vb" />
+    <Compile Include="Directories\ImportDirectory.vb" />
     <Compile Include="Controls\frmMain.Designer.vb">
       <DependentUpon>frmMain.vb</DependentUpon>
     </Compile>
@@ -77,8 +81,6 @@
     <Compile Include="Headers\NTHeader.vb" />
     <Compile Include="Headers\OptionalHeader.vb" />
     <Compile Include="Headers\Section.vb" />
-    <Compile Include="Controls\ListViewComparer.vb" />
-    <Compile Include="mdlMisc.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -124,6 +126,24 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\document_text.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder_open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\globe.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\magnifier.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoreFunc\CoreFunc.vbproj">
+      <Project>{4F4D09F8-D122-4ACB-B049-881634E67A2C}</Project>
+      <Name>CoreFunc</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

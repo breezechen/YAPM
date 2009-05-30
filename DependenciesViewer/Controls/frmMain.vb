@@ -137,4 +137,38 @@ Public Class frmMain
     Public Sub HideOpenMenu()
         Me.OpenToolStripMenuItem.Visible = False
     End Sub
+
+    Private Sub ToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem1.Click
+        For Each it As ListViewItem In Me.lvAllDeps.SelectedItems
+            If IO.File.Exists(it.SubItems(10).Text) Then
+                CoreFunc.cFile.ShowFileProperty(it.SubItems(10).Text, Me.Handle)
+            End If
+        Next
+    End Sub
+
+    Private Sub ToolStripMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem2.Click
+        For Each it As ListViewItem In Me.lvAllDeps.SelectedItems
+            If IO.File.Exists(it.SubItems(10).Text) Then
+                CoreFunc.cFile.OpenDirectory(it.SubItems(10).Text)
+            End If
+        Next
+    End Sub
+
+    Private Sub PropertiesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PropertiesToolStripMenuItem.Click
+        If Me.tvDepends.SelectedNode IsNot Nothing Then
+            Dim _p As String = CType(Me.tvDepends.SelectedNode.Tag, NativeDependenciesTree.NativeDependency).PE.FileName
+            If IO.File.Exists(_p) Then
+                CoreFunc.cFile.ShowFileProperty(_p, Me.Handle)
+            End If
+        End If
+    End Sub
+
+    Private Sub OpenFirectoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpenFirectoryToolStripMenuItem.Click
+        If Me.tvDepends.SelectedNode IsNot Nothing Then
+            Dim _p As String = CType(Me.tvDepends.SelectedNode.Tag, NativeDependenciesTree.NativeDependency).PE.FileName
+            If IO.File.Exists(_p) Then
+                CoreFunc.cFile.OpenDirectory(_p)
+            End If
+        End If
+    End Sub
 End Class

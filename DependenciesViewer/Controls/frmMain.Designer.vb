@@ -25,8 +25,12 @@ Partial Class frmMain
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
         Me.tvDepends = New System.Windows.Forms.TreeView
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.PropertiesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.OpenFirectoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip
+        Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.FichierToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAlwaysVisible = New System.Windows.Forms.ToolStripMenuItem
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip
@@ -58,18 +62,23 @@ Partial Class frmMain
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader13 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader14 = New System.Windows.Forms.ColumnHeader
-        Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.tabImports.SuspendLayout()
         Me.tabExports.SuspendLayout()
+        Me.ContextMenuStrip2.SuspendLayout()
         Me.SuspendLayout()
         '
         'tvDepends
         '
         Me.tvDepends.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.tvDepends.ContextMenuStrip = Me.ContextMenuStrip1
         Me.tvDepends.FullRowSelect = True
         Me.tvDepends.ImageIndex = 0
         Me.tvDepends.ImageList = Me.ImageList1
@@ -78,6 +87,26 @@ Partial Class frmMain
         Me.tvDepends.SelectedImageIndex = 0
         Me.tvDepends.Size = New System.Drawing.Size(230, 417)
         Me.tvDepends.TabIndex = 0
+        '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(154, 48)
+        '
+        'PropertiesToolStripMenuItem
+        '
+        Me.PropertiesToolStripMenuItem.Image = Global.DependenciesViewer.My.Resources.Resources.document_text
+        Me.PropertiesToolStripMenuItem.Name = "PropertiesToolStripMenuItem"
+        Me.PropertiesToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.PropertiesToolStripMenuItem.Text = "File properties"
+        '
+        'OpenFirectoryToolStripMenuItem
+        '
+        Me.OpenFirectoryToolStripMenuItem.Image = Global.DependenciesViewer.My.Resources.Resources.folder_open
+        Me.OpenFirectoryToolStripMenuItem.Name = "OpenFirectoryToolStripMenuItem"
+        Me.OpenFirectoryToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.OpenFirectoryToolStripMenuItem.Text = "Open directory"
         '
         'ImageList1
         '
@@ -95,6 +124,12 @@ Partial Class frmMain
         Me.MenuStrip1.Size = New System.Drawing.Size(711, 24)
         Me.MenuStrip1.TabIndex = 1
         Me.MenuStrip1.Text = "MenuStrip1"
+        '
+        'OpenToolStripMenuItem
+        '
+        Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(57, 20)
+        Me.OpenToolStripMenuItem.Text = "&Open..."
         '
         'FichierToolStripMenuItem
         '
@@ -245,6 +280,7 @@ Partial Class frmMain
         Me.lvAllDeps.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lvAllDeps.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader15, Me.ColumnHeader16, Me.ColumnHeader17, Me.ColumnHeader18, Me.ColumnHeader19, Me.ColumnHeader20, Me.ColumnHeader10, Me.ColumnHeader11, Me.ColumnHeader12, Me.ColumnHeader13, Me.ColumnHeader14})
+        Me.lvAllDeps.ContextMenuStrip = Me.ContextMenuStrip2
         Me.lvAllDeps.FullRowSelect = True
         Me.lvAllDeps.LargeImageList = Me.ImageList1
         Me.lvAllDeps.Location = New System.Drawing.Point(236, 308)
@@ -302,11 +338,25 @@ Partial Class frmMain
         Me.ColumnHeader14.Text = "Path"
         Me.ColumnHeader14.Width = 200
         '
-        'OpenToolStripMenuItem
+        'ContextMenuStrip2
         '
-        Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(57, 20)
-        Me.OpenToolStripMenuItem.Text = "&Open..."
+        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem1, Me.ToolStripMenuItem2})
+        Me.ContextMenuStrip2.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip2.Size = New System.Drawing.Size(154, 48)
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Image = Global.DependenciesViewer.My.Resources.Resources.document_text
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(153, 22)
+        Me.ToolStripMenuItem1.Text = "File properties"
+        '
+        'ToolStripMenuItem2
+        '
+        Me.ToolStripMenuItem2.Image = Global.DependenciesViewer.My.Resources.Resources.folder_open
+        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(153, 22)
+        Me.ToolStripMenuItem2.Text = "Open directory"
         '
         'frmMain
         '
@@ -324,6 +374,7 @@ Partial Class frmMain
         Me.Name = "frmMain"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Native Dependency Viewer"
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
         Me.StatusStrip1.ResumeLayout(False)
@@ -331,6 +382,7 @@ Partial Class frmMain
         Me.TabControl1.ResumeLayout(False)
         Me.tabImports.ResumeLayout(False)
         Me.tabExports.ResumeLayout(False)
+        Me.ContextMenuStrip2.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -370,4 +422,10 @@ Partial Class frmMain
     Friend WithEvents ColumnHeader13 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader14 As System.Windows.Forms.ColumnHeader
     Friend WithEvents OpenToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ContextMenuStrip1 As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents PropertiesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OpenFirectoryToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ContextMenuStrip2 As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
 End Class
