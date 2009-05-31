@@ -832,10 +832,13 @@ Public Class frmMain
             If Me.Ribbon.ActiveTab.Text = "Services" Then
                 ' First display of service tab
                 Call refreshServiceList()
-            ElseIf Me.Ribbon.ActiveTab.Text = "Processes" Then
+            End If
+        ElseIf Me.lvProcess.Items.Count = 0 Then
+            If Me.Ribbon.ActiveTab.Text = "Processes" Then
+                ' First display of process tab
                 Call refreshProcessList()
             End If
-        End If
+        End if
     End Sub
 
     Public Sub Ribbon_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Ribbon.MouseMove
