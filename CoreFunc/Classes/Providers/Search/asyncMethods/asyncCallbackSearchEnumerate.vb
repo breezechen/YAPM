@@ -109,91 +109,95 @@ Public Class asyncCallbackSearchEnumerate
                 ' ---- PROCESSES
                 If (pObj.includ And SearchProcesses) = SearchProcesses Then
                     cProcess.SemCurrentProcesses.WaitOne()
-                    Dim _tmpDico As New Dictionary(Of String, cProcess)
-                    _tmpDico = cProcess.CurrentProcesses
-                    For Each cp As cProcess In _tmpDico.Values
-                        For Each field As String In processInfos.GetAvailableProperties
-                            Dim scomp As String = cp.GetInformation(field)
-                            If scomp IsNot Nothing Then
-                                If pObj.caseSen = False Then
-                                    scomp = scomp.ToLowerInvariant
+                    If cProcess.CurrentProcesses IsNot Nothing Then
+                        Dim _tmpDico As New Dictionary(Of String, cProcess)
+                        _tmpDico = cProcess.CurrentProcesses
+                        For Each cp As cProcess In _tmpDico.Values
+                            For Each field As String In processInfos.GetAvailableProperties
+                                Dim scomp As String = cp.GetInformation(field)
+                                If scomp IsNot Nothing Then
+                                    If pObj.caseSen = False Then
+                                        scomp = scomp.ToLowerInvariant
+                                    End If
+                                    If InStr(scomp, sToSearch, CompareMethod.Binary) > 0 Then
+                                        ' Found an item
+                                        Dim newItFound As New searchInfos(cp.Infos.Pid, field, searchInfos.ResultType.Process, scomp)
+                                        key += 1
+                                        _dico.Add(key.ToString, newItFound)
+                                    End If
                                 End If
-                                If InStr(scomp, sToSearch, CompareMethod.Binary) > 0 Then
-                                    ' Found an item
-                                    Dim newItFound As New searchInfos(cp.Infos.Pid, field, searchInfos.ResultType.Process, scomp)
-                                    key += 1
-                                    _dico.Add(key.ToString, newItFound)
-                                End If
+                            Next
+
+                            ' ---- MODULES
+                            If (pObj.includ And SearchModules) = SearchModules Then
+                                Dim _tmpDico2 As Dictionary(Of String, cModule) = cModule.CurrentLocalModules(cp.Infos.Pid)
+                                For Each cm As cModule In _tmpDico2.Values
+                                    For Each field2 As String In processInfos.GetAvailableProperties
+                                        Dim scomp2 As String = cm.GetInformation(field2)
+                                        If scomp2 IsNot Nothing Then
+                                            If pObj.caseSen = False Then
+                                                scomp2 = scomp2.ToLowerInvariant
+                                            End If
+                                            If InStr(scomp2, sToSearch, CompareMethod.Binary) > 0 Then
+                                                ' Found an item
+                                                Dim newItFound As New searchInfos(cp.Infos.Pid, field2, searchInfos.ResultType.Module, scomp2, peb:=cm.Infos.BaseAddress, modName:=cm.Infos.Name)
+                                                key += 1
+                                                _dico.Add(key.ToString, newItFound)
+                                            End If
+                                        End If
+                                    Next
+                                Next
                             End If
+
+                            ' ---- ENVVARIABLES
+                            If (pObj.includ And SearchEnvVar) = SearchEnvVar Then
+                                Dim _tmpDico2 As Dictionary(Of String, cEnvVariable) = cEnvVariable.CurrentEnvVariables(cp)
+                                For Each cm As cEnvVariable In _tmpDico2.Values
+                                    For Each field2 As String In envVariableInfos.GetAvailableProperties
+                                        Dim scomp2 As String = cm.GetInformation(field2)
+                                        If scomp2 IsNot Nothing Then
+                                            If pObj.caseSen = False Then
+                                                scomp2 = scomp2.ToLowerInvariant
+                                            End If
+                                            If InStr(scomp2, sToSearch, CompareMethod.Binary) > 0 Then
+                                                ' Found an item
+                                                Dim newItFound As New searchInfos(cp.Infos.Pid, field2, searchInfos.ResultType.EnvironmentVariable, scomp2)
+                                                key += 1
+                                                _dico.Add(key.ToString, newItFound)
+                                            End If
+                                        End If
+                                    Next
+                                Next
+                            End If
+
                         Next
-
-                        ' ---- MODULES
-                        If (pObj.includ And SearchModules) = SearchModules Then
-                            Dim _tmpDico2 As Dictionary(Of String, cModule) = cModule.CurrentLocalModules(cp.Infos.Pid)
-                            For Each cm As cModule In _tmpDico2.Values
-                                For Each field2 As String In processInfos.GetAvailableProperties
-                                    Dim scomp2 As String = cm.GetInformation(field2)
-                                    If scomp2 IsNot Nothing Then
-                                        If pObj.caseSen = False Then
-                                            scomp2 = scomp2.ToLowerInvariant
-                                        End If
-                                        If InStr(scomp2, sToSearch, CompareMethod.Binary) > 0 Then
-                                            ' Found an item
-                                            Dim newItFound As New searchInfos(cp.Infos.Pid, field2, searchInfos.ResultType.Module, scomp2, peb:=cm.Infos.BaseAddress, modName:=cm.Infos.Name)
-                                            key += 1
-                                            _dico.Add(key.ToString, newItFound)
-                                        End If
-                                    End If
-                                Next
-                            Next
-                        End If
-
-                        ' ---- ENVVARIABLES
-                        If (pObj.includ And SearchEnvVar) = SearchEnvVar Then
-                            Dim _tmpDico2 As Dictionary(Of String, cEnvVariable) = cEnvVariable.CurrentEnvVariables(cp)
-                            For Each cm As cEnvVariable In _tmpDico2.Values
-                                For Each field2 As String In envVariableInfos.GetAvailableProperties
-                                    Dim scomp2 As String = cm.GetInformation(field2)
-                                    If scomp2 IsNot Nothing Then
-                                        If pObj.caseSen = False Then
-                                            scomp2 = scomp2.ToLowerInvariant
-                                        End If
-                                        If InStr(scomp2, sToSearch, CompareMethod.Binary) > 0 Then
-                                            ' Found an item
-                                            Dim newItFound As New searchInfos(cp.Infos.Pid, field2, searchInfos.ResultType.EnvironmentVariable, scomp2)
-                                            key += 1
-                                            _dico.Add(key.ToString, newItFound)
-                                        End If
-                                    End If
-                                Next
-                            Next
-                        End If
-
-                    Next
+                    End If
                     cProcess.SemCurrentProcesses.Release()
                 End If
 
                 ' ---- SERVICES
                 If (pObj.includ And SearchServices) = SearchServices Then
                     cService.SemCurrentServices.WaitOne()
-                    Dim _tmpDico As New Dictionary(Of String, cService)
-                    _tmpDico = cService._currentServices
-                    For Each cp As cService In _tmpDico.Values
-                        For Each field As String In serviceInfos.GetAvailableProperties
-                            Dim scomp As String = cp.GetInformation(field)
-                            If scomp IsNot Nothing Then
-                                If pObj.caseSen = False Then
-                                    scomp = scomp.ToLowerInvariant
+                    If cService._currentServices IsNot Nothing Then
+                        Dim _tmpDico As New Dictionary(Of String, cService)
+                        _tmpDico = cService._currentServices
+                        For Each cp As cService In _tmpDico.Values
+                            For Each field As String In serviceInfos.GetAvailableProperties
+                                Dim scomp As String = cp.GetInformation(field)
+                                If scomp IsNot Nothing Then
+                                    If pObj.caseSen = False Then
+                                        scomp = scomp.ToLowerInvariant
+                                    End If
+                                    If InStr(scomp, sToSearch, CompareMethod.Binary) > 0 Then
+                                        ' Found an item
+                                        Dim newItFound As New searchInfos(cp.Infos.ProcessId, field, searchInfos.ResultType.Service, scomp, cp.Infos.Name)
+                                        key += 1
+                                        _dico.Add(key.ToString, newItFound)
+                                    End If
                                 End If
-                                If InStr(scomp, sToSearch, CompareMethod.Binary) > 0 Then
-                                    ' Found an item
-                                    Dim newItFound As New searchInfos(cp.Infos.ProcessId, field, searchInfos.ResultType.Service, scomp, cp.Infos.Name)
-                                    key += 1
-                                    _dico.Add(key.ToString, newItFound)
-                                End If
-                            End If
+                            Next
                         Next
-                    Next
+                    End If
                     cService.SemCurrentServices.Release()
                 End If
 
