@@ -72,8 +72,10 @@ Public Class AsynchronousSocketListener
                     '
                 End Try
                 ' Disconnect
-                Trace.WriteLine("Client BeginDisconnect...")
-                listener.BeginDisconnect(False, AddressOf disconnectCallback, Nothing)
+                If listener.Connected Then
+                    Trace.WriteLine("Client BeginDisconnect...")
+                    listener.BeginDisconnect(True, New AsyncCallback(AddressOf disconnectCallback), listener)
+                End If
             End If
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error while disconnecting")

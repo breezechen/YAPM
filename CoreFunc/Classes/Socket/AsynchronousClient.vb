@@ -104,7 +104,7 @@ Public Class AsynchronousClient
         ' Disconnect
         Trace.WriteLine("Client BeginDisconnect...")
         Try
-            client.BeginDisconnect(False, AddressOf disconnectCallback, Nothing)
+            client.BeginDisconnect(True, New AsyncCallback(AddressOf disconnectCallback), client)
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error while disconnecting")
             RaiseEvent Disconnected()
