@@ -90,6 +90,8 @@ Option Strict On
         [HandleClose]
         [ModuleUnload]
         [PrivilegeChangeStatus]
+        [RequestProcessorCount]
+        [ReturnProcessorCount]
 
         ' Request lists
         [RequestProcessList]

@@ -125,6 +125,12 @@ Public Class cProcessConnection
         ' Get processor count
         Select Case _conObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                Try
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestProcessorCount)
+                    _conObj.Socket.Send(cDat)
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
                 Try
@@ -211,7 +217,11 @@ Public Class cProcessConnection
                 ' OK it is for me
                 _procEnum.GotListFromSocket(data.GetList, data.GetKeys)
             End If
+        ElseIf data.Type = cSocketData.DataType.Order AndAlso _
+            data.Order = cSocketData.OrderType.ReturnProcessorCount Then
+            _processors = CInt(data.Param1)
         End If
+
     End Sub
 
     Protected Overrides Sub _sock_SentData() Handles _sock.SentData

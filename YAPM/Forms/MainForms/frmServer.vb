@@ -405,7 +405,7 @@ Public Class frmServer
             ' Extract the type of information we have to send
             If cData.Type = cSocketData.DataType.Order Then
 
-                ' ===== Request lists
+                ' ===== Request lists and informations
                 Select Case cData.Order
                     Case cSocketData.OrderType.RequestProcessList
                         Call _procCon.Enumerate(True, _forInstanceId)
@@ -466,6 +466,16 @@ Public Class frmServer
                         Dim name As String = CStr(cData.Param1)
                         Dim type As cServDepConnection.DependenciesToget = CType(cData.Param2, cServDepConnection.DependenciesToget)
                         Call _servdepCon.Enumerate(name, type, _forInstanceId)
+                        Exit Sub
+                    Case cSocketData.OrderType.RequestProcessorCount
+                        Dim procCount As Integer = cSystemInfo.GetProcessorCount
+                        Try
+                            Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ReturnProcessorCount, procCount)
+                            cDat._id = _idToSend
+                            sock.Send(cDat)
+                        Catch ex As Exception
+                            '
+                        End Try
                         Exit Sub
                 End Select
 
