@@ -93,6 +93,8 @@ Public Class cProcessConnection
     ' Connection
     Protected Overrides Sub asyncConnect(ByVal useless As Object)
 
+        _processors = 0         ' Reinit processor count
+
         ' Connect
         Select Case _conObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
@@ -125,12 +127,10 @@ Public Class cProcessConnection
         ' Get processor count
         Select Case _conObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-                Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestProcessorCount)
-                    _conObj.Socket.Send(cDat)
-                Catch ex As Exception
-                    MsgBox(ex.Message)
-                End Try
+                ' We will try to retrieve processor count each time we GET data
+                ' from server (if procCount is still 0), because if we do it
+                ' HERE, the connection is not well initialized at this point
+                ' (i.e. _idToSend has not been sent by the server)
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
                 Try
@@ -155,6 +155,9 @@ Public Class cProcessConnection
 
     ' Disconnect
     Protected Overrides Sub asyncDisconnect(ByVal useless As Object)
+
+        _processors = 0     ' Reinit processor count
+
         Select Case _conObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 _connected = False
@@ -198,6 +201,21 @@ Public Class cProcessConnection
 
     Protected Overrides Sub _sock_ReceivedData(ByRef data As cSocketData) Handles _sock.ReceivedData
 
+        If _processors = 0 Then
+            ' Send the request
+            Try
+                Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestProcessorCount)
+                _conObj.Socket.Send(cDat)
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+
+            If data.Type = cSocketData.DataType.Order AndAlso _
+                data.Order = cSocketData.OrderType.ReturnProcessorCount Then
+                _processors = CInt(data.Param1)
+            End If
+        End If
+
         ' OK, THIS IS NOT THE BEST WAY TO AVOID THE BUG
         Static _antiEcho As Boolean = False
         _antiEcho = Not (_antiEcho)
@@ -217,9 +235,6 @@ Public Class cProcessConnection
                 ' OK it is for me
                 _procEnum.GotListFromSocket(data.GetList, data.GetKeys)
             End If
-        ElseIf data.Type = cSocketData.DataType.Order AndAlso _
-            data.Order = cSocketData.OrderType.ReturnProcessorCount Then
-            _processors = CInt(data.Param1)
         End If
 
     End Sub
