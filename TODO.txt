@@ -8,10 +8,8 @@ TODO LIST
 
 ---- RESEAU
 - ReAnalize service marche pas
-- gérer déconnection socket (reconnection doit être possible)
 - cpu usage pour remote (socket) -> récupérer processor count
 - affinity process/thread (socket)
-- bug connections (crashes...)
 - refresh services trop rapide -> impossible de récupérer des infos par socket après (checker semaphore)
 - reports
 - log processus
