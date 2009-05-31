@@ -109,12 +109,14 @@ Public Class frmServer
 
 #Region "Has enumerated lists"
 
+    Private _TheIdToSend As String
     Private Sub HasEnumeratedEnvVar(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, envVariableInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
         If Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestEnvironmentVariableList)
                 cDat.InstanceId = instanceId   ' The instance which requested the list
+                cDat._id = _TheIdToSend
                 cDat.SetEnvVarList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
@@ -132,6 +134,7 @@ Public Class frmServer
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestServDepList, Nothing, type)
                 cDat.InstanceId = instanceId   ' The instance which requested the list
+                cDat._id = _TheIdToSend
                 cDat.SetServiceList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
@@ -149,6 +152,7 @@ Public Class frmServer
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestMemoryRegionList)
                 cDat.InstanceId = instanceId   ' The instance which requested the list
+                cDat._id = _TheIdToSend
                 cDat.SetMemoryRegList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
@@ -166,6 +170,7 @@ Public Class frmServer
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestProcessList)
                 cDat.InstanceId = instanceId   ' The instance which requested the list
+                cDat._id = _TheIdToSend
                 cDat.SetProcessList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
@@ -183,6 +188,7 @@ Public Class frmServer
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestPrivilegesList)
                 cDat.InstanceId = instanceId   ' The instance which requested the list
+                cDat._id = _TheIdToSend
                 cDat.SetPrivilegeList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
@@ -200,6 +206,7 @@ Public Class frmServer
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestServiceList)
                 cDat.InstanceId = forII   ' The instance which requested the list
+                cDat._id = _TheIdToSend
                 cDat.SetServiceList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
@@ -217,6 +224,7 @@ Public Class frmServer
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestThreadList)
                 cDat.InstanceId = forII   ' The instance which requested the list
+                cDat._id = _TheIdToSend
                 cDat.SetThreadList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
@@ -234,6 +242,7 @@ Public Class frmServer
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestModuleList)
                 cDat.InstanceId = instanceId  ' The instance which requested the list
+                cDat._id = _TheIdToSend
                 cDat.SetModuleList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
@@ -251,6 +260,7 @@ Public Class frmServer
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestHandleList)
                 cDat.InstanceId = instanceId  ' The instance which requested the list
+                cDat._id = _TheIdToSend
                 cDat.SetHandleList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
@@ -268,6 +278,7 @@ Public Class frmServer
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestNetworkConnectionList)
                 cDat.InstanceId = instanceId  ' The instance which requested the list
+                cDat._id = _TheIdToSend
                 cDat.SetNetworkList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
@@ -285,6 +296,7 @@ Public Class frmServer
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestSearchList)
                 cDat.InstanceId = instanceId  ' The instance which requested the list
+                cDat._id = _TheIdToSend
                 cDat.SetSearchList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
@@ -302,6 +314,7 @@ Public Class frmServer
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestTaskList)
                 cDat.InstanceId = instanceId  ' The instance which requested the list
+                cDat._id = _TheIdToSend
                 cDat.SetWindowsList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
@@ -319,6 +332,7 @@ Public Class frmServer
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestWindowList)
                 cDat.InstanceId = instanceId  ' The instance which requested the list
+                cDat._id = _TheIdToSend
                 cDat.SetWindowsList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
@@ -332,11 +346,11 @@ Public Class frmServer
 #End Region
 
     Private Sub frmServeur_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
-        Try
-            sock.Disconnect()
-        Catch ex As Exception
-            '
-        End Try
+        'Try
+        sock.Disconnect()
+        'Catch ex As Exception
+        '    '
+        'End Try
     End Sub
 
     Private Delegate Sub ChangeConnectState(ByVal state As SOCK_STATE)
@@ -382,6 +396,8 @@ Public Class frmServer
             End If
 
             Dim _forInstanceId As Integer = cData.InstanceId
+            Dim _idToSend As String = cData._id
+            _TheIdToSend = _idToSend
 
             ' Add item to history
             Me.Invoke(New addItemHandler(AddressOf addItem), cData)
@@ -798,6 +814,7 @@ Public Class frmServer
                 ' Send an ACK for orders executed (except enumerations)
                 Try
                     Dim cDat As New cSocketData(cSocketData.DataType.Ack, , ret)
+                    cDat._id = _idToSend
                     sock.Send(cDat)
                 Catch ex As Exception
                     MsgBox(ex.Message)
@@ -845,14 +862,20 @@ Public Class frmServer
 
     Private Sub cmdConnection_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdConnection.Click
         ' Connect or disconnect the socket (server)
-        Try
-            If _state = SOCK_STATE.Disconnected Then
-                sock.Connect(PORT)
-            Else
-                sock.Disconnect()
-            End If
-        Catch ex As Exception
-            MsgBox(ex.Message)
-        End Try
+        Dim t As New System.Threading.WaitCallback(AddressOf conDegCallBack)
+        Call Threading.ThreadPool.QueueUserWorkItem(t, Nothing)
     End Sub
+
+    Private Sub conDegCallBack(ByVal obj As Object)
+        'Try
+        If _state = SOCK_STATE.Disconnected Then
+            sock.Connect(PORT)
+        Else
+            sock.Disconnect()
+        End If
+        'Catch ex As Exception
+        '    MsgBox(ex.Message)
+        'End Try
+    End Sub
+
 End Class

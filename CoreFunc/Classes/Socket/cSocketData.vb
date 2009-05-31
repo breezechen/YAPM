@@ -32,6 +32,7 @@ Option Strict On
         [Order] = 1                 ' An order (nothing expected after)
         [RequestedList] = 2         ' Requested list
         [Ack] = 3                   ' Acknowledge
+        [Identification] = 4        ' For key return
     End Enum
 
     ' Type of orders
@@ -132,6 +133,8 @@ Option Strict On
     Private _param3 As Object
     Private _param4 As Object
     Private _ack As Boolean = False     ' Acknowledge
+
+    Public _id As String
 
     ' Contains items requested
     Private _list() As generalInfos
