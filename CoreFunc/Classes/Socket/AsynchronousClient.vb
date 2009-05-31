@@ -42,6 +42,7 @@ Public Class AsynchronousClient
 
 
     Private client As Socket
+    Private _uniqueClientKey As String = "cDat._id"
     Private Shared semQueue As New Semaphore(1, 1)
 
     Public Sub Connect(ByVal ip As IPAddress, ByVal port As Integer)
@@ -104,7 +105,12 @@ Public Class AsynchronousClient
         ' Disconnect
         Trace.WriteLine("Client BeginDisconnect...")
         Try
-            client.BeginDisconnect(True, New AsyncCallback(AddressOf disconnectCallback), client)
+            client.Close()
+            If client.Connected Then
+                'client.BeginDisconnect(True, New AsyncCallback(AddressOf disconnectCallback), client)
+            Else
+                RaiseEvent Disconnected()
+            End If
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error while disconnecting")
             RaiseEvent Disconnected()
@@ -166,6 +172,10 @@ Public Class AsynchronousClient
         Dim state As StateObject = CType(ar.AsyncState, StateObject)
         Dim client As Socket = state.workSocket
 
+        If client.Connected = False Then
+            Exit Sub
+        End If
+
         ' Read data from the remote device.
         Dim bytesRead As Integer
         Try
@@ -205,13 +215,23 @@ Public Class AsynchronousClient
 
             Dim cDat As cSocketData = cSerialization.DeserializeObject(state.receivedBuff)
             If cDat IsNot Nothing Then
+                'If cDat.Type = cSocketData.DataType.Identification Then
+                ' This is the identification key we receive
+                _uniqueClientKey = cDat._id
+                'Else
                 If cDat.Ack Then
-                    semQueue.Release(1)
+                    Try
+                        semQueue.Release(1)
+                    Catch ex As Exception
+                        '
+                    End Try
                 End If
                 RaiseEvent ReceivedData(cDat)
                 Trace.WriteLine("DATA HAS A SIZE OF " & state.receivedSize.ToString)
+                ReDim state.receivedBuff(0)
+                state.receivedSize = 0
+                'End If
             End If
-
         End If
 
         If bytesRead < StateObject.BUFFER_SIZE Then
@@ -219,13 +239,22 @@ Public Class AsynchronousClient
             ' the datas
             Dim cDat As cSocketData = cSerialization.DeserializeObject(state.receivedBuff)
             If cDat IsNot Nothing Then
+                'If cDat.Type = cSocketData.DataType.Identification Then
+                ' This is the identification key we receive
+                _uniqueClientKey = cDat._id
+                'Else
                 If cDat.Ack Then
-                    semQueue.Release(1)
+                    Try
+                        semQueue.Release(1)
+                    Catch ex As Exception
+                        '
+                    End Try
                 End If
                 RaiseEvent ReceivedData(cDat)
                 Trace.WriteLine("DATA HAS A SIZE OF " & state.receivedSize.ToString)
                 ReDim state.receivedBuff(0)
                 state.receivedSize = 0
+                'End If
             End If
         End If
 
@@ -239,6 +268,7 @@ Public Class AsynchronousClient
     Public Sub Send(ByVal dat As cSocketData)
         ' Add the object to send into the list (queue)
         semQueue.WaitOne()
+        dat._id = _uniqueClientKey
         pvtSend(dat)
     End Sub
     Private Sub pvtSend(ByRef dat As cSocketData)

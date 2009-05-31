@@ -1,6 +1,7 @@
 TODO LIST
 
 ---- GENERAL
+- envoi de DEUX requetes RefreshProcessList
 - transformer .Created par try/catch ? + manque des Invoke pour les connected dans les cXXXConnection
 - régression performances d'affichage + clignotements des listviews quand changement de foreground window
 - recherche avant récupération des process -> foreach de CurrentProcesses foireux
