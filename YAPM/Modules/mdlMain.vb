@@ -141,6 +141,20 @@ Public Module Program
 
 
 
+        ' ======= Check if system is 32 bits
+        Select Case System.Runtime.InteropServices.Marshal.SizeOf(IntPtr.Zero)
+            Case 4
+                ' OK
+            Case 2
+                MsgBox("Cannot start on a 16-bits system." & vbNewLine & "YAPM only works on 32bits systems", MsgBoxStyle.Critical, "Error")
+                Application.Exit()
+            Case 8
+                MsgBox("Cannot start on a 64-bits system." & vbNewLine & "YAPM only works on 32bits systems", MsgBoxStyle.Critical, "Error")
+                Application.Exit()
+        End Select
+
+
+
         ' ======= Close application if there is a previous instance of YAPM running
         If IsAlreadyRunning() Then
             Exit Sub
