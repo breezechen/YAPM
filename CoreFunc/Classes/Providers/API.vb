@@ -1256,6 +1256,13 @@ Public Class API
         SW_SHOWDEFAULT = 10
     End Enum
 
+    Public Enum SendMessageTimeoutFlags As Integer
+        SMTO_NORMAL = &H0
+        SMTO_BLOCK = &H1
+        SMTO_ABORTIFHUNG = &H2
+        SMTO_NOTIMEOUTIFNOTHUNG = &H8
+    End Enum
+
     <DllImport("user32.dll")> _
     Public Shared Function SetWindowLong(ByVal hWnd As IntPtr, ByVal nIndex As Integer, ByVal dwNewLong As IntPtr) As Integer
     End Function
@@ -1270,6 +1277,10 @@ Public Class API
 
     <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
     Public Shared Function SendMessage(ByVal hWnd As IntPtr, ByVal Msg As Integer, ByVal wParam As Integer, ByVal lParam As Integer) As IntPtr
+    End Function
+
+    <DllImport("user32.dll", SetLastError:=True)> _
+    Public Shared Function SendMessageTimeout(ByVal windowHandle As IntPtr, ByVal Msg As Integer, ByVal wParam As Integer, ByVal lParam As Integer, ByVal flags As SendMessageTimeoutFlags, ByVal timeout As Integer, ByRef result As IntPtr) As IntPtr
     End Function
 
     <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _

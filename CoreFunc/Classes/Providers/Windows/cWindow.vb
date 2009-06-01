@@ -369,18 +369,18 @@ Public Class cWindow
     ' Get small icon handle of window
     Private Function GetWindowSmallIcon() As IntPtr
         Dim res As IntPtr
-        res = API.SendMessage(_windowInfos.Handle, API.WM_GETICON, API.ICON_SMALL, 0)
+        Dim out As IntPtr
+        res = API.SendMessageTimeout(_windowInfos.Handle, API.WM_GETICON, API.ICON_SMALL, 0, API.SendMessageTimeoutFlags.SMTO_ABORTIFHUNG, 0, out)
 
-
-        If res = IntPtr.Zero Then
-            res = API.GetClassLong(_windowInfos.Handle, API.GCL_HICONSM)
+        If out = IntPtr.Zero Then
+            out = API.GetClassLong(_windowInfos.Handle, API.GCL_HICONSM)
         End If
 
-        If res = IntPtr.Zero Then
-            res = API.SendMessage(API.GetWindowLong(_windowInfos.Handle, API.GWL_HWNDPARENT), API.WM_GETICON, API.ICON_SMALL, 0)
+        If out = IntPtr.Zero Then
+            res = API.SendMessageTimeout(API.GetWindowLong(_windowInfos.Handle, API.GWL_HWNDPARENT), API.WM_GETICON, API.ICON_SMALL, 0, API.SendMessageTimeoutFlags.SMTO_ABORTIFHUNG, 0, out)
         End If
 
-        Return res
+        Return out
     End Function
 
 #Region "Shared functions (local)"
@@ -422,6 +422,8 @@ Public Class cWindow
     End Function
 
     ' Close
+    ' MUST BE USE FOR OWNED WINDOWS ONLY
+    ' Because SendMessage is synchron and may cause thread to be hung
     Public Shared Function LocalClose(ByVal handle As IntPtr) As Integer
         Return API.SendMessage(handle, API.WM_CLOSE, 0, 0).ToInt32
     End Function
