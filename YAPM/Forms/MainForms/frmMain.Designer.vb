@@ -6916,7 +6916,7 @@ Partial Class frmMain
         '
         Me.DependencyViewerToolStripMenuItem.Name = "DependencyViewerToolStripMenuItem"
         Me.DependencyViewerToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
-        Me.DependencyViewerToolStripMenuItem.Text = "Dependeny viewer..."
+        Me.DependencyViewerToolStripMenuItem.Text = "Dependency viewer..."
         '
         'DependencyViewerToolStripMenuItem1
         '
