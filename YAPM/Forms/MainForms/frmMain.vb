@@ -4317,4 +4317,14 @@ Public Class frmMain
             frm.Show()
         Next
     End Sub
+
+    Private Sub CreateDumpFileToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CreateDumpFileToolStripMenuItem.Click
+        Dim _frm As New frmDumpFile
+        If _frm.ShowDialog = Windows.Forms.DialogResult.OK Then
+            For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+                Dim _file As String = _frm.TargetDir & "\" & Date.Now.Ticks.ToString & "_" & cp.Infos.Name & ".dmp"
+                Call cp.CreateDumpFile(_file, _frm.DumpOption)
+            Next
+        End If
+    End Sub
 End Class

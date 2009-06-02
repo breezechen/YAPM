@@ -300,6 +300,34 @@ Public Class cProcess
 
 #Region "All actions on process (kill, enum...)"
 
+    ' Create dump file
+    Private _createDumpF As asyncCallbackProcMinidump
+    Public Sub CreateDumpFile(ByVal file As String, ByVal opt As API.MINIDUMPTYPE)
+
+        If _createDumpF Is Nothing Then
+            _createDumpF = New asyncCallbackProcMinidump(New asyncCallbackProcMinidump.HasCreatedDump(AddressOf createdMinidump), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _createDumpF.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackProcMinidump.poolObj(Me.Infos.Pid, file, opt, newAction))
+
+        AddPendingTask2(newAction, t)
+    End Sub
+    Private Sub createdMinidump(ByVal Success As Boolean, ByVal pid As Integer, ByVal file As String, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                   "Could not create mini dump file " & file & " for process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
+        Else
+            MsgBox("Mini dump file " & file & " for process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ") created successfully !", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, _
+                   "Mini dump file created")
+        End If
+        RemovePendingTask(actionNumber)
+    End Sub
+
+
     ' Set priority
     Private _setPriorityP As asyncCallbackProcSetPriority
     Public Function SetPriority(ByVal level As ProcessPriorityClass) As Integer

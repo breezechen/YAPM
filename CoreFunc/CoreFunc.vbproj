@@ -101,6 +101,7 @@
     <Compile Include="Classes\Providers\NetworkConnections\cNetwork.vb" />
     <Compile Include="Classes\Providers\NetworkConnections\cNetworkConnection.vb" />
     <Compile Include="Classes\Providers\NetworkConnections\networkInfos.vb" />
+    <Compile Include="Classes\Providers\Processes\asyncMethods\asyncCallbackProcMinidump.vb" />
     <Compile Include="Classes\Providers\Processes\cProcessMemRW.vb" />
     <Compile Include="Classes\Providers\Handles\asyncMethods\asyncCallbackHandleEnumerate.vb" />
     <Compile Include="Classes\Providers\Handles\asyncMethods\asyncCallbackHandleUnload.vb" />

@@ -189,6 +189,9 @@
     <EmbeddedResource Include="Forms\Misc\frmTracker.resx">
       <DependentUpon>frmTracker.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Misc\frmDumpFile.resx">
+      <DependentUpon>frmDumpFile.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Preferences\frmLogOptions.resx">
       <DependentUpon>frmLogOptions.vb</DependentUpon>
     </EmbeddedResource>
@@ -381,6 +384,12 @@
       <DependentUpon>frmTracker.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\Misc\frmTracker.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Misc\frmDumpFile.Designer.vb">
+      <DependentUpon>frmDumpFile.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Misc\frmDumpFile.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Preferences\frmLogOptions.Designer.vb">

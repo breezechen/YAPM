@@ -52,6 +52,24 @@ Public Class API
     Public Const PROCESS_VM_READ As Integer = &H10
     Public Const PROCESS_VM_WRITE As Integer = &H20
 
+    Public Enum MINIDUMPTYPE As Integer
+        MiniDumpNormal = &H0
+        MiniDumpWithDataSegs = &H1
+        MiniDumpWithFullMemory = &H2
+        MiniDumpWithHandleData = &H4
+        MiniDumpFilterMemory = &H8
+        MiniDumpScanMemory = &H10
+        MiniDumpWithUnloadedModules = &H20
+        MiniDumpWithIndirectlyReferencedMemory = &H40
+        MiniDumpFilterModulePaths = &H80
+        MiniDumpWithProcessThreadData = &H100
+        MiniDumpWithPrivateReadWriteMemory = &H200
+        MiniDumpWithoutOptionalData = &H400
+        MiniDumpWithFullMemoryInfo = &H800
+        MiniDumpWithThreadInfo = &H1000
+        MiniDumpWithCodeSegs = &H2000
+    End Enum
+
     Public Enum PROCESS_INFORMATION_CLASS As Integer
         ProcessBasicInformation
         ProcessQuotaLimits
@@ -178,6 +196,11 @@ Public Class API
         Public PeakPagefileUsage As Integer
         Public PrivateBytes As Integer
     End Structure
+
+    <DllImport("dbghelp.dll")> _
+    Public Shared Function MiniDumpWriteDump(ByVal hProcess As Integer, ByVal ProcessId As Integer, ByVal hFile As IntPtr, ByVal DumpType As Integer, ByVal ExceptionParam As IntPtr, ByVal UserStreamParam As IntPtr, _
+    ByVal CallackParam As IntPtr) As Boolean
+    End Function
 
     <DllImport("kernel32.dll", SetLastError:=True)> _
     Public Shared Function OpenProcess(ByVal DesiredAccess As PROCESS_RIGHTS, ByVal InheritHandle As Integer, ByVal ProcessId As Integer) As Integer
