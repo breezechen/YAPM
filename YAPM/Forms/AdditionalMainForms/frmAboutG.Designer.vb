@@ -103,7 +103,7 @@ Partial Class frmAboutG
         Me.lblVersion.Name = "lblVersion"
         Me.lblVersion.Size = New System.Drawing.Size(43, 13)
         Me.lblVersion.TabIndex = 7
-        Me.lblVersion.Text = "2.0.0.0"
+        Me.lblVersion.Text = "2.0.0.1"
         '
         'lblDate
         '
@@ -114,7 +114,7 @@ Partial Class frmAboutG
         Me.lblDate.Name = "lblDate"
         Me.lblDate.Size = New System.Drawing.Size(63, 13)
         Me.lblDate.TabIndex = 9
-        Me.lblDate.Text = "22/03/2009"
+        Me.lblDate.Text = "04/06/2009"
         '
         'Label4
         '
