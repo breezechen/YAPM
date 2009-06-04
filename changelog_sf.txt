@@ -1,4 +1,24 @@
-YAPM 2.0 BETA
+YAPM 2.0.1 BETA
+
+CHANGES FROM 2.0
+ 
+* General changes
+- Improvements of connections/disconnections
+ 
+* GUI changes
+- Now Cpu usage and I/O are not displayed if null
+ 
+* New features
+- 'Dependencies viewer' to see dependencies of an executable (or *.dll, *.sys...)
+- Remote shutdown (shutdown/reboot/... for remote machines via WMI/Socket)
+- Possibility to create dump files
+ 
+* Minor changes
+- Too much to be listed
+
+* Bug fixes
+- Too much to be listed
+
 
 CHANGES FROM BETA 5
 
