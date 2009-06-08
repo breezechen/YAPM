@@ -10,7 +10,7 @@ TODO LIST
 - refresh services trop rapide -> impossible de récupérer des infos par socket après (checker semaphore)
 - reports
 - log processus
-- TODO, TOCHANGE, TODO_
+- TODO, TOCHANGE, TODO_, TOCHECK
 
 - getmappedimage... pour socket
 - UAC -> tester
