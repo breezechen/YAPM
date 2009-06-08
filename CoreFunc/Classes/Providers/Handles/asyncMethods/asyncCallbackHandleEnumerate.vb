@@ -120,7 +120,12 @@ Public Class asyncCallbackHandleEnumerate
                                 End With
                                 Dim _key As String = retPid.ToString & "-" & retHandle.ToString & "-" & retType & "-" & retName
                                 Dim ret As New handleInfos(retHandle, retType, retPid, retName, retHandleCount, retPointerCount, retObjectCount)
-                                _dico.Add(_key, ret)
+                                ' This verification should not be needed, but in reality
+                                ' it IS needed
+								' TOCHECK
+                                If _dico.ContainsKey(_key) = False Then
+                                    _dico.Add(_key, ret)
+                                End If
                             End With
                         End If
                     End If
