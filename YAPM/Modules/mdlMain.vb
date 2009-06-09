@@ -30,9 +30,21 @@ Public Module Program
 
         ' Available parameters
         Private isServerMode As Boolean = False
+        Private isAutoConnectMode As Boolean = False
+        Private isHidden As Boolean = False
         Public ReadOnly Property ModeServer() As Boolean
             Get
                 Return isServerMode
+            End Get
+        End Property
+        Public ReadOnly Property AutoConnect() As Boolean
+            Get
+                Return isAutoConnectMode
+            End Get
+        End Property
+        Public ReadOnly Property ModeHidden() As Boolean
+            Get
+                Return isHidden
             End Get
         End Property
         Public Sub New(ByRef parameters As String())
@@ -42,6 +54,10 @@ Public Module Program
             For i As Integer = 0 To parameters.Length - 1
                 If parameters(i).ToLowerInvariant = "-server" Then
                     isServerMode = True
+                ElseIf parameters(i).ToLowerInvariant = "-autoconnect" Then
+                    isAutoConnectMode = True
+                ElseIf parameters(i).ToLowerInvariant = "-hide" Then
+                    isHidden = True
                 End If
             Next
         End Sub

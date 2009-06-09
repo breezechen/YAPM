@@ -840,6 +840,11 @@ Public Class frmServer
 
     Private Sub frmServeur_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
+        If Program.Parameters.ModeHidden Then
+            Me.Left = -20000
+            Me.ShowInTaskbar = False
+        End If
+
         API.SetWindowTheme(Me.lvServer.Handle, "explorer", Nothing)
 
         'sock.ConnexionAccepted = New AsynchronousServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
@@ -859,6 +864,11 @@ Public Class frmServer
                 Me.txtIp.Text &= x & vbNewLine
             Next
             Me.txtIp.Text = Me.txtIp.Text.Substring(0, Me.txtIp.Text.Length - 2)
+        End If
+
+        ' Connect if automode = true
+        If Program.Parameters.AutoConnect Then
+            Call cmdConnection_Click(Nothing, Nothing)
         End If
 
     End Sub

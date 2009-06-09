@@ -1,1 +1,1 @@
-YAPM.exe -server
+YAPM.exe -server -autoconnect

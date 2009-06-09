@@ -15,7 +15,7 @@
     </ErrorReportUrlHistory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug - server|AnyCPU' ">
-    <StartArguments>-server</StartArguments>
+    <StartArguments>-server -autoconnect -hide</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release - server|AnyCPU' ">
     <StartArguments>-server</StartArguments>

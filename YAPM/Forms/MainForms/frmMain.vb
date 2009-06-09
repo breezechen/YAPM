@@ -275,6 +275,12 @@ Public Class frmMain
     End Sub
 
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        If Program.Parameters.ModeHidden Then
+            Me.Left = -20000
+            Me.ShowInTaskbar = False
+        End If
+
         Me.timerProcess.Enabled = False
         Dim t As Integer = API.GetTickCount
 
