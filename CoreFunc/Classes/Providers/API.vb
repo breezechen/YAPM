@@ -685,6 +685,30 @@ Public Class API
         Dim dwType As NetworkProtocol
     End Structure
 
+    <StructLayout(LayoutKind.Sequential)> _
+    Public Structure MibTcpRow
+        Public State As MibTcpState
+        Public LocalAddress As UInteger
+        Public LocalPort As Integer
+        Public RemoteAddress As UInteger
+        Public RemotePort As Integer
+    End Structure
+
+    Public Enum MibTcpState As Integer
+        Closed = 1
+        Listening
+        SynSent
+        SynReceived
+        Established
+        FinWait1
+        FinWait2
+        CloseWait
+        Closing
+        LastAck
+        TimeWait
+        DeleteTcb
+    End Enum
+
     Public Enum MIB_TCP_STATE As Integer
         Closed = 1
         Listening
@@ -710,6 +734,10 @@ Public Class API
     Public Shared Function GetExtendedUdpTable(ByVal Table As IntPtr, ByRef Size As Integer, _
         ByVal Order As Boolean, ByVal IpVersion As Integer, _
         ByVal TableClass As UDP_TABLE_CLASS, ByVal Reserved As Integer) As Integer
+    End Function
+
+    <DllImport("iphlpapi.dll", SetLastError:=True)> _
+    Public Shared Function SetTcpEntry(ByRef TcpRow As MibTcpRow) As Integer
     End Function
 
 #End Region

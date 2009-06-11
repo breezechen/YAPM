@@ -70,6 +70,7 @@ Partial Class frmMain
         Me.RealTimeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ReduceWorkingSetSizeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SetAffinityToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.CreateDumpFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ReanalizeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem38 = New System.Windows.Forms.ToolStripSeparator
         Me.ShowModulesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -665,7 +666,7 @@ Partial Class frmMain
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerNetwork = New System.Windows.Forms.Timer(Me.components)
         Me.timerStateBasedActions = New System.Windows.Forms.Timer(Me.components)
-        Me.CreateDumpFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.CloseTCPConnectionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.menuProc.SuspendLayout()
         Me.menuService.SuspendLayout()
         Me.mainMenu.SuspendLayout()
@@ -807,7 +808,7 @@ Partial Class frmMain
         '
         Me.menuProc.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KillToolStripMenuItem, Me.KillProcessTreeToolStripMenuItem, Me.StopToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.PriotiyToolStripMenuItem, Me.ReduceWorkingSetSizeToolStripMenuItem, Me.SetAffinityToolStripMenuItem, Me.CreateDumpFileToolStripMenuItem, Me.ReanalizeToolStripMenuItem, Me.ToolStripMenuItem38, Me.ShowModulesToolStripMenuItem, Me.ShowThreadsToolStripMenuItem, Me.ShowHandlesToolStripMenuItem, Me.ShowWindowsToolStripMenuItem, Me.ShowAllToolStripMenuItem, Me.SelectedServicesToolStripMenuItem, Me.ToolStripMenuItem8, Me.DependencyViewerToolStripMenuItem, Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.FileDetailsToolStripMenuItem1, Me.GoogleSearchToolStripMenuItem, Me.ToolStripMenuItem37, Me.chooseColumns})
         Me.menuProc.Name = "menuProc"
-        Me.menuProc.Size = New System.Drawing.Size(200, 506)
+        Me.menuProc.Size = New System.Drawing.Size(200, 484)
         '
         'KillToolStripMenuItem
         '
@@ -898,6 +899,12 @@ Partial Class frmMain
         Me.SetAffinityToolStripMenuItem.Name = "SetAffinityToolStripMenuItem"
         Me.SetAffinityToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
         Me.SetAffinityToolStripMenuItem.Text = "Set affinity..."
+        '
+        'CreateDumpFileToolStripMenuItem
+        '
+        Me.CreateDumpFileToolStripMenuItem.Name = "CreateDumpFileToolStripMenuItem"
+        Me.CreateDumpFileToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
+        Me.CreateDumpFileToolStripMenuItem.Text = "Create dump file..."
         '
         'ReanalizeToolStripMenuItem
         '
@@ -4271,9 +4278,9 @@ Partial Class frmMain
         '
         'menuNetwork
         '
-        Me.menuNetwork.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem48, Me.ToolStripMenuItem44, Me.ChooseColumnsToolStripMenuItem5})
+        Me.menuNetwork.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem48, Me.CloseTCPConnectionToolStripMenuItem, Me.ToolStripMenuItem44, Me.ChooseColumnsToolStripMenuItem5})
         Me.menuNetwork.Name = "menuProc"
-        Me.menuNetwork.Size = New System.Drawing.Size(207, 54)
+        Me.menuNetwork.Size = New System.Drawing.Size(207, 98)
         '
         'ToolStripMenuItem48
         '
@@ -6925,11 +6932,12 @@ Partial Class frmMain
         '
         Me.timerStateBasedActions.Interval = 1000
         '
-        'CreateDumpFileToolStripMenuItem
+        'CloseTCPConnectionToolStripMenuItem
         '
-        Me.CreateDumpFileToolStripMenuItem.Name = "CreateDumpFileToolStripMenuItem"
-        Me.CreateDumpFileToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
-        Me.CreateDumpFileToolStripMenuItem.Text = "Create dump file..."
+        Me.CloseTCPConnectionToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.cross
+        Me.CloseTCPConnectionToolStripMenuItem.Name = "CloseTCPConnectionToolStripMenuItem"
+        Me.CloseTCPConnectionToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
+        Me.CloseTCPConnectionToolStripMenuItem.Text = "Close TCP connection"
         '
         'frmMain
         '
@@ -7699,5 +7707,6 @@ Partial Class frmMain
     Friend WithEvents DependencyViewerToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents DependencyViewerToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CreateDumpFileToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CloseTCPConnectionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

@@ -229,6 +229,8 @@ Partial Class frmProcessInfo
         Me.ColumnHeader58 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader59 = New System.Windows.Forms.ColumnHeader
         Me.menuNetwork = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.CloseTCPConnectionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem14 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStripMenuItem15 = New System.Windows.Forms.ToolStripMenuItem
         Me.TabPageString = New System.Windows.Forms.TabPage
         Me.SplitContainerStrings = New System.Windows.Forms.SplitContainer
@@ -262,6 +264,7 @@ Partial Class frmProcessInfo
         Me.OpenFirectoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.PropertiesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem36 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ViewDependenciesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem39 = New System.Windows.Forms.ToolStripSeparator
         Me.GoogleSearchToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
@@ -356,7 +359,6 @@ Partial Class frmProcessInfo
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip
         Me.MainToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ViewDependenciesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.tabProcess.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -2206,14 +2208,26 @@ Partial Class frmProcessInfo
         '
         'menuNetwork
         '
-        Me.menuNetwork.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem15})
+        Me.menuNetwork.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CloseTCPConnectionToolStripMenuItem, Me.ToolStripMenuItem14, Me.ToolStripMenuItem15})
         Me.menuNetwork.Name = "menuProc"
-        Me.menuNetwork.Size = New System.Drawing.Size(173, 26)
+        Me.menuNetwork.Size = New System.Drawing.Size(192, 76)
+        '
+        'CloseTCPConnectionToolStripMenuItem
+        '
+        Me.CloseTCPConnectionToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.cross
+        Me.CloseTCPConnectionToolStripMenuItem.Name = "CloseTCPConnectionToolStripMenuItem"
+        Me.CloseTCPConnectionToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
+        Me.CloseTCPConnectionToolStripMenuItem.Text = "Close TCP connection"
+        '
+        'ToolStripMenuItem14
+        '
+        Me.ToolStripMenuItem14.Name = "ToolStripMenuItem14"
+        Me.ToolStripMenuItem14.Size = New System.Drawing.Size(188, 6)
         '
         'ToolStripMenuItem15
         '
         Me.ToolStripMenuItem15.Name = "ToolStripMenuItem15"
-        Me.ToolStripMenuItem15.Size = New System.Drawing.Size(172, 22)
+        Me.ToolStripMenuItem15.Size = New System.Drawing.Size(191, 22)
         Me.ToolStripMenuItem15.Text = "Choose columns..."
         '
         'TabPageString
@@ -2499,7 +2513,7 @@ Partial Class frmProcessInfo
         '
         Me.menuModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowFileDetailsToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.PropertiesToolStripMenuItem, Me.ToolStripMenuItem36, Me.ViewDependenciesToolStripMenuItem, Me.ToolStripMenuItem39, Me.GoogleSearchToolStripMenuItem2, Me.ToolStripMenuItem1, Me.ViewMemoryToolStripMenuItem, Me.ToolStripMenuItem11, Me.ChooseColumnsToolStripMenuItem3})
         Me.menuModule.Name = "menuProc"
-        Me.menuModule.Size = New System.Drawing.Size(176, 220)
+        Me.menuModule.Size = New System.Drawing.Size(176, 198)
         '
         'ShowFileDetailsToolStripMenuItem
         '
@@ -2529,6 +2543,13 @@ Partial Class frmProcessInfo
         Me.ToolStripMenuItem36.Name = "ToolStripMenuItem36"
         Me.ToolStripMenuItem36.Size = New System.Drawing.Size(175, 22)
         Me.ToolStripMenuItem36.Text = "Unload module"
+        '
+        'ViewDependenciesToolStripMenuItem
+        '
+        Me.ViewDependenciesToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.dllIcon
+        Me.ViewDependenciesToolStripMenuItem.Name = "ViewDependenciesToolStripMenuItem"
+        Me.ViewDependenciesToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.ViewDependenciesToolStripMenuItem.Text = "View dependencies"
         '
         'ToolStripMenuItem39
         '
@@ -3253,13 +3274,6 @@ Partial Class frmProcessInfo
         Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(132, 22)
         Me.RefreshToolStripMenuItem.Text = "&Refresh"
         '
-        'ViewDependenciesToolStripMenuItem
-        '
-        Me.ViewDependenciesToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.dllIcon
-        Me.ViewDependenciesToolStripMenuItem.Name = "ViewDependenciesToolStripMenuItem"
-        Me.ViewDependenciesToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
-        Me.ViewDependenciesToolStripMenuItem.Text = "View dependencies"
-        '
         'frmProcessInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3658,4 +3672,6 @@ Partial Class frmProcessInfo
     Friend WithEvents Label15 As System.Windows.Forms.Label
     Friend WithEvents cmdInspectExe As System.Windows.Forms.Button
     Friend WithEvents ViewDependenciesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CloseTCPConnectionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem14 As System.Windows.Forms.ToolStripSeparator
 End Class

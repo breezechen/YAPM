@@ -2230,4 +2230,25 @@ Public Class frmProcessInfo
             End With
         End If
     End Sub
+
+    Private Sub CloseTCPConnectionToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CloseTCPConnectionToolStripMenuItem.Click
+        For Each it As cNetwork In Me.lvProcNetwork.GetSelectedItems
+            If it.Infos.Protocol = API.NetworkProtocol.Tcp Then
+                it.CloseTCP()
+            End If
+        Next
+    End Sub
+
+    Private Sub menuNetwork_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles menuNetwork.Opening
+        Dim enable As Boolean = False
+        For Each it As cNetwork In Me.lvProcNetwork.GetSelectedItems
+            If it.Infos.Protocol = API.NetworkProtocol.Tcp Then
+                If it.Infos.State <> API.MIB_TCP_STATE.Listening AndAlso it.Infos.State <> API.MIB_TCP_STATE.TimeWait AndAlso it.Infos.State <> API.MIB_TCP_STATE.CloseWait Then
+                    enable = True
+                    Exit For
+                End If
+            End If
+        Next
+        Me.CloseTCPConnectionToolStripMenuItem.Enabled = enable
+    End Sub
 End Class

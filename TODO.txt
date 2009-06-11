@@ -32,7 +32,6 @@ TODO LIST
 2) Plus tard
 - JOBs
 - cycles pour vista, I/O priority, WS shared
-- TCP close (settcp...)
 - "monitor" sur les processus (sélection du PID, sélection de la catégorie Process/Processus et sélection des bonnes instances)
 - infos système dans le general report
 - changement privileges processus système

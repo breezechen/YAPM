@@ -817,6 +817,16 @@ Public Class frmServer
                         Catch ex As Exception
                             ' Process does not exist
                         End Try
+                    Case cSocketData.OrderType.TcpClose
+                        Dim locAdd As UInteger = CUInt(cData.Param1)
+                        Dim locPort As Integer = CInt(cData.Param1)
+                        Dim remAdd As UInteger = CUInt(cData.Param1)
+                        Dim remPort As Integer = CInt(cData.Param1)
+                        Try
+                            cNetwork.LocalCloseTCP(locAdd, locPort, remAdd, remPort)
+                        Catch ex As Exception
+                            ' Error...
+                        End Try
                 End Select
 
 

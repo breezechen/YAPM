@@ -112,6 +112,55 @@ Public Class cNetwork
 
 #End Region
 
+#Region "Local shared method"
+
+    Public Shared Function LocalCloseTCP(ByVal locAdd As UInteger, ByVal locPort As Integer, ByVal remAdd As UInteger, ByVal remPort As Integer) As Integer
+        Return asyncCallbackNetworkCloseConnection.CloseTcpConnection(locAdd, locPort, remAdd, remPort)
+    End Function
+
+#End Region
+
+#Region "All actions on network (close tcp connection)"
+
+    ' Unload module
+    Private _closeTCP As asyncCallbackNetworkCloseConnection
+    Public Function CloseTCP() As Integer
+
+        If _closeTCP Is Nothing Then
+            _closeTCP = New asyncCallbackNetworkCloseConnection(New asyncCallbackNetworkCloseConnection.HasClosedConnection(AddressOf closeTCPDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _closeTCP.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Dim locAdd As UInt32 = 0
+        Dim locPort As Integer = 0
+        If Me.Infos.Local IsNot Nothing Then
+            locAdd = getAddressAsInteger(Me.Infos.Local)
+            locPort = PermuteBytes(Me.Infos.Local.Port)
+        End If
+        Dim remAdd As UInt32 = 0
+        Dim remPort As Integer = 0
+        If Me.Infos.Remote IsNot Nothing Then
+            remAdd = getAddressAsInteger(Me.Infos.Remote)
+            remPort = PermuteBytes(Me.Infos.Remote.Port)
+        End If
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackNetworkCloseConnection.poolObj(locAdd, locPort, remAdd, remPort, newAction))
+
+        AddPendingTask2(newAction, t)
+    End Function
+    Private Sub closeTCPDone(ByVal Success As Boolean, ByVal localAddress As UInteger, ByVal localPort As Integer, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                   "Could not close TCP connection " & localAddress.ToString)
+        End If
+        RemovePendingTask(actionNumber)
+    End Sub
+
+
+#End Region
+
     ' Merge current infos and new infos
     Public Sub Merge(ByRef Thr As API.LightConnection)
         _networkInfos.Merge(Thr)
@@ -182,4 +231,23 @@ Public Class cNetwork
             '
         End Try
     End Sub
+
+    Private Function getAddressAsInteger(ByVal ipep As IPEndPoint) As UInteger
+        If ipep IsNot Nothing Then
+            Dim i As Integer = 0
+            Dim addressInteger As UInteger
+            For Each b As Byte In ipep.Address.GetAddressBytes
+                addressInteger = CUInt(addressInteger + CInt(b) << (8 * i))
+                i += 1
+            Next
+            Return addressInteger
+        End If
+    End Function
+
+    Public Shared Function PermuteBytes(ByVal v As Integer) As Integer
+        Dim b1 As Byte = CType(v, Byte)
+        Dim b2 As Byte = CType((v >> 8), Byte)
+
+        Return CInt((b2 + (b1 << 8)))
+    End Function
 End Class

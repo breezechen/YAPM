@@ -92,6 +92,7 @@ Option Strict On
         [PrivilegeChangeStatus]
         [RequestProcessorCount]
         [ReturnProcessorCount]
+        [TcpClose]
 
         ' Request lists
         [RequestProcessList]
