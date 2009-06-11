@@ -1,5 +1,10 @@
 YAPM 2.0.1 BETA
 
+CHANGES FROM 2.0.1
+
+* New features
+- Added 'Close TCP' feature
+
 CHANGES FROM 2.0
  
 * General changes
