@@ -114,8 +114,8 @@ Public Class cNetwork
 
 #Region "Local shared method"
 
-    Public Shared Function LocalCloseTCP(ByVal locAdd As UInteger, ByVal locPort As Integer, ByVal remAdd As UInteger, ByVal remPort As Integer) As Integer
-        Return asyncCallbackNetworkCloseConnection.CloseTcpConnection(locAdd, locPort, remAdd, remPort)
+    Public Shared Function LocalCloseTCP(ByVal local As IPEndPoint, ByVal remote As IPEndPoint) As Integer
+        Return asyncCallbackNetworkCloseConnection.CloseTcpConnection(local, remote)
     End Function
 
 #End Region
@@ -133,27 +133,15 @@ Public Class cNetwork
         Dim t As New System.Threading.WaitCallback(AddressOf _closeTCP.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
-        Dim locAdd As UInt32 = 0
-        Dim locPort As Integer = 0
-        If Me.Infos.Local IsNot Nothing Then
-            locAdd = getAddressAsInteger(Me.Infos.Local)
-            locPort = PermuteBytes(Me.Infos.Local.Port)
-        End If
-        Dim remAdd As UInt32 = 0
-        Dim remPort As Integer = 0
-        If Me.Infos.Remote IsNot Nothing Then
-            remAdd = getAddressAsInteger(Me.Infos.Remote)
-            remPort = PermuteBytes(Me.Infos.Remote.Port)
-        End If
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackNetworkCloseConnection.poolObj(locAdd, locPort, remAdd, remPort, newAction))
+            asyncCallbackNetworkCloseConnection.poolObj(Me.Infos.Local, Me.Infos.Remote, newAction))
 
         AddPendingTask2(newAction, t)
     End Function
-    Private Sub closeTCPDone(ByVal Success As Boolean, ByVal localAddress As UInteger, ByVal localPort As Integer, ByVal msg As String, ByVal actionNumber As Integer)
+    Private Sub closeTCPDone(ByVal Success As Boolean, ByVal local As IPEndPoint, ByVal remote As IPEndPoint, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not close TCP connection " & localAddress.ToString)
+            'MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+            '       "Could not close TCP connection " & local.ToString)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -232,22 +220,4 @@ Public Class cNetwork
         End Try
     End Sub
 
-    Private Function getAddressAsInteger(ByVal ipep As IPEndPoint) As UInteger
-        If ipep IsNot Nothing Then
-            Dim i As Integer = 0
-            Dim addressInteger As UInteger
-            For Each b As Byte In ipep.Address.GetAddressBytes
-                addressInteger = CUInt(addressInteger + CInt(b) << (8 * i))
-                i += 1
-            Next
-            Return addressInteger
-        End If
-    End Function
-
-    Public Shared Function PermuteBytes(ByVal v As Integer) As Integer
-        Dim b1 As Byte = CType(v, Byte)
-        Dim b2 As Byte = CType((v >> 8), Byte)
-
-        Return CInt((b2 + (b1 << 8)))
-    End Function
 End Class

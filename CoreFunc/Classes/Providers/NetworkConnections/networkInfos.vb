@@ -81,11 +81,6 @@ Imports System.Net
             Return _key
         End Get
     End Property
-    Public ReadOnly Property LocalPort() As Integer
-        Get
-            Return _localPort
-        End Get
-    End Property
     Public ReadOnly Property Remote() As IPEndPoint
         Get
             Return _remote

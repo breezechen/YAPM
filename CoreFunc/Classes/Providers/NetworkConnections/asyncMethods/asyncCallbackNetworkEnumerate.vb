@@ -140,13 +140,13 @@ Public Class asyncCallbackNetworkEnumerate
                     If bOkToAdd Then
                         Dim n As IPEndPoint = Nothing
                         If tcp_item.dwLocalAddr > 0 Then
-                            n = New IPEndPoint(tcp_item.dwLocalAddr, tcp_item.dwLocalPort)
+                            n = New IPEndPoint(tcp_item.dwLocalAddr, PermuteBytes(tcp_item.dwLocalPort))
                         Else
-                            n = New IPEndPoint(0, tcp_item.dwLocalPort)
+                            n = New IPEndPoint(0, PermuteBytes(tcp_item.dwLocalPort))
                         End If
                         Dim n2 As IPEndPoint
                         If tcp_item.dwRemoteAddr > 0 Then
-                            n2 = New IPEndPoint(tcp_item.dwRemoteAddr, tcp_item.dwRemotePort)
+                            n2 = New IPEndPoint(tcp_item.dwRemoteAddr, PermuteBytes(tcp_item.dwRemotePort))
                         Else
                             n2 = Nothing
                         End If
@@ -204,9 +204,9 @@ Public Class asyncCallbackNetworkEnumerate
                     If bOkToAdd Then
                         Dim n As IPEndPoint = Nothing
                         If udp_item.dwLocalAddr > 0 Then
-                            n = New IPEndPoint(udp_item.dwLocalAddr, udp_item.dwLocalPort)
+                            n = New IPEndPoint(udp_item.dwLocalAddr, PermuteBytes(udp_item.dwLocalPort))
                         Else
-                            n = New IPEndPoint(0, udp_item.dwLocalPort)
+                            n = New IPEndPoint(0, PermuteBytes(udp_item.dwLocalPort))
                         End If
 
                         Dim res As New API.LightConnection

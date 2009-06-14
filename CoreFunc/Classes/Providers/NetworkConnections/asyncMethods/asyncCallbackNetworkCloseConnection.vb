@@ -23,14 +23,14 @@ Option Strict On
 
 Imports CoreFunc.cProcessConnection
 Imports System.Runtime.InteropServices
-Imports System.Text
+Imports System.Net
 
 Public Class asyncCallbackNetworkCloseConnection
 
     Private con As cNetworkConnection
     Private _deg As HasClosedConnection
 
-    Public Delegate Sub HasClosedConnection(ByVal Success As Boolean, ByVal localAddress As UInteger, ByVal localPort As Integer, ByVal msg As String, ByVal actionNumber As Integer)
+    Public Delegate Sub HasClosedConnection(ByVal Success As Boolean, ByVal local As IPEndPoint, ByVal remote As IPEndPoint, ByVal msg As String, ByVal actionNumber As Integer)
 
     Public Sub New(ByVal deg As HasClosedConnection, ByRef netConnection As cNetworkConnection)
         _deg = deg
@@ -38,21 +38,15 @@ Public Class asyncCallbackNetworkCloseConnection
     End Sub
 
     Public Structure poolObj
-        Public localAddress As UInteger
-        Public localPort As Integer
-        Public remoteAddress As UInteger
-        Public remotePort As Integer
+        Public local As IPEndPoint
+        Public remote As IPEndPoint
         Public newAction As Integer
-        Public Sub New(ByVal locAdd As UInteger, _
-                       ByVal locPor As Integer, _
-                       ByVal remAdd As UInteger, _
-                       ByVal remPor As Integer, _
+        Public Sub New(ByVal loc As IPEndPoint, _
+                       ByVal remo As IPEndPoint, _
                        ByVal act As Integer)
-            localAddress = locAdd
-            localPort = locPor
+            local = loc
+            remote = remo
             newAction = act
-            remotePort = remPor
-            remoteAddress = remAdd
         End Sub
     End Structure
 
@@ -66,7 +60,7 @@ Public Class asyncCallbackNetworkCloseConnection
         Select Case con.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.TcpClose, pObj.localAddress, pObj.localPort, pObj.remoteAddress, pObj.remotePort)
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.TcpClose, pObj.local, pObj.remote)
                     con.ConnectionObj.Socket.Send(cDat)
                 Catch ex As Exception
                     MsgBox(ex.Message)
@@ -77,19 +71,24 @@ Public Class asyncCallbackNetworkCloseConnection
             Case Else
                 ' Local
 
-                Dim ret As Integer = CloseTcpConnection(pObj.localAddress, pObj.localPort, pObj.remoteAddress, pObj.remotePort)
-                _deg.Invoke(ret = 0, pObj.localAddress, pObj.localPort, API.GetError, pObj.newAction)
+                Dim ret As Integer = CloseTcpConnection(pObj.local, pObj.remote)
+                _deg.Invoke(ret = 0, pObj.local, pObj.remote, API.GetError, pObj.newAction)
 
         End Select
     End Sub
 
-    Public Shared Function CloseTcpConnection(ByVal locAdd As UInteger, ByVal locPort As Integer, ByVal remAdd As UInteger, ByVal remPort As Integer) As Integer
+    Public Shared Function CloseTcpConnection(ByVal local As IPEndPoint, ByVal remote As IPEndPoint) As Integer
         Dim row As New API.MibTcpRow
         With row
-            .LocalAddress = locAdd
-            .LocalPort = locPort
-            .RemoteAddress = remAdd
-            .RemotePort = remPort
+            If remote IsNot Nothing Then
+                .RemotePort = PermuteBytes(remote.Port)
+                .RemoteAddress = getAddressAsInteger(remote)
+            Else
+                .RemotePort = 0
+                .RemoteAddress = 0
+            End If
+            .LocalAddress = getAddressAsInteger(local)
+            .LocalPort = PermuteBytes(local.Port)
             .State = API.MibTcpState.DeleteTcb
         End With
 

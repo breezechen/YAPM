@@ -251,4 +251,36 @@ Public Module mdlMisc
         End If
     End Function
 
+    ' Permute bytes
+    Public Function PermuteBytes(ByVal v As Integer) As UShort
+        Dim b1 As Byte = CByte(v)
+        Dim b2 As Byte = CByte((v >> 8))
+
+        Return CType((b2 + (CUShort(b1) << 8)), UShort)
+    End Function
+
+    '' Return a Uinteger from a IPEndPoint
+    'Public Function getAddressAsInteger(ByVal ipep As System.Net.IPEndPoint) As UInteger
+    '    If ipep IsNot Nothing Then
+    '        Dim i As Integer = 0
+    '        Dim addressInteger As Long
+    '        For Each b As Byte In ipep.Address.GetAddressBytes
+    '            addressInteger = CUInt(addressInteger + CInt(b) << (8 * i))
+    '            i += 1
+    '        Next
+    '        Return CUInt(addressInteger)
+    '    End If
+    'End Function
+    Public Function getAddressAsInteger(ByVal ip As System.Net.IPEndPoint) As UInt32
+        Dim i As Integer = 0
+        Dim addressInteger As UInt32 = 0
+
+        For Each b As Byte In ip.Address.GetAddressBytes()
+            addressInteger += CType(CInt(b) << (8 * i), UInt32)
+            i += 1
+        Next
+
+        Return addressInteger
+
+    End Function
 End Module
