@@ -57,18 +57,16 @@ Public Class cNetwork
         ' Solve DNS
         Try
             If Me.Infos._Local.Address.Equals(nullAddress) = False Then
-                Dim callback As System.AsyncCallback = AddressOf ProcessLocalDnsInformation
-                Dns.BeginGetHostEntry(Me.Infos._Local.Address, callback, Nothing)
-                'GC.KeepAlive(callback)
+                Dim t As New System.Threading.WaitCallback(AddressOf getHostNameLocal)
+                Call Threading.ThreadPool.QueueUserWorkItem(t, Me.Infos.Local)
             End If
         Catch ex As Exception
             '
         End Try
         Try
             If Me.Infos._remote IsNot Nothing AndAlso Me.Infos._remote.Address.Equals(nullAddress) = False Then
-                Dim callback2 As System.AsyncCallback = AddressOf ProcessRemoteDnsInformation
-                Dns.BeginGetHostEntry(Me.Infos._remote.Address, callback2, Nothing)
-                'GC.KeepAlive(callback2)
+                Dim t As New System.Threading.WaitCallback(AddressOf getHostNameRemote)
+                Call Threading.ThreadPool.QueueUserWorkItem(t, Me.Infos.Remote)
             End If
         Catch ex As Exception
             '
@@ -201,23 +199,28 @@ Public Class cNetwork
 
 #End Region
 
-
-    Private Sub ProcessLocalDnsInformation(ByVal result As IAsyncResult)
-        Try
-            Dim host As IPHostEntry = Dns.EndGetHostEntry(result)
-            Me.Infos._localString = host.HostName
-        Catch ex As Exception
-            '
-        End Try
+    Private Sub getHostNameLocal(ByVal obj As Object)
+        If obj IsNot Nothing Then
+            Dim hostEntry As IPHostEntry
+            Dim ip As System.Net.IPEndPoint = DirectCast(obj, IPEndPoint)
+            Try
+                hostEntry = Dns.GetHostEntry(ip.Address)
+            Catch ex As Exception
+                Exit Sub
+            End Try
+            Me.Infos._localString = hostEntry.HostName
+        End If
     End Sub
-
-    Private Sub ProcessRemoteDnsInformation(ByVal result As IAsyncResult)
-        Try
-            Dim host As IPHostEntry = Dns.EndGetHostEntry(result)
-            Me.Infos._remoteString = host.HostName
-        Catch ex As Exception
-            '
-        End Try
+    Private Sub getHostNameRemote(ByVal obj As Object)
+        If obj IsNot Nothing Then
+            Dim hostEntry As IPHostEntry
+            Dim ip As System.Net.IPEndPoint = DirectCast(obj, IPEndPoint)
+            Try
+                hostEntry = Dns.GetHostEntry(ip.Address)
+            Catch ex As Exception
+                Exit Sub
+            End Try
+            Me.Infos._remoteString = hostEntry.HostName
+        End If
     End Sub
-
 End Class
