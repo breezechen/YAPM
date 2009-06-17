@@ -1,6 +1,7 @@
 TODO LIST
 
 ---- GENERAL
+- menu normaux (pas .Net)
 - transformer .Created par try/catch ? + manque des Invoke pour les connected dans les cXXXConnection
 - régression performances d'affichage + clignotements des listviews quand changement de foreground window
 

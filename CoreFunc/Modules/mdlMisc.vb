@@ -206,7 +206,11 @@ Public Module mdlMisc
         If str.Length = 0 Then
             Return Nothing
         End If
-        Return System.Runtime.InteropServices.Marshal.PtrToStringUni(New IntPtr(str.Buffer), CInt(str.Length / 2))
+        Try
+            Return System.Runtime.InteropServices.Marshal.PtrToStringUni(New IntPtr(str.Buffer), CInt(str.Length / 2))
+        Catch ex As Exception
+            Return ""
+        End Try
     End Function
 
     ' Get a good path
@@ -259,18 +263,7 @@ Public Module mdlMisc
         Return CType((b2 + (CUShort(b1) << 8)), UShort)
     End Function
 
-    '' Return a Uinteger from a IPEndPoint
-    'Public Function getAddressAsInteger(ByVal ipep As System.Net.IPEndPoint) As UInteger
-    '    If ipep IsNot Nothing Then
-    '        Dim i As Integer = 0
-    '        Dim addressInteger As Long
-    '        For Each b As Byte In ipep.Address.GetAddressBytes
-    '            addressInteger = CUInt(addressInteger + CInt(b) << (8 * i))
-    '            i += 1
-    '        Next
-    '        Return CUInt(addressInteger)
-    '    End If
-    'End Function
+    ' Return a Uinteger from a IPEndPoint
     Public Function getAddressAsInteger(ByVal ip As System.Net.IPEndPoint) As UInt32
         Dim i As Integer = 0
         Dim addressInteger As UInt32 = 0
