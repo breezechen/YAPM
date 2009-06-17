@@ -477,60 +477,65 @@ Public Class asyncCallbackProcEnumerate
     ' Return the command line
     Private Shared Function GetCommandLine(ByVal _pid As Integer, ByVal PEBAddress As Integer) As String
 
-        Dim res As String = ""
+        Try
+            Dim res As String = ""
 
-        ' Get PEB address of process
-        ' Get PEB address of process
-        Dim __pebAd As Integer = PEBAddress
-        If __pebAd = -1 Then
-            Return ""
-        End If
+            ' Get PEB address of process
+            ' Get PEB address of process
+            Dim __pebAd As Integer = PEBAddress
+            If __pebAd = -1 Then
+                Return ""
+            End If
 
-        ' Create a processMemRW class to read in memory
-        Dim cR As New cProcessMemRW(_pid)
+            ' Create a processMemRW class to read in memory
+            Dim cR As New cProcessMemRW(_pid)
 
-        If cR.Handle = 0 Then
-            Return ""           ' Couldn't open a handle
-        End If
+            If cR.Handle = 0 Then
+                Return ""           ' Couldn't open a handle
+            End If
 
-        ' Read first 20 bytes (5 integers) of PEB block
-        ' The fifth integer contains address of ProcessParameters block
-        Dim pebDeb() As Integer = cR.ReadBytesAI(__pebAd, 5)
-        Dim __procParamAd As Integer = pebDeb(4)
+            ' Read first 20 bytes (5 integers) of PEB block
+            ' The fifth integer contains address of ProcessParameters block
+            Dim pebDeb() As Integer = cR.ReadBytesAI(__pebAd, 5)
+            Dim __procParamAd As Integer = pebDeb(4)
 
-        ' Get unicode string adress
-        ' It's located at offset 0x40 on all NT systems because it's after a fixed structure
-        ' of 64 bytes
+            ' Get unicode string adress
+            ' It's located at offset 0x40 on all NT systems because it's after a fixed structure
+            ' of 64 bytes
 
-        ' Read length of the unicode string
-        Dim bA() As Short = cR.ReadBytesAS(__procParamAd + 64, 1)
-        Dim __size As Integer = bA(0)      ' Size of string
-        If __size = 0 Then
-            Return "N/A"
-        End If
+            ' Read length of the unicode string
+            Dim bA() As Short = cR.ReadBytesAS(__procParamAd + 64, 1)
+            Dim __size As Integer = bA(0)      ' Size of string
+            If __size = 0 Then
+                Return "N/A"
+            End If
 
-        ' Read pointer to the string
-        Dim bA2() As Integer = cR.ReadBytesAI(__procParamAd + 68, 1)
-        Dim __strPtr As Integer = bA2(0)      ' Pointer to string
+            ' Read pointer to the string
+            Dim bA2() As Integer = cR.ReadBytesAI(__procParamAd + 68, 1)
+            Dim __strPtr As Integer = bA2(0)      ' Pointer to string
 
-        'Trace.WriteLine("before string")
-        ' Gonna get string
-        Dim bS() As Short = cR.ReadBytesAS(__strPtr, __size)
+            'Trace.WriteLine("before string")
+            ' Gonna get string
+            Dim bS() As Short = cR.ReadBytesAS(__strPtr, __size)
 
-        ' Allocate unmanaged memory
-        Dim ptr As IntPtr = Marshal.AllocHGlobal(__size)
-        __size = CInt(__size / 2)   ' Because of Unicode String (2 bytes per char)
+            ' Allocate unmanaged memory
+            Dim ptr As IntPtr = Marshal.AllocHGlobal(__size)
+            __size = CInt(__size / 2)   ' Because of Unicode String (2 bytes per char)
 
-        ' Copy from short array to unmanaged memory
-        Marshal.Copy(bS, 0, ptr, __size)
+            ' Copy from short array to unmanaged memory
+            Marshal.Copy(bS, 0, ptr, __size)
 
-        ' Convert to string (and copy to __var variable)
-        res = Marshal.PtrToStringUni(ptr, __size)
+            ' Convert to string (and copy to __var variable)
+            res = Marshal.PtrToStringUni(ptr, __size)
 
-        ' Free unmanaged memory
-        Marshal.FreeHGlobal(ptr)
+            ' Free unmanaged memory
+            Marshal.FreeHGlobal(ptr)
 
-        Return res
+            Return res
+
+        Catch ex As Exception
+            Return NO_INFO_RETRIEVED
+        End Try
 
     End Function
 
