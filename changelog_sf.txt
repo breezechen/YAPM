@@ -5,6 +5,13 @@ CHANGES FROM 2.0.1
 * New features
 - Added 'Close TCP' feature
 
+* GUI Changes
+- No more .Net horrible menus
+
+* Bug fixes
+- A lot
+
+
 CHANGES FROM 2.0
  
 * General changes

@@ -101,7 +101,7 @@ Partial Class frmBasedStateAction
         '
         'CloseToolStripMenuItem
         '
-        Me.CloseToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.cross_circle1
+        Me.CloseToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.cross_circle
         Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
         Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.CloseToolStripMenuItem.Text = "Remove"

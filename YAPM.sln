@@ -3,6 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "YAPM", "YAPM\YAPM.vbproj", "{A82E9888-6B2A-44A7-B79A-27C93079ACDD}"
 	ProjectSection(ProjectDependencies) = postProject
+		{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C} = {7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}
 		{8C885999-147E-4651-AF9C-6F7149F1344D} = {8C885999-147E-4651-AF9C-6F7149F1344D}
 		{657B7CE9-D35C-4E65-A05B-CC6B46A14D7D} = {657B7CE9-D35C-4E65-A05B-CC6B46A14D7D}
 		{5BF15AF5-DEB8-46A8-99C7-21993617D0C8} = {5BF15AF5-DEB8-46A8-99C7-21993617D0C8}
@@ -26,6 +27,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskDialog", "TaskDialog\TaskDialog.csproj", "{5BF15AF5-DEB8-46A8-99C7-21993617D0C8}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DependenciesViewer", "DependenciesViewer\DependenciesViewer.vbproj", "{896A4EE8-7588-4582-9F3D-A48E7AD21A0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VistaMenu", "VistaMenu\Control\VistaMenu.csproj", "{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,6 +92,14 @@ Global
 		{896A4EE8-7588-4582-9F3D-A48E7AD21A0D}.Release - server|Any CPU.Build.0 = Release|Any CPU
 		{896A4EE8-7588-4582-9F3D-A48E7AD21A0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{896A4EE8-7588-4582-9F3D-A48E7AD21A0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}.Debug - server|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}.Debug - server|Any CPU.Build.0 = Debug|Any CPU
+		{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}.Release - server|Any CPU.ActiveCfg = Release|Any CPU
+		{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}.Release - server|Any CPU.Build.0 = Release|Any CPU
+		{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

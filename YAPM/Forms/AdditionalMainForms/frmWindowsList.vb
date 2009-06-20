@@ -126,28 +126,20 @@ Public Class frmWindowsList
         first = False
     End Sub
 
-    Private Sub ShowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowToolStripMenuItem.Click
-        For Each it As ListViewItem In Me.lv.SelectedItems
-            Dim hWnd As IntPtr = CType(it.Tag, IntPtr)
-            If Not (hWnd = IntPtr.Zero) Then
-                Call cWindow.LocalShowWindowForeground(hWnd)
-            End If
-        Next
+    Private Sub ShowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+       
     End Sub
 
-    Private Sub CloseToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CloseToolStripMenuItem.Click
-        For Each it As ListViewItem In Me.lv.SelectedItems
-            Dim hWnd As IntPtr = CType(it.Tag, IntPtr)
-            If hWnd <> IntPtr.Zero Then
-                Call cWindow.LocalClose(hWnd)
-            End If
-        Next
+    Private Sub lv_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lv.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Me.TheContextMenu.Show(Me.lv, e.Location)
+        End If
     End Sub
 
     Private Sub lv_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lv.SelectedIndexChanged
         If Me.lv.SelectedItems.Count = 0 Then
-            Me.ShowToolStripMenuItem.Enabled = False
-            Me.CloseToolStripMenuItem.Enabled = False
+            Me.MenuItemShow.Enabled = False
+            Me.MenuItemClose.Enabled = False
         Else
             Dim oneGray As Boolean = False
             For Each it As ListViewItem In Me.lv.SelectedItems
@@ -156,9 +148,26 @@ Public Class frmWindowsList
                     Exit For
                 End If
             Next
-            Me.ShowToolStripMenuItem.Enabled = Not (oneGray)
-            Me.CloseToolStripMenuItem.Enabled = Not (oneGray)
+            Me.MenuItemShow.Enabled = Not (oneGray)
+            Me.MenuItemClose.Enabled = Not (oneGray)
         End If
     End Sub
 
+    Private Sub MenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemShow.Click
+        For Each it As ListViewItem In Me.lv.SelectedItems
+            Dim hWnd As IntPtr = CType(it.Tag, IntPtr)
+            If Not (hWnd = IntPtr.Zero) Then
+                Call cWindow.LocalShowWindowForeground(hWnd)
+            End If
+        Next
+    End Sub
+
+    Private Sub MenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemClose.Click
+        For Each it As ListViewItem In Me.lv.SelectedItems
+            Dim hWnd As IntPtr = CType(it.Tag, IntPtr)
+            If hWnd <> IntPtr.Zero Then
+                Call cWindow.LocalClose(hWnd)
+            End If
+        Next
+    End Sub
 End Class

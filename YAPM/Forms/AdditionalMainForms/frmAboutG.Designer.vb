@@ -43,6 +43,7 @@ Partial Class frmAboutG
         Me.lblMe = New System.Windows.Forms.LinkLabel
         Me.cmdLicense = New System.Windows.Forms.Button
         Me.lblTaskDialog = New System.Windows.Forms.LinkLabel
+        Me.lblVistaMenu = New System.Windows.Forms.LinkLabel
         CType(Me.pctIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -178,7 +179,7 @@ Partial Class frmAboutG
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(260, 186)
+        Me.Label7.Location = New System.Drawing.Point(260, 158)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(89, 13)
         Me.Label7.TabIndex = 14
@@ -187,7 +188,7 @@ Partial Class frmAboutG
         'lblRibbon
         '
         Me.lblRibbon.AutoSize = True
-        Me.lblRibbon.Location = New System.Drawing.Point(271, 202)
+        Me.lblRibbon.Location = New System.Drawing.Point(271, 174)
         Me.lblRibbon.Name = "lblRibbon"
         Me.lblRibbon.Size = New System.Drawing.Size(198, 13)
         Me.lblRibbon.TabIndex = 15
@@ -197,7 +198,7 @@ Partial Class frmAboutG
         'lblFugueIcons
         '
         Me.lblFugueIcons.AutoSize = True
-        Me.lblFugueIcons.Location = New System.Drawing.Point(271, 218)
+        Me.lblFugueIcons.Location = New System.Drawing.Point(271, 190)
         Me.lblFugueIcons.Name = "lblFugueIcons"
         Me.lblFugueIcons.Size = New System.Drawing.Size(181, 13)
         Me.lblFugueIcons.TabIndex = 16
@@ -207,7 +208,7 @@ Partial Class frmAboutG
         'lblShareVB
         '
         Me.lblShareVB.AutoSize = True
-        Me.lblShareVB.Location = New System.Drawing.Point(271, 234)
+        Me.lblShareVB.Location = New System.Drawing.Point(271, 206)
         Me.lblShareVB.Name = "lblShareVB"
         Me.lblShareVB.Size = New System.Drawing.Size(184, 26)
         Me.lblShareVB.TabIndex = 17
@@ -236,12 +237,22 @@ Partial Class frmAboutG
         'lblTaskDialog
         '
         Me.lblTaskDialog.AutoSize = True
-        Me.lblTaskDialog.Location = New System.Drawing.Point(271, 263)
+        Me.lblTaskDialog.Location = New System.Drawing.Point(271, 235)
         Me.lblTaskDialog.Name = "lblTaskDialog"
         Me.lblTaskDialog.Size = New System.Drawing.Size(162, 13)
         Me.lblTaskDialog.TabIndex = 20
         Me.lblTaskDialog.TabStop = True
         Me.lblTaskDialog.Text = "KevinGre (Taskdialog wrapper)"
+        '
+        'lblVistaMenu
+        '
+        Me.lblVistaMenu.AutoSize = True
+        Me.lblVistaMenu.Location = New System.Drawing.Point(271, 251)
+        Me.lblVistaMenu.Name = "lblVistaMenu"
+        Me.lblVistaMenu.Size = New System.Drawing.Size(109, 13)
+        Me.lblVistaMenu.TabIndex = 21
+        Me.lblVistaMenu.TabStop = True
+        Me.lblVistaMenu.Text = "WyDay (Vista Menu)"
         '
         'frmAboutG
         '
@@ -251,6 +262,7 @@ Partial Class frmAboutG
         Me.CancelButton = Me.btnOK
         Me.ClientSize = New System.Drawing.Size(486, 333)
         Me.ControlBox = False
+        Me.Controls.Add(Me.lblVistaMenu)
         Me.Controls.Add(Me.lblTaskDialog)
         Me.Controls.Add(Me.cmdLicense)
         Me.Controls.Add(Me.lblMe)
@@ -303,4 +315,5 @@ Partial Class frmAboutG
     Friend WithEvents lblMe As System.Windows.Forms.LinkLabel
     Friend WithEvents cmdLicense As System.Windows.Forms.Button
     Friend WithEvents lblTaskDialog As System.Windows.Forms.LinkLabel
+    Friend WithEvents lblVistaMenu As System.Windows.Forms.LinkLabel
 End Class

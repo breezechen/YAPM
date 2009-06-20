@@ -422,16 +422,15 @@ Public Class frmProcessInfo
         Me.cmdInspectExe.Enabled = _local
         Me.cmdShowFileProperties.Enabled = _local
         Me.cmdOpenDirectory.Enabled = _local
-        Me.ShowFileDetailsToolStripMenuItem.Enabled = _notWMI
-        Me.ToolStripMenuItem36.Enabled = _notWMI
-        Me.ViewMemoryToolStripMenuItem.Enabled = _local
-        Me.ViewDependenciesToolStripMenuItem.Enabled = _local
+        Me.MenuItemModuleFileDetails.Enabled = _notWMI
+        Me.MenuItemUnloadModule.Enabled = _notWMI
+        Me.MenuItemViewModuleMemory.Enabled = _local
+        Me.MenuItemModuleDependencies.Enabled = _local
 
-        Me.OpenFirectoryToolStripMenuItem.Enabled = _local
-        Me.FileDetailsToolStripMenuItem.Enabled = _local
-        Me.FilePropToolStripMenuItem34.Enabled = _local
-        Me.ShowFileDetailsToolStripMenuItem.Enabled = _local
-        Me.PropertiesToolStripMenuItem.Enabled = _local
+        Me.MenuItemModuleOpenDir.Enabled = _local
+        Me.MenuItemServFileDetails.Enabled = _local
+        Me.MenuItemServFileProp.Enabled = _local
+        Me.MenuItemModuleFileProp.Enabled = _local
         Me.TabPageString.Enabled = _local
 
         Me.timerLog.Enabled = _local
@@ -684,11 +683,11 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub pctBigIcon_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pctBigIcon.MouseDown
-        Me.ToolStripMenuItem6.Enabled = (Me.pctBigIcon.Image IsNot Nothing)
+        Me.MenuItemCopyBig.Enabled = (Me.pctBigIcon.Image IsNot Nothing)
     End Sub
 
     Private Sub pctSmallIcon_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pctSmallIcon.MouseDown
-        Me.ToolStripMenuItem7.Enabled = (Me.pctSmallIcon.Image IsNot Nothing)
+        Me.MenuItemCopySmall.Enabled = (Me.pctSmallIcon.Image IsNot Nothing)
     End Sub
 
     Private Sub tabProcess_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabProcess.SelectedIndexChanged
@@ -820,73 +819,6 @@ Public Class frmProcessInfo
         Me.cmdInfosToClipB.Enabled = (Me.rtb.TextLength > 0)
     End Sub
 
-    Private Sub JumpToPEBAddressToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles JumpToPEBAddressToolStripMenuItem.Click
-        Dim peb As Integer = curProc.Infos.PEBAddress
-        For Each reg As cMemRegion In Me.lvProcMem.GetAllItems
-            If reg.Infos.BaseAddress <= peb AndAlso peb <= (reg.Infos.BaseAddress + reg.Infos.RegionSize) Then
-                Dim frm As New frmHexEditor
-                Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
-                frm.SetPidAndRegion(curProc.Infos.Pid, regio)
-                frm._hex.NavigateToOffset(peb)
-                frm.Show()
-                Exit For
-            End If
-        Next
-    End Sub
-
-    Private Sub ToolStripMenuItem44_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem44.Click
-        For Each it As cPrivilege In Me.lvPrivileges.GetSelectedItems
-            it.ChangeStatus(API.PRIVILEGE_STATUS.PRIVILEGE_ENABLED)
-        Next
-    End Sub
-
-    Private Sub DisableToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles DisableToolStripMenuItem.Click
-        For Each it As cPrivilege In Me.lvPrivileges.GetSelectedItems
-            it.ChangeStatus(API.PRIVILEGE_STATUS.PRIVILEGE_DISBALED)
-        Next
-    End Sub
-
-    Private Sub RemoveToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles RemoveToolStripMenuItem.Click
-        For Each it As cPrivilege In Me.lvPrivileges.GetSelectedItems
-            it.ChangeStatus(API.PRIVILEGE_STATUS.PRIVILEGE_REMOVED)
-        Next
-    End Sub
-
-    Private Sub ToolStripMenuItem43_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem43.Click
-        ' Select services associated to selected process
-        If Me.lvProcServices.SelectedItems.Count > 0 Then _frmMain.lvServices.SelectedItems.Clear()
-
-        If _frmMain.lvServices.Items.Count = 0 Then
-            ' Refresh list
-            Call _frmMain.refreshServiceList()
-        End If
-
-        For Each it As cService In Me.lvProcServices.GetSelectedItems
-            Dim it2 As ListViewItem
-            For Each it2 In _frmMain.lvServices.Items
-                Dim cp As cService = _frmMain.lvServices.GetItemByKey(it2.Name)
-                If cp.Infos.Name = it.Infos.Name Then
-                    it2.Selected = True
-                    it2.EnsureVisible()
-                End If
-            Next
-        Next
-        _frmMain.Ribbon.ActiveTab = _frmMain.ServiceTab
-        Call _frmMain.Ribbon_MouseMove(Nothing, Nothing)
-    End Sub
-
-    Private Sub ToolStripMenuItem49_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem49.Click
-        Call lvProcMem_DoubleClick(Nothing, Nothing)
-    End Sub
-
-    Private Sub ToolStripMenuItem6_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem6.Click
-        My.Computer.Clipboard.SetImage(Me.pctBigIcon.Image)
-    End Sub
-
-    Private Sub ToolStripMenuItem7_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem7.Click
-        My.Computer.Clipboard.SetImage(Me.pctSmallIcon.Image)
-    End Sub
-
     Private Sub cmdGetOnlineInfos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdGetOnlineInfos.Click
         If _asyncDlThread IsNot Nothing Then
             ' Already trying to get infos
@@ -978,7 +910,7 @@ Public Class frmProcessInfo
         pid(0) = curProc.Infos.Pid
         Me.lvWindows.ProcessId = pid
         Me.lvWindows.ShowAllPid = False
-        Me.lvWindows.ShowUnNamed = Me.ShowUnnamedWindowsToolStripMenuItem.Checked
+        Me.lvWindows.ShowUnNamed = Me.MenuItemWShowUn.Checked
         Me.lvWindows.UpdateTheItems()
 
     End Sub
@@ -986,7 +918,7 @@ Public Class frmProcessInfo
     ' Display handles of process
     Private Sub ShowHandles()
 
-        Me.lvHandles.ShowUnnamed = ShowUnnamedHandlesToolStripMenuItem.Checked
+        Me.lvHandles.ShowUnnamed = Me.MenuItemShowUnnamedHandles.Checked
         Dim pids(0) As Integer
         pids(0) = curProc.Infos.Pid
         Me.lvHandles.ProcessId = pids
@@ -994,267 +926,8 @@ Public Class frmProcessInfo
 
     End Sub
 
-    Private Sub ToolStripMenuItem36_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem36.Click
-        For Each it As cModule In Me.lvModules.GetSelectedItems
-            it.UnloadModule()
-        Next
-    End Sub
-
-    Private Sub ShowFileDetailsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowFileDetailsToolStripMenuItem.Click
-        If Me.lvModules.SelectedItems.Count > 0 Then
-            Dim s As String = Me.lvModules.GetSelectedItem.Infos.Path
-            If IO.File.Exists(s) Then
-                _frmMain.DisplayDetailsFile(s)
-            End If
-        End If
-    End Sub
-
-    Private Sub GoogleSearchToolStripMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GoogleSearchToolStripMenuItem2.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvModules.SelectedItems
-            Application.DoEvents()
-            Call SearchInternet(it.Text, Me.Handle)
-        Next
-    End Sub
-
-    Private Sub ToolStripMenuItem23_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem23.Click
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.ThreadTerminate()
-        Next
-    End Sub
-
-    Private Sub ToolStripMenuItem24_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem24.Click
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.ThreadSuspend()
-        Next
-    End Sub
-
-    Private Sub ToolStripMenuItem25_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem25.Click
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.ThreadResume()
-        Next
-    End Sub
-
-    Private Sub ToolStripMenuItem27_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem27.Click
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.SetPriority(ThreadPriorityLevel.Idle)
-        Next
-    End Sub
-
-    Private Sub LowestToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LowestToolStripMenuItem.Click
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.SetPriority(ThreadPriorityLevel.Lowest)
-        Next
-    End Sub
-
-    Private Sub ToolStripMenuItem28_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem28.Click
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.SetPriority(ThreadPriorityLevel.BelowNormal)
-        Next
-    End Sub
-
-    Private Sub ToolStripMenuItem29_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem29.Click
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.SetPriority(ThreadPriorityLevel.Normal)
-        Next
-    End Sub
-
-    Private Sub ToolStripMenuItem30_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem30.Click
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.SetPriority(ThreadPriorityLevel.AboveNormal)
-        Next
-    End Sub
-
-    Private Sub ToolStripMenuItem31_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem31.Click
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.SetPriority(ThreadPriorityLevel.Highest)
-        Next
-    End Sub
-
-    Private Sub ToolStripMenuItem32_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem32.Click
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.SetPriority(ThreadPriorityLevel.TimeCritical)
-        Next
-    End Sub
-
-    Private Sub ShowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowToolStripMenuItem.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.Show()
-        Next
-    End Sub
-
-    Private Sub HideToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HideToolStripMenuItem.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.Hide()
-        Next
-    End Sub
-
-    Private Sub CloseToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CloseToolStripMenuItem.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.Close()
-        Next
-    End Sub
-
-    Private Sub BringToFrontToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BringToFrontToolStripMenuItem.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.BringToFront(True)
-        Next
-    End Sub
-
-    Private Sub DoNotBringToFrontToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DoNotBringToFrontToolStripMenuItem.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.BringToFront(False)
-        Next
-    End Sub
-
-    Private Sub SetAsActiveWindowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SetAsActiveWindowToolStripMenuItem.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.SetAsActiveWindow()
-        Next
-    End Sub
-
-    Private Sub SetAsForegroundWindowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SetAsForegroundWindowToolStripMenuItem.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.SetAsForegroundWindow()
-        Next
-    End Sub
-
-    Private Sub MinimizeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MinimizeToolStripMenuItem.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.Minimize()
-        Next
-    End Sub
-
-    Private Sub MaximizeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MaximizeToolStripMenuItem.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.Maximize()
-        Next
-    End Sub
-
-    Private Sub PositionSizeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PositionSizeToolStripMenuItem.Click
-        Dim r As API.RECT
-
-        If Me.lvWindows.SelectedItems.Count > 0 Then
-
-            Dim frm As New frmWindowPosition
-            With frm
-                .SetCurrentPositions(Me.lvWindows.GetSelectedItem.Infos.Positions)
-
-                If .ShowDialog() = Windows.Forms.DialogResult.OK Then
-                    r = .NewRect
-                    For Each it As cWindow In Me.lvWindows.GetSelectedItems
-                        it.SetPositions(r)
-                    Next
-                End If
-            End With
-        End If
-    End Sub
-
-    Private Sub EnableToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EnableToolStripMenuItem.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.Enabled = True
-        Next
-    End Sub
-
-    Private Sub DisableToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisableToolStripMenuItem1.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.Enabled = False
-        Next
-    End Sub
-
-    Private Sub ShowUnnamedHandlesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowUnnamedHandlesToolStripMenuItem.Click
-        ShowUnnamedHandlesToolStripMenuItem.Checked = Not (ShowUnnamedHandlesToolStripMenuItem.Checked)
-    End Sub
-
-    Private Sub ShowUnnamedWindowsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowUnnamedWindowsToolStripMenuItem.Click
-        ShowUnnamedWindowsToolStripMenuItem.Checked = Not (ShowUnnamedWindowsToolStripMenuItem.Checked)
-    End Sub
-
     Private Sub lvProcString_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcString.MouseDown
-        menuViewMemoryString.Enabled = optProcStringMemory.Checked
-    End Sub
-
-    Private Sub menuViewMemoryString_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuViewMemoryString.Click
-
-        If Me.lvProcString.SelectedIndices.Count = 0 Then Exit Sub
-
-        Dim add As Integer = CInt(Me.lvProcString.Items(Me.lvProcString.SelectedIndices(0)).Tag)
-        For Each reg As cMemRegion In Me.lvProcMem.GetAllItems
-
-            If reg.Infos.BaseAddress <= add AndAlso add <= (reg.Infos.BaseAddress + reg.Infos.RegionSize) Then
-                Dim frm As New frmHexEditor
-                Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
-                frm.SetPidAndRegion(curProc.Infos.Pid, regio)
-                frm._hex.NavigateToOffset(CInt((add - regio.BeginningAddress) / 16))
-                frm.Show()
-                Exit For
-            End If
-        Next
-
-    End Sub
-
-    Private Sub ViewMemoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ViewMemoryToolStripMenuItem.Click
-
-        If Me.lvProcMem.Items.Count = 0 Then
-            Call ShowRegions()
-        End If
-
-        For Each it As cModule In Me.lvModules.GetSelectedItems
-            Dim add As Integer = it.Infos.BaseAddress
-
-            For Each reg As cMemRegion In Me.lvProcMem.GetAllItems
-
-                If reg.Infos.BaseAddress <= add AndAlso add < (reg.Infos.BaseAddress + reg.Infos.RegionSize) Then
-                    Dim frm As New frmHexEditor
-                    Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
-                    frm.SetPidAndRegion(curProc.Infos.Pid, regio)
-                    frm._hex.NavigateToOffset(CInt((add - regio.BeginningAddress) / 16) - 1)
-                    frm.Show()
-                    Exit For
-                End If
-            Next
-
-        Next
-
-    End Sub
-
-    Private Sub ToolStripMenuItem22_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem22.Click
-        If My.Settings.WarnDangerousActions Then
-            If MsgBox("Are you sure you want to close these handles ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
-            End If
-        End If
-        For Each ch As cHandle In Me.lvHandles.GetSelectedItems
-            ch.CloseHandle()
-        Next
-    End Sub
-
-    Private Sub ChooseColumnsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem.Click
-        Me.lvThreads.ChooseColumns()
-    End Sub
-
-    Private Sub ChooseColumnsToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem1.Click
-        Me.lvHandles.ChooseColumns()
-    End Sub
-
-    Private Sub ChooseColumnsToolStripMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem2.Click
-        Me.lvWindows.ChooseColumns()
-    End Sub
-
-    Private Sub ChooseColumnsToolStripMenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem3.Click
-        Me.lvModules.ChooseColumns()
-    End Sub
-
-    Private Sub ChooseColumnsToolStripMenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem4.Click
-        Me.lvProcMem.ChooseColumns()
-    End Sub
-
-    Private Sub ChooseColumnsToolStripMenuItem5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseColumnsToolStripMenuItem5.Click
-        Me.lvProcServices.ChooseColumns()
-    End Sub
-
-    Private Sub ToolStripMenuItem15_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem15.Click
-        Me.lvProcNetwork.ChooseColumns()
+        Me.menuViewMemory.Enabled = optProcStringMemory.Checked
     End Sub
 
     Public Sub StartLog()
@@ -1756,22 +1429,6 @@ Public Class frmProcessInfo
         End If
     End Sub
 
-    Private Sub ToolStripMenuItem33_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem33.Click
-        If Me.lvThreads.SelectedItems.Count = 0 Then Exit Sub
-
-        Dim c() As cThread
-        ReDim c(Me.lvThreads.SelectedItems.Count - 1)
-        Dim x As Integer = 0
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            c(x) = it
-            x += 1
-        Next
-
-        Dim frm As New frmThreadAffinity
-        frm.Thread = c
-        frm.ShowDialog()
-    End Sub
-
     ' Here we finished to download informations from internet
     Private _asyncInfoRes As cAsyncProcInfoDownload.InternetProcessInfo
     Private _asyncDownloadDone As Boolean = False
@@ -1904,10 +1561,6 @@ Public Class frmProcessInfo
         frm.ShowDialog()
     End Sub
 
-    Private Sub RefreshToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshToolStripMenuItem.Click
-        Call tabProcess_SelectedIndexChanged(Nothing, Nothing)
-    End Sub
-
     ' When we've finished to get all non fixed infos
     Private Sub asyncAllNonFixedInfos_HasGotAllNonFixedInfos(ByVal Success As Boolean, ByRef newInfos As CoreFunc.API.SYSTEM_PROCESS_INFORMATION, ByVal msg As String) Handles asyncAllNonFixedInfos.HasGotAllNonFixedInfos
         If Success Then
@@ -1959,210 +1612,41 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub lvProcServices_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcServices.MouseUp
-        Me.OpenDirToolStripMenuItem35.Enabled = _local
-        Me.FilePropToolStripMenuItem34.Enabled = _local
-        Me.FileDetailsToolStripMenuItem.Enabled = _local
+        Me.MenuItemServOpenDir.Enabled = _local
+        Me.MenuItemServFileProp.Enabled = _local
+        Me.MenuItemServFileDetails.Enabled = _local
         If lvProcServices.SelectedItems.Count = 1 Then
             Dim cSe As cService = Me.lvProcServices.GetSelectedItem
             Dim start As API.SERVICE_START_TYPE = cSe.Infos.StartType
             Dim state As API.SERVICE_STATE = cSe.Infos.State
             Dim acc As API.SERVICE_ACCEPT = cSe.Infos.AcceptedControl
 
-            Me.PauseToolStripMenuItem14.Text = IIf(state = API.SERVICE_STATE.Running, "Pause", "Resume").ToString
-            PauseToolStripMenuItem14.Enabled = (acc And API.SERVICE_ACCEPT.PauseContinue) = API.SERVICE_ACCEPT.PauseContinue
-            Me.StartToolStripMenuItem17.Enabled = Not (state = API.SERVICE_STATE.Running)
-            Me.StopToolStripMenuItem16.Enabled = (acc And API.SERVICE_ACCEPT.Stop) = API.SERVICE_ACCEPT.Stop
-            ShutdownShutdownToolStripMenuItem.Enabled = (acc And API.SERVICE_ACCEPT.PreShutdown) = API.SERVICE_ACCEPT.PreShutdown
+            Me.MenuItemServPause.Text = IIf(state = API.SERVICE_STATE.Running, "Pause", "Resume").ToString
+            Me.MenuItemServPause.Enabled = (acc And API.SERVICE_ACCEPT.PauseContinue) = API.SERVICE_ACCEPT.PauseContinue
+            Me.MenuItemServStart.Enabled = Not (state = API.SERVICE_STATE.Running)
+            Me.MenuItemServStop.Enabled = (acc And API.SERVICE_ACCEPT.Stop) = API.SERVICE_ACCEPT.Stop
 
-            Me.DisabledToolStripMenuItem19.Checked = (start = API.SERVICE_START_TYPE.StartDisabled)
-            DisabledToolStripMenuItem19.Enabled = Not (DisabledToolStripMenuItem19.Checked)
-            Me.AutoToolStripMenuItem20.Checked = (start = API.SERVICE_START_TYPE.AutoStart)
-            AutoToolStripMenuItem20.Enabled = Not (AutoToolStripMenuItem20.Checked)
-            Me.DemandToolStripMenuItem21.Checked = (start = API.SERVICE_START_TYPE.DemandStart)
-            DemandToolStripMenuItem21.Enabled = Not (DemandToolStripMenuItem21.Checked)
+            Me.MenuItemServDisabled.Checked = (start = API.SERVICE_START_TYPE.StartDisabled)
+            MenuItemServDisabled.Enabled = Not (MenuItemServDisabled.Checked)
+            Me.MenuItemServAutoStart.Checked = (start = API.SERVICE_START_TYPE.AutoStart)
+            MenuItemServAutoStart.Enabled = Not (MenuItemServAutoStart.Checked)
+            Me.MenuItemServOnDemand.Checked = (start = API.SERVICE_START_TYPE.DemandStart)
+            MenuItemServOnDemand.Enabled = Not (MenuItemServOnDemand.Checked)
         ElseIf lvProcServices.SelectedItems.Count > 1 Then
-            PauseToolStripMenuItem14.Text = "Pause"
-            PauseToolStripMenuItem14.Enabled = True
-            StartToolStripMenuItem17.Enabled = True
-            StopToolStripMenuItem16.Enabled = True
-            ShutdownShutdownToolStripMenuItem.Enabled = True
-            DisabledToolStripMenuItem19.Checked = True
-            DisabledToolStripMenuItem19.Enabled = True
-            AutoToolStripMenuItem20.Checked = True
-            AutoToolStripMenuItem20.Enabled = True
-            DemandToolStripMenuItem21.Checked = True
-            DemandToolStripMenuItem21.Enabled = True
+            Me.MenuItemServPause.Text = "Pause"
+            Me.MenuItemServPause.Enabled = True
+            Me.MenuItemServStart.Enabled = True
+            Me.MenuItemServStop.Enabled = True
+            MenuItemServDisabled.Checked = True
+            MenuItemServDisabled.Enabled = True
+            MenuItemServAutoStart.Checked = True
+            MenuItemServAutoStart.Enabled = True
+            MenuItemServOnDemand.Checked = True
+            MenuItemServOnDemand.Enabled = True
         End If
-    End Sub
 
-    Private Sub PauseToolStripMenuItem14_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PauseToolStripMenuItem14.Click
-        For Each it As cService In Me.lvProcServices.GetSelectedItems
-            If it.Infos.State = API.SERVICE_STATE.Running Then
-                it.PauseService()
-            Else
-                it.ResumeService()
-            End If
-        Next
-    End Sub
-
-    Private Sub StopToolStripMenuItem16_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StopToolStripMenuItem16.Click
-        For Each it As cService In Me.lvProcServices.GetSelectedItems
-            it.StopService()
-        Next
-    End Sub
-
-    Private Sub StartToolStripMenuItem17_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StartToolStripMenuItem17.Click
-        For Each it As cService In Me.lvProcServices.GetSelectedItems
-            it.StartService()
-        Next
-    End Sub
-
-    Private Sub ReanalyzeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReanalyzeToolStripMenuItem.Click
-        For Each it As cService In Me.lvProcServices.GetSelectedItems
-            it.Refresh()
-        Next
-    End Sub
-
-    Private Sub DisabledToolStripMenuItem19_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisabledToolStripMenuItem19.Click
-        For Each it As cService In Me.lvProcServices.GetSelectedItems
-            it.SetServiceStartType(API.SERVICE_START_TYPE.StartDisabled)
-        Next
-    End Sub
-
-    Private Sub AutoToolStripMenuItem20_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AutoToolStripMenuItem20.Click
-        For Each it As cService In Me.lvProcServices.GetSelectedItems
-            it.SetServiceStartType(API.SERVICE_START_TYPE.AutoStart)
-        Next
-    End Sub
-
-    Private Sub DemandToolStripMenuItem21_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DemandToolStripMenuItem21.Click
-        For Each it As cService In Me.lvProcServices.GetSelectedItems
-            it.SetServiceStartType(API.SERVICE_START_TYPE.DemandStart)
-        Next
-    End Sub
-
-    Private Sub FilePropToolStripMenuItem34_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FilePropToolStripMenuItem34.Click
-        Dim s As String = vbNullString
-        For Each it As cService In Me.lvProcServices.GetSelectedItems
-            s = it.GetInformation("ImagePath")
-            If s <> NO_INFO_RETRIEVED Then
-                If IO.File.Exists(s) Then
-                    cFile.ShowFileProperty(s, Me.Handle)
-                Else
-                    ' Cannot retrieve a good path
-                    Dim box As New frmBox
-                    With box
-                        .txtMsg1.Text = "The file path cannot be extracted. Please edit it and then click 'OK' to open file properties box, or click 'Cancel' to cancel."
-                        .txtMsg1.Height = 35
-                        .txtMsg2.Top = 50
-                        .txtMsg2.Height = 25
-                        .txtMsg2.Text = s
-                        .txtMsg2.ReadOnly = False
-                        .txtMsg2.BackColor = Drawing.Color.White
-                        .Text = "Show file properties box"
-                        .Height = 150
-                        .ShowDialog()
-                        If .DialogResult = Windows.Forms.DialogResult.OK Then
-                            If IO.File.Exists(.MsgResult2) Then _
-                                cFile.ShowFileProperty(.MsgResult2, Me.Handle)
-                        End If
-                    End With
-                End If
-            End If
-        Next
-    End Sub
-
-    Private Sub OpenDirToolStripMenuItem35_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpenDirToolStripMenuItem35.Click
-        Dim s As String = vbNullString
-        For Each it As cService In Me.lvProcServices.GetSelectedItems
-            Dim sP As String = it.GetInformation("ImagePath")
-            If sP <> NO_INFO_RETRIEVED Then
-                s = cFile.GetParentDir(sP)
-                If IO.Directory.Exists(s) Then
-                    cFile.OpenADirectory(s)
-                Else
-                    ' Cannot retrieve a good path
-                    Dim box As New frmBox
-                    With box
-                        .txtMsg1.Text = "The file directory cannot be extracted. Please edit it and then click 'OK' to open directory, or click 'Cancel' to cancel."
-                        .txtMsg1.Height = 35
-                        .txtMsg2.Top = 50
-                        .txtMsg2.Height = 25
-                        .txtMsg2.Text = s
-                        .txtMsg2.ReadOnly = False
-                        .txtMsg2.BackColor = Drawing.Color.White
-                        .Text = "Open directory"
-                        .Height = 150
-                        .ShowDialog()
-                        If .DialogResult = Windows.Forms.DialogResult.OK Then
-                            If IO.Directory.Exists(.MsgResult2) Then
-                                cFile.OpenADirectory(.MsgResult2)
-                            End If
-                        End If
-                    End With
-                End If
-            End If
-        Next
-    End Sub
-
-    Private Sub FileDetailsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileDetailsToolStripMenuItem.Click
-        If Me.lvProcServices.SelectedItems.Count > 0 Then
-            Dim s As String = Me.lvProcServices.GetSelectedItem.GetInformation("ImagePath")
-            If IO.File.Exists(s) = False Then
-                s = cFile.IntelligentPathRetrieving2(s)
-            End If
-            If IO.File.Exists(s) Then
-                _frmMain.DisplayDetailsFile(s)
-            End If
-        End If
-    End Sub
-
-    Private Sub GoogleSearchToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GoogleSearchToolStripMenuItem1.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvProcServices.SelectedItems
-            Application.DoEvents()
-            Call SearchInternet(it.Text, Me.Handle)
-        Next
-    End Sub
-
-    Private Sub menuThread_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles menuThread.Opening
-        Dim p As System.Diagnostics.ThreadPriorityLevel
-
-        If Me.lvThreads.SelectedItems.Count > 0 Then
-            p = Me.lvThreads.GetSelectedItem.PriorityMod
-        End If
-        Me.ToolStripMenuItem27.Checked = (p = ThreadPriorityLevel.Idle)
-        Me.LowestToolStripMenuItem.Checked = (p = ThreadPriorityLevel.Lowest)
-        Me.ToolStripMenuItem28.Checked = (p = ThreadPriorityLevel.BelowNormal)
-        Me.ToolStripMenuItem29.Checked = (p = ThreadPriorityLevel.Normal)
-        Me.ToolStripMenuItem30.Checked = (p = ThreadPriorityLevel.AboveNormal)
-        Me.ToolStripMenuItem31.Checked = (p = ThreadPriorityLevel.Highest)
-        Me.ToolStripMenuItem32.Checked = (p = ThreadPriorityLevel.TimeCritical)
-    End Sub
-
-    Private Sub ServiceDetailsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ServiceDetailsToolStripMenuItem.Click
-        For Each it As cService In Me.lvProcServices.GetSelectedItems
-            Dim frm As New frmServiceInfo
-            frm.SetService(it)
-            frm.Show()
-        Next
-    End Sub
-
-    Private Sub OpenFirectoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpenFirectoryToolStripMenuItem.Click
-        If Me.lvModules.SelectedItems.Count > 0 Then
-            Dim s As String = Me.lvModules.GetSelectedItem.Infos.Path
-            If IO.File.Exists(s) Then
-                cFile.OpenDirectory(s)
-            End If
-        End If
-    End Sub
-
-    Private Sub PropertiesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PropertiesToolStripMenuItem.Click
-        If Me.lvModules.SelectedItems.Count > 0 Then
-            Dim s As String = Me.lvModules.GetSelectedItem.Infos.Path
-            If IO.File.Exists(s) Then
-                cFile.ShowFileProperty(s, Me.Handle)
-            End If
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Me.mnuService.Show(Me.lvProcServices, e.Location)
         End If
     End Sub
 
@@ -2219,7 +1703,230 @@ Public Class frmProcessInfo
         End With
     End Sub
 
-    Private Sub ViewDependenciesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ViewDependenciesToolStripMenuItem.Click
+    Private Sub MenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem4.Click
+        Call tabProcess_SelectedIndexChanged(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemCopyBig_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemCopyBig.Click
+        My.Computer.Clipboard.SetImage(Me.pctBigIcon.Image)
+    End Sub
+
+    Private Sub MenuItemCopySmall_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemCopySmall.Click
+        My.Computer.Clipboard.SetImage(Me.pctSmallIcon.Image)
+    End Sub
+
+    Private Sub pctBigIcon_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pctBigIcon.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Me.menuCopyPctbig.Show(Me.pctBigIcon, e.Location)
+        End If
+    End Sub
+
+    Private Sub pctSmallIcon_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pctSmallIcon.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Me.menuCopyPctSmall.Show(Me.pctSmallIcon, e.Location)
+        End If
+    End Sub
+
+    Private Sub menuViewMemory_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuViewMemory.Click
+
+        If Me.lvProcString.SelectedIndices.Count = 0 Then Exit Sub
+
+        Dim add As Integer = CInt(Me.lvProcString.Items(Me.lvProcString.SelectedIndices(0)).Tag)
+        For Each reg As cMemRegion In Me.lvProcMem.GetAllItems
+
+            If reg.Infos.BaseAddress <= add AndAlso add <= (reg.Infos.BaseAddress + reg.Infos.RegionSize) Then
+                Dim frm As New frmHexEditor
+                Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
+                frm.SetPidAndRegion(curProc.Infos.Pid, regio)
+                frm._hex.NavigateToOffset(CInt((add - regio.BeginningAddress) / 16))
+                frm.Show()
+                Exit For
+            End If
+        Next
+
+    End Sub
+
+    Private Sub lvProcString_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcString.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Me.mnuString.Show(Me.lvProcString, e.Location)
+        End If
+    End Sub
+
+    Private Sub MenuItem9_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuCloseTCP.Click
+        For Each it As cNetwork In Me.lvProcNetwork.GetSelectedItems
+            If it.Infos.Protocol = API.NetworkProtocol.Tcp Then
+                it.CloseTCP()
+            End If
+        Next
+    End Sub
+
+    Private Sub MenuItem11_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem11.Click
+        Me.lvProcNetwork.ChooseColumns()
+    End Sub
+
+    Private Sub lvHandles_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHandles.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Me.mnuHandle.Show(Me.lvHandles, e.Location)
+        End If
+    End Sub
+
+    Private Sub lvModules_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvModules.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Me.mnuModule.Show(Me.lvModules, e.Location)
+        End If
+    End Sub
+
+    Private Sub lvPrivileges_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvPrivileges.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Me.mnuPrivileges.Show(Me.lvPrivileges, e.Location)
+        End If
+    End Sub
+
+    Private Sub lvProcMem_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcMem.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Me.mnuProcMem.Show(Me.lvProcMem, e.Location)
+        End If
+    End Sub
+
+    Private Sub lvProcNetwork_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcNetwork.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+
+            Dim enable As Boolean = False
+            For Each it As cNetwork In Me.lvProcNetwork.GetSelectedItems
+                If it.Infos.Protocol = API.NetworkProtocol.Tcp Then
+                    If it.Infos.State <> API.MIB_TCP_STATE.Listening AndAlso it.Infos.State <> API.MIB_TCP_STATE.TimeWait AndAlso it.Infos.State <> API.MIB_TCP_STATE.CloseWait Then
+                        enable = True
+                        Exit For
+                    End If
+                End If
+            Next
+            Me.menuCloseTCP.Enabled = enable
+
+            Me.mnuNetwork.Show(Me.lvProcNetwork, e.Location)
+        End If
+    End Sub
+
+    Private Sub lvThreads_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvThreads.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+
+            Dim p As System.Diagnostics.ThreadPriorityLevel
+
+            If Me.lvThreads.SelectedItems.Count > 0 Then
+                p = Me.lvThreads.GetSelectedItem.PriorityMod
+            End If
+            Me.MenuItemThIdle.Checked = (p = ThreadPriorityLevel.Idle)
+            Me.MenuItemThLowest.Checked = (p = ThreadPriorityLevel.Lowest)
+            Me.MenuItemThBNormal.Checked = (p = ThreadPriorityLevel.BelowNormal)
+            Me.MenuItemThNorm.Checked = (p = ThreadPriorityLevel.Normal)
+            Me.MenuItemThANorm.Checked = (p = ThreadPriorityLevel.AboveNormal)
+            Me.MenuItemThHighest.Checked = (p = ThreadPriorityLevel.Highest)
+            Me.MenuItemThTimeCr.Checked = (p = ThreadPriorityLevel.TimeCritical)
+
+            Me.mnuThread.Show(Me.lvThreads, e.Location)
+        End If
+    End Sub
+
+    Private Sub lvWindows_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvWindows.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Me.mnuWindow.Show(Me.lvWindows, e.Location)
+        End If
+    End Sub
+
+    Private Sub MenuItemCloseHandle_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemCloseHandle.Click
+        If My.Settings.WarnDangerousActions Then
+            If MsgBox("Are you sure you want to close these handles ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                Exit Sub
+            End If
+        End If
+        For Each ch As cHandle In Me.lvHandles.GetSelectedItems
+            ch.CloseHandle()
+        Next
+    End Sub
+
+    Private Sub MenuItemShowUnnamedHandles_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemShowUnnamedHandles.Click
+        MenuItemShowUnnamedHandles.Checked = Not (MenuItemShowUnnamedHandles.Checked)
+    End Sub
+
+    Private Sub MenuItemChooseColumnsHandle_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemChooseColumnsHandle.Click
+        Me.lvHandles.ChooseColumns()
+    End Sub
+
+    Private Sub MenuItemViewMemory_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemViewMemory.Click
+        Call lvProcMem_DoubleClick(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemPEBAddress_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemPEBAddress.Click
+        Dim peb As Integer = curProc.Infos.PEBAddress
+        For Each reg As cMemRegion In Me.lvProcMem.GetAllItems
+            If reg.Infos.BaseAddress <= peb AndAlso peb <= (reg.Infos.BaseAddress + reg.Infos.RegionSize) Then
+                Dim frm As New frmHexEditor
+                Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
+                frm.SetPidAndRegion(curProc.Infos.Pid, regio)
+                frm._hex.NavigateToOffset(peb)
+                frm.Show()
+                Exit For
+            End If
+        Next
+    End Sub
+
+    Private Sub MenuItemColumnsMemory_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemColumnsMemory.Click
+        Me.lvProcMem.ChooseColumns()
+    End Sub
+
+    Private Sub MenuItemPriEnable_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemPriEnable.Click
+        For Each it As cPrivilege In Me.lvPrivileges.GetSelectedItems
+            it.ChangeStatus(API.PRIVILEGE_STATUS.PRIVILEGE_ENABLED)
+        Next
+    End Sub
+
+    Private Sub MenuItemPriDisable_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemPriDisable.Click
+        For Each it As cPrivilege In Me.lvPrivileges.GetSelectedItems
+            it.ChangeStatus(API.PRIVILEGE_STATUS.PRIVILEGE_DISBALED)
+        Next
+    End Sub
+
+    Private Sub MenuItemPriRemove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemPriRemove.Click
+        For Each it As cPrivilege In Me.lvPrivileges.GetSelectedItems
+            it.ChangeStatus(API.PRIVILEGE_STATUS.PRIVILEGE_REMOVED)
+        Next
+    End Sub
+
+    Private Sub MenuItemModuleFileProp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemModuleFileProp.Click
+        If Me.lvModules.SelectedItems.Count > 0 Then
+            Dim s As String = Me.lvModules.GetSelectedItem.Infos.Path
+            If IO.File.Exists(s) Then
+                cFile.ShowFileProperty(s, Me.Handle)
+            End If
+        End If
+    End Sub
+
+    Private Sub MenuItemModuleOpenDir_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemModuleOpenDir.Click
+        If Me.lvModules.SelectedItems.Count > 0 Then
+            Dim s As String = Me.lvModules.GetSelectedItem.Infos.Path
+            If IO.File.Exists(s) Then
+                cFile.OpenDirectory(s)
+            End If
+        End If
+    End Sub
+
+    Private Sub MenuItemModuleFileDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemModuleFileDetails.Click
+        If Me.lvModules.SelectedItems.Count > 0 Then
+            Dim s As String = Me.lvModules.GetSelectedItem.Infos.Path
+            If IO.File.Exists(s) Then
+                _frmMain.DisplayDetailsFile(s)
+            End If
+        End If
+    End Sub
+
+    Private Sub MenuItemModuleSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemModuleSearch.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvModules.SelectedItems
+            Application.DoEvents()
+            Call SearchInternet(it.Text, Me.Handle)
+        Next
+    End Sub
+
+    Private Sub MenuItemModuleDependencies_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemModuleDependencies.Click
         If Me.lvModules.SelectedItems.Count > 0 Then
             Dim s As String = Me.lvModules.GetSelectedItem.Infos.Path
             Dim _depForm As New DependenciesViewer.frmMain
@@ -2231,24 +1938,377 @@ Public Class frmProcessInfo
         End If
     End Sub
 
-    Private Sub CloseTCPConnectionToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CloseTCPConnectionToolStripMenuItem.Click
-        For Each it As cNetwork In Me.lvProcNetwork.GetSelectedItems
-            If it.Infos.Protocol = API.NetworkProtocol.Tcp Then
-                it.CloseTCP()
+    Private Sub MenuItemViewModuleMemory_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemViewModuleMemory.Click
+
+        If Me.lvProcMem.Items.Count = 0 Then
+            Call ShowRegions()
+        End If
+
+        For Each it As cModule In Me.lvModules.GetSelectedItems
+            Dim add As Integer = it.Infos.BaseAddress
+
+            For Each reg As cMemRegion In Me.lvProcMem.GetAllItems
+
+                If reg.Infos.BaseAddress <= add AndAlso add < (reg.Infos.BaseAddress + reg.Infos.RegionSize) Then
+                    Dim frm As New frmHexEditor
+                    Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
+                    frm.SetPidAndRegion(curProc.Infos.Pid, regio)
+                    frm._hex.NavigateToOffset(CInt((add - regio.BeginningAddress) / 16) - 1)
+                    frm.Show()
+                    Exit For
+                End If
+            Next
+
+        Next
+
+    End Sub
+
+    Private Sub MenuItemUnloadModule_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemUnloadModule.Click
+        For Each it As cModule In Me.lvModules.GetSelectedItems
+            it.UnloadModule()
+        Next
+    End Sub
+
+    Private Sub MenuItemColumnsModule_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemColumnsModule.Click
+        Me.lvModules.ChooseColumns()
+    End Sub
+
+    Private Sub MenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServDetails.Click
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            Dim frm As New frmServiceInfo
+            frm.SetService(it)
+            frm.Show()
+        Next
+    End Sub
+
+    Private Sub MenuItemServSelService_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServSelService.Click
+        ' Select services associated to selected process
+        If Me.lvProcServices.SelectedItems.Count > 0 Then _frmMain.lvServices.SelectedItems.Clear()
+
+        If _frmMain.lvServices.Items.Count = 0 Then
+            ' Refresh list
+            Call _frmMain.refreshServiceList()
+        End If
+
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            Dim it2 As ListViewItem
+            For Each it2 In _frmMain.lvServices.Items
+                Dim cp As cService = _frmMain.lvServices.GetItemByKey(it2.Name)
+                If cp.Infos.Name = it.Infos.Name Then
+                    it2.Selected = True
+                    it2.EnsureVisible()
+                End If
+            Next
+        Next
+        _frmMain.Ribbon.ActiveTab = _frmMain.ServiceTab
+        Call _frmMain.Ribbon_MouseMove(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemServFileProp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServFileProp.Click
+        Dim s As String = vbNullString
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            s = it.GetInformation("ImagePath")
+            If s <> NO_INFO_RETRIEVED Then
+                If IO.File.Exists(s) Then
+                    cFile.ShowFileProperty(s, Me.Handle)
+                Else
+                    ' Cannot retrieve a good path
+                    Dim box As New frmBox
+                    With box
+                        .txtMsg1.Text = "The file path cannot be extracted. Please edit it and then click 'OK' to open file properties box, or click 'Cancel' to cancel."
+                        .txtMsg1.Height = 35
+                        .txtMsg2.Top = 50
+                        .txtMsg2.Height = 25
+                        .txtMsg2.Text = s
+                        .txtMsg2.ReadOnly = False
+                        .txtMsg2.BackColor = Drawing.Color.White
+                        .Text = "Show file properties box"
+                        .Height = 150
+                        .ShowDialog()
+                        If .DialogResult = Windows.Forms.DialogResult.OK Then
+                            If IO.File.Exists(.MsgResult2) Then _
+                                cFile.ShowFileProperty(.MsgResult2, Me.Handle)
+                        End If
+                    End With
+                End If
             End If
         Next
     End Sub
 
-    Private Sub menuNetwork_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles menuNetwork.Opening
-        Dim enable As Boolean = False
-        For Each it As cNetwork In Me.lvProcNetwork.GetSelectedItems
-            If it.Infos.Protocol = API.NetworkProtocol.Tcp Then
-                If it.Infos.State <> API.MIB_TCP_STATE.Listening AndAlso it.Infos.State <> API.MIB_TCP_STATE.TimeWait AndAlso it.Infos.State <> API.MIB_TCP_STATE.CloseWait Then
-                    enable = True
-                    Exit For
+    Private Sub MenuItemServOpenDir_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServOpenDir.Click
+        Dim s As String = vbNullString
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            Dim sP As String = it.GetInformation("ImagePath")
+            If sP <> NO_INFO_RETRIEVED Then
+                s = cFile.GetParentDir(sP)
+                If IO.Directory.Exists(s) Then
+                    cFile.OpenADirectory(s)
+                Else
+                    ' Cannot retrieve a good path
+                    Dim box As New frmBox
+                    With box
+                        .txtMsg1.Text = "The file directory cannot be extracted. Please edit it and then click 'OK' to open directory, or click 'Cancel' to cancel."
+                        .txtMsg1.Height = 35
+                        .txtMsg2.Top = 50
+                        .txtMsg2.Height = 25
+                        .txtMsg2.Text = s
+                        .txtMsg2.ReadOnly = False
+                        .txtMsg2.BackColor = Drawing.Color.White
+                        .Text = "Open directory"
+                        .Height = 150
+                        .ShowDialog()
+                        If .DialogResult = Windows.Forms.DialogResult.OK Then
+                            If IO.Directory.Exists(.MsgResult2) Then
+                                cFile.OpenADirectory(.MsgResult2)
+                            End If
+                        End If
+                    End With
                 End If
             End If
         Next
-        Me.CloseTCPConnectionToolStripMenuItem.Enabled = enable
     End Sub
+
+    Private Sub MenuItemServFileDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServFileDetails.Click
+        If Me.lvProcServices.SelectedItems.Count > 0 Then
+            Dim s As String = Me.lvProcServices.GetSelectedItem.GetInformation("ImagePath")
+            If IO.File.Exists(s) = False Then
+                s = cFile.IntelligentPathRetrieving2(s)
+            End If
+            If IO.File.Exists(s) Then
+                _frmMain.DisplayDetailsFile(s)
+            End If
+        End If
+    End Sub
+
+    Private Sub MenuItemServSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServSearch.Click
+        Dim it As ListViewItem
+        For Each it In Me.lvProcServices.SelectedItems
+            Application.DoEvents()
+            Call SearchInternet(it.Text, Me.Handle)
+        Next
+    End Sub
+
+    Private Sub MenuItemServPause_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServPause.Click
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            If it.Infos.State = API.SERVICE_STATE.Running Then
+                it.PauseService()
+            Else
+                it.ResumeService()
+            End If
+        Next
+    End Sub
+
+    Private Sub MenuItemServStop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServStop.Click
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            it.StopService()
+        Next
+    End Sub
+
+    Private Sub MenuItemServStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServStart.Click
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            it.StartService()
+        Next
+    End Sub
+
+    Private Sub MenuItemServAutoStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServAutoStart.Click
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            it.SetServiceStartType(API.SERVICE_START_TYPE.AutoStart)
+        Next
+    End Sub
+
+    Private Sub MenuItemServOnDemand_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServOnDemand.Click
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            it.SetServiceStartType(API.SERVICE_START_TYPE.DemandStart)
+        Next
+    End Sub
+
+    Private Sub MenuItemServDisabled_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServDisabled.Click
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            it.SetServiceStartType(API.SERVICE_START_TYPE.StartDisabled)
+        Next
+    End Sub
+
+    Private Sub MenuItemServReanalize_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServReanalize.Click
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            it.Refresh()
+        Next
+    End Sub
+
+    Private Sub MenuItemServColumns_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServColumns.Click
+        Me.lvProcServices.ChooseColumns()
+    End Sub
+
+    Private Sub MenuItemThTerm_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThTerm.Click
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.ThreadTerminate()
+        Next
+    End Sub
+
+    Private Sub MenuItemThSuspend_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThSuspend.Click
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.ThreadSuspend()
+        Next
+    End Sub
+
+    Private Sub MenuItemThResu_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThResu.Click
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.ThreadResume()
+        Next
+    End Sub
+
+    Private Sub MenuItemThAffinity_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThAffinity.Click
+        If Me.lvThreads.SelectedItems.Count = 0 Then Exit Sub
+
+        Dim c() As cThread
+        ReDim c(Me.lvThreads.SelectedItems.Count - 1)
+        Dim x As Integer = 0
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            c(x) = it
+            x += 1
+        Next
+
+        Dim frm As New frmThreadAffinity
+        frm.Thread = c
+        frm.ShowDialog()
+    End Sub
+
+    Private Sub MenuItemThColumns_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThColumns.Click
+        Me.lvThreads.ChooseColumns()
+    End Sub
+
+    Private Sub MenuItemThIdle_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThIdle.Click
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.SetPriority(ThreadPriorityLevel.Idle)
+        Next
+    End Sub
+
+    Private Sub MenuItemThLowest_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThLowest.Click
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.SetPriority(ThreadPriorityLevel.Lowest)
+        Next
+    End Sub
+
+    Private Sub MenuItemThBNormal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThBNormal.Click
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.SetPriority(ThreadPriorityLevel.BelowNormal)
+        Next
+    End Sub
+
+    Private Sub MenuItemThNorm_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThNorm.Click
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.SetPriority(ThreadPriorityLevel.Normal)
+        Next
+    End Sub
+
+    Private Sub MenuItemThANorm_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThANorm.Click
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.SetPriority(ThreadPriorityLevel.AboveNormal)
+        Next
+    End Sub
+
+    Private Sub MenuItemThHighest_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThHighest.Click
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.SetPriority(ThreadPriorityLevel.Highest)
+        Next
+    End Sub
+
+    Private Sub MenuItemThTimeCr_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThTimeCr.Click
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            it.SetPriority(ThreadPriorityLevel.TimeCritical)
+        Next
+    End Sub
+
+    Private Sub MenuItemWShow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWShow.Click
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.Show()
+        Next
+    End Sub
+
+    Private Sub MenuItemWShowUn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWShowUn.Click
+        MenuItemWShowUn.Checked = Not (MenuItemWShowUn.Checked)
+    End Sub
+
+    Private Sub MenuItemWHide_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWHide.Click
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.Hide()
+        Next
+    End Sub
+
+    Private Sub MenuItemWClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWClose.Click
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.Close()
+        Next
+    End Sub
+
+    Private Sub MenuItemWFront_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWFront.Click
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.BringToFront(True)
+        Next
+    End Sub
+
+    Private Sub MenuItemWNotFront_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWNotFront.Click
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.BringToFront(False)
+        Next
+    End Sub
+
+    Private Sub MenuItemWActive_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWActive.Click
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.SetAsActiveWindow()
+        Next
+    End Sub
+
+    Private Sub MenuItemWForeground_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWForeground.Click
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.SetAsForegroundWindow()
+        Next
+    End Sub
+
+    Private Sub MenuItemWMin_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWMin.Click
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.Minimize()
+        Next
+    End Sub
+
+    Private Sub MenuItemWMax_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWMax.Click
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.Maximize()
+        Next
+    End Sub
+
+    Private Sub MenuItemWPosSize_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWPosSize.Click
+        Dim r As API.RECT
+
+        If Me.lvWindows.SelectedItems.Count > 0 Then
+
+            Dim frm As New frmWindowPosition
+            With frm
+                .SetCurrentPositions(Me.lvWindows.GetSelectedItem.Infos.Positions)
+
+                If .ShowDialog() = Windows.Forms.DialogResult.OK Then
+                    r = .NewRect
+                    For Each it As cWindow In Me.lvWindows.GetSelectedItems
+                        it.SetPositions(r)
+                    Next
+                End If
+            End With
+        End If
+    End Sub
+
+    Private Sub MenuItemWEna_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWEna.Click
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.Enabled = True
+        Next
+    End Sub
+
+    Private Sub MenuItemWDisa_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWDisa.Click
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.Enabled = False
+        Next
+    End Sub
+
+    Private Sub MenuItemWColumns_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWColumns.Click
+        Me.lvWindows.ChooseColumns()
+    End Sub
+
 End Class

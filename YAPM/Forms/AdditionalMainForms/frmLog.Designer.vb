@@ -27,18 +27,18 @@ Partial Class frmLog
         Me.lv = New YAPM.DoubleBufferedLV
         Me.ColumnHeader52 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.SaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
-        Me.ClearToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ContextMenuStrip1.SuspendLayout()
+        Me.VistaMenu = New wyDay.Controls.VistaMenu(Me.components)
+        Me.MenuItem = New System.Windows.Forms.MenuItem
+        Me.TheContextMenu = New System.Windows.Forms.ContextMenu
+        Me.menuItem12 = New System.Windows.Forms.MenuItem
+        Me.MenuItem2 = New System.Windows.Forms.MenuItem
+        CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'lv
         '
         Me.lv.AllowColumnReorder = True
         Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader52, Me.ColumnHeader1})
-        Me.lv.ContextMenuStrip = Me.ContextMenuStrip1
         Me.lv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lv.FullRowSelect = True
         Me.lv.HideSelection = False
@@ -60,30 +60,29 @@ Partial Class frmLog
         Me.ColumnHeader1.Text = "Event"
         Me.ColumnHeader1.Width = 385
         '
-        'ContextMenuStrip1
+        'VistaMenu
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SaveToolStripMenuItem, Me.ToolStripMenuItem1, Me.ClearToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(111, 54)
+        Me.VistaMenu.ContainerControl = Me
         '
-        'SaveToolStripMenuItem
+        'MenuItem
         '
-        Me.SaveToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SaveToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources._096
-        Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
-        Me.SaveToolStripMenuItem.Text = "&Save..."
+        Me.VistaMenu.SetImage(Me.MenuItem, Global.YAPM.My.Resources.Resources._096)
+        Me.MenuItem.Index = 0
+        Me.MenuItem.Text = "Save..."
         '
-        'ToolStripMenuItem1
+        'TheContextMenu
         '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(107, 6)
+        Me.TheContextMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem, Me.menuItem12, Me.MenuItem2})
         '
-        'ClearToolStripMenuItem
+        'menuItem12
         '
-        Me.ClearToolStripMenuItem.Name = "ClearToolStripMenuItem"
-        Me.ClearToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
-        Me.ClearToolStripMenuItem.Text = "&Clear"
+        Me.menuItem12.Index = 1
+        Me.menuItem12.Text = "-"
+        '
+        'MenuItem2
+        '
+        Me.MenuItem2.Index = 2
+        Me.MenuItem2.Text = "Clear"
         '
         'frmLog
         '
@@ -96,7 +95,7 @@ Partial Class frmLog
         Me.Name = "frmLog"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Log file"
-        Me.ContextMenuStrip1.ResumeLayout(False)
+        CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -104,8 +103,9 @@ Partial Class frmLog
     Friend WithEvents lv As YAPM.DoubleBufferedLV
     Friend WithEvents ColumnHeader52 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ContextMenuStrip1 As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents SaveToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents ClearToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents VistaMenu As wyDay.Controls.VistaMenu
+    Friend WithEvents MenuItem As System.Windows.Forms.MenuItem
+    Private WithEvents TheContextMenu As System.Windows.Forms.ContextMenu
+    Private WithEvents menuItem12 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem2 As System.Windows.Forms.MenuItem
 End Class

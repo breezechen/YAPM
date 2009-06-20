@@ -82,7 +82,29 @@ Public Class frmHiddenProcesses
         Next
     End Sub
 
-    Private Sub FileDetailsToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileDetailsToolStripMenuItem1.Click
+    Private Sub lvProcess_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Me.TheContextMenu.Show(Me.lvProcess, e.Location)
+        End If
+    End Sub
+
+    Private Sub MenuItemShow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemShow.Click
+        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+            If IO.File.Exists(cp.Infos.Path) Then
+                cFile.ShowFileProperty(cp.Infos.Path, Me.Handle)
+            End If
+        Next
+    End Sub
+
+    Private Sub MenuItemClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemClose.Click
+        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+            If cp.Infos.Path <> NO_INFO_RETRIEVED Then
+                cFile.OpenDirectory(cp.Infos.Path)
+            End If
+        Next
+    End Sub
+
+    Private Sub MenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem1.Click
         If Me.lvProcess.SelectedItems.Count > 0 Then
             Dim cp As cProcess = Me.lvProcess.GetSelectedItem
             Dim s As String = cp.Infos.Path
@@ -92,23 +114,7 @@ Public Class frmHiddenProcesses
         End If
     End Sub
 
-    Private Sub PropertiesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PropertiesToolStripMenuItem.Click
-        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
-            If IO.File.Exists(cp.Infos.Path) Then
-                cFile.ShowFileProperty(cp.Infos.Path, Me.Handle)
-            End If
-        Next
-    End Sub
-
-    Private Sub OpenFirectoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpenFirectoryToolStripMenuItem.Click
-        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
-            If cp.Infos.Path <> NO_INFO_RETRIEVED Then
-                cFile.OpenDirectory(cp.Infos.Path)
-            End If
-        Next
-    End Sub
-
-    Private Sub GoogleSearchToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GoogleSearchToolStripMenuItem.Click
+    Private Sub MenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem2.Click
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
             Application.DoEvents()
             Call SearchInternet(cp.Infos.Name, Me.Handle)

@@ -5,6 +5,7 @@
 		<dir>Providers</dir>
 		<dir>CoreFunc</dir>
 		<dir>DependenciesViewer</dir>
+		<dir>VistaMenu</dir>
 	</roots>
 	<included_file>
 		<file>changelog_sf.txt</file>
@@ -12,6 +13,7 @@
 		<file>\YAPM\bin\release\KernelMemory.sys</file>
 		<file>\YAPM\bin\release\System.Windows.Forms.Ribbon.dll</file>
 		<file>\YAPM\bin\release\Dll\TaskDialog.dll</file>
+		<file>\YAPM\bin\release\Dll\VistaMenu.dll</file>
 		<file>\YAPM\bin\release\license.rtf</file>
 		<file>\YAPM\bin\release\README.txt</file>
 		<file>\YAPM\bin\release\launch server.bat</file>

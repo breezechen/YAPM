@@ -1,9 +1,7 @@
 TODO LIST
 
 ---- GENERAL
-- menu normaux (pas .Net)
 - statistiques (ex. : nbre de services au démarrage...etc.)
-- virer tous les stripmenu qui sont horribles (rechercher un remplacement, dll open source si possible)
 - auto reanalize quand on change le start type d'un service
 - transformer .Created par try/catch ? + manque des Invoke pour les connected dans les cXXXConnection
 - régression performances d'affichage + clignotements des listviews quand changement de foreground window

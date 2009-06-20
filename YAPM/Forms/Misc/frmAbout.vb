@@ -32,10 +32,10 @@ Public Class frmAbout
         closeWithEchapKey(Me)
 
         Dim s As String _
-                 = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Microsoft Sans Serif;}{\f1\fmodern\fprq1\fcharset0 Courier New;}{\f2\fswiss\fcharset0 Arial;}}" & vbNewLine
-        s &= "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\b\f0\fs28 YAPM License\par" & vbNewLine
+            = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Microsoft Sans Serif;}{\f1\fmodern\fprq1\fcharset0 Courier New;}{\f2\fswiss\fcharset0 Arial;}}" & vbNewLine
+        s &= "{\*\generator Msftedit 5.41.21.2509;}\viewkind4\uc1\pard\b\f0\fs28 YAPM License\par" & vbNewLine
         s &= "\b0\fs20\par" & vbNewLine
-        s &= "\f1\fs18 Yet Another (remote) Process Monitor (YAPM) is under GNU GPL 3.0.\par" & vbNewLine
+        s &= "\f1\fs18 Yet Another Process Monitor (YAPM) is under GNU GPL 3.0.\par" & vbNewLine
         s &= "\par" & vbNewLine
         s &= "TERMS AND CONDITIONS\par" & vbNewLine
         s &= "\par" & vbNewLine
@@ -227,6 +227,31 @@ Public Class frmAbout
         s &= "(D) If you distribute any portion of the software in source code form, you may do so only under this license by including a complete copy of this license with your distribution. If you distribute any portion of the software in compiled or object code form, you may only do so under a license that complies with this license.\par" & vbNewLine
         s &= "(E) The software is licensed " & Chr(34) & "as-is." & Chr(34) & " You bear the risk of using it. The contributors give no express warranties, guarantees or conditions. You may have additional consumer rights under your local laws which this license cannot change. To the extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a particular purpose and non-infringement.\par" & vbNewLine
         s &= "\f2\fs20\par" & vbNewLine
+        s &= "\b\f0\fs28\par" & vbNewLine
+        s &= "Vista Menu\par" & vbNewLine
+        s &= "\b0\f1\fs18\par" & vbNewLine
+        s &= "Copyright (c) 2009, wyDay\par" & vbNewLine
+        s &= "All rights reserved.\par" & vbNewLine
+        s &= "\par" & vbNewLine
+        s &= "Redistribution and use in source and binary forms, with or without\par" & vbNewLine
+        s &= "modification, are permitted provided that the following conditions are met:\par" & vbNewLine
+        s &= "\par" & vbNewLine
+        s &= "    * Redistributions of source code must retain the above copyright notice,\par" & vbNewLine
+        s &= "      this list of conditions and the following disclaimer.\par" & vbNewLine
+        s &= "    * Redistributions in binary form must reproduce the above copyright notice,\par" & vbNewLine
+        s &= "      this list of conditions and the following disclaimer in the documentation\par" & vbNewLine
+        s &= "      and/or other materials provided with the distribution.\par" & vbNewLine
+        s &= "\par" & vbNewLine
+        s &= "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS " & Chr(34) & "AS IS" & Chr(34) & " AND\par" & vbNewLine
+        s &= "ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\par" & vbNewLine
+        s &= "WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\par" & vbNewLine
+        s &= "DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR\par" & vbNewLine
+        s &= "ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES\par" & vbNewLine
+        s &= "(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;\par" & vbNewLine
+        s &= "LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON\par" & vbNewLine
+        s &= "ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\par" & vbNewLine
+        s &= "(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS\par" & vbNewLine
+        s &= "SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\par" & vbNewLine
         s &= "}" & vbNewLine
         Me.rtb.Rtf = s
     End Sub

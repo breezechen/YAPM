@@ -23,9 +23,9 @@ Partial Class frmServiceInfo
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim CConnection2 As CoreFunc.cConnection = New CoreFunc.cConnection
+        Dim CConnection1 As CoreFunc.cConnection = New CoreFunc.cConnection
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmServiceInfo))
-        Dim CConnection3 As CoreFunc.cConnection = New CoreFunc.cConnection
+        Dim CConnection2 As CoreFunc.cConnection = New CoreFunc.cConnection
         Me.tabProcess = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
         Me.GroupBox7 = New System.Windows.Forms.GroupBox
@@ -42,6 +42,7 @@ Partial Class frmServiceInfo
         Me.cmdGetOnlineInfos = New System.Windows.Forms.Button
         Me.rtbOnlineInfos = New System.Windows.Forms.RichTextBox
         Me.gpProcGeneralFile = New System.Windows.Forms.GroupBox
+        Me.cmdInspectExe = New System.Windows.Forms.Button
         Me.cmdShowFileDetails = New System.Windows.Forms.Button
         Me.cmdShowFileProperties = New System.Windows.Forms.Button
         Me.cmdOpenDirectory = New System.Windows.Forms.Button
@@ -52,11 +53,7 @@ Partial Class frmServiceInfo
         Me.lblCopyright = New System.Windows.Forms.Label
         Me.lblDescription = New System.Windows.Forms.Label
         Me.pctSmallIcon = New System.Windows.Forms.PictureBox
-        Me.menuCopyPctSmall = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripMenuItem
         Me.pctBigIcon = New System.Windows.Forms.PictureBox
-        Me.menuCopyPctbig = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.txtCommand = New System.Windows.Forms.TextBox
         Me.Label22 = New System.Windows.Forms.Label
@@ -119,11 +116,15 @@ Partial Class frmServiceInfo
         Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.imgProcess = New System.Windows.Forms.ImageList(Me.components)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
-        Me.MainToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip
         Me.Timer = New System.Windows.Forms.Timer(Me.components)
-        Me.cmdInspectExe = New System.Windows.Forms.Button
+        Me.menuCopyPctbig = New System.Windows.Forms.ContextMenu
+        Me.MenuItemCopyBig = New System.Windows.Forms.MenuItem
+        Me.VistaMenu = New wyDay.Controls.VistaMenu(Me.components)
+        Me.MenuItemCopySmall = New System.Windows.Forms.MenuItem
+        Me.menuCopyPctSmall = New System.Windows.Forms.ContextMenu
+        Me.mainMenu = New System.Windows.Forms.MainMenu(Me.components)
+        Me.MenuItem3 = New System.Windows.Forms.MenuItem
+        Me.MenuItem4 = New System.Windows.Forms.MenuItem
         Me.tabProcess.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -133,9 +134,7 @@ Partial Class frmServiceInfo
         Me.SplitContainerOnlineInfo.SuspendLayout()
         Me.gpProcGeneralFile.SuspendLayout()
         CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.menuCopyPctSmall.SuspendLayout()
         CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.menuCopyPctbig.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
@@ -161,7 +160,7 @@ Partial Class frmServiceInfo
         Me.SplitContainerInfoProcess.Panel1.SuspendLayout()
         Me.SplitContainerInfoProcess.Panel2.SuspendLayout()
         Me.SplitContainerInfoProcess.SuspendLayout()
-        Me.MenuStrip1.SuspendLayout()
+        CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'tabProcess
@@ -376,6 +375,15 @@ Partial Class frmServiceInfo
         Me.gpProcGeneralFile.TabStop = False
         Me.gpProcGeneralFile.Text = "Image file"
         '
+        'cmdInspectExe
+        '
+        Me.cmdInspectExe.Image = Global.YAPM.My.Resources.Resources.dllIcon
+        Me.cmdInspectExe.Location = New System.Drawing.Point(266, 81)
+        Me.cmdInspectExe.Name = "cmdInspectExe"
+        Me.cmdInspectExe.Size = New System.Drawing.Size(26, 26)
+        Me.cmdInspectExe.TabIndex = 19
+        Me.cmdInspectExe.UseVisualStyleBackColor = True
+        '
         'cmdShowFileDetails
         '
         Me.cmdShowFileDetails.Enabled = False
@@ -462,47 +470,19 @@ Partial Class frmServiceInfo
         '
         'pctSmallIcon
         '
-        Me.pctSmallIcon.ContextMenuStrip = Me.menuCopyPctSmall
         Me.pctSmallIcon.Location = New System.Drawing.Point(44, 35)
         Me.pctSmallIcon.Name = "pctSmallIcon"
         Me.pctSmallIcon.Size = New System.Drawing.Size(16, 16)
         Me.pctSmallIcon.TabIndex = 12
         Me.pctSmallIcon.TabStop = False
         '
-        'menuCopyPctSmall
-        '
-        Me.menuCopyPctSmall.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem7})
-        Me.menuCopyPctSmall.Name = "menuCopyPctbig"
-        Me.menuCopyPctSmall.Size = New System.Drawing.Size(170, 26)
-        '
-        'ToolStripMenuItem7
-        '
-        Me.ToolStripMenuItem7.Image = Global.YAPM.My.Resources.Resources.copy16
-        Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
-        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(169, 22)
-        Me.ToolStripMenuItem7.Text = "Copy to clipboard"
-        '
         'pctBigIcon
         '
-        Me.pctBigIcon.ContextMenuStrip = Me.menuCopyPctbig
         Me.pctBigIcon.Location = New System.Drawing.Point(6, 19)
         Me.pctBigIcon.Name = "pctBigIcon"
         Me.pctBigIcon.Size = New System.Drawing.Size(32, 32)
         Me.pctBigIcon.TabIndex = 11
         Me.pctBigIcon.TabStop = False
-        '
-        'menuCopyPctbig
-        '
-        Me.menuCopyPctbig.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem6})
-        Me.menuCopyPctbig.Name = "menuCopyPctbig"
-        Me.menuCopyPctbig.Size = New System.Drawing.Size(170, 26)
-        '
-        'ToolStripMenuItem6
-        '
-        Me.ToolStripMenuItem6.Image = Global.YAPM.My.Resources.Resources.copy16
-        Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
-        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(169, 22)
-        Me.ToolStripMenuItem6.Text = "Copy to clipboard"
         '
         'GroupBox1
         '
@@ -1004,8 +984,8 @@ Partial Class frmServiceInfo
         '
         'tv2
         '
-        CConnection2.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
-        Me.tv2.ConnectionObj = CConnection2
+        CConnection1.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.tv2.ConnectionObj = CConnection1
         Me.tv2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tv2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tv2.ImageIndex = 0
@@ -1090,8 +1070,8 @@ Partial Class frmServiceInfo
         '
         'tv
         '
-        CConnection3.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
-        Me.tv.ConnectionObj = CConnection3
+        CConnection2.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
+        Me.tv.ConnectionObj = CConnection2
         Me.tv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tv.ImageIndex = 0
@@ -1215,54 +1195,60 @@ Partial Class frmServiceInfo
         Me.imgMain.ImageSize = New System.Drawing.Size(16, 16)
         Me.imgMain.TransparentColor = System.Drawing.Color.Transparent
         '
-        'MainToolStripMenuItem
-        '
-        Me.MainToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RefreshToolStripMenuItem})
-        Me.MainToolStripMenuItem.Name = "MainToolStripMenuItem"
-        Me.MainToolStripMenuItem.Size = New System.Drawing.Size(46, 20)
-        Me.MainToolStripMenuItem.Text = "&main"
-        Me.MainToolStripMenuItem.Visible = False
-        '
-        'RefreshToolStripMenuItem
-        '
-        Me.RefreshToolStripMenuItem.Name = "RefreshToolStripMenuItem"
-        Me.RefreshToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5
-        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(132, 22)
-        Me.RefreshToolStripMenuItem.Text = "&Refresh"
-        '
-        'MenuStrip1
-        '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MainToolStripMenuItem})
-        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
-        Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(655, 24)
-        Me.MenuStrip1.TabIndex = 11
-        Me.MenuStrip1.Text = "MenuStrip1"
-        Me.MenuStrip1.Visible = False
-        '
         'Timer
         '
         Me.Timer.Enabled = True
         Me.Timer.Interval = 1000
         '
-        'cmdInspectExe
+        'menuCopyPctbig
         '
-        Me.cmdInspectExe.Image = Global.YAPM.My.Resources.Resources.dllIcon
-        Me.cmdInspectExe.Location = New System.Drawing.Point(266, 81)
-        Me.cmdInspectExe.Name = "cmdInspectExe"
-        Me.cmdInspectExe.Size = New System.Drawing.Size(26, 26)
-        Me.cmdInspectExe.TabIndex = 19
-        Me.cmdInspectExe.UseVisualStyleBackColor = True
+        Me.menuCopyPctbig.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCopyBig})
+        '
+        'MenuItemCopyBig
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyBig, Global.YAPM.My.Resources.Resources.copy16)
+        Me.MenuItemCopyBig.Index = 0
+        Me.MenuItemCopyBig.Text = "Copy to clipboard"
+        '
+        'VistaMenu
+        '
+        Me.VistaMenu.ContainerControl = Me
+        '
+        'MenuItemCopySmall
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopySmall, Global.YAPM.My.Resources.Resources.copy16)
+        Me.MenuItemCopySmall.Index = 0
+        Me.MenuItemCopySmall.Text = "Copy to clipboard"
+        '
+        'menuCopyPctSmall
+        '
+        Me.menuCopyPctSmall.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCopySmall})
+        '
+        'mainMenu
+        '
+        Me.mainMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem3})
+        '
+        'MenuItem3
+        '
+        Me.MenuItem3.Index = 0
+        Me.MenuItem3.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem4})
+        Me.MenuItem3.Text = "main"
+        Me.MenuItem3.Visible = False
+        '
+        'MenuItem4
+        '
+        Me.MenuItem4.Index = 0
+        Me.MenuItem4.Shortcut = System.Windows.Forms.Shortcut.F5
+        Me.MenuItem4.Text = "Refresh"
         '
         'frmServiceInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(655, 335)
-        Me.Controls.Add(Me.MenuStrip1)
         Me.Controls.Add(Me.tabProcess)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.MainMenuStrip = Me.MenuStrip1
+        Me.Menu = Me.mainMenu
         Me.MinimumSize = New System.Drawing.Size(660, 359)
         Me.Name = "frmServiceInfo"
         Me.Text = "Service informations"
@@ -1278,9 +1264,7 @@ Partial Class frmServiceInfo
         Me.gpProcGeneralFile.ResumeLayout(False)
         Me.gpProcGeneralFile.PerformLayout()
         CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.menuCopyPctSmall.ResumeLayout(False)
         CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.menuCopyPctbig.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.TabPage2.ResumeLayout(False)
@@ -1311,10 +1295,8 @@ Partial Class frmServiceInfo
         Me.SplitContainerInfoProcess.Panel1.ResumeLayout(False)
         Me.SplitContainerInfoProcess.Panel2.ResumeLayout(False)
         Me.SplitContainerInfoProcess.ResumeLayout(False)
-        Me.MenuStrip1.ResumeLayout(False)
-        Me.MenuStrip1.PerformLayout()
+        CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
     Friend WithEvents tabProcess As System.Windows.Forms.TabControl
@@ -1345,10 +1327,6 @@ Partial Class frmServiceInfo
     Friend WithEvents cmdInfosToClipB As System.Windows.Forms.Button
     Friend WithEvents rtb As System.Windows.Forms.RichTextBox
     Friend WithEvents tabDep As System.Windows.Forms.TabPage
-    Friend WithEvents menuCopyPctbig As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ToolStripMenuItem6 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuCopyPctSmall As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ToolStripMenuItem7 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents imgProcess As System.Windows.Forms.ImageList
     Friend WithEvents imgProcessTab As System.Windows.Forms.ImageList
     Friend WithEvents GroupBox6 As System.Windows.Forms.GroupBox
@@ -1361,9 +1339,6 @@ Partial Class frmServiceInfo
     Friend WithEvents imgMain As System.Windows.Forms.ImageList
     Friend WithEvents cmdRefresh As System.Windows.Forms.Button
     Friend WithEvents GroupBox7 As System.Windows.Forms.GroupBox
-    Friend WithEvents MainToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents RefreshToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
     Friend WithEvents cmdStop As System.Windows.Forms.Button
     Friend WithEvents cmdPause As System.Windows.Forms.Button
     Friend WithEvents cmdStart As System.Windows.Forms.Button
@@ -1415,4 +1390,12 @@ Partial Class frmServiceInfo
     Friend WithEvents txtCommand As System.Windows.Forms.TextBox
     Friend WithEvents Label22 As System.Windows.Forms.Label
     Friend WithEvents cmdInspectExe As System.Windows.Forms.Button
+    Private WithEvents menuCopyPctbig As System.Windows.Forms.ContextMenu
+    Friend WithEvents MenuItemCopyBig As System.Windows.Forms.MenuItem
+    Friend WithEvents VistaMenu As wyDay.Controls.VistaMenu
+    Private WithEvents menuCopyPctSmall As System.Windows.Forms.ContextMenu
+    Friend WithEvents MenuItemCopySmall As System.Windows.Forms.MenuItem
+    Private WithEvents mainMenu As System.Windows.Forms.MainMenu
+    Friend WithEvents MenuItem3 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem4 As System.Windows.Forms.MenuItem
 End Class

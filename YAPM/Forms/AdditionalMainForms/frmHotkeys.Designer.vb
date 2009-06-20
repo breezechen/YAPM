@@ -25,12 +25,6 @@ Partial Class frmHotkeys
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmHotkeys))
         Me.timerRefresh = New System.Windows.Forms.Timer(Me.components)
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ShowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
-        Me.EnableToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.DisableToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.imgList = New System.Windows.Forms.ImageList(Me.components)
         Me.gp = New System.Windows.Forms.GroupBox
         Me.cbAction = New System.Windows.Forms.ComboBox
@@ -46,51 +40,20 @@ Partial Class frmHotkeys
         Me.lv = New YAPM.DoubleBufferedLV
         Me.ColumnHeader52 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
-        Me.ContextMenuStrip1.SuspendLayout()
+        Me.VistaMenu = New wyDay.Controls.VistaMenu(Me.components)
+        Me.mnuRemoveFolder = New System.Windows.Forms.MenuItem
+        Me.MenuItem = New System.Windows.Forms.MenuItem
+        Me.TheContextMenu = New System.Windows.Forms.ContextMenu
+        Me.menuItem12 = New System.Windows.Forms.MenuItem
+        Me.MenuItem2 = New System.Windows.Forms.MenuItem
+        Me.MenuItem3 = New System.Windows.Forms.MenuItem
         Me.gp.SuspendLayout()
+        CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'timerRefresh
         '
         Me.timerRefresh.Enabled = True
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowToolStripMenuItem, Me.CloseToolStripMenuItem, Me.ToolStripMenuItem1, Me.EnableToolStripMenuItem, Me.DisableToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(118, 98)
-        '
-        'ShowToolStripMenuItem
-        '
-        Me.ShowToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ShowToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.plus_circle
-        Me.ShowToolStripMenuItem.Name = "ShowToolStripMenuItem"
-        Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
-        Me.ShowToolStripMenuItem.Text = "Add"
-        '
-        'CloseToolStripMenuItem
-        '
-        Me.CloseToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.cross_circle1
-        Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
-        Me.CloseToolStripMenuItem.Text = "Remove"
-        '
-        'ToolStripMenuItem1
-        '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(114, 6)
-        '
-        'EnableToolStripMenuItem
-        '
-        Me.EnableToolStripMenuItem.Name = "EnableToolStripMenuItem"
-        Me.EnableToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
-        Me.EnableToolStripMenuItem.Text = "Enable"
-        '
-        'DisableToolStripMenuItem
-        '
-        Me.DisableToolStripMenuItem.Name = "DisableToolStripMenuItem"
-        Me.DisableToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
-        Me.DisableToolStripMenuItem.Text = "Disable"
         '
         'imgList
         '
@@ -226,7 +189,6 @@ Partial Class frmHotkeys
         '
         Me.lv.AllowColumnReorder = True
         Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader52, Me.ColumnHeader1})
-        Me.lv.ContextMenuStrip = Me.ContextMenuStrip1
         Me.lv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lv.FullRowSelect = True
         Me.lv.HideSelection = False
@@ -249,6 +211,41 @@ Partial Class frmHotkeys
         Me.ColumnHeader1.Text = "Action"
         Me.ColumnHeader1.Width = 327
         '
+        'VistaMenu
+        '
+        Me.VistaMenu.ContainerControl = Me
+        '
+        'mnuRemoveFolder
+        '
+        Me.VistaMenu.SetImage(Me.mnuRemoveFolder, Global.YAPM.My.Resources.Resources.cross)
+        Me.mnuRemoveFolder.Index = 1
+        Me.mnuRemoveFolder.Text = "Remove"
+        '
+        'MenuItem
+        '
+        Me.VistaMenu.SetImage(Me.MenuItem, Global.YAPM.My.Resources.Resources.plus_circle)
+        Me.MenuItem.Index = 0
+        Me.MenuItem.Text = "Add"
+        '
+        'TheContextMenu
+        '
+        Me.TheContextMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem, Me.mnuRemoveFolder, Me.menuItem12, Me.MenuItem2, Me.MenuItem3})
+        '
+        'menuItem12
+        '
+        Me.menuItem12.Index = 2
+        Me.menuItem12.Text = "-"
+        '
+        'MenuItem2
+        '
+        Me.MenuItem2.Index = 3
+        Me.MenuItem2.Text = "Enable"
+        '
+        'MenuItem3
+        '
+        Me.MenuItem3.Index = 4
+        Me.MenuItem3.Text = "Disable"
+        '
         'frmHotkeys
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -263,18 +260,15 @@ Partial Class frmHotkeys
         Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Emergency hotkeys list"
-        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.gp.ResumeLayout(False)
         Me.gp.PerformLayout()
+        CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
     Friend WithEvents lv As YAPM.DoubleBufferedLV
     Friend WithEvents ColumnHeader52 As System.Windows.Forms.ColumnHeader
     Friend WithEvents timerRefresh As System.Windows.Forms.Timer
-    Friend WithEvents ContextMenuStrip1 As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ShowToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents CloseToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents imgList As System.Windows.Forms.ImageList
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents gp As System.Windows.Forms.GroupBox
@@ -288,7 +282,11 @@ Partial Class frmHotkeys
     Friend WithEvents lblKey As System.Windows.Forms.Label
     Friend WithEvents cbAction As System.Windows.Forms.ComboBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents EnableToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents DisableToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents VistaMenu As wyDay.Controls.VistaMenu
+    Private WithEvents TheContextMenu As System.Windows.Forms.ContextMenu
+    Friend WithEvents MenuItem As System.Windows.Forms.MenuItem
+    Private WithEvents mnuRemoveFolder As System.Windows.Forms.MenuItem
+    Private WithEvents menuItem12 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem2 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem3 As System.Windows.Forms.MenuItem
 End Class

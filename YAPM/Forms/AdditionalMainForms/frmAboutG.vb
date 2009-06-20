@@ -55,6 +55,8 @@ Public Class frmAboutG
             it6.SubItems.Add(System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\TaskDialog.dll").FileVersion)
             Dim it7 As New ListViewItem("DependenciesViewer.dll")
             it7.SubItems.Add(System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\DependenciesViewer.dll").FileVersion)
+            Dim it8 As New ListViewItem("VistaMenu.dll")
+            it8.SubItems.Add(System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\VistaMenu.dll").FileVersion)
             Me.lv.Items.Add(it)
             Me.lv.Items.Add(it2)
             Me.lv.Items.Add(it3)
@@ -62,6 +64,7 @@ Public Class frmAboutG
             Me.lv.Items.Add(it5)
             Me.lv.Items.Add(it6)
             Me.lv.Items.Add(it7)
+            Me.lv.Items.Add(it8)
         Catch ex As Exception
             '
         End Try
@@ -89,5 +92,9 @@ Public Class frmAboutG
 
     Private Sub lblTaskDialog_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblTaskDialog.LinkClicked
         cFile.ShellOpenFile("http://www.codeproject.com/KB/vista/TaskDialogWinForms.aspx", Me.Handle)
+    End Sub
+
+    Private Sub lblVistaMenu_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblVistaMenu.LinkClicked
+        cFile.ShellOpenFile("http://wyday.com/opensource.php", Me.Handle)
     End Sub
 End Class

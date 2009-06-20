@@ -286,11 +286,11 @@ Public Class frmServiceInfo
     End Sub
 
     Private Sub pctBigIcon_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pctBigIcon.MouseDown
-        Me.ToolStripMenuItem6.Enabled = (Me.pctBigIcon.Image IsNot Nothing)
+        Me.MenuItemCopyBig.Enabled = (Me.pctBigIcon.Image IsNot Nothing)
     End Sub
 
     Private Sub pctSmallIcon_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pctSmallIcon.MouseDown
-        Me.ToolStripMenuItem7.Enabled = (Me.pctSmallIcon.Image IsNot Nothing)
+        Me.MenuItemCopySmall.Enabled = (Me.pctSmallIcon.Image IsNot Nothing)
     End Sub
 
     Private Sub tabProcess_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabProcess.SelectedIndexChanged
@@ -301,14 +301,6 @@ Public Class frmServiceInfo
 
     Private Sub rtb_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles rtb.TextChanged
         Me.cmdInfosToClipB.Enabled = (Me.rtb.TextLength > 0)
-    End Sub
-
-    Private Sub ToolStripMenuItem6_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem6.Click
-        My.Computer.Clipboard.SetImage(Me.pctBigIcon.Image)
-    End Sub
-
-    Private Sub ToolStripMenuItem7_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem7.Click
-        My.Computer.Clipboard.SetImage(Me.pctSmallIcon.Image)
     End Sub
 
     Private Sub cmdGetOnlineInfos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdGetOnlineInfos.Click
@@ -337,10 +329,6 @@ Public Class frmServiceInfo
 
     Private Sub cmdRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdRefresh.Click
         Call Me.tabProcess_SelectedIndexChanged(Nothing, Nothing)
-    End Sub
-
-    Private Sub RefreshToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshToolStripMenuItem.Click
-        Call tabProcess_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
     ' Connection
@@ -520,4 +508,29 @@ Public Class frmServiceInfo
             .Show()
         End With
     End Sub
+
+    Private Sub MenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemCopyBig.Click
+        My.Computer.Clipboard.SetImage(Me.pctBigIcon.Image)
+    End Sub
+
+    Private Sub pctBigIcon_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pctBigIcon.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Me.menuCopyPctbig.Show(Me.pctBigIcon, e.Location)
+        End If
+    End Sub
+
+    Private Sub pctSmallIcon_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pctSmallIcon.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Me.menuCopyPctSmall.Show(Me.pctSmallIcon, e.Location)
+        End If
+    End Sub
+
+    Private Sub MenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemCopySmall.Click
+        My.Computer.Clipboard.SetImage(Me.pctSmallIcon.Image)
+    End Sub
+
+    Private Sub MenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem4.Click
+        Call tabProcess_SelectedIndexChanged(Nothing, Nothing)
+    End Sub
+
 End Class

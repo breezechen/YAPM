@@ -23,43 +23,20 @@ Partial Class frmWindowsList
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmWindowsList))
         Me.timerRefresh = New System.Windows.Forms.Timer(Me.components)
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ShowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.imgList = New System.Windows.Forms.ImageList(Me.components)
         Me.lv = New YAPM.DoubleBufferedLV
         Me.ColumnHeader52 = New System.Windows.Forms.ColumnHeader
-        Me.ContextMenuStrip1.SuspendLayout()
+        Me.TheContextMenu = New System.Windows.Forms.ContextMenu
+        Me.MenuItemShow = New System.Windows.Forms.MenuItem
+        Me.MenuItemClose = New System.Windows.Forms.MenuItem
+        Me.VistaMenu = New wyDay.Controls.VistaMenu(Me.components)
+        CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'timerRefresh
         '
         Me.timerRefresh.Enabled = True
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowToolStripMenuItem, Me.CloseToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(153, 70)
-        '
-        'ShowToolStripMenuItem
-        '
-        Me.ShowToolStripMenuItem.Enabled = False
-        Me.ShowToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ShowToolStripMenuItem.Image = CType(resources.GetObject("ShowToolStripMenuItem.Image"), System.Drawing.Image)
-        Me.ShowToolStripMenuItem.Name = "ShowToolStripMenuItem"
-        Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.ShowToolStripMenuItem.Text = "Show"
-        '
-        'CloseToolStripMenuItem
-        '
-        Me.CloseToolStripMenuItem.Enabled = False
-        Me.CloseToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.close
-        Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.CloseToolStripMenuItem.Text = "Close"
         '
         'imgList
         '
@@ -71,7 +48,6 @@ Partial Class frmWindowsList
         '
         Me.lv.AllowColumnReorder = True
         Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader52})
-        Me.lv.ContextMenuStrip = Me.ContextMenuStrip1
         Me.lv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lv.FullRowSelect = True
         Me.lv.HideSelection = False
@@ -89,6 +65,26 @@ Partial Class frmWindowsList
         Me.ColumnHeader52.Text = "Caption"
         Me.ColumnHeader52.Width = 295
         '
+        'TheContextMenu
+        '
+        Me.TheContextMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemShow, Me.MenuItemClose})
+        '
+        'MenuItemShow
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemShow, Global.YAPM.My.Resources.Resources.display16)
+        Me.MenuItemShow.Index = 0
+        Me.MenuItemShow.Text = "Show"
+        '
+        'MenuItemClose
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemClose, Global.YAPM.My.Resources.Resources.close)
+        Me.MenuItemClose.Index = 1
+        Me.MenuItemClose.Text = "Close"
+        '
+        'VistaMenu
+        '
+        Me.VistaMenu.ContainerControl = Me
+        '
         'frmWindowsList
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -102,15 +98,16 @@ Partial Class frmWindowsList
         Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Window list"
-        Me.ContextMenuStrip1.ResumeLayout(False)
+        CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
     Friend WithEvents lv As YAPM.DoubleBufferedLV
     Friend WithEvents ColumnHeader52 As System.Windows.Forms.ColumnHeader
     Friend WithEvents timerRefresh As System.Windows.Forms.Timer
-    Friend WithEvents ContextMenuStrip1 As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ShowToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents CloseToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents imgList As System.Windows.Forms.ImageList
+    Private WithEvents TheContextMenu As System.Windows.Forms.ContextMenu
+    Friend WithEvents MenuItemShow As System.Windows.Forms.MenuItem
+    Friend WithEvents VistaMenu As wyDay.Controls.VistaMenu
+    Friend WithEvents MenuItemClose As System.Windows.Forms.MenuItem
 End Class

@@ -118,13 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <metadata name="timerRefresh.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="ContextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>138, 17</value>
+    <value>224, 17</value>
   </metadata>
   <metadata name="imgList.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>295, 17</value>
+    <value>17, 17</value>
   </metadata>
   <data name="imgList.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -136,19 +133,25 @@
         AxEBFwMJAQwDAQECyAADAwEEAxEBFwMeASsDIwEzAyMBMwM5AV8DSQGJA0kBiQM5AV8DIwEzAyMBMwMf
         AS0DEgEYAwMBBNAAAy8BSgNIAYcDGAEiA0gBhwHnAtcB/wHiAtMB/wNIAYcDGAEiA0gBhwMvAUrUAAMv
         AUkDUAGkAdgCywH/A0wBkQNIAYUB0wLGAf8B0wLGAf8DSAGFA0wBkQHYAssB/wNQAaQDLwFJ0AADRwGC
-        AdACxgH/AboCsQH/AcwCwgH/AXMCbgHgAdQCygH/AdQCygH/AXMCbgHgAcwCwgH/AboCsQH/AdACxgH/
+        AdACxgH/AboCsQH/AcwCwgH/AWYCZQHgAdQCygH/AdQCygH/AWYCZQHgAcwCwgH/AboCsQH/AdACxgH/
         A0cBgtAAAxcBIANKAYwBzALGAf8BwwK9Af8B5ALZAf8B9wLoAf8B9wLoAf8B5ALZAf8BwwK9Af8BzALG
-        Af8DSgGMAxcBIMwAAy0BRQNEAXwDRAF8A2kB3wHUAs8B/wFqAmgBzwNFAX0DRQF9AWoCaAHPAdQCzwH/
-        A2kB3wNEAXwDRAF8Ay0BRcgAA0QBeQPEAf8DuwH/A8QB/wHWAtMB/wNHAYIIAANHAYIB1gLTAf8DxAH/
+        Af8DSgGMAxcBIMwAAy0BRQNEAXwDRAF8A2EB3wHUAs8B/wFgAl8BzwNFAX0DRQF9AWACXwHPAdQCzwH/
+        A2EB3wNEAXwDRAF8Ay0BRcgAA0QBeQPEAf8DuwH/A8QB/wHWAtMB/wNHAYIIAANHAYIB1gLTAf8DxAH/
         A7sB/wPEAf8DRAF5yAADQgF2AcsCzAH/Ab4CvwH/AcYCxwH/A9IB/wNIAYcIAANIAYcD0gH/AcYCxwH/
-        Ab4CvwH/AcsCzAH/A0IBdsgAAykBPwNBAXMDQQFzAW0CbgHcAdMC1AH/A2oB1wNNAZUDTQGVA2oB1wHT
-        AtQB/wFtAm4B3ANBAXMDQQFzAykBP8wAAxQBHANGAX4B0ALRAf8BzwLQAf8B3QLeAf8B4QLiAf8B4QLi
-        Af8B3QLeAf8BzwLQAf8B0ALRAf8DRgF+AxQBHNAAAz8BbQPgAf8BygLLAf8B5ALlAf8DdQHbA+QB/wPk
-        Af8DdQHbA9wB/wHKAssB/wPgAf8DPwFt0AADJwE7A0wBkAPqAf8DRAF6Az4BawHlAuYB/wHlAuYB/wM+
+        Ab4CvwH/AcsCzAH/A0IBdsgAAykBPwNBAXMDQQFzAWECYgHcAdMC1AH/A2AB1wNNAZUDTQGVA2AB1wHT
+        AtQB/wFhAmIB3ANBAXMDQQFzAykBP8wAAxQBHANGAX4B0ALRAf8BzwLQAf8B3QLeAf8B4QLiAf8B4QLi
+        Af8B3QLeAf8BzwLQAf8B0ALRAf8DRgF+AxQBHNAAAz8BbQPgAf8BygLLAf8B5ALlAf8DZAHbA+QB/wPk
+        Af8DZAHbA9wB/wHKAssB/wPgAf8DPwFt0AADJwE7A0wBkAPqAf8DRAF6Az4BawHlAuYB/wHlAuYB/wM+
         AWsDRAF6A+oB/wNMAZADJwE71AADJwE6Az0BaQMUARsDPQFpA/oB/wP1Af8DPQFpAxQBGwM9AWkDJwE6
         5AADJgE5Az0BZwM9AWcDJgE5/wDZAAFCAU0BPgcAAT4DAAEoAwABQAMAARADAAEBAQABAQUAAYAXAAP/
         AQABgAEBBgABgAEBBgAB4AEHBgABwAEDBgABwAEDBgABwAEDBgABgAEBBgACgQYAAoEGAAGAAQEGAAHA
         AQMGAAHAAQMGAAHAAQMGAAHgAQcGAAH8AT8GAAL/BgAL
 </value>
   </data>
+  <metadata name="VistaMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>108, 17</value>
+  </metadata>
+  <metadata name="TheContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>502, 17</value>
+  </metadata>
 </root>

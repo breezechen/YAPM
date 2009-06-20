@@ -534,6 +534,17 @@
     <None Include="Misc\options.gif" />
     <None Include="Misc\OK_32.png" />
     <None Include="Misc\yapm32.png" />
+    <None Include="Misc\display16.gif" />
+    <None Include="Misc\p6.gif" />
+    <None Include="Misc\p3.gif" />
+    <None Include="Misc\p0.gif" />
+    <None Include="Misc\p1.gif" />
+    <None Include="Misc\p2.gif" />
+    <None Include="Misc\p4.gif" />
+    <None Include="Misc\p5.gif" />
+    <None Include="Misc\icon2.gif" />
+    <None Include="Misc\dll.gif" />
+    <None Include="Misc\handle.gif" />
     <Content Include="process.ico" />
     <Content Include="process_custom.ico" />
     <None Include="Resources\application_blue.png" />
@@ -595,6 +606,10 @@
     <ProjectReference Include="..\Providers\Providers.vbproj">
       <Project>{657B7CE9-D35C-4E65-A05B-CC6B46A14D7D}</Project>
       <Name>Providers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VistaMenu\Control\VistaMenu.csproj">
+      <Project>{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}</Project>
+      <Name>VistaMenu</Name>
     </ProjectReference>
     <ProjectReference Include="UserControls\MemoryHexEditor\MemoryHexEditor.vbproj">
       <Project>{8C885999-147E-4651-AF9C-6F7149F1344D}</Project>

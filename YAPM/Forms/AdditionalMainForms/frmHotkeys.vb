@@ -63,10 +63,6 @@ Public Class frmHotkeys
         Next
     End Sub
 
-    Private Sub ShowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowToolStripMenuItem.Click
-        gp.Visible = True
-    End Sub
-
     Private Sub cmdKO_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdKO.Click
         gp.Visible = False
     End Sub
@@ -120,18 +116,6 @@ Public Class frmHotkeys
         Me.lblKey.Text = CType(atxtKey, cShortcut.ShorcutKeys).ToString
     End Sub
 
-    Private Sub CloseToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CloseToolStripMenuItem.Click
-        For Each it As ListViewItem In Me.lv.SelectedItems
-            If it.Selected Then
-                ' Remove or ?
-                Dim sKey As String = CType(it.Tag, cShortcut).Key
-                If Program.Hotkeys.RemoveHotKey(sKey) Then
-                    it.Remove()
-                End If
-            End If
-        Next
-    End Sub
-
     ' Can't check more than 2 boxes
     Private Sub chkCtrl_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkCtrl.CheckedChanged
         If chkCtrl.Checked Then
@@ -153,24 +137,6 @@ Public Class frmHotkeys
                 chkShift.Checked = False
             End If
         End If
-    End Sub
-
-    Private Sub EnableToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EnableToolStripMenuItem.Click
-        For Each it As ListViewItem In Me.lv.SelectedItems
-            If it.Selected Then
-                CType(it.Tag, cShortcut).Enabled = True
-                it.ForeColor = Color.Black
-            End If
-        Next
-    End Sub
-
-    Private Sub DisableToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisableToolStripMenuItem.Click
-        For Each it As ListViewItem In Me.lv.SelectedItems
-            If it.Selected Then
-                CType(it.Tag, cShortcut).Enabled = False
-                it.ForeColor = Color.Gray
-            End If
-        Next
     End Sub
 
     ' Read from XML file
@@ -279,4 +245,45 @@ Public Class frmHotkeys
 
         XmlDoc.Save(My.Application.Info.DirectoryPath & "\" & HOTKEYS_SAVE_FILE)
     End Sub
+
+    Private Sub lv_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lv.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Me.TheContextMenu.Show(Me.lv, e.Location)
+        End If
+    End Sub
+
+    Private Sub MenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem.Click
+        gp.Visible = True
+    End Sub
+
+    Private Sub mnuRemoveFolder_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRemoveFolder.Click
+        For Each it As ListViewItem In Me.lv.SelectedItems
+            If it.Selected Then
+                ' Remove or ?
+                Dim sKey As String = CType(it.Tag, cShortcut).Key
+                If Program.Hotkeys.RemoveHotKey(sKey) Then
+                    it.Remove()
+                End If
+            End If
+        Next
+    End Sub
+
+    Private Sub MenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem2.Click
+        For Each it As ListViewItem In Me.lv.SelectedItems
+            If it.Selected Then
+                CType(it.Tag, cShortcut).Enabled = True
+                it.ForeColor = Color.Black
+            End If
+        Next
+    End Sub
+
+    Private Sub MenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem3.Click
+        For Each it As ListViewItem In Me.lv.SelectedItems
+            If it.Selected Then
+                CType(it.Tag, cShortcut).Enabled = False
+                it.ForeColor = Color.Gray
+            End If
+        Next
+    End Sub
+
 End Class

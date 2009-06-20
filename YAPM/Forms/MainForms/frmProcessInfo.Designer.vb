@@ -89,11 +89,7 @@ Partial Class frmProcessInfo
         Me.lblCopyright = New System.Windows.Forms.Label
         Me.lblDescription = New System.Windows.Forms.Label
         Me.pctSmallIcon = New System.Windows.Forms.PictureBox
-        Me.menuCopyPctSmall = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripMenuItem
         Me.pctBigIcon = New System.Windows.Forms.PictureBox
-        Me.menuCopyPctbig = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem
         Me.TabPage2 = New System.Windows.Forms.TabPage
         Me.GroupBox5 = New System.Windows.Forms.GroupBox
         Me.lblThreads = New System.Windows.Forms.Label
@@ -172,10 +168,6 @@ Partial Class frmProcessInfo
         Me.ColumnHeader50 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader51 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader52 = New System.Windows.Forms.ColumnHeader
-        Me.menuPrivileges = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem44 = New System.Windows.Forms.ToolStripMenuItem
-        Me.DisableToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.RemoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.TabPage5 = New System.Windows.Forms.TabPage
         Me.lvProcMem = New Providers.memoryList
         Me.ColumnHeader53 = New System.Windows.Forms.ColumnHeader
@@ -183,11 +175,6 @@ Partial Class frmProcessInfo
         Me.ColumnHeader55 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader56 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader13 = New System.Windows.Forms.ColumnHeader
-        Me.menuProcMem = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem49 = New System.Windows.Forms.ToolStripMenuItem
-        Me.JumpToPEBAddressToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem12 = New System.Windows.Forms.ToolStripSeparator
-        Me.ChooseColumnsToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem
         Me.TabPage6 = New System.Windows.Forms.TabPage
         Me.SplitContainerInfoProcess = New System.Windows.Forms.SplitContainer
         Me.cmdRefresh = New System.Windows.Forms.Button
@@ -201,44 +188,17 @@ Partial Class frmProcessInfo
         Me.ColumnHeader9 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader19 = New System.Windows.Forms.ColumnHeader
-        Me.menuProcServ = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ServiceDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem43 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem13 = New System.Windows.Forms.ToolStripSeparator
-        Me.PauseToolStripMenuItem14 = New System.Windows.Forms.ToolStripMenuItem
-        Me.StopToolStripMenuItem16 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ShutdownShutdownToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.StartToolStripMenuItem17 = New System.Windows.Forms.ToolStripMenuItem
-        Me.TypeOfStartToolStripMenuItem18 = New System.Windows.Forms.ToolStripMenuItem
-        Me.DisabledToolStripMenuItem19 = New System.Windows.Forms.ToolStripMenuItem
-        Me.AutoToolStripMenuItem20 = New System.Windows.Forms.ToolStripMenuItem
-        Me.DemandToolStripMenuItem21 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ReanalyzeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
-        Me.FilePropToolStripMenuItem34 = New System.Windows.Forms.ToolStripMenuItem
-        Me.OpenDirToolStripMenuItem35 = New System.Windows.Forms.ToolStripMenuItem
-        Me.FileDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
-        Me.GoogleSearchToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem37 = New System.Windows.Forms.ToolStripSeparator
-        Me.ChooseColumnsToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem
         Me.tabNetwork = New System.Windows.Forms.TabPage
         Me.lvProcNetwork = New Providers.networkList
         Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader57 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader58 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader59 = New System.Windows.Forms.ColumnHeader
-        Me.menuNetwork = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.CloseTCPConnectionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem14 = New System.Windows.Forms.ToolStripSeparator
-        Me.ToolStripMenuItem15 = New System.Windows.Forms.ToolStripMenuItem
         Me.TabPageString = New System.Windows.Forms.TabPage
         Me.SplitContainerStrings = New System.Windows.Forms.SplitContainer
         Me.lvProcString = New YAPM.DoubleBufferedLV
         Me.ColumnHeader76 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader77 = New System.Windows.Forms.ColumnHeader
-        Me.menuString = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.menuViewMemoryString = New System.Windows.Forms.ToolStripMenuItem
         Me.cmdProcSearchR = New System.Windows.Forms.Button
         Me.cmdProcSearchL = New System.Windows.Forms.Button
         Me.pgbString = New System.Windows.Forms.ProgressBar
@@ -259,18 +219,6 @@ Partial Class frmProcessInfo
         Me.ColumnHeader45 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader46 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
-        Me.menuModule = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ShowFileDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.OpenFirectoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.PropertiesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem36 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ViewDependenciesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem39 = New System.Windows.Forms.ToolStripSeparator
-        Me.GoogleSearchToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
-        Me.ViewMemoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem11 = New System.Windows.Forms.ToolStripSeparator
-        Me.ChooseColumnsToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem
         Me.TabPage11 = New System.Windows.Forms.TabPage
         Me.lvThreads = New Providers.threadList
         Me.ColumnHeader32 = New System.Windows.Forms.ColumnHeader
@@ -282,21 +230,6 @@ Partial Class frmProcessInfo
         Me.ColumnHeader38 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
-        Me.menuThread = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem23 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem24 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem25 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem26 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem27 = New System.Windows.Forms.ToolStripMenuItem
-        Me.LowestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem28 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem29 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem30 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem31 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem32 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem33 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem8 = New System.Windows.Forms.ToolStripSeparator
-        Me.ChooseColumnsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.TabPage12 = New System.Windows.Forms.TabPage
         Me.lvWindows = New Providers.windowList
         Me.ColumnHeader30 = New System.Windows.Forms.ColumnHeader
@@ -304,25 +237,6 @@ Partial Class frmProcessInfo
         Me.ColumnHeader40 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader41 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader42 = New System.Windows.Forms.ColumnHeader
-        Me.menuWindow = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ShowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ShowUnnamedWindowsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.HideToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator
-        Me.BringToFrontToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.DoNotBringToFrontToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.SetAsActiveWindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.SetAsForegroundWindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator
-        Me.MinimizeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.MaximizeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.PositionSizeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator
-        Me.EnableToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.DisableToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem10 = New System.Windows.Forms.ToolStripSeparator
-        Me.ChooseColumnsToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
         Me.TabPage13 = New System.Windows.Forms.TabPage
         Me.lvHandles = New Providers.handleList
         Me.ColumnHeader24 = New System.Windows.Forms.ColumnHeader
@@ -331,12 +245,6 @@ Partial Class frmProcessInfo
         Me.ColumnHeader27 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader28 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader15 = New System.Windows.Forms.ColumnHeader
-        Me.menuHandles = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem22 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripSeparator
-        Me.ShowUnnamedHandlesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem9 = New System.Windows.Forms.ToolStripSeparator
-        Me.ChooseColumnsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.TabPage14 = New System.Windows.Forms.TabPage
         Me.SplitContainerLog = New System.Windows.Forms.SplitContainer
         Me.cmdLogOptions = New System.Windows.Forms.Button
@@ -356,9 +264,100 @@ Partial Class frmProcessInfo
         Me.imgProcess = New System.Windows.Forms.ImageList(Me.components)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.timerLog = New System.Windows.Forms.Timer(Me.components)
-        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip
-        Me.MainToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.mainMenu = New System.Windows.Forms.MainMenu(Me.components)
+        Me.MenuItem3 = New System.Windows.Forms.MenuItem
+        Me.MenuItem4 = New System.Windows.Forms.MenuItem
+        Me.VistaMenu = New wyDay.Controls.VistaMenu(Me.components)
+        Me.MenuItemCopyBig = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopySmall = New System.Windows.Forms.MenuItem
+        Me.menuViewMemory = New System.Windows.Forms.MenuItem
+        Me.MenuItemPriEnable = New System.Windows.Forms.MenuItem
+        Me.MenuItemViewMemory = New System.Windows.Forms.MenuItem
+        Me.MenuItemCloseHandle = New System.Windows.Forms.MenuItem
+        Me.menuCloseTCP = New System.Windows.Forms.MenuItem
+        Me.MenuItemPriDisable = New System.Windows.Forms.MenuItem
+        Me.MenuItemPriRemove = New System.Windows.Forms.MenuItem
+        Me.MenuItemModuleFileProp = New System.Windows.Forms.MenuItem
+        Me.MenuItemModuleOpenDir = New System.Windows.Forms.MenuItem
+        Me.MenuItemModuleFileDetails = New System.Windows.Forms.MenuItem
+        Me.MenuItemModuleSearch = New System.Windows.Forms.MenuItem
+        Me.MenuItemModuleDependencies = New System.Windows.Forms.MenuItem
+        Me.MenuItemUnloadModule = New System.Windows.Forms.MenuItem
+        Me.MenuItemViewModuleMemory = New System.Windows.Forms.MenuItem
+        Me.MenuItemServSelService = New System.Windows.Forms.MenuItem
+        Me.MenuItemServFileProp = New System.Windows.Forms.MenuItem
+        Me.MenuItemServOpenDir = New System.Windows.Forms.MenuItem
+        Me.MenuItemServFileDetails = New System.Windows.Forms.MenuItem
+        Me.MenuItemServSearch = New System.Windows.Forms.MenuItem
+        Me.MenuItemServPause = New System.Windows.Forms.MenuItem
+        Me.MenuItemServStop = New System.Windows.Forms.MenuItem
+        Me.MenuItemServStart = New System.Windows.Forms.MenuItem
+        Me.MenuItemServAutoStart = New System.Windows.Forms.MenuItem
+        Me.MenuItemServOnDemand = New System.Windows.Forms.MenuItem
+        Me.MenuItemServDisabled = New System.Windows.Forms.MenuItem
+        Me.MenuItemThTerm = New System.Windows.Forms.MenuItem
+        Me.MenuItemThSuspend = New System.Windows.Forms.MenuItem
+        Me.MenuItemThResu = New System.Windows.Forms.MenuItem
+        Me.MenuItemThIdle = New System.Windows.Forms.MenuItem
+        Me.MenuItemThLowest = New System.Windows.Forms.MenuItem
+        Me.MenuItemThBNormal = New System.Windows.Forms.MenuItem
+        Me.MenuItemThNorm = New System.Windows.Forms.MenuItem
+        Me.MenuItemThANorm = New System.Windows.Forms.MenuItem
+        Me.MenuItemThHighest = New System.Windows.Forms.MenuItem
+        Me.MenuItemThTimeCr = New System.Windows.Forms.MenuItem
+        Me.MenuItemWShow = New System.Windows.Forms.MenuItem
+        Me.MenuItemWClose = New System.Windows.Forms.MenuItem
+        Me.MenuItemWDisa = New System.Windows.Forms.MenuItem
+        Me.menuCopyPctbig = New System.Windows.Forms.ContextMenu
+        Me.menuCopyPctSmall = New System.Windows.Forms.ContextMenu
+        Me.mnuString = New System.Windows.Forms.ContextMenu
+        Me.mnuPrivileges = New System.Windows.Forms.ContextMenu
+        Me.mnuProcMem = New System.Windows.Forms.ContextMenu
+        Me.MenuItemPEBAddress = New System.Windows.Forms.MenuItem
+        Me.MenuItem13 = New System.Windows.Forms.MenuItem
+        Me.MenuItemColumnsMemory = New System.Windows.Forms.MenuItem
+        Me.mnuModule = New System.Windows.Forms.ContextMenu
+        Me.MenuItem16 = New System.Windows.Forms.MenuItem
+        Me.MenuItem19 = New System.Windows.Forms.MenuItem
+        Me.MenuItemColumnsModule = New System.Windows.Forms.MenuItem
+        Me.mnuThread = New System.Windows.Forms.ContextMenu
+        Me.MenuItem8 = New System.Windows.Forms.MenuItem
+        Me.MenuItemThAffinity = New System.Windows.Forms.MenuItem
+        Me.MenuItem15 = New System.Windows.Forms.MenuItem
+        Me.MenuItemThColumns = New System.Windows.Forms.MenuItem
+        Me.mnuWindow = New System.Windows.Forms.ContextMenu
+        Me.MenuItemWShowUn = New System.Windows.Forms.MenuItem
+        Me.MenuItemWHide = New System.Windows.Forms.MenuItem
+        Me.MenuItem9 = New System.Windows.Forms.MenuItem
+        Me.MenuItemWFront = New System.Windows.Forms.MenuItem
+        Me.MenuItemWNotFront = New System.Windows.Forms.MenuItem
+        Me.MenuItemWActive = New System.Windows.Forms.MenuItem
+        Me.MenuItemWForeground = New System.Windows.Forms.MenuItem
+        Me.MenuItem26 = New System.Windows.Forms.MenuItem
+        Me.MenuItemWMin = New System.Windows.Forms.MenuItem
+        Me.MenuItemWMax = New System.Windows.Forms.MenuItem
+        Me.MenuItemWPosSize = New System.Windows.Forms.MenuItem
+        Me.MenuItem30 = New System.Windows.Forms.MenuItem
+        Me.MenuItemWEna = New System.Windows.Forms.MenuItem
+        Me.MenuItem33 = New System.Windows.Forms.MenuItem
+        Me.MenuItemWColumns = New System.Windows.Forms.MenuItem
+        Me.mnuHandle = New System.Windows.Forms.ContextMenu
+        Me.MenuItem12 = New System.Windows.Forms.MenuItem
+        Me.MenuItemShowUnnamedHandles = New System.Windows.Forms.MenuItem
+        Me.MenuItem14 = New System.Windows.Forms.MenuItem
+        Me.MenuItemChooseColumnsHandle = New System.Windows.Forms.MenuItem
+        Me.mnuNetwork = New System.Windows.Forms.ContextMenu
+        Me.MenuItem10 = New System.Windows.Forms.MenuItem
+        Me.MenuItem11 = New System.Windows.Forms.MenuItem
+        Me.mnuService = New System.Windows.Forms.ContextMenu
+        Me.MenuItemServDetails = New System.Windows.Forms.MenuItem
+        Me.MenuItem5 = New System.Windows.Forms.MenuItem
+        Me.MenuItem20 = New System.Windows.Forms.MenuItem
+        Me.MenuItem17 = New System.Windows.Forms.MenuItem
+        Me.MenuItem25 = New System.Windows.Forms.MenuItem
+        Me.MenuItemServReanalize = New System.Windows.Forms.MenuItem
+        Me.MenuItem24 = New System.Windows.Forms.MenuItem
+        Me.MenuItemServColumns = New System.Windows.Forms.MenuItem
         Me.tabProcess.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -369,9 +368,7 @@ Partial Class frmProcessInfo
         Me.GroupBox1.SuspendLayout()
         Me.gpProcGeneralFile.SuspendLayout()
         CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.menuCopyPctSmall.SuspendLayout()
         CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.menuCopyPctbig.SuspendLayout()
         Me.TabPage2.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
@@ -390,31 +387,22 @@ Partial Class frmProcessInfo
         Me.TabPage4.SuspendLayout()
         Me.tabProcessToken.SuspendLayout()
         Me.tabProcessTokenPagePrivileges.SuspendLayout()
-        Me.menuPrivileges.SuspendLayout()
         Me.TabPage5.SuspendLayout()
-        Me.menuProcMem.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.SplitContainerInfoProcess.Panel1.SuspendLayout()
         Me.SplitContainerInfoProcess.Panel2.SuspendLayout()
         Me.SplitContainerInfoProcess.SuspendLayout()
         Me.TabPage7.SuspendLayout()
-        Me.menuProcServ.SuspendLayout()
         Me.tabNetwork.SuspendLayout()
-        Me.menuNetwork.SuspendLayout()
         Me.TabPageString.SuspendLayout()
         Me.SplitContainerStrings.Panel1.SuspendLayout()
         Me.SplitContainerStrings.Panel2.SuspendLayout()
         Me.SplitContainerStrings.SuspendLayout()
-        Me.menuString.SuspendLayout()
         Me.TabPage9.SuspendLayout()
         Me.TabPage10.SuspendLayout()
-        Me.menuModule.SuspendLayout()
         Me.TabPage11.SuspendLayout()
-        Me.menuThread.SuspendLayout()
         Me.TabPage12.SuspendLayout()
-        Me.menuWindow.SuspendLayout()
         Me.TabPage13.SuspendLayout()
-        Me.menuHandles.SuspendLayout()
         Me.TabPage14.SuspendLayout()
         Me.SplitContainerLog.Panel1.SuspendLayout()
         Me.SplitContainerLog.Panel2.SuspendLayout()
@@ -422,7 +410,7 @@ Partial Class frmProcessInfo
         Me.TabPage15.SuspendLayout()
         Me.containerHistory.Panel1.SuspendLayout()
         Me.containerHistory.SuspendLayout()
-        Me.MenuStrip1.SuspendLayout()
+        CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'tabProcess
@@ -865,47 +853,19 @@ Partial Class frmProcessInfo
         '
         'pctSmallIcon
         '
-        Me.pctSmallIcon.ContextMenuStrip = Me.menuCopyPctSmall
         Me.pctSmallIcon.Location = New System.Drawing.Point(44, 35)
         Me.pctSmallIcon.Name = "pctSmallIcon"
         Me.pctSmallIcon.Size = New System.Drawing.Size(16, 16)
         Me.pctSmallIcon.TabIndex = 12
         Me.pctSmallIcon.TabStop = False
         '
-        'menuCopyPctSmall
-        '
-        Me.menuCopyPctSmall.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem7})
-        Me.menuCopyPctSmall.Name = "menuCopyPctbig"
-        Me.menuCopyPctSmall.Size = New System.Drawing.Size(170, 26)
-        '
-        'ToolStripMenuItem7
-        '
-        Me.ToolStripMenuItem7.Image = Global.YAPM.My.Resources.Resources.copy16
-        Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
-        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(169, 22)
-        Me.ToolStripMenuItem7.Text = "Copy to clipboard"
-        '
         'pctBigIcon
         '
-        Me.pctBigIcon.ContextMenuStrip = Me.menuCopyPctbig
         Me.pctBigIcon.Location = New System.Drawing.Point(6, 19)
         Me.pctBigIcon.Name = "pctBigIcon"
         Me.pctBigIcon.Size = New System.Drawing.Size(32, 32)
         Me.pctBigIcon.TabIndex = 11
         Me.pctBigIcon.TabStop = False
-        '
-        'menuCopyPctbig
-        '
-        Me.menuCopyPctbig.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem6})
-        Me.menuCopyPctbig.Name = "menuCopyPctbig"
-        Me.menuCopyPctbig.Size = New System.Drawing.Size(170, 26)
-        '
-        'ToolStripMenuItem6
-        '
-        Me.ToolStripMenuItem6.Image = Global.YAPM.My.Resources.Resources.copy16
-        Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
-        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(169, 22)
-        Me.ToolStripMenuItem6.Text = "Copy to clipboard"
         '
         'TabPage2
         '
@@ -1616,7 +1576,7 @@ Partial Class frmProcessInfo
         '
         Me.splitPerformances.Panel2.Controls.Add(Me.splitPerformance2)
         Me.splitPerformances.Size = New System.Drawing.Size(641, 271)
-        Me.splitPerformances.SplitterDistance = 85
+        Me.splitPerformances.SplitterDistance = 81
         Me.splitPerformances.SplitterWidth = 1
         Me.splitPerformances.TabIndex = 3
         '
@@ -1631,7 +1591,7 @@ Partial Class frmProcessInfo
         Me.graphCPU.Location = New System.Drawing.Point(0, 0)
         Me.graphCPU.Name = "graphCPU"
         Me.graphCPU.ShowSecondGraph = True
-        Me.graphCPU.Size = New System.Drawing.Size(641, 85)
+        Me.graphCPU.Size = New System.Drawing.Size(641, 81)
         Me.graphCPU.TabIndex = 1
         Me.graphCPU.TabStop = False
         '
@@ -1650,8 +1610,8 @@ Partial Class frmProcessInfo
         'splitPerformance2.Panel2
         '
         Me.splitPerformance2.Panel2.Controls.Add(Me.graphIO)
-        Me.splitPerformance2.Size = New System.Drawing.Size(641, 185)
-        Me.splitPerformance2.SplitterDistance = 89
+        Me.splitPerformance2.Size = New System.Drawing.Size(641, 189)
+        Me.splitPerformance2.SplitterDistance = 86
         Me.splitPerformance2.SplitterWidth = 1
         Me.splitPerformance2.TabIndex = 0
         '
@@ -1668,7 +1628,7 @@ Partial Class frmProcessInfo
         Me.graphMemory.Location = New System.Drawing.Point(0, 0)
         Me.graphMemory.Name = "graphMemory"
         Me.graphMemory.ShowSecondGraph = True
-        Me.graphMemory.Size = New System.Drawing.Size(641, 89)
+        Me.graphMemory.Size = New System.Drawing.Size(641, 86)
         Me.graphMemory.TabIndex = 2
         Me.graphMemory.TabStop = False
         '
@@ -1684,7 +1644,7 @@ Partial Class frmProcessInfo
         Me.graphIO.Location = New System.Drawing.Point(0, 0)
         Me.graphIO.Name = "graphIO"
         Me.graphIO.ShowSecondGraph = False
-        Me.graphIO.Size = New System.Drawing.Size(641, 95)
+        Me.graphIO.Size = New System.Drawing.Size(641, 102)
         Me.graphIO.TabIndex = 3
         Me.graphIO.TabStop = False
         '
@@ -1728,7 +1688,6 @@ Partial Class frmProcessInfo
         Me.lvPrivileges.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader50, Me.ColumnHeader51, Me.ColumnHeader52})
         CConnection1.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
         Me.lvPrivileges.ConnectionObj = CConnection1
-        Me.lvPrivileges.ContextMenuStrip = Me.menuPrivileges
         Me.lvPrivileges.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvPrivileges.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvPrivileges.FullRowSelect = True
@@ -1758,34 +1717,6 @@ Partial Class frmProcessInfo
         Me.ColumnHeader52.Text = "Description"
         Me.ColumnHeader52.Width = 319
         '
-        'menuPrivileges
-        '
-        Me.menuPrivileges.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem44, Me.DisableToolStripMenuItem, Me.RemoveToolStripMenuItem})
-        Me.menuPrivileges.Name = "mainMenu"
-        Me.menuPrivileges.Size = New System.Drawing.Size(118, 70)
-        '
-        'ToolStripMenuItem44
-        '
-        Me.ToolStripMenuItem44.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToolStripMenuItem44.Image = Global.YAPM.My.Resources.Resources.ok
-        Me.ToolStripMenuItem44.Name = "ToolStripMenuItem44"
-        Me.ToolStripMenuItem44.Size = New System.Drawing.Size(117, 22)
-        Me.ToolStripMenuItem44.Text = "Enable"
-        '
-        'DisableToolStripMenuItem
-        '
-        Me.DisableToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.close
-        Me.DisableToolStripMenuItem.Name = "DisableToolStripMenuItem"
-        Me.DisableToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
-        Me.DisableToolStripMenuItem.Text = "Disable"
-        '
-        'RemoveToolStripMenuItem
-        '
-        Me.RemoveToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.kill
-        Me.RemoveToolStripMenuItem.Name = "RemoveToolStripMenuItem"
-        Me.RemoveToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
-        Me.RemoveToolStripMenuItem.Text = "Remove"
-        '
         'TabPage5
         '
         Me.TabPage5.Controls.Add(Me.lvProcMem)
@@ -1805,7 +1736,6 @@ Partial Class frmProcessInfo
         Me.lvProcMem.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader53, Me.ColumnHeader54, Me.ColumnHeader55, Me.ColumnHeader56, Me.ColumnHeader13})
         CConnection2.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
         Me.lvProcMem.ConnectionObj = CConnection2
-        Me.lvProcMem.ContextMenuStrip = Me.menuProcMem
         Me.lvProcMem.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcMem.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcMem.FullRowSelect = True
@@ -1844,37 +1774,6 @@ Partial Class frmProcessInfo
         '
         Me.ColumnHeader13.Text = "File"
         Me.ColumnHeader13.Width = 338
-        '
-        'menuProcMem
-        '
-        Me.menuProcMem.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem49, Me.JumpToPEBAddressToolStripMenuItem, Me.ToolStripMenuItem12, Me.ChooseColumnsToolStripMenuItem4})
-        Me.menuProcMem.Name = "menuProc"
-        Me.menuProcMem.Size = New System.Drawing.Size(184, 76)
-        '
-        'ToolStripMenuItem49
-        '
-        Me.ToolStripMenuItem49.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToolStripMenuItem49.Image = Global.YAPM.My.Resources.Resources.magnifier
-        Me.ToolStripMenuItem49.Name = "ToolStripMenuItem49"
-        Me.ToolStripMenuItem49.Size = New System.Drawing.Size(183, 22)
-        Me.ToolStripMenuItem49.Text = "View memory"
-        '
-        'JumpToPEBAddressToolStripMenuItem
-        '
-        Me.JumpToPEBAddressToolStripMenuItem.Name = "JumpToPEBAddressToolStripMenuItem"
-        Me.JumpToPEBAddressToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
-        Me.JumpToPEBAddressToolStripMenuItem.Text = "Jump to PEB address"
-        '
-        'ToolStripMenuItem12
-        '
-        Me.ToolStripMenuItem12.Name = "ToolStripMenuItem12"
-        Me.ToolStripMenuItem12.Size = New System.Drawing.Size(180, 6)
-        '
-        'ChooseColumnsToolStripMenuItem4
-        '
-        Me.ChooseColumnsToolStripMenuItem4.Name = "ChooseColumnsToolStripMenuItem4"
-        Me.ChooseColumnsToolStripMenuItem4.Size = New System.Drawing.Size(183, 22)
-        Me.ChooseColumnsToolStripMenuItem4.Text = "Choose columns..."
         '
         'TabPage6
         '
@@ -1965,7 +1864,6 @@ Partial Class frmProcessInfo
         Me.lvProcServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader19})
         CConnection3.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
         Me.lvProcServices.ConnectionObj = CConnection3
-        Me.lvProcServices.ContextMenuStrip = Me.menuProcServ
         Me.lvProcServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcServices.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcServices.FullRowSelect = True
@@ -2016,142 +1914,6 @@ Partial Class frmProcessInfo
         Me.ColumnHeader19.Text = "ServiceType"
         Me.ColumnHeader19.Width = 100
         '
-        'menuProcServ
-        '
-        Me.menuProcServ.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ServiceDetailsToolStripMenuItem, Me.ToolStripMenuItem43, Me.ToolStripMenuItem13, Me.PauseToolStripMenuItem14, Me.StopToolStripMenuItem16, Me.ShutdownShutdownToolStripMenuItem, Me.StartToolStripMenuItem17, Me.TypeOfStartToolStripMenuItem18, Me.ReanalyzeToolStripMenuItem, Me.ToolStripSeparator2, Me.FilePropToolStripMenuItem34, Me.OpenDirToolStripMenuItem35, Me.FileDetailsToolStripMenuItem, Me.ToolStripSeparator1, Me.GoogleSearchToolStripMenuItem1, Me.ToolStripMenuItem37, Me.ChooseColumnsToolStripMenuItem5})
-        Me.menuProcServ.Name = "menuProc"
-        Me.menuProcServ.Size = New System.Drawing.Size(173, 314)
-        '
-        'ServiceDetailsToolStripMenuItem
-        '
-        Me.ServiceDetailsToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ServiceDetailsToolStripMenuItem.Name = "ServiceDetailsToolStripMenuItem"
-        Me.ServiceDetailsToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
-        Me.ServiceDetailsToolStripMenuItem.Text = "Service details"
-        '
-        'ToolStripMenuItem43
-        '
-        Me.ToolStripMenuItem43.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToolStripMenuItem43.Image = Global.YAPM.My.Resources.Resources.exe
-        Me.ToolStripMenuItem43.Name = "ToolStripMenuItem43"
-        Me.ToolStripMenuItem43.Size = New System.Drawing.Size(172, 22)
-        Me.ToolStripMenuItem43.Text = "Select service"
-        '
-        'ToolStripMenuItem13
-        '
-        Me.ToolStripMenuItem13.Name = "ToolStripMenuItem13"
-        Me.ToolStripMenuItem13.Size = New System.Drawing.Size(169, 6)
-        '
-        'PauseToolStripMenuItem14
-        '
-        Me.PauseToolStripMenuItem14.Image = Global.YAPM.My.Resources.Resources.control_pause
-        Me.PauseToolStripMenuItem14.Name = "PauseToolStripMenuItem14"
-        Me.PauseToolStripMenuItem14.Size = New System.Drawing.Size(172, 22)
-        Me.PauseToolStripMenuItem14.Text = "Pause"
-        '
-        'StopToolStripMenuItem16
-        '
-        Me.StopToolStripMenuItem16.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.StopToolStripMenuItem16.Image = Global.YAPM.My.Resources.Resources.control_stop_square
-        Me.StopToolStripMenuItem16.Name = "StopToolStripMenuItem16"
-        Me.StopToolStripMenuItem16.Size = New System.Drawing.Size(172, 22)
-        Me.StopToolStripMenuItem16.Text = "Stop"
-        '
-        'ShutdownShutdownToolStripMenuItem
-        '
-        Me.ShutdownShutdownToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.cross
-        Me.ShutdownShutdownToolStripMenuItem.Name = "ShutdownShutdownToolStripMenuItem"
-        Me.ShutdownShutdownToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
-        Me.ShutdownShutdownToolStripMenuItem.Text = "Shutdown"
-        '
-        'StartToolStripMenuItem17
-        '
-        Me.StartToolStripMenuItem17.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.StartToolStripMenuItem17.Image = Global.YAPM.My.Resources.Resources.control
-        Me.StartToolStripMenuItem17.Name = "StartToolStripMenuItem17"
-        Me.StartToolStripMenuItem17.Size = New System.Drawing.Size(172, 22)
-        Me.StartToolStripMenuItem17.Text = "Start"
-        '
-        'TypeOfStartToolStripMenuItem18
-        '
-        Me.TypeOfStartToolStripMenuItem18.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DisabledToolStripMenuItem19, Me.AutoToolStripMenuItem20, Me.DemandToolStripMenuItem21})
-        Me.TypeOfStartToolStripMenuItem18.Name = "TypeOfStartToolStripMenuItem18"
-        Me.TypeOfStartToolStripMenuItem18.Size = New System.Drawing.Size(172, 22)
-        Me.TypeOfStartToolStripMenuItem18.Text = "Type of start"
-        '
-        'DisabledToolStripMenuItem19
-        '
-        Me.DisabledToolStripMenuItem19.Name = "DisabledToolStripMenuItem19"
-        Me.DisabledToolStripMenuItem19.Size = New System.Drawing.Size(137, 22)
-        Me.DisabledToolStripMenuItem19.Text = "Disabled"
-        '
-        'AutoToolStripMenuItem20
-        '
-        Me.AutoToolStripMenuItem20.Name = "AutoToolStripMenuItem20"
-        Me.AutoToolStripMenuItem20.Size = New System.Drawing.Size(137, 22)
-        Me.AutoToolStripMenuItem20.Text = "Auto start"
-        '
-        'DemandToolStripMenuItem21
-        '
-        Me.DemandToolStripMenuItem21.Name = "DemandToolStripMenuItem21"
-        Me.DemandToolStripMenuItem21.Size = New System.Drawing.Size(137, 22)
-        Me.DemandToolStripMenuItem21.Text = "On demand"
-        '
-        'ReanalyzeToolStripMenuItem
-        '
-        Me.ReanalyzeToolStripMenuItem.Name = "ReanalyzeToolStripMenuItem"
-        Me.ReanalyzeToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
-        Me.ReanalyzeToolStripMenuItem.Text = "Reanalyze"
-        '
-        'ToolStripSeparator2
-        '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(169, 6)
-        '
-        'FilePropToolStripMenuItem34
-        '
-        Me.FilePropToolStripMenuItem34.Image = Global.YAPM.My.Resources.Resources.document_text
-        Me.FilePropToolStripMenuItem34.Name = "FilePropToolStripMenuItem34"
-        Me.FilePropToolStripMenuItem34.Size = New System.Drawing.Size(172, 22)
-        Me.FilePropToolStripMenuItem34.Text = "File properties"
-        '
-        'OpenDirToolStripMenuItem35
-        '
-        Me.OpenDirToolStripMenuItem35.Image = Global.YAPM.My.Resources.Resources.folder_open
-        Me.OpenDirToolStripMenuItem35.Name = "OpenDirToolStripMenuItem35"
-        Me.OpenDirToolStripMenuItem35.Size = New System.Drawing.Size(172, 22)
-        Me.OpenDirToolStripMenuItem35.Text = "Open directory"
-        '
-        'FileDetailsToolStripMenuItem
-        '
-        Me.FileDetailsToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.magnifier
-        Me.FileDetailsToolStripMenuItem.Name = "FileDetailsToolStripMenuItem"
-        Me.FileDetailsToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
-        Me.FileDetailsToolStripMenuItem.Text = "File details"
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(169, 6)
-        '
-        'GoogleSearchToolStripMenuItem1
-        '
-        Me.GoogleSearchToolStripMenuItem1.Image = Global.YAPM.My.Resources.Resources.globe
-        Me.GoogleSearchToolStripMenuItem1.Name = "GoogleSearchToolStripMenuItem1"
-        Me.GoogleSearchToolStripMenuItem1.Size = New System.Drawing.Size(172, 22)
-        Me.GoogleSearchToolStripMenuItem1.Text = "Internet search"
-        '
-        'ToolStripMenuItem37
-        '
-        Me.ToolStripMenuItem37.Name = "ToolStripMenuItem37"
-        Me.ToolStripMenuItem37.Size = New System.Drawing.Size(169, 6)
-        '
-        'ChooseColumnsToolStripMenuItem5
-        '
-        Me.ChooseColumnsToolStripMenuItem5.Name = "ChooseColumnsToolStripMenuItem5"
-        Me.ChooseColumnsToolStripMenuItem5.Size = New System.Drawing.Size(172, 22)
-        Me.ChooseColumnsToolStripMenuItem5.Text = "Choose columns..."
-        '
         'tabNetwork
         '
         Me.tabNetwork.Controls.Add(Me.lvProcNetwork)
@@ -2171,7 +1933,6 @@ Partial Class frmProcessInfo
         Me.lvProcNetwork.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader49, Me.ColumnHeader57, Me.ColumnHeader58, Me.ColumnHeader59})
         CConnection4.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
         Me.lvProcNetwork.ConnectionObj = CConnection4
-        Me.lvProcNetwork.ContextMenuStrip = Me.menuNetwork
         Me.lvProcNetwork.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcNetwork.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcNetwork.FullRowSelect = True
@@ -2205,30 +1966,6 @@ Partial Class frmProcessInfo
         '
         Me.ColumnHeader59.Text = "State"
         Me.ColumnHeader59.Width = 150
-        '
-        'menuNetwork
-        '
-        Me.menuNetwork.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CloseTCPConnectionToolStripMenuItem, Me.ToolStripMenuItem14, Me.ToolStripMenuItem15})
-        Me.menuNetwork.Name = "menuProc"
-        Me.menuNetwork.Size = New System.Drawing.Size(192, 76)
-        '
-        'CloseTCPConnectionToolStripMenuItem
-        '
-        Me.CloseTCPConnectionToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.cross
-        Me.CloseTCPConnectionToolStripMenuItem.Name = "CloseTCPConnectionToolStripMenuItem"
-        Me.CloseTCPConnectionToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
-        Me.CloseTCPConnectionToolStripMenuItem.Text = "Close TCP connection"
-        '
-        'ToolStripMenuItem14
-        '
-        Me.ToolStripMenuItem14.Name = "ToolStripMenuItem14"
-        Me.ToolStripMenuItem14.Size = New System.Drawing.Size(188, 6)
-        '
-        'ToolStripMenuItem15
-        '
-        Me.ToolStripMenuItem15.Name = "ToolStripMenuItem15"
-        Me.ToolStripMenuItem15.Size = New System.Drawing.Size(191, 22)
-        Me.ToolStripMenuItem15.Text = "Choose columns..."
         '
         'TabPageString
         '
@@ -2270,7 +2007,6 @@ Partial Class frmProcessInfo
         '
         Me.lvProcString.AllowColumnReorder = True
         Me.lvProcString.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader76, Me.ColumnHeader77})
-        Me.lvProcString.ContextMenuStrip = Me.menuString
         Me.lvProcString.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcString.FullRowSelect = True
         ListViewGroup3.Header = "Strings"
@@ -2298,21 +2034,6 @@ Partial Class frmProcessInfo
         '
         Me.ColumnHeader77.Text = "String"
         Me.ColumnHeader77.Width = 447
-        '
-        'menuString
-        '
-        Me.menuString.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuViewMemoryString})
-        Me.menuString.Name = "menuProc"
-        Me.menuString.Size = New System.Drawing.Size(153, 26)
-        '
-        'menuViewMemoryString
-        '
-        Me.menuViewMemoryString.Enabled = False
-        Me.menuViewMemoryString.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.menuViewMemoryString.Image = Global.YAPM.My.Resources.Resources.magnifier
-        Me.menuViewMemoryString.Name = "menuViewMemoryString"
-        Me.menuViewMemoryString.Size = New System.Drawing.Size(152, 22)
-        Me.menuViewMemoryString.Text = "View memory"
         '
         'cmdProcSearchR
         '
@@ -2454,7 +2175,6 @@ Partial Class frmProcessInfo
         Me.lvModules.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader29, Me.ColumnHeader43, Me.ColumnHeader44, Me.ColumnHeader45, Me.ColumnHeader46, Me.ColumnHeader1})
         CConnection6.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
         Me.lvModules.ConnectionObj = CConnection6
-        Me.lvModules.ContextMenuStrip = Me.menuModule
         Me.lvModules.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvModules.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvModules.FullRowSelect = True
@@ -2509,83 +2229,6 @@ Partial Class frmProcessInfo
         Me.ColumnHeader1.Text = "Address"
         Me.ColumnHeader1.Width = 80
         '
-        'menuModule
-        '
-        Me.menuModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowFileDetailsToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem, Me.PropertiesToolStripMenuItem, Me.ToolStripMenuItem36, Me.ViewDependenciesToolStripMenuItem, Me.ToolStripMenuItem39, Me.GoogleSearchToolStripMenuItem2, Me.ToolStripMenuItem1, Me.ViewMemoryToolStripMenuItem, Me.ToolStripMenuItem11, Me.ChooseColumnsToolStripMenuItem3})
-        Me.menuModule.Name = "menuProc"
-        Me.menuModule.Size = New System.Drawing.Size(176, 198)
-        '
-        'ShowFileDetailsToolStripMenuItem
-        '
-        Me.ShowFileDetailsToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.magnifier
-        Me.ShowFileDetailsToolStripMenuItem.Name = "ShowFileDetailsToolStripMenuItem"
-        Me.ShowFileDetailsToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
-        Me.ShowFileDetailsToolStripMenuItem.Text = "Show file details"
-        '
-        'OpenFirectoryToolStripMenuItem
-        '
-        Me.OpenFirectoryToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.folder_open
-        Me.OpenFirectoryToolStripMenuItem.Name = "OpenFirectoryToolStripMenuItem"
-        Me.OpenFirectoryToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
-        Me.OpenFirectoryToolStripMenuItem.Text = "Open directory"
-        '
-        'PropertiesToolStripMenuItem
-        '
-        Me.PropertiesToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.document_text
-        Me.PropertiesToolStripMenuItem.Name = "PropertiesToolStripMenuItem"
-        Me.PropertiesToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
-        Me.PropertiesToolStripMenuItem.Text = "File properties"
-        '
-        'ToolStripMenuItem36
-        '
-        Me.ToolStripMenuItem36.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToolStripMenuItem36.Image = Global.YAPM.My.Resources.Resources.cross
-        Me.ToolStripMenuItem36.Name = "ToolStripMenuItem36"
-        Me.ToolStripMenuItem36.Size = New System.Drawing.Size(175, 22)
-        Me.ToolStripMenuItem36.Text = "Unload module"
-        '
-        'ViewDependenciesToolStripMenuItem
-        '
-        Me.ViewDependenciesToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.dllIcon
-        Me.ViewDependenciesToolStripMenuItem.Name = "ViewDependenciesToolStripMenuItem"
-        Me.ViewDependenciesToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
-        Me.ViewDependenciesToolStripMenuItem.Text = "View dependencies"
-        '
-        'ToolStripMenuItem39
-        '
-        Me.ToolStripMenuItem39.Name = "ToolStripMenuItem39"
-        Me.ToolStripMenuItem39.Size = New System.Drawing.Size(172, 6)
-        '
-        'GoogleSearchToolStripMenuItem2
-        '
-        Me.GoogleSearchToolStripMenuItem2.Image = Global.YAPM.My.Resources.Resources.globe
-        Me.GoogleSearchToolStripMenuItem2.Name = "GoogleSearchToolStripMenuItem2"
-        Me.GoogleSearchToolStripMenuItem2.Size = New System.Drawing.Size(175, 22)
-        Me.GoogleSearchToolStripMenuItem2.Text = "Internet search"
-        '
-        'ToolStripMenuItem1
-        '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(172, 6)
-        '
-        'ViewMemoryToolStripMenuItem
-        '
-        Me.ViewMemoryToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.magnifier
-        Me.ViewMemoryToolStripMenuItem.Name = "ViewMemoryToolStripMenuItem"
-        Me.ViewMemoryToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
-        Me.ViewMemoryToolStripMenuItem.Text = "View memory"
-        '
-        'ToolStripMenuItem11
-        '
-        Me.ToolStripMenuItem11.Name = "ToolStripMenuItem11"
-        Me.ToolStripMenuItem11.Size = New System.Drawing.Size(172, 6)
-        '
-        'ChooseColumnsToolStripMenuItem3
-        '
-        Me.ChooseColumnsToolStripMenuItem3.Name = "ChooseColumnsToolStripMenuItem3"
-        Me.ChooseColumnsToolStripMenuItem3.Size = New System.Drawing.Size(175, 22)
-        Me.ChooseColumnsToolStripMenuItem3.Text = "Choose columns..."
-        '
         'TabPage11
         '
         Me.TabPage11.Controls.Add(Me.lvThreads)
@@ -2604,7 +2247,6 @@ Partial Class frmProcessInfo
         Me.lvThreads.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader12, Me.ColumnHeader34, Me.ColumnHeader35, Me.ColumnHeader36, Me.ColumnHeader37, Me.ColumnHeader38, Me.ColumnHeader6, Me.ColumnHeader11})
         CConnection7.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
         Me.lvThreads.ConnectionObj = CConnection7
-        Me.lvThreads.ContextMenuStrip = Me.menuThread
         Me.lvThreads.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvThreads.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvThreads.FullRowSelect = True
@@ -2668,107 +2310,6 @@ Partial Class frmProcessInfo
         Me.ColumnHeader11.Text = "ContextSwitchCount"
         Me.ColumnHeader11.Width = 200
         '
-        'menuThread
-        '
-        Me.menuThread.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem23, Me.ToolStripMenuItem24, Me.ToolStripMenuItem25, Me.ToolStripMenuItem26, Me.ToolStripMenuItem33, Me.ToolStripMenuItem8, Me.ChooseColumnsToolStripMenuItem})
-        Me.menuThread.Name = "menuProc"
-        Me.menuThread.Size = New System.Drawing.Size(173, 142)
-        '
-        'ToolStripMenuItem23
-        '
-        Me.ToolStripMenuItem23.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToolStripMenuItem23.Image = Global.YAPM.My.Resources.Resources.cross
-        Me.ToolStripMenuItem23.Name = "ToolStripMenuItem23"
-        Me.ToolStripMenuItem23.Size = New System.Drawing.Size(172, 22)
-        Me.ToolStripMenuItem23.Text = "Terminate"
-        '
-        'ToolStripMenuItem24
-        '
-        Me.ToolStripMenuItem24.Image = Global.YAPM.My.Resources.Resources.control_pause
-        Me.ToolStripMenuItem24.Name = "ToolStripMenuItem24"
-        Me.ToolStripMenuItem24.Size = New System.Drawing.Size(172, 22)
-        Me.ToolStripMenuItem24.Text = "Suspend"
-        '
-        'ToolStripMenuItem25
-        '
-        Me.ToolStripMenuItem25.Image = Global.YAPM.My.Resources.Resources.control
-        Me.ToolStripMenuItem25.Name = "ToolStripMenuItem25"
-        Me.ToolStripMenuItem25.Size = New System.Drawing.Size(172, 22)
-        Me.ToolStripMenuItem25.Text = "Resume"
-        '
-        'ToolStripMenuItem26
-        '
-        Me.ToolStripMenuItem26.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem27, Me.LowestToolStripMenuItem, Me.ToolStripMenuItem28, Me.ToolStripMenuItem29, Me.ToolStripMenuItem30, Me.ToolStripMenuItem31, Me.ToolStripMenuItem32})
-        Me.ToolStripMenuItem26.Name = "ToolStripMenuItem26"
-        Me.ToolStripMenuItem26.Size = New System.Drawing.Size(172, 22)
-        Me.ToolStripMenuItem26.Text = "Priotiy"
-        '
-        'ToolStripMenuItem27
-        '
-        Me.ToolStripMenuItem27.Image = CType(resources.GetObject("ToolStripMenuItem27.Image"), System.Drawing.Image)
-        Me.ToolStripMenuItem27.Name = "ToolStripMenuItem27"
-        Me.ToolStripMenuItem27.Size = New System.Drawing.Size(151, 22)
-        Me.ToolStripMenuItem27.Text = "Idle"
-        '
-        'LowestToolStripMenuItem
-        '
-        Me.LowestToolStripMenuItem.Image = CType(resources.GetObject("LowestToolStripMenuItem.Image"), System.Drawing.Image)
-        Me.LowestToolStripMenuItem.Name = "LowestToolStripMenuItem"
-        Me.LowestToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
-        Me.LowestToolStripMenuItem.Text = "Lowest"
-        '
-        'ToolStripMenuItem28
-        '
-        Me.ToolStripMenuItem28.Image = CType(resources.GetObject("ToolStripMenuItem28.Image"), System.Drawing.Image)
-        Me.ToolStripMenuItem28.Name = "ToolStripMenuItem28"
-        Me.ToolStripMenuItem28.Size = New System.Drawing.Size(151, 22)
-        Me.ToolStripMenuItem28.Text = "Below Normal"
-        '
-        'ToolStripMenuItem29
-        '
-        Me.ToolStripMenuItem29.Image = CType(resources.GetObject("ToolStripMenuItem29.Image"), System.Drawing.Image)
-        Me.ToolStripMenuItem29.Name = "ToolStripMenuItem29"
-        Me.ToolStripMenuItem29.Size = New System.Drawing.Size(151, 22)
-        Me.ToolStripMenuItem29.Text = "Normal"
-        '
-        'ToolStripMenuItem30
-        '
-        Me.ToolStripMenuItem30.Image = CType(resources.GetObject("ToolStripMenuItem30.Image"), System.Drawing.Image)
-        Me.ToolStripMenuItem30.Name = "ToolStripMenuItem30"
-        Me.ToolStripMenuItem30.Size = New System.Drawing.Size(151, 22)
-        Me.ToolStripMenuItem30.Text = "Above Normal"
-        '
-        'ToolStripMenuItem31
-        '
-        Me.ToolStripMenuItem31.Image = CType(resources.GetObject("ToolStripMenuItem31.Image"), System.Drawing.Image)
-        Me.ToolStripMenuItem31.Name = "ToolStripMenuItem31"
-        Me.ToolStripMenuItem31.Size = New System.Drawing.Size(151, 22)
-        Me.ToolStripMenuItem31.Text = "Highest"
-        '
-        'ToolStripMenuItem32
-        '
-        Me.ToolStripMenuItem32.Image = CType(resources.GetObject("ToolStripMenuItem32.Image"), System.Drawing.Image)
-        Me.ToolStripMenuItem32.Name = "ToolStripMenuItem32"
-        Me.ToolStripMenuItem32.Size = New System.Drawing.Size(151, 22)
-        Me.ToolStripMenuItem32.Text = "Time Critical"
-        '
-        'ToolStripMenuItem33
-        '
-        Me.ToolStripMenuItem33.Name = "ToolStripMenuItem33"
-        Me.ToolStripMenuItem33.Size = New System.Drawing.Size(172, 22)
-        Me.ToolStripMenuItem33.Text = "Set affinity..."
-        '
-        'ToolStripMenuItem8
-        '
-        Me.ToolStripMenuItem8.Name = "ToolStripMenuItem8"
-        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(169, 6)
-        '
-        'ChooseColumnsToolStripMenuItem
-        '
-        Me.ChooseColumnsToolStripMenuItem.Name = "ChooseColumnsToolStripMenuItem"
-        Me.ChooseColumnsToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
-        Me.ChooseColumnsToolStripMenuItem.Text = "Choose columns..."
-        '
         'TabPage12
         '
         Me.TabPage12.Controls.Add(Me.lvWindows)
@@ -2787,7 +2328,6 @@ Partial Class frmProcessInfo
         Me.lvWindows.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader30, Me.ColumnHeader39, Me.ColumnHeader40, Me.ColumnHeader41, Me.ColumnHeader42})
         CConnection8.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
         Me.lvWindows.ConnectionObj = CConnection8
-        Me.lvWindows.ContextMenuStrip = Me.menuWindow
         Me.lvWindows.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvWindows.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvWindows.FullRowSelect = True
@@ -2831,122 +2371,6 @@ Partial Class frmProcessInfo
         '
         Me.ColumnHeader42.Text = "Visible"
         '
-        'menuWindow
-        '
-        Me.menuWindow.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowToolStripMenuItem, Me.ShowUnnamedWindowsToolStripMenuItem, Me.HideToolStripMenuItem, Me.CloseToolStripMenuItem, Me.ToolStripMenuItem2, Me.BringToFrontToolStripMenuItem, Me.DoNotBringToFrontToolStripMenuItem, Me.SetAsActiveWindowToolStripMenuItem, Me.SetAsForegroundWindowToolStripMenuItem, Me.ToolStripMenuItem3, Me.MinimizeToolStripMenuItem, Me.MaximizeToolStripMenuItem, Me.PositionSizeToolStripMenuItem, Me.ToolStripMenuItem4, Me.EnableToolStripMenuItem, Me.DisableToolStripMenuItem1, Me.ToolStripMenuItem10, Me.ChooseColumnsToolStripMenuItem2})
-        Me.menuWindow.Name = "menuProc"
-        Me.menuWindow.Size = New System.Drawing.Size(213, 336)
-        '
-        'ShowToolStripMenuItem
-        '
-        Me.ShowToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ShowToolStripMenuItem.Image = CType(resources.GetObject("ShowToolStripMenuItem.Image"), System.Drawing.Image)
-        Me.ShowToolStripMenuItem.Name = "ShowToolStripMenuItem"
-        Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(212, 22)
-        Me.ShowToolStripMenuItem.Text = "Show"
-        '
-        'ShowUnnamedWindowsToolStripMenuItem
-        '
-        Me.ShowUnnamedWindowsToolStripMenuItem.Checked = True
-        Me.ShowUnnamedWindowsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.ShowUnnamedWindowsToolStripMenuItem.Name = "ShowUnnamedWindowsToolStripMenuItem"
-        Me.ShowUnnamedWindowsToolStripMenuItem.Size = New System.Drawing.Size(212, 22)
-        Me.ShowUnnamedWindowsToolStripMenuItem.Text = "Show unnamed windows"
-        '
-        'HideToolStripMenuItem
-        '
-        Me.HideToolStripMenuItem.Name = "HideToolStripMenuItem"
-        Me.HideToolStripMenuItem.Size = New System.Drawing.Size(212, 22)
-        Me.HideToolStripMenuItem.Text = "Hide"
-        '
-        'CloseToolStripMenuItem
-        '
-        Me.CloseToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.cross
-        Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(212, 22)
-        Me.CloseToolStripMenuItem.Text = "Close"
-        '
-        'ToolStripMenuItem2
-        '
-        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(209, 6)
-        '
-        'BringToFrontToolStripMenuItem
-        '
-        Me.BringToFrontToolStripMenuItem.Name = "BringToFrontToolStripMenuItem"
-        Me.BringToFrontToolStripMenuItem.Size = New System.Drawing.Size(212, 22)
-        Me.BringToFrontToolStripMenuItem.Text = "Bring to front"
-        '
-        'DoNotBringToFrontToolStripMenuItem
-        '
-        Me.DoNotBringToFrontToolStripMenuItem.Name = "DoNotBringToFrontToolStripMenuItem"
-        Me.DoNotBringToFrontToolStripMenuItem.Size = New System.Drawing.Size(212, 22)
-        Me.DoNotBringToFrontToolStripMenuItem.Text = "Do not bring to front"
-        '
-        'SetAsActiveWindowToolStripMenuItem
-        '
-        Me.SetAsActiveWindowToolStripMenuItem.Name = "SetAsActiveWindowToolStripMenuItem"
-        Me.SetAsActiveWindowToolStripMenuItem.Size = New System.Drawing.Size(212, 22)
-        Me.SetAsActiveWindowToolStripMenuItem.Text = "Set as active window"
-        '
-        'SetAsForegroundWindowToolStripMenuItem
-        '
-        Me.SetAsForegroundWindowToolStripMenuItem.Name = "SetAsForegroundWindowToolStripMenuItem"
-        Me.SetAsForegroundWindowToolStripMenuItem.Size = New System.Drawing.Size(212, 22)
-        Me.SetAsForegroundWindowToolStripMenuItem.Text = "Set as foreground window"
-        '
-        'ToolStripMenuItem3
-        '
-        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(209, 6)
-        '
-        'MinimizeToolStripMenuItem
-        '
-        Me.MinimizeToolStripMenuItem.Name = "MinimizeToolStripMenuItem"
-        Me.MinimizeToolStripMenuItem.Size = New System.Drawing.Size(212, 22)
-        Me.MinimizeToolStripMenuItem.Text = "Minimize"
-        '
-        'MaximizeToolStripMenuItem
-        '
-        Me.MaximizeToolStripMenuItem.Name = "MaximizeToolStripMenuItem"
-        Me.MaximizeToolStripMenuItem.Size = New System.Drawing.Size(212, 22)
-        Me.MaximizeToolStripMenuItem.Text = "Maximize"
-        '
-        'PositionSizeToolStripMenuItem
-        '
-        Me.PositionSizeToolStripMenuItem.Name = "PositionSizeToolStripMenuItem"
-        Me.PositionSizeToolStripMenuItem.Size = New System.Drawing.Size(212, 22)
-        Me.PositionSizeToolStripMenuItem.Text = "Position and size"
-        '
-        'ToolStripMenuItem4
-        '
-        Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(209, 6)
-        '
-        'EnableToolStripMenuItem
-        '
-        Me.EnableToolStripMenuItem.Name = "EnableToolStripMenuItem"
-        Me.EnableToolStripMenuItem.Size = New System.Drawing.Size(212, 22)
-        Me.EnableToolStripMenuItem.Text = "Enable"
-        '
-        'DisableToolStripMenuItem1
-        '
-        Me.DisableToolStripMenuItem1.Image = Global.YAPM.My.Resources.Resources.close
-        Me.DisableToolStripMenuItem1.Name = "DisableToolStripMenuItem1"
-        Me.DisableToolStripMenuItem1.Size = New System.Drawing.Size(212, 22)
-        Me.DisableToolStripMenuItem1.Text = "Disable"
-        '
-        'ToolStripMenuItem10
-        '
-        Me.ToolStripMenuItem10.Name = "ToolStripMenuItem10"
-        Me.ToolStripMenuItem10.Size = New System.Drawing.Size(209, 6)
-        '
-        'ChooseColumnsToolStripMenuItem2
-        '
-        Me.ChooseColumnsToolStripMenuItem2.Name = "ChooseColumnsToolStripMenuItem2"
-        Me.ChooseColumnsToolStripMenuItem2.Size = New System.Drawing.Size(212, 22)
-        Me.ChooseColumnsToolStripMenuItem2.Text = "Choose columns..."
-        '
         'TabPage13
         '
         Me.TabPage13.Controls.Add(Me.lvHandles)
@@ -2965,7 +2389,6 @@ Partial Class frmProcessInfo
         Me.lvHandles.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader24, Me.ColumnHeader25, Me.ColumnHeader26, Me.ColumnHeader27, Me.ColumnHeader28, Me.ColumnHeader15})
         CConnection9.ConnectionType = CoreFunc.cConnection.TypeOfConnection.LocalConnection
         Me.lvHandles.ConnectionObj = CConnection9
-        Me.lvHandles.ContextMenuStrip = Me.menuHandles
         Me.lvHandles.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvHandles.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvHandles.FullRowSelect = True
@@ -3015,42 +2438,6 @@ Partial Class frmProcessInfo
         '
         Me.ColumnHeader15.Text = "Handle"
         Me.ColumnHeader15.Width = 70
-        '
-        'menuHandles
-        '
-        Me.menuHandles.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem22, Me.ToolStripMenuItem5, Me.ShowUnnamedHandlesToolStripMenuItem, Me.ToolStripMenuItem9, Me.ChooseColumnsToolStripMenuItem1})
-        Me.menuHandles.Name = "menuProc"
-        Me.menuHandles.Size = New System.Drawing.Size(202, 82)
-        '
-        'ToolStripMenuItem22
-        '
-        Me.ToolStripMenuItem22.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToolStripMenuItem22.Image = Global.YAPM.My.Resources.Resources.cross
-        Me.ToolStripMenuItem22.Name = "ToolStripMenuItem22"
-        Me.ToolStripMenuItem22.Size = New System.Drawing.Size(201, 22)
-        Me.ToolStripMenuItem22.Text = "Close item"
-        '
-        'ToolStripMenuItem5
-        '
-        Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
-        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(198, 6)
-        '
-        'ShowUnnamedHandlesToolStripMenuItem
-        '
-        Me.ShowUnnamedHandlesToolStripMenuItem.Name = "ShowUnnamedHandlesToolStripMenuItem"
-        Me.ShowUnnamedHandlesToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
-        Me.ShowUnnamedHandlesToolStripMenuItem.Text = "Show unnamed handles"
-        '
-        'ToolStripMenuItem9
-        '
-        Me.ToolStripMenuItem9.Name = "ToolStripMenuItem9"
-        Me.ToolStripMenuItem9.Size = New System.Drawing.Size(198, 6)
-        '
-        'ChooseColumnsToolStripMenuItem1
-        '
-        Me.ChooseColumnsToolStripMenuItem1.Name = "ChooseColumnsToolStripMenuItem1"
-        Me.ChooseColumnsToolStripMenuItem1.Size = New System.Drawing.Size(201, 22)
-        Me.ChooseColumnsToolStripMenuItem1.Text = "Choose columns..."
         '
         'TabPage14
         '
@@ -3127,7 +2514,6 @@ Partial Class frmProcessInfo
         '
         Me.lvLog.AllowColumnReorder = True
         Me.lvLog.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader2, Me.ColumnHeader5, Me.ColumnHeader4})
-        Me.lvLog.ContextMenuStrip = Me.menuString
         Me.lvLog.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvLog.FullRowSelect = True
         ListViewGroup15.Header = "Strings"
@@ -3249,40 +2635,515 @@ Partial Class frmProcessInfo
         '
         Me.timerLog.Interval = 1000
         '
-        'MenuStrip1
+        'mainMenu
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MainToolStripMenuItem})
-        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
-        Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(655, 24)
-        Me.MenuStrip1.TabIndex = 11
-        Me.MenuStrip1.Text = "MenuStrip1"
-        Me.MenuStrip1.Visible = False
+        Me.mainMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem3})
         '
-        'MainToolStripMenuItem
+        'MenuItem3
         '
-        Me.MainToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RefreshToolStripMenuItem})
-        Me.MainToolStripMenuItem.Name = "MainToolStripMenuItem"
-        Me.MainToolStripMenuItem.Size = New System.Drawing.Size(46, 20)
-        Me.MainToolStripMenuItem.Text = "&main"
-        Me.MainToolStripMenuItem.Visible = False
+        Me.MenuItem3.Index = 0
+        Me.MenuItem3.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem4})
+        Me.MenuItem3.Text = "main"
+        Me.MenuItem3.Visible = False
         '
-        'RefreshToolStripMenuItem
+        'MenuItem4
         '
-        Me.RefreshToolStripMenuItem.Name = "RefreshToolStripMenuItem"
-        Me.RefreshToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5
-        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(132, 22)
-        Me.RefreshToolStripMenuItem.Text = "&Refresh"
+        Me.MenuItem4.Index = 0
+        Me.MenuItem4.Shortcut = System.Windows.Forms.Shortcut.F5
+        Me.MenuItem4.Text = "Refresh"
+        '
+        'VistaMenu
+        '
+        Me.VistaMenu.ContainerControl = Me
+        '
+        'MenuItemCopyBig
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyBig, Global.YAPM.My.Resources.Resources.copy16)
+        Me.MenuItemCopyBig.Index = 0
+        Me.MenuItemCopyBig.Text = "Copy to clipboard"
+        '
+        'MenuItemCopySmall
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopySmall, Global.YAPM.My.Resources.Resources.copy16)
+        Me.MenuItemCopySmall.Index = 0
+        Me.MenuItemCopySmall.Text = "Copy to clipboard"
+        '
+        'menuViewMemory
+        '
+        Me.VistaMenu.SetImage(Me.menuViewMemory, Global.YAPM.My.Resources.Resources.magnifier)
+        Me.menuViewMemory.Index = 0
+        Me.menuViewMemory.Text = "View memory"
+        '
+        'MenuItemPriEnable
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemPriEnable, Global.YAPM.My.Resources.Resources.ok)
+        Me.MenuItemPriEnable.Index = 0
+        Me.MenuItemPriEnable.Text = "Enable"
+        '
+        'MenuItemViewMemory
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemViewMemory, Global.YAPM.My.Resources.Resources.magnifier)
+        Me.MenuItemViewMemory.Index = 0
+        Me.MenuItemViewMemory.Text = "View memory"
+        '
+        'MenuItemCloseHandle
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCloseHandle, Global.YAPM.My.Resources.Resources.close)
+        Me.MenuItemCloseHandle.Index = 0
+        Me.MenuItemCloseHandle.Text = "Close item"
+        '
+        'menuCloseTCP
+        '
+        Me.VistaMenu.SetImage(Me.menuCloseTCP, Global.YAPM.My.Resources.Resources.cross)
+        Me.menuCloseTCP.Index = 0
+        Me.menuCloseTCP.Text = "Close TCP connection"
+        '
+        'MenuItemPriDisable
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemPriDisable, Global.YAPM.My.Resources.Resources.close)
+        Me.MenuItemPriDisable.Index = 1
+        Me.MenuItemPriDisable.Text = "Disable"
+        '
+        'MenuItemPriRemove
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemPriRemove, Global.YAPM.My.Resources.Resources.cross)
+        Me.MenuItemPriRemove.Index = 2
+        Me.MenuItemPriRemove.Text = "Remove"
+        '
+        'MenuItemModuleFileProp
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemModuleFileProp, Global.YAPM.My.Resources.Resources.document_text)
+        Me.MenuItemModuleFileProp.Index = 0
+        Me.MenuItemModuleFileProp.Text = "File properties"
+        '
+        'MenuItemModuleOpenDir
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemModuleOpenDir, Global.YAPM.My.Resources.Resources.folder_open)
+        Me.MenuItemModuleOpenDir.Index = 1
+        Me.MenuItemModuleOpenDir.Text = "Open directory"
+        '
+        'MenuItemModuleFileDetails
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemModuleFileDetails, Global.YAPM.My.Resources.Resources.magnifier)
+        Me.MenuItemModuleFileDetails.Index = 2
+        Me.MenuItemModuleFileDetails.Text = "File details"
+        '
+        'MenuItemModuleSearch
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemModuleSearch, Global.YAPM.My.Resources.Resources.globe)
+        Me.MenuItemModuleSearch.Index = 3
+        Me.MenuItemModuleSearch.Text = "Internet search"
+        '
+        'MenuItemModuleDependencies
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemModuleDependencies, Global.YAPM.My.Resources.Resources.dllIcon)
+        Me.MenuItemModuleDependencies.Index = 4
+        Me.MenuItemModuleDependencies.Text = "View dependencies..."
+        '
+        'MenuItemUnloadModule
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemUnloadModule, Global.YAPM.My.Resources.Resources.cross)
+        Me.MenuItemUnloadModule.Index = 7
+        Me.MenuItemUnloadModule.Text = "Unload module"
+        '
+        'MenuItemViewModuleMemory
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemViewModuleMemory, Global.YAPM.My.Resources.Resources.magnifier)
+        Me.MenuItemViewModuleMemory.Index = 5
+        Me.MenuItemViewModuleMemory.Text = "View memory"
+        '
+        'MenuItemServSelService
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServSelService, Global.YAPM.My.Resources.Resources.exe)
+        Me.MenuItemServSelService.Index = 1
+        Me.MenuItemServSelService.Text = "Select service"
+        '
+        'MenuItemServFileProp
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServFileProp, Global.YAPM.My.Resources.Resources.document_text)
+        Me.MenuItemServFileProp.Index = 3
+        Me.MenuItemServFileProp.Text = "File properties"
+        '
+        'MenuItemServOpenDir
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServOpenDir, Global.YAPM.My.Resources.Resources.folder_open)
+        Me.MenuItemServOpenDir.Index = 4
+        Me.MenuItemServOpenDir.Text = "Open directory"
+        '
+        'MenuItemServFileDetails
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServFileDetails, Global.YAPM.My.Resources.Resources.magnifier)
+        Me.MenuItemServFileDetails.Index = 5
+        Me.MenuItemServFileDetails.Text = "File details"
+        '
+        'MenuItemServSearch
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServSearch, Global.YAPM.My.Resources.Resources.globe)
+        Me.MenuItemServSearch.Index = 6
+        Me.MenuItemServSearch.Text = "Internet search"
+        '
+        'MenuItemServPause
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServPause, Global.YAPM.My.Resources.Resources.control_pause)
+        Me.MenuItemServPause.Index = 8
+        Me.MenuItemServPause.Text = "Pause"
+        '
+        'MenuItemServStop
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServStop, Global.YAPM.My.Resources.Resources.control_stop_square)
+        Me.MenuItemServStop.Index = 9
+        Me.MenuItemServStop.Text = "Stop"
+        '
+        'MenuItemServStart
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServStart, Global.YAPM.My.Resources.Resources.control)
+        Me.MenuItemServStart.Index = 10
+        Me.MenuItemServStart.Text = "Start"
+        '
+        'MenuItemServAutoStart
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServAutoStart, Global.YAPM.My.Resources.Resources.p6)
+        Me.MenuItemServAutoStart.Index = 0
+        Me.MenuItemServAutoStart.Text = "Auto start"
+        '
+        'MenuItemServOnDemand
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServOnDemand, Global.YAPM.My.Resources.Resources.p3)
+        Me.MenuItemServOnDemand.Index = 1
+        Me.MenuItemServOnDemand.Text = "On demand"
+        '
+        'MenuItemServDisabled
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServDisabled, Global.YAPM.My.Resources.Resources.p0)
+        Me.MenuItemServDisabled.Index = 2
+        Me.MenuItemServDisabled.Text = "Disabled"
+        '
+        'MenuItemThTerm
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemThTerm, Global.YAPM.My.Resources.Resources.cross)
+        Me.MenuItemThTerm.Index = 0
+        Me.MenuItemThTerm.Text = "Terminate"
+        '
+        'MenuItemThSuspend
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemThSuspend, Global.YAPM.My.Resources.Resources.control_pause)
+        Me.MenuItemThSuspend.Index = 1
+        Me.MenuItemThSuspend.Text = "Suspend"
+        '
+        'MenuItemThResu
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemThResu, Global.YAPM.My.Resources.Resources.control)
+        Me.MenuItemThResu.Index = 2
+        Me.MenuItemThResu.Text = "Resume"
+        '
+        'MenuItemThIdle
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemThIdle, Global.YAPM.My.Resources.Resources.p0)
+        Me.MenuItemThIdle.Index = 0
+        Me.MenuItemThIdle.Text = "Idle"
+        '
+        'MenuItemThLowest
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemThLowest, Global.YAPM.My.Resources.Resources.p1)
+        Me.MenuItemThLowest.Index = 1
+        Me.MenuItemThLowest.Text = "Lowest"
+        '
+        'MenuItemThBNormal
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemThBNormal, Global.YAPM.My.Resources.Resources.p2)
+        Me.MenuItemThBNormal.Index = 2
+        Me.MenuItemThBNormal.Text = "Below normal"
+        '
+        'MenuItemThNorm
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemThNorm, Global.YAPM.My.Resources.Resources.p3)
+        Me.MenuItemThNorm.Index = 3
+        Me.MenuItemThNorm.Text = "Normal"
+        '
+        'MenuItemThANorm
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemThANorm, Global.YAPM.My.Resources.Resources.p4)
+        Me.MenuItemThANorm.Index = 4
+        Me.MenuItemThANorm.Text = "Above normal"
+        '
+        'MenuItemThHighest
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemThHighest, Global.YAPM.My.Resources.Resources.p5)
+        Me.MenuItemThHighest.Index = 5
+        Me.MenuItemThHighest.Text = "Highest"
+        '
+        'MenuItemThTimeCr
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemThTimeCr, Global.YAPM.My.Resources.Resources.p6)
+        Me.MenuItemThTimeCr.Index = 6
+        Me.MenuItemThTimeCr.Text = "Time critical"
+        '
+        'MenuItemWShow
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemWShow, Global.YAPM.My.Resources.Resources.display16)
+        Me.MenuItemWShow.Index = 0
+        Me.MenuItemWShow.Text = "Show"
+        '
+        'MenuItemWClose
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemWClose, Global.YAPM.My.Resources.Resources.cross)
+        Me.MenuItemWClose.Index = 3
+        Me.MenuItemWClose.Text = "Close"
+        '
+        'MenuItemWDisa
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemWDisa, Global.YAPM.My.Resources.Resources.close)
+        Me.MenuItemWDisa.Index = 15
+        Me.MenuItemWDisa.Text = "Disable"
+        '
+        'menuCopyPctbig
+        '
+        Me.menuCopyPctbig.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCopyBig})
+        '
+        'menuCopyPctSmall
+        '
+        Me.menuCopyPctSmall.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCopySmall})
+        '
+        'mnuString
+        '
+        Me.mnuString.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.menuViewMemory})
+        '
+        'mnuPrivileges
+        '
+        Me.mnuPrivileges.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemPriEnable, Me.MenuItemPriDisable, Me.MenuItemPriRemove})
+        '
+        'mnuProcMem
+        '
+        Me.mnuProcMem.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemViewMemory, Me.MenuItemPEBAddress, Me.MenuItem13, Me.MenuItemColumnsMemory})
+        '
+        'MenuItemPEBAddress
+        '
+        Me.MenuItemPEBAddress.Index = 1
+        Me.MenuItemPEBAddress.Text = "Jump to PEB address"
+        '
+        'MenuItem13
+        '
+        Me.MenuItem13.Index = 2
+        Me.MenuItem13.Text = "-"
+        '
+        'MenuItemColumnsMemory
+        '
+        Me.MenuItemColumnsMemory.Index = 3
+        Me.MenuItemColumnsMemory.Text = "Choose columns..."
+        '
+        'mnuModule
+        '
+        Me.mnuModule.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemModuleFileProp, Me.MenuItemModuleOpenDir, Me.MenuItemModuleFileDetails, Me.MenuItemModuleSearch, Me.MenuItemModuleDependencies, Me.MenuItemViewModuleMemory, Me.MenuItem16, Me.MenuItemUnloadModule, Me.MenuItem19, Me.MenuItemColumnsModule})
+        '
+        'MenuItem16
+        '
+        Me.MenuItem16.Index = 6
+        Me.MenuItem16.Text = "-"
+        '
+        'MenuItem19
+        '
+        Me.MenuItem19.Index = 8
+        Me.MenuItem19.Text = "-"
+        '
+        'MenuItemColumnsModule
+        '
+        Me.MenuItemColumnsModule.Index = 9
+        Me.MenuItemColumnsModule.Text = "Choose columns..."
+        '
+        'mnuThread
+        '
+        Me.mnuThread.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemThTerm, Me.MenuItemThSuspend, Me.MenuItemThResu, Me.MenuItem8, Me.MenuItemThAffinity, Me.MenuItem15, Me.MenuItemThColumns})
+        '
+        'MenuItem8
+        '
+        Me.MenuItem8.Index = 3
+        Me.MenuItem8.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemThIdle, Me.MenuItemThLowest, Me.MenuItemThBNormal, Me.MenuItemThNorm, Me.MenuItemThANorm, Me.MenuItemThHighest, Me.MenuItemThTimeCr})
+        Me.MenuItem8.Text = "Priority"
+        '
+        'MenuItemThAffinity
+        '
+        Me.MenuItemThAffinity.Index = 4
+        Me.MenuItemThAffinity.Text = "Set affinity..."
+        '
+        'MenuItem15
+        '
+        Me.MenuItem15.Index = 5
+        Me.MenuItem15.Text = "-"
+        '
+        'MenuItemThColumns
+        '
+        Me.MenuItemThColumns.Index = 6
+        Me.MenuItemThColumns.Text = "Choose columns..."
+        '
+        'mnuWindow
+        '
+        Me.mnuWindow.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemWShow, Me.MenuItemWShowUn, Me.MenuItemWHide, Me.MenuItemWClose, Me.MenuItem9, Me.MenuItemWFront, Me.MenuItemWNotFront, Me.MenuItemWActive, Me.MenuItemWForeground, Me.MenuItem26, Me.MenuItemWMin, Me.MenuItemWMax, Me.MenuItemWPosSize, Me.MenuItem30, Me.MenuItemWEna, Me.MenuItemWDisa, Me.MenuItem33, Me.MenuItemWColumns})
+        '
+        'MenuItemWShowUn
+        '
+        Me.MenuItemWShowUn.Index = 1
+        Me.MenuItemWShowUn.Text = "Show unnamed"
+        '
+        'MenuItemWHide
+        '
+        Me.MenuItemWHide.Index = 2
+        Me.MenuItemWHide.Text = "Hide"
+        '
+        'MenuItem9
+        '
+        Me.MenuItem9.Index = 4
+        Me.MenuItem9.Text = "-"
+        '
+        'MenuItemWFront
+        '
+        Me.MenuItemWFront.Index = 5
+        Me.MenuItemWFront.Text = "Bring to front"
+        '
+        'MenuItemWNotFront
+        '
+        Me.MenuItemWNotFront.Index = 6
+        Me.MenuItemWNotFront.Text = "Do not bring to front"
+        '
+        'MenuItemWActive
+        '
+        Me.MenuItemWActive.Index = 7
+        Me.MenuItemWActive.Text = "Set as active window"
+        '
+        'MenuItemWForeground
+        '
+        Me.MenuItemWForeground.Index = 8
+        Me.MenuItemWForeground.Text = "Set as foreground window"
+        '
+        'MenuItem26
+        '
+        Me.MenuItem26.Index = 9
+        Me.MenuItem26.Text = "-"
+        '
+        'MenuItemWMin
+        '
+        Me.MenuItemWMin.Index = 10
+        Me.MenuItemWMin.Text = "Minimize"
+        '
+        'MenuItemWMax
+        '
+        Me.MenuItemWMax.Index = 11
+        Me.MenuItemWMax.Text = "Maximize"
+        '
+        'MenuItemWPosSize
+        '
+        Me.MenuItemWPosSize.Index = 12
+        Me.MenuItemWPosSize.Text = "Position && size"
+        '
+        'MenuItem30
+        '
+        Me.MenuItem30.Index = 13
+        Me.MenuItem30.Text = "-"
+        '
+        'MenuItemWEna
+        '
+        Me.MenuItemWEna.Index = 14
+        Me.MenuItemWEna.Text = "Enable"
+        '
+        'MenuItem33
+        '
+        Me.MenuItem33.Index = 16
+        Me.MenuItem33.Text = "-"
+        '
+        'MenuItemWColumns
+        '
+        Me.MenuItemWColumns.Index = 17
+        Me.MenuItemWColumns.Text = "Choose columns..."
+        '
+        'mnuHandle
+        '
+        Me.mnuHandle.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCloseHandle, Me.MenuItem12, Me.MenuItemShowUnnamedHandles, Me.MenuItem14, Me.MenuItemChooseColumnsHandle})
+        '
+        'MenuItem12
+        '
+        Me.MenuItem12.Index = 1
+        Me.MenuItem12.Text = "-"
+        '
+        'MenuItemShowUnnamedHandles
+        '
+        Me.MenuItemShowUnnamedHandles.Index = 2
+        Me.MenuItemShowUnnamedHandles.Text = "Show unnamed handles"
+        '
+        'MenuItem14
+        '
+        Me.MenuItem14.Index = 3
+        Me.MenuItem14.Text = "-"
+        '
+        'MenuItemChooseColumnsHandle
+        '
+        Me.MenuItemChooseColumnsHandle.Index = 4
+        Me.MenuItemChooseColumnsHandle.Text = "Choose columns..."
+        '
+        'mnuNetwork
+        '
+        Me.mnuNetwork.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.menuCloseTCP, Me.MenuItem10, Me.MenuItem11})
+        '
+        'MenuItem10
+        '
+        Me.MenuItem10.Index = 1
+        Me.MenuItem10.Text = "-"
+        '
+        'MenuItem11
+        '
+        Me.MenuItem11.Index = 2
+        Me.MenuItem11.Text = "Choose columns..."
+        '
+        'mnuService
+        '
+        Me.mnuService.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemServDetails, Me.MenuItemServSelService, Me.MenuItem5, Me.MenuItemServFileProp, Me.MenuItemServOpenDir, Me.MenuItemServFileDetails, Me.MenuItemServSearch, Me.MenuItem20, Me.MenuItemServPause, Me.MenuItemServStop, Me.MenuItemServStart, Me.MenuItem17, Me.MenuItem25, Me.MenuItemServReanalize, Me.MenuItem24, Me.MenuItemServColumns})
+        '
+        'MenuItemServDetails
+        '
+        Me.MenuItemServDetails.Index = 0
+        Me.MenuItemServDetails.Text = "Service details"
+        '
+        'MenuItem5
+        '
+        Me.MenuItem5.Index = 2
+        Me.MenuItem5.Text = "-"
+        '
+        'MenuItem20
+        '
+        Me.MenuItem20.Index = 7
+        Me.MenuItem20.Text = "-"
+        '
+        'MenuItem17
+        '
+        Me.MenuItem17.Index = 11
+        Me.MenuItem17.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemServAutoStart, Me.MenuItemServOnDemand, Me.MenuItemServDisabled})
+        Me.MenuItem17.Text = "Start type"
+        '
+        'MenuItem25
+        '
+        Me.MenuItem25.Index = 12
+        Me.MenuItem25.Text = "-"
+        '
+        'MenuItemServReanalize
+        '
+        Me.MenuItemServReanalize.Index = 13
+        Me.MenuItemServReanalize.Text = "Reanalize"
+        '
+        'MenuItem24
+        '
+        Me.MenuItem24.Index = 14
+        Me.MenuItem24.Text = "-"
+        '
+        'MenuItemServColumns
+        '
+        Me.MenuItemServColumns.Index = 15
+        Me.MenuItemServColumns.Text = "Choose columns..."
         '
         'frmProcessInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(655, 323)
-        Me.Controls.Add(Me.MenuStrip1)
         Me.Controls.Add(Me.tabProcess)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.MainMenuStrip = Me.MenuStrip1
         Me.MinimumSize = New System.Drawing.Size(660, 359)
         Me.Name = "frmProcessInfo"
         Me.Text = "Process informations"
@@ -3299,9 +3160,7 @@ Partial Class frmProcessInfo
         Me.gpProcGeneralFile.ResumeLayout(False)
         Me.gpProcGeneralFile.PerformLayout()
         CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.menuCopyPctSmall.ResumeLayout(False)
         CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.menuCopyPctbig.ResumeLayout(False)
         Me.TabPage2.ResumeLayout(False)
         Me.GroupBox5.ResumeLayout(False)
         Me.GroupBox5.PerformLayout()
@@ -3324,32 +3183,23 @@ Partial Class frmProcessInfo
         Me.TabPage4.ResumeLayout(False)
         Me.tabProcessToken.ResumeLayout(False)
         Me.tabProcessTokenPagePrivileges.ResumeLayout(False)
-        Me.menuPrivileges.ResumeLayout(False)
         Me.TabPage5.ResumeLayout(False)
-        Me.menuProcMem.ResumeLayout(False)
         Me.TabPage6.ResumeLayout(False)
         Me.SplitContainerInfoProcess.Panel1.ResumeLayout(False)
         Me.SplitContainerInfoProcess.Panel2.ResumeLayout(False)
         Me.SplitContainerInfoProcess.ResumeLayout(False)
         Me.TabPage7.ResumeLayout(False)
-        Me.menuProcServ.ResumeLayout(False)
         Me.tabNetwork.ResumeLayout(False)
-        Me.menuNetwork.ResumeLayout(False)
         Me.TabPageString.ResumeLayout(False)
         Me.SplitContainerStrings.Panel1.ResumeLayout(False)
         Me.SplitContainerStrings.Panel2.ResumeLayout(False)
         Me.SplitContainerStrings.Panel2.PerformLayout()
         Me.SplitContainerStrings.ResumeLayout(False)
-        Me.menuString.ResumeLayout(False)
         Me.TabPage9.ResumeLayout(False)
         Me.TabPage10.ResumeLayout(False)
-        Me.menuModule.ResumeLayout(False)
         Me.TabPage11.ResumeLayout(False)
-        Me.menuThread.ResumeLayout(False)
         Me.TabPage12.ResumeLayout(False)
-        Me.menuWindow.ResumeLayout(False)
         Me.TabPage13.ResumeLayout(False)
-        Me.menuHandles.ResumeLayout(False)
         Me.TabPage14.ResumeLayout(False)
         Me.SplitContainerLog.Panel1.ResumeLayout(False)
         Me.SplitContainerLog.Panel1.PerformLayout()
@@ -3358,10 +3208,8 @@ Partial Class frmProcessInfo
         Me.TabPage15.ResumeLayout(False)
         Me.containerHistory.Panel1.ResumeLayout(False)
         Me.containerHistory.ResumeLayout(False)
-        Me.MenuStrip1.ResumeLayout(False)
-        Me.MenuStrip1.PerformLayout()
+        CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
     Friend WithEvents tabProcess As System.Windows.Forms.TabControl
@@ -3479,17 +3327,6 @@ Partial Class frmProcessInfo
     Friend WithEvents lvProcEnv As Providers.envVariableList
     Friend WithEvents ColumnHeader60 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader61 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents menuCopyPctbig As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ToolStripMenuItem6 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuCopyPctSmall As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ToolStripMenuItem7 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuPrivileges As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ToolStripMenuItem44 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents DisableToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents RemoveToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuProcMem As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ToolStripMenuItem49 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents JumpToPEBAddressToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents timerProcPerf As System.Windows.Forms.Timer
     Friend WithEvents imgProcess As System.Windows.Forms.ImageList
     Friend WithEvents imgProcessTab As System.Windows.Forms.ImageList
@@ -3508,31 +3345,12 @@ Partial Class frmProcessInfo
     Friend WithEvents ColumnHeader44 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader45 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader46 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents menuModule As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ShowFileDetailsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem36 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem39 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents GoogleSearchToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuThread As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ToolStripMenuItem23 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem24 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem25 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem26 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem27 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents LowestToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem28 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem29 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem30 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem31 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem32 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem33 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents lvWindows As Providers.windowList
     Friend WithEvents ColumnHeader30 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader39 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader40 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader41 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader42 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents menuWindow As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents lvHandles As Providers.handleList
     Friend WithEvents ColumnHeader24 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader25 As System.Windows.Forms.ColumnHeader
@@ -3540,36 +3358,12 @@ Partial Class frmProcessInfo
     Friend WithEvents ColumnHeader27 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader28 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader15 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents menuHandles As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ToolStripMenuItem22 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents ViewMemoryToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ShowToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents HideToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents CloseToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents BringToFrontToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents DoNotBringToFrontToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents SetAsActiveWindowToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents SetAsForegroundWindowToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem3 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents MinimizeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents MaximizeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents PositionSizeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem4 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents EnableToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents DisableToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents txtCommandLine As System.Windows.Forms.TextBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents lblAverageCPUusage As System.Windows.Forms.Label
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents imgMain As System.Windows.Forms.ImageList
-    Friend WithEvents ShowUnnamedHandlesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem5 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents ShowUnnamedWindowsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuString As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents menuViewMemoryString As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents lvProcServices As Providers.serviceList
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader7 As System.Windows.Forms.ColumnHeader
@@ -3577,18 +3371,6 @@ Partial Class frmProcessInfo
     Friend WithEvents ColumnHeader9 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader10 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader19 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ToolStripMenuItem8 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents ChooseColumnsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem9 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents ChooseColumnsToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem10 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents ChooseColumnsToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem11 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents ChooseColumnsToolStripMenuItem3 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem12 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents ChooseColumnsToolStripMenuItem4 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuNetwork As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ToolStripMenuItem15 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TabPage14 As System.Windows.Forms.TabPage
     Friend WithEvents SplitContainerLog As System.Windows.Forms.SplitContainer
     Friend WithEvents lvLog As YAPM.DoubleBufferedLV
@@ -3612,9 +3394,6 @@ Partial Class frmProcessInfo
     Friend WithEvents cmdAffinity As System.Windows.Forms.Button
     Friend WithEvents cmdPause As System.Windows.Forms.Button
     Friend WithEvents cmdResume As System.Windows.Forms.Button
-    Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
-    Friend WithEvents MainToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents RefreshToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents lvThreads As Providers.threadList
     Friend WithEvents ColumnHeader32 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader34 As System.Windows.Forms.ColumnHeader
@@ -3625,29 +3404,6 @@ Partial Class frmProcessInfo
     Friend WithEvents ColumnHeader6 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader11 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader12 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents menuProcServ As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ToolStripMenuItem43 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem13 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents PauseToolStripMenuItem14 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents StopToolStripMenuItem16 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ShutdownShutdownToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents StartToolStripMenuItem17 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents TypeOfStartToolStripMenuItem18 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents DisabledToolStripMenuItem19 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents AutoToolStripMenuItem20 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents DemandToolStripMenuItem21 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ReanalyzeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents FilePropToolStripMenuItem34 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents OpenDirToolStripMenuItem35 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents FileDetailsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents GoogleSearchToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem37 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents ChooseColumnsToolStripMenuItem5 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ServiceDetailsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents OpenFirectoryToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents PropertiesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents lblOthersBD As System.Windows.Forms.Label
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents lblOtherD As System.Windows.Forms.Label
@@ -3671,7 +3427,98 @@ Partial Class frmProcessInfo
     Friend WithEvents txtParentProcess As System.Windows.Forms.TextBox
     Friend WithEvents Label15 As System.Windows.Forms.Label
     Friend WithEvents cmdInspectExe As System.Windows.Forms.Button
-    Friend WithEvents ViewDependenciesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents CloseTCPConnectionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem14 As System.Windows.Forms.ToolStripSeparator
+    Private WithEvents mainMenu As System.Windows.Forms.MainMenu
+    Friend WithEvents MenuItem3 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem4 As System.Windows.Forms.MenuItem
+    Friend WithEvents VistaMenu As wyDay.Controls.VistaMenu
+    Friend WithEvents MenuItemCopyBig As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemCopySmall As System.Windows.Forms.MenuItem
+    Private WithEvents menuCopyPctbig As System.Windows.Forms.ContextMenu
+    Private WithEvents menuCopyPctSmall As System.Windows.Forms.ContextMenu
+    Private WithEvents mnuString As System.Windows.Forms.ContextMenu
+    Friend WithEvents menuViewMemory As System.Windows.Forms.MenuItem
+    Private WithEvents mnuPrivileges As System.Windows.Forms.ContextMenu
+    Friend WithEvents MenuItemPriEnable As System.Windows.Forms.MenuItem
+    Private WithEvents mnuProcMem As System.Windows.Forms.ContextMenu
+    Friend WithEvents MenuItemViewMemory As System.Windows.Forms.MenuItem
+    Private WithEvents mnuModule As System.Windows.Forms.ContextMenu
+    Private WithEvents mnuThread As System.Windows.Forms.ContextMenu
+    Private WithEvents mnuWindow As System.Windows.Forms.ContextMenu
+    Private WithEvents mnuHandle As System.Windows.Forms.ContextMenu
+    Friend WithEvents MenuItemCloseHandle As System.Windows.Forms.MenuItem
+    Private WithEvents mnuNetwork As System.Windows.Forms.ContextMenu
+    Friend WithEvents menuCloseTCP As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem10 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem11 As System.Windows.Forms.MenuItem
+    Private WithEvents mnuService As System.Windows.Forms.ContextMenu
+    Friend WithEvents MenuItem12 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemShowUnnamedHandles As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem14 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemChooseColumnsHandle As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemPEBAddress As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem13 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemColumnsMemory As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemPriDisable As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemPriRemove As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemModuleFileProp As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemModuleOpenDir As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemModuleFileDetails As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemModuleSearch As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemModuleDependencies As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem16 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemUnloadModule As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemViewModuleMemory As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem19 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemColumnsModule As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemServFileProp As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemServOpenDir As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemServFileDetails As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemServSearch As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem20 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemServColumns As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemServDetails As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemServSelService As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem5 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemServPause As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemServStop As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemServStart As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem17 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemServReanalize As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemServAutoStart As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemServOnDemand As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemServDisabled As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem25 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem24 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemThTerm As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemThSuspend As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemThResu As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem8 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemThIdle As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemThLowest As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemThAffinity As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem15 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemThColumns As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemThBNormal As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemThNorm As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemThANorm As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemThHighest As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemThTimeCr As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWShow As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWShowUn As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWHide As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWClose As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem9 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWFront As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWNotFront As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWActive As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWForeground As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem26 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWMin As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWMax As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWPosSize As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem30 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWEna As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWDisa As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem33 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWColumns As System.Windows.Forms.MenuItem
 End Class

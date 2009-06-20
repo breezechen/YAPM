@@ -48,18 +48,6 @@ Public Class frmLog
     '    Call timerRefresh_Tick(Nothing, Nothing)
     'End Sub
 
-    Private Sub SaveToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveToolStripMenuItem.Click
-        Dim frm As New frmSaveReport
-        With frm
-            .ReportType = "log"
-            Call Application.DoEvents()
-            .ShowDialog()
-        End With
-    End Sub
-
-    Private Sub ClearToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClearToolStripMenuItem.Click
-        Program.Log.Clear()
-    End Sub
 
     Private Sub frmLog_FormClosing(ByVal sender As System.Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
         Program.Log.ShowForm = False
@@ -71,5 +59,24 @@ Public Class frmLog
         closeWithEchapKey(Me)
 
         Call API.SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
+    End Sub
+
+    Private Sub MenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem.Click
+        Dim frm As New frmSaveReport
+        With frm
+            .ReportType = "log"
+            Call Application.DoEvents()
+            .ShowDialog()
+        End With
+    End Sub
+
+    Private Sub MenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem2.Click
+        Program.Log.Clear()
+    End Sub
+
+    Private Sub lv_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lv.MouseDown
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Me.TheContextMenu.Show(Me.lv, e.Location)
+        End If
     End Sub
 End Class
