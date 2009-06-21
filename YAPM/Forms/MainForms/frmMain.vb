@@ -418,50 +418,6 @@ Public Class frmMain
         Me.Visible = True
     End Sub
 
-    Private Sub KillToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
-    Private Sub StopToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
-    Private Sub ResumeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
-    Private Sub IdleToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
-    Private Sub BelowNormalToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
-    Private Sub NormalToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
-    Private Sub AboveNormalToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
-    Private Sub HighToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
-    Private Sub RealTimeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
-    Private Sub PropertiesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
-    Private Sub OpenFirectoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
     Public Sub SetToolTip(ByVal ctrl As Control, ByVal text As String)
         Dim tToolTip As ToolTip = New System.Windows.Forms.ToolTip(Me.components)
         With tToolTip
@@ -525,7 +481,8 @@ Public Class frmMain
     End Sub
 
     Private Sub butAbout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butAbout.Click
-        frmAboutG.ShowDialog()
+        Dim frm As New frmAboutG
+        frm.ShowDialog()
     End Sub
 
     Private Sub butProcessRerfresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessRerfresh.Click
@@ -570,7 +527,7 @@ Public Class frmMain
     End Sub
 
     Private Sub butProcessAffinity_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessAffinity.Click
-        Call SetAffinityToolStripMenuItem_Click(Nothing, Nothing)
+        Call Me.MenuItemProcAff_Click(Nothing, Nothing)
     End Sub
 
     Private Sub butResumeProcess_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butResumeProcess.Click
@@ -769,20 +726,12 @@ Public Class frmMain
         Next
     End Sub
 
-    Private Sub GoogleSearchToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
     Private Sub butServiceGoogle_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butServiceGoogle.Click
         Dim it As ListViewItem
         For Each it In Me.lvServices.SelectedItems
             Application.DoEvents()
             Call SearchInternet(it.Text, Me.Handle)
         Next
-    End Sub
-
-    Private Sub FileDetailsToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
     End Sub
 
     Private Sub butServiceFileDetails_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butServiceFileDetails.Click
@@ -865,14 +814,6 @@ Public Class frmMain
         Next
     End Sub
 
-    Private Sub SelectAssociatedProcessToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
-    Private Sub ShowHandlesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
     Private Sub butFileProperties_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileProperties.Click
         Call cFile.ShowFileProperty(Me.txtFile.Text, Me.Handle)
     End Sub
@@ -902,10 +843,6 @@ Public Class frmMain
             .file = Me.txtFile.Text
             Call .ShowDialog()
         End With
-    End Sub
-
-    Private Sub CloseToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
     End Sub
 
     Private Sub butFileGoogleSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileGoogleSearch.Click
@@ -1281,11 +1218,6 @@ Public Class frmMain
         Return Math.Max(0, max - lMax)
     End Function
 
-    Private Sub ShowThreadsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
-
     ' Show threads of selected processes (threadsToRefresh)
     Private Sub ShowThreads(Optional ByVal showTab As Boolean = True)
 
@@ -1351,10 +1283,6 @@ Public Class frmMain
 
         If showTab Then _
             Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvWindows.Items.Count) & " windows"
-
-    End Sub
-
-    Private Sub ShowWindowsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
 
@@ -1591,10 +1519,6 @@ Public Class frmMain
         Call Me.refreshFileInfos(cSelFile.Path)
     End Sub
 
-    Private Sub ShowModulesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
     Private Sub butProcessShowModules_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessShowModules.Click
         If Me.lvProcess.SelectedItems.Count > 0 Then
 
@@ -1695,14 +1619,6 @@ Public Class frmMain
             Call ShowWindows(False)
             Call ShowHandles(False)
         End If
-
-    End Sub
-
-    Private Sub ShowAllToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
-    Private Sub ReadWriteMemoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
 
@@ -1822,10 +1738,6 @@ Public Class frmMain
         End With
     End Sub
 
-    Private Sub SelectedServicesToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs)
-
-    End Sub
-
     ' Refresh  task list in listview
     Public Sub refreshTaskList()
 
@@ -1860,14 +1772,6 @@ Public Class frmMain
             ' Close task
             it.Close()
         Next
-    End Sub
-
-    Private Sub KillProcessTreeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
-    Private Sub SetAffinityToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
     End Sub
 
     Private Sub butWindowFind_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowFind.Click
@@ -2014,12 +1918,13 @@ Public Class frmMain
         ' Change selected tab of tabStrip
         _ribbonStyle = ribbonStyle
 
-        ' Call _tab_SelectedIndexChanged(Nothing, Nothing)
-
         _main.Panel1Collapsed = Not (_ribbonStyle)
 
-        Me.containerSystemMenu.Panel1Collapsed = _ribbonStyle
-        Me.menuSystem.Visible = _main.Panel1Collapsed
+        Me.MenuItemSYSTEMFILE.Visible = Not (_ribbonStyle)
+        Me.MenuItemSYSTEMOPT.Visible = Not (_ribbonStyle)
+        Me.MenuItemSYSTEMTOOLS.Visible = Not (_ribbonStyle)
+        Me.MenuItemSYSTEMSYSTEM.Visible = Not (_ribbonStyle)
+        Me.MenuItemSYSTEMHEL.Visible = Not (_ribbonStyle)
 
         Call Me.frmMain_Resize(Nothing, Nothing)
     End Sub
@@ -2345,6 +2250,12 @@ Public Class frmMain
 
     Private Sub lvModules_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvModules.MouseDown
         Call mdlMisc.CopyLvToClip(e, Me.lvModules)
+    End Sub
+
+    Private Sub lvModules_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvModules.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Me.mnuModule.Show(Me.lvModules, e.Location)
+        End If
     End Sub
 
     Private Sub lvModules_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvModules.SelectedIndexChanged
@@ -2982,10 +2893,6 @@ Public Class frmMain
         Me.Ribbon.ActiveTab = theTab
     End Sub
 
-    Private Sub HelpToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HelpToolStripMenuItem1.Click
-        Me._tab.SelectedIndex = 11    ' Help
-    End Sub
-
     Private Sub goSearch(ByVal ssearch As String)
         If ssearch IsNot Nothing AndAlso ssearch.Length > 0 Then
             With Me.lvSearchResults
@@ -3019,144 +2926,13 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub NewSearchToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
-    Private Sub DownloadsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DownloadsToolStripMenuItem.Click
-        Call Me.butDownload_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub ProjectPageOnSourceforgenetToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ProjectPageOnSourceforgenetToolStripMenuItem.Click
-        Call Me.butProjectPage_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub WebsiteToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WebsiteToolStripMenuItem.Click
-        Call Me.butWebite_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MakeAdonationToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MakeAdonationToolStripMenuItem.Click
-        Call Me.butDonate_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub CheckupdatesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckupdatesToolStripMenuItem.Click
-        Call Me.butUpdate_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub RestartToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RestartToolStripMenuItem1.Click
-        Call cSystem.Restart()
-    End Sub
-
-    Private Sub ShutdownToolStripMenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShutdownToolStripMenuItem4.Click
-        Call cSystem.Shutdown()
-    End Sub
-
-    Private Sub PoweroffToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PoweroffToolStripMenuItem1.Click
-        Call cSystem.Poweroff()
-    End Sub
-
-    Private Sub SleepToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SleepToolStripMenuItem1.Click
-        Call cSystem.Sleep()
-    End Sub
-
-    Private Sub HibernateToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HibernateToolStripMenuItem1.Click
-        Call cSystem.Hibernate()
-    End Sub
-
-    Private Sub LogoffToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LogoffToolStripMenuItem1.Click
-        Call cSystem.Logoff()
-    End Sub
-
-    Private Sub LockToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LockToolStripMenuItem1.Click
-        Call cSystem.Lock()
-    End Sub
-
-    Private Sub AlwaysVisibleToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AlwaysVisibleToolStripMenuItem1.Click
-        Me.MenuItemMainAlwaysVisible_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub RefreshprocessListToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshprocessListToolStripMenuItem.Click
-        Me.MenuItemRefProc_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub RefreshserviceListToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshserviceListToolStripMenuItem1.Click
-        Call Me.MenuItemMainRefServ_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub ExitToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem1.Click
-        Call Me.MenuItemMainExit_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub ShowlogToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowlogToolStripMenuItem1.Click
-        Call Me.MenuItemMainLog_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub SystemreportToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SystemreportToolStripMenuItem.Click
-        Call Me.MenuItemMainReport_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub SysteminfosToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SysteminfosToolStripMenuItem.Click
-        Call Me.MenuItemMainSysInfo_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub OpenedWindowsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpenedWindowsToolStripMenuItem.Click
-        Call Me.MenuItemMainOpenedW_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub FindAWindowToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FindAWindowToolStripMenuItem1.Click
-        Call Me.MenuItemMainFindWindow_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub EmergencyHotkeysToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EmergencyHotkeysToolStripMenuItem1.Click
-        Call Me.MenuItemMainEmergencyH_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub OptionsToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OptionsToolStripMenuItem1.Click
-        Call Me.butPreferences_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub RefreshToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshToolStripMenuItem.Click
-        Select Case _tab.SelectedIndex
-            Case 0
-                Call Me.butTaskRefresh_Click(Nothing, Nothing)
-            Case 1
-                Call Me.butProcessRerfresh_Click(Nothing, Nothing)
-            Case 2
-                Call Me.butModuleRefresh_Click(Nothing, Nothing)
-            Case 3
-                Call Me.butThreadRefresh_Click(Nothing, Nothing)
-            Case 4
-                Call Me.butHandleRefresh_Click(Nothing, Nothing)
-            Case 5
-                Call Me.butWindowRefresh_Click(Nothing, Nothing)
-            Case 7
-                Call Me.butServiceRefresh_Click(Nothing, Nothing)
-            Case 8
-                Call Me.butNetworkRefresh_Click(Nothing, Nothing)
-            Case 9
-                Call Me.butFileRefresh_Click(Nothing, Nothing)
-        End Select
-    End Sub
-
-    Private Sub MinimizeToTrayToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MinimizeToTrayToolStripMenuItem1.Click
-        Call Me.MenuItemMainToTray_Click(Nothing, Nothing)
-    End Sub
-
     Private Sub timerNetwork_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerNetwork.Tick
         Call refreshNetworkList()
-    End Sub
-
-    Private Sub StateBasedActionsToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StateBasedActionsToolStripMenuItem1.Click
-        Call Me.MenuItemMainSBA_Click(Nothing, Nothing)
     End Sub
 
     Private Sub timerStateBasedActions_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerStateBasedActions.Tick
         'TODO_ (sba)
         'Me.emStateBasedActions.ProcessActions(lvProcess.GetAllItems)
-    End Sub
-
-    Private Sub ReduceWorkingSetSizeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
     End Sub
 
     'Private Sub emStateBasedActions_ExitRequested() Handles emStateBasedActions.ExitRequested
@@ -3241,7 +3017,7 @@ Public Class frmMain
     End Sub
 
     Private Sub butWindows_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindows.Click
-        Call OpenedWindowsToolStripMenuItem_Click(Nothing, Nothing)
+        Call Me.MenuItemSystemOpenedWindows_Click(Nothing, Nothing)
     End Sub
 
     Private Sub butSystemInfo_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butSystemInfo.Click
@@ -3445,20 +3221,8 @@ Public Class frmMain
         End Try
     End Sub
 
-    Private Sub ConnectionToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ConnectionToolStripMenuItem.Click
-        Call orbMenuNetwork_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub ReanalizeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
     Private Sub butFeedBack_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFeedBack.Click
         frmTracker.Show()
-    End Sub
-
-    Private Sub ShowHiddenProcessesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowHiddenProcessesToolStripMenuItem.Click
-        Call butHiddenProcesses_Click(Nothing, Nothing)
     End Sub
 
     Private Sub butHiddenProcesses_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butHiddenProcesses.Click
@@ -3503,22 +3267,6 @@ Public Class frmMain
                 .Show()
             End With
         Next
-    End Sub
-
-    Private Sub FeedBackToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FeedBackToolStripMenuItem.Click
-        Call butFeedBack_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub DependenciesViewerToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DependenciesViewerToolStripMenuItem.Click
-        Call butShowDepViewer_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub DependenyViewerToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
-    Private Sub CreateDumpFileToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
     End Sub
 
     Private Sub MenuItemHSelectAssociatedProcess_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemHSelectAssociatedProcess.Click
@@ -3698,7 +3446,7 @@ Public Class frmMain
 
     Private Sub MenuItemMainAlwaysVisible_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMainAlwaysVisible.Click
         Me.MenuItemMainAlwaysVisible.Checked = Not (Me.MenuItemMainAlwaysVisible.Checked)
-        Me.AlwaysVisibleToolStripMenuItem1.Checked = Me.MenuItemMainAlwaysVisible.Checked
+        Me.MenuItemSystemAlwaysVisible.Checked = Me.MenuItemMainAlwaysVisible.Checked
         Me.TopMost = Me.MenuItemMainAlwaysVisible.Checked
     End Sub
 
@@ -3767,13 +3515,13 @@ Public Class frmMain
 
     Private Sub MenuItemRefProc_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemRefProc.Click
         Me.MenuItemRefProc.Checked = Not (Me.MenuItemRefProc.Checked)
-        Me.RefreshprocessListToolStripMenuItem.Checked = Me.MenuItemRefProc.Checked
+        Me.MenuItemSystemRefProc.Checked = Me.MenuItemRefProc.Checked
         Me.timerProcess.Enabled = Me.MenuItemRefProc.Checked
     End Sub
 
     Private Sub MenuItemMainRefServ_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMainRefServ.Click
         Me.MenuItemMainRefServ.Checked = Not (Me.MenuItemMainRefServ.Checked)
-        Me.RefreshserviceListToolStripMenuItem1.Checked = Me.MenuItemMainRefServ.Checked
+        Me.MenuItemSystemRefServ.Checked = Me.MenuItemMainRefServ.Checked
         Me.timerServices.Enabled = Me.MenuItemMainRefServ.Checked
     End Sub
 
@@ -4376,30 +4124,13 @@ Public Class frmMain
         Next
     End Sub
 
-    Private Sub MenuItemProcWorkingSS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub MenuItemProcWorkingSS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcWSS.Click
         For Each _p As cProcess In Me.lvProcess.GetSelectedItems
             _p.EmptyWorkingSetSize()
         Next
     End Sub
 
-    Private Sub MenuItemProcAff_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-        If Me.lvProcess.SelectedItems.Count = 0 Then Exit Sub
-
-        Dim c() As cProcess
-        ReDim c(Me.lvProcess.SelectedItems.Count - 1)
-        Dim x As Integer = 0
-        For Each it As cProcess In Me.lvProcess.GetSelectedItems
-            c(x) = it
-            x += 1
-        Next
-
-        Dim frm As New frmProcessAffinity(c)
-        frm.ShowDialog()
-
-    End Sub
-
-    Private Sub MenuItemProcDump_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub MenuItemProcDump_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcDump.Click
         Dim _frm As New frmDumpFile
         If _frm.ShowDialog = Windows.Forms.DialogResult.OK Then
             For Each cp As cProcess In Me.lvProcess.GetSelectedItems
@@ -4413,23 +4144,23 @@ Public Class frmMain
         Me.lvProcess.ReAnalizeProcesses()
     End Sub
 
-    Private Sub MenuItemProcSModules_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub MenuItemProcSModules_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcSModules.Click
         Call butProcessShowModules_Click(Nothing, Nothing)
     End Sub
 
-    Private Sub MenuItemProcSThrea_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub MenuItemProcSThrea_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcSThreads.Click
         Call Me.butProcessThreads_Click(Nothing, Nothing)
     End Sub
 
-    Private Sub MenuItemProcSHandles_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub MenuItemProcSHandles_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcSHandles.Click
         Call Me.butShowProcHandles_Click(Nothing, Nothing)
     End Sub
 
-    Private Sub MenuItemProcSWindows_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub MenuItemProcSWindows_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcSWindows.Click
         Call butProcessWindows_Click(Nothing, Nothing)
     End Sub
 
-    Private Sub MenuItemProcSServices_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub MenuItemProcSServices_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcSServices.Click
 
         ' Refresh service list if necessary
         If Me.lvServices.Items.Count = 0 Then Call Me.refreshServiceList()
@@ -4483,7 +4214,7 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub MenuItemProcSAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub MenuItemProcSAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcSAll.Click
         Call butProcessShowAll_Click(Nothing, Nothing)
     End Sub
 
@@ -4529,4 +4260,167 @@ Public Class frmMain
     Private Sub MenuItemProcColumns_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcColumns.Click
         Me.lvProcess.ChooseColumns()
     End Sub
+
+    Private Sub MenuItemSystemRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemRefresh.Click
+        Select Case _tab.SelectedIndex
+            Case 0
+                Call Me.butTaskRefresh_Click(Nothing, Nothing)
+            Case 1
+                Call Me.butProcessRerfresh_Click(Nothing, Nothing)
+            Case 2
+                Call Me.butModuleRefresh_Click(Nothing, Nothing)
+            Case 3
+                Call Me.butThreadRefresh_Click(Nothing, Nothing)
+            Case 4
+                Call Me.butHandleRefresh_Click(Nothing, Nothing)
+            Case 5
+                Call Me.butWindowRefresh_Click(Nothing, Nothing)
+            Case 7
+                Call Me.butServiceRefresh_Click(Nothing, Nothing)
+            Case 8
+                Call Me.butNetworkRefresh_Click(Nothing, Nothing)
+            Case 9
+                Call Me.butFileRefresh_Click(Nothing, Nothing)
+        End Select
+    End Sub
+
+    Private Sub MenuItemSystemConnection_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemConnection.Click
+        Call orbMenuNetwork_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemSystemLog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemLog.Click
+        Call Me.MenuItemMainLog_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemSystemReport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemReport.Click
+        Call Me.MenuItemMainReport_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemSystemInfos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemInfos.Click
+        Call Me.MenuItemMainSysInfo_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemSystemOpenedWindows_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemOpenedWindows.Click
+        Call Me.MenuItemMainOpenedW_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemSystemFindWindow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemFindWindow.Click
+        Call Me.MenuItemMainFindWindow_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemSystemEmergency_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemEmergency.Click
+        Call Me.MenuItemMainEmergencyH_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemSystemSBA_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemSBA.Click
+        Call Me.MenuItemMainSBA_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemSystemToTray_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemToTray.Click
+        Call Me.MenuItemMainToTray_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemSystemExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemExit.Click
+        Call Me.MenuItemMainExit_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemSystemAlwaysVisible_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemAlwaysVisible.Click
+        Me.MenuItemMainAlwaysVisible_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemSystemRefProc_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemRefProc.Click
+        Me.MenuItemRefProc_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemSystemRefServ_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemRefServ.Click
+        Call Me.MenuItemMainRefServ_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemSystemOptions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemOptions.Click
+        Call Me.butPreferences_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemSystemShowHidden_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemShowHidden.Click
+        Call butHiddenProcesses_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemSystemDependency_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemDependency.Click
+        Call butShowDepViewer_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemSystemRestart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemRestart.Click
+        Call cSystem.Restart()
+    End Sub
+
+    Private Sub MenuItemSystemShutdown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemShutdown.Click
+        Call cSystem.Shutdown()
+    End Sub
+
+    Private Sub MenuItemSystemPowerOff_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemPowerOff.Click
+        Call cSystem.Poweroff()
+    End Sub
+
+    Private Sub MenuItemSystemSleep_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemSleep.Click
+        Call cSystem.Sleep()
+    End Sub
+
+    Private Sub MenuItemSystemHIbernate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemHIbernate.Click
+        Call cSystem.Hibernate()
+    End Sub
+
+    Private Sub MenuItemSystemLogoff_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemLogoff.Click
+        Call cSystem.Logoff()
+    End Sub
+
+    Private Sub MenuItemSystemLock_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemLock.Click
+        Call cSystem.Lock()
+    End Sub
+
+    Private Sub MenuItemSystemUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemUpdate.Click
+        Call Me.butUpdate_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemSystemDonation_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemDonation.Click
+        Call Me.butDonate_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemSystemFeedBack_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemFeedBack.Click
+        Call butFeedBack_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemSystemSF_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemSF.Click
+        Call Me.butProjectPage_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemSystemWebsite_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemWebsite.Click
+        Call Me.butWebite_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemSystemDownloads_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemDownloads.Click
+        Call Me.butDownload_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemSystemHelp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemHelp.Click
+        Me._tab.SelectedIndex = 11    ' Help
+    End Sub
+
+    Private Sub MenuItemSystemAbout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemAbout.Click
+        Call Me.butAbout_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemProcAff_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcAff.Click
+        If Me.lvProcess.SelectedItems.Count = 0 Then Exit Sub
+
+        Dim c() As cProcess
+        ReDim c(Me.lvProcess.SelectedItems.Count - 1)
+        Dim x As Integer = 0
+        For Each it As cProcess In Me.lvProcess.GetSelectedItems
+            c(x) = it
+            x += 1
+        Next
+
+        Dim frm As New frmProcessAffinity(c)
+        frm.ShowDialog()
+    End Sub
+
 End Class

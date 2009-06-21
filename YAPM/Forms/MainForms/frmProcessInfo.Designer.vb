@@ -2670,6 +2670,7 @@ Partial Class frmProcessInfo
         '
         'menuViewMemory
         '
+        Me.menuViewMemory.DefaultItem = True
         Me.VistaMenu.SetImage(Me.menuViewMemory, Global.YAPM.My.Resources.Resources.magnifier)
         Me.menuViewMemory.Index = 0
         Me.menuViewMemory.Text = "View memory"
@@ -2682,18 +2683,21 @@ Partial Class frmProcessInfo
         '
         'MenuItemViewMemory
         '
+        Me.MenuItemViewMemory.DefaultItem = True
         Me.VistaMenu.SetImage(Me.MenuItemViewMemory, Global.YAPM.My.Resources.Resources.magnifier)
         Me.MenuItemViewMemory.Index = 0
         Me.MenuItemViewMemory.Text = "View memory"
         '
         'MenuItemCloseHandle
         '
+        Me.MenuItemCloseHandle.DefaultItem = True
         Me.VistaMenu.SetImage(Me.MenuItemCloseHandle, Global.YAPM.My.Resources.Resources.close)
         Me.MenuItemCloseHandle.Index = 0
         Me.MenuItemCloseHandle.Text = "Close item"
         '
         'menuCloseTCP
         '
+        Me.menuCloseTCP.DefaultItem = True
         Me.VistaMenu.SetImage(Me.menuCloseTCP, Global.YAPM.My.Resources.Resources.cross)
         Me.menuCloseTCP.Index = 0
         Me.menuCloseTCP.Text = "Close TCP connection"
@@ -2742,6 +2746,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemUnloadModule
         '
+        Me.MenuItemUnloadModule.DefaultItem = True
         Me.VistaMenu.SetImage(Me.MenuItemUnloadModule, Global.YAPM.My.Resources.Resources.cross)
         Me.MenuItemUnloadModule.Index = 7
         Me.MenuItemUnloadModule.Text = "Unload module"
@@ -2820,6 +2825,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemThTerm
         '
+        Me.MenuItemThTerm.DefaultItem = True
         Me.VistaMenu.SetImage(Me.MenuItemThTerm, Global.YAPM.My.Resources.Resources.cross)
         Me.MenuItemThTerm.Index = 0
         Me.MenuItemThTerm.Text = "Terminate"
@@ -2880,6 +2886,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemWShow
         '
+        Me.MenuItemWShow.DefaultItem = True
         Me.VistaMenu.SetImage(Me.MenuItemWShow, Global.YAPM.My.Resources.Resources.display16)
         Me.MenuItemWShow.Index = 0
         Me.MenuItemWShow.Text = "Show"
@@ -3098,6 +3105,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemServDetails
         '
+        Me.MenuItemServDetails.DefaultItem = True
         Me.MenuItemServDetails.Index = 0
         Me.MenuItemServDetails.Text = "Service details"
         '

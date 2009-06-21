@@ -545,6 +545,10 @@
     <None Include="Misc\icon2.gif" />
     <None Include="Misc\dll.gif" />
     <None Include="Misc\handle.gif" />
+    <None Include="Misc\refresh16.gif" />
+    <None Include="Misc\target16.gif" />
+    <None Include="Misc\help16.png" />
+    <None Include="Misc\options16.gif" />
     <Content Include="process.ico" />
     <Content Include="process_custom.ico" />
     <None Include="Resources\application_blue.png" />

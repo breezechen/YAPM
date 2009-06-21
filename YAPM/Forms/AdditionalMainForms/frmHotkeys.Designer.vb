@@ -223,6 +223,7 @@ Partial Class frmHotkeys
         '
         'MenuItem
         '
+        Me.MenuItem.DefaultItem = True
         Me.VistaMenu.SetImage(Me.MenuItem, Global.YAPM.My.Resources.Resources.plus_circle)
         Me.MenuItem.Index = 0
         Me.MenuItem.Text = "Add"
