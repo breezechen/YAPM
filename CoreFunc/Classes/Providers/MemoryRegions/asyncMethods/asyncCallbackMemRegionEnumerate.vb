@@ -93,40 +93,9 @@ Public Class asyncCallbackMemRegionEnumerate
             Case Else
                 ' Local
 
-                Dim lHandle As Integer
-                Dim lPosMem As Integer = 0
-                Dim lRet As Boolean
-                Dim mbi As API.MEMORY_BASIC_INFORMATION
                 Dim _dico As New Dictionary(Of String, memRegionInfos)
 
-                lHandle = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION Or API.PROCESS_RIGHTS.PROCESS_VM_READ, 0, pObj.pid)
-
-                If lHandle > 0 Then
-
-                    ' We'll exit when VirtualQueryEx wall will fail
-                    While True
-
-                        lRet = API.VirtualQueryEx(lHandle, lPosMem, mbi, Marshal.SizeOf(mbi))
-
-                        If lRet Then
-
-                            If mbi.RegionSize > 0 AndAlso _
-                            ((Not pObj.onlyProcRegion) OrElse (mbi.lType = API.MEMORY_TYPE.MEM_PRIVATE And _
-                                                              mbi.State = API.MEMORY_STATE.MEM_COMMIT)) Then
-                                ' Here is a region
-                                _dico.Add(mbi.BaseAddress.ToString, _
-                                          New memRegionInfos(mbi, pObj.pid))
-                            End If
-
-                            lPosMem = mbi.BaseAddress + mbi.RegionSize
-                        Else
-                            ' Done
-                            Exit While
-                        End If
-                    End While
-
-                    Call API.CloseHandle(lHandle)
-                End If
+                Call enumMemRegions(pObj, _dico)
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
                     ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
@@ -135,6 +104,43 @@ Public Class asyncCallbackMemRegionEnumerate
 
         sem.Release()
 
+    End Sub
+
+    ' Enumerate memory regions
+    Friend Shared Sub enumMemRegions(ByVal pObj As poolObj, ByRef _dico As Dictionary(Of String, memRegionInfos))
+        Dim lHandle As Integer
+        Dim lPosMem As Integer = 0
+        Dim lRet As Boolean
+        Dim mbi As API.MEMORY_BASIC_INFORMATION
+
+        lHandle = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION Or API.PROCESS_RIGHTS.PROCESS_VM_READ, 0, pObj.pid)
+
+        If lHandle > 0 Then
+
+            ' We'll exit when VirtualQueryEx wall will fail
+            While True
+
+                lRet = API.VirtualQueryEx(lHandle, lPosMem, mbi, Marshal.SizeOf(mbi))
+
+                If lRet Then
+
+                    If mbi.RegionSize > 0 AndAlso _
+                    ((Not pObj.onlyProcRegion) OrElse (mbi.lType = API.MEMORY_TYPE.MEM_PRIVATE And _
+                                                      mbi.State = API.MEMORY_STATE.MEM_COMMIT)) Then
+                        ' Here is a region
+                        _dico.Add(mbi.BaseAddress.ToString, _
+                                  New memRegionInfos(mbi, pObj.pid))
+                    End If
+
+                    lPosMem = mbi.BaseAddress + mbi.RegionSize
+                Else
+                    ' Done
+                    Exit While
+                End If
+            End While
+
+            Call API.CloseHandle(lHandle)
+        End If
     End Sub
 
 End Class

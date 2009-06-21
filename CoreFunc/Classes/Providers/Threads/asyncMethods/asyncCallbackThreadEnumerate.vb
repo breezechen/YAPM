@@ -152,15 +152,8 @@ Public Class asyncCallbackThreadEnumerate
             Case Else
                 ' Local
                 Dim _dico As New Dictionary(Of String, threadInfos)
-                asyncCallbackProcEnumerate.sem.WaitOne()
-                For Each id As Integer In pObj.pid
-                    If asyncCallbackProcEnumerate.AvailableThreads.ContainsKey(id) Then
-                        For Each pair As System.Collections.Generic.KeyValuePair(Of String, threadInfos) In asyncCallbackProcEnumerate.AvailableThreads(id)
-                            _dico.Add(pair.Key, pair.Value)
-                        Next
-                    End If
-                Next
-                asyncCallbackProcEnumerate.sem.Release()
+
+                Call enumThreads(pObj, _dico)
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
                     ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
@@ -169,6 +162,19 @@ Public Class asyncCallbackThreadEnumerate
 
         sem.Release()
 
+    End Sub
+
+    ' Enumerate threads (local)
+    Friend Shared Sub enumThreads(ByVal pObj As poolObj, ByRef _dico As Dictionary(Of String, threadInfos))
+        asyncCallbackProcEnumerate.sem.WaitOne()
+        For Each id As Integer In pObj.pid
+            If asyncCallbackProcEnumerate.AvailableThreads.ContainsKey(id) Then
+                For Each pair As System.Collections.Generic.KeyValuePair(Of String, threadInfos) In asyncCallbackProcEnumerate.AvailableThreads(id)
+                    _dico.Add(pair.Key, pair.Value)
+                Next
+            End If
+        Next
+        asyncCallbackProcEnumerate.sem.Release()
     End Sub
 
 End Class

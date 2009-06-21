@@ -250,105 +250,8 @@ Public Class asyncCallbackServiceEnumerate
                     ' Local
 
                     Dim _dico As New Dictionary(Of String, serviceInfos)
-                    Dim lR As Integer
-                    Dim lBytesNeeded As Integer
-                    Dim lServicesReturned As Integer
-                    Dim tServiceStatus() As API.ENUM_SERVICE_STATUS_PROCESS
-                    ReDim tServiceStatus(0)
-                    Dim lStructsNeeded As Integer
-                    Dim lServiceStatusInfoBuffer As Integer
 
-                    Dim hSCM As IntPtr = con.SCManagerLocalHandle
-
-                    If Not (hSCM = IntPtr.Zero) Then
-                        lR = API.EnumServicesStatusEx(hSCM, _
-                                                  API.SC_ENUM_PROCESS_INFO, _
-                                                  API.SERVICE_ALL, _
-                                                  API.SERVICE_STATE_ALL, _
-                                                  Nothing, _
-                                                  0, _
-                                                  lBytesNeeded, _
-                                                  lServicesReturned, _
-                                                  0, _
-                                                  0)
-
-                        If (lR = 0 And Err.LastDllError = API.ERROR_MORE_DATA) Then
-
-                            lStructsNeeded = CInt(lBytesNeeded / Marshal.SizeOf(tServiceStatus(0)) + 1)
-                            ReDim tServiceStatus(lStructsNeeded - 1)
-                            lServiceStatusInfoBuffer = lStructsNeeded * (Marshal.SizeOf(tServiceStatus(0)))
-
-                            Dim pt As IntPtr = Marshal.AllocHGlobal(lServiceStatusInfoBuffer)
-                            lR = API.EnumServicesStatusEx(hSCM, _
-                                                      API.SC_ENUM_PROCESS_INFO, _
-                                                      API.SERVICE_ALL, _
-                                                      API.SERVICE_STATE_ALL, _
-                                                      pt, _
-                                                      lServiceStatusInfoBuffer, _
-                                                      lBytesNeeded, _
-                                                      lServicesReturned, _
-                                                      0, _
-                                                      0)
-
-                            If Not (lR = 0) Then
-                                Dim k As Integer = 0
-                                Dim obj As New API.ENUM_SERVICE_STATUS_PROCESS
-
-                                For idx As Integer = 0 To lServicesReturned - 1
-                                    Dim off As Integer = pt.ToInt32 + Marshal.SizeOf(obj) * idx
-                                    obj = CType(Marshal.PtrToStructure(CType(off, IntPtr), _
-                                            GetType(API.ENUM_SERVICE_STATUS_PROCESS)), API.ENUM_SERVICE_STATUS_PROCESS)
-
-                                    If pObj.all OrElse pObj.pid = obj.ServiceStatusProcess.ProcessID Then
-                                        Dim _servINFO As New serviceInfos(obj)
-
-                                        If pObj.all = False OrElse dicoNewServices.ContainsKey(obj.ServiceName) = False Then
-
-                                            getRegInfos(obj.ServiceName, _servINFO)
-
-                                            'PERFISSUE
-                                            getServiceConfig(obj.ServiceName, con.SCManagerLocalHandle, _servINFO, True)
-
-                                            If pObj.all Then
-                                                dicoNewServices.Add(obj.ServiceName, False)
-                                            End If
-                                        End If
-
-                                        _dico.Add(obj.ServiceName, _servINFO)
-                                    End If
-                                    If pObj.all Then
-                                        dicoNewServices(obj.ServiceName) = True
-                                    End If
-                                Next idx
-
-                            End If
-                            Marshal.FreeHGlobal(pt)
-                        End If
-
-                    End If
-
-                    ' Remove all services that not exist anymore
-                    If pObj.all Then
-                        Dim _dicoTemp As Dictionary(Of String, Boolean) = dicoNewServices
-                        For Each it As System.Collections.Generic.KeyValuePair(Of String, Boolean) In _dicoTemp
-                            If it.Value = False Then
-                                dicoNewServices.Remove(it.Key)
-                            End If
-                        Next
-                    End If
-
-                    ' Here we fill _currentServices if necessary
-                    'PERFISSUE
-                    cService.SemCurrentServices.WaitOne()
-                    If cService._currentServices Is Nothing Then
-                        cService._currentServices = New Dictionary(Of String, cService)
-                    End If
-                    For Each pc As serviceInfos In _dico.Values
-                        If cService._currentServices.ContainsKey(pc.Name) = False Then
-                            cService._currentServices.Add(pc.Name, New cService(pc))
-                        End If
-                    Next
-                    cService.SemCurrentServices.Release()
+                    Call enumServices(con, pObj, _dico)
 
                     Try
                         'If deg IsNot Nothing AndAlso ctrl.Created Then _
@@ -362,6 +265,109 @@ Public Class asyncCallbackServiceEnumerate
 
         sem.Release()
 
+    End Sub
+
+    ' Enumerate services (local)
+    Friend Shared Sub enumServices(ByVal con As cServiceConnection, ByVal pObj As poolObj, ByRef _dico As Dictionary(Of String, serviceInfos))
+        Dim lR As Integer
+        Dim lBytesNeeded As Integer
+        Dim lServicesReturned As Integer
+        Dim tServiceStatus() As API.ENUM_SERVICE_STATUS_PROCESS
+        ReDim tServiceStatus(0)
+        Dim lStructsNeeded As Integer
+        Dim lServiceStatusInfoBuffer As Integer
+
+        Dim hSCM As IntPtr = con.SCManagerLocalHandle
+
+        If Not (hSCM = IntPtr.Zero) Then
+            lR = API.EnumServicesStatusEx(hSCM, _
+                                      API.SC_ENUM_PROCESS_INFO, _
+                                      API.SERVICE_ALL, _
+                                      API.SERVICE_STATE_ALL, _
+                                      Nothing, _
+                                      0, _
+                                      lBytesNeeded, _
+                                      lServicesReturned, _
+                                      0, _
+                                      0)
+
+            If (lR = 0 And Err.LastDllError = API.ERROR_MORE_DATA) Then
+
+                lStructsNeeded = CInt(lBytesNeeded / Marshal.SizeOf(tServiceStatus(0)) + 1)
+                ReDim tServiceStatus(lStructsNeeded - 1)
+                lServiceStatusInfoBuffer = lStructsNeeded * (Marshal.SizeOf(tServiceStatus(0)))
+
+                Dim pt As IntPtr = Marshal.AllocHGlobal(lServiceStatusInfoBuffer)
+                lR = API.EnumServicesStatusEx(hSCM, _
+                                          API.SC_ENUM_PROCESS_INFO, _
+                                          API.SERVICE_ALL, _
+                                          API.SERVICE_STATE_ALL, _
+                                          pt, _
+                                          lServiceStatusInfoBuffer, _
+                                          lBytesNeeded, _
+                                          lServicesReturned, _
+                                          0, _
+                                          0)
+
+                If Not (lR = 0) Then
+                    Dim k As Integer = 0
+                    Dim obj As New API.ENUM_SERVICE_STATUS_PROCESS
+
+                    For idx As Integer = 0 To lServicesReturned - 1
+                        Dim off As Integer = pt.ToInt32 + Marshal.SizeOf(obj) * idx
+                        obj = CType(Marshal.PtrToStructure(CType(off, IntPtr), _
+                                GetType(API.ENUM_SERVICE_STATUS_PROCESS)), API.ENUM_SERVICE_STATUS_PROCESS)
+
+                        If pObj.all OrElse pObj.pid = obj.ServiceStatusProcess.ProcessID Then
+                            Dim _servINFO As New serviceInfos(obj)
+
+                            If pObj.all = False OrElse dicoNewServices.ContainsKey(obj.ServiceName) = False Then
+
+                                getRegInfos(obj.ServiceName, _servINFO)
+
+                                'PERFISSUE
+                                getServiceConfig(obj.ServiceName, con.SCManagerLocalHandle, _servINFO, True)
+
+                                If pObj.all Then
+                                    dicoNewServices.Add(obj.ServiceName, False)
+                                End If
+                            End If
+
+                            _dico.Add(obj.ServiceName, _servINFO)
+                        End If
+                        If pObj.all Then
+                            dicoNewServices(obj.ServiceName) = True
+                        End If
+                    Next idx
+
+                End If
+                Marshal.FreeHGlobal(pt)
+            End If
+
+        End If
+
+        ' Remove all services that not exist anymore
+        If pObj.all Then
+            Dim _dicoTemp As Dictionary(Of String, Boolean) = dicoNewServices
+            For Each it As System.Collections.Generic.KeyValuePair(Of String, Boolean) In _dicoTemp
+                If it.Value = False Then
+                    dicoNewServices.Remove(it.Key)
+                End If
+            Next
+        End If
+
+        ' Here we fill _currentServices if necessary
+        'PERFISSUE
+        cService.SemCurrentServices.WaitOne()
+        If cService._currentServices Is Nothing Then
+            cService._currentServices = New Dictionary(Of String, cService)
+        End If
+        For Each pc As serviceInfos In _dico.Values
+            If cService._currentServices.ContainsKey(pc.Name) = False Then
+                cService._currentServices.Add(pc.Name, New cService(pc))
+            End If
+        Next
+        cService.SemCurrentServices.Release()
     End Sub
 
 
@@ -395,7 +401,7 @@ Public Class asyncCallbackServiceEnumerate
     End Sub
 
     ' Get infos from registry
-    Private Sub getRegInfos(ByVal name As String, ByRef _infos As serviceInfos)
+    Private Shared Sub getRegInfos(ByVal name As String, ByRef _infos As serviceInfos)
         Dim desc As String = GetServiceInfo(name, "Description")
 
         If InStr(desc, "@", CompareMethod.Binary) > 0 Then
@@ -409,7 +415,7 @@ Public Class asyncCallbackServiceEnumerate
     End Sub
 
     ' Retrieve information about a service from registry
-    Private Function GetServiceInfo(ByVal name As String, ByVal info As String) As String
+    Private Shared Function GetServiceInfo(ByVal name As String, ByVal info As String) As String
         Try
             Return CStr(My.Computer.Registry.GetValue( _
                         "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\" & name, _

@@ -251,7 +251,7 @@ Partial Class frmProcessInfo
         Me.cmdSave = New System.Windows.Forms.Button
         Me.cmdClearLog = New System.Windows.Forms.Button
         Me.chkLog = New System.Windows.Forms.CheckBox
-        Me.lvLog = New YAPM.DoubleBufferedLV
+        Me.lvLog = New Providers.logList
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
@@ -3381,7 +3381,7 @@ Partial Class frmProcessInfo
     Friend WithEvents ColumnHeader19 As System.Windows.Forms.ColumnHeader
     Friend WithEvents TabPage14 As System.Windows.Forms.TabPage
     Friend WithEvents SplitContainerLog As System.Windows.Forms.SplitContainer
-    Friend WithEvents lvLog As YAPM.DoubleBufferedLV
+    Friend WithEvents lvLog As Providers.logList
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
     Friend WithEvents chkLog As System.Windows.Forms.CheckBox

@@ -95,31 +95,9 @@ Public Class asyncCallbackWindowEnumerate
 
             Case Else
                 ' Local
-                Dim currWnd As IntPtr
-                Dim cpt As Integer
-
                 Dim _dico As New Dictionary(Of String, windowInfos)
 
-                currWnd = API.GetWindowAPI(API.GetDesktopWindow(), API.GW_CHILD)
-                cpt = 0
-                Do While Not (currWnd = IntPtr.Zero)
-
-                    ' Get procId from hwnd
-                    Dim pid As Integer = GetProcIdFromWindowHandle(currWnd)
-                    If pObj.all OrElse Array.IndexOf(pObj.pid, pid) >= 0 Then
-                        ' Then this window belongs to one of our processes
-                        Dim sCap As String = GetCaption(currWnd)
-                        If pObj.unnamed OrElse sCap.Length > 0 Then
-                            Dim tid As Integer = GetThreadIdFromWindowHandle(currWnd)
-                            Dim key As String = pid.ToString & "-" & tid.ToString & "-" & currWnd.ToString
-                            If _dico.ContainsKey(key) = False Then
-                                _dico.Add(key, New windowInfos(pid, tid, currWnd, sCap))
-                            End If
-                        End If
-                    End If
-
-                    currWnd = API.GetWindowAPI(currWnd, API.GW_HWNDNEXT)
-                Loop
+                Call enumWindows(pObj, _dico)
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
                     ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
@@ -128,6 +106,34 @@ Public Class asyncCallbackWindowEnumerate
 
         sem.Release()
 
+    End Sub
+
+    ' Enumerate windows (local)
+    Friend Shared Sub enumWindows(ByVal pObj As poolObj, ByRef _dico As Dictionary(Of String, windowInfos))
+        Dim currWnd As IntPtr
+        Dim cpt As Integer
+
+
+        currWnd = API.GetWindowAPI(API.GetDesktopWindow(), API.GW_CHILD)
+        cpt = 0
+        Do While Not (currWnd = IntPtr.Zero)
+
+            ' Get procId from hwnd
+            Dim pid As Integer = GetProcIdFromWindowHandle(currWnd)
+            If pObj.all OrElse Array.IndexOf(pObj.pid, pid) >= 0 Then
+                ' Then this window belongs to one of our processes
+                Dim sCap As String = GetCaption(currWnd)
+                If pObj.unnamed OrElse sCap.Length > 0 Then
+                    Dim tid As Integer = GetThreadIdFromWindowHandle(currWnd)
+                    Dim key As String = pid.ToString & "-" & tid.ToString & "-" & currWnd.ToString
+                    If _dico.ContainsKey(key) = False Then
+                        _dico.Add(key, New windowInfos(pid, tid, currWnd, sCap))
+                    End If
+                End If
+            End If
+
+            currWnd = API.GetWindowAPI(currWnd, API.GW_HWNDNEXT)
+        Loop
     End Sub
 
 

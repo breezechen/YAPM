@@ -22,6 +22,7 @@
 Option Strict On
 
 Imports YAPM.frmProcessInfo
+Imports CoreFunc.asyncCallbackLogEnumerate
 
 Public Class frmLogOptions
 

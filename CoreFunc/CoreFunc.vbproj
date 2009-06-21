@@ -97,6 +97,10 @@
     <Compile Include="Classes\Providers\EnvVariables\cEnvVariable.vb" />
     <Compile Include="Classes\Providers\EnvVariables\cEnvVariableConnection.vb" />
     <Compile Include="Classes\Providers\EnvVariables\envVariableInfos.vb" />
+    <Compile Include="Classes\Providers\Log\asyncMethods\asyncCallbackLogEnumerate.vb" />
+    <Compile Include="Classes\Providers\Log\cLogItem.vb" />
+    <Compile Include="Classes\Providers\Log\cLogConnection.vb" />
+    <Compile Include="Classes\Providers\Log\logItemInfos.vb" />
     <Compile Include="Classes\Providers\NetworkConnections\asyncMethods\asyncCallbackNetworkCloseConnection.vb" />
     <Compile Include="Classes\Providers\NetworkConnections\asyncMethods\asyncCallbackNetworkEnumerate.vb" />
     <Compile Include="Classes\Providers\NetworkConnections\cNetwork.vb" />

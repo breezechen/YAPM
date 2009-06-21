@@ -134,5 +134,8 @@
     <Setting Name="ServSelectedTab" Type="System.String" Scope="User">
       <Value Profile="(Default)">General - 1</Value>
     </Setting>
+    <Setting Name="COLprocdetail_log" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Date &amp; Time?164$Type?102$Description?343$</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

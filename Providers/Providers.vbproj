@@ -88,6 +88,12 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomListviews\logList.Designer.vb">
+      <DependentUpon>logList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CustomListviews\logList.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CustomListviews\serviceDependenciesList.Designer.vb">
       <DependentUpon>serviceDependenciesList.vb</DependentUpon>
     </Compile>
@@ -206,6 +212,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CustomListviews\logList.resx">
+      <DependentUpon>logList.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CustomListviews\serviceDependenciesList.resx">
       <DependentUpon>serviceDependenciesList.vb</DependentUpon>
     </EmbeddedResource>

@@ -162,19 +162,27 @@ Public Class asyncCallbackModuleEnumerate
             Case Else
                 ' Local
                 Dim _dico As New Dictionary(Of String, moduleInfos)
-                For Each id As Integer In pObj.pid
-                    Dim _md As New Dictionary(Of String, moduleInfos)
-                    _md = GetModules(id)
-                    For Each pair As System.Collections.Generic.KeyValuePair(Of String, moduleInfos) In _md
-                        _dico.Add(pair.Key, pair.Value)
-                    Next
-                Next
-                ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
+
+                Call enumModules(pObj, _dico)
+
+                If deg IsNot Nothing AndAlso ctrl.Created Then _
+                    ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
 
         End Select
 
         sem.Release()
 
+    End Sub
+
+    ' Enumerate modules (local)
+    Friend Shared Sub enumModules(ByVal pObj As poolObj, ByRef _dico As Dictionary(Of String, moduleInfos))
+        For Each id As Integer In pObj.pid
+            Dim _md As New Dictionary(Of String, moduleInfos)
+            _md = GetModules(id)
+            For Each pair As System.Collections.Generic.KeyValuePair(Of String, moduleInfos) In _md
+                _dico.Add(pair.Key, pair.Value)
+            Next
+        Next
     End Sub
 
     Friend Shared Function GetModules(ByVal pid As Integer, Optional ByVal noFileInfo As Boolean = False) As Dictionary(Of String, moduleInfos)
@@ -210,7 +218,7 @@ Public Class asyncCallbackModuleEnumerate
                     ' path-pid-baseAddress
                     Dim _key As String = fileName.ToString & "-" & pid.ToString & "-" & MI.BaseOfDll.ToString
 
-                    ret.Add(_key, New moduleInfos(MI, pid, fileName.ToString, nofileinfo))
+                    ret.Add(_key, New moduleInfos(MI, pid, fileName.ToString, noFileInfo))
                 Next
             Else
 

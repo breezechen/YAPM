@@ -6307,11 +6307,13 @@ Partial Class frmMain
         '
         'MenuItemMainFindWindow
         '
+        Me.VistaMenu.SetImage(Me.MenuItemMainFindWindow, Global.YAPM.My.Resources.Resources.target16)
         Me.MenuItemMainFindWindow.Index = 12
         Me.MenuItemMainFindWindow.Text = "Find a window"
         '
         'MenuItemMainSBA
         '
+        Me.MenuItemMainSBA.Enabled = False
         Me.MenuItemMainSBA.Index = 13
         Me.MenuItemMainSBA.Text = "State based actions..."
         '

@@ -22,6 +22,7 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
+Imports CoreFunc.asyncCallbackLogEnumerate
 
 Public Class frmProcessInfo
 
@@ -327,6 +328,7 @@ Public Class frmProcessInfo
         Pref.LoadListViewColumns(Me.lvThreads, "COLprocdetail_thread")
         Pref.LoadListViewColumns(Me.lvModules, "COLprocdetail_module")
         Pref.LoadListViewColumns(Me.lvProcEnv, "COLprocdetail_envvariable")
+        Pref.LoadListViewColumns(Me.lvLog, "COLprocdetail_log")
 
         Select Case My.Settings.ProcSelectedTab
             Case "Token"
@@ -433,7 +435,7 @@ Public Class frmProcessInfo
         Me.MenuItemModuleFileProp.Enabled = _local
         Me.TabPageString.Enabled = _local
 
-        Me.timerLog.Enabled = _local
+        Me.timerLog.Enabled = Me.timerLog.Enabled And _notWMI
         Me.timerProcPerf.Enabled = _local
 
         ' Verify file
@@ -926,18 +928,19 @@ Public Class frmProcessInfo
 
     End Sub
 
+    ' Update log items
+    Private Sub ShowLogItems()
+
+        Me.lvLog.ProcessId = curProc.Infos.Pid
+        Me.lvLog.CaptureItems = Me.LogCaptureMask
+        Me.lvLog.DisplayItems = Me.LogDisplayMask
+
+        Me.lvLog.UpdateTheItems()
+
+    End Sub
+
     Private Sub lvProcString_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcString.MouseDown
         Me.menuViewMemory.Enabled = optProcStringMemory.Checked
-    End Sub
-
-    Public Sub StartLog()
-        Me.chkLog.Checked = True
-        Me.timerLog.Enabled = True
-    End Sub
-
-    Public Sub StopLog()
-        Me.chkLog.Checked = False
-        Me.timerLog.Enabled = False
     End Sub
 
     Private Sub chkLog_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkLog.CheckedChanged
@@ -949,13 +952,14 @@ Public Class frmProcessInfo
 
         Me.lvLog.BeginUpdate()
 
-        Call _CheckThreads()
-        Call _CheckServices()
-        Call _CheckModules()
-        Call _CheckWindows()
-        Call _CheckHandles()
-        Call _CheckMemory()
-        Call _CheckNetwork()
+        'Call _CheckThreads()
+        'Call _CheckServices()
+        'Call _CheckModules()
+        'Call _CheckWindows()
+        'Call _CheckHandles()
+        'Call _CheckMemory()
+        'Call _CheckNetwork()
+        Call ShowLogItems()
 
         Me.lvLog.EndUpdate()
 
@@ -1024,43 +1028,43 @@ Public Class frmProcessInfo
     ' Check if there are changes about memory areas
     Private Sub _CheckMemory()
 
-        Static _dico As New Dictionary(Of String, cProcessMemRW.MEMORY_BASIC_INFORMATION)
-        Static _first As Boolean = True
-        Dim _buffDico As New Dictionary(Of String, cProcessMemRW.MEMORY_BASIC_INFORMATION)
+        'Static _dico As New Dictionary(Of String, cProcessMemRW.MEMORY_BASIC_INFORMATION)
+        'Static _first As Boolean = True
+        'Dim _buffDico As New Dictionary(Of String, cProcessMemRW.MEMORY_BASIC_INFORMATION)
 
-        Dim _itemId() As String
-        ReDim _itemId(0)
-        Call cProcessMemRW.Enumerate(curProc.Infos.Pid, _itemId, _buffDico)
+        'Dim _itemId() As String
+        'ReDim _itemId(0)
+        'Call cProcessMemRW.Enumerate(curProc.Infos.Pid, _itemId, _buffDico)
 
-        If _first Then
-            _dico = _buffDico
-            _first = False
-        End If
+        'If _first Then
+        '    _dico = _buffDico
+        '    _first = False
+        'End If
 
-        ' Check if there are new items
-        If (_logCaptureMask And LogItemType.CreatedItems) = LogItemType.CreatedItems Then
-            For Each z As String In _itemId
-                If Not (_dico.ContainsKey(z)) Then
-                    ' New item
-                    Dim lm As cProcessMemRW.MEMORY_BASIC_INFORMATION = _buffDico.Item(z)
-                    Call addToLog("Memory region created (0x" & lm.BaseAddress.ToString("x") & " -- Size : " & GetFormatedSize(lm.RegionSize) & " -- Type : " & lm.lType.ToString & " -- Protection : " & lm.Protect.ToString & ")", LogItemType.MemoryItem, True)
-                End If
-            Next
-        End If
+        '' Check if there are new items
+        'If (_logCaptureMask And LogItemType.CreatedItems) = LogItemType.CreatedItems Then
+        '    For Each z As String In _itemId
+        '        If Not (_dico.ContainsKey(z)) Then
+        '            ' New item
+        '            Dim lm As cProcessMemRW.MEMORY_BASIC_INFORMATION = _buffDico.Item(z)
+        '            Call addToLog("Memory region created (0x" & lm.BaseAddress.ToString("x") & " -- Size : " & GetFormatedSize(lm.RegionSize) & " -- Type : " & lm.lType.ToString & " -- Protection : " & lm.Protect.ToString & ")", LogItemType.MemoryItem, True)
+        '        End If
+        '    Next
+        'End If
 
-        ' Check if there are deleted items
-        If (_logCaptureMask And LogItemType.DeletedItems) = LogItemType.DeletedItems Then
-            For Each z As String In _dico.Keys
-                If Array.IndexOf(_itemId, z) < 0 Then
-                    ' Deleted item
-                    Dim lm As cProcessMemRW.MEMORY_BASIC_INFORMATION = _dico.Item(z)
-                    Call addToLog("Memory region deleted (0x" & lm.BaseAddress.ToString("x") & " -- Size : " & GetFormatedSize(lm.RegionSize) & " -- Type : " & lm.lType.ToString & " -- Protection : " & lm.Protect.ToString & ")", LogItemType.MemoryItem, False)
-                End If
-            Next
-        End If
+        '' Check if there are deleted items
+        'If (_logCaptureMask And LogItemType.DeletedItems) = LogItemType.DeletedItems Then
+        '    For Each z As String In _dico.Keys
+        '        If Array.IndexOf(_itemId, z) < 0 Then
+        '            ' Deleted item
+        '            Dim lm As cProcessMemRW.MEMORY_BASIC_INFORMATION = _dico.Item(z)
+        '            Call addToLog("Memory region deleted (0x" & lm.BaseAddress.ToString("x") & " -- Size : " & GetFormatedSize(lm.RegionSize) & " -- Type : " & lm.lType.ToString & " -- Protection : " & lm.Protect.ToString & ")", LogItemType.MemoryItem, False)
+        '        End If
+        '    Next
+        'End If
 
-        ' Save dico
-        _dico = _buffDico
+        '' Save dico
+        '_dico = _buffDico
 
     End Sub
 
@@ -1111,7 +1115,7 @@ Public Class frmProcessInfo
 
     ' Check if there are changes about threads
     Private Sub _CheckThreads()
-        'TODO_
+
         'Static _dico As New Dictionary(Of String, cThread.LightThread)
         'Static _first As Boolean = True
         'Dim _buffDico As New Dictionary(Of String, cThread.LightThread)
@@ -1303,7 +1307,7 @@ Public Class frmProcessInfo
                     Dim stream As New System.IO.StreamWriter(s, False)
                     'Dim x As Integer = 0
                     For Each cm As ListViewItem In Me.lvLog.Items
-                        stream.WriteLine(cm.Text & vbTab & vbTab & cm.SubItems(1).Text)
+                        stream.WriteLine(cm.Text & vbTab & cm.SubItems(1).Text & vbTab & cm.SubItems(2).Text)
                         'x += 1
                         '  UpdateProgress(x)
                     Next
@@ -1319,29 +1323,17 @@ Public Class frmProcessInfo
 
     End Sub
 
-    Private _logCaptureMask As LogItemType = LogItemType.AllItems
-    Private _logDisplayMask As LogItemType = LogItemType.AllItems
+    Private _logCaptureMask As asyncCallbackLogEnumerate.LogItemType = asyncCallbackLogEnumerate.LogItemType.AllItems
+    Private _logDisplayMask As asyncCallbackLogEnumerate.LogItemType = asyncCallbackLogEnumerate.LogItemType.AllItems
     Private _autoScroll As Boolean = False
     Private _logDico As New Dictionary(Of Integer, LogItem)
-    Public Enum LogItemType As Integer
-        ModuleItem = 1
-        ThreadItem = 2
-        ServiceItem = 4
-        WindowItem = 8
-        HandleItem = 16
-        MemoryItem = 32
-        NetworkItem = 64
-        DeletedItems = 128
-        CreatedItems = 256
-        AllItems = ModuleItem Or ThreadItem Or ServiceItem Or WindowItem Or HandleItem _
-            Or MemoryItem Or NetworkItem Or DeletedItems Or CreatedItems
-    End Enum
+
     Public Structure LogItem
         Public _date As Date
         Public _desc As String
-        Public _type As LogItemType
+        Public _type As asyncCallbackLogEnumerate.LogItemType
         Public _created As Boolean
-        Public Sub New(ByVal aDesc As String, ByVal aType As LogItemType, _
+        Public Sub New(ByVal aDesc As String, ByVal aType As asyncCallbackLogEnumerate.LogItemType, _
                        ByVal created As Boolean)
             _date = Date.Now
             _desc = aDesc
@@ -1349,19 +1341,19 @@ Public Class frmProcessInfo
             _created = created
         End Sub
     End Structure
-    Public Property LogCaptureMask() As LogItemType
+    Public Property LogCaptureMask() As asyncCallbackLogEnumerate.LogItemType
         Get
             Return _logCaptureMask
         End Get
-        Set(ByVal value As LogItemType)
+        Set(ByVal value As asyncCallbackLogEnumerate.LogItemType)
             _logCaptureMask = value
         End Set
     End Property
-    Public Property LogDisplayMask() As LogItemType
+    Public Property LogDisplayMask() As asyncCallbackLogEnumerate.LogItemType
         Get
             Return _logDisplayMask
         End Get
-        Set(ByVal value As LogItemType)
+        Set(ByVal value As asyncCallbackLogEnumerate.LogItemType)
             _logDisplayMask = value
         End Set
     End Property
@@ -1374,31 +1366,31 @@ Public Class frmProcessInfo
         End Set
     End Property
 
-    Private Sub addToLog(ByVal s As String, ByVal _type As LogItemType, _
-                         ByVal created As Boolean)
-        Static _number As Integer = 0
+    'Private Sub addToLog(ByVal s As String, ByVal _type As asyncCallbackLogEnumerate.LogItemType, _
+    '                     ByVal created As Boolean)
+    '    Static _number As Integer = 0
 
-        If (_type And _logCaptureMask) = _type Then
-            _number += 1
-            _logDico.Add(_number, New LogItem(s, _type, created))
+    '    If (_type And _logCaptureMask) = _type Then
+    '        _number += 1
+    '        _logDico.Add(_number, New LogItem(s, _type, created))
 
-            If (_type And _logDisplayMask) = _type Then
-                ' Here we add the item to lv
-                Dim b As Boolean
-                If created Then
-                    b = (_logDisplayMask And LogItemType.CreatedItems) = LogItemType.CreatedItems
-                Else
-                    b = (_logDisplayMask And LogItemType.DeletedItems) = LogItemType.DeletedItems
-                End If
-                If b Then
-                    Dim it As New ListViewItem(Date.Now.ToLongDateString & " -- " & Date.Now.ToLongTimeString)
-                    it.SubItems.Add(_type.ToString)
-                    it.SubItems.Add(s)
-                    Me.lvLog.Items.Add(it)
-                End If
-            End If
-        End If
-    End Sub
+    '        If (_type And _logDisplayMask) = _type Then
+    '            ' Here we add the item to lv
+    '            Dim b As Boolean
+    '            If created Then
+    '                b = (_logDisplayMask And asyncCallbackLogEnumerate.LogItemType.CreatedItems) = asyncCallbackLogEnumerate.LogItemType.CreatedItems
+    '            Else
+    '                b = (_logDisplayMask And asyncCallbackLogEnumerate.LogItemType.DeletedItems) = asyncCallbackLogEnumerate.LogItemType.DeletedItems
+    '            End If
+    '            If b Then
+    '                Dim it As New ListViewItem(Date.Now.ToLongDateString & " -- " & Date.Now.ToLongTimeString)
+    '                it.SubItems.Add(_type.ToString)
+    '                it.SubItems.Add(s)
+    '                Me.lvLog.Items.Add(it)
+    '            End If
+    '        End If
+    '    End If
+    'End Sub
 
     Private Sub cmdLogOptions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdLogOptions.Click
         Dim frm As New frmLogOptions
@@ -1409,23 +1401,9 @@ Public Class frmProcessInfo
 
         If frm.ShowDialog = Windows.Forms.DialogResult.OK Then
             ' Redisplay items
-            Me.lvLog.BeginUpdate()
-            Me.lvLog.Items.Clear()
-            For Each pair As System.Collections.Generic.KeyValuePair(Of Integer, LogItem) In _logDico
-                Dim b As Boolean = False
-                If pair.Value._created Then
-                    b = ((_logDisplayMask And LogItemType.CreatedItems) = LogItemType.CreatedItems)
-                Else
-                    b = ((_logDisplayMask And LogItemType.DeletedItems) = LogItemType.DeletedItems)
-                End If
-                If ((pair.Value._type And _logDisplayMask) = pair.Value._type) AndAlso b Then
-                    Dim it As New ListViewItem(pair.Value._date.ToLongDateString & " -- " & pair.Value._date.ToLongTimeString)
-                    it.SubItems.Add(pair.Value._type.ToString)
-                    it.SubItems.Add(pair.Value._desc)
-                    Me.lvLog.Items.Add(it)
-                End If
-            Next
-            Me.lvLog.EndUpdate()
+            Me.lvLog.CaptureItems = Me.LogCaptureMask
+            Me.lvLog.DisplayItems = Me.LogDisplayMask
+            Me.lvLog.ReAddItems()
         End If
     End Sub
 
@@ -1580,6 +1558,7 @@ Public Class frmProcessInfo
             Me.lvModules.ConnectionObj = theConnection
             Me.lvHandles.ConnectionObj = theConnection
             Me.lvProcMem.ConnectionObj = theConnection
+            Me.lvLog.ConnectionObj = theConnection
             Me.lvPrivileges.ConnectionObj = theConnection
             Me.lvProcEnv.ConnectionObj = theConnection
             Me.lvProcServices.ConnectionObj = theConnection
@@ -1655,15 +1634,16 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub lvThreads_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvThreads.KeyDown
-        Pref.LoadListViewColumns(Me.lvPrivileges, "COLprocdetail_privilege")
-        Pref.LoadListViewColumns(Me.lvProcMem, "COLprocdetail_memory")
-        Pref.LoadListViewColumns(Me.lvProcServices, "COLprocdetail_service")
-        Pref.LoadListViewColumns(Me.lvProcNetwork, "COLprocdetail_network")
-        Pref.LoadListViewColumns(Me.lvHandles, "COLprocdetail_handle")
-        Pref.LoadListViewColumns(Me.lvWindows, "COLprocdetail_window")
-        Pref.LoadListViewColumns(Me.lvThreads, "COLprocdetail_thread")
-        Pref.LoadListViewColumns(Me.lvModules, "COLprocdetail_module")
-        Pref.LoadListViewColumns(Me.lvProcEnv, "COLprocdetail_envvariable")
+        'Pref.LoadListViewColumns(Me.lvPrivileges, "COLprocdetail_privilege")
+        'Pref.LoadListViewColumns(Me.lvProcMem, "COLprocdetail_memory")
+        'Pref.LoadListViewColumns(Me.lvProcServices, "COLprocdetail_service")
+        'Pref.LoadListViewColumns(Me.lvProcNetwork, "COLprocdetail_network")
+        'Pref.LoadListViewColumns(Me.lvHandles, "COLprocdetail_handle")
+        'Pref.LoadListViewColumns(Me.lvWindows, "COLprocdetail_window")
+        'Pref.LoadListViewColumns(Me.lvThreads, "COLprocdetail_thread")
+        'Pref.LoadListViewColumns(Me.lvModules, "COLprocdetail_module")
+        'Pref.LoadListViewColumns(Me.lvProcEnv, "COLprocdetail_envvariable")
+        'Pref.LoadListViewColumns(Me.lvLog, "COLprocdetail_log")
     End Sub
 
     Private Sub lvWindows_HasChangedColumns() Handles lvWindows.HasChangedColumns
@@ -2311,4 +2291,7 @@ Public Class frmProcessInfo
         Me.lvWindows.ChooseColumns()
     End Sub
 
+    Private Sub lvLog_HasChangedColumns() Handles lvLog.HasChangedColumns
+        Pref.SaveListViewColumns(Me.lvLog, "COLprocdetail_log")
+    End Sub
 End Class
