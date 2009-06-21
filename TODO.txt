@@ -7,6 +7,7 @@ TODO LIST
 - régression performances d'affichage + clignotements des listviews quand changement de foreground window
 - ajouter semaphores de protection dans les methodes "Friend Shared Sub enumXXXX" (pour accès concurrent avec le log) ??
 - probablement des bugs de 'collection modifiée' vis à vis du log
+- log pour les services (pb du SCM)
 
 ---- RESEAU
 - ReAnalize service marche pas

@@ -115,7 +115,7 @@ Imports System.Runtime.InteropServices
         _description = "Memory region " & type.ToString & ", address = " & item.BaseAddress.ToString & ", size = " & GetFormatedSize(item.RegionSize) & ", name = " & item.Name
         _dateTime = Date.Now
         _key = _type & "|" & _description & "|" & _dateTime.Ticks.ToString & type.ToString.Substring(1, 1)
-        _typeMask = asyncCallbackLogEnumerate.LogItemType.HandleItem
+        _typeMask = asyncCallbackLogEnumerate.LogItemType.MemoryItem
     End Sub
     Public Sub New(ByVal item As moduleInfos, ByVal type As CREATED_OR_DELETED)
         _type = "Module"
@@ -123,7 +123,7 @@ Imports System.Runtime.InteropServices
         _description = "Module " & type.ToString & ", address = " & item.BaseAddress.ToString & ", path = " & item.Path
         _dateTime = Date.Now
         _key = _type & "|" & _description & "|" & _dateTime.Ticks.ToString & type.ToString.Substring(1, 1)
-        _typeMask = asyncCallbackLogEnumerate.LogItemType.HandleItem
+        _typeMask = asyncCallbackLogEnumerate.LogItemType.ModuleItem
     End Sub
     Public Sub New(ByVal item As serviceInfos, ByVal type As CREATED_OR_DELETED)
         _type = "Service"
@@ -131,7 +131,7 @@ Imports System.Runtime.InteropServices
         _description = "Service " & type.ToString & ", name = " & item.Name & ", path = " & item.ImagePath & ", start type = " & item.StartType.ToString
         _dateTime = Date.Now
         _key = _type & "|" & _description & "|" & _dateTime.Ticks.ToString & type.ToString.Substring(1, 1)
-        _typeMask = asyncCallbackLogEnumerate.LogItemType.HandleItem
+        _typeMask = asyncCallbackLogEnumerate.LogItemType.ServiceItem
     End Sub
     Public Sub New(ByVal item As threadInfos, ByVal type As CREATED_OR_DELETED)
         _type = "Thread"
@@ -139,7 +139,7 @@ Imports System.Runtime.InteropServices
         _description = "Thread " & type.ToString & ", id = " & item.Id.ToString & ", priority = " & item.Priority.ToString & ", address = " & item.StartAddress.ToString
         _dateTime = Date.Now
         _key = _type & "|" & _description & "|" & _dateTime.Ticks.ToString & type.ToString.Substring(1, 1)
-        _typeMask = asyncCallbackLogEnumerate.LogItemType.HandleItem
+        _typeMask = asyncCallbackLogEnumerate.LogItemType.ThreadItem
     End Sub
     Public Sub New(ByVal item As windowInfos, ByVal type As CREATED_OR_DELETED)
         _type = "Window"
@@ -147,7 +147,7 @@ Imports System.Runtime.InteropServices
         _description = "Window " & type.ToString & ", id = " & item.Handle.ToString & ", thread id = " & item.ThreadId.ToString & ", caption = " & item.Caption
         _dateTime = Date.Now
         _key = _type & "|" & _description & "|" & _dateTime.Ticks.ToString & type.ToString.Substring(1, 1)
-        _typeMask = asyncCallbackLogEnumerate.LogItemType.HandleItem
+        _typeMask = asyncCallbackLogEnumerate.LogItemType.WindowItem
     End Sub
 
 

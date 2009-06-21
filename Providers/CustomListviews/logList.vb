@@ -145,9 +145,8 @@ Public Class logList
 
             ' Refresh subitems
             x = 0
-            Dim _item As cLogItem = _dico(item.Infos.Key)
             For Each isub As ListViewItem.ListViewSubItem In it.SubItems
-                isub.Text = _item.GetInformation(_columnsName(x))
+                isub.Text = item.GetInformation(_columnsName(x))
                 x += 1
             Next
 
