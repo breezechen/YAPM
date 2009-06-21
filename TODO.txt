@@ -9,6 +9,7 @@ TODO LIST
 - probablement des bugs de 'collection modifiée' vis à vis du log
 - log pour les services (pb du SCM)
 - blinder IHM (disable en WMI/server certains menus/options)
+- virer bouton useless à droite de l'orb
 
 ---- RESEAU
 - ReAnalize service marche pas
