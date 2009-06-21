@@ -50,6 +50,7 @@ Public Class frmServer
     Private _taskCon As New cTaskConnection(Me, theConnection, New cTaskConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedTask))
     Private _threadCon As New cThreadConnection(Me, theConnection, New cThreadConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedThread))
     Private _searchCon As New cSearchConnection(Me, theConnection, New cSearchConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedSearch))
+    Private _logCon As New cLogConnection(Me, theConnection, New cLogConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedLog))
 
     ' Connect to local machine
     Private Sub connectLocal()
@@ -74,6 +75,7 @@ Public Class frmServer
             _taskCon.ConnectionObj = theConnection
             _searchCon.ConnectionObj = theConnection
             _servdepCon.ConnectionObj = theConnection
+            _logCon.ConnectionObj = theConnection
 
             _networkCon.Connect()
             _moduleCon.Connect()
@@ -88,6 +90,7 @@ Public Class frmServer
             _threadCon.Connect()
             _handleCon.Connect()
             _procCon.Connect()
+            _logCon.Connect()
 
             cWindow.Connection = _windowCon
             cProcess.Connection = _procCon
@@ -100,6 +103,7 @@ Public Class frmServer
             cService.Connection = _serviceCon
             cPrivilege.Connection = _priviCon
             cTask.Connection = _taskCon
+            cLogItem.Connection = _logCon
 
         Catch ex As Exception
             MsgBox(ex.Message)
@@ -118,6 +122,24 @@ Public Class frmServer
                 cDat.InstanceId = instanceId   ' The instance which requested the list
                 cDat._id = _TheIdToSend
                 cDat.SetEnvVarList(Dico)
+                sock.Send(cDat)
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+        Else
+            ' Send an error
+        End If
+
+    End Sub
+
+    Private Sub HasEnumeratedLog(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, logItemInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+
+        If Success Then
+            Try
+                Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestLogList)
+                cDat.InstanceId = instanceId   ' The instance which requested the list
+                cDat._id = _TheIdToSend
+                cDat.SetLogList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
                 MsgBox(ex.Message)
@@ -477,6 +499,11 @@ Public Class frmServer
                             '
                         End Try
                         Exit Sub
+                    Case cSocketData.OrderType.RequestLogList
+                        Dim pid As Integer = CInt(cData.Param1)
+                        Dim infos As asyncCallbackLogEnumerate.LogItemType = CType(cData.Param2, asyncCallbackLogEnumerate.LogItemType)
+                        Call _logCon.Enumerate(infos, pid, _forInstanceId)
+                        Exit Sub
                 End Select
 
 
@@ -742,7 +769,7 @@ Public Class frmServer
 
 
                 ' ===== Other functions
-                Select cData.Order
+                Select Case cData.Order
                     Case cSocketData.OrderType.HandleClose
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim handle As Integer = CType(cData.Param2, Integer)
