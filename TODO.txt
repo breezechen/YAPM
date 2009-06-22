@@ -49,3 +49,9 @@ TODO LIST
 - vue treeview
 - isPacked, isDotnet...
 - fonctionnement avec privilèges réduits
+
+
+Temp Change log :
+- touche Enter sur process/service -> ouvre form detail
+- parent processes OK meme après déconnection/reconnection
+- correction bug 'details textuels' des modules en remote (FileInfo is nothing)

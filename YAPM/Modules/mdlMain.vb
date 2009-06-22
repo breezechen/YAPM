@@ -68,7 +68,7 @@ Public Module Program
     Public _frmMain As frmMain
     Public _frmServer As frmServer
     Private _progParameters As ProgramParameters
-    Private theConnection As cConnection
+    Private WithEvents theConnection As cConnection
     Private _systemInfo As cSystemInfo
     Private _hotkeys As cHotkeys
     Private _pref As Pref
@@ -358,4 +358,8 @@ Public Module Program
 
     End Function
 
+    Private Sub theConnection_Disconnected() Handles theConnection.Disconnected
+        ' Clear list of processes (used to get ParentProcess name)
+        Call cProcess.ClearProcessDico()
+    End Sub
 End Module

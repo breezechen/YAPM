@@ -2030,6 +2030,12 @@ Public Class frmMain
         Pref.SaveListViewColumns(Me.lvServices, "COLmain_service")
     End Sub
 
+    Private Sub lvServices_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvServices.KeyDown
+        If e.KeyCode = Keys.Enter And Me.lvServices.SelectedItems.Count > 0 Then
+            Call Me.butServiceDetails_Click(Nothing, Nothing)
+        End If
+    End Sub
+
     Private Sub lvServices_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseDoubleClick
         If e.Button = Windows.Forms.MouseButtons.Left Then
             For Each it As cService In Me.lvServices.GetSelectedItems
@@ -2204,6 +2210,8 @@ Public Class frmMain
             For Each it As cProcess In Me.lvProcess.GetSelectedItems
                 it.Kill()
             Next
+        ElseIf e.KeyCode = Keys.Enter And Me.lvProcess.SelectedItems.Count > 0 Then
+            Call Me.butProcessDisplayDetails_Click(Nothing, Nothing)
         End If
     End Sub
 
