@@ -134,7 +134,7 @@ Public Class asyncCallbackNetworkEnumerate
                 .dwState = Marshal.ReadInt32(pt, intOffset + 4)
                 .dwLocalAddr = Marshal.ReadInt32(pt, intOffset + 8)
                 .dwLocalPort = Marshal.ReadInt32(pt, intOffset + 12)
-                .dwRemoteAddr = Marshal.ReadInt32(pt, intOffset + 16)
+                .dwRemoteAddr = Marshal.ReadInt32(pt, intOffset + 16)   ' GOT A CRASH HERE (Tentative de lecture ou d'ecriture de memoire protegee. Cela indique souvent qu'une autre memoire est endommagee.)
                 .dwRemotePort = Marshal.ReadInt32(pt, intOffset + 20)
                 .dwOwningPid = Marshal.ReadInt32(pt, intOffset + 24)
             End With

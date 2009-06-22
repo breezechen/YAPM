@@ -1,5 +1,5 @@
 TODO LIST
-
+	
 ---- GENERAL
 - statistiques (ex. : nbre de services au démarrage...etc.)
 - auto reanalize quand on change le start type d'un service
@@ -10,6 +10,7 @@ TODO LIST
 - log pour les services (pb du SCM)
 - blinder IHM (disable en WMI/server certains menus/options)
 - virer bouton useless à droite de l'orb
+- wmi/socket : click sur module list (infos textuelles daubées)
 
 ---- RESEAU
 - ReAnalize service marche pas
