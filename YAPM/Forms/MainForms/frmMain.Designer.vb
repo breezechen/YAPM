@@ -82,7 +82,6 @@ Partial Class frmMain
         Me.butFeedBack = New System.Windows.Forms.RibbonButton
         Me.butHiddenProcesses = New System.Windows.Forms.RibbonButton
         Me.butShowDepViewer = New System.Windows.Forms.RibbonButton
-        Me.RibbonButton1 = New System.Windows.Forms.RibbonButton
         Me.TaskTab = New System.Windows.Forms.RibbonTab
         Me.RBTaskDisplay = New System.Windows.Forms.RibbonPanel
         Me.butTaskRefresh = New System.Windows.Forms.RibbonButton
@@ -879,7 +878,6 @@ Partial Class frmMain
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butFeedBack)
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butHiddenProcesses)
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butShowDepViewer)
-        Me.Ribbon.QuickAcessToolbar.Items.Add(Me.RibbonButton1)
         Me.Ribbon.QuickAcessToolbar.Tag = Nothing
         Me.Ribbon.QuickAcessToolbar.Text = Nothing
         Me.Ribbon.QuickAcessToolbar.ToolTip = Nothing
@@ -1149,21 +1147,6 @@ Partial Class frmMain
         Me.butShowDepViewer.ToolTip = Nothing
         Me.butShowDepViewer.ToolTipImage = Nothing
         Me.butShowDepViewer.ToolTipTitle = Nothing
-        '
-        'RibbonButton1
-        '
-        Me.RibbonButton1.AltKey = Nothing
-        Me.RibbonButton1.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
-        Me.RibbonButton1.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.RibbonButton1.Image = CType(resources.GetObject("RibbonButton1.Image"), System.Drawing.Image)
-        Me.RibbonButton1.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
-        Me.RibbonButton1.SmallImage = CType(resources.GetObject("RibbonButton1.SmallImage"), System.Drawing.Image)
-        Me.RibbonButton1.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.RibbonButton1.Tag = Nothing
-        Me.RibbonButton1.Text = "RibbonButton1"
-        Me.RibbonButton1.ToolTip = Nothing
-        Me.RibbonButton1.ToolTipImage = Nothing
-        Me.RibbonButton1.ToolTipTitle = Nothing
         '
         'TaskTab
         '
@@ -7530,6 +7513,5 @@ Partial Class frmMain
     Friend WithEvents MenuItem49 As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemSystemHelp As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemSystemAbout As System.Windows.Forms.MenuItem
-    Friend WithEvents RibbonButton1 As System.Windows.Forms.RibbonButton
 
 End Class
