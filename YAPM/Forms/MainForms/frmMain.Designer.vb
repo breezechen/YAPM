@@ -554,6 +554,7 @@ Partial Class frmMain
         Me.MenuItemSystemFindWindow = New System.Windows.Forms.MenuItem
         Me.MenuItemSystemHelp = New System.Windows.Forms.MenuItem
         Me.MenuItemSystemOptions = New System.Windows.Forms.MenuItem
+        Me.MenuItemMainFindWindow = New System.Windows.Forms.MenuItem
         Me.mnuTask = New System.Windows.Forms.ContextMenu
         Me.MenuItemTaskMax = New System.Windows.Forms.MenuItem
         Me.MenuItemTaskMin = New System.Windows.Forms.MenuItem
@@ -582,7 +583,6 @@ Partial Class frmMain
         Me.MenuItem5 = New System.Windows.Forms.MenuItem
         Me.MenuItemMainReport = New System.Windows.Forms.MenuItem
         Me.MenuItemMainEmergencyH = New System.Windows.Forms.MenuItem
-        Me.MenuItemMainFindWindow = New System.Windows.Forms.MenuItem
         Me.MenuItemMainSBA = New System.Windows.Forms.MenuItem
         Me.MenuItem15 = New System.Windows.Forms.MenuItem
         Me.MenuItemRefProc = New System.Windows.Forms.MenuItem
@@ -6169,6 +6169,12 @@ Partial Class frmMain
         Me.MenuItemSystemOptions.Index = 5
         Me.MenuItemSystemOptions.Text = "&Options..."
         '
+        'MenuItemMainFindWindow
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemMainFindWindow, Global.YAPM.My.Resources.Resources.target16)
+        Me.MenuItemMainFindWindow.Index = 12
+        Me.MenuItemMainFindWindow.Text = "Find a window"
+        '
         'mnuTask
         '
         Me.mnuTask.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemTaskShow, Me.MenuItemTaskMax, Me.MenuItemTaskMin, Me.MenuItem4, Me.MenuItemTaskEnd, Me.MenuItem6, Me.MenuItemTaskSelProc, Me.MenuItemTaskSelWin, Me.MenuItem9, Me.MenuItemTaskColumns})
@@ -6304,12 +6310,6 @@ Partial Class frmMain
         '
         Me.MenuItemMainEmergencyH.Index = 11
         Me.MenuItemMainEmergencyH.Text = "Emergency hotkeys..."
-        '
-        'MenuItemMainFindWindow
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemMainFindWindow, Global.YAPM.My.Resources.Resources.target16)
-        Me.MenuItemMainFindWindow.Index = 12
-        Me.MenuItemMainFindWindow.Text = "Find a window"
         '
         'MenuItemMainSBA
         '

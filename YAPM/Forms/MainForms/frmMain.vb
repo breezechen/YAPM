@@ -3114,8 +3114,14 @@ Public Class frmMain
         Me.MenuItemProcSOpenDir.Enabled = _local
         Me.butServiceFileDetails.Enabled = _local
         Me.butServiceFileProp.Enabled = _local
+        Me.MenuItemProcSDep.Enabled = _local
+        Me.MenuItemProcDump.Enabled = _local
         Me.butModuleViewModuleDep.Enabled = _local
         Me.butServiceOpenDir.Enabled = _local
+        Me.MenuItemModuleDependencies.Enabled = _local
+        Me.MenuItemViewModuleMemory.Enabled = _local
+        Me.MenuItemUnloadModule.Enabled = _notWMI
+        Me.MenuItemThSuspend.Enabled = _notWMI
 
         Me.butResumeProcess.Enabled = Me._notWMI
         Me.butStopProcess.Enabled = Me._notWMI
@@ -3161,6 +3167,7 @@ Public Class frmMain
         Me.MenuItemThResu.Enabled = _notWMI
         Me.MenuItemThAffinity.Enabled = _notWMI
         Me.MenuItemThPriority.Enabled = _notWMI
+        Me.MenuItemServDepe.Enabled = _local
 
         Me.lvProcess.CatchErrors = Not (_local)
         Me.lvModules.CatchErrors = Not (_local)
