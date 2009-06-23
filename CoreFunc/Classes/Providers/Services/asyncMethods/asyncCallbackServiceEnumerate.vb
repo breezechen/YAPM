@@ -251,7 +251,7 @@ Public Class asyncCallbackServiceEnumerate
 
                     Dim _dico As New Dictionary(Of String, serviceInfos)
 
-                    Call enumServices(con, pObj, _dico)
+                    Call enumServices(con.SCManagerLocalHandle, pObj, _dico)
 
                     Try
                         'If deg IsNot Nothing AndAlso ctrl.Created Then _
@@ -268,7 +268,7 @@ Public Class asyncCallbackServiceEnumerate
     End Sub
 
     ' Enumerate services (local)
-    Friend Shared Sub enumServices(ByVal con As cServiceConnection, ByVal pObj As poolObj, ByRef _dico As Dictionary(Of String, serviceInfos))
+    Friend Shared Sub enumServices(ByVal hSCM As IntPtr, ByVal pObj As poolObj, ByRef _dico As Dictionary(Of String, serviceInfos))
         Dim lR As Integer
         Dim lBytesNeeded As Integer
         Dim lServicesReturned As Integer
@@ -276,8 +276,6 @@ Public Class asyncCallbackServiceEnumerate
         ReDim tServiceStatus(0)
         Dim lStructsNeeded As Integer
         Dim lServiceStatusInfoBuffer As Integer
-
-        Dim hSCM As IntPtr = con.SCManagerLocalHandle
 
         If Not (hSCM = IntPtr.Zero) Then
             lR = API.EnumServicesStatusEx(hSCM, _
@@ -326,7 +324,7 @@ Public Class asyncCallbackServiceEnumerate
                                 getRegInfos(obj.ServiceName, _servINFO)
 
                                 'PERFISSUE
-                                getServiceConfig(obj.ServiceName, con.SCManagerLocalHandle, _servINFO, True)
+                                getServiceConfig(obj.ServiceName, hSCM, _servINFO, True)
 
                                 If pObj.all Then
                                     dicoNewServices.Add(obj.ServiceName, False)

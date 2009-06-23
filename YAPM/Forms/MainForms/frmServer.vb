@@ -113,7 +113,7 @@ Public Class frmServer
 
 #Region "Has enumerated lists"
 
-    Private _TheIdToSend As String
+    Private _TheIdToSend As String = ""
     Private Sub HasEnumeratedEnvVar(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, envVariableInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
         If Success Then

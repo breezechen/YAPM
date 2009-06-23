@@ -61,13 +61,15 @@ Public Class asyncCallbackLogEnumerate
         Public infos As LogItemType
         Public newItems As Boolean
         Public deletedItems As Boolean
+        Public hSCM As IntPtr
         Public forInstanceId As Integer
-        Public Sub New(ByVal _infos As LogItemType, ByVal _pid As Integer, ByVal ii As Integer)
+        Public Sub New(ByVal _infos As LogItemType, ByVal _pid As Integer, ByVal _hSCM As IntPtr, ByVal ii As Integer)
             forInstanceId = ii
             infos = _infos
             pid = _pid
             newItems = ((_infos And LogItemType.CreatedItems) = LogItemType.CreatedItems)
             deletedItems = ((_infos And LogItemType.DeletedItems) = LogItemType.DeletedItems)
+            hSCM = _hSCM
         End Sub
     End Structure
 
@@ -326,49 +328,49 @@ Public Class asyncCallbackLogEnumerate
 
 
                 ' Services list
-                'If (pObj.infos And LogItemType.ServiceItem) = LogItemType.ServiceItem Then
+                If (pObj.infos And LogItemType.ServiceItem) = LogItemType.ServiceItem Then
 
-                '    ' Get list
-                '    Dim pid(0) As Integer
-                '    pid(0) = pObj.pid
-                '    'Call asyncCallbackServiceEnumerate.enumServices(New asyncCallbackServiceEnumerate.poolObj(pid(0), False, 0), __dicoServices)
+                    ' Get list
+                    Dim pid(0) As Integer
+                    pid(0) = pObj.pid
+                    Call asyncCallbackServiceEnumerate.enumServices(pObj.hSCM, New asyncCallbackServiceEnumerate.poolObj(pid(0), False, 0), __dicoServices)
 
-                '    ' Store in static dico if it is first refresh
-                '    If firstServices Then
-                '        firstServices = False
-                '        _dicoServices = __dicoServices
-                '    End If
+                    ' Store in static dico if it is first refresh
+                    If firstServices Then
+                        firstServices = False
+                        _dicoServices = __dicoServices
+                    End If
 
-                '    ' Make diff between __dicoXXX and _dicoXXX, and add
-                '    ' difference to _dico
+                    ' Make diff between __dicoXXX and _dicoXXX, and add
+                    ' difference to _dico
 
-                '    ' Check if there are new items
-                '    If pObj.newItems Then
-                '        For Each z As String In __dicoServices.Keys
-                '            If Not (_dicoServices.ContainsKey(z)) Then
-                '                ' New item
-                '                Dim _tmp As logItemInfos = New logItemInfos(__dicoServices(z), logItemInfos.CREATED_OR_DELETED.created)
-                '                _dico.Add(_tmp.Key, _tmp)
-                '            End If
-                '        Next
-                '    End If
+                    ' Check if there are new items
+                    If pObj.newItems Then
+                        For Each z As String In __dicoServices.Keys
+                            If Not (_dicoServices.ContainsKey(z)) Then
+                                ' New item
+                                Dim _tmp As logItemInfos = New logItemInfos(__dicoServices(z), logItemInfos.CREATED_OR_DELETED.created)
+                                _dico.Add(_tmp.Key, _tmp)
+                            End If
+                        Next
+                    End If
 
 
-                '    ' Check if there are deleted items
-                '    If pObj.deletedItems Then
-                '        For Each z As String In _dicoServices.Keys
-                '            If Not (__dicoServices.ContainsKey(z)) Then
-                '                ' Deleted item
-                '                Dim _tmp As logItemInfos = New logItemInfos(_dicoServices(z), logItemInfos.CREATED_OR_DELETED.deleted)
-                '                _dico.Add(_tmp.Key, _tmp)
-                '            End If
-                '        Next
-                '    End If
+                    ' Check if there are deleted items
+                    If pObj.deletedItems Then
+                        For Each z As String In _dicoServices.Keys
+                            If Not (__dicoServices.ContainsKey(z)) Then
+                                ' Deleted item
+                                Dim _tmp As logItemInfos = New logItemInfos(_dicoServices(z), logItemInfos.CREATED_OR_DELETED.deleted)
+                                _dico.Add(_tmp.Key, _tmp)
+                            End If
+                        Next
+                    End If
 
-                '    ' Save __dicoXXX into _dicoXXX
-                '    _dicoServices = __dicoServices
+                    ' Save __dicoXXX into _dicoXXX
+                    _dicoServices = __dicoServices
 
-                'End If
+                End If
 
 
 

@@ -55,6 +55,9 @@ Public Class cLogConnection
 
 #Region "Description of the type of connection"
 
+    ' Attributes
+    Private hSCM As IntPtr
+
     ' Connection
     Protected Overrides Sub asyncConnect(ByVal useless As Object)
 
@@ -68,6 +71,9 @@ Public Class cLogConnection
 
             Case Else
                 ' Local
+                If hSCM = IntPtr.Zero Then
+                    hSCM = API.OpenSCManager(vbNullString, vbNullString, API.SC_MANAGER_ENUMERATE_SERVICE)
+                End If
                 _connected = True
                 Try
                     If Connected IsNot Nothing AndAlso _control.Created Then _
@@ -75,6 +81,7 @@ Public Class cLogConnection
                 Catch ex As Exception
                     '
                 End Try
+
         End Select
 
     End Sub
@@ -90,6 +97,10 @@ Public Class cLogConnection
 
             Case Else
                 ' Local
+                If hSCM.ToInt32 > 0 Then
+                    Call API.CloseServiceHandle(hSCM)
+                    hSCM = IntPtr.Zero
+                End If
                 _connected = False
                 If Disconnected IsNot Nothing AndAlso _control.Created Then _
                     _control.Invoke(Disconnected, True)
@@ -105,7 +116,7 @@ Public Class cLogConnection
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
             System.Threading.WaitCallback(AddressOf _
             _logEnum.Process), New  _
-            asyncCallbackLogEnumerate.poolObj(infosToCapture, pid, forInstanceId))
+            asyncCallbackLogEnumerate.poolObj(infosToCapture, pid, hSCM, forInstanceId))
     End Function
 
 #End Region
