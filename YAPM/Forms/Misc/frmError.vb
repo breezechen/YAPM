@@ -61,22 +61,27 @@ Public Class frmError
         Try
             s &= vbNewLine & vbTab & "MemoryHexEditor version : " & System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\MemoryHexEditor.dll").FileVersion
         Catch ex As Exception
-            s &= vbNewLine & vbTab & "Ribbon version : CANNOT GET VERSION"
+            s &= vbNewLine & vbTab & "MemoryHexEditor version : CANNOT GET VERSION"
         End Try
         Try
             s &= vbNewLine & vbTab & "CoreFunc version : " & System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\CoreFunc.dll").FileVersion
         Catch ex As Exception
-            s &= vbNewLine & vbTab & "Ribbon version : CANNOT GET VERSION"
+            s &= vbNewLine & vbTab & "CoreFunc version : CANNOT GET VERSION"
         End Try
         Try
             s &= vbNewLine & vbTab & "Providers version : " & System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\Providers.dll").FileVersion
         Catch ex As Exception
-            s &= vbNewLine & vbTab & "Ribbon version : CANNOT GET VERSION"
+            s &= vbNewLine & vbTab & "Providers version : CANNOT GET VERSION"
         End Try
         Try
             s &= vbNewLine & vbTab & "TaskDialog version : " & System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\TaskDialog.dll").FileVersion
         Catch ex As Exception
-            s &= vbNewLine & vbTab & "Ribbon version : CANNOT GET VERSION"
+            s &= vbNewLine & vbTab & "TaskDialog version : CANNOT GET VERSION"
+        End Try
+        Try
+            s &= vbNewLine & vbTab & "VistaMenu version : " & System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\VistaMenu.dll").FileVersion
+        Catch ex As Exception
+            s &= vbNewLine & vbTab & "VistaMenu version : CANNOT GET VERSION"
         End Try
         s &= vbNewLine & vbNewLine
         s &= "Error informations : "
@@ -89,6 +94,15 @@ Public Class frmError
         s &= vbNewLine & vbTab & "Connection : " & Program.Connection.ConnectionType.ToString
         s &= vbNewLine & vbTab & "Connected : " & Program.Connection.IsConnected.ToString
         s &= vbNewLine & vbTab & "Elapsed time : " & Program.ElapsedTime.ToString
+        s &= vbNewLine & vbNewLine
+        s &= "Modules : "
+        For Each mdl As ProcessModule In System.Diagnostics.Process.GetCurrentProcess.Modules
+            s &= vbNewLine & vbTab & mdl.ModuleName
+            s &= vbNewLine & vbTab & vbTab & "Path : " & mdl.FileName
+            If mdl.FileVersionInfo IsNot Nothing Then
+                s &= vbNewLine & vbTab & vbTab & "Version : " & mdl.FileVersionInfo.FileVersion
+            End If
+        Next
 
         Me.txtReport.Text = s
 

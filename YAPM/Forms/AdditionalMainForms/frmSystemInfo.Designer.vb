@@ -123,6 +123,10 @@ Partial Class frmSystemInfo
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
         Me.g3 = New YAPM.Graph2
         Me.g4 = New YAPM.Graph2
+        Me.lblCPUTotalTime = New System.Windows.Forms.Label
+        Me.Label37 = New System.Windows.Forms.Label
+        Me.lblCPUUsage = New System.Windows.Forms.Label
+        Me.Label40 = New System.Windows.Forms.Label
         Me.mainSplit.Panel1.SuspendLayout()
         Me.mainSplit.Panel2.SuspendLayout()
         Me.mainSplit.SuspendLayout()
@@ -175,14 +179,14 @@ Partial Class frmSystemInfo
         'mainSplit.Panel2
         '
         Me.mainSplit.Panel2.Controls.Add(Me.SplitContainer2)
-        Me.mainSplit.Size = New System.Drawing.Size(729, 477)
-        Me.mainSplit.SplitterDistance = 415
+        Me.mainSplit.Size = New System.Drawing.Size(735, 477)
+        Me.mainSplit.SplitterDistance = 425
         Me.mainSplit.TabIndex = 11
         '
         'chkOneGraphPerCpu
         '
         Me.chkOneGraphPerCpu.AutoSize = True
-        Me.chkOneGraphPerCpu.Location = New System.Drawing.Point(168, 446)
+        Me.chkOneGraphPerCpu.Location = New System.Drawing.Point(168, 448)
         Me.chkOneGraphPerCpu.Name = "chkOneGraphPerCpu"
         Me.chkOneGraphPerCpu.Size = New System.Drawing.Size(124, 17)
         Me.chkOneGraphPerCpu.TabIndex = 16
@@ -203,9 +207,9 @@ Partial Class frmSystemInfo
         Me.GroupBox8.Controls.Add(Me.Label43)
         Me.GroupBox8.Controls.Add(Me.lblKpp)
         Me.GroupBox8.Controls.Add(Me.Label47)
-        Me.GroupBox8.Location = New System.Drawing.Point(158, 309)
+        Me.GroupBox8.Location = New System.Drawing.Point(158, 317)
         Me.GroupBox8.Name = "GroupBox8"
-        Me.GroupBox8.Size = New System.Drawing.Size(244, 125)
+        Me.GroupBox8.Size = New System.Drawing.Size(259, 125)
         Me.GroupBox8.TabIndex = 15
         Me.GroupBox8.TabStop = False
         Me.GroupBox8.Text = "Kernel pools"
@@ -320,6 +324,10 @@ Partial Class frmSystemInfo
         '
         'GroupBox7
         '
+        Me.GroupBox7.Controls.Add(Me.lblCPUUsage)
+        Me.GroupBox7.Controls.Add(Me.Label40)
+        Me.GroupBox7.Controls.Add(Me.lblCPUTotalTime)
+        Me.GroupBox7.Controls.Add(Me.Label37)
         Me.GroupBox7.Controls.Add(Me.lblCPUdpcTime)
         Me.GroupBox7.Controls.Add(Me.Label29)
         Me.GroupBox7.Controls.Add(Me.lblCPUidleTime)
@@ -340,7 +348,7 @@ Partial Class frmSystemInfo
         Me.GroupBox7.Controls.Add(Me.Label31)
         Me.GroupBox7.Location = New System.Drawing.Point(158, 3)
         Me.GroupBox7.Name = "GroupBox7"
-        Me.GroupBox7.Size = New System.Drawing.Size(244, 169)
+        Me.GroupBox7.Size = New System.Drawing.Size(259, 177)
         Me.GroupBox7.TabIndex = 14
         Me.GroupBox7.TabStop = False
         Me.GroupBox7.Text = "CPU"
@@ -521,9 +529,9 @@ Partial Class frmSystemInfo
         Me.GroupBox6.Controls.Add(Me.Label30)
         Me.GroupBox6.Controls.Add(Me.lblPFtotal)
         Me.GroupBox6.Controls.Add(Me.Label32)
-        Me.GroupBox6.Location = New System.Drawing.Point(158, 178)
+        Me.GroupBox6.Location = New System.Drawing.Point(158, 186)
         Me.GroupBox6.Name = "GroupBox6"
-        Me.GroupBox6.Size = New System.Drawing.Size(244, 125)
+        Me.GroupBox6.Size = New System.Drawing.Size(259, 125)
         Me.GroupBox6.TabIndex = 13
         Me.GroupBox6.TabStop = False
         Me.GroupBox6.Text = "Page faults"
@@ -1096,7 +1104,7 @@ Partial Class frmSystemInfo
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.SplitContainer3)
-        Me.SplitContainer2.Size = New System.Drawing.Size(310, 477)
+        Me.SplitContainer2.Size = New System.Drawing.Size(306, 477)
         Me.SplitContainer2.SplitterDistance = 239
         Me.SplitContainer2.TabIndex = 0
         '
@@ -1111,7 +1119,7 @@ Partial Class frmSystemInfo
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.g2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(310, 239)
+        Me.SplitContainer1.Size = New System.Drawing.Size(306, 239)
         Me.SplitContainer1.SplitterDistance = 119
         Me.SplitContainer1.TabIndex = 1
         '
@@ -1126,7 +1134,7 @@ Partial Class frmSystemInfo
         Me.g2.Location = New System.Drawing.Point(0, 0)
         Me.g2.Name = "g2"
         Me.g2.ShowSecondGraph = False
-        Me.g2.Size = New System.Drawing.Size(310, 116)
+        Me.g2.Size = New System.Drawing.Size(306, 116)
         Me.g2.TabIndex = 11
         Me.g2.TabStop = False
         '
@@ -1145,7 +1153,7 @@ Partial Class frmSystemInfo
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.g4)
-        Me.SplitContainer3.Size = New System.Drawing.Size(310, 234)
+        Me.SplitContainer3.Size = New System.Drawing.Size(306, 234)
         Me.SplitContainer3.SplitterDistance = 117
         Me.SplitContainer3.TabIndex = 0
         '
@@ -1161,7 +1169,7 @@ Partial Class frmSystemInfo
         Me.g3.Location = New System.Drawing.Point(0, 0)
         Me.g3.Name = "g3"
         Me.g3.ShowSecondGraph = False
-        Me.g3.Size = New System.Drawing.Size(310, 117)
+        Me.g3.Size = New System.Drawing.Size(306, 117)
         Me.g3.TabIndex = 10
         Me.g3.TabStop = False
         '
@@ -1177,14 +1185,51 @@ Partial Class frmSystemInfo
         Me.g4.Location = New System.Drawing.Point(0, 0)
         Me.g4.Name = "g4"
         Me.g4.ShowSecondGraph = False
-        Me.g4.Size = New System.Drawing.Size(310, 113)
+        Me.g4.Size = New System.Drawing.Size(306, 113)
         Me.g4.TabIndex = 11
         Me.g4.TabStop = False
+        '
+        'lblCPUTotalTime
+        '
+        Me.lblCPUTotalTime.AutoSize = True
+        Me.lblCPUTotalTime.Location = New System.Drawing.Point(113, 158)
+        Me.lblCPUTotalTime.Name = "lblCPUTotalTime"
+        Me.lblCPUTotalTime.Size = New System.Drawing.Size(13, 13)
+        Me.lblCPUTotalTime.TabIndex = 19
+        Me.lblCPUTotalTime.Text = "0"
+        '
+        'Label37
+        '
+        Me.Label37.AutoSize = True
+        Me.Label37.Location = New System.Drawing.Point(15, 158)
+        Me.Label37.Name = "Label37"
+        Me.Label37.Size = New System.Drawing.Size(57, 13)
+        Me.Label37.TabIndex = 18
+        Me.Label37.Text = "Total time"
+        '
+        'lblCPUUsage
+        '
+        Me.lblCPUUsage.AutoSize = True
+        Me.lblCPUUsage.Location = New System.Drawing.Point(188, 23)
+        Me.lblCPUUsage.Name = "lblCPUUsage"
+        Me.lblCPUUsage.Size = New System.Drawing.Size(52, 13)
+        Me.lblCPUUsage.TabIndex = 21
+        Me.lblCPUUsage.Text = "00,000 %"
+        '
+        'Label40
+        '
+        Me.Label40.AutoSize = True
+        Me.Label40.Location = New System.Drawing.Point(143, 23)
+        Me.Label40.Name = "Label40"
+        Me.Label40.Size = New System.Drawing.Size(39, 13)
+        Me.Label40.TabIndex = 20
+        Me.Label40.Text = "Usage"
         '
         'frmSystemInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.ClientSize = New System.Drawing.Size(735, 477)
         Me.Controls.Add(Me.mainSplit)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -1325,4 +1370,8 @@ Partial Class frmSystemInfo
     Friend WithEvents g3 As YAPM.Graph2
     Friend WithEvents g4 As YAPM.Graph2
     Friend WithEvents chkOneGraphPerCpu As System.Windows.Forms.CheckBox
+    Friend WithEvents lblCPUTotalTime As System.Windows.Forms.Label
+    Friend WithEvents Label37 As System.Windows.Forms.Label
+    Friend WithEvents lblCPUUsage As System.Windows.Forms.Label
+    Friend WithEvents Label40 As System.Windows.Forms.Label
 End Class

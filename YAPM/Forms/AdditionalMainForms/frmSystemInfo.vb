@@ -137,6 +137,12 @@ Public Class frmSystemInfo
                 String.Format("{0:00}", ts.Second) & ":" & _
                 String.Format("{000}", ts.Millisecond) & vbTab & " (" & _
                 Math.Round(zres5 / zTotal * 100, 3).ToString & " %)"
+            ts = New Date(zres2 + zres3 + zres4 + zres5)
+            Me.lblCPUTotalTime.Text = String.Format("{0:00}", ts.Hour) & ":" & _
+                String.Format("{0:00}", ts.Minute) & ":" & _
+                String.Format("{0:00}", ts.Second) & ":" & _
+                String.Format("{000}", ts.Millisecond) & vbTab & " (100 %)"
+
 
             ' Kernel pools
             Me.lblKnpa.Text = CStr(pi.NonPagedPoolAllocs)
@@ -296,6 +302,7 @@ Public Class frmSystemInfo
 
             Dim _g1 As Graph2 = CType(Me.SplitContainer1.Panel1.Controls(0), Graph2)
 
+            Me.lblCPUUsage.Text = GetFormatedPercentage(v1, 3) & " %"
             _g1.AddValue(v1 * 100)
             _g1.Refresh()
         Else
@@ -325,14 +332,18 @@ Public Class frmSystemInfo
             _old = _new
 
             ' Refresh graphs
+            Dim _totalCpuDiff As Double = 0
             For Each ct As Control In Me.SplitContainer1.Panel1.Controls
                 If TypeOf ct Is Graph2 Then
                     Dim _g1 As Graph2 = CType(ct, Graph2)
                     Dim _i As Integer = CInt(_g1.Tag)
                     _g1.AddValue(100 * _diff(_i) / diff.Ticks / _processors)
+                    _totalCpuDiff += _diff(_i) / diff.Ticks / _processors
                     _g1.Refresh()
                 End If
             Next
+
+            Me.lblCPUUsage.Text = GetFormatedPercentage(_totalCpuDiff, 3) & " %"
 
 
         End If
