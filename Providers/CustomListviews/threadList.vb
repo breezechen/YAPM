@@ -228,7 +228,7 @@ Public Class threadList
 
         ' Now add all new items to listview
         ' If first time, lock listview
-        If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE Then Me.BeginUpdate()
+        If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE Then Me.BeginUpdate()
         For Each z As String In _dicoNew.Keys
 
             ' Add to listview
@@ -239,7 +239,7 @@ Public Class threadList
             Next
             AddItemWithStyle(z).SubItems.AddRange(_subItems)
         Next
-        If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE Then Me.EndUpdate()
+        If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE Then Me.EndUpdate()
         _dicoNew.Clear()
 
 

@@ -4,7 +4,6 @@ TODO LIST
 - refresh double des services en WMI ??
 
 ---- RESEAU
-- ReAnalize service marche pas
 - affinity process/thread (socket)
 - refresh services trop rapide -> impossible de récupérer des infos par socket après (checker semaphore)
 - reports

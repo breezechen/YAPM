@@ -44,6 +44,7 @@ Public MustInherit Class customLV
     Public Shared DELETED_ITEM_COLOR As Color = Color.FromArgb(255, 64, 48)
 
     Protected Const EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE As Integer = 5
+    Protected Const EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE As Integer = 5
 
     Protected _catchErrors As Boolean = False
     Protected _reorgCol As Boolean = True
