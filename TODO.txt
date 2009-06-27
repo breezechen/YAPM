@@ -27,7 +27,6 @@ TODO LIST
 - one graph per CPU -> conserver historique
 - SBA -> sendmessage configurable
 - performances (_currentServices et _currentProcesses remplis 2 fois au démarrage -> customLV qui créé des cObject, et asyncEnum aussi)
-- EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE -> trouver moyen idem pour Remove
 - smss.exe reste dans les modules (en rouge) si on change les processus sélectionnés ???
 - recherche avant récupération des process -> foreach de CurrentProcesses foireux (bug disparu mais recherche non effectuée)
 
