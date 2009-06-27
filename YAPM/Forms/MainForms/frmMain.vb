@@ -1561,8 +1561,8 @@ Public Class frmMain
     End Sub
 
     Private Sub butModuleUnload_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butModuleUnload.Click
-        For Each it As ListViewItem In Me.lvModules.SelectedItems
-            Call Me.lvModules.GetItemByKey(it.Name).UnloadModule()
+        For Each it As cModule In Me.lvModules.GetSelectedItems
+            it.UnloadModule()
             'it.Remove()
         Next
         Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
@@ -2750,13 +2750,15 @@ Public Class frmMain
     Private Sub txtSearchModule_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchModule.TextChanged
         For Each it As ListViewItem In Me.lvModules.Items
             Dim cM As cModule = Me.lvModules.GetItemByKey(it.Name)
-            If cM.Infos.FileInfo IsNot Nothing AndAlso InStr(LCase(cM.Infos.FileInfo.FileName), LCase(Me.txtSearchModule.Text)) = 0 And _
-                    InStr(LCase(cM.Infos.FileInfo.FileVersion), LCase(Me.txtSearchModule.Text)) = 0 And _
-                    InStr(LCase(cM.Infos.FileInfo.FileDescription), LCase(Me.txtSearchModule.Text)) = 0 And _
-                    InStr(LCase(cM.Infos.FileInfo.CompanyName), LCase(Me.txtSearchModule.Text)) = 0 Then
-                it.Group = lvModules.Groups(0)
-            Else
-                it.Group = lvModules.Groups(1)
+            If cM IsNot Nothing Then
+                If cM.Infos.FileInfo IsNot Nothing AndAlso InStr(LCase(cM.Infos.FileInfo.FileName), LCase(Me.txtSearchModule.Text)) = 0 And _
+                        InStr(LCase(cM.Infos.FileInfo.FileVersion), LCase(Me.txtSearchModule.Text)) = 0 And _
+                        InStr(LCase(cM.Infos.FileInfo.FileDescription), LCase(Me.txtSearchModule.Text)) = 0 And _
+                        InStr(LCase(cM.Infos.FileInfo.CompanyName), LCase(Me.txtSearchModule.Text)) = 0 Then
+                    it.Group = lvModules.Groups(0)
+                Else
+                    it.Group = lvModules.Groups(1)
+                End If
             End If
         Next
         Me.lblModulesCount.Text = CStr(lvModules.Groups(1).Items.Count) & " result(s)"
@@ -3294,7 +3296,7 @@ Public Class frmMain
             Dim it2 As ListViewItem
             For Each it2 In Me.lvProcess.Items
                 Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                If cp.Infos.Pid = pid Then
+                If cp IsNot Nothing AndAlso cp.Infos.Pid = pid Then
                     it2.Selected = True
                     it2.EnsureVisible()
                 End If
@@ -3350,7 +3352,7 @@ Public Class frmMain
             Dim it2 As ListViewItem
             For Each it2 In Me.lvProcess.Items
                 Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                If cp.Infos.Pid = pid Then
+                If cp IsNot Nothing AndAlso cp.Infos.Pid = pid Then
                     it2.Selected = True
                     it2.EnsureVisible()
                 End If
@@ -3552,16 +3554,19 @@ Public Class frmMain
         Dim bOne As Boolean = False
         If Me.lvServices.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
         For Each it In Me.lvServices.SelectedItems
-            Dim pid As Integer = Me.lvServices.GetItemByKey(it.Name).Infos.ProcessId
-            Dim it2 As ListViewItem
-            For Each it2 In Me.lvProcess.Items
-                Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                If cp.Infos.Pid = pid And pid > 0 Then
-                    it2.Selected = True
-                    bOne = True
-                    it2.EnsureVisible()
-                End If
-            Next
+            Dim tmp As cService = Me.lvServices.GetItemByKey(it.Name)
+            If tmp IsNot Nothing Then
+                Dim pid As Integer = tmp.Infos.ProcessId
+                Dim it2 As ListViewItem
+                For Each it2 In Me.lvProcess.Items
+                    Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
+                    If cp IsNot Nothing AndAlso cp.Infos.Pid = pid And pid > 0 Then
+                        it2.Selected = True
+                        bOne = True
+                        it2.EnsureVisible()
+                    End If
+                Next
+            End If
         Next
         If bOne Then
             Me.Ribbon.ActiveTab = Me.ProcessTab
@@ -3718,15 +3723,18 @@ Public Class frmMain
         Dim it As ListViewItem
         If Me.lvNetwork.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
         For Each it In Me.lvNetwork.SelectedItems
-            Dim pid As Integer = lvNetwork.GetItemByKey(it.Name).Infos.ProcessId
-            Dim it2 As ListViewItem
-            For Each it2 In Me.lvProcess.Items
-                Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                If cp.Infos.Pid = pid Then
-                    it2.Selected = True
-                    it2.EnsureVisible()
-                End If
-            Next
+            Dim tmp As cNetwork = lvNetwork.GetItemByKey(it.Name)
+            If tmp IsNot Nothing Then
+                Dim pid As Integer = tmp.Infos.ProcessId
+                Dim it2 As ListViewItem
+                For Each it2 In Me.lvProcess.Items
+                    Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
+                    If cp IsNot Nothing AndAlso cp.Infos.Pid = pid Then
+                        it2.Selected = True
+                        it2.EnsureVisible()
+                    End If
+                Next
+            End If
         Next
         Me.Ribbon.ActiveTab = Me.ProcessTab
         Call Me.Ribbon_MouseMove(Nothing, Nothing)
@@ -3768,16 +3776,19 @@ Public Class frmMain
         Dim bOne As Boolean = False
         If Me.lvThreads.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
         For Each it In Me.lvThreads.SelectedItems
-            Dim pid As Integer = Me.lvThreads.GetItemByKey(it.Name).Infos.ProcessId
-            Dim it2 As ListViewItem
-            For Each it2 In Me.lvProcess.Items
-                Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                If cp.Infos.Pid = pid And pid > 0 Then
-                    it2.Selected = True
-                    it2.EnsureVisible()
-                    bOne = True
-                End If
-            Next
+            Dim tmp As cThread = Me.lvThreads.GetItemByKey(it.Name)
+            If tmp IsNot Nothing Then
+                Dim pid As Integer = tmp.Infos.ProcessId
+                Dim it2 As ListViewItem
+                For Each it2 In Me.lvProcess.Items
+                    Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
+                    If cp IsNot Nothing AndAlso cp.Infos.Pid = pid And pid > 0 Then
+                        it2.Selected = True
+                        it2.EnsureVisible()
+                        bOne = True
+                    End If
+                Next
+            End If
         Next
 
         If bOne Then
@@ -3872,16 +3883,19 @@ Public Class frmMain
         Dim bOne As Boolean = False
         If Me.lvModules.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
         For Each it In Me.lvModules.SelectedItems
-            Dim pid As Integer = Me.lvModules.GetItemByKey(it.Name).Infos.ProcessId
-            Dim it2 As ListViewItem
-            For Each it2 In Me.lvProcess.Items
-                Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                If cp.Infos.Pid = pid And pid > 0 Then
-                    it2.Selected = True
-                    bOne = True
-                    it2.EnsureVisible()
-                End If
-            Next
+            Dim tmp As cModule = Me.lvModules.GetItemByKey(it.Name)
+            If tmp IsNot Nothing Then
+                Dim pid As Integer = tmp.Infos.ProcessId
+                Dim it2 As ListViewItem
+                For Each it2 In Me.lvProcess.Items
+                    Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
+                    If cp IsNot Nothing AndAlso cp.Infos.Pid = pid And pid > 0 Then
+                        it2.Selected = True
+                        bOne = True
+                        it2.EnsureVisible()
+                    End If
+                Next
+            End If
         Next
 
         If bOne Then
@@ -3934,9 +3948,8 @@ Public Class frmMain
     End Sub
 
     Private Sub MenuItemUnloadModule_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemUnloadModule.Click
-        For Each it As ListViewItem In Me.lvModules.SelectedItems
-            Call Me.lvModules.GetItemByKey(it.Name).UnloadModule()
-            it.Remove()
+        For Each it As cModule In Me.lvModules.GetSelectedItems
+            it.UnloadModule()
         Next
         Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
     End Sub
@@ -3954,7 +3967,7 @@ Public Class frmMain
             Dim it2 As ListViewItem
             For Each it2 In Me.lvProcess.Items
                 Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                If cp.Infos.Pid = pid Then
+                If cp IsNot Nothing AndAlso cp.Infos.Pid = pid Then
                     it2.Selected = True
                     bOne = True
                     it2.EnsureVisible()
@@ -3990,7 +4003,7 @@ Public Class frmMain
                     Dim it2 As ListViewItem
                     For Each it2 In Me.lvServices.Items
                         Dim cp As cService = Me.lvServices.GetItemByKey(it2.Name)
-                        If cp.Infos.Name = sp Then
+                        If cp IsNot Nothing AndAlso cp.Infos.Name = sp Then
                             it2.Selected = True
                             it2.EnsureVisible()
                         End If
@@ -4003,7 +4016,7 @@ Public Class frmMain
                         Dim it2 As ListViewItem
                         For Each it2 In Me.lvProcess.Items
                             Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                            If cp.Infos.Pid = i Then
+                            If cp IsNot Nothing AndAlso cp.Infos.Pid = i Then
                                 it2.Selected = True
                                 it2.EnsureVisible()
                             End If
@@ -4202,14 +4215,15 @@ Public Class frmMain
 
         For Each lvi As ListViewItem In Me.lvServices.Items
             Dim cServ As cService = Me.lvServices.GetItemByKey(lvi.Name)
-
             Dim bToAdd As Boolean = False
-            For Each _pid As Integer In pid
-                If cServ.Infos.ProcessId = _pid And _pid > 0 Then
-                    bToAdd = True
-                    Exit For
-                End If
-            Next
+            If cServ IsNot Nothing Then
+                For Each _pid As Integer In pid
+                    If cServ.Infos.ProcessId = _pid And _pid > 0 Then
+                        bToAdd = True
+                        Exit For
+                    End If
+                Next
+            End If
 
             ' Then we select service
             If bToAdd Then

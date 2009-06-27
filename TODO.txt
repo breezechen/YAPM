@@ -49,14 +49,15 @@ Other informations :
 	Connected : True
 	Elapsed time : 15367238
 	
-	
+
+
+
 ---- GENERAL
 - auto reanalize quand on change le start type d'un service
 - transformer .Created par try/catch ? + manque des Invoke pour les connected dans les cXXXConnection
 - régression performances d'affichage + clignotements des listviews quand changement de foreground window
 - ajouter semaphores de protection dans les methodes "Friend Shared Sub enumXXXX" (pour accès concurrent avec le log) ????
 - probablement des bugs de 'collection modifiée' vis à vis du log
-- lvLog -> clic droit sur un objet permet d'aller à sa définition (dans les autres lv)
 
 ---- RESEAU
 - ReAnalize service marche pas

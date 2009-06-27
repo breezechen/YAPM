@@ -156,7 +156,11 @@ Public Class processList
 
     ' Get a specified item
     Public Function GetItemByKey(ByVal key As String) As cProcess
-        Return _dico.Item(key)
+        If _dico.ContainsKey(key) Then
+            Return _dico.Item(key)
+        Else
+            Return Nothing
+        End If
     End Function
 
     ' Get selected items

@@ -43,6 +43,7 @@ Imports System.Runtime.InteropServices
     Private _key As String
     Private _state As CREATED_OR_DELETED
     Private _typeMask As asyncCallbackLogEnumerate.LogItemType
+    Private _defKey As String
 
 #End Region
 
@@ -78,6 +79,11 @@ Imports System.Runtime.InteropServices
             Return _typeMask
         End Get
     End Property
+    Public ReadOnly Property DefKey() As String
+        Get
+            Return _defKey
+        End Get
+    End Property
 
 #End Region
 
@@ -100,6 +106,7 @@ Imports System.Runtime.InteropServices
         _dateTime = Date.Now
         _key = _type & "|" & _description & "|" & _dateTime.Ticks.ToString & type.ToString.Substring(1, 1)
         _typeMask = asyncCallbackLogEnumerate.LogItemType.NetworkItem
+        _defKey = ""        ' TODO
     End Sub
     Public Sub New(ByVal item As handleInfos, ByVal type As CREATED_OR_DELETED)
         _type = "Handle"
@@ -108,6 +115,7 @@ Imports System.Runtime.InteropServices
         _dateTime = Date.Now
         _key = _type & "|" & _description & "|" & _dateTime.Ticks.ToString & type.ToString.Substring(1, 1)
         _typeMask = asyncCallbackLogEnumerate.LogItemType.HandleItem
+        _defKey = item.Handle.ToString
     End Sub
     Public Sub New(ByVal item As memRegionInfos, ByVal type As CREATED_OR_DELETED)
         _type = "Memory region"
@@ -116,6 +124,7 @@ Imports System.Runtime.InteropServices
         _dateTime = Date.Now
         _key = _type & "|" & _description & "|" & _dateTime.Ticks.ToString & type.ToString.Substring(1, 1)
         _typeMask = asyncCallbackLogEnumerate.LogItemType.MemoryItem
+        _defKey = item.BaseAddress.ToString
     End Sub
     Public Sub New(ByVal item As moduleInfos, ByVal type As CREATED_OR_DELETED)
         _type = "Module"
@@ -124,6 +133,7 @@ Imports System.Runtime.InteropServices
         _dateTime = Date.Now
         _key = _type & "|" & _description & "|" & _dateTime.Ticks.ToString & type.ToString.Substring(1, 1)
         _typeMask = asyncCallbackLogEnumerate.LogItemType.ModuleItem
+        _defKey = item.BaseAddress.ToString
     End Sub
     Public Sub New(ByVal item As serviceInfos, ByVal type As CREATED_OR_DELETED)
         _type = "Service"
@@ -132,6 +142,7 @@ Imports System.Runtime.InteropServices
         _dateTime = Date.Now
         _key = _type & "|" & _description & "|" & _dateTime.Ticks.ToString & type.ToString.Substring(1, 1)
         _typeMask = asyncCallbackLogEnumerate.LogItemType.ServiceItem
+        _defKey = item.Name
     End Sub
     Public Sub New(ByVal item As threadInfos, ByVal type As CREATED_OR_DELETED)
         _type = "Thread"
@@ -140,6 +151,7 @@ Imports System.Runtime.InteropServices
         _dateTime = Date.Now
         _key = _type & "|" & _description & "|" & _dateTime.Ticks.ToString & type.ToString.Substring(1, 1)
         _typeMask = asyncCallbackLogEnumerate.LogItemType.ThreadItem
+        _defKey = item.Id.ToString
     End Sub
     Public Sub New(ByVal item As windowInfos, ByVal type As CREATED_OR_DELETED)
         _type = "Window"
@@ -148,6 +160,7 @@ Imports System.Runtime.InteropServices
         _dateTime = Date.Now
         _key = _type & "|" & _description & "|" & _dateTime.Ticks.ToString & type.ToString.Substring(1, 1)
         _typeMask = asyncCallbackLogEnumerate.LogItemType.WindowItem
+        _defKey = item.Handle.ToString
     End Sub
 
 

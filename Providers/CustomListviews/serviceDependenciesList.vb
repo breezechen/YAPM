@@ -126,7 +126,11 @@ Public Class serviceDependenciesList
 
     ' Get a specified item
     Public Function GetItemByKey(ByVal key As String) As serviceInfos
-        Return _dico.Item(key)
+        If _dico.ContainsKey(key) Then
+            Return _dico.Item(key)
+        Else
+            Return Nothing
+        End If
     End Function
 
     ' Safe add (manage icon stuff)

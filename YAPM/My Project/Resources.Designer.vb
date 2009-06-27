@@ -445,6 +445,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property right() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("right", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property showDetails() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("showDetails", resourceCulture)

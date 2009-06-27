@@ -381,37 +381,37 @@ Public Class frmProcessInfo
 
         Select Case My.Settings.ProcSelectedTab
             Case "Token"
-                Me.tabProcess.SelectedTab = Me.TabPage4
+                Me.tabProcess.SelectedTab = Me.TabPageToken
             Case "Modules"
-                Me.tabProcess.SelectedTab = Me.TabPage10
+                Me.tabProcess.SelectedTab = Me.TabPageModules
             Case "Threads"
-                Me.tabProcess.SelectedTab = Me.TabPage11
+                Me.tabProcess.SelectedTab = Me.TabPageThreads
             Case "Windows"
-                Me.tabProcess.SelectedTab = Me.TabPage12
+                Me.tabProcess.SelectedTab = Me.TabPageWindows
             Case "Handles"
-                Me.tabProcess.SelectedTab = Me.TabPage13
+                Me.tabProcess.SelectedTab = Me.TabPageHandles
             Case "Memory"
-                Me.tabProcess.SelectedTab = Me.TabPage5
+                Me.tabProcess.SelectedTab = Me.TabPageMemory
             Case "Environment"
-                Me.tabProcess.SelectedTab = Me.TabPage9
+                Me.tabProcess.SelectedTab = Me.TabPageEnv
             Case "Network"
-                Me.tabProcess.SelectedTab = Me.tabNetwork
+                Me.tabProcess.SelectedTab = Me.TabPageNetwork
             Case "Services"
-                Me.tabProcess.SelectedTab = Me.TabPage7
+                Me.tabProcess.SelectedTab = Me.TabPageServices
             Case "Strings"
                 Me.tabProcess.SelectedTab = Me.TabPageString
             Case "General"
-                Me.tabProcess.SelectedTab = Me.TabPage1
+                Me.tabProcess.SelectedTab = Me.TabPageGeneral
             Case "Statistics"
-                Me.tabProcess.SelectedTab = Me.TabPage2
+                Me.tabProcess.SelectedTab = Me.TabPageStats
             Case "Informations"
-                Me.tabProcess.SelectedTab = Me.TabPage6
+                Me.tabProcess.SelectedTab = Me.TabPageInfos
             Case "Performances"
-                Me.tabProcess.SelectedTab = Me.TabPage3
+                Me.tabProcess.SelectedTab = Me.TabPagePerf
             Case "Log"
-                Me.tabProcess.SelectedTab = Me.TabPage14
+                Me.tabProcess.SelectedTab = Me.TabPageLog
             Case "History"
-                Me.tabProcess.SelectedTab = Me.TabPage15
+                Me.tabProcess.SelectedTab = Me.TabPageHistory
         End Select
 
         ' Refresh infos
@@ -1623,7 +1623,7 @@ Public Class frmProcessInfo
             Dim it2 As ListViewItem
             For Each it2 In _frmMain.lvServices.Items
                 Dim cp As cService = _frmMain.lvServices.GetItemByKey(it2.Name)
-                If cp.Infos.Name = it.Infos.Name Then
+                If cp IsNot Nothing AndAlso cp.Infos.Name = it.Infos.Name Then
                     it2.Selected = True
                     it2.EnsureVisible()
                 End If
@@ -1942,5 +1942,82 @@ Public Class frmProcessInfo
 
     Private Sub lvLog_HasChangedColumns() Handles lvLog.HasChangedColumns
         Pref.SaveListViewColumns(Me.lvLog, "COLprocdetail_log")
+    End Sub
+
+    Private Sub MenuItemLogGoto_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemLogGoto.Click
+        ' Select item in associated listview
+        With Me.lvLog.GetSelectedItem.Infos
+            Select Case .TypeMask
+                Case LogItemType.HandleItem
+                    For Each it2 As ListViewItem In Me.lvHandles.Items
+                        Dim tmp As cHandle = Me.lvHandles.GetItemByKey(it2.Name)
+                        If tmp IsNot Nothing AndAlso tmp.Infos.Handle.ToString = .DefKey Then
+                            it2.Selected = True
+                            it2.EnsureVisible()
+                            Me.tabProcess.SelectedTab = TabPageHandles
+                            Exit For
+                        End If
+                    Next
+                Case LogItemType.MemoryItem
+                    For Each it2 As ListViewItem In Me.lvProcMem.Items
+                        Dim tmp As cMemRegion = Me.lvProcMem.GetItemByKey(it2.Name)
+                        If tmp IsNot Nothing AndAlso tmp.Infos.BaseAddress.ToString = .DefKey Then
+                            it2.Selected = True
+                            it2.EnsureVisible()
+                            Me.tabProcess.SelectedTab = TabPageMemory
+                            Exit For
+                        End If
+                    Next
+                Case LogItemType.ModuleItem
+                    For Each it2 As ListViewItem In Me.lvModules.Items
+                        Dim tmp As cModule = Me.lvModules.GetItemByKey(it2.Name)
+                        If tmp IsNot Nothing AndAlso tmp.Infos.BaseAddress.ToString = .DefKey Then
+                            it2.Selected = True
+                            it2.EnsureVisible()
+                            Me.tabProcess.SelectedTab = TabPageModules
+                            Exit For
+                        End If
+                    Next
+                Case LogItemType.NetworkItem
+                    ' TODO
+                Case LogItemType.ServiceItem
+                    For Each it2 As ListViewItem In Me.lvProcServices.Items
+                        Dim tmp As cService = Me.lvProcServices.GetItemByKey(it2.Name)
+                        If tmp IsNot Nothing AndAlso tmp.Infos.Name = .DefKey Then
+                            it2.Selected = True
+                            it2.EnsureVisible()
+                            Me.tabProcess.SelectedTab = TabPageMemory
+                            Exit For
+                        End If
+                    Next
+                Case LogItemType.ThreadItem
+                    For Each it2 As ListViewItem In Me.lvThreads.Items
+                        Dim tmp As cThread = Me.lvThreads.GetItemByKey(it2.Name)
+                        If tmp IsNot Nothing AndAlso tmp.Infos.Id.ToString = .DefKey Then
+                            it2.Selected = True
+                            it2.EnsureVisible()
+                            Me.tabProcess.SelectedTab = TabPageThreads
+                            Exit For
+                        End If
+                    Next
+                Case LogItemType.WindowItem
+                    For Each it2 As ListViewItem In Me.lvWindows.Items
+                        Dim tmp As cWindow = Me.lvWindows.GetItemByKey(it2.Name)
+                        If tmp IsNot Nothing AndAlso tmp.Infos.Handle.ToString = .DefKey Then
+                            it2.Selected = True
+                            it2.EnsureVisible()
+                            Me.tabProcess.SelectedTab = TabPageWindows
+                            Exit For
+                        End If
+                    Next
+            End Select
+        End With
+    End Sub
+
+    Private Sub lvLog_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvLog.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Me.MenuItemLogGoto.Enabled = (Me.lvLog.SelectedItems.Count = 1)
+            Me.mnuLog.Show(Me.lvLog, e.Location)
+        End If
     End Sub
 End Class

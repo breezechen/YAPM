@@ -94,7 +94,11 @@ Public Class moduleList
 
     ' Get an item from listview
     Public Function GetImageFromImageList(ByVal key As String) As System.Drawing.Image
-        Return _IMG.Images.Item(key)
+        If _IMG.Images.ContainsKey(key) Then
+            Return _IMG.Images.Item(key)
+        Else
+            Return Nothing
+        End If
     End Function
 
     ' Delete all items
@@ -143,7 +147,11 @@ Public Class moduleList
 
     ' Get a specified item
     Public Function GetItemByKey(ByVal key As String) As cModule
-        Return _dico.Item(key)
+        If _dico.ContainsKey(key) Then
+            Return _dico.Item(key)
+        Else
+            Return Nothing
+        End If
     End Function
 
     ' Get selected items

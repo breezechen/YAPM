@@ -37,8 +37,8 @@ Public Class logList
     ' ========================================
     Private _pid As Integer
     Private _first As Boolean
-    Private _capture As asyncCallbackLogEnumerate.LogItemType
-    Private _display As asyncCallbackLogEnumerate.LogItemType
+    Private _capture As asyncCallbackLogEnumerate.LogItemType = asyncCallbackLogEnumerate.LogItemType.AllItems
+    Private _display As asyncCallbackLogEnumerate.LogItemType = asyncCallbackLogEnumerate.LogItemType.AllItems
     Private _dico As New Dictionary(Of String, cLogItem)
     Private WithEvents _connectionObject As New cConnection
     Private WithEvents _logConnection As New cLogConnection(Me, _connectionObject, New cLogConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
@@ -193,7 +193,11 @@ Public Class logList
 
     ' Get a specified item
     Public Function GetItemByKey(ByVal key As String) As cLogItem
-        Return _dico.Item(key)
+        If _dico.ContainsKey(key) Then
+            Return _dico.Item(key)
+        Else
+            Return Nothing
+        End If
     End Function
 
     ' Get selected items
