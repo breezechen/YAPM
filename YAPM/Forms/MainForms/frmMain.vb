@@ -3134,6 +3134,7 @@ Public Class frmMain
         Me.MenuItemViewModuleMemory.Enabled = _local
         Me.MenuItemUnloadModule.Enabled = _notWMI
         Me.MenuItemThSuspend.Enabled = _notWMI
+        Me.MenuItemServReanalize.Enabled = _local
 
         Me.butResumeProcess.Enabled = Me._notWMI
         Me.butStopProcess.Enabled = Me._notWMI

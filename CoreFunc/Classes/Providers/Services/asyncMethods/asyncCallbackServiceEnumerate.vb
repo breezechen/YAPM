@@ -43,61 +43,6 @@ Public Class asyncCallbackServiceEnumerate
         dicoNewServices.Clear()
     End Sub
 
-    ' Reanalize a process by removing (or asking to remove) its PID from
-    ' the shared dictionnary of known PID
-    Public Structure ReanalizeServiceObj
-        Public names() As String
-        Public con As cServiceConnection
-        Public Sub New(ByRef nam() As String, ByRef co As cServiceConnection)
-            names = nam
-            con = co
-        End Sub
-    End Structure
-    Public Shared Sub ReanalizeService(ByVal thePoolObj As Object)
-
-        sem.WaitOne()
-
-        Dim pObj As ReanalizeServiceObj = DirectCast(thePoolObj, ReanalizeServiceObj)
-        If pObj.con.ConnectionObj.IsConnected = False Then
-            sem.Release()
-            Exit Sub
-        End If
-
-        Select Case pObj.con.ConnectionObj.ConnectionType
-            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-                Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ServiceReanalize, pObj.names)
-                    pObj.con.ConnectionObj.Socket.Send(cDat)
-                Catch ex As Exception
-                    MsgBox(ex.Message)
-                End Try
-
-            Case cConnection.TypeOfConnection.LocalConnection, cConnection.TypeOfConnection.RemoteConnectionViaWMI
-                SyncLock dicoNewServices
-                    For Each name As String In pObj.names
-                        If dicoNewServices.ContainsKey(name) Then
-                            dicoNewServices.Remove(name)
-                        End If
-                    Next
-                End SyncLock
-
-        End Select
-
-        sem.Release()
-    End Sub
-
-    ' Called to remove PIDs from shared dico by the server after it receive
-    ' a command to reanalize some PIDs
-    Public Shared Sub ReanalizeLocalAfterSocket(ByRef names() As String)
-        SyncLock dicoNewServices
-            For Each name As String In names
-                If dicoNewServices.ContainsKey(name) Then
-                    dicoNewServices.Remove(name)
-                End If
-            Next
-        End SyncLock
-    End Sub
-
 #End Region
 
     Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cServiceConnection, ByVal iId As Integer)
@@ -111,10 +56,12 @@ Public Class asyncCallbackServiceEnumerate
         Public pid As Integer
         Public all As Boolean
         Public forInstanceId As Integer
-        Public Sub New(ByVal pi As Integer, ByVal al As Boolean, ByVal forII As Integer)
+        Public complete As Boolean
+        Public Sub New(ByVal pi As Integer, ByVal al As Boolean, ByVal comp As Boolean, ByVal forII As Integer)
             all = al
             forInstanceId = forII
             pid = pi
+            complete = comp
         End Sub
     End Structure
 
@@ -200,47 +147,25 @@ Public Class asyncCallbackServiceEnumerate
 
 
                         ' Do we have to get fixed infos ?
-                        Dim _servInfos As New serviceInfos(obj)
-                        If pObj.all = False OrElse dicoNewServices.ContainsKey(obj.ServiceName) = False Then
+                        Dim _servInfos As New serviceInfos(obj, True)
 
-                            Dim conf As New API.QUERY_SERVICE_CONFIG
-                            With conf
-                                .BinaryPathName = CStr(refService.GetPropertyValue(API.WMI_INFO_SERVICE.PathName.ToString))
-                                '.Dependencies
-                                .DisplayName = CStr(refService.GetPropertyValue(API.WMI_INFO_SERVICE.DisplayName.ToString))
-                                .ErrorControl = getErrorControlFromString(CStr(refService.GetPropertyValue(API.WMI_INFO_SERVICE.ErrorControl.ToString)))
-                                '.LoadOrderGroup 
-                                .ServiceStartName = CStr(refService.GetPropertyValue(API.WMI_INFO_SERVICE.StartName.ToString))
-                                .StartType = getStartModeFromString(CStr(refService.GetPropertyValue(API.WMI_INFO_SERVICE.StartMode.ToString)))
-                                .TagID = CInt(refService.GetPropertyValue(API.WMI_INFO_SERVICE.TagId.ToString))
-                            End With
-                            _servInfos.SetConfig(conf)
+                        Dim conf As New API.QUERY_SERVICE_CONFIG
+                        With conf
+                            .BinaryPathName = CStr(refService.GetPropertyValue(API.WMI_INFO_SERVICE.PathName.ToString))
+                            '.Dependencies
+                            .DisplayName = CStr(refService.GetPropertyValue(API.WMI_INFO_SERVICE.DisplayName.ToString))
+                            .ErrorControl = getErrorControlFromString(CStr(refService.GetPropertyValue(API.WMI_INFO_SERVICE.ErrorControl.ToString)))
+                            '.LoadOrderGroup 
+                            .ServiceStartName = CStr(refService.GetPropertyValue(API.WMI_INFO_SERVICE.StartName.ToString))
+                            .StartType = getStartModeFromString(CStr(refService.GetPropertyValue(API.WMI_INFO_SERVICE.StartMode.ToString)))
+                            .TagID = CInt(refService.GetPropertyValue(API.WMI_INFO_SERVICE.TagId.ToString))
+                        End With
+                        _servInfos.SetConfig(conf)
 
-                            If pObj.all Then
-                                dicoNewServices.Add(obj.ServiceName, False)
-                            End If
-
-                        End If
-
-                        ' Set true so that the process is marked as existing
-                        If pObj.all Then
-                            dicoNewServices(obj.ServiceName) = True
-                        End If
                         _dico.Add(obj.ServiceName, _servInfos)
                     Next
 
-                    ' Remove all services that not exist anymore
-                    If pObj.all Then
-                        Dim _dicoTemp As Dictionary(Of String, Boolean) = dicoNewServices
-                        For Each it As System.Collections.Generic.KeyValuePair(Of String, Boolean) In _dicoTemp
-                            If it.Value = False Then
-                                dicoNewServices.Remove(it.Key)
-                            End If
-                        Next
-                    End If
-
                     Try
-                        'If deg IsNot Nothing AndAlso ctrl.Created Then _
                         ctrl.Invoke(deg, True, _dico, Nothing, 0)
                     Catch ex As Exception
                         '
@@ -317,16 +242,16 @@ Public Class asyncCallbackServiceEnumerate
                                 GetType(API.ENUM_SERVICE_STATUS_PROCESS)), API.ENUM_SERVICE_STATUS_PROCESS)
 
                         If pObj.all OrElse pObj.pid = obj.ServiceStatusProcess.ProcessID Then
-                            Dim _servINFO As New serviceInfos(obj)
+                            Dim _servINFO As New serviceInfos(obj, pObj.complete)
 
-                            If pObj.all = False OrElse dicoNewServices.ContainsKey(obj.ServiceName) = False Then
+                            If pObj.all = False OrElse dicoNewServices.ContainsKey(obj.ServiceName) = False Or pObj.complete Then
 
                                 getRegInfos(obj.ServiceName, _servINFO)
 
                                 'PERFISSUE
                                 getServiceConfig(obj.ServiceName, hSCM, _servINFO, True)
 
-                                If pObj.all Then
+                                If pObj.all And pObj.complete = False Then
                                     dicoNewServices.Add(obj.ServiceName, False)
                                 End If
                             End If

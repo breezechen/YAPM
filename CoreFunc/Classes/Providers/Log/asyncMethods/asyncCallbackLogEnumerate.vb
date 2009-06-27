@@ -333,7 +333,7 @@ Public Class asyncCallbackLogEnumerate
                     ' Get list
                     Dim pid(0) As Integer
                     pid(0) = pObj.pid
-                    Call asyncCallbackServiceEnumerate.enumServices(pObj.hSCM, New asyncCallbackServiceEnumerate.poolObj(pid(0), False, 0), __dicoServices)
+                    Call asyncCallbackServiceEnumerate.enumServices(pObj.hSCM, New asyncCallbackServiceEnumerate.poolObj(pid(0), False, False, 0), __dicoServices)
 
                     ' Store in static dico if it is first refresh
                     If firstServices Then

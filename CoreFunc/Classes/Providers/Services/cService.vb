@@ -231,6 +231,8 @@ Public Class cService
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not change start type of service " & name)
+        Else
+            Call Me.Refresh()
         End If
         RemovePendingTask(actionNumber)
     End Sub

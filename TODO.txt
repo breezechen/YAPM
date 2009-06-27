@@ -1,63 +1,7 @@
 TODO LIST
 
-
-
-System informations : 
-	Name : Microsoft® Windows Vista™ Professionnel 
-	Platform : Win32NT
-	Version : 6.0.6002.131072
-	UICulture : fr-FR
-	Processor count : 2
-	Physical memory : 1,044 GB/2,998 GB
-	Virtual memory : 1,694 GB/2 GB
-	Screen : {X=0,Y=0,Width=1280,Height=1024}
-
-User informations : 
-	Admin : False
-
-Application informations : 
-	Path : C:\Users\Admin\Desktop\YAPM\YAPM\bin\Release
-	Version : 2.0.2.0
-	WorkingSetSize : 117596160
-
-Dll informations : 
-	Ribbon version : 1.0.0.0
-	MemoryHexEditor version : 1.0.0.0
-	CoreFunc version : 1.0.0.0
-	Providers version : 1.0.0.0
-	TaskDialog version : 1.0.0.0
-
-Error informations : 
-	Message : Un élément avec la même clé a déjà été ajouté.
-	Source : mscorlib
-	StackTrace :    à System.ThrowHelper.ThrowArgumentException(ExceptionResource resource)
-   à System.Collections.Generic.Dictionary`2.Insert(TKey key, TValue value, Boolean add)
-   à CoreFunc.asyncCallbackModuleEnumerate.GetModules(Int32 pid, Boolean noFileInfo) dans C:\Users\Admin\Desktop\YAPM\CoreFunc\Classes\Providers\Modules\asyncMethods\asyncCallbackModuleEnumerate.vb:ligne 221
-   à CoreFunc.asyncCallbackModuleEnumerate.enumModules(poolObj pObj, Dictionary`2& _dico) dans C:\Users\Admin\Desktop\YAPM\CoreFunc\Classes\Providers\Modules\asyncMethods\asyncCallbackModuleEnumerate.vb:ligne 181
-   à CoreFunc.asyncCallbackLogEnumerate.Process(Object thePoolObj) dans C:\Users\Admin\Desktop\YAPM\CoreFunc\Classes\Providers\Log\asyncMethods\asyncCallbackLogEnumerate.vb:ligne 289
-   à System.Threading._ThreadPoolWaitCallback.WaitCallback_Context(Object state)
-   à System.Threading.ExecutionContext.runTryCode(Object userData)
-   à System.Runtime.CompilerServices.RuntimeHelpers.ExecuteCodeWithGuaranteedCleanup(TryCode code, CleanupCode backoutCode, Object userData)
-   à System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
-   à System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
-   à System.Threading._ThreadPoolWaitCallback.PerformWaitCallbackInternal(_ThreadPoolWaitCallback tpWaitCallBack)
-   à System.Threading._ThreadPoolWaitCallback.PerformWaitCallback(Object state)
-	Target : Void ThrowArgumentException(System.ExceptionResource)
-
-Other informations : 
-	Connection : LocalConnection
-	Connected : True
-	Elapsed time : 15367238
-	
-
-
-
 ---- GENERAL
-- auto reanalize quand on change le start type d'un service
-- transformer .Created par try/catch ? + manque des Invoke pour les connected dans les cXXXConnection
-- régression performances d'affichage + clignotements des listviews quand changement de foreground window
-- ajouter semaphores de protection dans les methodes "Friend Shared Sub enumXXXX" (pour accès concurrent avec le log) ????
-- probablement des bugs de 'collection modifiée' vis à vis du log
+- refresh double des services en WMI ??
 
 ---- RESEAU
 - ReAnalize service marche pas
@@ -67,6 +11,10 @@ Other informations :
 - TODO, TOCHANGE, TODO_, TOCHECK
 
 
+- ajouter semaphores de protection dans les methodes "Friend Shared Sub enumXXXX" (pour accès concurrent avec le log) ????
+- probablement des bugs de 'collection modifiée' vis à vis du log
+- régression performances d'affichage + clignotements des listviews quand changement de foreground window
+- transformer .Created par try/catch ? + manque des Invoke pour les connected dans les cXXXConnection
 - getmappedimage... pour socket
 - UAC -> tester
 - SBA ???

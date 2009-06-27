@@ -282,16 +282,19 @@ namespace wyDay.Controls
 
             MENUITEMINFO_T_RW menuItemInfo = new MENUITEMINFO_T_RW();
 
-            foreach (MenuItem menuItem in mnuBitmapChildren)
+            if (mnuBitmapChildren != null)
             {
-                //menuItem.
-                menuItemInfo.hbmpItem = ((Properties)properties[menuItem]).renderBmpHbitmap;
+                foreach (MenuItem menuItem in mnuBitmapChildren)
+                {
+                    //menuItem.
+                    menuItemInfo.hbmpItem = ((Properties)properties[menuItem]).renderBmpHbitmap;
 
-                //refresh the menu item
-                SetMenuItemInfo(new HandleRef(null, parentHandle),
-                    (int)typeof(MenuItem).InvokeMember("MenuID", BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.GetProperty, null, menuItem, null),
-                    false,
-                    menuItemInfo);
+                    //refresh the menu item
+                    SetMenuItemInfo(new HandleRef(null, parentHandle),
+                        (int)typeof(MenuItem).InvokeMember("MenuID", BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.GetProperty, null, menuItem, null),
+                        false,
+                        menuItemInfo);
+                }
             }
         }
     }

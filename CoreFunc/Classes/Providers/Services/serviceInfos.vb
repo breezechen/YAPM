@@ -57,6 +57,8 @@ Imports System.Text
     Private _CheckPoint As Integer
     Private _ServiceSpecificExitCode As Integer
     Private _Win32ExitCode As Integer
+
+    Private _allInformationsRetrieved As Boolean
 #End Region
 
 #Region "Read only properties"
@@ -195,7 +197,7 @@ Imports System.Text
     ' ========================================
 
     ' Constructor of this class
-    Public Sub New(ByRef Thr As API.ENUM_SERVICE_STATUS_PROCESS)
+    Public Sub New(ByRef Thr As API.ENUM_SERVICE_STATUS_PROCESS, Optional ByVal allInfos As Boolean = False)
         With Thr
             _displayName = .DisplayName
             _name = .ServiceName
@@ -210,6 +212,7 @@ Imports System.Text
                 _WaitHint = .WaitHint
                 _Win32ExitCode = .Win32ExitCode
             End With
+            _allInformationsRetrieved = allInfos
         End With
     End Sub
 
@@ -218,26 +221,32 @@ Imports System.Text
         With newI
             _pid = .ProcessId
             _state = .State
-            '_serviceType = .ServiceType
-            '_errorControl = .ErrorControl
-            '_startType = .StartType
-            '_path = .ImagePath
-            _serviceType = .ServiceType
-            '_displayName = .DisplayName
-            '_loadOrderGroup = .LoadOrderGroup
-            '_startName = .ServiceStartName
             _acceptedCtrls = .AcceptedControl
             _CheckPoint = .CheckPoint
-            '_Dependencies = .Dependencies
-            '  _desc = .Description                 ' UPDATED ONCE (no merge)
-            '  _diagMF = .DiagnosticMessageFile     ' UPDATED ONCE (no merge)
-            ' _objName = .ObjectName                ' UPDATED ONCE (no merge)
+            _serviceType = .ServiceType
             _processName = .ProcessName
             _ServiceFlags = .ServiceFlags
             _ServiceSpecificExitCode = .ServiceSpecificExitCode
-            '_tagID = .TagID
             _WaitHint = .WaitHint
             _Win32ExitCode = .Win32ExitCode
+
+            If _allInformationsRetrieved Then
+                ' Then we are in WMI or Socket mode : all informations 
+                ' (including startType...etc) have been retrieved
+                ' So the merge have to copy all the informations below
+                _serviceType = .ServiceType
+                _errorControl = .ErrorControl
+                _startType = .StartType
+                _path = .ImagePath
+                _displayName = .DisplayName
+                _loadOrderGroup = .LoadOrderGroup
+                _startName = .ServiceStartName
+                _Dependencies = .Dependencies
+                _desc = .Description                 ' UPDATED ONCE (no merge)
+                _diagMF = .DiagnosticMessageFile     ' UPDATED ONCE (no merge)
+                _objName = .ObjectName                ' UPDATED ONCE (no merge)
+                _tagID = .TagID
+            End If
 
             If _fileInfo Is Nothing Then
                 _fileInfo = .FileInfo

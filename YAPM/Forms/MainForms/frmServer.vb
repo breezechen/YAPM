@@ -440,7 +440,7 @@ Public Class frmServer
                     Case cSocketData.OrderType.RequestServiceList
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim all As Boolean = CBool(cData.Param2)
-                        Call _serviceCon.Enumerate(True, pid, all, _forInstanceId)
+                        Call _serviceCon.Enumerate(True, pid, True, all, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestModuleList
                         Dim pid() As Integer = CType(cData.Param1, Integer())
@@ -651,8 +651,6 @@ Public Class frmServer
 
                 ' ===== Service functions
                 Select Case cData.Order
-                    Case cSocketData.OrderType.ServiceReanalize
-                        asyncCallbackServiceEnumerate.ReanalizeLocalAfterSocket(CType(cData.Param1, String()))
                     Case cSocketData.OrderType.ServicePause
                         Dim name As String = CStr(cData.Param1)
                         Try

@@ -57,7 +57,6 @@ Option Strict On
         [ServiceStop]
         [ServiceStart]
         [ServiceChangeServiceStartType]
-        [ServiceReanalize]
 
         ' Thread functions
         [ThreadTerminate]

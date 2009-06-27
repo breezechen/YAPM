@@ -120,19 +120,16 @@ Public Class serviceList
 
     ' Reanalize a process
     Public Sub ReAnalizeServices()
-        If _serviceConnection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+
+        ' In local mode, we simply refresh the service
+        ' In WMI and Socket mode, there IS NO NEED to reanalize because all informations
+        ' are retrieved each time we refresh
+        ' In fact, "Reanalize" is only available for Local mode
+        If _serviceConnection.ConnectionObj.ConnectionType = _
+                cConnection.TypeOfConnection.LocalConnection Then
             For Each cs As cService In Me.GetSelectedItems
                 cs.Refresh()
             Next
-        Else
-            Dim names() As String
-            ReDim names(Me.GetSelectedItems.Count - 1)
-            Dim x As Integer = 0
-            For Each cp As cService In Me.GetSelectedItems
-                names(x) = cp.Infos.Name
-                x += 1
-            Next
-            asyncCallbackServiceEnumerate.ReanalizeService(New asyncCallbackServiceEnumerate.ReanalizeServiceObj(names, _serviceConnection))
         End If
     End Sub
 
@@ -147,7 +144,7 @@ Public Class serviceList
         If _serviceConnection.IsConnected Then
 
             ' Now enumerate items
-            _serviceConnection.Enumerate(_first, _pid, _all)
+            _serviceConnection.Enumerate(_first, _pid, _serviceConnection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI, _all)
 
         End If
 
