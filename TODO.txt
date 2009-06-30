@@ -2,6 +2,7 @@ TODO LIST
 
 ---- GENERAL
 - refresh double des services en WMI ??
+- view memory (module) -> si lvProcMem.count = 0...
 
 ---- RESEAU
 - affinity process/thread (socket)
