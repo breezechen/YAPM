@@ -5607,11 +5607,11 @@ Partial Class frmMain
         Me.imgProcessTab.Images.SetKeyName(11, "dll")
         Me.imgProcessTab.Images.SetKeyName(12, "thread")
         Me.imgProcessTab.Images.SetKeyName(13, "handle")
-        Me.imgProcessTab.Images.SetKeyName(14, "windows")
-        Me.imgProcessTab.Images.SetKeyName(15, "help16.png")
-        Me.imgProcessTab.Images.SetKeyName(16, "icon2.gif")
-        Me.imgProcessTab.Images.SetKeyName(17, "magnify16.gif")
-        Me.imgProcessTab.Images.SetKeyName(18, "process16.gif")
+        Me.imgProcessTab.Images.SetKeyName(14, "help16.png")
+        Me.imgProcessTab.Images.SetKeyName(15, "icon2.gif")
+        Me.imgProcessTab.Images.SetKeyName(16, "magnify16.gif")
+        Me.imgProcessTab.Images.SetKeyName(17, "process16.gif")
+        Me.imgProcessTab.Images.SetKeyName(18, "windows")
         '
         'timerNetwork
         '

@@ -1,38 +1,29 @@
 TODO LIST
 
-- get online infos pour les services (changer de provider !!)
-- risk : safe -> changer la couleur (en fonction du niveau) + mettre en gras
-- 'Hide' button dans frmConnection pas très explicite (Hide form ?) + ajouter une icone (exemple flèche vers le bas)
-- automatic get online infos (pour processus et services) à ajouter dans les options (feature qui demande la récupération des infos dès l'affichage d'une form detail)
-- 'you sould start the monitoring' -> ortho + veut rien dire
 - couleurs de fond de form sous XP sans le theme -> moche (mettre le bleu du ruban si le ruban est affiché) + certaines couleurs (fond de label...)
 - certaines icones moches (yes/no dans lvPrivileges, refresh, find window, )
-- MAJ des liens sf.net
 - find window actionné dans le taskbar avec YAPM caché -> affiche YAPM juste dans le bar, et se recache lorsqu'on clique dessus
+- automatic get online infos (pour processus et services) à ajouter dans les options (feature qui demande la récupération des infos dès l'affichage d'une form detail)
+- get online infos pour les services (changer de provider !!)
+- dbl click sur une tache -> ensurevisible requis sur l'item du process associé (et pareil pour tous les cas similaires)
+- 'select in the treeview a process and then a monitor item' -> ne veut rien dire (et en plus c'est pas que des processus dans le tv) + rootitem s'appelle Process, ce qui est faux (pas que des processus)
 - désactiver les popup menus lorsque rien à sélectionner (exemple frmMain.lvModules quand aucun élément, ou bien lvProcess quand click à côté qui sélectionne rien...) + afficher texte dans la zone du bas pour dire qu'il est nécessaire de sélectionner un processus
-- frmDependencies -> désactiver popup menu si aucun item ou bien si path item n'existe pas
 - onglet File sans le ribbon -> les actions sont indisponibles (ajouter menu avec Open file, Refresh, Release...)
 - utiliser le site web de YAPM (et non plus sf.net) pour récupérer les infos de dernière version + pour télécharger la dernière version
-- icones 'Window' du tab de la form principale (sans le ribbon) en 16bits
 - 'select in Window tab' dans task toujours non satisfaisant (au minimum, on peut déjà demander le refresh de lvWindows...)
-- echap doit pouvoir fermer la fenêtre de choix des colonnes
 - view memory dans le popupmenu de lvModules ??? (impossible d'y accéder hors frmDetails)
 - graph monitoring -> refresh l'affichage de la valeur survolée également quand la souris se déplace
 - shutdown local/wmi/remote via frmConnection pas satisfaisant -> le frame doit être disable quand le tab sur lequel il est affiché ne correspond pas à la connexion active
 - vérifier pourquoi cpu usage de Idle dépasse les 100% ; le cas échéant limiter la valeur à 100%
-- echap doit pouvoir hider frmConnection
-- dbl click sur une tache -> ensurevisible requis sur l'item du process associé (et pareil pour tous les cas similaires)
 - find hidden processes utilisable pour les PCs distants ? + ajouter Terminate dans le menu popup + éventuellement 'go to process' pour aller dans lvProcess
-- pending tasks for the object form doit pouvoir être quittée avec echap
 - actions sur les Windows impossible en mode non ribbon (obligation d'ajouter un popup menu...)
-- 'select in the treeview a process and then a monitor item' -> ne veut rien dire (et en plus c'est pas que des processus dans le tv) + rootitem s'appelle Process, ce qui est faux (pas que des processus)
-- sélectionner le premier item dans les tv de dépendences (pour permettre d'afficher directement le premier service lors du clic sur le bouton juste en dessous)
 - déconnexion WMI après longue inactivité -> calculer temps dernière requete et lancer une requete pour éviter la déconnexion si t>MAX ?
 - double récupération des strings en mémoire/image dans frmDetail ???
 - mettre à jour (si possible) le fichiers de sauvegarde des options
 - tester en tâche de fond sur un windows XP et voir si des crash surviennent
 - blocage de l'application quand certains processus bouffe du CPU (cf compilo wingreta) -> est-ce un appel bloquant (genre sendmessage) lors du refresh des process/tasks...?
-
+- form about modale
+- dependencies -> PE.filename doit changer SystemRoot en X:\Wind....
 
 
 ---- GENERAL

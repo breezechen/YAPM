@@ -44,6 +44,7 @@ Public Class frmConnection
     End Sub
 
     Private Sub frmConnection_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        Call hideWithEchapKey(Me)
         Call changeInfos()
         'Me.txtServerMachine.Text = My.Computer.Name
     End Sub

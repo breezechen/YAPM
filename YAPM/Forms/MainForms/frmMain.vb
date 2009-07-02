@@ -1125,7 +1125,7 @@ Public Class frmMain
 
         If it.Enabled = False Then
             Me.graphMonitor.CreateGraphics.Clear(Color.Black)
-            Me.graphMonitor.CreateGraphics.DrawString("You sould start the monitoring.", Me.Font, Brushes.White, 0, 0)
+            Me.graphMonitor.CreateGraphics.DrawString("You have to start monitoring.", Me.Font, Brushes.White, 0, 0)
             Exit Sub
         End If
 

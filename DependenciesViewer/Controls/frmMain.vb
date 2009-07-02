@@ -127,56 +127,6 @@ Public Class frmMain
         Me.ToolStripMenuItem3.Visible = False
     End Sub
 
-    Private Sub ToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem1.Click
-        Try
-            For Each it As ListViewItem In Me.lvAllDeps.SelectedItems
-                If IO.File.Exists(it.SubItems(10).Text) Then
-                    CoreFunc.cFile.ShowFileProperty(it.SubItems(10).Text, Me.Handle)
-                End If
-            Next
-        Catch ex As Exception
-            '
-        End Try
-    End Sub
-
-    Private Sub ToolStripMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem2.Click
-        Try
-            For Each it As ListViewItem In Me.lvAllDeps.SelectedItems
-                If IO.File.Exists(it.SubItems(10).Text) Then
-                    CoreFunc.cFile.OpenDirectory(it.SubItems(10).Text)
-                End If
-            Next
-        Catch ex As Exception
-            '
-        End Try
-    End Sub
-
-    Private Sub PropertiesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PropertiesToolStripMenuItem.Click
-        Try
-            If Me.tvDepends.SelectedNode IsNot Nothing Then
-                Dim _p As String = CType(Me.tvDepends.SelectedNode.Tag, NativeDependenciesTree.NativeDependency).PE.FileName
-                If IO.File.Exists(_p) Then
-                    CoreFunc.cFile.ShowFileProperty(_p, Me.Handle)
-                End If
-            End If
-        Catch ex As Exception
-            '
-        End Try
-    End Sub
-
-    Private Sub OpenFirectoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpenFirectoryToolStripMenuItem.Click
-        Try
-            If Me.tvDepends.SelectedNode IsNot Nothing Then
-                Dim _p As String = CType(Me.tvDepends.SelectedNode.Tag, NativeDependenciesTree.NativeDependency).PE.FileName
-                If IO.File.Exists(_p) Then
-                    CoreFunc.cFile.OpenDirectory(_p)
-                End If
-            End If
-        Catch ex As Exception
-            '
-        End Try
-    End Sub
-
     Private Sub QuitToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles QuitToolStripMenuItem.Click
         Me.Close()
     End Sub
@@ -190,6 +140,94 @@ Public Class frmMain
         CDO.RestoreDirectory = True
         If CDO.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
             Call OpenReferences(CDO.FileName)
+        End If
+    End Sub
+
+    Private Sub MenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem1.Click
+        Try
+            If Me.tvDepends.SelectedNode IsNot Nothing Then
+                Dim _p As String = CType(Me.tvDepends.SelectedNode.Tag, NativeDependenciesTree.NativeDependency).PE.FileName
+                If IO.File.Exists(_p) Then
+                    CoreFunc.cFile.ShowFileProperty(_p, Me.Handle)
+                End If
+            End If
+        Catch ex As Exception
+            '
+        End Try
+    End Sub
+
+    Private Sub MenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem2.Click
+        Try
+            If Me.tvDepends.SelectedNode IsNot Nothing Then
+                Dim _p As String = CType(Me.tvDepends.SelectedNode.Tag, NativeDependenciesTree.NativeDependency).PE.FileName
+                If IO.File.Exists(_p) Then
+                    CoreFunc.cFile.OpenDirectory(_p)
+                End If
+            End If
+        Catch ex As Exception
+            '
+        End Try
+    End Sub
+
+    Private Sub MenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem3.Click
+        Try
+            For Each it As ListViewItem In Me.lvAllDeps.SelectedItems
+                If IO.File.Exists(it.SubItems(10).Text) Then
+                    CoreFunc.cFile.ShowFileProperty(it.SubItems(10).Text, Me.Handle)
+                End If
+            Next
+        Catch ex As Exception
+            '
+        End Try
+    End Sub
+
+    Private Sub MenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem4.Click
+        Try
+            For Each it As ListViewItem In Me.lvAllDeps.SelectedItems
+                If IO.File.Exists(it.SubItems(10).Text) Then
+                    CoreFunc.cFile.OpenDirectory(it.SubItems(10).Text)
+                End If
+            Next
+        Catch ex As Exception
+            '
+        End Try
+    End Sub
+
+    Private Sub tvDepends_MouseUp(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles tvDepends.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            If Me.tvDepends.SelectedNode IsNot Nothing Then
+                Dim _tmp As NativeDependenciesTree.NativeDependency = CType(Me.tvDepends.SelectedNode.Tag, NativeDependenciesTree.NativeDependency)
+                If _tmp.PE IsNot Nothing Then
+                    Dim _p As String = CType(Me.tvDepends.SelectedNode.Tag, NativeDependenciesTree.NativeDependency).PE.FileName
+                    Me.MenuItem1.Enabled = (IO.File.Exists(_p))
+                    Me.MenuItem2.Enabled = Me.MenuItem1.Enabled
+                Else
+                    Me.MenuItem1.Enabled = False
+                    Me.MenuItem2.Enabled = False
+                End If
+            Else
+                Me.MenuItem1.Enabled = False
+                Me.MenuItem2.Enabled = False
+            End If
+                Me.cMenu1.Show(Me.tvDepends, e.Location)
+            End If
+    End Sub
+
+    Private Sub lvAllDeps_MouseUp(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvAllDeps.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Try
+                If Me.lvAllDeps.SelectedItems.Count > 0 Then
+                    Me.MenuItem3.Enabled = IO.File.Exists(Me.lvAllDeps.SelectedItems(0).SubItems(10).Text)
+                    Me.MenuItem4.Enabled = Me.MenuItem1.Enabled
+                Else
+                    Me.MenuItem3.Enabled = False
+                    Me.MenuItem4.Enabled = False
+                End If
+            Catch ex As Exception
+                Me.MenuItem3.Enabled = False
+                Me.MenuItem4.Enabled = False
+            End Try
+            Me.cMenu2.Show(Me.lvAllDeps, e.Location)
         End If
     End Sub
 End Class

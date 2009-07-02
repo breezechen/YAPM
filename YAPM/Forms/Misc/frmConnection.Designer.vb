@@ -95,7 +95,7 @@ Partial Class frmConnection
         '
         Me.cmdConnect.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.cmdConnect.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdConnect.Location = New System.Drawing.Point(42, 262)
+        Me.cmdConnect.Location = New System.Drawing.Point(43, 262)
         Me.cmdConnect.Name = "cmdConnect"
         Me.cmdConnect.Size = New System.Drawing.Size(103, 28)
         Me.cmdConnect.TabIndex = 4
@@ -106,11 +106,13 @@ Partial Class frmConnection
         '
         Me.cmdCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.cmdCancel.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdCancel.Location = New System.Drawing.Point(188, 262)
+        Me.cmdCancel.Image = Global.YAPM.My.Resources.Resources.down
+        Me.cmdCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.cmdCancel.Location = New System.Drawing.Point(189, 262)
         Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.Size = New System.Drawing.Size(103, 28)
+        Me.cmdCancel.Size = New System.Drawing.Size(107, 28)
         Me.cmdCancel.TabIndex = 5
-        Me.cmdCancel.Text = "Hide"
+        Me.cmdCancel.Text = "      Hide window"
         Me.cmdCancel.UseVisualStyleBackColor = True
         '
         'gpServer

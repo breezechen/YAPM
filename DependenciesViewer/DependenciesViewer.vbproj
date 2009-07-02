@@ -144,6 +144,10 @@
       <Project>{4F4D09F8-D122-4ACB-B049-881634E67A2C}</Project>
       <Name>CoreFunc</Name>
     </ProjectReference>
+    <ProjectReference Include="..\VistaMenu\Control\VistaMenu.csproj">
+      <Project>{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}</Project>
+      <Name>VistaMenu</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

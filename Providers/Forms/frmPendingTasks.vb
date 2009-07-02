@@ -31,6 +31,7 @@ Public Class frmPendingTasks
     Private DELETED_ITEM_COLOR As Color = Color.FromArgb(255, 64, 48)
 
     Private Sub frm_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Call closeWithEchapKey(Me)
         API.SetWindowTheme(lv.Handle, "explorer", Nothing)
         Call RefreshTasksList()
     End Sub

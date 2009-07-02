@@ -96,6 +96,9 @@ Public Class frmChooseColumns
     End Sub
 
     Private Sub frmChooseProcessColumns_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        Call closeWithEchapKey(Me)
+
         API.SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
 
         Dim ss() As String

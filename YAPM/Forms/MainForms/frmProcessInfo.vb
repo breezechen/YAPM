@@ -505,6 +505,8 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub timerProcPerf_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerProcPerf.Tick
+        Static updatedRisk As Boolean = False
+
         Dim z As Double = curProc.CpuUsage
         Dim z2 As Double = curProc.Infos.AverageCpuUsage
         If Double.IsNegativeInfinity(z) Then z = 0
@@ -528,13 +530,26 @@ Public Class frmProcessInfo
         Call ChangeCaption()
 
         ' If online infos received, display it
-        If _asyncDownloadDone Then
+        If _asyncDownloadDone AndAlso updatedRisk = False Then
             Me.lblSecurityRisk.Text = "Risk : " & _asyncInfoRes._Risk.ToString
             Me.rtbOnlineInfos.Text = _asyncInfoRes._Description
             _asyncDlThread.Abort()
             _asyncInfoRes = Nothing
             _asyncDlThread = Nothing
             _asyncDownloadDone = False
+            Select Case _asyncInfoRes._Risk
+                Case cAsyncProcInfoDownload.SecurityRisk.Alert1, _
+                        cAsyncProcInfoDownload.SecurityRisk.Alert2, _
+                        cAsyncProcInfoDownload.SecurityRisk.Alert3
+                    Me.lblSecurityRisk.ForeColor = Color.DarkRed
+                Case cAsyncProcInfoDownload.SecurityRisk.Caution1, _
+                        cAsyncProcInfoDownload.SecurityRisk.Caution2
+                    Me.lblSecurityRisk.ForeColor = Color.DarkOrange
+                Case cAsyncProcInfoDownload.SecurityRisk.Safe
+                    Me.lblSecurityRisk.ForeColor = Color.DarkGreen
+                Case Else
+                    Me.lblSecurityRisk.ForeColor = Color.Black
+            End Select
         End If
 
     End Sub

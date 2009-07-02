@@ -276,4 +276,43 @@ Public Module mdlMisc
         Return addressInteger
 
     End Function
+
+    ' Escape will close the form frm
+    Public Sub closeWithEchapKey(ByRef frm As System.Windows.Forms.Form)
+        frm.KeyPreview = True
+        Dim oo As New System.Windows.Forms.KeyEventHandler(AddressOf handlerCloseForm_)
+        AddHandler frm.KeyDown, oo
+    End Sub
+
+    Private Sub handlerCloseForm_(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs)
+        If e.KeyCode = System.Windows.Forms.Keys.Escape Then
+            Try
+                Dim _tmp As System.Windows.Forms.Form = DirectCast(sender, System.Windows.Forms.Form)
+                _tmp.DialogResult = Windows.Forms.DialogResult.Cancel
+                _tmp.Close()
+            Catch ex As Exception
+                '
+            End Try
+            e.Handled = True
+        End If
+    End Sub
+
+    ' Escape will hide the form frm
+    Public Sub hideWithEchapKey(ByRef frm As System.Windows.Forms.Form)
+        frm.KeyPreview = True
+        Dim oo As New System.Windows.Forms.KeyEventHandler(AddressOf handlerHideForm_)
+        AddHandler frm.KeyDown, oo
+    End Sub
+
+    Private Sub handlerHideForm_(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs)
+        If e.KeyCode = System.Windows.Forms.Keys.Escape Then
+            Try
+                Dim _tmp As System.Windows.Forms.Form = DirectCast(sender, System.Windows.Forms.Form)
+                _tmp.Hide()
+            Catch ex As Exception
+                '
+            End Try
+            e.Handled = True
+        End If
+    End Sub
 End Module

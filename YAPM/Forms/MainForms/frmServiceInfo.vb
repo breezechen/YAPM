@@ -353,6 +353,10 @@ Public Class frmServiceInfo
         '
     End Sub
 
+    Private Sub tv_AfterExpand(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tv.AfterExpand
+        tv.SelectedNode = e.Node.Nodes(0)
+    End Sub
+
     Private Sub servDep_Connected() Handles tv.Connected
         If Me.tabProcess.SelectedTab.Text = "Dependencies" Then
             With tv
@@ -361,6 +365,10 @@ Public Class frmServiceInfo
                 .UpdateItems()
             End With
         End If
+    End Sub
+
+    Private Sub tv2_AfterExpand(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tv2.AfterExpand
+        tv2.SelectedNode = e.Node.Nodes(0)
     End Sub
 
     Private Sub servDep2_Connected() Handles tv2.Connected

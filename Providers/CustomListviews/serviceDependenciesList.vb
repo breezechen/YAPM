@@ -202,6 +202,9 @@ Public Class serviceDependenciesList
         For Each pair As System.Collections.Generic.KeyValuePair(Of String, serviceInfos) In _dico
             If pair.Key.StartsWith(CType(n.Tag, servTag).tag & "->") AndAlso pair.Value.Tag = False Then  ' We use ObjectName to store parent name
                 Dim nn As TreeNode = n.Nodes.Add(pair.Value.DisplayName)
+                nn.Name = pair.Value.DisplayName
+                nn.ExpandAll()
+                RaiseEvent ItemAdded(cService.GetServiceByName(pair.Value.DisplayName))
                 nn.Tag = New servTag(pair.Key, pair.Value.Name)
                 nn.ImageKey = "service"
                 nn.SelectedImageKey = "service"

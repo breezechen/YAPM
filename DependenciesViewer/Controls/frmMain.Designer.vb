@@ -24,23 +24,17 @@ Partial Class frmMain
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.PropertiesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.OpenFirectoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip
+        Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator
+        Me.QuitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.FichierToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAlwaysVisible = New System.Windows.Forms.ToolStripMenuItem
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip
         Me.statusFile = New System.Windows.Forms.ToolStripStatusLabel
         Me.CDO = New System.Windows.Forms.OpenFileDialog
-        Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
-        Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.QuitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
         Me.tvDepends = New System.Windows.Forms.TreeView
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
@@ -70,10 +64,15 @@ Partial Class frmMain
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader13 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader14 = New System.Windows.Forms.ColumnHeader
-        Me.ContextMenuStrip1.SuspendLayout()
+        Me.cMenu1 = New System.Windows.Forms.ContextMenu
+        Me.VistaMenu = New wyDay.Controls.VistaMenu(Me.components)
+        Me.MenuItem1 = New System.Windows.Forms.MenuItem
+        Me.MenuItem2 = New System.Windows.Forms.MenuItem
+        Me.cMenu2 = New System.Windows.Forms.ContextMenu
+        Me.MenuItem3 = New System.Windows.Forms.MenuItem
+        Me.MenuItem4 = New System.Windows.Forms.MenuItem
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
-        Me.ContextMenuStrip2.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -83,27 +82,8 @@ Partial Class frmMain
         Me.TabControl1.SuspendLayout()
         Me.tabImports.SuspendLayout()
         Me.tabExports.SuspendLayout()
+        CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PropertiesToolStripMenuItem, Me.OpenFirectoryToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(154, 48)
-        '
-        'PropertiesToolStripMenuItem
-        '
-        Me.PropertiesToolStripMenuItem.Image = Global.DependenciesViewer.My.Resources.Resources.document_text
-        Me.PropertiesToolStripMenuItem.Name = "PropertiesToolStripMenuItem"
-        Me.PropertiesToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
-        Me.PropertiesToolStripMenuItem.Text = "File properties"
-        '
-        'OpenFirectoryToolStripMenuItem
-        '
-        Me.OpenFirectoryToolStripMenuItem.Image = Global.DependenciesViewer.My.Resources.Resources.folder_open
-        Me.OpenFirectoryToolStripMenuItem.Name = "OpenFirectoryToolStripMenuItem"
-        Me.OpenFirectoryToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
-        Me.OpenFirectoryToolStripMenuItem.Text = "Open directory"
         '
         'ImageList1
         '
@@ -121,6 +101,30 @@ Partial Class frmMain
         Me.MenuStrip1.Size = New System.Drawing.Size(711, 24)
         Me.MenuStrip1.TabIndex = 1
         Me.MenuStrip1.Text = "MenuStrip1"
+        '
+        'FileToolStripMenuItem
+        '
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenToolStripMenuItem, Me.ToolStripMenuItem3, Me.QuitToolStripMenuItem})
+        Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
+        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
+        Me.FileToolStripMenuItem.Text = "&File"
+        '
+        'OpenToolStripMenuItem
+        '
+        Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(112, 22)
+        Me.OpenToolStripMenuItem.Text = "&Open..."
+        '
+        'ToolStripMenuItem3
+        '
+        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(109, 6)
+        '
+        'QuitToolStripMenuItem
+        '
+        Me.QuitToolStripMenuItem.Name = "QuitToolStripMenuItem"
+        Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(112, 22)
+        Me.QuitToolStripMenuItem.Text = "&Quit"
         '
         'FichierToolStripMenuItem
         '
@@ -156,50 +160,6 @@ Partial Class frmMain
         '
         Me.CDO.Filter = "Executables|*.exe;*.dll|All|*.*"
         '
-        'ContextMenuStrip2
-        '
-        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem1, Me.ToolStripMenuItem2})
-        Me.ContextMenuStrip2.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip2.Size = New System.Drawing.Size(154, 48)
-        '
-        'ToolStripMenuItem1
-        '
-        Me.ToolStripMenuItem1.Image = Global.DependenciesViewer.My.Resources.Resources.document_text
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(153, 22)
-        Me.ToolStripMenuItem1.Text = "File properties"
-        '
-        'ToolStripMenuItem2
-        '
-        Me.ToolStripMenuItem2.Image = Global.DependenciesViewer.My.Resources.Resources.folder_open
-        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(153, 22)
-        Me.ToolStripMenuItem2.Text = "Open directory"
-        '
-        'FileToolStripMenuItem
-        '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenToolStripMenuItem, Me.ToolStripMenuItem3, Me.QuitToolStripMenuItem})
-        Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
-        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
-        Me.FileToolStripMenuItem.Text = "&File"
-        '
-        'QuitToolStripMenuItem
-        '
-        Me.QuitToolStripMenuItem.Name = "QuitToolStripMenuItem"
-        Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.QuitToolStripMenuItem.Text = "&Quit"
-        '
-        'OpenToolStripMenuItem
-        '
-        Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.OpenToolStripMenuItem.Text = "&Open..."
-        '
-        'ToolStripMenuItem3
-        '
-        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(149, 6)
-        '
         'SplitContainer1
         '
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -220,7 +180,6 @@ Partial Class frmMain
         '
         'tvDepends
         '
-        Me.tvDepends.ContextMenuStrip = Me.ContextMenuStrip1
         Me.tvDepends.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tvDepends.FullRowSelect = True
         Me.tvDepends.ImageIndex = 0
@@ -317,7 +276,7 @@ Partial Class frmMain
         Me.tabExports.Location = New System.Drawing.Point(4, 22)
         Me.tabExports.Name = "tabExports"
         Me.tabExports.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabExports.Size = New System.Drawing.Size(455, 253)
+        Me.tabExports.Size = New System.Drawing.Size(462, 231)
         Me.tabExports.TabIndex = 1
         Me.tabExports.Text = "Exports Table"
         Me.tabExports.UseVisualStyleBackColor = True
@@ -331,7 +290,7 @@ Partial Class frmMain
         Me.lvExports.Location = New System.Drawing.Point(3, 3)
         Me.lvExports.Name = "lvExports"
         Me.lvExports.OverriddenDoubleBuffered = True
-        Me.lvExports.Size = New System.Drawing.Size(449, 247)
+        Me.lvExports.Size = New System.Drawing.Size(456, 225)
         Me.lvExports.SmallImageList = Me.ImageList1
         Me.lvExports.TabIndex = 0
         Me.lvExports.UseCompatibleStateImageBehavior = False
@@ -360,7 +319,6 @@ Partial Class frmMain
         'lvAllDeps
         '
         Me.lvAllDeps.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader15, Me.ColumnHeader16, Me.ColumnHeader17, Me.ColumnHeader18, Me.ColumnHeader19, Me.ColumnHeader20, Me.ColumnHeader10, Me.ColumnHeader11, Me.ColumnHeader12, Me.ColumnHeader13, Me.ColumnHeader14})
-        Me.lvAllDeps.ContextMenuStrip = Me.ContextMenuStrip2
         Me.lvAllDeps.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvAllDeps.FullRowSelect = True
         Me.lvAllDeps.LargeImageList = Me.ImageList1
@@ -419,6 +377,42 @@ Partial Class frmMain
         Me.ColumnHeader14.Text = "Path"
         Me.ColumnHeader14.Width = 200
         '
+        'cMenu1
+        '
+        Me.cMenu1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem1, Me.MenuItem2})
+        '
+        'VistaMenu
+        '
+        Me.VistaMenu.ContainerControl = Me
+        '
+        'MenuItem1
+        '
+        Me.VistaMenu.SetImage(Me.MenuItem1, Global.DependenciesViewer.My.Resources.Resources.document_text)
+        Me.MenuItem1.Index = 0
+        Me.MenuItem1.Text = "&File properties"
+        '
+        'MenuItem2
+        '
+        Me.VistaMenu.SetImage(Me.MenuItem2, Global.DependenciesViewer.My.Resources.Resources.folder_open)
+        Me.MenuItem2.Index = 1
+        Me.MenuItem2.Text = "&Open directory"
+        '
+        'cMenu2
+        '
+        Me.cMenu2.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem3, Me.MenuItem4})
+        '
+        'MenuItem3
+        '
+        Me.VistaMenu.SetImage(Me.MenuItem3, Global.DependenciesViewer.My.Resources.Resources.document_text)
+        Me.MenuItem3.Index = 0
+        Me.MenuItem3.Text = "&File properties"
+        '
+        'MenuItem4
+        '
+        Me.VistaMenu.SetImage(Me.MenuItem4, Global.DependenciesViewer.My.Resources.Resources.folder_open)
+        Me.MenuItem4.Index = 1
+        Me.MenuItem4.Text = "&Open directory"
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -433,12 +427,10 @@ Partial Class frmMain
         Me.Name = "frmMain"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Native Dependency Viewer"
-        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
         Me.StatusStrip1.ResumeLayout(False)
         Me.StatusStrip1.PerformLayout()
-        Me.ContextMenuStrip2.ResumeLayout(False)
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
@@ -448,6 +440,7 @@ Partial Class frmMain
         Me.TabControl1.ResumeLayout(False)
         Me.tabImports.ResumeLayout(False)
         Me.tabExports.ResumeLayout(False)
+        CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -459,12 +452,6 @@ Partial Class frmMain
     Friend WithEvents statusFile As System.Windows.Forms.ToolStripStatusLabel
     Private WithEvents CDO As System.Windows.Forms.OpenFileDialog
     Friend WithEvents ImageList1 As System.Windows.Forms.ImageList
-    Friend WithEvents ContextMenuStrip1 As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents PropertiesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents OpenFirectoryToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ContextMenuStrip2 As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FileToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OpenToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem3 As System.Windows.Forms.ToolStripSeparator
@@ -498,4 +485,11 @@ Partial Class frmMain
     Friend WithEvents ColumnHeader12 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader13 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader14 As System.Windows.Forms.ColumnHeader
+    Private WithEvents cMenu1 As System.Windows.Forms.ContextMenu
+    Friend WithEvents VistaMenu As wyDay.Controls.VistaMenu
+    Friend WithEvents MenuItem1 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem2 As System.Windows.Forms.MenuItem
+    Private WithEvents cMenu2 As System.Windows.Forms.ContextMenu
+    Friend WithEvents MenuItem3 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem4 As System.Windows.Forms.MenuItem
 End Class
