@@ -6,7 +6,6 @@ TODO LIST
 - onglet File sans le ribbon -> les actions sont indisponibles (ajouter menu avec Open file, Refresh, Release...)
 - 'select in Window tab' dans task toujours non satisfaisant (au minimum, on peut déjà demander le refresh de lvWindows...)
 - graph monitoring -> refresh l'affichage de la valeur survolée également quand la souris se déplace
-- shutdown local/wmi/remote via frmConnection pas satisfaisant -> le frame doit être disable quand le tab sur lequel il est affiché ne correspond pas à la connexion active
 - vérifier pourquoi cpu usage de Idle dépasse les 100% ; le cas échéant limiter la valeur à 100%
 - find hidden processes utilisable pour les PCs distants ? + ajouter Terminate dans le menu popup + éventuellement 'go to process' pour aller dans lvProcess
 - actions sur les Windows impossible en mode non ribbon (obligation d'ajouter un popup menu...)

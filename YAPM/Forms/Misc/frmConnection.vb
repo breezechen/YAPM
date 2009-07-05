@@ -58,15 +58,60 @@ Public Class frmConnection
     End Sub
 
     Private Sub changeInfos()
+
         Me.gpServer.Visible = optServer.Checked
         Me.gpWMI.Visible = optWMI.Checked
         If optLocal.Checked Then
             Me.txtDesc.Text = _localDesc
+            Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
         ElseIf optServer.Checked Then
             Me.txtDesc.Text = _serverDes
+            Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaSocket)
         Else
             Me.txtDesc.Text = _wmiDesc
+            Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI)
         End If
+
+        Call updateShutdown()
+    End Sub
+
+    Private Sub updateShutdown()
+        Static _oldType As cConnection.TypeOfConnection
+        Static _oldConnected As Boolean = True
+
+        If optLocal.Checked Then
+            If _formConnectionReference IsNot Nothing AndAlso (_oldType <> _formConnectionReference.ConnectionType OrElse _formConnectionReference.IsConnected <> _oldConnected) Then
+                Me.cbShutdown.Items.Clear()
+                Dim _items() As String = {"Restart", "Shutdown", "Poweroff", "Sleep", "Logoff", "Lock"}
+                Me.cbShutdown.Items.AddRange(_items)
+                Me.gpShutdown.Text = "Shutdown local system"
+            End If
+            Me.txtDesc.Text = _localDesc
+            Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
+            _oldType = cConnection.TypeOfConnection.LocalConnection
+        ElseIf optServer.Checked Then
+            If _formConnectionReference IsNot Nothing AndAlso (_oldType <> _formConnectionReference.ConnectionType OrElse _formConnectionReference.IsConnected <> _oldConnected) Then
+                Me.cbShutdown.Items.Clear()
+                Dim _items() As String = {"Restart", "Shutdown", "Poweroff", "Sleep", "Logoff", "Lock"}
+                Me.cbShutdown.Items.AddRange(_items)
+                Me.gpShutdown.Text = "Shutdown remote system via socket"
+            End If
+            Me.txtDesc.Text = _serverDes
+            Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaSocket)
+            _oldType = cConnection.TypeOfConnection.RemoteConnectionViaSocket
+        Else
+            If _formConnectionReference IsNot Nothing AndAlso (_oldType <> _formConnectionReference.ConnectionType OrElse _formConnectionReference.IsConnected <> _oldConnected) Then
+                Me.cbShutdown.Items.Clear()
+                Dim _items() As String = {"Restart", "Shutdown", "Poweroff", "Logoff"}
+                Me.cbShutdown.Items.AddRange(_items)
+                Me.gpShutdown.Text = "Shutdown remote system via WMI"
+            End If
+            Me.txtDesc.Text = _wmiDesc
+            Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI)
+            _oldType = cConnection.TypeOfConnection.RemoteConnectionViaWMI
+        End If
+
+        _oldConnected = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected)
     End Sub
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdCancel.Click
@@ -79,7 +124,7 @@ Public Class frmConnection
                 Me.optWMI.Checked = True
         End Select
         Me.Hide()
-        Call changeInfos()
+        Call updateShutdown()
     End Sub
 
     ' Here we (dis)connect !
@@ -114,7 +159,6 @@ Public Class frmConnection
 
     ' Change the caption of the button 'Connect/Disconnect'
     Private Sub ChangeCaption()
-        Static _oldType As cConnection.TypeOfConnection = cConnection.TypeOfConnection.LocalConnection
         If _formConnectionReference.IsConnected Then
             Me.cmdConnect.Text = "Disconnect"
             Me.Text = "Connected"
@@ -122,29 +166,7 @@ Public Class frmConnection
             Me.cmdConnect.Text = "Connect"
             Me.Text = "Disconnected"
         End If
-        Me.gpShutdown.Enabled = _formConnectionReference.IsConnected
-
-        If _oldType <> _formConnectionReference.ConnectionType Then
-            ' Changed connection type --> changed shutdown options
-            _oldType = _formConnectionReference.ConnectionType
-            Select Case _oldType
-                Case cConnection.TypeOfConnection.LocalConnection
-                    Me.cbShutdown.Items.Clear()
-                    Dim _items() As String = {"Restart", "Shutdown", "Poweroff", "Sleep", "Logoff", "Lock"}
-                    Me.cbShutdown.Items.AddRange(_items)
-                    Me.gpShutdown.Text = "Shutdown local system"
-                Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-                    Me.cbShutdown.Items.Clear()
-                    Dim _items() As String = {"Restart", "Shutdown", "Poweroff", "Sleep", "Logoff", "Lock"}
-                    Me.cbShutdown.Items.AddRange(_items)
-                    Me.gpShutdown.Text = "Shutdown remote system via socket"
-                Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
-                    Me.cbShutdown.Items.Clear()
-                    Dim _items() As String = {"Restart", "Shutdown", "Poweroff", "Logoff"}
-                    Me.cbShutdown.Items.AddRange(_items)
-                    Me.gpShutdown.Text = "Shutdown remote system via WMI"
-            End Select
-        End If
+        Call changeInfos()
     End Sub
 
     ' BAD WAY (because of withevents, this is raised JUST WHEN Program.Connection.Connect
