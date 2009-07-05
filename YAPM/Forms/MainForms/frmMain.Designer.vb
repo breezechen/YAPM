@@ -44,7 +44,7 @@ Partial Class frmMain
         Dim CConnection6 As CoreFunc.cConnection = New CoreFunc.cConnection
         Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Windows", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Processes", 1, 1)
+        Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Items", 1, 1)
         Dim CConnection7 As CoreFunc.cConnection = New CoreFunc.cConnection
         Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
@@ -520,7 +520,6 @@ Partial Class frmMain
         Me.MenuItemModuleFileDetails = New System.Windows.Forms.MenuItem
         Me.MenuItemModuleSearch = New System.Windows.Forms.MenuItem
         Me.MenuItemModuleDependencies = New System.Windows.Forms.MenuItem
-        Me.MenuItemViewModuleMemory = New System.Windows.Forms.MenuItem
         Me.MenuItemUnloadModule = New System.Windows.Forms.MenuItem
         Me.MenuItemModuleSelProc = New System.Windows.Forms.MenuItem
         Me.MenuItemWindowSelProc = New System.Windows.Forms.MenuItem
@@ -4445,7 +4444,7 @@ Partial Class frmMain
         TreeNode3.ImageIndex = 1
         TreeNode3.Name = "processes"
         TreeNode3.SelectedImageIndex = 1
-        TreeNode3.Text = "Processes"
+        TreeNode3.Text = "Items"
         Me.tvMonitor.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode3})
         Me.tvMonitor.SelectedImageIndex = 0
         Me.tvMonitor.Size = New System.Drawing.Size(281, 378)
@@ -5945,17 +5944,11 @@ Partial Class frmMain
         Me.MenuItemModuleDependencies.Index = 6
         Me.MenuItemModuleDependencies.Text = "View dependencies..."
         '
-        'MenuItemViewModuleMemory
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemViewModuleMemory, Global.YAPM.My.Resources.Resources.magnifier)
-        Me.MenuItemViewModuleMemory.Index = 7
-        Me.MenuItemViewModuleMemory.Text = "View memory"
-        '
         'MenuItemUnloadModule
         '
         Me.MenuItemUnloadModule.DefaultItem = True
         Me.VistaMenu.SetImage(Me.MenuItemUnloadModule, Global.YAPM.My.Resources.Resources.cross)
-        Me.MenuItemUnloadModule.Index = 9
+        Me.MenuItemUnloadModule.Index = 8
         Me.MenuItemUnloadModule.Text = "Unload module"
         '
         'MenuItemModuleSelProc
@@ -6413,7 +6406,7 @@ Partial Class frmMain
         '
         'mnuModule
         '
-        Me.mnuModule.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemModuleSelProc, Me.MenuItem26, Me.MenuItemModuleFileProp, Me.MenuItemModuleOpenDir, Me.MenuItemModuleFileDetails, Me.MenuItemModuleSearch, Me.MenuItemModuleDependencies, Me.MenuItemViewModuleMemory, Me.MenuItem13, Me.MenuItemUnloadModule, Me.MenuItem21, Me.MenuItemColumnsModule})
+        Me.mnuModule.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemModuleSelProc, Me.MenuItem26, Me.MenuItemModuleFileProp, Me.MenuItemModuleOpenDir, Me.MenuItemModuleFileDetails, Me.MenuItemModuleSearch, Me.MenuItemModuleDependencies, Me.MenuItem13, Me.MenuItemUnloadModule, Me.MenuItem21, Me.MenuItemColumnsModule})
         '
         'MenuItem26
         '
@@ -6422,17 +6415,17 @@ Partial Class frmMain
         '
         'MenuItem13
         '
-        Me.MenuItem13.Index = 8
+        Me.MenuItem13.Index = 7
         Me.MenuItem13.Text = "-"
         '
         'MenuItem21
         '
-        Me.MenuItem21.Index = 10
+        Me.MenuItem21.Index = 9
         Me.MenuItem21.Text = "-"
         '
         'MenuItemColumnsModule
         '
-        Me.MenuItemColumnsModule.Index = 11
+        Me.MenuItemColumnsModule.Index = 10
         Me.MenuItemColumnsModule.Text = "Choose columns..."
         '
         'mnuWindow
@@ -7416,7 +7409,6 @@ Partial Class frmMain
     Friend WithEvents MenuItemModuleFileDetails As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemModuleSearch As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemModuleDependencies As System.Windows.Forms.MenuItem
-    Friend WithEvents MenuItemViewModuleMemory As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItem13 As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemUnloadModule As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItem21 As System.Windows.Forms.MenuItem

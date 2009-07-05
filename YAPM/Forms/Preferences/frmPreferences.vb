@@ -58,6 +58,7 @@ Public Class frmPreferences
         My.Settings.HideWhenMinimized = Me.chkHideMinimized.Checked
         My.Settings.TrayInterval = CInt(Val(Me.txtTrayInterval.Text))
         My.Settings.SystemInterval = CInt(Val(Me.txtSysInfoInterval.Text))
+        My.Settings.AutomaticInternetInfos = Me.chkAutoOnline.Checked
         If Me.chkUnlimitedBuf.Checked Then
             My.Settings.HistorySize = -1
         Else
@@ -119,6 +120,7 @@ Public Class frmPreferences
             .SetToolTip(Me.chkHideClosed, "Hide YAPM when user click on 'close' button")
             .SetToolTip(Me.chkUnlimitedBuf, "No size limit for history")
             .SetToolTip(Me.bufferSize, "Size of the buffer used to save history of statistics of one process (KB). The change of this value will be applied on the next start of YAPM.")
+            .SetToolTip(Me.chkAutoOnline, "Automatically retrieve online description of a process/service when detailed form is showned")
         End With
 
         ' Set control's values
@@ -144,6 +146,7 @@ Public Class frmPreferences
         Me.txtTrayInterval.Text = My.Settings.TrayInterval.ToString
         Me.txtSysInfoInterval.Text = My.Settings.SystemInterval.ToString
         Me.chkHideClosed.Checked = My.Settings.HideWhenClosed
+        Me.chkAutoOnline.Checked = My.Settings.AutomaticInternetInfos
         If My.Settings.HistorySize > 0 Then
             Me.bufferSize.Value = CInt(My.Settings.HistorySize / 1024)
             Me.chkUnlimitedBuf.Checked = False
@@ -179,6 +182,7 @@ Public Class frmPreferences
         Me.chkWarn.Checked = True
         Me.chkHideClosed.Checked = False
         Me.chkUnlimitedBuf.Checked = False
+        Me.chkAutoOnline.Checked = False
 
         Me.bufferSize.Value = 100
     End Sub
@@ -231,22 +235,26 @@ Public Class frmPreferences
             ' _inv.Invoke(s, False, False)
 
             'download code
-            Dim source As String = mdlInternet.DownloadPage("https://sourceforge.net/project/platformdownload.php?group_id=244697")
+            Dim source As String = mdlInternet.DownloadPage("http://yaprocmon.sourceforge.net/")
             If source.Length = 0 Then Return False
 
             s = "Retrieve last version number from downloaded informations..."
             If dObj.deg IsNot Nothing AndAlso dObj.ctrl.Created Then _
                 dObj.ctrl.Invoke(dObj.deg, s, False, False)
 
-            ' parse code, retrive last update info and if necessary changelog
+            ' parse code, retrive last update info
+            ' we have to get this line : <META content="2.0.1" name=yapm_version>
 
-            Dim x As Integer = InStr(source, "Last version : ", CompareMethod.Binary)
-            Dim x2 As Integer = InStr(x + 1, source, "</p>", CompareMethod.Binary)
+            Dim x As Integer = InStr(source, "name=yapm_version>", CompareMethod.Binary)
+            Dim x2 As Integer
+            If x > 30 Then
+                x2 = InStr(x - 30, source, "content=", CompareMethod.Binary)
+            End If
             If x = 0 Or x2 = 0 Then Return False
 
-            Dim sVers As String = source.Substring(x + 14, x2 - x - 15)
+            Dim sVers As String = source.Substring(x2 + 8, x - x2 - 11)
             Dim sV As String() = Split(sVers, ".")
-            lVersion = CInt(Val(sV(0)) * 10000 + Val(sV(1)) * 1000 + Val(sV(2)) * 1000 + Val(sV(3)) * 100 + Val(sV(4)))
+            lVersion = CInt(Val(sV(0)) * 10000 + Val(sV(1)) * 1000 + Val(sV(2)) * 1000 + Val(sV(3)) * 100)
 
             s = "Last version is : " & lVersion & vbNewLine
             s &= "Your version is : " & cVersion & vbNewLine

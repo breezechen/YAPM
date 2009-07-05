@@ -1,5 +1,12 @@
 YAPM 2.0.1 BETA
 
+CHANGES FROM 2.0.2
+- menus .Net complètement supprimés
+- bug fixes
+- option "automatically get online infos"
+- IHM improvements
+- récupération des infos de MAJ depuis le site web de yapm (non plus sf.net)
+
 CHANGES FROM 2.0.1
 
 * New features

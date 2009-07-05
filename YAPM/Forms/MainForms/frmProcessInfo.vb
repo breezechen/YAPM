@@ -440,6 +440,10 @@ Public Class frmProcessInfo
         Call Connect()
         Call refreshProcessTab()
 
+        If My.Settings.AutomaticInternetInfos Then
+            Call cmdGetOnlineInfos_Click(Nothing, Nothing)
+        End If
+
     End Sub
 
     ' Get process to monitor

@@ -245,6 +245,7 @@ Public Class frmFindWindow
     End Sub
 
     Private Sub frmFindWindow_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
+        _frmMain.WindowState = FormWindowState.Normal
         _frmMain.Show()
     End Sub
 

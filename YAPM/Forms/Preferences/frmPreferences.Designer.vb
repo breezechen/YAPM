@@ -74,6 +74,7 @@ Partial Class frmPreferences
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
         Me.colDial = New System.Windows.Forms.ColorDialog
+        Me.chkAutoOnline = New System.Windows.Forms.CheckBox
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -102,6 +103,7 @@ Partial Class frmPreferences
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.chkAutoOnline)
         Me.TabPage1.Controls.Add(Me.cmdResetAll)
         Me.TabPage1.Controls.Add(Me.chkWarn)
         Me.TabPage1.Controls.Add(Me.txtSearchEngine)
@@ -582,6 +584,16 @@ Partial Class frmPreferences
         Me.colDial.AnyColor = True
         Me.colDial.FullOpen = True
         '
+        'chkAutoOnline
+        '
+        Me.chkAutoOnline.AutoSize = True
+        Me.chkAutoOnline.Location = New System.Drawing.Point(14, 195)
+        Me.chkAutoOnline.Name = "chkAutoOnline"
+        Me.chkAutoOnline.Size = New System.Drawing.Size(180, 17)
+        Me.chkAutoOnline.TabIndex = 9
+        Me.chkAutoOnline.Text = "Get online infos automatically"
+        Me.chkAutoOnline.UseVisualStyleBackColor = True
+        '
         'frmPreferences
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -672,4 +684,5 @@ Partial Class frmPreferences
     Friend WithEvents chkUnlimitedBuf As System.Windows.Forms.CheckBox
     Friend WithEvents bufferSize As System.Windows.Forms.NumericUpDown
     Friend WithEvents cmdResetAll As System.Windows.Forms.Button
+    Friend WithEvents chkAutoOnline As System.Windows.Forms.CheckBox
 End Class

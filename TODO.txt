@@ -1,17 +1,10 @@
 TODO LIST
 
-- couleurs de fond de form sous XP sans le theme -> moche (mettre le bleu du ruban si le ruban est affiché) + certaines couleurs (fond de label...)
 - certaines icones moches (yes/no dans lvPrivileges, refresh, find window, )
-- find window actionné dans le taskbar avec YAPM caché -> affiche YAPM juste dans le bar, et se recache lorsqu'on clique dessus
-- automatic get online infos (pour processus et services) à ajouter dans les options (feature qui demande la récupération des infos dès l'affichage d'une form detail)
 - get online infos pour les services (changer de provider !!)
-- dbl click sur une tache -> ensurevisible requis sur l'item du process associé (et pareil pour tous les cas similaires)
-- 'select in the treeview a process and then a monitor item' -> ne veut rien dire (et en plus c'est pas que des processus dans le tv) + rootitem s'appelle Process, ce qui est faux (pas que des processus)
 - désactiver les popup menus lorsque rien à sélectionner (exemple frmMain.lvModules quand aucun élément, ou bien lvProcess quand click à côté qui sélectionne rien...) + afficher texte dans la zone du bas pour dire qu'il est nécessaire de sélectionner un processus
 - onglet File sans le ribbon -> les actions sont indisponibles (ajouter menu avec Open file, Refresh, Release...)
-- utiliser le site web de YAPM (et non plus sf.net) pour récupérer les infos de dernière version + pour télécharger la dernière version
 - 'select in Window tab' dans task toujours non satisfaisant (au minimum, on peut déjà demander le refresh de lvWindows...)
-- view memory dans le popupmenu de lvModules ??? (impossible d'y accéder hors frmDetails)
 - graph monitoring -> refresh l'affichage de la valeur survolée également quand la souris se déplace
 - shutdown local/wmi/remote via frmConnection pas satisfaisant -> le frame doit être disable quand le tab sur lequel il est affiché ne correspond pas à la connexion active
 - vérifier pourquoi cpu usage de Idle dépasse les 100% ; le cas échéant limiter la valeur à 100%

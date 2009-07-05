@@ -299,6 +299,7 @@ Public Class frmMain
 
         PROCESSOR_COUNT = Program.SystemInfo.ProcessorCount
 
+        Me.BackColor = Color.FromArgb(240, 240, 240)
         Me.lblServicePath.BackColor = Me.BackColor
 
         creg = New cRegMonitor(API.KEY_TYPE.HKEY_LOCAL_MACHINE, "SYSTEM\CurrentControlSet\Services", _
@@ -1983,7 +1984,7 @@ Public Class frmMain
                 Me.butMonitorStart.Enabled = True
                 Me.butMonitorStop.Enabled = True
                 Me.graphMonitor.CreateGraphics.Clear(Color.Black)
-                Me.graphMonitor.CreateGraphics.DrawString("Select in the treeview a monitor item.", Me.Font, Brushes.White, 0, 0)
+                Me.graphMonitor.CreateGraphics.DrawString("Select in the treeview a counter.", Me.Font, Brushes.White, 0, 0)
             Else
                 Dim it As cMonitor = CType(tvMonitor.SelectedNode.Tag, cMonitor)
                 Me.butMonitorStart.Enabled = Not (it.Enabled)
@@ -1998,7 +1999,7 @@ Public Class frmMain
             Me.butMonitorStart.Enabled = True
             Me.butMonitorStop.Enabled = True
             Me.graphMonitor.CreateGraphics.Clear(Color.Black)
-            Me.graphMonitor.CreateGraphics.DrawString("Select in the treeview a process and then a monitor item.", Me.Font, Brushes.White, 0, 0)
+            Me.graphMonitor.CreateGraphics.DrawString("Select in the treeview an item and then a counter.", Me.Font, Brushes.White, 0, 0)
         End If
 
         Me.MenuItemMonitorStart.Enabled = Me.butMonitorStart.Enabled
@@ -3131,7 +3132,6 @@ Public Class frmMain
         Me.butModuleViewModuleDep.Enabled = _local
         Me.butServiceOpenDir.Enabled = _local
         Me.MenuItemModuleDependencies.Enabled = _local
-        Me.MenuItemViewModuleMemory.Enabled = _local
         Me.MenuItemUnloadModule.Enabled = _notWMI
         Me.MenuItemThSuspend.Enabled = _notWMI
         Me.MenuItemServReanalize.Enabled = _local

@@ -137,5 +137,8 @@
     <Setting Name="COLprocdetail_log" Type="System.String" Scope="User">
       <Value Profile="(Default)">Date &amp; Time?164$Type?102$Description?343$</Value>
     </Setting>
+    <Setting Name="AutomaticInternetInfos" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
