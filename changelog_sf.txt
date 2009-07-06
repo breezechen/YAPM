@@ -6,6 +6,7 @@ CHANGES FROM 2.0.2
 - option "automatically get online infos"
 - IHM improvements
 - récupération des infos de MAJ depuis le site web de yapm (non plus sf.net)
+- upgrade des settings depuis une version précédente de YAPM
 
 CHANGES FROM 2.0.1
 

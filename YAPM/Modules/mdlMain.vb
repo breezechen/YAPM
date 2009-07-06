@@ -135,20 +135,14 @@ Public Module Program
         End Get
     End Property
 
-
-    ' NOT UP TO DATE : There is a Config.xml file for for each user, but in IDE the file should be located in Config dir
-#If Not (CONFIG_INTO_APPDATA) Then
-    Public PREF_PATH As String = My.Application.Info.DirectoryPath & "\config.xml"
-#Else
-    Public PREF_PATH As String = My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData & "\config.xml"
-#End If
-
     Public Const HELP_PATH As String = "http://yaprocmon.sourceforge.net/help.html"
     Public Const NO_INFO_RETRIEVED As String = "N/A"
 
     Public NEW_ITEM_COLOR As Color = Color.FromArgb(128, 255, 0)
     Public DELETED_ITEM_COLOR As Color = Color.FromArgb(255, 64, 48)
     Public PROCESSOR_COUNT As Integer
+
+
 
     Sub Main()
 
@@ -224,6 +218,12 @@ Public Module Program
 
 
         ' ======= Load preferences
+        Try
+            ' Try to update settings from a previous version of YAPM
+            My.Settings.Upgrade()
+        Catch ex As Exception
+            '
+        End Try
         If _progParameters.ModeServer = False Then
             Try
                 If My.Settings.FirstTime Then

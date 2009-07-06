@@ -11,7 +11,6 @@ TODO LIST
 - actions sur les Windows impossible en mode non ribbon (obligation d'ajouter un popup menu...)
 - déconnexion WMI après longue inactivité -> calculer temps dernière requete et lancer une requete pour éviter la déconnexion si t>MAX ?
 - double récupération des strings en mémoire/image dans frmDetail ???
-- mettre à jour (si possible) le fichiers de sauvegarde des options
 - tester en tâche de fond sur un windows XP et voir si des crash surviennent
 - blocage de l'application quand certains processus bouffe du CPU (cf compilo wingreta) -> est-ce un appel bloquant (genre sendmessage) lors du refresh des process/tasks...?
 - form about modale
