@@ -186,6 +186,7 @@ Public Class frmServiceInfo
         SetToolTip(Me.cmdShowFileProperties, "Show file properties")
         SetToolTip(Me.cmdStart, "Start service")
         SetToolTip(Me.cmdStop, "Stop service")
+        SetToolTip(Me.cbStart, "Service start type")
 
         Select Case My.Settings.ServSelectedTab
             Case "General - 1"
