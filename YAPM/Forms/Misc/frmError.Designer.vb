@@ -27,7 +27,8 @@ Partial Class frmError
         Me.Label1 = New System.Windows.Forms.Label
         Me.lnkSFtracker = New System.Windows.Forms.LinkLabel
         Me.cmdQuit = New System.Windows.Forms.Button
-        Me.Button1 = New System.Windows.Forms.Button
+        Me.cmdContinue = New System.Windows.Forms.Button
+        Me.cmdIgnore = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'txtReport
@@ -55,10 +56,10 @@ Partial Class frmError
         Me.lnkSFtracker.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lnkSFtracker.Location = New System.Drawing.Point(12, 243)
         Me.lnkSFtracker.Name = "lnkSFtracker"
-        Me.lnkSFtracker.Size = New System.Drawing.Size(385, 17)
+        Me.lnkSFtracker.Size = New System.Drawing.Size(225, 34)
         Me.lnkSFtracker.TabIndex = 2
         Me.lnkSFtracker.TabStop = True
-        Me.lnkSFtracker.Text = "Create a new artifact on the tracker to help me to fix the bug"
+        Me.lnkSFtracker.Text = "Create a new artifact on the tracker" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "to help me to fix this bug"
         '
         'cmdQuit
         '
@@ -70,22 +71,33 @@ Partial Class frmError
         Me.cmdQuit.Text = "Terminate YAPM"
         Me.cmdQuit.UseVisualStyleBackColor = True
         '
-        'Button1
+        'cmdContinue
         '
-        Me.Button1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button1.Location = New System.Drawing.Point(450, 246)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(74, 23)
-        Me.Button1.TabIndex = 5
-        Me.Button1.Text = "Continue"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.cmdContinue.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdContinue.Location = New System.Drawing.Point(450, 246)
+        Me.cmdContinue.Name = "cmdContinue"
+        Me.cmdContinue.Size = New System.Drawing.Size(74, 23)
+        Me.cmdContinue.TabIndex = 5
+        Me.cmdContinue.Text = "Continue"
+        Me.cmdContinue.UseVisualStyleBackColor = True
+        '
+        'cmdIgnore
+        '
+        Me.cmdIgnore.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdIgnore.Location = New System.Drawing.Point(370, 246)
+        Me.cmdIgnore.Name = "cmdIgnore"
+        Me.cmdIgnore.Size = New System.Drawing.Size(74, 23)
+        Me.cmdIgnore.TabIndex = 6
+        Me.cmdIgnore.Text = "Ignore"
+        Me.cmdIgnore.UseVisualStyleBackColor = True
         '
         'frmError
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(665, 281)
-        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.cmdIgnore)
+        Me.Controls.Add(Me.cmdContinue)
         Me.Controls.Add(Me.cmdQuit)
         Me.Controls.Add(Me.lnkSFtracker)
         Me.Controls.Add(Me.Label1)
@@ -107,6 +119,7 @@ Partial Class frmError
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents lnkSFtracker As System.Windows.Forms.LinkLabel
     Friend WithEvents cmdQuit As System.Windows.Forms.Button
-    Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents cmdContinue As System.Windows.Forms.Button
+    Friend WithEvents cmdIgnore As System.Windows.Forms.Button
 
 End Class

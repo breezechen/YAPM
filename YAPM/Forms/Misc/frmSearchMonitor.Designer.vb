@@ -27,7 +27,7 @@ Partial Class frmSearchMonitor
         Me.Label1 = New System.Windows.Forms.Label
         Me.txtToSearch = New System.Windows.Forms.TextBox
         Me.chkCase = New System.Windows.Forms.CheckBox
-        Me.Button1 = New System.Windows.Forms.Button
+        Me.cmdGo = New System.Windows.Forms.Button
         Me.LV = New System.Windows.Forms.ListView
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.SuspendLayout()
@@ -58,18 +58,18 @@ Partial Class frmSearchMonitor
         Me.chkCase.Text = "Case sensitive"
         Me.chkCase.UseVisualStyleBackColor = True
         '
-        'Button1
+        'cmdGo
         '
-        Me.Button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.Button1.Image = Global.YAPM.My.Resources.Resources.magnifier
-        Me.Button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.Button1.Location = New System.Drawing.Point(330, 6)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(48, 23)
-        Me.Button1.TabIndex = 3
-        Me.Button1.Text = "Go"
-        Me.Button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.cmdGo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.cmdGo.Image = Global.YAPM.My.Resources.Resources.magnifier
+        Me.cmdGo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.cmdGo.Location = New System.Drawing.Point(330, 6)
+        Me.cmdGo.Name = "cmdGo"
+        Me.cmdGo.Size = New System.Drawing.Size(48, 23)
+        Me.cmdGo.TabIndex = 3
+        Me.cmdGo.Text = "Go"
+        Me.cmdGo.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.cmdGo.UseVisualStyleBackColor = True
         '
         'LV
         '
@@ -97,7 +97,7 @@ Partial Class frmSearchMonitor
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(398, 210)
         Me.Controls.Add(Me.LV)
-        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.cmdGo)
         Me.Controls.Add(Me.chkCase)
         Me.Controls.Add(Me.txtToSearch)
         Me.Controls.Add(Me.Label1)
@@ -117,7 +117,7 @@ Partial Class frmSearchMonitor
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents txtToSearch As System.Windows.Forms.TextBox
     Friend WithEvents chkCase As System.Windows.Forms.CheckBox
-    Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents cmdGo As System.Windows.Forms.Button
     Friend WithEvents LV As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
 End Class

@@ -39,6 +39,15 @@ Public Class frmHotkeys
 
         API.SetWindowTheme(lv.Handle, "explorer", Nothing)
 
+        SetToolTip(Me.chkAlt, "Use Alt key")
+        SetToolTip(Me.chkCtrl, "Use Control key")
+        SetToolTip(Me.chkShift, "Use Shift key")
+        SetToolTip(Me.txtKey, "Press the desired key on your keyboard for the shortcut")
+        SetToolTip(Me.cmdAdd, "Add the shortcut")
+        SetToolTip(Me.cmdKO, "Do not add the shortcut")
+        SetToolTip(Me.cbAction, "Action to raise when the keys of the shortcut are pressed")
+
+
         Me.cbAction.Items.Clear()
         For Each i As String In Program.Hotkeys.ActionsAvailable
             If i IsNot Nothing Then

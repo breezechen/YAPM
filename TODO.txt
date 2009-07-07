@@ -1,5 +1,10 @@
 TODO LIST
 
+- élévation de privileges (droits admins, UAC...) -> manifest
+- tooltip partout (manque frmPreferences ? et manque frmLogOptions) + passer au tooltip classique
+- images PNG uniquement + virer img inutiles
+- crash UDP à inspecter
+- Check if file is locked... -> avertir quand recherche terminée
 - certaines icones moches (yes/no dans lvPrivileges, refresh, find window, )
 - get online infos pour les services (changer de provider !!)
 - désactiver les popup menus lorsque rien à sélectionner (exemple frmMain.lvModules quand aucun élément, ou bien lvProcess quand click à côté qui sélectionne rien...) + afficher texte dans la zone du bas pour dire qu'il est nécessaire de sélectionner un processus

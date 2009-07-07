@@ -28,12 +28,15 @@ Public Class frmSearchMonitor
     Private Sub frmSearchMonitor_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         closeWithEchapKey(Me)
+        SetToolTip(Me.txtToSearch, "Text to search")
+        SetToolTip(Me.chkCase, "Is the search case sensitive or not ?")
+        SetToolTip(Me.cmdGo, "Launch the search of the specified text")
 
         API.SetWindowTheme(Me.LV.Handle, "explorer", Nothing)
     End Sub
 
     ' Launch search
-    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdGo.Click
         Dim s As String = Me.txtToSearch.Text
         If Me.chkCase.Checked Then
             s = s.ToLowerInvariant

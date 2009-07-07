@@ -312,20 +312,54 @@ Public Class frmMain
         End With
 
         ' Create tooltips
-        SetToolTip(Me.lblResCount, "Number of results. Click on the number to view results.")
-        SetToolTip(Me.lblResCount2, "Number of results. Click on the number to view results.")
-        SetToolTip(Me.txtSearch, "Enter text here to search a process.")
-        SetToolTip(Me.txtServiceSearch, "Enter text here to search a service.")
-        SetToolTip(Me.cmdCopyServiceToCp, "Copy services informations to clipboard. Use left click to copy as text, right click to copy as rtf (preserve text style).")
-        SetToolTip(Me.lblServicePath, "Path of the main executable of the service.")
-        SetToolTip(Me.tv, "Selected service depends on these services.")
-        SetToolTip(Me.tv2, "This services depend on selected service.")
-        SetToolTip(Me.chkSearchProcess, "Search in processes list.")
-        SetToolTip(Me.chkSearchServices, "Search in services list.")
-        SetToolTip(Me.chkSearchWindows, "Search in windows list.")
-        SetToolTip(Me.chkSearchCase, "Case sensitive.")
-        SetToolTip(Me.chkSearchModules, "Check also for processes modules.")
-        SetToolTip(Me.lstFileString, "List of strings in file. Right click to copy to clipboard. Middle click to refresh the list.")
+        SetToolTip(Me.lblResCount, "Number of results. Click on the number to view results")
+        SetToolTip(Me.lblResCount2, "Number of results. Click on the number to view results")
+        SetToolTip(Me.lblTaskCountResult, "Number of results. Click on the number to view results")
+        SetToolTip(Me.txtSearchTask, "Enter text here to search a task")
+        SetToolTip(Me.txtSearch, "Enter text here to search a process")
+        SetToolTip(Me.lblModulesCount, "Number of results. Click on the number to view results")
+        SetToolTip(Me.txtSearchModule, "Enter text here to search a module")
+        SetToolTip(Me.lblThreadResults, "Number of results. Click on the number to view results")
+        SetToolTip(Me.txtSearchThread, "Enter text here to search a thread")
+        SetToolTip(Me.lblHandlesCount, "Number of results. Click on the number to view results")
+        SetToolTip(Me.txtSearchHandle, "Enter text here to search a handle")
+        SetToolTip(Me.lblWindowsCount, "Number of results. Click on the number to view results")
+        SetToolTip(Me.txtSearchWindow, "Enter text here to search a window")
+        SetToolTip(Me.chkAllWindows, "Display all windows (including windows without caption)")
+        SetToolTip(Me.txtSearchResults, "Enter text here to search into the results")
+        SetToolTip(Me.lblResultsCount, "Number of results. Click on the number to view results")
+        SetToolTip(Me.tvMonitor, "Monitoring items")
+        SetToolTip(Me.chkMonitorLeftAuto, "Setting to display graph. See help for details")
+        SetToolTip(Me.chkMonitorRightAuto, "Setting to display graph. See help for details")
+        SetToolTip(Me.dtMonitorL, "Setting to display graph. See help for details")
+        SetToolTip(Me.dtMonitorR, "Setting to display graph. See help for details")
+        SetToolTip(Me.txtMonitorNumber, "Setting to display graph. See help for details")
+        SetToolTip(Me.cmdFileClipboard, "Copy file informations to clipboard. Use left click to copy as text, right click to copy as rtf (preserve text style)")
+        SetToolTip(Me.DTcreation, "Date of creation")
+        SetToolTip(Me.DTlastAccess, "Date of last access")
+        SetToolTip(Me.DTlastModification, "Date of last modification")
+        SetToolTip(Me.cmdSetFileDates, "Set these dates")
+        SetToolTip(Me.chkFileArchive, "File is archive")
+        SetToolTip(Me.chkFileCompressed, "File is compressed")
+        SetToolTip(Me.chkFileContentNotIndexed, "File is indexed")
+        SetToolTip(Me.chkFileEncrypted, "File is encrypted")
+        SetToolTip(Me.chkFileHidden, "File is hidden")
+        SetToolTip(Me.chkFileNormal, "File is normal")
+        SetToolTip(Me.chkFileReadOnly, "File is read only")
+        SetToolTip(Me.chkFileSystem, "File is system")
+        SetToolTip(Me.txtServiceSearch, "Enter text here to search a service")
+        SetToolTip(Me.cmdCopyServiceToCp, "Copy services informations to clipboard. Use left click to copy as text, right click to copy as rtf (preserve text style)")
+        SetToolTip(Me.lblServicePath, "Path of the main executable of the service")
+        SetToolTip(Me.tv, "Selected service depends on these services")
+        SetToolTip(Me.tv2, "This services depend on selected service")
+        SetToolTip(Me.chkSearchProcess, "Include processes in search")
+        SetToolTip(Me.chkSearchServices, "Include services in search")
+        SetToolTip(Me.chkSearchWindows, "Include windows in search")
+        SetToolTip(Me.chkSearchCase, "Search is case sensitive or not")
+        SetToolTip(Me.chkSearchEnvVar, "Include environement variables in search")
+        SetToolTip(Me.chkSearchHandles, "Include handles in search")
+        SetToolTip(Me.chkSearchModules, "Include modules in search")
+        SetToolTip(Me.lstFileString, "List of strings in file. Right click to copy to clipboard. Middle click to refresh the list")
 
         ' Init columns
         Pref.LoadListViewColumns(Me.lvProcess, "COLmain_process")
@@ -417,15 +451,6 @@ Public Class frmMain
         Me.Show()
         Me.WindowState = FormWindowState.Normal
         Me.Visible = True
-    End Sub
-
-    Public Sub SetToolTip(ByVal ctrl As Control, ByVal text As String)
-        Dim tToolTip As ToolTip = New System.Windows.Forms.ToolTip(Me.components)
-        With tToolTip
-            .SetToolTip(ctrl, text)
-            .IsBalloon = True
-            .Active = True
-        End With
     End Sub
 
     Private Sub frmMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Shown

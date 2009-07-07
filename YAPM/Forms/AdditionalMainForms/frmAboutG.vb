@@ -39,6 +39,11 @@ Public Class frmAboutG
 
         API.SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
 
+        SetToolTip(Me.cmdLicense, "Display license of YAPM")
+        SetToolTip(Me.btnOK, "Close this window")
+        SetToolTip(Me.lnklblSF, "Visit YAPM webpage on sourceforge.net")
+        SetToolTip(Me.lnkWebsite,"Visit YAPM website")
+
         Try
             Me.lblVersion.Text = My.Application.Info.Version.ToString
             Dim it As New ListViewItem("YAPM.exe")
@@ -96,5 +101,9 @@ Public Class frmAboutG
 
     Private Sub lblVistaMenu_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblVistaMenu.LinkClicked
         cFile.ShellOpenFile("http://wyday.com/opensource.php", Me.Handle)
+    End Sub
+
+    Private Sub lnkWebsite_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkWebsite.LinkClicked
+        cFile.ShellOpenFile("http://sourceforge.net/projects/yaprocmon/", Me.Handle)
     End Sub
 End Class

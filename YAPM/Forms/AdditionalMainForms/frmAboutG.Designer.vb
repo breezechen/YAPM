@@ -44,6 +44,7 @@ Partial Class frmAboutG
         Me.cmdLicense = New System.Windows.Forms.Button
         Me.lblTaskDialog = New System.Windows.Forms.LinkLabel
         Me.lblVistaMenu = New System.Windows.Forms.LinkLabel
+        Me.lnkWebsite = New System.Windows.Forms.LinkLabel
         CType(Me.pctIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -254,6 +255,16 @@ Partial Class frmAboutG
         Me.lblVistaMenu.TabStop = True
         Me.lblVistaMenu.Text = "WyDay (Vista Menu)"
         '
+        'lnkWebsite
+        '
+        Me.lnkWebsite.AutoSize = True
+        Me.lnkWebsite.Location = New System.Drawing.Point(160, 296)
+        Me.lnkWebsite.Name = "lnkWebsite"
+        Me.lnkWebsite.Size = New System.Drawing.Size(49, 13)
+        Me.lnkWebsite.TabIndex = 22
+        Me.lnkWebsite.TabStop = True
+        Me.lnkWebsite.Text = "Website"
+        '
         'frmAboutG
         '
         Me.AcceptButton = Me.btnOK
@@ -262,6 +273,7 @@ Partial Class frmAboutG
         Me.CancelButton = Me.btnOK
         Me.ClientSize = New System.Drawing.Size(486, 333)
         Me.ControlBox = False
+        Me.Controls.Add(Me.lnkWebsite)
         Me.Controls.Add(Me.lblVistaMenu)
         Me.Controls.Add(Me.lblTaskDialog)
         Me.Controls.Add(Me.cmdLicense)
@@ -316,4 +328,5 @@ Partial Class frmAboutG
     Friend WithEvents cmdLicense As System.Windows.Forms.Button
     Friend WithEvents lblTaskDialog As System.Windows.Forms.LinkLabel
     Friend WithEvents lblVistaMenu As System.Windows.Forms.LinkLabel
+    Friend WithEvents lnkWebsite As System.Windows.Forms.LinkLabel
 End Class

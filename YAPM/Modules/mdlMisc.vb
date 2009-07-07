@@ -99,6 +99,16 @@ Module mdlMisc
         End Try
     End Sub
 
+    ' Set tool tips
+    Public Sub SetToolTip(ByVal ctrl As Control, ByVal text As String)
+        Dim tToolTip As ToolTip = New System.Windows.Forms.ToolTip
+        With tToolTip
+            .SetToolTip(ctrl, text)
+            .IsBalloon = False
+            .Active = True
+        End With
+    End Sub
+
     ' Custom input box
     Public Function CInputBox(ByVal text As String, ByVal title As String, Optional ByVal defaultValue As String = Nothing) As String
         Dim frm As New frmInput

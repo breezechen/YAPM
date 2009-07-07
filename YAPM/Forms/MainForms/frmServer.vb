@@ -880,6 +880,9 @@ Public Class frmServer
 
         API.SetWindowTheme(Me.lvServer.Handle, "explorer", Nothing)
 
+        SetToolTip(Me.cmdConnection, "Connect the server")
+        SetToolTip(Me.txtIp, "Available IP of this machine")
+
         'sock.ConnexionAccepted = New AsynchronousServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
         'sock.Disconnected = New AsynchronousServer.DisconnectedEventHandler(AddressOf sock_Disconnected)
         'sock.SentData = New AsynchronousServer.SentDataEventHandler(AddressOf sock_SentData)

@@ -363,16 +363,16 @@ Public Class frmGlobalReport
 
         closeWithEchapKey(Me)
 
-        _frmMain.SetToolTip(Me.chkAllHandles, "Get all handles (including unnamed handles)")
-        _frmMain.SetToolTip(Me.chkAllWindows, "Get all windows (including unnamed windows)")
-        _frmMain.SetToolTip(Me.chkFull, "Write a complet report, with all informations availables. You should NOT use this option because report file can be up to 100MB")
-        _frmMain.SetToolTip(Me.chkHandles, "Write handles infos")
-        _frmMain.SetToolTip(Me.chkMemory, "Write memory regions infos")
-        _frmMain.SetToolTip(Me.chkModules, "Write modules infos")
-        _frmMain.SetToolTip(Me.chkServices, "Write services infos")
-        _frmMain.SetToolTip(Me.chkThreads, "Write threads infos")
-        _frmMain.SetToolTip(Me.chkWindows, "Write windows infos")
-        _frmMain.SetToolTip(Me.cmdCancel, "Cancel")
-        _frmMain.SetToolTip(Me.cmdSave, "Save report as a text file")
+        SetToolTip(Me.chkAllHandles, "Get all handles (including unnamed handles)")
+        SetToolTip(Me.chkAllWindows, "Get all windows (including unnamed windows)")
+        SetToolTip(Me.chkFull, "Write a complet report, with all informations availables. You should NOT use this option because report file can be up to 100MB")
+        SetToolTip(Me.chkHandles, "Write handles infos")
+        SetToolTip(Me.chkMemory, "Write memory regions infos")
+        SetToolTip(Me.chkModules, "Write modules infos")
+        SetToolTip(Me.chkServices, "Write services infos")
+        SetToolTip(Me.chkThreads, "Write threads infos")
+        SetToolTip(Me.chkWindows, "Write windows infos")
+        SetToolTip(Me.cmdCancel, "Cancel")
+        SetToolTip(Me.cmdSave, "Save report as a text file")
     End Sub
 End Class

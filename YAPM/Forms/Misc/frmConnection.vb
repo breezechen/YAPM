@@ -47,6 +47,21 @@ Public Class frmConnection
         Call hideWithEchapKey(Me)
         Call changeInfos()
         'Me.txtServerMachine.Text = My.Computer.Name
+
+        SetToolTip(Me.txtDesc, "Description of the type of connection")
+        SetToolTip(Me.txtServerIP, "IP of the remote machine")
+        SetToolTip(Me.txtServerMachine, "Name of the remote machine")
+        SetToolTip(Me.txtServerPassword, "Specify a password of an account of the remote machine")
+        SetToolTip(Me.txtServerUser, "Specify the user name of an account of the remote machine")
+        SetToolTip(Me.cbShutdown, "Shutdown action")
+        SetToolTip(Me.cmdCancel, "Hide this window")
+        SetToolTip(Me.cmdConnect, "Connect or disconnect from the machine")
+        SetToolTip(Me.cmdShutdown, "Shutdown the specified machine")
+        SetToolTip(Me.chkForceShutdown, "Force (or not) the shutdown")
+        SetToolTip(Me.optLocal, "Local connection")
+        SetToolTip(Me.optServer, "Remote connection with the use of a server")
+        SetToolTip(Me.optWMI, "Remote connection with the use of WMI")
+
     End Sub
 
     Private Sub optServer_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles optServer.CheckedChanged

@@ -45,16 +45,15 @@ Public Class frmAddProcessMonitor
 
         closeWithEchapKey(Me)
 
-        With _frmMain
-            .SetToolTip(Me.butAdd, "Monitor the selected process.")
-            .SetToolTip(Me.txtInterval, "Set the refresh interval (milliseconds).")
-            .SetToolTip(Me.cmdAddToList, "Add counters from list.")
-            .SetToolTip(Me.cmdRemoveFromList, "Remove counters from list.")
-            .SetToolTip(Me.lstToAdd, "Counters to monitor.")
-            .SetToolTip(Me.lstCounterType, "Available counters.")
-            .SetToolTip(Me.lstInstance, "Available instances.")
-            .SetToolTip(Me.lstCategory, "Available categories.")
-        End With
+        SetToolTip(Me.butAdd, "Monitor the selected process")
+        SetToolTip(Me.txtInterval, "Set the refresh interval (milliseconds)")
+        SetToolTip(Me.cmdAddToList, "Add counters from list")
+        SetToolTip(Me.cmdRemoveFromList, "Remove counters from list")
+        SetToolTip(Me.cmdSearch, "Launch search")
+        SetToolTip(Me.lstToAdd, "Counters to monitor")
+        SetToolTip(Me.lstCounterType, "Available counters")
+        SetToolTip(Me.lstInstance, "Available instances")
+        SetToolTip(Me.lstCategory, "Available categories")
 
         API.SetWindowTheme(Me.lstToAdd.Handle, "explorer", Nothing)
         API.SetWindowTheme(Me.lstInstance.Handle, "explorer", Nothing)

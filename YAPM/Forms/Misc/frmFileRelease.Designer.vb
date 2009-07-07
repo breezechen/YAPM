@@ -29,7 +29,7 @@ Partial Class frmFileRelease
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.IMG = New System.Windows.Forms.ImageList(Me.components)
-        Me.Button1 = New System.Windows.Forms.Button
+        Me.cmdFix = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'cmdCheck
@@ -73,21 +73,21 @@ Partial Class frmFileRelease
         Me.IMG.Images.SetKeyName(0, "module")
         Me.IMG.Images.SetKeyName(1, "handle")
         '
-        'Button1
+        'cmdFix
         '
-        Me.Button1.Location = New System.Drawing.Point(12, 189)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(260, 22)
-        Me.Button1.TabIndex = 2
-        Me.Button1.Text = "Fix checked items"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.cmdFix.Location = New System.Drawing.Point(12, 189)
+        Me.cmdFix.Name = "cmdFix"
+        Me.cmdFix.Size = New System.Drawing.Size(260, 22)
+        Me.cmdFix.TabIndex = 2
+        Me.cmdFix.Text = "Fix checked items"
+        Me.cmdFix.UseVisualStyleBackColor = True
         '
         'frmFileRelease
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(284, 224)
-        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.cmdFix)
         Me.Controls.Add(Me.lv)
         Me.Controls.Add(Me.cmdCheck)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -103,7 +103,7 @@ Partial Class frmFileRelease
     Friend WithEvents cmdCheck As System.Windows.Forms.Button
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents cmdFix As System.Windows.Forms.Button
     Friend WithEvents IMG As System.Windows.Forms.ImageList
     Friend WithEvents lv As YAPM.DoubleBufferedLV
 End Class

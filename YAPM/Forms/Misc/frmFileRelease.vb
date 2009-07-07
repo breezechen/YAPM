@@ -110,7 +110,7 @@ Public Class frmFileRelease
         _frmMain.timerProcess.Enabled = True
     End Sub
 
-    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdFix.Click
         ' Here we kick checked items
         ' Unload modules & handles
         Dim r As MsgBoxResult = MsgBox("Do you really want to unload selected modules/handles ?" & vbNewLine & "This can make your system unstable.", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo, "Release file")
@@ -143,6 +143,8 @@ Public Class frmFileRelease
     Private Sub frmFileRelease_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         closeWithEchapKey(Me)
+        SetToolTip(Me.cmdCheck, "Check if a handle to the file in opened by a process")
+        SetToolTip(Me.cmdFix, "Close the selected handles")
 
         SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
     End Sub

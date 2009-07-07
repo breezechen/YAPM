@@ -120,9 +120,18 @@ Public Class frmError
         e.Cancel = Not (_canClose)
     End Sub
 
-    Private Sub Button1_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+    Private Sub Button1_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdContinue.Click
         _canClose = True
         Me.Close()
     End Sub
 
+    Private Sub frmError_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        SetToolTip(Me.cmdQuit, "Terminate YAPM immediatly")
+        SetToolTip(Me.cmdContinue, "Cloe this window and try to continue the execution of YAPM. It's probably gonna crash")
+        SetToolTip(Me.cmdIgnore, "Hide this window and ignore the error")
+    End Sub
+
+    Private Sub cmdIgnore_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdIgnore.Click
+        Me.Hide()
+    End Sub
 End Class

@@ -7,6 +7,7 @@ CHANGES FROM 2.0.2
 - IHM improvements
 - récupération des infos de MAJ depuis le site web de yapm (non plus sf.net)
 - upgrade des settings depuis une version précédente de YAPM
+- ajout de tooltips partout
 
 CHANGES FROM 2.0.1
 

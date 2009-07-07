@@ -30,6 +30,7 @@ Public Class frmHiddenProcesses
     Private Sub frmHiddenProcesses_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         closeWithEchapKey(Me)
+        SetToolTip(Me.sb, "Change method (click on the arrow) and/or refresh items (click on the shield)")
 
         Call API.SetWindowTheme(Me.lvProcess.Handle, "explorer", Nothing)
         Dim theConnection As New cConnection

@@ -31,6 +31,8 @@ Public Class frmAbout
 
         closeWithEchapKey(Me)
 
+        SetToolTip(Me.btnOK, "Close this window")
+
         Dim s As String _
             = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Microsoft Sans Serif;}{\f1\fmodern\fprq1\fcharset0 Courier New;}{\f2\fswiss\fcharset0 Arial;}}" & vbNewLine
         s &= "{\*\generator Msftedit 5.41.21.2509;}\viewkind4\uc1\pard\b\f0\fs28 YAPM License\par" & vbNewLine

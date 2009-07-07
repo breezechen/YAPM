@@ -841,6 +841,9 @@ Public Class frmSaveReport
     Private Sub frmSaveReport_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         closeWithEchapKey(Me)
+        SetToolTip(Me.cmdGO, "Save the report")
+        SetToolTip(Me.cmdOK, "Close this window")
+        SetToolTip(Me.cmdOpenReport, "Open the report which was saved")
 
         Me.lblProgress.Text = "Waiting for save..."
         With Me.pgb

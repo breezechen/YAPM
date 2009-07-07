@@ -26,6 +26,9 @@ Public Class frmTracker
     Private Sub frmTracker_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
         closeWithEchapKey(Me)
+        SetToolTip(Me.cmdGoBug, "Navigate to the bug tracker")
+        SetToolTip(Me.cmdGoFeed, "Send a feed back")
+        SetToolTip(Me.cmdGoSug, "Navigate to the forums of YAPM on sourceforge.net")
 
         Dim s As String = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036\deflangfe1036\deftab708{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}"
         s &= "{\colortbl ;\red255\green0\blue0;\red0\green0\blue255;}"
