@@ -1,5 +1,7 @@
 TODO LIST
 
+- secure string pour les mots de passe
+- bsd license pour vistamenu dans read me
 - élévation de privileges (droits admins, UAC...) -> manifest
 - tooltip partout (manque frmPreferences ? et manque frmLogOptions) + passer au tooltip classique
 - images PNG uniquement + virer img inutiles

@@ -212,7 +212,7 @@ Public Class frmPreferences
     Private Function checkUpdate(ByVal useless As Object) As Boolean
         ' Check if new updates are availables
         ' 1) Download source code of download page on sourceforge.net
-        ' 2) Parse code to retrieve last versiob
+        ' 2) Parse code to retrieve last version
         ' 3) Display results
 
         Dim r As Boolean = True
