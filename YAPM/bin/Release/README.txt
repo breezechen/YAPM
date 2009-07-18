@@ -106,6 +106,7 @@ LICENSES
 YAPM is under the GNU GPL 3.0 license. But it uses third parties pieces which are under other licenses :
 - Fugue Icons which are under a Creative Commons Attribution 3.0 license
 - Ribbon Control which is under The Microsoft Public License (Ms-PL)
+- VistaMenu which is under the BSD license
 
 Some pieces of code are inspired by work under GNU GPL 3.0. It includes :
 cSystemInfo.vb file : some structures defined come from Process Hacker by wj32
@@ -116,6 +117,7 @@ cProcess.vb file : some pieces of code are inspired by wj32 work (from Process H
 
 Some other pieces of code come from the public domain :
 - KernelMemory driver by ShareVB
+- Dependency viewer by ShareVB
 - Some other tiny pieces of code
 
 See the license.rtf file for details about the license.
