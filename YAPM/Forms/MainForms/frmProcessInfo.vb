@@ -1425,6 +1425,9 @@ Public Class frmProcessInfo
 
     Private Sub lvHandles_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHandles.MouseUp
         If e.Button = Windows.Forms.MouseButtons.Right Then
+            Me.MenuItemNavigateToHandle.Enabled = (Me.lvHandles.SelectedItems.Count = 1 _
+                                                    AndAlso (Me.lvHandles.GetSelectedItem.Infos.Type = "Key" _
+                                                             Or Me.lvHandles.GetSelectedItem.Infos.Type = "File"))
             Me.mnuHandle.Show(Me.lvHandles, e.Location)
         End If
     End Sub
@@ -2048,6 +2051,25 @@ Public Class frmProcessInfo
         If e.Button = Windows.Forms.MouseButtons.Right Then
             Me.MenuItemLogGoto.Enabled = (Me.lvLog.SelectedItems.Count = 1)
             Me.mnuLog.Show(Me.lvLog, e.Location)
+        End If
+    End Sub
+
+    Private Sub MenuItemNavigateToHandle_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemNavigateToHandle.Click
+        If Me.lvHandles.SelectedItems.Count > 0 Then
+            Dim _tmp As cHandle = Me.lvHandles.GetSelectedItem
+            If _tmp.Infos.Type = "File" Then
+                Dim _sPath As String = _tmp.Infos.Name
+                If IO.Directory.Exists(_sPath) Then
+                    Shell("explorer.exe " & _sPath, AppWinStyle.NormalFocus)
+                Else
+                    _sPath = cFile.GetParentDir(_sPath)
+                    If IO.Directory.Exists(_sPath) Then
+                        Shell("explorer.exe " & _sPath, AppWinStyle.NormalFocus)
+                    End If
+                End If
+            ElseIf _tmp.Infos.Type = "Key" Then
+                Call mdlMisc.NavigateToRegedit(_tmp.Infos.Name)
+            End If
         End If
     End Sub
 End Class

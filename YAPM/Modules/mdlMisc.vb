@@ -177,4 +177,50 @@ Module mdlMisc
         Return assemblyGuid.ToString
     End Function
 
+    ' Navigate to regedit
+    Public Sub NavigateToRegedit(ByVal key As String)
+        ' Write the path of the key into the registry, so regedit
+        ' will use this value to show the key when it open
+        Dim regKey As RegistryKey
+        Dim myComputerLocalized As String = Nothing
+        regKey = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\Applets\Regedit\", True)
+
+        ' Format key name
+        If key.StartsWith("HKLM\") Then
+            key = "HKEY_LOCAL_MACHINE\" & key.Substring(5, key.Length - 5)
+        End If
+        If key.StartsWith("HKU\") Then
+            key = "HKEY_USERS\" & key.Substring(4, key.Length - 4)
+        End If
+        If key.StartsWith("HKCU\") Then
+            key = "HKEY_CURRENT_USER\" & key.Substring(5, key.Length - 5)
+        End If
+        If key.StartsWith("HKCR\") Then
+            key = "HKEY_CLASSES_ROOT\" & key.Substring(5, key.Length - 5)
+        End If
+        If key.StartsWith("HKCC\") Then
+            key = "HKEY_CURRENT_CONFIG\" & key.Substring(5, key.Length - 5)
+        End If
+        If key.StartsWith("HKPD\") Then
+            key = "HKEY_PERFORMANCE_DATA\" & key.Substring(5, key.Length - 5)
+        End If
+
+        ' Retrieve 'My Computer' translated into computer culture
+        ' We simply read current value of LastKey key
+        myComputerLocalized = CStr(regKey.GetValue("LastKey"))
+        Dim i As Integer = InStr(myComputerLocalized, "\")
+        If i > 0 Then
+            myComputerLocalized = myComputerLocalized.Substring(0, i - 1)
+        End If
+
+        Try
+            regKey.SetValue("Lastkey", myComputerLocalized & "\" & key)
+            regKey.Close()
+            Shell("regedit.exe", AppWinStyle.NormalFocus)
+        Catch ex As Exception
+            '
+        End Try
+
+    End Sub
+
 End Module

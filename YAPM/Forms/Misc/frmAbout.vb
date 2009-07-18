@@ -23,7 +23,7 @@ Option Strict On
 
 Public Class frmAbout
 
-    Private Sub btnOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub btnOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOK.Click
         Me.Close()
     End Sub
 

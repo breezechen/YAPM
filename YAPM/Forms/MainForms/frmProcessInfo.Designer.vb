@@ -344,6 +344,7 @@ Partial Class frmProcessInfo
         Me.MenuItem33 = New System.Windows.Forms.MenuItem
         Me.MenuItemWColumns = New System.Windows.Forms.MenuItem
         Me.mnuHandle = New System.Windows.Forms.ContextMenu
+        Me.MenuItemNavigateToHandle = New System.Windows.Forms.MenuItem
         Me.MenuItem12 = New System.Windows.Forms.MenuItem
         Me.MenuItemShowUnnamedHandles = New System.Windows.Forms.MenuItem
         Me.MenuItem14 = New System.Windows.Forms.MenuItem
@@ -3080,26 +3081,32 @@ Partial Class frmProcessInfo
         '
         'mnuHandle
         '
-        Me.mnuHandle.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCloseHandle, Me.MenuItem12, Me.MenuItemShowUnnamedHandles, Me.MenuItem14, Me.MenuItemChooseColumnsHandle})
+        Me.mnuHandle.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCloseHandle, Me.MenuItemNavigateToHandle, Me.MenuItem12, Me.MenuItemShowUnnamedHandles, Me.MenuItem14, Me.MenuItemChooseColumnsHandle})
+        '
+        'MenuItemNavigateToHandle
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemNavigateToHandle, Global.YAPM.My.Resources.Resources.arrow_000_medium)
+        Me.MenuItemNavigateToHandle.Index = 1
+        Me.MenuItemNavigateToHandle.Text = "Navigate..."
         '
         'MenuItem12
         '
-        Me.MenuItem12.Index = 1
+        Me.MenuItem12.Index = 2
         Me.MenuItem12.Text = "-"
         '
         'MenuItemShowUnnamedHandles
         '
-        Me.MenuItemShowUnnamedHandles.Index = 2
+        Me.MenuItemShowUnnamedHandles.Index = 3
         Me.MenuItemShowUnnamedHandles.Text = "Show unnamed handles"
         '
         'MenuItem14
         '
-        Me.MenuItem14.Index = 3
+        Me.MenuItem14.Index = 4
         Me.MenuItem14.Text = "-"
         '
         'MenuItemChooseColumnsHandle
         '
-        Me.MenuItemChooseColumnsHandle.Index = 4
+        Me.MenuItemChooseColumnsHandle.Index = 5
         Me.MenuItemChooseColumnsHandle.Text = "Choose columns..."
         '
         'mnuNetwork
@@ -3552,4 +3559,5 @@ Partial Class frmProcessInfo
     Friend WithEvents MenuItemWColumns As System.Windows.Forms.MenuItem
     Private WithEvents mnuLog As System.Windows.Forms.ContextMenu
     Friend WithEvents MenuItemLogGoto As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemNavigateToHandle As System.Windows.Forms.MenuItem
 End Class
