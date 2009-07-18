@@ -1,6 +1,5 @@
 TODO LIST
 
-- drag & drop info file
 - ajouter menu Copy -> et la liste de toutes les properties dispo pour l'objet
 - fin d'un process -> afficher exitcode dans frmDetail
 - log marche pas toujours (0% d'UC ??)
@@ -79,8 +78,10 @@ titre quand le process/service n'existe plus
 
 
 Temp Change log :
+/!\ METTRE A JOUR LE FICHIER D'AIDE LORS DE LA RELEASE
 - touche Enter sur process/service -> ouvre form detail
 - parent processes OK meme après déconnection/reconnection
 - correction bug 'details textuels' des modules en remote (FileInfo is nothing)
 - correction bug ctrl+C sur les listviews
 - ajout fonction "Navigate" pour un fichier/registre (handles)
+- ajout drag & drop pour ouvrir un fichier dans la vue fichier

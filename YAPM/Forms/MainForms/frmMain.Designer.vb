@@ -469,6 +469,7 @@ Partial Class frmMain
         Me.mnuHandle = New System.Windows.Forms.ContextMenu
         Me.MenuItemHSelectAssociatedProcess = New System.Windows.Forms.MenuItem
         Me.MenuItemCloseHandle = New System.Windows.Forms.MenuItem
+        Me.MenuItemNavigateHandle = New System.Windows.Forms.MenuItem
         Me.MenuItem12 = New System.Windows.Forms.MenuItem
         Me.MenuItemShowUnnamedHandles = New System.Windows.Forms.MenuItem
         Me.MenuItem14 = New System.Windows.Forms.MenuItem
@@ -671,7 +672,6 @@ Partial Class frmMain
         Me.MenuItemSystemSF = New System.Windows.Forms.MenuItem
         Me.MenuItemSystemDownloads = New System.Windows.Forms.MenuItem
         Me.MenuItem49 = New System.Windows.Forms.MenuItem
-        Me.MenuItemNavigateHandle = New System.Windows.Forms.MenuItem
         Me._main.Panel1.SuspendLayout()
         Me._main.Panel2.SuspendLayout()
         Me._main.SuspendLayout()
@@ -5638,6 +5638,12 @@ Partial Class frmMain
         Me.MenuItemCloseHandle.Index = 1
         Me.MenuItemCloseHandle.Text = "Close item"
         '
+        'MenuItemNavigateHandle
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemNavigateHandle, Global.YAPM.My.Resources.Resources.arrow_000_medium)
+        Me.MenuItemNavigateHandle.Index = 2
+        Me.MenuItemNavigateHandle.Text = "Navigate..."
+        '
         'MenuItem12
         '
         Me.MenuItem12.Index = 3
@@ -6747,12 +6753,6 @@ Partial Class frmMain
         '
         Me.MenuItem49.Index = 7
         Me.MenuItem49.Text = "-"
-        '
-        'MenuItemNavigateHandle
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemNavigateHandle, Global.YAPM.My.Resources.Resources.arrow_000_medium)
-        Me.MenuItemNavigateHandle.Index = 2
-        Me.MenuItemNavigateHandle.Text = "Navigate..."
         '
         'frmMain
         '

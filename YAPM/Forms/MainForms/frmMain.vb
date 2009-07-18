@@ -292,6 +292,7 @@ Public Class frmMain
         Me.containerSystemMenu.Panel1Collapsed = True
         Me.Tray.Visible = True
         Me.Tray.ContextMenu = Me.mnuMain
+        Me.rtb3.AllowDrop = True
 
         ' Set tray icon counters
         TrayIcon.SetCounter(1, Color.Red, Color.FromArgb(120, 0, 0))
@@ -3292,6 +3293,26 @@ Public Class frmMain
 
     Private Sub butExit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butExit.Click
         Call Me.MenuItemMainExit_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub rtb3_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles rtb3.DragDrop
+        Dim strFile As String = Nothing
+        For Each file As String In CType(e.Data.GetData(DataFormats.FileDrop), String())
+            If IO.File.Exists(file) Then
+                strFile = file
+            End If
+        Next
+        If strFile IsNot Nothing Then
+            Call DisplayDetailsFile(strFile)
+        End If
+    End Sub
+
+    Private Sub rtb3_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles rtb3.DragEnter
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+            e.Effect = DragDropEffects.Copy
+        Else
+            e.Effect = DragDropEffects.None
+        End If
     End Sub
 
     Private Sub rtb3_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles rtb3.TextChanged
