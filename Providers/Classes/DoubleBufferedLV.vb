@@ -116,7 +116,7 @@ Public Class DoubleBufferedLV
                 _s &= vbNewLine
                 x = 0
                 Dim y As Integer = 0
-                For Each _it As ListViewItem In Me.Items
+                For Each _it As ListViewItem In Me.SelectedItems
                     For Each _sub As ListViewItem.ListViewSubItem In _it.SubItems
                         _s &= _sub.Text
                         y += 1

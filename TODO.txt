@@ -1,6 +1,6 @@
 TODO LIST
 
-- copier/coller sur les listview foireux (ctrl+C copie tout ???)
+- ajouter menu Copy -> et la liste de toutes les properties dispo pour l'objet
 - possibilité de naviguer dans explorer et dans le registre via popupmenu pour les handles de type Key/File
 - fin d'un process -> afficher exitcode dans frmDetail
 - log marche pas toujours (0% d'UC ??)
