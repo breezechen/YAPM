@@ -24,7 +24,6 @@ titre quand le process/service n'existe plus
 - double récupération des strings en mémoire/image dans frmDetail ???
 - tester en tâche de fond sur un windows XP et voir si des crash surviennent
 - blocage de l'application quand certains processus bouffe du CPU (cf compilo wingreta) -> est-ce un appel bloquant (genre sendmessage) lors du refresh des process/tasks...?
-- form about modale
 - dependencies -> PE.filename doit changer SystemRoot en X:\Wind....
 
 
