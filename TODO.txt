@@ -1,5 +1,6 @@
 TODO LIST
 
+- sauvegarde des options marche pas
 - ajouter menu Copy -> et la liste de toutes les properties dispo pour l'objet
 - fin d'un process -> afficher exitcode dans frmDetail
 - log marche pas toujours (0% d'UC ??)

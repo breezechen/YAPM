@@ -218,12 +218,16 @@ Public Module Program
 
 
         ' ======= Load preferences
-        Try
-            ' Try to update settings from a previous version of YAPM
-            My.Settings.Upgrade()
-        Catch ex As Exception
-            '
-        End Try
+        If My.Settings.ShouldUpgrade Then
+            Try
+                ' Try to update settings from a previous version of YAPM
+                My.Settings.Upgrade()
+            Catch ex As Exception
+                '
+            End Try
+            My.Settings.ShouldUpgrade = False
+            My.Settings.Save()
+        End If
         If _progParameters.ModeServer = False Then
             Try
                 If My.Settings.FirstTime Then

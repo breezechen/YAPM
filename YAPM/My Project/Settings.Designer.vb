@@ -610,6 +610,18 @@ Namespace My
                 Me("AutomaticInternetInfos") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property ShouldUpgrade() As Boolean
+            Get
+                Return CType(Me("ShouldUpgrade"),Boolean)
+            End Get
+            Set
+                Me("ShouldUpgrade") = value
+            End Set
+        End Property
     End Class
 End Namespace
 
