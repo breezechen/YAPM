@@ -1,7 +1,5 @@
 TODO LIST
 
-- sauvegarde des options marche pas
-- ajouter menu Copy -> et la liste de toutes les properties dispo pour l'objet
 - fin d'un process -> afficher exitcode dans frmDetail
 - log marche pas toujours (0% d'UC ??)
 - fin d'un process/service dans frmDetail -> afficher 'terminé le xxx' en
@@ -84,3 +82,4 @@ Temp Change log :
 - correction bug ctrl+C sur les listviews
 - ajout fonction "Navigate" pour un fichier/registre (handles)
 - ajout drag & drop pour ouvrir un fichier dans la vue fichier
+- ajout menu "Copy to clipboard" de partout

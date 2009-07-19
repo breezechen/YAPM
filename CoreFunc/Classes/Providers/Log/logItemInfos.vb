@@ -178,11 +178,18 @@ Imports System.Runtime.InteropServices
     End Sub
 
     ' Retrieve all information's names availables
-    Public Shared Function GetAvailableProperties() As String()
+    Public Shared Function GetAvailableProperties(Optional ByVal includeFirstProp As Boolean = False) As String()
         Dim s(1) As String
 
         s(0) = "Type"
         s(1) = "Description"
+
+        If includeFirstProp Then
+            Dim s2(s.Length) As String
+            Array.Copy(s, 0, s2, 1, s.Length)
+            s2(0) = "Date && Time"
+            s = s2
+        End If
 
         Return s
     End Function

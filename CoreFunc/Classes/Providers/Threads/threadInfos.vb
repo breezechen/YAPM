@@ -189,7 +189,7 @@ Imports System.Runtime.InteropServices
     End Sub
 
     ' Retrieve all information's names availables
-    Public Shared Function GetAvailableProperties() As String()
+    Public Shared Function GetAvailableProperties(Optional ByVal includeFirstProp As Boolean = False) As String()
         Dim s(13) As String
 
         s(0) = "Priority"
@@ -206,6 +206,13 @@ Imports System.Runtime.InteropServices
         s(11) = "ContextSwitchCount"
         s(12) = "ContextSwitchDelta"
         s(13) = "ProcessId"
+
+        If includeFirstProp Then
+            Dim s2(s.Length) As String
+            Array.Copy(s, 0, s2, 1, s.Length)
+            s2(0) = "Id"
+            s = s2
+        End If
 
         Return s
     End Function

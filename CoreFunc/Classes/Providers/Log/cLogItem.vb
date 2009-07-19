@@ -82,7 +82,7 @@ Public Class cLogItem
         Select Case info
             Case "Type"
                 res = Me.Infos.Type
-            Case "Date & Time"
+            Case "Date & Time", "Date && Time"
                 res = Me.Infos.DateTime.ToLongDateString & " - " & Me.Infos.DateTime.ToLongTimeString
             Case "Description"
                 res = Me.Infos.Description

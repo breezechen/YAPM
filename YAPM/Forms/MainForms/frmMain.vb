@@ -399,6 +399,35 @@ Public Class frmMain
         Call refreshTaskList()
 
 
+        ' Add some submenus (Copy to clipboard)
+        For Each ss As String In handleInfos.GetAvailableProperties(True)
+            Me.MenuItemCopyHandle.MenuItems.Add(ss, AddressOf MenuItemCopyHandle_Click)
+        Next
+        For Each ss As String In moduleInfos.GetAvailableProperties(True)
+            Me.MenuItemCopyModule.MenuItems.Add(ss, AddressOf MenuItemCopyModule_Click)
+        Next
+        For Each ss As String In networkInfos.GetAvailableProperties(True)
+            Me.MenuItemCopyNetwork.MenuItems.Add(ss, AddressOf MenuItemCopyNetwork_Click)
+        Next
+        For Each ss As String In searchInfos.GetAvailableProperties(True)
+            Me.MenuItemCopySearch.MenuItems.Add(ss, AddressOf MenuItemCopySearch_Click)
+        Next
+        For Each ss As String In serviceInfos.GetAvailableProperties(True)
+            Me.MenuItemCopyService.MenuItems.Add(ss, AddressOf MenuItemCopyService_Click)
+        Next
+        For Each ss As String In threadInfos.GetAvailableProperties(True)
+            Me.MenuItemCopyThread.MenuItems.Add(ss, AddressOf MenuItemCopyThread_Click)
+        Next
+        For Each ss As String In windowInfos.GetAvailableProperties(True)
+            Me.MenuItemCopyWindow.MenuItems.Add(ss, AddressOf MenuItemCopyWindow_Click)
+        Next
+        For Each ss As String In taskInfos.GetAvailableProperties(True)
+            Me.MenuItemCopyTask.MenuItems.Add(ss, AddressOf MenuItemCopyTask_Click)
+        Next
+        For Each ss As String In processInfos.GetAvailableProperties(True)
+            Me.MenuItemCopyProcess.MenuItems.Add(ss, AddressOf MenuItemCopyProcess_Click)
+        Next
+
 #If RELEASE_MODE = 0 Then
         frmServer.Show()
 #End If
@@ -4523,4 +4552,126 @@ Public Class frmMain
             End If
         End If
     End Sub
+
+#Region "Copy to clipboard menus"
+
+    Private Sub MenuItemCopyHandle_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
+        Dim toCopy As String = ""
+        For Each it As cHandle In Me.lvHandles.GetSelectedItems
+            toCopy &= it.GetInformation(info) & vbNewLine
+        Next
+        If toCopy.Length > 2 Then
+            ' Remove last vbNewline
+            toCopy = toCopy.Substring(0, toCopy.Length - 2)
+        End If
+        My.Computer.Clipboard.SetText(toCopy)
+    End Sub
+
+    Private Sub MenuItemCopyService_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
+        Dim toCopy As String = ""
+        For Each it As cService In Me.lvServices.GetSelectedItems
+            toCopy &= it.GetInformation(info) & vbNewLine
+        Next
+        If toCopy.Length > 2 Then
+            ' Remove last vbNewline
+            toCopy = toCopy.Substring(0, toCopy.Length - 2)
+        End If
+        My.Computer.Clipboard.SetText(toCopy)
+    End Sub
+
+    Private Sub MenuItemCopyThread_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
+        Dim toCopy As String = ""
+        For Each it As cThread In Me.lvThreads.GetSelectedItems
+            toCopy &= it.GetInformation(info) & vbNewLine
+        Next
+        If toCopy.Length > 2 Then
+            ' Remove last vbNewline
+            toCopy = toCopy.Substring(0, toCopy.Length - 2)
+        End If
+        My.Computer.Clipboard.SetText(toCopy)
+    End Sub
+
+    Private Sub MenuItemCopyModule_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
+        Dim toCopy As String = ""
+        For Each it As cModule In Me.lvModules.GetSelectedItems
+            toCopy &= it.GetInformation(info) & vbNewLine
+        Next
+        If toCopy.Length > 2 Then
+            ' Remove last vbNewline
+            toCopy = toCopy.Substring(0, toCopy.Length - 2)
+        End If
+        My.Computer.Clipboard.SetText(toCopy)
+    End Sub
+
+    Private Sub MenuItemCopyProcess_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
+        Dim toCopy As String = ""
+        For Each it As cProcess In Me.lvProcess.GetSelectedItems
+            toCopy &= it.GetInformation(info) & vbNewLine
+        Next
+        If toCopy.Length > 2 Then
+            ' Remove last vbNewline
+            toCopy = toCopy.Substring(0, toCopy.Length - 2)
+        End If
+        My.Computer.Clipboard.SetText(toCopy)
+    End Sub
+
+    Private Sub MenuItemCopyWindow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
+        Dim toCopy As String = ""
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            toCopy &= it.GetInformation(info) & vbNewLine
+        Next
+        If toCopy.Length > 2 Then
+            ' Remove last vbNewline
+            toCopy = toCopy.Substring(0, toCopy.Length - 2)
+        End If
+        My.Computer.Clipboard.SetText(toCopy)
+    End Sub
+
+    Private Sub MenuItemCopyNetwork_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
+        Dim toCopy As String = ""
+        For Each it As cNetwork In Me.lvNetwork.GetSelectedItems
+            toCopy &= it.GetInformation(info) & vbNewLine
+        Next
+        If toCopy.Length > 2 Then
+            ' Remove last vbNewline
+            toCopy = toCopy.Substring(0, toCopy.Length - 2)
+        End If
+        My.Computer.Clipboard.SetText(toCopy)
+    End Sub
+
+    Private Sub MenuItemCopySearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
+        Dim toCopy As String = ""
+        For Each it As searchInfos In Me.lvSearchResults.GetSelectedItems
+            toCopy &= it.GetInformation(info) & vbNewLine
+        Next
+        If toCopy.Length > 2 Then
+            ' Remove last vbNewline
+            toCopy = toCopy.Substring(0, toCopy.Length - 2)
+        End If
+        My.Computer.Clipboard.SetText(toCopy)
+    End Sub
+
+    Private Sub MenuItemCopyTask_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
+        Dim toCopy As String = ""
+        For Each it As cTask In Me.lvTask.GetSelectedItems
+            toCopy &= it.GetInformation(info) & vbNewLine
+        Next
+        If toCopy.Length > 2 Then
+            ' Remove last vbNewline
+            toCopy = toCopy.Substring(0, toCopy.Length - 2)
+        End If
+        My.Computer.Clipboard.SetText(toCopy)
+    End Sub
+
+#End Region
+
 End Class

@@ -672,6 +672,16 @@ Partial Class frmMain
         Me.MenuItemSystemSF = New System.Windows.Forms.MenuItem
         Me.MenuItemSystemDownloads = New System.Windows.Forms.MenuItem
         Me.MenuItem49 = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyWindow = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyProcess = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopySearch = New System.Windows.Forms.MenuItem
+        Me.MenuItem30 = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyTask = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyHandle = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyService = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyNetwork = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyThread = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyModule = New System.Windows.Forms.MenuItem
         Me._main.Panel1.SuspendLayout()
         Me._main.Panel2.SuspendLayout()
         Me._main.SuspendLayout()
@@ -5623,7 +5633,7 @@ Partial Class frmMain
         '
         'mnuHandle
         '
-        Me.mnuHandle.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemHSelectAssociatedProcess, Me.MenuItemCloseHandle, Me.MenuItemNavigateHandle, Me.MenuItem12, Me.MenuItemShowUnnamedHandles, Me.MenuItem14, Me.MenuItemChooseColumnsHandle})
+        Me.mnuHandle.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemHSelectAssociatedProcess, Me.MenuItemCloseHandle, Me.MenuItemNavigateHandle, Me.MenuItem12, Me.MenuItemShowUnnamedHandles, Me.MenuItem14, Me.MenuItemCopyHandle, Me.MenuItemChooseColumnsHandle})
         '
         'MenuItemHSelectAssociatedProcess
         '
@@ -5661,7 +5671,7 @@ Partial Class frmMain
         '
         'MenuItemChooseColumnsHandle
         '
-        Me.MenuItemChooseColumnsHandle.Index = 6
+        Me.MenuItemChooseColumnsHandle.Index = 7
         Me.MenuItemChooseColumnsHandle.Text = "Choose columns..."
         '
         'VistaMenu
@@ -6160,7 +6170,7 @@ Partial Class frmMain
         '
         'mnuTask
         '
-        Me.mnuTask.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemTaskShow, Me.MenuItemTaskMax, Me.MenuItemTaskMin, Me.MenuItem4, Me.MenuItemTaskEnd, Me.MenuItem6, Me.MenuItemTaskSelProc, Me.MenuItemTaskSelWin, Me.MenuItem9, Me.MenuItemTaskColumns})
+        Me.mnuTask.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemTaskShow, Me.MenuItemTaskMax, Me.MenuItemTaskMin, Me.MenuItem4, Me.MenuItemTaskEnd, Me.MenuItem6, Me.MenuItemTaskSelProc, Me.MenuItemTaskSelWin, Me.MenuItem9, Me.MenuItemCopyTask, Me.MenuItemTaskColumns})
         '
         'MenuItemTaskMax
         '
@@ -6194,7 +6204,7 @@ Partial Class frmMain
         '
         'MenuItemTaskColumns
         '
-        Me.MenuItemTaskColumns.Index = 9
+        Me.MenuItemTaskColumns.Index = 10
         Me.MenuItemTaskColumns.Text = "Choose columns..."
         '
         'mnuMonitor
@@ -6324,7 +6334,7 @@ Partial Class frmMain
         '
         'mnuService
         '
-        Me.mnuService.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemServSelService, Me.MenuItem7, Me.MenuItemServFileProp, Me.MenuItemServOpenDir, Me.MenuItemServFileDetails, Me.MenuItemServSearch, Me.MenuItemServDepe, Me.MenuItem20, Me.MenuItemServPause, Me.MenuItemServStop, Me.MenuItemServStart, Me.MenuItem8, Me.MenuItem25, Me.MenuItemServReanalize, Me.MenuItem24, Me.MenuItemServColumns})
+        Me.mnuService.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemServSelService, Me.MenuItem7, Me.MenuItemServFileProp, Me.MenuItemServOpenDir, Me.MenuItemServFileDetails, Me.MenuItemServSearch, Me.MenuItemServDepe, Me.MenuItem20, Me.MenuItemServPause, Me.MenuItemServStop, Me.MenuItemServStart, Me.MenuItem8, Me.MenuItem25, Me.MenuItemServReanalize, Me.MenuItem24, Me.MenuItemCopyService, Me.MenuItemServColumns})
         '
         'MenuItem7
         '
@@ -6359,12 +6369,12 @@ Partial Class frmMain
         '
         'MenuItemServColumns
         '
-        Me.MenuItemServColumns.Index = 15
+        Me.MenuItemServColumns.Index = 16
         Me.MenuItemServColumns.Text = "Choose columns..."
         '
         'mnuNetwork
         '
-        Me.mnuNetwork.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemServSelProc, Me.MenuItem16, Me.MenuItemNetworkClose, Me.MenuItem10, Me.MenuItemNetworkColumns})
+        Me.mnuNetwork.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemServSelProc, Me.MenuItem16, Me.MenuItemNetworkClose, Me.MenuItem10, Me.MenuItemCopyNetwork, Me.MenuItemNetworkColumns})
         '
         'MenuItem16
         '
@@ -6378,12 +6388,12 @@ Partial Class frmMain
         '
         'MenuItemNetworkColumns
         '
-        Me.MenuItemNetworkColumns.Index = 4
+        Me.MenuItemNetworkColumns.Index = 5
         Me.MenuItemNetworkColumns.Text = "Choose columns..."
         '
         'mnuThread
         '
-        Me.mnuThread.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemThSelProc, Me.MenuItem22, Me.MenuItemThTerm, Me.MenuItemThSuspend, Me.MenuItemThResu, Me.MenuItemThPriority, Me.MenuItemThAffinity, Me.MenuItem19, Me.MenuItemThColumns})
+        Me.mnuThread.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemThSelProc, Me.MenuItem22, Me.MenuItemThTerm, Me.MenuItemThSuspend, Me.MenuItemThResu, Me.MenuItemThPriority, Me.MenuItemThAffinity, Me.MenuItem19, Me.MenuItemCopyThread, Me.MenuItemThColumns})
         '
         'MenuItem22
         '
@@ -6408,12 +6418,12 @@ Partial Class frmMain
         '
         'MenuItemThColumns
         '
-        Me.MenuItemThColumns.Index = 8
+        Me.MenuItemThColumns.Index = 9
         Me.MenuItemThColumns.Text = "Choose columns..."
         '
         'mnuModule
         '
-        Me.mnuModule.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemModuleSelProc, Me.MenuItem26, Me.MenuItemModuleFileProp, Me.MenuItemModuleOpenDir, Me.MenuItemModuleFileDetails, Me.MenuItemModuleSearch, Me.MenuItemModuleDependencies, Me.MenuItem13, Me.MenuItemUnloadModule, Me.MenuItem21, Me.MenuItemColumnsModule})
+        Me.mnuModule.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemModuleSelProc, Me.MenuItem26, Me.MenuItemModuleFileProp, Me.MenuItemModuleOpenDir, Me.MenuItemModuleFileDetails, Me.MenuItemModuleSearch, Me.MenuItemModuleDependencies, Me.MenuItem13, Me.MenuItemUnloadModule, Me.MenuItem21, Me.MenuItemCopyModule, Me.MenuItemColumnsModule})
         '
         'MenuItem26
         '
@@ -6432,12 +6442,12 @@ Partial Class frmMain
         '
         'MenuItemColumnsModule
         '
-        Me.MenuItemColumnsModule.Index = 10
+        Me.MenuItemColumnsModule.Index = 11
         Me.MenuItemColumnsModule.Text = "Choose columns..."
         '
         'mnuWindow
         '
-        Me.mnuWindow.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemWindowSelProc, Me.MenuItem23, Me.MenuItemWindowColumns})
+        Me.mnuWindow.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemWindowSelProc, Me.MenuItem23, Me.MenuItemCopyWindow, Me.MenuItemWindowColumns})
         '
         'MenuItem23
         '
@@ -6446,12 +6456,12 @@ Partial Class frmMain
         '
         'MenuItemWindowColumns
         '
-        Me.MenuItemWindowColumns.Index = 2
+        Me.MenuItemWindowColumns.Index = 3
         Me.MenuItemWindowColumns.Text = "Choose columns..."
         '
         'mnuSearch
         '
-        Me.mnuSearch.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemSearchNew, Me.MenuItem28, Me.MenuItemSearchSel, Me.MenuItemSearchClose})
+        Me.mnuSearch.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemSearchNew, Me.MenuItem28, Me.MenuItemSearchSel, Me.MenuItemSearchClose, Me.MenuItem30, Me.MenuItemCopySearch})
         '
         'MenuItemSearchNew
         '
@@ -6466,7 +6476,7 @@ Partial Class frmMain
         '
         'mnuProcess
         '
-        Me.mnuProcess.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemProcKill, Me.MenuItemProcKillT, Me.MenuItemProcStop, Me.MenuItemProcResume, Me.MenuItemProcPriority, Me.MenuItem44, Me.MenuItemProcReanalize, Me.MenuItem27, Me.MenuItem35, Me.MenuItem51, Me.MenuItemProcSFileProp, Me.MenuItemProcSOpenDir, Me.MenuItemProcSFileDetails, Me.MenuItemProcSSearch, Me.MenuItemProcSDep, Me.MenuItem38, Me.MenuItemProcColumns})
+        Me.mnuProcess.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemProcKill, Me.MenuItemProcKillT, Me.MenuItemProcStop, Me.MenuItemProcResume, Me.MenuItemProcPriority, Me.MenuItem44, Me.MenuItemProcReanalize, Me.MenuItem27, Me.MenuItem35, Me.MenuItem51, Me.MenuItemProcSFileProp, Me.MenuItemProcSOpenDir, Me.MenuItemProcSFileDetails, Me.MenuItemProcSSearch, Me.MenuItemProcSDep, Me.MenuItem38, Me.MenuItemCopyProcess, Me.MenuItemProcColumns})
         '
         'MenuItemProcPriority
         '
@@ -6553,7 +6563,7 @@ Partial Class frmMain
         '
         'MenuItemProcColumns
         '
-        Me.MenuItemProcColumns.Index = 16
+        Me.MenuItemProcColumns.Index = 17
         Me.MenuItemProcColumns.Text = "Choose columns..."
         '
         'mnuSystem
@@ -6753,6 +6763,56 @@ Partial Class frmMain
         '
         Me.MenuItem49.Index = 7
         Me.MenuItem49.Text = "-"
+        '
+        'MenuItemCopyWindow
+        '
+        Me.MenuItemCopyWindow.Index = 2
+        Me.MenuItemCopyWindow.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyProcess
+        '
+        Me.MenuItemCopyProcess.Index = 16
+        Me.MenuItemCopyProcess.Text = "Copy to clipboard"
+        '
+        'MenuItemCopySearch
+        '
+        Me.MenuItemCopySearch.Index = 5
+        Me.MenuItemCopySearch.Text = "Copy to clipboard"
+        '
+        'MenuItem30
+        '
+        Me.MenuItem30.Index = 4
+        Me.MenuItem30.Text = "-"
+        '
+        'MenuItemCopyTask
+        '
+        Me.MenuItemCopyTask.Index = 9
+        Me.MenuItemCopyTask.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyHandle
+        '
+        Me.MenuItemCopyHandle.Index = 6
+        Me.MenuItemCopyHandle.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyService
+        '
+        Me.MenuItemCopyService.Index = 15
+        Me.MenuItemCopyService.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyNetwork
+        '
+        Me.MenuItemCopyNetwork.Index = 4
+        Me.MenuItemCopyNetwork.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyThread
+        '
+        Me.MenuItemCopyThread.Index = 8
+        Me.MenuItemCopyThread.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyModule
+        '
+        Me.MenuItemCopyModule.Index = 10
+        Me.MenuItemCopyModule.Text = "Copy to clipboard"
         '
         'frmMain
         '
@@ -7513,5 +7573,15 @@ Partial Class frmMain
     Friend WithEvents MenuItemSystemHelp As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemSystemAbout As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemNavigateHandle As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemCopyWindow As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem30 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemCopySearch As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemCopyProcess As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemCopyHandle As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemCopyTask As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemCopyService As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemCopyNetwork As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemCopyThread As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemCopyModule As System.Windows.Forms.MenuItem
 
 End Class

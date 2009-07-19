@@ -271,7 +271,6 @@ Partial Class frmProcessInfo
         Me.VistaMenu = New wyDay.Controls.VistaMenu(Me.components)
         Me.MenuItemCopyBig = New System.Windows.Forms.MenuItem
         Me.MenuItemCopySmall = New System.Windows.Forms.MenuItem
-        Me.menuViewMemory = New System.Windows.Forms.MenuItem
         Me.MenuItemPriEnable = New System.Windows.Forms.MenuItem
         Me.MenuItemViewMemory = New System.Windows.Forms.MenuItem
         Me.MenuItemCloseHandle = New System.Windows.Forms.MenuItem
@@ -310,22 +309,29 @@ Partial Class frmProcessInfo
         Me.MenuItemWClose = New System.Windows.Forms.MenuItem
         Me.MenuItemWDisa = New System.Windows.Forms.MenuItem
         Me.MenuItemLogGoto = New System.Windows.Forms.MenuItem
+        Me.MenuItemNavigateToHandle = New System.Windows.Forms.MenuItem
+        Me.menuViewMemory = New System.Windows.Forms.MenuItem
         Me.menuCopyPctbig = New System.Windows.Forms.ContextMenu
         Me.menuCopyPctSmall = New System.Windows.Forms.ContextMenu
         Me.mnuString = New System.Windows.Forms.ContextMenu
         Me.mnuPrivileges = New System.Windows.Forms.ContextMenu
+        Me.MenuItem1 = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyPrivilege = New System.Windows.Forms.MenuItem
         Me.mnuProcMem = New System.Windows.Forms.ContextMenu
         Me.MenuItemPEBAddress = New System.Windows.Forms.MenuItem
         Me.MenuItem13 = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyMemory = New System.Windows.Forms.MenuItem
         Me.MenuItemColumnsMemory = New System.Windows.Forms.MenuItem
         Me.mnuModule = New System.Windows.Forms.ContextMenu
         Me.MenuItem16 = New System.Windows.Forms.MenuItem
         Me.MenuItem19 = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyModule = New System.Windows.Forms.MenuItem
         Me.MenuItemColumnsModule = New System.Windows.Forms.MenuItem
         Me.mnuThread = New System.Windows.Forms.ContextMenu
         Me.MenuItem8 = New System.Windows.Forms.MenuItem
         Me.MenuItemThAffinity = New System.Windows.Forms.MenuItem
         Me.MenuItem15 = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyThread = New System.Windows.Forms.MenuItem
         Me.MenuItemThColumns = New System.Windows.Forms.MenuItem
         Me.mnuWindow = New System.Windows.Forms.ContextMenu
         Me.MenuItemWShowUn = New System.Windows.Forms.MenuItem
@@ -342,15 +348,17 @@ Partial Class frmProcessInfo
         Me.MenuItem30 = New System.Windows.Forms.MenuItem
         Me.MenuItemWEna = New System.Windows.Forms.MenuItem
         Me.MenuItem33 = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyWindow = New System.Windows.Forms.MenuItem
         Me.MenuItemWColumns = New System.Windows.Forms.MenuItem
         Me.mnuHandle = New System.Windows.Forms.ContextMenu
-        Me.MenuItemNavigateToHandle = New System.Windows.Forms.MenuItem
         Me.MenuItem12 = New System.Windows.Forms.MenuItem
         Me.MenuItemShowUnnamedHandles = New System.Windows.Forms.MenuItem
         Me.MenuItem14 = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyHandle = New System.Windows.Forms.MenuItem
         Me.MenuItemChooseColumnsHandle = New System.Windows.Forms.MenuItem
         Me.mnuNetwork = New System.Windows.Forms.ContextMenu
         Me.MenuItem10 = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyNetwork = New System.Windows.Forms.MenuItem
         Me.MenuItem11 = New System.Windows.Forms.MenuItem
         Me.mnuService = New System.Windows.Forms.ContextMenu
         Me.MenuItemServDetails = New System.Windows.Forms.MenuItem
@@ -360,8 +368,13 @@ Partial Class frmProcessInfo
         Me.MenuItem25 = New System.Windows.Forms.MenuItem
         Me.MenuItemServReanalize = New System.Windows.Forms.MenuItem
         Me.MenuItem24 = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyService = New System.Windows.Forms.MenuItem
         Me.MenuItemServColumns = New System.Windows.Forms.MenuItem
         Me.mnuLog = New System.Windows.Forms.ContextMenu
+        Me.MenuItem6 = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyLog = New System.Windows.Forms.MenuItem
+        Me.mnuEnv = New System.Windows.Forms.ContextMenu
+        Me.MenuItemCopyEnvVariable = New System.Windows.Forms.MenuItem
         Me.tabProcess.SuspendLayout()
         Me.TabPageGeneral.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -1580,7 +1593,7 @@ Partial Class frmProcessInfo
         '
         Me.splitPerformances.Panel2.Controls.Add(Me.splitPerformance2)
         Me.splitPerformances.Size = New System.Drawing.Size(641, 271)
-        Me.splitPerformances.SplitterDistance = 80
+        Me.splitPerformances.SplitterDistance = 79
         Me.splitPerformances.SplitterWidth = 1
         Me.splitPerformances.TabIndex = 3
         '
@@ -1595,7 +1608,7 @@ Partial Class frmProcessInfo
         Me.graphCPU.Location = New System.Drawing.Point(0, 0)
         Me.graphCPU.Name = "graphCPU"
         Me.graphCPU.ShowSecondGraph = True
-        Me.graphCPU.Size = New System.Drawing.Size(641, 80)
+        Me.graphCPU.Size = New System.Drawing.Size(641, 79)
         Me.graphCPU.TabIndex = 1
         Me.graphCPU.TabStop = False
         '
@@ -1614,7 +1627,7 @@ Partial Class frmProcessInfo
         'splitPerformance2.Panel2
         '
         Me.splitPerformance2.Panel2.Controls.Add(Me.graphIO)
-        Me.splitPerformance2.Size = New System.Drawing.Size(641, 190)
+        Me.splitPerformance2.Size = New System.Drawing.Size(641, 191)
         Me.splitPerformance2.SplitterDistance = 86
         Me.splitPerformance2.SplitterWidth = 1
         Me.splitPerformance2.TabIndex = 0
@@ -1648,7 +1661,7 @@ Partial Class frmProcessInfo
         Me.graphIO.Location = New System.Drawing.Point(0, 0)
         Me.graphIO.Name = "graphIO"
         Me.graphIO.ShowSecondGraph = False
-        Me.graphIO.Size = New System.Drawing.Size(641, 103)
+        Me.graphIO.Size = New System.Drawing.Size(641, 104)
         Me.graphIO.TabIndex = 3
         Me.graphIO.TabStop = False
         '
@@ -2680,13 +2693,6 @@ Partial Class frmProcessInfo
         Me.MenuItemCopySmall.Index = 0
         Me.MenuItemCopySmall.Text = "Copy to clipboard"
         '
-        'menuViewMemory
-        '
-        Me.menuViewMemory.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.menuViewMemory, Global.YAPM.My.Resources.Resources.magnifier)
-        Me.menuViewMemory.Index = 0
-        Me.menuViewMemory.Text = "View memory"
-        '
         'MenuItemPriEnable
         '
         Me.VistaMenu.SetImage(Me.MenuItemPriEnable, Global.YAPM.My.Resources.Resources.ok)
@@ -2921,6 +2927,19 @@ Partial Class frmProcessInfo
         Me.MenuItemLogGoto.Index = 0
         Me.MenuItemLogGoto.Text = "Go to item"
         '
+        'MenuItemNavigateToHandle
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemNavigateToHandle, Global.YAPM.My.Resources.Resources.arrow_000_medium)
+        Me.MenuItemNavigateToHandle.Index = 1
+        Me.MenuItemNavigateToHandle.Text = "Navigate..."
+        '
+        'menuViewMemory
+        '
+        Me.menuViewMemory.DefaultItem = True
+        Me.VistaMenu.SetImage(Me.menuViewMemory, Global.YAPM.My.Resources.Resources.magnifier)
+        Me.menuViewMemory.Index = 0
+        Me.menuViewMemory.Text = "View memory"
+        '
         'menuCopyPctbig
         '
         Me.menuCopyPctbig.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCopyBig})
@@ -2935,11 +2954,21 @@ Partial Class frmProcessInfo
         '
         'mnuPrivileges
         '
-        Me.mnuPrivileges.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemPriEnable, Me.MenuItemPriDisable, Me.MenuItemPriRemove})
+        Me.mnuPrivileges.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemPriEnable, Me.MenuItemPriDisable, Me.MenuItemPriRemove, Me.MenuItem1, Me.MenuItemCopyPrivilege})
+        '
+        'MenuItem1
+        '
+        Me.MenuItem1.Index = 3
+        Me.MenuItem1.Text = "-"
+        '
+        'MenuItemCopyPrivilege
+        '
+        Me.MenuItemCopyPrivilege.Index = 4
+        Me.MenuItemCopyPrivilege.Text = "Copy to clipboard"
         '
         'mnuProcMem
         '
-        Me.mnuProcMem.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemViewMemory, Me.MenuItemPEBAddress, Me.MenuItem13, Me.MenuItemColumnsMemory})
+        Me.mnuProcMem.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemViewMemory, Me.MenuItemPEBAddress, Me.MenuItem13, Me.MenuItemCopyMemory, Me.MenuItemColumnsMemory})
         '
         'MenuItemPEBAddress
         '
@@ -2951,14 +2980,19 @@ Partial Class frmProcessInfo
         Me.MenuItem13.Index = 2
         Me.MenuItem13.Text = "-"
         '
+        'MenuItemCopyMemory
+        '
+        Me.MenuItemCopyMemory.Index = 3
+        Me.MenuItemCopyMemory.Text = "Copy to clipboard"
+        '
         'MenuItemColumnsMemory
         '
-        Me.MenuItemColumnsMemory.Index = 3
+        Me.MenuItemColumnsMemory.Index = 4
         Me.MenuItemColumnsMemory.Text = "Choose columns..."
         '
         'mnuModule
         '
-        Me.mnuModule.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemModuleFileProp, Me.MenuItemModuleOpenDir, Me.MenuItemModuleFileDetails, Me.MenuItemModuleSearch, Me.MenuItemModuleDependencies, Me.MenuItemViewModuleMemory, Me.MenuItem16, Me.MenuItemUnloadModule, Me.MenuItem19, Me.MenuItemColumnsModule})
+        Me.mnuModule.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemModuleFileProp, Me.MenuItemModuleOpenDir, Me.MenuItemModuleFileDetails, Me.MenuItemModuleSearch, Me.MenuItemModuleDependencies, Me.MenuItemViewModuleMemory, Me.MenuItem16, Me.MenuItemUnloadModule, Me.MenuItem19, Me.MenuItemCopyModule, Me.MenuItemColumnsModule})
         '
         'MenuItem16
         '
@@ -2970,14 +3004,19 @@ Partial Class frmProcessInfo
         Me.MenuItem19.Index = 8
         Me.MenuItem19.Text = "-"
         '
+        'MenuItemCopyModule
+        '
+        Me.MenuItemCopyModule.Index = 9
+        Me.MenuItemCopyModule.Text = "Copy to clipboard"
+        '
         'MenuItemColumnsModule
         '
-        Me.MenuItemColumnsModule.Index = 9
+        Me.MenuItemColumnsModule.Index = 10
         Me.MenuItemColumnsModule.Text = "Choose columns..."
         '
         'mnuThread
         '
-        Me.mnuThread.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemThTerm, Me.MenuItemThSuspend, Me.MenuItemThResu, Me.MenuItem8, Me.MenuItemThAffinity, Me.MenuItem15, Me.MenuItemThColumns})
+        Me.mnuThread.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemThTerm, Me.MenuItemThSuspend, Me.MenuItemThResu, Me.MenuItem8, Me.MenuItemThAffinity, Me.MenuItem15, Me.MenuItemCopyThread, Me.MenuItemThColumns})
         '
         'MenuItem8
         '
@@ -2995,14 +3034,19 @@ Partial Class frmProcessInfo
         Me.MenuItem15.Index = 5
         Me.MenuItem15.Text = "-"
         '
+        'MenuItemCopyThread
+        '
+        Me.MenuItemCopyThread.Index = 6
+        Me.MenuItemCopyThread.Text = "Copy to clipboard"
+        '
         'MenuItemThColumns
         '
-        Me.MenuItemThColumns.Index = 6
+        Me.MenuItemThColumns.Index = 7
         Me.MenuItemThColumns.Text = "Choose columns..."
         '
         'mnuWindow
         '
-        Me.mnuWindow.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemWShow, Me.MenuItemWShowUn, Me.MenuItemWHide, Me.MenuItemWClose, Me.MenuItem9, Me.MenuItemWFront, Me.MenuItemWNotFront, Me.MenuItemWActive, Me.MenuItemWForeground, Me.MenuItem26, Me.MenuItemWMin, Me.MenuItemWMax, Me.MenuItemWPosSize, Me.MenuItem30, Me.MenuItemWEna, Me.MenuItemWDisa, Me.MenuItem33, Me.MenuItemWColumns})
+        Me.mnuWindow.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemWShow, Me.MenuItemWShowUn, Me.MenuItemWHide, Me.MenuItemWClose, Me.MenuItem9, Me.MenuItemWFront, Me.MenuItemWNotFront, Me.MenuItemWActive, Me.MenuItemWForeground, Me.MenuItem26, Me.MenuItemWMin, Me.MenuItemWMax, Me.MenuItemWPosSize, Me.MenuItem30, Me.MenuItemWEna, Me.MenuItemWDisa, Me.MenuItem33, Me.MenuItemCopyWindow, Me.MenuItemWColumns})
         '
         'MenuItemWShowUn
         '
@@ -3074,20 +3118,19 @@ Partial Class frmProcessInfo
         Me.MenuItem33.Index = 16
         Me.MenuItem33.Text = "-"
         '
+        'MenuItemCopyWindow
+        '
+        Me.MenuItemCopyWindow.Index = 17
+        Me.MenuItemCopyWindow.Text = "Copy to clipboard"
+        '
         'MenuItemWColumns
         '
-        Me.MenuItemWColumns.Index = 17
+        Me.MenuItemWColumns.Index = 18
         Me.MenuItemWColumns.Text = "Choose columns..."
         '
         'mnuHandle
         '
-        Me.mnuHandle.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCloseHandle, Me.MenuItemNavigateToHandle, Me.MenuItem12, Me.MenuItemShowUnnamedHandles, Me.MenuItem14, Me.MenuItemChooseColumnsHandle})
-        '
-        'MenuItemNavigateToHandle
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemNavigateToHandle, Global.YAPM.My.Resources.Resources.arrow_000_medium)
-        Me.MenuItemNavigateToHandle.Index = 1
-        Me.MenuItemNavigateToHandle.Text = "Navigate..."
+        Me.mnuHandle.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCloseHandle, Me.MenuItemNavigateToHandle, Me.MenuItem12, Me.MenuItemShowUnnamedHandles, Me.MenuItem14, Me.MenuItemCopyHandle, Me.MenuItemChooseColumnsHandle})
         '
         'MenuItem12
         '
@@ -3104,28 +3147,38 @@ Partial Class frmProcessInfo
         Me.MenuItem14.Index = 4
         Me.MenuItem14.Text = "-"
         '
+        'MenuItemCopyHandle
+        '
+        Me.MenuItemCopyHandle.Index = 5
+        Me.MenuItemCopyHandle.Text = "Copy to clipboard"
+        '
         'MenuItemChooseColumnsHandle
         '
-        Me.MenuItemChooseColumnsHandle.Index = 5
+        Me.MenuItemChooseColumnsHandle.Index = 6
         Me.MenuItemChooseColumnsHandle.Text = "Choose columns..."
         '
         'mnuNetwork
         '
-        Me.mnuNetwork.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.menuCloseTCP, Me.MenuItem10, Me.MenuItem11})
+        Me.mnuNetwork.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.menuCloseTCP, Me.MenuItem10, Me.MenuItemCopyNetwork, Me.MenuItem11})
         '
         'MenuItem10
         '
         Me.MenuItem10.Index = 1
         Me.MenuItem10.Text = "-"
         '
+        'MenuItemCopyNetwork
+        '
+        Me.MenuItemCopyNetwork.Index = 2
+        Me.MenuItemCopyNetwork.Text = "Copy to clipboard"
+        '
         'MenuItem11
         '
-        Me.MenuItem11.Index = 2
+        Me.MenuItem11.Index = 3
         Me.MenuItem11.Text = "Choose columns..."
         '
         'mnuService
         '
-        Me.mnuService.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemServDetails, Me.MenuItemServSelService, Me.MenuItem5, Me.MenuItemServFileProp, Me.MenuItemServOpenDir, Me.MenuItemServFileDetails, Me.MenuItemServSearch, Me.MenuItem20, Me.MenuItemServPause, Me.MenuItemServStop, Me.MenuItemServStart, Me.MenuItem17, Me.MenuItem25, Me.MenuItemServReanalize, Me.MenuItem24, Me.MenuItemServColumns})
+        Me.mnuService.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemServDetails, Me.MenuItemServSelService, Me.MenuItem5, Me.MenuItemServFileProp, Me.MenuItemServOpenDir, Me.MenuItemServFileDetails, Me.MenuItemServSearch, Me.MenuItem20, Me.MenuItemServPause, Me.MenuItemServStop, Me.MenuItemServStart, Me.MenuItem17, Me.MenuItem25, Me.MenuItemServReanalize, Me.MenuItem24, Me.MenuItemCopyService, Me.MenuItemServColumns})
         '
         'MenuItemServDetails
         '
@@ -3164,14 +3217,38 @@ Partial Class frmProcessInfo
         Me.MenuItem24.Index = 14
         Me.MenuItem24.Text = "-"
         '
+        'MenuItemCopyService
+        '
+        Me.MenuItemCopyService.Index = 15
+        Me.MenuItemCopyService.Text = "Copy to clipboard"
+        '
         'MenuItemServColumns
         '
-        Me.MenuItemServColumns.Index = 15
+        Me.MenuItemServColumns.Index = 16
         Me.MenuItemServColumns.Text = "Choose columns..."
         '
         'mnuLog
         '
-        Me.mnuLog.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemLogGoto})
+        Me.mnuLog.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemLogGoto, Me.MenuItem6, Me.MenuItemCopyLog})
+        '
+        'MenuItem6
+        '
+        Me.MenuItem6.Index = 1
+        Me.MenuItem6.Text = "-"
+        '
+        'MenuItemCopyLog
+        '
+        Me.MenuItemCopyLog.Index = 2
+        Me.MenuItemCopyLog.Text = "Copy to clipboard"
+        '
+        'mnuEnv
+        '
+        Me.mnuEnv.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCopyEnvVariable})
+        '
+        'MenuItemCopyEnvVariable
+        '
+        Me.MenuItemCopyEnvVariable.Index = 0
+        Me.MenuItemCopyEnvVariable.Text = "Copy to clipboard"
         '
         'frmProcessInfo
         '
@@ -3472,7 +3549,6 @@ Partial Class frmProcessInfo
     Private WithEvents menuCopyPctbig As System.Windows.Forms.ContextMenu
     Private WithEvents menuCopyPctSmall As System.Windows.Forms.ContextMenu
     Private WithEvents mnuString As System.Windows.Forms.ContextMenu
-    Friend WithEvents menuViewMemory As System.Windows.Forms.MenuItem
     Private WithEvents mnuPrivileges As System.Windows.Forms.ContextMenu
     Friend WithEvents MenuItemPriEnable As System.Windows.Forms.MenuItem
     Private WithEvents mnuProcMem As System.Windows.Forms.ContextMenu
@@ -3560,4 +3636,18 @@ Partial Class frmProcessInfo
     Private WithEvents mnuLog As System.Windows.Forms.ContextMenu
     Friend WithEvents MenuItemLogGoto As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemNavigateToHandle As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemCopyHandle As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem1 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemCopyPrivilege As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemCopyMemory As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemCopyModule As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemCopyThread As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemCopyWindow As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemCopyNetwork As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemCopyService As System.Windows.Forms.MenuItem
+    Friend WithEvents menuViewMemory As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem6 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemCopyLog As System.Windows.Forms.MenuItem
+    Private WithEvents mnuEnv As System.Windows.Forms.ContextMenu
+    Friend WithEvents MenuItemCopyEnvVariable As System.Windows.Forms.MenuItem
 End Class
