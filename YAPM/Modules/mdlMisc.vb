@@ -185,42 +185,53 @@ Module mdlMisc
         Dim myComputerLocalized As String = Nothing
         regKey = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\Applets\Regedit\", True)
 
+        ' Create key if it does not exists (happens when regedit has never been opened)
+        If regKey Is Nothing Then
+            regKey = Registry.CurrentUser.CreateSubKey("Software\Microsoft\Windows\CurrentVersion\Applets\Regedit\", _
+                                              RegistryKeyPermissionCheck.ReadWriteSubTree)
+            ' Have to find a way to set "My Computer" to this key value ("My Computer" should be localized)
+            regKey.SetValue("LastKey", "")
+        End If
+
         ' Format key name
-        If key.StartsWith("HKLM\") Then
+        If key.ToLower.StartsWith("hklm\") Then
             key = "HKEY_LOCAL_MACHINE\" & key.Substring(5, key.Length - 5)
         End If
-        If key.StartsWith("HKU\") Then
+        If key.ToLower.StartsWith("hku\") Then
             key = "HKEY_USERS\" & key.Substring(4, key.Length - 4)
         End If
-        If key.StartsWith("HKCU\") Then
+        If key.ToLower.StartsWith("hkcu\") Then
             key = "HKEY_CURRENT_USER\" & key.Substring(5, key.Length - 5)
         End If
-        If key.StartsWith("HKCR\") Then
+        If key.ToLower.StartsWith("hkcr\") Then
             key = "HKEY_CLASSES_ROOT\" & key.Substring(5, key.Length - 5)
         End If
-        If key.StartsWith("HKCC\") Then
+        If key.ToLower.StartsWith("hkcc\") Then
             key = "HKEY_CURRENT_CONFIG\" & key.Substring(5, key.Length - 5)
         End If
-        If key.StartsWith("HKPD\") Then
+        If key.ToLower.StartsWith("hkpd\") Then
             key = "HKEY_PERFORMANCE_DATA\" & key.Substring(5, key.Length - 5)
         End If
 
-        ' Retrieve 'My Computer' translated into computer culture
-        ' We simply read current value of LastKey key
-        myComputerLocalized = CStr(regKey.GetValue("LastKey"))
-        Dim i As Integer = InStr(myComputerLocalized, "\")
-        If i > 0 Then
-            myComputerLocalized = myComputerLocalized.Substring(0, i - 1)
+        If regKey IsNot Nothing Then
+
+            ' Retrieve 'My Computer' translated into computer culture
+            ' We simply read current value of LastKey key
+            myComputerLocalized = CStr(regKey.GetValue("LastKey"))
+
+            Dim i As Integer = InStr(myComputerLocalized, "\")
+            If i > 0 Then
+                myComputerLocalized = myComputerLocalized.Substring(0, i - 1)
+            End If
+
+            Try
+                regKey.SetValue("Lastkey", myComputerLocalized & "\" & key)
+                regKey.Close()
+                Shell("regedit.exe", AppWinStyle.NormalFocus)
+            Catch ex As Exception
+                '
+            End Try
         End If
-
-        Try
-            regKey.SetValue("Lastkey", myComputerLocalized & "\" & key)
-            regKey.Close()
-            Shell("regedit.exe", AppWinStyle.NormalFocus)
-        Catch ex As Exception
-            '
-        End Try
-
     End Sub
 
 End Module
