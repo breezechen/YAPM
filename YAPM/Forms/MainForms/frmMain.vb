@@ -3236,6 +3236,7 @@ Public Class frmMain
         Me.MenuItemThAffinity.Enabled = _notWMI
         Me.MenuItemThPriority.Enabled = _notWMI
         Me.MenuItemServDepe.Enabled = _local
+        Me.MenuItemNavigateHandle.Enabled = _local
 
         Me.lvProcess.CatchErrors = Not (_local)
         Me.lvModules.CatchErrors = Not (_local)

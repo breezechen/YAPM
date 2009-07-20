@@ -524,6 +524,7 @@ Public Class frmProcessInfo
         Me.MenuItemUnloadModule.Enabled = _notWMI
         Me.MenuItemViewModuleMemory.Enabled = _local
         Me.MenuItemModuleDependencies.Enabled = _local
+        Me.MenuItemNavigateToHandle.Enabled = _local
 
         Me.MenuItemModuleOpenDir.Enabled = _local
         Me.MenuItemServFileDetails.Enabled = _local

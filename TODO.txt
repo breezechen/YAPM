@@ -1,5 +1,7 @@
 TODO LIST
 
+- path des process : \Device\VBoxMiniRdr\VBOXSVR\Release\YAPM.exe à convertir en path avec lecteur
+- auto check update option (+ ajouter tooltip sur tray icon)
 - fin d'un process -> afficher exitcode dans frmDetail
 - log marche pas toujours (0% d'UC ??)
 - fin d'un process/service dans frmDetail -> afficher 'terminé le xxx' en
