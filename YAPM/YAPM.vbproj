@@ -612,6 +612,10 @@
       <Project>{657B7CE9-D35C-4E65-A05B-CC6B46A14D7D}</Project>
       <Name>Providers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SecurePasswordTextBox\SecurePasswordTextBox.csproj">
+      <Project>{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}</Project>
+      <Name>SecurePasswordTextBox</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VistaMenu\Control\VistaMenu.csproj">
       <Project>{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}</Project>
       <Name>VistaMenu</Name>

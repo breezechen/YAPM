@@ -105,7 +105,7 @@ Public Class cProcessConnection
 
                 Dim __con As New ConnectionOptions
                 __con.Impersonation = ImpersonationLevel.Impersonate
-                __con.Password = _conObj.WmiParameters.password
+                __con.SecurePassword = _conObj.WmiParameters.password
                 __con.Username = _conObj.WmiParameters.userName
 
                 Try

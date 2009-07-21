@@ -30,6 +30,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DependenciesViewer", "Depen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VistaMenu", "VistaMenu\Control\VistaMenu.csproj", "{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurePasswordTextBox", "SecurePasswordTextBox\SecurePasswordTextBox.csproj", "{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug - server|Any CPU = Debug - server|Any CPU
@@ -100,6 +102,14 @@ Global
 		{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}.Release - server|Any CPU.Build.0 = Release|Any CPU
 		{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}.Debug - server|Any CPU.ActiveCfg = Debug|Any CPU
+		{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}.Debug - server|Any CPU.Build.0 = Debug|Any CPU
+		{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}.Release - server|Any CPU.ActiveCfg = Release|Any CPU
+		{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}.Release - server|Any CPU.Build.0 = Release|Any CPU
+		{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

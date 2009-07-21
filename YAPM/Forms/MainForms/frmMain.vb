@@ -276,7 +276,7 @@ Public Class frmMain
 
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        ' For now, SBA is removed from menu
+        ' For now, SBA is removed from menu...
         Me.Ribbon.OrbDropDown.MenuItems.Remove(Me.orbMenuSBA)
 
         If Program.Parameters.ModeHidden Then

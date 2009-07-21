@@ -23,6 +23,7 @@ Partial Class frmConnection
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
+        Dim SecureString1 As System.Security.SecureString = New System.Security.SecureString
         Me.optLocal = New System.Windows.Forms.RadioButton
         Me.optWMI = New System.Windows.Forms.RadioButton
         Me.optServer = New System.Windows.Forms.RadioButton
@@ -33,7 +34,7 @@ Partial Class frmConnection
         Me.txtServerIP = New System.Windows.Forms.TextBox
         Me.Label17 = New System.Windows.Forms.Label
         Me.gpWMI = New System.Windows.Forms.GroupBox
-        Me.txtServerPassword = New System.Windows.Forms.TextBox
+        Me.txtServerPassword = New SecurePasswordTextBox.SecureTextBox
         Me.Label14 = New System.Windows.Forms.Label
         Me.txtServerUser = New System.Windows.Forms.TextBox
         Me.Label13 = New System.Windows.Forms.Label
@@ -163,9 +164,9 @@ Partial Class frmConnection
         Me.txtServerPassword.Location = New System.Drawing.Point(221, 45)
         Me.txtServerPassword.Name = "txtServerPassword"
         Me.txtServerPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
+        Me.txtServerPassword.SecureText = SecureString1
         Me.txtServerPassword.Size = New System.Drawing.Size(87, 22)
         Me.txtServerPassword.TabIndex = 15
-        Me.txtServerPassword.Text = "0"
         Me.txtServerPassword.UseSystemPasswordChar = True
         '
         'Label14
@@ -296,7 +297,7 @@ Partial Class frmConnection
     Friend WithEvents cmdCancel As System.Windows.Forms.Button
     Friend WithEvents gpServer As System.Windows.Forms.GroupBox
     Friend WithEvents gpWMI As System.Windows.Forms.GroupBox
-    Friend WithEvents txtServerPassword As System.Windows.Forms.TextBox
+    Friend WithEvents txtServerPassword As SecurePasswordTextBox.SecureTextBox
     Friend WithEvents Label14 As System.Windows.Forms.Label
     Friend WithEvents txtServerUser As System.Windows.Forms.TextBox
     Friend WithEvents Label13 As System.Windows.Forms.Label

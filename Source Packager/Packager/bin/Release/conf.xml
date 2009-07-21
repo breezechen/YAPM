@@ -6,6 +6,7 @@
 		<dir>CoreFunc</dir>
 		<dir>DependenciesViewer</dir>
 		<dir>VistaMenu</dir>
+		<dir>SecurePasswordTextBox</dir>
 	</roots>
 	<included_file>
 		<file>changelog_sf.txt</file>

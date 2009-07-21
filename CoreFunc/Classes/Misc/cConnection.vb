@@ -50,9 +50,9 @@ Public Class cConnection
     ' Parameters for a socket connection
     Public Structure WMIConnectionParameters
         Public userName As String
-        Public password As String
+        Public password As System.Security.SecureString
         Public serverName As String
-        Public Sub New(ByVal server As String, ByVal user As String, ByVal pass As String)
+        Public Sub New(ByVal server As String, ByVal user As String, ByVal pass As System.Security.SecureString)
             userName = user
             password = pass
             serverName = server
