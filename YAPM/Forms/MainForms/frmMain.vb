@@ -276,6 +276,9 @@ Public Class frmMain
 
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
+        ' For now, SBA is removed from menu
+        Me.Ribbon.OrbDropDown.MenuItems.Remove(Me.orbMenuSBA)
+
         If Program.Parameters.ModeHidden Then
             Me.Left = -20000
             Me.ShowInTaskbar = False
