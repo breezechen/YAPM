@@ -2963,6 +2963,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemCopyPrivilege
         '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyPrivilege, Global.YAPM.My.Resources.Resources.copy16)
         Me.MenuItemCopyPrivilege.Index = 4
         Me.MenuItemCopyPrivilege.Text = "Copy to clipboard"
         '
@@ -2982,6 +2983,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemCopyMemory
         '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyMemory, Global.YAPM.My.Resources.Resources.copy16)
         Me.MenuItemCopyMemory.Index = 3
         Me.MenuItemCopyMemory.Text = "Copy to clipboard"
         '
@@ -3006,6 +3008,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemCopyModule
         '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyModule, Global.YAPM.My.Resources.Resources.copy16)
         Me.MenuItemCopyModule.Index = 9
         Me.MenuItemCopyModule.Text = "Copy to clipboard"
         '
@@ -3036,6 +3039,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemCopyThread
         '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyThread, Global.YAPM.My.Resources.Resources.copy16)
         Me.MenuItemCopyThread.Index = 6
         Me.MenuItemCopyThread.Text = "Copy to clipboard"
         '
@@ -3120,6 +3124,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemCopyWindow
         '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyWindow, Global.YAPM.My.Resources.Resources.copy16)
         Me.MenuItemCopyWindow.Index = 17
         Me.MenuItemCopyWindow.Text = "Copy to clipboard"
         '
@@ -3149,6 +3154,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemCopyHandle
         '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyHandle, Global.YAPM.My.Resources.Resources.copy16)
         Me.MenuItemCopyHandle.Index = 5
         Me.MenuItemCopyHandle.Text = "Copy to clipboard"
         '
@@ -3168,6 +3174,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemCopyNetwork
         '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyNetwork, Global.YAPM.My.Resources.Resources.copy16)
         Me.MenuItemCopyNetwork.Index = 2
         Me.MenuItemCopyNetwork.Text = "Copy to clipboard"
         '
@@ -3219,6 +3226,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemCopyService
         '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyService, Global.YAPM.My.Resources.Resources.copy16)
         Me.MenuItemCopyService.Index = 15
         Me.MenuItemCopyService.Text = "Copy to clipboard"
         '
@@ -3238,6 +3246,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemCopyLog
         '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyLog, Global.YAPM.My.Resources.Resources.copy16)
         Me.MenuItemCopyLog.Index = 2
         Me.MenuItemCopyLog.Text = "Copy to clipboard"
         '
@@ -3247,6 +3256,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemCopyEnvVariable
         '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyEnvVariable, Global.YAPM.My.Resources.Resources.copy16)
         Me.MenuItemCopyEnvVariable.Index = 0
         Me.MenuItemCopyEnvVariable.Text = "Copy to clipboard"
         '
