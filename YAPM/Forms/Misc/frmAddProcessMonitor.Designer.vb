@@ -32,16 +32,16 @@ Partial Class frmAddProcessMonitor
         Me.Label1 = New System.Windows.Forms.Label
         Me.cmdAddToList = New System.Windows.Forms.Button
         Me.cmdRemoveFromList = New System.Windows.Forms.Button
-        Me.lstToAdd = New YAPM.DoubleBufferedLV
-        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.txtHelp = New System.Windows.Forms.TextBox
-        Me.lstCounterType = New YAPM.DoubleBufferedLV
-        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
-        Me.lstInstance = New YAPM.DoubleBufferedLV
-        Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
+        Me.cmdSearch = New System.Windows.Forms.Button
         Me.lstCategory = New YAPM.DoubleBufferedLV
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
-        Me.cmdSearch = New System.Windows.Forms.Button
+        Me.lstInstance = New YAPM.DoubleBufferedLV
+        Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
+        Me.lstCounterType = New YAPM.DoubleBufferedLV
+        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
+        Me.lstToAdd = New YAPM.DoubleBufferedLV
+        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.SuspendLayout()
         '
         'butAdd
@@ -125,26 +125,6 @@ Partial Class frmAddProcessMonitor
         Me.cmdRemoveFromList.Text = "<<"
         Me.cmdRemoveFromList.UseVisualStyleBackColor = True
         '
-        'lstToAdd
-        '
-        Me.lstToAdd.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
-        Me.lstToAdd.FullRowSelect = True
-        Me.lstToAdd.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        Me.lstToAdd.Location = New System.Drawing.Point(833, 23)
-        Me.lstToAdd.Name = "lstToAdd"
-        Me.lstToAdd.OverriddenDoubleBuffered = False
-        Me.lstToAdd.ShowGroups = False
-        Me.lstToAdd.ShowItemToolTips = True
-        Me.lstToAdd.Size = New System.Drawing.Size(272, 147)
-        Me.lstToAdd.TabIndex = 5
-        Me.lstToAdd.UseCompatibleStateImageBehavior = False
-        Me.lstToAdd.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader1
-        '
-        Me.ColumnHeader1.Text = "Counter item"
-        Me.ColumnHeader1.Width = 1000
-        '
         'txtHelp
         '
         Me.txtHelp.BackColor = System.Drawing.Color.White
@@ -157,47 +137,17 @@ Partial Class frmAddProcessMonitor
         Me.txtHelp.TabIndex = 9
         Me.txtHelp.Text = "Description de l'objet sélectionné"
         '
-        'lstCounterType
+        'cmdSearch
         '
-        Me.lstCounterType.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader2})
-        Me.lstCounterType.FullRowSelect = True
-        Me.lstCounterType.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        Me.lstCounterType.Location = New System.Drawing.Point(475, 24)
-        Me.lstCounterType.Name = "lstCounterType"
-        Me.lstCounterType.OverriddenDoubleBuffered = False
-        Me.lstCounterType.ShowGroups = False
-        Me.lstCounterType.ShowItemToolTips = True
-        Me.lstCounterType.Size = New System.Drawing.Size(272, 147)
-        Me.lstCounterType.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.lstCounterType.TabIndex = 3
-        Me.lstCounterType.UseCompatibleStateImageBehavior = False
-        Me.lstCounterType.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader2
-        '
-        Me.ColumnHeader2.Text = "Counter item"
-        Me.ColumnHeader2.Width = 1000
-        '
-        'lstInstance
-        '
-        Me.lstInstance.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3})
-        Me.lstInstance.FullRowSelect = True
-        Me.lstInstance.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        Me.lstInstance.Location = New System.Drawing.Point(265, 24)
-        Me.lstInstance.MultiSelect = False
-        Me.lstInstance.Name = "lstInstance"
-        Me.lstInstance.OverriddenDoubleBuffered = False
-        Me.lstInstance.ShowGroups = False
-        Me.lstInstance.ShowItemToolTips = True
-        Me.lstInstance.Size = New System.Drawing.Size(204, 147)
-        Me.lstInstance.TabIndex = 2
-        Me.lstInstance.UseCompatibleStateImageBehavior = False
-        Me.lstInstance.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader3
-        '
-        Me.ColumnHeader3.Text = "Counter item"
-        Me.ColumnHeader3.Width = 1000
+        Me.cmdSearch.Image = CType(resources.GetObject("cmdSearch.Image"), System.Drawing.Image)
+        Me.cmdSearch.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.cmdSearch.Location = New System.Drawing.Point(753, 23)
+        Me.cmdSearch.Name = "cmdSearch"
+        Me.cmdSearch.Size = New System.Drawing.Size(74, 76)
+        Me.cmdSearch.TabIndex = 14
+        Me.cmdSearch.Text = "Search a monitor"
+        Me.cmdSearch.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.cmdSearch.UseVisualStyleBackColor = True
         '
         'lstCategory
         '
@@ -221,17 +171,67 @@ Partial Class frmAddProcessMonitor
         Me.ColumnHeader4.Text = "Counter item"
         Me.ColumnHeader4.Width = 1000
         '
-        'cmdSearch
+        'lstInstance
         '
-        Me.cmdSearch.Image = CType(resources.GetObject("cmdSearch.Image"), System.Drawing.Image)
-        Me.cmdSearch.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.cmdSearch.Location = New System.Drawing.Point(753, 23)
-        Me.cmdSearch.Name = "cmdSearch"
-        Me.cmdSearch.Size = New System.Drawing.Size(74, 76)
-        Me.cmdSearch.TabIndex = 14
-        Me.cmdSearch.Text = "Search a monitor"
-        Me.cmdSearch.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.cmdSearch.UseVisualStyleBackColor = True
+        Me.lstInstance.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3})
+        Me.lstInstance.FullRowSelect = True
+        Me.lstInstance.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+        Me.lstInstance.Location = New System.Drawing.Point(265, 24)
+        Me.lstInstance.MultiSelect = False
+        Me.lstInstance.Name = "lstInstance"
+        Me.lstInstance.OverriddenDoubleBuffered = False
+        Me.lstInstance.ShowGroups = False
+        Me.lstInstance.ShowItemToolTips = True
+        Me.lstInstance.Size = New System.Drawing.Size(204, 147)
+        Me.lstInstance.TabIndex = 2
+        Me.lstInstance.UseCompatibleStateImageBehavior = False
+        Me.lstInstance.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader3
+        '
+        Me.ColumnHeader3.Text = "Counter item"
+        Me.ColumnHeader3.Width = 1000
+        '
+        'lstCounterType
+        '
+        Me.lstCounterType.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader2})
+        Me.lstCounterType.FullRowSelect = True
+        Me.lstCounterType.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+        Me.lstCounterType.Location = New System.Drawing.Point(475, 24)
+        Me.lstCounterType.Name = "lstCounterType"
+        Me.lstCounterType.OverriddenDoubleBuffered = False
+        Me.lstCounterType.ShowGroups = False
+        Me.lstCounterType.ShowItemToolTips = True
+        Me.lstCounterType.Size = New System.Drawing.Size(272, 147)
+        Me.lstCounterType.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.lstCounterType.TabIndex = 3
+        Me.lstCounterType.UseCompatibleStateImageBehavior = False
+        Me.lstCounterType.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader2
+        '
+        Me.ColumnHeader2.Text = "Counter item"
+        Me.ColumnHeader2.Width = 1000
+        '
+        'lstToAdd
+        '
+        Me.lstToAdd.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
+        Me.lstToAdd.FullRowSelect = True
+        Me.lstToAdd.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+        Me.lstToAdd.Location = New System.Drawing.Point(833, 23)
+        Me.lstToAdd.Name = "lstToAdd"
+        Me.lstToAdd.OverriddenDoubleBuffered = False
+        Me.lstToAdd.ShowGroups = False
+        Me.lstToAdd.ShowItemToolTips = True
+        Me.lstToAdd.Size = New System.Drawing.Size(272, 147)
+        Me.lstToAdd.TabIndex = 5
+        Me.lstToAdd.UseCompatibleStateImageBehavior = False
+        Me.lstToAdd.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Text = "Counter item"
+        Me.ColumnHeader1.Width = 1000
         '
         'frmAddProcessMonitor
         '

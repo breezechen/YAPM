@@ -202,6 +202,11 @@ Public Class frmAddProcessMonitor
                 For i = 0 To mypc.Length - 1
                     Me.lstInstance.Items.Add(mypc(i))
                 Next
+                ' Add a comment if there is no instance available
+                Me.lstInstance.Enabled = (Me.lstInstance.Items.Count > 0)
+                If Me.lstInstance.Items.Count = 0 Then
+                    Me.lstInstance.Items.Add("No instance available")
+                End If
             Catch ex As Exception
             End Try
             Call lstInstance_SelectedIndexChanged(Nothing, Nothing)
@@ -258,12 +263,18 @@ Public Class frmAddProcessMonitor
     Private Sub lstCounterType_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstCounterType.SelectedIndexChanged
         If lstCounterType.SelectedItems IsNot Nothing AndAlso lstCounterType.SelectedItems.Count > 0 Then
             Dim myCat As PerformanceCounter
-            If _con.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
-                myCat = New PerformanceCounter(Me.lstCategory.SelectedItems(0).Text, lstCounterType.SelectedItems(0).Text, Nothing, _con.WmiParameters.serverName)
-            Else
-                myCat = New PerformanceCounter(Me.lstCategory.SelectedItems(0).Text, lstCounterType.SelectedItems(0).Text)
-            End If
-            txtHelp.Text = myCat.CounterHelp
+            Try
+                If _con.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
+                    myCat = New PerformanceCounter(Me.lstCategory.SelectedItems(0).Text, lstCounterType.SelectedItems(0).Text, Nothing, _con.WmiParameters.serverName)
+                Else
+                    myCat = New PerformanceCounter(Me.lstCategory.SelectedItems(0).Text, lstCounterType.SelectedItems(0).Text)
+                End If
+                txtHelp.Text = myCat.CounterHelp
+                Me.cmdAddToList.Enabled = True
+            Catch ex As Exception
+                ' Multi instance counter
+                Me.cmdAddToList.Enabled = False
+            End Try
         End If
     End Sub
 
