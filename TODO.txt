@@ -1,5 +1,6 @@
 TODO LIST
 
+- possibilité de choisir le port que le server utilise (ajouter textbox dans frmServer + envoyer une trame-message pour envoyer le numéro de port que le server utilisera)
 - path des process : \Device\VBoxMiniRdr\VBOXSVR\Release\YAPM.exe à convertir en path avec lecteur
 - auto check update option (+ ajouter tooltip sur tray icon)
 - fin d'un process -> afficher exitcode dans frmDetail
@@ -85,3 +86,4 @@ Temp Change log :
 - ajout drag & drop pour ouvrir un fichier dans la vue fichier
 - ajout menu "Copy to clipboard" de partout
 - suppression temporaire de SBA
+- correction bug the performance counter (avec aucune instance de disponible)
