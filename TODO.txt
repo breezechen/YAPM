@@ -1,5 +1,6 @@
 TODO LIST
 
+- perf counter pour PC distant (+ ajouter gestion remote pour la recherche)
 - possibilité de choisir le port que le server utilise (ajouter textbox dans frmServer + envoyer une trame-message pour envoyer le numéro de port que le server utilisera)
 - path des process : \Device\VBoxMiniRdr\VBOXSVR\Release\YAPM.exe à convertir en path avec lecteur
 - auto check update option (+ ajouter tooltip sur tray icon)

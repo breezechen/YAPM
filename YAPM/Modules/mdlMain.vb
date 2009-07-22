@@ -151,6 +151,14 @@ Public Module Program
 
 
 
+        ' ======= Check if framework is 2.0 or above
+        If Environment.Version.Major < 2 Then
+            MsgBox(".Net Framework 2.0 or above must be installed.", MsgBoxStyle.Critical, "Error")
+            Application.Exit()
+        End If
+
+
+
         ' ======= Check if system is 32 bits
         Select Case System.Runtime.InteropServices.Marshal.SizeOf(IntPtr.Zero)
             Case 4
