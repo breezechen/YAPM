@@ -1,5 +1,11 @@
 TODO LIST
 
+- option 'show user group/domain"
+- choix font
+- enlever couleur grise du lvProcess
+- ajouter "démarrer en tant que"
+- option display icons in listviews
+- virer icones dans le tabs ?
 - start hidden foireux (pomper travail de SSS)
 - perf counter pour PC distant (+ ajouter gestion remote pour la recherche)
 - possibilité de choisir le port que le server utilise (ajouter textbox dans frmServer + envoyer une trame-message pour envoyer le numéro de port que le server utilisera)
