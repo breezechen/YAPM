@@ -152,7 +152,7 @@ Public Module Program
 
 
         ' ======= Check if framework is 2.0 or above
-        If Environment.Version.Major < 2 Then
+        If cEnvironment.IsFramework2OrAbove = False Then
             MsgBox(".Net Framework 2.0 or above must be installed.", MsgBoxStyle.Critical, "Error")
             Application.Exit()
         End If
@@ -160,21 +160,15 @@ Public Module Program
 
 
         ' ======= Check if system is 32 bits
-        Select Case System.Runtime.InteropServices.Marshal.SizeOf(IntPtr.Zero)
-            Case 4
-                ' OK
-            Case 2
-                MsgBox("Cannot start on a 16-bits system." & vbNewLine & "YAPM only works on 32bits systems", MsgBoxStyle.Critical, "Error")
-                Application.Exit()
-            Case 8
-                MsgBox("Cannot start on a 64-bits system." & vbNewLine & "YAPM only works on 32bits systems", MsgBoxStyle.Critical, "Error")
-                Application.Exit()
-        End Select
+        If cEnvironment.Is32Bits = False Then
+            MsgBox("Cannot start on a non 32-bits system." & vbNewLine & "YAPM only works on 32-bits systems.", MsgBoxStyle.Critical, "Error")
+            Application.Exit()
+        End If
 
 
 
         ' ======= Close application if there is a previous instance of YAPM running
-        If IsAlreadyRunning() Then
+        If cEnvironment.IsAlreadyRunning Then
             Exit Sub
         End If
 
@@ -220,8 +214,8 @@ Public Module Program
 
 
         ' ======= Other init
-        _isVista = IsOsWindowsVista()
-        _isAdmin = IsUserAdministrator()
+        _isVista = cEnvironment.IsWindowsVistaOrAbove
+        _isAdmin = cEnvironment.IsAdmin
 
 
 
@@ -255,8 +249,8 @@ Public Module Program
 
 
         ' ======= Enable some privileges
-        clsOpenedHandles.EnableDebug()
-        clsOpenedHandles.EnableShutDown()
+        cEnvironment.RequestPrivilege(cEnvironment.PrivilegeToRequest.DebugPrivilege)
+        cEnvironment.RequestPrivilege(cEnvironment.PrivilegeToRequest.ShutdownPrivilege)
 
 
 
@@ -319,56 +313,6 @@ Public Module Program
         Application.Exit()
 
     End Sub
-
-    ' Return true if the application is already running
-    Private Function IsAlreadyRunning() As Boolean
-        Dim hMap As IntPtr
-        Dim pMem As IntPtr
-        Dim hPid As Integer
-
-        Const FILE_NAME As String = "YAPM-instanceCheck"
-
-        '# Nous tentons ici d'acceder au mappage (précedemment créé ?)
-        hMap = API.OpenFileMapping(API.FILE_MAP_READ, False, FILE_NAME)
-        If hMap <> IntPtr.Zero Then
-            '# L'application est déjà lancée.
-            pMem = API.MapViewOfFile(hMap, API.FileMapAccess.FileMapRead, 0, 0, 0)
-            If pMem <> IntPtr.Zero Then
-                '# On récupère le handle vers la précédente fenêtre
-                hPid = Marshal.ReadInt32(pMem, 0)
-                If hPid <> 0 Then
-                    '# On active l'instance précedente
-                    Try
-                        AppActivate(hPid)
-                    Catch ex As Exception
-                        '
-                    End Try
-                End If
-                API.UnmapViewOfFile(pMem)
-            End If
-            '# On libère le handle hmap
-            API.CloseHandle(hMap)
-            '# et on prévient l'appelant que l'application avait dejà été lancée.
-            Return True
-        Else
-            '# Nous sommes dans la première instance de l'application.
-            '# Nous allons laisser une marque en mémoire, pour l'indiquer
-            hMap = API.CreateFileMapping(New IntPtr(-1), IntPtr.Zero, API.FileMapProtection.PageReadWrite, 0, 4, FILE_NAME)
-            If hMap <> IntPtr.Zero Then
-                '# On ouvre le 'fichier' en écriture
-                pMem = API.MapViewOfFile(hMap, API.FileMapAccess.FileMapWrite, 0, 0, 0)
-                If pMem <> IntPtr.Zero Then
-                    '# On y écrit l'ID du process courant
-                    Marshal.WriteInt32(pMem, 0, API.GetCurrentProcessId)
-                    API.UnmapViewOfFile(pMem)
-                End If
-                '# Pas de CloseHandle hMap ici, sous peine de détruire le mappage lui-même...
-            End If
-        End If
-
-        Return False
-
-    End Function
 
     Private Sub theConnection_Disconnected() Handles theConnection.Disconnected
         ' Clear list of processes (used to get ParentProcess name)

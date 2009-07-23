@@ -41,7 +41,7 @@ Public Class asyncCallbackProcEnumerate
         deg = de
         _instanceId = iId
         con = co
-        If IsOsWindowsVista() Then
+        If IsOsWindowsVistaOrLater() Then
             PROCESS_MIN_RIGHTS = API.PROCESS_RIGHTS.PROCESS_QUERY_LIMITED_INFORMATION
         End If
     End Sub

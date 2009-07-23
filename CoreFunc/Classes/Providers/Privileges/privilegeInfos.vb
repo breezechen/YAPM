@@ -136,15 +136,15 @@ Imports System.Runtime.InteropServices
 
         hProcess = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION, 0, _procId)
         If hProcess > 0 Then
-            API.OpenProcessToken(hProcess, API.TOKEN_QUERY, hProcessToken)
+            API.OpenProcessToken(hProcess, API.TOKEN_RIGHTS.Query, hProcessToken)
             If hProcessToken > 0 Then
                 Ret = API.LookupPrivilegeValue(Nothing, seName, typLUID)
 
                 ' Get tokeninfo length
-                API.GetTokenInformation(hProcessToken, 3, 0, 0, RetLen)
+                API.GetTokenInformation(hProcessToken, API.TOKEN_INFORMATION_CLASS.TokenPrivileges, 0, 0, RetLen)
                 Dim TokenInformation As IntPtr = Marshal.AllocHGlobal(RetLen)
                 ' Get token ingo
-                API.GetTokenInformation(hProcessToken, 3, CInt(TokenInformation), RetLen, 0)
+                API.GetTokenInformation(hProcessToken, API.TOKEN_INFORMATION_CLASS.TokenPrivileges, CInt(TokenInformation), RetLen, 0)
                 TokenPriv = getTokenPrivilegeStructureFromPointer(TokenInformation, RetLen)
 
                 For i = 0 To TokenPriv.PrivilegeCount - 1

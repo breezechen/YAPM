@@ -279,6 +279,18 @@ Public Class frmMain
         ' For now, SBA is removed from menu...
         Me.Ribbon.OrbDropDown.MenuItems.Remove(Me.orbMenuSBA)
 
+        ' Disable 'start as admin' if we are not on Vista or above
+        If cEnvironment.IsWindowsVistaOrAbove = False _
+                OrElse cEnvironment.GetElevationType <> cEnvironment.ElevationType.Limited Then
+            Me.Ribbon.OrbDropDown.MenuItems.Remove(Me.orbStartElevated)
+            Me.MenuItemSYSTEMFILE.MenuItems.Remove(Me.MenuItemRunAsAdmin)
+        Else
+            ' If we display standard menus, we add the icon
+            If My.Settings.UseRibbonStyle = False Then
+                Me.VistaMenu.SetImage(Me.MenuItemRunAsAdmin, cEnvironment.GetUacShieldImage)
+            End If
+        End If
+
         If Program.Parameters.ModeHidden Then
             Me.Left = -20000
             Me.ShowInTaskbar = False
@@ -4678,4 +4690,13 @@ Public Class frmMain
 
 #End Region
 
+    Private Sub orbStartElevated_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles orbStartElevated.Click
+        ' Restart elevated
+        Call cEnvironment.RestartElevated()
+    End Sub
+
+    Private Sub MenuItemRunAsAdmin_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemRunAsAdmin.Click
+        ' Restart elevated
+        Call cEnvironment.RestartElevated()
+    End Sub
 End Class

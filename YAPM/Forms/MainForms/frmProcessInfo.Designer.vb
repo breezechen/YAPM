@@ -260,7 +260,6 @@ Partial Class frmProcessInfo
         Me.containerHistory = New System.Windows.Forms.SplitContainer
         Me.Label2 = New System.Windows.Forms.Label
         Me.lstHistoryCat = New System.Windows.Forms.CheckedListBox
-        Me.imgProcessTab = New System.Windows.Forms.ImageList(Me.components)
         Me.timerProcPerf = New System.Windows.Forms.Timer(Me.components)
         Me.imgProcess = New System.Windows.Forms.ImageList(Me.components)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
@@ -311,27 +310,33 @@ Partial Class frmProcessInfo
         Me.MenuItemLogGoto = New System.Windows.Forms.MenuItem
         Me.MenuItemNavigateToHandle = New System.Windows.Forms.MenuItem
         Me.menuViewMemory = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyPrivilege = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyMemory = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyModule = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyThread = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyWindow = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyHandle = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyNetwork = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyService = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyLog = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyEnvVariable = New System.Windows.Forms.MenuItem
         Me.menuCopyPctbig = New System.Windows.Forms.ContextMenu
         Me.menuCopyPctSmall = New System.Windows.Forms.ContextMenu
         Me.mnuString = New System.Windows.Forms.ContextMenu
         Me.mnuPrivileges = New System.Windows.Forms.ContextMenu
         Me.MenuItem1 = New System.Windows.Forms.MenuItem
-        Me.MenuItemCopyPrivilege = New System.Windows.Forms.MenuItem
         Me.mnuProcMem = New System.Windows.Forms.ContextMenu
         Me.MenuItemPEBAddress = New System.Windows.Forms.MenuItem
         Me.MenuItem13 = New System.Windows.Forms.MenuItem
-        Me.MenuItemCopyMemory = New System.Windows.Forms.MenuItem
         Me.MenuItemColumnsMemory = New System.Windows.Forms.MenuItem
         Me.mnuModule = New System.Windows.Forms.ContextMenu
         Me.MenuItem16 = New System.Windows.Forms.MenuItem
         Me.MenuItem19 = New System.Windows.Forms.MenuItem
-        Me.MenuItemCopyModule = New System.Windows.Forms.MenuItem
         Me.MenuItemColumnsModule = New System.Windows.Forms.MenuItem
         Me.mnuThread = New System.Windows.Forms.ContextMenu
         Me.MenuItem8 = New System.Windows.Forms.MenuItem
         Me.MenuItemThAffinity = New System.Windows.Forms.MenuItem
         Me.MenuItem15 = New System.Windows.Forms.MenuItem
-        Me.MenuItemCopyThread = New System.Windows.Forms.MenuItem
         Me.MenuItemThColumns = New System.Windows.Forms.MenuItem
         Me.mnuWindow = New System.Windows.Forms.ContextMenu
         Me.MenuItemWShowUn = New System.Windows.Forms.MenuItem
@@ -348,17 +353,14 @@ Partial Class frmProcessInfo
         Me.MenuItem30 = New System.Windows.Forms.MenuItem
         Me.MenuItemWEna = New System.Windows.Forms.MenuItem
         Me.MenuItem33 = New System.Windows.Forms.MenuItem
-        Me.MenuItemCopyWindow = New System.Windows.Forms.MenuItem
         Me.MenuItemWColumns = New System.Windows.Forms.MenuItem
         Me.mnuHandle = New System.Windows.Forms.ContextMenu
         Me.MenuItem12 = New System.Windows.Forms.MenuItem
         Me.MenuItemShowUnnamedHandles = New System.Windows.Forms.MenuItem
         Me.MenuItem14 = New System.Windows.Forms.MenuItem
-        Me.MenuItemCopyHandle = New System.Windows.Forms.MenuItem
         Me.MenuItemChooseColumnsHandle = New System.Windows.Forms.MenuItem
         Me.mnuNetwork = New System.Windows.Forms.ContextMenu
         Me.MenuItem10 = New System.Windows.Forms.MenuItem
-        Me.MenuItemCopyNetwork = New System.Windows.Forms.MenuItem
         Me.MenuItem11 = New System.Windows.Forms.MenuItem
         Me.mnuService = New System.Windows.Forms.ContextMenu
         Me.MenuItemServDetails = New System.Windows.Forms.MenuItem
@@ -368,13 +370,10 @@ Partial Class frmProcessInfo
         Me.MenuItem25 = New System.Windows.Forms.MenuItem
         Me.MenuItemServReanalize = New System.Windows.Forms.MenuItem
         Me.MenuItem24 = New System.Windows.Forms.MenuItem
-        Me.MenuItemCopyService = New System.Windows.Forms.MenuItem
         Me.MenuItemServColumns = New System.Windows.Forms.MenuItem
         Me.mnuLog = New System.Windows.Forms.ContextMenu
         Me.MenuItem6 = New System.Windows.Forms.MenuItem
-        Me.MenuItemCopyLog = New System.Windows.Forms.MenuItem
         Me.mnuEnv = New System.Windows.Forms.ContextMenu
-        Me.MenuItemCopyEnvVariable = New System.Windows.Forms.MenuItem
         Me.tabProcess.SuspendLayout()
         Me.TabPageGeneral.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -450,7 +449,6 @@ Partial Class frmProcessInfo
         Me.tabProcess.Controls.Add(Me.TabPageHistory)
         Me.tabProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tabProcess.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tabProcess.ImageList = Me.imgProcessTab
         Me.tabProcess.Location = New System.Drawing.Point(0, 0)
         Me.tabProcess.Multiline = True
         Me.tabProcess.Name = "tabProcess"
@@ -464,7 +462,6 @@ Partial Class frmProcessInfo
         Me.TabPageGeneral.Controls.Add(Me.GroupBox6)
         Me.TabPageGeneral.Controls.Add(Me.GroupBox1)
         Me.TabPageGeneral.Controls.Add(Me.gpProcGeneralFile)
-        Me.TabPageGeneral.ImageIndex = 0
         Me.TabPageGeneral.Location = New System.Drawing.Point(4, 42)
         Me.TabPageGeneral.Name = "TabPageGeneral"
         Me.TabPageGeneral.Padding = New System.Windows.Forms.Padding(3)
@@ -890,7 +887,6 @@ Partial Class frmProcessInfo
         Me.TabPageStats.Controls.Add(Me.GroupBox4)
         Me.TabPageStats.Controls.Add(Me.GroupBox3)
         Me.TabPageStats.Controls.Add(Me.GroupBox2)
-        Me.TabPageStats.ImageIndex = 1
         Me.TabPageStats.Location = New System.Drawing.Point(4, 42)
         Me.TabPageStats.Name = "TabPageStats"
         Me.TabPageStats.Padding = New System.Windows.Forms.Padding(3)
@@ -1568,7 +1564,6 @@ Partial Class frmProcessInfo
         'TabPagePerf
         '
         Me.TabPagePerf.Controls.Add(Me.splitPerformances)
-        Me.TabPagePerf.ImageIndex = 2
         Me.TabPagePerf.Location = New System.Drawing.Point(4, 42)
         Me.TabPagePerf.Name = "TabPagePerf"
         Me.TabPagePerf.Padding = New System.Windows.Forms.Padding(3)
@@ -1593,7 +1588,7 @@ Partial Class frmProcessInfo
         '
         Me.splitPerformances.Panel2.Controls.Add(Me.splitPerformance2)
         Me.splitPerformances.Size = New System.Drawing.Size(641, 271)
-        Me.splitPerformances.SplitterDistance = 79
+        Me.splitPerformances.SplitterDistance = 78
         Me.splitPerformances.SplitterWidth = 1
         Me.splitPerformances.TabIndex = 3
         '
@@ -1608,7 +1603,7 @@ Partial Class frmProcessInfo
         Me.graphCPU.Location = New System.Drawing.Point(0, 0)
         Me.graphCPU.Name = "graphCPU"
         Me.graphCPU.ShowSecondGraph = True
-        Me.graphCPU.Size = New System.Drawing.Size(641, 79)
+        Me.graphCPU.Size = New System.Drawing.Size(641, 78)
         Me.graphCPU.TabIndex = 1
         Me.graphCPU.TabStop = False
         '
@@ -1627,7 +1622,7 @@ Partial Class frmProcessInfo
         'splitPerformance2.Panel2
         '
         Me.splitPerformance2.Panel2.Controls.Add(Me.graphIO)
-        Me.splitPerformance2.Size = New System.Drawing.Size(641, 191)
+        Me.splitPerformance2.Size = New System.Drawing.Size(641, 192)
         Me.splitPerformance2.SplitterDistance = 86
         Me.splitPerformance2.SplitterWidth = 1
         Me.splitPerformance2.TabIndex = 0
@@ -1661,14 +1656,13 @@ Partial Class frmProcessInfo
         Me.graphIO.Location = New System.Drawing.Point(0, 0)
         Me.graphIO.Name = "graphIO"
         Me.graphIO.ShowSecondGraph = False
-        Me.graphIO.Size = New System.Drawing.Size(641, 104)
+        Me.graphIO.Size = New System.Drawing.Size(641, 105)
         Me.graphIO.TabIndex = 3
         Me.graphIO.TabStop = False
         '
         'TabPageToken
         '
         Me.TabPageToken.Controls.Add(Me.tabProcessToken)
-        Me.TabPageToken.ImageIndex = 3
         Me.TabPageToken.Location = New System.Drawing.Point(4, 42)
         Me.TabPageToken.Name = "TabPageToken"
         Me.TabPageToken.Padding = New System.Windows.Forms.Padding(3)
@@ -1737,7 +1731,6 @@ Partial Class frmProcessInfo
         'TabPageMemory
         '
         Me.TabPageMemory.Controls.Add(Me.lvProcMem)
-        Me.TabPageMemory.ImageIndex = 4
         Me.TabPageMemory.Location = New System.Drawing.Point(4, 42)
         Me.TabPageMemory.Name = "TabPageMemory"
         Me.TabPageMemory.Padding = New System.Windows.Forms.Padding(3)
@@ -1795,7 +1788,6 @@ Partial Class frmProcessInfo
         'TabPageInfos
         '
         Me.TabPageInfos.Controls.Add(Me.SplitContainerInfoProcess)
-        Me.TabPageInfos.ImageIndex = 5
         Me.TabPageInfos.Location = New System.Drawing.Point(4, 42)
         Me.TabPageInfos.Name = "TabPageInfos"
         Me.TabPageInfos.Padding = New System.Windows.Forms.Padding(3)
@@ -1865,7 +1857,6 @@ Partial Class frmProcessInfo
         'TabPageServices
         '
         Me.TabPageServices.Controls.Add(Me.lvProcServices)
-        Me.TabPageServices.ImageIndex = 7
         Me.TabPageServices.Location = New System.Drawing.Point(4, 42)
         Me.TabPageServices.Name = "TabPageServices"
         Me.TabPageServices.Padding = New System.Windows.Forms.Padding(3)
@@ -1934,7 +1925,6 @@ Partial Class frmProcessInfo
         'TabPageNetwork
         '
         Me.TabPageNetwork.Controls.Add(Me.lvProcNetwork)
-        Me.TabPageNetwork.ImageIndex = 8
         Me.TabPageNetwork.Location = New System.Drawing.Point(4, 42)
         Me.TabPageNetwork.Name = "TabPageNetwork"
         Me.TabPageNetwork.Padding = New System.Windows.Forms.Padding(3)
@@ -1987,7 +1977,6 @@ Partial Class frmProcessInfo
         'TabPageString
         '
         Me.TabPageString.Controls.Add(Me.SplitContainerStrings)
-        Me.TabPageString.ImageKey = "font"
         Me.TabPageString.Location = New System.Drawing.Point(4, 42)
         Me.TabPageString.Name = "TabPageString"
         Me.TabPageString.Size = New System.Drawing.Size(647, 277)
@@ -2017,7 +2006,7 @@ Partial Class frmProcessInfo
         Me.SplitContainerStrings.Panel2.Controls.Add(Me.optProcStringMemory)
         Me.SplitContainerStrings.Panel2.Controls.Add(Me.optProcStringImage)
         Me.SplitContainerStrings.Size = New System.Drawing.Size(647, 277)
-        Me.SplitContainerStrings.SplitterDistance = 245
+        Me.SplitContainerStrings.SplitterDistance = 244
         Me.SplitContainerStrings.TabIndex = 0
         '
         'lvProcString
@@ -2036,7 +2025,7 @@ Partial Class frmProcessInfo
         Me.lvProcString.MultiSelect = False
         Me.lvProcString.Name = "lvProcString"
         Me.lvProcString.OverriddenDoubleBuffered = True
-        Me.lvProcString.Size = New System.Drawing.Size(647, 245)
+        Me.lvProcString.Size = New System.Drawing.Size(647, 244)
         Me.lvProcString.TabIndex = 22
         Me.lvProcString.UseCompatibleStateImageBehavior = False
         Me.lvProcString.View = System.Windows.Forms.View.Details
@@ -2129,7 +2118,6 @@ Partial Class frmProcessInfo
         'TabPageEnv
         '
         Me.TabPageEnv.Controls.Add(Me.lvProcEnv)
-        Me.TabPageEnv.ImageIndex = 10
         Me.TabPageEnv.Location = New System.Drawing.Point(4, 42)
         Me.TabPageEnv.Name = "TabPageEnv"
         Me.TabPageEnv.Size = New System.Drawing.Size(647, 277)
@@ -2177,7 +2165,6 @@ Partial Class frmProcessInfo
         'TabPageModules
         '
         Me.TabPageModules.Controls.Add(Me.lvModules)
-        Me.TabPageModules.ImageKey = "dll"
         Me.TabPageModules.Location = New System.Drawing.Point(4, 42)
         Me.TabPageModules.Name = "TabPageModules"
         Me.TabPageModules.Size = New System.Drawing.Size(647, 277)
@@ -2249,7 +2236,6 @@ Partial Class frmProcessInfo
         'TabPageThreads
         '
         Me.TabPageThreads.Controls.Add(Me.lvThreads)
-        Me.TabPageThreads.ImageKey = "thread"
         Me.TabPageThreads.Location = New System.Drawing.Point(4, 42)
         Me.TabPageThreads.Name = "TabPageThreads"
         Me.TabPageThreads.Size = New System.Drawing.Size(647, 277)
@@ -2330,7 +2316,6 @@ Partial Class frmProcessInfo
         'TabPageWindows
         '
         Me.TabPageWindows.Controls.Add(Me.lvWindows)
-        Me.TabPageWindows.ImageKey = "windows"
         Me.TabPageWindows.Location = New System.Drawing.Point(4, 42)
         Me.TabPageWindows.Name = "TabPageWindows"
         Me.TabPageWindows.Size = New System.Drawing.Size(647, 277)
@@ -2391,7 +2376,6 @@ Partial Class frmProcessInfo
         'TabPageHandles
         '
         Me.TabPageHandles.Controls.Add(Me.lvHandles)
-        Me.TabPageHandles.ImageKey = "handle"
         Me.TabPageHandles.Location = New System.Drawing.Point(4, 42)
         Me.TabPageHandles.Name = "TabPageHandles"
         Me.TabPageHandles.Size = New System.Drawing.Size(647, 277)
@@ -2459,7 +2443,6 @@ Partial Class frmProcessInfo
         'TabPageLog
         '
         Me.TabPageLog.Controls.Add(Me.SplitContainerLog)
-        Me.TabPageLog.ImageIndex = 6
         Me.TabPageLog.Location = New System.Drawing.Point(4, 42)
         Me.TabPageLog.Name = "TabPageLog"
         Me.TabPageLog.Size = New System.Drawing.Size(647, 277)
@@ -2575,7 +2558,6 @@ Partial Class frmProcessInfo
         '
         Me.TabPageHistory.Controls.Add(Me.containerHistory)
         Me.TabPageHistory.Controls.Add(Me.lstHistoryCat)
-        Me.TabPageHistory.ImageIndex = 2
         Me.TabPageHistory.Location = New System.Drawing.Point(4, 42)
         Me.TabPageHistory.Name = "TabPageHistory"
         Me.TabPageHistory.Size = New System.Drawing.Size(647, 277)
@@ -2618,26 +2600,6 @@ Partial Class frmProcessInfo
         Me.lstHistoryCat.Name = "lstHistoryCat"
         Me.lstHistoryCat.Size = New System.Drawing.Size(208, 276)
         Me.lstHistoryCat.TabIndex = 0
-        '
-        'imgProcessTab
-        '
-        Me.imgProcessTab.ImageStream = CType(resources.GetObject("imgProcessTab.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgProcessTab.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgProcessTab.Images.SetKeyName(0, "exe")
-        Me.imgProcessTab.Images.SetKeyName(1, "stats")
-        Me.imgProcessTab.Images.SetKeyName(2, "monitor.png")
-        Me.imgProcessTab.Images.SetKeyName(3, "locked")
-        Me.imgProcessTab.Images.SetKeyName(4, "memory")
-        Me.imgProcessTab.Images.SetKeyName(5, "exe2")
-        Me.imgProcessTab.Images.SetKeyName(6, "document_text.png")
-        Me.imgProcessTab.Images.SetKeyName(7, "service")
-        Me.imgProcessTab.Images.SetKeyName(8, "network")
-        Me.imgProcessTab.Images.SetKeyName(9, "font")
-        Me.imgProcessTab.Images.SetKeyName(10, "environment")
-        Me.imgProcessTab.Images.SetKeyName(11, "dll")
-        Me.imgProcessTab.Images.SetKeyName(12, "thread")
-        Me.imgProcessTab.Images.SetKeyName(13, "handle")
-        Me.imgProcessTab.Images.SetKeyName(14, "windows")
         '
         'timerProcPerf
         '
@@ -2940,6 +2902,66 @@ Partial Class frmProcessInfo
         Me.menuViewMemory.Index = 0
         Me.menuViewMemory.Text = "View memory"
         '
+        'MenuItemCopyPrivilege
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyPrivilege, Global.YAPM.My.Resources.Resources.copy16)
+        Me.MenuItemCopyPrivilege.Index = 4
+        Me.MenuItemCopyPrivilege.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyMemory
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyMemory, Global.YAPM.My.Resources.Resources.copy16)
+        Me.MenuItemCopyMemory.Index = 3
+        Me.MenuItemCopyMemory.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyModule
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyModule, Global.YAPM.My.Resources.Resources.copy16)
+        Me.MenuItemCopyModule.Index = 9
+        Me.MenuItemCopyModule.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyThread
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyThread, Global.YAPM.My.Resources.Resources.copy16)
+        Me.MenuItemCopyThread.Index = 6
+        Me.MenuItemCopyThread.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyWindow
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyWindow, Global.YAPM.My.Resources.Resources.copy16)
+        Me.MenuItemCopyWindow.Index = 17
+        Me.MenuItemCopyWindow.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyHandle
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyHandle, Global.YAPM.My.Resources.Resources.copy16)
+        Me.MenuItemCopyHandle.Index = 5
+        Me.MenuItemCopyHandle.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyNetwork
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyNetwork, Global.YAPM.My.Resources.Resources.copy16)
+        Me.MenuItemCopyNetwork.Index = 2
+        Me.MenuItemCopyNetwork.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyService
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyService, Global.YAPM.My.Resources.Resources.copy16)
+        Me.MenuItemCopyService.Index = 15
+        Me.MenuItemCopyService.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyLog
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyLog, Global.YAPM.My.Resources.Resources.copy16)
+        Me.MenuItemCopyLog.Index = 2
+        Me.MenuItemCopyLog.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyEnvVariable
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyEnvVariable, Global.YAPM.My.Resources.Resources.copy16)
+        Me.MenuItemCopyEnvVariable.Index = 0
+        Me.MenuItemCopyEnvVariable.Text = "Copy to clipboard"
+        '
         'menuCopyPctbig
         '
         Me.menuCopyPctbig.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCopyBig})
@@ -2961,12 +2983,6 @@ Partial Class frmProcessInfo
         Me.MenuItem1.Index = 3
         Me.MenuItem1.Text = "-"
         '
-        'MenuItemCopyPrivilege
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyPrivilege, Global.YAPM.My.Resources.Resources.copy16)
-        Me.MenuItemCopyPrivilege.Index = 4
-        Me.MenuItemCopyPrivilege.Text = "Copy to clipboard"
-        '
         'mnuProcMem
         '
         Me.mnuProcMem.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemViewMemory, Me.MenuItemPEBAddress, Me.MenuItem13, Me.MenuItemCopyMemory, Me.MenuItemColumnsMemory})
@@ -2980,12 +2996,6 @@ Partial Class frmProcessInfo
         '
         Me.MenuItem13.Index = 2
         Me.MenuItem13.Text = "-"
-        '
-        'MenuItemCopyMemory
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyMemory, Global.YAPM.My.Resources.Resources.copy16)
-        Me.MenuItemCopyMemory.Index = 3
-        Me.MenuItemCopyMemory.Text = "Copy to clipboard"
         '
         'MenuItemColumnsMemory
         '
@@ -3005,12 +3015,6 @@ Partial Class frmProcessInfo
         '
         Me.MenuItem19.Index = 8
         Me.MenuItem19.Text = "-"
-        '
-        'MenuItemCopyModule
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyModule, Global.YAPM.My.Resources.Resources.copy16)
-        Me.MenuItemCopyModule.Index = 9
-        Me.MenuItemCopyModule.Text = "Copy to clipboard"
         '
         'MenuItemColumnsModule
         '
@@ -3036,12 +3040,6 @@ Partial Class frmProcessInfo
         '
         Me.MenuItem15.Index = 5
         Me.MenuItem15.Text = "-"
-        '
-        'MenuItemCopyThread
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyThread, Global.YAPM.My.Resources.Resources.copy16)
-        Me.MenuItemCopyThread.Index = 6
-        Me.MenuItemCopyThread.Text = "Copy to clipboard"
         '
         'MenuItemThColumns
         '
@@ -3122,12 +3120,6 @@ Partial Class frmProcessInfo
         Me.MenuItem33.Index = 16
         Me.MenuItem33.Text = "-"
         '
-        'MenuItemCopyWindow
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyWindow, Global.YAPM.My.Resources.Resources.copy16)
-        Me.MenuItemCopyWindow.Index = 17
-        Me.MenuItemCopyWindow.Text = "Copy to clipboard"
-        '
         'MenuItemWColumns
         '
         Me.MenuItemWColumns.Index = 18
@@ -3152,12 +3144,6 @@ Partial Class frmProcessInfo
         Me.MenuItem14.Index = 4
         Me.MenuItem14.Text = "-"
         '
-        'MenuItemCopyHandle
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyHandle, Global.YAPM.My.Resources.Resources.copy16)
-        Me.MenuItemCopyHandle.Index = 5
-        Me.MenuItemCopyHandle.Text = "Copy to clipboard"
-        '
         'MenuItemChooseColumnsHandle
         '
         Me.MenuItemChooseColumnsHandle.Index = 6
@@ -3171,12 +3157,6 @@ Partial Class frmProcessInfo
         '
         Me.MenuItem10.Index = 1
         Me.MenuItem10.Text = "-"
-        '
-        'MenuItemCopyNetwork
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyNetwork, Global.YAPM.My.Resources.Resources.copy16)
-        Me.MenuItemCopyNetwork.Index = 2
-        Me.MenuItemCopyNetwork.Text = "Copy to clipboard"
         '
         'MenuItem11
         '
@@ -3224,12 +3204,6 @@ Partial Class frmProcessInfo
         Me.MenuItem24.Index = 14
         Me.MenuItem24.Text = "-"
         '
-        'MenuItemCopyService
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyService, Global.YAPM.My.Resources.Resources.copy16)
-        Me.MenuItemCopyService.Index = 15
-        Me.MenuItemCopyService.Text = "Copy to clipboard"
-        '
         'MenuItemServColumns
         '
         Me.MenuItemServColumns.Index = 16
@@ -3244,21 +3218,9 @@ Partial Class frmProcessInfo
         Me.MenuItem6.Index = 1
         Me.MenuItem6.Text = "-"
         '
-        'MenuItemCopyLog
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyLog, Global.YAPM.My.Resources.Resources.copy16)
-        Me.MenuItemCopyLog.Index = 2
-        Me.MenuItemCopyLog.Text = "Copy to clipboard"
-        '
         'mnuEnv
         '
         Me.mnuEnv.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCopyEnvVariable})
-        '
-        'MenuItemCopyEnvVariable
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyEnvVariable, Global.YAPM.My.Resources.Resources.copy16)
-        Me.MenuItemCopyEnvVariable.Index = 0
-        Me.MenuItemCopyEnvVariable.Text = "Copy to clipboard"
         '
         'frmProcessInfo
         '
@@ -3452,7 +3414,6 @@ Partial Class frmProcessInfo
     Friend WithEvents ColumnHeader61 As System.Windows.Forms.ColumnHeader
     Friend WithEvents timerProcPerf As System.Windows.Forms.Timer
     Friend WithEvents imgProcess As System.Windows.Forms.ImageList
-    Friend WithEvents imgProcessTab As System.Windows.Forms.ImageList
     Friend WithEvents TabPageModules As System.Windows.Forms.TabPage
     Friend WithEvents TabPageThreads As System.Windows.Forms.TabPage
     Friend WithEvents TabPageWindows As System.Windows.Forms.TabPage

@@ -23,18 +23,9 @@ Option Strict On
 
 Public Module mdlPrivileges
 
-    ' Return true if your are logged as an administrator
-    Public Function IsUserAdministrator() As Boolean
-        If My.User.IsAuthenticated Then
-            If My.User.IsInRole(ApplicationServices.BuiltInRole.Administrator) Then
-                Return True
-            End If
-        End If
-        Return False
+    ' Return true if it is Vista
+    Public Function IsOsWindowsVistaOrLater() As Boolean
+        Return ((Environment.OSVersion.Platform = PlatformID.Win32NT) And (Environment.OSVersion.Version.Major >= 6) And (Environment.OSVersion.Version.Minor = 0))
     End Function
 
-    ' Return true if it is Vista
-    Public Function IsOsWindowsVista() As Boolean
-        Return ((Environment.OSVersion.Platform = PlatformID.Win32NT) And (Environment.OSVersion.Version.Major = 6) And (Environment.OSVersion.Version.Minor = 0))
-    End Function
 End Module

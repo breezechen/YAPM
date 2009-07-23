@@ -1,21 +1,23 @@
 TODO LIST
 
+- résoudre erreurs mscorlib en mode uac (au démarrage + path)
+- possibilité de passer en mode elevated automatiquement (dans les options) possible ??
 - option 'show user group/domain"
 - choix font
 - enlever couleur grise du lvProcess
-- ajouter "démarrer en tant que"
+- ajouter "démarrer en tant que" (runas, cf lien opera)
 - option display icons in listviews
 - virer icones dans le tabs ?
 - start hidden foireux (pomper travail de SSS)
 - perf counter pour PC distant (+ ajouter gestion remote pour la recherche)
 - possibilité de choisir le port que le server utilise (ajouter textbox dans frmServer + envoyer une trame-message pour envoyer le numéro de port que le server utilisera)
+- ribbon lourd (clignotement) -> alternative ?
 - path des process : \Device\VBoxMiniRdr\VBOXSVR\Release\YAPM.exe à convertir en path avec lecteur
 - auto check update option (+ ajouter tooltip sur tray icon)
 - fin d'un process -> afficher exitcode dans frmDetail
 - log marche pas toujours (0% d'UC ??)
 - fin d'un process/service dans frmDetail -> afficher 'terminé le xxx' en
 titre quand le process/service n'existe plus
-- élévation de privileges (droits admins, UAC...) -> manifest
 - tooltip partout (manque frmPreferences ? et manque frmLogOptions) + passer au tooltip classique
 - images PNG uniquement + virer img inutiles
 - crash UDP à inspecter
@@ -34,6 +36,8 @@ titre quand le process/service n'existe plus
 - tester en tâche de fond sur un windows XP et voir si des crash surviennent
 - blocage de l'application quand certains processus bouffe du CPU (cf compilo wingreta) -> est-ce un appel bloquant (genre sendmessage) lors du refresh des process/tasks...?
 - dependencies -> PE.filename doit changer SystemRoot en X:\Wind....
+- refactoring (objet, virer int et mettre intptr, declarations pinvoke, gestion privileges meilleure...etc....)
+- ajouter une colonne 'nom port' pour les ports des connexions (+ récupérer BDD avec la liste des ports communs)
 
 
 ---- GENERAL
@@ -95,3 +99,6 @@ Temp Change log :
 - ajout menu "Copy to clipboard" de partout
 - suppression temporaire de SBA
 - correction bug the performance counter (avec aucune instance de disponible)
+- suppression des icones dans les tabstrips (pour plus de légereté)
+- gestion UAC OK
+- ajout option "démarrage en mode admin"

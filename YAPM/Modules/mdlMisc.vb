@@ -22,6 +22,7 @@
 Option Strict On
 
 Imports Microsoft.Win32
+Imports System.Windows.Forms
 
 Module mdlMisc
 

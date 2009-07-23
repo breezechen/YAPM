@@ -92,7 +92,7 @@ Public Class asyncCallbackPrivilegeChangeStatus
 
         hProcess = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION, 0, _pid)
         If hProcess > 0 Then
-            API.OpenProcessToken(hProcess, API.TOKEN_ADJUST_PRIVILEGES Or API.TOKEN_QUERY, lngToken)
+            API.OpenProcessToken(hProcess, API.TOKEN_RIGHTS.Query Or API.TOKEN_RIGHTS.AdjustPrivileges, lngToken)
             If lngToken > 0 Then
                 Ret = API.LookupPrivilegeValue(Nothing, seName, typLUID)
                 If Ret > 0 Then

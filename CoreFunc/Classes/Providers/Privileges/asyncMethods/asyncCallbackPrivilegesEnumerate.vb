@@ -124,14 +124,14 @@ Public Class asyncCallbackPrivilegesEnumerate
 
         hProcess = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION, 0, _pid)
         If hProcess > 0 Then
-            API.OpenProcessToken(hProcess, API.TOKEN_QUERY, hProcessToken)
+            API.OpenProcessToken(hProcess, API.TOKEN_RIGHTS.Query, hProcessToken)
             If hProcessToken > 0 Then
 
                 ' Get tokeninfo length
-                API.GetTokenInformation(hProcessToken, 3, 0, 0, RetLen)
+                API.GetTokenInformation(hProcessToken, API.TOKEN_INFORMATION_CLASS.TokenPrivileges, 0, 0, RetLen)
                 Dim TokenInformation As IntPtr = Marshal.AllocHGlobal(RetLen)
                 ' Get token information
-                API.GetTokenInformation(hProcessToken, 3, CInt(TokenInformation), RetLen, 0)
+                API.GetTokenInformation(hProcessToken, API.TOKEN_INFORMATION_CLASS.TokenPrivileges, CInt(TokenInformation), RetLen, 0)
                 ' Get a valid structure
                 TokenPriv = getTokenPrivilegeStructureFromPointer(TokenInformation, RetLen)
 

@@ -242,6 +242,25 @@ Public Class API
         THREAD_ALL_ACCESS = STANDARD_RIGHTS.STANDARD_RIGHTS_REQUIRED Or STANDARD_RIGHTS.SYNCHRONIZE Or &HFFFF
     End Enum
 
+    Public Enum TOKEN_RIGHTS As Integer
+        AssignPrimary = &H1
+        Duplicate = &H2
+        Impersonate = &H4
+        Query = &H8
+        QuerySource = &H10
+        AdjustPrivileges = &H20
+        AdjustGroups = &H40
+        AdjustDefault = &H80
+        AdjustSessionId = &H100
+        Read = &H20008
+        Write = &H200E0
+        Execute = &H20000
+        All = &HF00FF
+        AllPlusSessionId = &HF01FF
+        MaximumAllowed = &H2000000
+        AccessSystemSecurity = &H1000000
+    End Enum
+
     Public Enum STANDARD_RIGHTS As UInteger
         WRITE_OWNER = &H80000
         WRITE_DAC = &H40000
@@ -493,9 +512,6 @@ Public Class API
 
 #Region "Declarations used for tokens & privileges"
 
-    Public Const TOKEN_QUERY As Integer = &H8
-    Public Const TOKEN_ADJUST_PRIVILEGES As Integer = &H20
-
     Public Const SE_PRIVILEGE_ENABLED As Integer = &H2
     Public Const SE_PRIVILEGE_ENABLED_BY_DEFAULT As Integer = &H1
     Public Const SE_PRIVILEGE_DISBALED As Integer = &H0
@@ -529,6 +545,10 @@ Public Class API
 
     <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
     Public Shared Function LookupAccountSid(ByVal SystemName As String, ByVal SID As Integer, ByVal Name As StringBuilder, ByRef NameSize As Integer, ByVal ReferencedDomainName As StringBuilder, ByRef ReferencedDomainNameSize As Integer, ByRef Use As SID_NAME_USE) As Boolean
+    End Function
+
+    <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
+    Public Shared Function GetTokenInformation(ByVal TokenHandle As IntPtr, ByVal TokenInformationClass As TOKEN_INFORMATION_CLASS, ByRef TokenInformation As Integer, ByVal TokenInformationLength As Integer, ByRef ReturnLength As Integer) As Boolean
     End Function
 
     Public Structure TOKEN_PRIVILEGES2
@@ -1634,6 +1654,9 @@ Public Class API
 #End Region
 
 #Region "General declarations"
+
+    Public Const BCM_FIRST As Integer = &H1600
+    Public Const BCM_SETSHIELD As Integer = (BCM_FIRST + &HC)
 
     Public Declare Function lstrlenA Lib "kernel32" (ByVal Ptr As Integer) As Integer
     Public Declare Function lstrcpyA Lib "kernel32" (ByVal RetVal As String, ByVal Ptr As Integer) As Integer

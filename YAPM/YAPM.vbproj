@@ -305,6 +305,7 @@
     <Compile Include="Classes\Download\cDownload.vb" />
     <Compile Include="Classes\HTML\cHTML.vb" />
     <Compile Include="Classes\HTML\cHTML2.vb" />
+    <Compile Include="Classes\Misc\cEnvironment.vb" />
     <Compile Include="Classes\Misc\cLog.vb" />
     <Compile Include="Classes\Misc\cRegMonitor.vb" />
     <Compile Include="Classes\Misc\cTrayIcon.vb" />
@@ -550,6 +551,7 @@
     <None Include="Misc\help16.png" />
     <None Include="Misc\options16.gif" />
     <None Include="Misc\right.gif" />
+    <None Include="Misc\shield_32.png" />
     <Content Include="process.ico" />
     <Content Include="process_custom.ico" />
     <None Include="Resources\application_blue.png" />
