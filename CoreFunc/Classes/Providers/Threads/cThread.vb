@@ -372,4 +372,12 @@ Public Class cThread
 
 #End Region
 
+    Public Overrides Function GetBackColor() As System.Drawing.Color
+
+        If Me.Infos.WaitReason = API.KWAIT_REASON.Suspended Then
+            Return System.Drawing.Color.Yellow
+        End If
+
+        Return MyBase.GetBackColor()
+    End Function
 End Class

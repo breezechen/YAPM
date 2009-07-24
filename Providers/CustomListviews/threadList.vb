@@ -262,7 +262,7 @@ Public Class threadList
             ElseIf _dico.Item(it.Name).IsKilledItem Then
                 it.BackColor = DELETED_ITEM_COLOR
             Else
-                it.BackColor = Color.White
+                it.BackColor = _item.GetBackColor
             End If
         Next
 

@@ -308,7 +308,7 @@ Public Class moduleList
 
         ' Add icon
         If _connectionObject.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            If InStr(key.ToLowerInvariant, "exe|") > 0 Then
+            If InStr(key.ToLowerInvariant, "exe-") > 0 Then
                 Try
 
                     Dim fName As String = _dico.Item(key).Infos.Path
@@ -332,7 +332,7 @@ Public Class moduleList
             End If
         Else
             ' Remote file -> standard icons
-            If InStr(key.ToLowerInvariant, "exe|") > 0 Then
+            If InStr(key.ToLowerInvariant, "exe-") > 0 Then
                 item.ImageKey = "exeFile"
             Else
                 item.ImageKey = "dllIcon"

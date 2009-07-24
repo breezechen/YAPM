@@ -109,4 +109,10 @@ Public MustInherit Class cGeneralObject
     ' Get information by name
     Public MustOverride Function GetInformation(ByVal info As String) As String
 
+    ' Return backcolor of the item, when displayed in a listview
+    Public Overridable Function GetBackColor() As System.Drawing.Color
+        Return Drawing.Color.White
+    End Function
+
+
 End Class
