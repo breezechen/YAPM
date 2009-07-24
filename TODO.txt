@@ -1,5 +1,8 @@
 TODO LIST
 
+- ajout des 6 nouvelles infos process dans formDetail (sauf certaines qui auront un truc spécifique comme token, job)
+- priorité des highlightings à prendre en compte
+- ajouter bouton Default dans ChooseColumns
 - ajouter infos token (elevation, domain, user name, SID...)
 - restart as admin foireux (utiliser shellexecute et non StartProcess pour esquiver boite de dialogue Windows et foirages)
 - résoudre erreurs mscorlib en mode uac (au démarrage + path)
@@ -106,3 +109,6 @@ Temp Change log :
 - gestion UAC OK
 - ajout option "démarrage en mode admin"
 - fixed icon bug in moduleList
+- nouvelles informations sur les processus
+- ajout support highlighting
+- refactoring (merge Providers & main project pour la prise en compte des settings dans les listviews)

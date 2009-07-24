@@ -89,6 +89,26 @@ Public Class Pref
                 _frmMain.Hide()
             End If
         End If
+
+        ' Highlightings
+        With My.Settings
+            cThread.SetHighlightings(.EnableHighlightingSuspendedThread)
+            cThread.SetHighlightingsColor(.HighlightingColorSuspendedThread)
+            cProcess.SetHighlightings(.EnableHighlightingBeingDebugged, _
+                                      .EnableHighlightingJobProcess, _
+                                      .EnableHighlightingElevated, _
+                                      .EnableHighlightingCriticalProcess, _
+                                      .EnableHighlightingOwnedProcess, _
+                                      .EnableHighlightingSystemProcess, _
+                                      .EnableHighlightingServiceProcess)
+            cProcess.SetHighlightingsColor(.HighlightingColorBeingDebugged, _
+                                           .HighlightingColorJobProcess, _
+                                           .HighlightingColorElevatedProcess, _
+                                           .HighlightingColorCriticalProcess, _
+                                           .HighlightingColorOwnedProcess, _
+                                           .HighlightingColorSystemProcess, _
+                                           .HighlightingColorServiceProcess)
+        End With
     End Sub
 
     ' Display columns of a listview (previously saved)

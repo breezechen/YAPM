@@ -27,6 +27,7 @@ Public Module mdlMisc
 
     Private Const NO_INFO_RETRIEVED As String = "N/A"
     Private sizeUnits() As String = {"Bytes", "KB", "MB", "GB", "TB", "PB", "EB"}
+    Public NON_BLACK_COLOR As System.Drawing.Color = System.Drawing.Color.FromArgb(30, 30, 30)
 
     ' Get a formated value as a string (in Bytes, KB, MB or GB) from an Integer
     Public Function GetFormatedSize(ByVal size As Integer, Optional ByVal digits As Integer = 3) As String

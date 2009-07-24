@@ -69,11 +69,6 @@ Public Class frmError
             s &= vbNewLine & vbTab & "CoreFunc version : CANNOT GET VERSION"
         End Try
         Try
-            s &= vbNewLine & vbTab & "Providers version : " & System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\Providers.dll").FileVersion
-        Catch ex As Exception
-            s &= vbNewLine & vbTab & "Providers version : CANNOT GET VERSION"
-        End Try
-        Try
             s &= vbNewLine & vbTab & "TaskDialog version : " & System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\TaskDialog.dll").FileVersion
         Catch ex As Exception
             s &= vbNewLine & vbTab & "TaskDialog version : CANNOT GET VERSION"

@@ -20,6 +20,8 @@
 
 Option Strict On
 
+Imports System.Drawing
+
 Public Class cThread
     Inherits cGeneralObject
 
@@ -30,6 +32,9 @@ Public Class cThread
     Private Shared WithEvents _connection As cThreadConnection
 
     Private _handleQueryInfo As Integer
+
+    Private Shared _hlSuspendedThread As Boolean
+    Private Shared _hlSuspendedThreadColor As Color
 
 #Region "Properties"
 
@@ -372,12 +377,26 @@ Public Class cThread
 
 #End Region
 
+#Region "Highlighting management"
+
+    ' Set highlightings
+    Public Shared Sub SetHighlightings(ByVal suspendedThreads As Boolean)
+        _hlSuspendedThread = suspendedThreads
+    End Sub
+    Public Shared Sub SetHighlightingsColor(ByVal suspendedThreads As color)
+        _hlSuspendedThreadColor = suspendedThreads
+    End Sub
+
+    ' Return backcolor of current item
     Public Overrides Function GetBackColor() As System.Drawing.Color
 
-        If Me.Infos.WaitReason = API.KWAIT_REASON.Suspended Then
-            Return System.Drawing.Color.Yellow
+        If _hlSuspendedThread AndAlso Me.Infos.WaitReason = API.KWAIT_REASON.Suspended Then
+            Return _hlSuspendedThreadColor
         End If
 
         Return MyBase.GetBackColor()
     End Function
+
+#End Region
+
 End Class

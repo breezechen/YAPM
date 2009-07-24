@@ -36,7 +36,7 @@ Partial Class frmHiddenProcesses
         Me.bruteforceMethod = New System.Windows.Forms.ToolStripMenuItem
         Me.TimerProcess = New System.Windows.Forms.Timer(Me.components)
         Me.SplitContainer = New System.Windows.Forms.SplitContainer
-        Me.lvProcess = New Providers.processList
+        Me.lvProcess = New processList
         Me.c1 = New System.Windows.Forms.ColumnHeader
         Me.c2 = New System.Windows.Forms.ColumnHeader
         Me.c8 = New System.Windows.Forms.ColumnHeader
@@ -230,7 +230,7 @@ Partial Class frmHiddenProcesses
     Friend WithEvents bruteforceMethod As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TimerProcess As System.Windows.Forms.Timer
     Friend WithEvents SplitContainer As System.Windows.Forms.SplitContainer
-    Friend WithEvents lvProcess As Providers.processList
+    Friend WithEvents lvProcess As processList
     Friend WithEvents c1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents c2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents c8 As System.Windows.Forms.ColumnHeader

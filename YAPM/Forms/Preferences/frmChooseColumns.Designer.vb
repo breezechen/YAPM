@@ -32,7 +32,7 @@ Partial Class frmChooseColumns
         Me.cmdInvert = New System.Windows.Forms.Button
         Me.cmdMoveUp = New System.Windows.Forms.Button
         Me.cmdMoveDown = New System.Windows.Forms.Button
-        Me.lv = New Providers.DoubleBufferedLV
+        Me.lv = New DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.TableLayoutPanel1.SuspendLayout()

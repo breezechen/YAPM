@@ -165,12 +165,12 @@ Partial Class frmProcessInfo
         Me.TabPageToken = New System.Windows.Forms.TabPage
         Me.tabProcessToken = New System.Windows.Forms.TabControl
         Me.tabProcessTokenPagePrivileges = New System.Windows.Forms.TabPage
-        Me.lvPrivileges = New Providers.privilegeList
+        Me.lvPrivileges = New privilegeList
         Me.ColumnHeader50 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader51 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader52 = New System.Windows.Forms.ColumnHeader
         Me.TabPageMemory = New System.Windows.Forms.TabPage
-        Me.lvProcMem = New Providers.memoryList
+        Me.lvProcMem = New memoryList
         Me.ColumnHeader53 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader54 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader55 = New System.Windows.Forms.ColumnHeader
@@ -182,7 +182,7 @@ Partial Class frmProcessInfo
         Me.cmdInfosToClipB = New System.Windows.Forms.Button
         Me.rtb = New System.Windows.Forms.RichTextBox
         Me.TabPageServices = New System.Windows.Forms.TabPage
-        Me.lvProcServices = New Providers.serviceList
+        Me.lvProcServices = New serviceList
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader7 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader8 = New System.Windows.Forms.ColumnHeader
@@ -190,7 +190,7 @@ Partial Class frmProcessInfo
         Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader19 = New System.Windows.Forms.ColumnHeader
         Me.TabPageNetwork = New System.Windows.Forms.TabPage
-        Me.lvProcNetwork = New Providers.networkList
+        Me.lvProcNetwork = New networkList
         Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader57 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader58 = New System.Windows.Forms.ColumnHeader
@@ -209,11 +209,11 @@ Partial Class frmProcessInfo
         Me.optProcStringMemory = New System.Windows.Forms.RadioButton
         Me.optProcStringImage = New System.Windows.Forms.RadioButton
         Me.TabPageEnv = New System.Windows.Forms.TabPage
-        Me.lvProcEnv = New Providers.envVariableList
+        Me.lvProcEnv = New envVariableList
         Me.ColumnHeader60 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader61 = New System.Windows.Forms.ColumnHeader
         Me.TabPageModules = New System.Windows.Forms.TabPage
-        Me.lvModules = New Providers.moduleList
+        Me.lvModules = New moduleList
         Me.ColumnHeader29 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader43 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader44 = New System.Windows.Forms.ColumnHeader
@@ -221,7 +221,7 @@ Partial Class frmProcessInfo
         Me.ColumnHeader46 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.TabPageThreads = New System.Windows.Forms.TabPage
-        Me.lvThreads = New Providers.threadList
+        Me.lvThreads = New threadList
         Me.ColumnHeader32 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader34 = New System.Windows.Forms.ColumnHeader
@@ -232,14 +232,14 @@ Partial Class frmProcessInfo
         Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
         Me.TabPageWindows = New System.Windows.Forms.TabPage
-        Me.lvWindows = New Providers.windowList
+        Me.lvWindows = New windowList
         Me.ColumnHeader30 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader39 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader40 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader41 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader42 = New System.Windows.Forms.ColumnHeader
         Me.TabPageHandles = New System.Windows.Forms.TabPage
-        Me.lvHandles = New Providers.handleList
+        Me.lvHandles = New handleList
         Me.ColumnHeader24 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader25 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader26 = New System.Windows.Forms.ColumnHeader
@@ -252,7 +252,7 @@ Partial Class frmProcessInfo
         Me.cmdSave = New System.Windows.Forms.Button
         Me.cmdClearLog = New System.Windows.Forms.Button
         Me.chkLog = New System.Windows.Forms.CheckBox
-        Me.lvLog = New Providers.logList
+        Me.lvLog = New logList
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
@@ -3374,12 +3374,12 @@ Partial Class frmProcessInfo
     Friend WithEvents TabPageToken As System.Windows.Forms.TabPage
     Friend WithEvents tabProcessToken As System.Windows.Forms.TabControl
     Friend WithEvents tabProcessTokenPagePrivileges As System.Windows.Forms.TabPage
-    Friend WithEvents lvPrivileges As Providers.privilegeList
+    Friend WithEvents lvPrivileges As privilegeList
     Friend WithEvents ColumnHeader50 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader51 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader52 As System.Windows.Forms.ColumnHeader
     Friend WithEvents TabPageMemory As System.Windows.Forms.TabPage
-    Friend WithEvents lvProcMem As Providers.memoryList
+    Friend WithEvents lvProcMem As memoryList
     Friend WithEvents ColumnHeader53 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader54 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader55 As System.Windows.Forms.ColumnHeader
@@ -3390,7 +3390,7 @@ Partial Class frmProcessInfo
     Friend WithEvents rtb As System.Windows.Forms.RichTextBox
     Friend WithEvents TabPageServices As System.Windows.Forms.TabPage
     Friend WithEvents TabPageNetwork As System.Windows.Forms.TabPage
-    Friend WithEvents lvProcNetwork As Providers.networkList
+    Friend WithEvents lvProcNetwork As networkList
     Friend WithEvents ColumnHeader49 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader57 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader58 As System.Windows.Forms.ColumnHeader
@@ -3409,7 +3409,7 @@ Partial Class frmProcessInfo
     Friend WithEvents optProcStringMemory As System.Windows.Forms.RadioButton
     Friend WithEvents optProcStringImage As System.Windows.Forms.RadioButton
     Friend WithEvents TabPageEnv As System.Windows.Forms.TabPage
-    Friend WithEvents lvProcEnv As Providers.envVariableList
+    Friend WithEvents lvProcEnv As envVariableList
     Friend WithEvents ColumnHeader60 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader61 As System.Windows.Forms.ColumnHeader
     Friend WithEvents timerProcPerf As System.Windows.Forms.Timer
@@ -3423,19 +3423,19 @@ Partial Class frmProcessInfo
     Friend WithEvents lblSecurityRisk As System.Windows.Forms.Label
     Friend WithEvents cmdGetOnlineInfos As System.Windows.Forms.Button
     Friend WithEvents rtbOnlineInfos As System.Windows.Forms.RichTextBox
-    Friend WithEvents lvModules As Providers.moduleList
+    Friend WithEvents lvModules As moduleList
     Friend WithEvents ColumnHeader29 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader43 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader44 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader45 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader46 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents lvWindows As Providers.windowList
+    Friend WithEvents lvWindows As windowList
     Friend WithEvents ColumnHeader30 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader39 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader40 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader41 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader42 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents lvHandles As Providers.handleList
+    Friend WithEvents lvHandles As handleList
     Friend WithEvents ColumnHeader24 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader25 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader26 As System.Windows.Forms.ColumnHeader
@@ -3448,7 +3448,7 @@ Partial Class frmProcessInfo
     Friend WithEvents lblAverageCPUusage As System.Windows.Forms.Label
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents imgMain As System.Windows.Forms.ImageList
-    Friend WithEvents lvProcServices As Providers.serviceList
+    Friend WithEvents lvProcServices As serviceList
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader7 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader8 As System.Windows.Forms.ColumnHeader
@@ -3457,7 +3457,7 @@ Partial Class frmProcessInfo
     Friend WithEvents ColumnHeader19 As System.Windows.Forms.ColumnHeader
     Friend WithEvents TabPageLog As System.Windows.Forms.TabPage
     Friend WithEvents SplitContainerLog As System.Windows.Forms.SplitContainer
-    Friend WithEvents lvLog As Providers.logList
+    Friend WithEvents lvLog As logList
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
     Friend WithEvents chkLog As System.Windows.Forms.CheckBox
@@ -3478,7 +3478,7 @@ Partial Class frmProcessInfo
     Friend WithEvents cmdAffinity As System.Windows.Forms.Button
     Friend WithEvents cmdPause As System.Windows.Forms.Button
     Friend WithEvents cmdResume As System.Windows.Forms.Button
-    Friend WithEvents lvThreads As Providers.threadList
+    Friend WithEvents lvThreads As threadList
     Friend WithEvents ColumnHeader32 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader34 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader35 As System.Windows.Forms.ColumnHeader

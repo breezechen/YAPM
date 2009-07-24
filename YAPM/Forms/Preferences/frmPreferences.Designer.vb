@@ -23,9 +23,18 @@ Partial Class frmPreferences
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
+        Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Process being debugged")
+        Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Critical process")
+        Dim ListViewItem4 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Elevated process")
+        Dim ListViewItem5 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Process in job")
+        Dim ListViewItem6 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Service process")
+        Dim ListViewItem7 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Owned process")
+        Dim ListViewItem8 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("System process")
+        Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Suspended thread")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPreferences))
         Me.TabControl = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
+        Me.chkAutoOnline = New System.Windows.Forms.CheckBox
         Me.cmdResetAll = New System.Windows.Forms.Button
         Me.chkWarn = New System.Windows.Forms.CheckBox
         Me.txtSearchEngine = New System.Windows.Forms.TextBox
@@ -35,6 +44,9 @@ Partial Class frmPreferences
         Me.chkStartTray = New System.Windows.Forms.CheckBox
         Me.chkReplaceTaskmgr = New System.Windows.Forms.CheckBox
         Me.chkStart = New System.Windows.Forms.CheckBox
+        Me.TabPage5 = New System.Windows.Forms.TabPage
+        Me.lvHighlightingProcess = New System.Windows.Forms.ListView
+        Me.Header = New System.Windows.Forms.ColumnHeader
         Me.TabPage3 = New System.Windows.Forms.TabPage
         Me.chkHideClosed = New System.Windows.Forms.CheckBox
         Me.chkHideMinimized = New System.Windows.Forms.CheckBox
@@ -74,10 +86,14 @@ Partial Class frmPreferences
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
         Me.colDial = New System.Windows.Forms.ColorDialog
-        Me.chkAutoOnline = New System.Windows.Forms.CheckBox
+        Me.lvHighlightingThread = New System.Windows.Forms.ListView
+        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
+        Me.cmdMoveDownProcess = New System.Windows.Forms.Button
+        Me.cmdMoveUpProcess = New System.Windows.Forms.Button
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        Me.TabPage5.SuspendLayout()
         Me.TabPage3.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         CType(Me.pctDeletedItems, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -91,6 +107,7 @@ Partial Class frmPreferences
         'TabControl
         '
         Me.TabControl.Controls.Add(Me.TabPage1)
+        Me.TabControl.Controls.Add(Me.TabPage5)
         Me.TabControl.Controls.Add(Me.TabPage3)
         Me.TabControl.Controls.Add(Me.TabPage4)
         Me.TabControl.Controls.Add(Me.TabPage2)
@@ -98,7 +115,7 @@ Partial Class frmPreferences
         Me.TabControl.Location = New System.Drawing.Point(9, 9)
         Me.TabControl.Name = "TabControl"
         Me.TabControl.SelectedIndex = 0
-        Me.TabControl.Size = New System.Drawing.Size(336, 306)
+        Me.TabControl.Size = New System.Drawing.Size(469, 306)
         Me.TabControl.TabIndex = 0
         '
         'TabPage1
@@ -109,19 +126,29 @@ Partial Class frmPreferences
         Me.TabPage1.Controls.Add(Me.txtSearchEngine)
         Me.TabPage1.Controls.Add(Me.Label6)
         Me.TabPage1.Controls.Add(Me.GroupBox1)
-        Me.TabPage1.ImageIndex = 1
+        Me.TabPage1.ImageKey = "(aucun)"
         Me.TabPage1.Location = New System.Drawing.Point(4, 23)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(328, 279)
+        Me.TabPage1.Size = New System.Drawing.Size(461, 279)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "General"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
+        'chkAutoOnline
+        '
+        Me.chkAutoOnline.AutoSize = True
+        Me.chkAutoOnline.Location = New System.Drawing.Point(14, 195)
+        Me.chkAutoOnline.Name = "chkAutoOnline"
+        Me.chkAutoOnline.Size = New System.Drawing.Size(180, 17)
+        Me.chkAutoOnline.TabIndex = 9
+        Me.chkAutoOnline.Text = "Get online infos automatically"
+        Me.chkAutoOnline.UseVisualStyleBackColor = True
+        '
         'cmdResetAll
         '
         Me.cmdResetAll.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdResetAll.Location = New System.Drawing.Point(189, 247)
+        Me.cmdResetAll.Location = New System.Drawing.Point(325, 247)
         Me.cmdResetAll.Name = "cmdResetAll"
         Me.cmdResetAll.Size = New System.Drawing.Size(133, 26)
         Me.cmdResetAll.TabIndex = 8
@@ -142,7 +169,7 @@ Partial Class frmPreferences
         '
         Me.txtSearchEngine.Location = New System.Drawing.Point(97, 144)
         Me.txtSearchEngine.Name = "txtSearchEngine"
-        Me.txtSearchEngine.Size = New System.Drawing.Size(218, 22)
+        Me.txtSearchEngine.Size = New System.Drawing.Size(346, 22)
         Me.txtSearchEngine.TabIndex = 4
         '
         'Label6
@@ -162,7 +189,7 @@ Partial Class frmPreferences
         Me.GroupBox1.Controls.Add(Me.chkStart)
         Me.GroupBox1.Location = New System.Drawing.Point(14, 12)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(301, 120)
+        Me.GroupBox1.Size = New System.Drawing.Size(429, 120)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Startup"
@@ -207,6 +234,45 @@ Partial Class frmPreferences
         Me.chkStart.Text = "Start YAPM on Windows startup"
         Me.chkStart.UseVisualStyleBackColor = True
         '
+        'TabPage5
+        '
+        Me.TabPage5.Controls.Add(Me.cmdMoveDownProcess)
+        Me.TabPage5.Controls.Add(Me.cmdMoveUpProcess)
+        Me.TabPage5.Controls.Add(Me.lvHighlightingThread)
+        Me.TabPage5.Controls.Add(Me.lvHighlightingProcess)
+        Me.TabPage5.ImageKey = "(aucun)"
+        Me.TabPage5.Location = New System.Drawing.Point(4, 23)
+        Me.TabPage5.Name = "TabPage5"
+        Me.TabPage5.Size = New System.Drawing.Size(461, 279)
+        Me.TabPage5.TabIndex = 4
+        Me.TabPage5.Text = "Highlighting"
+        Me.TabPage5.UseVisualStyleBackColor = True
+        '
+        'lvHighlightingProcess
+        '
+        Me.lvHighlightingProcess.CheckBoxes = True
+        Me.lvHighlightingProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Header})
+        Me.lvHighlightingProcess.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+        ListViewItem2.StateImageIndex = 0
+        ListViewItem3.StateImageIndex = 0
+        ListViewItem4.StateImageIndex = 0
+        ListViewItem5.StateImageIndex = 0
+        ListViewItem6.StateImageIndex = 0
+        ListViewItem7.StateImageIndex = 0
+        ListViewItem8.StateImageIndex = 0
+        Me.lvHighlightingProcess.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8})
+        Me.lvHighlightingProcess.Location = New System.Drawing.Point(3, 3)
+        Me.lvHighlightingProcess.MultiSelect = False
+        Me.lvHighlightingProcess.Name = "lvHighlightingProcess"
+        Me.lvHighlightingProcess.Size = New System.Drawing.Size(220, 228)
+        Me.lvHighlightingProcess.TabIndex = 0
+        Me.lvHighlightingProcess.UseCompatibleStateImageBehavior = False
+        Me.lvHighlightingProcess.View = System.Windows.Forms.View.Details
+        '
+        'Header
+        '
+        Me.Header.Width = 200
+        '
         'TabPage3
         '
         Me.TabPage3.Controls.Add(Me.chkHideClosed)
@@ -215,10 +281,10 @@ Partial Class frmPreferences
         Me.TabPage3.Controls.Add(Me.GroupBox3)
         Me.TabPage3.Controls.Add(Me.chkCloseButton)
         Me.TabPage3.Controls.Add(Me.chkTrayIcon)
-        Me.TabPage3.ImageKey = "display16.gif"
+        Me.TabPage3.ImageKey = "(aucun)"
         Me.TabPage3.Location = New System.Drawing.Point(4, 23)
         Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.Size = New System.Drawing.Size(328, 279)
+        Me.TabPage3.Size = New System.Drawing.Size(461, 279)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Display"
         Me.TabPage3.UseVisualStyleBackColor = True
@@ -261,7 +327,7 @@ Partial Class frmPreferences
         Me.GroupBox3.Controls.Add(Me.Label7)
         Me.GroupBox3.Location = New System.Drawing.Point(15, 60)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(296, 77)
+        Me.GroupBox3.Size = New System.Drawing.Size(428, 77)
         Me.GroupBox3.TabIndex = 8
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Colors"
@@ -328,10 +394,10 @@ Partial Class frmPreferences
         Me.TabPage4.Controls.Add(Me.cbPriority)
         Me.TabPage4.Controls.Add(Me.Label5)
         Me.TabPage4.Controls.Add(Me.GroupBox2)
-        Me.TabPage4.ImageKey = "icon2.gif"
+        Me.TabPage4.ImageKey = "(aucun)"
         Me.TabPage4.Location = New System.Drawing.Point(4, 23)
         Me.TabPage4.Name = "TabPage4"
-        Me.TabPage4.Size = New System.Drawing.Size(328, 279)
+        Me.TabPage4.Size = New System.Drawing.Size(461, 279)
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "Performances"
         Me.TabPage4.UseVisualStyleBackColor = True
@@ -369,7 +435,7 @@ Partial Class frmPreferences
         Me.cbPriority.Items.AddRange(New Object() {"Idle", "Below Normal", "Normal", "Above Normal", "High", "Real Time"})
         Me.cbPriority.Location = New System.Drawing.Point(74, 191)
         Me.cbPriority.Name = "cbPriority"
-        Me.cbPriority.Size = New System.Drawing.Size(121, 21)
+        Me.cbPriority.Size = New System.Drawing.Size(148, 21)
         Me.cbPriority.TabIndex = 6
         '
         'Label5
@@ -397,7 +463,7 @@ Partial Class frmPreferences
         Me.GroupBox2.Controls.Add(Me.Label1)
         Me.GroupBox2.Location = New System.Drawing.Point(14, 14)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(301, 163)
+        Me.GroupBox2.Size = New System.Drawing.Size(428, 163)
         Me.GroupBox2.TabIndex = 2
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Update intervals"
@@ -503,18 +569,18 @@ Partial Class frmPreferences
         Me.TabPage2.Controls.Add(Me.cmdDownload)
         Me.TabPage2.Controls.Add(Me.cmdCheckUpdate)
         Me.TabPage2.Controls.Add(Me.txtUpdate)
-        Me.TabPage2.ImageKey = "globe.png"
+        Me.TabPage2.ImageKey = "(aucun)"
         Me.TabPage2.Location = New System.Drawing.Point(4, 23)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(328, 279)
+        Me.TabPage2.Size = New System.Drawing.Size(461, 279)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Update"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
         'cmdDownload
         '
-        Me.cmdDownload.Location = New System.Drawing.Point(186, 248)
+        Me.cmdDownload.Location = New System.Drawing.Point(319, 248)
         Me.cmdDownload.Name = "cmdDownload"
         Me.cmdDownload.Size = New System.Drawing.Size(136, 25)
         Me.cmdDownload.TabIndex = 12
@@ -539,7 +605,7 @@ Partial Class frmPreferences
         Me.txtUpdate.Name = "txtUpdate"
         Me.txtUpdate.ReadOnly = True
         Me.txtUpdate.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.txtUpdate.Size = New System.Drawing.Size(316, 236)
+        Me.txtUpdate.Size = New System.Drawing.Size(449, 236)
         Me.txtUpdate.TabIndex = 10
         '
         'IMG
@@ -563,7 +629,7 @@ Partial Class frmPreferences
         '
         'cmdQuit
         '
-        Me.cmdQuit.Location = New System.Drawing.Point(242, 323)
+        Me.cmdQuit.Location = New System.Drawing.Point(374, 323)
         Me.cmdQuit.Name = "cmdQuit"
         Me.cmdQuit.Size = New System.Drawing.Size(100, 26)
         Me.cmdQuit.TabIndex = 9
@@ -572,7 +638,7 @@ Partial Class frmPreferences
         '
         'cmdDefaut
         '
-        Me.cmdDefaut.Location = New System.Drawing.Point(127, 323)
+        Me.cmdDefaut.Location = New System.Drawing.Point(195, 323)
         Me.cmdDefaut.Name = "cmdDefaut"
         Me.cmdDefaut.Size = New System.Drawing.Size(100, 26)
         Me.cmdDefaut.TabIndex = 8
@@ -584,21 +650,48 @@ Partial Class frmPreferences
         Me.colDial.AnyColor = True
         Me.colDial.FullOpen = True
         '
-        'chkAutoOnline
+        'lvHighlightingThread
         '
-        Me.chkAutoOnline.AutoSize = True
-        Me.chkAutoOnline.Location = New System.Drawing.Point(14, 195)
-        Me.chkAutoOnline.Name = "chkAutoOnline"
-        Me.chkAutoOnline.Size = New System.Drawing.Size(180, 17)
-        Me.chkAutoOnline.TabIndex = 9
-        Me.chkAutoOnline.Text = "Get online infos automatically"
-        Me.chkAutoOnline.UseVisualStyleBackColor = True
+        Me.lvHighlightingThread.CheckBoxes = True
+        Me.lvHighlightingThread.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
+        Me.lvHighlightingThread.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+        ListViewItem1.StateImageIndex = 0
+        Me.lvHighlightingThread.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1})
+        Me.lvHighlightingThread.Location = New System.Drawing.Point(229, 3)
+        Me.lvHighlightingThread.MultiSelect = False
+        Me.lvHighlightingThread.Name = "lvHighlightingThread"
+        Me.lvHighlightingThread.Size = New System.Drawing.Size(220, 228)
+        Me.lvHighlightingThread.TabIndex = 1
+        Me.lvHighlightingThread.UseCompatibleStateImageBehavior = False
+        Me.lvHighlightingThread.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Width = 200
+        '
+        'cmdMoveDownProcess
+        '
+        Me.cmdMoveDownProcess.Image = CType(resources.GetObject("cmdMoveDownProcess.Image"), System.Drawing.Image)
+        Me.cmdMoveDownProcess.Location = New System.Drawing.Point(41, 237)
+        Me.cmdMoveDownProcess.Name = "cmdMoveDownProcess"
+        Me.cmdMoveDownProcess.Size = New System.Drawing.Size(28, 28)
+        Me.cmdMoveDownProcess.TabIndex = 11
+        Me.cmdMoveDownProcess.UseVisualStyleBackColor = True
+        '
+        'cmdMoveUpProcess
+        '
+        Me.cmdMoveUpProcess.Image = CType(resources.GetObject("cmdMoveUpProcess.Image"), System.Drawing.Image)
+        Me.cmdMoveUpProcess.Location = New System.Drawing.Point(7, 237)
+        Me.cmdMoveUpProcess.Name = "cmdMoveUpProcess"
+        Me.cmdMoveUpProcess.Size = New System.Drawing.Size(28, 28)
+        Me.cmdMoveUpProcess.TabIndex = 10
+        Me.cmdMoveUpProcess.UseVisualStyleBackColor = True
         '
         'frmPreferences
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(354, 360)
+        Me.ClientSize = New System.Drawing.Size(490, 355)
         Me.ControlBox = False
         Me.Controls.Add(Me.cmdDefaut)
         Me.Controls.Add(Me.cmdQuit)
@@ -618,6 +711,7 @@ Partial Class frmPreferences
         Me.TabPage1.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        Me.TabPage5.ResumeLayout(False)
         Me.TabPage3.ResumeLayout(False)
         Me.TabPage3.PerformLayout()
         Me.GroupBox3.ResumeLayout(False)
@@ -685,4 +779,11 @@ Partial Class frmPreferences
     Friend WithEvents bufferSize As System.Windows.Forms.NumericUpDown
     Friend WithEvents cmdResetAll As System.Windows.Forms.Button
     Friend WithEvents chkAutoOnline As System.Windows.Forms.CheckBox
+    Friend WithEvents TabPage5 As System.Windows.Forms.TabPage
+    Friend WithEvents lvHighlightingProcess As System.Windows.Forms.ListView
+    Friend WithEvents Header As System.Windows.Forms.ColumnHeader
+    Friend WithEvents lvHighlightingThread As System.Windows.Forms.ListView
+    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents cmdMoveDownProcess As System.Windows.Forms.Button
+    Friend WithEvents cmdMoveUpProcess As System.Windows.Forms.Button
 End Class

@@ -281,7 +281,7 @@ Public Class frmMain
 
         ' Disable 'start as admin' if we are not on Vista or above
         If cEnvironment.IsWindowsVistaOrAbove = False _
-                OrElse cEnvironment.GetElevationType <> cEnvironment.ElevationType.Limited Then
+                OrElse cEnvironment.GetElevationType <> API.ElevationType.Limited Then
             Me.Ribbon.OrbDropDown.MenuItems.Remove(Me.orbStartElevated)
             Me.MenuItemSYSTEMFILE.MenuItems.Remove(Me.MenuItemRunAsAdmin)
         Else

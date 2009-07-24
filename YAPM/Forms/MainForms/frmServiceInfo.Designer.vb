@@ -100,13 +100,13 @@ Partial Class frmServiceInfo
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
         Me.Label9 = New System.Windows.Forms.Label
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
-        Me.tv2 = New Providers.serviceDependenciesList
+        Me.tv2 = New serviceDependenciesList
         Me.imgServices = New System.Windows.Forms.ImageList(Me.components)
         Me.cmdServDet1 = New System.Windows.Forms.Button
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
         Me.Label21 = New System.Windows.Forms.Label
         Me.SplitContainer4 = New System.Windows.Forms.SplitContainer
-        Me.tv = New Providers.serviceDependenciesList
+        Me.tv = New serviceDependenciesList
         Me.cmdServDet2 = New System.Windows.Forms.Button
         Me.TabPage6 = New System.Windows.Forms.TabPage
         Me.SplitContainerInfoProcess = New System.Windows.Forms.SplitContainer
@@ -1382,8 +1382,8 @@ Partial Class frmServiceInfo
     Friend WithEvents SplitContainer4 As System.Windows.Forms.SplitContainer
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents Label21 As System.Windows.Forms.Label
-    Friend WithEvents tv2 As Providers.serviceDependenciesList
-    Friend WithEvents tv As Providers.serviceDependenciesList
+    Friend WithEvents tv2 As serviceDependenciesList
+    Friend WithEvents tv As serviceDependenciesList
     Friend WithEvents imgServices As System.Windows.Forms.ImageList
     Friend WithEvents cmdServDet1 As System.Windows.Forms.Button
     Friend WithEvents cmdServDet2 As System.Windows.Forms.Button

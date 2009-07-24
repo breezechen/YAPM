@@ -283,8 +283,9 @@ Public Class processList
             ElseIf _dico.Item(it.Name).IsKilledItem Then
                 it.BackColor = DELETED_ITEM_COLOR
             Else
-                it.BackColor = Color.White
+                it.BackColor = _item.GetBackColor
             End If
+            it.ForeColor = _item.GetForeColor
 
             ' If we are in 'show hidden process mode', we have to set color red for
             ' hidden processes
@@ -338,9 +339,6 @@ Public Class processList
         If _connectionObject.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
             If proc.Infos.Pid > 4 Then
 
-                ' Forecolor
-                item.ForeColor = _foreColor
-
                 ' Add icon
                 Try
 
@@ -351,17 +349,14 @@ Public Class processList
                         item.ImageKey = fName
                     Else
                         item.ImageKey = "noIcon"
-                        item.ForeColor = Drawing.Color.Gray
                     End If
 
                 Catch ex As Exception
                     item.ImageKey = "noIcon"
-                    item.ForeColor = Drawing.Color.Gray
                 End Try
 
             Else
                 item.ImageKey = "noIcon"
-                item.ForeColor = Drawing.Color.Gray
             End If
         Else
             item.ImageKey = "noIcon"

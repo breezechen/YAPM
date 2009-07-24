@@ -622,6 +622,306 @@ Namespace My
                 Me("ShouldUpgrade") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property EnableHighlightingBeingDebugged() As Boolean
+            Get
+                Return CType(Me("EnableHighlightingBeingDebugged"),Boolean)
+            End Get
+            Set
+                Me("EnableHighlightingBeingDebugged") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property EnableHighlightingElevated() As Boolean
+            Get
+                Return CType(Me("EnableHighlightingElevated"),Boolean)
+            End Get
+            Set
+                Me("EnableHighlightingElevated") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property EnableHighlightingJobProcess() As Boolean
+            Get
+                Return CType(Me("EnableHighlightingJobProcess"),Boolean)
+            End Get
+            Set
+                Me("EnableHighlightingJobProcess") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property EnableHighlightingOwnedProcess() As Boolean
+            Get
+                Return CType(Me("EnableHighlightingOwnedProcess"),Boolean)
+            End Get
+            Set
+                Me("EnableHighlightingOwnedProcess") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property EnableHighlightingServiceProcess() As Boolean
+            Get
+                Return CType(Me("EnableHighlightingServiceProcess"),Boolean)
+            End Get
+            Set
+                Me("EnableHighlightingServiceProcess") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property EnableHighlightingSystemProcess() As Boolean
+            Get
+                Return CType(Me("EnableHighlightingSystemProcess"),Boolean)
+            End Get
+            Set
+                Me("EnableHighlightingSystemProcess") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property EnableHighlightingCriticalProcess() As Boolean
+            Get
+                Return CType(Me("EnableHighlightingCriticalProcess"),Boolean)
+            End Get
+            Set
+                Me("EnableHighlightingCriticalProcess") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property EnableHighlightingSuspendedThread() As Boolean
+            Get
+                Return CType(Me("EnableHighlightingSuspendedThread"),Boolean)
+            End Get
+            Set
+                Me("EnableHighlightingSuspendedThread") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("255, 192, 255")>  _
+        Public Property HighlightingColorBeingDebugged() As Global.System.Drawing.Color
+            Get
+                Return CType(Me("HighlightingColorBeingDebugged"),Global.System.Drawing.Color)
+            End Get
+            Set
+                Me("HighlightingColorBeingDebugged") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("192, 255, 192")>  _
+        Public Property HighlightingColorJobProcess() As Global.System.Drawing.Color
+            Get
+                Return CType(Me("HighlightingColorJobProcess"),Global.System.Drawing.Color)
+            End Get
+            Set
+                Me("HighlightingColorJobProcess") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("255, 255, 192")>  _
+        Public Property HighlightingColorOwnedProcess() As Global.System.Drawing.Color
+            Get
+                Return CType(Me("HighlightingColorOwnedProcess"),Global.System.Drawing.Color)
+            End Get
+            Set
+                Me("HighlightingColorOwnedProcess") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("192, 255, 255")>  _
+        Public Property HighlightingColorServiceProcess() As Global.System.Drawing.Color
+            Get
+                Return CType(Me("HighlightingColorServiceProcess"),Global.System.Drawing.Color)
+            End Get
+            Set
+                Me("HighlightingColorServiceProcess") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("192, 192, 255")>  _
+        Public Property HighlightingColorSystemProcess() As Global.System.Drawing.Color
+            Get
+                Return CType(Me("HighlightingColorSystemProcess"),Global.System.Drawing.Color)
+            End Get
+            Set
+                Me("HighlightingColorSystemProcess") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("255, 128, 0")>  _
+        Public Property HighlightingColorCriticalProcess() As Global.System.Drawing.Color
+            Get
+                Return CType(Me("HighlightingColorCriticalProcess"),Global.System.Drawing.Color)
+            End Get
+            Set
+                Me("HighlightingColorCriticalProcess") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("255, 255, 192")>  _
+        Public Property HighlightingColorSuspendedThread() As Global.System.Drawing.Color
+            Get
+                Return CType(Me("HighlightingColorSuspendedThread"),Global.System.Drawing.Color)
+            End Get
+            Set
+                Me("HighlightingColorSuspendedThread") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("255, 192, 128")>  _
+        Public Property HighlightingColorElevatedProcess() As Global.System.Drawing.Color
+            Get
+                Return CType(Me("HighlightingColorElevatedProcess"),Global.System.Drawing.Color)
+            End Get
+            Set
+                Me("HighlightingColorElevatedProcess") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
+        Public Property HighlightingPriorityBeingDebugged() As Byte
+            Get
+                Return CType(Me("HighlightingPriorityBeingDebugged"),Byte)
+            End Get
+            Set
+                Me("HighlightingPriorityBeingDebugged") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("4")>  _
+        Public Property HighlightingPriorityJobProcess() As Byte
+            Get
+                Return CType(Me("HighlightingPriorityJobProcess"),Byte)
+            End Get
+            Set
+                Me("HighlightingPriorityJobProcess") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("6")>  _
+        Public Property HighlightingPriorityOwnedProcess() As Byte
+            Get
+                Return CType(Me("HighlightingPriorityOwnedProcess"),Byte)
+            End Get
+            Set
+                Me("HighlightingPriorityOwnedProcess") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("5")>  _
+        Public Property HighlightingPriorityServiceProcess() As Byte
+            Get
+                Return CType(Me("HighlightingPriorityServiceProcess"),Byte)
+            End Get
+            Set
+                Me("HighlightingPriorityServiceProcess") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("7")>  _
+        Public Property HighlightingPrioritySystemProcess() As Byte
+            Get
+                Return CType(Me("HighlightingPrioritySystemProcess"),Byte)
+            End Get
+            Set
+                Me("HighlightingPrioritySystemProcess") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("2")>  _
+        Public Property HighlightingPriorityCriticalProcess() As Byte
+            Get
+                Return CType(Me("HighlightingPriorityCriticalProcess"),Byte)
+            End Get
+            Set
+                Me("HighlightingPriorityCriticalProcess") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("3")>  _
+        Public Property HighlightingPriorityElevatedProcess() As Byte
+            Get
+                Return CType(Me("HighlightingPriorityElevatedProcess"),Byte)
+            End Get
+            Set
+                Me("HighlightingPriorityElevatedProcess") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
+        Public Property HighlightingPrioritySuspendedThread() As Byte
+            Get
+                Return CType(Me("HighlightingPrioritySuspendedThread"),Byte)
+            End Get
+            Set
+                Me("HighlightingPrioritySuspendedThread") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property Setting() As String
+            Get
+                Return CType(Me("Setting"),String)
+            End Get
+            Set
+                Me("Setting") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

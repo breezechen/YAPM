@@ -20,6 +20,8 @@
 
 Option Strict On
 
+Imports System.Drawing
+
 Public Class cProcess
     Inherits cGeneralObject
 
@@ -111,7 +113,29 @@ Public Class cProcess
     Friend _dicoProcIODelta As New SortedList(Of Integer, PROC_IO_INFO)
 
     Private _handleQueryInfo As Integer
+    Private _tokenHandle As Integer
 
+    ' Informations which will be refreshed each call to 'merge'
+    Private _elevation As API.ElevationType
+    Private _isInJob As Boolean
+    Private _isBeingDebugged As Boolean
+    Private _isCritical As Boolean
+    Private _isBoostEnabled As Boolean
+
+    Private Shared _hlProcessBeingDebugged As Boolean
+    Private Shared _hlProcessInJob As Boolean
+    Private Shared _hlProcessSystem As Boolean
+    Private Shared _hlProcessOwned As Boolean
+    Private Shared _hlProcessService As Boolean
+    Private Shared _hlProcessCritical As Boolean
+    Private Shared _hlProcessElevated As Boolean
+    Private Shared _hlProcessBeingDebuggedColor As Color
+    Private Shared _hlProcessInJobColor As Color
+    Private Shared _hlProcessSystemColor As Color
+    Private Shared _hlProcessOwnedColor As Color
+    Private Shared _hlProcessServiceColor As Color
+    Private Shared _hlProcessCriticalColor As Color
+    Private Shared _hlProcessElevatedColor As Color
 
 #Region "Properties"
 
@@ -172,6 +196,7 @@ Public Class cProcess
         ' Get a handle if local
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
             _handleQueryInfo = API.OpenProcess(cProcessConnection.ProcessMinRights, 0, infos.Pid)
+            Call API.OpenProcessToken(_handleQueryInfo, API.TOKEN_RIGHTS.Query, _tokenHandle)
         End If
     End Sub
 
@@ -214,6 +239,60 @@ Public Class cProcess
         End Get
     End Property
 
+    Public ReadOnly Property IsBeingDebugged() As Boolean
+        Get
+            Return _isBeingDebugged
+        End Get
+    End Property
+
+    Public ReadOnly Property IsInJob() As Boolean
+        Get
+            Return _isInJob
+        End Get
+    End Property
+
+    Public ReadOnly Property IsCriticalProcess() As Boolean
+        Get
+            Return _isCritical
+        End Get
+    End Property
+
+    Public ReadOnly Property IsBoostEnabled() As Boolean
+        Get
+            Return _isBoostEnabled
+        End Get
+    End Property
+
+    Public ReadOnly Property ElevationType() As API.ElevationType
+        Get
+            Return _elevation
+        End Get
+    End Property
+
+    Public ReadOnly Property IsOwnedProcess() As Boolean
+        Get
+            Return (cToken.CurrentUserName = _processInfos.UserName)
+        End Get
+    End Property
+
+    Public ReadOnly Property IsSystemProcess() As Boolean
+        Get
+            Return _processInfos.UserName = "NT AUTHORITY\SYSTEM"
+        End Get
+    End Property
+
+    Public ReadOnly Property IsServiceProcess() As Boolean
+        Get
+
+        End Get
+    End Property
+
+    Public ReadOnly Property HaveFullControl() As Boolean
+        Get
+            Return _handleQueryInfo > 0 AndAlso Len(_processInfos.Path) > 0
+        End Get
+    End Property
+
 #End Region
 
     ' Merge current infos and new infos
@@ -232,8 +311,20 @@ Public Class cProcess
 
     Public Sub Merge(ByRef Proc As processInfos)
 
+        ' Here we do some refreshment
+        If _handleQueryInfo > 0 Then
+            Call cToken.GetProcessElevationType(_tokenHandle, _elevation)   ' Elevation type
+            Call API.IsProcessInJob(CType(_handleQueryInfo, IntPtr), IntPtr.Zero, _isInJob)
+            Call API.CheckRemoteDebuggerPresent(CType(_handleQueryInfo, IntPtr), _isBeingDebugged)
+        End If
+
+        'Private _isCritical As Boolean
+        'Private _isBoostEnabled As Boolean
+        'Service ??
+
+        ' Refresh numerical infos
         Call refreshCpuUsage()
-        Call refreshIOdelta()
+        Call refreshIODelta()
 
         _refrehNumber += 1   ' This is the key for the history
 
@@ -687,6 +778,20 @@ Public Class cProcess
                 res = Me.Infos.HandleCount.ToString
             Case "ThreadCount"
                 res = Me.Infos.ThreadCount.ToString
+            Case "InJob"
+                res = Me.IsInJob.ToString
+            Case "Elevation"
+                res = Me.ElevationType.ToString
+            Case "BeingDebugged"
+                res = Me.IsBeingDebugged.ToString
+            Case "OwnedProcess"
+                res = Me.IsOwnedProcess.ToString
+            Case "SystemProcess"
+                res = Me.IsSystemProcess.ToString
+            Case "ServiceProcess"
+                res = Me.IsServiceProcess.ToString
+            Case "CriticalProcess"
+                res = Me.IsCriticalProcess.ToString
         End Select
 
         Return res
@@ -1176,4 +1281,64 @@ Public Class cProcess
         Return tt
 
     End Function
+
+#Region "Highlightings management"
+
+    ' Set highlightings
+    Public Shared Sub SetHighlightings(ByVal debug As Boolean, ByVal job As Boolean, _
+                                       ByVal elev As Boolean, ByVal critic As Boolean, _
+                                       ByVal owned As Boolean, ByVal system As Boolean, _
+                                       ByVal service As Boolean)
+        _hlProcessBeingDebugged = debug
+        _hlProcessCritical = critic
+        _hlProcessElevated = elev
+        _hlProcessInJob = job
+        _hlProcessOwned = owned
+        _hlProcessService = service
+        _hlProcessSystem = system
+    End Sub
+    Public Shared Sub SetHighlightingsColor(ByVal debug As color, ByVal job As color, _
+                                       ByVal elev As color, ByVal critic As color, _
+                                       ByVal owned As color, ByVal system As color, _
+                                       ByVal service As color)
+        _hlProcessBeingDebuggedColor = debug
+        _hlProcessCriticalColor = critic
+        _hlProcessElevatedColor = elev
+        _hlProcessInJobColor = job
+        _hlProcessOwnedColor = owned
+        _hlProcessServiceColor = service
+        _hlProcessSystemColor = system
+    End Sub
+
+    ' Return backcolor
+    Public Overrides Function GetBackColor() As System.Drawing.Color
+        If _hlProcessCritical AndAlso Me.IsCriticalProcess Then
+            Return _hlProcessCriticalColor
+        ElseIf _hlProcessBeingDebugged AndAlso Me.IsBeingDebugged Then
+            Return _hlProcessBeingDebuggedColor
+        ElseIf _hlProcessElevated AndAlso Me.ElevationType = API.ElevationType.Full Then
+            Return _hlProcessElevatedColor
+        ElseIf _hlProcessInJob AndAlso Me.IsInJob Then
+            Return _hlProcessInJobColor
+        ElseIf _hlProcessService AndAlso Me.IsServiceProcess Then
+            Return _hlProcessServiceColor
+        ElseIf _hlProcessOwned AndAlso Me.IsOwnedProcess Then
+            Return _hlProcessOwnedColor
+        ElseIf _hlProcessSystem AndAlso Me.IsSystemProcess Then
+            Return _hlProcessSystemColor
+        End If
+        Return MyBase.GetBackColor()
+    End Function
+
+    ' Return forecolor
+    Public Overrides Function GetForeColor() As System.Drawing.Color
+        If Me.HaveFullControl Then
+            Return NON_BLACK_COLOR
+        Else
+            Return Drawing.Color.Gray
+        End If
+    End Function
+
+#End Region
+
 End Class

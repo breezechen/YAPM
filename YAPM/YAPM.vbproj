@@ -108,7 +108,6 @@
     <Import Include="CoreFunc" />
     <Import Include="Microsoft.Samples" />
     <Import Include="Microsoft.VisualBasic" />
-    <Import Include="Providers" />
     <Import Include="System" />
     <Import Include="System.Collections" />
     <Import Include="System.Collections.Generic" />
@@ -169,7 +168,7 @@
     <EmbeddedResource Include="Forms\Misc\frmChooseProcess.resx">
       <DependentUpon>frmChooseProcess.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Misc\frmConnection.resx">
+    <EmbeddedResource Include="Forms\MainForms\frmConnection.resx">
       <DependentUpon>frmConnection.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmInput.resx">
@@ -197,6 +196,62 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForms\frmServer.resx">
       <DependentUpon>frmServer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\DoubleBufferedLV.resx">
+      <DependentUpon>DoubleBufferedLV.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Providers\CustomListviews\envVariableList.resx">
+      <DependentUpon>envVariableList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Providers\CustomListviews\handleList.resx">
+      <DependentUpon>handleList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Providers\CustomListviews\logList.resx">
+      <DependentUpon>logList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Providers\CustomListviews\memoryList.resx">
+      <DependentUpon>memoryList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Providers\CustomListviews\moduleList.resx">
+      <DependentUpon>moduleList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Providers\CustomListviews\networkList.resx">
+      <DependentUpon>networkList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Providers\CustomListviews\privilegeList.resx">
+      <DependentUpon>privilegeList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Providers\CustomListviews\processList.resx">
+      <DependentUpon>processList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Providers\CustomListviews\searchList.resx">
+      <DependentUpon>searchList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Providers\CustomListviews\serviceDependenciesList.resx">
+      <DependentUpon>serviceDependenciesList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Providers\CustomListviews\serviceList.resx">
+      <DependentUpon>serviceList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Providers\CustomListviews\taskList.resx">
+      <DependentUpon>taskList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Providers\CustomListviews\threadList.resx">
+      <DependentUpon>threadList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Providers\CustomListviews\windowList.resx">
+      <DependentUpon>windowList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Providers\CustomListviews\customLV.resx">
+      <DependentUpon>customLV.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Preferences\frmChooseColumns.resx">
+      <DependentUpon>frmChooseColumns.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Misc\frmPendingTasks.resx">
+      <DependentUpon>frmPendingTasks.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\HorizontalLine.resx">
       <DependentUpon>HorizontalLine.vb</DependentUpon>
@@ -263,10 +318,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AdditionalMainForms\frmWindowsList.resx">
       <DependentUpon>frmWindowsList.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\DoubleBufferedLV.resx">
-      <DependentUpon>DoubleBufferedLV.vb</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\Graph2.resx">
       <DependentUpon>Graph2.vb</DependentUpon>
@@ -351,10 +402,10 @@
     <Compile Include="Forms\Misc\frmChooseProcess.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Misc\frmConnection.Designer.vb">
+    <Compile Include="Forms\MainForms\frmConnection.Designer.vb">
       <DependentUpon>frmConnection.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Misc\frmConnection.vb">
+    <Compile Include="Forms\MainForms\frmConnection.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Misc\frmInput.Designer.vb">
@@ -406,6 +457,113 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Modules\mdlMain.vb" />
+    <Compile Include="UserControls\DoubleBufferedLV.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Providers\Classes\ListViewComparer.vb" />
+    <Compile Include="Providers\CustomListviews\envVariableList.Designer.vb">
+      <DependentUpon>envVariableList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\envVariableList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\handleList.Designer.vb">
+      <DependentUpon>handleList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\handleList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\logList.Designer.vb">
+      <DependentUpon>logList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\logList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\memoryList.Designer.vb">
+      <DependentUpon>memoryList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\memoryList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\moduleList.Designer.vb">
+      <DependentUpon>moduleList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\moduleList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\networkList.Designer.vb">
+      <DependentUpon>networkList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\networkList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\privilegeList.Designer.vb">
+      <DependentUpon>privilegeList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\privilegeList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\processList.Designer.vb">
+      <DependentUpon>processList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\processList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\searchList.Designer.vb">
+      <DependentUpon>searchList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\searchList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\serviceDependenciesList.Designer.vb">
+      <DependentUpon>serviceDependenciesList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\serviceDependenciesList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\serviceList.Designer.vb">
+      <DependentUpon>serviceList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\serviceList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\taskList.Designer.vb">
+      <DependentUpon>taskList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\taskList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\threadList.Designer.vb">
+      <DependentUpon>threadList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\threadList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\windowList.Designer.vb">
+      <DependentUpon>windowList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\windowList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\customLV.Designer.vb">
+      <DependentUpon>customLV.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\customLV.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Preferences\frmChooseColumns.Designer.vb">
+      <DependentUpon>frmChooseColumns.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Preferences\frmChooseColumns.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Misc\frmPendingTasks.Designer.vb">
+      <DependentUpon>frmPendingTasks.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Misc\frmPendingTasks.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\mdlIcon.vb" />
     <Compile Include="UserControls\HorizontalLine.vb">
       <SubType>Component</SubType>
     </Compile>
@@ -492,9 +650,6 @@
     </Compile>
     <Compile Include="Forms\AdditionalMainForms\frmWindowsList.vb">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UserControls\DoubleBufferedLV.vb">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserControls\Graph2.vb">
       <SubType>Component</SubType>
@@ -609,10 +764,6 @@
     <ProjectReference Include="..\DependenciesViewer\DependenciesViewer.vbproj">
       <Project>{896A4EE8-7588-4582-9F3D-A48E7AD21A0D}</Project>
       <Name>DependenciesViewer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Providers\Providers.vbproj">
-      <Project>{657B7CE9-D35C-4E65-A05B-CC6B46A14D7D}</Project>
-      <Name>Providers</Name>
     </ProjectReference>
     <ProjectReference Include="..\SecurePasswordTextBox\SecurePasswordTextBox.csproj">
       <Project>{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}</Project>

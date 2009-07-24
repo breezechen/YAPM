@@ -30,12 +30,6 @@ Public Class cEnvironment
         DebugPrivilege
     End Enum
 
-    Public Enum ElevationType
-        [Default] = 1
-        Full = 2
-        Limited = 3
-    End Enum
-
     ' Public properties
 
     ' Return true if the application is already running
@@ -120,10 +114,10 @@ Public Class cEnvironment
     End Property
 
     ' Retrieve elevation type
-    Public Shared ReadOnly Property GetElevationType() As ElevationType
+    Public Shared ReadOnly Property GetElevationType() As API.ElevationType
         Get
             Static retrieved As Boolean = False
-            Static valRetrieved As ElevationType
+            Static valRetrieved As API.ElevationType
 
             If retrieved Then
                 Return valRetrieved
@@ -149,15 +143,15 @@ Public Class cEnvironment
                 ' Get a valid structure
                 value = Marshal.ReadInt32(TokenInformation, 0)
                 Marshal.FreeHGlobal(TokenInformation)
-                valRetrieved = CType(value, ElevationType)
+                valRetrieved = CType(value, API.ElevationType)
 
                 API.CloseHandle(hTok)
 
-                If valRetrieved = ElevationType.Default Then
+                If valRetrieved = API.ElevationType.Default Then
                     If cEnvironment.IsAdmin = False Then
-                        valRetrieved = ElevationType.Limited
+                        valRetrieved = API.ElevationType.Limited
                     Else
-                        valRetrieved = ElevationType.Full
+                        valRetrieved = API.ElevationType.Full
                     End If
                 End If
 

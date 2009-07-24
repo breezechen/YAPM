@@ -26,7 +26,7 @@ Partial Class frmChooseProcess
         Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Me.timerProcRefresh = New System.Windows.Forms.Timer(Me.components)
-        Me.lvProcess = New Providers.processList
+        Me.lvProcess = New processList
         Me.c1 = New System.Windows.Forms.ColumnHeader
         Me.c2 = New System.Windows.Forms.ColumnHeader
         Me.c3 = New System.Windows.Forms.ColumnHeader
@@ -89,7 +89,7 @@ Partial Class frmChooseProcess
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents lvProcess As Providers.processList
+    Friend WithEvents lvProcess As processList
     Friend WithEvents c1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents c2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents c3 As System.Windows.Forms.ColumnHeader

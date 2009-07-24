@@ -100,7 +100,7 @@ Public Class searchList
         _IMG.Images.Add("service", My.Resources.gear)   ' Icon is specific
         _IMG.Images.Add("exeFile", My.Resources.exe)
         _IMG.Images.Add("handle", My.Resources.handle)
-        _IMG.Images.Add("envvar", My.Resources.text)
+        _IMG.Images.Add("envvar", My.Resources.document_text)
         _IMG.Images.Add("dllIcon", My.Resources.dllIcon)
         _IMG.Images.Add("window", My.Resources.application_blue)
 
@@ -117,7 +117,7 @@ Public Class searchList
         _IMG.Images.Add("service", My.Resources.gear)   ' Icon is specific
         _IMG.Images.Add("exeFile", My.Resources.exe)
         _IMG.Images.Add("handle", My.Resources.handle)
-        _IMG.Images.Add("envvar", My.Resources.text)
+        _IMG.Images.Add("envvar", My.Resources.document_text)
         _IMG.Images.Add("dllIcon", My.Resources.dllIcon)
         _IMG.Images.Add("window", My.Resources.application_blue)
         Me.Items.Clear()

@@ -88,6 +88,7 @@
     <Compile Include="Classes\Misc\cFile.vb" />
     <Compile Include="Classes\Misc\cSystem.vb" />
     <Compile Include="Classes\Misc\cSystemInfo.vb" />
+    <Compile Include="Classes\Misc\cToken.vb" />
     <Compile Include="Classes\Providers\API.vb" />
     <Compile Include="Classes\Providers\cGeneralObject.vb" />
     <Compile Include="Classes\Providers\cMonitor.vb" />
@@ -227,7 +228,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="ClassDiagram.cd" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

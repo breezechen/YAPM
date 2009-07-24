@@ -141,6 +141,14 @@ Public Class API
     Public Shared Function GetProcessId(ByVal ProcessHandle As Integer) As Integer
     End Function
 
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Public Shared Function IsProcessInJob(ByVal ProcessHandle As IntPtr, ByVal JobHandle As IntPtr, ByRef Result As Boolean) As Boolean
+    End Function
+
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Public Shared Function CheckRemoteDebuggerPresent(ByVal ProcessHandle As IntPtr, ByRef DebuggerPresent As Boolean) As Boolean
+    End Function
+
     <StructLayout(LayoutKind.Sequential)> _
     Public Structure SYSTEM_PROCESS_INFORMATION
         Public NextEntryOffset As Integer
@@ -650,6 +658,12 @@ Public Class API
         SidTypeUnknown
         SidTypeComputer
         SidTypeLabel
+    End Enum
+
+    Public Enum ElevationType
+        [Default] = 1
+        Full = 2
+        Limited = 3
     End Enum
 
 #End Region

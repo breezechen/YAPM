@@ -68,6 +68,46 @@ Public Class frmPreferences
         Call mdlMisc.StartWithWindows(My.Settings.WindowsStartup)
         Call mdlMisc.ReplaceTaskmgr(My.Settings.ReplaceTaskmgr)
 
+        ' Highlightings
+        For Each it As ListViewItem In Me.lvHighlightingThread.Items
+            If it.Text = "Suspended thread" Then
+                My.Settings.HighlightingColorSuspendedThread = it.BackColor
+                My.Settings.HighlightingPrioritySuspendedThread = CByte(it.Index + 1)
+                My.Settings.EnableHighlightingSuspendedThread = it.Checked
+            End If
+        Next
+        For Each it As ListViewItem In Me.lvHighlightingProcess.Items
+            If it.Text = "Process being debugged" Then
+                My.Settings.HighlightingColorBeingDebugged = it.BackColor
+                My.Settings.HighlightingPriorityBeingDebugged = CByte(it.Index + 1)
+                My.Settings.EnableHighlightingBeingDebugged = it.Checked
+            ElseIf it.Text = "Critical process" Then
+                My.Settings.HighlightingColorCriticalProcess = it.BackColor
+                My.Settings.HighlightingPriorityCriticalProcess = CByte(it.Index + 1)
+                My.Settings.EnableHighlightingCriticalProcess = it.Checked
+            ElseIf it.Text = "Elevated process" Then
+                My.Settings.HighlightingColorElevatedProcess = it.BackColor
+                My.Settings.HighlightingPriorityElevatedProcess = CByte(it.Index + 1)
+                My.Settings.EnableHighlightingElevated = it.Checked
+            ElseIf it.Text = "Process in job" Then
+                My.Settings.HighlightingColorJobProcess = it.BackColor
+                My.Settings.HighlightingPriorityJobProcess = CByte(it.Index + 1)
+                My.Settings.EnableHighlightingJobProcess = it.Checked
+            ElseIf it.Text = "Service process" Then
+                My.Settings.HighlightingColorServiceProcess = it.BackColor
+                My.Settings.HighlightingPriorityServiceProcess = CByte(it.Index + 1)
+                My.Settings.EnableHighlightingServiceProcess = it.Checked
+            ElseIf it.Text = "Owned process" Then
+                My.Settings.HighlightingColorOwnedProcess = it.BackColor
+                My.Settings.HighlightingPriorityOwnedProcess = CByte(it.Index + 1)
+                My.Settings.EnableHighlightingOwnedProcess = it.Checked
+            ElseIf it.Text = "System process" Then
+                My.Settings.HighlightingColorSystemProcess = it.BackColor
+                My.Settings.HighlightingPrioritySystemProcess = CByte(it.Index + 1)
+                My.Settings.EnableHighlightingSystemProcess = it.Checked
+            End If
+        Next
+
         Program.Preferences.Save()
         Program.Preferences.Apply()
 
@@ -90,6 +130,9 @@ Public Class frmPreferences
     Private Sub frmPreferences_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         closeWithEchapKey(Me)
+
+        API.SetWindowTheme(Me.lvHighlightingProcess.Handle, "explorer", Nothing)
+        API.SetWindowTheme(Me.lvHighlightingThread.Handle, "explorer", Nothing)
 
         Me.txtUpdate.Text = "Click on 'Check if YAPM is up to date' to check if a new version is available."
         SetToolTip(Me.chkReplaceTaskmgr, "Replace taskmgr (it is safe).")
@@ -119,7 +162,10 @@ Public Class frmPreferences
         SetToolTip(Me.chkHideClosed, "Hide YAPM when user click on 'close' button")
         SetToolTip(Me.chkUnlimitedBuf, "No size limit for history")
         SetToolTip(Me.bufferSize, "Size of the buffer used to save history of statistics of one process (KB). The change of this value will be applied on the next start of YAPM.")
-        SetToolTip(Me.chkAutoOnline, "Automatically retrieve online description of a process/service when detailed form is showned")
+        SetToolTip(Me.chkAutoOnline, "Automatically retrieve online description of a process/service when detailed form is showned.")
+        SetToolTip(Me.lvHighlightingProcess, "Enabled or not highlighting of items in listviews. Right click on a category to change its color.")
+        SetToolTip(Me.cmdMoveDownProcess, "Decrease priority of selected category.")
+        SetToolTip(Me.cmdMoveUpProcess, "Increase priority of selected category.")
 
         ' Set control's values
         Me.txtServiceIntervall.Text = My.Settings.ServiceInterval.ToString
@@ -153,6 +199,52 @@ Public Class frmPreferences
             Me.chkUnlimitedBuf.Checked = True
         End If
 
+        ' Add items of "Highlighting listviews" in saved order
+        Me.lvHighlightingThread.Items.Clear()
+        Dim s() As ListViewItem
+        ReDim s(0)
+        s(My.Settings.HighlightingPrioritySuspendedThread - 1) = New ListViewItem("Suspended thread")
+        Me.lvHighlightingThread.Items.AddRange(s)
+        '
+        Me.lvHighlightingProcess.Items.Clear()
+        Dim s2() As ListViewItem
+        ReDim s2(6)
+        s2(My.Settings.HighlightingPriorityCriticalProcess - 1) = New ListViewItem("Critical process")
+        s2(My.Settings.HighlightingPriorityElevatedProcess - 1) = New ListViewItem("Elevated process")
+        s2(My.Settings.HighlightingPriorityJobProcess - 1) = New ListViewItem("Process in job")
+        s2(My.Settings.HighlightingPriorityServiceProcess - 1) = New ListViewItem("Service process")
+        s2(My.Settings.HighlightingPriorityOwnedProcess - 1) = New ListViewItem("Owned process")
+        s2(My.Settings.HighlightingPrioritySystemProcess - 1) = New ListViewItem("System process")
+        s2(My.Settings.HighlightingPriorityBeingDebugged - 1) = New ListViewItem("Process being debugged")
+        Me.lvHighlightingProcess.Items.AddRange(s2)
+
+        ' Set colors of "Highlighting items"
+        Call setColorOfHighlightingItems()
+
+        ' Set checkboxes of "Highlighting items"
+        Me.lvHighlightingThread.Items(My.Settings.HighlightingPrioritySuspendedThread - 1).Checked = My.Settings.EnableHighlightingSuspendedThread
+        Me.lvHighlightingProcess.Items(My.Settings.HighlightingPrioritySystemProcess - 1).Checked = My.Settings.EnableHighlightingSystemProcess
+        Me.lvHighlightingProcess.Items(My.Settings.HighlightingPriorityServiceProcess - 1).Checked = My.Settings.EnableHighlightingServiceProcess
+        Me.lvHighlightingProcess.Items(My.Settings.HighlightingPriorityOwnedProcess - 1).Checked = My.Settings.EnableHighlightingOwnedProcess
+        Me.lvHighlightingProcess.Items(My.Settings.HighlightingPriorityJobProcess - 1).Checked = My.Settings.EnableHighlightingJobProcess
+        Me.lvHighlightingProcess.Items(My.Settings.HighlightingPriorityElevatedProcess - 1).Checked = My.Settings.EnableHighlightingElevated
+        Me.lvHighlightingProcess.Items(My.Settings.HighlightingPriorityCriticalProcess - 1).Checked = My.Settings.EnableHighlightingCriticalProcess
+        Me.lvHighlightingProcess.Items(My.Settings.HighlightingPriorityBeingDebugged - 1).Checked = My.Settings.EnableHighlightingBeingDebugged
+
+    End Sub
+
+    ' Set colors of "Highlighting items"
+    Private Sub setColorOfHighlightingItems()
+        ' lvProcess
+        Me.lvHighlightingProcess.Items(My.Settings.HighlightingPriorityBeingDebugged - 1).BackColor = My.Settings.HighlightingColorBeingDebugged
+        Me.lvHighlightingProcess.Items(My.Settings.HighlightingPriorityCriticalProcess - 1).BackColor = My.Settings.HighlightingColorCriticalProcess
+        Me.lvHighlightingProcess.Items(My.Settings.HighlightingPriorityElevatedProcess - 1).BackColor = My.Settings.HighlightingColorElevatedProcess
+        Me.lvHighlightingProcess.Items(My.Settings.HighlightingPriorityJobProcess - 1).BackColor = My.Settings.HighlightingColorJobProcess
+        Me.lvHighlightingProcess.Items(My.Settings.HighlightingPriorityOwnedProcess - 1).BackColor = My.Settings.HighlightingColorOwnedProcess
+        Me.lvHighlightingProcess.Items(My.Settings.HighlightingPriorityServiceProcess - 1).BackColor = My.Settings.HighlightingColorServiceProcess
+        Me.lvHighlightingProcess.Items(My.Settings.HighlightingPrioritySystemProcess - 1).BackColor = My.Settings.HighlightingColorSystemProcess
+        ' lvThread
+        Me.lvHighlightingThread.Items(My.Settings.HighlightingPrioritySuspendedThread - 1).BackColor = My.Settings.HighlightingColorSuspendedThread
     End Sub
 
     Private Sub cmdDefaut_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdDefaut.Click
@@ -181,8 +273,28 @@ Public Class frmPreferences
         Me.chkHideClosed.Checked = False
         Me.chkUnlimitedBuf.Checked = False
         Me.chkAutoOnline.Checked = False
-
         Me.bufferSize.Value = 100
+
+        ' Now empty highlightings listviews, re-add items in default order and check them all
+        Me.lvHighlightingProcess.Items.Clear()
+        Me.lvHighlightingProcess.Items.Add("Process being debugged").BackColor = Color.FromArgb(255, 192, 255)
+        Me.lvHighlightingProcess.Items.Add("Critical process").BackColor = Color.FromArgb(255, 128, 0)
+        Me.lvHighlightingProcess.Items.Add("Elevated process").BackColor = Color.FromArgb(255, 192, 128)
+        Me.lvHighlightingProcess.Items.Add("Process in job").BackColor = Color.FromArgb(192, 255, 192)
+        Me.lvHighlightingProcess.Items.Add("Service process").BackColor = Color.FromArgb(192, 255, 255)
+        Me.lvHighlightingProcess.Items.Add("Owned process").BackColor = Color.FromArgb(255, 255, 192)
+        Me.lvHighlightingProcess.Items.Add("System process").BackColor = Color.FromArgb(192, 192, 255)
+        Me.lvHighlightingThread.Items.Clear()
+        Me.lvHighlightingThread.Items.Add("Suspended thread").BackColor = Color.FromArgb(255, 255, 192)
+        For Each it As ListViewItem In Me.lvHighlightingProcess.Items
+            it.Checked = True
+        Next
+        For Each it As ListViewItem In Me.lvHighlightingThread.Items
+            it.Checked = True
+        Next
+
+        ' Set colors of "Highlighting items"
+        Call setColorOfHighlightingItems()
     End Sub
 
     Private Delegate Sub setUpdateText(ByVal s As String, ByVal b As Boolean, ByVal b2 As Boolean)
@@ -446,5 +558,33 @@ Public Class frmPreferences
             Call cmdDefaut_Click(Nothing, Nothing)
             My.Settings.Save()
         End If
+    End Sub
+
+    Private Sub cmdMoveUpProcess_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdMoveUpProcess.Click
+        If Me.lvHighlightingProcess.SelectedItems Is Nothing OrElse Me.lvHighlightingProcess.SelectedItems.Count <> 1 Then
+            Exit Sub
+        End If
+        If Me.lvHighlightingProcess.SelectedItems(0).Index = 0 Then
+            Exit Sub
+        End If
+
+        Me.lvHighlightingProcess.BeginUpdate()
+        MoveListViewItem(Me.lvHighlightingProcess, True)
+        Me.lvHighlightingProcess.EndUpdate()
+        Me.lvHighlightingProcess.Update()
+    End Sub
+
+    Private Sub cmdMoveDownProcess_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdMoveDownProcess.Click
+        If Me.lvHighlightingProcess.SelectedItems Is Nothing OrElse Me.lvHighlightingProcess.SelectedItems.Count <> 1 Then
+            Exit Sub
+        End If
+        If Me.lvHighlightingProcess.SelectedItems(0).Index = Me.lvHighlightingProcess.Items.Count - 1 Then
+            Exit Sub
+        End If
+
+        Me.lvHighlightingProcess.BeginUpdate()
+        MoveListViewItem(Me.lvHighlightingProcess, False)
+        Me.lvHighlightingProcess.EndUpdate()
+        Me.lvHighlightingProcess.Update()
     End Sub
 End Class

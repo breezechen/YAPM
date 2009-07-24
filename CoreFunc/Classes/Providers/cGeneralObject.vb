@@ -114,5 +114,10 @@ Public MustInherit Class cGeneralObject
         Return Drawing.Color.White
     End Function
 
+    ' Return forecolor of the item, when displayed in a listview
+    Public Overridable Function GetForeColor() As System.Drawing.Color
+        Return Drawing.Color.Black
+    End Function
+
 
 End Class
