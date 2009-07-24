@@ -2,7 +2,6 @@
 	<roots>
 		<dir>YAPM</dir>
 		<dir>TaskDialog</dir>
-		<dir>Providers</dir>
 		<dir>CoreFunc</dir>
 		<dir>DependenciesViewer</dir>
 		<dir>VistaMenu</dir>
