@@ -184,11 +184,25 @@ Public Class cNetwork
 #Region "Get information overriden methods"
 
     ' Retrieve informations by its name
+    Private Function getRemotePort() As Integer
+        If Me.Infos.Remote IsNot Nothing Then
+            Return Me.Infos.Remote.Port
+        Else
+            Return 0
+        End If
+    End Function
+    Private Function getLocalPort() As Integer
+        If Me.Infos.Local IsNot Nothing Then
+            Return Me.Infos.Local.Port
+        Else
+            Return 0
+        End If
+    End Function
     Public Overrides Function GetInformation(ByVal info As String) As String
 
-        Static oldRemotePort As Integer = Me.Infos.Remote.Port
+        Static oldRemotePort As Integer = getRemotePort()
         Static oldRemPortD As String = Nothing
-        Static oldLocalPort As Integer = Me.Infos.Local.Port
+        Static oldLocalPort As Integer = getLocalPort()
         Static oldLocPortD As String = Nothing
 
         If info = "ObjectCreationDate" Then
@@ -226,14 +240,14 @@ Public Class cNetwork
                     res = Me.Infos.State.ToString
                 End If
             Case "LocalPortDescription"
-                If Me.Infos.Local.Port <> oldLocalPort OrElse oldLocPortD Is Nothing Then
-                    res = GetPortDescription(Me.Infos.Local.Port, Me.Infos.Protocol)
+                If getLocalPort() <> oldLocalPort OrElse oldLocPortD Is Nothing Then
+                    res = GetPortDescription(getLocalPort, Me.Infos.Protocol)
                 Else
                     res = oldLocPortD
                 End If
             Case "RemotePortDescription"
-                If Me.Infos.Remote.Port <> oldRemotePort OrElse oldRemPortD Is Nothing Then
-                    res = GetPortDescription(Me.Infos.Remote.Port, Me.Infos.Protocol)
+                If getRemotePort() <> oldRemotePort OrElse oldRemPortD Is Nothing Then
+                    res = GetPortDescription(getRemotePort, Me.Infos.Protocol)
                 Else
                     res = oldRemPortD
                 End If
