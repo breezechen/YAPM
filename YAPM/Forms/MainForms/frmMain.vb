@@ -489,9 +489,9 @@ Public Class frmMain
             Me.CenterToScreen()
         End If
         Me.ShowInTaskbar = True
-        Me.WindowState = FormWindowState.Normal
         Me.Visible = True
         Me.Show()
+        Me.WindowState = FormWindowState.Normal
     End Sub
 
     Private Sub frmMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Shown
@@ -3536,9 +3536,9 @@ Public Class frmMain
             Me.CenterToScreen()
         End If
         Me.ShowInTaskbar = True
-        Me.WindowState = FormWindowState.Normal
         Me.Visible = True
         Me.Show()
+        Me.WindowState = FormWindowState.Normal
     End Sub
 
     Private Sub MenuItemMainToTray_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMainToTray.Click
