@@ -23,6 +23,8 @@ Partial Class frmPreferences
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPreferences))
+        Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Suspended thread")
         Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Process being debugged")
         Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Critical process")
         Dim ListViewItem4 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Elevated process")
@@ -30,8 +32,6 @@ Partial Class frmPreferences
         Dim ListViewItem6 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Service process")
         Dim ListViewItem7 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Owned process")
         Dim ListViewItem8 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("System process")
-        Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Suspended thread")
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPreferences))
         Me.TabControl = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
         Me.chkAutoOnline = New System.Windows.Forms.CheckBox
@@ -45,6 +45,10 @@ Partial Class frmPreferences
         Me.chkReplaceTaskmgr = New System.Windows.Forms.CheckBox
         Me.chkStart = New System.Windows.Forms.CheckBox
         Me.TabPage5 = New System.Windows.Forms.TabPage
+        Me.cmdMoveDownProcess = New System.Windows.Forms.Button
+        Me.cmdMoveUpProcess = New System.Windows.Forms.Button
+        Me.lvHighlightingThread = New System.Windows.Forms.ListView
+        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.lvHighlightingProcess = New System.Windows.Forms.ListView
         Me.Header = New System.Windows.Forms.ColumnHeader
         Me.TabPage3 = New System.Windows.Forms.TabPage
@@ -86,10 +90,6 @@ Partial Class frmPreferences
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
         Me.colDial = New System.Windows.Forms.ColorDialog
-        Me.lvHighlightingThread = New System.Windows.Forms.ListView
-        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
-        Me.cmdMoveDownProcess = New System.Windows.Forms.Button
-        Me.cmdMoveUpProcess = New System.Windows.Forms.Button
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -247,6 +247,43 @@ Partial Class frmPreferences
         Me.TabPage5.TabIndex = 4
         Me.TabPage5.Text = "Highlighting"
         Me.TabPage5.UseVisualStyleBackColor = True
+        '
+        'cmdMoveDownProcess
+        '
+        Me.cmdMoveDownProcess.Image = CType(resources.GetObject("cmdMoveDownProcess.Image"), System.Drawing.Image)
+        Me.cmdMoveDownProcess.Location = New System.Drawing.Point(41, 237)
+        Me.cmdMoveDownProcess.Name = "cmdMoveDownProcess"
+        Me.cmdMoveDownProcess.Size = New System.Drawing.Size(28, 28)
+        Me.cmdMoveDownProcess.TabIndex = 11
+        Me.cmdMoveDownProcess.UseVisualStyleBackColor = True
+        '
+        'cmdMoveUpProcess
+        '
+        Me.cmdMoveUpProcess.Image = CType(resources.GetObject("cmdMoveUpProcess.Image"), System.Drawing.Image)
+        Me.cmdMoveUpProcess.Location = New System.Drawing.Point(7, 237)
+        Me.cmdMoveUpProcess.Name = "cmdMoveUpProcess"
+        Me.cmdMoveUpProcess.Size = New System.Drawing.Size(28, 28)
+        Me.cmdMoveUpProcess.TabIndex = 10
+        Me.cmdMoveUpProcess.UseVisualStyleBackColor = True
+        '
+        'lvHighlightingThread
+        '
+        Me.lvHighlightingThread.CheckBoxes = True
+        Me.lvHighlightingThread.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
+        Me.lvHighlightingThread.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+        ListViewItem1.StateImageIndex = 0
+        Me.lvHighlightingThread.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1})
+        Me.lvHighlightingThread.Location = New System.Drawing.Point(229, 3)
+        Me.lvHighlightingThread.MultiSelect = False
+        Me.lvHighlightingThread.Name = "lvHighlightingThread"
+        Me.lvHighlightingThread.Size = New System.Drawing.Size(220, 228)
+        Me.lvHighlightingThread.TabIndex = 1
+        Me.lvHighlightingThread.UseCompatibleStateImageBehavior = False
+        Me.lvHighlightingThread.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Width = 200
         '
         'lvHighlightingProcess
         '
@@ -649,43 +686,6 @@ Partial Class frmPreferences
         '
         Me.colDial.AnyColor = True
         Me.colDial.FullOpen = True
-        '
-        'lvHighlightingThread
-        '
-        Me.lvHighlightingThread.CheckBoxes = True
-        Me.lvHighlightingThread.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
-        Me.lvHighlightingThread.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        ListViewItem1.StateImageIndex = 0
-        Me.lvHighlightingThread.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1})
-        Me.lvHighlightingThread.Location = New System.Drawing.Point(229, 3)
-        Me.lvHighlightingThread.MultiSelect = False
-        Me.lvHighlightingThread.Name = "lvHighlightingThread"
-        Me.lvHighlightingThread.Size = New System.Drawing.Size(220, 228)
-        Me.lvHighlightingThread.TabIndex = 1
-        Me.lvHighlightingThread.UseCompatibleStateImageBehavior = False
-        Me.lvHighlightingThread.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader1
-        '
-        Me.ColumnHeader1.Width = 200
-        '
-        'cmdMoveDownProcess
-        '
-        Me.cmdMoveDownProcess.Image = CType(resources.GetObject("cmdMoveDownProcess.Image"), System.Drawing.Image)
-        Me.cmdMoveDownProcess.Location = New System.Drawing.Point(41, 237)
-        Me.cmdMoveDownProcess.Name = "cmdMoveDownProcess"
-        Me.cmdMoveDownProcess.Size = New System.Drawing.Size(28, 28)
-        Me.cmdMoveDownProcess.TabIndex = 11
-        Me.cmdMoveDownProcess.UseVisualStyleBackColor = True
-        '
-        'cmdMoveUpProcess
-        '
-        Me.cmdMoveUpProcess.Image = CType(resources.GetObject("cmdMoveUpProcess.Image"), System.Drawing.Image)
-        Me.cmdMoveUpProcess.Location = New System.Drawing.Point(7, 237)
-        Me.cmdMoveUpProcess.Name = "cmdMoveUpProcess"
-        Me.cmdMoveUpProcess.Size = New System.Drawing.Size(28, 28)
-        Me.cmdMoveUpProcess.TabIndex = 10
-        Me.cmdMoveUpProcess.UseVisualStyleBackColor = True
         '
         'frmPreferences
         '

@@ -392,14 +392,15 @@ Public Class asyncCallbackProcEnumerate
         If _pid > 4 Then
 
             ' Have to open a handle
-            Dim _h As Integer = API.OpenProcess(cProcessConnection.ProcessMinRights, 0, _pid)
+            Dim _h As Integer
+            _h = API.OpenProcess(cProcessConnection.ProcessMinRights, 0, _pid)
 
             If _h > 0 Then
                 ' Get size
                 Dim _size As Integer
                 API.ZwQueryInformationProcess(_h, API.PROCESS_INFORMATION_CLASS.ProcessImageFileName, IntPtr.Zero, 0, _size)
                 If _size = 0 Then
-                    Return "??"
+                    Return NO_INFO_RETRIEVED
                 End If
 
                 ' Retrieve unicode string
@@ -415,10 +416,10 @@ Public Class asyncCallbackProcEnumerate
                 If _stemp IsNot Nothing Then
                     Return DeviceDriveNameToDosDriveName(_stemp)
                 Else
-                    Return "??"
+                    Return NO_INFO_RETRIEVED
                 End If
             Else
-                Return "??"
+                Return NO_INFO_RETRIEVED
             End If
 
         ElseIf _pid = 4 Then

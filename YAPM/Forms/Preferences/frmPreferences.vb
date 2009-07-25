@@ -163,7 +163,8 @@ Public Class frmPreferences
         SetToolTip(Me.chkUnlimitedBuf, "No size limit for history")
         SetToolTip(Me.bufferSize, "Size of the buffer used to save history of statistics of one process (KB). The change of this value will be applied on the next start of YAPM.")
         SetToolTip(Me.chkAutoOnline, "Automatically retrieve online description of a process/service when detailed form is showned.")
-        SetToolTip(Me.lvHighlightingProcess, "Enabled or not highlighting of items in listviews. Right click on a category to change its color.")
+        SetToolTip(Me.lvHighlightingProcess, "Enabled or not highlighting of items in listviews. Double click on a category to change its color.")
+        SetToolTip(Me.lvHighlightingThread, "Enabled or not highlighting of items in listviews. Double click on a category to change its color.")
         SetToolTip(Me.cmdMoveDownProcess, "Decrease priority of selected category.")
         SetToolTip(Me.cmdMoveUpProcess, "Increase priority of selected category.")
 
@@ -585,4 +586,21 @@ Public Class frmPreferences
         Me.lvHighlightingProcess.EndUpdate()
         Me.lvHighlightingProcess.Update()
     End Sub
+
+    Private Sub lvHighlightingProcess_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHighlightingProcess.MouseDoubleClick
+        If Me.lvHighlightingProcess.SelectedItems IsNot Nothing AndAlso Me.lvHighlightingProcess.SelectedItems.Count = 1 Then
+            colDial.Color = Me.lvHighlightingProcess.SelectedItems(0).BackColor
+            colDial.ShowDialog()
+            Me.lvHighlightingProcess.SelectedItems(0).BackColor = colDial.Color
+        End If
+    End Sub
+
+    Private Sub lvHighlightingThread_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHighlightingThread.MouseDoubleClick
+        If Me.lvHighlightingThread.SelectedItems IsNot Nothing AndAlso Me.lvHighlightingThread.SelectedItems.Count = 1 Then
+            colDial.Color = Me.lvHighlightingThread.SelectedItems(0).BackColor
+            colDial.ShowDialog()
+            Me.lvHighlightingThread.SelectedItems(0).BackColor = colDial.Color
+        End If
+    End Sub
+
 End Class
