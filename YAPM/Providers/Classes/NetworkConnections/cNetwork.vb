@@ -186,6 +186,11 @@ Public Class cNetwork
     ' Retrieve informations by its name
     Public Overrides Function GetInformation(ByVal info As String) As String
 
+        Static oldRemotePort As Integer = Me.Infos.Remote.Port
+        Static oldRemPortD As String = Nothing
+        Static oldLocalPort As Integer = Me.Infos.Local.Port
+        Static oldLocPortD As String = Nothing
+
         If info = "ObjectCreationDate" Then
             Return _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
         ElseIf info = "PendingTaskCount" Then
@@ -221,9 +226,17 @@ Public Class cNetwork
                     res = Me.Infos.State.ToString
                 End If
             Case "LocalPortDescription"
-                res = GetPortDescription(Me.Infos.Local.Port, Me.Infos.Protocol)
+                If Me.Infos.Local.Port <> oldLocalPort OrElse oldLocPortD Is Nothing Then
+                    res = GetPortDescription(Me.Infos.Local.Port, Me.Infos.Protocol)
+                Else
+                    res = oldLocPortD
+                End If
             Case "RemotePortDescription"
-                res = GetPortDescription(Me.Infos.Local.Port, Me.Infos.Protocol)
+                If Me.Infos.Remote.Port <> oldRemotePort OrElse oldRemPortD Is Nothing Then
+                    res = GetPortDescription(Me.Infos.Remote.Port, Me.Infos.Protocol)
+                Else
+                    res = oldRemPortD
+                End If
         End Select
 
         Return res
