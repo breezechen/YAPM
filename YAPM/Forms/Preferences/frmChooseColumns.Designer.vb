@@ -32,9 +32,10 @@ Partial Class frmChooseColumns
         Me.cmdInvert = New System.Windows.Forms.Button
         Me.cmdMoveUp = New System.Windows.Forms.Button
         Me.cmdMoveDown = New System.Windows.Forms.Button
-        Me.lv = New DoubleBufferedLV
+        Me.lv = New YAPM.DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
+        Me.cmdDefault = New System.Windows.Forms.Button
         Me.TableLayoutPanel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -46,7 +47,7 @@ Partial Class frmChooseColumns
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel1.Controls.Add(Me.OK_Button, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.Cancel_Button, 1, 0)
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(178, 282)
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(178, 310)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
@@ -150,11 +151,21 @@ Partial Class frmChooseColumns
         Me.ColumnHeader2.Text = "Width"
         Me.ColumnHeader2.Width = 0
         '
+        'cmdDefault
+        '
+        Me.cmdDefault.Location = New System.Drawing.Point(8, 314)
+        Me.cmdDefault.Name = "cmdDefault"
+        Me.cmdDefault.Size = New System.Drawing.Size(99, 23)
+        Me.cmdDefault.TabIndex = 10
+        Me.cmdDefault.Text = "Default"
+        Me.cmdDefault.UseVisualStyleBackColor = True
+        '
         'frmChooseColumns
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(336, 323)
+        Me.ClientSize = New System.Drawing.Size(336, 351)
+        Me.Controls.Add(Me.cmdDefault)
         Me.Controls.Add(Me.cmdMoveDown)
         Me.Controls.Add(Me.cmdMoveUp)
         Me.Controls.Add(Me.cmdInvert)
@@ -189,4 +200,5 @@ Partial Class frmChooseColumns
     Friend WithEvents cmdMoveUp As System.Windows.Forms.Button
     Friend WithEvents cmdMoveDown As System.Windows.Forms.Button
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents cmdDefault As System.Windows.Forms.Button
 End Class

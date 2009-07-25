@@ -1,5 +1,6 @@
 TODO LIST
 
+- résoudre pb des nouvelles infos process pour le réseau (idem que Affinity)
 - priorité des highlightings à prendre en compte
 - ajout des 6 nouvelles infos process dans formDetail (sauf certaines qui auront un truc spécifique comme token, job)
 - ajouter bouton Default dans ChooseColumns
@@ -11,7 +12,6 @@ TODO LIST
 - ajouter "démarrer en tant que" (runas, cf lien opera)
 - option display icons in listviews
 - virer icones dans le tabs ?
-- start hidden foireux (pomper travail de SSS)
 - perf counter pour PC distant (+ ajouter gestion remote pour la recherche)
 - possibilité de choisir le port que le server utilise (ajouter textbox dans frmServer + envoyer une trame-message pour envoyer le numéro de port que le server utilisera)
 - ribbon lourd (clignotement) -> alternative ?
@@ -21,7 +21,7 @@ TODO LIST
 - log marche pas toujours (0% d'UC ??)
 - fin d'un process/service dans frmDetail -> afficher 'terminé le xxx' en
 titre quand le process/service n'existe plus
-- tooltip partout (manque frmPreferences ? et manque frmLogOptions) + passer au tooltip classique
+- tooltip partout (manque frmPreferences ? et manque frmLogOptions + forms qui viennent des autres projets)
 - images PNG uniquement + virer img inutiles
 - crash UDP à inspecter
 - Check if file is locked... -> avertir quand recherche terminée (REFAIRE CETTE FEATURE)
@@ -114,3 +114,4 @@ Temp Change log :
 - removed dead code
 - ajout google search et file details dans dependency viewer
 - ajout option "Show user group/domain"
+- option Start hidden plus propre

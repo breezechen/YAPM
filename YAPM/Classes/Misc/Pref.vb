@@ -23,6 +23,7 @@ Option Strict On
 
 Public Class Pref
 
+    Public Const LEFT_POSITION_HIDDEN As Integer = -2000
     Public Const MSGFIRSTTIME As String = "This is the first time you run YAPM. Please remember that it is a beta version so there are some bugs and some missing functionnalities :-)" & vbNewLine & vbNewLine & "You should run YAPM as an administrator in order to fully control your processes. Please take care using this YAPM because you will be able to do some irreversible things if you kill or modify some system processes... Use it at your own risks !" & vbNewLine & vbNewLine & "Please let me know any of your ideas of improvement or new functionnalities in YAPM's sourceforge.net project page ('Help' pannel) :-)" & vbNewLine & vbNewLine & "This message won't be shown anymore :-)"
 
     ' Save
@@ -78,16 +79,16 @@ Public Class Pref
         threadList.NEW_ITEM_COLOR = Color.FromArgb(My.Settings.NewItemColor)
         threadList.DELETED_ITEM_COLOR = Color.FromArgb(My.Settings.DeletedItemColor)
         _frmMain.Tray.Visible = My.Settings.ShowTrayIcon
-        _frmMain.Visible = True
         If first Then
             Call _frmMain.permuteMenuStyle(My.Settings.UseRibbonStyle)
             first = False
             _frmMain.TopMost = My.Settings.TopMost
             _frmMain.butAlwaysDisplay.Checked = My.Settings.TopMost
             If My.Settings.StartHidden Then
-                _frmMain.WindowState = FormWindowState.Minimized
                 _frmMain.Hide()
+                _frmMain.Left = LEFT_POSITION_HIDDEN
             End If
+            _frmMain.ShowInTaskbar = Not (My.Settings.StartHidden)
         End If
 
         ' Highlightings

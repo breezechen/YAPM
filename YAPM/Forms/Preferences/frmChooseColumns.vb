@@ -188,4 +188,8 @@ Public Class frmChooseColumns
         Me.lv.EndUpdate()
     End Sub
 
+    Private Sub cmdDefault_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdDefault.Click
+        ' Set default columns
+
+    End Sub
 End Class

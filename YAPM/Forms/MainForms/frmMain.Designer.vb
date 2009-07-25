@@ -6820,6 +6820,7 @@ Partial Class frmMain
         Me.Menu = Me.mnuSystem
         Me.MinimumSize = New System.Drawing.Size(882, 589)
         Me.Name = "frmMain"
+        Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Yet Another (remote) Process Monitor"
         Me.WindowState = System.Windows.Forms.FormWindowState.Minimized

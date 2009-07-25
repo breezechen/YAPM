@@ -268,6 +268,11 @@ Public Class frmMain
 
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
+        If Program.Parameters.ModeHidden Then
+            Me.Left = -20000
+            Me.ShowInTaskbar = False
+        End If
+
         ' For now, SBA is removed from menu...
         Me.Ribbon.OrbDropDown.MenuItems.Remove(Me.orbMenuSBA)
 
@@ -281,11 +286,6 @@ Public Class frmMain
             If My.Settings.UseRibbonStyle = False Then
                 Me.VistaMenu.SetImage(Me.MenuItemRunAsAdmin, cEnvironment.GetUacShieldImage)
             End If
-        End If
-
-        If Program.Parameters.ModeHidden Then
-            Me.Left = -20000
-            Me.ShowInTaskbar = False
         End If
 
         Me.timerProcess.Enabled = False
@@ -436,7 +436,7 @@ Public Class frmMain
         Next
 
 #If RELEASE_MODE = 0 Then
-        frmServer.Show()
+        '   frmServer.Show()
 #End If
 
     End Sub
@@ -486,22 +486,25 @@ Public Class frmMain
 
     Private Sub Tray_MouseDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Tray.MouseDoubleClick
         Me.Show()
+        If Me.Left = Pref.LEFT_POSITION_HIDDEN Then
+            Me.CenterToScreen()
+        End If
         Me.WindowState = FormWindowState.Normal
         Me.Visible = True
     End Sub
 
     Private Sub frmMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Shown
-        Static first As Boolean = True
-        If first Then
-            first = False
-            If My.Settings.StartHidden Then
-                Me.Hide()
-                Me.WindowState = FormWindowState.Minimized
-            Else
-                Me.Show()
-                Me.WindowState = FormWindowState.Normal
-            End If
-        End If
+        'Static first As Boolean = True
+        'If first Then
+        '    first = False
+        '    If My.Settings.StartHidden Then
+        '        Me.Hide()
+        '        Me.WindowState = FormWindowState.Minimized
+        '    Else
+        '        Me.Show()
+        '        Me.WindowState = FormWindowState.Normal
+        '    End If
+        'End If
         Select Case My.Settings.SelectedTab
             Case "Tasks"
                 Me.Ribbon.ActiveTab = Me.TaskTab
@@ -3529,6 +3532,9 @@ Public Class frmMain
 
     Private Sub MenuItemMainShow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMainShow.Click
         Me.Show()
+        If Me.Left = Pref.LEFT_POSITION_HIDDEN Then
+            Me.CenterToScreen()
+        End If
         Me.WindowState = FormWindowState.Normal
         Me.Visible = True
     End Sub
