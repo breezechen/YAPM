@@ -12,8 +12,7 @@
     <AssemblyName>YAPM</AssemblyName>
     <MyType>WindowsFormsWithCustomSubMain</MyType>
     <OptionStrict>On</OptionStrict>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>process_custom.ico</ApplicationIcon>
     <SignAssembly>false</SignAssembly>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -904,6 +903,10 @@
       <Project>{8C885999-147E-4651-AF9C-6F7149F1344D}</Project>
       <Name>MemoryHexEditor</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="process32.ico" />
+    <Content Include="process_custom.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
