@@ -126,10 +126,6 @@ Public Class frmWindowsList
         first = False
     End Sub
 
-    Private Sub ShowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-       
-    End Sub
-
     Private Sub lv_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lv.MouseUp
         If e.Button = Windows.Forms.MouseButtons.Right Then
             Me.TheContextMenu.Show(Me.lv, e.Location)

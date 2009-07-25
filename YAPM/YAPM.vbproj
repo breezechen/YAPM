@@ -12,7 +12,8 @@
     <AssemblyName>YAPM</AssemblyName>
     <MyType>WindowsFormsWithCustomSubMain</MyType>
     <OptionStrict>On</OptionStrict>
-    <ApplicationIcon>process_custom.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
     <SignAssembly>false</SignAssembly>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -41,7 +42,8 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>YAPM.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <NoWarn>
     </NoWarn>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
@@ -56,7 +58,8 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>YAPM.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <NoWarn>
     </NoWarn>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
@@ -71,7 +74,8 @@
     <OutputPath>bin\Debug - server\</OutputPath>
     <DefineConstants>CONFIG_INTO_APPDATA0, RELEASE_MODE=0</DefineConstants>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>YAPM.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <Optimize>true</Optimize>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DebugType>full</DebugType>
@@ -83,7 +87,8 @@
     <OutputPath>bin\Release - server\</OutputPath>
     <DefineConstants>CONFIG_INTO_APPDATA0, RELEASE_MODE=1</DefineConstants>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>YAPM.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <Optimize>true</Optimize>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DebugType>pdbonly</DebugType>
@@ -105,7 +110,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Import Include="CoreFunc" />
     <Import Include="Microsoft.Samples" />
     <Import Include="Microsoft.VisualBasic" />
     <Import Include="System" />
@@ -155,6 +159,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AdditionalMainForms\frmHexEditor.resx">
       <DependentUpon>frmHexEditor.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Misc\frmSBASimulationConsole.resx">
+      <DependentUpon>frmSBASimulationConsole.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForms\frmServiceInfo.resx">
       <DependentUpon>frmServiceInfo.vb</DependentUpon>
@@ -352,15 +359,48 @@
     <None Include="Resources\process.png" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\API.vb" />
     <Compile Include="Classes\Download\cAsyncProcInfoDownload.vb" />
     <Compile Include="Classes\Download\cDownload.vb" />
+    <Compile Include="Classes\Driver\clsDriverCtrl.vb" />
+    <Compile Include="Classes\Driver\clsOpenedHandles.vb" />
+    <Compile Include="Classes\Hotkeys\cHotkeys.vb" />
+    <Compile Include="Classes\Hotkeys\cShortcut.vb" />
     <Compile Include="Classes\HTML\cHTML.vb" />
     <Compile Include="Classes\HTML\cHTML2.vb" />
+    <Compile Include="Classes\Misc\cConnection.vb" />
     <Compile Include="Classes\Misc\cEnvironment.vb" />
+    <Compile Include="Classes\Misc\cFile.vb" />
     <Compile Include="Classes\Misc\cLog.vb" />
+    <Compile Include="Classes\Misc\cMonitor.vb" />
     <Compile Include="Classes\Misc\cRegMonitor.vb" />
+    <Compile Include="Classes\Misc\cSystem.vb" />
+    <Compile Include="Classes\Misc\cSystemInfo.vb" />
+    <Compile Include="Classes\Misc\cToken.vb" />
     <Compile Include="Classes\Misc\cTrayIcon.vb" />
     <Compile Include="Classes\Misc\cWinTrust.vb" />
+    <Compile Include="Classes\Shutdown\asyncMethods\asyncCallbackShutdownAction.vb" />
+    <Compile Include="Classes\Shutdown\cShutdownConnection.vb" />
+    <Compile Include="Classes\Socket\AsynchronousClient.vb" />
+    <Compile Include="Classes\Socket\AsynchronousServer.vb" />
+    <Compile Include="Classes\Socket\cSerialization.vb" />
+    <Compile Include="Classes\Socket\cSocketData.vb" />
+    <Compile Include="Classes\StateBasedActions\cBasedStateActionState.vb" />
+    <Compile Include="Classes\StateBasedActions\cStateBasedActions.vb" />
+    <Compile Include="Forms\AdditionalMainForms\frmDepViewerMain.Designer.vb">
+      <DependentUpon>frmDepViewerMain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AdditionalMainForms\frmDepViewerMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DependencyViewer\Directories\ExportDirectory.vb" />
+    <Compile Include="DependencyViewer\Directories\ImportDirectory.vb" />
+    <Compile Include="DependencyViewer\Headers\NTHeader.vb" />
+    <Compile Include="DependencyViewer\Headers\OptionalHeader.vb" />
+    <Compile Include="DependencyViewer\Headers\Section.vb" />
+    <Compile Include="DependencyViewer\NativeDependenceTree.vb" />
+    <Compile Include="DependencyViewer\NotSupportedPEFormat.vb" />
+    <Compile Include="DependencyViewer\PEFile.vb" />
     <Compile Include="Forms\AdditionalMainForms\frmBasedStateAction.Designer.vb">
       <DependentUpon>frmBasedStateAction.vb</DependentUpon>
     </Compile>
@@ -376,6 +416,12 @@
       <DependentUpon>frmHexEditor.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\AdditionalMainForms\frmHexEditor.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Misc\frmSBASimulationConsole.Designer.vb">
+      <DependentUpon>frmSBASimulationConsole.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Misc\frmSBASimulationConsole.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\MainForms\frmServiceInfo.Designer.vb">
@@ -456,11 +502,101 @@
     <Compile Include="Forms\MainForms\frmServer.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Modules\mdlMain.vb" />
+    <Compile Include="Modules\Program.vb" />
+    <Compile Include="Providers\Classes\General\cGeneralConnection.vb" />
+    <Compile Include="Providers\Classes\General\cGeneralObject.vb" />
+    <Compile Include="Providers\Classes\EnvVariables\asyncMethods\asyncCallbackEnvVariableEnumerate.vb" />
+    <Compile Include="Providers\Classes\EnvVariables\cEnvVariable.vb" />
+    <Compile Include="Providers\Classes\EnvVariables\cEnvVariableConnection.vb" />
+    <Compile Include="Providers\Classes\EnvVariables\envVariableInfos.vb" />
+    <Compile Include="Providers\Classes\General\generalInfos.vb" />
+    <Compile Include="Providers\Classes\Handles\asyncMethods\asyncCallbackHandleEnumerate.vb" />
+    <Compile Include="Providers\Classes\Handles\asyncMethods\asyncCallbackHandleUnload.vb" />
+    <Compile Include="Providers\Classes\Handles\cHandle.vb" />
+    <Compile Include="Providers\Classes\Handles\cHandleConnection.vb" />
+    <Compile Include="Providers\Classes\Handles\handleInfos.vb" />
+    <Compile Include="Providers\Classes\Log\asyncMethods\asyncCallbackLogEnumerate.vb" />
+    <Compile Include="Providers\Classes\Log\cLogConnection.vb" />
+    <Compile Include="Providers\Classes\Log\cLogItem.vb" />
+    <Compile Include="Providers\Classes\Log\logItemInfos.vb" />
+    <Compile Include="Providers\Classes\MemoryRegions\asyncMethods\asyncCallbackMemRegionEnumerate.vb" />
+    <Compile Include="Providers\Classes\MemoryRegions\cMemRegion.vb" />
+    <Compile Include="Providers\Classes\MemoryRegions\cMemRegionConnection.vb" />
+    <Compile Include="Providers\Classes\MemoryRegions\memRegionInfos.vb" />
+    <Compile Include="Providers\Classes\Modules\asyncMethods\asyncCallbackModuleEnumerate.vb" />
+    <Compile Include="Providers\Classes\Modules\asyncMethods\asyncCallbackModuleUnload.vb" />
+    <Compile Include="Providers\Classes\Modules\cModule.vb" />
+    <Compile Include="Providers\Classes\Modules\cModuleConnection.vb" />
+    <Compile Include="Providers\Classes\Modules\moduleInfos.vb" />
+    <Compile Include="Providers\Classes\NetworkConnections\asyncMethods\asyncCallbackNetworkCloseConnection.vb" />
+    <Compile Include="Providers\Classes\NetworkConnections\asyncMethods\asyncCallbackNetworkEnumerate.vb" />
+    <Compile Include="Providers\Classes\NetworkConnections\cNetwork.vb" />
+    <Compile Include="Providers\Classes\NetworkConnections\cNetworkConnection.vb" />
+    <Compile Include="Providers\Classes\NetworkConnections\networkInfos.vb" />
+    <Compile Include="Providers\Classes\Privileges\asyncMethods\asyncCallbackPrivilegeChangeStatus.vb" />
+    <Compile Include="Providers\Classes\Privileges\asyncMethods\asyncCallbackPrivilegesEnumerate.vb" />
+    <Compile Include="Providers\Classes\Privileges\cPrivilege.vb" />
+    <Compile Include="Providers\Classes\Privileges\cPrivilegeConnection.vb" />
+    <Compile Include="Providers\Classes\Privileges\privilegeInfos.vb" />
+    <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcDecreasePriority.vb" />
+    <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcEmptyWorkingSet.vb" />
+    <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcEnumerate.vb" />
+    <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcGetAllNonFixedInfos.vb" />
+    <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcGetNonFixedInfos.vb" />
+    <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcIncreasePriority.vb" />
+    <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcKill.vb" />
+    <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcKillTree.vb" />
+    <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcMinidump.vb" />
+    <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcNewProcess.vb" />
+    <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcResume.vb" />
+    <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcSetAffinity.vb" />
+    <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcSetPriority.vb" />
+    <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcSuspend.vb" />
+    <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcUnloadModule.vb" />
+    <Compile Include="Providers\Classes\Processes\cProcess.vb" />
+    <Compile Include="Providers\Classes\Processes\cProcessConnection.vb" />
+    <Compile Include="Providers\Classes\Processes\cProcessMemRW.vb" />
+    <Compile Include="Providers\Classes\Processes\processInfos.vb" />
+    <Compile Include="Providers\Classes\Search\asyncMethods\asyncCallbackSearchEnumerate.vb" />
+    <Compile Include="Providers\Classes\Search\cSearchConnection.vb" />
+    <Compile Include="Providers\Classes\Search\searchInfos.vb" />
+    <Compile Include="Providers\Classes\Services\asyncMethods\asyncCallbackServDepEnumerate.vb" />
+    <Compile Include="Providers\Classes\Services\asyncMethods\asyncCallbackServiceEnumerate.vb" />
+    <Compile Include="Providers\Classes\Services\asyncMethods\asyncCallbackServicePause.vb" />
+    <Compile Include="Providers\Classes\Services\asyncMethods\asyncCallbackServiceResume.vb" />
+    <Compile Include="Providers\Classes\Services\asyncMethods\asyncCallbackServiceSetStartType.vb" />
+    <Compile Include="Providers\Classes\Services\asyncMethods\asyncCallbackServiceStart.vb" />
+    <Compile Include="Providers\Classes\Services\asyncMethods\asyncCallbackServiceStop.vb" />
+    <Compile Include="Providers\Classes\Services\cServDepConnection.vb" />
+    <Compile Include="Providers\Classes\Services\cService.vb" />
+    <Compile Include="Providers\Classes\Services\cServiceConnection.vb" />
+    <Compile Include="Providers\Classes\Services\serviceInfos.vb" />
+    <Compile Include="Providers\Classes\Tasks\asyncMethods\asyncCallbackTaskEnumerate.vb" />
+    <Compile Include="Providers\Classes\Tasks\cTask.vb" />
+    <Compile Include="Providers\Classes\Tasks\cTaskConnection.vb" />
+    <Compile Include="Providers\Classes\Tasks\taskInfos.vb" />
+    <Compile Include="Providers\Classes\Threads\asyncMethods\asyncCallbackThreadDecreasePriority.vb" />
+    <Compile Include="Providers\Classes\Threads\asyncMethods\asyncCallbackThreadEnumerate.vb" />
+    <Compile Include="Providers\Classes\Threads\asyncMethods\asyncCallbackThreadGetOtherInfos.vb" />
+    <Compile Include="Providers\Classes\Threads\asyncMethods\asyncCallbackThreadIncreasePriority.vb" />
+    <Compile Include="Providers\Classes\Threads\asyncMethods\asyncCallbackThreadKill.vb" />
+    <Compile Include="Providers\Classes\Threads\asyncMethods\asyncCallbackThreadResume.vb" />
+    <Compile Include="Providers\Classes\Threads\asyncMethods\asyncCallbackThreadSetAffinity.vb" />
+    <Compile Include="Providers\Classes\Threads\asyncMethods\asyncCallbackThreadSetPriority.vb" />
+    <Compile Include="Providers\Classes\Threads\asyncMethods\asyncCallbackThreadSuspend.vb" />
+    <Compile Include="Providers\Classes\Threads\cThread.vb" />
+    <Compile Include="Providers\Classes\Threads\cThreadConnection.vb" />
+    <Compile Include="Providers\Classes\Threads\threadInfos.vb" />
+    <Compile Include="Providers\Classes\Windows\asyncMethods\asyncCallbackWindowAction.vb" />
+    <Compile Include="Providers\Classes\Windows\asyncMethods\asyncCallbackWindowEnumerate.vb" />
+    <Compile Include="Providers\Classes\Windows\asyncMethods\asyncCallbackWindowGetNonFixedInfos.vb" />
+    <Compile Include="Providers\Classes\Windows\cWindow.vb" />
+    <Compile Include="Providers\Classes\Windows\cWindowConnection.vb" />
+    <Compile Include="Providers\Classes\Windows\windowInfos.vb" />
     <Compile Include="UserControls\DoubleBufferedLV.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Providers\Classes\ListViewComparer.vb" />
+    <Compile Include="Classes\Misc\ListViewComparer.vb" />
     <Compile Include="Providers\CustomListviews\envVariableList.Designer.vb">
       <DependentUpon>envVariableList.vb</DependentUpon>
     </Compile>
@@ -563,7 +699,6 @@
     <Compile Include="Forms\Misc\frmPendingTasks.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Modules\mdlIcon.vb" />
     <Compile Include="UserControls\HorizontalLine.vb">
       <SubType>Component</SubType>
     </Compile>
@@ -657,8 +792,7 @@
     <Compile Include="UserControls\Graph.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Modules\mdlInternet.vb" />
-    <Compile Include="Modules\mdlMisc.vb" />
+    <Compile Include="Modules\Misc.vb" />
     <Compile Include="Classes\Misc\Pref.vb" />
     <None Include="Resources\folder_info.png" />
     <None Include="Resources\info.png" />
@@ -707,8 +841,6 @@
     <None Include="Misc\options16.gif" />
     <None Include="Misc\right.gif" />
     <None Include="Misc\shield_32.png" />
-    <Content Include="process.ico" />
-    <Content Include="process_custom.ico" />
     <None Include="Resources\application_blue.png" />
     <None Include="Resources\information_frame.png" />
     <None Include="Resources\control_stop_square.png" />
@@ -757,14 +889,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CoreFunc\CoreFunc.vbproj">
-      <Project>{4F4D09F8-D122-4ACB-B049-881634E67A2C}</Project>
-      <Name>CoreFunc</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DependenciesViewer\DependenciesViewer.vbproj">
-      <Project>{896A4EE8-7588-4582-9F3D-A48E7AD21A0D}</Project>
-      <Name>DependenciesViewer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SecurePasswordTextBox\SecurePasswordTextBox.csproj">
       <Project>{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}</Project>
       <Name>SecurePasswordTextBox</Name>

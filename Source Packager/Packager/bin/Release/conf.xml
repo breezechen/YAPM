@@ -2,8 +2,6 @@
 	<roots>
 		<dir>YAPM</dir>
 		<dir>TaskDialog</dir>
-		<dir>CoreFunc</dir>
-		<dir>DependenciesViewer</dir>
 		<dir>VistaMenu</dir>
 		<dir>SecurePasswordTextBox</dir>
 	</roots>

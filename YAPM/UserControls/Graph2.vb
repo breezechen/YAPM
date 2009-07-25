@@ -45,8 +45,6 @@ Public Class Graph2
     Private _fixedH As Boolean = False
     Private _secondV As Boolean = False
 
-    Private xCoef As Double
-
     Private numberOfValuesDisplayed As Integer
     Private numberOfValuesHidden As Integer
     Private _yMaxValue As Double = 0

@@ -26,7 +26,6 @@ Imports System.Runtime.InteropServices
 Public Class frmChooseColumns
 
     Private theListview As customLV
-    Private theClass As cGeneralObject
 
     Public Property ConcernedListView() As customLV
         Get

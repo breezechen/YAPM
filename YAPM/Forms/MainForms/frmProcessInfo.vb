@@ -22,7 +22,6 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
-Imports CoreFunc.asyncCallbackLogEnumerate
 
 Public Class frmProcessInfo
 
@@ -30,7 +29,6 @@ Public Class frmProcessInfo
 
     Private WithEvents curProc As cProcess
     Private Const NO_INFO_RETRIEVED As String = "N/A"
-    Private m_SortingColumn As ColumnHeader
     Private WithEvents _AsyncDownload As cAsyncProcInfoDownload
     Private _asyncDlThread As Threading.Thread
 
@@ -42,15 +40,11 @@ Public Class frmProcessInfo
     Private __lRes() As Integer
     Private cRW As cProcessMemRW
 
-    Private NEW_ITEM_COLOR As Color = Color.FromArgb(128, 255, 0)
-    Private DELETED_ITEM_COLOR As Color = Color.FromArgb(255, 64, 48)
-
     Private Const SIZE_FOR_STRING As Integer = 4
 
     Private _historyGraphNumber As Integer = 0
     Private _local As Boolean = True
     Private _notWMI As Boolean
-    Private __con As Management.ConnectionOptions
 
 
     ' Here we finished to download informations from internet
@@ -269,7 +263,6 @@ Public Class frmProcessInfo
     Private Sub refreshInfosTab()
         Try
             Dim pmc As API.VM_COUNTERS_EX = curProc.Infos.MemoryInfos
-            Dim pid As Integer = curProc.Infos.Pid
             Dim s As String = ""
             s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
             s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b File properties\b0\par"
@@ -663,7 +656,6 @@ Public Class frmProcessInfo
     ' Display file strings
     Public Sub DisplayFileStringsImage(ByRef cp As cProcess)
         Dim s As String = vbNullString
-        Dim sCtemp As String = vbNullString
         Dim x As Integer = 0
         Dim bTaille As Integer
         Dim lLen As Integer
@@ -671,8 +663,7 @@ Public Class frmProcessInfo
         Dim cArraySizeBef As Integer = 0
         Dim strCtemp As String = vbNullString
         '        Dim strBuffer As String
-        Dim curByte As Long = 0
-
+ 
         Const BUF_SIZE As Integer = 2000     ' Size of array
 
         ReDim tRes(BUF_SIZE)
@@ -1018,7 +1009,7 @@ Public Class frmProcessInfo
     End Sub
 
     ' Show threads
-    Public Sub ShowWindows(Optional ByVal allWindows As Boolean = True)
+    Public Sub ShowWindows()
 
         Dim pid(0) As Integer
         pid(0) = curProc.Infos.Pid
@@ -1252,7 +1243,7 @@ Public Class frmProcessInfo
     End Sub
 
     ' When we've finished to get all non fixed infos
-    Private Sub asyncAllNonFixedInfos_HasGotAllNonFixedInfos(ByVal Success As Boolean, ByRef newInfos As CoreFunc.API.SYSTEM_PROCESS_INFORMATION, ByVal msg As String) Handles asyncAllNonFixedInfos.HasGotAllNonFixedInfos
+    Private Sub asyncAllNonFixedInfos_HasGotAllNonFixedInfos(ByVal Success As Boolean, ByRef newInfos As API.SYSTEM_PROCESS_INFORMATION, ByVal msg As String) Handles asyncAllNonFixedInfos.HasGotAllNonFixedInfos
         If Success Then
             curProc.Merge(newInfos)
         Else
@@ -1387,7 +1378,7 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub cmdInspectExe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdInspectExe.Click
-        Dim _depForm As New DependenciesViewer.frmMain
+        Dim _depForm As New frmDepViewerMain
         With _depForm
             .OpenReferences(Me.curProc.Infos.Path)
             .HideOpenMenu()
@@ -1624,7 +1615,7 @@ Public Class frmProcessInfo
     Private Sub MenuItemModuleDependencies_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemModuleDependencies.Click
         If Me.lvModules.SelectedItems.Count > 0 Then
             Dim s As String = Me.lvModules.GetSelectedItem.Infos.Path
-            Dim _depForm As New DependenciesViewer.frmMain
+            Dim _depForm As New frmDepViewerMain
             With _depForm
                 .OpenReferences(s)
                 .HideOpenMenu()
@@ -2014,7 +2005,7 @@ Public Class frmProcessInfo
         ' Select item in associated listview
         With Me.lvLog.GetSelectedItem.Infos
             Select Case .TypeMask
-                Case LogItemType.HandleItem
+                Case asyncCallbackLogEnumerate.LogItemType.HandleItem
                     For Each it2 As ListViewItem In Me.lvHandles.Items
                         Dim tmp As cHandle = Me.lvHandles.GetItemByKey(it2.Name)
                         If tmp IsNot Nothing AndAlso tmp.Infos.Handle.ToString = .DefKey Then
@@ -2024,7 +2015,7 @@ Public Class frmProcessInfo
                             Exit For
                         End If
                     Next
-                Case LogItemType.MemoryItem
+                Case asyncCallbackLogEnumerate.LogItemType.MemoryItem
                     For Each it2 As ListViewItem In Me.lvProcMem.Items
                         Dim tmp As cMemRegion = Me.lvProcMem.GetItemByKey(it2.Name)
                         If tmp IsNot Nothing AndAlso tmp.Infos.BaseAddress.ToString = .DefKey Then
@@ -2034,7 +2025,7 @@ Public Class frmProcessInfo
                             Exit For
                         End If
                     Next
-                Case LogItemType.ModuleItem
+                Case asyncCallbackLogEnumerate.LogItemType.ModuleItem
                     For Each it2 As ListViewItem In Me.lvModules.Items
                         Dim tmp As cModule = Me.lvModules.GetItemByKey(it2.Name)
                         If tmp IsNot Nothing AndAlso tmp.Infos.BaseAddress.ToString = .DefKey Then
@@ -2044,9 +2035,9 @@ Public Class frmProcessInfo
                             Exit For
                         End If
                     Next
-                Case LogItemType.NetworkItem
+                Case asyncCallbackLogEnumerate.LogItemType.NetworkItem
                     ' TODO
-                Case LogItemType.ServiceItem
+                Case asyncCallbackLogEnumerate.LogItemType.ServiceItem
                     For Each it2 As ListViewItem In Me.lvProcServices.Items
                         Dim tmp As cService = Me.lvProcServices.GetItemByKey(it2.Name)
                         If tmp IsNot Nothing AndAlso tmp.Infos.Name = .DefKey Then
@@ -2056,7 +2047,7 @@ Public Class frmProcessInfo
                             Exit For
                         End If
                     Next
-                Case LogItemType.ThreadItem
+                Case asyncCallbackLogEnumerate.LogItemType.ThreadItem
                     For Each it2 As ListViewItem In Me.lvThreads.Items
                         Dim tmp As cThread = Me.lvThreads.GetItemByKey(it2.Name)
                         If tmp IsNot Nothing AndAlso tmp.Infos.Id.ToString = .DefKey Then
@@ -2066,7 +2057,7 @@ Public Class frmProcessInfo
                             Exit For
                         End If
                     Next
-                Case LogItemType.WindowItem
+                Case asyncCallbackLogEnumerate.LogItemType.WindowItem
                     For Each it2 As ListViewItem In Me.lvWindows.Items
                         Dim tmp As cWindow = Me.lvWindows.GetItemByKey(it2.Name)
                         If tmp IsNot Nothing AndAlso tmp.Infos.Handle.ToString = .DefKey Then
@@ -2101,7 +2092,7 @@ Public Class frmProcessInfo
                     End If
                 End If
             ElseIf _tmp.Infos.Type = "Key" Then
-                Call mdlMisc.NavigateToRegedit(_tmp.Infos.Name)
+                Call Misc.NavigateToRegedit(_tmp.Infos.Name)
             End If
         End If
     End Sub

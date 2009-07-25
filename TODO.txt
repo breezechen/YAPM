@@ -1,5 +1,6 @@
 TODO LIST
 
+- ajout des features manquantes dans dep viewer (google search...)
 - ajout des 6 nouvelles infos process dans formDetail (sauf certaines qui auront un truc spécifique comme token, job)
 - priorité des highlightings à prendre en compte
 - ajouter bouton Default dans ChooseColumns
@@ -112,3 +113,5 @@ Temp Change log :
 - nouvelles informations sur les processus
 - ajout support highlighting
 - refactoring (merge Providers & main project pour la prise en compte des settings dans les listviews)
+- merge corefunc et dependencyViewer dans main project
+- removed dead code

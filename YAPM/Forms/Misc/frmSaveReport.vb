@@ -129,7 +129,7 @@ Public Class frmSaveReport
                             Try
                                 ' Try to access to the service (avoid to write lines if service
                                 ' is deleted)
-                                Dim suseless As String = cm.Infos.LoadOrderGroup
+                                Dim suseless As String = cm.Infos.LoadOrderGroup    'TOCHANGE
 
                                 c &= "Name" & vbTab & vbTab
                                 c &= cm.Infos.Name & vbNewLine
@@ -230,7 +230,7 @@ Public Class frmSaveReport
                             Try
                                 ' Try to access to the window (avoid to write lines if window
                                 ' is deleted)
-                                Dim suseless As String = cm.Caption
+                                Dim suseless As String = cm.Caption 'TOCHANGE
 
                                 c &= "ParentProcess" & vbTab & vbTab & CStr(cm.Infos.ProcessId) & " -- " & cm.Infos.ProcessName & vbNewLine
                                 c &= "ThreadId" & vbTab & vbTab & CStr(cm.Infos.ProcessId) & vbNewLine
@@ -408,7 +408,7 @@ Public Class frmSaveReport
                             Try
                                 ' Try to access to the thread (avoid to write lines if thread
                                 ' is deleted)
-                                Dim suseless As String = cm.PriorityMod.ToString
+                                Dim suseless As String = cm.PriorityMod.ToString    'TOCHANGE
 
                                 _html.AppendTitleLine("ProcessId" & CStr(cm.Infos.Id) & "   --   thread : " & it.Text)
                                 Dim _lin(1) As String
@@ -905,7 +905,7 @@ Public Class frmSaveReport
                             Try
                                 ' Try to access to the service (avoid to write lines if service
                                 ' is deleted)
-                                Dim suseless As String = cm.Infos.LoadOrderGroup
+                                Dim suseless As String = cm.Infos.LoadOrderGroup    'TOCHANGE
 
                                 c &= "Name" & vbTab & vbTab
                                 c &= cm.Infos.Name & vbNewLine

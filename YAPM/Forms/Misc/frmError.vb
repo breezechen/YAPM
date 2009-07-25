@@ -64,7 +64,7 @@ Public Class frmError
             s &= vbNewLine & vbTab & "MemoryHexEditor version : CANNOT GET VERSION"
         End Try
         Try
-            s &= vbNewLine & vbTab & "CoreFunc version : " & System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\CoreFunc.dll").FileVersion
+            s &= vbNewLine & vbTab & "CoreFunc version : " & System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\dll").FileVersion
         Catch ex As Exception
             s &= vbNewLine & vbTab & "CoreFunc version : CANNOT GET VERSION"
         End Try

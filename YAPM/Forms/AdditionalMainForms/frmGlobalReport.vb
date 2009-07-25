@@ -23,10 +23,6 @@ Option Strict On
 
 Public Class frmGlobalReport
 
-    Private Sub UpdateProgress(ByVal x As Integer)
-        Me.pgb.Value = x
-    End Sub
-
     Private Sub cmdCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdCancel.Click
         Me.Close()
     End Sub

@@ -28,24 +28,16 @@ Public Class frmMain
 
     Private WithEvents creg As cRegMonitor
     Private _ribbonStyle As Boolean = True
-    Private curProc As cProcess
     Private _local As Boolean = True
     Private _notWMI As Boolean = True
-    Private _connType As New cConnection.TypeOfConnection
 
     ' ========================================
     ' Private attributes
     ' ========================================
-    Private m_SortingColumn As ColumnHeader
-    Private bProcessHover As Boolean = True
-    Private bServiceHover As Boolean = False
-    Private bEnableJobs As Boolean = True
-    Private _stopOnlineRetrieving As Boolean = False
     Private handlesToRefresh() As Integer
     Private threadsToRefresh() As Integer
     Private modulesToRefresh() As Integer
     Private windowsToRefresh() As Integer
-    Private isAdmin As Boolean = False
     Private cSelFile As cFile
     Public _shutdownConnection As New cShutdownConnection(Me, Program.Connection)
 
@@ -460,8 +452,8 @@ Public Class frmMain
         Next
 
         Dim i As Integer = CInt((Me.Height - 250) / 2)
-        Dim MepanelInfosHeight As Integer = CInt(IIf(i < 340, i, 340))
-        Dim MepanelInfonWidth As Integer = Me.panelMain.Width
+        'Dim MepanelInfosHeight As Integer = CInt(IIf(i < 340, i, 340))
+        'Dim MepanelInfonWidth As Integer = Me.panelMain.Width
 
         ' File resizement
         Me.txtFile.Width = Me.Width - 260
@@ -717,7 +709,7 @@ Public Class frmMain
                 ' First display of process tab
                 Call refreshProcessList()
             End If
-        End if
+        End If
     End Sub
 
     Public Sub Ribbon_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Ribbon.MouseMove
@@ -951,11 +943,11 @@ Public Class frmMain
         Call DisplayFileStrings(Me.lstFileString, Me.txtFile.Text)
     End Sub
 
-    Private Function RemoveAttribute(ByVal file As String, ByVal attributesToRemove As IO.FileAttributes) As IO.FileAttributes
+    Private Function RemoveAttribute(ByVal attributesToRemove As IO.FileAttributes) As IO.FileAttributes
         Dim attributes As IO.FileAttributes = cSelFile.Attributes()
         Return attributes And Not (attributesToRemove)
     End Function
-    Private Function AddAttribute(ByVal file As String, ByVal attributesToAdd As IO.FileAttributes) As IO.FileAttributes
+    Private Function AddAttribute(ByVal attributesToAdd As IO.FileAttributes) As IO.FileAttributes
         Dim attributes As IO.FileAttributes = cSelFile.Attributes
         Return attributes Or attributesToAdd
     End Function
@@ -1241,7 +1233,7 @@ Public Class frmMain
                 ElseIf Me.chkMonitorLeftAuto.Checked Then
                     ' Then right fixed
                     .ViewMax = findViewIntegerFromDate(Me.dtMonitorR.Value, v, it)
-                    .ViewMin = findViewLast(v, .ViewMax)
+                    .ViewMin = findViewLast(.ViewMax)
                 Else
                     ' Then both fixed
                     .ViewMax = findViewIntegerFromDate(Me.dtMonitorR.Value, v, it)
@@ -1284,7 +1276,7 @@ Public Class frmMain
     End Function
 
     ' Return element of array with a distance of txtMAX.value to the end of the array
-    Private Function findViewLast(ByVal v() As Graph.ValueItem, ByVal max As Integer) As Integer
+    Private Function findViewLast(ByVal max As Integer) As Integer
         Dim lMax As Integer = CInt(Val(Me.txtMonitorNumber.Text))
         Return Math.Max(0, max - lMax)
     End Function
@@ -1345,7 +1337,7 @@ Public Class frmMain
     End Sub
 
     ' Show windows of selected processes (windowsToRefresh)
-    Public Sub ShowWindows(Optional ByVal showTab As Boolean = True, Optional ByVal allWindows As Boolean = False)
+    Public Sub ShowWindows(Optional ByVal showTab As Boolean = True)
 
         Me.lvWindows.ProcessId = Me.windowsToRefresh
         Me.lvWindows.ShowAllPid = False
@@ -2094,7 +2086,7 @@ Public Class frmMain
     End Sub
 
     Private Sub lvTask_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvTask.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvTask)
+        Call Misc.CopyLvToClip(e, Me.lvTask)
     End Sub
 
     Private Sub lvServices_HasChangedColumns() Handles lvServices.HasChangedColumns
@@ -2118,7 +2110,7 @@ Public Class frmMain
     End Sub
 
     Private Sub lvServices_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvServices)
+        Call Misc.CopyLvToClip(e, Me.lvServices)
     End Sub
 
     Private Sub lvServices_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseUp
@@ -2171,7 +2163,6 @@ Public Class frmMain
                 Dim diagnosticsMessageFile As String = cS.Infos.DiagnosticMessageFile
                 Dim group As String = cS.Infos.LoadOrderGroup
                 Dim objectName As String = cS.Infos.ObjectName
-                Dim tag As String = vbNullString
                 Dim sp As String = cS.GetInformation("ImagePath")
 
                 ' OK it's not the best way to retrive the description...
@@ -2246,7 +2237,7 @@ Public Class frmMain
     End Sub
 
     Private Sub lvSearchResults_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvSearchResults.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvSearchResults)
+        Call Misc.CopyLvToClip(e, Me.lvSearchResults)
     End Sub
 
     Private Sub lvProcess_GotAnError(ByVal origin As String, ByVal msg As String) Handles lvProcess.GotAnError
@@ -2258,7 +2249,7 @@ Public Class frmMain
         Pref.SaveListViewColumns(Me.lvProcess, "COLmain_process")
     End Sub
 
-    Private Sub lvProcess_ItemAdded(ByRef item As CoreFunc.cProcess) Handles lvProcess.ItemAdded
+    Private Sub lvProcess_ItemAdded(ByRef item As cProcess) Handles lvProcess.ItemAdded
         If item IsNot Nothing Then _
         Program.Log.AppendLine("Process created : " & item.Infos.Name & " (" & item.Infos.Pid & ")")
         If Me.MenuItemTaskSelProc.Enabled = False Then
@@ -2266,7 +2257,7 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub lvProcess_ItemDeleted(ByRef item As CoreFunc.cProcess) Handles lvProcess.ItemDeleted
+    Private Sub lvProcess_ItemDeleted(ByRef item As cProcess) Handles lvProcess.ItemDeleted
         If item IsNot Nothing Then _
         Program.Log.AppendLine("Process deleted : " & item.Infos.Name & " (" & item.Infos.Pid & ")")
     End Sub
@@ -2293,7 +2284,7 @@ Public Class frmMain
     End Sub
 
     Private Sub lvProcess_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvProcess)
+        Call Misc.CopyLvToClip(e, Me.lvProcess)
     End Sub
 
     Private Sub lvProcess_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseUp
@@ -2328,7 +2319,7 @@ Public Class frmMain
     End Sub
 
     Private Sub lvModules_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvModules.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvModules)
+        Call Misc.CopyLvToClip(e, Me.lvModules)
     End Sub
 
     Private Sub lvModules_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvModules.MouseUp
@@ -2402,7 +2393,7 @@ Public Class frmMain
     End Sub
 
     Private Sub lstFileString_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lstFileString.MouseDown
-        Call mdlMisc.CopyLstToClip(e, Me.lstFileString)
+        Call Misc.CopyLstToClip(e, Me.lstFileString)
     End Sub
 
     Private Sub lblTaskCountResult_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lblTaskCountResult.MouseDown
@@ -2449,7 +2440,7 @@ Public Class frmMain
     End Sub
 
     Private Sub lvWindows_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvWindows.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvWindows)
+        Call Misc.CopyLvToClip(e, Me.lvWindows)
     End Sub
 
     Private Sub lvWindows_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvWindows.MouseUp
@@ -2508,7 +2499,7 @@ Public Class frmMain
     End Sub
 
     Private Sub lvThreads_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvThreads.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvThreads)
+        Call Misc.CopyLvToClip(e, Me.lvThreads)
     End Sub
 
     Private Sub lvThreads_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvThreads.MouseUp
@@ -2607,9 +2598,9 @@ Public Class frmMain
         End If
         Try
             If Me.chkFileArchive.Checked Then
-                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.Archive)
+                cSelFile.Attributes = AddAttribute(IO.FileAttributes.Archive)
             Else
-                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.Archive)
+                cSelFile.Attributes = RemoveAttribute(IO.FileAttributes.Archive)
             End If
         Catch ex As Exception
             accessed = True
@@ -2625,9 +2616,9 @@ Public Class frmMain
         End If
         Try
             If Me.chkFileHidden.Checked Then
-                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.Hidden)
+                cSelFile.Attributes = AddAttribute(IO.FileAttributes.Hidden)
             Else
-                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.Hidden)
+                cSelFile.Attributes = RemoveAttribute(IO.FileAttributes.Hidden)
             End If
         Catch ex As Exception
             accessed = True
@@ -2643,9 +2634,9 @@ Public Class frmMain
         End If
         Try
             If Me.chkFileReadOnly.Checked Then
-                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.ReadOnly)
+                cSelFile.Attributes = AddAttribute(IO.FileAttributes.ReadOnly)
             Else
-                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.ReadOnly)
+                cSelFile.Attributes = RemoveAttribute(IO.FileAttributes.ReadOnly)
             End If
         Catch ex As Exception
             accessed = True
@@ -2661,9 +2652,9 @@ Public Class frmMain
         End If
         Try
             If Me.chkFileContentNotIndexed.Checked Then
-                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.NotContentIndexed)
+                cSelFile.Attributes = AddAttribute(IO.FileAttributes.NotContentIndexed)
             Else
-                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.NotContentIndexed)
+                cSelFile.Attributes = RemoveAttribute(IO.FileAttributes.NotContentIndexed)
             End If
         Catch ex As Exception
             accessed = True
@@ -2679,9 +2670,9 @@ Public Class frmMain
         End If
         Try
             If Me.chkFileNormal.Checked Then
-                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.Normal)
+                cSelFile.Attributes = AddAttribute(IO.FileAttributes.Normal)
             Else
-                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.Normal)
+                cSelFile.Attributes = RemoveAttribute(IO.FileAttributes.Normal)
             End If
         Catch ex As Exception
             accessed = True
@@ -2697,9 +2688,9 @@ Public Class frmMain
         End If
         Try
             If Me.chkFileSystem.Checked Then
-                cSelFile.Attributes = AddAttribute(Me.txtFile.Text, IO.FileAttributes.System)
+                cSelFile.Attributes = AddAttribute(IO.FileAttributes.System)
             Else
-                cSelFile.Attributes = RemoveAttribute(Me.txtFile.Text, IO.FileAttributes.System)
+                cSelFile.Attributes = RemoveAttribute(IO.FileAttributes.System)
             End If
         Catch ex As Exception
             accessed = True
@@ -2849,7 +2840,7 @@ Public Class frmMain
     End Sub
 
     Private Sub lvHandles_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHandles.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lvHandles)
+        Call Misc.CopyLvToClip(e, Me.lvHandles)
         'Me.lvHandles.Clear()
         'For x As Integer = 0 To 9996 Step 4
         '    Dim h As Integer = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_LIMITED_INFORMATION, 0, x) ' Or API.PROCESS_RIGHTS.PROCESS_VM_READ, 0, x)
@@ -3022,7 +3013,7 @@ Public Class frmMain
     '    Me.Close()
     'End Sub
 
-    'Private Sub emStateBasedActions_LogRequested(ByRef process As CoreFunc.cLocalProcess) Handles emStateBasedActions.LogRequested
+    'Private Sub emStateBasedActions_LogRequested(ByRef process As cLocalProcess) Handles emStateBasedActions.LogRequested
     '    'Dim frm As New frmProcessInfo
     '    'frm.SetProcess(process)
     '    'frm.WindowState = FormWindowState.Minimized
@@ -3032,7 +3023,7 @@ Public Class frmMain
     '    'TODO_  (sba)
     'End Sub
 
-    'Private Sub emStateBasedActions_NotifyAction(ByRef action As CoreFunc.cBasedStateActionState, ByRef process As CoreFunc.cLocalProcess) Handles emStateBasedActions.NotifyAction
+    'Private Sub emStateBasedActions_NotifyAction(ByRef action As cBasedStateActionState, ByRef process As cLocalProcess) Handles emStateBasedActions.NotifyAction
     '    Dim proc As String = process.Name & " (" & process.Pid.ToString & ")"
     '    If action.Notify Then
     '        Me.Tray.ShowBalloonTip(2000, "State based action was raised", "Rule : " & action.RuleText & " , process : " & proc, ToolTipIcon.Info)
@@ -3365,13 +3356,13 @@ Public Class frmMain
     End Sub
 
     Private Sub butShowDepViewer_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butShowDepViewer.Click
-        Dim _depFrm As New DependenciesViewer.frmMain
+        Dim _depFrm As New frmDepViewerMain
         _depFrm.Show()
     End Sub
 
     Private Sub butViewModuleDep_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butModuleViewModuleDep.Click
         For Each it As cModule In Me.lvModules.GetSelectedItems
-            Dim _depForm As New DependenciesViewer.frmMain
+            Dim _depForm As New frmDepViewerMain
             With _depForm
                 .OpenReferences(it.Infos.Path)
                 .HideOpenMenu()
@@ -3746,7 +3737,7 @@ Public Class frmMain
 
     Private Sub MenuItemServDepe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServDepe.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            Dim frm As New DependenciesViewer.frmMain
+            Dim frm As New frmDepViewerMain
             frm.HideOpenMenu()
             frm.OpenReferences(it.Infos.ImagePath)
             frm.Show()
@@ -4034,7 +4025,7 @@ Public Class frmMain
     Private Sub MenuItemModuleDependencies_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemModuleDependencies.Click
         If Me.lvModules.SelectedItems.Count > 0 Then
             Dim s As String = Me.lvModules.GetSelectedItem.Infos.Path
-            Dim _depForm As New DependenciesViewer.frmMain
+            Dim _depForm As New frmDepViewerMain
             With _depForm
                 .OpenReferences(s)
                 .HideOpenMenu()
@@ -4377,7 +4368,7 @@ Public Class frmMain
 
     Private Sub MenuItemProcSDep_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcSDep.Click
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
-            Dim frm As New DependenciesViewer.frmMain
+            Dim frm As New frmDepViewerMain
             frm.HideOpenMenu()
             frm.OpenReferences(it.Infos.Path)
             frm.Show()
@@ -4564,7 +4555,7 @@ Public Class frmMain
                     End If
                 End If
             ElseIf _tmp.Infos.Type = "Key" Then
-                Call mdlMisc.NavigateToRegedit(_tmp.Infos.Name)
+                Call Misc.NavigateToRegedit(_tmp.Infos.Name)
             End If
         End If
     End Sub

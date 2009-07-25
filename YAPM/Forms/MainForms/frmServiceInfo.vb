@@ -27,14 +27,12 @@ Public Class frmServiceInfo
 
     Private WithEvents curServ As cService
     Private Const NO_INFO_RETRIEVED As String = "N/A"
-    Private m_SortingColumn As ColumnHeader
     Private WithEvents _AsyncDownload As cAsyncProcInfoDownload
     Private _asyncDlThread As Threading.Thread
 
     Private WithEvents theConnection As cConnection
     Private _local As Boolean = True
     Private _notWMI As Boolean
-    Private __con As Management.ConnectionOptions
 
 
     ' Refresh current tab
@@ -106,7 +104,6 @@ Public Class frmServiceInfo
                 Dim diagnosticsMessageFile As String = curServ.Infos.DiagnosticMessageFile
                 Dim group As String = curServ.Infos.LoadOrderGroup
                 Dim objectName As String = curServ.Infos.ObjectName
-                Dim tag As String = vbNullString
                 Dim sp As String = curServ.GetInformation("ImagePath")
 
                 ' OK it's not the best way to retrive the description...
@@ -516,7 +513,7 @@ Public Class frmServiceInfo
     End Sub
 
     Private Sub cmdInspectExe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdInspectExe.Click
-        Dim _depForm As New DependenciesViewer.frmMain
+        Dim _depForm As New frmDepViewerMain
         With _depForm
             .OpenReferences(Me.curServ.Infos.ImagePath)
             .HideOpenMenu()

@@ -28,8 +28,6 @@ namespace SecurePasswordTextBox
         private bool _displayChar = false;
         SecureString _secureEntry = new SecureString();
 
-        private TextBox _innerTextBox = new TextBox();
-
         #endregion
 
         #region Constructor 

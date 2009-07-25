@@ -25,15 +25,11 @@ Imports System.Runtime.InteropServices
 
 Public Class frmFileRelease
 
-    <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
-    Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
-    End Function
-
     Public file As String
 
     Private Sub cmdCheck_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdCheck.Click
         ' Check if the file is locked (search file as handle/process/module)
-        Call checkfile(file)
+        Call checkFile(file)
     End Sub
 
     Private Sub checkFile(ByVal sToSearch As String)
@@ -53,7 +49,6 @@ Public Class frmFileRelease
 
         Dim sComp As String
         Dim i As Integer = 0
-        Dim id As Integer = 0
 
         cProcess.SemCurrentProcesses.WaitOne()
         For Each cProc As cProcess In cProcess.CurrentProcesses.Values
@@ -146,11 +141,11 @@ Public Class frmFileRelease
         SetToolTip(Me.cmdCheck, "Check if a handle to the file in opened by a process")
         SetToolTip(Me.cmdFix, "Close the selected handles")
 
-        SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
+        API.SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
     End Sub
 
     Private Sub lv_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lv.MouseDown
-        Call mdlMisc.CopyLvToClip(e, Me.lv)
+        Call Misc.CopyLvToClip(e, Me.lv)
     End Sub
 
 End Class
