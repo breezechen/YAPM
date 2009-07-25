@@ -1,5 +1,6 @@
 TODO LIST
 
+- copier plus simple sur les listes qui contiennet les strings (+ctrl+A)
 - form hidden -> dbl click dans le tray -> demander refresh de la form (bug en bas)
 - résoudre pb des nouvelles infos process pour le réseau (idem que Affinity)
 - priorité des highlightings à prendre en compte
