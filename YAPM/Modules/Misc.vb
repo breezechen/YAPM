@@ -754,4 +754,84 @@ Module Misc
         Call _frmMain.Ribbon_MouseMove(Nothing, Nothing)
     End Sub
 
+    ' Parse port text files
+    Public Function ParsePortTextFiles(ByVal tcpFile As String, ByVal udpFile As String, _
+                                       ByRef dicoTcp As Dictionary(Of Integer, String), _
+                                       ByRef dicoUdp As Dictionary(Of Integer, String)) As Boolean
+
+        Dim sTcp() As String = _
+            System.IO.File.ReadAllLines(tcpFile)
+        Dim sUdp() As String = _
+            System.IO.File.ReadAllLines(udpFile)
+
+        ' TCP
+        Try
+            For Each s As String In sTcp
+
+                Dim p As Integer = s.IndexOf(vbTab)
+                Dim ports As String = s.Substring(0, p)
+                Dim desc As String = s.Substring(p + 1, s.Length - p - 1)
+
+                Dim i As Integer = ports.IndexOf("-")
+                If i > 0 Then
+                    ' Then these are multiple ports
+                    Dim s1 As Integer = Integer.Parse(ports.Substring(0, i))
+                    Dim s2 As Integer = Integer.Parse(ports.Substring(i + 1, ports.Length - i - 1))
+                    For u As Integer = s1 To s2
+                        If dicoTcp.ContainsKey(u) = False Then
+                            dicoTcp.Add(u, desc)
+                        Else
+                            dicoTcp.Item(u) = dicoTcp.Item(u) & " OR " & desc
+                        End If
+                    Next
+                Else
+                    Dim port As Integer = Integer.Parse(ports)
+                    If dicoTcp.ContainsKey(port) = False Then
+                        dicoTcp.Add(port, desc)
+                    Else
+                        dicoTcp.Item(port) = dicoTcp.Item(port) & " OR " & desc
+                    End If
+                End If
+            Next
+
+
+            ' UDP
+
+            For Each s As String In sUdp
+
+                Dim p As Integer = s.IndexOf(vbTab)
+                Dim ports As String = s.Substring(0, p)
+                Dim desc As String = s.Substring(p + 1, s.Length - p - 1)
+
+                Dim i As Integer = ports.IndexOf("-")
+                If i > 0 Then
+                    ' Then these are multiple ports
+                    Dim s1 As Integer = Integer.Parse(ports.Substring(0, i))
+                    Dim s2 As Integer = Integer.Parse(ports.Substring(i + 1, ports.Length - i - 1))
+                    For u As Integer = s1 To s2
+                        If dicoUdp.ContainsKey(u) = False Then
+                            dicoUdp.Add(u, desc)
+                        Else
+                            dicoUdp.Item(u) = dicoUdp.Item(u) & " OR " & desc
+                        End If
+                    Next
+                Else
+                    Dim port As Integer = Integer.Parse(ports)
+                    If dicoUdp.ContainsKey(port) = False Then
+                        dicoUdp.Add(port, desc)
+                    Else
+                        dicoUdp.Item(port) = dicoUdp.Item(port) & " OR " & desc
+                    End If
+                End If
+            Next
+
+            Return True
+
+        Catch ex As Exception
+            Return False
+        End Try
+
+
+    End Function
+
 End Module

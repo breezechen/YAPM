@@ -1,5 +1,6 @@
 TODO LIST
 
+- si network connexions obtenues AVANT process, alors le processname n'est pas trouvé (refaire un check après)
 - copier plus simple sur les listes qui contiennet les strings (+ctrl+A)
 - form hidden -> dbl click dans le tray -> demander refresh de la form (bug en bas)
 - résoudre pb des nouvelles infos process pour le réseau (idem que Affinity)
@@ -43,7 +44,6 @@ titre quand le process/service n'existe plus
 - blocage de l'application quand certains processus bouffe du CPU (cf compilo wingreta) -> est-ce un appel bloquant (genre sendmessage) lors du refresh des process/tasks...?
 - dependencies -> PE.filename doit changer SystemRoot en X:\Wind....
 - refactoring (objet, virer int et mettre intptr, declarations pinvoke, gestion privileges meilleure...etc....)
-- ajouter une colonne 'nom port' pour les ports des connexions (+ récupérer BDD avec la liste des ports communs)
 
 
 ---- GENERAL
@@ -119,3 +119,4 @@ Temp Change log :
 - ajout option "Show user group/domain"
 - option Start hidden plus propre
 - possibilité de choisir le port pour la communication server
+- ajout de la colonne 'description port' pour les connexions

@@ -121,12 +121,14 @@ Imports System.Net
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties(Optional ByVal includeFirstProp As Boolean = False) As String()
-        Dim s(3) As String
+        Dim s(5) As String
 
         s(0) = "Remote"
         s(1) = "Protocol"
         s(2) = "ProcessId"
         s(3) = "State"
+        s(4) = "LocalPortDescription"
+        s(5) = "RemotePortDescription"
 
         If includeFirstProp Then
             Dim s2(s.Length) As String

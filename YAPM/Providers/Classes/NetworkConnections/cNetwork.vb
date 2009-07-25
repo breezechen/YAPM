@@ -26,6 +26,9 @@ Public Class cNetwork
     Inherits cGeneralObject
     Implements IDisposable
 
+    Private Shared _dicoUdp As New Dictionary(Of Integer, String)
+    Private Shared _dicoTcp As New Dictionary(Of Integer, String)
+
     Private Const NO_INFO_RETRIEVED As String = "N/A"
 
     Private nullAddress As New IPAddress(0)     ' For address comparison
@@ -110,8 +113,29 @@ Public Class cNetwork
 
 #Region "Local shared method"
 
+    ' Close a TCP connection
     Public Shared Function LocalCloseTCP(ByVal local As IPEndPoint, ByVal remote As IPEndPoint) As Integer
         Return asyncCallbackNetworkCloseConnection.CloseTcpConnection(local, remote)
+    End Function
+
+    ' Retrieve description of a port
+    Public Shared Function GetPortDescription(ByVal port As Integer, ByVal protocol As API.NetworkProtocol) As String
+        If port = 0 Then
+            Return ""
+        End If
+        If protocol = API.NetworkProtocol.Tcp Then
+            If _dicoTcp.ContainsKey(port) Then
+                Return _dicoTcp.Item(port)
+            Else
+                Return NO_INFO_RETRIEVED
+            End If
+        Else
+            If _dicoUdp.ContainsKey(port) Then
+                Return _dicoUdp.Item(port)
+            Else
+                Return NO_INFO_RETRIEVED
+            End If
+        End If
     End Function
 
 #End Region
@@ -148,6 +172,13 @@ Public Class cNetwork
     ' Merge current infos and new infos
     Public Sub Merge(ByRef Thr As API.LightConnection)
         _networkInfos.Merge(Thr)
+    End Sub
+
+    ' Parse port text file
+    Public Shared Sub ParsePortTextFile()
+        Call ParsePortTextFiles(My.Application.Info.DirectoryPath & "\tcp.txt", _
+                                My.Application.Info.DirectoryPath & "\udp.txt", _
+                                _dicoTcp, _dicoUdp)
     End Sub
 
 #Region "Get information overriden methods"
@@ -189,6 +220,10 @@ Public Class cNetwork
                 If Me.Infos.State > 0 Then
                     res = Me.Infos.State.ToString
                 End If
+            Case "LocalPortDescription"
+                res = GetPortDescription(Me.Infos.Local.Port, Me.Infos.Protocol)
+            Case "RemotePortDescription"
+                res = GetPortDescription(Me.Infos.Local.Port, Me.Infos.Protocol)
         End Select
 
         Return res

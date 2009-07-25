@@ -202,6 +202,10 @@ Public Module Program
 
 
 
+        ' ======= Parse port files
+        Call cNetwork.ParsePortTextFile()
+
+
         ' ======= Instanciate all classes
 
         ' Common classes
