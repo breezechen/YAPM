@@ -369,11 +369,9 @@ Public Class asyncCallbackProcEnumerate
 
                 Dim user As New API.TOKEN_USER
                 user = CType(Marshal.PtrToStructure(data, GetType(API.TOKEN_USER)), API.TOKEN_USER)
-                Marshal.FreeHGlobal(data)
 
-                If GetAccountName(user.User.Sid, username, domain) = False Then
-                    domain = ""
-                End If
+                Call GetAccountName(user.User.Sid, username, domain)
+                Marshal.FreeHGlobal(data)
 
                 Return True
             Else
