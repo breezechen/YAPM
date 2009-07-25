@@ -31,6 +31,8 @@ Partial Class frmConnection
         Me.cmdConnect = New System.Windows.Forms.Button
         Me.cmdCancel = New System.Windows.Forms.Button
         Me.gpServer = New System.Windows.Forms.GroupBox
+        Me.txtPort = New System.Windows.Forms.TextBox
+        Me.Label1 = New System.Windows.Forms.Label
         Me.txtServerIP = New System.Windows.Forms.TextBox
         Me.Label17 = New System.Windows.Forms.Label
         Me.gpWMI = New System.Windows.Forms.GroupBox
@@ -119,6 +121,8 @@ Partial Class frmConnection
         'gpServer
         '
         Me.gpServer.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.gpServer.Controls.Add(Me.txtPort)
+        Me.gpServer.Controls.Add(Me.Label1)
         Me.gpServer.Controls.Add(Me.txtServerIP)
         Me.gpServer.Controls.Add(Me.Label17)
         Me.gpServer.Location = New System.Drawing.Point(13, 181)
@@ -126,6 +130,22 @@ Partial Class frmConnection
         Me.gpServer.Size = New System.Drawing.Size(314, 73)
         Me.gpServer.TabIndex = 6
         Me.gpServer.TabStop = False
+        '
+        'txtPort
+        '
+        Me.txtPort.Location = New System.Drawing.Point(43, 45)
+        Me.txtPort.Name = "txtPort"
+        Me.txtPort.Size = New System.Drawing.Size(73, 22)
+        Me.txtPort.TabIndex = 13
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(7, 48)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(28, 13)
+        Me.Label1.TabIndex = 12
+        Me.Label1.Text = "Port"
         '
         'txtServerIP
         '
@@ -310,4 +330,6 @@ Partial Class frmConnection
     Friend WithEvents cmdShutdown As System.Windows.Forms.Button
     Friend WithEvents cbShutdown As System.Windows.Forms.ComboBox
     Friend WithEvents chkForceShutdown As System.Windows.Forms.CheckBox
+    Friend WithEvents txtPort As System.Windows.Forms.TextBox
+    Friend WithEvents Label1 As System.Windows.Forms.Label
 End Class

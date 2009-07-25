@@ -27,7 +27,6 @@ Imports System.Net.Sockets
 Public Class frmServer
 
     Private WithEvents sock As New AsynchronousSocketListener
-    Private Const PORT As Integer = 8081
     Private _state As SOCK_STATE = SOCK_STATE.Disconnected
 
     Private Enum SOCK_STATE As Integer
@@ -925,7 +924,7 @@ Public Class frmServer
     Private Sub conDegCallBack(ByVal obj As Object)
         'Try
         If _state = SOCK_STATE.Disconnected Then
-            sock.Connect(PORT)
+            sock.Connect(Parameters.RemotePort)
         Else
             sock.Disconnect()
         End If

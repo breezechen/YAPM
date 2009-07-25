@@ -22,7 +22,7 @@ Option Strict On
 
 Public Class frmConnection
 
-    Private Const REMOTE_PORT As Integer = 8081
+    Private REMOTE_PORT As Integer
     Private WithEvents _formConnectionReference As cConnection
 
     Private _localDesc As String = "Local connection monitors all processes and services running on the local machine."
@@ -61,6 +61,9 @@ Public Class frmConnection
         SetToolTip(Me.optLocal, "Local connection")
         SetToolTip(Me.optServer, "Remote connection with the use of a server")
         SetToolTip(Me.optWMI, "Remote connection with the use of WMI")
+        SetToolTip(Me.txtPort, "Port to use to connect to remote machine")
+
+        Me.txtPort.Text = CStr(My.Settings.RemotePort)
 
     End Sub
 
@@ -227,7 +230,10 @@ Public Class frmConnection
     '    Me.gpShutdown.Enabled = value
     'End Sub
 
-
+    Private Sub txtPort_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtPort.TextChanged
+        My.Settings.RemotePort = CInt(Val(Me.txtPort.Text))
+        REMOTE_PORT = My.Settings.RemotePort
+    End Sub
 
 #Region "Shutdown functions"
 

@@ -1,5 +1,6 @@
 TODO LIST
 
+- form hidden -> dbl click dans le tray -> demander refresh de la form (bug en bas)
 - résoudre pb des nouvelles infos process pour le réseau (idem que Affinity)
 - priorité des highlightings à prendre en compte
 - ajout des 6 nouvelles infos process dans formDetail (sauf certaines qui auront un truc spécifique comme token, job)
@@ -8,12 +9,13 @@ TODO LIST
 - restart as admin foireux (utiliser shellexecute et non StartProcess pour esquiver boite de dialogue Windows et foirages)
 - possibilité de passer en mode elevated automatiquement (dans les options) possible ??
 - choix font
+- désactiver msgbox pour le server
+- en mode server, tous les captions sont en gris (lvProcess)
 - enlever couleur grise du lvProcess
 - ajouter "démarrer en tant que" (runas, cf lien opera)
 - option display icons in listviews
 - virer icones dans le tabs ?
 - perf counter pour PC distant (+ ajouter gestion remote pour la recherche)
-- possibilité de choisir le port que le server utilise (ajouter textbox dans frmServer + envoyer une trame-message pour envoyer le numéro de port que le server utilisera)
 - ribbon lourd (clignotement) -> alternative ?
 - path des process : \Device\VBoxMiniRdr\VBOXSVR\Release\YAPM.exe à convertir en path avec lecteur
 - auto check update option (+ ajouter tooltip sur tray icon)
@@ -115,3 +117,4 @@ Temp Change log :
 - ajout google search et file details dans dependency viewer
 - ajout option "Show user group/domain"
 - option Start hidden plus propre
+- possibilité de choisir le port pour la communication server

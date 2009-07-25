@@ -30,6 +30,7 @@ Public Module Program
 
         ' Available parameters
         Private isServerMode As Boolean = False
+        Private remPort As Integer = 8081
         Private isAutoConnectMode As Boolean = False
         Private isHidden As Boolean = False
         Public ReadOnly Property ModeServer() As Boolean
@@ -47,6 +48,11 @@ Public Module Program
                 Return isHidden
             End Get
         End Property
+        Public ReadOnly Property RemotePort() As Integer
+            Get
+                Return remPort
+            End Get
+        End Property
         Public Sub New(ByRef parameters As String())
             If parameters Is Nothing Then
                 Exit Sub
@@ -58,6 +64,10 @@ Public Module Program
                     isAutoConnectMode = True
                 ElseIf parameters(i).ToLowerInvariant = "-hide" Then
                     isHidden = True
+                ElseIf parameters(i).ToLowerInvariant = "-port" Then
+                    If parameters.Length - 1 >= i + 1 Then
+                        remPort = CInt(Val(parameters(i + 1)))
+                    End If
                 End If
             Next
         End Sub

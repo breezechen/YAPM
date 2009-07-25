@@ -922,6 +922,18 @@ Namespace My
                 Me("ShowUserGroupDomain") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("8081")>  _
+        Public Property RemotePort() As Integer
+            Get
+                Return CType(Me("RemotePort"),Integer)
+            End Get
+            Set
+                Me("RemotePort") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

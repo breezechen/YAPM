@@ -485,12 +485,13 @@ Public Class frmMain
     End Sub
 
     Private Sub Tray_MouseDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Tray.MouseDoubleClick
-        Me.Show()
         If Me.Left = Pref.LEFT_POSITION_HIDDEN Then
             Me.CenterToScreen()
         End If
+        Me.ShowInTaskbar = True
         Me.WindowState = FormWindowState.Normal
         Me.Visible = True
+        Me.Show()
     End Sub
 
     Private Sub frmMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Shown
@@ -3531,12 +3532,13 @@ Public Class frmMain
     End Sub
 
     Private Sub MenuItemMainShow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMainShow.Click
-        Me.Show()
         If Me.Left = Pref.LEFT_POSITION_HIDDEN Then
             Me.CenterToScreen()
         End If
+        Me.ShowInTaskbar = True
         Me.WindowState = FormWindowState.Normal
         Me.Visible = True
+        Me.Show()
     End Sub
 
     Private Sub MenuItemMainToTray_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMainToTray.Click
