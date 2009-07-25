@@ -40,6 +40,7 @@ Imports System.Runtime.InteropServices
     Private _IOValues As API.IO_COUNTERS
     Private _Path As String
     Private _UserName As String
+    Private _DomainName As String
     Private _Name As String
     Private _KernelTime As Long
     Private _UserTime As Long
@@ -201,6 +202,14 @@ Imports System.Runtime.InteropServices
             _UserName = value
         End Set
     End Property
+    Public Property DomainName() As String
+        Get
+            Return _DomainName
+        End Get
+        Set(ByVal value As String)
+            _DomainName = value
+        End Set
+    End Property
 
 #End Region
 
@@ -292,6 +301,7 @@ Imports System.Runtime.InteropServices
             If .HasReanalize Then
                 _Path = .Path
                 _UserName = .UserName
+                _DomainName = .DomainName
                 _CommandLine = .CommandLine
                 _hasReanalize = False
                 _fileInfo = .FileInfo

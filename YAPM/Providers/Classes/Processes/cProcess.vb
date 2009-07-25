@@ -270,13 +270,13 @@ Public Class cProcess
 
     Public ReadOnly Property IsOwnedProcess() As Boolean
         Get
-            Return (cToken.CurrentUserName = _processInfos.UserName)
+            Return (cToken.CurrentUserName = _processInfos.DomainName & "\" & _processInfos.UserName)
         End Get
     End Property
 
     Public ReadOnly Property IsSystemProcess() As Boolean
         Get
-            Return _processInfos.UserName = "NT AUTHORITY\SYSTEM"
+            Return _processInfos.DomainName & "\" & _processInfos.UserName = "NT AUTHORITY\SYSTEM"
         End Get
     End Property
 
@@ -671,7 +671,11 @@ Public Class cProcess
             Case "PID"
                 res = Me.Infos.Pid.ToString
             Case "UserName"
-                res = Me.Infos.UserName
+                If My.Settings.ShowUserGroupDomain AndAlso Len(Me.Infos.DomainName) > 0 Then
+                    res = Me.Infos.DomainName & "\" & Me.Infos.UserName
+                Else
+                    res = Me.Infos.UserName
+                End If
             Case "CpuUsage"
                 res = GetFormatedPercentage(Me.CpuUsage)
             Case "KernelCpuTime"

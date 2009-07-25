@@ -347,7 +347,7 @@ Public Class asyncCallbackProcEnumerate
         Return sResult
     End Function
 
-    Private Shared Function GetUser(ByVal _pid As Integer) As String
+    Private Shared Function GetUser(ByVal _pid As Integer, ByRef username As String, ByRef domain As String) As Boolean
         ' Local
         Dim retLen As Integer
         Dim _UserName As String
@@ -369,20 +369,22 @@ Public Class asyncCallbackProcEnumerate
 
                 Dim user As New API.TOKEN_USER
                 user = CType(Marshal.PtrToStructure(data, GetType(API.TOKEN_USER)), API.TOKEN_USER)
-
-                _UserName = GetAccountName(user.User.Sid, True)
-
                 Marshal.FreeHGlobal(data)
 
-                If _UserName = vbNullString Then
-                    _UserName = NO_INFO_RETRIEVED
+                If GetAccountName(user.User.Sid, username, domain) = False Then
+                    domain = ""
                 End If
+
+                Return True
             Else
-                _UserName = NO_INFO_RETRIEVED
+                _UserName = ""
+                Return False
             End If
-            Return _UserName
+
         Else
-            Return NO_INFO_RETRIEVED
+            domain = ""
+            username = ""
+            Return False
         End If
     End Function
 
@@ -540,12 +542,15 @@ Public Class asyncCallbackProcEnumerate
     End Function
 
     ' Get an account name from a SID
-    Private Shared Function GetAccountName(ByVal SID As Integer, ByVal IncludeDomain As Boolean) As String
+    Private Shared Function GetAccountName(ByVal SID As Integer, ByRef userName As String, ByRef domainName As String) As Boolean
         Dim name As New StringBuilder(255)
         Dim domain As New StringBuilder(255)
         Dim namelen As Integer = 255
         Dim domainlen As Integer = 255
         Dim use As API.SID_NAME_USE = API.SID_NAME_USE.SidTypeUser
+
+        domainName = ""
+        userName = ""
 
         Try
             If Not API.LookupAccountSid(Nothing, SID, name, namelen, domain, domainlen, use) Then
@@ -553,16 +558,16 @@ Public Class asyncCallbackProcEnumerate
                 domain.EnsureCapacity(domainlen)
                 API.LookupAccountSid(Nothing, SID, name, namelen, domain, domainlen, use)
             End If
+            userName = name.ToString
         Catch
             ' return string SID
-            Return New System.Security.Principal.SecurityIdentifier(New IntPtr(SID)).ToString()
+            userName = New System.Security.Principal.SecurityIdentifier(New IntPtr(SID)).ToString
+            Return False
         End Try
 
-        If IncludeDomain Then
-            Return CStr(IIf(domain.ToString <> "", domain.ToString & "\", "")) & name.ToString
-        Else
-            Return name.ToString()
-        End If
+        domainName = domain.ToString
+        Return True
+
     End Function
 
     ' Enumerate all handes opened by all processes
@@ -785,7 +790,9 @@ Public Class asyncCallbackProcEnumerate
             If dicoNewProcesses.ContainsKey(obj.ProcessId) = False Then
 
                 Dim _path As String = GetPath(obj.ProcessId)
-                Dim _user As String = GetUser(obj.ProcessId)
+                Dim _domain As String = Nothing
+                Dim _user As String = Nothing
+                Call GetUser(obj.ProcessId, _user, _domain)
                 Dim _command As String = NO_INFO_RETRIEVED
                 Dim _peb As Integer = GetPebAddress(obj.ProcessId)
                 If _peb > 0 Then
@@ -803,6 +810,7 @@ Public Class asyncCallbackProcEnumerate
                 With _procInfos
                     .Path = _path
                     .UserName = _user
+                    .DomainName = _domain
                     .CommandLine = _command
                     .FileInfo = _finfo
                     .PEBAddress = _peb

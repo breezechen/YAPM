@@ -90,6 +90,7 @@ Partial Class frmPreferences
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
         Me.colDial = New System.Windows.Forms.ColorDialog
+        Me.chkUserGroup = New System.Windows.Forms.CheckBox
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -312,6 +313,7 @@ Partial Class frmPreferences
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.chkUserGroup)
         Me.TabPage3.Controls.Add(Me.chkHideClosed)
         Me.TabPage3.Controls.Add(Me.chkHideMinimized)
         Me.TabPage3.Controls.Add(Me.chkRibbon)
@@ -687,6 +689,16 @@ Partial Class frmPreferences
         Me.colDial.AnyColor = True
         Me.colDial.FullOpen = True
         '
+        'chkUserGroup
+        '
+        Me.chkUserGroup.AutoSize = True
+        Me.chkUserGroup.Location = New System.Drawing.Point(15, 215)
+        Me.chkUserGroup.Name = "chkUserGroup"
+        Me.chkUserGroup.Size = New System.Drawing.Size(158, 17)
+        Me.chkUserGroup.TabIndex = 10
+        Me.chkUserGroup.Text = "Show user group/domain"
+        Me.chkUserGroup.UseVisualStyleBackColor = True
+        '
         'frmPreferences
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -786,4 +798,5 @@ Partial Class frmPreferences
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents cmdMoveDownProcess As System.Windows.Forms.Button
     Friend WithEvents cmdMoveUpProcess As System.Windows.Forms.Button
+    Friend WithEvents chkUserGroup As System.Windows.Forms.CheckBox
 End Class

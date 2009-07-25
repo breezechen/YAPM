@@ -59,6 +59,7 @@ Public Class frmPreferences
         My.Settings.TrayInterval = CInt(Val(Me.txtTrayInterval.Text))
         My.Settings.SystemInterval = CInt(Val(Me.txtSysInfoInterval.Text))
         My.Settings.AutomaticInternetInfos = Me.chkAutoOnline.Checked
+        My.Settings.ShowUserGroupDomain = Me.chkUserGroup.Checked
         If Me.chkUnlimitedBuf.Checked Then
             My.Settings.HistorySize = -1
         Else
@@ -167,6 +168,7 @@ Public Class frmPreferences
         SetToolTip(Me.lvHighlightingThread, "Enabled or not highlighting of items in listviews. Double click on a category to change its color.")
         SetToolTip(Me.cmdMoveDownProcess, "Decrease priority of selected category.")
         SetToolTip(Me.cmdMoveUpProcess, "Increase priority of selected category.")
+        SetToolTip(Me.chkUserGroup, "Show or not user group/domain in process listview.")
 
         ' Set control's values
         Me.txtServiceIntervall.Text = My.Settings.ServiceInterval.ToString
@@ -192,6 +194,7 @@ Public Class frmPreferences
         Me.txtSysInfoInterval.Text = My.Settings.SystemInterval.ToString
         Me.chkHideClosed.Checked = My.Settings.HideWhenClosed
         Me.chkAutoOnline.Checked = My.Settings.AutomaticInternetInfos
+        Me.chkUserGroup.Checked = My.Settings.ShowUserGroupDomain
         If My.Settings.HistorySize > 0 Then
             Me.bufferSize.Value = CInt(My.Settings.HistorySize / 1024)
             Me.chkUnlimitedBuf.Checked = False
@@ -256,6 +259,7 @@ Public Class frmPreferences
         Me.txtProcessIntervall.Text = "1000"
         Me.txtServiceIntervall.Text = "2500"
         Me.chkTopMost.Checked = False
+        Me.chkUserGroup.Checked = True
         Me.pctNewitems.BackColor = Color.FromArgb(-8323328)
         Me.pctDeletedItems.BackColor = Color.FromArgb(-49104)
         _newcolor = -8323328

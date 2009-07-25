@@ -1,13 +1,11 @@
 TODO LIST
 
-- ajout des 6 nouvelles infos process dans formDetail (sauf certaines qui auront un truc spécifique comme token, job)
 - priorité des highlightings à prendre en compte
+- ajout des 6 nouvelles infos process dans formDetail (sauf certaines qui auront un truc spécifique comme token, job)
 - ajouter bouton Default dans ChooseColumns
 - ajouter infos token (elevation, domain, user name, SID...)
 - restart as admin foireux (utiliser shellexecute et non StartProcess pour esquiver boite de dialogue Windows et foirages)
-- résoudre erreurs mscorlib en mode uac (au démarrage + path)
 - possibilité de passer en mode elevated automatiquement (dans les options) possible ??
-- option 'show user group/domain"
 - choix font
 - enlever couleur grise du lvProcess
 - ajouter "démarrer en tant que" (runas, cf lien opera)
@@ -115,3 +113,4 @@ Temp Change log :
 - merge corefunc et dependencyViewer dans main project
 - removed dead code
 - ajout google search et file details dans dependency viewer
+- ajout option "Show user group/domain"

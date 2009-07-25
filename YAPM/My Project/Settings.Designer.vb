@@ -913,13 +913,13 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property Setting() As String
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property ShowUserGroupDomain() As Boolean
             Get
-                Return CType(Me("Setting"),String)
+                Return CType(Me("ShowUserGroupDomain"),Boolean)
             End Get
             Set
-                Me("Setting") = value
+                Me("ShowUserGroupDomain") = value
             End Set
         End Property
     End Class
