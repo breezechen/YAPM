@@ -241,16 +241,16 @@ Public Class cNetwork
                 End If
             Case "LocalPortDescription"
                 If getLocalPort() <> oldLocalPort OrElse oldLocPortD Is Nothing Then
-                    res = GetPortDescription(getLocalPort, Me.Infos.Protocol)
-                Else
-                    res = oldLocPortD
+                    oldLocPortD = GetPortDescription(getLocalPort, Me.Infos.Protocol)
+                    oldLocalPort = getLocalPort()
                 End If
+                res = oldLocPortD
             Case "RemotePortDescription"
                 If getRemotePort() <> oldRemotePort OrElse oldRemPortD Is Nothing Then
-                    res = GetPortDescription(getRemotePort, Me.Infos.Protocol)
-                Else
-                    res = oldRemPortD
+                    oldRemPortD = GetPortDescription(getRemotePort, Me.Infos.Protocol)
+                    oldRemotePort = getRemotePort()
                 End If
+                res = oldRemPortD
         End Select
 
         Return res

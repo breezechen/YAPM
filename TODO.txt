@@ -1,5 +1,6 @@
 TODO LIST
 
+- show (from tray) -> mettre état vbNormal
 - si network connexions obtenues AVANT process, alors le processname n'est pas trouvé (refaire un check après)
 - copier plus simple sur les listes qui contiennet les strings (+ctrl+A)
 - form hidden -> dbl click dans le tray -> demander refresh de la form (bug en bas)
