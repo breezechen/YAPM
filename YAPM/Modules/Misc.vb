@@ -746,4 +746,12 @@ Module Misc
 
     End Function
 
+    ' Display details of a file
+    Public Sub DisplayDetailsFile(ByVal file As String)
+        _frmMain.txtFile.Text = file
+        Call _frmMain.refreshFileInfos(file)
+        _frmMain.Ribbon.ActiveTab = _frmMain.FileTab
+        Call _frmMain.Ribbon_MouseMove(Nothing, Nothing)
+    End Sub
+
 End Module

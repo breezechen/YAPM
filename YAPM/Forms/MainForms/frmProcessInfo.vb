@@ -896,7 +896,7 @@ Public Class frmProcessInfo
     Private Sub cmdShowFileDetails_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdShowFileDetails.Click
         Dim s As String = curProc.Infos.Path
         If IO.File.Exists(s) Then
-            _frmMain.DisplayDetailsFile(s)
+            DisplayDetailsFile(s)
         End If
     End Sub
 
@@ -1599,7 +1599,7 @@ Public Class frmProcessInfo
         If Me.lvModules.SelectedItems.Count > 0 Then
             Dim s As String = Me.lvModules.GetSelectedItem.Infos.Path
             If IO.File.Exists(s) Then
-                _frmMain.DisplayDetailsFile(s)
+                DisplayDetailsFile(s)
             End If
         End If
     End Sub
@@ -1761,7 +1761,7 @@ Public Class frmProcessInfo
                 s = cFile.IntelligentPathRetrieving2(s)
             End If
             If IO.File.Exists(s) Then
-                _frmMain.DisplayDetailsFile(s)
+                DisplayDetailsFile(s)
             End If
         End If
     End Sub

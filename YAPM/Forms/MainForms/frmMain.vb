@@ -60,7 +60,7 @@ Public Class frmMain
     End Sub
 
     ' Refresh File informations
-    Private Sub refreshFileInfos(ByVal file As String)
+    Public Sub refreshFileInfos(ByVal file As String)
 
         Dim s As String = ""
 
@@ -807,14 +807,6 @@ Public Class frmMain
                 DisplayDetailsFile(s)
             End If
         End If
-    End Sub
-
-    ' Display details of a file
-    Public Sub DisplayDetailsFile(ByVal file As String)
-        Me.txtFile.Text = file
-        refreshFileInfos(file)
-        Me.Ribbon.ActiveTab = Me.FileTab
-        Call Me.Ribbon_MouseMove(Nothing, Nothing)
     End Sub
 
     Private Sub butUpdate_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butUpdate.Click

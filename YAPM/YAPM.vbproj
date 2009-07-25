@@ -154,6 +154,9 @@
     <EmbeddedResource Include="Forms\AdditionalMainForms\frmBasedStateAction.resx">
       <DependentUpon>frmBasedStateAction.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AdditionalMainForms\frmDepViewerMain.resx">
+      <DependentUpon>frmDepViewerMain.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\AdditionalMainForms\frmGlobalReport.resx">
       <DependentUpon>frmGlobalReport.vb</DependentUpon>
     </EmbeddedResource>

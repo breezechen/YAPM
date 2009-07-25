@@ -388,7 +388,7 @@ Public Class frmServiceInfo
     Private Sub cmdShowFileDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdShowFileDetails.Click
         Dim s As String = Me.txtServicePath.Text
         If IO.File.Exists(s) Then
-            _frmMain.DisplayDetailsFile(s)
+            DisplayDetailsFile(s)
         End If
     End Sub
 

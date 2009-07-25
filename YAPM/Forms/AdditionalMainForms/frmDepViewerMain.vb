@@ -4,6 +4,10 @@ Imports System.Runtime.InteropServices
 
 Public Class frmDepViewerMain
 
+    <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
+    Private Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
+    End Function
+
     Dim tree As NativeDependenciesTree
 
     Public Sub OpenReferences(ByVal asmFile As String)
@@ -112,10 +116,10 @@ Public Class frmDepViewerMain
         Me.TopMost = Me.mnuAlwaysVisible.Checked
     End Sub
 
-    Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Call API.SetWindowTheme(Me.lvAllDeps.Handle, "explorer", Nothing)
-        Call API.SetWindowTheme(Me.lvExports.Handle, "explorer", Nothing)
-        Call API.SetWindowTheme(Me.lvImports.Handle, "explorer", Nothing)
+    Private Sub frmDepViewerMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Call SetWindowTheme(Me.lvAllDeps.Handle, "explorer", Nothing)
+        Call SetWindowTheme(Me.lvExports.Handle, "explorer", Nothing)
+        Call SetWindowTheme(Me.lvImports.Handle, "explorer", Nothing)
     End Sub
 
     Public Sub HideOpenMenu()
@@ -165,7 +169,7 @@ Public Class frmDepViewerMain
         End Try
     End Sub
 
-    Private Sub MenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem3.Click
+    Private Sub MenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemFileProp.Click
         Try
             For Each it As ListViewItem In Me.lvAllDeps.SelectedItems
                 If IO.File.Exists(it.SubItems(10).Text) Then
@@ -177,7 +181,7 @@ Public Class frmDepViewerMain
         End Try
     End Sub
 
-    Private Sub MenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem4.Click
+    Private Sub MenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemOpenDir.Click
         Try
             For Each it As ListViewItem In Me.lvAllDeps.SelectedItems
                 If IO.File.Exists(it.SubItems(10).Text) Then
@@ -213,17 +217,69 @@ Public Class frmDepViewerMain
         If e.Button = Windows.Forms.MouseButtons.Right Then
             Try
                 If Me.lvAllDeps.SelectedItems.Count > 0 Then
-                    Me.MenuItem3.Enabled = IO.File.Exists(Me.lvAllDeps.SelectedItems(0).SubItems(10).Text)
-                    Me.MenuItem4.Enabled = Me.MenuItem1.Enabled
+                    Me.MenuItemFileProp.Enabled = IO.File.Exists(Me.lvAllDeps.SelectedItems(0).SubItems(10).Text)
+                    Me.MenuItemOpenDir.Enabled = Me.MenuItem1.Enabled
                 Else
-                    Me.MenuItem3.Enabled = False
-                    Me.MenuItem4.Enabled = False
+                    Me.MenuItemFileProp.Enabled = False
+                    Me.MenuItemOpenDir.Enabled = False
                 End If
             Catch ex As Exception
-                Me.MenuItem3.Enabled = False
-                Me.MenuItem4.Enabled = False
+                Me.MenuItemFileProp.Enabled = False
+                Me.MenuItemOpenDir.Enabled = False
             End Try
             Me.cMenu2.Show(Me.lvAllDeps, e.Location)
         End If
+    End Sub
+
+    Private Sub MenuItem3_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem3.Click
+        Try
+            If Me.tvDepends.SelectedNode IsNot Nothing Then
+                Dim _p As String = CType(Me.tvDepends.SelectedNode.Tag, NativeDependenciesTree.NativeDependency).PE.FileName
+                If IO.File.Exists(_p) Then
+                    DisplayDetailsFile(_p)
+                End If
+            End If
+        Catch ex As Exception
+            '
+        End Try
+    End Sub
+
+    Private Sub MenuItem4_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem4.Click
+        Try
+            If Me.tvDepends.SelectedNode IsNot Nothing Then
+                Dim _p As String = CType(Me.tvDepends.SelectedNode.Tag, NativeDependenciesTree.NativeDependency).PE.FileName
+                If IO.File.Exists(_p) Then
+                    Application.DoEvents()
+                    Call SearchInternet(cFile.GetFileName(_p), Me.Handle)
+                End If
+            End If
+        Catch ex As Exception
+            '
+        End Try
+    End Sub
+
+    Private Sub MenuItemFileDet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemFileDet.Click
+        Try
+            For Each it As ListViewItem In Me.lvAllDeps.SelectedItems
+                If IO.File.Exists(it.SubItems(10).Text) Then
+                    DisplayDetailsFile(it.SubItems(10).Text)
+                End If
+            Next
+        Catch ex As Exception
+            '
+        End Try
+    End Sub
+
+    Private Sub MenuItemInternetSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemInternetSearch.Click
+        Try
+            For Each it As ListViewItem In Me.lvAllDeps.SelectedItems
+                If IO.File.Exists(it.SubItems(10).Text) Then
+                    Application.DoEvents()
+                    Call SearchInternet(cFile.GetFileName(it.SubItems(10).Text), Me.Handle)
+                End If
+            Next
+        Catch ex As Exception
+            '
+        End Try
     End Sub
 End Class
