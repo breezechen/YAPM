@@ -22,7 +22,6 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
-Imports CoreFunc.searchInfos
 
 Public Class searchList
     Inherits customLV
@@ -40,7 +39,7 @@ Public Class searchList
     Private WithEvents _searchConnection As New cSearchConnection(Me, _connectionObject, New cSearchConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
     Private _searchString As String
     Private _caseSensitive As Boolean
-    Private _include As SearchInclude = SearchInclude.SearchProcesses
+    Private _include As searchInfos.SearchInclude = searchInfos.SearchInclude.SearchProcesses
 
 #Region "Properties"
 
@@ -71,11 +70,11 @@ Public Class searchList
             _caseSensitive = value
         End Set
     End Property
-    Public Property Includes() As SearchInclude
+    Public Property Includes() As searchInfos.SearchInclude
         Get
             Return _include
         End Get
-        Set(ByVal value As SearchInclude)
+        Set(ByVal value As searchInfos.SearchInclude)
             _include = value
         End Set
     End Property
@@ -255,15 +254,15 @@ Public Class searchList
         item.Tag = key
 
         Select Case net.Type
-            Case ResultType.EnvironmentVariable
+            Case searchInfos.ResultType.EnvironmentVariable
                 item.ImageKey = "envvar"
-            Case ResultType.Handle
+            Case searchInfos.ResultType.Handle
                 item.ImageKey = "handle"
-            Case ResultType.Module
+            Case searchInfos.ResultType.Module
                 item.ImageKey = "dllIcon"
-            Case ResultType.Process
+            Case searchInfos.ResultType.Process
                 item.ImageKey = "exeFile"
-            Case ResultType.Service
+            Case searchInfos.ResultType.Service
                 item.ImageKey = "service"
             Case Else
                 item.ImageKey = "window"

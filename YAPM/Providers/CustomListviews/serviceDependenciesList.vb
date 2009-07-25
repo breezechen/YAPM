@@ -22,7 +22,6 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
-Imports CoreFunc.cServDepConnection
 
 Public Class serviceDependenciesList
     Inherits TreeView
@@ -42,7 +41,7 @@ Public Class serviceDependenciesList
     Private WithEvents _connectionObject As New cConnection
     Private WithEvents _servDepConnection As New cServDepConnection(Me, _connectionObject, New cServDepConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
     Private _rootService As String
-    Private _infoToGet As DependenciesToget
+    Private _infoToGet As cServDepConnection.DependenciesToget
 
 #Region "Properties"
 
@@ -65,11 +64,11 @@ Public Class serviceDependenciesList
             _rootService = value
         End Set
     End Property
-    Public Property InfosToGet() As DependenciesToget
+    Public Property InfosToGet() As cServDepConnection.DependenciesToget
         Get
             Return _infoToGet
         End Get
-        Set(ByVal value As DependenciesToget)
+        Set(ByVal value As cServDepConnection.DependenciesToget)
             _infoToGet = value
         End Set
     End Property
