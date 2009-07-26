@@ -84,6 +84,7 @@ Public Class Pref
             first = False
             _frmMain.TopMost = My.Settings.TopMost
             _frmMain.butAlwaysDisplay.Checked = My.Settings.TopMost
+            _frmMain.Visible = Not (My.Settings.StartHidden)
             'If My.Settings.StartHidden Then
             '    _frmMain.Hide()
             '    _frmMain.Left = LEFT_POSITION_HIDDEN

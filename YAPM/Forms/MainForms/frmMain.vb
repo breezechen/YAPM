@@ -272,6 +272,9 @@ Public Class frmMain
             Me.Left = -20000
             Me.ShowInTaskbar = False
         End If
+        If My.Settings.StartHidden Then
+            Me.Hide()
+        End If
 
         ' For now, SBA is removed from menu...
         Me.Ribbon.OrbDropDown.MenuItems.Remove(Me.orbMenuSBA)
@@ -489,9 +492,9 @@ Public Class frmMain
         '    Me.CenterToScreen()
         'End If 'HIDDEN
         'Me.ShowInTaskbar = True
-        'Me.Visible = True
-        'Me.Show()
-        'Me.WindowState = FormWindowState.Normal
+        Me.Visible = True
+        Me.Show()
+        Me.WindowState = FormWindowState.Normal
     End Sub
 
     Private Sub frmMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Shown
@@ -3632,9 +3635,9 @@ Public Class frmMain
         '    Me.CenterToScreen()
         'End If 'HIDDEN
         'Me.ShowInTaskbar = True
-        'Me.Visible = True
-        'Me.Show()
-        'Me.WindowState = FormWindowState.Normal
+        Me.Visible = True
+        Me.Show()
+        Me.WindowState = FormWindowState.Normal
     End Sub
 
     Private Sub MenuItemMainToTray_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMainToTray.Click
