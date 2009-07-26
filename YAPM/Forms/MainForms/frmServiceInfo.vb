@@ -513,12 +513,14 @@ Public Class frmServiceInfo
     End Sub
 
     Private Sub cmdInspectExe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdInspectExe.Click
-        Dim _depForm As New frmDepViewerMain
-        With _depForm
-            .OpenReferences(Me.curServ.Infos.ImagePath)
-            .HideOpenMenu()
-            .Show()
-        End With
+        If System.IO.File.Exists(Me.curServ.Infos.ImagePath) Then
+            Dim _depForm As New frmDepViewerMain
+            With _depForm
+                .OpenReferences(Me.curServ.Infos.ImagePath)
+                .HideOpenMenu()
+                .Show()
+            End With
+        End If
     End Sub
 
     Private Sub MenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemCopyBig.Click

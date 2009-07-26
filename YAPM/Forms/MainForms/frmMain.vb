@@ -3358,12 +3358,14 @@ Public Class frmMain
 
     Private Sub butViewModuleDep_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butModuleViewModuleDep.Click
         For Each it As cModule In Me.lvModules.GetSelectedItems
-            Dim _depForm As New frmDepViewerMain
-            With _depForm
-                .OpenReferences(it.Infos.Path)
-                .HideOpenMenu()
-                .Show()
-            End With
+            If System.IO.File.Exists(it.Infos.Path) Then
+                Dim _depForm As New frmDepViewerMain
+                With _depForm
+                    .OpenReferences(it.Infos.Path)
+                    .HideOpenMenu()
+                    .Show()
+                End With
+            End If
         Next
     End Sub
 
@@ -3737,10 +3739,12 @@ Public Class frmMain
 
     Private Sub MenuItemServDepe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServDepe.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            Dim frm As New frmDepViewerMain
-            frm.HideOpenMenu()
-            frm.OpenReferences(it.Infos.ImagePath)
-            frm.Show()
+            If System.IO.File.Exists(it.Infos.ImagePath) Then
+                Dim frm As New frmDepViewerMain
+                frm.HideOpenMenu()
+                frm.OpenReferences(it.Infos.ImagePath)
+                frm.Show()
+            End If
         Next
     End Sub
 
@@ -4025,12 +4029,14 @@ Public Class frmMain
     Private Sub MenuItemModuleDependencies_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemModuleDependencies.Click
         If Me.lvModules.SelectedItems.Count > 0 Then
             Dim s As String = Me.lvModules.GetSelectedItem.Infos.Path
-            Dim _depForm As New frmDepViewerMain
-            With _depForm
-                .OpenReferences(s)
-                .HideOpenMenu()
-                .Show()
-            End With
+            If System.IO.File.Exists(s) Then
+                Dim _depForm As New frmDepViewerMain
+                With _depForm
+                    .OpenReferences(s)
+                    .HideOpenMenu()
+                    .Show()
+                End With
+            End If
         End If
     End Sub
 
@@ -4368,10 +4374,12 @@ Public Class frmMain
 
     Private Sub MenuItemProcSDep_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcSDep.Click
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
-            Dim frm As New frmDepViewerMain
-            frm.HideOpenMenu()
-            frm.OpenReferences(it.Infos.Path)
-            frm.Show()
+            If System.IO.File.Exists(it.Infos.Path) Then
+                Dim frm As New frmDepViewerMain
+                frm.HideOpenMenu()
+                frm.OpenReferences(it.Infos.Path)
+                frm.Show()
+            End If
         Next
     End Sub
 

@@ -1378,12 +1378,14 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub cmdInspectExe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdInspectExe.Click
-        Dim _depForm As New frmDepViewerMain
-        With _depForm
-            .OpenReferences(Me.curProc.Infos.Path)
-            .HideOpenMenu()
-            .Show()
-        End With
+        If System.IO.File.Exists(Me.curProc.Infos.Path) Then
+            Dim _depForm As New frmDepViewerMain
+            With _depForm
+                .OpenReferences(Me.curProc.Infos.Path)
+                .HideOpenMenu()
+                .Show()
+            End With
+        End If
     End Sub
 
     Private Sub MenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem4.Click
@@ -1615,12 +1617,14 @@ Public Class frmProcessInfo
     Private Sub MenuItemModuleDependencies_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemModuleDependencies.Click
         If Me.lvModules.SelectedItems.Count > 0 Then
             Dim s As String = Me.lvModules.GetSelectedItem.Infos.Path
-            Dim _depForm As New frmDepViewerMain
-            With _depForm
-                .OpenReferences(s)
-                .HideOpenMenu()
-                .Show()
-            End With
+            If System.IO.File.Exists(s) Then
+                Dim _depForm As New frmDepViewerMain
+                With _depForm
+                    .OpenReferences(s)
+                    .HideOpenMenu()
+                    .Show()
+                End With
+            End If
         End If
     End Sub
 

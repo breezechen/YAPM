@@ -1,6 +1,5 @@
 TODO LIST
 
-- show (from tray) -> mettre état vbNormal
 - si network connexions obtenues AVANT process, alors le processname n'est pas trouvé (refaire un check après)
 - copier plus simple sur les listes qui contiennet les strings (+ctrl+A)
 - form hidden -> dbl click dans le tray -> demander refresh de la form (bug en bas)
@@ -14,7 +13,6 @@ TODO LIST
 - choix font
 - désactiver msgbox pour le server
 - en mode server, tous les captions sont en gris (lvProcess)
-- enlever couleur grise du lvProcess
 - ajouter "démarrer en tant que" (runas, cf lien opera)
 - option display icons in listviews
 - virer icones dans le tabs ?
