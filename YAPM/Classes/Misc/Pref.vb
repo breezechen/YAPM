@@ -84,11 +84,11 @@ Public Class Pref
             first = False
             _frmMain.TopMost = My.Settings.TopMost
             _frmMain.butAlwaysDisplay.Checked = My.Settings.TopMost
-            If My.Settings.StartHidden Then
-                _frmMain.Hide()
-                _frmMain.Left = LEFT_POSITION_HIDDEN
-            End If
-            _frmMain.ShowInTaskbar = Not (My.Settings.StartHidden)
+            'If My.Settings.StartHidden Then
+            '    _frmMain.Hide()
+            '    _frmMain.Left = LEFT_POSITION_HIDDEN
+            'End If 'HIDDEN
+            '_frmMain.ShowInTaskbar = Not (My.Settings.StartHidden)
         End If
 
         ' Highlightings
