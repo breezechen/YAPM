@@ -1297,37 +1297,66 @@ Public Class frmProcessInfo
         Me.MenuItemServOpenDir.Enabled = _local
         Me.MenuItemServFileProp.Enabled = _local
         Me.MenuItemServFileDetails.Enabled = _local
-        If lvProcServices.SelectedItems.Count = 1 Then
-            Dim cSe As cService = Me.lvProcServices.GetSelectedItem
-            Dim start As API.SERVICE_START_TYPE = cSe.Infos.StartType
-            Dim state As API.SERVICE_STATE = cSe.Infos.State
-            Dim acc As API.SERVICE_ACCEPT = cSe.Infos.AcceptedControl
-
-            Me.MenuItemServPause.Text = IIf(state = API.SERVICE_STATE.Running, "Pause", "Resume").ToString
-            Me.MenuItemServPause.Enabled = (acc And API.SERVICE_ACCEPT.PauseContinue) = API.SERVICE_ACCEPT.PauseContinue
-            Me.MenuItemServStart.Enabled = Not (state = API.SERVICE_STATE.Running)
-            Me.MenuItemServStop.Enabled = (acc And API.SERVICE_ACCEPT.Stop) = API.SERVICE_ACCEPT.Stop
-
-            Me.MenuItemServDisabled.Checked = (start = API.SERVICE_START_TYPE.StartDisabled)
-            MenuItemServDisabled.Enabled = Not (MenuItemServDisabled.Checked)
-            Me.MenuItemServAutoStart.Checked = (start = API.SERVICE_START_TYPE.AutoStart)
-            MenuItemServAutoStart.Enabled = Not (MenuItemServAutoStart.Checked)
-            Me.MenuItemServOnDemand.Checked = (start = API.SERVICE_START_TYPE.DemandStart)
-            MenuItemServOnDemand.Enabled = Not (MenuItemServOnDemand.Checked)
-        ElseIf lvProcServices.SelectedItems.Count > 1 Then
-            Me.MenuItemServPause.Text = "Pause"
-            Me.MenuItemServPause.Enabled = True
-            Me.MenuItemServStart.Enabled = True
-            Me.MenuItemServStop.Enabled = True
-            MenuItemServDisabled.Checked = True
-            MenuItemServDisabled.Enabled = True
-            MenuItemServAutoStart.Checked = True
-            MenuItemServAutoStart.Enabled = True
-            MenuItemServOnDemand.Checked = True
-            MenuItemServOnDemand.Enabled = True
-        End If
 
         If e.Button = Windows.Forms.MouseButtons.Right Then
+
+            Dim selectionIsNotNothing As Boolean = (Me.lvProcServices.SelectedItems IsNot Nothing _
+                    AndAlso Me.lvProcServices.SelectedItems.Count > 0)
+
+            If lvProcServices.SelectedItems.Count = 1 Then
+                Dim cSe As cService = Me.lvProcServices.GetSelectedItem
+                Dim start As API.SERVICE_START_TYPE = cSe.Infos.StartType
+                Dim state As API.SERVICE_STATE = cSe.Infos.State
+                Dim acc As API.SERVICE_ACCEPT = cSe.Infos.AcceptedControl
+
+                Me.MenuItemServPause.Text = IIf(state = API.SERVICE_STATE.Running, "Pause", "Resume").ToString
+                MenuItemServPause.Enabled = (acc And API.SERVICE_ACCEPT.PauseContinue) = API.SERVICE_ACCEPT.PauseContinue
+                MenuItemServStart.Enabled = Not (state = API.SERVICE_STATE.Running)
+                Me.MenuItemServStop.Enabled = (acc And API.SERVICE_ACCEPT.Stop) = API.SERVICE_ACCEPT.Stop
+
+                Me.MenuItemServDisabled.Checked = (start = API.SERVICE_START_TYPE.StartDisabled)
+                MenuItemServDisabled.Enabled = Not (MenuItemServDisabled.Checked)
+                MenuItemServAutoStart.Checked = (start = API.SERVICE_START_TYPE.AutoStart)
+                MenuItemServAutoStart.Enabled = Not (MenuItemServAutoStart.Checked)
+                MenuItemServOnDemand.Checked = (start = API.SERVICE_START_TYPE.DemandStart)
+                MenuItemServOnDemand.Enabled = Not (MenuItemServOnDemand.Checked)
+                MenuItem17.Enabled = True
+            ElseIf lvProcServices.SelectedItems.Count > 1 Then
+                MenuItemServPause.Text = "Pause"
+                MenuItemServPause.Enabled = True
+                MenuItemServStart.Enabled = True
+                MenuItemServStop.Enabled = True
+                MenuItemServDisabled.Checked = True
+                MenuItemServDisabled.Enabled = True
+                MenuItemServAutoStart.Checked = True
+                MenuItemServAutoStart.Enabled = True
+                MenuItemServOnDemand.Checked = True
+                MenuItemServOnDemand.Enabled = True
+                MenuItem17.Enabled = True
+            ElseIf lvProcServices.SelectedItems.Count = 0 Then
+                MenuItemServPause.Text = "Pause"
+                MenuItemServPause.Enabled = False
+                MenuItemServStart.Enabled = False
+                MenuItemServStop.Enabled = False
+                MenuItemServDisabled.Checked = False
+                MenuItemServDisabled.Enabled = False
+                MenuItemServAutoStart.Checked = False
+                MenuItemServAutoStart.Enabled = False
+                MenuItemServOnDemand.Checked = False
+                MenuItemServOnDemand.Enabled = False
+                MenuItem17.Enabled = False
+            End If
+
+            Me.MenuItemServFileDetails.Enabled = selectionIsNotNothing AndAlso Me.lvProcServices.SelectedItems.Count = 1
+            Me.MenuItemServFileProp.Enabled = selectionIsNotNothing
+            Me.MenuItemServOpenDir.Enabled = selectionIsNotNothing
+            Me.MenuItemServSearch.Enabled = selectionIsNotNothing
+            Me.MenuItemServDepe.Enabled = selectionIsNotNothing
+            Me.MenuItemServSelService.Enabled = selectionIsNotNothing
+            Me.MenuItemServReanalize.Enabled = selectionIsNotNothing
+            Me.MenuItemCopyService.Enabled = selectionIsNotNothing
+            Me.MenuItemServDetails.Enabled = selectionIsNotNothing
+
             Me.mnuService.Show(Me.lvProcServices, e.Location)
         End If
     End Sub
@@ -1433,6 +1462,7 @@ Public Class frmProcessInfo
 
     Private Sub lvProcString_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcString.MouseUp
         If e.Button = Windows.Forms.MouseButtons.Right Then
+            Me.menuViewMemory.Enabled = Me.lvProcString.SelectedIndices.Count > 0
             Me.mnuString.Show(Me.lvProcString, e.Location)
         End If
     End Sub
@@ -1451,33 +1481,65 @@ Public Class frmProcessInfo
 
     Private Sub lvHandles_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHandles.MouseUp
         If e.Button = Windows.Forms.MouseButtons.Right Then
-            Me.MenuItemNavigateToHandle.Enabled = (Me.lvHandles.SelectedItems.Count = 1 _
-                                                    AndAlso (Me.lvHandles.GetSelectedItem.Infos.Type = "Key" _
-                                                             Or Me.lvHandles.GetSelectedItem.Infos.Type = "File"))
+
+            Dim selectionIsNotNothing As Boolean = (Me.lvHandles.SelectedItems IsNot Nothing _
+                AndAlso Me.lvHandles.SelectedItems.Count > 0)
+
+            Me.MenuItemNavigateToHandle.Enabled = (selectionIsNotNothing AndAlso _
+                                                 Me.lvHandles.SelectedItems.Count = 1 AndAlso _
+                                                 (Me.lvHandles.GetSelectedItem.Infos.Type = "Key" Or Me.lvHandles.GetSelectedItem.Infos.Type = "File"))
+            Me.MenuItemCloseHandle.Enabled = selectionIsNotNothing
+            Me.MenuItemCopyHandle.Enabled = selectionIsNotNothing
+
             Me.mnuHandle.Show(Me.lvHandles, e.Location)
         End If
+
     End Sub
 
     Private Sub lvModules_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvModules.MouseUp
         If e.Button = Windows.Forms.MouseButtons.Right Then
+            Dim selectionIsNotNothing As Boolean = (Me.lvModules.SelectedItems IsNot Nothing _
+                                        AndAlso Me.lvModules.SelectedItems.Count > 0)
+            Me.MenuItemModuleDependencies.Enabled = selectionIsNotNothing
+            Me.MenuItemModuleFileDetails.Enabled = selectionIsNotNothing AndAlso Me.lvModules.SelectedItems.Count = 1
+            Me.MenuItemModuleFileProp.Enabled = selectionIsNotNothing
+            Me.MenuItemModuleOpenDir.Enabled = selectionIsNotNothing
+            Me.MenuItemModuleSearch.Enabled = selectionIsNotNothing
+            Me.MenuItemUnloadModule.Enabled = selectionIsNotNothing
+            Me.MenuItemCopyModule.Enabled = selectionIsNotNothing
+            Me.MenuItemViewModuleMemory.Enabled = selectionIsNotNothing AndAlso Me.lvProcMem.Items.Count > 0
             Me.mnuModule.Show(Me.lvModules, e.Location)
         End If
     End Sub
 
     Private Sub lvPrivileges_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvPrivileges.MouseUp
         If e.Button = Windows.Forms.MouseButtons.Right Then
+            Dim selectionIsNotNothing As Boolean = (Me.lvPrivileges.SelectedItems IsNot Nothing _
+                            AndAlso Me.lvPrivileges.SelectedItems.Count > 0)
+            Me.MenuItemPriDisable.Enabled = selectionIsNotNothing
+            Me.MenuItemPriEnable.Enabled = selectionIsNotNothing
+            Me.MenuItemPriRemove.Enabled = selectionIsNotNothing
+            Me.MenuItemCopyPrivilege.Enabled = selectionIsNotNothing
             Me.mnuPrivileges.Show(Me.lvPrivileges, e.Location)
         End If
     End Sub
 
     Private Sub lvProcMem_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcMem.MouseUp
         If e.Button = Windows.Forms.MouseButtons.Right Then
+            Dim selectionIsNotNothing As Boolean = (Me.lvProcMem.SelectedItems IsNot Nothing _
+                AndAlso Me.lvProcMem.SelectedItems.Count > 0)
+            Me.MenuItemViewMemory.Enabled = selectionIsNotNothing
+            Me.MenuItemPEBAddress.Enabled = selectionIsNotNothing
+            Me.MenuItemCopyMemory.Enabled = selectionIsNotNothing
             Me.mnuProcMem.Show(Me.lvProcMem, e.Location)
         End If
     End Sub
 
     Private Sub lvProcNetwork_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcNetwork.MouseUp
         If e.Button = Windows.Forms.MouseButtons.Right Then
+
+            Dim selectionIsNotNothing As Boolean = (Me.lvProcNetwork.SelectedItems IsNot Nothing _
+                AndAlso Me.lvProcNetwork.SelectedItems.Count > 0)
 
             Dim enable As Boolean = False
             For Each it As cNetwork In Me.lvProcNetwork.GetSelectedItems
@@ -1489,6 +1551,7 @@ Public Class frmProcessInfo
                 End If
             Next
             Me.menuCloseTCP.Enabled = enable
+            Me.MenuItemCopyNetwork.Enabled = selectionIsNotNothing
 
             Me.mnuNetwork.Show(Me.lvProcNetwork, e.Location)
         End If
@@ -1509,6 +1572,17 @@ Public Class frmProcessInfo
             Me.MenuItemThANorm.Checked = (p = ThreadPriorityLevel.AboveNormal)
             Me.MenuItemThHighest.Checked = (p = ThreadPriorityLevel.Highest)
             Me.MenuItemThTimeCr.Checked = (p = ThreadPriorityLevel.TimeCritical)
+
+
+            Dim selectionIsNotNothing As Boolean = (Me.lvThreads.SelectedItems IsNot Nothing _
+                            AndAlso Me.lvThreads.SelectedItems.Count > 0)
+
+            Me.MenuItemThAffinity.Enabled = selectionIsNotNothing
+            Me.MenuItemThSuspend.Enabled = selectionIsNotNothing
+            Me.MenuItemThTerm.Enabled = selectionIsNotNothing
+            Me.MenuItemThResu.Enabled = selectionIsNotNothing
+            Me.MenuItem8.Enabled = selectionIsNotNothing
+            Me.MenuItemCopyThread.Enabled = selectionIsNotNothing
 
             Me.mnuThread.Show(Me.lvThreads, e.Location)
         End If
@@ -2078,6 +2152,7 @@ Public Class frmProcessInfo
     Private Sub lvLog_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvLog.MouseUp
         If e.Button = Windows.Forms.MouseButtons.Right Then
             Me.MenuItemLogGoto.Enabled = (Me.lvLog.SelectedItems.Count = 1)
+            Me.MenuItemCopyLog.Enabled = (Me.lvLog.SelectedItems.Count > 0)
             Me.mnuLog.Show(Me.lvLog, e.Location)
         End If
     End Sub
@@ -2237,8 +2312,22 @@ Public Class frmProcessInfo
 
     Private Sub lvProcEnv_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcEnv.MouseUp
         If e.Button = Windows.Forms.MouseButtons.Right Then
+            Me.MenuItemCopyEnvVariable.Enabled = Me.lvProcEnv.SelectedItems.Count > 0
             Me.mnuEnv.Show(Me.lvProcEnv, e.Location)
         End If
     End Sub
 
+    Private Sub MenuItemServDepe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServDepe.Click
+        If Me.lvProcServices.SelectedItems.Count > 0 Then
+            Dim s As String = Me.lvProcServices.GetSelectedItem.Infos.ImagePath
+            If System.IO.File.Exists(s) Then
+                Dim _depForm As New frmDepViewerMain
+                With _depForm
+                    .OpenReferences(s)
+                    .HideOpenMenu()
+                    .Show()
+                End With
+            End If
+        End If
+    End Sub
 End Class

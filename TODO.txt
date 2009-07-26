@@ -1,5 +1,7 @@
 TODO LIST
 
+- plus d'icones dans les menus de frmMain ???
+- dependencies pour les services KO (on a le path avec \SystemRoot\ dans le .Imagepath (récupérer plutôt .Getinformation(path) + enlever ligne de commande après fichier)
 - si network connexions obtenues AVANT process, alors le processname n'est pas trouvé (refaire un check après)
 - copier plus simple sur les listes qui contiennet les strings (+ctrl+A)
 - form hidden -> dbl click dans le tray -> demander refresh de la form (bug en bas)
@@ -30,7 +32,6 @@ titre quand le process/service n'existe plus
 - Check if file is locked... -> avertir quand recherche terminée (REFAIRE CETTE FEATURE)
 - certaines icones moches (yes/no dans lvPrivileges, refresh, find window, )
 - get online infos pour les services (changer de provider !!)
-- désactiver les popup menus lorsque rien à sélectionner (exemple frmMain.lvModules quand aucun élément, ou bien lvProcess quand click à côté qui sélectionne rien...) + afficher texte dans la zone du bas pour dire qu'il est nécessaire de sélectionner un processus
 - onglet File sans le ribbon -> les actions sont indisponibles (ajouter menu avec Open file, Refresh, Release...)
 - 'select in Window tab' dans task toujours non satisfaisant (au minimum, on peut déjà demander le refresh de lvWindows...)
 - graph monitoring -> refresh l'affichage de la valeur survolée également quand la souris se déplace
@@ -119,3 +120,5 @@ Temp Change log :
 - option Start hidden plus propre
 - possibilité de choisir le port pour la communication server
 - ajout de la colonne 'description port' pour les connexions
+- dependency viewer ne s'ouvre que si le fichier existe
+- affichage des menus désactivé quand rien à sélectionner
