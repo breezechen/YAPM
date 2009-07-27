@@ -2162,12 +2162,12 @@ Public Class frmMain
                 MenuItem8.Enabled = False
             End If
 
-            Me.MenuItemServFileDetails.Enabled = selectionIsNotNothing AndAlso Me.lvServices.SelectedItems.Count = 1
-            Me.MenuItemServFileProp.Enabled = selectionIsNotNothing
-            Me.MenuItemServOpenDir.Enabled = selectionIsNotNothing
+            Me.MenuItemServFileDetails.Enabled = selectionIsNotNothing AndAlso _local AndAlso Me.lvServices.SelectedItems.Count = 1
+            Me.MenuItemServFileProp.Enabled = selectionIsNotNothing AndAlso _local
+            Me.MenuItemServOpenDir.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemServSearch.Enabled = selectionIsNotNothing
-            Me.MenuItemServDepe.Enabled = selectionIsNotNothing
-            Me.MenuItemServSelService.Enabled = selectionIsNotNothing
+            Me.MenuItemServDepe.Enabled = selectionIsNotNothing AndAlso _local
+            Me.MenuItemServSelService.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemServReanalize.Enabled = selectionIsNotNothing
             Me.MenuItemCopyService.Enabled = selectionIsNotNothing
 
@@ -2340,21 +2340,27 @@ Public Class frmMain
             Dim selectionIsNotNothing As Boolean = (Me.lvProcess.SelectedItems IsNot Nothing AndAlso Me.lvProcess.SelectedItems.Count > 0)
             Me.MenuItem27.Enabled = selectionIsNotNothing
             Me.MenuItem35.Enabled = selectionIsNotNothing
-            Me.MenuItemProcKill.Enabled = selectionIsNotNothing
+            Me.MenuItemProcKill.Enabled = selectionIsNotNothing AndAlso _notWMI
             Me.MenuItemProcPriority.Enabled = selectionIsNotNothing
             Me.MenuItemProcReanalize.Enabled = selectionIsNotNothing
-            Me.MenuItemProcResume.Enabled = selectionIsNotNothing
+            Me.MenuItemProcResume.Enabled = selectionIsNotNothing AndAlso _notWMI
             Me.MenuItemProcKillT.Enabled = selectionIsNotNothing
-            Me.MenuItemProcStop.Enabled = selectionIsNotNothing
+            Me.MenuItemProcStop.Enabled = selectionIsNotNothing AndAlso _notWMI
             Me.MenuItemProcResume.Enabled = selectionIsNotNothing
-            Me.MenuItemProcSFileDetails.Enabled = selectionIsNotNothing
-            Me.MenuItemProcSFileProp.Enabled = selectionIsNotNothing
-            Me.MenuItemProcSOpenDir.Enabled = selectionIsNotNothing
+            Me.MenuItemProcSFileDetails.Enabled = selectionIsNotNothing AndAlso _local
+            Me.MenuItemProcSFileProp.Enabled = selectionIsNotNothing AndAlso _local
+            Me.MenuItemProcSOpenDir.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemProcSSearch.Enabled = selectionIsNotNothing
-            Me.MenuItemProcSDep.Enabled = selectionIsNotNothing
+            Me.MenuItemProcSDep.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemCopyProcess.Enabled = selectionIsNotNothing
             Me.MenuItemProcSFileDetails.Enabled = (selectionIsNotNothing AndAlso Me.lvProcess.SelectedItems.Count = 1)
-
+            Me.MenuItemProcDump.Enabled = selectionIsNotNothing AndAlso _local
+            Me.MenuItemProcAff.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemProcSAll.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemProcSHandles.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemProcSServices.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemProcSWindows.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemProcWSS.Enabled = selectionIsNotNothing AndAlso _notWMI
 
             Me.mnuProcess.Show(Me.lvProcess, e.Location)
         End If
@@ -2372,13 +2378,13 @@ Public Class frmMain
         If e.Button = Windows.Forms.MouseButtons.Right Then
             Dim selectionIsNotNothing As Boolean = (Me.lvModules.SelectedItems IsNot Nothing _
                                         AndAlso Me.lvModules.SelectedItems.Count > 0)
-            Me.MenuItemModuleDependencies.Enabled = selectionIsNotNothing
-            Me.MenuItemModuleFileDetails.Enabled = selectionIsNotNothing AndAlso Me.lvModules.SelectedItems.Count = 1
-            Me.MenuItemModuleFileProp.Enabled = selectionIsNotNothing
-            Me.MenuItemModuleOpenDir.Enabled = selectionIsNotNothing
+            Me.MenuItemModuleDependencies.Enabled = selectionIsNotNothing AndAlso _local
+            Me.MenuItemModuleFileDetails.Enabled = selectionIsNotNothing AndAlso _local AndAlso Me.lvModules.SelectedItems.Count = 1
+            Me.MenuItemModuleFileProp.Enabled = selectionIsNotNothing AndAlso _local
+            Me.MenuItemModuleOpenDir.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemModuleSearch.Enabled = selectionIsNotNothing
             Me.MenuItemModuleSelProc.Enabled = selectionIsNotNothing
-            Me.MenuItemUnloadModule.Enabled = selectionIsNotNothing
+            Me.MenuItemUnloadModule.Enabled = selectionIsNotNothing AndAlso _notWMI
             Me.MenuItemCopyModule.Enabled = selectionIsNotNothing
             Me.mnuModule.Show(Me.lvModules, e.Location)
         End If
@@ -2584,12 +2590,12 @@ Public Class frmMain
             Dim selectionIsNotNothing As Boolean = (Me.lvThreads.SelectedItems IsNot Nothing _
                             AndAlso Me.lvThreads.SelectedItems.Count > 0)
 
-            Me.MenuItemThAffinity.Enabled = selectionIsNotNothing
-            Me.MenuItemThSelProc.Enabled = selectionIsNotNothing
-            Me.MenuItemThSuspend.Enabled = selectionIsNotNothing
-            Me.MenuItemThTerm.Enabled = selectionIsNotNothing
-            Me.MenuItemThResu.Enabled = selectionIsNotNothing
-            Me.MenuItemThPriority.Enabled = selectionIsNotNothing
+            Me.MenuItemThAffinity.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemThSelProc.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemThSuspend.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemThTerm.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemThResu.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemThPriority.Enabled = selectionIsNotNothing AndAlso _notWMI
             Me.MenuItemCopyThread.Enabled = selectionIsNotNothing
 
             Me.mnuThread.Show(Me.lvThreads, e.Location)
@@ -3250,34 +3256,13 @@ Public Class frmMain
             Exit Sub
         End Try
 
-        Me.MenuItemProcSFileProp.Enabled = _local
-        Me.MenuItemProcSFileDetails.Enabled = _local
-        Me.MenuItemServFileDetails.Enabled = _local
-        Me.MenuItemServOpenDir.Enabled = _local
-        Me.MenuItemModuleOpenDir.Enabled = _local
-        Me.MenuItemModuleFileProp.Enabled = _local
-        Me.MenuItemModuleFileDetails.Enabled = _local
-        Me.MenuItemServFileProp.Enabled = _local
-        Me.MenuItemProcSOpenDir.Enabled = _local
         Me.butServiceFileDetails.Enabled = _local
         Me.butServiceFileProp.Enabled = _local
-        Me.MenuItemProcSDep.Enabled = _local
-        Me.MenuItemProcDump.Enabled = _local
         Me.butModuleViewModuleDep.Enabled = _local
         Me.butServiceOpenDir.Enabled = _local
-        Me.MenuItemModuleDependencies.Enabled = _local
-        Me.MenuItemUnloadModule.Enabled = _notWMI
-        Me.MenuItemThSuspend.Enabled = _notWMI
-        Me.MenuItemServReanalize.Enabled = _local
-
         Me.butResumeProcess.Enabled = Me._notWMI
         Me.butStopProcess.Enabled = Me._notWMI
         Me.butProcessAffinity.Enabled = Me._notWMI
-        Me.MenuItemProcKillT.Enabled = Me._notWMI
-        Me.MenuItemProcStop.Enabled = Me._notWMI
-        Me.MenuItemProcResume.Enabled = Me._notWMI
-        Me.MenuItemProcAff.Enabled = Me._notWMI
-        Me.MenuItemProcWSS.Enabled = Me._notWMI
         Me.butProcessShowAll.Enabled = Me._notWMI
         Me.butProcessWindows.Enabled = Me._notWMI
         Me.butProcessAffinity.Enabled = Me._notWMI
@@ -3300,22 +3285,8 @@ Public Class frmMain
         Me.RBSearchMain.Enabled = _notWMI
         Me.RBTaskActions.Enabled = _notWMI
         Me.RBTaskDisplay.Enabled = _notWMI
-        Me.MenuItemServFileDetails.Enabled = _notWMI
-        Me.MenuItemProcSServices.Enabled = _notWMI
-        Me.MenuItemProcSAll.Enabled = _notWMI
-        Me.MenuItemProcSWindows.Enabled = _notWMI
-        Me.MenuItemProcSHandles.Enabled = _notWMI
-        Me.MenuItemServOpenDir.Enabled = _notWMI
-        Me.MenuItemServFileProp.Enabled = _notWMI
         Me.RBServiceFile.Enabled = _notWMI
         Me.butProcessOtherActions.Enabled = _notWMI
-        Me.MenuItemThTerm.Enabled = _notWMI
-        Me.MenuItemThSelProc.Enabled = _notWMI
-        Me.MenuItemThResu.Enabled = _notWMI
-        Me.MenuItemThAffinity.Enabled = _notWMI
-        Me.MenuItemThPriority.Enabled = _notWMI
-        Me.MenuItemServDepe.Enabled = _local
-        Me.MenuItemNavigateHandle.Enabled = _local
 
         Me.lvProcess.CatchErrors = Not (_local)
         Me.lvModules.CatchErrors = Not (_local)
@@ -3490,7 +3461,7 @@ Public Class frmMain
             Me.MenuItemCopyHandle.Enabled = selectionIsNotNothing
 
             Me.MenuItemNavigateHandle.Enabled = (Me.lvHandles.SelectedItems.Count = 1 _
-                                        AndAlso (Me.lvHandles.GetSelectedItem.Infos.Type = "Key" _
+                                         AndAlso _local AndAlso (Me.lvHandles.GetSelectedItem.Infos.Type = "Key" _
                                                  Or Me.lvHandles.GetSelectedItem.Infos.Type = "File"))
 
             Me.mnuHandle.Show(Me.lvHandles, e.Location)

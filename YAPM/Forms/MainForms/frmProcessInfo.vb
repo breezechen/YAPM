@@ -513,16 +513,7 @@ Public Class frmProcessInfo
         Me.cmdInspectExe.Enabled = _local
         Me.cmdShowFileProperties.Enabled = _local
         Me.cmdOpenDirectory.Enabled = _local
-        Me.MenuItemModuleFileDetails.Enabled = _notWMI
-        Me.MenuItemUnloadModule.Enabled = _notWMI
-        Me.MenuItemViewModuleMemory.Enabled = _local
-        Me.MenuItemModuleDependencies.Enabled = _local
-        Me.MenuItemNavigateToHandle.Enabled = _local
 
-        Me.MenuItemModuleOpenDir.Enabled = _local
-        Me.MenuItemServFileDetails.Enabled = _local
-        Me.MenuItemServFileProp.Enabled = _local
-        Me.MenuItemModuleFileProp.Enabled = _local
         Me.TabPageString.Enabled = _local
 
         Me.timerLog.Enabled = Me.timerLog.Enabled And _notWMI
@@ -1347,9 +1338,9 @@ Public Class frmProcessInfo
                 MenuItem17.Enabled = False
             End If
 
-            Me.MenuItemServFileDetails.Enabled = selectionIsNotNothing AndAlso Me.lvProcServices.SelectedItems.Count = 1
-            Me.MenuItemServFileProp.Enabled = selectionIsNotNothing
-            Me.MenuItemServOpenDir.Enabled = selectionIsNotNothing
+            Me.MenuItemServFileDetails.Enabled = selectionIsNotNothing AndAlso _local AndAlso Me.lvProcServices.SelectedItems.Count = 1
+            Me.MenuItemServFileProp.Enabled = selectionIsNotNothing AndAlso _local
+            Me.MenuItemServOpenDir.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemServSearch.Enabled = selectionIsNotNothing
             Me.MenuItemServDepe.Enabled = selectionIsNotNothing
             Me.MenuItemServSelService.Enabled = selectionIsNotNothing
@@ -1485,7 +1476,7 @@ Public Class frmProcessInfo
             Dim selectionIsNotNothing As Boolean = (Me.lvHandles.SelectedItems IsNot Nothing _
                 AndAlso Me.lvHandles.SelectedItems.Count > 0)
 
-            Me.MenuItemNavigateToHandle.Enabled = (selectionIsNotNothing AndAlso _
+            Me.MenuItemNavigateToHandle.Enabled = (selectionIsNotNothing AndAlso _local AndAlso _
                                                  Me.lvHandles.SelectedItems.Count = 1 AndAlso _
                                                  (Me.lvHandles.GetSelectedItem.Infos.Type = "Key" Or Me.lvHandles.GetSelectedItem.Infos.Type = "File"))
             Me.MenuItemCloseHandle.Enabled = selectionIsNotNothing
@@ -1500,14 +1491,14 @@ Public Class frmProcessInfo
         If e.Button = Windows.Forms.MouseButtons.Right Then
             Dim selectionIsNotNothing As Boolean = (Me.lvModules.SelectedItems IsNot Nothing _
                                         AndAlso Me.lvModules.SelectedItems.Count > 0)
-            Me.MenuItemModuleDependencies.Enabled = selectionIsNotNothing
-            Me.MenuItemModuleFileDetails.Enabled = selectionIsNotNothing AndAlso Me.lvModules.SelectedItems.Count = 1
-            Me.MenuItemModuleFileProp.Enabled = selectionIsNotNothing
-            Me.MenuItemModuleOpenDir.Enabled = selectionIsNotNothing
+            Me.MenuItemModuleDependencies.Enabled = selectionIsNotNothing AndAlso _local
+            Me.MenuItemModuleFileDetails.Enabled = selectionIsNotNothing AndAlso _local AndAlso Me.lvModules.SelectedItems.Count = 1
+            Me.MenuItemModuleFileProp.Enabled = selectionIsNotNothing AndAlso _local
+            Me.MenuItemModuleOpenDir.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemModuleSearch.Enabled = selectionIsNotNothing
-            Me.MenuItemUnloadModule.Enabled = selectionIsNotNothing
+            Me.MenuItemUnloadModule.Enabled = selectionIsNotNothing AndAlso _notWMI
             Me.MenuItemCopyModule.Enabled = selectionIsNotNothing
-            Me.MenuItemViewModuleMemory.Enabled = selectionIsNotNothing AndAlso Me.lvProcMem.Items.Count > 0
+            Me.MenuItemViewModuleMemory.Enabled = selectionIsNotNothing AndAlso _local AndAlso Me.lvProcMem.Items.Count > 0
             Me.mnuModule.Show(Me.lvModules, e.Location)
         End If
     End Sub
@@ -1528,9 +1519,10 @@ Public Class frmProcessInfo
         If e.Button = Windows.Forms.MouseButtons.Right Then
             Dim selectionIsNotNothing As Boolean = (Me.lvProcMem.SelectedItems IsNot Nothing _
                 AndAlso Me.lvProcMem.SelectedItems.Count > 0)
-            Me.MenuItemViewMemory.Enabled = selectionIsNotNothing
-            Me.MenuItemPEBAddress.Enabled = selectionIsNotNothing
+            Me.MenuItemViewMemory.Enabled = selectionIsNotNothing And _local
+            Me.MenuItemPEBAddress.Enabled = selectionIsNotNothing And _local
             Me.MenuItemCopyMemory.Enabled = selectionIsNotNothing
+            Me.MenuItemMemoryDump.Enabled = selectionIsNotNothing And _local
             Me.mnuProcMem.Show(Me.lvProcMem, e.Location)
         End If
     End Sub
@@ -2329,5 +2321,9 @@ Public Class frmProcessInfo
                 End With
             End If
         End If
+    End Sub
+
+    Private Sub MenuItemMemoryDump_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMemoryDump.Click
+        '
     End Sub
 End Class
