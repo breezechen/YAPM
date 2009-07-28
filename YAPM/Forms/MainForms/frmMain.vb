@@ -85,8 +85,8 @@ Public Class frmMain
             Me.chkFileEncrypted.Checked = ((att And IO.FileAttributes.Encrypted) = IO.FileAttributes.Encrypted)
 
             ' Clean string list
-            Me.lstFileString.Items.Clear()
-            Me.lstFileString.Items.Add("Click on 'Others->Show file strings' to retrieve file strings")
+            Me.lvFileString.Items.Clear()
+            Me.lvFileString.Items.Add("Click on 'Others->Show file strings' to retrieve file strings")
 
             s &= "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}{\f1\fswiss\fcharset0 Arial;}}"
             s &= "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   "
@@ -254,6 +254,7 @@ Public Class frmMain
             API.SetWindowTheme(Me.tv.Handle, "explorer", Nothing)
             API.SetWindowTheme(Me.tv2.Handle, "explorer", Nothing)
             API.SetWindowTheme(Me.tvMonitor.Handle, "explorer", Nothing)
+            API.SetWindowTheme(Me.lvFileString.Handle, "explorer", Nothing)
         End If
         Call frmMain_Resize(Nothing, Nothing)
     End Sub
@@ -370,7 +371,7 @@ Public Class frmMain
         SetToolTip(Me.chkSearchEnvVar, "Include environement variables in search")
         SetToolTip(Me.chkSearchHandles, "Include handles in search")
         SetToolTip(Me.chkSearchModules, "Include modules in search")
-        SetToolTip(Me.lstFileString, "List of strings in file. Right click to copy to clipboard. Middle click to refresh the list")
+        SetToolTip(Me.lvFileString, "List of strings in file. Middle click to copy to clipboard.")
 
         ' Init columns
         Pref.LoadListViewColumns(Me.lvProcess, "COLmain_process")
@@ -939,7 +940,7 @@ Public Class frmMain
     End Sub
 
     Private Sub butFileSeeStrings_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileSeeStrings.Click
-        Call DisplayFileStrings(Me.lstFileString, Me.txtFile.Text)
+        Call DisplayFileStrings(Me.lvFileString, Me.txtFile.Text)
     End Sub
 
     Private Function RemoveAttribute(ByVal attributesToRemove As IO.FileAttributes) As IO.FileAttributes
@@ -956,7 +957,7 @@ Public Class frmMain
     End Sub
 
     ' Display file strings
-    Public Sub DisplayFileStrings(ByVal lst As ListBox, ByVal file As String)
+    Public Sub DisplayFileStrings(ByVal lst As ListView, ByVal file As String)
         Dim s As String = vbNullString
         Dim sCtemp As String = vbNullString
         Dim x As Integer = 1
@@ -974,7 +975,7 @@ Public Class frmMain
                 If FileLen(file) > 2000000 Then
                     If MsgBox("File size is greater than 2MB. It is not recommended to open a large file, do you want to continue ?", _
                         MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo, "Large file") = MsgBoxResult.No Then
-                        lstFileString.Items.Add("Click on 'Others->Show file strings' to retrieve file strings")
+                        lvFileString.Items.Add("Click on 'Others->Show file strings' to retrieve file strings")
                         Exit Sub
                     End If
                 End If
@@ -2454,8 +2455,18 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub lstFileString_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lstFileString.MouseDown
-        Call Misc.CopyLstToClip(e, Me.lstFileString)
+    Private Sub lstFileString_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvFileString.MouseDown
+        If e.Button = Windows.Forms.MouseButtons.Middle Then
+            Dim s As String = vbNullString
+            Dim it As ListViewItem
+            Dim x As Integer = 0
+            For Each it In Me.lvFileString.SelectedItems
+                s &= it.Text
+                x += 1
+                If Not (x = Me.lvFileString.SelectedItems.Count) Then s &= vbNewLine
+            Next
+            If Not (s = vbNullString) Then My.Computer.Clipboard.SetText(s, TextDataFormat.UnicodeText)
+        End If
     End Sub
 
     Private Sub lblTaskCountResult_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lblTaskCountResult.MouseDown

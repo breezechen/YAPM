@@ -1,5 +1,6 @@
 TODO LIST
 
+- lvFileStrings doit être Virtual
 - start hidden a faire
 - dependencies pour les services KO (on a le path avec \SystemRoot\ dans le .Imagepath (récupérer plutôt .Getinformation(path) + enlever ligne de commande après fichier)
 - si network connexions obtenues AVANT process, alors le processname n'est pas trouvé (refaire un check après)
