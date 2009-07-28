@@ -23,33 +23,33 @@ Partial Class frmProcessInfo
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim CConnection11 As YAPM.cConnection = New YAPM.cConnection
-        Dim CConnection12 As YAPM.cConnection = New YAPM.cConnection
+        Dim CConnection1 As YAPM.cConnection = New YAPM.cConnection
+        Dim CConnection2 As YAPM.cConnection = New YAPM.cConnection
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmProcessInfo))
-        Dim CConnection13 As YAPM.cConnection = New YAPM.cConnection
-        Dim ListViewGroup17 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup18 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim CConnection3 As YAPM.cConnection = New YAPM.cConnection
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Strings", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim CConnection14 As YAPM.cConnection = New YAPM.cConnection
-        Dim ListViewGroup19 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Strings", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup20 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim CConnection15 As YAPM.cConnection = New YAPM.cConnection
-        Dim ListViewGroup21 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup22 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim CConnection4 As YAPM.cConnection = New YAPM.cConnection
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Strings", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim CConnection5 As YAPM.cConnection = New YAPM.cConnection
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Strings", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim CConnection6 As YAPM.cConnection = New YAPM.cConnection
-        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Threads", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim CConnection7 As YAPM.cConnection = New YAPM.cConnection
-        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Windows", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Threads", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
         Dim CConnection8 As YAPM.cConnection = New YAPM.cConnection
-        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Handles", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Windows", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
         Dim CConnection9 As YAPM.cConnection = New YAPM.cConnection
-        Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Strings", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Handles", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim CConnection10 As YAPM.cConnection = New YAPM.cConnection
+        Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Strings", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup16 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Me.tabProcess = New System.Windows.Forms.TabControl
         Me.TabPageGeneral = New System.Windows.Forms.TabPage
         Me.GroupBox7 = New System.Windows.Forms.GroupBox
@@ -325,6 +325,7 @@ Partial Class frmProcessInfo
         Me.mnuPrivileges = New System.Windows.Forms.ContextMenu
         Me.MenuItem1 = New System.Windows.Forms.MenuItem
         Me.mnuProcMem = New System.Windows.Forms.ContextMenu
+        Me.MenuItemMemoryDump = New System.Windows.Forms.MenuItem
         Me.MenuItemPEBAddress = New System.Windows.Forms.MenuItem
         Me.MenuItem13 = New System.Windows.Forms.MenuItem
         Me.MenuItemColumnsMemory = New System.Windows.Forms.MenuItem
@@ -375,7 +376,8 @@ Partial Class frmProcessInfo
         Me.MenuItem6 = New System.Windows.Forms.MenuItem
         Me.mnuEnv = New System.Windows.Forms.ContextMenu
         Me.VistaMenu = New wyDay.Controls.VistaMenu(Me.components)
-        Me.MenuItemMemoryDump = New System.Windows.Forms.MenuItem
+        Me.MenuItem2 = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyString = New System.Windows.Forms.MenuItem
         Me.tabProcess.SuspendLayout()
         Me.TabPageGeneral.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -1699,8 +1701,8 @@ Partial Class frmProcessInfo
         Me.lvPrivileges.AllowColumnReorder = True
         Me.lvPrivileges.CatchErrors = False
         Me.lvPrivileges.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader50, Me.ColumnHeader51, Me.ColumnHeader52})
-        CConnection11.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
-        Me.lvPrivileges.ConnectionObj = CConnection11
+        CConnection1.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        Me.lvPrivileges.ConnectionObj = CConnection1
         Me.lvPrivileges.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvPrivileges.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvPrivileges.FullRowSelect = True
@@ -1746,8 +1748,8 @@ Partial Class frmProcessInfo
         Me.lvProcMem.AllowColumnReorder = True
         Me.lvProcMem.CatchErrors = False
         Me.lvProcMem.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader53, Me.ColumnHeader54, Me.ColumnHeader55, Me.ColumnHeader56, Me.ColumnHeader13})
-        CConnection12.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
-        Me.lvProcMem.ConnectionObj = CConnection12
+        CConnection2.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        Me.lvProcMem.ConnectionObj = CConnection2
         Me.lvProcMem.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcMem.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcMem.FullRowSelect = True
@@ -1872,16 +1874,16 @@ Partial Class frmProcessInfo
         Me.lvProcServices.AllowColumnReorder = True
         Me.lvProcServices.CatchErrors = False
         Me.lvProcServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader19})
-        CConnection13.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
-        Me.lvProcServices.ConnectionObj = CConnection13
+        CConnection3.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        Me.lvProcServices.ConnectionObj = CConnection3
         Me.lvProcServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcServices.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcServices.FullRowSelect = True
-        ListViewGroup17.Header = "Services"
-        ListViewGroup17.Name = "gpOther"
-        ListViewGroup18.Header = "Search result"
-        ListViewGroup18.Name = "gpSearch"
-        Me.lvProcServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup17, ListViewGroup18})
+        ListViewGroup1.Header = "Services"
+        ListViewGroup1.Name = "gpOther"
+        ListViewGroup2.Header = "Search result"
+        ListViewGroup2.Name = "gpSearch"
+        Me.lvProcServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvProcServices.HideSelection = False
         Me.lvProcServices.Location = New System.Drawing.Point(3, 3)
         Me.lvProcServices.Name = "lvProcServices"
@@ -1940,8 +1942,8 @@ Partial Class frmProcessInfo
         Me.lvProcNetwork.AllowColumnReorder = True
         Me.lvProcNetwork.CatchErrors = False
         Me.lvProcNetwork.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader49, Me.ColumnHeader57, Me.ColumnHeader58, Me.ColumnHeader59})
-        CConnection3.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
-        Me.lvProcNetwork.ConnectionObj = CConnection3
+        CConnection4.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        Me.lvProcNetwork.ConnectionObj = CConnection4
         Me.lvProcNetwork.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcNetwork.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcNetwork.FullRowSelect = True
@@ -2008,7 +2010,7 @@ Partial Class frmProcessInfo
         Me.SplitContainerStrings.Panel2.Controls.Add(Me.optProcStringMemory)
         Me.SplitContainerStrings.Panel2.Controls.Add(Me.optProcStringImage)
         Me.SplitContainerStrings.Size = New System.Drawing.Size(647, 279)
-        Me.SplitContainerStrings.SplitterDistance = 245
+        Me.SplitContainerStrings.SplitterDistance = 244
         Me.SplitContainerStrings.TabIndex = 0
         '
         'lvProcString
@@ -2017,17 +2019,16 @@ Partial Class frmProcessInfo
         Me.lvProcString.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader76, Me.ColumnHeader77})
         Me.lvProcString.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcString.FullRowSelect = True
-        ListViewGroup1.Header = "Strings"
-        ListViewGroup1.Name = "gpOther"
-        ListViewGroup2.Header = "Search result"
-        ListViewGroup2.Name = "gpSearch"
-        Me.lvProcString.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup3.Header = "Strings"
+        ListViewGroup3.Name = "gpOther"
+        ListViewGroup4.Header = "Search result"
+        ListViewGroup4.Name = "gpSearch"
+        Me.lvProcString.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvProcString.HideSelection = False
         Me.lvProcString.Location = New System.Drawing.Point(0, 0)
-        Me.lvProcString.MultiSelect = False
         Me.lvProcString.Name = "lvProcString"
         Me.lvProcString.OverriddenDoubleBuffered = True
-        Me.lvProcString.Size = New System.Drawing.Size(647, 245)
+        Me.lvProcString.Size = New System.Drawing.Size(647, 244)
         Me.lvProcString.TabIndex = 22
         Me.lvProcString.UseCompatibleStateImageBehavior = False
         Me.lvProcString.View = System.Windows.Forms.View.Details
@@ -2132,16 +2133,16 @@ Partial Class frmProcessInfo
         Me.lvProcEnv.AllowColumnReorder = True
         Me.lvProcEnv.CatchErrors = False
         Me.lvProcEnv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader60, Me.ColumnHeader61})
-        CConnection14.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
-        Me.lvProcEnv.ConnectionObj = CConnection14
+        CConnection5.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        Me.lvProcEnv.ConnectionObj = CConnection5
         Me.lvProcEnv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcEnv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcEnv.FullRowSelect = True
-        ListViewGroup19.Header = "Strings"
-        ListViewGroup19.Name = "gpOther"
-        ListViewGroup20.Header = "Search result"
-        ListViewGroup20.Name = "gpSearch"
-        Me.lvProcEnv.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup19, ListViewGroup20})
+        ListViewGroup5.Header = "Strings"
+        ListViewGroup5.Name = "gpOther"
+        ListViewGroup6.Header = "Search result"
+        ListViewGroup6.Name = "gpSearch"
+        Me.lvProcEnv.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvProcEnv.HideSelection = False
         Me.lvProcEnv.Location = New System.Drawing.Point(0, 0)
         Me.lvProcEnv.Name = "lvProcEnv"
@@ -2179,16 +2180,16 @@ Partial Class frmProcessInfo
         Me.lvModules.AllowColumnReorder = True
         Me.lvModules.CatchErrors = False
         Me.lvModules.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader29, Me.ColumnHeader43, Me.ColumnHeader44, Me.ColumnHeader45, Me.ColumnHeader46, Me.ColumnHeader1})
-        CConnection15.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
-        Me.lvModules.ConnectionObj = CConnection15
+        CConnection6.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        Me.lvModules.ConnectionObj = CConnection6
         Me.lvModules.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvModules.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvModules.FullRowSelect = True
-        ListViewGroup21.Header = "Modules"
-        ListViewGroup21.Name = "gpOther"
-        ListViewGroup22.Header = "Search result"
-        ListViewGroup22.Name = "gpSearchResults"
-        Me.lvModules.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup21, ListViewGroup22})
+        ListViewGroup7.Header = "Modules"
+        ListViewGroup7.Name = "gpOther"
+        ListViewGroup8.Header = "Search result"
+        ListViewGroup8.Name = "gpSearchResults"
+        Me.lvModules.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
         Me.lvModules.HideSelection = False
         Me.lvModules.Location = New System.Drawing.Point(0, 0)
         Me.lvModules.Name = "lvModules"
@@ -2250,16 +2251,16 @@ Partial Class frmProcessInfo
         Me.lvThreads.AllowColumnReorder = True
         Me.lvThreads.CatchErrors = False
         Me.lvThreads.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader12, Me.ColumnHeader34, Me.ColumnHeader35, Me.ColumnHeader36, Me.ColumnHeader37, Me.ColumnHeader38, Me.ColumnHeader6, Me.ColumnHeader11})
-        CConnection6.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
-        Me.lvThreads.ConnectionObj = CConnection6
+        CConnection7.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        Me.lvThreads.ConnectionObj = CConnection7
         Me.lvThreads.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvThreads.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvThreads.FullRowSelect = True
-        ListViewGroup7.Header = "Threads"
-        ListViewGroup7.Name = "gpOther"
-        ListViewGroup8.Header = "Search results"
-        ListViewGroup8.Name = "gpSearchResults"
-        Me.lvThreads.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
+        ListViewGroup9.Header = "Threads"
+        ListViewGroup9.Name = "gpOther"
+        ListViewGroup10.Header = "Search results"
+        ListViewGroup10.Name = "gpSearchResults"
+        Me.lvThreads.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup9, ListViewGroup10})
         Me.lvThreads.HideSelection = False
         Me.lvThreads.Location = New System.Drawing.Point(0, 0)
         Me.lvThreads.Name = "lvThreads"
@@ -2330,16 +2331,16 @@ Partial Class frmProcessInfo
         Me.lvWindows.AllowColumnReorder = True
         Me.lvWindows.CatchErrors = False
         Me.lvWindows.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader30, Me.ColumnHeader39, Me.ColumnHeader40, Me.ColumnHeader41, Me.ColumnHeader42})
-        CConnection7.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
-        Me.lvWindows.ConnectionObj = CConnection7
+        CConnection8.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        Me.lvWindows.ConnectionObj = CConnection8
         Me.lvWindows.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvWindows.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvWindows.FullRowSelect = True
-        ListViewGroup9.Header = "Windows"
-        ListViewGroup9.Name = "gpOther"
-        ListViewGroup10.Header = "Search results"
-        ListViewGroup10.Name = "gpSearchResults"
-        Me.lvWindows.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup9, ListViewGroup10})
+        ListViewGroup11.Header = "Windows"
+        ListViewGroup11.Name = "gpOther"
+        ListViewGroup12.Header = "Search results"
+        ListViewGroup12.Name = "gpSearchResults"
+        Me.lvWindows.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup11, ListViewGroup12})
         Me.lvWindows.HideSelection = False
         Me.lvWindows.Location = New System.Drawing.Point(0, 0)
         Me.lvWindows.Name = "lvWindows"
@@ -2390,16 +2391,16 @@ Partial Class frmProcessInfo
         Me.lvHandles.AllowColumnReorder = True
         Me.lvHandles.CatchErrors = False
         Me.lvHandles.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader24, Me.ColumnHeader25, Me.ColumnHeader26, Me.ColumnHeader27, Me.ColumnHeader28, Me.ColumnHeader15})
-        CConnection8.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
-        Me.lvHandles.ConnectionObj = CConnection8
+        CConnection9.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        Me.lvHandles.ConnectionObj = CConnection9
         Me.lvHandles.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvHandles.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvHandles.FullRowSelect = True
-        ListViewGroup11.Header = "Handles"
-        ListViewGroup11.Name = "gpOther"
-        ListViewGroup12.Header = "Search result"
-        ListViewGroup12.Name = "gpSearch"
-        Me.lvHandles.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup11, ListViewGroup12})
+        ListViewGroup13.Header = "Handles"
+        ListViewGroup13.Name = "gpOther"
+        ListViewGroup14.Header = "Search result"
+        ListViewGroup14.Name = "gpSearch"
+        Me.lvHandles.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup13, ListViewGroup14})
         Me.lvHandles.HideSelection = False
         Me.lvHandles.Location = New System.Drawing.Point(0, 0)
         Me.lvHandles.Name = "lvHandles"
@@ -2518,17 +2519,17 @@ Partial Class frmProcessInfo
         Me.lvLog.CaptureItems = YAPM.asyncCallbackLogEnumerate.LogItemType.AllItems
         Me.lvLog.CatchErrors = False
         Me.lvLog.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader2, Me.ColumnHeader5, Me.ColumnHeader4})
-        CConnection9.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
-        Me.lvLog.ConnectionObj = CConnection9
+        CConnection10.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        Me.lvLog.ConnectionObj = CConnection10
         Me.lvLog.DisplayItems = YAPM.asyncCallbackLogEnumerate.LogItemType.AllItems
         Me.lvLog.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvLog.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvLog.FullRowSelect = True
-        ListViewGroup13.Header = "Strings"
-        ListViewGroup13.Name = "gpOther"
-        ListViewGroup14.Header = "Search result"
-        ListViewGroup14.Name = "gpSearch"
-        Me.lvLog.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup13, ListViewGroup14})
+        ListViewGroup15.Header = "Strings"
+        ListViewGroup15.Name = "gpOther"
+        ListViewGroup16.Header = "Search result"
+        ListViewGroup16.Name = "gpSearch"
+        Me.lvLog.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup15, ListViewGroup16})
         Me.lvLog.HideSelection = False
         Me.lvLog.Location = New System.Drawing.Point(0, 0)
         Me.lvLog.MultiSelect = False
@@ -2877,7 +2878,6 @@ Partial Class frmProcessInfo
         '
         'MenuItemWDisa
         '
-        Me.VistaMenu.SetImage(Me.MenuItemWDisa, Global.YAPM.My.Resources.Resources.close)
         Me.MenuItemWDisa.Index = 15
         Me.MenuItemWDisa.Text = "Disable"
         '
@@ -2970,7 +2970,7 @@ Partial Class frmProcessInfo
         '
         'mnuString
         '
-        Me.mnuString.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.menuViewMemory})
+        Me.mnuString.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.menuViewMemory, Me.MenuItem2, Me.MenuItemCopyString})
         '
         'mnuPrivileges
         '
@@ -2984,6 +2984,12 @@ Partial Class frmProcessInfo
         'mnuProcMem
         '
         Me.mnuProcMem.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemViewMemory, Me.MenuItemMemoryDump, Me.MenuItemPEBAddress, Me.MenuItem13, Me.MenuItemCopyMemory, Me.MenuItemColumnsMemory})
+        '
+        'MenuItemMemoryDump
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemMemoryDump, Global.YAPM.My.Resources.Resources._096)
+        Me.MenuItemMemoryDump.Index = 1
+        Me.MenuItemMemoryDump.Text = "Dump..."
         '
         'MenuItemPEBAddress
         '
@@ -3230,11 +3236,16 @@ Partial Class frmProcessInfo
         '
         Me.VistaMenu.ContainerControl = Me
         '
-        'MenuItemMemoryDump
+        'MenuItem2
         '
-        Me.VistaMenu.SetImage(Me.MenuItemMemoryDump, Global.YAPM.My.Resources.Resources._096)
-        Me.MenuItemMemoryDump.Index = 1
-        Me.MenuItemMemoryDump.Text = "Dump..."
+        Me.MenuItem2.Index = 1
+        Me.MenuItem2.Text = "-"
+        '
+        'MenuItemCopyString
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyString, Global.YAPM.My.Resources.Resources.copy16)
+        Me.MenuItemCopyString.Index = 2
+        Me.MenuItemCopyString.Text = "Copy to clipboard"
         '
         'frmProcessInfo
         '
@@ -3637,4 +3648,6 @@ Partial Class frmProcessInfo
     Friend WithEvents MenuItemCopyEnvVariable As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemServDepe As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemMemoryDump As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem2 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemCopyString As System.Windows.Forms.MenuItem
 End Class

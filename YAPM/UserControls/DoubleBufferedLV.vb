@@ -28,6 +28,8 @@ Public Class DoubleBufferedLV
 
     Private m_SortingColumn As ColumnHeader
 
+    Private _selectedItemsVMode As New List(Of ListViewItem)
+
     ' ========================================
     ' Public
     ' ========================================
@@ -36,6 +38,12 @@ Public Class DoubleBufferedLV
         ' Set double buffered property to true
         'Me.DoubleBuffered = True
     End Sub
+
+    Public ReadOnly Property SelectedItemsVMode() As List(Of ListViewItem)
+        Get
+            Return _selectedItemsVMode
+        End Get
+    End Property
 
     Public Property OverriddenDoubleBuffered() As Boolean
         Get
@@ -93,17 +101,22 @@ Public Class DoubleBufferedLV
 
     Protected Overrides Sub OnKeyDown(ByVal e As System.Windows.Forms.KeyEventArgs)
         MyBase.OnKeyDown(e)
-        If Me.VirtualMode Then
-            ' Can't enum items in virtual mode
-            Exit Sub
-        End If
+
 
         If e.Control Then
             If e.KeyCode = Keys.A Then
-                For Each _it As ListViewItem In Me.Items
-                    _it.Selected = True
-                Next
+                If Me.VirtualMode = False Then
+                    For Each _it As ListViewItem In Me.Items
+                        _it.Selected = True
+                    Next
+                Else
+                    ' Virtual mode -> Me.Items unusable
+                    For i As Integer = 0 To Me.VirtualListSize - 1
+                        Me.SelectedIndices.Add(i)
+                    Next
+                End If
             ElseIf e.KeyCode = Keys.C Then
+
                 Dim _s As String = ""
                 Dim x As Integer = 0
                 For Each col As ColumnHeader In Me.Columns
@@ -116,21 +129,58 @@ Public Class DoubleBufferedLV
                 _s &= vbNewLine
                 x = 0
                 Dim y As Integer = 0
-                For Each _it As ListViewItem In Me.SelectedItems
-                    For Each _sub As ListViewItem.ListViewSubItem In _it.SubItems
-                        _s &= _sub.Text
-                        y += 1
-                        If y < _it.SubItems.Count Then
-                            _s &= vbTab
+                If Me.VirtualMode = False Then
+                    For Each _it As ListViewItem In Me.SelectedItems
+                        For Each _sub As ListViewItem.ListViewSubItem In _it.SubItems
+                            _s &= _sub.Text
+                            y += 1
+                            If y < _it.SubItems.Count Then
+                                _s &= vbTab
+                            End If
+                        Next
+                        y = 0
+                        If x < Me.Items.Count Then
+                            _s &= vbNewLine
                         End If
+                        x += 1
                     Next
-                    y = 0
-                    If x < Me.Items.Count Then
-                        _s &= vbNewLine
-                    End If
-                    x += 1
-                Next
-                My.Computer.Clipboard.SetText(_s)
+                    My.Computer.Clipboard.SetText(_s)
+
+                Else
+                    ' Virtual mode -> Me.Items unusable
+                    ' So we use our custom list of selected items
+                    For Each lv As ListViewItem In Me._selectedItemsVMode
+                        For Each _sub As ListViewItem.ListViewSubItem In lv.SubItems
+                            _s &= _sub.Text
+                            y += 1
+                            If y < lv.SubItems.Count Then
+                                _s &= vbTab
+                            End If
+                        Next
+                        y = 0
+                        If x < Me.VirtualListSize Then
+                            _s &= vbNewLine
+                        End If
+                        x += 1
+                    Next
+                    My.Computer.Clipboard.SetText(_s)
+
+                End If
+
+            End If
+        End If
+
+    End Sub
+
+    ' We have to manually save selected items into a private list
+    ' in virtual mode, because it's the only way to retrieve SelectedItems
+    Protected Overrides Sub OnItemSelectionChanged(ByVal e As System.Windows.Forms.ListViewItemSelectionChangedEventArgs)
+        MyBase.OnItemSelectionChanged(e)
+        If Me.VirtualMode Then
+            If e.IsSelected Then
+                Me._selectedItemsVMode.Add(e.Item)
+            Else
+                Me._selectedItemsVMode.Remove(e.Item)
             End If
         End If
     End Sub

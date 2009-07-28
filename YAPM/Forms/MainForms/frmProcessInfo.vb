@@ -479,6 +479,8 @@ Public Class frmProcessInfo
         For Each ss As String In envVariableInfos.GetAvailableProperties(True)
             Me.MenuItemCopyEnvVariable.MenuItems.Add(ss, AddressOf MenuItemCopyEnvVariable_Click)
         Next
+        Me.MenuItemCopyString.MenuItems.Add("Position", AddressOf MenuItemCopyString_Click)
+        Me.MenuItemCopyString.MenuItems.Add("String", AddressOf MenuItemCopyString_Click)
 
     End Sub
 
@@ -1582,6 +1584,19 @@ Public Class frmProcessInfo
 
     Private Sub lvWindows_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvWindows.MouseUp
         If e.Button = Windows.Forms.MouseButtons.Right Then
+            If Me.lvWindows.SelectedItems.Count = 1 Then
+                Dim wd As cWindow = Me.lvWindows.GetSelectedItem
+                If (wd IsNot Nothing) Then
+                    Me.MenuItemWEna.Checked = wd.Infos.Enabled
+                    Me.MenuItemWDisa.Checked = (wd.Infos.Enabled = False)
+                Else
+                    Me.MenuItemWEna.Checked = False
+                    Me.MenuItemWDisa.Checked = False
+                End If
+            Else
+                Me.MenuItemWEna.Checked = False
+                Me.MenuItemWDisa.Checked = False
+            End If
             Me.mnuWindow.Show(Me.lvWindows, e.Location)
         End If
     End Sub
@@ -2300,6 +2315,25 @@ Public Class frmProcessInfo
         My.Computer.Clipboard.SetText(toCopy)
     End Sub
 
+    Private Sub MenuItemCopyString_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
+        Dim toCopy As String = ""
+        If info = "Position" Then
+            For Each it As ListViewItem In Me.lvProcString.SelectedItemsVMode
+                toCopy &= it.Text & vbNewLine
+            Next
+        ElseIf info = "String" Then
+            For Each it As ListViewItem In Me.lvProcString.SelectedItemsVMode
+                toCopy &= it.SubItems(1).Text & vbNewLine
+            Next
+        End If
+        If toCopy.Length > 2 Then
+            ' Remove last vbNewline
+            toCopy = toCopy.Substring(0, toCopy.Length - 2)
+        End If
+        My.Computer.Clipboard.SetText(toCopy)
+    End Sub
+
 #End Region
 
     Private Sub lvProcEnv_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcEnv.MouseUp
@@ -2326,4 +2360,5 @@ Public Class frmProcessInfo
     Private Sub MenuItemMemoryDump_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMemoryDump.Click
         '
     End Sub
+
 End Class

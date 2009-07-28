@@ -3,7 +3,6 @@ TODO LIST
 - start hidden a faire
 - dependencies pour les services KO (on a le path avec \SystemRoot\ dans le .Imagepath (récupérer plutôt .Getinformation(path) + enlever ligne de commande après fichier)
 - si network connexions obtenues AVANT process, alors le processname n'est pas trouvé (refaire un check après)
-- copier plus simple sur les listes qui contiennet les strings (+ctrl+A)
 - form hidden -> dbl click dans le tray -> demander refresh de la form (bug en bas)
 - résoudre pb des nouvelles infos process pour le réseau (idem que Affinity)
 - priorité des highlightings à prendre en compte
