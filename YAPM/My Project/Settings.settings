@@ -78,55 +78,55 @@
       <Value Profile="(Default)">Processes</Value>
     </Setting>
     <Setting Name="COLmain_task" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Name?540$CpuUsage?73$Process?233$</Value>
+      <Value Profile="(Default)">Name?540?1$CpuUsage?73?2$Process?233?3$</Value>
     </Setting>
     <Setting Name="COLmain_process" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Name?106$PID?50$UserName?124$ParentName?94$CpuUsage?68$AverageCpuUsage?61$TotalCpuTime?90$HandleCount?56$ThreadCount?50$WorkingSet?76$Priority?90$Path?420$</Value>
+      <Value Profile="(Default)">Name?106?1$PID?50?2$UserName?124?3$ParentName?94?4$CpuUsage?68?5$AverageCpuUsage?61?6$TotalCpuTime?90?7$HandleCount?56?8$ThreadCount?50?9$WorkingSet?76?10$Priority?90?11$Path?420?12$</Value>
     </Setting>
     <Setting Name="COLmain_module" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Name?107$Version?113$Description?279$CompanyName?138$Path?330$ProcessId?60$</Value>
+      <Value Profile="(Default)">Name?107?1$Version?113?2$Description?279?3$CompanyName?138?4$Path?330?5$ProcessId?60?6$</Value>
     </Setting>
     <Setting Name="COLmain_thread" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Id?60$Priority?88$State?74$WaitReason?98$CreateTime?173$TotalTime?90$StartAddress?83$AffinityMask?78$ContextSwitchCount?118$ContextSwitchDelta?114$ProcessId?68$</Value>
+      <Value Profile="(Default)">Id?60?1$Priority?88?2$State?74?3$WaitReason?98?4$CreateTime?173?5$TotalTime?90?6$StartAddress?83?7$AffinityMask?78?8$ContextSwitchCount?118?9$ContextSwitchDelta?114?10$ProcessId?68?11$</Value>
     </Setting>
     <Setting Name="COLmain_handle" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Type?113$Name?400$HandleCount?70$PointerCount?70$ObjectCount?70$Handle?60$Process?51$</Value>
+      <Value Profile="(Default)">Type?113?1$Name?400?2$HandleCount?70?3$PointerCount?70?4$ObjectCount?70?5$Handle?60?6$Process?51?7$</Value>
     </Setting>
     <Setting Name="COLmain_window" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Id?84$Caption?368$Process?162$IsTask?49$Enabled?56$Visible?47$ThreadId?61$</Value>
+      <Value Profile="(Default)">Id?84?1$Caption?368?2$Process?162?3$IsTask?49?4$Enabled?56?5$Visible?47?6$ThreadId?61?7$</Value>
     </Setting>
     <Setting Name="COLmain_service" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Name?112$DisplayName?144$State?77$StartType?86$ImagePath?230$ServiceType?113$Process?127$</Value>
+      <Value Profile="(Default)">Name?112?1$DisplayName?144?2$State?77?3$StartType?86?4$ImagePath?230?5$ServiceType?113?6$Process?127?7$</Value>
     </Setting>
     <Setting Name="COLmain_network" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Local?328$Remote?271$Protocol?65$State?150$</Value>
+      <Value Profile="(Default)">Local?328?1$Remote?271?2$Protocol?65?3$State?150?4$</Value>
     </Setting>
     <Setting Name="COLprocdetail_privilege" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Name?177$Status?100$Description?327$</Value>
+      <Value Profile="(Default)">Name?177?1$Status?100?2$Description?327?3$</Value>
     </Setting>
     <Setting Name="COLprocdetail_memory" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Name?173$Protection?66$Address?90$Size?66$File?223$</Value>
+      <Value Profile="(Default)">Name?173?1$Protection?66?2$Address?90?3$Size?66?4$File?223?5$</Value>
     </Setting>
     <Setting Name="COLprocdetail_service" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Name?121$DisplayName?243$State?79$StartType?70$ImagePath?250$ServiceType?100$</Value>
+      <Value Profile="(Default)">Name?121?1$DisplayName?243?2$State?79?3$StartType?70?4$ImagePath?250?5$ServiceType?100?6$</Value>
     </Setting>
     <Setting Name="COLprocdetail_network" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Local?238$Remote?223$Protocol?60$State?113$</Value>
+      <Value Profile="(Default)">Local?238?1$Remote?223?2$Protocol?60?3$State?113?4$</Value>
     </Setting>
     <Setting Name="COLprocdetail_handle" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Type?95$Name?400$HandleCount?70$PointerCount?69$ObjectCount?66$Handle?52$</Value>
+      <Value Profile="(Default)">Type?95?1$Name?400?2$HandleCount?70?3$PointerCount?69?4$ObjectCount?66?5$Handle?52?6$</Value>
     </Setting>
     <Setting Name="COLprocdetail_window" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Id?96$Caption?325$IsTask?44$Enabled?64$Visible?51$ThreadId?63$</Value>
+      <Value Profile="(Default)">Id?96?1$Caption?325?2$IsTask?44?3$Enabled?64?4$Visible?51?5$ThreadId?63?6$</Value>
     </Setting>
     <Setting Name="COLprocdetail_thread" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Id?60$ContextSwitchDelta?118$Priority?100$State?70$WaitReason?100$CreateTime?119$TotalTime?200$StartAddress?100$ContextSwitchCount?200$</Value>
+      <Value Profile="(Default)">Id?60?1$ContextSwitchDelta?118?2$Priority?100?3$State?70?4$WaitReason?100?5$CreateTime?119?6$TotalTime?200?7$StartAddress?100?8$ContextSwitchCount?200?9$</Value>
     </Setting>
     <Setting Name="COLprocdetail_module" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Name?90$Version?85$Description?210$CompanyName?150$Path?300$Address?80$</Value>
+      <Value Profile="(Default)">Name?90?1$Version?85?2$Description?210?3$CompanyName?150?4$Path?300?5$Address?80?6$</Value>
     </Setting>
     <Setting Name="COLprocdetail_envvariable" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Variable?176$Value?445$</Value>
+      <Value Profile="(Default)">Variable?176?1$Value?445?2$</Value>
     </Setting>
     <Setting Name="ProcSelectedTab" Type="System.String" Scope="User">
       <Value Profile="(Default)">General</Value>
@@ -135,7 +135,7 @@
       <Value Profile="(Default)">General - 1</Value>
     </Setting>
     <Setting Name="COLprocdetail_log" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Date &amp; Time?164$Type?102$Description?343$</Value>
+      <Value Profile="(Default)">Date &amp; Time?164?1$Type?102?2$Description?343?3$</Value>
     </Setting>
     <Setting Name="AutomaticInternetInfos" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

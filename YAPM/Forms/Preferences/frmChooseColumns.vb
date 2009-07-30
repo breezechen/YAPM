@@ -134,8 +134,11 @@ Public Class frmChooseColumns
         ss(ss.Length - 1) = "PendingTaskCount"
 
         ' Now add displayed columns names to list
+        ' Add this columns by DisplayIndex order
+        Dim minIndex As Integer = Integer.MaxValue
+        ' Start from 1 because item 0 is fixed and not added in our list
         For x As Integer = 1 To ConcernedListView.Columns.Count - 1
-            Dim col As ColumnHeader = ConcernedListView.Columns(x)
+            Dim col As ColumnHeader = Misc.GetColumnHeaderByDisplayIndex(ConcernedListView, x)
             Dim sss As String = col.Text.Replace("< ", "").Replace("> ", "")
             Dim it As New ListViewItem(sss)
             it.Checked = True

@@ -118,7 +118,7 @@ Public Class Pref
 
 
         ' Here is an example of column description :
-        ' col1?width1$col2?width2$...
+        ' col1?width1?index1$col2?width2?index2$...
         Dim s As String = ""
         Try
             s = CStr(My.Settings(name))
@@ -139,8 +139,18 @@ Public Class Pref
         For Each column As String In res
             If Len(column) > 0 Then
                 Dim obj() As String = Split(column, "?")
-                lv.Columns.Add(obj(0), CInt(Val((obj(1)))))
+                Dim col As ColumnHeader = lv.Columns.Add(obj(0), CInt(Val((obj(1)))))
             End If
+        Next
+
+        For u As Integer = 0 To lv.Columns.Count - 1
+            For Each column As String In res
+                Dim obj() As String = Split(column, "?")
+                If lv.Columns(u).Text = obj(0) Then
+                    lv.Columns(u).DisplayIndex = CInt(Val(obj(2)))
+                    Exit For
+                End If
+            Next
         Next
 
         lv.ReorganizeColumns = False
@@ -153,11 +163,10 @@ Public Class Pref
         Dim s As String = ""
 
         For Each it As ColumnHeader In lv.Columns
-            s &= it.Text.Replace("< ", "").Replace("> ", "") & "?" & it.Width.ToString & "$"
+            s &= it.Text.Replace("< ", "").Replace("> ", "") & "?" & it.Width.ToString & "?" & it.DisplayIndex.ToString & "$"
         Next
 
         My.Settings(name) = s
-        My.Settings.Save()
 
     End Sub
 

@@ -2081,16 +2081,8 @@ Public Class frmMain
         Call Me.MenuItemTaskSelProc_Click(Nothing, Nothing)
     End Sub
 
-    Private Sub lvTask_HasChangedColumns() Handles lvTask.HasChangedColumns
-        Pref.SaveListViewColumns(Me.lvTask, "COLmain_task")
-    End Sub
-
     Private Sub lvTask_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvTask.MouseDown
         Call Misc.CopyLvToClip(e, Me.lvTask)
-    End Sub
-
-    Private Sub lvServices_HasChangedColumns() Handles lvServices.HasChangedColumns
-        Pref.SaveListViewColumns(Me.lvServices, "COLmain_service")
     End Sub
 
     Private Sub lvServices_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvServices.KeyDown
@@ -2273,10 +2265,6 @@ Public Class frmMain
         Call Me.DisconnectFromMachine()
     End Sub
 
-    Private Sub lvProcess_HasChangedColumns() Handles lvProcess.HasChangedColumns
-        Pref.SaveListViewColumns(Me.lvProcess, "COLmain_process")
-    End Sub
-
     Private Sub lvProcess_ItemAdded(ByRef item As cProcess) Handles lvProcess.ItemAdded
         If item IsNot Nothing Then _
         Program.Log.AppendLine("Process created : " & item.Infos.Name & " (" & item.Infos.Pid & ")")
@@ -2365,10 +2353,6 @@ Public Class frmMain
 
             Me.mnuProcess.Show(Me.lvProcess, e.Location)
         End If
-    End Sub
-
-    Private Sub lvModules_HasChangedColumns() Handles lvModules.HasChangedColumns
-        Pref.SaveListViewColumns(Me.lvModules, "COLmain_module")
     End Sub
 
     Private Sub lvModules_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvModules.MouseDown
@@ -2508,10 +2492,6 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub lvWindows_HasChangedColumns() Handles lvWindows.HasChangedColumns
-        Pref.SaveListViewColumns(Me.lvWindows, "COLmain_window")
-    End Sub
-
     Private Sub lvWindows_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvWindows.MouseDown
         Call Misc.CopyLvToClip(e, Me.lvWindows)
     End Sub
@@ -2571,10 +2551,6 @@ Public Class frmMain
             End Try
 
         End If
-    End Sub
-
-    Private Sub lvThreads_HasChangedColumns() Handles lvThreads.HasChangedColumns
-        Pref.SaveListViewColumns(Me.lvThreads, "COLmain_thread")
     End Sub
 
     Private Sub lvThreads_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvThreads.MouseDown
@@ -2923,10 +2899,6 @@ Public Class frmMain
             Me.lvModules.SelectedItems.Clear()
             Me.lvModules.Groups(1).Items(0).Selected = True
         End If
-    End Sub
-
-    Private Sub lvHandles_HasChangedColumns() Handles lvHandles.HasChangedColumns
-        Pref.SaveListViewColumns(Me.lvHandles, "COLmain_handle")
     End Sub
 
     Private Sub lvHandles_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHandles.MouseDown
@@ -3372,10 +3344,6 @@ Public Class frmMain
             frm.SetService(it)
             frm.Show()
         Next
-    End Sub
-
-    Private Sub lvNetwork_HasChangedColumns() Handles lvNetwork.HasChangedColumns
-        Pref.SaveListViewColumns(Me.lvNetwork, "COLmain_network")
     End Sub
 
     Private Sub butShowPreferences_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butShowPreferences.Click

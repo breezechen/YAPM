@@ -184,4 +184,13 @@ Public Class DoubleBufferedLV
             End If
         End If
     End Sub
+
+    ' Avoid to reorder first column
+    Protected Overrides Sub OnColumnReordered(ByVal e As System.Windows.Forms.ColumnReorderedEventArgs)
+        If e.OldDisplayIndex = 0 Or e.NewDisplayIndex = 0 Then
+            e.Cancel = True
+        End If
+        MyBase.OnColumnReordered(e)
+    End Sub
+
 End Class

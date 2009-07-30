@@ -310,6 +310,15 @@ Public Module Program
     Public Sub ExitYAPM()
 
         ' Save settings
+        Pref.SaveListViewColumns(_frmMain.lvTask, "COLmain_task")
+        Pref.SaveListViewColumns(_frmMain.lvTask, "COLmain_service")
+        Pref.SaveListViewColumns(_frmMain.lvProcess, "COLmain_process")
+        Pref.SaveListViewColumns(_frmMain.lvModules, "COLmain_module")
+        Pref.SaveListViewColumns(_frmMain.lvWindows, "COLmain_window")
+        Pref.SaveListViewColumns(_frmMain.lvThreads, "COLmain_thread")
+        Pref.SaveListViewColumns(_frmMain.lvHandles, "COLmain_handle")
+        Pref.SaveListViewColumns(_frmMain.lvNetwork, "COLmain_network")
+
         My.Settings.Save()
 
         ' Uninstall driver

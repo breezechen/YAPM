@@ -739,6 +739,16 @@ Module Misc
         Call _frmMain.Ribbon_MouseMove(Nothing, Nothing)
     End Sub
 
+    ' Return the column header which have DisplayIndex == nDispIndex
+    Public Function GetColumnHeaderByDisplayIndex(ByRef lv As customLV, ByVal nDispIndex As Integer) As ColumnHeader
+        For i As Integer = lv.Columns.Count - 1 To 0 Step -1
+            If lv.Columns(i).DisplayIndex = nDispIndex Then
+                Return lv.Columns(i)
+            End If
+        Next
+        Return Nothing
+    End Function
+
     ' Parse port text files
     Public Function ParsePortTextFiles(ByVal tcpFile As String, ByVal udpFile As String, _
                                        ByRef dicoTcp As Dictionary(Of Integer, String), _

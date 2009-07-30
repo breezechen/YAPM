@@ -1,5 +1,7 @@
 TODO LIST
 
+- click sur croix de fermeture de frmMain -> appeler ExitYAPM avec succes
+- inspect structures (PEB...) + possibilité afficher valeurs structs depuis hex editor
 - lvFileStrings doit être Virtual
 - start hidden a faire
 - dependencies pour les services KO (on a le path avec \SystemRoot\ dans le .Imagepath (récupérer plutôt .Getinformation(path) + enlever ligne de commande après fichier)
@@ -122,3 +124,4 @@ Temp Change log :
 - ajout de la colonne 'description port' pour les connexions
 - dependency viewer ne s'ouvre que si le fichier existe
 - affichage des menus désactivé quand rien à sélectionner
+- réorganisation des colonnes OK
