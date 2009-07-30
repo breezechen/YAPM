@@ -3,7 +3,7 @@ TODO LIST
 - click sur croix de fermeture de frmMain -> appeler ExitYAPM avec succes
 - inspect structures (PEB...) + possibilité afficher valeurs structs depuis hex editor
 - lvFileStrings doit être Virtual
-- start hidden a faire
+- start hidden a faire correctement
 - dependencies pour les services KO (on a le path avec \SystemRoot\ dans le .Imagepath (récupérer plutôt .Getinformation(path) + enlever ligne de commande après fichier)
 - si network connexions obtenues AVANT process, alors le processname n'est pas trouvé (refaire un check après)
 - form hidden -> dbl click dans le tray -> demander refresh de la form (bug en bas)
@@ -12,7 +12,7 @@ TODO LIST
 - ajout des 6 nouvelles infos process dans formDetail (sauf certaines qui auront un truc spécifique comme token, job)
 - ajouter bouton Default dans ChooseColumns
 - ajouter infos token (elevation, domain, user name, SID...)
-- restart as admin foireux (utiliser shellexecute et non StartProcess pour esquiver boite de dialogue Windows et foirages)
+- restart as admin foireux (utiliser shellexecute et non StartProcess pour esquiver boite de dialogue Windows et foirages), le redémarrage est bouzeux (et faut aussi sauver les preferences)
 - possibilité de passer en mode elevated automatiquement (dans les options) possible ??
 - choix font
 - désactiver msgbox pour le server
@@ -125,3 +125,4 @@ Temp Change log :
 - dependency viewer ne s'ouvre que si le fichier existe
 - affichage des menus désactivé quand rien à sélectionner
 - réorganisation des colonnes OK
+- meilleure prise en charge du theme Classic sous XP

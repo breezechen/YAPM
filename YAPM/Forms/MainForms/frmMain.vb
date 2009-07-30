@@ -375,8 +375,6 @@ Public Class frmMain
         Pref.LoadListViewColumns(Me.lvServices, "COLmain_service")
         Pref.LoadListViewColumns(Me.lvNetwork, "COLmain_network")
 
-        ' Init listviews
-
 
         ' Connect to the local machine
         Program.Connection.ConnectionType = cConnection.TypeOfConnection.LocalConnection

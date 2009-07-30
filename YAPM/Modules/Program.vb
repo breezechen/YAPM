@@ -311,7 +311,7 @@ Public Module Program
 
         ' Save settings
         Pref.SaveListViewColumns(_frmMain.lvTask, "COLmain_task")
-        Pref.SaveListViewColumns(_frmMain.lvTask, "COLmain_service")
+        Pref.SaveListViewColumns(_frmMain.lvServices, "COLmain_service")
         Pref.SaveListViewColumns(_frmMain.lvProcess, "COLmain_process")
         Pref.SaveListViewColumns(_frmMain.lvModules, "COLmain_module")
         Pref.SaveListViewColumns(_frmMain.lvWindows, "COLmain_window")
