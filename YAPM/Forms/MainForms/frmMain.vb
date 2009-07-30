@@ -295,11 +295,6 @@ Public Class frmMain
         Me.timerProcess.Enabled = False
         Dim t As Integer = API.GetTickCount
 
-        Dim _col As Color = Color.FromArgb(240, 240, 240)
-        For Each _it As TabPage In _tab.TabPages
-            _it.BackColor = _col
-        Next
-
         Me.containerSystemMenu.Panel1Collapsed = True
         Me.Tray.Visible = True
         Me.Tray.ContextMenu = Me.mnuMain
@@ -310,9 +305,6 @@ Public Class frmMain
         TrayIcon.SetCounter(2, Color.LightGreen, Color.FromArgb(0, 120, 0))
 
         PROCESSOR_COUNT = Program.SystemInfo.ProcessorCount
-
-        Me.BackColor = Color.FromArgb(240, 240, 240)
-        Me.lblServicePath.BackColor = Me.BackColor
 
         creg = New cRegMonitor(API.KEY_TYPE.HKEY_LOCAL_MACHINE, "SYSTEM\CurrentControlSet\Services", _
                 API.KEY_MONITORING_TYPE.REG_NOTIFY_CHANGE_NAME)
@@ -4225,7 +4217,6 @@ Public Class frmMain
 
             Me.MenuItemSearchClose.Enabled = selectionIsNotNothing
             Me.MenuItemSearchSel.Enabled = selectionIsNotNothing
-            Me.MenuItemSearchNew.Enabled = selectionIsNotNothing
             Me.MenuItemCopySearch.Enabled = selectionIsNotNothing
 
             Me.mnuSearch.Show(Me.lvSearchResults, e.Location)

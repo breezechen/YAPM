@@ -52,6 +52,7 @@ Partial Class frmPreferences
         Me.lvHighlightingProcess = New System.Windows.Forms.ListView
         Me.Header = New System.Windows.Forms.ColumnHeader
         Me.TabPage3 = New System.Windows.Forms.TabPage
+        Me.chkUserGroup = New System.Windows.Forms.CheckBox
         Me.chkHideClosed = New System.Windows.Forms.CheckBox
         Me.chkHideMinimized = New System.Windows.Forms.CheckBox
         Me.chkRibbon = New System.Windows.Forms.CheckBox
@@ -90,7 +91,6 @@ Partial Class frmPreferences
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
         Me.colDial = New System.Windows.Forms.ColorDialog
-        Me.chkUserGroup = New System.Windows.Forms.CheckBox
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -271,6 +271,7 @@ Partial Class frmPreferences
         '
         Me.lvHighlightingThread.CheckBoxes = True
         Me.lvHighlightingThread.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
+        Me.lvHighlightingThread.FullRowSelect = True
         Me.lvHighlightingThread.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         ListViewItem1.StateImageIndex = 0
         Me.lvHighlightingThread.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1})
@@ -290,6 +291,7 @@ Partial Class frmPreferences
         '
         Me.lvHighlightingProcess.CheckBoxes = True
         Me.lvHighlightingProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Header})
+        Me.lvHighlightingProcess.FullRowSelect = True
         Me.lvHighlightingProcess.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         ListViewItem2.StateImageIndex = 0
         ListViewItem3.StateImageIndex = 0
@@ -327,6 +329,16 @@ Partial Class frmPreferences
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Display"
         Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'chkUserGroup
+        '
+        Me.chkUserGroup.AutoSize = True
+        Me.chkUserGroup.Location = New System.Drawing.Point(15, 215)
+        Me.chkUserGroup.Name = "chkUserGroup"
+        Me.chkUserGroup.Size = New System.Drawing.Size(158, 17)
+        Me.chkUserGroup.TabIndex = 10
+        Me.chkUserGroup.Text = "Show user group/domain"
+        Me.chkUserGroup.UseVisualStyleBackColor = True
         '
         'chkHideClosed
         '
@@ -688,16 +700,6 @@ Partial Class frmPreferences
         '
         Me.colDial.AnyColor = True
         Me.colDial.FullOpen = True
-        '
-        'chkUserGroup
-        '
-        Me.chkUserGroup.AutoSize = True
-        Me.chkUserGroup.Location = New System.Drawing.Point(15, 215)
-        Me.chkUserGroup.Name = "chkUserGroup"
-        Me.chkUserGroup.Size = New System.Drawing.Size(158, 17)
-        Me.chkUserGroup.TabIndex = 10
-        Me.chkUserGroup.Text = "Show user group/domain"
-        Me.chkUserGroup.UseVisualStyleBackColor = True
         '
         'frmPreferences
         '
