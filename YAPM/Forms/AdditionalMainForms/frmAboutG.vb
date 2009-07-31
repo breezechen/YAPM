@@ -56,11 +56,14 @@ Public Class frmAboutG
             it6.SubItems.Add(System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\TaskDialog.dll").FileVersion)
             Dim it8 As New ListViewItem("VistaMenu.dll")
             it8.SubItems.Add(System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\VistaMenu.dll").FileVersion)
+            Dim it7 As New ListViewItem("SecurePasswordTextBox.dll")
+            it7.SubItems.Add(System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\SecurePasswordTextBox.dll").FileVersion)
             Me.lv.Items.Add(it)
             Me.lv.Items.Add(it2)
             Me.lv.Items.Add(it3)
             Me.lv.Items.Add(it6)
             Me.lv.Items.Add(it8)
+            Me.lv.Items.Add(it7)
         Catch ex As Exception
             '
         End Try

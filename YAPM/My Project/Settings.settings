@@ -77,65 +77,11 @@
     <Setting Name="SelectedTab" Type="System.String" Scope="User">
       <Value Profile="(Default)">Processes</Value>
     </Setting>
-    <Setting Name="COLmain_task" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Name?540?1$CpuUsage?73?2$Process?233?3$</Value>
-    </Setting>
-    <Setting Name="COLmain_process" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Name?106?1$PID?50?2$UserName?124?3$ParentName?94?4$CpuUsage?68?5$AverageCpuUsage?61?6$TotalCpuTime?90?7$HandleCount?56?8$ThreadCount?50?9$WorkingSet?76?10$Priority?90?11$Path?420?12$</Value>
-    </Setting>
-    <Setting Name="COLmain_module" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Name?107?1$Version?113?2$Description?279?3$CompanyName?138?4$Path?330?5$ProcessId?60?6$</Value>
-    </Setting>
-    <Setting Name="COLmain_thread" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Id?60?1$Priority?88?2$State?74?3$WaitReason?98?4$CreateTime?173?5$TotalTime?90?6$StartAddress?83?7$AffinityMask?78?8$ContextSwitchCount?118?9$ContextSwitchDelta?114?10$ProcessId?68?11$</Value>
-    </Setting>
-    <Setting Name="COLmain_handle" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Type?113?1$Name?400?2$HandleCount?70?3$PointerCount?70?4$ObjectCount?70?5$Handle?60?6$Process?51?7$</Value>
-    </Setting>
-    <Setting Name="COLmain_window" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Id?84?1$Caption?368?2$Process?162?3$IsTask?49?4$Enabled?56?5$Visible?47?6$ThreadId?61?7$</Value>
-    </Setting>
-    <Setting Name="COLmain_service" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Name?112?1$DisplayName?144?2$State?77?3$StartType?86?4$ImagePath?230?5$ServiceType?113?6$Process?127?7$</Value>
-    </Setting>
-    <Setting Name="COLmain_network" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Local?328?1$Remote?271?2$Protocol?65?3$State?150?4$</Value>
-    </Setting>
-    <Setting Name="COLprocdetail_privilege" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Name?177?1$Status?100?2$Description?327?3$</Value>
-    </Setting>
-    <Setting Name="COLprocdetail_memory" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Name?173?1$Protection?66?2$Address?90?3$Size?66?4$File?223?5$</Value>
-    </Setting>
-    <Setting Name="COLprocdetail_service" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Name?121?1$DisplayName?243?2$State?79?3$StartType?70?4$ImagePath?250?5$ServiceType?100?6$</Value>
-    </Setting>
-    <Setting Name="COLprocdetail_network" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Local?238?1$Remote?223?2$Protocol?60?3$State?113?4$</Value>
-    </Setting>
-    <Setting Name="COLprocdetail_handle" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Type?95?1$Name?400?2$HandleCount?70?3$PointerCount?69?4$ObjectCount?66?5$Handle?52?6$</Value>
-    </Setting>
-    <Setting Name="COLprocdetail_window" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Id?96?1$Caption?325?2$IsTask?44?3$Enabled?64?4$Visible?51?5$ThreadId?63?6$</Value>
-    </Setting>
-    <Setting Name="COLprocdetail_thread" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Id?60?1$ContextSwitchDelta?118?2$Priority?100?3$State?70?4$WaitReason?100?5$CreateTime?119?6$TotalTime?200?7$StartAddress?100?8$ContextSwitchCount?200?9$</Value>
-    </Setting>
-    <Setting Name="COLprocdetail_module" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Name?90?1$Version?85?2$Description?210?3$CompanyName?150?4$Path?300?5$Address?80?6$</Value>
-    </Setting>
-    <Setting Name="COLprocdetail_envvariable" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Variable?176?1$Value?445?2$</Value>
-    </Setting>
     <Setting Name="ProcSelectedTab" Type="System.String" Scope="User">
       <Value Profile="(Default)">General</Value>
     </Setting>
     <Setting Name="ServSelectedTab" Type="System.String" Scope="User">
       <Value Profile="(Default)">General - 1</Value>
-    </Setting>
-    <Setting Name="COLprocdetail_log" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Date &amp; Time?164?1$Type?102?2$Description?343?3$</Value>
     </Setting>
     <Setting Name="AutomaticInternetInfos" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -220,6 +166,60 @@
     </Setting>
     <Setting Name="RemotePort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">8081</Value>
+    </Setting>
+    <Setting Name="COLmain_task" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Name?540?0$CpuUsage?73?1$Process?233?2$</Value>
+    </Setting>
+    <Setting Name="COLmain_process" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Name?106?0$PID?50?1$UserName?124?2$ParentName?94?3$CpuUsage?68?4$AverageCpuUsage?61?5$TotalCpuTime?90?6$HandleCount?56?7$ThreadCount?50?8$WorkingSet?76?9$Priority?90?10$Path?420?11$</Value>
+    </Setting>
+    <Setting Name="COLmain_module" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Name?107?0$Version?113?1$Description?279?2$CompanyName?138?3$Path?330?4$ProcessId?60?5$</Value>
+    </Setting>
+    <Setting Name="COLmain_thread" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Id?60?0$Priority?88?1$State?74?2$WaitReason?98?3$CreateTime?173?4$TotalTime?90?5$StartAddress?83?6$AffinityMask?78?7$ContextSwitchCount?118?8$ContextSwitchDelta?114?9$ProcessId?68?10$</Value>
+    </Setting>
+    <Setting Name="COLmain_handle" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Type?113?0$Name?400?1$HandleCount?70?2$PointerCount?70?3$ObjectCount?70?4$Handle?60?5$Process?51?6$</Value>
+    </Setting>
+    <Setting Name="COLmain_window" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Id?84?0$Caption?368?1$Process?162?2$IsTask?49?3$Enabled?56?4$Visible?47?5$ThreadId?61?6$</Value>
+    </Setting>
+    <Setting Name="COLmain_service" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Name?112?0$DisplayName?144?1$State?77?2$StartType?86?3$ImagePath?230?4$ServiceType?113?5Process?127?6$</Value>
+    </Setting>
+    <Setting Name="COLmain_network" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Local?266?0$Remote?214?1$Protocol?65?2$State?99?3$LocalPortDescription?182?4$</Value>
+    </Setting>
+    <Setting Name="COLprocdetail_privilege" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Name?177?0$Status?100?1$Description?327?2$</Value>
+    </Setting>
+    <Setting Name="COLprocdetail_memory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Name?173?0$Protection?66?1$Address?90?2$Size?66?3$File?223?4$</Value>
+    </Setting>
+    <Setting Name="COLprocdetail_service" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Name?121?0$DisplayName?243?1$State?79?2$StartType?70?3$ImagePath?250?4$ServiceType?100?5$</Value>
+    </Setting>
+    <Setting Name="COLprocdetail_network" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Local?214?0$Remote?214?1$Protocol?50?2$State?90?3$LocalPortDescription?140?4$</Value>
+    </Setting>
+    <Setting Name="COLprocdetail_handle" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Type?95?0$Name?400?1$HandleCount?70?2$PointerCount?69?3$ObjectCount?66?4$Handle?52?5$</Value>
+    </Setting>
+    <Setting Name="COLprocdetail_window" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Id?96?0$Caption?325?1$IsTask?44?2$Enabled?64?3$Visible?51?4$ThreadId?63?5$</Value>
+    </Setting>
+    <Setting Name="COLprocdetail_thread" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Id?60?0$ContextSwitchDelta?118?1$Priority?100?2$State?70?3$WaitReason?100?4$CreateTime?119?5$TotalTime?200?6$StartAddress?100?7$ContextSwitchCount?200?8$</Value>
+    </Setting>
+    <Setting Name="COLprocdetail_module" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Name?90?0$Version?85?1$Description?210?2$CompanyName?150?3$Path?300?4$Address?80?5$</Value>
+    </Setting>
+    <Setting Name="COLprocdetail_envvariable" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Variable?176?0$Value?445?1$</Value>
+    </Setting>
+    <Setting Name="COLprocdetail_log" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Date &amp; Time?164?0$Type?102?1$Description?343?2$</Value>
     </Setting>
   </Settings>
 </SettingsFile>

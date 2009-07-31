@@ -356,222 +356,6 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Name?540?1$CpuUsage?73?2$Process?233?3$")>  _
-        Public Property COLmain_task() As String
-            Get
-                Return CType(Me("COLmain_task"),String)
-            End Get
-            Set
-                Me("COLmain_task") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Name?106?1$PID?50?2$UserName?124?3$ParentName?94?4$CpuUsage?68?5$AverageCpuUsage?"& _ 
-            "61?6$TotalCpuTime?90?7$HandleCount?56?8$ThreadCount?50?9$WorkingSet?76?10$Priori"& _ 
-            "ty?90?11$Path?420?12$")>  _
-        Public Property COLmain_process() As String
-            Get
-                Return CType(Me("COLmain_process"),String)
-            End Get
-            Set
-                Me("COLmain_process") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Name?107?1$Version?113?2$Description?279?3$CompanyName?138?4$Path?330?5$ProcessId"& _ 
-            "?60?6$")>  _
-        Public Property COLmain_module() As String
-            Get
-                Return CType(Me("COLmain_module"),String)
-            End Get
-            Set
-                Me("COLmain_module") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Id?60?1$Priority?88?2$State?74?3$WaitReason?98?4$CreateTime?173?5$TotalTime?90?6$"& _ 
-            "StartAddress?83?7$AffinityMask?78?8$ContextSwitchCount?118?9$ContextSwitchDelta?"& _ 
-            "114?10$ProcessId?68?11$")>  _
-        Public Property COLmain_thread() As String
-            Get
-                Return CType(Me("COLmain_thread"),String)
-            End Get
-            Set
-                Me("COLmain_thread") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Type?113?1$Name?400?2$HandleCount?70?3$PointerCount?70?4$ObjectCount?70?5$Handle?"& _ 
-            "60?6$Process?51?7$")>  _
-        Public Property COLmain_handle() As String
-            Get
-                Return CType(Me("COLmain_handle"),String)
-            End Get
-            Set
-                Me("COLmain_handle") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Id?84?1$Caption?368?2$Process?162?3$IsTask?49?4$Enabled?56?5$Visible?47?6$ThreadI"& _ 
-            "d?61?7$")>  _
-        Public Property COLmain_window() As String
-            Get
-                Return CType(Me("COLmain_window"),String)
-            End Get
-            Set
-                Me("COLmain_window") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Name?112?1$DisplayName?144?2$State?77?3$StartType?86?4$ImagePath?230?5$ServiceTyp"& _ 
-            "e?113?6$Process?127?7$")>  _
-        Public Property COLmain_service() As String
-            Get
-                Return CType(Me("COLmain_service"),String)
-            End Get
-            Set
-                Me("COLmain_service") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Local?328?1$Remote?271?2$Protocol?65?3$State?150?4$")>  _
-        Public Property COLmain_network() As String
-            Get
-                Return CType(Me("COLmain_network"),String)
-            End Get
-            Set
-                Me("COLmain_network") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Name?177?1$Status?100?2$Description?327?3$")>  _
-        Public Property COLprocdetail_privilege() As String
-            Get
-                Return CType(Me("COLprocdetail_privilege"),String)
-            End Get
-            Set
-                Me("COLprocdetail_privilege") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Name?173?1$Protection?66?2$Address?90?3$Size?66?4$File?223?5$")>  _
-        Public Property COLprocdetail_memory() As String
-            Get
-                Return CType(Me("COLprocdetail_memory"),String)
-            End Get
-            Set
-                Me("COLprocdetail_memory") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Name?121?1$DisplayName?243?2$State?79?3$StartType?70?4$ImagePath?250?5$ServiceTyp"& _ 
-            "e?100?6$")>  _
-        Public Property COLprocdetail_service() As String
-            Get
-                Return CType(Me("COLprocdetail_service"),String)
-            End Get
-            Set
-                Me("COLprocdetail_service") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Local?238?1$Remote?223?2$Protocol?60?3$State?113?4$")>  _
-        Public Property COLprocdetail_network() As String
-            Get
-                Return CType(Me("COLprocdetail_network"),String)
-            End Get
-            Set
-                Me("COLprocdetail_network") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Type?95?1$Name?400?2$HandleCount?70?3$PointerCount?69?4$ObjectCount?66?5$Handle?5"& _ 
-            "2?6$")>  _
-        Public Property COLprocdetail_handle() As String
-            Get
-                Return CType(Me("COLprocdetail_handle"),String)
-            End Get
-            Set
-                Me("COLprocdetail_handle") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Id?96?1$Caption?325?2$IsTask?44?3$Enabled?64?4$Visible?51?5$ThreadId?63?6$")>  _
-        Public Property COLprocdetail_window() As String
-            Get
-                Return CType(Me("COLprocdetail_window"),String)
-            End Get
-            Set
-                Me("COLprocdetail_window") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Id?60?1$ContextSwitchDelta?118?2$Priority?100?3$State?70?4$WaitReason?100?5$Creat"& _ 
-            "eTime?119?6$TotalTime?200?7$StartAddress?100?8$ContextSwitchCount?200?9$")>  _
-        Public Property COLprocdetail_thread() As String
-            Get
-                Return CType(Me("COLprocdetail_thread"),String)
-            End Get
-            Set
-                Me("COLprocdetail_thread") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Name?90?1$Version?85?2$Description?210?3$CompanyName?150?4$Path?300?5$Address?80?"& _ 
-            "6$")>  _
-        Public Property COLprocdetail_module() As String
-            Get
-                Return CType(Me("COLprocdetail_module"),String)
-            End Get
-            Set
-                Me("COLprocdetail_module") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Variable?176?1$Value?445?2$")>  _
-        Public Property COLprocdetail_envvariable() As String
-            Get
-                Return CType(Me("COLprocdetail_envvariable"),String)
-            End Get
-            Set
-                Me("COLprocdetail_envvariable") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("General")>  _
         Public Property ProcSelectedTab() As String
             Get
@@ -591,18 +375,6 @@ Namespace My
             End Get
             Set
                 Me("ServSelectedTab") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Date & Time?164?1$Type?102?2$Description?343?3$")>  _
-        Public Property COLprocdetail_log() As String
-            Get
-                Return CType(Me("COLprocdetail_log"),String)
-            End Get
-            Set
-                Me("COLprocdetail_log") = value
             End Set
         End Property
         
@@ -939,6 +711,234 @@ Namespace My
             End Get
             Set
                 Me("RemotePort") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Name?540?0$CpuUsage?73?1$Process?233?2$")>  _
+        Public Property COLmain_task() As String
+            Get
+                Return CType(Me("COLmain_task"),String)
+            End Get
+            Set
+                Me("COLmain_task") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Name?106?0$PID?50?1$UserName?124?2$ParentName?94?3$CpuUsage?68?4$AverageCpuUsage?"& _ 
+            "61?5$TotalCpuTime?90?6$HandleCount?56?7$ThreadCount?50?8$WorkingSet?76?9$Priorit"& _ 
+            "y?90?10$Path?420?11$")>  _
+        Public Property COLmain_process() As String
+            Get
+                Return CType(Me("COLmain_process"),String)
+            End Get
+            Set
+                Me("COLmain_process") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Name?107?0$Version?113?1$Description?279?2$CompanyName?138?3$Path?330?4$ProcessId"& _ 
+            "?60?5$")>  _
+        Public Property COLmain_module() As String
+            Get
+                Return CType(Me("COLmain_module"),String)
+            End Get
+            Set
+                Me("COLmain_module") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Id?60?0$Priority?88?1$State?74?2$WaitReason?98?3$CreateTime?173?4$TotalTime?90?5$"& _ 
+            "StartAddress?83?6$AffinityMask?78?7$ContextSwitchCount?118?8$ContextSwitchDelta?"& _ 
+            "114?9$ProcessId?68?10$")>  _
+        Public Property COLmain_thread() As String
+            Get
+                Return CType(Me("COLmain_thread"),String)
+            End Get
+            Set
+                Me("COLmain_thread") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Type?113?0$Name?400?1$HandleCount?70?2$PointerCount?70?3$ObjectCount?70?4$Handle?"& _ 
+            "60?5$Process?51?6$")>  _
+        Public Property COLmain_handle() As String
+            Get
+                Return CType(Me("COLmain_handle"),String)
+            End Get
+            Set
+                Me("COLmain_handle") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Id?84?0$Caption?368?1$Process?162?2$IsTask?49?3$Enabled?56?4$Visible?47?5$ThreadI"& _ 
+            "d?61?6$")>  _
+        Public Property COLmain_window() As String
+            Get
+                Return CType(Me("COLmain_window"),String)
+            End Get
+            Set
+                Me("COLmain_window") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Name?112?0$DisplayName?144?1$State?77?2$StartType?86?3$ImagePath?230?4$ServiceTyp"& _ 
+            "e?113?5Process?127?6$")>  _
+        Public Property COLmain_service() As String
+            Get
+                Return CType(Me("COLmain_service"),String)
+            End Get
+            Set
+                Me("COLmain_service") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Local?266?0$Remote?214?1$Protocol?65?2$State?99?3$LocalPortDescription?182?4$")>  _
+        Public Property COLmain_network() As String
+            Get
+                Return CType(Me("COLmain_network"),String)
+            End Get
+            Set
+                Me("COLmain_network") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Name?177?0$Status?100?1$Description?327?2$")>  _
+        Public Property COLprocdetail_privilege() As String
+            Get
+                Return CType(Me("COLprocdetail_privilege"),String)
+            End Get
+            Set
+                Me("COLprocdetail_privilege") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Name?173?0$Protection?66?1$Address?90?2$Size?66?3$File?223?4$")>  _
+        Public Property COLprocdetail_memory() As String
+            Get
+                Return CType(Me("COLprocdetail_memory"),String)
+            End Get
+            Set
+                Me("COLprocdetail_memory") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Name?121?0$DisplayName?243?1$State?79?2$StartType?70?3$ImagePath?250?4$ServiceTyp"& _ 
+            "e?100?5$")>  _
+        Public Property COLprocdetail_service() As String
+            Get
+                Return CType(Me("COLprocdetail_service"),String)
+            End Get
+            Set
+                Me("COLprocdetail_service") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Local?214?0$Remote?214?1$Protocol?50?2$State?90?3$LocalPortDescription?140?4$")>  _
+        Public Property COLprocdetail_network() As String
+            Get
+                Return CType(Me("COLprocdetail_network"),String)
+            End Get
+            Set
+                Me("COLprocdetail_network") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Type?95?0$Name?400?1$HandleCount?70?2$PointerCount?69?3$ObjectCount?66?4$Handle?5"& _ 
+            "2?5$")>  _
+        Public Property COLprocdetail_handle() As String
+            Get
+                Return CType(Me("COLprocdetail_handle"),String)
+            End Get
+            Set
+                Me("COLprocdetail_handle") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Id?96?0$Caption?325?1$IsTask?44?2$Enabled?64?3$Visible?51?4$ThreadId?63?5$")>  _
+        Public Property COLprocdetail_window() As String
+            Get
+                Return CType(Me("COLprocdetail_window"),String)
+            End Get
+            Set
+                Me("COLprocdetail_window") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Id?60?0$ContextSwitchDelta?118?1$Priority?100?2$State?70?3$WaitReason?100?4$Creat"& _ 
+            "eTime?119?5$TotalTime?200?6$StartAddress?100?7$ContextSwitchCount?200?8$")>  _
+        Public Property COLprocdetail_thread() As String
+            Get
+                Return CType(Me("COLprocdetail_thread"),String)
+            End Get
+            Set
+                Me("COLprocdetail_thread") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Name?90?0$Version?85?1$Description?210?2$CompanyName?150?3$Path?300?4$Address?80?"& _ 
+            "5$")>  _
+        Public Property COLprocdetail_module() As String
+            Get
+                Return CType(Me("COLprocdetail_module"),String)
+            End Get
+            Set
+                Me("COLprocdetail_module") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Variable?176?0$Value?445?1$")>  _
+        Public Property COLprocdetail_envvariable() As String
+            Get
+                Return CType(Me("COLprocdetail_envvariable"),String)
+            End Get
+            Set
+                Me("COLprocdetail_envvariable") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Date & Time?164?0$Type?102?1$Description?343?2$")>  _
+        Public Property COLprocdetail_log() As String
+            Get
+                Return CType(Me("COLprocdetail_log"),String)
+            End Get
+            Set
+                Me("COLprocdetail_log") = value
             End Set
         End Property
     End Class

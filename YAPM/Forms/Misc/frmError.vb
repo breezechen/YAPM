@@ -73,6 +73,11 @@ Public Class frmError
         Catch ex As Exception
             s &= vbNewLine & vbTab & "VistaMenu version : CANNOT GET VERSION"
         End Try
+        Try
+            s &= vbNewLine & vbTab & "SecurePasswordTextBox version : " & System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\SecurePasswordTextBox.dll").FileVersion
+        Catch ex As Exception
+            s &= vbNewLine & vbTab & "SecurePasswordTextBox version : CANNOT GET VERSION"
+        End Try
         s &= vbNewLine & vbNewLine
         s &= "Error informations : "
         s &= vbNewLine & vbTab & "Message : " & e.Message
