@@ -1,5 +1,7 @@
 TODO LIST
 
+- énumération des modules avec une méthode différente et + rapide
+- optimisation récupération zones mémoire
 - interprétations de structures
 - click sur croix de fermeture de frmMain -> appeler ExitYAPM avec succes
 - inspect structures (PEB...) + possibilité afficher valeurs structs depuis hex editor
