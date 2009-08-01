@@ -70,6 +70,35 @@ Public Class API
         MiniDumpWithCodeSegs = &H2000
     End Enum
 
+    ' LdrpDataTableEntryFlags comes from Process Hacker by wj32 (under GNU GPL 3.0)
+    <Flags()> _
+    Public Enum LdrpDataTableEntryFlags As UInteger
+        StaticLink = &H2
+        ImageDll = &H4
+        Flag0x8 = &H8
+        Flag0x10 = &H10
+        LoadInProgress = &H1000
+        UnloadInProgress = &H2000
+        EntryProcessed = &H4000
+        EntryInserted = &H8000
+        CurrentLoad = &H10000
+        FailedBuiltInLoad = &H20000
+        DontCallForThreads = &H40000
+        ProcessAttachCalled = &H80000
+        DebugSymbolsLoaded = &H100000
+        ImageNotAtBase = &H200000
+        CorImage = &H400000
+        CorOwnsUnmap = &H800000
+        SystemMapped = &H1000000
+        ImageVerifying = &H2000000
+        DriverDependentDll = &H4000000
+        EntryNative = &H8000000
+        Redirected = &H10000000
+        NonPagedDebugInfo = &H20000000
+        MmLoaded = &H40000000
+        CompatDatabaseProcessed = &H80000000
+    End Enum
+
     Public Enum PROCESS_INFORMATION_CLASS As Integer
         ProcessBasicInformation
         ProcessQuotaLimits
@@ -170,6 +199,108 @@ Public Class API
     End Structure
 
     <StructLayout(LayoutKind.Sequential)> _
+    Public Structure PEB_LDR_DATA
+        Public Length As Integer
+        <MarshalAs(UnmanagedType.I1)> _
+        Public Initialized As Boolean
+        Public SsHandle As IntPtr
+        Public InLoadOrderModuleList As ListEntry
+        Public InMemoryOrderModuleList As ListEntry
+        Public InInitializationOrderModuleList As ListEntry
+    End Structure
+
+    <StructLayout(LayoutKind.Sequential)> _
+    Public Structure LDR_DATA_TABLE_ENTRY
+        Public InLoadOrderLinks As ListEntry
+        Public InMemoryOrderLinks As ListEntry
+        Public InInitializationOrderLinks As ListEntry
+        Public DllBase As IntPtr
+        Public EntryPoint As IntPtr
+        Public SizeOfImage As Integer
+        Public FullDllName As UNICODE_STRING
+        Public BaseDllName As UNICODE_STRING
+        Public Flags As LdrpDataTableEntryFlags
+        Public LoadCount As Short
+        Public TlsIndex As Short
+        Public HashTableEntry As ListEntry
+        Public TimeDateStamp As Integer
+        Public EntryPointActivationContext As IntPtr
+        Public PatchInformation As IntPtr
+    End Structure
+
+    <StructLayout(LayoutKind.Sequential)> _
+    Public Structure ListEntry
+        Public Flink As IntPtr
+        Public Blink As IntPtr
+    End Structure
+
+    <StructLayout(LayoutKind.Sequential)> _
+    Public Structure PEB
+        <MarshalAs(UnmanagedType.I1)> _
+        Public InheritedAddressSpace As Boolean
+        <MarshalAs(UnmanagedType.I1)> _
+        Public ReadImageFileExecOptions As Boolean
+        <MarshalAs(UnmanagedType.I1)> _
+        Public BeingDebugged As Boolean
+        <MarshalAs(UnmanagedType.I1)> _
+        Public Spare As Boolean
+        Public Mutant As IntPtr
+        Public ImageBaseAddress As IntPtr
+        Public LoaderData As IntPtr
+        Public ProcessParameters As IntPtr
+        Public SubSystemData As IntPtr
+        Public ProcessHeap As IntPtr
+        Public FastPebLock As IntPtr
+        Public FastPebLockRoutine As IntPtr
+        Public FastPebUnlockRoutine As IntPtr
+        Public EnvironmentUpdateCount As Integer
+        Public KernelCallbackTable As IntPtr
+        Public EventLogSection As Integer
+        Public EventLog As Integer
+        Public FreeList As IntPtr
+        Public TlsExpansionCounter As Integer
+        Public TlsBitmap As IntPtr
+        <MarshalAs(UnmanagedType.ByValArray, SizeConst:=2)> _
+        Public TlsBitmapBits As Integer()
+        Public ReadOnlySharedMemoryBase As IntPtr
+        Public ReadOnlySharedMemoryHeap As IntPtr
+        Public ReadOnlyStaticServerData As IntPtr
+        Public AnsiCodePageData As IntPtr
+        Public OemCodePageData As IntPtr
+        Public UnicodeCaseTableData As IntPtr
+        Public NumberOfProcessors As Integer
+        Public NtGlobalFlag As Integer
+        <MarshalAs(UnmanagedType.ByValArray, SizeConst:=4)> _
+        Public Spare2 As Byte()
+        Public CriticalSectionTimeout As Long
+        Public HeapSegmentReserve As IntPtr
+        Public HeapSegmentCommit As IntPtr
+        Public HeapDeCommitTotalFreeThreshold As IntPtr
+        Public HeapDeCommitFreeBlockThreshold As IntPtr
+        Public NumberOfHeaps As Integer
+        Public MaximumNumberOfHeaps As Integer
+        Public ProcessHeaps As IntPtr
+        Public GdiSharedHandleTable As IntPtr
+        Public ProcessStarterHelper As IntPtr
+        Public GdiDCAttributeList As Integer
+        Public LoaderLock As IntPtr
+        Public OSMajorVersion As Integer
+        Public OSMinorVersion As Integer
+        Public OSBuildNumber As Short
+        Public OSPlatformId As Short
+        Public ImageSubSystem As Integer
+        Public ImageSubsystemMajorVersion As Integer
+        Public ImageSubsystemMinorVersion As Integer
+        <MarshalAs(UnmanagedType.ByValArray, SizeConst:=22)> _
+        Public GdiHandleBuffer As Integer()
+        Public PostProcessInitRoutine As IntPtr
+        Public TlsExpansionBitmap As IntPtr
+        <MarshalAs(UnmanagedType.ByValArray, SizeConst:=80)> _
+        Public TlsExpansionBitmapBits() As Byte
+        Public SessionId As Integer
+    End Structure
+
+    <StructLayout(LayoutKind.Sequential)> _
     Public Structure PROCESS_BASIC_INFORMATION
         Public ExitStatus As Integer
         Public PebBaseAddress As Integer
@@ -207,7 +338,7 @@ Public Class API
 
     <DllImport("dbghelp.dll")> _
     Public Shared Function MiniDumpWriteDump(ByVal hProcess As Integer, ByVal ProcessId As Integer, ByVal hFile As IntPtr, ByVal DumpType As Integer, ByVal ExceptionParam As IntPtr, ByVal UserStreamParam As IntPtr, _
-    ByVal CallackParam As IntPtr) As Boolean
+        ByVal CallackParam As IntPtr) As Boolean
     End Function
 
     <DllImport("kernel32.dll", SetLastError:=True)> _
@@ -347,6 +478,10 @@ Public Class API
     <DllImport("psapi.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
     Public Shared Function GetMappedFileName(ByVal ProcessHandle As Integer, ByVal Address As Integer, ByVal Buffer As StringBuilder, ByVal Size As Integer) As Integer
     End Function
+
+    Public Declare Function ReadProcessMemory Lib "kernel32" (ByVal hProcess As Integer, ByVal lpBaseAddress As Integer, ByVal lpBuffer As Byte(), ByVal nSize As Integer, ByVal lpNumberOfBytesWritten As Integer) As Integer
+    Public Declare Function ReadProcessMemory Lib "kernel32" (ByVal hProcess As Integer, ByVal lpBaseAddress As Integer, ByRef lpBuffer As Object, ByVal nSize As Integer, ByVal lpNumberOfBytesWritten As Integer) As Integer
+    Public Declare Function ReadProcessMemory Lib "kernel32" (ByVal hProcess As Integer, ByVal lpBaseAddress As Integer, ByVal lpBuffer As Integer(), ByVal nSize As Integer, ByVal lpNumberOfBytesWritten As Integer) As Integer
 
     Public Structure MEMORY_BASIC_INFORMATION ' 28 bytes
         Dim BaseAddress As Integer

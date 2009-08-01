@@ -2893,18 +2893,6 @@ Public Class frmMain
 
     Private Sub lvHandles_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHandles.MouseDown
         Call Misc.CopyLvToClip(e, Me.lvHandles)
-        'Me.lvHandles.Clear()
-        'For x As Integer = 0 To 9996 Step 4
-        '    Dim h As Integer = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_LIMITED_INFORMATION, 0, x) ' Or API.PROCESS_RIGHTS.PROCESS_VM_READ, 0, x)
-        '    If h > 0 Then
-        '        If x = 976 Then
-        '            API.TerminateProcess(h, 0)
-        '            Dim i As String = API.GetError
-        '        End If
-        '        lvHandles.Items.Add(x.ToString).SubItems.Add(asyncCallbackModuleEnumerate.GetModules3(x))
-        '    End If
-        'Next
-        'Me.Text = lvHandles.Items.Count.ToString
     End Sub
 
     Private Sub txtSearchWindow_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchWindow.TextChanged

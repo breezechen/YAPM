@@ -131,23 +131,21 @@ Public Class asyncCallbackModuleEnumerate
 
                         Dim colModule As ManagementObjectCollection = refProcess.GetRelated("CIM_DataFile")
                         For Each refModule As ManagementObject In colModule
-                            Dim obj As New API.MODULEINFO
+                            Dim obj As New API.LDR_DATA_TABLE_ENTRY
                             Dim path As String = CStr(refModule.GetPropertyValue("Name"))
 
                             With obj
                                 ' Get base address from dico
                                 ' TOCHANGE
-                                .BaseOfDll = CType(0, IntPtr)
+                                .DllBase = CType(0, IntPtr)
                                 .EntryPoint = CType(0, IntPtr)
                                 .SizeOfImage = 0
                             End With
 
-
-                            ' Do we have to get fixed infos ?
                             Dim _manuf As String = CStr(refModule.GetPropertyValue("Manufacturer"))
                             Dim _vers As String = CStr(refModule.GetPropertyValue("Version"))
                             Dim _module As New moduleInfos(obj, pid, path, _vers, _manuf)
-                            Dim _key As String = path & "-" & pid.ToString & "-" & obj.BaseOfDll.ToString
+                            Dim _key As String = path & "-" & pid.ToString & "-" & obj.DllBase.ToString
                             _dico.Add(_key, _module)
 
                         Next
@@ -182,62 +180,121 @@ Public Class asyncCallbackModuleEnumerate
         Next
     End Sub
 
-    Friend Shared Function GetModules(ByVal pid As Integer, Optional ByVal noFileInfo As Boolean = False) As Dictionary(Of String, moduleInfos)
-        Dim size As Integer
-        Dim _handles As IntPtr()
+    ' Retrieve modules of a process (uses EnumProcessModules)
+    'Friend Shared Function GetModules(ByVal pid As Integer, Optional ByVal noFileInfo As Boolean = False) As Dictionary(Of String, moduleInfos)
+    '    Dim size As Integer
+    '    Dim _handles As IntPtr()
 
-        Dim ret As New Dictionary(Of String, moduleInfos)
+    '    Dim ret As New Dictionary(Of String, moduleInfos)
 
-        ' Get handle
-        Dim hProc As Integer = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION Or API.PROCESS_RIGHTS.PROCESS_VM_READ, 0, pid)
+    '    ' Get handle
+    '    Dim hProc As Integer = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION Or API.PROCESS_RIGHTS.PROCESS_VM_READ, 0, pid)
+    '    If hProc > 0 Then
+
+    '        ' Get size & number of modules
+    '        API.EnumProcessModules(hProc, Nothing, 0, size)
+    '        Dim count As Integer = CInt(size / 4 - 1)
+
+    '        If count > 0 Then
+    '            _handles = New IntPtr(count) {}
+
+    '            ' Get handles
+    '            API.EnumProcessModules(hProc, _handles, size, size)
+
+    '            ' For each handle, we add the associated module to dico
+    '            For Each z As IntPtr In _handles
+    '                Dim baseName As New StringBuilder(1024)
+    '                Dim fileName As New StringBuilder(1024)
+    '                Dim MI As New API.MODULEINFO
+
+    '                API.GetModuleBaseName(hProc, z, baseName, 1024)
+    '                API.GetModuleFileNameEx(hProc, z, fileName, 1024)
+    '                API.GetModuleInformation(hProc, z, MI, Marshal.SizeOf(MI))
+
+    '                ' path-pid-baseAddress
+    '                Dim _key As String = fileName.ToString & "-" & pid.ToString & "-" & MI.BaseOfDll.ToString
+
+    '                ret.Add(_key, New moduleInfos(MI, pid, fileName.ToString, noFileInfo))
+    '            Next
+    '        Else
+
+    '        End If
+
+    '    End If
+
+    '    Return ret
+    'End Function
+
+    ' Retrieve modules of a process (uses PEB_LDR_DATA structs)
+    Public Shared Function GetModules(ByVal pid As Integer, Optional ByVal noFileInfo As Boolean = False) As Dictionary(Of String, moduleInfos)
+        Dim retDico As New Dictionary(Of String, moduleInfos)
+
+        Dim hProc As Integer
+        Dim peb As Integer
+        Dim loaderDatePtr As Integer
+
+        ' Open a reader to access memory !
+        Dim reader As New cProcessMemReader(pid)
+        hProc = reader.ProcessHandle
+
         If hProc > 0 Then
 
-            ' Get size & number of modules
-            API.EnumProcessModules(hProc, Nothing, 0, size)
-            Dim count As Integer = CInt(size / 4 - 1)
+            peb = reader.GetPEBAddress
 
-            If count > 0 Then
-                _handles = New IntPtr(count) {}
+            ' PEB struct documented here
+            ' http://undocumented.ntinternals.net/UserMode/Undocumented%20Functions/NT%20Objects/Process/PEB.html
 
-                ' Get handles
-                API.EnumProcessModules(hProc, _handles, size, size)
+            ' Get address of LoaderData pointer
+            peb += &HC      ' See structure for details about offsets
+            loaderDatePtr = reader.ReadInt32(peb)
 
-                ' For each handle, we add the associated module to dico
-                For Each z As IntPtr In _handles
-                    Dim baseName As New StringBuilder(1024)
-                    Dim fileName As New StringBuilder(1024)
-                    Dim MI As New API.MODULEINFO
+            ' PEB_LDR_DATA documented here
+            ' http://msdn.microsoft.com/en-us/library/aa813708(VS.85).aspx
+            Dim ldrData As New API.PEB_LDR_DATA
+            ldrData = CType(reader.ReadStruct(loaderDatePtr, ldrData.GetType),  _
+                        API.PEB_LDR_DATA)
 
-                    API.GetModuleBaseName(hProc, z, baseName, 1024)
-                    API.GetModuleFileNameEx(hProc, z, fileName, 1024)
-                    API.GetModuleInformation(hProc, z, MI, Marshal.SizeOf(MI))
+            ' Now navigate into structure
+            Dim curObj As IntPtr = ldrData.InLoadOrderModuleList.Flink
+            Dim firstObj As IntPtr = curObj
+            Dim dllName As String
+            Dim dllPath As String
+            Dim curEntry As API.LDR_DATA_TABLE_ENTRY
+            Dim i As Integer = 0
 
-                    ' path-pid-baseAddress
-                    Dim _key As String = fileName.ToString & "-" & pid.ToString & "-" & MI.BaseOfDll.ToString
+            Do While curObj <> IntPtr.Zero
 
-                    ret.Add(_key, New moduleInfos(MI, pid, fileName.ToString, noFileInfo))
-                Next
-            Else
+                If (i > 0 AndAlso curObj = firstObj) Then
+                    Exit Do
+                End If
 
-            End If
+                ' Read LoaderData entry
+                curEntry = CType(reader.ReadStruct(curObj.ToInt32, curEntry.GetType),  _
+                                API.LDR_DATA_TABLE_ENTRY)
+
+                If (curEntry.DllBase <> IntPtr.Zero) Then
+
+                    ' Retrive the path/name of the dll
+                    dllPath = reader.ReadUnicodeString(curEntry.FullDllName)
+                    dllName = reader.ReadUnicodeString(curEntry.BaseDllName)
+
+                    ' Add to dico
+                    ' Key is path-pid-baseAddress
+                    Dim _key As String = dllPath.ToString & "-" & pid.ToString & "-" & curEntry.DllBase.ToString
+                    retDico.Add(_key, New moduleInfos(curEntry, pid, dllPath, dllName, noFileInfo))
+
+                End If
+
+                ' Next entry
+                curObj = curEntry.InLoadOrderLinks.Flink
+                i += 1
+            Loop
 
         End If
 
-        Return ret
+        reader.Dispose()
+        Return retDico
+
     End Function
-
-    Public Shared Function GetModules2(ByVal pid As Integer) As Dictionary(Of String, moduleInfos)
-        Return GetModules(pid)
-    End Function
-
-    Public Shared Function GetModules3(ByVal pid As Integer) As String
-        For Each s As moduleInfos In GetModules2(pid).Values
-            Return s.Path
-        Next
-        Return "N/A"
-    End Function
-
-
-
 
 End Class

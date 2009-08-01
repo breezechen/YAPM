@@ -74,7 +74,8 @@ Public Class frmAboutG
     End Sub
 
     Private Sub cmdLicense_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdLicense.Click
-        frmAbout.ShowDialog()
+        'frmAbout.ShowDialog()
+        asyncCallbackModuleEnumerate.GetModules(3824)
     End Sub
 
     Private Sub lblRibbon_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblRibbon.LinkClicked

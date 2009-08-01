@@ -145,13 +145,14 @@ Public Class cProcessMemRW
     ' =======================================================
     Public Sub New(ByVal processId As Integer)
         _pid = processId
-        _handle = OpenProcess(PROCESS_ALL_ACCESS, 0, processId)
+        _handle = OpenProcess(PROCESS_ALL_ACCESS, 0, processId) 'TOCHANGE
         GetSystemInfo(si)
     End Sub
     Protected Overrides Sub Finalize()
         MyBase.Finalize()
         Call CloseHandle(_handle)
     End Sub
+
 
     ' =======================================================
     ' Read bytes from a pid
@@ -242,7 +243,7 @@ Public Class cProcessMemRW
 
         ReDim regions(1000)     ' Initial buffer
 
-        lHandle = OpenProcess(PROCESS_ALL_ACCESS, 0, pid)
+        lHandle = OpenProcess(PROCESS_ALL_ACCESS, 0, pid)   'TOCHANGE
         lLenMBI = System.Runtime.InteropServices.Marshal.SizeOf(mbi)
         If si.lpMaximumApplicationAddress = 0 Then GetSystemInfo(si)
         lPosMem = si.lpMinimumApplicationAddress  ' Start from shorter address
@@ -536,9 +537,22 @@ Public Class cProcessMemRW
     ' Get a handle
     ' =======================================================
     Public Shared Function GetValidHandle(ByVal pid As Integer) As Integer
-        Return OpenProcess(PROCESS_ALL_ACCESS, 0, pid)
+        Return OpenProcess(PROCESS_ALL_ACCESS, 0, pid)  'TOCHANGE
     End Function
 
+
+
+    ' =======================================================
+    ' Read bytes from a handle
+    ' =======================================================
+    Public Shared Function ReadInteger(ByVal hProc As Integer, ByVal offset As Integer) As Integer
+        Dim buffer(0) As Integer
+        Dim lByte As Integer
+        ReadProcessMemory(hProc, offset, buffer, 4, lByte)
+        Return buffer(0)
+    End Function
+
+    ' TOCHANGE (String is crappy)
     Public Shared Function ReadBytesH(ByVal lHandle As Integer, ByVal offset As Integer, _
     ByVal size As Integer) As String
 

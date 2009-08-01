@@ -1,7 +1,9 @@
 TODO LIST
 
+- optimiser récupération handles
+- reprendre tout le code unmanaged (cProcessRW foiré, Marshal.Copy useless (utiliser GCHandle.Alloc...))
+- colorations listviewitems pour les modules (cf. flags)
 - SystemInfos -> afficher graphes en permanence (et pas que quand la form est affichée)
-- énumération des modules avec une méthode différente et + rapide
 - optimisation récupération zones mémoire
 - interprétations de structures
 - click sur croix de fermeture de frmMain -> appeler ExitYAPM avec succes
@@ -130,3 +132,5 @@ Temp Change log :
 - affichage des menus désactivé quand rien à sélectionner
 - réorganisation des colonnes OK
 - meilleure prise en charge du theme Classic sous XP
+- plus d'informations récupérées sur les modules
+- importante optimisation sur la récupération des modules

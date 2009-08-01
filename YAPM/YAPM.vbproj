@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{A82E9888-6B2A-44A7-B79A-27C93079ACDD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -557,6 +557,7 @@
     <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcUnloadModule.vb" />
     <Compile Include="Providers\Classes\Processes\cProcess.vb" />
     <Compile Include="Providers\Classes\Processes\cProcessConnection.vb" />
+    <Compile Include="Providers\Classes\Processes\cProcessMemReader.vb" />
     <Compile Include="Providers\Classes\Processes\cProcessMemRW.vb" />
     <Compile Include="Providers\Classes\Processes\processInfos.vb" />
     <Compile Include="Providers\Classes\Search\asyncMethods\asyncCallbackSearchEnumerate.vb" />

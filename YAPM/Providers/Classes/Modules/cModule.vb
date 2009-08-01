@@ -205,6 +205,8 @@ Public Class cModule
                 res = Me.Infos.FileInfo.SpecialBuild
             Case "ProcessId"
                 res = Me.Infos.ProcessId.ToString
+            Case "Flags"
+                res = Me.Infos.Flags.ToString
         End Select
  
         Return res

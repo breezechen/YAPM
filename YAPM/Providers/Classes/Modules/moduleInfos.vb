@@ -37,6 +37,7 @@ Imports System.Runtime.InteropServices
     Private _size As Integer
     Private _entryPoint As Integer
     Private _processId As Integer
+    Private _flags As API.LdrpDataTableEntryFlags
     <NonSerialized()> Private _fileInfo As FileVersionInfo
 
     Private _manufacturer As String
@@ -46,6 +47,11 @@ Imports System.Runtime.InteropServices
 
 #Region "Read only properties"
 
+    Public ReadOnly Property Flags() As API.LdrpDataTableEntryFlags
+        Get
+            Return _flags
+        End Get
+    End Property
     Public ReadOnly Property ProcessId() As Integer
         Get
             Return _processId
@@ -100,12 +106,14 @@ Imports System.Runtime.InteropServices
     ' ========================================
 
     ' Constructor of this class
-    Public Sub New(ByRef Thr As API.MODULEINFO, ByVal pid As Integer, _
-                   ByVal path As String, Optional ByVal noFileInfo As Boolean = False) ', Optional ByVal getFileInfos As Boolean = True)
-        With Thr
+    Public Sub New(ByRef data As API.LDR_DATA_TABLE_ENTRY, ByVal pid As Integer, _
+                   ByVal path As String, ByVal dllName As String, _
+                   Optional ByVal noFileInfo As Boolean = False)
+        With data
             _size = .SizeOfImage
             _entryPoint = .EntryPoint.ToInt32
-            _address = .BaseOfDll.ToInt32
+            _address = .DllBase.ToInt32
+            _flags = .Flags
         End With
         _processId = pid
 
@@ -120,7 +128,7 @@ Imports System.Runtime.InteropServices
             path = path.Substring(4)
         End If
         _path = path
-        _name = cFile.GetFileName(_path)
+        _name = dllName
 
         If noFileInfo = False Then
             Try
@@ -131,14 +139,15 @@ Imports System.Runtime.InteropServices
         Else
             _fileInfo = Nothing
         End If
-
     End Sub
-    Public Sub New(ByRef Thr As API.MODULEINFO, ByVal pid As Integer, _
-                   ByVal path As String, ByVal version As String, ByVal manufacturer As String)
+    Public Sub New(ByRef Thr As API.LDR_DATA_TABLE_ENTRY, ByVal pid As Integer, _
+                   ByVal path As String, ByVal version As String, _
+                   ByVal manufacturer As String)
+        ' This constructor is used for WMI
         With Thr
             _size = .SizeOfImage
             _entryPoint = .EntryPoint.ToInt32
-            _address = .BaseOfDll.ToInt32
+            _address = .DllBase.ToInt32
         End With
         _processId = pid
 
@@ -159,38 +168,39 @@ Imports System.Runtime.InteropServices
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties(Optional ByVal includeFirstProp As Boolean = False) As String()
-        Dim s(29) As String
+        Dim s(30) As String
 
         s(0) = "Size"
         s(1) = "Address"
-        s(2) = "Version"
-        s(3) = "Description"
-        s(4) = "CompanyName"
-        s(5) = "Path"
-        s(6) = "Comments"
-        s(7) = "FileBuildPart"
-        s(8) = "FileMajorPart"
-        s(9) = "FileMinorPart"
-        s(10) = "FilePrivatePart"
-        s(11) = "InternalName"
-        s(12) = "IsDebug"
-        s(13) = "IsPatched"
-        s(14) = "IsPreRelease"
-        s(15) = "IsPrivateBuild"
-        s(16) = "IsSpecialBuild"
-        s(17) = "Language"
-        s(18) = "LegalCopyright"
-        s(19) = "LegalTrademarks"
-        s(20) = "OriginalFilename"
-        s(21) = "PrivateBuild"
-        s(22) = "ProductBuildPart"
-        s(23) = "ProductMajorPart"
-        s(24) = "ProductMinorPart"
-        s(25) = "ProductName"
-        s(26) = "ProductPrivatePart"
-        s(27) = "ProductVersion"
-        s(28) = "SpecialBuild"
-        s(29) = "ProcessId"
+        s(2) = "Flags"
+        s(3) = "Version"
+        s(4) = "Description"
+        s(5) = "CompanyName"
+        s(6) = "Path"
+        s(7) = "Comments"
+        s(8) = "FileBuildPart"
+        s(9) = "FileMajorPart"
+        s(10) = "FileMinorPart"
+        s(11) = "FilePrivatePart"
+        s(12) = "InternalName"
+        s(13) = "IsDebug"
+        s(14) = "IsPatched"
+        s(15) = "IsPreRelease"
+        s(16) = "IsPrivateBuild"
+        s(17) = "IsSpecialBuild"
+        s(18) = "Language"
+        s(19) = "LegalCopyright"
+        s(20) = "LegalTrademarks"
+        s(21) = "OriginalFilename"
+        s(22) = "PrivateBuild"
+        s(23) = "ProductBuildPart"
+        s(24) = "ProductMajorPart"
+        s(25) = "ProductMinorPart"
+        s(26) = "ProductName"
+        s(27) = "ProductPrivatePart"
+        s(28) = "ProductVersion"
+        s(29) = "SpecialBuild"
+        s(30) = "ProcessId"
 
         If includeFirstProp Then
             Dim s2(s.Length) As String

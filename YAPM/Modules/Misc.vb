@@ -215,6 +215,7 @@ Module Misc
             Return ""
         End Try
     End Function
+    
 
     ' Get a good path
     Public Function GetRealPath(ByVal path As String) As String
