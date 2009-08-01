@@ -23,7 +23,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 
-Public Class control
+Public Class MemoryHexEditor
     Inherits System.Windows.Forms.Control
 
 #Region "API"

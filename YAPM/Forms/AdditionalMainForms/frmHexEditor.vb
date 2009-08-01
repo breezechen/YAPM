@@ -26,11 +26,11 @@ Imports System.Windows.Forms
 
 Public Class frmHexEditor
 
-    Public WithEvents _hex As New MemoryHexEditor.control
+    Public WithEvents _hex As New MemoryHexEditor
     Private _pid As Integer
-    Private _region As MemoryHexEditor.control.MemoryRegion
+    Private _region As MemoryHexEditor.MemoryRegion
 
-    Public Sub SetPidAndRegion(ByVal pid As Integer, ByVal region As MemoryHexEditor.control.MemoryRegion)
+    Public Sub SetPidAndRegion(ByVal pid As Integer, ByVal region As MemoryHexEditor.MemoryRegion)
         _pid = pid
         _region = region
         _hex.NewProc(_region, _pid)

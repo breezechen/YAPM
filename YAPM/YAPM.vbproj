@@ -206,6 +206,10 @@
     <EmbeddedResource Include="Forms\MainForms\frmServer.resx">
       <DependentUpon>frmServer.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\MemoryHexEditor.resx">
+      <DependentUpon>MemoryHexEditor.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DoubleBufferedLV.resx">
       <DependentUpon>DoubleBufferedLV.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -596,6 +600,12 @@
     <Compile Include="Providers\Classes\Windows\cWindow.vb" />
     <Compile Include="Providers\Classes\Windows\cWindowConnection.vb" />
     <Compile Include="Providers\Classes\Windows\windowInfos.vb" />
+    <Compile Include="UserControls\MemoryHexEditor.Designer.vb">
+      <DependentUpon>MemoryHexEditor.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MemoryHexEditor.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UserControls\DoubleBufferedLV.vb">
       <SubType>Component</SubType>
     </Compile>
@@ -899,10 +909,6 @@
     <ProjectReference Include="..\VistaMenu\Control\VistaMenu.csproj">
       <Project>{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}</Project>
       <Name>VistaMenu</Name>
-    </ProjectReference>
-    <ProjectReference Include="UserControls\MemoryHexEditor\MemoryHexEditor.vbproj">
-      <Project>{8C885999-147E-4651-AF9C-6F7149F1344D}</Project>
-      <Name>MemoryHexEditor</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

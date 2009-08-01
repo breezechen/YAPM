@@ -59,11 +59,6 @@ Public Class frmError
             s &= vbNewLine & vbTab & "Ribbon version : CANNOT GET VERSION"
         End Try
         Try
-            s &= vbNewLine & vbTab & "MemoryHexEditor version : " & System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\MemoryHexEditor.dll").FileVersion
-        Catch ex As Exception
-            s &= vbNewLine & vbTab & "MemoryHexEditor version : CANNOT GET VERSION"
-        End Try
-        Try
             s &= vbNewLine & vbTab & "TaskDialog version : " & System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\TaskDialog.dll").FileVersion
         Catch ex As Exception
             s &= vbNewLine & vbTab & "TaskDialog version : CANNOT GET VERSION"

@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class control
+Partial Class MemoryHexEditor
     Inherits System.Windows.Forms.Control
 
     'UserControl1 remplace la méthode Dispose pour nettoyer la liste des composants.

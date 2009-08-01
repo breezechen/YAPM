@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{8C885999-147E-4651-AF9C-6F7149F1344D}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -90,15 +90,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="cProcessMemRW.vb" />
+    <Compile Include="MemoryHexEditor.designer.vb">
+      <DependentUpon>MemoryHexEditor.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MemoryHexEditor.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
-    </Compile>
-    <Compile Include="control.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="control.Designer.vb">
-      <DependentUpon>control.vb</DependentUpon>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Resources.Designer.vb">
@@ -113,14 +113,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="MemoryHexEditor.resx">
+      <DependentUpon>MemoryHexEditor.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="control.resx">
-      <DependentUpon>control.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

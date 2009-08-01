@@ -121,7 +121,7 @@ Temp Change log :
 - nouvelles informations sur les processus
 - ajout support highlighting
 - refactoring (merge Providers & main project pour la prise en compte des settings dans les listviews)
-- merge corefunc et dependencyViewer dans main project
+- merge corefunc, memhexeditor et dependencyViewer dans main project
 - removed dead code
 - ajout google search et file details dans dependency viewer
 - ajout option "Show user group/domain"

@@ -1,4 +1,4 @@
-﻿' =======================================================
+' =======================================================
 ' Yet Another (remote) Process Monitor (YAPM)
 ' Copyright (c) 2008-2009 Alain Descotes (violent_ken)
 ' https://sourceforge.net/projects/yaprocmon/
@@ -20,6 +20,8 @@
 
 
 Option Strict On
+
+Imports System.Windows.Forms
 
 Public Class cProcessMemRW
 
@@ -66,33 +68,15 @@ Public Class cProcessMemRW
     Private Const MEM_RESERVE As Integer = &H2000
 
     Private Const INVALID_HANDLE_VALUE As Integer = -1
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
     Private Const SIZE_FOR_STRING As Integer = 5
 
-    Private Enum PROTECTION_TYPE
-        PAGE_EXECUTE = &H10
-        PAGE_EXECUTE_READ = &H20
-        PAGE_EXECUTE_READWRITE = &H40
-        PAGE_EXECUTE_WRITECOPY = &H80
-        PAGE_NOACCESS = &H1
-        PAGE_READONLY = &H2
-        PAGE_READWRITE = &H4
-        PAGE_WRITECOPY = &H8
-        PAGE_GUARD = &H100
-        PAGE_NOCACHE = &H200
-        PAGE_WRITECOMBINE = &H400
-    End Enum
 
     ' =======================================================
     ' API
     ' =======================================================
-    Private Declare Function AdjustTokenPrivileges Lib "advapi32.dll" (ByVal TokenHandle As Integer, ByVal DisableAllPrivileges As Integer, ByVal NewState As TOKEN_PRIVILEGES, ByVal BufferLength As Integer, ByVal PreviousState As TOKEN_PRIVILEGES, ByVal ReturnLength As Integer) As Integer
-    Private Declare Function OpenProcessToken Lib "advapi32.dll" (ByVal ProcessHandle As Integer, ByVal DesiredAccess As Integer, ByVal TokenHandle As Integer) As Integer
-    Private Declare Function LookupPrivilegeValue Lib "advapi32.dll" Alias "LookupPrivilegeValueA" (ByVal lpSystemName As String, ByVal lpName As String, ByVal lpLuid As LUID) As Integer
-    Public Declare Function CloseHandle Lib "kernel32" (ByVal hObject As Integer) As Integer
+    Private Declare Function CloseHandle Lib "kernel32" (ByVal hObject As Integer) As Integer
     Private Declare Function OpenProcess Lib "kernel32.dll" (ByVal dwDesiredAccessas As Integer, ByVal bInheritHandle As Integer, ByVal dwProcId As Integer) As Integer
     Private Declare Sub GetSystemInfo Lib "kernel32" (ByRef lpSystemInfo As SYSTEM_INFO)
-    Private Declare Function GetCurrentProcess Lib "kernel32.dll" () As Integer
     Private Declare Function WriteProcessMemory Lib "kernel32" (ByVal hProcess As Integer, ByVal lpBaseAddress As Integer, ByVal lpBuffer As String, ByVal nSize As Integer, ByVal lpNumberOfBytesWritten As Integer) As Integer
     Private Declare Function ReadProcessMemory Lib "kernel32" (ByVal hProcess As Integer, ByVal lpBaseAddress As Integer, ByVal lpBuffer As String, ByVal nSize As Integer, ByVal lpNumberOfBytesWritten As Integer) As Integer
     Private Declare Function ReadProcessMemory Lib "kernel32" (ByVal hProcess As Integer, ByVal lpBaseAddress As Integer, ByVal lpBuffer As Short(), ByVal nSize As Integer, ByVal lpNumberOfBytesWritten As Integer) As Integer
@@ -107,15 +91,6 @@ Public Class cProcessMemRW
     Private Structure LUID
         Dim LowPart As Integer
         Dim HighPart As Integer
-    End Structure
-    Private Structure LUID_AND_ATTRIBUTES
-        Dim pLuid As LUID
-        Dim Attributes As Integer
-    End Structure
-    Private Structure TOKEN_PRIVILEGES
-        Dim PrivilegeCount As Integer
-        Dim TheLuid As LUID
-        Dim Attributes As Integer
     End Structure
     Public Structure MEMORY_BASIC_INFORMATION ' 28 bytes
         Dim BaseAddress As Integer
@@ -149,7 +124,7 @@ Public Class cProcessMemRW
     ' =======================================================
     Private _pid As Integer
     Private _handle As Integer
-    Private si As SYSTEM_INFO
+    Private Shared si As SYSTEM_INFO
 
     ' =======================================================
     ' Public properties
@@ -159,19 +134,25 @@ Public Class cProcessMemRW
             Return si
         End Get
     End Property
+    Public ReadOnly Property Handle() As Integer
+        Get
+            Return _handle
+        End Get
+    End Property
 
     ' =======================================================
     ' Public functions
     ' =======================================================
     Public Sub New(ByVal processId As Integer)
         _pid = processId
-        _handle = OpenProcess(PROCESS_ALL_ACCESS, 0, processId)
+        _handle = OpenProcess(PROCESS_ALL_ACCESS, 0, processId) 'TOCHANGE
         GetSystemInfo(si)
     End Sub
     Protected Overrides Sub Finalize()
         MyBase.Finalize()
         Call CloseHandle(_handle)
     End Sub
+
 
     ' =======================================================
     ' Read bytes from a pid
@@ -225,6 +206,10 @@ Public Class cProcessMemRW
             sBuf2.CopyTo(sBuf, CInt(_si2 / 2))
 
             _si2 += size
+            If size = 0 Then
+                ReDim sBuf(0)
+                Return sBuf
+            End If
             size = _si - _si2
         Loop
 
@@ -247,7 +232,8 @@ Public Class cProcessMemRW
     ' =======================================================
     ' Retrieve memory regions (availables for r/w)
     ' =======================================================
-    Public Sub RetrieveMemRegions(ByRef regions() As MEMORY_BASIC_INFORMATION)
+    Private Shared Sub RetrieveMemRegions(ByRef regions() As MEMORY_BASIC_INFORMATION, _
+                                          ByVal pid As Integer, Optional ByVal onlyProcessRegions As Boolean = False)
 
         Dim lHandle As Integer
         Dim lPosMem As Integer
@@ -255,13 +241,14 @@ Public Class cProcessMemRW
         Dim lLenMBI As Integer
         Dim mbi As MEMORY_BASIC_INFORMATION
 
-        ReDim regions(0)
+        ReDim regions(1000)     ' Initial buffer
 
-        lHandle = OpenProcess(PROCESS_ALL_ACCESS, 0, _pid)
-
+        lHandle = OpenProcess(PROCESS_ALL_ACCESS, 0, pid)   'TOCHANGE
         lLenMBI = System.Runtime.InteropServices.Marshal.SizeOf(mbi)
-
+        If si.lpMaximumApplicationAddress = 0 Then GetSystemInfo(si)
         lPosMem = si.lpMinimumApplicationAddress  ' Start from shorter address
+
+        Dim _xx As Integer = 0
 
         Do While lPosMem < si.lpMaximumApplicationAddress ' While addresse is lower than max address
 
@@ -271,15 +258,15 @@ Public Class cProcessMemRW
 
             If lRet = lLenMBI Then
 
-                If (mbi.lType = MEM_PRIVATE) And (mbi.State = MEM_COMMIT) Then
-                    ' Then used by process
-
-                    If mbi.RegionSize > 0 Then
-                        ' Here is a region
-                        ReDim Preserve regions(regions.Length)
-                        regions(regions.Length - 1) = mbi
+                If mbi.RegionSize > 0 AndAlso _
+                ((Not onlyProcessRegions) OrElse (mbi.lType = MEM_PRIVATE And _
+                                                  mbi.State = MEM_COMMIT)) Then
+                    ' Here is a region
+                    _xx += 1
+                    If _xx >= regions.Length Then
+                        ReDim Preserve regions(regions.Length * 2)
                     End If
-
+                    regions(_xx - 1) = mbi
                 End If
 
                 ' Goes on
@@ -293,14 +280,17 @@ Public Class cProcessMemRW
         Loop
 
         Call CloseHandle(lHandle)
+
+        ' Remove last item
+        ReDim Preserve regions(_xx - 1)
     End Sub
     Public Sub RetrieveMemRegions(ByRef lBaseAdress() As Integer, _
-        ByRef lRegionSize() As Integer)
+        ByRef lRegionSize() As Integer, Optional ByVal onlyProc As Boolean = False)
 
         Dim regions() As MEMORY_BASIC_INFORMATION
 
         ReDim regions(0)
-        RetrieveMemRegions(regions)
+        RetrieveMemRegions(regions, Me._pid, onlyProc)
 
         ReDim lBaseAdress(regions.Length - 1)
         ReDim lRegionSize(regions.Length - 1)
@@ -311,114 +301,249 @@ Public Class cProcessMemRW
         Next
 
     End Sub
-    Public Sub RetrieveMemRegions(ByRef regions() As MemoryHexEditor.control.MemoryRegion)
-        Dim a() As Integer = Nothing
-        Dim s() As Integer = Nothing
-        RetrieveMemRegions(a, s)
-        ReDim regions(a.Length - 1)
 
-        For x As Integer = 0 To regions.Length - 1
-            regions(x) = New MemoryHexEditor.control.MemoryRegion(a(x), s(x))
-        Next
+    ' =======================================================
+    ' Search a string in memory
+    ' =======================================================
+    Public Sub SearchForStringMemory(ByVal sMatch As String, ByVal bCasse As Boolean, _
+        ByRef tRes() As Long, Optional ByVal PGB As ProgressBar = Nothing)
+
+        Dim x As Integer
+        Dim strBufT As String
+        Dim lHandle As Integer
+        Dim LB() As Integer
+        Dim LS() As Integer
+
+        ReDim tRes(0)
+        ReDim LB(0)
+        ReDim LS(0)
+
+        Call RetrieveMemRegions(LB, LS)
+
+        If Not (PGB Is Nothing) Then
+            With PGB
+                .Minimum = 0
+                .Value = 0
+                .Maximum = LS.Length
+            End With
+        End If
+
+        lHandle = OpenProcess(PROCESS_ALL_ACCESS, 0, _pid)
+
+        If bCasse = False Then sMatch = sMatch.ToLower
+
+        For x = 1 To LS.Length
+
+            ' Get current region
+            strBufT = ReadBytesH(lHandle, LB(x), LS(x))
+
+            If bCasse = False Then strBufT = strBufT.ToLower
+
+            ' While match
+            While Not (InStr(1, strBufT, sMatch, vbBinaryCompare) = 0)
+
+                ' Found a string
+                ReDim Preserve tRes(tRes.Length + 1)
+
+                tRes(tRes.Length) = LB(x) + InStr(1, strBufT, sMatch, CompareMethod.Binary) + LS(x) - Len(strBufT) - 1
+
+                strBufT = Right(strBufT, Len(strBufT) - InStr(1, strBufT, sMatch, CompareMethod.Binary) - Len(sMatch) + 1)
+            End While
+
+            If Not (PGB Is Nothing) Then PGB.Value = x
+
+            'Call Application.DoEvents()
+
+        Next x
+
+        If Not (PGB Is Nothing) Then PGB.Value = PGB.Maximum
+
+        strBufT = vbNullString
+
+        Call CloseHandle(lHandle)
+    End Sub
+
+    ' =======================================================
+    ' Search a complete string
+    ' =======================================================
+    Private _stringSearchImmediateStop As Boolean
+    Public WriteOnly Property StopSearch() As Boolean
+        Set(ByVal value As Boolean)
+            _stringSearchImmediateStop = value
+        End Set
+    End Property
+    Public Sub SearchEntireStringMemory(ByRef lngRes() As Integer, _
+        ByRef strRes() As String, Optional ByVal PGB As ProgressBar = Nothing)
+
+        Dim strCtemp As String = vbNullString
+        Dim x As Integer = 1
+        Dim lngLen As Integer
+        Dim strBuffer As String
+        Dim i As Integer
+        Dim tRes() As T_RESULT
+        Dim lHandle As Integer
+        Dim LB() As Integer
+        Dim LS() As Integer
+        Dim cArraySizeBef As Integer = 0
+
+        Const BUF_SIZE As Integer = 2000     ' Size of array
+
+        ReDim tRes(BUF_SIZE)
+
+        ReDim LB(0)
+        ReDim LS(0)
+        Call RetrieveMemRegions(LB, LS, True)
+
+        ' Calculate max size
+        lngLen = 0
+        For i = 0 To LS.Length - 1
+            lngLen += LS(i)
+        Next i
+
+        If Not (PGB Is Nothing) Then
+            With PGB
+                .Minimum = 0
+                .Value = 0
+                .Maximum = CInt(LS.Length + 1)
+            End With
+        End If
+
+        lHandle = GetValidHandle(_pid)
+
+        If lHandle = INVALID_HANDLE_VALUE Then
+            ReDim lngRes(0)
+            ReDim strRes(0)
+            Exit Sub
+        End If
+
+        ' For each region
+        For x = 0 To LS.Length - 1
+
+            ' Get entire region
+            strBuffer = ReadBytesH(lHandle, LB(x), LS(x))
+            'Application.DoEvents()
+
+            strCtemp = vbNullString
+
+            ' Search in string
+            If Not (PGB Is Nothing) Then PGB.Value += 1
+
+            For i = 0 To LS(x) - 1
+
+                If _stringSearchImmediateStop Then
+                    ' Exit
+                    PGB.Value = PGB.Maximum
+                    Exit Sub
+                End If
+
+                If (i Mod 1000) = 0 Then
+                    'Application.DoEvents()
+                End If
+
+                If isLetter(strBuffer(i)) Then
+                    strCtemp &= strBuffer.Chars(i)
+                Else
+                    'strCtemp = Trim$(strCtemp)
+                    If Len(strCtemp) > SIZE_FOR_STRING Then
+
+                        ' Resize only every BUF times
+                        If cArraySizeBef = BUF_SIZE Then
+                            cArraySizeBef = 0
+                            ReDim Preserve tRes(tRes.Length + BUF_SIZE)
+                        End If
+
+                        tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).curOffset = i + LB(x) - Len(strCtemp) + 1
+                        tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).strString = strCtemp
+                        cArraySizeBef += 1
+
+                    End If
+                    strCtemp = vbNullString
+                End If
+            Next i
+
+            If Len(strCtemp) > SIZE_FOR_STRING Then
+                ' Resize only every BUF times
+                If cArraySizeBef = BUF_SIZE Then
+                    cArraySizeBef = 0
+                    ReDim Preserve tRes(tRes.Length + BUF_SIZE)
+                End If
+
+                tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).curOffset = LS(x) + LB(x) - Len(strCtemp) + 1
+                tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).strString = strCtemp
+
+            End If
+
+        Next x
+
+
+        If Not (PGB Is Nothing) Then PGB.Value = PGB.Maximum
+        strBuffer = vbNullString
+
+        Call CloseHandle(lHandle)
+
+        'maintenant, stocke dans les arrays de sortie
+        ReDim lngRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1)
+        ReDim strRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1)
+        For i = 0 To tRes.Length - BUF_SIZE + cArraySizeBef - 1
+            lngRes(i) = tRes(i).curOffset
+            strRes(i) = tRes(i).strString
+        Next i
 
     End Sub
 
+    Private Function isLetter(ByVal c As Char) As Boolean
+        Dim i As Integer = Asc(c)
+        ' A-Z [/]_^' space a-z {|}
+        Return ((i >= 65 And i <= 125) OrElse (i >= 45 And i <= 57) OrElse i = 32)
+    End Function
 
 
     ' =======================================================
     ' Shared functions
     ' =======================================================
 
-    ' =======================================================
-    ' Write bytes from a handle
-    ' =======================================================
-    Public Shared Function WriteBytesH(ByVal handle As Integer, ByVal offset As Integer, _
-        ByVal strStringToWrite As String) As Integer
-        Return WriteProcessMemory(handle, offset, strStringToWrite, strStringToWrite.Length, 0)
-    End Function
+    ' Enumerate regions
+    Public Shared Function Enumerate(ByVal pid As Integer, ByRef add() As String, _
+                                     ByRef _dico As Dictionary(Of String, cProcessMemRW.MEMORY_BASIC_INFORMATION)) As Integer
 
-    ' Get protection type as string
-    Public Shared Function GetProtectionType(ByVal protec As Integer) As String
-        Dim s As String = ""
+        _dico.Clear()
+        Dim r() As MEMORY_BASIC_INFORMATION
+        ReDim r(0)
 
-        If (protec And PROTECTION_TYPE.PAGE_EXECUTE) = PROTECTION_TYPE.PAGE_EXECUTE Then
-            s &= "E/"
-        End If
-        If (protec And PROTECTION_TYPE.PAGE_EXECUTE_READ) = PROTECTION_TYPE.PAGE_EXECUTE_READ Then
-            s &= "ERO/"
-        End If
-        If (protec And PROTECTION_TYPE.PAGE_EXECUTE_READWRITE) = PROTECTION_TYPE.PAGE_EXECUTE_READWRITE Then
-            s &= "ERW/"
-        End If
-        If (protec And PROTECTION_TYPE.PAGE_EXECUTE_WRITECOPY) = PROTECTION_TYPE.PAGE_EXECUTE_WRITECOPY Then
-            s &= "EWC/"
-        End If
-        If (protec And PROTECTION_TYPE.PAGE_GUARD) = PROTECTION_TYPE.PAGE_GUARD Then
-            s &= "G/"
-        End If
-        If (protec And PROTECTION_TYPE.PAGE_NOACCESS) = PROTECTION_TYPE.PAGE_NOACCESS Then
-            s &= "NA/"
-        End If
-        If (protec And PROTECTION_TYPE.PAGE_NOCACHE) = PROTECTION_TYPE.PAGE_NOCACHE Then
-            s &= "NC"
-        End If
-        If (protec And PROTECTION_TYPE.PAGE_READONLY) = PROTECTION_TYPE.PAGE_READONLY Then
-            s &= "RO/"
-        End If
-        If (protec And PROTECTION_TYPE.PAGE_READWRITE) = PROTECTION_TYPE.PAGE_READWRITE Then
-            s &= "RW/"
-        End If
-        If (protec And PROTECTION_TYPE.PAGE_WRITECOMBINE) = PROTECTION_TYPE.PAGE_WRITECOMBINE Then
-            s &= "WCOMB/"
-        End If
-        If (protec And PROTECTION_TYPE.PAGE_WRITECOPY) = PROTECTION_TYPE.PAGE_WRITECOPY Then
-            s &= "WC/"
-        End If
+        Call RetrieveMemRegions(r, pid)
 
-        If s.Length > 0 Then
-            s = s.Substring(0, s.Length - 1)
-        Else
-            s = NO_INFO_RETRIEVED
-        End If
+        ReDim add(r.Length - 1)
 
-        Return s
-    End Function
+        Dim x As Integer = 0
+        For Each t As MEMORY_BASIC_INFORMATION In r
+            add(x) = t.BaseAddress.ToString
+            _dico.Add(add(x).ToString, t)
+            x += 1
+        Next
 
-    ' Get state type as string
-    Public Shared Function GetStateType(ByVal state As Integer) As String
-        Select Case state
-            Case MEM_COMMIT
-                Return "MEM_COMMIT"
-            Case MEM_RESERVE
-                Return "MEM_RESERVE"
-            Case MEM_FREE
-                Return "MEM_FREE"
-            Case Else
-                Return NO_INFO_RETRIEVED
-        End Select
-    End Function
 
-    ' Get type type as string
-    Public Shared Function GetTypeType(ByVal type As Integer) As String
-        Select Case type
-            Case MEM_IMAGE
-                Return "MEM_IMAGE"
-            Case MEM_PRIVATE
-                Return "MEM_PRIVATE"
-            Case MEM_MAPPED
-                Return "MEM_MAPPED"
-            Case Else
-                Return NO_INFO_RETRIEVED
-        End Select
     End Function
 
     ' =======================================================
     ' Get a handle
     ' =======================================================
     Public Shared Function GetValidHandle(ByVal pid As Integer) As Integer
-        Return OpenProcess(PROCESS_ALL_ACCESS, 0, pid)
+        Return OpenProcess(PROCESS_ALL_ACCESS, 0, pid)  'TOCHANGE
     End Function
 
+
+
+    ' =======================================================
+    ' Read bytes from a handle
+    ' =======================================================
+    Public Shared Function ReadInteger(ByVal hProc As Integer, ByVal offset As Integer) As Integer
+        Dim buffer(0) As Integer
+        Dim lByte As Integer
+        ReadProcessMemory(hProc, offset, buffer, 4, lByte)
+        Return buffer(0)
+    End Function
+
+    ' Used for memory search only (because string is crappy for ReadProcMemory)
     Public Shared Function ReadBytesH(ByVal lHandle As Integer, ByVal offset As Integer, _
     ByVal size As Integer) As String
 
@@ -427,7 +552,7 @@ Public Class cProcessMemRW
 
         '/!\ Integer is enough because of the limitation of 2GB in memory
 
-        sBuf = New String(Convert.ToChar(32), size)
+        sBuf = Space(size)
 
         Call ReadProcessMemory(lHandle, offset, sBuf, size, lByte)
         Return sBuf

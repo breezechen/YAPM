@@ -891,7 +891,7 @@ Public Class frmProcessInfo
     Private Sub lvProcMem_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvProcMem.DoubleClick
         For Each it As cMemRegion In Me.lvProcMem.GetSelectedItems
             Dim frm As New frmHexEditor
-            Dim reg As New MemoryHexEditor.control.MemoryRegion(it.Infos.BaseAddress, it.Infos.RegionSize)
+            Dim reg As New MemoryHexEditor.MemoryRegion(it.Infos.BaseAddress, it.Infos.RegionSize)
             frm.SetPidAndRegion(it.Infos.ProcessId, reg)
             frm.Show()
         Next
@@ -1418,7 +1418,7 @@ Public Class frmProcessInfo
 
             If reg.Infos.BaseAddress <= add AndAlso add <= (reg.Infos.BaseAddress + reg.Infos.RegionSize) Then
                 Dim frm As New frmHexEditor
-                Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
+                Dim regio As New MemoryHexEditor.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
                 frm.SetPidAndRegion(curProc.Infos.Pid, regio)
                 frm._hex.NavigateToOffset(CInt((add - regio.BeginningAddress) / 16))
                 frm.Show()
@@ -1604,7 +1604,7 @@ Public Class frmProcessInfo
         For Each reg As cMemRegion In Me.lvProcMem.GetAllItems
             If reg.Infos.BaseAddress <= peb AndAlso peb <= (reg.Infos.BaseAddress + reg.Infos.RegionSize) Then
                 Dim frm As New frmHexEditor
-                Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
+                Dim regio As New MemoryHexEditor.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
                 frm.SetPidAndRegion(curProc.Infos.Pid, regio)
                 frm._hex.NavigateToOffset(peb)
                 frm.Show()
@@ -1697,7 +1697,7 @@ Public Class frmProcessInfo
 
                 If reg.Infos.BaseAddress <= add AndAlso add < (reg.Infos.BaseAddress + reg.Infos.RegionSize) Then
                     Dim frm As New frmHexEditor
-                    Dim regio As New MemoryHexEditor.control.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
+                    Dim regio As New MemoryHexEditor.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
                     frm.SetPidAndRegion(curProc.Infos.Pid, regio)
                     frm._hex.NavigateToOffset(CInt((add - regio.BeginningAddress) / 16) - 1)
                     frm.Show()

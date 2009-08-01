@@ -168,14 +168,14 @@ Public Class cProcessMemRW
 
         Return sBuf
     End Function
-    Public Function ReadBytesAB(ByVal offset As Integer, ByVal size As Integer) As Byte()
+    Public Function ReadBytesAB(ByVal offset As Integer, ByVal size As Integer, ByRef ok As Boolean) As Byte()
 
         Dim sBuf() As Byte
         Dim lByte As Integer
         ReDim sBuf(size - 1)
 
         ' Byte array -> size*1 to get bytes count
-        Call ReadProcessMemory(_handle, offset, sBuf, size, lByte)
+        ok = (ReadProcessMemory(_handle, offset, sBuf, size, lByte) > 0)
 
         Return sBuf
     End Function
@@ -502,15 +502,6 @@ Public Class cProcessMemRW
     ' Shared functions
     ' =======================================================
 
-    ' =======================================================
-    ' Write bytes from a handle
-    ' =======================================================
-    Public Shared Function WriteBytesH(ByVal handle As Integer, ByVal offset As Integer, _
-        ByVal strStringToWrite As String) As Integer
-        Return WriteProcessMemory(handle, offset, strStringToWrite, Len(strStringToWrite), 0)
-    End Function
-
-
     ' Enumerate regions
     Public Shared Function Enumerate(ByVal pid As Integer, ByRef add() As String, _
                                      ByRef _dico As Dictionary(Of String, cProcessMemRW.MEMORY_BASIC_INFORMATION)) As Integer
@@ -552,7 +543,7 @@ Public Class cProcessMemRW
         Return buffer(0)
     End Function
 
-    ' TOCHANGE (String is crappy)
+    ' Used for memory search only (because string is crappy for ReadProcMemory)
     Public Shared Function ReadBytesH(ByVal lHandle As Integer, ByVal offset As Integer, _
     ByVal size As Integer) As String
 
