@@ -23,8 +23,6 @@ Option Strict On
 Public Class cModule
     Inherits cGeneralObject
 
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
-
     Private _moduleInfos As moduleInfos
     Private Shared WithEvents _connection As cModuleConnection
 

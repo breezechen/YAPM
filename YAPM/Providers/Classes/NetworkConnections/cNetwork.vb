@@ -29,8 +29,6 @@ Public Class cNetwork
     Private Shared _dicoUdp As New Dictionary(Of Integer, String)
     Private Shared _dicoTcp As New Dictionary(Of Integer, String)
 
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
-
     Private nullAddress As New IPAddress(0)     ' For address comparison
 
     Private _networkInfos As networkInfos

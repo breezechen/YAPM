@@ -25,8 +25,6 @@ Imports System.Drawing
 Public Class cThread
     Inherits cGeneralObject
 
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
-
     Private _threadInfos As threadInfos
     Private Shared WithEvents _connection As cThreadConnection
 

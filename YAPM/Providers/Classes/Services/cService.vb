@@ -23,7 +23,6 @@ Option Strict On
 Public Class cService
     Inherits cGeneralObject
 
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
     Private Const NO_DEPENDENCIES As String = ""
 
     ' Current services running

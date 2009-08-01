@@ -25,8 +25,6 @@ Imports System.Text
 Public Class cWindow
     Inherits cGeneralObject
 
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
-
     Private _windowInfos As windowInfos
     Private Shared WithEvents _connection As cWindowConnection
 

@@ -25,8 +25,6 @@ Imports System.Windows.Forms
 
 Public Class frmHiddenProcesses
 
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
-
     Private Sub frmHiddenProcesses_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         closeWithEchapKey(Me)

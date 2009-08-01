@@ -26,7 +26,6 @@ Imports System.Runtime.InteropServices
 Public Class frmServiceInfo
 
     Private WithEvents curServ As cService
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
     Private WithEvents _AsyncDownload As cAsyncProcInfoDownload
     Private _asyncDlThread As Threading.Thread
 

@@ -29,8 +29,6 @@ Imports System.Text
 
 Public MustInherit Class cGeneralConnection
 
-    Protected Const NO_INFO_RETRIEVED As String = "N/A"
-
     ' We will invoke this control
     Protected _control As Control
     Protected WithEvents _sock As AsynchronousClient

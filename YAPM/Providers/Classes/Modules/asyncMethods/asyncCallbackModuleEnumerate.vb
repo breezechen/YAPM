@@ -28,6 +28,10 @@ Imports System.Management
 
 Public Class asyncCallbackModuleEnumerate
 
+    ' Some material to retrieve infos about files ONCE
+    Friend Shared fileInformations As New Dictionary(Of String, FileVersionInfo)
+    Friend Shared semDicoFileInfos As New System.Threading.Semaphore(1, 1)
+
     Private ctrl As Control
     Private deg As [Delegate]
     Private con As cModuleConnection
@@ -158,22 +162,23 @@ Public Class asyncCallbackModuleEnumerate
                 ' Local
                 Dim _dico As New Dictionary(Of String, moduleInfos)
 
-                Call enumModules(pObj, _dico)
+                Call enumModules(pObj, _dico, True)
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
                     ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
 
         End Select
 
+
         sem.Release()
 
     End Sub
 
     ' Enumerate modules (local)
-    Friend Shared Sub enumModules(ByVal pObj As poolObj, ByRef _dico As Dictionary(Of String, moduleInfos))
+    Friend Shared Sub enumModules(ByVal pObj As poolObj, ByRef _dico As Dictionary(Of String, moduleInfos), ByVal getFileInfos As Boolean)
         For Each id As Integer In pObj.pid
             Dim _md As New Dictionary(Of String, moduleInfos)
-            _md = GetModules(id)
+            _md = GetModules(id, Not (getFileInfos))
             For Each pair As System.Collections.Generic.KeyValuePair(Of String, moduleInfos) In _md
                 _dico.Add(pair.Key, pair.Value)
             Next

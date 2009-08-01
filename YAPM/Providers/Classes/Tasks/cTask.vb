@@ -25,8 +25,6 @@ Imports System.Text
 Public Class cTask
     Inherits cWindow
 
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
-
     Private _taskinfos As taskInfos
 
     Private _pid As Integer

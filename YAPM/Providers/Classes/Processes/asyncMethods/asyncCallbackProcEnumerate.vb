@@ -28,7 +28,6 @@ Imports System.Management
 
 Public Class asyncCallbackProcEnumerate
 
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
     Private PROCESS_MIN_RIGHTS As API.PROCESS_RIGHTS = API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION
 
     Private ctrl As Control
@@ -507,7 +506,7 @@ Public Class asyncCallbackProcEnumerate
             Dim bA() As Short = cR.ReadBytesAS(__procParamAd + 64, 1)
             Dim __size As Integer = bA(0)      ' Size of string
             If __size = 0 Then
-                Return "N/A"
+                Return NO_INFO_RETRIEVED
             End If
 
             ' Read pointer to the string

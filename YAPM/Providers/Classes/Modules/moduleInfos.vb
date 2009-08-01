@@ -131,11 +131,22 @@ Imports System.Runtime.InteropServices
         _name = dllName
 
         If noFileInfo = False Then
-            Try
-                _fileInfo = FileVersionInfo.GetVersionInfo(path)
-            Catch ex As Exception
-                _fileInfo = Nothing
-            End Try
+            ' Retrieve infos about file
+            ' Retrive infos ONLY ONE time (save path and infos into a dico)
+            ' As this constructor is only used for local connection, there is
+            ' nothing to check concerning connection
+            asyncCallbackModuleEnumerate.semDicoFileInfos.WaitOne()
+            If asyncCallbackModuleEnumerate.fileInformations.ContainsKey(_path) = False Then
+                Try
+                    _fileInfo = FileVersionInfo.GetVersionInfo(path)
+                Catch ex As Exception
+                    _fileInfo = Nothing
+                End Try
+                asyncCallbackModuleEnumerate.fileInformations.Add(_path, _fileInfo)
+            Else
+                _fileInfo = asyncCallbackModuleEnumerate.fileInformations.Item(_path)
+            End If
+            asyncCallbackModuleEnumerate.semDicoFileInfos.Release()
         Else
             _fileInfo = Nothing
         End If

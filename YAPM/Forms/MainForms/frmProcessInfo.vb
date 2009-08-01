@@ -28,7 +28,6 @@ Public Class frmProcessInfo
     Private WithEvents asyncAllNonFixedInfos As asyncCallbackProcGetAllNonFixedInfos
 
     Private WithEvents curProc As cProcess
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
     Private WithEvents _AsyncDownload As cAsyncProcInfoDownload
     Private _asyncDlThread As Threading.Thread
 

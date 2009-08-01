@@ -90,8 +90,6 @@ Public Class cProcess
     ' Contains list of process names
     Friend Shared _procs As New Dictionary(Of String, String)
 
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
-
     ' Current processes running
     ' Protected by a semaphore (see property associated below, _semCurrentProcesses)
     Public Shared _currentProcesses As Dictionary(Of String, cProcess)

@@ -27,7 +27,6 @@ Imports System.Runtime.InteropServices
 
 Module Misc
 
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
     Private sizeUnits() As String = {"Bytes", "KB", "MB", "GB", "TB", "PB", "EB"}
     Public NON_BLACK_COLOR As System.Drawing.Color = System.Drawing.Color.FromArgb(30, 30, 30)
 

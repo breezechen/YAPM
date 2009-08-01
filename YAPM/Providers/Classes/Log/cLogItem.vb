@@ -25,8 +25,6 @@ Imports System.Text
 Public Class cLogItem
     Inherits cGeneralObject
 
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
-
     Private _logInfos As logItemInfos
     Private Shared WithEvents _connection As cLogConnection
 

@@ -25,8 +25,6 @@ Imports System.Text
 Public Class cMemRegion
     Inherits cGeneralObject
 
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
-
     Private _memInfos As memRegionInfos
     Private Shared WithEvents _connection As cMemRegionConnection
     Private _moduleFileName As String

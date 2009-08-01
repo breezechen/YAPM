@@ -23,8 +23,6 @@ Option Strict On
 Public Class cPrivilege
     Inherits cGeneralObject
 
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
-
     Private _privilegeInfos As privilegeInfos
     Private Shared WithEvents _connection As cPrivilegeConnection
 

@@ -23,6 +23,4 @@ Option Strict On
 
 <Serializable()> Public MustInherit Class generalInfos
 
-    Protected Const NO_INFO_RETRIEVED As String = "N/A"
-
 End Class

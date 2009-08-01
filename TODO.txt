@@ -1,5 +1,6 @@
 TODO LIST
 
+- ajouter statusbar
 - optimiser récupération handles
 - reprendre tout le code unmanaged (cProcessRW foiré, Marshal.Copy useless (utiliser GCHandle.Alloc...))
 - colorations listviewitems pour les modules (cf. flags)

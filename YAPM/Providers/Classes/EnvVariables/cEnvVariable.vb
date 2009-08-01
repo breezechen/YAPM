@@ -23,8 +23,6 @@ Option Strict On
 Public Class cEnvVariable
     Inherits cGeneralObject
 
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
-
     Private _envInfos As envVariableInfos
     Private Shared WithEvents _connection As cEnvVariableConnection
 

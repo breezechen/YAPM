@@ -23,8 +23,6 @@ Option Strict On
 Public Class cHandle
     Inherits cGeneralObject
 
-    Private Const NO_INFO_RETRIEVED As String = "N/A"
-
     Private _handleInfos As handleInfos
     Private Shared WithEvents _connection As cHandleConnection
 
