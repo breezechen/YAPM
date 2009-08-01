@@ -452,25 +452,6 @@ Public Class frmMain
         ' File resizement
         Me.txtFile.Width = Me.Width - 260
 
-
-        Static _oldStyle As Boolean = _ribbonStyle
-        'If Not (_oldStyle = _ribbonStyle) Then
-        _oldStyle = _ribbonStyle
-        If _ribbonStyle Then
-            ' Hide  _tab columns
-            _tab.Dock = DockStyle.None
-            _tab.Top = -20
-            _tab.Left = -2
-            _tab.Width = Me.Width - 12
-            _tab.Height = Me.Height - 157
-            _tab.Region = New Region(New RectangleF(_tab.Left, _tab.SelectedTab.Top, _tab.SelectedTab.Width + 5, _tab.SelectedTab.Height))
-            _tab.Refresh()
-        Else
-            _tab.Region = Nothing
-            _tab.Dock = DockStyle.Fill
-        End If
-        'End If
-
         _tab.SelectedTab.Show()
     End Sub
 
@@ -4734,5 +4715,19 @@ Public Class frmMain
     Private Sub MenuItemRunAsAdmin_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemRunAsAdmin.Click
         ' Restart elevated
         Call cEnvironment.RestartElevated()
+    End Sub
+
+    Private Sub timerStatus_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerStatus.Tick
+        ' Update panels of status bar
+
+        ' /!\ Here we refresh the informations about system
+        ' RefreshInfo should not be called elsewhere
+        Call Program.SystemInfo.RefreshInfo()
+
+        Me.sbPanelConnection.Text = Program.Connection.ToString
+        Me.sbPanelCpu.Text = "CPU : " & Misc.GetFormatedPercentage(Program.SystemInfo.CpuUsage, 3, True) & " %"
+        Me.sbPanelMemory.Text = "Phys. Memory : " & Misc.GetFormatedPercentage(Program.SystemInfo.PhysicalMemoryPercentageUsage, 3, True) & " %"
+        Me.sbPanelProcesses.Text = Me.lvProcess.Items.Count & " processes"
+        Me.sbPanelServices.Text = Me.lvServices.Items.Count & " services"
     End Sub
 End Class

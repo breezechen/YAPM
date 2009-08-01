@@ -60,6 +60,7 @@ Public Class frmPreferences
         My.Settings.SystemInterval = CInt(Val(Me.txtSysInfoInterval.Text))
         My.Settings.AutomaticInternetInfos = Me.chkAutoOnline.Checked
         My.Settings.ShowUserGroupDomain = Me.chkUserGroup.Checked
+        My.Settings.ShowStatusBar = Me.chkStatusBar.Checked
         If Me.chkUnlimitedBuf.Checked Then
             My.Settings.HistorySize = -1
         Else
@@ -136,7 +137,7 @@ Public Class frmPreferences
         API.SetWindowTheme(Me.lvHighlightingThread.Handle, "explorer", Nothing)
 
         Me.txtUpdate.Text = "Click on 'Check if YAPM is up to date' to check if a new version is available."
-        SetToolTip(Me.chkReplaceTaskmgr, "Replace taskmgr (it is safe).")
+        SetToolTip(Me.chkReplaceTaskmgr, "Replace taskmgr.")
         SetToolTip(Me.chkStart, "Start YAPM on Windows startup.")
         SetToolTip(Me.chkStartTray, "Start YAPM hidden (only in tray system).")
         SetToolTip(Me.txtProcessIntervall, "Set interval (milliseconds) between two refreshments of process list.")
@@ -169,6 +170,7 @@ Public Class frmPreferences
         SetToolTip(Me.cmdMoveDownProcess, "Decrease priority of selected category.")
         SetToolTip(Me.cmdMoveUpProcess, "Increase priority of selected category.")
         SetToolTip(Me.chkUserGroup, "Show or not user group/domain in process listview.")
+        SetToolTip(Me.chkStatusBar, "Show or not status bar on main form.")
 
         ' Set control's values
         Me.txtServiceIntervall.Text = My.Settings.ServiceInterval.ToString
@@ -195,6 +197,8 @@ Public Class frmPreferences
         Me.chkHideClosed.Checked = My.Settings.HideWhenClosed
         Me.chkAutoOnline.Checked = My.Settings.AutomaticInternetInfos
         Me.chkUserGroup.Checked = My.Settings.ShowUserGroupDomain
+        Me.chkStatusBar.Checked = My.Settings.ShowStatusBar
+
         If My.Settings.HistorySize > 0 Then
             Me.bufferSize.Value = CInt(My.Settings.HistorySize / 1024)
             Me.chkUnlimitedBuf.Checked = False
@@ -279,6 +283,7 @@ Public Class frmPreferences
         Me.chkUnlimitedBuf.Checked = False
         Me.chkAutoOnline.Checked = False
         Me.bufferSize.Value = 100
+        Me.chkStatusBar.Checked = True
 
         ' Now empty highlightings listviews, re-add items in default order and check them all
         Me.lvHighlightingProcess.Items.Clear()

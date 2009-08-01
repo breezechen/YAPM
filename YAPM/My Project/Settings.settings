@@ -221,5 +221,8 @@
     <Setting Name="COLprocdetail_log" Type="System.String" Scope="User">
       <Value Profile="(Default)">Date &amp; Time?164?0$Type?102?1$Description?343?2$</Value>
     </Setting>
+    <Setting Name="ShowStatusBar" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

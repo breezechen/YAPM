@@ -108,6 +108,19 @@ Public Class cConnection
         End Get
     End Property
 
+    Public Overrides Function ToString() As String
+        Select Case _conType
+            Case TypeOfConnection.LocalConnection
+                Return "Localhost"
+            Case TypeOfConnection.RemoteConnectionViaSocket
+                Return _conSocket.address.ToString & ":" & _conSocket.port & " (server)"
+            Case TypeOfConnection.RemoteConnectionViaWMI
+                Return _conWMI.serverName & " (WMI)"
+            Case Else
+                Return "Unknown"
+        End Select
+    End Function
+
 
     Public Sub New()
         '

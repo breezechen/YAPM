@@ -684,6 +684,13 @@ Partial Class frmMain
         Me.MenuItemSystemDownloads = New System.Windows.Forms.MenuItem
         Me.MenuItem49 = New System.Windows.Forms.MenuItem
         Me.VistaMenu = New wyDay.Controls.VistaMenu(Me.components)
+        Me.StatusBar = New System.Windows.Forms.StatusBar
+        Me.sbPanelConnection = New System.Windows.Forms.StatusBarPanel
+        Me.sbPanelProcesses = New System.Windows.Forms.StatusBarPanel
+        Me.sbPanelServices = New System.Windows.Forms.StatusBarPanel
+        Me.sbPanelCpu = New System.Windows.Forms.StatusBarPanel
+        Me.sbPanelMemory = New System.Windows.Forms.StatusBarPanel
+        Me.timerStatus = New System.Windows.Forms.Timer(Me.components)
         Me._main.Panel1.SuspendLayout()
         Me._main.Panel2.SuspendLayout()
         Me._main.SuspendLayout()
@@ -792,6 +799,11 @@ Partial Class frmMain
         Me.pageHelp.SuspendLayout()
         Me.panelMain4.SuspendLayout()
         CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.sbPanelConnection, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.sbPanelProcesses, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.sbPanelServices, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.sbPanelCpu, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.sbPanelMemory, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'imgMain
@@ -3427,7 +3439,7 @@ Partial Class frmMain
         '_main.Panel2
         '
         Me._main.Panel2.Controls.Add(Me.containerSystemMenu)
-        Me._main.Size = New System.Drawing.Size(866, 553)
+        Me._main.Size = New System.Drawing.Size(866, 533)
         Me._main.SplitterDistance = 138
         Me._main.TabIndex = 57
         '
@@ -3444,7 +3456,7 @@ Partial Class frmMain
         'containerSystemMenu.Panel2
         '
         Me.containerSystemMenu.Panel2.Controls.Add(Me._tab)
-        Me.containerSystemMenu.Size = New System.Drawing.Size(866, 411)
+        Me.containerSystemMenu.Size = New System.Drawing.Size(866, 391)
         Me.containerSystemMenu.SplitterDistance = 25
         Me.containerSystemMenu.TabIndex = 0
         '
@@ -3466,7 +3478,7 @@ Partial Class frmMain
         Me._tab.Location = New System.Drawing.Point(0, 0)
         Me._tab.Name = "_tab"
         Me._tab.SelectedIndex = 0
-        Me._tab.Size = New System.Drawing.Size(866, 411)
+        Me._tab.Size = New System.Drawing.Size(866, 391)
         Me._tab.TabIndex = 3
         '
         'pageTasks
@@ -3476,7 +3488,7 @@ Partial Class frmMain
         Me.pageTasks.Location = New System.Drawing.Point(4, 22)
         Me.pageTasks.Name = "pageTasks"
         Me.pageTasks.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageTasks.Size = New System.Drawing.Size(858, 385)
+        Me.pageTasks.Size = New System.Drawing.Size(858, 365)
         Me.pageTasks.TabIndex = 11
         Me.pageTasks.Text = "Tasks"
         Me.pageTasks.UseVisualStyleBackColor = True
@@ -3487,7 +3499,7 @@ Partial Class frmMain
         Me.panelMain13.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelMain13.Location = New System.Drawing.Point(3, 3)
         Me.panelMain13.Name = "panelMain13"
-        Me.panelMain13.Size = New System.Drawing.Size(852, 379)
+        Me.panelMain13.Size = New System.Drawing.Size(852, 359)
         Me.panelMain13.TabIndex = 56
         '
         'SplitContainerTask
@@ -3508,7 +3520,7 @@ Partial Class frmMain
         'SplitContainerTask.Panel2
         '
         Me.SplitContainerTask.Panel2.Controls.Add(Me.lvTask)
-        Me.SplitContainerTask.Size = New System.Drawing.Size(852, 379)
+        Me.SplitContainerTask.Size = New System.Drawing.Size(852, 359)
         Me.SplitContainerTask.SplitterDistance = 25
         Me.SplitContainerTask.TabIndex = 0
         '
@@ -3557,7 +3569,7 @@ Partial Class frmMain
         Me.lvTask.Name = "lvTask"
         Me.lvTask.OverriddenDoubleBuffered = True
         Me.lvTask.ReorganizeColumns = True
-        Me.lvTask.Size = New System.Drawing.Size(852, 350)
+        Me.lvTask.Size = New System.Drawing.Size(852, 330)
         Me.lvTask.TabIndex = 3
         Me.lvTask.UseCompatibleStateImageBehavior = False
         Me.lvTask.View = System.Windows.Forms.View.Details
@@ -6817,6 +6829,61 @@ Partial Class frmMain
         '
         Me.VistaMenu.ContainerControl = Me
         '
+        'StatusBar
+        '
+        Me.StatusBar.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.StatusBar.Location = New System.Drawing.Point(0, 533)
+        Me.StatusBar.Name = "StatusBar"
+        Me.StatusBar.Panels.AddRange(New System.Windows.Forms.StatusBarPanel() {Me.sbPanelConnection, Me.sbPanelProcesses, Me.sbPanelServices, Me.sbPanelCpu, Me.sbPanelMemory})
+        Me.StatusBar.ShowPanels = True
+        Me.StatusBar.Size = New System.Drawing.Size(866, 20)
+        Me.StatusBar.TabIndex = 62
+        '
+        'sbPanelConnection
+        '
+        Me.sbPanelConnection.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Contents
+        Me.sbPanelConnection.BorderStyle = System.Windows.Forms.StatusBarPanelBorderStyle.Raised
+        Me.sbPanelConnection.MinWidth = 100
+        Me.sbPanelConnection.Name = "sbPanelConnection"
+        Me.sbPanelConnection.Text = "Localhost"
+        '
+        'sbPanelProcesses
+        '
+        Me.sbPanelProcesses.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Contents
+        Me.sbPanelProcesses.MinWidth = 80
+        Me.sbPanelProcesses.Name = "sbPanelProcesses"
+        Me.sbPanelProcesses.Text = "0 processes"
+        Me.sbPanelProcesses.Width = 80
+        '
+        'sbPanelServices
+        '
+        Me.sbPanelServices.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Contents
+        Me.sbPanelServices.MinWidth = 80
+        Me.sbPanelServices.Name = "sbPanelServices"
+        Me.sbPanelServices.Text = "0 services"
+        Me.sbPanelServices.Width = 80
+        '
+        'sbPanelCpu
+        '
+        Me.sbPanelCpu.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Contents
+        Me.sbPanelCpu.MinWidth = 80
+        Me.sbPanelCpu.Name = "sbPanelCpu"
+        Me.sbPanelCpu.Text = "CPU : 0%"
+        Me.sbPanelCpu.Width = 80
+        '
+        'sbPanelMemory
+        '
+        Me.sbPanelMemory.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Contents
+        Me.sbPanelMemory.MinWidth = 120
+        Me.sbPanelMemory.Name = "sbPanelMemory"
+        Me.sbPanelMemory.Text = "Phys. Memory : 0%"
+        Me.sbPanelMemory.Width = 120
+        '
+        'timerStatus
+        '
+        Me.timerStatus.Enabled = True
+        Me.timerStatus.Interval = 1000
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -6824,6 +6891,7 @@ Partial Class frmMain
         Me.BackColor = System.Drawing.SystemColors.Control
         Me.ClientSize = New System.Drawing.Size(866, 553)
         Me.Controls.Add(Me._main)
+        Me.Controls.Add(Me.StatusBar)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Menu = Me.mnuSystem
@@ -6954,6 +7022,11 @@ Partial Class frmMain
         Me.pageHelp.ResumeLayout(False)
         Me.panelMain4.ResumeLayout(False)
         CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.sbPanelConnection, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.sbPanelProcesses, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.sbPanelServices, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.sbPanelCpu, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.sbPanelMemory, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -7588,5 +7661,12 @@ Partial Class frmMain
     Friend WithEvents orbStartElevated As System.Windows.Forms.RibbonOrbMenuItem
     Friend WithEvents MenuItemRunAsAdmin As System.Windows.Forms.MenuItem
     Friend WithEvents headerString As System.Windows.Forms.ColumnHeader
+    Friend WithEvents StatusBar As System.Windows.Forms.StatusBar
+    Friend WithEvents sbPanelConnection As System.Windows.Forms.StatusBarPanel
+    Friend WithEvents sbPanelProcesses As System.Windows.Forms.StatusBarPanel
+    Friend WithEvents sbPanelServices As System.Windows.Forms.StatusBarPanel
+    Friend WithEvents sbPanelCpu As System.Windows.Forms.StatusBarPanel
+    Friend WithEvents sbPanelMemory As System.Windows.Forms.StatusBarPanel
+    Friend WithEvents timerStatus As System.Windows.Forms.Timer
 
 End Class

@@ -1,7 +1,7 @@
 TODO LIST
 
-- ajouter statusbar
-- optimiser récupération handles
+- systemInfo pour les pc remote
+- optimiser récupération handles / memory region
 - reprendre tout le code unmanaged (cProcessRW foiré, Marshal.Copy useless (utiliser GCHandle.Alloc...))
 - colorations listviewitems pour les modules (cf. flags)
 - SystemInfos -> afficher graphes en permanence (et pas que quand la form est affichée)
@@ -135,3 +135,4 @@ Temp Change log :
 - meilleure prise en charge du theme Classic sous XP
 - plus d'informations récupérées sur les modules
 - importante optimisation sur la récupération des modules
+- ajout de la status bar

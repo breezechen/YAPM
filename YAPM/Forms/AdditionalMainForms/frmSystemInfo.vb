@@ -33,9 +33,6 @@ Public Class frmSystemInfo
         Dim diff As Date = New Date(newDate.Ticks - oldDate.Ticks)
         oldDate = newDate
 
-        ' Refresh informations
-        Call Program.SystemInfo.RefreshInfo()
-
         With Program.SystemInfo
 
             ' Highest values are Decimals

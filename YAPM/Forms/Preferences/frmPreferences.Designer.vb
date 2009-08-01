@@ -91,6 +91,7 @@ Partial Class frmPreferences
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
         Me.colDial = New System.Windows.Forms.ColorDialog
+        Me.chkStatusBar = New System.Windows.Forms.CheckBox
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -315,6 +316,7 @@ Partial Class frmPreferences
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.chkStatusBar)
         Me.TabPage3.Controls.Add(Me.chkUserGroup)
         Me.TabPage3.Controls.Add(Me.chkHideClosed)
         Me.TabPage3.Controls.Add(Me.chkHideMinimized)
@@ -701,6 +703,16 @@ Partial Class frmPreferences
         Me.colDial.AnyColor = True
         Me.colDial.FullOpen = True
         '
+        'chkStatusBar
+        '
+        Me.chkStatusBar.AutoSize = True
+        Me.chkStatusBar.Location = New System.Drawing.Point(15, 238)
+        Me.chkStatusBar.Name = "chkStatusBar"
+        Me.chkStatusBar.Size = New System.Drawing.Size(106, 17)
+        Me.chkStatusBar.TabIndex = 11
+        Me.chkStatusBar.Text = "Show statusbar"
+        Me.chkStatusBar.UseVisualStyleBackColor = True
+        '
         'frmPreferences
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -801,4 +813,5 @@ Partial Class frmPreferences
     Friend WithEvents cmdMoveDownProcess As System.Windows.Forms.Button
     Friend WithEvents cmdMoveUpProcess As System.Windows.Forms.Button
     Friend WithEvents chkUserGroup As System.Windows.Forms.CheckBox
+    Friend WithEvents chkStatusBar As System.Windows.Forms.CheckBox
 End Class
