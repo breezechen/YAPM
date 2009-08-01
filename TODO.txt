@@ -1,5 +1,6 @@
 TODO LIST
 
+- SystemInfos -> afficher graphes en permanence (et pas que quand la form est affichée)
 - énumération des modules avec une méthode différente et + rapide
 - optimisation récupération zones mémoire
 - interprétations de structures

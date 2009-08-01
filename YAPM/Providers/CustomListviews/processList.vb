@@ -277,10 +277,10 @@ Public Class processList
                 isub.Text = _item.GetInformation(_columnsName(x))
                 x += 1
             Next
-            If _dico.Item(it.Name).IsNewItem Then
-                _dico.Item(it.Name).IsNewItem = False
+            If _item.IsNewItem Then
+                _item.IsNewItem = False
                 it.BackColor = NEW_ITEM_COLOR
-            ElseIf _dico.Item(it.Name).IsKilledItem Then
+            ElseIf _item.IsKilledItem Then
                 it.BackColor = DELETED_ITEM_COLOR
             Else
                 it.BackColor = _item.GetBackColor
