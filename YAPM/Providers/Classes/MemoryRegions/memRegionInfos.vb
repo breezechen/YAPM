@@ -37,7 +37,6 @@ Imports System.Runtime.InteropServices
     Private _address As Integer
     Private _protection As API.PROTECTION_TYPE
     Private _type As API.MEMORY_TYPE
-    Private _name As String
 
 #End Region
 
@@ -75,10 +74,7 @@ Imports System.Runtime.InteropServices
     End Property
     Public ReadOnly Property Name() As String
         Get
-            If _name = vbNullString Then
-                _name = getName()
-            End If
-            Return _name
+            Return getName()
         End Get
     End Property
 

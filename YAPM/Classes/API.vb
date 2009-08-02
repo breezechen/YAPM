@@ -475,6 +475,14 @@ Public Class API
     Public Shared Function VirtualQueryEx(ByVal Process As Integer, ByVal Address As Integer, <MarshalAs(UnmanagedType.Struct)> ByRef Buffer As MEMORY_BASIC_INFORMATION, ByVal Size As Integer) As Boolean
     End Function
 
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Public Shared Function VirtualFreeEx(ByVal hProcess As Integer, ByVal lpAddress As Integer, ByVal dwSize As Integer, ByVal dwFreeType As FreeType) As Boolean
+    End Function
+
+    <DllImport("kernel32", CharSet:=CharSet.Auto, SetLastError:=True)> _
+    Public Shared Function VirtualProtectEx(ByVal hProcess As Integer, ByVal lpAddress As Integer, ByVal dwSize As Integer, ByVal flNewProtect As PROTECTION_TYPE, <Out()> ByVal lpflOldProtect As PROTECTION_TYPE) As Integer
+    End Function
+
     <DllImport("psapi.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
     Public Shared Function GetMappedFileName(ByVal ProcessHandle As Integer, ByVal Address As Integer, ByVal Buffer As StringBuilder, ByVal Size As Integer) As Integer
     End Function
@@ -509,6 +517,11 @@ Public Class API
         WriteCombine = &H400
     End Enum
 
+    Public Enum FreeType
+        MEM_DECOMMIT = &H4000
+        MEM_RELEASE = &H8000
+    End Enum
+
     <Flags()> _
     Public Enum MEMORY_STATE As UInteger
         Free = &H10000
@@ -517,6 +530,7 @@ Public Class API
         Decommit = &H4000
         Release = &H8000
         Reset = &H80000
+        TopDown = &H100000
         Physical = &H400000
         LargePages = &H20000000
     End Enum

@@ -162,6 +162,10 @@
     <EmbeddedResource Include="Forms\AdditionalMainForms\frmHexEditor.resx">
       <DependentUpon>frmHexEditor.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Misc\frmChangeMemoryProtection.resx">
+      <DependentUpon>frmChangeMemoryProtection.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmSBASimulationConsole.resx">
       <DependentUpon>frmSBASimulationConsole.vb</DependentUpon>
     </EmbeddedResource>
@@ -424,6 +428,12 @@
     <Compile Include="Forms\AdditionalMainForms\frmHexEditor.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\Misc\frmChangeMemoryProtection.Designer.vb">
+      <DependentUpon>frmChangeMemoryProtection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Misc\frmChangeMemoryProtection.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\Misc\frmSBASimulationConsole.Designer.vb">
       <DependentUpon>frmSBASimulationConsole.vb</DependentUpon>
     </Compile>
@@ -526,6 +536,8 @@
     <Compile Include="Providers\Classes\Log\cLogItem.vb" />
     <Compile Include="Providers\Classes\Log\logItemInfos.vb" />
     <Compile Include="Providers\Classes\MemoryRegions\asyncMethods\asyncCallbackMemRegionEnumerate.vb" />
+    <Compile Include="Providers\Classes\MemoryRegions\asyncMethods\asyncCallbackMemRegionFree.vb" />
+    <Compile Include="Providers\Classes\MemoryRegions\asyncMethods\asyncCallbackMemRegionChangeProtection.vb" />
     <Compile Include="Providers\Classes\MemoryRegions\cMemRegion.vb" />
     <Compile Include="Providers\Classes\MemoryRegions\cMemRegionConnection.vb" />
     <Compile Include="Providers\Classes\MemoryRegions\memRegionInfos.vb" />
@@ -912,6 +924,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Misc\locked.gif" />
     <Content Include="process32.ico" />
     <Content Include="process_custom.ico" />
   </ItemGroup>

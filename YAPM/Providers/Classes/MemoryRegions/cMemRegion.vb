@@ -100,6 +100,122 @@ Public Class cMemRegion
 
 #End Region
 
+#Region "All actions on memory regions"
+
+    ' Release/decommit mem region
+    Private _freeMem As asyncCallbackMemRegionFree
+    Public Function Release() As Integer
+
+        If _freeMem Is Nothing Then
+            _freeMem = New asyncCallbackMemRegionFree(New asyncCallbackMemRegionFree.HasFreed(AddressOf freedMemoryDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _freeMem.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackMemRegionFree.poolObj(Me.Infos.ProcessId, Me.Infos.BaseAddress, Me.Infos.RegionSize, API.FreeType.MEM_RELEASE, newAction))
+
+        AddPendingTask2(newAction, t)
+    End Function
+    Public Function Decommit() As Integer
+
+        If _freeMem Is Nothing Then
+            _freeMem = New asyncCallbackMemRegionFree(New asyncCallbackMemRegionFree.HasFreed(AddressOf freedMemoryDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _freeMem.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackMemRegionFree.poolObj(Me.Infos.ProcessId, Me.Infos.BaseAddress, Me.Infos.RegionSize, API.FreeType.MEM_DECOMMIT, newAction))
+
+        AddPendingTask2(newAction, t)
+    End Function
+    Private Sub freedMemoryDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal address As Integer, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                   "Could not free memory region (" & address.ToString("x") & ")")
+        End If
+        RemovePendingTask(actionNumber)
+    End Sub
+
+    ' Change protection type
+    Private _changeProtec As asyncCallbackMemRegionChangeProtection
+    Public Function ChangeProtectionType(ByVal newProtection As API.PROTECTION_TYPE) As Integer
+
+        If _changeProtec Is Nothing Then
+            _changeProtec = New asyncCallbackMemRegionChangeProtection(New asyncCallbackMemRegionChangeProtection.HasChangedProtection(AddressOf ChangedProtectionDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _changeProtec.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackMemRegionChangeProtection.poolObj(Me.Infos.ProcessId, Me.Infos.BaseAddress, Me.Infos.RegionSize, newProtection, newAction))
+
+        AddPendingTask2(newAction, t)
+    End Function
+    Private Sub ChangedProtectionDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal address As Integer, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                   "Could not change protection (" & address.ToString("x") & ")")
+        End If
+        RemovePendingTask(actionNumber)
+    End Sub
+
+#End Region
+
+#Region "Shared functions"
+
+    Private Shared _sharedFree As asyncCallbackMemRegionFree
+    Public Shared Function SharedLRFree(ByVal pid As Integer, ByVal address As Integer, ByVal size As Integer, ByVal type As API.FreeType) As Integer
+
+        If _sharedFree Is Nothing Then
+            _sharedFree = New asyncCallbackMemRegionFree(New asyncCallbackMemRegionFree.HasFreed(AddressOf freedSharedDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _sharedFree.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackMemRegionFree.poolObj(pid, address, size, type, newAction))
+
+        AddPendingTask2(newAction, t)
+    End Function
+    Private Shared Sub freedSharedDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal address As Integer, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                   "Could not free memory region (" & address.ToString("x") & ")")
+        End If
+        RemovePendingTask(actionNumber)
+    End Sub
+
+    Private Shared _sharedProtection As asyncCallbackMemRegionChangeProtection
+    Public Shared Function SharedLRChangeProtection(ByVal pid As Integer, ByVal address As Integer, ByVal size As Integer, ByVal type As API.PROTECTION_TYPE) As Integer
+
+        If _sharedProtection Is Nothing Then
+            _sharedProtection = New asyncCallbackMemRegionChangeProtection(New asyncCallbackMemRegionChangeProtection.HasChangedProtection(AddressOf changedSharedProtectionDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _sharedProtection.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackMemRegionChangeProtection.poolObj(pid, address, size, type, newAction))
+
+        AddPendingTask2(newAction, t)
+    End Function
+    Private Shared Sub changedSharedProtectionDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal address As Integer, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                   "Could not change protection (" & address.ToString("x") & ")")
+        End If
+        RemovePendingTask(actionNumber)
+    End Sub
+
+#End Region
+
     ' Merge current infos and new infos
     Public Sub Merge(ByRef Thr As memRegionInfos)
         _memInfos.Merge(Thr)
@@ -198,4 +314,5 @@ Public Class cMemRegion
 
         Return s
     End Function
+
 End Class

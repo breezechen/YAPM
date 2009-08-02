@@ -330,6 +330,12 @@ Public Class frmProcessInfo
         Pref.SaveListViewColumns(Me.lvProcEnv, "COLprocdetail_envvariable")
     End Sub
 
+    Private Sub frmProcessInfo_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyUp
+        If e.KeyCode = Keys.F5 Then
+            Call tabProcess_SelectedIndexChanged(Nothing, Nothing)
+        End If
+    End Sub
+
     Private Sub frmProcessInfo_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         closeWithEchapKey(Me)
@@ -1384,7 +1390,7 @@ Public Class frmProcessInfo
         End If
     End Sub
 
-    Private Sub MenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem4.Click
+    Private Sub MenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemRefresh.Click
         Call tabProcess_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
@@ -1499,6 +1505,16 @@ Public Class frmProcessInfo
             Me.MenuItemPEBAddress.Enabled = selectionIsNotNothing And _local
             Me.MenuItemCopyMemory.Enabled = selectionIsNotNothing
             Me.MenuItemMemoryDump.Enabled = selectionIsNotNothing And _local
+            Me.MenuItemMemoryChangeProtection.Enabled = selectionIsNotNothing And _notWMI
+
+            Dim memReg As cMemRegion = Me.lvProcMem.GetSelectedItem
+            Dim b As Boolean = selectionIsNotNothing AndAlso _notWMI AndAlso _
+                (memReg IsNot Nothing) AndAlso _
+                (memReg.Infos.State = API.MEMORY_STATE.Commit And _
+                 memReg.Infos.Type = API.MEMORY_TYPE.Private)
+            Me.MenuItemMemoryDecommit.Enabled = b
+            Me.MenuItemMemoryRelease.Enabled = b
+
             Me.mnuProcMem.Show(Me.lvProcMem, e.Location)
         End If
     End Sub
@@ -2329,6 +2345,35 @@ Public Class frmProcessInfo
 
     Private Sub MenuItemMemoryDump_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMemoryDump.Click
         '
+    End Sub
+
+    Private Sub MenuItemMemoryRelease_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMemoryRelease.Click
+        For Each it As cMemRegion In Me.lvProcMem.GetSelectedItems
+            it.Release()
+        Next
+    End Sub
+
+    Private Sub MenuItemMemoryDecommit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMemoryDecommit.Click
+        For Each it As cMemRegion In Me.lvProcMem.GetSelectedItems
+            it.Decommit()
+        Next
+    End Sub
+
+    Private Sub MenuItemMemoryChangeProtection_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMemoryChangeProtection.Click
+        If Me.lvProcMem.GetSelectedItems IsNot Nothing AndAlso Me.lvProcMem.GetSelectedItems.Count > 0 Then
+            Dim frm As New frmChangeMemoryProtection
+            If Me.lvProcMem.GetSelectedItems.Count = 1 Then
+                ' One mem region selected -> check protection type by default
+                ' with current protection type (in form)
+                frm.ProtectionType = Me.lvProcMem.GetSelectedItem.Infos.Protection
+            End If
+            frm.ShowDialog()
+            If frm.DialogResult = Windows.Forms.DialogResult.OK Then
+                For Each it As cMemRegion In Me.lvProcMem.GetSelectedItems
+                    it.ChangeProtectionType(frm.NewProtectionType)
+                Next
+            End If
+        End If
     End Sub
 
 End Class

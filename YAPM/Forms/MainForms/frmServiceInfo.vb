@@ -144,6 +144,12 @@ Public Class frmServiceInfo
         End Select
     End Sub
 
+    Private Sub frmServiceInfo_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyUp
+        If e.KeyCode = Keys.F5 Then
+            Call tabProcess_SelectedIndexChanged(Nothing, Nothing)
+        End If
+    End Sub
+
     Private Sub frmProcessInfo_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         closeWithEchapKey(Me)

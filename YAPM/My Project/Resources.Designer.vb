@@ -305,6 +305,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property locked() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("locked", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property lv3() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("lv3", resourceCulture)

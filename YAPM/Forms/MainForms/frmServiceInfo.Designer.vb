@@ -23,8 +23,8 @@ Partial Class frmServiceInfo
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmServiceInfo))
         Dim CConnection1 As YAPM.cConnection = New YAPM.cConnection
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmServiceInfo))
         Dim CConnection2 As YAPM.cConnection = New YAPM.cConnection
         Me.tabProcess = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
@@ -100,11 +100,13 @@ Partial Class frmServiceInfo
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
         Me.Label9 = New System.Windows.Forms.Label
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
+        Me.tv2 = New YAPM.serviceDependenciesList
         Me.imgServices = New System.Windows.Forms.ImageList(Me.components)
         Me.cmdServDet1 = New System.Windows.Forms.Button
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
         Me.Label21 = New System.Windows.Forms.Label
         Me.SplitContainer4 = New System.Windows.Forms.SplitContainer
+        Me.tv = New YAPM.serviceDependenciesList
         Me.cmdServDet2 = New System.Windows.Forms.Button
         Me.TabPage6 = New System.Windows.Forms.TabPage
         Me.SplitContainerInfoProcess = New System.Windows.Forms.SplitContainer
@@ -123,8 +125,6 @@ Partial Class frmServiceInfo
         Me.mainMenu = New System.Windows.Forms.MainMenu(Me.components)
         Me.MenuItem3 = New System.Windows.Forms.MenuItem
         Me.MenuItem4 = New System.Windows.Forms.MenuItem
-        Me.tv2 = New YAPM.serviceDependenciesList
-        Me.tv = New YAPM.serviceDependenciesList
         Me.tabProcess.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -634,7 +634,7 @@ Partial Class frmServiceInfo
         Me.TabPage2.Location = New System.Drawing.Point(4, 23)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(647, 308)
+        Me.TabPage2.Size = New System.Drawing.Size(647, 296)
         Me.TabPage2.TabIndex = 8
         Me.TabPage2.Text = "General - 2"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -910,7 +910,7 @@ Partial Class frmServiceInfo
         Me.tabDep.Location = New System.Drawing.Point(4, 23)
         Me.tabDep.Name = "tabDep"
         Me.tabDep.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabDep.Size = New System.Drawing.Size(647, 308)
+        Me.tabDep.Size = New System.Drawing.Size(647, 296)
         Me.tabDep.TabIndex = 7
         Me.tabDep.Text = "Dependencies"
         Me.tabDep.UseVisualStyleBackColor = True
@@ -928,7 +928,7 @@ Partial Class frmServiceInfo
         'SplitContainer.Panel2
         '
         Me.SplitContainer.Panel2.Controls.Add(Me.SplitContainer3)
-        Me.SplitContainer.Size = New System.Drawing.Size(641, 302)
+        Me.SplitContainer.Size = New System.Drawing.Size(641, 290)
         Me.SplitContainer.SplitterDistance = 320
         Me.SplitContainer.TabIndex = 0
         '
@@ -948,7 +948,7 @@ Partial Class frmServiceInfo
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.SplitContainer2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(320, 302)
+        Me.SplitContainer1.Size = New System.Drawing.Size(320, 290)
         Me.SplitContainer1.SplitterDistance = 25
         Me.SplitContainer1.TabIndex = 0
         '
@@ -978,9 +978,25 @@ Partial Class frmServiceInfo
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.cmdServDet1)
-        Me.SplitContainer2.Size = New System.Drawing.Size(320, 273)
-        Me.SplitContainer2.SplitterDistance = 243
+        Me.SplitContainer2.Size = New System.Drawing.Size(320, 261)
+        Me.SplitContainer2.SplitterDistance = 231
         Me.SplitContainer2.TabIndex = 0
+        '
+        'tv2
+        '
+        CConnection1.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        Me.tv2.ConnectionObj = CConnection1
+        Me.tv2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tv2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tv2.ImageIndex = 0
+        Me.tv2.ImageList = Me.imgServices
+        Me.tv2.InfosToGet = YAPM.cServDepConnection.DependenciesToget.ServiceWhichDependsFromMe
+        Me.tv2.Location = New System.Drawing.Point(0, 0)
+        Me.tv2.Name = "tv2"
+        Me.tv2.RootService = Nothing
+        Me.tv2.SelectedImageIndex = 2
+        Me.tv2.Size = New System.Drawing.Size(320, 231)
+        Me.tv2.TabIndex = 16
         '
         'imgServices
         '
@@ -1018,7 +1034,7 @@ Partial Class frmServiceInfo
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.SplitContainer4)
-        Me.SplitContainer3.Size = New System.Drawing.Size(317, 302)
+        Me.SplitContainer3.Size = New System.Drawing.Size(317, 290)
         Me.SplitContainer3.SplitterDistance = 25
         Me.SplitContainer3.TabIndex = 1
         '
@@ -1048,9 +1064,25 @@ Partial Class frmServiceInfo
         'SplitContainer4.Panel2
         '
         Me.SplitContainer4.Panel2.Controls.Add(Me.cmdServDet2)
-        Me.SplitContainer4.Size = New System.Drawing.Size(317, 273)
-        Me.SplitContainer4.SplitterDistance = 243
+        Me.SplitContainer4.Size = New System.Drawing.Size(317, 261)
+        Me.SplitContainer4.SplitterDistance = 231
         Me.SplitContainer4.TabIndex = 0
+        '
+        'tv
+        '
+        CConnection2.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        Me.tv.ConnectionObj = CConnection2
+        Me.tv.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tv.ImageIndex = 0
+        Me.tv.ImageList = Me.imgServices
+        Me.tv.InfosToGet = YAPM.cServDepConnection.DependenciesToget.DependenciesOfMe
+        Me.tv.Location = New System.Drawing.Point(0, 0)
+        Me.tv.Name = "tv"
+        Me.tv.RootService = Nothing
+        Me.tv.SelectedImageIndex = 0
+        Me.tv.Size = New System.Drawing.Size(317, 231)
+        Me.tv.TabIndex = 15
         '
         'cmdServDet2
         '
@@ -1068,7 +1100,7 @@ Partial Class frmServiceInfo
         Me.TabPage6.Location = New System.Drawing.Point(4, 23)
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage6.Size = New System.Drawing.Size(647, 308)
+        Me.TabPage6.Size = New System.Drawing.Size(647, 296)
         Me.TabPage6.TabIndex = 5
         Me.TabPage6.Text = "Informations"
         Me.TabPage6.UseVisualStyleBackColor = True
@@ -1089,7 +1121,7 @@ Partial Class frmServiceInfo
         'SplitContainerInfoProcess.Panel2
         '
         Me.SplitContainerInfoProcess.Panel2.Controls.Add(Me.rtb)
-        Me.SplitContainerInfoProcess.Size = New System.Drawing.Size(641, 302)
+        Me.SplitContainerInfoProcess.Size = New System.Drawing.Size(641, 290)
         Me.SplitContainerInfoProcess.SplitterDistance = 25
         Me.SplitContainerInfoProcess.TabIndex = 0
         '
@@ -1127,7 +1159,7 @@ Partial Class frmServiceInfo
         Me.rtb.Location = New System.Drawing.Point(0, 0)
         Me.rtb.Name = "rtb"
         Me.rtb.ReadOnly = True
-        Me.rtb.Size = New System.Drawing.Size(641, 273)
+        Me.rtb.Size = New System.Drawing.Size(641, 261)
         Me.rtb.TabIndex = 4
         Me.rtb.Text = ""
         '
@@ -1208,38 +1240,6 @@ Partial Class frmServiceInfo
         Me.MenuItem4.Index = 0
         Me.MenuItem4.Shortcut = System.Windows.Forms.Shortcut.F5
         Me.MenuItem4.Text = "Refresh"
-        '
-        'tv2
-        '
-        CConnection1.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
-        Me.tv2.ConnectionObj = CConnection1
-        Me.tv2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tv2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tv2.ImageIndex = 0
-        Me.tv2.ImageList = Me.imgServices
-        Me.tv2.InfosToGet = YAPM.cServDepConnection.DependenciesToget.ServiceWhichDependsFromMe
-        Me.tv2.Location = New System.Drawing.Point(0, 0)
-        Me.tv2.Name = "tv2"
-        Me.tv2.RootService = Nothing
-        Me.tv2.SelectedImageIndex = 2
-        Me.tv2.Size = New System.Drawing.Size(320, 243)
-        Me.tv2.TabIndex = 16
-        '
-        'tv
-        '
-        CConnection2.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
-        Me.tv.ConnectionObj = CConnection2
-        Me.tv.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tv.ImageIndex = 0
-        Me.tv.ImageList = Me.imgServices
-        Me.tv.InfosToGet = YAPM.cServDepConnection.DependenciesToget.DependenciesOfMe
-        Me.tv.Location = New System.Drawing.Point(0, 0)
-        Me.tv.Name = "tv"
-        Me.tv.RootService = Nothing
-        Me.tv.SelectedImageIndex = 0
-        Me.tv.Size = New System.Drawing.Size(317, 243)
-        Me.tv.TabIndex = 15
         '
         'frmServiceInfo
         '

@@ -93,6 +93,10 @@ Option Strict On
         [ReturnProcessorCount]
         [TcpClose]
 
+        ' Memory functions
+        [MemoryFree]
+        [MemoryChangeProtectionType]
+
         ' Request lists
         [RequestProcessList]
         [RequestServiceList]

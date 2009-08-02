@@ -766,6 +766,26 @@ Public Class frmServer
 
                 ' ===== Other functions
                 Select Case cData.Order
+                    Case cSocketData.OrderType.MemoryFree
+                        Dim pid As Integer = CType(cData.Param1, Integer)
+                        Dim address As Integer = CType(cData.Param2, Integer)
+                        Dim size As Integer = CType(cData.Param3, Integer)
+                        Dim type As API.FreeType = CType(cData.Param4, API.FreeType)
+                        Try
+                            cMemRegion.SharedLRFree(pid, address, size, type)
+                        Catch ex As Exception
+                            '
+                        End Try
+                    Case cSocketData.OrderType.MemoryChangeProtectionType
+                        Dim pid As Integer = CType(cData.Param1, Integer)
+                        Dim address As Integer = CType(cData.Param2, Integer)
+                        Dim size As Integer = CType(cData.Param3, Integer)
+                        Dim type As API.PROTECTION_TYPE = CType(cData.Param4, API.PROTECTION_TYPE)
+                        Try
+                            cMemRegion.SharedLRChangeProtection(pid, address, size, type)
+                        Catch ex As Exception
+                            '
+                        End Try
                     Case cSocketData.OrderType.HandleClose
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim handle As Integer = CType(cData.Param2, Integer)

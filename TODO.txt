@@ -53,6 +53,7 @@ titre quand le process/service n'existe plus
 - blocage de l'application quand certains processus bouffe du CPU (cf compilo wingreta) -> est-ce un appel bloquant (genre sendmessage) lors du refresh des process/tasks...?
 - dependencies -> PE.filename doit changer SystemRoot en X:\Wind....
 - refactoring (objet, virer int et mettre intptr, declarations pinvoke, gestion privileges meilleure...etc....)
+- ajouter msgbox "action dangereuse, you sure ?"
 
 
 ---- GENERAL
@@ -136,3 +137,6 @@ Temp Change log :
 - plus d'informations récupérées sur les modules
 - importante optimisation sur la récupération des modules
 - ajout de la status bar
+- optimisation récupération des zones mémoires
+- ajout fonctions Decommit/Release/Change protection pour la mémoire
+- refresh des infos sur les form détail OK avec F5

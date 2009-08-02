@@ -387,6 +387,7 @@ Public Class frmMain
         Me.timerStateBasedActions.Enabled = True
         Me.timerTrayIcon.Enabled = True
         Me.timerServices.Enabled = True
+        Me.timerStatus.Enabled = True
 
         If Me.lvProcess.Items.Count > 1 Then
             Call Me.lvProcess.Focus()
@@ -4719,15 +4720,20 @@ Public Class frmMain
 
     Private Sub timerStatus_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerStatus.Tick
         ' Update panels of status bar
+        Try
+            ' /!\ Here we refresh the informations about system
+            ' RefreshInfo should not be called elsewhere
+            Call Program.SystemInfo.RefreshInfo()
 
-        ' /!\ Here we refresh the informations about system
-        ' RefreshInfo should not be called elsewhere
-        Call Program.SystemInfo.RefreshInfo()
+            Me.sbPanelConnection.Text = Program.Connection.ToString
+            Me.sbPanelCpu.Text = "CPU : " & Misc.GetFormatedPercentage(Program.SystemInfo.CpuUsage, 3, True) & " %"
+            Me.sbPanelMemory.Text = "Phys. Memory : " & Misc.GetFormatedPercentage(Program.SystemInfo.PhysicalMemoryPercentageUsage, 3, True) & " %"
+            Me.sbPanelProcesses.Text = Me.lvProcess.Items.Count & " processes"
+            Me.sbPanelServices.Text = Me.lvServices.Items.Count & " services"
 
-        Me.sbPanelConnection.Text = Program.Connection.ToString
-        Me.sbPanelCpu.Text = "CPU : " & Misc.GetFormatedPercentage(Program.SystemInfo.CpuUsage, 3, True) & " %"
-        Me.sbPanelMemory.Text = "Phys. Memory : " & Misc.GetFormatedPercentage(Program.SystemInfo.PhysicalMemoryPercentageUsage, 3, True) & " %"
-        Me.sbPanelProcesses.Text = Me.lvProcess.Items.Count & " processes"
-        Me.sbPanelServices.Text = Me.lvServices.Items.Count & " services"
+        Catch ex As Exception
+            '
+        End Try
+
     End Sub
 End Class
