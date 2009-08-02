@@ -318,6 +318,17 @@ Public Class API
         Public ReadTransferCount As ULong
         Public WriteTransferCount As ULong
         Public OtherTransferCount As ULong
+        Public Shared Operator <>(ByVal i1 As IO_COUNTERS, ByVal i2 As IO_COUNTERS) As Boolean
+            Return Not (i1 = i2)
+        End Operator
+        Public Shared Operator =(ByVal i1 As IO_COUNTERS, ByVal i2 As IO_COUNTERS) As Boolean
+            Return (i1.ReadOperationCount = i2.ReadOperationCount AndAlso _
+                i1.WriteOperationCount = i2.WriteOperationCount AndAlso _
+                i1.OtherOperationCount = i2.OtherOperationCount AndAlso _
+                i1.ReadTransferCount = i2.ReadTransferCount AndAlso _
+                i1.WriteTransferCount = i2.WriteTransferCount AndAlso _
+                i1.OtherTransferCount = i2.OtherTransferCount)
+        End Operator
     End Structure
 
     <StructLayout(LayoutKind.Sequential), Serializable()> _
@@ -334,6 +345,23 @@ Public Class API
         Public PagefileUsage As Integer
         Public PeakPagefileUsage As Integer
         Public PrivateBytes As Integer
+        Public Shared Operator <>(ByVal m1 As VM_COUNTERS_EX, ByVal m2 As VM_COUNTERS_EX) As Boolean
+            Return Not (m1 = m2)
+        End Operator
+        Public Shared Operator =(ByVal i1 As VM_COUNTERS_EX, ByVal i2 As VM_COUNTERS_EX) As Boolean
+            Return (i1.PeakVirtualSize = i2.PeakVirtualSize AndAlso _
+                i1.VirtualSize = i2.VirtualSize AndAlso _
+                i1.PageFaultCount = i2.PageFaultCount AndAlso _
+                i1.PeakWorkingSetSize = i2.PeakWorkingSetSize AndAlso _
+                i1.WorkingSetSize = i2.WorkingSetSize AndAlso _
+                i1.QuotaPeakPagedPoolUsage = i2.QuotaPeakPagedPoolUsage AndAlso _
+                i1.QuotaPagedPoolUsage = i2.QuotaPagedPoolUsage AndAlso _
+                i1.QuotaPeakNonPagedPoolUsage = i2.QuotaPeakNonPagedPoolUsage AndAlso _
+                i1.QuotaNonPagedPoolUsage = i2.QuotaNonPagedPoolUsage AndAlso _
+                i1.PagefileUsage = i2.PagefileUsage AndAlso _
+                i1.PeakPagefileUsage = i2.PeakPagefileUsage AndAlso _
+                i1.PrivateBytes = i2.PrivateBytes)
+        End Operator
     End Structure
 
     <DllImport("dbghelp.dll")> _

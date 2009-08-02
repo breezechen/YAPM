@@ -238,10 +238,12 @@ Public Class privilegeList
             If Dico.ContainsKey(it.Name) Then
                 _item.Merge(Dico.Item(it.Name))
             End If
-            For Each isub In it.SubItems
-                isub.Text = _item.GetInformation(_columnsName(x))
-                x += 1
-            Next
+            If _item.ItemHasChanged Then
+                For Each isub In it.SubItems
+                    isub.Text = _item.GetInformation(_columnsName(x))
+                    x += 1
+                Next
+            End If
             'If _item.IsNewItem Then
             '    _item.IsNewItem = False
             '    it.BackColor = NEW_ITEM_COLOR

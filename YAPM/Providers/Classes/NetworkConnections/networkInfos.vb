@@ -30,6 +30,19 @@ Imports System.Net
 <Serializable()> Public Class networkInfos
     Inherits generalInfos
 
+    Public Shared Operator =(ByVal m1 As networkInfos, ByVal m2 As networkInfos) As Boolean
+        Return (m1.ProcessId = m2.ProcessId AndAlso _
+            m2.State = m1.State AndAlso _
+            m2.Protocol = m1.Protocol AndAlso _
+            ((m1.Local Is Nothing AndAlso m2.Local Is Nothing) _
+            OrElse (m1.Local IsNot Nothing AndAlso m2.Local IsNot Nothing AndAlso m2.Local.Equals(m1.Local))) AndAlso _
+            ((m1.Remote Is Nothing AndAlso m2.Remote Is Nothing) OrElse (m1.Remote IsNot Nothing AndAlso m2.Remote IsNot Nothing AndAlso m2.Remote.Equals(m1.Remote))))
+    End Operator
+    Public Shared Operator <>(ByVal m1 As networkInfos, ByVal m2 As networkInfos) As Boolean
+        Return Not (m1 = m2)
+    End Operator
+
+
 #Region "Private attributes"
 
     Private _pid As Integer
@@ -109,13 +122,15 @@ Imports System.Net
         _remote = lc.remote
         _procName = cProcess.GetProcessName(_pid)
 
-
     End Sub
 
     ' Merge an old and a new instance
-    Public Sub Merge(ByRef newI As API.LightConnection)
+    Public Sub Merge(ByRef newI As networkInfos)
+
+        _hasChanged = (newI <> Me)
+
         With newI
-            _State = CType(.dwState, API.MIB_TCP_STATE)
+            _State = .State
         End With
     End Sub
 

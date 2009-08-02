@@ -29,6 +29,21 @@ Imports System.Runtime.InteropServices
 <Serializable()> Public Class memRegionInfos
     Inherits generalInfos
 
+
+    Public Shared Operator <>(ByVal m1 As memRegionInfos, ByVal m2 As memRegionInfos) As Boolean
+        Return Not (m1 = m2)
+    End Operator
+    Public Shared Operator =(ByVal m1 As memRegionInfos, ByVal m2 As memRegionInfos) As Boolean
+        Return (m1.BaseAddress = m2.BaseAddress AndAlso _
+        m1.RegionSize = m2.RegionSize AndAlso _
+        m1.State = m2.State AndAlso _
+        m1.Name = m2.Name AndAlso _
+        m1.Type = m2.Type AndAlso _
+        m1.Protection = m2.Protection AndAlso _
+        m1.ProcessId = m2.ProcessId)
+    End Operator
+
+
 #Region "Private attributes"
 
     Private _procId As Integer
@@ -89,6 +104,7 @@ Imports System.Runtime.InteropServices
     Public Sub New(ByRef mbi As API.MEMORY_BASIC_INFORMATION, ByVal pid As Integer)
 
         _procId = pid
+        _hasChanged = True
         With mbi
             _state = .State
             _size = .RegionSize
@@ -101,6 +117,8 @@ Imports System.Runtime.InteropServices
 
     ' Merge an old and a new instance
     Public Sub Merge(ByRef newI As memRegionInfos)
+
+        _hasChanged = (newI <> Me)
 
         With newI
             _protection = .Protection

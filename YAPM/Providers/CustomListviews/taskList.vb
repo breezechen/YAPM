@@ -242,10 +242,12 @@ Public Class taskList
             Dim x As Integer = 0
             Dim _item As cTask = _dico.Item(it.Name)
             _item.Refresh()
-            For Each isub In it.SubItems
-                isub.Text = _item.GetInformation(_columnsName(x))
-                x += 1
-            Next
+            If _item.ItemHasChanged Then
+                For Each isub In it.SubItems
+                    isub.Text = _item.GetInformation(_columnsName(x))
+                    x += 1
+                Next
+            End If
             If _item.IsNewItem Then
                 _item.IsNewItem = False
                 it.BackColor = NEW_ITEM_COLOR

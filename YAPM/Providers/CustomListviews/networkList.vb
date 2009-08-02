@@ -247,10 +247,15 @@ Public Class networkList
             Dim x As Integer = 0
             If _dico.ContainsKey(it.Name) Then
                 Dim _item As cNetwork = _dico.Item(it.Name)
-                For Each isub In it.SubItems
-                    isub.Text = _item.GetInformation(_columnsName(x))
-                    x += 1
-                Next
+                If Dico.ContainsKey(it.Name) Then
+                    _item.Merge(Dico.Item(it.Name))
+                End If
+                If _item.ItemHasChanged Then
+                    For Each isub In it.SubItems
+                        isub.Text = _item.GetInformation(_columnsName(x))
+                        x += 1
+                    Next
+                End If
                 If _item.IsNewItem Then
                     _item.IsNewItem = False
                     it.BackColor = NEW_ITEM_COLOR
@@ -264,13 +269,13 @@ Public Class networkList
 
         ' This piece of code is needed. Strange behavior, the Text attribute must
         ' be set twice to be properly displayed.
-        If _firstItemUpdate Then
-            For Each it In Me.Items
-                For Each isub In it.SubItems
-                    isub.Text = isub.Text
-                Next
+        'If _firstItemUpdate Then
+        For Each it In Me.Items
+            For Each isub In it.SubItems
+                isub.Text = isub.Text
             Next
-        End If
+        Next
+        'End If
 
         ' Sort items
         Me.Sort()

@@ -30,6 +30,22 @@ Imports System.Text
 <Serializable()> Public Class serviceInfos
     Inherits generalInfos
 
+    Public Shared Operator <>(ByVal m1 As serviceInfos, ByVal m2 As serviceInfos) As Boolean
+        Return Not (m1 = m2)
+    End Operator
+    Public Shared Operator =(ByVal i1 As serviceInfos, ByVal i2 As serviceInfos) As Boolean
+        Return (i1.ProcessId = i2.ProcessId AndAlso _
+            i1.State = i2.State AndAlso _
+            i1.AcceptedControl = i2.AcceptedControl AndAlso _
+            i1.CheckPoint = i2.CheckPoint AndAlso _
+            i1.ServiceType = i2.ServiceType AndAlso _
+            i1.ProcessName = i2.ProcessName AndAlso _
+            i1.ServiceFlags = i2.ServiceFlags AndAlso _
+            i1.ServiceSpecificExitCode = i2.ServiceSpecificExitCode AndAlso _
+            i1.WaitHint = i2.WaitHint AndAlso _
+            i1.Win32ExitCode = i2.Win32ExitCode)
+    End Operator
+
 #Region "Private attributes"
 
     Private _pid As Integer
@@ -218,6 +234,9 @@ Imports System.Text
 
     ' Merge an old and a new instance
     Public Sub Merge(ByRef newI As serviceInfos)
+
+        _hasChanged = (newI <> Me)
+
         With newI
             _pid = .ProcessId
             _state = .State

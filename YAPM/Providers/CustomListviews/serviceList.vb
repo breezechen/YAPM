@@ -284,10 +284,12 @@ Public Class serviceList
                 '    _item.Refresh()
                 'End If
             End If
-            For Each isub In it.SubItems
-                isub.Text = _item.GetInformation(_columnsName(x))
-                x += 1
-            Next
+            If _item.ItemHasChanged Then
+                For Each isub In it.SubItems
+                    isub.Text = _item.GetInformation(_columnsName(x))
+                    x += 1
+                Next
+            End If
             If _item.IsNewItem Then
                 _item.IsNewItem = False
                 it.BackColor = NEW_ITEM_COLOR

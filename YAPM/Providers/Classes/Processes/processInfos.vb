@@ -29,6 +29,24 @@ Imports System.Runtime.InteropServices
 <Serializable()> Public Class processInfos
     Inherits generalInfos
 
+    Public Shared Operator <>(ByVal m1 As processInfos, ByVal m2 As processInfos) As Boolean
+        Return Not (m1 = m2)
+    End Operator
+    Public Shared Operator =(ByVal m1 As processInfos, ByVal m2 As processInfos) As Boolean
+        Return (m1.KernelTime = m2.KernelTime AndAlso _
+            m1.UserTime = m2.UserTime AndAlso _
+            m1.Priority = m2.Priority AndAlso _
+            m1.MemoryInfos = m2.MemoryInfos AndAlso _
+            m1.IOValues = m2.IOValues AndAlso _
+            m1.HandleCount = m2.HandleCount AndAlso _
+            m1.GdiObjects = m2.GdiObjects AndAlso _
+            m1.UserObjects = m2.UserObjects AndAlso _
+            m1.AffinityMask = m2.AffinityMask AndAlso _
+            m1.IsHidden = m2.IsHidden AndAlso _
+            m1.ThreadCount = m2.ThreadCount)
+    End Operator
+
+
 #Region "Private attributes"
 
     Private _CommandLine As String
@@ -281,6 +299,8 @@ Imports System.Runtime.InteropServices
 
     ' Merge an old and a new instance
     Public Sub Merge(ByRef newI As processInfos)
+
+        _hasChanged = (newI <> Me)
 
         With newI
             _KernelTime = .KernelTime

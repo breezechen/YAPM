@@ -79,6 +79,17 @@ Public Class cService
             Return _serviceInfos
         End Get
     End Property
+    Public Overrides ReadOnly Property ItemHasChanged() As Boolean
+        Get
+            Static _first As Boolean = True
+            If _first Then
+                _first = False
+                Return True
+            Else
+                Return _serviceInfos.ItemHasChanged
+            End If
+        End Get
+    End Property
 
 #End Region
 

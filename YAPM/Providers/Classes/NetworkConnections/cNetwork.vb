@@ -106,6 +106,17 @@ Public Class cNetwork
             Return _networkInfos
         End Get
     End Property
+    Public Overrides ReadOnly Property ItemHasChanged() As Boolean
+        Get
+            Static _first As Boolean = True
+            If _first Then
+                _first = False
+                Return True
+            Else
+                Return _networkInfos.ItemHasChanged
+            End If
+        End Get
+    End Property
 
 #End Region
 
@@ -168,7 +179,7 @@ Public Class cNetwork
 #End Region
 
     ' Merge current infos and new infos
-    Public Sub Merge(ByRef Thr As API.LightConnection)
+    Public Sub Merge(ByRef Thr As networkInfos)
         _networkInfos.Merge(Thr)
     End Sub
 

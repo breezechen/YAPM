@@ -1,5 +1,8 @@
 TODO LIST
 
+- isub.Text = isub.Text à CORRIGER (cause des problème avec le ItemHasChanged)
+- tab affiché avec le ribbon
+- optimisation ItemHasChanged pour tous les objets qui manquent (mais attention : les valeurs présente dans cObject et pas objectInfos doivent être prisent en compte, ex : CpuUsage)
 - systemInfo pour les pc remote
 - optimiser récupération handles / memory region
 - reprendre tout le code unmanaged (cProcessRW foiré, Marshal.Copy useless (utiliser GCHandle.Alloc...))
@@ -140,3 +143,5 @@ Temp Change log :
 - optimisation récupération des zones mémoires
 - ajout fonctions Decommit/Release/Change protection pour la mémoire
 - refresh des infos sur les form détail OK avec F5
+- plus de scintillements
+- optimisation critique d'affichage : memRegion, process, services, network

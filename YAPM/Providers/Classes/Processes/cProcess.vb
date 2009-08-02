@@ -145,6 +145,18 @@ Public Class cProcess
         End Set
     End Property
 
+    Public Overrides ReadOnly Property ItemHasChanged() As Boolean
+        Get
+            Static _first As Boolean = True
+            If _first Then
+                _first = False
+                Return True
+            Else
+                Return _processInfos.ItemHasChanged
+            End If
+        End Get
+    End Property
+
     ' Get the performance dictionnaries
     Public ReadOnly Property DicoPerfMem() As SortedList(Of Integer, PROC_MEM_INFO)
         Get

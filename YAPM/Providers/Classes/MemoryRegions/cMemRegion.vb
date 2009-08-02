@@ -97,6 +97,17 @@ Public Class cMemRegion
             Return _moduleFileName
         End Get
     End Property
+    Public Overrides ReadOnly Property ItemHasChanged() As Boolean
+        Get
+            Static _first As Boolean = True
+            If _first Then
+                _first = False
+                Return True
+            Else
+                Return _memInfos.ItemHasChanged
+            End If
+        End Get
+    End Property
 
 #End Region
 
