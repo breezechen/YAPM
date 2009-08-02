@@ -193,4 +193,7 @@ Public Class frmChangeMemoryProtection
 
 #End Region
 
+    Private Sub linkMSDN_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles linkMSDN.LinkClicked
+        cFile.ShellOpenFile("http://msdn.microsoft.com/en-us/library/aa366786(VS.85).aspx", Me.Handle)
+    End Sub
 End Class

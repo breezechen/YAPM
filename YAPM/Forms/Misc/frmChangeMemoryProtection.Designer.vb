@@ -38,6 +38,7 @@ Partial Class frmChangeMemoryProtection
         Me.Label2 = New System.Windows.Forms.Label
         Me.chkNoCache = New System.Windows.Forms.CheckBox
         Me.chkWriteCombine = New System.Windows.Forms.CheckBox
+        Me.linkMSDN = New System.Windows.Forms.LinkLabel
         Me.SuspendLayout()
         '
         'Label1
@@ -199,11 +200,22 @@ Partial Class frmChangeMemoryProtection
         Me.chkWriteCombine.Text = "WriteCombine"
         Me.chkWriteCombine.UseVisualStyleBackColor = True
         '
+        'linkMSDN
+        '
+        Me.linkMSDN.AutoSize = True
+        Me.linkMSDN.Location = New System.Drawing.Point(121, 174)
+        Me.linkMSDN.Name = "linkMSDN"
+        Me.linkMSDN.Size = New System.Drawing.Size(171, 26)
+        Me.linkMSDN.TabIndex = 20
+        Me.linkMSDN.TabStop = True
+        Me.linkMSDN.Text = "Get informations about memory" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "protection on MSDN.com"
+        '
         'frmChangeMemoryProtection
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(304, 273)
+        Me.Controls.Add(Me.linkMSDN)
         Me.Controls.Add(Me.chkWriteCombine)
         Me.Controls.Add(Me.chkNoCache)
         Me.Controls.Add(Me.Label2)
@@ -246,4 +258,5 @@ Partial Class frmChangeMemoryProtection
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents chkNoCache As System.Windows.Forms.CheckBox
     Friend WithEvents chkWriteCombine As System.Windows.Forms.CheckBox
+    Friend WithEvents linkMSDN As System.Windows.Forms.LinkLabel
 End Class
