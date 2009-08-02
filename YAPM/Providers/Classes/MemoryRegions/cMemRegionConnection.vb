@@ -105,7 +105,7 @@ Public Class cMemRegionConnection
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
             System.Threading.WaitCallback(AddressOf _
             _memRegionEnum.Process), New  _
-            asyncCallbackMemRegionEnumerate.poolObj(pid, False, forInstanceId))
+            asyncCallbackMemRegionEnumerate.poolObj(pid, forInstanceId))
     End Function
 
 #End Region

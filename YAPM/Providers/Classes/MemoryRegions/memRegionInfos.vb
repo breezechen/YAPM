@@ -94,11 +94,11 @@ Imports System.Runtime.InteropServices
 
         _procId = pid
         With mbi
-            _state = CType(.State, API.MEMORY_STATE)
+            _state = .State
             _size = .RegionSize
             _address = .BaseAddress
-            _protection = CType(.AllocationProtect, API.PROTECTION_TYPE)
-            _type = CType(.lType, API.MEMORY_TYPE)
+            _protection = .AllocationProtect
+            _type = .lType
         End With
 
     End Sub
@@ -137,10 +137,10 @@ Imports System.Runtime.InteropServices
     End Function
 
     Private Function getName() As String
-        If _state = API.MEMORY_STATE.MEM_FREE Then
-            Return "Free"
-        ElseIf _type = API.MEMORY_TYPE.MEM_IMAGE Then
-            Return "Image"
+        If _state = API.MEMORY_STATE.Free Then
+            Return _state.ToString
+        ElseIf _type = API.MEMORY_TYPE.Image Then
+            Return _type.ToString
         Else
             Return _type.ToString & " (" & _state.ToString & ")"
         End If

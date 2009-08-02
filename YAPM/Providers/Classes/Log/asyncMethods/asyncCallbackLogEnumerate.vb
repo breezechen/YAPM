@@ -236,7 +236,7 @@ Public Class asyncCallbackLogEnumerate
                     ' Get list
                     Dim pid(0) As Integer
                     pid(0) = pObj.pid
-                    Call asyncCallbackMemRegionEnumerate.enumMemRegions(New asyncCallbackMemRegionEnumerate.poolObj(pid(0), False, 0), __dicoMemRegions)
+                    Call asyncCallbackMemRegionEnumerate.enumMemRegions(New asyncCallbackMemRegionEnumerate.poolObj(pid(0), 0), __dicoMemRegions)
 
                     ' Store in static dico if it is first refresh
                     If firstMemRegions Then

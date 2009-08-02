@@ -486,37 +486,45 @@ Public Class API
     Public Structure MEMORY_BASIC_INFORMATION ' 28 bytes
         Dim BaseAddress As Integer
         Dim AllocationBase As Integer
-        Dim AllocationProtect As Integer
+        Dim AllocationProtect As PROTECTION_TYPE
         Dim RegionSize As Integer
-        Dim State As Integer
-        Dim Protect As Integer
-        Dim lType As Integer
+        Dim State As MEMORY_STATE
+        Dim Protect As PROTECTION_TYPE
+        Dim lType As MEMORY_TYPE
     End Structure
 
+    <Flags()> _
     Public Enum PROTECTION_TYPE As Integer
-        PAGE_EXECUTE = &H10
-        PAGE_EXECUTE_READ = &H20
-        PAGE_EXECUTE_READWRITE = &H40
-        PAGE_EXECUTE_WRITECOPY = &H80
-        PAGE_NOACCESS = &H1
-        PAGE_READONLY = &H2
-        PAGE_READWRITE = &H4
-        PAGE_WRITECOPY = &H8
-        PAGE_GUARD = &H100
-        PAGE_NOCACHE = &H200
-        PAGE_WRITECOMBINE = &H400
+        AccessDenied = 0
+        Execute = &H10
+        ExecuteRead = &H20
+        ExecuteReadWrite = &H40
+        ExecuteWriteCopy = &H80
+        NoAccess = &H1
+        [ReadOnly] = &H2
+        ReadWrite = &H4
+        WriteCopy = &H8
+        Guard = &H100
+        NoCache = &H200
+        WriteCombine = &H400
     End Enum
 
-    Public Enum MEMORY_STATE As Integer
-        MEM_FREE = &H10000
-        MEM_COMMIT = &H1000
-        MEM_RESERVE = &H2000
+    <Flags()> _
+    Public Enum MEMORY_STATE As UInteger
+        Free = &H10000
+        Commit = &H1000
+        Reserve = &H2000
+        Decommit = &H4000
+        Release = &H8000
+        Reset = &H80000
+        Physical = &H400000
+        LargePages = &H20000000
     End Enum
 
     Public Enum MEMORY_TYPE As Integer
-        MEM_IMAGE = &H1000000
-        MEM_PRIVATE = &H20000
-        MEM_MAPPED = &H40000
+        Image = &H1000000
+        [Private] = &H20000
+        Mapped = &H40000
     End Enum
 
 #End Region

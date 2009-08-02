@@ -480,7 +480,6 @@ Public Class frmServer
                         Exit Sub
                     Case cSocketData.OrderType.RequestMemoryRegionList
                         Dim pid As Integer = CType(cData.Param1, Integer)
-                        'Dim all As Boolean = CBool(cData.Param2)   ' NOT NEEDED
                         Call _memoryCon.Enumerate(True, pid, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestServDepList

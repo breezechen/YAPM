@@ -49,10 +49,10 @@ Public Class cMemRegion
         _connection = Connection
 
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            If infos.Type = API.MEMORY_TYPE.MEM_IMAGE Then
+            If infos.Type = API.MEMORY_TYPE.Image Then
                 _moduleFileName = getModuleName(infos.BaseAddress)
-            ElseIf infos.Type = API.MEMORY_TYPE.MEM_MAPPED Then
-                If infos.State = API.MEMORY_STATE.MEM_COMMIT Then
+            ElseIf infos.Type = API.MEMORY_TYPE.Mapped Then
+                If infos.State = API.MEMORY_STATE.Commit Then
                     _moduleFileName = getModuleName(infos.BaseAddress)
                 End If
             End If
@@ -156,37 +156,37 @@ Public Class cMemRegion
     Friend Shared Function GetProtectionType(ByVal protec As API.PROTECTION_TYPE) As String
         Dim s As String = ""
 
-        If (protec And API.PROTECTION_TYPE.PAGE_EXECUTE) = API.PROTECTION_TYPE.PAGE_EXECUTE Then
+        If (protec And API.PROTECTION_TYPE.Execute) = API.PROTECTION_TYPE.Execute Then
             s &= "E/"
         End If
-        If (protec And API.PROTECTION_TYPE.PAGE_EXECUTE_READ) = API.PROTECTION_TYPE.PAGE_EXECUTE_READ Then
+        If (protec And API.PROTECTION_TYPE.ExecuteRead) = API.PROTECTION_TYPE.ExecuteRead Then
             s &= "ERO/"
         End If
-        If (protec And API.PROTECTION_TYPE.PAGE_EXECUTE_READWRITE) = API.PROTECTION_TYPE.PAGE_EXECUTE_READWRITE Then
+        If (protec And API.PROTECTION_TYPE.ExecuteReadWrite) = API.PROTECTION_TYPE.ExecuteReadWrite Then
             s &= "ERW/"
         End If
-        If (protec And API.PROTECTION_TYPE.PAGE_EXECUTE_WRITECOPY) = API.PROTECTION_TYPE.PAGE_EXECUTE_WRITECOPY Then
+        If (protec And API.PROTECTION_TYPE.ExecuteWriteCopy) = API.PROTECTION_TYPE.ExecuteWriteCopy Then
             s &= "EWC/"
         End If
-        If (protec And API.PROTECTION_TYPE.PAGE_GUARD) = API.PROTECTION_TYPE.PAGE_GUARD Then
+        If (protec And API.PROTECTION_TYPE.Guard) = API.PROTECTION_TYPE.Guard Then
             s &= "G/"
         End If
-        If (protec And API.PROTECTION_TYPE.PAGE_NOACCESS) = API.PROTECTION_TYPE.PAGE_NOACCESS Then
+        If (protec And API.PROTECTION_TYPE.NoAccess) = API.PROTECTION_TYPE.NoAccess Then
             s &= "NA/"
         End If
-        If (protec And API.PROTECTION_TYPE.PAGE_NOCACHE) = API.PROTECTION_TYPE.PAGE_NOCACHE Then
+        If (protec And API.PROTECTION_TYPE.NoCache) = API.PROTECTION_TYPE.NoCache Then
             s &= "NC"
         End If
-        If (protec And API.PROTECTION_TYPE.PAGE_READONLY) = API.PROTECTION_TYPE.PAGE_READONLY Then
+        If (protec And API.PROTECTION_TYPE.[ReadOnly]) = API.PROTECTION_TYPE.[ReadOnly] Then
             s &= "RO/"
         End If
-        If (protec And API.PROTECTION_TYPE.PAGE_READWRITE) = API.PROTECTION_TYPE.PAGE_READWRITE Then
+        If (protec And API.PROTECTION_TYPE.ReadWrite) = API.PROTECTION_TYPE.ReadWrite Then
             s &= "RW/"
         End If
-        If (protec And API.PROTECTION_TYPE.PAGE_WRITECOMBINE) = API.PROTECTION_TYPE.PAGE_WRITECOMBINE Then
+        If (protec And API.PROTECTION_TYPE.WriteCombine) = API.PROTECTION_TYPE.WriteCombine Then
             s &= "WCOMB/"
         End If
-        If (protec And API.PROTECTION_TYPE.PAGE_WRITECOPY) = API.PROTECTION_TYPE.PAGE_WRITECOPY Then
+        If (protec And API.PROTECTION_TYPE.WriteCopy) = API.PROTECTION_TYPE.WriteCopy Then
             s &= "WC/"
         End If
 

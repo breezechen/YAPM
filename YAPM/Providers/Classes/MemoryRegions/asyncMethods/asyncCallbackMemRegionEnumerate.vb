@@ -41,11 +41,9 @@ Public Class asyncCallbackMemRegionEnumerate
 
     Public Structure poolObj
         Public pid As Integer
-        Public onlyProcRegion As Boolean
         Public forInstanceId As Integer
-        Public Sub New(ByVal pi As Integer, ByVal onlyp As Boolean, ByVal ii As Integer)
+        Public Sub New(ByVal pi As Integer, ByVal ii As Integer)
             forInstanceId = ii
-            onlyProcRegion = onlyp
             pid = pi
         End Sub
     End Structure
@@ -78,7 +76,7 @@ Public Class asyncCallbackMemRegionEnumerate
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 _poolObj = pObj
                 Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestMemoryRegionList, pObj.pid, pObj.onlyProcRegion)
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestMemoryRegionList, pObj.pid)
                     cDat.InstanceId = _instanceId   ' Instance which request the list
                     con.ConnectionObj.Socket.Send(cDat)
                 Catch ex As Exception
@@ -107,37 +105,34 @@ Public Class asyncCallbackMemRegionEnumerate
     Friend Shared Sub enumMemRegions(ByVal pObj As poolObj, ByRef _dico As Dictionary(Of String, memRegionInfos))
         Dim lHandle As Integer
         Dim lPosMem As Integer = 0
-        Dim lRet As Boolean
+        Dim lRet As Boolean = True
         Dim mbi As API.MEMORY_BASIC_INFORMATION
+        Dim mbiSize As Integer = Marshal.SizeOf(mbi)
 
-        lHandle = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION Or API.PROCESS_RIGHTS.PROCESS_VM_READ, 0, pObj.pid)
+        lHandle = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION Or _
+                                  API.PROCESS_RIGHTS.PROCESS_VM_READ, 0, pObj.pid)
 
         If lHandle > 0 Then
 
-            ' We'll exit when VirtualQueryEx wall will fail
-            While True
+            ' We'll exit when VirtualQueryEx will fail
+            Do While True
 
-                lRet = API.VirtualQueryEx(lHandle, lPosMem, mbi, Marshal.SizeOf(mbi))
+                If API.VirtualQueryEx(lHandle, lPosMem, mbi, mbiSize) Then
 
-                If lRet Then
+                    _dico.Add(mbi.BaseAddress.ToString, _
+                              New memRegionInfos(mbi, pObj.pid))
 
-                    If mbi.RegionSize > 0 AndAlso _
-                    ((Not pObj.onlyProcRegion) OrElse (mbi.lType = API.MEMORY_TYPE.MEM_PRIVATE And _
-                                                      mbi.State = API.MEMORY_STATE.MEM_COMMIT)) Then
-                        ' Here is a region
-                        _dico.Add(mbi.BaseAddress.ToString, _
-                                  New memRegionInfos(mbi, pObj.pid))
-                    End If
-
-                    lPosMem = mbi.BaseAddress + mbi.RegionSize
+                    lPosMem += mbi.RegionSize
                 Else
-                    ' Done
-                    Exit While
+                    Exit Do
                 End If
-            End While
+
+            Loop
 
             Call API.CloseHandle(lHandle)
+
         End If
+
     End Sub
 
 End Class
