@@ -282,7 +282,6 @@ Public Class logList
         ' Now add all new items to listview
         ' If first time, lock listview
         'If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE Then Me.BeginUpdate()
-        Dim isub As ListViewItem.ListViewSubItem
         For Each z As String In _dicoNew.Keys
             Call conditionalAdd(_dicoNew(z))
         Next
@@ -312,16 +311,6 @@ Public Class logList
         '    '    it.BackColor = Color.White
         '    'End If
         'Next
-
-        ' This piece of code is needed. Strange behavior, the Text attribute must
-        ' be set twice to be properly displayed.
-        'If _firstItemUpdate Then
-        For Each it As ListViewItem In Me.Items
-            For Each isub In it.SubItems
-                isub.Text = isub.Text
-            Next
-        Next
-        'End If
 
         ' Sort items
         Me.Sort()

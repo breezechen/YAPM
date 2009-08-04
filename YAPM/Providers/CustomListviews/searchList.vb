@@ -197,10 +197,10 @@ Public Class searchList
         Me.BeginUpdate()
         For Each z As String In _dico.Keys
             ' Add to listview
-            Dim _subItems() As ListViewItem.ListViewSubItem
+            Dim _subItems() As String
             ReDim _subItems(Me.Columns.Count - 1)
             For x As Integer = 1 To _subItems.Length - 1
-                _subItems(x) = New ListViewItem.ListViewSubItem
+                _subItems(x) = ""
             Next
             Dim _tmp As searchInfos = _dico.Item(z)
             AddItemWithStyle(z, _tmp).SubItems.AddRange(_subItems)
@@ -221,13 +221,6 @@ Public Class searchList
             End If
         Next
 
-        ' This piece of code is needed. Strange behavior, the Text attribute must
-        ' be set twice to be properly displayed.
-        For Each it In Me.Items
-            For Each isub In it.SubItems
-                isub.Text = isub.Text
-            Next
-        Next
 
         ' Sort items
         Me.Sort()

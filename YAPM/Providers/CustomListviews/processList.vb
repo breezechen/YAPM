@@ -253,10 +253,10 @@ Public Class processList
         For Each z As String In _dicoNew.Keys
 
             ' Add to listview
-            Dim _subItems() As ListViewItem.ListViewSubItem
+            Dim _subItems() As String
             ReDim _subItems(Me.Columns.Count - 1)
             For x As Integer = 1 To _subItems.Length - 1
-                _subItems(x) = New ListViewItem.ListViewSubItem
+                _subItems(x) = ""
             Next
             AddItemWithStyle(z).SubItems.AddRange(_subItems)
         Next
@@ -299,16 +299,6 @@ Public Class processList
                 End If
             End If
         Next
-
-        ' This piece of code is needed. Strange behavior, the Text attribute must
-        ' be set twice to be properly displayed.
-        If _firstItemUpdate Then
-            For Each it In Me.Items
-                For Each isub In it.SubItems
-                    isub.Text = isub.Text
-                Next
-            Next
-        End If
 
 
         ' Set processes to task class
