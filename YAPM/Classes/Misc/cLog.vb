@@ -84,6 +84,7 @@ Public Class cLog
     Public WriteOnly Property ShowForm() As Boolean
         Set(ByVal value As Boolean)
             If value Then
+                frm.TopMost = _frmMain.TopMost
                 frm.Show()
             Else
                 frm.Hide()

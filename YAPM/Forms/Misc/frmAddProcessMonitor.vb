@@ -283,6 +283,8 @@ Public Class frmAddProcessMonitor
     End Sub
 
     Private Sub cmdSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSearch.Click
-        frmSearchMonitor.ShowDialog()
+        Dim frm As New frmSearchMonitor
+        frm.TopMost = _frmMain.TopMost
+        frm.ShowDialog()
     End Sub
 End Class

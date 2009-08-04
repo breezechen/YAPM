@@ -77,6 +77,7 @@ Public Class frmHiddenProcesses
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
             Dim frm As New frmProcessInfo
             frm.SetProcess(it)
+            frm.TopMost = _frmMain.TopMost
             frm.Show()
         Next
     End Sub

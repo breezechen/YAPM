@@ -367,6 +367,7 @@ Public Class windowList
             ' OK, show thread management
             For Each obj As cGeneralObject In Me.GetSelectedItems
                 Dim frm As New frmPendingTasks(obj)
+                frm.TopMost = _frmMain.TopMost
                 frm.Show()
             Next
         End If

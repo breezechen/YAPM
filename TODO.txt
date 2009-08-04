@@ -1,5 +1,28 @@
 TODO LIST
 
+- pending task count foireux (le count est incrémenté pour plusieurs objets, cf. les 3 threads + des fois le count reste incrémenté alors que c'est plus pending, à cause de la form ?)
+- OK dans chooseColumns -> devrait sauvegarder les préférences de suite
+- ajouter description des métas-infos (pending tasks & création date) dans la FAQ
+- ajouter PH dans la FAQ ?
+- caption des windows pas mise à jour + information "Visible" foireuse
+- key already added (env var) pendant recherche -> systématique (string 'f:\')
+- ajouter description des colonnes (dans le chooseColumns)
+- PH -> checker 'navigate regedit'
+- si local connection -> spawn tâche en waitForSingleObject qui attend la fin d'un process pour le exitcode dans formDetail.
+- option Kill with specific exitcode
+- find window -> select thread possible
+- virer la form qui gère le drag & drop pour la sélection d'un process
+- show user group/domain -> plus d'effet après optimisations affichage -> forcer refresh (sinon les refreshs se feront que sur les process qui sont rafraichit)
+- optimisation d'affichage -> mettre à jour la colonne méta 'pending tasks' systématiquement (si présente)
+- sur pc XP alstom, l'optimisation d'affichage pour les process ne marche pas
+- l'organisation des colonnes des threads n'est pas rechargée (ou bien sauvée ?) dans la form détail. Voir si c'est pareil pour les autres lv de la form
+- checker replace taskmgr sous 7 (need de la RAM !!)
+- menu select all dans tous les lv
+- notifications processus & services deleted (+ all/none comme PH)
+- search a monitor -> Search counter
+- Click sur 'monitor counters' -> BeginUpdate/EndUpdate du TV et du LV de frmMain
+- monitoring de pleins des items -> thread spécifique nécessaire pour éviter les bloquages
+- bug #2832209 -> bien checker "Topmost" dans le tray au démarrage si 'start topmost' sélectionné
 - isub.Text = isub.Text à CORRIGER (cause des problème avec le ItemHasChanged)
 - tab affiché avec le ribbon
 - optimisation ItemHasChanged pour tous les objets qui manquent (mais attention : les valeurs présente dans cObject et pas objectInfos doivent être prisent en compte, ex : CpuUsage)
@@ -145,3 +168,4 @@ Temp Change log :
 - refresh des infos sur les form détail OK avec F5
 - plus de scintillements
 - optimisation critique d'affichage : memRegion, process, services, network
+- suppression bug d'affichage -> optimisation du remplissage des listviews

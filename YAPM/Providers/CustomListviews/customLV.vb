@@ -111,6 +111,7 @@ Public MustInherit Class customLV
 
         Dim frm As New frmChooseColumns
         frm.ConcernedListView = Me
+        frm.TopMost = _frmMain.TopMost
         frm.ShowDialog()
 
         ' Recreate subitem buffer and get columns name again

@@ -71,8 +71,9 @@ Public Class frmAboutG
     End Sub
 
     Private Sub cmdLicense_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdLicense.Click
-        'frmAbout.ShowDialog()
-        asyncCallbackModuleEnumerate.GetModules(3824)
+        Dim frm As New frmAbout
+        frm.TopMost = _frmMain.TopMost
+        frm.ShowDialog()
     End Sub
 
     Private Sub lblRibbon_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblRibbon.LinkClicked

@@ -431,7 +431,9 @@ Public Class frmMain
         Next
 
 #If RELEASE_MODE = 0 Then
-        frmServer.Show()
+        Dim frm As New frmServer
+        frm.TopMost = _frmMain.TopMost
+        frm.Show()
 #End If
 
     End Sub
@@ -525,6 +527,7 @@ Public Class frmMain
 
     Private Sub butAbout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butAbout.Click
         Dim frm As New frmAboutG
+        frm.TopMost = _frmMain.TopMost
         frm.ShowDialog()
     End Sub
 
@@ -793,10 +796,9 @@ Public Class frmMain
         Dim frm As New frmPreferences
         With frm
             .TabControl.SelectedTab = .TabPage2
+            .TopMost = _frmMain.TopMost
             .ShowDialog()
-            .Dispose()
         End With
-        frm = Nothing
     End Sub
 
     Private Sub butSearchGo_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butSearchGo.Click
@@ -816,6 +818,7 @@ Public Class frmMain
         With frm
             .ReportType = "search"
             Call Application.DoEvents()
+            .TopMost = _frmMain.TopMost
             .ShowDialog()
         End With
     End Sub
@@ -876,6 +879,7 @@ Public Class frmMain
         Dim frm As New frmFileRelease
         With frm
             .file = Me.txtFile.Text
+            .TopMost = _frmMain.TopMost
             Call .ShowDialog()
         End With
     End Sub
@@ -999,6 +1003,7 @@ Public Class frmMain
 
     Private Sub butMonitoringAdd_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMonitoringAdd.Click
         Dim frm As New frmAddProcessMonitor(Program.Connection)
+        frm.TopMost = _frmMain.TopMost
         frm.ShowDialog()
     End Sub
 
@@ -1481,6 +1486,7 @@ Public Class frmMain
             Dim frm As New frmWindowPosition
             With frm
                 .SetCurrentPositions(Me.lvWindows.GetSelectedItem.Infos.Positions)
+                .TopMost = _frmMain.TopMost
 
                 If .ShowDialog() = Windows.Forms.DialogResult.OK Then
                     r = .NewRect
@@ -1515,6 +1521,7 @@ Public Class frmMain
         With frm
             .ReportType = "handles"
             Call Application.DoEvents()
+            .TopMost = _frmMain.TopMost
             .ShowDialog()
         End With
     End Sub
@@ -1591,6 +1598,7 @@ Public Class frmMain
         With frm
             .ReportType = "modules"
             Call Application.DoEvents()
+            .TopMost = _frmMain.TopMost
             .ShowDialog()
         End With
     End Sub
@@ -1608,6 +1616,7 @@ Public Class frmMain
         With frm
             .ReportType = "threads"
             Call Application.DoEvents()
+            .TopMost = _frmMain.TopMost
             .ShowDialog()
         End With
     End Sub
@@ -1617,6 +1626,7 @@ Public Class frmMain
         With frm
             .ReportType = "windows"
             Call Application.DoEvents()
+            .TopMost = _frmMain.TopMost
             .ShowDialog()
         End With
     End Sub
@@ -1626,6 +1636,7 @@ Public Class frmMain
         With frm
             .ReportType = "services"
             Call Application.DoEvents()
+            .TopMost = _frmMain.TopMost
             .ShowDialog()
         End With
     End Sub
@@ -1672,7 +1683,9 @@ Public Class frmMain
     End Sub
 
     Private Sub butPreferences_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butPreferences.Click
-        frmPreferences.ShowDialog()
+        Dim frm As New frmPreferences
+        frm.TopMost = _frmMain.TopMost
+        frm.ShowDialog()
     End Sub
 
     Public Sub TakeFullPower()
@@ -1712,6 +1725,7 @@ Public Class frmMain
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
             Dim frm As New frmProcessInfo
             frm.SetProcess(it)
+            frm.TopMost = _frmMain.TopMost
             frm.Show()
         Next
     End Sub
@@ -1810,6 +1824,7 @@ Public Class frmMain
     End Sub
 
     Private Sub butWindowFind_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowFind.Click
+        frmFindWindow.TopMost = _frmMain.TopMost
         frmFindWindow.Show()
     End Sub
 
@@ -1942,6 +1957,7 @@ Public Class frmMain
         With frm
             .ReportType = "processes"
             Call Application.DoEvents()
+            .TopMost = _frmMain.TopMost
             .ShowDialog()
         End With
     End Sub
@@ -2068,6 +2084,7 @@ Public Class frmMain
             For Each it As cService In Me.lvServices.GetSelectedItems
                 Dim frm As New frmServiceInfo
                 frm.SetService(it)
+                frm.TopMost = _frmMain.TopMost
                 frm.Show()
             Next
         End If
@@ -3148,6 +3165,7 @@ Public Class frmMain
         If ConnectionForm.Visible Then
             ConnectionForm.Hide()
         Else
+            ConnectionForm.TopMost = _frmMain.TopMost
             ConnectionForm.Show()
         End If
     End Sub
@@ -3291,10 +3309,12 @@ Public Class frmMain
     End Sub
 
     Private Sub butFeedBack_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFeedBack.Click
+        frmTracker.TopMost = _frmMain.TopMost
         frmTracker.Show()
     End Sub
 
     Private Sub butHiddenProcesses_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butHiddenProcesses.Click
+        frmHiddenProcesses.TopMost = _frmMain.TopMost
         frmHiddenProcesses.Show()
     End Sub
 
@@ -3302,12 +3322,15 @@ Public Class frmMain
         For Each it As cService In Me.lvServices.GetSelectedItems
             Dim frm As New frmServiceInfo
             frm.SetService(it)
+            frm.TopMost = _frmMain.TopMost
             frm.Show()
         Next
     End Sub
 
     Private Sub butShowPreferences_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butShowPreferences.Click
-        frmPreferences.ShowDialog()
+        Dim frm As New frmPreferences
+        frm.TopMost = _frmMain.TopMost
+        frm.ShowDialog()
     End Sub
 
     Private Sub butExit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butExit.Click
@@ -3340,6 +3363,7 @@ Public Class frmMain
 
     Private Sub butShowDepViewer_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butShowDepViewer.Click
         Dim _depFrm As New frmDepViewerMain
+        _depFrm.TopMost = _frmMain.TopMost
         _depFrm.Show()
     End Sub
 
@@ -3350,6 +3374,7 @@ Public Class frmMain
                 With _depForm
                     .OpenReferences(it.Infos.Path)
                     .HideOpenMenu()
+                    .TopMost = _frmMain.TopMost
                     .Show()
                 End With
             End If
@@ -3598,33 +3623,38 @@ Public Class frmMain
     End Sub
 
     Private Sub MenuItemMainReport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMainReport.Click
-        Dim frm As New frmGlobalReport
-        frm.ShowDialog()
+        frmGlobalReport.TopMost = _frmMain.TopMost
+        frmGlobalReport.ShowDialog()
     End Sub
 
     Private Sub MenuItemMainSysInfo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMainSysInfo.Click
+        frmSystemInfo.TopMost = _frmMain.TopMost
         frmSystemInfo.Show()
     End Sub
 
     Private Sub MenuItemMainOpenedW_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMainOpenedW.Click
         frmWindowsList.BringToFront()
         frmWindowsList.WindowState = FormWindowState.Normal
+        frmWindowsList.TopMost = _frmMain.TopMost
         frmWindowsList.Show()
     End Sub
 
     Private Sub MenuItemMainEmergencyH_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMainEmergencyH.Click
         frmHotkeys.BringToFront()
         frmHotkeys.WindowState = FormWindowState.Normal
+        frmHotkeys.TopMost = _frmMain.TopMost
         frmHotkeys.Show()
     End Sub
 
     Private Sub MenuItemMainFindWindow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMainFindWindow.Click
+        frmFindWindow.TopMost = _frmMain.TopMost
         frmFindWindow.Show()
     End Sub
 
     Private Sub MenuItemMainSBA_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMainSBA.Click
         frmBasedStateAction.BringToFront()
         frmBasedStateAction.WindowState = FormWindowState.Normal
+        frmBasedStateAction.TopMost = _frmMain.TopMost
         frmBasedStateAction.Show()
     End Sub
 
@@ -3693,6 +3723,7 @@ Public Class frmMain
                         .Text = "Show file properties box"
                         .Height = 150
                         .ShowDialog()
+                        .TopMost = _frmMain.TopMost
                         If .DialogResult = Windows.Forms.DialogResult.OK Then
                             If IO.File.Exists(.MsgResult2) Then _
                                 cFile.ShowFileProperty(.MsgResult2, Me.Handle)
@@ -3725,6 +3756,7 @@ Public Class frmMain
                         .Text = "Open directory"
                         .Height = 150
                         .ShowDialog()
+                        .TopMost = _frmMain.TopMost
                         If .DialogResult = Windows.Forms.DialogResult.OK Then
                             If IO.Directory.Exists(.MsgResult2) Then
                                 cFile.OpenADirectory(.MsgResult2)
@@ -3750,6 +3782,7 @@ Public Class frmMain
                 Dim frm As New frmDepViewerMain
                 frm.HideOpenMenu()
                 frm.OpenReferences(it.Infos.ImagePath)
+                frm.TopMost = _frmMain.TopMost
                 frm.Show()
             End If
         Next
@@ -3973,6 +4006,7 @@ Public Class frmMain
 
         Dim frm As New frmThreadAffinity
         frm.Thread = c
+        frm.TopMost = _frmMain.TopMost
         frm.ShowDialog()
     End Sub
 
@@ -4046,6 +4080,7 @@ Public Class frmMain
                 With _depForm
                     .OpenReferences(s)
                     .HideOpenMenu()
+                    .TopMost = _frmMain.TopMost
                     .Show()
                 End With
             End If
@@ -4274,6 +4309,7 @@ Public Class frmMain
 
     Private Sub MenuItemProcDump_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcDump.Click
         Dim _frm As New frmDumpFile
+        _frm.TopMost = _frmMain.TopMost
         If _frm.ShowDialog = Windows.Forms.DialogResult.OK Then
             For Each cp As cProcess In Me.lvProcess.GetSelectedItems
                 Dim _file As String = _frm.TargetDir & "\" & Date.Now.Ticks.ToString & "_" & cp.Infos.Name & ".dmp"
@@ -4397,6 +4433,7 @@ Public Class frmMain
                 Dim frm As New frmDepViewerMain
                 frm.HideOpenMenu()
                 frm.OpenReferences(it.Infos.Path)
+                frm.TopMost = _frmMain.TopMost
                 frm.Show()
             End If
         Next
@@ -4565,6 +4602,7 @@ Public Class frmMain
         Next
 
         Dim frm As New frmProcessAffinity(c)
+        frm.TopMost = _frmMain.TopMost
         frm.ShowDialog()
     End Sub
 

@@ -1113,6 +1113,7 @@ Public Class frmProcessInfo
         frm.LogDisplayMask = _logDisplayMask
         frm.Form = Me
         frm._autoScroll.Checked = _autoScroll
+        frm.TopMost = _frmMain.TopMost
 
         If frm.ShowDialog = Windows.Forms.DialogResult.OK Then
             ' Redisplay items
@@ -1248,6 +1249,7 @@ Public Class frmProcessInfo
         Dim c(0) As cProcess
         c(0) = curProc
         Dim frm As New frmProcessAffinity(c)
+        frm.TopMost = _frmMain.TopMost
         frm.ShowDialog()
     End Sub
 
@@ -1294,6 +1296,7 @@ Public Class frmProcessInfo
         For Each it As cService In Me.lvProcServices.GetSelectedItems
             Dim frm As New frmServiceInfo
             frm.SetService(it)
+            frm.TopMost = _frmMain.TopMost
             frm.Show()
         Next
     End Sub
@@ -1385,6 +1388,7 @@ Public Class frmProcessInfo
             With _depForm
                 .OpenReferences(Me.curProc.Infos.Path)
                 .HideOpenMenu()
+                .TopMost = _frmMain.TopMost
                 .Show()
             End With
         End If
@@ -1426,6 +1430,7 @@ Public Class frmProcessInfo
                 Dim regio As New MemoryHexEditor.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
                 frm.SetPidAndRegion(curProc.Infos.Pid, regio)
                 frm._hex.NavigateToOffset(CInt((add - regio.BeginningAddress) / 16))
+                frm.TopMost = _frmMain.TopMost
                 frm.Show()
                 Exit For
             End If
@@ -1622,6 +1627,7 @@ Public Class frmProcessInfo
                 Dim regio As New MemoryHexEditor.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
                 frm.SetPidAndRegion(curProc.Infos.Pid, regio)
                 frm._hex.NavigateToOffset(peb)
+                frm.TopMost = _frmMain.TopMost
                 frm.Show()
                 Exit For
             End If
@@ -1693,6 +1699,7 @@ Public Class frmProcessInfo
                 With _depForm
                     .OpenReferences(s)
                     .HideOpenMenu()
+                    .TopMost = _frmMain.TopMost
                     .Show()
                 End With
             End If
@@ -1715,6 +1722,7 @@ Public Class frmProcessInfo
                     Dim regio As New MemoryHexEditor.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
                     frm.SetPidAndRegion(curProc.Infos.Pid, regio)
                     frm._hex.NavigateToOffset(CInt((add - regio.BeginningAddress) / 16) - 1)
+                    frm.TopMost = _frmMain.TopMost
                     frm.Show()
                     Exit For
                 End If
@@ -1738,6 +1746,7 @@ Public Class frmProcessInfo
         For Each it As cService In Me.lvProcServices.GetSelectedItems
             Dim frm As New frmServiceInfo
             frm.SetService(it)
+            frm.TopMost = _frmMain.TopMost
             frm.Show()
         Next
     End Sub
@@ -1785,6 +1794,7 @@ Public Class frmProcessInfo
                         .txtMsg2.BackColor = Drawing.Color.White
                         .Text = "Show file properties box"
                         .Height = 150
+                        .TopMost = _frmMain.TopMost
                         .ShowDialog()
                         If .DialogResult = Windows.Forms.DialogResult.OK Then
                             If IO.File.Exists(.MsgResult2) Then _
@@ -1817,6 +1827,7 @@ Public Class frmProcessInfo
                         .txtMsg2.BackColor = Drawing.Color.White
                         .Text = "Open directory"
                         .Height = 150
+                        .TopMost = _frmMain.TopMost
                         .ShowDialog()
                         If .DialogResult = Windows.Forms.DialogResult.OK Then
                             If IO.Directory.Exists(.MsgResult2) Then
@@ -1930,6 +1941,7 @@ Public Class frmProcessInfo
 
         Dim frm As New frmThreadAffinity
         frm.Thread = c
+        frm.TopMost = _frmMain.TopMost
         frm.ShowDialog()
     End Sub
 
@@ -2045,6 +2057,7 @@ Public Class frmProcessInfo
             Dim frm As New frmWindowPosition
             With frm
                 .SetCurrentPositions(Me.lvWindows.GetSelectedItem.Infos.Positions)
+                .TopMost = _frmMain.TopMost
 
                 If .ShowDialog() = Windows.Forms.DialogResult.OK Then
                     r = .NewRect
@@ -2337,6 +2350,7 @@ Public Class frmProcessInfo
                 With _depForm
                     .OpenReferences(s)
                     .HideOpenMenu()
+                    .TopMost = _frmMain.TopMost
                     .Show()
                 End With
             End If
@@ -2367,6 +2381,7 @@ Public Class frmProcessInfo
                 ' with current protection type (in form)
                 frm.ProtectionType = Me.lvProcMem.GetSelectedItem.Infos.Protection
             End If
+            frm.TopMost = _frmMain.TopMost
             frm.ShowDialog()
             If frm.DialogResult = Windows.Forms.DialogResult.OK Then
                 For Each it As cMemRegion In Me.lvProcMem.GetSelectedItems

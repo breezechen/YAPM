@@ -395,6 +395,7 @@ Module Misc
             .Text = title
             .lblMessage.Text = text
             .txtRes.Text = defaultValue
+            .TopMost = _frmMain.TopMost
             .ShowDialog()
             Return .Result
         End With

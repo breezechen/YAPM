@@ -460,6 +460,7 @@ Public Class frmServiceInfo
         If _t IsNot Nothing Then
             Dim frm As New frmProcessInfo
             frm.SetProcess(_t)
+            frm.TopMost = _frmMain.TopMost
             frm.Show()
         End If
     End Sub
@@ -500,6 +501,7 @@ Public Class frmServiceInfo
             If it IsNot Nothing Then
                 Dim frm As New frmServiceInfo
                 frm.SetService(it)
+                frm.TopMost = _frmMain.TopMost
                 frm.Show()
             End If
         End If
@@ -512,6 +514,7 @@ Public Class frmServiceInfo
             If it IsNot Nothing Then
                 Dim frm As New frmServiceInfo
                 frm.SetService(it)
+                frm.TopMost = _frmMain.TopMost
                 frm.Show()
             End If
         End If
@@ -523,6 +526,7 @@ Public Class frmServiceInfo
             With _depForm
                 .OpenReferences(Me.curServ.Infos.ImagePath)
                 .HideOpenMenu()
+                .TopMost = _frmMain.TopMost
                 .Show()
             End With
         End If

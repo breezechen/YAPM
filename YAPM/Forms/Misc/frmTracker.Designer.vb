@@ -173,7 +173,6 @@ Partial Class frmTracker
         Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Bug report & feedbacks"
-        Me.TopMost = True
         Me.SplitContainer.Panel1.ResumeLayout(False)
         Me.SplitContainer.Panel2.ResumeLayout(False)
         Me.SplitContainer.Panel2.PerformLayout()

@@ -66,6 +66,7 @@ Public Class frmLog
         With frm
             .ReportType = "log"
             Call Application.DoEvents()
+            .TopMost = _frmMain.TopMost
             .ShowDialog()
         End With
     End Sub

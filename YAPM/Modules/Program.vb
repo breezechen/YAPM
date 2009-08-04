@@ -291,6 +291,7 @@ Public Module Program
         ex = CType(e.ExceptionObject, Exception)
         Console.WriteLine(ex.StackTrace)
         Dim t As New frmError(ex)
+        t.TopMost = True
 #If RELEASE_MODE = 1 Then
         t.ShowDialog()
 #End If
@@ -298,6 +299,7 @@ Public Module Program
     Private Sub MYThreadHandler(ByVal sender As Object, ByVal e As Threading.ThreadExceptionEventArgs)
         Console.WriteLine(e.Exception.StackTrace)
         Dim t As New frmError(e.Exception)
+        t.TopMost = True
 #If RELEASE_MODE = 1 Then
         t.ShowDialog()
 #End If
