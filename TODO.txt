@@ -20,6 +20,7 @@ BUGS CRITIQUES
 - reports
 
 BUGS NON CRITIQUES
+- résolutions d'adresses -> stocker correspondance IP:port <-> nom resolu dans un dico ?
 - utilisation de TryGetValue pour accéder aux dicos
 - ajout des 6 nouvelles infos process dans formDetail (sauf certaines qui auront un truc spécifique comme token, job)
 - bien différencier local et remote, ex. hidden processes (afficher dans le caption des forms ?)
@@ -36,6 +37,7 @@ BUGS NON CRITIQUES
 - menu select all dans tous les lv
 - notifications processus & services deleted
 - inspect structures (PEB...) + possibilité afficher valeurs structs depuis hex editor
+- optmisation NetWorklist -> bytes swap uniquement pour les news items (inutile de faire çà a chaque fois dans l'enum)
 - Click sur 'monitor counters' -> BeginUpdate/EndUpdate du TV et du LV de frmMain
 - monitoring de pleins des items -> thread spécifique nécessaire pour éviter les bloquages
 - systemInfo pour les pc remote
@@ -156,7 +158,7 @@ Temp Change log :
 - ajout fonctions Decommit/Release/Change protection pour la mémoire
 - refresh des infos sur les form détail OK avec F5
 - plus de scintillements
-- optimisation critique d'affichage : memRegion, process, services, network
+- optimisation critique d'affichage : memRegion, process, services, network (OK : network, services)
 - suppression bug d'affichage -> optimisation du remplissage des listviews
 - correction bug #2832408 (key exists, env variable)
 - correction bug #2832606 (commandLine refait)

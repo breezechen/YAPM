@@ -31,6 +31,7 @@ Public Class cNetwork
 
     Private nullAddress As New IPAddress(0)     ' For address comparison
 
+    Private _haveResolvedAnAddress As Boolean
     Private _networkInfos As networkInfos
     Private Shared WithEvents _connection As cNetworkConnection
 
@@ -113,7 +114,13 @@ Public Class cNetwork
                 _first = False
                 Return True
             Else
-                Return _networkInfos.ItemHasChanged
+                ' If an address has been resolved, we have to refresh display
+                If _haveResolvedAnAddress Then
+                    _haveResolvedAnAddress = False
+                    Return True
+                Else
+                    Return _networkInfos.ItemHasChanged
+                End If
             End If
         End Get
     End Property
@@ -278,6 +285,7 @@ Public Class cNetwork
                 Exit Sub
             End Try
             Me.Infos._localString = hostEntry.HostName
+            _haveResolvedAnAddress = True
         End If
     End Sub
     Private Sub getHostNameRemote(ByVal obj As Object)
@@ -290,6 +298,7 @@ Public Class cNetwork
                 Exit Sub
             End Try
             Me.Infos._remoteString = hostEntry.HostName
+            _haveResolvedAnAddress = True
         End If
     End Sub
 End Class
