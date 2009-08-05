@@ -482,53 +482,36 @@ Public Class asyncCallbackProcEnumerate
             ' Get PEB address of process
             ' Get PEB address of process
             Dim __pebAd As Integer = PEBAddress
-            If __pebAd = -1 Then
+            If __pebAd <= 0 Then
                 Return ""
             End If
 
-            ' Create a processMemRW class to read in memory
-            Dim cR As New cProcessMemRW(_pid)
+            ' Create a reader class to read in memory
+            Dim memReader As New cProcessMemReader(_pid)
 
-            If cR.Handle = 0 Then
-                Return ""           ' Couldn't open a handle
+            If memReader.ProcessHandle = 0 Then
+                Return NO_INFO_RETRIEVED           ' Couldn't open a handle
             End If
 
-            ' Read first 20 bytes (5 integers) of PEB block
-            ' The fifth integer contains address of ProcessParameters block
-            Dim pebDeb() As Integer = cR.ReadBytesAI(__pebAd, 5)
-            Dim __procParamAd As Integer = pebDeb(4)
+            ' Retrieve process parameters block address
+            ' It's located from bytes 16 to 20 after PEB address
+            Dim __procParamAd As Integer = memReader.ReadInt32(__pebAd + 16)
+
 
             ' Get unicode string adress
-            ' It's located at offset 0x40 on all NT systems because it's after a fixed structure
-            ' of 64 bytes
+            ' It's located at offset 0x40 on all NT systems because it's 
+            ' after a fixed structure of 64 bytes
+            Dim cmdLine As API.UNICODE_STRING
 
             ' Read length of the unicode string
-            Dim bA() As Short = cR.ReadBytesAS(__procParamAd + 64, 1)
-            Dim __size As Integer = bA(0)      ' Size of string
-            If __size = 0 Then
-                Return NO_INFO_RETRIEVED
-            End If
+            cmdLine.Length = CUShort(memReader.ReadInt32(__procParamAd + &H40))
+            cmdLine.MaximumLength = CUShort(cmdLine.Length + 2) ' Not used, but...
 
             ' Read pointer to the string
-            Dim bA2() As Integer = cR.ReadBytesAI(__procParamAd + 68, 1)
-            Dim __strPtr As Integer = bA2(0)      ' Pointer to string
+            cmdLine.Buffer = memReader.ReadInt32(__procParamAd + &H44)
 
-            'Trace.WriteLine("before string")
-            ' Gonna get string
-            Dim bS() As Short = cR.ReadBytesAS(__strPtr, __size)
-
-            ' Allocate unmanaged memory
-            Dim ptr As IntPtr = Marshal.AllocHGlobal(__size)
-            __size = CInt(__size / 2)   ' Because of Unicode String (2 bytes per char)
-
-            ' Copy from short array to unmanaged memory
-            Marshal.Copy(bS, 0, ptr, __size)
-
-            ' Convert to string (and copy to __var variable)
-            res = Marshal.PtrToStringUni(ptr, __size)
-
-            ' Free unmanaged memory
-            Marshal.FreeHGlobal(ptr)
+            ' Read the string
+            res = memReader.ReadUnicodeString(cmdLine)
 
             Return res
 

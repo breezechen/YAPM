@@ -96,7 +96,9 @@ Public Class asyncCallbackEnvVariableEnumerate
                 Call GetEnvironmentVariables(pObj.peb, pObj.pid, var, val)
 
                 For x As Integer = 0 To var.Length - 1
-                    _dico.Add(var(x), New envVariableInfos(var(x), val(x), pObj.pid))
+                    If _dico.ContainsKey(var(x)) = False Then
+                        _dico.Add(var(x), New envVariableInfos(var(x), val(x), pObj.pid))
+                    End If
                 Next
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _

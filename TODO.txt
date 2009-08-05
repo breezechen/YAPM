@@ -1,101 +1,92 @@
 TODO LIST
 
-- pending task count foireux (le count est incrémenté pour plusieurs objets, cf. les 3 threads + des fois le count reste incrémenté alors que c'est plus pending, à cause de la form ?)
+BUGS CRITIQUES
+- dico : key already added (proceses, modules...)
 - OK dans chooseColumns -> devrait sauvegarder les préférences de suite
-- ajouter description des métas-infos (pending tasks & création date) dans la FAQ
-- ajouter PH dans la FAQ ?
 - caption des windows pas mise à jour + information "Visible" foireuse
-- key already added (env var) pendant recherche -> systématique (string 'f:\')
+- start hidden a faire correctement
+- show user group/domain -> plus d'effet après optimisations affichage -> forcer refresh (sinon les refreshs se feront que sur les process qui sont rafraichit)
+- sur pc XP alstom, l'optimisation d'affichage pour les process ne marche pas
+- l'organisation des colonnes des threads n'est pas rechargée (ou bien sauvée ?) dans la form détail. Voir si c'est pareil pour les autres lv de la form
+- bug #2832209 -> bien checker "Topmost" dans le tray au démarrage si 'start topmost' sélectionné
+- tab affiché avec le ribbon
+- optimisation ItemHasChanged pour tous les objets qui manquent (mais attention : les valeurs présente dans cObject et pas objectInfos doivent être prisent en compte, ex : CpuUsage)
+- click sur croix de fermeture de frmMain -> appeler ExitYAPM avec succes
+- restart as admin foireux (utiliser shellexecute et non StartProcess pour esquiver boite de dialogue Windows et foirages), le redémarrage est bouzeux (et faut aussi sauver les preferences)
+- tester en tâche de fond sur un windows XP et voir si des crash surviennent
+- possibilité de passer en mode elevated automatiquement (dans les options) possible ??
+- crash UDP à inspecter
+- onglet File sans le ribbon -> les actions sont indisponibles (ajouter menu avec Open file, Refresh, Release...)
+- actions sur les Windows impossible en mode non ribbon (obligation d'ajouter un popup menu...)
+- reports
+
+BUGS NON CRITIQUES
+- utilisation de TryGetValue pour accéder aux dicos
+- ajout des 6 nouvelles infos process dans formDetail (sauf certaines qui auront un truc spécifique comme token, job)
+- bien différencier local et remote, ex. hidden processes (afficher dans le caption des forms ?)
+- gestion startup items ou pas ? (+ coloration pour les process/services qui démarrent au boot)
+- pending task count foireux (le count est incrémenté pour plusieurs objets, cf. les 3 threads + des fois le count reste incrémenté alors que c'est plus pending, à cause de la form ?)
+- ajouter description des métas-infos (pending tasks & création date) dans la FAQ
 - ajouter description des colonnes (dans le chooseColumns)
-- PH -> checker 'navigate regedit'
 - si local connection -> spawn tâche en waitForSingleObject qui attend la fin d'un process pour le exitcode dans formDetail.
 - option Kill with specific exitcode
 - find window -> select thread possible
 - virer la form qui gère le drag & drop pour la sélection d'un process
-- show user group/domain -> plus d'effet après optimisations affichage -> forcer refresh (sinon les refreshs se feront que sur les process qui sont rafraichit)
 - optimisation d'affichage -> mettre à jour la colonne méta 'pending tasks' systématiquement (si présente)
-- sur pc XP alstom, l'optimisation d'affichage pour les process ne marche pas
-- l'organisation des colonnes des threads n'est pas rechargée (ou bien sauvée ?) dans la form détail. Voir si c'est pareil pour les autres lv de la form
 - checker replace taskmgr sous 7 (need de la RAM !!)
 - menu select all dans tous les lv
-- notifications processus & services deleted (+ all/none comme PH)
-- search a monitor -> Search counter
+- notifications processus & services deleted
+- inspect structures (PEB...) + possibilité afficher valeurs structs depuis hex editor
 - Click sur 'monitor counters' -> BeginUpdate/EndUpdate du TV et du LV de frmMain
 - monitoring de pleins des items -> thread spécifique nécessaire pour éviter les bloquages
-- bug #2832209 -> bien checker "Topmost" dans le tray au démarrage si 'start topmost' sélectionné
-- isub.Text = isub.Text à CORRIGER (cause des problème avec le ItemHasChanged)
-- tab affiché avec le ribbon
-- optimisation ItemHasChanged pour tous les objets qui manquent (mais attention : les valeurs présente dans cObject et pas objectInfos doivent être prisent en compte, ex : CpuUsage)
 - systemInfo pour les pc remote
 - optimiser récupération handles / memory region
 - reprendre tout le code unmanaged (cProcessRW foiré, Marshal.Copy useless (utiliser GCHandle.Alloc...))
 - colorations listviewitems pour les modules (cf. flags)
 - SystemInfos -> afficher graphes en permanence (et pas que quand la form est affichée)
 - optimisation récupération zones mémoire
-- interprétations de structures
-- click sur croix de fermeture de frmMain -> appeler ExitYAPM avec succes
-- inspect structures (PEB...) + possibilité afficher valeurs structs depuis hex editor
 - lvFileStrings doit être Virtual
-- start hidden a faire correctement
 - dependencies pour les services KO (on a le path avec \SystemRoot\ dans le .Imagepath (récupérer plutôt .Getinformation(path) + enlever ligne de commande après fichier)
 - si network connexions obtenues AVANT process, alors le processname n'est pas trouvé (refaire un check après)
-- form hidden -> dbl click dans le tray -> demander refresh de la form (bug en bas)
 - résoudre pb des nouvelles infos process pour le réseau (idem que Affinity)
 - priorité des highlightings à prendre en compte
-- ajout des 6 nouvelles infos process dans formDetail (sauf certaines qui auront un truc spécifique comme token, job)
 - ajouter bouton Default dans ChooseColumns
 - ajouter infos token (elevation, domain, user name, SID...)
-- restart as admin foireux (utiliser shellexecute et non StartProcess pour esquiver boite de dialogue Windows et foirages), le redémarrage est bouzeux (et faut aussi sauver les preferences)
-- possibilité de passer en mode elevated automatiquement (dans les options) possible ??
 - choix font
 - désactiver msgbox pour le server
 - en mode server, tous les captions sont en gris (lvProcess)
 - ajouter "démarrer en tant que" (runas, cf lien opera)
 - option display icons in listviews
-- virer icones dans le tabs ?
 - perf counter pour PC distant (+ ajouter gestion remote pour la recherche)
-- ribbon lourd (clignotement) -> alternative ?
 - path des process : \Device\VBoxMiniRdr\VBOXSVR\Release\YAPM.exe à convertir en path avec lecteur
 - auto check update option (+ ajouter tooltip sur tray icon)
 - fin d'un process -> afficher exitcode dans frmDetail
 - log marche pas toujours (0% d'UC ??)
-- fin d'un process/service dans frmDetail -> afficher 'terminé le xxx' en
-titre quand le process/service n'existe plus
+- fin d'un process/service dans frmDetail -> afficher 'terminé le xxx' en titre quand le process/service n'existe plus
 - tooltip partout (manque frmPreferences ? et manque frmLogOptions + forms qui viennent des autres projets)
 - images PNG uniquement + virer img inutiles
-- crash UDP à inspecter
 - Check if file is locked... -> avertir quand recherche terminée (REFAIRE CETTE FEATURE)
 - certaines icones moches (yes/no dans lvPrivileges, refresh, find window, )
 - get online infos pour les services (changer de provider !!)
-- onglet File sans le ribbon -> les actions sont indisponibles (ajouter menu avec Open file, Refresh, Release...)
 - 'select in Window tab' dans task toujours non satisfaisant (au minimum, on peut déjà demander le refresh de lvWindows...)
 - graph monitoring -> refresh l'affichage de la valeur survolée également quand la souris se déplace
 - vérifier pourquoi cpu usage de Idle dépasse les 100% ; le cas échéant limiter la valeur à 100%
 - find hidden processes utilisable pour les PCs distants ? + ajouter Terminate dans le menu popup + éventuellement 'go to process' pour aller dans lvProcess
-- actions sur les Windows impossible en mode non ribbon (obligation d'ajouter un popup menu...)
 - déconnexion WMI après longue inactivité -> calculer temps dernière requete et lancer une requete pour éviter la déconnexion si t>MAX ?
 - double récupération des strings en mémoire/image dans frmDetail ???
-- tester en tâche de fond sur un windows XP et voir si des crash surviennent
 - blocage de l'application quand certains processus bouffe du CPU (cf compilo wingreta) -> est-ce un appel bloquant (genre sendmessage) lors du refresh des process/tasks...?
 - dependencies -> PE.filename doit changer SystemRoot en X:\Wind....
 - refactoring (objet, virer int et mettre intptr, declarations pinvoke, gestion privileges meilleure...etc....)
 - ajouter msgbox "action dangereuse, you sure ?"
-
-
----- GENERAL
 - refresh double des services en WMI ??
-- view memory (module) -> si lvProcMem.count = 0...
-
----- RESEAU
+- view memory (module) -> que si lvProcMem.count = 0...
 - affinity process/thread (socket)
 - refresh services trop rapide -> impossible de récupérer des infos par socket après (checker semaphore)
-- reports
 - TODO, TOCHANGE, TODO_, TOCHECK
 
 
 - ajouter semaphores de protection dans les methodes "Friend Shared Sub enumXXXX" (pour accès concurrent avec le log) ????
 - probablement des bugs de 'collection modifiée' vis à vis du log
-- régression performances d'affichage + clignotements des listviews quand changement de foreground window
 - transformer .Created par try/catch ? + manque des Invoke pour les connected dans les cXXXConnection
 - getmappedimage... pour socket
 - ~~ : refresh des threads (details) nécessite refresh des process
@@ -103,7 +94,6 @@ titre quand le process/service n'existe plus
 - messages Vista like partout
 - msgbox encombrant quand pleins d'erreurs connexion !!
 - erreurs fonctions via socket qui échouent sur le client, pas le server
-- ' BUGLV
 - rapport monitoring
 - one graph per CPU -> conserver historique
 - performances (_currentServices et _currentProcesses remplis 2 fois au démarrage -> customLV qui créé des cObject, et asyncEnum aussi)
@@ -169,3 +159,5 @@ Temp Change log :
 - plus de scintillements
 - optimisation critique d'affichage : memRegion, process, services, network
 - suppression bug d'affichage -> optimisation du remplissage des listviews
+- correction bug #2832408 (key exists, env variable)
+- correction bug #2832606 (commandLine refait)

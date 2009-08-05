@@ -145,7 +145,7 @@ Partial Class frmAddProcessMonitor
         Me.cmdSearch.Name = "cmdSearch"
         Me.cmdSearch.Size = New System.Drawing.Size(74, 76)
         Me.cmdSearch.TabIndex = 14
-        Me.cmdSearch.Text = "Search a monitor"
+        Me.cmdSearch.Text = "Search counter"
         Me.cmdSearch.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.cmdSearch.UseVisualStyleBackColor = True
         '
