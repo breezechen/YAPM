@@ -86,6 +86,7 @@ Public Class Pref
             _frmMain.TopMost = My.Settings.TopMost
             _frmMain.butAlwaysDisplay.Checked = My.Settings.TopMost
             _frmMain.Visible = Not (My.Settings.StartHidden)
+            _frmMain.MenuItemMainAlwaysVisible.Checked = My.Settings.TopMost
             'If My.Settings.StartHidden Then
             '    _frmMain.Hide()
             '    _frmMain.Left = LEFT_POSITION_HIDDEN

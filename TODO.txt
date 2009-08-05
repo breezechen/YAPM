@@ -8,7 +8,6 @@ BUGS CRITIQUES
 - show user group/domain -> plus d'effet après optimisations affichage -> forcer refresh (sinon les refreshs se feront que sur les process qui sont rafraichit)
 - sur pc XP alstom, l'optimisation d'affichage pour les process ne marche pas
 - l'organisation des colonnes des threads n'est pas rechargée (ou bien sauvée ?) dans la form détail. Voir si c'est pareil pour les autres lv de la form
-- bug #2832209 -> bien checker "Topmost" dans le tray au démarrage si 'start topmost' sélectionné
 - tab affiché avec le ribbon
 - optimisation ItemHasChanged pour tous les objets qui manquent (mais attention : les valeurs présente dans cObject et pas objectInfos doivent être prisent en compte, ex : CpuUsage)
 - click sur croix de fermeture de frmMain -> appeler ExitYAPM avec succes
