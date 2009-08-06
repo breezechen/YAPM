@@ -108,6 +108,7 @@ Public Class serviceList
 
     ' Delete all items
     Public Sub ClearItems()
+        generalLvSemaphore.WaitOne()
         _first = True
         _buffDico.Clear()
         _dico.Clear()
@@ -116,6 +117,7 @@ Public Class serviceList
         _IMG.Images.Clear()
         _IMG.Images.Add("service", My.Resources.gear)   ' Icon is specific
         Me.Items.Clear()
+        generalLvSemaphore.Release()
     End Sub
 
     ' Reanalize a process
@@ -125,12 +127,14 @@ Public Class serviceList
         ' In WMI and Socket mode, there IS NO NEED to reanalize because all informations
         ' are retrieved each time we refresh
         ' In fact, "Reanalize" is only available for Local mode
+        generalLvSemaphore.WaitOne()
         If _serviceConnection.ConnectionObj.ConnectionType = _
                 cConnection.TypeOfConnection.LocalConnection Then
             For Each cs As cService In Me.GetSelectedItems
                 cs.Refresh()
             Next
         End If
+        generalLvSemaphore.Release()
     End Sub
 
     ' Call this to update items in listview
@@ -177,9 +181,11 @@ Public Class serviceList
     Public Shadows Function GetSelectedItems() As Dictionary(Of String, cService).ValueCollection
         Dim res As New Dictionary(Of String, cService)
 
+        generalLvSemaphore.WaitOne()
         For Each it As ListViewItem In Me.SelectedItems
             res.Add(it.Name, _dico.Item(it.Name))
         Next
+        generalLvSemaphore.Release()
 
         Return res.Values
     End Function
@@ -190,15 +196,14 @@ Public Class serviceList
     ' ========================================
 
     ' Executed when enumeration is done
-    Private Shared sem As New System.Threading.Semaphore(1, 1)
     Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, serviceInfos), ByVal errorMessage As String, ByVal forII As Integer)
 
-        sem.WaitOne()
+        generalLvSemaphore.WaitOne()
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
             RaiseEvent GotAnError("Service enumeration", errorMessage)
-            sem.Release()
+            generalLvSemaphore.Release()
             Exit Sub
         End If
 
@@ -309,9 +314,32 @@ Public Class serviceList
 
         MyBase.UpdateItems()
 
-        sem.Release()
+        generalLvSemaphore.Release()
     End Sub
 
+    ' Force item refreshing
+    Public Overrides Sub ForceRefreshingOfAllItems()    ' Always called in a safe protected context
+        Dim isub As ListViewItem.ListViewSubItem
+        Dim it As ListViewItem
+        For Each it In Me.Items
+            Dim x As Integer = 0
+            If _dico.ContainsKey(it.Name) Then
+                Dim _item As cGeneralObject = _dico.Item(it.Name)
+                For Each isub In it.SubItems
+                    isub.Text = _item.GetInformation(_columnsName(x))
+                    x += 1
+                Next
+                If _item.IsNewItem Then
+                    _item.IsNewItem = False
+                    it.BackColor = NEW_ITEM_COLOR
+                ElseIf _item.IsKilledItem Then
+                    it.BackColor = DELETED_ITEM_COLOR
+                Else
+                    it.BackColor = Color.White
+                End If
+            End If
+        Next
+    End Sub
 
     ' Add an item (specific to type of list)
     Friend Overrides Function AddItemWithStyle(ByVal key As String) As ListViewItem

@@ -32,6 +32,9 @@ Public MustInherit Class customLV
     ' Protected
     ' ========================================
 
+    ' General semaphore which protect Dicos, Items...etc.
+    Friend generalLvSemaphore As New System.Threading.Semaphore(1, 1)
+
     Protected _firstItemUpdate As Boolean = True
     Protected _columnsName() As String
 
@@ -117,19 +120,9 @@ Public MustInherit Class customLV
         ' Recreate subitem buffer and get columns name again
         Call CreateSubItemsBuffer()
 
-        If Me.Items.Count = 0 Then
-            Exit Sub
-        End If
-
-        ' We have to set name to all items again
-        For Each it As ListViewItem In Me.Items
-            it.Name = it.Tag.ToString
-        Next
-
         ' Refresh items
         _firstItemUpdate = True
         Me.BeginUpdate()
-        Call Me.UpdateItems()
         Call Me.UpdateItems()
         Me.EndUpdate()
 
@@ -142,6 +135,11 @@ Public MustInherit Class customLV
             RaiseEvent HasChangedColumns()
         End If
     End Sub
+
+    ' Force refreshing of all items and subitems
+    ' Have to NOT USE generalLvSemaphore in this method because it is always
+    ' called in a safe context
+    Public MustOverride Sub ForceRefreshingOfAllItems()
 
 
 

@@ -101,9 +101,11 @@ Public Class logList
 
     ' Delete all items
     Public Sub ClearItems()
+        generalLvSemaphore.WaitOne()
         _first = True
         _dico.Clear()
         Me.Items.Clear()
+        generalLvSemaphore.Release()
     End Sub
 
     ' Call this to update items in listview
@@ -124,6 +126,7 @@ Public Class logList
     End Sub
 
     ' Add IF NECESSARY to listview
+    ' No protection by sem here cause of safe context when called
     Private Sub conditionalAdd(ByVal item As cLogItem)
         Dim b As Boolean = False
         If item.Infos.State = logItemInfos.CREATED_OR_DELETED.created Then
@@ -135,10 +138,10 @@ Public Class logList
 
             ' Add to listview
             Dim x As Integer
-            Dim _subItems() As ListViewItem.ListViewSubItem
+            Dim _subItems() As String
             ReDim _subItems(Me.Columns.Count - 1)
             For x = 1 To _subItems.Length - 1
-                _subItems(x) = New ListViewItem.ListViewSubItem
+                _subItems(x) = ""
             Next
             Dim it As ListViewItem = AddItemWithStyle(item.Infos.Key)
             it.SubItems.AddRange(_subItems)
@@ -156,7 +159,7 @@ Public Class logList
     ' Call this to redraw all items
     Public Sub ReAddItems()
 
-        sem.WaitOne()
+        generalLvSemaphore.WaitOne()
         Me.BeginUpdate()
         Me.Items.Clear()
 
@@ -164,16 +167,8 @@ Public Class logList
             Call conditionalAdd(pair.Value)
         Next
 
-
-        ' The fuck*ing BUG -> need to refresh all subitems
-        For Each it As ListViewItem In Me.Items
-            For Each isub As ListViewItem.ListViewSubItem In it.SubItems
-                isub.Text = isub.Text
-            Next
-        Next
-
         Me.EndUpdate()
-        sem.Release()
+        generalLvSemaphore.Release()
 
     End Sub
 
@@ -204,9 +199,11 @@ Public Class logList
     Public Shadows Function GetSelectedItems() As Dictionary(Of String, cLogItem).ValueCollection
         Dim res As New Dictionary(Of String, cLogItem)
 
+        generalLvSemaphore.WaitOne()
         For Each it As ListViewItem In Me.SelectedItems
             res.Add(it.Name, _dico.Item(it.Name))
         Next
+        generalLvSemaphore.Release()
 
         Return res.Values
     End Function
@@ -217,15 +214,14 @@ Public Class logList
     ' ========================================
 
     ' Executed when enumeration is done
-    Private Shared sem As New System.Threading.Semaphore(1, 1)
     Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, logItemInfos), ByVal errorMessage As String, ByVal InstanceId As Integer)
 
-        sem.WaitOne()
+        generalLvSemaphore.WaitOne()
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
             RaiseEvent GotAnError("Log enumeration", errorMessage)
-            sem.Release()
+            generalLvSemaphore.Release()
             Exit Sub
         End If
 
@@ -321,10 +317,33 @@ Public Class logList
 
         MyBase.UpdateItems()
 
-        sem.Release()
+        generalLvSemaphore.Release()
 
     End Sub
 
+    ' Force item refreshing
+    Public Overrides Sub ForceRefreshingOfAllItems()    ' Always called in a safe protected context
+        Dim isub As ListViewItem.ListViewSubItem
+        Dim it As ListViewItem
+        For Each it In Me.Items
+            Dim x As Integer = 0
+            If _dico.ContainsKey(it.Name) Then
+                Dim _item As cGeneralObject = _dico.Item(it.Name)
+                For Each isub In it.SubItems
+                    isub.Text = _item.GetInformation(_columnsName(x))
+                    x += 1
+                Next
+                If _item.IsNewItem Then
+                    _item.IsNewItem = False
+                    it.BackColor = NEW_ITEM_COLOR
+                ElseIf _item.IsKilledItem Then
+                    it.BackColor = DELETED_ITEM_COLOR
+                Else
+                    it.BackColor = Color.White
+                End If
+            End If
+        Next
+    End Sub
 
     ' Add an item (specific to type of list)
     Friend Overrides Function AddItemWithStyle(ByVal key As String) As ListViewItem

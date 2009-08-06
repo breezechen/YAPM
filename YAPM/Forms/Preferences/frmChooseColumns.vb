@@ -40,6 +40,7 @@ Public Class frmChooseColumns
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
         Me.DialogResult = System.Windows.Forms.DialogResult.OK
 
+        theListview.generalLvSemaphore.WaitOne()
         theListview.ReorganizeColumns = True
         theListview.BeginUpdate()
 
@@ -59,19 +60,29 @@ Public Class frmChooseColumns
 
         ' Add items which are selected
         For Each it As ListViewItem In theListview.Items
-            it.SubItems.Clear()
-            Dim subit() As ListViewItem.ListViewSubItem
+
+            ' Can not use .Clear because it also remove the Item
+            For i As Integer = it.SubItems.Count - 1 To 1 Step -1
+                it.SubItems.RemoveAt(i)
+            Next
+
+            Dim subit() As String
             ReDim subit(Me.lv.CheckedItems.Count)
 
             For z As Integer = 0 To UBound(subit) - 1
-                subit(z) = New ListViewItem.ListViewSubItem
+                subit(z) = ""
             Next
 
             it.SubItems.AddRange(subit)
         Next
 
+        ' Refresh all items & subitems
+        ConcernedListView.CreateSubItemsBuffer()
+        ConcernedListView.ForceRefreshingOfAllItems()
+
         theListview.ReorganizeColumns = False
         theListview.EndUpdate()
+        theListview.generalLvSemaphore.Release()
         Me.Close()
     End Sub
 

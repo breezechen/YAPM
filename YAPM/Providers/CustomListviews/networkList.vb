@@ -95,12 +95,14 @@ Public Class networkList
 
     ' Delete all items
     Public Sub ClearItems()
+        generalLvSemaphore.WaitOne()
         _first = True
         _buffDico.Clear()
         _dico.Clear()
         _dicoDel.Clear()
         _dicoNew.Clear()
         Me.Items.Clear()
+        generalLvSemaphore.Release()
     End Sub
 
     ' Call this to update items in listview
@@ -147,9 +149,11 @@ Public Class networkList
     Public Shadows Function GetSelectedItems() As Dictionary(Of String, cNetwork).ValueCollection
         Dim res As New Dictionary(Of String, cNetwork)
 
+        generalLvSemaphore.WaitOne()
         For Each it As ListViewItem In Me.SelectedItems
             res.Add(it.Name, _dico.Item(it.Name))
         Next
+        generalLvSemaphore.Release()
 
         Return res.Values
     End Function
@@ -160,15 +164,14 @@ Public Class networkList
     ' ========================================
 
     ' Executed when enumeration is done
-    Private Shared sem As New System.Threading.Semaphore(1, 1)
     Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, networkInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
-        sem.WaitOne()
+        generalLvSemaphore.WaitOne()
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
             RaiseEvent GotAnError("Network connection enumeration", errorMessage)
-            sem.Release()
+            generalLvSemaphore.Release()
             Exit Sub
         End If
 
@@ -276,8 +279,32 @@ Public Class networkList
 
         MyBase.UpdateItems()
 
-        sem.Release()
+        generalLvSemaphore.Release()
 
+    End Sub
+
+    ' Force item refreshing
+    Public Overrides Sub ForceRefreshingOfAllItems()    ' Always called in a safe protected context
+        Dim isub As ListViewItem.ListViewSubItem
+        Dim it As ListViewItem
+        For Each it In Me.Items
+            Dim x As Integer = 0
+            If _dico.ContainsKey(it.Name) Then
+                Dim _item As cGeneralObject = _dico.Item(it.Name)
+                For Each isub In it.SubItems
+                    isub.Text = _item.GetInformation(_columnsName(x))
+                    x += 1
+                Next
+                If _item.IsNewItem Then
+                    _item.IsNewItem = False
+                    it.BackColor = NEW_ITEM_COLOR
+                ElseIf _item.IsKilledItem Then
+                    it.BackColor = DELETED_ITEM_COLOR
+                Else
+                    it.BackColor = Color.White
+                End If
+            End If
+        Next
     End Sub
 
 

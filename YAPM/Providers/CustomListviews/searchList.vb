@@ -111,6 +111,7 @@ Public Class searchList
 
     ' Delete all items
     Public Sub ClearItems()
+        generalLvSemaphore.WaitOne()
         _dico.Clear()
         _IMG.Images.Clear()
         _IMG.Images.Add("service", My.Resources.gear)   ' Icon is specific
@@ -120,6 +121,7 @@ Public Class searchList
         _IMG.Images.Add("dllIcon", My.Resources.dllIcon)
         _IMG.Images.Add("window", My.Resources.application_blue)
         Me.Items.Clear()
+        generalLvSemaphore.Release()
     End Sub
 
     ' Call this to update items in listview
@@ -166,9 +168,11 @@ Public Class searchList
     Public Shadows Function GetSelectedItems() As Dictionary(Of String, searchInfos).ValueCollection
         Dim res As New Dictionary(Of String, searchInfos)
 
+        generalLvSemaphore.WaitOne()
         For Each it As ListViewItem In Me.SelectedItems
             res.Add(it.Name, _dico.Item(it.Name))
         Next
+        generalLvSemaphore.Release()
 
         Return res.Values
     End Function
@@ -179,15 +183,14 @@ Public Class searchList
     ' ========================================
 
     ' Executed when enumeration is done
-    Private Shared sem As New System.Threading.Semaphore(1, 1)
     Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, searchInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
-        sem.WaitOne()
+        generalLvSemaphore.WaitOne()
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
             RaiseEvent GotAnError("Search connection enumeration", errorMessage)
-            sem.Release()
+            generalLvSemaphore.Release()
             Exit Sub
         End If
 
@@ -232,11 +235,26 @@ Public Class searchList
 
         MyBase.UpdateItems()
 
-        sem.Release()
+        generalLvSemaphore.Release()
 
         RaiseEvent HasRefreshed()
     End Sub
 
+    ' Force item refreshing
+    Public Overrides Sub ForceRefreshingOfAllItems()    ' Always called in a safe protected context
+        Dim isub As ListViewItem.ListViewSubItem
+        Dim it As ListViewItem
+        For Each it In Me.Items
+            Dim x As Integer = 0
+            If _dico.ContainsKey(it.Name) Then
+                Dim _item As searchInfos = _dico.Item(it.Name)
+                For Each isub In it.SubItems
+                    isub.Text = _item.GetInformation(_columnsName(x))
+                    x += 1
+                Next
+            End If
+        Next
+    End Sub
 
     ' Add an item (specific to type of list)
     Private Shadows Function AddItemWithStyle(ByVal key As String, ByRef net As searchInfos) As ListViewItem

@@ -1,12 +1,15 @@
 TODO LIST
 
 BUGS CRITIQUES
+- goto item dans le log
+- topmost a virer quand viré sur frmMain
+- frmcolumns -> bug addrange
+- sur pc XP alstom, l'optimisation d'affichage pour les process ne marche pas
 - dico : key already added (proceses, modules...)
 - OK dans chooseColumns -> devrait sauvegarder les préférences de suite
 - caption des windows pas mise à jour + information "Visible" foireuse
 - start hidden a faire correctement
 - show user group/domain -> plus d'effet après optimisations affichage -> forcer refresh (sinon les refreshs se feront que sur les process qui sont rafraichit)
-- sur pc XP alstom, l'optimisation d'affichage pour les process ne marche pas
 - l'organisation des colonnes des threads n'est pas rechargée (ou bien sauvée ?) dans la form détail. Voir si c'est pareil pour les autres lv de la form
 - tab affiché avec le ribbon
 - optimisation ItemHasChanged pour tous les objets qui manquent (mais attention : les valeurs présente dans cObject et pas objectInfos doivent être prisent en compte, ex : CpuUsage)
@@ -162,3 +165,4 @@ Temp Change log :
 - suppression bug d'affichage -> optimisation du remplissage des listviews
 - correction bug #2832408 (key exists, env variable)
 - correction bug #2832606 (commandLine refait)
+- meilleure protection sémaphore
