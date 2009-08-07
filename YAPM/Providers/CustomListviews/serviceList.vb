@@ -200,6 +200,8 @@ Public Class serviceList
 
         generalLvSemaphore.WaitOne()
 
+        Dim _test As Integer = API.GetTickCount
+
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
             RaiseEvent GotAnError("Service enumeration", errorMessage)
@@ -289,12 +291,13 @@ Public Class serviceList
                 '    _item.Refresh()
                 'End If
             End If
-            If _item.ItemHasChanged Then
-                For Each isub In it.SubItems
-                    isub.Text = _item.GetInformation(_columnsName(x))
-                    x += 1
-                Next
-            End If
+            Dim __info As String = Nothing
+            For Each isub In it.SubItems
+                If _item.GetInformation(_columnsName(x), __info) Then
+                    isub.Text = __info
+                End If
+                x += 1
+            Next
             If _item.IsNewItem Then
                 _item.IsNewItem = False
                 it.BackColor = NEW_ITEM_COLOR
@@ -310,7 +313,8 @@ Public Class serviceList
 
         _firstItemUpdate = False
 
-        'Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh module list.")
+        _test = API.GetTickCount - _test
+        Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh service list.")
 
         MyBase.UpdateItems()
 
@@ -326,7 +330,7 @@ Public Class serviceList
             If _dico.ContainsKey(it.Name) Then
                 Dim _item As cGeneralObject = _dico.Item(it.Name)
                 For Each isub In it.SubItems
-                    isub.Text = _item.GetInformation(_columnsName(x))
+                    _item.GetInformation(_columnsName(x), isub.Text)
                     x += 1
                 Next
                 If _item.IsNewItem Then

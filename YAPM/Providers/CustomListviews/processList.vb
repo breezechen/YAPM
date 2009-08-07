@@ -100,6 +100,7 @@ Public Class processList
 
     ' Delete all items
     Public Sub ClearItems()
+        generalLvSemaphore.WaitOne()
         _first = True
         _firstItemUpdate = True
         _buffDico.Clear()
@@ -109,6 +110,7 @@ Public Class processList
         _IMG.Images.Clear()
         _IMG.Images.Add("noIcon", My.Resources.application_blue)
         Me.Items.Clear()
+        generalLvSemaphore.Release()
     End Sub
 
     ' Reanalize a process
@@ -187,6 +189,8 @@ Public Class processList
     Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
         generalLvSemaphore.WaitOne()
+
+        Dim _test As Integer = API.GetTickCount
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
@@ -276,12 +280,13 @@ Public Class processList
             If Dico.ContainsKey(it.Name) Then
                 _item.Merge(Dico.Item(it.Name))
             End If
-            If _item.ItemHasChanged Then
-                For Each isub In it.SubItems
-                    isub.Text = _item.GetInformation(_columnsName(x))
-                    x += 1
-                Next
-            End If
+            Dim ___info As String = Nothing
+            For Each isub In it.SubItems
+                If _item.GetInformation(_columnsName(x), ___info) Then
+                    isub.Text = ___info
+                End If
+                x += 1
+            Next
             If _item.IsNewItem Then
                 _item.IsNewItem = False
                 it.BackColor = NEW_ITEM_COLOR
@@ -313,7 +318,8 @@ Public Class processList
 
         _firstItemUpdate = False
 
-        'Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh process list.")
+        _test = API.GetTickCount - _test
+        Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh process list.")
 
         MyBase.UpdateItems()
 
@@ -329,7 +335,7 @@ Public Class processList
             If _dico.ContainsKey(it.Name) Then
                 Dim _item As cGeneralObject = _dico.Item(it.Name)
                 For Each isub In it.SubItems
-                    isub.Text = _item.GetInformation(_columnsName(x))
+                    _item.GetInformation(_columnsName(x), isub.Text)
                     x += 1
                 Next
                 If _item.IsNewItem Then

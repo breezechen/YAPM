@@ -23,12 +23,4 @@ Option Strict On
 
 <Serializable()> Public MustInherit Class generalInfos
 
-    Friend _hasChanged As Boolean
-
-    Public ReadOnly Property ItemHasChanged() As Boolean
-        Get
-            Return _hasChanged
-        End Get
-    End Property
-
 End Class

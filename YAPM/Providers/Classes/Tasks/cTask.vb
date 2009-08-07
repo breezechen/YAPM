@@ -103,15 +103,26 @@ Public Class cTask
 #Region "Get information overriden methods"
 
     ' Retrieve informations by its name
-    Public Overrides Function GetInformation(ByVal info As String) As String
+    Public Overrides Function GetInformation(ByVal info As String, ByRef res As String) As Boolean
+
+        ' Old values (from last refresh)
+        Static _old_CpuUsage As String = ""
+
+        Dim hasChanged As Boolean = True
 
         Select Case info
             Case "CpuUsage"
-                Return GetFormatedPercentage(Me.CpuUsage)
+                res = GetFormatedPercentage(Me.CpuUsage)
+                If res = _old_CpuUsage Then
+                    hasChanged = False
+                Else
+                    _old_CpuUsage = res
+                End If
             Case Else
-                Return MyBase.GetInformation(info)
+                Return MyBase.GetInformation(info, res)
         End Select
 
+        Return hasChanged
     End Function
 
 #End Region

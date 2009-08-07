@@ -126,9 +126,6 @@ Imports System.Net
 
     ' Merge an old and a new instance
     Public Sub Merge(ByRef newI As networkInfos)
-
-        _hasChanged = (newI <> Me)
-
         With newI
             _State = .State
         End With

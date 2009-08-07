@@ -304,14 +304,15 @@ Public Class cThread
 
     ' Retrieve informations by its name
     Public Overrides Function GetInformation(ByVal info As String) As String
+        Dim res As String = NO_INFO_RETRIEVED
 
         If info = "ObjectCreationDate" Then
-            Return _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
+            res = _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
         ElseIf info = "PendingTaskCount" Then
-            Return PendingTaskCount.ToString
+            res = PendingTaskCount.ToString
         End If
 
-        Dim res As String = NO_INFO_RETRIEVED
+
         Select Case info
             Case "Priority"
                 res = Me.PriorityMod.ToString
@@ -332,28 +333,24 @@ Public Class cThread
                     String.Format("{0:00}", ts.Minute) & ":" & _
                     String.Format("{0:00}", ts.Second) & ":" & _
                     String.Format("{000}", ts.Millisecond)
-                res = res
             Case "UserTime"
                 Dim ts As Date = New Date(Me.Infos.UserTime)
                 res = String.Format("{0:00}", ts.Hour) & ":" & _
                     String.Format("{0:00}", ts.Minute) & ":" & _
                     String.Format("{0:00}", ts.Second) & ":" & _
                     String.Format("{000}", ts.Millisecond)
-                res = res
             Case "WaitTime"
                 Dim ts As Date = New Date(Me.Infos.WaitTime)
                 res = String.Format("{0:00}", ts.Hour) & ":" & _
                     String.Format("{0:00}", ts.Minute) & ":" & _
                     String.Format("{0:00}", ts.Second) & ":" & _
                     String.Format("{000}", ts.Millisecond)
-                res = res
             Case "TotalTime"
                 Dim ts As Date = New Date(Me.Infos.TotalTime)
                 res = String.Format("{0:00}", ts.Hour) & ":" & _
                     String.Format("{0:00}", ts.Minute) & ":" & _
                     String.Format("{0:00}", ts.Second) & ":" & _
                     String.Format("{000}", ts.Millisecond)
-                res = res
             Case "StartAddress"
                 res = "0x" & Me.Infos.StartAddress.ToString("x")
             Case "BasePriority"
@@ -369,6 +366,177 @@ Public Class cThread
         End Select
 
         Return res
+    End Function
+    Public Overrides Function GetInformation(ByVal info As String, ByRef res As String) As Boolean
+
+        ' Old values (from last refresh)
+        Static _old_ObjectCreationDate As String = ""
+        Static _old_PendingTaskCount As String = ""
+        Static _old_Priority As String = ""
+        Static _old_State As String = ""
+        Static _old_WaitReason As String = ""
+        Static _old_ContextSwitchDelta As String = ""
+        Static _old_CreateTime As String = ""
+        Static _old_KernelTime As String = ""
+        Static _old_UserTime As String = ""
+        Static _old_WaitTime As String = ""
+        Static _old_TotalTime As String = ""
+        Static _old_StartAddress As String = ""
+        Static _old_BasePriority As String = ""
+        Static _old_ContextSwitchCount As String = ""
+        Static _old_ProcessId As String = ""
+        Static _old_Id As String = ""
+        Static _old_AffinityMask As String = ""
+
+        Dim hasChanged As Boolean = True
+
+        If info = "ObjectCreationDate" Then
+            res = _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
+            If res = _old_ObjectCreationDate Then
+                hasChanged = False
+            Else
+                _old_ObjectCreationDate = res
+                Return True
+            End If
+        ElseIf info = "PendingTaskCount" Then
+            res = PendingTaskCount.ToString
+            If res = _old_PendingTaskCount Then
+                hasChanged = False
+            Else
+                _old_PendingTaskCount = res
+                Return True
+            End If
+        End If
+
+
+        Select Case info
+            Case "Priority"
+                res = Me.PriorityMod.ToString
+                If res = _old_Priority Then
+                    hasChanged = False
+                Else
+                    _old_Priority = res
+                End If
+            Case "State"
+                res = Me.Infos.State.ToString
+                If res = _old_State Then
+                    hasChanged = False
+                Else
+                    _old_State = res
+                End If
+            Case "WaitReason"
+                res = Me.Infos.WaitReason.ToString
+                If res = _old_WaitReason Then
+                    hasChanged = False
+                Else
+                    _old_WaitReason = res
+                End If
+            Case "ContextSwitchDelta"
+                res = Me.Infos.ContextSwitchDelta.ToString
+                If res = _old_ContextSwitchDelta Then
+                    hasChanged = False
+                Else
+                    _old_ContextSwitchDelta = res
+                End If
+            Case "CreateTime"
+                If Me.Infos.CreateTime > 0 Then
+                    Dim ts As Date = New Date(Me.Infos.CreateTime)
+                    res = ts.ToLongDateString & " -- " & ts.ToLongTimeString
+                End If
+                If res = _old_CreateTime Then
+                    hasChanged = False
+                Else
+                    _old_CreateTime = res
+                End If
+            Case "KernelTime"
+                Dim ts As Date = New Date(Me.Infos.KernelTime)
+                res = String.Format("{0:00}", ts.Hour) & ":" & _
+                    String.Format("{0:00}", ts.Minute) & ":" & _
+                    String.Format("{0:00}", ts.Second) & ":" & _
+                    String.Format("{000}", ts.Millisecond)
+                If res = _old_KernelTime Then
+                    hasChanged = False
+                Else
+                    _old_KernelTime = res
+                End If
+            Case "UserTime"
+                Dim ts As Date = New Date(Me.Infos.UserTime)
+                res = String.Format("{0:00}", ts.Hour) & ":" & _
+                    String.Format("{0:00}", ts.Minute) & ":" & _
+                    String.Format("{0:00}", ts.Second) & ":" & _
+                    String.Format("{000}", ts.Millisecond)
+                If res = _old_UserTime Then
+                    hasChanged = False
+                Else
+                    _old_UserTime = res
+                End If
+            Case "WaitTime"
+                Dim ts As Date = New Date(Me.Infos.WaitTime)
+                res = String.Format("{0:00}", ts.Hour) & ":" & _
+                    String.Format("{0:00}", ts.Minute) & ":" & _
+                    String.Format("{0:00}", ts.Second) & ":" & _
+                    String.Format("{000}", ts.Millisecond)
+                If res = _old_WaitTime Then
+                    hasChanged = False
+                Else
+                    _old_WaitTime = res
+                End If
+            Case "TotalTime"
+                Dim ts As Date = New Date(Me.Infos.TotalTime)
+                res = String.Format("{0:00}", ts.Hour) & ":" & _
+                    String.Format("{0:00}", ts.Minute) & ":" & _
+                    String.Format("{0:00}", ts.Second) & ":" & _
+                    String.Format("{000}", ts.Millisecond)
+                If res = _old_TotalTime Then
+                    hasChanged = False
+                Else
+                    _old_TotalTime = res
+                End If
+            Case "StartAddress"
+                res = "0x" & Me.Infos.StartAddress.ToString("x")
+                If res = _old_StartAddress Then
+                    hasChanged = False
+                Else
+                    _old_StartAddress = res
+                End If
+            Case "BasePriority"
+                res = CInt(Me.Infos.BasePriority).ToString ' threadInfos.getPriorityClass(Me.Infos.BasePriority).ToString
+                If res = _old_BasePriority Then
+                    hasChanged = False
+                Else
+                    _old_BasePriority = res
+                End If
+            Case "ContextSwitchCount"
+                res = Me.Infos.ContextSwitchCount.ToString
+                If res = _old_ContextSwitchCount Then
+                    hasChanged = False
+                Else
+                    _old_ContextSwitchCount = res
+                End If
+            Case "ProcessId"
+                res = Me.Infos.ProcessId.ToString
+                If res = _old_ProcessId Then
+                    hasChanged = False
+                Else
+                    _old_ProcessId = res
+                End If
+            Case "Id"
+                res = Me.Infos.Id.ToString
+                If res = _old_Id Then
+                    hasChanged = False
+                Else
+                    _old_Id = res
+                End If
+            Case "AffinityMask"
+                res = Me.Infos.AffinityMask.ToString
+                If res = _old_AffinityMask Then
+                    hasChanged = False
+                Else
+                    _old_AffinityMask = res
+                End If
+        End Select
+
+        Return hasChanged
     End Function
 
 

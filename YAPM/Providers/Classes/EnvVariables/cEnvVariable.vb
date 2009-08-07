@@ -68,14 +68,14 @@ Public Class cEnvVariable
 
     ' Retrieve informations by its name
     Public Overrides Function GetInformation(ByVal info As String) As String
+        Dim res As String = NO_INFO_RETRIEVED
 
         If info = "ObjectCreationDate" Then
-            Return _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
+            res = _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
         ElseIf info = "PendingTaskCount" Then
-            Return PendingTaskCount.ToString
+            res = PendingTaskCount.ToString
         End If
 
-        Dim res As String = NO_INFO_RETRIEVED
         Select Case info
             Case "Variable"
                 res = Me.Infos.Variable
@@ -84,6 +84,53 @@ Public Class cEnvVariable
         End Select
 
         Return res
+    End Function
+    Public Overrides Function GetInformation(ByVal info As String, ByRef res As String) As Boolean
+
+        ' Old values (from last refresh)
+        Static _old_ObjectCreationDate As String = ""
+        Static _old_PendingTaskCount As String = ""
+        Static _old_Variable As String = ""
+        Static _old_Value As String = ""
+
+        Dim hasChanged As Boolean = True
+
+        If info = "ObjectCreationDate" Then
+            res = _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
+            If res = _old_ObjectCreationDate Then
+                hasChanged = False
+            Else
+                _old_ObjectCreationDate = res
+                Return True
+            End If
+        ElseIf info = "PendingTaskCount" Then
+            res = PendingTaskCount.ToString
+            If res = _old_PendingTaskCount Then
+                hasChanged = False
+            Else
+                _old_PendingTaskCount = res
+                Return True
+            End If
+        End If
+
+        Select Case info
+            Case "Variable"
+                res = Me.Infos.Variable
+                If res = _old_Variable Then
+                    hasChanged = False
+                Else
+                    _old_Variable = res
+                End If
+            Case "Value"
+                res = Me.Infos.Value
+                If res = _old_Value Then
+                    hasChanged = False
+                Else
+                    _old_Value = res
+                End If
+        End Select
+
+        Return hasChanged
     End Function
 
 #End Region

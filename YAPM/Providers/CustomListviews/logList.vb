@@ -330,7 +330,7 @@ Public Class logList
             If _dico.ContainsKey(it.Name) Then
                 Dim _item As cGeneralObject = _dico.Item(it.Name)
                 For Each isub In it.SubItems
-                    isub.Text = _item.GetInformation(_columnsName(x))
+                    _item.GetInformation(_columnsName(x), isub.Text)
                     x += 1
                 Next
                 If _item.IsNewItem Then

@@ -104,14 +104,14 @@ Public Class cPrivilege
 
     ' Retrieve informations by its name
     Public Overrides Function GetInformation(ByVal info As String) As String
+        Dim res As String = NO_INFO_RETRIEVED
 
         If info = "ObjectCreationDate" Then
-            Return _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
+            res = _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
         ElseIf info = "PendingTaskCount" Then
-            Return PendingTaskCount.ToString
+            res = PendingTaskCount.ToString
         End If
 
-        Dim res As String = NO_INFO_RETRIEVED
         Select Case info
             Case "Name"
                 res = Me.Infos.Name
@@ -122,6 +122,61 @@ Public Class cPrivilege
         End Select
 
         Return res
+    End Function
+    Public Overrides Function GetInformation(ByVal info As String, ByRef res As String) As Boolean
+
+        ' Old values (from last refresh)
+        Static _old_ObjectCreationDate As String = ""
+        Static _old_PendingTaskCount As String = ""
+        Static _old_Name As String = ""
+        Static _old_Status As String = ""
+        Static _old_Description As String = ""
+
+        Dim hasChanged As Boolean = True
+
+        If info = "ObjectCreationDate" Then
+            res = _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
+            If res = _old_ObjectCreationDate Then
+                hasChanged = False
+            Else
+                _old_ObjectCreationDate = res
+                Return True
+            End If
+        ElseIf info = "PendingTaskCount" Then
+            res = PendingTaskCount.ToString
+            If res = _old_PendingTaskCount Then
+                hasChanged = False
+            Else
+                _old_PendingTaskCount = res
+                Return True
+            End If
+        End If
+
+        Select Case info
+            Case "Name"
+                res = Me.Infos.Name
+                If res = _old_Name Then
+                    hasChanged = False
+                Else
+                    _old_Name = res
+                End If
+            Case "Status"
+                res = GetStatusString(Me.Infos.Status)
+                If res = _old_Status Then
+                    hasChanged = False
+                Else
+                    _old_Status = res
+                End If
+            Case "Description"
+                res = Me.Infos.Description
+                If res = _old_Description Then
+                    hasChanged = False
+                Else
+                    _old_Description = res
+                End If
+        End Select
+
+        Return hasChanged
     End Function
 
 #End Region

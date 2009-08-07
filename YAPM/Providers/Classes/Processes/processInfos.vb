@@ -300,8 +300,6 @@ Imports System.Runtime.InteropServices
     ' Merge an old and a new instance
     Public Sub Merge(ByRef newI As processInfos)
 
-        _hasChanged = (newI <> Me)
-
         With newI
             _KernelTime = .KernelTime
             _UserTime = .UserTime

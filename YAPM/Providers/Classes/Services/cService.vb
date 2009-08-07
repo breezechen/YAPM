@@ -79,17 +79,6 @@ Public Class cService
             Return _serviceInfos
         End Get
     End Property
-    Public Overrides ReadOnly Property ItemHasChanged() As Boolean
-        Get
-            Static _first As Boolean = True
-            If _first Then
-                _first = False
-                Return True
-            Else
-                Return _serviceInfos.ItemHasChanged
-            End If
-        End Get
-    End Property
 
 #End Region
 
@@ -253,14 +242,14 @@ Public Class cService
 
     ' Retrieve informations by its name
     Public Overrides Function GetInformation(ByVal info As String) As String
+        Dim res As String = NO_INFO_RETRIEVED
 
         If info = "ObjectCreationDate" Then
-            Return _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
+            res = _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
         ElseIf info = "PendingTaskCount" Then
-            Return PendingTaskCount.ToString
+            res = PendingTaskCount.ToString
         End If
 
-        Dim res As String = NO_INFO_RETRIEVED
         Select Case info
             Case "Name"
                 res = Me.Infos.Name
@@ -310,22 +299,246 @@ Public Class cService
                         __dep = NO_DEPENDENCIES
                     End If
                 End If
-                    res = __dep
+                res = __dep
             Case "TagID"
-                    res = Me.Infos.TagID.ToString
+                res = Me.Infos.TagID.ToString
             Case "ServiceFlags"
-                    res = Me.Infos.ServiceFlags.ToString
+                res = Me.Infos.ServiceFlags.ToString
             Case "WaitHint"
-                    res = Me.Infos.WaitHint.ToString
+                res = Me.Infos.WaitHint.ToString
             Case "CheckPoint"
-                    res = Me.Infos.CheckPoint.ToString
+                res = Me.Infos.CheckPoint.ToString
             Case "Win32ExitCode"
-                    res = Me.Infos.Win32ExitCode.ToString
+                res = Me.Infos.Win32ExitCode.ToString
             Case "ServiceSpecificExitCode"
-                    res = Me.Infos.ServiceSpecificExitCode.ToString
+                res = Me.Infos.ServiceSpecificExitCode.ToString
         End Select
 
         Return res
+    End Function
+    Public Overrides Function GetInformation(ByVal info As String, ByRef res As String) As Boolean
+
+        ' Old values (from last refresh)
+        Static _old_ObjectCreationDate As String = ""
+        Static _old_PendingTaskCount As String = ""
+        Static _old_Win32ExitCode As String = ""
+        Static _old_ServiceSpecificExitCode As String = ""
+        Static _old_Name As String = ""
+        Static _old_DisplayName As String = ""
+        Static _old_ServiceType As String = ""
+        Static _old_ImagePath As String = ""
+        Static _old_ErrorControl As String = ""
+        Static _old_StartType As String = ""
+        Static _old_ProcessId As String = ""
+        Static _old_ProcessName As String = ""
+        Static _old_LoadOrderGroup As String = ""
+        Static _old_ServiceStartName As String = ""
+        Static _old_State As String = ""
+        Static _old_DiagnosticMessageFile As String = ""
+        Static _old_WaitHint As String = ""
+        Static _old_CheckPoint As String = ""
+        Static _old_TagID As String = ""
+        Static _old_Description As String = ""
+        Static _old_ObjectName As String = ""
+        Static _old_Process As String = ""
+        Static _old_Dependencies As String = ""
+        Static _old_ServiceFlags As String = ""
+
+        Dim hasChanged As Boolean = True
+
+        If info = "ObjectCreationDate" Then
+            res = _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
+            If res = _old_ObjectCreationDate Then
+                hasChanged = False
+            Else
+                _old_ObjectCreationDate = res
+                Return True
+            End If
+        ElseIf info = "PendingTaskCount" Then
+            res = PendingTaskCount.ToString
+            If res = _old_PendingTaskCount Then
+                hasChanged = False
+            Else
+                _old_PendingTaskCount = res
+                Return True
+            End If
+        End If
+
+        Select Case info
+            Case "Name"
+                res = Me.Infos.Name
+                If res = _old_Name Then
+                    hasChanged = False
+                Else
+                    _old_Name = res
+                End If
+            Case "DisplayName"
+                res = Me.Infos.DisplayName
+                If res = _old_DisplayName Then
+                    hasChanged = False
+                Else
+                    _old_DisplayName = res
+                End If
+            Case "ServiceType"
+                res = Me.Infos.ServiceType.ToString
+                If res = _old_ServiceType Then
+                    hasChanged = False
+                Else
+                    _old_ServiceType = res
+                End If
+            Case "ImagePath"
+                If _path = vbNullString Then
+                    _path = GetRealPath(Me.Infos.ImagePath)
+                End If
+                res = _path
+                If res = _old_ImagePath Then
+                    hasChanged = False
+                Else
+                    _old_ImagePath = res
+                End If
+            Case "ErrorControl"
+                res = Me.Infos.ErrorControl.ToString
+                If res = _old_ErrorControl Then
+                    hasChanged = False
+                Else
+                    _old_ErrorControl = res
+                End If
+            Case "StartType"
+                res = Me.Infos.StartType.ToString
+                If res = _old_StartType Then
+                    hasChanged = False
+                Else
+                    _old_StartType = res
+                End If
+            Case "ProcessId"
+                res = Me.Infos.ProcessId.ToString
+                If res = _old_ProcessId Then
+                    hasChanged = False
+                Else
+                    _old_ProcessId = res
+                End If
+            Case "ProcessName"
+                res = Me.Infos.ProcessName
+                If res = _old_ProcessName Then
+                    hasChanged = False
+                Else
+                    _old_ProcessName = res
+                End If
+            Case "LoadOrderGroup"
+                res = Me.Infos.LoadOrderGroup
+                If res = _old_LoadOrderGroup Then
+                    hasChanged = False
+                Else
+                    _old_LoadOrderGroup = res
+                End If
+            Case "ServiceStartName"
+                res = Me.Infos.ServiceStartName
+                If res = _old_ServiceStartName Then
+                    hasChanged = False
+                Else
+                    _old_ServiceStartName = res
+                End If
+            Case "State"
+                res = Me.Infos.State.ToString
+                If res = _old_State Then
+                    hasChanged = False
+                Else
+                    _old_State = res
+                End If
+            Case "Description"
+                res = Me.Infos.Description
+                If res = _old_Description Then
+                    hasChanged = False
+                Else
+                    _old_Description = res
+                End If
+            Case "DiagnosticMessageFile"
+                res = Me.Infos.DiagnosticMessageFile
+                If res = _old_DiagnosticMessageFile Then
+                    hasChanged = False
+                Else
+                    _old_DiagnosticMessageFile = res
+                End If
+            Case "ObjectName"
+                res = Me.Infos.ObjectName
+                If res = _old_ObjectName Then
+                    hasChanged = False
+                Else
+                    _old_ObjectName = res
+                End If
+            Case "Process"
+                If Me.Infos.ProcessId > 0 Then
+                    res = cProcess.GetProcessName(Me.Infos.ProcessId) & " -- " & Me.Infos.ProcessId.ToString
+                End If
+                If res = _old_Process Then
+                    hasChanged = False
+                Else
+                    _old_Process = res
+                End If
+            Case "Dependencies"
+                If __dep Is Nothing Then
+                    If Me.Infos.Dependencies IsNot Nothing Then
+                        For Each s As String In Me.Infos.Dependencies
+                            __dep &= s & "   "
+                        Next
+                    Else
+                        __dep = NO_DEPENDENCIES
+                    End If
+                    If __dep Is Nothing Then
+                        __dep = NO_DEPENDENCIES
+                    End If
+                End If
+                res = __dep
+                If res = _old_Dependencies Then
+                    hasChanged = False
+                Else
+                    _old_Dependencies = res
+                End If
+            Case "TagID"
+                res = Me.Infos.TagID.ToString
+                If res = _old_TagID Then
+                    hasChanged = False
+                Else
+                    _old_TagID = res
+                End If
+            Case "ServiceFlags"
+                res = Me.Infos.ServiceFlags.ToString
+                If res = _old_ServiceFlags Then
+                    hasChanged = False
+                Else
+                    _old_ServiceFlags = res
+                End If
+            Case "WaitHint"
+                res = Me.Infos.WaitHint.ToString
+                If res = _old_WaitHint Then
+                    hasChanged = False
+                Else
+                    _old_WaitHint = res
+                End If
+            Case "CheckPoint"
+                res = Me.Infos.CheckPoint.ToString
+                If res = _old_CheckPoint Then
+                    hasChanged = False
+                Else
+                    _old_CheckPoint = res
+                End If
+            Case "Win32ExitCode"
+                res = Me.Infos.Win32ExitCode.ToString
+                If res = _old_Win32ExitCode Then
+                    hasChanged = False
+                Else
+                    _old_Win32ExitCode = res
+                End If
+            Case "ServiceSpecificExitCode"
+                res = Me.Infos.ServiceSpecificExitCode.ToString
+                If res = _old_ServiceSpecificExitCode Then
+                    hasChanged = False
+                Else
+                    _old_ServiceSpecificExitCode = res
+                End If
+        End Select
+
+        Return hasChanged
     End Function
 
 

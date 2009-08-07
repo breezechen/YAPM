@@ -107,23 +107,6 @@ Public Class cNetwork
             Return _networkInfos
         End Get
     End Property
-    Public Overrides ReadOnly Property ItemHasChanged() As Boolean
-        Get
-            Static _first As Boolean = True
-            If _first Then
-                _first = False
-                Return True
-            Else
-                ' If an address has been resolved, we have to refresh display
-                If _haveResolvedAnAddress Then
-                    _haveResolvedAnAddress = False
-                    Return True
-                Else
-                    Return _networkInfos.ItemHasChanged
-                End If
-            End If
-        End Get
-    End Property
 
 #End Region
 
@@ -199,7 +182,6 @@ Public Class cNetwork
 
 #Region "Get information overriden methods"
 
-    ' Retrieve informations by its name
     Private Function getRemotePort() As Integer
         If Me.Infos.Remote IsNot Nothing Then
             Return Me.Infos.Remote.Port
@@ -214,6 +196,8 @@ Public Class cNetwork
             Return 0
         End If
     End Function
+
+    ' Retrieve informations by its name
     Public Overrides Function GetInformation(ByVal info As String) As String
 
         Static oldRemotePort As Integer = getRemotePort()
@@ -221,13 +205,14 @@ Public Class cNetwork
         Static oldLocalPort As Integer = getLocalPort()
         Static oldLocPortD As String = Nothing
 
+        Dim res As String = NO_INFO_RETRIEVED
+
         If info = "ObjectCreationDate" Then
-            Return _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
+            res = _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
         ElseIf info = "PendingTaskCount" Then
-            Return PendingTaskCount.ToString
+            res = PendingTaskCount.ToString
         End If
 
-        Dim res As String = NO_INFO_RETRIEVED
         Select Case info
             Case "Local"
                 If Me.Infos.Local IsNot Nothing Then
@@ -270,6 +255,121 @@ Public Class cNetwork
         End Select
 
         Return res
+    End Function
+    Public Overrides Function GetInformation(ByVal info As String, ByRef res As String) As Boolean
+
+        ' Old values (from last refresh)
+        Static _old_ObjectCreationDate As String = ""
+        Static _old_PendingTaskCount As String = ""
+        Static _old_Local As String = ""
+        Static _old_Protocol As String = ""
+        Static _old_Remote As String = ""
+        Static _old_ProcessId As String = ""
+        Static _old_State As String = ""
+        Static _old_LocalPortDescription As String = ""
+        Static _old_RemotePortDescription As String = ""
+        Static oldRemotePort As Integer = getRemotePort()
+        Static oldRemPortD As String = Nothing
+        Static oldLocalPort As Integer = getLocalPort()
+        Static oldLocPortD As String = Nothing
+
+        Dim hasChanged As Boolean = True
+
+        If info = "ObjectCreationDate" Then
+            res = _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
+            If res = _old_ObjectCreationDate Then
+                hasChanged = False
+            Else
+                _old_ObjectCreationDate = res
+                Return True
+            End If
+        ElseIf info = "PendingTaskCount" Then
+            res = PendingTaskCount.ToString
+            If res = _old_PendingTaskCount Then
+                hasChanged = False
+            Else
+                _old_PendingTaskCount = res
+                Return True
+            End If
+        End If
+
+        Select Case info
+            Case "Local"
+                If Me.Infos.Local IsNot Nothing Then
+                    If Len(Me.Infos._localString) > 0 Then
+                        res = Me.Infos.Local.ToString & "  ----  " & Me.Infos._localString
+                    Else
+                        res = Me.Infos.Local.ToString
+                    End If
+                Else
+                    res = "0.0.0.0"
+                End If
+                If res = _old_Local Then
+                    hasChanged = False
+                Else
+                    _old_Local = res
+                End If
+            Case "Remote"
+                If Me.Infos.Remote IsNot Nothing Then
+                    If Len(Me.Infos._remoteString) > 0 Then
+                        res = Me.Infos.Remote.ToString & "  ----  " & Me.Infos._remoteString
+                    Else
+                        res = Me.Infos.Remote.ToString
+                    End If
+                End If
+                If res = _old_Remote Then
+                    hasChanged = False
+                Else
+                    _old_Remote = res
+                End If
+            Case "Protocol"
+                res = Me.Infos.Protocol.ToString.ToUpperInvariant
+                If res = _old_Protocol Then
+                    hasChanged = False
+                Else
+                    _old_Protocol = res
+                End If
+            Case "ProcessId"
+                res = Me.Infos.ProcessId.ToString
+                If res = _old_ProcessId Then
+                    hasChanged = False
+                Else
+                    _old_ProcessId = res
+                End If
+            Case "State"
+                If Me.Infos.State > 0 Then
+                    res = Me.Infos.State.ToString
+                End If
+                If res = _old_State Then
+                    hasChanged = False
+                Else
+                    _old_State = res
+                End If
+            Case "LocalPortDescription"
+                If getLocalPort() <> oldLocalPort OrElse oldLocPortD Is Nothing Then
+                    oldLocPortD = GetPortDescription(getLocalPort, Me.Infos.Protocol)
+                    oldLocalPort = getLocalPort()
+                End If
+                res = oldLocPortD
+                If res = _old_LocalPortDescription Then
+                    hasChanged = False
+                Else
+                    _old_LocalPortDescription = res
+                End If
+            Case "RemotePortDescription"
+                If getRemotePort() <> oldRemotePort OrElse oldRemPortD Is Nothing Then
+                    oldRemPortD = GetPortDescription(getRemotePort, Me.Infos.Protocol)
+                    oldRemotePort = getRemotePort()
+                End If
+                res = oldRemPortD
+                If res = _old_RemotePortDescription Then
+                    hasChanged = False
+                Else
+                    _old_RemotePortDescription = res
+                End If
+        End Select
+
+        Return hasChanged
     End Function
 
 

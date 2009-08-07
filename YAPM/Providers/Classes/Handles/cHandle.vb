@@ -97,14 +97,14 @@ Public Class cHandle
 
     ' Retrieve informations by its name
     Public Overrides Function GetInformation(ByVal info As String) As String
+        Dim res As String = NO_INFO_RETRIEVED
 
         If info = "ObjectCreationDate" Then
-            Return _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
+            res = _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
         ElseIf info = "PendingTaskCount" Then
-            Return PendingTaskCount.ToString
+            res = PendingTaskCount.ToString
         End If
 
-        Dim res As String = NO_INFO_RETRIEVED
         Select Case info
             Case "Type"
                 res = Me.Infos.Type
@@ -123,6 +123,94 @@ Public Class cHandle
         End Select
 
         Return res
+    End Function
+    Public Overrides Function GetInformation(ByVal info As String, ByRef res As String) As Boolean
+
+        ' Old values (from last refresh)
+        Static _old_ObjectCreationDate As String = ""
+        Static _old_PendingTaskCount As String = ""
+        Static _old_Type As String = ""
+        Static _old_Name As String = ""
+        Static _old_HandleCount As String = ""
+        Static _old_PointerCount As String = ""
+        Static _old_ObjectCount As String = ""
+        Static _old_Handle As String = ""
+        Static _old_Process As String = ""
+
+        Dim hasChanged As Boolean = True
+
+        If info = "ObjectCreationDate" Then
+            res = _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
+            If res = _old_ObjectCreationDate Then
+                hasChanged = False
+            Else
+                _old_ObjectCreationDate = res
+                Return True
+            End If
+        ElseIf info = "PendingTaskCount" Then
+            res = PendingTaskCount.ToString
+            If res = _old_PendingTaskCount Then
+                hasChanged = False
+            Else
+                _old_PendingTaskCount = res
+                Return True
+            End If
+        End If
+
+
+        Select Case info
+            Case "Type"
+                res = Me.Infos.Type
+                If res = _old_Type Then
+                    hasChanged = False
+                Else
+                    _old_Type = res
+                End If
+            Case "Name"
+                res = Me.Infos.Name
+                If res = _old_Name Then
+                    hasChanged = False
+                Else
+                    _old_Name = res
+                End If
+            Case "HandleCount"
+                res = Me.Infos.HandleCount.ToString
+                If res = _old_HandleCount Then
+                    hasChanged = False
+                Else
+                    _old_HandleCount = res
+                End If
+            Case "PointerCount"
+                res = Me.Infos.PointerCount.ToString
+                If res = _old_PointerCount Then
+                    hasChanged = False
+                Else
+                    _old_PointerCount = res
+                End If
+            Case "ObjectCount"
+                res = Me.Infos.ObjectCount.ToString
+                If res = _old_ObjectCount Then
+                    hasChanged = False
+                Else
+                    _old_ObjectCount = res
+                End If
+            Case "Handle"
+                res = Me.Infos.Handle.ToString
+                If res = _old_Handle Then
+                    hasChanged = False
+                Else
+                    _old_Handle = res
+                End If
+            Case "Process"
+                res = Me.Infos.ProcessID.ToString
+                If res = _old_Process Then
+                    hasChanged = False
+                Else
+                    _old_Process = res
+                End If
+        End Select
+
+        Return hasChanged
     End Function
 
 

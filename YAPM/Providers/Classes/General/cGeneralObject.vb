@@ -106,17 +106,12 @@ Public MustInherit Class cGeneralObject
         End Set
     End Property
 
-    ' Return true if an item has changed
-    ' If item has changed, all subitems of the listviewitem in the lv associated
-    ' with this object will be refreshed
-    Public Overridable ReadOnly Property ItemHasChanged() As Boolean
-        Get
-            Return True
-        End Get
-    End Property
 
     ' Get information by name
+    ' The first simply retrieve the information, and the second one
+    ' remember last value retrieved, and return True if it has changed
     Public MustOverride Function GetInformation(ByVal info As String) As String
+    Public MustOverride Function GetInformation(ByVal info As String, ByRef res As String) As Boolean
 
     ' Return backcolor of the item, when displayed in a listview
     Public Overridable Function GetBackColor() As System.Drawing.Color

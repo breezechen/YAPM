@@ -1,9 +1,7 @@
 TODO LIST
 
 BUGS CRITIQUES
-- goto item dans le log
 - topmost a virer quand viré sur frmMain
-- frmcolumns -> bug addrange
 - sur pc XP alstom, l'optimisation d'affichage pour les process ne marche pas
 - dico : key already added (proceses, modules...)
 - OK dans chooseColumns -> devrait sauvegarder les préférences de suite
@@ -15,14 +13,15 @@ BUGS CRITIQUES
 - optimisation ItemHasChanged pour tous les objets qui manquent (mais attention : les valeurs présente dans cObject et pas objectInfos doivent être prisent en compte, ex : CpuUsage)
 - click sur croix de fermeture de frmMain -> appeler ExitYAPM avec succes
 - restart as admin foireux (utiliser shellexecute et non StartProcess pour esquiver boite de dialogue Windows et foirages), le redémarrage est bouzeux (et faut aussi sauver les preferences)
-- tester en tâche de fond sur un windows XP et voir si des crash surviennent
 - possibilité de passer en mode elevated automatiquement (dans les options) possible ??
-- crash UDP à inspecter
 - onglet File sans le ribbon -> les actions sont indisponibles (ajouter menu avec Open file, Refresh, Release...)
 - actions sur les Windows impossible en mode non ribbon (obligation d'ajouter un popup menu...)
 - reports
+- recup username foireux
+- pending task -> collection foirage
 
 BUGS NON CRITIQUES
+- goto item dans le log
 - résolutions d'adresses -> stocker correspondance IP:port <-> nom resolu dans un dico ?
 - utilisation de TryGetValue pour accéder aux dicos
 - ajout des 6 nouvelles infos process dans formDetail (sauf certaines qui auront un truc spécifique comme token, job)
@@ -87,6 +86,8 @@ BUGS NON CRITIQUES
 - affinity process/thread (socket)
 - refresh services trop rapide -> impossible de récupérer des infos par socket après (checker semaphore)
 - TODO, TOCHANGE, TODO_, TOCHECK
+- virer toolstripmenu dans dependency viewer
+- sélectionner premier item tv dep viewer automatiquement
 
 
 - ajouter semaphores de protection dans les methodes "Friend Shared Sub enumXXXX" (pour accès concurrent avec le log) ????
@@ -161,8 +162,8 @@ Temp Change log :
 - ajout fonctions Decommit/Release/Change protection pour la mémoire
 - refresh des infos sur les form détail OK avec F5
 - plus de scintillements
-- optimisation critique d'affichage : memRegion, process, services, network (OK : network, services)
 - suppression bug d'affichage -> optimisation du remplissage des listviews
 - correction bug #2832408 (key exists, env variable)
 - correction bug #2832606 (commandLine refait)
 - meilleure protection sémaphore
+- optimisation critique d'affichage

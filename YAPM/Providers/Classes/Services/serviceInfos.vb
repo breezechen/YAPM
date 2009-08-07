@@ -235,8 +235,6 @@ Imports System.Text
     ' Merge an old and a new instance
     Public Sub Merge(ByRef newI As serviceInfos)
 
-        _hasChanged = (newI <> Me)
-
         With newI
             _pid = .ProcessId
             _state = .State

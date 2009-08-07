@@ -97,17 +97,6 @@ Public Class cMemRegion
             Return _moduleFileName
         End Get
     End Property
-    Public Overrides ReadOnly Property ItemHasChanged() As Boolean
-        Get
-            Static _first As Boolean = True
-            If _first Then
-                _first = False
-                Return True
-            Else
-                Return _memInfos.ItemHasChanged
-            End If
-        End Get
-    End Property
 
 #End Region
 
@@ -236,14 +225,14 @@ Public Class cMemRegion
 
     ' Retrieve informations by its name
     Public Overrides Function GetInformation(ByVal info As String) As String
+        Dim res As String = NO_INFO_RETRIEVED
 
         If info = "ObjectCreationDate" Then
-            Return _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
+            res = _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
         ElseIf info = "PendingTaskCount" Then
-            Return PendingTaskCount.ToString
+            res = PendingTaskCount.ToString
         End If
 
-        Dim res As String = NO_INFO_RETRIEVED
         Select Case info
             Case "Type"
                 res = Me.Infos.Type.ToString
@@ -262,6 +251,93 @@ Public Class cMemRegion
         End Select
 
         Return res
+    End Function
+    Public Overrides Function GetInformation(ByVal info As String, ByRef res As String) As Boolean
+
+        ' Old values (from last refresh)
+        Static _old_ObjectCreationDate As String = ""
+        Static _old_PendingTaskCount As String = ""
+        Static _old_Type As String = ""
+        Static _old_Protection As String = ""
+        Static _old_State As String = ""
+        Static _old_Name As String = ""
+        Static _old_Address As String = ""
+        Static _old_Size As String = ""
+        Static _old_File As String = ""
+
+        Dim hasChanged As Boolean = True
+
+        If info = "ObjectCreationDate" Then
+            res = _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
+            If res = _old_ObjectCreationDate Then
+                hasChanged = False
+            Else
+                _old_ObjectCreationDate = res
+                Return True
+            End If
+        ElseIf info = "PendingTaskCount" Then
+            res = PendingTaskCount.ToString
+            If res = _old_PendingTaskCount Then
+                hasChanged = False
+            Else
+                _old_PendingTaskCount = res
+                Return True
+            End If
+        End If
+
+        Select Case info
+            Case "Type"
+                res = Me.Infos.Type.ToString
+                If res = _old_Type Then
+                    hasChanged = False
+                Else
+                    _old_Type = res
+                End If
+            Case "Protection"
+                res = GetProtectionType(Me.Infos.Protection)
+                If res = _old_Protection Then
+                    hasChanged = False
+                Else
+                    _old_Protection = res
+                End If
+            Case "State"
+                res = Me.Infos.State.ToString
+                If res = _old_State Then
+                    hasChanged = False
+                Else
+                    _old_State = res
+                End If
+            Case "Name"
+                res = Me.Infos.Name
+                If res = _old_Name Then
+                    hasChanged = False
+                Else
+                    _old_Name = res
+                End If
+            Case "Address"
+                res = "0x" & Me.Infos.BaseAddress.ToString("x")
+                If res = _old_Address Then
+                    hasChanged = False
+                Else
+                    _old_Address = res
+                End If
+            Case "Size"
+                res = getSizeString()
+                If res = _old_Size Then
+                    hasChanged = False
+                Else
+                    _old_Size = res
+                End If
+            Case "File"
+                res = _moduleFileName
+                If res = _old_File Then
+                    hasChanged = False
+                Else
+                    _old_File = res
+                End If
+        End Select
+
+        Return hasChanged
     End Function
 
     ' Get size as a string

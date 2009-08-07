@@ -145,18 +145,6 @@ Public Class cProcess
         End Set
     End Property
 
-    Public Overrides ReadOnly Property ItemHasChanged() As Boolean
-        Get
-            Static _first As Boolean = True
-            If _first Then
-                _first = False
-                Return True
-            Else
-                Return _processInfos.ItemHasChanged
-            End If
-        End Get
-    End Property
-
     ' Get the performance dictionnaries
     Public ReadOnly Property DicoPerfMem() As SortedList(Of Integer, PROC_MEM_INFO)
         Get
@@ -650,16 +638,18 @@ Public Class cProcess
 #End Region
 
 #Region "Get information overriden methods"
+
     ' Retrieve informations by its name
     Public Overrides Function GetInformation(ByVal info As String) As String
+        Dim res As String = NO_INFO_RETRIEVED
 
         If info = "ObjectCreationDate" Then
-            Return _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
+            res = _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
         ElseIf info = "PendingTaskCount" Then
-            Return PendingTaskCount.ToString
+            res = PendingTaskCount.ToString
         End If
 
-        Dim res As String = NO_INFO_RETRIEVED
+        res = NO_INFO_RETRIEVED
         Select Case info
             Case "ParentPID"
                 res = Me.Infos.ParentProcessId.ToString
@@ -808,6 +798,488 @@ Public Class cProcess
         End Select
 
         Return res
+    End Function
+    Public Overrides Function GetInformation(ByVal info As String, ByRef res As String) As Boolean
+
+        ' Old values (from last refresh)
+        Static _old_ObjectCreationDate As String = ""
+        Static _old_PendingTaskCount As String = ""
+        Static _old_ParentName As String = ""
+        Static _old_ParentPID As String = ""
+        Static _old_PID As String = ""
+        Static _old_UserName As String = ""
+        Static _old_CpuUsage As String = ""
+        Static _old_KernelCpuTime As String = ""
+        Static _old_UserCpuTime As String = ""
+        Static _old_TotalCpuTime As String = ""
+        Static _old_StartTime As String = ""
+        Static _old_WorkingSet As String = ""
+        Static _old_PeakWorkingSet As String = ""
+        Static _old_PageFaultCount As String = ""
+        Static _old_PagefileUsage As String = ""
+        Static _old_PeakPagefileUsage As String = ""
+        Static _old_QuotaPeakPagedPoolUsage As String = ""
+        Static _old_QuotaPagedPoolUsage As String = ""
+        Static _old_QuotaPeakNonPagedPoolUsage As String = ""
+        Static _old_QuotaNonPagedPoolUsage As String = ""
+        Static _old_Priority As String = ""
+        Static _old_Path As String = ""
+        Static _old_Description As String = ""
+        Static _old_Copyright As String = ""
+        Static _old_Version As String = ""
+        Static _old_Name As String = ""
+        Static _old_GdiObjects As String = ""
+        Static _old_UserObjects As String = ""
+        Static _old_RunTime As String = ""
+        Static _old_AffinityMask As String = ""
+        Static _old_AverageCpuUsage As String = ""
+        Static _old_CommandLine As String = ""
+        Static _old_ReadOperationCount As String = ""
+        Static _old_WriteOperationCount As String = ""
+        Static _old_OtherOperationCount As String = ""
+        Static _old_ReadTransferCount As String = ""
+        Static _old_WriteTransferCount As String = ""
+        Static _old_OtherTransferCount As String = ""
+        Static _old_ReadOperationCountDelta As String = ""
+        Static _old_WriteOperationCountDelta As String = ""
+        Static _old_OtherOperationCountDelta As String = ""
+        Static _old_ReadTransferCountDelta As String = ""
+        Static _old_WriteTransferCountDelta As String = ""
+        Static _old_OtherTransferCountDelta As String = ""
+        Static _old_HandleCount As String = ""
+        Static _old_ThreadCount As String = ""
+        Static _old_InJob As String = ""
+        Static _old_Elevation As String = ""
+        Static _old_BeingDebugged As String = ""
+        Static _old_OwnedProcess As String = ""
+        Static _old_SystemProcess As String = ""
+        Static _old_ServiceProcess As String = ""
+        Static _old_CriticalProcess As String = ""
+
+        Dim hasChanged As Boolean = True
+
+        If info = "ObjectCreationDate" Then
+            res = _objectCreationDate.ToLongDateString & " -- " & _objectCreationDate.ToLongTimeString
+            If res = _old_ObjectCreationDate Then
+                Return False
+            Else
+                _old_ObjectCreationDate = res
+                Return True
+            End If
+        ElseIf info = "PendingTaskCount" Then
+            res = PendingTaskCount.ToString
+            If res = _old_PendingTaskCount Then
+                Return False
+            Else
+                _old_PendingTaskCount = res
+                Return True
+            End If
+        End If
+
+        res = NO_INFO_RETRIEVED
+        Select Case info
+            Case "ParentPID"
+                res = Me.Infos.ParentProcessId.ToString
+                If res = _old_ParentPID Then
+                    hasChanged = False
+                Else
+                    _old_ParentPID = res
+                End If
+            Case "ParentName"
+                If _parentName = vbNullString Then
+                    Dim _pi As Integer = Me.Infos.ParentProcessId
+                    If _pi > 4 Then
+                        _parentName = GetProcessName(Me.Infos.ParentProcessId)
+                        If Len(_parentName) = 0 Then
+                            _parentName = "[Parent killed]"
+                        End If
+                    ElseIf _pi = 4 Then
+                        _parentName = "Idle process"
+                    Else
+                        _parentName = NO_INFO_RETRIEVED
+                    End If
+                End If
+                res = _parentName
+                If res = _old_ParentName Then
+                    hasChanged = False
+                Else
+                    _old_ParentName = res
+                End If
+            Case "PID"
+                res = Me.Infos.Pid.ToString
+                If res = _old_PID Then
+                    hasChanged = False
+                Else
+                    _old_PID = res
+                End If
+            Case "UserName"
+                If My.Settings.ShowUserGroupDomain AndAlso Len(Me.Infos.DomainName) > 0 Then
+                    res = Me.Infos.DomainName & "\" & Me.Infos.UserName
+                Else
+                    res = Me.Infos.UserName
+                End If
+                If res = _old_UserName Then
+                    hasChanged = False
+                Else
+                    _old_UserName = res
+                End If
+            Case "CpuUsage"
+                res = GetFormatedPercentage(Me.CpuUsage)
+                If res = _old_CpuUsage Then
+                    hasChanged = False
+                Else
+                    _old_CpuUsage = res
+                End If
+            Case "KernelCpuTime"
+                Dim ts As Date = New Date(Me.Infos.KernelTime)
+                res = String.Format("{0:00}", ts.Hour) & ":" & _
+                    String.Format("{0:00}", ts.Minute) & ":" & _
+                    String.Format("{0:00}", ts.Second) & ":" & _
+                    String.Format("{000}", ts.Millisecond)
+                If res = _old_KernelCpuTime Then
+                    hasChanged = False
+                Else
+                    _old_KernelCpuTime = res
+                End If
+            Case "UserCpuTime"
+                Dim ts As Date = New Date(Me.Infos.UserTime)
+                res = String.Format("{0:00}", ts.Hour) & ":" & _
+                    String.Format("{0:00}", ts.Minute) & ":" & _
+                    String.Format("{0:00}", ts.Second) & ":" & _
+                    String.Format("{000}", ts.Millisecond)
+                If res = _old_UserCpuTime Then
+                    hasChanged = False
+                Else
+                    _old_UserCpuTime = res
+                End If
+            Case "TotalCpuTime"
+                Dim ts As Date = New Date(Me.Infos.ProcessorTime)
+                res = String.Format("{0:00}", ts.Hour) & ":" & _
+                    String.Format("{0:00}", ts.Minute) & ":" & _
+                    String.Format("{0:00}", ts.Second) & ":" & _
+                    String.Format("{000}", ts.Millisecond)
+                If res = _old_TotalCpuTime Then
+                    hasChanged = False
+                Else
+                    _old_TotalCpuTime = res
+                End If
+            Case "StartTime"
+                If Me.Infos.StartTime > 0 Then
+                    Dim ts As Date = New Date(Me.Infos.StartTime)
+                    res = ts.ToLongDateString & " -- " & ts.ToLongTimeString
+                End If
+                If res = _old_StartTime Then
+                    hasChanged = False
+                Else
+                    _old_StartTime = res
+                End If
+            Case "WorkingSet"
+                res = GetFormatedSize(Me.Infos.MemoryInfos.WorkingSetSize)
+                If res = _old_WorkingSet Then
+                    hasChanged = False
+                Else
+                    _old_WorkingSet = res
+                End If
+            Case "PeakWorkingSet"
+                res = GetFormatedSize(Me.Infos.MemoryInfos.PeakWorkingSetSize)
+                If res = _old_PeakWorkingSet Then
+                    hasChanged = False
+                Else
+                    _old_PeakWorkingSet = res
+                End If
+            Case "PageFaultCount"
+                res = Me.Infos.MemoryInfos.PageFaultCount.ToString
+                If res = _old_PageFaultCount Then
+                    hasChanged = False
+                Else
+                    _old_PageFaultCount = res
+                End If
+            Case "PagefileUsage"
+                res = GetFormatedSize(Me.Infos.MemoryInfos.PagefileUsage)
+                If res = _old_PagefileUsage Then
+                    hasChanged = False
+                Else
+                    _old_PagefileUsage = res
+                End If
+            Case "PeakPagefileUsage"
+                res = GetFormatedSize(Me.Infos.MemoryInfos.PeakPagefileUsage)
+                If res = _old_PeakPagefileUsage Then
+                    hasChanged = False
+                Else
+                    _old_PeakPagefileUsage = res
+                End If
+            Case "QuotaPeakPagedPoolUsage"
+                res = GetFormatedSize(Me.Infos.MemoryInfos.QuotaPeakPagedPoolUsage)
+                If res = _old_QuotaPeakPagedPoolUsage Then
+                    hasChanged = False
+                Else
+                    _old_QuotaPeakPagedPoolUsage = res
+                End If
+            Case "QuotaPagedPoolUsage"
+                res = GetFormatedSize(Me.Infos.MemoryInfos.QuotaPagedPoolUsage)
+                If res = _old_QuotaPagedPoolUsage Then
+                    hasChanged = False
+                Else
+                    _old_QuotaPagedPoolUsage = res
+                End If
+            Case "QuotaPeakNonPagedPoolUsage"
+                res = GetFormatedSize(Me.Infos.MemoryInfos.QuotaPeakNonPagedPoolUsage)
+                If res = _old_QuotaPeakNonPagedPoolUsage Then
+                    hasChanged = False
+                Else
+                    _old_QuotaPeakNonPagedPoolUsage = res
+                End If
+            Case "QuotaNonPagedPoolUsage"
+                res = GetFormatedSize(Me.Infos.MemoryInfos.QuotaNonPagedPoolUsage)
+                If res = _old_QuotaNonPagedPoolUsage Then
+                    hasChanged = False
+                Else
+                    _old_QuotaNonPagedPoolUsage = res
+                End If
+            Case "Priority"
+                res = Me.Infos.Priority.ToString
+                If res = _old_Priority Then
+                    hasChanged = False
+                Else
+                    _old_Priority = res
+                End If
+            Case "Path"
+                res = Me.Infos.Path
+                If res = _old_Path Then
+                    hasChanged = False
+                Else
+                    _old_Path = res
+                End If
+            Case "Description"
+                If Me.Infos.FileInfo IsNot Nothing Then
+                    res = Me.Infos.FileInfo.FileDescription
+                End If
+                If res = _old_Description Then
+                    hasChanged = False
+                Else
+                    _old_Description = res
+                End If
+            Case "Copyright"
+                If Me.Infos.FileInfo IsNot Nothing Then
+                    res = Me.Infos.FileInfo.LegalCopyright
+                End If
+                If res = _old_Copyright Then
+                    hasChanged = False
+                Else
+                    _old_Copyright = res
+                End If
+            Case "Version"
+                If Me.Infos.FileInfo IsNot Nothing Then
+                    res = Me.Infos.FileInfo.FileVersion
+                End If
+                If res = _old_Version Then
+                    hasChanged = False
+                Else
+                    _old_Version = res
+                End If
+            Case "Name"
+                res = Me.Infos.Name
+                If res = _old_Name Then
+                    hasChanged = False
+                Else
+                    _old_Name = res
+                End If
+            Case "GdiObjects"
+                res = Me.Infos.GdiObjects.ToString
+                If res = _old_GdiObjects Then
+                    hasChanged = False
+                Else
+                    _old_GdiObjects = res
+                End If
+            Case "UserObjects"
+                res = Me.Infos.UserObjects.ToString
+                If res = _old_UserObjects Then
+                    hasChanged = False
+                Else
+                    _old_UserObjects = res
+                End If
+            Case "RunTime"
+                Dim ts As New Date(Date.Now.Ticks - Me.Infos.StartTime)
+                res = String.Format("{0:00}", ts.Hour) & ":" & _
+                    String.Format("{0:00}", ts.Minute) & ":" & _
+                    String.Format("{0:00}", ts.Second) & ":" & _
+                    String.Format("{000}", ts.Millisecond)
+                If res = _old_RunTime Then
+                    hasChanged = False
+                Else
+                    _old_RunTime = res
+                End If
+            Case "AffinityMask"
+                res = Me.Infos.AffinityMask.ToString
+                If res = _old_AffinityMask Then
+                    hasChanged = False
+                Else
+                    _old_AffinityMask = res
+                End If
+            Case "AverageCpuUsage"
+                res = GetFormatedPercentage(Me.Infos.AverageCpuUsage, force0:=True)
+                If res = _old_AverageCpuUsage Then
+                    hasChanged = False
+                Else
+                    _old_AverageCpuUsage = res
+                End If
+            Case "CommandLine"
+                res = Me.Infos.CommandLine
+                If res = _old_CommandLine Then
+                    hasChanged = False
+                Else
+                    _old_CommandLine = res
+                End If
+            Case "ReadOperationCount"
+                res = Me.Infos.IOValues.ReadOperationCount.ToString
+                If res = _old_ReadOperationCount Then
+                    hasChanged = False
+                Else
+                    _old_ReadOperationCount = res
+                End If
+            Case "WriteOperationCount"
+                res = Me.Infos.IOValues.WriteOperationCount.ToString
+                If res = _old_WriteOperationCount Then
+                    hasChanged = False
+                Else
+                    _old_WriteOperationCount = res
+                End If
+            Case "OtherOperationCount"
+                res = Me.Infos.IOValues.OtherOperationCount.ToString
+                If res = _old_OtherOperationCount Then
+                    hasChanged = False
+                Else
+                    _old_OtherOperationCount = res
+                End If
+            Case "ReadTransferCount"
+                res = GetFormatedSize(Me.Infos.IOValues.ReadTransferCount)
+                If res = _old_ReadTransferCount Then
+                    hasChanged = False
+                Else
+                    _old_ReadTransferCount = res
+                End If
+            Case "WriteTransferCount"
+                res = GetFormatedSize(Me.Infos.IOValues.WriteTransferCount)
+                If res = _old_WriteTransferCount Then
+                    hasChanged = False
+                Else
+                    _old_WriteTransferCount = res
+                End If
+            Case "OtherTransferCount"
+                res = GetFormatedSize(Me.Infos.IOValues.OtherTransferCount)
+                If res = _old_OtherTransferCount Then
+                    hasChanged = False
+                Else
+                    _old_OtherTransferCount = res
+                End If
+            Case "ReadOperationCountDelta"
+                res = _ioDelta.ReadOperationCount.ToString
+                If res = _old_ReadOperationCountDelta Then
+                    hasChanged = False
+                Else
+                    _old_ReadOperationCountDelta = res
+                End If
+            Case "WriteOperationCountDelta"
+                res = _ioDelta.WriteOperationCount.ToString
+                If res = _old_WriteOperationCountDelta Then
+                    hasChanged = False
+                Else
+                    _old_WriteOperationCountDelta = res
+                End If
+            Case "OtherOperationCountDelta"
+                res = _ioDelta.OtherOperationCount.ToString
+                If res = _old_OtherOperationCountDelta Then
+                    hasChanged = False
+                Else
+                    _old_OtherOperationCountDelta = res
+                End If
+            Case "ReadTransferCountDelta"
+                res = GetFormatedSizePerSecond(_ioDelta.ReadTransferCount)
+                If res = _old_ReadTransferCountDelta Then
+                    hasChanged = False
+                Else
+                    _old_ReadTransferCountDelta = res
+                End If
+            Case "WriteTransferCountDelta"
+                res = GetFormatedSizePerSecond(_ioDelta.WriteTransferCount)
+                If res = _old_WriteTransferCountDelta Then
+                    hasChanged = False
+                Else
+                    _old_WriteTransferCountDelta = res
+                End If
+            Case "OtherTransferCountDelta"
+                res = GetFormatedSizePerSecond(_ioDelta.OtherTransferCount)
+                If res = _old_OtherTransferCountDelta Then
+                    hasChanged = False
+                Else
+                    _old_OtherTransferCountDelta = res
+                End If
+            Case "HandleCount"
+                res = Me.Infos.HandleCount.ToString
+                If res = _old_HandleCount Then
+                    hasChanged = False
+                Else
+                    _old_HandleCount = res
+                End If
+            Case "ThreadCount"
+                res = Me.Infos.ThreadCount.ToString
+                If res = _old_ThreadCount Then
+                    hasChanged = False
+                Else
+                    _old_ThreadCount = res
+                End If
+            Case "InJob"
+                res = Me.IsInJob.ToString
+                If res = _old_InJob Then
+                    hasChanged = False
+                Else
+                    _old_InJob = res
+                End If
+            Case "Elevation"
+                res = Me.ElevationType.ToString
+                If res = _old_Elevation Then
+                    hasChanged = False
+                Else
+                    _old_Elevation = res
+                End If
+            Case "BeingDebugged"
+                res = Me.IsBeingDebugged.ToString
+                If res = _old_BeingDebugged Then
+                    hasChanged = False
+                Else
+                    _old_BeingDebugged = res
+                End If
+            Case "OwnedProcess"
+                res = Me.IsOwnedProcess.ToString
+                If res = _old_OwnedProcess Then
+                    hasChanged = False
+                Else
+                    _old_OwnedProcess = res
+                End If
+            Case "SystemProcess"
+                res = Me.IsSystemProcess.ToString
+                If res = _old_SystemProcess Then
+                    hasChanged = False
+                Else
+                    _old_SystemProcess = res
+                End If
+            Case "ServiceProcess"
+                res = Me.IsServiceProcess.ToString
+                If res = _old_ServiceProcess Then
+                    hasChanged = False
+                Else
+                    _old_ServiceProcess = res
+                End If
+            Case "CriticalProcess"
+                res = Me.IsCriticalProcess.ToString
+                If res = _old_CriticalProcess Then
+                    hasChanged = False
+                Else
+                    _old_CriticalProcess = res
+                End If
+        End Select
+
+        Return hasChanged
     End Function
 
     ' Retrieve informations by its name (numerical)
