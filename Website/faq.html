@@ -29,6 +29,8 @@ advanced monitoring... etc).</p>
 <p><b><font size="4" color="red">And of course, neither Windows Task Manager&nbsp;nor Process Explorer is able to monitor remote systems&nbsp;:-)</font></b></p>
 <h2>I think I found a bug...</h2>
 <p>Yes it's possible, as YAPM is still&nbsp;in development. Please report the bugs you found and/or your suggestion <a href="http://sourceforge.net/tracker/?group_id=244697">to YAPM's tracker</a>.</p>
+<h2>I can't [do some action]&nbsp;even if I'm admin of my machine !</h2>
+<p>Yes, even if YAPM is using a driver, almost of functions are launched&nbsp;in <a href="http://www.google.fr/search?hl=en&q=user+mode+kernel+mode">user mode</a>. That's why you are not able to execute some actions (e.g. kill some specific and protected&nbsp;processes, close some specific handles...etc.). In future releases, YAPM might&nbsp;will be able to process actions in <a href="http://www.google.fr/search?hl=en&q=user+mode+kernel+mode">kernel mode,</a> but for now it's not the case.</p>
 <h2>I can't make the remote connection work...</h2>
 <ul>
     <LI>Make sure your firewall is configured to let YAPM work properly</LI>
@@ -39,7 +41,17 @@ advanced monitoring... etc).</p>
     <LI>If you can't make it work, just <a href="developer.html#Contact">ask me</a> !</LI>
 </ul>
 <h2>How do I&nbsp;start the server on the remote machine ?</h2>
-<p>Just launch YAPM with &quot;-server&quot; option. You can run &quot;launch server.bat&quot;.</p>
+<p>Just launch YAPM with &quot;-server&quot; option. You can run &quot;launch server.bat&quot;. The syntax is &quot;YAPM.exe -server [-autoconnect] [-port XXXX]&quot;.</p>
+<h2>What are&nbsp;ObjectCreationDate and PendingTaskCount informations ? How to display it&nbsp;?</h2>
+<p>These are some informations which are available for all different objects&nbsp;(processes, services, handles, ...). You can display it by selecting &quot;Choose columns...&quot; when you right-click on a listview.</p>
+<ul>
+    <LI><b>ObjectCreationDate</b> : the date when&nbsp;an object has been displayed for the first time in YAPM. It's usually the date when&nbsp;the object has been created (for example : when a handle has been opened, when a service has been created...etc.).</LI>
+    <LI><b>PendingTaskCount</b> : as YAPM is fully multi-threaded, each action you select&nbsp;is launched in a separate thread. That's why some actions might&nbsp;be executed&nbsp;a few ms&nbsp;after you selected it, and probably&nbsp;more&nbsp;when you are connected to a remote system. So PendingTaskCount displays the number of actions for an object&nbsp;selected by the user which are not yet completed (&quot;pending&quot; actions). You can view these actions by pressing Ctrl+Shift key on an object in a listview.</LI>
+</ul>
+<h2>Is a 64 bits version scheduled ?</h2>
+<p>Nothing is scheduled for now, but I'll probably work on it in a few month, when the 32bits version will be stable and &quot;bugfree&quot;.</p>
+<h2>Are you sure YAPM works on Windows Seven ?</h2>
+<p>Hum, I'm sure that it's working on Windows Seven RC1, but I still have to test YAPM&nbsp;under a final release...</p>
 <h2>How do I.... ?</h2>
 <p style="margin-top:0; margin-bottom:0;">Have you search in the <a href="help.html">help</a> ?</p>
 <p style="margin-top:0; margin-bottom:0;">Have you try the <a href="http://sourceforge.net/forum/forum.php?forum_id=885547">forum</a> ?</p>
@@ -50,7 +62,7 @@ advanced monitoring... etc).</p>
     </DIV>
     <DIV>
         <P id=footer><i>Copyright (c) 2008-2009 violent_ken</i></P>
-        <P><i>Last update of this page : 2009-06-05&nbsp;19:00</i></P>
+        <P><i>Last update of this page : 2009-08-07&nbsp;23:00</i></P>
     </DIV>
     <P></P>
     <p>
