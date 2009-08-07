@@ -1,16 +1,14 @@
 TODO LIST
 
 BUGS CRITIQUES
+- pb collection dans frmPendingTasks
 - topmost a virer quand viré sur frmMain
-- sur pc XP alstom, l'optimisation d'affichage pour les process ne marche pas
 - dico : key already added (proceses, modules...)
 - OK dans chooseColumns -> devrait sauvegarder les préférences de suite
 - caption des windows pas mise à jour + information "Visible" foireuse
 - start hidden a faire correctement
-- show user group/domain -> plus d'effet après optimisations affichage -> forcer refresh (sinon les refreshs se feront que sur les process qui sont rafraichit)
 - l'organisation des colonnes des threads n'est pas rechargée (ou bien sauvée ?) dans la form détail. Voir si c'est pareil pour les autres lv de la form
 - tab affiché avec le ribbon
-- optimisation ItemHasChanged pour tous les objets qui manquent (mais attention : les valeurs présente dans cObject et pas objectInfos doivent être prisent en compte, ex : CpuUsage)
 - click sur croix de fermeture de frmMain -> appeler ExitYAPM avec succes
 - restart as admin foireux (utiliser shellexecute et non StartProcess pour esquiver boite de dialogue Windows et foirages), le redémarrage est bouzeux (et faut aussi sauver les preferences)
 - possibilité de passer en mode elevated automatiquement (dans les options) possible ??
