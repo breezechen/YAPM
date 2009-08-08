@@ -122,6 +122,7 @@ Public Class frmPreferences
             End If
             If ret = DialogResult.Yes Then
                 Program.ExitYAPM()
+                Exit Sub
             End If
         End If
 

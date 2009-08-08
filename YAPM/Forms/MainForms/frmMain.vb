@@ -440,6 +440,25 @@ Public Class frmMain
 
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Resize
 
+        ' If we do not use Ribbon mode, we hide Ribbon. Else, we add tabs
+        If My.Settings.UseRibbonStyle Then
+            ' The only way to hide tabs is to change region of tabcontrol
+            ' But we also have to set Dock to None to avoid displaying a blank area
+            ' We change manually height/width, that's why this piece of code is located
+            ' in Resize()
+            With _tab
+                _tab.Dock = DockStyle.None
+                _tab.Top = -24
+                _tab.Left = -2
+                _tab.Width = Me.Width - 12
+                _tab.Height = Me.Height - Me.Ribbon.Height - Me.StatusBar.Height - 15
+                _tab.Region = New Region(New RectangleF(_tab.Left, _tab.SelectedTab.Top, _tab.SelectedTab.Width + 5, _tab.SelectedTab.Height))
+                _tab.Refresh()
+            End With
+        Else
+            Me._main.Panel1Collapsed = True
+        End If
+
         If My.Settings.HideWhenMinimized AndAlso Me.WindowState = FormWindowState.Minimized Then
             Me.Hide()
         End If

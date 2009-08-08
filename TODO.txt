@@ -1,22 +1,21 @@
 TODO LIST
 
 BUGS CRITIQUES
-- pending task pour remote (le _deg n'est pas appelé en remote)
 - dico : key already added (proceses, modules...)
 - OK dans chooseColumns -> devrait sauvegarder les préférences de suite
 - caption des windows pas mise à jour + information "Visible" foireuse
 - start hidden a faire correctement
 - l'organisation des colonnes des threads n'est pas rechargée (ou bien sauvée ?) dans la form détail. Voir si c'est pareil pour les autres lv de la form
-- tab affiché avec le ribbon
 - click sur croix de fermeture de frmMain -> appeler ExitYAPM avec succes
 - restart as admin foireux (utiliser shellexecute et non StartProcess pour esquiver boite de dialogue Windows et foirages), le redémarrage est bouzeux (et faut aussi sauver les preferences)
 - possibilité de passer en mode elevated automatiquement (dans les options) possible ??
 - onglet File sans le ribbon -> les actions sont indisponibles (ajouter menu avec Open file, Refresh, Release...)
 - actions sur les Windows impossible en mode non ribbon (obligation d'ajouter un popup menu...)
 - reports
-- recup username foireux
 
 BUGS NON CRITIQUES
+- recup username foireux
+- pending task pour remote (le _deg n'est pas appelé en remote)
 - goto item dans le log
 - résolutions d'adresses -> stocker correspondance IP:port <-> nom resolu dans un dico ?
 - utilisation de TryGetValue pour accéder aux dicos
@@ -163,3 +162,4 @@ Temp Change log :
 - optimisation critique d'affichage
 - amélioration pending task
 - replace taskmgr OK for Vista and above
+- no more "beep" when exit from preferences after changing ShowRibbon property
