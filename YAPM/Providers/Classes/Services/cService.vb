@@ -124,10 +124,10 @@ Public Class cService
         Dim t As New System.Threading.WaitCallback(AddressOf _startServ.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackServiceStart.poolObj(Me.Infos.Name, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub startServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -149,10 +149,10 @@ Public Class cService
         Dim t As New System.Threading.WaitCallback(AddressOf _pauseServ.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackServicePause.poolObj(Me.Infos.Name, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub pauseServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -173,10 +173,10 @@ Public Class cService
         Dim t As New System.Threading.WaitCallback(AddressOf _resumeServ.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackServiceResume.poolObj(Me.Infos.Name, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub resumeServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -197,10 +197,10 @@ Public Class cService
         Dim t As New System.Threading.WaitCallback(AddressOf _stopServ.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackServiceStop.poolObj(Me.Infos.Name, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub stopServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -221,10 +221,10 @@ Public Class cService
         Dim t As New System.Threading.WaitCallback(AddressOf _setStartTypeServ.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackServiceSetStartType.poolObj(Me.Infos.Name, type, newAction))
 
-        AddPendingTask2(newAction, t)
     End Sub
     Private Sub setServiceStartTypeDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -541,33 +541,6 @@ Public Class cService
         Return hasChanged
     End Function
 
-
-#End Region
-
-#Region "Shared function"
-
-    Private Shared _sharedstopServ As asyncCallbackServiceStop
-    Public Shared Function SharedLRStopService(ByVal name As String) As Integer
-
-        If _sharedstopServ Is Nothing Then
-            _sharedstopServ = New asyncCallbackServiceStop(New asyncCallbackServiceStop.HasStopped(AddressOf stopsharedServiceDone), _connection)
-        End If
-
-        Dim t As New System.Threading.WaitCallback(AddressOf _sharedstopServ.Process)
-        Dim newAction As Integer = cGeneralObject.GetActionCount
-
-        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackServiceStop.poolObj(name, newAction))
-
-        AddPendingTask2(newAction, t)
-    End Function
-    Private Shared Sub stopsharedServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
-        If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not stop service " & name)
-        End If
-        RemovePendingTask(actionNumber)
-    End Sub
 
 #End Region
 

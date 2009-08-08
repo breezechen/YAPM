@@ -77,10 +77,10 @@ Public Class cPrivilege
         Dim t As New System.Threading.WaitCallback(AddressOf _changeST.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackPrivilegeChangeStatus.poolObj(Me.Infos.ProcessId, Me.Infos.Name, status, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub changeStatusDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then

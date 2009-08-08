@@ -1,8 +1,8 @@
 TODO LIST
 
 BUGS CRITIQUES
-- pb collection dans frmPendingTasks
-- topmost a virer quand viré sur frmMain
+- refresh infos threads par remote foiré (les subitems pas refreshés)
+- pending task pour remote (le _deg n'est pas appelé en remote)
 - dico : key already added (proceses, modules...)
 - OK dans chooseColumns -> devrait sauvegarder les préférences de suite
 - caption des windows pas mise à jour + information "Visible" foireuse
@@ -16,7 +16,6 @@ BUGS CRITIQUES
 - actions sur les Windows impossible en mode non ribbon (obligation d'ajouter un popup menu...)
 - reports
 - recup username foireux
-- pending task -> collection foirage
 
 BUGS NON CRITIQUES
 - goto item dans le log
@@ -25,14 +24,12 @@ BUGS NON CRITIQUES
 - ajout des 6 nouvelles infos process dans formDetail (sauf certaines qui auront un truc spécifique comme token, job)
 - bien différencier local et remote, ex. hidden processes (afficher dans le caption des forms ?)
 - gestion startup items ou pas ? (+ coloration pour les process/services qui démarrent au boot)
-- pending task count foireux (le count est incrémenté pour plusieurs objets, cf. les 3 threads + des fois le count reste incrémenté alors que c'est plus pending, à cause de la form ?)
-- ajouter description des métas-infos (pending tasks & création date) dans la FAQ
 - ajouter description des colonnes (dans le chooseColumns)
 - si local connection -> spawn tâche en waitForSingleObject qui attend la fin d'un process pour le exitcode dans formDetail.
 - option Kill with specific exitcode
 - find window -> select thread possible
+- creatime time foireux pour les threads
 - virer la form qui gère le drag & drop pour la sélection d'un process
-- optimisation d'affichage -> mettre à jour la colonne méta 'pending tasks' systématiquement (si présente)
 - checker replace taskmgr sous 7 (need de la RAM !!)
 - menu select all dans tous les lv
 - notifications processus & services deleted
@@ -165,3 +162,4 @@ Temp Change log :
 - correction bug #2832606 (commandLine refait)
 - meilleure protection sémaphore
 - optimisation critique d'affichage
+- amélioration pending task

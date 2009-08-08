@@ -691,6 +691,7 @@ Partial Class frmMain
         Me.sbPanelCpu = New System.Windows.Forms.StatusBarPanel
         Me.sbPanelMemory = New System.Windows.Forms.StatusBarPanel
         Me.timerStatus = New System.Windows.Forms.Timer(Me.components)
+        Me.butShowAllPendingTasks = New System.Windows.Forms.RibbonButton
         Me._main.Panel1.SuspendLayout()
         Me._main.Panel2.SuspendLayout()
         Me._main.SuspendLayout()
@@ -903,6 +904,7 @@ Partial Class frmMain
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butFeedBack)
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butHiddenProcesses)
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butShowDepViewer)
+        Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butShowAllPendingTasks)
         Me.Ribbon.QuickAcessToolbar.Tag = Nothing
         Me.Ribbon.QuickAcessToolbar.Text = Nothing
         Me.Ribbon.QuickAcessToolbar.ToolTip = Nothing
@@ -1076,8 +1078,8 @@ Partial Class frmMain
         Me.butLog.SmallImage = Global.YAPM.My.Resources.Resources.document_text
         Me.butLog.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butLog.Tag = Nothing
-        Me.butLog.Text = Nothing
-        Me.butLog.ToolTip = Nothing
+        Me.butLog.Text = "Show log"
+        Me.butLog.ToolTip = "Show log"
         Me.butLog.ToolTipImage = Nothing
         Me.butLog.ToolTipTitle = Nothing
         '
@@ -1091,8 +1093,8 @@ Partial Class frmMain
         Me.butSystemInfo.SmallImage = CType(resources.GetObject("butSystemInfo.SmallImage"), System.Drawing.Image)
         Me.butSystemInfo.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butSystemInfo.Tag = Nothing
-        Me.butSystemInfo.Text = Nothing
-        Me.butSystemInfo.ToolTip = Nothing
+        Me.butSystemInfo.Text = "Show system infos"
+        Me.butSystemInfo.ToolTip = "Show system infos"
         Me.butSystemInfo.ToolTipImage = Nothing
         Me.butSystemInfo.ToolTipTitle = Nothing
         '
@@ -1106,8 +1108,8 @@ Partial Class frmMain
         Me.butWindows.SmallImage = CType(resources.GetObject("butWindows.SmallImage"), System.Drawing.Image)
         Me.butWindows.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butWindows.Tag = Nothing
-        Me.butWindows.Text = Nothing
-        Me.butWindows.ToolTip = Nothing
+        Me.butWindows.Text = "Show opened windows"
+        Me.butWindows.ToolTip = "Show opened windows"
         Me.butWindows.ToolTipImage = Nothing
         Me.butWindows.ToolTipTitle = Nothing
         '
@@ -1121,8 +1123,8 @@ Partial Class frmMain
         Me.butFindWindow.SmallImage = CType(resources.GetObject("butFindWindow.SmallImage"), System.Drawing.Image)
         Me.butFindWindow.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butFindWindow.Tag = Nothing
-        Me.butFindWindow.Text = Nothing
-        Me.butFindWindow.ToolTip = Nothing
+        Me.butFindWindow.Text = "Find a process by window"
+        Me.butFindWindow.ToolTip = "Find a process by window"
         Me.butFindWindow.ToolTipImage = Nothing
         Me.butFindWindow.ToolTipTitle = Nothing
         '
@@ -1136,8 +1138,8 @@ Partial Class frmMain
         Me.butNetwork.SmallImage = CType(resources.GetObject("butNetwork.SmallImage"), System.Drawing.Image)
         Me.butNetwork.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butNetwork.Tag = Nothing
-        Me.butNetwork.Text = "Network"
-        Me.butNetwork.ToolTip = Nothing
+        Me.butNetwork.Text = "Change connection type"
+        Me.butNetwork.ToolTip = "Change connection type"
         Me.butNetwork.ToolTipImage = Nothing
         Me.butNetwork.ToolTipTitle = Nothing
         '
@@ -1152,7 +1154,7 @@ Partial Class frmMain
         Me.butFeedBack.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butFeedBack.Tag = Nothing
         Me.butFeedBack.Text = "Feed back"
-        Me.butFeedBack.ToolTip = Nothing
+        Me.butFeedBack.ToolTip = "Feed back"
         Me.butFeedBack.ToolTipImage = Nothing
         Me.butFeedBack.ToolTipTitle = Nothing
         '
@@ -1166,8 +1168,8 @@ Partial Class frmMain
         Me.butHiddenProcesses.SmallImage = CType(resources.GetObject("butHiddenProcesses.SmallImage"), System.Drawing.Image)
         Me.butHiddenProcesses.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butHiddenProcesses.Tag = Nothing
-        Me.butHiddenProcesses.Text = Nothing
-        Me.butHiddenProcesses.ToolTip = Nothing
+        Me.butHiddenProcesses.Text = "Show hidden processes"
+        Me.butHiddenProcesses.ToolTip = "Show hidden processes"
         Me.butHiddenProcesses.ToolTipImage = Nothing
         Me.butHiddenProcesses.ToolTipTitle = Nothing
         '
@@ -1182,7 +1184,7 @@ Partial Class frmMain
         Me.butShowDepViewer.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butShowDepViewer.Tag = Nothing
         Me.butShowDepViewer.Text = "Dependencies viewer"
-        Me.butShowDepViewer.ToolTip = Nothing
+        Me.butShowDepViewer.ToolTip = "Dependencies viewer"
         Me.butShowDepViewer.ToolTipImage = Nothing
         Me.butShowDepViewer.ToolTipTitle = Nothing
         '
@@ -3596,7 +3598,7 @@ Partial Class frmMain
         Me.pageProcesses.Location = New System.Drawing.Point(4, 22)
         Me.pageProcesses.Name = "pageProcesses"
         Me.pageProcesses.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageProcesses.Size = New System.Drawing.Size(858, 385)
+        Me.pageProcesses.Size = New System.Drawing.Size(858, 365)
         Me.pageProcesses.TabIndex = 0
         Me.pageProcesses.Text = "Processes"
         Me.pageProcesses.UseVisualStyleBackColor = True
@@ -3617,7 +3619,7 @@ Partial Class frmMain
         'containerProcessPage.Panel2
         '
         Me.containerProcessPage.Panel2.Controls.Add(Me.panelMain)
-        Me.containerProcessPage.Size = New System.Drawing.Size(852, 379)
+        Me.containerProcessPage.Size = New System.Drawing.Size(852, 359)
         Me.containerProcessPage.SplitterDistance = 25
         Me.containerProcessPage.TabIndex = 0
         '
@@ -3663,7 +3665,7 @@ Partial Class frmMain
         Me.panelMain.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelMain.Location = New System.Drawing.Point(0, 0)
         Me.panelMain.Name = "panelMain"
-        Me.panelMain.Size = New System.Drawing.Size(852, 350)
+        Me.panelMain.Size = New System.Drawing.Size(852, 330)
         Me.panelMain.TabIndex = 4
         '
         'SplitContainerProcess
@@ -3679,7 +3681,7 @@ Partial Class frmMain
         '
         Me.SplitContainerProcess.Panel1.Controls.Add(Me.SplitContainerTvLv)
         Me.SplitContainerProcess.Panel2Collapsed = True
-        Me.SplitContainerProcess.Size = New System.Drawing.Size(852, 350)
+        Me.SplitContainerProcess.Size = New System.Drawing.Size(852, 330)
         Me.SplitContainerProcess.SplitterDistance = 295
         Me.SplitContainerProcess.TabIndex = 0
         '
@@ -3698,7 +3700,7 @@ Partial Class frmMain
         'SplitContainerTvLv.Panel2
         '
         Me.SplitContainerTvLv.Panel2.Controls.Add(Me.lvProcess)
-        Me.SplitContainerTvLv.Size = New System.Drawing.Size(852, 350)
+        Me.SplitContainerTvLv.Size = New System.Drawing.Size(852, 330)
         Me.SplitContainerTvLv.SplitterDistance = 149
         Me.SplitContainerTvLv.TabIndex = 4
         '
@@ -3742,7 +3744,7 @@ Partial Class frmMain
         Me.lvProcess.Name = "lvProcess"
         Me.lvProcess.OverriddenDoubleBuffered = True
         Me.lvProcess.ReorganizeColumns = True
-        Me.lvProcess.Size = New System.Drawing.Size(852, 350)
+        Me.lvProcess.Size = New System.Drawing.Size(852, 330)
         Me.lvProcess.TabIndex = 3
         Me.lvProcess.UseCompatibleStateImageBehavior = False
         Me.lvProcess.View = System.Windows.Forms.View.Details
@@ -3809,7 +3811,7 @@ Partial Class frmMain
         Me.pageModules.Location = New System.Drawing.Point(4, 22)
         Me.pageModules.Name = "pageModules"
         Me.pageModules.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageModules.Size = New System.Drawing.Size(858, 385)
+        Me.pageModules.Size = New System.Drawing.Size(858, 365)
         Me.pageModules.TabIndex = 10
         Me.pageModules.Text = "Modules"
         Me.pageModules.UseVisualStyleBackColor = True
@@ -3820,7 +3822,7 @@ Partial Class frmMain
         Me.panelMain11.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelMain11.Location = New System.Drawing.Point(3, 3)
         Me.panelMain11.Name = "panelMain11"
-        Me.panelMain11.Size = New System.Drawing.Size(852, 379)
+        Me.panelMain11.Size = New System.Drawing.Size(852, 359)
         Me.panelMain11.TabIndex = 54
         '
         'splitModule
@@ -3837,8 +3839,8 @@ Partial Class frmMain
         'splitModule.Panel2
         '
         Me.splitModule.Panel2.Controls.Add(Me.rtb6)
-        Me.splitModule.Size = New System.Drawing.Size(852, 379)
-        Me.splitModule.SplitterDistance = 230
+        Me.splitModule.Size = New System.Drawing.Size(852, 359)
+        Me.splitModule.SplitterDistance = 217
         Me.splitModule.TabIndex = 0
         '
         'SplitContainerModules
@@ -3859,7 +3861,7 @@ Partial Class frmMain
         'SplitContainerModules.Panel2
         '
         Me.SplitContainerModules.Panel2.Controls.Add(Me.lvModules)
-        Me.SplitContainerModules.Size = New System.Drawing.Size(852, 230)
+        Me.SplitContainerModules.Size = New System.Drawing.Size(852, 217)
         Me.SplitContainerModules.SplitterDistance = 25
         Me.SplitContainerModules.TabIndex = 0
         '
@@ -3909,7 +3911,7 @@ Partial Class frmMain
         Me.lvModules.OverriddenDoubleBuffered = True
         Me.lvModules.ProcessId = Nothing
         Me.lvModules.ReorganizeColumns = True
-        Me.lvModules.Size = New System.Drawing.Size(852, 201)
+        Me.lvModules.Size = New System.Drawing.Size(852, 188)
         Me.lvModules.TabIndex = 6
         Me.lvModules.UseCompatibleStateImageBehavior = False
         Me.lvModules.View = System.Windows.Forms.View.Details
@@ -3954,7 +3956,7 @@ Partial Class frmMain
         Me.rtb6.Location = New System.Drawing.Point(0, 0)
         Me.rtb6.Name = "rtb6"
         Me.rtb6.ReadOnly = True
-        Me.rtb6.Size = New System.Drawing.Size(852, 145)
+        Me.rtb6.Size = New System.Drawing.Size(852, 138)
         Me.rtb6.TabIndex = 8
         Me.rtb6.Text = "Click on an item to get additionnal informations"
         '
@@ -3965,7 +3967,7 @@ Partial Class frmMain
         Me.pageThreads.Location = New System.Drawing.Point(4, 22)
         Me.pageThreads.Name = "pageThreads"
         Me.pageThreads.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageThreads.Size = New System.Drawing.Size(858, 385)
+        Me.pageThreads.Size = New System.Drawing.Size(858, 365)
         Me.pageThreads.TabIndex = 8
         Me.pageThreads.Text = "Threads"
         Me.pageThreads.UseVisualStyleBackColor = True
@@ -3976,7 +3978,7 @@ Partial Class frmMain
         Me.panelMain9.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelMain9.Location = New System.Drawing.Point(3, 3)
         Me.panelMain9.Name = "panelMain9"
-        Me.panelMain9.Size = New System.Drawing.Size(852, 379)
+        Me.panelMain9.Size = New System.Drawing.Size(852, 359)
         Me.panelMain9.TabIndex = 52
         '
         'splitThreads
@@ -3993,8 +3995,8 @@ Partial Class frmMain
         'splitThreads.Panel2
         '
         Me.splitThreads.Panel2.Controls.Add(Me.rtb4)
-        Me.splitThreads.Size = New System.Drawing.Size(852, 379)
-        Me.splitThreads.SplitterDistance = 252
+        Me.splitThreads.Size = New System.Drawing.Size(852, 359)
+        Me.splitThreads.SplitterDistance = 238
         Me.splitThreads.TabIndex = 0
         '
         'SplitContainerThreads
@@ -4015,7 +4017,7 @@ Partial Class frmMain
         'SplitContainerThreads.Panel2
         '
         Me.SplitContainerThreads.Panel2.Controls.Add(Me.lvThreads)
-        Me.SplitContainerThreads.Size = New System.Drawing.Size(852, 252)
+        Me.SplitContainerThreads.Size = New System.Drawing.Size(852, 238)
         Me.SplitContainerThreads.SplitterDistance = 25
         Me.SplitContainerThreads.TabIndex = 0
         '
@@ -4065,7 +4067,7 @@ Partial Class frmMain
         Me.lvThreads.OverriddenDoubleBuffered = True
         Me.lvThreads.ProcessId = Nothing
         Me.lvThreads.ReorganizeColumns = True
-        Me.lvThreads.Size = New System.Drawing.Size(852, 223)
+        Me.lvThreads.Size = New System.Drawing.Size(852, 209)
         Me.lvThreads.TabIndex = 5
         Me.lvThreads.UseCompatibleStateImageBehavior = False
         Me.lvThreads.View = System.Windows.Forms.View.Details
@@ -4124,7 +4126,7 @@ Partial Class frmMain
         Me.rtb4.Location = New System.Drawing.Point(0, 0)
         Me.rtb4.Name = "rtb4"
         Me.rtb4.ReadOnly = True
-        Me.rtb4.Size = New System.Drawing.Size(852, 123)
+        Me.rtb4.Size = New System.Drawing.Size(852, 117)
         Me.rtb4.TabIndex = 7
         Me.rtb4.Text = "Click on a thread to get additionnal informations"
         '
@@ -4135,7 +4137,7 @@ Partial Class frmMain
         Me.pageHandles.Location = New System.Drawing.Point(4, 22)
         Me.pageHandles.Name = "pageHandles"
         Me.pageHandles.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageHandles.Size = New System.Drawing.Size(858, 385)
+        Me.pageHandles.Size = New System.Drawing.Size(858, 365)
         Me.pageHandles.TabIndex = 6
         Me.pageHandles.Text = "Handles"
         Me.pageHandles.UseVisualStyleBackColor = True
@@ -4146,7 +4148,7 @@ Partial Class frmMain
         Me.panelMain7.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelMain7.Location = New System.Drawing.Point(3, 3)
         Me.panelMain7.Name = "panelMain7"
-        Me.panelMain7.Size = New System.Drawing.Size(852, 379)
+        Me.panelMain7.Size = New System.Drawing.Size(852, 359)
         Me.panelMain7.TabIndex = 50
         '
         'SplitContainerHandles
@@ -4167,7 +4169,7 @@ Partial Class frmMain
         'SplitContainerHandles.Panel2
         '
         Me.SplitContainerHandles.Panel2.Controls.Add(Me.lvHandles)
-        Me.SplitContainerHandles.Size = New System.Drawing.Size(852, 379)
+        Me.SplitContainerHandles.Size = New System.Drawing.Size(852, 359)
         Me.SplitContainerHandles.SplitterDistance = 25
         Me.SplitContainerHandles.TabIndex = 0
         '
@@ -4218,7 +4220,7 @@ Partial Class frmMain
         Me.lvHandles.ProcessId = Nothing
         Me.lvHandles.ReorganizeColumns = True
         Me.lvHandles.ShowUnnamed = False
-        Me.lvHandles.Size = New System.Drawing.Size(852, 350)
+        Me.lvHandles.Size = New System.Drawing.Size(852, 330)
         Me.lvHandles.TabIndex = 3
         Me.lvHandles.UseCompatibleStateImageBehavior = False
         Me.lvHandles.View = System.Windows.Forms.View.Details
@@ -4265,7 +4267,7 @@ Partial Class frmMain
         Me.pageWindows.Location = New System.Drawing.Point(4, 22)
         Me.pageWindows.Name = "pageWindows"
         Me.pageWindows.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageWindows.Size = New System.Drawing.Size(858, 385)
+        Me.pageWindows.Size = New System.Drawing.Size(858, 365)
         Me.pageWindows.TabIndex = 9
         Me.pageWindows.Text = "Windows"
         Me.pageWindows.UseVisualStyleBackColor = True
@@ -4276,7 +4278,7 @@ Partial Class frmMain
         Me.panelMain10.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelMain10.Location = New System.Drawing.Point(3, 3)
         Me.panelMain10.Name = "panelMain10"
-        Me.panelMain10.Size = New System.Drawing.Size(852, 379)
+        Me.panelMain10.Size = New System.Drawing.Size(852, 359)
         Me.panelMain10.TabIndex = 53
         '
         'splitContainerWindows
@@ -4293,8 +4295,8 @@ Partial Class frmMain
         'splitContainerWindows.Panel2
         '
         Me.splitContainerWindows.Panel2.Controls.Add(Me.rtb5)
-        Me.splitContainerWindows.Size = New System.Drawing.Size(852, 379)
-        Me.splitContainerWindows.SplitterDistance = 230
+        Me.splitContainerWindows.Size = New System.Drawing.Size(852, 359)
+        Me.splitContainerWindows.SplitterDistance = 217
         Me.splitContainerWindows.TabIndex = 0
         '
         'SplitContainerWindows2
@@ -4316,7 +4318,7 @@ Partial Class frmMain
         'SplitContainerWindows2.Panel2
         '
         Me.SplitContainerWindows2.Panel2.Controls.Add(Me.lvWindows)
-        Me.SplitContainerWindows2.Size = New System.Drawing.Size(852, 230)
+        Me.SplitContainerWindows2.Size = New System.Drawing.Size(852, 217)
         Me.SplitContainerWindows2.SplitterDistance = 25
         Me.SplitContainerWindows2.TabIndex = 0
         '
@@ -4380,7 +4382,7 @@ Partial Class frmMain
         Me.lvWindows.ReorganizeColumns = True
         Me.lvWindows.ShowAllPid = False
         Me.lvWindows.ShowUnNamed = False
-        Me.lvWindows.Size = New System.Drawing.Size(852, 201)
+        Me.lvWindows.Size = New System.Drawing.Size(852, 188)
         Me.lvWindows.TabIndex = 5
         Me.lvWindows.UseCompatibleStateImageBehavior = False
         Me.lvWindows.View = System.Windows.Forms.View.Details
@@ -4422,7 +4424,7 @@ Partial Class frmMain
         Me.rtb5.Location = New System.Drawing.Point(0, 0)
         Me.rtb5.Name = "rtb5"
         Me.rtb5.ReadOnly = True
-        Me.rtb5.Size = New System.Drawing.Size(852, 145)
+        Me.rtb5.Size = New System.Drawing.Size(852, 138)
         Me.rtb5.TabIndex = 8
         Me.rtb5.Text = "Click on an item to get additionnal informations"
         '
@@ -4433,7 +4435,7 @@ Partial Class frmMain
         Me.pageMonitor.Location = New System.Drawing.Point(4, 22)
         Me.pageMonitor.Name = "pageMonitor"
         Me.pageMonitor.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageMonitor.Size = New System.Drawing.Size(858, 385)
+        Me.pageMonitor.Size = New System.Drawing.Size(858, 365)
         Me.pageMonitor.TabIndex = 7
         Me.pageMonitor.Text = "Monitor"
         Me.pageMonitor.UseVisualStyleBackColor = True
@@ -4444,7 +4446,7 @@ Partial Class frmMain
         Me.panelMain8.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelMain8.Location = New System.Drawing.Point(3, 3)
         Me.panelMain8.Name = "panelMain8"
-        Me.panelMain8.Size = New System.Drawing.Size(852, 379)
+        Me.panelMain8.Size = New System.Drawing.Size(852, 359)
         Me.panelMain8.TabIndex = 51
         '
         'splitMonitor
@@ -4460,7 +4462,7 @@ Partial Class frmMain
         'splitMonitor.Panel2
         '
         Me.splitMonitor.Panel2.Controls.Add(Me.splitMonitor2)
-        Me.splitMonitor.Size = New System.Drawing.Size(852, 379)
+        Me.splitMonitor.Size = New System.Drawing.Size(852, 359)
         Me.splitMonitor.SplitterDistance = 281
         Me.splitMonitor.TabIndex = 0
         '
@@ -4478,7 +4480,7 @@ Partial Class frmMain
         TreeNode3.Text = "Items"
         Me.tvMonitor.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode3})
         Me.tvMonitor.SelectedImageIndex = 0
-        Me.tvMonitor.Size = New System.Drawing.Size(281, 379)
+        Me.tvMonitor.Size = New System.Drawing.Size(281, 359)
         Me.tvMonitor.TabIndex = 0
         '
         'splitMonitor2
@@ -4497,8 +4499,8 @@ Partial Class frmMain
         'splitMonitor2.Panel2
         '
         Me.splitMonitor2.Panel2.Controls.Add(Me.splitMonitor3)
-        Me.splitMonitor2.Size = New System.Drawing.Size(567, 379)
-        Me.splitMonitor2.SplitterDistance = 154
+        Me.splitMonitor2.Size = New System.Drawing.Size(567, 359)
+        Me.splitMonitor2.SplitterDistance = 145
         Me.splitMonitor2.TabIndex = 0
         '
         'txtMonitoringLog
@@ -4511,7 +4513,7 @@ Partial Class frmMain
         Me.txtMonitoringLog.Name = "txtMonitoringLog"
         Me.txtMonitoringLog.ReadOnly = True
         Me.txtMonitoringLog.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.txtMonitoringLog.Size = New System.Drawing.Size(567, 154)
+        Me.txtMonitoringLog.Size = New System.Drawing.Size(567, 145)
         Me.txtMonitoringLog.TabIndex = 0
         Me.txtMonitoringLog.Text = "No process monitored." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Click on 'Add' button to monitor a process."
         '
@@ -4523,7 +4525,7 @@ Partial Class frmMain
         Me.lvMonitorReport.Location = New System.Drawing.Point(0, 0)
         Me.lvMonitorReport.Name = "lvMonitorReport"
         Me.lvMonitorReport.OverriddenDoubleBuffered = False
-        Me.lvMonitorReport.Size = New System.Drawing.Size(567, 154)
+        Me.lvMonitorReport.Size = New System.Drawing.Size(567, 145)
         Me.lvMonitorReport.TabIndex = 1
         Me.lvMonitorReport.UseCompatibleStateImageBehavior = False
         Me.lvMonitorReport.View = System.Windows.Forms.View.Details
@@ -4577,8 +4579,8 @@ Partial Class frmMain
         Me.splitMonitor3.Panel2.Controls.Add(Me.chkMonitorLeftAuto)
         Me.splitMonitor3.Panel2.Controls.Add(Me.dtMonitorR)
         Me.splitMonitor3.Panel2.Controls.Add(Me.dtMonitorL)
-        Me.splitMonitor3.Size = New System.Drawing.Size(567, 221)
-        Me.splitMonitor3.SplitterDistance = 192
+        Me.splitMonitor3.Size = New System.Drawing.Size(567, 210)
+        Me.splitMonitor3.SplitterDistance = 181
         Me.splitMonitor3.TabIndex = 0
         '
         'splitMonitor4
@@ -4594,7 +4596,7 @@ Partial Class frmMain
         'splitMonitor4.Panel2
         '
         Me.splitMonitor4.Panel2.Controls.Add(Me.graphMonitor)
-        Me.splitMonitor4.Size = New System.Drawing.Size(567, 192)
+        Me.splitMonitor4.Size = New System.Drawing.Size(567, 181)
         Me.splitMonitor4.SplitterDistance = 25
         Me.splitMonitor4.TabIndex = 4
         '
@@ -4608,7 +4610,7 @@ Partial Class frmMain
         Me.graphMonitor.EnableGraph = False
         Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
         Me.graphMonitor.Name = "graphMonitor"
-        Me.graphMonitor.Size = New System.Drawing.Size(567, 192)
+        Me.graphMonitor.Size = New System.Drawing.Size(567, 181)
         Me.graphMonitor.TabIndex = 3
         Me.graphMonitor.TabStop = False
         Me.graphMonitor.ViewMax = 0
@@ -4683,7 +4685,7 @@ Partial Class frmMain
         Me.pageServices.Location = New System.Drawing.Point(4, 22)
         Me.pageServices.Name = "pageServices"
         Me.pageServices.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageServices.Size = New System.Drawing.Size(858, 385)
+        Me.pageServices.Size = New System.Drawing.Size(858, 365)
         Me.pageServices.TabIndex = 1
         Me.pageServices.Text = "Services"
         Me.pageServices.UseVisualStyleBackColor = True
@@ -4704,7 +4706,7 @@ Partial Class frmMain
         'containerServicesPage.Panel2
         '
         Me.containerServicesPage.Panel2.Controls.Add(Me.panelMain2)
-        Me.containerServicesPage.Size = New System.Drawing.Size(852, 379)
+        Me.containerServicesPage.Size = New System.Drawing.Size(852, 359)
         Me.containerServicesPage.SplitterDistance = 25
         Me.containerServicesPage.TabIndex = 0
         '
@@ -4750,7 +4752,7 @@ Partial Class frmMain
         Me.panelMain2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelMain2.Location = New System.Drawing.Point(0, 0)
         Me.panelMain2.Name = "panelMain2"
-        Me.panelMain2.Size = New System.Drawing.Size(852, 350)
+        Me.panelMain2.Size = New System.Drawing.Size(852, 330)
         Me.panelMain2.TabIndex = 17
         '
         'splitServices
@@ -4767,8 +4769,8 @@ Partial Class frmMain
         'splitServices.Panel2
         '
         Me.splitServices.Panel2.Controls.Add(Me.splitServices2)
-        Me.splitServices.Size = New System.Drawing.Size(852, 350)
-        Me.splitServices.SplitterDistance = 217
+        Me.splitServices.Size = New System.Drawing.Size(852, 330)
+        Me.splitServices.SplitterDistance = 204
         Me.splitServices.TabIndex = 0
         '
         'lvServices
@@ -4793,7 +4795,7 @@ Partial Class frmMain
         Me.lvServices.ProcessId = 0
         Me.lvServices.ReorganizeColumns = True
         Me.lvServices.ShowAll = True
-        Me.lvServices.Size = New System.Drawing.Size(852, 217)
+        Me.lvServices.Size = New System.Drawing.Size(852, 204)
         Me.lvServices.TabIndex = 1
         Me.lvServices.UseCompatibleStateImageBehavior = False
         Me.lvServices.View = System.Windows.Forms.View.Details
@@ -4851,7 +4853,7 @@ Partial Class frmMain
         'splitServices2.Panel2
         '
         Me.splitServices2.Panel2.Controls.Add(Me.splitServices3)
-        Me.splitServices2.Size = New System.Drawing.Size(852, 129)
+        Me.splitServices2.Size = New System.Drawing.Size(852, 122)
         Me.splitServices2.SplitterDistance = 35
         Me.splitServices2.TabIndex = 15
         '
@@ -4903,7 +4905,7 @@ Partial Class frmMain
         'splitServices3.Panel2
         '
         Me.splitServices3.Panel2.Controls.Add(Me.splitServices4)
-        Me.splitServices3.Size = New System.Drawing.Size(852, 90)
+        Me.splitServices3.Size = New System.Drawing.Size(852, 83)
         Me.splitServices3.SplitterDistance = 629
         Me.splitServices3.TabIndex = 0
         '
@@ -4917,7 +4919,7 @@ Partial Class frmMain
         Me.rtb2.Location = New System.Drawing.Point(0, 0)
         Me.rtb2.Name = "rtb2"
         Me.rtb2.ReadOnly = True
-        Me.rtb2.Size = New System.Drawing.Size(629, 90)
+        Me.rtb2.Size = New System.Drawing.Size(629, 83)
         Me.rtb2.TabIndex = 13
         Me.rtb2.Text = ""
         Me.rtb2.WordWrap = False
@@ -4936,8 +4938,8 @@ Partial Class frmMain
         'splitServices4.Panel2
         '
         Me.splitServices4.Panel2.Controls.Add(Me.tv)
-        Me.splitServices4.Size = New System.Drawing.Size(219, 90)
-        Me.splitServices4.SplitterDistance = 43
+        Me.splitServices4.Size = New System.Drawing.Size(219, 83)
+        Me.splitServices4.SplitterDistance = 39
         Me.splitServices4.TabIndex = 0
         '
         'tv2
@@ -4953,7 +4955,7 @@ Partial Class frmMain
         Me.tv2.Name = "tv2"
         Me.tv2.RootService = Nothing
         Me.tv2.SelectedImageIndex = 2
-        Me.tv2.Size = New System.Drawing.Size(219, 43)
+        Me.tv2.Size = New System.Drawing.Size(219, 39)
         Me.tv2.TabIndex = 15
         '
         'tv
@@ -4969,7 +4971,7 @@ Partial Class frmMain
         Me.tv.Name = "tv"
         Me.tv.RootService = Nothing
         Me.tv.SelectedImageIndex = 0
-        Me.tv.Size = New System.Drawing.Size(219, 43)
+        Me.tv.Size = New System.Drawing.Size(219, 40)
         Me.tv.TabIndex = 14
         '
         'pageNetwork
@@ -4979,7 +4981,7 @@ Partial Class frmMain
         Me.pageNetwork.Location = New System.Drawing.Point(4, 22)
         Me.pageNetwork.Name = "pageNetwork"
         Me.pageNetwork.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageNetwork.Size = New System.Drawing.Size(858, 385)
+        Me.pageNetwork.Size = New System.Drawing.Size(858, 365)
         Me.pageNetwork.TabIndex = 12
         Me.pageNetwork.Text = "Network"
         Me.pageNetwork.UseVisualStyleBackColor = True
@@ -4990,7 +4992,7 @@ Partial Class frmMain
         Me.panelMain14.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelMain14.Location = New System.Drawing.Point(3, 3)
         Me.panelMain14.Name = "panelMain14"
-        Me.panelMain14.Size = New System.Drawing.Size(852, 379)
+        Me.panelMain14.Size = New System.Drawing.Size(852, 359)
         Me.panelMain14.TabIndex = 57
         '
         'lvNetwork
@@ -5010,7 +5012,7 @@ Partial Class frmMain
         Me.lvNetwork.ProcessId = Nothing
         Me.lvNetwork.ReorganizeColumns = True
         Me.lvNetwork.ShowAllPid = False
-        Me.lvNetwork.Size = New System.Drawing.Size(852, 379)
+        Me.lvNetwork.Size = New System.Drawing.Size(852, 359)
         Me.lvNetwork.TabIndex = 4
         Me.lvNetwork.UseCompatibleStateImageBehavior = False
         Me.lvNetwork.View = System.Windows.Forms.View.Details
@@ -5042,7 +5044,7 @@ Partial Class frmMain
         Me.pageFile.Location = New System.Drawing.Point(4, 22)
         Me.pageFile.Name = "pageFile"
         Me.pageFile.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageFile.Size = New System.Drawing.Size(858, 385)
+        Me.pageFile.Size = New System.Drawing.Size(858, 365)
         Me.pageFile.TabIndex = 4
         Me.pageFile.Text = "File"
         Me.pageFile.UseVisualStyleBackColor = True
@@ -5053,7 +5055,7 @@ Partial Class frmMain
         Me.panelMain5.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelMain5.Location = New System.Drawing.Point(3, 3)
         Me.panelMain5.Name = "panelMain5"
-        Me.panelMain5.Size = New System.Drawing.Size(852, 379)
+        Me.panelMain5.Size = New System.Drawing.Size(852, 359)
         Me.panelMain5.TabIndex = 48
         '
         'SplitContainerFilexx
@@ -5075,7 +5077,7 @@ Partial Class frmMain
         'SplitContainerFilexx.Panel2
         '
         Me.SplitContainerFilexx.Panel2.Controls.Add(Me.SplitContainerFile)
-        Me.SplitContainerFilexx.Size = New System.Drawing.Size(852, 379)
+        Me.SplitContainerFilexx.Size = New System.Drawing.Size(852, 359)
         Me.SplitContainerFilexx.SplitterDistance = 35
         Me.SplitContainerFilexx.TabIndex = 0
         '
@@ -5137,7 +5139,7 @@ Partial Class frmMain
         'SplitContainerFile.Panel2
         '
         Me.SplitContainerFile.Panel2.Controls.Add(Me.lvFileString)
-        Me.SplitContainerFile.Size = New System.Drawing.Size(852, 340)
+        Me.SplitContainerFile.Size = New System.Drawing.Size(852, 320)
         Me.SplitContainerFile.SplitterDistance = 581
         Me.SplitContainerFile.TabIndex = 15
         '
@@ -5158,8 +5160,8 @@ Partial Class frmMain
         '
         Me.SplitContainerFile2.Panel2.Controls.Add(Me.gpFileAttributes)
         Me.SplitContainerFile2.Panel2.Controls.Add(Me.gpFileDates)
-        Me.SplitContainerFile2.Size = New System.Drawing.Size(581, 340)
-        Me.SplitContainerFile2.SplitterDistance = 224
+        Me.SplitContainerFile2.Size = New System.Drawing.Size(581, 320)
+        Me.SplitContainerFile2.SplitterDistance = 204
         Me.SplitContainerFile2.TabIndex = 3
         '
         'rtb3
@@ -5172,7 +5174,7 @@ Partial Class frmMain
         Me.rtb3.Location = New System.Drawing.Point(0, 0)
         Me.rtb3.Name = "rtb3"
         Me.rtb3.ReadOnly = True
-        Me.rtb3.Size = New System.Drawing.Size(581, 224)
+        Me.rtb3.Size = New System.Drawing.Size(581, 204)
         Me.rtb3.TabIndex = 21
         Me.rtb3.Text = ""
         '
@@ -5364,7 +5366,7 @@ Partial Class frmMain
         Me.lvFileString.Location = New System.Drawing.Point(0, 0)
         Me.lvFileString.Name = "lvFileString"
         Me.lvFileString.OverriddenDoubleBuffered = True
-        Me.lvFileString.Size = New System.Drawing.Size(267, 340)
+        Me.lvFileString.Size = New System.Drawing.Size(267, 320)
         Me.lvFileString.TabIndex = 22
         Me.lvFileString.UseCompatibleStateImageBehavior = False
         Me.lvFileString.View = System.Windows.Forms.View.Details
@@ -5381,7 +5383,7 @@ Partial Class frmMain
         Me.pageSearch.Location = New System.Drawing.Point(4, 22)
         Me.pageSearch.Name = "pageSearch"
         Me.pageSearch.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageSearch.Size = New System.Drawing.Size(858, 385)
+        Me.pageSearch.Size = New System.Drawing.Size(858, 365)
         Me.pageSearch.TabIndex = 5
         Me.pageSearch.Text = "Search"
         Me.pageSearch.UseVisualStyleBackColor = True
@@ -5392,7 +5394,7 @@ Partial Class frmMain
         Me.panelMain6.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelMain6.Location = New System.Drawing.Point(3, 3)
         Me.panelMain6.Name = "panelMain6"
-        Me.panelMain6.Size = New System.Drawing.Size(852, 379)
+        Me.panelMain6.Size = New System.Drawing.Size(852, 359)
         Me.panelMain6.TabIndex = 49
         '
         'SplitContainerSearch
@@ -5421,7 +5423,7 @@ Partial Class frmMain
         'SplitContainerSearch.Panel2
         '
         Me.SplitContainerSearch.Panel2.Controls.Add(Me.lvSearchResults)
-        Me.SplitContainerSearch.Size = New System.Drawing.Size(852, 379)
+        Me.SplitContainerSearch.Size = New System.Drawing.Size(852, 359)
         Me.SplitContainerSearch.SplitterDistance = 55
         Me.SplitContainerSearch.TabIndex = 2
         '
@@ -5564,7 +5566,7 @@ Partial Class frmMain
         Me.lvSearchResults.OverriddenDoubleBuffered = True
         Me.lvSearchResults.ReorganizeColumns = True
         Me.lvSearchResults.SearchString = Nothing
-        Me.lvSearchResults.Size = New System.Drawing.Size(852, 320)
+        Me.lvSearchResults.Size = New System.Drawing.Size(852, 300)
         Me.lvSearchResults.TabIndex = 3
         Me.lvSearchResults.UseCompatibleStateImageBehavior = False
         Me.lvSearchResults.View = System.Windows.Forms.View.Details
@@ -5596,7 +5598,7 @@ Partial Class frmMain
         Me.pageHelp.Location = New System.Drawing.Point(4, 22)
         Me.pageHelp.Name = "pageHelp"
         Me.pageHelp.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageHelp.Size = New System.Drawing.Size(858, 385)
+        Me.pageHelp.Size = New System.Drawing.Size(858, 365)
         Me.pageHelp.TabIndex = 3
         Me.pageHelp.Text = "Help"
         Me.pageHelp.UseVisualStyleBackColor = True
@@ -5607,7 +5609,7 @@ Partial Class frmMain
         Me.panelMain4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelMain4.Location = New System.Drawing.Point(3, 3)
         Me.panelMain4.Name = "panelMain4"
-        Me.panelMain4.Size = New System.Drawing.Size(852, 379)
+        Me.panelMain4.Size = New System.Drawing.Size(852, 359)
         Me.panelMain4.TabIndex = 17
         '
         'WBHelp
@@ -5618,7 +5620,7 @@ Partial Class frmMain
         Me.WBHelp.Location = New System.Drawing.Point(0, 0)
         Me.WBHelp.MinimumSize = New System.Drawing.Size(20, 20)
         Me.WBHelp.Name = "WBHelp"
-        Me.WBHelp.Size = New System.Drawing.Size(852, 379)
+        Me.WBHelp.Size = New System.Drawing.Size(852, 359)
         Me.WBHelp.TabIndex = 0
         Me.WBHelp.Url = New System.Uri("", System.UriKind.Relative)
         '
@@ -6884,6 +6886,21 @@ Partial Class frmMain
         Me.timerStatus.Enabled = True
         Me.timerStatus.Interval = 1000
         '
+        'butShowAllPendingTasks
+        '
+        Me.butShowAllPendingTasks.AltKey = Nothing
+        Me.butShowAllPendingTasks.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butShowAllPendingTasks.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butShowAllPendingTasks.Image = CType(resources.GetObject("butShowAllPendingTasks.Image"), System.Drawing.Image)
+        Me.butShowAllPendingTasks.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
+        Me.butShowAllPendingTasks.SmallImage = Global.YAPM.My.Resources.Resources.thread
+        Me.butShowAllPendingTasks.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butShowAllPendingTasks.Tag = Nothing
+        Me.butShowAllPendingTasks.Text = "Display pending tasks"
+        Me.butShowAllPendingTasks.ToolTip = "Display pending tasks"
+        Me.butShowAllPendingTasks.ToolTipImage = Nothing
+        Me.butShowAllPendingTasks.ToolTipTitle = Nothing
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -7668,5 +7685,6 @@ Partial Class frmMain
     Friend WithEvents sbPanelCpu As System.Windows.Forms.StatusBarPanel
     Friend WithEvents sbPanelMemory As System.Windows.Forms.StatusBarPanel
     Friend WithEvents timerStatus As System.Windows.Forms.Timer
+    Friend WithEvents butShowAllPendingTasks As System.Windows.Forms.RibbonButton
 
 End Class

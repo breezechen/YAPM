@@ -25,9 +25,6 @@ Imports System.Runtime.InteropServices
 
 Public Class frmWindowsList
 
-    Private NEW_ITEM_COLOR As Color = Color.FromArgb(128, 255, 0)
-    Private DELETED_ITEM_COLOR As Color = Color.FromArgb(255, 64, 48)
-
     Private Sub frmWindowsList_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         closeWithEchapKey(Me)

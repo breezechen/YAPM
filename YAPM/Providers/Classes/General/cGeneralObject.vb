@@ -23,64 +23,115 @@ Option Strict On
 
 Public MustInherit Class cGeneralObject
 
-    Private Shared _sharedObj As New Object
+    ' Number of actions executed
     Private Shared _actionCount As Integer = 1
+
+    ' Is it a new item ?
     Private _newItem As Boolean = False
+
+    ' Item is killed ?
     Private _killedItem As Boolean = False
+
+    ' Item is displayed ?
     Private _isDisplayed As Boolean = False
+
+    ' Creation date of an item
     Friend _objectCreationDate As Date
-    Friend Shared _pendingTasks As New List(Of Threading.Thread)
-    Friend Shared _pendingTasks2 As New Dictionary(Of Integer, System.Threading.WaitCallback)
+
+    ' Contains list of all pending tasks
+    Friend Shared _SharedPendingTasks As New Dictionary(Of Integer, System.Threading.WaitCallback)
+    ' Contains list of current pending tasks of the object
+    Friend _pendingTasks As New Dictionary(Of Integer, System.Threading.WaitCallback)
+
+    ' Semaphore to protect dico of pendingTasks
+    Public Shared globalSemPendingtask As New System.Threading.Semaphore(1, 1)
+
 
     Public Sub New()
         _objectCreationDate = Date.Now
     End Sub
 
     Public Shared Function GetActionCount() As Integer
-        SyncLock _sharedObj
-            _actionCount += 1
-            Return _actionCount
-        End SyncLock
+        ' This could be considered as a atomic operation...
+        _actionCount += 1
+        Return _actionCount
     End Function
 
-    Public Shared Sub AddPendingTask2(ByVal actionCount As Integer, ByRef thr As System.Threading.WaitCallback)
-        _pendingTasks2.Add(actionCount, thr)
+    ' Add a pending task to the list
+    ' "Shared" is called in shared methods
+    Public Sub AddPendingTask(ByVal actionCount As Integer, ByRef thr As System.Threading.WaitCallback)
+        globalSemPendingtask.WaitOne()
+        _SharedPendingTasks.Add(actionCount, thr)
+        _pendingTasks.Add(actionCount, thr)
+        globalSemPendingtask.Release()
     End Sub
-    Public Shared Sub RemovePendingTask(ByVal actionCount As Integer)
-        If _pendingTasks2.ContainsKey(actionCount) Then
-            _pendingTasks2.Remove(actionCount)
+    Public Shared Sub AddSharedPendingTask(ByVal actionCount As Integer, ByRef thr As System.Threading.WaitCallback)
+        globalSemPendingtask.WaitOne()
+        _SharedPendingTasks.Add(actionCount, thr)
+        globalSemPendingtask.Release()
+    End Sub
+
+    ' Remove a pending task from the list
+    ' "Shared" is called in shared methods
+    Public Sub RemovePendingTask(ByVal actionCount As Integer)
+        globalSemPendingtask.WaitOne()
+        If _SharedPendingTasks.ContainsKey(actionCount) Then
+            _SharedPendingTasks.Remove(actionCount)
         End If
+        If _pendingTasks.ContainsKey(actionCount) Then
+            _pendingTasks.Remove(actionCount)
+        End If
+        globalSemPendingtask.Release()
+    End Sub
+    Public Shared Sub RemoveSharedPendingTask(ByVal actionCount As Integer)
+        globalSemPendingtask.WaitOne()
+        If _SharedPendingTasks.ContainsKey(actionCount) Then
+            _SharedPendingTasks.Remove(actionCount)
+        End If
+        globalSemPendingtask.Release()
     End Sub
 
-    Public Sub AddPendingTask(ByRef thr As Threading.Thread)
-        _pendingTasks.Add(thr)
-    End Sub
-
-    Public Sub RemoveDeadTasks()
-    End Sub
-
-    Public ReadOnly Property GetPendingTasks() As List(Of Threading.Thread)
+    ' Return pending tasks
+    Public ReadOnly Property GetPendingTasks() As Dictionary(Of Integer, System.Threading.WaitCallback)
         Get
             Return _pendingTasks
         End Get
     End Property
-    Public ReadOnly Property GetPendingTasks2() As Dictionary(Of Integer, System.Threading.WaitCallback)
+    Public Shared ReadOnly Property GetAllPendingTasks() As Dictionary(Of Integer, System.Threading.WaitCallback)
         Get
-            Return _pendingTasks2
+            Return _SharedPendingTasks
         End Get
     End Property
+
+    ' Return count of pending task
     Public ReadOnly Property PendingTaskCount() As Integer
         Get
+            globalSemPendingtask.WaitOne()
             Dim _cout As Integer = 0
-            For Each th As System.Threading.WaitCallback In _pendingTasks2.Values
+            For Each th As System.Threading.WaitCallback In _pendingTasks.Values
                 If th IsNot Nothing Then
                     _cout += 1
                 End If
             Next
+            globalSemPendingtask.Release()
+            Return _cout
+        End Get
+    End Property
+    Public ReadOnly Property AllPendingTaskCount() As Integer
+        Get
+            globalSemPendingtask.WaitOne()
+            Dim _cout As Integer = 0
+            For Each th As System.Threading.WaitCallback In _SharedPendingTasks.Values
+                If th IsNot Nothing Then
+                    _cout += 1
+                End If
+            Next
+            globalSemPendingtask.Release()
             Return _cout
         End Get
     End Property
 
+    ' Is item displayed, killed or new ?
     Public Property IsDisplayed() As Boolean
         Get
             Return _isDisplayed
@@ -122,6 +173,5 @@ Public MustInherit Class cGeneralObject
     Public Overridable Function GetForeColor() As System.Drawing.Color
         Return Drawing.Color.Black
     End Function
-
 
 End Class

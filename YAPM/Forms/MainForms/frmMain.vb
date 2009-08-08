@@ -1677,9 +1677,7 @@ Public Class frmMain
     End Sub
 
     Private Sub butAlwaysDisplay_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butAlwaysDisplay.Click
-        Me.butAlwaysDisplay.Checked = Not (Me.butAlwaysDisplay.Checked)
-        Me.MenuItemMainAlwaysVisible.Checked = Me.butAlwaysDisplay.Checked
-        Me.TopMost = Me.butAlwaysDisplay.Checked
+        Call changeTopMost()
     End Sub
 
     Private Sub butPreferences_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butPreferences.Click
@@ -3585,9 +3583,7 @@ Public Class frmMain
     End Sub
 
     Private Sub MenuItemMainAlwaysVisible_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMainAlwaysVisible.Click
-        Me.MenuItemMainAlwaysVisible.Checked = Not (Me.MenuItemMainAlwaysVisible.Checked)
-        Me.MenuItemSystemAlwaysVisible.Checked = Me.MenuItemMainAlwaysVisible.Checked
-        Me.TopMost = Me.MenuItemMainAlwaysVisible.Checked
+        Call changeTopMost()
     End Sub
 
     Private Sub MenuItemMainRestart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMainRestart.Click
@@ -4198,7 +4194,7 @@ Public Class frmMain
                 cProcess.SharedLRKill(it.ProcessId)
 
             ElseIf it.Type = searchInfos.ResultType.Service Then
-                cService.SharedLRStopService(it.Service)
+                cService.GetServiceByName(it.Service).StopService()
 
             ElseIf it.Type = searchInfos.ResultType.Window Then
                 'TODO_
@@ -4774,4 +4770,21 @@ Public Class frmMain
         End Try
 
     End Sub
+
+    Private Sub butShowAllPendingTasks_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butShowAllPendingTasks.Click
+        Dim frm As New frmPendingTasks
+        frm.TopMost = _frmMain.TopMost
+        frm.Show()
+    End Sub
+
+    Private Sub changeTopMost()
+        Me.butAlwaysDisplay.Checked = Not (Me.butAlwaysDisplay.Checked)
+        Me.MenuItemMainAlwaysVisible.Checked = Me.butAlwaysDisplay.Checked
+        Me.TopMost = Me.butAlwaysDisplay.Checked
+
+        For Each frm As Form In Application.OpenForms
+            frm.TopMost = Me.TopMost
+        Next
+    End Sub
+
 End Class

@@ -139,10 +139,10 @@ Public Class cThread
         Dim t As New System.Threading.WaitCallback(AddressOf _setPriority.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackThreadSetPriority.poolObj(Me.Infos.Id, level, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub setPriorityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -164,10 +164,10 @@ Public Class cThread
         Dim t As New System.Threading.WaitCallback(AddressOf _killThread.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackThreadKill.poolObj(Me.Infos.Id, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub killDone(ByVal Success As Boolean, ByVal id As Integer, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -188,10 +188,10 @@ Public Class cThread
         Dim t As New System.Threading.WaitCallback(AddressOf _decP.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackThreadDecreasePriority.poolObj(Me.Infos.Id, Me.PriorityMod, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub decreasePriorityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -212,10 +212,10 @@ Public Class cThread
         Dim t As New System.Threading.WaitCallback(AddressOf _incP.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackThreadIncreasePriority.poolObj(Me.Infos.Id, Me.PriorityMod, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub increasePriorityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -236,10 +236,10 @@ Public Class cThread
         Dim t As New System.Threading.WaitCallback(AddressOf _suspP.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackThreadSuspend.poolObj(Me.Infos.Id, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub suspendDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -260,10 +260,10 @@ Public Class cThread
         Dim t As New System.Threading.WaitCallback(AddressOf _resumeP.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackThreadResume.poolObj(Me.Infos.Id, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub resumeDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -285,10 +285,10 @@ Public Class cThread
         Dim t As New System.Threading.WaitCallback(AddressOf _affinityP.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackThreadSetAffinity.poolObj(Me.Infos.Id, affinity, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub setAffinityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then

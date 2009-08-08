@@ -170,9 +170,9 @@ Public Class cWindow
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.Close, Me.Infos.Handle, 0, 0, 0, newAction))
-        AddPendingTask2(newAction, t)
     End Function
     Public Function Flash() As Boolean
         If _theAction Is Nothing Then
@@ -180,9 +180,9 @@ Public Class cWindow
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.Flash, Me.Infos.Handle, 0, 0, 0, newAction))
-        AddPendingTask2(newAction, t)
     End Function
     Public Function StopFlashing() As Boolean
         If _theAction Is Nothing Then
@@ -190,9 +190,9 @@ Public Class cWindow
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.StopFlashing, Me.Infos.Handle, 0, 0, 0, newAction))
-        AddPendingTask2(newAction, t)
     End Function
     Public Function BringToFront(ByVal value As Boolean) As Integer
         If _theAction Is Nothing Then
@@ -200,9 +200,9 @@ Public Class cWindow
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.BringToFront, Me.Infos.Handle, CInt(value), 0, 0, newAction))
-        AddPendingTask2(newAction, t)
     End Function
     Public Function SetAsForegroundWindow() As Integer
         If _theAction Is Nothing Then
@@ -210,9 +210,9 @@ Public Class cWindow
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.SetAsForegroundWindow, Me.Infos.Handle, 0, 0, 0, newAction))
-        AddPendingTask2(newAction, t)
     End Function
     Public Function SetAsActiveWindow() As Integer
         If _theAction Is Nothing Then
@@ -220,9 +220,9 @@ Public Class cWindow
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.SetAsActiveWindow, Me.Infos.Handle, 0, 0, 0, newAction))
-        AddPendingTask2(newAction, t)
     End Function
     Public Function Minimize() As Boolean
         If _theAction Is Nothing Then
@@ -230,9 +230,9 @@ Public Class cWindow
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.Minimize, Me.Infos.Handle, 0, 0, 0, newAction))
-        AddPendingTask2(newAction, t)
     End Function
     Public Function Maximize() As Boolean
         If _theAction Is Nothing Then
@@ -240,9 +240,9 @@ Public Class cWindow
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.Maximize, Me.Infos.Handle, 0, 0, 0, newAction))
-        AddPendingTask2(newAction, t)
     End Function
     Public Function Show() As Boolean
         If _theAction Is Nothing Then
@@ -250,9 +250,9 @@ Public Class cWindow
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.Show, Me.Infos.Handle, 0, 0, 0, newAction))
-        AddPendingTask2(newAction, t)
     End Function
     Public Function Hide() As Boolean
         If _theAction Is Nothing Then
@@ -260,9 +260,9 @@ Public Class cWindow
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.Hide, Me.Infos.Handle, 0, 0, 0, newAction))
-        AddPendingTask2(newAction, t)
     End Function
     Public Function SetPositions(ByVal r As API.RECT) As Boolean
         If _theAction Is Nothing Then
@@ -270,9 +270,9 @@ Public Class cWindow
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.SetPosition, Me.Infos.Handle, 0, 0, 0, newAction, r))
-        AddPendingTask2(newAction, t)
     End Function
     Public Function SendMessage(ByVal msg As Integer, ByVal param1 As Integer, ByVal param2 As Integer) As Integer
         If _theAction Is Nothing Then
@@ -280,9 +280,9 @@ Public Class cWindow
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.SendMessage, Me.Infos.Handle, msg, param1, param2, newAction))
-        AddPendingTask2(newAction, t)
     End Function
     Private Function SetEnabled(ByVal value As Boolean) As Integer
         If _theAction Is Nothing Then
@@ -290,9 +290,9 @@ Public Class cWindow
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.SetEnabled, Me.Infos.Handle, CInt(value), 0, 0, newAction))
-        AddPendingTask2(newAction, t)
     End Function
     Private Function SetOpacity(ByVal value As Byte) As Integer
         If _theAction Is Nothing Then
@@ -300,9 +300,9 @@ Public Class cWindow
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.SetOpacity, Me.Infos.Handle, CInt(value), 0, 0, newAction))
-        AddPendingTask2(newAction, t)
     End Function
     Private Function SetCaption(ByVal st As String) As Integer
         If _theAction Is Nothing Then
@@ -310,9 +310,9 @@ Public Class cWindow
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.SetCaption, Me.Infos.Handle, 0, 0, 0, newAction, ss:=st))
-        AddPendingTask2(newAction, t)
     End Function
 
 #End Region

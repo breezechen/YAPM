@@ -26,9 +26,7 @@ Imports System.Runtime.InteropServices
 Public Class frmPendingTasks
 
     Private _obj As cGeneralObject
-
-    Private NEW_ITEM_COLOR As Color = Color.FromArgb(128, 255, 0)
-    Private DELETED_ITEM_COLOR As Color = Color.FromArgb(255, 64, 48)
+    Private _forAll As Boolean = False
 
     Private Sub frm_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Call closeWithEchapKey(Me)
@@ -36,9 +34,15 @@ Public Class frmPendingTasks
         Call RefreshTasksList()
     End Sub
 
+    ' Constructor used to display pending task of ONE object
     Public Sub New(ByRef obj As cGeneralObject)
         InitializeComponent()
         _obj = obj
+    End Sub
+    ' For ALL objects
+    Public Sub New()
+        InitializeComponent()
+        _forAll = True
     End Sub
 
     Private Sub Timer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer.Tick
@@ -50,7 +54,15 @@ Public Class frmPendingTasks
 
         Static first As Boolean = True
 
-        Dim _list As Dictionary(Of Integer, System.Threading.WaitCallback) = _obj.GetPendingTasks2
+        ' Wait for semaphore
+        cGeneralObject.globalSemPendingtask.WaitOne()
+
+        Dim _list As Dictionary(Of Integer, System.Threading.WaitCallback)
+        If _forAll Then
+            _list = cGeneralObject.GetAllPendingTasks
+        Else
+            _list = _obj.GetPendingTasks
+        End If
 
         ' Remove 'red' items (previously deleted)
         For Each it As ListViewItem In Me.lv.Items
@@ -127,6 +139,10 @@ Public Class frmPendingTasks
         '    '    it.SubItems(2).Text = theThread.Priority.ToString
         '    'End If
         'Next
+
+
+        ' Release semaphore
+        cGeneralObject.globalSemPendingtask.Release()
 
         first = False
     End Sub

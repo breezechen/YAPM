@@ -152,10 +152,10 @@ Public Class cNetwork
         Dim t As New System.Threading.WaitCallback(AddressOf _closeTCP.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackNetworkCloseConnection.poolObj(Me.Infos.Local, Me.Infos.Remote, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub closeTCPDone(ByVal Success As Boolean, ByVal local As IPEndPoint, ByVal remote As IPEndPoint, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then

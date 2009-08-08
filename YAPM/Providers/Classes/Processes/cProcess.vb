@@ -399,10 +399,10 @@ Public Class cProcess
         Dim t As New System.Threading.WaitCallback(AddressOf _createDumpF.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackProcMinidump.poolObj(Me.Infos.Pid, file, opt, newAction))
 
-        AddPendingTask2(newAction, t)
     End Sub
     Private Sub createdMinidump(ByVal Success As Boolean, ByVal pid As Integer, ByVal file As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -427,10 +427,10 @@ Public Class cProcess
         Dim t As New System.Threading.WaitCallback(AddressOf _setPriorityP.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackProcSetPriority.poolObj(Me.Infos.Pid, level, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub setPriorityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -451,10 +451,10 @@ Public Class cProcess
         Dim t As New System.Threading.WaitCallback(AddressOf _killP.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackProcKill.poolObj(Me.Infos.Pid, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub killDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -475,10 +475,10 @@ Public Class cProcess
         Dim t As New System.Threading.WaitCallback(AddressOf _decP.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackProcDecreasePriority.poolObj(Me.Infos.Pid, Me.Infos.Priority, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub decreasePriorityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -499,10 +499,10 @@ Public Class cProcess
         Dim t As New System.Threading.WaitCallback(AddressOf _incP.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackProcIncreasePriority.poolObj(Me.Infos.Pid, Me.Infos.Priority, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub increasePriorityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -523,10 +523,10 @@ Public Class cProcess
         Dim t As New System.Threading.WaitCallback(AddressOf _suspP.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackProcSuspend.poolObj(Me.Infos.Pid, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub suspendDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -547,10 +547,10 @@ Public Class cProcess
         Dim t As New System.Threading.WaitCallback(AddressOf _resuP.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackProcResume.poolObj(Me.Infos.Pid, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub resumeDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -572,10 +572,10 @@ Public Class cProcess
         Dim t As New System.Threading.WaitCallback(AddressOf _killTP.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackProcKillTree.poolObj(Me.Infos.Pid, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub recursiveKillDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -597,10 +597,10 @@ Public Class cProcess
         Dim t As New System.Threading.WaitCallback(AddressOf _emptyP.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackProcEmptyWorkingSet.poolObj(Me.Infos.Pid, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub emptyWorkingSetSizeDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -622,10 +622,10 @@ Public Class cProcess
         Dim t As New System.Threading.WaitCallback(AddressOf _setAffinityP.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackProcSetAffinity.poolObj(Me.Infos.Pid, affinity, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub setAffinityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -1389,14 +1389,14 @@ Public Class cProcess
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackProcKill.poolObj(pid, newAction))
 
-        AddPendingTask2(newAction, t)
+        AddSharedPendingTask(newAction, t)
     End Function
     Private Shared Sub killDoneShared(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not kill process " & pid.ToString)
         End If
-        RemovePendingTask(actionNumber)
+        RemoveSharedPendingTask(actionNumber)
     End Sub
 
     ' Start a process
@@ -1413,14 +1413,14 @@ Public Class cProcess
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackProcNewProcess.poolObj(path, newAction))
 
-        AddPendingTask2(newAction, t)
+        AddSharedPendingTask(newAction, t)
     End Function
     Private Shared Sub newProcessDoneShared(ByVal Success As Boolean, ByVal path As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : cannot start process : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not start new process " & path)
         End If
-        RemovePendingTask(actionNumber)
+        RemoveSharedPendingTask(actionNumber)
     End Sub
 
 
@@ -1438,14 +1438,14 @@ Public Class cProcess
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackProcUnloadModule.poolObj(pid, ModuleBaseAddress, newAction))
 
-        AddPendingTask2(newAction, t)
+        AddSharedPendingTask(newAction, t)
     End Function
     Private Shared Sub unloadModuleDoneShared(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not unload the module from process " & pid.ToString)
         End If
-        RemovePendingTask(actionNumber)
+        RemoveSharedPendingTask(actionNumber)
     End Sub
 
 

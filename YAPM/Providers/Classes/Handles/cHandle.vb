@@ -78,10 +78,10 @@ Public Class cHandle
         Dim t As New System.Threading.WaitCallback(AddressOf _closeH.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackHandleUnload.poolObj(Me.Infos.ProcessID, Me.Infos.Handle, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub unloadHandleDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal handle As Integer, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -231,14 +231,14 @@ Public Class cHandle
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackHandleUnload.poolObj(pid, handle, newAction))
 
-        AddPendingTask2(newAction, t)
+        AddSharedPendingTask(newAction, t)
     End Function
     Private Shared Sub unloadsharedHandleDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal handle As Integer, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not unload handle " & handle.ToString)
         End If
-        RemovePendingTask(actionNumber)
+        RemoveSharedPendingTask(actionNumber)
     End Sub
 
 #End Region

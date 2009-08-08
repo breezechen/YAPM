@@ -76,10 +76,10 @@ Public Class cModule
         Dim t As New System.Threading.WaitCallback(AddressOf _closeM.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
+        AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackModuleUnload.poolObj(Me.Infos.ProcessId, Me.Infos.Name, Me.Infos.BaseAddress, newAction))
 
-        AddPendingTask2(newAction, t)
     End Function
     Private Sub unloadModuleDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
@@ -557,14 +557,14 @@ Public Class cModule
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackModuleUnload.poolObj(pid, name, baseAddress, newAction))
 
-        AddPendingTask2(newAction, t)
+        AddSharedPendingTask(newAction, t)
     End Function
     Private Shared Sub unloadsharedModuleDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not unload module " & name)
         End If
-        RemovePendingTask(actionNumber)
+        RemoveSharedPendingTask(actionNumber)
     End Sub
 
 #End Region
