@@ -241,7 +241,7 @@ Public Module Program
 
 
         ' ======= Close application if there is a previous instance of YAPM running
-        If _progParameters.OnlyOneInstance AndAlso cEnvironment.IsAlreadyRunning Then
+        If _progParameters.OnlyOneInstance And cEnvironment.IsAlreadyRunning Then
             Exit Sub
         End If
 
