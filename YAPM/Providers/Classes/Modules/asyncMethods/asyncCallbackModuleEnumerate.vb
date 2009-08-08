@@ -256,7 +256,7 @@ Public Class asyncCallbackModuleEnumerate
             ' PEB_LDR_DATA documented here
             ' http://msdn.microsoft.com/en-us/library/aa813708(VS.85).aspx
             Dim ldrData As New API.PEB_LDR_DATA
-            ldrData = CType(reader.ReadStruct(loaderDatePtr, ldrData.GetType),  _
+            ldrData = CType(reader.ReadStruct(Of API.PEB_LDR_DATA)(loaderDatePtr),  _
                         API.PEB_LDR_DATA)
 
             ' Now navigate into structure
@@ -274,7 +274,7 @@ Public Class asyncCallbackModuleEnumerate
                 End If
 
                 ' Read LoaderData entry
-                curEntry = CType(reader.ReadStruct(curObj.ToInt32, curEntry.GetType),  _
+                curEntry = CType(reader.ReadStruct(Of API.LDR_DATA_TABLE_ENTRY)(curObj.ToInt32),  _
                                 API.LDR_DATA_TABLE_ENTRY)
 
                 If (curEntry.DllBase <> IntPtr.Zero) Then

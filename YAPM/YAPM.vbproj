@@ -601,6 +601,7 @@
     <Compile Include="Providers\Classes\Processes\cProcessConnection.vb" />
     <Compile Include="Providers\Classes\Processes\cProcessMemReader.vb" />
     <Compile Include="Providers\Classes\Processes\cProcessMemRW.vb" />
+    <Compile Include="Classes\MemoryAlloc.vb" />
     <Compile Include="Providers\Classes\Processes\processInfos.vb" />
     <Compile Include="Providers\Classes\Search\asyncMethods\asyncCallbackSearchEnumerate.vb" />
     <Compile Include="Providers\Classes\Search\cSearchConnection.vb" />

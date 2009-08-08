@@ -50,13 +50,11 @@ Public Class asyncCallbackProcEnumerate
     ' e.g. :        /Device/Harddisk1/...       , C:
     Private Shared _DicoLogicalDrivesNames As New Dictionary(Of String, String)
 
+    ' List of new processes
     Public Shared dicoNewProcesses As New Dictionary(Of Integer, Boolean)
-    ' PID <-> (PID-TID <-> THREAD)
-    Public Shared AvailableThreads As New Dictionary(Of Integer, Dictionary(Of String, threadInfos))
 
     Public Shared Sub ClearDico()
         dicoNewProcesses.Clear()
-        AvailableThreads.Clear()
     End Sub
 
     ' Reanalize a process by removing (or asking to remove) its PID from
@@ -156,8 +154,6 @@ Public Class asyncCallbackProcEnumerate
         sem.WaitOne()
 
         SyncLock dicoNewProcesses
-
-            AvailableThreads.Clear()
 
             Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
             If con.ConnectionObj.IsConnected = False Then
@@ -308,7 +304,7 @@ Public Class asyncCallbackProcEnumerate
                             cProcess.SemCurrentProcesses.Release()
 
                     End Select
- 
+
                     Try
                         'If deg IsNot Nothing AndAlso ctrl.Created Then _
                         ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
@@ -736,42 +732,30 @@ Public Class asyncCallbackProcEnumerate
 
     End Function
 
+
     ' Get all visible processes
+    ' Memory allocation for process 
+    Private memAllocForVProcesses As New MemoryAlloc(&H1000)
     Private Function getVisibleProcesses() As Dictionary(Of String, processInfos)
+
         Dim ret As Integer
-        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, IntPtr.Zero, 0, ret)
-        Dim size As Integer = ret
-        Dim ptr As IntPtr = Marshal.AllocHGlobal(size)
-        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, ptr, size, ret)
+        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, _
+                        memAllocForVProcesses.Pointer, memAllocForVProcesses.Size, ret)
+        If memAllocForVProcesses.Size < ret Then
+            memAllocForVProcesses.Resize(ret)
+        End If
+        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, _
+                        memAllocForVProcesses.Pointer, memAllocForVProcesses.Size, ret)
 
         ' Extract structures from unmanaged memory
         Dim x As Integer = 0
         Dim offset As Integer = 0
         Dim _dico As New Dictionary(Of String, processInfos)
         Do While True
-            Dim obj As API.SYSTEM_PROCESS_INFORMATION = CType(Marshal.PtrToStructure(New IntPtr(ptr.ToInt32 + _
-                offset), GetType(API.SYSTEM_PROCESS_INFORMATION)),  _
-                API.SYSTEM_PROCESS_INFORMATION)
 
+            Dim obj As API.SYSTEM_PROCESS_INFORMATION = _
+                    memAllocForVProcesses.ReadStructOffset(Of API.SYSTEM_PROCESS_INFORMATION)(offset)
             Dim _procInfos As New processInfos(obj)
-
-            For j As Integer = 0 To obj.NumberOfThreads - 1
-
-                Dim _off As Integer = ptr.ToInt32 + offset + Marshal.SizeOf(GetType(API.SYSTEM_PROCESS_INFORMATION)) + j _
-                        * Marshal.SizeOf(GetType(API.SYSTEM_THREAD_INFORMATION))
-
-                Dim thread As API.SYSTEM_THREAD_INFORMATION = _
-                    CType(Marshal.PtrToStructure(New IntPtr(_off), _
-                        GetType(API.SYSTEM_THREAD_INFORMATION)),  _
-                        API.SYSTEM_THREAD_INFORMATION)
-
-                Dim _key As String = thread.ClientId.UniqueThread.ToString & "-" & thread.ClientId.UniqueProcess.ToString
-                Dim _th As New threadInfos(thread)
-                If _procInfos.Threads.ContainsKey(_key) = False Then
-                    _procInfos.Threads.Add(_key, _th)
-                End If
-            Next
-            AvailableThreads.Add(obj.ProcessId, _procInfos.Threads)
 
 
             ' Do we have to get fixed infos ?
@@ -824,7 +808,7 @@ Public Class asyncCallbackProcEnumerate
             End If
             x += 1
         Loop
-        Marshal.FreeHGlobal(ptr)
+
 
         ' Remove all processes that not exist anymore
         Dim _dicoTemp As Dictionary(Of Integer, Boolean) = dicoNewProcesses
@@ -838,24 +822,28 @@ Public Class asyncCallbackProcEnumerate
     End Function
 
     ' Get all visible processes (simplified)
+    Private memAllocForVSProcesses As New MemoryAlloc(&H1000)
     Private Function getVisibleProcessesSimp() As Dictionary(Of String, processInfos)
+
         Dim ret As Integer
-        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, IntPtr.Zero, 0, ret)
-        Dim size As Integer = ret
-        Dim ptr As IntPtr = Marshal.AllocHGlobal(size)
-        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, ptr, size, ret)
+        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, _
+                        memAllocForVSProcesses.Pointer, memAllocForVSProcesses.Size, ret)
+        If memAllocForVSProcesses.Size < ret Then
+            memAllocForVSProcesses.Resize(ret)
+        End If
+        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, _
+                        memAllocForVSProcesses.Pointer, memAllocForVSProcesses.Size, ret)
 
         ' Extract structures from unmanaged memory
         Dim x As Integer = 0
         Dim offset As Integer = 0
         Dim _dico As New Dictionary(Of String, processInfos)
-
         Do While True
-            Dim obj As API.SYSTEM_PROCESS_INFORMATION = CType(Marshal.PtrToStructure(New IntPtr(ptr.ToInt32 + _
-                offset), GetType(API.SYSTEM_PROCESS_INFORMATION)),  _
-                API.SYSTEM_PROCESS_INFORMATION)
 
+            Dim obj As API.SYSTEM_PROCESS_INFORMATION = _
+                    memAllocForVProcesses.ReadStructOffset(Of API.SYSTEM_PROCESS_INFORMATION)(offset)
             Dim _procInfos As New processInfos(obj)
+
             Dim _path As String = GetPath(obj.ProcessId)
             With _procInfos
                 .Path = _path
@@ -876,7 +864,6 @@ Public Class asyncCallbackProcEnumerate
             End If
             x += 1
         Loop
-        Marshal.FreeHGlobal(ptr)
 
         Return _dico
     End Function

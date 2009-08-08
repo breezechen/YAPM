@@ -100,12 +100,12 @@ Public Class cProcessMemReader
     End Function
 
     ' Read a structure
-    Public Function ReadStruct(ByVal offset As Integer, ByVal outObj As System.Type) As Object
+    Public Function ReadStruct(Of T)(ByVal offset As Integer) As T
 
-        Dim ret As New Object
+        Dim ret As T
 
         ' Size of the structure
-        Dim structSize As Integer = Marshal.SizeOf(outObj)
+        Dim structSize As Integer = Marshal.SizeOf(GetType(T))
 
         ' Buffer of byte which received the data read
         Dim buf() As Byte = ReadByteArray(offset, structSize)
@@ -113,7 +113,7 @@ Public Class cProcessMemReader
         ' Retrieve a structure
         Dim dataH As GCHandle = GCHandle.Alloc(buf, GCHandleType.Pinned)
         Try
-            ret = Marshal.PtrToStructure(dataH.AddrOfPinnedObject, outObj)
+            ret = DirectCast(Marshal.PtrToStructure(dataH.AddrOfPinnedObject, GetType(T)), T)
         Finally
             dataH.Free()
         End Try

@@ -73,8 +73,6 @@ Imports System.Runtime.InteropServices
 
     Private _hasReanalize As Boolean = False
 
-    Private _threads As Dictionary(Of String, threadInfos)
-
     Private _processors As Integer
 
 #End Region
@@ -98,13 +96,6 @@ Imports System.Runtime.InteropServices
             _isHidden = value
         End Set
     End Property
-
-    Public ReadOnly Property Threads() As Dictionary(Of String, threadInfos)
-        Get
-            Return _threads
-        End Get
-    End Property
-
     Public ReadOnly Property ThreadCount() As Integer
         Get
             Return _threadCount
@@ -293,7 +284,6 @@ Imports System.Runtime.InteropServices
             End If
         End With
 
-        _threads = New Dictionary(Of String, threadInfos)
         _processors = cSystemInfo.GetProcessorCount
     End Sub
 
@@ -310,7 +300,6 @@ Imports System.Runtime.InteropServices
             _gdiObjects = .GdiObjects
             _userObjects = .UserObjects
             _AffinityMask = .AffinityMask
-            _threads = .Threads
             _isHidden = .IsHidden
             _threadCount = .ThreadCount
 

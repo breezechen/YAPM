@@ -1635,7 +1635,7 @@ Public Class API
 
     <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
     Public Shared Function EnumServicesStatusEx(ByVal SCManager As IntPtr, ByVal InfoLevel As Integer, ByVal ServiceType As Integer, ByVal ServiceState As Integer, ByVal Services As IntPtr, ByVal BufSize As Integer, _
-        ByRef BytesNeeded As Integer, ByRef ServicesReturned As Integer, ByRef ResumeHandle As Integer, ByVal GroupName As Integer) As Integer
+        ByRef BytesNeeded As Integer, ByRef ServicesReturned As Integer, ByRef ResumeHandle As Integer, ByVal GroupName As String) As <MarshalAs(UnmanagedType.Bool)> Boolean
     End Function
 
     <DllImport("advapi32.dll", CharSet:=CharSet.Unicode, SetLastError:=True)> _

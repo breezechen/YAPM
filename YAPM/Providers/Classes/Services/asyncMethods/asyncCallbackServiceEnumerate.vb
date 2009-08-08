@@ -190,80 +190,70 @@ Public Class asyncCallbackServiceEnumerate
     End Sub
 
     ' Enumerate services (local)
+    Private Shared memBufferEnumServics As New MemoryAlloc(&H1000)
     Friend Shared Sub enumServices(ByVal hSCM As IntPtr, ByVal pObj As poolObj, ByRef _dico As Dictionary(Of String, serviceInfos))
-        Dim lR As Integer
         Dim lBytesNeeded As Integer
         Dim lServicesReturned As Integer
         Dim tServiceStatus() As API.ENUM_SERVICE_STATUS_PROCESS
         ReDim tServiceStatus(0)
-        Dim lStructsNeeded As Integer
-        Dim lServiceStatusInfoBuffer As Integer
 
         If Not (hSCM = IntPtr.Zero) Then
-            lR = API.EnumServicesStatusEx(hSCM, _
-                                      API.SC_ENUM_PROCESS_INFO, _
-                                      API.SERVICE_ALL, _
-                                      API.SERVICE_STATE_ALL, _
-                                      Nothing, _
-                                      0, _
-                                      lBytesNeeded, _
-                                      lServicesReturned, _
-                                      0, _
-                                      0)
-
-            If (lR = 0 And Err.LastDllError = API.ERROR_MORE_DATA) Then
-
-                lStructsNeeded = CInt(lBytesNeeded / Marshal.SizeOf(tServiceStatus(0)) + 1)
-                ReDim tServiceStatus(lStructsNeeded - 1)
-                lServiceStatusInfoBuffer = lStructsNeeded * (Marshal.SizeOf(tServiceStatus(0)))
-
-                Dim pt As IntPtr = Marshal.AllocHGlobal(lServiceStatusInfoBuffer)
-                lR = API.EnumServicesStatusEx(hSCM, _
-                                          API.SC_ENUM_PROCESS_INFO, _
-                                          API.SERVICE_ALL, _
-                                          API.SERVICE_STATE_ALL, _
-                                          pt, _
-                                          lServiceStatusInfoBuffer, _
-                                          lBytesNeeded, _
-                                          lServicesReturned, _
-                                          0, _
-                                          0)
-
-                If Not (lR = 0) Then
-                    Dim obj As New API.ENUM_SERVICE_STATUS_PROCESS
-
-                    For idx As Integer = 0 To lServicesReturned - 1
-                        Dim off As Integer = pt.ToInt32 + Marshal.SizeOf(obj) * idx
-                        obj = CType(Marshal.PtrToStructure(CType(off, IntPtr), _
-                                GetType(API.ENUM_SERVICE_STATUS_PROCESS)), API.ENUM_SERVICE_STATUS_PROCESS)
-
-                        If pObj.all OrElse pObj.pid = obj.ServiceStatusProcess.ProcessID Then
-                            Dim _servINFO As New serviceInfos(obj, pObj.complete)
-
-                            If pObj.all = False OrElse dicoNewServices.ContainsKey(obj.ServiceName) = False Or pObj.complete Then
-
-                                getRegInfos(obj.ServiceName, _servINFO)
-
-                                'PERFISSUE
-                                getServiceConfig(obj.ServiceName, hSCM, _servINFO, True)
-
-                                If pObj.all And pObj.complete = False Then
-                                    dicoNewServices.Add(obj.ServiceName, False)
-                                End If
-                            End If
-
-                            _dico.Add(obj.ServiceName, _servINFO)
-                        End If
-                        If pObj.all Then
-                            dicoNewServices(obj.ServiceName) = True
-                        End If
-                    Next idx
-
-                End If
-                Marshal.FreeHGlobal(pt)
+            If Not (API.EnumServicesStatusEx(hSCM, _
+                                       API.SC_ENUM_PROCESS_INFO, _
+                                       API.SERVICE_ALL, _
+                                       API.SERVICE_STATE_ALL, _
+                                       memBufferEnumServics.Pointer, _
+                                       memBufferEnumServics.Size, _
+                                       lBytesNeeded, _
+                                       lServicesReturned, _
+                                       0, _
+                                       Nothing)) Then
+                ' Resize buffer
+                memBufferEnumServics.IncrementSize(lBytesNeeded)
             End If
 
+            If API.EnumServicesStatusEx(hSCM, _
+                                       API.SC_ENUM_PROCESS_INFO, _
+                                       API.SERVICE_ALL, _
+                                       API.SERVICE_STATE_ALL, _
+                                       memBufferEnumServics.Pointer, _
+                                       memBufferEnumServics.Size, _
+                                       lBytesNeeded, _
+                                       lServicesReturned, _
+                                       0, _
+                                       Nothing) Then
+
+                For idx As Integer = 0 To lServicesReturned - 1
+
+                    ' Get structure from memory
+                    Dim obj As API.ENUM_SERVICE_STATUS_PROCESS = _
+                            memBufferEnumServics.ReadStruct(Of API.ENUM_SERVICE_STATUS_PROCESS)(idx)
+
+                    If pObj.all OrElse pObj.pid = obj.ServiceStatusProcess.ProcessID Then
+                        Dim _servINFO As New serviceInfos(obj, pObj.complete)
+
+                        If pObj.all = False OrElse dicoNewServices.ContainsKey(obj.ServiceName) = False Or pObj.complete Then
+
+                            getRegInfos(obj.ServiceName, _servINFO)
+
+                            'PERFISSUE
+                            getServiceConfig(obj.ServiceName, hSCM, _servINFO, True)
+
+                            If pObj.all And pObj.complete = False Then
+                                dicoNewServices.Add(obj.ServiceName, False)
+                            End If
+                        End If
+
+                        _dico.Add(obj.ServiceName, _servINFO)
+                    End If
+                    If pObj.all Then
+                        dicoNewServices(obj.ServiceName) = True
+                    End If
+                Next idx
+
+            End If
         End If
+
 
         ' Remove all services that not exist anymore
         If pObj.all Then
