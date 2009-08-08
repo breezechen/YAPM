@@ -270,10 +270,18 @@ Public Class frmMain
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         If Program.Parameters.ModeHidden Then
-            Me.Left = -20000
+            Me.Left = Pref.LEFT_POSITION_HIDDEN
             Me.ShowInTaskbar = False
         End If
         If My.Settings.StartHidden Then
+            ' If Ribbon is displayed, there is a problem : Form is automatically shown...
+            ' So we have to remoe it from taskbar and move it to the left to hide it
+            ' If Ribbon is not displayed, we can't hide from taskbar else icons won't
+            ' be displayed in MainMenu...
+            If My.Settings.UseRibbonStyle Then
+                Me.Left = Pref.LEFT_POSITION_HIDDEN
+                Me.ShowInTaskbar = False
+            End If
             Me.Hide()
         End If
 
@@ -482,13 +490,17 @@ Public Class frmMain
     End Sub
 
     Private Sub Tray_MouseDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Tray.MouseDoubleClick
-        'If Me.Left = Pref.LEFT_POSITION_HIDDEN Then
-        '    Me.CenterToScreen()
-        'End If 'HIDDEN
-        'Me.ShowInTaskbar = True
+        ' If ribbon is used, then the main form is to the left of the screen and
+        ' not shown in taskbar
+        If My.Settings.UseRibbonStyle Then
+            If Me.Left = Pref.LEFT_POSITION_HIDDEN Then
+                Me.CenterToScreen()
+            End If
+            Me.ShowInTaskbar = True
+        End If
         Me.Visible = True
-        Me.Show()
         Me.WindowState = FormWindowState.Normal
+        Me.Show()
     End Sub
 
     Private Sub frmMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Shown
@@ -530,6 +542,7 @@ Public Class frmMain
                 Me.Ribbon.ActiveTab = Me.HelpTab
         End Select
         Call Ribbon_MouseMove(Nothing, Nothing)
+        Call Me.frmMain_Resize(Nothing, Nothing)
     End Sub
 
     Private Sub butKill_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butKillProcess.Click
@@ -3583,13 +3596,17 @@ Public Class frmMain
     End Sub
 
     Private Sub MenuItemMainShow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMainShow.Click
-        'If Me.Left = Pref.LEFT_POSITION_HIDDEN Then
-        '    Me.CenterToScreen()
-        'End If 'HIDDEN
-        'Me.ShowInTaskbar = True
+        ' If ribbon is used, then the main form is to the left of the screen and
+        ' not shown in taskbar
+        If My.Settings.UseRibbonStyle Then
+            If Me.Left = Pref.LEFT_POSITION_HIDDEN Then
+                Me.CenterToScreen()
+            End If
+            Me.ShowInTaskbar = True
+        End If
         Me.Visible = True
-        Me.Show()
         Me.WindowState = FormWindowState.Normal
+        Me.Show()
     End Sub
 
     Private Sub MenuItemMainToTray_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMainToTray.Click

@@ -892,7 +892,7 @@ Public Class frmServer
     Private Sub frmServeur_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         If Program.Parameters.ModeHidden Then
-            Me.Left = -20000
+            Me.Left = Pref.LEFT_POSITION_HIDDEN
             Me.ShowInTaskbar = False
         End If
 
