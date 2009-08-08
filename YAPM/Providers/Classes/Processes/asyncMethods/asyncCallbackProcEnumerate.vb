@@ -137,7 +137,9 @@ Public Class asyncCallbackProcEnumerate
         Dim dico As New Dictionary(Of String, processInfos)
         If lst IsNot Nothing AndAlso keys IsNot Nothing AndAlso lst.Length = keys.Length Then
             For x As Integer = 0 To lst.Length - 1
-                dico.Add(keys(x), DirectCast(lst(x), processInfos))
+                If dico.ContainsKey(keys(x)) = False Then
+                    dico.Add(keys(x), DirectCast(lst(x), processInfos))
+                End If
             Next
         End If
         Try
@@ -260,7 +262,10 @@ Public Class asyncCallbackProcEnumerate
 
                         ' Set true so that the process is marked as existing
                         dicoNewProcesses(obj.ProcessId) = True
-                        _dico.Add(obj.ProcessId.ToString, _procInfos)
+                        Dim sKey As String = obj.ProcessId.ToString
+                        If _dico.ContainsKey(sKey) = False Then
+                            _dico.Add(sKey, _procInfos)
+                        End If
                     Next
 
                     ' Remove all processes that not exist anymore
@@ -701,7 +706,10 @@ Public Class asyncCallbackProcEnumerate
                     Dim _path As String = GetImageFile(obj.ProcessId)
                     Dim _procInfos As New processInfos(obj, GetFileName(_path))
                     _procInfos.Path = _path
-                    _dico.Add(pid.ToString, _procInfos)
+                    Dim sKey As String = pid.ToString
+                    If _dico.ContainsKey(sKey) = False Then
+                        _dico.Add(sKey, _procInfos)
+                    End If
                 End If
                 API.CloseHandle(handle)
             End If
@@ -806,7 +814,10 @@ Public Class asyncCallbackProcEnumerate
             dicoNewProcesses(obj.ProcessId) = True
 
             offset += obj.NextEntryOffset
-            _dico.Add(obj.ProcessId.ToString, _procInfos)
+            Dim sKey As String = obj.ProcessId.ToString
+            If _dico.ContainsKey(sKey) = False Then
+                _dico.Add(sKey, _procInfos)
+            End If
 
             If obj.NextEntryOffset = 0 Then
                 Exit Do
@@ -855,7 +866,10 @@ Public Class asyncCallbackProcEnumerate
             End With
 
             offset += obj.NextEntryOffset
-            _dico.Add(obj.ProcessId.ToString, _procInfos)
+            Dim sKey As String = obj.ProcessId.ToString
+            If _dico.ContainsKey(sKey) = False Then
+                _dico.Add(sKey, _procInfos)
+            End If
 
             If obj.NextEntryOffset = 0 Then
                 Exit Do
