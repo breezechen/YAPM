@@ -34,6 +34,10 @@ Public Module Program
         NotReplaceFail
     End Enum
 
+    ' Constants for command line of YAPM
+    Public Const PARAM_DO_NOT_CHECK_PREV_INSTANCE As String = " -donotcheckprevinstance"
+    Public Const PARAM_CHANGE_TASKMGR As String = " -reptaskmgr"
+
     ' Represent options passed with command line
     Public Class ProgramParameters
 
@@ -44,6 +48,7 @@ Public Module Program
         Private isHidden As Boolean = False
         Private requestReplaceTaskMgr As Boolean = False
         Private replaceTaskMgrValue As Boolean = False
+        Private oneInstance As Boolean = True
         Public ReadOnly Property ModeServer() As Boolean
             Get
                 Return isServerMode
@@ -74,6 +79,11 @@ Public Module Program
                 Return replaceTaskMgrValue
             End Get
         End Property
+        Public ReadOnly Property OnlyOneInstance() As Boolean
+            Get
+                Return oneInstance
+            End Get
+        End Property
         Public Sub New(ByRef parameters As String())
             If parameters Is Nothing Then
                 Exit Sub
@@ -94,6 +104,8 @@ Public Module Program
                         replaceTaskMgrValue = CBool(Val(parameters(i + 1)))
                         requestReplaceTaskMgr = True
                     End If
+                ElseIf parameters(i).ToLowerInvariant = "-donotcheckprevinstance" Then
+                    oneInstance = False
                 End If
             Next
         End Sub
@@ -229,7 +241,7 @@ Public Module Program
 
 
         ' ======= Close application if there is a previous instance of YAPM running
-        If cEnvironment.IsAlreadyRunning Then
+        If _progParameters.OnlyOneInstance AndAlso cEnvironment.IsAlreadyRunning Then
             Exit Sub
         End If
 

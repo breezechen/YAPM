@@ -1019,7 +1019,7 @@ Public Class API
         <MarshalAs(UnmanagedType.LPTStr)> Public lpFile As String
         <MarshalAs(UnmanagedType.LPTStr)> Public lpParameters As String
         <MarshalAs(UnmanagedType.LPTStr)> Public lpDirectory As String
-        Dim nShow As Integer
+        Dim nShow As API.SHOW_FINDOW_TYPE
         Dim hInstApp As IntPtr
         Dim lpIDList As IntPtr
         <MarshalAs(UnmanagedType.LPTStr)> Public lpClass As String
@@ -1449,6 +1449,23 @@ Public Class API
         LVS_EX_SINGLEROW = &H40000
         LVS_EX_SNAPTOGRID = &H80000
         LVS_EX_SIMPLESELECT = &H100000
+    End Enum
+
+    Public Enum SHOW_FINDOW_TYPE As Integer
+        Hide = 0
+        ShowNormal = 1
+        Normal = 1
+        ShowMinimized = 2
+        ShowMaximized = 3
+        Maximize = 3
+        ShowNoActivate = 4
+        Show = 5
+        Minimize = 6
+        ShowMinNoActive = 7
+        ShowNa = 8
+        Restore = 9
+        ShowDefault = 10
+        ForceMinimize = 11
     End Enum
 
     Public Declare Function GetWindowThreadProcessId Lib "user32" (ByVal hwnd As Integer, ByRef lpdwProcessId As Integer) As Integer

@@ -175,17 +175,19 @@ Public Class cEnvironment
 
     ' Restart YAPM elevated
     Public Shared Sub RestartElevated()
-        Dim startInfo As New ProcessStartInfo()
+
+        Dim startInfo As New API.SHELLEXECUTEINFO
         With startInfo
-            .UseShellExecute = True
-            .WorkingDirectory = Environment.CurrentDirectory
-            .FileName = Application.ExecutablePath
-            .Verb = "runas"
-            .WindowStyle = ProcessWindowStyle.Normal
+            .cbSize = System.Runtime.InteropServices.Marshal.SizeOf(startInfo)
+            .hwnd = _frmMain.Handle
+            .lpFile = Application.ExecutablePath
+            .lpParameters = PARAM_DO_NOT_CHECK_PREV_INSTANCE
+            .lpVerb = "runas"
+            .nShow = API.SHOW_FINDOW_TYPE.Normal
         End With
 
         Try
-            If Process.Start(startInfo) IsNot Nothing Then
+            If API.ShellExecuteEx(startInfo) Then
                 ' Then the new process has started -> 
                 '   - we hide tray icon
                 '   - we brutaly terminate this instance

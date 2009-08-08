@@ -614,7 +614,7 @@ Public Class frmPreferences
 
     Private Sub cmdChangeTaskmgr_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdChangeTaskmgr.Click
         ' Here we start YAPM elevated in order to change replace taskmgr or not
-        Dim sCommandLine As String = " -reptaskmgr " & _
+        Dim sCommandLine As String = PARAM_CHANGE_TASKMGR & _
                     CInt(Not (Me.chkReplaceTaskmgr.Checked)).ToString
         Call StartYapmElevated(sCommandLine)
         Program.Preferences.Save()

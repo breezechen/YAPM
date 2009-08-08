@@ -3,7 +3,6 @@ TODO LIST
 BUGS CRITIQUES
 - l'organisation des colonnes des threads n'est pas rechargée (ou bien sauvée ?) dans la form détail. Voir si c'est pareil pour les autres lv de la form
 - click sur croix de fermeture de frmMain -> appeler ExitYAPM avec succes
-- restart as admin foireux (utiliser shellexecute et non StartProcess pour esquiver boite de dialogue Windows et foirages), le redémarrage est bouzeux (et faut aussi sauver les preferences)
 - onglet File sans le ribbon -> les actions sont indisponibles (ajouter menu avec Open file, Refresh, Release...)
 - actions sur les Windows impossible en mode non ribbon (obligation d'ajouter un popup menu...)
 - reports
@@ -84,7 +83,6 @@ BUGS NON CRITIQUES
 - probablement des bugs de 'collection modifiée' vis à vis du log
 - transformer .Created par try/catch ? + manque des Invoke pour les connected dans les cXXXConnection
 - getmappedimage... pour socket
-- ~~ : refresh des threads (details) nécessite refresh des process
 - Exception non gérée à 0x71fb5108 dans YAPM.exe : 0xC0000005: Violation d'accès lors de la lecture de l'emplacement 0x00000004. (lors de création/destruction de process -> tester avec les 20000)
 - messages Vista like partout
 - msgbox encombrant quand pleins d'erreurs connexion !!
