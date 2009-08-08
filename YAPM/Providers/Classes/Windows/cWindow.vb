@@ -130,7 +130,7 @@ Public Class cWindow
 
     ' Refresh some non fixed infos
     ' For now IT IS NOT ASYNC
-    ' Because create ~50 threads/sec is not really cool
+    ' Because create ~50 threads-pools/sec is not really cool
     Private WithEvents asyncNonFixed As asyncCallbackWindowGetNonFixedInfos
     Private Sub RefreshSpecialInformations()
         Select Case _connection.ConnectionObj.ConnectionType

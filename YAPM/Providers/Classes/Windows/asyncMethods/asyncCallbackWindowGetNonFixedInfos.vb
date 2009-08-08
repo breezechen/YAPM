@@ -30,17 +30,18 @@ Public Class asyncCallbackWindowGetNonFixedInfos
     Private _connection As cWindowConnection
 
     Public Structure TheseInfos
-        Dim enabled As Boolean
-        Dim height As Integer
-        Dim isTask As Boolean
-        Dim left As Integer
-        Dim opacity As Byte
-        Dim top As Integer
-        Dim visible As Boolean
-        Dim width As Integer
-        Dim theRect As API.RECT
+        Public enabled As Boolean
+        Public height As Integer
+        Public isTask As Boolean
+        Public left As Integer
+        Public opacity As Byte
+        Public top As Integer
+        Public visible As Boolean
+        Public width As Integer
+        Public theRect As API.RECT
+        Public caption As String
         Public Sub New(ByVal enab As Boolean, ByVal isTas As Boolean, _
-                       ByVal opac As Byte, ByRef r As API.RECT)
+                       ByVal opac As Byte, ByRef r As API.RECT, ByVal scap As String, ByVal isV As Boolean)
             enabled = enab
             isTask = isTas
             opacity = opac
@@ -49,6 +50,8 @@ Public Class asyncCallbackWindowGetNonFixedInfos
             top = r.Top
             left = r.Left
             theRect = r
+            caption = scap
+            visible = isV
         End Sub
     End Structure
 
@@ -68,11 +71,13 @@ Public Class asyncCallbackWindowGetNonFixedInfos
             Case Else
                 ' Local
                 Dim enabled As Boolean = API.IsWindowEnabled(_handle)
+                Dim visible As Boolean = API.IsWindowVisible(_handle)
                 Dim opacity As Byte = GetWindowOpacity()
                 Dim isTask As Boolean = _isTask(_handle)
                 Dim r As API.RECT = GetWindowPosition()
+                Dim s As String = asyncCallbackWindowEnumerate.GetCaption(_handle)
 
-                RaiseEvent GatheredInfos(New TheseInfos(enabled, isTask, opacity, r))
+                RaiseEvent GatheredInfos(New TheseInfos(enabled, isTask, opacity, r, s, visible))
         End Select
     End Sub
 

@@ -156,6 +156,7 @@ Imports System.Runtime.InteropServices
             _top = .top
             _visible = .visible
             _width = .width
+            _caption = .caption
         End With
     End Sub
 

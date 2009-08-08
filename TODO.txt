@@ -1,9 +1,7 @@
 TODO LIST
 
 BUGS CRITIQUES
-- dico : key already added (modules...)
 - OK dans chooseColumns -> devrait sauvegarder les préférences de suite
-- caption des windows pas mise à jour + information "Visible" foireuse
 - l'organisation des colonnes des threads n'est pas rechargée (ou bien sauvée ?) dans la form détail. Voir si c'est pareil pour les autres lv de la form
 - click sur croix de fermeture de frmMain -> appeler ExitYAPM avec succes
 - restart as admin foireux (utiliser shellexecute et non StartProcess pour esquiver boite de dialogue Windows et foirages), le redémarrage est bouzeux (et faut aussi sauver les preferences)
@@ -165,3 +163,4 @@ Temp Change log :
 - no more "beep" when exit from preferences after changing ShowRibbon property
 - start hidden is OK
 - fixed bug #2807722
+- now task and windows captions are updated

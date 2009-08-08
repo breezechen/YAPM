@@ -281,12 +281,20 @@ Public Class asyncCallbackModuleEnumerate
 
                     ' Retrive the path/name of the dll
                     dllPath = reader.ReadUnicodeString(curEntry.FullDllName)
+                    If dllPath Is Nothing Then
+                        dllPath = NO_INFO_RETRIEVED
+                    End If
                     dllName = reader.ReadUnicodeString(curEntry.BaseDllName)
+                    If dllName Is Nothing Then
+                        dllName = NO_INFO_RETRIEVED
+                    End If
 
                     ' Add to dico
                     ' Key is path-pid-baseAddress
                     Dim _key As String = dllPath.ToString & "-" & pid.ToString & "-" & curEntry.DllBase.ToString
-                    retDico.Add(_key, New moduleInfos(curEntry, pid, dllPath, dllName, noFileInfo))
+                    If retDico.ContainsKey(_key) = False Then
+                        retDico.Add(_key, New moduleInfos(curEntry, pid, dllPath, dllName, noFileInfo))
+                    End If
 
                 End If
 
