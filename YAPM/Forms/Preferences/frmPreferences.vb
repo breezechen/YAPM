@@ -115,7 +115,7 @@ Public Class frmPreferences
 
         If Not (_oldRibbonStyle = My.Settings.UseRibbonStyle) Then
             Dim ret As Integer
-            If Not (IsWindowsVista()) Then
+            If Not (IsWindowsVistaOrAbove()) Then
                 ret = MsgBox("The new menu style will be displayed next time you start YAPM. Do you want to exit YAPM now ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Menu style has changed")
             Else
                 ret = ShowVistaMessage(Me.Handle, "Menu style has changed", "The new menu style will be displayed next time you start YAPM.", "Do you want to exit YAPM now ?", TaskDialogCommonButtons.Yes Or TaskDialogCommonButtons.No, TaskDialogIcon.Information)
@@ -137,7 +137,7 @@ Public Class frmPreferences
         API.SetWindowTheme(Me.lvHighlightingThread.Handle, "explorer", Nothing)
 
         Me.txtUpdate.Text = "Click on 'Check if YAPM is up to date' to check if a new version is available."
-        SetToolTip(Me.chkReplaceTaskmgr, "Replace taskmgr.")
+        SetToolTip(Me.chkReplaceTaskmgr, "Replace taskmgr (do not forget to uncheck this option before you delete/move YAPM executable !!")
         SetToolTip(Me.chkStart, "Start YAPM on Windows startup.")
         SetToolTip(Me.chkStartTray, "Start YAPM hidden (only in tray system).")
         SetToolTip(Me.txtProcessIntervall, "Set interval (milliseconds) between two refreshments of process list.")
@@ -239,6 +239,15 @@ Public Class frmPreferences
         Me.lvHighlightingProcess.Items(My.Settings.HighlightingPriorityCriticalProcess - 1).Checked = My.Settings.EnableHighlightingCriticalProcess
         Me.lvHighlightingProcess.Items(My.Settings.HighlightingPriorityBeingDebugged - 1).Checked = My.Settings.EnableHighlightingBeingDebugged
 
+        ' If not elevated under Vista or above, we cannot change 'replace taskmgr' state
+        ' without elevation -> set cmdChangeTaskmgr as visible
+        If Program.IsWindowsVistaOrAbove AndAlso Program.IsElevated = False Then
+            Me.chkReplaceTaskmgr.Enabled = False
+            Call cEnvironment.AddShieldToButton(Me.cmdChangeTaskmgr)
+            Call SetToolTip(Me.cmdChangeTaskmgr, "This action requires elevation, and will automatically save settings")
+            Me.cmdChangeTaskmgr.Visible = True
+        End If
+
     End Sub
 
     ' Set colors of "Highlighting items"
@@ -322,7 +331,7 @@ Public Class frmPreferences
             Me.txtUpdate.Text &= vbNewLine & s & vbNewLine
         Else
             If b2 = False Then
-                If Not (IsWindowsVista()) Then
+                If Not (IsWindowsVistaOrAbove()) Then
                     MsgBox("Cannot connect to Internet or cannot retrieve informations.", MsgBoxStyle.Exclamation, "Error")
                 Else
                     ShowVistaMessage(Me.Handle, "Error while checking update", "Cannot connect to Internet or cannot retrieve informations.", , TaskDialogCommonButtons.Ok, TaskDialogIcon.Error)
@@ -398,7 +407,7 @@ Public Class frmPreferences
     End Function
 
     Private Sub cmdCheckUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdCheckUpdate.Click
-        If Not (IsWindowsVista()) Then
+        If Not (IsWindowsVistaOrAbove()) Then
             MsgBox("YAPM will connect to Internet and will check if new updates are availables.", MsgBoxStyle.Information, "Check for an update")
         Else
             ShowVistaMessage(Me.Handle, "Check for an update", "YAPM will connect to Internet and will check if new updates are availables.", , TaskDialogCommonButtons.Ok, TaskDialogIcon.ShieldOk)
@@ -495,16 +504,6 @@ Public Class frmPreferences
                    System.Threading.WaitCallback(AddressOf fctDownloadUpdate), New degObj2(_inv, _inv1, Me, s))
         End If
 
-    End Sub
-
-    Private Sub chkReplaceTaskmgr_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkReplaceTaskmgr.Click
-        If Me.chkReplaceTaskmgr.Checked Then
-            If IsWindowsVista() Then
-                ShowVistaMessage(Me.Handle, "Replace taskmgr by YAPM", "This option is safe", "This option simply create a key in registry, that's why it is safe to do it." & vbNewLine & "But remember to disable this option if you decide to move (or delete) YAPM executable.", TaskDialogCommonButtons.Ok, TaskDialogIcon.ShieldOk)
-            Else
-                MsgBox("This option simply create a key in registry, that's why it is safe to do it." & vbNewLine & "But remember to disable this option if you decide to move (or delete) YAPM executable.", MsgBoxStyle.OkOnly, "Warning")
-            End If
-        End If
     End Sub
 
     Private Sub pctNewitems_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pctNewitems.Click
@@ -612,4 +611,47 @@ Public Class frmPreferences
         End If
     End Sub
 
+    Private Sub cmdChangeTaskmgr_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdChangeTaskmgr.Click
+        ' Here we start YAPM elevated in order to change replace taskmgr or not
+        Dim sCommandLine As String = " -reptaskmgr " & _
+                    CInt(Not (Me.chkReplaceTaskmgr.Checked)).ToString
+        Call StartYapmElevated(sCommandLine)
+        Program.Preferences.Save()
+    End Sub
+
+    ' Start YAPM elevated with a specific command line
+    Private Function StartYapmElevated(ByVal cmdLine As String) As Boolean
+        Dim startInfo As New ProcessStartInfo()
+        With startInfo
+            .UseShellExecute = True
+            .WorkingDirectory = Environment.CurrentDirectory
+            .FileName = Application.ExecutablePath
+            .Verb = "runas"
+            .Arguments = cmdLine
+            .WindowStyle = ProcessWindowStyle.Normal
+        End With
+
+        Try
+            Dim cP As Process = Process.Start(startInfo)
+            If cP IsNot Nothing Then
+
+                ' Wait than the process ended
+                API.WaitForSingleObject(cP.Handle.ToInt32, API.INFINITE)
+
+                ' Here we know that the process has ended, we retrieve the ExitCode
+                Dim exCode As Program.RequestReplaceTaskMgrResult
+                exCode = CType(cP.ExitCode, RequestReplaceTaskMgrResult)
+                If exCode = RequestReplaceTaskMgrResult.NotReplaceSuccess Then
+                    Me.chkReplaceTaskmgr.Checked = False
+                ElseIf exCode = RequestReplaceTaskMgrResult.ReplaceSuccess Then
+                    Me.chkReplaceTaskmgr.Checked = True
+                End If
+            Else
+                Return False
+            End If
+        Catch ex As Exception
+            Return False
+        End Try
+
+    End Function
 End Class

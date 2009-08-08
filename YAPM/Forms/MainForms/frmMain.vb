@@ -4171,7 +4171,7 @@ Public Class frmMain
     Private Sub MenuItemSearchClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSearchClose.Click
         ' Close selected items
         If My.Settings.WarnDangerousActions Then
-            If IsWindowsVista() Then
+            If IsWindowsVistaOrAbove() Then
                 If ShowVistaMessage(Me.Handle, "Dangerous action", _
                                     "Are you sure you want to close these items ?", _
                                     "This will close handles, unload module, stop service, kill process or close window depending on the selected object.", _

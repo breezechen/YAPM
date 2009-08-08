@@ -194,15 +194,16 @@ Public Class cEnvironment
                 API.ExitProcess(0)
             End If
         Catch ex As Exception
-            ex = ex
+            'ex = ex
         End Try
 
     End Sub
 
+
     ' Return a bitmap containing the UAC shield.
     ' Got this code here : http://www.vb-helper.com/howto_2008_uac_shield.html
     ' But this is not the best way to do it...
-    Private Shared Sub AddShieldToButton(ByVal btn As Button)
+    Public Shared Sub AddShieldToButton(ByVal btn As Button)
         Const BCM_SETSHIELD As Int32 = &H160C
 
         btn.FlatStyle = Windows.Forms.FlatStyle.System

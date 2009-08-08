@@ -83,6 +83,7 @@ Partial Class frmMain
         Me.butFeedBack = New System.Windows.Forms.RibbonButton
         Me.butHiddenProcesses = New System.Windows.Forms.RibbonButton
         Me.butShowDepViewer = New System.Windows.Forms.RibbonButton
+        Me.butShowAllPendingTasks = New System.Windows.Forms.RibbonButton
         Me.TaskTab = New System.Windows.Forms.RibbonTab
         Me.RBTaskDisplay = New System.Windows.Forms.RibbonPanel
         Me.butTaskRefresh = New System.Windows.Forms.RibbonButton
@@ -691,7 +692,6 @@ Partial Class frmMain
         Me.sbPanelCpu = New System.Windows.Forms.StatusBarPanel
         Me.sbPanelMemory = New System.Windows.Forms.StatusBarPanel
         Me.timerStatus = New System.Windows.Forms.Timer(Me.components)
-        Me.butShowAllPendingTasks = New System.Windows.Forms.RibbonButton
         Me._main.Panel1.SuspendLayout()
         Me._main.Panel2.SuspendLayout()
         Me._main.SuspendLayout()
@@ -1187,6 +1187,21 @@ Partial Class frmMain
         Me.butShowDepViewer.ToolTip = "Dependencies viewer"
         Me.butShowDepViewer.ToolTipImage = Nothing
         Me.butShowDepViewer.ToolTipTitle = Nothing
+        '
+        'butShowAllPendingTasks
+        '
+        Me.butShowAllPendingTasks.AltKey = Nothing
+        Me.butShowAllPendingTasks.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butShowAllPendingTasks.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butShowAllPendingTasks.Image = CType(resources.GetObject("butShowAllPendingTasks.Image"), System.Drawing.Image)
+        Me.butShowAllPendingTasks.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
+        Me.butShowAllPendingTasks.SmallImage = Global.YAPM.My.Resources.Resources.thread
+        Me.butShowAllPendingTasks.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butShowAllPendingTasks.Tag = Nothing
+        Me.butShowAllPendingTasks.Text = "Display pending tasks"
+        Me.butShowAllPendingTasks.ToolTip = "Display pending tasks"
+        Me.butShowAllPendingTasks.ToolTipImage = Nothing
+        Me.butShowAllPendingTasks.ToolTipTitle = Nothing
         '
         'TaskTab
         '
@@ -6885,21 +6900,6 @@ Partial Class frmMain
         '
         Me.timerStatus.Enabled = True
         Me.timerStatus.Interval = 1000
-        '
-        'butShowAllPendingTasks
-        '
-        Me.butShowAllPendingTasks.AltKey = Nothing
-        Me.butShowAllPendingTasks.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
-        Me.butShowAllPendingTasks.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butShowAllPendingTasks.Image = CType(resources.GetObject("butShowAllPendingTasks.Image"), System.Drawing.Image)
-        Me.butShowAllPendingTasks.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
-        Me.butShowAllPendingTasks.SmallImage = Global.YAPM.My.Resources.Resources.thread
-        Me.butShowAllPendingTasks.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butShowAllPendingTasks.Tag = Nothing
-        Me.butShowAllPendingTasks.Text = "Display pending tasks"
-        Me.butShowAllPendingTasks.ToolTip = "Display pending tasks"
-        Me.butShowAllPendingTasks.ToolTipImage = Nothing
-        Me.butShowAllPendingTasks.ToolTipTitle = Nothing
         '
         'frmMain
         '

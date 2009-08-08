@@ -414,7 +414,7 @@ Module Misc
                                      TaskDialogCommonButtons = TaskDialogCommonButtons.Ok, Optional _
                                      ByVal Icon As TaskDialogIcon = TaskDialogIcon.Information) _
                                      As Integer
-        If IsWindowsVista() Then
+        If IsWindowsVistaOrAbove() Then
             Dim dlg As New TaskDialog
             With dlg
                 .WindowTitle = Title

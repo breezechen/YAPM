@@ -22,8 +22,17 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
+Imports Microsoft.Win32
 
 Public Module Program
+
+    ' Exit code when leave YAPM in ModeRequestReplaceTaskMgr
+    Public Enum RequestReplaceTaskMgrResult As Byte
+        ReplaceSuccess
+        ReplaceFail
+        NotReplaceSuccess
+        NotReplaceFail
+    End Enum
 
     ' Represent options passed with command line
     Public Class ProgramParameters
@@ -33,6 +42,8 @@ Public Module Program
         Private remPort As Integer = 8081
         Private isAutoConnectMode As Boolean = False
         Private isHidden As Boolean = False
+        Private requestReplaceTaskMgr As Boolean = False
+        Private replaceTaskMgrValue As Boolean = False
         Public ReadOnly Property ModeServer() As Boolean
             Get
                 Return isServerMode
@@ -53,6 +64,16 @@ Public Module Program
                 Return remPort
             End Get
         End Property
+        Public ReadOnly Property ModeRequestReplaceTaskMgr() As Boolean
+            Get
+                Return requestReplaceTaskMgr
+            End Get
+        End Property
+        Public ReadOnly Property ValueReplaceTaskMgr() As Boolean
+            Get
+                Return replaceTaskMgrValue
+            End Get
+        End Property
         Public Sub New(ByRef parameters As String())
             If parameters Is Nothing Then
                 Exit Sub
@@ -67,6 +88,11 @@ Public Module Program
                 ElseIf parameters(i).ToLowerInvariant = "-port" Then
                     If parameters.Length - 1 >= i + 1 Then
                         remPort = CInt(Val(parameters(i + 1)))
+                    End If
+                ElseIf parameters(i).ToLowerInvariant = "-reptaskmgr" Then
+                    If parameters.Length - 1 >= i + 1 Then
+                        replaceTaskMgrValue = CBool(Val(parameters(i + 1)))
+                        requestReplaceTaskMgr = True
                     End If
                 End If
             Next
@@ -83,11 +109,12 @@ Public Module Program
     Private _hotkeys As cHotkeys
     Private _pref As Pref
     Private _log As cLog
-    Private _isVista As Boolean
+    Private _isVistaOrAbove As Boolean
     Private _isAdmin As Boolean
     Private _trayIcon As cTrayIcon
     Private _ConnectionForm As frmConnection
     Private _time As Integer
+    Private _isElevated As Boolean
 
     Public ReadOnly Property Parameters() As ProgramParameters
         Get
@@ -124,9 +151,9 @@ Public Module Program
             Return _log
         End Get
     End Property
-    Public ReadOnly Property IsWindowsVista() As Boolean
+    Public ReadOnly Property IsWindowsVistaOrAbove() As Boolean
         Get
-            Return _isVista
+            Return _isVistaOrAbove
         End Get
     End Property
     Public ReadOnly Property IsAdministrator() As Boolean
@@ -144,6 +171,12 @@ Public Module Program
             Return _ConnectionForm
         End Get
     End Property
+    Public ReadOnly Property IsElevated() As Boolean
+        Get
+            Return _isElevated
+        End Get
+    End Property
+
 
     Public Const HELP_PATH As String = "http://yaprocmon.sourceforge.net/help.html"
     Public Const NO_INFO_RETRIEVED As String = "N/A"
@@ -177,6 +210,24 @@ Public Module Program
 
 
 
+        ' ======= Other init
+        _isVistaOrAbove = cEnvironment.IsWindowsVistaOrAbove
+        _isAdmin = cEnvironment.IsAdmin
+        _isElevated = (cEnvironment.GetElevationType = API.ElevationType.Full)
+
+
+
+        ' ======= Read parameters
+        _progParameters = New ProgramParameters(Environment.GetCommandLineArgs)
+
+
+
+        ' ======= We replace Taskmgr if needed. This will end YAPM
+        If _progParameters.ModeRequestReplaceTaskMgr Then
+            Call safeReplaceTaskMgr(_progParameters.ValueReplaceTaskMgr)
+        End If
+
+
         ' ======= Close application if there is a previous instance of YAPM running
         If cEnvironment.IsAlreadyRunning Then
             Exit Sub
@@ -197,13 +248,9 @@ Public Module Program
 
 
 
-        ' ======= Read parameters
-        _progParameters = New ProgramParameters(Environment.GetCommandLineArgs)
-
-
-
         ' ======= Parse port files
         Call cNetwork.ParsePortTextFile()
+
 
 
         ' ======= Instanciate all classes
@@ -224,12 +271,6 @@ Public Module Program
             _frmMain = New frmMain              ' Main form
             _frmServer = New frmServer          ' Server form (server mode)
         End If
-
-
-
-        ' ======= Other init
-        _isVista = cEnvironment.IsWindowsVistaOrAbove
-        _isAdmin = cEnvironment.IsAdmin
 
 
 
@@ -342,5 +383,40 @@ Public Module Program
     Private Sub theConnection_Disconnected() Handles theConnection.Disconnected
         ' Clear list of processes (used to get ParentProcess name)
         Call cProcess.ClearProcessDico()
+    End Sub
+
+    ' Replace taskmgr
+    ' This function will end YAPM with a specific ExitCode (if fail or not)
+    Private Sub safeReplaceTaskMgr(ByVal value As Boolean)
+        Try
+            Dim regKey As RegistryKey
+            regKey = Registry.LocalMachine.OpenSubKey("Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options", True)
+
+            If value Then
+                regKey.CreateSubKey("taskmgr.exe").SetValue("debugger", Application.ExecutablePath)
+            Else
+                regKey.DeleteSubKey("taskmgr.exe")
+            End If
+
+            ' Success
+            Dim res As RequestReplaceTaskMgrResult
+            If value Then
+                res = RequestReplaceTaskMgrResult.ReplaceSuccess
+            Else
+                res = RequestReplaceTaskMgrResult.NotReplaceSuccess
+            End If
+            Call API.ExitProcess(res)
+
+        Catch ex As Exception
+            ' Could not set key -> failed
+            Dim res As RequestReplaceTaskMgrResult
+            If value Then
+                res = RequestReplaceTaskMgrResult.ReplaceFail
+            Else
+                res = RequestReplaceTaskMgrResult.NotReplaceFail
+            End If
+            Call API.ExitProcess(res)
+
+        End Try
     End Sub
 End Module

@@ -1,7 +1,6 @@
 TODO LIST
 
 BUGS CRITIQUES
-- refresh infos threads par remote foiré (les subitems pas refreshés)
 - pending task pour remote (le _deg n'est pas appelé en remote)
 - dico : key already added (proceses, modules...)
 - OK dans chooseColumns -> devrait sauvegarder les préférences de suite
@@ -163,3 +162,4 @@ Temp Change log :
 - meilleure protection sémaphore
 - optimisation critique d'affichage
 - amélioration pending task
+- replace taskmgr OK for Vista and above
