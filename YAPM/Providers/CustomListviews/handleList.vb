@@ -110,7 +110,6 @@ Public Class handleList
 
     ' Delete all items
     Public Sub ClearItems()
-        generalLvSemaphore.WaitOne()
         _first = True
         _buffDico.Clear()
         _dico.Clear()
@@ -122,7 +121,6 @@ Public Class handleList
         _IMG.Images.Add("service", My.Resources.gear)
         _IMG.Images.Add("noicon", My.Resources.application_blue)
         Me.Items.Clear()
-        generalLvSemaphore.Release()
     End Sub
 
     ' Call this to update items in listview

@@ -101,11 +101,9 @@ Public Class logList
 
     ' Delete all items
     Public Sub ClearItems()
-        generalLvSemaphore.WaitOne()
         _first = True
         _dico.Clear()
         Me.Items.Clear()
-        generalLvSemaphore.Release()
     End Sub
 
     ' Call this to update items in listview

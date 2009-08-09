@@ -108,7 +108,6 @@ Public Class serviceList
 
     ' Delete all items
     Public Sub ClearItems()
-        generalLvSemaphore.WaitOne()
         _first = True
         _buffDico.Clear()
         _dico.Clear()
@@ -117,7 +116,6 @@ Public Class serviceList
         _IMG.Images.Clear()
         _IMG.Images.Add("service", My.Resources.gear)   ' Icon is specific
         Me.Items.Clear()
-        generalLvSemaphore.Release()
     End Sub
 
     ' Reanalize a process

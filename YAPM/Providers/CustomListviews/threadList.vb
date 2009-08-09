@@ -98,7 +98,6 @@ Public Class threadList
 
     ' Delete all items
     Public Sub ClearItems()
-        generalLvSemaphore.WaitOne()
         _first = True
         _buffDico.Clear()
         _dico.Clear()
@@ -107,7 +106,6 @@ Public Class threadList
         _IMG.Images.Clear()
         _IMG.Images.Add("thread", My.Resources.thread)
         Me.Items.Clear()
-        generalLvSemaphore.Release()
     End Sub
 
     ' Call this to update items in listview

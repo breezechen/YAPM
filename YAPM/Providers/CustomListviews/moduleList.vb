@@ -103,7 +103,6 @@ Public Class moduleList
 
     ' Delete all items
     Public Sub ClearItems()
-        generalLvSemaphore.WaitOne()
         _first = True
         _buffDico.Clear()
         _dico.Clear()
@@ -113,7 +112,6 @@ Public Class moduleList
         _IMG.Images.Add("dllIcon", My.Resources.dllIcon)
         _IMG.Images.Add("exeFile", My.Resources.application_blue)
         Me.Items.Clear()
-        generalLvSemaphore.Release()
     End Sub
 
     ' Call this to update items in listview

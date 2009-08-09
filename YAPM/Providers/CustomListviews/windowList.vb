@@ -117,7 +117,6 @@ Public Class windowList
 
     ' Delete all items
     Public Sub ClearItems()
-        generalLvSemaphore.WaitOne()
         _first = True
         _buffDico.Clear()
         _dico.Clear()
@@ -126,7 +125,6 @@ Public Class windowList
         _IMG.Images.Clear()
         _IMG.Images.Add("noIcon", My.Resources.application_blue)
         Me.Items.Clear()
-        generalLvSemaphore.Release()
     End Sub
 
     ' Call this to update items in listview

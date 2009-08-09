@@ -111,7 +111,6 @@ Public Class searchList
 
     ' Delete all items
     Public Sub ClearItems()
-        generalLvSemaphore.WaitOne()
         _dico.Clear()
         _IMG.Images.Clear()
         _IMG.Images.Add("service", My.Resources.gear)   ' Icon is specific
@@ -121,7 +120,6 @@ Public Class searchList
         _IMG.Images.Add("dllIcon", My.Resources.dllIcon)
         _IMG.Images.Add("window", My.Resources.application_blue)
         Me.Items.Clear()
-        generalLvSemaphore.Release()
     End Sub
 
     ' Call this to update items in listview

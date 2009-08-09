@@ -100,7 +100,6 @@ Public Class processList
 
     ' Delete all items
     Public Sub ClearItems()
-        generalLvSemaphore.WaitOne()
         _first = True
         _firstItemUpdate = True
         _buffDico.Clear()
@@ -110,7 +109,6 @@ Public Class processList
         _IMG.Images.Clear()
         _IMG.Images.Add("noIcon", My.Resources.application_blue)
         Me.Items.Clear()
-        generalLvSemaphore.Release()
     End Sub
 
     ' Reanalize a process
