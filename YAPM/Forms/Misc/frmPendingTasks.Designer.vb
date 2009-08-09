@@ -23,7 +23,7 @@ Partial Class frmPendingTasks
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Me.lv = New DoubleBufferedLV
+        Me.lv = New YAPM.DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
@@ -71,7 +71,7 @@ Partial Class frmPendingTasks
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Name = "frmPendingTasks"
         Me.ShowIcon = False
-        Me.Text = "Pending tasks for the object"
+        Me.Text = "Pending tasks"
         Me.ResumeLayout(False)
 
     End Sub

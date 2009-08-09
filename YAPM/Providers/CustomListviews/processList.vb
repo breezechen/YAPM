@@ -115,7 +115,6 @@ Public Class processList
 
     ' Reanalize a process
     Public Sub ReAnalizeProcesses()
-        generalLvSemaphore.WaitOne()
         Dim pid() As Integer
         ReDim pid(Me.GetSelectedItems.Count - 1)
         Dim x As Integer = 0
@@ -123,6 +122,7 @@ Public Class processList
             pid(x) = cp.Infos.Pid
             x += 1
         Next
+        generalLvSemaphore.WaitOne()
         asyncCallbackProcEnumerate.ReanalizeProcess(New asyncCallbackProcEnumerate.ReanalizeProcessObj(pid, _processConnection))
         generalLvSemaphore.Release()
     End Sub

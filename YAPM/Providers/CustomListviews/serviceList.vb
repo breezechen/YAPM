@@ -127,14 +127,12 @@ Public Class serviceList
         ' In WMI and Socket mode, there IS NO NEED to reanalize because all informations
         ' are retrieved each time we refresh
         ' In fact, "Reanalize" is only available for Local mode
-        generalLvSemaphore.WaitOne()
         If _serviceConnection.ConnectionObj.ConnectionType = _
                 cConnection.TypeOfConnection.LocalConnection Then
             For Each cs As cService In Me.GetSelectedItems
                 cs.Refresh()
             Next
         End If
-        generalLvSemaphore.Release()
     End Sub
 
     ' Call this to update items in listview

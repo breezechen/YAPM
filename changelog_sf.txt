@@ -3,7 +3,7 @@ YAPM 2.0.3 BETA
 CHANGES FROM 2.0.2
 
 * General changes & internal
-- High general optimisations (reduced CPU usage by ~70%)
+- High general optimisations (reduced CPU usage by ~50%)
 - General code refactoring (merge pieces of code, so there is no more VB.Net dlls)
 - Works well with UAC and limited rights under Vista and above
 - Modules and memory areas are enumerated much faster

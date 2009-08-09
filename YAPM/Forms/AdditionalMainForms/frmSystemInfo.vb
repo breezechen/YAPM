@@ -108,37 +108,37 @@ Public Class frmSystemInfo
             Me.lblCPUidleTime.Text = String.Format("{0:00}", ts.Hour) & ":" & _
                 String.Format("{0:00}", ts.Minute) & ":" & _
                 String.Format("{0:00}", ts.Second) & ":" & _
-                String.Format("{000}", ts.Millisecond) & vbTab & " (" & _
+                String.Format("{000}", ts.Millisecond) & " (" & _
                 Math.Round(zres1 / zTotal * 100, 3).ToString & " %)"
             ts = New Date(zres2)
             Me.lblCPUinterruptTime.Text = String.Format("{0:00}", ts.Hour) & ":" & _
                 String.Format("{0:00}", ts.Minute) & ":" & _
                 String.Format("{0:00}", ts.Second) & ":" & _
-                String.Format("{000}", ts.Millisecond) & vbTab & " (" & _
+                String.Format("{000}", ts.Millisecond) & " (" & _
                 Math.Round(zres2 / zTotal * 100, 3).ToString & " %)"
             ts = New Date(zres3)
             Me.lblCPUuserTime.Text = String.Format("{0:00}", ts.Hour) & ":" & _
                 String.Format("{0:00}", ts.Minute) & ":" & _
                 String.Format("{0:00}", ts.Second) & ":" & _
-                String.Format("{000}", ts.Millisecond) & vbTab & " (" & _
+                String.Format("{000}", ts.Millisecond) & " (" & _
                 Math.Round(zres3 / zTotal * 100, 3).ToString & " %)"
             ts = New Date(zres4)
             Me.lblCPUkernelTime.Text = String.Format("{0:00}", ts.Hour) & ":" & _
                 String.Format("{0:00}", ts.Minute) & ":" & _
                 String.Format("{0:00}", ts.Second) & ":" & _
-                String.Format("{000}", ts.Millisecond) & vbTab & " (" & _
+                String.Format("{000}", ts.Millisecond) & " (" & _
                 Math.Round(zres4 / zTotal * 100, 3).ToString & " %)"
             ts = New Date(zres5)
             Me.lblCPUdpcTime.Text = String.Format("{0:00}", ts.Hour) & ":" & _
                 String.Format("{0:00}", ts.Minute) & ":" & _
                 String.Format("{0:00}", ts.Second) & ":" & _
-                String.Format("{000}", ts.Millisecond) & vbTab & " (" & _
+                String.Format("{000}", ts.Millisecond) & " (" & _
                 Math.Round(zres5 / zTotal * 100, 3).ToString & " %)"
             ts = New Date(zres2 + zres3 + zres4 + zres5)
             Me.lblCPUTotalTime.Text = String.Format("{0:00}", ts.Hour) & ":" & _
                 String.Format("{0:00}", ts.Minute) & ":" & _
                 String.Format("{0:00}", ts.Second) & ":" & _
-                String.Format("{000}", ts.Millisecond) & vbTab & " (100 %)"
+                String.Format("{000}", ts.Millisecond) & " (100 %)"
 
 
             ' Kernel pools
