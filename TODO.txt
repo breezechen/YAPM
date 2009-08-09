@@ -89,6 +89,7 @@ BUGS NON CRITIQUES
 - virer PtrToStructure et n'utiliser que MemoryAlloc
 - replace taskmgr sous 7 ?
 - pending task : caption -> object.tostring (surchargé chaque cXXXX)
+- tcp/udp missing -> msg plutôt que crash
 
 
 - ajouter semaphores de protection dans les methodes "Friend Shared Sub enumXXXX" (pour accès concurrent avec le log) ????
