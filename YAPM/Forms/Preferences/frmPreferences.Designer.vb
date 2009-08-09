@@ -24,14 +24,14 @@ Partial Class frmPreferences
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPreferences))
-        Dim ListViewItem17 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Suspended thread")
-        Dim ListViewItem18 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Process being debugged")
-        Dim ListViewItem19 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Critical process")
-        Dim ListViewItem20 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Elevated process")
-        Dim ListViewItem21 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Process in job")
-        Dim ListViewItem22 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Service process")
-        Dim ListViewItem23 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Owned process")
-        Dim ListViewItem24 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("System process")
+        Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Suspended thread")
+        Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Process being debugged")
+        Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Critical process")
+        Dim ListViewItem4 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Elevated process")
+        Dim ListViewItem5 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Process in job")
+        Dim ListViewItem6 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Service process")
+        Dim ListViewItem7 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Owned process")
+        Dim ListViewItem8 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("System process")
         Me.TabControl = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
         Me.chkAutoOnline = New System.Windows.Forms.CheckBox
@@ -264,6 +264,7 @@ Partial Class frmPreferences
         '
         'cmdMoveDownProcess
         '
+        Me.cmdMoveDownProcess.Enabled = False
         Me.cmdMoveDownProcess.Image = CType(resources.GetObject("cmdMoveDownProcess.Image"), System.Drawing.Image)
         Me.cmdMoveDownProcess.Location = New System.Drawing.Point(41, 237)
         Me.cmdMoveDownProcess.Name = "cmdMoveDownProcess"
@@ -273,6 +274,7 @@ Partial Class frmPreferences
         '
         'cmdMoveUpProcess
         '
+        Me.cmdMoveUpProcess.Enabled = False
         Me.cmdMoveUpProcess.Image = CType(resources.GetObject("cmdMoveUpProcess.Image"), System.Drawing.Image)
         Me.cmdMoveUpProcess.Location = New System.Drawing.Point(7, 237)
         Me.cmdMoveUpProcess.Name = "cmdMoveUpProcess"
@@ -286,8 +288,8 @@ Partial Class frmPreferences
         Me.lvHighlightingThread.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
         Me.lvHighlightingThread.FullRowSelect = True
         Me.lvHighlightingThread.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        ListViewItem17.StateImageIndex = 0
-        Me.lvHighlightingThread.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem17})
+        ListViewItem1.StateImageIndex = 0
+        Me.lvHighlightingThread.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1})
         Me.lvHighlightingThread.Location = New System.Drawing.Point(229, 3)
         Me.lvHighlightingThread.MultiSelect = False
         Me.lvHighlightingThread.Name = "lvHighlightingThread"
@@ -306,14 +308,14 @@ Partial Class frmPreferences
         Me.lvHighlightingProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Header})
         Me.lvHighlightingProcess.FullRowSelect = True
         Me.lvHighlightingProcess.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        ListViewItem18.StateImageIndex = 0
-        ListViewItem19.StateImageIndex = 0
-        ListViewItem20.StateImageIndex = 0
-        ListViewItem21.StateImageIndex = 0
-        ListViewItem22.StateImageIndex = 0
-        ListViewItem23.StateImageIndex = 0
-        ListViewItem24.StateImageIndex = 0
-        Me.lvHighlightingProcess.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem18, ListViewItem19, ListViewItem20, ListViewItem21, ListViewItem22, ListViewItem23, ListViewItem24})
+        ListViewItem2.StateImageIndex = 0
+        ListViewItem3.StateImageIndex = 0
+        ListViewItem4.StateImageIndex = 0
+        ListViewItem5.StateImageIndex = 0
+        ListViewItem6.StateImageIndex = 0
+        ListViewItem7.StateImageIndex = 0
+        ListViewItem8.StateImageIndex = 0
+        Me.lvHighlightingProcess.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8})
         Me.lvHighlightingProcess.Location = New System.Drawing.Point(3, 3)
         Me.lvHighlightingProcess.MultiSelect = False
         Me.lvHighlightingProcess.Name = "lvHighlightingProcess"
