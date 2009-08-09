@@ -26,19 +26,33 @@ Imports YAPM.Program
 
 Public Class frmMain
 
+    ' ========================================
+    ' Private attributes
+    ' ========================================
     Private WithEvents creg As cRegMonitor
     Private _ribbonStyle As Boolean = True
     Private _local As Boolean = True
     Private _notWMI As Boolean = True
-
-    ' ========================================
-    ' Private attributes
-    ' ========================================
+    Private _callExitWhenExitYAPM As Boolean = True
     Private handlesToRefresh() As Integer
     Private threadsToRefresh() As Integer
     Private modulesToRefresh() As Integer
     Private windowsToRefresh() As Integer
     Private cSelFile As cFile
+
+
+    ' ========================================
+    ' Public & properties
+    ' ========================================
+    Public Property CallExitWhenExitYAPM() As Boolean
+        Get
+            Return _callExitWhenExitYAPM
+        End Get
+        Set(ByVal value As Boolean)
+            _callExitWhenExitYAPM = value
+        End Set
+    End Property
+
     Public _shutdownConnection As New cShutdownConnection(Me, Program.Connection)
 
 
@@ -264,6 +278,11 @@ Public Class frmMain
             Me.Hide()
             e.Cancel = True
             Exit Sub
+        End If
+        ' This avoid to call ExitYAPM recursively when exiting
+        Me.CallExitWhenExitYAPM = False
+        If Me.CallExitWhenExitYAPM Then
+            Call ExitYAPM()
         End If
     End Sub
 
