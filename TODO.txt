@@ -1,7 +1,7 @@
 TODO LIST
 
 BUGS CRITIQUES
-- problème icones menu principal cachées
+- problème icones menu principal cachées (Vista seulement)
 - reports à faire (vérifier l'utilisation de GetAvailbleProperties)
 	process -> save services
 	mod -> foireux

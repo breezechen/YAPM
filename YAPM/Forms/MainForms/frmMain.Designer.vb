@@ -695,10 +695,6 @@ Partial Class frmMain
         Me.MenuItemMonitor = New System.Windows.Forms.MenuItem
         Me.MenuItemReportMonitor = New System.Windows.Forms.MenuItem
         Me.MenuItemWindows = New System.Windows.Forms.MenuItem
-        Me.MenuItem67 = New System.Windows.Forms.MenuItem
-        Me.MenuItemWEnalbe = New System.Windows.Forms.MenuItem
-        Me.MenuItemWDisable = New System.Windows.Forms.MenuItem
-        Me.MenuItem71 = New System.Windows.Forms.MenuItem
         Me.MenuItemReportWindows = New System.Windows.Forms.MenuItem
         Me.MenuItemServices = New System.Windows.Forms.MenuItem
         Me.MenuItemReportServices = New System.Windows.Forms.MenuItem
@@ -4106,7 +4102,7 @@ Partial Class frmMain
         '
         Me.splitThreads.Panel2.Controls.Add(Me.rtb4)
         Me.splitThreads.Size = New System.Drawing.Size(852, 359)
-        Me.splitThreads.SplitterDistance = 235
+        Me.splitThreads.SplitterDistance = 234
         Me.splitThreads.TabIndex = 0
         '
         'SplitContainerThreads
@@ -4127,7 +4123,7 @@ Partial Class frmMain
         'SplitContainerThreads.Panel2
         '
         Me.SplitContainerThreads.Panel2.Controls.Add(Me.lvThreads)
-        Me.SplitContainerThreads.Size = New System.Drawing.Size(852, 235)
+        Me.SplitContainerThreads.Size = New System.Drawing.Size(852, 234)
         Me.SplitContainerThreads.SplitterDistance = 25
         Me.SplitContainerThreads.TabIndex = 0
         '
@@ -4177,7 +4173,7 @@ Partial Class frmMain
         Me.lvThreads.OverriddenDoubleBuffered = True
         Me.lvThreads.ProcessId = Nothing
         Me.lvThreads.ReorganizeColumns = True
-        Me.lvThreads.Size = New System.Drawing.Size(852, 206)
+        Me.lvThreads.Size = New System.Drawing.Size(852, 205)
         Me.lvThreads.TabIndex = 5
         Me.lvThreads.UseCompatibleStateImageBehavior = False
         Me.lvThreads.View = System.Windows.Forms.View.Details
@@ -4236,7 +4232,7 @@ Partial Class frmMain
         Me.rtb4.Location = New System.Drawing.Point(0, 0)
         Me.rtb4.Name = "rtb4"
         Me.rtb4.ReadOnly = True
-        Me.rtb4.Size = New System.Drawing.Size(852, 120)
+        Me.rtb4.Size = New System.Drawing.Size(852, 121)
         Me.rtb4.TabIndex = 7
         Me.rtb4.Text = "Click on a thread to get additionnal informations"
         '
@@ -6991,34 +6987,14 @@ Partial Class frmMain
         'MenuItemWindows
         '
         Me.MenuItemWindows.Index = 6
-        Me.MenuItemWindows.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem67, Me.MenuItemWEnalbe, Me.MenuItemWDisable, Me.MenuItem71, Me.MenuItemReportWindows})
+        Me.MenuItemWindows.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemReportWindows})
         Me.MenuItemWindows.Text = "&Windows"
         Me.MenuItemWindows.Visible = False
-        '
-        'MenuItem67
-        '
-        Me.MenuItem67.Index = 0
-        Me.MenuItem67.Text = "-"
-        '
-        'MenuItemWEnalbe
-        '
-        Me.MenuItemWEnalbe.Index = 1
-        Me.MenuItemWEnalbe.Text = "Enable"
-        '
-        'MenuItemWDisable
-        '
-        Me.MenuItemWDisable.Index = 2
-        Me.MenuItemWDisable.Text = "Disable"
-        '
-        'MenuItem71
-        '
-        Me.MenuItem71.Index = 3
-        Me.MenuItem71.Text = "-"
         '
         'MenuItemReportWindows
         '
         Me.VistaMenu.SetImage(Me.MenuItemReportWindows, Global.YAPM.My.Resources.Resources._096)
-        Me.MenuItemReportWindows.Index = 4
+        Me.MenuItemReportWindows.Index = 0
         Me.MenuItemReportWindows.Text = "&Save report..."
         '
         'MenuItemServices
@@ -8166,10 +8142,6 @@ Partial Class frmMain
     Friend WithEvents MenuItemFileDecrypt As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItem80 As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemFileStrings As System.Windows.Forms.MenuItem
-    Friend WithEvents MenuItem67 As System.Windows.Forms.MenuItem
-    Friend WithEvents MenuItemWEnalbe As System.Windows.Forms.MenuItem
-    Friend WithEvents MenuItemWDisable As System.Windows.Forms.MenuItem
-    Friend WithEvents MenuItem71 As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemWShow As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemWSUnnamed As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemWHide As System.Windows.Forms.MenuItem

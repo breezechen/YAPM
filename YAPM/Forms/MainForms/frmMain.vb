@@ -4994,11 +4994,11 @@ Public Class frmMain
         Call Me.butWindowClose_Click(Nothing, Nothing)
     End Sub
 
-    Private Sub MenuItemWEnalbe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWEnalbe.Click, MenuItemWEnable.Click
+    Private Sub MenuItemWEnalbe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWEnable.Click
         Call Me.butWindowEnable_Click(Nothing, Nothing)
     End Sub
 
-    Private Sub MenuItemWDisable_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWDisable.Click, MenuItemWDisab.Click
+    Private Sub MenuItemWDisable_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWDisab.Click
         Call Me.butWindowDisable_Click(Nothing, Nothing)
     End Sub
 
