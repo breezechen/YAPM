@@ -21,6 +21,72 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
     <DIV>
         <H2>&nbsp;</H2>
         <H2>Changelog</H2>
+        <h3 style="margin-top:0; margin-bottom:0;">CHANGES FROM 2.0.2</h3>
+        <h3 style="margin-top:0; margin-bottom:0;">&nbsp;</h3>
+        <h3 style="margin-top:0; margin-bottom:0;">* General changes &amp; internal</h3>
+        <p style="margin-top:0; margin-bottom:0;">- High general optimisations (reduced CPU usage by ~50%)</p>
+        <p style="margin-top:0; margin-bottom:0;">- General code refactoring (merge pieces of code, so there is no more VB.Net dlls)</p>
+        <p style="margin-top:0; margin-bottom:0;">- Works well with UAC and limited rights under Vista and above</p>
+        <p style="margin-top:0; margin-bottom:0;">- Modules and memory areas are enumerated much faster</p>
+        <p style="margin-top:0; margin-bottom:0;">- Better semaphore protection for multi-threading</p>
+        <p style="margin-top:0; margin-bottom:0;">- &quot;Pending task&quot; feature works well (but not completely avaialble for remote monitoring)</p>
+        <h3 style="margin-top:0; margin-bottom:0;">&nbsp;</h3>
+        <h3 style="margin-top:0; margin-bottom:0;">* GUI changes</h3>
+        <p style="margin-top:0; margin-bottom:0;">- No more &quot;toolstrips menu&quot; : replaced by normal menus</p>
+        <p style="margin-top:0; margin-bottom:0;">- Colors of main form are better under Windows XP</p>
+        <p style="margin-top:0; margin-bottom:0;">- Column reorganization works well</p>
+        <p style="margin-top:0; margin-bottom:0;">- &quot;Enter&quot; keypress on processes/services list open detailed view</p>
+        <p style="margin-top:0; margin-bottom:0;">- added drag &amp; drop to open a file in &quot;files view&quot;</p>
+        <p style="margin-top:0; margin-bottom:0;">- added &quot;Copy to clipboard&quot; everywhere</p>
+        <p style="margin-top:0; margin-bottom:0;">-&nbsp;temporary removed SBA from menus</p>
+        <p style="margin-top:0; margin-bottom:0;">- removed icons from tabcontrols</p>
+        <p style="margin-top:0; margin-bottom:0;">- added &quot;highlighting&quot; for local mode</p>
+        <p style="margin-top:0; margin-bottom:0;">- added internet search and file details in dependency viewer</p>
+        <p style="margin-top:0; margin-bottom:0;">- menus are disabled when nothing is selected or when the action has no sense</p>
+        <p style="margin-top:0; margin-bottom:0;">- added a statusbar</p>
+        <p style="margin-top:0; margin-bottom:0;">- refresh works everywhere with F5 keypress</p>
+        <p style="margin-top:0; margin-bottom:0;">- added toolitps almost everywhere</p>
+        <p style="margin-top:0; margin-bottom:0;">- now all menus are available without Ribbon style</p>
+        <p style="margin-top:0; margin-bottom:0;">- all windows functions are avaialble in detailed view and via right click menu on main view</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <h3 style="margin-top:0; margin-bottom:0;">* New informations availables</h3>
+        <p style="margin-top:0; margin-bottom:0;">- &nbsp;added new informatons about processes</p>
+        <p style="margin-top:0; margin-bottom:0;">- added &quot;Description port&quot; information for remote connections (for example it says that port 23 is telnet)</p>
+        <p style="margin-top:0; margin-bottom:0;">- more informations are retrieved for modules</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <h3 style="margin-top:0; margin-bottom:0;">* New features</h3>
+        <p style="margin-top:0; margin-bottom:0;">- &nbsp;added Decommit/Release/Change protection features for memory</p>
+        <p style="margin-top:0; margin-bottom:0;">- added &quot;Navigate to&quot; for key/file handles</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <h3 style="margin-top:0; margin-bottom:0;">* Options  </h3>
+        <p style="margin-top:0; margin-bottom:0;">- &nbsp;&quot;automatically get online infos&quot; option</p>
+        <p style="margin-top:0; margin-bottom:0;">- now upgrades settings from previous versions of YAPM if possible</p>
+        <p style="margin-top:0; margin-bottom:0;">- added &quot;Show user group/domain&quot; option</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <h3 style="margin-top:0; margin-bottom:0;">* Minor changes</h3>
+        <p style="margin-top:0; margin-bottom:0;">- &nbsp;now user can choose port for remote communication</p>
+        <p style="margin-top:0; margin-bottom:0;">- now retrieve update informations from YAPM webiste (not sf.net)</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <h3 style="margin-top:0; margin-bottom:0;">* Bug fixes</h3>
+        <p style="margin-top:0; margin-bottom:0;">- no more flickering</p>
+        <p style="margin-top:0; margin-bottom:0;">- start hidden works well</p>
+        <p style="margin-top:0; margin-bottom:0;">- ctrl+c works well on listviews</p>
+        <p style="margin-top:0; margin-bottom:0;">- fixed &quot;informations view&quot; for remote view of modules</p>
+        <p style="margin-top:0; margin-bottom:0;">- fixed perf counters bug when no instance available</p>
+        <p style="margin-top:0; margin-bottom:0;">- parent processes info is OK after deconnection/reconnection</p>
+        <p style="margin-top:0; margin-bottom:0;">- fixed icon bug in moduleList</p>
+        <p style="margin-top:0; margin-bottom:0;">- dependency viewer only opens if file exists</p>
+        <p style="margin-top:0; margin-bottom:0;">- fixed bug #2832606 (commandLine refactored)</p>
+        <p style="margin-top:0; margin-bottom:0;">- fixed bug #2832408 (key exists, env variable)</p>
+        <p style="margin-top:0; margin-bottom:0;">- fixed bug #2807722</p>
+        <p style="margin-top:0; margin-bottom:0;">- replace taskmgr OK for Vista</p>
+        <p style="margin-top:0; margin-bottom:0;">- no more crash when save miniDump on a location where we have no rights to write</p>
+        <p style="margin-top:0; margin-bottom:0;">- no more &quot;beep&quot; when exit from preferences after changing ShowRibbon property</p>
+        <p style="margin-top:0; margin-bottom:0;">- now task and windows captions are updated</p>
+        <p style="margin-top:0; margin-bottom:0;">- many many others...</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
         <h3 style="margin-top:0; margin-bottom:0;">CHANGES FROM 2.0</h3>
         <h3 style="margin-top:0; margin-bottom:0;">&nbsp;</h3>
         <h3 style="margin-top:0; margin-bottom:0;">* General changes</h3>
@@ -230,7 +296,7 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
         <p>&nbsp;</p>
         <DIV>
             <P id=footer><i>Copyright (c) 2008-2009 violent_ken</i></P>
-            <P><i>Last update of this page : 2009-06-05&nbsp;19:00</i></P>
+            <P><i>Last update of this page : 2009-09-08&nbsp;20:00</i></P>
         </DIV>
         <P></P>
         <p>
