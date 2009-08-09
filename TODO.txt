@@ -87,6 +87,7 @@ BUGS NON CRITIQUES
 - virer toolstripmenu dans dependency viewer
 - sélectionner premier item tv dep viewer automatiquement
 - virer PtrToStructure et n'utiliser que MemoryAlloc
+- replace taskmgr sous 7 ?
 
 
 - ajouter semaphores de protection dans les methodes "Friend Shared Sub enumXXXX" (pour accès concurrent avec le log) ????
@@ -127,51 +128,3 @@ BUGS NON CRITIQUES
 
 Temp Change log :
 /!\ METTRE A JOUR LE FICHIER D'AIDE LORS DE LA RELEASE
-- touche Enter sur process/service -> ouvre form detail
-- parent processes OK meme après déconnection/reconnection
-- correction bug 'details textuels' des modules en remote (FileInfo is nothing)
-- correction bug ctrl+C sur les listviews
-- ajout fonction "Navigate" pour un fichier/registre (handles)
-- ajout drag & drop pour ouvrir un fichier dans la vue fichier
-- ajout menu "Copy to clipboard" de partout
-- suppression temporaire de SBA
-- correction bug the performance counter (avec aucune instance de disponible)
-- suppression des icones dans les tabstrips (pour plus de légereté)
-- gestion UAC OK
-- ajout option "démarrage en mode admin"
-- fixed icon bug in moduleList
-- nouvelles informations sur les processus
-- ajout support highlighting
-- refactoring (merge Providers & main project pour la prise en compte des settings dans les listviews)
-- merge corefunc, memhexeditor et dependencyViewer dans main project
-- removed dead code
-- ajout google search et file details dans dependency viewer
-- ajout option "Show user group/domain"
-- option Start hidden plus propre
-- possibilité de choisir le port pour la communication server
-- ajout de la colonne 'description port' pour les connexions
-- dependency viewer ne s'ouvre que si le fichier existe
-- affichage des menus désactivé quand rien à sélectionner
-- réorganisation des colonnes OK
-- meilleure prise en charge du theme Classic sous XP
-- plus d'informations récupérées sur les modules
-- importante optimisation sur la récupération des modules
-- ajout de la status bar
-- optimisation récupération des zones mémoires
-- ajout fonctions Decommit/Release/Change protection pour la mémoire
-- refresh des infos sur les form détail OK avec F5
-- plus de scintillements
-- suppression bug d'affichage -> optimisation du remplissage des listviews
-- correction bug #2832408 (key exists, env variable)
-- correction bug #2832606 (commandLine refait)
-- meilleure protection sémaphore
-- optimisation critique d'affichage
-- amélioration pending task
-- replace taskmgr OK for Vista and above
-- no more "beep" when exit from preferences after changing ShowRibbon property
-- start hidden is OK
-- fixed bug #2807722
-- now task and windows captions are updated
-- now all menus are available without Ribbon style
-- all windows functions avaialble in detailed view and via right click menu on main view
-- no more crash when save miniDump on a location where we have no rights to write

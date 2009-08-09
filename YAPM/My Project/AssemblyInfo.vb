@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyTitle("YAPM")> 
 <Assembly: AssemblyDescription("Yet Another (remote) Process Monitor")> 
-<Assembly: AssemblyCompany("")> 
+<Assembly: AssemblyCompany("v_k softwares")> 
 <Assembly: AssemblyProduct("YAPM")> 
 <Assembly: AssemblyCopyright("Copyright ©  2008 by violent_ken")> 
 <Assembly: AssemblyTrademark("")> 

@@ -1,13 +1,69 @@
 YAPM 2.0.1 BETA
 
 CHANGES FROM 2.0.2
-- menus .Net complètement supprimés
-- bug fixes
-- option "automatically get online infos"
-- IHM improvements
-- récupération des infos de MAJ depuis le site web de yapm (non plus sf.net)
-- upgrade des settings depuis une version précédente de YAPM
-- ajout de tooltips partout
+
+* General changes & internal
+- High general optimisations (reduced CPU usage by ~70%)
+- General code refactoring (merge pieces of code, so there is no more VB.Net dlls)
+- Works well with UAC and limited rights under Vista and above
+- Modules and memory areas are enumerated much faster
+- Better semaphore protection for multi-threading
+- "Pending task" feature works well (but not completely avaialble for remote monitoring)
+
+* GUI changes
+- No more "toolstrips menu" : replaced by normal menus
+- Colors of main form are better under Windows XP
+- Column reorganization works well
+- "Enter" keypress on processes/services list open detailed view
+- added drag & drop to open a file in "files view"
+- added "Copy to clipboard" everywhere
+- temporary removed SBA from menus
+- removed icons from tabcontrols
+- added "highlighting" for local mode
+- added internet search and file details in dependency viewer
+- menus are disabled when nothing is selected or when the action has no sense
+- added a statusbar
+- refresh works everywhere with F5 keypress
+- added toolitps almost everywhere
+- now all menus are available without Ribbon style
+- all windows functions are avaialble in detailed view and via right click menu on main view
+
+* New informations availables
+- added new informatons about processes
+- added "Description port" information for remote connections (for example it says that port 23 is telnet)
+- more informations are retrieved for modules
+ 
+* New features
+- added Decommit/Release/Change protection features for memory
+- added "Navigate to" for key/file handles
+ 
+* Options
+- "automatically get online infos" option
+- now upgrades settings from previous versions of YAPM if possible
+- added "Show user group/domain" option
+ 
+* Minor changes
+- now user can choose port for remote communication
+- now retrieve update informations from YAPM webiste (not sf.net)
+
+* Bug fixes
+- no more flickering
+- start hidden works well
+- ctrl+c works well on listviews
+- fixed "informations view" for remote view of modules
+- fixed perf counters bug when no instance available
+- parent processes info is OK after deconnection/reconnection
+- fixed icon bug in moduleList
+- dependency viewer only opens if file exists
+- fixed bug #2832606 (commandLine refactored)
+- fixed bug #2832408 (key exists, env variable)
+- fixed bug #2807722
+- replace taskmgr OK for Vista
+- no more crash when save miniDump on a location where we have no rights to write
+- no more "beep" when exit from preferences after changing ShowRibbon property
+- now task and windows captions are updated
+- many many others...
+
 
 CHANGES FROM 2.0.1
 
