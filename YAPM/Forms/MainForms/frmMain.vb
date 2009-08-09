@@ -2348,13 +2348,13 @@ Public Class frmMain
             Dim selectionIsNotNothing As Boolean = (Me.lvProcess.SelectedItems IsNot Nothing AndAlso Me.lvProcess.SelectedItems.Count > 0)
             Me.MenuItem27.Enabled = selectionIsNotNothing
             Me.MenuItem35.Enabled = selectionIsNotNothing
-            Me.MenuItemProcKill.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemProcKill.Enabled = selectionIsNotNothing
             Me.MenuItemProcPriority.Enabled = selectionIsNotNothing
             Me.MenuItemProcReanalize.Enabled = selectionIsNotNothing
             Me.MenuItemProcResume.Enabled = selectionIsNotNothing AndAlso _notWMI
             Me.MenuItemProcKillT.Enabled = selectionIsNotNothing
             Me.MenuItemProcStop.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemProcResume.Enabled = selectionIsNotNothing
+            Me.MenuItemProcResume.Enabled = selectionIsNotNothing AndAlso _notWMI
             Me.MenuItemProcSFileDetails.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemProcSFileProp.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemProcSOpenDir.Enabled = selectionIsNotNothing AndAlso _local
@@ -2523,6 +2523,13 @@ Public Class frmMain
             Me.MenuItemWindowSelProc.Enabled = selectionIsNotNothing
             Me.MenuItemCopyWindow.Enabled = selectionIsNotNothing
 
+            Me.MenuItemWClose.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemWDisab.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemWEnable.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemWHide.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemWShow.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemWVisibility.Enabled = selectionIsNotNothing AndAlso _notWMI
+
             Me.mnuWindow.Show(Me.lvWindows, e.Location)
         End If
     End Sub
@@ -2672,6 +2679,7 @@ Public Class frmMain
     End Sub
 
     Private Sub chkAllWindows_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkAllWindows.CheckedChanged
+        Me.MenuItemWSUnnamed.Checked = Me.chkAllWindows.Checked
         If windowsToRefresh IsNot Nothing Then Call ShowWindows()
     End Sub
 
@@ -2981,6 +2989,19 @@ Public Class frmMain
     Private Sub _tab_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles _tab.SelectedIndexChanged
         Static bHelpShown As Boolean = False
 
+        ' Hide specific menus
+        If My.Settings.UseRibbonStyle = False Then
+            Me.MenuItemProcesses.Visible = False
+            Me.MenuItemThreads.Visible = False
+            Me.MenuItemModules.Visible = False
+            Me.MenuItemHandles.Visible = False
+            Me.MenuItemWindows.Visible = False
+            Me.MenuItemMonitor.Visible = False
+            Me.MenuItemServices.Visible = False
+            Me.MenuItemFiles.Visible = False
+            Me.MenuItemSearch.Visible = False
+        End If
+
         ' Change current tab of ribbon
         Dim theTab As RibbonTab = Me.HelpTab
         Select Case _tab.SelectedIndex
@@ -2990,33 +3011,60 @@ Public Class frmMain
             Case 1
                 My.Settings.SelectedTab = "Processes"
                 theTab = Me.ProcessTab
+                If My.Settings.UseRibbonStyle = False Then
+                    Me.MenuItemProcesses.Visible = True
+                End If
             Case 2
                 My.Settings.SelectedTab = "Modules"
                 theTab = Me.ModulesTab
+                If My.Settings.UseRibbonStyle = False Then
+                    Me.MenuItemModules.Visible = True
+                End If
             Case 3
                 My.Settings.SelectedTab = "Threads"
                 theTab = Me.ThreadTab
+                If My.Settings.UseRibbonStyle = False Then
+                    Me.MenuItemThreads.Visible = True
+                End If
             Case 4
                 My.Settings.SelectedTab = "Handles"
                 theTab = Me.HandlesTab
+                If My.Settings.UseRibbonStyle = False Then
+                    Me.MenuItemHandles.Visible = True
+                End If
             Case 5
                 My.Settings.SelectedTab = "Windows"
                 theTab = Me.WindowTab
+                If My.Settings.UseRibbonStyle = False Then
+                    Me.MenuItemWindows.Visible = True
+                End If
             Case 6
                 My.Settings.SelectedTab = "Monitor"
                 theTab = Me.MonitorTab
+                If My.Settings.UseRibbonStyle = False Then
+                    Me.MenuItemMonitor.Visible = True
+                End If
             Case 7
                 My.Settings.SelectedTab = "Services"
                 theTab = Me.ServiceTab
+                If My.Settings.UseRibbonStyle = False Then
+                    Me.MenuItemServices.Visible = True
+                End If
             Case 8
                 My.Settings.SelectedTab = "Network"
                 theTab = Me.NetworkTab
             Case 9
                 My.Settings.SelectedTab = "File"
                 theTab = Me.FileTab
+                If My.Settings.UseRibbonStyle = False Then
+                    Me.MenuItemFiles.Visible = True
+                End If
             Case 10
                 My.Settings.SelectedTab = "Search"
                 theTab = Me.SearchTab
+                If My.Settings.UseRibbonStyle = False Then
+                    Me.MenuItemSearch.Visible = True
+                End If
             Case 11
                 My.Settings.SelectedTab = "Help"
                 theTab = Me.HelpTab
@@ -4823,4 +4871,167 @@ Public Class frmMain
         Next
     End Sub
 
+    Private Sub MenuItemShowPendingTasks_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuItemShowPendingTasks.Click
+        Call butShowAllPendingTasks_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemReportProcesses_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemReportProcesses.Click
+        Call Me.butSaveProcessReport_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemReportModules_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemReportModules.Click
+        Call Me.butModulesSaveReport_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemReportThreads_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemReportThreads.Click
+        Call Me.butThreadSaveReport_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemReportHandles_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemReportHandles.Click
+        Call Me.butHandlesSaveReport_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemReportMonitor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemReportMonitor.Click
+        Call Me.butMonitorSaveReport_click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemReportWindows_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemReportWindows.Click
+        Call Me.butWindowSaveReport_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemReportServices_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemReportServices.Click
+        Call Me.butServiceReport_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemNewSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemNewSearch.Click
+        Call Me.MenuItemSearchNew_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemReportSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemReportSearch.Click
+        Call Me.butSearchSaveReport_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemFileOpen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemFileOpen.Click
+        Call Me.butOpenFile_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemFileRelease_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemFileRelease.Click
+        Call Me.butFileRelease_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemFileDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemFileDelete.Click
+        Call Me.butDeleteFile_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemFileTrash_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemFileTrash.Click
+        Call Me.butMoveFileToTrash_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemFileRename_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemFileRename.Click
+        Call Me.butFileRename_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemFileShellOpen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemFileShellOpen.Click
+        Call Me.butFileOpen_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemFileMove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemFileMove.Click
+        Call Me.butFileMove_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemFileCopy_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemFileCopy.Click
+        Call Me.butFileCopy_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemFileEncrypt_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemFileEncrypt.Click
+        Call Me.butFileEncrypt_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemFileDecrypt_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemFileDecrypt.Click
+        Call Me.butFileDecrypt_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemFileStrings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemFileStrings.Click
+        Call Me.butFileSeeStrings_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butMonitorSaveReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMonitorSaveReport.Click
+        'TODO
+    End Sub
+   
+    Private Sub MenuItemWShow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWShow.Click
+        Call Me.butWindowShow_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemWUnnamed_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWSUnnamed.Click
+        Me.chkAllWindows.Checked = Not (Me.chkAllWindows.Checked)
+    End Sub
+
+    Private Sub MenuItemWHide_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWHide.Click
+        Call Me.butWindowHide_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemWClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWClose.Click
+        Call Me.butWindowClose_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemWEnalbe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWEnalbe.Click, MenuItemWEnable.Click
+        Call Me.butWindowEnable_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemWDisable_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWDisable.Click, MenuItemWDisab.Click
+        Call Me.butWindowDisable_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemWFront_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWFront.Click
+        Call Me.butWindowBringToFront_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemWNotFront_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWNotFront.Click
+        Call Me.butWindowDoNotBringToFront_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemWActive_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWActive.Click
+        Call Me.butWindowSetAsActive_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemWForeground_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWForeground.Click
+        Call Me.butWindowSetAsForeground_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemWMin_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWMin.Click
+        Call Me.butWindowMinimize_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemWMax_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWMax.Click
+        Call Me.butWindowMaximize_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemWPos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWPos.Click
+        Call Me.butWindowPositionSize_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemWFlash_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWFlash.Click
+        Call Me.butWindowFlash_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemWStopFlash_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWStopFlash.Click
+        Call Me.butWindowStopFlashing_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemWOpacity_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWOpacity.Click
+        Call Me.butWindowOpacity_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemWCaption_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWCaption.Click
+        Call Me.butWindowCaption_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butProcessReduceWS_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessReduceWS.Click
+        Call Me.MenuItemProcWorkingSS_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butProcessDumpF_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessDumpF.Click
+        Call Me.MenuItemProcDump_Click(Nothing, Nothing)
+    End Sub
 End Class

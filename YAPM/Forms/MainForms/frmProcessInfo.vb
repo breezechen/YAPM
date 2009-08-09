@@ -1566,11 +1566,11 @@ Public Class frmProcessInfo
             Dim selectionIsNotNothing As Boolean = (Me.lvThreads.SelectedItems IsNot Nothing _
                             AndAlso Me.lvThreads.SelectedItems.Count > 0)
 
-            Me.MenuItemThAffinity.Enabled = selectionIsNotNothing
-            Me.MenuItemThSuspend.Enabled = selectionIsNotNothing
-            Me.MenuItemThTerm.Enabled = selectionIsNotNothing
-            Me.MenuItemThResu.Enabled = selectionIsNotNothing
-            Me.MenuItem8.Enabled = selectionIsNotNothing
+            Me.MenuItemThAffinity.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemThSuspend.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemThTerm.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemThResu.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItem8.Enabled = selectionIsNotNothing AndAlso _notWMI
             Me.MenuItemCopyThread.Enabled = selectionIsNotNothing
 
             Me.mnuThread.Show(Me.lvThreads, e.Location)
@@ -2391,4 +2391,51 @@ Public Class frmProcessInfo
         End If
     End Sub
 
+    Private Sub MenuItemWFlash_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWFlash.Click
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.Flash()
+        Next
+    End Sub
+
+    Private Sub MenuItemWStopFlash_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWStopFlash.Click
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.StopFlashing()
+        Next
+    End Sub
+
+    Private Sub MenuItemWOpacity_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWOpacity.Click
+        Dim i As Byte
+        Dim z As Integer = 0
+
+        If Me.lvWindows.SelectedItems.Count > 0 Then
+            z = Me.lvWindows.GetSelectedItem.Infos.Opacity
+        End If
+
+        Dim sres As String = CInputBox("Set a new opacity [0 to 255, 255 = minimum transparency]", "New opacity", CStr(z))
+
+        If sres Is Nothing OrElse sres.Equals(String.Empty) Then Exit Sub
+
+        i = CByte(Val(sres))
+        If i < 0 Or i > 255 Then Exit Sub
+
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.Opacity = i
+        Next
+    End Sub
+
+    Private Sub MenuItemWCaption_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWCaption.Click
+        Dim z As String = ""
+
+        If Me.lvWindows.SelectedItems.Count > 0 Then
+            z = Me.lvWindows.GetSelectedItem.Caption
+        End If
+
+        Dim sres As String = CInputBox("Set a new caption.", "New caption", z)
+
+        If sres Is Nothing OrElse sres.Equals(String.Empty) Then Exit Sub
+
+        For Each it As cWindow In Me.lvWindows.GetSelectedItems
+            it.Caption = sres
+        Next
+    End Sub
 End Class

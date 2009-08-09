@@ -3,11 +3,13 @@ TODO LIST
 BUGS CRITIQUES
 - l'organisation des colonnes des threads n'est pas rechargée (ou bien sauvée ?) dans la form détail. Voir si c'est pareil pour les autres lv de la form
 - click sur croix de fermeture de frmMain -> appeler ExitYAPM avec succes
-- onglet File sans le ribbon -> les actions sont indisponibles (ajouter menu avec Open file, Refresh, Release...)
-- actions sur les Windows impossible en mode non ribbon (obligation d'ajouter un popup menu...)
+- problème icones menu principal cachées
 - reports
+- other... dans le ribbon (dump...)
 
 BUGS NON CRITIQUES
+- highlightings en remote
+- shift + right click -> menu windows
 - OK dans chooseColumns -> devrait sauvegarder les préférences de suite
 - recup username foireux
 - pending task pour remote (le _deg n'est pas appelé en remote)
@@ -161,3 +163,6 @@ Temp Change log :
 - start hidden is OK
 - fixed bug #2807722
 - now task and windows captions are updated
+- now all menus are available without Ribbon style
+- all windows functions avaialble in detailed view and via right click menu on main view
+- no more crash when save miniDump on a location where we have no rights to write

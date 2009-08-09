@@ -63,20 +63,25 @@ Public Class asyncCallbackProcMinidump
 
             Case Else
                 ' Local
-                Dim hProc As Integer
-                Dim ret As Integer = -1
-                hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION Or API.PROCESS_RIGHTS.PROCESS_VM_READ, 0, pObj.pid)
-                If hProc > 0 Then
-                    ' Create dump file
-                    Dim fs As New System.IO.FileStream(pObj.file, System.IO.FileMode.Create)
-                    ' Write dump file
-                    API.MiniDumpWriteDump(hProc, pObj.pid, fs.SafeFileHandle.DangerousGetHandle(), pObj.dumpOpt, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero)
-                    API.CloseHandle(hProc)
-                    fs.Close()
-                    _deg.Invoke(ret <> 0, 0, pObj.file, API.GetError, pObj.newAction)
-                Else
-                    _deg.Invoke(False, pObj.pid, pObj.file, API.GetError, pObj.newAction)
-                End If
+                Try
+                    Dim hProc As Integer
+                    Dim ret As Integer = -1
+                    hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION Or API.PROCESS_RIGHTS.PROCESS_VM_READ, 0, pObj.pid)
+                    If hProc > 0 Then
+                        ' Create dump file
+                        Dim fs As New System.IO.FileStream(pObj.file, System.IO.FileMode.Create)
+                        ' Write dump file
+                        API.MiniDumpWriteDump(hProc, pObj.pid, fs.SafeFileHandle.DangerousGetHandle(), pObj.dumpOpt, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero)
+                        API.CloseHandle(hProc)
+                        fs.Close()
+                        _deg.Invoke(ret <> 0, 0, pObj.file, API.GetError, pObj.newAction)
+                    Else
+                        _deg.Invoke(False, pObj.pid, pObj.file, API.GetError, pObj.newAction)
+                    End If
+                Catch ex As Exception
+                    ' Access denied, or...
+                    _deg.Invoke(False, pObj.pid, pObj.file, ex.Message, pObj.newAction)
+                End Try
         End Select
     End Sub
 

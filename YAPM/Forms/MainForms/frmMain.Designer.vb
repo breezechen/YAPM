@@ -101,6 +101,8 @@ Partial Class frmMain
         Me.butResumeProcess = New System.Windows.Forms.RibbonButton
         Me.butProcessOtherActions = New System.Windows.Forms.RibbonButton
         Me.butProcessAffinity = New System.Windows.Forms.RibbonButton
+        Me.butProcessReduceWS = New System.Windows.Forms.RibbonButton
+        Me.butProcessDumpF = New System.Windows.Forms.RibbonButton
         Me.butProcessLimitCPU = New System.Windows.Forms.RibbonButton
         Me.butProcessShow = New System.Windows.Forms.RibbonButton
         Me.butProcessShowModules = New System.Windows.Forms.RibbonButton
@@ -622,6 +624,30 @@ Partial Class frmMain
         Me.MenuItemColumnsModule = New System.Windows.Forms.MenuItem
         Me.mnuWindow = New System.Windows.Forms.ContextMenu
         Me.MenuItem23 = New System.Windows.Forms.MenuItem
+        Me.MenuItemWShow = New System.Windows.Forms.MenuItem
+        Me.MenuItemWSUnnamed = New System.Windows.Forms.MenuItem
+        Me.MenuItemWHide = New System.Windows.Forms.MenuItem
+        Me.MenuItemWClose = New System.Windows.Forms.MenuItem
+        Me.MenuItem36 = New System.Windows.Forms.MenuItem
+        Me.MenuItemWVisibility = New System.Windows.Forms.MenuItem
+        Me.MenuItemWFront = New System.Windows.Forms.MenuItem
+        Me.MenuItemWNotFront = New System.Windows.Forms.MenuItem
+        Me.MenuItemWActive = New System.Windows.Forms.MenuItem
+        Me.MenuItemWForeground = New System.Windows.Forms.MenuItem
+        Me.MenuItem50 = New System.Windows.Forms.MenuItem
+        Me.MenuItemWMin = New System.Windows.Forms.MenuItem
+        Me.MenuItemWMax = New System.Windows.Forms.MenuItem
+        Me.MenuItemWPos = New System.Windows.Forms.MenuItem
+        Me.MenuItem57 = New System.Windows.Forms.MenuItem
+        Me.MenuItemWFlash = New System.Windows.Forms.MenuItem
+        Me.MenuItemWStopFlash = New System.Windows.Forms.MenuItem
+        Me.MenuItem63 = New System.Windows.Forms.MenuItem
+        Me.MenuItemWOpacity = New System.Windows.Forms.MenuItem
+        Me.MenuItemWCaption = New System.Windows.Forms.MenuItem
+        Me.MenuItem69 = New System.Windows.Forms.MenuItem
+        Me.MenuItemWEnable = New System.Windows.Forms.MenuItem
+        Me.MenuItemWDisab = New System.Windows.Forms.MenuItem
+        Me.MenuItem74 = New System.Windows.Forms.MenuItem
         Me.MenuItemWindowColumns = New System.Windows.Forms.MenuItem
         Me.mnuSearch = New System.Windows.Forms.ContextMenu
         Me.MenuItemSearchNew = New System.Windows.Forms.MenuItem
@@ -653,10 +679,49 @@ Partial Class frmMain
         Me.MenuItem56 = New System.Windows.Forms.MenuItem
         Me.MenuItemSystemReport = New System.Windows.Forms.MenuItem
         Me.MenuItem59 = New System.Windows.Forms.MenuItem
+        Me.MenuItemShowPendingTasks = New System.Windows.Forms.MenuItem
         Me.MenuItem62 = New System.Windows.Forms.MenuItem
         Me.MenuItemSystemEmergency = New System.Windows.Forms.MenuItem
         Me.MenuItemSystemSBA = New System.Windows.Forms.MenuItem
         Me.MenuItem66 = New System.Windows.Forms.MenuItem
+        Me.MenuItemProcesses = New System.Windows.Forms.MenuItem
+        Me.MenuItemReportProcesses = New System.Windows.Forms.MenuItem
+        Me.MenuItemModules = New System.Windows.Forms.MenuItem
+        Me.MenuItemReportModules = New System.Windows.Forms.MenuItem
+        Me.MenuItemThreads = New System.Windows.Forms.MenuItem
+        Me.MenuItemReportThreads = New System.Windows.Forms.MenuItem
+        Me.MenuItemHandles = New System.Windows.Forms.MenuItem
+        Me.MenuItemReportHandles = New System.Windows.Forms.MenuItem
+        Me.MenuItemMonitor = New System.Windows.Forms.MenuItem
+        Me.MenuItemReportMonitor = New System.Windows.Forms.MenuItem
+        Me.MenuItemWindows = New System.Windows.Forms.MenuItem
+        Me.MenuItem67 = New System.Windows.Forms.MenuItem
+        Me.MenuItemWEnalbe = New System.Windows.Forms.MenuItem
+        Me.MenuItemWDisable = New System.Windows.Forms.MenuItem
+        Me.MenuItem71 = New System.Windows.Forms.MenuItem
+        Me.MenuItemReportWindows = New System.Windows.Forms.MenuItem
+        Me.MenuItemServices = New System.Windows.Forms.MenuItem
+        Me.MenuItemReportServices = New System.Windows.Forms.MenuItem
+        Me.MenuItemSearch = New System.Windows.Forms.MenuItem
+        Me.MenuItemNewSearch = New System.Windows.Forms.MenuItem
+        Me.MenuItem61 = New System.Windows.Forms.MenuItem
+        Me.MenuItemReportSearch = New System.Windows.Forms.MenuItem
+        Me.MenuItemFiles = New System.Windows.Forms.MenuItem
+        Me.MenuItemFileOpen = New System.Windows.Forms.MenuItem
+        Me.MenuItem68 = New System.Windows.Forms.MenuItem
+        Me.MenuItemFileRelease = New System.Windows.Forms.MenuItem
+        Me.MenuItemFileDelete = New System.Windows.Forms.MenuItem
+        Me.MenuItemFileTrash = New System.Windows.Forms.MenuItem
+        Me.MenuItem72 = New System.Windows.Forms.MenuItem
+        Me.MenuItemFileRename = New System.Windows.Forms.MenuItem
+        Me.MenuItemFileShellOpen = New System.Windows.Forms.MenuItem
+        Me.MenuItemFileMove = New System.Windows.Forms.MenuItem
+        Me.MenuItemFileCopy = New System.Windows.Forms.MenuItem
+        Me.MenuItem77 = New System.Windows.Forms.MenuItem
+        Me.MenuItemFileEncrypt = New System.Windows.Forms.MenuItem
+        Me.MenuItemFileDecrypt = New System.Windows.Forms.MenuItem
+        Me.MenuItem80 = New System.Windows.Forms.MenuItem
+        Me.MenuItemFileStrings = New System.Windows.Forms.MenuItem
         Me.MenuItemSYSTEMOPT = New System.Windows.Forms.MenuItem
         Me.MenuItemSystemAlwaysVisible = New System.Windows.Forms.MenuItem
         Me.MenuItem37 = New System.Windows.Forms.MenuItem
@@ -935,7 +1000,7 @@ Partial Class frmMain
         Me.orbStartElevated.SmallImage = Global.YAPM.My.Resources.Resources.shield_32
         Me.orbStartElevated.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.orbStartElevated.Tag = Nothing
-        Me.orbStartElevated.Text = "Restart as admin"
+        Me.orbStartElevated.Text = "Restart with privileges"
         Me.orbStartElevated.ToolTip = Nothing
         Me.orbStartElevated.ToolTipImage = Nothing
         Me.orbStartElevated.ToolTipTitle = Nothing
@@ -1391,6 +1456,8 @@ Partial Class frmMain
         Me.butProcessOtherActions.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butProcessOtherActions.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butProcessOtherActions.DropDownItems.Add(Me.butProcessAffinity)
+        Me.butProcessOtherActions.DropDownItems.Add(Me.butProcessReduceWS)
+        Me.butProcessOtherActions.DropDownItems.Add(Me.butProcessDumpF)
         Me.butProcessOtherActions.DropDownItems.Add(Me.butProcessLimitCPU)
         Me.butProcessOtherActions.Image = CType(resources.GetObject("butProcessOtherActions.Image"), System.Drawing.Image)
         Me.butProcessOtherActions.SmallImage = CType(resources.GetObject("butProcessOtherActions.SmallImage"), System.Drawing.Image)
@@ -1404,7 +1471,7 @@ Partial Class frmMain
         'butProcessAffinity
         '
         Me.butProcessAffinity.AltKey = Nothing
-        Me.butProcessAffinity.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butProcessAffinity.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butProcessAffinity.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butProcessAffinity.Image = CType(resources.GetObject("butProcessAffinity.Image"), System.Drawing.Image)
         Me.butProcessAffinity.SmallImage = CType(resources.GetObject("butProcessAffinity.SmallImage"), System.Drawing.Image)
@@ -1415,10 +1482,38 @@ Partial Class frmMain
         Me.butProcessAffinity.ToolTipImage = Nothing
         Me.butProcessAffinity.ToolTipTitle = Nothing
         '
+        'butProcessReduceWS
+        '
+        Me.butProcessReduceWS.AltKey = Nothing
+        Me.butProcessReduceWS.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
+        Me.butProcessReduceWS.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessReduceWS.Image = CType(resources.GetObject("butProcessReduceWS.Image"), System.Drawing.Image)
+        Me.butProcessReduceWS.SmallImage = CType(resources.GetObject("butProcessReduceWS.SmallImage"), System.Drawing.Image)
+        Me.butProcessReduceWS.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessReduceWS.Tag = Nothing
+        Me.butProcessReduceWS.Text = "Reduce working set size"
+        Me.butProcessReduceWS.ToolTip = Nothing
+        Me.butProcessReduceWS.ToolTipImage = Nothing
+        Me.butProcessReduceWS.ToolTipTitle = Nothing
+        '
+        'butProcessDumpF
+        '
+        Me.butProcessDumpF.AltKey = Nothing
+        Me.butProcessDumpF.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
+        Me.butProcessDumpF.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butProcessDumpF.Image = CType(resources.GetObject("butProcessDumpF.Image"), System.Drawing.Image)
+        Me.butProcessDumpF.SmallImage = CType(resources.GetObject("butProcessDumpF.SmallImage"), System.Drawing.Image)
+        Me.butProcessDumpF.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butProcessDumpF.Tag = Nothing
+        Me.butProcessDumpF.Text = "Create dump file..."
+        Me.butProcessDumpF.ToolTip = Nothing
+        Me.butProcessDumpF.ToolTipImage = Nothing
+        Me.butProcessDumpF.ToolTipTitle = Nothing
+        '
         'butProcessLimitCPU
         '
         Me.butProcessLimitCPU.AltKey = Nothing
-        Me.butProcessLimitCPU.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butProcessLimitCPU.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butProcessLimitCPU.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butProcessLimitCPU.Enabled = False
         Me.butProcessLimitCPU.Image = CType(resources.GetObject("butProcessLimitCPU.Image"), System.Drawing.Image)
@@ -1452,7 +1547,7 @@ Partial Class frmMain
         'butProcessShowModules
         '
         Me.butProcessShowModules.AltKey = Nothing
-        Me.butProcessShowModules.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butProcessShowModules.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butProcessShowModules.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butProcessShowModules.Image = Nothing
         Me.butProcessShowModules.SmallImage = CType(resources.GetObject("butProcessShowModules.SmallImage"), System.Drawing.Image)
@@ -1466,7 +1561,7 @@ Partial Class frmMain
         'butProcessThreads
         '
         Me.butProcessThreads.AltKey = Nothing
-        Me.butProcessThreads.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butProcessThreads.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butProcessThreads.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butProcessThreads.Image = Nothing
         Me.butProcessThreads.SmallImage = CType(resources.GetObject("butProcessThreads.SmallImage"), System.Drawing.Image)
@@ -1480,7 +1575,7 @@ Partial Class frmMain
         'butShowProcHandles
         '
         Me.butShowProcHandles.AltKey = Nothing
-        Me.butShowProcHandles.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butShowProcHandles.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butShowProcHandles.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butShowProcHandles.Image = Nothing
         Me.butShowProcHandles.SmallImage = CType(resources.GetObject("butShowProcHandles.SmallImage"), System.Drawing.Image)
@@ -1494,7 +1589,7 @@ Partial Class frmMain
         'butProcessWindows
         '
         Me.butProcessWindows.AltKey = Nothing
-        Me.butProcessWindows.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butProcessWindows.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butProcessWindows.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butProcessWindows.Image = Nothing
         Me.butProcessWindows.SmallImage = CType(resources.GetObject("butProcessWindows.SmallImage"), System.Drawing.Image)
@@ -1508,7 +1603,7 @@ Partial Class frmMain
         'butProcessShowAll
         '
         Me.butProcessShowAll.AltKey = Nothing
-        Me.butProcessShowAll.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butProcessShowAll.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butProcessShowAll.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butProcessShowAll.Image = Nothing
         Me.butProcessShowAll.SmallImage = CType(resources.GetObject("butProcessShowAll.SmallImage"), System.Drawing.Image)
@@ -3697,7 +3792,7 @@ Partial Class frmMain
         Me.SplitContainerProcess.Panel1.Controls.Add(Me.SplitContainerTvLv)
         Me.SplitContainerProcess.Panel2Collapsed = True
         Me.SplitContainerProcess.Size = New System.Drawing.Size(852, 330)
-        Me.SplitContainerProcess.SplitterDistance = 295
+        Me.SplitContainerProcess.SplitterDistance = 285
         Me.SplitContainerProcess.TabIndex = 0
         '
         'SplitContainerTvLv
@@ -3855,7 +3950,7 @@ Partial Class frmMain
         '
         Me.splitModule.Panel2.Controls.Add(Me.rtb6)
         Me.splitModule.Size = New System.Drawing.Size(852, 359)
-        Me.splitModule.SplitterDistance = 217
+        Me.splitModule.SplitterDistance = 214
         Me.splitModule.TabIndex = 0
         '
         'SplitContainerModules
@@ -3876,7 +3971,7 @@ Partial Class frmMain
         'SplitContainerModules.Panel2
         '
         Me.SplitContainerModules.Panel2.Controls.Add(Me.lvModules)
-        Me.SplitContainerModules.Size = New System.Drawing.Size(852, 217)
+        Me.SplitContainerModules.Size = New System.Drawing.Size(852, 214)
         Me.SplitContainerModules.SplitterDistance = 25
         Me.SplitContainerModules.TabIndex = 0
         '
@@ -3926,7 +4021,7 @@ Partial Class frmMain
         Me.lvModules.OverriddenDoubleBuffered = True
         Me.lvModules.ProcessId = Nothing
         Me.lvModules.ReorganizeColumns = True
-        Me.lvModules.Size = New System.Drawing.Size(852, 188)
+        Me.lvModules.Size = New System.Drawing.Size(852, 185)
         Me.lvModules.TabIndex = 6
         Me.lvModules.UseCompatibleStateImageBehavior = False
         Me.lvModules.View = System.Windows.Forms.View.Details
@@ -3971,7 +4066,7 @@ Partial Class frmMain
         Me.rtb6.Location = New System.Drawing.Point(0, 0)
         Me.rtb6.Name = "rtb6"
         Me.rtb6.ReadOnly = True
-        Me.rtb6.Size = New System.Drawing.Size(852, 138)
+        Me.rtb6.Size = New System.Drawing.Size(852, 141)
         Me.rtb6.TabIndex = 8
         Me.rtb6.Text = "Click on an item to get additionnal informations"
         '
@@ -4011,7 +4106,7 @@ Partial Class frmMain
         '
         Me.splitThreads.Panel2.Controls.Add(Me.rtb4)
         Me.splitThreads.Size = New System.Drawing.Size(852, 359)
-        Me.splitThreads.SplitterDistance = 238
+        Me.splitThreads.SplitterDistance = 235
         Me.splitThreads.TabIndex = 0
         '
         'SplitContainerThreads
@@ -4032,7 +4127,7 @@ Partial Class frmMain
         'SplitContainerThreads.Panel2
         '
         Me.SplitContainerThreads.Panel2.Controls.Add(Me.lvThreads)
-        Me.SplitContainerThreads.Size = New System.Drawing.Size(852, 238)
+        Me.SplitContainerThreads.Size = New System.Drawing.Size(852, 235)
         Me.SplitContainerThreads.SplitterDistance = 25
         Me.SplitContainerThreads.TabIndex = 0
         '
@@ -4082,7 +4177,7 @@ Partial Class frmMain
         Me.lvThreads.OverriddenDoubleBuffered = True
         Me.lvThreads.ProcessId = Nothing
         Me.lvThreads.ReorganizeColumns = True
-        Me.lvThreads.Size = New System.Drawing.Size(852, 209)
+        Me.lvThreads.Size = New System.Drawing.Size(852, 206)
         Me.lvThreads.TabIndex = 5
         Me.lvThreads.UseCompatibleStateImageBehavior = False
         Me.lvThreads.View = System.Windows.Forms.View.Details
@@ -4141,7 +4236,7 @@ Partial Class frmMain
         Me.rtb4.Location = New System.Drawing.Point(0, 0)
         Me.rtb4.Name = "rtb4"
         Me.rtb4.ReadOnly = True
-        Me.rtb4.Size = New System.Drawing.Size(852, 117)
+        Me.rtb4.Size = New System.Drawing.Size(852, 120)
         Me.rtb4.TabIndex = 7
         Me.rtb4.Text = "Click on a thread to get additionnal informations"
         '
@@ -4311,7 +4406,7 @@ Partial Class frmMain
         '
         Me.splitContainerWindows.Panel2.Controls.Add(Me.rtb5)
         Me.splitContainerWindows.Size = New System.Drawing.Size(852, 359)
-        Me.splitContainerWindows.SplitterDistance = 217
+        Me.splitContainerWindows.SplitterDistance = 214
         Me.splitContainerWindows.TabIndex = 0
         '
         'SplitContainerWindows2
@@ -4333,7 +4428,7 @@ Partial Class frmMain
         'SplitContainerWindows2.Panel2
         '
         Me.SplitContainerWindows2.Panel2.Controls.Add(Me.lvWindows)
-        Me.SplitContainerWindows2.Size = New System.Drawing.Size(852, 217)
+        Me.SplitContainerWindows2.Size = New System.Drawing.Size(852, 214)
         Me.SplitContainerWindows2.SplitterDistance = 25
         Me.SplitContainerWindows2.TabIndex = 0
         '
@@ -4397,7 +4492,7 @@ Partial Class frmMain
         Me.lvWindows.ReorganizeColumns = True
         Me.lvWindows.ShowAllPid = False
         Me.lvWindows.ShowUnNamed = False
-        Me.lvWindows.Size = New System.Drawing.Size(852, 188)
+        Me.lvWindows.Size = New System.Drawing.Size(852, 185)
         Me.lvWindows.TabIndex = 5
         Me.lvWindows.UseCompatibleStateImageBehavior = False
         Me.lvWindows.View = System.Windows.Forms.View.Details
@@ -4439,7 +4534,7 @@ Partial Class frmMain
         Me.rtb5.Location = New System.Drawing.Point(0, 0)
         Me.rtb5.Name = "rtb5"
         Me.rtb5.ReadOnly = True
-        Me.rtb5.Size = New System.Drawing.Size(852, 138)
+        Me.rtb5.Size = New System.Drawing.Size(852, 141)
         Me.rtb5.TabIndex = 8
         Me.rtb5.Text = "Click on an item to get additionnal informations"
         '
@@ -4515,7 +4610,7 @@ Partial Class frmMain
         '
         Me.splitMonitor2.Panel2.Controls.Add(Me.splitMonitor3)
         Me.splitMonitor2.Size = New System.Drawing.Size(567, 359)
-        Me.splitMonitor2.SplitterDistance = 145
+        Me.splitMonitor2.SplitterDistance = 142
         Me.splitMonitor2.TabIndex = 0
         '
         'txtMonitoringLog
@@ -4528,7 +4623,7 @@ Partial Class frmMain
         Me.txtMonitoringLog.Name = "txtMonitoringLog"
         Me.txtMonitoringLog.ReadOnly = True
         Me.txtMonitoringLog.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.txtMonitoringLog.Size = New System.Drawing.Size(567, 145)
+        Me.txtMonitoringLog.Size = New System.Drawing.Size(567, 142)
         Me.txtMonitoringLog.TabIndex = 0
         Me.txtMonitoringLog.Text = "No process monitored." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Click on 'Add' button to monitor a process."
         '
@@ -4540,7 +4635,7 @@ Partial Class frmMain
         Me.lvMonitorReport.Location = New System.Drawing.Point(0, 0)
         Me.lvMonitorReport.Name = "lvMonitorReport"
         Me.lvMonitorReport.OverriddenDoubleBuffered = False
-        Me.lvMonitorReport.Size = New System.Drawing.Size(567, 145)
+        Me.lvMonitorReport.Size = New System.Drawing.Size(567, 142)
         Me.lvMonitorReport.TabIndex = 1
         Me.lvMonitorReport.UseCompatibleStateImageBehavior = False
         Me.lvMonitorReport.View = System.Windows.Forms.View.Details
@@ -4594,8 +4689,8 @@ Partial Class frmMain
         Me.splitMonitor3.Panel2.Controls.Add(Me.chkMonitorLeftAuto)
         Me.splitMonitor3.Panel2.Controls.Add(Me.dtMonitorR)
         Me.splitMonitor3.Panel2.Controls.Add(Me.dtMonitorL)
-        Me.splitMonitor3.Size = New System.Drawing.Size(567, 210)
-        Me.splitMonitor3.SplitterDistance = 181
+        Me.splitMonitor3.Size = New System.Drawing.Size(567, 213)
+        Me.splitMonitor3.SplitterDistance = 184
         Me.splitMonitor3.TabIndex = 0
         '
         'splitMonitor4
@@ -4611,7 +4706,7 @@ Partial Class frmMain
         'splitMonitor4.Panel2
         '
         Me.splitMonitor4.Panel2.Controls.Add(Me.graphMonitor)
-        Me.splitMonitor4.Size = New System.Drawing.Size(567, 181)
+        Me.splitMonitor4.Size = New System.Drawing.Size(567, 184)
         Me.splitMonitor4.SplitterDistance = 25
         Me.splitMonitor4.TabIndex = 4
         '
@@ -4625,7 +4720,7 @@ Partial Class frmMain
         Me.graphMonitor.EnableGraph = False
         Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
         Me.graphMonitor.Name = "graphMonitor"
-        Me.graphMonitor.Size = New System.Drawing.Size(567, 181)
+        Me.graphMonitor.Size = New System.Drawing.Size(567, 184)
         Me.graphMonitor.TabIndex = 3
         Me.graphMonitor.TabStop = False
         Me.graphMonitor.ViewMax = 0
@@ -4785,7 +4880,7 @@ Partial Class frmMain
         '
         Me.splitServices.Panel2.Controls.Add(Me.splitServices2)
         Me.splitServices.Size = New System.Drawing.Size(852, 330)
-        Me.splitServices.SplitterDistance = 204
+        Me.splitServices.SplitterDistance = 201
         Me.splitServices.TabIndex = 0
         '
         'lvServices
@@ -4810,7 +4905,7 @@ Partial Class frmMain
         Me.lvServices.ProcessId = 0
         Me.lvServices.ReorganizeColumns = True
         Me.lvServices.ShowAll = True
-        Me.lvServices.Size = New System.Drawing.Size(852, 204)
+        Me.lvServices.Size = New System.Drawing.Size(852, 201)
         Me.lvServices.TabIndex = 1
         Me.lvServices.UseCompatibleStateImageBehavior = False
         Me.lvServices.View = System.Windows.Forms.View.Details
@@ -4868,7 +4963,7 @@ Partial Class frmMain
         'splitServices2.Panel2
         '
         Me.splitServices2.Panel2.Controls.Add(Me.splitServices3)
-        Me.splitServices2.Size = New System.Drawing.Size(852, 122)
+        Me.splitServices2.Size = New System.Drawing.Size(852, 125)
         Me.splitServices2.SplitterDistance = 35
         Me.splitServices2.TabIndex = 15
         '
@@ -4920,7 +5015,7 @@ Partial Class frmMain
         'splitServices3.Panel2
         '
         Me.splitServices3.Panel2.Controls.Add(Me.splitServices4)
-        Me.splitServices3.Size = New System.Drawing.Size(852, 83)
+        Me.splitServices3.Size = New System.Drawing.Size(852, 86)
         Me.splitServices3.SplitterDistance = 629
         Me.splitServices3.TabIndex = 0
         '
@@ -4934,7 +5029,7 @@ Partial Class frmMain
         Me.rtb2.Location = New System.Drawing.Point(0, 0)
         Me.rtb2.Name = "rtb2"
         Me.rtb2.ReadOnly = True
-        Me.rtb2.Size = New System.Drawing.Size(629, 83)
+        Me.rtb2.Size = New System.Drawing.Size(629, 86)
         Me.rtb2.TabIndex = 13
         Me.rtb2.Text = ""
         Me.rtb2.WordWrap = False
@@ -4953,8 +5048,8 @@ Partial Class frmMain
         'splitServices4.Panel2
         '
         Me.splitServices4.Panel2.Controls.Add(Me.tv)
-        Me.splitServices4.Size = New System.Drawing.Size(219, 83)
-        Me.splitServices4.SplitterDistance = 39
+        Me.splitServices4.Size = New System.Drawing.Size(219, 86)
+        Me.splitServices4.SplitterDistance = 36
         Me.splitServices4.TabIndex = 0
         '
         'tv2
@@ -4970,7 +5065,7 @@ Partial Class frmMain
         Me.tv2.Name = "tv2"
         Me.tv2.RootService = Nothing
         Me.tv2.SelectedImageIndex = 2
-        Me.tv2.Size = New System.Drawing.Size(219, 39)
+        Me.tv2.Size = New System.Drawing.Size(219, 36)
         Me.tv2.TabIndex = 15
         '
         'tv
@@ -4986,7 +5081,7 @@ Partial Class frmMain
         Me.tv.Name = "tv"
         Me.tv.RootService = Nothing
         Me.tv.SelectedImageIndex = 0
-        Me.tv.Size = New System.Drawing.Size(219, 40)
+        Me.tv.Size = New System.Drawing.Size(219, 46)
         Me.tv.TabIndex = 14
         '
         'pageNetwork
@@ -6131,13 +6226,13 @@ Partial Class frmMain
         'MenuItemSystemToTray
         '
         Me.VistaMenu.SetImage(Me.MenuItemSystemToTray, Global.YAPM.My.Resources.Resources.down)
-        Me.MenuItemSystemToTray.Index = 15
+        Me.MenuItemSystemToTray.Index = 16
         Me.MenuItemSystemToTray.Text = "Minimize to &tray"
         '
         'MenuItemSystemExit
         '
         Me.VistaMenu.SetImage(Me.MenuItemSystemExit, Global.YAPM.My.Resources.Resources.cross)
-        Me.MenuItemSystemExit.Index = 16
+        Me.MenuItemSystemExit.Index = 17
         Me.MenuItemSystemExit.Shortcut = System.Windows.Forms.Shortcut.AltF4
         Me.MenuItemSystemExit.Text = "E&xit"
         '
@@ -6162,7 +6257,7 @@ Partial Class frmMain
         'MenuItemSystemFindWindow
         '
         Me.VistaMenu.SetImage(Me.MenuItemSystemFindWindow, Global.YAPM.My.Resources.Resources.target16)
-        Me.MenuItemSystemFindWindow.Index = 11
+        Me.MenuItemSystemFindWindow.Index = 12
         Me.MenuItemSystemFindWindow.Text = "&Find a window"
         '
         'MenuItemSystemHelp
@@ -6219,7 +6314,7 @@ Partial Class frmMain
         'MenuItemCopyWindow
         '
         Me.VistaMenu.SetImage(Me.MenuItemCopyWindow, Global.YAPM.My.Resources.Resources.copy16)
-        Me.MenuItemCopyWindow.Index = 2
+        Me.MenuItemCopyWindow.Index = 12
         Me.MenuItemCopyWindow.Text = "Copy to clipboard"
         '
         'MenuItemCopySearch
@@ -6514,16 +6609,139 @@ Partial Class frmMain
         '
         'mnuWindow
         '
-        Me.mnuWindow.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemWindowSelProc, Me.MenuItem23, Me.MenuItemCopyWindow, Me.MenuItemWindowColumns})
+        Me.mnuWindow.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemWindowSelProc, Me.MenuItem23, Me.MenuItemWShow, Me.MenuItemWSUnnamed, Me.MenuItemWHide, Me.MenuItemWClose, Me.MenuItem36, Me.MenuItemWVisibility, Me.MenuItem69, Me.MenuItemWEnable, Me.MenuItemWDisab, Me.MenuItem74, Me.MenuItemCopyWindow, Me.MenuItemWindowColumns})
         '
         'MenuItem23
         '
         Me.MenuItem23.Index = 1
         Me.MenuItem23.Text = "-"
         '
+        'MenuItemWShow
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemWShow, Global.YAPM.My.Resources.Resources.display16)
+        Me.MenuItemWShow.Index = 2
+        Me.MenuItemWShow.Text = "Show"
+        '
+        'MenuItemWSUnnamed
+        '
+        Me.MenuItemWSUnnamed.Index = 3
+        Me.MenuItemWSUnnamed.Text = "Show unnamed"
+        '
+        'MenuItemWHide
+        '
+        Me.MenuItemWHide.Index = 4
+        Me.MenuItemWHide.Text = "Hide"
+        '
+        'MenuItemWClose
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemWClose, Global.YAPM.My.Resources.Resources.close)
+        Me.MenuItemWClose.Index = 5
+        Me.MenuItemWClose.Text = "Close"
+        '
+        'MenuItem36
+        '
+        Me.MenuItem36.Index = 6
+        Me.MenuItem36.Text = "-"
+        '
+        'MenuItemWVisibility
+        '
+        Me.MenuItemWVisibility.Index = 7
+        Me.MenuItemWVisibility.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemWFront, Me.MenuItemWNotFront, Me.MenuItemWActive, Me.MenuItemWForeground, Me.MenuItem50, Me.MenuItemWMin, Me.MenuItemWMax, Me.MenuItemWPos, Me.MenuItem57, Me.MenuItemWFlash, Me.MenuItemWStopFlash, Me.MenuItem63, Me.MenuItemWOpacity, Me.MenuItemWCaption})
+        Me.MenuItemWVisibility.Text = "Visibility"
+        '
+        'MenuItemWFront
+        '
+        Me.MenuItemWFront.Index = 0
+        Me.MenuItemWFront.Text = "Bring to front"
+        '
+        'MenuItemWNotFront
+        '
+        Me.MenuItemWNotFront.Index = 1
+        Me.MenuItemWNotFront.Text = "Do not bring to front"
+        '
+        'MenuItemWActive
+        '
+        Me.MenuItemWActive.Index = 2
+        Me.MenuItemWActive.Text = "Set as active window"
+        '
+        'MenuItemWForeground
+        '
+        Me.MenuItemWForeground.Index = 3
+        Me.MenuItemWForeground.Text = "Set as foreground window"
+        '
+        'MenuItem50
+        '
+        Me.MenuItem50.Index = 4
+        Me.MenuItem50.Text = "-"
+        '
+        'MenuItemWMin
+        '
+        Me.MenuItemWMin.Index = 5
+        Me.MenuItemWMin.Text = "Minimize"
+        '
+        'MenuItemWMax
+        '
+        Me.MenuItemWMax.Index = 6
+        Me.MenuItemWMax.Text = "Maximize"
+        '
+        'MenuItemWPos
+        '
+        Me.MenuItemWPos.Index = 7
+        Me.MenuItemWPos.Text = "Position && size"
+        '
+        'MenuItem57
+        '
+        Me.MenuItem57.Index = 8
+        Me.MenuItem57.Text = "-"
+        '
+        'MenuItemWFlash
+        '
+        Me.MenuItemWFlash.Index = 9
+        Me.MenuItemWFlash.Text = "Flash"
+        '
+        'MenuItemWStopFlash
+        '
+        Me.MenuItemWStopFlash.Index = 10
+        Me.MenuItemWStopFlash.Text = "Stop flashing"
+        '
+        'MenuItem63
+        '
+        Me.MenuItem63.Index = 11
+        Me.MenuItem63.Text = "-"
+        '
+        'MenuItemWOpacity
+        '
+        Me.MenuItemWOpacity.Index = 12
+        Me.MenuItemWOpacity.Text = "Change opacity..."
+        '
+        'MenuItemWCaption
+        '
+        Me.MenuItemWCaption.Index = 13
+        Me.MenuItemWCaption.Text = "Change caption..."
+        '
+        'MenuItem69
+        '
+        Me.MenuItem69.Index = 8
+        Me.MenuItem69.Text = "-"
+        '
+        'MenuItemWEnable
+        '
+        Me.MenuItemWEnable.Index = 9
+        Me.MenuItemWEnable.Text = "Enable"
+        '
+        'MenuItemWDisab
+        '
+        Me.MenuItemWDisab.Index = 10
+        Me.MenuItemWDisab.Text = "Disable"
+        '
+        'MenuItem74
+        '
+        Me.MenuItem74.Index = 11
+        Me.MenuItem74.Text = "-"
+        '
         'MenuItemWindowColumns
         '
-        Me.MenuItemWindowColumns.Index = 3
+        Me.MenuItemWindowColumns.Index = 13
         Me.MenuItemWindowColumns.Text = "Choose columns..."
         '
         'mnuSearch
@@ -6640,12 +6858,12 @@ Partial Class frmMain
         '
         'mnuSystem
         '
-        Me.mnuSystem.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemSYSTEMFILE, Me.MenuItemSYSTEMOPT, Me.MenuItemSYSTEMTOOLS, Me.MenuItemSYSTEMSYSTEM, Me.MenuItemSYSTEMHEL})
+        Me.mnuSystem.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemSYSTEMFILE, Me.MenuItemProcesses, Me.MenuItemModules, Me.MenuItemThreads, Me.MenuItemHandles, Me.MenuItemMonitor, Me.MenuItemWindows, Me.MenuItemServices, Me.MenuItemSearch, Me.MenuItemFiles, Me.MenuItemSYSTEMOPT, Me.MenuItemSYSTEMTOOLS, Me.MenuItemSYSTEMSYSTEM, Me.MenuItemSYSTEMHEL})
         '
         'MenuItemSYSTEMFILE
         '
         Me.MenuItemSYSTEMFILE.Index = 0
-        Me.MenuItemSYSTEMFILE.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemSystemRefresh, Me.MenuItem54, Me.MenuItemSystemConnection, Me.MenuItemRunAsAdmin, Me.MenuItem56, Me.MenuItemSystemLog, Me.MenuItemSystemReport, Me.MenuItem59, Me.MenuItemSystemInfos, Me.MenuItemSystemOpenedWindows, Me.MenuItem62, Me.MenuItemSystemFindWindow, Me.MenuItemSystemEmergency, Me.MenuItemSystemSBA, Me.MenuItem66, Me.MenuItemSystemToTray, Me.MenuItemSystemExit})
+        Me.MenuItemSYSTEMFILE.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemSystemRefresh, Me.MenuItem54, Me.MenuItemSystemConnection, Me.MenuItemRunAsAdmin, Me.MenuItem56, Me.MenuItemSystemLog, Me.MenuItemSystemReport, Me.MenuItem59, Me.MenuItemSystemInfos, Me.MenuItemSystemOpenedWindows, Me.MenuItemShowPendingTasks, Me.MenuItem62, Me.MenuItemSystemFindWindow, Me.MenuItemSystemEmergency, Me.MenuItemSystemSBA, Me.MenuItem66, Me.MenuItemSystemToTray, Me.MenuItemSystemExit})
         Me.MenuItemSYSTEMFILE.Text = "&File"
         '
         'MenuItem54
@@ -6661,7 +6879,7 @@ Partial Class frmMain
         'MenuItemRunAsAdmin
         '
         Me.MenuItemRunAsAdmin.Index = 3
-        Me.MenuItemRunAsAdmin.Text = "&Restart as admin"
+        Me.MenuItemRunAsAdmin.Text = "&Restart with privileges"
         '
         'MenuItem56
         '
@@ -6678,31 +6896,258 @@ Partial Class frmMain
         Me.MenuItem59.Index = 7
         Me.MenuItem59.Text = "-"
         '
+        'MenuItemShowPendingTasks
+        '
+        Me.MenuItemShowPendingTasks.Index = 10
+        Me.MenuItemShowPendingTasks.Text = "&Pending tasks..."
+        '
         'MenuItem62
         '
-        Me.MenuItem62.Index = 10
+        Me.MenuItem62.Index = 11
         Me.MenuItem62.Text = "-"
         '
         'MenuItemSystemEmergency
         '
-        Me.MenuItemSystemEmergency.Index = 12
+        Me.MenuItemSystemEmergency.Index = 13
         Me.MenuItemSystemEmergency.Text = "Emergency &hotkeys..."
         '
         'MenuItemSystemSBA
         '
         Me.MenuItemSystemSBA.Enabled = False
-        Me.MenuItemSystemSBA.Index = 13
+        Me.MenuItemSystemSBA.Index = 14
         Me.MenuItemSystemSBA.Text = "State &based actions..."
         Me.MenuItemSystemSBA.Visible = False
         '
         'MenuItem66
         '
-        Me.MenuItem66.Index = 14
+        Me.MenuItem66.Index = 15
         Me.MenuItem66.Text = "-"
+        '
+        'MenuItemProcesses
+        '
+        Me.MenuItemProcesses.Index = 1
+        Me.MenuItemProcesses.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemReportProcesses})
+        Me.MenuItemProcesses.Text = "&Processes"
+        Me.MenuItemProcesses.Visible = False
+        '
+        'MenuItemReportProcesses
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemReportProcesses, Global.YAPM.My.Resources.Resources._096)
+        Me.MenuItemReportProcesses.Index = 0
+        Me.MenuItemReportProcesses.Text = "&Save report..."
+        '
+        'MenuItemModules
+        '
+        Me.MenuItemModules.Index = 2
+        Me.MenuItemModules.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemReportModules})
+        Me.MenuItemModules.Text = "&Modules"
+        Me.MenuItemModules.Visible = False
+        '
+        'MenuItemReportModules
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemReportModules, Global.YAPM.My.Resources.Resources._096)
+        Me.MenuItemReportModules.Index = 0
+        Me.MenuItemReportModules.Text = "&Save report..."
+        '
+        'MenuItemThreads
+        '
+        Me.MenuItemThreads.Index = 3
+        Me.MenuItemThreads.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemReportThreads})
+        Me.MenuItemThreads.Text = "&Threads"
+        Me.MenuItemThreads.Visible = False
+        '
+        'MenuItemReportThreads
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemReportThreads, Global.YAPM.My.Resources.Resources._096)
+        Me.MenuItemReportThreads.Index = 0
+        Me.MenuItemReportThreads.Text = "&Save report..."
+        '
+        'MenuItemHandles
+        '
+        Me.MenuItemHandles.Index = 4
+        Me.MenuItemHandles.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemReportHandles})
+        Me.MenuItemHandles.Text = "&Handles"
+        Me.MenuItemHandles.Visible = False
+        '
+        'MenuItemReportHandles
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemReportHandles, Global.YAPM.My.Resources.Resources._096)
+        Me.MenuItemReportHandles.Index = 0
+        Me.MenuItemReportHandles.Text = "&Save report..."
+        '
+        'MenuItemMonitor
+        '
+        Me.MenuItemMonitor.Index = 5
+        Me.MenuItemMonitor.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemReportMonitor})
+        Me.MenuItemMonitor.Text = "&Monitor"
+        Me.MenuItemMonitor.Visible = False
+        '
+        'MenuItemReportMonitor
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemReportMonitor, Global.YAPM.My.Resources.Resources._096)
+        Me.MenuItemReportMonitor.Index = 0
+        Me.MenuItemReportMonitor.Text = "&Save report..."
+        '
+        'MenuItemWindows
+        '
+        Me.MenuItemWindows.Index = 6
+        Me.MenuItemWindows.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem67, Me.MenuItemWEnalbe, Me.MenuItemWDisable, Me.MenuItem71, Me.MenuItemReportWindows})
+        Me.MenuItemWindows.Text = "&Windows"
+        Me.MenuItemWindows.Visible = False
+        '
+        'MenuItem67
+        '
+        Me.MenuItem67.Index = 0
+        Me.MenuItem67.Text = "-"
+        '
+        'MenuItemWEnalbe
+        '
+        Me.MenuItemWEnalbe.Index = 1
+        Me.MenuItemWEnalbe.Text = "Enable"
+        '
+        'MenuItemWDisable
+        '
+        Me.MenuItemWDisable.Index = 2
+        Me.MenuItemWDisable.Text = "Disable"
+        '
+        'MenuItem71
+        '
+        Me.MenuItem71.Index = 3
+        Me.MenuItem71.Text = "-"
+        '
+        'MenuItemReportWindows
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemReportWindows, Global.YAPM.My.Resources.Resources._096)
+        Me.MenuItemReportWindows.Index = 4
+        Me.MenuItemReportWindows.Text = "&Save report..."
+        '
+        'MenuItemServices
+        '
+        Me.MenuItemServices.Index = 7
+        Me.MenuItemServices.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemReportServices})
+        Me.MenuItemServices.Text = "&Services"
+        Me.MenuItemServices.Visible = False
+        '
+        'MenuItemReportServices
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemReportServices, Global.YAPM.My.Resources.Resources._096)
+        Me.MenuItemReportServices.Index = 0
+        Me.MenuItemReportServices.Text = "&Save report..."
+        '
+        'MenuItemSearch
+        '
+        Me.MenuItemSearch.Index = 8
+        Me.MenuItemSearch.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemNewSearch, Me.MenuItem61, Me.MenuItemReportSearch})
+        Me.MenuItemSearch.Text = "&Search"
+        Me.MenuItemSearch.Visible = False
+        '
+        'MenuItemNewSearch
+        '
+        Me.MenuItemNewSearch.DefaultItem = True
+        Me.MenuItemNewSearch.Index = 0
+        Me.MenuItemNewSearch.Text = "&New search..."
+        '
+        'MenuItem61
+        '
+        Me.MenuItem61.Index = 1
+        Me.MenuItem61.Text = "-"
+        '
+        'MenuItemReportSearch
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemReportSearch, Global.YAPM.My.Resources.Resources._096)
+        Me.MenuItemReportSearch.Index = 2
+        Me.MenuItemReportSearch.Text = "&Save report..."
+        '
+        'MenuItemFiles
+        '
+        Me.MenuItemFiles.Index = 9
+        Me.MenuItemFiles.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemFileOpen, Me.MenuItem68, Me.MenuItemFileRelease, Me.MenuItemFileDelete, Me.MenuItemFileTrash, Me.MenuItem72, Me.MenuItemFileRename, Me.MenuItemFileShellOpen, Me.MenuItemFileMove, Me.MenuItemFileCopy, Me.MenuItem77, Me.MenuItemFileEncrypt, Me.MenuItemFileDecrypt, Me.MenuItem80, Me.MenuItemFileStrings})
+        Me.MenuItemFiles.Text = "&Files"
+        Me.MenuItemFiles.Visible = False
+        '
+        'MenuItemFileOpen
+        '
+        Me.MenuItemFileOpen.DefaultItem = True
+        Me.VistaMenu.SetImage(Me.MenuItemFileOpen, Global.YAPM.My.Resources.Resources.folder_open)
+        Me.MenuItemFileOpen.Index = 0
+        Me.MenuItemFileOpen.Text = "&Open file..."
+        '
+        'MenuItem68
+        '
+        Me.MenuItem68.Index = 1
+        Me.MenuItem68.Text = "-"
+        '
+        'MenuItemFileRelease
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemFileRelease, Global.YAPM.My.Resources.Resources.locked)
+        Me.MenuItemFileRelease.Index = 2
+        Me.MenuItemFileRelease.Text = "&Release file..."
+        '
+        'MenuItemFileDelete
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemFileDelete, Global.YAPM.My.Resources.Resources.cross)
+        Me.MenuItemFileDelete.Index = 3
+        Me.MenuItemFileDelete.Text = "&Delete file..."
+        '
+        'MenuItemFileTrash
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemFileTrash, Global.YAPM.My.Resources.Resources.cross_circle)
+        Me.MenuItemFileTrash.Index = 4
+        Me.MenuItemFileTrash.Text = "&Move to trash..."
+        '
+        'MenuItem72
+        '
+        Me.MenuItem72.Index = 5
+        Me.MenuItem72.Text = "-"
+        '
+        'MenuItemFileRename
+        '
+        Me.MenuItemFileRename.Index = 6
+        Me.MenuItemFileRename.Text = "&Rename..."
+        '
+        'MenuItemFileShellOpen
+        '
+        Me.MenuItemFileShellOpen.Index = 7
+        Me.MenuItemFileShellOpen.Text = "&Open"
+        '
+        'MenuItemFileMove
+        '
+        Me.MenuItemFileMove.Index = 8
+        Me.MenuItemFileMove.Text = "&Move..."
+        '
+        'MenuItemFileCopy
+        '
+        Me.MenuItemFileCopy.Index = 9
+        Me.MenuItemFileCopy.Text = "&Copy..."
+        '
+        'MenuItem77
+        '
+        Me.MenuItem77.Index = 10
+        Me.MenuItem77.Text = "-"
+        '
+        'MenuItemFileEncrypt
+        '
+        Me.MenuItemFileEncrypt.Index = 11
+        Me.MenuItemFileEncrypt.Text = "&Encrypt"
+        '
+        'MenuItemFileDecrypt
+        '
+        Me.MenuItemFileDecrypt.Index = 12
+        Me.MenuItemFileDecrypt.Text = "&Decrypt"
+        '
+        'MenuItem80
+        '
+        Me.MenuItem80.Index = 13
+        Me.MenuItem80.Text = "-"
+        '
+        'MenuItemFileStrings
+        '
+        Me.MenuItemFileStrings.Index = 14
+        Me.MenuItemFileStrings.Text = "&Show file strings"
         '
         'MenuItemSYSTEMOPT
         '
-        Me.MenuItemSYSTEMOPT.Index = 1
+        Me.MenuItemSYSTEMOPT.Index = 10
         Me.MenuItemSYSTEMOPT.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemSystemAlwaysVisible, Me.MenuItem37, Me.MenuItemSystemRefProc, Me.MenuItemSystemRefServ, Me.MenuItem42, Me.MenuItemSystemOptions})
         Me.MenuItemSYSTEMOPT.Text = "&Options"
         '
@@ -6735,7 +7180,7 @@ Partial Class frmMain
         '
         'MenuItemSYSTEMTOOLS
         '
-        Me.MenuItemSYSTEMTOOLS.Index = 2
+        Me.MenuItemSYSTEMTOOLS.Index = 11
         Me.MenuItemSYSTEMTOOLS.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemSystemShowHidden, Me.MenuItemSystemDependency})
         Me.MenuItemSYSTEMTOOLS.Text = "&Tools"
         '
@@ -6751,7 +7196,7 @@ Partial Class frmMain
         '
         'MenuItemSYSTEMSYSTEM
         '
-        Me.MenuItemSYSTEMSYSTEM.Index = 3
+        Me.MenuItemSYSTEMSYSTEM.Index = 12
         Me.MenuItemSYSTEMSYSTEM.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem34})
         Me.MenuItemSYSTEMSYSTEM.Text = "&System"
         '
@@ -6808,7 +7253,7 @@ Partial Class frmMain
         '
         'MenuItemSYSTEMHEL
         '
-        Me.MenuItemSYSTEMHEL.Index = 4
+        Me.MenuItemSYSTEMHEL.Index = 13
         Me.MenuItemSYSTEMHEL.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemSystemUpdate, Me.MenuItem39, Me.MenuItemSystemDonation, Me.MenuItemSystemFeedBack, Me.MenuItemSystemSF, Me.MenuItemSystemWebsite, Me.MenuItemSystemDownloads, Me.MenuItem49, Me.MenuItemSystemHelp, Me.MenuItemSystemAbout})
         Me.MenuItemSYSTEMHEL.Text = "&Help"
         '
@@ -7686,5 +8131,70 @@ Partial Class frmMain
     Friend WithEvents sbPanelMemory As System.Windows.Forms.StatusBarPanel
     Friend WithEvents timerStatus As System.Windows.Forms.Timer
     Friend WithEvents butShowAllPendingTasks As System.Windows.Forms.RibbonButton
+    Friend WithEvents MenuItemShowPendingTasks As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemProcesses As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemReportProcesses As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemModules As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemReportModules As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemThreads As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemReportThreads As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemHandles As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemReportHandles As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemMonitor As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemReportMonitor As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWindows As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemReportWindows As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemServices As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemReportServices As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemSearch As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemNewSearch As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem61 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemReportSearch As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemFiles As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemFileOpen As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem68 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemFileRelease As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemFileDelete As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemFileTrash As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem72 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemFileRename As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemFileShellOpen As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemFileMove As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemFileCopy As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem77 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemFileEncrypt As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemFileDecrypt As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem80 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemFileStrings As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem67 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWEnalbe As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWDisable As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem71 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWShow As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWSUnnamed As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWHide As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWClose As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem36 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWVisibility As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWFront As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWNotFront As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWActive As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWForeground As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem50 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWMin As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWMax As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWPos As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem57 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWFlash As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWStopFlash As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem63 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWOpacity As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWCaption As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem69 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWEnable As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWDisab As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem74 As System.Windows.Forms.MenuItem
+    Friend WithEvents butProcessReduceWS As System.Windows.Forms.RibbonButton
+    Friend WithEvents butProcessDumpF As System.Windows.Forms.RibbonButton
 
 End Class
