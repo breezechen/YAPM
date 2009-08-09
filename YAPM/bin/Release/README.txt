@@ -88,7 +88,7 @@ Here is a description of the files which are distributed with YAPM :
 - license.rtf : license file.
 - launch server.bat : launch YAPM as a server.
 - tcp.txt / udp.txt : data base for correspondance between a port number and its description
-
+- SecurePasswordTextBox.dll : protect from "displaying" password as plain text in memory
 
 
 BUGS
