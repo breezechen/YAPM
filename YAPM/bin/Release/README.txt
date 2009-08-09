@@ -1,4 +1,4 @@
-Yet Another (remote) Process Monitor (YAPM) v2.0 Alpha
+Yet Another (remote) Process Monitor (YAPM) v2.0.3 beta
 
 
 SUMMARY
@@ -15,14 +15,15 @@ SUMMARY
 	
 APPLICATION DESCRIPTION
 
-Yet Another (remote) Process Monitor (YAPM) is a powerful aplication for Windows NT that monitors the processes running on your local system, or on a remote system. You can manage their threads, windows, handles, modules, network connections, memory regions, privileges... etc. YAPM also monitors all services running.
+Yet Another Process Monitor (YAPM) is a powerful process viewer for Windows that monitors the services & processes, their modules, threads, handles, windows, TCP/UDP connections... etc. running on local system or on any of the computers on your network.
 
 
 
 HOW TO USE
 
-For now there is no help file available, so you'll have to learn to use YAPM by yourself :-) But don't worry, it's easy and intuitive ! It just looks like Process Explorer or other task manager.
+For now there is only a small help file available (http://yaprocmon.sourceforge.net/help.html), so you'll have to learn to use YAPM by yourself :-) But don't worry, it's easy and intuitive ! It just looks like Process Explorer or other task manager.
 No installation is needed, just double-click on YAPM to run it. For now, you should run YAPM with an administrator account.
+Double click on a process/service to get the detailed view with advanced informations.
 
 If you want to monitor remote systems, there are two methods :
 
@@ -57,7 +58,6 @@ YAPM supports :
 - monitoring activities of running processes (handles created, connections opened...)
 - viewing complete statistics and graphs about processes and system (memory/cpu usage...)
 - Emergency Hotkeys feature (assign a custom command to a set of keyboard keys. Example : Ctrl+Shift+Suppr to kill foreground application)
-- State Based Action feature (allows to assign a custom command which is launched when the state of a process changes. Example : reduce priority when cpu usage is up to 50%)
 - Find Window's Process feature (allows to find the process which owns a specific window with a simple drag & drop over the screen)
 - Find hidden processes feature (find hidden basic rootkits)
 - etc.
@@ -66,12 +66,11 @@ YAPM supports :
 
 REQUIREMENTS
 
-YAPM runs on Windows XP, Windows Vista or even Windows Seven systems.
+YAPM runs on Windows XP, Windows Vista or even Windows Seven systems (32 bits only).
 
-For now, to fully control your processes (including system processes) you MUST have the administrator rights.
-In the future, the major part of the informations about a system process will be availables even if you are not administrator. Of course, if you want to kill system processes, you still will need to have the required rights...
+YAPM needs to be elevated (run as Admin) on Windows Vista if you want to access to all processes/services.
 
-YAPM take ~60 MB of memory, and less than one percent of cpu usage when minimized (depending of the CPU you have ;-) and depending of the interval of refreshment you specify).
+YAPM take ~60 MB of memory, and less than 0.3 % of cpu usage when minimized (depending of the CPU you have ;-) and depending of the interval of refreshment you specify).
 
 
 
@@ -80,23 +79,21 @@ DESCRIPTION OF FILES
 Here is a description of the files which are distributed with YAPM :
 
 - hotkeys.xml : contains description of custom actions for Emergency Hotkeys features. Not required, and not present if no custom action is specified.
-- statebasedactions.xml : contains description of custom actions for State Based Actions features. Not required, and not present if no custom action is specified.
-- MemoryHexEditor.dll : needed to display build-in hex editor. You can run YAPM without this file, but it'll crash if you try to show the hex editor !
 - System.Windows.Forms.Ribbon.dll : ribbon control. Required to launch YAPM.
-- CoreFunc.dll : core functions for processes management. Required.
-- Providers.dll : Custom controls (listviews). Required.
+- VistaMenu.dll : used to display nice menus. Required.
 - Taskdialog.dll : used to display custom dialog messages on Vista.
 - YAPM.exe : main executable file (of course required ^^).
 - KernelMemory.sys : driver needed to retrieve handle informations for system processes. Required.
 - README.txt : the file you are reading :-)
 - license.rtf : license file.
 - launch server.bat : launch YAPM as a server.
+- tcp.txt / udp.txt : data base for correspondance between a port number and its description
 
 
 
 BUGS
 
-YAPM is still an alpha version. That's why there are some bugs which are still unsolved and known.
+YAPM is still a beta version. That's why there are some bugs which are still unsolved and known.
 If you find one, please send me an email with a description of the bug or use the sourceforge bug tracker system (see end of this file for details).
 
 
@@ -110,7 +107,7 @@ YAPM is under the GNU GPL 3.0 license. But it uses third parties pieces which ar
 
 Some pieces of code are inspired by work under GNU GPL 3.0. It includes :
 cSystemInfo.vb file : some structures defined come from Process Hacker by wj32
-cProcess.vb file : some pieces of code are inspired by wj32 work (from Process Hacker) :
+cProcess files : some pieces of code are inspired by wj32 work (from Process Hacker) :
 - GetAccountName function (conversion from SID to username as a string)
 - GetImageFile function, especially DeviceDriveNameToDosDriveName and
 	RefreshLogicalDrives which are inspired by functions from Process Hacker
@@ -127,6 +124,6 @@ See the license.rtf file for details about the license.
 CONTACT & LINKS
 
 See http://sourceforge.net/projects/yaprocmon/ for details about the project (bug tracker, downloads, news, forum... etc.)
-Please send feedback to me : YetAnotherProcessMonitor [at] gmail [dot] com
+Please feel free to send feedback/comments : YetAnotherProcessMonitor [at] gmail [dot] com
 
 Please visit the website : http://yaprocmon.sourceforge.net/
