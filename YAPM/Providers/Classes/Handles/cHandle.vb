@@ -219,7 +219,7 @@ Public Class cHandle
 #Region "Shared functions"
 
     Private Shared _sharedcloseH As asyncCallbackHandleUnload
-    Public Shared Function SharedLRCloseHandle(ByVal pid As Integer, ByVal handle As Integer) As Integer
+    Public Shared Function SharedLRCloseHandle(ByVal pid As Integer, ByVal handle As IntPtr) As Integer
 
         If _sharedcloseH Is Nothing Then
             _sharedcloseH = New asyncCallbackHandleUnload(New asyncCallbackHandleUnload.HasUnloadedHandle(AddressOf unloadsharedHandleDone), _connection)

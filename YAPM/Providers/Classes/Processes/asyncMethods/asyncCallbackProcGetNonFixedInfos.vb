@@ -27,7 +27,7 @@ Imports System.Text
 Public Class asyncCallbackProcGetNonFixedInfos
 
     Private _pid As Integer
-    Private _handle As Integer
+    Private _handle As IntPtr
     Private _connection As cProcessConnection
 
     Public Structure TheseInfos
@@ -44,7 +44,8 @@ Public Class asyncCallbackProcGetNonFixedInfos
 
     Public Event GatheredInfos(ByVal infos As TheseInfos)
 
-    Public Sub New(ByVal pid As Integer, ByRef procConnection As cProcessConnection, Optional ByVal handle As Integer = 0)
+    Public Sub New(ByVal pid As Integer, ByRef procConnection As cProcessConnection, _
+                   ByVal handle As IntPtr)
         _pid = pid
         _handle = handle
         _connection = procConnection

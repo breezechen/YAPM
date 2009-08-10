@@ -109,8 +109,8 @@ Public Class cProcess
     Friend _dicoProcMisc As New SortedList(Of Integer, PROC_MISC_INFO)
     Friend _dicoProcIODelta As New SortedList(Of Integer, PROC_IO_INFO)
 
-    Private _handleQueryInfo As Integer
-    Private _tokenHandle As Integer
+    Private _handleQueryInfo As IntPtr
+    Private _tokenHandle As IntPtr
 
     ' Informations which will be refreshed each call to 'merge'
     Private _elevation As API.ElevationType
@@ -192,7 +192,7 @@ Public Class cProcess
         _processors = cProcessConnection.ProcessorCount
         ' Get a handle if local
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            _handleQueryInfo = API.OpenProcess(cProcessConnection.ProcessMinRights, 0, infos.Pid)
+            _handleQueryInfo = API.OpenProcess(cProcessConnection.ProcessMinRights, False, infos.Pid)
             Call API.OpenProcessToken(_handleQueryInfo, API.TOKEN_RIGHTS.Query, _tokenHandle)
         End If
     End Sub
@@ -200,7 +200,7 @@ Public Class cProcess
     Protected Overrides Sub Finalize()
         ' Close a handle if local
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            If _handleQueryInfo > 0 Then
+            If _handleQueryInfo <> IntPtr.Zero Then
                 API.CloseHandle(_handleQueryInfo)
             End If
         End If
@@ -309,7 +309,7 @@ Public Class cProcess
     Public Sub Merge(ByRef Proc As processInfos)
 
         ' Here we do some refreshment
-        If _handleQueryInfo > 0 Then
+        If _handleQueryInfo <> IntPtr.Zero Then
             Call cToken.GetProcessElevationType(_tokenHandle, _elevation)   ' Elevation type
             Call API.IsProcessInJob(CType(_handleQueryInfo, IntPtr), IntPtr.Zero, _isInJob)
             Call API.CheckRemoteDebuggerPresent(CType(_handleQueryInfo, IntPtr), _isBeingDebugged)
@@ -1426,7 +1426,7 @@ Public Class cProcess
 
     ' Unload a module from a process
     Private Shared _unloadMSharedP As asyncCallbackProcUnloadModule
-    Public Shared Function SharedRLUnLoadModuleFromProcess(ByVal pid As Integer, ByVal ModuleBaseAddress As Integer) As Integer
+    Public Shared Function SharedRLUnLoadModuleFromProcess(ByVal pid As Integer, ByVal ModuleBaseAddress As IntPtr) As Integer
 
         If _unloadMSharedP Is Nothing Then
             _unloadMSharedP = New asyncCallbackProcUnloadModule(New asyncCallbackProcUnloadModule.HasUnloadedModule(AddressOf unloadModuleDoneShared), _connection)
@@ -1469,10 +1469,10 @@ Public Class cProcess
 #Region "Shared functions (local)"
 
     Public Shared Function LocalKill(ByVal pid As Integer) As Integer
-        Dim hProc As Integer
+        Dim hProc As IntPtr
         Dim ret As Integer = -1
-        hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_TERMINATE, 0, pid)
-        If hProc > 0 Then
+        hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_TERMINATE, False, pid)
+        If hProc <> IntPtr.Zero Then
             ret = API.TerminateProcess(hProc, 0)
             API.CloseHandle(hProc)
         End If

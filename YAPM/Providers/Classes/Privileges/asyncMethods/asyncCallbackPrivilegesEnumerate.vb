@@ -111,18 +111,18 @@ Public Class asyncCallbackPrivilegesEnumerate
 
         Dim ListPrivileges() As API.PrivilegeInfo
         ReDim ListPrivileges(-1)
-        Dim hProcessToken As Integer
-        Dim hProcess As Integer
+        Dim hProcessToken As IntPtr
+        Dim hProcess As IntPtr
         Dim RetLen As Integer
         Dim TokenPriv As New API.TOKEN_PRIVILEGES
         Dim strBuff As String
         Dim lngBuff As Integer
         Dim i As Integer
 
-        hProcess = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION, 0, _pid)
-        If hProcess > 0 Then
+        hProcess = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION, False, _pid)
+        If hProcess <> IntPtr.Zero Then
             API.OpenProcessToken(hProcess, API.TOKEN_RIGHTS.Query, hProcessToken)
-            If hProcessToken > 0 Then
+            If hProcessToken <> IntPtr.Zero Then
 
                 ' Get tokeninfo length
                 API.GetTokenInformation(hProcessToken, API.TOKEN_INFORMATION_CLASS.TokenPrivileges, 0, 0, RetLen)

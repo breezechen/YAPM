@@ -68,11 +68,11 @@ Public Class asyncCallbackThreadResume
 
             Case Else
                 ' Local
-                Dim hProc As Integer
-                Dim r As UInteger = -1
-                hProc = API.OpenThread(API.THREAD_RIGHTS.THREAD_SUSPEND_RESUME, 0, pObj.id)
-                If hProc > 0 Then
-                    r = API.ResumeThread(New IntPtr(hProc))
+                Dim hProc As IntPtr
+                Dim r As Integer = -1
+                hProc = API.OpenThread(API.THREAD_RIGHTS.THREAD_SUSPEND_RESUME, False, pObj.id)
+                If hProc <> IntPtr.Zero Then
+                    r = API.ResumeThread(hProc)
                     API.CloseHandle(hProc)
                     _deg.Invoke(r <> -1, API.GetError, pObj.newAction)
                 Else

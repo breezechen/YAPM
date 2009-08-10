@@ -326,8 +326,9 @@ Public Class asyncCallbackProcEnumerate
         Dim sResult As String = Space(512)
         Dim hModule As Integer
 
-        Dim _hProcess As Integer = API.OpenProcess(cProcessConnection.ProcessMinRights, 0, _pid)
-        Call API.EnumProcessModules2(_hProcess, hModule, 4, Ret)
+        Dim _hProcess As IntPtr = API.OpenProcess(cProcessConnection.ProcessMinRights, _
+                                                  False, _pid)
+        Call API.EnumProcessModules(_hProcess, hModule, 4, Ret)
         sResult = Space(260)
         Call API.GetModuleFileNameExA(_hProcess, hModule, sResult, 260)
         s = sResult
@@ -354,8 +355,9 @@ Public Class asyncCallbackProcEnumerate
 
         If _pid > 4 Then
 
-            Dim hToken As Integer
-            Dim _hProcess As Integer = API.OpenProcess(cProcessConnection.ProcessMinRights, 0, _pid)
+            Dim hToken As IntPtr
+            Dim _hProcess As IntPtr = API.OpenProcess(cProcessConnection.ProcessMinRights, _
+                                                      False, _pid)
 
 
             If API.OpenProcessToken(_hProcess, &H8, hToken) > 0 Then
@@ -392,10 +394,10 @@ Public Class asyncCallbackProcEnumerate
         If _pid > 4 Then
 
             ' Have to open a handle
-            Dim _h As Integer
-            _h = API.OpenProcess(cProcessConnection.ProcessMinRights, 0, _pid)
+            Dim _h As IntPtr
+            _h = API.OpenProcess(cProcessConnection.ProcessMinRights, False, _pid)
 
-            If _h > 0 Then
+            If _h <> IntPtr.Zero Then
                 ' Get size
                 Dim _size As Integer
                 API.ZwQueryInformationProcess(_h, API.PROCESS_INFORMATION_CLASS.ProcessImageFileName, IntPtr.Zero, 0, _size)
@@ -433,7 +435,8 @@ Public Class asyncCallbackProcEnumerate
     ' Return PEB address
     Private Shared Function GetPebAddress(ByVal _pid As Integer) As Integer
         If _pid > 4 Then
-            Dim _h As Integer = API.OpenProcess(cProcessConnection.ProcessMinRights, 0, _pid)
+            Dim _h As IntPtr = API.OpenProcess(cProcessConnection.ProcessMinRights, _
+                                               False, _pid)
             Dim pbi As New API.PROCESS_BASIC_INFORMATION
             Dim ret As Integer
             API.ZwQueryInformationProcess(_h, API.PROCESS_INFORMATION_CLASS.ProcessBasicInformation, pbi, Marshal.SizeOf(pbi), ret)
@@ -552,10 +555,10 @@ Public Class asyncCallbackProcEnumerate
     End Function
 
     ' Enumerate all handes opened by all processes
-    Private Function EnumerateHandles() As API.SYSTEM_HANDLE_INFORMATION()
+    Private Function EnumerateHandles() As API.SystemHandleInformation()
         Dim handleCount As Integer = 0
         Dim retLen As Integer
-        Dim _handles As API.SYSTEM_HANDLE_INFORMATION()
+        Dim _handles As API.SystemHandleInformation()
 
         ' I did not manage to get the good needed size with the first call to
         ' ZwQuerySystemInformation with SystemHandleInformation flag when the buffer
@@ -579,14 +582,14 @@ Public Class asyncCallbackProcEnumerate
 
         ' The handlecount value is the first integer (4 bytes) of the unmanaged memory.
         handleCount = Marshal.ReadInt32(ptr, 0)
-        _handles = New API.SYSTEM_HANDLE_INFORMATION(handleCount - 1) {}
+        _handles = New API.SystemHandleInformation(handleCount - 1) {}
 
         For x As Integer = 0 To handleCount - 1
-            Dim offset As Integer = ptr.ToInt32 + 4 + x * Marshal.SizeOf(GetType(API.SYSTEM_HANDLE_INFORMATION))
-            Dim temp As API.SYSTEM_HANDLE_INFORMATION = _
+            Dim offset As Integer = ptr.ToInt32 + 4 + x * Marshal.SizeOf(GetType(API.SystemHandleInformation))
+            Dim temp As API.SystemHandleInformation = _
                 CType(Marshal.PtrToStructure(New IntPtr(offset), _
-                                         GetType(API.SYSTEM_HANDLE_INFORMATION)),  _
-                                         API.SYSTEM_HANDLE_INFORMATION)
+                                         GetType(API.SystemHandleInformation)),  _
+                                         API.SystemHandleInformation)
             _handles(x) = temp
         Next
 
@@ -608,22 +611,23 @@ Public Class asyncCallbackProcEnumerate
         ' Firstly, we get all instances of csrss.exe process.
         ' We retrieve them from visible list. So if csrss.exe processes are hidden... DAMN !!!
         ' Note : There are more than once instance of csrss.exe on Vista.
-        Dim _csrss As New Dictionary(Of Integer, Integer)
+        Dim _csrss As New Dictionary(Of Integer, IntPtr)
         For Each proc As processInfos In getVisibleProcesses.Values
             If proc.Name.ToLowerInvariant = "csrss.exe" Then
-                Dim _theHandle As Integer = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_DUP_HANDLE, 0, proc.Pid)
+                Dim _theHandle As IntPtr = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_DUP_HANDLE, False, proc.Pid)
                 _csrss.Add(proc.Pid, _theHandle)
             End If
         Next
 
         ' Now we get all handles from all processes
-        Dim _handles As API.SYSTEM_HANDLE_INFORMATION() = EnumerateHandles()
+        Dim _handles As API.SystemHandleInformation() = EnumerateHandles()
 
         ' For handles which belongs to a csrss.exe process
-        For Each h As API.SYSTEM_HANDLE_INFORMATION In _handles
+        For Each h As API.SystemHandleInformation In _handles
             If _csrss.ContainsKey(h.ProcessId) Then
-                Dim _dup As Integer
-                If (API.DuplicateHandle(_csrss(h.ProcessId), h.Handle, API.INVALID_HANDLE_VALUE, _dup, 0, 0, API.DUPLICATE_SAME_ACCESS)) <> 0 Then
+                Dim _dup As IntPtr
+                ' ISNEEDED ?
+                If (API.DuplicateHandle(_csrss(h.ProcessId), CType(h.Handle, IntPtr), API.InvalidHandleValue, _dup, 0, False, API.DUPLICATE_SAME_ACCESS)) <> 0 Then
                     Dim pid As Integer = API.GetProcessId(_dup)
                     Dim obj As New API.SYSTEM_PROCESS_INFORMATION
                     With obj
@@ -690,8 +694,8 @@ Public Class asyncCallbackProcEnumerate
 
         ' We could stop before &hffff....
         For pid As Integer = &H8 To &HFFFF Step 4
-            Dim handle As Integer = API.OpenProcess(PROCESS_MIN_RIGHTS, 0, pid)
-            If handle > 0 Then
+            Dim handle As IntPtr = API.OpenProcess(PROCESS_MIN_RIGHTS, False, pid)
+            If handle <> IntPtr.Zero Then
                 Dim exitcode As Integer
                 Dim res As Integer = API.GetExitCodeProcess(handle, exitcode)
                 If exitcode = API.STILL_ACTIVE Then  ' Process still exists

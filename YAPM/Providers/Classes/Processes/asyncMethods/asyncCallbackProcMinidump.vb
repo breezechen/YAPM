@@ -64,10 +64,12 @@ Public Class asyncCallbackProcMinidump
             Case Else
                 ' Local
                 Try
-                    Dim hProc As Integer
+                    Dim hProc As IntPtr
                     Dim ret As Integer = -1
-                    hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION Or API.PROCESS_RIGHTS.PROCESS_VM_READ, 0, pObj.pid)
-                    If hProc > 0 Then
+                    hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION Or _
+                                            API.PROCESS_RIGHTS.PROCESS_VM_READ, _
+                                            False, pObj.pid)
+                    If hProc <> IntPtr.Zero Then
                         ' Create dump file
                         Dim fs As New System.IO.FileStream(pObj.file, System.IO.FileMode.Create)
                         ' Write dump file

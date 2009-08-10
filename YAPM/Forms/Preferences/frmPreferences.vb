@@ -637,7 +637,7 @@ Public Class frmPreferences
             If cP IsNot Nothing Then
 
                 ' Wait than the process ended
-                API.WaitForSingleObject(cP.Handle.ToInt32, API.INFINITE)
+                API.WaitForSingleObject(cP.Handle, API.WaitResult.INFINITE)
 
                 ' Here we know that the process has ended, we retrieve the ExitCode
                 Dim exCode As Program.RequestReplaceTaskMgrResult

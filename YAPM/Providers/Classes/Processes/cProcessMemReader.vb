@@ -30,7 +30,7 @@ Public Class cProcessMemReader
     ' Private
     ' ========================================
     Private _pid As Integer
-    Private _hProc As Integer
+    Private _hProc As IntPtr
 
 
     ' ========================================
@@ -38,10 +38,10 @@ Public Class cProcessMemReader
     ' ========================================
     Public Sub New(ByVal pid As Integer)
         _hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION Or _
-                                 API.PROCESS_RIGHTS.PROCESS_VM_READ, 0, pid)
+                                 API.PROCESS_RIGHTS.PROCESS_VM_READ, False, pid)
     End Sub
     Public Sub Dispose() Implements System.IDisposable.Dispose
-        If _hProc > 0 Then
+        If _hProc <> IntPtr.Zero Then
             Call API.CloseHandle(_hProc)
         End If
     End Sub
@@ -55,7 +55,7 @@ Public Class cProcessMemReader
             Return _pid
         End Get
     End Property
-    Public ReadOnly Property ProcessHandle() As Integer
+    Public ReadOnly Property ProcessHandle() As IntPtr
         Get
             Return _hProc
         End Get

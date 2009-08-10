@@ -67,8 +67,10 @@ Public Class asyncCallbackProcSetAffinity
 
             Case Else
                 ' Local
-                Dim __hProcess As Integer = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_SET_INFORMATION, 0, pObj.pid)
-                If __hProcess > 0 Then
+                Dim __hProcess As IntPtr = _
+                        API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_SET_INFORMATION, _
+                        False, pObj.pid)
+                If __hProcess <> IntPtr.Zero Then
                     Dim ret As Integer = API.SetProcessAffinityMask(__hProcess, pObj.level)
                     API.CloseHandle(__hProcess)
                     _deg.Invoke(ret <> 0, API.GetError, pObj.newAction)

@@ -65,10 +65,11 @@ Public Class asyncCallbackProcSuspend
 
             Case Else
                 ' Local
-                Dim hProc As Integer
+                Dim hProc As IntPtr
                 Dim r As Integer = -1
-                hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_SUSPEND_RESUME, 0, pObj.pid)
-                If hProc > 0 Then
+                hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_SUSPEND_RESUME, _
+                                        False, pObj.pid)
+                If hProc <> IntPtr.Zero Then
                     r = API.NtSuspendProcess(hProc)
                     API.CloseHandle(hProc)
                     _deg.Invoke(r = 0, API.GetError, pObj.newAction)

@@ -116,14 +116,14 @@ Public Class asyncCallbackThreadEnumerate
                             With obj
                                 .BasePriority = CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.PriorityBase.ToString))
                                 .CreateTime = 0
-                                .ClientId.UniqueProcess = wmiId
-                                .ClientId.UniqueThread = CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.Handle.ToString))
+                                .ClientId = New API.CLIENT_ID(wmiId, _
+                                                              CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.Handle.ToString)))
                                 .KernelTime = 10000 * CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.KernelModeTime.ToString))
                                 .Priority = CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.Priority.ToString))
                                 Try
-                                    .StartAddress = CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.StartAddress.ToString))
+                                    .StartAddress = CType(refThread.GetPropertyValue(API.WMI_INFO_THREAD.StartAddress.ToString), IntPtr)
                                 Catch ex0 As Exception
-                                    .StartAddress = -1
+                                    .StartAddress = New IntPtr(-1)
                                 End Try
                                 .State = CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.ThreadState.ToString))
                                 .UserTime = 10000 * CInt(refThread.GetPropertyValue(API.WMI_INFO_THREAD.UserModeTime.ToString))

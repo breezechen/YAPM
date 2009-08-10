@@ -29,7 +29,7 @@ Public Class asyncCallbackMemRegionFree
     Private con As cMemRegionConnection
     Private _deg As HasFreed
 
-    Public Delegate Sub HasFreed(ByVal Success As Boolean, ByVal pid As Integer, ByVal address As Integer, ByVal msg As String, ByVal actionNumber As Integer)
+    Public Delegate Sub HasFreed(ByVal Success As Boolean, ByVal pid As Integer, ByVal address As IntPtr, ByVal msg As String, ByVal actionNumber As Integer)
 
     Public Sub New(ByVal deg As HasFreed, ByRef memConnection As cMemRegionConnection)
         _deg = deg
@@ -38,14 +38,14 @@ Public Class asyncCallbackMemRegionFree
 
     Public Structure poolObj
         Public pid As Integer
-        Public address As Integer
+        Public address As IntPtr
         Public size As Integer
-        Public type As API.FreeType
+        Public type As API.MEMORY_STATE
         Public newAction As Integer
         Public Sub New(ByVal pi As Integer, _
-                       ByVal ad As Integer, _
+                       ByVal ad As IntPtr, _
                        ByVal siz As Integer, _
-                       ByVal typ As API.FreeType, _
+                       ByVal typ As API.MEMORY_STATE, _
                        ByVal act As Integer)
             address = ad
             newAction = act
@@ -85,10 +85,10 @@ Public Class asyncCallbackMemRegionFree
     Private Shared Function FreeMemory(ByVal obj As poolObj) As Boolean
 
         Dim ret As Boolean
-        Dim hProcess As Integer
+        Dim hProcess As IntPtr
 
-        hProcess = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_VM_OPERATION, 0, obj.pid)
-        If hProcess > 0 Then
+        hProcess = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_VM_OPERATION, False, obj.pid)
+        If hProcess <> IntPtr.Zero Then
             ret = API.VirtualFreeEx(hProcess, obj.address, obj.size, obj.type)
             Call API.CloseHandle(hProcess)
         End If

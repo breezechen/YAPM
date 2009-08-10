@@ -123,13 +123,13 @@ Public Class cEnvironment
                 Return valRetrieved
             Else
 
-                Dim hTok As Integer
-                Dim hProc As IntPtr = CType(API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION, 0, _
-                                                      Process.GetCurrentProcess.Id), IntPtr)
+                Dim hTok As IntPtr
+                Dim hProc As IntPtr = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION, False, _
+                                                      Process.GetCurrentProcess.Id)
                 If Not (hProc = IntPtr.Zero) Then
-
+                    ' ?
                 End If
-                Call API.OpenProcessToken(hProc.ToInt32, API.TOKEN_RIGHTS.Query, hTok)
+                Call API.OpenProcessToken(hProc, API.TOKEN_RIGHTS.Query, hTok)
                 API.CloseHandle(hProc)
 
                 Dim value As Integer

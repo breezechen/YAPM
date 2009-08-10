@@ -103,21 +103,21 @@ Public Class asyncCallbackMemRegionEnumerate
 
     ' Enumerate memory regions
     Friend Shared Sub enumMemRegions(ByVal pObj As poolObj, ByRef _dico As Dictionary(Of String, memRegionInfos))
-        Dim lHandle As Integer
-        Dim lPosMem As Integer = 0
+        Dim lHandle As IntPtr
+        Dim lPosMem As IntPtr
         Dim lRet As Boolean = True
         Dim mbi As API.MEMORY_BASIC_INFORMATION
         Dim mbiSize As Integer = Marshal.SizeOf(mbi)
 
         lHandle = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION Or _
-                                  API.PROCESS_RIGHTS.PROCESS_VM_READ, 0, pObj.pid)
+                                  API.PROCESS_RIGHTS.PROCESS_VM_READ, False, pObj.pid)
 
-        If lHandle > 0 Then
+        If lHandle <> IntPtr.Zero Then
 
             ' We'll exit when VirtualQueryEx will fail
             Do While True
 
-                If API.VirtualQueryEx(lHandle, lPosMem, mbi, mbiSize) Then
+                If API.VirtualQueryEx(lHandle, lPosMem, mbi, mbiSize) > 0 Then
 
                     _dico.Add(mbi.BaseAddress.ToString, _
                               New memRegionInfos(mbi, pObj.pid))

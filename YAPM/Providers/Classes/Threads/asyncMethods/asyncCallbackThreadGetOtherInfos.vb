@@ -27,20 +27,20 @@ Imports System.Text
 Public Class asyncCallbackThreadGetOtherInfos
 
     Private _id As Integer
-    Private _handle As Integer
+    Private _handle As IntPtr
     Private _connection As cThreadConnection
     '  Private _deg As GatheredInfos
 
     Public Structure TheseInfos
-        Public affinity As Integer
-        Public Sub New(ByVal _affinity As Integer)
+        Public affinity As IntPtr
+        Public Sub New(ByVal _affinity As IntPtr)
             affinity = _affinity
         End Sub
     End Structure
 
     Public Event GatheredInfos(ByVal infos As TheseInfos)
 
-    Public Sub New(ByVal pid As Integer, ByRef procConnection As cThreadConnection, Optional ByVal handle As Integer = 0)
+    Public Sub New(ByVal pid As Integer, ByRef procConnection As cThreadConnection, ByVal handle As IntPtr)
         _id = pid
         ' _deg = deg
         _handle = handle
@@ -55,14 +55,14 @@ Public Class asyncCallbackThreadGetOtherInfos
 
             Case Else
                 ' Local
-                Dim _affinity As Integer = GetAffinity()
+                Dim _affinity As IntPtr = GetAffinity()
 
                 RaiseEvent GatheredInfos(New TheseInfos(_affinity))
         End Select
     End Sub
 
     ' Return affinity
-    Private Function GetAffinity() As Integer
+    Private Function GetAffinity() As IntPtr
         Dim infos As New API.THREAD_BASIC_INFORMATION
         Dim ret As Integer
         API.ZwQueryInformationThread(_handle, API.THREAD_INFORMATION_CLASS.ThreadBasicInformation, infos, Marshal.SizeOf(infos), ret)

@@ -49,7 +49,7 @@ Imports System.Runtime.InteropServices
     Private _procId As Integer
     Private _state As API.MEMORY_STATE
     Private _size As Integer
-    Private _address As Integer
+    Private _address As IntPtr
     Private _protection As API.PROTECTION_TYPE
     Private _type As API.MEMORY_TYPE
 
@@ -72,7 +72,7 @@ Imports System.Runtime.InteropServices
             Return _state
         End Get
     End Property
-    Public ReadOnly Property BaseAddress() As Integer
+    Public ReadOnly Property BaseAddress() As IntPtr
         Get
             Return _address
         End Get
@@ -109,7 +109,7 @@ Imports System.Runtime.InteropServices
             _size = .RegionSize
             _address = .BaseAddress
             _protection = .AllocationProtect
-            _type = .lType
+            _type = .Type
         End With
 
     End Sub

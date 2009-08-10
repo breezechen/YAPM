@@ -72,13 +72,13 @@ Public Class asyncCallbackThreadSetPriority
 
             Case Else
                 ' Local
-                Dim hProc As Integer
-                Dim r As UInteger = -1
-                hProc = API.OpenThread(API.THREAD_RIGHTS.THREAD_SET_INFORMATION, 0, pObj.id)
-                If hProc > 0 Then
-                    r = API.SetThreadPriority(New IntPtr(hProc), pObj.level)
+                Dim hProc As IntPtr
+                Dim r As Boolean
+                hProc = API.OpenThread(API.THREAD_RIGHTS.THREAD_SET_INFORMATION, False, pObj.id)
+                If hProc <> IntPtr.Zero Then
+                    r = API.SetThreadPriority(hProc, pObj.level)
                     API.CloseHandle(hProc)
-                    _deg.Invoke(r <> 0, API.GetError, pObj.newAction)
+                    _deg.Invoke(r, API.GetError, pObj.newAction)
                 Else
                     _deg.Invoke(False, API.GetError, pObj.newAction)
                 End If

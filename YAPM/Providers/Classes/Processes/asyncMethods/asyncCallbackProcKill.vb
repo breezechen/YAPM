@@ -83,10 +83,10 @@ Public Class asyncCallbackProcKill
 
             Case Else
                 ' Local
-                Dim hProc As Integer
+                Dim hProc As IntPtr
                 Dim ret As Integer = -1
-                hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_TERMINATE, 0, pObj.pid)
-                If hProc > 0 Then
+                hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_TERMINATE, False, pObj.pid)
+                If hProc <> IntPtr.Zero Then
                     ret = API.TerminateProcess(hProc, 0)
                     API.CloseHandle(hProc)
                     _deg.Invoke(ret <> 0, 0, API.GetError, pObj.newAction)

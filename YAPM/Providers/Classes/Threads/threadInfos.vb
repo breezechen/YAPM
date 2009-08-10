@@ -31,12 +31,12 @@ Imports System.Runtime.InteropServices
 
 #Region "Private attributes"
 
-    Private _AffinityMask As Integer
+    Private _AffinityMask As IntPtr
     Private _KernelTime As Long
     Private _UserTime As Long
     Private _CreateTime As Long
     Private _WaitTime As Integer
-    Private _StartAddress As Integer
+    Private _StartAddress As IntPtr
     Private _Id As Integer
     Private _ProcessId As Integer
     Private _Priority As Integer
@@ -132,11 +132,11 @@ Imports System.Runtime.InteropServices
 
 #Region "Other Non-fixed informations"
 
-    Public Property AffinityMask() As Integer
+    Public Property AffinityMask() As IntPtr
         Get
             Return _AffinityMask
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As IntPtr)
             _AffinityMask = value
         End Set
     End Property
@@ -152,9 +152,9 @@ Imports System.Runtime.InteropServices
     Public Sub New(ByRef Thr As API.SYSTEM_THREAD_INFORMATION)
 
         With Thr
-            _AffinityMask = 0
-            _Id = .ClientId.UniqueThread
-            _ProcessId = .ClientId.UniqueProcess
+            _AffinityMask = IntPtr.Zero
+            _Id = .ClientId.UniqueThread.ToInt32
+            _ProcessId = .ClientId.UniqueProcess.ToInt32
             _BasePriority = .BasePriority
             _ContextSwitchCount = .ContextSwitchCount
             _CreateTime = .CreateTime
@@ -218,10 +218,6 @@ Imports System.Runtime.InteropServices
 
     ' Return a class from an int (concerning priority)
     Friend Shared Function getPriorityClass(ByVal priority As Integer) As System.Diagnostics.ThreadPriorityLevel
-
-
-
-
         If priority >= 15 Then
             Return ThreadPriorityLevel.TimeCritical
         ElseIf priority >= 2 Then

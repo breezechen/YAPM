@@ -68,13 +68,13 @@ Public Class asyncCallbackThreadKill
 
             Case Else
                 ' Local
-                Dim hProc As Integer
-                Dim ret As UInteger = -1
-                hProc = API.OpenThread(API.THREAD_RIGHTS.THREAD_TERMINATE, 0, pObj.id)
-                If hProc > 0 Then
-                    ret = API.TerminateThread(New IntPtr(hProc), 0)
+                Dim hProc As IntPtr
+                Dim ret As Boolean
+                hProc = API.OpenThread(API.THREAD_RIGHTS.THREAD_TERMINATE, False, pObj.id)
+                If hProc <> IntPtr.Zero Then
+                    ret = API.TerminateThread(hProc, 0)
                     API.CloseHandle(hProc)
-                    _deg.Invoke(ret <> 0, 0, API.GetError, pObj.newAction)
+                    _deg.Invoke(ret, 0, API.GetError, pObj.newAction)
                 Else
                     _deg.Invoke(False, pObj.id, API.GetError, pObj.newAction)
                 End If

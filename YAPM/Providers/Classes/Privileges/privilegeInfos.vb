@@ -124,8 +124,8 @@ Imports System.Runtime.InteropServices
     ' Get privilege status
     Private Function GetPrivilege(ByVal seName As String) As API.PRIVILEGE_STATUS
 
-        Dim hProcessToken As Integer
-        Dim hProcess As Integer
+        Dim hProcessToken As IntPtr
+        Dim hProcess As IntPtr
         Dim Ret As Integer
         Dim RetLen As Integer
         Dim TokenPriv As API.TOKEN_PRIVILEGES = Nothing
@@ -133,10 +133,11 @@ Imports System.Runtime.InteropServices
         Dim typLUID As API.LUID
         Dim res As API.PRIVILEGE_STATUS
 
-        hProcess = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION, 0, _procId)
-        If hProcess > 0 Then
+        hProcess = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION, _
+                                   False, _procId)
+        If hProcess <> IntPtr.Zero Then
             API.OpenProcessToken(hProcess, API.TOKEN_RIGHTS.Query, hProcessToken)
-            If hProcessToken > 0 Then
+            If hProcessToken <> IntPtr.Zero Then
                 Ret = API.LookupPrivilegeValue(Nothing, seName, typLUID)
 
                 ' Get tokeninfo length

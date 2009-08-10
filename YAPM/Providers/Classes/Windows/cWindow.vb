@@ -494,14 +494,20 @@ Public Class cWindow
     Private Function GetWindowSmallIcon() As IntPtr
         Dim res As IntPtr
         Dim out As IntPtr
-        res = API.SendMessageTimeout(_windowInfos.Handle, API.WM_GETICON, API.ICON_SMALL, 0, API.SendMessageTimeoutFlags.SMTO_ABORTIFHUNG, 0, out)
+        res = API.SendMessageTimeout(_windowInfos.Handle, API.WM_GETICON, _
+                                     API.IconSize.ICON_SMALL, 0, _
+                                     API.SendMessageTimeoutFlags.SMTO_ABORTIFHUNG, 0, out)
 
         If out = IntPtr.Zero Then
             out = API.GetClassLong(_windowInfos.Handle, API.GCL_HICONSM)
         End If
 
         If out = IntPtr.Zero Then
-            res = API.SendMessageTimeout(API.GetWindowLong(_windowInfos.Handle, API.GWL_HWNDPARENT), API.WM_GETICON, API.ICON_SMALL, 0, API.SendMessageTimeoutFlags.SMTO_ABORTIFHUNG, 0, out)
+            res = API.SendMessageTimeout(API.GetWindowLong(_windowInfos.Handle, _
+                                   API.GWL_HWNDPARENT), _
+                                   API.WM_GETICON, _
+                                   API.IconSize.ICON_SMALL, 0, _
+                                   API.SendMessageTimeoutFlags.SMTO_ABORTIFHUNG, 0, out)
         End If
 
         Return out

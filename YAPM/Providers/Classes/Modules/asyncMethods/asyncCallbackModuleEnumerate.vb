@@ -234,7 +234,7 @@ Public Class asyncCallbackModuleEnumerate
     Public Shared Function GetModules(ByVal pid As Integer, Optional ByVal noFileInfo As Boolean = False) As Dictionary(Of String, moduleInfos)
         Dim retDico As New Dictionary(Of String, moduleInfos)
 
-        Dim hProc As Integer
+        Dim hProc As IntPtr
         Dim peb As Integer
         Dim loaderDatePtr As Integer
 

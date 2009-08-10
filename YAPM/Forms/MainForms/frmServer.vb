@@ -696,8 +696,7 @@ Public Class frmServer
                         Dim tid As Integer = CInt(cData.Param2)
                         Try
                             Dim sti As New API.SYSTEM_THREAD_INFORMATION
-                            sti.ClientId.UniqueProcess = pid
-                            sti.ClientId.UniqueThread = tid
+                            sti.ClientId = New API.CLIENT_ID(pid, tid)
                             Call (New cThread(New threadInfos(sti), True)).DecreasePriority()
                         Catch ex As Exception
                             ' Thread does not exist
@@ -707,8 +706,7 @@ Public Class frmServer
                         Dim tid As Integer = CInt(cData.Param2)
                         Try
                             Dim sti As New API.SYSTEM_THREAD_INFORMATION
-                            sti.ClientId.UniqueProcess = pid
-                            sti.ClientId.UniqueThread = tid
+                            sti.ClientId = New API.CLIENT_ID(pid, tid)
                             Call (New cThread(New threadInfos(sti), True)).IncreasePriority()
                         Catch ex As Exception
                             ' Thread does not exist
@@ -718,8 +716,7 @@ Public Class frmServer
                         Dim tid As Integer = CInt(cData.Param2)
                         Try
                             Dim sti As New API.SYSTEM_THREAD_INFORMATION
-                            sti.ClientId.UniqueProcess = pid
-                            sti.ClientId.UniqueThread = tid
+                            sti.ClientId = New API.CLIENT_ID(pid, tid)
                             Call (New cThread(New threadInfos(sti), False)).ThreadResume()
                         Catch ex As Exception
                             ' Thread does not exist
@@ -732,8 +729,7 @@ Public Class frmServer
                         Dim level As Integer = CInt(cData.Param3)
                         Try
                             Dim sti As New API.SYSTEM_THREAD_INFORMATION
-                            sti.ClientId.UniqueProcess = pid
-                            sti.ClientId.UniqueThread = tid
+                            sti.ClientId = New API.CLIENT_ID(pid, tid)
                             Call (New cThread(New threadInfos(sti), False)).SetPriority(CType(level, ThreadPriorityLevel))
                         Catch ex As Exception
                             ' Thread does not exist
@@ -743,8 +739,7 @@ Public Class frmServer
                         Dim tid As Integer = CInt(cData.Param2)
                         Try
                             Dim sti As New API.SYSTEM_THREAD_INFORMATION
-                            sti.ClientId.UniqueProcess = pid
-                            sti.ClientId.UniqueThread = tid
+                            sti.ClientId = New API.CLIENT_ID(pid, tid)
                             Call (New cThread(New threadInfos(sti), False)).ThreadSuspend()
                         Catch ex As Exception
                             ' Thread does not exist
@@ -754,8 +749,7 @@ Public Class frmServer
                         Dim tid As Integer = CInt(cData.Param2)
                         Try
                             Dim sti As New API.SYSTEM_THREAD_INFORMATION
-                            sti.ClientId.UniqueProcess = pid
-                            sti.ClientId.UniqueThread = tid
+                         sti.ClientId = New API.CLIENT_ID(pid, tid)
                             Call (New cThread(New threadInfos(sti), False)).ThreadTerminate()
                         Catch ex As Exception
                             ' Thread does not exist
@@ -768,9 +762,9 @@ Public Class frmServer
                 Select Case cData.Order
                     Case cSocketData.OrderType.MemoryFree
                         Dim pid As Integer = CType(cData.Param1, Integer)
-                        Dim address As Integer = CType(cData.Param2, Integer)
+                        Dim address As IntPtr = CType(cData.Param2, IntPtr)
                         Dim size As Integer = CType(cData.Param3, Integer)
-                        Dim type As API.FreeType = CType(cData.Param4, API.FreeType)
+                        Dim type As API.MEMORY_STATE = CType(cData.Param4, API.MEMORY_STATE)
                         Try
                             cMemRegion.SharedLRFree(pid, address, size, type)
                         Catch ex As Exception
@@ -778,7 +772,7 @@ Public Class frmServer
                         End Try
                     Case cSocketData.OrderType.MemoryChangeProtectionType
                         Dim pid As Integer = CType(cData.Param1, Integer)
-                        Dim address As Integer = CType(cData.Param2, Integer)
+                        Dim address As IntPtr = CType(cData.Param2, IntPtr)
                         Dim size As Integer = CType(cData.Param3, Integer)
                         Dim type As API.PROTECTION_TYPE = CType(cData.Param4, API.PROTECTION_TYPE)
                         Try
@@ -788,7 +782,7 @@ Public Class frmServer
                         End Try
                     Case cSocketData.OrderType.HandleClose
                         Dim pid As Integer = CType(cData.Param1, Integer)
-                        Dim handle As Integer = CType(cData.Param2, Integer)
+                        Dim handle As IntPtr = CType(cData.Param2, IntPtr)
                         Try
                             cHandle.SharedLRCloseHandle(pid, handle)
                         Catch ex As Exception
@@ -796,7 +790,7 @@ Public Class frmServer
                         End Try
                     Case cSocketData.OrderType.ModuleUnload
                         Dim pid As Integer = CType(cData.Param1, Integer)
-                        Dim address As Integer = CType(cData.Param2, Integer)
+                        Dim address As IntPtr = CType(cData.Param2, IntPtr)
                         Try
                             cProcess.SharedRLUnLoadModuleFromProcess(pid, address)
                         Catch ex As Exception

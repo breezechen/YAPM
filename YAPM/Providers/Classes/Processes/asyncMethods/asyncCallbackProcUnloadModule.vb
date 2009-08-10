@@ -68,10 +68,10 @@ Public Class asyncCallbackProcUnloadModule
 
             Case Else
                 ' Local
-                Dim hProc As Integer = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_CREATE_THREAD, 0, pObj.pid)
+                Dim hProc As IntPtr = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_CREATE_THREAD, False, pObj.pid)
 
-                If hProc > 0 Then
-                    Dim kernel32 As Integer = API.GetModuleHandle("kernel32.dll")
+                If hProc <> IntPtr.Zero Then
+                    Dim kernel32 As IntPtr = API.GetModuleHandle("kernel32.dll")
                     Dim freeLibrary As Integer = API.GetProcAddress(kernel32, "FreeLibrary")
                     Dim threadId As Integer
                     Dim ret As Integer = API.CreateRemoteThread(hProc, 0, 0, freeLibrary, pObj.baseA, 0, threadId)

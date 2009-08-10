@@ -24,19 +24,19 @@ Imports System.Runtime.InteropServices
 
 Public Class cToken
 
-    Public Shared Function GetProcessElevationType(ByVal hTok As Integer, _
+    Public Shared Function GetProcessElevationType(ByVal hTok As IntPtr, _
                                                    ByRef elevation As API.ElevationType) As Boolean
-        If hTok > 0 Then
+        If hTok <> IntPtr.Zero Then
 
             Dim value As Integer
             Dim ret As Integer
 
             ' Get tokeninfo length
-            API.GetTokenInformation(hTok, API.TOKEN_INFORMATION_CLASS.TokenElevationType, 0, _
-                                    0, ret)
+            API.GetTokenInformation(hTok, API.TOKEN_INFORMATION_CLASS.TokenElevationType, _
+                                    0, 0, ret)
             Dim TokenInformation As IntPtr = Marshal.AllocHGlobal(ret)
             ' Get token information
-            API.GetTokenInformation(CInt(hTok), API.TOKEN_INFORMATION_CLASS.TokenElevationType, _
+            API.GetTokenInformation(hTok, API.TOKEN_INFORMATION_CLASS.TokenElevationType, _
                                     TokenInformation, ret, 0)
             ' Get a valid structure
             value = Marshal.ReadInt32(TokenInformation, 0)

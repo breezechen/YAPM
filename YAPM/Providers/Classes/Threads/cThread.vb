@@ -28,7 +28,7 @@ Public Class cThread
     Private _threadInfos As threadInfos
     Private Shared WithEvents _connection As cThreadConnection
 
-    Private _handleQueryInfo As Integer
+    Private _handleQueryInfo As IntPtr
 
     Private Shared _hlSuspendedThread As Boolean
     Private Shared _hlSuspendedThreadColor As Color
@@ -53,7 +53,7 @@ Public Class cThread
         _connection = Connection
         ' Get a handle if local
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            _handleQueryInfo = API.OpenThread(API.THREAD_RIGHTS.THREAD_QUERY_INFORMATION, 0, infos.Id)
+            _handleQueryInfo = API.OpenThread(API.THREAD_RIGHTS.THREAD_QUERY_INFORMATION, False, infos.Id)
             If getPriorityInfo Then
                 ' Here we get priority (used when YAPM is used as a server)
                 Call infos.SetPriority(API.GetThreadPriority(_handleQueryInfo))
@@ -64,7 +64,7 @@ Public Class cThread
     Protected Overrides Sub Finalize()
         ' Close a handle if local
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            If _handleQueryInfo > 0 Then
+            If _handleQueryInfo <> IntPtr.Zero Then
                 API.CloseHandle(_handleQueryInfo)
             End If
         End If
@@ -82,7 +82,7 @@ Public Class cThread
 
     Public ReadOnly Property PriorityMod() As ThreadPriorityLevel
         Get
-            If _handleQueryInfo > 0 Then
+            If _handleQueryInfo <> IntPtr.Zero Then
                 Dim priority As Integer = API.GetThreadPriority(_handleQueryInfo)
                 Return CType(priority, ThreadPriorityLevel)
             Else

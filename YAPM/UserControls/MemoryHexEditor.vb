@@ -71,7 +71,7 @@ Public Class MemoryHexEditor
 
     ' Process attributes
     Private _pid As Integer = 0             ' Process ID
-    Private _hProc As Integer = 0           ' Handle to process
+    Private _hProc As IntPtr                ' Handle to process
     Private _rw As cProcessMemRW
 
     ' Memory informations
@@ -81,7 +81,7 @@ Public Class MemoryHexEditor
     Private _relativeOffset As Boolean
 
     ' Informations about current view
-    Private _curViewDeb As Integer
+    Private _curViewDeb As IntPtr
     Private _linesNumber As Integer
 
     ' Colors
@@ -136,9 +136,9 @@ Public Class MemoryHexEditor
     ' Structures
     ' ========================================
     Public Structure MemoryRegion
-        Dim BeginningAddress As Integer
+        Dim BeginningAddress As IntPtr
         Dim Size As Integer
-        Public Sub New(ByVal _begin As Integer, ByVal _size As Integer)
+        Public Sub New(ByVal _begin As IntPtr, ByVal _size As Integer)
             BeginningAddress = _begin
             Size = _size
         End Sub

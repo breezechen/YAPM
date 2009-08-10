@@ -74,15 +74,12 @@ Public Class cProcessMemRW
     ' =======================================================
     ' API
     ' =======================================================
-    Private Declare Function CloseHandle Lib "kernel32" (ByVal hObject As Integer) As Integer
-    Private Declare Function OpenProcess Lib "kernel32.dll" (ByVal dwDesiredAccessas As Integer, ByVal bInheritHandle As Integer, ByVal dwProcId As Integer) As Integer
     Private Declare Sub GetSystemInfo Lib "kernel32" (ByRef lpSystemInfo As SYSTEM_INFO)
     Private Declare Function WriteProcessMemory Lib "kernel32" (ByVal hProcess As Integer, ByVal lpBaseAddress As Integer, ByVal lpBuffer As String, ByVal nSize As Integer, ByVal lpNumberOfBytesWritten As Integer) As Integer
     Private Declare Function ReadProcessMemory Lib "kernel32" (ByVal hProcess As Integer, ByVal lpBaseAddress As Integer, ByVal lpBuffer As String, ByVal nSize As Integer, ByVal lpNumberOfBytesWritten As Integer) As Integer
     Private Declare Function ReadProcessMemory Lib "kernel32" (ByVal hProcess As Integer, ByVal lpBaseAddress As Integer, ByVal lpBuffer As Short(), ByVal nSize As Integer, ByVal lpNumberOfBytesWritten As Integer) As Integer
     Private Declare Function ReadProcessMemory Lib "kernel32" (ByVal hProcess As Integer, ByVal lpBaseAddress As Integer, ByVal lpBuffer As Byte(), ByVal nSize As Integer, ByVal lpNumberOfBytesWritten As Integer) As Integer
     Private Declare Function ReadProcessMemory Lib "kernel32" (ByVal hProcess As Integer, ByVal lpBaseAddress As Integer, ByVal lpBuffer As Integer(), ByVal nSize As Integer, ByVal lpNumberOfBytesWritten As Integer) As Integer
-    Private Declare Function VirtualQueryEx Lib "kernel32" (ByVal hProcess As Integer, ByVal lpAddress As Integer, ByRef lpBuffer As MEMORY_BASIC_INFORMATION, ByVal dwLength As Integer) As Integer
 
 
     ' =======================================================
@@ -123,7 +120,7 @@ Public Class cProcessMemRW
     ' Private attributes
     ' =======================================================
     Private _pid As Integer
-    Private _handle As Integer
+    Private _handle As IntPtr
     Private Shared si As SYSTEM_INFO
 
     ' =======================================================
@@ -134,7 +131,7 @@ Public Class cProcessMemRW
             Return si
         End Get
     End Property
-    Public ReadOnly Property Handle() As Integer
+    Public ReadOnly Property Handle() As IntPtr
         Get
             Return _handle
         End Get
@@ -145,12 +142,12 @@ Public Class cProcessMemRW
     ' =======================================================
     Public Sub New(ByVal processId As Integer)
         _pid = processId
-        _handle = OpenProcess(PROCESS_ALL_ACCESS, 0, processId) 'TOCHANGE
+        _handle = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_ALL_ACCESS, False, processId) 'TOCHANGE
         GetSystemInfo(si)
     End Sub
     Protected Overrides Sub Finalize()
         MyBase.Finalize()
-        Call CloseHandle(_handle)
+        Call API.CloseHandle(_handle)
     End Sub
 
 
@@ -232,18 +229,18 @@ Public Class cProcessMemRW
     ' =======================================================
     ' Retrieve memory regions (availables for r/w)
     ' =======================================================
-    Private Shared Sub RetrieveMemRegions(ByRef regions() As MEMORY_BASIC_INFORMATION, _
+    Private Shared Sub RetrieveMemRegions(ByRef regions() As API.MEMORY_BASIC_INFORMATION, _
                                           ByVal pid As Integer, Optional ByVal onlyProcessRegions As Boolean = False)
 
-        Dim lHandle As Integer
-        Dim lPosMem As Integer
+        Dim lHandle As IntPtr
+        Dim lPosMem As IntPtr
         Dim lRet As Integer
         Dim lLenMBI As Integer
-        Dim mbi As MEMORY_BASIC_INFORMATION
+        Dim mbi As API.MEMORY_BASIC_INFORMATION
 
         ReDim regions(1000)     ' Initial buffer
 
-        lHandle = OpenProcess(PROCESS_ALL_ACCESS, 0, pid)   'TOCHANGE
+        lHandle = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_ALL_ACCESS, False, pid)   'TOCHANGE
         lLenMBI = System.Runtime.InteropServices.Marshal.SizeOf(mbi)
         If si.lpMaximumApplicationAddress = 0 Then GetSystemInfo(si)
         lPosMem = si.lpMinimumApplicationAddress  ' Start from shorter address
@@ -254,7 +251,7 @@ Public Class cProcessMemRW
 
             mbi.RegionSize = 0
 
-            lRet = VirtualQueryEx(lHandle, lPosMem, mbi, lLenMBI)
+            lRet = API.VirtualQueryEx(lHandle, lPosMem, mbi, lLenMBI)
 
             If lRet = lLenMBI Then
 
@@ -279,7 +276,7 @@ Public Class cProcessMemRW
             End If
         Loop
 
-        Call CloseHandle(lHandle)
+        Call API.CloseHandle(lHandle)
 
         ' Remove last item
         ReDim Preserve regions(_xx - 1)
@@ -310,7 +307,7 @@ Public Class cProcessMemRW
 
         Dim x As Integer
         Dim strBufT As String
-        Dim lHandle As Integer
+        Dim lHandle As IntPtr
         Dim LB() As Integer
         Dim LS() As Integer
 
@@ -328,7 +325,7 @@ Public Class cProcessMemRW
             End With
         End If
 
-        lHandle = OpenProcess(PROCESS_ALL_ACCESS, 0, _pid)
+        lHandle = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_ALL_ACCESS, False, _pid)
 
         If bCasse = False Then sMatch = sMatch.ToLower
 
@@ -360,7 +357,7 @@ Public Class cProcessMemRW
 
         strBufT = vbNullString
 
-        Call CloseHandle(lHandle)
+        Call API.CloseHandle(lHandle)
     End Sub
 
     ' =======================================================
@@ -381,7 +378,7 @@ Public Class cProcessMemRW
         Dim strBuffer As String
         Dim i As Integer
         Dim tRes() As T_RESULT
-        Dim lHandle As Integer
+        Dim lHandle As IntPtr
         Dim LB() As Integer
         Dim LS() As Integer
         Dim cArraySizeBef As Integer = 0
@@ -410,7 +407,7 @@ Public Class cProcessMemRW
 
         lHandle = GetValidHandle(_pid)
 
-        If lHandle = INVALID_HANDLE_VALUE Then
+        If lHandle = API.InvalidHandleValue Then
             ReDim lngRes(0)
             ReDim strRes(0)
             Exit Sub
@@ -479,7 +476,7 @@ Public Class cProcessMemRW
         If Not (PGB Is Nothing) Then PGB.Value = PGB.Maximum
         strBuffer = vbNullString
 
-        Call CloseHandle(lHandle)
+        Call API.CloseHandle(lHandle)
 
         'maintenant, stocke dans les arrays de sortie
         ReDim lngRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1)
@@ -527,8 +524,8 @@ Public Class cProcessMemRW
     ' =======================================================
     ' Get a handle
     ' =======================================================
-    Public Shared Function GetValidHandle(ByVal pid As Integer) As Integer
-        Return OpenProcess(PROCESS_ALL_ACCESS, 0, pid)  'TOCHANGE
+    Public Shared Function GetValidHandle(ByVal pid As Integer) As IntPtr
+        Return API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_ALL_ACCESS, False, pid)  'TOCHANGE
     End Function
 
 

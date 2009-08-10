@@ -29,7 +29,7 @@ Public Class asyncCallbackMemRegionChangeProtection
     Private con As cMemRegionConnection
     Private _deg As HasChangedProtection
 
-    Public Delegate Sub HasChangedProtection(ByVal Success As Boolean, ByVal pid As Integer, ByVal address As Integer, ByVal msg As String, ByVal actionNumber As Integer)
+    Public Delegate Sub HasChangedProtection(ByVal Success As Boolean, ByVal pid As Integer, ByVal address As IntPtr, ByVal msg As String, ByVal actionNumber As Integer)
 
     Public Sub New(ByVal deg As HasChangedProtection, ByRef memConnection As cMemRegionConnection)
         _deg = deg
@@ -38,12 +38,12 @@ Public Class asyncCallbackMemRegionChangeProtection
 
     Public Structure poolObj
         Public pid As Integer
-        Public address As Integer
+        Public address As IntPtr
         Public size As Integer
         Public protection As API.PROTECTION_TYPE
         Public newAction As Integer
         Public Sub New(ByVal pi As Integer, _
-                       ByVal ad As Integer, _
+                       ByVal ad As IntPtr, _
                        ByVal siz As Integer, _
                        ByVal protec As API.PROTECTION_TYPE, _
                        ByVal act As Integer)
@@ -84,17 +84,17 @@ Public Class asyncCallbackMemRegionChangeProtection
     ' Change protection type
     Private Shared Function ChangeProtectionType(ByVal obj As poolObj) As Boolean
 
-        Dim ret As Integer
-        Dim hProcess As Integer
+        Dim ret As Boolean
+        Dim hProcess As IntPtr
         Dim old As API.PROTECTION_TYPE
 
-        hProcess = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_VM_OPERATION, 0, obj.pid)
-        If hProcess > 0 Then
+        hProcess = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_VM_OPERATION, False, obj.pid)
+        If hProcess <> IntPtr.Zero Then
             ret = API.VirtualProtectEx(hProcess, obj.address, obj.size, obj.protection, old)
             Call API.CloseHandle(hProcess)
         End If
 
-        Return (ret <> 0)
+        Return ret
 
     End Function
 

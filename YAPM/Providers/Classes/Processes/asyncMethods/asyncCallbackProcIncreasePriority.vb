@@ -99,7 +99,7 @@ Public Class asyncCallbackProcIncreasePriority
 
             Case Else
                 ' Local
-                Dim hProc As Integer
+                Dim hProc As IntPtr
                 Dim r As Integer
                 Dim _newlevel As ProcessPriorityClass
                 Select Case pObj.level
@@ -116,8 +116,9 @@ Public Class asyncCallbackProcIncreasePriority
                     Case ProcessPriorityClass.RealTime
                         '
                 End Select
-                hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_SET_INFORMATION, 0, pObj.pid)
-                If hProc > 0 Then
+                hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_SET_INFORMATION, _
+                                        False, pObj.pid)
+                If hProc <> IntPtr.Zero Then
                     r = API.SetPriorityClass(hProc, _newlevel)
                     API.CloseHandle(hProc)
                     _deg.Invoke(r <> 0, API.GetError, pObj.newAction)

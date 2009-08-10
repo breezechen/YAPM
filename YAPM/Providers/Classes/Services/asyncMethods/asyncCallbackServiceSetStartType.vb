@@ -86,18 +86,20 @@ Public Class asyncCallbackServiceSetStartType
 
                 Case Else
                     ' Local
-                    Dim hLockSCManager As Integer
+                    Dim hLockSCManager As IntPtr
                     Dim hSCManager As IntPtr = con.SCManagerLocalHandle
                     Dim lServ As IntPtr = API.OpenService(hSCManager, pObj.name, API.SERVICE_RIGHTS.SERVICE_CHANGE_CONFIG)
                     Dim ret As Boolean = False
 
-                    hLockSCManager = API.LockServiceDatabase(CInt(hSCManager))
+                    hLockSCManager = API.LockServiceDatabase(hSCManager)
 
                     If hSCManager <> IntPtr.Zero Then
                         If lServ <> IntPtr.Zero Then
-                            ret = API.ChangeServiceConfig(CInt(lServ), API.SERVICE_NO_CHANGE, pObj.type, _
-                                API.SERVICE_NO_CHANGE, vbNullString, vbNullString, Nothing, _
-                                vbNullString, vbNullString, vbNullString, vbNullString)
+                            ret = API.ChangeServiceConfig(lServ, API.SERVICE_TYPE.NoChange, _
+                                            pObj.type, _
+                                            API.SERVICE_ERROR_CONTROL.NoChange, _
+                                            Nothing, Nothing, Nothing, _
+                                            Nothing, Nothing, Nothing, Nothing)
                             API.CloseServiceHandle(lServ)
                         End If
                         API.UnlockServiceDatabase(hLockSCManager)

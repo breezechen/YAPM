@@ -167,7 +167,7 @@ Public Class API
     End Function
 
     <DllImport("kernel32.dll", SetLastError:=True)> _
-    Public Shared Function GetProcessId(ByVal ProcessHandle As Integer) As Integer
+    Public Shared Function GetProcessId(ByVal ProcessHandle As IntPtr) As Integer
     End Function
 
     <DllImport("kernel32.dll", SetLastError:=True)> _
@@ -364,34 +364,41 @@ Public Class API
         End Operator
     End Structure
 
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Public Shared Function GetCurrentThreadId() As Integer
+    End Function
+
     <DllImport("dbghelp.dll")> _
-    Public Shared Function MiniDumpWriteDump(ByVal hProcess As Integer, ByVal ProcessId As Integer, ByVal hFile As IntPtr, ByVal DumpType As Integer, ByVal ExceptionParam As IntPtr, ByVal UserStreamParam As IntPtr, _
+    Public Shared Function MiniDumpWriteDump(ByVal hProcess As IntPtr, ByVal ProcessId As Integer, ByVal hFile As IntPtr, ByVal DumpType As Integer, ByVal ExceptionParam As IntPtr, ByVal UserStreamParam As IntPtr, _
         ByVal CallackParam As IntPtr) As Boolean
     End Function
 
     <DllImport("kernel32.dll", SetLastError:=True)> _
-    Public Shared Function OpenProcess(ByVal DesiredAccess As PROCESS_RIGHTS, ByVal InheritHandle As Integer, ByVal ProcessId As Integer) As Integer
+    Public Shared Function OpenProcess(ByVal DesiredAccess As PROCESS_RIGHTS, _
+                                       ByVal InheritHandle As Boolean, _
+                                       ByVal ProcessId As Integer) As IntPtr
     End Function
 
     <DllImport("kernel32.dll", SetLastError:=True)> _
     Public Shared Sub ExitProcess(ByVal ExitCode As Integer)
     End Sub
 
-    Public Declare Function GetModuleFileNameExA Lib "PSAPI.DLL" (ByVal hProcess As Integer, ByVal hModule As Integer, ByVal ModuleName As String, ByVal nSize As Integer) As Integer
-    Public Declare Function TerminateProcess Lib "kernel32" (ByVal hProcess As Integer, ByVal uExitCode As Integer) As Integer
-    Public Declare Function OpenProcessToken Lib "advapi32.dll" (ByVal ProcessHandle As Integer, ByVal DesiredAccess As Integer, ByRef TokenHandle As Integer) As Integer
-    Public Declare Function NtSuspendProcess Lib "Ntdll.dll" (ByVal hProc As Integer) As Integer
-    Public Declare Function NtResumeProcess Lib "Ntdll.dll" (ByVal hProc As Integer) As Integer
-    Public Declare Function SetPriorityClass Lib "kernel32" (ByVal hProcess As Integer, ByVal dwPriorityClass As Integer) As Integer
-    Public Declare Function SetProcessAffinityMask Lib "kernel32" (ByVal hProcess As Integer, ByVal dwProcessAffinityMask As Integer) As Integer
-    Public Declare Function GetGuiResources Lib "user32.dll" (ByVal hProcess As Integer, ByVal uiFlags As Integer) As Integer
-    Public Declare Function GetProcAddress Lib "kernel32" (ByVal hModule As Integer, ByVal lpProcName As String) As Integer
+    Public Declare Function GetModuleFileNameExA Lib "PSAPI.DLL" (ByVal hProcess As IntPtr, ByVal hModule As Integer, ByVal ModuleName As String, ByVal nSize As Integer) As Integer
+    Public Declare Function TerminateProcess Lib "kernel32" (ByVal hProcess As IntPtr, ByVal uExitCode As Integer) As Integer
+    Public Declare Function OpenProcessToken Lib "advapi32.dll" (ByVal ProcessHandle As IntPtr, ByVal DesiredAccess As Integer, ByRef TokenHandle As IntPtr) As Integer
+    Public Declare Function NtSuspendProcess Lib "Ntdll.dll" (ByVal hProc As IntPtr) As Integer
+    Public Declare Function NtResumeProcess Lib "Ntdll.dll" (ByVal hProc As IntPtr) As Integer
+    Public Declare Function SetPriorityClass Lib "kernel32" (ByVal hProcess As IntPtr, ByVal dwPriorityClass As Integer) As Integer
+    Public Declare Function SetProcessAffinityMask Lib "kernel32" (ByVal hProcess As IntPtr, ByVal dwProcessAffinityMask As Integer) As Integer
+    Public Declare Function GetGuiResources Lib "user32.dll" (ByVal hProcess As IntPtr, ByVal uiFlags As Integer) As Integer
+    Public Declare Function GetProcAddress Lib "kernel32" (ByVal hModule As IntPtr, ByVal lpProcName As String) As Integer
     Public Declare Function GetCurrentProcess Lib "kernel32.dll" () As Integer
-    Public Declare Function GetExitCodeProcess Lib "kernel32" (ByVal hProcess As Integer, ByRef lpExitCode As Integer) As Integer
+    Public Declare Function GetExitCodeProcess Lib "kernel32" (ByVal hProcess As IntPtr, ByRef lpExitCode As Integer) As Integer
     Public Declare Function GetCurrentProcessId Lib "kernel32.dll" () As Integer
 
 #End Region
 
+    ' OK
 #Region "Declarations used for rights"
 
     Public Enum THREAD_RIGHTS As UInteger
@@ -406,7 +413,8 @@ Public Class API
         THREAD_DIRECT_IMPERSONATION = &H200
         THREAD_SET_LIMITED_INFORMATION = &H400
         THREAD_QUERY_LIMITED_INFORMATION = &H800
-        THREAD_ALL_ACCESS = STANDARD_RIGHTS.STANDARD_RIGHTS_REQUIRED Or STANDARD_RIGHTS.SYNCHRONIZE Or &HFFFF
+        THREAD_ALL_ACCESS = STANDARD_RIGHTS.STANDARD_RIGHTS_REQUIRED Or _
+                            STANDARD_RIGHTS.SYNCHRONIZE Or &HFFFF
     End Enum
 
     Public Enum TOKEN_RIGHTS As Integer
@@ -462,75 +470,109 @@ Public Class API
         PROCESS_QUERY_INFORMATION = &H400
         PROCESS_SUSPEND_RESUME = &H800
         PROCESS_QUERY_LIMITED_INFORMATION = &H1000
-        PROCESS_ALL_ACCESS = STANDARD_RIGHTS.STANDARD_RIGHTS_REQUIRED Or STANDARD_RIGHTS.SYNCHRONIZE Or &HFFFF
+        PROCESS_ALL_ACCESS = STANDARD_RIGHTS.STANDARD_RIGHTS_REQUIRED Or _
+                                STANDARD_RIGHTS.SYNCHRONIZE Or &HFFFF
     End Enum
 
 #End Region
 
+    ' OK
 #Region "Declarations used for modules"
 
-    Public Declare Function EnumProcessModules2 Lib "psapi.dll" Alias "EnumProcessModules" (ByVal hProcess As Integer, ByVal lphModule As Integer, ByVal cb As Integer, ByVal lpcbNeeded As Integer) As Boolean
-    Public Declare Function GetModuleHandle Lib "kernel32" Alias "GetModuleHandleA" (ByVal lpModuleName As String) As Integer
-
-    <DllImport("psapi.dll")> _
-    Public Shared Function EnumProcessModules(ByVal ProcessHandle As Integer, ByVal ModuleHandles As IntPtr(), ByVal Size As Integer, ByRef RequiredSize As Integer) As Boolean
-    End Function
-
-    <DllImport("psapi.dll", CharSet:=CharSet.Unicode)> _
-    Public Shared Function GetModuleBaseName(ByVal ProcessHandle As Integer, ByVal ModuleHandle As IntPtr, ByVal BaseName As StringBuilder, ByVal Size As Integer) As Integer
-    End Function
-
-    <DllImport("psapi.dll", CharSet:=CharSet.Unicode)> _
-    Public Shared Function GetModuleFileNameEx(ByVal ProcessHandle As Integer, ByVal ModuleHandle As IntPtr, ByVal FileName As StringBuilder, ByVal Size As Integer) As Integer
+    <DllImport("kernel32.dll", CharSet:=CharSet.Unicode)> _
+    Public Shared Function GetModuleHandle(ByVal ModuleName As String) As IntPtr
     End Function
 
     <DllImport("psapi.dll")> _
-    Public Shared Function GetModuleInformation(ByVal ProcessHandle As Integer, ByVal ModuleHandle As IntPtr, ByRef ModInfo As MODULEINFO, ByVal Size As Integer) As Boolean
+    Public Shared Function EnumProcessModules(<[In]()> ByVal ProcessHandle As IntPtr, _
+                <Out()> ByVal ModuleHandles As IntPtr(), <[In]()> ByVal Size As Integer, _
+                <Out()> ByRef RequiredSize As Integer) As Boolean
     End Function
 
-    <StructLayout(LayoutKind.Sequential)> _
-    Public Structure MODULEINFO
-        Public BaseOfDll As IntPtr
-        Public SizeOfImage As Integer
-        Public EntryPoint As IntPtr
-    End Structure
+    <DllImport("psapi.dll", CharSet:=CharSet.Unicode)> _
+    Public Shared Function GetModuleBaseName(<[In]()> ByVal ProcessHandle As IntPtr, _
+                    <[In]()> <[Optional]()> ByVal ModuleHandle As IntPtr, _
+                    <Out()> ByVal BaseName As StringBuilder, _
+                    <[In]()> ByVal Size As Integer) As Integer
+    End Function
+
+    <DllImport("psapi.dll", CharSet:=CharSet.Unicode)> _
+    Public Shared Function GetModuleFileNameEx(<[In]()> ByVal ProcessHandle As IntPtr, _
+                    <[In]()> <[Optional]()> ByVal ModuleHandle As IntPtr, _
+                    <Out()> ByVal FileName As StringBuilder, _
+                    <[In]()> ByVal Size As Integer) As Integer
+    End Function
+
+    ' Unused in non-commented blocks
+    '<DllImport("psapi.dll")> _
+    'Public Shared Function GetModuleInformation(<[In]()> ByVal ProcessHandle As IntPtr, _
+    '            <[In]()> <[Optional]()> ByVal ModuleHandle As IntPtr, _
+    '            <Out()> ByVal ModInfo As MODULEINFO, _
+    '            <[In]()> ByVal Size As Integer) As Boolean
+    'End Function
+
+    '<StructLayout(LayoutKind.Sequential)> _
+    'Public Structure MODULEINFO
+    '    Public BaseOfDll As IntPtr
+    '    Public SizeOfImage As Integer
+    '    Public EntryPoint As IntPtr
+    'End Structure
 
 #End Region
 
+    ' OK
 #Region "Declarations used for memory management"
 
     <DllImport("kernel32.dll", SetLastError:=True)> _
-    Public Shared Function VirtualQueryEx(ByVal Process As Integer, ByVal Address As Integer, <MarshalAs(UnmanagedType.Struct)> ByRef Buffer As MEMORY_BASIC_INFORMATION, ByVal Size As Integer) As Boolean
+    Public Shared Function VirtualQueryEx(ByVal Process As IntPtr, _
+                ByVal Address As IntPtr, _
+                <MarshalAs(UnmanagedType.Struct)> ByRef Buffer As MEMORY_BASIC_INFORMATION, _
+                ByVal Size As Integer) As Integer
     End Function
 
     <DllImport("kernel32.dll", SetLastError:=True)> _
-    Public Shared Function VirtualFreeEx(ByVal hProcess As Integer, ByVal lpAddress As Integer, ByVal dwSize As Integer, ByVal dwFreeType As FreeType) As Boolean
+    Public Shared Function VirtualFreeEx(ByVal Process As IntPtr, _
+                                         ByVal Address As IntPtr, _
+                                         ByVal Size As Integer, _
+                                         ByVal FreeType As MEMORY_STATE) As Boolean
     End Function
 
-    <DllImport("kernel32", CharSet:=CharSet.Auto, SetLastError:=True)> _
-    Public Shared Function VirtualProtectEx(ByVal hProcess As Integer, ByVal lpAddress As Integer, ByVal dwSize As Integer, ByVal flNewProtect As PROTECTION_TYPE, <Out()> ByVal lpflOldProtect As PROTECTION_TYPE) As Integer
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Public Shared Function VirtualProtectEx(ByVal Process As IntPtr, _
+                                         ByVal Address As IntPtr, _
+                                         ByVal Size As Integer, _
+                                         ByVal NewProtect As PROTECTION_TYPE, _
+                                         ByRef OldProtect As PROTECTION_TYPE) As Boolean
     End Function
 
     <DllImport("psapi.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
-    Public Shared Function GetMappedFileName(ByVal ProcessHandle As Integer, ByVal Address As Integer, ByVal Buffer As StringBuilder, ByVal Size As Integer) As Integer
+    Public Shared Function GetMappedFileName(ByVal ProcessHandle As IntPtr, _
+                                             ByVal Address As IntPtr, _
+                                             ByVal Buffer As StringBuilder, _
+                                             ByVal Size As Integer) As Integer
     End Function
 
-    Public Declare Function ReadProcessMemory Lib "kernel32" (ByVal hProcess As Integer, ByVal lpBaseAddress As Integer, ByVal lpBuffer As Byte(), ByVal nSize As Integer, ByVal lpNumberOfBytesWritten As Integer) As Integer
-    Public Declare Function ReadProcessMemory Lib "kernel32" (ByVal hProcess As Integer, ByVal lpBaseAddress As Integer, ByRef lpBuffer As Object, ByVal nSize As Integer, ByVal lpNumberOfBytesWritten As Integer) As Integer
-    Public Declare Function ReadProcessMemory Lib "kernel32" (ByVal hProcess As Integer, ByVal lpBaseAddress As Integer, ByVal lpBuffer As Integer(), ByVal nSize As Integer, ByVal lpNumberOfBytesWritten As Integer) As Integer
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Public Shared Function ReadProcessMemory(ByVal Process As IntPtr, _
+                                             ByVal BaseAddress As IntPtr, _
+                                             ByVal Buffer As Byte(), _
+                                             ByVal Size As Integer, _
+                                            ByRef BytesRead As Integer) As Boolean
+    End Function
 
-    Public Structure MEMORY_BASIC_INFORMATION ' 28 bytes
-        Dim BaseAddress As Integer
-        Dim AllocationBase As Integer
-        Dim AllocationProtect As PROTECTION_TYPE
-        Dim RegionSize As Integer
-        Dim State As MEMORY_STATE
-        Dim Protect As PROTECTION_TYPE
-        Dim lType As MEMORY_TYPE
+    <StructLayout(LayoutKind.Sequential)> _
+    Public Structure MEMORY_BASIC_INFORMATION
+        Public BaseAddress As IntPtr
+        Public AllocationBase As IntPtr
+        Public AllocationProtect As PROTECTION_TYPE
+        Public RegionSize As Integer
+        Public State As MEMORY_STATE
+        Public Protect As PROTECTION_TYPE
+        Public Type As MEMORY_TYPE
     End Structure
 
     <Flags()> _
-    Public Enum PROTECTION_TYPE As Integer
+    Public Enum PROTECTION_TYPE As UInteger
         AccessDenied = 0
         Execute = &H10
         ExecuteRead = &H20
@@ -543,11 +585,6 @@ Public Class API
         Guard = &H100
         NoCache = &H200
         WriteCombine = &H400
-    End Enum
-
-    Public Enum FreeType
-        MEM_DECOMMIT = &H4000
-        MEM_RELEASE = &H8000
     End Enum
 
     <Flags()> _
@@ -571,16 +608,17 @@ Public Class API
 
 #End Region
 
+    ' OK
 #Region "Declarations used for threads"
 
-    Public Declare Function CreateRemoteThread Lib "kernel32" (ByVal hProcess As Integer, ByVal lpThreadAttributes As Integer, ByVal dwStackSize As Integer, ByVal lpStartAddress As Integer, ByVal lpParameter As Integer, ByVal dwCreationFlags As Integer, ByRef lpThreadId As Integer) As Integer
+    Public Declare Function CreateRemoteThread Lib "kernel32" (ByVal hProcess As IntPtr, ByVal lpThreadAttributes As Integer, ByVal dwStackSize As Integer, ByVal lpStartAddress As Integer, ByVal lpParameter As Integer, ByVal dwCreationFlags As Integer, ByRef lpThreadId As Integer) As Integer
 
     <StructLayout(LayoutKind.Sequential)> _
     Public Structure THREAD_BASIC_INFORMATION
-        Public ExitStatus As Integer
-        Public TebBaseAddress As Integer
+        Public ExitStatus As UInteger
+        Public TebBaseAddress As IntPtr
         Public ClientId As CLIENT_ID
-        Public AffinityMask As Integer
+        Public AffinityMask As IntPtr
         Public Priority As Integer
         Public BasePriority As Integer
     End Structure
@@ -591,7 +629,7 @@ Public Class API
         Public UserTime As Long
         Public CreateTime As Long
         Public WaitTime As Integer
-        Public StartAddress As Integer
+        Public StartAddress As IntPtr
         Public ClientId As CLIENT_ID
         Public Priority As Integer
         Public BasePriority As Integer
@@ -673,32 +711,40 @@ Public Class API
         MaxThreadInfoClass
     End Enum
 
-    <DllImport("ntdll.dll", SetLastError:=True)> _
-    Public Shared Function ZwQueryInformationThread(ByVal ThreadHandle As Integer, ByVal ThreadInformationClass As THREAD_INFORMATION_CLASS, ByRef ThreadInformation As THREAD_BASIC_INFORMATION, ByVal ThreadInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Public Shared Function OpenThread(<[In]()> ByVal DesiredAccess As THREAD_RIGHTS, _
+                                      <[In]()> ByVal InheritHandle As Boolean, _
+                                      <[In]()> ByVal ThreadId As Integer) As IntPtr
     End Function
 
     <DllImport("kernel32.dll", SetLastError:=True)> _
-    Public Shared Function GetThreadPriority(ByVal ThreadHandle As Integer) As Integer
-    End Function
-
-    <DllImport("kernel32.dll")> _
-    Public Shared Function ResumeThread(ByVal hThread As IntPtr) As UInt32
-    End Function
-
-    <DllImport("kernel32.dll")> _
-    Public Shared Function SuspendThread(ByVal hThread As IntPtr) As UInt32
-    End Function
-
-    <DllImport("kernel32.dll")> _
-    Public Shared Function SetThreadPriority(ByVal hThread As IntPtr, ByVal priority As Integer) As UInt32
-    End Function
-
-    <DllImport("kernel32.dll")> _
-    Public Shared Function TerminateThread(ByVal hThread As IntPtr, ByVal exitcode As Integer) As UInt32
+    Public Shared Function TerminateThread(ByVal ThreadHandle As IntPtr, _
+                                           <[In]()> ByVal ExitCode As Integer) As Boolean
     End Function
 
     <DllImport("kernel32.dll", SetLastError:=True)> _
-    Public Shared Function OpenThread(ByVal DesiredAccess As THREAD_RIGHTS, ByVal InheritHandle As Integer, ByVal ThreadId As Integer) As Integer
+    Public Shared Function SuspendThread(<[In]()> ByVal ThreadHandle As IntPtr) As Integer
+    End Function
+
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Public Shared Function ResumeThread(<[In]()> ByVal ThreadHandle As IntPtr) As Integer
+    End Function
+
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Public Shared Function SetThreadPriority(<[In]()> ByVal ThreadHandle As IntPtr, _
+                                             <[In]()> ByVal Priority As Integer) As Boolean
+    End Function
+
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Public Shared Function GetThreadPriority(<[In]()> ByVal ThreadHandle As IntPtr) As Integer
+    End Function
+
+    <DllImport("ntdll.dll")> _
+    Public Shared Function NtQueryInformationThread(<[In]()> ByVal ThreadHandle As IntPtr, _
+                <[In]()> ByVal ThreadInformationClass As THREAD_INFORMATION_CLASS, _
+                ByRef ThreadInformation As THREAD_BASIC_INFORMATION, _
+                <[In]()> ByVal ThreadInformationLength As Integer, _
+                <Out()> <[Optional]()> ByRef ReturnLength As Integer) As UInteger
     End Function
 
 #End Region
@@ -722,7 +768,7 @@ Public Class API
         PRIVILEGE_REMOVED = &H4
     End Enum
 
-    Public Declare Function GetTokenInformation Lib "advapi32.dll" (ByVal TokenHandle As Integer, ByVal TokenInformationClass As Integer, ByVal TokenInformation As Integer, ByVal TokenInformationLength As Integer, ByRef ReturnLength As Integer) As Boolean
+    Public Declare Function GetTokenInformation Lib "advapi32.dll" (ByVal TokenHandle As IntPtr, ByVal TokenInformationClass As Integer, ByVal TokenInformation As Integer, ByVal TokenInformationLength As Integer, ByRef ReturnLength As Integer) As Boolean
     Public Declare Function LookupPrivilegeValue Lib "advapi32.dll" Alias "LookupPrivilegeValueA" (ByVal lpSystemName As String, ByVal lpName As String, ByRef lpLuid As LUID) As Integer           'Returns a valid LUID which is important when making security changes in NT.
     Public Declare Function LookupPrivilegeNameA Lib "advapi32.dll" (ByVal lpSystemName As String, ByRef lpLuid As LUID, ByVal lpName As String, ByRef cchName As Integer) As Integer                'Used to adjust your program's security privileges, can't restore without it!
 
@@ -733,7 +779,7 @@ Public Class API
     End Function
 
     <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
-    Public Shared Function GetTokenInformation(ByVal TokenHandle As Integer, ByVal TokenInformationClass As TOKEN_INFORMATION_CLASS, ByVal TokenInformation As IntPtr, ByVal TokenInformationLength As Integer, ByRef ReturnLength As Integer) As Boolean
+    Public Shared Function GetTokenInformation(ByVal TokenHandle As IntPtr, ByVal TokenInformationClass As TOKEN_INFORMATION_CLASS, ByVal TokenInformation As IntPtr, ByVal TokenInformationLength As Integer, ByRef ReturnLength As Integer) As Boolean
     End Function
 
     <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
@@ -761,8 +807,16 @@ Public Class API
 
     <StructLayout(LayoutKind.Sequential)> _
     Public Structure CLIENT_ID
-        Public UniqueProcess As Integer
-        Public UniqueThread As Integer
+        Public UniqueProcess As IntPtr
+        Public UniqueThread As IntPtr
+        Public Sub New(ByVal processId As IntPtr, ByVal threadId As IntPtr)
+            UniqueProcess = processId
+            UniqueThread = threadId
+        End Sub
+        Public Sub New(ByVal processId As Integer, ByVal threadId As Integer)
+            UniqueProcess = New IntPtr(processId)
+            UniqueThread = New IntPtr(threadId)
+        End Sub
     End Structure
 
     Public Structure TOKEN_USER
@@ -853,6 +907,7 @@ Public Class API
 
 #End Region
 
+    ' OK
 #Region "Declarations used for network"
 
     Public Enum NetworkProtocol As Integer
@@ -944,15 +999,21 @@ Public Class API
     End Enum
 
     <DllImport("iphlpapi.dll", SetLastError:=True)> _
-    Public Shared Function GetExtendedTcpTable(ByVal Table As IntPtr, ByRef Size As Integer, _
-        ByVal Order As Boolean, ByVal IpVersion As Integer, _
-        ByVal TableClass As TCP_TABLE_CLASS, ByVal Reserved As Integer) As Integer
+    Public Shared Function GetExtendedTcpTable(ByVal Table As IntPtr, _
+                                            ByRef Size As Integer, _
+                                            ByVal Order As Boolean, _
+                                            ByVal IpVersion As Integer, _
+                                            ByVal TableClass As TCP_TABLE_CLASS, _
+                                            ByVal Reserved As Integer) As Integer
     End Function
 
     <DllImport("iphlpapi.dll", SetLastError:=True)> _
-    Public Shared Function GetExtendedUdpTable(ByVal Table As IntPtr, ByRef Size As Integer, _
-        ByVal Order As Boolean, ByVal IpVersion As Integer, _
-        ByVal TableClass As UDP_TABLE_CLASS, ByVal Reserved As Integer) As Integer
+    Public Shared Function GetExtendedUdpTable(ByVal Table As IntPtr, _
+                                            ByRef Size As Integer, _
+                                            ByVal Order As Boolean, _
+                                            ByVal IpVersion As Integer, _
+                                            ByVal TableClass As UDP_TABLE_CLASS, _
+                                            ByVal Reserved As Integer) As Integer
     End Function
 
     <DllImport("iphlpapi.dll", SetLastError:=True)> _
@@ -1363,18 +1424,26 @@ Public Class API
         SystemSessionProcessesInformation
     End Enum
 
-    Public Declare Function GetPerformanceInfo Lib "psapi.dll" (ByRef PerformanceInformation As PERFORMANCE_INFORMATION, ByVal Size As Integer) As Integer
+
+    <DllImport("psapi.dll", SetLastError:=True)> _
+    Public Shared Function GetPerformanceInfo(<Out()> ByRef PerformanceInformation As PERFORMANCE_INFORMATION, _
+                                              <[In]()> ByVal Size As Integer) As Boolean
+    End Function
+
     Public Declare Function ZwQuerySystemInformation Lib "ntdll.dll" (ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByRef SystemInformation As SYSTEM_BASIC_INFORMATION, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
     Public Declare Function ZwQuerySystemInformation Lib "ntdll.dll" (ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByRef SystemInformation As SYSTEM_CACHE_INFORMATION, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
     Public Declare Function ZwQuerySystemInformation Lib "ntdll.dll" (ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByRef SystemInformation As SYSTEM_PERFORMANCE_INFORMATION, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
     Public Declare Function ZwQuerySystemInformation Lib "ntdll.dll" (ByVal SystemInformationClass As SYSTEM_INFORMATION_CLASS, ByRef SystemInformation As SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
 
     <DllImport("user32.dll", SetLastError:=True)> _
-    Public Shared Function ExitWindowsEx(ByVal flags As ExitFlags, ByVal reason As Integer) As Boolean
+    Public Shared Function ExitWindowsEx(ByVal flags As ExitFlags, _
+                                         ByVal reason As Integer) As Boolean
     End Function
 
     <DllImport("powrprof.dll", SetLastError:=True)> _
-    Public Shared Function SetSuspendState(ByVal Hibernate As Boolean, ByVal ForceCritical As Boolean, ByVal DisableWakeEvent As Boolean) As Boolean
+    Public Shared Function SetSuspendState(ByVal Hibernate As Boolean, _
+                                           ByVal ForceCritical As Boolean, _
+                                           ByVal DisableWakeEvent As Boolean) As Boolean
     End Function
 
     <DllImport("user32.dll", SetLastError:=True)> _
@@ -1612,66 +1681,85 @@ Public Class API
 
 #End Region
 
+    ' OK
 #Region "Declarations used for services"
 
-    Public Const SERVICE_NO_CHANGE As Integer = &HFFFFFFFF
+    Public Enum ServiceQueryState As UInteger
+        Active = 1
+        Inactive = 2
+        All = 3
+    End Enum
 
-    Public Const ERROR_MORE_DATA As Integer = 234
-    Public Const SC_ENUM_PROCESS_INFO As Integer = &H0
-    Public Const SC_MANAGER_ENUMERATE_SERVICE As Integer = &H4
-
-    Public Const SC_STATUS_PROCESS_INFO As Integer = 0
-    Public Const SERVICE_ACTIVE As Integer = &H1
-    Public Const SERVICE_INACTIVE As Integer = &H2
-    Public Const SERVICE_STATE_ALL As Integer = (SERVICE_ACTIVE Or SERVICE_INACTIVE)
-    Public Const SERVICE_ADAPTER As Integer = &H4
-    Public Const SERVICE_WIN32_OWN_PROCESS As Integer = &H10
-    Public Const SERVICE_WIN32_SHARE_PROCESS As Integer = &H20
-    Public Const SERVICE_WIN32 As Integer = SERVICE_WIN32_OWN_PROCESS + SERVICE_WIN32_SHARE_PROCESS
-
-    Public Const SERVICE_DRIVER As Integer = &HB
-    Public Const SERVICE_INTERACTIVE_PROCESS As Integer = &H100
-    Public Const SERVICE_ALL As Integer = SERVICE_DRIVER Or SERVICE_WIN32_OWN_PROCESS Or _
-            SERVICE_WIN32_SHARE_PROCESS Or SERVICE_WIN32 Or SERVICE_INTERACTIVE_PROCESS
-
-    Public Const STANDARD_RIGHTS_REQUIRED As Integer = &HF0000
-    Public Const SC_MANAGER_CONNECT As Integer = &H1
-    Public Const SC_MANAGER_CREATE_SERVICE As Integer = &H2
-    Public Const SC_MANAGER_LOCK As Integer = &H8
-    Public Const SC_MANAGER_QUERY_LOCK_STATUS As Integer = &H10
-    Public Const SC_MANAGER_MODIFY_BOOT_CONFIG As Integer = &H20
-    Public Const SC_MANAGER_ALL_ACCESS As Integer = (STANDARD_RIGHTS_REQUIRED + SC_MANAGER_CONNECT + SC_MANAGER_CREATE_SERVICE + SC_MANAGER_ENUMERATE_SERVICE + SC_MANAGER_LOCK + SC_MANAGER_QUERY_LOCK_STATUS + SC_MANAGER_MODIFY_BOOT_CONFIG)
-
-    Public Declare Function OpenSCManager Lib "advapi32.dll" Alias "OpenSCManagerA" (ByVal lpMachineName As String, ByVal lpDatabaseName As String, ByVal dwDesiredAccess As Integer) As IntPtr
-    Public Declare Function OpenService Lib "advapi32.dll" Alias "OpenServiceA" (ByVal hSCManager As IntPtr, ByVal lpServiceName As String, ByVal dwDesiredAccess As SERVICE_RIGHTS) As IntPtr
-    Public Declare Function apiStartService Lib "advapi32.dll" Alias "StartServiceA" (ByVal hService As IntPtr, ByVal dwNumServiceArgs As Integer, ByVal lpServiceArgVectors As Integer) As Integer
+    <Flags()> _
+    Public Enum ServiceQueryType As UInteger
+        Driver = &HB
+        Win32 = &H30
+    End Enum
 
     <DllImport("advapi32.dll", SetLastError:=True)> _
-    Public Shared Function CloseServiceHandle(ByVal serviceHandle As IntPtr) As Boolean
+    Public Shared Function ControlService(<[In]()> ByVal Service As IntPtr, _
+                                          <[In]()> ByVal Control As SERVICE_CONTROL, _
+                                          <Out()> ByRef ServiceStatus As SERVICE_STATUS) As Boolean
     End Function
 
     <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
-    Public Shared Function EnumServicesStatusEx(ByVal SCManager As IntPtr, ByVal InfoLevel As Integer, ByVal ServiceType As Integer, ByVal ServiceState As Integer, ByVal Services As IntPtr, ByVal BufSize As Integer, _
-        ByRef BytesNeeded As Integer, ByRef ServicesReturned As Integer, ByRef ResumeHandle As Integer, ByVal GroupName As String) As <MarshalAs(UnmanagedType.Bool)> Boolean
+    Public Shared Function QueryServiceStatusEx(<[In]()> ByVal Service As IntPtr, _
+                <[In]()> ByVal InfoLevel As Integer, _
+                <Out()> <[Optional]()> ByRef ServiceStatus As SERVICE_STATUS_PROCESS, _
+                <[In]()> ByVal BufferSize As Integer, _
+                <Out()> ByRef BytesNeeded As Integer) As Boolean
     End Function
 
-    <DllImport("advapi32.dll", CharSet:=CharSet.Unicode, SetLastError:=True)> _
-    Public Shared Function QueryServiceStatusEx(ByVal serviceHandle As IntPtr, ByVal infoLevel As Integer, ByVal buffer As IntPtr, ByVal bufferSize As Integer, ByRef bytesNeeded As Integer) As Boolean
+    <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
+    Public Shared Function EnumServicesStatusEx(<[In]()> ByVal SCManager As IntPtr, _
+                    <[In]()> ByVal InfoLevel As IntPtr, _
+                    <[In]()> ByVal ServiceType As ServiceQueryType, _
+                    <[In]()> ByVal ServiceState As ServiceQueryState, _
+                    <Out()> <[Optional]()> ByVal Services As IntPtr, _
+                    <[In]()> ByVal BufSize As Integer, _
+                    <Out()> ByRef BytesNeeded As Integer, _
+                    <Out()> ByRef ServicesReturned As Integer, _
+                    ByRef ResumeHandle As Integer, _
+                    <[In]()> <[Optional]()> ByVal GroupName As String) As Boolean
     End Function
 
     <DllImport("advapi32.dll", SetLastError:=True)> _
-    Public Shared Function ControlService(ByVal hService As IntPtr, ByVal dwControl As SERVICE_CONTROL, ByRef lpServiceStatus As SERVICE_STATUS) As Boolean
+    Public Shared Function CloseServiceHandle(<[In]()> ByVal ServiceHandle As IntPtr) As <MarshalAs(UnmanagedType.Bool)> Boolean
     End Function
 
-    <DllImport("advapi32.dll", CharSet:=CharSet.Auto, entrypoint:="ChangeServiceConfigA", SetLastError:=True)> _
-    Public Shared Function ChangeServiceConfig(ByVal hService As Integer, ByVal dwServiceType As Integer, ByVal dwStartType As SERVICE_START_TYPE, ByVal dwErrorControl As Integer, ByVal lpBinaryPathName As String, ByVal lpLoadOrderGroup As String, ByVal lpdwTagId As Integer, ByVal lpDependencies As String, <MarshalAs(UnmanagedType.LPStr)> ByVal lpServiceStartName As String, <MarshalAs(UnmanagedType.LPStr)> ByVal lpPassword As String, <MarshalAs(UnmanagedType.LPStr)> ByVal lpDisplayName As String) As Boolean
+    <DllImport("advapi32.dll", SetLastError:=True)> _
+    Public Shared Function OpenSCManager(<[In]()> <[Optional]()> ByVal MachineName As String, <[In]()> <[Optional]()> ByVal DatabaseName As String, <[In]()> ByVal DesiredAccess As ScManagerAccess) As IntPtr
+    End Function
+
+    <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
+    Public Shared Function OpenService(<[In]()> ByVal SCManager As IntPtr, <[In]()> ByVal ServiceName As String, <[In]()> ByVal DesiredAccess As ServiceAccess) As IntPtr
+    End Function
+
+    <DllImport("advapi32.dll", SetLastError:=True)> _
+    Public Shared Function StartService(<[In]()> ByVal Service As IntPtr, <[In]()> ByVal NumServiceArgs As Integer, <[In]()> <[Optional]()> ByVal Args As String()) As <MarshalAs(UnmanagedType.Bool)> Boolean
+    End Function
+
+
+    <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
+    Public Shared Function ChangeServiceConfig(<[In]()> ByVal Service As IntPtr, _
+                <[In]()> ByVal ServiceType As SERVICE_TYPE, _
+                <[In]()> ByVal StartType As SERVICE_START_TYPE, _
+                <[In]()> ByVal ErrorControl As SERVICE_ERROR_CONTROL, _
+                <[In]()> <[Optional]()> ByVal BinaryPath As String, _
+                <[In]()> <[Optional]()> ByVal LoadOrderGroup As String, _
+                <Out()> <[Optional]()> ByVal TagId As IntPtr, _
+                <[In]()> <[Optional]()> ByVal Dependencies As String, _
+                <[In]()> <[Optional]()> ByVal StartName As String, _
+                <[In]()> <[Optional]()> ByVal Password As String, _
+                <[In]()> <[Optional]()> ByVal DisplayName As String) As Boolean
     End Function
 
     <DllImport("advapi32.dll", CharSet:=CharSet.Auto)> _
-    Public Shared Function LockServiceDatabase(ByVal hSCManager As Integer) As Integer
+    Public Shared Function LockServiceDatabase(ByVal hSCManager As IntPtr) As IntPtr
     End Function
+
     <DllImport("advapi32.dll", CharSet:=CharSet.Auto)> _
-    Public Shared Function UnlockServiceDatabase(ByVal hSCManager As Integer) As Boolean
+    Public Shared Function UnlockServiceDatabase(ByVal hSCManager As IntPtr) As Boolean
     End Function
 
     Public Structure SERVICE_STATUS
@@ -1706,16 +1794,12 @@ Public Class API
         Public ServiceType As SERVICE_TYPE
         Public StartType As SERVICE_START_TYPE
         Public ErrorControl As SERVICE_ERROR_CONTROL
-        <MarshalAs(UnmanagedType.LPTStr)> _
-        Public BinaryPathName As String
-        <MarshalAs(UnmanagedType.LPTStr)> _
-        Public LoadOrderGroup As String
+        <MarshalAs(UnmanagedType.LPTStr)> Public BinaryPathName As String
+        <MarshalAs(UnmanagedType.LPTStr)> Public LoadOrderGroup As String
         Public TagID As Integer
         Public Dependencies As Integer
-        <MarshalAs(UnmanagedType.LPTStr)> _
-        Public ServiceStartName As String
-        <MarshalAs(UnmanagedType.LPTStr)> _
-        Public DisplayName As String
+        <MarshalAs(UnmanagedType.LPTStr)> Public ServiceStartName As String
+        <MarshalAs(UnmanagedType.LPTStr)> Public DisplayName As String
     End Structure
 
     <StructLayout(LayoutKind.Sequential)> _
@@ -1754,7 +1838,7 @@ Public Class API
         SERVICESTARTTYPE_NO_CHANGE = SERVICE_NO_CHANGE
     End Enum
 
-    Public Enum SERVICE_STATE As Integer
+    Public Enum SERVICE_STATE As UInteger
         ContinuePending = &H5
         PausePending = &H6
         Paused = &H7
@@ -1765,7 +1849,7 @@ Public Class API
         Unknown = &HF
     End Enum
 
-    Public Enum SERVICE_TYPE As Integer
+    Public Enum SERVICE_TYPE As UInteger
         FileSystemDriver = &H2
         KernelDriver = &H1
         Adapter = &H4
@@ -1773,6 +1857,7 @@ Public Class API
         Win32OwnProcess = &H10
         Win32ShareProcess = &H20
         InteractiveProcess = &H100
+        NoChange = &HFFFFFFFF
     End Enum
 
     Public Enum SERVICE_ERROR_CONTROL As Integer
@@ -1781,14 +1866,15 @@ Public Class API
         Normal = &H1
         Severe = &H2
         Unknown = &HF
+        NoChange = &HFFFFFFFF
     End Enum
 
-    Public Enum SERVICE_FLAGS As Integer
+    Public Enum SERVICE_FLAGS As UInteger
         None = 0
         RunsInSystemProcess = &H1
     End Enum
 
-    Public Enum SERVICE_ACCEPT As Integer
+    Public Enum SERVICE_ACCEPT As UInteger
         [NetBindChange] = &H10
         [ParamChange] = &H8
         [PauseContinue] = &H2
@@ -1810,38 +1896,51 @@ Public Class API
         SERVICE_PAUSE_CONTINUE = &H40
         SERVICE_INTERROGATE = &H80
         SERVICE_USER_DEFINED_CONTROL = &H100
-        SERVICE_ALL_ACCESS = STANDARD_RIGHTS.STANDARD_RIGHTS_REQUIRED Or SERVICE_QUERY_CONFIG Or SERVICE_CHANGE_CONFIG Or SERVICE_QUERY_STATUS Or SERVICE_ENUMERATE_DEPENDENTS Or SERVICE_START Or SERVICE_STOP Or SERVICE_PAUSE_CONTINUE Or SERVICE_INTERROGATE Or SERVICE_USER_DEFINED_CONTROL
+        SERVICE_ALL_ACCESS = STANDARD_RIGHTS.STANDARD_RIGHTS_REQUIRED Or _
+                SERVICE_QUERY_CONFIG Or SERVICE_CHANGE_CONFIG Or SERVICE_QUERY_STATUS Or _
+                SERVICE_ENUMERATE_DEPENDENTS Or SERVICE_START Or SERVICE_STOP Or _
+                SERVICE_PAUSE_CONTINUE Or SERVICE_INTERROGATE Or _
+                SERVICE_USER_DEFINED_CONTROL
     End Enum
+
+
+
+
+    ' May will remove these constants
+    Public Const SERVICE_NO_CHANGE As Integer = &HFFFFFFFF
+
+    Public Const ERROR_MORE_DATA As Integer = 234
+    Public Const SC_ENUM_PROCESS_INFO As Integer = &H0
+    Public Const SC_MANAGER_ENUMERATE_SERVICE As Integer = &H4
+
+    Public Const SC_STATUS_PROCESS_INFO As Integer = 0
+    Public Const SERVICE_ACTIVE As Integer = &H1
+    Public Const SERVICE_INACTIVE As Integer = &H2
+    Public Const SERVICE_STATE_ALL As Integer = (SERVICE_ACTIVE Or SERVICE_INACTIVE)
+    Public Const SERVICE_ADAPTER As Integer = &H4
+    Public Const SERVICE_WIN32_OWN_PROCESS As Integer = &H10
+    Public Const SERVICE_WIN32_SHARE_PROCESS As Integer = &H20
+    Public Const SERVICE_WIN32 As Integer = SERVICE_WIN32_OWN_PROCESS + SERVICE_WIN32_SHARE_PROCESS
+
+    Public Const SERVICE_DRIVER As Integer = &HB
+    Public Const SERVICE_INTERACTIVE_PROCESS As Integer = &H100
+    Public Const SERVICE_ALL As Integer = SERVICE_DRIVER Or SERVICE_WIN32_OWN_PROCESS Or _
+            SERVICE_WIN32_SHARE_PROCESS Or SERVICE_WIN32 Or SERVICE_INTERACTIVE_PROCESS
+
+    Public Const STANDARD_RIGHTS_REQUIRED As Integer = &HF0000
+    Public Const SC_MANAGER_CONNECT As Integer = &H1
+    Public Const SC_MANAGER_CREATE_SERVICE As Integer = &H2
+    Public Const SC_MANAGER_LOCK As Integer = &H8
+    Public Const SC_MANAGER_QUERY_LOCK_STATUS As Integer = &H10
+    Public Const SC_MANAGER_MODIFY_BOOT_CONFIG As Integer = &H20
+    Public Const SC_MANAGER_ALL_ACCESS As Integer = (STANDARD_RIGHTS_REQUIRED + SC_MANAGER_CONNECT + SC_MANAGER_CREATE_SERVICE + SC_MANAGER_ENUMERATE_SERVICE + SC_MANAGER_LOCK + SC_MANAGER_QUERY_LOCK_STATUS + SC_MANAGER_MODIFY_BOOT_CONFIG)
 
 #End Region
 
+    ' OK
 #Region "Declarations used for registry"
 
-    Public Declare Function WaitForSingleObject Lib "kernel32" (ByVal hHandle As Integer, ByVal dwMilliseconds As Integer) As Integer
-
-    <DllImport("kernel32.dll", _
-     EntryPoint:="CreateEventA")> _
-    Public Shared Function CreateEvent( _
-        ByVal lpEventAttributes As IntPtr, _
-        ByVal bManualReset As Boolean, _
-        ByVal bInitialState As Boolean, _
-        ByVal lpName As String) As IntPtr
-    End Function
-
-    ' Key api
-    Public Declare Auto Function RegCloseKey Lib "advapi32.dll" (ByVal hKey As Integer) As Integer
-    Public Declare Auto Function RegOpenKeyEx Lib "advapi32.dll" ( _
-       ByVal hKey As IntPtr, _
-       ByVal lpSubKey As String, _
-       ByVal ulOptions As Integer, _
-       ByVal samDesired As Integer, _
-       ByRef phkResult As Integer) As Integer
-
-    Public Declare Function RegNotifyChangeKeyValue Lib "advapi32.dll" Alias _
-        "RegNotifyChangeKeyValue" (ByVal hKey As Integer, ByVal bWatchSubtree As Integer, _
-        ByVal dwNotifyFilter As Integer, ByVal hEvent As Integer, ByVal fAsynchronus As _
-        Integer) As Integer
-
+    Public Const KEY_NOTIFY As Integer = &H10
 
     ' http://msdn.microsoft.com/en-us/library/ms724892(VS.85).aspx
     ' Type of Key
@@ -1863,24 +1962,66 @@ Public Class API
         REG_NOTIFY_CHANGE_SECURITY = &H8        ' Security descriptor changed
     End Enum
 
-    Public Const WAIT_FAILED As Integer = &HFFFFFFFF
-    Public Const INFINITE As Integer = &HFFFF
-    Public Const KEY_NOTIFY As Integer = &H10
+    Public Enum WaitResult As UInteger
+        INFINITE = &HFFFFFFFF
+        WAIT_ABANDONED = &H80
+        WAIT_OBJECT_0 = &H0
+        WAIT_TIMEOUT = &H102
+        WAIT_FAILED = &HFFFFFFFF
+    End Enum
+
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Public Shared Function WaitForSingleObject(ByVal [Object] As IntPtr, _
+                                               ByVal Timeout As UInteger) As WaitResult
+    End Function
+
+    <DllImport("kernel32.dll", _
+     EntryPoint:="CreateEventA")> _
+    Public Shared Function CreateEvent( _
+        ByVal lpEventAttributes As IntPtr, _
+        ByVal bManualReset As Boolean, _
+        ByVal bInitialState As Boolean, _
+        ByVal lpName As String) As IntPtr
+    End Function
+
+    <DllImport("advapi32.dll", SetLastError:=True)> _
+    Public Shared Function RegCloseKey(ByVal hKey As IntPtr) As Integer
+    End Function
+
+    <DllImport("advapi32.dll", CharSet:=CharSet.Unicode, EntryPoint:="RegOpenKeyEx")> _
+    Public Shared Function RegOpenKeyEx(ByVal hKey As IntPtr, ByVal subKey As String, _
+                                        ByVal options As UInteger, ByVal sam As Integer, _
+                                        ByRef phkResult As IntPtr) As Integer
+    End Function
+
+    <DllImport("advapi32.dll", SetLastError:=True)> _
+    Public Shared Function RegNotifyChangeKeyValue(ByVal hKey As IntPtr, _
+                                                    ByVal watchSubtree As Boolean, _
+                                                    ByVal dwNotifyFilter As Integer, _
+                                                    ByVal hEvent As IntPtr, _
+                                                    ByVal fAsynchronous As Boolean) As Integer
+    End Function
 
 #End Region
 
+    ' OK
 #Region "General declarations"
 
+    ' Some constants
     Public Const BCM_FIRST As Integer = &H1600
     Public Const BCM_SETSHIELD As Integer = (BCM_FIRST + &HC)
 
-    Public Declare Function lstrlenA Lib "kernel32" (ByVal Ptr As Integer) As Integer
-    Public Declare Function lstrcpyA Lib "kernel32" (ByVal RetVal As String, ByVal Ptr As Integer) As Integer
-    Public Declare Function GetTickCount Lib "kernel32" () As Integer
-    Public Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByVal pDst As Object, ByVal pSrc As Object, ByVal ByteLen As Integer)
-    Public Declare Function CloseHandle Lib "kernel32" (ByVal hObject As Integer) As Integer
-    Public Declare Function CloseHandle Lib "kernel32" Alias "CloseHandle" (ByVal hObject As IntPtr) As Integer
-    Public Declare Auto Function LoadLibrary Lib "kernel32.dll" (ByVal lpFileName As String) As IntPtr
+    <DllImport("kernel32.dll")> _
+    Public Shared Function GetTickCount() As Integer
+    End Function
+
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Public Shared Function CloseHandle(<[In]()> ByVal Handle As IntPtr) As <MarshalAs(UnmanagedType.Bool)> Boolean
+    End Function
+
+    <DllImport("kernel32.dll", CharSet:=CharSet.Unicode, SetLastError:=True)> _
+    Public Shared Function LoadLibrary(<[In]()> ByVal FileName As String) As IntPtr
+    End Function
 
     <DllImport("kernel32.dll", SetLastError:=True, EntryPoint:="FreeLibrary")> _
     Public Shared Function FreeLibrary(ByVal hModule As IntPtr) As Boolean
@@ -1890,11 +2031,12 @@ Public Class API
     Public Structure UNICODE_STRING
         Public Length As UShort
         Public MaximumLength As UShort
-        Public Buffer As Integer
+        Public Buffer As IntPtr
     End Structure
 
 #End Region
 
+    ' OK
 #Region "Declarations used for WMI"
 
     Public Enum PROCESS_RETURN_CODE_WMI
@@ -2027,42 +2169,54 @@ Public Class API
         ThreadWaitReason
         UserModeTime
     End Enum
+
 #End Region
 
+    ' OK
 #Region "Declarations used for graphical functions"
 
-    Public Const ICON_BIG As Integer = 1
-    Public Const ICON_SMALL As Integer = 0
+    ' Some constants
+    Public Const SC_CLOSE As Integer = &HF060
+    Public Const MF_GRAYED As Integer = &H1
+    Public Const LVS_EX_BORDERSELECT As Integer = &H8000
+    Public Const LVS_EX_DOUBLEBUFFER As Integer = &H10000
 
-    Public Declare Function GetSystemMenu Lib "user32" (ByVal hwnd As Integer, ByVal bRevert As Integer) As Integer
-    Public Declare Function EnableMenuItem Lib "user32" (ByVal hMenu As Integer, ByVal wIDEnableItem As Integer, ByVal wEnable As Integer) As Integer
+    Public Enum IconSize As Integer
+        ICON_SMALL = &H0
+        ICON_BIG = &H1
+    End Enum
+
+    Public Enum LVM As UInteger
+        LVM_FIRST = &H1000
+        LVM_SETEXTENDEDLISTVIEWSTYLE = (LVM_FIRST + 54)
+        LVM_GETEXTENDEDLISTVIEWSTYLE = (LVM_FIRST + 55)
+    End Enum
+
+    <DllImport("user32.dll", CallingConvention:=CallingConvention.Cdecl)> _
+    Public Shared Function GetSystemMenu(ByVal hWnd As IntPtr, ByVal bRevert As Boolean) As IntPtr
+    End Function
+
+    <DllImport("user32.dll")> _
+    Public Shared Function EnableMenuItem(ByVal hMenu As IntPtr, ByVal uIDEnableItem As UInteger, ByVal uEnable As UInteger) As Boolean
+    End Function
 
     <DllImport("uxtheme.dll", CharSet:=CharSet.Unicode, ExactSpelling:=True)> _
-    Public Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, ByVal partList As String) As Integer
+    Public Shared Function SetWindowTheme(ByVal hWnd As IntPtr, ByVal appName As String, _
+                                          ByVal partList As String) As Integer
     End Function
 
     <System.Runtime.InteropServices.DllImport("user32.dll")> _
     Public Shared Function DestroyIcon(ByVal Handle As IntPtr) As Boolean
     End Function
 
-    Public Enum LVM
-        LVM_FIRST = &H1000
-        LVM_SETEXTENDEDLISTVIEWSTYLE = (LVM_FIRST + 54)
-        LVM_GETEXTENDEDLISTVIEWSTYLE = (LVM_FIRST + 55)
-    End Enum
-
-    Public Const SC_CLOSE As Integer = &HF060
-    Public Const MF_GRAYED As Integer = &H1
-    Public Const LVS_EX_BORDERSELECT As Integer = &H8000
-    Public Const LVS_EX_DOUBLEBUFFER As Integer = &H10000
-
 #End Region
 
+    ' OK
 #Region "Declarations used for keyboard management"
 
     Public Const HC_ACTION As Integer = 0
 
-    Public Enum HookType
+    Public Enum HookType As Byte
         WH_JOURNALRECORD = 0
         WH_JOURNALPLAYBACK = 1
         WH_KEYBOARD = 2
@@ -2080,10 +2234,19 @@ Public Class API
         WH_MOUSE_LL = 14
     End Enum
 
-    Public Declare Function UnhookWindowsHookEx Lib "user32" (ByVal hHook As Integer) As Integer
-    Public Declare Function CallNextHookEx Lib "user32" (ByVal hHook As Integer, ByVal nCode As Integer, ByVal wParam As Integer, ByRef lParam As KBDLLHOOKSTRUCT) As Integer
-    Public Declare Function GetCurrentThreadId Lib "kernel32" () As Integer
-    Public Declare Function GetAsyncKeyState Lib "user32" (ByVal vKey As Integer) As Integer
+    <DllImport("user32.dll", SetLastError:=True)> _
+    Public Shared Function UnhookWindowsHookEx(ByVal hhk As IntPtr) As Boolean
+    End Function
+
+    <DllImport("user32.dll")> _
+    Public Shared Function CallNextHookEx(ByVal hhk As IntPtr, ByVal nCode As Integer, _
+                                    ByVal wParam As IntPtr, _
+                                    <[In]()> ByVal lParam As KBDLLHOOKSTRUCT) As Integer
+    End Function
+
+    <DllImport("user32.dll")> _
+    Public Shared Function GetAsyncKeyState(ByVal vKey As Int32) As Short
+    End Function
 
     <StructLayout(LayoutKind.Sequential)> _
     Public Structure KBDLLHOOKSTRUCT
@@ -2104,56 +2267,106 @@ Public Class API
 
 #End Region
 
+    ' OK
 #Region "Declarations used for error management"
 
-    Private Const FORMAT_MESSAGE_FROM_SYSTEM As Integer = &H1000
-    Private Const LANG_NEUTRAL As Integer = &H0
-    Private Const SUBLANG_DEFAULT As Integer = &H1
+    <Flags()> _
+    Public Enum FormatMessageFlags As Integer
+        FORMAT_MESSAGE_ALLOCATE_BUFFER = &H100
+        FORMAT_MESSAGE_ARGUMENT_ARRAY = &H2000
+        FORMAT_MESSAGE_FROM_HMODULE = &H800
+        FORMAT_MESSAGE_FROM_STRING = &H400
+        FORMAT_MESSAGE_FROM_SYSTEM = &H1000
+        FORMAT_MESSAGE_IGNORE_INSERTS = &H200
+    End Enum
 
-    Private Declare Function GetLastError Lib "kernel32" () As Integer
-    Private Declare Function FormatMessage Lib "kernel32" Alias "FormatMessageA" (ByVal dwFlags As Integer, _
-        ByVal lpSource As Integer, ByVal dwMessageId As Integer, ByVal dwLanguageId As Integer, _
-        ByVal lpBuffer As String, ByVal nSize As Integer, ByVal Arguments As Integer) As Integer
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Private Shared Function LocalFree(ByVal hMem As IntPtr) As IntPtr
+    End Function
+
+    <DllImport("kernel32.dll", CharSet:=CharSet.Unicode, SetLastError:=True)> _
+    Public Shared Function FormatMessage(ByVal Flags As FormatMessageFlags, _
+                            ByVal Source As IntPtr, _
+                            ByVal MessageId As Integer, _
+                            ByVal LanguageId As Integer, _
+                            ByVal Buffer As IntPtr, _
+                            ByVal Size As Integer, _
+                            ByVal Arguments As IntPtr) As UInteger
+    End Function
 
     Public Shared Function GetError() As String
-        Dim Buffer As String
-        Buffer = Space$(1024)
-        FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, GetLastError, LANG_NEUTRAL, Buffer, Len(Buffer), 0)
-        Return Trim$(Buffer)
+
+        Dim lpMsgBuf As IntPtr = IntPtr.Zero
+        Dim nLastError As Integer = Marshal.GetLastWin32Error
+        Dim dwChars As UInteger = FormatMessage(FormatMessageFlags.FORMAT_MESSAGE_ALLOCATE_BUFFER _
+                                                Or FormatMessageFlags.FORMAT_MESSAGE_FROM_SYSTEM _
+                                                Or FormatMessageFlags.FORMAT_MESSAGE_IGNORE_INSERTS, _
+                                    IntPtr.Zero, nLastError, 0, lpMsgBuf, 0, IntPtr.Zero)
+
+        ' Unknown error
+        If dwChars = 0 Then
+            Return "Unknown error occured (0x" & nLastError.ToString("x") & ")"
+        End If
+
+        ' Retrieve string
+        Dim sRet As String = Marshal.PtrToStringAnsi(lpMsgBuf)
+        lpMsgBuf = LocalFree(lpMsgBuf)
+        Return sRet
+
     End Function
 
 #End Region
 
+    ' OK
 #Region "Declarations used for handles"
 
-    Public Const INVALID_HANDLE_VALUE As Integer = -1
+    Public Shared ReadOnly InvalidHandleValue As New IntPtr(-1)
 
-    <DllImport("ntdll.dll", SetLastError:=True)> _
-    Public Shared Function ZwDuplicateObject(ByVal SourceProcessHandle As Integer, ByVal SourceHandle As Integer, ByVal TargetProcessHandle As Integer, ByRef TargetHandle As Integer, ByVal DesiredAccess As Integer, ByVal Attributes As Integer, ByVal Options As Integer) As Integer
-    End Function
-
-    Public Declare Function DuplicateHandle Lib "kernel32" (ByVal hSourceProcessHandle As Integer, ByVal hSourceHandle As Integer, ByVal hTargetProcessHandle As Integer, ByRef lpTargetHandle As Integer, ByVal dwDesiredAccess As Integer, ByVal bInheritHandle As Integer, ByVal dwOptions As Integer) As Integer
-
-    Public Enum HANDLE_FLAG As Byte
-        Inherit = 1
-        ProtectFromClose = 2
+    <Flags()> _
+    Public Enum DuplicateOptions As Integer
+        CloseSource = &H1
+        SameAccess = &H2
+        SameAttributes = &H4
     End Enum
 
-    Public Structure SYSTEM_HANDLE_INFORMATION
+    <Flags()> _
+    Public Enum HandleFlags As Byte
+        ProtectFromClose = &H1
+        Inherit = &H2
+        AuditObjectClose = &H4
+    End Enum
+
+    Public Structure SystemHandleInformation
         Public ProcessId As Integer
         Public ObjectTypeNumber As Byte
-        Public Flags As HANDLE_FLAG
+        Public Flags As HandleFlags
         Public Handle As Short
-        Public _Object As Integer
+        Public [Object] As IntPtr
         Public GrantedAccess As STANDARD_RIGHTS
     End Structure
 
-#End Region
+    <DllImport("ntdll.dll")> _
+    Public Shared Function NtDuplicateObject(ByVal SourceProcessHandle As IntPtr, _
+                                        ByVal SourceHandle As IntPtr, _
+                                        ByVal TargetProcessHandle As IntPtr, _
+                                        ByRef TargetHandle As IntPtr, _
+                                        ByVal DesiredAccess As Integer, _
+                                        ByVal Attributes As HandleFlags, _
+                                        ByVal Options As DuplicateOptions) As Int32
+    End Function
 
-#Region "Declarations used for internet download"
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Public Shared Function DuplicateHandle(ByVal hSourceProcessHandle As IntPtr, _
+                                    ByVal hSourceHandle As IntPtr, _
+                                    ByVal hTargetProcessHandle As IntPtr, _
+                                    ByRef lpTargetHandle As IntPtr, _
+                                    ByVal dwDesiredAccess As UInteger, _
+                                    ByVal bInheritHandle As Boolean, _
+                                    ByVal dwOptions As DuplicateOptions) As Boolean
+    End Function
 
-    'Public Declare Function URLDownloadToFile Lib "urlmon" Alias "URLDownloadToFileA" (ByVal pCaller As Integer, ByVal szURL As String, ByVal szFileName As String, ByVal dwReserved As Integer, ByVal lpfnCB As Integer) As Integer
-    'Public Declare Function DoFileDownload Lib "shdocvw" (ByVal lpszFile As String) As Integer
+    ' TOREMOVE
+    ' Public Declare Function DuplicateHandle Lib "kernel32" (ByVal hSourceProcessHandle As Integer, ByVal hSourceHandle As Integer, ByVal hTargetProcessHandle As Integer, ByRef lpTargetHandle As Integer, ByVal dwDesiredAccess As Integer, ByVal bInheritHandle As Integer, ByVal dwOptions As Integer) As Integer
 
 #End Region
 

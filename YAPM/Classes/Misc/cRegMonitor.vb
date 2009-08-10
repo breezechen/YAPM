@@ -36,8 +36,8 @@ Public Class cRegMonitor
     Public Event KeyAdded(ByVal key As KeyDefinition)
     Public Event KeyDeleted(ByVal key As KeyDefinition)
 
-    Private _hEvent As Integer
-    Private _hKey As Integer
+    Private _hEvent As IntPtr
+    Private _hKey As IntPtr
     Private _type As API.KEY_MONITORING_TYPE
     Private _keys() As String
     Private _ss() As String
@@ -73,16 +73,17 @@ Public Class cRegMonitor
 
             Call API.RegOpenKeyEx(CType(_kt, IntPtr), _path, 0, API.KEY_NOTIFY, _hKey)
 
-            _hEvent = CInt(API.CreateEvent(CType(0, IntPtr), True, False, Nothing))
+            _hEvent = API.CreateEvent(CType(0, IntPtr), True, False, Nothing)
 
             ' Set monitoring
-            Call API.RegNotifyChangeKeyValue(_hKey, 1, _type, _hEvent, 1)
+            Call API.RegNotifyChangeKeyValue(_hKey, True, _type, _hEvent, True)
 
             ' Get current keys
             _keys = getKeys(_path)
 
             ' Wait for modification
-            If API.WaitForSingleObject(_hEvent, API.INFINITE) = API.WAIT_FAILED Then
+            If API.WaitForSingleObject(_hEvent, API.WaitResult.INFINITE) = _
+                    API.WaitResult.WAIT_FAILED Then
                 ' Buggy
             Else
                 ' Changed

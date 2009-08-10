@@ -40,14 +40,14 @@ Public Class cHotkeys
     ' ========================================
     ' Private attributes
     ' ========================================
-    Private hKeyHook As Integer
+    Private hKeyHook As IntPtr
     Private boolStopHooking As Boolean              ' Private !
     Private _col As New Collection
 
     ' Delegate function (function which replace the 'normal' one)
     Private myCallbackDelegate As HookProc = Nothing
 
-    Private Delegate Function HookProc(ByVal code As Integer, ByVal wParam As Integer, _
+    Private Delegate Function HookProc(ByVal code As Integer, ByVal wParam As IntPtr, _
                         ByRef lParam As API.KBDLLHOOKSTRUCT) As Integer
 
     <DllImport("user32.dll", SetLastError:=True)> _
@@ -122,13 +122,13 @@ Public Class cHotkeys
     ' Start hooking of keyboard
     ' ========================================
     Private Sub AttachKeyboardHook()
-        If hKeyHook = 0 Then
+        If hKeyHook = IntPtr.Zero Then
 
             ' Initialize our delegate
             Me.myCallbackDelegate = New HookProc(AddressOf Me.KeyboardFilter)
 
-            hKeyHook = CInt(SetWindowsHookEx(API.HookType.WH_KEYBOARD_LL, _
-                        Me.myCallbackDelegate, 0, 0)) ' 0 -> all threads
+            hKeyHook = SetWindowsHookEx(API.HookType.WH_KEYBOARD_LL, _
+                        Me.myCallbackDelegate, 0, 0) ' 0 -> all threads
             GC.KeepAlive(Me.myCallbackDelegate)
         End If
 
@@ -139,9 +139,9 @@ Public Class cHotkeys
     ' ========================================
     Private Sub DetachKeyboardHook()
 
-        If (hKeyHook <> 0) Then
+        If (hKeyHook <> IntPtr.Zero) Then
             Call API.UnhookWindowsHookEx(hKeyHook)
-            hKeyHook = 0
+            hKeyHook = IntPtr.Zero
         End If
 
     End Sub
@@ -150,7 +150,7 @@ Public Class cHotkeys
     ' ========================================
     ' This function is called each time a key is pressed
     ' ========================================
-    Private Function KeyboardFilter(ByVal nCode As Integer, ByVal wParam As Integer, ByRef lParam As API.KBDLLHOOKSTRUCT) As Integer
+    Private Function KeyboardFilter(ByVal nCode As Integer, ByVal wParam As IntPtr, ByRef lParam As API.KBDLLHOOKSTRUCT) As Integer
         Dim bAlt As Boolean
         Dim bCtrl As Boolean
         Dim bShift As Boolean

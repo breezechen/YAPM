@@ -80,15 +80,16 @@ Public Class asyncCallbackServiceStart
             Case Else
                 ' Local
                 Dim hSCManager As IntPtr = con.SCManagerLocalHandle
-                Dim lServ As IntPtr = API.OpenService(hSCManager, pObj.name, API.SERVICE_RIGHTS.SERVICE_START)
-                Dim res As Integer = 0
+                Dim lServ As IntPtr = API.OpenService(hSCManager, pObj.name, _
+                                                      API.SERVICE_RIGHTS.SERVICE_START)
+                Dim res As Boolean
                 If hSCManager <> IntPtr.Zero Then
                     If lServ <> IntPtr.Zero Then
-                        res = API.apiStartService(lServ, 0, 0)
+                        res = API.StartService(lServ, 0, Nothing)
                         API.CloseServiceHandle(lServ)
                     End If
                 End If
-                _deg.Invoke(res <> 0, pObj.name, API.GetError, pObj.newAction)
+                _deg.Invoke(res, pObj.name, API.GetError, pObj.newAction)
         End Select
     End Sub
 
