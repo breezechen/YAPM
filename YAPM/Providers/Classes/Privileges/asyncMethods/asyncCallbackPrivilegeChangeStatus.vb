@@ -72,42 +72,11 @@ Public Class asyncCallbackPrivilegeChangeStatus
 
             Case Else
                 ' Local
-                Dim ret As Boolean = SetPrivilege(pObj.pid, pObj.name, pObj.status)
-                _deg.Invoke(ret, pObj.pid, pObj.name, API.GetError, pObj.newAction)
+                Dim ret As Boolean = Native.Objects.Token.SetPrivilege(pObj.pid, _
+                                                                       pObj.name, _
+                                                                       pObj.status)
+                _deg.Invoke(ret, pObj.pid, pObj.name, Native.Api.Functions.GetError, pObj.newAction)
         End Select
     End Sub
-
-
-    ' Set privilege status
-    Public Shared Function SetPrivilege(ByVal _pid As Integer, ByVal seName As String, ByVal Status As API.PRIVILEGE_STATUS) As Boolean
-
-        Dim hProcess As IntPtr
-        Dim Ret As Integer
-        Dim fRet As Boolean = False
-        Dim lngToken As IntPtr
-        Dim typLUID As API.LUID
-        Dim typTokenPriv As API.TOKEN_PRIVILEGES2
-        Dim newTokenPriv As API.TOKEN_PRIVILEGES2
-
-        hProcess = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION, False, _pid)
-        If hProcess <> IntPtr.Zero Then
-            API.OpenProcessToken(hProcess, API.TOKEN_RIGHTS.Query Or API.TOKEN_RIGHTS.AdjustPrivileges, lngToken)
-            If lngToken <> IntPtr.Zero Then
-                Ret = API.LookupPrivilegeValue(Nothing, seName, typLUID)
-                If Ret > 0 Then
-                    typTokenPriv.PrivilegeCount = 1
-                    typTokenPriv.Privileges.Attributes = Status
-                    typTokenPriv.Privileges.pLuid = typLUID
-                    Dim size As Integer = 4 + typTokenPriv.PrivilegeCount * 12
-                    Dim ret2 As Integer
-                    fRet = API.AdjustTokenPrivileges(lngToken, 0, typTokenPriv, _
-                                                     size, newTokenPriv, ret2)
-                End If
-                API.CloseHandle(lngToken)
-            End If
-            API.CloseHandle(hProcess)
-        End If
-
-        Return fRet
-    End Function
+    
 End Class

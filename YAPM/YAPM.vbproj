@@ -555,6 +555,7 @@
     <Compile Include="Native\Objects\Module.vb" />
     <Compile Include="Native\Objects\Network.vb" />
     <Compile Include="Native\Objects\Thread.vb" />
+    <Compile Include="Native\Objects\Token.vb" />
     <Compile Include="Native\Structs.vb" />
     <Compile Include="Native\Objects\Process.vb" />
     <Compile Include="Providers\Classes\General\cGeneralConnection.vb" />

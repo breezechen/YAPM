@@ -76,7 +76,7 @@ Public Class asyncCallbackMemRegionFree
             Case Else
                 ' Local
                 Dim ret As Boolean = FreeMemory(pObj)
-                _deg.Invoke(ret, pObj.pid, pObj.address, API.GetError, pObj.newAction)
+                _deg.Invoke(ret, pObj.pid, pObj.address, Native.Api.Functions.GetError, pObj.newAction)
         End Select
     End Sub
 

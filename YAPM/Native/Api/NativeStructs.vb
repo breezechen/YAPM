@@ -281,22 +281,22 @@ Namespace Native.Api
         Public Structure TOKEN_PRIVILEGES
             Dim PrivilegeCount As Integer
             '<VBFixedArray(25)> _
-            Dim Privileges() As LUID_AND_ATTRIBUTES
+            Dim Privileges() As LuidAndAttributes
         End Structure
 
-        Public Structure TOKEN_PRIVILEGES2
+        Public Structure TokenPrivileges
             Dim PrivilegeCount As Integer
-            Dim Privileges As LUID_AND_ATTRIBUTES
+            Dim Privileges As LuidAndAttributes
         End Structure
 
-        Public Structure LUID
+        Public Structure Luid
             Dim lowpart As Integer
             Dim highpart As Integer
         End Structure
 
-        Public Structure LUID_AND_ATTRIBUTES
-            Dim pLuid As LUID
-            Dim Attributes As Integer
+        Public Structure LuidAndAttributes
+            Dim pLuid As Luid
+            Dim Attributes As NativeEnums.SePrivilegeAttributes
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
@@ -325,7 +325,7 @@ Namespace Native.Api
         Public Structure PrivilegeInfo
             Dim Name As String
             Dim Status As Integer
-            Dim pLuid As LUID
+            Dim pLuid As Luid
         End Structure
 
 #End Region
@@ -353,7 +353,7 @@ Namespace Native.Api
 
         <StructLayout(LayoutKind.Sequential)> _
         Public Structure MibTcpRow
-            Public State As MibTcpState
+            Public State As Enums.MibTcpState
             Public LocalAddress As UInteger
             Public LocalPort As Integer
             Public RemoteAddress As UInteger

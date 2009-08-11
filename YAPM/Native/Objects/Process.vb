@@ -17,9 +17,6 @@
 '
 ' You should have received a copy of the GNU General Public License
 ' along with YAPM; if not, see http://www.gnu.org/licenses/.
-'
-' This class has been inspired (but simplified for YAPM)
-' by a work of wj32 (Process Hacker)
 
 Imports System.Runtime.InteropServices
 Imports YAPM.Native.Api

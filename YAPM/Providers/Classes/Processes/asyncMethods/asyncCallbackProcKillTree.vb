@@ -65,7 +65,7 @@ Public Class asyncCallbackProcKillTree
 
             Case Else
                 ' Local
-                _deg.Invoke(recursiveKill(pObj.pid), API.GetError, pObj.newAction)
+                _deg.Invoke(recursiveKill(pObj.pid), Native.Api.Functions.GetError, pObj.newAction)
 
         End Select
     End Sub

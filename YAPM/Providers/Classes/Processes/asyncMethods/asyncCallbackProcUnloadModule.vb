@@ -75,9 +75,9 @@ Public Class asyncCallbackProcUnloadModule
                     Dim freeLibrary As Integer = API.GetProcAddress(kernel32, "FreeLibrary")
                     Dim threadId As Integer
                     Dim ret As Integer = API.CreateRemoteThread(hProc, 0, 0, freeLibrary, pObj.baseA, 0, threadId)
-                    _deg.Invoke(ret <> 0, pObj.pid, API.GetError, pObj.newAction)
+                    _deg.Invoke(ret <> 0, pObj.pid, Native.Api.Functions.GetError, pObj.newAction)
                 Else
-                    _deg.Invoke(False, pObj.pid, API.GetError, pObj.newAction)
+                    _deg.Invoke(False, pObj.pid, Native.Api.Functions.GetError, pObj.newAction)
                 End If
 
         End Select

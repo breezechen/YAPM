@@ -105,7 +105,7 @@ Public Class asyncCallbackServiceSetStartType
                         API.UnlockServiceDatabase(hLockSCManager)
                     End If
 
-                    _deg.Invoke(ret, pObj.name, API.GetError, pObj.newAction)
+                    _deg.Invoke(ret, pObj.name, Native.Api.Functions.GetError, pObj.newAction)
             End Select
         End SyncLock
     End Sub

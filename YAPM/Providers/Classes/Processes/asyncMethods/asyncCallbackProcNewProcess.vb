@@ -81,7 +81,7 @@ Public Class asyncCallbackProcNewProcess
                 ' OK, normally the local startNewProcess is not done here
                 ' because of RunBox need
                 Dim pid As Integer = Shell(pObj.path)
-                _deg.Invoke(pid <> 0, pObj.path, API.GetError, pObj.newAction)
+                _deg.Invoke(pid <> 0, pObj.path, Native.Api.Functions.GetError, pObj.newAction)
         End Select
     End Sub
 

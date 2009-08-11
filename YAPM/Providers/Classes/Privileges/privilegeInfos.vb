@@ -73,8 +73,8 @@ Imports System.Runtime.InteropServices
 
         _procId = pid
         _name = name
-        _status = GetPrivilege(name)
-        _description = GetPrivilegeDescription(name)
+        _status = Native.Objects.Token.GetPrivilege(pid, name)
+        _description = Native.Objects.Token.GetPrivilegeDescription(name)
 
     End Sub
 
@@ -103,104 +103,6 @@ Imports System.Runtime.InteropServices
         End If
 
         Return s
-    End Function
-
-
-    ' Get description of a privilege
-    Private Function GetPrivilegeDescription(ByVal PrivilegeName As String) As String
-
-        Dim sb As String = Nothing
-        Dim size As Integer = 0
-        Dim languageId As Integer = 0
-
-        API.LookupPrivilegeDisplayName(0, PrivilegeName, Nothing, size, languageId)
-        sb = Space(size)
-        API.LookupPrivilegeDisplayName(0, PrivilegeName, sb, size, languageId)
-
-        Return sb
-
-    End Function
-
-    ' Get privilege status
-    Private Function GetPrivilege(ByVal seName As String) As API.PRIVILEGE_STATUS
-
-        Dim hProcessToken As IntPtr
-        Dim hProcess As IntPtr
-        Dim Ret As Integer
-        Dim RetLen As Integer
-        Dim TokenPriv As API.TOKEN_PRIVILEGES = Nothing
-        Dim i As Integer
-        Dim typLUID As API.LUID
-        Dim res As API.PRIVILEGE_STATUS
-
-        hProcess = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION, _
-                                   False, _procId)
-        If hProcess <> IntPtr.Zero Then
-            API.OpenProcessToken(hProcess, API.TOKEN_RIGHTS.Query, hProcessToken)
-            If hProcessToken <> IntPtr.Zero Then
-                Ret = API.LookupPrivilegeValue(Nothing, seName, typLUID)
-
-                ' Get tokeninfo length
-                API.GetTokenInformation(hProcessToken, API.TOKEN_INFORMATION_CLASS.TokenPrivileges, 0, 0, RetLen)
-                Dim TokenInformation As IntPtr = Marshal.AllocHGlobal(RetLen)
-                ' Get token ingo
-                API.GetTokenInformation(hProcessToken, API.TOKEN_INFORMATION_CLASS.TokenPrivileges, CInt(TokenInformation), RetLen, 0)
-                TokenPriv = getTokenPrivilegeStructureFromPointer(TokenInformation, RetLen)
-
-                For i = 0 To TokenPriv.PrivilegeCount - 1
-                    If TokenPriv.Privileges(i).pLuid.lowpart = typLUID.lowpart Then
-                        res = CType(TokenPriv.Privileges(i).Attributes, API.PRIVILEGE_STATUS)
-                    End If
-                Next i
-                API.CloseHandle(hProcessToken)
-                Marshal.FreeHGlobal(TokenInformation)
-            End If
-            API.CloseHandle(hProcess)
-        End If
-
-        Return res
-
-    End Function
-
-    Private Function getTokenPrivilegeStructureFromPointer(ByVal ptr As IntPtr, _
-        ByVal RetLen As Integer) As API.TOKEN_PRIVILEGES
-
-        'Public Structure LUID
-        '	Dim lowpart As Integer
-        '	Dim highpart As Integer
-        'End Structure
-        'Private Structure LUID_AND_ATTRIBUTES
-        '	Dim pLuid As LUID
-        '	Dim Attributes As Integer
-        'End Structure
-        'Private Structure TOKEN_PRIVILEGES
-        '	Dim PrivilegeCount As Integer
-        '	Dim Privileges() As LUID_AND_ATTRIBUTES
-        'End Structure
-
-        Dim ret As New API.TOKEN_PRIVILEGES
-
-        ' Fill in int array from unmanaged memory
-        Dim arr(CInt(RetLen / 4)) As Integer
-        Marshal.Copy(ptr, arr, 0, arr.Length - 1)
-
-        ' Get number of privileges
-        Dim pCount As Integer = arr(0)     'CInt((RetLen - 4) / 12)
-        ReDim ret.Privileges(pCount - 1)
-        ret.PrivilegeCount = pCount
-
-        ' Fill Privileges() array of ret
-        ' Each item of array composed of three integer (lowPart, highPart and Attributes)
-        Dim ep As Integer = 1
-        For x As Integer = 0 To pCount - 1
-            ret.Privileges(x).pLuid.lowpart = arr(ep)
-            ret.Privileges(x).pLuid.highpart = arr(ep + 1)
-            ret.Privileges(x).Attributes = arr(ep + 2)
-            ep += 3
-        Next
-
-        Return ret
-
     End Function
 
 End Class

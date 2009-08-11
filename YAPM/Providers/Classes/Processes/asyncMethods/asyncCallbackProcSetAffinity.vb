@@ -73,9 +73,9 @@ Public Class asyncCallbackProcSetAffinity
                 If __hProcess <> IntPtr.Zero Then
                     Dim ret As Integer = API.SetProcessAffinityMask(__hProcess, pObj.level)
                     API.CloseHandle(__hProcess)
-                    _deg.Invoke(ret <> 0, API.GetError, pObj.newAction)
+                    _deg.Invoke(ret <> 0, Native.Api.Functions.GetError, pObj.newAction)
                 Else
-                    _deg.Invoke(False, API.GetError, pObj.newAction)
+                    _deg.Invoke(False, Native.Api.Functions.GetError, pObj.newAction)
                 End If
         End Select
     End Sub

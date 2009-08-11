@@ -78,9 +78,9 @@ Public Class asyncCallbackThreadSetPriority
                 If hProc <> IntPtr.Zero Then
                     r = API.SetThreadPriority(hProc, pObj.level)
                     API.CloseHandle(hProc)
-                    _deg.Invoke(r, API.GetError, pObj.newAction)
+                    _deg.Invoke(r, Native.Api.Functions.GetError, pObj.newAction)
                 Else
-                    _deg.Invoke(False, API.GetError, pObj.newAction)
+                    _deg.Invoke(False, Native.Api.Functions.GetError, pObj.newAction)
                 End If
         End Select
     End Sub

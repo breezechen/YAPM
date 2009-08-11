@@ -89,9 +89,9 @@ Public Class asyncCallbackProcKill
                 If hProc <> IntPtr.Zero Then
                     ret = API.TerminateProcess(hProc, 0)
                     API.CloseHandle(hProc)
-                    _deg.Invoke(ret <> 0, 0, API.GetError, pObj.newAction)
+                    _deg.Invoke(ret <> 0, 0, Native.Api.Functions.GetError, pObj.newAction)
                 Else
-                    _deg.Invoke(False, pObj.pid, API.GetError, pObj.newAction)
+                    _deg.Invoke(False, pObj.pid, Native.Api.Functions.GetError, pObj.newAction)
                 End If
         End Select
     End Sub

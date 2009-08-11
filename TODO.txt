@@ -1,5 +1,7 @@
 TODO LIST
 
+- 64TODO
+
 BUGS CRITIQUES
 - problème icones menu principal cachées (Vista seulement)
 - reports à faire (vérifier l'utilisation de GetAvailbleProperties)
@@ -16,6 +18,7 @@ BUGS CRITIQUES
 
 BUGS NON CRITIQUES
 - increment sur le IntPtr
+- says thx to p/inv declarations from wj32
 - say thanks to developerfusion.com && pinvoke.net
 - l'organisation des colonnes des threads n'est pas rechargée (ou bien sauvée ?) dans la form détail. Voir si c'est pareil pour les autres lv de la form
 - highlightings en remote

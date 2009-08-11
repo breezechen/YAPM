@@ -302,13 +302,34 @@ Namespace Native.Api
 #Region "Declarations used for tokens & privileges"
 
         Public Declare Function GetTokenInformation Lib "advapi32.dll" (ByVal TokenHandle As IntPtr, ByVal TokenInformationClass As Integer, ByVal TokenInformation As Integer, ByVal TokenInformationLength As Integer, ByRef ReturnLength As Integer) As Boolean
-        Public Declare Function LookupPrivilegeValue Lib "advapi32.dll" Alias "LookupPrivilegeValueA" (ByVal lpSystemName As String, ByVal lpName As String, ByRef lpLuid As LUID) As Integer           'Returns a valid LUID which is important when making security changes in NT.
-        Public Declare Function LookupPrivilegeNameA Lib "advapi32.dll" (ByVal lpSystemName As String, ByRef lpLuid As LUID, ByVal lpName As String, ByRef cchName As Integer) As Integer                'Used to adjust your program's security privileges, can't restore without it!
+        Public Declare Function LookupPrivilegeValue Lib "advapi32.dll" Alias "LookupPrivilegeValueA" (ByVal lpSystemName As String, ByVal lpName As String, ByRef lpLuid As Luid) As Integer           'Returns a valid LUID which is important when making security changes in NT.
+        Public Declare Function LookupPrivilegeNameA Lib "advapi32.dll" (ByVal lpSystemName As String, ByRef lpLuid As Luid, ByVal lpName As String, ByRef cchName As Integer) As Integer                'Used to adjust your program's security privileges, can't restore without it!
+
+        <DllImport("advapi32.dll", SetLastError:=True)> _
+        Public Shared Function AdjustTokenPrivileges(<[In]()> ByVal TokenHandle As IntPtr, _
+                <[In]()> <MarshalAs(UnmanagedType.Bool)> ByVal DisableAllPrivileges As Boolean, _
+                <[In]()> <[Optional]()> ByRef NewState As TokenPrivileges, _
+                <[In]()> ByVal BufferLength As Integer, _
+                <Out()> <[Optional]()> ByVal PreviousState As IntPtr, _
+                <Out()> <[Optional]()> ByVal ReturnLength As IntPtr) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
+
+        <DllImport("advapi32.dll", SetLastError:=True)> _
+        Public Shared Function AdjustTokenPrivileges( _
+            ByVal TokenHandle As Integer, _
+            ByVal DisableAllPrivileges As Integer, _
+            ByRef NewState As TOKEN_PRIVILEGES, _
+            ByVal BufferLength As Integer, _
+            ByRef PreviousState As TOKEN_PRIVILEGES, _
+            ByRef ReturnLength As Integer) As Boolean
+        End Function
 
         <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
-        Public Shared Function LookupPrivilegeDisplayName( _
-            ByVal SystemName As Integer, ByVal Name As String, ByVal DisplayName As String, _
-            ByRef DisplayNameSize As Integer, ByRef LanguageId As Integer) As Boolean
+        Public Shared Function LookupPrivilegeDisplayName(<[In]()> <[Optional]()> ByVal SystemName As String, _
+            <[In]()> ByVal Name As String, _
+            <Out()> <[Optional]()> ByVal DisplayName As StringBuilder, _
+            ByRef DisplayNameSize As Integer, _
+            <Out()> ByRef LanguageId As Integer) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
         <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
@@ -323,25 +344,7 @@ Namespace Native.Api
         Public Shared Function GetTokenInformation(ByVal TokenHandle As IntPtr, ByVal TokenInformationClass As TOKEN_INFORMATION_CLASS, ByRef TokenInformation As Integer, ByVal TokenInformationLength As Integer, ByRef ReturnLength As Integer) As Boolean
         End Function
 
-        <DllImport("advapi32.dll", SetLastError:=True)> _
-        Public Shared Function AdjustTokenPrivileges( _
-            ByVal TokenHandle As Integer, _
-            ByVal DisableAllPrivileges As Integer, _
-            ByRef NewState As TOKEN_PRIVILEGES, _
-            ByVal BufferLength As Integer, _
-            ByRef PreviousState As TOKEN_PRIVILEGES, _
-            ByRef ReturnLength As Integer) As Boolean
-        End Function
 
-        <DllImport("advapi32.dll", SetLastError:=True)> _
-        Public Shared Function AdjustTokenPrivileges( _
-            ByVal TokenHandle As Integer, _
-            ByVal DisableAllPrivileges As Integer, _
-            ByRef NewState As TOKEN_PRIVILEGES2, _
-            ByVal BufferLength As Integer, _
-            ByRef PreviousState As TOKEN_PRIVILEGES2, _
-            ByRef ReturnLength As Integer) As Boolean
-        End Function
 
 #End Region
 
@@ -353,7 +356,7 @@ Namespace Native.Api
                                                 ByRef Size As Integer, _
                                                 ByVal Order As Boolean, _
                                                 ByVal IpVersion As Integer, _
-                                                ByVal TableClass As TCP_TABLE_CLASS, _
+                                                ByVal TableClass As Enums.TcpTableClass, _
                                                 ByVal Reserved As Integer) As Integer
         End Function
 
@@ -362,7 +365,7 @@ Namespace Native.Api
                                                 ByRef Size As Integer, _
                                                 ByVal Order As Boolean, _
                                                 ByVal IpVersion As Integer, _
-                                                ByVal TableClass As UDP_TABLE_CLASS, _
+                                                ByVal TableClass As Enums.UdpTableClass, _
                                                 ByVal Reserved As Integer) As Integer
         End Function
 

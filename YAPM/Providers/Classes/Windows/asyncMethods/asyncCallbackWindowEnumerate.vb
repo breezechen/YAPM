@@ -97,7 +97,7 @@ Public Class asyncCallbackWindowEnumerate
                 Call enumWindows(pObj, _dico)
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
-                    ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId)
+                    ctrl.Invoke(deg, True, _dico, Native.Api.Functions.GetError, pObj.forInstanceId)
 
         End Select
 

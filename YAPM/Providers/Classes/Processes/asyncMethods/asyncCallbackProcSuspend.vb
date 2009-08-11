@@ -72,9 +72,9 @@ Public Class asyncCallbackProcSuspend
                 If hProc <> IntPtr.Zero Then
                     r = API.NtSuspendProcess(hProc)
                     API.CloseHandle(hProc)
-                    _deg.Invoke(r = 0, API.GetError, pObj.newAction)
+                    _deg.Invoke(r = 0, Native.Api.Functions.GetError, pObj.newAction)
                 Else
-                    _deg.Invoke(False, API.GetError, pObj.newAction)
+                    _deg.Invoke(False, Native.Api.Functions.GetError, pObj.newAction)
                 End If
         End Select
     End Sub

@@ -106,7 +106,7 @@ Public Class asyncCallbackServDepEnumerate
                 Try
 
                     'If deg IsNot Nothing AndAlso ctrl.Created Then _
-                    ctrl.Invoke(deg, True, _dico, API.GetError, pObj.forInstanceId, pObj.type)
+                    ctrl.Invoke(deg, True, _dico, Native.Api.Functions.GetError, pObj.forInstanceId, pObj.type)
                 Catch ex As Exception
 
                 End Try

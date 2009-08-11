@@ -99,10 +99,10 @@ Public Class asyncCallbackProcGetAllNonFixedInfos
                             .VirtualMemoryCounters = _VM
                         End With
 
-                        RaiseEvent HasGotAllNonFixedInfos(True, _newInfos, API.GetError)
+                        RaiseEvent HasGotAllNonFixedInfos(True, _newInfos, Native.Api.Functions.GetError)
                     Else
                         ' Could not get process
-                        RaiseEvent HasGotAllNonFixedInfos(False, Nothing, API.GetError)
+                        RaiseEvent HasGotAllNonFixedInfos(False, Nothing, Native.Api.Functions.GetError)
                     End If
 
                 Catch ex As Exception

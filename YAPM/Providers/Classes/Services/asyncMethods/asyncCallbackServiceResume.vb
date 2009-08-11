@@ -89,7 +89,7 @@ Public Class asyncCallbackServiceResume
                         API.CloseServiceHandle(lServ)
                     End If
                 End If
-                _deg.Invoke(res, pObj.name, API.GetError, pObj.newAction)
+                _deg.Invoke(res, pObj.name, Native.Api.Functions.GetError, pObj.newAction)
         End Select
     End Sub
 

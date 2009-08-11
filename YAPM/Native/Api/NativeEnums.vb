@@ -344,10 +344,13 @@ Namespace Native.Api
 
 #Region "Declarations used for tokens & privileges"
 
-        Public Enum PRIVILEGE_STATUS
-            PRIVILEGE_ENABLED = &H2
-            PRIVILEGE_DISBALED = &H0
-            PRIVILEGE_REMOVED = &H4
+        <Flags()> _
+        Public Enum SePrivilegeAttributes As UInteger
+            Disabled = &H0
+            EnabledByDefault = &H1
+            Enabled = &H2
+            Removed = &H4
+            UsedForAccess = &H80000000
         End Enum
 
         Public Enum TOKEN_INFORMATION_CLASS

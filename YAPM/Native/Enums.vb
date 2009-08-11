@@ -39,22 +39,22 @@ Namespace Native.Api
         ' OK
 #Region "Declarations used for network"
 
-        Public Enum TCP_TABLE_CLASS As Integer
-            TCP_TABLE_BASIC_LISTENER
-            TCP_TABLE_BASIC_CONNECTIONS
-            TCP_TABLE_BASIC_ALL
-            TCP_TABLE_OWNER_PID_LISTENER
-            TCP_TABLE_OWNER_PID_CONNECTIONS
-            TCP_TABLE_OWNER_PID_ALL
-            TCP_TABLE_OWNER_MODULE_LISTENER
-            TCP_TABLE_OWNER_MODULE_CONNECTIONS
-            TCP_TABLE_OWNER_MODULE_ALL
+        Public Enum TcpTableClass As Integer
+            BasicListener
+            BasicConnections
+            BasicAll
+            OwnerPidListener
+            OwnerPidConnections
+            OwnerPidAll
+            OwnerModuleListener
+            OwnerModuleConnections
+            OwnerModuleAll
         End Enum
 
-        Public Enum UDP_TABLE_CLASS As Integer
-            UDP_TABLE_BASIC
-            UDP_TABLE_OWNER_PID
-            UDP_TABLE_OWNER_MODULE
+        Public Enum UdpTableClass As Integer
+            Basic
+            OwnerPid
+            OwnerModule
         End Enum
 
         Public Enum MibTcpState As Integer
