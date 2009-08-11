@@ -545,6 +545,18 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Modules\Program.vb" />
+    <Compile Include="Native\Api\NativeConstants.vb" />
+    <Compile Include="Native\Api\NativeEnums.vb" />
+    <Compile Include="Native\Api\NativeFunctions.vb" />
+    <Compile Include="Native\Api\NativeStructs.vb" />
+    <Compile Include="Native\Enums.vb" />
+    <Compile Include="Native\Functions.vb" />
+    <Compile Include="Native\Objects\File.vb" />
+    <Compile Include="Native\Objects\Module.vb" />
+    <Compile Include="Native\Objects\Network.vb" />
+    <Compile Include="Native\Objects\Thread.vb" />
+    <Compile Include="Native\Structs.vb" />
+    <Compile Include="Native\Objects\Process.vb" />
     <Compile Include="Providers\Classes\General\cGeneralConnection.vb" />
     <Compile Include="Providers\Classes\General\cGeneralObject.vb" />
     <Compile Include="Providers\Classes\EnvVariables\asyncMethods\asyncCallbackEnvVariableEnumerate.vb" />
@@ -601,7 +613,7 @@
     <Compile Include="Providers\Classes\Processes\cProcessConnection.vb" />
     <Compile Include="Providers\Classes\Processes\cProcessMemReader.vb" />
     <Compile Include="Providers\Classes\Processes\cProcessMemRW.vb" />
-    <Compile Include="Classes\MemoryAlloc.vb" />
+    <Compile Include="Native\Memory\MemoryAlloc.vb" />
     <Compile Include="Providers\Classes\Processes\processInfos.vb" />
     <Compile Include="Providers\Classes\Search\asyncMethods\asyncCallbackSearchEnumerate.vb" />
     <Compile Include="Providers\Classes\Search\cSearchConnection.vb" />

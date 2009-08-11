@@ -71,15 +71,8 @@ Public Class asyncCallbackThreadSetAffinity
 
             Case Else
                 ' Local
-                Dim __hProcess As IntPtr = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_SET_INFORMATION, _
-                                                           False, pObj.id)
-                If __hProcess <> IntPtr.Zero Then
-                    Dim ret As Integer = API.SetProcessAffinityMask(__hProcess, pObj.level)
-                    API.CloseHandle(__hProcess)
-                    _deg.Invoke(ret <> 0, API.GetError, pObj.newAction)
-                Else
-                    _deg.Invoke(False, API.GetError, pObj.newAction)
-                End If
+                Dim ret As Boolean = Native.Objects.Process.SetAffinityById(pObj.id, pObj.level)
+                _deg.Invoke(ret, Native.Api.Functions.GetError, pObj.newAction)
         End Select
     End Sub
 

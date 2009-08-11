@@ -1,0 +1,930 @@
+﻿' =======================================================
+' Yet Another (remote) Process Monitor (YAPM)
+' Copyright (c) 2008-2009 Alain Descotes (violent_ken)
+' https://sourceforge.net/projects/yaprocmon/
+' =======================================================
+
+
+' YAPM is free software; you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation; either version 3 of the License, or
+' (at your option) any later version.
+'
+' YAPM is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with YAPM; if not, see http://www.gnu.org/licenses/.
+
+
+Option Strict On
+
+Imports YAPM.Native.Api.NativeConstants
+
+Namespace Native.Api
+
+    Public Class NativeEnums
+
+#Region "Declarations used for processes"
+
+        Public Enum MINIDUMPTYPE As Integer
+            MiniDumpNormal = &H0
+            MiniDumpWithDataSegs = &H1
+            MiniDumpWithFullMemory = &H2
+            MiniDumpWithHandleData = &H4
+            MiniDumpFilterMemory = &H8
+            MiniDumpScanMemory = &H10
+            MiniDumpWithUnloadedModules = &H20
+            MiniDumpWithIndirectlyReferencedMemory = &H40
+            MiniDumpFilterModulePaths = &H80
+            MiniDumpWithProcessThreadData = &H100
+            MiniDumpWithPrivateReadWriteMemory = &H200
+            MiniDumpWithoutOptionalData = &H400
+            MiniDumpWithFullMemoryInfo = &H800
+            MiniDumpWithThreadInfo = &H1000
+            MiniDumpWithCodeSegs = &H2000
+        End Enum
+
+        ' LdrpDataTableEntryFlags comes from Process Hacker by wj32 (under GNU GPL 3.0)
+        <Flags()> _
+        Public Enum LdrpDataTableEntryFlags As UInteger
+            StaticLink = &H2
+            ImageDll = &H4
+            Flag0x8 = &H8
+            Flag0x10 = &H10
+            LoadInProgress = &H1000
+            UnloadInProgress = &H2000
+            EntryProcessed = &H4000
+            EntryInserted = &H8000
+            CurrentLoad = &H10000
+            FailedBuiltInLoad = &H20000
+            DontCallForThreads = &H40000
+            ProcessAttachCalled = &H80000
+            DebugSymbolsLoaded = &H100000
+            ImageNotAtBase = &H200000
+            CorImage = &H400000
+            CorOwnsUnmap = &H800000
+            SystemMapped = &H1000000
+            ImageVerifying = &H2000000
+            DriverDependentDll = &H4000000
+            EntryNative = &H8000000
+            Redirected = &H10000000
+            NonPagedDebugInfo = &H20000000
+            MmLoaded = &H40000000
+            CompatDatabaseProcessed = &H80000000
+        End Enum
+
+        Public Enum ProcessInformationClass As Integer
+            ProcessBasicInformation
+            ' 0
+            ProcessQuotaLimits
+            ProcessIoCounters
+            ProcessVmCounters
+            ProcessTimes
+            ProcessBasePriority
+            ProcessRaisePriority
+            ProcessDebugPort
+            ProcessExceptionPort
+            ProcessAccessToken
+            ProcessLdtInformation
+            ' 10
+            ProcessLdtSize
+            ProcessDefaultHardErrorMode
+            ProcessIoPortHandlers
+            ProcessPooledUsageAndLimits
+            ProcessWorkingSetWatch
+            ProcessUserModeIOPL
+            ProcessEnableAlignmentFaultFixup
+            ProcessPriorityClass
+            ProcessWx86Information
+            ProcessHandleCount
+            ' 20
+            ProcessAffinityMask
+            ProcessPriorityBoost
+            ProcessDeviceMap
+            ProcessSessionInformation
+            ProcessForegroundInformation
+            ProcessWow64Information
+            ProcessImageFileName
+            ProcessLUIDDeviceMapsEnabled
+            ProcessBreakOnTermination
+            ProcessDebugObjectHandle
+            ' 30
+            ProcessDebugFlags
+            ProcessHandleTracing
+            ProcessIoPriority
+            ProcessExecuteFlags
+            ProcessResourceManagement
+            ProcessCookie
+            ProcessImageInformation
+            ProcessCycleTime
+            ProcessPagePriority
+            ProcessInstrumentationCallback
+            ' 40
+            ProcessThreadStackAllocation
+            ProcessWorkingSetWatchEx
+            ProcessImageFileNameWin32
+            ProcessImageFileMapping
+            ProcessAffinityUpdateMode
+            ProcessMemoryAllocationMode
+            MaxProcessInfoClass
+        End Enum
+
+#End Region
+
+        ' OK
+#Region "Declarations used for rights"
+
+        <Flags()> _
+        Public Enum ThreadAccess As UInteger
+            Terminate = &H1
+            SuspendResume = &H2
+            Alert = &H4
+            GetContext = &H8
+            SetContext = &H10
+            SetInformation = &H20
+            QueryInformation = &H40
+            SetThreadToken = &H80
+            Impersonate = &H100
+            DirectImpersonation = &H200
+            SetLimitedInformation = &H400
+            QueryLimitedInformation = &H800
+            ' should be 0xffff on Vista, but is 0xfff for backwards compatibility
+            All = StandardRights.Required Or StandardRights.Synchronize Or &HFFF
+        End Enum
+
+        <Flags()> _
+        Public Enum StandardRights As UInteger
+            Delete = &H10000
+            ReadControl = &H20000
+            WriteDac = &H40000
+            WriteOwner = &H80000
+            Synchronize = &H100000
+            Required = &HF0000
+            Read = ReadControl
+            Write = ReadControl
+            Execute = ReadControl
+            All = &H1F0000
+            SpecificRightsAll = &HFFFF
+            AccessSystemSecurity = &H1000000
+            MaximumAllowed = &H2000000
+            GenericRead = &H80000000
+            GenericWrite = &H40000000
+            GenericExecute = &H20000000
+            GenericAll = &H10000000
+        End Enum
+
+        Public Enum DepFlags As UInteger
+            Disable = &H0
+            Enable = &H1
+            DisableAtlThunkEmulation = &H2
+        End Enum
+
+        <Flags()> _
+        Public Enum TokenAccess As UInteger
+            AllPlusSessionId = &HF01FF
+            MaximumAllowed = &H2000000
+            AccessSystemSecurity = &H1000000
+            AssignPrimary = &H1
+            Duplicate = &H2
+            Impersonate = &H4
+            Query = &H8
+            QuerySource = &H10
+            AdjustPrivileges = &H20
+            AdjustGroups = &H40
+            AdjustDefault = &H80
+            AdjustSessionId = &H100
+            All = StandardRights.Required Or AssignPrimary Or Duplicate Or Impersonate Or Query Or QuerySource Or AdjustPrivileges Or AdjustGroups Or AdjustDefault Or AdjustSessionId
+            GenericRead = StandardRights.Read Or Query
+            GenericWrite = StandardRights.Write Or AdjustPrivileges Or AdjustGroups Or AdjustDefault
+            GenericExecute = StandardRights.Execute
+        End Enum
+
+        <Flags()> _
+        Public Enum ProcessAccess As UInteger
+            Terminate = &H1
+            CreateThread = &H2
+            SetSessionId = &H4
+            VmOperation = &H8
+            VmRead = &H10
+            VmWrite = &H20
+            DupHandle = &H40
+            CreateProcess = &H80
+            SetQuota = &H100
+            SetInformation = &H200
+            QueryInformation = &H400
+            SetPort = &H800
+            SuspendResume = &H800
+            QueryLimitedInformation = &H1000
+            ' should be 0xffff on Vista, but is 0xfff for backwards compatibility
+            All = StandardRights.Required Or StandardRights.Synchronize Or &HFFF
+        End Enum
+
+#End Region
+
+        ' OK
+#Region "Declarations used for memory management"
+
+        <Flags()> _
+        Public Enum PROTECTION_TYPE As UInteger
+            AccessDenied = 0
+            Execute = &H10
+            ExecuteRead = &H20
+            ExecuteReadWrite = &H40
+            ExecuteWriteCopy = &H80
+            NoAccess = &H1
+            [ReadOnly] = &H2
+            ReadWrite = &H4
+            WriteCopy = &H8
+            Guard = &H100
+            NoCache = &H200
+            WriteCombine = &H400
+        End Enum
+
+        <Flags()> _
+        Public Enum MEMORY_STATE As UInteger
+            Free = &H10000
+            Commit = &H1000
+            Reserve = &H2000
+            Decommit = &H4000
+            Release = &H8000
+            Reset = &H80000
+            TopDown = &H100000
+            Physical = &H400000
+            LargePages = &H20000000
+        End Enum
+
+        Public Enum MEMORY_TYPE As Integer
+            Image = &H1000000
+            [Private] = &H20000
+            Mapped = &H40000
+        End Enum
+
+#End Region
+
+        ' OK
+#Region "Declarations used for threads"
+
+        Public Enum KWAIT_REASON As Integer
+            Executive = 0
+            FreePage = 1
+            PageIn = 2
+            PoolAllocation = 3
+            DelayExecution = 4
+            Suspended = 5
+            UserRequest = 6
+            WrExecutive = 7
+            WrFreePage = 8
+            WrPageIn = 9
+            WrPoolAllocation = 10
+            WrDelayExecution = 11
+            WrSuspended = 12
+            WrUserRequest = 13
+            WrEventPair = 14
+            WrQueue = 15
+            WrLpcReceive = 16
+            WrLpcReply = 17
+            WrVirtualMemory = 18
+            WrPageOut = 19
+            WrRendezvous = 20
+            Spare2 = 21
+            Spare3 = 22
+            Spare4 = 23
+            Spare5 = 24
+            WrCalloutStack = 25
+            WrKernel = 26
+            WrResource = 27
+            WrPushLock = 28
+            WrMutex = 29
+            WrQuantumEnd = 30
+            WrDispatchInt = 31
+            WrPreempted = 32
+            WrYieldExecution = 33
+            WrFastMutex = 34
+            WrGuardedMutex = 35
+            WrRundown = 36
+            MaximumWaitReason = 37
+        End Enum
+
+        Public Enum THREAD_INFORMATION_CLASS
+            ThreadBasicInformation
+            ThreadTimes
+            ThreadPriority
+            ThreadBasePriority
+            ThreadAffinityMask
+            ThreadImpersonationToken
+            ThreadDescriptorTableEntry
+            ThreadEnableAlignmentFaultFixup
+            ThreadEventPair
+            ThreadQuerySetWin32StartAddress
+            ThreadZeroTlsCell
+            ThreadPerformanceCount
+            ThreadAmILastThread
+            ThreadIdealProcessor
+            ThreadPriorityBoost
+            ThreadSetTlsArrayAddress
+            ThreadIsIoPending
+            ThreadHideFromDebugger
+            ThreadBreakOnTermination
+            ThreadSwitchLegacyState
+            ThreadIsTerminated
+            ThreadLastSystemCall
+            ThreadIoPriority
+            ThreadCycleTime
+            ThreadPagePriority
+            ThreadActualBasePriority
+            ThreadTebInformation
+            ThreadCSwitchMon
+            MaxThreadInfoClass
+        End Enum
+
+#End Region
+
+#Region "Declarations used for tokens & privileges"
+
+        Public Enum PRIVILEGE_STATUS
+            PRIVILEGE_ENABLED = &H2
+            PRIVILEGE_DISBALED = &H0
+            PRIVILEGE_REMOVED = &H4
+        End Enum
+
+        Public Enum TOKEN_INFORMATION_CLASS
+            TokenUser = 1
+            TokenGroups
+            TokenPrivileges
+            TokenOwner
+            TokenPrimaryGroup
+            TokenDefaultDacl
+            TokenSource
+            TokenType
+            TokenImpersonationLevel
+            TokenStatistics
+            TokenRestrictedSids
+            TokenSessionId
+            TokenGroupsAndPrivileges
+            TokenSessionReference
+            TokenSandBoxInert
+            TokenAuditPolicy
+            TokenOrigin
+            TokenElevationType
+            TokenLinkedToken
+            TokenElevation
+            TokenHasRestrictions
+            TokenAccessInformation
+            TokenVirtualizationAllowed
+            TokenVirtualizationEnabled
+            TokenIntegrityLevel
+            TokenUIAccess
+            TokenMandatoryPolicy
+            TokenLogonSid
+            MaxTokenInfoClass
+        End Enum
+
+        Public Enum SID_NAME_USE As Integer
+            SidTypeUser = 1
+            SidTypeGroup
+            SidTypeDomain
+            SidTypeAlias
+            SidTypeWellKnownGroup
+            SidTypeDeletedAccount
+            SidTypeInvalid
+            SidTypeUnknown
+            SidTypeComputer
+            SidTypeLabel
+        End Enum
+
+#End Region
+
+        ' OK
+#Region "Declarations used for network"
+
+        <Flags()> _
+        Public Enum KBDLLHOOKSTRUCTFlags As Integer
+            LLKHF_EXTENDED = &H1
+            LLKHF_INJECTED = &H10
+            LLKHF_ALTDOWN = &H20
+            LLKHF_UP = &H80
+        End Enum
+
+#End Region
+
+#Region "Declarations used for files"
+
+        Public Enum FO_Func As UInteger
+            FO_MOVE = &H1
+            FO_COPY = &H2
+            FO_DELETE = &H3
+            FO_RENAME = &H4
+        End Enum
+
+        Public Enum EFileAccess
+            _GenericRead = &H80000000
+            _GenericWrite = &H40000000
+            _GenericExecute = &H20000000
+            _GenericAll = &H10000000
+        End Enum
+
+        Public Enum EFileShare
+            _None = &H0
+            _Read = &H1
+            _Write = &H2
+            _Delete = &H4
+        End Enum
+
+        Public Enum ECreationDisposition
+            _New = 1
+            _CreateAlways = 2
+            _OpenExisting = 3
+            _OpenAlways = 4
+            _TruncateExisting = 5
+        End Enum
+
+        Public Enum EFileAttributes
+            _Readonly = &H1
+            _Hidden = &H2
+            _System = &H4
+            _Directory = &H10
+            _Archive = &H20
+            _Device = &H40
+            _Normal = &H80
+            _Temporary = &H100
+            _SparseFile = &H200
+            _ReparsePoint = &H400
+            _Compressed = &H800
+            _Offline = &H1000
+            _NotContentIndexed = &H2000
+            _Encrypted = &H4000
+            _Write_Through = &H80000000
+            _Overlapped = &H40000000
+            _NoBuffering = &H20000000
+            _RandomAccess = &H10000000
+            _SequentialScan = &H8000000
+            _DeleteOnClose = &H4000000
+            _BackupSemantics = &H2000000
+            _PosixSemantics = &H1000000
+            _OpenReparsePoint = &H200000
+            _OpenNoRecall = &H100000
+            _FirstPipeInstance = &H80000
+        End Enum
+
+        <Flags()> _
+        Public Enum FileMapAccess As UInteger
+            FileMapCopy = &H1
+            FileMapWrite = &H2
+            FileMapRead = &H4
+            FileMapAllAccess = &H1F
+            fileMapExecute = &H20
+        End Enum
+
+        <Flags()> _
+       Public Enum FileMapProtection As UInteger
+            PageReadonly = &H2
+            PageReadWrite = &H4
+            PageWriteCopy = &H8
+            PageExecuteRead = &H20
+            PageExecuteReadWrite = &H40
+            SectionCommit = &H8000000
+            SectionImage = &H1000000
+            SectionNoCache = &H10000000
+            SectionReserve = &H4000000
+        End Enum
+
+        <Flags()> _
+    Public Enum RunFileDialogFlags As UInteger
+            None = &H0
+            NoBrowse = &H1
+            NoDefault = &H2
+            CalcDirectory = &H4
+            NoLabel = &H8
+            NoSeparateMemory = &H20
+        End Enum
+
+#End Region
+
+#Region "Declarations used for system"
+
+        Public Enum SystemInformationClass As Integer
+            SystemBasicInformation
+            SystemProcessorInformation
+            SystemPerformanceInformation
+            SystemTimeOfDayInformation
+            SystemPathInformation
+            SystemProcessInformation
+            SystemCallCountInformation
+            SystemDeviceInformation
+            SystemProcessorPerformanceInformation
+            SystemFlagsInformation
+            SystemCallTimeInformation
+            ' 10
+            SystemModuleInformation
+            SystemLocksInformation
+            SystemStackTraceInformation
+            SystemPagedPoolInformation
+            SystemNonPagedPoolInformation
+            SystemHandleInformation
+            SystemObjectInformation
+            SystemPageFileInformation
+            SystemVdmInstemulInformation
+            SystemVdmBopInformation
+            ' 20
+            SystemFileCacheInformation
+            SystemPoolTagInformation
+            SystemInterruptInformation
+            SystemDpcBehaviorInformation
+            SystemFullMemoryInformation
+            SystemLoadGdiDriverInformation
+            SystemUnloadGdiDriverInformation
+            SystemTimeAdjustmentInformation
+            SystemSummaryMemoryInformation
+            SystemMirrorMemoryInformation
+            ' 30
+            SystemPerformanceTraceInformation
+            SystemCrashDumpInformation
+            SystemExceptionInformation
+            SystemCrashDumpStateInformation
+            SystemKernelDebuggerInformation
+            SystemContextSwitchInformation
+            SystemRegistryQuotaInformation
+            SystemExtendServiceTableInformation
+            ' used to be SystemLoadAndCallImage
+            SystemPrioritySeparation
+            SystemVerifierAddDriverInformation
+            ' 40
+            SystemVerifierRemoveDriverInformation
+            SystemProcessorIdleInformation
+            SystemLegacyDriverInformation
+            SystemCurrentTimeZoneInformation
+            SystemLookasideInformation
+            SystemTimeSlipNotification
+            SystemSessionCreate
+            SystemSessionDetach
+            SystemSessionInformation
+            SystemRangeStartInformation
+            ' 50
+            SystemVerifierInformation
+            SystemVerifierThunkExtend
+            SystemSessionProcessInformation
+            SystemLoadGdiDriverInSystemSpace
+            SystemNumaProcessorMap
+            SystemPrefetcherInformation
+            SystemExtendedProcessInformation
+            SystemRecommendedSharedDataAlignment
+            SystemComPlusPackage
+            SystemNumaAvailableMemory
+            ' 60
+            SystemProcessorPowerInformation
+            SystemEmulationBasicInformation
+            SystemEmulationProcessorInformation
+            SystemExtendedHandleInformation
+            SystemLostDelayedWriteInformation
+            SystemBigPoolInformation
+            SystemSessionPoolTagInformation
+            SystemSessionMappedViewInformation
+            SystemHotpatchInformation
+            SystemObjectSecurityMode
+            ' 70
+            SystemWatchdogTimerHandler
+            ' doesn't seem to be implemented
+            SystemWatchdogTimerInformation
+            SystemLogicalProcessorInformation
+            SystemWow64SharedInformation
+            SystemRegisterFirmwareTableInformationHandler
+            SystemFirmwareTableInformation
+            SystemModuleInformationEx
+            SystemVerifierTriageInformation
+            SystemSuperfetchInformation
+            SystemMemoryListInformation
+            ' 80
+            SystemFileCacheInformationEx
+            SystemNotImplemented19
+            SystemProcessorDebugInformation
+            SystemVerifierInformation2
+            SystemNotImplemented20
+            SystemRefTraceInformation
+            SystemSpecialPoolTag
+            ' MmSpecialPoolTag, then MmSpecialPoolCatchOverruns != 0
+            SystemProcessImageName
+            SystemNotImplemented21
+            SystemBootEnvironmentInformation
+            ' 90
+            SystemEnlightenmentInformation
+            SystemVerifierInformationEx
+            SystemNotImplemented22
+            SystemNotImplemented23
+            SystemCovInformation
+            SystemNotImplemented24
+            SystemNotImplemented25
+            SystemPartitionInformation
+            SystemSystemDiskInformation
+            ' this and SystemPartitionInformation both call IoQuerySystemDeviceName
+            SystemPerformanceDistributionInformation
+            ' 100
+            SystemNumaProximityNodeInformation
+            SystemTimeZoneInformation2
+            SystemCodeIntegrityInformation
+            SystemNotImplemented26
+            SystemUnknownInformation
+            ' No symbols for this case, very strange...
+            SystemVaInformation
+            ' 106, calls MmQuerySystemVaInformation
+        End Enum
+
+        Public Enum ExitFlags As Integer
+            Logoff = &H0
+            Shutdown = &H1
+            Reboot = &H2
+            Poweroff = &H8
+            RestartApps = &H40
+            Force = &H4
+            ForceIfHung = &H10
+        End Enum
+
+#End Region
+
+#Region "Declarations used for windows (not Windows :-p)"
+
+        Public Enum LVS_EX
+            LVS_EX_GRIDLINES = &H1
+            LVS_EX_SUBITEMIMAGES = &H2
+            LVS_EX_CHECKBOXES = &H4
+            LVS_EX_TRACKSELECT = &H8
+            LVS_EX_HEADERDRAGDROP = &H10
+            LVS_EX_FULLROWSELECT = &H20
+            LVS_EX_ONECLICKACTIVATE = &H40
+            LVS_EX_TWOCLICKACTIVATE = &H80
+            LVS_EX_FLATSB = &H100
+            LVS_EX_REGIONAL = &H200
+            LVS_EX_INFOTIP = &H400
+            LVS_EX_UNDERLINEHOT = &H800
+            LVS_EX_UNDERLINECOLD = &H1000
+            LVS_EX_MULTIWORKAREAS = &H2000
+            LVS_EX_LABELTIP = &H4000
+            LVS_EX_BORDERSELECT = &H8000
+            LVS_EX_DOUBLEBUFFER = &H10000
+            LVS_EX_HIDELABELS = &H20000
+            LVS_EX_SINGLEROW = &H40000
+            LVS_EX_SNAPTOGRID = &H80000
+            LVS_EX_SIMPLESELECT = &H100000
+        End Enum
+
+        Public Enum SHOW_FINDOW_TYPE As Integer
+            Hide = 0
+            ShowNormal = 1
+            Normal = 1
+            ShowMinimized = 2
+            ShowMaximized = 3
+            Maximize = 3
+            ShowNoActivate = 4
+            Show = 5
+            Minimize = 6
+            ShowMinNoActive = 7
+            ShowNa = 8
+            Restore = 9
+            ShowDefault = 10
+            ForceMinimize = 11
+        End Enum
+
+        Public Enum ShowState As UInteger
+            SW_HIDE = 0
+            SW_SHOWNORMAL = 1
+            SW_SHOWMINIMIZED = 2
+            SW_SHOWMAXIMIZED = 3
+            SW_SHOWNOACTIVATE = 4
+            SW_SHOW = 5
+            SW_MINIMIZE = 6
+            SW_SHOWMINNOACTIVE = 7
+            SW_SHOWNA = 8
+            SW_RESTORE = 9
+            SW_SHOWDEFAULT = 10
+        End Enum
+
+        Public Enum SendMessageTimeoutFlags As Integer
+            SMTO_NORMAL = &H0
+            SMTO_BLOCK = &H1
+            SMTO_ABORTIFHUNG = &H2
+            SMTO_NOTIMEOUTIFNOTHUNG = &H8
+        End Enum
+
+#End Region
+
+        ' OK
+#Region "Declarations used for services"
+
+        Public Enum ServiceQueryState As UInteger
+            Active = 1
+            Inactive = 2
+            All = 3
+        End Enum
+
+        <Flags()> _
+        Public Enum ServiceQueryType As UInteger
+            Driver = &HB
+            Win32 = &H30
+        End Enum
+
+        Public Enum SERVICE_CONTROL
+            _STOP = 1
+            _PAUSE = 2
+            _CONTINUE = 3
+            _INTERROGATE = 4
+            _SHUTDOWN = 5
+            _PARAMCHANGE = 6
+            _NETBINDADD = 7
+            _NETBINDREMOVE = 8
+            _NETBINDENABLE = 9
+            _NETBINDDISABLE = 10
+            _DEVICEEVENT = 11
+            _HARDWAREPROFILECHANGE = 12
+            _POWEREVENT = 13
+            _SESSIONCHANGE = 14
+        End Enum
+
+        Public Enum SERVICE_START_TYPE As Integer
+            BootStart = &H0
+            SystemStart = &H1
+            AutoStart = &H2
+            DemandStart = &H3
+            StartDisabled = &H4
+            SERVICESTARTTYPE_NO_CHANGE = SERVICE_NO_CHANGE
+        End Enum
+
+        Public Enum SERVICE_STATE As UInteger
+            ContinuePending = &H5
+            PausePending = &H6
+            Paused = &H7
+            Running = &H4
+            StartPending = &H2
+            StopPending = &H3
+            Stopped = &H1
+            Unknown = &HF
+        End Enum
+
+        <Flags()> _
+        Public Enum SERVICE_TYPE As UInteger
+            FileSystemDriver = &H2
+            KernelDriver = &H1
+            Adapter = &H4
+            RecognizerDriver = &H8
+            Win32OwnProcess = &H10
+            Win32ShareProcess = &H20
+            InteractiveProcess = &H100
+            NoChange = &HFFFFFFFF
+        End Enum
+
+        Public Enum SERVICE_ERROR_CONTROL As Integer
+            Critical = &H3
+            Ignore = &H0
+            Normal = &H1
+            Severe = &H2
+            Unknown = &HF
+            NoChange = &HFFFFFFFF
+        End Enum
+
+        Public Enum SERVICE_FLAGS As UInteger
+            None = 0
+            RunsInSystemProcess = &H1
+        End Enum
+
+        Public Enum SERVICE_ACCEPT As UInteger
+            [NetBindChange] = &H10
+            [ParamChange] = &H8
+            [PauseContinue] = &H2
+            [PreShutdown] = &H100
+            [Shutdown] = &H4
+            [Stop] = &H1
+            [HardwareProfileChange] = &H20
+            [PowerEvent] = &H40
+            [SessionChange] = &H80
+        End Enum
+
+        Public Enum SERVICE_RIGHTS As UInteger
+            SERVICE_QUERY_CONFIG = &H1
+            SERVICE_CHANGE_CONFIG = &H2
+            SERVICE_QUERY_STATUS = &H4
+            SERVICE_ENUMERATE_DEPENDENTS = &H8
+            SERVICE_START = &H10
+            SERVICE_STOP = &H20
+            SERVICE_PAUSE_CONTINUE = &H40
+            SERVICE_INTERROGATE = &H80
+            SERVICE_USER_DEFINED_CONTROL = &H100
+            SERVICE_ALL_ACCESS = StandardRights.STANDARD_RIGHTS_REQUIRED Or _
+                    SERVICE_QUERY_CONFIG Or SERVICE_CHANGE_CONFIG Or SERVICE_QUERY_STATUS Or _
+                    SERVICE_ENUMERATE_DEPENDENTS Or SERVICE_START Or SERVICE_STOP Or _
+                    SERVICE_PAUSE_CONTINUE Or SERVICE_INTERROGATE Or _
+                    SERVICE_USER_DEFINED_CONTROL
+        End Enum
+
+#End Region
+
+        ' OK
+#Region "Declarations used for registry"
+
+        ' http://msdn.microsoft.com/en-us/library/ms724892(VS.85).aspx
+        ' Type of Key
+        Public Enum KEY_TYPE
+            HKEY_CLASSES_ROOT = &H80000000
+            HKEY_CURRENT_USER = &H80000001
+            HKEY_LOCAL_MACHINE = &H80000002
+            HKEY_USERS = &H80000003
+            HKEY_CURRENT_CONFIG = &H80000005
+            HKEY_PERFORMANCE_DATA = &H80000004
+            HKEY_DYN_DATA = &H80000006
+        End Enum
+
+        ' Type of monitoring to apply
+        <Flags()> _
+        Public Enum KEY_MONITORING_TYPE
+            REG_NOTIFY_CHANGE_NAME = &H1            ' Subkey added or deleted
+            REG_NOTIFY_CHANGE_ATTRIBUTES = &H2      ' Attributes changed
+            REG_NOTIFY_CHANGE_LAST_SET = &H4        ' Value changed (changed, deleted, added)
+            REG_NOTIFY_CHANGE_SECURITY = &H8        ' Security descriptor changed
+        End Enum
+
+        Public Enum WaitResult As UInteger
+            INFINITE = &HFFFFFFFF
+            WAIT_ABANDONED = &H80
+            WAIT_OBJECT_0 = &H0
+            WAIT_TIMEOUT = &H102
+            WAIT_FAILED = &HFFFFFFFF
+        End Enum
+
+#End Region
+
+        ' OK
+#Region "Declarations used for graphical functions"
+
+        Public Enum IconSize As Integer
+            ICON_SMALL = &H0
+            ICON_BIG = &H1
+        End Enum
+
+        Public Enum LVM As UInteger
+            LVM_FIRST = &H1000
+            LVM_SETEXTENDEDLISTVIEWSTYLE = (LVM_FIRST + 54)
+            LVM_GETEXTENDEDLISTVIEWSTYLE = (LVM_FIRST + 55)
+        End Enum
+
+#End Region
+
+        ' OK
+#Region "Declarations used for keyboard management"
+
+        Public Enum HookType As Byte
+            WH_JOURNALRECORD = 0
+            WH_JOURNALPLAYBACK = 1
+            WH_KEYBOARD = 2
+            WH_GETMESSAGE = 3
+            WH_CALLWNDPROC = 4
+            WH_CBT = 5
+            WH_SYSMSGFILTER = 6
+            WH_MOUSE = 7
+            WH_HARDWARE = 8
+            WH_DEBUG = 9
+            WH_SHELL = 10
+            WH_FOREGROUNDIDLE = 11
+            WH_CALLWNDPROCRET = 12
+            WH_KEYBOARD_LL = 13
+            WH_MOUSE_LL = 14
+        End Enum
+
+#End Region
+
+        ' OK
+#Region "Declarations used for error management"
+
+        <Flags()> _
+        Public Enum FormatMessageFlags As Integer
+            FORMAT_MESSAGE_ALLOCATE_BUFFER = &H100
+            FORMAT_MESSAGE_ARGUMENT_ARRAY = &H2000
+            FORMAT_MESSAGE_FROM_HMODULE = &H800
+            FORMAT_MESSAGE_FROM_STRING = &H400
+            FORMAT_MESSAGE_FROM_SYSTEM = &H1000
+            FORMAT_MESSAGE_IGNORE_INSERTS = &H200
+        End Enum
+
+#End Region
+
+        ' OK
+#Region "Declarations used for handles"
+
+        <Flags()> _
+        Public Enum DuplicateOptions As Integer
+            CloseSource = &H1
+            SameAccess = &H2
+            SameAttributes = &H4
+        End Enum
+
+        <Flags()> _
+        Public Enum HandleFlags As Byte
+            ProtectFromClose = &H1
+            Inherit = &H2
+            AuditObjectClose = &H4
+        End Enum
+
+#End Region
+
+    End Class
+
+End Namespace

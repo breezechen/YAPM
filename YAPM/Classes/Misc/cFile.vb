@@ -429,9 +429,7 @@ Public Class cFile
 
     ' Retrieve a good formated path from a bad string
     Public Function IntelligentPathRetrieving() As String
-        Dim rootDir As String = Space$(256)
-        API.GetWindowsDirectory(rootDir, 256)
-        rootDir = Left(rootDir, InStr(rootDir, vbNullChar, CompareMethod.Binary) - 1)
+        Dim rootDir As String = System.Environment.GetFolderPath(Environment.SpecialFolder.System)
 
         Dim s As String = Replace(_Path.ToLowerInvariant, "@%systemroot%", rootDir)
         s = Replace(s, "%systemroot%", rootDir)
@@ -565,10 +563,11 @@ Public Class cFile
         Return r
     End Function
 
-    Public Shared Function ShowRunBox(ByVal hWnd As Integer, ByVal Title As String, _
+    Public Shared Function ShowRunBox(ByVal hWnd As IntPtr, ByVal Title As String, _
         ByVal Message As String) As Integer
 
-        Return API.SHRunDialog(hWnd, 0, 0, Title, Message, 0)
+        Return Native.Api.NativeFunctions.RunFileDlg(hWnd, IntPtr.Zero, Nothing, _
+                            Title, Message, Native.Api.NativeEnums.RunFileDialogFlags.None)
 
     End Function
 
@@ -644,9 +643,7 @@ Public Class cFile
 
     ' Retrieve a good formated path from a bad string
     Public Shared Function IntelligentPathRetrieving(ByVal filePath As String) As String
-        Dim rootDir As String = Space$(256)
-        API.GetWindowsDirectory(rootDir, 256)
-        rootDir = Left(rootDir, InStr(rootDir, vbNullChar, CompareMethod.Binary) - 1)
+        Dim rootDir As String = System.Environment.GetFolderPath(Environment.SpecialFolder.System)
 
         Dim s As String = Replace(filePath.ToLowerInvariant, "@%systemroot%", rootDir)
         s = Replace(s, "%systemroot%", rootDir)
