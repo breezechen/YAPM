@@ -68,7 +68,7 @@ Public Class asyncCallbackProcSetPriority
                 Try
                     Dim res As Integer = 2        ' Access denied
                     For Each srv As ManagementObject In con.wmiSearcher.Get
-                        If CInt(srv.GetPropertyValue(API.WMI_INFO_PROCESS.ProcessId.ToString)) = pObj.pid Then
+                        If CInt(srv.GetPropertyValue(Native.Api.Enums.WMI_INFO_PROCESS.ProcessId.ToString)) = pObj.pid Then
                             Dim inParams As ManagementBaseObject = srv.GetMethodParameters("SetPriority")
                             inParams("Priority") = pObj.lvl
                             Dim outParams As ManagementBaseObject = srv.InvokeMethod("SetPriority", inParams, Nothing)
@@ -90,9 +90,9 @@ Public Class asyncCallbackProcSetPriority
                 If hProc <> IntPtr.Zero Then
                     r = API.SetPriorityClass(hProc, pObj.lvl)
                     API.CloseHandle(hProc)
-                    _deg.Invoke(r <> 0, Native.Api.Functions.GetError, pObj.newAction)
+                    _deg.Invoke(r <> 0, Native.Api.Win32.GetLastError, pObj.newAction)
                 Else
-                    _deg.Invoke(False, Native.Api.Functions.GetError, pObj.newAction)
+                    _deg.Invoke(False, Native.Api.Win32.GetLastError, pObj.newAction)
                 End If
         End Select
     End Sub

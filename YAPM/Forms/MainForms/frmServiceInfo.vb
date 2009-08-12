@@ -63,8 +63,8 @@ Public Class frmServiceInfo
                 Me.txtState.Text = curServ.Infos.State.ToString
                 Me.txtType.Text = curServ.Infos.ServiceType.ToString
                 Me.cmdGoProcess.Enabled = (Me.curServ.Infos.ProcessId > 0)
-                Me.cmdPause.Enabled = ((Me.curServ.Infos.AcceptedControl And API.SERVICE_ACCEPT.PauseContinue) = API.SERVICE_ACCEPT.PauseContinue)
-                Me.cmdStop.Enabled = ((Me.curServ.Infos.AcceptedControl And API.SERVICE_ACCEPT.Stop) = API.SERVICE_ACCEPT.Stop)
+                Me.cmdPause.Enabled = ((Me.curServ.Infos.AcceptedControl And Native.Api.NativeEnums.ServiceAccept.PauseContinue) = Native.Api.NativeEnums.ServiceAccept.PauseContinue)
+                Me.cmdStop.Enabled = ((Me.curServ.Infos.AcceptedControl And Native.Api.NativeEnums.ServiceAccept.Stop) = Native.Api.NativeEnums.ServiceAccept.Stop)
                 Me.cmdStart.Enabled = (Me.curServ.Infos.State = API.SERVICE_STATE.Stopped)
 
 

@@ -198,7 +198,7 @@ Public Class cSystemInfo
         If _count = 0 Then
             Dim bi As New API.SYSTEM_BASIC_INFORMATION
             Dim ret As Integer
-            API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemBasicInformation, bi, Marshal.SizeOf(bi), ret)
+            API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemBasicInformation, bi, Marshal.SizeOf(bi), ret)
             _count = bi.NumberOfProcessors
         End If
         Return _count
@@ -210,7 +210,7 @@ Public Class cSystemInfo
         ' Basic informations (do not change)
         Dim bi As New API.SYSTEM_BASIC_INFORMATION
         Dim ret As Integer
-        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemBasicInformation, bi, Marshal.SizeOf(bi), ret)
+        API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemBasicInformation, bi, Marshal.SizeOf(bi), ret)
         With bi
             _physicalPagesCount = .NumberOfPhysicalPages
             _processors = .NumberOfProcessors
@@ -232,7 +232,7 @@ Public Class cSystemInfo
         End With
 
         Dim ci As New API.SYSTEM_CACHE_INFORMATION
-        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemCacheInformation, ci, Marshal.SizeOf(ci), ret)
+        API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemCacheInformation, ci, Marshal.SizeOf(ci), ret)
         With ci
             _currentCache = .SystemCacheWsSize
             _peakCache = .SystemCacheWsPeakSize
@@ -243,14 +243,14 @@ Public Class cSystemInfo
         _ci = ci
 
         Dim spi As New API.SYSTEM_PERFORMANCE_INFORMATION
-        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemPerformanceInformation, spi, Marshal.SizeOf(spi), ret)
+        API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemPerformanceInformation, spi, Marshal.SizeOf(spi), ret)
         _spi = spi
 
         If _processors > 0 Then
             ReDim _ppi(_processors - 1)
             Dim __size As Integer = _processors * Marshal.SizeOf(_ppi(0))
             Dim pt As IntPtr = Marshal.AllocHGlobal(__size)
-            API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessorTimes, pt, __size, ret)
+            API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessorTimes, pt, __size, ret)
 
             ' Conversion from unmanaged memory to valid array
             For x As Integer = 0 To _processors - 1

@@ -71,7 +71,7 @@ Public Class asyncCallbackNetworkCloseConnection
                 ' Local
 
                 Dim ret As Integer = CloseTcpConnection(pObj.local, pObj.remote)
-                _deg.Invoke(ret = 0, pObj.local, pObj.remote, Native.Api.Functions.GetError, pObj.newAction)
+                _deg.Invoke(ret = 0, pObj.local, pObj.remote, Native.Api.Win32.GetLastError, pObj.newAction)
 
         End Select
     End Sub

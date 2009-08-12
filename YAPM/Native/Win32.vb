@@ -23,17 +23,16 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 Imports System.Text
-Imports System.Drawing
-Imports System.Net
 Imports YAPM.Native.Api.NativeStructs
 Imports YAPM.Native.Api.NativeEnums
 Imports YAPM.Native.Api.NativeFunctions
 
 Namespace Native.Api
 
-    Public Class Functions
+    Public Class Win32
 
-        Public Shared Function GetError() As String
+        ' Return last error as a string
+        Public Shared Function GetLastError() As String
 
             Dim lpMsgBuf As IntPtr = IntPtr.Zero
             Dim nLastError As Integer = Marshal.GetLastWin32Error

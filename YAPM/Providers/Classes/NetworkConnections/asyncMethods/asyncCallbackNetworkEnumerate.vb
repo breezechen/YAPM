@@ -95,10 +95,10 @@ Public Class asyncCallbackNetworkEnumerate
                 Dim _dico As New Dictionary(Of String, networkInfos)
 
                 ' Enumeration
-                Native.Objects.Network.EnumerateTcpUdpConnections(pObj, _dico)
+                Native.Objects.Network.EnumerateTcpUdpConnections(_dico, pObj.all, pObj.pid)
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
-                    ctrl.Invoke(deg, True, _dico, Native.Api.Functions.GetError, pObj.forInstanceId)
+                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
 
         End Select
 

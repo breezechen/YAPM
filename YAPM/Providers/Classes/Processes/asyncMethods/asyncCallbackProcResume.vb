@@ -72,9 +72,9 @@ Public Class asyncCallbackProcResume
                 If hProc <> IntPtr.Zero Then
                     r = API.NtResumeProcess(hProc)
                     API.CloseHandle(hProc)
-                    _deg.Invoke(r = 0, Native.Api.Functions.GetError, pObj.newAction)
+                    _deg.Invoke(r = 0, Native.Api.Win32.GetLastError, pObj.newAction)
                 Else
-                    _deg.Invoke(False, Native.Api.Functions.GetError, pObj.newAction)
+                    _deg.Invoke(False, Native.Api.Win32.GetLastError, pObj.newAction)
                 End If
         End Select
     End Sub

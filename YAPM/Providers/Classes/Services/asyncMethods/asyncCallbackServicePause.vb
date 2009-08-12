@@ -67,7 +67,7 @@ Public Class asyncCallbackServicePause
                 Try
                     Dim res As Integer = 2        ' Access denied
                     For Each srv As ManagementObject In con.wmiSearcher.Get
-                        If CStr(srv.GetPropertyValue(API.WMI_INFO_SERVICE.Name.ToString)) = pObj.name Then
+                        If CStr(srv.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.Name.ToString)) = pObj.name Then
                             res = CInt(srv.InvokeMethod("PauseService", Nothing))
                             Exit For
                         End If
@@ -89,7 +89,7 @@ Public Class asyncCallbackServicePause
                         API.CloseServiceHandle(lServ)
                     End If
                 End If
-                _deg.Invoke(res, pObj.name, Native.Api.Functions.GetError, pObj.newAction)
+                _deg.Invoke(res, pObj.name, Native.Api.Win32.GetLastError, pObj.newAction)
         End Select
     End Sub
 

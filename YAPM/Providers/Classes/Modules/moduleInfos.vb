@@ -20,7 +20,7 @@
 '
 '
 ' Some pieces of code are inspired by wj32 work (from Process Hacker) :
-' - Declaration of some structures used by ZwQuerySystemInformation
+' - Declaration of some structures used by NtQuerySystemInformation
 
 Option Strict On
 
@@ -106,7 +106,7 @@ Imports System.Runtime.InteropServices
     ' ========================================
 
     ' Constructor of this class
-    Public Sub New(ByRef data As API.LDR_DATA_TABLE_ENTRY, ByVal pid As Integer, _
+    Public Sub New(ByRef data As Native.Api.NativeStructs.LdrDataTableEntry, ByVal pid As Integer, _
                    ByVal path As String, ByVal dllName As String, _
                    Optional ByVal noFileInfo As Boolean = False)
         With data
@@ -151,7 +151,7 @@ Imports System.Runtime.InteropServices
             _fileInfo = Nothing
         End If
     End Sub
-    Public Sub New(ByRef Thr As API.LDR_DATA_TABLE_ENTRY, ByVal pid As Integer, _
+    Public Sub New(ByRef Thr As Native.Api.NativeStructs.LdrDataTableEntry, ByVal pid As Integer, _
                    ByVal path As String, ByVal version As String, _
                    ByVal manufacturer As String)
         ' This constructor is used for WMI

@@ -70,9 +70,9 @@ Public Class asyncCallbackProcEmptyWorkingSet
                 If _hHandle <> IntPtr.Zero Then
                     Dim _ret As Integer = API.SetProcessWorkingSetSize(_hHandle, -1, -1)
                     API.CloseHandle(_hHandle)
-                    _deg.Invoke(_ret <> 0, Native.Api.Functions.GetError, pObj.newAction)
+                    _deg.Invoke(_ret <> 0, Native.Api.Win32.GetLastError, pObj.newAction)
                 Else
-                    _deg.Invoke(False, Native.Api.Functions.GetError, pObj.newAction)
+                    _deg.Invoke(False, Native.Api.Win32.GetLastError, pObj.newAction)
                 End If
         End Select
     End Sub

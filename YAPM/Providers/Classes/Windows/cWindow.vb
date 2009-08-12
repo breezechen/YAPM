@@ -264,7 +264,7 @@ Public Class cWindow
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
             asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.Hide, Me.Infos.Handle, 0, 0, 0, newAction))
     End Function
-    Public Function SetPositions(ByVal r As API.RECT) As Boolean
+    Public Function SetPositions(ByVal r As Native.Api.NativeStructs.Rect) As Boolean
         If _theAction Is Nothing Then
             _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone), _connection)
         End If

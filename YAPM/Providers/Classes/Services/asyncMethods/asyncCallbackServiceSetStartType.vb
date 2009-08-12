@@ -71,7 +71,7 @@ Public Class asyncCallbackServiceSetStartType
                     Try
                         Dim res As Integer = 2        ' Access denied
                         For Each srv As ManagementObject In con.wmiSearcher.Get
-                            If CStr(srv.GetPropertyValue(API.WMI_INFO_SERVICE.Name.ToString)) = pObj.name Then
+                            If CStr(srv.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.Name.ToString)) = pObj.name Then
                                 Dim inParams As ManagementBaseObject = srv.GetMethodParameters("ChangeStartMode")
                                 inParams("StartMode") = getWMIStartMode(pObj.type)
                                 Dim outParams As ManagementBaseObject = srv.InvokeMethod("ChangeStartMode", inParams, Nothing)
@@ -105,7 +105,7 @@ Public Class asyncCallbackServiceSetStartType
                         API.UnlockServiceDatabase(hLockSCManager)
                     End If
 
-                    _deg.Invoke(ret, pObj.name, Native.Api.Functions.GetError, pObj.newAction)
+                    _deg.Invoke(ret, pObj.name, Native.Api.Win32.GetLastError, pObj.newAction)
             End Select
         End SyncLock
     End Sub

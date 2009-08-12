@@ -191,38 +191,38 @@ Public Class asyncCallbackProcEnumerate
 
                         Dim obj As New API.SYSTEM_PROCESS_INFORMATION
                         With obj
-                            .BasePriority = CInt(refProcess.Item(API.WMI_INFO_PROCESS.Priority.ToString))
-                            .HandleCount = CInt(refProcess.Item(API.WMI_INFO_PROCESS.HandleCount.ToString))
-                            .InheritedFromProcessId = CInt(refProcess.Item(API.WMI_INFO_PROCESS.ParentProcessId.ToString))
+                            .BasePriority = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.Priority.ToString))
+                            .HandleCount = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.HandleCount.ToString))
+                            .InheritedFromProcessId = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.ParentProcessId.ToString))
                             Dim _IO As New API.IO_COUNTERS
                             With _IO
-                                .OtherOperationCount = CULng(refProcess.Item(API.WMI_INFO_PROCESS.OtherOperationCount.ToString))
-                                .OtherTransferCount = CULng(refProcess.Item(API.WMI_INFO_PROCESS.OtherTransferCount.ToString))
-                                .ReadOperationCount = CULng(refProcess.Item(API.WMI_INFO_PROCESS.ReadOperationCount.ToString))
-                                .ReadTransferCount = CULng(refProcess.Item(API.WMI_INFO_PROCESS.ReadTransferCount.ToString))
-                                .WriteOperationCount = CULng(refProcess.Item(API.WMI_INFO_PROCESS.WriteOperationCount.ToString))
-                                .WriteTransferCount = CULng(refProcess.Item(API.WMI_INFO_PROCESS.WriteTransferCount.ToString))
+                                .OtherOperationCount = CULng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.OtherOperationCount.ToString))
+                                .OtherTransferCount = CULng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.OtherTransferCount.ToString))
+                                .ReadOperationCount = CULng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.ReadOperationCount.ToString))
+                                .ReadTransferCount = CULng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.ReadTransferCount.ToString))
+                                .WriteOperationCount = CULng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.WriteOperationCount.ToString))
+                                .WriteTransferCount = CULng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.WriteTransferCount.ToString))
                             End With
                             .IoCounters = _IO
-                            .KernelTime = CLng(refProcess.Item(API.WMI_INFO_PROCESS.KernelModeTime.ToString))
-                            .NumberOfThreads = CInt(refProcess.Item(API.WMI_INFO_PROCESS.ThreadCount.ToString))
-                            .ProcessId = CInt(refProcess.Item(API.WMI_INFO_PROCESS.ProcessId.ToString))
+                            .KernelTime = CLng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.KernelModeTime.ToString))
+                            .NumberOfThreads = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.ThreadCount.ToString))
+                            .ProcessId = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.ProcessId.ToString))
                             '.SessionId                 ' NOT IMPLEMENTED
-                            .UserTime = CLng(refProcess.Item(API.WMI_INFO_PROCESS.UserModeTime.ToString))
+                            .UserTime = CLng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.UserModeTime.ToString))
                             Dim _VM As New API.VM_COUNTERS_EX
                             With _VM
-                                .PageFaultCount = CInt(refProcess.Item(API.WMI_INFO_PROCESS.PageFaults.ToString))
-                                .PagefileUsage = CInt(refProcess.Item(API.WMI_INFO_PROCESS.PageFileUsage.ToString))
-                                .PeakPagefileUsage = CInt(refProcess.Item(API.WMI_INFO_PROCESS.PeakPageFileUsage.ToString))
-                                .PeakVirtualSize = CInt(refProcess.Item(API.WMI_INFO_PROCESS.PeakVirtualSize.ToString))
-                                .PeakWorkingSetSize = CInt(refProcess.Item(API.WMI_INFO_PROCESS.PeakWorkingSetSize.ToString))
-                                .PrivateBytes = CInt(refProcess.Item(API.WMI_INFO_PROCESS.PrivatePageCount.ToString))
-                                .QuotaNonPagedPoolUsage = CInt(refProcess.Item(API.WMI_INFO_PROCESS.QuotaNonPagedPoolUsage.ToString))
-                                .QuotaPagedPoolUsage = CInt(refProcess.Item(API.WMI_INFO_PROCESS.QuotaPagedPoolUsage.ToString))
-                                .QuotaPeakNonPagedPoolUsage = CInt(refProcess.Item(API.WMI_INFO_PROCESS.QuotaPeakNonPagedPoolUsage.ToString))
-                                .QuotaPeakPagedPoolUsage = CInt(refProcess.Item(API.WMI_INFO_PROCESS.QuotaPeakPagedPoolUsage.ToString))
-                                .VirtualSize = CInt(refProcess.Item(API.WMI_INFO_PROCESS.VirtualSize.ToString))
-                                .WorkingSetSize = CInt(refProcess.Item(API.WMI_INFO_PROCESS.WorkingSetSize.ToString))
+                                .PageFaultCount = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PageFaults.ToString))
+                                .PagefileUsage = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PageFileUsage.ToString))
+                                .PeakPagefileUsage = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PeakPageFileUsage.ToString))
+                                .PeakVirtualSize = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PeakVirtualSize.ToString))
+                                .PeakWorkingSetSize = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PeakWorkingSetSize.ToString))
+                                .PrivateBytes = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PrivatePageCount.ToString))
+                                .QuotaNonPagedPoolUsage = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.QuotaNonPagedPoolUsage.ToString))
+                                .QuotaPagedPoolUsage = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.QuotaPagedPoolUsage.ToString))
+                                .QuotaPeakNonPagedPoolUsage = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.QuotaPeakNonPagedPoolUsage.ToString))
+                                .QuotaPeakPagedPoolUsage = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.QuotaPeakPagedPoolUsage.ToString))
+                                .VirtualSize = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.VirtualSize.ToString))
+                                .WorkingSetSize = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.WorkingSetSize.ToString))
                             End With
                             .VirtualMemoryCounters = _VM
                         End With
@@ -232,7 +232,7 @@ Public Class asyncCallbackProcEnumerate
                         Dim _procInfos As New processInfos(obj, CStr(refProcess.Item("Name")))
                         If dicoNewProcesses.ContainsKey(obj.ProcessId) = False Then
                             With _procInfos
-                                .Path = CStr(refProcess.Item(API.WMI_INFO_PROCESS.ExecutablePath.ToString))
+                                .Path = CStr(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.ExecutablePath.ToString))
 
                                 Dim s1(1) As String
                                 Try
@@ -307,7 +307,7 @@ Public Class asyncCallbackProcEnumerate
 
                     Try
                         'If deg IsNot Nothing AndAlso ctrl.Created Then _
-                        ctrl.Invoke(deg, True, _dico, Native.Api.Functions.GetError, pObj.forInstanceId)
+                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
                     Catch ex As Exception
                         '
                     End Try
@@ -561,9 +561,9 @@ Public Class asyncCallbackProcEnumerate
         Dim _handles As API.SystemHandleInformation()
 
         ' I did not manage to get the good needed size with the first call to
-        ' ZwQuerySystemInformation with SystemHandleInformation flag when the buffer
-        ' is too small. So each time the call to ZwQuerySystemInformation fails with
-        ' a too small buffer, the size is multiplicated by 2 and I call ZwQuerySystemInformation
+        ' NtQuerySystemInformation with SystemHandleInformation flag when the buffer
+        ' is too small. So each time the call to NtQuerySystemInformation fails with
+        ' a too small buffer, the size is multiplicated by 2 and I call NtQuerySystemInformation
         ' again. And again, until the return is not STATUS_INFO_LENGTH_MISMATCH.
         ' Strange behavior.
         ' See http://forum.sysinternals.com/forum_posts.asp?TID=3577 for details.
@@ -572,7 +572,7 @@ Public Class asyncCallbackProcEnumerate
         Dim size As Integer = 1024
         Dim ptr As IntPtr = Marshal.AllocHGlobal(size)
 
-        While CUInt(API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemHandleInformation, ptr, size, retLen)) = STATUS_INFO_LENGTH_MISMATCH
+        While CUInt(API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemHandleInformation, ptr, size, retLen)) = STATUS_INFO_LENGTH_MISMATCH
 
             size *= 2
             Marshal.FreeHGlobal(ptr)
@@ -739,16 +739,16 @@ Public Class asyncCallbackProcEnumerate
 
     ' Get all visible processes
     ' Memory allocation for process 
-    Private memAllocForVProcesses As New MemoryAlloc(&H1000)
+    Private memAllocForVProcesses As New Native.Memory.MemoryAlloc(&H1000)
     Private Function getVisibleProcesses() As Dictionary(Of String, processInfos)
 
         Dim ret As Integer
-        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, _
+        API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, _
                         memAllocForVProcesses.Pointer, memAllocForVProcesses.Size, ret)
         If memAllocForVProcesses.Size < ret Then
             memAllocForVProcesses.Resize(ret)
         End If
-        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, _
+        API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, _
                         memAllocForVProcesses.Pointer, memAllocForVProcesses.Size, ret)
 
         ' Extract structures from unmanaged memory
@@ -826,16 +826,16 @@ Public Class asyncCallbackProcEnumerate
     End Function
 
     ' Get all visible processes (simplified)
-    Private memAllocForVSProcesses As New MemoryAlloc(&H1000)
+    Private memAllocForVSProcesses As New Native.Memory.MemoryAlloc(&H1000)
     Private Function getVisibleProcessesSimp() As Dictionary(Of String, processInfos)
 
         Dim ret As Integer
-        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, _
+        API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, _
                         memAllocForVSProcesses.Pointer, memAllocForVSProcesses.Size, ret)
         If memAllocForVSProcesses.Size < ret Then
             memAllocForVSProcesses.Resize(ret)
         End If
-        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, _
+        API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, _
                         memAllocForVSProcesses.Pointer, memAllocForVSProcesses.Size, ret)
 
         ' Extract structures from unmanaged memory

@@ -642,26 +642,6 @@ Public Class cFile
     End Function
 
     ' Retrieve a good formated path from a bad string
-    Public Shared Function IntelligentPathRetrieving(ByVal filePath As String) As String
-        Dim rootDir As String = System.Environment.GetFolderPath(Environment.SpecialFolder.System)
-
-        Dim s As String = Replace(filePath.ToLowerInvariant, "@%systemroot%", rootDir)
-        s = Replace(s, "%systemroot%", rootDir)
-
-        ' Get ID and file
-        Dim iD As UInteger = 0
-        Dim file As String = vbNullString
-        Dim i As Integer = InStrRev(s, ".exe", , CompareMethod.Binary)
-        If i = 0 Then i = InStrRev(s, ".dll", , CompareMethod.Binary)
-        file = Left(s, i + 3)
-        iD = CUInt(Val(Right(s, s.Length - i - 5)))
-
-        ' Get ressource
-        Return Replace(ExtractString(file, iD), "\", "\\")
-
-    End Function
-
-    ' Retrieve a good formated path from a bad string
     Public Shared Function IntelligentPathRetrieving2(ByVal filePath As String) As String
         ' Get ID and file
         Dim file As String = vbNullString
@@ -670,20 +650,5 @@ Public Class cFile
         Return file
     End Function
 
-
-
-
-    ' ========================================
-    ' Private functions
-    ' ========================================
-
-    ' Extract an ressource (string) from a file
-    Private Shared Function ExtractString(ByVal file As String, ByVal id As UInteger) As String
-        Dim hInst As IntPtr = API.LoadLibrary(file)
-        Dim sb As New StringBuilder(1024)
-        Dim len As Integer = API.LoadString(hInst, id, sb, sb.Capacity)
-        API.FreeLibrary(hInst)
-        Return sb.ToString
-    End Function
 
 End Class

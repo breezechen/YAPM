@@ -635,7 +635,7 @@ Public Class frmServer
                         w.Opacity = o
                     Case cSocketData.OrderType.WindowSetPositions
                         Dim hWnd As Integer = CInt(cData.Param1)
-                        Dim r As API.RECT = CType(cData.Param2, API.RECT)
+                        Dim r As Native.Api.NativeStructs.Rect = CType(cData.Param2, Native.Api.NativeStructs.Rect)
                         Call (New cWindow(hWnd)).SetPositions(r)
                     Case cSocketData.OrderType.WindowShow
                         Dim hWnd As Integer = CInt(cData.Param1)

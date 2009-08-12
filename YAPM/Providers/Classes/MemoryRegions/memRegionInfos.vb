@@ -20,7 +20,7 @@
 '
 '
 ' Some pieces of code are inspired by wj32 work (from Process Hacker) :
-' - Declaration of some structures used by ZwQuerySystemInformation
+' - Declaration of some structures used by NtQuerySystemInformation
 
 Option Strict On
 
@@ -47,11 +47,11 @@ Imports System.Runtime.InteropServices
 #Region "Private attributes"
 
     Private _procId As Integer
-    Private _state As API.MEMORY_STATE
+    Private _state As Native.Api.NativeEnums.MemoryState
     Private _size As Integer
     Private _address As IntPtr
-    Private _protection As API.PROTECTION_TYPE
-    Private _type As API.MEMORY_TYPE
+    Private _protection As Native.Api.NativeEnums.MemoryProtectionType
+    Private _type As Native.Api.NativeEnums.MemoryType
 
 #End Region
 
@@ -67,7 +67,7 @@ Imports System.Runtime.InteropServices
             Return _size
         End Get
     End Property
-    Public ReadOnly Property State() As API.MEMORY_STATE
+    Public ReadOnly Property State() As Native.Api.NativeEnums.MemoryState
         Get
             Return _state
         End Get
@@ -77,12 +77,12 @@ Imports System.Runtime.InteropServices
             Return _address
         End Get
     End Property
-    Public ReadOnly Property Protection() As API.PROTECTION_TYPE
+    Public ReadOnly Property Protection() As Native.Api.NativeEnums.MemoryProtectionType
         Get
             Return _protection
         End Get
     End Property
-    Public ReadOnly Property Type() As API.MEMORY_TYPE
+    Public ReadOnly Property Type() As Native.Api.NativeEnums.MemoryType
         Get
             Return _type
         End Get
@@ -101,7 +101,8 @@ Imports System.Runtime.InteropServices
     ' ========================================
 
     ' Constructor of this class
-    Public Sub New(ByRef mbi As API.MEMORY_BASIC_INFORMATION, ByVal pid As Integer)
+    Public Sub New(ByRef mbi As Native.Api.NativeStructs.MemoryBasicInformations, _
+                   ByVal pid As Integer)
 
         _procId = pid
         With mbi
@@ -147,9 +148,9 @@ Imports System.Runtime.InteropServices
     End Function
 
     Private Function getName() As String
-        If _state = API.MEMORY_STATE.Free Then
+        If _state = Native.Api.NativeEnums.MemoryState.Free Then
             Return _state.ToString
-        ElseIf _type = API.MEMORY_TYPE.Image Then
+        ElseIf _type = Native.Api.NativeEnums.MemoryType.Image Then
             Return _type.ToString
         Else
             Return _type.ToString & " (" & _state.ToString & ")"

@@ -76,9 +76,9 @@ Public Class asyncCallbackProcMinidump
                         API.MiniDumpWriteDump(hProc, pObj.pid, fs.SafeFileHandle.DangerousGetHandle(), pObj.dumpOpt, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero)
                         API.CloseHandle(hProc)
                         fs.Close()
-                        _deg.Invoke(ret <> 0, 0, pObj.file, Native.Api.Functions.GetError, pObj.newAction)
+                        _deg.Invoke(ret <> 0, 0, pObj.file, Native.Api.Win32.GetLastError, pObj.newAction)
                     Else
-                        _deg.Invoke(False, pObj.pid, pObj.file, Native.Api.Functions.GetError, pObj.newAction)
+                        _deg.Invoke(False, pObj.pid, pObj.file, Native.Api.Win32.GetLastError, pObj.newAction)
                     End If
                 Catch ex As Exception
                     ' Access denied, or...

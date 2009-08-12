@@ -39,11 +39,11 @@ Public Class asyncCallbackPrivilegeChangeStatus
     Public Structure poolObj
         Public pid As Integer
         Public name As String
-        Public status As API.PRIVILEGE_STATUS
+        Public status As Native.Api.NativeEnums.SePrivilegeAttributes
         Public newAction As Integer
         Public Sub New(ByVal pi As Integer, _
                        ByVal nam As String, _
-                       ByVal stat As API.PRIVILEGE_STATUS, _
+                       ByVal stat As Native.Api.NativeEnums.SePrivilegeAttributes, _
                        ByVal act As Integer)
             name = nam
             newAction = act
@@ -75,7 +75,8 @@ Public Class asyncCallbackPrivilegeChangeStatus
                 Dim ret As Boolean = Native.Objects.Token.SetPrivilege(pObj.pid, _
                                                                        pObj.name, _
                                                                        pObj.status)
-                _deg.Invoke(ret, pObj.pid, pObj.name, Native.Api.Functions.GetError, pObj.newAction)
+                _deg.Invoke(ret, pObj.pid, pObj.name, Native.Api.Win32.GetLastError, _
+                            pObj.newAction)
         End Select
     End Sub
     

@@ -39,7 +39,7 @@ Namespace Native.Api
             Public CreateTime As Long
             Public UserTime As Long
             Public KernelTime As Long
-            Public ImageName As UNICODE_STRING
+            Public ImageName As UnicodeString
             Public BasePriority As Integer
             Public ProcessId As Integer
             Public InheritedFromProcessId As Integer
@@ -51,7 +51,7 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure PEB_LDR_DATA
+        Public Structure PebLdrData
             Public Length As Integer
             <MarshalAs(UnmanagedType.I1)> _
             Public Initialized As Boolean
@@ -62,15 +62,15 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure LDR_DATA_TABLE_ENTRY
+        Public Structure LdrDataTableEntry
             Public InLoadOrderLinks As ListEntry
             Public InMemoryOrderLinks As ListEntry
             Public InInitializationOrderLinks As ListEntry
             Public DllBase As IntPtr
             Public EntryPoint As IntPtr
             Public SizeOfImage As Integer
-            Public FullDllName As UNICODE_STRING
-            Public BaseDllName As UNICODE_STRING
+            Public FullDllName As UnicodeString
+            Public BaseDllName As UnicodeString
             Public Flags As LdrpDataTableEntryFlags
             Public LoadCount As Short
             Public TlsIndex As Short
@@ -234,14 +234,14 @@ Namespace Native.Api
 #Region "Declarations used for memory management"
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure MEMORY_BASIC_INFORMATION
+        Public Structure MemoryBasicInformations
             Public BaseAddress As IntPtr
             Public AllocationBase As IntPtr
-            Public AllocationProtect As PROTECTION_TYPE
+            Public AllocationProtect As MemoryProtectionType
             Public RegionSize As Integer
-            Public State As MEMORY_STATE
-            Public Protect As PROTECTION_TYPE
-            Public Type As MEMORY_TYPE
+            Public State As MemoryState
+            Public Protect As MemoryProtectionType
+            Public Type As MemoryType
         End Structure
 
 #End Region
@@ -253,7 +253,7 @@ Namespace Native.Api
         Public Structure THREAD_BASIC_INFORMATION
             Public ExitStatus As UInteger
             Public TebBaseAddress As IntPtr
-            Public ClientId As CLIENT_ID
+            Public ClientId As ClientId
             Public AffinityMask As IntPtr
             Public Priority As Integer
             Public BasePriority As Integer
@@ -266,7 +266,7 @@ Namespace Native.Api
             Public CreateTime As Long
             Public WaitTime As Integer
             Public StartAddress As IntPtr
-            Public ClientId As CLIENT_ID
+            Public ClientId As ClientId
             Public Priority As Integer
             Public BasePriority As Integer
             Public ContextSwitchCount As Integer
@@ -300,7 +300,7 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure CLIENT_ID
+        Public Structure ClientId
             Public UniqueProcess As IntPtr
             Public UniqueThread As IntPtr
             Public Sub New(ByVal processId As IntPtr, ByVal threadId As IntPtr)
@@ -328,6 +328,26 @@ Namespace Native.Api
             Dim pLuid As Luid
         End Structure
 
+        <StructLayout(LayoutKind.Sequential, CharSet:=CharSet.Ansi)> _
+        Public Structure TokenSource
+            <MarshalAs(UnmanagedType.ByValTStr, SizeConst:=8)> _
+            Public SourceName As String
+            Public SourceIdentifier As Luid
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure TokenStatistics
+            Public TokenId As Luid
+            Public AuthenticationId As Luid
+            Public ExpirationTime As Long
+            Public TokenType As TokenType
+            Public ImpersonationLevel As SecurityImpersonationLevel
+            Public DynamicCharged As Integer
+            Public DynamicAvailable As Integer
+            Public GroupCount As Integer
+            Public PrivilegeCount As Integer
+            Public ModifiedId As Luid
+        End Structure
 #End Region
 
         ' OK
@@ -417,7 +437,7 @@ Namespace Native.Api
             <MarshalAs(UnmanagedType.LPTStr)> Public lpFile As String
             <MarshalAs(UnmanagedType.LPTStr)> Public lpParameters As String
             <MarshalAs(UnmanagedType.LPTStr)> Public lpDirectory As String
-            Dim nShow As SHOW_FINDOW_TYPE
+            Dim nShow As ShowWindowType
             Dim hInstApp As IntPtr
             Dim lpIDList As IntPtr
             <MarshalAs(UnmanagedType.LPTStr)> Public lpClass As String
@@ -441,13 +461,22 @@ Namespace Native.Api
 
 #Region "Declarations used for system"
 
-        Public Structure PERFORMANCE_INFORMATION
-            Dim Size As Integer
-            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=10)> _
-            Dim noNeed() As Integer          ' No need because informations are retrieved elsewhere
-            Dim HandlesCount As Integer
-            Dim ProcessCount As Integer
-            Dim ThreadCount As Integer
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure PerformanceInformation
+            Public Size As Integer
+            Public CommitTotal As Integer
+            Public CommitLimit As Integer
+            Public CommitPeak As Integer
+            Public PhysicalTotal As Integer
+            Public PhysicalAvailable As Integer
+            Public SystemCache As Integer
+            Public KernelTotal As Integer
+            Public KernelPaged As Integer
+            Public KernelNonPaged As Integer
+            Public PageSize As Integer
+            Public HandlesCount As Integer
+            Public ProcessCount As Integer
+            Public ThreadCount As Integer
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
@@ -887,23 +916,23 @@ Namespace Native.Api
 
 #Region "Declarations used for windows (not Windows :-p)"
 
-        Public Structure POINTAPI
+        Public Structure PointApi
             Dim X As Integer
             Dim Y As Integer
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
         Public Structure WindowPlacement
-            Public Length As UInteger
-            Public Flags As UInteger
-            Public ShowCmd As ShowState
+            Public Length As Integer
+            Public Flags As WindowPlacementFlags
+            Public ShowState As ShowWindowType
             Public MinPosition As Point
             Public MaxPosition As Point
-            Public NormalPosition As RECT
+            Public NormalPosition As Rect
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure FLASHWINFO
+        Public Structure FlashWInfo
             Public cbSize As Integer
             Public hWnd As Integer
             Public dwFlags As Integer
@@ -911,8 +940,8 @@ Namespace Native.Api
             Public dwTimeout As Integer
         End Structure
 
-        <StructLayout(LayoutKind.Sequential)> <Serializable()> 
-        Public Structure RECT
+        <StructLayout(LayoutKind.Sequential)> <Serializable()> _
+        Public Structure Rect
             Public Left As Integer
             Public Top As Integer
             Public Right As Integer
@@ -925,10 +954,10 @@ Namespace Native.Api
 #Region "Declarations used for services"
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure QUERY_SERVICE_CONFIG
-            Public ServiceType As SERVICE_TYPE
-            Public StartType As SERVICE_START_TYPE
-            Public ErrorControl As SERVICE_ERROR_CONTROL
+        Public Structure QueryServiceConfig
+            Public ServiceType As ServiceType
+            Public StartType As ServiceStartType
+            Public ErrorControl As ServiceErrorControl
             <MarshalAs(UnmanagedType.LPTStr)> Public BinaryPathName As String
             <MarshalAs(UnmanagedType.LPTStr)> Public LoadOrderGroup As String
             Public TagID As Integer
@@ -938,23 +967,23 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure SERVICE_STATUS_PROCESS
-            Public ServiceType As SERVICE_TYPE
-            Public CurrentState As SERVICE_STATE
-            Public ControlsAccepted As SERVICE_ACCEPT
+        Public Structure ServiceStatusProcess
+            Public ServiceType As ServiceType
+            Public CurrentState As ServiceState
+            Public ControlsAccepted As ServiceAccept
             Public Win32ExitCode As Integer
             Public ServiceSpecificExitCode As Integer
             Public CheckPoint As Integer
             Public WaitHint As Integer
             Public ProcessID As Integer
-            Public ServiceFlags As SERVICE_FLAGS
+            Public ServiceFlags As ServiceFlags
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure ENUM_SERVICE_STATUS_PROCESS
+        Public Structure EnumServiceStatusProcess
             <MarshalAs(UnmanagedType.LPTStr)> Public ServiceName As String
             <MarshalAs(UnmanagedType.LPTStr)> Public DisplayName As String
-            <MarshalAs(UnmanagedType.Struct)> Public ServiceStatusProcess As SERVICE_STATUS_PROCESS
+            <MarshalAs(UnmanagedType.Struct)> Public ServiceStatusProcess As ServiceStatusProcess
         End Structure
 
 #End Region
@@ -963,7 +992,7 @@ Namespace Native.Api
 #Region "General declarations"
 
         <System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)> _
-        Public Structure UNICODE_STRING
+        Public Structure UnicodeString
             Public Length As UShort
             Public MaximumLength As UShort
             Public Buffer As IntPtr
@@ -994,7 +1023,7 @@ Namespace Native.Api
             Public Flags As HandleFlags
             Public Handle As Short
             Public [Object] As IntPtr
-            Public GrantedAccess As StandardRights
+            Public GrantedAccess As Security.StandardRights
         End Structure
 
 #End Region

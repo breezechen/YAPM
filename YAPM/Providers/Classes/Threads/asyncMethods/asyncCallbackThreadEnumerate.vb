@@ -153,7 +153,7 @@ Public Class asyncCallbackThreadEnumerate
                 Call enumThreads(pObj, _dico)
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
-                    ctrl.Invoke(deg, True, _dico, Native.Api.Functions.GetError, pObj.forInstanceId)
+                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
 
         End Select
 
@@ -163,16 +163,16 @@ Public Class asyncCallbackThreadEnumerate
 
     ' Enumerate threads (local)
     ' Memory allocation for process 
-    Private Shared memAllocForThreadEnum As New MemoryAlloc(&H1000)
+    Private Shared memAllocForThreadEnum As New Native.Memory.MemoryAlloc(&H1000)
     Friend Shared Sub enumThreads(ByVal pObj As poolObj, ByRef _dico As Dictionary(Of String, threadInfos))
 
         Dim ret As Integer
-        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, _
+        API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, _
                         memAllocForThreadEnum.Pointer, memAllocForThreadEnum.Size, ret)
         If memAllocForThreadEnum.Size < ret Then
             memAllocForThreadEnum.Resize(ret)
         End If
-        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, _
+        API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, _
                         memAllocForThreadEnum.Pointer, memAllocForThreadEnum.Size, ret)
 
         ' Extract structures from unmanaged memory

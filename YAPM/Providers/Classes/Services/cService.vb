@@ -25,10 +25,6 @@ Public Class cService
 
     Private Const NO_DEPENDENCIES As String = ""
 
-    ' Current services running
-    ' Protected by sem (semaphore)
-    Public Shared _currentServices As Dictionary(Of String, cService)
-
     Private _firstRefresh As Boolean = True
     Private _serviceInfos As serviceInfos
     Private _path As String
@@ -44,21 +40,6 @@ Public Class cService
         Set(ByVal value As cServiceConnection)
             _connection = value
         End Set
-    End Property
-
-    Private Shared _semCurrentServ As New System.Threading.Semaphore(1, 1)
-    Public Shared Property CurrentServices() As Dictionary(Of String, cService)
-        Get
-            Return _currentServices
-        End Get
-        Set(ByVal value As Dictionary(Of String, cService))
-            _currentServices = value
-        End Set
-    End Property
-    Public Shared ReadOnly Property SemCurrentServices() As System.Threading.Semaphore
-        Get
-            Return _semCurrentServ
-        End Get
     End Property
 
 #End Region

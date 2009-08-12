@@ -65,7 +65,7 @@ Public Class asyncCallbackProcKillTree
 
             Case Else
                 ' Local
-                _deg.Invoke(recursiveKill(pObj.pid), Native.Api.Functions.GetError, pObj.newAction)
+                _deg.Invoke(recursiveKill(pObj.pid), Native.Api.Win32.GetLastError, pObj.newAction)
 
         End Select
     End Sub
@@ -107,10 +107,10 @@ Public Class asyncCallbackProcKillTree
     Private Function EnumParent(ByVal pid As Integer) As List(Of Integer)
         ' Local
         Dim ret As Integer
-        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, IntPtr.Zero, 0, ret)
+        API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, IntPtr.Zero, 0, ret)
         Dim size As Integer = ret
         Dim ptr As IntPtr = Marshal.AllocHGlobal(size)
-        API.ZwQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, ptr, size, ret)
+        API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, ptr, size, ret)
 
         ' Extract structures from unmanaged memory
         Dim x As Integer = 0

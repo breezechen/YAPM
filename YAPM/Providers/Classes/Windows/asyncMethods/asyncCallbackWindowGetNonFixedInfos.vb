@@ -38,10 +38,10 @@ Public Class asyncCallbackWindowGetNonFixedInfos
         Public top As Integer
         Public visible As Boolean
         Public width As Integer
-        Public theRect As API.RECT
+        Public theRect As Native.Api.NativeStructs.Rect
         Public caption As String
         Public Sub New(ByVal enab As Boolean, ByVal isTas As Boolean, _
-                       ByVal opac As Byte, ByRef r As API.RECT, ByVal scap As String, ByVal isV As Boolean)
+                       ByVal opac As Byte, ByRef r As Native.Api.NativeStructs.Rect, ByVal scap As String, ByVal isV As Boolean)
             enabled = enab
             isTask = isTas
             opacity = opac
@@ -74,7 +74,7 @@ Public Class asyncCallbackWindowGetNonFixedInfos
                 Dim visible As Boolean = API.IsWindowVisible(_handle)
                 Dim opacity As Byte = GetWindowOpacity()
                 Dim isTask As Boolean = _isTask(_handle)
-                Dim r As API.RECT = GetWindowPosition()
+                Dim r As Native.Api.NativeStructs.Rect = GetWindowPosition()
                 Dim s As String = asyncCallbackWindowEnumerate.GetCaption(_handle)
 
                 RaiseEvent GatheredInfos(New TheseInfos(enabled, isTask, opacity, r, s, visible))
@@ -97,8 +97,8 @@ Public Class asyncCallbackWindowGetNonFixedInfos
         Return API.SetWindowLong(_handle, API.GWL_EXSTYLE, CType(CInt(API.GetWindowLong(_handle, API.GWL_EXSTYLE)) - API.WS_EX_LAYERED, IntPtr))
     End Function
     ' Get position/size
-    Private Function GetWindowPosition() As API.RECT
-        Dim tmpRect As API.RECT
+    Private Function GetWindowPosition() As Native.Api.NativeStructs.Rect
+        Dim tmpRect As Native.Api.NativeStructs.Rect
         API.GetWindowRect(_handle, tmpRect)
         Return tmpRect
     End Function

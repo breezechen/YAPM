@@ -93,7 +93,7 @@ Public Class asyncCallbackMemRegionEnumerate
                 Call enumMemRegions(pObj, _dico)
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
-                    ctrl.Invoke(deg, True, _dico, Native.Api.Functions.GetError, pObj.forInstanceId)
+                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
 
         End Select
 

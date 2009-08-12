@@ -24,6 +24,7 @@ Option Strict On
 'http://www.pscode.com/vb/scripts/ShowCode.asp?txtCodeId=6362&lngWId=1
 
 Imports System.Runtime.InteropServices
+Imports YAPM.Native.Api
 
 Public Class frmFindWindow
 
@@ -36,7 +37,7 @@ Public Class frmFindWindow
 #End Region
 
     Private Sub Draw()
-        Dim Cursor As API.POINTAPI ' Cursor position
+        Dim Cursor As NativeStructs.PointApi  ' Cursor position
         Dim RetVal As Integer ' Dummy returnvalue
         Dim hdc As Integer ' hDC that we're going To be using
         Dim Pen As Integer ' Handle To a GDI Pen object
@@ -46,13 +47,13 @@ Public Class frmFindWindow
         Dim OldROP As Integer ' Value of the previous ROP
         Dim Region As Integer ' Handle To a GDI Region object that I create
         Dim OldRegion As Integer ' Handle To previous Region object For the hDC
-        Dim FullWind As API.RECT ' the bounding rectangle of the window in screen coords
-        Dim Draw As API.RECT ' The drawing rectangle
+        Dim FullWind As Native.Api.NativeStructs.Rect ' the bounding rectangle of the window in screen coords
+        Dim Draw As Native.Api.NativeStructs.Rect ' The drawing rectangle
 
         ' Get the cursor
-        API.GetCursorPos(Cursor)
+        NativeFunctions.GetCursorPos(Cursor)
         ' Get the window
-        RetVal = API.WindowFromPoint(Cursor.X, Cursor.Y)
+        RetVal = NativeFunctions.WindowFromPoint(Cursor.X, Cursor.Y)
         ' If the new hWnd is the same as the old
         '     one, skip drawing it, so to avoid flicker
         If RetVal = Myhwnd Then Exit Sub
@@ -66,32 +67,32 @@ Public Class frmFindWindow
         ' You could extract other information from the window, such as window title,
         ' class name, parent, etc., and print it here, too.
         ' Get the full Rect of the window in screen co-ords
-        API.GetWindowRect(Myhwnd, FullWind)
+        NativeFunctions.GetWindowRect(Myhwnd, FullWind)
         ' Create a region with width and height of the window
-        Region = API.CreateRectRgn(0, 0, FullWind.Right - FullWind.Left, FullWind.Bottom - FullWind.Top)
+        Region = NativeFunctions.CreateRectRgn(0, 0, FullWind.Right - FullWind.Left, FullWind.Bottom - FullWind.Top)
         ' Create an hDC for the hWnd
         ' Note: GetDC retrieves the CLIENT AREA hDC. We want the WHOLE WINDOW, including Non-Client
         ' stuff like title bar, menu, border, etc.
-        hdc = API.GetWindowDC(Myhwnd)
+        hdc = NativeFunctions.GetWindowDC(Myhwnd)
         ' Save the old region
-        RetVal = API.GetClipRgn(hdc, OldRegion)
+        RetVal = NativeFunctions.GetClipRgn(hdc, OldRegion)
         ' Retval = 0: no region 1: Region copied -1: error
         ' Select the new region
-        RetVal = API.SelectObject(hdc, Region)
+        RetVal = NativeFunctions.SelectObject(hdc, Region)
         ' Create a pen
-        Pen = API.CreatePen(0, 6, 0) ' Draw Solid lines, width 6, and color black
+        Pen = NativeFunctions.CreatePen(0, 6, 0) ' Draw Solid lines, width 6, and color black
         ' Select the pen
         ' A pen draws the lines
-        OldPen = API.SelectObject(hdc, Pen)
+        OldPen = NativeFunctions.SelectObject(hdc, Pen)
         ' Create a brush
         ' A brush is the filling for a shape
         ' I need to set it to a null brush so th
         '     at it doesn't edit anything
-        Brush = API.GetStockObject(API.NULL_BRUSH)
+        Brush = NativeFunctions.GetStockObject(NativeConstants.NULL_BRUSH)
         ' Select the brush
-        OldBrush = API.SelectObject(hdc, Brush)
+        OldBrush = NativeFunctions.SelectObject(hdc, Brush)
         ' Select the ROP
-        OldROP = API.SetROP2(hdc, 6) ' vbInvert means, whatever is draw,
+        OldROP = NativeFunctions.SetROP2(hdc, 6) ' vbInvert means, whatever is draw,
         ' invert those pixels. This means that I can undraw it by doing the same.
         '
         ' The Drawing Bits
@@ -105,7 +106,7 @@ Public Class frmFindWindow
             .Top = 0
             .Bottom = FullWind.Bottom - FullWind.Top
             .Right = FullWind.Right - FullWind.Left
-            API.Rectangle(hdc, .Left, .Top, .Right, .Bottom) ' Really easy to understand - draw a rectangle, hDC, and coordinates
+            NativeFunctions.Rectangle(hdc, .Left, .Top, .Right, .Bottom) ' Really easy to understand - draw a rectangle, hDC, and coordinates
         End With
 
         '
@@ -118,25 +119,25 @@ Public Class frmFindWindow
         ' Get back the old region
 
 
-        API.SelectObject(hdc, OldRegion)
+        NativeFunctions.SelectObject(hdc, OldRegion)
         ' Return the previous ROP
-        API.SetROP2(hdc, OldROP)
+        NativeFunctions.SetROP2(hdc, OldROP)
         ' Return to the previous brush
 
 
-        API.SelectObject(hdc, OldBrush)
+        NativeFunctions.SelectObject(hdc, OldBrush)
         ' Return the previous pen
 
 
-        API.SelectObject(hdc, OldPen)
+        NativeFunctions.SelectObject(hdc, OldPen)
         ' Delete the Brush I created
-        API.DeleteObject(Brush)
+        NativeFunctions.DeleteObject(Brush)
         ' Delete the Pen I created
-        API.DeleteObject(Pen)
+        NativeFunctions.DeleteObject(Pen)
         ' Delete the region I created
-        API.DeleteObject(Region)
+        NativeFunctions.DeleteObject(Region)
         ' Release the hDC back to window's resource pool
-        API.ReleaseDC(Myhwnd, hdc)
+        NativeFunctions.ReleaseDC(Myhwnd, hdc)
     End Sub
 
 
@@ -166,37 +167,37 @@ Public Class frmFindWindow
         Dim OldROP As Integer ' Value of the previous ROP
         Dim Region As Integer ' Handle To a GDI Region object that I create
         Dim OldRegion As Integer ' Handle To previous Region object For the hDC
-        Dim FullWind As API.RECT ' the bounding rectangle of the window in screen coords
-        Dim Draw As API.RECT ' The drawing rectangle
+        Dim FullWind As Native.Api.NativeStructs.Rect  ' the bounding rectangle of the window in screen coords
+        Dim Draw As Native.Api.NativeStructs.Rect ' The drawing rectangle
         '
         ' Getting all of the ingredients ready
         '
         ' Get the full Rect of the window in screen co-ords
-        API.GetWindowRect(Myhwnd, FullWind)
+        NativeFunctions.GetWindowRect(Myhwnd, FullWind)
         ' Create a region with width and height of the window
-        Region = API.CreateRectRgn(0, 0, FullWind.Right - FullWind.Left, FullWind.Bottom - FullWind.Top)
+        Region = NativeFunctions.CreateRectRgn(0, 0, FullWind.Right - FullWind.Left, FullWind.Bottom - FullWind.Top)
         ' Create an hDC for the hWnd
         ' Note: GetDC retrieves the CLIENT AREA hDC. We want the WHOLE WINDOW, including Non-Client
         ' stuff like title bar, menu, border, etc.
-        hdc = API.GetWindowDC(Myhwnd)
+        hdc = NativeFunctions.GetWindowDC(Myhwnd)
         ' Save the old region
-        RetVal = API.GetClipRgn(hdc, OldRegion)
+        RetVal = NativeFunctions.GetClipRgn(hdc, OldRegion)
         ' Retval = 0: no region 1: Region copied -1: error
         ' Select the new region
-        RetVal = API.SelectObject(hdc, Region)
+        RetVal = NativeFunctions.SelectObject(hdc, Region)
         ' Create a pen
-        Pen = API.CreatePen(0, 6, 0) ' Draw Solid lines, width 6, and color black
+        Pen = NativeFunctions.CreatePen(0, 6, 0) ' Draw Solid lines, width 6, and color black
         ' Select the pen
         ' A pen draws the lines
-        OldPen = API.SelectObject(hdc, Pen)
+        OldPen = NativeFunctions.SelectObject(hdc, Pen)
         ' Create a brush
         ' A brush is the filling for a shape
         ' I need to set it to a null brush so that it doesn't edit anything
-        Brush = API.GetStockObject(API.NULL_BRUSH)
+        Brush = NativeFunctions.GetStockObject(NativeConstants.NULL_BRUSH)
         ' Select the brush
-        OldBrush = API.SelectObject(hdc, Brush)
+        OldBrush = NativeFunctions.SelectObject(hdc, Brush)
         ' Select the ROP
-        OldROP = API.SetROP2(hdc, 6) ' vbInvert means, whatever is draw,
+        OldROP = NativeFunctions.SetROP2(hdc, 6) ' vbInvert means, whatever is draw,
         ' invert those pixels. This means that I can undraw it by doing the same.
         '
         ' The Drawing Bits
@@ -210,7 +211,7 @@ Public Class frmFindWindow
             .Top = 0
             .Bottom = FullWind.Bottom - FullWind.Top
             .Right = FullWind.Right - FullWind.Left
-            API.Rectangle(hdc, .Left, .Top, .Right, .Bottom) ' Really easy to understand - draw a rectangle, hDC, and coordinates
+            NativeFunctions.Rectangle(hdc, .Left, .Top, .Right, .Bottom) ' Really easy to understand - draw a rectangle, hDC, and coordinates
         End With
 
         '
@@ -223,25 +224,25 @@ Public Class frmFindWindow
         ' Get back the old region
 
 
-        API.SelectObject(hdc, OldRegion)
+        NativeFunctions.SelectObject(hdc, OldRegion)
         ' Return the previous ROP
-        API.SetROP2(hdc, OldROP)
+        NativeFunctions.SetROP2(hdc, OldROP)
         ' Return to the previous brush
 
 
-        API.SelectObject(hdc, OldBrush)
+        NativeFunctions.SelectObject(hdc, OldBrush)
         ' Return the previous pen
 
 
-        API.SelectObject(hdc, OldPen)
+        NativeFunctions.SelectObject(hdc, OldPen)
         ' Delete the Brush I created
-        API.DeleteObject(Brush)
+        NativeFunctions.DeleteObject(Brush)
         ' Delete the Pen I created
-        API.DeleteObject(Pen)
+        NativeFunctions.DeleteObject(Pen)
         ' Delete the region I created
-        API.DeleteObject(Region)
+        NativeFunctions.DeleteObject(Region)
         ' Release the hDC back to window's resource pool
-        API.ReleaseDC(Myhwnd, hdc)
+        NativeFunctions.ReleaseDC(Myhwnd, hdc)
     End Sub
 
     Private Sub frmFindWindow_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
@@ -254,7 +255,7 @@ Public Class frmFindWindow
         ' Set the selecting flag
         Selecting = True
         ' Capture all mouse events to this window form
-        API.SetCapture(CInt(Me.Handle))
+        NativeFunctions.SetCapture(CInt(Me.Handle))
         ' Simulate a mouse movement event to draw the border when the mouse button goes down
         Form_MouseMove(Nothing, Nothing)
     End Sub
@@ -273,7 +274,7 @@ Public Class frmFindWindow
         ' Clean up the graphics drawn
         UnDraw()
         ' Release mouse capture
-        API.ReleaseCapture()
+        NativeFunctions.ReleaseCapture()
         ' Not selecting
         Selecting = False
         ' Found our handle
@@ -290,7 +291,7 @@ Public Class frmFindWindow
 
         ' Get process ID
         Dim pid As Integer
-        API.GetWindowThreadProcessId(hWnd, pid)
+        NativeFunctions.GetWindowThreadProcessId(hWnd, pid)
 
         _frmMain.lvProcess.SelectedItems.Clear()
         For Each it As ListViewItem In _frmMain.lvProcess.Items

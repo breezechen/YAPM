@@ -60,7 +60,7 @@ Public Class asyncCallbackWindowAction
         Public o3 As Integer
         Public o2 As Integer
         Public s As String
-        Public r As API.RECT
+        Public r As Native.Api.NativeStructs.Rect
         Public action As ASYNC_WINDOW_ACTION
         Public newAction As Integer
         Public Sub New(ByVal _action As ASYNC_WINDOW_ACTION, ByVal _handle As IntPtr, _
@@ -75,7 +75,7 @@ Public Class asyncCallbackWindowAction
             o3 = _o3
             s = ss
             If obj IsNot Nothing Then
-                r = DirectCast(obj, API.RECT)
+                r = DirectCast(obj, Native.Api.NativeStructs.Rect)
             End If
         End Sub
     End Structure
@@ -189,7 +189,7 @@ Public Class asyncCallbackWindowAction
                         res = API.SetWindowText(pObj.handle, New StringBuilder(pObj.s))
                 End Select
 
-                _theDeg.Invoke(Err.LastDllError = 0, pObj.action, pObj.handle.ToInt32, Native.Api.Functions.GetError, pObj.newAction)
+                _theDeg.Invoke(Err.LastDllError = 0, pObj.action, pObj.handle.ToInt32, Native.Api.Win32.GetLastError, pObj.newAction)
         End Select
     End Sub
 
@@ -267,7 +267,7 @@ Public Class asyncCallbackWindowAction
     Private Function EnableWindowOpacity(ByVal _handle As IntPtr) As Integer
         Return API.SetWindowLong(_handle, API.GWL_EXSTYLE, CType(CInt(API.GetWindowLong(_handle, API.GWL_EXSTYLE)) Or API.WS_EX_LAYERED, IntPtr))
     End Function
-    Private Function SetPosition(ByVal _handle As IntPtr, ByRef r As API.RECT) As Integer
+    Private Function SetPosition(ByVal _handle As IntPtr, ByRef r As Native.Api.NativeStructs.Rect) As Integer
         Dim WndPl As API.WindowPlacement
         WndPl.Length = CUInt(System.Runtime.InteropServices.Marshal.SizeOf(WndPl))
         API.GetWindowPlacement(_handle, WndPl)

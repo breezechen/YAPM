@@ -38,10 +38,10 @@ Public Class asyncCallbackHandleUnload
 
     Public Structure poolObj
         Public pid As Integer
-        Public handle As Integer
+        Public handle As IntPtr
         Public newAction As Integer
         Public Sub New(ByVal pi As Integer, _
-                       ByVal hand As Integer, _
+                       ByVal hand As IntPtr, _
                        ByVal act As Integer)
             handle = hand
             newAction = act
@@ -70,7 +70,7 @@ Public Class asyncCallbackHandleUnload
             Case Else
                 ' Local
                 Dim ret As Integer = cHandle.handles_Renamed.CloseProcessLocalHandle(pObj.pid, pObj.handle)
-                _deg.Invoke(ret <> 0, pObj.pid, pObj.handle, Native.Api.Functions.GetError, pObj.newAction)
+                _deg.Invoke(ret <> 0, pObj.pid, pObj.handle, Native.Api.Win32.GetLastError, pObj.newAction)
         End Select
     End Sub
 

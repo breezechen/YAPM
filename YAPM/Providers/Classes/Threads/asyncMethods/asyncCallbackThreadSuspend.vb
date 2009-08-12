@@ -70,7 +70,7 @@ Public Class asyncCallbackThreadSuspend
             Case Else
                 ' Local
                 Dim ret As Boolean = Native.Objects.Thread.SuspendThreadById(pObj.id)
-                _deg.Invoke(ret, Native.Api.Functions.GetError, pObj.newAction)
+                _deg.Invoke(ret, Native.Api.Win32.GetLastError, pObj.newAction)
         End Select
     End Sub
 

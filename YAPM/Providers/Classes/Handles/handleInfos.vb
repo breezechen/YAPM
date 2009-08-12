@@ -20,7 +20,7 @@
 '
 '
 ' Some pieces of code are inspired by wj32 work (from Process Hacker) :
-' - Declaration of some structures used by ZwQuerySystemInformation
+' - Declaration of some structures used by NtQuerySystemInformation
 
 Option Strict On
 
@@ -31,7 +31,7 @@ Imports System.Runtime.InteropServices
 
 #Region "Private attributes"
 
-    Private _handle As Integer
+    Private _handle As IntPtr
     Private _type As String
     Private _pid As Integer
     Private _name As String
@@ -48,7 +48,7 @@ Imports System.Runtime.InteropServices
             Return _pid
         End Get
     End Property
-    Public ReadOnly Property Handle() As Integer
+    Public ReadOnly Property Handle() As IntPtr
         Get
             Return _handle
         End Get

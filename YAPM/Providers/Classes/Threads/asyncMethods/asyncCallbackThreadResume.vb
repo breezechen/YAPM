@@ -69,7 +69,7 @@ Public Class asyncCallbackThreadResume
             Case Else
                 ' Local
                 Dim ret As Boolean = Native.Objects.Thread.ResumeThreadById(pObj.id)
-                _deg.Invoke(ret, Native.Api.Functions.GetError, pObj.newAction)
+                _deg.Invoke(ret, Native.Api.Win32.GetLastError, pObj.newAction)
         End Select
     End Sub
 

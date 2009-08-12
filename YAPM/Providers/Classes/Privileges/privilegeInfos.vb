@@ -20,7 +20,7 @@
 '
 '
 ' Some pieces of code are inspired by wj32 work (from Process Hacker) :
-' - Declaration of some structures used by ZwQuerySystemInformation
+' - Declaration of some structures used by NtQuerySystemInformation
 
 Option Strict On
 
@@ -32,7 +32,7 @@ Imports System.Runtime.InteropServices
 #Region "Private attributes"
 
     Private _procId As Integer
-    Private _status As API.PRIVILEGE_STATUS
+    Private _status As Native.Api.NativeEnums.SePrivilegeAttributes
     Private _description As String
     Private _name As String
 
@@ -55,7 +55,7 @@ Imports System.Runtime.InteropServices
             Return _description
         End Get
     End Property
-    Public ReadOnly Property Status() As API.PRIVILEGE_STATUS
+    Public ReadOnly Property Status() As Native.Api.NativeEnums.SePrivilegeAttributes
         Get
             Return _status
         End Get

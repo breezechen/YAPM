@@ -395,7 +395,6 @@
     <None Include="Resources\process.png" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\API.vb" />
     <Compile Include="Classes\Download\cAsyncProcInfoDownload.vb" />
     <Compile Include="Classes\Download\cDownload.vb" />
     <Compile Include="Classes\Driver\clsDriverCtrl.vb" />
@@ -423,6 +422,7 @@
     <Compile Include="Classes\Socket\cSocketData.vb" />
     <Compile Include="Classes\StateBasedActions\cBasedStateActionState.vb" />
     <Compile Include="Classes\StateBasedActions\cStateBasedActions.vb" />
+    <Compile Include="Common\Misc.vb" />
     <Compile Include="Forms\AdditionalMainForms\frmDepViewerMain.Designer.vb">
       <DependentUpon>frmDepViewerMain.vb</DependentUpon>
     </Compile>
@@ -550,7 +550,15 @@
     <Compile Include="Native\Api\NativeFunctions.vb" />
     <Compile Include="Native\Api\NativeStructs.vb" />
     <Compile Include="Native\Enums.vb" />
-    <Compile Include="Native\Functions.vb" />
+    <Compile Include="Native\Api\Functions\Service.vb" />
+    <Compile Include="Native\Objects\Service.vb" />
+    <Compile Include="Native\Security\ProcessAccess.vb" />
+    <Compile Include="Native\Security\ServiceAccess.vb" />
+    <Compile Include="Native\Security\ServiceManagerAccess.vb" />
+    <Compile Include="Native\Security\StandardRights.vb" />
+    <Compile Include="Native\Security\ThreadAccess.vb" />
+    <Compile Include="Native\Security\TokenAccess.vb" />
+    <Compile Include="Native\Win32.vb" />
     <Compile Include="Native\Objects\File.vb" />
     <Compile Include="Native\Objects\Module.vb" />
     <Compile Include="Native\Objects\Network.vb" />

@@ -74,9 +74,9 @@ Public Class asyncCallbackThreadKill
                 If hProc <> IntPtr.Zero Then
                     ret = API.TerminateThread(hProc, 0)
                     API.CloseHandle(hProc)
-                    _deg.Invoke(ret, 0, Native.Api.Functions.GetError, pObj.newAction)
+                    _deg.Invoke(ret, 0, Native.Api.Win32.GetLastError, pObj.newAction)
                 Else
-                    _deg.Invoke(False, pObj.id, Native.Api.Functions.GetError, pObj.newAction)
+                    _deg.Invoke(False, pObj.id, Native.Api.Win32.GetLastError, pObj.newAction)
                 End If
         End Select
     End Sub

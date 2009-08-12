@@ -20,7 +20,7 @@
 '
 '
 ' Some pieces of code are inspired by wj32 work (from Process Hacker) :
-' - Declaration of some structures used by ZwQuerySystemInformation
+' - Declaration of some structures used by NtQuerySystemInformation
 
 Option Strict On
 
@@ -35,7 +35,7 @@ Imports System.Runtime.InteropServices
     Protected _processId As Integer
     Protected _handle As IntPtr
     Protected _isTask As Boolean
-    Protected _positions As API.RECT
+    Protected _positions As Native.Api.NativeStructs.Rect
     Protected _enabled As Boolean
     Protected _visible As Boolean
     Protected _threadId As Integer
@@ -121,7 +121,7 @@ Imports System.Runtime.InteropServices
             Return _procName
         End Get
     End Property
-    Public ReadOnly Property Positions() As API.RECT
+    Public ReadOnly Property Positions() As Native.Api.NativeStructs.Rect
         Get
             Return _positions
         End Get

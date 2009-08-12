@@ -121,7 +121,7 @@ Public Class asyncCallbackModuleEnumerate
                 Dim _dico As New Dictionary(Of String, moduleInfos)
                 For Each refProcess As Management.ManagementObject In res
 
-                    Dim pid As Integer = CInt(refProcess.GetPropertyValue(API.WMI_INFO_PROCESS.ProcessId.ToString))
+                    Dim pid As Integer = CInt(refProcess.GetPropertyValue(Native.Api.Enums.WMI_INFO_PROCESS.ProcessId.ToString))
                     Dim ex As Boolean = False
                     For Each _iii As Integer In pObj.pid
                         If pid = _iii Then
@@ -135,7 +135,7 @@ Public Class asyncCallbackModuleEnumerate
 
                         Dim colModule As ManagementObjectCollection = refProcess.GetRelated("CIM_DataFile")
                         For Each refModule As ManagementObject In colModule
-                            Dim obj As New API.LDR_DATA_TABLE_ENTRY
+                            Dim obj As New Native.Api.NativeStructs.LdrDataTableEntry
                             Dim path As String = CStr(refModule.GetPropertyValue("Name"))
 
                             With obj
@@ -165,7 +165,7 @@ Public Class asyncCallbackModuleEnumerate
                 Call enumModules(pObj, _dico, True)
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
-                    ctrl.Invoke(deg, True, _dico, Native.Api.Functions.GetError, pObj.forInstanceId)
+                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
 
         End Select
 
@@ -242,7 +242,7 @@ Public Class asyncCallbackModuleEnumerate
         Dim reader As New cProcessMemReader(pid)
         hProc = reader.ProcessHandle
 
-        If hProc > 0 Then
+        If hProc <> IntPtr.Zero Then
 
             peb = reader.GetPEBAddress
 
@@ -255,16 +255,16 @@ Public Class asyncCallbackModuleEnumerate
 
             ' PEB_LDR_DATA documented here
             ' http://msdn.microsoft.com/en-us/library/aa813708(VS.85).aspx
-            Dim ldrData As New API.PEB_LDR_DATA
-            ldrData = CType(reader.ReadStruct(Of API.PEB_LDR_DATA)(loaderDatePtr),  _
-                        API.PEB_LDR_DATA)
+            Dim ldrData As New Native.Api.NativeStructs.PebLdrData
+            ldrData = CType(reader.ReadStruct(Of Native.Api.NativeStructs.PebLdrData)(loaderDatePtr),  _
+                        Native.Api.NativeStructs.PebLdrData)
 
             ' Now navigate into structure
             Dim curObj As IntPtr = ldrData.InLoadOrderModuleList.Flink
             Dim firstObj As IntPtr = curObj
             Dim dllName As String
             Dim dllPath As String
-            Dim curEntry As API.LDR_DATA_TABLE_ENTRY
+            Dim curEntry As Native.Api.NativeStructs.LdrDataTableEntry
             Dim i As Integer = 0
 
             Do While curObj <> IntPtr.Zero
@@ -274,8 +274,8 @@ Public Class asyncCallbackModuleEnumerate
                 End If
 
                 ' Read LoaderData entry
-                curEntry = CType(reader.ReadStruct(Of API.LDR_DATA_TABLE_ENTRY)(curObj.ToInt32),  _
-                                API.LDR_DATA_TABLE_ENTRY)
+                curEntry = CType(reader.ReadStruct(Of Native.Api.NativeStructs.LdrDataTableEntry)(curObj.ToInt32),  _
+                                Native.Api.NativeStructs.LdrDataTableEntry)
 
                 If (curEntry.DllBase <> IntPtr.Zero) Then
 

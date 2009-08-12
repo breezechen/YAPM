@@ -1315,12 +1315,12 @@ Public Class frmProcessInfo
                 Dim cSe As cService = Me.lvProcServices.GetSelectedItem
                 Dim start As API.SERVICE_START_TYPE = cSe.Infos.StartType
                 Dim state As API.SERVICE_STATE = cSe.Infos.State
-                Dim acc As API.SERVICE_ACCEPT = cSe.Infos.AcceptedControl
+                Dim acc As Native.Api.NativeEnums.ServiceAccept = cSe.Infos.AcceptedControl
 
                 Me.MenuItemServPause.Text = IIf(state = API.SERVICE_STATE.Running, "Pause", "Resume").ToString
-                MenuItemServPause.Enabled = (acc And API.SERVICE_ACCEPT.PauseContinue) = API.SERVICE_ACCEPT.PauseContinue
+                MenuItemServPause.Enabled = (acc And Native.Api.NativeEnums.ServiceAccept.PauseContinue) = Native.Api.NativeEnums.ServiceAccept.PauseContinue
                 MenuItemServStart.Enabled = Not (state = API.SERVICE_STATE.Running)
-                Me.MenuItemServStop.Enabled = (acc And API.SERVICE_ACCEPT.Stop) = API.SERVICE_ACCEPT.Stop
+                Me.MenuItemServStop.Enabled = (acc And Native.Api.NativeEnums.ServiceAccept.Stop) = Native.Api.NativeEnums.ServiceAccept.Stop
 
                 Me.MenuItemServDisabled.Checked = (start = API.SERVICE_START_TYPE.StartDisabled)
                 MenuItemServDisabled.Enabled = Not (MenuItemServDisabled.Checked)
@@ -2050,7 +2050,7 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub MenuItemWPosSize_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWPosSize.Click
-        Dim r As API.RECT
+        Dim r As Native.Api.NativeStructs.Rect
 
         If Me.lvWindows.SelectedItems.Count > 0 Then
 

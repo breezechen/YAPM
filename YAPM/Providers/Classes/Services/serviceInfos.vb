@@ -20,7 +20,7 @@
 '
 '
 ' Some pieces of code are inspired by wj32 work (from Process Hacker) :
-' - Declaration of some structures used by ZwQuerySystemInformation
+' - Declaration of some structures used by NtQuerySystemInformation
 
 Option Strict On
 
@@ -61,7 +61,7 @@ Imports System.Text
     Private _startName As String
     Private _diagMF As String
     Private _objName As String
-    Private _acceptedCtrls As API.SERVICE_ACCEPT
+    Private _acceptedCtrls As Native.Api.NativeEnums.ServiceAccept
     Private _name As String
     <NonSerialized()> Private _fileInfo As FileVersionInfo
 
@@ -157,7 +157,7 @@ Imports System.Text
             Return _objName
         End Get
     End Property
-    Public ReadOnly Property AcceptedControl() As API.SERVICE_ACCEPT
+    Public ReadOnly Property AcceptedControl() As Native.Api.NativeEnums.ServiceAccept
         Get
             Return _acceptedCtrls
         End Get

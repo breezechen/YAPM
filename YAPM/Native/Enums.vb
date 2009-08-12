@@ -72,21 +72,6 @@ Namespace Native.Api
             DeleteTcb
         End Enum
 
-        Public Enum MIB_TCP_STATE As Integer
-            Closed = 1
-            Listening
-            SynSent
-            SynReceived
-            Established
-            FinWait1
-            FinWait2
-            CloseWait
-            Closing
-            LastAck
-            TimeWait
-            DeleteTcb
-        End Enum
-
         Public Enum NetworkProtocol As Integer
             Tcp
             Udp
@@ -97,7 +82,7 @@ Namespace Native.Api
         ' OK
 #Region "Declarations used for WMI"
 
-        Public Enum PROCESS_RETURN_CODE_WMI
+        Public Enum WmiProcessReturnCode
             SuccessfulCompletion = 0
             AccessDenied = 2
             InsufficientPrivilege = 3

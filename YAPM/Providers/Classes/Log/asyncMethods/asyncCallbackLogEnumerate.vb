@@ -142,7 +142,7 @@ Public Class asyncCallbackLogEnumerate
                     ' Get list
                     Dim pid(0) As Integer
                     pid(0) = pObj.pid
-                    Call asyncCallbackNetworkEnumerate.enumNetwork(New asyncCallbackNetworkEnumerate.poolObj(pid, False, 0), __dicoNetwork)
+                    Native.Objects.Network.EnumerateTcpUdpConnections(__dicoNetwork, False, pid)
 
                     ' Store in static dico if it is first refresh
                     If firstNetwork Then
@@ -330,7 +330,7 @@ Public Class asyncCallbackLogEnumerate
                     ' Get list
                     Dim pid(0) As Integer
                     pid(0) = pObj.pid
-                    Call asyncCallbackServiceEnumerate.enumServices(pObj.hSCM, New asyncCallbackServiceEnumerate.poolObj(pid(0), False, False, 0), __dicoServices)
+                    Native.Objects.Service.Enumerate(pObj.hSCM, __dicoServices, False, False, pid(0))
 
                     ' Store in static dico if it is first refresh
                     If firstServices Then
@@ -466,7 +466,7 @@ Public Class asyncCallbackLogEnumerate
 
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
-                    ctrl.Invoke(deg, True, _dico, Native.Api.Functions.GetError, pObj.forInstanceId)
+                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
 
         End Select
 

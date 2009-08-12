@@ -112,7 +112,7 @@ Namespace Native.Api
         End Function
 
         <DllImport("kernel32.dll", SetLastError:=True)> _
-        Public Shared Function OpenProcess(ByVal DesiredAccess As ProcessAccess, _
+        Public Shared Function OpenProcess(ByVal DesiredAccess As Security.ProcessAccess, _
                                            ByVal InheritHandle As Boolean, _
                                            ByVal ProcessId As Integer) As IntPtr
         End Function
@@ -128,7 +128,7 @@ Namespace Native.Api
 
         <DllImport("advapi32.dll", SetLastError:=True)> _
         Public Shared Function OpenProcessToken(<[In]()> ByVal ProcessHandle As IntPtr, _
-                        <[In]()> ByVal DesiredAccess As TokenAccess, _
+                        <[In]()> ByVal DesiredAccess As Security.TokenAccess, _
                         <Out()> ByRef TokenHandle As IntPtr) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
@@ -220,7 +220,7 @@ Namespace Native.Api
         <DllImport("kernel32.dll", SetLastError:=True)> _
         Public Shared Function VirtualQueryEx(ByVal Process As IntPtr, _
                     ByVal Address As IntPtr, _
-                    <MarshalAs(UnmanagedType.Struct)> ByRef Buffer As MEMORY_BASIC_INFORMATION, _
+                    <MarshalAs(UnmanagedType.Struct)> ByRef Buffer As MemoryBasicInformations, _
                     ByVal Size As Integer) As Integer
         End Function
 
@@ -228,15 +228,15 @@ Namespace Native.Api
         Public Shared Function VirtualFreeEx(ByVal Process As IntPtr, _
                                              ByVal Address As IntPtr, _
                                              ByVal Size As Integer, _
-                                             ByVal FreeType As MEMORY_STATE) As Boolean
+                                             ByVal FreeType As MemoryState) As Boolean
         End Function
 
         <DllImport("kernel32.dll", SetLastError:=True)> _
         Public Shared Function VirtualProtectEx(ByVal Process As IntPtr, _
                                              ByVal Address As IntPtr, _
                                              ByVal Size As Integer, _
-                                             ByVal NewProtect As PROTECTION_TYPE, _
-                                             ByRef OldProtect As PROTECTION_TYPE) As Boolean
+                                             ByVal NewProtect As MemoryProtectionType, _
+                                             ByRef OldProtect As MemoryProtectionType) As Boolean
         End Function
 
         <DllImport("psapi.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
@@ -262,7 +262,7 @@ Namespace Native.Api
         Public Declare Function CreateRemoteThread Lib "kernel32" (ByVal hProcess As IntPtr, ByVal lpThreadAttributes As Integer, ByVal dwStackSize As Integer, ByVal lpStartAddress As Integer, ByVal lpParameter As Integer, ByVal dwCreationFlags As Integer, ByRef lpThreadId As Integer) As Integer
 
         <DllImport("kernel32.dll", SetLastError:=True)> _
-        Public Shared Function OpenThread(<[In]()> ByVal DesiredAccess As ThreadAccess, _
+        Public Shared Function OpenThread(<[In]()> ByVal DesiredAccess As Security.ThreadAccess, _
                                           <[In]()> ByVal InheritHandle As Boolean, _
                                           <[In]()> ByVal ThreadId As Integer) As IntPtr
         End Function
@@ -299,11 +299,32 @@ Namespace Native.Api
 
 #End Region
 
+        ' OK
 #Region "Declarations used for tokens & privileges"
 
-        Public Declare Function GetTokenInformation Lib "advapi32.dll" (ByVal TokenHandle As IntPtr, ByVal TokenInformationClass As Integer, ByVal TokenInformation As Integer, ByVal TokenInformationLength As Integer, ByRef ReturnLength As Integer) As Boolean
-        Public Declare Function LookupPrivilegeValue Lib "advapi32.dll" Alias "LookupPrivilegeValueA" (ByVal lpSystemName As String, ByVal lpName As String, ByRef lpLuid As Luid) As Integer           'Returns a valid LUID which is important when making security changes in NT.
-        Public Declare Function LookupPrivilegeNameA Lib "advapi32.dll" (ByVal lpSystemName As String, ByRef lpLuid As Luid, ByVal lpName As String, ByRef cchName As Integer) As Integer                'Used to adjust your program's security privileges, can't restore without it!
+        <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
+        Public Shared Function GetTokenInformation(<[In]()> ByVal TokenHandle As IntPtr, _
+                <[In]()> ByVal TokenInformationClass As TokenInformationClass, _
+                <Out()> <[Optional]()> ByVal TokenInformation As IntPtr, _
+                <[In]()> ByVal TokenInformationLength As Integer, _
+                <Out()> ByRef ReturnLength As Integer) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
+
+        <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
+        Public Shared Function GetTokenInformation(<[In]()> ByVal TokenHandle As IntPtr, _
+                <[In]()> ByVal TokenInformationClass As TokenInformationClass, _
+                <[Optional]()> ByRef TokenInformation As TokenSource, _
+                <[In]()> ByVal TokenInformationLength As Integer, _
+                <Out()> ByRef ReturnLength As Integer) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
+
+        <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
+        Public Shared Function GetTokenInformation(<[In]()> ByVal TokenHandle As IntPtr, _
+                <[In]()> ByVal TokenInformationClass As TokenInformationClass, _
+                <[Optional]()> ByRef TokenInformation As TokenStatistics, _
+                <[In]()> ByVal TokenInformationLength As Integer, _
+                <Out()> ByRef ReturnLength As Integer) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
 
         <DllImport("advapi32.dll", SetLastError:=True)> _
         Public Shared Function AdjustTokenPrivileges(<[In]()> ByVal TokenHandle As IntPtr, _
@@ -312,16 +333,6 @@ Namespace Native.Api
                 <[In]()> ByVal BufferLength As Integer, _
                 <Out()> <[Optional]()> ByVal PreviousState As IntPtr, _
                 <Out()> <[Optional]()> ByVal ReturnLength As IntPtr) As <MarshalAs(UnmanagedType.Bool)> Boolean
-        End Function
-
-        <DllImport("advapi32.dll", SetLastError:=True)> _
-        Public Shared Function AdjustTokenPrivileges( _
-            ByVal TokenHandle As Integer, _
-            ByVal DisableAllPrivileges As Integer, _
-            ByRef NewState As TOKEN_PRIVILEGES, _
-            ByVal BufferLength As Integer, _
-            ByRef PreviousState As TOKEN_PRIVILEGES, _
-            ByRef ReturnLength As Integer) As Boolean
         End Function
 
         <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
@@ -333,18 +344,27 @@ Namespace Native.Api
         End Function
 
         <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
-        Public Shared Function GetTokenInformation(ByVal TokenHandle As IntPtr, ByVal TokenInformationClass As TOKEN_INFORMATION_CLASS, ByVal TokenInformation As IntPtr, ByVal TokenInformationLength As Integer, ByRef ReturnLength As Integer) As Boolean
+        Public Shared Function LookupPrivilegeName(<[In]()> <[Optional]()> ByVal SystemName As String, _
+                    <[In]()> ByRef Luid As Luid, _
+                    <Out()> <[Optional]()> ByVal Name As StringBuilder, _
+                    ByRef RequiredSize As Integer) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
         <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
-        Public Shared Function LookupAccountSid(ByVal SystemName As String, ByVal SID As Integer, ByVal Name As StringBuilder, ByRef NameSize As Integer, ByVal ReferencedDomainName As StringBuilder, ByRef ReferencedDomainNameSize As Integer, ByRef Use As SID_NAME_USE) As Boolean
+        Public Shared Function LookupPrivilegeValue(<[In]()> <[Optional]()> ByVal SystemName As String, _
+                    <[In]()> ByVal PrivilegeName As String, _
+                    <Out()> ByRef Luid As Luid) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
         <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
-        Public Shared Function GetTokenInformation(ByVal TokenHandle As IntPtr, ByVal TokenInformationClass As TOKEN_INFORMATION_CLASS, ByRef TokenInformation As Integer, ByVal TokenInformationLength As Integer, ByRef ReturnLength As Integer) As Boolean
+        Public Shared Function LookupAccountSid(<[In]()> <[Optional]()> ByVal SystemName As String, _
+                <[In]()> ByVal Sid As IntPtr, _
+                <Out()> <[Optional]()> ByVal Name As StringBuilder, _
+                ByRef NameSize As Integer, _
+                <Out()> <[Optional]()> ByVal ReferencedDomainName As StringBuilder, _
+                ByRef ReferencedDomainNameSize As Integer, _
+                <Out()> ByRef Use As SidNameUse) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
-
-
 
 #End Region
 
@@ -477,26 +497,27 @@ Namespace Native.Api
 
 #End Region
 
+        ' OK
 #Region "Declarations used for system"
 
         <DllImport("psapi.dll", SetLastError:=True)> _
-        Public Shared Function GetPerformanceInfo(<Out()> ByRef PerformanceInformation As PERFORMANCE_INFORMATION, _
+        Public Shared Function GetPerformanceInfo(<Out()> ByRef PerformanceInformation As PerformanceInformation, _
                                                   <[In]()> ByVal Size As Integer) As Boolean
         End Function
 
         <DllImport("user32.dll", SetLastError:=True)> _
-        Public Shared Function ExitWindowsEx(ByVal flags As ExitFlags, _
-                                             ByVal reason As Integer) As Boolean
+        Public Shared Function ExitWindowsEx(<[In]()> ByVal flags As ExitWindowsFlags, _
+                <[In]()> ByVal reason As Integer) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
         <DllImport("powrprof.dll", SetLastError:=True)> _
-        Public Shared Function SetSuspendState(ByVal Hibernate As Boolean, _
-                                               ByVal ForceCritical As Boolean, _
-                                               ByVal DisableWakeEvent As Boolean) As Boolean
+        Public Shared Function SetSuspendState(<[In]()> ByVal hibernate As Boolean, _
+                            <[In]()> ByVal forceCritical As Boolean, _
+                            <[In]()> ByVal disableWakeEvent As Boolean) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
         <DllImport("user32.dll", SetLastError:=True)> _
-        Public Shared Function LockWorkStation() As Boolean
+        Public Shared Function LockWorkStation() As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
 #End Region
@@ -504,9 +525,9 @@ Namespace Native.Api
 #Region "Declarations used for windows (not Windows :-p)"
 
         Public Declare Function GetWindowThreadProcessId Lib "user32" (ByVal hwnd As Integer, ByRef lpdwProcessId As Integer) As Integer
-        Public Declare Function GetCursorPos Lib "user32" (ByRef lpPoint As POINTAPI) As Integer ' Get the cursor position
+        Public Declare Function GetCursorPos Lib "user32" (ByRef lpPoint As PointApi) As Integer ' Get the cursor position
         Public Declare Function WindowFromPoint Lib "user32" (ByVal xPoint As Integer, ByVal yPoint As Integer) As Integer ' Get the handle of the window that is foremost on a particular X, Y position. Used here To get the window under the cursor
-        Public Declare Function GetWindowRect Lib "user32" (ByVal hwnd As Integer, ByRef lpRect As RECT) As Integer ' Get the window co-ordinates in a RECT structure
+        Public Declare Function GetWindowRect Lib "user32" (ByVal hwnd As Integer, ByRef lpRect As Rect) As Integer ' Get the window co-ordinates in a RECT structure
         Public Declare Function GetWindowDC Lib "user32" (ByVal hwnd As Integer) As Integer ' Retrieve a handle For the hDC of a window
         Public Declare Function ReleaseDC Lib "user32" (ByVal hwnd As Integer, ByVal hdc As Integer) As Integer ' Release the memory occupied by an hDC
         Public Declare Function CreatePen Lib "gdi32" (ByVal nPenStyle As Integer, ByVal nWidth As Integer, ByVal crColor As Integer) As Integer ' Create a GDI graphics pen object
@@ -524,7 +545,7 @@ Namespace Native.Api
         Public Declare Function GetForegroundWindow Lib "user32" () As IntPtr
         Public Declare Function GetLayeredWindowAttributes Lib "User32.Dll" (ByVal hwnd As IntPtr, ByRef pcrKey As Integer, ByRef pbAlpha As Byte, ByRef pdwFlags As Integer) As Boolean
         Public Declare Auto Function SetLayeredWindowAttributes Lib "User32.Dll" (ByVal hWnd As IntPtr, ByVal crKey As Integer, ByVal Alpha As Byte, ByVal dwFlags As Integer) As Boolean
-        Public Declare Function FlashWindowEx Lib "user32" (ByRef pfwi As FLASHWINFO) As Boolean
+        Public Declare Function FlashWindowEx Lib "user32" (ByRef pfwi As FlashWInfo) As Boolean
         Public Declare Function SetForegroundWindowAPI Lib "user32" Alias "SetForegroundWindow" (ByVal hWnd As IntPtr) As Integer
         Public Declare Function SetActiveWindowAPI Lib "user32.dll" Alias "SetActiveWindow" (ByVal hWnd As IntPtr) As Integer
         Public Declare Function EnableWindow Lib "user32" (ByVal hwnd As IntPtr, ByVal fEnable As Integer) As Integer
@@ -533,32 +554,52 @@ Namespace Native.Api
         Public Declare Function GetWindowAPI Lib "user32" Alias "GetWindow" (ByVal hWnd As IntPtr, ByVal wCmd As Integer) As IntPtr
         Public Declare Auto Function GetDesktopWindow Lib "user32.dll" () As IntPtr
 
-        <DllImport("user32.dll")> _
-        Public Shared Function SetWindowLong(ByVal hWnd As IntPtr, ByVal nIndex As Integer, ByVal dwNewLong As IntPtr) As Integer
+
+        <DllImport("user32.dll", SetLastError:=True, EntryPoint:="SetWindowLongPtr", CharSet:=CharSet.Auto)> _
+        Private Shared Function SetWindowLongPtr(<[In]()> ByVal hWnd As IntPtr, _
+            <[In]()> ByVal Index As GetWindowLongOffset, _
+            <[In]()> <MarshalAs(UnmanagedType.FunctionPtr)> ByVal WndProc As IntPtr) As IntPtr
         End Function
 
         <DllImport("user32.dll", SetLastError:=True)> _
-        Public Shared Function SetWindowPos(ByVal hWnd As IntPtr, ByVal hWndInsertAfter As Integer, ByVal X As Integer, ByVal Y As Integer, ByVal cx As Integer, ByVal cy As Integer, ByVal uFlags As UInt32) As Boolean
+        Public Shared Function SetWindowPos(ByVal hWnd As IntPtr, _
+                    ByVal hWndInsertAfter As IntPtr, _
+                    ByVal X As Integer, _
+                    ByVal Y As Integer, _
+                    ByVal W As Integer, _
+                    ByVal H As Integer, _
+                    ByVal uFlags As UInt32) As Boolean
         End Function
 
         <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
-        Public Shared Function ShowWindow(ByVal hwnd As IntPtr, ByVal nCmdShow As Int32) As Boolean
+        Public Shared Function ShowWindow(ByVal hwnd As IntPtr, _
+                                    ByVal nCmdShow As ShowWindowType) As Boolean
         End Function
 
         <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
-        Public Shared Function SendMessage(ByVal hWnd As IntPtr, ByVal Msg As Integer, ByVal wParam As Integer, ByVal lParam As Integer) As IntPtr
+        Public Shared Function SendMessage(ByVal hWnd As IntPtr, _
+                        ByVal Msg As WindowMessage, _
+                        ByVal wParam As IntPtr, ByVal lParam As IntPtr) As IntPtr
         End Function
 
         <DllImport("user32.dll", SetLastError:=True)> _
-        Public Shared Function SendMessageTimeout(ByVal windowHandle As IntPtr, ByVal Msg As Integer, ByVal wParam As Integer, ByVal lParam As Integer, ByVal flags As SendMessageTimeoutFlags, ByVal timeout As Integer, ByRef result As IntPtr) As IntPtr
+        Public Shared Function SendMessageTimeout(ByVal windowHandle As IntPtr, _
+                    ByVal Msg As WindowMessage, _
+                    ByVal wParam As IntPtr, _
+                    ByVal lParam As IntPtr, _
+                    ByVal flags As SendMessageTimeoutFlags, _
+                    ByVal timeout As Integer, _
+                    ByRef result As IntPtr) As IntPtr
         End Function
 
         <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
-        Public Shared Function SetWindowText(ByVal hwnd As IntPtr, ByVal lpString As System.Text.StringBuilder) As Integer
+        Public Shared Function SetWindowText(ByVal hwnd As IntPtr, _
+                        ByVal lpString As System.Text.StringBuilder) As Integer
         End Function
 
         <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
-        Public Shared Function GetWindowText(ByVal hwnd As IntPtr, ByVal lpString As StringBuilder, ByVal cch As Integer) As Integer
+        Public Shared Function GetWindowText(ByVal hwnd As IntPtr, _
+                        ByVal lpString As StringBuilder, ByVal cch As Integer) As Integer
         End Function
 
         <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
@@ -569,28 +610,34 @@ Namespace Native.Api
         Public Shared Function IsWindowVisible(ByVal hwnd As IntPtr) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
-        <DllImport("user32.dll", SetLastError:=True)> _
-        Public Shared Function GetWindowLong(ByVal hWnd As IntPtr, ByVal nIndex As Integer) As IntPtr
+        <DllImport("user32.dll", SetLastError:=True, EntryPoint:="GetWindowLongPtr", CharSet:=CharSet.Auto)> _
+        Public Shared Function GetWindowLongPtr(<[In]()> ByVal hWnd As IntPtr, _
+                            <[In]()> ByVal Index As GetWindowLongOffset) As IntPtr
         End Function
 
         <DllImport("user32.dll", CharSet:=CharSet.Auto)> _
-        Public Shared Sub GetClassName(ByVal hWnd As System.IntPtr, ByVal lpClassName As System.Text.StringBuilder, ByVal nMaxCount As Integer)
+        Public Shared Sub GetClassName(ByVal hWnd As System.IntPtr, _
+                    ByVal lpClassName As System.Text.StringBuilder, _
+                    ByVal nMaxCount As Integer)
         End Sub
 
         <DllImport("user32.dll", SetLastError:=True)> _
         Public Shared Function IsWindowEnabled(ByVal hwnd As IntPtr) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
-        <DllImport("user32.dll")> _
-        Public Shared Function GetWindowRect(ByVal hWnd As IntPtr, ByRef lpRect As RECT) As Boolean
+        <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
+        Public Shared Function GetWindowRect(<[In]()> ByVal hWnd As IntPtr, _
+                <Out()> ByRef rect As Rect) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
-        <DllImport("user32.dll")> _
-        Public Shared Function SetWindowPlacement(ByVal hWnd As IntPtr, ByRef lpwndpl As WindowPlacement) As Boolean
+        <DllImport("user32.dll", SetLastError:=True)> _
+        Public Shared Function SetWindowPlacement(<[In]()> ByVal hWnd As IntPtr, _
+                ByRef WindowPlacement As WindowPlacement) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
-        <DllImport("user32.dll")> _
-        Public Shared Function GetWindowPlacement(ByVal hWnd As IntPtr, ByRef lpwndpl As WindowPlacement) As Boolean
+        <DllImport("user32.dll", SetLastError:=True)> _
+        Public Shared Function GetWindowPlacement(<[In]()> ByVal hWnd As IntPtr, _
+                ByRef WindowPlacement As WindowPlacement) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
 #End Region
@@ -600,14 +647,14 @@ Namespace Native.Api
 
         <DllImport("advapi32.dll", SetLastError:=True)> _
         Public Shared Function ControlService(<[In]()> ByVal Service As IntPtr, _
-                                              <[In]()> ByVal Control As SERVICE_CONTROL, _
-                                              <Out()> ByRef ServiceStatus As SERVICE_STATUS) As Boolean
+                                              <[In]()> ByVal Control As ServiceControl, _
+                                              <Out()> ByRef ServiceStatus As NativeStructs.ServiceStatusProcess) As Boolean
         End Function
 
         <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
         Public Shared Function QueryServiceStatusEx(<[In]()> ByVal Service As IntPtr, _
                     <[In]()> ByVal InfoLevel As Integer, _
-                    <Out()> <[Optional]()> ByRef ServiceStatus As SERVICE_STATUS_PROCESS, _
+                    <Out()> <[Optional]()> ByRef ServiceStatus As ServiceStatusProcess, _
                     <[In]()> ByVal BufferSize As Integer, _
                     <Out()> ByRef BytesNeeded As Integer) As Boolean
         End Function
@@ -630,11 +677,13 @@ Namespace Native.Api
         End Function
 
         <DllImport("advapi32.dll", SetLastError:=True)> _
-        Public Shared Function OpenSCManager(<[In]()> <[Optional]()> ByVal MachineName As String, <[In]()> <[Optional]()> ByVal DatabaseName As String, <[In]()> ByVal DesiredAccess As ScManagerAccess) As IntPtr
+        Public Shared Function OpenSCManager(<[In]()> <[Optional]()> ByVal MachineName As String, _
+                <[In]()> <[Optional]()> ByVal DatabaseName As String, _
+                <[In]()> ByVal DesiredAccess As Security.ServiceManagerAccess) As IntPtr
         End Function
 
         <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
-        Public Shared Function OpenService(<[In]()> ByVal SCManager As IntPtr, <[In]()> ByVal ServiceName As String, <[In]()> ByVal DesiredAccess As ServiceAccess) As IntPtr
+        Public Shared Function OpenService(<[In]()> ByVal SCManager As IntPtr, <[In]()> ByVal ServiceName As String, <[In]()> ByVal DesiredAccess As Security.ServiceAccess) As IntPtr
         End Function
 
         <DllImport("advapi32.dll", SetLastError:=True)> _
@@ -643,9 +692,9 @@ Namespace Native.Api
 
         <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
         Public Shared Function ChangeServiceConfig(<[In]()> ByVal Service As IntPtr, _
-                    <[In]()> ByVal ServiceType As SERVICE_TYPE, _
-                    <[In]()> ByVal StartType As SERVICE_START_TYPE, _
-                    <[In]()> ByVal ErrorControl As SERVICE_ERROR_CONTROL, _
+                    <[In]()> ByVal ServiceType As ServiceType, _
+                    <[In]()> ByVal StartType As ServiceStartType, _
+                    <[In]()> ByVal ErrorControl As ServiceErrorControl, _
                     <[In]()> <[Optional]()> ByVal BinaryPath As String, _
                     <[In]()> <[Optional]()> ByVal LoadOrderGroup As String, _
                     <Out()> <[Optional]()> ByVal TagId As IntPtr, _
@@ -775,7 +824,7 @@ Namespace Native.Api
 #Region "Declarations used for error management"
 
         <DllImport("kernel32.dll", SetLastError:=True)> _
-        Private Shared Function LocalFree(ByVal hMem As IntPtr) As IntPtr
+        Public Shared Function LocalFree(ByVal hMem As IntPtr) As IntPtr
         End Function
 
         <DllImport("kernel32.dll", CharSet:=CharSet.Unicode, SetLastError:=True)> _

@@ -138,7 +138,7 @@ Public Class asyncCallbackShutdownAction
                     Case ShutdownType.Hibernate
                         ret = cSystem.Hibernate(pObj.force)
                 End Select
-                _deg.Invoke(ret, pObj.type, Native.Api.Functions.GetError)
+                _deg.Invoke(ret, pObj.type, Native.Api.Win32.GetLastError)
         End Select
     End Sub
 

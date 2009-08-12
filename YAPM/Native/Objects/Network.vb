@@ -28,8 +28,9 @@ Namespace Native.Objects
 
 
         ' Local enumeration of network informations
-        Public Shared Sub EnumerateTcpUdpConnections(ByVal pObj As asyncCallbackNetworkEnumerate.poolObj, _
-                                      ByRef _dico As Dictionary(Of String, networkInfos))
+        Public Shared Sub EnumerateTcpUdpConnections(ByRef _dico As Dictionary(Of String, networkInfos), _
+                                ByVal allProcesses As Boolean, _
+                                Optional ByVal processIds() As Integer = Nothing)
 
             Dim length As Integer = 0
 
@@ -54,9 +55,9 @@ Namespace Native.Objects
                                                             GetType(NativeStructs.MIB_TCPROW_OWNER_PID)), NativeStructs.MIB_TCPROW_OWNER_PID)
 
                     ' Test if belongs to PID list
-                    Dim bOkToAdd As Boolean = pObj.all
-                    If pObj.all = False Then
-                        For Each pid As Integer In pObj.pid
+                    Dim bOkToAdd As Boolean = allProcesses
+                    If allProcesses = False Then
+                        For Each pid As Integer In processIds
                             If pid = tcp_item.dwOwningPid Then
                                 bOkToAdd = True
                                 Exit For
@@ -118,9 +119,9 @@ Namespace Native.Objects
                                                             GetType(NativeStructs.MIB_UDPROW_OWNER_PID)), NativeStructs.MIB_UDPROW_OWNER_PID)
 
                     ' Test if belongs to PID list
-                    Dim bOkToAdd As Boolean = pObj.all
-                    If pObj.all = False Then
-                        For Each pid As Integer In pObj.pid
+                    Dim bOkToAdd As Boolean = allProcesses
+                    If allProcesses = False Then
+                        For Each pid As Integer In processIds
                             If pid = udp_item.dwOwningPid Then
                                 bOkToAdd = True
                                 Exit For

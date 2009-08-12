@@ -84,7 +84,7 @@ Public Class asyncCallbackProcIncreasePriority
 
                     Dim res As Integer = 2        ' Access denied
                     For Each srv As ManagementObject In con.wmiSearcher.Get
-                        If CInt(srv.GetPropertyValue(API.WMI_INFO_PROCESS.ProcessId.ToString)) = pObj.pid Then
+                        If CInt(srv.GetPropertyValue(Native.Api.Enums.WMI_INFO_PROCESS.ProcessId.ToString)) = pObj.pid Then
                             Dim inParams As ManagementBaseObject = srv.GetMethodParameters("SetPriority")
                             inParams("Priority") = _newlevel
                             Dim outParams As ManagementBaseObject = srv.InvokeMethod("SetPriority", inParams, Nothing)
@@ -92,7 +92,7 @@ Public Class asyncCallbackProcIncreasePriority
                             Exit For
                         End If
                     Next
-                    _deg.Invoke(res = 0, CType(res, API.PROCESS_RETURN_CODE_WMI).ToString, pObj.newAction)
+                    _deg.Invoke(res = 0, CType(res, Native.Api.Enums.WmiProcessReturnCode).ToString, pObj.newAction)
                 Catch ex As Exception
                     _deg.Invoke(False, ex.Message, pObj.newAction)
                 End Try
@@ -100,7 +100,7 @@ Public Class asyncCallbackProcIncreasePriority
             Case Else
                 ' Local
                 Dim hProc As IntPtr
-                Dim r As Integer
+                Dim r As Boolean
                 Dim _newlevel As ProcessPriorityClass
                 Select Case pObj.level
                     Case ProcessPriorityClass.AboveNormal
@@ -116,14 +116,14 @@ Public Class asyncCallbackProcIncreasePriority
                     Case ProcessPriorityClass.RealTime
                         '
                 End Select
-                hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_SET_INFORMATION, _
+                hProc = Native.Api.NativeFunctions.OpenProcess(Native.Api.Security.ProcessAccess.SetInformation, _
                                         False, pObj.pid)
                 If hProc <> IntPtr.Zero Then
-                    r = API.SetPriorityClass(hProc, _newlevel)
-                    API.CloseHandle(hProc)
-                    _deg.Invoke(r <> 0, Native.Api.Functions.GetError, pObj.newAction)
+                    r = Native.Api.NativeFunctions.SetPriorityClass(hProc, _newlevel)
+                    Native.Api.NativeFunctions.CloseHandle(hProc)
+                    _deg.Invoke(r, Native.Api.Win32.GetLastError, pObj.newAction)
                 Else
-                    _deg.Invoke(False, Native.Api.Functions.GetError, pObj.newAction)
+                    _deg.Invoke(False, Native.Api.Win32.GetLastError, pObj.newAction)
                 End If
         End Select
     End Sub

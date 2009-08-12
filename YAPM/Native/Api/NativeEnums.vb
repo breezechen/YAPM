@@ -47,7 +47,6 @@ Namespace Native.Api
             MiniDumpWithCodeSegs = &H2000
         End Enum
 
-        ' LdrpDataTableEntryFlags comes from Process Hacker by wj32 (under GNU GPL 3.0)
         <Flags()> _
         Public Enum LdrpDataTableEntryFlags As UInteger
             StaticLink = &H2
@@ -132,94 +131,10 @@ Namespace Native.Api
             MaxProcessInfoClass
         End Enum
 
-#End Region
-
-        ' OK
-#Region "Declarations used for rights"
-
-        <Flags()> _
-        Public Enum ThreadAccess As UInteger
-            Terminate = &H1
-            SuspendResume = &H2
-            Alert = &H4
-            GetContext = &H8
-            SetContext = &H10
-            SetInformation = &H20
-            QueryInformation = &H40
-            SetThreadToken = &H80
-            Impersonate = &H100
-            DirectImpersonation = &H200
-            SetLimitedInformation = &H400
-            QueryLimitedInformation = &H800
-            ' should be 0xffff on Vista, but is 0xfff for backwards compatibility
-            All = StandardRights.Required Or StandardRights.Synchronize Or &HFFF
-        End Enum
-
-        <Flags()> _
-        Public Enum StandardRights As UInteger
-            Delete = &H10000
-            ReadControl = &H20000
-            WriteDac = &H40000
-            WriteOwner = &H80000
-            Synchronize = &H100000
-            Required = &HF0000
-            Read = ReadControl
-            Write = ReadControl
-            Execute = ReadControl
-            All = &H1F0000
-            SpecificRightsAll = &HFFFF
-            AccessSystemSecurity = &H1000000
-            MaximumAllowed = &H2000000
-            GenericRead = &H80000000
-            GenericWrite = &H40000000
-            GenericExecute = &H20000000
-            GenericAll = &H10000000
-        End Enum
-
         Public Enum DepFlags As UInteger
             Disable = &H0
             Enable = &H1
             DisableAtlThunkEmulation = &H2
-        End Enum
-
-        <Flags()> _
-        Public Enum TokenAccess As UInteger
-            AllPlusSessionId = &HF01FF
-            MaximumAllowed = &H2000000
-            AccessSystemSecurity = &H1000000
-            AssignPrimary = &H1
-            Duplicate = &H2
-            Impersonate = &H4
-            Query = &H8
-            QuerySource = &H10
-            AdjustPrivileges = &H20
-            AdjustGroups = &H40
-            AdjustDefault = &H80
-            AdjustSessionId = &H100
-            All = StandardRights.Required Or AssignPrimary Or Duplicate Or Impersonate Or Query Or QuerySource Or AdjustPrivileges Or AdjustGroups Or AdjustDefault Or AdjustSessionId
-            GenericRead = StandardRights.Read Or Query
-            GenericWrite = StandardRights.Write Or AdjustPrivileges Or AdjustGroups Or AdjustDefault
-            GenericExecute = StandardRights.Execute
-        End Enum
-
-        <Flags()> _
-        Public Enum ProcessAccess As UInteger
-            Terminate = &H1
-            CreateThread = &H2
-            SetSessionId = &H4
-            VmOperation = &H8
-            VmRead = &H10
-            VmWrite = &H20
-            DupHandle = &H40
-            CreateProcess = &H80
-            SetQuota = &H100
-            SetInformation = &H200
-            QueryInformation = &H400
-            SetPort = &H800
-            SuspendResume = &H800
-            QueryLimitedInformation = &H1000
-            ' should be 0xffff on Vista, but is 0xfff for backwards compatibility
-            All = StandardRights.Required Or StandardRights.Synchronize Or &HFFF
         End Enum
 
 #End Region
@@ -228,7 +143,7 @@ Namespace Native.Api
 #Region "Declarations used for memory management"
 
         <Flags()> _
-        Public Enum PROTECTION_TYPE As UInteger
+        Public Enum MemoryProtectionType As UInteger
             AccessDenied = 0
             Execute = &H10
             ExecuteRead = &H20
@@ -244,7 +159,7 @@ Namespace Native.Api
         End Enum
 
         <Flags()> _
-        Public Enum MEMORY_STATE As UInteger
+        Public Enum MemoryState As UInteger
             Free = &H10000
             Commit = &H1000
             Reserve = &H2000
@@ -256,7 +171,7 @@ Namespace Native.Api
             LargePages = &H20000000
         End Enum
 
-        Public Enum MEMORY_TYPE As Integer
+        Public Enum MemoryType As Integer
             Image = &H1000000
             [Private] = &H20000
             Mapped = &H40000
@@ -353,7 +268,7 @@ Namespace Native.Api
             UsedForAccess = &H80000000
         End Enum
 
-        Public Enum TOKEN_INFORMATION_CLASS
+        Public Enum TokenInformationClass
             TokenUser = 1
             TokenGroups
             TokenPrivileges
@@ -364,6 +279,7 @@ Namespace Native.Api
             TokenType
             TokenImpersonationLevel
             TokenStatistics
+            ' 10
             TokenRestrictedSids
             TokenSessionId
             TokenGroupsAndPrivileges
@@ -374,6 +290,7 @@ Namespace Native.Api
             TokenElevationType
             TokenLinkedToken
             TokenElevation
+            ' 20
             TokenHasRestrictions
             TokenAccessInformation
             TokenVirtualizationAllowed
@@ -385,17 +302,29 @@ Namespace Native.Api
             MaxTokenInfoClass
         End Enum
 
-        Public Enum SID_NAME_USE As Integer
-            SidTypeUser = 1
-            SidTypeGroup
-            SidTypeDomain
-            SidTypeAlias
-            SidTypeWellKnownGroup
-            SidTypeDeletedAccount
-            SidTypeInvalid
-            SidTypeUnknown
-            SidTypeComputer
-            SidTypeLabel
+        Public Enum TokenType As Integer
+            Primary = 1
+            Impersonation
+        End Enum
+
+        Public Enum SecurityImpersonationLevel As Integer
+            SecurityAnonymous
+            SecurityIdentification
+            SecurityImpersonation
+            SecurityDelegation
+        End Enum
+
+        Public Enum SidNameUse As Integer
+            User = 1
+            Group
+            Domain
+            [Alias]
+            WellKnownGroup
+            DeletedAccount
+            Invalid
+            Unknown
+            Computer
+            Label
         End Enum
 
 #End Region
@@ -506,6 +435,7 @@ Namespace Native.Api
 
 #End Region
 
+        ' OK
 #Region "Declarations used for system"
 
         Public Enum SystemInformationClass As Integer
@@ -634,21 +564,259 @@ Namespace Native.Api
             ' 106, calls MmQuerySystemVaInformation
         End Enum
 
-        Public Enum ExitFlags As Integer
+        Public Enum ExitWindowsFlags As Integer
             Logoff = &H0
             Shutdown = &H1
             Reboot = &H2
-            Poweroff = &H8
-            RestartApps = &H40
             Force = &H4
+            Poweroff = &H8
             ForceIfHung = &H10
+            RestartApps = &H40
         End Enum
 
 #End Region
 
 #Region "Declarations used for windows (not Windows :-p)"
 
-        Public Enum LVS_EX
+        Public Enum WindowMessage As UInteger
+            Null = &H0
+            Create = &H1
+            Destroy = &H2
+            Move = &H3
+            Size = &H5
+            Activate = &H6
+            SetFocus = &H7
+            KillFocus = &H8
+            Enable = &HA
+            SetRedraw = &HB
+            SetText = &HC
+            GetText = &HD
+            GetTextLength = &HE
+            Paint = &HF
+            Close = &H10
+            QueryEndSession = &H11
+            Quit = &H12
+            QueryOpen = &H13
+            EraseBkgnd = &H14
+            SysColorChange = &H15
+            EndSession = &H16
+            SystemError = &H17
+            ShowWindow = &H18
+            CtlColor = &H19
+            WinIniChange = &H1A
+            SettingChange = &H1A
+            DevModeChange = &H1B
+            ActivateApp = &H1C
+            FontChange = &H1D
+            TimeChange = &H1E
+            CancelMode = &H1F
+            SetCursor = &H20
+            MouseActivate = &H21
+            ChildActivate = &H22
+            QueueSync = &H23
+            GetMinMaxInfo = &H24
+            PaintIcon = &H26
+            IconEraseBkgnd = &H27
+            NextDlgCtl = &H28
+            SpoolerStatus = &H2A
+            DrawIcon = &H2B
+            MeasureItem = &H2C
+            DeleteItem = &H2D
+            VKeyToItem = &H2E
+            CharToItem = &H2F
+
+            SetFont = &H30
+            GetFont = &H31
+            SetHotkey = &H32
+            GetHotkey = &H33
+            QueryDragIcon = &H37
+            CompareItem = &H39
+            Compacting = &H41
+            WindowPosChanging = &H46
+            WindowPosChanged = &H47
+            Power = &H48
+            CopyData = &H4A
+            CancelJournal = &H4B
+            Notify = &H4E
+            InputLangChangeRequest = &H50
+            InputLangChange = &H51
+            TCard = &H52
+            Help = &H53
+            UserChanged = &H54
+            NotifyFormat = &H55
+            ContextMenu = &H7B
+            StyleChanging = &H7C
+            StyleChanged = &H7D
+            DisplayChange = &H7E
+            GetIcon = &H7F
+            SetIcon = &H80
+
+            NcCreate = &H81
+            NcDestroy = &H82
+            NcCalcSize = &H83
+            NcHitTest = &H84
+            NcPaint = &H85
+            NcActivate = &H86
+            GetDlgCode = &H87
+            NcMouseMove = &HA0
+            NcLButtonDown = &HA1
+            NcLButtonUp = &HA2
+            NcLButtonDblClk = &HA3
+            NcRButtonDown = &HA4
+            NcRButtonUp = &HA5
+            NcRButtonDblClk = &HA6
+            NcMButtonDown = &HA7
+            NcMButtonUp = &HA8
+            NcMButtonDblClk = &HA9
+
+            KeyDown = &H100
+            KeyUp = &H101
+            [Char] = &H102
+            DeadChar = &H103
+            SysKeyDown = &H104
+            SysKeyUp = &H105
+            SysChar = &H106
+            SysDeadChar = &H107
+
+            ImeStartComposition = &H10D
+            ImeEndComposition = &H10E
+            ImeComposition = &H10F
+            ImeKeyLast = &H10F
+
+            InitDialog = &H110
+            Command = &H111
+            SysCommand = &H112
+            Timer = &H113
+            HScroll = &H114
+            VScroll = &H115
+            InitMenu = &H116
+            InitMenuPopup = &H117
+            MenuSelect = &H11F
+            MenuChar = &H120
+            EnterIdle = &H121
+
+            CtlColorMsgBox = &H132
+            CtlColorEdit = &H133
+            CtlColorListBox = &H134
+            CtlColorBtn = &H135
+            CtlColorDlg = &H136
+            CtlColorScrollbar = &H137
+            CtlColorStatic = &H138
+
+            MouseMove = &H200
+            LButtonDown = &H201
+            LButtonUp = &H202
+            LButtonDblClk = &H203
+            RButtonDown = &H204
+            RButtonUp = &H205
+            RButtonDblClk = &H206
+            MButtonDown = &H207
+            MButtonUp = &H208
+            MButtonDblClk = &H209
+            MouseWheel = &H20A
+
+            ParentNotify = &H210
+            EnterMenuLoop = &H211
+            ExitMenuLoop = &H212
+            NextMenu = &H213
+            Sizing = &H214
+            CaptureChanged = &H215
+            Moving = &H216
+            PowerBroadcast = &H218
+            DeviceChange = &H219
+
+            MdiCreate = &H220
+            MdiDestroy = &H221
+            MdiActivate = &H222
+            MdiRestore = &H223
+            MdiNext = &H224
+            MdiMaximize = &H225
+            MdiTile = &H226
+            MdiCascade = &H227
+            MdiIconArrange = &H228
+            MdiGetActive = &H229
+            MdiSetMenu = &H230
+            EnterSizeMove = &H231
+            ExitSizeMove = &H232
+            DropFiles = &H233
+            MdiRefreshMenu = &H234
+
+            ImeSetContext = &H281
+            ImeNotify = &H282
+            ImeControl = &H283
+            ImeCompositionFull = &H284
+            ImeSelect = &H285
+            ImeChar = &H286
+            ImeKeyDown = &H290
+            ImeKeyUp = &H291
+
+            NcMouseHover = &H2A0
+            MouseHover = &H2A1
+            NcMouseLeave = &H2A2
+            MouseLeave = &H2A3
+
+            WtsSessionChange = &H2B1
+
+            TabletFirst = &H2C0
+            TabletLast = &H2DF
+
+            Cut = &H300
+            Copy = &H301
+            Paste = &H302
+            Clear = &H303
+            Undo = &H304
+
+            RenderFormat = &H305
+            RenderAllFormats = &H306
+            DestroyClipboard = &H307
+            DrawClipboard = &H308
+            PaintClipboard = &H309
+            VScrollClipboard = &H30A
+            SizeClipboard = &H30B
+            AskCbFormatName = &H30C
+            ChangeCbChain = &H30D
+            HScrollClipboard = &H30E
+            QueryNewPalette = &H30F
+            PaletteIsChanging = &H310
+            PaletteChanged = &H311
+
+            Hotkey = &H312
+            Print = &H317
+            PrintClient = &H318
+
+            HandheldFirst = &H358
+            HandheldLast = &H35F
+            PenWinFirst = &H380
+            PenWinLast = &H38F
+            CoalesceFirst = &H390
+            CoalesceLast = &H39F
+            DdeInitiate = &H3E0
+            DdeTerminate = &H3E1
+            DdeAdvise = &H3E2
+            DdeUnadvise = &H3E3
+            DdeAck = &H3E4
+            DdeData = &H3E5
+            DdeRequest = &H3E6
+            DdePoke = &H3E7
+            DdeExecute = &H3E8
+
+            User = &H400
+
+            BcmSetShield = &H160C
+
+            App = &H8000
+        End Enum
+
+        <Flags()> _
+        Public Enum SmtoFlags As Integer
+            Normal = &H0
+            Block = &H1
+            AbortIfHung = &H2
+            NoTimeoutIfNotHung = &H8
+            ErrorOnExit = &H20
+        End Enum
+
+        Public Enum LvsEx
             LVS_EX_GRIDLINES = &H1
             LVS_EX_SUBITEMIMAGES = &H2
             LVS_EX_CHECKBOXES = &H4
@@ -672,7 +840,7 @@ Namespace Native.Api
             LVS_EX_SIMPLESELECT = &H100000
         End Enum
 
-        Public Enum SHOW_FINDOW_TYPE As Integer
+        Public Enum ShowWindowType As UInteger
             Hide = 0
             ShowNormal = 1
             Normal = 1
@@ -687,20 +855,24 @@ Namespace Native.Api
             Restore = 9
             ShowDefault = 10
             ForceMinimize = 11
+            Max = 11
         End Enum
 
-        Public Enum ShowState As UInteger
-            SW_HIDE = 0
-            SW_SHOWNORMAL = 1
-            SW_SHOWMINIMIZED = 2
-            SW_SHOWMAXIMIZED = 3
-            SW_SHOWNOACTIVATE = 4
-            SW_SHOW = 5
-            SW_MINIMIZE = 6
-            SW_SHOWMINNOACTIVE = 7
-            SW_SHOWNA = 8
-            SW_RESTORE = 9
-            SW_SHOWDEFAULT = 10
+        Public Enum GetWindowLongOffset As Integer
+            WndProc = -4
+            HInstance = -6
+            HwndParent = -8
+            Id = -12
+            Style = -16
+            ExStyle = -20
+            UserData = -21
+        End Enum
+
+        <Flags()> _
+        Public Enum WindowPlacementFlags As Integer
+            SetMinPosition = &H1
+            RestoreToMaximized = &H2
+            AsyncWindowPlacement = &H4
         End Enum
 
         Public Enum SendMessageTimeoutFlags As Integer
@@ -727,33 +899,33 @@ Namespace Native.Api
             Win32 = &H30
         End Enum
 
-        Public Enum SERVICE_CONTROL
-            _STOP = 1
-            _PAUSE = 2
-            _CONTINUE = 3
-            _INTERROGATE = 4
-            _SHUTDOWN = 5
-            _PARAMCHANGE = 6
-            _NETBINDADD = 7
-            _NETBINDREMOVE = 8
-            _NETBINDENABLE = 9
-            _NETBINDDISABLE = 10
-            _DEVICEEVENT = 11
-            _HARDWAREPROFILECHANGE = 12
-            _POWEREVENT = 13
-            _SESSIONCHANGE = 14
+        Public Enum ServiceControl
+            [Stop] = 1
+            [Pause] = 2
+            [Continue] = 3
+            Interrogate = 4
+            Shutdown = 5
+            ParamChange = 6
+            NetBindAdd = 7
+            NetBindRemove = 8
+            NetBindEnable = 9
+            NetBindDisable = 10
+            DeviceEvent = 11
+            HardwareProfileChange = 12
+            PowerEvent = 13
+            SessionChange = 14
         End Enum
 
-        Public Enum SERVICE_START_TYPE As Integer
+        Public Enum ServiceStartType As Integer
             BootStart = &H0
             SystemStart = &H1
             AutoStart = &H2
             DemandStart = &H3
             StartDisabled = &H4
-            SERVICESTARTTYPE_NO_CHANGE = SERVICE_NO_CHANGE
+            NoChange = &HFFFFFFFF
         End Enum
 
-        Public Enum SERVICE_STATE As UInteger
+        Public Enum ServiceState As UInteger
             ContinuePending = &H5
             PausePending = &H6
             Paused = &H7
@@ -765,7 +937,7 @@ Namespace Native.Api
         End Enum
 
         <Flags()> _
-        Public Enum SERVICE_TYPE As UInteger
+        Public Enum ServiceType As UInteger
             FileSystemDriver = &H2
             KernelDriver = &H1
             Adapter = &H4
@@ -776,7 +948,7 @@ Namespace Native.Api
             NoChange = &HFFFFFFFF
         End Enum
 
-        Public Enum SERVICE_ERROR_CONTROL As Integer
+        Public Enum ServiceErrorControl As Integer
             Critical = &H3
             Ignore = &H0
             Normal = &H1
@@ -785,12 +957,12 @@ Namespace Native.Api
             NoChange = &HFFFFFFFF
         End Enum
 
-        Public Enum SERVICE_FLAGS As UInteger
+        Public Enum ServiceFlags As UInteger
             None = 0
             RunsInSystemProcess = &H1
         End Enum
 
-        Public Enum SERVICE_ACCEPT As UInteger
+        Public Enum ServiceAccept As UInteger
             [NetBindChange] = &H10
             [ParamChange] = &H8
             [PauseContinue] = &H2
@@ -800,23 +972,6 @@ Namespace Native.Api
             [HardwareProfileChange] = &H20
             [PowerEvent] = &H40
             [SessionChange] = &H80
-        End Enum
-
-        Public Enum SERVICE_RIGHTS As UInteger
-            SERVICE_QUERY_CONFIG = &H1
-            SERVICE_CHANGE_CONFIG = &H2
-            SERVICE_QUERY_STATUS = &H4
-            SERVICE_ENUMERATE_DEPENDENTS = &H8
-            SERVICE_START = &H10
-            SERVICE_STOP = &H20
-            SERVICE_PAUSE_CONTINUE = &H40
-            SERVICE_INTERROGATE = &H80
-            SERVICE_USER_DEFINED_CONTROL = &H100
-            SERVICE_ALL_ACCESS = StandardRights.STANDARD_RIGHTS_REQUIRED Or _
-                    SERVICE_QUERY_CONFIG Or SERVICE_CHANGE_CONFIG Or SERVICE_QUERY_STATUS Or _
-                    SERVICE_ENUMERATE_DEPENDENTS Or SERVICE_START Or SERVICE_STOP Or _
-                    SERVICE_PAUSE_CONTINUE Or SERVICE_INTERROGATE Or _
-                    SERVICE_USER_DEFINED_CONTROL
         End Enum
 
 #End Region
