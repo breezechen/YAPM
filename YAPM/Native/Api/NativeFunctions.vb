@@ -561,9 +561,8 @@ Namespace Native.Api
         Public Declare Function GetWindowAPI Lib "user32" Alias "GetWindow" (ByVal hWnd As IntPtr, ByVal wCmd As Integer) As IntPtr
         Public Declare Auto Function GetDesktopWindow Lib "user32.dll" () As IntPtr
 
-
         <DllImport("user32.dll", SetLastError:=True, EntryPoint:="SetWindowLongPtr", CharSet:=CharSet.Auto)> _
-        Private Shared Function SetWindowLongPtr(<[In]()> ByVal hWnd As IntPtr, _
+        Public Shared Function SetWindowLongPtr(<[In]()> ByVal hWnd As IntPtr, _
             <[In]()> ByVal Index As GetWindowLongOffset, _
             <[In]()> <MarshalAs(UnmanagedType.FunctionPtr)> ByVal WndProc As IntPtr) As IntPtr
         End Function

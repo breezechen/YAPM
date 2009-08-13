@@ -80,13 +80,13 @@ Public Class asyncCallbackServiceStop
             Case Else
                 ' Local
                 Dim hSCManager As IntPtr = con.SCManagerLocalHandle
-                Dim lServ As IntPtr = API.OpenService(hSCManager, pObj.name, API.SERVICE_RIGHTS.SERVICE_STOP)
+                Dim lServ As IntPtr = Native.Api.NativeFunctions.OpenService(hSCManager, pObj.name, API.SERVICE_RIGHTS.SERVICE_STOP)
                 Dim res As Boolean = False
                 If hSCManager <> IntPtr.Zero Then
                     If lServ <> IntPtr.Zero Then
                         Dim lpss As API.SERVICE_STATUS
-                        res = API.ControlService(lServ, API.SERVICE_CONTROL._STOP, lpss)
-                        API.CloseServiceHandle(lServ)
+                        res = Native.Api.NativeFunctions.ControlService(lServ, API.SERVICE_CONTROL._STOP, lpss)
+                        Native.Api.NativeFunctions.CloseServiceHandle(lServ)
                     End If
                 End If
                 _deg.Invoke(res, pObj.name, Native.Api.Win32.GetLastError, pObj.newAction)

@@ -70,8 +70,8 @@ Public Class asyncCallbackWindowGetNonFixedInfos
 
             Case Else
                 ' Local
-                Dim enabled As Boolean = API.IsWindowEnabled(_handle)
-                Dim visible As Boolean = API.IsWindowVisible(_handle)
+                Dim enabled As Boolean = Native.Api.NativeFunctions.IsWindowEnabled(_handle)
+                Dim visible As Boolean = Native.Api.NativeFunctions.IsWindowVisible(_handle)
                 Dim opacity As Byte = GetWindowOpacity()
                 Dim isTask As Boolean = _isTask(_handle)
                 Dim r As Native.Api.NativeStructs.Rect = GetWindowPosition()
@@ -83,30 +83,32 @@ Public Class asyncCallbackWindowGetNonFixedInfos
 
 
     Private Function EnableWindowOpacity() As Integer
-        Return API.SetWindowLong(_handle, API.GWL_EXSTYLE, CType(CInt(API.GetWindowLong(_handle, API.GWL_EXSTYLE)) Or API.WS_EX_LAYERED, IntPtr))
+        Return Native.Api.NativeFunctions.SetWindowLongPtr(_handle, _
+                    Native.Api.NativeEnums.GetWindowLongOffset.ExStyle, _
+                    Native.Api.NativeFunctions.GetWindowLongPtr(_handle, Native.Api.NativeEnums.GetWindowLongOffset.ExStyle) Or API.WS_EX_LAYERED)
     End Function
     Private Function ChangeWindowOpacity(ByVal Alpha As Byte) As Boolean
-        Return API.SetLayeredWindowAttributes(_handle, 0, Alpha, API.LWA_ALPHA)
+        Return Native.Api.NativeFunctions.SetLayeredWindowAttributes(_handle, 0, Alpha, Native.Api.NativeConstants.LWA_ALPHA)
     End Function
     Private Function GetWindowOpacity() As Byte
         Dim alpha As Byte
-        API.GetLayeredWindowAttributes(_handle, 0, alpha, API.LWA_ALPHA)
+        Native.Api.NativeFunctions.GetLayeredWindowAttributes(_handle, 0, alpha, Native.Api.NativeConstants.LWA_ALPHA)
         Return alpha
     End Function
     Private Function DisableWindowOpacity() As Integer
-        Return API.SetWindowLong(_handle, API.GWL_EXSTYLE, CType(CInt(API.GetWindowLong(_handle, API.GWL_EXSTYLE)) - API.WS_EX_LAYERED, IntPtr))
+        Return Native.Api.NativeFunctions.SetWindowLongPtr(_handle, Native.Api.NativeEnums.GetWindowLongOffset.ExStyle, CType(CInt(Native.Api.NativeFunctions.GetWindowLongPtr(_handle, Native.Api.NativeEnums.GetWindowLongOffset.ExStyle)) - API.WS_EX_LAYERED, IntPtr))
     End Function
     ' Get position/size
     Private Function GetWindowPosition() As Native.Api.NativeStructs.Rect
         Dim tmpRect As Native.Api.NativeStructs.Rect
-        API.GetWindowRect(_handle, tmpRect)
+        Native.Api.NativeFunctions.GetWindowRect(_handle, tmpRect)
         Return tmpRect
     End Function
 
     Private Shared Function _isTask(ByVal hwnd As IntPtr) As Boolean
         ' Window must be visible
-        If API.IsWindowVisible(hwnd) AndAlso (CInt(API.GetWindowLong(hwnd, API.GWL_HWNDPARENT)) = 0) AndAlso Not _
-            (API.GetWindowTextLength(hwnd) = 0) Then
+        If Native.Api.NativeFunctions.IsWindowVisible(hwnd) AndAlso Native.Api.NativeFunctions.GetWindowLongPtr(hwnd, Native.Api.NativeEnums.GetWindowLongOffset.HwndParent) = IntPtr.Zero AndAlso Not _
+            (Native.Api.NativeFunctions.GetWindowTextLength(hwnd) = 0) Then
             ' Must not be taskmgr
             If GetWindowClass(hwnd) <> "Progman" Then
                 Return True
@@ -118,7 +120,7 @@ Public Class asyncCallbackWindowGetNonFixedInfos
 
     Private Shared Function GetWindowClass(ByVal hWnd As IntPtr) As String
         Dim _class As New StringBuilder(Space(255))
-        API.GetClassName(hWnd, _class, 255)
+        Native.Api.NativeFunctions.GetClassName(hWnd, _class, 255)
         Return _class.ToString
     End Function
 End Class
