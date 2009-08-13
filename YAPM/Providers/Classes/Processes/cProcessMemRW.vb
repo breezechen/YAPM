@@ -240,7 +240,7 @@ Public Class cProcessMemRW
 
         ReDim regions(1000)     ' Initial buffer
 
-        lHandle = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_ALL_ACCESS, False, pid)   'TOCHANGE
+        lHandle = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.All, False, pid)   'TOCHANGE
         lLenMBI = System.Runtime.InteropServices.Marshal.SizeOf(mbi)
         If si.lpMaximumApplicationAddress = 0 Then GetSystemInfo(si)
         lPosMem = si.lpMinimumApplicationAddress  ' Start from shorter address
@@ -251,7 +251,7 @@ Public Class cProcessMemRW
 
             mbi.RegionSize = 0
 
-            lRet = API.VirtualQueryEx(lHandle, lPosMem, mbi, lLenMBI)
+            lRet = Native.Api.NativeFunctions.VirtualQueryEx(lHandle, lPosMem, mbi, lLenMBI)
 
             If lRet = lLenMBI Then
 
@@ -276,7 +276,7 @@ Public Class cProcessMemRW
             End If
         Loop
 
-        Call API.CloseHandle(lHandle)
+        Call Native.Api.NativeFunctions.CloseHandle(lHandle)
 
         ' Remove last item
         ReDim Preserve regions(_xx - 1)
@@ -357,7 +357,7 @@ Public Class cProcessMemRW
 
         strBufT = vbNullString
 
-        Call API.CloseHandle(lHandle)
+        Call Native.Api.NativeFunctions.CloseHandle(lHandle)
     End Sub
 
     ' =======================================================
@@ -407,7 +407,7 @@ Public Class cProcessMemRW
 
         lHandle = GetValidHandle(_pid)
 
-        If lHandle = API.InvalidHandleValue Then
+        If lHandle = Native.Api.NativeConstants.InvalidHandleValue Then
             ReDim lngRes(0)
             ReDim strRes(0)
             Exit Sub
@@ -476,7 +476,7 @@ Public Class cProcessMemRW
         If Not (PGB Is Nothing) Then PGB.Value = PGB.Maximum
         strBuffer = vbNullString
 
-        Call API.CloseHandle(lHandle)
+        Call Native.Api.NativeFunctions.CloseHandle(lHandle)
 
         'maintenant, stocke dans les arrays de sortie
         ReDim lngRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1)
@@ -525,7 +525,8 @@ Public Class cProcessMemRW
     ' Get a handle
     ' =======================================================
     Public Shared Function GetValidHandle(ByVal pid As Integer) As IntPtr
-        Return API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_ALL_ACCESS, False, pid)  'TOCHANGE
+        'TOCHANGE !!
+        Return Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.All, False, pid)  'TOCHANGE
     End Function
 
 

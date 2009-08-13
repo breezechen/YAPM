@@ -576,19 +576,19 @@ Module Misc
 
         Dim hImgSmall As IntPtr
         Dim hImgLarge As IntPtr
-        Dim shinfo As API.SHFILEINFO
-        shinfo = New API.SHFILEINFO()
+        Dim shinfo As Native.Api.NativeStructs.SHFILEINFO
+        shinfo = New Native.Api.NativeStructs.SHFILEINFO()
 
         If System.IO.File.Exists(fName) = False Then Return Nothing
 
         If small Then
             hImgSmall = Native.Api.NativeFunctions.SHGetFileInfo(fName, 0, shinfo, _
                 Marshal.SizeOf(shinfo), _
-                API.SHGFI_ICON Or API.SHGFI_SMALLICON)
+                 Native.Api.NativeConstants.SHGFI_ICON Or Native.Api.NativeConstants.SHGFI_SMALLICON)
         Else
             hImgLarge = Native.Api.NativeFunctions.SHGetFileInfo(fName, 0, _
                 shinfo, Marshal.SizeOf(shinfo), _
-                API.SHGFI_ICON Or API.SHGFI_LARGEICON)
+                Native.Api.NativeConstants.SHGFI_ICON Or Native.Api.NativeConstants.SHGFI_LARGEICON)
         End If
 
         Dim img As System.Drawing.Icon = Nothing
@@ -609,8 +609,8 @@ Module Misc
 
         Dim hImgSmall As IntPtr
         Dim hImgLarge As IntPtr
-        Dim shinfo As API.SHFILEINFO
-        shinfo = New API.SHFILEINFO()
+        Dim shinfo As Native.Api.NativeStructs.SHFILEINFO
+        shinfo = New Native.Api.NativeStructs.SHFILEINFO()
 
         If small Then
             hImgSmall = Native.Api.NativeFunctions.SHGetFileInfo(fName, 0, shinfo, _

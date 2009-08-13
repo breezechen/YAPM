@@ -111,7 +111,7 @@ Public Class asyncCallbackWindowEnumerate
         Dim cpt As Integer
 
 
-        currWnd = Native.Api.NativeFunctions.GetWindowAPI(Native.Api.NativeFunctions.GetDesktopWindow(), API.GW_CHILD)
+        currWnd = Native.Api.NativeFunctions.GetWindowAPI(Native.Api.NativeFunctions.GetDesktopWindow(), Native.Api.NativeConstants.GW_CHILD)
         cpt = 0
         Do While Not (currWnd = IntPtr.Zero)
 
@@ -129,7 +129,7 @@ Public Class asyncCallbackWindowEnumerate
                 End If
             End If
 
-            currWnd = Native.Api.NativeFunctions.GetWindowAPI(currWnd, API.GW_HWNDNEXT)
+            currWnd = Native.Api.NativeFunctions.GetWindowAPI(currWnd, Native.Api.NativeConstants.GW_HWNDNEXT)
         Loop
     End Sub
 
@@ -137,7 +137,7 @@ Public Class asyncCallbackWindowEnumerate
     ' Return process id from a handle
     Friend Shared Function GetProcIdFromWindowHandle(ByVal hwnd As IntPtr) As Integer
         Dim id As Integer = 0
-        API.GetWindowThreadProcessId(hwnd, id)
+        Native.Api.NativeFunctions.GetWindowThreadProcessId(hwnd, id)
         Return id
     End Function
 

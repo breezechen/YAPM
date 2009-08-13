@@ -52,7 +52,7 @@ Public Class cMemRegion
             If infos.Type = API.MEMORY_TYPE.Image Then
                 _moduleFileName = getModuleName(infos.BaseAddress)
             ElseIf infos.Type = API.MEMORY_TYPE.Mapped Then
-                If infos.State = API.MEMORY_STATE.Commit Then
+                If infos.State = Native.Api.NativeEnums.MemoryState.Commit Then
                     _moduleFileName = getModuleName(infos.BaseAddress)
                 End If
             End If
@@ -117,7 +117,7 @@ Public Class cMemRegion
 
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackMemRegionFree.poolObj(Me.Infos.ProcessId, Me.Infos.BaseAddress, Me.Infos.RegionSize, API.MEMORY_STATE.Release, newAction))
+            asyncCallbackMemRegionFree.poolObj(Me.Infos.ProcessId, Me.Infos.BaseAddress, Me.Infos.RegionSize, Native.Api.NativeEnums.MemoryState.Release, newAction))
 
     End Function
     Public Function Decommit() As Integer
@@ -130,7 +130,7 @@ Public Class cMemRegion
         Dim newAction As Integer = cGeneralObject.GetActionCount
 
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackMemRegionFree.poolObj(Me.Infos.ProcessId, Me.Infos.BaseAddress, Me.Infos.RegionSize, API.MEMORY_STATE.Decommit, newAction))
+            asyncCallbackMemRegionFree.poolObj(Me.Infos.ProcessId, Me.Infos.BaseAddress, Me.Infos.RegionSize, Native.Api.NativeEnums.MemoryState.Decommit, newAction))
 
         AddPendingTask(newAction, t)
     End Function
@@ -171,7 +171,7 @@ Public Class cMemRegion
 #Region "Shared functions"
 
     Private Shared _sharedFree As asyncCallbackMemRegionFree
-    Public Shared Function SharedLRFree(ByVal pid As Integer, ByVal address As IntPtr, ByVal size As Integer, ByVal type As API.MEMORY_STATE) As Integer
+    Public Shared Function SharedLRFree(ByVal pid As Integer, ByVal address As IntPtr, ByVal size As Integer, ByVal type As Native.Api.NativeEnums.MemoryState) As Integer
 
         If _sharedFree Is Nothing Then
             _sharedFree = New asyncCallbackMemRegionFree(New asyncCallbackMemRegionFree.HasFreed(AddressOf freedSharedDone), _connection)

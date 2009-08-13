@@ -42,10 +42,10 @@ Public Class cEnvironment
             Const FILE_NAME As String = "YAPM-instanceCheck"
 
             '# Nous tentons ici d'acceder au mappage (précedemment créé ?)
-            hMap = API.OpenFileMapping(API.FILE_MAP_READ, False, FILE_NAME)
+            hMap = Native.Api.NativeFunctions.OpenFileMapping(API.FILE_MAP_READ, False, FILE_NAME)
             If hMap <> IntPtr.Zero Then
                 '# L'application est déjà lancée.
-                pMem = API.MapViewOfFile(hMap, API.FileMapAccess.FileMapRead, 0, 0, 0)
+                pMem = Native.Api.NativeFunctions.MapViewOfFile(hMap, Native.Api.NativeEnums.FileMapAccess.FileMapRead, 0, 0, 0)
                 If pMem <> IntPtr.Zero Then
                     '# On récupère le handle vers la précédente fenêtre
                     hPid = Marshal.ReadInt32(pMem, 0)
@@ -57,23 +57,23 @@ Public Class cEnvironment
                             '
                         End Try
                     End If
-                    API.UnmapViewOfFile(pMem)
+                    Native.Api.NativeFunctions.UnmapViewOfFile(pMem)
                 End If
                 '# On libère le handle hmap
-                API.CloseHandle(hMap)
+                Native.Api.NativeFunctions.CloseHandle(hMap)
                 '# et on prévient l'appelant que l'application avait dejà été lancée.
                 Return True
             Else
                 '# Nous sommes dans la première instance de l'application.
                 '# Nous allons laisser une marque en mémoire, pour l'indiquer
-                hMap = API.CreateFileMapping(New IntPtr(-1), IntPtr.Zero, API.FileMapProtection.PageReadWrite, 0, 4, FILE_NAME)
+                hMap = Native.Api.NativeFunctions.CreateFileMapping(New IntPtr(-1), IntPtr.Zero, Native.Api.NativeEnums.FileMapProtection.PageReadWrite, 0, 4, FILE_NAME)
                 If hMap <> IntPtr.Zero Then
                     '# On ouvre le 'fichier' en écriture
-                    pMem = API.MapViewOfFile(hMap, API.FileMapAccess.FileMapWrite, 0, 0, 0)
+                    pMem = Native.Api.NativeFunctions.MapViewOfFile(hMap, Native.Api.NativeEnums.FileMapAccess.FileMapWrite, 0, 0, 0)
                     If pMem <> IntPtr.Zero Then
                         '# On y écrit l'ID du process courant
-                        Marshal.WriteInt32(pMem, 0, API.GetCurrentProcessId)
-                        API.UnmapViewOfFile(pMem)
+                        Marshal.WriteInt32(pMem, 0, Native.Api.NativeFunctions.GetCurrentProcessId)
+                        Native.Api.NativeFunctions.UnmapViewOfFile(pMem)
                     End If
                     '# Pas de CloseHandle hMap ici, sous peine de détruire le mappage lui-même...
                 End If
@@ -124,28 +124,28 @@ Public Class cEnvironment
             Else
 
                 Dim hTok As IntPtr
-                Dim hProc As IntPtr = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION, False, _
+                Dim hProc As IntPtr = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation, False, _
                                                       Process.GetCurrentProcess.Id)
                 If Not (hProc = IntPtr.Zero) Then
                     ' ?
                 End If
-                Call API.OpenProcessToken(hProc, API.TOKEN_RIGHTS.Query, hTok)
-                API.CloseHandle(hProc)
+                Call Native.Api.NativeFunctions.OpenProcessToken(hProc, Native.Security.TokenAccess.Query, hTok)
+                Native.Api.NativeFunctions.CloseHandle(hProc)
 
                 Dim value As Integer
                 Dim ret As Integer
 
                 ' Get tokeninfo length
-                API.GetTokenInformation(hTok, API.TOKEN_INFORMATION_CLASS.TokenElevationType, 0, 0, ret)
+                Native.Api.NativeFunctions.GetTokenInformation(hTok, Native.Api.NativeEnums.TokenInformationClass.TokenElevationType, IntPtr.Zero, 0, ret)
                 Dim TokenInformation As IntPtr = Marshal.AllocHGlobal(ret)
                 ' Get token information
-                API.GetTokenInformation(hTok, API.TOKEN_INFORMATION_CLASS.TokenElevationType, TokenInformation, ret, 0)
+                Native.Api.NativeFunctions.GetTokenInformation(hTok, Native.Api.NativeEnums.TokenInformationClass.TokenElevationType, TokenInformation, ret, 0)
                 ' Get a valid structure
                 value = Marshal.ReadInt32(TokenInformation, 0)
                 Marshal.FreeHGlobal(TokenInformation)
                 valRetrieved = CType(value, Native.Api.Enums.ElevationType)
 
-                API.CloseHandle(hTok)
+                Native.Api.NativeFunctions.CloseHandle(hTok)
 
                 If valRetrieved = Native.Api.Enums.ElevationType.Default Then
                     If cEnvironment.IsAdmin = False Then
@@ -176,24 +176,24 @@ Public Class cEnvironment
     ' Restart YAPM elevated
     Public Shared Sub RestartElevated()
 
-        Dim startInfo As New API.SHELLEXECUTEINFO
+        Dim startInfo As New Native.Api.NativeStructs.SHELLEXECUTEINFO
         With startInfo
             .cbSize = System.Runtime.InteropServices.Marshal.SizeOf(startInfo)
             .hwnd = _frmMain.Handle
             .lpFile = Application.ExecutablePath
             .lpParameters = PARAM_DO_NOT_CHECK_PREV_INSTANCE
             .lpVerb = "runas"
-            .nShow = API.SHOW_FINDOW_TYPE.Normal
+            .nShow = Native.Api.NativeEnums.ShowWindowType.ShowNormal
         End With
 
         Try
-            If API.ShellExecuteEx(startInfo) Then
+            If Native.Api.NativeFunctions.ShellExecuteEx(startInfo) Then
                 ' Then the new process has started -> 
                 '   - we hide tray icon
                 '   - we brutaly terminate this instance
                 '   - new instance will start
                 _frmMain.Tray.Visible = False
-                API.ExitProcess(0)
+                Native.Api.NativeFunctions.ExitProcess(0)
             End If
         Catch ex As Exception
             'ex = ex
@@ -209,7 +209,7 @@ Public Class cEnvironment
         Const BCM_SETSHIELD As Int32 = &H160C
 
         btn.FlatStyle = Windows.Forms.FlatStyle.System
-        API.SendMessage(btn.Handle, BCM_SETSHIELD, 0, 1)
+        Native.Api.NativeFunctions.SendMessage(btn.Handle, BCM_SETSHIELD, 0, 1)
     End Sub
     Public Shared Function GetUacShieldImage() As Bitmap
         Static shield_bm As Bitmap = Nothing

@@ -321,7 +321,7 @@ Public Class cFile
         _Name = Right(_Path, _Path.Length - x)
 
         Dim sb As New StringBuilder(255)
-        API.FindExecutable(_Path, vbNullString, sb)
+        Native.Api.NativeFunctions.FindExecutable(_Path, vbNullString, sb)
         _FileAssociatedProgram = Replace(sb.ToString, "\", "\\")
 
         ' File type
@@ -368,10 +368,11 @@ Public Class cFile
 
     ' Display File Property Box
     Public Function ShowFileProperty(ByVal handle As IntPtr) As Boolean
-        Dim SEI As API.SHELLEXECUTEINFO = Nothing
+        Dim SEI As Native.Api.NativeStructs.SHELLEXECUTEINFO = Nothing
         With SEI
-            .fMask = API.SEE_MASK_NOCLOSEPROCESS Or API.SEE_MASK_INVOKEIDLIST Or _
-                API.SEE_MASK_FLAG_NO_UI
+            .fMask = Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_FLAG_NO_UI Or _
+                    Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_INVOKEIDLIST Or _
+                    Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_NOCLOSEPROCESS
             .cbSize = System.Runtime.InteropServices.Marshal.SizeOf(SEI)
             .hwnd = handle
             .lpVerb = "properties"
@@ -409,10 +410,11 @@ Public Class cFile
 
     ' Open a file/URL
     Public Function ShellOpenFile(ByVal handle As IntPtr) As Boolean
-        Dim SEI As API.SHELLEXECUTEINFO = Nothing
+        Dim SEI As Native.Api.NativeStructs.SHELLEXECUTEINFO = Nothing
         With SEI
-            .fMask = API.SEE_MASK_NOCLOSEPROCESS Or API.SEE_MASK_INVOKEIDLIST Or _
-               API.SEE_MASK_FLAG_NO_UI
+            .fMask = Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_FLAG_NO_UI Or _
+                    Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_INVOKEIDLIST Or _
+                    Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_NOCLOSEPROCESS
             .cbSize = System.Runtime.InteropServices.Marshal.SizeOf(SEI)
             .hwnd = handle
             .lpVerb = vbNullChar
@@ -592,10 +594,11 @@ Public Class cFile
 
     ' Open a file/URL
     Public Shared Function ShellOpenFile(ByVal filePath As String, ByVal handle As IntPtr) As Boolean
-        Dim SEI As API.SHELLEXECUTEINFO = Nothing
+        Dim SEI As Native.Api.NativeStructs.SHELLEXECUTEINFO = Nothing
         With SEI
-            .fMask = API.SEE_MASK_NOCLOSEPROCESS Or API.SEE_MASK_INVOKEIDLIST Or _
-                API.SEE_MASK_FLAG_NO_UI
+            .fMask = Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_NOCLOSEPROCESS Or _
+                    Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_INVOKEIDLIST Or _
+                    Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_FLAG_NO_UI
             .cbSize = System.Runtime.InteropServices.Marshal.SizeOf(SEI)
             .hwnd = handle
             .lpVerb = vbNullChar
@@ -607,15 +610,17 @@ Public Class cFile
             .lpIDList = IntPtr.Zero
         End With
 
-        Return API.ShellExecuteEx(SEI)
+        Return Native.Api.NativeFunctions.ShellExecuteEx(SEI)
     End Function
 
     ' Display File Property Box
     Public Shared Function ShowFileProperty(ByVal filePath As String, ByVal handle As IntPtr) As Boolean
-        Dim SEI As API.SHELLEXECUTEINFO = Nothing
+        Dim SEI As Native.Api.NativeStructs.SHELLEXECUTEINFO = Nothing
         With SEI
-            .fMask = API.SEE_MASK_NOCLOSEPROCESS Or API.SEE_MASK_INVOKEIDLIST Or _
-                API.SEE_MASK_FLAG_NO_UI
+            .fMask = Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_FLAG_NO_UI Or _
+                    Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_INVOKEIDLIST Or _
+                    Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_NOCLOSEPROCESS
+
             .cbSize = System.Runtime.InteropServices.Marshal.SizeOf(SEI)
             .hwnd = handle
             .lpVerb = "properties"
@@ -627,7 +632,7 @@ Public Class cFile
             .lpIDList = IntPtr.Zero
         End With
 
-        Return API.ShellExecuteEx(SEI)
+        Return Native.Api.NativeFunctions.ShellExecuteEx(SEI)
     End Function
 
     ' Open directory

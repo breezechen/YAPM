@@ -40,7 +40,7 @@ Namespace Native.Objects
 
             ' Open handle, set affinity and close handle
             Dim hProc As IntPtr = _
-                    NativeFunctions.OpenProcess(NativeEnums.ProcessAccess.SetInformation, False, process)
+                    NativeFunctions.OpenProcess(Security.ProcessAccess.SetInformation, False, process)
             Dim ret As Boolean = SetAffinityByHandle(hProc, affinity)
             NativeFunctions.CloseHandle(hProc)
 

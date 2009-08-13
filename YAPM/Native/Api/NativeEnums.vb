@@ -464,13 +464,20 @@ Namespace Native.Api
         End Enum
 
         <Flags()> _
-    Public Enum RunFileDialogFlags As UInteger
+        Public Enum RunFileDialogFlags As UInteger
             None = &H0
             NoBrowse = &H1
             NoDefault = &H2
             CalcDirectory = &H4
             NoLabel = &H8
             NoSeparateMemory = &H20
+        End Enum
+
+        <Flags()> _
+        Public Enum ShellExecuteInfoMask As Integer
+            SEE_MASK_INVOKEIDLIST = &HC
+            SEE_MASK_NOCLOSEPROCESS = &H40
+            SEE_MASK_FLAG_NO_UI = &H400
         End Enum
 
 #End Region

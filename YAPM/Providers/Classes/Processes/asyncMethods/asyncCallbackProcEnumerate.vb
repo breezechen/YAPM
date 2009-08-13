@@ -248,7 +248,7 @@ Public Class asyncCallbackProcEnumerate
 
                                 .CommandLine = NO_INFO_RETRIEVED
                                 .FileInfo = Nothing
-                                .PEBAddress = 0
+                                .PebAddress = 0
                             End With
 
                             dicoNewProcesses.Add(obj.ProcessId, False)
@@ -321,31 +321,30 @@ Public Class asyncCallbackProcEnumerate
 
 
     Private Shared Function GetPath(ByVal _pid As Integer) As String
-        Dim s As String = vbNullString
+        Dim sRes As String
         Dim Ret As Integer
-        Dim sResult As String = Space(512)
-        Dim hModule As Integer
+        Dim sResult As New StringBuilder(512)
+        Dim hModule As IntPtr
 
-        Dim _hProcess As IntPtr = API.OpenProcess(cProcessConnection.ProcessMinRights, _
+        Dim _hProcess As IntPtr = Native.Api.NativeFunctions.OpenProcess(cProcessConnection.ProcessMinRights, _
                                                   False, _pid)
-        Call API.EnumProcessModules(_hProcess, hModule, 4, Ret)
-        sResult = Space(260)
-        Call API.GetModuleFileNameExA(_hProcess, hModule, sResult, 260)
-        s = sResult
-        API.CloseHandle(_hProcess)
+        Call Native.Api.NativeFunctions.EnumProcessModules(_hProcess, hModule, 4, Ret)
+        Call Native.Api.NativeFunctions.GetModuleFileNameEx(_hProcess, hModule, sResult, 260)
+        sRes = sResult.ToString
+        Native.Api.NativeFunctions.CloseHandle(_hProcess)
 
-        If InStr(sResult, vbNullChar) > 1 Then
-            sResult = Left(sResult, InStr(sResult, vbNullChar) - 1)
+        If InStr(sRes, vbNullChar) > 1 Then
+            sRes = Left(sRes, InStr(sRes, vbNullChar) - 1)
         Else
-            sResult = NO_INFO_RETRIEVED
+            sRes = NO_INFO_RETRIEVED
         End If
 
-        If System.IO.File.Exists(sResult) = False Then
+        If System.IO.File.Exists(sRes) = False Then
             Call RefreshLogicalDrives()
-            sResult = GetImageFile(_pid)
+            sRes = GetImageFile(_pid)
         End If
 
-        Return sResult
+        Return sRes
     End Function
 
     Private Shared Function GetUser(ByVal _pid As Integer, ByRef username As String, ByRef domain As String) As Boolean
@@ -356,21 +355,21 @@ Public Class asyncCallbackProcEnumerate
         If _pid > 4 Then
 
             Dim hToken As IntPtr
-            Dim _hProcess As IntPtr = API.OpenProcess(cProcessConnection.ProcessMinRights, _
+            Dim _hProcess As IntPtr = Native.Api.NativeFunctions.OpenProcess(cProcessConnection.ProcessMinRights, _
                                                       False, _pid)
 
 
-            If API.OpenProcessToken(_hProcess, &H8, hToken) > 0 Then
+            If Native.Api.NativeFunctions.OpenProcessToken(_hProcess, Native.Security.TokenAccess.Query, hToken) Then
 
-                API.GetTokenInformation(hToken, API.TOKEN_INFORMATION_CLASS.TokenUser, IntPtr.Zero, 0, retLen)
+                Native.Api.NativeFunctions.GetTokenInformation(hToken, Native.Api.NativeEnums.TokenInformationClass.TokenUser, IntPtr.Zero, 0, retLen)
                 Dim data As IntPtr = Marshal.AllocHGlobal(retLen)
-                API.GetTokenInformation(hToken, API.TOKEN_INFORMATION_CLASS.TokenUser, data, retLen, retLen)
+                Native.Api.NativeFunctions.GetTokenInformation(hToken, Native.Api.NativeEnums.TokenInformationClass.TokenUser, data, retLen, retLen)
 
-                API.CloseHandle(_hProcess)
-                API.CloseHandle(hToken)
+                Native.Api.NativeFunctions.CloseHandle(_hProcess)
+                Native.Api.NativeFunctions.CloseHandle(hToken)
 
-                Dim user As New API.TOKEN_USER
-                user = CType(Marshal.PtrToStructure(data, GetType(API.TOKEN_USER)), API.TOKEN_USER)
+                Dim user As New Native.Api.NativeStructs.TOKEN_USER
+                user = CType(Marshal.PtrToStructure(data, GetType(Native.Api.NativeStructs.TOKEN_USER)), Native.Api.NativeStructs.TOKEN_USER)
 
                 Call GetAccountName(user.User.Sid, username, domain)
                 Marshal.FreeHGlobal(data)
@@ -395,23 +394,23 @@ Public Class asyncCallbackProcEnumerate
 
             ' Have to open a handle
             Dim _h As IntPtr
-            _h = API.OpenProcess(cProcessConnection.ProcessMinRights, False, _pid)
+            _h = Native.Api.NativeFunctions.OpenProcess(cProcessConnection.ProcessMinRights, False, _pid)
 
             If _h <> IntPtr.Zero Then
                 ' Get size
                 Dim _size As Integer
-                API.ZwQueryInformationProcess(_h, API.PROCESS_INFORMATION_CLASS.ProcessImageFileName, IntPtr.Zero, 0, _size)
+                Native.Api.NativeFunctions.NtQueryInformationProcess(_h, Native.Api.NativeEnums.ProcessInformationClass.ProcessImageFileName, IntPtr.Zero, 0, _size)
                 If _size = 0 Then
                     Return NO_INFO_RETRIEVED
                 End If
 
                 ' Retrieve unicode string
                 Dim _pt As IntPtr = Marshal.AllocHGlobal(_size)
-                API.ZwQueryInformationProcess(_h, API.PROCESS_INFORMATION_CLASS.ProcessImageFileName, _pt, _size, _size)
-                Dim _str As API.UNICODE_STRING = CType(Marshal.PtrToStructure(_pt, _
-                                                                         GetType(API.UNICODE_STRING)), API.UNICODE_STRING)
+                Native.Api.NativeFunctions.NtQueryInformationProcess(_h, API.PROCESS_INFORMATION_CLASS.ProcessImageFileName, _pt, _size, _size)
+                Dim _str As Native.Api.NativeStructs.UnicodeString = CType(Marshal.PtrToStructure(_pt, _
+                                                                         GetType(Native.Api.NativeStructs.UnicodeString)), Native.Api.NativeStructs.UnicodeString)
                 Marshal.FreeHGlobal(_pt)
-                API.CloseHandle(_h)
+                Native.Api.NativeFunctions.CloseHandle(_h)
 
                 ' Return string (replace /DEVICE/... by the dos file name)
                 Dim _stemp As String = ReadUnicodeString(_str)
@@ -433,17 +432,17 @@ Public Class asyncCallbackProcEnumerate
     End Function
 
     ' Return PEB address
-    Private Shared Function GetPebAddress(ByVal _pid As Integer) As Integer
+    Private Shared Function GetPebAddress(ByVal _pid As Integer) As IntPtr
         If _pid > 4 Then
-            Dim _h As IntPtr = API.OpenProcess(cProcessConnection.ProcessMinRights, _
+            Dim _h As IntPtr = Native.Api.NativeFunctions.OpenProcess(cProcessConnection.ProcessMinRights, _
                                                False, _pid)
             Dim pbi As New Native.Api.NativeStructs.ProcessBasicInformation
             Dim ret As Integer
-            API.ZwQueryInformationProcess(_h, API.PROCESS_INFORMATION_CLASS.ProcessBasicInformation, pbi, Marshal.SizeOf(pbi), ret)
-            API.CloseHandle(_h)
+            Native.Api.NativeFunctions.NtQueryInformationProcess(_h, API.PROCESS_INFORMATION_CLASS.ProcessBasicInformation, pbi, Marshal.SizeOf(pbi), ret)
+            Native.Api.NativeFunctions.CloseHandle(_h)
             Return pbi.PebBaseAddress
         Else
-            Return 0
+            Return IntPtr.Zero
         End If
     End Function
 
@@ -469,7 +468,7 @@ Public Class asyncCallbackProcEnumerate
         For c As Byte = 65 To 90
             Dim _badPath As New StringBuilder(1024)
 
-            If API.QueryDosDevice(Char.ConvertFromUtf32(c) & ":", _badPath, 1024) <> 0 Then
+            If Native.Api.NativeFunctions.QueryDosDevice(Char.ConvertFromUtf32(c) & ":", _badPath, 1024) <> 0 Then
                 _tempDico.Add(_badPath.ToString(), Char.ConvertFromUtf32(c).ToString() & ":")
             End If
         Next
@@ -478,41 +477,44 @@ Public Class asyncCallbackProcEnumerate
     End Sub
 
     ' Return the command line
-    Private Shared Function GetCommandLine(ByVal _pid As Integer, ByVal PEBAddress As Integer) As String
+    Private Shared Function GetCommandLine(ByVal _pid As Integer, ByVal PEBAddress As IntPtr) As String
 
         Try
             Dim res As String = ""
 
             ' Get PEB address of process
             ' Get PEB address of process
-            Dim __pebAd As Integer = PEBAddress
-            If __pebAd <= 0 Then
+            Dim __pebAd As IntPtr = PEBAddress
+            If __pebAd = IntPtr.Zero Then
                 Return ""
             End If
 
             ' Create a reader class to read in memory
             Dim memReader As New cProcessMemReader(_pid)
 
-            If memReader.ProcessHandle = 0 Then
+            If memReader.ProcessHandle = IntPtr.Zero Then
                 Return NO_INFO_RETRIEVED           ' Couldn't open a handle
             End If
 
             ' Retrieve process parameters block address
             ' It's located from bytes 16 to 20 after PEB address
-            Dim __procParamAd As Integer = memReader.ReadInt32(__pebAd + 16)
+            '64TODO
+            Dim __procParamAd As IntPtr = memReader.ReadIntPtr(New IntPtr(__pebAd.ToInt64 + 16))
 
 
             ' Get unicode string adress
             ' It's located at offset 0x40 on all NT systems because it's 
             ' after a fixed structure of 64 bytes
-            Dim cmdLine As API.UNICODE_STRING
+            Dim cmdLine As Native.Api.NativeStructs.UnicodeString
 
             ' Read length of the unicode string
-            cmdLine.Length = CUShort(memReader.ReadInt32(__procParamAd + &H40))
+            ' TODO
+            cmdLine.Length = CUShort(memReader.ReadInt32(New IntPtr(__procParamAd.ToInt64 + &H40)))
             cmdLine.MaximumLength = CUShort(cmdLine.Length + 2) ' Not used, but...
 
             ' Read pointer to the string
-            cmdLine.Buffer = memReader.ReadInt32(__procParamAd + &H44)
+            ' 64TODO
+            cmdLine.Buffer = memReader.ReadIntPtr(New IntPtr(__procParamAd.ToInt64 + &H44))
 
             ' Read the string
             res = memReader.ReadUnicodeString(cmdLine)
@@ -526,26 +528,26 @@ Public Class asyncCallbackProcEnumerate
     End Function
 
     ' Get an account name from a SID
-    Private Shared Function GetAccountName(ByVal SID As Integer, ByRef userName As String, ByRef domainName As String) As Boolean
+    Private Shared Function GetAccountName(ByVal SID As IntPtr, ByRef userName As String, ByRef domainName As String) As Boolean
         Dim name As New StringBuilder(255)
         Dim domain As New StringBuilder(255)
         Dim namelen As Integer = 255
         Dim domainlen As Integer = 255
-        Dim use As API.SID_NAME_USE = API.SID_NAME_USE.SidTypeUser
+        Dim use As Native.Api.NativeEnums.SidNameUse = Native.Api.NativeEnums.SidNameUse.User
 
         domainName = ""
         userName = ""
 
         Try
-            If Not API.LookupAccountSid(Nothing, SID, name, namelen, domain, domainlen, use) Then
+            If Not Native.Api.NativeFunctions.LookupAccountSid(Nothing, SID, name, namelen, domain, domainlen, use) Then
                 name.EnsureCapacity(namelen)
                 domain.EnsureCapacity(domainlen)
-                API.LookupAccountSid(Nothing, SID, name, namelen, domain, domainlen, use)
+                Native.Api.NativeFunctions.LookupAccountSid(Nothing, SID, name, namelen, domain, domainlen, use)
             End If
             userName = name.ToString
         Catch
             ' return string SID
-            userName = New System.Security.Principal.SecurityIdentifier(New IntPtr(SID)).ToString
+            userName = New System.Security.Principal.SecurityIdentifier(SID).ToString
             Return False
         End Try
 
@@ -555,10 +557,10 @@ Public Class asyncCallbackProcEnumerate
     End Function
 
     ' Enumerate all handes opened by all processes
-    Private Function EnumerateHandles() As API.SystemHandleInformation()
+    Private Function EnumerateHandles() As Native.Api.NativeStructs.SystemHandleInformation()
         Dim handleCount As Integer = 0
         Dim retLen As Integer
-        Dim _handles As API.SystemHandleInformation()
+        Dim _handles As Native.Api.NativeStructs.SystemHandleInformation()
 
         ' I did not manage to get the good needed size with the first call to
         ' NtQuerySystemInformation with SystemHandleInformation flag when the buffer
@@ -572,7 +574,7 @@ Public Class asyncCallbackProcEnumerate
         Dim size As Integer = 1024
         Dim ptr As IntPtr = Marshal.AllocHGlobal(size)
 
-        While CUInt(API.NtQuerySystemInformation(native.api.nativeenums.SystemInformationClass.SystemHandleInformation, ptr, size, retLen)) = STATUS_INFO_LENGTH_MISMATCH
+        While CUInt(Native.Api.NativeFunctions.NtQuerySystemInformation(Native.Api.NativeEnums.SystemInformationClass.SystemHandleInformation, ptr, size, retLen)) = STATUS_INFO_LENGTH_MISMATCH
 
             size *= 2
             Marshal.FreeHGlobal(ptr)
@@ -582,14 +584,14 @@ Public Class asyncCallbackProcEnumerate
 
         ' The handlecount value is the first integer (4 bytes) of the unmanaged memory.
         handleCount = Marshal.ReadInt32(ptr, 0)
-        _handles = New API.SystemHandleInformation(handleCount - 1) {}
+        _handles = New Native.Api.NativeStructs.SystemHandleInformation(handleCount - 1) {}
 
         For x As Integer = 0 To handleCount - 1
-            Dim offset As Integer = ptr.ToInt32 + 4 + x * Marshal.SizeOf(GetType(API.SystemHandleInformation))
-            Dim temp As API.SystemHandleInformation = _
+            Dim offset As Integer = ptr.ToInt32 + 4 + x * Marshal.SizeOf(GetType(Native.Api.NativeStructs.SystemHandleInformation))
+            Dim temp As Native.Api.NativeStructs.SystemHandleInformation = _
                 CType(Marshal.PtrToStructure(New IntPtr(offset), _
-                                         GetType(API.SystemHandleInformation)),  _
-                                         API.SystemHandleInformation)
+                                         GetType(Native.Api.NativeStructs.SystemHandleInformation)),  _
+                                         Native.Api.NativeStructs.SystemHandleInformation)
             _handles(x) = temp
         Next
 
@@ -614,21 +616,21 @@ Public Class asyncCallbackProcEnumerate
         Dim _csrss As New Dictionary(Of Integer, IntPtr)
         For Each proc As processInfos In getVisibleProcesses.Values
             If proc.Name.ToLowerInvariant = "csrss.exe" Then
-                Dim _theHandle As IntPtr = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_DUP_HANDLE, False, proc.Pid)
+                Dim _theHandle As IntPtr = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.DupHandle, False, proc.Pid)
                 _csrss.Add(proc.Pid, _theHandle)
             End If
         Next
 
         ' Now we get all handles from all processes
-        Dim _handles As API.SystemHandleInformation() = EnumerateHandles()
+        Dim _handles As Native.Api.NativeStructs.SystemHandleInformation() = EnumerateHandles()
 
         ' For handles which belongs to a csrss.exe process
-        For Each h As API.SystemHandleInformation In _handles
+        For Each h As Native.Api.NativeStructs.SystemHandleInformation In _handles
             If _csrss.ContainsKey(h.ProcessId) Then
                 Dim _dup As IntPtr
                 ' ISNEEDED ?
-                If (API.DuplicateHandle(_csrss(h.ProcessId), CType(h.Handle, IntPtr), API.InvalidHandleValue, _dup, 0, False, API.DUPLICATE_SAME_ACCESS)) <> 0 Then
-                    Dim pid As Integer = API.GetProcessId(_dup)
+                If Native.Api.NativeFunctions.DuplicateHandle(_csrss(h.ProcessId), CType(h.Handle, IntPtr), Native.Api.NativeConstants.InvalidHandleValue, _dup, 0, False, Native.Api.NativeEnums.DuplicateOptions.SameAccess) Then
+                    Dim pid As Integer = Native.Api.NativeFunctions.GetProcessId(_dup)
                     Dim obj As New Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION
                     With obj
                         .ProcessId = pid
@@ -640,7 +642,7 @@ Public Class asyncCallbackProcEnumerate
                         _dico.Add(pid.ToString, _procInfos)
                     End If
                 End If
-                API.CloseHandle(_dup)
+                Native.Api.NativeFunctions.CloseHandle(_dup)
             End If
         Next
 
@@ -658,7 +660,7 @@ Public Class asyncCallbackProcEnumerate
                 _dico.Add(h.ToString, _procInfos)
             End If
 
-            API.CloseHandle(_csrss(h))
+            Native.Api.NativeFunctions.CloseHandle(_csrss(h))
         Next
 
 
@@ -694,11 +696,11 @@ Public Class asyncCallbackProcEnumerate
 
         ' We could stop before &hffff....
         For pid As Integer = &H8 To &HFFFF Step 4
-            Dim handle As IntPtr = API.OpenProcess(PROCESS_MIN_RIGHTS, False, pid)
+            Dim handle As IntPtr = Native.Api.NativeFunctions.OpenProcess(PROCESS_MIN_RIGHTS, False, pid)
             If handle <> IntPtr.Zero Then
                 Dim exitcode As Integer
-                Dim res As Integer = API.GetExitCodeProcess(handle, exitcode)
-                If exitcode = API.STILL_ACTIVE Then  ' Process still exists
+                Dim res As Boolean = Native.Api.NativeFunctions.GetExitCodeProcess(handle, exitcode)
+                If exitcode = Native.Api.NativeConstants.STILL_ACTIVE Then  ' Process still exists
                     Dim obj As New Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION
                     With obj
                         .ProcessId = pid
@@ -711,7 +713,7 @@ Public Class asyncCallbackProcEnumerate
                         _dico.Add(sKey, _procInfos)
                     End If
                 End If
-                API.CloseHandle(handle)
+                Native.Api.NativeFunctions.CloseHandle(handle)
             End If
         Next
 
@@ -743,12 +745,12 @@ Public Class asyncCallbackProcEnumerate
     Private Function getVisibleProcesses() As Dictionary(Of String, processInfos)
 
         Dim ret As Integer
-        API.NtQuerySystemInformation(native.api.nativeenums.SystemInformationClass.SystemProcessesAndThreadsInformation, _
+        Native.Api.NativeFunctions.NtQuerySystemInformation(Native.Api.NativeEnums.SystemInformationClass.SystemProcessInformation, _
                         memAllocForVProcesses.Pointer, memAllocForVProcesses.Size, ret)
         If memAllocForVProcesses.Size < ret Then
             memAllocForVProcesses.Resize(ret)
         End If
-        API.NtQuerySystemInformation(native.api.nativeenums.SystemInformationClass.SystemProcessesAndThreadsInformation, _
+        Native.Api.NativeFunctions.NtQuerySystemInformation(Native.Api.NativeEnums.SystemInformationClass.SystemProcessInformation, _
                         memAllocForVProcesses.Pointer, memAllocForVProcesses.Size, ret)
 
         ' Extract structures from unmanaged memory
@@ -770,8 +772,8 @@ Public Class asyncCallbackProcEnumerate
                 Dim _user As String = Nothing
                 Call GetUser(obj.ProcessId, _user, _domain)
                 Dim _command As String = NO_INFO_RETRIEVED
-                Dim _peb As Integer = GetPebAddress(obj.ProcessId)
-                If _peb > 0 Then
+                Dim _peb As IntPtr = GetPebAddress(obj.ProcessId)
+                If _peb <> IntPtr.Zero Then
                     _command = GetCommandLine(obj.ProcessId, _peb)
                 End If
                 Dim _finfo As FileVersionInfo = Nothing
@@ -789,7 +791,7 @@ Public Class asyncCallbackProcEnumerate
                     .DomainName = _domain
                     .CommandLine = _command
                     .FileInfo = _finfo
-                    .PEBAddress = _peb
+                    .PebAddress = _peb
                     .HasReanalize = True
                 End With
 
@@ -854,7 +856,7 @@ Public Class asyncCallbackProcEnumerate
                 .UserName = NO_INFO_RETRIEVED
                 .CommandLine = NO_INFO_RETRIEVED
                 .FileInfo = Nothing
-                .PEBAddress = 0
+                .PebAddress = 0
             End With
 
             offset += obj.NextEntryOffset

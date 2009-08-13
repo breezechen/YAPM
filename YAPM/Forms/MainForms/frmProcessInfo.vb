@@ -974,7 +974,7 @@ Public Class frmProcessInfo
     Public Sub ShowEnvVariables()
 
         lvProcEnv.ProcessId = curProc.Infos.Pid
-        lvProcEnv.Peb = curProc.Infos.PEBAddress
+        lvProcEnv.Peb = curProc.Infos.PebAddress
         lvProcEnv.UpdateTheItems()
 
     End Sub
@@ -1447,7 +1447,7 @@ Public Class frmProcessInfo
 
     Private Sub MenuItem9_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuCloseTCP.Click
         For Each it As cNetwork In Me.lvProcNetwork.GetSelectedItems
-            If it.Infos.Protocol = API.NetworkProtocol.Tcp Then
+            If it.Infos.Protocol = Native.Api.Enums.NetworkProtocol.Tcp Then
                 it.CloseTCP()
             End If
         Next
@@ -1515,7 +1515,7 @@ Public Class frmProcessInfo
             Dim memReg As cMemRegion = Me.lvProcMem.GetSelectedItem
             Dim b As Boolean = selectionIsNotNothing AndAlso _notWMI AndAlso _
                 (memReg IsNot Nothing) AndAlso _
-                (memReg.Infos.State = API.MEMORY_STATE.Commit And _
+                (memReg.Infos.State = Native.Api.NativeEnums.MemoryState.Commit And _
                  memReg.Infos.Type = API.MEMORY_TYPE.Private)
             Me.MenuItemMemoryDecommit.Enabled = b
             Me.MenuItemMemoryRelease.Enabled = b
@@ -1532,7 +1532,7 @@ Public Class frmProcessInfo
 
             Dim enable As Boolean = False
             For Each it As cNetwork In Me.lvProcNetwork.GetSelectedItems
-                If it.Infos.Protocol = API.NetworkProtocol.Tcp Then
+                If it.Infos.Protocol = Native.Api.Enums.NetworkProtocol.Tcp Then
                     If it.Infos.State <> API.MIB_TCP_STATE.Listening AndAlso it.Infos.State <> API.MIB_TCP_STATE.TimeWait AndAlso it.Infos.State <> API.MIB_TCP_STATE.CloseWait Then
                         enable = True
                         Exit For

@@ -118,11 +118,11 @@ Public Class cNetwork
     End Function
 
     ' Retrieve description of a port
-    Public Shared Function GetPortDescription(ByVal port As Integer, ByVal protocol As API.NetworkProtocol) As String
+    Public Shared Function GetPortDescription(ByVal port As Integer, ByVal protocol As Native.Api.Enums.NetworkProtocol) As String
         If port = 0 Then
             Return ""
         End If
-        If protocol = API.NetworkProtocol.Tcp Then
+        If protocol = Native.Api.Enums.NetworkProtocol.Tcp Then
             If _dicoTcp.ContainsKey(port) Then
                 Return _dicoTcp.Item(port)
             Else

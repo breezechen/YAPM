@@ -66,13 +66,6 @@ Public Class frmMain
     ' Form functions
     ' ========================================
 
-    ' Set double buffer property to a listview
-    Public Sub DoubleBufferListView(ByRef lv As ListView)
-        Dim styles As Integer = CInt(API.SendMessage(lv.Handle, API.LVM.LVM_GETEXTENDEDLISTVIEWSTYLE, 0, 0))
-        styles += API.LVS_EX.LVS_EX_DOUBLEBUFFER Or API.LVS_EX.LVS_EX_BORDERSELECT
-        API.SendMessage(lv.Handle, API.LVM.LVM_SETEXTENDEDLISTVIEWSTYLE, 0, styles)
-    End Sub
-
     ' Refresh File informations
     Public Sub refreshFileInfos(ByVal file As String)
 
@@ -3972,7 +3965,7 @@ Public Class frmMain
 
     Private Sub menuCloseTCP_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemNetworkClose.Click
         For Each it As cNetwork In Me.lvNetwork.GetSelectedItems
-            If it.Infos.Protocol = API.NetworkProtocol.Tcp Then
+            If it.Infos.Protocol = Native.Api.Enums.NetworkProtocol.Tcp Then
                 it.CloseTCP()
             End If
         Next
@@ -3990,7 +3983,7 @@ Public Class frmMain
 
             Dim enable As Boolean = False
             For Each it As cNetwork In Me.lvNetwork.GetSelectedItems
-                If it.Infos.Protocol = API.NetworkProtocol.Tcp Then
+                If it.Infos.Protocol = Native.Api.Enums.NetworkProtocol.Tcp Then
                     If it.Infos.State <> API.MIB_TCP_STATE.Listening AndAlso it.Infos.State <> API.MIB_TCP_STATE.TimeWait AndAlso it.Infos.State <> API.MIB_TCP_STATE.CloseWait Then
                         enable = True
                         Exit For

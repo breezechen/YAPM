@@ -82,11 +82,11 @@ Public Class asyncCallbackWindowGetNonFixedInfos
     End Sub
 
 
-    Private Function EnableWindowOpacity() As Integer
-        Return Native.Api.NativeFunctions.SetWindowLongPtr(_handle, _
+    Private Sub EnableWindowOpacity()
+        Native.Api.NativeFunctions.SetWindowLongPtr(_handle, _
                     Native.Api.NativeEnums.GetWindowLongOffset.ExStyle, _
-                    Native.Api.NativeFunctions.GetWindowLongPtr(_handle, Native.Api.NativeEnums.GetWindowLongOffset.ExStyle) Or API.WS_EX_LAYERED)
-    End Function
+                    New IntPtr(Native.Api.NativeFunctions.GetWindowLongPtr(_handle, Native.Api.NativeEnums.GetWindowLongOffset.ExStyle).ToInt32 Or Native.Api.NativeConstants.WS_EX_LAYERED))
+    End Sub
     Private Function ChangeWindowOpacity(ByVal Alpha As Byte) As Boolean
         Return Native.Api.NativeFunctions.SetLayeredWindowAttributes(_handle, 0, Alpha, Native.Api.NativeConstants.LWA_ALPHA)
     End Function
@@ -95,9 +95,9 @@ Public Class asyncCallbackWindowGetNonFixedInfos
         Native.Api.NativeFunctions.GetLayeredWindowAttributes(_handle, 0, alpha, Native.Api.NativeConstants.LWA_ALPHA)
         Return alpha
     End Function
-    Private Function DisableWindowOpacity() As Integer
-        Return Native.Api.NativeFunctions.SetWindowLongPtr(_handle, Native.Api.NativeEnums.GetWindowLongOffset.ExStyle, CType(CInt(Native.Api.NativeFunctions.GetWindowLongPtr(_handle, Native.Api.NativeEnums.GetWindowLongOffset.ExStyle)) - API.WS_EX_LAYERED, IntPtr))
-    End Function
+    Private Sub DisableWindowOpacity()
+        Native.Api.NativeFunctions.SetWindowLongPtr(_handle, Native.Api.NativeEnums.GetWindowLongOffset.ExStyle, CType(CInt(Native.Api.NativeFunctions.GetWindowLongPtr(_handle, Native.Api.NativeEnums.GetWindowLongOffset.ExStyle)) - Native.Api.NativeConstants.WS_EX_LAYERED, IntPtr))
+    End Sub
     ' Get position/size
     Private Function GetWindowPosition() As Native.Api.NativeStructs.Rect
         Dim tmpRect As Native.Api.NativeStructs.Rect

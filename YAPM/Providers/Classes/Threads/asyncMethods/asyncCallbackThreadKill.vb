@@ -70,10 +70,10 @@ Public Class asyncCallbackThreadKill
                 ' Local
                 Dim hProc As IntPtr
                 Dim ret As Boolean
-                hProc = API.OpenThread(Native.Security.ThreadAccess.THREAD_TERMINATE, False, pObj.id)
+                hProc = Native.Api.NativeFunctions.OpenThread(Native.Security.ThreadAccess.Terminate, False, pObj.id)
                 If hProc <> IntPtr.Zero Then
-                    ret = API.TerminateThread(hProc, 0)
-                    API.CloseHandle(hProc)
+                    ret = Native.Api.NativeFunctions.TerminateThread(hProc, 0)
+                    Native.Api.NativeFunctions.CloseHandle(hProc)
                     _deg.Invoke(ret, 0, Native.Api.Win32.GetLastError, pObj.newAction)
                 Else
                     _deg.Invoke(False, pObj.id, Native.Api.Win32.GetLastError, pObj.newAction)

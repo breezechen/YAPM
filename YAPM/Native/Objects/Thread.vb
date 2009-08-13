@@ -38,7 +38,7 @@ Namespace Native.Objects
 
             ' Open handle, resume thread and close handle
             Dim hThread As IntPtr = _
-                    NativeFunctions.OpenThread(NativeEnums.ThreadAccess.SuspendResume, False, thread)
+                    NativeFunctions.OpenThread(Security.ThreadAccess.SuspendResume, False, thread)
             Dim ret As Boolean = ResumeThreadByHandle(hThread)
             NativeFunctions.CloseHandle(hThread)
 
@@ -58,7 +58,7 @@ Namespace Native.Objects
 
             ' Open handle, suspend thread and close handle
             Dim hThread As IntPtr = _
-                    NativeFunctions.OpenThread(NativeEnums.ThreadAccess.SuspendResume, False, thread)
+                    NativeFunctions.OpenThread(Security.ThreadAccess.SuspendResume, False, thread)
             Dim ret As Boolean = SuspendThreadByHandle(hThread)
             NativeFunctions.CloseHandle(hThread)
 

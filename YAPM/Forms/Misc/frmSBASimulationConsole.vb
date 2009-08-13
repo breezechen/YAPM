@@ -25,20 +25,14 @@ Imports System.Runtime.InteropServices
 
 Public Class frmSBASimulationConsole
 
-    Private Sub DoubleBufferListView(ByRef lvH As IntPtr)
-        Dim styles As Integer = CInt(API.SendMessage(lvH, API.LVM.LVM_GETEXTENDEDLISTVIEWSTYLE, 0, 0))
-        styles += API.LVS_EX_DOUBLEBUFFER Or API.LVS_EX_BORDERSELECT
-        API.SendMessage(lv.Handle, API.LVM.LVM_SETEXTENDEDLISTVIEWSTYLE, 0, styles)
-    End Sub
-
     Private Sub frmSBASimulationConsole_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         e.Cancel = True
     End Sub
 
     Private Sub frmSBASimulationConsole_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        API.EnableMenuItem(API.GetSystemMenu(Me.Handle.ToInt32, 0), API.SC_CLOSE, API.MF_GRAYED)
+        Native.Api.NativeFunctions.EnableMenuItem(Native.Api.NativeFunctions.GetSystemMenu(Me.Handle, False), Native.Api.NativeConstants.SC_CLOSE, Native.Api.NativeConstants.MF_GRAYED)
         Native.Functions.Misc.SetTheme(lv.Handle)
-        DoubleBufferListView(Me.lv.Handle)
+        Native.Functions.Misc.SetListViewAsDoubleBuffered(Me.lv)
     End Sub
 
     Private Sub ClearConsoleToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClearConsoleToolStripMenuItem.Click

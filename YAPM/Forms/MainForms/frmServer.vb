@@ -764,7 +764,7 @@ Public Class frmServer
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim address As IntPtr = CType(cData.Param2, IntPtr)
                         Dim size As Integer = CType(cData.Param3, Integer)
-                        Dim type As API.MEMORY_STATE = CType(cData.Param4, API.MEMORY_STATE)
+                        Dim type As Native.Api.NativeEnums.MemoryState = CType(cData.Param4, Native.Api.NativeEnums.MemoryState)
                         Try
                             cMemRegion.SharedLRFree(pid, address, size, type)
                         Catch ex As Exception

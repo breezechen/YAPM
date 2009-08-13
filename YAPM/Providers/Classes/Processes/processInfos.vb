@@ -53,7 +53,7 @@ Imports System.Runtime.InteropServices
     Private _isHidden As Boolean
     Private _Pid As Integer
     Private _AffinityMask As Integer
-    Private _PEBAddress As Integer
+    Private _PebAddress As IntPtr
     Private _ParentProcessId As Integer
     Private _IOValues As Native.Api.NativeStructs.IO_COUNTERS
     Private _Path As String
@@ -171,12 +171,12 @@ Imports System.Runtime.InteropServices
 
 #Region "Other but fixed and non-RO properties"
 
-    Public Property PEBAddress() As Integer
+    Public Property PebAddress() As IntPtr
         Get
-            Return _PEBAddress
+            Return _PebAddress
         End Get
-        Set(ByVal value As Integer)
-            _PEBAddress = value
+        Set(ByVal value As IntPtr)
+            _PebAddress = value
         End Set
     End Property
     Public Property FileInfo() As FileVersionInfo

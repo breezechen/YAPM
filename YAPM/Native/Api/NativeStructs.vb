@@ -431,7 +431,7 @@ Namespace Native.Api
 
         Public Structure SHELLEXECUTEINFO
             Public cbSize As Integer
-            Public fMask As Integer
+            Public fMask As ShellExecuteInfoMask
             Public hwnd As IntPtr
             <MarshalAs(UnmanagedType.LPTStr)> Public lpVerb As String
             <MarshalAs(UnmanagedType.LPTStr)> Public lpFile As String

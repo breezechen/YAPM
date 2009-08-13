@@ -46,7 +46,7 @@ Public Class cThreadConnection
     Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, ByRef de As HasEnumeratedEventHandler)
         MyBase.New(ControlWhichGetInvoked, Conn)
         If cEnvironment.IsWindowsVistaOrAbove Then
-            _minRights = Native.Security.ThreadAccess.THREAD_SET_LIMITED_INFORMATION
+            _minRights = Native.Security.ThreadAccess.QueryLimitedInformation
         End If
         instanceId += 1
         _instanceId = instanceId

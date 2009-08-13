@@ -127,7 +127,7 @@ Public Class asyncCallbackThreadEnumerate
                                 End Try
                                 .State = CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.ThreadState.ToString))
                                 .UserTime = 10000 * CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.UserModeTime.ToString))
-                                .WaitReason = CType(CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.ThreadWaitReason.ToString)), API.KWAIT_REASON)
+                                .WaitReason = CType(CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.ThreadWaitReason.ToString)), Native.Api.NativeEnums.KWAIT_REASON)
                                 Try
                                     .WaitTime = 10000 * CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.ElapsedTime.ToString))
                                 Catch ex1 As Exception

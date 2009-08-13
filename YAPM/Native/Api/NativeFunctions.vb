@@ -35,6 +35,10 @@ Namespace Native.Api
         ' OK
 #Region "Declarations used for processes"
 
+        <DllImport("kernel32.dll", SetLastError:=True)> _
+        Public Shared Function GetCurrentProcessId() As Integer
+        End Function
+
         <DllImport("ntdll.dll")> _
         Public Shared Function NtQueryInformationProcess(<[In]()> ByVal ProcessHandle As IntPtr, _
                 <[In]()> ByVal ProcessInformationClass As ProcessInformationClass, _
@@ -593,6 +597,12 @@ Namespace Native.Api
         <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
         Public Shared Function ShowWindow(ByVal hwnd As IntPtr, _
                                     ByVal nCmdShow As ShowWindowType) As Boolean
+        End Function
+
+        <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
+        Public Shared Function SendMessage(ByVal hWnd As IntPtr, _
+                        ByVal Msg As Native.Api.NativeEnums.LVM, _
+                        ByVal wParam As IntPtr, ByVal lParam As IntPtr) As IntPtr
         End Function
 
         <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _

@@ -555,7 +555,7 @@ Public Class cThread
     ' Return backcolor of current item
     Public Overrides Function GetBackColor() As System.Drawing.Color
 
-        If _hlSuspendedThread AndAlso Me.Infos.WaitReason = API.KWAIT_REASON.Suspended Then
+        If _hlSuspendedThread AndAlso Me.Infos.WaitReason = Native.Api.NativeEnums.KWAIT_REASON.Suspended Then
             Return _hlSuspendedThreadColor
         End If
 

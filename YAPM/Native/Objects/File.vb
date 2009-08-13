@@ -74,7 +74,7 @@ Namespace Native.Objects
             iD = UInteger.Parse(s.Substring(s.Length - i - 5, i + 5))
 
             ' Get resource
-            Return Common.Misc.FormatPathWithDoubleSlashs(ExtractString(file, iD))
+            Return Common.Misc.FormatPathWithDoubleSlashs(GetResourceStringFromFile(file, iD))
 
         End Function
 

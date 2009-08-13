@@ -47,6 +47,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -122,6 +123,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.Windows.Forms" />
@@ -142,6 +146,7 @@
     <Import Include="System.Collections.Generic" />
     <Import Include="System.Diagnostics" />
     <Import Include="System.Drawing" />
+    <Import Include="System.Linq" />
     <Import Include="System.Windows.Forms" />
     <Import Include="System.Xml" />
   </ItemGroup>
@@ -552,6 +557,7 @@
     <Compile Include="Native\Api\NativeStructs.vb" />
     <Compile Include="Native\Enums.vb" />
     <Compile Include="Native\Functions\Service.vb" />
+    <Compile Include="Native\IntPtrExtensions.vb" />
     <Compile Include="Native\Objects\Service.vb" />
     <Compile Include="Native\Security\ProcessAccess.vb" />
     <Compile Include="Native\Security\ServiceAccess.vb" />

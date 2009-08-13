@@ -40,12 +40,12 @@ Public Class asyncCallbackMemRegionFree
         Public pid As Integer
         Public address As IntPtr
         Public size As Integer
-        Public type As API.MEMORY_STATE
+        Public type As Native.Api.NativeEnums.MemoryState
         Public newAction As Integer
         Public Sub New(ByVal pi As Integer, _
                        ByVal ad As IntPtr, _
                        ByVal siz As Integer, _
-                       ByVal typ As API.MEMORY_STATE, _
+                       ByVal typ As Native.Api.NativeEnums.MemoryState, _
                        ByVal act As Integer)
             address = ad
             newAction = act
@@ -87,10 +87,10 @@ Public Class asyncCallbackMemRegionFree
         Dim ret As Boolean
         Dim hProcess As IntPtr
 
-        hProcess = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_VM_OPERATION, False, obj.pid)
+        hProcess = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.VmOperation, False, obj.pid)
         If hProcess <> IntPtr.Zero Then
-            ret = API.VirtualFreeEx(hProcess, obj.address, obj.size, obj.type)
-            Call API.CloseHandle(hProcess)
+            ret = Native.Api.NativeFunctions.VirtualFreeEx(hProcess, obj.address, obj.size, obj.type)
+            Call Native.Api.NativeFunctions.CloseHandle(hProcess)
         End If
 
         Return ret

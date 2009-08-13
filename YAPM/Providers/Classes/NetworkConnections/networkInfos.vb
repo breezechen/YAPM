@@ -46,7 +46,7 @@ Imports System.Net
 #Region "Private attributes"
 
     Private _pid As Integer
-    Private _Protocol As API.NetworkProtocol
+    Private _Protocol As Native.Api.Enums.NetworkProtocol
     Friend _Local As IPEndPoint
     Friend _remote As IPEndPoint
     Private _key As String
@@ -69,7 +69,7 @@ Imports System.Net
             Return _procName
         End Get
     End Property
-    Public ReadOnly Property Protocol() As API.NetworkProtocol
+    Public ReadOnly Property Protocol() As Native.Api.Enums.NetworkProtocol
         Get
             Return _Protocol
         End Get

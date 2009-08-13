@@ -43,7 +43,7 @@ Imports System.Runtime.InteropServices
     Private _BasePriority As Integer
     Private _ContextSwitchCount As Integer
     Private _State As ThreadState
-    Private _WaitReason As API.KWAIT_REASON
+    Private _WaitReason As Native.Api.NativeEnums.KWAIT_REASON
 
 #End Region
 
@@ -109,7 +109,7 @@ Imports System.Runtime.InteropServices
             Return _State
         End Get
     End Property
-    Public ReadOnly Property WaitReason() As API.KWAIT_REASON
+    Public ReadOnly Property WaitReason() As Native.Api.NativeEnums.KWAIT_REASON
         Get
             Return _WaitReason
         End Get
