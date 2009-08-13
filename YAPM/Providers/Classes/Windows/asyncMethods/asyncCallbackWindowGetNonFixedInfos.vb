@@ -107,7 +107,9 @@ Public Class asyncCallbackWindowGetNonFixedInfos
 
     Private Shared Function _isTask(ByVal hwnd As IntPtr) As Boolean
         ' Window must be visible
-        If Native.Api.NativeFunctions.IsWindowVisible(hwnd) AndAlso Native.Api.NativeFunctions.GetWindowLongPtr(hwnd, Native.Api.NativeEnums.GetWindowLongOffset.HwndParent) = IntPtr.Zero AndAlso Not _
+        If Native.Api.NativeFunctions.IsWindowVisible(hwnd) AndAlso _
+                Native.Api.NativeFunctions.GetWindowLongPtr(hwnd, _
+                                    Native.Api.NativeEnums.GetWindowLongOffset.HwndParent) = IntPtr.Zero AndAlso Not _
             (Native.Api.NativeFunctions.GetWindowTextLength(hwnd) = 0) Then
             ' Must not be taskmgr
             If GetWindowClass(hwnd) <> "Progman" Then

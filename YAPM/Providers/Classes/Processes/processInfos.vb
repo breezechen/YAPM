@@ -55,14 +55,14 @@ Imports System.Runtime.InteropServices
     Private _AffinityMask As Integer
     Private _PEBAddress As Integer
     Private _ParentProcessId As Integer
-    Private _IOValues As API.IO_COUNTERS
+    Private _IOValues As Native.Api.NativeStructs.IO_COUNTERS
     Private _Path As String
     Private _UserName As String
     Private _DomainName As String
     Private _Name As String
     Private _KernelTime As Long
     Private _UserTime As Long
-    Private _MemoryInfos As API.VM_COUNTERS_EX
+    Private _MemoryInfos As Native.Api.NativeStructs.VM_COUNTERS_EX
     Private _HandleCount As Integer
     Private _StartTime As Long
     Private _Priority As ProcessPriorityClass
@@ -111,7 +111,7 @@ Imports System.Runtime.InteropServices
             Return _ParentProcessId
         End Get
     End Property
-    Public ReadOnly Property IOValues() As API.IO_COUNTERS
+    Public ReadOnly Property IOValues() As Native.Api.NativeStructs.IO_COUNTERS
         Get
             Return _IOValues
         End Get
@@ -136,7 +136,7 @@ Imports System.Runtime.InteropServices
             Return _UserTime
         End Get
     End Property
-    Public ReadOnly Property MemoryInfos() As API.VM_COUNTERS_EX
+    Public ReadOnly Property MemoryInfos() As Native.Api.NativeStructs.VM_COUNTERS_EX
         Get
             Return _MemoryInfos
         End Get
@@ -257,7 +257,7 @@ Imports System.Runtime.InteropServices
     ' ========================================
 
     ' Constructor of this class
-    Public Sub New(ByRef Proc As API.SYSTEM_PROCESS_INFORMATION, Optional ByVal ProcessName As String = Nothing)
+    Public Sub New(ByRef Proc As Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION, Optional ByVal ProcessName As String = Nothing)
         _PEBAddress = 0
 
         With Proc

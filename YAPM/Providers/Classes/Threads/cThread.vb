@@ -53,7 +53,7 @@ Public Class cThread
         _connection = Connection
         ' Get a handle if local
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            _handleQueryInfo = API.OpenThread(API.THREAD_RIGHTS.THREAD_QUERY_INFORMATION, False, infos.Id)
+            _handleQueryInfo = API.OpenThread(Native.Security.ThreadAccess.THREAD_QUERY_INFORMATION, False, infos.Id)
             If getPriorityInfo Then
                 ' Here we get priority (used when YAPM is used as a server)
                 Call infos.SetPriority(API.GetThreadPriority(_handleQueryInfo))

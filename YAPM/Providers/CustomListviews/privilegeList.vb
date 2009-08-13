@@ -309,14 +309,14 @@ Public Class privilegeList
     ' Set backcolor
     Private Sub SetItemBackColor(ByRef item As ListViewItem)
 
-        Select Case CInt(_dico.Item(item.Name).Infos.Status)
-            Case API.PRIVILEGE_STATUS.PRIVILEGE_ENABLED
+        Select Case _dico.Item(item.Name).Infos.Status
+            Case Native.Api.NativeEnums.SePrivilegeAttributes.Enabled
                 item.BackColor = Color.FromArgb(224, 240, 224)
-            Case 1, 3
+            Case Native.Api.NativeEnums.SePrivilegeAttributes.EnabledByDefault, Native.Api.NativeEnums.SePrivilegeAttributes.DisabledByDefault
                 item.BackColor = Color.FromArgb(192, 240, 192)
-            Case API.PRIVILEGE_STATUS.PRIVILEGE_DISBALED
+            Case Native.Api.NativeEnums.SePrivilegeAttributes.Disabled
                 item.BackColor = Color.FromArgb(240, 224, 224)
-            Case API.PRIVILEGE_STATUS.PRIVILEGE_REMOVED
+            Case Native.Api.NativeEnums.SePrivilegeAttributes.Removed
                 item.BackColor = Color.FromArgb(240, 192, 192)
             Case Else
                 item.BackColor = Color.White

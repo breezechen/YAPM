@@ -73,7 +73,7 @@ Public Class asyncCallbackProcKill
                     If _theProcess IsNot Nothing Then
                         Dim ret As Integer = 0
                         ret = CInt(_theProcess.InvokeMethod("Terminate", Nothing))
-                        _deg.Invoke(ret = 0, pObj.pid, CType(ret, API.PROCESS_RETURN_CODE_WMI).ToString, pObj.newAction)
+                        _deg.Invoke(ret = 0, pObj.pid, CType(ret, Native.Api.Enums.WmiProcessReturnCode).ToString, pObj.newAction)
                     Else
                         _deg.Invoke(False, pObj.pid, "Internal error", pObj.newAction)
                     End If
@@ -84,12 +84,12 @@ Public Class asyncCallbackProcKill
             Case Else
                 ' Local
                 Dim hProc As IntPtr
-                Dim ret As Integer = -1
-                hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_TERMINATE, False, pObj.pid)
+                Dim ret As Boolean
+                hProc = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.Terminate, False, pObj.pid)
                 If hProc <> IntPtr.Zero Then
-                    ret = API.TerminateProcess(hProc, 0)
-                    API.CloseHandle(hProc)
-                    _deg.Invoke(ret <> 0, 0, Native.Api.Win32.GetLastError, pObj.newAction)
+                    ret = Native.Api.NativeFunctions.TerminateProcess(hProc, 0)
+                    Native.Api.NativeFunctions.CloseHandle(hProc)
+                    _deg.Invoke(ret, 0, Native.Api.Win32.GetLastError, pObj.newAction)
                 Else
                     _deg.Invoke(False, pObj.pid, Native.Api.Win32.GetLastError, pObj.newAction)
                 End If

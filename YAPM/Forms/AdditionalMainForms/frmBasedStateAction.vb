@@ -57,7 +57,7 @@
 '        _frmMain.emStateBasedActions.ClearConsole()
 '        _frmMain.emStateBasedActions.SimulationMode = True
 
-'        SetWindowTheme(lv.Handle, "explorer", Nothing)
+'        SetWindowTheme(lv.Handle)
 
 '        If Program.Preferences.firstTimeSBA Then
 '            MsgBox(MSG_FIRST_TIME_SBA, MsgBoxStyle.Information, "State based actions")

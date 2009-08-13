@@ -226,7 +226,7 @@ Public Class frmProcessInfo
         Me.lblOtherD.Text = curProc.IODelta.OtherOperationCount.ToString
         Me.lblOthersBD.Text = curProc.GetInformation("OtherTransferCountDelta")
 
-        Dim mem As API.VM_COUNTERS_EX = curProc.Infos.MemoryInfos
+        Dim mem As Native.Api.NativeStructs.VM_COUNTERS_EX = curProc.Infos.MemoryInfos
         Me.lblHandles.Text = CStr(curProc.Infos.HandleCount)
         Dim ts As Date = New Date(curProc.Infos.KernelTime)
         Dim s As String = String.Format("{0:00}", ts.Hour) & ":" & _
@@ -261,7 +261,7 @@ Public Class frmProcessInfo
     ' Refresh information tab
     Private Sub refreshInfosTab()
         Try
-            Dim pmc As API.VM_COUNTERS_EX = curProc.Infos.MemoryInfos
+            Dim pmc As Native.Api.NativeStructs.VM_COUNTERS_EX = curProc.Infos.MemoryInfos
             Dim s As String = ""
             s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
             s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b File properties\b0\par"
@@ -341,17 +341,17 @@ Public Class frmProcessInfo
         closeWithEchapKey(Me)
 
         ' Cool theme
-        API.SetWindowTheme(Me.lvProcString.Handle, "explorer", Nothing)
-        API.SetWindowTheme(Me.lvProcEnv.Handle, "explorer", Nothing)
-        API.SetWindowTheme(Me.lvProcNetwork.Handle, "explorer", Nothing)
-        API.SetWindowTheme(Me.lvProcMem.Handle, "explorer", Nothing)
-        API.SetWindowTheme(Me.lvProcServices.Handle, "explorer", Nothing)
-        API.SetWindowTheme(Me.lvPrivileges.Handle, "explorer", Nothing)
-        API.SetWindowTheme(Me.lvModules.Handle, "explorer", Nothing)
-        API.SetWindowTheme(Me.lvHandles.Handle, "explorer", Nothing)
-        API.SetWindowTheme(Me.lvThreads.Handle, "explorer", Nothing)
-        API.SetWindowTheme(Me.lvWindows.Handle, "explorer", Nothing)
-        API.SetWindowTheme(Me.lvLog.Handle, "explorer", Nothing)
+        Native.Api.Functions.Misc.SetTheme(Me.lvProcString.Handle)
+        Native.Api.Functions.Misc.SetTheme(Me.lvProcEnv.Handle)
+        Native.Api.Functions.Misc.SetTheme(Me.lvProcNetwork.Handle)
+        Native.Api.Functions.Misc.SetTheme(Me.lvProcMem.Handle)
+        Native.Api.Functions.Misc.SetTheme(Me.lvProcServices.Handle)
+        Native.Api.Functions.Misc.SetTheme(Me.lvPrivileges.Handle)
+        Native.Api.Functions.Misc.SetTheme(Me.lvModules.Handle)
+        Native.Api.Functions.Misc.SetTheme(Me.lvHandles.Handle)
+        Native.Api.Functions.Misc.SetTheme(Me.lvThreads.Handle)
+        Native.Api.Functions.Misc.SetTheme(Me.lvWindows.Handle)
+        Native.Api.Functions.Misc.SetTheme(Me.lvLog.Handle)
 
         ' Some tooltips
         SetToolTip(Me.cmdInfosToClipB, "Copy process informations to clipboard. Use left click to copy as text, right click to copy as rtf (preserve text style)")
@@ -1254,7 +1254,7 @@ Public Class frmProcessInfo
     End Sub
 
     ' When we've finished to get all non fixed infos
-    Private Sub asyncAllNonFixedInfos_HasGotAllNonFixedInfos(ByVal Success As Boolean, ByRef newInfos As API.SYSTEM_PROCESS_INFORMATION, ByVal msg As String) Handles asyncAllNonFixedInfos.HasGotAllNonFixedInfos
+    Private Sub asyncAllNonFixedInfos_HasGotAllNonFixedInfos(ByVal Success As Boolean, ByRef newInfos As Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION, ByVal msg As String) Handles asyncAllNonFixedInfos.HasGotAllNonFixedInfos
         If Success Then
             curProc.Merge(newInfos)
         Else

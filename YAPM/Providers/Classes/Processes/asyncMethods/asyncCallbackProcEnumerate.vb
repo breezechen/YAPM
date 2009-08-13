@@ -189,12 +189,12 @@ Public Class asyncCallbackProcEnumerate
                     Dim _dico As New Dictionary(Of String, processInfos)
                     For Each refProcess As Management.ManagementObject In res
 
-                        Dim obj As New API.SYSTEM_PROCESS_INFORMATION
+                        Dim obj As New Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION
                         With obj
                             .BasePriority = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.Priority.ToString))
                             .HandleCount = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.HandleCount.ToString))
                             .InheritedFromProcessId = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.ParentProcessId.ToString))
-                            Dim _IO As New API.IO_COUNTERS
+                            Dim _IO As New Native.Api.NativeStructs.IO_COUNTERS
                             With _IO
                                 .OtherOperationCount = CULng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.OtherOperationCount.ToString))
                                 .OtherTransferCount = CULng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.OtherTransferCount.ToString))
@@ -209,7 +209,7 @@ Public Class asyncCallbackProcEnumerate
                             .ProcessId = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.ProcessId.ToString))
                             '.SessionId                 ' NOT IMPLEMENTED
                             .UserTime = CLng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.UserModeTime.ToString))
-                            Dim _VM As New API.VM_COUNTERS_EX
+                            Dim _VM As New Native.Api.NativeStructs.VM_COUNTERS_EX
                             With _VM
                                 .PageFaultCount = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PageFaults.ToString))
                                 .PagefileUsage = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PageFileUsage.ToString))
@@ -437,7 +437,7 @@ Public Class asyncCallbackProcEnumerate
         If _pid > 4 Then
             Dim _h As IntPtr = API.OpenProcess(cProcessConnection.ProcessMinRights, _
                                                False, _pid)
-            Dim pbi As New API.PROCESS_BASIC_INFORMATION
+            Dim pbi As New Native.Api.NativeStructs.PROCESS_BASIC_INFORMATION
             Dim ret As Integer
             API.ZwQueryInformationProcess(_h, API.PROCESS_INFORMATION_CLASS.ProcessBasicInformation, pbi, Marshal.SizeOf(pbi), ret)
             API.CloseHandle(_h)
@@ -629,7 +629,7 @@ Public Class asyncCallbackProcEnumerate
                 ' ISNEEDED ?
                 If (API.DuplicateHandle(_csrss(h.ProcessId), CType(h.Handle, IntPtr), API.InvalidHandleValue, _dup, 0, False, API.DUPLICATE_SAME_ACCESS)) <> 0 Then
                     Dim pid As Integer = API.GetProcessId(_dup)
-                    Dim obj As New API.SYSTEM_PROCESS_INFORMATION
+                    Dim obj As New Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION
                     With obj
                         .ProcessId = pid
                     End With
@@ -647,7 +647,7 @@ Public Class asyncCallbackProcEnumerate
         ' Add the two instances of csrss.exe to result
         ' & close previously opened handles
         For Each h As Integer In _csrss.Keys
-            Dim obj As New API.SYSTEM_PROCESS_INFORMATION
+            Dim obj As New Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION
             With obj
                 .ProcessId = h
             End With
@@ -699,7 +699,7 @@ Public Class asyncCallbackProcEnumerate
                 Dim exitcode As Integer
                 Dim res As Integer = API.GetExitCodeProcess(handle, exitcode)
                 If exitcode = API.STILL_ACTIVE Then  ' Process still exists
-                    Dim obj As New API.SYSTEM_PROCESS_INFORMATION
+                    Dim obj As New Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION
                     With obj
                         .ProcessId = pid
                     End With
@@ -757,8 +757,8 @@ Public Class asyncCallbackProcEnumerate
         Dim _dico As New Dictionary(Of String, processInfos)
         Do While True
 
-            Dim obj As API.SYSTEM_PROCESS_INFORMATION = _
-                    memAllocForVProcesses.ReadStructOffset(Of API.SYSTEM_PROCESS_INFORMATION)(offset)
+            Dim obj As Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION = _
+                    memAllocForVProcesses.ReadStructOffset(Of Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION)(offset)
             Dim _procInfos As New processInfos(obj)
 
 
@@ -844,8 +844,8 @@ Public Class asyncCallbackProcEnumerate
         Dim _dico As New Dictionary(Of String, processInfos)
         Do While True
 
-            Dim obj As API.SYSTEM_PROCESS_INFORMATION = _
-                    memAllocForVProcesses.ReadStructOffset(Of API.SYSTEM_PROCESS_INFORMATION)(offset)
+            Dim obj As Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION = _
+                    memAllocForVProcesses.ReadStructOffset(Of Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION)(offset)
             Dim _procInfos As New processInfos(obj)
 
             Dim _path As String = GetPath(obj.ProcessId)

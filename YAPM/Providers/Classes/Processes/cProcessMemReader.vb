@@ -37,12 +37,12 @@ Public Class cProcessMemReader
     ' Constructor & destructor
     ' ========================================
     Public Sub New(ByVal pid As Integer)
-        _hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION Or _
-                                 API.PROCESS_RIGHTS.PROCESS_VM_READ, False, pid)
+        _hProc = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation Or _
+                                  Native.Security.ProcessAccess.VmRead, False, pid)
     End Sub
     Public Sub Dispose() Implements System.IDisposable.Dispose
         If _hProc <> IntPtr.Zero Then
-            Call API.CloseHandle(_hProc)
+            Call Native.Api.NativeFunctions.CloseHandle(_hProc)
         End If
     End Sub
 
@@ -67,40 +67,33 @@ Public Class cProcessMemReader
     ' ========================================
 
     ' Get PEB
-    Public Function GetPEBAddress() As Integer
+    Public Function GetPEBAddress() As IntPtr
         Dim ret As Integer
-        Dim pbi As New API.PROCESS_BASIC_INFORMATION
-        API.ZwQueryInformationProcess(_hProc, _
-                                      API.PROCESS_INFORMATION_CLASS.ProcessBasicInformation, _
+        Dim pbi As New Native.Api.NativeStructs.PROCESS_BASIC_INFORMATION
+        Native.Api.NativeFunctions.NtQueryInformationProcess(_hProc, Native.Api.NativeEnums.ProcessInformationClass.ProcessBasicInformation, _
                                       pbi, Marshal.SizeOf(pbi), ret)
         Return pbi.PebBaseAddress
     End Function
 
     ' Read an Int32
-    Public Function ReadInt32(ByVal offset As Integer) As Integer
+    Public Function ReadInt32(ByVal offset As IntPtr) As Integer
         Dim buffer(0) As Integer
         Dim lByte As Integer
-        API.ReadProcessMemory(_hProc, offset, buffer, 4, lByte)
+        Native.Api.NativeFunctions.ReadProcessMemory(_hProc, offset, buffer, 4, lByte)
         Return buffer(0)
-    End Function
-    Public Function ReadInt32(ByVal offset As IntPtr) As Integer
-        ReadInt32(ReadInt32(offset.ToInt32))
     End Function
 
     ' Read a byte array
-    Public Function ReadByteArray(ByVal offset As Integer, ByVal size As Integer) As Byte()
+    Public Function ReadByteArray(ByVal offset As IntPtr, ByVal size As Integer) As Byte()
         Dim buffer() As Byte
         Dim lByte As Integer
-        ReDim buffer(Size - 1)
-        API.ReadProcessMemory(_hProc, offset, buffer, size, lByte)
+        ReDim buffer(size - 1)
+        Native.Api.NativeFunctions.ReadProcessMemory(_hProc, offset, buffer, size, lByte)
         Return buffer
-    End Function
-    Public Function ReadByteArray(ByVal offset As IntPtr, ByVal size As Integer) As Byte()
-        Return ReadByteArray(offset, size)
     End Function
 
     ' Read a structure
-    Public Function ReadStruct(Of T)(ByVal offset As Integer) As T
+    Public Function ReadStruct(Of T)(ByVal offset As IntPtr) As T
 
         Dim ret As T
 
@@ -124,7 +117,7 @@ Public Class cProcessMemReader
     End Function
 
     ' Read an unicode string
-    Public Function ReadUnicodeString(ByVal str As API.UNICODE_STRING) As String
+    Public Function ReadUnicodeString(ByVal str As Native.Api.NativeStructs.UnicodeString) As String
         If str.Length = 0 Then
             Return Nothing
         End If

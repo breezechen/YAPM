@@ -111,7 +111,7 @@ Public Class asyncCallbackWindowEnumerate
         Dim cpt As Integer
 
 
-        currWnd = API.GetWindowAPI(API.GetDesktopWindow(), API.GW_CHILD)
+        currWnd = Native.Api.NativeFunctions.GetWindowAPI(Native.Api.NativeFunctions.GetDesktopWindow(), API.GW_CHILD)
         cpt = 0
         Do While Not (currWnd = IntPtr.Zero)
 
@@ -129,7 +129,7 @@ Public Class asyncCallbackWindowEnumerate
                 End If
             End If
 
-            currWnd = API.GetWindowAPI(currWnd, API.GW_HWNDNEXT)
+            currWnd = Native.Api.NativeFunctions.GetWindowAPI(currWnd, API.GW_HWNDNEXT)
         Loop
     End Sub
 
@@ -144,10 +144,10 @@ Public Class asyncCallbackWindowEnumerate
     ' Return caption
     Friend Shared Function GetCaption(ByVal hWnd As IntPtr) As String
         Dim length As Integer
-        length = API.GetWindowTextLength(hWnd)
+        length = Native.Api.NativeFunctions.GetWindowTextLength(hWnd)
         If length > 0 Then
             Dim _cap As New StringBuilder(Space(length + 1))
-            length = API.GetWindowText(hWnd, _cap, length + 1)
+            length = Native.Api.NativeFunctions.GetWindowText(hWnd, _cap, length + 1)
             Return _cap.ToString.Substring(0, Len(_cap.ToString))
         Else
             Return ""
@@ -156,7 +156,7 @@ Public Class asyncCallbackWindowEnumerate
 
     ' Return thread id from a handle
     Friend Shared Function GetThreadIdFromWindowHandle(ByVal hwnd As IntPtr) As Integer
-        Return API.GetWindowThreadProcessId(hwnd, 0)
+        Return Native.Api.NativeFunctions.GetWindowThreadProcessId(hwnd, 0)
     End Function
 
 End Class

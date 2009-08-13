@@ -23,7 +23,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 
-Namespace Native.Api.Security
+Namespace Native.Security
 
     <Flags()> _
         Public Enum TokenAccess As UInteger

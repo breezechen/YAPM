@@ -32,7 +32,7 @@ Namespace Native.Objects
                                             ByVal seStatus As NativeEnums.SePrivilegeAttributes) As Boolean
 
             Dim hProcess As IntPtr
-            Dim Ret As Integer
+            Dim Ret As Boolean
             Dim fRet As Boolean
             Dim lngToken As IntPtr
             Dim typLUID As NativeStructs.Luid
@@ -41,17 +41,15 @@ Namespace Native.Objects
             Dim ret2 As IntPtr
 
             ' Open handle to process
-            hProcess = NativeFunctions.OpenProcess(NativeEnums.ProcessAccess.QueryInformation, _
+            hProcess = NativeFunctions.OpenProcess(Api.Security.ProcessAccess.QueryInformation, _
                                                    False, processId)
 
             If hProcess <> IntPtr.Zero Then
                 ' Get token handle
-                NativeFunctions.OpenProcessToken(hProcess, NativeEnums.TokenAccess.Query Or NativeEnums.TokenAccess.AdjustPrivileges, lngToken)
+                NativeFunctions.OpenProcessToken(hProcess, Api.Security.TokenAccess.Query Or Api.Security.TokenAccess.AdjustPrivileges, lngToken)
 
                 If lngToken <> IntPtr.Zero Then
-                    Ret = NativeFunctions.LookupPrivilegeValue(Nothing, seName, typLUID)
-
-                    If Ret > 0 Then
+                    If NativeFunctions.LookupPrivilegeValue(Nothing, seName, typLUID) Then
                         typTokenPriv.PrivilegeCount = 1
                         typTokenPriv.Privileges.Attributes = seStatus
                         typTokenPriv.Privileges.pLuid = typLUID
@@ -75,30 +73,30 @@ Namespace Native.Objects
 
             Dim hProcessToken As IntPtr
             Dim hProcess As IntPtr
-            Dim Ret As Integer
+            Dim Ret As Boolean
             Dim RetLen As Integer
-            Dim TokenPriv As Api.TOKEN_PRIVILEGES = Nothing
+            Dim TokenPriv As Native.Api.NativeStructs.TOKEN_PRIVILEGES = Nothing
             Dim i As Integer
-            Dim typLUID As Api.LUID
-            Dim res As Api.PRIVILEGE_STATUS
+            Dim typLUID As Native.Api.NativeStructs.Luid
+            Dim res As Native.Api.NativeEnums.SePrivilegeAttributes
 
-            hProcess = NativeFunctions.OpenProcess(Api.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION, _
-                                       False, _procId)
+            hProcess = NativeFunctions.OpenProcess(Api.Security.ProcessAccess.QueryInformation, _
+                                       False, processId)
             If hProcess <> IntPtr.Zero Then
-                NativeFunctions.OpenProcessToken(hProcess, Api.TOKEN_RIGHTS.Query, hProcessToken)
+                NativeFunctions.OpenProcessToken(hProcess, Api.Security.TokenAccess.Query, hProcessToken)
                 If hProcessToken <> IntPtr.Zero Then
                     Ret = NativeFunctions.LookupPrivilegeValue(Nothing, seName, typLUID)
 
                     ' Get tokeninfo length
-                    NativeFunctions.GetTokenInformation(hProcessToken, Api.TOKEN_INFORMATION_CLASS.TokenPrivileges, 0, 0, RetLen)
+                    NativeFunctions.GetTokenInformation(hProcessToken, NativeEnums.TokenInformationClass.TokenPrivileges, IntPtr.Zero, 0, RetLen)
                     Dim TokenInformation As IntPtr = Marshal.AllocHGlobal(RetLen)
                     ' Get token ingo
-                    NativeFunctions.GetTokenInformation(hProcessToken, Api.TOKEN_INFORMATION_CLASS.TokenPrivileges, CInt(TokenInformation), RetLen, 0)
+                    NativeFunctions.GetTokenInformation(hProcessToken, NativeEnums.TokenInformationClass.TokenPrivileges, TokenInformation, RetLen, 0)
                     TokenPriv = getTokenPrivilegeStructureFromPointer(TokenInformation, RetLen)
 
                     For i = 0 To TokenPriv.PrivilegeCount - 1
                         If TokenPriv.Privileges(i).pLuid.lowpart = typLUID.lowpart Then
-                            res = CType(TokenPriv.Privileges(i).Attributes, Api.PRIVILEGE_STATUS)
+                            res = TokenPriv.Privileges(i).Attributes
                         End If
                     Next i
                     NativeFunctions.CloseHandle(hProcessToken)
@@ -131,8 +129,8 @@ Namespace Native.Objects
 
 
 
-        Private Function getTokenPrivilegeStructureFromPointer(ByVal ptr As IntPtr, _
-            ByVal RetLen As Integer) As Api.TOKEN_PRIVILEGES
+        Private Shared Function getTokenPrivilegeStructureFromPointer(ByVal ptr As IntPtr, _
+            ByVal RetLen As Integer) As Native.Api.NativeStructs.TOKEN_PRIVILEGES
 
             'Public Structure LUID
             '	Dim lowpart As Integer
@@ -147,7 +145,7 @@ Namespace Native.Objects
             '	Dim Privileges() As LUID_AND_ATTRIBUTES
             'End Structure
 
-            Dim ret As New Api.TOKEN_PRIVILEGES
+            Dim ret As New Native.Api.NativeStructs.TOKEN_PRIVILEGES
 
             ' Fill in int array from unmanaged memory
             Dim arr(CInt(RetLen / 4)) As Integer

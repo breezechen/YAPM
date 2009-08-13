@@ -105,8 +105,8 @@ Namespace Native.Objects
             If hSCM <> IntPtr.Zero Then
                 If Not (NativeFunctions.EnumServicesStatusEx(hSCM, _
                                            Api.SC_ENUM_PROCESS_INFO, _
-                                           Api.SERVICE_ALL, _
-                                           Api.SERVICE_STATE_ALL, _
+                                           NativeEnums.ServiceQueryType.All, _
+                                           NativeEnums.ServiceQueryState.All, _
                                            _memBufferEnumServics.Pointer, _
                                            _memBufferEnumServics.Size, _
                                            lBytesNeeded, _
@@ -119,14 +119,14 @@ Namespace Native.Objects
 
                 If NativeFunctions.EnumServicesStatusEx(hSCM, _
                                            Api.SC_ENUM_PROCESS_INFO, _
-                                           Api.SERVICE_ALL, _
-                                           Api.SERVICE_STATE_ALL, _
-                                           _memBufferEnumServics.Pointer, _
-                                           _memBufferEnumServics.Size, _
-                                           lBytesNeeded, _
-                                           lServicesReturned, _
-                                           0, _
-                                           Nothing) Then
+                                            NativeEnums.ServiceQueryType.All, _
+                                            NativeEnums.ServiceQueryState.All, _
+                                            _memBufferEnumServics.Pointer, _
+                                            _memBufferEnumServics.Size, _
+                                            lBytesNeeded, _
+                                            lServicesReturned, _
+                                            0, _
+                                            Nothing) Then
 
                     For idx As Integer = 0 To lServicesReturned - 1
 
@@ -173,16 +173,16 @@ Namespace Native.Objects
 
             ' Here we fill _currentServices if necessary
             'PERFISSUE
-            cService.SemCurrentServices.WaitOne()
-            If cService._currentServices Is Nothing Then
-                cService._currentServices = New Dictionary(Of String, cService)
+            _semCurrentServ.WaitOne()
+            If _currentServices Is Nothing Then
+                _currentServices = New Dictionary(Of String, cService)
             End If
             For Each pc As serviceInfos In _dico.Values
-                If cService._currentServices.ContainsKey(pc.Name) = False Then
-                    cService._currentServices.Add(pc.Name, New cService(pc))
+                If _currentServices.ContainsKey(pc.Name) = False Then
+                    _currentServices.Add(pc.Name, New cService(pc))
                 End If
             Next
-            cService.SemCurrentServices.Release()
+            _semCurrentServ.Release()
         End Sub
 
 

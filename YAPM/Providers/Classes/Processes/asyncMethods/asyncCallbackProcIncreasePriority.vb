@@ -116,7 +116,7 @@ Public Class asyncCallbackProcIncreasePriority
                     Case ProcessPriorityClass.RealTime
                         '
                 End Select
-                hProc = Native.Api.NativeFunctions.OpenProcess(Native.Api.Security.ProcessAccess.SetInformation, _
+                hProc = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.SetInformation, _
                                         False, pObj.pid)
                 If hProc <> IntPtr.Zero Then
                     r = Native.Api.NativeFunctions.SetPriorityClass(hProc, _newlevel)

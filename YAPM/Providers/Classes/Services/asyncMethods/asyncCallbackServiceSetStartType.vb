@@ -39,10 +39,10 @@ Public Class asyncCallbackServiceSetStartType
 
     Public Structure poolObj
         Public name As String
-        Public type As API.SERVICE_START_TYPE
+        Public type As Native.Api.NativeEnums.ServiceStartType
         Public newAction As Integer
         Public Sub New(ByVal nam As String, _
-                       ByVal typ As API.SERVICE_START_TYPE, _
+                       ByVal typ As Native.Api.NativeEnums.ServiceStartType, _
                        ByVal act As Integer)
             name = nam
             newAction = act
@@ -73,13 +73,13 @@ Public Class asyncCallbackServiceSetStartType
                         For Each srv As ManagementObject In con.wmiSearcher.Get
                             If CStr(srv.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.Name.ToString)) = pObj.name Then
                                 Dim inParams As ManagementBaseObject = srv.GetMethodParameters("ChangeStartMode")
-                                inParams("StartMode") = getWMIStartMode(pObj.type)
+                                inParams("StartMode") = pObj.type.ToString
                                 Dim outParams As ManagementBaseObject = srv.InvokeMethod("ChangeStartMode", inParams, Nothing)
                                 res = CInt(outParams("ReturnValue"))
                                 Exit For
                             End If
                         Next
-                        _deg.Invoke(res = 0, pObj.name, CType(res, API.SERVICE_RETURN_CODE_WMI).ToString, pObj.newAction)
+                        _deg.Invoke(res = 0, pObj.name, CType(res, Native.Api.Enums.SERVICE_RETURN_CODE_WMI).ToString, pObj.newAction)
                     Catch ex As Exception
                         _deg.Invoke(False, pObj.name, ex.Message, pObj.newAction)
                     End Try
@@ -88,16 +88,16 @@ Public Class asyncCallbackServiceSetStartType
                     ' Local
                     Dim hLockSCManager As IntPtr
                     Dim hSCManager As IntPtr = con.SCManagerLocalHandle
-                    Dim lServ As IntPtr = Native.Api.NativeFunctions.OpenService(hSCManager, pObj.name, API.SERVICE_RIGHTS.SERVICE_CHANGE_CONFIG)
+                    Dim lServ As IntPtr = Native.Api.NativeFunctions.OpenService(hSCManager, pObj.name, Native.Security.ServiceAccess.ChangeConfig)
                     Dim ret As Boolean = False
 
                     hLockSCManager = Native.Api.NativeFunctions.LockServiceDatabase(hSCManager)
 
                     If hSCManager <> IntPtr.Zero Then
                         If lServ <> IntPtr.Zero Then
-                            ret = Native.Api.NativeFunctions.ChangeServiceConfig(lServ, API.SERVICE_TYPE.NoChange, _
+                            ret = Native.Api.NativeFunctions.ChangeServiceConfig(lServ, Native.Api.NativeEnums.ServiceType.NoChange, _
                                             pObj.type, _
-                                            API.SERVICE_ERROR_CONTROL.NoChange, _
+                                            Native.Api.NativeEnums.ServiceErrorControl.NoChange, _
                                             Nothing, Nothing, Nothing, _
                                             Nothing, Nothing, Nothing, Nothing)
                             Native.Api.NativeFunctions.CloseServiceHandle(lServ)
@@ -109,22 +109,5 @@ Public Class asyncCallbackServiceSetStartType
             End Select
         End SyncLock
     End Sub
-
-    Private Function getWMIStartMode(ByVal s As API.SERVICE_START_TYPE) As String
-        Select Case s
-            Case API.SERVICE_START_TYPE.AutoStart
-                Return "Automatic"
-            Case API.SERVICE_START_TYPE.BootStart
-                Return "Boot"
-            Case API.SERVICE_START_TYPE.DemandStart
-                Return "Manual"
-            Case API.SERVICE_START_TYPE.StartDisabled
-                Return "Disabled"
-            Case API.SERVICE_START_TYPE.SystemStart
-                Return "System"
-            Case Else
-                Return Nothing
-        End Select
-    End Function
 
 End Class

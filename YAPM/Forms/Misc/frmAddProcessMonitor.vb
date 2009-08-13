@@ -55,10 +55,10 @@ Public Class frmAddProcessMonitor
         SetToolTip(Me.lstInstance, "Available instances")
         SetToolTip(Me.lstCategory, "Available categories")
 
-        API.SetWindowTheme(Me.lstToAdd.Handle, "explorer", Nothing)
-        API.SetWindowTheme(Me.lstInstance.Handle, "explorer", Nothing)
-        API.SetWindowTheme(Me.lstCounterType.Handle, "explorer", Nothing)
-        API.SetWindowTheme(Me.lstCategory.Handle, "explorer", Nothing)
+        Native.Api.Functions.Misc.SetTheme(Me.lstToAdd.Handle)
+        Native.Api.Functions.Misc.SetTheme(Me.lstInstance.Handle)
+        Native.Api.Functions.Misc.SetTheme(Me.lstCounterType.Handle)
+        Native.Api.Functions.Misc.SetTheme(Me.lstCategory.Handle)
 
         'Call Me.cmdRefresh_Click(Nothing, Nothing)
 

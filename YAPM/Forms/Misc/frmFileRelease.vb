@@ -141,7 +141,7 @@ Public Class frmFileRelease
         SetToolTip(Me.cmdCheck, "Check if a handle to the file in opened by a process")
         SetToolTip(Me.cmdFix, "Close the selected handles")
 
-        API.SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
+        Native.Api.Functions.Misc.SetTheme(Me.lv.Handle)
     End Sub
 
     Private Sub lv_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lv.MouseDown

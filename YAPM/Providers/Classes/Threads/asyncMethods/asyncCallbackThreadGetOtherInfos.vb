@@ -63,9 +63,11 @@ Public Class asyncCallbackThreadGetOtherInfos
 
     ' Return affinity
     Private Function GetAffinity() As IntPtr
-        Dim infos As New API.THREAD_BASIC_INFORMATION
+        Dim infos As New Native.Api.NativeStructs.THREAD_BASIC_INFORMATION
         Dim ret As Integer
-        API.ZwQueryInformationThread(_handle, API.THREAD_INFORMATION_CLASS.ThreadBasicInformation, infos, Marshal.SizeOf(infos), ret)
+        Native.Api.NativeFunctions.NtQueryInformationThread(_handle, _
+                    Native.Api.NativeEnums.THREAD_INFORMATION_CLASS.ThreadBasicInformation, _
+                    infos, Marshal.SizeOf(infos), ret)
         Return infos.AffinityMask
     End Function
 

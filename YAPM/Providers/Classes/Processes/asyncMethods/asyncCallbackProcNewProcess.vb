@@ -71,7 +71,7 @@ Public Class asyncCallbackProcNewProcess
                     inParams("CommandLine") = pObj.path
                     Dim outParams As ManagementBaseObject = processClass.InvokeMethod("Create", inParams, Nothing)
                     Dim res As Integer = CInt(outParams("ProcessId"))
-                    _deg.Invoke(res > 0, pObj.path, CType(res, API.PROCESS_RETURN_CODE_WMI).ToString, pObj.newAction)
+                    _deg.Invoke(res > 0, pObj.path, CType(res, Native.Api.Enums.WmiProcessReturnCode).ToString, pObj.newAction)
                 Catch ex As Exception
                     _deg.Invoke(False, pObj.path, ex.Message, pObj.newAction)
                 End Try

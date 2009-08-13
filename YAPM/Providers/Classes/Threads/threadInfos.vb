@@ -149,7 +149,7 @@ Imports System.Runtime.InteropServices
     ' ========================================
 
     ' Constructor of this class
-    Public Sub New(ByRef Thr As API.SYSTEM_THREAD_INFORMATION)
+    Public Sub New(ByRef Thr As Native.Api.NativeStructs.SYSTEM_THREAD_INFORMATION)
 
         With Thr
             _AffinityMask = IntPtr.Zero

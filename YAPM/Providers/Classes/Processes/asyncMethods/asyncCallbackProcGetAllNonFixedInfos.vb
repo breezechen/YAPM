@@ -27,7 +27,7 @@ Imports System.Windows.Forms
 
 Public Class asyncCallbackProcGetAllNonFixedInfos
 
-    Public Event HasGotAllNonFixedInfos(ByVal Success As Boolean, ByRef newInfos As API.SYSTEM_PROCESS_INFORMATION, ByVal msg As String)
+    Public Event HasGotAllNonFixedInfos(ByVal Success As Boolean, ByRef newInfos As Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION, ByVal msg As String)
 
     Private _connection As cProcessConnection
     Private _process As cProcess
@@ -61,12 +61,12 @@ Public Class asyncCallbackProcGetAllNonFixedInfos
                     ' Get informations from found process
                     If refProcess IsNot Nothing Then
 
-                        Dim _newInfos As New API.SYSTEM_PROCESS_INFORMATION
+                        Dim _newInfos As New Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION 
                         With _newInfos
                             .BasePriority = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.Priority.ToString))
                             .HandleCount = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.HandleCount.ToString))
                             '.InheritedFromProcessId = CInt(refProcess.Item(API.WMI_INFO.ParentProcessId.ToString))
-                            Dim _IO As New API.IO_COUNTERS
+                            Dim _IO As New Native.Api.NativeStructs.IO_COUNTERS
                             With _IO
                                 .OtherOperationCount = CULng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.OtherOperationCount.ToString))
                                 .OtherTransferCount = CULng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.OtherTransferCount.ToString))
@@ -81,7 +81,7 @@ Public Class asyncCallbackProcGetAllNonFixedInfos
                             '.ProcessId = CInt(refProcess.Item(API.WMI_INFO.ProcessId.ToString))
                             '.SessionId                 ' NOT IMPLEMENTED
                             .UserTime = CLng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.UserModeTime.ToString))
-                            Dim _VM As New API.VM_COUNTERS_EX
+                            Dim _VM As New Native.Api.NativeStructs.VM_COUNTERS_EX
                             With _VM
                                 .PageFaultCount = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PageFaults.ToString))
                                 .PagefileUsage = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PageFileUsage.ToString))
@@ -99,10 +99,10 @@ Public Class asyncCallbackProcGetAllNonFixedInfos
                             .VirtualMemoryCounters = _VM
                         End With
 
-                        RaiseEvent HasGotAllNonFixedInfos(True, _newInfos, Native.Api.Functions.GetError)
+                        RaiseEvent HasGotAllNonFixedInfos(True, _newInfos, Native.Api.Win32.GetLastError)
                     Else
                         ' Could not get process
-                        RaiseEvent HasGotAllNonFixedInfos(False, Nothing, Native.Api.Functions.GetError)
+                        RaiseEvent HasGotAllNonFixedInfos(False, Nothing, Native.Api.Win32.GetLastError)
                     End If
 
                 Catch ex As Exception

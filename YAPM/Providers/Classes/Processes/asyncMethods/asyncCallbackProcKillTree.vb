@@ -117,9 +117,9 @@ Public Class asyncCallbackProcKillTree
         Dim offset As Integer = 0
         Dim _list As New List(Of Integer)
         Do While True
-            Dim obj As API.SYSTEM_PROCESS_INFORMATION = CType(Marshal.PtrToStructure(New IntPtr(ptr.ToInt32 + _
-                offset), GetType(API.SYSTEM_PROCESS_INFORMATION)),  _
-                API.SYSTEM_PROCESS_INFORMATION)
+            Dim obj As Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION = CType(Marshal.PtrToStructure(New IntPtr(ptr.ToInt32 + _
+                offset), GetType(Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION)),  _
+                Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION)
             offset += obj.NextEntryOffset
             If obj.InheritedFromProcessId = pid Then
                 _list.Add(obj.ProcessId)

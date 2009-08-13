@@ -109,7 +109,7 @@ Public Class frmChooseColumns
 
         Call closeWithEchapKey(Me)
 
-        API.SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
+        Native.Api.Functions.Misc.SetTheme(Me.lv.Handle)
 
         Dim ss() As String
         ReDim ss(-1)

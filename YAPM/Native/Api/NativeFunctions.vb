@@ -159,12 +159,17 @@ Namespace Native.Api
 
         <DllImport("user32.dll")> _
         Public Shared Function GetGuiResources(<[In]()> ByVal ProcessHandle As IntPtr, _
-                <[In]()> ByVal UserObjects As Integer) As Integer
+                <[In]()> ByVal UserObjects As GuiResourceType) As Integer
         End Function
 
         <DllImport("kernel32.dll", CharSet:=CharSet.Ansi, SetLastError:=True)> _
         Public Shared Function GetProcAddress(<[In]()> ByVal [Module] As IntPtr, _
                                         <[In]()> ByVal ProcOrdinal As UShort) As IntPtr
+        End Function
+
+        <DllImport("kernel32.dll", CharSet:=CharSet.Ansi, SetLastError:=True)> _
+    Public Shared Function GetProcAddress(<[In]()> ByVal [Module] As IntPtr, _
+                                <[In]()> ByVal ProcOrdinal As String) As IntPtr
         End Function
 
         <DllImport("kernel32.dll", SetLastError:=True)> _
@@ -266,7 +271,15 @@ Namespace Native.Api
         ' OK
 #Region "Declarations used for threads"
 
-        Public Declare Function CreateRemoteThread Lib "kernel32" (ByVal hProcess As IntPtr, ByVal lpThreadAttributes As Integer, ByVal dwStackSize As Integer, ByVal lpStartAddress As Integer, ByVal lpParameter As Integer, ByVal dwCreationFlags As Integer, ByRef lpThreadId As Integer) As Integer
+        <DllImport("kernel32.dll", SetLastError:=True)> _
+        Public Shared Function CreateRemoteThread(<[In]()> ByVal ProcessHandle As IntPtr, _
+                            <[In]()> ByVal ThreadAttributes As IntPtr, _
+                            <[In]()> ByVal StackSize As Integer, _
+                            <[In]()> ByVal StartAddress As IntPtr, _
+                            <[In]()> ByVal Parameter As IntPtr, _
+                            <[In]()> ByVal CreationFlags As RemoteThreadCreationFlags, _
+                            <Out()> ByRef ThreadId As Integer) As IntPtr
+        End Function
 
         <DllImport("kernel32.dll", SetLastError:=True)> _
         Public Shared Function OpenThread(<[In]()> ByVal DesiredAccess As Security.ThreadAccess, _

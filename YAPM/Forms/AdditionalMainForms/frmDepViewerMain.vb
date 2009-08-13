@@ -117,9 +117,9 @@ Public Class frmDepViewerMain
     End Sub
 
     Private Sub frmDepViewerMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Call SetWindowTheme(Me.lvAllDeps.Handle, "explorer", Nothing)
-        Call SetWindowTheme(Me.lvExports.Handle, "explorer", Nothing)
-        Call SetWindowTheme(Me.lvImports.Handle, "explorer", Nothing)
+        Call SetWindowTheme(Me.lvAllDeps.Handle)
+        Call SetWindowTheme(Me.lvExports.Handle)
+        Call SetWindowTheme(Me.lvImports.Handle)
     End Sub
 
     Public Sub HideOpenMenu()

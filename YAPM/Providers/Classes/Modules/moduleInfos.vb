@@ -37,7 +37,7 @@ Imports System.Runtime.InteropServices
     Private _size As Integer
     Private _entryPoint As Integer
     Private _processId As Integer
-    Private _flags As API.LdrpDataTableEntryFlags
+    Private _flags As Native.Api.NativeEnums.LdrpDataTableEntryFlags
     <NonSerialized()> Private _fileInfo As FileVersionInfo
 
     Private _manufacturer As String
@@ -47,7 +47,7 @@ Imports System.Runtime.InteropServices
 
 #Region "Read only properties"
 
-    Public ReadOnly Property Flags() As API.LdrpDataTableEntryFlags
+    Public ReadOnly Property Flags() As Native.Api.NativeEnums.LdrpDataTableEntryFlags
         Get
             Return _flags
         End Get

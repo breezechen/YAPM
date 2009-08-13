@@ -66,12 +66,12 @@ Public Class asyncCallbackProcResume
             Case Else
                 ' Local
                 Dim hProc As IntPtr
-                Dim r As Integer = -1
-                hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_SUSPEND_RESUME, _
+                Dim r As UInteger
+                hProc = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.SuspendResume, _
                                         False, pObj.pid)
                 If hProc <> IntPtr.Zero Then
-                    r = API.NtResumeProcess(hProc)
-                    API.CloseHandle(hProc)
+                    r = Native.Api.NativeFunctions.NtResumeProcess(hProc)
+                    Native.Api.NativeFunctions.CloseHandle(hProc)
                     _deg.Invoke(r = 0, Native.Api.Win32.GetLastError, pObj.newAction)
                 Else
                     _deg.Invoke(False, Native.Api.Win32.GetLastError, pObj.newAction)

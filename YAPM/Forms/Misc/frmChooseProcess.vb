@@ -52,7 +52,7 @@ Public Class frmChooseProcess
 
         closeWithEchapKey(Me)
 
-        API.SetWindowTheme(lvProcess.Handle, "explorer", Nothing)
+        Native.Api.Functions.Misc.SetTheme(Me.lvProcess.Handle)
         lvProcess.UpdateTheItems()
     End Sub
 End Class

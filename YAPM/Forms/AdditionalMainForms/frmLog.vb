@@ -58,7 +58,7 @@ Public Class frmLog
 
         closeWithEchapKey(Me)
 
-        Call API.SetWindowTheme(Me.lv.Handle, "explorer", Nothing)
+        Call Native.Api.Functions.Misc.SetTheme(Me.lv.Handle)
     End Sub
 
     Private Sub MenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem.Click

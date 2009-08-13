@@ -59,8 +59,8 @@ Public Class asyncCallbackProcGetNonFixedInfos
 
             Case Else
                 ' Local
-                Dim _gdi As Integer = API.GetGuiResources(_handle, API.GR_GDIOBJECTS)
-                Dim _user As Integer = API.GetGuiResources(_handle, API.GR_USEROBJECTS)
+                Dim _gdi As Integer = Native.Api.NativeFunctions.GetGuiResources(_handle, Native.Api.NativeEnums.GuiResourceType.GdiObjects)
+                Dim _user As Integer = Native.Api.NativeFunctions.GetGuiResources(_handle, Native.Api.NativeEnums.GuiResourceType.UserObjects)
                 Dim _affinity As Integer = GetAffinity()
 
                 RaiseEvent GatheredInfos(New TheseInfos(_gdi, _user, _affinity))
@@ -70,9 +70,11 @@ Public Class asyncCallbackProcGetNonFixedInfos
     ' Return affinity
     Private Function GetAffinity() As Integer
         If _pid > 4 Then
-            Dim pbi As New API.PROCESS_BASIC_INFORMATION
+            Dim pbi As New Native.Api.NativeStructs.PROCESS_BASIC_INFORMATION
             Dim ret As Integer
-            API.ZwQueryInformationProcess(_handle, API.PROCESS_INFORMATION_CLASS.ProcessBasicInformation, pbi, Marshal.SizeOf(pbi), ret)
+            Native.Api.NativeFunctions.NtQueryInformationProcess(_handle, _
+                    Native.Api.NativeEnums.ProcessInformationClass.ProcessBasicInformation, _
+                    pbi, Marshal.SizeOf(pbi), ret)
             Return pbi.AffinityMask
         Else
             Return 0

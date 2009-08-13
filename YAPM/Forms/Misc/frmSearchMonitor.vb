@@ -32,7 +32,7 @@ Public Class frmSearchMonitor
         SetToolTip(Me.chkCase, "Is the search case sensitive or not ?")
         SetToolTip(Me.cmdGo, "Launch the search of the specified text")
 
-        API.SetWindowTheme(Me.LV.Handle, "explorer", Nothing)
+        Native.Api.Functions.Misc.SetTheme(Me.LV.Handle)
     End Sub
 
     ' Launch search

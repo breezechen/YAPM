@@ -38,9 +38,9 @@ Public Class asyncCallbackProcUnloadModule
     Public Structure poolObj
         Public pid As Integer
         Public newAction As Integer
-        Public baseA As Integer
+        Public baseA As IntPtr
         Public Sub New(ByVal pi As Integer, _
-                       ByVal add As Integer, _
+                       ByVal add As IntPtr, _
                        ByVal act As Integer)
             baseA = add
             newAction = act

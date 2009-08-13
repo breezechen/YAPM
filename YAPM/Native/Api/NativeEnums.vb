@@ -137,6 +137,11 @@ Namespace Native.Api
             DisableAtlThunkEmulation = &H2
         End Enum
 
+        Public Enum GuiResourceType As Integer
+            GdiObjects = &H0
+            UserObjects = &H1
+        End Enum
+
 #End Region
 
         ' OK
@@ -181,6 +186,40 @@ Namespace Native.Api
 
         ' OK
 #Region "Declarations used for threads"
+
+        <Flags()> _
+        Public Enum RemoteThreadCreationFlags As UInteger
+            DebugProcess = &H1
+            DebugOnlyThisProcess = &H2
+            CreateSuspended = &H4
+            DetachedProcess = &H8
+            CreateNewConsole = &H10
+            NormalPriorityClass = &H20
+            IdlePriorityClass = &H40
+            HighPriorityClass = &H80
+            RealtimePriorityClass = &H100
+            CreateNewProcessGroup = &H200
+            CreateUnicodeEnvironment = &H400
+            CreateSeparateWowVdm = &H800
+            CreateSharedWowVdm = &H1000
+            CreateForceDos = &H2000
+            BelowNormalPriorityClass = &H4000
+            AboveNormalPriorityClass = &H8000
+            StackSizeParamIsAReservation = &H10000
+            InheritCallerPriority = &H20000
+            CreateProtectedProcess = &H40000
+            ExtendedStartupInfoPresent = &H80000
+            ProcessModeBackgroundBegin = &H100000
+            ProcessModeBackgroundEnd = &H200000
+            CreateBreakawayFromJob = &H1000000
+            CreatePreserveCodeAuthzLevel = &H2000000
+            CreateDefaultErrorMode = &H4000000
+            CreateNoWindow = &H8000000
+            ProfileUser = &H10000000
+            ProfileKernel = &H20000000
+            ProfileServer = &H40000000
+            CreateIgnoreSystemDefault = &H80000000
+        End Enum
 
         Public Enum KWAIT_REASON As Integer
             Executive = 0
@@ -264,6 +303,7 @@ Namespace Native.Api
             Disabled = &H0
             EnabledByDefault = &H1
             Enabled = &H2
+            DisabledByDefault = &H3
             Removed = &H4
             UsedForAccess = &H80000000
         End Enum
@@ -897,6 +937,7 @@ Namespace Native.Api
         Public Enum ServiceQueryType As UInteger
             Driver = &HB
             Win32 = &H30
+            All = Driver Or Win32
         End Enum
 
         Public Enum ServiceControl

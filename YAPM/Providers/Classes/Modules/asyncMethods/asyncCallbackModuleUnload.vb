@@ -40,10 +40,10 @@ Public Class asyncCallbackModuleUnload
         Public pid As Integer
         Public name As String
         Public newAction As Integer
-        Public baseA As Integer
+        Public baseA As IntPtr
         Public Sub New(ByVal pi As Integer, _
                        ByVal nam As String, _
-                       ByVal add As Integer, _
+                       ByVal add As IntPtr, _
                        ByVal act As Integer)
             name = nam
             baseA = add
@@ -72,16 +72,23 @@ Public Class asyncCallbackModuleUnload
 
             Case Else
                 ' Local
-                Dim hProc As IntPtr = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_CREATE_THREAD, False, pObj.pid)
+                Dim hProc As IntPtr = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.CreateThread, False, pObj.pid)
 
                 If hProc <> IntPtr.Zero Then
-                    Dim kernel32 As IntPtr = API.GetModuleHandle("kernel32.dll")
-                    Dim freeLibrary As Integer = API.GetProcAddress(kernel32, "FreeLibrary")
+                    Dim kernel32 As IntPtr = _
+                            Native.Api.NativeFunctions.GetModuleHandle("kernel32.dll")
+                    Dim freeLibrary As IntPtr = _
+                            Native.Api.NativeFunctions.GetProcAddress(kernel32, "FreeLibrary")
                     Dim threadId As Integer
-                    Dim ret As Integer = API.CreateRemoteThread(hProc, 0, 0, freeLibrary, pObj.baseA, 0, threadId)
-                    _deg.Invoke(ret <> 0, pObj.pid, pObj.name, Native.Api.Win32.GetLastError, pObj.newAction)
+                    Dim ret As IntPtr = _
+                            Native.Api.NativeFunctions.CreateRemoteThread(hProc, _
+                                                    IntPtr.Zero, 0, freeLibrary, _
+                                                    pObj.baseA, 0, threadId)
+                    _deg.Invoke(ret <> IntPtr.Zero, pObj.pid, pObj.name, _
+                                Native.Api.Win32.GetLastError, pObj.newAction)
                 Else
-                    _deg.Invoke(False, pObj.pid, pObj.name, Native.Api.Win32.GetLastError, pObj.newAction)
+                    _deg.Invoke(False, pObj.pid, pObj.name, _
+                                Native.Api.Win32.GetLastError, pObj.newAction)
                 End If
         End Select
     End Sub

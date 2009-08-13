@@ -27,9 +27,6 @@ Namespace Native.Api
 
 #Region "Declarations used for processes"
 
-        Public Const GR_USEROBJECTS As Integer = 1
-        Public Const GR_GDIOBJECTS As Integer = 0
-
         Public Const DUPLICATE_SAME_ACCESS As Integer = &H2
 
         Public Const STILL_ACTIVE As Integer = 259
@@ -156,6 +153,9 @@ Namespace Native.Api
         ' Some constants
         Public Const BCM_FIRST As Integer = &H1600
         Public Const BCM_SETSHIELD As Integer = (BCM_FIRST + &HC)
+
+        ' Infinite time for WaitSingleObject
+        Public Const WAIT_INFINITE As Integer = &HFFFF
 
 #End Region
 

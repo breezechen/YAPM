@@ -74,7 +74,7 @@ Public Class asyncCallbackThreadSetPriority
                 ' Local
                 Dim hProc As IntPtr
                 Dim r As Boolean
-                hProc = API.OpenThread(API.THREAD_RIGHTS.THREAD_SET_INFORMATION, False, pObj.id)
+                hProc = API.OpenThread(Native.Security.ThreadAccess.THREAD_SET_INFORMATION, False, pObj.id)
                 If hProc <> IntPtr.Zero Then
                     r = API.SetThreadPriority(hProc, pObj.level)
                     API.CloseHandle(hProc)

@@ -92,7 +92,7 @@ Public Class asyncCallbackProcDecreasePriority
                             Exit For
                         End If
                     Next
-                    _deg.Invoke(res = 0, CType(res, API.PROCESS_RETURN_CODE_WMI).ToString, pObj.newAction)
+                    _deg.Invoke(res = 0, CType(res, Native.Api.Enums.WmiProcessReturnCode).ToString, pObj.newAction)
                 Catch ex As Exception
                     _deg.Invoke(False, ex.Message, pObj.newAction)
                 End Try

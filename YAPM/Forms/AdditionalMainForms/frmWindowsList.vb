@@ -29,7 +29,7 @@ Public Class frmWindowsList
 
         closeWithEchapKey(Me)
 
-        API.SetWindowTheme(lv.Handle, "explorer", Nothing)
+        Native.Api.Functions.Misc.SetTheme(lv.Handle)
         Call RefreshWindowsList()
     End Sub
 

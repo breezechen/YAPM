@@ -72,7 +72,7 @@ Public Class asyncCallbackServiceResume
                             Exit For
                         End If
                     Next
-                    _deg.Invoke(res = 0, pObj.name, CType(res, API.SERVICE_RETURN_CODE_WMI).ToString, pObj.newAction)
+                    _deg.Invoke(res = 0, pObj.name, CType(res, Native.Api.Enums.SERVICE_RETURN_CODE_WMI).ToString, pObj.newAction)
                 Catch ex As Exception
                     _deg.Invoke(False, pObj.name, ex.Message, pObj.newAction)
                 End Try
@@ -80,12 +80,12 @@ Public Class asyncCallbackServiceResume
             Case Else
                 ' Local
                 Dim hSCManager As IntPtr = con.SCManagerLocalHandle
-                Dim lServ As IntPtr = Native.Api.NativeFunctions.OpenService(hSCManager, pObj.name, API.SERVICE_RIGHTS.SERVICE_PAUSE_CONTINUE)
+                Dim lServ As IntPtr = Native.Api.NativeFunctions.OpenService(hSCManager, pObj.name, Native.Security.ServiceAccess.PauseContinue)
                 Dim res As Boolean = False
                 If hSCManager <> IntPtr.Zero Then
                     If lServ <> IntPtr.Zero Then
-                        Dim lpss As API.SERVICE_STATUS
-                        res = Native.Api.NativeFunctions.ControlService(lServ, API.SERVICE_CONTROL._CONTINUE, lpss)
+                        Dim lpss As Native.Api.NativeStructs.ServiceStatusProcess
+                        res = Native.Api.NativeFunctions.ControlService(lServ, Native.Api.NativeEnums.ServiceControl.Continue, lpss)
                         Native.Api.NativeFunctions.CloseServiceHandle(lServ)
                     End If
                 End If

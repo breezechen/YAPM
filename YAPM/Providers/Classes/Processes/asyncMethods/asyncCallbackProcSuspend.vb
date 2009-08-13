@@ -67,7 +67,7 @@ Public Class asyncCallbackProcSuspend
                 ' Local
                 Dim hProc As IntPtr
                 Dim r As UInteger
-                hProc = Native.Api.NativeFunctions.OpenProcess(Native.Api.Security.ProcessAccess.SuspendResume, _
+                hProc = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.SuspendResume, _
                                         False, pObj.pid)
                 If hProc <> IntPtr.Zero Then
                     r = Native.Api.NativeFunctions.NtSuspendProcess(hProc)

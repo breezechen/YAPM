@@ -42,8 +42,8 @@ Public Class cProcess
 
     Public Structure PROC_MEM_INFO
         Dim time As Long
-        Dim mem As API.VM_COUNTERS_EX
-        Public Sub New(ByVal aTime As Long, ByRef aMem As API.VM_COUNTERS_EX)
+        Dim mem As Native.Api.NativeStructs.VM_COUNTERS_EX
+        Public Sub New(ByVal aTime As Long, ByRef aMem As Native.Api.NativeStructs.VM_COUNTERS_EX)
             time = aTime
             mem = aMem
         End Sub
@@ -51,8 +51,8 @@ Public Class cProcess
 
     Public Structure PROC_IO_INFO
         Dim time As Long
-        Dim io As API.IO_COUNTERS
-        Public Sub New(ByVal aTime As Long, ByRef aIo As API.IO_COUNTERS)
+        Dim io As Native.Api.NativeStructs.IO_COUNTERS
+        Public Sub New(ByVal aTime As Long, ByRef aIo As Native.Api.NativeStructs.IO_COUNTERS)
             time = aTime
             io = aIo
         End Sub
@@ -100,7 +100,7 @@ Public Class cProcess
 
     Private _parentName As String = vbNullString
     Private _cpuUsage As Double
-    Private _ioDelta As API.IO_COUNTERS
+    Private _ioDelta As Native.Api.NativeStructs.IO_COUNTERS
 
     ' Save informations about performance
     Friend _dicoProcMem As New SortedList(Of Integer, PROC_MEM_INFO)
@@ -192,8 +192,8 @@ Public Class cProcess
         _processors = cProcessConnection.ProcessorCount
         ' Get a handle if local
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            _handleQueryInfo = API.OpenProcess(cProcessConnection.ProcessMinRights, False, infos.Pid)
-            Call API.OpenProcessToken(_handleQueryInfo, API.TOKEN_RIGHTS.Query, _tokenHandle)
+            _handleQueryInfo = Native.Api.NativeFunctions.OpenProcess(cProcessConnection.ProcessMinRights, False, infos.Pid)
+            Call Native.Api.NativeFunctions.OpenProcessToken(_handleQueryInfo, Native.Security.TokenAccess.Query, _tokenHandle)
         End If
     End Sub
 
@@ -201,7 +201,7 @@ Public Class cProcess
         ' Close a handle if local
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
             If _handleQueryInfo <> IntPtr.Zero Then
-                API.CloseHandle(_handleQueryInfo)
+                Native.Api.NativeFunctions.CloseHandle(_handleQueryInfo)
             End If
         End If
     End Sub
@@ -230,7 +230,7 @@ Public Class cProcess
         End Get
     End Property
 
-    Public ReadOnly Property IODelta() As API.IO_COUNTERS
+    Public ReadOnly Property IODelta() As Native.Api.NativeStructs.IO_COUNTERS
         Get
             Return _ioDelta
         End Get
@@ -260,7 +260,7 @@ Public Class cProcess
         End Get
     End Property
 
-    Public ReadOnly Property ElevationType() As API.ElevationType
+    Public ReadOnly Property ElevationType() As Native.Api.Enums.ElevationType
         Get
             Return _elevation
         End Get
@@ -311,8 +311,8 @@ Public Class cProcess
         ' Here we do some refreshment
         If _handleQueryInfo <> IntPtr.Zero Then
             Call cToken.GetProcessElevationType(_tokenHandle, _elevation)   ' Elevation type
-            Call API.IsProcessInJob(CType(_handleQueryInfo, IntPtr), IntPtr.Zero, _isInJob)
-            Call API.CheckRemoteDebuggerPresent(CType(_handleQueryInfo, IntPtr), _isBeingDebugged)
+            Call Native.Api.NativeFunctions.IsProcessInJob(CType(_handleQueryInfo, IntPtr), IntPtr.Zero, _isInJob)
+            Call Native.Api.NativeFunctions.CheckRemoteDebuggerPresent(CType(_handleQueryInfo, IntPtr), _isBeingDebugged)
         End If
 
         'Private _isCritical As Boolean
@@ -353,7 +353,7 @@ Public Class cProcess
 
         RaiseEvent HasMerged()
     End Sub
-    Public Sub Merge(ByRef Proc As API.SYSTEM_PROCESS_INFORMATION)
+    Public Sub Merge(ByRef Proc As Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION)
         _processInfos.Merge(New processInfos(Proc))
         Call RefreshSpecialInformations()
     End Sub
@@ -390,7 +390,7 @@ Public Class cProcess
 
     ' Create dump file
     Private _createDumpF As asyncCallbackProcMinidump
-    Public Sub CreateDumpFile(ByVal file As String, ByVal opt As API.MINIDUMPTYPE)
+    Public Sub CreateDumpFile(ByVal file As String, ByVal opt As Native.Api.NativeEnums.MINIDUMPTYPE)
 
         If _createDumpF Is Nothing Then
             _createDumpF = New asyncCallbackProcMinidump(New asyncCallbackProcMinidump.HasCreatedDump(AddressOf createdMinidump), _connection)
@@ -1468,13 +1468,13 @@ Public Class cProcess
 
 #Region "Shared functions (local)"
 
-    Public Shared Function LocalKill(ByVal pid As Integer) As Integer
+    Public Shared Function LocalKill(ByVal pid As Integer) As Boolean
         Dim hProc As IntPtr
-        Dim ret As Integer = -1
-        hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_TERMINATE, False, pid)
+        Dim ret As Boolean
+        hProc = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.Terminate, False, pid)
         If hProc <> IntPtr.Zero Then
-            ret = API.TerminateProcess(hProc, 0)
-            API.CloseHandle(hProc)
+            ret = Native.Api.NativeFunctions.TerminateProcess(hProc, 0)
+            Native.Api.NativeFunctions.CloseHandle(hProc)
         End If
         Return ret
     End Function
@@ -1713,13 +1713,13 @@ Public Class cProcess
     ' Refresh IO delta once
     Private Sub refreshIODelta()
         Static oldDate As Long = Date.Now.Ticks
-        Static oldIO As API.IO_COUNTERS = Me.Infos.IOValues
+        Static oldIO As Native.Api.NativeStructs.IO_COUNTERS = Me.Infos.IOValues
 
         Dim currDate As Long = Date.Now.Ticks
-        Dim ioValues As API.IO_COUNTERS = Me.Infos.IOValues
+        Dim ioValues As Native.Api.NativeStructs.IO_COUNTERS = Me.Infos.IOValues
 
         Dim diff As Long = currDate - oldDate
-        Dim ioDiff As API.IO_COUNTERS
+        Dim ioDiff As Native.Api.NativeStructs.IO_COUNTERS
         With ioDiff
             .OtherOperationCount = ioValues.OtherOperationCount - oldIO.OtherOperationCount
             .OtherTransferCount = ioValues.OtherTransferCount - oldIO.OtherTransferCount
@@ -1801,7 +1801,7 @@ Public Class cProcess
             Return _hlProcessCriticalColor
         ElseIf _hlProcessBeingDebugged AndAlso Me.IsBeingDebugged Then
             Return _hlProcessBeingDebuggedColor
-        ElseIf _hlProcessElevated AndAlso Me.ElevationType = API.ElevationType.Full Then
+        ElseIf _hlProcessElevated AndAlso Me.ElevationType = Native.Api.Enums.ElevationType.Full Then
             Return _hlProcessElevatedColor
         ElseIf _hlProcessInJob AndAlso Me.IsInJob Then
             Return _hlProcessInJobColor
