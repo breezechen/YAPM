@@ -25,6 +25,7 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
+Imports YAPM.Native.Api
 
 Public Class cSystemInfo
 
@@ -43,10 +44,10 @@ Public Class cSystemInfo
     Private _minCache As Integer
     Private _peakCache As Integer
     Private _cacheErrors As Integer
-    Private _spi As API.SYSTEM_PERFORMANCE_INFORMATION
-    Private _sbi As API.SYSTEM_BASIC_INFORMATION
-    Private _ci As API.SYSTEM_CACHE_INFORMATION
-    Private _ppi() As API.SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION
+    Private _spi As NativeStructs.SystemPerformanceInformation
+    Private _sbi As NativeStructs.SystemBasicInformation
+    Private _ci As NativeStructs.SystemCacheInformation
+    Private _ppi() As NativeStructs.SystemProcessorPerformanceInformation
     Private _totPhysMem As Decimal
 
     ' ========================================
@@ -115,22 +116,22 @@ Public Class cSystemInfo
             Return _maxCache
         End Get
     End Property
-    Public ReadOnly Property PerformanceInformations() As API.SYSTEM_PERFORMANCE_INFORMATION
+    Public ReadOnly Property PerformanceInformations() As NativeStructs.SystemPerformanceInformation
         Get
             Return _spi
         End Get
     End Property
-    Public ReadOnly Property BasicInformations() As API.SYSTEM_BASIC_INFORMATION
+    Public ReadOnly Property BasicInformations() As NativeStructs.SystemBasicInformation
         Get
             Return _sbi
         End Get
     End Property
-    Public ReadOnly Property CacheInformations() As API.SYSTEM_CACHE_INFORMATION
+    Public ReadOnly Property CacheInformations() As NativeStructs.SystemCacheInformation
         Get
             Return _ci
         End Get
     End Property
-    Public ReadOnly Property ProcessorPerformanceInformations() As API.SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION()
+    Public ReadOnly Property ProcessorPerformanceInformations() As NativeStructs.SystemProcessorPerformanceInformation()
         Get
             Return _ppi
         End Get
@@ -196,9 +197,9 @@ Public Class cSystemInfo
     Public Shared Function GetProcessorCount() As Integer
         Static _count As Integer = 0
         If _count = 0 Then
-            Dim bi As New API.SYSTEM_BASIC_INFORMATION
+            Dim bi As New NativeStructs.SystemBasicInformation
             Dim ret As Integer
-            API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemBasicInformation, bi, Marshal.SizeOf(bi), ret)
+            NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemBasicInformation, bi, Marshal.SizeOf(bi), ret)
             _count = bi.NumberOfProcessors
         End If
         Return _count
@@ -208,9 +209,9 @@ Public Class cSystemInfo
         MyBase.New()
 
         ' Basic informations (do not change)
-        Dim bi As New API.SYSTEM_BASIC_INFORMATION
+        Dim bi As New NativeStructs.SystemBasicInformation
         Dim ret As Integer
-        API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemBasicInformation, bi, Marshal.SizeOf(bi), ret)
+        NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemBasicInformation, bi, Marshal.SizeOf(bi), ret)
         With bi
             _physicalPagesCount = .NumberOfPhysicalPages
             _processors = .NumberOfProcessors
@@ -223,16 +224,16 @@ Public Class cSystemInfo
     Public Sub RefreshInfo()
         Dim ret As Integer
 
-        Dim pi As New API.PERFORMANCE_INFORMATION
-        API.GetPerformanceInfo(pi, Marshal.SizeOf(pi))
+        Dim pi As New NativeStructs.PerformanceInformation
+        NativeFunctions.GetPerformanceInfo(pi, Marshal.SizeOf(pi))
         With pi
             _threads = .ThreadCount
             _handles = .HandlesCount
             _processes = .ProcessCount
         End With
 
-        Dim ci As New API.SYSTEM_CACHE_INFORMATION
-        API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemCacheInformation, ci, Marshal.SizeOf(ci), ret)
+        Dim ci As New NativeStructs.SystemCacheInformation
+        NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemFileCacheInformation, ci, Marshal.SizeOf(ci), ret)
         With ci
             _currentCache = .SystemCacheWsSize
             _peakCache = .SystemCacheWsPeakSize
@@ -242,21 +243,27 @@ Public Class cSystemInfo
         End With
         _ci = ci
 
-        Dim spi As New API.SYSTEM_PERFORMANCE_INFORMATION
-        API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemPerformanceInformation, spi, Marshal.SizeOf(spi), ret)
+        Dim spi As New NativeStructs.SystemPerformanceInformation
+        NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemPerformanceInformation, spi, Marshal.SizeOf(spi), ret)
         _spi = spi
 
         If _processors > 0 Then
             ReDim _ppi(_processors - 1)
             Dim __size As Integer = _processors * Marshal.SizeOf(_ppi(0))
-            Dim pt As IntPtr = Marshal.AllocHGlobal(__size)
-            API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessorTimes, pt, __size, ret)
+            ' PERFISSUE : WE MUST NOT ALLOCATE EACH TIME
+            Dim memAlloc As New Native.Memory.MemoryAlloc(__size)
+            NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessorPerformanceInformation, memAlloc.Pointer, __size, ret)
 
             ' Conversion from unmanaged memory to valid array
             For x As Integer = 0 To _processors - 1
-                Dim pt2 As IntPtr = CType(pt.ToInt32 + 48 * x, IntPtr)
-                _ppi(x) = CType(Marshal.PtrToStructure(pt2, GetType(API.SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION)), API.SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION)
+                '64TODO
+                '                Dim pt2 As IntPtr = CType(pt.ToInt32 + 48 * x, IntPtr)
+                '                _ppi(x) = CType(Marshal.PtrToStructure(pt2, _
+                'GetType(NativeStructs.SystemProcessorPerformanceInformation)),  _
+                'NativeStructs.SystemProcessorPerformanceInformation)
+                _ppi(x) = memAlloc.ReadStruct(Of NativeStructs.SystemProcessorPerformanceInformation)(48, x)
             Next
+            memAlloc.Free()
 
             'Dim dest() As Long
             'ReDim dest(11)

@@ -60,6 +60,13 @@ Namespace Native.Api
 
         <DllImport("ntdll.dll")> _
         Public Shared Function NtQuerySystemInformation(<[In]()> ByVal SystemInformationClass As SystemInformationClass, _
+            <Out()> ByVal SystemInformation As IntPtr, _
+            <[In]()> ByVal SystemInformationLength As Integer, _
+            <Out()> <[Optional]()> ByRef ReturnLength As Integer) As UInteger
+        End Function
+
+        <DllImport("ntdll.dll")> _
+        Public Shared Function NtQuerySystemInformation(<[In]()> ByVal SystemInformationClass As SystemInformationClass, _
             <Out()> ByRef SystemInformation As SystemCacheInformation, _
             <[In]()> ByVal SystemInformationLength As Integer, _
             <Out()> <[Optional]()> ByRef ReturnLength As Integer) As UInteger

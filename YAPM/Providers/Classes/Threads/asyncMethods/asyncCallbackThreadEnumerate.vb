@@ -167,12 +167,12 @@ Public Class asyncCallbackThreadEnumerate
     Friend Shared Sub enumThreads(ByVal pObj As poolObj, ByRef _dico As Dictionary(Of String, threadInfos))
 
         Dim ret As Integer
-        API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, _
+        API.NtQuerySystemInformation(native.api.nativeenums.SystemInformationClass.SystemProcessesAndThreadsInformation, _
                         memAllocForThreadEnum.Pointer, memAllocForThreadEnum.Size, ret)
         If memAllocForThreadEnum.Size < ret Then
             memAllocForThreadEnum.Resize(ret)
         End If
-        API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, _
+        API.NtQuerySystemInformation(native.api.nativeenums.SystemInformationClass.SystemProcessesAndThreadsInformation, _
                         memAllocForThreadEnum.Pointer, memAllocForThreadEnum.Size, ret)
 
         ' Extract structures from unmanaged memory

@@ -572,7 +572,7 @@ Public Class asyncCallbackProcEnumerate
         Dim size As Integer = 1024
         Dim ptr As IntPtr = Marshal.AllocHGlobal(size)
 
-        While CUInt(API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemHandleInformation, ptr, size, retLen)) = STATUS_INFO_LENGTH_MISMATCH
+        While CUInt(API.NtQuerySystemInformation(native.api.nativeenums.SystemInformationClass.SystemHandleInformation, ptr, size, retLen)) = STATUS_INFO_LENGTH_MISMATCH
 
             size *= 2
             Marshal.FreeHGlobal(ptr)
@@ -743,12 +743,12 @@ Public Class asyncCallbackProcEnumerate
     Private Function getVisibleProcesses() As Dictionary(Of String, processInfos)
 
         Dim ret As Integer
-        API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, _
+        API.NtQuerySystemInformation(native.api.nativeenums.SystemInformationClass.SystemProcessesAndThreadsInformation, _
                         memAllocForVProcesses.Pointer, memAllocForVProcesses.Size, ret)
         If memAllocForVProcesses.Size < ret Then
             memAllocForVProcesses.Resize(ret)
         End If
-        API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, _
+        API.NtQuerySystemInformation(native.api.nativeenums.SystemInformationClass.SystemProcessesAndThreadsInformation, _
                         memAllocForVProcesses.Pointer, memAllocForVProcesses.Size, ret)
 
         ' Extract structures from unmanaged memory
@@ -830,12 +830,12 @@ Public Class asyncCallbackProcEnumerate
     Private Function getVisibleProcessesSimp() As Dictionary(Of String, processInfos)
 
         Dim ret As Integer
-        API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, _
+        API.NtQuerySystemInformation(native.api.nativeenums.SystemInformationClass.SystemProcessesAndThreadsInformation, _
                         memAllocForVSProcesses.Pointer, memAllocForVSProcesses.Size, ret)
         If memAllocForVSProcesses.Size < ret Then
             memAllocForVSProcesses.Resize(ret)
         End If
-        API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, _
+        API.NtQuerySystemInformation(native.api.nativeenums.SystemInformationClass.SystemProcessesAndThreadsInformation, _
                         memAllocForVSProcesses.Pointer, memAllocForVSProcesses.Size, ret)
 
         ' Extract structures from unmanaged memory

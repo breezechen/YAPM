@@ -37,10 +37,10 @@ Public Class frmSystemInfo
 
             ' Highest values are Decimals
 
-            Dim bi As API.SYSTEM_BASIC_INFORMATION = .BasicInformations
-            Dim ci As API.SYSTEM_CACHE_INFORMATION = .CacheInformations
-            Dim pi As API.SYSTEM_PERFORMANCE_INFORMATION = .PerformanceInformations
-            Dim ppi() As API.SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION = .ProcessorPerformanceInformations
+            Dim bi As Native.Api.NativeStructs.SystemBasicInformation = .BasicInformations
+            Dim ci As Native.Api.NativeStructs.SystemCacheInformation = .CacheInformations
+            Dim pi As Native.Api.NativeStructs.SystemPerformanceInformation = .PerformanceInformations
+            Dim ppi() As Native.Api.NativeStructs.SystemProcessorPerformanceInformation = .ProcessorPerformanceInformations
             Dim _pagesize As Integer = bi.PageSize
             _processors = bi.NumberOfProcessors
 
@@ -278,7 +278,7 @@ Public Class frmSystemInfo
     End Sub
 
     Private Sub showCpuUsage(ByVal zres3 As Long, ByVal zres4 As Long, ByRef ppi() As  _
-                             API.SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION, _
+                             Native.Api.NativeStructs.SystemProcessorPerformanceInformation, _
                              ByVal diff As Date)
 
         Static oldProcTime As Long = 0

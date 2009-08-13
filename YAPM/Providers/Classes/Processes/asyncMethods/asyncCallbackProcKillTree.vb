@@ -107,10 +107,10 @@ Public Class asyncCallbackProcKillTree
     Private Function EnumParent(ByVal pid As Integer) As List(Of Integer)
         ' Local
         Dim ret As Integer
-        API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, IntPtr.Zero, 0, ret)
+        API.NtQuerySystemInformation(native.api.nativeenums.SystemInformationClass.SystemProcessesAndThreadsInformation, IntPtr.Zero, 0, ret)
         Dim size As Integer = ret
         Dim ptr As IntPtr = Marshal.AllocHGlobal(size)
-        API.NtQuerySystemInformation(API.SYSTEM_INFORMATION_CLASS.SystemProcessesAndThreadsInformation, ptr, size, ret)
+        API.NtQuerySystemInformation(native.api.nativeenums.SystemInformationClass.SystemProcessesAndThreadsInformation, ptr, size, ret)
 
         ' Extract structures from unmanaged memory
         Dim x As Integer = 0
