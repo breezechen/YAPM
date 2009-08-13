@@ -131,11 +131,11 @@ Public Class asyncCallbackServiceEnumerate
                             If CBool(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.AcceptStop.ToString)) Then
                                 .ControlsAccepted = .ControlsAccepted Or Native.Api.NativeEnums.ServiceAccept.Stop
                             End If
-                            .CurrentState = Native.Api.Functions.Service.GetServiceStateFromString(CStr(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.State.ToString)))
+                            .CurrentState = Native.Functions.Service.GetServiceStateFromString(CStr(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.State.ToString)))
                             .ProcessID = CInt(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.ProcessId.ToString))
                             '.ServiceFlags
                             .ServiceSpecificExitCode = CInt(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.ServiceSpecificExitCode.ToString))
-                            .ServiceType = Native.Api.Functions.Service.GetServiceTypeFromString(CStr(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.ServiceType.ToString)))
+                            .ServiceType = Native.Functions.Service.GetServiceTypeFromString(CStr(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.ServiceType.ToString)))
                             .WaitHint = CInt(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.WaitHint.ToString))
                             .Win32ExitCode = CInt(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.ExitCode.ToString))
                         End With
@@ -150,10 +150,10 @@ Public Class asyncCallbackServiceEnumerate
                         .BinaryPathName = CStr(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.PathName.ToString))
                         '.Dependencies
                         .DisplayName = CStr(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.DisplayName.ToString))
-                        .ErrorControl = Native.Api.Functions.Service.GetServiceErrorControlFromString(CStr(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.ErrorControl.ToString)))
+                        .ErrorControl = Native.Functions.Service.GetServiceErrorControlFromString(CStr(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.ErrorControl.ToString)))
                         '.LoadOrderGroup 
                         .ServiceStartName = CStr(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.StartName.ToString))
-                        .StartType = Native.Api.Functions.Service.GetServiceStartTypeFromString(CStr(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.StartMode.ToString)))
+                        .StartType = Native.Functions.Service.GetServiceStartTypeFromString(CStr(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.StartMode.ToString)))
                         .TagID = CInt(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.TagId.ToString))
                     End With
                     _servInfos.SetConfig(conf)

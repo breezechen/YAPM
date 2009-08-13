@@ -545,13 +545,13 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Modules\Program.vb" />
-    <Compile Include="Native\Api\Functions\Misc.vb" />
+    <Compile Include="Native\Functions\Misc.vb" />
     <Compile Include="Native\Api\NativeConstants.vb" />
     <Compile Include="Native\Api\NativeEnums.vb" />
     <Compile Include="Native\Api\NativeFunctions.vb" />
     <Compile Include="Native\Api\NativeStructs.vb" />
     <Compile Include="Native\Enums.vb" />
-    <Compile Include="Native\Api\Functions\Service.vb" />
+    <Compile Include="Native\Functions\Service.vb" />
     <Compile Include="Native\Objects\Service.vb" />
     <Compile Include="Native\Security\ProcessAccess.vb" />
     <Compile Include="Native\Security\ServiceAccess.vb" />

@@ -30,7 +30,7 @@ Public Class frmHiddenProcesses
         closeWithEchapKey(Me)
         SetToolTip(Me.sb, "Change method (click on the arrow) and/or refresh items (click on the shield)")
 
-        Call Native.Api.Functions.Misc.SetTheme(Me.lvProcess.Handle)
+        Call Native.Functions.Misc.SetTheme(Me.lvProcess.Handle)
         Dim theConnection As New cConnection
         theConnection.ConnectionType = cConnection.TypeOfConnection.LocalConnection
 

@@ -225,7 +225,7 @@ Public Module Program
         ' ======= Other init
         _isVistaOrAbove = cEnvironment.IsWindowsVistaOrAbove
         _isAdmin = cEnvironment.IsAdmin
-        _isElevated = (cEnvironment.GetElevationType = API.ElevationType.Full)
+        _isElevated = (cEnvironment.GetElevationType = Native.Api.Enums.ElevationType.Full)
 
 
 

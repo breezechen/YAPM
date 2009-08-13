@@ -153,13 +153,13 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure PROCESS_BASIC_INFORMATION
-            Public ExitStatus As Integer
-            Public PebBaseAddress As Integer
-            Public AffinityMask As Integer
+        Public Structure ProcessBasicInformation
+            Public ExitStatus As UInteger
+            Public PebBaseAddress As IntPtr
+            Public AffinityMask As IntPtr
             Public BasePriority As Integer
-            Public UniqueProcessId As Integer
-            Public InheritedFromUniqueProcessId As Integer
+            Public UniqueProcessId As IntPtr
+            Public InheritedFromUniqueProcessId As IntPtr
         End Structure
 
         <StructLayout(LayoutKind.Sequential), Serializable()> _

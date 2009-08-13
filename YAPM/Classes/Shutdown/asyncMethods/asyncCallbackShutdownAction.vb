@@ -93,19 +93,19 @@ Public Class asyncCallbackShutdownAction
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
                 Try
                     Dim res As Integer = 2        ' Access denied
-                    Dim param As API.WMI_SHUTDOWN_VALUES
+                    Dim param As Native.Api.Enums.WMI_SHUTDOWN_VALUES
                     If pObj.force Then
-                        param = param Or API.WMI_SHUTDOWN_VALUES.Force
+                        param = param Or Native.Api.Enums.WMI_SHUTDOWN_VALUES.Force
                     End If
                     Select Case pObj.type
                         Case ShutdownType.Logoff
-                            param = param Or API.WMI_SHUTDOWN_VALUES.LogOff
+                            param = param Or Native.Api.Enums.WMI_SHUTDOWN_VALUES.LogOff
                         Case ShutdownType.Poweroff
-                            param = param Or API.WMI_SHUTDOWN_VALUES.PowerOff
+                            param = param Or Native.Api.Enums.WMI_SHUTDOWN_VALUES.PowerOff
                         Case ShutdownType.Restart
-                            param = param Or API.WMI_SHUTDOWN_VALUES.Reboot
+                            param = param Or Native.Api.Enums.WMI_SHUTDOWN_VALUES.Reboot
                         Case ShutdownType.Shutdown
-                            param = param Or API.WMI_SHUTDOWN_VALUES.Shutdown
+                            param = param Or Native.Api.Enums.WMI_SHUTDOWN_VALUES.Shutdown
                     End Select
                     Dim obj(0) As Object
                     obj(0) = CObj(param)

@@ -235,8 +235,8 @@ Public Class asyncCallbackModuleEnumerate
         Dim retDico As New Dictionary(Of String, moduleInfos)
 
         Dim hProc As IntPtr
-        Dim peb As Integer
-        Dim loaderDatePtr As Integer
+        Dim peb As IntPtr
+        Dim loaderDatePtr As IntPtr
 
         ' Open a reader to access memory !
         Dim reader As New cProcessMemReader(pid)
@@ -251,7 +251,7 @@ Public Class asyncCallbackModuleEnumerate
 
             ' Get address of LoaderData pointer
             peb += &HC      ' See structure for details about offsets
-            loaderDatePtr = reader.ReadInt32(peb)
+            loaderDatePtr = reader.ReadIntPtr(peb)
 
             ' PEB_LDR_DATA documented here
             ' http://msdn.microsoft.com/en-us/library/aa813708(VS.85).aspx

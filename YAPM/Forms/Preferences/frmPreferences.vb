@@ -134,8 +134,8 @@ Public Class frmPreferences
 
         closeWithEchapKey(Me)
 
-        Native.Api.Functions.Misc.SetTheme(Me.lvHighlightingProcess.Handle)
-        Native.Api.Functions.Misc.SetTheme(Me.lvHighlightingThread.Handle)
+        Native.Functions.Misc.SetTheme(Me.lvHighlightingProcess.Handle)
+        Native.Functions.Misc.SetTheme(Me.lvHighlightingThread.Handle)
 
         Me.txtUpdate.Text = "Click on 'Check if YAPM is up to date' to check if a new version is available."
         SetToolTip(Me.chkReplaceTaskmgr, "Replace taskmgr (do not forget to uncheck this option before you delete/move YAPM executable !!")

@@ -70,7 +70,7 @@ Public Class asyncCallbackProcGetNonFixedInfos
     ' Return affinity
     Private Function GetAffinity() As Integer
         If _pid > 4 Then
-            Dim pbi As New Native.Api.NativeStructs.PROCESS_BASIC_INFORMATION
+            Dim pbi As New Native.Api.NativeStructs.ProcessBasicInformation
             Dim ret As Integer
             Native.Api.NativeFunctions.NtQueryInformationProcess(_handle, _
                     Native.Api.NativeEnums.ProcessInformationClass.ProcessBasicInformation, _

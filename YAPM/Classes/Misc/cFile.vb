@@ -277,14 +277,14 @@ Public Class cFile
     Public Sub Refresh()
 
         ' Get a handle
-        Dim ptr As IntPtr = API.CreateFile(_Path, API.EFileAccess._GenericRead, API.EFileShare._Read Or _
-            API.EFileShare._Write, IntPtr.Zero, API.ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
+        Dim ptr As IntPtr = Native.Api.NativeFunctions.CreateFile(_Path, Native.Api.NativeEnums.EFileAccess._GenericRead, Native.Api.NativeEnums.EFileShare._Read Or _
+             Native.Api.NativeEnums.EFileShare._Write, IntPtr.Zero, Native.Api.NativeEnums.ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
 
         If ptr = CType(-1, IntPtr) Then Exit Sub
 
         ' Get sizes
-        API.GetFileSizeEx(ptr, _FileSize)
-        _CompressedFileSize = API.GetCompressedFileSize(_Path, 0)
+        Native.Api.NativeFunctions.GetFileSizeEx(ptr, _FileSize)
+        _CompressedFileSize = Native.Api.NativeFunctions.GetCompressedFileSize(_Path, 0)
 
         ' Get dates and attributes
         Dim dC As Date = IO.File.GetCreationTime(_Path)
@@ -336,24 +336,24 @@ Public Class cFile
         ' Short name/path
         Dim sb2 As New StringBuilder(80)
         Dim sb3 As New StringBuilder(80)
-        API.GetShortPathName(_Path, sb2, 80)
-        API.GetShortPathName(_ParentDirectory, sb3, 80)
+        Native.Api.NativeFunctions.GetShortPathName(_Path, sb2, 80)
+        Native.Api.NativeFunctions.GetShortPathName(_ParentDirectory, sb3, 80)
         _ShortName = Replace(sb2.ToString, "\", "\\")
         _ShortPath = Replace(sb3.ToString, "\", "\\")
 
-        Dim ptrR As IntPtr = API.CreateFile(_Path, API.EFileAccess._GenericRead, _
-                    API.EFileShare._Read Or API.EFileShare._Write, IntPtr.Zero, _
-                    API.ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
+        Dim ptrR As IntPtr = Native.Api.NativeFunctions.CreateFile(_Path, Native.Api.NativeEnums.EFileAccess._GenericRead, _
+                     Native.Api.NativeEnums.EFileShare._Read Or Native.Api.NativeEnums.EFileShare._Write, IntPtr.Zero, _
+                     Native.Api.NativeEnums.ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
         If Not (ptrR = IntPtr.Zero) Then
-            API.CloseHandle(ptrR)
+            Native.Api.NativeFunctions.CloseHandle(ptrR)
             _FileAvailableForRead = True
         End If
 
-        Dim ptrW As IntPtr = API.CreateFile(_Path, API.EFileAccess._GenericWrite, _
-                   API.EFileShare._Read Or API.EFileShare._Write, IntPtr.Zero, _
-                    API.ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
+        Dim ptrW As IntPtr = Native.Api.NativeFunctions.CreateFile(_Path, Native.Api.NativeEnums.EFileAccess._GenericWrite, _
+                    Native.Api.NativeEnums.EFileShare._Read Or Native.Api.NativeEnums.EFileShare._Write, IntPtr.Zero, _
+                     Native.Api.NativeEnums.ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
         If Not (ptrW = IntPtr.Zero) Then
-            API.CloseHandle(ptrW)
+            Native.Api.NativeFunctions.CloseHandle(ptrW)
             _FileAvailableForWrite = True
         End If
 
@@ -363,7 +363,7 @@ Public Class cFile
         sb2 = Nothing
         sb3 = Nothing
         sb = Nothing
-        API.CloseHandle(ptr)
+        Native.Api.NativeFunctions.CloseHandle(ptr)
     End Sub
 
     ' Display File Property Box
@@ -424,7 +424,7 @@ Public Class cFile
             .lpIDList = IntPtr.Zero
         End With
 
-        Return API.ShellExecuteEx(SEI)
+        Return Native.Api.NativeFunctions.ShellExecuteEx(SEI)
     End Function
 
     ' Retrieve a good formated path from a bad string
@@ -575,16 +575,16 @@ Public Class cFile
     Public Shared Function GetFileSize(ByVal filePath As String) As Long
         Dim ret As Long
 
-        Dim ptr As IntPtr = API.CreateFile(filePath, API.EFileAccess._GenericRead, _
-            API.EFileShare._Read Or API.EFileShare._Write, IntPtr.Zero, _
-            API.ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
+        Dim ptr As IntPtr = Native.Api.NativeFunctions.CreateFile(filePath, Native.Api.NativeEnums.EFileAccess._GenericRead, _
+             Native.Api.NativeEnums.EFileShare._Read Or Native.Api.NativeEnums.EFileShare._Write, IntPtr.Zero, _
+             Native.Api.NativeEnums.ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
 
         If ptr = CType(-1, IntPtr) Then Return -1
 
         ' Get sizes
-        API.GetFileSizeEx(ptr, ret)
+        Native.Api.NativeFunctions.GetFileSizeEx(ptr, ret)
 
-        API.CloseHandle(ptr)
+        Native.Api.NativeFunctions.CloseHandle(ptr)
 
         Return ret
 

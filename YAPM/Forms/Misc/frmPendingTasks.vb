@@ -30,7 +30,7 @@ Public Class frmPendingTasks
 
     Private Sub frm_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Call closeWithEchapKey(Me)
-        Native.Api.Functions.Misc.SetTheme(lv.Handle)
+        Native.Functions.Misc.SetTheme(lv.Handle)
         Call RefreshTasksList()
     End Sub
 

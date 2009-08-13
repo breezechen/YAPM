@@ -190,7 +190,7 @@ Namespace Native.Objects
         Public Shared Sub GetServiceConfig(ByVal hSCManager As IntPtr, ByVal name As String, ByRef _infos As serviceInfos, ByVal getFileInfo As Boolean)
 
             Dim lServ As IntPtr = NativeFunctions.OpenService(hSCManager, name, _
-                                                    Api.Security.ServiceAccess.QueryConfig)
+                                                    Security.ServiceAccess.QueryConfig)
 
             If hSCManager <> IntPtr.Zero Then
                 If lServ <> IntPtr.Zero Then

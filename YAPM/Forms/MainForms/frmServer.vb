@@ -890,7 +890,7 @@ Public Class frmServer
             Me.ShowInTaskbar = False
         End If
 
-        Native.Api.Functions.Misc.SetTheme(Me.lvServer.Handle)
+        Native.Functions.Misc.SetTheme(Me.lvServer.Handle)
 
         SetToolTip(Me.cmdConnection, "Connect the server")
         SetToolTip(Me.txtIp, "Available IP of this machine")

@@ -255,20 +255,20 @@ Public Class frmMain
         Static bFirst As Boolean = True
         If bFirst Then
             bFirst = False
-            Native.Api.Functions.Misc.SetTheme(Me.lvProcess.Handle)
-            Native.Api.Functions.Misc.SetTheme(Me.lvMonitorReport.Handle)
-            Native.Api.Functions.Misc.SetTheme(Me.lvNetwork.Handle)
-            Native.Api.Functions.Misc.SetTheme(Me.lvTask.Handle)
-            Native.Api.Functions.Misc.SetTheme(Me.lvHandles.Handle)
-            Native.Api.Functions.Misc.SetTheme(Me.lvWindows.Handle)
-            Native.Api.Functions.Misc.SetTheme(Me.lvSearchResults.Handle)
-            Native.Api.Functions.Misc.SetTheme(Me.lvModules.Handle)
-            Native.Api.Functions.Misc.SetTheme(Me.lvThreads.Handle)
-            Native.Api.Functions.Misc.SetTheme(Me.lvServices.Handle)
-            Native.Api.Functions.Misc.SetTheme(Me.tv.Handle)
-            Native.Api.Functions.Misc.SetTheme(Me.tv2.Handle)
-            Native.Api.Functions.Misc.SetTheme(Me.tvMonitor.Handle)
-            Native.Api.Functions.Misc.SetTheme(Me.lvFileString.Handle)
+            Native.Functions.Misc.SetTheme(Me.lvProcess.Handle)
+            Native.Functions.Misc.SetTheme(Me.lvMonitorReport.Handle)
+            Native.Functions.Misc.SetTheme(Me.lvNetwork.Handle)
+            Native.Functions.Misc.SetTheme(Me.lvTask.Handle)
+            Native.Functions.Misc.SetTheme(Me.lvHandles.Handle)
+            Native.Functions.Misc.SetTheme(Me.lvWindows.Handle)
+            Native.Functions.Misc.SetTheme(Me.lvSearchResults.Handle)
+            Native.Functions.Misc.SetTheme(Me.lvModules.Handle)
+            Native.Functions.Misc.SetTheme(Me.lvThreads.Handle)
+            Native.Functions.Misc.SetTheme(Me.lvServices.Handle)
+            Native.Functions.Misc.SetTheme(Me.tv.Handle)
+            Native.Functions.Misc.SetTheme(Me.tv2.Handle)
+            Native.Functions.Misc.SetTheme(Me.tvMonitor.Handle)
+            Native.Functions.Misc.SetTheme(Me.lvFileString.Handle)
         End If
         Call frmMain_Resize(Nothing, Nothing)
     End Sub
@@ -309,7 +309,7 @@ Public Class frmMain
 
         ' Disable 'start as admin' if we are not on Vista or above
         If cEnvironment.IsWindowsVistaOrAbove = False _
-                OrElse cEnvironment.GetElevationType <> API.ElevationType.Limited Then
+                OrElse cEnvironment.GetElevationType <> Native.Api.Enums.ElevationType.Limited Then
             Me.Ribbon.OrbDropDown.MenuItems.Remove(Me.orbStartElevated)
             Me.MenuItemSYSTEMFILE.MenuItems.Remove(Me.MenuItemRunAsAdmin)
         Else

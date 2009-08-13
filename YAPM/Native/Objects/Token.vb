@@ -32,7 +32,6 @@ Namespace Native.Objects
                                             ByVal seStatus As NativeEnums.SePrivilegeAttributes) As Boolean
 
             Dim hProcess As IntPtr
-            Dim Ret As Boolean
             Dim fRet As Boolean
             Dim lngToken As IntPtr
             Dim typLUID As NativeStructs.Luid
@@ -41,12 +40,12 @@ Namespace Native.Objects
             Dim ret2 As IntPtr
 
             ' Open handle to process
-            hProcess = NativeFunctions.OpenProcess(Api.Security.ProcessAccess.QueryInformation, _
+            hProcess = NativeFunctions.OpenProcess(Security.ProcessAccess.QueryInformation, _
                                                    False, processId)
 
             If hProcess <> IntPtr.Zero Then
                 ' Get token handle
-                NativeFunctions.OpenProcessToken(hProcess, Api.Security.TokenAccess.Query Or Api.Security.TokenAccess.AdjustPrivileges, lngToken)
+                NativeFunctions.OpenProcessToken(hProcess, Security.TokenAccess.Query Or Security.TokenAccess.AdjustPrivileges, lngToken)
 
                 If lngToken <> IntPtr.Zero Then
                     If NativeFunctions.LookupPrivilegeValue(Nothing, seName, typLUID) Then
@@ -80,10 +79,10 @@ Namespace Native.Objects
             Dim typLUID As Native.Api.NativeStructs.Luid
             Dim res As Native.Api.NativeEnums.SePrivilegeAttributes
 
-            hProcess = NativeFunctions.OpenProcess(Api.Security.ProcessAccess.QueryInformation, _
+            hProcess = NativeFunctions.OpenProcess(Security.ProcessAccess.QueryInformation, _
                                        False, processId)
             If hProcess <> IntPtr.Zero Then
-                NativeFunctions.OpenProcessToken(hProcess, Api.Security.TokenAccess.Query, hProcessToken)
+                NativeFunctions.OpenProcessToken(hProcess, Security.TokenAccess.Query, hProcessToken)
                 If hProcessToken <> IntPtr.Zero Then
                     Ret = NativeFunctions.LookupPrivilegeValue(Nothing, seName, typLUID)
 

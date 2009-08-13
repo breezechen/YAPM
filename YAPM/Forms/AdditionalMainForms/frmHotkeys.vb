@@ -37,7 +37,7 @@ Public Class frmHotkeys
 
         closeWithEchapKey(Me)
 
-        Native.Api.Functions.Misc.SetTheme(Me.lv.Handle)
+        Native.Functions.Misc.SetTheme(Me.lv.Handle)
 
         SetToolTip(Me.chkAlt, "Use Alt key")
         SetToolTip(Me.chkCtrl, "Use Control key")

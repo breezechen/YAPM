@@ -437,7 +437,7 @@ Public Class asyncCallbackProcEnumerate
         If _pid > 4 Then
             Dim _h As IntPtr = API.OpenProcess(cProcessConnection.ProcessMinRights, _
                                                False, _pid)
-            Dim pbi As New Native.Api.NativeStructs.PROCESS_BASIC_INFORMATION
+            Dim pbi As New Native.Api.NativeStructs.ProcessBasicInformation
             Dim ret As Integer
             API.ZwQueryInformationProcess(_h, API.PROCESS_INFORMATION_CLASS.ProcessBasicInformation, pbi, Marshal.SizeOf(pbi), ret)
             API.CloseHandle(_h)

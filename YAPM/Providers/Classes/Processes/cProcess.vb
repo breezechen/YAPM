@@ -113,7 +113,7 @@ Public Class cProcess
     Private _tokenHandle As IntPtr
 
     ' Informations which will be refreshed each call to 'merge'
-    Private _elevation As API.ElevationType
+    Private _elevation As Native.Api.Enums.ElevationType
     Private _isInJob As Boolean
     Private _isBeingDebugged As Boolean
     Private _isCritical As Boolean
@@ -286,7 +286,7 @@ Public Class cProcess
 
     Public ReadOnly Property HaveFullControl() As Boolean
         Get
-            Return _handleQueryInfo > 0 AndAlso Len(_processInfos.Path) > 0
+            Return _handleQueryInfo <> IntPtr.Zero AndAlso Len(_processInfos.Path) > 0
         End Get
     End Property
 

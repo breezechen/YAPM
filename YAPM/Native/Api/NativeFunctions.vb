@@ -46,7 +46,7 @@ Namespace Native.Api
         <DllImport("ntdll.dll")> _
         Public Shared Function NtQueryInformationProcess(<[In]()> ByVal ProcessHandle As IntPtr, _
                 <[In]()> ByVal ProcessInformationClass As ProcessInformationClass, _
-                <Out()> ByRef ProcessInformation As PROCESS_BASIC_INFORMATION, _
+                <Out()> ByRef ProcessInformation As ProcessBasicInformation, _
                 <[In]()> ByVal ProcessInformationLength As Integer, _
                 <Out()> <[Optional]()> ByRef ReturnLength As Integer) As UInteger
         End Function
@@ -88,8 +88,8 @@ Namespace Native.Api
 
         <DllImport("kernel32.dll")> _
         Public Shared Function SetProcessWorkingSetSize(ByVal hProcess As IntPtr, _
-                            ByVal dwMinimumWorkingSetSize As UIntPtr, _
-                            ByVal dwMaximumWorkingSetSize As UIntPtr) As Boolean
+                            ByVal dwMinimumWorkingSetSize As IntPtr, _
+                            ByVal dwMaximumWorkingSetSize As IntPtr) As Boolean
         End Function
 
         <DllImport("kernel32.dll", SetLastError:=True)> _

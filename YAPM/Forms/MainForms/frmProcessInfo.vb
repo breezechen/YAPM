@@ -341,17 +341,17 @@ Public Class frmProcessInfo
         closeWithEchapKey(Me)
 
         ' Cool theme
-        Native.Api.Functions.Misc.SetTheme(Me.lvProcString.Handle)
-        Native.Api.Functions.Misc.SetTheme(Me.lvProcEnv.Handle)
-        Native.Api.Functions.Misc.SetTheme(Me.lvProcNetwork.Handle)
-        Native.Api.Functions.Misc.SetTheme(Me.lvProcMem.Handle)
-        Native.Api.Functions.Misc.SetTheme(Me.lvProcServices.Handle)
-        Native.Api.Functions.Misc.SetTheme(Me.lvPrivileges.Handle)
-        Native.Api.Functions.Misc.SetTheme(Me.lvModules.Handle)
-        Native.Api.Functions.Misc.SetTheme(Me.lvHandles.Handle)
-        Native.Api.Functions.Misc.SetTheme(Me.lvThreads.Handle)
-        Native.Api.Functions.Misc.SetTheme(Me.lvWindows.Handle)
-        Native.Api.Functions.Misc.SetTheme(Me.lvLog.Handle)
+        Native.Functions.Misc.SetTheme(Me.lvProcString.Handle)
+        Native.Functions.Misc.SetTheme(Me.lvProcEnv.Handle)
+        Native.Functions.Misc.SetTheme(Me.lvProcNetwork.Handle)
+        Native.Functions.Misc.SetTheme(Me.lvProcMem.Handle)
+        Native.Functions.Misc.SetTheme(Me.lvProcServices.Handle)
+        Native.Functions.Misc.SetTheme(Me.lvPrivileges.Handle)
+        Native.Functions.Misc.SetTheme(Me.lvModules.Handle)
+        Native.Functions.Misc.SetTheme(Me.lvHandles.Handle)
+        Native.Functions.Misc.SetTheme(Me.lvThreads.Handle)
+        Native.Functions.Misc.SetTheme(Me.lvWindows.Handle)
+        Native.Functions.Misc.SetTheme(Me.lvLog.Handle)
 
         ' Some tooltips
         SetToolTip(Me.cmdInfosToClipB, "Copy process informations to clipboard. Use left click to copy as text, right click to copy as rtf (preserve text style)")

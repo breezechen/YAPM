@@ -140,7 +140,7 @@ Public Class cHotkeys
     Private Sub DetachKeyboardHook()
 
         If (hKeyHook <> IntPtr.Zero) Then
-            Call API.UnhookWindowsHookEx(hKeyHook)
+            Call Native.Api.NativeFunctions.UnhookWindowsHookEx(hKeyHook)
             hKeyHook = IntPtr.Zero
         End If
 

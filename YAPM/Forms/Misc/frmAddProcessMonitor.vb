@@ -55,10 +55,10 @@ Public Class frmAddProcessMonitor
         SetToolTip(Me.lstInstance, "Available instances")
         SetToolTip(Me.lstCategory, "Available categories")
 
-        Native.Api.Functions.Misc.SetTheme(Me.lstToAdd.Handle)
-        Native.Api.Functions.Misc.SetTheme(Me.lstInstance.Handle)
-        Native.Api.Functions.Misc.SetTheme(Me.lstCounterType.Handle)
-        Native.Api.Functions.Misc.SetTheme(Me.lstCategory.Handle)
+        Native.Functions.Misc.SetTheme(Me.lstToAdd.Handle)
+        Native.Functions.Misc.SetTheme(Me.lstInstance.Handle)
+        Native.Functions.Misc.SetTheme(Me.lstCounterType.Handle)
+        Native.Functions.Misc.SetTheme(Me.lstCategory.Handle)
 
         'Call Me.cmdRefresh_Click(Nothing, Nothing)
 

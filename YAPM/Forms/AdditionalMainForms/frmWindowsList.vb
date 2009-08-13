@@ -29,7 +29,7 @@ Public Class frmWindowsList
 
         closeWithEchapKey(Me)
 
-        Native.Api.Functions.Misc.SetTheme(lv.Handle)
+        Native.Functions.Misc.SetTheme(lv.Handle)
         Call RefreshWindowsList()
     End Sub
 

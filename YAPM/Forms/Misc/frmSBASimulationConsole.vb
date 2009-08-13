@@ -37,7 +37,7 @@ Public Class frmSBASimulationConsole
 
     Private Sub frmSBASimulationConsole_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         API.EnableMenuItem(API.GetSystemMenu(Me.Handle.ToInt32, 0), API.SC_CLOSE, API.MF_GRAYED)
-        Native.Api.Functions.Misc.SetTheme(lv.Handle)
+        Native.Functions.Misc.SetTheme(lv.Handle)
         DoubleBufferListView(Me.lv.Handle)
     End Sub
 

@@ -204,7 +204,7 @@ Module Misc
         End Try
     End Function
 
-    Public Function ReadUnicodeString(ByVal str As API.UNICODE_STRING) As String
+    Public Function ReadUnicodeString(ByVal str As Native.Api.NativeStructs.UnicodeString) As String
         If str.Length = 0 Then
             Return Nothing
         End If
@@ -582,11 +582,11 @@ Module Misc
         If System.IO.File.Exists(fName) = False Then Return Nothing
 
         If small Then
-            hImgSmall = API.SHGetFileInfo(fName, 0, shinfo, _
+            hImgSmall = Native.Api.NativeFunctions.SHGetFileInfo(fName, 0, shinfo, _
                 Marshal.SizeOf(shinfo), _
                 API.SHGFI_ICON Or API.SHGFI_SMALLICON)
         Else
-            hImgLarge = API.SHGetFileInfo(fName, 0, _
+            hImgLarge = Native.Api.NativeFunctions.SHGetFileInfo(fName, 0, _
                 shinfo, Marshal.SizeOf(shinfo), _
                 API.SHGFI_ICON Or API.SHGFI_LARGEICON)
         End If
@@ -613,11 +613,11 @@ Module Misc
         shinfo = New API.SHFILEINFO()
 
         If small Then
-            hImgSmall = API.SHGetFileInfo(fName, 0, shinfo, _
+            hImgSmall = Native.Api.NativeFunctions.SHGetFileInfo(fName, 0, shinfo, _
                 Marshal.SizeOf(shinfo), _
                API.SHGFI_ICON Or API.SHGFI_SMALLICON)
         Else
-            hImgLarge = API.SHGetFileInfo(fName, 0, _
+            hImgLarge = Native.Api.NativeFunctions.SHGetFileInfo(fName, 0, _
                 shinfo, Marshal.SizeOf(shinfo), _
                 API.SHGFI_ICON Or API.SHGFI_LARGEICON)
         End If

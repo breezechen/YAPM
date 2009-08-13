@@ -37,7 +37,7 @@ Public Class frmAboutG
 
         closeWithEchapKey(Me)
 
-        Native.Api.Functions.Misc.SetTheme(Me.lv.Handle)
+        Native.Functions.Misc.SetTheme(Me.lv.Handle)
 
         SetToolTip(Me.cmdLicense, "Display license of YAPM")
         SetToolTip(Me.btnOK, "Close this window")

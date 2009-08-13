@@ -114,10 +114,10 @@ Public Class cEnvironment
     End Property
 
     ' Retrieve elevation type
-    Public Shared ReadOnly Property GetElevationType() As API.ElevationType
+    Public Shared ReadOnly Property GetElevationType() As Native.Api.Enums.ElevationType
         Get
             Static retrieved As Boolean = False
-            Static valRetrieved As API.ElevationType
+            Static valRetrieved As Native.Api.Enums.ElevationType
 
             If retrieved Then
                 Return valRetrieved
@@ -143,15 +143,15 @@ Public Class cEnvironment
                 ' Get a valid structure
                 value = Marshal.ReadInt32(TokenInformation, 0)
                 Marshal.FreeHGlobal(TokenInformation)
-                valRetrieved = CType(value, API.ElevationType)
+                valRetrieved = CType(value, Native.Api.Enums.ElevationType)
 
                 API.CloseHandle(hTok)
 
-                If valRetrieved = API.ElevationType.Default Then
+                If valRetrieved = Native.Api.Enums.ElevationType.Default Then
                     If cEnvironment.IsAdmin = False Then
-                        valRetrieved = API.ElevationType.Limited
+                        valRetrieved = Native.Api.Enums.ElevationType.Limited
                     Else
-                        valRetrieved = API.ElevationType.Full
+                        valRetrieved = Native.Api.Enums.ElevationType.Full
                     End If
                 End If
 

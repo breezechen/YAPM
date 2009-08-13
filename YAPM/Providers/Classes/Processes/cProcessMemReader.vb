@@ -69,7 +69,7 @@ Public Class cProcessMemReader
     ' Get PEB
     Public Function GetPEBAddress() As IntPtr
         Dim ret As Integer
-        Dim pbi As New Native.Api.NativeStructs.PROCESS_BASIC_INFORMATION
+        Dim pbi As New Native.Api.NativeStructs.ProcessBasicInformation
         Native.Api.NativeFunctions.NtQueryInformationProcess(_hProc, Native.Api.NativeEnums.ProcessInformationClass.ProcessBasicInformation, _
                                       pbi, Marshal.SizeOf(pbi), ret)
         Return pbi.PebBaseAddress
@@ -80,6 +80,14 @@ Public Class cProcessMemReader
         Dim buffer(0) As Integer
         Dim lByte As Integer
         Native.Api.NativeFunctions.ReadProcessMemory(_hProc, offset, buffer, 4, lByte)
+        Return buffer(0)
+    End Function
+
+    ' Read a pointer
+    Public Function ReadIntPtr(ByVal offset As IntPtr) As IntPtr
+        Dim buffer(0) As Integer
+        Dim lByte As Integer
+        Native.Api.NativeFunctions.ReadProcessMemory(_hProc, offset, buffer, Marshal.SizeOf(offset), lByte)
         Return buffer(0)
     End Function
 
