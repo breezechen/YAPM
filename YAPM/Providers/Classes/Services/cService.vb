@@ -193,7 +193,7 @@ Public Class cService
 
     ' Set service start type
     Private _setStartTypeServ As asyncCallbackServiceSetStartType
-    Public Sub SetServiceStartType(ByVal type As API.SERVICE_START_TYPE)
+    Public Sub SetServiceStartType(ByVal type As Native.Api.NativeEnums.ServiceStartType)
 
         If _setStartTypeServ Is Nothing Then
             _setStartTypeServ = New asyncCallbackServiceSetStartType(New asyncCallbackServiceSetStartType.HasChangedStartType(AddressOf setServiceStartTypeDone), _connection)

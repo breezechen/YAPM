@@ -41,9 +41,9 @@ Public Class asyncCallbackEnvVariableEnumerate
 
     Public Structure poolObj
         Public pid As Integer
-        Public peb As Integer
+        Public peb As IntPtr
         Public forInstanceId As Integer
-        Public Sub New(ByVal pi As Integer, ByVal add As Integer, ByVal ii As Integer)
+        Public Sub New(ByVal pi As Integer, ByVal add As IntPtr, ByVal ii As Integer)
             forInstanceId = ii
             peb = add
             pid = pi
@@ -117,22 +117,22 @@ Public Class asyncCallbackEnvVariableEnumerate
                                             ByRef values() As String) As Integer
         Return GetEnvironmentVariables(process.Infos.PEBAddress, process.Infos.Pid, variables, values)
     End Function
-    Friend Shared Function GetEnvironmentVariables(ByVal peb As Integer, ByVal pid As Integer, ByRef variables() As String, _
+    Friend Shared Function GetEnvironmentVariables(ByVal peb As IntPtr, ByVal pid As Integer, ByRef variables() As String, _
                                             ByRef values() As String) As Integer
 
         ReDim variables(-1)
         ReDim values(-1)
 
         ' Get PEB address of process
-        Dim __pebAd As Integer = peb
-        If __pebAd <= 0 Then
+        Dim __pebAd As IntPtr = peb
+        If __pebAd = IntPtr.Zero Then
             Return 0
         End If
 
         ' Create a processMemRW class to read in memory
         Dim cR As New cProcessMemRW(pid)
 
-        If cR.Handle = 0 Then
+        If cR.Handle = IntPtr.Zero Then
             Return 0              ' Couldn't open a handle
         End If
 
@@ -144,8 +144,8 @@ Public Class asyncCallbackEnvVariableEnumerate
         ' Get environnement block address
         ' It's located at offset 0x48 on all NT systems because it's after a fixed structure
         ' of 72 bytes
-        Dim bA() As Integer = cR.ReadBytesAI(__procParamAd + 72, 1)
-        Dim _envDeb As Integer = bA(0)      ' Get address
+        Dim bA() As IntPtr = cR.ReadBytesAI(__procParamAd + 72, 1)
+        Dim _envDeb As IntPtr = bA(0)      ' Get address
 
 
         ' ======= Read environnement block byte per byte to calculate env. block size

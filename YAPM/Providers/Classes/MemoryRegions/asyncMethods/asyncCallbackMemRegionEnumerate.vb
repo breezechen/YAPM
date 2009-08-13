@@ -106,7 +106,7 @@ Public Class asyncCallbackMemRegionEnumerate
         Dim lHandle As IntPtr
         Dim lPosMem As IntPtr
         Dim lRet As Boolean = True
-        Dim mbi As API.MEMORY_BASIC_INFORMATION
+        Dim mbi As Native.Api.NativeStructs.MemoryBasicInformations
         Dim mbiSize As Integer = Marshal.SizeOf(mbi)
 
         lHandle = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION Or _

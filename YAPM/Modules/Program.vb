@@ -135,7 +135,7 @@ Public Module Program
     End Property
     Public ReadOnly Property ElapsedTime() As Integer
         Get
-            Return API.GetTickCount - _time
+            Return Native.Api.Win32.GetElapsedTime - _time
         End Get
     End Property
     Public ReadOnly Property Connection() As cConnection
@@ -202,7 +202,7 @@ Public Module Program
     Sub Main()
 
         ' ======= Save time of start
-        _time = API.GetTickCount
+        _time = Native.Api.Win32.GetElapsedTime
 
 
 
@@ -417,7 +417,7 @@ Public Module Program
             Else
                 res = RequestReplaceTaskMgrResult.NotReplaceSuccess
             End If
-            Call API.ExitProcess(res)
+            Call Native.Api.NativeFunctions.ExitProcess(res)
 
         Catch ex As Exception
             ' Could not set key -> failed
@@ -427,7 +427,7 @@ Public Module Program
             Else
                 res = RequestReplaceTaskMgrResult.NotReplaceFail
             End If
-            Call API.ExitProcess(res)
+            Call Native.Api.NativeFunctions.ExitProcess(res)
 
         End Try
     End Sub

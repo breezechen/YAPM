@@ -68,7 +68,7 @@ Public Class cPrivilege
 
     ' Change status
     Private _changeST As asyncCallbackPrivilegeChangeStatus
-    Public Function ChangeStatus(ByVal status As API.PRIVILEGE_STATUS) As Integer
+    Public Function ChangeStatus(ByVal status As Native.Api.NativeEnums.SePrivilegeAttributes) As Integer
 
         If _changeST Is Nothing Then
             _changeST = New asyncCallbackPrivilegeChangeStatus(New asyncCallbackPrivilegeChangeStatus.HasChangedStatus(AddressOf changeStatusDone), _connection)

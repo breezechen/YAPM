@@ -264,12 +264,43 @@ Namespace Native.Api
 
         <DllImport("kernel32.dll", SetLastError:=True)> _
         Public Shared Function ReadProcessMemory(ByVal Process As IntPtr, _
-                                                 ByVal BaseAddress As IntPtr, _
-                                                 ByVal Buffer As Byte(), _
-                                                 ByVal Size As Integer, _
-                                                ByRef BytesRead As Integer) As Boolean
+                                                    ByVal BaseAddress As IntPtr, _
+                                                    ByVal Buffer As Byte(), _
+                                                    ByVal Size As Integer, _
+                                                    ByRef BytesRead As Integer) As Boolean
         End Function
 
+        <DllImport("kernel32.dll", SetLastError:=True)> _
+        Public Shared Function ReadProcessMemory(ByVal Process As IntPtr, _
+                                                    ByVal BaseAddress As IntPtr, _
+                                                    ByVal Buffer As Short(), _
+                                                    ByVal Size As Integer, _
+                                                    ByRef BytesRead As Integer) As Boolean
+        End Function
+
+        <DllImport("kernel32.dll", SetLastError:=True)> _
+        Public Shared Function ReadProcessMemory(ByVal Process As IntPtr, _
+                                            ByVal BaseAddress As IntPtr, _
+                                            ByRef Buffer As String, _
+                                            ByVal Size As Integer, _
+                                            ByRef BytesRead As Integer) As Boolean
+        End Function
+
+        <DllImport("kernel32.dll", SetLastError:=True)> _
+        Public Shared Function ReadProcessMemory(ByVal Process As IntPtr, _
+                                            ByVal BaseAddress As IntPtr, _
+                                            ByVal Buffer As IntPtr(), _
+                                            ByVal Size As Integer, _
+                                            ByRef BytesRead As Integer) As Boolean
+
+        End Function
+        <DllImport("kernel32.dll", SetLastError:=True)> _
+        Public Shared Function ReadProcessMemory(ByVal Process As IntPtr, _
+                                                    ByVal BaseAddress As IntPtr, _
+                                                    ByVal Buffer As Integer(), _
+                                                    ByVal Size As Integer, _
+                                                    ByRef BytesRead As Integer) As Boolean
+        End Function
 #End Region
 
         ' OK
@@ -523,6 +554,10 @@ Namespace Native.Api
 
         ' OK
 #Region "Declarations used for system"
+
+        <DllImport("kernel32.dll")> _
+        Public Shared Sub GetSystemInfo(<MarshalAs(UnmanagedType.Struct)> ByRef lpSystemInfo As SYSTEM_INFO)
+        End Sub
 
         <DllImport("psapi.dll", SetLastError:=True)> _
         Public Shared Function GetPerformanceInfo(<Out()> ByRef PerformanceInformation As PerformanceInformation, _

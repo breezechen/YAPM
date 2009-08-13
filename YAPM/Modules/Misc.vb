@@ -615,11 +615,11 @@ Module Misc
         If small Then
             hImgSmall = Native.Api.NativeFunctions.SHGetFileInfo(fName, 0, shinfo, _
                 Marshal.SizeOf(shinfo), _
-               API.SHGFI_ICON Or API.SHGFI_SMALLICON)
+               Native.Api.NativeConstants.SHGFI_ICON Or Native.Api.NativeConstants.SHGFI_SMALLICON)
         Else
             hImgLarge = Native.Api.NativeFunctions.SHGetFileInfo(fName, 0, _
                 shinfo, Marshal.SizeOf(shinfo), _
-                API.SHGFI_ICON Or API.SHGFI_LARGEICON)
+                Native.Api.NativeConstants.SHGFI_ICON Or Native.Api.NativeConstants.SHGFI_LARGEICON)
         End If
 
         Dim img As System.Drawing.Icon = Nothing

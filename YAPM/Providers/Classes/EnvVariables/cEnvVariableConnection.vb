@@ -101,11 +101,11 @@ Public Class cEnvVariableConnection
 #Region "Enumerate privileges"
 
     ' Enumerate threads
-    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid As Integer, ByVal peb As Integer, Optional ByVal forInstanceId As Integer = -1) As Integer
-        Dim _pe As Integer = peb
-        If _pe = -1 Then
+    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid As Integer, ByVal peb As IntPtr, Optional ByVal forInstanceId As Integer = -1) As Integer
+        Dim _pe As IntPtr = peb
+        If _pe = New IntPtr(-1) Then
             cProcess.SemCurrentProcesses.WaitOne()
-            _pe = cProcess.CurrentProcesses(pid.ToString).Infos.PEBAddress
+            _pe = cProcess.CurrentProcesses(pid.ToString).Infos.PebAddress
             cProcess.SemCurrentProcesses.Release()
         End If
         Call Threading.ThreadPool.QueueUserWorkItem(New  _

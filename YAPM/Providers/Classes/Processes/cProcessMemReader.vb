@@ -79,15 +79,17 @@ Public Class cProcessMemReader
     Public Function ReadInt32(ByVal offset As IntPtr) As Integer
         Dim buffer(0) As Integer
         Dim lByte As Integer
-        Native.Api.NativeFunctions.ReadProcessMemory(_hProc, offset, buffer, 4, lByte)
+        ' 4 bytes for an Int32
+        Native.Api.NativeFunctions.ReadProcessMemory(_hProc, offset, buffer, &H4, lByte)
         Return buffer(0)
     End Function
 
     ' Read a pointer
     Public Function ReadIntPtr(ByVal offset As IntPtr) As IntPtr
-        Dim buffer(0) As Integer
+        Dim buffer(0) As IntPtr
         Dim lByte As Integer
-        Native.Api.NativeFunctions.ReadProcessMemory(_hProc, offset, buffer, Marshal.SizeOf(offset), lByte)
+        Native.Api.NativeFunctions.ReadProcessMemory(_hProc, offset, buffer, _
+                                                     Marshal.SizeOf(offset), lByte)
         Return buffer(0)
     End Function
 

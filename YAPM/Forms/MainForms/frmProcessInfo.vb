@@ -1640,19 +1640,19 @@ Public Class frmProcessInfo
 
     Private Sub MenuItemPriEnable_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemPriEnable.Click
         For Each it As cPrivilege In Me.lvPrivileges.GetSelectedItems
-            it.ChangeStatus(API.PRIVILEGE_STATUS.PRIVILEGE_ENABLED)
+            it.ChangeStatus(Native.Api.NativeEnums.SePrivilegeAttributes.Enabled)
         Next
     End Sub
 
     Private Sub MenuItemPriDisable_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemPriDisable.Click
         For Each it As cPrivilege In Me.lvPrivileges.GetSelectedItems
-            it.ChangeStatus(API.PRIVILEGE_STATUS.PRIVILEGE_DISBALED)
+            it.ChangeStatus(Native.Api.NativeEnums.SePrivilegeAttributes.Disabled)
         Next
     End Sub
 
     Private Sub MenuItemPriRemove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemPriRemove.Click
         For Each it As cPrivilege In Me.lvPrivileges.GetSelectedItems
-            it.ChangeStatus(API.PRIVILEGE_STATUS.PRIVILEGE_REMOVED)
+            it.ChangeStatus(Native.Api.NativeEnums.SePrivilegeAttributes.Removed)
         Next
     End Sub
 
@@ -1862,7 +1862,7 @@ Public Class frmProcessInfo
 
     Private Sub MenuItemServPause_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServPause.Click
         For Each it As cService In Me.lvProcServices.GetSelectedItems
-            If it.Infos.State = API.SERVICE_STATE.Running Then
+            If it.Infos.State = Native.Api.NativeEnums.ServiceState.Running Then
                 it.PauseService()
             Else
                 it.ResumeService()
@@ -1884,19 +1884,19 @@ Public Class frmProcessInfo
 
     Private Sub MenuItemServAutoStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServAutoStart.Click
         For Each it As cService In Me.lvProcServices.GetSelectedItems
-            it.SetServiceStartType(API.SERVICE_START_TYPE.AutoStart)
+            it.SetServiceStartType(Native.Api.NativeEnums.ServiceStartType.AutoStart)
         Next
     End Sub
 
     Private Sub MenuItemServOnDemand_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServOnDemand.Click
         For Each it As cService In Me.lvProcServices.GetSelectedItems
-            it.SetServiceStartType(API.SERVICE_START_TYPE.DemandStart)
+            it.SetServiceStartType(Native.Api.NativeEnums.ServiceStartType.DemandStart)
         Next
     End Sub
 
     Private Sub MenuItemServDisabled_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServDisabled.Click
         For Each it As cService In Me.lvProcServices.GetSelectedItems
-            it.SetServiceStartType(API.SERVICE_START_TYPE.StartDisabled)
+            it.SetServiceStartType(Native.Api.NativeEnums.ServiceStartType.StartDisabled)
         Next
     End Sub
 

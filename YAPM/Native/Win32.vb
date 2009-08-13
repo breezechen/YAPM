@@ -53,6 +53,12 @@ Namespace Native.Api
 
         End Function
 
+
+        ' Get elapsed time since Windows started
+        Public Shared Function GetElapsedTime() As Integer
+            Return Native.Api.NativeFunctions.GetTickCount
+        End Function
+
     End Class
 
 End Namespace

@@ -980,7 +980,7 @@ Fin:
     End Sub
 
     'permet de fermer un handle hHandle dans le processus dwProcessID
-    Public Function CloseProcessLocalHandle(ByVal dwProcessID As Integer, ByVal hHandle As Integer) As Integer
+    Public Function CloseProcessLocalHandle(ByVal dwProcessID As Integer, ByVal hHandle As IntPtr) As Integer
         Dim hMod As Integer
         Dim lpProc As Integer
         Dim hThread As Integer

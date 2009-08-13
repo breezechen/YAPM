@@ -36,12 +36,12 @@ Public Class cProcessConnection
     Dim _enumMethod As asyncCallbackProcEnumerate.ProcessEnumMethode = asyncCallbackProcEnumerate.ProcessEnumMethode.VisibleProcesses
 
     ' Rights to query infos with a handle
-    Private Shared _minRights As API.PROCESS_RIGHTS = API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION
+    Private Shared _minRights As Native.Security.ProcessAccess = Native.Security.ProcessAccess.QueryInformation
 
     ' For processor count
     Private Shared _processors As Integer = 1
 
-    Public Shared ReadOnly Property ProcessMinRights() As API.PROCESS_RIGHTS
+    Public Shared ReadOnly Property ProcessMinRights() As Native.Security.ProcessAccess
         Get
             Return _minRights
         End Get
@@ -50,7 +50,7 @@ Public Class cProcessConnection
     Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, ByRef de As HasEnumeratedEventHandler)
         MyBase.New(ControlWhichGetInvoked, Conn)
         If cEnvironment.IsWindowsVistaOrAbove Then
-            _minRights = API.PROCESS_RIGHTS.PROCESS_QUERY_LIMITED_INFORMATION
+            _minRights = Native.Security.ProcessAccess.QueryLimitedInformation
         End If
         instanceId += 1
         _instanceId = instanceId

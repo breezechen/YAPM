@@ -318,7 +318,7 @@ Namespace Native.Api
         End Structure
 
         Public Structure SID_AND_ATTRIBUTES
-            Dim Sid As Integer
+            Dim Sid As IntPtr
             Dim Attributes As Integer
         End Structure
 
@@ -460,6 +460,30 @@ Namespace Native.Api
 #End Region
 
 #Region "Declarations used for system"
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure SYSTEM_INFO
+            Friend uProcessorInfo As _PROCESSOR_INFO_UNION
+            Public dwPageSize As UInteger
+            Public lpMinimumApplicationAddress As IntPtr
+            Public lpMaximumApplicationAddress As IntPtr
+            Public dwActiveProcessorMask As IntPtr
+            Public dwNumberOfProcessors As UInteger
+            Public dwProcessorType As UInteger
+            Public dwAllocationGranularity As UInteger
+            Public dwProcessorLevel As UShort
+            Public dwProcessorRevision As UShort
+        End Structure
+
+        <StructLayout(LayoutKind.Explicit)> _
+        Public Structure _PROCESSOR_INFO_UNION
+            <FieldOffset(0)> _
+            Friend dwOemId As UInteger
+            <FieldOffset(0)> _
+            Friend wProcessorArchitecture As UShort
+            <FieldOffset(2)> _
+            Friend wReserved As UShort
+        End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
         Public Structure PerformanceInformation

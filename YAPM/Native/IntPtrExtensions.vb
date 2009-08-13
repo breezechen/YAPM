@@ -66,12 +66,80 @@ Public Module IntPtrExtensions
 
     End Function
 
+
     ' Return element at index
     <System.Runtime.CompilerServices.Extension()> _
     Public Function ElementAt(Of T)(ByVal ptr As IntPtr, ByVal index As Integer) As T
         Dim offset As Integer = Marshal.SizeOf(GetType(T)) * index
         Dim offsetPtr As IntPtr = ptr.Increment(offset)
         Return DirectCast(Marshal.PtrToStructure(offsetPtr, GetType(T)), T)
+    End Function
+
+
+    ' Compare methods
+    <System.Runtime.CompilerServices.Extension()> _
+    Public Function IsGreaterThan(ByVal ptr As IntPtr, ByVal ptr2 As IntPtr) As Boolean
+        Return (ptr.ToInt64 > ptr2.ToInt64)
+    End Function
+    <System.Runtime.CompilerServices.Extension()> _
+    Public Function IsGreaterThan(ByVal ptr As IntPtr, ByVal ptr2 As Integer) As Boolean
+        Return (ptr.ToInt64 > ptr2)
+    End Function
+    <System.Runtime.CompilerServices.Extension()> _
+    Public Function IsGreaterThan(ByVal ptr As IntPtr, ByVal ptr2 As Long) As Boolean
+        Return (ptr.ToInt64 > ptr2)
+    End Function
+
+    <System.Runtime.CompilerServices.Extension()> _
+    Public Function IsLowerThan(ByVal ptr As IntPtr, ByVal ptr2 As IntPtr) As Boolean
+        Return (ptr.ToInt64 < ptr2.ToInt64)
+    End Function
+    <System.Runtime.CompilerServices.Extension()> _
+    Public Function IsLowerThan(ByVal ptr As IntPtr, ByVal ptr2 As Integer) As Boolean
+        Return (ptr.ToInt64 < ptr2)
+    End Function
+    <System.Runtime.CompilerServices.Extension()> _
+    Public Function IsLowerThan(ByVal ptr As IntPtr, ByVal ptr2 As Long) As Boolean
+        Return (ptr.ToInt64 < ptr2)
+    End Function
+
+    <System.Runtime.CompilerServices.Extension()> _
+    Public Function IsGreaterOrEqualThan(ByVal ptr As IntPtr, ByVal ptr2 As IntPtr) As Boolean
+        Return (ptr.ToInt64 >= ptr2.ToInt64)
+    End Function
+    <System.Runtime.CompilerServices.Extension()> _
+    Public Function IsGreaterOrEqualThan(ByVal ptr As IntPtr, ByVal ptr2 As Integer) As Boolean
+        Return (ptr.ToInt64 >= ptr2)
+    End Function
+    <System.Runtime.CompilerServices.Extension()> _
+    Public Function IsGreaterOrEqualThan(ByVal ptr As IntPtr, ByVal ptr2 As Long) As Boolean
+        Return (ptr.ToInt64 >= ptr2)
+    End Function
+
+    <System.Runtime.CompilerServices.Extension()> _
+    Public Function IsLowerOrEqualThan(ByVal ptr As IntPtr, ByVal ptr2 As IntPtr) As Boolean
+        Return (ptr.ToInt64 <= ptr2.ToInt64)
+    End Function
+    <System.Runtime.CompilerServices.Extension()> _
+    Public Function IsLowerOrEqualThan(ByVal ptr As IntPtr, ByVal ptr2 As Integer) As Boolean
+        Return (ptr.ToInt64 <= ptr2)
+    End Function
+    <System.Runtime.CompilerServices.Extension()> _
+    Public Function IsLowerOrEqualThan(ByVal ptr As IntPtr, ByVal ptr2 As Long) As Boolean
+        Return (ptr.ToInt64 <= ptr2)
+    End Function
+
+    <System.Runtime.CompilerServices.Extension()> _
+    Public Function IsEqualTo(ByVal ptr As IntPtr, ByVal ptr2 As IntPtr) As Boolean
+        Return (ptr.ToInt64 = ptr2.ToInt64)
+    End Function
+    <System.Runtime.CompilerServices.Extension()> _
+    Public Function IsEqualTo(ByVal ptr As IntPtr, ByVal ptr2 As Integer) As Boolean
+        Return (ptr.ToInt64 = ptr2)
+    End Function
+    <System.Runtime.CompilerServices.Extension()> _
+    Public Function IsEqualTo(ByVal ptr As IntPtr, ByVal ptr2 As Long) As Boolean
+        Return (ptr.ToInt64 = ptr2)
     End Function
 
 End Module

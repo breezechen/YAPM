@@ -248,7 +248,7 @@ Public Class asyncCallbackProcEnumerate
 
                                 .CommandLine = NO_INFO_RETRIEVED
                                 .FileInfo = Nothing
-                                .PebAddress = 0
+                                .PebAddress = IntPtr.Zero
                             End With
 
                             dicoNewProcesses.Add(obj.ProcessId, False)
@@ -856,7 +856,7 @@ Public Class asyncCallbackProcEnumerate
                 .UserName = NO_INFO_RETRIEVED
                 .CommandLine = NO_INFO_RETRIEVED
                 .FileInfo = Nothing
-                .PebAddress = 0
+                .PebAddress = IntPtr.Zero
             End With
 
             offset += obj.NextEntryOffset

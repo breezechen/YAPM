@@ -49,11 +49,11 @@ Imports System.Text
 #Region "Private attributes"
 
     Private _pid As Integer
-    Private _state As API.SERVICE_STATE
+    Private _state As Native.Api.NativeEnums.ServiceState
     Private _displayName As String
-    Private _startType As API.SERVICE_START_TYPE
+    Private _startType As Native.Api.NativeEnums.ServiceStartType
     Private _path As String
-    Private _serviceType As API.SERVICE_TYPE
+    Private _serviceType As Native.Api.NativeEnums.ServiceType
     Private _desc As String
     Private _errorControl As Integer
     Private _processName As String
@@ -68,7 +68,7 @@ Imports System.Text
     Private _tag As Boolean = False
     Private _Dependencies As String()
     Private _tagID As Integer
-    Private _ServiceFlags As API.SERVICE_FLAGS
+    Private _ServiceFlags As Native.Api.NativeEnums.ServiceFlags
     Private _WaitHint As Integer
     Private _CheckPoint As Integer
     Private _ServiceSpecificExitCode As Integer
@@ -102,12 +102,12 @@ Imports System.Text
             Return _displayName
         End Get
     End Property
-    Public ReadOnly Property State() As API.SERVICE_STATE
+    Public ReadOnly Property State() As Native.Api.NativeEnums.ServiceState
         Get
             Return _state
         End Get
     End Property
-    Public ReadOnly Property StartType() As API.SERVICE_START_TYPE
+    Public ReadOnly Property StartType() As Native.Api.NativeEnums.ServiceStartType
         Get
             Return _startType
         End Get
@@ -117,7 +117,7 @@ Imports System.Text
             Return _path
         End Get
     End Property
-    Public ReadOnly Property ServiceType() As API.SERVICE_TYPE
+    Public ReadOnly Property ServiceType() As Native.Api.NativeEnums.ServiceType
         Get
             Return _serviceType
         End Get
@@ -172,7 +172,7 @@ Imports System.Text
             Return _tagID
         End Get
     End Property
-    Public ReadOnly Property ServiceFlags() As API.SERVICE_FLAGS
+    Public ReadOnly Property ServiceFlags() As Native.Api.NativeEnums.ServiceFlags
         Get
             Return _ServiceFlags
         End Get
