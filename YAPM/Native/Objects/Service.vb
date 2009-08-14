@@ -103,22 +103,24 @@ Namespace Native.Objects
             ReDim tServiceStatus(0)
 
             If hSCM <> IntPtr.Zero Then
+                '2nd arg : Api.SC_ENUM_PROCESS_INFO, _
                 If Not (NativeFunctions.EnumServicesStatusEx(hSCM, _
-                                           Api.SC_ENUM_PROCESS_INFO, _
-                                           NativeEnums.ServiceQueryType.All, _
-                                           NativeEnums.ServiceQueryState.All, _
-                                           _memBufferEnumServics.Pointer, _
-                                           _memBufferEnumServics.Size, _
-                                           lBytesNeeded, _
-                                           lServicesReturned, _
-                                           0, _
-                                           Nothing)) Then
+                                            IntPtr.Zero, _
+                                            NativeEnums.ServiceQueryType.All, _
+                                            NativeEnums.ServiceQueryState.All, _
+                                            _memBufferEnumServics.Pointer, _
+                                            _memBufferEnumServics.Size, _
+                                            lBytesNeeded, _
+                                            lServicesReturned, _
+                                            0, _
+                                            Nothing)) Then
                     ' Resize buffer
                     _memBufferEnumServics.IncrementSize(lBytesNeeded)
                 End If
 
+                '2nd arg : Api.SC_ENUM_PROCESS_INFO, 
                 If NativeFunctions.EnumServicesStatusEx(hSCM, _
-                                           Api.SC_ENUM_PROCESS_INFO, _
+                                            IntPtr.Zero, _
                                             NativeEnums.ServiceQueryType.All, _
                                             NativeEnums.ServiceQueryState.All, _
                                             _memBufferEnumServics.Pointer, _

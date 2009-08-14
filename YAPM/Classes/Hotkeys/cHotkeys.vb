@@ -45,14 +45,8 @@ Public Class cHotkeys
     Private _col As New Collection
 
     ' Delegate function (function which replace the 'normal' one)
-    Private myCallbackDelegate As HookProc = Nothing
+    Private myCallbackDelegate As Native.Api.NativeFunctions.HookProc = Nothing
 
-    Private Delegate Function HookProc(ByVal code As Integer, ByVal wParam As IntPtr, _
-                        ByRef lParam As API.KBDLLHOOKSTRUCT) As Integer
-
-    <DllImport("user32.dll", SetLastError:=True)> _
-    Private Shared Function SetWindowsHookEx(ByVal hook As API.HookType, ByVal callback As HookProc, ByVal hMod As Integer, ByVal dwThreadId As UInteger) As IntPtr
-    End Function
 
     ' ========================================
     ' Public properties
@@ -125,10 +119,10 @@ Public Class cHotkeys
         If hKeyHook = IntPtr.Zero Then
 
             ' Initialize our delegate
-            Me.myCallbackDelegate = New HookProc(AddressOf Me.KeyboardFilter)
+            Me.myCallbackDelegate = New Native.Api.NativeFunctions.HookProc(AddressOf Me.KeyboardFilter)
 
-            hKeyHook = SetWindowsHookEx(API.HookType.WH_KEYBOARD_LL, _
-                        Me.myCallbackDelegate, 0, 0) ' 0 -> all threads
+            hKeyHook = Native.Api.NativeFunctions.SetWindowsHookEx(Native.Api.NativeEnums.HookType.WH_KEYBOARD_LL, _
+                        Me.myCallbackDelegate, IntPtr.Zero, 0) ' 0 -> all threads
             GC.KeepAlive(Me.myCallbackDelegate)
         End If
 
@@ -150,18 +144,18 @@ Public Class cHotkeys
     ' ========================================
     ' This function is called each time a key is pressed
     ' ========================================
-    Private Function KeyboardFilter(ByVal nCode As Integer, ByVal wParam As IntPtr, ByRef lParam As API.KBDLLHOOKSTRUCT) As Integer
+    Private Function KeyboardFilter(ByVal nCode As Integer, ByVal wParam As IntPtr, ByRef lParam As Native.Api.NativeStructs.KBDLLHOOKSTRUCT) As Integer
         Dim bAlt As Boolean
         Dim bCtrl As Boolean
         Dim bShift As Boolean
         Dim cSs As Object
 
 
-        If nCode = API.HC_ACTION And Not boolStopHooking Then
+        If nCode = Native.Api.NativeConstants.HC_ACTION And Not boolStopHooking Then
 
-            bShift = (API.GetAsyncKeyState(vbKeyShift) <> 0)
-            bAlt = (API.GetAsyncKeyState(vbKeyAlt) <> 0)
-            bCtrl = (API.GetAsyncKeyState(vbKeyControl) <> 0)
+            bShift = (Native.Api.NativeFunctions.GetAsyncKeyState(vbKeyShift) <> 0)
+            bAlt = (Native.Api.NativeFunctions.GetAsyncKeyState(vbKeyAlt) <> 0)
+            bCtrl = (Native.Api.NativeFunctions.GetAsyncKeyState(vbKeyControl) <> 0)
 
             ' Check for each of our cShortCut if the shortcut is activated
             For Each cSs In _col
@@ -204,7 +198,7 @@ Public Class cHotkeys
         End If
 
         ' Next hook
-        KeyboardFilter = API.CallNextHookEx(hKeyHook, nCode, wParam, lParam)
+        KeyboardFilter = Native.Api.NativeFunctions.CallNextHookEx(hKeyHook, nCode, wParam, lParam)
 
     End Function
 End Class

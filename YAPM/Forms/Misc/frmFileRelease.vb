@@ -125,7 +125,7 @@ Public Class frmFileRelease
                                 'Call cProcess.UnLoadModuleFromProcess(CType(it.Tag, cModule.MODULEENTRY32))
                             Case Else
                                 ' Handle
-                                Dim Handle As Integer = CInt(Val(it.Tag))
+                                Dim Handle As IntPtr = CType(it.Tag, IntPtr)
                                 'TOCHANGE
                                 Call cHandle.GetOpenedHandlesClass.CloseProcessLocalHandle(pid, Handle)
                         End Select

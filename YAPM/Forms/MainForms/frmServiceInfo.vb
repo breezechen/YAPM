@@ -109,7 +109,7 @@ Public Class frmServiceInfo
                 ' (if @ -> extract string to retrieve description)
                 Dim sTemp As String = curServ.Infos.Description
                 If InStr(sTemp, "@", CompareMethod.Binary) > 0 Then
-                    description = cFile.IntelligentPathRetrieving(sTemp)
+                    description = Native.Objects.File.GetResourceStringFromFile(sTemp)
                 Else
                     description = sTemp
                 End If

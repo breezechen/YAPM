@@ -206,6 +206,12 @@ Namespace Native.Api
                     <Out()> ByRef RequiredSize As Integer) As Boolean
         End Function
 
+        <DllImport("psapi.dll")> _
+        Public Shared Function EnumProcessModules(<[In]()> ByVal ProcessHandle As IntPtr, _
+                    <Out()> ByVal ModuleHandles As IntPtr, <[In]()> ByVal Size As Integer, _
+                    <Out()> ByRef RequiredSize As Integer) As Boolean
+        End Function
+
         <DllImport("psapi.dll", CharSet:=CharSet.Unicode)> _
         Public Shared Function GetModuleBaseName(<[In]()> ByVal ProcessHandle As IntPtr, _
                         <[In]()> <[Optional]()> ByVal ModuleHandle As IntPtr, _
@@ -581,6 +587,7 @@ Namespace Native.Api
 
 #End Region
 
+        ' OK
 #Region "Declarations used for windows (not Windows :-p)"
 
         <DllImport("user32.dll", EntryPoint:="GetClassLong")> _
@@ -1021,6 +1028,23 @@ Namespace Native.Api
 
         ' OK
 #Region "Declarations used for keyboard management"
+
+        'Public Delegate Function HookProc(ByVal code As Integer, ByVal wParam As IntPtr, ByVal lParam As IntPtr) As Integer
+        Public Delegate Function HookProc(ByVal code As Integer, ByVal wParam As IntPtr, ByRef lParam As KBDLLHOOKSTRUCT) As Integer
+        Public Delegate Function LowLevelKeyboardProc(ByVal nCode As Integer, ByVal wParam As NativeEnums.WindowMessage, <[In]()> ByVal lParam As KBDLLHOOKSTRUCT) As Integer
+        Public Delegate Function LowLevelMouseProc(ByVal code As Integer, ByVal wParam As NativeEnums.WindowMessage, <[In]()> ByVal lParam As MSLLHOOKSTRUCT) As IntPtr
+
+        <DllImport("user32.dll", SetLastError:=True)> _
+        Public Shared Function SetWindowsHookEx(ByVal hook As HookType, ByVal callback As HookProc, ByVal hMod As IntPtr, ByVal dwThreadId As UInteger) As IntPtr
+        End Function
+
+        <DllImport("user32.dll", SetLastError:=True)> _
+        Public Shared Function SetWindowsHookEx(ByVal hook As HookType, ByVal callback As LowLevelKeyboardProc, ByVal hMod As IntPtr, ByVal dwThreadId As UInteger) As IntPtr
+        End Function
+
+        <DllImport("user32.dll", SetLastError:=True)> _
+        Public Shared Function SetWindowsHookEx(ByVal code As HookType, ByVal func As LowLevelMouseProc, ByVal hInstance As IntPtr, ByVal threadID As Integer) As IntPtr
+        End Function
 
         <DllImport("user32.dll", SetLastError:=True)> _
         Public Shared Function UnhookWindowsHookEx(ByVal hhk As IntPtr) As Boolean

@@ -77,7 +77,7 @@ Public Class asyncCallbackNetworkCloseConnection
     End Sub
 
     Public Shared Function CloseTcpConnection(ByVal local As IPEndPoint, ByVal remote As IPEndPoint) As Integer
-        Dim row As New API.MibTcpRow
+        Dim row As New Native.Api.NativeStructs.MibTcpRow
         With row
             If remote IsNot Nothing Then
                 .RemotePort = PermuteBytes(remote.Port)
@@ -88,10 +88,10 @@ Public Class asyncCallbackNetworkCloseConnection
             End If
             .LocalAddress = getAddressAsInteger(local)
             .LocalPort = PermuteBytes(local.Port)
-            .State = API.MibTcpState.DeleteTcb
+            .State = Native.Api.Enums.MibTcpState.DeleteTcb
         End With
 
-        Return API.SetTcpEntry(row)
+        Return Native.Api.NativeFunctions.SetTcpEntry(row)
     End Function
 
 End Class

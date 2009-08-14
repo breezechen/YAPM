@@ -272,7 +272,7 @@ Imports System.Text
         End With
     End Sub
 
-    Friend Sub SetConfig(ByRef conf As API.QUERY_SERVICE_CONFIG)
+    Friend Sub SetConfig(ByRef conf As Native.Api.NativeStructs.QueryServiceConfig)
         With conf
             _serviceType = .ServiceType
             _errorControl = .ErrorControl

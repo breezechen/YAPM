@@ -462,6 +462,15 @@ Namespace Native.Api
 #Region "Declarations used for system"
 
         <StructLayout(LayoutKind.Sequential)> _
+        Public Class MSLLHOOKSTRUCT
+            Public pt As Point
+            Public mouseData As Integer
+            Public flags As Integer
+            Public time As Integer
+            Public dwExtraInfo As IntPtr
+        End Class
+
+        <StructLayout(LayoutKind.Sequential)> _
         Public Structure SYSTEM_INFO
             Friend uProcessorInfo As _PROCESSOR_INFO_UNION
             Public dwPageSize As UInteger

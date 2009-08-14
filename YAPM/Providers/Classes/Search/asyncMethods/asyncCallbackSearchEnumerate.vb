@@ -136,7 +136,7 @@ Public Class asyncCallbackSearchEnumerate
                                             End If
                                             If InStr(scomp2, sToSearch, CompareMethod.Binary) > 0 Then
                                                 ' Found an item
-                                                Dim newItFound As New searchInfos(cp.Infos.Pid, field2, searchInfos.ResultType.Module, scomp2, peb:=cm.Infos.BaseAddress, modName:=cm.Infos.Name)
+                                                Dim newItFound As New searchInfos(cp.Infos.Pid, field2, searchInfos.ResultType.Module, scomp2, "", IntPtr.Zero, cm.Infos.BaseAddress, cm.Infos.Name)
                                                 key += 1
                                                 _dico.Add(key.ToString, newItFound)
                                             End If
@@ -186,7 +186,7 @@ Public Class asyncCallbackSearchEnumerate
                                     End If
                                     If InStr(scomp, sToSearch, CompareMethod.Binary) > 0 Then
                                         ' Found an item
-                                        Dim newItFound As New searchInfos(cp.Infos.ProcessId, field, searchInfos.ResultType.Service, scomp, cp.Infos.Name)
+                                        Dim newItFound As New searchInfos(cp.Infos.ProcessId, field, searchInfos.ResultType.Service, scomp, cp.Infos.Name, IntPtr.Zero, IntPtr.Zero)
                                         key += 1
                                         _dico.Add(key.ToString, newItFound)
                                     End If
@@ -211,7 +211,7 @@ Public Class asyncCallbackSearchEnumerate
                                 End If
                                 If InStr(scomp, sToSearch, CompareMethod.Binary) > 0 Then
                                     ' Found an item
-                                    Dim newItFound As New searchInfos(cp.Infos.ProcessID, field, searchInfos.ResultType.Handle, scomp, handle:=cp.Infos.Handle)
+                                    Dim newItFound As New searchInfos(cp.Infos.ProcessID, field, searchInfos.ResultType.Handle, scomp, "", cp.Infos.Handle, IntPtr.Zero)
                                     key += 1
                                     _dico.Add(key.ToString, newItFound)
                                 End If

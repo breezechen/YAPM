@@ -369,19 +369,6 @@ Namespace Native.Api
 
 #End Region
 
-        ' OK
-#Region "Declarations used for network"
-
-        <Flags()> _
-        Public Enum KBDLLHOOKSTRUCTFlags As Integer
-            LLKHF_EXTENDED = &H1
-            LLKHF_INJECTED = &H10
-            LLKHF_ALTDOWN = &H20
-            LLKHF_UP = &H80
-        End Enum
-
-#End Region
-
 #Region "Declarations used for files"
 
         Public Enum FO_Func As UInteger
@@ -484,6 +471,14 @@ Namespace Native.Api
 
         ' OK
 #Region "Declarations used for system"
+
+        <Flags()> _
+        Public Enum KBDLLHOOKSTRUCTFlags As Integer
+            LLKHF_EXTENDED = &H1
+            LLKHF_INJECTED = &H10
+            LLKHF_ALTDOWN = &H20
+            LLKHF_UP = &H80
+        End Enum
 
         Public Enum SystemInformationClass As Integer
             SystemBasicInformation

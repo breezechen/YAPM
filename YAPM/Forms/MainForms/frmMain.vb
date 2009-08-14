@@ -326,8 +326,8 @@ Public Class frmMain
 
         PROCESSOR_COUNT = Program.SystemInfo.ProcessorCount
 
-        creg = New cRegMonitor(API.KEY_TYPE.HKEY_LOCAL_MACHINE, "SYSTEM\CurrentControlSet\Services", _
-                API.KEY_MONITORING_TYPE.REG_NOTIFY_CHANGE_NAME)
+        creg = New cRegMonitor(Native.Api.NativeEnums.KEY_TYPE.HKEY_LOCAL_MACHINE, "SYSTEM\CurrentControlSet\Services", _
+                Native.Api.NativeEnums.KEY_MONITORING_TYPE.REG_NOTIFY_CHANGE_NAME)
 
         With Me.graphMonitor
             .ColorMemory1 = Color.Yellow
@@ -2220,7 +2220,7 @@ Public Class frmMain
                 ' (if @ -> extract string to retrieve description)
                 Dim sTemp As String = cS.Infos.Description
                 If InStr(sTemp, "@", CompareMethod.Binary) > 0 Then
-                    description = cFile.IntelligentPathRetrieving(sTemp)
+                    description = Native.Objects.File.GetResourceStringFromFile(sTemp)
                 Else
                     description = sTemp
                 End If

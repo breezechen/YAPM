@@ -100,7 +100,7 @@ Public Class frmGlobalReport
         ' pid <-> (Xid <-> lightX)
         'Dim _dicoThreads As New Dictionary(Of String, Dictionary(Of String, cThread.LightThread))
         ' Dim _dicoModules As New Dictionary(Of String, Dictionary(Of String, cModule.MODULEENTRY32))
-        Dim _dicoMemRegions As New Dictionary(Of String, Dictionary(Of String, cProcessMemRW.MEMORY_BASIC_INFORMATION))
+        Dim _dicoMemRegions As New Dictionary(Of String, Dictionary(Of String, Native.Api.NativeStructs.MemoryBasicInformations))
 
 
         ' == Threads
@@ -133,7 +133,7 @@ Public Class frmGlobalReport
         If Me.chkMemory.Checked Then
             setCaption("Retrieving memory regions...")
             For Each pid As Integer In _dicoProcesses.Keys
-                Dim _buffServ As New Dictionary(Of String, cProcessMemRW.MEMORY_BASIC_INFORMATION)
+                Dim _buffServ As New Dictionary(Of String, Native.Api.NativeStructs.MemoryBasicInformations)
                 Dim _memKey() As String
                 ReDim _memKey(0)
                 cProcessMemRW.Enumerate(pid, _memKey, _buffServ)
@@ -255,7 +255,7 @@ Public Class frmGlobalReport
         '            stream.WriteLine(_dicoMemRegions(it.Pid.ToString).Count & " memory regions")
         '            stream.WriteLine()
         '            If Me.chkFull.Checked Then
-        '                For Each it2 As cProcessMemRW.MEMORY_BASIC_INFORMATION In _dicoMemRegions(it.Pid.ToString).Values
+        '                For Each it2 As Native.Api.NativeStructs.MemoryBasicInformations In _dicoMemRegions(it.Pid.ToString).Values
         '                    stream.WriteLine("---------------")
         '                    stream.WriteLine("Region address : 0x" & it2.BaseAddress.ToString("x"))
         '                    stream.WriteLine("---------------")
@@ -265,7 +265,7 @@ Public Class frmGlobalReport
         '                    Next
         '                Next
         '            Else
-        '                For Each it2 As cProcessMemRW.MEMORY_BASIC_INFORMATION In _dicoMemRegions(it.Pid.ToString).Values
+        '                For Each it2 As Native.Api.NativeStructs.MemoryBasicInformations In _dicoMemRegions(it.Pid.ToString).Values
         '                    stream.WriteLine("Address : 0x" & it2.BaseAddress.ToString("x") & " -- Size : " & GetFormatedSize(it2.RegionSize))
         '                Next
         '            End If

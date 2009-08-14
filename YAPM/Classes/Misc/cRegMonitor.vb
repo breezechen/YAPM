@@ -38,16 +38,16 @@ Public Class cRegMonitor
 
     Private _hEvent As IntPtr
     Private _hKey As IntPtr
-    Private _type As API.KEY_MONITORING_TYPE
+    Private _type As Native.Api.NativeEnums.KEY_MONITORING_TYPE
     Private _keys() As String
     Private _ss() As String
     Private _path As String
-    Private _kt As API.KEY_TYPE
+    Private _kt As Native.Api.NativeEnums.KEY_TYPE
     Public _t As Thread
 
     ' Constructor
-    Public Sub New(ByVal KeyType As API.KEY_TYPE, ByVal path As String, ByVal monType As  _
-        API.KEY_MONITORING_TYPE)
+    Public Sub New(ByVal KeyType As Native.Api.NativeEnums.KEY_TYPE, ByVal path As String, ByVal monType As  _
+            Native.Api.NativeEnums.KEY_MONITORING_TYPE)
 
         ' Launch event waiting
         _kt = KeyType
@@ -61,8 +61,8 @@ Public Class cRegMonitor
     End Sub
 
     Protected Overrides Sub Finalize()
-        API.RegCloseKey(_hKey)
-        API.CloseHandle(_hEvent)
+        Native.Api.NativeFunctions.RegCloseKey(_hKey)
+        Native.Api.NativeFunctions.CloseHandle(_hEvent)
     End Sub
 
     ' Process thread
@@ -71,19 +71,19 @@ Public Class cRegMonitor
         ' Create an event
         Do While True
 
-            Call API.RegOpenKeyEx(CType(_kt, IntPtr), _path, 0, API.KEY_NOTIFY, _hKey)
+            Native.Api.NativeFunctions.RegOpenKeyEx(CType(_kt, IntPtr), _path, 0, Native.Api.NativeConstants.KEY_NOTIFY, _hKey)
 
-            _hEvent = API.CreateEvent(CType(0, IntPtr), True, False, Nothing)
+            _hEvent = Native.Api.NativeFunctions.CreateEvent(CType(0, IntPtr), True, False, Nothing)
 
             ' Set monitoring
-            Call API.RegNotifyChangeKeyValue(_hKey, True, _type, _hEvent, True)
+            Native.Api.NativeFunctions.RegNotifyChangeKeyValue(_hKey, True, _type, _hEvent, True)
 
             ' Get current keys
             _keys = getKeys(_path)
 
             ' Wait for modification
-            If API.WaitForSingleObject(_hEvent, API.WaitResult.INFINITE) = _
-                    API.WaitResult.WAIT_FAILED Then
+            If Native.Api.NativeFunctions.WaitForSingleObject(_hEvent, Native.Api.NativeConstants.WAIT_INFINITE) = _
+                    Native.Api.NativeEnums.WaitResult.WAIT_FAILED Then
                 ' Buggy
             Else
                 ' Changed
@@ -92,8 +92,8 @@ Public Class cRegMonitor
                 Call keysChanged()
 
             End If
-            Call API.CloseHandle(_hEvent)
-            Call API.RegCloseKey(_hKey)
+            Native.Api.NativeFunctions.CloseHandle(_hEvent)
+            Native.Api.NativeFunctions.RegCloseKey(_hKey)
         Loop
 
     End Sub
