@@ -62,16 +62,20 @@ Namespace Native.Objects
 
             ' Get pos of extension
             Dim i As Integer = s.IndexOf(".EXE")
-            If i = 0 Then
+            If i <= 0 Then
                 ' Dll ?
                 i = s.IndexOf(".DLL")
+                If i <= 0 Then
+                    ' SYS ?
+                    i = s.IndexOf(".SYS")
+                End If
             End If
 
             ' Get ID and File
             Dim iD As UInteger
             Dim file As String
-            file = s.Substring(0, i + 3)
-            iD = UInteger.Parse(s.Substring(s.Length - i - 5, i + 5))
+            file = s.Substring(0, s.Length - 3)
+            iD = UInteger.Parse(s.Substring(i + 6, s.Length - i - 6))
 
             ' Get resource
             Return Common.Misc.FormatPathWithDoubleSlashs(GetResourceStringFromFile(file, iD))
