@@ -242,7 +242,7 @@ Namespace Native.Api
         <DllImport("kernel32.dll", SetLastError:=True)> _
         Public Shared Function VirtualQueryEx(ByVal Process As IntPtr, _
                     ByVal Address As IntPtr, _
-                    <MarshalAs(UnmanagedType.Struct)> ByRef Buffer As MemoryBasicInformations, _
+                    <MarshalAs(UnmanagedType.Struct)> ByRef Buffer As MemoryBasicInformation, _
                     ByVal Size As Integer) As Integer
         End Function
 

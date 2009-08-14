@@ -250,7 +250,7 @@ Public Class asyncCallbackModuleEnumerate
             ' http://undocumented.ntinternals.net/UserMode/Undocumented%20Functions/NT%20Objects/Process/PEB.html
 
             ' Get address of LoaderData pointer
-            peb.Increment(&HC) ' See structure for details about offsets
+            peb = peb.Increment(&HC) ' See structure for details about offsets
             loaderDatePtr = reader.ReadIntPtr(peb)
 
             ' PEB_LDR_DATA documented here

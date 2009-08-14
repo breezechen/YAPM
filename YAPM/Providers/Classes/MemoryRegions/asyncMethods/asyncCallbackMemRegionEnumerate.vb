@@ -106,7 +106,7 @@ Public Class asyncCallbackMemRegionEnumerate
         Dim lHandle As IntPtr
         Dim lPosMem As IntPtr
         Dim lRet As Boolean = True
-        Dim mbi As Native.Api.NativeStructs.MemoryBasicInformations
+        Dim mbi As Native.Api.NativeStructs.MemoryBasicInformation
         Dim mbiSize As Integer = Marshal.SizeOf(mbi)
 
         lHandle = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation Or _
@@ -122,7 +122,7 @@ Public Class asyncCallbackMemRegionEnumerate
                     _dico.Add(mbi.BaseAddress.ToString, _
                               New memRegionInfos(mbi, pObj.pid))
 
-                    lPosMem.Increment(mbi.RegionSize)
+                    lPosMem = lPosMem.Increment(mbi.RegionSize)
                 Else
                     Exit Do
                 End If

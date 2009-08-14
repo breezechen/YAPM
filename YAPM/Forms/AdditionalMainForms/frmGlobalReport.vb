@@ -100,7 +100,7 @@ Public Class frmGlobalReport
         ' pid <-> (Xid <-> lightX)
         'Dim _dicoThreads As New Dictionary(Of String, Dictionary(Of String, cThread.LightThread))
         ' Dim _dicoModules As New Dictionary(Of String, Dictionary(Of String, cModule.MODULEENTRY32))
-        Dim _dicoMemRegions As New Dictionary(Of String, Dictionary(Of String, Native.Api.NativeStructs.MemoryBasicInformations))
+        Dim _dicoMemRegions As New Dictionary(Of String, Dictionary(Of String, Native.Api.NativeStructs.MemoryBasicInformation))
 
 
         ' == Threads
@@ -133,7 +133,7 @@ Public Class frmGlobalReport
         If Me.chkMemory.Checked Then
             setCaption("Retrieving memory regions...")
             For Each pid As Integer In _dicoProcesses.Keys
-                Dim _buffServ As New Dictionary(Of String, Native.Api.NativeStructs.MemoryBasicInformations)
+                Dim _buffServ As New Dictionary(Of String, Native.Api.NativeStructs.MemoryBasicInformation)
                 Dim _memKey() As String
                 ReDim _memKey(0)
                 cProcessMemRW.Enumerate(pid, _memKey, _buffServ)

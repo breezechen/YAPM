@@ -101,7 +101,7 @@ Imports System.Runtime.InteropServices
     ' ========================================
 
     ' Constructor of this class
-    Public Sub New(ByRef mbi As Native.Api.NativeStructs.MemoryBasicInformations, _
+    Public Sub New(ByRef mbi As Native.Api.NativeStructs.MemoryBasicInformation, _
                    ByVal pid As Integer)
 
         _procId = pid

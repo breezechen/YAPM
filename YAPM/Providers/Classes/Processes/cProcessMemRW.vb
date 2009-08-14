@@ -166,14 +166,14 @@ Public Class cProcessMemRW
     ' =======================================================
     ' Retrieve memory regions (availables for r/w)
     ' =======================================================
-    Private Shared Sub RetrieveMemRegions(ByRef regions() As Native.Api.NativeStructs.MemoryBasicInformations, _
+    Private Shared Sub RetrieveMemRegions(ByRef regions() As Native.Api.NativeStructs.MemoryBasicInformation, _
                                           ByVal pid As Integer, Optional ByVal onlyProcessRegions As Boolean = False)
 
         Dim lHandle As IntPtr
         Dim lPosMem As IntPtr
         Dim lRet As Integer
         Dim lLenMBI As Integer
-        Dim mbi As Native.Api.NativeStructs.MemoryBasicInformations
+        Dim mbi As Native.Api.NativeStructs.MemoryBasicInformation
 
         ReDim regions(1000)     ' Initial buffer
 
@@ -221,7 +221,7 @@ Public Class cProcessMemRW
     Public Sub RetrieveMemRegions(ByRef lBaseAdress() As IntPtr, _
         ByRef lRegionSize() As Integer, Optional ByVal onlyProc As Boolean = False)
 
-        Dim regions() As Native.Api.NativeStructs.MemoryBasicInformations
+        Dim regions() As Native.Api.NativeStructs.MemoryBasicInformation
 
         ReDim regions(0)
         RetrieveMemRegions(regions, Me._pid, onlyProc)
@@ -440,10 +440,10 @@ Public Class cProcessMemRW
 
     ' Enumerate regions
     Public Shared Function Enumerate(ByVal pid As Integer, ByRef add() As String, _
-                                     ByRef _dico As Dictionary(Of String, Native.Api.NativeStructs.MemoryBasicInformations)) As Integer
+                                     ByRef _dico As Dictionary(Of String, Native.Api.NativeStructs.MemoryBasicInformation)) As Integer
 
         _dico.Clear()
-        Dim r() As Native.Api.NativeStructs.MemoryBasicInformations
+        Dim r() As Native.Api.NativeStructs.MemoryBasicInformation
         ReDim r(0)
 
         Call RetrieveMemRegions(r, pid)
@@ -451,7 +451,7 @@ Public Class cProcessMemRW
         ReDim add(r.Length - 1)
 
         Dim x As Integer = 0
-        For Each t As Native.Api.NativeStructs.MemoryBasicInformations In r
+        For Each t As Native.Api.NativeStructs.MemoryBasicInformation In r
             add(x) = t.BaseAddress.ToString
             _dico.Add(add(x).ToString, t)
             x += 1

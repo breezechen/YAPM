@@ -234,7 +234,7 @@ Namespace Native.Api
 #Region "Declarations used for memory management"
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure MemoryBasicInformations
+        Public Structure MemoryBasicInformation
             Public BaseAddress As IntPtr
             Public AllocationBase As IntPtr
             Public AllocationProtect As MemoryProtectionType
