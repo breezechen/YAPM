@@ -32,28 +32,28 @@ Public Class frmFindWindow
 
     Private Selecting As Boolean ' Amd I currently selecting a window?
     Private BorderDrawn As Boolean ' Is there a border currently drawn that needs To be undrawn?
-    Private Myhwnd As Integer ' The current hWnd that has a border drawn on it
+    Private Myhwnd As IntPtr  ' The current hWnd that has a border drawn on it
 
 #End Region
 
     Private Sub Draw()
         Dim Cursor As NativeStructs.PointApi  ' Cursor position
-        Dim RetVal As Integer ' Dummy returnvalue
-        Dim hdc As Integer ' hDC that we're going To be using
-        Dim Pen As Integer ' Handle To a GDI Pen object
-        Dim Brush As Integer ' Handle To a GDI Brush object
-        Dim OldPen As Integer ' Handle To previous Pen object (to restore it)
-        Dim OldBrush As Integer ' Handle To previous brush object (to restore it)
-        Dim OldROP As Integer ' Value of the previous ROP
-        Dim Region As Integer ' Handle To a GDI Region object that I create
-        Dim OldRegion As Integer ' Handle To previous Region object For the hDC
+        Dim RetVal As IntPtr  ' Dummy returnvalue
+        Dim hdc As IntPtr  ' hDC that we're going To be using
+        Dim Pen As IntPtr ' Handle To a GDI Pen object
+        Dim Brush As IntPtr ' Handle To a GDI Brush object
+        Dim OldPen As IntPtr ' Handle To previous Pen object (to restore it)
+        Dim OldBrush As IntPtr ' Handle To previous brush object (to restore it)
+        Dim OldROP As NativeEnums.GdiBlendMode  ' Value of the previous ROP
+        Dim Region As IntPtr  ' Handle To a GDI Region object that I create
+        Dim OldRegion As IntPtr  ' Handle To previous Region object For the hDC
         Dim FullWind As Native.Api.NativeStructs.Rect ' the bounding rectangle of the window in screen coords
         Dim Draw As Native.Api.NativeStructs.Rect ' The drawing rectangle
 
         ' Get the cursor
         NativeFunctions.GetCursorPos(Cursor)
         ' Get the window
-        RetVal = NativeFunctions.WindowFromPoint(Cursor.X, Cursor.Y)
+        RetVal = NativeFunctions.WindowFromPoint(New Point(Cursor.X, Cursor.Y))
         ' If the new hWnd is the same as the old
         '     one, skip drawing it, so to avoid flicker
         If RetVal = Myhwnd Then Exit Sub
@@ -75,12 +75,12 @@ Public Class frmFindWindow
         ' stuff like title bar, menu, border, etc.
         hdc = NativeFunctions.GetWindowDC(Myhwnd)
         ' Save the old region
-        RetVal = NativeFunctions.GetClipRgn(hdc, OldRegion)
+        NativeFunctions.GetClipRgn(hdc, OldRegion)
         ' Retval = 0: no region 1: Region copied -1: error
         ' Select the new region
         RetVal = NativeFunctions.SelectObject(hdc, Region)
         ' Create a pen
-        Pen = NativeFunctions.CreatePen(0, 6, 0) ' Draw Solid lines, width 6, and color black
+        Pen = NativeFunctions.CreatePen(0, 6, IntPtr.Zero) ' Draw Solid lines, width 6, and color black
         ' Select the pen
         ' A pen draws the lines
         OldPen = NativeFunctions.SelectObject(hdc, Pen)
@@ -88,11 +88,11 @@ Public Class frmFindWindow
         ' A brush is the filling for a shape
         ' I need to set it to a null brush so th
         '     at it doesn't edit anything
-        Brush = NativeFunctions.GetStockObject(NativeConstants.NULL_BRUSH)
+        Brush = NativeFunctions.GetStockObject(NativeEnums.GdiStockObject.NullBrush)
         ' Select the brush
         OldBrush = NativeFunctions.SelectObject(hdc, Brush)
         ' Select the ROP
-        OldROP = NativeFunctions.SetROP2(hdc, 6) ' vbInvert means, whatever is draw,
+        OldROP = NativeFunctions.SetROP2(hdc, NativeEnums.GdiBlendMode.Not) ' vbInvert means, whatever is draw,
         ' invert those pixels. This means that I can undraw it by doing the same.
         '
         ' The Drawing Bits
@@ -157,16 +157,16 @@ Public Class frmFindWindow
         ' If there isn't a current hWnd, then exit.
         ' That's why in the mouseup event we get out, because otherwise a border would be draw
         ' around the old window
-        If Myhwnd = 0 Then Exit Sub
-        Dim RetVal As Integer ' Dummy returnvalue
-        Dim hdc As Integer ' hDC that we're going To be using
-        Dim Pen As Integer ' Handle To a GDI Pen object
-        Dim Brush As Integer ' Handle To a GDI Brush object
-        Dim OldPen As Integer ' Handle To previous Pen object (to restore it)
-        Dim OldBrush As Integer ' Handle To previous brush object (to restore it)
-        Dim OldROP As Integer ' Value of the previous ROP
-        Dim Region As Integer ' Handle To a GDI Region object that I create
-        Dim OldRegion As Integer ' Handle To previous Region object For the hDC
+        If Myhwnd = IntPtr.Zero Then Exit Sub
+        Dim RetVal As IntPtr ' Dummy returnvalue
+        Dim hdc As IntPtr ' hDC that we're going To be using
+        Dim Pen As IntPtr ' Handle To a GDI Pen object
+        Dim Brush As IntPtr ' Handle To a GDI Brush object
+        Dim OldPen As IntPtr ' Handle To previous Pen object (to restore it)
+        Dim OldBrush As IntPtr  ' Handle To previous brush object (to restore it)
+        Dim OldROP As NativeEnums.GdiBlendMode   ' Value of the previous ROP
+        Dim Region As IntPtr  ' Handle To a GDI Region object that I create
+        Dim OldRegion As IntPtr  ' Handle To previous Region object For the hDC
         Dim FullWind As Native.Api.NativeStructs.Rect  ' the bounding rectangle of the window in screen coords
         Dim Draw As Native.Api.NativeStructs.Rect ' The drawing rectangle
         '
@@ -181,23 +181,23 @@ Public Class frmFindWindow
         ' stuff like title bar, menu, border, etc.
         hdc = NativeFunctions.GetWindowDC(Myhwnd)
         ' Save the old region
-        RetVal = NativeFunctions.GetClipRgn(hdc, OldRegion)
+        NativeFunctions.GetClipRgn(hdc, OldRegion)
         ' Retval = 0: no region 1: Region copied -1: error
         ' Select the new region
         RetVal = NativeFunctions.SelectObject(hdc, Region)
         ' Create a pen
-        Pen = NativeFunctions.CreatePen(0, 6, 0) ' Draw Solid lines, width 6, and color black
+        Pen = NativeFunctions.CreatePen(0, 6, IntPtr.Zero) ' Draw Solid lines, width 6, and color black
         ' Select the pen
         ' A pen draws the lines
         OldPen = NativeFunctions.SelectObject(hdc, Pen)
         ' Create a brush
         ' A brush is the filling for a shape
         ' I need to set it to a null brush so that it doesn't edit anything
-        Brush = NativeFunctions.GetStockObject(NativeConstants.NULL_BRUSH)
+        Brush = NativeFunctions.GetStockObject(NativeEnums.GdiStockObject.NullBrush)
         ' Select the brush
         OldBrush = NativeFunctions.SelectObject(hdc, Brush)
         ' Select the ROP
-        OldROP = NativeFunctions.SetROP2(hdc, 6) ' vbInvert means, whatever is draw,
+        OldROP = NativeFunctions.SetROP2(hdc, NativeEnums.GdiBlendMode.Not) ' vbInvert means, whatever is draw,
         ' invert those pixels. This means that I can undraw it by doing the same.
         '
         ' The Drawing Bits
@@ -255,7 +255,7 @@ Public Class frmFindWindow
         ' Set the selecting flag
         Selecting = True
         ' Capture all mouse events to this window form
-        NativeFunctions.SetCapture(CInt(Me.Handle))
+        NativeFunctions.SetCapture(Me.Handle)
         ' Simulate a mouse movement event to draw the border when the mouse button goes down
         Form_MouseMove(Nothing, Nothing)
     End Sub
@@ -280,14 +280,14 @@ Public Class frmFindWindow
         ' Found our handle
         found(Myhwnd)
         ' Reset the variable
-        Myhwnd = 0
+        Myhwnd = IntPtr.Zero
     End Sub
 
     Private Sub frmFindWindow_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         _frmMain.Hide()
     End Sub
 
-    Private Sub found(ByVal hWnd As Integer)
+    Private Sub found(ByVal hWnd As IntPtr)
 
         ' Get process ID
         Dim pid As Integer

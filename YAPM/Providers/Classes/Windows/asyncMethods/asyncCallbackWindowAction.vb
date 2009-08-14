@@ -265,7 +265,7 @@ Public Class asyncCallbackWindowAction
         Return Native.Api.NativeFunctions.SetWindowLongPtr(_handle, Native.Api.NativeEnums.GetWindowLongOffset.ExStyle, Native.Api.NativeFunctions.GetWindowLongPtr(_handle, Native.Api.NativeEnums.GetWindowLongOffset.ExStyle).Decrement(Native.Api.NativeConstants.WS_EX_LAYERED))
     End Function
     Private Function EnableWindowOpacity(ByVal _handle As IntPtr) As IntPtr
-        Return Native.Api.NativeFunctions.SetWindowLongPtr(_handle,  Native.Api.NativeEnums.GetWindowLongOffset.ExStyle, (Native.Api.NativeFunctions.GetWindowLongptr(_handle, Native.Api.NativeEnums.GetWindowLongOffset.ExStyle).Increment(Native.Api.NativeConstants.WS_EX_LAYERED) )
+        Return Native.Api.NativeFunctions.SetWindowLongPtr(_handle, Native.Api.NativeEnums.GetWindowLongOffset.ExStyle, (Native.Api.NativeFunctions.GetWindowLongPtr(_handle, Native.Api.NativeEnums.GetWindowLongOffset.ExStyle).Increment(Native.Api.NativeConstants.WS_EX_LAYERED)))
     End Function
     Private Function SetPosition(ByVal _handle As IntPtr, ByRef r As Native.Api.NativeStructs.Rect) As Boolean
         Dim WndPl As Native.Api.NativeStructs.WindowPlacement

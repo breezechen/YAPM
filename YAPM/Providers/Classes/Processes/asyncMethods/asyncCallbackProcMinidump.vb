@@ -39,9 +39,9 @@ Public Class asyncCallbackProcMinidump
     Public Structure poolObj
         Public pid As Integer
         Public file As String
-        Public dumpOpt As API.MINIDUMPTYPE
+        Public dumpOpt As Native.Api.NativeEnums.MINIDUMPTYPE
         Public newAction As Integer
-        Public Sub New(ByVal pi As Integer, ByVal fil As String, ByVal opt As API.MINIDUMPTYPE, ByVal act As Integer)
+        Public Sub New(ByVal pi As Integer, ByVal fil As String, ByVal opt As Native.Api.NativeEnums.MINIDUMPTYPE, ByVal act As Integer)
             newAction = act
             file = fil
             dumpOpt = opt
@@ -66,15 +66,15 @@ Public Class asyncCallbackProcMinidump
                 Try
                     Dim hProc As IntPtr
                     Dim ret As Integer = -1
-                    hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION Or _
-                                            API.PROCESS_RIGHTS.PROCESS_VM_READ, _
+                    hProc = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation Or _
+                                            Native.Security.ProcessAccess.VmRead, _
                                             False, pObj.pid)
                     If hProc <> IntPtr.Zero Then
                         ' Create dump file
                         Dim fs As New System.IO.FileStream(pObj.file, System.IO.FileMode.Create)
                         ' Write dump file
-                        API.MiniDumpWriteDump(hProc, pObj.pid, fs.SafeFileHandle.DangerousGetHandle(), pObj.dumpOpt, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero)
-                        API.CloseHandle(hProc)
+                        Native.Api.NativeFunctions.MiniDumpWriteDump(hProc, pObj.pid, fs.SafeFileHandle.DangerousGetHandle(), pObj.dumpOpt, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero)
+                        Native.Api.NativeFunctions.CloseHandle(hProc)
                         fs.Close()
                         _deg.Invoke(ret <> 0, 0, pObj.file, Native.Api.Win32.GetLastError, pObj.newAction)
                     Else

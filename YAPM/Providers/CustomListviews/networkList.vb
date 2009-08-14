@@ -38,7 +38,7 @@ Public Class networkList
     Private _first As Boolean
     Private _dicoNew As New Dictionary(Of String, cNetwork)
     Private _dicoDel As New Dictionary(Of String, cNetwork)
-    Private _buffDico As New Dictionary(Of String, api.lightconnection)
+    Private _buffDico As New Dictionary(Of String, Native.Api.Structs.LightConnection)
     Private _dico As New Dictionary(Of String, cNetwork)
     Private WithEvents _connectionObject As New cConnection
     Private WithEvents _networkConnection As New cNetworkConnection(Me, _connectionObject, New cNetworkConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))

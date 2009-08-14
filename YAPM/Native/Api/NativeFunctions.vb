@@ -583,6 +583,16 @@ Namespace Native.Api
 
 #Region "Declarations used for windows (not Windows :-p)"
 
+        <DllImport("user32.dll", EntryPoint:="GetClassLong")> _
+        Public Shared Function GetClassLongPtr32(ByVal hWnd As IntPtr, _
+                                                ByVal nIndex As Integer) As UInteger
+        End Function
+
+        <DllImport("user32.dll", EntryPoint:="GetClassLongPtr")> _
+        Public Shared Function GetClassLongPtr64(ByVal hWnd As IntPtr, _
+                                                 ByVal nIndex As Integer) As IntPtr
+        End Function
+
         <DllImport("user32.dll")> _
         Public Shared Function GetDesktopWindow() As IntPtr
         End Function
@@ -596,7 +606,7 @@ Namespace Native.Api
         End Function
 
         <DllImport("user32.dll")> _
-        Public Shared Function GetCursorPos(<Out()> ByRef location As Point) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        Public Shared Function GetCursorPos(<Out()> ByRef location As NativeStructs.PointApi) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
         <DllImport("gdi32.dll")> _
@@ -713,10 +723,28 @@ Namespace Native.Api
                                                           ByRef dwFlags As UInteger) As Boolean
         End Function
 
-        <DllImport("user32.dll", SetLastError:=True, EntryPoint:="SetWindowLongPtr", CharSet:=CharSet.Auto)> _
-        Public Shared Function SetWindowLongPtr(<[In]()> ByVal hWnd As IntPtr, _
-            <[In]()> ByVal Index As GetWindowLongOffset, _
-            <[In]()> <MarshalAs(UnmanagedType.FunctionPtr)> ByVal WndProc As IntPtr) As IntPtr
+        '<DllImport("user32.dll", SetLastError:=True, EntryPoint:="SetWindowLongPtr", CharSet:=CharSet.Auto)> _
+        'Public Shared Function SetWindowLongPtr(<[In]()> ByVal hWnd As IntPtr, _
+        '    <[In]()> ByVal Index As GetWindowLongOffset, _
+        '    <[In]()> <MarshalAs(UnmanagedType.FunctionPtr)> ByVal WndProc As IntPtr) As IntPtr
+        'End Function
+
+        Public Shared Function SetWindowLongPtr(ByVal hWnd As IntPtr, _
+                                                ByVal nIndex As Integer, _
+                                                ByVal dwNewLong As IntPtr) As IntPtr
+            If IntPtr.Size = 8 Then
+                Return SetWindowLongPtr64(hWnd, nIndex, dwNewLong)
+            Else
+                Return New IntPtr(SetWindowLong32(hWnd, nIndex, dwNewLong.ToInt32))
+            End If
+        End Function
+        <DllImport("user32.dll", EntryPoint:="SetWindowLong")> _
+        Private Shared Function SetWindowLong32(ByVal hWnd As IntPtr, _
+                            ByVal nIndex As Integer, ByVal dwNewLong As Integer) As Integer
+        End Function
+        <DllImport("user32.dll", EntryPoint:="SetWindowLongPtr")> _
+        Private Shared Function SetWindowLongPtr64(ByVal hWnd As IntPtr, _
+                            ByVal nIndex As Integer, ByVal dwNewLong As IntPtr) As IntPtr
         End Function
 
         <DllImport("user32.dll", SetLastError:=True)> _
@@ -780,10 +808,30 @@ Namespace Native.Api
         Public Shared Function IsWindowVisible(ByVal hwnd As IntPtr) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
-        <DllImport("user32.dll", SetLastError:=True, EntryPoint:="GetWindowLongPtr", CharSet:=CharSet.Auto)> _
-        Public Shared Function GetWindowLongPtr(<[In]()> ByVal hWnd As IntPtr, _
-                            <[In]()> ByVal Index As GetWindowLongOffset) As IntPtr
+        '<DllImport("user32.dll", SetLastError:=True, EntryPoint:="GetWindowLongPtr", CharSet:=CharSet.Auto)> _
+        'Public Shared Function GetWindowLongPtr(<[In]()> ByVal hWnd As IntPtr, _
+        '                    <[In]()> ByVal Index As GetWindowLongOffset) As IntPtr
+        'End Function
+
+        <DllImport("user32.dll", EntryPoint:="GetWindowLong")> _
+        Private Shared Function GetWindowLongPtr32(ByVal hWnd As IntPtr, _
+                                                   ByVal nIndex As Integer) As IntPtr
         End Function
+        <DllImport("user32.dll", EntryPoint:="GetWindowLongPtr")> _
+        Private Shared Function GetWindowLongPtr64(ByVal hWnd As IntPtr, _
+                                                   ByVal nIndex As Integer) As IntPtr
+        End Function
+        ' This static method is required because Win32 does not support
+        ' GetWindowLongPtr directly
+        Public Shared Function GetWindowLongPtr(ByVal hWnd As IntPtr, _
+                                                ByVal nIndex As Integer) As IntPtr
+            If IntPtr.Size = 8 Then
+                Return GetWindowLongPtr64(hWnd, nIndex)
+            Else
+                Return GetWindowLongPtr32(hWnd, nIndex)
+            End If
+        End Function
+
 
         <DllImport("user32.dll", CharSet:=CharSet.Auto)> _
         Public Shared Sub GetClassName(ByVal hWnd As System.IntPtr, _

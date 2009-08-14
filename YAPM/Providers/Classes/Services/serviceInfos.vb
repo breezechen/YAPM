@@ -213,7 +213,8 @@ Imports System.Text
     ' ========================================
 
     ' Constructor of this class
-    Public Sub New(ByRef Thr As API.ENUM_SERVICE_STATUS_PROCESS, Optional ByVal allInfos As Boolean = False)
+    Public Sub New(ByRef Thr As Native.Api.NativeStructs.EnumServiceStatusProcess, _
+                   Optional ByVal allInfos As Boolean = False)
         With Thr
             _displayName = .DisplayName
             _name = .ServiceName

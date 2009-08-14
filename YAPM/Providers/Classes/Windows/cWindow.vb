@@ -494,20 +494,26 @@ Public Class cWindow
     Private Function GetWindowSmallIcon() As IntPtr
         Dim res As IntPtr
         Dim out As IntPtr
-        res = API.SendMessageTimeout(_windowInfos.Handle, API.WM_GETICON, _
-                                     API.IconSize.ICON_SMALL, 0, _
-                                     API.SendMessageTimeoutFlags.SMTO_ABORTIFHUNG, 0, out)
+        res = Native.Api.NativeFunctions.SendMessageTimeout(_windowInfos.Handle, Native.Api.NativeEnums.WindowMessage.GetIcon, _
+                                     New IntPtr(Native.Api.NativeEnums.IconSize.ICON_SMALL), IntPtr.Zero, _
+                                     Native.Api.NativeEnums.SendMessageTimeoutFlags.SMTO_ABORTIFHUNG, 0, out)
 
         If out = IntPtr.Zero Then
-            out = API.GetClassLong(_windowInfos.Handle, API.GCL_HICONSM)
+            If (IntPtr.Size = 4) Then
+                ' 32 Bits
+                out = CType(Native.Api.NativeFunctions.GetClassLongPtr32(_windowInfos.Handle, Native.Api.NativeConstants.GCL_HICONSM), IntPtr)
+            ElseIf (IntPtr.Size = 8) Then
+                ' 64 bits
+                out = Native.Api.NativeFunctions.GetClassLongPtr64(_windowInfos.Handle, Native.Api.NativeConstants.GCL_HICONSM)
+            End If
         End If
 
         If out = IntPtr.Zero Then
-            res = API.SendMessageTimeout(API.GetWindowLong(_windowInfos.Handle, _
-                                   API.GWL_HWNDPARENT), _
-                                   API.WM_GETICON, _
-                                   API.IconSize.ICON_SMALL, 0, _
-                                   API.SendMessageTimeoutFlags.SMTO_ABORTIFHUNG, 0, out)
+            res = Native.Api.NativeFunctions.SendMessageTimeout(Native.Api.NativeFunctions.GetWindowLongPtr(_windowInfos.Handle, _
+                                  Native.Api.NativeEnums.GetWindowLongOffset.HwndParent), _
+                                  Native.Api.NativeEnums.WindowMessage.GetIcon, _
+                                  New IntPtr(Native.Api.NativeEnums.IconSize.ICON_SMALL), IntPtr.Zero, _
+                                  Native.Api.NativeEnums.SendMessageTimeoutFlags.SMTO_ABORTIFHUNG, 0, out)
         End If
 
         Return out
@@ -516,7 +522,7 @@ Public Class cWindow
 #Region "Shared functions (local)"
 
     Public Shared Function LocalGetForegroundAppPID() As Integer
-        Dim l As IntPtr = API.GetForegroundWindow
+        Dim l As IntPtr = Native.Api.NativeFunctions.GetForegroundWindow
         Return asyncCallbackWindowEnumerate.GetProcIdFromWindowHandle(l)
     End Function
 
@@ -528,7 +534,7 @@ Public Class cWindow
 
         Dim _dico As New Dictionary(Of String, cWindow)
 
-        currWnd = API.GetWindowAPI(API.GetDesktopWindow(), API.GW_CHILD)
+        currWnd = Native.Api.NativeFunctions.GetWindow(Native.Api.NativeFunctions.GetDesktopWindow(), Native.Api.NativeEnums.GetWindow_Cmd.GW_CHILD)
         cpt = 0
         Do While Not (currWnd = IntPtr.Zero)
 
@@ -545,7 +551,7 @@ Public Class cWindow
             'End If
             'End If
 
-            currWnd = API.GetWindowAPI(currWnd, API.GW_HWNDNEXT)
+            currWnd = Native.Api.NativeFunctions.GetWindow(currWnd, Native.Api.NativeEnums.GetWindow_Cmd.GW_HWNDNEXT)
         Loop
 
         Return _dico
@@ -554,13 +560,13 @@ Public Class cWindow
     ' Close
     ' MUST BE USE FOR OWNED WINDOWS ONLY
     ' Because SendMessage is synchron and may cause thread to be hung
-    Public Shared Function LocalClose(ByVal handle As IntPtr) As Integer
-        Return API.SendMessage(handle, API.WM_CLOSE, 0, 0).ToInt32
+    Public Shared Function LocalClose(ByVal handle As IntPtr) As IntPtr
+        Return Native.Api.NativeFunctions.SendMessage(handle, Native.Api.NativeEnums.WindowMessage.Close, IntPtr.Zero, IntPtr.Zero)
     End Function
 
     ' ShowWindowForeground
-    Public Shared Function LocalShowWindowForeground(ByVal handle As IntPtr) As Integer
-        Return API.SetForegroundWindowAPI(handle)
+    Public Shared Function LocalShowWindowForeground(ByVal handle As IntPtr) As Boolean
+        Return Native.Api.NativeFunctions.SetForegroundWindow(handle)
     End Function
 
 #End Region

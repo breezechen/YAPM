@@ -94,7 +94,7 @@ Public Class cPrivilege
 
 #Region "Local shared method"
 
-    Public Shared Function LocalChangeStatus(ByVal pid As Integer, ByVal name As String, ByVal status As API.PRIVILEGE_STATUS) As Boolean
+    Public Shared Function LocalChangeStatus(ByVal pid As Integer, ByVal name As String, ByVal status As Native.Api.NativeEnums.SePrivilegeAttributes) As Boolean
         Return asyncCallbackPrivilegeChangeStatus.SetPrivilege(pid, name, status)
     End Function
 
@@ -116,7 +116,7 @@ Public Class cPrivilege
             Case "Name"
                 res = Me.Infos.Name
             Case "Status"
-                res = GetStatusString(Me.Infos.Status)
+                res = Me.Infos.Status.ToString
             Case "Description"
                 res = Me.Infos.Description
         End Select
@@ -161,7 +161,7 @@ Public Class cPrivilege
                     _old_Name = res
                 End If
             Case "Status"
-                res = GetStatusString(Me.Infos.Status)
+                res = Me.Infos.Status.ToString
                 If res = _old_Status Then
                     hasChanged = False
                 Else
@@ -180,22 +180,5 @@ Public Class cPrivilege
     End Function
 
 #End Region
-
-    Private Function GetStatusString(ByVal status As API.PRIVILEGE_STATUS) As String
-        Select Case CInt(status)
-            Case API.PRIVILEGE_STATUS.PRIVILEGE_DISBALED
-                Return "Disabled"
-            Case API.PRIVILEGE_STATUS.PRIVILEGE_ENABLED
-                Return "Enabled"
-            Case API.PRIVILEGE_STATUS.PRIVILEGE_REMOVED
-                Return "Removed"
-            Case 1
-                Return "Default Disabled"
-            Case 3
-                Return "Default enabled"
-            Case Else
-                Return NO_INFO_RETRIEVED
-        End Select
-    End Function
 
 End Class

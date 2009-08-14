@@ -74,7 +74,7 @@ Imports System.Runtime.InteropServices
             Return _WaitTime
         End Get
     End Property
-    Public ReadOnly Property StartAddress() As Integer
+    Public ReadOnly Property StartAddress() As IntPtr
         Get
             Return _StartAddress
         End Get

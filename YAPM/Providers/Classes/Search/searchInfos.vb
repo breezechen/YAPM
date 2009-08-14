@@ -125,8 +125,6 @@ Imports System.Net
         _pid = pid
         _type = type
         _field = field
-        _peb = peb
-        _modName = modName
         _result = res
     End Sub
     Public Sub New(ByVal pid As Integer, ByVal field As String, ByVal type As ResultType, _

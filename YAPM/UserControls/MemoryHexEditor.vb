@@ -174,7 +174,7 @@ Public Class MemoryHexEditor
     ' Navigate to offset
     Public Sub NavigateToOffset(ByVal offset As Long)
         If offset >= _vs.Minimum AndAlso offset <= _vs.Maximum Then
-            _vs.Value = offset
+            _vs.Value = CInt(offset)
         End If
     End Sub
 
@@ -370,7 +370,7 @@ Public Class MemoryHexEditor
 
         ' Draw offsets
         For x As Integer = 0 To _linesNumber - 1
-            g.DrawString(FormatedOffset(_memRegion.BeginningAddress + (_vs.Value + x) * 16), _font, _OffsetBrush, LEFT_OFFSET, TOP_OFFSET + x * LINE_HEIGHT)
+            g.DrawString(FormatedOffset(_memRegion.BeginningAddress.Increment((_vs.Value + x) * 16)), _font, _OffsetBrush, LEFT_OFFSET, TOP_OFFSET + x * LINE_HEIGHT)
         Next
 
         ' Draw 2 lines
@@ -468,7 +468,7 @@ Public Class MemoryHexEditor
     End Sub
 
     ' Get formated offset
-    Private Function FormatedOffset(ByVal address As Integer) As String
+    Private Function FormatedOffset(ByVal address As IntPtr) As String
         Dim s As String = address.ToString("x")
         Return "0x" & New String(Convert.ToChar(48), 8 - s.Length) & s
     End Function
@@ -642,7 +642,7 @@ Public Class MemoryHexEditor
     End Sub
 
     Private Sub _vs_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles _vs.ValueChanged
-        _curViewDeb = _memRegion.BeginningAddress + _vs.Value * 16  ' Calculate first address
+        _curViewDeb = _memRegion.BeginningAddress.Increment(_vs.Value * 16)  ' Calculate first address
         Me.Refresh()
     End Sub
 End Class
