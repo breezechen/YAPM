@@ -42,7 +42,7 @@ Public Class cEnvironment
             Const FILE_NAME As String = "YAPM-instanceCheck"
 
             '# Nous tentons ici d'acceder au mappage (précedemment créé ?)
-            hMap = Native.Api.NativeFunctions.OpenFileMapping(API.FILE_MAP_READ, False, FILE_NAME)
+            hMap = Native.Api.NativeFunctions.OpenFileMapping(Native.Api.NativeConstants.FILE_MAP_READ, False, FILE_NAME)
             If hMap <> IntPtr.Zero Then
                 '# L'application est déjà lancée.
                 pMem = Native.Api.NativeFunctions.MapViewOfFile(hMap, Native.Api.NativeEnums.FileMapAccess.FileMapRead, 0, 0, 0)

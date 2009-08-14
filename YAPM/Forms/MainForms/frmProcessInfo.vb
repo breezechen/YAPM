@@ -646,7 +646,7 @@ Public Class frmProcessInfo
         Else
             ' Memory
             cRW = New cProcessMemRW(curProc.Infos.Pid)
-            Dim lRes() As Integer
+            Dim lRes() As IntPtr
             ReDim lRes(0)
             Dim sRes() As String
             ReDim sRes(0)

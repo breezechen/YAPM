@@ -703,7 +703,7 @@ Public Class frmMain
 
     Private Sub butDisabledStart_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butDisabledStart.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            it.SetServiceStartType(API.SERVICE_START_TYPE.StartDisabled)
+            it.SetServiceStartType(Native.Api.NativeEnums.ServiceStartType.StartDisabled)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)

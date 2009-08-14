@@ -2158,7 +2158,7 @@ Partial Class frmProcessInfo
         Me.lvProcEnv.Location = New System.Drawing.Point(0, 0)
         Me.lvProcEnv.Name = "lvProcEnv"
         Me.lvProcEnv.OverriddenDoubleBuffered = True
-        Me.lvProcEnv.Peb = 0
+        Me.lvProcEnv.Peb = IntPtr.Zero
         Me.lvProcEnv.ProcessId = 0
         Me.lvProcEnv.ReorganizeColumns = True
         Me.lvProcEnv.Size = New System.Drawing.Size(647, 279)

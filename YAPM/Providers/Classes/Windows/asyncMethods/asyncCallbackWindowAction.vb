@@ -186,7 +186,7 @@ Public Class asyncCallbackWindowAction
                     Case ASYNC_WINDOW_ACTION.SetPosition
                         res = SetPosition(pObj.handle, pObj.r)
                     Case ASYNC_WINDOW_ACTION.SetCaption
-                        res = API.SetWindowText(pObj.handle, New StringBuilder(pObj.s))
+                        res = Native.Api.NativeFunctions.SetWindowText(pObj.handle, New StringBuilder(pObj.s))
                 End Select
 
                 _theDeg.Invoke(Err.LastDllError = 0, pObj.action, pObj.handle.ToInt32, Native.Api.Win32.GetLastError, pObj.newAction)
@@ -196,11 +196,11 @@ Public Class asyncCallbackWindowAction
 
 #Region "Local methods"
 
-    Private Function Close(ByVal _handle As IntPtr) As Integer
-        Return API.SendMessage(_handle, API.WM_CLOSE, 0, 0).ToInt32
+    Private Function Close(ByVal _handle As IntPtr) As IntPtr
+        Return Native.Api.NativeFunctions.SendMessage(_handle, Native.Api.NativeConstants.WM_CLOSE, IntPtr.Zero, IntPtr.Zero)
     End Function
     Private Function Flash(ByVal _handle As IntPtr) As Integer
-        Dim FlashInfo As API.FLASHWINFO
+        Dim FlashInfo As Native.Api.NativeStructs.FlashWInfo
 
         With FlashInfo
             .cbSize = Marshal.SizeOf(FlashInfo)
@@ -210,10 +210,10 @@ Public Class asyncCallbackWindowAction
             .uCount = Integer.MaxValue
         End With
 
-        Return CInt(API.FlashWindowEx(FlashInfo))
+        Return CInt(Native.Api.NativeFunctions.FlashWindowEx(FlashInfo))
     End Function
     Private Function StopFlashing(ByVal _handle As IntPtr) As Integer
-        Dim FlashInfo As API.FLASHWINFO
+        Dim FlashInfo As Native.Api.NativeStructs.FlashWInfo
 
         With FlashInfo
             .cbSize = Marshal.SizeOf(FlashInfo)
@@ -223,7 +223,7 @@ Public Class asyncCallbackWindowAction
             .uCount = 0
         End With
 
-        Return CInt(API.FlashWindowEx(FlashInfo))
+        Return CInt(Native.Api.NativeFunctions.FlashWindowEx(FlashInfo))
     End Function
     Private Function BringToFront(ByVal _handle As IntPtr, ByVal val As Boolean) As Integer
         If val Then
