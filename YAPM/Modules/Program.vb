@@ -216,8 +216,7 @@ Public Module Program
 
         ' ======= Check if system is 32 bits
         If cEnvironment.Is32Bits = False Then
-            MsgBox("Cannot start on a non 32-bits system." & vbNewLine & "YAPM only works on 32-bits systems.", MsgBoxStyle.Critical, "Error")
-            Application.Exit()
+            MsgBox("x64 support is experimental !", MsgBoxStyle.Information, "Warning !")
         End If
 
 
