@@ -111,7 +111,7 @@ Public Class asyncCallbackWindowEnumerate
         Dim cpt As Integer
 
 
-        currWnd = Native.Api.NativeFunctions.GetWindowAPI(Native.Api.NativeFunctions.GetDesktopWindow(), Native.Api.NativeConstants.GW_CHILD)
+        currWnd = Native.Api.NativeFunctions.GetWindow(Native.Api.NativeFunctions.GetDesktopWindow(), Native.Api.NativeEnums.GetWindow_Cmd.GW_CHILD)
         cpt = 0
         Do While Not (currWnd = IntPtr.Zero)
 
@@ -129,7 +129,7 @@ Public Class asyncCallbackWindowEnumerate
                 End If
             End If
 
-            currWnd = Native.Api.NativeFunctions.GetWindowAPI(currWnd, Native.Api.NativeConstants.GW_HWNDNEXT)
+            currWnd = Native.Api.NativeFunctions.GetWindow(currWnd, Native.Api.NativeEnums.GetWindow_Cmd.GW_HWNDNEXT)
         Loop
     End Sub
 

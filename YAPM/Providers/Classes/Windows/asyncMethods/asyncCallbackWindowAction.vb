@@ -155,23 +155,23 @@ Public Class asyncCallbackWindowAction
                     Case ASYNC_WINDOW_ACTION.BringToFront
                         res = BringToFront(pObj.handle, CBool(pObj.o1))
                     Case ASYNC_WINDOW_ACTION.Close
-                        res = Close(pObj.handle)
+                        res = CInt(Close(pObj.handle))
                     Case ASYNC_WINDOW_ACTION.Flash
                         res = Flash(pObj.handle)
                     Case ASYNC_WINDOW_ACTION.Hide
-                        res = Hide(pObj.handle)
+                        res = CInt(Hide(pObj.handle))
                     Case ASYNC_WINDOW_ACTION.Maximize
-                        res = Maximize(pObj.handle)
+                        res = CInt(Maximize(pObj.handle))
                     Case ASYNC_WINDOW_ACTION.Minimize
-                        res = Minimize(pObj.handle)
+                        res = CInt(Minimize(pObj.handle))
                     Case ASYNC_WINDOW_ACTION.SendMessage
-                        res = SendMessage(pObj.handle, pObj.o1, pObj.o2, pObj.o3)
+                        res = SendMessage(pObj.handle, CType(pObj.o1, Native.Api.NativeEnums.WindowMessage), New IntPtr(pObj.o2), New IntPtr(pObj.o3)).ToInt32
                     Case ASYNC_WINDOW_ACTION.SetAsActiveWindow
-                        res = SetAsActiveWindow(pObj.handle)
+                        res = SetAsActiveWindow(pObj.handle).ToInt32
                     Case ASYNC_WINDOW_ACTION.SetAsForegroundWindow
-                        res = SetAsForegroundWindow(pObj.handle)
+                        res = CInt(SetAsForegroundWindow(pObj.handle))
                     Case ASYNC_WINDOW_ACTION.SetEnabled
-                        res = SetEnabled(pObj.handle, CBool(pObj.o1))
+                        res = CInt(SetEnabled(pObj.handle, CBool(pObj.o1)))
                     Case ASYNC_WINDOW_ACTION.SetOpacity
                         If pObj.o1 = 255 Then
                             Call DisableWindowOpacity(pObj.handle)
@@ -180,11 +180,11 @@ Public Class asyncCallbackWindowAction
                             Call SetOpacity(pObj.handle, CByte(pObj.o1))
                         End If
                     Case ASYNC_WINDOW_ACTION.Show
-                        res = Show(pObj.handle)
+                        res = CInt(Show(pObj.handle))
                     Case ASYNC_WINDOW_ACTION.StopFlashing
                         res = StopFlashing(pObj.handle)
                     Case ASYNC_WINDOW_ACTION.SetPosition
-                        res = SetPosition(pObj.handle, pObj.r)
+                        res = CInt(SetPosition(pObj.handle, pObj.r))
                     Case ASYNC_WINDOW_ACTION.SetCaption
                         res = Native.Api.NativeFunctions.SetWindowText(pObj.handle, New StringBuilder(pObj.s))
                 End Select
@@ -203,10 +203,10 @@ Public Class asyncCallbackWindowAction
         Dim FlashInfo As Native.Api.NativeStructs.FlashWInfo
 
         With FlashInfo
-            .cbSize = Marshal.SizeOf(FlashInfo)
+            .cbSize = CUInt(Marshal.SizeOf(FlashInfo))
             .dwFlags = &H3            ' Flash caption & taskbar
             .dwTimeout = 0
-            .hWnd = CInt(_handle)
+            .hwnd = _handle
             .uCount = Integer.MaxValue
         End With
 
@@ -216,10 +216,10 @@ Public Class asyncCallbackWindowAction
         Dim FlashInfo As Native.Api.NativeStructs.FlashWInfo
 
         With FlashInfo
-            .cbSize = Marshal.SizeOf(FlashInfo)
+            .cbSize = CUInt(Marshal.SizeOf(FlashInfo))
             .dwFlags = 0            ' Stop flashing
             .dwTimeout = 0
-            .hWnd = CInt(_handle)
+            .hwnd = _handle
             .uCount = 0
         End With
 
@@ -227,52 +227,52 @@ Public Class asyncCallbackWindowAction
     End Function
     Private Function BringToFront(ByVal _handle As IntPtr, ByVal val As Boolean) As Integer
         If val Then
-            Return CInt(API.SetWindowPos(_handle, API.HWND_TOPMOST, 0, 0, 0, 0, _
-                API.SWP_NOACTIVATE Or API.SWP_SHOWWINDOW Or API.SWP_NOMOVE Or API.SWP_NOSIZE))
+            Return CInt(Native.Api.NativeFunctions.SetWindowPos(_handle, New IntPtr(Native.Api.NativeConstants.HWND_TOPMOST), 0, 0, 0, 0, _
+                Native.Api.NativeConstants.SWP_NOACTIVATE Or Native.Api.NativeConstants.SWP_SHOWWINDOW Or Native.Api.NativeConstants.SWP_NOMOVE Or Native.Api.NativeConstants.SWP_NOSIZE))
         Else
-            Return CInt(API.SetWindowPos(_handle, API.HWND_NOTOPMOST, 0, 0, 0, 0, _
-                API.SWP_NOACTIVATE Or API.SWP_SHOWWINDOW Or API.SWP_NOMOVE Or API.SWP_NOSIZE))
+            Return CInt(Native.Api.NativeFunctions.SetWindowPos(_handle, New IntPtr(Native.Api.NativeConstants.HWND_NOTOPMOST), 0, 0, 0, 0, _
+                Native.Api.NativeConstants.SWP_NOACTIVATE Or Native.Api.NativeConstants.SWP_SHOWWINDOW Or Native.Api.NativeConstants.SWP_NOMOVE Or Native.Api.NativeConstants.SWP_NOSIZE))
         End If
     End Function
-    Private Function SetAsForegroundWindow(ByVal _handle As IntPtr) As Integer
-        Return API.SetForegroundWindowAPI(_handle)
+    Private Function SetAsForegroundWindow(ByVal _handle As IntPtr) As Boolean
+        Return Native.Api.NativeFunctions.SetForegroundWindow(_handle)
     End Function
-    Private Function SetAsActiveWindow(ByVal _handle As IntPtr) As Integer
-        Return API.SetActiveWindowAPI(_handle)
+    Private Function SetAsActiveWindow(ByVal _handle As IntPtr) As IntPtr
+        Return Native.Api.NativeFunctions.SetActiveWindow(_handle)
     End Function
-    Private Function Minimize(ByVal _handle As IntPtr) As Integer
-        Return CInt(API.ShowWindow(_handle, API.SW_MINIMIZE))
+    Private Function Minimize(ByVal _handle As IntPtr) As Boolean
+        Return Native.Api.NativeFunctions.ShowWindow(_handle, Native.Api.NativeEnums.ShowWindowType.Minimize)
     End Function
-    Private Function Maximize(ByVal _handle As IntPtr) As Integer
-        Return CInt(API.ShowWindow(_handle, API.SW_MAXIMIZE))
+    Private Function Maximize(ByVal _handle As IntPtr) As Boolean
+        Return Native.Api.NativeFunctions.ShowWindow(_handle, Native.Api.NativeEnums.ShowWindowType.Maximize)
     End Function
-    Private Function Show(ByVal _handle As IntPtr) As Integer
-        Return CInt(API.ShowWindow(_handle, API.SW_SHOW))
+    Private Function Show(ByVal _handle As IntPtr) As Boolean
+        Return Native.Api.NativeFunctions.ShowWindow(_handle, Native.Api.NativeEnums.ShowWindowType.Show)
     End Function
-    Private Function Hide(ByVal _handle As IntPtr) As Integer
-        Return CInt(API.ShowWindow(_handle, API.SW_HIDE))
+    Private Function Hide(ByVal _handle As IntPtr) As Boolean
+        Return Native.Api.NativeFunctions.ShowWindow(_handle, Native.Api.NativeEnums.ShowWindowType.Hide)
     End Function
-    Private Function SendMessage(ByVal _handle As IntPtr, ByVal val As Integer, ByVal o1 As Integer, ByVal o2 As Integer) As Integer
-        Return API.SendMessage(_handle, val, o1, o2).ToInt32
+    Private Function SendMessage(ByVal _handle As IntPtr, ByVal val As Native.Api.NativeEnums.WindowMessage, ByVal o1 As IntPtr, ByVal o2 As IntPtr) As IntPtr
+        Return Native.Api.NativeFunctions.SendMessage(_handle, val, o1, o2)
     End Function
-    Private Function SetOpacity(ByVal _handle As IntPtr, ByVal val As Byte) As Integer
-        Return CInt(API.SetLayeredWindowAttributes(_handle, 0, val, API.LWA_ALPHA))
+    Private Function SetOpacity(ByVal _handle As IntPtr, ByVal val As Byte) As Boolean
+        Return Native.Api.NativeFunctions.SetLayeredWindowAttributes(_handle, 0, val, Native.Api.NativeConstants.LWA_ALPHA)
     End Function
-    Private Function SetEnabled(ByVal _handle As IntPtr, ByVal val As Boolean) As Integer
-        Return API.EnableWindow(_handle, CInt(val))
+    Private Function SetEnabled(ByVal _handle As IntPtr, ByVal val As Boolean) As Boolean
+        Return Native.Api.NativeFunctions.EnableWindow(_handle, val)
     End Function
-    Private Function DisableWindowOpacity(ByVal _handle As IntPtr) As Integer
-        Return API.SetWindowLong(_handle, API.GWL_EXSTYLE, CType(CInt(API.GetWindowLong(_handle, API.GWL_EXSTYLE)) - API.WS_EX_LAYERED, IntPtr))
+    Private Function DisableWindowOpacity(ByVal _handle As IntPtr) As IntPtr
+        Return Native.Api.NativeFunctions.SetWindowLongPtr(_handle, Native.Api.NativeEnums.GetWindowLongOffset.ExStyle, Native.Api.NativeFunctions.GetWindowLongPtr(_handle, Native.Api.NativeEnums.GetWindowLongOffset.ExStyle).Decrement(Native.Api.NativeConstants.WS_EX_LAYERED))
     End Function
-    Private Function EnableWindowOpacity(ByVal _handle As IntPtr) As Integer
-        Return API.SetWindowLong(_handle, API.GWL_EXSTYLE, CType(CInt(API.GetWindowLong(_handle, API.GWL_EXSTYLE)) Or API.WS_EX_LAYERED, IntPtr))
+    Private Function EnableWindowOpacity(ByVal _handle As IntPtr) As IntPtr
+        Return Native.Api.NativeFunctions.SetWindowLongPtr(_handle,  Native.Api.NativeEnums.GetWindowLongOffset.ExStyle, (Native.Api.NativeFunctions.GetWindowLongptr(_handle, Native.Api.NativeEnums.GetWindowLongOffset.ExStyle).Increment(Native.Api.NativeConstants.WS_EX_LAYERED) )
     End Function
-    Private Function SetPosition(ByVal _handle As IntPtr, ByRef r As Native.Api.NativeStructs.Rect) As Integer
-        Dim WndPl As API.WindowPlacement
-        WndPl.Length = CUInt(System.Runtime.InteropServices.Marshal.SizeOf(WndPl))
-        API.GetWindowPlacement(_handle, WndPl)
+    Private Function SetPosition(ByVal _handle As IntPtr, ByRef r As Native.Api.NativeStructs.Rect) As Boolean
+        Dim WndPl As Native.Api.NativeStructs.WindowPlacement
+        WndPl.Length = System.Runtime.InteropServices.Marshal.SizeOf(WndPl)
+        Native.Api.NativeFunctions.GetWindowPlacement(_handle, WndPl)
         WndPl.NormalPosition = r
-        Return CInt(API.SetWindowPlacement(_handle, WndPl))
+        Return Native.Api.NativeFunctions.SetWindowPlacement(_handle, WndPl)
     End Function
 
 #End Region

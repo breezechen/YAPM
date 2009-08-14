@@ -905,6 +905,70 @@ Namespace Native.Api
             Max = 11
         End Enum
 
+        Public Enum GdiPenStyle As Integer
+            Solid = 0
+            Dash
+            Dot
+            DashDot
+            DashDotDot
+            Null
+            InsideFrame
+            UserStyle
+            Alternate
+        End Enum
+
+        Public Enum GdiBlendMode As Integer
+            Black = 1
+            NotMergePen
+            MaskNotPen
+            NotCopyPen
+            MaskPenNot
+            [Not]
+            XorPen
+            NotMaskPen
+            MaskPen
+            NotXorPen
+            Nop
+            MergeNotPen
+            CopyPen
+            MergePenNot
+            MergePen
+            White
+            Last
+        End Enum
+
+        Public Enum GdiStockObject As Integer
+            WhiteBrush = 0
+            LightGrayBrush
+            GrayBrush
+            DarkGrayBrush
+            BlackBrush
+            NullBrush
+            WhitePen
+            BlackPen
+            NullPen
+            OemFixedFont
+            AnsiFixedFont
+            AnsiVarFont
+            SystemFont
+            DeviceDefaultFont
+            DefaultPalette
+            SystemFixedFont
+            DefaultGuiFont
+            DcBrush
+            DcPen
+        End Enum
+
+        Public Enum GetWindow_Cmd As UInteger
+            GW_HWNDFIRST = 0
+            GW_HWNDLAST = 1
+            GW_HWNDNEXT = 2
+            GW_HWNDPREV = 3
+            GW_OWNER = 4
+            GW_CHILD = 5
+            GW_ENABLEDPOPUP = 6
+        End Enum
+
         Public Enum GetWindowLongOffset As Integer
             WndProc = -4
             HInstance = -6

@@ -957,11 +957,11 @@ Namespace Native.Api
 
         <StructLayout(LayoutKind.Sequential)> _
         Public Structure FlashWInfo
-            Public cbSize As Integer
-            Public hWnd As Integer
-            Public dwFlags As Integer
-            Public uCount As Integer
-            Public dwTimeout As Integer
+            Public cbSize As UInt32
+            Public hwnd As IntPtr
+            Public dwFlags As UInt32
+            Public uCount As UInt32
+            Public dwTimeout As UInt32
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> <Serializable()> _

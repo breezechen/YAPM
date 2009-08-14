@@ -583,35 +583,135 @@ Namespace Native.Api
 
 #Region "Declarations used for windows (not Windows :-p)"
 
-        Public Declare Function GetWindowThreadProcessId Lib "user32" (ByVal hwnd As Integer, ByRef lpdwProcessId As Integer) As Integer
-        Public Declare Function GetCursorPos Lib "user32" (ByRef lpPoint As PointApi) As Integer ' Get the cursor position
-        Public Declare Function WindowFromPoint Lib "user32" (ByVal xPoint As Integer, ByVal yPoint As Integer) As Integer ' Get the handle of the window that is foremost on a particular X, Y position. Used here To get the window under the cursor
-        Public Declare Function GetWindowRect Lib "user32" (ByVal hwnd As Integer, ByRef lpRect As Rect) As Integer ' Get the window co-ordinates in a RECT structure
-        Public Declare Function GetWindowDC Lib "user32" (ByVal hwnd As Integer) As Integer ' Retrieve a handle For the hDC of a window
-        Public Declare Function ReleaseDC Lib "user32" (ByVal hwnd As Integer, ByVal hdc As Integer) As Integer ' Release the memory occupied by an hDC
-        Public Declare Function CreatePen Lib "gdi32" (ByVal nPenStyle As Integer, ByVal nWidth As Integer, ByVal crColor As Integer) As Integer ' Create a GDI graphics pen object
-        Public Declare Function SelectObject Lib "gdi32" (ByVal hdc As Integer, ByVal hObject As Integer) As Integer ' Used to select brushes, pens, and clipping regions
-        Public Declare Function GetStockObject Lib "gdi32" (ByVal nIndex As Integer) As Integer ' Get hold of a "stock" object. I use it to get a Null Brush
-        Public Declare Function SetROP2 Lib "gdi32" (ByVal hdc As Integer, ByVal nDrawMode As Integer) As Integer ' Used To set the Raster OPeration of a window
-        Public Declare Function DeleteObject Lib "gdi32" (ByVal hObject As Integer) As Integer ' Delete a GDI Object
-        Public Declare Function Rectangle Lib "gdi32" (ByVal hdc As Integer, ByVal X1 As Integer, ByVal Y1 As Integer, ByVal X2 As Integer, ByVal Y2 As Integer) As Integer ' GDI Graphics- draw a rectangle using current pen, brush, etc.
-        Public Declare Function SetCapture Lib "user32" (ByVal hwnd As Integer) As Integer ' Set mouse events only For one window
-        Public Declare Function ReleaseCapture Lib "user32" () As Integer ' Release the mouse capture
-        Public Declare Function CreateRectRgn Lib "gdi32" (ByVal X1 As Integer, ByVal Y1 As Integer, ByVal X2 As Integer, ByVal Y2 As Integer) As Integer ' Create a rectangular region
-        Public Declare Function SelectClipRgn Lib "gdi32" (ByVal hdc As Integer, ByVal hRgn As Integer) As Integer ' Select the clipping region of an hDC
-        Public Declare Function GetClipRgn Lib "gdi32" (ByVal hdc As Integer, ByVal hRgn As Integer) As Integer ' Get the Clipping region of an hDC
+        <DllImport("user32.dll")> _
+        Public Shared Function GetDesktopWindow() As IntPtr
+        End Function
 
-        Public Declare Function GetForegroundWindow Lib "user32" () As IntPtr
-        Public Declare Function GetLayeredWindowAttributes Lib "User32.Dll" (ByVal hwnd As IntPtr, ByRef pcrKey As Integer, ByRef pbAlpha As Byte, ByRef pdwFlags As Integer) As Boolean
-        Public Declare Auto Function SetLayeredWindowAttributes Lib "User32.Dll" (ByVal hWnd As IntPtr, ByVal crKey As Integer, ByVal Alpha As Byte, ByVal dwFlags As Integer) As Boolean
-        Public Declare Function FlashWindowEx Lib "user32" (ByRef pfwi As FlashWInfo) As Boolean
-        Public Declare Function SetForegroundWindowAPI Lib "user32" Alias "SetForegroundWindow" (ByVal hWnd As IntPtr) As Integer
-        Public Declare Function SetActiveWindowAPI Lib "user32.dll" Alias "SetActiveWindow" (ByVal hWnd As IntPtr) As Integer
-        Public Declare Function EnableWindow Lib "user32" (ByVal hwnd As IntPtr, ByVal fEnable As Integer) As Integer
-        Public Declare Function GetClassLong Lib "user32.dll" Alias "GetClassLongA" (ByVal hWnd As IntPtr, ByVal nIndex As Integer) As IntPtr
-        Public Declare Function GetWindowThreadProcessId Lib "user32" (ByVal hWnd As IntPtr, ByRef lpdwProcessId As Integer) As Integer
-        Public Declare Function GetWindowAPI Lib "user32" Alias "GetWindow" (ByVal hWnd As IntPtr, ByVal wCmd As Integer) As IntPtr
-        Public Declare Auto Function GetDesktopWindow Lib "user32.dll" () As IntPtr
+        <DllImport("user32.dll")> _
+        Public Shared Function GetForegroundWindow() As IntPtr
+        End Function
+
+        <DllImport("user32.dll")> _
+        Public Shared Function WindowFromPoint(<[In]()> ByVal location As Point) As IntPtr
+        End Function
+
+        <DllImport("user32.dll")> _
+        Public Shared Function GetCursorPos(<Out()> ByRef location As Point) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
+
+        <DllImport("gdi32.dll")> _
+        Public Shared Function Rectangle(<[In]()> ByVal hDC As IntPtr, _
+                                <[In]()> ByVal LeftRect As Integer, _
+                                <[In]()> ByVal TopRect As Integer, _
+                                <[In]()> ByVal RightRect As Integer, _
+                                <[In]()> ByVal BottomRect As Integer) As Boolean
+        End Function
+
+        <DllImport("gdi32.dll")> _
+        Public Shared Function DeleteObject(<[In]()> ByVal [Object] As IntPtr) As Boolean
+        End Function
+
+        <DllImport("gdi32.dll")> _
+        Public Shared Function GetStockObject(<[In]()> ByVal [Object] As GdiStockObject) As IntPtr
+        End Function
+
+        <DllImport("gdi32.dll")> _
+        Public Shared Function SelectObject(<[In]()> ByVal hDC As IntPtr, _
+                                <[In]()> ByVal hGdiObject As IntPtr) As IntPtr
+        End Function
+
+        <DllImport("gdi32.dll")> _
+        Public Shared Function CreatePen(<[In]()> ByVal PenStyle As GdiPenStyle, _
+                                    <[In]()> ByVal Width As Integer, _
+                                    <[In]()> ByVal Color As IntPtr) As IntPtr
+        End Function
+
+        <DllImport("gdi32.dll")> _
+        Public Shared Function RestoreDC(<[In]()> ByVal hDC As IntPtr, _
+                                         <[In]()> ByVal SavedDC As Integer) As Boolean
+        End Function
+
+        <DllImport("gdi32.dll")> _
+        Public Shared Function SaveDC(<[In]()> ByVal hDC As IntPtr) As Integer
+        End Function
+
+        <DllImport("gdi32.dll")> _
+        Public Shared Function SetROP2(<[In]()> ByVal hDC As IntPtr, _
+                            <[In]()> ByVal DrawMode As GdiBlendMode) As GdiBlendMode
+        End Function
+
+        <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
+        Public Shared Function GetClientRect(<[In]()> ByVal hWnd As IntPtr, _
+                    <Out()> ByRef rect As Rect) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
+
+        <DllImport("user32.dll")> _
+        Public Shared Function ReleaseDC(<[In]()> ByVal hWnd As IntPtr, _
+                                         <[In]()> ByVal hDC As IntPtr) As Integer
+        End Function
+
+        <DllImport("user32.dll")> _
+        Public Shared Function GetWindowDC(<[In]()> ByVal hWnd As IntPtr) As IntPtr
+        End Function
+
+        <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
+        Public Shared Function SetCapture(<[In]()> ByVal handle As IntPtr) As IntPtr
+        End Function
+
+        <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
+        Public Shared Function ReleaseCapture() As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
+        <DllImport("user32.dll")> _
+        Public Shared Function SetForegroundWindow(<[In]()> ByVal hWnd As IntPtr) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
+
+        <DllImport("user32.dll")> _
+        Public Shared Function SetActiveWindow(<[In]()> ByVal hWnd As IntPtr) As IntPtr
+        End Function
+
+        <DllImport("user32.dll")> _
+        Public Shared Function GetWindowThreadProcessId(<[In]()> ByVal hWnd As IntPtr, <Out()> ByRef processId As Integer) As Integer
+        End Function
+
+        <DllImport("user32.dll", SetLastError:=True)> _
+        Public Shared Function GetWindow(ByVal hWnd As IntPtr, _
+                                         ByVal uCmd As GetWindow_Cmd) As IntPtr
+        End Function
+
+        <DllImport("user32.dll")> _
+        Public Shared Function EnableWindow(ByVal hWnd As IntPtr, _
+                                            ByVal bEnable As Boolean) As Boolean
+        End Function
+
+        <DllImport("gdi32.dll")> _
+        Public Shared Function GetClipRgn(ByVal hdc As IntPtr, _
+                                          ByVal hrgn As IntPtr) As Integer
+        End Function
+
+        <DllImport("gdi32.dll")> _
+        Public Shared Function CreateRectRgn(ByVal nLeftRect As Integer, _
+                                            ByVal nTopRect As Integer, _
+                                            ByVal nRightRect As Integer, _
+                                            ByVal nBottomRect As Integer) As IntPtr
+        End Function
+
+        <DllImport("user32.dll")> _
+        Public Shared Function FlashWindowEx(ByRef pwfi As FlashWInfo) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
+
+        <DllImport("user32.dll")> _
+        Public Shared Function SetLayeredWindowAttributes(ByVal hwnd As IntPtr, _
+                                                          ByVal crKey As UInteger, _
+                                                          ByVal bAlpha As Byte, _
+                                                          ByVal dwFlags As UInteger) As Boolean
+        End Function
+
+        <DllImport("user32.dll", SetLastError:=True)> _
+        Public Shared Function GetLayeredWindowAttributes(ByVal hwnd As IntPtr, _
+                                                          ByRef crKey As UInteger, _
+                                                          ByRef bAlpha As Byte, _
+                                                          ByRef dwFlags As UInteger) As Boolean
+        End Function
 
         <DllImport("user32.dll", SetLastError:=True, EntryPoint:="SetWindowLongPtr", CharSet:=CharSet.Auto)> _
         Public Shared Function SetWindowLongPtr(<[In]()> ByVal hWnd As IntPtr, _
