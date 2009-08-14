@@ -1074,7 +1074,7 @@ Namespace Native.Api
                                 ByVal Source As IntPtr, _
                                 ByVal MessageId As Integer, _
                                 ByVal LanguageId As Integer, _
-                                ByVal Buffer As IntPtr, _
+                                ByRef Buffer As StringBuilder, _
                                 ByVal Size As Integer, _
                                 ByVal Arguments As IntPtr) As UInteger
         End Function

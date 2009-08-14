@@ -34,22 +34,27 @@ Namespace Native.Api
         ' Return last error as a string
         Public Shared Function GetLastError() As String
 
-            Dim lpMsgBuf As IntPtr = IntPtr.Zero
             Dim nLastError As Integer = Marshal.GetLastWin32Error
-            Dim dwChars As UInteger = FormatMessage(FormatMessageFlags.FORMAT_MESSAGE_ALLOCATE_BUFFER _
-                                                    Or FormatMessageFlags.FORMAT_MESSAGE_FROM_SYSTEM _
-                                                    Or FormatMessageFlags.FORMAT_MESSAGE_IGNORE_INSERTS, _
-                                        IntPtr.Zero, nLastError, 0, lpMsgBuf, 0, IntPtr.Zero)
 
-            ' Unknown error
-            If dwChars = 0 Then
-                Return "Unknown error occured (0x" & nLastError.ToString("x") & ")"
+            If nLastError = 0 Then
+                ' Error occured
+                Return ""
+            Else
+
+                Dim lpMsgBuf As New System.Text.StringBuilder(&H100)
+                Dim dwChars As UInteger = FormatMessage(FormatMessageFlags.FORMAT_MESSAGE_ALLOCATE_BUFFER _
+                                                        Or FormatMessageFlags.FORMAT_MESSAGE_FROM_SYSTEM _
+                                                        Or FormatMessageFlags.FORMAT_MESSAGE_IGNORE_INSERTS, _
+                                            IntPtr.Zero, nLastError, 0, lpMsgBuf, lpMsgBuf.Capacity, IntPtr.Zero)
+
+                ' Unknown error
+                If dwChars = 0 Then
+                    Return "Unknown error occured (0x" & nLastError.ToString("x") & ")"
+                End If
+
+                ' Retrieve string
+                Return lpMsgBuf.ToString
             End If
-
-            ' Retrieve string
-            Dim sRet As String = Marshal.PtrToStringAnsi(lpMsgBuf)
-            lpMsgBuf = LocalFree(lpMsgBuf)
-            Return sRet
 
         End Function
 

@@ -1,6 +1,8 @@
 TODO LIST
 
+Refactoring bugs
 - 64TODO
+- state des connexions TCP
 
 BUGS CRITIQUES
 - problème icones menu principal cachées (Vista seulement)
