@@ -270,6 +270,7 @@ Public Module Program
         theConnection = New cConnection     ' The cConnection instance of the connection
         _systemInfo = New cSystemInfo       ' System informations
         _ConnectionForm = New frmConnection(theConnection)
+        'cHandle.handles_Renamed = New clsOpenedHandles
 
         ' Classes for client only
         If _progParameters.ModeServer = False Then

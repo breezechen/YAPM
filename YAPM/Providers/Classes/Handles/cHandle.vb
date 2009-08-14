@@ -26,7 +26,7 @@ Public Class cHandle
     Private _handleInfos As handleInfos
     Private Shared WithEvents _connection As cHandleConnection
 
-    Public Shared handles_Renamed As New clsOpenedHandles
+    Public Shared handles_Renamed As clsOpenedHandles
 
 #Region "Properties"
 
