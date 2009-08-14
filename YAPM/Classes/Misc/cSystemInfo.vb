@@ -256,12 +256,7 @@ Public Class cSystemInfo
 
             ' Conversion from unmanaged memory to valid array
             For x As Integer = 0 To _processors - 1
-                '64TODO
-                '                Dim pt2 As IntPtr = CType(pt.ToInt32 + 48 * x, IntPtr)
-                '                _ppi(x) = CType(Marshal.PtrToStructure(pt2, _
-                'GetType(NativeStructs.SystemProcessorPerformanceInformation)),  _
-                'NativeStructs.SystemProcessorPerformanceInformation)
-                _ppi(x) = memAlloc.ReadStruct(Of NativeStructs.SystemProcessorPerformanceInformation)(48, x)
+                _ppi(x) = memAlloc.ReadStruct(Of NativeStructs.SystemProcessorPerformanceInformation)(0, x)
             Next
             memAlloc.Free()
 
