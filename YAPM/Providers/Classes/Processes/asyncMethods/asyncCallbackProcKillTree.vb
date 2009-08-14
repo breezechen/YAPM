@@ -92,12 +92,12 @@ Public Class asyncCallbackProcKillTree
     ' Kill a process
     Private Function Kill(ByVal pid As Integer) As Boolean
         Dim hProc As IntPtr
-        Dim ret As Integer = -1
-        hProc = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_TERMINATE, False, pid)
+        Dim ret As Boolean
+        hProc = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.Terminate, False, pid)
         If hProc <> IntPtr.Zero Then
-            ret = API.TerminateProcess(hProc, 0)
-            API.CloseHandle(hProc)
-            Return (ret <> 0)
+            ret = Native.Api.NativeFunctions.TerminateProcess(hProc, 0)
+            Native.Api.NativeFunctions.CloseHandle(hProc)
+            Return ret
         Else
             Return False
         End If
@@ -107,10 +107,10 @@ Public Class asyncCallbackProcKillTree
     Private Function EnumParent(ByVal pid As Integer) As List(Of Integer)
         ' Local
         Dim ret As Integer
-        API.NtQuerySystemInformation(native.api.nativeenums.SystemInformationClass.SystemProcessesAndThreadsInformation, IntPtr.Zero, 0, ret)
+        Native.Api.NativeFunctions.NtQuerySystemInformation(Native.Api.NativeEnums.SystemInformationClass.SystemProcessInformation, IntPtr.Zero, 0, ret)
         Dim size As Integer = ret
         Dim ptr As IntPtr = Marshal.AllocHGlobal(size)
-        API.NtQuerySystemInformation(native.api.nativeenums.SystemInformationClass.SystemProcessesAndThreadsInformation, ptr, size, ret)
+        Native.Api.NativeFunctions.NtQuerySystemInformation(Native.Api.NativeEnums.SystemInformationClass.SystemProcessInformation, ptr, size, ret)
 
         ' Extract structures from unmanaged memory
         Dim x As Integer = 0

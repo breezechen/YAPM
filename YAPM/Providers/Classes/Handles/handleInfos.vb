@@ -87,7 +87,7 @@ Imports System.Runtime.InteropServices
     ' ========================================
 
     ' Constructor of this class
-    Public Sub New(ByVal handle As Integer, ByVal type As String, ByVal pid As Integer, _
+    Public Sub New(ByVal handle As IntPtr, ByVal type As String, ByVal pid As Integer, _
         ByVal name As String, ByVal handlecount As Integer, _
         ByVal pointercount As Integer, ByVal objectCount As Integer)
 

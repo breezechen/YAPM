@@ -28,7 +28,7 @@ Imports System.Management
 
 Public Class asyncCallbackProcEnumerate
 
-    Private PROCESS_MIN_RIGHTS As API.PROCESS_RIGHTS = API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION
+    Private processMinRights As Native.Security.ProcessAccess = Native.Security.ProcessAccess.QueryInformation
 
     Private ctrl As Control
     Private deg As [Delegate]
@@ -40,7 +40,7 @@ Public Class asyncCallbackProcEnumerate
         _instanceId = iId
         con = co
         If cEnvironment.IsWindowsVistaOrAbove Then
-            PROCESS_MIN_RIGHTS = API.PROCESS_RIGHTS.PROCESS_QUERY_LIMITED_INFORMATION
+            processMinRights = Native.Security.ProcessAccess.QueryLimitedInformation
         End If
     End Sub
 
@@ -406,7 +406,7 @@ Public Class asyncCallbackProcEnumerate
 
                 ' Retrieve unicode string
                 Dim _pt As IntPtr = Marshal.AllocHGlobal(_size)
-                Native.Api.NativeFunctions.NtQueryInformationProcess(_h, API.PROCESS_INFORMATION_CLASS.ProcessImageFileName, _pt, _size, _size)
+                Native.Api.NativeFunctions.NtQueryInformationProcess(_h, Native.Api.NativeEnums.ProcessInformationClass.ProcessImageFileName, _pt, _size, _size)
                 Dim _str As Native.Api.NativeStructs.UnicodeString = CType(Marshal.PtrToStructure(_pt, _
                                                                          GetType(Native.Api.NativeStructs.UnicodeString)), Native.Api.NativeStructs.UnicodeString)
                 Marshal.FreeHGlobal(_pt)
@@ -438,7 +438,7 @@ Public Class asyncCallbackProcEnumerate
                                                False, _pid)
             Dim pbi As New Native.Api.NativeStructs.ProcessBasicInformation
             Dim ret As Integer
-            Native.Api.NativeFunctions.NtQueryInformationProcess(_h, API.PROCESS_INFORMATION_CLASS.ProcessBasicInformation, pbi, Marshal.SizeOf(pbi), ret)
+            Native.Api.NativeFunctions.NtQueryInformationProcess(_h, Native.Api.NativeEnums.ProcessInformationClass.ProcessBasicInformation, pbi, Marshal.SizeOf(pbi), ret)
             Native.Api.NativeFunctions.CloseHandle(_h)
             Return pbi.PebBaseAddress
         Else
@@ -696,7 +696,7 @@ Public Class asyncCallbackProcEnumerate
 
         ' We could stop before &hffff....
         For pid As Integer = &H8 To &HFFFF Step 4
-            Dim handle As IntPtr = Native.Api.NativeFunctions.OpenProcess(PROCESS_MIN_RIGHTS, False, pid)
+            Dim handle As IntPtr = Native.Api.NativeFunctions.OpenProcess(processMinRights, False, pid)
             If handle <> IntPtr.Zero Then
                 Dim exitcode As Integer
                 Dim res As Boolean = Native.Api.NativeFunctions.GetExitCodeProcess(handle, exitcode)
@@ -832,12 +832,12 @@ Public Class asyncCallbackProcEnumerate
     Private Function getVisibleProcessesSimp() As Dictionary(Of String, processInfos)
 
         Dim ret As Integer
-        API.NtQuerySystemInformation(native.api.nativeenums.SystemInformationClass.SystemProcessesAndThreadsInformation, _
+        Native.Api.NativeFunctions.NtQuerySystemInformation(Native.Api.NativeEnums.SystemInformationClass.SystemProcessInformation, _
                         memAllocForVSProcesses.Pointer, memAllocForVSProcesses.Size, ret)
         If memAllocForVSProcesses.Size < ret Then
             memAllocForVSProcesses.Resize(ret)
         End If
-        API.NtQuerySystemInformation(native.api.nativeenums.SystemInformationClass.SystemProcessesAndThreadsInformation, _
+        Native.Api.NativeFunctions.NtQuerySystemInformation(Native.Api.NativeEnums.SystemInformationClass.SystemProcessInformation, _
                         memAllocForVSProcesses.Pointer, memAllocForVSProcesses.Size, ret)
 
         ' Extract structures from unmanaged memory

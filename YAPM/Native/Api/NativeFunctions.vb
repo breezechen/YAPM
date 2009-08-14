@@ -642,6 +642,12 @@ Namespace Native.Api
 
         <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
         Public Shared Function SendMessage(ByVal hWnd As IntPtr, _
+                ByVal Msg As Integer, _
+                ByVal wParam As IntPtr, ByVal lParam As IntPtr) As IntPtr
+        End Function
+
+        <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
+        Public Shared Function SendMessage(ByVal hWnd As IntPtr, _
                         ByVal Msg As WindowMessage, _
                         ByVal wParam As IntPtr, ByVal lParam As IntPtr) As IntPtr
         End Function

@@ -87,7 +87,7 @@ Public Class frmProcessAffinity
             Next
         Else
             ' Then only one process
-            Dim m As Integer = proc(0).Infos.AffinityMask
+            Dim m As Integer = proc(0).Infos.AffinityMask.ToInt32
             Me.chk0.Checked = ((m And 1) = 1)
             Me.chk1.Checked = ((m And 2) = 2)
             Me.chk2.Checked = ((m And 4) = 4)

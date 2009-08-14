@@ -324,7 +324,7 @@ Namespace Native.Api
 
         Public Structure PrivilegeInfo
             Dim Name As String
-            Dim Status As Integer
+            Dim Status As SePrivilegeAttributes
             Dim pLuid As Luid
         End Structure
 

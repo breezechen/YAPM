@@ -33,9 +33,9 @@ Public Class asyncCallbackProcGetNonFixedInfos
     Public Structure TheseInfos
         Dim gdiO As Integer
         Dim userO As Integer
-        Dim affinity As Integer
+        Dim affinity As IntPtr
         Public Sub New(ByVal _gdi As Integer, ByVal _user As Integer, _
-                       ByVal _affinity As Integer)
+                       ByVal _affinity As IntPtr)
             gdiO = _gdi
             userO = _user
             affinity = _affinity
@@ -61,14 +61,14 @@ Public Class asyncCallbackProcGetNonFixedInfos
                 ' Local
                 Dim _gdi As Integer = Native.Api.NativeFunctions.GetGuiResources(_handle, Native.Api.NativeEnums.GuiResourceType.GdiObjects)
                 Dim _user As Integer = Native.Api.NativeFunctions.GetGuiResources(_handle, Native.Api.NativeEnums.GuiResourceType.UserObjects)
-                Dim _affinity As Integer = GetAffinity()
+                Dim _affinity As IntPtr = GetAffinity()
 
                 RaiseEvent GatheredInfos(New TheseInfos(_gdi, _user, _affinity))
         End Select
     End Sub
 
     ' Return affinity
-    Private Function GetAffinity() As Integer
+    Private Function GetAffinity() As IntPtr
         If _pid > 4 Then
             Dim pbi As New Native.Api.NativeStructs.ProcessBasicInformation
             Dim ret As Integer
@@ -77,7 +77,7 @@ Public Class asyncCallbackProcGetNonFixedInfos
                     pbi, Marshal.SizeOf(pbi), ret)
             Return pbi.AffinityMask
         Else
-            Return 0
+            Return IntPtr.Zero
         End If
     End Function
 

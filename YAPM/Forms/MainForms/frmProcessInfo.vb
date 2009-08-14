@@ -36,7 +36,7 @@ Public Class frmProcessInfo
     ' String search (in process image/memory) private attributes
     Private _stringSearchImmediateStop As Boolean   ' Set to true to stop listing of string in process
     Private __sRes() As String
-    Private __lRes() As Integer
+    Private __lRes() As IntPtr
     Private cRW As cProcessMemRW
 
     Private Const SIZE_FOR_STRING As Integer = 4
@@ -717,7 +717,7 @@ Public Class frmProcessInfo
                             ReDim Preserve tRes(tRes.Length + BUF_SIZE)
                         End If
 
-                        tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).curOffset = x
+                        tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).curOffset = New IntPtr(x)
                         tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).strString = strCtemp
                         cArraySizeBef += 1
 
@@ -744,13 +744,13 @@ Public Class frmProcessInfo
                     ReDim Preserve tRes(tRes.Length + BUF_SIZE)
                 End If
 
-                tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).curOffset = lLen
+                tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).curOffset = New IntPtr(lLen)
                 tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).strString = strCtemp
 
             End If
 
 
-            Dim lngRes() As Integer
+            Dim lngRes() As IntPtr
             Dim strRes() As String
             ReDim lngRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1)
             ReDim strRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1)
@@ -1060,7 +1060,7 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub timerLog_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerLog.Tick
-        Dim _i As Integer = API.GetTickCount
+        Dim _i As Integer = Native.Api.Win32.GetElapsedTime
 
         Me.lvLog.BeginUpdate()
         Call ShowLogItems()
@@ -1071,7 +1071,7 @@ Public Class frmProcessInfo
         End If
 
         Call ChangeCaption()
-        Trace.WriteLine("Log updated in " & (API.GetTickCount - _i).ToString & " ms")
+        Trace.WriteLine("Log updated in " & (Native.Api.Win32.GetElapsedTime - _i).ToString & " ms")
     End Sub
 
     Private Sub cmdClearLog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdClearLog.Click
@@ -1313,20 +1313,20 @@ Public Class frmProcessInfo
 
             If lvProcServices.SelectedItems.Count = 1 Then
                 Dim cSe As cService = Me.lvProcServices.GetSelectedItem
-                Dim start As API.SERVICE_START_TYPE = cSe.Infos.StartType
-                Dim state As API.SERVICE_STATE = cSe.Infos.State
+                Dim start As Native.Api.NativeEnums.ServiceStartType = cSe.Infos.StartType
+                Dim state As Native.Api.NativeEnums.ServiceState = cSe.Infos.State
                 Dim acc As Native.Api.NativeEnums.ServiceAccept = cSe.Infos.AcceptedControl
 
-                Me.MenuItemServPause.Text = IIf(state = API.SERVICE_STATE.Running, "Pause", "Resume").ToString
+                Me.MenuItemServPause.Text = IIf(state = Native.Api.NativeEnums.ServiceState.Running, "Pause", "Resume").ToString
                 MenuItemServPause.Enabled = (acc And Native.Api.NativeEnums.ServiceAccept.PauseContinue) = Native.Api.NativeEnums.ServiceAccept.PauseContinue
-                MenuItemServStart.Enabled = Not (state = API.SERVICE_STATE.Running)
+                MenuItemServStart.Enabled = Not (state = Native.Api.NativeEnums.ServiceState.Running)
                 Me.MenuItemServStop.Enabled = (acc And Native.Api.NativeEnums.ServiceAccept.Stop) = Native.Api.NativeEnums.ServiceAccept.Stop
 
-                Me.MenuItemServDisabled.Checked = (start = API.SERVICE_START_TYPE.StartDisabled)
+                Me.MenuItemServDisabled.Checked = (start = Native.Api.NativeEnums.ServiceStartType.StartDisabled)
                 MenuItemServDisabled.Enabled = Not (MenuItemServDisabled.Checked)
-                MenuItemServAutoStart.Checked = (start = API.SERVICE_START_TYPE.AutoStart)
+                MenuItemServAutoStart.Checked = (start = Native.Api.NativeEnums.ServiceStartType.AutoStart)
                 MenuItemServAutoStart.Enabled = Not (MenuItemServAutoStart.Checked)
-                MenuItemServOnDemand.Checked = (start = API.SERVICE_START_TYPE.DemandStart)
+                MenuItemServOnDemand.Checked = (start = Native.Api.NativeEnums.ServiceStartType.DemandStart)
                 MenuItemServOnDemand.Enabled = Not (MenuItemServOnDemand.Checked)
                 MenuItem17.Enabled = True
             ElseIf lvProcServices.SelectedItems.Count > 1 Then
@@ -1422,14 +1422,14 @@ Public Class frmProcessInfo
 
         If Me.lvProcString.SelectedIndices.Count = 0 Then Exit Sub
 
-        Dim add As Integer = CInt(Me.lvProcString.Items(Me.lvProcString.SelectedIndices(0)).Tag)
+        Dim add As IntPtr = CType(Me.lvProcString.Items(Me.lvProcString.SelectedIndices(0)).Tag, IntPtr)
         For Each reg As cMemRegion In Me.lvProcMem.GetAllItems
 
-            If reg.Infos.BaseAddress <= add AndAlso add <= (reg.Infos.BaseAddress + reg.Infos.RegionSize) Then
+            If reg.Infos.BaseAddress.IsLowerOrEqualThan(add) AndAlso add.IsLowerOrEqualThan(reg.Infos.BaseAddress.ToInt64 + reg.Infos.RegionSize) Then
                 Dim frm As New frmHexEditor
                 Dim regio As New MemoryHexEditor.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
                 frm.SetPidAndRegion(curProc.Infos.Pid, regio)
-                frm._hex.NavigateToOffset(CInt((add - regio.BeginningAddress) / 16))
+                frm._hex.NavigateToOffset(CLng((add.ToInt64 - regio.BeginningAddress.ToInt64) / 16))
                 frm.TopMost = _frmMain.TopMost
                 frm.Show()
                 Exit For
@@ -1516,7 +1516,7 @@ Public Class frmProcessInfo
             Dim b As Boolean = selectionIsNotNothing AndAlso _notWMI AndAlso _
                 (memReg IsNot Nothing) AndAlso _
                 (memReg.Infos.State = Native.Api.NativeEnums.MemoryState.Commit And _
-                 memReg.Infos.Type = API.MEMORY_TYPE.Private)
+                 memReg.Infos.Type = Native.Api.NativeEnums.MemoryType.Private)
             Me.MenuItemMemoryDecommit.Enabled = b
             Me.MenuItemMemoryRelease.Enabled = b
 
@@ -1533,7 +1533,7 @@ Public Class frmProcessInfo
             Dim enable As Boolean = False
             For Each it As cNetwork In Me.lvProcNetwork.GetSelectedItems
                 If it.Infos.Protocol = Native.Api.Enums.NetworkProtocol.Tcp Then
-                    If it.Infos.State <> API.MIB_TCP_STATE.Listening AndAlso it.Infos.State <> API.MIB_TCP_STATE.TimeWait AndAlso it.Infos.State <> API.MIB_TCP_STATE.CloseWait Then
+                    If it.Infos.State <> Native.Api.Enums.MibTcpState.Listening AndAlso it.Infos.State <> Native.Api.Enums.MibTcpState.TimeWait AndAlso it.Infos.State <> Native.Api.Enums.MibTcpState.CloseWait Then
                         enable = True
                         Exit For
                     End If
@@ -1620,13 +1620,13 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub MenuItemPEBAddress_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemPEBAddress.Click
-        Dim peb As Integer = curProc.Infos.PEBAddress
+        Dim peb As IntPtr = curProc.Infos.PebAddress
         For Each reg As cMemRegion In Me.lvProcMem.GetAllItems
-            If reg.Infos.BaseAddress <= peb AndAlso peb <= (reg.Infos.BaseAddress + reg.Infos.RegionSize) Then
+            If reg.Infos.BaseAddress.IsLowerOrEqualThan(peb) AndAlso peb.IsLowerOrEqualThan(reg.Infos.BaseAddress.ToInt64 + reg.Infos.RegionSize) Then
                 Dim frm As New frmHexEditor
                 Dim regio As New MemoryHexEditor.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
                 frm.SetPidAndRegion(curProc.Infos.Pid, regio)
-                frm._hex.NavigateToOffset(peb)
+                frm._hex.NavigateToOffset(peb.ToInt64)
                 frm.TopMost = _frmMain.TopMost
                 frm.Show()
                 Exit For
@@ -1713,15 +1713,15 @@ Public Class frmProcessInfo
         End If
 
         For Each it As cModule In Me.lvModules.GetSelectedItems
-            Dim add As Integer = it.Infos.BaseAddress
+            Dim add As IntPtr = it.Infos.BaseAddress
 
             For Each reg As cMemRegion In Me.lvProcMem.GetAllItems
 
-                If reg.Infos.BaseAddress <= add AndAlso add < (reg.Infos.BaseAddress + reg.Infos.RegionSize) Then
+                If reg.Infos.BaseAddress.IsLowerOrEqualThan(add) AndAlso add.IsLowerThan(reg.Infos.BaseAddress.ToInt64 + reg.Infos.RegionSize) Then
                     Dim frm As New frmHexEditor
                     Dim regio As New MemoryHexEditor.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
                     frm.SetPidAndRegion(curProc.Infos.Pid, regio)
-                    frm._hex.NavigateToOffset(CInt((add - regio.BeginningAddress) / 16) - 1)
+                    frm._hex.NavigateToOffset(CLng((add.ToInt64 - regio.BeginningAddress.ToInt64) / 16) - 1)
                     frm.TopMost = _frmMain.TopMost
                     frm.Show()
                     Exit For

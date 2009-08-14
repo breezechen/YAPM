@@ -313,7 +313,7 @@ Public Class frmMain
         End If
 
         Me.timerProcess.Enabled = False
-        Dim t As Integer = API.GetTickCount
+        Dim t As Integer = Native.Api.Win32.GetElapsedTime
 
         Me.containerSystemMenu.Panel1Collapsed = True
         Me.Tray.Visible = True
@@ -415,7 +415,7 @@ Public Class frmMain
             Me.lvProcess.Items(Me.lvProcess.Items.Count - 1).EnsureVisible()
         End If
 
-        t = API.GetTickCount - t
+        t = Native.Api.Win32.GetElapsedTime - t
 
         Trace.WriteLine("Loaded in " & CStr(t) & " ms.")
         Call refreshTaskList()
@@ -695,7 +695,7 @@ Public Class frmMain
 
     Private Sub butAutomaticStart_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butAutomaticStart.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            it.SetServiceStartType(API.SERVICE_START_TYPE.AutoStart)
+            it.SetServiceStartType(Native.Api.NativeEnums.ServiceStartType.AutoStart)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -711,7 +711,7 @@ Public Class frmMain
 
     Private Sub butOnDemandStart_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butOnDemandStart.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            it.SetServiceStartType(API.SERVICE_START_TYPE.DemandStart)
+            it.SetServiceStartType(Native.Api.NativeEnums.ServiceStartType.DemandStart)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -2144,20 +2144,20 @@ Public Class frmMain
 
             If lvServices.SelectedItems.Count = 1 Then
                 Dim cSe As cService = Me.lvServices.GetSelectedItem
-                Dim start As API.SERVICE_START_TYPE = cSe.Infos.StartType
-                Dim state As API.SERVICE_STATE = cSe.Infos.State
+                Dim start As Native.Api.NativeEnums.ServiceStartType = cSe.Infos.StartType
+                Dim state As Native.Api.NativeEnums.ServiceState = cSe.Infos.State
                 Dim acc As Native.Api.NativeEnums.ServiceAccept = cSe.Infos.AcceptedControl
 
-                Me.MenuItemServPause.Text = IIf(state = API.SERVICE_STATE.Running, "Pause", "Resume").ToString
+                Me.MenuItemServPause.Text = IIf(state = Native.Api.NativeEnums.ServiceState.Running, "Pause", "Resume").ToString
                 MenuItemServPause.Enabled = (acc And Native.Api.NativeEnums.ServiceAccept.PauseContinue) = Native.Api.NativeEnums.ServiceAccept.PauseContinue
-                MenuItemServStart.Enabled = Not (state = API.SERVICE_STATE.Running)
+                MenuItemServStart.Enabled = Not (state = Native.Api.NativeEnums.ServiceState.Running)
                 Me.MenuItemServStop.Enabled = (acc And Native.Api.NativeEnums.ServiceAccept.Stop) = Native.Api.NativeEnums.ServiceAccept.Stop
 
-                Me.MenuItemServDisabled.Checked = (start = API.SERVICE_START_TYPE.StartDisabled)
+                Me.MenuItemServDisabled.Checked = (start = Native.Api.NativeEnums.ServiceStartType.StartDisabled)
                 MenuItemServDisabled.Enabled = Not (MenuItemServDisabled.Checked)
-                MenuItemServAutoStart.Checked = (start = API.SERVICE_START_TYPE.AutoStart)
+                MenuItemServAutoStart.Checked = (start = Native.Api.NativeEnums.ServiceStartType.AutoStart)
                 MenuItemServAutoStart.Enabled = Not (MenuItemServAutoStart.Checked)
-                MenuItemServOnDemand.Checked = (start = API.SERVICE_START_TYPE.DemandStart)
+                MenuItemServOnDemand.Checked = (start = Native.Api.NativeEnums.ServiceStartType.DemandStart)
                 MenuItemServOnDemand.Enabled = Not (MenuItemServOnDemand.Checked)
                 MenuItem8.Enabled = True
             ElseIf lvServices.SelectedItems.Count > 1 Then
@@ -3207,7 +3207,7 @@ Public Class frmMain
 
     Private Sub butNewProcess_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butNewProcess.Click
         If Program.Connection.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            cFile.ShowRunBox(Me.Handle.ToInt32, "Start a new process", "Enter the path of the process you want to start.")
+            cFile.ShowRunBox(Me.Handle, "Start a new process", "Enter the path of the process you want to start.")
         Else
             Dim sres As String = CInputBox("Enter the path of the process you want to start.", "Start a new process", "")
             If sres Is Nothing OrElse sres.Equals(String.Empty) Then Exit Sub
@@ -3882,7 +3882,7 @@ Public Class frmMain
 
     Private Sub MenuItemServPause_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServPause.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            If it.Infos.State = API.SERVICE_STATE.Running Then
+            If it.Infos.State = Native.Api.NativeEnums.ServiceState.Running Then
                 it.PauseService()
             Else
                 it.ResumeService()
@@ -3911,7 +3911,7 @@ Public Class frmMain
 
     Private Sub MenuItemServAutoStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServAutoStart.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            it.SetServiceStartType(API.SERVICE_START_TYPE.AutoStart)
+            it.SetServiceStartType(Native.Api.NativeEnums.ServiceStartType.AutoStart)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -3919,7 +3919,7 @@ Public Class frmMain
 
     Private Sub MenuItemServOnDemand_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServOnDemand.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            it.SetServiceStartType(API.SERVICE_START_TYPE.DemandStart)
+            it.SetServiceStartType(Native.Api.NativeEnums.ServiceStartType.DemandStart)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -3927,7 +3927,7 @@ Public Class frmMain
 
     Private Sub MenuItemServDisabled_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServDisabled.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            it.SetServiceStartType(API.SERVICE_START_TYPE.StartDisabled)
+            it.SetServiceStartType(Native.Api.NativeEnums.ServiceStartType.StartDisabled)
         Next
         Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
@@ -3984,7 +3984,7 @@ Public Class frmMain
             Dim enable As Boolean = False
             For Each it As cNetwork In Me.lvNetwork.GetSelectedItems
                 If it.Infos.Protocol = Native.Api.Enums.NetworkProtocol.Tcp Then
-                    If it.Infos.State <> API.MIB_TCP_STATE.Listening AndAlso it.Infos.State <> API.MIB_TCP_STATE.TimeWait AndAlso it.Infos.State <> API.MIB_TCP_STATE.CloseWait Then
+                    If it.Infos.State <> Native.Api.Enums.MibTcpState.Listening AndAlso it.Infos.State <> Native.Api.Enums.MibTcpState.TimeWait AndAlso it.Infos.State <> Native.Api.Enums.MibTcpState.CloseWait Then
                         enable = True
                         Exit For
                     End If
@@ -4290,7 +4290,7 @@ Public Class frmMain
                 cProcess.SharedLRKill(it.ProcessId)
 
             ElseIf it.Type = searchInfos.ResultType.Service Then
-                cService.GetServiceByName(it.Service).StopService()
+                Native.Objects.Service.GetServiceByName(it.Service).StopService()
 
             ElseIf it.Type = searchInfos.ResultType.Window Then
                 'TODO_

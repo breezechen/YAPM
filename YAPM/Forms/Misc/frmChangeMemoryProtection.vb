@@ -38,80 +38,80 @@ Public Class frmChangeMemoryProtection
     'NoCache = &H200
     'WriteCombine = &H400
 
-    Public WriteOnly Property ProtectionType() As API.PROTECTION_TYPE
-        Set(ByVal value As API.PROTECTION_TYPE)
-            If (value And API.PROTECTION_TYPE.Execute) = API.PROTECTION_TYPE.Execute Then
+    Public WriteOnly Property ProtectionType() As Native.Api.NativeEnums.MemoryProtectionType
+        Set(ByVal value As Native.Api.NativeEnums.MemoryProtectionType)
+            If (value And Native.Api.NativeEnums.MemoryProtectionType.Execute) = Native.Api.NativeEnums.MemoryProtectionType.Execute Then
                 Me.optE.Checked = True
             End If
-            If (value And API.PROTECTION_TYPE.ExecuteRead) = API.PROTECTION_TYPE.ExecuteRead Then
+            If (value And Native.Api.NativeEnums.MemoryProtectionType.ExecuteRead) = Native.Api.NativeEnums.MemoryProtectionType.ExecuteRead Then
                 Me.optER.Checked = True
             End If
-            If (value And API.PROTECTION_TYPE.ExecuteReadWrite) = API.PROTECTION_TYPE.ExecuteReadWrite Then
+            If (value And Native.Api.NativeEnums.MemoryProtectionType.ExecuteReadWrite) = Native.Api.NativeEnums.MemoryProtectionType.ExecuteReadWrite Then
                 Me.optERW.Checked = True
             End If
-            If (value And API.PROTECTION_TYPE.ExecuteWriteCopy) = API.PROTECTION_TYPE.ExecuteWriteCopy Then
+            If (value And Native.Api.NativeEnums.MemoryProtectionType.ExecuteWriteCopy) = Native.Api.NativeEnums.MemoryProtectionType.ExecuteWriteCopy Then
                 Me.optEWC.Checked = True
             End If
-            If (value And API.PROTECTION_TYPE.NoAccess) = API.PROTECTION_TYPE.NoAccess Then
+            If (value And Native.Api.NativeEnums.MemoryProtectionType.NoAccess) = Native.Api.NativeEnums.MemoryProtectionType.NoAccess Then
                 Me.optNA.Checked = True
             End If
-            If (value And API.PROTECTION_TYPE.ReadOnly) = API.PROTECTION_TYPE.ReadOnly Then
+            If (value And Native.Api.NativeEnums.MemoryProtectionType.ReadOnly) = Native.Api.NativeEnums.MemoryProtectionType.ReadOnly Then
                 Me.optRO.Checked = True
             End If
-            If (value And API.PROTECTION_TYPE.ReadWrite) = API.PROTECTION_TYPE.ReadWrite Then
+            If (value And Native.Api.NativeEnums.MemoryProtectionType.ReadWrite) = Native.Api.NativeEnums.MemoryProtectionType.ReadWrite Then
                 Me.optRW.Checked = True
             End If
-            If (value And API.PROTECTION_TYPE.WriteCopy) = API.PROTECTION_TYPE.WriteCopy Then
+            If (value And Native.Api.NativeEnums.MemoryProtectionType.WriteCopy) = Native.Api.NativeEnums.MemoryProtectionType.WriteCopy Then
                 Me.optWC.Checked = True
             End If
-            If (value And API.PROTECTION_TYPE.Guard) = API.PROTECTION_TYPE.Guard Then
+            If (value And Native.Api.NativeEnums.MemoryProtectionType.Guard) = Native.Api.NativeEnums.MemoryProtectionType.Guard Then
                 Me.chkGuard.Checked = True
             End If
-            If (value And API.PROTECTION_TYPE.NoCache) = API.PROTECTION_TYPE.NoCache Then
+            If (value And Native.Api.NativeEnums.MemoryProtectionType.NoCache) = Native.Api.NativeEnums.MemoryProtectionType.NoCache Then
                 Me.chkNoCache.Checked = True
             End If
-            If (value And API.PROTECTION_TYPE.WriteCombine) = API.PROTECTION_TYPE.WriteCombine Then
+            If (value And Native.Api.NativeEnums.MemoryProtectionType.WriteCombine) = Native.Api.NativeEnums.MemoryProtectionType.WriteCombine Then
                 Me.chkWriteCombine.Checked = True
             End If
         End Set
     End Property
 
-    Public ReadOnly Property NewProtectionType() As API.PROTECTION_TYPE
+    Public ReadOnly Property NewProtectionType() As Native.Api.NativeEnums.MemoryProtectionType
         Get
-            Dim _type As API.PROTECTION_TYPE
+            Dim _type As Native.Api.NativeEnums.MemoryProtectionType
 
             If Me.optE.Checked Then
-                _type = _type Or API.PROTECTION_TYPE.Execute
+                _type = _type Or Native.Api.NativeEnums.MemoryProtectionType.Execute
             End If
             If Me.optER.Checked Then
-                _type = _type Or API.PROTECTION_TYPE.ExecuteRead
+                _type = _type Or Native.Api.NativeEnums.MemoryProtectionType.ExecuteRead
             End If
             If Me.optERW.Checked Then
-                _type = _type Or API.PROTECTION_TYPE.ExecuteReadWrite
+                _type = _type Or Native.Api.NativeEnums.MemoryProtectionType.ExecuteReadWrite
             End If
             If Me.optEWC.Checked Then
-                _type = _type Or API.PROTECTION_TYPE.ExecuteWriteCopy
+                _type = _type Or Native.Api.NativeEnums.MemoryProtectionType.ExecuteWriteCopy
             End If
             If Me.optNA.Checked Then
-                _type = _type Or API.PROTECTION_TYPE.NoAccess
+                _type = _type Or Native.Api.NativeEnums.MemoryProtectionType.NoAccess
             End If
             If Me.optRO.Checked Then
-                _type = _type Or API.PROTECTION_TYPE.ReadOnly
+                _type = _type Or Native.Api.NativeEnums.MemoryProtectionType.ReadOnly
             End If
             If Me.optRW.Checked Then
-                _type = _type Or API.PROTECTION_TYPE.ReadWrite
+                _type = _type Or Native.Api.NativeEnums.MemoryProtectionType.ReadWrite
             End If
             If Me.optWC.Checked Then
-                _type = _type Or API.PROTECTION_TYPE.WriteCopy
+                _type = _type Or Native.Api.NativeEnums.MemoryProtectionType.WriteCopy
             End If
             If Me.chkGuard.Checked Then
-                _type = _type Or API.PROTECTION_TYPE.Guard
+                _type = _type Or Native.Api.NativeEnums.MemoryProtectionType.Guard
             End If
             If Me.chkNoCache.Checked Then
-                _type = _type Or API.PROTECTION_TYPE.NoCache
+                _type = _type Or Native.Api.NativeEnums.MemoryProtectionType.NoCache
             End If
             If Me.chkWriteCombine.Checked Then
-                _type = _type Or API.PROTECTION_TYPE.WriteCombine
+                _type = _type Or Native.Api.NativeEnums.MemoryProtectionType.WriteCombine
             End If
 
             Return _type

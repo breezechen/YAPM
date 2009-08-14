@@ -172,7 +172,7 @@ Public Class MemoryHexEditor
     ' ========================================
 
     ' Navigate to offset
-    Public Sub NavigateToOffset(ByVal offset As Integer)
+    Public Sub NavigateToOffset(ByVal offset As Long)
         If offset >= _vs.Minimum AndAlso offset <= _vs.Maximum Then
             _vs.Value = offset
         End If

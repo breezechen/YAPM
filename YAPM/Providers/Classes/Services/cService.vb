@@ -81,8 +81,8 @@ Public Class cService
         Select Case _connection.ConnectionObj.ConnectionType
 
             Case cConnection.TypeOfConnection.LocalConnection
-                asyncCallbackServiceEnumerate.getServiceConfig(Me.Infos.Name, _
-                        _connection.SCManagerLocalHandle, Me.Infos, True)
+                Native.Objects.Service.GetServiceConfig(_connection.SCManagerLocalHandle, _
+                                                        Me.Infos.Name, Me.Infos, True)
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
@@ -524,19 +524,5 @@ Public Class cService
 
 
 #End Region
-
-    ' Get a service by name
-    Public Shared Function GetServiceByName(ByVal name As String) As cService
-
-        Dim tt As cService = Nothing
-        cService.SemCurrentServices.WaitOne()
-        If _currentServices.ContainsKey(name) Then
-            tt = _currentServices.Item(name)
-        End If
-        cService.SemCurrentServices.Release()
-
-        Return tt
-
-    End Function
 
 End Class

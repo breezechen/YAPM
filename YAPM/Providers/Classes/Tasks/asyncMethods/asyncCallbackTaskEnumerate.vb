@@ -90,7 +90,7 @@ Public Class asyncCallbackTaskEnumerate
 
                 Dim _dico As New Dictionary(Of String, windowInfos)
 
-                currWnd = API.GetWindowAPI(API.GetDesktopWindow(), API.GW_CHILD)
+                currWnd = Native.Api.NativeFunctions.GetWindowAPI(Native.Api.NativeFunctions.GetDesktopWindow(), Native.Api.NativeConstants.GW_CHILD)
                 cpt = 0
                 Do While Not (currWnd = IntPtr.Zero)
 
@@ -103,7 +103,7 @@ Public Class asyncCallbackTaskEnumerate
                         End If
                     End If
 
-                    currWnd = API.GetWindowAPI(currWnd, API.GW_HWNDNEXT)
+                    currWnd = Native.Api.NativeFunctions.GetWindowAPI(currWnd, Native.Api.NativeConstants.GW_HWNDNEXT)
                 Loop
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
@@ -125,18 +125,18 @@ Public Class asyncCallbackTaskEnumerate
 
     ' Return caption
     Friend Shared Function GetCaptionLenght(ByVal hwnd As IntPtr) As Integer
-        Return API.GetWindowTextLength(hwnd)
+        Return Native.Api.NativeFunctions.GetWindowTextLength(hwnd)
     End Function
 
     ' Return thread id from a handle
     Friend Shared Function GetThreadIdFromWindowHandle(ByVal hwnd As IntPtr) As Integer
-        Return API.GetWindowThreadProcessId(hwnd, 0)
+        Return Native.Api.NativeFunctions.GetWindowThreadProcessId(hwnd, 0)
     End Function
 
     Private Shared Function _isTask(ByVal hwnd As IntPtr) As Boolean
         ' Window must be visible
-        If API.IsWindowVisible(hwnd) AndAlso (CInt(API.GetWindowLong(hwnd, API.GWL_HWNDPARENT)) = 0) AndAlso Not _
-            (API.GetWindowTextLength(hwnd) = 0) Then
+        If Native.Api.NativeFunctions.IsWindowVisible(hwnd) AndAlso Native.Api.NativeFunctions.GetWindowLongPtr(hwnd, Native.Api.NativeEnums.GetWindowLongOffset.HwndParent) = IntPtr.Zero AndAlso Not _
+            (Native.Api.NativeFunctions.GetWindowTextLength(hwnd) = 0) Then
             ' Must not be taskmgr
             If GetWindowClass(hwnd) <> "Progman" Then
                 Return True
@@ -148,7 +148,7 @@ Public Class asyncCallbackTaskEnumerate
 
     Private Shared Function GetWindowClass(ByVal hWnd As IntPtr) As String
         Dim _class As New StringBuilder(Space(255))
-        API.GetClassName(hWnd, _class, 255)
+        Native.Api.NativeFunctions.GetClassName(hWnd, _class, 255)
         Return _class.ToString
     End Function
 

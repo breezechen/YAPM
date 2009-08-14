@@ -117,77 +117,18 @@ Public Class asyncCallbackServDepEnumerate
     End Sub
 
     Private Sub recursiveAddDep(ByVal parent As String, ByVal chain As String, ByRef _dico As Dictionary(Of String, serviceInfos))
-        For Each ii As serviceInfos In GetDependencies(parent).Values
+        For Each ii As serviceInfos In Native.Objects.Service.GetDependencies(parent).Values
             ii.Tag = False
             _dico.Add(chain & "->" & ii.Name, ii)
             recursiveAddDep(ii.Name, chain & "->" & ii.Name, _dico)
         Next
     End Sub
     Private Sub recursiveAddDep2(ByVal parent As String, ByVal chain As String, ByRef _dico As Dictionary(Of String, serviceInfos))
-        For Each ii As serviceInfos In GetServiceWhichDependFrom(parent).Values
+        For Each ii As serviceInfos In Native.Objects.Service.GetServiceWhichDependFrom(parent).Values
             ii.Tag = False
             _dico.Add(chain & "->" & ii.Name, ii)
             recursiveAddDep2(ii.Name, chain & "->" & ii.Name, _dico)
         Next
     End Sub
 
-    ' Get dependencies of a service
-    Private Function GetDependencies(ByVal serviceName As String) As Dictionary(Of String, serviceInfos)
-
-        Dim _d As New Dictionary(Of String, serviceInfos)
-        Dim dep() As String = Nothing
-
-        cService.SemCurrentServices.WaitOne()
-
-        For Each serv As cService In cService._currentServices.Values
-            If serv.Infos.Name.ToLowerInvariant = serviceName.ToLowerInvariant Then
-                dep = serv.Infos.Dependencies
-                Exit For
-            End If
-        Next
-
-        If dep Is Nothing OrElse dep.Length = 0 Then
-            cService.SemCurrentServices.Release()
-            Return _d
-        End If
-
-        For Each servName As String In dep
-            For Each serv As cService In cService._currentServices.Values
-                If servName.ToLowerInvariant = serv.Infos.Name.ToLowerInvariant Then
-                    _d.Add(servName, serv.Infos)
-                    Exit For
-                End If
-            Next
-        Next
-
-        cService.SemCurrentServices.Release()
-
-        Return _d
-    End Function
-
-    ' Get services which depends from a specific service
-    Private Function GetServiceWhichDependFrom(ByVal serviceName As String) As Dictionary(Of String, serviceInfos)
-
-        Dim _d As New Dictionary(Of String, serviceInfos)
-        Dim dep() As String = Nothing
-
-        cService.SemCurrentServices.WaitOne()
-
-        For Each serv As cService In cService._currentServices.Values
-            dep = serv.Infos.Dependencies
-            If dep IsNot Nothing Then
-                For Each s As String In dep
-                    If s.ToLowerInvariant = serviceName.ToLowerInvariant Then
-                        _d.Add(serv.Infos.Name, serv.Infos)
-                        Exit For
-                    End If
-                Next
-            End If
-        Next
-
-        cService.SemCurrentServices.Release()
-
-        Return _d
-    End Function
-    
 End Class

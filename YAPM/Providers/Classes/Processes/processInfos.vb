@@ -52,7 +52,7 @@ Imports System.Runtime.InteropServices
     Private _CommandLine As String
     Private _isHidden As Boolean
     Private _Pid As Integer
-    Private _AffinityMask As Integer
+    Private _AffinityMask As IntPtr
     Private _PebAddress As IntPtr
     Private _ParentProcessId As Integer
     Private _IOValues As Native.Api.NativeStructs.IO_COUNTERS
@@ -224,11 +224,11 @@ Imports System.Runtime.InteropServices
 
 #Region "Other Non-fixed informations"
 
-    Public Property AffinityMask() As Integer
+    Public Property AffinityMask() As IntPtr
         Get
             Return _AffinityMask
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As IntPtr)
             _AffinityMask = value
         End Set
     End Property
@@ -258,7 +258,7 @@ Imports System.Runtime.InteropServices
 
     ' Constructor of this class
     Public Sub New(ByRef Proc As Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION, Optional ByVal ProcessName As String = Nothing)
-        _PEBAddress = 0
+        _PebAddress = IntPtr.Zero
 
         With Proc
             '_AffinityMask = 0

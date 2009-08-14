@@ -161,7 +161,8 @@ Namespace Native.Objects
             For x As Integer = 0 To pCount - 1
                 ret.Privileges(x).pLuid.lowpart = arr(ep)
                 ret.Privileges(x).pLuid.highpart = arr(ep + 1)
-                ret.Privileges(x).Attributes = arr(ep + 2)
+                'TOCHANGE
+                ret.Privileges(x).Attributes = CType(arr(ep + 2), NativeEnums.SePrivilegeAttributes)
                 ep += 3
             Next
 

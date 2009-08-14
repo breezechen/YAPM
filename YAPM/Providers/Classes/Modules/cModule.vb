@@ -545,7 +545,7 @@ Public Class cModule
 #Region "Shared function"
 
     Private Shared _sharedcloseM As asyncCallbackModuleUnload
-    Public Shared Function SharedLRUnloadModule(ByVal pid As Integer, ByVal name As String, ByVal baseAddress As Integer) As Integer
+    Public Shared Function SharedLRUnloadModule(ByVal pid As Integer, ByVal name As String, ByVal baseAddress As IntPtr) As Integer
 
         If _sharedcloseM Is Nothing Then
             _sharedcloseM = New asyncCallbackModuleUnload(New asyncCallbackModuleUnload.HasUnloadedModule(AddressOf unloadsharedModuleDone), _connection)

@@ -475,7 +475,7 @@ Public Class frmServer
                         Exit Sub
                     Case cSocketData.OrderType.RequestEnvironmentVariableList
                         Dim pid As Integer = CType(cData.Param1, Integer)
-                        Dim peb As Integer = CType(cData.Param2, Integer)
+                        Dim peb As IntPtr = CType(cData.Param2, IntPtr)
                         Call _envCon.Enumerate(True, pid, peb, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestMemoryRegionList
@@ -652,36 +652,36 @@ Public Class frmServer
                     Case cSocketData.OrderType.ServicePause
                         Dim name As String = CStr(cData.Param1)
                         Try
-                            cService.GetServiceByName(name).PauseService()
+                            Native.Objects.Service.GetServiceByName(name).PauseService()
                         Catch ex As Exception
                             ' Process does not exist
                         End Try
                     Case cSocketData.OrderType.ServiceChangeServiceStartType
                         Dim name As String = CStr(cData.Param1)
-                        Dim type As API.SERVICE_START_TYPE = CType(cData.Param2, API.SERVICE_START_TYPE)
+                        Dim type As Native.Api.NativeEnums.ServiceStartType = CType(cData.Param2, Native.Api.NativeEnums.ServiceStartType)
                         Try
-                            cService.GetServiceByName(name).SetServiceStartType(type)
+                            Native.Objects.Service.GetServiceByName(name).SetServiceStartType(type)
                         Catch ex As Exception
                             ' Process does not exist
                         End Try
                     Case cSocketData.OrderType.ServiceResume
                         Dim name As String = CStr(cData.Param1)
                         Try
-                            cService.GetServiceByName(name).ResumeService()
+                            Native.Objects.Service.GetServiceByName(name).ResumeService()
                         Catch ex As Exception
                             ' Process does not exist
                         End Try
                     Case cSocketData.OrderType.ServiceStart
                         Dim name As String = CStr(cData.Param1)
                         Try
-                            cService.GetServiceByName(name).StartService()
+                            Native.Objects.Service.GetServiceByName(name).StartService()
                         Catch ex As Exception
                             ' Process does not exist
                         End Try
                     Case cSocketData.OrderType.ServiceStop
                         Dim name As String = CStr(cData.Param1)
                         Try
-                            cService.GetServiceByName(name).StopService()
+                            Native.Objects.Service.GetServiceByName(name).StopService()
                         Catch ex As Exception
                             ' Process does not exist
                         End Try
@@ -774,7 +774,7 @@ Public Class frmServer
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim address As IntPtr = CType(cData.Param2, IntPtr)
                         Dim size As Integer = CType(cData.Param3, Integer)
-                        Dim type As API.PROTECTION_TYPE = CType(cData.Param4, API.PROTECTION_TYPE)
+                        Dim type As Native.Api.NativeEnums.MemoryProtectionType = CType(cData.Param4, Native.Api.NativeEnums.MemoryProtectionType)
                         Try
                             cMemRegion.SharedLRChangeProtection(pid, address, size, type)
                         Catch ex As Exception
@@ -799,7 +799,7 @@ Public Class frmServer
                     Case cSocketData.OrderType.PrivilegeChangeStatus
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim name As String = CType(cData.Param2, String)
-                        Dim status As API.PRIVILEGE_STATUS = CType(cData.Param3, API.PRIVILEGE_STATUS)
+                        Dim status As Native.Api.NativeEnums.SePrivilegeAttributes = CType(cData.Param3, Native.Api.NativeEnums.SePrivilegeAttributes)
                         Try
                             cPrivilege.LocalChangeStatus(pid, name, status)
                         Catch ex As Exception

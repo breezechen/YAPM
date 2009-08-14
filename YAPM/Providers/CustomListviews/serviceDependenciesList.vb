@@ -169,7 +169,7 @@ Public Class serviceDependenciesList
         Me.BeginUpdate()
 
         Me.Nodes.Clear()
-        Dim nn As TreeNode = Me.Nodes.Add(cService.GetServiceByName(_rootService).Infos.DisplayName)
+        Dim nn As TreeNode = Me.Nodes.Add(Native.Objects.Service.GetServiceByName(_rootService).Infos.DisplayName)
         nn.Tag = New servTag(_rootService, _rootService)
         addChilds(_dico, nn)
         nn.Expand()
@@ -203,7 +203,7 @@ Public Class serviceDependenciesList
                 Dim nn As TreeNode = n.Nodes.Add(pair.Value.DisplayName)
                 nn.Name = pair.Value.DisplayName
                 nn.ExpandAll()
-                RaiseEvent ItemAdded(cService.GetServiceByName(pair.Value.DisplayName))
+                RaiseEvent ItemAdded(Native.Objects.Service.GetServiceByName(pair.Value.DisplayName))
                 nn.Tag = New servTag(pair.Key, pair.Value.Name)
                 nn.ImageKey = "service"
                 nn.SelectedImageKey = "service"

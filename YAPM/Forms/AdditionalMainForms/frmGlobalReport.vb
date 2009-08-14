@@ -56,7 +56,7 @@ Public Class frmGlobalReport
         ' Memory regions
 
         Dim stream As New System.IO.StreamWriter(_fileToSave, False)
-        Dim _test As Integer = API.GetTickCount
+        Dim _test As Integer = Native.Api.Win32.GetElapsedTime
 
         ' The goal is to retrieve all informations before saving it
         Dim _dicoServices As New Dictionary(Of String, cService)
@@ -348,7 +348,7 @@ Public Class frmGlobalReport
 
 
         stream.Close()
-        _test = API.GetTickCount - _test
+        _test = Native.Api.Win32.GetElapsedTime - _test
         setCaption("Done in " & _test.ToString & " ms")
 
         MsgBox("Report saved !", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "General report")

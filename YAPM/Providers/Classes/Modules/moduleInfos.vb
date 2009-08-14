@@ -33,9 +33,9 @@ Imports System.Runtime.InteropServices
 
     Private _name As String
     Private _path As String
-    Private _address As Integer
+    Private _address As IntPtr
     Private _size As Integer
-    Private _entryPoint As Integer
+    Private _entryPoint As IntPtr
     Private _processId As Integer
     Private _flags As Native.Api.NativeEnums.LdrpDataTableEntryFlags
     <NonSerialized()> Private _fileInfo As FileVersionInfo
@@ -67,12 +67,12 @@ Imports System.Runtime.InteropServices
             Return _path
         End Get
     End Property
-    Public ReadOnly Property BaseAddress() As Integer
+    Public ReadOnly Property BaseAddress() As IntPtr
         Get
             Return _address
         End Get
     End Property
-    Public ReadOnly Property EntryPoint() As Integer
+    Public ReadOnly Property EntryPoint() As IntPtr
         Get
             Return _entryPoint
         End Get
@@ -111,8 +111,8 @@ Imports System.Runtime.InteropServices
                    Optional ByVal noFileInfo As Boolean = False)
         With data
             _size = .SizeOfImage
-            _entryPoint = .EntryPoint.ToInt32
-            _address = .DllBase.ToInt32
+            _entryPoint = .EntryPoint
+            _address = .DllBase
             _flags = .Flags
         End With
         _processId = pid
@@ -157,8 +157,8 @@ Imports System.Runtime.InteropServices
         ' This constructor is used for WMI
         With Thr
             _size = .SizeOfImage
-            _entryPoint = .EntryPoint.ToInt32
-            _address = .DllBase.ToInt32
+            _entryPoint = .EntryPoint
+            _address = .DllBase
         End With
         _processId = pid
 

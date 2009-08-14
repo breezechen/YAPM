@@ -40,12 +40,12 @@ Public Class asyncCallbackMemRegionChangeProtection
         Public pid As Integer
         Public address As IntPtr
         Public size As Integer
-        Public protection As API.PROTECTION_TYPE
+        Public protection As Native.Api.NativeEnums.MemoryProtectionType
         Public newAction As Integer
         Public Sub New(ByVal pi As Integer, _
                        ByVal ad As IntPtr, _
                        ByVal siz As Integer, _
-                       ByVal protec As API.PROTECTION_TYPE, _
+                       ByVal protec As Native.Api.NativeEnums.MemoryProtectionType, _
                        ByVal act As Integer)
             address = ad
             newAction = act
@@ -86,12 +86,12 @@ Public Class asyncCallbackMemRegionChangeProtection
 
         Dim ret As Boolean
         Dim hProcess As IntPtr
-        Dim old As API.PROTECTION_TYPE
+        Dim old As Native.Api.NativeEnums.MemoryProtectionType
 
-        hProcess = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_VM_OPERATION, False, obj.pid)
+        hProcess = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.VmOperation, False, obj.pid)
         If hProcess <> IntPtr.Zero Then
-            ret = API.VirtualProtectEx(hProcess, obj.address, obj.size, obj.protection, old)
-            Call API.CloseHandle(hProcess)
+            ret = Native.Api.NativeFunctions.VirtualProtectEx(hProcess, obj.address, obj.size, obj.protection, old)
+            Call Native.Api.NativeFunctions.CloseHandle(hProcess)
         End If
 
         Return ret

@@ -98,7 +98,7 @@ Public Class cTrayIcon
 
         ' MUST destroy previous icon to avoid memory exception after long time...
         If _frmMain.Tray.Icon IsNot Nothing Then
-            API.DestroyIcon(_frmMain.Tray.Icon.Handle)
+            Native.Api.NativeFunctions.DestroyIcon(_frmMain.Tray.Icon.Handle)
         End If
 
         ' Set icon

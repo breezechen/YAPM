@@ -109,27 +109,27 @@ Public Class asyncCallbackMemRegionEnumerate
         Dim mbi As Native.Api.NativeStructs.MemoryBasicInformations
         Dim mbiSize As Integer = Marshal.SizeOf(mbi)
 
-        lHandle = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION Or _
-                                  API.PROCESS_RIGHTS.PROCESS_VM_READ, False, pObj.pid)
+        lHandle = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation Or _
+                                   Native.Security.ProcessAccess.VmRead, False, pObj.pid)
 
         If lHandle <> IntPtr.Zero Then
 
             ' We'll exit when VirtualQueryEx will fail
             Do While True
 
-                If API.VirtualQueryEx(lHandle, lPosMem, mbi, mbiSize) > 0 Then
+                If Native.Api.NativeFunctions.VirtualQueryEx(lHandle, lPosMem, mbi, mbiSize) > 0 Then
 
                     _dico.Add(mbi.BaseAddress.ToString, _
                               New memRegionInfos(mbi, pObj.pid))
 
-                    lPosMem += mbi.RegionSize
+                    lPosMem.Increment(mbi.RegionSize)
                 Else
                     Exit Do
                 End If
 
             Loop
 
-            Call API.CloseHandle(lHandle)
+            Native.Api.NativeFunctions.CloseHandle(lHandle)
 
         End If
 

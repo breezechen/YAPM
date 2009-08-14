@@ -103,7 +103,7 @@ Public Class frmError
     End Sub
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdQuit.Click
-        API.ExitProcess(0)
+        Native.Api.NativeFunctions.ExitProcess(0)
     End Sub
 
     Private Sub frmError_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing

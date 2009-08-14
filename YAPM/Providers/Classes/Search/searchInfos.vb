@@ -33,13 +33,13 @@ Imports System.Net
 #Region "Private attributes"
 
     Private _pid As Integer
-    Private _handle As Integer
+    Private _handle As IntPtr
     Private _service As String
     Private _field As String
     Private _type As ResultType
     Private _result As String
     Private _modName As String
-    Private _peb As Integer
+    Private _peb As IntPtr
     'Private _key As String
     'Private Shared _keyI As Integer = 0
 
@@ -52,12 +52,12 @@ Imports System.Net
             Return _pid
         End Get
     End Property
-    Public ReadOnly Property Handle() As Integer
+    Public ReadOnly Property Handle() As IntPtr
         Get
             Return _handle
         End Get
     End Property
-    Public ReadOnly Property PebAddress() As Integer
+    Public ReadOnly Property PebAddress() As IntPtr
         Get
             Return _peb
         End Get
@@ -119,9 +119,20 @@ Imports System.Net
 
     ' Constructor of this class
     Public Sub New(ByVal pid As Integer, ByVal field As String, ByVal type As ResultType, _
-                    ByVal res As String, Optional ByVal service As String = Nothing, _
-                    Optional ByVal handle As Integer = 0, Optional ByVal peb As Integer = 0, _
-                    Optional ByVal modName As String = Nothing)
+                    ByVal res As String)
+        _handle = Handle
+        _service = Service
+        _pid = pid
+        _type = type
+        _field = field
+        _peb = peb
+        _modName = modName
+        _result = res
+    End Sub
+    Public Sub New(ByVal pid As Integer, ByVal field As String, ByVal type As ResultType, _
+                        ByVal res As String, ByVal service As String, _
+                        ByVal handle As IntPtr, ByVal peb As IntPtr, _
+                        Optional ByVal modName As String = Nothing)
 
         '_keyI += 1
         '_key = _keyI.ToString

@@ -36,7 +36,7 @@ Public Class envVariableList
     ' Private
     ' ========================================
     Private _pid As Integer
-    Private _peb As Integer
+    Private _peb As IntPtr
     Private _first As Boolean
     Private _dicoNew As New Dictionary(Of String, cEnvVariable)
     Private _dicoDel As New Dictionary(Of String, cEnvVariable)
@@ -66,11 +66,11 @@ Public Class envVariableList
             _pid = value
         End Set
     End Property
-    Public Property Peb() As Integer
+    Public Property Peb() As IntPtr
         Get
             Return _peb
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As IntPtr)
             _peb = value
         End Set
     End Property

@@ -329,7 +329,7 @@ Public Class cProcessMemRW
             With PGB
                 .Minimum = 0
                 .Value = 0
-                .Maximum = CInt(LS.Length + 1)
+                .Maximum = LS.Length + 1
             End With
         End If
 
@@ -393,7 +393,7 @@ Public Class cProcessMemRW
                     ReDim Preserve tRes(tRes.Length + BUF_SIZE)
                 End If
 
-                tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).curOffset = LS(x) + LB(x) - Len(strCtemp) + 1
+                tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).curOffset = LB(x).Increment(LS(x) + 1 - Len(strCtemp))
                 tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).strString = strCtemp
 
             End If

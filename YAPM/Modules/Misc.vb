@@ -209,7 +209,7 @@ Module Misc
             Return Nothing
         End If
         Try
-            Return System.Runtime.InteropServices.Marshal.PtrToStringUni(New IntPtr(str.Buffer), CInt(str.Length / 2))
+            Return System.Runtime.InteropServices.Marshal.PtrToStringUni(str.Buffer, CInt(str.Length / 2))
         Catch ex As Exception
             Return ""
         End Try

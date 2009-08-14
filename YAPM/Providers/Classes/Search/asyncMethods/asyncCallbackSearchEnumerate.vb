@@ -173,10 +173,10 @@ Public Class asyncCallbackSearchEnumerate
 
                 ' ---- SERVICES
                 If (pObj.includ And searchInfos.SearchInclude.SearchServices) = searchInfos.SearchInclude.SearchServices Then
-                    cService.SemCurrentServices.WaitOne()
-                    If cService._currentServices IsNot Nothing Then
+                    Native.Objects.Service.SemCurrentServices.WaitOne()
+                    If Native.Objects.Service.CurrentServices IsNot Nothing Then
                         Dim _tmpDico As New Dictionary(Of String, cService)
-                        _tmpDico = cService._currentServices
+                        _tmpDico = Native.Objects.Service.CurrentServices
                         For Each cp As cService In _tmpDico.Values
                             For Each field As String In serviceInfos.GetAvailableProperties
                                 Dim scomp As String = cp.GetInformation(field)
@@ -194,7 +194,7 @@ Public Class asyncCallbackSearchEnumerate
                             Next
                         Next
                     End If
-                    cService.SemCurrentServices.Release()
+                    Native.Objects.Service.SemCurrentServices.Release()
                 End If
 
 

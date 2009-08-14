@@ -50,7 +50,7 @@ Imports System.Net
     Friend _Local As IPEndPoint
     Friend _remote As IPEndPoint
     Private _key As String
-    Private _State As API.MIB_TCP_STATE
+    Private _State As Native.Api.Enums.MibTcpState
     Private _procName As String
     Friend _localString As String
     Friend _remoteString As String
@@ -74,7 +74,7 @@ Imports System.Net
             Return _Protocol
         End Get
     End Property
-    Public ReadOnly Property State() As API.MIB_TCP_STATE
+    Public ReadOnly Property State() As Native.Api.Enums.MibTcpState
         Get
             Return _State
         End Get
@@ -113,11 +113,11 @@ Imports System.Net
     ' ========================================
 
     ' Constructor of this class
-    Public Sub New(ByRef lc As API.LightConnection)
+    Public Sub New(ByRef lc As Native.Api.Structs.LightConnection)
 
         _pid = lc.dwOwningPid
         _Protocol = lc.dwType
-        _State = CType(lc.dwState, API.MIB_TCP_STATE)
+        _State = CType(lc.dwState, Native.Api.Enums.MibTcpState)
         _Local = lc.local
         _remote = lc.remote
         _procName = cProcess.GetProcessName(_pid)

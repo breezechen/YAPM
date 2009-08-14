@@ -65,7 +65,7 @@ Public Class frmServiceInfo
                 Me.cmdGoProcess.Enabled = (Me.curServ.Infos.ProcessId > 0)
                 Me.cmdPause.Enabled = ((Me.curServ.Infos.AcceptedControl And Native.Api.NativeEnums.ServiceAccept.PauseContinue) = Native.Api.NativeEnums.ServiceAccept.PauseContinue)
                 Me.cmdStop.Enabled = ((Me.curServ.Infos.AcceptedControl And Native.Api.NativeEnums.ServiceAccept.Stop) = Native.Api.NativeEnums.ServiceAccept.Stop)
-                Me.cmdStart.Enabled = (Me.curServ.Infos.State = API.SERVICE_STATE.Stopped)
+                Me.cmdStart.Enabled = (Me.curServ.Infos.State = Native.Api.NativeEnums.ServiceState.Stopped)
 
 
             Case "General - 2"
@@ -438,15 +438,15 @@ Public Class frmServiceInfo
         End If
         Select Case cbStart.Text
             Case "BootStart"
-                curServ.SetServiceStartType(API.SERVICE_START_TYPE.BootStart)
+                curServ.SetServiceStartType(Native.Api.NativeEnums.ServiceStartType.BootStart)
             Case "SystemStart"
-                curServ.SetServiceStartType(API.SERVICE_START_TYPE.SystemStart)
+                curServ.SetServiceStartType(Native.Api.NativeEnums.ServiceStartType.SystemStart)
             Case "AutoStart"
-                curServ.SetServiceStartType(API.SERVICE_START_TYPE.AutoStart)
+                curServ.SetServiceStartType(Native.Api.NativeEnums.ServiceStartType.AutoStart)
             Case "DemandStart"
-                curServ.SetServiceStartType(API.SERVICE_START_TYPE.DemandStart)
+                curServ.SetServiceStartType(Native.Api.NativeEnums.ServiceStartType.DemandStart)
             Case "StartDisabled"
-                curServ.SetServiceStartType(API.SERVICE_START_TYPE.StartDisabled)
+                curServ.SetServiceStartType(Native.Api.NativeEnums.ServiceStartType.StartDisabled)
         End Select
     End Sub
 
@@ -497,7 +497,7 @@ Public Class frmServiceInfo
     Private Sub cmdServDet1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdServDet1.Click
         If Me.tv2.SelectedNode IsNot Nothing Then
             Dim s As String = CType(Me.tv2.SelectedNode.Tag, serviceDependenciesList.servTag).name
-            Dim it As cService = cService.GetServiceByName(s)
+            Dim it As cService = Native.Objects.Service.GetServiceByName(s)
             If it IsNot Nothing Then
                 Dim frm As New frmServiceInfo
                 frm.SetService(it)
@@ -510,7 +510,7 @@ Public Class frmServiceInfo
     Private Sub cmdServDet2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdServDet2.Click
         If Me.tv.SelectedNode IsNot Nothing Then
             Dim s As String = CType(Me.tv.SelectedNode.Tag, serviceDependenciesList.servTag).name
-            Dim it As cService = cService.GetServiceByName(s)
+            Dim it As cService = Native.Objects.Service.GetServiceByName(s)
             If it IsNot Nothing Then
                 Dim frm As New frmServiceInfo
                 frm.SetService(it)

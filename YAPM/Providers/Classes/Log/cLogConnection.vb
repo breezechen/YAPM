@@ -72,7 +72,7 @@ Public Class cLogConnection
             Case Else
                 ' Local
                 If hSCM = IntPtr.Zero Then
-                    hSCM = Native.Api.NativeFunctions.OpenSCManager(vbNullString, vbNullString, API.SC_MANAGER_ENUMERATE_SERVICE)
+                    hSCM = Native.Api.NativeFunctions.OpenSCManager(vbNullString, vbNullString, Native.Security.ServiceManagerAccess.EnumerateService)
                 End If
                 _connected = True
                 Try

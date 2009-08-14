@@ -188,7 +188,7 @@ Public Class processList
 
         generalLvSemaphore.WaitOne()
 
-        Dim _test As Integer = API.GetTickCount
+        Dim _test As Integer = Native.Api.Win32.GetElapsedTime
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
@@ -316,7 +316,7 @@ Public Class processList
 
         _firstItemUpdate = False
 
-        _test = API.GetTickCount - _test
+        _test = Native.Api.Win32.GetElapsedTime - _test
         Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh process list.")
 
         MyBase.UpdateItems()

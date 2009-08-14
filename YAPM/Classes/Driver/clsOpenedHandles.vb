@@ -438,7 +438,7 @@ Public Class clsOpenedHandles
     Public Function GetProcessID(ByVal dwIndex As Integer) As Integer 'ID du processus propriétaire
         Return m_Files(dwIndex).ProcessID
     End Function
-    Public Function GetHandle(ByVal dwIndex As Integer) As Short 'valeur du handle
+    Public Function GetHandle(ByVal dwIndex As Integer) As IntPtr  'valeur du handle
         Return m_Files(dwIndex).Handle
     End Function
     Public Function GetObject_Renamed(ByVal dwIndex As Integer) As Integer 'adresse de l'objet

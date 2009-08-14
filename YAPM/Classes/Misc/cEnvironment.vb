@@ -209,7 +209,7 @@ Public Class cEnvironment
         Const BCM_SETSHIELD As Int32 = &H160C
 
         btn.FlatStyle = Windows.Forms.FlatStyle.System
-        Native.Api.NativeFunctions.SendMessage(btn.Handle, BCM_SETSHIELD, 0, 1)
+        Native.Api.NativeFunctions.SendMessage(btn.Handle, BCM_SETSHIELD, IntPtr.Zero, New IntPtr(1))
     End Sub
     Public Shared Function GetUacShieldImage() As Bitmap
         Static shield_bm As Bitmap = Nothing

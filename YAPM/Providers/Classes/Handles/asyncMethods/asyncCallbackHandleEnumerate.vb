@@ -108,11 +108,11 @@ Public Class asyncCallbackHandleEnumerate
         Call cHandle.handles_Renamed.Refresh(pObj.pid)
 
         For i As Integer = 0 To cHandle.handles_Renamed.Count - 1
-            If cHandle.handles_Renamed.GetHandle(i) > 0 Then
+            If cHandle.handles_Renamed.GetHandle(i) <> IntPtr.Zero Then
                 If pObj.unNamed OrElse (Len(cHandle.handles_Renamed.GetObjectName(i)) > 0) Then
                     With cHandle.handles_Renamed
                         Dim retHandleCount As Integer
-                        Dim retHandle As Integer
+                        Dim retHandle As IntPtr
                         Dim retName As String
                         Dim retObjectCount As Integer
                         Dim retPid As Integer
@@ -151,11 +151,11 @@ Public Class asyncCallbackHandleEnumerate
         Call cHandle.handles_Renamed.Refresh()
 
         For i As Integer = 0 To cHandle.handles_Renamed.Count - 1
-            If cHandle.handles_Renamed.GetHandle(i) > 0 Then
+            If cHandle.handles_Renamed.GetHandle(i) <> IntPtr.Zero Then
                 If all OrElse (Len(cHandle.handles_Renamed.GetObjectName(i)) > 0) Then
                     With cHandle.handles_Renamed
                         Dim retHandleCount As Integer
-                        Dim retHandle As Integer
+                        Dim retHandle As IntPtr
                         Dim retName As String
                         Dim retObjectCount As Integer
                         Dim retPid As Integer

@@ -196,7 +196,7 @@ Public Class serviceList
 
         generalLvSemaphore.WaitOne()
 
-        Dim _test As Integer = API.GetTickCount
+        Dim _test As Integer = Native.Api.Win32.GetElapsedTime
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
@@ -309,7 +309,7 @@ Public Class serviceList
 
         _firstItemUpdate = False
 
-        _test = API.GetTickCount - _test
+        _test = Native.Api.Win32.GetElapsedTime - _test
         Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh service list.")
 
         MyBase.UpdateItems()

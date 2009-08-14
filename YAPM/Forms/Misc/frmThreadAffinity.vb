@@ -89,7 +89,7 @@ Public Class frmThreadAffinity
             Next
         Else
             ' Then only one thread
-            Dim m As Integer = threads(0).Infos.AffinityMask
+            Dim m As Integer = threads(0).Infos.AffinityMask.ToInt32
             Me.chk0.Checked = ((m And 1) = 1)
             Me.chk1.Checked = ((m And 2) = 2)
             Me.chk2.Checked = ((m And 4) = 4)
@@ -127,7 +127,7 @@ Public Class frmThreadAffinity
             ' Disable checkboxes for unsetable processors (in case affinity of owner process
             ' is not set to all processes)
             cProcess.SemCurrentProcesses.WaitOne()
-            Dim m1 As Integer = cProcess.CurrentProcesses.Item(threads(0).Infos.ProcessId.ToString).Infos.AffinityMask
+            Dim m1 As Integer = cProcess.CurrentProcesses.Item(threads(0).Infos.ProcessId.ToString).Infos.AffinityMask.ToInt32
             cProcess.SemCurrentProcesses.Release()
             Me.chk0.Enabled = ((m1 And 1) = 1)
             Me.chk1.Enabled = ((m1 And 2) = 2)

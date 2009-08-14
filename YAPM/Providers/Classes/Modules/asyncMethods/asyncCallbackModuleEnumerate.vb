@@ -237,7 +237,7 @@ Public Class asyncCallbackModuleEnumerate
         Dim hProc As IntPtr
         Dim peb As IntPtr
         Dim loaderDatePtr As IntPtr
-
+        '64TODO
         ' Open a reader to access memory !
         Dim reader As New cProcessMemReader(pid)
         hProc = reader.ProcessHandle
@@ -250,7 +250,7 @@ Public Class asyncCallbackModuleEnumerate
             ' http://undocumented.ntinternals.net/UserMode/Undocumented%20Functions/NT%20Objects/Process/PEB.html
 
             ' Get address of LoaderData pointer
-            peb += &HC      ' See structure for details about offsets
+            peb.Increment(&HC) ' See structure for details about offsets
             loaderDatePtr = reader.ReadIntPtr(peb)
 
             ' PEB_LDR_DATA documented here
@@ -274,7 +274,7 @@ Public Class asyncCallbackModuleEnumerate
                 End If
 
                 ' Read LoaderData entry
-                curEntry = CType(reader.ReadStruct(Of Native.Api.NativeStructs.LdrDataTableEntry)(curObj.ToInt32),  _
+                curEntry = CType(reader.ReadStruct(Of Native.Api.NativeStructs.LdrDataTableEntry)(curObj),  _
                                 Native.Api.NativeStructs.LdrDataTableEntry)
 
                 If (curEntry.DllBase <> IntPtr.Zero) Then

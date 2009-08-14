@@ -221,6 +221,79 @@ Namespace Native.Objects
         End Sub
 
 
+        ' Get a service by its name
+        Public Shared Function GetServiceByName(ByVal name As String) As cService
+
+            Dim tt As cService = Nothing
+            _semCurrentServ.WaitOne()
+            If _currentServices.ContainsKey(name) Then
+                tt = _currentServices.Item(name)
+            End If
+            _semCurrentServ.Release()
+
+            Return tt
+
+        End Function
+
+        ' Get services which depends from a specific service
+        Public Shared Function GetServiceWhichDependFrom(ByVal serviceName As String) As Dictionary(Of String, serviceInfos)
+
+            Dim _d As New Dictionary(Of String, serviceInfos)
+            Dim dep() As String = Nothing
+
+            _semCurrentServ.WaitOne()
+
+            For Each serv As cService In _currentServices.Values
+                dep = serv.Infos.Dependencies
+                If dep IsNot Nothing Then
+                    For Each s As String In dep
+                        If s.ToLowerInvariant = serviceName.ToLowerInvariant Then
+                            _d.Add(serv.Infos.Name, serv.Infos)
+                            Exit For
+                        End If
+                    Next
+                End If
+            Next
+
+            _semCurrentServ.Release()
+
+            Return _d
+        End Function
+
+        ' Get dependencies of a service
+        Public Shared Function GetDependencies(ByVal serviceName As String) As Dictionary(Of String, serviceInfos)
+
+            Dim _d As New Dictionary(Of String, serviceInfos)
+            Dim dep() As String = Nothing
+
+            _semCurrentServ.WaitOne()
+
+            For Each serv As cService In _currentServices.Values
+                If serv.Infos.Name.ToLowerInvariant = serviceName.ToLowerInvariant Then
+                    dep = serv.Infos.Dependencies
+                    Exit For
+                End If
+            Next
+
+            If dep Is Nothing OrElse dep.Length = 0 Then
+                _semCurrentServ.Release()
+                Return _d
+            End If
+
+            For Each servName As String In dep
+                For Each serv As cService In _currentServices.Values
+                    If servName.ToLowerInvariant = serv.Infos.Name.ToLowerInvariant Then
+                        _d.Add(servName, serv.Infos)
+                        Exit For
+                    End If
+                Next
+            Next
+
+            _semCurrentServ.Release()
+
+            Return _d
+        End Function
+
 
 
         ' ========================================

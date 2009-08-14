@@ -49,9 +49,9 @@ Public Class cMemRegion
         _connection = Connection
 
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            If infos.Type = API.MEMORY_TYPE.Image Then
+            If infos.Type = Native.Api.NativeEnums.MemoryType.Image Then
                 _moduleFileName = getModuleName(infos.BaseAddress)
-            ElseIf infos.Type = API.MEMORY_TYPE.Mapped Then
+            ElseIf infos.Type = Native.Api.NativeEnums.MemoryType.Mapped Then
                 If infos.State = Native.Api.NativeEnums.MemoryState.Commit Then
                     _moduleFileName = getModuleName(infos.BaseAddress)
                 End If
@@ -63,13 +63,13 @@ Public Class cMemRegion
     Private Function getModuleName(ByVal ad As IntPtr) As String
 
         Dim sb As New StringBuilder(1024)
-        Dim _h As IntPtr = API.OpenProcess(API.PROCESS_RIGHTS.PROCESS_QUERY_INFORMATION Or _
-                                           API.PROCESS_RIGHTS.PROCESS_VM_READ, _
-                                           False, Infos.ProcessId)
+        Dim _h As IntPtr = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation Or _
+                                            Native.Security.ProcessAccess.VmRead, _
+                                            False, Infos.ProcessId)
 
         If _h <> IntPtr.Zero Then
-            Dim leng As Integer = API.GetMappedFileName(_h, ad, sb, sb.Capacity)
-            API.CloseHandle(_h)
+            Dim leng As Integer = Native.Api.NativeFunctions.GetMappedFileName(_h, ad, sb, sb.Capacity)
+            Native.Api.NativeFunctions.CloseHandle(_h)
 
             If leng > 0 Then
                 Dim file As String = sb.ToString(0, leng)
@@ -144,7 +144,7 @@ Public Class cMemRegion
 
     ' Change protection type
     Private _changeProtec As asyncCallbackMemRegionChangeProtection
-    Public Function ChangeProtectionType(ByVal newProtection As API.PROTECTION_TYPE) As Integer
+    Public Function ChangeProtectionType(ByVal newProtection As Native.Api.NativeEnums.MemoryProtectionType) As Integer
 
         If _changeProtec Is Nothing Then
             _changeProtec = New asyncCallbackMemRegionChangeProtection(New asyncCallbackMemRegionChangeProtection.HasChangedProtection(AddressOf ChangedProtectionDone), _connection)
@@ -194,7 +194,7 @@ Public Class cMemRegion
     End Sub
 
     Private Shared _sharedProtection As asyncCallbackMemRegionChangeProtection
-    Public Shared Function SharedLRChangeProtection(ByVal pid As Integer, ByVal address As IntPtr, ByVal size As Integer, ByVal type As API.PROTECTION_TYPE) As Integer
+    Public Shared Function SharedLRChangeProtection(ByVal pid As Integer, ByVal address As IntPtr, ByVal size As Integer, ByVal type As Native.Api.NativeEnums.MemoryProtectionType) As Integer
 
         If _sharedProtection Is Nothing Then
             _sharedProtection = New asyncCallbackMemRegionChangeProtection(New asyncCallbackMemRegionChangeProtection.HasChangedProtection(AddressOf changedSharedProtectionDone), _connection)
@@ -358,40 +358,40 @@ Public Class cMemRegion
 #End Region
 
     ' Get protection type as string
-    Friend Shared Function GetProtectionType(ByVal protec As API.PROTECTION_TYPE) As String
+    Friend Shared Function GetProtectionType(ByVal protec As Native.Api.NativeEnums.MemoryProtectionType) As String
         Dim s As String = ""
 
-        If (protec And API.PROTECTION_TYPE.Execute) = API.PROTECTION_TYPE.Execute Then
+        If (protec And Native.Api.NativeEnums.MemoryProtectionType.Execute) = Native.Api.NativeEnums.MemoryProtectionType.Execute Then
             s &= "E/"
         End If
-        If (protec And API.PROTECTION_TYPE.ExecuteRead) = API.PROTECTION_TYPE.ExecuteRead Then
+        If (protec And Native.Api.NativeEnums.MemoryProtectionType.ExecuteRead) = Native.Api.NativeEnums.MemoryProtectionType.ExecuteRead Then
             s &= "ERO/"
         End If
-        If (protec And API.PROTECTION_TYPE.ExecuteReadWrite) = API.PROTECTION_TYPE.ExecuteReadWrite Then
+        If (protec And Native.Api.NativeEnums.MemoryProtectionType.ExecuteReadWrite) = Native.Api.NativeEnums.MemoryProtectionType.ExecuteReadWrite Then
             s &= "ERW/"
         End If
-        If (protec And API.PROTECTION_TYPE.ExecuteWriteCopy) = API.PROTECTION_TYPE.ExecuteWriteCopy Then
+        If (protec And Native.Api.NativeEnums.MemoryProtectionType.ExecuteWriteCopy) = Native.Api.NativeEnums.MemoryProtectionType.ExecuteWriteCopy Then
             s &= "EWC/"
         End If
-        If (protec And API.PROTECTION_TYPE.Guard) = API.PROTECTION_TYPE.Guard Then
+        If (protec And Native.Api.NativeEnums.MemoryProtectionType.Guard) = Native.Api.NativeEnums.MemoryProtectionType.Guard Then
             s &= "G/"
         End If
-        If (protec And API.PROTECTION_TYPE.NoAccess) = API.PROTECTION_TYPE.NoAccess Then
+        If (protec And Native.Api.NativeEnums.MemoryProtectionType.NoAccess) = Native.Api.NativeEnums.MemoryProtectionType.NoAccess Then
             s &= "NA/"
         End If
-        If (protec And API.PROTECTION_TYPE.NoCache) = API.PROTECTION_TYPE.NoCache Then
+        If (protec And Native.Api.NativeEnums.MemoryProtectionType.NoCache) = Native.Api.NativeEnums.MemoryProtectionType.NoCache Then
             s &= "NC"
         End If
-        If (protec And API.PROTECTION_TYPE.[ReadOnly]) = API.PROTECTION_TYPE.[ReadOnly] Then
+        If (protec And Native.Api.NativeEnums.MemoryProtectionType.ReadOnly) = Native.Api.NativeEnums.MemoryProtectionType.ReadOnly Then
             s &= "RO/"
         End If
-        If (protec And API.PROTECTION_TYPE.ReadWrite) = API.PROTECTION_TYPE.ReadWrite Then
+        If (protec And Native.Api.NativeEnums.MemoryProtectionType.ReadWrite) = Native.Api.NativeEnums.MemoryProtectionType.ReadWrite Then
             s &= "RW/"
         End If
-        If (protec And API.PROTECTION_TYPE.WriteCombine) = API.PROTECTION_TYPE.WriteCombine Then
+        If (protec And Native.Api.NativeEnums.MemoryProtectionType.WriteCombine) = Native.Api.NativeEnums.MemoryProtectionType.WriteCombine Then
             s &= "WCOMB/"
         End If
-        If (protec And API.PROTECTION_TYPE.WriteCopy) = API.PROTECTION_TYPE.WriteCopy Then
+        If (protec And Native.Api.NativeEnums.MemoryProtectionType.WriteCopy) = Native.Api.NativeEnums.MemoryProtectionType.WriteCopy Then
             s &= "WC/"
         End If
 

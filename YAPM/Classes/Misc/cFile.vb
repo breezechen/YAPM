@@ -384,7 +384,7 @@ Public Class cFile
             .lpIDList = IntPtr.Zero
         End With
 
-        Return API.ShellExecuteEx(SEI)
+        Return Native.Api.NativeFunctions.ShellExecuteEx(SEI)
     End Function
 
     ' Open directory
