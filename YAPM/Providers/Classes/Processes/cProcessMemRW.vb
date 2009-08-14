@@ -91,6 +91,17 @@ Public Class cProcessMemRW
 
         Return sBuf
     End Function
+    Public Function ReadBytesAIntPtr(ByVal offset As IntPtr, ByVal size As Integer) As IntPtr()
+
+        Dim sBuf() As IntPtr
+        Dim lByte As Integer
+        ReDim sBuf(size - 1)
+
+        ' Integer array -> size*4 to get bytes count
+        Native.Api.NativeFunctions.ReadProcessMemory(_handle, offset, sBuf, size * 4, lByte)
+
+        Return sBuf
+    End Function
     Public Function ReadBytesAB(ByVal offset As IntPtr, ByVal size As Integer, ByRef ok As Boolean) As Byte()
 
         Dim sBuf() As Byte

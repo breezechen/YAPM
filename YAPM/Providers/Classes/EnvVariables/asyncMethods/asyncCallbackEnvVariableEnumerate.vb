@@ -139,15 +139,15 @@ Public Class asyncCallbackEnvVariableEnumerate
         ' Read first 20 bytes (5 integers) of PEB block
         ' The fifth integer contains address of ProcessParameters block
         '64TODO + TOCHNANGE 
-        'Dim pebDeb() As IntPtr = cR.ReadBytesAI(__pebAd, 5)
-        Dim __procParamAd As IntPtr = IntPtr.Zero ' pebDeb(4)
+        Dim pebDeb() As IntPtr = cR.ReadBytesAIntPtr(__pebAd, 5)
+        Dim __procParamAd As IntPtr = pebDeb(4)
 
         ' Get environnement block address
         ' It's located at offset 0x48 on all NT systems because it's after a fixed structure
         ' of 72 bytes
         ' 64TODO + TOCHANGE
-        'Dim bA() As IntPtr = cR.ReadBytesAI(__procParamAd + 72, 1)
-        Dim _envDeb As IntPtr = IntPtr.Zero ' bA(0)      ' Get address
+        Dim bA() As IntPtr = cR.ReadBytesAIntPtr(__procParamAd.Increment(72), 1)
+        Dim _envDeb As IntPtr = bA(0)      ' Get address
 
 
         ' ======= Read environnement block byte per byte to calculate env. block size
