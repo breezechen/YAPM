@@ -112,14 +112,8 @@ Public Class asyncCallbackProcGetAllNonFixedInfos
 
             Case Else
                 ' Local
-
                 ' OK, normally no call for Process method for a local connection
 
-                'Dim _gdi As Integer = API.GetGuiResources(_handle, API.GR_GDIOBJECTS)
-                'Dim _user As Integer = API.GetGuiResources(_handle, API.GR_USEROBJECTS)
-                'Dim _affinity As Integer = GetAffinity(_pid)
-
-                'RaiseEvent GatheredInfos(New TheseInfos(_gdi, _user, _affinity))
         End Select
     End Sub
 

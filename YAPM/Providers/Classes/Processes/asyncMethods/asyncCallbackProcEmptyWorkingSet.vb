@@ -65,15 +65,8 @@ Public Class asyncCallbackProcEmptyWorkingSet
 
             Case Else
                 ' Local
-                Dim _hHandle As IntPtr = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.SetQuota, _
-                                                         False, pObj.pid)
-                If _hHandle <> IntPtr.Zero Then
-                    Dim _ret As Boolean = Native.Api.NativeFunctions.SetProcessWorkingSetSize(_hHandle, New IntPtr(-1), New IntPtr(-1))
-                    Native.Api.NativeFunctions.CloseHandle(_hHandle)
-                    _deg.Invoke(_ret, Native.Api.Win32.GetLastError, pObj.newAction)
-                Else
-                    _deg.Invoke(False, Native.Api.Win32.GetLastError, pObj.newAction)
-                End If
+                Dim ret As Boolean = Native.Objects.Process.EmptyProcessWorkingSetById(pObj.pid)
+                _deg.Invoke(ret, Native.Api.Win32.GetLastError, pObj.newAction)
         End Select
     End Sub
 
