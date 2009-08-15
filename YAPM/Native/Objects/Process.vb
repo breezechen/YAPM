@@ -510,24 +510,20 @@ Namespace Native.Objects
                 End If
 
                 ' Retrieve process parameters block address
-                ' It's located from bytes 16 to 20 after PEB address
-                '64TODO
-                Dim __procParamAd As IntPtr = memReader.ReadIntPtr(New IntPtr(__pebAd.ToInt64 + 16))
+                Dim __procParamAd As IntPtr = memReader.ReadIntPtr(__pebAd.Increment(Native.Api.NativeStructs.Peb_ProcessParametersOffset))
 
 
                 ' Get unicode string adress
-                ' It's located at offset 0x40 on all NT systems because it's 
-                ' after a fixed structure of 64 bytes
                 Dim cmdLine As NativeStructs.UnicodeString
 
                 ' Read length of the unicode string
-                ' TODO
-                cmdLine.Length = CUShort(memReader.ReadInt32(New IntPtr(__procParamAd.ToInt64 + &H40)))
+                Dim cmdLineOffset As IntPtr = __procParamAd.Increment(Native.Api.NativeStructs.ProcParamBlock_CommandLineOffset)
+                cmdLine.Length = CUShort(memReader.ReadInt32(cmdLineOffset))
                 cmdLine.MaximumLength = CUShort(cmdLine.Length + 2) ' Not used, but...
 
                 ' Read pointer to the string
-                ' 64TODO
-                cmdLine.Buffer = memReader.ReadIntPtr(New IntPtr(__procParamAd.ToInt64 + &H44))
+                ' offset = cmdLineOffset + &h4 (sizeof(int) for unicode_string.size)
+                cmdLine.Buffer = memReader.ReadIntPtr(cmdLineOffset.Increment(&H4))
 
                 ' Read the string
                 res = memReader.ReadUnicodeString(cmdLine)

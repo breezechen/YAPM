@@ -32,7 +32,8 @@ Namespace Native.Api
 
         Public Shared ReadOnly Peb_ProcessHeapOffset As IntPtr = Marshal.OffsetOf(GetType(Peb), "ProcessHeap")
         Public Shared ReadOnly Peb_ProcessParametersOffset As IntPtr = Marshal.OffsetOf(GetType(Peb), "ProcessParameters")
-        Public Shared ReadOnly Peb_LoaderData As IntPtr = Marshal.OffsetOf(GetType(Peb), "LoaderData")
+        Public Shared ReadOnly Peb_LoaderDataOffset As IntPtr = Marshal.OffsetOf(GetType(Peb), "LoaderData")
+        Public Shared ReadOnly ProcParamBlock_CommandLineOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "CommandLine").ToInt32()
 
 #End Region
 
@@ -95,6 +96,67 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
+        Public Structure RtlUserProcessParameters
+            Public Shared ReadOnly CurrentDirectoryOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "CurrentDirectory").ToInt32()
+            Public Shared ReadOnly DllPathOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "DllPath").ToInt32()
+            Public Shared ReadOnly ImagePathNameOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "ImagePathName").ToInt32()
+            Public Shared ReadOnly CommandLineOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "CommandLine").ToInt32()
+            Public Shared ReadOnly EnvironmentOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "Environment").ToInt32()
+            Public Shared ReadOnly WindowTitleOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "WindowTitle").ToInt32()
+            Public Shared ReadOnly DesktopInfoOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "DesktopInfo").ToInt32()
+            Public Shared ReadOnly ShellInfoOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "ShellInfo").ToInt32()
+            Public Shared ReadOnly RuntimeDataOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "RuntimeData").ToInt32()
+
+            Public Structure CurDir
+                Public DosPath As UnicodeString
+                Public Handle As IntPtr
+            End Structure
+
+            Public Structure RtlDriveLetterCurDir
+                Public Flags As UShort
+                Public Length As UShort
+                Public TimeStamp As UInteger
+                Public DosPath As IntPtr
+            End Structure
+
+            Public MaximumLength As Integer
+            Public Length As Integer
+
+            Public Flags As RtlUserProcessFlags
+            Public DebugFlags As Integer
+
+            Public ConsoleHandle As IntPtr
+            Public ConsoleFlags As Integer
+            Public StandardInput As IntPtr
+            Public StandardOutput As IntPtr
+            Public StandardError As IntPtr
+
+            Public CurrentDirectory As CurDir
+            Public DllPath As UnicodeString
+            Public ImagePathName As UnicodeString
+            Public CommandLine As UnicodeString
+            Public Environment As IntPtr
+
+            Public StartingX As Integer
+            Public StartingY As Integer
+            Public CountX As Integer
+            Public CountY As Integer
+            Public CountCharsX As Integer
+            Public CountCharsY As Integer
+            Public FillAttribute As Integer
+
+            Public WindowFlags As Integer
+            Public ShowWindowFlags As Integer
+            Public WindowTitle As UnicodeString
+            Public DesktopInfo As UnicodeString
+            Public ShellInfo As UnicodeString
+            Public RuntimeData As UnicodeString
+
+            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=32)> _
+            Public CurrentDirectories As RtlDriveLetterCurDir()
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
         Public Structure Peb
             <MarshalAs(UnmanagedType.I1)> _
             Public InheritedAddressSpace As Boolean
@@ -106,8 +168,8 @@ Namespace Native.Api
             Public Spare As Boolean
             Public Mutant As IntPtr
             Public ImageBaseAddress As IntPtr
-            Public LoaderData As IntPtr
-            Public ProcessParameters As IntPtr
+            Public LoaderData As IntPtr             ' pointer to ldrData
+            Public ProcessParameters As IntPtr      ' pointer to RtlUserProcessParameters struct
             Public SubSystemData As IntPtr
             Public ProcessHeap As IntPtr
             Public FastPebLock As IntPtr

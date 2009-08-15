@@ -29,6 +29,22 @@ Namespace Native.Api
 
 #Region "Declarations used for processes"
 
+        <Flags()> _
+        Public Enum RtlUserProcessFlags As UInteger
+            ParamsNormalized = &H1
+            ProfileUser = &H2
+            ProfileKernel = &H4
+            ProfileServer = &H8
+            Reserve1Mb = &H20
+            Reserve16Mb = &H40
+            CaseSensitive = &H80
+            DisableHeapDecommit = &H100
+            DllRedirectionLocal = &H1000
+            AppManifestPresent = &H2000
+            ImageKeyMissing = &H4000
+            OptInProcess = &H20000
+        End Enum
+
         Public Enum MiniDumpType As Integer
             MiniDumpNormal = &H0
             MiniDumpWithDataSegs = &H1

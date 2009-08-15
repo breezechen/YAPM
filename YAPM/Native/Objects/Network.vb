@@ -50,9 +50,8 @@ Namespace Native.Objects
                     Dim tcp_item As NativeStructs.MIB_TCPROW_OWNER_PID
 
                     ' Read struct with an offset of 4 bytes (these bytes contains item count)
-                    ' 64TODO
-                    tcp_item = CType(Marshal.PtrToStructure(New IntPtr(pt.ToInt32 + _
-                                                                       4 + i * Marshal.SizeOf(tcp_item)), _
+                    ' 4 first bytes for Count
+                    tcp_item = CType(Marshal.PtrToStructure(pt.Increment(4 + i * Marshal.SizeOf(tcp_item)), _
                                                             GetType(NativeStructs.MIB_TCPROW_OWNER_PID)), NativeStructs.MIB_TCPROW_OWNER_PID)
 
                     ' Test if belongs to PID list
@@ -113,10 +112,9 @@ Namespace Native.Objects
                 For i As Integer = 0 To count2 - 1
                     Dim udp_item As NativeStructs.MIB_UDPROW_OWNER_PID
 
-                    ' 64TODO
                     ' Read struct with an offset of 4 bytes (these bytes contains item count)
-                    udp_item = CType(Marshal.PtrToStructure(New IntPtr(pt.ToInt32 + _
-                                                                       4 + i * Marshal.SizeOf(udp_item)), _
+                    ' 4 first bytes for Count
+                    udp_item = CType(Marshal.PtrToStructure(pt.Increment(4 + i * Marshal.SizeOf(udp_item)), _
                                                             GetType(NativeStructs.MIB_UDPROW_OWNER_PID)), NativeStructs.MIB_UDPROW_OWNER_PID)
 
                     ' Test if belongs to PID list
