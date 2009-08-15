@@ -33,39 +33,39 @@ Public Class frmDumpFile
             Return _dir
         End Get
     End Property
-    Public ReadOnly Property DumpOption() As Native.Api.NativeEnums.MINIDUMPTYPE
+    Public ReadOnly Property DumpOption() As Native.Api.NativeEnums.MiniDumpType
         Get
             Select Case Me.cbOption.Text
                 Case "MiniDumpNormal"
-                    Return Native.Api.NativeEnums.MINIDUMPTYPE.MiniDumpNormal
+                    Return Native.Api.NativeEnums.MiniDumpType.MiniDumpNormal
                 Case "MiniDumpWithDataSegs"
-                    Return Native.Api.NativeEnums.MINIDUMPTYPE.MiniDumpWithDataSegs
+                    Return Native.Api.NativeEnums.MiniDumpType.MiniDumpWithDataSegs
                 Case "MiniDumpWithFullMemory"
-                    Return Native.Api.NativeEnums.MINIDUMPTYPE.MiniDumpWithFullMemory
+                    Return Native.Api.NativeEnums.MiniDumpType.MiniDumpWithFullMemory
                 Case "MiniDumpWithHandleData"
-                    Return Native.Api.NativeEnums.MINIDUMPTYPE.MiniDumpWithHandleData
+                    Return Native.Api.NativeEnums.MiniDumpType.MiniDumpWithHandleData
                 Case "MiniDumpFilterMemory"
-                    Return Native.Api.NativeEnums.MINIDUMPTYPE.MiniDumpFilterMemory
+                    Return Native.Api.NativeEnums.MiniDumpType.MiniDumpFilterMemory
                 Case "MiniDumpScanMemory"
-                    Return Native.Api.NativeEnums.MINIDUMPTYPE.MiniDumpScanMemory
+                    Return Native.Api.NativeEnums.MiniDumpType.MiniDumpScanMemory
                 Case "MiniDumpWithUnloadedModules"
-                    Return Native.Api.NativeEnums.MINIDUMPTYPE.MiniDumpWithUnloadedModules
+                    Return Native.Api.NativeEnums.MiniDumpType.MiniDumpWithUnloadedModules
                 Case "MiniDumpWithIndirectlyReferencedMemory"
-                    Return Native.Api.NativeEnums.MINIDUMPTYPE.MiniDumpWithIndirectlyReferencedMemory
+                    Return Native.Api.NativeEnums.MiniDumpType.MiniDumpWithIndirectlyReferencedMemory
                 Case "MiniDumpFilterModulePaths"
-                    Return Native.Api.NativeEnums.MINIDUMPTYPE.MiniDumpFilterModulePaths
+                    Return Native.Api.NativeEnums.MiniDumpType.MiniDumpFilterModulePaths
                 Case "MiniDumpWithProcessThreadData"
-                    Return Native.Api.NativeEnums.MINIDUMPTYPE.MiniDumpWithProcessThreadData
+                    Return Native.Api.NativeEnums.MiniDumpType.MiniDumpWithProcessThreadData
                 Case "MiniDumpWithPrivateReadWriteMemory"
-                    Return Native.Api.NativeEnums.MINIDUMPTYPE.MiniDumpWithPrivateReadWriteMemory
+                    Return Native.Api.NativeEnums.MiniDumpType.MiniDumpWithPrivateReadWriteMemory
                 Case "MiniDumpWithoutOptionalData"
-                    Return Native.Api.NativeEnums.MINIDUMPTYPE.MiniDumpWithoutOptionalData
+                    Return Native.Api.NativeEnums.MiniDumpType.MiniDumpWithoutOptionalData
                 Case "MiniDumpWithFullMemoryInfo"
-                    Return Native.Api.NativeEnums.MINIDUMPTYPE.MiniDumpWithFullMemoryInfo
+                    Return Native.Api.NativeEnums.MiniDumpType.MiniDumpWithFullMemoryInfo
                 Case "MiniDumpWithThreadInfo"
-                    Return Native.Api.NativeEnums.MINIDUMPTYPE.MiniDumpWithThreadInfo
+                    Return Native.Api.NativeEnums.MiniDumpType.MiniDumpWithThreadInfo
                 Case "MiniDumpWithCodeSegs"
-                    Return Native.Api.NativeEnums.MINIDUMPTYPE.MiniDumpWithCodeSegs
+                    Return Native.Api.NativeEnums.MiniDumpType.MiniDumpWithCodeSegs
             End Select
         End Get
     End Property

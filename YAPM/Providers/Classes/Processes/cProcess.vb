@@ -391,7 +391,7 @@ Public Class cProcess
 
     ' Create dump file
     Private _createDumpF As asyncCallbackProcMinidump
-    Public Sub CreateDumpFile(ByVal file As String, ByVal opt As Native.Api.NativeEnums.MINIDUMPTYPE)
+    Public Sub CreateDumpFile(ByVal file As String, ByVal opt As Native.Api.NativeEnums.MiniDumpType)
 
         If _createDumpF Is Nothing Then
             _createDumpF = New asyncCallbackProcMinidump(New asyncCallbackProcMinidump.HasCreatedDump(AddressOf createdMinidump), _connection)

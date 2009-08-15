@@ -29,7 +29,7 @@ Namespace Native.Api
 
 #Region "Declarations used for processes"
 
-        Public Enum MINIDUMPTYPE As Integer
+        Public Enum MiniDumpType As Integer
             MiniDumpNormal = &H0
             MiniDumpWithDataSegs = &H1
             MiniDumpWithFullMemory = &H2

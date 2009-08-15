@@ -93,7 +93,7 @@ Namespace Native.Objects
                 ' http://undocumented.ntinternals.net/UserMode/Undocumented%20Functions/NT%20Objects/Process/PEB.html
 
                 ' Get address of LoaderData pointer
-                peb = peb.Increment(NativeStructs.PebLdrOffset)
+                peb = peb.Increment(NativeStructs.Peb_LoaderData)
                 loaderDatePtr = reader.ReadIntPtr(peb)
 
                 ' PEB_LDR_DATA documented here

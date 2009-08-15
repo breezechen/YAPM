@@ -75,11 +75,11 @@ Public Class asyncCallbackProcKillTree
         Static success As Boolean = True
 
         ' Kill process
-        success = success And Kill(pid)
+        success = success And Native.Objects.Process.KillProcessById(pid)
 
         ' Get all items...
         Dim _dico2 As New List(Of Integer)
-        _dico2 = EnumParent(pid)
+        _dico2 = Native.Objects.Process.EnumerateChildProcessesById(pid)
 
         ' Recursive kill
         For Each t As Integer In _dico2
@@ -87,50 +87,6 @@ Public Class asyncCallbackProcKillTree
         Next
 
         Return success
-    End Function
-
-    ' Kill a process
-    Private Function Kill(ByVal pid As Integer) As Boolean
-        Dim hProc As IntPtr
-        Dim ret As Boolean
-        hProc = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.Terminate, False, pid)
-        If hProc <> IntPtr.Zero Then
-            ret = Native.Api.NativeFunctions.TerminateProcess(hProc, 0)
-            Native.Api.NativeFunctions.CloseHandle(hProc)
-            Return ret
-        Else
-            Return False
-        End If
-    End Function
-
-    ' Simple enumeration of parents
-    Private Function EnumParent(ByVal pid As Integer) As List(Of Integer)
-        ' Local
-        Dim ret As Integer
-        Native.Api.NativeFunctions.NtQuerySystemInformation(Native.Api.NativeEnums.SystemInformationClass.SystemProcessInformation, IntPtr.Zero, 0, ret)
-        Dim size As Integer = ret
-        Dim ptr As IntPtr = Marshal.AllocHGlobal(size)
-        Native.Api.NativeFunctions.NtQuerySystemInformation(Native.Api.NativeEnums.SystemInformationClass.SystemProcessInformation, ptr, size, ret)
-
-        ' Extract structures from unmanaged memory
-        Dim x As Integer = 0
-        Dim offset As Integer = 0
-        Dim _list As New List(Of Integer)
-        Do While True
-            Dim obj As Native.Api.NativeStructs.SystemProcessInformation = CType(Marshal.PtrToStructure(New IntPtr(ptr.ToInt32 + _
-                offset), GetType(Native.Api.NativeStructs.SystemProcessInformation)),  _
-                Native.Api.NativeStructs.SystemProcessInformation)
-            offset += obj.NextEntryOffset
-            If obj.InheritedFromProcessId = pid Then
-                _list.Add(obj.ProcessId)
-            End If
-            If obj.NextEntryOffset = 0 Then
-                Exit Do
-            End If
-            x += 1
-        Loop
-        Marshal.FreeHGlobal(ptr)
-        Return _list
     End Function
 
 End Class

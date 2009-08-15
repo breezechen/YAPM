@@ -30,9 +30,9 @@ Namespace Native.Api
 
 #Region "Offsets for native structures"
 
-        Public Shared ReadOnly PebLdrOffset As IntPtr = Marshal.OffsetOf(GetType(Peb), "LoaderData")
-        Public Shared ReadOnly PebProcessHeapOffset As IntPtr = Marshal.OffsetOf(GetType(Peb), "ProcessHeap")
-        Public Shared ReadOnly PebProcessParametersOffset As IntPtr = Marshal.OffsetOf(GetType(Peb), "ProcessParameters")
+        Public Shared ReadOnly Peb_ProcessHeapOffset As IntPtr = Marshal.OffsetOf(GetType(Peb), "ProcessHeap")
+        Public Shared ReadOnly Peb_ProcessParametersOffset As IntPtr = Marshal.OffsetOf(GetType(Peb), "ProcessParameters")
+        Public Shared ReadOnly Peb_LoaderData As IntPtr = Marshal.OffsetOf(GetType(Peb), "LoaderData")
 
 #End Region
 

@@ -67,16 +67,9 @@ Public Class asyncCallbackProcSetAffinity
 
             Case Else
                 ' Local
-                Dim __hProcess As IntPtr = _
-                        Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.SetInformation, _
-                        False, pObj.pid)
-                If __hProcess <> IntPtr.Zero Then
-                    Dim ret As Boolean = Native.Api.NativeFunctions.SetProcessAffinityMask(__hProcess, New IntPtr(pObj.level))
-                    Native.Api.NativeFunctions.CloseHandle(__hProcess)
-                    _deg.Invoke(ret, Native.Api.Win32.GetLastError, pObj.newAction)
-                Else
-                    _deg.Invoke(False, Native.Api.Win32.GetLastError, pObj.newAction)
-                End If
+                Dim ret As Boolean = Native.Objects.Process.SetProcessAffinityById(pObj.pid, pObj.level)
+                _deg.Invoke(ret, Native.Api.Win32.GetLastError, pObj.newAction)
+
         End Select
     End Sub
 

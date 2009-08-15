@@ -83,17 +83,9 @@ Public Class asyncCallbackProcSetPriority
 
             Case Else
                 ' Local
-                Dim hProc As IntPtr
-                Dim r As Boolean
-                hProc = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.SetInformation, _
-                                        False, pObj.pid)
-                If hProc <> IntPtr.Zero Then
-                    r = Native.Api.NativeFunctions.SetPriorityClass(hProc, pObj.lvl)
-                    Native.Api.NativeFunctions.CloseHandle(hProc)
-                    _deg.Invoke(r, Native.Api.Win32.GetLastError, pObj.newAction)
-                Else
-                    _deg.Invoke(False, Native.Api.Win32.GetLastError, pObj.newAction)
-                End If
+                Dim r As Boolean = Native.Objects.Process.SetProcessPriorityById(pObj.pid, _
+                                                                                 pObj.lvl)
+                _deg.Invoke(r, Native.Api.Win32.GetLastError, pObj.newAction)
         End Select
     End Sub
 

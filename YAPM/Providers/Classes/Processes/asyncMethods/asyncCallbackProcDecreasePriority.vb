@@ -99,8 +99,6 @@ Public Class asyncCallbackProcDecreasePriority
 
             Case Else
                 ' Local
-                Dim hProc As IntPtr
-                Dim r As Boolean
                 Dim _newlevel As ProcessPriorityClass
                 Select Case pObj.level
                     Case ProcessPriorityClass.AboveNormal
@@ -116,15 +114,9 @@ Public Class asyncCallbackProcDecreasePriority
                     Case ProcessPriorityClass.RealTime
                         _newlevel = ProcessPriorityClass.High
                 End Select
-                hProc = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.SetInformation, _
-                                        False, pObj.pid)
-                If hProc <> IntPtr.Zero Then
-                    r = Native.Api.NativeFunctions.SetPriorityClass(hProc, _newlevel)
-                    Native.Api.NativeFunctions.CloseHandle(hProc)
-                    _deg.Invoke(r, Native.Api.Win32.GetLastError, pObj.newAction)
-                Else
-                    _deg.Invoke(False, Native.Api.Win32.GetLastError, pObj.newAction)
-                End If
+
+                Dim r As Boolean = Native.Objects.Process.SetProcessPriorityById(pObj.pid, _newlevel)
+                _deg.Invoke(r, Native.Api.Win32.GetLastError, pObj.newAction)
         End Select
     End Sub
 

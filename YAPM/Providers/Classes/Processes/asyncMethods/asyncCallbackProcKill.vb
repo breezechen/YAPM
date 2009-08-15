@@ -83,16 +83,8 @@ Public Class asyncCallbackProcKill
 
             Case Else
                 ' Local
-                Dim hProc As IntPtr
-                Dim ret As Boolean
-                hProc = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.Terminate, False, pObj.pid)
-                If hProc <> IntPtr.Zero Then
-                    ret = Native.Api.NativeFunctions.TerminateProcess(hProc, 0)
-                    Native.Api.NativeFunctions.CloseHandle(hProc)
-                    _deg.Invoke(ret, 0, Native.Api.Win32.GetLastError, pObj.newAction)
-                Else
-                    _deg.Invoke(False, pObj.pid, Native.Api.Win32.GetLastError, pObj.newAction)
-                End If
+                Dim ret As Boolean = Native.Objects.Process.KillProcessById(pObj.pid)
+                _deg.Invoke(ret, pObj.pid, Native.Api.Win32.GetLastError, pObj.newAction)
         End Select
     End Sub
 

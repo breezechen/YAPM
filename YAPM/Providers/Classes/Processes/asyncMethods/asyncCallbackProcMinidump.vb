@@ -39,9 +39,9 @@ Public Class asyncCallbackProcMinidump
     Public Structure poolObj
         Public pid As Integer
         Public file As String
-        Public dumpOpt As Native.Api.NativeEnums.MINIDUMPTYPE
+        Public dumpOpt As Native.Api.NativeEnums.MiniDumpType
         Public newAction As Integer
-        Public Sub New(ByVal pi As Integer, ByVal fil As String, ByVal opt As Native.Api.NativeEnums.MINIDUMPTYPE, ByVal act As Integer)
+        Public Sub New(ByVal pi As Integer, ByVal fil As String, ByVal opt As Native.Api.NativeEnums.MiniDumpType, ByVal act As Integer)
             newAction = act
             file = fil
             dumpOpt = opt
@@ -63,23 +63,12 @@ Public Class asyncCallbackProcMinidump
 
             Case Else
                 ' Local
+
                 Try
-                    Dim hProc As IntPtr
-                    Dim ret As Integer = -1
-                    hProc = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation Or _
-                                            Native.Security.ProcessAccess.VmRead, _
-                                            False, pObj.pid)
-                    If hProc <> IntPtr.Zero Then
-                        ' Create dump file
-                        Dim fs As New System.IO.FileStream(pObj.file, System.IO.FileMode.Create)
-                        ' Write dump file
-                        Native.Api.NativeFunctions.MiniDumpWriteDump(hProc, pObj.pid, fs.SafeFileHandle.DangerousGetHandle(), pObj.dumpOpt, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero)
-                        Native.Api.NativeFunctions.CloseHandle(hProc)
-                        fs.Close()
-                        _deg.Invoke(ret <> 0, 0, pObj.file, Native.Api.Win32.GetLastError, pObj.newAction)
-                    Else
-                        _deg.Invoke(False, pObj.pid, pObj.file, Native.Api.Win32.GetLastError, pObj.newAction)
-                    End If
+                    Dim ret As Boolean = Native.Objects.Process.CreateMiniDumpFileById(pObj.pid, _
+                                                                    pObj.file, pObj.dumpOpt)
+                    _deg.Invoke(ret, pObj.pid, pObj.file, Native.Api.Win32.GetLastError, _
+                                pObj.newAction)
                 Catch ex As Exception
                     ' Access denied, or...
                     _deg.Invoke(False, pObj.pid, pObj.file, ex.Message, pObj.newAction)
