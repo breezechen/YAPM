@@ -549,7 +549,7 @@
     <Compile Include="Forms\MainForms\frmServer.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Modules\Program.vb" />
+    <Compile Include="Main\Program.vb" />
     <Compile Include="Native\Functions\Misc.vb" />
     <Compile Include="Native\Api\NativeConstants.vb" />
     <Compile Include="Native\Api\NativeEnums.vb" />
@@ -558,7 +558,11 @@
     <Compile Include="Native\Enums.vb" />
     <Compile Include="Native\Functions\Service.vb" />
     <Compile Include="Native\IntPtrExtensions.vb" />
+    <Compile Include="Native\Objects\Handle.vb" />
+    <Compile Include="Native\Objects\MemRegion.vb" />
     <Compile Include="Native\Objects\Service.vb" />
+    <Compile Include="Native\Objects\Task.vb" />
+    <Compile Include="Native\Objects\Window.vb" />
     <Compile Include="Native\Security\ProcessAccess.vb" />
     <Compile Include="Native\Security\ServiceAccess.vb" />
     <Compile Include="Native\Security\ServiceManagerAccess.vb" />

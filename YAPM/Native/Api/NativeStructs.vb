@@ -278,15 +278,10 @@ Namespace Native.Api
 
 #Region "Declarations used for tokens & privileges"
 
-        Public Structure TOKEN_PRIVILEGES
-            Dim PrivilegeCount As Integer
-            '<VBFixedArray(25)> _
-            Dim Privileges() As LuidAndAttributes
-        End Structure
-
         Public Structure TokenPrivileges
             Dim PrivilegeCount As Integer
-            Dim Privileges As LuidAndAttributes
+            <MarshalAs(UnmanagedType.ByValArray)> _
+            Dim Privileges() As LuidAndAttributes
         End Structure
 
         Public Structure Luid
@@ -313,11 +308,11 @@ Namespace Native.Api
             End Sub
         End Structure
 
-        Public Structure TOKEN_USER
-            Dim User As SID_AND_ATTRIBUTES
+        Public Structure TokenUser
+            Dim User As SidAndAttributes
         End Structure
 
-        Public Structure SID_AND_ATTRIBUTES
+        Public Structure SidAndAttributes
             Dim Sid As IntPtr
             Dim Attributes As Integer
         End Structure

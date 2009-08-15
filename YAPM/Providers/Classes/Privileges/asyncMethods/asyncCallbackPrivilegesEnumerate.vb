@@ -89,10 +89,11 @@ Public Class asyncCallbackPrivilegesEnumerate
                 ' Local
                 Dim _dico As New Dictionary(Of String, privilegeInfos)
 
-                Dim ret As Native.Api.NativeStructs.PrivilegeInfo() = GetPrivilegesList(pObj.pid)
+                Dim ret As Native.Api.NativeStructs.PrivilegeInfo() = _
+                    Native.Objects.Token.GetPrivilegesList(pObj.pid)
 
                 For Each tmp As Native.Api.NativeStructs.PrivilegeInfo In ret
-                    _dico.Add(tmp.Name, New privilegeInfos(tmp.Name, pObj.pid))
+                    _dico.Add(tmp.Name, New privilegeInfos(tmp.Name, pObj.pid, tmp.Status))
                 Next
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
@@ -103,95 +104,5 @@ Public Class asyncCallbackPrivilegesEnumerate
         sem.Release()
 
     End Sub
-
-
-
-    ' Get privileges list of process
-    Private Shared Function GetPrivilegesList(ByVal _pid As Integer) As Native.Api.NativeStructs.PrivilegeInfo()
-
-        Dim ListPrivileges() As Native.Api.NativeStructs.PrivilegeInfo
-        ReDim ListPrivileges(-1)
-        Dim hProcessToken As IntPtr
-        Dim hProcess As IntPtr
-        Dim RetLen As Integer
-        Dim TokenPriv As New Native.Api.NativeStructs.TOKEN_PRIVILEGES
-        Dim strBuff As New StringBuilder
-        Dim lngBuff As Integer
-        Dim i As Integer
-
-        hProcess = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation, False, _pid)
-        If hProcess <> IntPtr.Zero Then
-            Native.Api.NativeFunctions.OpenProcessToken(hProcess, Native.Security.TokenAccess.Query, hProcessToken)
-            If hProcessToken <> IntPtr.Zero Then
-
-                ' Get tokeninfo length
-                Native.Api.NativeFunctions.GetTokenInformation(hProcessToken, Native.Api.NativeEnums.TokenInformationClass.TokenPrivileges, IntPtr.Zero, 0, RetLen)
-                Dim TokenInformation As IntPtr = Marshal.AllocHGlobal(RetLen)
-                ' Get token information
-                Native.Api.NativeFunctions.GetTokenInformation(hProcessToken, Native.Api.NativeEnums.TokenInformationClass.TokenPrivileges, TokenInformation, RetLen, 0)
-                ' Get a valid structure
-                TokenPriv = getTokenPrivilegeStructureFromPointer(TokenInformation, RetLen)
-
-                ReDim ListPrivileges(TokenPriv.PrivilegeCount - 1)
-                For i = 0 To TokenPriv.PrivilegeCount - 1
-                    Native.Api.NativeFunctions.LookupPrivilegeName("", TokenPriv.Privileges(i).pLuid, strBuff, lngBuff)
-                    strBuff.EnsureCapacity(lngBuff - 1)
-                    Native.Api.NativeFunctions.LookupPrivilegeName("", TokenPriv.Privileges(i).pLuid, strBuff, lngBuff)
-                    ListPrivileges(i).Name = strBuff.ToString
-                    ListPrivileges(i).Status = TokenPriv.Privileges(i).Attributes
-                    ListPrivileges(i).pLuid = TokenPriv.Privileges(i).pLuid
-                    lngBuff = 0
-                Next i
-                Native.Api.NativeFunctions.CloseHandle(hProcessToken)
-                Marshal.FreeHGlobal(TokenInformation)
-            End If
-            Native.Api.NativeFunctions.CloseHandle(hProcess)
-        End If
-
-        Return ListPrivileges
-
-    End Function
-
-
-    Private Shared Function getTokenPrivilegeStructureFromPointer(ByVal ptr As IntPtr, _
-        ByVal RetLen As Integer) As Native.Api.NativeStructs.TOKEN_PRIVILEGES
-
-        'Public Structure LUID
-        '	Dim lowpart As Integer
-        '	Dim highpart As Integer
-        'End Structure
-        'Private Structure LUID_AND_ATTRIBUTES
-        '	Dim pLuid As LUID
-        '	Dim Attributes As Integer
-        'End Structure
-        'Private Structure TOKEN_PRIVILEGES
-        '	Dim PrivilegeCount As Integer
-        '	Dim Privileges() As LUID_AND_ATTRIBUTES
-        'End Structure
-
-        Dim ret As New Native.Api.NativeStructs.TOKEN_PRIVILEGES
-
-        ' Fill in int array from unmanaged memory
-        Dim arr(CInt(RetLen / 4)) As Integer
-        Marshal.Copy(ptr, arr, 0, arr.Length - 1)
-
-        ' Get number of privileges
-        Dim pCount As Integer = arr(0)     'CInt((RetLen - 4) / 12)
-        ReDim ret.Privileges(pCount - 1)
-        ret.PrivilegeCount = pCount
-
-        ' Fill Privileges() array of ret
-        ' Each item of array composed of three integer (lowPart, highPart and Attributes)
-        Dim ep As Integer = 1
-        For x As Integer = 0 To pCount - 1
-            ret.Privileges(x).pLuid.lowpart = arr(ep)
-            ret.Privileges(x).pLuid.highpart = arr(ep + 1)
-            ret.Privileges(x).Attributes = CType(arr(ep + 2), Native.Api.NativeEnums.SePrivilegeAttributes)
-            ep += 3
-        Next
-
-        Return ret
-
-    End Function
 
 End Class

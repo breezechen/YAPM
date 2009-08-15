@@ -26,6 +26,91 @@ Namespace Native.Objects
 
     Public Class Token
 
+        ' ========================================
+        ' Private constants
+        ' ========================================
+
+
+        ' ========================================
+        ' Private attributes
+        ' ========================================
+
+
+        ' ========================================
+        ' Public properties
+        ' ========================================
+
+        ' ========================================
+        ' Other public
+        ' ========================================
+
+
+        ' ========================================
+        ' Public functions
+        ' ========================================
+
+        ' Get privileges list of process
+        Public Shared Function GetPrivilegesList(ByVal pid As Integer) As Native.Api.NativeStructs.PrivilegeInfo()
+
+            Dim ListPrivileges(-1) As Native.Api.NativeStructs.PrivilegeInfo
+            Dim hProcessToken As IntPtr
+            Dim hProcess As IntPtr
+            Dim RetLen As Integer
+            Dim TokenPriv As New Native.Api.NativeStructs.TokenPrivileges
+
+            hProcess = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation, False, pid)
+            If hProcess <> IntPtr.Zero Then
+                Native.Api.NativeFunctions.OpenProcessToken(hProcess, Native.Security.TokenAccess.Query, hProcessToken)
+                If hProcessToken <> IntPtr.Zero Then
+
+                    ' Get tokeninfo length
+                    Native.Api.NativeFunctions.GetTokenInformation(hProcessToken, Native.Api.NativeEnums.TokenInformationClass.TokenPrivileges, IntPtr.Zero, 0, RetLen)
+
+                    'PERFISSUE (do not alloc each time)
+                    Dim memAlloc As New Native.Memory.MemoryAlloc(RetLen)
+
+                    ' Get token information
+                    Native.Api.NativeFunctions.GetTokenInformation(hProcessToken, Native.Api.NativeEnums.TokenInformationClass.TokenPrivileges, memAlloc.Pointer, memAlloc.Size, RetLen)
+
+                    ' Get number of privileges
+                    Dim count As Integer = CInt(memAlloc.ReadUInt32(0))
+                    ReDim ListPrivileges(count - 1)
+
+                    ' Retrieve list of privileges
+                    For i As Integer = 0 To count - 1
+                        Dim struct As NativeStructs.LuidAndAttributes = _
+                            memAlloc.ReadStruct(Of NativeStructs.LuidAndAttributes)(4, i)   ' 4 first bytes are used for the size
+                        ListPrivileges(i) = New NativeStructs.PrivilegeInfo
+                        With ListPrivileges(i)
+                            .pLuid = struct.pLuid
+                            .Status = struct.Attributes
+                            ' Get name
+                            Dim sb As New StringBuilder
+                            Dim size As Integer = 0
+                            ' Get size required for name
+                            If NativeFunctions.LookupPrivilegeName("", struct.pLuid, sb, size) = False Then
+                                ' Redim capacity
+                                sb.EnsureCapacity(size)
+                                NativeFunctions.LookupPrivilegeName("", struct.pLuid, sb, size)
+                            End If
+                            .Name = sb.ToString
+
+                        End With
+
+                    Next
+
+                    memAlloc.Free()
+                    NativeFunctions.CloseHandle(hProcessToken)
+
+                End If
+                NativeFunctions.CloseHandle(hProcess)
+            End If
+
+            Return ListPrivileges
+
+        End Function
+
+
         ' Set privilege status
         Public Shared Function SetPrivilege(ByVal processId As Integer, _
                                             ByVal seName As String, _
@@ -35,7 +120,7 @@ Namespace Native.Objects
             Dim fRet As Boolean
             Dim lngToken As IntPtr
             Dim typLUID As NativeStructs.Luid
-            Dim typTokenPriv As NativeStructs.TokenPrivileges
+            Dim typTokenPriv As New NativeStructs.TokenPrivileges
             Dim newTokenPriv As IntPtr
             Dim ret2 As IntPtr
 
@@ -48,14 +133,18 @@ Namespace Native.Objects
                 NativeFunctions.OpenProcessToken(hProcess, Security.TokenAccess.Query Or Security.TokenAccess.AdjustPrivileges, lngToken)
 
                 If lngToken <> IntPtr.Zero Then
+
+                    ' Retrieve Luid from PrivilegeName
                     If NativeFunctions.LookupPrivilegeValue(Nothing, seName, typLUID) Then
+
+                        ' Adjust privilege
                         typTokenPriv.PrivilegeCount = 1
-                        typTokenPriv.Privileges.Attributes = seStatus
-                        typTokenPriv.Privileges.pLuid = typLUID
-                        ' 64TODO
-                        Dim size As Integer = 4 + typTokenPriv.PrivilegeCount * 12
+                        ReDim typTokenPriv.Privileges(0)
+                        typTokenPriv.Privileges(0) = New NativeStructs.LuidAndAttributes
+                        typTokenPriv.Privileges(0).Attributes = seStatus
+                        typTokenPriv.Privileges(0).pLuid = typLUID
                         fRet = NativeFunctions.AdjustTokenPrivileges(lngToken, False, typTokenPriv, _
-                                                         size, newTokenPriv, ret2)
+                                                         0, newTokenPriv, ret2)
                     End If
                     NativeFunctions.CloseHandle(lngToken)
                 End If
@@ -64,50 +153,6 @@ Namespace Native.Objects
 
             Return fRet
         End Function
-
-
-        ' Get privilege status
-        Public Shared Function GetPrivilege(ByVal processId As Integer, _
-                            ByVal seName As String) As NativeEnums.SePrivilegeAttributes
-
-            Dim hProcessToken As IntPtr
-            Dim hProcess As IntPtr
-            Dim Ret As Boolean
-            Dim RetLen As Integer
-            Dim TokenPriv As Native.Api.NativeStructs.TOKEN_PRIVILEGES = Nothing
-            Dim i As Integer
-            Dim typLUID As Native.Api.NativeStructs.Luid
-            Dim res As Native.Api.NativeEnums.SePrivilegeAttributes
-
-            hProcess = NativeFunctions.OpenProcess(Security.ProcessAccess.QueryInformation, _
-                                       False, processId)
-            If hProcess <> IntPtr.Zero Then
-                NativeFunctions.OpenProcessToken(hProcess, Security.TokenAccess.Query, hProcessToken)
-                If hProcessToken <> IntPtr.Zero Then
-                    Ret = NativeFunctions.LookupPrivilegeValue(Nothing, seName, typLUID)
-
-                    ' Get tokeninfo length
-                    NativeFunctions.GetTokenInformation(hProcessToken, NativeEnums.TokenInformationClass.TokenPrivileges, IntPtr.Zero, 0, RetLen)
-                    Dim TokenInformation As IntPtr = Marshal.AllocHGlobal(RetLen)
-                    ' Get token ingo
-                    NativeFunctions.GetTokenInformation(hProcessToken, NativeEnums.TokenInformationClass.TokenPrivileges, TokenInformation, RetLen, 0)
-                    TokenPriv = getTokenPrivilegeStructureFromPointer(TokenInformation, RetLen)
-
-                    For i = 0 To TokenPriv.PrivilegeCount - 1
-                        If TokenPriv.Privileges(i).pLuid.lowpart = typLUID.lowpart Then
-                            res = TokenPriv.Privileges(i).Attributes
-                        End If
-                    Next i
-                    NativeFunctions.CloseHandle(hProcessToken)
-                    Marshal.FreeHGlobal(TokenInformation)
-                End If
-                NativeFunctions.CloseHandle(hProcess)
-            End If
-
-            Return res
-
-        End Function
-
 
         ' Get description of a privilege
         Public Shared Function GetPrivilegeDescription(ByVal privilegeName As String) As String
@@ -127,49 +172,9 @@ Namespace Native.Objects
         End Function
 
 
-
-        Private Shared Function getTokenPrivilegeStructureFromPointer(ByVal ptr As IntPtr, _
-            ByVal RetLen As Integer) As Native.Api.NativeStructs.TOKEN_PRIVILEGES
-
-            'Public Structure LUID
-            '	Dim lowpart As Integer
-            '	Dim highpart As Integer
-            'End Structure
-            'Private Structure LUID_AND_ATTRIBUTES
-            '	Dim pLuid As LUID
-            '	Dim Attributes As Integer
-            'End Structure
-            'Private Structure TOKEN_PRIVILEGES
-            '	Dim PrivilegeCount As Integer
-            '	Dim Privileges() As LUID_AND_ATTRIBUTES
-            'End Structure
-
-            Dim ret As New Native.Api.NativeStructs.TOKEN_PRIVILEGES
-
-            ' Fill in int array from unmanaged memory
-            Dim arr(CInt(RetLen / 4)) As Integer
-            Marshal.Copy(ptr, arr, 0, arr.Length - 1)
-
-            ' Get number of privileges
-            Dim pCount As Integer = arr(0)     'CInt((RetLen - 4) / 12)
-            ReDim ret.Privileges(pCount - 1)
-            ret.PrivilegeCount = pCount
-
-            ' Fill Privileges() array of ret
-            ' Each item of array composed of three integer (lowPart, highPart and Attributes)
-            Dim ep As Integer = 1
-            For x As Integer = 0 To pCount - 1
-                ret.Privileges(x).pLuid.lowpart = arr(ep)
-                ret.Privileges(x).pLuid.highpart = arr(ep + 1)
-                'TOCHANGE
-                ret.Privileges(x).Attributes = CType(arr(ep + 2), NativeEnums.SePrivilegeAttributes)
-                ep += 3
-            Next
-
-            Return ret
-
-        End Function
-
+        ' ========================================
+        ' Private functions
+        ' ========================================
 
     End Class
 

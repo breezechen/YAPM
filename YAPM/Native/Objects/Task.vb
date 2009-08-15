@@ -23,7 +23,8 @@ Imports YAPM.Native.Api
 
 Namespace Native.Objects
 
-    Public Class [Module]
+    Public Class Task
+        Inherits Native.Objects.Window
 
 
         ' ========================================

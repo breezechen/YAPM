@@ -369,8 +369,8 @@ Public Class asyncCallbackProcEnumerate
                 Native.Api.NativeFunctions.CloseHandle(_hProcess)
                 Native.Api.NativeFunctions.CloseHandle(hToken)
 
-                Dim user As New Native.Api.NativeStructs.TOKEN_USER
-                user = CType(Marshal.PtrToStructure(data, GetType(Native.Api.NativeStructs.TOKEN_USER)), Native.Api.NativeStructs.TOKEN_USER)
+                Dim user As New Native.Api.NativeStructs.TokenUser
+                user = CType(Marshal.PtrToStructure(data, GetType(Native.Api.NativeStructs.TokenUser)), Native.Api.NativeStructs.TokenUser)
 
                 Call GetAccountName(user.User.Sid, username, domain)
                 Marshal.FreeHGlobal(data)

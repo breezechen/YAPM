@@ -23,7 +23,7 @@ Imports YAPM.Native.Api
 
 Namespace Native.Objects
 
-    Public Class [Module]
+    Public Class MemRegion
 
 
         ' ========================================

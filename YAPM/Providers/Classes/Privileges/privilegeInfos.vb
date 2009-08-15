@@ -69,11 +69,11 @@ Imports System.Runtime.InteropServices
     ' ========================================
 
     ' Constructor of this class
-    Public Sub New(ByRef name As String, ByVal pid As Integer)
+    Public Sub New(ByRef name As String, ByVal pid As Integer, ByVal status As Native.Api.NativeEnums.SePrivilegeAttributes)
 
         _procId = pid
         _name = name
-        _status = Native.Objects.Token.GetPrivilege(pid, name)
+        _status = status
         _description = Native.Objects.Token.GetPrivilegeDescription(name)
 
     End Sub
