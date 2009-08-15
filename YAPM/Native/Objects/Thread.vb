@@ -42,6 +42,22 @@ Namespace Native.Objects
         ' Public properties
         ' ========================================
 
+        ' Min rights for Query
+        Public Shared ReadOnly Property ThreadQueryMinRights() As Native.Security.ThreadAccess
+            Get
+                Static _minRights As Native.Security.ThreadAccess = Native.Security.ThreadAccess.QueryInformation
+                Static checked As Boolean = False
+                If checked = False Then
+                    checked = True
+                    If cEnvironment.IsWindowsVistaOrAbove Then
+                        _minRights = Native.Security.ThreadAccess.QueryLimitedInformation
+                    End If
+                End If
+                Return _minRights
+            End Get
+        End Property
+
+
         ' ========================================
         ' Other public
         ' ========================================

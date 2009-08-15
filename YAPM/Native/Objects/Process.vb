@@ -64,8 +64,8 @@ Namespace Native.Objects
                 Static _minRights As Native.Security.ProcessAccess = Native.Security.ProcessAccess.QueryInformation
                 Static checked As Boolean = False
                 If checked = False Then
+                    checked = True
                     If cEnvironment.IsWindowsVistaOrAbove Then
-                        checked = True
                         _minRights = Native.Security.ProcessAccess.QueryLimitedInformation
                     End If
                 End If
