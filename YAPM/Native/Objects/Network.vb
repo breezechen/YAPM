@@ -19,8 +19,9 @@
 ' along with YAPM; if not, see http://www.gnu.org/licenses/.
 
 Imports System.Runtime.InteropServices
-Imports YAPM.Native.Api
 Imports System.Net
+Imports YAPM.Native.Api
+Imports YAPM.Common.Misc
 
 Namespace Native.Objects
 

@@ -21,6 +21,8 @@
 
 Option Strict On
 
+Imports YAPM.Common.Misc
+
 Public Class frmAbout
 
     Private Sub btnOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOK.Click

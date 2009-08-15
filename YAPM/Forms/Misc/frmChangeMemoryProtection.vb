@@ -22,6 +22,7 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
+Imports YAPM.Common.Misc
 
 Public Class frmChangeMemoryProtection
 

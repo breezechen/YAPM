@@ -22,6 +22,7 @@
 Option Strict On
 
 Imports System.Windows.Forms
+Imports YAPM.Common.Misc
 
 Public Class frmHiddenProcesses
 

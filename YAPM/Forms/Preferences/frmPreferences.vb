@@ -21,6 +21,8 @@
 
 Option Strict On
 
+Imports YAPM.Common.Misc
+
 Public Class frmPreferences
 
     Private _newcolor As Integer
@@ -67,8 +69,8 @@ Public Class frmPreferences
             My.Settings.HistorySize = CInt(Me.bufferSize.Value * 1024)
         End If
 
-        Call Misc.StartWithWindows(My.Settings.WindowsStartup)
-        Call Misc.ReplaceTaskmgr(My.Settings.ReplaceTaskmgr)
+        Common.Misc.StartWithWindows(My.Settings.WindowsStartup)
+        Common.Misc.ReplaceTaskmgr(My.Settings.ReplaceTaskmgr)
 
         ' Highlightings
         For Each it As ListViewItem In Me.lvHighlightingThread.Items
@@ -365,7 +367,7 @@ Public Class frmPreferences
             ' _inv.Invoke(s, False, False)
 
             'download code
-            Dim source As String = Misc.DownloadPage("http://yaprocmon.sourceforge.net/")
+            Dim source As String = Common.Misc.DownloadPage("http://yaprocmon.sourceforge.net/")
             If source.Length = 0 Then Return False
 
             s = "Retrieve last version number from downloaded informations..."
@@ -456,7 +458,7 @@ Public Class frmPreferences
         ' Download webpage and extract URL
         Try
             Dim tofind As String = "<LI><A href=" & Chr(34) & "http://downloads"
-            Dim source As String = Misc.DownloadPage("http://yaprocmon.sourceforge.net/index.html")
+            Dim source As String = Common.Misc.DownloadPage("http://yaprocmon.sourceforge.net/index.html")
             If source.Length = 0 Then
                 If dObj.deg IsNot Nothing AndAlso dObj.ctrl.Created Then _
                     dObj.ctrl.Invoke(dObj.deg)

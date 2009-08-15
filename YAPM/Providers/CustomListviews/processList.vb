@@ -367,7 +367,7 @@ Public Class processList
                     Dim fName As String = proc.Infos.Path
 
                     If IO.File.Exists(fName) Then
-                        Me.SmallImageList.Images.Add(fName, GetIcon(fName, True))
+                        Me.SmallImageList.Images.Add(fName, Common.Misc.GetIcon(fName, True))
                         item.ImageKey = fName
                     Else
                         item.ImageKey = "noIcon"

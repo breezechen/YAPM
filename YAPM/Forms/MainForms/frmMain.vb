@@ -23,6 +23,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 Imports YAPM.Program
+Imports YAPM.Common.Misc
 
 Public Class frmMain
 
@@ -2112,7 +2113,7 @@ Public Class frmMain
     End Sub
 
     Private Sub lvTask_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvTask.MouseDown
-        Call Misc.CopyLvToClip(e, Me.lvTask)
+        Common.Misc.CopyLvToClip(e, Me.lvTask)
     End Sub
 
     Private Sub lvServices_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvServices.KeyDown
@@ -2133,7 +2134,7 @@ Public Class frmMain
     End Sub
 
     Private Sub lvServices_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseDown
-        Call Misc.CopyLvToClip(e, Me.lvServices)
+        Common.Misc.CopyLvToClip(e, Me.lvServices)
     End Sub
 
     Private Sub lvServices_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvServices.MouseUp
@@ -2288,7 +2289,7 @@ Public Class frmMain
     End Sub
 
     Private Sub lvSearchResults_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvSearchResults.MouseDown
-        Call Misc.CopyLvToClip(e, Me.lvSearchResults)
+        Common.Misc.CopyLvToClip(e, Me.lvSearchResults)
     End Sub
 
     Private Sub lvProcess_GotAnError(ByVal origin As String, ByVal msg As String) Handles lvProcess.GotAnError
@@ -2331,7 +2332,7 @@ Public Class frmMain
     End Sub
 
     Private Sub lvProcess_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseDown
-        Call Misc.CopyLvToClip(e, Me.lvProcess)
+        Common.Misc.CopyLvToClip(e, Me.lvProcess)
     End Sub
 
     Private Sub lvProcess_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseUp
@@ -2387,7 +2388,7 @@ Public Class frmMain
     End Sub
 
     Private Sub lvModules_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvModules.MouseDown
-        Call Misc.CopyLvToClip(e, Me.lvModules)
+        Common.Misc.CopyLvToClip(e, Me.lvModules)
     End Sub
 
     Private Sub lvModules_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvModules.MouseUp
@@ -2524,7 +2525,7 @@ Public Class frmMain
     End Sub
 
     Private Sub lvWindows_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvWindows.MouseDown
-        Call Misc.CopyLvToClip(e, Me.lvWindows)
+        Common.Misc.CopyLvToClip(e, Me.lvWindows)
     End Sub
 
     Private Sub lvWindows_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvWindows.MouseUp
@@ -2592,7 +2593,7 @@ Public Class frmMain
     End Sub
 
     Private Sub lvThreads_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvThreads.MouseDown
-        Call Misc.CopyLvToClip(e, Me.lvThreads)
+        Common.Misc.CopyLvToClip(e, Me.lvThreads)
     End Sub
 
     Private Sub lvThreads_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvThreads.MouseUp
@@ -2941,7 +2942,7 @@ Public Class frmMain
     End Sub
 
     Private Sub lvHandles_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHandles.MouseDown
-        Call Misc.CopyLvToClip(e, Me.lvHandles)
+        Common.Misc.CopyLvToClip(e, Me.lvHandles)
     End Sub
 
     Private Sub txtSearchWindow_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchWindow.TextChanged
@@ -4712,7 +4713,7 @@ Public Class frmMain
                     End If
                 End If
             ElseIf _tmp.Infos.Type = "Key" Then
-                Call Misc.NavigateToRegedit(_tmp.Infos.Name)
+                Common.Misc.NavigateToRegedit(_tmp.Infos.Name)
             End If
         End If
     End Sub
@@ -4856,8 +4857,8 @@ Public Class frmMain
             Call Program.SystemInfo.RefreshInfo()
 
             Me.sbPanelConnection.Text = Program.Connection.ToString
-            Me.sbPanelCpu.Text = "CPU : " & Misc.GetFormatedPercentage(Program.SystemInfo.CpuUsage, 3, True) & " %"
-            Me.sbPanelMemory.Text = "Phys. Memory : " & Misc.GetFormatedPercentage(Program.SystemInfo.PhysicalMemoryPercentageUsage, 3, True) & " %"
+            Me.sbPanelCpu.Text = "CPU : " & Common.Misc.GetFormatedPercentage(Program.SystemInfo.CpuUsage, 3, True) & " %"
+            Me.sbPanelMemory.Text = "Phys. Memory : " & Common.Misc.GetFormatedPercentage(Program.SystemInfo.PhysicalMemoryPercentageUsage, 3, True) & " %"
             Me.sbPanelProcesses.Text = Me.lvProcess.Items.Count & " processes"
             Me.sbPanelServices.Text = Me.lvServices.Items.Count & " services"
 

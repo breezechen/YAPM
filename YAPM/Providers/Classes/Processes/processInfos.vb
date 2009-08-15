@@ -277,7 +277,7 @@ Imports System.Runtime.InteropServices
                 If ProcessName IsNot Nothing Then
                     _Name = ProcessName
                 Else
-                    _Name = ReadUnicodeString(.ImageName)
+                    _Name = Common.Misc.ReadUnicodeString(.ImageName)
                 End If
             Else
                 _Name = "Idle process"

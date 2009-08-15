@@ -25,6 +25,7 @@ Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Windows.Forms
 Imports System.Management
+Imports YAPM.Common.Misc
 
 Public Class asyncCallbackProcEnumerate
 

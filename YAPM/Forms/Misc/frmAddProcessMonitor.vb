@@ -22,6 +22,7 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
+Imports YAPM.Common.Misc
 
 Public Class frmAddProcessMonitor
 
@@ -181,7 +182,7 @@ Public Class frmAddProcessMonitor
     End Sub
 
     Private Sub lstCategory_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lstCategory.MouseDown
-        Call Misc.CopyLvToClip(e, lstCategory)
+        Common.Misc.CopyLvToClip(e, lstCategory)
     End Sub
 
     Private Sub lstCategory_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstCategory.SelectedIndexChanged
@@ -215,7 +216,7 @@ Public Class frmAddProcessMonitor
     End Sub
 
     Private Sub lstInstance_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lstInstance.MouseDown
-        Call Misc.CopyLvToClip(e, lstInstance)
+        Common.Misc.CopyLvToClip(e, lstInstance)
     End Sub
 
     Private Sub lstInstance_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstInstance.SelectedIndexChanged
@@ -257,7 +258,7 @@ Public Class frmAddProcessMonitor
     End Sub
 
     Private Sub lstCounterType_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lstCounterType.MouseDown
-        Call Misc.CopyLvToClip(e, lstCounterType)
+        Common.Misc.CopyLvToClip(e, lstCounterType)
     End Sub
 
     Private Sub lstCounterType_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstCounterType.SelectedIndexChanged
@@ -279,7 +280,7 @@ Public Class frmAddProcessMonitor
     End Sub
 
     Private Sub lstToAdd_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lstToAdd.MouseDown
-        Call Misc.CopyLvToClip(e, lstToAdd)
+        Common.Misc.CopyLvToClip(e, lstToAdd)
     End Sub
 
     Private Sub cmdSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSearch.Click

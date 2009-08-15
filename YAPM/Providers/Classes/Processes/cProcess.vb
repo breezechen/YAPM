@@ -21,6 +21,7 @@
 Option Strict On
 
 Imports System.Drawing
+Imports YAPM.Common.Misc
 
 Public Class cProcess
     Inherits cGeneralObject

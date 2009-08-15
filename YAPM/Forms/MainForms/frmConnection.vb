@@ -20,6 +20,8 @@
 
 Option Strict On
 
+Imports YAPM.Common.Misc
+
 Public Class frmConnection
 
     Private REMOTE_PORT As Integer

@@ -80,14 +80,14 @@ Public Class asyncCallbackNetworkCloseConnection
         Dim row As New Native.Api.NativeStructs.MibTcpRow
         With row
             If remote IsNot Nothing Then
-                .RemotePort = PermuteBytes(remote.Port)
-                .RemoteAddress = getAddressAsInteger(remote)
+                .RemotePort = Common.Misc.PermuteBytes(remote.Port)
+                .RemoteAddress = Common.Misc.getAddressAsInteger(remote)
             Else
                 .RemotePort = 0
                 .RemoteAddress = 0
             End If
-            .LocalAddress = getAddressAsInteger(local)
-            .LocalPort = PermuteBytes(local.Port)
+            .LocalAddress = Common.Misc.getAddressAsInteger(local)
+            .LocalPort = Common.Misc.PermuteBytes(local.Port)
             .State = Native.Api.Enums.MibTcpState.DeleteTcb
         End With
 

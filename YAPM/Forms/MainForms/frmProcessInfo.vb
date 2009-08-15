@@ -22,6 +22,7 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
+Imports YAPM.Common.Misc
 
 Public Class frmProcessInfo
 
@@ -2177,7 +2178,7 @@ Public Class frmProcessInfo
                     End If
                 End If
             ElseIf _tmp.Infos.Type = "Key" Then
-                Call Misc.NavigateToRegedit(_tmp.Infos.Name)
+                Common.Misc.NavigateToRegedit(_tmp.Infos.Name)
             End If
         End If
     End Sub

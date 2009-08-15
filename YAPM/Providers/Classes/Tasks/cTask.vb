@@ -112,7 +112,7 @@ Public Class cTask
 
         Select Case info
             Case "CpuUsage"
-                res = GetFormatedPercentage(Me.CpuUsage)
+                res = Common.Misc.GetFormatedPercentage(Me.CpuUsage)
                 If res = _old_CpuUsage Then
                     hasChanged = False
                 Else

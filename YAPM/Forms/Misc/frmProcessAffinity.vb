@@ -21,6 +21,8 @@
 
 Option Strict On
 
+Imports YAPM.Common.Misc
+
 Public Class frmProcessAffinity
 
     Private proc As cProcess()

@@ -25,6 +25,7 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
+Imports YAPM.Common.Misc
 
 <Serializable()> Public Class logItemInfos
     Inherits generalInfos

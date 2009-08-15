@@ -21,6 +21,8 @@
 
 Option Strict On
 
+Imports YAPM.Common.Misc
+
 Public Class frmSystemInfo
 
     Private _processors As Integer = 1

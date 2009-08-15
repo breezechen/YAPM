@@ -27,7 +27,7 @@ Public Class frmWindowsList
 
     Private Sub frmWindowsList_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        closeWithEchapKey(Me)
+        Common.Misc.closeWithEchapKey(Me)
 
         Native.Functions.Misc.SetTheme(lv.Handle)
         Call RefreshWindowsList()

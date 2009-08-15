@@ -22,6 +22,7 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
+Imports YAPM.Common.Misc
 
 Public Class frmFileRelease
 
@@ -145,7 +146,7 @@ Public Class frmFileRelease
     End Sub
 
     Private Sub lv_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lv.MouseDown
-        Call Misc.CopyLvToClip(e, Me.lv)
+        Common.Misc.CopyLvToClip(e, Me.lv)
     End Sub
 
 End Class

@@ -21,6 +21,8 @@
 
 Option Strict On
 
+Imports YAPM.Common.Misc
+
 Public Class frmTracker
 
     Private Sub frmTracker_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load

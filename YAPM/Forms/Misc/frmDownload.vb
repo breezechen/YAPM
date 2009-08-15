@@ -82,6 +82,6 @@ Public Class frmDownload
     End Sub
 
     Private Sub frmDownload_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        SetToolTip(Me.Cancel_Button, "Cancel download")
+        Common.Misc.SetToolTip(Me.Cancel_Button, "Cancel download")
     End Sub
 End Class

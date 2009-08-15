@@ -345,10 +345,10 @@ Public Class cMemRegion
     ' Get size as a string
     Private Function getSizeString() As String
         Static oldSize As Integer = Me.Infos.RegionSize
-        Static _sizeStr As String = GetFormatedSize(Me.Infos.RegionSize)
+        Static _sizeStr As String = Common.Misc.GetFormatedSize(Me.Infos.RegionSize)
 
         If Not (Me.Infos.RegionSize = oldSize) Then
-            _sizeStr = GetFormatedSize(Me.Infos.RegionSize)
+            _sizeStr = Common.Misc.GetFormatedSize(Me.Infos.RegionSize)
             oldSize = Me.Infos.RegionSize
         End If
 

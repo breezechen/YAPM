@@ -64,7 +64,7 @@ Public Class cAsyncProcInfoDownload
         '<h4 class="red-heading">Security risk (0-5):</h4><p>0</p>
 
         Dim s As String
-        s = DownloadPage("http://www.processlibrary.com/directory/files/" & _
+        s = Common.Misc.DownloadPage("http://www.processlibrary.com/directory/files/" & _
                          LCase(_procName) & "/")
 
         Dim i As Integer = InStr(s, "Security risk (0-5)", CompareMethod.Binary)

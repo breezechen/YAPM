@@ -22,6 +22,7 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
+Imports YAPM.Common.Misc
 
 Public Class frmChooseColumns
 
@@ -149,7 +150,7 @@ Public Class frmChooseColumns
         Dim minIndex As Integer = Integer.MaxValue
         ' Start from 1 because item 0 is fixed and not added in our list
         For x As Integer = 1 To ConcernedListView.Columns.Count - 1
-            Dim col As ColumnHeader = Misc.GetColumnHeaderByDisplayIndex(ConcernedListView, x)
+            Dim col As ColumnHeader = Common.Misc.GetColumnHeaderByDisplayIndex(ConcernedListView, x)
             Dim sss As String = col.Text.Replace("< ", "").Replace("> ", "")
             Dim it As New ListViewItem(sss)
             it.Checked = True

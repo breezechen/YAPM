@@ -162,7 +162,7 @@ Imports System.Runtime.InteropServices
         End With
         _processId = pid
 
-        _path = GetRealPath(path)
+        _path = Common.Misc.GetRealPath(path)
         _name = cFile.GetFileName(_path)
         _manufacturer = manufacturer
         _version = version

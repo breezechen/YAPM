@@ -50,7 +50,7 @@ Public Class frmChooseProcess
 
     Private Sub frmChooseProcess_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-        closeWithEchapKey(Me)
+        Common.Misc.closeWithEchapKey(Me)
 
         Native.Functions.Misc.SetTheme(Me.lvProcess.Handle)
         lvProcess.UpdateTheItems()

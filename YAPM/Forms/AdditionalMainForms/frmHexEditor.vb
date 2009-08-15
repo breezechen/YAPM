@@ -38,7 +38,7 @@ Public Class frmHexEditor
 
     Private Sub frmHexEditor_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        closeWithEchapKey(Me)
+        Common.Misc.closeWithEchapKey(Me)
 
         With _hex
             .BackColor = Color.White

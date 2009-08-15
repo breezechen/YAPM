@@ -356,7 +356,7 @@ Imports System.Text
     End Sub
 
     Friend Sub SetRealImagePath()
-        _path = GetRealPath(_path)
+        _path = Common.Misc.GetRealPath(_path)
     End Sub
 
     Friend Sub SetRegInfos(ByVal desc As String, ByVal dmf As String, ByVal obj As String)

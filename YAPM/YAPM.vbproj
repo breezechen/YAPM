@@ -872,7 +872,6 @@
     <Compile Include="UserControls\Graph.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Modules\Misc.vb" />
     <Compile Include="Classes\Misc\Pref.vb" />
     <None Include="Resources\folder_info.png" />
     <None Include="Resources\info.png" />

@@ -175,7 +175,7 @@ Public Class cNetwork
 
     ' Parse port text file
     Public Shared Sub ParsePortTextFile()
-        Call ParsePortTextFiles(My.Application.Info.DirectoryPath & "\tcp.txt", _
+        Common.Misc.ParsePortTextFiles(My.Application.Info.DirectoryPath & "\tcp.txt", _
                                 My.Application.Info.DirectoryPath & "\udp.txt", _
                                 _dicoTcp, _dicoUdp)
     End Sub
