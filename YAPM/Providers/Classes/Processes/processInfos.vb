@@ -55,14 +55,14 @@ Imports System.Runtime.InteropServices
     Private _AffinityMask As IntPtr
     Private _PebAddress As IntPtr
     Private _ParentProcessId As Integer
-    Private _IOValues As Native.Api.NativeStructs.IO_COUNTERS
+    Private _IOValues As Native.Api.NativeStructs.IoCounters
     Private _Path As String
     Private _UserName As String
     Private _DomainName As String
     Private _Name As String
     Private _KernelTime As Long
     Private _UserTime As Long
-    Private _MemoryInfos As Native.Api.NativeStructs.VM_COUNTERS_EX
+    Private _MemoryInfos As Native.Api.NativeStructs.VmCountersEx
     Private _HandleCount As Integer
     Private _StartTime As Long
     Private _Priority As ProcessPriorityClass
@@ -111,7 +111,7 @@ Imports System.Runtime.InteropServices
             Return _ParentProcessId
         End Get
     End Property
-    Public ReadOnly Property IOValues() As Native.Api.NativeStructs.IO_COUNTERS
+    Public ReadOnly Property IOValues() As Native.Api.NativeStructs.IoCounters
         Get
             Return _IOValues
         End Get
@@ -136,7 +136,7 @@ Imports System.Runtime.InteropServices
             Return _UserTime
         End Get
     End Property
-    Public ReadOnly Property MemoryInfos() As Native.Api.NativeStructs.VM_COUNTERS_EX
+    Public ReadOnly Property MemoryInfos() As Native.Api.NativeStructs.VmCountersEx
         Get
             Return _MemoryInfos
         End Get

@@ -51,8 +51,8 @@ Public Class frmFileRelease
         Dim sComp As String
         Dim i As Integer = 0
 
-        cProcess.SemCurrentProcesses.WaitOne()
-        For Each cProc As cProcess In cProcess.CurrentProcesses.Values
+        Native.Objects.Process.SemCurrentProcesses.WaitOne()
+        For Each cProc As cProcess In Native.Objects.Process.CurrentProcesses.Values
             Try
                 ' TODO_
                 '' Check for modules
@@ -79,7 +79,7 @@ Public Class frmFileRelease
                 '
             End Try
         Next
-        cProcess.SemCurrentProcesses.Release()
+        Native.Objects.Process.SemCurrentProcesses.Release()
 
         cHandle.GetOpenedHandlesClass.Refresh()
         For i = 0 To cHandle.GetOpenedHandlesClass.Count - 1

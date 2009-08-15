@@ -66,7 +66,7 @@ Public Class asyncCallbackProcGetAllNonFixedInfos
                             .BasePriority = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.Priority.ToString))
                             .HandleCount = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.HandleCount.ToString))
                             '.InheritedFromProcessId = CInt(refProcess.Item(API.WMI_INFO.ParentProcessId.ToString))
-                            Dim _IO As New Native.Api.NativeStructs.IO_COUNTERS
+                            Dim _IO As New Native.Api.NativeStructs.IoCounters
                             With _IO
                                 .OtherOperationCount = CULng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.OtherOperationCount.ToString))
                                 .OtherTransferCount = CULng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.OtherTransferCount.ToString))
@@ -81,7 +81,7 @@ Public Class asyncCallbackProcGetAllNonFixedInfos
                             '.ProcessId = CInt(refProcess.Item(API.WMI_INFO.ProcessId.ToString))
                             '.SessionId                 ' NOT IMPLEMENTED
                             .UserTime = CLng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.UserModeTime.ToString))
-                            Dim _VM As New Native.Api.NativeStructs.VM_COUNTERS_EX
+                            Dim _VM As New Native.Api.NativeStructs.VmCountersEx
                             With _VM
                                 .PageFaultCount = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PageFaults.ToString))
                                 .PagefileUsage = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PageFileUsage.ToString))

@@ -74,7 +74,7 @@ Public Class cMemRegion
             If leng > 0 Then
                 Dim file As String = sb.ToString(0, leng)
                 If file.StartsWith("\") Then
-                    file = asyncCallbackProcEnumerate.DeviceDriveNameToDosDriveName(file)
+                    file = Common.Misc.DeviceDriveNameToDosDriveName(file)
                 End If
                 Return file
             Else

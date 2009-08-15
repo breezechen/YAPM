@@ -54,8 +54,8 @@ Namespace Native.Api
             Public HandleCount As Integer
             Public SessionId As Integer
             Public PageDirectoryBase As Integer
-            Public VirtualMemoryCounters As VM_COUNTERS_EX
-            Public IoCounters As IO_COUNTERS
+            Public VirtualMemoryCounters As VmCountersEx
+            Public IoCounters As IoCounters
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
@@ -171,17 +171,17 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential), Serializable()> _
-        Public Structure IO_COUNTERS
+        Public Structure IoCounters
             Public ReadOperationCount As ULong
             Public WriteOperationCount As ULong
             Public OtherOperationCount As ULong
             Public ReadTransferCount As ULong
             Public WriteTransferCount As ULong
             Public OtherTransferCount As ULong
-            Public Shared Operator <>(ByVal i1 As IO_COUNTERS, ByVal i2 As IO_COUNTERS) As Boolean
+            Public Shared Operator <>(ByVal i1 As IoCounters, ByVal i2 As IoCounters) As Boolean
                 Return Not (i1 = i2)
             End Operator
-            Public Shared Operator =(ByVal i1 As IO_COUNTERS, ByVal i2 As IO_COUNTERS) As Boolean
+            Public Shared Operator =(ByVal i1 As IoCounters, ByVal i2 As IoCounters) As Boolean
                 Return (i1.ReadOperationCount = i2.ReadOperationCount AndAlso _
                     i1.WriteOperationCount = i2.WriteOperationCount AndAlso _
                     i1.OtherOperationCount = i2.OtherOperationCount AndAlso _
@@ -192,7 +192,7 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential), Serializable()> _
-        Public Structure VM_COUNTERS_EX
+        Public Structure VmCountersEx
             Public PeakVirtualSize As Integer
             Public VirtualSize As Integer
             Public PageFaultCount As Integer
@@ -205,10 +205,10 @@ Namespace Native.Api
             Public PagefileUsage As Integer
             Public PeakPagefileUsage As Integer
             Public PrivateBytes As Integer
-            Public Shared Operator <>(ByVal m1 As VM_COUNTERS_EX, ByVal m2 As VM_COUNTERS_EX) As Boolean
+            Public Shared Operator <>(ByVal m1 As VmCountersEx, ByVal m2 As VmCountersEx) As Boolean
                 Return Not (m1 = m2)
             End Operator
-            Public Shared Operator =(ByVal i1 As VM_COUNTERS_EX, ByVal i2 As VM_COUNTERS_EX) As Boolean
+            Public Shared Operator =(ByVal i1 As VmCountersEx, ByVal i2 As VmCountersEx) As Boolean
                 Return (i1.PeakVirtualSize = i2.PeakVirtualSize AndAlso _
                     i1.VirtualSize = i2.VirtualSize AndAlso _
                     i1.PageFaultCount = i2.PageFaultCount AndAlso _

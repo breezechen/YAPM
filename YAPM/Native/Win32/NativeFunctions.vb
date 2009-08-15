@@ -39,6 +39,14 @@ Namespace Native.Api
         Public Shared Function GetCurrentProcessId() As Integer
         End Function
 
+        ' Vista and higher
+        <DllImport("kernel32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
+        Public Shared Function QueryFullProcessImageName(<[In]()> ByVal ProcessHandle As IntPtr, _
+                <[In]()> <MarshalAs(UnmanagedType.Bool)> ByVal UseNativeName As Boolean, _
+                <Out()> ByVal ExeName As StringBuilder, _
+                ByRef Size As Integer) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
+
         <DllImport("ntdll.dll")> _
         Public Shared Function NtQueryInformationProcess(<[In]()> ByVal ProcessHandle As IntPtr, _
                 <[In]()> ByVal ProcessInformationClass As ProcessInformationClass, _

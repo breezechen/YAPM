@@ -522,7 +522,7 @@ Public Class frmServer
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim aff As Integer = CType(cData.Param2, Integer)
                         Try
-                            cProcess.GetProcessById(pid).SetAffinity(aff)
+                            Native.Objects.Process.GetProcessById(pid).SetAffinity(aff)
                         Catch ex As Exception
                             ' Process does not exist
                         End Try
@@ -530,56 +530,56 @@ Public Class frmServer
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim level As System.Diagnostics.ProcessPriorityClass = CType(cData.Param2, ProcessPriorityClass)
                         Try
-                            cProcess.GetProcessById(pid).SetPriority(level)
+                            Native.Objects.Process.GetProcessById(pid).SetPriority(level)
                         Catch ex As Exception
                             ' Process does not exist
                         End Try
                     Case cSocketData.OrderType.ProcessDecreasePriority
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
-                            cProcess.GetProcessById(pid).DecreasePriority()
+                            Native.Objects.Process.GetProcessById(pid).DecreasePriority()
                         Catch ex As Exception
                             ' Process does not exist
                         End Try
                     Case cSocketData.OrderType.ProcessIncreasePriority
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
-                            cProcess.GetProcessById(pid).IncreasePriority()
+                            Native.Objects.Process.GetProcessById(pid).IncreasePriority()
                         Catch ex As Exception
                             ' Process does not exist
                         End Try
                     Case cSocketData.OrderType.ProcessKill
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
-                            cProcess.GetProcessById(pid).Kill()
+                            Native.Objects.Process.GetProcessById(pid).Kill()
                         Catch ex As Exception
                             ' Process does not exist
                         End Try
                     Case cSocketData.OrderType.ProcessKillTree
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
-                            cProcess.GetProcessById(pid).KillProcessTree()
+                            Native.Objects.Process.GetProcessById(pid).KillProcessTree()
                         Catch ex As Exception
                             ' Process does not exist
                         End Try
                     Case cSocketData.OrderType.ProcessReduceWorkingSet
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
-                            cProcess.GetProcessById(pid).EmptyWorkingSetSize()
+                            Native.Objects.Process.GetProcessById(pid).EmptyWorkingSetSize()
                         Catch ex As Exception
                             ' Process does not exist
                         End Try
                     Case cSocketData.OrderType.ProcessResume
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
-                            cProcess.GetProcessById(pid).ResumeProcess()
+                            Native.Objects.Process.GetProcessById(pid).ResumeProcess()
                         Catch ex As Exception
                             ' Process does not exist
                         End Try
                     Case cSocketData.OrderType.ProcessSuspend
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
-                            cProcess.GetProcessById(pid).SuspendProcess()
+                            Native.Objects.Process.GetProcessById(pid).SuspendProcess()
                         Catch ex As Exception
                             ' Process does not exist
                         End Try

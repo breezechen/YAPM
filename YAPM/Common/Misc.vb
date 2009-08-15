@@ -38,6 +38,12 @@ Namespace Common
         ' Private attributes
         ' ========================================
 
+        ' Contains devices (logical drives) and their corresponding path
+        ' e.g. :        /Device/Harddisk1/...       , C:
+        ' Protected by semaphore
+        Private Shared _DicoLogicalDrivesNames As New Dictionary(Of String, String)
+        Private Shared _semProtectDicoLogDrives As New System.Threading.Semaphore(1, 1)
+
 
         ' ========================================
         ' Public properties
@@ -852,10 +858,73 @@ Namespace Common
 
         End Function
 
+        ' Return a well formated path
+        Public Shared Function GetWellFormatedPath(ByVal path As String) As String
+            If path IsNot Nothing Then
+                If path.ToUpperInvariant.StartsWith("\SYSTEMROOT\") Then
+                    path = path.Substring(12, path.Length - 12)
+                    Dim ii As Integer = InStr(path, "\", CompareMethod.Binary)
+                    If ii > 0 Then
+                        path = path.Substring(ii, path.Length - ii)
+                        path = Environment.SystemDirectory & "\" & path
+                    End If
+                ElseIf path.StartsWith("\??\") Then
+                    path = path.Substring(4)
+                End If
+            End If
+            Return path
+        End Function
+
+        ' Return dos drive name
+        Public Shared Function DeviceDriveNameToDosDriveName(ByVal path As String) As String
+
+            Dim res As String = Nothing
+            Dim found As Boolean = False
+
+            _semProtectDicoLogDrives.WaitOne()
+            For Each pair As System.Collections.Generic.KeyValuePair(Of String, String) In _DicoLogicalDrivesNames
+                If path.StartsWith(pair.Key) Then
+                    res = pair.Value & path.Substring(pair.Key.Length)
+                    found = True
+                    Exit For
+                End If
+            Next
+            _semProtectDicoLogDrives.Release()
+
+            If found Then
+                Return res
+            Else
+                Return path
+            End If
+
+        End Function
+
+        ' Refresh the dictionnary of logical drives
+        Public Shared Sub RefreshLogicalDrives()
+
+            Dim _tempDico As Dictionary(Of String, String) = New Dictionary(Of String, String)
+
+            ' From 'A' to 'Z'
+            ' It also possible to use GetLogicalDriveStringsA
+            For c As Byte = 65 To 90
+                Dim _badPath As New System.Text.StringBuilder(1024)
+
+                If Native.Api.NativeFunctions.QueryDosDevice(Char.ConvertFromUtf32(c) & ":", _badPath, 1024) <> 0 Then
+                    _tempDico.Add(_badPath.ToString(), Char.ConvertFromUtf32(c).ToString() & ":")
+                End If
+            Next
+
+            _semProtectDicoLogDrives.WaitOne()
+            _DicoLogicalDrivesNames = _tempDico
+            _semProtectDicoLogDrives.Release()
+        End Sub
+
+
 
         ' ========================================
         ' Private functions
         ' ========================================
+
         Private Shared Sub handlerCloseForm_(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs)
             If e.KeyCode = System.Windows.Forms.Keys.Escape Then
                 Try

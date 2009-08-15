@@ -246,10 +246,9 @@ Public Class processList
             _dico.Add(z.ToString, _it)
         Next
 
-
-        cProcess.SemCurrentProcesses.WaitOne()
-        cProcess.CurrentProcesses = New Dictionary(Of String, cProcess)((_dico))
-        cProcess.SemCurrentProcesses.Release()
+        Native.Objects.Process.SemCurrentProcesses.WaitOne()
+        Native.Objects.Process.CurrentProcesses = New Dictionary(Of String, cProcess)((_dico))
+        Native.Objects.Process.SemCurrentProcesses.Release()
 
 
         ' Now add all new items to listview
@@ -403,14 +402,14 @@ Public Class processList
     Private Sub Connect()
         _first = True
         _processConnection.ConnectionObj = _connectionObject
-        asyncCallbackProcEnumerate.ClearDico()
+        Native.Objects.Process.ClearNewProcessesDico()
         _processConnection.Connect()
         cProcess.Connection = _processConnection
     End Sub
 
     Private Sub Disconnect()
         _processConnection.Disconnect()
-        asyncCallbackProcEnumerate.ClearDico()
+        Native.Objects.Process.ClearNewProcessesDico()
     End Sub
 
     Private Sub HasDisconnected(ByVal Success As Boolean)

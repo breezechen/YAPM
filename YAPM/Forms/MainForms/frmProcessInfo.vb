@@ -227,7 +227,7 @@ Public Class frmProcessInfo
         Me.lblOtherD.Text = curProc.IODelta.OtherOperationCount.ToString
         Me.lblOthersBD.Text = curProc.GetInformation("OtherTransferCountDelta")
 
-        Dim mem As Native.Api.NativeStructs.VM_COUNTERS_EX = curProc.Infos.MemoryInfos
+        Dim mem As Native.Api.NativeStructs.VmCountersEx = curProc.Infos.MemoryInfos
         Me.lblHandles.Text = CStr(curProc.Infos.HandleCount)
         Dim ts As Date = New Date(curProc.Infos.KernelTime)
         Dim s As String = String.Format("{0:00}", ts.Hour) & ":" & _
@@ -262,7 +262,7 @@ Public Class frmProcessInfo
     ' Refresh information tab
     Private Sub refreshInfosTab()
         Try
-            Dim pmc As Native.Api.NativeStructs.VM_COUNTERS_EX = curProc.Infos.MemoryInfos
+            Dim pmc As Native.Api.NativeStructs.VmCountersEx = curProc.Infos.MemoryInfos
             Dim s As String = ""
             s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
             s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b File properties\b0\par"

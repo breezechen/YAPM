@@ -104,9 +104,9 @@ Public Class cEnvVariableConnection
     Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid As Integer, ByVal peb As IntPtr, Optional ByVal forInstanceId As Integer = -1) As Integer
         Dim _pe As IntPtr = peb
         If _pe = New IntPtr(-1) Then
-            cProcess.SemCurrentProcesses.WaitOne()
-            _pe = cProcess.CurrentProcesses(pid.ToString).Infos.PebAddress
-            cProcess.SemCurrentProcesses.Release()
+            Native.Objects.Process.SemCurrentProcesses.WaitOne()
+            _pe = Native.Objects.Process.CurrentProcesses(pid.ToString).Infos.PebAddress
+            Native.Objects.Process.SemCurrentProcesses.Release()
         End If
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
             System.Threading.WaitCallback(AddressOf _

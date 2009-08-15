@@ -50,27 +50,27 @@ Namespace Native.Objects
         ' ========================================
 
         ' Get privileges list of process
-        Public Shared Function GetPrivilegesListByProcessId(ByVal pid As Integer) As Native.Api.NativeStructs.PrivilegeInfo()
+        Public Shared Function GetPrivilegesListByProcessId(ByVal pid As Integer) As NativeStructs.PrivilegeInfo()
 
-            Dim ListPrivileges(-1) As Native.Api.NativeStructs.PrivilegeInfo
+            Dim ListPrivileges(-1) As NativeStructs.PrivilegeInfo
             Dim hProcessToken As IntPtr
             Dim hProcess As IntPtr
             Dim RetLen As Integer
-            Dim TokenPriv As New Native.Api.NativeStructs.TokenPrivileges
+            Dim TokenPriv As New NativeStructs.TokenPrivileges
 
-            hProcess = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation, False, pid)
+            hProcess = NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation, False, pid)
             If hProcess <> IntPtr.Zero Then
-                Native.Api.NativeFunctions.OpenProcessToken(hProcess, Native.Security.TokenAccess.Query, hProcessToken)
+                NativeFunctions.OpenProcessToken(hProcess, Native.Security.TokenAccess.Query, hProcessToken)
                 If hProcessToken <> IntPtr.Zero Then
 
                     ' Get tokeninfo length
-                    Native.Api.NativeFunctions.GetTokenInformation(hProcessToken, Native.Api.NativeEnums.TokenInformationClass.TokenPrivileges, IntPtr.Zero, 0, RetLen)
+                    NativeFunctions.GetTokenInformation(hProcessToken, NativeEnums.TokenInformationClass.TokenPrivileges, IntPtr.Zero, 0, RetLen)
 
                     'PERFISSUE (do not alloc each time)
                     Dim memAlloc As New Native.Memory.MemoryAlloc(RetLen)
 
                     ' Get token information
-                    Native.Api.NativeFunctions.GetTokenInformation(hProcessToken, Native.Api.NativeEnums.TokenInformationClass.TokenPrivileges, memAlloc.Pointer, memAlloc.Size, RetLen)
+                    NativeFunctions.GetTokenInformation(hProcessToken, NativeEnums.TokenInformationClass.TokenPrivileges, memAlloc.Pointer, memAlloc.Size, RetLen)
 
                     ' Get number of privileges
                     Dim count As Integer = CInt(memAlloc.ReadUInt32(0))
@@ -170,6 +170,38 @@ Namespace Native.Objects
             Return sb.ToString()
 
         End Function
+
+        ' Get an account name from a SID
+        Public Shared Function GetAccountNameFromSid(ByVal SID As IntPtr, _
+                                                     ByRef userName As String, _
+                                                     ByRef domainName As String) As Boolean
+            Dim name As New StringBuilder(255)
+            Dim domain As New StringBuilder(255)
+            Dim namelen As Integer = 255
+            Dim domainlen As Integer = 255
+            Dim use As NativeEnums.SidNameUse = NativeEnums.SidNameUse.User
+
+            domainName = ""
+            userName = ""
+
+            Try
+                If Not NativeFunctions.LookupAccountSid(Nothing, SID, name, namelen, domain, domainlen, use) Then
+                    name.EnsureCapacity(namelen)
+                    domain.EnsureCapacity(domainlen)
+                    NativeFunctions.LookupAccountSid(Nothing, SID, name, namelen, domain, domainlen, use)
+                End If
+                userName = name.ToString
+            Catch
+                ' return string SID
+                userName = New System.Security.Principal.SecurityIdentifier(SID).ToString
+                Return False
+            End Try
+
+            domainName = domain.ToString
+            Return True
+
+        End Function
+
 
 
         ' ========================================

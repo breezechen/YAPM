@@ -43,8 +43,8 @@ Public Class cProcess
 
     Public Structure PROC_MEM_INFO
         Dim time As Long
-        Dim mem As Native.Api.NativeStructs.VM_COUNTERS_EX
-        Public Sub New(ByVal aTime As Long, ByRef aMem As Native.Api.NativeStructs.VM_COUNTERS_EX)
+        Dim mem As Native.Api.NativeStructs.VmCountersEx
+        Public Sub New(ByVal aTime As Long, ByRef aMem As Native.Api.NativeStructs.VmCountersEx)
             time = aTime
             mem = aMem
         End Sub
@@ -52,8 +52,8 @@ Public Class cProcess
 
     Public Structure PROC_IO_INFO
         Dim time As Long
-        Dim io As Native.Api.NativeStructs.IO_COUNTERS
-        Public Sub New(ByVal aTime As Long, ByRef aIo As Native.Api.NativeStructs.IO_COUNTERS)
+        Dim io As Native.Api.NativeStructs.IoCounters
+        Public Sub New(ByVal aTime As Long, ByRef aIo As Native.Api.NativeStructs.IoCounters)
             time = aTime
             io = aIo
         End Sub
@@ -91,17 +91,13 @@ Public Class cProcess
     ' Contains list of process names
     Friend Shared _procs As New Dictionary(Of String, String)
 
-    ' Current processes running
-    ' Protected by a semaphore (see property associated below, _semCurrentProcesses)
-    Public Shared _currentProcesses As Dictionary(Of String, cProcess)
-
     Private _processInfos As processInfos
     Private _processors As Integer = 1       ' By default we consider that there is only one processor
     Private Shared WithEvents _connection As cProcessConnection
 
     Private _parentName As String = vbNullString
     Private _cpuUsage As Double
-    Private _ioDelta As Native.Api.NativeStructs.IO_COUNTERS
+    Private _ioDelta As Native.Api.NativeStructs.IoCounters
 
     ' Save informations about performance
     Friend _dicoProcMem As New SortedList(Of Integer, PROC_MEM_INFO)
@@ -168,21 +164,6 @@ Public Class cProcess
         End Get
     End Property
 
-    Private Shared _semCurrentProcesses As New System.Threading.Semaphore(1, 1)
-    Public Shared Property CurrentProcesses() As Dictionary(Of String, cProcess)
-        Get
-            Return _currentProcesses
-        End Get
-        Set(ByVal value As Dictionary(Of String, cProcess))
-            _currentProcesses = value
-        End Set
-    End Property
-    Public Shared ReadOnly Property SemCurrentProcesses() As System.Threading.Semaphore
-        Get
-            Return _semCurrentProcesses
-        End Get
-    End Property
-
 #End Region
 
 #Region "Constructors & destructor"
@@ -231,7 +212,7 @@ Public Class cProcess
         End Get
     End Property
 
-    Public ReadOnly Property IODelta() As Native.Api.NativeStructs.IO_COUNTERS
+    Public ReadOnly Property IODelta() As Native.Api.NativeStructs.IoCounters
         Get
             Return _ioDelta
         End Get
@@ -1357,7 +1338,7 @@ Public Class cProcess
 
     ' Return path
     Public Shared Function GetPath(ByVal pid As Integer) As String
-        Return asyncCallbackProcEnumerate.GetImageFile(pid)
+        Return Native.Objects.Process.GetProcessPathById(pid)
     End Function
 
     ' Return Process name
@@ -1371,7 +1352,7 @@ Public Class cProcess
                 If _procs.ContainsKey(pid.ToString) Then
                     Return _procs.Item(pid.ToString)
                 Else
-                    Return cFile.GetFileName(asyncCallbackProcEnumerate.GetImageFile(pid))
+                    Return cFile.GetFileName(Native.Objects.Process.GetProcessPathById(pid))
                 End If
         End Select
     End Function
@@ -1714,13 +1695,13 @@ Public Class cProcess
     ' Refresh IO delta once
     Private Sub refreshIODelta()
         Static oldDate As Long = Date.Now.Ticks
-        Static oldIO As Native.Api.NativeStructs.IO_COUNTERS = Me.Infos.IOValues
+        Static oldIO As Native.Api.NativeStructs.IoCounters = Me.Infos.IOValues
 
         Dim currDate As Long = Date.Now.Ticks
-        Dim ioValues As Native.Api.NativeStructs.IO_COUNTERS = Me.Infos.IOValues
+        Dim ioValues As Native.Api.NativeStructs.IoCounters = Me.Infos.IOValues
 
         Dim diff As Long = currDate - oldDate
-        Dim ioDiff As Native.Api.NativeStructs.IO_COUNTERS
+        Dim ioDiff As Native.Api.NativeStructs.IoCounters
         With ioDiff
             .OtherOperationCount = ioValues.OtherOperationCount - oldIO.OtherOperationCount
             .OtherTransferCount = ioValues.OtherTransferCount - oldIO.OtherTransferCount
@@ -1753,20 +1734,6 @@ Public Class cProcess
             End With
         End If
     End Sub
-
-    ' Get a service by name
-    Public Shared Function GetProcessById(ByVal id As Integer) As cProcess
-
-        Dim tt As cProcess = Nothing
-        cProcess.SemCurrentProcesses.WaitOne()
-        If _currentProcesses.ContainsKey(id.ToString) Then
-            tt = _currentProcesses.Item(id.ToString)
-        End If
-        cProcess.SemCurrentProcesses.Release()
-
-        Return tt
-
-    End Function
 
 #Region "Highlightings management"
 
