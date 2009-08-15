@@ -83,7 +83,7 @@ Public Class cService
         Select Case _connection.ConnectionObj.ConnectionType
 
             Case cConnection.TypeOfConnection.LocalConnection
-                Native.Objects.Service.GetServiceConfig(_connection.SCManagerLocalHandle, _
+                Native.Objects.Service.GetServiceConfigByName(_connection.SCManagerLocalHandle, _
                                                         Me.Infos.Name, Me.Infos, True)
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI

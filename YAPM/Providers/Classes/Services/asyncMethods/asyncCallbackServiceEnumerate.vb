@@ -172,7 +172,7 @@ Public Class asyncCallbackServiceEnumerate
 
                 Dim _dico As New Dictionary(Of String, serviceInfos)
 
-                Native.Objects.Service.Enumerate(con.SCManagerLocalHandle, _dico, pObj.all, _
+                Native.Objects.Service.EnumerateServices(con.SCManagerLocalHandle, _dico, pObj.all, _
                                                  pObj.complete, pObj.pid)
 
                 Try

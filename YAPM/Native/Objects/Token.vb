@@ -50,7 +50,7 @@ Namespace Native.Objects
         ' ========================================
 
         ' Get privileges list of process
-        Public Shared Function GetPrivilegesList(ByVal pid As Integer) As Native.Api.NativeStructs.PrivilegeInfo()
+        Public Shared Function GetPrivilegesListByProcessId(ByVal pid As Integer) As Native.Api.NativeStructs.PrivilegeInfo()
 
             Dim ListPrivileges(-1) As Native.Api.NativeStructs.PrivilegeInfo
             Dim hProcessToken As IntPtr
@@ -112,7 +112,7 @@ Namespace Native.Objects
 
 
         ' Set privilege status
-        Public Shared Function SetPrivilege(ByVal processId As Integer, _
+        Public Shared Function SetPrivilegeStatus(ByVal processId As Integer, _
                                             ByVal seName As String, _
                                             ByVal seStatus As NativeEnums.SePrivilegeAttributes) As Boolean
 
@@ -155,7 +155,7 @@ Namespace Native.Objects
         End Function
 
         ' Get description of a privilege
-        Public Shared Function GetPrivilegeDescription(ByVal privilegeName As String) As String
+        Public Shared Function GetPrivilegeDescriptionByName(ByVal privilegeName As String) As String
 
             Dim sb As New StringBuilder(&H100)
             Dim size As Integer = sb.Capacity

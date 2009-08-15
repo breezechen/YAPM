@@ -112,7 +112,7 @@ Public Class asyncCallbackThreadEnumerate
                         Next
                         ' If we have to get threads for this process...
                         If ex Then
-                            Dim obj As New Native.Api.NativeStructs.SYSTEM_THREAD_INFORMATION
+                            Dim obj As New Native.Api.NativeStructs.SystemThreadInformation
                             With obj
                                 .BasePriority = CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.PriorityBase.ToString))
                                 .CreateTime = 0
@@ -127,7 +127,7 @@ Public Class asyncCallbackThreadEnumerate
                                 End Try
                                 .State = CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.ThreadState.ToString))
                                 .UserTime = 10000 * CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.UserModeTime.ToString))
-                                .WaitReason = CType(CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.ThreadWaitReason.ToString)), Native.Api.NativeEnums.KWAIT_REASON)
+                                .WaitReason = CType(CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.ThreadWaitReason.ToString)), Native.Api.NativeEnums.KwaitReason)
                                 Try
                                     .WaitTime = 10000 * CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.ElapsedTime.ToString))
                                 Catch ex1 As Exception
@@ -150,7 +150,7 @@ Public Class asyncCallbackThreadEnumerate
                 ' Local
                 Dim _dico As New Dictionary(Of String, threadInfos)
 
-                Call enumThreads(pObj, _dico)
+                Native.Objects.Thread.EnumerateThreadsByProcessId(_dico, pObj.pid)
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
                     ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
@@ -158,65 +158,6 @@ Public Class asyncCallbackThreadEnumerate
         End Select
 
         sem.Release()
-
-    End Sub
-
-    ' Enumerate threads (local)
-    ' Memory allocation for process 
-    Private Shared memAllocForThreadEnum As New Native.Memory.MemoryAlloc(&H1000)
-    Friend Shared Sub enumThreads(ByVal pObj As poolObj, ByRef _dico As Dictionary(Of String, threadInfos))
-
-        Dim ret As Integer
-        Native.Api.NativeFunctions.NtQuerySystemInformation(Native.Api.NativeEnums.SystemInformationClass.SystemProcessInformation, _
-                        memAllocForThreadEnum.Pointer, memAllocForThreadEnum.Size, ret)
-        If memAllocForThreadEnum.Size < ret Then
-            memAllocForThreadEnum.Resize(ret)
-        End If
-        Native.Api.NativeFunctions.NtQuerySystemInformation(Native.Api.NativeEnums.SystemInformationClass.SystemProcessInformation, _
-                        memAllocForThreadEnum.Pointer, memAllocForThreadEnum.Size, ret)
-
-        ' Extract structures from unmanaged memory
-        Dim x As Integer = 0
-        Dim offset As Integer = 0
-        Do While True
-
-            Dim obj As Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION = _
-                    memAllocForThreadEnum.ReadStructOffset(Of Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION)(offset)
-
-            ' Do we have do get threads for this process ?
-            Dim bHaveToGetThreads As Boolean = False
-            For Each tPid As Integer In pObj.pid
-                If tPid = obj.ProcessId Then
-                    bHaveToGetThreads = True
-                    Exit For
-                End If
-            Next
-
-            If bHaveToGetThreads Then
-                For j As Integer = 0 To obj.NumberOfThreads - 1
-
-                    Dim _off As Integer = offset + _
-                            Marshal.SizeOf(GetType(Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION)) + j _
-                            * Marshal.SizeOf(GetType(Native.Api.NativeStructs.SYSTEM_THREAD_INFORMATION))
-
-                    Dim thread As Native.Api.NativeStructs.SYSTEM_THREAD_INFORMATION = _
-                        memAllocForThreadEnum.ReadStructOffset(Of Native.Api.NativeStructs.SYSTEM_THREAD_INFORMATION)(_off)
-
-                    Dim _key As String = thread.ClientId.UniqueThread.ToString & "-" & thread.ClientId.UniqueProcess.ToString
-                    Dim _th As New threadInfos(thread)
-                    If _dico.ContainsKey(_key) = False Then
-                        _dico.Add(_key, _th)
-                    End If
-                Next
-            End If
-
-            offset += obj.NextEntryOffset
-
-            If obj.NextEntryOffset = 0 Then
-                Exit Do
-            End If
-            x += 1
-        Loop
 
     End Sub
 

@@ -312,6 +312,11 @@ Namespace Native.Api
         ' OK
 #Region "Declarations used for threads"
 
+        <DllImport("kernel32.dll")> _
+        Public Shared Function SetThreadAffinityMask(ByVal hThread As IntPtr, _
+                                    ByVal dwThreadAffinityMask As IntPtr) As IntPtr
+        End Function
+
         <DllImport("kernel32.dll", SetLastError:=True)> _
         Public Shared Function CreateRemoteThread(<[In]()> ByVal ProcessHandle As IntPtr, _
                             <[In]()> ByVal ThreadAttributes As IntPtr, _
@@ -352,8 +357,8 @@ Namespace Native.Api
 
         <DllImport("ntdll.dll")> _
         Public Shared Function NtQueryInformationThread(<[In]()> ByVal ThreadHandle As IntPtr, _
-                    <[In]()> ByVal ThreadInformationClass As THREAD_INFORMATION_CLASS, _
-                    ByRef ThreadInformation As THREAD_BASIC_INFORMATION, _
+                    <[In]()> ByVal ThreadInformationClass As ThreadInformationClass, _
+                    ByRef ThreadInformation As ThreadBasicInformation, _
                     <[In]()> ByVal ThreadInformationLength As Integer, _
                     <Out()> <[Optional]()> ByRef ReturnLength As Integer) As UInteger
         End Function

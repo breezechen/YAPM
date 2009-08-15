@@ -38,7 +38,7 @@ Public Class asyncCallbackThreadSetAffinity
 
     Public Structure poolObj
         Public id As Integer
-        Public level As Integer
+        Public level As IntPtr
         Public newAction As Integer
         Public pid As Integer
         Public Sub New(ByVal _id As Integer, _
@@ -46,7 +46,7 @@ Public Class asyncCallbackThreadSetAffinity
                        ByVal action As Integer, Optional ByVal procId As Integer = 0)
             newAction = action
             id = _id
-            level = _level
+            level = New IntPtr(_level)
             pid = procId
         End Sub
     End Structure
@@ -71,7 +71,8 @@ Public Class asyncCallbackThreadSetAffinity
 
             Case Else
                 ' Local
-                Dim ret As Boolean = Native.Objects.Process.SetAffinityById(pObj.id, pObj.level)
+                Dim ret As Boolean = Native.Objects.Thread.SetThreadAffinityById(pObj.id, _
+                                                                                 pObj.level)
                 _deg.Invoke(ret, Native.Api.Win32.GetLastError, pObj.newAction)
         End Select
     End Sub

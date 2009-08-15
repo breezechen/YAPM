@@ -53,10 +53,10 @@ Public Class cThread
         _connection = Connection
         ' Get a handle if local
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            _handleQueryInfo = Native.Api.NativeFunctions.OpenThread(Native.Security.ThreadAccess.QueryInformation, False, infos.Id)
+            _handleQueryInfo = Native.Objects.Thread.GetThreadHandle(infos.Id,Native.Security.ThreadAccess.QueryInformation)
             If getPriorityInfo Then
                 ' Here we get priority (used when YAPM is used as a server)
-                Call infos.SetPriority(Native.Api.NativeFunctions.GetThreadPriority(_handleQueryInfo))
+                Call infos.SetPriority(Native.Objects.Thread.GetThreadPriorityByHandle(_handleQueryInfo))
             End If
         End If
     End Sub
@@ -65,7 +65,7 @@ Public Class cThread
         ' Close a handle if local
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
             If _handleQueryInfo <> IntPtr.Zero Then
-                Native.Api.NativeFunctions.CloseHandle(_handleQueryInfo)
+                Native.Objects.General.CloseHandle(_handleQueryInfo)
             End If
         End If
     End Sub
@@ -354,7 +354,7 @@ Public Class cThread
             Case "StartAddress"
                 res = "0x" & Me.Infos.StartAddress.ToString("x")
             Case "BasePriority"
-                res = CInt(Me.Infos.BasePriority).ToString ' threadInfos.getPriorityClass(Me.Infos.BasePriority).ToString
+                res = Me.Infos.BasePriority.ToString
             Case "ContextSwitchCount"
                 res = Me.Infos.ContextSwitchCount.ToString
             Case "ProcessId"
@@ -555,7 +555,7 @@ Public Class cThread
     ' Return backcolor of current item
     Public Overrides Function GetBackColor() As System.Drawing.Color
 
-        If _hlSuspendedThread AndAlso Me.Infos.WaitReason = Native.Api.NativeEnums.KWAIT_REASON.Suspended Then
+        If _hlSuspendedThread AndAlso Me.Infos.WaitReason = Native.Api.NativeEnums.KwaitReason.Suspended Then
             Return _hlSuspendedThreadColor
         End If
 

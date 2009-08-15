@@ -257,7 +257,7 @@ Imports System.Runtime.InteropServices
     ' ========================================
 
     ' Constructor of this class
-    Public Sub New(ByRef Proc As Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION, Optional ByVal ProcessName As String = Nothing)
+    Public Sub New(ByRef Proc As Native.Api.NativeStructs.SystemProcessInformation, Optional ByVal ProcessName As String = Nothing)
         _PebAddress = IntPtr.Zero
 
         With Proc

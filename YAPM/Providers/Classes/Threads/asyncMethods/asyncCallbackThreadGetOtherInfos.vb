@@ -55,20 +55,10 @@ Public Class asyncCallbackThreadGetOtherInfos
 
             Case Else
                 ' Local
-                Dim _affinity As IntPtr = GetAffinity()
+                Dim _affinity As IntPtr = Native.Objects.Thread.GetThreadAffinityByHandle(_handle)
 
                 RaiseEvent GatheredInfos(New TheseInfos(_affinity))
         End Select
     End Sub
-
-    ' Return affinity
-    Private Function GetAffinity() As IntPtr
-        Dim infos As New Native.Api.NativeStructs.THREAD_BASIC_INFORMATION
-        Dim ret As Integer
-        Native.Api.NativeFunctions.NtQueryInformationThread(_handle, _
-                    Native.Api.NativeEnums.THREAD_INFORMATION_CLASS.ThreadBasicInformation, _
-                    infos, Marshal.SizeOf(infos), ret)
-        Return infos.AffinityMask
-    End Function
 
 End Class

@@ -72,16 +72,8 @@ Public Class asyncCallbackThreadSetPriority
 
             Case Else
                 ' Local
-                Dim hProc As IntPtr
-                Dim r As Boolean
-                hProc = Native.Api.NativeFunctions.OpenThread(Native.Security.ThreadAccess.SetInformation, False, pObj.id)
-                If hProc <> IntPtr.Zero Then
-                    r = Native.Api.NativeFunctions.SetThreadPriority(hProc, pObj.level)
-                    Native.Api.NativeFunctions.CloseHandle(hProc)
-                    _deg.Invoke(r, Native.Api.Win32.GetLastError, pObj.newAction)
-                Else
-                    _deg.Invoke(False, Native.Api.Win32.GetLastError, pObj.newAction)
-                End If
+                Dim r As Boolean = Native.Objects.Thread.SetThreadPriorityById(pObj.id, pObj.level)
+                _deg.Invoke(r, Native.Api.Win32.GetLastError, pObj.newAction)
         End Select
     End Sub
 

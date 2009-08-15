@@ -354,7 +354,7 @@ Public Class cProcess
 
         RaiseEvent HasMerged()
     End Sub
-    Public Sub Merge(ByRef Proc As Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION)
+    Public Sub Merge(ByRef Proc As Native.Api.NativeStructs.SystemProcessInformation)
         _processInfos.Merge(New processInfos(Proc))
         Call RefreshSpecialInformations()
     End Sub

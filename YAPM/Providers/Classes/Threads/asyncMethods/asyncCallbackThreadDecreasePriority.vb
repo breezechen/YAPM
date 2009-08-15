@@ -89,16 +89,9 @@ Public Class asyncCallbackThreadDecreasePriority
                         _level2 = ThreadPriorityLevel.Highest
                 End Select
 
-                Dim hProc As IntPtr
-                Dim r As Boolean
-                hProc = Native.Api.NativeFunctions.OpenThread(Native.Security.ThreadAccess.SetInformation, False, pObj.id)
-                If hProc <> IntPtr.Zero Then
-                    r = Native.Api.NativeFunctions.SetThreadPriority(hProc, _level2)
-                    Native.Api.NativeFunctions.CloseHandle(hProc)
-                    _deg.Invoke(r, Native.Api.Win32.GetLastError, pObj.newAction)
-                Else
-                    _deg.Invoke(False, Native.Api.Win32.GetLastError, pObj.newAction)
-                End If
+                Dim r As Boolean = Native.Objects.Thread.SetThreadPriorityById(pObj.id, _level2)
+                _deg.Invoke(r, Native.Api.Win32.GetLastError, pObj.newAction)
+
         End Select
     End Sub
 

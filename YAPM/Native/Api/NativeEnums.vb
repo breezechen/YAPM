@@ -221,7 +221,7 @@ Namespace Native.Api
             CreateIgnoreSystemDefault = &H80000000
         End Enum
 
-        Public Enum KWAIT_REASON As Integer
+        Public Enum KwaitReason As Integer
             Executive = 0
             FreePage = 1
             PageIn = 2
@@ -262,7 +262,7 @@ Namespace Native.Api
             MaximumWaitReason = 37
         End Enum
 
-        Public Enum THREAD_INFORMATION_CLASS
+        Public Enum ThreadInformationClass
             ThreadBasicInformation
             ThreadTimes
             ThreadPriority

@@ -23,32 +23,41 @@ Imports YAPM.Native.Api
 
 Namespace Native.Objects
 
-    Public Class Process
+    Public Class General
 
 
-        ' Set affinity to a process
-        Public Shared Function SetProcessAffinityByHandle(ByVal hProc As IntPtr, _
-                                           ByVal affinity As Integer) As Boolean
-            If hProc <> IntPtr.Zero Then
-                Return NativeFunctions.SetProcessAffinityMask(hProc, New IntPtr(affinity))
-            Else
-                Return False
-            End If
-        End Function
-        Public Shared Function SetProcessAffinityById(ByVal process As Integer, _
-                                           ByVal affinity As Integer) As Boolean
-
-            ' Open handle, set affinity and close handle
-            Dim hProc As IntPtr = _
-                    NativeFunctions.OpenProcess(Security.ProcessAccess.SetInformation, False, process)
-            Dim ret As Boolean = SetProcessAffinityByHandle(hProc, affinity)
-            NativeFunctions.CloseHandle(hProc)
-
-            Return ret
-        End Function
+        ' ========================================
+        ' Private constants
+        ' ========================================
 
 
-        ' 
+        ' ========================================
+        ' Private attributes
+        ' ========================================
+
+
+        ' ========================================
+        ' Public properties
+        ' ========================================
+
+        ' ========================================
+        ' Other public
+        ' ========================================
+
+
+        ' ========================================
+        ' Public functions
+        ' ========================================
+
+        ' Close a handle
+        Public Shared Sub CloseHandle(ByVal handle As IntPtr)
+            Native.Api.NativeFunctions.CloseHandle(handle)
+        End Sub
+
+        ' ========================================
+        ' Private functions
+        ' ========================================
+
 
     End Class
 

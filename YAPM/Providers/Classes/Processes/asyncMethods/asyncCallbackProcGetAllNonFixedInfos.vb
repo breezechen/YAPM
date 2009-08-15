@@ -27,7 +27,7 @@ Imports System.Windows.Forms
 
 Public Class asyncCallbackProcGetAllNonFixedInfos
 
-    Public Event HasGotAllNonFixedInfos(ByVal Success As Boolean, ByRef newInfos As Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION, ByVal msg As String)
+    Public Event HasGotAllNonFixedInfos(ByVal Success As Boolean, ByRef newInfos As Native.Api.NativeStructs.SystemProcessInformation, ByVal msg As String)
 
     Private _connection As cProcessConnection
     Private _process As cProcess
@@ -61,7 +61,7 @@ Public Class asyncCallbackProcGetAllNonFixedInfos
                     ' Get informations from found process
                     If refProcess IsNot Nothing Then
 
-                        Dim _newInfos As New Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION 
+                        Dim _newInfos As New Native.Api.NativeStructs.SystemProcessInformation
                         With _newInfos
                             .BasePriority = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.Priority.ToString))
                             .HandleCount = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.HandleCount.ToString))

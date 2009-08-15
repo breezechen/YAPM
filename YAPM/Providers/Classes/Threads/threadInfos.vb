@@ -43,7 +43,7 @@ Imports System.Runtime.InteropServices
     Private _BasePriority As Integer
     Private _ContextSwitchCount As Integer
     Private _State As ThreadState
-    Private _WaitReason As Native.Api.NativeEnums.KWAIT_REASON
+    Private _WaitReason As Native.Api.NativeEnums.KwaitReason
 
 #End Region
 
@@ -91,12 +91,12 @@ Imports System.Runtime.InteropServices
     End Property
     Public ReadOnly Property Priority() As System.Diagnostics.ThreadPriorityLevel
         Get
-            Return getPriorityClass(_Priority)
+            Return Native.Functions.Thread.GetThreadPriorityClassFromInt(_Priority)
         End Get
     End Property
     Public ReadOnly Property BasePriority() As System.Diagnostics.ThreadPriorityLevel
         Get
-            Return getPriorityClass(_BasePriority)
+            Return Native.Functions.Thread.GetThreadPriorityClassFromInt(_BasePriority)
         End Get
     End Property
     Public ReadOnly Property ContextSwitchCount() As Integer
@@ -109,7 +109,7 @@ Imports System.Runtime.InteropServices
             Return _State
         End Get
     End Property
-    Public ReadOnly Property WaitReason() As Native.Api.NativeEnums.KWAIT_REASON
+    Public ReadOnly Property WaitReason() As Native.Api.NativeEnums.KwaitReason
         Get
             Return _WaitReason
         End Get
@@ -149,7 +149,7 @@ Imports System.Runtime.InteropServices
     ' ========================================
 
     ' Constructor of this class
-    Public Sub New(ByRef Thr As Native.Api.NativeStructs.SYSTEM_THREAD_INFORMATION)
+    Public Sub New(ByRef Thr As Native.Api.NativeStructs.SystemThreadInformation)
 
         With Thr
             _AffinityMask = IntPtr.Zero
@@ -214,25 +214,6 @@ Imports System.Runtime.InteropServices
         End If
 
         Return s
-    End Function
-
-    ' Return a class from an int (concerning priority)
-    Friend Shared Function getPriorityClass(ByVal priority As Integer) As System.Diagnostics.ThreadPriorityLevel
-        If priority >= 15 Then
-            Return ThreadPriorityLevel.TimeCritical
-        ElseIf priority >= 2 Then
-            Return ThreadPriorityLevel.Highest
-        ElseIf priority >= 1 Then
-            Return ThreadPriorityLevel.AboveNormal
-        ElseIf priority >= 0 Then
-            Return ThreadPriorityLevel.Normal
-        ElseIf priority >= -1 Then
-            Return ThreadPriorityLevel.BelowNormal
-        ElseIf priority >= -2 Then
-            Return ThreadPriorityLevel.Lowest
-        Else
-            Return ThreadPriorityLevel.Idle
-        End If
     End Function
 
 End Class

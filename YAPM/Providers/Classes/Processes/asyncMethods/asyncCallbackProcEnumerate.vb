@@ -190,7 +190,7 @@ Public Class asyncCallbackProcEnumerate
                     Dim _dico As New Dictionary(Of String, processInfos)
                     For Each refProcess As Management.ManagementObject In res
 
-                        Dim obj As New Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION
+                        Dim obj As New Native.Api.NativeStructs.SystemProcessInformation
                         With obj
                             .BasePriority = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.Priority.ToString))
                             .HandleCount = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.HandleCount.ToString))
@@ -632,7 +632,7 @@ Public Class asyncCallbackProcEnumerate
                 ' ISNEEDED ?
                 If Native.Api.NativeFunctions.DuplicateHandle(_csrss(h.ProcessId), CType(h.Handle, IntPtr), Native.Api.NativeConstants.InvalidHandleValue, _dup, 0, False, Native.Api.NativeEnums.DuplicateOptions.SameAccess) Then
                     Dim pid As Integer = Native.Api.NativeFunctions.GetProcessId(_dup)
-                    Dim obj As New Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION
+                    Dim obj As New Native.Api.NativeStructs.SystemProcessInformation
                     With obj
                         .ProcessId = pid
                     End With
@@ -650,7 +650,7 @@ Public Class asyncCallbackProcEnumerate
         ' Add the two instances of csrss.exe to result
         ' & close previously opened handles
         For Each h As Integer In _csrss.Keys
-            Dim obj As New Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION
+            Dim obj As New Native.Api.NativeStructs.SystemProcessInformation
             With obj
                 .ProcessId = h
             End With
@@ -702,7 +702,7 @@ Public Class asyncCallbackProcEnumerate
                 Dim exitcode As Integer
                 Dim res As Boolean = Native.Api.NativeFunctions.GetExitCodeProcess(handle, exitcode)
                 If exitcode = Native.Api.NativeConstants.STILL_ACTIVE Then  ' Process still exists
-                    Dim obj As New Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION
+                    Dim obj As New Native.Api.NativeStructs.SystemProcessInformation
                     With obj
                         .ProcessId = pid
                     End With
@@ -760,8 +760,8 @@ Public Class asyncCallbackProcEnumerate
         Dim _dico As New Dictionary(Of String, processInfos)
         Do While True
 
-            Dim obj As Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION = _
-                    memAllocForVProcesses.ReadStructOffset(Of Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION)(offset)
+            Dim obj As Native.Api.NativeStructs.SystemProcessInformation = _
+                    memAllocForVProcesses.ReadStructOffset(Of Native.Api.NativeStructs.SystemProcessInformation)(offset)
             Dim _procInfos As New processInfos(obj)
 
 
@@ -847,8 +847,8 @@ Public Class asyncCallbackProcEnumerate
         Dim _dico As New Dictionary(Of String, processInfos)
         Do While True
 
-            Dim obj As Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION = _
-                    memAllocForVProcesses.ReadStructOffset(Of Native.Api.NativeStructs.SYSTEM_PROCESS_INFORMATION)(offset)
+            Dim obj As Native.Api.NativeStructs.SystemProcessInformation = _
+                    memAllocForVProcesses.ReadStructOffset(Of Native.Api.NativeStructs.SystemProcessInformation)(offset)
             Dim _procInfos As New processInfos(obj)
 
             Dim _path As String = GetPath(obj.ProcessId)

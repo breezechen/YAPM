@@ -696,7 +696,7 @@ Public Class frmServer
                         Dim pid As Integer = CInt(cData.Param1)
                         Dim tid As Integer = CInt(cData.Param2)
                         Try
-                            Dim sti As New Native.Api.NativeStructs.SYSTEM_THREAD_INFORMATION
+                            Dim sti As New Native.Api.NativeStructs.SystemThreadInformation
                             sti.ClientId = New Native.Api.NativeStructs.ClientId(pid, tid)
                             Call (New cThread(New threadInfos(sti), True)).DecreasePriority()
                         Catch ex As Exception
@@ -706,7 +706,7 @@ Public Class frmServer
                         Dim pid As Integer = CInt(cData.Param1)
                         Dim tid As Integer = CInt(cData.Param2)
                         Try
-                            Dim sti As New Native.Api.NativeStructs.SYSTEM_THREAD_INFORMATION
+                            Dim sti As New Native.Api.NativeStructs.SystemThreadInformation
                             sti.ClientId = New Native.Api.NativeStructs.ClientId(pid, tid)
                             Call (New cThread(New threadInfos(sti), True)).IncreasePriority()
                         Catch ex As Exception
@@ -716,7 +716,7 @@ Public Class frmServer
                         Dim pid As Integer = CInt(cData.Param1)
                         Dim tid As Integer = CInt(cData.Param2)
                         Try
-                            Dim sti As New Native.Api.NativeStructs.SYSTEM_THREAD_INFORMATION
+                            Dim sti As New Native.Api.NativeStructs.SystemThreadInformation
                             sti.ClientId = New Native.Api.NativeStructs.ClientId(pid, tid)
                             Call (New cThread(New threadInfos(sti), False)).ThreadResume()
                         Catch ex As Exception
@@ -729,7 +729,7 @@ Public Class frmServer
                         Dim tid As Integer = CInt(cData.Param2)
                         Dim level As Integer = CInt(cData.Param3)
                         Try
-                            Dim sti As New Native.Api.NativeStructs.SYSTEM_THREAD_INFORMATION
+                            Dim sti As New Native.Api.NativeStructs.SystemThreadInformation
                             sti.ClientId = New Native.Api.NativeStructs.ClientId(pid, tid)
                             Call (New cThread(New threadInfos(sti), False)).SetPriority(CType(level, ThreadPriorityLevel))
                         Catch ex As Exception
@@ -739,7 +739,7 @@ Public Class frmServer
                         Dim pid As Integer = CInt(cData.Param1)
                         Dim tid As Integer = CInt(cData.Param2)
                         Try
-                            Dim sti As New Native.Api.NativeStructs.SYSTEM_THREAD_INFORMATION
+                            Dim sti As New Native.Api.NativeStructs.SystemThreadInformation
                             sti.ClientId = New Native.Api.NativeStructs.ClientId(pid, tid)
                             Call (New cThread(New threadInfos(sti), False)).ThreadSuspend()
                         Catch ex As Exception
@@ -749,8 +749,8 @@ Public Class frmServer
                         Dim pid As Integer = CInt(cData.Param1)
                         Dim tid As Integer = CInt(cData.Param2)
                         Try
-                            Dim sti As New Native.Api.NativeStructs.SYSTEM_THREAD_INFORMATION
-                         sti.ClientId = New Native.Api.NativeStructs.ClientId(pid, tid)
+                            Dim sti As New Native.Api.NativeStructs.SystemThreadInformation
+                            sti.ClientId = New Native.Api.NativeStructs.ClientId(pid, tid)
                             Call (New cThread(New threadInfos(sti), False)).ThreadTerminate()
                         Catch ex As Exception
                             ' Thread does not exist

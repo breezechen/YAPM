@@ -550,14 +550,16 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Main\Program.vb" />
-    <Compile Include="Native\Functions\Misc.vb" />
+    <Compile Include="Native\Functions\FMisc.vb" />
     <Compile Include="Native\Api\NativeConstants.vb" />
     <Compile Include="Native\Api\NativeEnums.vb" />
     <Compile Include="Native\Api\NativeFunctions.vb" />
     <Compile Include="Native\Api\NativeStructs.vb" />
     <Compile Include="Native\Enums.vb" />
-    <Compile Include="Native\Functions\Service.vb" />
+    <Compile Include="Native\Functions\FService.vb" />
+    <Compile Include="Native\Functions\FThread.vb" />
     <Compile Include="Native\IntPtrExtensions.vb" />
+    <Compile Include="Native\Objects\General.vb" />
     <Compile Include="Native\Objects\Handle.vb" />
     <Compile Include="Native\Objects\MemRegion.vb" />
     <Compile Include="Native\Objects\Service.vb" />
@@ -985,6 +987,9 @@
     <None Include="Misc\locked.gif" />
     <Content Include="process32.ico" />
     <Content Include="process_custom.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Wmi\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

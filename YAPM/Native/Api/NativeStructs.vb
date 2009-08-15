@@ -31,7 +31,7 @@ Namespace Native.Api
 #Region "Declarations used for processes"
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure SYSTEM_PROCESS_INFORMATION
+        Public Structure SystemProcessInformation
             Public NextEntryOffset As Integer
             Public NumberOfThreads As Integer
             <MarshalAs(UnmanagedType.ByValArray, SizeConst:=3)> _
@@ -250,7 +250,7 @@ Namespace Native.Api
 #Region "Declarations used for threads"
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure THREAD_BASIC_INFORMATION
+        Public Structure ThreadBasicInformation
             Public ExitStatus As UInteger
             Public TebBaseAddress As IntPtr
             Public ClientId As ClientId
@@ -260,7 +260,7 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure SYSTEM_THREAD_INFORMATION
+        Public Structure SystemThreadInformation
             Public KernelTime As Long
             Public UserTime As Long
             Public CreateTime As Long
@@ -271,11 +271,12 @@ Namespace Native.Api
             Public BasePriority As Integer
             Public ContextSwitchCount As Integer
             Public State As Integer
-            Public WaitReason As KWAIT_REASON
+            Public WaitReason As KwaitReason
         End Structure
 
 #End Region
 
+        ' OK
 #Region "Declarations used for tokens & privileges"
 
         Public Structure TokenPrivileges

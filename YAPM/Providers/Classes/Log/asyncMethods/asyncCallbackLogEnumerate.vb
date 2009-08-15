@@ -330,7 +330,7 @@ Public Class asyncCallbackLogEnumerate
                     ' Get list
                     Dim pid(0) As Integer
                     pid(0) = pObj.pid
-                    Native.Objects.Service.Enumerate(pObj.hSCM, __dicoServices, False, False, pid(0))
+                    Native.Objects.Service.EnumerateServices(pObj.hSCM, __dicoServices, False, False, pid(0))
 
                     ' Store in static dico if it is first refresh
                     If firstServices Then
@@ -377,7 +377,7 @@ Public Class asyncCallbackLogEnumerate
                     ' Get list
                     Dim pid(0) As Integer
                     pid(0) = pObj.pid
-                    Call asyncCallbackThreadEnumerate.enumThreads(New asyncCallbackThreadEnumerate.poolObj(pid, 0), __dicoThreads)
+                    Native.Objects.Thread.EnumerateThreadsByProcessId(__dicoThreads, pid)
 
                     ' Store in static dico if it is first refresh
                     If firstThreads Then

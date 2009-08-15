@@ -90,7 +90,7 @@ Public Class asyncCallbackPrivilegesEnumerate
                 Dim _dico As New Dictionary(Of String, privilegeInfos)
 
                 Dim ret As Native.Api.NativeStructs.PrivilegeInfo() = _
-                    Native.Objects.Token.GetPrivilegesList(pObj.pid)
+                    Native.Objects.Token.GetPrivilegesListByProcessId(pObj.pid)
 
                 For Each tmp As Native.Api.NativeStructs.PrivilegeInfo In ret
                     _dico.Add(tmp.Name, New privilegeInfos(tmp.Name, pObj.pid, tmp.Status))

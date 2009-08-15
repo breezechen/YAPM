@@ -4,6 +4,9 @@ Refactoring bugs
 - 64TODO
 - state des connexions TCP
 
+Refactoring OK : 
+- Privileges (all)
+
 BUGS CRITIQUES
 - problème icones menu principal cachées (Vista seulement)
 - reports à faire (vérifier l'utilisation de GetAvailbleProperties)
@@ -97,7 +100,7 @@ BUGS NON CRITIQUES
 - replace taskmgr sous 7 ?
 - pending task : caption -> object.tostring (surchargé chaque cXXXX)
 - tcp/udp missing -> msg plutôt que crash
-
+- setLIMITEDinfo dans les access comme pour QueryLIMITEDinfo (thread & process)
 
 - ajouter semaphores de protection dans les methodes "Friend Shared Sub enumXXXX" (pour accès concurrent avec le log) ????
 - probablement des bugs de 'collection modifiée' vis à vis du log

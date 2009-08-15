@@ -95,7 +95,7 @@ Public Class cPrivilege
 #Region "Local shared method"
 
     Public Shared Function LocalChangeStatus(ByVal pid As Integer, ByVal name As String, ByVal status As Native.Api.NativeEnums.SePrivilegeAttributes) As Boolean
-        Return Native.Objects.Token.SetPrivilege(pid, name, status)
+        Return Native.Objects.Token.SetPrivilegeStatus(pid, name, status)
     End Function
 
 #End Region

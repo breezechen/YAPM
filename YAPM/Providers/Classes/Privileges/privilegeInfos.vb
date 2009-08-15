@@ -74,7 +74,7 @@ Imports System.Runtime.InteropServices
         _procId = pid
         _name = name
         _status = status
-        _description = Native.Objects.Token.GetPrivilegeDescription(name)
+        _description = Native.Objects.Token.GetPrivilegeDescriptionByName(name)
 
     End Sub
 

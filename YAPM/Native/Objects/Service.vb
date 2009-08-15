@@ -91,7 +91,7 @@ Namespace Native.Objects
 
 
         ' Enumerate services (local)
-        Public Shared Sub Enumerate(ByVal hSCM As IntPtr, _
+        Public Shared Sub EnumerateServices(ByVal hSCM As IntPtr, _
                                        ByRef _dico As Dictionary(Of String, serviceInfos), _
                                        ByVal forAllProcesses As Boolean, _
                                        ByVal completeInfos As Boolean, _
@@ -142,10 +142,10 @@ Namespace Native.Objects
                             If forAllProcesses = False OrElse _dicoNewServices.ContainsKey(obj.ServiceName) = False Or completeInfos Then
 
                                 ' Get infos from registry
-                                GetInformationsFromRegistry(obj.ServiceName, _servINFO)
+                                GetServiceInformationsFromRegistry(obj.ServiceName, _servINFO)
 
                                 'PERFISSUE
-                                GetServiceConfig(hSCM, obj.ServiceName, _servINFO, True)
+                                GetServiceConfigByName(hSCM, obj.ServiceName, _servINFO, True)
 
                                 If forAllProcesses And completeInfos = False Then
                                     _dicoNewServices.Add(obj.ServiceName, False)
@@ -189,7 +189,10 @@ Namespace Native.Objects
 
 
         ' Get config of service
-        Public Shared Sub GetServiceConfig(ByVal hSCManager As IntPtr, ByVal name As String, ByRef _infos As serviceInfos, ByVal getFileInfo As Boolean)
+        Public Shared Sub GetServiceConfigByName(ByVal hSCManager As IntPtr, _
+                                                 ByVal name As String, _
+                                                 ByRef _infos As serviceInfos, _
+                                                 ByVal getFileInfo As Boolean)
 
             Dim lServ As IntPtr = NativeFunctions.OpenService(hSCManager, name, _
                                                     Security.ServiceAccess.QueryConfig)
@@ -238,7 +241,7 @@ Namespace Native.Objects
         End Function
 
         ' Get services which depends from a specific service
-        Public Shared Function GetServiceWhichDependFrom(ByVal serviceName As String) As Dictionary(Of String, serviceInfos)
+        Public Shared Function GetServiceWhichDependFromByServiceName(ByVal serviceName As String) As Dictionary(Of String, serviceInfos)
 
             Dim _d As New Dictionary(Of String, serviceInfos)
             Dim dep() As String = Nothing
@@ -263,7 +266,7 @@ Namespace Native.Objects
         End Function
 
         ' Get dependencies of a service
-        Public Shared Function GetDependencies(ByVal serviceName As String) As Dictionary(Of String, serviceInfos)
+        Public Shared Function GetServiceDependencies(ByVal serviceName As String) As Dictionary(Of String, serviceInfos)
 
             Dim _d As New Dictionary(Of String, serviceInfos)
             Dim dep() As String = Nothing
@@ -304,11 +307,11 @@ Namespace Native.Objects
 
 
         ' Get infos from registry
-        Private Shared Sub GetInformationsFromRegistry(ByVal name As String, _
+        Private Shared Sub GetServiceInformationsFromRegistry(ByVal name As String, _
                                                        ByRef infos As serviceInfos)
 
             ' Get description
-            Dim desc As String = GetInformationFromRegistryByName(name, "Description")
+            Dim desc As String = GetServiceInformationFromRegistryByName(name, "Description")
 
             ' If in starts with @, then it points to a resource in a file
             If InStr(desc, "@", CompareMethod.Binary) > 0 Then
@@ -319,15 +322,15 @@ Namespace Native.Objects
             desc = Replace(desc, "\", "\\")
 
             ' Get other infos
-            Dim obj As String = GetInformationFromRegistryByName(name, "ObjectName")
-            Dim dmf As String = GetInformationFromRegistryByName(name, "DiagnosticMessageFile")
+            Dim obj As String = GetServiceInformationFromRegistryByName(name, "ObjectName")
+            Dim dmf As String = GetServiceInformationFromRegistryByName(name, "DiagnosticMessageFile")
 
             ' Set to result
             infos.SetRegInfos(desc, dmf, obj)
         End Sub
 
         ' Retrieve an information about a service from registry
-        Private Shared Function GetInformationFromRegistryByName(ByVal name As String, _
+        Private Shared Function GetServiceInformationFromRegistryByName(ByVal name As String, _
                                                                  ByVal info As String) As String
             Try
                 Return CStr(My.Computer.Registry.GetValue(ServicePathInRegistry _
