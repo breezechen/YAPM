@@ -23,7 +23,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 
-Public Class cProcessMemReader
+Public Class ProcessMemReader
     Implements IDisposable
 
     ' ========================================
@@ -67,11 +67,12 @@ Public Class cProcessMemReader
     ' ========================================
 
     ' Get PEB
-    Public Function GetPEBAddress() As IntPtr
+    Public Function GetPebAddress() As IntPtr
         Dim ret As Integer
         Dim pbi As New Native.Api.NativeStructs.ProcessBasicInformation
-        Native.Api.NativeFunctions.NtQueryInformationProcess(_hProc, Native.Api.NativeEnums.ProcessInformationClass.ProcessBasicInformation, _
-                                      pbi, Marshal.SizeOf(pbi), ret)
+        Native.Api.NativeFunctions.NtQueryInformationProcess(_hProc, _
+                    Native.Api.NativeEnums.ProcessInformationClass.ProcessBasicInformation, _
+                    pbi, Marshal.SizeOf(pbi), ret)
         Return pbi.PebBaseAddress
     End Function
 

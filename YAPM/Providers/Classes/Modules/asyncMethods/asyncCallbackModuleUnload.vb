@@ -72,24 +72,10 @@ Public Class asyncCallbackModuleUnload
 
             Case Else
                 ' Local
-                Dim hProc As IntPtr = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.CreateThread, False, pObj.pid)
-
-                If hProc <> IntPtr.Zero Then
-                    Dim kernel32 As IntPtr = _
-                            Native.Api.NativeFunctions.GetModuleHandle("kernel32.dll")
-                    Dim freeLibrary As IntPtr = _
-                            Native.Api.NativeFunctions.GetProcAddress(kernel32, "FreeLibrary")
-                    Dim threadId As Integer
-                    Dim ret As IntPtr = _
-                            Native.Api.NativeFunctions.CreateRemoteThread(hProc, _
-                                                    IntPtr.Zero, 0, freeLibrary, _
-                                                    pObj.baseA, 0, threadId)
-                    _deg.Invoke(ret <> IntPtr.Zero, pObj.pid, pObj.name, _
-                                Native.Api.Win32.GetLastError, pObj.newAction)
-                Else
-                    _deg.Invoke(False, pObj.pid, pObj.name, _
-                                Native.Api.Win32.GetLastError, pObj.newAction)
-                End If
+                Dim ret As Boolean = Native.Objects.Module.UnloadModuleByAddress(pObj.baseA, _
+                                                                                 pObj.pid)
+                _deg.Invoke(ret, pObj.pid, pObj.name, _
+                            Native.Api.Win32.GetLastError, pObj.newAction)
         End Select
     End Sub
 

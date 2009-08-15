@@ -49,6 +49,111 @@ Namespace Native.Objects
         ' Public functions
         ' ========================================
 
+        ' Unload a module
+        Public Shared Function UnloadModuleByAddress(ByVal address As IntPtr, ByVal pid As Integer) As Boolean
+            Dim hProc As IntPtr = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.CreateThread, _
+                                                                         False, pid)
+            ' Create a remote thread a call FreeLibrary
+            If hProc <> IntPtr.Zero Then
+                Dim kernel32 As IntPtr = _
+                        Native.Api.NativeFunctions.GetModuleHandle("kernel32.dll")
+                Dim freeLibrary As IntPtr = _
+                        Native.Api.NativeFunctions.GetProcAddress(kernel32, "FreeLibrary")
+                Dim threadId As Integer
+                Dim ret As IntPtr = _
+                        Native.Api.NativeFunctions.CreateRemoteThread(hProc, _
+                                                IntPtr.Zero, 0, freeLibrary, _
+                                                address, 0, threadId)
+                Return (ret <> IntPtr.Zero)
+            Else
+                Return False
+            End If
+        End Function
+
+        ' Enumerate modules
+        Public Shared Function EnumerateModulesByProcessId(ByVal pid As Integer, _
+                Optional ByVal noFileInfo As Boolean = False) As Dictionary(Of String, moduleInfos)
+
+            ' Retrieve modules of a process (uses PEB_LDR_DATA structs)
+            Dim retDico As New Dictionary(Of String, moduleInfos)
+
+            Dim hProc As IntPtr
+            Dim peb As IntPtr
+            Dim loaderDatePtr As IntPtr
+            '64TODO
+            ' Open a reader to access memory !
+            Dim reader As New ProcessMemReader(pid)
+            hProc = reader.ProcessHandle
+
+            If hProc <> IntPtr.Zero Then
+
+                peb = reader.GetPebAddress
+
+                ' PEB struct documented here
+                ' http://undocumented.ntinternals.net/UserMode/Undocumented%20Functions/NT%20Objects/Process/PEB.html
+
+                ' Get address of LoaderData pointer
+                peb = peb.Increment(NativeStructs.PebLdrOffset)
+                loaderDatePtr = reader.ReadIntPtr(peb)
+
+                ' PEB_LDR_DATA documented here
+                ' http://msdn.microsoft.com/en-us/library/aa813708(VS.85).aspx
+                Dim ldrData As New Native.Api.NativeStructs.PebLdrData
+                ldrData = CType(reader.ReadStruct(Of Native.Api.NativeStructs.PebLdrData)(loaderDatePtr),  _
+                            Native.Api.NativeStructs.PebLdrData)
+
+                ' Now navigate into structure
+                Dim curObj As IntPtr = ldrData.InLoadOrderModuleList.Flink
+                Dim firstObj As IntPtr = curObj
+                Dim dllName As String
+                Dim dllPath As String
+                Dim curEntry As Native.Api.NativeStructs.LdrDataTableEntry
+                Dim i As Integer = 0
+
+                Do While curObj <> IntPtr.Zero
+
+                    If (i > 0 AndAlso curObj = firstObj) Then
+                        Exit Do
+                    End If
+
+                    ' Read LoaderData entry
+                    curEntry = CType(reader.ReadStruct(Of Native.Api.NativeStructs.LdrDataTableEntry)(curObj),  _
+                                    Native.Api.NativeStructs.LdrDataTableEntry)
+
+                    If (curEntry.DllBase <> IntPtr.Zero) Then
+
+                        ' Retrive the path/name of the dll
+                        dllPath = reader.ReadUnicodeString(curEntry.FullDllName)
+                        If dllPath Is Nothing Then
+                            dllPath = NO_INFO_RETRIEVED
+                        End If
+                        dllName = reader.ReadUnicodeString(curEntry.BaseDllName)
+                        If dllName Is Nothing Then
+                            dllName = NO_INFO_RETRIEVED
+                        End If
+
+                        ' Add to dico
+                        ' Key is path-pid-baseAddress
+                        Dim _key As String = dllPath.ToString & "-" & pid.ToString & "-" & curEntry.DllBase.ToString
+                        If retDico.ContainsKey(_key) = False Then
+                            retDico.Add(_key, New moduleInfos(curEntry, pid, dllPath, dllName, noFileInfo))
+                        End If
+
+                    End If
+
+                    ' Next entry
+                    curObj = curEntry.InLoadOrderLinks.Flink
+                    i += 1
+                Loop
+
+            End If
+
+            reader.Dispose()
+            Return retDico
+
+        End Function
+
+
 
         ' ========================================
         ' Private functions

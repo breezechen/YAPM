@@ -573,7 +573,8 @@ Public Class cModule
 
     ' Return opened modules
     Public Shared Function CurrentLocalModules(ByVal pid As Integer) As Dictionary(Of String, cModule)
-        Dim _d As Dictionary(Of String, moduleInfos) = asyncCallbackModuleEnumerate.GetModules(pid)
+        Dim _d As Dictionary(Of String, moduleInfos) = _
+                            Native.Objects.Module.EnumerateModulesByProcessId(pid)
         Dim _res As New Dictionary(Of String, cModule)
 
         For Each pair As System.Collections.Generic.KeyValuePair(Of String, moduleInfos) In _d

@@ -6,6 +6,8 @@ Refactoring bugs
 
 Refactoring OK : 
 - Privileges (all)
+- Threads (all)
+- Modules (all)
 
 BUGS CRITIQUES
 - problème icones menu principal cachées (Vista seulement)

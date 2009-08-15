@@ -151,8 +151,11 @@ Imports System.Runtime.InteropServices
             _fileInfo = Nothing
         End If
     End Sub
-    Public Sub New(ByRef Thr As Native.Api.NativeStructs.LdrDataTableEntry, ByVal pid As Integer, _
-                   ByVal path As String, ByVal version As String, _
+
+    Public Sub New(ByRef Thr As Native.Api.NativeStructs.LdrDataTableEntry, _
+                   ByVal pid As Integer, _
+                   ByVal path As String, _
+                   ByVal version As String, _
                    ByVal manufacturer As String)
         ' This constructor is used for WMI
         With Thr
@@ -165,7 +168,7 @@ Imports System.Runtime.InteropServices
         _path = Common.Misc.GetRealPath(path)
         _name = cFile.GetFileName(_path)
         _manufacturer = manufacturer
-        _version = version
+        _version = Version
     End Sub
 
     ' Merge an old and a new instance

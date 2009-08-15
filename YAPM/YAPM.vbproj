@@ -551,10 +551,10 @@
     </Compile>
     <Compile Include="Main\Program.vb" />
     <Compile Include="Native\Functions\FMisc.vb" />
-    <Compile Include="Native\Api\NativeConstants.vb" />
-    <Compile Include="Native\Api\NativeEnums.vb" />
-    <Compile Include="Native\Api\NativeFunctions.vb" />
-    <Compile Include="Native\Api\NativeStructs.vb" />
+    <Compile Include="Native\Win32\NativeConstants.vb" />
+    <Compile Include="Native\Win32\NativeEnums.vb" />
+    <Compile Include="Native\Win32\NativeFunctions.vb" />
+    <Compile Include="Native\Win32\NativeStructs.vb" />
     <Compile Include="Native\Enums.vb" />
     <Compile Include="Native\Functions\FService.vb" />
     <Compile Include="Native\Functions\FThread.vb" />
@@ -571,7 +571,7 @@
     <Compile Include="Native\Security\StandardRights.vb" />
     <Compile Include="Native\Security\ThreadAccess.vb" />
     <Compile Include="Native\Security\TokenAccess.vb" />
-    <Compile Include="Native\Win32.vb" />
+    <Compile Include="Native\Win32\Win32.vb" />
     <Compile Include="Native\Objects\File.vb" />
     <Compile Include="Native\Objects\Module.vb" />
     <Compile Include="Native\Objects\Network.vb" />
@@ -633,7 +633,7 @@
     <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcUnloadModule.vb" />
     <Compile Include="Providers\Classes\Processes\cProcess.vb" />
     <Compile Include="Providers\Classes\Processes\cProcessConnection.vb" />
-    <Compile Include="Providers\Classes\Processes\cProcessMemReader.vb" />
+    <Compile Include="Native\Memory\ProcessMemReader.vb" />
     <Compile Include="Providers\Classes\Processes\cProcessMemRW.vb" />
     <Compile Include="Native\Memory\MemoryAlloc.vb" />
     <Compile Include="Providers\Classes\Processes\processInfos.vb" />

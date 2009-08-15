@@ -491,7 +491,7 @@ Public Class asyncCallbackProcEnumerate
             End If
 
             ' Create a reader class to read in memory
-            Dim memReader As New cProcessMemReader(_pid)
+            Dim memReader As New ProcessMemReader(_pid)
 
             If memReader.ProcessHandle = IntPtr.Zero Then
                 Return NO_INFO_RETRIEVED           ' Couldn't open a handle
