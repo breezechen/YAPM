@@ -99,7 +99,7 @@ Namespace Native.Objects
 
             Dim lBytesNeeded As Integer
             Dim lServicesReturned As Integer
-            Dim tServiceStatus() As Native.Api.NativeStructs.EnumServiceStatusProcess
+            Dim tServiceStatus() As NativeStructs.EnumServiceStatusProcess
             ReDim tServiceStatus(0)
 
             If hSCM <> IntPtr.Zero Then
@@ -133,8 +133,8 @@ Namespace Native.Objects
                     For idx As Integer = 0 To lServicesReturned - 1
 
                         ' Get structure from memory
-                        Dim obj As Native.Api.NativeStructs.EnumServiceStatusProcess = _
-                                _memBufferEnumServics.ReadStruct(Of Native.Api.NativeStructs.EnumServiceStatusProcess)(idx)
+                        Dim obj As NativeStructs.EnumServiceStatusProcess = _
+                                _memBufferEnumServics.ReadStruct(Of NativeStructs.EnumServiceStatusProcess)(idx)
 
                         If forAllProcesses OrElse processId = obj.ServiceStatusProcess.ProcessID Then
                             Dim _servINFO As New serviceInfos(obj, completeInfos)
@@ -297,6 +297,125 @@ Namespace Native.Objects
             _semCurrentServ.Release()
 
             Return _d
+        End Function
+
+        ' Pause a service
+        Public Shared Function PauseServiceByName(ByVal name As String, ByVal hSCManager As IntPtr) As Boolean
+            Dim lServ As IntPtr = NativeFunctions.OpenService(hSCManager, name, Native.Security.ServiceAccess.PauseContinue)
+            Dim res As Boolean = False
+            If hSCManager <> IntPtr.Zero Then
+                If lServ <> IntPtr.Zero Then
+                    Dim lpss As NativeStructs.ServiceStatusProcess
+                    res = NativeFunctions.ControlService(lServ, NativeEnums.ServiceControl.Pause, lpss)
+                    NativeFunctions.CloseServiceHandle(lServ)
+                    Return res
+                End If
+            End If
+            Return False
+        End Function
+
+        ' Resume a service
+        Public Shared Function ResumeServiceByName(ByVal name As String, ByVal hSCManager As IntPtr) As Boolean
+            Dim lServ As IntPtr = NativeFunctions.OpenService(hSCManager, name, Native.Security.ServiceAccess.PauseContinue)
+            Dim res As Boolean = False
+            If hSCManager <> IntPtr.Zero Then
+                If lServ <> IntPtr.Zero Then
+                    Dim lpss As NativeStructs.ServiceStatusProcess
+                    res = NativeFunctions.ControlService(lServ, NativeEnums.ServiceControl.Continue, lpss)
+                    NativeFunctions.CloseServiceHandle(lServ)
+                    Return res
+                End If
+            End If
+            Return False
+        End Function
+
+        ' Set start type
+        Public Shared Function SetServiceStartTypeByName(ByVal name As String, _
+                                             ByVal type As NativeEnums.ServiceStartType, _
+                                             ByVal hSCManager As IntPtr) As Boolean
+            Dim hLockSCManager As IntPtr
+            Dim lServ As IntPtr = NativeFunctions.OpenService(hSCManager, name, Native.Security.ServiceAccess.ChangeConfig)
+            Dim ret As Boolean = False
+
+            hLockSCManager = NativeFunctions.LockServiceDatabase(hSCManager)
+
+            If hSCManager <> IntPtr.Zero Then
+                If lServ <> IntPtr.Zero Then
+                    ret = NativeFunctions.ChangeServiceConfig(lServ, NativeEnums.ServiceType.NoChange, _
+                                    type, _
+                                    NativeEnums.ServiceErrorControl.NoChange, _
+                                    Nothing, Nothing, Nothing, _
+                                    Nothing, Nothing, Nothing, Nothing)
+                    NativeFunctions.CloseServiceHandle(lServ)
+                End If
+                NativeFunctions.UnlockServiceDatabase(hLockSCManager)
+                Return ret
+            End If
+            Return False
+        End Function
+
+        ' Start service
+        Public Shared Function StartServiceByName(ByVal name As String, ByVal hSCManager As IntPtr) As Boolean
+            Dim lServ As IntPtr = NativeFunctions.OpenService(hSCManager, name, _
+                                                   Native.Security.ServiceAccess.Start)
+            Dim res As Boolean
+            If hSCManager <> IntPtr.Zero Then
+                If lServ <> IntPtr.Zero Then
+                    res = NativeFunctions.StartService(lServ, 0, Nothing)
+                    NativeFunctions.CloseServiceHandle(lServ)
+                    Return res
+                End If
+            End If
+            Return False
+        End Function
+
+        ' Stop service
+        Public Shared Function StopServiceByName(ByVal name As String, ByVal hSCManager As IntPtr) As Boolean
+            Dim lServ As IntPtr = NativeFunctions.OpenService(hSCManager, name, Native.Security.ServiceAccess.Stop)
+            Dim res As Boolean = False
+            If hSCManager <> IntPtr.Zero Then
+                If lServ <> IntPtr.Zero Then
+                    Dim lpss As NativeStructs.ServiceStatusProcess
+                    res = NativeFunctions.ControlService(lServ, _
+                                        NativeEnums.ServiceControl.Stop, _
+                                        lpss)
+                    NativeFunctions.CloseServiceHandle(lServ)
+                    Return res
+                End If
+            End If
+            Return False
+        End Function
+
+        ' Get SC manager handle
+        Public Shared Function GetSCManagerHandle() As IntPtr
+            Return NativeFunctions.OpenSCManager(Nothing, _
+                                                Nothing, _
+                                                Native.Security.ServiceManagerAccess.EnumerateService)
+        End Function
+
+        ' Close SC manager handle
+        Public Shared Sub CloseSCManagerHandle(ByVal hSCManager As IntPtr)
+            Native.Api.NativeFunctions.CloseServiceHandle(hSCManager)
+        End Sub
+
+        ' Return dependencies of a service (as a string array)
+        Public Shared Function GetServiceDependenciesAsStringArrayFromPtr(ByVal thePtr As Integer) As String()
+
+            If thePtr > 0 Then
+
+                Dim res As String = Marshal.PtrToStringUni(New IntPtr(thePtr), &H400)
+
+                ' Find the 2 consecutive NullChars
+                For i As Integer = 0 To &H400 - 1
+                    If res.Chars(i) = CChar(ChrW(0)) AndAlso res.Chars(i + 1) = CChar(ChrW(0)) Then
+                        res = res.Substring(0, i)
+                        Return Split(res, vbNullChar)
+                    End If
+                Next
+
+            End If
+
+            Return Nothing
         End Function
 
 

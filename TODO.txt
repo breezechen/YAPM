@@ -8,6 +8,7 @@ Refactoring OK :
 - Privileges (all)
 - Threads (all)
 - Modules (all)
+- Processes (all)
 
 BUGS CRITIQUES
 - problème icones menu principal cachées (Vista seulement)
@@ -142,3 +143,5 @@ BUGS NON CRITIQUES
 
 Temp Change log :
 /!\ METTRE A JOUR LE FICHIER D'AIDE LORS DE LA RELEASE
+- code refactoring
+- affinity for threads OK

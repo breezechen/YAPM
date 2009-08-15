@@ -86,26 +86,10 @@ Public Class asyncCallbackServiceSetStartType
 
                 Case Else
                     ' Local
-                    Dim hLockSCManager As IntPtr
-                    Dim hSCManager As IntPtr = con.SCManagerLocalHandle
-                    Dim lServ As IntPtr = Native.Api.NativeFunctions.OpenService(hSCManager, pObj.name, Native.Security.ServiceAccess.ChangeConfig)
-                    Dim ret As Boolean = False
-
-                    hLockSCManager = Native.Api.NativeFunctions.LockServiceDatabase(hSCManager)
-
-                    If hSCManager <> IntPtr.Zero Then
-                        If lServ <> IntPtr.Zero Then
-                            ret = Native.Api.NativeFunctions.ChangeServiceConfig(lServ, Native.Api.NativeEnums.ServiceType.NoChange, _
-                                            pObj.type, _
-                                            Native.Api.NativeEnums.ServiceErrorControl.NoChange, _
-                                            Nothing, Nothing, Nothing, _
-                                            Nothing, Nothing, Nothing, Nothing)
-                            Native.Api.NativeFunctions.CloseServiceHandle(lServ)
-                        End If
-                        Native.Api.NativeFunctions.UnlockServiceDatabase(hLockSCManager)
-                    End If
-
-                    _deg.Invoke(ret, pObj.name, Native.Api.Win32.GetLastError, pObj.newAction)
+                    Dim res As Boolean = Native.Objects.Service.SetServiceStartTypeByName(pObj.name, _
+                                                pObj.type, _
+                                                con.SCManagerLocalHandle)
+                    _deg.Invoke(res, pObj.name, Native.Api.Win32.GetLastError, pObj.newAction)
             End Select
         End SyncLock
     End Sub

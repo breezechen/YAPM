@@ -93,8 +93,7 @@ Public Class cServiceConnection
             Case Else
                 ' Local
                 If hSCM = IntPtr.Zero Then
-                    hSCM = Native.Api.NativeFunctions.OpenSCManager(vbNullString, _
-                                                vbNullString, Native.Security.ServiceManagerAccess.EnumerateService)
+                    hSCM = Native.Objects.Service.GetSCManagerHandle
                 End If
                 _connected = True
                 Try
@@ -120,8 +119,8 @@ Public Class cServiceConnection
                     _control.Invoke(Disconnected, True)
             Case Else
                 ' Local
-                If hSCM.ToInt32 > 0 Then
-                    Call Native.Api.NativeFunctions.CloseServiceHandle(hSCM)
+                If hSCM <> IntPtr.Zero Then
+                    Native.Objects.Service.CloseSCManagerHandle(hSCM)
                     hSCM = IntPtr.Zero
                 End If
                 _connected = False

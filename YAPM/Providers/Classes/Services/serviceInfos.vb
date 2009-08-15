@@ -283,74 +283,7 @@ Imports System.Text
             _startName = .ServiceStartName
             _tagID = .TagID
 
-            ' === Get dependencies of service
-            If .Dependencies > 0 Then
-
-                ' Get a short array from memory
-                ' Delimited by 2 null chars (e.g 4 zero byte as it is unicode)
-                Dim res() As Int16
-                ReDim res(0)
-                Dim size As Integer = 1
-
-                Dim b1 As Short = -1
-                Dim b2 As Short = -1
-
-                Do While Not (b1 = 0 And b2 = 0)
-                    size += 1
-                    ReDim res(size - 1)
-                    Marshal.Copy(New IntPtr(.Dependencies), res, 0, res.Length)
-                    b1 = res(size - 2)
-                    b2 = res(size - 1)
-                Loop
-
-                size -= 1
-                ReDim Preserve res(size - 1)
-
-                ' Get a string array from this short array
-                Dim __var As String
-                Dim rr() As String
-                ReDim rr(-1)
-                Dim xOld As Integer = 0
-                Dim y As Integer
-
-                If size > 2 Then
-
-                    For x As Integer = 0 To size - 1
-
-                        If res(x) = 0 Then
-                            ' Then it's variable end
-                            ReDim Preserve rr(rr.Length)  ' Add one item to list
-                            Try
-                                ' Parse short array to retrieve an unicode string
-                                y = x * 2
-                                Dim __size As Integer = CInt((y - xOld) / 2)
-
-                                ' Allocate unmanaged memory
-                                Dim ptr As IntPtr = Marshal.AllocHGlobal(y - xOld)
-
-                                ' Copy from short array to unmanaged memory
-                                Marshal.Copy(res, CInt(xOld / 2), ptr, __size)
-
-                                ' Convert to string (and copy to __var variable)
-                                __var = Marshal.PtrToStringUni(ptr, __size)
-
-                                ' Free unmanaged memory
-                                Marshal.FreeHGlobal(ptr)
-
-                            Catch ex As Exception
-                                __var = ""
-                            End Try
-
-                            ' Insert variable
-                            rr(rr.Length - 1) = __var
-
-                            xOld = y + 2
-                        End If
-                    Next
-
-                    _Dependencies = rr
-                End If
-            End If
+            _Dependencies = Native.Objects.Service.GetServiceDependenciesAsStringArrayFromPtr(.Dependencies)
 
         End With
     End Sub
