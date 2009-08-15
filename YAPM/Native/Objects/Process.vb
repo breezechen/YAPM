@@ -57,6 +57,23 @@ Namespace Native.Objects
         ' ========================================
         ' Public properties
         ' ========================================
+
+        ' Min rights for Query
+        Public Shared ReadOnly Property ProcessQueryMinRights() As Native.Security.ProcessAccess
+            Get
+                Static _minRights As Native.Security.ProcessAccess = Native.Security.ProcessAccess.QueryInformation
+                Static checked As Boolean = False
+                If checked = False Then
+                    If cEnvironment.IsWindowsVistaOrAbove Then
+                        checked = True
+                        _minRights = Native.Security.ProcessAccess.QueryLimitedInformation
+                    End If
+                End If
+                Return _minRights
+            End Get
+        End Property
+
+        ' Current processes
         Public Shared Property CurrentProcesses() As Dictionary(Of String, cProcess)
             Get
                 Return _currentProcesses
@@ -71,6 +88,7 @@ Namespace Native.Objects
             End Get
         End Property
 
+        ' New processes
         Public Shared Property NewProcesses() As Dictionary(Of Integer, Boolean)
             Get
                 Return dicoNewProcesses
@@ -84,6 +102,26 @@ Namespace Native.Objects
                 Return _semNewProcesses
             End Get
         End Property
+
+        ' Is a process in job ?
+        Public Shared ReadOnly Property IsProcessInJob(ByVal handle As IntPtr) As Boolean
+            Get
+                Dim res As Boolean
+                Native.Api.NativeFunctions.IsProcessInJob(handle, IntPtr.Zero, res)
+                Return res
+            End Get
+        End Property
+
+        ' Debugger present ?
+        Public Shared ReadOnly Property IsDebuggerPresent(ByVal handle As IntPtr) As Boolean
+            Get
+                Dim res As Boolean
+                Native.Api.NativeFunctions.CheckRemoteDebuggerPresent(handle, res)
+                Return res
+            End Get
+        End Property
+
+
 
         ' ========================================
         ' Other public
@@ -300,7 +338,7 @@ Namespace Native.Objects
             Else
 
                 ' Have to open a handle
-                hProc = NativeFunctions.OpenProcess(cProcessConnection.ProcessMinRights, _
+                hProc = NativeFunctions.OpenProcess(Process.ProcessQueryMinRights, _
                                                                False, pid)
                 If hProc <> IntPtr.Zero Then
                     ' Get size
@@ -385,7 +423,7 @@ Namespace Native.Objects
         ' Return Peb address
         Public Shared Function GetProcessPebAddressById(ByVal pid As Integer) As IntPtr
             If pid > 4 Then
-                Dim hProc As IntPtr = NativeFunctions.OpenProcess(cProcessConnection.ProcessMinRights, _
+                Dim hProc As IntPtr = NativeFunctions.OpenProcess(Process.ProcessQueryMinRights, _
                                                    False, pid)
                 Dim pbi As New NativeStructs.ProcessBasicInformation
                 Dim ret As Integer
@@ -410,7 +448,7 @@ Namespace Native.Objects
             If pid > 4 Then
 
                 Dim hToken As IntPtr
-                Dim hProc As IntPtr = NativeFunctions.OpenProcess(cProcessConnection.ProcessMinRights, _
+                Dim hProc As IntPtr = NativeFunctions.OpenProcess(Process.ProcessQueryMinRights, _
                                                           False, pid)
 
                 If NativeFunctions.OpenProcessToken(hProc, Native.Security.TokenAccess.Query, hToken) Then
@@ -752,7 +790,7 @@ Namespace Native.Objects
 
             ' For each PID...
             For pid As Integer = &H8 To &HFFFF Step 4
-                Dim handle As IntPtr = Native.Api.NativeFunctions.OpenProcess(cProcessConnection.ProcessMinRights, False, pid)
+                Dim handle As IntPtr = Native.Api.NativeFunctions.OpenProcess(Process.ProcessQueryMinRights, False, pid)
                 If handle <> IntPtr.Zero Then
                     Dim exitcode As Integer
                     Dim res As Boolean = Native.Api.NativeFunctions.GetExitCodeProcess(handle, exitcode)
@@ -806,6 +844,11 @@ Namespace Native.Objects
 
             Return tt
 
+        End Function
+
+        ' Return a handle for a process
+        Public Shared Function GetProcessHandleById(ByVal pid As Integer, ByVal access As Security.ProcessAccess) As IntPtr
+            Return Native.Api.NativeFunctions.OpenProcess(Process.ProcessQueryMinRights, False, pid)
         End Function
 
 

@@ -49,6 +49,34 @@ Namespace Native.Objects
         ' Public functions
         ' ========================================
 
+        ' Return elevation type of a process
+        Public Shared Function GetProcessElevationTypeByTokenHandle(ByVal hTok As IntPtr, _
+                                               ByRef elevation As Native.Api.Enums.ElevationType) As Boolean
+            If hTok <> IntPtr.Zero Then
+
+                Dim value As Integer
+                Dim ret As Integer
+
+                ' Get tokeninfo length
+                Native.Api.NativeFunctions.GetTokenInformation(hTok, _
+                            Native.Api.NativeEnums.TokenInformationClass.TokenElevationType, _
+                            IntPtr.Zero, 0, ret)
+                Dim TokenInformation As IntPtr = Marshal.AllocHGlobal(ret)
+                ' Get token information
+                Native.Api.NativeFunctions.GetTokenInformation(hTok, _
+                            Native.Api.NativeEnums.TokenInformationClass.TokenElevationType, _
+                            TokenInformation, ret, Nothing)
+                ' Get a valid structure
+                value = Marshal.ReadInt32(TokenInformation, 0)
+                Marshal.FreeHGlobal(TokenInformation)
+                elevation = CType(value, Native.Api.Enums.ElevationType)
+                Return True
+            Else
+                elevation = Native.Api.Enums.ElevationType.Default
+                Return False
+            End If
+        End Function
+
         ' Get privileges list of process
         Public Shared Function GetPrivilegesListByProcessId(ByVal pid As Integer) As NativeStructs.PrivilegeInfo()
 
@@ -200,6 +228,13 @@ Namespace Native.Objects
             domainName = domain.ToString
             Return True
 
+        End Function
+
+        ' Return a process token handle
+        Public Shared Function GetProcessTokenHandleByProcessHandle(ByVal handle As IntPtr, ByVal access As Native.Security.TokenAccess) As IntPtr
+            Dim _tokenHandle As IntPtr
+            Native.Api.NativeFunctions.OpenProcessToken(handle, access, _tokenHandle)
+            Return _tokenHandle
         End Function
 
 

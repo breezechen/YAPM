@@ -24,33 +24,6 @@ Imports System.Runtime.InteropServices
 
 Public Class cToken
 
-    Public Shared Function GetProcessElevationType(ByVal hTok As IntPtr, _
-                                                   ByRef elevation As Native.Api.Enums.ElevationType) As Boolean
-        If hTok <> IntPtr.Zero Then
-
-            Dim value As Integer
-            Dim ret As Integer
-
-            ' Get tokeninfo length
-            Native.Api.NativeFunctions.GetTokenInformation(hTok, _
-                        Native.Api.NativeEnums.TokenInformationClass.TokenElevationType, _
-                        IntPtr.Zero, 0, ret)
-            Dim TokenInformation As IntPtr = Marshal.AllocHGlobal(ret)
-            ' Get token information
-            Native.Api.NativeFunctions.GetTokenInformation(hTok, _
-                        Native.Api.NativeEnums.TokenInformationClass.TokenElevationType, _
-                        TokenInformation, ret, Nothing)
-            ' Get a valid structure
-            value = Marshal.ReadInt32(TokenInformation, 0)
-            Marshal.FreeHGlobal(TokenInformation)
-            elevation = CType(value, Native.Api.Enums.ElevationType)
-            Return True
-        Else
-            elevation = Native.Api.Enums.ElevationType.Default
-            Return False
-        End If
-    End Function
-
     Public Shared ReadOnly Property CurrentUserName() As String
         Get
             Static retrieved As Boolean = False

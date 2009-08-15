@@ -41,6 +41,58 @@ Namespace Native.Api
 
 #End Region
 
+        ' OK
+#Region "Declarations used for processes"
+
+        Public Structure ProcTimeInfo
+            Dim time As Long
+            Dim kernel As Long
+            Dim user As Long
+            Dim total As Long
+            Public Sub New(ByVal aTime As Long, ByVal aUser As Long, ByVal aKernel As Long)
+                time = aTime
+                kernel = aKernel
+                user = aUser
+                total = user + kernel
+            End Sub
+        End Structure
+
+        Public Structure ProcMemInfo
+            Dim time As Long
+            Dim mem As Native.Api.NativeStructs.VmCountersEx
+            Public Sub New(ByVal aTime As Long, ByRef aMem As Native.Api.NativeStructs.VmCountersEx)
+                time = aTime
+                mem = aMem
+            End Sub
+        End Structure
+
+        Public Structure ProcIoInfo
+            Dim time As Long
+            Dim io As Native.Api.NativeStructs.IoCounters
+            Public Sub New(ByVal aTime As Long, ByRef aIo As Native.Api.NativeStructs.IoCounters)
+                time = aTime
+                io = aIo
+            End Sub
+        End Structure
+
+        Public Structure ProcMiscInfo
+            Dim time As Long
+            Dim gdiO As Integer
+            Dim userO As Integer
+            Dim cpuUsage As Double
+            Dim averageCpuUsage As Double
+            Public Sub New(ByVal aTime As Long, ByVal aGdi As Integer, ByVal aUser As _
+                           Integer, ByVal aCpu As Double, ByVal aAverage As Double)
+                time = aTime
+                gdiO = aGdi
+                userO = aUser
+                cpuUsage = aCpu
+                averageCpuUsage = aAverage
+            End Sub
+        End Structure
+
+#End Region
+
     End Class
 
 End Namespace
