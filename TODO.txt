@@ -13,12 +13,12 @@ Refactoring OK :
 - Tasks (all)
 - General (all)
 - MemRegion (all)
+- Env var (all)
 
 - Network
 - Search
 - Log
 - Handle
-- Env var
 
 
 BUGS CRITIQUES

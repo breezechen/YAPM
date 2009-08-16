@@ -80,7 +80,7 @@ Namespace Native.Objects
             Dim hProc As IntPtr
             Dim peb As IntPtr
             Dim loaderDatePtr As IntPtr
-            '64TODO
+
             ' Open a reader to access memory !
             Dim reader As New ProcessMemReader(pid)
             hProc = reader.ProcessHandle
