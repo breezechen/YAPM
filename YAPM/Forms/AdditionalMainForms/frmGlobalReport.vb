@@ -132,16 +132,16 @@ Public Class frmGlobalReport
 
 
         ' == Memory regions
-        If Me.chkMemory.Checked Then
-            setCaption("Retrieving memory regions...")
-            For Each pid As Integer In _dicoProcesses.Keys
-                Dim _buffServ As New Dictionary(Of String, Native.Api.NativeStructs.MemoryBasicInformation)
-                Dim _memKey() As String
-                ReDim _memKey(0)
-                cProcessMemRW.Enumerate(pid, _memKey, _buffServ)
-                _dicoMemRegions.Add(pid.ToString, _buffServ)
-            Next
-        End If
+        'If Me.chkMemory.Checked Then
+        '    setCaption("Retrieving memory regions...")
+        '    For Each pid As Integer In _dicoProcesses.Keys
+        '        Dim _buffServ As New Dictionary(Of String, Native.Api.NativeStructs.MemoryBasicInformation)
+        '        Dim _memKey() As String
+        '        ReDim _memKey(0)
+        '        ProcessRW.Enumerate(pid, _memKey, _buffServ)
+        '        _dicoMemRegions.Add(pid.ToString, _buffServ)
+        '    Next
+        'End If
 
 
         ' == Write general informations to log

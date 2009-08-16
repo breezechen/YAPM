@@ -552,6 +552,7 @@
     <Compile Include="Main\Program.vb" />
     <Compile Include="Native\Functions\FMisc.vb" />
     <Compile Include="Native\Objects\EnvVariable.vb" />
+    <Compile Include="Native\Objects\SystemInfo.vb" />
     <Compile Include="Native\Win32\NativeConstants.vb" />
     <Compile Include="Native\Win32\NativeEnums.vb" />
     <Compile Include="Native\Win32\NativeFunctions.vb" />
@@ -635,7 +636,7 @@
     <Compile Include="Providers\Classes\Processes\cProcess.vb" />
     <Compile Include="Providers\Classes\Processes\cProcessConnection.vb" />
     <Compile Include="Native\Memory\ProcessMemReader.vb" />
-    <Compile Include="Providers\Classes\Processes\cProcessMemRW.vb" />
+    <Compile Include="Native\Objects\ProcessRW.vb" />
     <Compile Include="Native\Memory\MemoryAlloc.vb" />
     <Compile Include="Providers\Classes\Processes\processInfos.vb" />
     <Compile Include="Providers\Classes\Search\asyncMethods\asyncCallbackSearchEnumerate.vb" />

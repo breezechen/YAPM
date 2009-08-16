@@ -72,7 +72,7 @@ Public Class MemoryHexEditor
     ' Process attributes
     Private _pid As Integer = 0             ' Process ID
     Private _hProc As IntPtr                ' Handle to process
-    Private _rw As cProcessMemRW
+    Private _rw As ProcessRW
 
     ' Memory informations
     Private _memRegion As MemoryRegion
@@ -193,7 +193,7 @@ Public Class MemoryHexEditor
         'CHAR_HEIGHT = CInt(Me.CreateGraphics.MeasureString("0", _font, 0).Height)
 
         _pid = ProcessId
-        _rw = New cProcessMemRW(_pid)
+        _rw = New ProcessRW(_pid)
         _memRegion = MemRegion
         _curViewDeb = _memRegion.BeginningAddress
 
@@ -385,7 +385,7 @@ Public Class MemoryHexEditor
         ' Read all bytes to display from memory
         Dim size As Integer = 16 * _linesNumber
         Dim isOk As Boolean = True
-        Dim buff() As Byte = _rw.ReadBytesAB(_curViewDeb, size, isOk)
+        Dim buff() As Byte = _rw.ReadByteArray(_curViewDeb, size, isOk)
 
         Dim theBruh As Brush = _HexaBrush
         If isOk = False Then

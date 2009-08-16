@@ -22,14 +22,10 @@
 Option Strict On
 
 Imports System.Windows.Forms
+Imports YAPM.Native.Api
 
-Public Class cProcessMemRW
+Public Class ProcessRW
 
-#Region "api"
-
-    ' =======================================================
-    ' API declaration
-    ' =======================================================
 
     Private Const SIZE_FOR_STRING As Integer = 5
 
@@ -38,19 +34,19 @@ Public Class cProcessMemRW
         Dim strString As String
     End Structure
 
-#End Region
 
     ' =======================================================
     ' Private attributes
     ' =======================================================
     Private _pid As Integer
     Private _handle As IntPtr
-    Private Shared si As Native.Api.NativeStructs.SystemInfo
+    Private Shared si As NativeStructs.SystemInfo
+
 
     ' =======================================================
     ' Public properties
     ' =======================================================
-    Public ReadOnly Property SystemInfo() As Native.Api.NativeStructs.SystemInfo
+    Public ReadOnly Property SystemInfo() As NativeStructs.SystemInfo
         Get
             Return si
         End Get
@@ -66,119 +62,157 @@ Public Class cProcessMemRW
     ' =======================================================
     Public Sub New(ByVal processId As Integer)
         _pid = processId
-        'ACCESSTOCHANGE
         _handle = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.All, False, processId)
-        Native.Api.NativeFunctions.GetSystemInfo(si)
+        si = Native.Objects.SystemInfo.GetSystemInfo
     End Sub
     Protected Overrides Sub Finalize()
         MyBase.Finalize()
-        Call Native.Api.NativeFunctions.CloseHandle(_handle)
+        Native.Objects.General.CloseHandle(_handle)
     End Sub
 
 
-    ' =======================================================
-    ' Read bytes from a pid
-    ' =======================================================
-    Public Function ReadBytesAI(ByVal offset As IntPtr, ByVal size As Integer) As Integer()
+    ' Read in memory
+    Public Function ReadInt32Array(ByVal offset As IntPtr, _
+                                   ByVal arraySize As Integer) As Integer()
 
         Dim sBuf() As Integer
         Dim lByte As Integer
-        ReDim sBuf(size - 1)
+        ReDim sBuf(arraySize - 1)
 
-        ' Integer array -> size*4 to get bytes count
-        Native.Api.NativeFunctions.ReadProcessMemory(_handle, offset, sBuf, size * 4, lByte)
-
-        Return sBuf
-    End Function
-    Public Function ReadBytesAIntPtr(ByVal offset As IntPtr, ByVal size As Integer) As IntPtr()
-
-        Dim sBuf() As IntPtr
-        Dim lByte As Integer
-        ReDim sBuf(size - 1)
-
-        ' Integer array -> size*4 to get bytes count
-        Native.Api.NativeFunctions.ReadProcessMemory(_handle, offset, sBuf, size * 4, lByte)
+        ' Int32 array -> size*4 to get bytes count
+        NativeFunctions.ReadProcessMemory(_handle, offset, sBuf, _
+                                                     arraySize * 4, lByte)
 
         Return sBuf
     End Function
-    Public Function ReadBytesAB(ByVal offset As IntPtr, ByVal size As Integer, ByRef ok As Boolean) As Byte()
+
+    ' Used for memory search only (because string is crappy for ReadProcMemory)
+    Public Function ReadString(ByVal offset As IntPtr, ByVal stringSize As Integer) As String
 
         Dim sBuf() As Byte
         Dim lByte As Integer
-        ReDim sBuf(size - 1)
+        ReDim sBuf(stringSize - 1)
+
+        NativeFunctions.ReadProcessMemory(_handle, offset, sBuf, stringSize, lByte)
+        Return System.Text.Encoding.ASCII.GetString(sBuf)
+    End Function
+
+    Public Function ReadIntPtrArray(ByVal offset As IntPtr, _
+                                    ByVal arraySize As Integer) As IntPtr()
+
+        Dim sBuf() As IntPtr
+        Dim lByte As Integer
+        ReDim sBuf(arraySize - 1)
+
+        ' Intptr array -> size*Intptr.size to get bytes count
+        NativeFunctions.ReadProcessMemory(_handle, offset, sBuf, _
+                                                     arraySize * IntPtr.Size, lByte)
+
+        Return sBuf
+    End Function
+
+    Public Function ReadIntPtr(ByVal offset As IntPtr) As IntPtr
+
+        Dim sBuf() As IntPtr
+        Dim lByte As Integer
+        ReDim sBuf(0)
+
+        ' Intptr array -> size*Intptr.size to get bytes count
+        NativeFunctions.ReadProcessMemory(_handle, offset, sBuf, IntPtr.Size, lByte)
+
+        Return sBuf(0)
+    End Function
+
+    Public Function ReadByteArray(ByVal offset As IntPtr, ByVal arraySize As Integer, _
+                                ByRef ok As Boolean) As Byte()
+
+        Dim sBuf() As Byte
+        Dim lByte As Integer
+        ReDim sBuf(arraySize - 1)
 
         ' Byte array -> size*1 to get bytes count
-        ok = Native.Api.NativeFunctions.ReadProcessMemory(_handle, offset, sBuf, size, lByte)
+        ok = NativeFunctions.ReadProcessMemory(_handle, offset, sBuf, _
+                                                          arraySize, lByte)
 
         Return sBuf
     End Function
-    Public Function ReadBytesAS(ByVal offset As IntPtr, ByVal size As Integer) As Short()
+
+    Public Function ReadInt16Array(ByVal offset As IntPtr, ByVal arraySize As Integer) As Short()
 
         Dim sBuf() As Short
-        Dim _si As Integer = size
-        Dim _si2 As Integer = 0
-        Dim ret As Boolean
         Dim lByte As Integer
-        ReDim sBuf(size - 1)
+        ReDim sBuf(arraySize - 1)
 
-        ' Fragment read
-        Do While _si2 < _si
-
-            Dim sBuf2() As Short
-            ReDim sBuf2(size - 1)
-
-            ' Short array -> size*2 to get bytes count
-            ret = Native.Api.NativeFunctions.ReadProcessMemory(_handle, offset.Increment(_si2), sBuf2, size * 2, lByte)
-
-            ' If ret = 0 and err = ERROR_PARTIAL_COPY, we have to reduce block size
-            Do While (ret = False And (Err.LastDllError = 299))
-                size -= 2   ' Short <-> 2 bytes
-                ret = Native.Api.NativeFunctions.ReadProcessMemory(_handle, offset.Increment(_si2), sBuf2, size * 2, lByte)
-            Loop
-
-            sBuf2.CopyTo(sBuf, CInt(_si2 / 2))
-
-            _si2 += size
-            If size = 0 Then
-                ReDim sBuf(0)
-                Return sBuf
-            End If
-            size = _si - _si2
-        Loop
+        ' Byte array -> size*1 to get bytes count
+        NativeFunctions.ReadProcessMemory(_handle, offset, sBuf, _
+                                                          arraySize, lByte)
 
         Return sBuf
+
+        'Dim sBuf() As Short
+        'Dim _si As Integer = arraySize
+        'Dim _si2 As Integer = 0
+        'Dim ret As Boolean
+        'Dim lByte As Integer
+        'ReDim sBuf(arraySize - 1)
+
+        '' Fragment read
+        'Do While _si2 < _si
+
+        '    Dim sBuf2() As Short
+        '    ReDim sBuf2(arraySize - 1)
+
+        '    ' Short array -> size*2 to get bytes count
+        '    ret = NativeFunctions.ReadProcessMemory(_handle, offset.Increment(_si2), sBuf2, arraySize * 2, lByte)
+
+        '    ' If ret = 0 and err = ERROR_PARTIAL_COPY, we have to reduce block size
+        '    Do While (ret = False And (Err.LastDllError = 299))
+        '        arraySize -= 2   ' Short <-> 2 bytes
+        '        ret = NativeFunctions.ReadProcessMemory(_handle, offset.Increment(_si2), sBuf2, arraySize * 2, lByte)
+        '    Loop
+
+        '    sBuf2.CopyTo(sBuf, CInt(_si2 / 2))
+
+        '    _si2 += arraySize
+        '    If arraySize = 0 Then
+        '        ReDim sBuf(0)
+        '        Return sBuf
+        '    End If
+        '    arraySize = _si - _si2
+        'Loop
+
+        'Return sBuf
     End Function
-    Public Function Read1Byte(ByVal offset As IntPtr) As Byte
+
+    Public Function ReadByte(ByVal offset As IntPtr) As Byte
         Dim ret(0) As Byte
         Dim lByte As Integer
-        Native.Api.NativeFunctions.ReadProcessMemory(_handle, offset, ret, 1, lByte)
+        ' 1 byte
+        NativeFunctions.ReadProcessMemory(_handle, offset, ret, 1, lByte)
         Return ret(0)
     End Function
-    Public Function Read2Bytes(ByVal offset As IntPtr) As Short
+
+    Public Function ReadInt16(ByVal offset As IntPtr) As Short
         Dim ret(0) As Short
         Dim lByte As Integer
-        Native.Api.NativeFunctions.ReadProcessMemory(_handle, offset, ret, 2, lByte)
+        ' A short = 2 bytes
+        NativeFunctions.ReadProcessMemory(_handle, offset, ret, 2, lByte)
         Return ret(0)
     End Function
 
-
-    ' =======================================================
     ' Retrieve memory regions (availables for r/w)
-    ' =======================================================
-    Private Shared Sub RetrieveMemRegions(ByRef regions() As Native.Api.NativeStructs.MemoryBasicInformation, _
-                                          ByVal pid As Integer, Optional ByVal onlyProcessRegions As Boolean = False)
+    Public Sub RetrieveMemRegions(ByRef regions() As NativeStructs.MemoryBasicInformation, _
+                ByVal pid As Integer, Optional ByVal onlyProcessRegions As Boolean = False)
 
-        Dim lHandle As IntPtr
         Dim lPosMem As IntPtr
         Dim lRet As Integer
         Dim lLenMBI As Integer
-        Dim mbi As Native.Api.NativeStructs.MemoryBasicInformation
+        Dim mbi As NativeStructs.MemoryBasicInformation
 
         ReDim regions(1000)     ' Initial buffer
 
-        lHandle = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.All, False, pid)   'TOCHANGE
         lLenMBI = System.Runtime.InteropServices.Marshal.SizeOf(mbi)
-        If si.lpMaximumApplicationAddress.IsNull Then Native.Api.NativeFunctions.GetSystemInfo(si)
+        If si.lpMaximumApplicationAddress.IsNull Then NativeFunctions.GetSystemInfo(si)
         lPosMem = si.lpMinimumApplicationAddress  ' Start from shorter address
 
         Dim _xx As Integer = 0
@@ -187,13 +221,13 @@ Public Class cProcessMemRW
 
             mbi.RegionSize = 0
 
-            lRet = Native.Api.NativeFunctions.VirtualQueryEx(lHandle, lPosMem, mbi, lLenMBI)
+            lRet = NativeFunctions.VirtualQueryEx(_handle, lPosMem, mbi, lLenMBI)
 
             If lRet = lLenMBI Then
 
                 If mbi.RegionSize > 0 AndAlso _
-                ((Not onlyProcessRegions) OrElse (mbi.Type = Native.Api.NativeEnums.MemoryType.Private And _
-                                                  mbi.State = Native.Api.NativeEnums.MemoryState.Commit)) Then
+                ((Not onlyProcessRegions) OrElse (mbi.Type = NativeEnums.MemoryType.Private And _
+                                                  mbi.State = NativeEnums.MemoryState.Commit)) Then
                     ' Here is a region
                     _xx += 1
                     If _xx >= regions.Length Then
@@ -212,15 +246,14 @@ Public Class cProcessMemRW
             End If
         Loop
 
-        Call Native.Api.NativeFunctions.CloseHandle(lHandle)
-
         ' Remove last item
         ReDim Preserve regions(_xx - 1)
     End Sub
+
     Public Sub RetrieveMemRegions(ByRef lBaseAdress() As IntPtr, _
         ByRef lRegionSize() As Integer, Optional ByVal onlyProc As Boolean = False)
 
-        Dim regions() As Native.Api.NativeStructs.MemoryBasicInformation
+        Dim regions() As NativeStructs.MemoryBasicInformation
 
         ReDim regions(0)
         RetrieveMemRegions(regions, Me._pid, onlyProc)
@@ -235,15 +268,12 @@ Public Class cProcessMemRW
 
     End Sub
 
-    ' =======================================================
     ' Search a string in memory
-    ' =======================================================
     Public Sub SearchForStringMemory(ByVal sMatch As String, ByVal bCasse As Boolean, _
         ByRef tRes() As Long, Optional ByVal PGB As ProgressBar = Nothing)
 
         Dim x As Integer
         Dim strBufT As String
-        Dim lHandle As IntPtr
         Dim LB() As IntPtr
         Dim LS() As Integer
 
@@ -251,7 +281,8 @@ Public Class cProcessMemRW
         ReDim LB(0)
         ReDim LS(0)
 
-        Call RetrieveMemRegions(LB, LS)
+        ' Get memory regions
+        RetrieveMemRegions(LB, LS)
 
         If Not (PGB Is Nothing) Then
             With PGB
@@ -261,18 +292,19 @@ Public Class cProcessMemRW
             End With
         End If
 
-        ' ACCESSCHANGE
-        '64TODO
-        lHandle = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.All, False, _pid)
-
-        If bCasse = False Then sMatch = sMatch.ToLower
+        If bCasse = False Then
+            sMatch = sMatch.ToLower
+        End If
 
         For x = 1 To LS.Length
 
-            ' Get current region
-            strBufT = ReadBytesH(lHandle, LB(x), LS(x))
+            ' Get current region into one string
+            ' Not a good idea -> TOCHANGE
+            strBufT = ReadString(LB(x), LS(x))
 
-            If bCasse = False Then strBufT = strBufT.ToLower
+            If bCasse = False Then
+                strBufT = strBufT.ToLower
+            End If
 
             ' While match
             While Not (InStr(1, strBufT, sMatch, vbBinaryCompare) = 0)
@@ -285,22 +317,22 @@ Public Class cProcessMemRW
                 strBufT = Right(strBufT, Len(strBufT) - InStr(1, strBufT, sMatch, CompareMethod.Binary) - Len(sMatch) + 1)
             End While
 
-            If Not (PGB Is Nothing) Then PGB.Value = x
-
-            'Call Application.DoEvents()
+            If Not (PGB Is Nothing) Then
+                PGB.Value = x
+            End If
 
         Next x
 
-        If Not (PGB Is Nothing) Then PGB.Value = PGB.Maximum
+        If Not (PGB Is Nothing) Then
+            PGB.Value = PGB.Maximum
+        End If
 
         strBufT = vbNullString
 
-        Call Native.Api.NativeFunctions.CloseHandle(lHandle)
     End Sub
 
-    ' =======================================================
+
     ' Search a complete string
-    ' =======================================================
     Private _stringSearchImmediateStop As Boolean
     Public WriteOnly Property StopSearch() As Boolean
         Set(ByVal value As Boolean)
@@ -308,15 +340,14 @@ Public Class cProcessMemRW
         End Set
     End Property
     Public Sub SearchEntireStringMemory(ByRef lngRes() As IntPtr, _
-        ByRef strRes() As String, Optional ByVal PGB As ProgressBar = Nothing)
-        '64TODO
+            ByRef strRes() As String, Optional ByVal PGB As ProgressBar = Nothing)
+
         Dim strCtemp As String = vbNullString
         Dim x As Integer = 1
         Dim lngLen As Integer
         Dim strBuffer As String
         Dim i As Integer
         Dim tRes() As T_RESULT
-        Dim lHandle As IntPtr
         Dim LB() As IntPtr
         Dim LS() As Integer
         Dim cArraySizeBef As Integer = 0
@@ -327,7 +358,9 @@ Public Class cProcessMemRW
 
         ReDim LB(0)
         ReDim LS(0)
-        Call RetrieveMemRegions(LB, LS, True)
+
+        ' Get memory regions
+        RetrieveMemRegions(LB, LS, True)
 
         ' Calculate max size
         lngLen = 0
@@ -343,25 +376,18 @@ Public Class cProcessMemRW
             End With
         End If
 
-        lHandle = GetValidHandle(_pid)
-
-        If lHandle = Native.Api.NativeConstants.InvalidHandleValue Then
-            ReDim lngRes(0)
-            ReDim strRes(0)
-            Exit Sub
-        End If
 
         ' For each region
         For x = 0 To LS.Length - 1
 
             ' Get entire region
-            strBuffer = ReadBytesH(lHandle, LB(x), LS(x))
-            'Application.DoEvents()
-
+            strBuffer = ReadString(LB(x), LS(x))
             strCtemp = vbNullString
 
             ' Search in string
-            If Not (PGB Is Nothing) Then PGB.Value += 1
+            If Not (PGB Is Nothing) Then
+                PGB.Value += 1
+            End If
 
             For i = 0 To LS(x) - 1
 
@@ -369,10 +395,6 @@ Public Class cProcessMemRW
                     ' Exit
                     PGB.Value = PGB.Maximum
                     Exit Sub
-                End If
-
-                If (i Mod 1000) = 0 Then
-                    'Application.DoEvents()
                 End If
 
                 If isLetter(strBuffer(i)) Then
@@ -411,12 +433,11 @@ Public Class cProcessMemRW
         Next x
 
 
-        If Not (PGB Is Nothing) Then PGB.Value = PGB.Maximum
+        If Not (PGB Is Nothing) Then
+            PGB.Value = PGB.Maximum
+        End If
         strBuffer = vbNullString
 
-        Call Native.Api.NativeFunctions.CloseHandle(lHandle)
-
-        'maintenant, stocke dans les arrays de sortie
         ReDim lngRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1)
         ReDim strRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1)
         For i = 0 To tRes.Length - BUF_SIZE + cArraySizeBef - 1
@@ -430,68 +451,6 @@ Public Class cProcessMemRW
         Dim i As Integer = Asc(c)
         ' A-Z [/]_^' space a-z {|}
         Return ((i >= 65 And i <= 125) OrElse (i >= 45 And i <= 57) OrElse i = 32)
-    End Function
-
-
-    ' =======================================================
-    ' Shared functions
-    ' =======================================================
-
-    ' Enumerate regions
-    Public Shared Function Enumerate(ByVal pid As Integer, ByRef add() As String, _
-                                     ByRef _dico As Dictionary(Of String, Native.Api.NativeStructs.MemoryBasicInformation)) As Integer
-
-        _dico.Clear()
-        Dim r() As Native.Api.NativeStructs.MemoryBasicInformation
-        ReDim r(0)
-
-        Call RetrieveMemRegions(r, pid)
-
-        ReDim add(r.Length - 1)
-
-        Dim x As Integer = 0
-        For Each t As Native.Api.NativeStructs.MemoryBasicInformation In r
-            add(x) = t.BaseAddress.ToString
-            _dico.Add(add(x).ToString, t)
-            x += 1
-        Next
-
-
-    End Function
-
-    ' =======================================================
-    ' Get a handle
-    ' =======================================================
-    Public Shared Function GetValidHandle(ByVal pid As Integer) As IntPtr
-        'TOCHANGE !!
-        Return Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.All, False, pid)  'TOCHANGE
-    End Function
-
-
-
-    ' =======================================================
-    ' Read bytes from a handle
-    ' =======================================================
-    Public Shared Function ReadInt32(ByVal hProc As IntPtr, ByVal offset As IntPtr) As Integer
-        Dim buffer(0) As Integer
-        Dim lByte As Integer
-        Native.Api.NativeFunctions.ReadProcessMemory(hProc, offset, buffer, &H4, lByte)
-        Return buffer(0)
-    End Function
-
-    ' Used for memory search only (because string is crappy for ReadProcMemory)
-    Public Shared Function ReadBytesH(ByVal lHandle As IntPtr, ByVal offset As IntPtr, _
-    ByVal size As Integer) As String
-
-        Dim sBuf As String
-        Dim lByte As Integer
-
-        '/!\ Integer is enough because of the limitation of 2GB in memory
-
-        sBuf = Space(size)
-
-        Native.Api.NativeFunctions.ReadProcessMemory(lHandle, offset, sBuf, size, lByte)
-        Return sBuf
     End Function
 
 

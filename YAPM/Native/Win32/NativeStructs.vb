@@ -51,7 +51,8 @@ Namespace Native.Api
         Public Shared ReadOnly Peb_ProcessHeapOffset As IntPtr = Marshal.OffsetOf(GetType(Peb), "ProcessHeap")
         Public Shared ReadOnly Peb_ProcessParametersOffset As IntPtr = Marshal.OffsetOf(GetType(Peb), "ProcessParameters")
         Public Shared ReadOnly Peb_LoaderDataOffset As IntPtr = Marshal.OffsetOf(GetType(Peb), "LoaderData")
-        Public Shared ReadOnly ProcParamBlock_CommandLineOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "CommandLine").ToInt32()
+        Public Shared ReadOnly ProcParamBlock_CommandLineOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "CommandLine").ToInt32
+        Public Shared ReadOnly ProcParamBlock_EnvOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "Environment").ToInt32
 
 #End Region
 

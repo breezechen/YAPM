@@ -58,30 +58,27 @@ Namespace Native.Objects
             ReDim values(-1)
 
             ' Get PEB address of process
-            Dim __pebAd As IntPtr = peb
-            If __pebAd.IsNull Then
+            Dim pebAddress As IntPtr = peb
+            If pebAddress.IsNull Then
                 Return 0
             End If
 
             ' Create a processMemRW class to read in memory
-            Dim cR As New cProcessMemRW(pid)
+            Dim cR As New ProcessRW(pid)
 
             If cR.Handle.IsNull Then
                 Return 0              ' Couldn't open a handle
             End If
 
-            ' Read first 20 bytes (5 integers) of PEB block
-            ' The fifth integer contains address of ProcessParameters block
-            '64TODO + TOCHNANGE 
-            Dim pebDeb() As IntPtr = cR.ReadBytesAIntPtr(__pebAd, 5)
-            Dim __procParamAd As IntPtr = pebDeb(4)
+
+            ' Get address of Process parameter block
+            Dim procParamAddress As IntPtr = cR.ReadIntPtr( _
+                    pebAddress.Increment(Native.Api.NativeStructs.Peb_ProcessParametersOffset))
+
 
             ' Get environnement block address
-            ' It's located at offset 0x48 on all NT systems because it's after a fixed structure
-            ' of 72 bytes
-            ' 64TODO + TOCHANGE
-            Dim bA() As IntPtr = cR.ReadBytesAIntPtr(__procParamAd.Increment(72), 1)
-            Dim _envDeb As IntPtr = bA(0)      ' Get address
+            Dim envAddress As IntPtr = cR.ReadIntPtr(procParamAddress.Increment( _
+                    Native.Api.NativeStructs.ProcParamBlock_EnvOffset))
 
 
             ' ======= Read environnement block byte per byte to calculate env. block size
@@ -93,13 +90,13 @@ Namespace Native.Objects
 
             ' Read mem until 4 null char (<==> 2 null shorts)
             Do While Not (b1 = 0 And b2 = 0)
-                b1 = cR.Read2Bytes(_envDeb.Increment(_size))
-                b2 = cR.Read2Bytes(_envDeb.Increment(_size + 2))
+                b1 = cR.ReadInt16(envAddress.Increment(_size))
+                b2 = cR.ReadInt16(envAddress.Increment(_size + 2))
                 _size += 2
             Loop
 
             ' Now we can get all env. variables from memory
-            Dim blockEnv() As Short = cR.ReadBytesAS(_envDeb, _size)
+            Dim blockEnv() As Short = cR.ReadInt16Array(envAddress, _size)
 
             ' Parse these env. variables
             ' Env. variables are separated by 2 null bytes ( <==> 1 null short)

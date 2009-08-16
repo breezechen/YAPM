@@ -38,7 +38,7 @@ Public Class frmProcessInfo
     Private _stringSearchImmediateStop As Boolean   ' Set to true to stop listing of string in process
     Private __sRes() As String
     Private __lRes() As IntPtr
-    Private cRW As cProcessMemRW
+    Private cRW As ProcessRW
 
     Private Const SIZE_FOR_STRING As Integer = 4
 
@@ -646,7 +646,7 @@ Public Class frmProcessInfo
             Call DisplayFileStringsImage(curProc)
         Else
             ' Memory
-            cRW = New cProcessMemRW(curProc.Infos.Pid)
+            cRW = New ProcessRW(curProc.Infos.Pid)
             Dim lRes() As IntPtr
             ReDim lRes(0)
             Dim sRes() As String
@@ -669,11 +669,11 @@ Public Class frmProcessInfo
         Dim x As Integer = 0
         Dim bTaille As Integer
         Dim lLen As Integer
-        Dim tRes() As cProcessMemRW.T_RESULT
+        Dim tRes() As ProcessRW.T_RESULT
         Dim cArraySizeBef As Integer = 0
         Dim strCtemp As String = vbNullString
         '        Dim strBuffer As String
- 
+
         Const BUF_SIZE As Integer = 2000     ' Size of array
 
         ReDim tRes(BUF_SIZE)
