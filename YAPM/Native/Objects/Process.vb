@@ -141,7 +141,7 @@ Namespace Native.Objects
         ' Set affinity to a process
         Public Shared Function SetProcessAffinityByHandle(ByVal hProc As IntPtr, _
                                            ByVal affinity As Integer) As Boolean
-            If hProc <> IntPtr.Zero Then
+            If hProc .IsNotNull Then
                 Return NativeFunctions.SetProcessAffinityMask(hProc, New IntPtr(affinity))
             Else
                 Return False
@@ -168,7 +168,7 @@ Namespace Native.Objects
             hProc = NativeFunctions.OpenProcess(Native.Security.ProcessAccess.SetInformation, _
                                     False, pid)
 
-            If hProc <> IntPtr.Zero Then
+            If hProc .IsNotNull Then
                 r = NativeFunctions.SetPriorityClass(hProc, priority)
                 NativeFunctions.CloseHandle(hProc)
                 Return r
@@ -184,7 +184,7 @@ Namespace Native.Objects
             Dim r As UInteger
             hProc = NativeFunctions.OpenProcess(Native.Security.ProcessAccess.SuspendResume, _
                                     False, pid)
-            If hProc <> IntPtr.Zero Then
+            If hProc .IsNotNull Then
                 r = NativeFunctions.NtResumeProcess(hProc)
                 NativeFunctions.CloseHandle(hProc)
                 Return (r <> 0)
@@ -199,7 +199,7 @@ Namespace Native.Objects
             Dim r As UInteger
             hProc = NativeFunctions.OpenProcess(Native.Security.ProcessAccess.SuspendResume, _
                                     False, pid)
-            If hProc <> IntPtr.Zero Then
+            If hProc .IsNotNull Then
                 r = NativeFunctions.NtSuspendProcess(hProc)
                 NativeFunctions.CloseHandle(hProc)
                 Return (r <> 0)
@@ -215,7 +215,7 @@ Namespace Native.Objects
             Dim ret As Boolean
             hProc = NativeFunctions.OpenProcess(Native.Security.ProcessAccess.Terminate, _
                                                            False, pid)
-            If hProc <> IntPtr.Zero Then
+            If hProc .IsNotNull Then
                 ret = NativeFunctions.TerminateProcess(hProc, exitcode)
                 NativeFunctions.CloseHandle(hProc)
                 Return ret
@@ -265,7 +265,7 @@ Namespace Native.Objects
             hProc = NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation Or _
                                     Native.Security.ProcessAccess.VmRead, _
                                     False, pid)
-            If hProc <> IntPtr.Zero Then
+            If hProc .IsNotNull Then
                 ' Create dump file
                 Dim fs As New System.IO.FileStream(file, System.IO.FileMode.Create)
                 ' Write dump file
@@ -302,7 +302,7 @@ Namespace Native.Objects
         Public Shared Function EmptyProcessWorkingSetById(ByVal pid As Integer) As Boolean
             Dim hProc As IntPtr = NativeFunctions.OpenProcess(Native.Security.ProcessAccess.SetQuota, _
                                                          False, pid)
-            If hProc <> IntPtr.Zero Then
+            If hProc .IsNotNull Then
                 Dim ret As Boolean = NativeFunctions.SetProcessWorkingSetSize(hProc, _
                                                     New IntPtr(-1), New IntPtr(-1))
                 NativeFunctions.CloseHandle(hProc)
@@ -340,7 +340,7 @@ Namespace Native.Objects
                 ' Have to open a handle
                 hProc = NativeFunctions.OpenProcess(Process.ProcessQueryMinRights, _
                                                                False, pid)
-                If hProc <> IntPtr.Zero Then
+                If hProc .IsNotNull Then
                     ' Get size
                     Dim _size As Integer
                     NativeFunctions.NtQueryInformationProcess(hProc, _
@@ -380,7 +380,7 @@ Namespace Native.Objects
 
             ' 2) QueryFullProcessImageName on Vista and above
             If cEnvironment.IsWindowsVistaOrAbove Then
-                If hProc <> IntPtr.Zero Then
+                If hProc .IsNotNull Then
                     Dim length As Integer = &H400
                     Dim sb As New System.Text.StringBuilder(length)
                     NativeFunctions.QueryFullProcessImageName(hProc, False, sb, length)
@@ -498,14 +498,14 @@ Namespace Native.Objects
                 Else
                     __pebAd = GetProcessPebAddressById(pid)
                 End If
-                If __pebAd = IntPtr.Zero Then
+                If __pebAd.IsNull Then
                     Return ""
                 End If
 
                 ' Create a reader class to read in memory
                 Dim memReader As New ProcessMemReader(pid)
 
-                If memReader.ProcessHandle = IntPtr.Zero Then
+                If memReader.ProcessHandle.IsNull Then
                     Return NO_INFO_RETRIEVED           ' Couldn't open a handle
                 End If
 
@@ -624,7 +624,7 @@ Namespace Native.Objects
                     GetProcessUserDomainNameById(obj.ProcessId, _user, _domain)
                     Dim _command As String = NO_INFO_RETRIEVED
                     Dim _peb As IntPtr = GetProcessPebAddressById(obj.ProcessId)
-                    If _peb <> IntPtr.Zero Then
+                    If _peb .IsNotNull Then
                         _command = GetProcessCommandLineById(obj.ProcessId, _peb.ToInt64)
                     End If
                     Dim _finfo As FileVersionInfo = Nothing
@@ -787,7 +787,7 @@ Namespace Native.Objects
             ' For each PID...
             For pid As Integer = &H8 To &HFFFF Step 4
                 Dim handle As IntPtr = Native.Api.NativeFunctions.OpenProcess(Process.ProcessQueryMinRights, False, pid)
-                If handle <> IntPtr.Zero Then
+                If handle .IsNotNull Then
                     Dim exitcode As Integer
                     Dim res As Boolean = Native.Api.NativeFunctions.GetExitCodeProcess(handle, exitcode)
                     If exitcode = Native.Api.NativeConstants.STILL_ACTIVE Then  ' Process still exists

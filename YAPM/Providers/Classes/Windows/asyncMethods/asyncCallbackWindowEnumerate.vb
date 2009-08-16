@@ -94,7 +94,7 @@ Public Class asyncCallbackWindowEnumerate
                 ' Local
                 Dim _dico As New Dictionary(Of String, windowInfos)
 
-                Call enumWindows(pObj, _dico)
+                Native.Objects.Window.EnumerateWindowsByProcessId(pObj.pid, pObj.all, pObj.unnamed, _dico)
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
                     ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
@@ -104,59 +104,5 @@ Public Class asyncCallbackWindowEnumerate
         sem.Release()
 
     End Sub
-
-    ' Enumerate windows (local)
-    Friend Shared Sub enumWindows(ByVal pObj As poolObj, ByRef _dico As Dictionary(Of String, windowInfos))
-        Dim currWnd As IntPtr
-        Dim cpt As Integer
-
-
-        currWnd = Native.Api.NativeFunctions.GetWindow(Native.Api.NativeFunctions.GetDesktopWindow(), Native.Api.NativeEnums.GetWindow_Cmd.GW_CHILD)
-        cpt = 0
-        Do While Not (currWnd = IntPtr.Zero)
-
-            ' Get procId from hwnd
-            Dim pid As Integer = GetProcIdFromWindowHandle(currWnd)
-            If pObj.all OrElse Array.IndexOf(pObj.pid, pid) >= 0 Then
-                ' Then this window belongs to one of our processes
-                Dim sCap As String = GetCaption(currWnd)
-                If pObj.unnamed OrElse sCap.Length > 0 Then
-                    Dim tid As Integer = GetThreadIdFromWindowHandle(currWnd)
-                    Dim key As String = pid.ToString & "-" & tid.ToString & "-" & currWnd.ToString
-                    If _dico.ContainsKey(key) = False Then
-                        _dico.Add(key, New windowInfos(pid, tid, currWnd, sCap))
-                    End If
-                End If
-            End If
-
-            currWnd = Native.Api.NativeFunctions.GetWindow(currWnd, Native.Api.NativeEnums.GetWindow_Cmd.GW_HWNDNEXT)
-        Loop
-    End Sub
-
-
-    ' Return process id from a handle
-    Friend Shared Function GetProcIdFromWindowHandle(ByVal hwnd As IntPtr) As Integer
-        Dim id As Integer = 0
-        Native.Api.NativeFunctions.GetWindowThreadProcessId(hwnd, id)
-        Return id
-    End Function
-
-    ' Return caption
-    Friend Shared Function GetCaption(ByVal hWnd As IntPtr) As String
-        Dim length As Integer
-        length = Native.Api.NativeFunctions.GetWindowTextLength(hWnd)
-        If length > 0 Then
-            Dim _cap As New StringBuilder(Space(length + 1))
-            length = Native.Api.NativeFunctions.GetWindowText(hWnd, _cap, length + 1)
-            Return _cap.ToString.Substring(0, Len(_cap.ToString))
-        Else
-            Return ""
-        End If
-    End Function
-
-    ' Return thread id from a handle
-    Friend Shared Function GetThreadIdFromWindowHandle(ByVal hwnd As IntPtr) As Integer
-        Return Native.Api.NativeFunctions.GetWindowThreadProcessId(hwnd, 0)
-    End Function
 
 End Class

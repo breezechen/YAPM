@@ -9,6 +9,7 @@ Refactoring OK :
 - Threads (all)
 - Modules (all)
 - Processes (all)
+- Windows (all)
 
 BUGS CRITIQUES
 - problème icones menu principal cachées (Vista seulement)

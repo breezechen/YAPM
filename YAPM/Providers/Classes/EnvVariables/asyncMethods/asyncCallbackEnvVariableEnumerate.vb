@@ -125,14 +125,14 @@ Public Class asyncCallbackEnvVariableEnumerate
 
         ' Get PEB address of process
         Dim __pebAd As IntPtr = peb
-        If __pebAd = IntPtr.Zero Then
+        If __pebAd.IsNull Then
             Return 0
         End If
 
         ' Create a processMemRW class to read in memory
         Dim cR As New cProcessMemRW(pid)
 
-        If cR.Handle = IntPtr.Zero Then
+        If cR.Handle.IsNull Then
             Return 0              ' Couldn't open a handle
         End If
 

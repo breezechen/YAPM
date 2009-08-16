@@ -116,7 +116,7 @@ Public Class cHotkeys
     ' Start hooking of keyboard
     ' ========================================
     Private Sub AttachKeyboardHook()
-        If hKeyHook = IntPtr.Zero Then
+        If hKeyHook.IsNull Then
 
             ' Initialize our delegate
             Me.myCallbackDelegate = New Native.Api.NativeFunctions.HookProc(AddressOf Me.KeyboardFilter)
@@ -133,7 +133,7 @@ Public Class cHotkeys
     ' ========================================
     Private Sub DetachKeyboardHook()
 
-        If (hKeyHook <> IntPtr.Zero) Then
+        If (hKeyHook .IsNotNull) Then
             Call Native.Api.NativeFunctions.UnhookWindowsHookEx(hKeyHook)
             hKeyHook = IntPtr.Zero
         End If

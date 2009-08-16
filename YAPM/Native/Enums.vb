@@ -215,6 +215,29 @@ Namespace Native.Api
 
 #End Region
 
+        ' OK
+#Region "Declarations used for windows"
+
+        Public Enum AsyncWindowAction As Integer
+            Close
+            Flash
+            StopFlashing
+            BringToFront
+            SetAsForegroundWindow
+            SetAsActiveWindow
+            Minimize
+            Maximize
+            Show
+            Hide
+            SendMessage
+            SetOpacity
+            SetEnabled
+            SetPosition
+            SetCaption
+        End Enum
+
+#End Region
+
     End Class
 
 End Namespace

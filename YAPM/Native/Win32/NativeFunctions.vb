@@ -2,6 +2,8 @@
 ' Yet Another (remote) Process Monitor (YAPM)
 ' Copyright (c) 2008-2009 Alain Descotes (violent_ken)
 ' https://sourceforge.net/projects/yaprocmon/
+' This file uses third-party pieces of code under GNU 
+' GPL 3.0 license. See below for details
 ' =======================================================
 
 
@@ -17,7 +19,10 @@
 '
 ' You should have received a copy of the GNU General Public License
 ' along with YAPM; if not, see http://www.gnu.org/licenses/.
-
+'
+'
+' This file uses some work under GNU GPL 3.0 license
+' The definitions marked with <from PH> are from Process Hacker by Wj32.
 
 Option Strict On
 
@@ -40,6 +45,7 @@ Namespace Native.Api
         End Function
 
         ' Vista and higher
+        ' <from PH>
         <DllImport("kernel32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
         Public Shared Function QueryFullProcessImageName(<[In]()> ByVal ProcessHandle As IntPtr, _
                 <[In]()> <MarshalAs(UnmanagedType.Bool)> ByVal UseNativeName As Boolean, _
@@ -47,6 +53,7 @@ Namespace Native.Api
                 ByRef Size As Integer) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
+        ' <from PH>
         <DllImport("ntdll.dll")> _
         Public Shared Function NtQueryInformationProcess(<[In]()> ByVal ProcessHandle As IntPtr, _
                 <[In]()> ByVal ProcessInformationClass As ProcessInformationClass, _
@@ -63,6 +70,7 @@ Namespace Native.Api
                 <Out()> <[Optional]()> ByRef ReturnLength As Integer) As UInteger
         End Function
 
+        ' <from PH>
         <DllImport("ntdll.dll")> _
         Public Shared Function NtQuerySystemInformation(<[In]()> ByVal SystemInformationClass As SystemInformationClass, _
                     <Out()> ByRef SystemInformation As SystemBasicInformation, _
@@ -193,6 +201,7 @@ Namespace Native.Api
             <Out()> ByRef ExitCode As Integer) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
+        ' <from PH>
         <DllImport("kernel32.dll", SetLastError:=True)> _
         Public Shared Function GetProcessDEPPolicy(<[In]()> ByVal ProcessHandle As IntPtr, _
                 <Out()> ByRef Flags As DepFlags, _
@@ -247,6 +256,7 @@ Namespace Native.Api
         ' OK
 #Region "Declarations used for memory management"
 
+        ' <from PH>
         <DllImport("kernel32.dll", SetLastError:=True)> _
         Public Shared Function VirtualQueryEx(ByVal Process As IntPtr, _
                     ByVal Address As IntPtr, _
@@ -325,6 +335,7 @@ Namespace Native.Api
                                     ByVal dwThreadAffinityMask As IntPtr) As IntPtr
         End Function
 
+        ' <from PH>
         <DllImport("kernel32.dll", SetLastError:=True)> _
         Public Shared Function CreateRemoteThread(<[In]()> ByVal ProcessHandle As IntPtr, _
                             <[In]()> ByVal ThreadAttributes As IntPtr, _
@@ -363,6 +374,7 @@ Namespace Native.Api
         Public Shared Function GetThreadPriority(<[In]()> ByVal ThreadHandle As IntPtr) As Integer
         End Function
 
+        ' <from PH>
         <DllImport("ntdll.dll")> _
         Public Shared Function NtQueryInformationThread(<[In]()> ByVal ThreadHandle As IntPtr, _
                     <[In]()> ByVal ThreadInformationClass As ThreadInformationClass, _
@@ -376,6 +388,7 @@ Namespace Native.Api
         ' OK
 #Region "Declarations used for tokens & privileges"
 
+        ' <from PH>
         <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
         Public Shared Function GetTokenInformation(<[In]()> ByVal TokenHandle As IntPtr, _
                 <[In]()> ByVal TokenInformationClass As TokenInformationClass, _
@@ -400,6 +413,7 @@ Namespace Native.Api
                 <Out()> ByRef ReturnLength As Integer) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
+        ' <from PH>
         <DllImport("advapi32.dll", SetLastError:=True)> _
         Public Shared Function AdjustTokenPrivileges(<[In]()> ByVal TokenHandle As IntPtr, _
                 <[In]()> <MarshalAs(UnmanagedType.Bool)> ByVal DisableAllPrivileges As Boolean, _
@@ -409,6 +423,7 @@ Namespace Native.Api
                 <Out()> <[Optional]()> ByVal ReturnLength As IntPtr) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
+        ' <from PH>
         <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
         Public Shared Function LookupPrivilegeDisplayName(<[In]()> <[Optional]()> ByVal SystemName As String, _
             <[In]()> ByVal Name As String, _
@@ -424,12 +439,14 @@ Namespace Native.Api
                     ByRef RequiredSize As Integer) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
+        ' <from PH>
         <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
         Public Shared Function LookupPrivilegeValue(<[In]()> <[Optional]()> ByVal SystemName As String, _
                     <[In]()> ByVal PrivilegeName As String, _
                     <Out()> ByRef Luid As Luid) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
+        ' <from PH>
         <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
         Public Shared Function LookupAccountSid(<[In]()> <[Optional]()> ByVal SystemName As String, _
                 <[In]()> ByVal Sid As IntPtr, _
@@ -536,7 +553,7 @@ Namespace Native.Api
         End Function
 
         <DllImport("Shell32", CharSet:=CharSet.Auto, SetLastError:=True)> _
-        Public Shared Function ShellExecuteEx(ByRef lpExecInfo As SHELLEXECUTEINFO) As Boolean
+        Public Shared Function ShellExecuteEx(ByRef lpExecInfo As ShellExecuteInfo) As Boolean
         End Function
 
         <DllImport("User32", SetLastError:=True)> _
@@ -558,13 +575,13 @@ Namespace Native.Api
         End Function
 
         <DllImport("shell32.dll", CharSet:=CharSet.Unicode)> _
-        Public Shared Function SHFileOperation(<[In]()> ByRef lpFileOp As SHFILEOPSTRUCT) As Integer
+        Public Shared Function SHFileOperation(<[In]()> ByRef lpFileOp As ShFileOpStruct) As Integer
         End Function
 
         <DllImport("shell32.dll", CharSet:=CharSet.Auto)> _
        Public Shared Function SHGetFileInfo(ByVal pszPath As String, _
                          ByVal dwFileAttributes As Integer, _
-                         ByRef psfi As SHFILEINFO, _
+                         ByRef psfi As SHFileInfo, _
                          ByVal cbFileInfo As Integer, _
                          ByVal uFlags As Integer) As IntPtr
         End Function
@@ -575,7 +592,7 @@ Namespace Native.Api
 #Region "Declarations used for system"
 
         <DllImport("kernel32.dll")> _
-        Public Shared Sub GetSystemInfo(<MarshalAs(UnmanagedType.Struct)> ByRef lpSystemInfo As SYSTEM_INFO)
+        Public Shared Sub GetSystemInfo(<MarshalAs(UnmanagedType.Struct)> ByRef lpSystemInfo As SystemInfo)
         End Sub
 
         <DllImport("psapi.dll", SetLastError:=True)> _
@@ -603,13 +620,21 @@ Namespace Native.Api
         ' OK
 #Region "Declarations used for windows (not Windows :-p)"
 
+        Public Shared Function GetClassLongPtr(ByVal hWnd As IntPtr, ByVal nIndex As Integer) As IntPtr
+            If IntPtr.Size = 8 Then
+                ' 64 bits
+                Return GetClassLongPtr64(hWnd, nIndex)
+            Else
+                ' 32 bits
+                Return New IntPtr(GetClassLongPtr32(hWnd, nIndex))
+            End If
+        End Function
         <DllImport("user32.dll", EntryPoint:="GetClassLong")> _
-        Public Shared Function GetClassLongPtr32(ByVal hWnd As IntPtr, _
+        Private Shared Function GetClassLongPtr32(ByVal hWnd As IntPtr, _
                                                 ByVal nIndex As Integer) As UInteger
         End Function
-
         <DllImport("user32.dll", EntryPoint:="GetClassLongPtr")> _
-        Public Shared Function GetClassLongPtr64(ByVal hWnd As IntPtr, _
+        Private Shared Function GetClassLongPtr64(ByVal hWnd As IntPtr, _
                                                  ByVal nIndex As Integer) As IntPtr
         End Function
 
@@ -705,7 +730,7 @@ Namespace Native.Api
 
         <DllImport("user32.dll", SetLastError:=True)> _
         Public Shared Function GetWindow(ByVal hWnd As IntPtr, _
-                                         ByVal uCmd As GetWindow_Cmd) As IntPtr
+                                         ByVal uCmd As GetWindowCmd) As IntPtr
         End Function
 
         <DllImport("user32.dll")> _
@@ -889,6 +914,7 @@ Namespace Native.Api
                                               <Out()> ByRef ServiceStatus As NativeStructs.ServiceStatusProcess) As Boolean
         End Function
 
+        ' <from PH>
         <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
         Public Shared Function QueryServiceStatusEx(<[In]()> ByVal Service As IntPtr, _
                     <[In]()> ByVal InfoLevel As Integer, _
@@ -897,6 +923,7 @@ Namespace Native.Api
                     <Out()> ByRef BytesNeeded As Integer) As Boolean
         End Function
 
+        ' <from PH>
         <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
         Public Shared Function EnumServicesStatusEx(<[In]()> ByVal SCManager As IntPtr, _
                         <[In]()> ByVal InfoLevel As IntPtr, _
@@ -928,6 +955,7 @@ Namespace Native.Api
         Public Shared Function StartService(<[In]()> ByVal Service As IntPtr, <[In]()> ByVal NumServiceArgs As Integer, <[In]()> <[Optional]()> ByVal Args As String()) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
+        ' <from PH>
         <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
         Public Shared Function ChangeServiceConfig(<[In]()> ByVal Service As IntPtr, _
                     <[In]()> ByVal ServiceType As ServiceType, _
@@ -1045,7 +1073,7 @@ Namespace Native.Api
         'Public Delegate Function HookProc(ByVal code As Integer, ByVal wParam As IntPtr, ByVal lParam As IntPtr) As Integer
         Public Delegate Function HookProc(ByVal code As Integer, ByVal wParam As IntPtr, ByRef lParam As KBDLLHOOKSTRUCT) As Integer
         Public Delegate Function LowLevelKeyboardProc(ByVal nCode As Integer, ByVal wParam As NativeEnums.WindowMessage, <[In]()> ByVal lParam As KBDLLHOOKSTRUCT) As Integer
-        Public Delegate Function LowLevelMouseProc(ByVal code As Integer, ByVal wParam As NativeEnums.WindowMessage, <[In]()> ByVal lParam As MSLLHOOKSTRUCT) As IntPtr
+        Public Delegate Function LowLevelMouseProc(ByVal code As Integer, ByVal wParam As NativeEnums.WindowMessage, <[In]()> ByVal lParam As MSLLHookStruct) As IntPtr
 
         <DllImport("user32.dll", SetLastError:=True)> _
         Public Shared Function SetWindowsHookEx(ByVal hook As HookType, ByVal callback As HookProc, ByVal hMod As IntPtr, ByVal dwThreadId As UInteger) As IntPtr

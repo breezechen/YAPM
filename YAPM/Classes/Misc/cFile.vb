@@ -344,7 +344,7 @@ Public Class cFile
         Dim ptrR As IntPtr = Native.Api.NativeFunctions.CreateFile(_Path, Native.Api.NativeEnums.EFileAccess._GenericRead, _
                      Native.Api.NativeEnums.EFileShare._Read Or Native.Api.NativeEnums.EFileShare._Write, IntPtr.Zero, _
                      Native.Api.NativeEnums.ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
-        If Not (ptrR = IntPtr.Zero) Then
+        If ptrR.IsNotNull Then
             Native.Api.NativeFunctions.CloseHandle(ptrR)
             _FileAvailableForRead = True
         End If
@@ -352,7 +352,7 @@ Public Class cFile
         Dim ptrW As IntPtr = Native.Api.NativeFunctions.CreateFile(_Path, Native.Api.NativeEnums.EFileAccess._GenericWrite, _
                     Native.Api.NativeEnums.EFileShare._Read Or Native.Api.NativeEnums.EFileShare._Write, IntPtr.Zero, _
                      Native.Api.NativeEnums.ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
-        If Not (ptrW = IntPtr.Zero) Then
+        If ptrW.IsNotNull Then
             Native.Api.NativeFunctions.CloseHandle(ptrW)
             _FileAvailableForWrite = True
         End If
@@ -368,7 +368,7 @@ Public Class cFile
 
     ' Display File Property Box
     Public Function ShowFileProperty(ByVal handle As IntPtr) As Boolean
-        Dim SEI As Native.Api.NativeStructs.SHELLEXECUTEINFO = Nothing
+        Dim SEI As Native.Api.NativeStructs.ShellExecuteInfo = Nothing
         With SEI
             .fMask = Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_FLAG_NO_UI Or _
                     Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_INVOKEIDLIST Or _
@@ -410,7 +410,7 @@ Public Class cFile
 
     ' Open a file/URL
     Public Function ShellOpenFile(ByVal handle As IntPtr) As Boolean
-        Dim SEI As Native.Api.NativeStructs.SHELLEXECUTEINFO = Nothing
+        Dim SEI As Native.Api.NativeStructs.ShellExecuteInfo = Nothing
         With SEI
             .fMask = Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_FLAG_NO_UI Or _
                     Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_INVOKEIDLIST Or _
@@ -594,7 +594,7 @@ Public Class cFile
 
     ' Open a file/URL
     Public Shared Function ShellOpenFile(ByVal filePath As String, ByVal handle As IntPtr) As Boolean
-        Dim SEI As Native.Api.NativeStructs.SHELLEXECUTEINFO = Nothing
+        Dim SEI As Native.Api.NativeStructs.ShellExecuteInfo = Nothing
         With SEI
             .fMask = Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_NOCLOSEPROCESS Or _
                     Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_INVOKEIDLIST Or _
@@ -615,7 +615,7 @@ Public Class cFile
 
     ' Display File Property Box
     Public Shared Function ShowFileProperty(ByVal filePath As String, ByVal handle As IntPtr) As Boolean
-        Dim SEI As Native.Api.NativeStructs.SHELLEXECUTEINFO = Nothing
+        Dim SEI As Native.Api.NativeStructs.ShellExecuteInfo = Nothing
         With SEI
             .fMask = Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_FLAG_NO_UI Or _
                     Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_INVOKEIDLIST Or _

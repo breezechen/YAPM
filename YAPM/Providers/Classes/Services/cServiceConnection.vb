@@ -92,7 +92,7 @@ Public Class cServiceConnection
 
             Case Else
                 ' Local
-                If hSCM = IntPtr.Zero Then
+                If hSCM.IsNull Then
                     hSCM = Native.Objects.Service.GetSCManagerHandle
                 End If
                 _connected = True
@@ -119,7 +119,7 @@ Public Class cServiceConnection
                     _control.Invoke(Disconnected, True)
             Case Else
                 ' Local
-                If hSCM <> IntPtr.Zero Then
+                If hSCM .IsNotNull Then
                     Native.Objects.Service.CloseSCManagerHandle(hSCM)
                     hSCM = IntPtr.Zero
                 End If

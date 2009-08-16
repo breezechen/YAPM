@@ -88,7 +88,7 @@ Public Class asyncCallbackMemRegionFree
         Dim hProcess As IntPtr
 
         hProcess = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.VmOperation, False, obj.pid)
-        If hProcess <> IntPtr.Zero Then
+        If hProcess .IsNotNull Then
             ret = Native.Api.NativeFunctions.VirtualFreeEx(hProcess, obj.address, obj.size, obj.type)
             Call Native.Api.NativeFunctions.CloseHandle(hProcess)
         End If

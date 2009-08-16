@@ -64,7 +64,7 @@ Public Class cThread
     Protected Overrides Sub Finalize()
         ' Close a handle if local
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            If _handleQueryInfo <> IntPtr.Zero Then
+            If _handleQueryInfo .IsNotNull Then
                 Native.Objects.General.CloseHandle(_handleQueryInfo)
             End If
         End If
@@ -82,7 +82,7 @@ Public Class cThread
 
     Public ReadOnly Property PriorityMod() As ThreadPriorityLevel
         Get
-            If _handleQueryInfo <> IntPtr.Zero Then
+            If _handleQueryInfo .IsNotNull Then
                 Dim priority As Integer = Native.Api.NativeFunctions.GetThreadPriority(_handleQueryInfo)
                 Return CType(priority, ThreadPriorityLevel)
             Else

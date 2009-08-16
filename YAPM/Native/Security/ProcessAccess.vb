@@ -2,6 +2,8 @@
 ' Yet Another (remote) Process Monitor (YAPM)
 ' Copyright (c) 2008-2009 Alain Descotes (violent_ken)
 ' https://sourceforge.net/projects/yaprocmon/
+' This file uses third-party pieces of code under GNU 
+' GPL 3.0 license. See below for details
 ' =======================================================
 
 
@@ -17,7 +19,12 @@
 '
 ' You should have received a copy of the GNU General Public License
 ' along with YAPM; if not, see http://www.gnu.org/licenses/.
-
+'
+'
+' This file uses some work under GNU GPL 3.0 license
+' The following definitions are from Process Hacker by Wj32,
+' which is under GNU GPL 3.0 :
+' - ProcessAccess
 
 Option Strict On
 

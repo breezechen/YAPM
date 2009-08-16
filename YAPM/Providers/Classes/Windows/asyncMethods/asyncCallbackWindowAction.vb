@@ -23,31 +23,15 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 Imports System.Text
+Imports YAPM.Native.Api.Enums
+Imports YAPM.Native.Objects
 
 Public Class asyncCallbackWindowAction
 
     Private _theDeg As HasMadeAction
     Private con As cWindowConnection
 
-    Public Enum ASYNC_WINDOW_ACTION
-        Close
-        Flash
-        StopFlashing
-        BringToFront
-        SetAsForegroundWindow
-        SetAsActiveWindow
-        Minimize
-        Maximize
-        Show
-        Hide
-        SendMessage
-        SetOpacity
-        SetEnabled
-        SetPosition
-        SetCaption
-    End Enum
-
-    Public Delegate Sub HasMadeAction(ByVal Success As Boolean, ByVal action As ASYNC_WINDOW_ACTION, ByVal handle As Integer, ByVal msg As String, ByVal actionNumber As Integer)
+    Public Delegate Sub HasMadeAction(ByVal Success As Boolean, ByVal action As AsyncWindowAction, ByVal handle As IntPtr, ByVal msg As String, ByVal actionNumber As Integer)
 
     Public Sub New(ByVal deg As HasMadeAction, ByRef procConnection As cWindowConnection)
         _theDeg = deg
@@ -61,9 +45,9 @@ Public Class asyncCallbackWindowAction
         Public o2 As Integer
         Public s As String
         Public r As Native.Api.NativeStructs.Rect
-        Public action As ASYNC_WINDOW_ACTION
+        Public action As AsyncWindowAction
         Public newAction As Integer
-        Public Sub New(ByVal _action As ASYNC_WINDOW_ACTION, ByVal _handle As IntPtr, _
+        Public Sub New(ByVal _action As AsyncWindowAction, ByVal _handle As IntPtr, _
                         ByVal _o1 As Integer, ByVal _o2 As Integer, ByVal _o3 As Integer, _
                         ByVal act As Integer, Optional ByVal obj As Object = Nothing, _
                         Optional ByVal ss As String = Nothing)
@@ -93,49 +77,49 @@ Public Class asyncCallbackWindowAction
                 Try
                     Dim cDat As cSocketData = Nothing
                     Select Case pObj.action
-                        Case ASYNC_WINDOW_ACTION.BringToFront
+                        Case AsyncWindowAction.BringToFront
                             cDat = New cSocketData(cSocketData.DataType.Order, _
                              cSocketData.OrderType.WindowBringToFront, CInt(pObj.handle))
-                        Case ASYNC_WINDOW_ACTION.Close
+                        Case AsyncWindowAction.Close
                             cDat = New cSocketData(cSocketData.DataType.Order, _
                              cSocketData.OrderType.WindowClose, CInt(pObj.handle))
-                        Case ASYNC_WINDOW_ACTION.Flash
+                        Case AsyncWindowAction.Flash
                             cDat = New cSocketData(cSocketData.DataType.Order, _
                              cSocketData.OrderType.WindowFlash, CInt(pObj.handle))
-                        Case ASYNC_WINDOW_ACTION.Hide
+                        Case AsyncWindowAction.Hide
                             cDat = New cSocketData(cSocketData.DataType.Order, _
                              cSocketData.OrderType.WindowHide, CInt(pObj.handle))
-                        Case ASYNC_WINDOW_ACTION.Maximize
+                        Case AsyncWindowAction.Maximize
                             cDat = New cSocketData(cSocketData.DataType.Order, _
                              cSocketData.OrderType.WindowMaximize, CInt(pObj.handle))
-                        Case ASYNC_WINDOW_ACTION.Minimize
+                        Case AsyncWindowAction.Minimize
                             cDat = New cSocketData(cSocketData.DataType.Order, _
                              cSocketData.OrderType.WindowMinimize, CInt(pObj.handle))
-                        Case ASYNC_WINDOW_ACTION.SendMessage
+                        Case AsyncWindowAction.SendMessage
                             cDat = New cSocketData(cSocketData.DataType.Order, _
                              cSocketData.OrderType.WindowShow, CInt(pObj.handle), pObj.o1, pObj.o2, pObj.o3)
-                        Case ASYNC_WINDOW_ACTION.SetAsActiveWindow
+                        Case AsyncWindowAction.SetAsActiveWindow
                             cDat = New cSocketData(cSocketData.DataType.Order, _
                              cSocketData.OrderType.WindowSetAsActiveWindow, CInt(pObj.handle))
-                        Case ASYNC_WINDOW_ACTION.SetAsForegroundWindow
+                        Case AsyncWindowAction.SetAsForegroundWindow
                             cDat = New cSocketData(cSocketData.DataType.Order, _
                              cSocketData.OrderType.WindowSetAsForegroundWindow, CInt(pObj.handle))
-                        Case ASYNC_WINDOW_ACTION.SetEnabled
+                        Case AsyncWindowAction.SetEnabled
                             cDat = New cSocketData(cSocketData.DataType.Order, _
                              cSocketData.OrderType.WindowEnable, CInt(pObj.handle), CBool(pObj.o1))
-                        Case ASYNC_WINDOW_ACTION.SetOpacity
+                        Case AsyncWindowAction.SetOpacity
                             cDat = New cSocketData(cSocketData.DataType.Order, _
                              cSocketData.OrderType.WindowEnable, CInt(pObj.handle), CByte(pObj.o1))
-                        Case ASYNC_WINDOW_ACTION.Show
+                        Case AsyncWindowAction.Show
                             cDat = New cSocketData(cSocketData.DataType.Order, _
                              cSocketData.OrderType.WindowShow, CInt(pObj.handle))
-                        Case ASYNC_WINDOW_ACTION.StopFlashing
+                        Case AsyncWindowAction.StopFlashing
                             cDat = New cSocketData(cSocketData.DataType.Order, _
                              cSocketData.OrderType.WindowStopFlashing, CInt(pObj.handle))
-                        Case ASYNC_WINDOW_ACTION.SetPosition
+                        Case AsyncWindowAction.SetPosition
                             cDat = New cSocketData(cSocketData.DataType.Order, _
                              cSocketData.OrderType.WindowSetPositions, CInt(pObj.handle), pObj.r)
-                        Case ASYNC_WINDOW_ACTION.SetCaption
+                        Case AsyncWindowAction.SetCaption
                             cDat = New cSocketData(cSocketData.DataType.Order, _
                              cSocketData.OrderType.WindowSetCaption, CInt(pObj.handle), pObj.s)
                     End Select
@@ -150,131 +134,42 @@ Public Class asyncCallbackWindowAction
             Case Else
                 ' Local
 
-                Dim res As Integer = 0
+                Dim res As Boolean
                 Select Case pObj.action
-                    Case ASYNC_WINDOW_ACTION.BringToFront
-                        res = BringToFront(pObj.handle, CBool(pObj.o1))
-                    Case ASYNC_WINDOW_ACTION.Close
-                        res = CInt(Close(pObj.handle))
-                    Case ASYNC_WINDOW_ACTION.Flash
-                        res = Flash(pObj.handle)
-                    Case ASYNC_WINDOW_ACTION.Hide
-                        res = CInt(Hide(pObj.handle))
-                    Case ASYNC_WINDOW_ACTION.Maximize
-                        res = CInt(Maximize(pObj.handle))
-                    Case ASYNC_WINDOW_ACTION.Minimize
-                        res = CInt(Minimize(pObj.handle))
-                    Case ASYNC_WINDOW_ACTION.SendMessage
-                        res = SendMessage(pObj.handle, CType(pObj.o1, Native.Api.NativeEnums.WindowMessage), New IntPtr(pObj.o2), New IntPtr(pObj.o3)).ToInt32
-                    Case ASYNC_WINDOW_ACTION.SetAsActiveWindow
-                        res = SetAsActiveWindow(pObj.handle).ToInt32
-                    Case ASYNC_WINDOW_ACTION.SetAsForegroundWindow
-                        res = CInt(SetAsForegroundWindow(pObj.handle))
-                    Case ASYNC_WINDOW_ACTION.SetEnabled
-                        res = CInt(SetEnabled(pObj.handle, CBool(pObj.o1)))
-                    Case ASYNC_WINDOW_ACTION.SetOpacity
-                        If pObj.o1 = 255 Then
-                            Call DisableWindowOpacity(pObj.handle)
-                        Else
-                            Call EnableWindowOpacity(pObj.handle)
-                            Call SetOpacity(pObj.handle, CByte(pObj.o1))
-                        End If
-                    Case ASYNC_WINDOW_ACTION.Show
-                        res = CInt(Show(pObj.handle))
-                    Case ASYNC_WINDOW_ACTION.StopFlashing
-                        res = StopFlashing(pObj.handle)
-                    Case ASYNC_WINDOW_ACTION.SetPosition
-                        res = CInt(SetPosition(pObj.handle, pObj.r))
-                    Case ASYNC_WINDOW_ACTION.SetCaption
-                        res = Native.Api.NativeFunctions.SetWindowText(pObj.handle, New StringBuilder(pObj.s))
+                    Case AsyncWindowAction.BringToFront
+                        res = Window.BringWindowToFrontByHandle(pObj.handle, CBool(pObj.o1))
+                    Case AsyncWindowAction.Close
+                        res = Window.CloseWindowByHandle(pObj.handle)
+                    Case AsyncWindowAction.Flash
+                        res = Window.FlashWindowByHandle(pObj.handle, Native.Api.NativeEnums.FlashWInfoFlags.FLASHW_ALL)
+                    Case AsyncWindowAction.Hide
+                        res = Window.HideWindowByHandle(pObj.handle)
+                    Case AsyncWindowAction.Maximize
+                        res = Window.MaximizeWindowByHandle(pObj.handle)
+                    Case AsyncWindowAction.Minimize
+                        res = Window.MinimizeWindowByHandle(pObj.handle)
+                    Case AsyncWindowAction.SendMessage
+                        res = (Window.SendMessage(pObj.handle, CType(pObj.o1, Native.Api.NativeEnums.WindowMessage), New IntPtr(pObj.o2), New IntPtr(pObj.o3)).IsNotNull)
+                    Case AsyncWindowAction.SetAsActiveWindow
+                        res = Window.SetActiveWindowByHandle(pObj.handle)
+                    Case AsyncWindowAction.SetAsForegroundWindow
+                        res = Window.SetForegroundWindowByHandle(pObj.handle)
+                    Case AsyncWindowAction.SetEnabled
+                        res = Window.EnableWindowByHandle(pObj.handle, CBool(pObj.o1))
+                    Case AsyncWindowAction.SetOpacity
+                        res = Window.SetWindowOpacityByHandle(pObj.handle, CByte(pObj.o1))
+                    Case AsyncWindowAction.Show
+                        res = Window.ShowWindowByHandle(pObj.handle)
+                    Case AsyncWindowAction.StopFlashing
+                        res = Window.FlashWindowByHandle(pObj.handle, Native.Api.NativeEnums.FlashWInfoFlags.FLASHW_STOP, 0)
+                    Case AsyncWindowAction.SetPosition
+                        res = Window.SetWindowPositionAndSizeByHandle(pObj.handle, pObj.r)
+                    Case AsyncWindowAction.SetCaption
+                        res = Window.SetWindowCaptionByHandle(pObj.handle, pObj.s)
                 End Select
 
-                _theDeg.Invoke(Err.LastDllError = 0, pObj.action, pObj.handle.ToInt32, Native.Api.Win32.GetLastError, pObj.newAction)
+                _theDeg.Invoke(res, pObj.action, pObj.handle, Native.Api.Win32.GetLastError, pObj.newAction)
         End Select
     End Sub
-
-
-#Region "Local methods"
-
-    Private Function Close(ByVal _handle As IntPtr) As IntPtr
-        Return Native.Api.NativeFunctions.SendMessage(_handle, Native.Api.NativeConstants.WM_CLOSE, IntPtr.Zero, IntPtr.Zero)
-    End Function
-    Private Function Flash(ByVal _handle As IntPtr) As Integer
-        Dim FlashInfo As Native.Api.NativeStructs.FlashWInfo
-
-        With FlashInfo
-            .cbSize = CUInt(Marshal.SizeOf(FlashInfo))
-            .dwFlags = &H3            ' Flash caption & taskbar
-            .dwTimeout = 0
-            .hwnd = _handle
-            .uCount = Integer.MaxValue
-        End With
-
-        Return CInt(Native.Api.NativeFunctions.FlashWindowEx(FlashInfo))
-    End Function
-    Private Function StopFlashing(ByVal _handle As IntPtr) As Integer
-        Dim FlashInfo As Native.Api.NativeStructs.FlashWInfo
-
-        With FlashInfo
-            .cbSize = CUInt(Marshal.SizeOf(FlashInfo))
-            .dwFlags = 0            ' Stop flashing
-            .dwTimeout = 0
-            .hwnd = _handle
-            .uCount = 0
-        End With
-
-        Return CInt(Native.Api.NativeFunctions.FlashWindowEx(FlashInfo))
-    End Function
-    Private Function BringToFront(ByVal _handle As IntPtr, ByVal val As Boolean) As Integer
-        If val Then
-            Return CInt(Native.Api.NativeFunctions.SetWindowPos(_handle, New IntPtr(Native.Api.NativeConstants.HWND_TOPMOST), 0, 0, 0, 0, _
-                Native.Api.NativeConstants.SWP_NOACTIVATE Or Native.Api.NativeConstants.SWP_SHOWWINDOW Or Native.Api.NativeConstants.SWP_NOMOVE Or Native.Api.NativeConstants.SWP_NOSIZE))
-        Else
-            Return CInt(Native.Api.NativeFunctions.SetWindowPos(_handle, New IntPtr(Native.Api.NativeConstants.HWND_NOTOPMOST), 0, 0, 0, 0, _
-                Native.Api.NativeConstants.SWP_NOACTIVATE Or Native.Api.NativeConstants.SWP_SHOWWINDOW Or Native.Api.NativeConstants.SWP_NOMOVE Or Native.Api.NativeConstants.SWP_NOSIZE))
-        End If
-    End Function
-    Private Function SetAsForegroundWindow(ByVal _handle As IntPtr) As Boolean
-        Return Native.Api.NativeFunctions.SetForegroundWindow(_handle)
-    End Function
-    Private Function SetAsActiveWindow(ByVal _handle As IntPtr) As IntPtr
-        Return Native.Api.NativeFunctions.SetActiveWindow(_handle)
-    End Function
-    Private Function Minimize(ByVal _handle As IntPtr) As Boolean
-        Return Native.Api.NativeFunctions.ShowWindow(_handle, Native.Api.NativeEnums.ShowWindowType.Minimize)
-    End Function
-    Private Function Maximize(ByVal _handle As IntPtr) As Boolean
-        Return Native.Api.NativeFunctions.ShowWindow(_handle, Native.Api.NativeEnums.ShowWindowType.Maximize)
-    End Function
-    Private Function Show(ByVal _handle As IntPtr) As Boolean
-        Return Native.Api.NativeFunctions.ShowWindow(_handle, Native.Api.NativeEnums.ShowWindowType.Show)
-    End Function
-    Private Function Hide(ByVal _handle As IntPtr) As Boolean
-        Return Native.Api.NativeFunctions.ShowWindow(_handle, Native.Api.NativeEnums.ShowWindowType.Hide)
-    End Function
-    Private Function SendMessage(ByVal _handle As IntPtr, ByVal val As Native.Api.NativeEnums.WindowMessage, ByVal o1 As IntPtr, ByVal o2 As IntPtr) As IntPtr
-        Return Native.Api.NativeFunctions.SendMessage(_handle, val, o1, o2)
-    End Function
-    Private Function SetOpacity(ByVal _handle As IntPtr, ByVal val As Byte) As Boolean
-        Return Native.Api.NativeFunctions.SetLayeredWindowAttributes(_handle, 0, val, Native.Api.NativeConstants.LWA_ALPHA)
-    End Function
-    Private Function SetEnabled(ByVal _handle As IntPtr, ByVal val As Boolean) As Boolean
-        Return Native.Api.NativeFunctions.EnableWindow(_handle, val)
-    End Function
-    Private Function DisableWindowOpacity(ByVal _handle As IntPtr) As IntPtr
-        Return Native.Api.NativeFunctions.SetWindowLongPtr(_handle, Native.Api.NativeEnums.GetWindowLongOffset.ExStyle, Native.Api.NativeFunctions.GetWindowLongPtr(_handle, Native.Api.NativeEnums.GetWindowLongOffset.ExStyle).Decrement(Native.Api.NativeConstants.WS_EX_LAYERED))
-    End Function
-    Private Function EnableWindowOpacity(ByVal _handle As IntPtr) As IntPtr
-        Return Native.Api.NativeFunctions.SetWindowLongPtr(_handle, Native.Api.NativeEnums.GetWindowLongOffset.ExStyle, (Native.Api.NativeFunctions.GetWindowLongPtr(_handle, Native.Api.NativeEnums.GetWindowLongOffset.ExStyle).Increment(Native.Api.NativeConstants.WS_EX_LAYERED)))
-    End Function
-    Private Function SetPosition(ByVal _handle As IntPtr, ByRef r As Native.Api.NativeStructs.Rect) As Boolean
-        Dim WndPl As Native.Api.NativeStructs.WindowPlacement
-        WndPl.Length = System.Runtime.InteropServices.Marshal.SizeOf(WndPl)
-        Native.Api.NativeFunctions.GetWindowPlacement(_handle, WndPl)
-        WndPl.NormalPosition = r
-        Return Native.Api.NativeFunctions.SetWindowPlacement(_handle, WndPl)
-    End Function
-
-#End Region
 
 End Class

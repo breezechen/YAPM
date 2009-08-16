@@ -21,6 +21,7 @@
 Option Strict On
 
 Imports System.Text
+Imports YAPM.Native.Objects
 
 Public Class cWindow
     Inherits cGeneralObject
@@ -54,8 +55,8 @@ Public Class cWindow
     ' it creates only an instance of cWindow with 'handle' information.
     ' It is used to call instance.Close(), instance.Show().... etc., rather
     ' than call cWindow.SharedClose(hWnd), cWindow.SharedShow(hWnd)...
-    Public Sub New(ByVal handle As Integer)
-        _windowInfos = New windowInfos(0, 0, New IntPtr(handle), "")
+    Public Sub New(ByVal handle As IntPtr)
+        _windowInfos = New windowInfos(0, 0, handle, "")
     End Sub
 
 #End Region
@@ -94,8 +95,8 @@ Public Class cWindow
     Public ReadOnly Property SmallIcon() As System.Drawing.Icon
         Get
             If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-                Dim i As IntPtr = GetWindowSmallIcon()
-                If Not (i = IntPtr.Zero) Then
+                Dim i As IntPtr = Window.GetWindowSmallIconHandleByHandle(_windowInfos.Handle)
+                If i.IsNotNull Then
                     Return System.Drawing.Icon.FromHandle(i)
                 Else
                     Return Nothing
@@ -154,10 +155,10 @@ Public Class cWindow
 
 #Region "All actions on window (close, ...)"
 
-    Private Sub actionDone(ByVal Success As Boolean, ByVal action As asyncCallbackWindowAction.ASYNC_WINDOW_ACTION, ByVal handle As Integer, ByVal msg As String, ByVal actionNumber As Integer)
+    Private Sub actionDone(ByVal Success As Boolean, ByVal action As Native.Api.Enums.AsyncWindowAction, ByVal handle As IntPtr, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not " & action.ToString & " (window = " & handle.ToString & ")")
+                   "Could not " & action.ToString & " (window = 0x" & handle.ToString("x") & ")")
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -172,7 +173,7 @@ Public Class cWindow
         Dim newAction As Integer = cGeneralObject.GetActionCount
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.Close, Me.Infos.Handle, 0, 0, 0, newAction))
+            asyncCallbackWindowAction.poolObj(Native.Api.Enums.AsyncWindowAction.Close, Me.Infos.Handle, 0, 0, 0, newAction))
     End Function
     Public Function Flash() As Boolean
         If _theAction Is Nothing Then
@@ -182,7 +183,7 @@ Public Class cWindow
         Dim newAction As Integer = cGeneralObject.GetActionCount
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.Flash, Me.Infos.Handle, 0, 0, 0, newAction))
+            asyncCallbackWindowAction.poolObj(Native.Api.Enums.AsyncWindowAction.Flash, Me.Infos.Handle, 0, 0, 0, newAction))
     End Function
     Public Function StopFlashing() As Boolean
         If _theAction Is Nothing Then
@@ -192,7 +193,7 @@ Public Class cWindow
         Dim newAction As Integer = cGeneralObject.GetActionCount
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.StopFlashing, Me.Infos.Handle, 0, 0, 0, newAction))
+            asyncCallbackWindowAction.poolObj(Native.Api.Enums.AsyncWindowAction.StopFlashing, Me.Infos.Handle, 0, 0, 0, newAction))
     End Function
     Public Function BringToFront(ByVal value As Boolean) As Integer
         If _theAction Is Nothing Then
@@ -202,7 +203,7 @@ Public Class cWindow
         Dim newAction As Integer = cGeneralObject.GetActionCount
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.BringToFront, Me.Infos.Handle, CInt(value), 0, 0, newAction))
+            asyncCallbackWindowAction.poolObj(Native.Api.Enums.AsyncWindowAction.BringToFront, Me.Infos.Handle, CInt(value), 0, 0, newAction))
     End Function
     Public Function SetAsForegroundWindow() As Integer
         If _theAction Is Nothing Then
@@ -212,7 +213,7 @@ Public Class cWindow
         Dim newAction As Integer = cGeneralObject.GetActionCount
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.SetAsForegroundWindow, Me.Infos.Handle, 0, 0, 0, newAction))
+            asyncCallbackWindowAction.poolObj(Native.Api.Enums.AsyncWindowAction.SetAsForegroundWindow, Me.Infos.Handle, 0, 0, 0, newAction))
     End Function
     Public Function SetAsActiveWindow() As Integer
         If _theAction Is Nothing Then
@@ -222,7 +223,7 @@ Public Class cWindow
         Dim newAction As Integer = cGeneralObject.GetActionCount
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.SetAsActiveWindow, Me.Infos.Handle, 0, 0, 0, newAction))
+            asyncCallbackWindowAction.poolObj(Native.Api.Enums.AsyncWindowAction.SetAsActiveWindow, Me.Infos.Handle, 0, 0, 0, newAction))
     End Function
     Public Function Minimize() As Boolean
         If _theAction Is Nothing Then
@@ -232,7 +233,7 @@ Public Class cWindow
         Dim newAction As Integer = cGeneralObject.GetActionCount
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.Minimize, Me.Infos.Handle, 0, 0, 0, newAction))
+            asyncCallbackWindowAction.poolObj(Native.Api.Enums.AsyncWindowAction.Minimize, Me.Infos.Handle, 0, 0, 0, newAction))
     End Function
     Public Function Maximize() As Boolean
         If _theAction Is Nothing Then
@@ -242,7 +243,7 @@ Public Class cWindow
         Dim newAction As Integer = cGeneralObject.GetActionCount
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.Maximize, Me.Infos.Handle, 0, 0, 0, newAction))
+            asyncCallbackWindowAction.poolObj(Native.Api.Enums.AsyncWindowAction.Maximize, Me.Infos.Handle, 0, 0, 0, newAction))
     End Function
     Public Function Show() As Boolean
         If _theAction Is Nothing Then
@@ -252,7 +253,7 @@ Public Class cWindow
         Dim newAction As Integer = cGeneralObject.GetActionCount
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.Show, Me.Infos.Handle, 0, 0, 0, newAction))
+            asyncCallbackWindowAction.poolObj(Native.Api.Enums.AsyncWindowAction.Show, Me.Infos.Handle, 0, 0, 0, newAction))
     End Function
     Public Function Hide() As Boolean
         If _theAction Is Nothing Then
@@ -262,7 +263,7 @@ Public Class cWindow
         Dim newAction As Integer = cGeneralObject.GetActionCount
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.Hide, Me.Infos.Handle, 0, 0, 0, newAction))
+            asyncCallbackWindowAction.poolObj(Native.Api.Enums.AsyncWindowAction.Hide, Me.Infos.Handle, 0, 0, 0, newAction))
     End Function
     Public Function SetPositions(ByVal r As Native.Api.NativeStructs.Rect) As Boolean
         If _theAction Is Nothing Then
@@ -272,7 +273,7 @@ Public Class cWindow
         Dim newAction As Integer = cGeneralObject.GetActionCount
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.SetPosition, Me.Infos.Handle, 0, 0, 0, newAction, r))
+            asyncCallbackWindowAction.poolObj(Native.Api.Enums.AsyncWindowAction.SetPosition, Me.Infos.Handle, 0, 0, 0, newAction, r))
     End Function
     Public Function SendMessage(ByVal msg As Integer, ByVal param1 As Integer, ByVal param2 As Integer) As Integer
         If _theAction Is Nothing Then
@@ -282,7 +283,7 @@ Public Class cWindow
         Dim newAction As Integer = cGeneralObject.GetActionCount
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.SendMessage, Me.Infos.Handle, msg, param1, param2, newAction))
+            asyncCallbackWindowAction.poolObj(Native.Api.Enums.AsyncWindowAction.SendMessage, Me.Infos.Handle, msg, param1, param2, newAction))
     End Function
     Private Function SetEnabled(ByVal value As Boolean) As Integer
         If _theAction Is Nothing Then
@@ -292,7 +293,7 @@ Public Class cWindow
         Dim newAction As Integer = cGeneralObject.GetActionCount
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.SetEnabled, Me.Infos.Handle, CInt(value), 0, 0, newAction))
+            asyncCallbackWindowAction.poolObj(Native.Api.Enums.AsyncWindowAction.SetEnabled, Me.Infos.Handle, CInt(value), 0, 0, newAction))
     End Function
     Private Function SetOpacity(ByVal value As Byte) As Integer
         If _theAction Is Nothing Then
@@ -302,7 +303,7 @@ Public Class cWindow
         Dim newAction As Integer = cGeneralObject.GetActionCount
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.SetOpacity, Me.Infos.Handle, CInt(value), 0, 0, newAction))
+            asyncCallbackWindowAction.poolObj(Native.Api.Enums.AsyncWindowAction.SetOpacity, Me.Infos.Handle, CInt(value), 0, 0, newAction))
     End Function
     Private Function SetCaption(ByVal st As String) As Integer
         If _theAction Is Nothing Then
@@ -312,7 +313,7 @@ Public Class cWindow
         Dim newAction As Integer = cGeneralObject.GetActionCount
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackWindowAction.poolObj(asyncCallbackWindowAction.ASYNC_WINDOW_ACTION.SetCaption, Me.Infos.Handle, 0, 0, 0, newAction, ss:=st))
+            asyncCallbackWindowAction.poolObj(Native.Api.Enums.AsyncWindowAction.SetCaption, Me.Infos.Handle, 0, 0, 0, newAction, ss:=st))
     End Function
 
 #End Region
@@ -490,83 +491,24 @@ Public Class cWindow
 
 #End Region
 
-    ' Get small icon handle of window
-    Private Function GetWindowSmallIcon() As IntPtr
-        Dim res As IntPtr
-        Dim out As IntPtr
-        res = Native.Api.NativeFunctions.SendMessageTimeout(_windowInfos.Handle, Native.Api.NativeEnums.WindowMessage.GetIcon, _
-                                     New IntPtr(Native.Api.NativeEnums.IconSize.ICON_SMALL), IntPtr.Zero, _
-                                     Native.Api.NativeEnums.SendMessageTimeoutFlags.SMTO_ABORTIFHUNG, 0, out)
-
-        If out = IntPtr.Zero Then
-            If (IntPtr.Size = 4) Then
-                ' 32 Bits
-                out = CType(Native.Api.NativeFunctions.GetClassLongPtr32(_windowInfos.Handle, Native.Api.NativeConstants.GCL_HICONSM), IntPtr)
-            ElseIf (IntPtr.Size = 8) Then
-                ' 64 bits
-                out = Native.Api.NativeFunctions.GetClassLongPtr64(_windowInfos.Handle, Native.Api.NativeConstants.GCL_HICONSM)
-            End If
-        End If
-
-        If out = IntPtr.Zero Then
-            res = Native.Api.NativeFunctions.SendMessageTimeout(Native.Api.NativeFunctions.GetWindowLongPtr(_windowInfos.Handle, _
-                                  Native.Api.NativeEnums.GetWindowLongOffset.HwndParent), _
-                                  Native.Api.NativeEnums.WindowMessage.GetIcon, _
-                                  New IntPtr(Native.Api.NativeEnums.IconSize.ICON_SMALL), IntPtr.Zero, _
-                                  Native.Api.NativeEnums.SendMessageTimeoutFlags.SMTO_ABORTIFHUNG, 0, out)
-        End If
-
-        Return out
-    End Function
-
 #Region "Shared functions (local)"
 
-    Public Shared Function LocalGetForegroundAppPID() As Integer
-        Dim l As IntPtr = Native.Api.NativeFunctions.GetForegroundWindow
-        Return asyncCallbackWindowEnumerate.GetProcIdFromWindowHandle(l)
-    End Function
-
-    ' Get all windows
-    Public Shared Function CurrentLocalWindows(Optional ByVal all As Boolean = True) As Dictionary(Of String, cWindow)
-        ' Local
-        Dim currWnd As IntPtr
-        Dim cpt As Integer
-
-        Dim _dico As New Dictionary(Of String, cWindow)
-
-        currWnd = Native.Api.NativeFunctions.GetWindow(Native.Api.NativeFunctions.GetDesktopWindow(), Native.Api.NativeEnums.GetWindow_Cmd.GW_CHILD)
-        cpt = 0
-        Do While Not (currWnd = IntPtr.Zero)
-
-            ' Get procId from hwnd
-            Dim pid As Integer = asyncCallbackWindowEnumerate.GetProcIdFromWindowHandle(currWnd)
-            'If all OrElse Array.IndexOf(pObj.pid, pid) >= 0 Then
-            ' Then this window belongs to one of our processes
-            'If all OrElse asyncCallbackWindowEnumerate.GetCaptionLenght(currWnd) > 0 Then
-            Dim tid As Integer = asyncCallbackWindowEnumerate.GetThreadIdFromWindowHandle(currWnd)
-            Dim key As String = pid.ToString & "-" & tid.ToString & "-" & currWnd.ToString
-            If _dico.ContainsKey(key) = False Then
-                _dico.Add(key, New cWindow(New windowInfos(pid, tid, currWnd, asyncCallbackWindowEnumerate.GetCaption(currWnd))))
-            End If
-            'End If
-            'End If
-
-            currWnd = Native.Api.NativeFunctions.GetWindow(currWnd, Native.Api.NativeEnums.GetWindow_Cmd.GW_HWNDNEXT)
-        Loop
-
-        Return _dico
+    ' Return ProcessId of ForegroundWindow
+    Public Shared Function LocalGetForegroundAppProcessId() As Integer
+        Dim hWnd As IntPtr = Window.GetForegroundWindow
+        Return Window.GetProcessIdFromWindowHandle(hWnd)
     End Function
 
     ' Close
     ' MUST BE USE FOR OWNED WINDOWS ONLY
     ' Because SendMessage is synchron and may cause thread to be hung
-    Public Shared Function LocalClose(ByVal handle As IntPtr) As IntPtr
-        Return Native.Api.NativeFunctions.SendMessage(handle, Native.Api.NativeEnums.WindowMessage.Close, IntPtr.Zero, IntPtr.Zero)
+    Public Shared Function LocalClose(ByVal handle As IntPtr) As Boolean
+        Return Window.CloseWindowByHandle(handle)
     End Function
 
     ' ShowWindowForeground
     Public Shared Function LocalShowWindowForeground(ByVal handle As IntPtr) As Boolean
-        Return Native.Api.NativeFunctions.SetForegroundWindow(handle)
+        Return Window.SetForegroundWindowByHandle(handle)
     End Function
 
 #End Region

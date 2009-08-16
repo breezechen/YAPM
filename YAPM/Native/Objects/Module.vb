@@ -54,7 +54,7 @@ Namespace Native.Objects
             Dim hProc As IntPtr = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.CreateThread, _
                                                                          False, pid)
             ' Create a remote thread a call FreeLibrary
-            If hProc <> IntPtr.Zero Then
+            If hProc .IsNotNull Then
                 Dim kernel32 As IntPtr = _
                         Native.Api.NativeFunctions.GetModuleHandle("kernel32.dll")
                 Dim freeLibrary As IntPtr = _
@@ -64,7 +64,7 @@ Namespace Native.Objects
                         Native.Api.NativeFunctions.CreateRemoteThread(hProc, _
                                                 IntPtr.Zero, 0, freeLibrary, _
                                                 address, 0, threadId)
-                Return (ret <> IntPtr.Zero)
+                Return (ret .IsNotNull)
             Else
                 Return False
             End If
@@ -85,7 +85,7 @@ Namespace Native.Objects
             Dim reader As New ProcessMemReader(pid)
             hProc = reader.ProcessHandle
 
-            If hProc <> IntPtr.Zero Then
+            If hProc .IsNotNull Then
 
                 peb = reader.GetPebAddress
 
@@ -110,7 +110,7 @@ Namespace Native.Objects
                 Dim curEntry As Native.Api.NativeStructs.LdrDataTableEntry
                 Dim i As Integer = 0
 
-                Do While curObj <> IntPtr.Zero
+                Do While curObj .IsNotNull
 
                     If (i > 0 AndAlso curObj = firstObj) Then
                         Exit Do
@@ -120,7 +120,7 @@ Namespace Native.Objects
                     curEntry = CType(reader.ReadStruct(Of Native.Api.NativeStructs.LdrDataTableEntry)(curObj),  _
                                     Native.Api.NativeStructs.LdrDataTableEntry)
 
-                    If (curEntry.DllBase <> IntPtr.Zero) Then
+                    If (curEntry.DllBase .IsNotNull) Then
 
                         ' Retrive the path/name of the dll
                         dllPath = reader.ReadUnicodeString(curEntry.FullDllName)

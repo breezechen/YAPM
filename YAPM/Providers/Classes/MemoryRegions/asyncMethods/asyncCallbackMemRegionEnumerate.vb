@@ -112,7 +112,7 @@ Public Class asyncCallbackMemRegionEnumerate
         lHandle = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation Or _
                                    Native.Security.ProcessAccess.VmRead, False, pObj.pid)
 
-        If lHandle <> IntPtr.Zero Then
+        If lHandle .IsNotNull Then
 
             ' We'll exit when VirtualQueryEx will fail
             Do While True

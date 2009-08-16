@@ -224,7 +224,7 @@ Public Class asyncCallbackSearchEnumerate
                 ' ---- WINDOWS
                 If (pObj.includ And searchInfos.SearchInclude.SearchWindows) = searchInfos.SearchInclude.SearchWindows Then
                     Dim _tmpDico As New Dictionary(Of String, cWindow)
-                    _tmpDico = cWindow.CurrentLocalWindows
+                    _tmpDico = Native.Objects.Window.EnumerateAllWindows
                     For Each cp As cWindow In _tmpDico.Values
                         For Each field As String In windowInfos.GetAvailableProperties
                             Dim scomp As String = cp.GetInformation(field)

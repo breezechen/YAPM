@@ -67,7 +67,7 @@ Public Class cMemRegion
                                             Native.Security.ProcessAccess.VmRead, _
                                             False, Infos.ProcessId)
 
-        If _h <> IntPtr.Zero Then
+        If _h .IsNotNull Then
             Dim leng As Integer = Native.Api.NativeFunctions.GetMappedFileName(_h, ad, sb, sb.Capacity)
             Native.Api.NativeFunctions.CloseHandle(_h)
 

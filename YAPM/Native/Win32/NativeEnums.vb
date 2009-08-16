@@ -2,6 +2,8 @@
 ' Yet Another (remote) Process Monitor (YAPM)
 ' Copyright (c) 2008-2009 Alain Descotes (violent_ken)
 ' https://sourceforge.net/projects/yaprocmon/
+' This file uses third-party pieces of code under GNU 
+' GPL 3.0 license. See below for details
 ' =======================================================
 
 
@@ -17,7 +19,30 @@
 '
 ' You should have received a copy of the GNU General Public License
 ' along with YAPM; if not, see http://www.gnu.org/licenses/.
-
+'
+'
+' This file uses some work under GNU GPL 3.0 license
+' The following definitions are from Process Hacker by Wj32,
+' which is under GNU GPL 3.0 :
+' - RtlUserProcessFlags
+' - LdrpDataTableEntryFlags
+' - ProcessInformationClass
+' - MemoryState
+' - ThreadInformationClass 
+' - SePrivilegeAttributes
+' - TokenInformationClass
+' - SystemInformationClass
+' - ExitWindowsFlags
+' - WindowMessage
+' - SmtoFlags
+' - RemoteThreadCreationFlags
+' - KwaitReason
+' - SidNameUse
+' - SecurityImpersonationLevel
+' - GdiPenStyle
+' - GdiBlendMode
+' - GdiStockObject
+' - ServiceFlags
 
 Option Strict On
 
@@ -636,6 +661,16 @@ Namespace Native.Api
 
 #Region "Declarations used for windows (not Windows :-p)"
 
+        <Flags()> _
+        Public Enum FlashWInfoFlags As UInteger
+            FLASHW_STOP = 0
+            FLASHW_CAPTION = &H1
+            FLASHW_TRAY = &H2
+            FLASHW_ALL = &H3
+            FLASHW_TIMER = &H4
+            FLASHW_TIMERNOFG = &HC
+        End Enum
+
         Public Enum WindowMessage As UInteger
             Null = &H0
             Create = &H1
@@ -970,7 +1005,7 @@ Namespace Native.Api
             DcPen
         End Enum
 
-        Public Enum GetWindow_Cmd As UInteger
+        Public Enum GetWindowCmd As UInteger
             GW_HWNDFIRST = 0
             GW_HWNDLAST = 1
             GW_HWNDNEXT = 2

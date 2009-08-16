@@ -136,7 +136,7 @@ Public Class cProcess
     Protected Overrides Sub Finalize()
         ' Close a handle if local
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            If _handleQueryInfo <> IntPtr.Zero Then
+            If _handleQueryInfo .IsNotNull Then
                 Native.Objects.General.CloseHandle(_handleQueryInfo)
             End If
         End If
@@ -222,7 +222,7 @@ Public Class cProcess
 
     Public ReadOnly Property HaveFullControl() As Boolean
         Get
-            Return _handleQueryInfo <> IntPtr.Zero AndAlso Len(_processInfos.Path) > 0
+            Return _handleQueryInfo .IsNotNull AndAlso Len(_processInfos.Path) > 0
         End Get
     End Property
 
@@ -245,7 +245,7 @@ Public Class cProcess
     Public Sub Merge(ByRef Proc As processInfos)
 
         ' Here we do some refreshment
-        If _handleQueryInfo <> IntPtr.Zero Then
+        If _handleQueryInfo .IsNotNull Then
             Call Native.Objects.Token.GetProcessElevationTypeByTokenHandle(_tokenHandle, _elevation)   ' Elevation type
             _isInJob = Native.Objects.Process.IsProcessInJob(_handleQueryInfo)
             _isBeingDebugged = Native.Objects.Process.IsDebuggerPresent(_handleQueryInfo)

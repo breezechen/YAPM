@@ -2,6 +2,8 @@
 ' Yet Another (remote) Process Monitor (YAPM)
 ' Copyright (c) 2008-2009 Alain Descotes (violent_ken)
 ' https://sourceforge.net/projects/yaprocmon/
+' This file uses third-party pieces of code under GNU 
+' GPL 3.0 license. See below for details
 ' =======================================================
 
 
@@ -17,7 +19,23 @@
 '
 ' You should have received a copy of the GNU General Public License
 ' along with YAPM; if not, see http://www.gnu.org/licenses/.
-
+'
+'
+' This file uses some work under GNU GPL 3.0 license
+' The following definitions are from Process Hacker by Wj32 :
+' - SystemProcessInformation
+' - PebLdrData
+' - LdrDataTableEntry
+' - RtlUserProcessParameters
+' - Peb
+' - TokenPrivileges
+' - TokenSource
+' - TokenStatistics
+' - SystemPerformanceInformation
+' - SystemCacheInformation
+' - SystemHandleInformation
+' - EnumServiceStatusProcess
+' - ServiceStatusProcess
 
 Option Strict On
 
@@ -450,13 +468,13 @@ Namespace Native.Api
 
 #Region "Declarations used for files"
 
-        Public Structure _FILETIME
+        Public Structure FileTime
             Dim dwLowDateTime As Integer
             Dim dwHighDateTime As Integer
         End Structure
 
         <StructLayout(LayoutKind.Sequential, CharSet:=CharSet.Unicode)> _
-        Public Structure SHFILEOPSTRUCT
+        Public Structure ShFileOpStruct
             Public hwnd As IntPtr
             Public wFunc As FO_Func
             <MarshalAs(UnmanagedType.LPWStr)> _
@@ -471,7 +489,7 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure SYSTEMTIME
+        Public Structure SystemTime
             <MarshalAs(UnmanagedType.U2)> Public Year As Short
             <MarshalAs(UnmanagedType.U2)> Public Month As Short
             <MarshalAs(UnmanagedType.U2)> Public DayOfWeek As Short
@@ -482,11 +500,11 @@ Namespace Native.Api
             <MarshalAs(UnmanagedType.U2)> Public Milliseconds As Short
         End Structure
 
-        Public Structure BY_HANDLE_FILE_INFORMATION
+        Public Structure ByHandleFileInformation
             Dim dwFileAttributes As Long
-            Dim ftCreationTime As _FILETIME
-            Dim ftLastAccessTime As _FILETIME
-            Dim ftLastWriteTime As _FILETIME
+            Dim ftCreationTime As FileTime
+            Dim ftLastAccessTime As FileTime
+            Dim ftLastWriteTime As FileTime
             Dim dwVolumeSerialNumber As Integer
             Dim nFileSizeHigh As Integer
             Dim nFileSizeLow As Integer
@@ -495,7 +513,7 @@ Namespace Native.Api
             Dim nFileIndexLow As Integer
         End Structure
 
-        Public Structure SHELLEXECUTEINFO
+        Public Structure ShellExecuteInfo
             Public cbSize As Integer
             Public fMask As ShellExecuteInfoMask
             Public hwnd As IntPtr
@@ -513,7 +531,7 @@ Namespace Native.Api
             Public hProcess As IntPtr
         End Structure
 
-        Public Structure SHFILEINFO
+        Public Structure SHFileInfo
             Public hIcon As IntPtr            ' : icon
             Public iIcon As Integer           ' : icondex
             Public dwAttributes As Integer    ' : SFGAO_ flags
@@ -528,7 +546,7 @@ Namespace Native.Api
 #Region "Declarations used for system"
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Class MSLLHOOKSTRUCT
+        Public Class MSLLHookStruct
             Public pt As Point
             Public mouseData As Integer
             Public flags As Integer
@@ -537,8 +555,8 @@ Namespace Native.Api
         End Class
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure SYSTEM_INFO
-            Friend uProcessorInfo As _PROCESSOR_INFO_UNION
+        Public Structure SystemInfo
+            Friend uProcessorInfo As ProcessorInfoUnion
             Public dwPageSize As UInteger
             Public lpMinimumApplicationAddress As IntPtr
             Public lpMaximumApplicationAddress As IntPtr
@@ -551,7 +569,7 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Explicit)> _
-        Public Structure _PROCESSOR_INFO_UNION
+        Public Structure ProcessorInfoUnion
             <FieldOffset(0)> _
             Friend dwOemId As UInteger
             <FieldOffset(0)> _
@@ -1034,7 +1052,7 @@ Namespace Native.Api
         Public Structure FlashWInfo
             Public cbSize As UInt32
             Public hwnd As IntPtr
-            Public dwFlags As UInt32
+            Public dwFlags As FlashWInfoFlags
             Public uCount As UInt32
             Public dwTimeout As UInt32
         End Structure

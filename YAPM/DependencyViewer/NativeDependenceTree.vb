@@ -76,7 +76,7 @@ Public Class NativeDependenciesTree
         Public Shared Function ResolveDll(ByVal szFileName As String) As String
             'charge la dll
             Dim hModule As IntPtr = LoadLibrary(szFileName)
-            If (hModule <> IntPtr.Zero) Then
+            If (hModule .IsNotNull) Then
                 'récupère le nom complet de la dll
                 Dim sbFileName As New System.Text.StringBuilder(1024)
                 Dim retLen As Integer = GetModuleFileName(hModule, sbFileName, 1024)

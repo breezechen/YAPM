@@ -149,7 +149,7 @@ Public Class frmWindowsList
     Private Sub MenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemShow.Click
         For Each it As ListViewItem In Me.lv.SelectedItems
             Dim hWnd As IntPtr = CType(it.Tag, IntPtr)
-            If Not (hWnd = IntPtr.Zero) Then
+            If hWnd.IsNotNull Then
                 Call cWindow.LocalShowWindowForeground(hWnd)
             End If
         Next
@@ -158,7 +158,7 @@ Public Class frmWindowsList
     Private Sub MenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemClose.Click
         For Each it As ListViewItem In Me.lv.SelectedItems
             Dim hWnd As IntPtr = CType(it.Tag, IntPtr)
-            If hWnd <> IntPtr.Zero Then
+            If hWnd .IsNotNull Then
                 Call cWindow.LocalClose(hWnd)
             End If
         Next

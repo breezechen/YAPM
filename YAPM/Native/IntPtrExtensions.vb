@@ -78,6 +78,15 @@ Public Module IntPtrExtensions
 
     ' Compare methods
     <System.Runtime.CompilerServices.Extension()> _
+    Public Function IsNull(ByVal ptr As IntPtr) As Boolean
+        Return (ptr = IntPtr.Zero)
+    End Function
+    <System.Runtime.CompilerServices.Extension()> _
+    Public Function IsNotNull(ByVal ptr As IntPtr) As Boolean
+        Return (ptr <> IntPtr.Zero)
+    End Function
+
+    <System.Runtime.CompilerServices.Extension()> _
     Public Function IsGreaterThan(ByVal ptr As IntPtr, ByVal ptr2 As IntPtr) As Boolean
         Return (ptr.ToInt64 > ptr2.ToInt64)
     End Function

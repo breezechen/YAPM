@@ -41,7 +41,7 @@ Public Class ProcessMemReader
                                   Native.Security.ProcessAccess.VmRead, False, pid)
     End Sub
     Public Sub Dispose() Implements System.IDisposable.Dispose
-        If _hProc <> IntPtr.Zero Then
+        If _hProc .IsNotNull Then
             Call Native.Api.NativeFunctions.CloseHandle(_hProc)
         End If
     End Sub

@@ -157,7 +157,7 @@ Public Class frmFindWindow
         ' If there isn't a current hWnd, then exit.
         ' That's why in the mouseup event we get out, because otherwise a border would be draw
         ' around the old window
-        If Myhwnd = IntPtr.Zero Then Exit Sub
+        If Myhwnd.IsNull Then Exit Sub
         Dim RetVal As IntPtr ' Dummy returnvalue
         Dim hdc As IntPtr ' hDC that we're going To be using
         Dim Pen As IntPtr ' Handle To a GDI Pen object

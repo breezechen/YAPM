@@ -89,7 +89,7 @@ Public Class asyncCallbackMemRegionChangeProtection
         Dim old As Native.Api.NativeEnums.MemoryProtectionType
 
         hProcess = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.VmOperation, False, obj.pid)
-        If hProcess <> IntPtr.Zero Then
+        If hProcess .IsNotNull Then
             ret = Native.Api.NativeFunctions.VirtualProtectEx(hProcess, obj.address, obj.size, obj.protection, old)
             Call Native.Api.NativeFunctions.CloseHandle(hProcess)
         End If

@@ -52,7 +52,7 @@ Namespace Native.Objects
         ' Return elevation type of a process
         Public Shared Function GetProcessElevationTypeByTokenHandle(ByVal hTok As IntPtr, _
                                                ByRef elevation As Native.Api.Enums.ElevationType) As Boolean
-            If hTok <> IntPtr.Zero Then
+            If hTok .IsNotNull Then
 
                 Dim value As Integer
                 Dim ret As Integer
@@ -87,9 +87,9 @@ Namespace Native.Objects
             Dim TokenPriv As New NativeStructs.TokenPrivileges
 
             hProcess = NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation, False, pid)
-            If hProcess <> IntPtr.Zero Then
+            If hProcess .IsNotNull Then
                 NativeFunctions.OpenProcessToken(hProcess, Native.Security.TokenAccess.Query, hProcessToken)
-                If hProcessToken <> IntPtr.Zero Then
+                If hProcessToken .IsNotNull Then
 
                     ' Get tokeninfo length
                     NativeFunctions.GetTokenInformation(hProcessToken, NativeEnums.TokenInformationClass.TokenPrivileges, IntPtr.Zero, 0, RetLen)
@@ -156,11 +156,11 @@ Namespace Native.Objects
             hProcess = NativeFunctions.OpenProcess(Security.ProcessAccess.QueryInformation, _
                                                    False, processId)
 
-            If hProcess <> IntPtr.Zero Then
+            If hProcess .IsNotNull Then
                 ' Get token handle
                 NativeFunctions.OpenProcessToken(hProcess, Security.TokenAccess.Query Or Security.TokenAccess.AdjustPrivileges, lngToken)
 
-                If lngToken <> IntPtr.Zero Then
+                If lngToken .IsNotNull Then
 
                     ' Retrieve Luid from PrivilegeName
                     If NativeFunctions.LookupPrivilegeValue(Nothing, seName, typLUID) Then

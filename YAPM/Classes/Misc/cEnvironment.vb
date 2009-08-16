@@ -43,10 +43,10 @@ Public Class cEnvironment
 
             '# Nous tentons ici d'acceder au mappage (précedemment créé ?)
             hMap = Native.Api.NativeFunctions.OpenFileMapping(Native.Api.NativeConstants.FILE_MAP_READ, False, FILE_NAME)
-            If hMap <> IntPtr.Zero Then
+            If hMap .IsNotNull Then
                 '# L'application est déjà lancée.
                 pMem = Native.Api.NativeFunctions.MapViewOfFile(hMap, Native.Api.NativeEnums.FileMapAccess.FileMapRead, 0, 0, 0)
-                If pMem <> IntPtr.Zero Then
+                If pMem .IsNotNull Then
                     '# On récupère le handle vers la précédente fenêtre
                     hPid = Marshal.ReadInt32(pMem, 0)
                     If hPid <> 0 Then
@@ -67,10 +67,10 @@ Public Class cEnvironment
                 '# Nous sommes dans la première instance de l'application.
                 '# Nous allons laisser une marque en mémoire, pour l'indiquer
                 hMap = Native.Api.NativeFunctions.CreateFileMapping(New IntPtr(-1), IntPtr.Zero, Native.Api.NativeEnums.FileMapProtection.PageReadWrite, 0, 4, FILE_NAME)
-                If hMap <> IntPtr.Zero Then
+                If hMap .IsNotNull Then
                     '# On ouvre le 'fichier' en écriture
                     pMem = Native.Api.NativeFunctions.MapViewOfFile(hMap, Native.Api.NativeEnums.FileMapAccess.FileMapWrite, 0, 0, 0)
-                    If pMem <> IntPtr.Zero Then
+                    If pMem .IsNotNull Then
                         '# On y écrit l'ID du process courant
                         Marshal.WriteInt32(pMem, 0, Native.Api.NativeFunctions.GetCurrentProcessId)
                         Native.Api.NativeFunctions.UnmapViewOfFile(pMem)
@@ -126,7 +126,7 @@ Public Class cEnvironment
                 Dim hTok As IntPtr
                 Dim hProc As IntPtr = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation, False, _
                                                       Process.GetCurrentProcess.Id)
-                If Not (hProc = IntPtr.Zero) Then
+                If hProc.IsNotNull Then
                     ' ?
                 End If
                 Call Native.Api.NativeFunctions.OpenProcessToken(hProc, Native.Security.TokenAccess.Query, hTok)
@@ -176,7 +176,7 @@ Public Class cEnvironment
     ' Restart YAPM elevated
     Public Shared Sub RestartElevated()
 
-        Dim startInfo As New Native.Api.NativeStructs.SHELLEXECUTEINFO
+        Dim startInfo As New Native.Api.NativeStructs.ShellExecuteInfo
         With startInfo
             .cbSize = System.Runtime.InteropServices.Marshal.SizeOf(startInfo)
             .hwnd = _frmMain.Handle

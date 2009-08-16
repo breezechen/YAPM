@@ -84,8 +84,8 @@ Namespace Native.Objects
             hThread = Native.Api.NativeFunctions.OpenThread(Native.Security.ThreadAccess.QueryInformation Or _
                                                 Security.ThreadAccess.SetInformation, _
                                                 False, tid)
-            If hThread <> IntPtr.Zero Then
-                r = (Native.Api.NativeFunctions.SetThreadAffinityMask(hThread, affinity) <> IntPtr.Zero)
+            If hThread .IsNotNull Then
+                r = (Native.Api.NativeFunctions.SetThreadAffinityMask(hThread, affinity) .IsNotNull)
                 Native.Api.NativeFunctions.CloseHandle(hThread)
             End If
             Return r
@@ -97,7 +97,7 @@ Namespace Native.Objects
             Dim r As Boolean
             hThread = Native.Api.NativeFunctions.OpenThread(Native.Security.ThreadAccess.SetInformation, _
                                                           False, tid)
-            If hThread <> IntPtr.Zero Then
+            If hThread .IsNotNull Then
                 r = Native.Api.NativeFunctions.SetThreadPriority(hThread, priority)
                 Native.Api.NativeFunctions.CloseHandle(hThread)
             End If
@@ -116,7 +116,7 @@ Namespace Native.Objects
 
         ' Resume a thread
         Public Shared Function ResumeThreadByHandle(ByVal hThread As IntPtr) As Boolean
-            If hThread <> IntPtr.Zero Then
+            If hThread .IsNotNull Then
                 Return NativeFunctions.ResumeThread(hThread) > 0
             Else
                 Return False
@@ -136,7 +136,7 @@ Namespace Native.Objects
 
         ' Suspend a thread
         Public Shared Function SuspendThreadByHandle(ByVal hThread As IntPtr) As Boolean
-            If hThread <> IntPtr.Zero Then
+            If hThread .IsNotNull Then
                 Return NativeFunctions.SuspendThread(hThread) > 0
             Else
                 Return False
@@ -160,7 +160,7 @@ Namespace Native.Objects
             Dim ret As Boolean
             hThread = Native.Api.NativeFunctions.OpenThread(Native.Security.ThreadAccess.Terminate, _
                                                           False, tid)
-            If hThread <> IntPtr.Zero Then
+            If hThread .IsNotNull Then
                 ret = Native.Api.NativeFunctions.TerminateThread(hThread, exitCode)
                 Native.Api.NativeFunctions.CloseHandle(hThread)
             End If

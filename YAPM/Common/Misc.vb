@@ -619,8 +619,8 @@ Namespace Common
 
             Dim hImgSmall As IntPtr
             Dim hImgLarge As IntPtr
-            Dim shinfo As Native.Api.NativeStructs.SHFILEINFO
-            shinfo = New Native.Api.NativeStructs.SHFILEINFO()
+            Dim shinfo As Native.Api.NativeStructs.SHFileInfo
+            shinfo = New Native.Api.NativeStructs.SHFileInfo()
 
             If System.IO.File.Exists(fName) = False Then Return Nothing
 
@@ -636,7 +636,7 @@ Namespace Common
 
             Dim img As System.Drawing.Icon = Nothing
             Try
-                If Not (shinfo.hIcon = IntPtr.Zero) Then
+                If shinfo.hIcon.IsNotNull Then
                     img = System.Drawing.Icon.FromHandle(shinfo.hIcon)
                 End If
             Catch ex As Exception
@@ -652,8 +652,8 @@ Namespace Common
 
             Dim hImgSmall As IntPtr
             Dim hImgLarge As IntPtr
-            Dim shinfo As Native.Api.NativeStructs.SHFILEINFO
-            shinfo = New Native.Api.NativeStructs.SHFILEINFO()
+            Dim shinfo As Native.Api.NativeStructs.SHFileInfo
+            shinfo = New Native.Api.NativeStructs.SHFileInfo()
 
             If small Then
                 hImgSmall = Native.Api.NativeFunctions.SHGetFileInfo(fName, 0, shinfo, _
@@ -667,7 +667,7 @@ Namespace Common
 
             Dim img As System.Drawing.Icon = Nothing
             Try
-                If Not (shinfo.hIcon = IntPtr.Zero) Then
+                If shinfo.hIcon.IsNotNull Then
                     img = System.Drawing.Icon.FromHandle(shinfo.hIcon)
                 End If
             Catch ex As Exception

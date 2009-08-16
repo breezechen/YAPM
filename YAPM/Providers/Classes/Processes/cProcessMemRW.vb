@@ -46,12 +46,12 @@ Public Class cProcessMemRW
     ' =======================================================
     Private _pid As Integer
     Private _handle As IntPtr
-    Private Shared si As Native.Api.NativeStructs.SYSTEM_INFO
+    Private Shared si As Native.Api.NativeStructs.SystemInfo
 
     ' =======================================================
     ' Public properties
     ' =======================================================
-    Public ReadOnly Property SystemInfo() As Native.Api.NativeStructs.SYSTEM_INFO
+    Public ReadOnly Property SystemInfo() As Native.Api.NativeStructs.SystemInfo
         Get
             Return si
         End Get
@@ -179,7 +179,7 @@ Public Class cProcessMemRW
 
         lHandle = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.All, False, pid)   'TOCHANGE
         lLenMBI = System.Runtime.InteropServices.Marshal.SizeOf(mbi)
-        If si.lpMaximumApplicationAddress = IntPtr.Zero Then Native.Api.NativeFunctions.GetSystemInfo(si)
+        If si.lpMaximumApplicationAddress.IsNull Then Native.Api.NativeFunctions.GetSystemInfo(si)
         lPosMem = si.lpMinimumApplicationAddress  ' Start from shorter address
 
         Dim _xx As Integer = 0
