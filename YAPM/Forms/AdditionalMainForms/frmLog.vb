@@ -25,7 +25,7 @@ Imports System.Runtime.InteropServices
 
 Public Class frmLog
 
-    Private lCount As Integer = 0
+    'Private lCount As Integer = 0
 
     'Private Sub timerRefresh_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerRefresh.Tick
     '    If lCount <> Program.Log.LineCount Then

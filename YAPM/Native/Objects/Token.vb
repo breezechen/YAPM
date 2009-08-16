@@ -84,7 +84,6 @@ Namespace Native.Objects
             Dim hProcessToken As IntPtr
             Dim hProcess As IntPtr
             Dim RetLen As Integer
-            Dim TokenPriv As New NativeStructs.TokenPrivileges
 
             hProcess = NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation, False, pid)
             If hProcess .IsNotNull Then

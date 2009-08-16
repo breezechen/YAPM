@@ -44,7 +44,6 @@ Namespace Native.Objects
             If NativeFunctions.GetExtendedTcpTable(pt, length, False, 2, Enums.TcpTableClass.OwnerPidAll, 0) = 0 Then
 
                 Dim count As Integer = Marshal.ReadInt32(pt, 0)
-                Dim intOffset As Integer = 0
 
                 For i As Integer = 0 To count - 1
                     Dim tcp_item As NativeStructs.MIB_TCPROW_OWNER_PID

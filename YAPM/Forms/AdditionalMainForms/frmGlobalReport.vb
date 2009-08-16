@@ -62,8 +62,8 @@ Public Class frmGlobalReport
 
         ' The goal is to retrieve all informations before saving it
         Dim _dicoServices As New Dictionary(Of String, cService)
-        Dim _dicoHandles As New Dictionary(Of String, cHandle)
-        Dim _dicoWindows As New Dictionary(Of String, cWindow)
+        'Dim _dicoHandles As New Dictionary(Of String, cHandle)
+        'Dim _dicoWindows As New Dictionary(Of String, cWindow)
         Dim _dicoProcesses As New Dictionary(Of Integer, cProcess)
 
         ' == Services
@@ -190,7 +190,7 @@ Public Class frmGlobalReport
         stream.WriteLine(_dicoProcesses.Count.ToString & " processes running")
         stream.WriteLine()
         Me.pgb.Maximum = _dicoProcesses.Count
-        Dim x As Integer = 0
+        'Dim x As Integer = 0
 
 
         'For Each it As cProcess In _dicoProcesses.Values

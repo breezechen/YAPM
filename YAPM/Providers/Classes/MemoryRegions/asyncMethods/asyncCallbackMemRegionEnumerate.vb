@@ -105,7 +105,6 @@ Public Class asyncCallbackMemRegionEnumerate
     Friend Shared Sub enumMemRegions(ByVal pObj As poolObj, ByRef _dico As Dictionary(Of String, memRegionInfos))
         Dim lHandle As IntPtr
         Dim lPosMem As IntPtr
-        Dim lRet As Boolean = True
         Dim mbi As Native.Api.NativeStructs.MemoryBasicInformation
         Dim mbiSize As Integer = Marshal.SizeOf(mbi)
 

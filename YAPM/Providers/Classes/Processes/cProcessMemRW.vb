@@ -31,7 +31,6 @@ Public Class cProcessMemRW
     ' API declaration
     ' =======================================================
 
-    Private Const SE_DEBUG_NAME As String = "SeDebugPrivilege"
     Private Const SIZE_FOR_STRING As Integer = 5
 
     Public Structure T_RESULT

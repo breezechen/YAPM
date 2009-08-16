@@ -362,7 +362,6 @@ Public Class cWindow
     Public Overrides Function GetInformation(ByVal info As String, ByRef res As String) As Boolean
 
         ' Old values (from last refresh)
-        Static _old_CpuUsage As String = ""
         Static _old_ObjectCreationDate As String = ""
         Static _old_PendingTaskCount As String = ""
         Static _old_Name As String = ""

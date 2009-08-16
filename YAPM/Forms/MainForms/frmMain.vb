@@ -488,7 +488,7 @@ Public Class frmMain
             t.Hide()
         Next
 
-        Dim i As Integer = CInt((Me.Height - 250) / 2)
+        'Dim i As Integer = CInt((Me.Height - 250) / 2)
         'Dim MepanelInfosHeight As Integer = CInt(IIf(i < 340, i, 340))
         'Dim MepanelInfonWidth As Integer = Me.panelMain.Width
 
