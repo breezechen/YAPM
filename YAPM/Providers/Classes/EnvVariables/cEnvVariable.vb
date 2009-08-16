@@ -142,7 +142,7 @@ Public Class cEnvVariable
 
         Dim var() As String = Nothing
         Dim val() As String = Nothing
-        Call asyncCallbackEnvVariableEnumerate.GetEnvironmentVariables(process, var, val)
+        Native.Objects.EnvVariable.GetEnvironmentVariablesBycProcess(process, var, val)
 
         For x As Integer = 0 To var.Length - 1
             _dico.Add(var(x), New cEnvVariable(New envVariableInfos(var(x), val(x), process.Infos.Pid)))
