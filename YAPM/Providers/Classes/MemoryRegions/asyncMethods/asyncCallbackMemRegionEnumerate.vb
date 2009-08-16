@@ -90,7 +90,7 @@ Public Class asyncCallbackMemRegionEnumerate
 
                 Dim _dico As New Dictionary(Of String, memRegionInfos)
 
-                Call enumMemRegions(pObj, _dico)
+                Native.Objects.MemRegion.EnumerateMemoryRegionsByProcessId(pObj.pid, _dico)
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
                     ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
@@ -98,39 +98,6 @@ Public Class asyncCallbackMemRegionEnumerate
         End Select
 
         sem.Release()
-
-    End Sub
-
-    ' Enumerate memory regions
-    Friend Shared Sub enumMemRegions(ByVal pObj As poolObj, ByRef _dico As Dictionary(Of String, memRegionInfos))
-        Dim lHandle As IntPtr
-        Dim lPosMem As IntPtr
-        Dim mbi As Native.Api.NativeStructs.MemoryBasicInformation
-        Dim mbiSize As Integer = Marshal.SizeOf(mbi)
-
-        lHandle = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation Or _
-                                   Native.Security.ProcessAccess.VmRead, False, pObj.pid)
-
-        If lHandle .IsNotNull Then
-
-            ' We'll exit when VirtualQueryEx will fail
-            Do While True
-
-                If Native.Api.NativeFunctions.VirtualQueryEx(lHandle, lPosMem, mbi, mbiSize) > 0 Then
-
-                    _dico.Add(mbi.BaseAddress.ToString, _
-                              New memRegionInfos(mbi, pObj.pid))
-
-                    lPosMem = lPosMem.Increment(mbi.RegionSize)
-                Else
-                    Exit Do
-                End If
-
-            Loop
-
-            Native.Api.NativeFunctions.CloseHandle(lHandle)
-
-        End If
 
     End Sub
 

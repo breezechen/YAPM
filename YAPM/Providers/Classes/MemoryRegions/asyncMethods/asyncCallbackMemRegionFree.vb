@@ -75,26 +75,10 @@ Public Class asyncCallbackMemRegionFree
 
             Case Else
                 ' Local
-                Dim ret As Boolean = FreeMemory(pObj)
+                Dim ret As Boolean = Native.Objects.MemRegion.FreeMemory(pObj.pid, _
+                                                    pObj.address, pObj.size, pObj.type)
                 _deg.Invoke(ret, pObj.pid, pObj.address, Native.Api.Win32.GetLastError, pObj.newAction)
         End Select
     End Sub
-
-
-    ' Free memory (decommit or release)
-    Private Shared Function FreeMemory(ByVal obj As poolObj) As Boolean
-
-        Dim ret As Boolean
-        Dim hProcess As IntPtr
-
-        hProcess = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.VmOperation, False, obj.pid)
-        If hProcess .IsNotNull Then
-            ret = Native.Api.NativeFunctions.VirtualFreeEx(hProcess, obj.address, obj.size, obj.type)
-            Call Native.Api.NativeFunctions.CloseHandle(hProcess)
-        End If
-
-        Return ret
-
-    End Function
 
 End Class

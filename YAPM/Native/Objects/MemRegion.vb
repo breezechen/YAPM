@@ -40,6 +40,7 @@ Namespace Native.Objects
         ' Public properties
         ' ========================================
 
+
         ' ========================================
         ' Other public
         ' ========================================
@@ -48,6 +49,74 @@ Namespace Native.Objects
         ' ========================================
         ' Public functions
         ' ========================================
+
+        ' Change protection type
+        Public Shared Function ChangeMemoryRegionProtectionType(ByVal processId As Integer, _
+                                                                ByVal address As IntPtr, _
+                                                                ByVal regSize As Integer, _
+                                                                ByVal newProtection As NativeEnums.MemoryProtectionType) As Boolean
+            Dim ret As Boolean
+            Dim hProcess As IntPtr
+            Dim old As NativeEnums.MemoryProtectionType
+
+            hProcess = NativeFunctions.OpenProcess(Native.Security.ProcessAccess.VmOperation, False, processId)
+            If hProcess.IsNotNull Then
+                ret = NativeFunctions.VirtualProtectEx(hProcess, address, regSize, newProtection, old)
+                Call NativeFunctions.CloseHandle(hProcess)
+            End If
+
+            Return ret
+
+        End Function
+
+        ' Free memory (decommit or release)
+        Public Shared Function FreeMemory(ByVal processId As Integer, _
+                                        ByVal address As IntPtr, _
+                                        ByVal regSize As Integer, _
+                                        ByVal type As NativeEnums.MemoryState) As Boolean
+
+            Dim ret As Boolean
+            Dim hProcess As IntPtr
+
+            hProcess = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.VmOperation, False, processId)
+            If hProcess.IsNotNull Then
+                ret = Native.Api.NativeFunctions.VirtualFreeEx(hProcess, address, regSize, type)
+                Call Native.Api.NativeFunctions.CloseHandle(hProcess)
+            End If
+
+            Return ret
+
+        End Function
+
+        ' Enumerate memory regions
+        Public Shared Sub EnumerateMemoryRegionsByProcessId(ByVal pid As Integer, _
+                                    ByRef _dico As Dictionary(Of String, memRegionInfos))
+            Dim lHandle As IntPtr
+            Dim lPosMem As IntPtr
+            Dim mbi As Native.Api.NativeStructs.MemoryBasicInformation
+            Dim mbiSize As Integer = Marshal.SizeOf(mbi)
+
+            lHandle = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation Or _
+                                       Native.Security.ProcessAccess.VmRead, False, pid)
+
+            If lHandle.IsNotNull Then
+                ' We'll exit when VirtualQueryEx will fail
+                Do While True
+                    If Native.Api.NativeFunctions.VirtualQueryEx(lHandle, lPosMem, mbi, mbiSize) > 0 Then
+
+                        _dico.Add(mbi.BaseAddress.ToString, _
+                                  New memRegionInfos(mbi, pid))
+
+                        lPosMem = lPosMem.Increment(mbi.RegionSize)
+                    Else
+                        Exit Do
+                    End If
+                Loop
+                Native.Api.NativeFunctions.CloseHandle(lHandle)
+            End If
+
+        End Sub
+
 
 
         ' ========================================

@@ -75,27 +75,10 @@ Public Class asyncCallbackMemRegionChangeProtection
 
             Case Else
                 ' Local
-                Dim ret As Boolean = ChangeProtectionType(pObj)
+                Dim ret As Boolean = Native.Objects.MemRegion.ChangeMemoryRegionProtectionType(pObj.pid, _
+                                                pObj.address, pObj.size, pObj.protection)
                 _deg.Invoke(ret, pObj.pid, pObj.address, Native.Api.Win32.GetLastError, pObj.newAction)
         End Select
     End Sub
-
-
-    ' Change protection type
-    Private Shared Function ChangeProtectionType(ByVal obj As poolObj) As Boolean
-
-        Dim ret As Boolean
-        Dim hProcess As IntPtr
-        Dim old As Native.Api.NativeEnums.MemoryProtectionType
-
-        hProcess = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.VmOperation, False, obj.pid)
-        If hProcess .IsNotNull Then
-            ret = Native.Api.NativeFunctions.VirtualProtectEx(hProcess, obj.address, obj.size, obj.protection, old)
-            Call Native.Api.NativeFunctions.CloseHandle(hProcess)
-        End If
-
-        Return ret
-
-    End Function
 
 End Class

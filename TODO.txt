@@ -10,6 +10,16 @@ Refactoring OK :
 - Modules (all)
 - Processes (all)
 - Windows (all)
+- Tasks (all)
+- General (all)
+- MemRegion (all)
+
+- Network
+- Search
+- Log
+- Handle
+- Env var
+
 
 BUGS CRITIQUES
 - problème icones menu principal cachées (Vista seulement)
