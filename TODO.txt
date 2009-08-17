@@ -14,8 +14,8 @@ Refactoring OK :
 - General (all)
 - MemRegion (all)
 - Env var (all)
+- Network (all)
 
-- Network
 - Search
 - Log
 - Handle
