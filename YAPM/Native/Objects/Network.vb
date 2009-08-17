@@ -28,6 +28,30 @@ Namespace Native.Objects
     Public Class Network
 
 
+
+        ' ========================================
+        ' Private constants
+        ' ========================================
+
+
+        ' ========================================
+        ' Private attributes
+        ' ========================================
+
+
+        ' ========================================
+        ' Public properties
+        ' ========================================
+
+        ' ========================================
+        ' Other public
+        ' ========================================
+
+
+        ' ========================================
+        ' Public functions
+        ' ========================================
+
         ' Local enumeration of network informations
         Public Shared Sub EnumerateTcpUdpConnections(ByRef _dico As Dictionary(Of String, networkInfos), _
                                 ByVal allProcesses As Boolean, _
@@ -155,6 +179,31 @@ Namespace Native.Objects
             End If
         End Sub
 
+        ' Close a TCP connection
+        Public Shared Function CloseTcpConnectionByIPEndPoints(ByVal local As IPEndPoint, _
+                                                        ByVal remote As IPEndPoint) As Integer
+            Dim row As New NativeStructs.MibTcpRow
+            With row
+                If remote IsNot Nothing Then
+                    .RemotePort = Common.Misc.PermuteBytes(remote.Port)
+                    .RemoteAddress = Common.Misc.getAddressAsInteger(remote)
+                Else
+                    .RemotePort = 0
+                    .RemoteAddress = 0
+                End If
+                .LocalAddress = Common.Misc.getAddressAsInteger(local)
+                .LocalPort = Common.Misc.PermuteBytes(local.Port)
+                .State = Enums.MibTcpState.DeleteTcb
+            End With
+
+            Return NativeFunctions.SetTcpEntry(row)
+        End Function
+
+
+
+        ' ========================================
+        ' Private functions
+        ' ========================================
 
     End Class
 

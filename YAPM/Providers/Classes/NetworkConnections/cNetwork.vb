@@ -114,7 +114,7 @@ Public Class cNetwork
 
     ' Close a TCP connection
     Public Shared Function LocalCloseTCP(ByVal local As IPEndPoint, ByVal remote As IPEndPoint) As Integer
-        Return asyncCallbackNetworkCloseConnection.CloseTcpConnection(local, remote)
+        Return Native.Objects.Network.CloseTcpConnectionByIPEndPoints(local, remote)
     End Function
 
     ' Retrieve description of a port
@@ -159,8 +159,12 @@ Public Class cNetwork
     End Function
     Private Sub closeTCPDone(ByVal Success As Boolean, ByVal local As IPEndPoint, ByVal remote As IPEndPoint, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            'MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-            '       "Could not close TCP connection " & local.ToString)
+            Dim s As String = ""
+            If local IsNot Nothing Then
+                s = local.ToString
+            End If
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                   "Could not close TCP connection " & s)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -237,7 +241,7 @@ Public Class cNetwork
             Case "ProcessId"
                 res = Me.Infos.ProcessId.ToString
             Case "State"
-                If Me.Infos.State > 0 Then
+                If Me.Infos.Protocol = Native.Api.Enums.NetworkProtocol.Tcp Then
                     res = Me.Infos.State.ToString
                 End If
             Case "LocalPortDescription"
