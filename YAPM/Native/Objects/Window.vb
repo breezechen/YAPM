@@ -210,21 +210,24 @@ Namespace Native.Objects
         Public Shared Function GetWindowSmallIconHandleByHandle(ByVal handle As IntPtr) As IntPtr
             Dim res As IntPtr
             Dim out As IntPtr
+
+            ' Time we wait if we can not return SendMessage immediately
+            Const WaitingTime As Integer = 50
+
             res = NativeFunctions.SendMessageTimeout(handle, NativeEnums.WindowMessage.GetIcon, _
                                          New IntPtr(NativeEnums.IconSize.ICON_SMALL), IntPtr.Zero, _
-                                         NativeEnums.SendMessageTimeoutFlags.SMTO_ABORTIFHUNG, 0, out)
+                                         NativeEnums.SendMessageTimeoutFlags.SMTO_ABORTIFHUNG, WaitingTime, out)
 
             If out.IsNull Then
                 out = NativeFunctions.GetClassLongPtr(handle, NativeConstants.GCL_HICONSM)
             End If
 
             If out.IsNull Then
-                ' TOCHANGE timeout should be specified (non zero)
                 res = NativeFunctions.SendMessageTimeout(NativeFunctions.GetWindowLongPtr(handle, _
                                       NativeEnums.GetWindowLongOffset.HwndParent), _
                                       NativeEnums.WindowMessage.GetIcon, _
                                       New IntPtr(NativeEnums.IconSize.ICON_SMALL), IntPtr.Zero, _
-                                      NativeEnums.SendMessageTimeoutFlags.SMTO_ABORTIFHUNG, 0, out)
+                                      NativeEnums.SendMessageTimeoutFlags.SMTO_ABORTIFHUNG, WaitingTime, out)
             End If
 
             Return out
