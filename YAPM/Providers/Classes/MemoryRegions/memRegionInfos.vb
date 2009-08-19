@@ -48,7 +48,7 @@ Imports System.Runtime.InteropServices
 
     Private _procId As Integer
     Private _state As Native.Api.NativeEnums.MemoryState
-    Private _size As Integer
+    Private _size As IntPtr
     Private _address As IntPtr
     Private _protection As Native.Api.NativeEnums.MemoryProtectionType
     Private _type As Native.Api.NativeEnums.MemoryType
@@ -62,7 +62,7 @@ Imports System.Runtime.InteropServices
             Return _procId
         End Get
     End Property
-    Public ReadOnly Property RegionSize() As Integer
+    Public ReadOnly Property RegionSize() As IntPtr
         Get
             Return _size
         End Get

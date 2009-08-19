@@ -137,8 +137,8 @@ Public Class MemoryHexEditor
     ' ========================================
     Public Structure MemoryRegion
         Dim BeginningAddress As IntPtr
-        Dim Size As Integer
-        Public Sub New(ByVal _begin As IntPtr, ByVal _size As Integer)
+        Dim Size As IntPtr
+        Public Sub New(ByVal _begin As IntPtr, ByVal _size As IntPtr)
             BeginningAddress = _begin
             Size = _size
         End Sub
@@ -199,7 +199,7 @@ Public Class MemoryHexEditor
 
         ' Initialize VS
         With _vs
-            .Maximum = CInt(_memRegion.Size / 16)
+            .Maximum = CInt(_memRegion.Size.ToInt32 / 16)
             .Minimum = 0
             .Value = 0
             .SmallChange = 1

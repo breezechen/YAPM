@@ -171,7 +171,7 @@ Public Class cMemRegion
 #Region "Shared functions"
 
     Private Shared _sharedFree As asyncCallbackMemRegionFree
-    Public Shared Function SharedLRFree(ByVal pid As Integer, ByVal address As IntPtr, ByVal size As Integer, ByVal type As Native.Api.NativeEnums.MemoryState) As Integer
+    Public Shared Function SharedLRFree(ByVal pid As Integer, ByVal address As IntPtr, ByVal size As IntPtr, ByVal type As Native.Api.NativeEnums.MemoryState) As Integer
 
         If _sharedFree Is Nothing Then
             _sharedFree = New asyncCallbackMemRegionFree(New asyncCallbackMemRegionFree.HasFreed(AddressOf freedSharedDone), _connection)
@@ -194,7 +194,7 @@ Public Class cMemRegion
     End Sub
 
     Private Shared _sharedProtection As asyncCallbackMemRegionChangeProtection
-    Public Shared Function SharedLRChangeProtection(ByVal pid As Integer, ByVal address As IntPtr, ByVal size As Integer, ByVal type As Native.Api.NativeEnums.MemoryProtectionType) As Integer
+    Public Shared Function SharedLRChangeProtection(ByVal pid As Integer, ByVal address As IntPtr, ByVal size As IntPtr, ByVal type As Native.Api.NativeEnums.MemoryProtectionType) As Integer
 
         If _sharedProtection Is Nothing Then
             _sharedProtection = New asyncCallbackMemRegionChangeProtection(New asyncCallbackMemRegionChangeProtection.HasChangedProtection(AddressOf changedSharedProtectionDone), _connection)
@@ -344,7 +344,7 @@ Public Class cMemRegion
 
     ' Get size as a string
     Private Function getSizeString() As String
-        Static oldSize As Integer = Me.Infos.RegionSize
+        Static oldSize As IntPtr = Me.Infos.RegionSize
         Static _sizeStr As String = Common.Misc.GetFormatedSize(Me.Infos.RegionSize)
 
         If Not (Me.Infos.RegionSize = oldSize) Then

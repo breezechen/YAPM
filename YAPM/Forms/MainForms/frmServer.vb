@@ -764,7 +764,7 @@ Public Class frmServer
                     Case cSocketData.OrderType.MemoryFree
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim address As IntPtr = CType(cData.Param2, IntPtr)
-                        Dim size As Integer = CType(cData.Param3, Integer)
+                        Dim size As IntPtr = CType(cData.Param3, IntPtr)
                         Dim type As Native.Api.NativeEnums.MemoryState = CType(cData.Param4, Native.Api.NativeEnums.MemoryState)
                         Try
                             cMemRegion.SharedLRFree(pid, address, size, type)
@@ -774,7 +774,7 @@ Public Class frmServer
                     Case cSocketData.OrderType.MemoryChangeProtectionType
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim address As IntPtr = CType(cData.Param2, IntPtr)
-                        Dim size As Integer = CType(cData.Param3, Integer)
+                        Dim size As IntPtr = CType(cData.Param3, IntPtr)
                         Dim type As Native.Api.NativeEnums.MemoryProtectionType = CType(cData.Param4, Native.Api.NativeEnums.MemoryProtectionType)
                         Try
                             cMemRegion.SharedLRChangeProtection(pid, address, size, type)

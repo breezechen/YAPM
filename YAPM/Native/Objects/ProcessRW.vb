@@ -87,13 +87,13 @@ Public Class ProcessRW
     End Function
 
     ' Used for memory search only (because string is crappy for ReadProcMemory)
-    Public Function ReadString(ByVal offset As IntPtr, ByVal stringSize As Integer) As String
+    Public Function ReadString(ByVal offset As IntPtr, ByVal stringSize As IntPtr) As String
 
         Dim sBuf() As Byte
         Dim lByte As Integer
-        ReDim sBuf(stringSize - 1)
+        ReDim sBuf(stringSize.ToInt32 - 1)
 
-        NativeFunctions.ReadProcessMemory(_handle, offset, sBuf, stringSize, lByte)
+        NativeFunctions.ReadProcessMemory(_handle, offset, sBuf, stringSize.ToInt32, lByte)
         Return System.Text.Encoding.ASCII.GetString(sBuf)
     End Function
 
@@ -219,13 +219,13 @@ Public Class ProcessRW
 
         Do While lPosMem.IsLowerThan(si.lpMaximumApplicationAddress) ' While addresse is lower than max address
 
-            mbi.RegionSize = 0
+            mbi.RegionSize = IntPtr.Zero
 
             lRet = NativeFunctions.VirtualQueryEx(_handle, lPosMem, mbi, lLenMBI)
 
             If lRet = lLenMBI Then
 
-                If mbi.RegionSize > 0 AndAlso _
+                If mbi.RegionSize.IsGreaterThan(0) AndAlso _
                 ((Not onlyProcessRegions) OrElse (mbi.Type = NativeEnums.MemoryType.Private And _
                                                   mbi.State = NativeEnums.MemoryState.Commit)) Then
                     ' Here is a region
@@ -251,7 +251,7 @@ Public Class ProcessRW
     End Sub
 
     Public Sub RetrieveMemRegions(ByRef lBaseAdress() As IntPtr, _
-        ByRef lRegionSize() As Integer, Optional ByVal onlyProc As Boolean = False)
+        ByRef lRegionSize() As IntPtr, Optional ByVal onlyProc As Boolean = False)
 
         Dim regions() As NativeStructs.MemoryBasicInformation
 
@@ -275,7 +275,7 @@ Public Class ProcessRW
         Dim x As Integer
         Dim strBufT As String
         Dim LB() As IntPtr
-        Dim LS() As Integer
+        Dim LS() As IntPtr
 
         ReDim tRes(0)
         ReDim LB(0)
@@ -312,7 +312,7 @@ Public Class ProcessRW
                 ' Found a string
                 ReDim Preserve tRes(tRes.Length + 1)
 
-                tRes(tRes.Length) = LB(x).ToInt64 + InStr(1, strBufT, sMatch, CompareMethod.Binary) + LS(x) - Len(strBufT) - 1
+                tRes(tRes.Length) = LB(x).ToInt64 + InStr(1, strBufT, sMatch, CompareMethod.Binary) + LS(x).ToInt64 - Len(strBufT) - 1
 
                 strBufT = Right(strBufT, Len(strBufT) - InStr(1, strBufT, sMatch, CompareMethod.Binary) - Len(sMatch) + 1)
             End While
@@ -344,12 +344,12 @@ Public Class ProcessRW
 
         Dim strCtemp As String = vbNullString
         Dim x As Integer = 1
-        Dim lngLen As Integer
+        Dim lngLen As IntPtr
         Dim strBuffer As String
         Dim i As Integer
         Dim tRes() As T_RESULT
         Dim LB() As IntPtr
-        Dim LS() As Integer
+        Dim LS() As IntPtr
         Dim cArraySizeBef As Integer = 0
 
         Const BUF_SIZE As Integer = 2000     ' Size of array
@@ -363,9 +363,9 @@ Public Class ProcessRW
         RetrieveMemRegions(LB, LS, True)
 
         ' Calculate max size
-        lngLen = 0
+        lngLen = IntPtr.Zero
         For i = 0 To LS.Length - 1
-            lngLen += LS(i)
+            lngLen.Increment(LS(i))
         Next i
 
         If Not (PGB Is Nothing) Then
@@ -389,7 +389,7 @@ Public Class ProcessRW
                 PGB.Value += 1
             End If
 
-            For i = 0 To LS(x) - 1
+            For i = 0 To LS(x).ToInt32 - 1
 
                 If _stringSearchImmediateStop Then
                     ' Exit
@@ -425,7 +425,7 @@ Public Class ProcessRW
                     ReDim Preserve tRes(tRes.Length + BUF_SIZE)
                 End If
 
-                tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).curOffset = LB(x).Increment(LS(x) + 1 - Len(strCtemp))
+                tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).curOffset = LB(x).Increment(LS(x).ToInt32 + 1 - Len(strCtemp))
                 tRes(tRes.Length - BUF_SIZE + cArraySizeBef - 1).strString = strCtemp
 
             End If

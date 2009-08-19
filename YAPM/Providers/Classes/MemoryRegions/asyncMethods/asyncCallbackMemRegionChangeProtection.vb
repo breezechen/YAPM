@@ -39,12 +39,12 @@ Public Class asyncCallbackMemRegionChangeProtection
     Public Structure poolObj
         Public pid As Integer
         Public address As IntPtr
-        Public size As Integer
+        Public size As IntPtr
         Public protection As Native.Api.NativeEnums.MemoryProtectionType
         Public newAction As Integer
         Public Sub New(ByVal pi As Integer, _
                        ByVal ad As IntPtr, _
-                       ByVal siz As Integer, _
+                       ByVal siz As IntPtr, _
                        ByVal protec As Native.Api.NativeEnums.MemoryProtectionType, _
                        ByVal act As Integer)
             address = ad

@@ -105,6 +105,9 @@ Namespace Common
         Public Shared Function GetFormatedSize(ByVal size As ULong, Optional ByVal digits As Integer = 3) As String
             Return GetFormatedSize(New Decimal(size), digits)
         End Function
+        Public Shared Function GetFormatedSize(ByVal size As IntPtr, Optional ByVal digits As Integer = 3) As String
+            Return GetFormatedSize(New Decimal(size.ToInt64), digits)
+        End Function
         Public Shared Function GetFormatedSize(ByVal size As UInteger, Optional ByVal digits As Integer = 3) As String
             Return GetFormatedSize(New Decimal(size), digits)
         End Function

@@ -53,7 +53,7 @@ Namespace Native.Objects
         ' Change protection type
         Public Shared Function ChangeMemoryRegionProtectionType(ByVal processId As Integer, _
                                                                 ByVal address As IntPtr, _
-                                                                ByVal regSize As Integer, _
+                                                                ByVal regSize As IntPtr, _
                                                                 ByVal newProtection As NativeEnums.MemoryProtectionType) As Boolean
             Dim ret As Boolean
             Dim hProcess As IntPtr
@@ -61,7 +61,7 @@ Namespace Native.Objects
 
             hProcess = NativeFunctions.OpenProcess(Native.Security.ProcessAccess.VmOperation, False, processId)
             If hProcess.IsNotNull Then
-                ret = NativeFunctions.VirtualProtectEx(hProcess, address, regSize, newProtection, old)
+                ret = NativeFunctions.VirtualProtectEx(hProcess, address, regSize.ToInt32, newProtection, old)
                 Call NativeFunctions.CloseHandle(hProcess)
             End If
 
@@ -72,7 +72,7 @@ Namespace Native.Objects
         ' Free memory (decommit or release)
         Public Shared Function FreeMemory(ByVal processId As Integer, _
                                         ByVal address As IntPtr, _
-                                        ByVal regSize As Integer, _
+                                        ByVal regSize As IntPtr, _
                                         ByVal type As NativeEnums.MemoryState) As Boolean
 
             Dim ret As Boolean
@@ -80,7 +80,7 @@ Namespace Native.Objects
 
             hProcess = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.VmOperation, False, processId)
             If hProcess.IsNotNull Then
-                ret = Native.Api.NativeFunctions.VirtualFreeEx(hProcess, address, regSize, type)
+                ret = Native.Api.NativeFunctions.VirtualFreeEx(hProcess, address, regSize.ToInt32, type)
                 Call Native.Api.NativeFunctions.CloseHandle(hProcess)
             End If
 

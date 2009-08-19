@@ -1426,7 +1426,7 @@ Public Class frmProcessInfo
         Dim add As IntPtr = CType(Me.lvProcString.Items(Me.lvProcString.SelectedIndices(0)).Tag, IntPtr)
         For Each reg As cMemRegion In Me.lvProcMem.GetAllItems
 
-            If reg.Infos.BaseAddress.IsLowerOrEqualThan(add) AndAlso add.IsLowerOrEqualThan(reg.Infos.BaseAddress.ToInt64 + reg.Infos.RegionSize) Then
+            If reg.Infos.BaseAddress.IsLowerOrEqualThan(add) AndAlso add.IsLowerOrEqualThan(reg.Infos.BaseAddress.Increment(reg.Infos.RegionSize)) Then
                 Dim frm As New frmHexEditor
                 Dim regio As New MemoryHexEditor.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
                 frm.SetPidAndRegion(curProc.Infos.Pid, regio)
@@ -1623,7 +1623,7 @@ Public Class frmProcessInfo
     Private Sub MenuItemPEBAddress_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemPEBAddress.Click
         Dim peb As IntPtr = curProc.Infos.PebAddress
         For Each reg As cMemRegion In Me.lvProcMem.GetAllItems
-            If reg.Infos.BaseAddress.IsLowerOrEqualThan(peb) AndAlso peb.IsLowerOrEqualThan(reg.Infos.BaseAddress.ToInt64 + reg.Infos.RegionSize) Then
+            If reg.Infos.BaseAddress.IsLowerOrEqualThan(peb) AndAlso peb.IsLowerOrEqualThan(reg.Infos.BaseAddress.Increment(reg.Infos.RegionSize)) Then
                 Dim frm As New frmHexEditor
                 Dim regio As New MemoryHexEditor.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
                 frm.SetPidAndRegion(curProc.Infos.Pid, regio)
@@ -1718,7 +1718,7 @@ Public Class frmProcessInfo
 
             For Each reg As cMemRegion In Me.lvProcMem.GetAllItems
 
-                If reg.Infos.BaseAddress.IsLowerOrEqualThan(add) AndAlso add.IsLowerThan(reg.Infos.BaseAddress.ToInt64 + reg.Infos.RegionSize) Then
+                If reg.Infos.BaseAddress.IsLowerOrEqualThan(add) AndAlso add.IsLowerThan(reg.Infos.BaseAddress.Increment(reg.Infos.RegionSize)) Then
                     Dim frm As New frmHexEditor
                     Dim regio As New MemoryHexEditor.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
                     frm.SetPidAndRegion(curProc.Infos.Pid, regio)

@@ -348,7 +348,7 @@ Namespace Native.Api
             Public BaseAddress As IntPtr
             Public AllocationBase As IntPtr
             Public AllocationProtect As MemoryProtectionType
-            Public RegionSize As Integer
+            Public RegionSize As IntPtr
             Public State As MemoryState
             Public Protect As MemoryProtectionType
             Public Type As MemoryType
