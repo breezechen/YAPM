@@ -2,6 +2,7 @@ TODO LIST
 
 Refactoring bugs
 - 64TODO
+- bug overflow under x64 (how to reproduce : select all processes and view threads)
 
 Refactoring OK : 
 - Privileges (all)
