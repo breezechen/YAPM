@@ -2,7 +2,6 @@ TODO LIST
 
 Refactoring bugs
 - 64TODO
-- state des connexions TCP
 
 Refactoring OK : 
 - Privileges (all)
@@ -22,6 +21,7 @@ Refactoring OK :
 
 
 BUGS CRITIQUES
+- begin debugged marche pas
 - problème icones menu principal cachées (Vista seulement)
 - reports à faire (vérifier l'utilisation de GetAvailbleProperties)
 	process -> save services
@@ -36,6 +36,8 @@ BUGS CRITIQUES
 	main -> à faire
 
 BUGS NON CRITIQUES
+- is remote debugger present marche pas (cf _WIN32_WINNT)
+- merger toutes les dll dans un seul executable
 - increment sur le IntPtr
 - says thx to p/inv declarations from wj32
 - say thanks to developerfusion.com && pinvoke.net
@@ -156,3 +158,7 @@ Temp Change log :
 /!\ METTRE A JOUR LE FICHIER D'AIDE LORS DE LA RELEASE
 - code refactoring
 - affinity for threads OK
+- YAPM does not hung anymore when some processes are running
+- support de Windows x64 basique (NOT COMPLETED YET)
+- highlighting des process systèmes OK sur toutes les cultures
+- fixed 'key already added' (cEnvVariable) when searching an item

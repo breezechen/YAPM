@@ -210,7 +210,9 @@ Public Class cProcess
 
     Public ReadOnly Property IsSystemProcess() As Boolean
         Get
-            Return _processInfos.DomainName & "\" & _processInfos.UserName = "NT AUTHORITY\SYSTEM"
+            'TODO : localization of "NT AUTHORITY" -> now uses only UserName
+            'Return _processInfos.DomainName & "\" & _processInfos.UserName = "NT AUTHORITY\SYSTEM"
+            Return _processInfos.UserName = "SYSTEM"
         End Get
     End Property
 
