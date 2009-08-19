@@ -123,7 +123,7 @@ Namespace Native.Api
 
         <DllImport("kernel32.dll", SetLastError:=True)> _
         Public Shared Function CheckRemoteDebuggerPresent(ByVal ProcessHandle As IntPtr, _
-                        ByRef DebuggerPresent As Boolean) As Boolean
+                        <MarshalAs(UnmanagedType.Bool)> ByRef DebuggerPresent As Boolean) As Boolean
         End Function
 
         <DllImport("kernel32.dll", SetLastError:=True)> _

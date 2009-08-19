@@ -69,13 +69,34 @@ Namespace Native.Api
             Public KernelTime As Long
             Public ImageName As UnicodeString
             Public BasePriority As Integer
-            Public ProcessId As Integer
-            Public InheritedFromProcessId As Integer
+            ' This two variables are private cause we prefer
+            ' access to ProcessId and Inherited...Id as Int32
+            Private _ProcessId As IntPtr
+            Private _InheritedFromProcessId As IntPtr
             Public HandleCount As Integer
             Public SessionId As Integer
             Public PageDirectoryBase As Integer
             Public VirtualMemoryCounters As VmCountersEx
             Public IoCounters As IoCounters
+
+            ' 2 properties to access to private variables
+            Public Property ProcessId() As Integer
+                Get
+                    Return _ProcessId.ToInt32
+                End Get
+                Set(ByVal value As Integer)
+                    _ProcessId = New IntPtr(value)
+                End Set
+            End Property
+            Public Property InheritedFromProcessId() As Integer
+                Get
+                    Return _InheritedFromProcessId.ToInt32
+                End Get
+                Set(ByVal value As Integer)
+                    _InheritedFromProcessId = New IntPtr(value)
+                End Set
+            End Property
+
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
