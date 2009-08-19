@@ -555,7 +555,7 @@ Namespace Native.Api
 
         Public Structure SHFileInfo
             Public hIcon As IntPtr            ' : icon
-            Public iIcon As Integer           ' : icondex
+            Public iIcon As IntPtr            ' : icondex
             Public dwAttributes As Integer    ' : SFGAO_ flags
             <MarshalAs(UnmanagedType.ByValTStr, SizeConst:=260)> _
             Public szDisplayName As String
