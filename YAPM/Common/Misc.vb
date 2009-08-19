@@ -617,8 +617,8 @@ Namespace Common
         Public Shared Function GetIcon(ByVal fName As String, Optional ByVal small As Boolean = True) _
                 As System.Drawing.Icon
 
-            Dim hImgSmall As IntPtr
-            Dim hImgLarge As IntPtr
+            Dim hImgSmall As Integer
+            Dim hImgLarge As Integer
             Dim shinfo As Native.Api.NativeStructs.SHFileInfo
             shinfo = New Native.Api.NativeStructs.SHFileInfo()
 
@@ -650,8 +650,8 @@ Namespace Common
         Public Shared Function GetIcon2(ByVal fName As String, Optional ByVal small As Boolean = True) _
             As System.Drawing.Icon
 
-            Dim hImgSmall As IntPtr
-            Dim hImgLarge As IntPtr
+            Dim hImgSmall As Integer
+            Dim hImgLarge As Integer
             Dim shinfo As Native.Api.NativeStructs.SHFileInfo
             shinfo = New Native.Api.NativeStructs.SHFileInfo()
 

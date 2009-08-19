@@ -1664,11 +1664,11 @@ Public Class cProcess
         If diff > 0 Then
             With _ioDelta
                 .OtherOperationCount = CULng(ioDiff.OtherOperationCount)
-                .OtherTransferCount = CULng(10000000 * ioDiff.OtherTransferCount / diff)
+                .OtherTransferCount = CULng((10000000 / diff) * ioDiff.OtherTransferCount)
                 .ReadOperationCount = CULng(ioDiff.ReadOperationCount)
-                .ReadTransferCount = CULng(10000000 * ioDiff.ReadTransferCount / diff)
+                .ReadTransferCount = CULng((10000000 / diff) * ioDiff.ReadTransferCount / diff)
                 .WriteOperationCount = CULng(ioDiff.WriteOperationCount)
-                .WriteTransferCount = CULng(10000000 * ioDiff.WriteTransferCount / diff)
+                .WriteTransferCount = CULng((10000000 / diff) * ioDiff.WriteTransferCount / diff)
             End With
         Else
             With _ioDelta

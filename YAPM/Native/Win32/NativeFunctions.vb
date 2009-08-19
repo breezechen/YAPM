@@ -575,7 +575,7 @@ Namespace Native.Api
                          ByVal dwFileAttributes As Integer, _
                          ByRef psfi As SHFileInfo, _
                          ByVal cbFileInfo As Integer, _
-                         ByVal uFlags As Integer) As IntPtr
+                         ByVal uFlags As Integer) As Integer
         End Function
 
 #End Region

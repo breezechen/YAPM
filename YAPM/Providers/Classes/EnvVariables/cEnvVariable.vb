@@ -145,7 +145,9 @@ Public Class cEnvVariable
         Native.Objects.EnvVariable.GetEnvironmentVariablesBycProcess(process, var, val)
 
         For x As Integer = 0 To var.Length - 1
-            _dico.Add(var(x), New cEnvVariable(New envVariableInfos(var(x), val(x), process.Infos.Pid)))
+            If _dico.ContainsKey(var(x)) = False Then
+                _dico.Add(var(x), New cEnvVariable(New envVariableInfos(var(x), val(x), process.Infos.Pid)))
+            End If
         Next
 
         Return _dico
