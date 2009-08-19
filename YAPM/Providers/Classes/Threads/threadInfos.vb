@@ -161,7 +161,7 @@ Imports System.Runtime.InteropServices
             _KernelTime = .KernelTime
             _Priority = .Priority
             _StartAddress = .StartAddress
-            _State = CType(.State, ThreadState)
+            _State = .State
             _UserTime = .UserTime
             _WaitReason = .WaitReason
             _WaitTime = .WaitTime

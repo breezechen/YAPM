@@ -863,19 +863,23 @@ Namespace Common
 
         ' Return a well formated path
         Public Shared Function GetWellFormatedPath(ByVal path As String) As String
-            If path IsNot Nothing Then
-                If path.ToUpperInvariant.StartsWith("\SYSTEMROOT\") Then
-                    path = path.Substring(12, path.Length - 12)
-                    Dim ii As Integer = InStr(path, "\", CompareMethod.Binary)
-                    If ii > 0 Then
-                        path = path.Substring(ii, path.Length - ii)
-                        path = Environment.SystemDirectory & "\" & path
+            Try
+                If path IsNot Nothing Then
+                    If path.ToUpperInvariant.StartsWith("\SYSTEMROOT\") Then
+                        path = path.Substring(12, path.Length - 12)
+                        Dim ii As Integer = InStr(path, "\", CompareMethod.Binary)
+                        If ii > 0 Then
+                            path = path.Substring(ii, path.Length - ii)
+                            path = Environment.SystemDirectory & "\" & path
+                        End If
+                    ElseIf path.StartsWith("\??\") Then
+                        path = path.Substring(4)
                     End If
-                ElseIf path.StartsWith("\??\") Then
-                    path = path.Substring(4)
                 End If
-            End If
-            Return path
+                Return path
+            Catch ex As Exception
+                Return path
+            End Try
         End Function
 
         ' Return dos drive name

@@ -380,7 +380,7 @@ Namespace Native.Api
             Public Priority As Integer
             Public BasePriority As Integer
             Public ContextSwitchCount As Integer
-            Public State As Integer
+            Public State As System.Diagnostics.ThreadState
             Public WaitReason As KwaitReason
         End Structure
 
