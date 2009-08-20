@@ -33,6 +33,7 @@ Partial Class frmWindowPosition
         Me.Label2 = New System.Windows.Forms.Label
         Me.cmdOK = New System.Windows.Forms.Button
         Me.cmdDefault = New System.Windows.Forms.Button
+        Me.cmdCenter = New System.Windows.Forms.Button
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -132,11 +133,21 @@ Partial Class frmWindowPosition
         Me.cmdDefault.Text = "Default"
         Me.cmdDefault.UseVisualStyleBackColor = True
         '
+        'cmdCenter
+        '
+        Me.cmdCenter.Location = New System.Drawing.Point(6, 9)
+        Me.cmdCenter.Name = "cmdCenter"
+        Me.cmdCenter.Size = New System.Drawing.Size(51, 28)
+        Me.cmdCenter.TabIndex = 6
+        Me.cmdCenter.Text = "Center"
+        Me.cmdCenter.UseVisualStyleBackColor = True
+        '
         'frmWindowPosition
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(220, 176)
+        Me.Controls.Add(Me.cmdCenter)
         Me.Controls.Add(Me.cmdDefault)
         Me.Controls.Add(Me.cmdOK)
         Me.Controls.Add(Me.txtLeft)
@@ -170,4 +181,5 @@ Partial Class frmWindowPosition
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents cmdOK As System.Windows.Forms.Button
     Friend WithEvents cmdDefault As System.Windows.Forms.Button
+    Friend WithEvents cmdCenter As System.Windows.Forms.Button
 End Class
