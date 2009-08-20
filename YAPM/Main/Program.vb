@@ -270,7 +270,11 @@ Public Module Program
         theConnection = New cConnection     ' The cConnection instance of the connection
         _systemInfo = New cSystemInfo       ' System informations
         _ConnectionForm = New frmConnection(theConnection)
-        cHandle.handles_Renamed = New clsOpenedHandles
+
+        ' FOR NOW, only on 32bits...
+        If cEnvironment.Is32Bits Then
+            cHandle.handles_Renamed = New clsOpenedHandles
+        End If
 
         ' Classes for client only
         If _progParameters.ModeServer = False Then

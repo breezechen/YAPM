@@ -3,6 +3,7 @@ TODO LIST
 Refactoring bugs
 - 64TODO
 - bug overflow under x64 (how to reproduce : select all processes and view threads)
+- YAPM should run without the driver on x64 (for now) and user should be able to disable it (command line & option)
 
 Refactoring OK : 
 - Privileges (all)
@@ -46,6 +47,8 @@ BUGS CRITIQUES
 	main -> à faire
 
 BUGS NON CRITIQUES
+- ajouter nouvelles infos pour les handles (cf struct récupérée)
+- timers dans les options -> mettre des numeric updown
 - is remote debugger present marche pas (cf _WIN32_WINNT)
 - merger toutes les dll dans un seul executable
 - increment sur le IntPtr
