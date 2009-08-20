@@ -1107,6 +1107,17 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
+        Public Structure ServiceStatus
+            Public ServiceType As ServiceType
+            Public CurrentState As ServiceState
+            Public ControlsAccepted As ServiceAccept
+            Public Win32ExitCode As Integer
+            Public ServiceSpecificExitCode As Integer
+            Public CheckPoint As Integer
+            Public WaitHint As Integer
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
         Public Structure ServiceStatusProcess
             Public ServiceType As ServiceType
             Public CurrentState As ServiceState

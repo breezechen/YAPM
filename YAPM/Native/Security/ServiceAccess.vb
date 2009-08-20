@@ -43,6 +43,7 @@ Namespace Native.Security
         PauseContinue = &H40
         Interrogate = &H80
         UserDefinedControl = &H100
+        Delete = &H10000
         All = StandardRights.Required Or QueryConfig Or ChangeConfig Or QueryStatus Or EnumerateDependents Or Start Or [Stop] Or PauseContinue Or Interrogate Or UserDefinedControl
     End Enum
 

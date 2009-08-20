@@ -500,11 +500,11 @@ Public Class clsOpenedHandles
         'init des infos sur le driver
         With driver
             .ServiceDisplayName = "KernelMemory"
-            .ServiceErrorType = 1
+            .ServiceErrorType = NativeEnums.ServiceErrorControl.Normal
             .ServiceFileName = My.Application.Info.DirectoryPath & "\KernelMemory.sys"
             .ServiceName = "KernelMemory"
-            .ServiceStartType() = 3 'DEMAND
-            .ServiceType = 1 'KERNEL DRIVER
+            .ServiceStartType() = NativeEnums.ServiceStartType.DemandStart
+            .ServiceType = NativeEnums.ServiceType.KernelDriver
 
             'enregistre le driver dans le registre si pas déjà enregistré
             ret = .InstallService()

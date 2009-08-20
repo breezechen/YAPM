@@ -913,6 +913,11 @@ Namespace Native.Api
         ' OK
 #Region "Declarations used for services"
 
+        <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
+        Public Shared Function QueryServiceStatus(ByVal Service As IntPtr, _
+                                    ByRef ServiceStatus As ServiceStatus) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
+
         <DllImport("advapi32.dll", SetLastError:=True)> _
         Public Shared Function ControlService(<[In]()> ByVal Service As IntPtr, _
                                               <[In]()> ByVal Control As ServiceControl, _
@@ -943,7 +948,27 @@ Namespace Native.Api
         End Function
 
         <DllImport("advapi32.dll", SetLastError:=True)> _
+        Public Shared Function DeleteService(<[In]()> ByVal Service As IntPtr) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
+
+        <DllImport("advapi32.dll", SetLastError:=True)> _
         Public Shared Function CloseServiceHandle(<[In]()> ByVal ServiceHandle As IntPtr) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
+
+        <DllImport("advapi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
+        Public Shared Function CreateService(<[In]()> ByVal SCManager As IntPtr, _
+                <[In]()> ByVal ServiceName As String, _
+                <[In]()> ByVal DisplayName As String, _
+                <[In]()> ByVal DesiredAccess As Native.Security.ServiceAccess, _
+                <[In]()> ByVal ServiceType As ServiceType, _
+                <[In]()> ByVal StartType As ServiceStartType, _
+                <[In]()> ByVal ErrorControl As ServiceErrorControl, _
+                <[In]()> ByVal BinaryPathName As String, _
+                <[In]()> ByVal LoadOrderGroup As String, _
+                <Out()> ByVal TagId As IntPtr, _
+                <[In]()> ByVal Dependencies As IntPtr, _
+                <[In]()> ByVal ServiceStartName As String, _
+                <[In]()> ByVal Password As String) As IntPtr
         End Function
 
         <DllImport("advapi32.dll", SetLastError:=True)> _
@@ -1031,6 +1056,10 @@ Namespace Native.Api
 
         ' OK
 #Region "General declarations"
+
+        <DllImport("kernel32.dll")> _
+        Public Shared Sub Sleep(ByVal dwMilliseconds As UInteger)
+        End Sub
 
         <DllImport("kernel32.dll")> _
         Public Shared Sub ZeroMemory(ByVal addr As IntPtr, ByVal size As IntPtr)

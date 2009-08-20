@@ -121,6 +121,28 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Make zip release|AnyCPU' ">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Make zip release\</OutputPath>
+    <DefineConstants>CONFIG_INTO_APPDATA0, RELEASE_MODE=1</DefineConstants>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'BuildZipRelease|AnyCPU' ">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\BuildZipRelease\</OutputPath>
+    <DefineConstants>CONFIG_INTO_APPDATA0, RELEASE_MODE=1</DefineConstants>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -183,15 +205,19 @@
   <ItemGroup>
     <EmbeddedResource Include="Forms\AdditionalMainForms\frmBasedStateAction.resx">
       <DependentUpon>frmBasedStateAction.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AdditionalMainForms\frmDepViewerMain.resx">
       <DependentUpon>frmDepViewerMain.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AdditionalMainForms\frmGlobalReport.resx">
       <DependentUpon>frmGlobalReport.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AdditionalMainForms\frmHexEditor.resx">
       <DependentUpon>frmHexEditor.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmChangeMemoryProtection.resx">
       <DependentUpon>frmChangeMemoryProtection.vb</DependentUpon>
@@ -199,24 +225,31 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmSBASimulationConsole.resx">
       <DependentUpon>frmSBASimulationConsole.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForms\frmServiceInfo.resx">
       <DependentUpon>frmServiceInfo.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmError.resx">
       <DependentUpon>frmError.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmHiddenProcesses.resx">
       <DependentUpon>frmHiddenProcesses.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmChooseProcess.resx">
       <DependentUpon>frmChooseProcess.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForms\frmConnection.resx">
       <DependentUpon>frmConnection.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmInput.resx">
       <DependentUpon>frmInput.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmThreadAffinity.resx">
       <DependentUpon>frmThreadAffinity.vb</DependentUpon>
@@ -224,6 +257,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AdditionalMainForms\frmHotkeys.resx">
       <DependentUpon>frmHotkeys.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AdditionalMainForms\frmAboutG.resx">
       <DependentUpon>frmAboutG.vb</DependentUpon>
@@ -231,15 +265,19 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmTracker.resx">
       <DependentUpon>frmTracker.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmDumpFile.resx">
       <DependentUpon>frmDumpFile.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Preferences\frmLogOptions.resx">
       <DependentUpon>frmLogOptions.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForms\frmServer.resx">
       <DependentUpon>frmServer.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\MemoryHexEditor.resx">
       <DependentUpon>MemoryHexEditor.vb</DependentUpon>
@@ -251,48 +289,63 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\envVariableList.resx">
       <DependentUpon>envVariableList.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\handleList.resx">
       <DependentUpon>handleList.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\logList.resx">
       <DependentUpon>logList.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\memoryList.resx">
       <DependentUpon>memoryList.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\moduleList.resx">
       <DependentUpon>moduleList.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\networkList.resx">
       <DependentUpon>networkList.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\privilegeList.resx">
       <DependentUpon>privilegeList.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\processList.resx">
       <DependentUpon>processList.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\searchList.resx">
       <DependentUpon>searchList.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\serviceDependenciesList.resx">
       <DependentUpon>serviceDependenciesList.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\serviceList.resx">
       <DependentUpon>serviceList.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\taskList.resx">
       <DependentUpon>taskList.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\threadList.resx">
       <DependentUpon>threadList.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\windowList.resx">
       <DependentUpon>windowList.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\customLV.resx">
       <DependentUpon>customLV.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Preferences\frmChooseColumns.resx">
       <DependentUpon>frmChooseColumns.vb</DependentUpon>
@@ -300,6 +353,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmPendingTasks.resx">
       <DependentUpon>frmPendingTasks.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\HorizontalLine.resx">
       <DependentUpon>HorizontalLine.vb</DependentUpon>
@@ -347,6 +401,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForms\frmProcessInfo.resx">
       <DependentUpon>frmProcessInfo.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmSaveReport.resx">
       <SubType>Designer</SubType>
@@ -366,6 +421,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AdditionalMainForms\frmWindowsList.resx">
       <DependentUpon>frmWindowsList.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\Graph2.resx">
       <DependentUpon>Graph2.vb</DependentUpon>
@@ -402,7 +458,7 @@
   <ItemGroup>
     <Compile Include="Classes\Download\cAsyncProcInfoDownload.vb" />
     <Compile Include="Classes\Download\cDownload.vb" />
-    <Compile Include="Classes\Driver\clsDriverCtrl.vb" />
+    <Compile Include="Native\Driver\DriverCtrl.vb" />
     <Compile Include="Classes\Driver\clsOpenedHandles.vb" />
     <Compile Include="Classes\Hotkeys\cHotkeys.vb" />
     <Compile Include="Classes\Hotkeys\cShortcut.vb" />
@@ -1001,4 +1057,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>if $(ConfigurationName)==BuildZipRelease  "$(TargetDir)make.vbs"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
