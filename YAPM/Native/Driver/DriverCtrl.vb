@@ -27,16 +27,25 @@ Option Strict On
 
 Imports YAPM.Native.Api
 
-Namespace Native
+Namespace Native.Driver
 
     Friend Class DriverCtrl
 
-        'handle du SCM
-        Dim hSCM As IntPtr
-        'handle du service
-        Dim hService As IntPtr
+        ' ========================================
+        ' Private constants
+        ' ========================================
 
-        'variables locales de stockage des valeurs de propriétés
+
+        ' ========================================
+        ' Private attributes
+        ' ========================================
+
+        ' Handle to manager
+        Private hSCM As IntPtr
+
+        ' Handle to service
+        Private hService As IntPtr
+
         Private mvarServiceName As String
         Private mvarServiceDisplayName As String
         Private mvarServiceType As NativeEnums.ServiceType
@@ -45,18 +54,15 @@ Namespace Native
         Private mvarServiceFileName As String
 
 
-        'permet de définir toutes les propriétés du driver
-        '=================================================
+        ' ========================================
+        ' Public properties
+        ' ========================================
 
         Public Property ServiceFileName() As String
             Get
-                'utilisé lors de la lecture de la valeur de la propriété, du coté droit de l'instruction.
-                'Syntax: Debug.Print X.ServiceFileName
                 ServiceFileName = mvarServiceFileName
             End Get
             Set(ByVal Value As String)
-                'utilisé lors de l'affectation d'une valeur à la propriété, du coté gauche de l'affectation.
-                'Syntax: X.ServiceFileName = 5
                 mvarServiceFileName = Value
             End Set
         End Property
@@ -64,13 +70,9 @@ Namespace Native
 
         Public Property ServiceErrorType() As NativeEnums.ServiceErrorControl
             Get
-                'utilisé lors de la lecture de la valeur de la propriété, du coté droit de l'instruction.
-                'Syntax: Debug.Print X.ServiceErrorType
                 ServiceErrorType = mvarServiceErrorType
             End Get
             Set(ByVal Value As NativeEnums.ServiceErrorControl)
-                'utilisé lors de l'affectation d'une valeur à la propriété, du coté gauche de l'affectation.
-                'Syntax: X.ServiceErrorType = 5
                 mvarServiceErrorType = Value
             End Set
         End Property
@@ -78,13 +80,9 @@ Namespace Native
 
         Public Property ServiceStartType() As NativeEnums.ServiceStartType
             Get
-                'utilisé lors de la lecture de la valeur de la propriété, du coté droit de l'instruction.
-                'Syntax: Debug.Print X.ServiceStartType
                 ServiceStartType = mvarServiceStartType
             End Get
             Set(ByVal Value As NativeEnums.ServiceStartType)
-                'utilisé lors de l'affectation d'une valeur à la propriété, du coté gauche de l'affectation.
-                'Syntax: X.ServiceStartType = 5
                 mvarServiceStartType = Value
             End Set
         End Property
@@ -92,13 +90,9 @@ Namespace Native
 
         Public Property ServiceType() As NativeEnums.ServiceType
             Get
-                'utilisé lors de la lecture de la valeur de la propriété, du coté droit de l'instruction.
-                'Syntax: Debug.Print X.ServiceType
                 ServiceType = mvarServiceType
             End Get
             Set(ByVal Value As NativeEnums.ServiceType)
-                'utilisé lors de l'affectation d'une valeur à la propriété, du coté gauche de l'affectation.
-                'Syntax: X.ServiceType = 5
                 mvarServiceType = Value
             End Set
         End Property
@@ -106,13 +100,9 @@ Namespace Native
 
         Public Property ServiceDisplayName() As String
             Get
-                'utilisé lors de la lecture de la valeur de la propriété, du coté droit de l'instruction.
-                'Syntax: Debug.Print X.ServiceDisplayName
                 ServiceDisplayName = mvarServiceDisplayName
             End Get
             Set(ByVal Value As String)
-                'utilisé lors de l'affectation d'une valeur à la propriété, du coté gauche de l'affectation.
-                'Syntax: X.ServiceDisplayName = 5
                 mvarServiceDisplayName = Value
             End Set
         End Property
@@ -120,35 +110,24 @@ Namespace Native
 
         Public Property ServiceName() As String
             Get
-                'utilisé lors de la lecture de la valeur de la propriété, du coté droit de l'instruction.
-                'Syntax: Debug.Print X.ServiceName
                 ServiceName = mvarServiceName
             End Get
             Set(ByVal Value As String)
-                'utilisé lors de l'affectation d'une valeur à la propriété, du coté gauche de l'affectation.
-                'Syntax: X.ServiceName = 5
                 mvarServiceName = Value
             End Set
         End Property
 
-        'permet d'obtenir un handle du SCM
-        Private Sub OpenSCM()
-            'si pas déjà ouvert
-            If hSCM.IsNull Then
-                'on en demande un avec autorisations d'enregistrement
-                hSCM = NativeFunctions.OpenSCManager(Nothing, Nothing, _
-                                    Native.Security.ServiceManagerAccess.EnumerateService Or _
-                                    Native.Security.ServiceManagerAccess.CreateService)
-                'si pas l'autorisation nécessaire pour l'utilisateur en cours
-                If hSCM.IsNull Then
-                    'on demande une ouverture sans ces autorisations
-                    hSCM = NativeFunctions.OpenSCManager(Nothing, Nothing, _
-                                    Native.Security.ServiceManagerAccess.EnumerateService)
-                End If
-            End If
-        End Sub
 
-        'permet d'obtenir un handle sur le driver
+        ' ========================================
+        ' Other public
+        ' ========================================
+
+
+        ' ========================================
+        ' Public functions
+        ' ========================================
+
+        ' Get a handle to our driver
         Public Function OpenDriver() As IntPtr
             Return NativeFunctions.CreateFile("\\.\" & mvarServiceName, _
                              NativeEnums.EFileAccess._GenericRead Or NativeEnums.EFileAccess._GenericWrite, _
@@ -159,161 +138,187 @@ Namespace Native
                              IntPtr.Zero)
         End Function
 
-        'permet de fermer le handle de SCM ouvert
+        ' Close service manager
         Public Sub CloseSCM()
-            'on le ferme
             NativeFunctions.CloseServiceHandle(hSCM)
-            'on le signale
             hSCM = IntPtr.Zero
         End Sub
 
-        'permet de connaitre l'état du service
+        ' Query state of our service
         Public Function QueryServiceState() As NativeEnums.ServiceState
-            'état du service, retour
+
             Dim ss As NativeStructs.ServiceStatus
-            Dim ret As Boolean
 
-            'on demande l'ouverture du service (si pas déjà ouvert)
-            ret = OpenService()
+            ' Open service
+            If OpenService() Then
+                NativeFunctions.QueryServiceStatus(hService, ss)
+                Return ss.CurrentState
+            Else
+                Return NativeEnums.ServiceState.Unknown
+            End If
 
-            'sinon pas d'erreur, on demande l'état du service
-            NativeFunctions.QueryServiceStatus(hService, ss)
-
-            'on le renvoie
-            Return ss.CurrentState
         End Function
 
-        'permet  d'ouvrir un handle du service
+        ' Open a handle to our service
         Public Function OpenService() As Boolean
-            'si pas déjà ouvert
+
             If hService.IsNull Then
-                'on demande l'ouverture avec désenregistrement autorisés
-                hService = NativeFunctions.OpenService(hSCM, mvarServiceName, Native.Security.ServiceAccess.QueryStatus Or Native.Security.ServiceAccess.Start Or Native.Security.ServiceAccess.Stop Or Native.Security.ServiceAccess.Delete)
-                'si l'utlisateur en cours n'a pas le droit requis pour
+
+                hService = NativeFunctions.OpenService(hSCM, mvarServiceName, _
+                            Native.Security.ServiceAccess.QueryStatus Or _
+                            Native.Security.ServiceAccess.Start Or _
+                            Native.Security.ServiceAccess.Stop Or _
+                            Native.Security.ServiceAccess.Delete)
+
                 If hService.IsNull Then
-                    'on demande un handle sans cette autorisation
-                    hService = NativeFunctions.OpenService(hSCM, mvarServiceName, Native.Security.ServiceAccess.QueryStatus Or Native.Security.ServiceAccess.Start Or Native.Security.ServiceAccess.Stop)
+                    ' Try with lower requirements
+                    hService = NativeFunctions.OpenService(hSCM, mvarServiceName, _
+                                        Native.Security.ServiceAccess.QueryStatus Or _
+                                        Native.Security.ServiceAccess.Start Or _
+                                        Native.Security.ServiceAccess.Stop)
                 End If
+
                 Return hService.IsNotNull
             Else
                 Return True
             End If
+
         End Function
 
-        'permet d'enregistrer le service
-        Public Function InstallService() As Integer
-            'on demande l'enregistrement du service définit par les propriétés de l'objet
-            hService = NativeFunctions.CreateService(hSCM, mvarServiceName, mvarServiceDisplayName, _
+        ' Registrer our service
+        Public Function InstallService() As Boolean
+
+            Dim ret As Boolean
+
+            hService = NativeFunctions.CreateService(hSCM, mvarServiceName, _
+                                                     mvarServiceDisplayName, _
                     Native.Security.ServiceAccess.QueryStatus Or _
-                            Native.Security.ServiceAccess.Start Or _
-                            Native.Security.ServiceAccess.Stop, _
+                    Native.Security.ServiceAccess.Start Or _
+                    Native.Security.ServiceAccess.Stop, _
                     mvarServiceType, mvarServiceStartType, mvarServiceErrorType, _
                     mvarServiceFileName, Nothing, IntPtr.Zero, Nothing, Nothing, Nothing)
-            'conservation du code d'erreur
-            InstallService = Err.LastDllError
+            ret = hService.IsNotNull
 
-            'fermeture du handle de service
-            CloseService()
-            'réouverture avec les autorisations adéquates
-            OpenService()
+            ' Close service handle
+            Call CloseService()
+
+            ' Reopen with good access
+            Call OpenService()
+
+            Return ret
         End Function
 
-        'permet de désenregistrer le service
-        Public Function RemoveService() As Integer
-            'retour
+        ' Remove service
+        Public Function RemoveService() As Boolean
             Dim ret As Boolean
 
-            'ouverture du handle de service
-            ret = OpenService()
-
-            'on supprime le service
-            NativeFunctions.DeleteService(hService)
-            'on renvoie l'erreur éventuelle
-            RemoveService = Err.LastDllError
-            'on ferme le handle de service
-            CloseService()
-        End Function
-
-        'permet de démarrarer le service
-        Public Function StartService() As Integer
-            'retour
-            Dim bResult As Boolean
-            Dim ret As Boolean
-
-            'on ouvre un handle su service
-            ret = OpenService()
-
-            'on demande le démarrage du service
-            bResult = NativeFunctions.StartService(hService, 0, Nothing)
-            'si pas erreur
-            If bResult Then
-                'renvoie de l'éventuel code d'erreur
-                StartService = Err.LastDllError
-                'on attend que le service soit dans l'état demandé
-                Do While QueryServiceState() <> NativeEnums.ServiceState.Running
-                    NativeFunctions.Sleep(500)
-                Loop
+            ' Open service
+            If OpenService() Then
+                ' Delete service
+                ret = NativeFunctions.DeleteService(hService)
+                ' Close handle
+                Call CloseService()
+                Return ret
             Else
-                'renvoie du code d'erreur
-                StartService = Err.LastDllError
+                Return False
             End If
         End Function
 
-        'permet de stopper le service
-        Public Function StopService() As Integer
-            'état su service
-            Dim ss As NativeStructs.ServiceStatusProcess
-            'retour
+        ' Start our service
+        Public Function StartService() As Boolean
+
+            ' Open our service
+            If OpenService() Then
+
+                ' Start !
+                If NativeFunctions.StartService(hService, 0, Nothing) Then
+                    ' Wait for the service to be running
+                    Do While QueryServiceState() <> NativeEnums.ServiceState.Running
+                        NativeFunctions.Sleep(500)
+                    Loop
+                Else
+                    Return False
+                End If
+            Else
+                Return False
+            End If
+        End Function
+
+        ' Stop service
+        Public Function StopService() As Boolean
+
             Dim bResult As Boolean
-            Dim ret As Boolean
+            Dim ss As NativeStructs.ServiceStatusProcess
 
-            'on ouvre un handle du service
-            ret = OpenService()
+            ' Open service
+            If OpenService() Then
 
-            'on demande l'arrêt du service
-            bResult = NativeFunctions.ControlService(hService, NativeEnums.ServiceControl.Stop, ss)
-            'on stocke l'éventuel code d'erreur
-            StopService = Err.LastDllError
-            'si pas d'erreur
-            If bResult Then
-                'on attend que le service soit dans l'état requis
-                Do While QueryServiceState() <> NativeEnums.ServiceState.Stopped
-                    NativeFunctions.Sleep(500)
-                Loop
+                'on demande l'arrêt du service
+                bResult = NativeFunctions.ControlService(hService, _
+                                                         NativeEnums.ServiceControl.Stop, ss)
+                If bResult Then
+                    ' Wait for the service to be stopped
+                    Do While QueryServiceState() <> NativeEnums.ServiceState.Stopped
+                        NativeFunctions.Sleep(500)
+                    Loop
+                Else
+                    Return False
+                End If
+            Else
+                Return False
             End If
         End Function
 
-        'permet de fermer le handle du service
-        Private Sub CloseService()
-            'on ferme le handle
-            NativeFunctions.CloseServiceHandle(hService)
-            'on le signale
-            hService = IntPtr.Zero
-        End Sub
-
-        'constructeur
-        'UPGRADE_NOTE: Class_Initializea été mis à niveau vers Class_Initialize_Renamed. Cliquez ici : 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1061"'
-        Private Sub Class_Initialize_Renamed()
-            'on ouvre le SCM
-            OpenSCM()
-        End Sub
+        ' Constructor
         Public Sub New()
             MyBase.New()
             Class_Initialize_Renamed()
         End Sub
 
-        'destructeur
-        'UPGRADE_NOTE: Class_Terminatea été mis à niveau vers Class_Terminate_Renamed. Cliquez ici : 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1061"'
+
+        ' ========================================
+        ' Private functions
+        ' ========================================
+
+        ' Open handle to service manager
+        Private Sub OpenSCM()
+
+            If hSCM.IsNull Then
+
+                hSCM = NativeFunctions.OpenSCManager(Nothing, Nothing, _
+                                    Native.Security.ServiceManagerAccess.EnumerateService Or _
+                                    Native.Security.ServiceManagerAccess.CreateService)
+
+                ' Try with lower requirements
+                If hSCM.IsNull Then
+                    hSCM = NativeFunctions.OpenSCManager(Nothing, Nothing, _
+                                    Native.Security.ServiceManagerAccess.EnumerateService)
+                End If
+            End If
+        End Sub
+
+        ' Close service handle
+        Private Sub CloseService()
+            NativeFunctions.CloseServiceHandle(hService)
+            hService = IntPtr.Zero
+        End Sub
+
+        ' Initialization
+        Private Sub Class_Initialize_Renamed()
+            ' Open SCM
+            Call OpenSCM()
+        End Sub
+
+        ' Terminate
         Private Sub Class_Terminate_Renamed()
-            'on ferme le handle du service
-            CloseService()
-            'on ferme le handle du SCM
-            CloseSCM()
+            Call CloseService()
+            Call CloseSCM()
         End Sub
         Protected Overrides Sub Finalize()
             Class_Terminate_Renamed()
             MyBase.Finalize()
         End Sub
+
     End Class
 
 End Namespace

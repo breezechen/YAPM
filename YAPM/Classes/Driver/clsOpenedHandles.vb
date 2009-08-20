@@ -87,7 +87,7 @@ Public Class clsOpenedHandles
 
     'handle vers le driver
     Dim hDriver As IntPtr
-    Dim driver As DriverCtrl
+    Dim driver As Native.Driver.DriverCtrl
 
     'numéro de type des objets de type "File"
     Dim m_ObjectTypeNumber As Long
@@ -493,8 +493,8 @@ Public Class clsOpenedHandles
     'constructeur
     'UPGRADE_NOTE: Class_Initializea été mis à niveau vers Class_Initialize_Renamed. Cliquez ici : 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1061"'
     Private Sub Class_Initialize_Renamed()
-        Dim ret As Integer
-        driver = New DriverCtrl
+        Dim ret As Boolean
+        driver = New Native.Driver.DriverCtrl
         'autorise le privilège Debug afin de pouvoir ouvrir des handles vers les processus systèmes
         'EnableDebug()
         'init des infos sur le driver
