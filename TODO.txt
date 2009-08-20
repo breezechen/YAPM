@@ -47,6 +47,7 @@ BUGS CRITIQUES
 	main -> à faire
 
 BUGS NON CRITIQUES
+- lancer ngen de YAPM lors du premier lancement... (WaitForSingle du process ngen)
 - ajouter nouvelles infos pour les handles (cf struct récupérée)
 - timers dans les options -> mettre des numeric updown
 - is remote debugger present marche pas (cf _WIN32_WINNT)

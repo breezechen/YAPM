@@ -286,15 +286,15 @@ Public Class frmProcessInfo
                 String.Format("{0:00}", ts.Second) & ":" & _
                 String.Format("{000}", ts.Millisecond)
             s = s & "\tab Processor time :\tab\tab\tab " & proctime & "\par"
-            s = s & "\tab Memory :\tab\tab\tab " & CStr(pmc.WorkingSetSize / 1024) & " Kb" & "\par"
-            s = s & "\tab Memory peak :\tab\tab\tab " & CStr(pmc.PeakWorkingSetSize / 1024) & " Kb" & "\par"
+            s = s & "\tab Memory :\tab\tab\tab " & CStr(pmc.WorkingSetSize.ToInt64 / 1024) & " Kb" & "\par"
+            s = s & "\tab Memory peak :\tab\tab\tab " & CStr(pmc.PeakWorkingSetSize.ToInt64 / 1024) & " Kb" & "\par"
             s = s & "\tab Page faults :\tab\tab\tab " & CStr(pmc.PageFaultCount) & "\par"
-            s = s & "\tab Page file usage :\tab\tab\tab " & CStr(pmc.PagefileUsage / 1024) & " Kb" & "\par"
-            s = s & "\tab Peak page file usage :\tab\tab " & CStr(pmc.PeakPagefileUsage / 1024) & " Kb" & "\par"
-            s = s & "\tab QuotaPagedPoolUsage :\tab\tab " & CStr(Math.Round(pmc.QuotaPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
-            s = s & "\tab QuotaPeakPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
-            s = s & "\tab QuotaNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaNonPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
-            s = s & "\tab QuotaPeakNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakNonPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
+            s = s & "\tab Page file usage :\tab\tab\tab " & CStr(pmc.PagefileUsage.ToInt64 / 1024) & " Kb" & "\par"
+            s = s & "\tab Peak page file usage :\tab\tab " & CStr(pmc.PeakPagefileUsage.ToInt64 / 1024) & " Kb" & "\par"
+            s = s & "\tab QuotaPagedPoolUsage :\tab\tab " & CStr(Math.Round(pmc.QuotaPagedPoolUsage.ToInt64 / 1024, 3)) & " Kb" & "\par"
+            s = s & "\tab QuotaPeakPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakPagedPoolUsage.ToInt64 / 1024, 3)) & " Kb" & "\par"
+            s = s & "\tab QuotaNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaNonPagedPoolUsage.ToInt64 / 1024, 3)) & " Kb" & "\par"
+            s = s & "\tab QuotaPeakNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakNonPagedPoolUsage.ToInt64 / 1024, 3)) & " Kb" & "\par"
 
             s = s & "}"
 
@@ -562,7 +562,7 @@ Public Class frmProcessInfo
         Dim z2 As Double = curProc.Infos.AverageCpuUsage
         If Double.IsNegativeInfinity(z) Then z = 0
         Me.graphCPU.Add2Values(z * 100, z2 * 100)
-        z = curProc.Infos.MemoryInfos.WorkingSetSize / 2147483648 * 100
+        z = curProc.Infos.MemoryInfos.WorkingSetSize.ToInt64 / 2147483648 * 100
         Me.graphMemory.AddValue(z)
         Me.graphIO.Add2Values(curProc.IODelta.ReadTransferCount, curProc.IODelta.WriteTransferCount)
         Trace.WriteLine("w  " & curProc.IODelta.WriteTransferCount)

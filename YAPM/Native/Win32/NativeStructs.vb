@@ -76,7 +76,7 @@ Namespace Native.Api
             Private _InheritedFromProcessId As IntPtr
             Public HandleCount As Integer
             Public SessionId As Integer
-            Public PageDirectoryBase As Integer
+            Public PageDirectoryBase As IntPtr
             Public VirtualMemoryCounters As VmCountersEx
             Public IoCounters As IoCounters
 
@@ -296,18 +296,18 @@ Namespace Native.Api
 
         <StructLayout(LayoutKind.Sequential), Serializable()> _
         Public Structure VmCountersEx
-            Public PeakVirtualSize As Integer
-            Public VirtualSize As Integer
+            Public PeakVirtualSize As IntPtr
+            Public VirtualSize As IntPtr
             Public PageFaultCount As Integer
-            Public PeakWorkingSetSize As Integer
-            Public WorkingSetSize As Integer
-            Public QuotaPeakPagedPoolUsage As Integer
-            Public QuotaPagedPoolUsage As Integer
-            Public QuotaPeakNonPagedPoolUsage As Integer
-            Public QuotaNonPagedPoolUsage As Integer
-            Public PagefileUsage As Integer
-            Public PeakPagefileUsage As Integer
-            Public PrivateBytes As Integer
+            Public PeakWorkingSetSize As IntPtr
+            Public WorkingSetSize As IntPtr
+            Public QuotaPeakPagedPoolUsage As IntPtr
+            Public QuotaPagedPoolUsage As IntPtr
+            Public QuotaPeakNonPagedPoolUsage As IntPtr
+            Public QuotaNonPagedPoolUsage As IntPtr
+            Public PagefileUsage As IntPtr
+            Public PeakPagefileUsage As IntPtr
+            Public PrivateBytes As IntPtr
             Public Shared Operator <>(ByVal m1 As VmCountersEx, ByVal m2 As VmCountersEx) As Boolean
                 Return Not (m1 = m2)
             End Operator
